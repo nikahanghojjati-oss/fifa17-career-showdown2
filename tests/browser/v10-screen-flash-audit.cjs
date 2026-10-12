@@ -192,6 +192,17 @@ async function doubleTap(page, viewportName){
     if(shows > 1) problems.push({ label: `${viewportName} double tap`, screen: "ruleBook", at: 0, reason: `two tile taps started ${shows} navigations to ruleBook (expected 1)` });
     await page.evaluate(() => window.navigateTo("mainMenu"));
     await waitForHome(page);
+    // JOB-1658: a second tap delivered late (a throttled CPU can run the 30 ms timer after the 350 ms debounce, and the tile can be
+    // hidden by then) must still not start another navigation, whatever the timing.
+    await page.evaluate(() => window.__cmsFlashRecorder.start());
+    await page.evaluate(() => { const tile = document.getElementById("ruleBookButton"); tile.click(); return new Promise(r => setTimeout(() => { tile.click(); r(); }, 450)); });
+    await waitShown(page, "ruleBook", false);
+    await page.waitForTimeout(SETTLE_MS);
+    out = await page.evaluate(() => window.__cmsFlashRecorder.stop());
+    shows = out.events.filter(e => e.screen === "ruleBook").length;
+    if(shows > 1) problems.push({ label: `${viewportName} late double tap`, screen: "ruleBook", at: 0, reason: `a tile tap 450 ms after the first started ${shows} navigations to ruleBook (expected 1)` });
+    await page.evaluate(() => window.navigateTo("mainMenu"));
+    await waitForHome(page);
     // Two navigation requests for the same screen in one tick (the bar and a tile share window.navigateTo).
     await page.evaluate(() => window.__cmsFlashRecorder.start());
     await page.evaluate(() => { window.navigateTo("createShowdown"); window.navigateTo("createShowdown"); });

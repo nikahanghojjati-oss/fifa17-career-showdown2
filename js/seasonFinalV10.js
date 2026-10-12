@@ -738,6 +738,7 @@
  #app #seasonEntry:not(.v10FinalMode):has(.season-review-panel:not(.hidden)) .v10SeasonStage .season-layout {
   padding-top:31.2dvh;
  }
+}
 
 /* JOB-1214: Full-HD Season Results. The registered first viewport still frames
    the artwork/title, while <main> owns the ONLY scroll. Review content and
@@ -825,8 +826,6 @@
  #app #seasonEntry:not(.v10FinalMode):has(.season-review-panel:not(.hidden)) .v10SeasonStage .season-layout {
   padding-top:31.2dvh;
  }
-}
-
 }
 
 /* JOB-1215: Season Results at 2560x1080 only. Keep Team V's artwork and
