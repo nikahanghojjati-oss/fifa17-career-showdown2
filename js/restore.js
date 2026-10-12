@@ -338,12 +338,14 @@
         }
         const candidateCheck=await validateSaveLibraryCandidate(candidateRaw,completeRaw);
         if(!candidateCheck.ok)return {ok:false,status:candidateCheck.status,analysis,plan,currentRaw:completeRaw,errors:candidateCheck.errors,warnings:plan.warnings};
-        if(window.CareerModeSaveLibraryRuntime&&typeof window.CareerModeSaveLibraryRuntime.invalidateAuthority==="function")window.CareerModeSaveLibraryRuntime.invalidateAuthority();
       }
 
       const transaction=saveLibraryMode
         ?window.applyCareerModeRawStorageTransaction(candidateRaw,expectedRaw,transactionOptions)
         :window.applyCareerModeRawStorageTransaction(plan.candidateRaw,currentRaw);
+      // Rejected clean/precondition restores leave canonical bytes untouched; keep existing authority.
+      // Verified commits and critical incomplete rollbacks must invalidate the previous authority.
+      if(saveLibraryMode&&transaction&&(transaction.ok===true||transaction.rollbackVerified===false)&&window.CareerModeSaveLibraryRuntime&&typeof window.CareerModeSaveLibraryRuntime.invalidateAuthority==="function")window.CareerModeSaveLibraryRuntime.invalidateAuthority();
       if(transaction&&transaction.ok!==true&&transaction.failurePhase==="precondition"&&transaction.rollbackVerified!==false){
         const refreshed=saveLibraryMode?captureStrictSaveLibraryRaw():captureStrictRaw();
         const latestRaw=refreshed.ok?refreshed.raw:expectedRaw;
