@@ -420,6 +420,34 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
 @keyframes v26-wedge-flash { 0%, 100% { opacity: 0; transform: scale(.985); } 34% { opacity: .92; transform: scale(1.012); } 64% { opacity: .38; transform: scale(1); } }
 @keyframes v26-mark-pop { 0%, 100% { transform: scale(1); } 46% { transform: scale(1.15); } 72% { transform: scale(1.08); } }
 
+/* JOB-1129: At the full 1920x1080 desktop stage, match the reference's
+   hero-sized wheel and asymmetric action pair. Small laptops, tablets and
+   phones retain their specifically tuned sizing and one-scroll layout. */
+@media (min-width: 1600px) and (min-height: 900px) {
+  #leagueWheelScreen.v26Skin { --v26-wheel: clamp(480px, min(53svh, 34vw), 570px); }
+  #leagueWheelScreen.v26Skin > h2 { margin-top: clamp(12px, 1.5svh, 18px); margin-bottom: 4px; }
+  #leagueWheelScreen.v26Skin .wheelContainer {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    column-gap: 12px;
+    padding-bottom: 10px;
+  }
+  #leagueWheelScreen.v26Skin #selectedLeague {
+    gap: 20px;
+    margin-bottom: 2px;
+    font-size: 18px;
+    letter-spacing: .34em;
+  }
+  #leagueWheelScreen.v26Skin #selectedLeague::before,
+  #leagueWheelScreen.v26Skin #selectedLeague::after { flex-basis: 118px; }
+  #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: 4px; }
+  #leagueWheelScreen.v26Skin #spinLeague,
+  #leagueWheelScreen.v26Skin .wheelContainer > .backButton {
+    min-height: 64px;
+    margin-top: 8px;
+    font-size: 20px;
+  }
+}
+
 /* ---------- Club packs ---------- */
 #clubWheelScreen.v26Skin .clubAssignmentShell {
   width: min(860px, 94vw);
