@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-12T02:22:29Z
+# Mega factory tracker · updated 2026-10-12T02:23:59Z
 
 **Type now (67 free):** 227, 235, 237, 257, 261, 296, 302, 324, 330, 352, 358, 366, 368, 370, 374, 376, 378, 380, 382, 384, 386, 388, 390, 392, 394, 396, 398, 400, 402, 404, 406, 408, 410, 412, 414, 416, 418, 420, 422, 424, 426, 427, 428, 430, 432, 434, 436, 438, 440, 442, 444, 446, 448, 450, 452, 454, 456, 458, 460, 462, 464, 466, 468, 470, 472, 474, 476
 **Next free number:** 187 · **highest taken:** 419 of 518
 **Code PRs open:** 3 of 8 · area locks: club, career-screens, rules-settings
-**Rate:** 7 claimed in 10 min · 17 in 1 h · 0 merged in 1 h
+**Rate:** 6 claimed in 10 min · 17 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 181 of 518**
 
