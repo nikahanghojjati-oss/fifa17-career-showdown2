@@ -38,6 +38,143 @@
     }
     return freeze(frame);
   }
+  /*SG-START*/
+  // JOB-1701: Standings presentation rules (Team V's stage CSS stays frozen). Added once, after Team V's sheet.
+  function sfStandingsRule(doc){
+    const parent=doc?.head||doc?.documentElement;if(!parent||typeof doc.createElement!=="function"||doc.getElementById?.("v10StandingsRule"))return;
+    const style=doc.createElement("style");style.id="v10StandingsRule";
+    style.textContent=`
+/* JOB-1701 Standings adapter. Team V's stage CSS is frozen; these rules are scoped by media query and loaded after it. */
+html[data-v10-screen="standings"] #app > main:has(> #standings.standingsScreenV10:not(.hidden)){position:fixed;inset:0;z-index:30;display:block;box-sizing:border-box;width:100%;height:100svh;max-height:100svh;margin:0;padding:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;background:#07080a}
+html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:relative;inset:auto;z-index:auto;width:100%;height:auto;min-height:100svh;margin:0;padding:0;contain:none}
+#app #standings.standingsScreenV10 .sdg-toggle button:active{filter:brightness(.82)}
+#app #standings.standingsScreenV10 :is(.sdg-toggle button,.sdg-state):focus-visible{outline:2px solid #ffe36c;outline-offset:-3px}
+
+/* Phones and tablets upright: the heroes take what the title, board and bottom bar leave; all seven rows stay in view. */
+@media (max-width:900px) and (orientation:portrait){
+  #app #standings.standingsScreenV10{
+    --sg-nav:calc(56px + env(safe-area-inset-bottom));--sg-row:clamp(18px,3svh,28px);--sg-title:clamp(62px,10svh,84px);--sg-board:calc(205px + 7 * var(--sg-row));
+    --sg-hero:max(48px,calc(100svh - var(--sg-nav) - var(--sg-title) - var(--sg-board) - 32px));
+  }
+  #app #standings.standingsScreenV10 .sdg-stage{position:relative;width:100%;height:auto;min-height:100svh;overflow:visible}
+  #app #standings.standingsScreenV10 .sdg-phoneArt{inset:0}
+  #app #standings.standingsScreenV10 .sdg-phoneBg img{object-position:50% 0}
+  #app #standings.standingsScreenV10 .sdg-phoneArt::after{inset:calc(var(--sg-hero) * .5) 0 0}
+  #app #standings.standingsScreenV10 .sdg-phoneHero{top:0;height:calc(var(--sg-hero) + 64px);max-height:none}
+  #app #standings.standingsScreenV10 .sdg-phoneHero--daniel{left:-3%;right:auto}
+  #app #standings.standingsScreenV10 .sdg-phoneHero--nik{left:auto;right:-3%}
+  #app #standings.standingsScreenV10 .sdg-phoneHero img{height:100%;width:auto}
+  #app #standings.standingsScreenV10 .sd-stage__layer--ui{position:relative;inset:auto!important;top:auto!important;min-height:100svh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-start;gap:6px;padding:0 12px calc(var(--sg-nav) + 8px)}
+  #app #standings.standingsScreenV10 .nav-reserve{display:none}
+  #app #standings.standingsScreenV10 .sdg-header{margin-top:auto;min-height:var(--sg-title);display:flex;flex-direction:column;justify-content:center;gap:2px}
+  #app #standings.standingsScreenV10 .sdg-header .sd-eyebrow{font-size:10px;letter-spacing:.25em;line-height:12px}
+  #app #standings.standingsScreenV10 .sdg-wordmark{width:85%}
+  #app #standings.standingsScreenV10 .sdg-wordmark img{max-height:clamp(34px,6svh,52px);width:auto;max-width:100%;margin:0 auto}
+  #app #standings.standingsScreenV10 .sdg-header .sd-tagline{font-size:10px;letter-spacing:.24em;line-height:12px}
+  #app #standings.standingsScreenV10 .sdg-main{margin:0}
+  #app #standings.standingsScreenV10 .sdg-board{height:auto;overflow:visible;padding:0 12px 8px;border-width:2px}
+  #app #standings.standingsScreenV10 .sdg-toggle{margin-top:6px}
+  #app #standings.standingsScreenV10 .sdg-toggle button{min-height:44px;font-size:clamp(13px,4.2vw,17px);letter-spacing:.03em}
+  #app #standings.standingsScreenV10 .sdg-section{margin:6px 0 0;font-size:clamp(15px,5vw,20px);line-height:1.1;letter-spacing:.1em}
+  #app #standings.standingsScreenV10 .sdg-progress{margin:2px 0 0;font-size:12px;line-height:15px}
+  #app #standings.standingsScreenV10 .sdg-scoreboard{grid-template-columns:1fr 1.6fr 1fr;gap:4px;margin-top:6px}
+  #app #standings.standingsScreenV10 .sdg-crest{width:32px;height:38px}
+  #app #standings.standingsScreenV10 .sdg-side strong{font-size:clamp(15px,5vw,19px)}
+  #app #standings.standingsScreenV10 .sdg-scoreLabel{font-size:11px;letter-spacing:.09em;white-space:nowrap}
+  #app #standings.standingsScreenV10 .sdg-scoreNumbers{gap:9px}
+  #app #standings.standingsScreenV10 .sdg-scoreNumbers b{font-size:clamp(34px,7.5svh,50px)}
+  #app #standings.standingsScreenV10 .sdg-scoreNumbers i{font-size:clamp(20px,4.4svh,29px)}
+  #app #standings.standingsScreenV10 .sdg-leader{font-size:14px;min-height:16px;line-height:16px}
+  #app #standings.standingsScreenV10 .sdg-rows{margin:4px 0 0;grid-template-rows:none;grid-auto-rows:var(--sg-row);height:auto;overflow:visible;background:none;flex:0 0 auto}
+  #app #standings.standingsScreenV10 .sdg-val{font-size:clamp(15px,calc(var(--sg-row) * .85),20px);line-height:1}
+  #app #standings.standingsScreenV10 .sdg-label{font-size:clamp(11px,calc(var(--sg-row) * .6),14px);line-height:1;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+  #app #standings.standingsScreenV10 .sdg-row{border-top-color:rgba(214,176,70,.6)}
+  #app #standings.standingsScreenV10 .sdg-state{margin:8px 0;padding:10px;font-size:13px}
+}
+
+/* Upright tablets (adopted 1259): broad board, tablet type, 56px scope controls. */
+@media (min-width:601px) and (max-width:900px) and (orientation:portrait){
+  #app #standings.standingsScreenV10{--sg-row:clamp(34px,4.4svh,48px);--sg-title:clamp(104px,13svh,150px);--sg-board:calc(296px + 7 * var(--sg-row))}
+  #app #standings.standingsScreenV10 .sdg-header .sd-eyebrow{font-size:15px;line-height:18px;letter-spacing:.29em}
+  #app #standings.standingsScreenV10 .sdg-wordmark{width:min(78%,520px)}
+  #app #standings.standingsScreenV10 .sdg-wordmark img{max-height:none;width:100%}
+  #app #standings.standingsScreenV10 .sdg-header .sd-tagline{font-size:15px;line-height:18px;letter-spacing:.22em}
+  #app #standings.standingsScreenV10 .sdg-board{padding:0 24px 12px}
+  #app #standings.standingsScreenV10 .sdg-toggle{margin-top:10px}
+  #app #standings.standingsScreenV10 .sdg-toggle button{min-height:56px;font-size:22px;letter-spacing:.08em}
+  #app #standings.standingsScreenV10 .sdg-section{margin-top:10px;font-size:25px}
+  #app #standings.standingsScreenV10 .sdg-progress{font-size:17px;line-height:20px;margin-top:3px}
+  #app #standings.standingsScreenV10 .sdg-scoreboard{grid-template-columns:1fr 1.25fr 1fr;margin-top:12px;gap:10px}
+  #app #standings.standingsScreenV10 .sdg-crest{width:50px;height:60px}
+  #app #standings.standingsScreenV10 .sdg-side strong{font-size:25px}
+  #app #standings.standingsScreenV10 .sdg-side span{display:block;font-size:15px}
+  #app #standings.standingsScreenV10 .sdg-scoreLabel{font-size:15px}
+  #app #standings.standingsScreenV10 .sdg-scoreNumbers{gap:15px}
+  #app #standings.standingsScreenV10 .sdg-scoreNumbers b{font-size:clamp(52px,7.2svh,74px)}
+  #app #standings.standingsScreenV10 .sdg-scoreNumbers i{font-size:clamp(32px,4.4svh,45px)}
+  #app #standings.standingsScreenV10 .sdg-leader{font-size:18px;min-height:22px;line-height:22px}
+  #app #standings.standingsScreenV10 .sdg-rows{margin-top:10px}
+  #app #standings.standingsScreenV10 .sdg-val{font-size:clamp(20px,2.4svh,25px)}
+  #app #standings.standingsScreenV10 .sdg-label{font-size:clamp(14px,1.8svh,18px)}
+  #app #standings.standingsScreenV10 .sdg-state{font-size:16px;padding:16px}
+}
+
+/* Sideways phones: nothing is cut or nested-scrolled. Heroes frame the title; the board follows and main scrolls once. */
+@media (max-width:900px) and (orientation:landscape){
+  #app #standings.standingsScreenV10{--sg-nav:calc(56px + env(safe-area-inset-bottom))}
+  #app #standings.standingsScreenV10 .sdg-stage{position:relative;width:100%;height:auto;min-height:100svh;overflow:visible}
+  #app #standings.standingsScreenV10 .sdg-phoneArt{inset:0}
+  #app #standings.standingsScreenV10 .sdg-phoneBg img{object-position:50% 20%}
+  #app #standings.standingsScreenV10 .sdg-phoneArt::after{inset:96px 0 0}
+  #app #standings.standingsScreenV10 .sdg-phoneHero{top:0;height:150px;max-height:none}
+  #app #standings.standingsScreenV10 .sdg-phoneHero--daniel{left:3%;right:auto}
+  #app #standings.standingsScreenV10 .sdg-phoneHero--nik{left:auto;right:3%}
+  #app #standings.standingsScreenV10 .sdg-phoneHero img{height:100%;width:auto}
+  #app #standings.standingsScreenV10 .sd-stage__layer--ui{position:relative;inset:auto!important;top:auto!important;min-height:100svh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-start;gap:6px;padding:6px 16px calc(var(--sg-nav) + 10px)}
+  #app #standings.standingsScreenV10 .nav-reserve{display:none}
+  #app #standings.standingsScreenV10 .sdg-header{width:min(46%,380px);margin:0 auto;display:flex;flex-direction:column;gap:2px}
+  #app #standings.standingsScreenV10 .sdg-header .sd-eyebrow{font-size:9px;letter-spacing:.25em;line-height:11px}
+  #app #standings.standingsScreenV10 .sdg-wordmark{width:70%}
+  #app #standings.standingsScreenV10 .sdg-wordmark img{max-height:40px;width:auto;max-width:100%;margin:0 auto}
+  #app #standings.standingsScreenV10 .sdg-header .sd-tagline{font-size:9px;letter-spacing:.24em;line-height:11px}
+  #app #standings.standingsScreenV10 .sdg-main{width:min(100%,680px);margin:0 auto}
+  #app #standings.standingsScreenV10 .sdg-board{width:100%;height:auto;overflow:visible;padding:0 14px 8px;border-width:2px}
+  #app #standings.standingsScreenV10 .sdg-toggle{margin-top:6px}
+  #app #standings.standingsScreenV10 .sdg-toggle button{min-height:44px;font-size:14px}
+  #app #standings.standingsScreenV10 .sdg-section{margin:6px 0 0;font-size:15px}
+  #app #standings.standingsScreenV10 .sdg-scoreboard{margin-top:6px}
+  #app #standings.standingsScreenV10 .sdg-crest{width:32px;height:38px}
+  #app #standings.standingsScreenV10 .sdg-scoreNumbers b{font-size:44px}
+  #app #standings.standingsScreenV10 .sdg-rows{margin:4px 0 0;grid-template-rows:none;grid-auto-rows:28px;height:auto;overflow:visible;background:none;flex:0 0 auto}
+  #app #standings.standingsScreenV10 .sdg-val{font-size:17px;line-height:1}
+  #app #standings.standingsScreenV10 .sdg-label{font-size:12px;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+}
+
+/* Desktop and laptops: NEXT_STANDINGS framing (full gold frame, filled active scope, gold row rules). Board geometry stays Team V's. */
+@media (min-width:901px){
+  #app #standings.standingsScreenV10 .sdg-board.sd-panel{border:2px solid #ddb747;box-shadow:inset 0 0 0 2px #6a4c13,inset 0 0 22px rgba(215,161,28,.12),0 12px 32px rgba(0,0,0,.5),0 0 10px rgba(231,185,67,.2)}
+  #app #standings.standingsScreenV10 .sdg-toggle button[aria-selected="true"]{background:linear-gradient(180deg,#ffe38a,#c99420);color:#15110a;box-shadow:inset 0 0 0 1px #ffe9a0}
+  #app #standings.standingsScreenV10 .sdg-toggle button:not([aria-selected="true"]):hover{background:rgba(242,196,91,.12)}
+  #app #standings.standingsScreenV10 .sdg-row{border-top-color:rgba(214,176,70,.55)}
+  #app #standings.standingsScreenV10 .sdg-label{font-size:clamp(13px,1.05vw,17px);color:#d9d4c6}
+  #app #standings.standingsScreenV10 .sdg-rows{margin-bottom:14px}
+}
+/* 1366x768 and similar: the crest block, score and toggle pushed the last row onto the board edge. */
+@media (min-width:901px) and (max-height:860px){
+  #app #standings.standingsScreenV10 .sdg-board{overflow:hidden}
+  #app #standings.standingsScreenV10 .sdg-toggle{margin-top:10px}
+  #app #standings.standingsScreenV10 .sdg-toggle button{min-height:34px}
+  #app #standings.standingsScreenV10 .sdg-section{margin-top:6px}
+  #app #standings.standingsScreenV10 .sdg-scoreboard{margin-top:6px;gap:12px}
+  #app #standings.standingsScreenV10 .sdg-crest{width:42px;height:50px}
+  #app #standings.standingsScreenV10 .sdg-scoreNumbers b{font-size:clamp(42px,6.6svh,76px)}
+  #app #standings.standingsScreenV10 .sdg-scoreNumbers i{font-size:clamp(24px,3.4svh,40px)}
+  #app #standings.standingsScreenV10 .sdg-rows{margin-top:6px;margin-bottom:10px}
+  #app #standings.standingsScreenV10 .sdg-val{font-size:clamp(15px,2.2svh,20px);line-height:1}
+}
+`;parent.appendChild(style);
+  }
+  /*SG-END*/
   function standingsFrames(rivalry,career){
     const scope=rivalry&&["loading","empty","unavailable","partial","ready"].includes(rivalry.status)?rivalry:{status:"unavailable"};
     let current={status:scope.status};
@@ -1262,6 +1399,55 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button:focus-visible { outline:3px solid #fff5c4; outline-offset:-6px; }
 }
 
+/* SEASON-PLATE-V2 (ticket 1610P): desktop Season Results on Team V's approved stadium-stand plate
+   (visual-assets/v10_1/plates-v2/ENV_SEASON_RESULTS_PLATE_V2_*), with the cards and buttons in the picture's gold-bevel
+   and polished-gold finish (NEXT_SEASON_RESULTS). Strictly the desktop picture range: wide landscape windows of at
+   least 1200x600; phone, sideways and tablet keep their art and rules. The plate is the same 1536x864 as the old
+   one, so the stage keeps registering it exactly as before; it loads with this screen, never with the startup bundle.
+   Both managers' fists are painted on the plate, so the old registered fist overlays are not drawn on top of it.
+   Looks only: every word, id and tap order stays as it was. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage {
+  --sr-bevel:linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%);
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__plate {
+  background-image:image-set(url("${assetUrl(BASE+"plates-v2/ENV_SEASON_RESULTS_PLATE_V2_1X.webp")}") 1x,url("${assetUrl(BASE+"plates-v2/ENV_SEASON_RESULTS_PLATE_V2_2X.webp")}") 2x);
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.season-depth-picture,.season-rim-picture) { display:none; }
+ /* a soft dark pool behind the eyebrow, title and line, so they read over the arena lights */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-title-block::before {
+  content:"";position:absolute;z-index:-1;left:26%;right:26%;top:7%;height:26%;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 50%,#050608a0,#05060860 48%,transparent 72%);
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-eyebrow,#app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-tagline { text-shadow:0 0 3px #000,0 1px 2px #000,0 0 12px #000,0 0 22px #000c; }
+ /* the scoring card, the entry card and the review card: gold-bevel frame around a black face with a thin inner gold line */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.scoring-panel,.seasonEntryGrid .entry-panel,.season-review-panel) {
+  clip-path:none;border:4px solid transparent;border-radius:9px;
+  background:linear-gradient(180deg,#15130fF2 0,#0a0a0bF5 22%,#08080aF7 100%) padding-box,var(--sr-bevel) border-box;
+  box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c99,inset 0 1px 0 4px #fff1b81c,0 0 28px #f0c84b38,0 14px 36px #000c;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonReviewCard { border-radius:6px; }
+ /* REVIEW MY SEASON RESULT and COMMIT & ACKNOWLEDGE: polished gold */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.season-action-row #completeSeason,#sharedSeasonCommitAction,.seasonReviewActions .menuButton:not(:disabled)) {
+  border:2px solid transparent;border-radius:4px;color:#17110a;
+  background:linear-gradient(180deg,#fff0a6 0,#f8d764 20%,#e4b032 54%,#f4cf58 80%,#c98f1c 100%) padding-box,linear-gradient(135deg,#fff8d0,#d9a83a 40%,#fff1b8 70%,#a9781a) border-box;
+  box-shadow:inset 0 1px 0 #fffbe0,inset 0 -3px 0 #a87a1288,0 0 0 1px #000a,0 0 22px #f5c51855,0 5px 18px #0009;
+  text-shadow:0 1px 0 #fff2b588;
+ }
+ /* BACK TO SHOWDOWN HOME: black face, gold-bevel edge */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row .backButton {
+  border:2px solid transparent;border-radius:4px;color:#fff1ae;
+  background:linear-gradient(180deg,#141311,#070708) padding-box,var(--sr-bevel) border-box;
+  box-shadow:inset 0 0 0 1px #050505,inset 0 1px 0 2px #fff1b81f,0 5px 16px #000a;
+ }
+}
+/* short windows (1280x650): a slimmer frame and tighter card padding keep the whole screen, buttons included, on the page */
+ @media (min-width:1200px) and (min-height:600px) and (max-height:700px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.scoring-panel,.seasonEntryGrid .entry-panel,.season-review-panel) { border-width:3px; }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid .entry-panel { padding-top:6px;padding-bottom:6px; }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout { padding-bottom:0;gap:6px; }
+ }
+ 
 `;
     parent.appendChild(style);
   }
@@ -1275,6 +1461,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     renderFinal(host,frame.final);
   }
   function renderStandings(frame,host){
+    sfStandingsRule(root.document);
     const selected=host.querySelector('#sdgViewCareer')?.getAttribute("aria-selected")==="true"?"CAREER":"SHOWDOWN";
     host.firstElementChild?.v10StageHandle?.destroy();host.replaceChildren(stageElement("standings"));host.classList.add("standingsScreenV10");
     root.STANDINGS_ROOT=host.firstElementChild;root.STANDINGS_QS="frame="+selected;root.STANDINGS_FIXTURES={strings:strings.standings,frames:frame};root.ShowdownStandingsBoot();
@@ -1330,7 +1517,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   // install would also leave Season Results without its listeners.
   async function standingsModules(){
     const load=root.loadRuntimeScript;
-    for(const [key,p,api] of [["career-history","js/sharedHistoryConvergence.js","CareerModeSharedHistoryConvergence"],["career-analytics","js/sharedCareerAnalytics.js","CareerModeSharedCareerAnalytics"],["career-terminal","js/sharedTerminalClose.js","CareerModeSharedTerminalClose"],["career-final","js/sharedFinalReconciliation.js","CareerModeSharedFinalReconciliation"],["career-active-adapter","js/sharedActiveShowdownAdapter.js","CareerModeSharedActiveShowdownAdapter"]])await load(key,p,()=>Boolean(root[api]));
+    for(const [key,p,api] of [["career-history","js/sharedHistoryConvergence.js","CareerModeSharedHistoryConvergence"],["career-analytics","js/sharedCareerAnalytics.js","CareerModeSharedCareerAnalytics"],["career-terminal","js/sharedTerminalClose.js","CareerModeSharedTerminalClose"],["career-final","js/sharedFinalReconciliation.js","CareerModeSharedFinalReconciliation"],["career-active-adapter","js/sharedActiveShowdownAdapter.js","CareerModeSharedActiveShowdownAdapter"],["visual-identity","js/visualIdentity.js","getClubCrestSvg"]])await load(key,p,()=>Boolean(root[api]));
   }
   async function installResults(){
     if(installed)return true;installed=true;
