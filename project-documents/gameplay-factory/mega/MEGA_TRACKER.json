@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T04:09:34Z",
+"updated": "2026-10-12T04:15:19Z",
 "total": 394,
 "next_free": 374,
 "highest_taken": 541,
@@ -353,9 +353,9 @@
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 6,
+"claimed_last_hour": 1,
 "claimed_last_10min": 0,
-"merged_last_hour": 40
+"merged_last_hour": 30
 },
 "lanes": {
 "gpt1": {
@@ -419,7 +419,7 @@
 "live": 23,
 "merged": 1,
 "waiting": 42,
-"ci_failed": 1,
+"ci_running": 1,
 "draft": 1
 },
 "reviews": {
@@ -433,11 +433,11 @@
 "pending_lead": 1,
 "wait_v": 0,
 "audit_batch": 0,
-"trouble": 1,
+"trouble": 0,
 "closed": 0,
 "reviews_total": 0,
 "first_time_ok": 100,
-"failing_now": 1
+"failing_now": 0
 },
 "codex": {
 "name": "Codex",
@@ -446,7 +446,7 @@
 "live": 11,
 "closed": 4,
 "waiting": 1,
-"draft": 2,
+"ci_failed": 2,
 "merged": 1
 },
 "reviews": {
@@ -457,14 +457,14 @@
 "picked_up": 18,
 "worker_done": 14,
 "finished": 12,
-"pending_lead": 2,
+"pending_lead": 0,
 "wait_v": 0,
 "audit_batch": 0,
-"trouble": 0,
+"trouble": 2,
 "closed": 4,
 "reviews_total": 0,
 "first_time_ok": 78,
-"failing_now": 0
+"failing_now": 2
 },
 "work": {
 "name": "ChatGPT Work mode",
