@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>STANDINGS · Sideways phone study</title>
+<style>
+  :root{color-scheme:dark;--gold:#e9be5d;--gold2:#fbdc8b;--cream:#f4efe3;--muted:#bdb8ae;--safe:env(safe-area-inset-bottom,0px)}
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{min-width:320px;color:var(--cream);background:#060708;font-family:"Arial Narrow",Arial,sans-serif}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:linear-gradient(115deg,#050607f4,#0a0b0ddc 60%,#050607f8),url("../../../../visual-assets/v10_1/shared/plates/ENV_SYS_PHONE_V1.webp") center/cover}
+  .visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0,0,0,0)}
+  .layout{min-height:calc(100dvh - 56px - var(--safe));max-width:1400px;margin:0 auto;display:grid;grid-template-columns:minmax(198px,29%) minmax(0,1fr);gap:18px;padding:16px 24px 78px}
+  .hero{position:relative;min-width:0;min-height:280px;overflow:hidden;border-bottom:1px solid #745722;background:linear-gradient(180deg,transparent 55%,#090a0cf0)}
+  .figures{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+  .figures img{position:absolute;bottom:0;max-height:86%;width:auto;filter:drop-shadow(0 12px 14px #000)}
+  .daniel-figure{left:-19%;height:88%}
+  .nik-figure{right:-29%;height:90%}
+  .title-wrap{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:8px;text-shadow:0 3px 10px #000}
+  .eyebrow{font-size:9px;font-weight:800;letter-spacing:.20em;color:#e4ce9f;margin:0}
+  .wordmark{display:block;width:min(74%,220px);height:auto;filter:drop-shadow(0 2px 8px #000);margin:2px auto}
+  .tagline{font-size:9px;font-weight:700;letter-spacing:.16em;color:#f6dda2;margin:0}
+  .board{min-width:0;min-height:0;padding:11px 18px 13px;background:linear-gradient(180deg,#161719ec,#08090bef);border:1px solid #aa833d;box-shadow:inset 0 1px #e6be6050,0 14px 35px #0008;display:flex;flex-direction:column;gap:5px;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%)}
+  .toggle{display:grid;grid-template-columns:1fr 1fr;align-self:center;width:min(100%,360px);min-height:38px;border:1px solid #987134;padding:2px;background:#060708}
+  .toggle button{min-width:0;color:#cac2b3;background:#101216;border:0;font:800 12px/1 "Arial Narrow",Arial,sans-serif;letter-spacing:.07em}
+  .toggle button[aria-selected="true"]{color:#11100c;background:linear-gradient(120deg,#c49337,#ffdc7b);box-shadow:0 0 10px #d8a54055}
+  button:focus-visible,a:focus-visible{outline:2px solid #fff2be;outline-offset:2px}
+  h2{margin:1px 0;text-align:center;font-size:14px;letter-spacing:.19em;color:#f7e3b2}
+  .scoreboard{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px}
+  .manager{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .crest-space{width:29px;height:29px;border:1px solid #9a814e;background:radial-gradient(circle,#30291d,#101113);clip-path:polygon(50% 0,95% 18%,89% 75%,50% 100%,11% 75%,5% 18%)}
+  .manager strong{font-size:17px;line-height:1.2;letter-spacing:.08em;color:#fbd16f;text-transform:uppercase}
+  .score{text-align:center;display:flex;flex-direction:column;gap:0;align-items:center}
+  .score-label{color:#b8b4ad;font-size:10px;letter-spacing:.11em;text-transform:uppercase}
+  .score-value{display:flex;align-items:baseline;gap:9px;font-size:48px;line-height:1;color:#e6d6ae;font-weight:900;font-variant-numeric:tabular-nums}
+  .score-value i{font-size:26px;font-weight:400;font-style:normal;color:#a59a88}
+  .record-grid{display:grid;grid-template-rows:repeat(7,minmax(21px,1fr));min-height:0;flex:1 1 auto;margin-top:2px}
+  .record-row{display:grid;grid-template-columns:1fr 2fr 1fr;align-items:center;border-top:1px solid #f6e6ba21}
+  .record-row strong{font-size:17px;text-align:center;color:#d6c4a6;line-height:1}
+  .record-row span{font-size:11px;color:#d1c9bc;text-align:center;line-height:1.12}
+  .tabs{position:fixed;z-index:5;left:0;right:0;bottom:0;display:none;height:calc(56px + var(--safe));padding:0 4px var(--safe);background:#06070a;border-top:1px solid #b08b49}
+  .tabs a{display:grid;place-items:center;text-decoration:none;color:#aaa395;font-size:10px;font-weight:800;letter-spacing:.07em}
+  .tabs a[aria-current="page"]{color:#ffdb86;box-shadow:inset 0 3px #f0c66d}
+  @media(max-width:900px){
+    .tabs{display:grid;grid-template-columns:repeat(5,1fr)}
+    .layout{height:calc(100dvh - 56px - var(--safe));min-height:0;padding:8px 11px 8px;gap:12px;grid-template-columns:minmax(160px,29%) minmax(0,1fr)}
+    .hero{min-height:0;height:100%}
+    .board{padding:7px 12px 8px;gap:3px}
+    .toggle{min-height:34px}
+    .score-value{font-size:41px}
+    .scoreboard{gap:3px}
+    .record-row{min-height:0}
+    .record-row strong{font-size:15px}
+  }
+  @media(max-width:900px) and (orientation:landscape){
+    .layout{overflow-y:auto;overscroll-behavior:contain}
+    .title-wrap{padding-top:10px}
+    .wordmark{width:min(78%,182px)}
+    .figures img{max-height:89%}
+    .hero{min-height:254px}
+    .board{min-height:320px}
+    .record-row span{font-size:10px}
+  }
+  /* Portrait fits the viewport without scrolling: full seven-row comparison remains visible. */
+  @media(max-width:600px) and (orientation:portrait){
+    html,body{overflow:hidden}
+    .layout{display:flex;flex-direction:column;height:calc(100dvh - 56px - var(--safe));gap:6px;padding:5px 9px 7px}
+    .hero{flex:0 0 116px;height:116px;min-height:0;background:linear-gradient(180deg,#090a0a70,#090a0ce8)}
+    .figures img{max-height:114px}
+    .daniel-figure{left:2%;height:110px}
+    .nik-figure{right:2%;height:110px}
+    .eyebrow{font-size:8px}
+    .wordmark{width:157px;margin:0 auto}
+    .tagline{font-size:8px;letter-spacing:.1em}
+    .board{flex:1 1 auto;min-height:0;padding:6px 10px 8px;gap:2px;overflow:hidden}
+    .toggle{width:100%;min-height:35px}
+    .toggle button{font-size:12px}
+    h2{font-size:12px}
+    .scoreboard{min-height:84px}
+    .crest-space{width:21px;height:22px}
+    .manager strong{font-size:15px}
+    .score-value{font-size:36px;gap:5px}
+    .score-value i{font-size:18px}
+    .score-label{font-size:9px}
+    .record-grid{margin-top:1px;grid-template-rows:repeat(7,minmax(0,1fr))}
+    .record-row span{font-size:10px}
+    .record-row strong{font-size:14px}
+  }
+  @media(max-height:580px) and (orientation:portrait){
+    .hero{flex-basis:82px;height:82px}
+    .figures img{max-height:81px}
+    .wordmark{width:124px}
+    .scoreboard{min-height:68px}
+  }
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<main class="layout">
+  <header class="hero">
+    <div class="figures" aria-hidden="true">
+      <img class="daniel-figure" alt="" src="../../../../visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_PHONE_V1.webp">
+      <img class="nik-figure" alt="" src="../../../../visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_PHONE_V1.webp">
+    </div>
+    <div class="title-wrap">
+      <p class="eyebrow">CAREER MODE SHOWDOWN 17</p>
+      <h1 class="visually-hidden">STANDINGS</h1>
+      <img class="wordmark" src="../../../../visual-assets/v10_1/shared/wordmarks/TITLE_STANDINGS_V1.webp" alt="" aria-hidden="true">
+      <p class="tagline">TWO MANAGERS • ONE LEGACY</p>
+    </div>
+  </header>
+  <section class="board" aria-labelledby="board-title">
+    <div class="toggle" role="tablist" aria-label="Standings view">
+      <button type="button" role="tab" aria-selected="true">This Showdown</button>
+      <button type="button" role="tab" aria-selected="false">Career</button>
+    </div>
+    <h2 id="board-title">HEAD-TO-HEAD</h2>
+    <div class="scoreboard">
+      <div class="manager"><span class="crest-space" aria-hidden="true"></span><strong>Daniel</strong></div>
+      <div class="score"><span class="score-label">Showdown Points</span><div class="score-value"><span>—</span><i aria-hidden="true">:</i><span>—</span></div></div>
+      <div class="manager"><span class="crest-space" aria-hidden="true"></span><strong>Nik</strong></div>
+    </div>
+    <div class="record-grid" aria-label="Comparison statistics">
+      <div class="record-row"><strong aria-label="Daniel Season Wins">—</strong><span>Season Wins</span><strong aria-label="Nik Season Wins">—</strong></div>
+      <div class="record-row"><strong aria-label="Daniel Season Draws">—</strong><span>Season Draws</span><strong aria-label="Nik Season Draws">—</strong></div>
+      <div class="record-row"><strong aria-label="Daniel Season Losses">—</strong><span>Season Losses</span><strong aria-label="Nik Season Losses">—</strong></div>
+      <div class="record-row"><strong aria-label="Daniel Champions Leagues">—</strong><span>Champions Leagues</span><strong aria-label="Nik Champions Leagues">—</strong></div>
+      <div class="record-row"><strong aria-label="Daniel League Titles">—</strong><span>League Titles</span><strong aria-label="Nik League Titles">—</strong></div>
+      <div class="record-row"><strong aria-label="Daniel Domestic Cups">—</strong><span>Domestic Cups</span><strong aria-label="Nik Domestic Cups">—</strong></div>
+      <div class="record-row"><strong aria-label="Daniel Total Trophies">—</strong><span>Total Trophies</span><strong aria-label="Nik Total Trophies">—</strong></div>
+    </div>
+  </section>
+</main>
+<nav class="tabs" aria-label="Main navigation">
+  <a href="#top">HOME</a><a href="#top">CAREER</a><a href="#top" aria-current="page">STANDINGS</a><a href="#top">STATS</a><a href="#top">RULES</a>
+</nav>
+</body>
+</html>
