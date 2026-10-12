@@ -1354,6 +1354,14 @@
         "^tests/contracts/chat\\-audit\\-import\\-analysis\\-b\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-import-analysis-a-contracts.cjs",
+      "patterns": [
+        "^js/importAnalysis\\.js$",
+        "^tests/contracts/chat\\-audit\\-import\\-analysis\\-a\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
