@@ -1,0 +1,12 @@
+{
+  "run": "codex-1012-1952",
+  "mode": "codex",
+  "date_utc": "2026-10-12T19:53:00Z",
+  "main_sha": "e4938e4a211db6b198afe41a3bf2973cf73a1106",
+  "area": "11",
+  "files_read": ["js/productionSharedCareerStart.js", "js/productionSharedTerminalClose.js", "js/legacy.js", "js/productionSharedSeasonResults.js", "js/productionSharedFinalReconciliation.js", "index.html"],
+  "findings": [],
+  "coverage_pct": 80,
+  "clean_confidence_pct": 88,
+  "next_focus": "Live dual-manager start-to-finish with 3-season and 10-season + tied final + reload after archive"
+}
