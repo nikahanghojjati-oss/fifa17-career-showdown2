@@ -1176,3 +1176,76 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
  #app #connectPlayersScreen .connectPlayersRoleNik>span,
  #app #connectPlayersScreen .connectPlayersRoleNik h3 { padding-right:70px; }
 }
+
+/* r72 flaw 3: on wide desktops the pairing panel (CREATE CODE FOR NIK, or the paste field and JOIN) kept the app's 800px
+   .stateNote width and sat flush left under the two role cards, which are 49.2% of the screen (945px at 1920x1080). It now
+   spans the cards' own width, centred under them (the same box the cards use, so its edges line up with theirs). Where the
+   cards are 800px or narrower (laptops) the panel already fitted, so those sizes are unchanged. Desktop only; phone,
+   sideways phone and tablet widths are outside this query. */
+@media (min-width:901px) and (min-height:600px) {
+ #app #connectPlayersScreen #persistentNikDanielPairPanel {
+  box-sizing:border-box;width:100%;max-width:100%;margin-inline:auto;
+ }
+}
+
+/* r72 flaw 4: on upright phones Nik's cut-out started at 49% of the screen and was 180% of the scene tall, so its right half ran
+   off the screen edge and only half his face showed (390x844: the picture was 368px wide from x=191). Each manager is now
+   anchored to his own screen edge (Daniel left, Nik right, so Daniel stays on the LEFT) and the pictures are capped at 90% of
+   the screen width tall, which leaves both heads whole with a gap between them at every phone size; the lower body still fades
+   out under the scene's gradient. Upright phones only (the tablet and sideways-phone rules above are untouched). */
+@media (max-width:760px) and (orientation:portrait) {
+ #app #connectPlayersScreen .connectPlayersPhoneScene img { height:min(180%,90vw); }
+ #app #connectPlayersScreen .connectPlayersSceneDaniel { left:0; }
+ #app #connectPlayersScreen .connectPlayersSceneNik { left:auto;right:0; }
+}
+
+/* CONNECT-PLATE-V2 (ticket 1610P): desktop Connect Players on Team V's approved marble-tunnel plate
+   (visual-assets/v10_1/plates-v2/ENV_CONNECT_PLAYERS_PLATE_V2_*), with the cards and buttons in the picture's
+   gold-bevel and polished-gold finish (NEXT_CONNECT_PLAYERS). Strictly the desktop picture range: wide landscape
+   windows of at least 1200x600; phones, sideways phones and tablets keep their own art and rules. The plate is
+   anchored to the viewport (under the top bar), the way the picture is, and loads with this screen, never with the
+   startup bundle. It already carries both name tags and all four banners. Looks only: every word, id and tap order
+   stays as it was. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+ #app #connectPlayersScreen {
+  --cp-bevel:linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%);
+  background-color:#07080a;
+  background-image:image-set(url('../visual-assets/v10_1/plates-v2/ENV_CONNECT_PLAYERS_PLATE_V2_1X.webp') 1x,url('../visual-assets/v10_1/plates-v2/ENV_CONNECT_PLAYERS_PLATE_V2_2X.webp') 2x);
+  background-repeat:no-repeat;background-size:max(100vw,calc(100vh * 1536 / 864)) auto;background-position:50% calc(0px - var(--cp-top));
+ }
+ /* a soft dark pool behind the kicker, title and line, so they read over the bright arena lights */
+ #app #connectPlayersScreen .connectPlayersHeader::before {
+  content:"";position:absolute;z-index:-1;left:22%;right:22%;top:calc(13svh - var(--cp-top));height:22svh;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 52%,#050608b0,#05060880 45%,transparent 72%);
+ }
+ /* the two role cards: gold-bevel frame around a black face, a thin inner gold line and a glossy top edge */
+ #app #connectPlayersScreen .connectPlayersRole,
+ #app #connectPlayersScreen[data-role="daniel"] .connectPlayersRoleDaniel,
+ #app #connectPlayersScreen[data-role="nik"] .connectPlayersRoleNik {
+  border:clamp(3px,.45vh,5px) solid transparent;border-radius:6px;
+  background:linear-gradient(180deg,#171512 0,#0c0c0d 18%,#09090a 100%) padding-box,var(--cp-bevel) border-box;
+  box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c99,inset 0 1px 0 4px #fff1b81f,0 0 26px #f0c84b38,0 12px 34px #000b;
+ }
+ /* the note card under them */
+ #app #connectPlayersScreen #persistentNikDanielPairPanel {
+  border:3px solid transparent;border-radius:6px;
+  background:linear-gradient(160deg,#0f0e0ceb,#0a0a0bf0) padding-box,var(--cp-bevel) border-box;
+  box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c70,0 0 22px #f0c84b2e,0 10px 28px #000b;
+ }
+ #app #connectPlayersScreen[data-connection="active"] #persistentNikDanielPairPanel { border-color:transparent;box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #80c97a99,0 0 22px #80c97a33,0 10px 28px #000b; }
+ /* CHOOSE SEASONS: polished gold */
+ #app #connectPlayersScreen #connectPlayersSetup {
+  border:2px solid transparent;border-radius:4px;color:#1a1305;
+  background:linear-gradient(180deg,#fff0a6 0,#f8d764 20%,#e4b032 54%,#f4cf58 80%,#c98f1c 100%) padding-box,linear-gradient(135deg,#fff8d0,#d9a83a 40%,#fff1b8 70%,#a9781a) border-box;
+  box-shadow:inset 0 1px 0 #fffbe0,inset 0 -3px 0 #a87a1288,0 0 0 1px #000a,0 0 22px #f5c51855,0 5px 18px #0009;
+  text-shadow:0 1px 0 #fff2b588;
+ }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel .menuButton:not(:disabled) {
+  border-radius:4px;box-shadow:inset 0 1px 0 #fffbe0,inset 0 -2px 0 #a87a1288,0 0 0 1px #000a,0 3px 12px #0009;
+ }
+ #app #connectPlayersScreen .connectPlayersBack {
+  border:2px solid transparent;border-radius:4px;color:#fff1ae;
+  background:linear-gradient(180deg,#141311,#070708) padding-box,var(--cp-bevel) border-box;
+  box-shadow:inset 0 0 0 1px #050505,inset 0 1px 0 2px #fff1b81f,0 4px 14px #0009;
+ }
+}
