@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 10:03 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 10:10 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r71** (main `2a511f6`, Sun 11 Oct 9:40 PM)
 
@@ -627,12 +627,12 @@ Open code PRs: 3/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T02:02:45Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T02:08:59Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
 | Gameplay audits | 112 of 112 | 0 | 0 |
-| Screen fixes | 45 of 266 | 63 | 158 |
+| Screen fixes | 45 of 266 | 65 | 156 |
 | Match desktop to mockups | 0 of 14 | 6 | 8 |
 | Phone mockup studies | 23 of 70 | 41 | 6 |
 | Improved desktop studies | 1 of 56 | 0 | 55 |
