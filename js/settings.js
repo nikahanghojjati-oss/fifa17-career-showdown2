@@ -75,6 +75,7 @@ function getSettingsMotionState(){
     const systemReduced = typeof window.matchMedia === "function"
         && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     return {
+        motionPreference: "follow",
         reducedMotionOverride: false,
         systemReduced,
         effectiveReduced: systemReduced
@@ -97,21 +98,23 @@ function focusSelectedSettingsMotionChoice(){
     focusSettingsControl(".settingsMotionChoice.selected");
 }
 
-function setSettingsMotionPreference(reduced){
-    if(typeof window.setApplicationReducedMotionPreference !== "function"){
+function setSettingsMotionPreference(choice){
+    if(typeof window.setApplicationMotionPreference !== "function"){
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice("Motion preferences are unavailable in this browser session.", "error");
         }
         return;
     }
 
-    if(!window.setApplicationReducedMotionPreference(Boolean(reduced))){
+    if(!window.setApplicationMotionPreference(choice)){
         return;
     }
 
     if(typeof window.showAppNotice === "function"){
         window.showAppNotice(
-            reduced ? "Reduced motion is enabled." : "Motion now follows your device preference.",
+            choice === "reduce" ? "Reduced motion is enabled."
+                : choice === "full" ? "Full motion is enabled."
+                : "Motion now follows your device preference.",
             "success",
             3000
         );
@@ -164,13 +167,14 @@ function handleMotionChoiceKeydown(event){
     choices[nextIndex].click();
 }
 
-function createMotionChoice(label, description, selected, reduced){
+function createMotionChoice(label, description, selected, choice){
     const button = createSettingsElement("button", "settingsMotionChoice");
     button.type = "button";
     button.setAttribute("role", "radio");
     button.setAttribute("aria-checked", selected ? "true" : "false");
     button.tabIndex = selected ? 0 : -1;
-    button.dataset.motionReduced = reduced ? "true" : "false";
+    button.dataset.motionChoice = choice;
+    button.dataset.motionReduced = choice === "reduce" ? "true" : "false";
     button.classList.toggle("selected", selected);
 
     const marker = createSettingsElement("span", "settingsMotionMarker");
@@ -181,7 +185,7 @@ function createMotionChoice(label, description, selected, reduced){
         createSettingsElement("small", "", description)
     );
     button.append(marker, copy);
-    button.addEventListener("click", () => setSettingsMotionPreference(reduced));
+    button.addEventListener("click", () => setSettingsMotionPreference(choice));
     button.addEventListener("keydown", handleMotionChoiceKeydown);
     return button;
 }
@@ -268,14 +272,20 @@ function createMotionPanel(){
         createMotionChoice(
             "FOLLOW DEVICE",
             "Use the browser or operating-system accessibility preference.",
-            !state.reducedMotionOverride,
-            false
+            state.motionPreference === "follow",
+            "follow"
+        ),
+        createMotionChoice(
+            "FULL MOTION",
+            "Always use standard transitions and reveal animations.",
+            state.motionPreference === "full",
+            "full"
         ),
         createMotionChoice(
             "REDUCE MOTION",
             "Always minimize menu transitions, League Wheel delay and Club Reveal theatrics.",
-            state.reducedMotionOverride,
-            true
+            state.motionPreference === "reduce",
+            "reduce"
         )
     );
 
@@ -715,7 +725,7 @@ function getSettingsFocusRestoreSelector(){
         return "";
     }
     if(active.matches(".settingsMotionChoice")){
-        return `.settingsMotionChoice[data-motion-reduced="${active.dataset.motionReduced}"]`;
+        return `.settingsMotionChoice[data-motion-choice="${active.dataset.motionChoice}"]`;
     }
     for(const selector of [
         ".settingsAudioToggle",

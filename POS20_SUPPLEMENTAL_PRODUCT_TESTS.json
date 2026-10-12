@@ -1129,6 +1129,39 @@
       ]
     },
     {
+      "path": "tests/contracts/job-1652-settings-motion-contracts.cjs",
+      "patterns": [
+        "^js/storage\\.js$",
+        "^js/settings\\.js$",
+        "^js/diagnostics\\.js$",
+        "^css/rulesSettingsV10\\.css$",
+        "^tests/contracts/job-1652-settings-motion-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/qol-1-7-recovery-account-contracts.cjs",
+      "patterns": [
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^js/connectPlayersScreenV10\\.js$",
+        "^css/connectPlayersV10\\.css$",
+        "^tests/contracts/qol-1-7-recovery-account-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/qol-3-6-keep-drafts-contracts.cjs",
+      "patterns": [
+        "^js/storage\\.js$",
+        "^js/productionSharedSeasonResults\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^tests/contracts/qol-3-6-keep-drafts-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/showdown-gate-coverage-contracts.cjs",
       "patterns": [
         "^\\.github/workflows/",
