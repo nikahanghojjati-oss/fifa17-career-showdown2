@@ -1,4 +1,4 @@
-# Mega factory tracker · updated 2026-10-12T00:12:13Z
+# Mega factory tracker · updated 2026-10-12T00:15:13Z
 
 **Type now (31 free):** 181, 183, 185, 189, 191, 240, 246, 268, 274, 296, 302, 324, 330, 352, 358, 380, 382, 388, 400, 408, 410, 411, 416, 428, 436, 438, 444, 456, 464, 466, 472
 **Next free number:** 181 · **highest taken:** 403 of 518
