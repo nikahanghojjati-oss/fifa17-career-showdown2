@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 10:34 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 10:47 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r71** (main `2a511f6`, Sun 11 Oct 9:40 PM)
 
@@ -26,7 +26,7 @@ Updated Sun 11 Oct, 10:34 PM Boston time. Bug hunting only, no new features unti
 
 **#3 · 1651** `G` Flash guard: cover Season Results, Final Winner and Rivalry, and time tap feedback  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #692 · CI 7 of 8 passed · last move 3 h ago
+⚪ Team white · model not set · worker working, draft PR #692 · CI 7 of 8 passed · last move 4 h ago
 
 **#4 · 1652** `G` Settings › Motion: add a FULL MOTION choice  
 `████░░░░░░` **40.0000 %**  
@@ -440,37 +440,7 @@ Paste this:
 1646
 ```
 
-**#41 · 1654** `G` Second attempt: Rule Book (PR 687)  
-`░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
-
-Paste this:
-
-```text
-1654
-```
-
-**#42 · 1655** `G` Second attempt: Trophy Room (PR 686)  
-`░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
-
-Paste this:
-
-```text
-1655
-```
-
-**#43 · 1656** `G` Second attempt: Club (PR 684)  
-`░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
-
-Paste this:
-
-```text
-1656
-```
-
-**#44 · 1659** `G` Standings phone: wire adopted design (study 1255)  
+**#41 · 1659** `G` Standings phone: wire adopted design (study 1255)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -480,7 +450,7 @@ Paste this:
 1659
 ```
 
-**#45 · 1591** `G` Home soundtrack: swap to Nik's Audius top 10  
+**#42 · 1591** `G` Home soundtrack: swap to Nik's Audius top 10  
 `░░░░░░░░░░` **0.0000 %**  
 🟣 Team purple · model not set · Claude lane: Opus Medium for the change, Sonnet for the live listen and browser check: type 'Job 1591'
 
@@ -490,7 +460,7 @@ Type this in Claude lane: Opus Medium for the change, Sonnet for the live listen
 Job 1591
 ```
 
-**#46 · 1649** `G` Old CSS: archive the dead sheets (after the r71 release)  
+**#43 · 1649** `G` Old CSS: archive the dead sheets (after the r71 release)  
 `░░░░░░░░░░` **0.0000 %**  
 🟤 Team brown · model not set · Claude lane: Sonnet, medium: type 'Job 1649'
 
@@ -500,7 +470,7 @@ Type this in Claude lane: Sonnet, medium:
 Job 1649
 ```
 
-**#47 · 1650** `G` Service worker: can an old page ever mix with new files? (report only)  
+**#44 · 1650** `G` Service worker: can an old page ever mix with new files? (report only)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1650'
 
@@ -524,7 +494,19 @@ Job 1650
 `░░░░░░░░░░` **0.0000 %**  
 🟣 Team purple · **Claude Opus** · High effort · Claude lane: Opus fixing #666 after two failed browser checks
 
-**#4 · 1660** `G` Rule Book phone: wire adopted design (study 1429)  
+**#4 · 1654** `G` Second attempt: Rule Book (PR 687)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **Claude (Sonnet)** · Claude lane
+
+**#5 · 1655** `G` Second attempt: Trophy Room (PR 686)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **Claude (Sonnet)** · Claude lane
+
+**#6 · 1656** `G` Second attempt: Club (PR 684)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **Claude (Sonnet)** · Claude lane
+
+**#7 · 1660** `G` Rule Book phone: wire adopted design (study 1429)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · waits for 1654
 
@@ -627,12 +609,12 @@ Open code PRs: 3/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T02:33:14Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T02:46:44Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
-| Gameplay audits | 112 of 146 | 7 | 27 |
-| Screen fixes | 45 of 266 | 78 | 143 |
+| Gameplay audits | 112 of 146 | 12 | 22 |
+| Screen fixes | 45 of 266 | 83 | 138 |
 | Match desktop to mockups | 0 of 14 | 6 | 8 |
 | Phone mockup studies | 23 of 70 | 41 | 6 |
 | Improved desktop studies | 1 of 56 | 0 | 55 |
@@ -642,8 +624,11 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 - 684
 - 686
 - 687
+- 712
+- 713
 - 702
 - 705
+- 716
 
 **Latest finished numbers (up to 20)**
 

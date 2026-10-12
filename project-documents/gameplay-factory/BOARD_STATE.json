@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-11 10:34 PM Boston time (EDT)",
+ "generated": "2026-10-11 10:47 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 94,
@@ -1335,8 +1335,8 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
-  "next": 58,
+  "moving": 46,
+  "next": 55,
   "nik": 2,
   "later": 8,
   "rows": {
@@ -1674,6 +1674,45 @@
       "order": 51,
       "place": "Team G lead (Claude lane), nothing to type",
       "note": "ticket jobs/JOB-1599.md; area season-final, train season-final-3; picture job: Work mode can open the approved PNG (Nik 2026-10-11 04:36 UTC routing rule), so it goes to Work mode, not GPT chat or Claude; Claude browser-checks and merges"
+     },
+     {
+      "id": "1654",
+      "group": "Second attempts",
+      "title": "Second attempt: Rule Book (PR 687)",
+      "lane": "claude",
+      "team": "blue",
+      "model": "Claude (Sonnet)",
+      "state": "Claude lane (lead running)",
+      "order": 95,
+      "place": "Claude lane: the Team G lead runs it, nothing to type",
+      "note": "ticket jobs/JOB-1654.md; second attempt for train PR #687 on branch gameplay/train-rules-settings-2; fix only the lead's browser-check failure; commit onto the existing PR branch, no new train or PR; Claude browser-checks and merges",
+      "prompt": "1654"
+     },
+     {
+      "id": "1655",
+      "group": "Second attempts",
+      "title": "Second attempt: Trophy Room (PR 686)",
+      "lane": "claude",
+      "team": "blue",
+      "model": "Claude (Sonnet)",
+      "state": "Claude lane (lead running)",
+      "order": 96,
+      "place": "Claude lane: the Team G lead runs it, nothing to type",
+      "note": "ticket jobs/JOB-1655.md; second attempt for train PR #686 on branch gameplay/train-career-screens-2; fix only the lead's browser-check failure; commit onto the existing PR branch, no new train or PR; Claude browser-checks and merges",
+      "prompt": "1655"
+     },
+     {
+      "id": "1656",
+      "group": "Second attempts",
+      "title": "Second attempt: Club (PR 684)",
+      "lane": "claude",
+      "team": "blue",
+      "model": "Claude (Sonnet)",
+      "state": "Claude lane (lead running)",
+      "order": 97,
+      "place": "Claude lane: the Team G lead runs it, nothing to type",
+      "note": "ticket jobs/JOB-1656.md; second attempt for train PR #684 on branch gameplay/train-club-2; fix only the lead's browser-check failure; commit onto the existing PR branch, no new train or PR; Claude browser-checks and merges",
+      "prompt": "1656"
      }
     ],
     "nik": [
@@ -2395,45 +2434,6 @@
       "place": "ChatGPT Work mode (Sol 6.1), type one number at a time, in order",
       "note": "ticket jobs/JOB-1646.md; area home, train home-w2, item 3 of 3; picture job: Work mode can open the approved PNG (NEXT_HOME.png on factory/v1-wtt5ye), so it goes to Work mode, not GPT chat or Claude; Claude browser-checks and merges",
       "prompt": "1646"
-     },
-     {
-      "id": "1654",
-      "group": "Second attempts",
-      "title": "Second attempt: Rule Book (PR 687)",
-      "lane": "work",
-      "team": "blue",
-      "model": "GPT Sol (chat)",
-      "state": "ready for GPT chat",
-      "order": 95,
-      "place": "ChatGPT chat (GPT-6 Sol, GitHub connector), type the number",
-      "note": "ticket jobs/JOB-1654.md; second attempt for train PR #687 on branch gameplay/train-rules-settings-2; fix only the lead's browser-check failure; commit onto the existing PR branch, no new train or PR; Claude browser-checks and merges",
-      "prompt": "1654"
-     },
-     {
-      "id": "1655",
-      "group": "Second attempts",
-      "title": "Second attempt: Trophy Room (PR 686)",
-      "lane": "work",
-      "team": "blue",
-      "model": "GPT Sol (chat)",
-      "state": "ready for GPT chat",
-      "order": 96,
-      "place": "ChatGPT chat (GPT-6 Sol, GitHub connector), type the number",
-      "note": "ticket jobs/JOB-1655.md; second attempt for train PR #686 on branch gameplay/train-career-screens-2; fix only the lead's browser-check failure; commit onto the existing PR branch, no new train or PR; Claude browser-checks and merges",
-      "prompt": "1655"
-     },
-     {
-      "id": "1656",
-      "group": "Second attempts",
-      "title": "Second attempt: Club (PR 684)",
-      "lane": "work",
-      "team": "blue",
-      "model": "GPT Sol (chat)",
-      "state": "ready for GPT chat",
-      "order": 97,
-      "place": "ChatGPT chat (GPT-6 Sol, GitHub connector), type the number",
-      "note": "ticket jobs/JOB-1656.md; second attempt for train PR #684 on branch gameplay/train-club-2; fix only the lead's browser-check failure; commit onto the existing PR branch, no new train or PR; Claude browser-checks and merges",
-      "prompt": "1656"
      },
      {
       "id": "1659",
