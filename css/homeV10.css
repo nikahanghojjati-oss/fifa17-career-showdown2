@@ -804,3 +804,54 @@
     white-space: nowrap;
   }
 }
+
+/* JOB-1073: touch-only Home adapter. Team V's source remains unchanged and
+   fine-pointer desktop retains its authored 32/40px controls and spacing. */
+@media (pointer: coarse), (max-width: 760px) {
+  #mainMenu.v10Home .fifaMenuGrid { gap: 8px; }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile { min-width: 44px; min-height: 44px; }
+  #mainMenu.v10Home .menuMusicControls { gap: 8px; }
+  #mainMenu.v10Home .menuMusicControl { box-sizing: border-box; min-width: 44px; min-height: 44px; }
+  #mainMenu.v10Home .phoneSheetToggle,
+  #mainMenu.v10Home .phoneTrackSheetOpen {
+    box-sizing: border-box; min-width: 44px; min-height: 44px;
+  }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
+    gap: 8px; grid-auto-rows: minmax(44px, auto);
+  }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector .menuMediaChoice {
+    box-sizing: border-box; min-width: 44px; min-height: 44px;
+  }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
+    box-sizing: border-box; min-width: 44px; min-height: 44px;
+  }
+  #app #topHeader #onlinePlayerIdentityBadge { min-width: 44px; min-height: 44px; }
+  body:has(#mainMenu.v10Home) .topBarNav { gap: 8px; }
+  body:has(#mainMenu.v10Home) .topBarTab,
+  body:has(#mainMenu.v10Home) .topBarSettings { min-width: 44px; min-height: 44px; }
+}
+/* Portrait's expanded eleven-track sheet needs a larger close-header reserve
+   and accurate height when the six rows are separated by eight pixels. */
+@media (min-width: 376px) and (max-width: 450px) and (min-height: 820px) and (orientation: portrait) {
+  #mainMenu.v10Home .menuMusicTile {
+    --track-sheet-h: calc(62px + var(--track-rows, 2) * 52px - 8px);
+  }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector { padding-top: 52px; }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
+    bottom: calc(var(--phone-nav) + 10px + var(--track-sheet-h) - 44px);
+  }
+}
+/* A 44px button cannot fit inside the former 44px landscape strip with 3px
+   vertical padding; seat the strip and sheet above the tile dock instead. */
+@media (orientation: landscape) and (max-height: 480px) and (pointer: coarse),
+       (orientation: landscape) and (max-height: 480px) and (max-width: 760px) {
+  #mainMenu.v10Home { --land-gap: 8px; --land-strip-h: 52px; }
+}
+/* These two existing landscape-sheet layouts include a visible CLOSE target;
+   reserve eight pixels below it as well as between all track choices. */
+@media (min-width: 820px) and (max-width: 960px) and (min-height: 370px) and (max-height: 450px) and (orientation: landscape) and (pointer: coarse) {
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector { padding-top: 52px; }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
+    bottom: calc(var(--land-bot) + 10px + 210px - 44px);
+  }
+}
