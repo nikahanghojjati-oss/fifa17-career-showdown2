@@ -1,15 +1,15 @@
 {
-"updated": "2026-10-12T01:23:28Z",
+"updated": "2026-10-12T01:26:28Z",
 "total": 518,
-"next_free": 185,
+"next_free": 187,
 "highest_taken": 411,
 "counts": {
 "merged": 181,
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 6,
-"waiting": 234
+"on_train": 7,
+"waiting": 233
 },
 "stages": {
 "2": {
@@ -35,8 +35,8 @@
 "name": "Match desktop to mockups",
 "total": 14,
 "states": {
-"on_train": 2,
-"waiting": 11,
+"on_train": 3,
+"waiting": 10,
 "closed": 1
 }
 },
@@ -70,6 +70,7 @@
 "on_train_no_pr": [
 181,
 183,
+185,
 199,
 201,
 403,
@@ -82,9 +83,9 @@
 "rules-settings": 687
 },
 "ready": [
-185,
 189,
 191,
+203,
 217,
 219,
 240,
@@ -96,9 +97,9 @@
 324
 ],
 "ready_sol": [
-185,
 189,
 191,
+203,
 217,
 219,
 240,
@@ -111,9 +112,9 @@
 ],
 "ready_codex": [],
 "ready_all": [
-185,
 189,
 191,
+203,
 217,
 219,
 240,
@@ -255,8 +256,8 @@
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 5,
-"claimed_last_10min": 0,
+"claimed_last_hour": 6,
+"claimed_last_10min": 1,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -268,18 +269,18 @@
 "closed": 25,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 6,
-"waiting": 148
+"on_train": 7,
+"waiting": 147
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 91,
-"worker_done": 66,
+"picked_up": 92,
+"worker_done": 67,
 "finished": 45,
-"pending_lead": 16,
+"pending_lead": 17,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 5,
@@ -1319,13 +1320,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 24,
-"job": 1478,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 26,
@@ -3416,6 +3410,13 @@
 "at": "2026-10-12T00:42:30Z",
 "item": 411,
 "job": 1357,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-12T01:26:28Z",
+"item": 185,
+"job": 1129,
 "from": "waiting",
 "to": "on_train"
 }
@@ -6391,8 +6392,10 @@
 "title": "Select League: match the desktop mockup",
 "mode": "code",
 "group": "league",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-league-3",
+"first_seen": "2026-10-12T01:26:28Z",
+"since": "2026-10-12T01:26:28Z"
 },
 "186": {
 "job": 1559,
