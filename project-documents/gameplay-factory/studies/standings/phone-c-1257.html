@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>STANDINGS · phone C</title>
+<style>
+:root{color-scheme:dark;--g:#f2c45b;--w:#f5efdf}*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07080a;color:var(--w);font-family:"Arial Narrow",Arial,sans-serif}
+body{display:grid;place-items:center}
+.phone{width:min(100%,430px);height:100dvh;display:grid;grid-template-rows:clamp(115px,24dvh,170px) minmax(0,1fr) 49px;gap:5px;padding:0 11px;background:#06080a;overflow:hidden;box-shadow:0 0 0 1px #765928,0 0 70px #000}
+.hero{position:relative;overflow:hidden;background:#08090a url("../../../../visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PHONE_V1.webp") center 30%/cover no-repeat}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(#03050677 0%,#03050600 38%,#06080a 100%)}
+.portrait{position:absolute;bottom:-27%;height:135%;max-width:61%;object-fit:contain;filter:drop-shadow(0 0 14px #c6a14a50)}
+.daniel{left:-8%}.nik{right:-8%}
+.head{position:absolute;inset:5px 5% auto;z-index:2;text-align:center;text-shadow:0 2px 9px #000}
+.head p{margin:0;color:#ffe5aa;font-size:8px;font-weight:900;letter-spacing:.2em}
+.head img{display:block;width:54%;height:34px;object-fit:contain;margin:auto;filter:drop-shadow(0 2px 6px #000)}
+.head .tag{font-size:9px;color:var(--g);letter-spacing:.14em}
+.board{min-height:0;overflow:hidden;border:1px solid #b9924c;background:linear-gradient(165deg,#171716ef,#06080afb);display:grid;grid-template-rows:38px 24px 13px 93px minmax(0,1fr);gap:3px;padding:8px 9px 6px;box-shadow:inset 0 1px #fff5d22a,0 8px 28px #000}
+.toggle{display:grid;grid-template-columns:1fr 1fr;border:1px solid #b18a47;position:relative}
+.toggle input{position:absolute;width:1px;height:1px;opacity:0}
+.toggle label{display:grid;place-items:center;cursor:pointer;color:#d5c6a6;font-size:12px;font-weight:900;letter-spacing:.06em}
+.toggle input:focus-visible+label{outline:2px solid white}
+.toggle input:checked+label{background:linear-gradient(#f4d783,#b98a30);color:#191206}
+.board:has(#career:checked) .show,.board:has(#showdown:checked) .career{display:none}
+h2{margin:0;text-align:center;font-size:14px;letter-spacing:.14em;line-height:24px;color:#f8df9e}
+.meta{min-height:0;margin:0;text-align:center;font-size:9px;color:#ddc79d}
+.scores{display:grid;grid-template-columns:1fr 1.35fr 1fr;gap:3px;align-items:center}
+.side{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;min-width:0}
+.crest{display:block;width:25px;height:27px;clip-path:polygon(50% 0,100% 16%,90% 70%,50% 100%,10% 70%,0 16%);background:linear-gradient(#9f7b38,#191612);box-shadow:inset 0 0 0 2px #2a230f}
+.side strong{color:var(--g);font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+.club{height:8px;font-size:8px}
+.score{text-align:center;min-width:0}
+.score .label{font-size:10px;white-space:nowrap;color:#cbbca3}
+.numbers{display:flex;align-items:center;justify-content:center;gap:8px;font-weight:900;font-variant-numeric:tabular-nums;font-size:43px;line-height:1.06}
+.numbers i{font-weight:400;font-style:normal;font-size:26px;color:#a89779}
+.leader{display:block;height:10px;color:var(--g);font-size:9px}
+.rows{display:grid;grid-template-rows:repeat(7,minmax(0,1fr));min-height:0;overflow:hidden}
+.row{display:grid;grid-template-columns:1fr 1.8fr 1fr;gap:2px;align-items:center;min-height:0;border-top:1px solid #f5d98926;text-align:center}
+.row .value{font-size:14px;font-weight:900}.row .label{font-size:11px;color:#d4c9b5;line-height:1.1}
+.nav{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;align-items:stretch;border-top:1px solid #a78245;margin:0 -11px;padding:4px 4px 0;background:#040507}
+.nav span{display:grid;place-items:center;font-size:9px;font-weight:900;color:#a89f90;border-top:2px solid transparent}
+.nav .active{color:#ffdf94;border-top-color:var(--g)}
+@media(max-height:590px){.phone{grid-template-rows:clamp(97px,21dvh,125px) minmax(0,1fr) 43px;gap:3px}.board{grid-template-rows:33px 20px 9px 76px minmax(0,1fr);gap:2px;padding:6px 7px 4px}.head img{height:29px}h2{font-size:12px;line-height:20px}.numbers{font-size:34px}.numbers i{font-size:20px}.row .label{font-size:10px}.row .value{font-size:12px}.crest{height:22px;width:20px}.toggle label{font-size:11px}}
+@media(min-width:901px){.nav{visibility:hidden}}
+</style></head>
+<body><main class="phone" aria-label="Standings study">
+<header class="hero">
+<img class="portrait daniel" src="../../../../visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_PHONE_V1.webp" alt="" aria-hidden="true">
+<img class="portrait nik" src="../../../../visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_PHONE_V1.webp" alt="" aria-hidden="true">
+<div class="head"><p>CAREER MODE SHOWDOWN 17</p><img src="../../../../visual-assets/v10_1/shared/wordmarks/TITLE_STANDINGS_V1.webp" alt="STANDINGS"><p class="tag">TWO MANAGERS • ONE LEGACY</p></div>
+</header>
+<section class="board" aria-label="Standings view">
+<div class="toggle" role="group" aria-label="Standings view"><input type="radio" name="view" id="showdown" checked><label for="showdown">This Showdown</label><input type="radio" name="view" id="career"><label for="career">Career</label></div>
+<h2 class="show">HEAD-TO-HEAD</h2><h2 class="career">CAREER STANDINGS</h2>
+<p class="meta" aria-label="Season progress"></p>
+<div class="scores">
+<div class="side"><span class="crest" aria-hidden="true"></span><strong>Daniel</strong><span class="club"></span></div>
+<div class="score"><span class="label show">Showdown Points</span><span class="label career">Career Points</span><div class="numbers"><b>—</b><i>:</i><b>—</b></div><span class="leader"></span></div>
+<div class="side"><span class="crest" aria-hidden="true"></span><strong>Nik</strong><span class="club"></span></div>
+</div>
+<div class="rows" role="table" aria-label="Standings statistics">
+<div class="row" role="row"><span class="value" role="cell">—</span><span class="label" role="cell">Season Wins</span><span class="value" role="cell">—</span></div>
+<div class="row" role="row"><span class="value" role="cell">—</span><span class="label" role="cell">Season Draws</span><span class="value" role="cell">—</span></div>
+<div class="row" role="row"><span class="value" role="cell">—</span><span class="label" role="cell">Season Losses</span><span class="value" role="cell">—</span></div>
+<div class="row" role="row"><span class="value" role="cell">—</span><span class="label" role="cell">Champions Leagues</span><span class="value" role="cell">—</span></div>
+<div class="row" role="row"><span class="value" role="cell">—</span><span class="label" role="cell">League Titles</span><span class="value" role="cell">—</span></div>
+<div class="row" role="row"><span class="value" role="cell">—</span><span class="label" role="cell">Domestic Cups</span><span class="value" role="cell">—</span></div>
+<div class="row" role="row"><span class="value" role="cell">—</span><span class="label" role="cell">Total Trophies</span><span class="value" role="cell">—</span></div>
+</div>
+<p hidden>Loading standings.</p><p hidden>Standings are unavailable right now.</p><p hidden>No active showdown is available.</p><p hidden>Career standings will appear after the first recorded season.</p>
+</section>
+<nav class="nav" aria-label="Game sections"><span>HOME</span><span>CAREER</span><span class="active" aria-current="page">STANDINGS</span><span>STATS</span><span>RULES</span></nav>
+</main></body></html>
