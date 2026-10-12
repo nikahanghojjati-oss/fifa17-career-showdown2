@@ -159,6 +159,8 @@ def main():
             return 1 if (started and ends) else 2 if started else 3
         batches.sort(key=lambda bt: (tier(bt), bt[0]))
         ready_chat = [n for bt in batches for n in bt]
+        # Nik 2026-10-12: stage 4 and 5 study items are no longer handed out (screen jobs 1695-1708 build straight to the approved pictures); they stay 'waiting'
+        ready_work = [n for n in ready_work if tk[str(o[str(n)]["job"])]["stage"] not in (4, 5)]
         scr_rank = {}
         for n in sorted(ready_work):
             scr_rank.setdefault(tk[str(o[str(n)]["job"])]["screen"], len(scr_rank))
