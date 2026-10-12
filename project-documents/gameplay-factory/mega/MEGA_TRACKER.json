@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T10:25:35Z",
+"updated": "2026-10-12T10:26:20Z",
 "total": 394,
 "next_free": 376,
 "highest_taken": 541,
@@ -102,7 +102,7 @@
 },
 "1726": {
 "pr": 744,
-"draft": true,
+"draft": false,
 "closed": false
 },
 "1723": {
@@ -117,12 +117,12 @@
 },
 "1725": {
 "pr": 742,
-"draft": true,
+"draft": false,
 "closed": false
 },
 "1724": {
 "pr": 741,
-"draft": true,
+"draft": false,
 "closed": false
 },
 "1651": {
@@ -577,7 +577,7 @@
 "live": 23,
 "merged": 3,
 "waiting": 45,
-"draft": 3
+"ci_failed": 3
 },
 "reviews": {
 "ok": 0,
@@ -587,14 +587,14 @@
 "picked_up": 29,
 "worker_done": 29,
 "finished": 26,
-"pending_lead": 3,
+"pending_lead": 0,
 "wait_v": 0,
 "audit_batch": 0,
-"trouble": 0,
+"trouble": 3,
 "closed": 0,
 "reviews_total": 0,
 "first_time_ok": 100,
-"failing_now": 0
+"failing_now": 3
 },
 "codex": {
 "name": "Codex",
