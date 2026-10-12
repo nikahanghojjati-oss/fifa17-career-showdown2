@@ -1707,7 +1707,18 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 @media (min-width:1200px) and (min-height:600px) and (max-height:800px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
  #app #seasonEntry .v10FinalStage .finalWinnerResultsPanel { top:calc(598 * var(--fw-k) - var(--fw-top)); }
 }
-
+/* r73 polish. Review: the projected overall bar is sized min(620px,92vw) by the old app sheet, wider than the review
+   panel on phones, so it stops at the panel's inner edge; the review lines take the game's condensed face instead of the
+   system font; the review heading is focused on open for screen readers only (tabindex -1), so it draws no ring. */
+#app #seasonEntry.seasonScreenV10 .season-review-panel .overallScoreBox { max-width:100%; box-sizing:border-box; }
+#app #seasonEntry.seasonScreenV10 .season-review-panel :is(.seasonReviewIntro,.summaryClub,.summaryLine) {
+ font-family:var(--sd-font-condensed,"Barlow Condensed","Arial Narrow",sans-serif);
+}
+#app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #seasonReviewHeading[tabindex="-1"]:focus { outline:none !important; box-shadow:none; }
+/* r73 polish, Final Winner sideways: a little air between the DANIEL WINS line and the two manager labels under it. */
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTotals { margin-top:7px; }
+}
 `;
     parent.appendChild(style);
   }
