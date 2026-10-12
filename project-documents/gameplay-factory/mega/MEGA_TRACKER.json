@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T02:45:14Z",
+"updated": "2026-10-12T02:46:44Z",
 "total": 552,
 "next_free": 187,
 "highest_taken": 536,
@@ -8,11 +8,10 @@
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
-"draft": 39,
+"draft": 40,
 "waiting": 229,
 "blocked": 1,
-"on_train": 4,
-"started": 1
+"on_train": 4
 },
 "stages": {
 "2": {
@@ -33,9 +32,8 @@
 "total": 146,
 "states": {
 "merged": 112,
-"draft": 11,
-"waiting": 22,
-"started": 1
+"draft": 12,
+"waiting": 22
 }
 },
 "3": {
@@ -345,8 +343,8 @@
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 34,
-"claimed_last_10min": 7,
+"claimed_last_hour": 33,
+"claimed_last_10min": 6,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -389,8 +387,7 @@
 "wait_v": 3,
 "blocked": 1,
 "waiting": 90,
-"audit_batch": 8,
-"started": 1
+"audit_batch": 9
 },
 "reviews": {
 "ok": 0,
@@ -398,11 +395,11 @@
 "needs_changes": 0
 },
 "picked_up": 136,
-"worker_done": 134,
+"worker_done": 135,
 "finished": 123,
 "pending_lead": 0,
 "wait_v": 3,
-"audit_batch": 8,
+"audit_batch": 9,
 "trouble": 1,
 "closed": 0,
 "reviews_total": 0,
@@ -1516,13 +1513,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 156,
-"job": 1544,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 158,
@@ -3615,6 +3605,13 @@
 "job": 1678,
 "from": "waiting",
 "to": "started"
+},
+{
+"at": "2026-10-12T02:46:44Z",
+"item": 536,
+"job": 1678,
+"from": "started",
+"to": "draft"
 }
 ],
 "items": {
@@ -10802,12 +10799,19 @@
 "title": "Audit js/scoring.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "started",
+"pr": 717,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/717",
+"base": "qa/mega-audits",
 "branch": "qa/job-1678-scoring-second-half-audit",
-"branch_sha": "ee7a19450dc77f7897fdd1b9c4f59a3b66d3eb2a",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "7be9a592467c25d90f542dc6618ae5e1f16d3dc9",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:45:30Z",
 "first_seen": "2026-10-12T02:45:14Z",
-"since": "2026-10-12T02:45:14Z"
+"since": "2026-10-12T02:46:44Z"
 },
 "537": {
 "job": 1679,
