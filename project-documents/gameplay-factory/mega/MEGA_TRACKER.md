@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-12T02:42:14Z
+# Mega factory tracker · updated 2026-10-12T02:43:44Z
 
-**Type now (88 free):** 263, 296, 302, 324, 330, 352, 358, 366, 368, 370, 374, 376, 378, 380, 382, 384, 386, 388, 390, 392, 394, 396, 398, 400, 402, 404, 406, 408, 410, 412, 414, 416, 418, 420, 422, 424, 426, 428, 430, 432, 434, 435, 436, 438, 440, 442, 444, 446, 448, 450, 452, 454, 456, 458, 460, 462, 464, 466, 468, 470, 472, 474, 476, 525, 527, 529, 531, 532, 533, 534, 535, 536, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552
-**Next free number:** 187 · **highest taken:** 530 of 552
+**Type now (87 free):** 263, 296, 302, 324, 330, 352, 358, 366, 368, 370, 374, 376, 378, 380, 382, 384, 386, 388, 390, 392, 394, 396, 398, 400, 402, 404, 406, 408, 410, 412, 414, 416, 418, 420, 422, 424, 426, 428, 430, 432, 434, 435, 436, 438, 440, 442, 444, 446, 448, 450, 452, 454, 456, 458, 460, 462, 464, 466, 468, 470, 472, 474, 476, 525, 527, 529, 531, 533, 534, 535, 536, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552
+**Next free number:** 187 · **highest taken:** 532 of 552
 **Code PRs open:** 3 of 8 · area locks: club, career-screens, rules-settings, home, start-join, league, transfer
-**Rate:** 8 claimed in 10 min · 32 in 1 h · 0 merged in 1 h
+**Rate:** 7 claimed in 10 min · 32 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 181 of 552**
 
@@ -12,15 +12,15 @@ State | count
 ✅ merged to staging branch | 181
 🚂 done, on the train branch, no PR yet | 8
 🟩 PR open, checks green, waiting for review | 10
-📝 worker done, draft PR open | 32
+📝 worker done, draft PR open | 33
 🟥 PR open, checks FAILED | 5
 🟧 blocked | 1
 ⚫ closed without merge | 82
-⬜ waiting | 233
+⬜ waiting | 232
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
-1 Gameplay audits | 146 | 112 | 9 | 25
+1 Gameplay audits | 146 | 112 | 10 | 24
 2 Screen fixes | 266 | 45 | 38 | 139
 3 Match desktop to mockups | 14 | 0 | 5 | 8
 4 Phone mockup studies | 70 | 23 | 4 | 6
@@ -93,9 +93,11 @@ Stage | total | merged/live | in flight | waiting
 - 📝 **526** · Job 1668 · Audit js/footballVisuals.js for gameplay bugs (first half) · worker done, draft PR open · [PR #709](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/709)
 - 📝 **528** · Job 1670 · Audit js/backup.js for gameplay bugs (first half) · worker done, draft PR open · [PR #710](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/710)
 - 📝 **530** · Job 1672 · Audit js/ruleBook.js for gameplay bugs (first half) · worker done, draft PR open · [PR #711](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/711)
+- 📝 **532** · Job 1674 · Audit js/menuFeedback.js for gameplay bugs (first half) · worker done, draft PR open · [PR #714](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/714)
 
 ## Latest changes
 
+- 2026-10-12T02:43:44Z · 532 (Job 1674): waiting → draft
 - 2026-10-12T02:39:14Z · 255 (Job 1104): waiting → draft
 - 2026-10-12T02:39:14Z · 237 (Job 1103): on_train → draft
 - 2026-10-12T02:39:14Z · 219 (Job 1102): on_train → draft
@@ -115,4 +117,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-12T02:33:14Z · 526 (Job 1668): waiting → started
 - 2026-10-12T02:33:14Z · 523 (Job 1665): waiting → draft
 - 2026-10-12T02:33:14Z · 521 (Job 1663): started → draft
-- 2026-10-12T02:31:44Z · 524 (Job 1666): waiting → draft

@@ -1,15 +1,15 @@
 {
-"updated": "2026-10-12T02:42:14Z",
+"updated": "2026-10-12T02:43:44Z",
 "total": 552,
 "next_free": 187,
-"highest_taken": 530,
+"highest_taken": 532,
 "counts": {
 "merged": 181,
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
-"draft": 32,
-"waiting": 233,
+"draft": 33,
+"waiting": 232,
 "on_train": 8,
 "blocked": 1
 },
@@ -32,8 +32,8 @@
 "total": 146,
 "states": {
 "merged": 112,
-"draft": 9,
-"waiting": 25
+"draft": 10,
+"waiting": 24
 }
 },
 "3": {
@@ -196,7 +196,6 @@
 527,
 529,
 531,
-532,
 533,
 534,
 535,
@@ -345,13 +344,13 @@
 474,
 476
 ],
-"ready_total": 88,
+"ready_total": 87,
 "held_until_picture": 0,
 "held_by_picture": {}
 },
 "rate": {
 "claimed_last_hour": 32,
-"claimed_last_10min": 8,
+"claimed_last_10min": 7,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -393,20 +392,20 @@
 "no_pr": 37,
 "wait_v": 3,
 "blocked": 1,
-"waiting": 93,
-"audit_batch": 6
+"waiting": 92,
+"audit_batch": 7
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 133,
-"worker_done": 132,
+"picked_up": 134,
+"worker_done": 133,
 "finished": 123,
 "pending_lead": 0,
 "wait_v": 3,
-"audit_batch": 6,
+"audit_batch": 7,
 "trouble": 1,
 "closed": 0,
 "reviews_total": 0,
@@ -1469,16 +1468,56 @@
 "fail": 0
 }
 }
+},
+{
+"at": "2026-10-12T02:43:44Z",
+"lanes": {
+"gpt1": {
+"t": 256,
+"fin": 45,
+"done": 91,
+"redone": 25,
+"fail": 5
+},
+"gpt2": {
+"t": 226,
+"fin": 123,
+"done": 133,
+"redone": 0,
+"fail": 0
+},
+"chat_jobs": {
+"t": 50,
+"fin": 24,
+"done": 25,
+"redone": 0,
+"fail": 0
+},
+"codex": {
+"t": 19,
+"fin": 11,
+"done": 14,
+"redone": 4,
+"fail": 0
+},
+"work": {
+"t": 37,
+"fin": 16,
+"done": 16,
+"redone": 3,
+"fail": 0
+},
+"claude": {
+"t": 76,
+"fin": 55,
+"done": 55,
+"redone": 20,
+"fail": 0
+}
+}
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 140,
-"job": 1536,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 142,
@@ -3569,6 +3608,13 @@
 "at": "2026-10-12T02:39:14Z",
 "item": 255,
 "job": 1104,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:43:44Z",
+"item": 532,
+"job": 1674,
 "from": "waiting",
 "to": "draft"
 }
@@ -10653,8 +10699,19 @@
 "title": "Audit js/menuFeedback.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-12T02:25:29Z"
+"pr": 714,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/714",
+"base": "qa/mega-audits",
+"branch": "qa/job-1674-menu-feedback-audit",
+"ci": "draft",
+"ci_sha": "6b14932b051aad3081520d529bd80e622dd3acc4",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:43:30Z",
+"first_seen": "2026-10-12T02:43:30Z",
+"since": "2026-10-12T02:43:44Z"
 },
 "533": {
 "job": 1675,
