@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 12 Oct, 11:54 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 12 Oct, 12:02 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r72** (main `9b514ec`, Mon 12 Oct 7:41 AM)
 
@@ -20,73 +20,61 @@ Updated Mon 12 Oct, 11:54 AM Boston time. Bug hunting only, no new features unti
 `█████░░░░░` **50.0000 %**  
 🟢 Team green · model not set · worker says done, no PR yet
 
-**#2 · 1699** `G` Transfer challenge and Signing Entry: one Work mode job for the whole screen  
-`███████░░░` **71.4286 %**  
-🟢 Team green · model not set · worker done, PR #767 open, CI running · CI 1 of 7 passed · last move 1 min ago
-
-**#3 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
+**#2 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
 🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 3 h ago
 
-**#4 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
+**#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
 🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 3 h ago
 
-**#5 · 1729** `G` Standings: sideways phone study, re-run (stage 4)  
+**#4 · 1729** `G` Standings: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
 🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 3 h ago
 
-**#6 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
+**#5 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
 🟢 Team green · model not set · worker working, draft PR #775 · CI 6 of 7 passed · last move 3 h ago
 
-**#7 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
+**#6 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
 🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 3 h ago
 
-**#8 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
+**#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
 🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 3 h ago
 
-**#9 · 1752** `G` Audit and fix js/screens.js (second half (lines 406 to the end))  
+**#8 · 1752** `G` Audit and fix js/screens.js (second half (lines 406 to the end))  
 `██████░░░░` **60.0000 %**  
-🔵 Team blue · model not set · worker done, PR #815 open, CI failed · CI 6 of 8 passed · last move 18 min ago
+🔵 Team blue · model not set · worker done, PR #815 open, CI failed · CI 6 of 8 passed · last move 26 min ago
 
-**#10 · 1753** `G` Audit and fix js/restore.js (first half (lines 1 to 372))  
+**#9 · 1753** `G` Audit and fix js/restore.js (first half (lines 1 to 372))  
 `██████░░░░` **60.0000 %**  
-🟢 Team green · model not set · worker done, PR #818 open, CI failed · CI 15 of 16 passed · last move 13 min ago
+🟢 Team green · model not set · worker done, PR #818 open, CI failed · CI 15 of 16 passed · last move 21 min ago
 
-**#11 · 1766** `G` Audit and fix js/productionSharedMultiSeasonProgression.js (whole file)  
+**#10 · 1766** `G` Audit and fix js/productionSharedMultiSeasonProgression.js (whole file)  
 `██████░░░░` **60.0000 %**  
-🟢 Team green · model not set · worker done, PR #819 open, CI failed · CI 15 of 16 passed · last move 10 min ago
+🟢 Team green · model not set · worker done, PR #819 open, CI failed · CI 15 of 16 passed · last move 18 min ago
 
-**#12 · 1778** `G` Audit and fix js/productionSharedFinalReconciliation.js (whole file)  
+**#11 · 1778** `G` Audit and fix js/productionSharedFinalReconciliation.js (whole file)  
 `████░░░░░░` **40.0000 %**  
 🔵 Team blue · model not set · worker working, draft PR #792 · CI 7 of 8 passed · last move 2 h ago
 
-**#13 · 1779** `G` Audit and fix js/productionSharedShowdownSetup.js (whole file)  
+**#12 · 1779** `G` Audit and fix js/productionSharedShowdownSetup.js (whole file)  
 `████░░░░░░` **40.0000 %**  
 🔵 Team blue · model not set · worker working, draft PR #795
 
-**#14 · 1780** `G` Audit and fix js/sparkSharedSeasonResults.js (whole file)  
+**#13 · 1787** `G` Audit and fix js/storage.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #796
+🔵 Team blue · model not set · worker working, draft PR #803 · CI 7 of 8 passed · last move 99 min ago
 
-**#15 · 1787** `G` Audit and fix js/storage.js (whole file)  
-`████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #803 · CI 7 of 8 passed · last move 91 min ago
-
-**#16 · 1791** `G` Free startup gzip headroom, then carry the navigation guard  
+**#14 · 1791** `G` Free startup gzip headroom, then carry the navigation guard  
 `██████░░░░` **60.0000 %**  
-🟢 Team green · model not set · worker done, PR #815 open, CI failed · CI 6 of 8 passed · last move 18 min ago
+🟢 Team green · model not set · worker done, PR #815 open, CI failed · CI 6 of 8 passed · last move 26 min ago
 
-**#17 · 1796** `G` Work mode audit and fix js/optionalModules.js (first half (lines 1 to 292))  
+**#15 · 1796** `G` Work mode audit and fix js/optionalModules.js (first half (lines 1 to 292))  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #822 · CI 7 of 8 passed · last move 12 min ago
-
-**#18 · 1797** `G` Work mode audit and fix js/optionalModules.js (second half (lines 292 to the end))  
-`████████░░` **78.6667 %**  
-🟢 Team green · model not set · worker done, PR #821 open, CI running · CI 13 of 15 passed · last move 1 min ago
+🟢 Team green · model not set · worker working, draft PR #822 · CI 7 of 8 passed · last move 20 min ago
 
 ### 👉 Next for you, in this order
 
@@ -1014,7 +1002,17 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1777
 ```
 
-**#93 · 1781** `G` Audit and fix js/sparkSharedTransferChallenge.js (whole file)  
+**#93 · 1780** `G` Audit and fix js/sparkSharedSeasonResults.js (whole file)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1780'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1780
+```
+
+**#94 · 1781** `G` Audit and fix js/sparkSharedTransferChallenge.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1781'
 
@@ -1024,7 +1022,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1781
 ```
 
-**#94 · 1782** `G` Audit and fix js/sparkSharedSeasonCommit.js (whole file)  
+**#95 · 1782** `G` Audit and fix js/sparkSharedSeasonCommit.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1782'
 
@@ -1034,7 +1032,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1782
 ```
 
-**#95 · 1783** `G` Audit and fix js/sparkSharedMultiSeasonProgression.js (whole file)  
+**#96 · 1783** `G` Audit and fix js/sparkSharedMultiSeasonProgression.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1783'
 
@@ -1044,7 +1042,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1783
 ```
 
-**#96 · 1786** `G` Audit and fix js/sparkSharedHistoryConvergence.js (whole file)  
+**#97 · 1786** `G` Audit and fix js/sparkSharedHistoryConvergence.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1786'
 
@@ -1054,7 +1052,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1786
 ```
 
-**#97 · 1788** `G` Audit and fix js/sparkSharedCanonicalScoring.js (whole file)  
+**#98 · 1788** `G` Audit and fix js/sparkSharedCanonicalScoring.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1788'
 
@@ -1064,7 +1062,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1788
 ```
 
-**#98 · 1789** `G` Audit and fix js/diagnostics.js (first half (lines 1 to 225))  
+**#99 · 1789** `G` Audit and fix js/diagnostics.js (first half (lines 1 to 225))  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1789'
 
@@ -1074,7 +1072,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1789
 ```
 
-**#99 · 1792** `G` Contract sweep on gameplay/bug-list-1: run everything, report failures  
+**#100 · 1792** `G` Contract sweep on gameplay/bug-list-1: run everything, report failures  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1792'
 
@@ -1084,7 +1082,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1792
 ```
 
-**#100 · 1793** `G` Work mode audit and fix js/sharedFinalReconciliation.js (whole file)  
+**#101 · 1793** `G` Work mode audit and fix js/sharedFinalReconciliation.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1793'
 
@@ -1094,7 +1092,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1793
 ```
 
-**#101 · 1794** `G` Work mode audit and fix js/sharedTerminalClose.js (whole file)  
+**#102 · 1794** `G` Work mode audit and fix js/sharedTerminalClose.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1794'
 
@@ -1104,7 +1102,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1794
 ```
 
-**#102 · 1795** `G` Work mode audit and fix js/dataEngine.js (whole file)  
+**#103 · 1795** `G` Work mode audit and fix js/dataEngine.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1795'
 
@@ -1114,7 +1112,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1795
 ```
 
-**#103 · 1798** `G` Work mode audit and fix js/footballVisuals.js (whole file)  
+**#104 · 1798** `G` Work mode audit and fix js/footballVisuals.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1798'
 
@@ -1219,8 +1217,8 @@ Job 1798
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`████░░░░░░` **37.1681 %**  
-Numbered jobs: 56 done, 142 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`████░░░░░░` **37.5000 %**  
+Numbered jobs: 56 done, 140 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `██████░░░░` **56.0000 %**  
