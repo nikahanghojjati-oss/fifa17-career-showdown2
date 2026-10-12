@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SELECT LEAGUE · Desktop A · JOB-1144</title>
+<style>
+/* Static selected-league study. All product copy comes from the live markup and leagueWheel.js. */
+:root{color-scheme:dark;--gold:#f2c45b;--cream:#f4f1ea;--edge:#b98a2f;--ink:#07080a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--cream);font-family:Arial,Helvetica,sans-serif}
+.stage{position:relative;width:1920px;height:1080px;min-height:1080px;isolation:isolate;overflow:hidden;
+background:url('../../../../visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp') center / cover no-repeat}
+.stage::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+background:linear-gradient(180deg,rgba(0,0,0,.22),transparent 32%,transparent 73%,rgba(0,0,0,.36))}
+header{height:64px;display:flex;align-items:center;gap:34px;padding:0 34px;background:rgba(7,8,10,.94);border-bottom:1px solid var(--edge)}
+.brand{margin:0;font-size:17px;line-height:1.1;letter-spacing:.06em}
+.brand span{display:block;color:var(--gold);font-size:13px;margin-top:4px}
+nav{display:flex;align-self:stretch;align-items:stretch;gap:28px}
+nav button{position:relative;padding:0 12px;border:0;border-bottom:3px solid transparent;background:transparent;color:#ccc8bc;font-size:12px;font-weight:700;letter-spacing:.19em}
+nav button[aria-current]{color:var(--gold);border-bottom-color:var(--gold)}
+nav button:disabled{opacity:.72}
+
+.header-meta{margin-left:auto;display:flex;gap:12px;align-items:center}
+.header-meta span,.header-meta button{padding:11px 14px;border:1px solid #8f7234;background:#08090b;color:var(--gold);font-size:12px;letter-spacing:.06em}
+main{width:760px;margin:auto;text-align:center;padding-top:8px}
+h1{width:760px;aspect-ratio:2332 / 456;margin:0 auto 7px;background:url('../../../../visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V1.webp') center / contain no-repeat}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+#selectedLeague{display:flex;align-items:center;justify-content:center;gap:24px;margin:0 0 10px;font-size:24px;line-height:1.15;font-weight:700;letter-spacing:.16em;color:var(--gold);text-shadow:0 2px 7px #000}
+#selectedLeague::before,#selectedLeague::after{content:"";width:90px;height:1px;background:var(--edge)}
+.wheel-shell{position:relative;width:580px;height:594px;margin:auto;padding-top:8px}
+.wheelPointer{position:absolute;left:calc(50% - 17px);top:0;z-index:4;width:34px;height:34px;color:#ffda7c;font-size:32px;line-height:1;text-shadow:0 2px 4px #000}
+#leagueWheel{position:relative;width:580px;height:580px;border-radius:50%;background:#0c0e10;box-shadow:0 16px 42px #000a}
+.wheelTrack{position:absolute;inset:48px;border-radius:50%;background:conic-gradient(from -36deg,#ffdf88 0deg,#ddb349 72deg,#101214 72deg 360deg)}
+.wheelTrack::before{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(from -36deg,#b99137 0 .4deg,transparent .4deg 71.6deg,#b99137 71.6deg 72deg)}
+.rim{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3}
+.wheelItem{position:absolute;left:50%;top:50%;width:160px;margin-left:-80px;display:flex;flex-direction:column;align-items:center;gap:8px;transform-origin:50% 0;transform:rotate(var(--a)) translateY(-220px);color:var(--gold);font-family:"Arial Narrow","Liberation Sans Narrow",Arial,sans-serif;font-size:17px;line-height:1.15;font-weight:700;white-space:nowrap}
+.wheelItem img{display:block;width:52px;height:52px}
+.wheelItem.item-0{--a:0deg;color:#121212}
+.wheelItem.item-1{--a:72deg}
+.wheelItem.item-2{--a:144deg}
+.wheelItem.item-3{--a:216deg}
+.wheelItem.item-4{--a:288deg}
+/* As on the target, marks and names stay upright; their centers follow the live five-slice order. */
+.wheelItem.item-1{left:calc(50% + 169px);top:calc(50% - 55px);transform:none}
+.wheelItem.item-2{left:calc(50% + 93px);top:calc(50% + 62px);transform:none}
+.wheelItem.item-3{left:calc(50% - 93px);top:calc(50% + 62px);transform:none}
+.wheelItem.item-4{left:calc(50% - 169px);top:calc(50% - 55px);transform:none}
+.hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:108px;height:108px;z-index:4;border-radius:50%;border:5px solid #d2a441;background:#08090b;box-shadow:0 0 0 3px #fff0a455,0 6px 16px #000b;display:grid;place-items:center}
+.hub img{width:88px;height:88px}
+#leagueStateNote{margin:14px auto 12px;padding:10px 22px;min-height:62px;width:740px;background:rgba(8,9,12,.95);border:1px solid var(--edge);box-shadow:0 5px 20px #0008;color:var(--cream);font-size:16px;line-height:1.45}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:740px;margin:auto}
+.actions button{min-height:62px;border:1px solid #ddba5f;border-radius:2px;font-family:"Arial Narrow","Liberation Sans Narrow",Arial,sans-serif;font-size:17px;font-weight:700;letter-spacing:.03em;cursor:default}
+.primary{color:#100e06;background:linear-gradient(#ffeaa2,#f2c45b 60%,#cb9d32);box-shadow:inset 0 1px 0 #fff3c9,0 0 18px #e2b84a33}
+.back{background:#090a0ce8;color:var(--gold)}
+button:focus-visible{outline:3px solid #fff2bc;outline-offset:4px}
+footer{position:absolute;bottom:0;width:100%;height:46px;display:flex;justify-content:center;align-items:center;gap:12px;border-top:1px solid #aa853d66;background:#07080ae8;color:#c4bcaa;font-size:12px}
+@media(max-width:1800px){.stage{zoom:.9}}
+@media(max-width:1600px){.stage{zoom:.8}}
+@media(max-width:1400px){.stage{zoom:.7}}
+@media(min-width:1921px){.stage{max-width:1920px;margin:auto}}
+@media(max-width:1100px){header{gap:16px;padding:0 20px}nav{gap:3px}main{width:min(760px,96vw)}h1{max-width:100%}.header-meta{gap:5px}}
+</style>
+</head>
+<body>
+<div class="stage">
+<header>
+<p class="brand">CAREER MODE<span>SHOWDOWN // 17</span></p>
+<nav aria-label="Main navigation">
+<button type="button" disabled>HOME</button><button type="button" aria-current="page">CAREER</button>
+<button type="button" disabled>STANDINGS</button><button type="button" disabled>STATS</button><button type="button" disabled>RULES</button>
+</nav>
+<div class="header-meta"><span>Season 1 / 1</span><button type="button">SIGN IN</button></div>
+</header>
+<main aria-labelledby="league-title">
+<h1 id="league-title"><span class="sr-only">SELECT LEAGUE</span></h1>
+<div class="wheelContainer">
+<div id="selectedLeague" role="status" aria-live="polite" aria-atomic="true">Premier League</div>
+<div class="wheel-shell">
+<div class="wheelPointer" aria-hidden="true">▼</div>
+<div id="leagueWheel" class="leagueWheel" role="img" aria-label="Premier League selected; LaLiga, Bundesliga, Serie A and Ligue 1 are the other wheel entries">
+<div class="wheelTrack" aria-hidden="true"></div>
+<div class="wheelItem item-0"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%20aria-hidden%3D%22true%22%20focusable%3D%22false%22%3E%3Cg%20fill%3D%22%23121212%22%3E%3Cpath%20d%3D%22M16%2062L20%2030L36%2047L50%2020L64%2047L80%2030L84%2062ZM50.00%2042.00L52.12%2047.09L57.61%2047.53L53.42%2051.11L54.70%2056.47L50.00%2053.60L45.30%2056.47L46.58%2051.11L42.39%2047.53L47.88%2047.09Z%22%20fill-rule%3D%22evenodd%22/%3E%3Cpath%20d%3D%22M13%2025a7%207%200%201%200%2014%200a7%207%200%201%200%20-14%200ZM42.5%2015a7.5%207.5%200%201%200%2015%200a7.5%207.5%200%201%200%20-15%200ZM73%2025a7%207%200%201%200%2014%200a7%207%200%201%200%20-14%200Z%22/%3E%3Cpath%20d%3D%22M16%2067H84V76Q84%2082%2078%2082H22Q16%2082%2016%2076Z%22/%3E%3C/g%3E%3C/svg%3E" alt=""><span>Premier League</span></div>
+<div class="wheelItem item-1"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%20aria-hidden%3D%22true%22%20focusable%3D%22false%22%3E%3Cg%20fill%3D%22%23e2b84a%22%3E%3Cpath%20d%3D%22M6%2012C8%2034%2020%2044%2038%2044L62%2044C80%2044%2092%2034%2094%2012C85%2025%2074%2032%2062%2032L38%2032C26%2032%2015%2025%206%2012Z%22/%3E%3Cpath%20d%3D%22M20%2038L33%2038L33%2050ZM80%2038L67%2038L67%2050Z%22/%3E%3Cpath%20d%3D%22M30%2036L70%2036L67%2062L61%2088L39%2088L33%2062ZM37%2050L47%2054L39%2058ZM63%2050L53%2054L61%2058ZM40.6%2078a3.4%203.4%200%201%200%206.8%200a3.4%203.4%200%201%200%20-6.8%200ZM52.6%2078a3.4%203.4%200%201%200%206.8%200a3.4%203.4%200%201%200%20-6.8%200Z%22%20fill-rule%3D%22evenodd%22/%3E%3C/g%3E%3C/svg%3E" alt=""><span>LaLiga</span></div>
+<div class="wheelItem item-2"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%20aria-hidden%3D%22true%22%20focusable%3D%22false%22%3E%3Cg%20fill%3D%22%23e2b84a%22%3E%3Cpath%20d%3D%22M5%2050a45%2045%200%201%200%2090%200a45%2045%200%201%200%20-90%200ZM20%2050a30%2030%200%201%200%2060%200a30%2030%200%201%200%20-60%200ZM46.4%2013a3.6%203.6%200%201%200%207.2%200a3.6%203.6%200%201%200%20-7.2%200ZM68.15%2020.07a3.6%203.6%200%201%200%207.2%200a3.6%203.6%200%201%200%20-7.2%200ZM81.59%2038.57a3.6%203.6%200%201%200%207.2%200a3.6%203.6%200%201%200%20-7.2%200ZM81.59%2061.43a3.6%203.6%200%201%200%207.2%200a3.6%203.6%200%201%200%20-7.2%200ZM68.15%2079.93a3.6%203.6%200%201%200%207.2%200a3.6%203.6%200%201%200%20-7.2%200ZM46.4%2087a3.6%203.6%200%201%200%207.2%200a3.6%203.6%200%201%200%20-7.2%200ZM24.65%2079.93a3.6%203.6%200%201%200%207.2%200a3.6%203.6%200%201%200%20-7.2%200ZM11.21%2061.43a3.6%203.6%200%201%200%207.2%200a3.6%203.6%200%201%200%20-7.2%200ZM11.21%2038.57a3.6%203.6%200%201%200%207.2%200a3.6%203.6%200%201%200%20-7.2%200ZM24.65%2020.07a3.6%203.6%200%201%200%207.2%200a3.6%203.6%200%201%200%20-7.2%200Z%22%20fill-rule%3D%22evenodd%22/%3E%3Cpath%20d%3D%22M25%2050a25%2025%200%201%200%2050%200a25%2025%200%201%200%20-50%200ZM50.00%2037.00L53.29%2045.47L62.36%2045.98L55.33%2051.73L57.64%2060.52L50.00%2055.60L42.36%2060.52L44.67%2051.73L37.64%2045.98L46.71%2045.47Z%22%20fill-rule%3D%22evenodd%22/%3E%3C/g%3E%3C/svg%3E" alt=""><span>Bundesliga</span></div>
+<div class="wheelItem item-3"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%20aria-hidden%3D%22true%22%20focusable%3D%22false%22%3E%3Cg%20fill%3D%22%23e2b84a%22%3E%3Cpath%20d%3D%22M14%2012L40%2012L50%2019L60%2012L86%2012L86%2048C86%2070%2070%2084%2050%2093C30%2084%2014%2070%2014%2048ZM22%2019L38%2019L50%2027L62%2019L78%2019L78%2048C78%2065%2066%2076%2050%2084C34%2076%2022%2065%2022%2048Z%22%20fill-rule%3D%22evenodd%22/%3E%3Cpath%20d%3D%22M27%2024L37%2024L50%2032.5L63%2024L73%2024L73%2048C73%2062%2063%2071%2050%2078C37%2071%2027%2062%2027%2048ZM50.00%2034.00L53.76%2043.82L64.27%2044.36L56.09%2050.98L58.82%2061.14L50.00%2055.40L41.18%2061.14L43.91%2050.98L35.73%2044.36L46.24%2043.82Z%22%20fill-rule%3D%22evenodd%22/%3E%3C/g%3E%3C/svg%3E" alt=""><span>Serie A</span></div>
+<div class="wheelItem item-4"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%20aria-hidden%3D%22true%22%20focusable%3D%22false%22%3E%3Cg%20fill%3D%22%23e2b84a%22%3E%3Cpath%20d%3D%22M44%2010L70%2010L58%2076L72%2076L69%2090L23%2090L26%2076L38%2076L45%2038L31%2044L35%2024ZM58.13%2017.60L59.01%2022.05L63.44%2023.10L59.47%2025.31L59.85%2029.84L56.51%2026.76L52.32%2028.52L54.23%2024.39L51.26%2020.95L55.77%2021.48Z%22%20fill-rule%3D%22evenodd%22/%3E%3C/g%3E%3C/svg%3E" alt=""><span>Ligue 1</span></div>
+<img class="rim" src="../../../../visual-assets/v10_1/shared/art/wheel/WHEEL_RIM_V1.webp" alt="">
+<div class="hub" aria-hidden="true"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%2242%2076%2036%2036%22%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2294%22%20r%3D%2215%22%20fill%3D%22%23e2b84a%22/%3E%3Cpolygon%20points%3D%2260%2C87%2066.7%2C91.8%2064.1%2C99.7%2055.9%2C99.7%2053.3%2C91.8%22%20fill%3D%22%23121212%22/%3E%3C/svg%3E" alt=""></div>
+</div>
+</div>
+<div id="leagueStateNote" class="stateNote" role="status" aria-live="polite">Premier League has been selected and locked. Press Continue to confirm the league and open Club Assignment.</div>
+<div class="actions"><button class="primary" id="spinLeague" type="button">CONTINUE TO CLUB ASSIGNMENT</button><button class="back" data-smart-back type="button">BACK</button></div>
+</div>
+</main>
+<footer><span>Career Mode Showdown</span><span>v1.9.1</span></footer>
+</div>
+</body>
+</html>
