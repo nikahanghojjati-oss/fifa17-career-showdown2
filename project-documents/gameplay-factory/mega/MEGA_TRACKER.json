@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T01:38:28Z",
+"updated": "2026-10-12T01:39:58Z",
 "total": 518,
 "next_free": 187,
 "highest_taken": 411,
@@ -10,7 +10,7 @@
 "ready": 10,
 "on_train": 8,
 "waiting": 231,
-"started": 1
+"draft": 1
 },
 "stages": {
 "2": {
@@ -47,7 +47,7 @@
 "states": {
 "closed": 37,
 "merged": 23,
-"started": 1,
+"draft": 1,
 "waiting": 9
 }
 },
@@ -257,7 +257,7 @@
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 6,
+"claimed_last_hour": 5,
 "claimed_last_10min": 1,
 "merged_last_hour": 0
 },
@@ -296,7 +296,7 @@
 "states": {
 "merged": 86,
 "no_pr": 37,
-"started": 1,
+"wait_v": 1,
 "waiting": 85
 },
 "reviews": {
@@ -305,10 +305,10 @@
 "needs_changes": 0
 },
 "picked_up": 124,
-"worker_done": 123,
+"worker_done": 124,
 "finished": 123,
 "pending_lead": 0,
-"wait_v": 0,
+"wait_v": 1,
 "audit_batch": 0,
 "trouble": 0,
 "closed": 0,
@@ -1322,13 +1322,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 30,
-"job": 1481,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 32,
@@ -3421,6 +3414,13 @@
 "job": 1429,
 "from": "waiting",
 "to": "started"
+},
+{
+"at": "2026-10-12T01:39:58Z",
+"item": 240,
+"job": 1429,
+"from": "started",
+"to": "draft"
 }
 ],
 "items": {
@@ -7099,12 +7099,19 @@
 "title": "Rule Book: phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "started",
+"pr": 696,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/696",
+"base": "study/mega-queue",
 "branch": "study/job-1429-rule-book-phone-a",
-"branch_sha": "ce338c475d13edeedac193bdb746ac55bfc23bf9",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "ce338c475d13edeedac193bdb746ac55bfc23bf9",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T01:38:35Z",
 "first_seen": "2026-10-12T01:35:28Z",
-"since": "2026-10-12T01:35:28Z"
+"since": "2026-10-12T01:39:58Z"
 },
 "241": {
 "job": 1161,
