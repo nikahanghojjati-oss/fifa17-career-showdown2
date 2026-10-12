@@ -2,12 +2,12 @@
 
 The approved premium desktop pictures (NEXT_<KEY>.png) with every button, card, title and word removed, so the live game can draw its real UI on top. Same cyan-repaint method as the V1 plates (tickets 023-029).
 
-Nik runs one ticket per screen in a ChatGPT Temporary Chat and drops the result in the factory thread as `1610P <KEY>`.
+Nik runs one ticket per screen in a brand-new normal ChatGPT chat outside any project (Temporary Chats cannot make pictures) and drops the result in the factory thread as `1610P <KEY>`. Tickets rewritten 12 Oct 9:25 a.m. Eastern: GPT kept redrawing the whole game screen, so the prompt now asks only for an empty background, and the check fails any picture with a title, card, button, top bar or game words. Claude puts the exact approved faces back at intake (likeness lock), so small face changes by GPT don't matter.
 
 | # | Screen | Ticket |
 | --- | --- | --- |
-| 1 | Home | TICKET-1610P_1_OF_14_HOME_PLATE.md (Nik picked the marble lounge, 12 Oct) |
-| 2 | Connect Players | TICKET-1610P_2_OF_14_CONNECT_PLAYERS_PLATE.md |
+| 1 | Home | DONE 12 Oct (ENV_HOME_PLATE_V2) |
+| 2 | Connect Players | DONE 12 Oct (ENV_CONNECT_PLAYERS_PLATE_V2) |
 | 3 | Season Results | TICKET-1610P_3_OF_14_SEASON_RESULTS_PLATE.md |
 | 4 | Transfer War | TICKET-1610P_4_OF_14_TRANSFER_PLATE.md |
 | 5 | Select League | TICKET-1610P_5_OF_14_LEAGUE_PLATE.md |
@@ -26,7 +26,7 @@ Removed areas per screen (1X px on the 1536x864 picture): tools in the lead's sc
 Kept on purpose: the managers, banners, handwritten name tags, the League marble plinth, and the Trophy Room and Final Winner pedestals (left empty for the live trophy art). The Club packs stay in the men's hands with the badge circles blanked, so the live badge can sit on them.
 
 Intake (Team V lead):
-- crop (0, 80, 1536, 944);
-- check likeness, no cyan and no new words;
+- likeness lock with tools/plates_v2/lock.py (GPT pixels only inside the cyan boxes, grown 12 px; everything else from NEXT_<KEY>);
+- check: no UI left, no cyan, no new words;
 - save visual-assets/v10_1/plates-v2/ENV_<KEY>_PLATE_V2_1X.webp (1536x864) and _2X.webp (3072x1728, Lanczos upscale);
 - tell the Team G lead the path.
