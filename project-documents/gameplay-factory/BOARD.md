@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 11:15 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 11:25 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r71** (main `2a511f6`, Sun 11 Oct 9:40 PM)
 
@@ -22,7 +22,7 @@ Updated Sun 11 Oct, 11:15 PM Boston time. Bug hunting only, no new features unti
 
 **#2 · 1648** `G` Old CSS: which old sheets and selectors are still live (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 4 h ago
+⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 5 h ago
 
 **#3 · 1651** `G` Flash guard: cover Season Results, Final Winner and Rivalry, and time tap feedback  
 `████░░░░░░` **40.0000 %**  
@@ -30,11 +30,11 @@ Updated Sun 11 Oct, 11:15 PM Boston time. Bug hunting only, no new features unti
 
 **#4 · 1652** `G` Settings › Motion: add a FULL MOTION choice  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #691 · CI 7 of 8 passed · last move 4 h ago
+🔵 Team blue · model not set · worker working, draft PR #691 · CI 7 of 8 passed · last move 5 h ago
 
 **#5 · 1653** `G` Reduced motion: stop the remaining Club script fades  
-`███████░░░` **74.6667 %**  
-⚪ Team white · model not set · worker done, PR #693 open, CI running · CI 7 of 15 passed · last move 2 min ago
+`███████░░░` **72.8571 %**  
+⚪ Team white · model not set · worker done, PR #693 open, CI running · CI 2 of 7 passed · last move 0 min ago
 
 ### 👉 Next for you, in this order
 
@@ -320,137 +320,7 @@ Paste this:
 1632
 ```
 
-**#29 · 1633** `G` Wire Team V study 1627: Home (phone)  
-`░░░░░░░░░░` **0.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
-
-Paste this:
-
-```text
-1633
-```
-
-**#30 · 1634** `G` Wire Team V study 1629: Home (sideways)  
-`░░░░░░░░░░` **0.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
-
-Paste this:
-
-```text
-1634
-```
-
-**#31 · 1637** `G` Polish wave: Home  
-`░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
-
-Paste this:
-
-```text
-1637
-```
-
-**#32 · 1638** `G` Polish wave: Start and Join  
-`░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
-
-Paste this:
-
-```text
-1638
-```
-
-**#33 · 1639** `G` Polish wave: Select League  
-`░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
-
-Paste this:
-
-```text
-1639
-```
-
-**#34 · 1640** `G` Polish wave: Club Assignment  
-`░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
-
-Paste this:
-
-```text
-1640
-```
-
-**#35 · 1641** `G` Polish wave: Transfer  
-`░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
-
-Paste this:
-
-```text
-1641
-```
-
-**#36 · 1642** `G` Polish wave: Season and Final Winner  
-`░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
-
-Paste this:
-
-```text
-1642
-```
-
-**#37 · 1643** `G` Polish wave: Rivalry and Legacy  
-`░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
-
-Paste this:
-
-```text
-1643
-```
-
-**#38 · 1644** `G` Polish wave: Career screens  
-`░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
-
-Paste this:
-
-```text
-1644
-```
-
-**#39 · 1645** `G` Polish wave: Rules and Settings  
-`░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
-
-Paste this:
-
-```text
-1645
-```
-
-**#40 · 1646** `G` Wire Team V study 1086: Home (desktop polish)  
-`░░░░░░░░░░` **0.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
-
-Paste this:
-
-```text
-1646
-```
-
-**#41 · 1659** `G` Standings phone: wire adopted design (study 1255)  
-`░░░░░░░░░░` **0.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
-
-Paste this:
-
-```text
-1659
-```
-
-**#42 · 1591** `G` Home soundtrack: swap to Nik's Audius top 10  
+**#29 · 1591** `G` Home soundtrack: swap to Nik's Audius top 10  
 `░░░░░░░░░░` **0.0000 %**  
 🟣 Team purple · model not set · Claude lane: Opus Medium for the change, Sonnet for the live listen and browser check: type 'Job 1591'
 
@@ -460,7 +330,7 @@ Type this in Claude lane: Opus Medium for the change, Sonnet for the live listen
 Job 1591
 ```
 
-**#43 · 1649** `G` Old CSS: archive the dead sheets (after the r71 release)  
+**#30 · 1649** `G` Old CSS: archive the dead sheets (after the r71 release)  
 `░░░░░░░░░░` **0.0000 %**  
 🟤 Team brown · model not set · Claude lane: Sonnet, medium: type 'Job 1649'
 
@@ -470,7 +340,7 @@ Type this in Claude lane: Sonnet, medium:
 Job 1649
 ```
 
-**#44 · 1650** `G` Service worker: can an old page ever mix with new files? (report only)  
+**#31 · 1650** `G` Service worker: can an old page ever mix with new files? (report only)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1650'
 
@@ -494,21 +364,73 @@ Job 1650
 `░░░░░░░░░░` **0.0000 %**  
 🟣 Team purple · **Claude Opus** · High effort · Claude lane: Opus fixing #666 after two failed browser checks
 
-**#4 · 1654** `G` Second attempt: Rule Book (PR 687)  
+**#4 · 1633** `G` Wire Team V study 1627: Home (phone)  
+`░░░░░░░░░░` **0.0000 %**  
+🟢 Team green · **Claude** · High effort · Claude lane
+
+**#5 · 1634** `G` Wire Team V study 1629: Home (sideways)  
+`░░░░░░░░░░` **0.0000 %**  
+🟢 Team green · **Claude** · High effort · Claude lane
+
+**#6 · 1637** `G` Polish wave: Home  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **Claude** · Claude lane
+
+**#7 · 1638** `G` Polish wave: Start and Join  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **Claude** · Claude lane
+
+**#8 · 1639** `G` Polish wave: Select League  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **Claude** · Claude lane
+
+**#9 · 1640** `G` Polish wave: Club Assignment  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **Claude** · Claude lane
+
+**#10 · 1641** `G` Polish wave: Transfer  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **Claude** · Claude lane
+
+**#11 · 1642** `G` Polish wave: Season and Final Winner  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **Claude** · Claude lane
+
+**#12 · 1643** `G` Polish wave: Rivalry and Legacy  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **Claude** · Claude lane
+
+**#13 · 1644** `G` Polish wave: Career screens  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **Claude** · Claude lane
+
+**#14 · 1645** `G` Polish wave: Rules and Settings  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **Claude** · Claude lane
+
+**#15 · 1646** `G` Wire Team V study 1086: Home (desktop polish)  
+`░░░░░░░░░░` **0.0000 %**  
+🟢 Team green · **Claude** · High effort · Claude lane
+
+**#16 · 1654** `G` Second attempt: Rule Book (PR 687)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · **Claude (Sonnet)** · Claude lane
 
-**#5 · 1655** `G` Second attempt: Trophy Room (PR 686)  
+**#17 · 1655** `G` Second attempt: Trophy Room (PR 686)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · **Claude (Sonnet)** · Claude lane
 
-**#6 · 1656** `G` Second attempt: Club (PR 684)  
+**#18 · 1656** `G` Second attempt: Club (PR 684)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · **Claude (Sonnet)** · Claude lane
 
-**#7 · 1660** `G` Rule Book phone: wire adopted design (study 1429)  
+**#19 · 1659** `G` Standings phone: wire adopted design (study 1255)  
 `░░░░░░░░░░` **0.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · waits for 1654
+🟢 Team green · **Claude** · High effort · Claude lane
+
+**#20 · 1660** `G` Rule Book phone: wire adopted design (study 1429)  
+`░░░░░░░░░░` **0.0000 %**  
+🟢 Team green · **Claude** · High effort · Claude lane
 
 **Done, waiting for the next release:** 1583, 1584, 1585, 1586
 
@@ -609,11 +531,11 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T03:14:55Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T03:25:25Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
-| Gameplay audits | 112 of 146 | 20 | 14 |
+| Gameplay audits | 112 of 146 | 21 | 13 |
 | Screen fixes | 60 of 266 | 69 | 137 |
 | Match desktop to mockups | 0 of 14 | 6 | 8 |
 | Phone mockup studies | 23 of 70 | 47 | 0 |
