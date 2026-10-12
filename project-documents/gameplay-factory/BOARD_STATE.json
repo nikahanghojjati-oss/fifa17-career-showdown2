@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-12 5:25 PM Boston time (EDT)",
+ "generated": "2026-10-12 5:29 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 94,
@@ -908,11 +908,11 @@
      "title": "Release r74: Final Winner exit fix (1.9.1-r74)",
      "draft": false,
      "branch": "gameplay/release-r74",
-     "sha": "a123f96a5dad2b87defad5f4df38aeab19dcb6ab",
-     "updated": "2026-10-12T20:31:10Z",
+     "sha": "72b95ca6abf7c6a6db0b1d04f32c64c47b69f7a3",
+     "updated": "2026-10-12T21:26:02Z",
      "gates": {
-      "passed": 8,
-      "running": 0,
+      "passed": 0,
+      "running": 7,
       "failed": 0,
       "cancelled": 0
      }
@@ -2572,11 +2572,11 @@
     "title": "Release r74: Final Winner exit fix (1.9.1-r74)",
     "draft": false,
     "branch": "gameplay/release-r74",
-    "sha": "a123f96a5dad2b87defad5f4df38aeab19dcb6ab",
-    "updated": "2026-10-12T20:31:10Z",
+    "sha": "72b95ca6abf7c6a6db0b1d04f32c64c47b69f7a3",
+    "updated": "2026-10-12T21:26:02Z",
     "gates": {
-     "passed": 8,
-     "running": 0,
+     "passed": 0,
+     "running": 7,
      "failed": 0,
      "cancelled": 0
     }
