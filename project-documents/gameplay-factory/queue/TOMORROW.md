@@ -199,6 +199,12 @@ Legacy desktop studies:
 376 404 432 460
 ```
 
+Trophy Room desktop studies:
+
+```text
+392 420 448 476
+```
+
 Final Winner desktop studies:
 
 ```text
@@ -215,6 +221,12 @@ Rule Book desktop studies:
 
 ```text
 380 408 436 464
+```
+
+Standings desktop studies:
+
+```text
+386 414 442 470
 ```
 
 <!-- released:end -->
