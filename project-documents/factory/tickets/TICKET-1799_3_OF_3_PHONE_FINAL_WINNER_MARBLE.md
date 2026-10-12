@@ -8,7 +8,7 @@ One image only. It is a tall phone picture of the Final Winner screen: the same 
    - Picture 2 (the look and the two men): **NEXT_FINAL_WINNER.png** https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/mockups/NEXT_FINAL_WINNER.png
 3. Paste the prompt below exactly. If ChatGPT asks a question or offers to change it, reply: `No, use my prompt exactly.`
 4. Check the picture:
-   - tall phone shape, same layout as picture 1: every title, card, button and word in the same place
+   - tall phone shape, same layout as picture 1: every panel, title, card, button and word in the same position, size and order (the game code keeps this layout; only the look changes)
    - every word is spelled exactly as in the word list (no new words, no missing words)
    - the look is the black marble with gold veins and polished gold of picture 2; no stadium-night blue, no glass panels, no neon
    - Daniel (curly hair, white shirt) on the LEFT and Nik (beard, black shirt) on the RIGHT, faces like picture 2
@@ -28,7 +28,7 @@ MOST IMPORTANT: only use words that are already in picture 1, letter for letter.
 
 I am attaching two pictures. Picture 1 is a tall phone screen of a football career game. Picture 2 is the desktop version of the same screen in its final premium look.
 
-Redraw picture 1 as a tall phone screen in the exact look of picture 2. Keep picture 1's layout exactly: the same title, cards, buttons, tabs and words, in the same places and sizes, in the same tall shape. Change only the look: use picture 2's black marble with gold veins, polished brushed gold frames and warm controlled gold light, and set the screen in the golden stadium stage of picture 2 with floodlights, falling gold confetti and black marble columns. The cards become black marble and black lacquer panels with thin gold edges, like picture 2. The main button is polished gold. No glass panels, no neon, no blue stadium-night tint and no new effects.
+Redraw picture 1 as a tall phone screen in the exact look of picture 2. Keep picture 1's layout exactly: the same title, cards, buttons, tabs and words, with every panel in the same position, size and order, in the same tall shape. Do not redesign or rearrange anything. Change only the look: use picture 2's black marble with gold veins, polished brushed gold frames and warm controlled gold light, and set the screen in the golden stadium stage of picture 2 with floodlights, falling gold confetti and black marble columns. The cards become black marble and black lacquer panels with thin gold edges, like picture 2. The main button is polished gold. No glass panels, no neon, no blue stadium-night tint and no new effects.
 
 The two men must look exactly like picture 2: same faces, hair, beards and black suits (Daniel has curly hair and a white shirt, Nik has a beard and a black shirt). Daniel stays on the LEFT and Nik on the RIGHT, never flipped. Show both men's full heads and all their hair. Keep the gold cup between the two men exactly as in picture 1. There is no tab bar on this screen; do not add one. 
 
