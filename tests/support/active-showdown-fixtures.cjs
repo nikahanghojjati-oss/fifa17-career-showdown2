@@ -21,4 +21,19 @@ function closed(p,totals){const intent=Terminal.prepare(finalReconciliation(p,to
 // CareerModeProductionSharedSeasonResults.getState() (js/sparkSharedSeasonResults.js:112,146; js/productionSharedSeasonResults.js:73)
 function seasonResults({rivalryId,seasonNumber,managerRole="playerOne",phase=null,published=[],own=null,opponent=null}){const state=phase?{phase,revision:published.length,publishedRoles:[...published],operationIds:[],operationHashes:[],baseRevisions:[],actorRoles:[...published]}:null,ready=phase==="RESULTS_READY",other=managerRole==="playerOne"?"playerTwo":"playerOne";let allResults=null;if(ready&&own&&opponent){allResults={};allResults[managerRole]=own;allResults[other]=opponent;}return {ok:true,revision:state?state.revision:0,state,managerRole,seasonNumber,ownResult:own,opponentResult:opponent,allResults,setup:null,rivalryId};}
 module.exports={SESSION,identity,pair,multi,multiFor,history,finalReconciliation,closed,seasonResults,result,projection,finalFor};
+// JOB-1651: browser storage plus the existing read-only provider snapshot shape.
+// Local active state stays routable while remote completion is presented: remote
+// convergence never automatically applies completed state to the local save (Candidate C).
+function completedShowdownStorage(){
+  const own=result({leaguePosition:1,leaguePoints:101,leagueGoals:102,championsLeague:true});
+  const opponent=result({leaguePosition:2,leaguePoints:88,leagueGoals:90});
+  const p=projection({totalSeasons:1,seasons:[[own,opponent]]});
+  const at="2026-10-01T12:00:00.000Z";
+  const completed={schemaVersion:2,integrityWarnings:[],id:"flash-guard-completed",name:"Daniel vs Nik",managers:{playerOne:"Daniel",playerTwo:"Nik"},totalRounds:1,currentRound:1,status:"Completed",selectedLeague:{id:"premier_league",name:"Premier League"},clubs:{playerOne:"Arsenal",playerTwo:"Liverpool"},score:{playerOne:p.managerRecords.playerOne.totalPoints,playerTwo:p.managerRecords.playerTwo.totalPoints},transferChallenges:[{seasonNumber:1,status:"completed",signings:{playerOne:[],playerTwo:[]},guesses:{againstPlayerOne:[],againstPlayerTwo:[]}}],rounds:JSON.parse(JSON.stringify(p.seasonHistory)),createdAt:at,updatedAt:at,completedAt:at,archivedAt:at};
+  const active={...completed,id:"flash-guard-results-ready",status:"Ready",rounds:[],score:{playerOne:0,playerTwo:0},completedAt:null,archivedAt:null};
+  const ready={identity:identity(),pair:pair(p.rivalryId),multiSeason:multi({rivalryId:p.rivalryId,totalSeasons:1}),history:null,finalReconciliation:null,terminalClose:null,seasonResults:seasonResults({rivalryId:p.rivalryId,seasonNumber:1,phase:"RESULTS_READY",published:["playerOne","playerTwo"],own,opponent})};
+  const finished={...ready,pair:pair(p.rivalryId,{status:"waiting",connectionState:"closed"}),multiSeason:multiFor(p),history:history(p),finalReconciliation:finalReconciliation(p),terminalClose:closed(p)};
+  return {storage:{"careerModeShowdown.activeShowdown":JSON.stringify(active),"careerModeShowdown.legacyShowdowns":JSON.stringify([completed])},active,completed,ready,finished};
+}
+module.exports.completedShowdownStorage=completedShowdownStorage;
 if(require.main===module){const p=projection({totalSeasons:1,seasons:[[result({championsLeague:true}),result()]]});Final.verifyProjection(finalReconciliation(p));const c=closed(p);Terminal.verifyIntent(c.terminalWitness);console.log(c.phase,c.terminalWitness.managerTotals.playerOne,c.terminalWitness.winner,multiFor(p).phase);}

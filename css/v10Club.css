@@ -533,3 +533,81 @@ html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: a
   }
   #clubWheelScreen.cl-on #sharedShowdownSeasonChoice .sharedSeasonChoices { flex-wrap: wrap; }
 }
+/* JOB-1653: the frozen Club sheet has its own important fades. Two Club ids
+   outrank them for the app's effective preference, including REDUCE MOTION
+   when the device has no reduced-motion preference. Script effects settle in
+   js/clubScreenV10.js; CSS effects and their delays are instant here. */
+html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen,
+html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *,
+html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::before,
+html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::after {
+  animation-duration: .001ms !important;
+  animation-delay: 0ms !important;
+  transition-duration: .001ms !important;
+  transition-delay: 0ms !important;
+}
+
+/* JOB-1656 (second attempt for JOB-1153/1154/1155): at 1280x650 and 1366x768
+   the Club screen keeps bug-list-1's single-view composition (Team V's stage,
+   art, labels and progress discs untouched; <main> does not scroll), and
+   768x1024 stays on bug-list-1's tablet design. The only change is the one
+   under-44px target, the header identity button, raised to 44px with the fixed
+   header re-centred in the nav bar so the chips' text stays where it was.
+   Selectors match v10Shell's specificity. */
+@media (min-width: 1200px) and (max-width: 1320px) and (min-height: 620px) and (max-height: 680px) and (orientation: landscape),
+       (min-width: 1321px) and (max-width: 1420px) and (min-height: 730px) and (max-height: 810px) and (orientation: landscape) {
+  html[data-v10-screen="clubWheelScreen"]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader {
+    top: calc((var(--sd-nav-top-h, 52px) - 44px) / 2);
+  }
+  html[data-v10-screen="clubWheelScreen"]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader #onlinePlayerIdentityBadge {
+    min-height: 44px;
+  }
+}
+
+/* JOB-1173 (Team V adopted study desktop-a-1173, built into the live screen): desktop only, so phone, sideways phone
+   and tablet keep their own compositions. Faithful to the live ready state (Daniel left, both heads whole, same
+   words and tap order). The Team V sheets and plate are untouched; the study's three additions are layered on the
+   plate through their own selectors. Short desktops (html.compact) keep their own contained layout.
+   - Gold-framed lower deck: drawn inside the plate world in plate units (x 125..1411, y 608..750, the L.center
+     band club.js already registers the two club cards to), so it follows the plate at any desktop size.
+   - Framed VS plate behind RIVALRY / VS, in the stage's own VS box (isolated, behind the slam ring).
+   - Action row centred under the deck: the study's 2 : 1 buttons with a gold bevel, one tier lower.
+   Static skins only: no animation or transition is added (JOB-1653 reduced-motion block still applies). */
+@media (min-width: 1200px) and (min-height: 700px) {
+  html:not(.compact) #app #clubWheelScreen.cl-on #world::after {
+    content: ""; position: absolute; box-sizing: border-box; pointer-events: none;
+    left: calc(var(--k) * 125px); top: calc(var(--k) * 608px);
+    width: calc(var(--k) * 1286px); height: calc(var(--k) * 142px);
+    background: linear-gradient(120deg, #18140df5, #050608fa 37%, #12100cf5);
+    border: 1px solid #d2aa59;
+    box-shadow: inset 0 0 0 calc(var(--k) * 2.4px) #302514, inset 0 0 0 calc(var(--k) * 4.2px) #b4914970,
+      0 calc(var(--k) * 5px) calc(var(--k) * 12px) #0009;
+  }
+  html:not(.compact) #app #clubWheelScreen.cl-on .clubVs::after {
+    content: ""; position: absolute; z-index: -2; box-sizing: border-box; pointer-events: none;
+    inset: calc(var(--k) * 5px) calc(var(--k) * 9px);
+    background: linear-gradient(145deg, #0c0c0dcf, #060708ed);
+    border: 1px solid #b18d49;
+    box-shadow: inset 0 0 0 calc(var(--k) * 2px) #16130d, 0 calc(var(--k) * 5px) calc(var(--k) * 11px) #0009;
+  }
+  html:not(.compact) #app #clubWheelScreen.cl-on .clubAssignmentEyebrow,
+  html:not(.compact) #app #clubWheelScreen.cl-on #clubPackStatus,
+  html:not(.compact) #app #clubWheelScreen.cl-on #clubAssignmentLeague {
+    text-shadow: 0 1px 6px #000, 0 0 12px #000c;
+  }
+  html:not(.compact) #app #clubWheelScreen.cl-on .menuButton,
+  html:not(.compact) #app #clubWheelScreen.cl-on .backButton {
+    top: calc(var(--btnTop) + var(--s) * 11px); height: calc(var(--s) * 50px);
+  }
+  html:not(.compact) #app #clubWheelScreen.cl-on #openClubPack:not(:disabled) {
+    width: calc(var(--s) * 373px); left: calc(var(--btnCx) - var(--s) * 283px);
+  }
+  html:not(.compact) #app #clubWheelScreen.cl-on #clubAssignmentBack {
+    width: calc(var(--s) * 177px); left: calc(var(--btnCx) + var(--s) * 106px);
+    border-color: #a6884e; background: #090b0eee; color: #efe6cf;
+  }
+  html:not(.compact) #app #clubWheelScreen.cl-on .menuButton:not(:disabled) {
+    background: linear-gradient(#fff0ad, #f2c45b 45%, #c38b29); border-color: #fff1b8;
+    box-shadow: inset 0 0 0 calc(var(--k) * 2.4px) #e3b550, 0 0 calc(var(--k) * 11px) #f2c45b44;
+  }
+}

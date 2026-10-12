@@ -13,7 +13,7 @@ let optionalModulesInitialized = false;
 let optionalOpenRequestId = 0;
 let gameplayRuntimeState = "idle";
 let gameplayRuntimePromise = null;
-let gameplayRuntimeInitialized = false;
+let gameplayRuntimeInitialized = 0; // starters done
 let requiredFootballVisualPromise = null;
 
 function optionalAssetUrl(path){
@@ -154,7 +154,6 @@ return promise;
 }
 
 function initializeGameplayRuntime(){
-if(gameplayRuntimeInitialized){ return; }
 
 const initializers = [
 ["initializeShowdownUI", window.initializeShowdownUI],
@@ -164,14 +163,13 @@ const initializers = [
 ["initializeSeasonEngine", window.initializeSeasonEngine]
 ];
 
-initializers.forEach(([name, initializer]) => {
+for(;gameplayRuntimeInitialized<initializers.length;gameplayRuntimeInitialized++){
+const [name, initializer] = initializers[gameplayRuntimeInitialized];
 if(typeof initializer !== "function"){
 throw new Error(`Gameplay initializer is unavailable: ${name}`);
 }
 initializer();
-});
-
-gameplayRuntimeInitialized = true;
+}
 }
 
 async function loadGameplayRuntimeFiles(){
@@ -540,7 +538,8 @@ else { actions.appendChild(button); }
 function bindOptionalModuleButton(button, moduleName, marker){
 if(!button || button.dataset[marker] === "true"){ return; }
 button.dataset[marker] = "true";
-button.addEventListener("click", () => openOptionalModule(moduleName));
+// JOB-1658: via window.openOptionalModule (in-flight dedupe).
+button.addEventListener("click", () => (typeof window.openOptionalModule === "function" ? window.openOptionalModule : openOptionalModule)(moduleName));
 }
 
 function initializeOptionalModules(){

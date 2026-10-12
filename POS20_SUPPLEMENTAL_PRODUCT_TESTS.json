@@ -1129,6 +1129,39 @@
       ]
     },
     {
+      "path": "tests/contracts/job-1652-settings-motion-contracts.cjs",
+      "patterns": [
+        "^js/storage\\.js$",
+        "^js/settings\\.js$",
+        "^js/diagnostics\\.js$",
+        "^css/rulesSettingsV10\\.css$",
+        "^tests/contracts/job-1652-settings-motion-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/qol-1-7-recovery-account-contracts.cjs",
+      "patterns": [
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^js/connectPlayersScreenV10\\.js$",
+        "^css/connectPlayersV10\\.css$",
+        "^tests/contracts/qol-1-7-recovery-account-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/qol-3-6-keep-drafts-contracts.cjs",
+      "patterns": [
+        "^js/storage\\.js$",
+        "^js/productionSharedSeasonResults\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^tests/contracts/qol-3-6-keep-drafts-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/showdown-gate-coverage-contracts.cjs",
       "patterns": [
         "^\\.github/workflows/",
@@ -1178,6 +1211,48 @@
         "^css/v10Transfer\\.css$",
         "^data/transferOptions\\.js$",
         "^tests/contracts/studio-z-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/career-start-plain-errors-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedCareerStart\\.js$",
+        "^tests/contracts/career-start-plain-errors-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/showdown-delete-clears-drafts-contracts.cjs",
+      "patterns": [
+        "^js/showdownUI\\.js$",
+        "^js/legacy\\.js$",
+        "^js/settings\\.js$",
+        "^tests/contracts/showdown-delete-clears-drafts-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/completed-showdown-wins-contracts.cjs",
+      "patterns": [
+        "^js/showdownUI\\.js$",
+        "^tests/contracts/completed-showdown-wins-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/football-photo-retry-contracts.cjs",
+      "patterns": [
+        "^js/footballVisuals\\.js$",
+        "^tests/contracts/football-photo-retry-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/optional-modules-retry-contracts.cjs",
+      "patterns": [
+        "^js/optionalModules\\.js$",
+        "^tests/contracts/optional-modules-retry-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }

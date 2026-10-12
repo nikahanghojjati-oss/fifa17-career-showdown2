@@ -738,6 +738,7 @@
  #app #seasonEntry:not(.v10FinalMode):has(.season-review-panel:not(.hidden)) .v10SeasonStage .season-layout {
   padding-top:31.2dvh;
  }
+}
 
 /* JOB-1214: Full-HD Season Results. The registered first viewport still frames
    the artwork/title, while <main> owns the ONLY scroll. Review content and
@@ -827,8 +828,6 @@
  }
 }
 
-}
-
 /* JOB-1215: Season Results at 2560x1080 only. Keep Team V's artwork and
    title in the first viewport; main alone scrolls the full live content. */
 @media (min-width:2500px) and (max-width:2620px) and (min-height:1040px) and (max-height:1120px) {
@@ -911,6 +910,180 @@
   padding-top:31.2dvh;
  }
 }
+/* JOB-1216: Full-HD mockup typography and manager ink, adapter only.
+   Keep the live form/review in normal flow; phones and Final Winner are excluded. */
+@media (min-width:1880px) and (max-width:1960px) and (min-height:1040px) and (max-height:1120px) {
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .season-eyebrow {
+  top:10.9dvh;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage #screen-title {
+  top:16.78dvh;left:27.99%;width:43.49%;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .season-tagline {
+  top:calc(16.78dvh + 6.44vw + 4px);
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage #scoring-heading {
+  font-size:clamp(28px,1.95vw,30px);
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .scoring-rule {
+  font-size:clamp(16px,.91vw,18px);line-height:1.2;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .scoring-trophy {
+  max-height:16.2dvh;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid:not(.hidden) {
+  gap:1.3vw;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonResultCard .seasonManagerHeader h3 {
+  font-size:clamp(36px,2.6vw,40px);line-height:1;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .entry-panel--nik input[type=number] {
+  border-color:rgb(216 221 229 / .55);
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .entry-panel--nik input[type=checkbox] {
+  background:linear-gradient(#06080a 0 0) center/16px 16px no-repeat,
+   linear-gradient(#d8dde5 0 0) center/20px 20px no-repeat;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .entry-panel--nik input[type=checkbox]:checked {
+  background:linear-gradient(#f2c45b 0 0) center/20px 20px no-repeat;
+ }
+}
+
+
+/* JOB-1217: long manager/club identities and three-digit values stay inside the
+   existing Season Results cards; Team V's art, tap order and phone flow are unchanged. */
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .manager-card-header {
+  min-width:0;
+  grid-template-columns:auto minmax(0,1fr);
+}
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .manager-card-header :is(.manager-name,.manager-club) {
+  min-width:0; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonManagerHeader { min-width:0; }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonManagerHeader :is(h2,h3) {
+  min-width:0; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard>label,
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .field-row { min-width:0; }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .field-row :is(label,span) {
+  min-width:0; overflow-wrap:anywhere;
+}
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .field-row input[type=number] {
+  box-sizing:border-box; max-width:100%;
+}
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel :is(.seasonReviewGrid,.seasonSummaryCard,.summaryClub,.summaryLine) {
+  min-width:0; overflow-wrap:anywhere;
+}
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-action-row button {
+  max-width:100%; white-space:normal; overflow-wrap:anywhere;
+}
+
+
+/* JOB-1218: Season Results touch hit boxes and neighbouring control spacing only.
+   Fine-pointer desktop and Final Winner are unchanged; visual source stays frozen. */
+@media (max-width:760px), (pointer:coarse) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(button,a[href],[role="button"],.season-phone-tab,.season-phone-scoring-open,.season-phone-sheet-close) {
+  box-sizing:border-box;min-width:44px;min-height:44px;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-phone-toolbar,
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout > :has(label[for="season-phone-tab-daniel"]) {
+  column-gap:8px;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.season-action-row,.seasonReviewActions) {
+  gap:8px;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.achievementChecks,.manager-fields) {
+  gap:8px;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .achievementChecks label {
+  min-height:44px;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .achievementChecks input[type=checkbox] {
+  box-sizing:border-box;min-width:44px;min-height:44px;width:44px;height:44px;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .field-row input[type=number] {
+  box-sizing:border-box;min-width:44px;min-height:44px;
+ }
+}
+
+
+/* JOB-1219: explicit keyboard ring for every live Season Results control.
+   The hidden phone radio toggles show their focus on the matching visual label. */
+#app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(button,a[href],input:not([type="hidden"]),select,textarea,summary,[role="button"],[tabindex]):focus-visible {
+ outline:3px solid #fff3c2 !important;outline-offset:3px !important;
+ box-shadow:0 0 0 2px #07080a;
+}
+#app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #season-phone-tab-daniel:focus-visible ~ .season-phone-toolbar .season-phone-tab--daniel,
+#app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #season-phone-tab-nik:focus-visible ~ .season-phone-toolbar .season-phone-tab--nik,
+#app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #season-phone-scoring-toggle:focus-visible ~ .season-phone-toolbar .season-phone-scoring-open {
+ outline:3px solid #fff3c2 !important;outline-offset:3px !important;
+}
+/* Respect system and in-game reduced-motion preferences without clearing
+   transform-based positioning. Native WAAPI feedback is already reduced in Team V JS. */
+@media (prefers-reduced-motion: reduce) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage,
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage *,
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage *::before,
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage *::after {
+  animation-duration:.01ms !important;animation-delay:0ms !important;
+  animation-iteration-count:1 !important;
+  transition-duration:.01ms !important;transition-delay:0ms !important;
+  scroll-behavior:auto !important;
+ }
+}
+html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage,
+html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage *,
+html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage *::before,
+html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage *::after {
+ animation-duration:.01ms !important;animation-delay:0ms !important;
+ animation-iteration-count:1 !important;
+ transition-duration:.01ms !important;transition-delay:0ms !important;
+ scroll-behavior:auto !important;
+}
+
+/* JOB-1289: desktop Final Winner, built from Team V's adopted study desktop-a-1289 and NEXT_FINAL_WINNER.
+   Desktop only (1200x700 and up); phone, sideways and tablet keep Team V's own rules. One unit (--fwu) is 1/100 of the
+   stage width, shrunk on a short stage; positions are fractions of the stage so nothing scrolls. Words, taps and order are the live ones. */
+@media (min-width:1200px) and (min-height:700px) {
+ #app #seasonEntry .v10FinalStage { container-type:size; --fwu:min(1cqw,1.89cqh); --sd-z-ui:5; }
+ #app #seasonEntry .v10FinalStage #finalWinnerScreen { inset:0; width:100%; max-width:none; margin:0; padding:0; }
+ #app #seasonEntry .v10FinalStage .sd-stage__plate { filter:contrast(1.06) saturate(.92); }
+ #app #seasonEntry .v10FinalStage .sd-stage__layer--plate::after { content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(180deg,#03030370,transparent 24%,transparent 64%,#02020290),radial-gradient(ellipse at 50% 32%,transparent 15%,#05050520 62%); }
+ #app #seasonEntry .v10FinalStage .finalWinnerTitleBlock { left:50%; top:7%; width:34%; transform:translateX(-50%); row-gap:0; }
+ #app #seasonEntry .v10FinalStage .finalWinnerEyebrow { font-size:max(10px,calc(var(--fwu)*1.05)); line-height:1; letter-spacing:.38em; padding-inline-start:.38em; }
+ #app #seasonEntry .v10FinalStage .finalWinnerWordmark { width:calc(var(--fwu)*29.2); max-width:100%; margin:calc(var(--fwu)*.7) auto 0; }
+ #app #seasonEntry .v10FinalStage .finalWinnerTagline { margin:calc(var(--fwu)*.3) 0 0; font-size:max(10px,calc(var(--fwu)*1.1)); line-height:1; letter-spacing:.3em; padding-inline-start:.3em; }
+ #app #seasonEntry .v10FinalStage .finalWinnerCrown--daniel,
+ #app #seasonEntry .v10FinalStage .finalWinnerCrown--nik { left:50%; top:3.2%; width:calc(var(--fwu)*1.9); height:calc(var(--fwu)*1.5); }
+ #app #seasonEntry .v10FinalStage .finalWinnerHeroCopySlot { left:50%; top:max(23.6%,calc(7% + var(--fwu)*9)); width:27.2%; height:auto; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:0; }
+ #app #seasonEntry .v10FinalStage .finalWinnerStateHeading { font-size:max(9px,calc(var(--fwu)*.75)); line-height:1; letter-spacing:.36em; padding-inline-start:.36em; }
+ #app #seasonEntry .v10FinalStage .finalWinnerOutcome { margin:calc(var(--fwu)*.8) 0 0; font-size:max(24px,calc(var(--fwu)*2.7)); line-height:1; letter-spacing:.075em; }
+ #app #seasonEntry .v10FinalStage .finalWinnerTotals { width:100%; margin-top:calc(var(--fwu)*.8); grid-template-columns:1fr 0 1fr; align-items:center; }
+ #app #seasonEntry .v10FinalStage .finalWinnerManager small { font-size:max(10px,calc(var(--fwu)*.8)); letter-spacing:.16em; }
+ #app #seasonEntry .v10FinalStage .finalWinnerManager .sd-number { font-size:max(30px,calc(var(--fwu)*4.1)); line-height:1.05; }
+ #app #seasonEntry .v10FinalStage .finalWinnerScoreDash { padding:0; }
+ #app #seasonEntry .v10FinalStage .winnerTrophySlot { left:50%; top:32.5%; width:calc(var(--fwu)*16); height:44%; transform:translateX(-50%); translate:none; scale:none; overflow:visible; }
+ #app #seasonEntry .v10FinalStage .finalWinnerResultsPanel { left:20.4%; width:59.3%; top:72.4%; bottom:auto; height:max(16.8%,112px); grid-template-columns:34% 1fr; border:2px solid #e8c465; background:linear-gradient(115deg,#111110f2,#060706ed); box-shadow:inset 0 0 0 3px #574119,inset 0 0 0 5px #e4c56a50; clip-path:polygon(1.2% 0,98.8% 0,100% 8%,100% 92%,98.8% 100%,1.2% 100%,0 92%,0 8%); }
+ #app #seasonEntry .v10FinalStage .finalWinnerMetaStrip { grid-template-columns:1.5fr 1fr 1fr; background:none; border-right:1px solid #b38d414d; }
+ #app #seasonEntry .v10FinalStage .finalWinnerMetaCell { padding:calc(var(--fwu)*.25); }
+ #app #seasonEntry .v10FinalStage .finalWinnerMetaCell span,
+ #app #seasonEntry .v10FinalStage .finalWinnerMetaCell small { font-size:max(8.5px,calc(var(--fwu)*.66)); letter-spacing:.06em; color:#eee7d4; }
+ #app #seasonEntry .v10FinalStage .finalWinnerMetaCell strong { font-size:max(24px,calc(var(--fwu)*2.3)); line-height:1.1; }
+ #app #seasonEntry .v10FinalStage .finalWinnerHonours { padding:calc(var(--fwu)*.5) calc(var(--fwu)*.65) calc(var(--fwu)*.25); grid-template-rows:auto repeat(4,1fr); }
+ #app #seasonEntry .v10FinalStage .finalWinnerHonoursHead { padding-bottom:calc(var(--fwu)*.25); font-size:max(8.5px,calc(var(--fwu)*.73)); letter-spacing:.09em; }
+ #app #seasonEntry .v10FinalStage .finalWinnerTrophyMetric { font-size:max(8.5px,calc(var(--fwu)*.75)); letter-spacing:.075em; border-bottom:0; border-top:1px solid #c49d4944; }
+ #app #seasonEntry .v10FinalStage .finalWinnerTrophyMetric--total { border-top-color:#e1b65077; }
+ #app #seasonEntry .v10FinalStage .finalWinnerTrophyMetric img { width:max(12px,calc(var(--fwu)*.95)); height:max(14px,calc(var(--fwu)*1.15)); }
+ #app #seasonEntry .v10FinalStage .finalWinnerMetricValue { font-size:max(15px,calc(var(--fwu)*1.5)); }
+ #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot { display:block; left:35.4%; width:29.2%; top:auto; bottom:3%; height:auto; max-height:28vh; padding:4px 6px; box-sizing:border-box; }
+ #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit { width:100%; }
+ #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions { width:100%; margin:0; gap:calc(var(--fwu)*1.6); }
+ #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button { flex:1 1 0; min-width:0; min-height:max(44px,calc(var(--fwu)*2.9)); padding:0 6px; white-space:nowrap; border:2px solid #e8c267; border-radius:0; background:linear-gradient(#161616,#080908); color:#f5eacb; font:700 max(10.5px,calc(var(--fwu)*.85))/1 var(--sd-font-condensed); letter-spacing:.08em; box-shadow:inset 0 0 0 2px #88642b55; clip-path:polygon(3% 0,97% 0,100% 13%,100% 87%,97% 100%,3% 100%,0 87%,0 13%); }
+ #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions .backButton { flex-grow:1.12; background:linear-gradient(#fff0b0,#e4b94b 65%,#a47723); color:#17130a; box-shadow:none; }
+ #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button:hover { filter:brightness(1.15); }
+ #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button:focus-visible { outline:3px solid #fff5c4; outline-offset:-6px; }
+}
+
 `;
     parent.appendChild(style);
   }

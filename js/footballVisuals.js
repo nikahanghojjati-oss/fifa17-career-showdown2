@@ -36,6 +36,13 @@ function preloadFootballVisualAsset(asset){
     });
 
     footballVisualPreloads.set(asset.id, promise);
+    // A temporary load failure must not prevent another visit from trying again.
+    // Keep successful and still-loading photographs cached.
+    promise.catch(() => {
+        if(footballVisualPreloads.get(asset.id) === promise){
+            footballVisualPreloads.delete(asset.id);
+        }
+    });
     return promise;
 }
 
