@@ -151,7 +151,7 @@ async function load(){
   try{const r=await rawGet(ref,PATH);if(!r.ok)throw 0;D=await r.json()}catch(e){paint(true,true);return}
   try{const q=await rawGet(ref,M+"BATCH.json");if(q.ok)B=await q.json()}catch(e){}
   if(Date.now()-nlast>240000){nlast=Date.now();try{const q=await rawGet(ref,M+"LEAD_NOTES.json");if(q.ok)N=await q.json()}catch(e){}}
-  if(Date.now()-vlast>60000){vlast=Date.now();try{const q=await rawGet(ref,M+"index.html");if(q.ok){const h=await q.text(),m=h.match(/const BUILD=(\d+)/);if(m&&+m[1]>BUILD){document.open();document.write(h);document.close();return}}}catch(e){}}
+  if(Date.now()-vlast>60000){vlast=Date.now();try{const q=await rawGet(ref,M+"index.html");if(q.ok){const h=await q.text(),m=h.match(/const BUILD=(\d+)/);if(m&&+m[1]>BUILD){location.replace(location.pathname+"?v="+m[1]);return}}}catch(e){}}
   lastOk=Date.now();paint();
 }
 const SK="megaSent",SENT_MS=45*60000;
