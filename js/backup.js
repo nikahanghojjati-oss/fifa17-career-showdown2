@@ -231,6 +231,9 @@ function downloadCareerModeBackupEnvelope(envelope){
 }
 
 async function exportCareerModeBackup(){
+    if(typeof window.flushPendingApplicationWrites === "function" && window.flushPendingApplicationWrites() === false){
+        throw new Error("Pending application writes could not be flushed safely.");
+    }
     const envelope = await createCareerModeBackupEnvelope();
     return downloadCareerModeBackupEnvelope(envelope);
 }
