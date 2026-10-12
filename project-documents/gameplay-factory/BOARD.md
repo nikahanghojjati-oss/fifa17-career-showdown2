@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 12 Oct, 11:46 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 12 Oct, 11:50 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r72** (main `9b514ec`, Mon 12 Oct 7:41 AM)
 
-🐕 **Barking: POS20 has waited 2 min for a machine.** · POS20 #304 6/16
+🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -22,7 +22,7 @@ Updated Mon 12 Oct, 11:46 AM Boston time. Bug hunting only, no new features unti
 
 **#2 · 1699** `G` Transfer challenge and Signing Entry: one Work mode job for the whole screen  
 `████████░░` **80.0000 %**  
-🟢 Team green · model not set · worker done, PR #767 open, CI green, waiting for the lead · CI 8 of 8 passed · last move 1 min ago
+🟢 Team green · model not set · worker done, PR #767 open, CI green, waiting for the lead · CI 8 of 8 passed · last move 5 min ago
 
 **#3 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -50,19 +50,19 @@ Updated Mon 12 Oct, 11:46 AM Boston time. Bug hunting only, no new features unti
 
 **#9 · 1752** `G` Audit and fix js/screens.js (second half (lines 406 to the end))  
 `██████░░░░` **60.0000 %**  
-🔵 Team blue · model not set · worker done, PR #815 open, CI failed · CI 6 of 8 passed · last move 11 min ago
+🔵 Team blue · model not set · worker done, PR #815 open, CI failed · CI 6 of 8 passed · last move 14 min ago
 
 **#10 · 1753** `G` Audit and fix js/restore.js (first half (lines 1 to 372))  
 `██████░░░░` **60.0000 %**  
-🟢 Team green · model not set · worker done, PR #818 open, CI failed · CI 15 of 16 passed · last move 5 min ago
+🟢 Team green · model not set · worker done, PR #818 open, CI failed · CI 15 of 16 passed · last move 9 min ago
 
 **#11 · 1766** `G` Audit and fix js/productionSharedMultiSeasonProgression.js (whole file)  
 `██████░░░░` **60.0000 %**  
-🟢 Team green · model not set · worker done, PR #819 open, CI failed · CI 15 of 16 passed · last move 2 min ago
+🟢 Team green · model not set · worker done, PR #819 open, CI failed · CI 15 of 16 passed · last move 6 min ago
 
 **#12 · 1778** `G` Audit and fix js/productionSharedFinalReconciliation.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #792 · CI 7 of 8 passed · last move 116 min ago
+🔵 Team blue · model not set · worker working, draft PR #792 · CI 7 of 8 passed · last move 2 h ago
 
 **#13 · 1779** `G` Audit and fix js/productionSharedShowdownSetup.js (whole file)  
 `████░░░░░░` **40.0000 %**  
@@ -74,19 +74,19 @@ Updated Mon 12 Oct, 11:46 AM Boston time. Bug hunting only, no new features unti
 
 **#15 · 1787** `G` Audit and fix js/storage.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #803 · CI 7 of 8 passed · last move 83 min ago
+🔵 Team blue · model not set · worker working, draft PR #803 · CI 7 of 8 passed · last move 87 min ago
 
 **#16 · 1791** `G` Free startup gzip headroom, then carry the navigation guard  
 `██████░░░░` **60.0000 %**  
-🟢 Team green · model not set · worker done, PR #815 open, CI failed · CI 6 of 8 passed · last move 10 min ago
+🟢 Team green · model not set · worker done, PR #815 open, CI failed · CI 6 of 8 passed · last move 14 min ago
 
 **#17 · 1796** `G` Work mode audit and fix js/optionalModules.js (first half (lines 1 to 292))  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #822 · CI 7 of 8 passed · last move 4 min ago
+🟢 Team green · model not set · worker working, draft PR #822 · CI 7 of 8 passed · last move 8 min ago
 
 **#18 · 1797** `G` Work mode audit and fix js/optionalModules.js (second half (lines 292 to the end))  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #821 · CI 7 of 8 passed · last move 5 min ago
+`████████░░` **75.3333 %**  
+🟢 Team green · model not set · worker done, PR #821 open, CI running · CI 8 of 15 passed · last move 1 min ago
 
 ### 👉 Next for you, in this order
 
