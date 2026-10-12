@@ -270,6 +270,13 @@ function renderReport(sheets) {
         return { ...sheet, live, hidden, errors, verdict: live.size === 0 ? 'DEAD' : live.size === sheet.selectors.length ? 'LIVE' : 'PARTLY LIVE' };
     });
     assert(totals.every(sheet => sheet.errors.size === 0), 'Unqueryable selector: do not silently call it dead');
+    const indexHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+    const revisionMatch = indexHtml.match(/<meta name="app-asset-revision" content="([^"]+)"/);
+    assert(revisionMatch, 'index.html must declare app-asset-revision');
+    const pinnedRevision = `r${revisionMatch[1].match(/-r(\d+)$/)?.[1] ?? '?'} (${revisionMatch[1]})`;
+    const gzipMatch = fs.readFileSync(path.join(root, 'tests/contracts/v10-foundation-contracts.cjs'), 'utf8').match(/gzip<=(\d+)/);
+    assert(gzipMatch, 'F10 startup gzip cap not found');
+    const gzipCap = gzipMatch[1];
     const lines = ['# Old CSS liveness · JOB-1648', '',
         `Audited source checkout: ${code(execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim())}.`, '',
         'Regenerate: `node scripts/old-css-liveness.mjs`. The script starts the existing static-site server automatically; `CMS_BASE_URL` can select an already served copy of the same checkout. This project ships index.html and runtime files directly; there is no build step.', '',
@@ -282,7 +289,7 @@ function renderReport(sheets) {
         '- Matching markup does not prove that a declaration wins the cascade, paints visible pixels, or that its sheet was enabled. DEAD means zero active-surface matches in this tour, not authorization to archive a sheet. Media, account/error/recovery states and interaction states beyond this matrix still need targeted review before removal.',
         '- Gameplay uses tests/support/active-showdown-fixtures.cjs for paired identity, active history/progression, results, final reconciliation and CLOSED terminal witness. Provider responses are in-memory fixtures; no remote write, sign-in, audio play or reconciliation Apply is performed. Transfer samples supply each phase to the production view getter and phase attribute used by the real V10 mount. Season Results opens through its real production adapter with fixture reads. Season Summary uses its real renderer with a local round record. Rivalry, Career Statistics, Trophy Room and Legacy are sampled both before and after supplying populated fixture models through their existing V10 mount APIs; Standings receives that same career model.', '',
         '## Startup and loader inventory', '',
-        'F10 in `tests/contracts/v10-foundation-contracts.cjs` pins `index.html` byte-for-byte to **r70 (1.9.1-r70)** and caps startup gzip at **37495 bytes**. These guards are unchanged.', '',
+        `F10 in \`tests/contracts/v10-foundation-contracts.cjs\` pins \`index.html\` byte-for-byte to the current release, **${pinnedRevision}** (read from the \`app-asset-revision\` meta in \`index.html\`), and caps startup gzip at **${gzipCap} bytes** (read from the F10 contract). These guards are unchanged.`, '',
         '`index.html` loads `css/app.css` directly, plus the external Google Fonts Barlow Condensed sheet. The other audited sheets are runtime-loaded. `loadRuntimeStyle` is defined by optionalModules.js, but not every call originates there:', '',
         '| Sheet | Direct index.html | Loaded by optionalModules.js | Other source references (including comments/guards) |',
         '| --- | --- | --- | --- |'];

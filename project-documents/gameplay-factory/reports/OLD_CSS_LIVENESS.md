@@ -1,6 +1,6 @@
 # Old CSS liveness · JOB-1648
 
-Audited source checkout: `c49f823097acef21528a641a51c772f4b47a359a`.
+Audited source checkout: `94adc63a88b8d399fbb96def800fc11e63965fe4`.
 
 Regenerate: `node scripts/old-css-liveness.mjs`. The script starts the existing static-site server automatically; `CMS_BASE_URL` can select an already served copy of the same checkout. This project ships index.html and runtime files directly; there is no build step.
 
@@ -17,7 +17,7 @@ Headless Chromium 149.0.7827.0; viewports **393×660** and **1280×800**. 56 scr
 
 ## Startup and loader inventory
 
-F10 in `tests/contracts/v10-foundation-contracts.cjs` pins `index.html` byte-for-byte to **r70 (1.9.1-r70)** and caps startup gzip at **37495 bytes**. These guards are unchanged.
+F10 in `tests/contracts/v10-foundation-contracts.cjs` pins `index.html` byte-for-byte to the current release, **r71 (1.9.1-r71)** (read from the `app-asset-revision` meta in `index.html`), and caps startup gzip at **37495 bytes** (read from the F10 contract). These guards are unchanged.
 
 `index.html` loads `css/app.css` directly, plus the external Google Fonts Barlow Condensed sheet. The other audited sheets are runtime-loaded. `loadRuntimeStyle` is defined by optionalModules.js, but not every call originates there:
 
@@ -79,7 +79,7 @@ Final Winner is mounted within seasonEntry; Rivalry is the statistics route. Set
 
 | Sheet | Unique selectors | Branch occurrences | Active matches | Hidden-only matches | Verdict |
 | --- | ---: | ---: | ---: | ---: | --- |
-| `app.css` | 360 | 567 | 286 | 5 | **PARTLY LIVE** |
+| `app.css` | 359 | 561 | 283 | 5 | **PARTLY LIVE** |
 | `analytics.css` | 76 | 118 | 5 | 1 | **PARTLY LIVE** |
 | `legacy.css` | 94 | 120 | 41 | 0 | **PARTLY LIVE** |
 | `rulebook.css` | 35 | 56 | 35 | 0 | **LIVE** |
@@ -87,16 +87,16 @@ Final Winner is mounted within seasonEntry; Rivalry is the statistics route. Set
 | `season.css` | 28 | 46 | 21 | 0 | **PARTLY LIVE** |
 | `transfer.css` | 49 | 69 | 30 | 0 | **PARTLY LIVE** |
 | `restore.css` | 37 | 46 | 9 | 0 | **PARTLY LIVE** |
-| `offline.css` | 3 | 4 | 3 | 0 | **LIVE** |
+| `offline.css` | 0 | 0 | 0 | 0 | **DEAD** |
 | `saveLibrary.css` | 93 | 113 | 8 | 0 | **PARTLY LIVE** |
 | `remoteJoining.css` | 29 | 36 | 25 | 0 | **PARTLY LIVE** |
 | `footballVisuals-v113.css` | 23 | 57 | 0 | 0 | **DEAD** |
 | `footballVisuals.css` | 64 | 114 | 0 | 0 | **DEAD** |
-| `visual-fidelity-r3.css` | 36 | 71 | 33 | 0 | **PARTLY LIVE** |
+| `visual-fidelity-r3.css` | 29 | 57 | 26 | 0 | **PARTLY LIVE** |
 
 ## app.css
 
-**PARTLY LIVE** — 286/360 unique selectors matched active markup; 567 branch occurrences; 8 excluded keyframe blocks.
+**PARTLY LIVE** — 283/359 unique selectors matched active markup; 561 branch occurrences; 6 excluded keyframe blocks.
 
 ### Matching selectors, grouped by screen/state
 
@@ -125,18 +125,14 @@ Final Winner is mounted within seasonEntry; Rivalry is the statistics route. Set
 | `.startupAthleteFrame::after` | 393x660, 1280x800 |
 | `#startupAthlete` | 393x660, 1280x800 |
 | `.startupShard` | 393x660, 1280x800 |
-| `.startupShardOne` | 393x660, 1280x800 |
-| `.startupShardTwo` | 393x660, 1280x800 |
 | `.startupGrid` | 393x660, 1280x800 |
 | `.startupIdentity` | 393x660, 1280x800 |
 | `.startupRoundel` | 393x660, 1280x800 |
-| `.startupRoundel span` | 393x660, 1280x800 |
 | `.startupRoundel strong` | 393x660, 1280x800 |
 | `.startupKicker` | 393x660, 1280x800 |
 | `.startupIdentity h1` | 393x660, 1280x800 |
 | `.startupIdentity h1 span` | 393x660, 1280x800 |
 | `.startupIdentity h1 strong` | 393x660, 1280x800 |
-| `.startupIdentity h1 em` | 393x660, 1280x800 |
 | `.startupEdition` | 393x660, 1280x800 |
 | `.startupStatus` | 393x660, 1280x800 |
 | `.startupPulse` | 393x660, 1280x800 |
@@ -148,6 +144,7 @@ Final Winner is mounted within seasonEntry; Rivalry is the statistics route. Set
 | `#loadingText` | 393x660, 1280x800 |
 | `.startupSaveNote` | 393x660, 1280x800 |
 | `.startupPhotoCredit` | 393x660, 1280x800 |
+| `#loadingScreen *` | 393x660, 1280x800 |
 | `::before` | 393x660, 1280x800 |
 | `::after` | 393x660, 1280x800 |
 
@@ -1017,9 +1014,6 @@ Final Winner is mounted within seasonEntry; Rivalry is the statistics route. Set
 | `.overallScoreBox` | 393x660, 1280x800 |
 | `.overallScoreBox span` | 393x660, 1280x800 |
 | `.overallScoreBox strong` | 393x660, 1280x800 |
-| `#appRuntimeNotice` | 393x660, 1280x800 |
-| `#appRuntimeNotice.error` | 393x660, 1280x800 |
-| `#appRuntimeNotice button` | 393x660, 1280x800 |
 | `::before` | 393x660, 1280x800 |
 | `::after` | 393x660, 1280x800 |
 
@@ -1062,9 +1056,6 @@ Final Winner is mounted within seasonEntry; Rivalry is the statistics route. Set
 | `.overallScoreBox strong` | 393x660, 1280x800 |
 | `::before` | 393x660, 1280x800 |
 | `::after` | 393x660, 1280x800 |
-| `#appRuntimeNotice` | 1280x800 |
-| `#appRuntimeNotice.error` | 1280x800 |
-| `#appRuntimeNotice button` | 1280x800 |
 
 #### statistics
 
@@ -1489,6 +1480,8 @@ Final Winner is mounted within seasonEntry; Rivalry is the statistics route. Set
 - `.screen[data-route-state="entering"]`
 - `.screen[data-route-state="entering"][data-route-direction="back"]`
 - `.screen[data-route-state="entering"]::after`
+- `html[data-motion-reduced="true"] #loadingScreen *`
+- `html[data-motion-reduced="true"] #loadingScreen::after`
 - `.menuButton:hover:not(:disabled)`
 - `.menuButton:focus-visible`
 - `.backButton:disabled`
@@ -2321,17 +2314,11 @@ None.
 
 ## offline.css
 
-**LIVE** — 3/3 unique selectors matched active markup; 4 branch occurrences; 1 excluded keyframe blocks.
+**DEAD** — 0/0 unique selectors matched active markup; 0 branch occurrences; 0 excluded keyframe blocks.
 
 ### Matching selectors, grouped by screen/state
 
-#### loadingScreen
-
-| Selector | Matching viewport(s) |
-| --- | --- |
-| `#loadingScreen` | 393x660, 1280x800 |
-| `.startupAthleteFrame` | 393x660, 1280x800 |
-| `#startupAthlete` | 393x660, 1280x800 |
+None.
 
 ### Hidden-document-only selectors (never an active match)
 
@@ -2623,21 +2610,9 @@ None.
 
 ## visual-fidelity-r3.css
 
-**PARTLY LIVE** — 33/36 unique selectors matched active markup; 71 branch occurrences; 0 excluded keyframe blocks.
+**PARTLY LIVE** — 26/29 unique selectors matched active markup; 57 branch occurrences; 0 excluded keyframe blocks.
 
 ### Matching selectors, grouped by screen/state
-
-#### loadingScreen
-
-| Selector | Matching viewport(s) |
-| --- | --- |
-| `#loadingScreen` | 393x660, 1280x800 |
-| `#loadingScreen::before` | 393x660, 1280x800 |
-| `.startupScene` | 393x660, 1280x800 |
-| `.startupAthleteFrame` | 393x660, 1280x800 |
-| `.startupAthleteFrame::before` | 393x660, 1280x800 |
-| `.startupAthleteFrame::after` | 393x660, 1280x800 |
-| `#startupAthlete` | 393x660, 1280x800 |
 
 #### mainMenu-empty
 
