@@ -1,11 +1,11 @@
 {
  "sequence": {
   "ready": [
-   203,
-   207,
-   209,
-   217,
    219,
+   227,
+   235,
+   239,
+   243,
    296,
    302,
    324,
@@ -15,11 +15,11 @@
    366
   ],
   "ready_sol": [
-   203,
-   207,
-   209,
-   217,
    219,
+   227,
+   235,
+   239,
+   243,
    296,
    302,
    324,
@@ -32,7 +32,7 @@
   "held_until_picture": 0,
   "open_code_prs": 3,
   "open_train_prs": 3,
-  "next_free": 203,
+  "next_free": 219,
   "highest_taken": 411,
   "total": 518,
   "states": {
@@ -238,13 +238,13 @@
    "200": "merged",
    "201": "on_train",
    "202": "merged",
-   "203": "waiting",
+   "203": "on_train",
    "204": "merged",
    "205": "waiting",
    "206": "merged",
-   "207": "waiting",
+   "207": "on_train",
    "208": "merged",
-   "209": "waiting",
+   "209": "on_train",
    "210": "merged",
    "211": "closed",
    "212": "merged",
@@ -252,15 +252,15 @@
    "214": "merged",
    "215": "waiting",
    "216": "merged",
-   "217": "waiting",
+   "217": "on_train",
    "218": "merged",
    "219": "waiting",
    "220": "merged",
-   "221": "waiting",
+   "221": "on_train",
    "222": "merged",
    "223": "waiting",
    "224": "merged",
-   "225": "waiting",
+   "225": "on_train",
    "226": "closed",
    "227": "waiting",
    "228": "closed",
@@ -556,11 +556,11 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-12T02:03:53Z",
+ "updated": "2026-10-12T02:16:00Z",
  "counts": {
   "merged": 181,
-  "on_train": 9,
-  "waiting": 227,
+  "on_train": 15,
+  "waiting": 221,
   "closed": 82,
   "pr_open": 18,
   "blocked": 1
@@ -568,7 +568,7 @@
  "stages": {
   "2": {
    "total": 266,
-   "taken": 108,
+   "taken": 114,
    "merged": 45
   },
   "3": {
@@ -628,7 +628,8 @@
    ],
    "done": [
     "1071",
-    "1072"
+    "1072",
+    "1073"
    ],
    "pr": null,
    "state": null
@@ -729,7 +730,9 @@
     1133
    ],
    "done": [
-    "1129"
+    "1129",
+    "1130",
+    "1131"
    ],
    "pr": null,
    "state": null
@@ -851,7 +854,9 @@
     1191
    ],
    "done": [
-    "1187"
+    "1187",
+    "1188",
+    "1189"
    ],
    "pr": null,
    "state": null
@@ -901,7 +906,8 @@
     1220
    ],
    "done": [
-    "1216"
+    "1216",
+    "1217"
    ],
    "pr": null,
    "state": null
@@ -1437,7 +1443,7 @@
    "branch": "gameplay/train-home-3"
   },
   "1073": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -1836,14 +1842,14 @@
    "branch": "gameplay/train-league-3"
   },
   "1130": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": "gameplay/train-league-3"
   },
   "1131": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2242,14 +2248,14 @@
    "branch": "gameplay/train-transfer-3"
   },
   "1188": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": "gameplay/train-transfer-3"
   },
   "1189": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2445,7 +2451,7 @@
    "branch": "gameplay/train-season-final-3"
   },
   "1217": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
