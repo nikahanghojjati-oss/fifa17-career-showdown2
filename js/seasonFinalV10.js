@@ -1719,6 +1719,26 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 @media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTotals { margin-top:7px; }
 }
+/* Nik 2026-10-12 (live r73): after a real run the Shared Terminal Close panel sits in the actions slot above REVIEW SEASON
+   and BACK TO SHOWDOWN HOME. Its 88px pushed both buttons below the stage, which clips, so the screen had no way out.
+   CLOSED: the stage already says SHARED SHOWDOWN CLOSED, the winner and both totals, so the panel stays for screen
+   readers only and takes no room. Any other phase (saving, CLOSE retry): the panel floats above the buttons instead of
+   pushing them down, in the game's own type. */
+#app #seasonEntry.v10FinalMode #stage-root #v10TerminalSlot { position:absolute; left:0; right:0; bottom:calc(100% + 6px); z-index:2; }
+#app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) { z-index:40; overflow:visible; clip-path:none; contain:none; max-height:none; }
+#app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel[data-terminal="true"] {
+ position:absolute !important; width:1px !important; height:1px !important; margin:-1px !important; padding:0 !important; border:0 !important;
+ overflow:hidden !important; clip:rect(0 0 0 0) !important; clip-path:inset(50%) !important; white-space:nowrap !important;
+}
+#app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]) {
+ margin:0; padding:8px 12px; box-sizing:border-box; background:rgba(8,8,7,.94); border:1px solid #c9a24a; color:#f5eacb;
+ font:600 13px/1.3 var(--sd-font-condensed,"Barlow Condensed",sans-serif); letter-spacing:.04em; text-align:center;
+}
+#app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]) :is(h3,p) { margin:0 0 4px; font:inherit; color:inherit; }
+#app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]) h3 { color:#f2c45b; font-weight:800; letter-spacing:.12em; }
+#app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]) .stateNote { background:none; border:0; padding:0; color:#d9cfb4; }
+#app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]) .seasonReviewActions { display:flex; gap:8px; justify-content:center; margin-top:6px; }
+#app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]) .seasonReviewActions button:not(.hidden) { min-height:44px; }
 `;
     parent.appendChild(style);
   }
