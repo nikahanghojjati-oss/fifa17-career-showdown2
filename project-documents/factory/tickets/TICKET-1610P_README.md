@@ -16,7 +16,7 @@ Nik runs one ticket per screen in a brand-new normal ChatGPT chat outside any pr
 | 8 | Rivalry Statistics | DONE 12 Oct (ENV_RIVALRY_PLATE_V2) |
 | 9 | Legacy | TICKET-1610P_9_OF_14_LEGACY_PLATE.md |
 | 10 | Trophy Room | TICKET-1610P_10_OF_14_TROPHY_ROOM_PLATE.md |
-| 11 | Settings | TICKET-1610P_11_OF_14_SETTINGS_PLATE.md |
+| 11 | Settings | DONE 12 Oct (ENV_SETTINGS_PLATE_V2) |
 | 12 | Final Winner | TICKET-1610P_12_OF_14_FINAL_WINNER_PLATE.md |
 | 13 | Rule Book | TICKET-1610P_13_OF_14_RULE_BOOK_PLATE.md |
 | 14 | Standings | TICKET-1610P_14_OF_14_STANDINGS_PLATE.md |
