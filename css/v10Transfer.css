@@ -638,6 +638,15 @@
   /* The fixed primary action lives inside the viewer's own card, which is its own stacking context: without a higher
      layer the later sealed card (and rules card) painted and hit-tested above it, so taps on LOCK / REQUEST landed on them. */
   #app #transferChallenge .tw-host .world > .panel.own { position: relative; z-index: 6; }
+  /* The same fixed action also moved with its card: the shared panel-rise entry (motion.css) keeps a transform on the card
+     for its whole delay and run, and a transformed ancestor is the box a fixed child positions against. The action sat
+     16 px low and 200 px high inside the rising card, then jumped to the bottom of the screen when the rise ended, so a
+     tap that started before the end landed after it on the sealed card's title and never reached LOCK / REQUEST / CONTINUE.
+     Keep the entry as a plain fade: no transform and no will-change, so the action never leaves the viewport box. */
+  #app #transferChallenge .tw-host .world > .panel {
+    transform: none !important; will-change: auto !important;
+    animation-name: tw-state-fade !important; animation-duration: 120ms !important; animation-delay: 0ms !important;
+  }
 }
 @media (max-width: 760px) and (orientation: portrait),
        (min-width: 761px) and (max-width: 1100px) and (orientation: portrait),
