@@ -4,18 +4,18 @@
   "clean_streak": 0,
   "goal": 10,
   "owner": "mega factory thread",
-  "updated": "2026-10-12T10:15:43Z",
+  "updated": "2026-10-12T10:56:52Z",
   "note": "Nik decided 06:55 UTC: 3 numbers per chat; 5 once 10 batches in a row run clean.",
   "jobs_free": [
-    1733,
-    1734,
-    1735,
-    1736,
-    1737,
-    1738
+    1739,
+    1740,
+    1741,
+    1742,
+    1743,
+    1744
   ],
   "jobs_after_wiring": [],
-  "jobs_note": "Chat jobs 1733-1738: audit and fix one real bug per job (gameplay-only), 3 per message.",
+  "jobs_note": "Chat jobs 1739-1744 (wave 2 audit and fix, gameplay-only), 3 per message. 1733-1738 already started.",
   "work_waiting": [
     {
       "job": 1701,
