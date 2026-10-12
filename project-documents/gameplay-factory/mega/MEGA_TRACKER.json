@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T00:38:00Z",
+"updated": "2026-10-12T00:39:30Z",
 "total": 518,
 "next_free": 185,
 "highest_taken": 403,
@@ -8,8 +8,8 @@
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 3,
-"waiting": 237
+"on_train": 4,
+"waiting": 236
 },
 "stages": {
 "2": {
@@ -20,8 +20,8 @@
 "closed": 44,
 "ci_failed": 5,
 "ready": 10,
-"waiting": 161,
-"on_train": 1
+"on_train": 2,
+"waiting": 160
 }
 },
 "1": {
@@ -70,6 +70,7 @@
 "on_train_no_pr": [
 181,
 183,
+199,
 403
 ],
 "draft_code_prs": 0,
@@ -82,8 +83,8 @@
 185,
 189,
 191,
-199,
 201,
+217,
 240,
 246,
 268,
@@ -96,8 +97,8 @@
 185,
 189,
 191,
-199,
 201,
+217,
 240,
 246,
 268,
@@ -111,8 +112,8 @@
 185,
 189,
 191,
-199,
 201,
+217,
 240,
 246,
 268,
@@ -183,8 +184,8 @@
 }
 },
 "rate": {
-"claimed_last_hour": 2,
-"claimed_last_10min": 2,
+"claimed_last_hour": 3,
+"claimed_last_10min": 3,
 "merged_last_hour": 10
 },
 "lanes": {
@@ -196,18 +197,18 @@
 "closed": 25,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 3,
-"waiting": 151
+"on_train": 4,
+"waiting": 150
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 88,
-"worker_done": 63,
+"picked_up": 89,
+"worker_done": 64,
 "finished": 45,
-"pending_lead": 13,
+"pending_lead": 14,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 5,
@@ -1201,13 +1202,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 18,
-"job": 1475,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 20,
@@ -3298,6 +3292,13 @@
 "at": "2026-10-12T00:35:00Z",
 "item": 183,
 "job": 1100,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-12T00:39:30Z",
+"item": 199,
+"job": 1072,
 "from": "waiting",
 "to": "on_train"
 }
@@ -6454,8 +6455,10 @@
 "title": "Home: long names",
 "mode": "code",
 "group": "home",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-home-3",
+"first_seen": "2026-10-12T00:39:30Z",
+"since": "2026-10-12T00:39:30Z"
 },
 "200": {
 "job": 1566,

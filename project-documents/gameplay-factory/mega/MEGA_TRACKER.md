@@ -1,25 +1,25 @@
-# Mega factory tracker · updated 2026-10-12T00:38:00Z
+# Mega factory tracker · updated 2026-10-12T00:39:30Z
 
-**Type now (31 free):** 185, 189, 191, 199, 201, 240, 246, 268, 274, 296, 302, 324, 330, 352, 358, 380, 382, 388, 400, 408, 410, 411, 416, 428, 436, 438, 444, 456, 464, 466, 472
+**Type now (31 free):** 185, 189, 191, 201, 217, 240, 246, 268, 274, 296, 302, 324, 330, 352, 358, 380, 382, 388, 400, 408, 410, 411, 416, 428, 436, 438, 444, 456, 464, 466, 472
 **Next free number:** 185 · **highest taken:** 403 of 518
 **Code PRs open:** 3 of 8 · area locks: club, career-screens, rules-settings
-**Rate:** 2 claimed in 10 min · 2 in 1 h · 10 merged in 1 h
+**Rate:** 3 claimed in 10 min · 3 in 1 h · 10 merged in 1 h
 
 **Finished (merged or live): 181 of 518**
 
 State | count
 --- | ---
 ✅ merged to staging branch | 181
-🚂 done, on the train branch, no PR yet | 3
+🚂 done, on the train branch, no PR yet | 4
 🟩 PR open, checks green, waiting for review | 10
 🟥 PR open, checks FAILED | 5
 ⚫ closed without merge | 82
-⬜ waiting | 237
+⬜ waiting | 236
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
 1 Gameplay audits | 112 | 112 | 0 | 0
-2 Screen fixes | 266 | 45 | 16 | 161
+2 Screen fixes | 266 | 45 | 17 | 160
 3 Match desktop to mockups | 14 | 0 | 2 | 11
 4 Phone mockup studies | 70 | 23 | 0 | 10
 5 Improved desktop studies | 56 | 1 | 0 | 55
@@ -51,10 +51,12 @@ Stage | total | merged/live | in flight | waiting
 - 🟩 **179** · Job 1418 · Rule Book: fix the 2560x1080 view · PR open, checks green, waiting for review · [PR #687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687)
 - 🚂 **181** · Job 1071 · Home: match the desktop mockup · done, on the train branch, no PR yet
 - 🚂 **183** · Job 1100 · Connect Players (start and join): match the desktop mockup · done, on the train branch, no PR yet
+- 🚂 **199** · Job 1072 · Home: long names · done, on the train branch, no PR yet
 - 🚂 **403** · Job 1356 · Rivalry Statistics: fix the 768x1024 view · done, on the train branch, no PR yet
 
 ## Latest changes
 
+- 2026-10-12T00:39:30Z · 199 (Job 1072): waiting → on_train
 - 2026-10-12T00:35:00Z · 183 (Job 1100): waiting → on_train
 - 2026-10-12T00:35:00Z · 181 (Job 1071): waiting → on_train
 - 2026-10-11T23:47:57Z · 167 (Job 1128): ready → merged
@@ -74,4 +76,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-11T22:53:29Z · 161 (Job 1417): ci_running → ready
 - 2026-10-11T22:53:29Z · 159 (Job 1330): ci_running → ready
 - 2026-10-11T22:53:29Z · 155 (Job 1214): ci_failed → merged
-- 2026-10-11T22:53:29Z · 147 (Job 1098): ci_failed → merged
