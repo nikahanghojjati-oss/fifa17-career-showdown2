@@ -1426,6 +1426,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    so Team V's 660px minimum and its inner stage scroll are reset here. Words, ids and tap order are the live ones. */
 @media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait),
        (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape),
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
  html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {
   position:fixed;inset:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto;
@@ -1471,6 +1472,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 /* Sideways and tablet: one phone-art composition on the whole screen (Team V's phone background and the two phone
    portraits, Daniel on the left). The desktop plate, rims, shades and spotlights are hidden by class, not by src. */
 @media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape),
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,.finalWinnerManagerShade,.finalWinnerManagerSpotlight,.finalWinnerCrown,.finalWinnerTopbar) { display:none; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground { position:absolute;inset:0;z-index:1;display:block;overflow:hidden;pointer-events:none; }
@@ -1519,7 +1521,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit { width:100%;margin:0;padding:0; }
 }
 /* Sideways (study 1287): managers, trophy and score on the left half; summary tabs and both exits on the right half. */
-@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneVeil {
   background:linear-gradient(90deg,transparent 0 48%,rgb(3 5 7 / .55) 54%,rgb(3 5 7 / .82) 100%),linear-gradient(180deg,transparent 0 52%,rgb(3 5 7 / .7) 74%,#050607 100%);
  }
@@ -1716,8 +1719,119 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 }
 #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #seasonReviewHeading[tabindex="-1"]:focus { outline:none !important; box-shadow:none; }
 /* r73 polish, Final Winner sideways: a little air between the DANIEL WINS line and the two manager labels under it. */
-@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTotals { margin-top:7px; }
+}
+/* Nik 2026-10-12 (live r73): after a real run the Shared Terminal Close panel sat in the actions slot above REVIEW SEASON
+   and BACK TO SHOWDOWN HOME and pushed both buttons off the clipped stage, so the screen had no way out; on some windows
+   the two buttons also covered the bottom row of the scoreboard. Rule now: the scoreboard, the close message and the two
+   buttons stack and never overlap, on every window.
+   CLOSED: the stage already says SHARED SHOWDOWN CLOSED, the winner and both totals, so the panel stays for screen readers
+   only and takes no room. Any other phase (saving, CLOSE retry): the panel is a slim black-and-gold strip directly above
+   the two buttons, and the scoreboard makes room for it (it moves up on desktop, it gives up height elsewhere). */
+#app #seasonEntry.v10FinalMode #stage-root { --fw-th:0px; }
+#app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) { --fw-th:64px; }
+#app #seasonEntry.v10FinalMode #stage-root #v10TerminalSlot { position:absolute; left:0; right:0; bottom:calc(100% + 8px); z-index:2; }
+#app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) { z-index:40; overflow:visible; clip-path:none; contain:none; max-height:none; }
+#app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel[data-terminal="true"] {
+ position:absolute !important; width:1px !important; height:1px !important; margin:-1px !important; padding:0 !important; border:0 !important;
+ overflow:hidden !important; clip:rect(0 0 0 0) !important; clip-path:inset(50%) !important; white-space:nowrap !important;
+}
+#app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) {
+ display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-rows:auto auto; align-items:center; column-gap:14px; row-gap:2px;
+ height:56px; margin:0; padding:5px 6px 5px 14px; box-sizing:border-box; overflow:hidden;
+ border:1px solid transparent; border-radius:0; color:#f5eacb; text-align:left;
+ background:linear-gradient(115deg,#141210f5,#060706f2) padding-box,linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%) border-box;
+ box-shadow:inset 0 0 0 1px #050505,0 6px 18px #000a;
+ font:600 12px/1.25 var(--sd-font-condensed,"Barlow Condensed",sans-serif); letter-spacing:.04em;
+}
+#app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) :is(h3,p) { grid-column:1; min-width:0; margin:0; padding:0; border:0; background:none; box-shadow:none; font:inherit; color:inherit; }
+#app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) h3 { grid-row:1; align-self:end; color:#f2c45b; font-weight:800; letter-spacing:.14em; }
+#app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) .stateNote { grid-row:2; align-self:start; color:#d9cfb4; }
+/* the winner and both totals are already on the stage: the summary line stays for screen readers only */
+#app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) #sharedTerminalCloseSummary {
+ position:absolute; width:1px; height:1px; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap;
+}
+#app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) .seasonReviewActions {
+ grid-column:2; grid-row:1/3; display:flex; gap:8px; margin:0; padding:0; border:0; background:none; box-shadow:none;
+}
+#app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) .seasonReviewActions button:not(.hidden) {
+ min-width:0; min-height:44px; margin:0; padding:0 18px; box-sizing:border-box; border:2px solid transparent; border-radius:0;
+ background:linear-gradient(#171512,#070708) padding-box,linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%) border-box;
+ box-shadow:inset 0 0 0 1px #050505; color:#f7cf60; text-shadow:none; white-space:nowrap;
+ font:800 12px/1.15 var(--sd-font-condensed,"Barlow Condensed",sans-serif); letter-spacing:.1em; text-transform:uppercase;
+}
+#app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) .seasonReviewActions button:not(.hidden):active { filter:brightness(.86); }
+#app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) .seasonReviewActions button:focus-visible { outline:3px solid #fff5c4; outline-offset:-5px; }
+/* desktop picture range: the plaque keeps its place in the picture unless the window is too short for plaque, strip and
+   buttons; then it rides up just enough. The buttons always sit 6px under the plaque, never on it. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+ #app #seasonEntry .v10FinalStage {
+  --fw-r0:calc(640 * var(--fw-k) - var(--fw-top)); --fw-rh:max(calc(138 * var(--fw-k)),112px); --fw-bh:calc(max(44px,var(--fwu) * 2.9) + 12px);
+  --fw-rt:min(var(--fw-r0),calc(100% - var(--fw-rh) - var(--fw-bh) - var(--fw-th) - 6px));
+ }
+ #app #seasonEntry .v10FinalStage .finalWinnerResultsPanel { top:var(--fw-rt); }
+ /* on a short window the trophy shrinks a little rather than stand behind the raised plaque */
+ #app #seasonEntry .v10FinalStage .winnerTrophySlot { height:min(calc(306 * var(--fw-k)),calc(var(--fw-rt) - 291 * var(--fw-k) + var(--fw-top) - 4px)); }
+ #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot { top:calc(var(--fw-rt) + var(--fw-rh) + 6px + var(--fw-th)); bottom:auto; }
+ #app #seasonEntry.v10FinalMode #stage-root #v10TerminalSlot { left:50%; right:auto; width:max(calc(913 * var(--fw-k)),59.3cqw); translate:-50% 0; }
+}
+@media (min-width:1200px) and (min-height:600px) and (max-height:800px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+ #app #seasonEntry .v10FinalStage { --fw-r0:calc(598 * var(--fw-k) - var(--fw-top)); }
+}
+/* big sideways phones (iPhone Plus and Pro Max, 932x430) use the sideways layout; from 901px wide the game's top bar
+   stays, so the screen starts under it */
+@media (min-width:901px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
+ html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) { top:var(--sd-nav-top-h,52px); height:auto; }
+ #app #seasonEntry.seasonScreenV10.v10FinalMode { height:calc(100svh - var(--sd-nav-top-h,52px)); }
+}
+/* phone upright, pending: one row of season facts so the summary fits the shorter panel */
+@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerMetaStrip { grid-template-columns:1.4fr 1fr 1fr; grid-template-rows:1fr; }
+ #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerMetaCell--lastSeason { grid-column:auto; border-bottom:0; }
+ #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerMetaCell~.finalWinnerMetaCell { border-left:1px solid #d9b64e66; }
+}
+@media (min-width:901px) and (max-width:1199px) and (min-height:501px),
+       (min-width:761px) and (max-width:900px) and (min-height:501px) and (max-height:959px),
+       (min-width:761px) and (max-width:900px) and (min-height:1241px) {
+ /* small laptops and tablets on their side (1024x768, 1180x820): the two exits in the black-and-gold kit, not the old
+    blue-and-white buttons; while the strip shows, the plaque moves up by its height */
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions {
+  display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0; padding:0; border:0; background:none; box-shadow:none;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button {
+  box-sizing:border-box; width:100%; min-width:0; min-height:44px; margin:0; padding:6px 10px; border:2px solid transparent; border-radius:0;
+  background:linear-gradient(#171512,#070708) padding-box,linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%) border-box;
+  color:#f7cf60; text-shadow:none; box-shadow:inset 0 0 0 1px #050505;
+  font:800 12px/1.2 var(--sd-font-condensed,"Barlow Condensed",sans-serif); letter-spacing:.08em; text-transform:uppercase; white-space:nowrap;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions .backButton {
+  background:linear-gradient(180deg,#fff0a6 0,#f8d764 20%,#e4b032 54%,#f4cf58 80%,#c98f1c 100%) padding-box,linear-gradient(135deg,#fff8d0,#d9a83a 40%,#fff1b8 70%,#a9781a) border-box;
+  color:#17130a; box-shadow:inset 0 1px 0 #fffbe0,0 0 16px #f5c51840;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button:active { filter:brightness(.86); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button:focus-visible { outline:3px solid #fff5c4; outline-offset:2px; }
+ #app #seasonEntry.v10FinalMode #stage-root #v10TerminalSlot { left:50%; right:auto; width:min(66vw,820px); translate:-50% 0; }
+ #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerResultsPanel { translate:0 calc(0px - var(--fw-th)); }
+}
+/* phone upright, sideways and tablet: the summary panel ends higher by the strip's height while the strip shows */
+@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) { --fw-th:72px; }
+ #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerResultsPanel { bottom:calc(max(12px,env(safe-area-inset-bottom)) + 74px + var(--fw-th)); }
+}
+@media (max-width:760px), (max-height:500px) {
+ #app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) { height:64px; padding:4px 4px 4px 10px; column-gap:8px; font-size:11px; letter-spacing:.02em; }
+ #app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) h3 { letter-spacing:.1em; }
+ #app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) .seasonReviewActions button:not(.hidden) { width:9.5em; padding:0 8px; white-space:normal; font-size:11px; letter-spacing:.06em; }
+}
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
+ #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) { --fw-th:72px; }
+ #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerResultsPanel { bottom:calc(4% + 58px + var(--fw-th)); }
+}
+@media (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerResultsPanel { bottom:calc(4% + 72px + var(--fw-th)); }
 }
 `;
     parent.appendChild(style);
