@@ -1410,6 +1410,54 @@
         "^tests/contracts/work\\-audit\\-optional\\-modules\\-b\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-screens-b-contracts.cjs",
+      "patterns": [
+        "^js/screens\\.js$",
+        "^tests/contracts/chat\\-audit\\-screens\\-b\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-restore-a-contracts.cjs",
+      "patterns": [
+        "^js/restore\\.js$",
+        "^tests/contracts/chat\\-audit\\-restore\\-a\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-multi-season-online-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^tests/contracts/chat\\-audit\\-multi\\-season\\-online\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-storage-contracts.cjs",
+      "patterns": [
+        "^js/storage\\.js$",
+        "^tests/contracts/chat\\-audit\\-storage\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-final-reconciliation-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedFinalReconciliation\\.js$",
+        "^tests/contracts/chat\\-audit\\-final\\-reconciliation\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-shared-showdown-setup-online-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedShowdownSetup\\.js$",
+        "^tests/contracts/chat\\-audit\\-shared\\-showdown\\-setup\\-online\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

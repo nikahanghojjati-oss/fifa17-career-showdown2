@@ -310,7 +310,7 @@ function destroyMenuMediaIframe(){
     clearMenuMediaLoadTimer();
 
     if(menuMediaIframe){
-        try{ sendMenuMediaCommand("pauseVideo"); }catch(error){ /* iframe may already be detached */ }
+        try{ sendMenuMediaCommand("pauseVideo"); }catch(error){ }
         menuMediaIframe.remove();
     }
 
@@ -534,7 +534,6 @@ function warmMenuFeedbackModule(){
     }
     menuFeedbackWarmPromise = window.ensureMenuFeedbackModule().catch(() => {
         menuFeedbackWarmPromise = null;
-        /* Optional audio support never blocks or surfaces over navigation. */
     });
     return menuFeedbackWarmPromise;
 }
