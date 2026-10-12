@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>RULE BOOK · Upright tablet study</title>
+<style>
+:root{color-scheme:dark;--gold:#e7bb59;--gold-light:#fee0a1;--text:#f0ede7;--fade:#cdc3af;--safe:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{min-width:320px;background:#040607;color:var(--text);font:12px/1.33 "Arial Narrow",Arial,sans-serif}
+body::before{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,rgba(4,6,9,.76),rgba(4,6,9,.96) 58%,#060709),url("../../../../visual-assets/v10_1/shared/plates/ENV_SYS_PHONE_V1.webp") center/cover no-repeat}
+body::after{content:"";position:fixed;z-index:-1;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% -5%,rgba(227,169,59,.19),transparent 52%)}
+.visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);border:0}
+.tablet-page{width:min(100%,1120px);height:calc(100dvh - 120px - var(--safe));min-height:0;margin:0 auto;padding:12px clamp(15px,3vw,35px) 8px;display:grid;grid-template-rows:139px minmax(0,1fr);gap:11px}
+.hero{min-height:0;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
+.hero::before{content:"";width:160px;height:2px;position:absolute;bottom:0;left:50%;transform:translateX(-50%);background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.eyebrow{display:block;margin:0;font-size:10px;letter-spacing:.25em;color:#e5ca8e;font-weight:700}
+.wordmark{display:block;width:clamp(180px,27vw,275px);max-height:75px;height:auto;object-fit:contain;margin:1px auto;filter:drop-shadow(0 5px 14px #000)}
+.tagline{display:block;color:var(--gold-light);font-size:10px;line-height:1.25;letter-spacing:.17em;font-weight:800}
+.summary{max-width:470px;margin:5px auto 0;color:#d8d1c2;font-size:11px}
+.rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));gap:11px;min-height:0}
+.rule-card{position:relative;min-width:0;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-color:#856a3e #0b0c0e;padding:12px 14px;background:linear-gradient(145deg,rgba(25,24,20,.94),rgba(7,8,11,.97) 74%);border:1px solid #b18b4d;box-shadow:inset 0 1px #ffe8b81a,0 12px 28px #0008;clip-path:polygon(0 0,calc(100% - 11px) 0,100% 11px,100% 100%,0 100%)}
+.rule-card.scoring{background:linear-gradient(150deg,#28200fef,#090b0df7 70%);border-color:#e7bb59}
+.card-title{display:flex;align-items:center;gap:9px;padding-bottom:6px;margin-bottom:8px;border-bottom:1px solid #d9b46b44}
+.num{display:grid;place-items:center;flex:0 0 28px;height:28px;border:1px solid var(--gold);border-radius:50%;color:#f4cd74;font:800 11px/1 "Arial Narrow",Arial,sans-serif}
+.card-title h2{margin:0;font-size:13px;letter-spacing:.105em;line-height:1.1;color:#ffebc4}
+ul{margin:0;padding:0;list-style:none;display:grid;gap:5px}
+li{position:relative;padding-left:11px;color:#e5dfd4;font-size:11.5px;line-height:1.3}
+li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:1px;background:var(--gold)}
+.score-table{display:grid}
+.score-row{display:flex;justify-content:space-between;align-items:center;gap:9px;padding:5px 0;border-bottom:1px solid #e5c17624;color:#e4ddd0;font-size:11px;line-height:1.2}
+.score-row strong{color:#ffdb79;font-size:12px;white-space:nowrap}
+.maximum{display:flex;justify-content:space-between;align-items:center;gap:7px;margin-top:8px;color:#f4d69b;font-size:10px;letter-spacing:.03em}
+.maximum strong{color:#f6c862;font-size:23px}
+.back-bar{position:fixed;z-index:10;left:0;right:0;bottom:calc(55px + var(--safe));height:65px;display:flex;align-items:center;justify-content:center;padding:5px 16px;background:linear-gradient(0deg,#060709,#08090af4);border-top:1px solid #c29d5344}
+.back{height:44px;min-width:225px;max-width:100%;padding:0 20px;background:linear-gradient(120deg,#26200f,#0e0f11);color:#f8d78a;border:1px solid var(--gold);font-weight:800;letter-spacing:.13em;font-size:12px}
+.back:focus-visible,.tab:focus-visible{outline:2px solid white;outline-offset:2px}
+.phone-tabs{position:fixed;z-index:11;bottom:0;left:0;right:0;display:grid;grid-template-columns:repeat(5,1fr);height:calc(55px + var(--safe));padding:0 7px var(--safe);background:#08090d;border-top:1px solid #c19c54}
+.tab{display:grid;place-items:center;text-decoration:none;color:#b2a997;font-weight:800;font-size:10px;letter-spacing:.07em}
+.tab[aria-current="page"]{color:#ffdc7e;box-shadow:inset 0 3px #efc365}
+@media(min-width:901px){.tablet-page{height:calc(100dvh - 72px)}.back-bar{bottom:0;height:72px}.phone-tabs{display:none}}
+@media(min-width:901px) and (min-height:850px){.rules{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr))}}
+/* 768×1024 and 820×1180: the chapter layout is an editorial 2×3 board, not a stretched phone list. */
+@media(min-width:700px) and (max-width:900px) and (orientation:portrait){
+  .tablet-page{grid-template-rows:139px minmax(0,1fr)}
+  .rules{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:699px){
+  html,body{overflow:hidden}
+  .tablet-page{height:calc(100dvh - 120px - var(--safe));display:flex;flex-direction:column;padding:7px 12px 5px;gap:6px;overflow:hidden}
+  .hero{flex:0 0 96px}
+  .eyebrow{font-size:9px}
+  .wordmark{width:170px;max-height:46px}
+  .tagline{font-size:9px}
+  .summary{font-size:10px;margin-top:3px}
+  .rules{display:flex;flex-direction:column;flex:1 1 auto;overflow-y:auto;gap:8px;min-height:0}
+  .rule-card{flex:none;overflow:visible}
+  li{font-size:11px}
+  .back-bar{height:65px}
+}
+@media(max-height:650px) and (max-width:699px) and (orientation:portrait){
+ .tablet-page{height:calc(100dvh - 111px - var(--safe))}
+ .hero{flex-basis:73px}
+ .wordmark{width:135px;max-height:37px}
+ .back-bar{height:56px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<main class="tablet-page">
+  <h1 class="visually-hidden">RULE BOOK</h1>
+  <header class="hero">
+    <span class="eyebrow">CAREER MODE SHOWDOWN</span>
+    <img class="wordmark" src="../../../../visual-assets/v10_1/shared/wordmarks/TITLE_RULE_BOOK_V1.webp" alt="" aria-hidden="true">
+    <strong class="tagline">THE LOCKED COMPETITION RULES</strong>
+    <p class="summary">Daniel and Nik. One league. Permanent clubs. One rivalry.</p>
+  </header>
+  <section class="rules" aria-label="Competition rules">
+    <article class="rule-card" aria-labelledby="s01" id="chapter-01">
+      <header class="card-title"><span class="num">01</span><h2 id="s01">SHOWDOWN FORMAT</h2></header>
+      <ul>
+        <li>Career Mode Showdown is a two-player rivalry for Daniel and Nik.</li>
+        <li>Daniel is Player One. Nik is Player Two.</li>
+        <li>Both managers compete in the same selected league.</li>
+        <li>The assigned clubs remain fixed for the entire Showdown, across every season.</li>
+        <li>A Showdown may contain 1, 3, 5, or 10 seasons.</li>
+        <li>The manager with the most Showdown points across all seasons wins; equal totals are a draw.</li>
+      </ul>
+    </article>
+    <article class="rule-card" aria-labelledby="s02" id="chapter-02">
+      <header class="card-title"><span class="num">02</span><h2 id="s02">MATCH PLAY</h2></header>
+      <ul>
+        <li>Career Mode matches are simulated.</li>
+        <li>A Champions League final may be played or simulated by the manager.</li>
+        <li>The main domestic cup final may be played or simulated by the manager.</li>
+        <li>No other match-play exceptions are part of the current rules.</li>
+      </ul>
+    </article>
+    <article class="rule-card" aria-labelledby="s03" id="chapter-03">
+      <header class="card-title"><span class="num">03</span><h2 id="s03">TRANSFER CHALLENGE</h2></header>
+      <ul>
+        <li>Each manager may sign a maximum of three players per season.</li>
+        <li>The transfer window challenge lasts 15 minutes.</li>
+        <li>Both managers may agree to end the transfer window early; one manager cannot end it alone.</li>
+        <li>The opponent receives three guesses.</li>
+        <li>Each guess must be either a league or a nationality.</li>
+        <li>If a signing matches a correct guess, that signing must be released before the season begins.</li>
+      </ul>
+    </article>
+    <article class="rule-card scoring" aria-labelledby="s04" id="chapter-04">
+      <header class="card-title"><span class="num">04</span><h2 id="s04">SCORING</h2></header>
+      <div class="score-table">
+        <div class="score-row"><span>Champions League winner</span><strong>+5</strong></div>
+        <div class="score-row"><span>Domestic league winner</span><strong>+3</strong></div>
+        <div class="score-row"><span>Main domestic cup winner</span><strong>+1</strong></div>
+        <div class="score-row"><span>100 league points and/or 100 league goals</span><strong>+1 MAX</strong></div>
+        <div class="score-row"><span>League Top Scorer and/or Top Assist</span><strong>+1 MAX</strong></div>
+      </div>
+      <div class="maximum"><span>MAXIMUM PER MANAGER / SEASON</span><strong>11</strong></div>
+    </article>
+    <article class="rule-card" aria-labelledby="s05" id="chapter-05">
+      <header class="card-title"><span class="num">05</span><h2 id="s05">TIEBREAK</h2></header>
+      <ul>
+        <li>If both managers finish a season with the same Showdown points, use the approved fallback.</li>
+        <li>The manager with the better league finishing position wins the season.</li>
+        <li>If both managers finish in the same league position, the manager with more league points wins.</li>
+        <li>If both managers also have the same league points, the season is a draw.</li>
+        <li>No goal-difference, goals-scored, or head-to-head tiebreak is used.</li>
+      </ul>
+    </article>
+    <article class="rule-card" aria-labelledby="s06" id="chapter-06">
+      <header class="card-title"><span class="num">06</span><h2 id="s06">CONNECTION &amp; RECOVERY</h2></header>
+      <ul>
+        <li>Daniel and Nik connect once before the first Showdown and can then continue the same career from a remembered account and browser.</li>
+        <li>A new or forgotten browser may need to be connected again before play continues.</li>
+        <li>Device storage may be used internally for recovery and rollback, but it does not create a separate gameplay mode.</li>
+        <li>Results are entered manually from FIFA 17; screenshots and match notes are not required.</li>
+      </ul>
+    </article>
+  </section>
+</main>
+<div class="back-bar"><button type="button" class="back">BACK TO MAIN MENU</button></div>
+<nav class="phone-tabs" aria-label="Main navigation">
+  <a class="tab" href="#chapter-01">HOME</a><a class="tab" href="#chapter-01">CAREER</a><a class="tab" href="#chapter-01">STANDINGS</a><a class="tab" href="#chapter-01">STATS</a><a class="tab" href="#chapter-01" aria-current="page">RULES</a>
+</nav>
+</body>
+</html>
