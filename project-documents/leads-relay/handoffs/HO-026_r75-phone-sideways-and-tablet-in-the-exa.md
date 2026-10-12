@@ -10,11 +10,11 @@
  "priority": "top",
  "worker": "images",
  "parent": null,
- "job": null,
- "status": "RECEIVED",
+ "job": "1799",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-12T21:55:07Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-12T21:56:19Z", "by": "V", "status": "RECEIVED", "note": "Cutouts: re-cut (V3) from the new marble phone plates so the light matches, faces checked against NEXT_*. Plan: per screen, a GPT ticket redraws the approved PHONE_<SCREEN> layout in the NEXT_<SCREEN> marble look (= PHONE_<SCREEN>_MARBLE mockup), then the 1610P cyan-box method makes the plate. First 3 samples: Home, Season Results, Final Winner."}]
+ "log": [{"at": "2026-10-12T21:55:07Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-12T21:56:19Z", "by": "V", "status": "RECEIVED", "note": "Cutouts: re-cut (V3) from the new marble phone plates so the light matches, faces checked against NEXT_*. Plan: per screen, a GPT ticket redraws the approved PHONE_<SCREEN> layout in the NEXT_<SCREEN> marble look (= PHONE_<SCREEN>_MARBLE mockup), then the 1610P cyan-box method makes the plate. First 3 samples: Home, Season Results, Final Winner."}, {"at": "2026-10-12T21:58:49Z", "by": "V", "status": "WORKING", "note": "Tickets for the 3 sample marble phone mockups are ready for Nik (factory/v1-wtt5ye 0fa01a28b, tickets/TICKET-1799_*)."}]
 }
 ```
 
