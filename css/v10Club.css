@@ -546,3 +546,20 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
   transition-duration: .001ms !important;
   transition-delay: 0ms !important;
 }
+
+/* JOB-1656 (second attempt for JOB-1153/1154/1155): at 1280x650 and 1366x768
+   the Club screen keeps bug-list-1's single-view composition (Team V's stage,
+   art, labels and progress discs untouched; <main> does not scroll), and
+   768x1024 stays on bug-list-1's tablet design. The only change is the one
+   under-44px target, the header identity button, raised to 44px with the fixed
+   header re-centred in the nav bar so the chips' text stays where it was.
+   Selectors match v10Shell's specificity. */
+@media (min-width: 1200px) and (max-width: 1320px) and (min-height: 620px) and (max-height: 680px) and (orientation: landscape),
+       (min-width: 1321px) and (max-width: 1420px) and (min-height: 730px) and (max-height: 810px) and (orientation: landscape) {
+  html[data-v10-screen="clubWheelScreen"]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader {
+    top: calc((var(--sd-nav-top-h, 52px) - 44px) / 2);
+  }
+  html[data-v10-screen="clubWheelScreen"]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader #onlinePlayerIdentityBadge {
+    min-height: 44px;
+  }
+}

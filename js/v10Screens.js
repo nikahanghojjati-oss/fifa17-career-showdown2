@@ -431,13 +431,17 @@
     installed=true;
     vsHookShowScreen();
     vsDedupe("navigateTo");vsDedupe("openOptionalModule");
-    // A Home tile ignores a repeat tap while its screen is still opening or settling (busy, or within TAP_GUARD_MS of the first
-    // tap): one tap, one navigation. Programmatic navigation is untouched.
+    // A Home tile ignores a repeat tap whenever its navigation is already underway, however late the second tap is delivered
+    // (a throttled CPU can run a 30 ms timer after several hundred ms): the tile is busy, or Home is no longer the screen being
+    // shown (the first tap already left it). A repeat tap for the same target that still gets through joins the in-flight
+    // navigation (vsDedupe). There is no global in-flight lock, so a navigation that never settles cannot freeze Home's tiles.
+    // TAP_GUARD_MS stays as an extra debounce. Programmatic navigation is untouched.
     vsDoc().addEventListener("click",event=>{
       const tile=event.target&&typeof event.target.closest==="function"?event.target.closest("#mainMenu .menuTile"):null;
       if(!tile||!tile.dataset)return;
-      const now=Date.now(),last=Number(tile.dataset.v10Tap||0);
-      if(tile.getAttribute("aria-busy")==="true"||(last&&now-last<TAP_GUARD_MS)){event.stopImmediatePropagation();event.preventDefault();return;}
+      const now=Date.now(),last=Number(tile.dataset.v10Tap||0),home=vsHost("mainMenu"),active=vsActiveScreen();
+      const homeGone=Boolean(home&&home.classList.contains("hidden"))||(active!==null&&active!=="mainMenu");
+      if(tile.getAttribute("aria-busy")==="true"||homeGone||(last&&now-last<TAP_GUARD_MS)){event.stopImmediatePropagation();event.preventDefault();return;}
       tile.dataset.v10Tap=String(now);
     },true);
     vsDoc().addEventListener(EVENT,vsOnScreenShown);
