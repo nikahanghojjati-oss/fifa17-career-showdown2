@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>STANDINGS</title>
+<style>
+@font-face{font-family:Barlow;src:url(../../../../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2);font-weight:600}
+@font-face{font-family:Barlow;src:url(../../../../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2);font-weight:700}
+:root{color-scheme:dark;--gold:#f2cc57;--edge:#a88732;--ink:#080a0c;--nav:76px}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--ink);color:#f4efe2;font-family:Barlow,'Arial Narrow',sans-serif}
+body{background:linear-gradient(#080a0c33,#080a0cd9),url(../../../../visual-assets/v10_1/shared/plates/ENV_SYS_PHONE_V1.webp) center/cover fixed}
+button,label{font:inherit}button{cursor:default}
+button:focus-visible,label:focus-within{outline:2px solid #fff;outline-offset:3px}
+.stage{height:calc(100svh - var(--nav) - env(safe-area-inset-bottom));max-width:920px;margin:auto;display:grid;grid-template-rows:minmax(0,.85fr) 56px minmax(0,1.3fr);gap:16px;padding:16px 28px 24px}
+.hero{position:relative;isolation:isolate;min-height:0}
+.portraits{position:absolute;inset:-16px -28px 0;overflow:hidden;z-index:-1}
+.portraits img{position:absolute;height:124%;width:55%;object-fit:contain;object-position:center top;top:0;filter:drop-shadow(0 8px 10px #000)}
+.portraits .daniel{left:-2%}.portraits .nik{right:-2%}
+.portraits:after{content:"";position:absolute;inset:36% 0 0;background:linear-gradient(transparent,#080a0c99 45%,#080a0c)}
+.title{position:absolute;bottom:0;left:0;width:100%;text-align:center;text-shadow:0 2px 8px #000}
+.title p{margin:0;font-weight:700;letter-spacing:.29em;font-size:15px}
+.title h1{margin:0 auto;width:min(80%,540px);line-height:0}
+.title img{display:block;width:100%;height:auto}
+.title .tagline{font-size:15px;margin-top:2px;letter-spacing:.22em}
+.gear{position:absolute;right:-8px;top:0;width:48px;height:48px;border:1px solid var(--gold);border-radius:50%;color:var(--gold);background:radial-gradient(#32291c,#07080a);box-shadow:0 2px 16px #000}
+.gear svg{width:25px;height:25px;fill:currentColor}
+.tabs{display:grid;grid-template-columns:1fr 1fr;padding:4px;border:1px solid var(--gold);background:linear-gradient(#292315,#080a0c);box-shadow:0 0 0 3px #080a0c,0 0 0 4px var(--edge)}
+.tabs label{position:relative;display:flex;align-items:center;justify-content:center;letter-spacing:.08em;text-transform:uppercase;font-size:22px;font-weight:700;border:1px solid transparent;cursor:pointer}
+.tabs input{position:absolute;opacity:0;width:1px;height:1px}
+.tabs label:has(input:checked){color:var(--gold);border-color:var(--gold);background:linear-gradient(160deg,#63501680,#2e271488);box-shadow:inset 0 -2px 10px #e4b74644}
+.board{min-height:0;padding:20px 24px 16px;display:flex;flex-direction:column;background:linear-gradient(135deg,#15191cee,#050607fa);border:2px solid var(--gold);outline:1px solid #8e7028;outline-offset:5px;box-shadow:0 16px 40px #0009,inset 0 0 24px #d3a3400d;position:relative}
+.board:before{content:"";position:absolute;inset:6px;border:1px solid #9f853c;pointer-events:none}
+.heading{text-align:center;flex-shrink:0}
+.heading h2{font-size:25px;letter-spacing:.09em;margin:0}
+.heading p{font-size:17px;letter-spacing:.08em;margin:3px 0 0;text-transform:uppercase;color:#d8d3c8}
+.scoreboard{display:grid;grid-template-columns:1fr 1.25fr 1fr;align-items:center;gap:10px;margin:14px 0 10px;flex-shrink:0;text-align:center}
+.manager{display:flex;align-items:center;flex-direction:column;gap:2px;min-width:0}
+.crest{width:50px;height:60px}.crest svg{width:100%;height:100%}
+.manager strong{font-size:25px;letter-spacing:.06em;color:var(--gold);text-transform:uppercase}
+.manager small{font-size:15px;letter-spacing:.02em;text-transform:uppercase}
+.score p{margin:0;text-transform:uppercase;font-size:15px;letter-spacing:.1em}
+.numbers{display:flex;gap:15px;justify-content:center;align-items:baseline;font-size:74px;line-height:1.05;font-weight:700;font-variant-numeric:tabular-nums}
+.numbers i{font-style:normal;color:#b8b3a5;font-size:45px}
+.score .leader{color:var(--gold);font-size:18px}
+table{border-collapse:collapse;width:100%;flex:1;table-layout:fixed;font-variant-numeric:tabular-nums}
+tr{border-top:1px solid #8c732e}
+td{width:23%;text-align:center;font-size:25px;font-weight:700}
+th{font-size:18px;font-weight:600;letter-spacing:.045em;text-transform:uppercase}
+.state{margin:10px 0 0;font-size:14px;line-height:1.2;text-align:center;color:#c3bcad;flex-shrink:0}
+.career-copy{display:none}
+body:has(#view-career:checked) .showdown-copy{display:none}
+body:has(#view-career:checked) .career-copy{display:block}
+body:has(#view-career:checked) .crest,body:has(#view-career:checked) .manager small{visibility:hidden}
+.bottom{position:fixed;bottom:0;left:0;width:100%;height:calc(var(--nav) + env(safe-area-inset-bottom));padding:5px max(10px,calc((100% - 900px)/2)) calc(5px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--gold);background:linear-gradient(#181810ee,#050607);z-index:5}
+.bottom button{border:0;border-right:1px solid #8e70284d;color:#e6dfcc;background:transparent;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;font-size:17px;letter-spacing:.05em}
+.bottom button:last-child{border-right:0}.bottom button[aria-current]{color:var(--gold);background:radial-gradient(ellipse at bottom,#b387232e,transparent)}
+.bottom svg{width:24px;height:24px;fill:currentColor}
+.top{display:none}
+@media(min-width:901px){:root{--nav:0px}.top{display:flex;align-items:center;gap:28px;height:52px;padding:0 28px;border-bottom:1px solid var(--edge);background:#080a0c}.top span{margin-right:auto}.top button{background:transparent;border:0;color:#e6dfcc;font-size:16px}.top button[aria-current]{color:var(--gold)}.bottom{display:none}.stage{height:calc(100svh - 52px)}}
+@media(max-width:600px){
+ :root{--nav:56px}
+ .stage{padding:6px 12px 10px;gap:8px;grid-template-rows:minmax(0,.68fr) 44px minmax(0,1.5fr)}
+ .portraits{inset:-6px -12px 0}.portraits img{height:127%;width:57%}
+ .title p{font-size:9px;letter-spacing:.21em}.title h1{width:72%}.title .tagline{font-size:10px}
+ .gear{width:34px;height:34px;right:0}.gear svg{width:20px;height:20px}
+ .tabs{padding:2px}.tabs label{font-size:15px}
+ .board{padding:10px 10px 8px;outline-offset:2px}.board:before{inset:3px}
+ .heading h2{font-size:16px}.heading p{font-size:11px;margin-top:1px}
+ .scoreboard{margin:4px 0;gap:4px}.crest{width:26px;height:31px}
+ .manager strong{font-size:17px}.manager small{font-size:9px;line-height:1.1}
+ .score p{font-size:10px;letter-spacing:.03em}.numbers{font-size:43px;gap:8px;line-height:1}.numbers i{font-size:28px}.score .leader{font-size:11px}
+ th{font-size:12px;letter-spacing:0}td{font-size:17px}
+ .state{font-size:10px;line-height:1.1;margin-top:4px}
+ .bottom button{font-size:11px;gap:3px}.bottom svg{width:18px;height:18px}
+}
+</style>
+</head>
+<body>
+<header class="top"><span>CM<b>17</b></span><button type="button">HOME</button><button type="button">CAREER</button><button type="button" aria-current="page">STANDINGS</button><button type="button">STATS</button><button type="button">RULES</button></header>
+<main class="stage">
+ <section class="hero">
+  <div class="portraits" aria-hidden="true"><img class="daniel" src="../../../../visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_PHONE_V1.webp" alt=""><img class="nik" src="../../../../visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_PHONE_V1.webp" alt=""></div>
+  <button class="gear" type="button" aria-label="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Zm9 4.8v-2l-2.2-.7a7.4 7.4 0 0 0-.7-1.7l1-2.1-1.4-1.4-2.1 1a7.4 7.4 0 0 0-1.7-.7L13 3h-2l-.7 2.4a7.4 7.4 0 0 0-1.7.7l-2.1-1-1.4 1.4 1 2.1a7.4 7.4 0 0 0-.7 1.7L3 11v2l2.4.7c.2.6.4 1.2.7 1.7l-1 2.1 1.4 1.4 2.1-1c.5.3 1.1.5 1.7.7L11 21h2l.7-2.4c.6-.2 1.2-.4 1.7-.7l2.1 1 1.4-1.4-1-2.1c.3-.5.5-1.1.7-1.7L21 13Z"/></svg></button>
+  <header class="title"><p>CAREER MODE SHOWDOWN 17</p><h1><img src="../../../../visual-assets/v10_1/shared/wordmarks/TITLE_STANDINGS_V1.webp" alt="STANDINGS"></h1><p class="tagline">TWO MANAGERS • ONE LEGACY</p></header>
+ </section>
+ <div class="tabs" role="group" aria-label="Standings view">
+  <label><input type="radio" name="view" id="view-showdown" checked aria-label="This Showdown">This Showdown</label>
+  <label><input type="radio" name="view" id="view-career" aria-label="Career">Career</label>
+ </div>
+ <section class="board" aria-label="STANDINGS">
+  <div class="heading"><h2 class="showdown-copy">HEAD-TO-HEAD</h2><h2 class="career-copy">CAREER STANDINGS</h2><p class="showdown-copy">Season 1 of 3</p></div>
+  <div class="scoreboard">
+   <div class="manager"><div class="crest" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 144" aria-hidden="true" focusable="false"><defs><linearGradient id="cmsc1xr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbeaa0"/><stop offset=".45" stop-color="#c69a34"/><stop offset=".7" stop-color="#f3d470"/><stop offset="1" stop-color="#8e6a1f"/></linearGradient><linearGradient id="cmsc1xg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient><clipPath id="cmsc1xc"><path d="M60 6L104 19V84C104 107 83 124 60 133C37 124 16 107 16 84V19Z"/></clipPath></defs><g transform="translate(0 4)"><path d="M60 6L104 19V84C104 107 83 124 60 133C37 124 16 107 16 84V19Z" fill="url(#cmsc1xr)" transform="translate(60 70) scale(1.07) translate(-60 -70)"/><path d="M60 6L104 19V84C104 107 83 124 60 133C37 124 16 107 16 84V19Z" fill="#72b9dc"/><g clip-path="url(#cmsc1xc)"><rect x="0" y="0" width="120" height="16" fill="#6d2c3e"/><path d="M58 30V88H30ZM64 38V88H90Z" fill="#f5f5f3"/><path d="M24 92H96L86 108H34Z" fill="#6d2c3e"/><path d="M20 116Q30 110 40 116T60 116T80 116T100 116" fill="none" stroke="#f5f5f3" stroke-width="3"/><path d="M60 6L104 19V84C104 107 83 124 60 133C37 124 16 107 16 84V19Z" fill="url(#cmsc1xg)"/></g><path d="M60 6L104 19V84C104 107 83 124 60 133C37 124 16 107 16 84V19Z" fill="none" stroke="#1a1206" stroke-opacity=".35" stroke-width="1.2"/></g></svg></div><strong>Daniel</strong><small>Manchester City</small></div>
+   <div class="score"><p class="showdown-copy">Showdown Points</p><p class="career-copy">Career Points</p><div class="numbers"><b>0</b><i>:</i><b>0</b></div><p class="leader">Level</p></div>
+   <div class="manager"><div class="crest" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 144" aria-hidden="true" focusable="false"><defs><linearGradient id="cmsc2xr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbeaa0"/><stop offset=".45" stop-color="#c69a34"/><stop offset=".7" stop-color="#f3d470"/><stop offset="1" stop-color="#8e6a1f"/></linearGradient><linearGradient id="cmsc2xg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient><clipPath id="cmsc2xc"><path d="M60 15A55 55 0 1 1 59.99 15Z"/></clipPath></defs><g transform="translate(0 4)"><path d="M60 15A55 55 0 1 1 59.99 15Z" fill="url(#cmsc2xr)" transform="translate(60 70) scale(1.07) translate(-60 -70)"/><path d="M60 15A55 55 0 1 1 59.99 15Z" fill="#7a263a"/><g clip-path="url(#cmsc2xc)"><rect x="0" y="100" width="120" height="44" fill="#6fc0df"/><rect x="0" y="96" width="120" height="6" fill="#f3d13e"/><g transform="translate(38 58) rotate(-14)"><rect x="-3.5" y="-2" width="7" height="46" rx="2.5" fill="#f3d13e"/><path d="M-16 -14H12Q18 -14 18 -8V2Q18 6 14 6H-16Q-19 6 -19 2V-10Q-19 -14 -16 -14Z" fill="#f3d13e"/></g><g transform="translate(82 58) rotate(14) scale(-1 1)"><rect x="-3.5" y="-2" width="7" height="46" rx="2.5" fill="#f3d13e"/><path d="M-16 -14H12Q18 -14 18 -8V2Q18 6 14 6H-16Q-19 6 -19 2V-10Q-19 -14 -16 -14Z" fill="#f3d13e"/></g><path d="M60 15A55 55 0 1 1 59.99 15Z" fill="url(#cmsc2xg)"/></g><path d="M60 15A55 55 0 1 1 59.99 15Z" fill="none" stroke="#1a1206" stroke-opacity=".35" stroke-width="1.2"/></g></svg></div><strong>Nik</strong><small>West Ham United</small></div>
+  </div>
+  <table><tbody><tr><td>0</td><th scope="row">Season Wins</th><td>0</td></tr><tr><td>0</td><th scope="row">Season Draws</th><td>0</td></tr><tr><td>0</td><th scope="row">Season Losses</th><td>0</td></tr><tr><td>0</td><th scope="row">Champions Leagues</th><td>0</td></tr><tr><td>0</td><th scope="row">League Titles</th><td>0</td></tr><tr><td>0</td><th scope="row">Domestic Cups</th><td>0</td></tr><tr><td>0</td><th scope="row">Total Trophies</th><td>0</td></tr></tbody></table>
+  <p class="state showdown-copy">No season has been completed yet. Statistics will build automatically as seasons are finished.</p>
+  <p class="state career-copy">Career standings will appear after the first recorded season.</p>
+ </section>
+</main>
+<nav class="bottom" aria-label="Primary"><button type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2.5 11h2.7v9.5h5.3v-6h3v6h5.3V11h2.7Z"/></svg><span>HOME</span></button>
+<button type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3h11l-1 6.2A4.6 4.6 0 0 1 12 13a4.6 4.6 0 0 1-4.5-3.8ZM4 4.6h2.4l.4 2.6A2.4 2.4 0 0 1 4 4.6Zm16 0a2.4 2.4 0 0 1-2.8 2.6l.4-2.6ZM10.6 13.6h2.8v3.2h3v3.2H7.6v-3.2h3Z"/></svg><span>CAREER</span></button>
+<button type="button" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v3.2H3Zm0 6.4h18v3.2H3Zm0 6.4h18V20H3Z"/></svg><span>STANDINGS</span></button>
+<button type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18v1.6H3ZM4.6 12h3.6v6.4H4.6Zm5.6-5h3.6v11.4h-3.6Zm5.6 3h3.6v8.4h-3.6Z"/></svg><span>STATS</span></button>
+<button type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.5h10.5L19 7v13.5H5Zm9.6 1.3V8h3.2ZM7.6 10h8.8v1.5H7.6Zm0 3.2h8.8v1.5H7.6Zm0 3.2h6v1.5h-6Z"/></svg><span>RULES</span></button></nav>
+</body>
+</html>
