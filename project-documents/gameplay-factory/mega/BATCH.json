@@ -103,5 +103,12 @@
    1656
   ],
   "note": "Moved to the Claude lane 2026-10-12 (Nik): the lead runs them; Nik types nothing."
+ },
+ "work_batch": {
+  "size": 3,
+  "model": "Sol 6.1 · High",
+  "optional": true,
+  "source": "QUEUE_STATE.json sequence.ready_work_batches",
+  "rule": "Optional: 3 independent Work mode numbers in one message, done one after another, stopping at the first problem. Singles stay available."
  }
 }

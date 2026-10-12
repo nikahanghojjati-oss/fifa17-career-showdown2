@@ -136,12 +136,22 @@ def main():
             else:  # picture-free audits: chat
                 ready_chat.append(int(k)); audits.append(int(k))
         batches += [audits[i:i + 3] for i in range(0, len(audits), 3)]  # picture-free audits: 3 per message
+        # optional Work mode batches: 3 independent studies per message (different screens), in number order
+        wb, pool = [], list(ready_work)
+        while pool:
+            cur, scr = [], set()
+            for n in list(pool):
+                sc = tk[str(o[str(n)]["job"])]["screen"]
+                if sc in scr: continue
+                cur.append(n); scr.add(sc); pool.remove(n)
+                if len(cur) == 3: break
+            wb.append(cur)
         ready = ready_chat + ready_work
         mode = lambda r: tk[str(o[str(r)]["job"])]["mode"]
         taken = [int(k) for k, v in o.items() if state[str(v["job"])]["state"] != "waiting"]
         seq = {"ready": ready,
                "ready_chat": ready_chat, "ready_chat_batches": batches,  # ChatGPT chat: up to 3 consecutive same-train items per message
-               "ready_work": ready_work, "ready_work_label": "Sol 6.1 · High",  # Work mode studies, no cap
+               "ready_work": ready_work, "ready_work_batches": wb, "ready_work_label": "Sol 6.1 · High",  # Work mode studies, no cap
                "ready_sol": ready_chat,
                "ready_codex": [],
                "held_until_picture": len(held_items),
@@ -166,6 +176,7 @@ def main():
     for k in sorted(stages): L.append(f"{k} | {stages[k]['total']} | {stages[k]['taken']} | {stages[k]['merged']}")
     L += ["", f"Type now, ChatGPT chat (batches of up to 3, in order): {seq.get('ready_chat_batches')}",
           f"Type now, Work mode ({seq.get('ready_work_label')}, one number per message): {seq.get('ready_work')}",
+          f"Optional Work mode batches (3 per message): {seq.get('ready_work_batches')}",
           f"Type now, Codex: {seq.get('ready_codex')}"]
     (od / "QUEUE.md").write_text("\n".join(L) + "\n")
     # RUN_REPORT.md: the one file Nik points Claude at when back (generated, free)
