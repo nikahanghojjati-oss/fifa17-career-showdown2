@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 12 Oct, 12:17 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 12 Oct, 12:25 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r71** (main `2a511f6`, Sun 11 Oct 9:40 PM)
 
@@ -20,21 +20,9 @@ Updated Mon 12 Oct, 12:17 AM Boston time. Bug hunting only, no new features unti
 `█████░░░░░` **50.0000 %**  
 🟢 Team green · model not set · worker says done, no PR yet
 
-**#2 · 1648** `G` Old CSS: which old sheets and selectors are still live (report only)  
-`████████░░` **76.0000 %**  
-⚪ Team white · model not set · worker done, PR #690 open, CI running · CI 9 of 15 passed · last move 1 min ago
-
-**#3 · 1651** `G` Flash guard: cover Season Results, Final Winner and Rivalry, and time tap feedback  
-`████████░░` **75.3333 %**  
-⚪ Team white · model not set · worker done, PR #692 open, CI running · CI 8 of 15 passed · last move 1 min ago
-
-**#4 · 1652** `G` Settings › Motion: add a FULL MOTION choice  
-`███████░░░` **72.8571 %**  
-🔵 Team blue · model not set · worker done, PR #691 open, CI running · CI 2 of 7 passed · last move 1 min ago
-
-**#5 · 1723** `G` QoL 2: Career Start errors in plain English  
+**#2 · 1723** `G` QoL 2: Career Start errors in plain English  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #737 · CI 7 of 8 passed · last move 39 min ago
+🔵 Team blue · model not set · worker working, draft PR #737 · CI 7 of 8 passed · last move 47 min ago
 
 ### 👉 Next for you, in this order
 
@@ -751,8 +739,8 @@ Job 1726
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`█████░░░░░` **52.4590 %**  
-Numbered jobs: 68 done, 87 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`█████░░░░░` **53.3333 %**  
+Numbered jobs: 68 done, 84 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `██████░░░░` **56.0000 %**  
@@ -841,7 +829,7 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T04:15:19Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T04:23:42Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
