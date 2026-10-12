@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T02:54:00Z",
+"updated": "2026-10-12T02:55:30Z",
 "total": 552,
 "next_free": 187,
 "highest_taken": 536,
@@ -9,10 +9,9 @@
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
-"draft": 41,
+"draft": 42,
 "waiting": 227,
 "blocked": 1,
-"started": 1,
 "on_train": 4
 },
 "stages": {
@@ -53,9 +52,8 @@
 "states": {
 "closed": 37,
 "merged": 23,
-"draft": 4,
+"draft": 5,
 "blocked": 1,
-"started": 1,
 "waiting": 4
 }
 },
@@ -342,7 +340,7 @@
 },
 "rate": {
 "claimed_last_hour": 34,
-"claimed_last_10min": 5,
+"claimed_last_10min": 2,
 "merged_last_hour": 45
 },
 "lanes": {
@@ -382,9 +380,8 @@
 "states": {
 "merged": 86,
 "no_pr": 37,
-"wait_v": 4,
+"wait_v": 5,
 "blocked": 1,
-"started": 1,
 "waiting": 88,
 "audit_batch": 9
 },
@@ -394,10 +391,10 @@
 "needs_changes": 0
 },
 "picked_up": 138,
-"worker_done": 136,
+"worker_done": 137,
 "finished": 123,
 "pending_lead": 0,
-"wait_v": 4,
+"wait_v": 5,
 "audit_batch": 9,
 "trouble": 1,
 "closed": 0,
@@ -1511,13 +1508,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:36:30Z",
-"item": 282,
-"job": 1402,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:36:30Z",
 "item": 288,
@@ -3610,6 +3600,13 @@
 "job": 1257,
 "from": "waiting",
 "to": "started"
+},
+{
+"at": "2026-10-12T02:55:30Z",
+"item": 302,
+"job": 1257,
+"from": "started",
+"to": "draft"
 }
 ],
 "items": {
@@ -8387,12 +8384,19 @@
 "title": "Standings: phone mockup, version C (compact)",
 "mode": "study",
 "group": null,
-"state": "started",
+"pr": 719,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/719",
+"base": "study/mega-queue",
 "branch": "study/job-1257-standings-phone-c",
-"branch_sha": "7a098c0573be56dd2643f08e171e12ebbbf17835",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "ded519a0a11603d4b7a5cd3d48401ab70ca2455b",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:54:57Z",
 "first_seen": "2026-10-12T02:52:30Z",
-"since": "2026-10-12T02:52:30Z"
+"since": "2026-10-12T02:55:30Z"
 },
 "303": {
 "job": 1338,
