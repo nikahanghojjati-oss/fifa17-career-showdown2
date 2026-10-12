@@ -1,0 +1,1 @@
+Phone C study preserves all Rule Book rules via CSS-only section tabs. Shared wordmark and plate remain unchanged. Approved reference image pixels were not visible. Visual checks pending at 360x640, 393x660, 375x553.
