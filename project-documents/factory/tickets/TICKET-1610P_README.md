@@ -14,8 +14,8 @@ Nik runs one ticket per screen in a brand-new normal ChatGPT chat outside any pr
 | 6 | Club Assignment | DONE 12 Oct (ENV_CLUB_PLATE_V2) |
 | 7 | Career Statistics | DONE 12 Oct (ENV_STATISTICS_PLATE_V2) |
 | 8 | Rivalry Statistics | DONE 12 Oct (ENV_RIVALRY_PLATE_V2) |
-| 9 | Legacy | TICKET-1610P_9_OF_14_LEGACY_PLATE.md |
-| 10 | Trophy Room | TICKET-1610P_10_OF_14_TROPHY_ROOM_PLATE.md |
+| 9 | Legacy | DONE 12 Oct (ENV_LEGACY_PLATE_V2) |
+| 10 | Trophy Room | DONE 12 Oct (ENV_TROPHY_ROOM_PLATE_V2) |
 | 11 | Settings | DONE 12 Oct (ENV_SETTINGS_PLATE_V2) |
 | 12 | Final Winner | TICKET-1610P_12_OF_14_FINAL_WINNER_PLATE.md |
 | 13 | Rule Book | TICKET-1610P_13_OF_14_RULE_BOOK_PLATE.md |
