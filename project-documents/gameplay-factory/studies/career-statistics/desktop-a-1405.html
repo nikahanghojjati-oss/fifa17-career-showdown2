@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CAREER STATISTICS</title>
+<style>
+:root{color-scheme:dark;--gold:#f7ce57;--line:#b88926;--text:#f7f3e8}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;background:#060709;color:var(--text)}
+body{display:grid;place-items:center;font-family:"Arial Narrow","Liberation Sans Narrow",Arial,sans-serif}
+button{font:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid #fff1b8;outline-offset:4px}
+.stage{width:min(100vw,177.7778vh);aspect-ratio:16/9;position:relative;isolation:isolate;overflow:hidden;container-type:inline-size;background:#080a0d url("../../../../visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp") center/100% 100% no-repeat}
+.stage:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,transparent 18%,#03050625 32%,#03050625 69%,transparent 82%),linear-gradient(0deg,#03050660,transparent 52%)}
+.chrome{position:absolute;inset:0 0 auto;height:5.3%;padding:0 2%;display:flex;align-items:center;gap:2.4cqw;background:linear-gradient(#07090dec,#080a0dd6);border-bottom:1px solid var(--line);font-size:.82cqw;font-weight:700;letter-spacing:.14em}
+.chrome nav{display:flex;align-items:center;gap:2.4cqw}
+.chrome button{color:inherit;background:none;border:0;padding:.75cqw 0;letter-spacing:inherit}
+.chrome .brand{font-size:1.35cqw;color:var(--gold);border:1px solid var(--gold);padding:.2cqw .7cqw}
+.chrome .active{color:var(--gold);border-bottom:2px solid var(--gold)}
+.account{margin-left:auto;display:flex;align-items:center;gap:.55cqw;font-size:.62cqw;text-transform:uppercase}
+.account button,.account span{padding:.55cqw .6cqw;border:1px solid var(--line)}
+.account .settings{font-size:1.2cqw;color:var(--gold)}
+.preview{position:absolute;left:2%;top:7%;font-size:.63cqw;color:#f2dd9b;border:1px solid #ae862b;background:#080a0ddd;padding:.35cqw .6cqw}
+.title{position:absolute;left:29%;top:11.4%;width:42%;height:15%;text-align:center}
+.eyebrow{margin:0;color:var(--text);font-size:.76cqw;font-weight:700;letter-spacing:.45em}
+.title h1{margin:1.1cqw 0 .6cqw;line-height:1}
+.title img{width:100%;height:auto;display:block;filter:drop-shadow(0 2px 4px #000) drop-shadow(0 0 8px #c6972b55)}
+.tagline{margin:0;font-size:.76cqw;font-weight:700;letter-spacing:.38em}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.tiles{position:absolute;left:24%;top:28.5%;width:52%;height:12.5%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.5cqw}
+.tile,.panel,.leaderCard{border:1px solid var(--line);background:linear-gradient(145deg,#171915ed,#05080be8 60%,#191b14e0);box-shadow:inset 0 1px 1px #fff2b959,inset 0 0 0 3px #08090bc9,0 5px 15px #0008;border-radius:4px}
+.tile{padding:.7cqw;display:grid;grid-template-columns:25% 1fr;align-items:center;gap:.5cqw;min-width:0}
+.icon{color:var(--gold);display:grid;place-items:center;filter:drop-shadow(0 0 6px #eac24140)}
+.icon svg{width:2.9cqw;height:2.9cqw;fill:currentColor}
+.icon img{width:2.6cqw;height:3.5cqw;object-fit:contain}
+.label{font-size:.69cqw;line-height:1.1;font-weight:700;letter-spacing:.05em}
+.number{font-size:3.8cqw;font-weight:700;line-height:.95;color:var(--gold)}
+.together{font-size:.57cqw;letter-spacing:.15em;text-transform:uppercase}
+.pair{display:flex;gap:.28cqw;align-items:baseline;white-space:nowrap;margin-top:.4cqw}
+.pair b{font-size:2.55cqw;color:var(--gold);line-height:1}
+.pair small{font-size:.6cqw;color:#c7c2b4}
+.pair>span{font-size:1.3cqw;color:#a3997b}
+.panel{position:absolute;padding:.65cqw .7cqw}
+.panel h2{font-size:1.03cqw;letter-spacing:.12em;margin:0;padding:0 0 .55cqw;border-bottom:1px solid #9e8d5c;font-weight:700}
+.tablePanel{left:21.5%;top:42%;width:36.2%;height:22.3%}
+.comparisonPanel{left:58.3%;top:42%;width:21%;height:22.3%}
+table{border-collapse:collapse;width:100%;table-layout:fixed;margin-top:.4cqw;font-variant-numeric:tabular-nums}
+th{font-size:.67cqw;font-weight:400;color:#d6d1c5;padding:.45cqw .2cqw}
+td{font-size:.9cqw;padding:.7cqw .2cqw;border-top:1px solid #ffffff24;text-align:center}
+th:nth-child(1){width:8%}th:nth-child(2){width:25%}th:nth-child(3){width:19%}th:nth-child(4){width:21%}
+th:nth-child(2),td:nth-child(2){text-align:left}
+.leader td{background:#b58b231c;border-top:1px solid #b58b23;border-bottom:1px solid #b58b23;color:#ffedaa}
+.crown{color:var(--gold);margin-right:.4cqw}
+.compare{display:grid;grid-template-columns:3.3cqw 1fr 3.3cqw;align-items:center;padding:.3cqw 0 .1cqw;font-variant-numeric:tabular-nums}
+.compare>span{text-align:center;font-size:.58cqw;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.compare b{font-size:.82cqw}.d{color:#67c4f7}.n{color:#f5df39;text-align:right}
+.track{grid-column:1/-1;position:relative;margin-top:.23cqw;height:.3cqw;background:#8f96912b}
+.track i{position:absolute;height:100%;top:0}.dbar{right:50%;background:#45b0eb}.nbar{left:50%;background:#f1d627}
+.leadersPanel{left:15%;top:65.8%;width:70%;height:16.2%}
+.leaderGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.5cqw;padding-top:.6cqw}
+.leaderCard{height:6.6cqw;padding:.5cqw;display:grid;grid-template-columns:2.8cqw 1fr .7cqw;align-items:center;gap:.5cqw}
+.portrait{width:2.8cqw;height:4.2cqw;border:1px solid var(--line);background-image:url("../../../../visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp");background-repeat:no-repeat;background-size:815% 384%}
+.portrait.daniel{background-position:15% 18%}.portrait.nik{background-position:89% 18%}
+.name{font-size:.86cqw;margin-top:.25cqw}.leaderCard strong{font-size:1.33cqw;color:var(--gold);display:block;margin-top:.2cqw;white-space:nowrap}
+.leaderCard>span:last-child{color:var(--gold);font-size:1.35cqw}
+.actions{position:absolute;left:15.5%;top:84%;width:69%;height:6.5%;display:grid;grid-template-columns:1fr 1.08fr 1fr;gap:.6cqw}
+.action{display:grid;grid-template-columns:2.2cqw 1fr .8cqw;gap:.6cqw;align-items:center;min-width:0;padding:0 .9cqw;border:1px solid var(--line);border-radius:4px;background:linear-gradient(140deg,#181b16ec,#070a0cef);color:var(--text);font-size:.87cqw;font-weight:700;letter-spacing:.02em;box-shadow:inset 0 1px #fff3bb38,0 4px 15px #0007}
+.action.primary{color:#0d0c08;background:linear-gradient(130deg,#fff1a0,#f6ce53 45%,#ca9424);border-color:#ffe799;box-shadow:inset 0 0 0 3px #ffecaa55,0 0 20px #c794282c}
+.action img{width:1.9cqw;height:2.5cqw;object-fit:contain}.action svg{width:1.5cqw;height:1.5cqw;fill:var(--gold)}
+.action>span:last-child{font-size:1.4cqw}
+</style>
+</head>
+<body>
+<!-- Static CS1 preview data from Team V fixtures; copy and ordering from the live V10 renderer. -->
+<main class="stage" aria-labelledby="screenTitle">
+<header class="chrome"><button class="brand" type="button">CM17</button><nav aria-label="Main navigation"><button type="button">HOME</button><button type="button">CAREER</button><button type="button">STANDINGS</button><button class="active" aria-current="page" type="button">STATS</button><button type="button">RULES</button></nav><div class="account"><button type="button">SIGN IN</button><span>No Active Showdown</span><button class="settings" type="button" aria-label="SETTINGS">⚙</button></div></header>
+<span class="preview">Preview data</span>
+<header class="title"><p class="eyebrow">CAREER MODE SHOWDOWN 17</p><h1 id="screenTitle"><span class="sr">CAREER STATISTICS</span><img src="../../../../visual-assets/v10_1/career-statistics/assets/TITLE_CS_V1.webp" alt="" aria-hidden="true"></h1><p class="tagline">TWO MANAGERS. ONE LEGACY.</p></header>
+<section class="tiles" aria-label="Career headline totals">
+<article class="tile"><span class="icon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="m32 3 8 18 20 2-15 13 5 20-18-11-18 11 5-20L4 23l20-2z"/></svg></span><div><div class="label">COMPLETED SHOWDOWNS</div><div class="number">2</div><small class="together">Together</small></div></article>
+<article class="tile"><span class="icon"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="25" fill="none" stroke="currentColor" stroke-width="6"/><path d="m32 17 10 7-4 12H26l-4-12zm-17 11 11 8-4 13-10-8zm34 0-11 8 4 13 10-8z"/></svg></span><div><div class="label">SEASONS PLAYED</div><div class="pair"><small>D</small><b>6</b><span>/</span><small>N</small><b>6</b></div></div></article>
+<article class="tile"><span class="icon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 52h10V34H8zm18 0h10V22H26zm18 0h10V10H44z"/></svg></span><div><div class="label">CAREER POINTS</div><div class="pair"><small>D</small><b>17</b><span>/</span><small>N</small><b>19</b></div></div></article>
+<article class="tile"><span class="icon"><img src="../../../../visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt=""></span><div><div class="label">TROPHIES WON</div><div class="pair"><small>D</small><b>5</b><span>/</span><small>N</small><b>6</b></div></div></article>
+</section>
+<section class="panel tablePanel" aria-labelledby="tableTitle"><h2 id="tableTitle">CAREER TABLE</h2><table><thead><tr><th scope="col">#</th><th scope="col">Manager</th><th scope="col">Showdowns</th><th scope="col">Season W-D-L</th><th scope="col">Points</th><th scope="col">Trophies</th></tr></thead><tbody>
+<tr><td>2</td><td>Daniel</td><td>2</td><td>3-0-3</td><td>17</td><td>5</td></tr>
+<tr class="leader"><td>1</td><td><span class="crown" aria-label="Career leader">♛</span>Nik</td><td>2</td><td>3-0-3</td><td>19</td><td>6</td></tr>
+</tbody></table></section>
+<section class="panel comparisonPanel" aria-labelledby="compareTitle"><h2 id="compareTitle">MANAGER COMPARISON</h2>
+<div class="compare"><b class="d">3</b><span>LEAGUE TITLES</span><b class="n">3</b><div class="track"><i class="dbar" style="width:50%"></i><i class="nbar" style="width:50%"></i></div></div>
+<div class="compare"><b class="d">1</b><span>DOMESTIC CUPS</span><b class="n">2</b><div class="track"><i class="dbar" style="width:25%"></i><i class="nbar" style="width:50%"></i></div></div>
+<div class="compare"><b class="d">1</b><span>CHAMPIONS LEAGUE WINS</span><b class="n">1</b><div class="track"><i class="dbar" style="width:50%"></i><i class="nbar" style="width:50%"></i></div></div>
+<div class="compare"><b class="d">3</b><span>Season Wins</span><b class="n">3</b><div class="track"><i class="dbar" style="width:50%"></i><i class="nbar" style="width:50%"></i></div></div>
+<div class="compare"><b class="d">82.33</b><span>Average League Points</span><b class="n">86.83</b><div class="track"><i class="dbar" style="width:47.408829174664106%"></i><i class="nbar" style="width:50%"></i></div></div>
+<div class="compare"><b class="d">82.67</b><span>Average League Goals</span><b class="n">87.33</b><div class="track"><i class="dbar" style="width:47.328244274809165%"></i><i class="nbar" style="width:50%"></i></div></div>
+</section>
+<section class="panel leadersPanel" aria-labelledby="leadersTitle"><h2 id="leadersTitle">CAREER LEADERS</h2><div class="leaderGrid">
+<article class="leaderCard"><span class="portrait daniel" role="img" aria-label="Daniel portrait crop"></span><div><div class="label">MOST SEASON WINS</div><div class="name">Daniel + Nik</div><strong>3 wins</strong></div><span aria-hidden="true">›</span></article>
+<article class="leaderCard"><span class="portrait nik" role="img" aria-label="Nik portrait crop"></span><div><div class="label">MOST TROPHIES</div><div class="name">Nik</div><strong>6 trophies</strong></div><span aria-hidden="true">›</span></article>
+<article class="leaderCard"><span class="portrait nik" role="img" aria-label="Nik portrait crop"></span><div><div class="label">MOST CAREER POINTS</div><div class="name">Nik</div><strong>19 pts</strong></div><span aria-hidden="true">›</span></article>
+<article class="leaderCard"><span class="portrait nik" role="img" aria-label="Nik portrait crop"></span><div><div class="label">BEST SEASON SCORE</div><div class="name">Nik</div><strong>11 pts</strong></div><span aria-hidden="true">›</span></article>
+</div></section>
+<nav class="actions" aria-label="Career Statistics actions">
+<button class="action" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19h3V9H4v10Zm6 0h3V5h-3v14Zm6 0h3V12h-3v7Z"/></svg><span>CURRENT RIVALRY STATISTICS</span><span aria-hidden="true">›</span></button>
+<button class="action primary" type="button"><img src="../../../../visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt=""><span>OPEN TROPHY ROOM</span><span aria-hidden="true">›</span></button>
+<button class="action" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3V11Z"/></svg><span>BACK TO MAIN MENU</span><span aria-hidden="true">›</span></button>
+</nav>
+</main>
+</body>
+</html>

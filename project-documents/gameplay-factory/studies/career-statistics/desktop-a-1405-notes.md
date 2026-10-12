@@ -1,0 +1,15 @@
+# JOB-1405 · Career Statistics desktop A
+- Decision: retain the live layout and add gold bevels, consistent gutters and a clearer type scale.
+- Target: 1920×1080, guided by NEXT_STATISTICS and the original desktop mockup.
+- Frozen stadium plate keeps Daniel left and Nik right; title and portrait crops use existing artwork.
+- Labels, six comparison rows, four leader cards and action order come from the V10 renderer.
+- Fictional CS1 sample values come from Team V fixtures, with the existing Preview data label.
+- Daniel stays in the first table row; Nik ranks first for this fixture by trophies, then points.
+- The tied season-wins card retains Daniel + Nik, exactly as the live renderer does.
+- All three actions remain, including CURRENT RIVALRY STATISTICS omitted by the approved picture.
+- SIGN IN and the five hub navigation labels remain; STATS is active.
+- Inline CSS, no JavaScript, no network fonts, no new logos or trophy drawings.
+- Self-contained study only; static buttons preserve visual and keyboard order.
+- Existing README is unchanged; only the HTML and this notes file are added.
+- Validation: reread both files and checked labels, panel counts, action order and asset paths.
+- Browser rendering unavailable: Chromium download failed; Team V should visually review the draft.
