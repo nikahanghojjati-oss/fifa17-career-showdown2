@@ -180,6 +180,26 @@
   #transferChallenge .tw-host .stage[data-phase="SIGNING_ENTRY"] .scene { min-height: 72px; }
 }
 
+/* JOB-1189: Transfer Challenge / Signing Entry tap targets. Only touch or
+   <=760px viewports change; the Team V stage and desktop mouse remain intact. */
+@media (pointer: coarse), (max-width: 760px) {
+  #transferChallenge.tw-on .tw-host :is(button, a, [role="button"], [role="tab"]) {
+    box-sizing: border-box;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  /* Beat the app's min-width:0 HUD adapter override on touch layouts. */
+  #transferChallenge.tw-on .tw-host .hud-footer :is(button, a, [role="button"], [role="tab"]) {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  /* HUD actions and phase actions must not collide when scaled on a phone. */
+  #transferChallenge.tw-on .tw-host :is(.hud-footer, .action-row) {
+    column-gap: 8px;
+    row-gap: 8px;
+  }
+}
+
 /* Studio Z11: phone held sideways. Team V's plate scales the signing card down to a fixed 3-row panel with one line left
    under row 03; the 12px-floor privacy note wrapped to three lines there, ran over row 03 and under LOCK MY SIGNINGS.
    The card's title chip ("PRIVATE") and the lock-summary beside it already say the same thing, so the note steps aside
