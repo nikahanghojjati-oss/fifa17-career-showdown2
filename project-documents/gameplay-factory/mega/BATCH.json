@@ -4,7 +4,7 @@
  "clean_streak": 0,
  "goal": 10,
  "owner": "mega factory thread",
- "updated": "2026-10-11T22:58:00Z",
+ "updated": "2026-10-12T01:30:00Z",
  "note": "Nik decided 06:55 UTC: 3 numbers per chat; 5 once 10 batches in a row run clean.",
  "jobs_free": [
   1638,
@@ -30,5 +30,47 @@
    "job": 1646,
    "note": "Sol 6.1 \u00b7 High. After the Home train PR merges."
   }
- ]
+ ],
+ "wiring_chains": {
+  "model": "Sol 6.1 \u00b7 High",
+  "note": "Work mode wiring jobs: one number per message, in order within each chain; chains can run side by side.",
+  "chains": [
+   [
+    1602,
+    1603,
+    1604,
+    1605
+   ],
+   [
+    1612,
+    1613,
+    1614
+   ],
+   [
+    1615,
+    1616
+   ],
+   [
+    1617,
+    1618
+   ],
+   [
+    1619,
+    1620,
+    1621
+   ],
+   [
+    1630,
+    1631,
+    1632
+   ],
+   [
+    1633,
+    1634
+   ]
+  ],
+  "after_home_merge": [
+   1646
+  ]
+ }
 }
