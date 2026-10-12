@@ -81,20 +81,16 @@
  "work_extra": {
   "model": "Sol 6.1 · High",
   "numbers": [
-   189,
-   191,
-   183,
-   193,
+   187,
    195,
+   197,
+   441,
    443,
    445,
-   268,
-   232,
-   260,
-   288,
-   316
+   447,
+   509
   ],
-  "note": "Stage-3 jobs that need a PNG mockup: ChatGPT chat cannot open it (answers NEEDS MOCKUP), so they run in Work mode. 189 first, then 191. Chat still takes the JPG ones and the no-mockup ones. 232 260 268 288 316 are phone studies with PNG pictures; re-released 2026-10-12 with a 12-file read limit."
+  "note": "Stage 3 (match the desktop mockup), Nik's top priority 2026-10-12. Each is item 1 of its group's next train and opens when its area has no open train PR. 193 (Legacy) is Claude lane."
  },
  "claude_lane_jobs": {
   "jobs": [

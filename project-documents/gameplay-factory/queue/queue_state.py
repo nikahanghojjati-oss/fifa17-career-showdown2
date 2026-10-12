@@ -111,6 +111,13 @@ def main():
         held_items = [int(k) for k in o if held(tk[str(o[k]["job"])])]
         ready_chat, ready_work, batches, audits, seen_group = [], [], [], [], set(locked)
         keys = sorted(o, key=int)
+        # priority (Nik 2026-10-12): finish started trains first, then stage 3 (match the desktop mockup), then the rest by number
+        def _prio(k):
+            t = tk[str(o[k]["job"])]
+            started = t["mode"] == "code" and len(train_done.get(t["train"]["branch"], ())) > 0
+            return (0 if started else 1 if t["stage"] == 3 else 2, int(k))
+        keys = sorted(keys, key=_prio)
+        s3 = []
         for idx, k in enumerate(keys):
             j = str(o[k]["job"]); t = tk[j]
             if state[j]["state"] != "waiting": continue
@@ -125,9 +132,11 @@ def main():
                 g = t["train"]["group"]
                 if g in seen_group or ready_open >= 8: continue
                 seen_group.add(g)
+                if t["stage"] == 3 and not len(train_done.get(t["train"]["branch"], ())):
+                    s3.append(int(k)); continue  # stage 3 needs the picture: Work mode, one number per message
                 # same-train batch: this item plus the next consecutive waiting items of the SAME train, 3 at most
                 b, br = [int(k)], t["train"]["branch"]
-                for k2 in keys[idx + 1:]:
+                for k2 in sorted(keys[idx + 1:], key=int):
                     t2 = tk[str(o[k2]["job"])]
                     if len(b) >= 3 or t2["mode"] != "code" or t2["train"]["branch"] != br: continue
                     if state[str(o[k2]["job"])]["state"] != "waiting" or int(k2) in claude_items: break
@@ -160,6 +169,7 @@ def main():
                 cur.append(n); scr.add(sc); pool.remove(n)
                 if len(cur) == 3: break
             wb.append(cur)
+        ready_work = s3 + ready_work
         ready = ready_chat + ready_work
         mode = lambda r: tk[str(o[str(r)]["job"])]["mode"]
         taken = [int(k) for k, v in o.items() if state[str(v["job"])]["state"] != "waiting"]
