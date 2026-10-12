@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 11:47 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 11:51 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r71** (main `2a511f6`, Sun 11 Oct 9:40 PM)
 
@@ -22,7 +22,7 @@ Updated Sun 11 Oct, 11:47 PM Boston time. Bug hunting only, no new features unti
 
 **#2 · 1648** `G` Old CSS: which old sheets and selectors are still live (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 20 min ago
+⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 24 min ago
 
 **#3 · 1651** `G` Flash guard: cover Season Results, Final Winner and Rivalry, and time tap feedback  
 `████░░░░░░` **40.0000 %**  
@@ -30,11 +30,11 @@ Updated Sun 11 Oct, 11:47 PM Boston time. Bug hunting only, no new features unti
 
 **#4 · 1652** `G` Settings › Motion: add a FULL MOTION choice  
 `██████░░░░` **60.0000 %**  
-🔵 Team blue · model not set · worker done, PR #691 open, CI failed · CI 13 of 16 passed · last move 3 min ago
+🔵 Team blue · model not set · worker done, PR #691 open, CI failed · CI 13 of 16 passed · last move 6 min ago
 
 **#5 · 1723** `G` QoL 2: Career Start errors in plain English  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #737 · CI 7 of 8 passed · last move 9 min ago
+🔵 Team blue · model not set · worker working, draft PR #737 · CI 7 of 8 passed · last move 13 min ago
 
 ### 👉 Next for you, in this order
 
@@ -802,15 +802,15 @@ Type now, in any GPT chat:
 nothing ready
 ```
 
-Open code PRs: 3/8.
+Open code PRs: 1/8.
 
 552 taken of 552.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
 | audits | 146 | 112/146 | 146/146 |
-| screen fixes | 266 | 72/266 | 266/266 |
-| mockup match | 14 | 3/14 | 14/14 |
+| screen fixes | 266 | 81/266 | 266/266 |
+| mockup match | 14 | 4/14 | 14/14 |
 | phone studies | 70 | 23/70 | 70/70 |
 | desktop studies | 56 | 1/56 | 4/56 |
 
