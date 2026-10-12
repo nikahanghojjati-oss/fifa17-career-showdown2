@@ -83,7 +83,7 @@ a{color:inherit}
 <div class="lbl" style="margin:8px 0;font-size:14px"><b id="bsz"></b> · <span id="bst"></span><br>ChatGPT chat: type up to <span id="bmx"></span> numbers in one message (for example the line below). Work mode and Codex stay one number per message. <a href="https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/queue/BATCHES.md">Full batch table</a></div><div class="cols"><div class="col"><h3>ChatGPT chat (GPT-6 Sol) · Account 1 · odd numbers</h3><div class="chips" id="odd"></div></div>
 <div class="col"><h3>ChatGPT chat (GPT-6 Sol) · Account 2 · even numbers</h3><div class="chips" id="even"></div></div></div>
 <div class="col" style="margin-top:10px"><h3>Work mode · one number per message, not in batches · tap a box to copy the number; the model to pick is under it</h3><div class="chips" id="wk"></div><div class="lbl" id="wkw"></div></div>
-<div class="lbl" style="margin-top:8px" id="nxtnote"></div></div>
+<div class="lbl" style="margin-top:8px" id="sentbox"></div><div class="lbl" style="margin-top:8px" id="nxtnote"></div></div>
 
 <div class="card"><h2>Where you come in</h2><div class="lbl" id="rule" style="font-size:15px;margin-bottom:8px;color:inherit"></div><div id="role"></div><div class="lbl" id="rolesrc" style="margin-top:6px"></div></div>
 <div class="card"><h2>Who does what</h2><div id="lanes"></div>
@@ -141,7 +141,12 @@ async function load(){
   }
   lastOk=Date.now();paint();
 }
-function copyBtn(b){const n=b.dataset.n;try{navigator.clipboard.writeText(n)}catch(e){}b.classList.add("copied");setTimeout(()=>b.classList.remove("copied"),900)}
+const SK="megaSent",SENT_MS=45*60000;
+function getSent(){try{const o=JSON.parse(localStorage.getItem(SK)||"{}"),n=Date.now(),r={};for(const k in o)if(n-o[k]<SENT_MS)r[k]=o[k];return r}catch(e){return {}}}
+function setSent(o){try{localStorage.setItem(SK,JSON.stringify(o))}catch(e){}}
+function copyBtn(b){const n=b.dataset.n;try{navigator.clipboard.writeText(n).catch(()=>{})}catch(e){}b.classList.add("copied");
+  if(b.dataset.nosent!=="1"){const o=getSent(),now=Date.now();String(n).split(/\s+/).forEach(x=>{if(/^\d+$/.test(x))o[x]=now});setSent(o);setTimeout(()=>{if(D){D._painted=0;paint()}},1100)}
+  setTimeout(()=>b.classList.remove("copied"),900)}
 function paint(only,fail){
   if(!D){$("age").textContent=fail?"cannot reach GitHub":"loading…";return}
   const okT=typeof D.updated==="string"&&D.updated.length>8;const age=okT?(Date.now()-new Date(D.updated))/1000:1e9;
@@ -162,7 +167,7 @@ function paint(only,fail){
    $("lanes").innerHTML=Object.entries(D.lanes).filter(([k,L])=>L.total).map(([k,L])=>{const t=L.total,f=L.finished,w=L.worker_done-L.finished,pct=Math.round(100*f/t),q=[];
     if(L.trouble)q.push(L.trouble+" failing");if(L.closed)q.push(L.closed+" redone");if(L.reviews_total)q.push(L.reviews.ok+L.reviews.ok_notes+" of "+L.reviews_total+" reviews OK");
     return `<div class="stage"><div class="h"><span><b>${L.name}</b><br><span class="mut">${who[k]}</span></span><span><b>${pct}%</b> finished (${f}/${t})</span></div><div class="bar thin"><span style="width:${100*f/t}%;background:#2e9e5b"></span><span style="width:${100*w/t}%;background:#3b82f6"></span></div><div class="lbl">${L.picked_up} picked up · ${L.pending_lead} waiting for the lead${L.audit_batch?" · "+L.audit_batch+" audit reports being batch-merged":""}${L.wait_v?" · "+L.wait_v+" waiting on Team V":""} · ${t-L.picked_up} not started${q.length?" · "+q.join(" · "):""}</div></div>`}).join("");
-   const cx=D.codex_next||[];$("cx").innerHTML=cx.map(x=>chip(x.job)).join("");$("cxn").textContent=cx.length?"("+cx.length+" free)":"(none free)";
+   const cx=(D.codex_next||[]).filter(x=>!getSent()[x.job]);$("cx").innerHTML=cx.map(x=>chip(x.job)).join("");$("cxn").textContent=cx.length?"("+cx.length+" free)":"(none free)";
    $("cxw").textContent=(D.codex_waiting_on_deps||[]).length?"Waiting for an earlier job: "+D.codex_waiting_on_deps.map(x=>x.job+" (after "+x.deps.join(", ")+")").join("; "):"";}
   if(N){$("rule").textContent=N.rule||"";$("role").innerHTML=(N.you_come_in||[]).map(x=>`<div class="stage"><div class="h"><span><b>${esc(x.when)}</b></span><span class="pill" style="white-space:nowrap;align-self:flex-start;background:${x.auto?"#2e9e5b":"#e8590c"}">${x.auto?"automatic":"you"}</span></div><div class="lbl">${esc(x.what)}</div></div>`).join("");$("rolesrc").textContent="From: "+(N.from||"lead")+" · "+ago(N.updated);
    $("verd").innerHTML=(N.verdicts||[]).map(v=>`<div class="stage"><div class="h"><span><b>Job ${esc(v.job)}</b> ${esc(v.title||"")}</span><span class="pill" style="background:${v.verdict==="good"?"#2e9e5b":"#d64545"}">${v.verdict==="good"?"good job":"not good"}</span></div><div class="lbl">${esc(v.why||"")}</div></div>`).join("")+((N.lessons||[]).length?`<div class="lbl" style="margin-top:6px"><b>Lessons the lead took:</b> ${(N.lessons||[]).map(esc).join(" · ")}</div>`:"")}
@@ -170,23 +175,24 @@ function paint(only,fail){
    $("qual").innerHTML=Object.entries(D.lanes).filter(([k,L])=>L.total&&L.worker_done+L.closed).map(([k,L])=>{let tr="no trend yet";if(prevH&&prevH.lanes[k]){const o=prevH.lanes[k],dn=L.worker_done-o.done,dr=L.closed-o.redone;tr=(dn>=0?"+":"")+dn+" finished, "+(dr?"+":"")+dr+" redone since "+ago(prevH.at)}
     return `<div class="stage"><div class="h"><span><b>${esc(L.name)}</b></span><span><b>${L.first_time_ok==null?"-":L.first_time_ok+"%"}</b> first time OK</span></div><div class="lbl">${L.closed} thrown back · ${L.failing_now} failing checks now · ${tr}</div></div>`}).join("")}
   // TYPE NEXT
-  const all=(g.ready_all&&g.ready_all.length?g.ready_all:g.ready||[]).slice(0,150);
+  const SENT=getSent(),all=(g.ready_all&&g.ready_all.length?g.ready_all:g.ready||[]).slice(0,150).filter(x=>!SENT[x]);
   const fb=$("first");{const f=all.slice(0,B.size||3).join(" ");fb.textContent=f||"none";fb.dataset.n=f}fb.onclick=()=>all.length&&copyBtn(fb);
-  $("rt").textContent=g.ready_total!=null?g.ready_total:all.length;
+  $("rt").textContent=all.length+(g.ready_total>(g.ready_all||[]).length?g.ready_total-(g.ready_all||[]).length:0);
   {const hb=Object.entries(g.held_by_picture||{}),ph=hb.filter(([k])=>k.startsWith("phone")),dk=hb.filter(([k])=>k.startsWith("desktop"));
   const nm=k=>k.replace(/^\w+ /,"").toLowerCase().replace(/_/g," ");
   const parts=[];if(dk.length)parts.push(dk.reduce((a,[k,v])=>a+v,0)+" desktop studies wait for approved desktop pictures");if(ph.length)parts.push(ph.reduce((a,[k,v])=>a+v,0)+" phone studies wait for pictures ("+ph.map(([k])=>nm(k)).join(", ")+")");
   $("held").textContent=g.held_until_picture?`Held: ${parts.join("; ")}.`:"";}
-  {const W=B.wiring_chains;$("wcard").style.display=W?"":"none";if(W){const m=esc(W.model||"Sol 6.1 · High"),c=x=>`<button class="wbox" data-n="${x}">${x}<small>${m}</small></button>`;
+  {const W=B.wiring_chains;$("wcard").style.display=W?"":"none";if(W){const m=esc(W.model||"Sol 6.1 · High"),c=x=>`<button class="wbox" data-nosent="1" data-n="${x}">${x}<small>${m}</small></button>`;
    $("wch").innerHTML=(W.chains||[]).map((ch,i)=>`<div class="stage"><div class="lbl">Chain ${i+1}</div><div class="chips" style="align-items:flex-start">${ch.map(c).join('<span style="align-self:center">→</span>')}</div></div>`).join("")+((W.after_home_merge||[]).length?`<div class="stage"><div class="lbl">After the Home PR merges</div><div class="chips">${W.after_home_merge.map(c).join("")}</div></div>`:"");
    $("wnote").textContent=W.note||""}}
   const none='<span class="none">None free right now.</span>';
   const bl=a=>{const z=[],k=B.size||3;for(let i=0;i<a.length;i+=k)z.push(a.slice(i,i+k));return z.map(g=>`<button class="chip batch" data-n="${g.join(" ")}">${g.join(" ")}</button>`).join("")||none};
-  const WE=B.work_extra||{},weN=(WE.numbers||[]).filter(x=>all.includes(x)),wkList=weN.concat((g.ready_work||[]).filter(x=>!weN.includes(x))),wkset=new Set(wkList),chat=all.filter(x=>!wkset.has(x)).concat(B.jobs_free||[]);
+  const WE=B.work_extra||{},weN=(WE.numbers||[]).filter(x=>all.includes(x)),wkList=weN.concat((g.ready_work||[]).filter(x=>!weN.includes(x)&&!SENT[x])),wkset=new Set(wkList),chat=all.filter(x=>!wkset.has(x)).concat((B.jobs_free||[]).filter(x=>!SENT[x]));
   $("odd").innerHTML=bl(chat.filter(x=>x%2));
   $("even").innerHTML=bl(chat.filter(x=>x%2===0));
   $("wkw").textContent=(B.work_waiting||[]).map(x=>"Not free yet: "+x.job+" ("+x.note+")").join("; ");const wm=g.work_models||{};$("wk").innerHTML=wkList.map(x=>`<button class="wbox" data-n="${x}">${x}<small>${esc(wm[x]||(weN.includes(x)?WE.model:"")||"")}</small></button>`).join("")||none;
   $("bmx").textContent=B.size||3;$("bsz").textContent=(B.size||3)+" numbers per chat";$("bst").textContent=(B.clean_streak||0)+" of "+(B.goal||10)+" clean batches in a row"+(B.size<B.max?" (then "+B.max+" per chat)":"");
+  {const sn=Object.keys(SENT);$("sentbox").innerHTML=sn.length?`You already copied: <b>${sn.join(" ")}</b> (hidden for 45 min so you cannot paste them twice). <button class="more" id="unsent">Show them again</button>`:"";const ub=$("unsent");if(ub)ub.onclick=()=>{setSent({});D._painted=0;paint()}}
   $("nxtnote").textContent=((B.jobs_after_wiring||[]).length?"Polish jobs after wiring (not free yet): "+B.jobs_after_wiring.join(", ")+". ":"")+(g.ready_total>all.length?`Showing the first ${all.length} of ${g.ready_total}. `:"")+"A number leaves this list the minute its chat claims it. Numbers not listed have to wait.";
   document.querySelectorAll(".chip,.wbox").forEach(b=>b.onclick=()=>copyBtn(b));
   // all numbers bar
