@@ -504,12 +504,14 @@ def run_round(a, ctx):
         q_batches = [b for b in q_batches if b]
         chat_batches = q_batches
         q_chat = [x for x in qs["ready_chat"] if live(x)]
+        work_batches = [b for b in ([[x for x in b if live(x)] for b in qs.get("ready_work_batches", [])]) if len(b) > 1]
         ready = q_chat + q_work
         ready_work_override = q_work
         train_batches = q_batches
         work_label = qs.get("ready_work_label") or "Sol 6.1 · High"
     else:
         ready_work_override = None
+        work_batches = []
         work_label = None
         chat_batches = None
     held_n = sum(1 for k in items if items[k]["state"] == "waiting" and held(k))
@@ -522,7 +524,7 @@ def run_round(a, ctx):
     gates = {"cap": CAP, "open_code_prs": len(open_code), "open_train_prs": open_all,
              "on_train_no_pr": started_code, "draft_code_prs": len(open_all) - len(open_code), "area_locks": {g: n for g, n in locked.items() if g},
              "ready": ready[:12], "ready_sol": ready_sol, "ready_codex": ready_codex,
-             "ready_all": ready[:400], "train_batches": train_batches, "chat_batches": chat_batches, "work_models": {str(k): (work_label or pick_model(k)) for k in ready if order[str(k)].get("mode") == "study" and order[str(k)].get("screen") in pics.get("keys", {})}, "ready_work": (ready_work_override if ready_work_override is not None else [k for k in ready if order[str(k)].get("mode") == "study" and order[str(k)].get("screen") in pics.get("keys", {})]), "ready_total": len(ready), "held_until_picture": held_n, "held_by_picture": held_by}
+             "ready_all": ready[:400], "train_batches": train_batches, "work_batches": work_batches, "chat_batches": chat_batches, "work_models": {str(k): (work_label or pick_model(k)) for k in ready if order[str(k)].get("mode") == "study" and order[str(k)].get("screen") in pics.get("keys", {})}, "ready_work": (ready_work_override if ready_work_override is not None else [k for k in ready if order[str(k)].get("mode") == "study" and order[str(k)].get("screen") in pics.get("keys", {})]), "ready_total": len(ready), "held_until_picture": held_n, "held_by_picture": held_by}
     # stale: claimed over 45 minutes ago and still no PR
     stale = [int(k) for k, v in items.items() if v["state"] == "started"
              and (datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.fromisoformat(v["since"].replace("Z", "+00:00"))).total_seconds() > 2700]
