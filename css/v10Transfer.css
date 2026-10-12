@@ -181,8 +181,11 @@
 }
 
 /* JOB-1189: Transfer Challenge / Signing Entry tap targets. Only touch or
-   <=760px viewports change; the Team V stage and desktop mouse remain intact. */
-@media (pointer: coarse), (max-width: 760px) {
+   <=760px viewports change; the Team V stage and desktop mouse remain intact.
+   Lead browser check: a phone held sideways (height <= 480px) is left out. Team V scales that stage to a fixed
+   3-row panel, and 44px buttons there ran over signing row 3, the title and the HOME/REFRESH footer (rows 3 became
+   untappable), so the stage keeps its authored sizes in that orientation. */
+@media (pointer: coarse) and (min-height: 481px), (max-width: 760px) and (min-height: 481px) {
   #transferChallenge.tw-on .tw-host :is(button, a, [role="button"], [role="tab"]) {
     box-sizing: border-box;
     min-width: 44px;
