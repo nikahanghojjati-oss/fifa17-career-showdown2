@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-12T10:12:53Z
+# Mega factory tracker · updated 2026-10-12T10:15:05Z
 
-**Type now (52 free):** 374, 402, 430, 458, 376, 404, 432, 460, 378, 406, 434, 462, 380, 408, 436, 464, 382, 410, 438, 466, 384, 412, 440, 468, 386, 414, 442, 470, 388, 416, 444, 472, 390, 418, 446, 474, 392, 420, 448, 476, 394, 422, 450, 396, 424, 452, 398, 426, 454, 400, 428, 456
-**Next free number:** 374 · **highest taken:** 541 of 394
+**Type now (51 free):** 402, 430, 458, 376, 404, 432, 460, 378, 406, 434, 462, 380, 408, 436, 464, 382, 410, 438, 466, 384, 412, 440, 468, 386, 414, 442, 470, 388, 416, 444, 472, 390, 418, 446, 474, 392, 420, 448, 476, 394, 422, 450, 396, 424, 452, 398, 426, 454, 400, 428, 456
+**Next free number:** 376 · **highest taken:** 541 of 394
 **Code PRs open:** 0 of 8 · area locks: none
-**Rate:** 0 claimed in 10 min · 0 in 1 h · 0 merged in 1 h
+**Rate:** 1 claimed in 10 min · 1 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 226 of 394**
 
@@ -11,10 +11,10 @@ State | count
 --- | ---
 🚀 live in a release | 45
 ✅ merged to staging branch | 181
-📝 draft PR, not checked yet | 33
+📝 draft PR, not checked yet | 34
 🟧 blocked | 1
 ⚫ closed without merge | 82
-⬜ waiting | 52
+⬜ waiting | 51
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
@@ -22,7 +22,7 @@ Stage | total | merged/live | in flight | waiting
 2 Screen fixes | 129 | 85 | 0 | 0
 3 Match desktop to mockups | 6 | 5 | 0 | 0
 4 Phone mockup studies | 70 | 23 | 10 | 0
-5 Improved desktop studies | 56 | 1 | 3 | 52
+5 Improved desktop studies | 56 | 1 | 4 | 51
 
 ## Needs attention
 
@@ -43,6 +43,7 @@ Stage | total | merged/live | in flight | waiting
 - 📝 **366** · Job 1405 · Career Statistics: improved desktop, version A (polish) · draft PR, not checked yet · [PR #729](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/729)
 - 📝 **368** · Job 1173 · Club packs: improved desktop, version A (polish) · draft PR, not checked yet · [PR #728](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/728)
 - 📝 **370** · Job 1289 · Final Winner (Showdown Champion): improved desktop, version A (polish) · draft PR, not checked yet · [PR #730](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/730)
+- 📝 **374** · Job 1144 · Select League: improved desktop, version A (polish) · draft PR, not checked yet · [PR #749](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/749)
 - 📝 **519** · Job 1661 · Audit js/scoring.js for gameplay bugs (first half) · draft PR, not checked yet · [PR #704](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/704)
 - 📝 **520** · Job 1662 · Audit js/showdownUI.js for gameplay bugs (first half) · draft PR, not checked yet · [PR #701](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/701)
 - 📝 **521** · Job 1663 · Audit js/transferSelector.js for gameplay bugs (first half) · draft PR, not checked yet · [PR #707](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/707)
@@ -67,6 +68,7 @@ Stage | total | merged/live | in flight | waiting
 
 ## Latest changes
 
+- 2026-10-12T10:15:05Z · 374 (Job 1144): waiting → draft
 - 2026-10-12T03:56:49Z · 435 (Job 1360): ci_failed → merged
 - 2026-10-12T03:56:49Z · 427 (Job 1359): ci_failed → merged
 - 2026-10-12T03:56:49Z · 419 (Job 1358): ci_failed → merged
@@ -86,4 +88,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-12T03:56:49Z · 217 (Job 1073): ci_failed → merged
 - 2026-10-12T03:56:49Z · 209 (Job 1217): ci_failed → merged
 - 2026-10-12T03:56:49Z · 207 (Job 1188): ci_failed → merged
-- 2026-10-12T03:56:49Z · 201 (Job 1101): ci_failed → merged

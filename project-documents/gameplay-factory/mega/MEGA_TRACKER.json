@@ -1,15 +1,15 @@
 {
-"updated": "2026-10-12T10:12:53Z",
+"updated": "2026-10-12T10:15:05Z",
 "total": 394,
-"next_free": 374,
+"next_free": 376,
 "highest_taken": 541,
 "counts": {
 "live": 45,
 "merged": 181,
 "closed": 82,
-"draft": 33,
+"draft": 34,
 "blocked": 1,
-"waiting": 52
+"waiting": 51
 },
 "stages": {
 "2": {
@@ -51,9 +51,9 @@
 "name": "Improved desktop studies",
 "total": 56,
 "states": {
-"draft": 3,
+"draft": 4,
 "merged": 1,
-"waiting": 52
+"waiting": 51
 }
 }
 },
@@ -66,7 +66,6 @@
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-374,
 402,
 430,
 458,
@@ -77,10 +76,10 @@
 378,
 406,
 434,
-462
+462,
+380
 ],
 "ready_sol": [
-374,
 402,
 430,
 458,
@@ -91,7 +90,8 @@
 378,
 406,
 434,
-462
+462,
+380
 ],
 "ready_codex": [],
 "claimed": {
@@ -257,7 +257,6 @@
 }
 },
 "ready_all": [
-374,
 402,
 430,
 458,
@@ -313,7 +312,6 @@
 "train_batches": [],
 "work_batches": [
 [
-374,
 376,
 378
 ],
@@ -403,7 +401,6 @@
 ],
 "chat_batches": [],
 "work_models": {
-"374": "Sol 6.1 \u00b7 High",
 "402": "Sol 6.1 \u00b7 High",
 "430": "Sol 6.1 \u00b7 High",
 "458": "Sol 6.1 \u00b7 High",
@@ -457,7 +454,6 @@
 "456": "Sol 6.1 \u00b7 High"
 },
 "ready_work": [
-374,
 402,
 430,
 458,
@@ -510,13 +506,13 @@
 428,
 456
 ],
-"ready_total": 52,
+"ready_total": 51,
 "held_until_picture": 0,
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 0,
-"claimed_last_10min": 0,
+"claimed_last_hour": 1,
+"claimed_last_10min": 1,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -552,9 +548,9 @@
 "states": {
 "merged": 86,
 "no_pr": 37,
-"wait_v": 12,
+"wait_v": 13,
 "blocked": 1,
-"waiting": 52,
+"waiting": 51,
 "audit_batch": 11
 },
 "reviews": {
@@ -562,11 +558,11 @@
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 147,
-"worker_done": 146,
+"picked_up": 148,
+"worker_done": 147,
 "finished": 123,
 "pending_lead": 0,
-"wait_v": 12,
+"wait_v": 13,
 "audit_batch": 11,
 "trouble": 1,
 "closed": 0,
@@ -2020,13 +2016,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T22:45:17Z",
-"item": 145,
-"job": 1069,
-"from": "ci_failed",
-"to": "ci_running"
-},
 {
 "at": "2026-10-11T22:45:17Z",
 "item": 149,
@@ -4119,6 +4108,13 @@
 "job": 1360,
 "from": "ci_failed",
 "to": "merged"
+},
+{
+"at": "2026-10-12T10:15:05Z",
+"item": 374,
+"job": 1144,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -9145,8 +9141,19 @@
 "title": "Select League: improved desktop, version A (polish)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 749,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/749",
+"base": "study/mega-queue",
+"branch": "study/job-1144-league-desktop-a-polish",
+"ci": "draft",
+"ci_sha": "d963aedfa54af90eec32d4a355584f420e81a698",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T10:14:57Z",
+"first_seen": "2026-10-12T10:14:57Z",
+"since": "2026-10-12T10:15:05Z"
 },
 "376": {
 "job": 1318,
