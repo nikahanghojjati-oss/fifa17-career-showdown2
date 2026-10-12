@@ -1,0 +1,12 @@
+# JOB-1289 · Final Winner desktop A
+- Decision: preserve the live central ceremony and wide results strip, polishing spacing and type at 1920×1080.
+- Approved NEXT_FINAL_WINNER guides hierarchy, dark marble, warm gold edges and the two-button row; wording comes from live sources.
+- Daniel stays left and Nik right; the plate and Final Winner near-arm overlays share one unmirrored 16:9 camera.
+- Existing Showdown Champion and honours artwork only; no new player imagery, crests, trophies or logos.
+- Keep the final-season en dash: 6 – 0.
+- Static illustrative one-season result uses 6–0; trophy counts are sample data, not a live account or an authoritative record.
+- Copy sources: app-shell.html, app-strings.json, seasonFinalV10.js, index.html and seasonEngine.js.
+- REVIEW SEASON matches index.html and seasonEngine.js; the longer review label in the picture is not copied.
+- The completed frame has no pending-close control, completion message, coverage notice or reconciliation panel when their live nodes are hidden.
+- Inline CSS only; no JavaScript, persistence, gameplay changes or additional taps.
+- Desktop study: a proportionate 16:9 canvas; this is not a phone implementation.
