@@ -11,7 +11,7 @@ Nik runs one ticket per screen in a brand-new normal ChatGPT chat outside any pr
 | 3 | Season Results | DONE 12 Oct (ENV_SEASON_RESULTS_PLATE_V2) |
 | 4 | Transfer War | DONE 12 Oct (ENV_TRANSFER_PLATE_V2) |
 | 5 | Select League | DONE 12 Oct (ENV_LEAGUE_PLATE_V2) |
-| 6 | Club Assignment | TICKET-1610P_6_OF_14_CLUB_PLATE.md |
+| 6 | Club Assignment | DONE 12 Oct (ENV_CLUB_PLATE_V2) |
 | 7 | Career Statistics | TICKET-1610P_7_OF_14_STATISTICS_PLATE.md |
 | 8 | Rivalry Statistics | TICKET-1610P_8_OF_14_RIVALRY_PLATE.md |
 | 9 | Legacy | TICKET-1610P_9_OF_14_LEGACY_PLATE.md |
