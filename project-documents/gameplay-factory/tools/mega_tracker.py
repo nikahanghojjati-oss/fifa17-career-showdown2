@@ -334,6 +334,8 @@ def run_round(a, ctx):
                 it["state"] = "ready"
         it["pr_opened_at"] = pr["created_at"]
 
+    try: RETIRED = {int(x) for x in json.loads((GF / "queue" / "RETIRED.json").read_text()).get("items", [])}
+    except Exception: RETIRED = set()
     items, events = {}, list(prev.get("events", []))
     for k in sorted(order, key=int):
         o = order[k]
@@ -362,6 +364,8 @@ def run_round(a, ctx):
             it.update(state="no_pr" if reason else "started", branch=bs[0], branch_sha=sha, no_pr_reason=reason)
         else:
             it["state"] = "waiting"
+        if it["state"] == "waiting" and int(k) in RETIRED:
+            continue  # retired (queue/RETIRED.json): never counted as waiting or listed
         if it["state"] != "waiting":
             it["first_seen"] = old.get("first_seen") or (pr["created_at"] if pr else t)
         if old.get("state") != it["state"] and not (old.get("state") is None and it["state"] == "waiting"):
