@@ -1,14 +1,14 @@
 {
-"updated": "2026-10-12T03:12:16Z",
+"updated": "2026-10-12T03:14:55Z",
 "total": 552,
 "next_free": 187,
-"highest_taken": 539,
+"highest_taken": 541,
 "counts": {
 "live": 45,
 "merged": 151,
 "closed": 82,
-"draft": 57,
-"waiting": 215,
+"draft": 61,
+"waiting": 211,
 "blocked": 1,
 "started": 1
 },
@@ -29,8 +29,8 @@
 "total": 146,
 "states": {
 "merged": 112,
-"draft": 15,
-"waiting": 18,
+"draft": 19,
+"waiting": 14,
 "started": 1
 }
 },
@@ -88,40 +88,36 @@
 "ready": [
 525,
 527,
-531,
 533,
-538,
-540,
-541,
 542,
 543,
 544,
 545,
-546
+546,
+547,
+548,
+549,
+550
 ],
 "ready_sol": [
 525,
 527,
-531,
 533,
-538,
-540,
-541,
 542,
 543,
 544,
 545,
-546
+546,
+547,
+548,
+549,
+550
 ],
 "ready_codex": [],
 "ready_all": [
 525,
 527,
-531,
 533,
-538,
-540,
-541,
 542,
 543,
 544,
@@ -192,13 +188,9 @@
 527
 ],
 [
-531,
-533,
-538
+533
 ],
 [
-540,
-541,
 542
 ],
 [
@@ -316,13 +308,9 @@
 527
 ],
 [
-531,
-533,
-538
+533
 ],
 [
-540,
-541,
 542
 ],
 [
@@ -452,13 +440,13 @@
 428,
 456
 ],
-"ready_total": 70,
+"ready_total": 66,
 "held_until_picture": 0,
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 42,
-"claimed_last_10min": 3,
+"claimed_last_hour": 46,
+"claimed_last_10min": 7,
 "merged_last_hour": 60
 },
 "lanes": {
@@ -470,8 +458,8 @@
 "closed": 25,
 "merged": 15,
 "draft": 30,
-"waiting": 134,
-"audit_batch": 6,
+"waiting": 132,
+"audit_batch": 8,
 "started": 1
 },
 "reviews": {
@@ -479,16 +467,16 @@
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 122,
-"worker_done": 96,
+"picked_up": 124,
+"worker_done": 98,
 "finished": 60,
 "pending_lead": 30,
 "wait_v": 0,
-"audit_batch": 6,
+"audit_batch": 8,
 "trouble": 0,
 "closed": 25,
 "reviews_total": 0,
-"first_time_ok": 79,
+"first_time_ok": 80,
 "failing_now": 0
 },
 "gpt2": {
@@ -499,20 +487,20 @@
 "no_pr": 37,
 "wait_v": 12,
 "blocked": 1,
-"waiting": 81,
-"audit_batch": 9
+"waiting": 79,
+"audit_batch": 11
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 145,
-"worker_done": 144,
+"picked_up": 147,
+"worker_done": 146,
 "finished": 123,
 "pending_lead": 0,
 "wait_v": 12,
-"audit_batch": 9,
+"audit_batch": 11,
 "trouble": 1,
 "closed": 0,
 "reviews_total": 0,
@@ -552,7 +540,8 @@
 "live": 11,
 "closed": 4,
 "waiting": 1,
-"draft": 3
+"draft": 2,
+"ci_failed": 1
 },
 "reviews": {
 "ok": 0,
@@ -562,14 +551,14 @@
 "picked_up": 18,
 "worker_done": 14,
 "finished": 11,
-"pending_lead": 3,
+"pending_lead": 2,
 "wait_v": 0,
 "audit_batch": 0,
-"trouble": 0,
+"trouble": 1,
 "closed": 4,
 "reviews_total": 0,
 "first_time_ok": 78,
-"failing_now": 0
+"failing_now": 1
 },
 "work": {
 "name": "ChatGPT Work mode",
@@ -1624,41 +1613,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T21:43:03Z",
-"item": 97,
-"job": 1153,
-"from": "on_train",
-"to": "draft"
-},
-{
-"at": "2026-10-11T21:43:03Z",
-"item": 115,
-"job": 1154,
-"from": "on_train",
-"to": "draft"
-},
-{
-"at": "2026-10-11T21:43:03Z",
-"item": 133,
-"job": 1155,
-"from": "on_train",
-"to": "draft"
-},
-{
-"at": "2026-10-11T21:43:03Z",
-"item": 151,
-"job": 1156,
-"from": "on_train",
-"to": "draft"
-},
-{
-"at": "2026-10-11T21:43:03Z",
-"item": 169,
-"job": 1157,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-11T22:05:33Z",
 "item": 101,
@@ -3721,6 +3675,41 @@
 "at": "2026-10-12T03:12:16Z",
 "item": 529,
 "job": 1671,
+"from": "waiting",
+"to": "started"
+},
+{
+"at": "2026-10-12T03:14:55Z",
+"item": 529,
+"job": 1671,
+"from": "started",
+"to": "draft"
+},
+{
+"at": "2026-10-12T03:14:55Z",
+"item": 531,
+"job": 1673,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-12T03:14:55Z",
+"item": 538,
+"job": 1680,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-12T03:14:55Z",
+"item": 540,
+"job": 1682,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-12T03:14:55Z",
+"item": 541,
+"job": 1683,
 "from": "waiting",
 "to": "started"
 }
@@ -10945,12 +10934,19 @@
 "title": "Audit js/optionalModules.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "started",
+"pr": 732,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/732",
+"base": "qa/mega-audits",
 "branch": "qa/job-1671-optionalmodules-firsthalf-audit",
-"branch_sha": "ee7a19450dc77f7897fdd1b9c4f59a3b66d3eb2a",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "f822b4505d61abafec71a16463d820eb299de110",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T03:13:33Z",
 "first_seen": "2026-10-12T03:12:16Z",
-"since": "2026-10-12T03:12:16Z"
+"since": "2026-10-12T03:14:55Z"
 },
 "530": {
 "job": 1672,
@@ -10978,8 +10974,19 @@
 "title": "Audit js/storageTransaction.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-12T02:25:29Z"
+"pr": 734,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/734",
+"base": "qa/mega-audits",
+"branch": "qa/job-1673-storage-transactions-audit",
+"ci": "draft",
+"ci_sha": "0e1ed0816079685aa4763e68f85a20ea90c1b70f",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T03:14:44Z",
+"first_seen": "2026-10-12T03:14:44Z",
+"since": "2026-10-12T03:14:55Z"
 },
 "532": {
 "job": 1674,
@@ -11096,8 +11103,19 @@
 "title": "Audit js/transferSelector.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-12T02:25:29Z"
+"pr": 731,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/731",
+"base": "qa/mega-audits",
+"branch": "qa/job-1680-transfer-selector-audit-2",
+"ci": "draft",
+"ci_sha": "2b7ebfc5524ce3539ee2bf10554b4f1ec91ba35a",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T03:13:20Z",
+"first_seen": "2026-10-12T03:13:20Z",
+"since": "2026-10-12T03:14:55Z"
 },
 "539": {
 "job": 1681,
@@ -11125,8 +11143,19 @@
 "title": "Audit js/trophyRoom.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-12T02:25:29Z"
+"pr": 733,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/733",
+"base": "qa/mega-audits",
+"branch": "qa/job-1682-trophy-room-audit-2",
+"ci": "draft",
+"ci_sha": "017584d16f2914d21f57d2cc1885eb7b6b825c3a",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T03:14:34Z",
+"first_seen": "2026-10-12T03:14:34Z",
+"since": "2026-10-12T03:14:55Z"
 },
 "541": {
 "job": 1683,
@@ -11134,8 +11163,12 @@
 "title": "Audit js/saveLibraryFoundation.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-12T02:25:29Z"
+"state": "started",
+"branch": "qa/job-1683-save-library-audit-2",
+"branch_sha": "ee7a19450dc77f7897fdd1b9c4f59a3b66d3eb2a",
+"no_pr_reason": "",
+"first_seen": "2026-10-12T03:14:55Z",
+"since": "2026-10-12T03:14:55Z"
 },
 "542": {
 "job": 1684,

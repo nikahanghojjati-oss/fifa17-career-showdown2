@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-12T03:12:16Z
+# Mega factory tracker · updated 2026-10-12T03:14:55Z
 
-**Type now (70 free):** 525, 527, 531, 533, 538, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552, 374, 402, 430, 458, 376, 404, 432, 460, 378, 406, 434, 462, 380, 408, 436, 464, 382, 410, 438, 466, 384, 412, 440, 468, 386, 414, 442, 470, 388, 416, 444, 472, 390, 418, 446, 474, 392, 420, 448, 476, 394, 422, 450, 396, 424, 452, 398, 426, 454, 400, 428, 456
-**Next free number:** 187 · **highest taken:** 539 of 552
+**Type now (66 free):** 525, 527, 533, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552, 374, 402, 430, 458, 376, 404, 432, 460, 378, 406, 434, 462, 380, 408, 436, 464, 382, 410, 438, 466, 384, 412, 440, 468, 386, 414, 442, 470, 388, 416, 444, 472, 390, 418, 446, 474, 392, 420, 448, 476, 394, 422, 450, 396, 424, 452, 398, 426, 454, 400, 428, 456
+**Next free number:** 187 · **highest taken:** 541 of 552
 **Code PRs open:** 0 of 8 · area locks: home, start-join, league, transfer, season-final, rivalry-legacy
-**Rate:** 3 claimed in 10 min · 42 in 1 h · 60 merged in 1 h
+**Rate:** 7 claimed in 10 min · 46 in 1 h · 60 merged in 1 h
 
 **Finished (merged or live): 196 of 552**
 
@@ -11,15 +11,15 @@ State | count
 --- | ---
 🚀 live in a release | 45
 ✅ merged to staging branch | 151
-📝 draft PR, not checked yet | 57
+📝 draft PR, not checked yet | 61
 🟧 blocked | 1
 🟦 started, no PR yet | 1
 ⚫ closed without merge | 82
-⬜ waiting | 215
+⬜ waiting | 211
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
-1 Gameplay audits | 146 | 112 | 16 | 18
+1 Gameplay audits | 146 | 112 | 20 | 14
 2 Screen fixes | 266 | 60 | 25 | 137
 3 Match desktop to mockups | 14 | 0 | 5 | 8
 4 Phone mockup studies | 70 | 23 | 10 | 0
@@ -82,17 +82,26 @@ Stage | total | merged/live | in flight | waiting
 - 📝 **524** · Job 1666 · Audit js/saveLibraryFoundation.js for gameplay bugs (first half) · draft PR, not checked yet · [PR #706](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/706)
 - 📝 **526** · Job 1668 · Audit js/footballVisuals.js for gameplay bugs (first half) · draft PR, not checked yet · [PR #709](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/709)
 - 📝 **528** · Job 1670 · Audit js/backup.js for gameplay bugs (first half) · draft PR, not checked yet · [PR #710](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/710)
-- 🟦 **529** · Job 1671 · Audit js/optionalModules.js for gameplay bugs (first half) · started, no PR yet
+- 📝 **529** · Job 1671 · Audit js/optionalModules.js for gameplay bugs (first half) · draft PR, not checked yet · [PR #732](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/732)
 - 📝 **530** · Job 1672 · Audit js/ruleBook.js for gameplay bugs (first half) · draft PR, not checked yet · [PR #711](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/711)
+- 📝 **531** · Job 1673 · Audit js/storageTransaction.js for gameplay bugs (first half) · draft PR, not checked yet · [PR #734](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/734)
 - 📝 **532** · Job 1674 · Audit js/menuFeedback.js for gameplay bugs (first half) · draft PR, not checked yet · [PR #714](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/714)
 - 📝 **534** · Job 1676 · Audit js/sharedJourneyConflicts.js for gameplay bugs (first half) · draft PR, not checked yet · [PR #715](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/715)
 - 📝 **535** · Job 1677 · Audit js/productionSharedSeasonResultsRoute.js for gameplay bugs (first half) · draft PR, not checked yet · [PR #720](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/720)
 - 📝 **536** · Job 1678 · Audit js/scoring.js for gameplay bugs (second half) · draft PR, not checked yet · [PR #717](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/717)
 - 📝 **537** · Job 1679 · Audit js/showdownUI.js for gameplay bugs (second half) · draft PR, not checked yet · [PR #722](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/722)
+- 📝 **538** · Job 1680 · Audit js/transferSelector.js for gameplay bugs (second half) · draft PR, not checked yet · [PR #731](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/731)
 - 📝 **539** · Job 1681 · Audit js/leagueWheel.js for gameplay bugs (second half) · draft PR, not checked yet · [PR #723](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/723)
+- 📝 **540** · Job 1682 · Audit js/trophyRoom.js for gameplay bugs (second half) · draft PR, not checked yet · [PR #733](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/733)
+- 🟦 **541** · Job 1683 · Audit js/saveLibraryFoundation.js for gameplay bugs (second half) · started, no PR yet
 
 ## Latest changes
 
+- 2026-10-12T03:14:55Z · 541 (Job 1683): waiting → started
+- 2026-10-12T03:14:55Z · 540 (Job 1682): waiting → draft
+- 2026-10-12T03:14:55Z · 538 (Job 1680): waiting → draft
+- 2026-10-12T03:14:55Z · 531 (Job 1673): waiting → draft
+- 2026-10-12T03:14:55Z · 529 (Job 1671): started → draft
 - 2026-10-12T03:12:16Z · 529 (Job 1671): waiting → started
 - 2026-10-12T03:12:00Z · 370 (Job 1289): started → draft
 - 2026-10-12T03:12:00Z · 169 (Job 1157): ready → merged
@@ -108,8 +117,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-12T03:10:30Z · 141 (Job 1329): ci_running → merged
 - 2026-10-12T03:10:30Z · 133 (Job 1155): ci_running → ready
 - 2026-10-12T03:10:30Z · 123 (Job 1328): ci_running → merged
-- 2026-10-12T03:10:30Z · 115 (Job 1154): ci_running → ready
-- 2026-10-12T03:10:30Z · 105 (Job 1327): ci_running → merged
-- 2026-10-12T03:10:30Z · 97 (Job 1153): ci_running → ready
-- 2026-10-12T03:09:00Z · 368 (Job 1173): started → draft
-- 2026-10-12T03:09:00Z · 358 (Job 1259): started → draft
