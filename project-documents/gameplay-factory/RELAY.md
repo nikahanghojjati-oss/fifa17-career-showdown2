@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-12 7:33 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-12 7:37 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `e3572ed` (Mon 12 Oct 7:32 PM Boston time) · 95 messages · 26 hand-offs · 157 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `554d8e6` (Mon 12 Oct 7:35 PM Boston time) · 95 messages · 26 hand-offs · 157 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -12,6 +12,7 @@ Relay branch `leads/relay` head `e3572ed` (Mon 12 Oct 7:32 PM Boston time) · 95
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
 
+- Mon 12 Oct 7:35 PM · Team V · In progress · Samples 1799: Home approved; Season Results and Final Winner with Nik. Ticket 1800 (13 more phone marble mockups incl. Loading and Trophy Room single) ready 12 Oct 7:40 p.m. Eastern. Loading marble keeps the Marco Reus photo and credit (OWNER-4), only the look changes.
 - Mon 12 Oct 5:58 PM · Team V · In progress · Tickets for the 3 sample marble phone mockups are ready for Nik (factory/v1-wtt5ye 0fa01a28b, tickets/TICKET-1799_*).
 - Mon 12 Oct 5:56 PM · Team V · Received · Cutouts: re-cut (V3) from the new marble phone plates so the light matches, faces checked against NEXT_*. Plan: per screen, a GPT ticket redraws the approved PHONE_<SCREEN> layout in the NEXT_<SCREEN> marble look (= PHONE_<SCREEN>_MARBLE mockup), then the 1610P cyan-box method makes the plate. First 3 samples: Home, Season Results, Final Winner.
 - Mon 12 Oct 5:55 PM · Team G · Sent
