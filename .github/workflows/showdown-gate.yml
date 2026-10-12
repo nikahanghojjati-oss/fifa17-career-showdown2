@@ -398,6 +398,22 @@ jobs:
           if-no-files-found: warn
           overwrite: true
           retention-days: 7
+      # Evidence runs after the lane is recorded, and never owns a required proof.
+      - name: Capture changed screen screenshots
+        if: always()
+        continue-on-error: true
+        timeout-minutes: 10
+        run: node scripts/gate-screenshots.mjs --route "$RUNNER_TEMP/route.json"
+      - name: Upload changed screen screenshots
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: showdown-gate-shots-L3B
+          path: gate-shots/
+          if-no-files-found: ignore
+          overwrite: true
+          retention-days: 7
 
   l4-remote:
     name: L4 remote
