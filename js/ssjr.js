@@ -4,6 +4,8 @@
   if(typeof load!=="function")return;
   const install=(id,path,key)=>load(id,path,()=>root[key]).then(()=>{const api=root[key];if(!api||typeof api.install!=="function")throw new Error(`${path} loaded without an installable ${key} API.`);api.install();return api;});
   const prepare=(items)=>items.reduce((chain,[id,path,key])=>chain.then(()=>load(id,path,()=>root[key]).then(()=>{const api=root[key];if(!api)throw new Error(`${path} loaded without its expected ${key} API.`);return api;})),Promise.resolve());
+  // Settings > FULL MOTION must win over a device that asks for reduced motion (CSS media rules and direct matchMedia reads, frozen Team V scripts included). Requested before any screen module.
+  load("full-motion-honor","js/fullMotionHonor.js",()=>root.CareerModeFullMotionHonor).then(()=>root.CareerModeFullMotionHonor.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Full motion preference honouring unavailable.",error));
   const params=root.location?new URLSearchParams(root.location.search):new URLSearchParams();
   const acceptanceEnabled=params.get("ssjr-acceptance")==="1";
   const witnessEnabled=acceptanceEnabled&&params.get("ssjr-witness")==="1";
