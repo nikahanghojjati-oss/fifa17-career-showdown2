@@ -185,7 +185,7 @@ function paint(only,fail){
    $("qual").innerHTML=Object.entries(D.lanes).filter(([k,L])=>L.total&&L.worker_done+L.closed).map(([k,L])=>{let tr="no trend yet";if(prevH&&prevH.lanes[k]){const o=prevH.lanes[k],dn=L.worker_done-o.done,dr=L.closed-o.redone;tr=(dn>=0?"+":"")+dn+" finished, "+(dr?"+":"")+dr+" redone since "+ago(prevH.at)}
     return `<div class="stage"><div class="h"><span><b>${esc(L.name)}</b></span><span><b>${L.first_time_ok==null?"-":L.first_time_ok+"%"}</b> first time OK</span></div><div class="lbl">${L.closed} thrown back · ${L.failing_now} failing checks now · ${tr}</div></div>`}).join("")}
   // TYPE NEXT
-  const SENT=getSent(),all=(g.ready_all&&g.ready_all.length?g.ready_all:g.ready||[]).slice(0,150).filter(x=>!SENT[x]);
+  const SENT0=getSent(),CL=Object.fromEntries(Object.entries(g.claimed||{}).filter(([j,v])=>!v.closed).map(([j])=>[j,1])),SENT=Object.assign({},SENT0,CL),all=(g.ready_all&&g.ready_all.length?g.ready_all:g.ready||[]).slice(0,150).filter(x=>!SENT[x]);
   const fb=$("first");{const f=all.slice(0,B.size||3).join(" ");fb.textContent=f||"none";fb.dataset.n=f}fb.onclick=()=>all.length&&copyBtn(fb);
   $("rt").textContent=all.length+(g.ready_total>(g.ready_all||[]).length?g.ready_total-(g.ready_all||[]).length:0);
   {const hb=Object.entries(g.held_by_picture||{}),ph=hb.filter(([k])=>k.startsWith("phone")),dk=hb.filter(([k])=>k.startsWith("desktop"));
@@ -209,7 +209,7 @@ function paint(only,fail){
   {const NR=B.next_releases||[{n:"r72",when:"Mon about 6 p.m. Boston"},{n:"r73",when:"Tue evening"}];$("nextrel").innerHTML="Next release: "+NR.map(r=>"<b>"+esc(r.name||r.n)+"</b> "+esc(r.when)).join(" · ")}
   $("wkw").textContent=(B.work_waiting||[]).concat(B.chat_waiting||[]).map(x=>"Not free yet: "+x.job+" ("+x.note+")").join("; ");const wm=g.work_models||{};$("wkall").innerHTML=wkList.map(x=>`<button class="wbox" data-n="${x}">${x}</button>`).join("");$("wk").innerHTML=wkList.slice(1,4).map(x=>`<button class="wbox" data-n="${x}">${x}<small>${esc(wm[x]||(weN.includes(x)||wkFree.includes(x)?(WE.model||"Sol 6.1 · High"):"")||"")}</small></button>`).join("")||none;
   $("bmx").textContent=B.size||3;$("bsz").textContent=(B.size||3)+" numbers per chat";$("bst").textContent=(B.clean_streak||0)+" of "+(B.goal||10)+" clean batches in a row"+(B.size<B.max?" (then "+B.max+" per chat)":"");
-  {const sn=Object.keys(SENT);$("sentbox").innerHTML=sn.length?`You already copied: <b>${sn.join(" ")}</b> (hidden for 45 min so you cannot paste them twice). <button class="more" id="unsent">Show them again</button>`:"";const ub=$("unsent");if(ub)ub.onclick=()=>{setSent({});D._painted=0;paint()}}
+  {const sn=Object.keys(SENT0);$("sentbox").innerHTML=sn.length?`You already copied: <b>${sn.join(" ")}</b> (hidden for 45 min so you cannot paste them twice). <button class="more" id="unsent">Show them again</button>`:"";const ub=$("unsent");if(ub)ub.onclick=()=>{setSent({});D._painted=0;paint()}}
   $("nxtnote").textContent=((B.jobs_after_wiring||[]).length?"Polish jobs after wiring (not free yet): "+B.jobs_after_wiring.join(", ")+". ":"")+(g.ready_total>all.length?`Showing the first ${all.length} of ${g.ready_total}. `:"")+"A number leaves this list the minute its chat claims it. Numbers not listed have to wait.";
   document.querySelectorAll(".chip,.wbox").forEach(b=>b.onclick=()=>copyBtn(b));
   // all numbers bar

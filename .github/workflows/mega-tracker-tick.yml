@@ -42,7 +42,7 @@ jobs:
           B=project-documents/gameplay-factory
           START=$(date +%s)
           CODE=0
-          python3 $B/tools/mega_tracker.py --loop-minutes 25 --interval 90 \
+          python3 $B/tools/mega_tracker.py --loop-minutes 25 --interval 45 \
             --after-write "bash $B/mega/commit_round.sh" --yield-cmd "bash $B/mega/starved.sh" || CODE=$?
           echo "loop ended (code $CODE) after $(( $(date +%s) - START )) s"
           # Never restart faster than every 20 minutes (a normal run lasts 25), and back off longer after repeated failures
