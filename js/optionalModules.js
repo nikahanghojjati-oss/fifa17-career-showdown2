@@ -13,8 +13,7 @@ let optionalModulesInitialized = false;
 let optionalOpenRequestId = 0;
 let gameplayRuntimeState = "idle";
 let gameplayRuntimePromise = null;
-let gameplayRuntimeInitialized = false;
-const gameplayRuntimeCompletedStarters = new Set();
+let gameplayRuntimeInitialized = 0; // starters done
 let requiredFootballVisualPromise = null;
 
 function optionalAssetUrl(path){
@@ -155,7 +154,6 @@ return promise;
 }
 
 function initializeGameplayRuntime(){
-if(gameplayRuntimeInitialized){ return; }
 
 const initializers = [
 ["initializeShowdownUI", window.initializeShowdownUI],
@@ -165,16 +163,13 @@ const initializers = [
 ["initializeSeasonEngine", window.initializeSeasonEngine]
 ];
 
-initializers.forEach(([name, initializer]) => {
-if(gameplayRuntimeCompletedStarters.has(name)){ return; }
+for(;gameplayRuntimeInitialized<initializers.length;gameplayRuntimeInitialized++){
+const [name, initializer] = initializers[gameplayRuntimeInitialized];
 if(typeof initializer !== "function"){
 throw new Error(`Gameplay initializer is unavailable: ${name}`);
 }
 initializer();
-gameplayRuntimeCompletedStarters.add(name);
-});
-
-gameplayRuntimeInitialized = true;
+}
 }
 
 async function loadGameplayRuntimeFiles(){
@@ -543,7 +538,7 @@ else { actions.appendChild(button); }
 function bindOptionalModuleButton(button, moduleName, marker){
 if(!button || button.dataset[marker] === "true"){ return; }
 button.dataset[marker] = "true";
-// JOB-1658: go through window.openOptionalModule when present so the Team V in-flight dedupe wrapper sees every tile tap.
+// JOB-1658: via window.openOptionalModule (in-flight dedupe).
 button.addEventListener("click", () => (typeof window.openOptionalModule === "function" ? window.openOptionalModule : openOptionalModule)(moduleName));
 }
 

@@ -456,14 +456,6 @@
       ]
     },
     {
-      "path": "tests/contracts/optional-modules-retry-contracts.cjs",
-      "patterns": [
-        "^js/optionalModules\\.js$",
-        "^tests/contracts/optional-modules-retry-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
-    },
-    {
       "path": "tests/contracts/shared-setup-no-dropped-taps-contracts.cjs",
       "patterns": [
         "^js/productionSharedShowdownSetup\\.js$",
@@ -1227,6 +1219,14 @@
       "patterns": [
         "^js/productionSharedCareerStart\\.js$",
         "^tests/contracts/career-start-plain-errors-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/optional-modules-retry-contracts.cjs",
+      "patterns": [
+        "^js/optionalModules\\.js$",
+        "^tests/contracts/optional-modules-retry-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }
