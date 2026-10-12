@@ -631,6 +631,14 @@
     },
     "sha": "bbe29b7eb00c1f36d15bc954967bdd4abf198251"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1012-1953.json": {
+    "data": {
+     "area": "10",
+     "run": "codex-1012-1953",
+     "started_utc": "2026-10-12T19:53:30Z"
+    },
+    "sha": "a2b9880303a0c9100958b310d7243f338e3dad4a"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/startup-diagnostic.json": {
     "data": {
      "badge": null,
@@ -7140,6 +7148,27 @@
      "run": "codex-1012-1952"
     },
     "sha": "48456fb14a001b4e654ceab923e4f596f6c3cb22"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1012-1953.json": {
+    "data": {
+     "area": "10",
+     "clean_confidence_pct": 90,
+     "coverage_pct": 82,
+     "date_utc": "2026-10-12T19:54:00Z",
+     "files_read": [
+      "js/legacy.js",
+      "js/saveLibraryPersistence.js",
+      "js/rivalryLegacyV10.js",
+      "js/saveLibraryRuntime.js",
+      "js/saveLibraryFoundation.js"
+     ],
+     "findings": [],
+     "main_sha": "a486b1f6a2a65fb248b8cb3d054ca6e481bc99dc",
+     "mode": "codex",
+     "next_focus": "Archive after tied final + 0-0 season + browser reload and delete-with-active-completed edge",
+     "run": "codex-1012-1953"
+    },
+    "sha": "b0456ff0697f8422095c26cd94f494e744343c7f"
    }
   },
   "state": "ok"
