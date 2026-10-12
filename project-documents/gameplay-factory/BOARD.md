@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 8:28 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 8:56 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
@@ -20,25 +20,21 @@ Updated Sun 11 Oct, 8:28 PM Boston time. Bug hunting only, no new features until
 `█████░░░░░` **50.0000 %**  
 🟢 Team green · model not set · worker says done, no PR yet
 
-**#2 · 1647** `G` Loading screen: wire the approved PHONE_LOADING and NEXT_LOADING pictures  
-`██████░░░░` **60.0000 %**  
-⚪ Team white · model not set · worker done, PR #689 open, CI failed · CI 13 of 16 passed · last move 106 min ago
-
-**#3 · 1648** `G` Old CSS: which old sheets and selectors are still live (report only)  
+**#2 · 1648** `G` Old CSS: which old sheets and selectors are still live (report only)  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 2 h ago
 
-**#4 · 1651** `G` Flash guard: cover Season Results, Final Winner and Rivalry, and time tap feedback  
+**#3 · 1651** `G` Flash guard: cover Season Results, Final Winner and Rivalry, and time tap feedback  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #692 · CI 7 of 8 passed · last move 113 min ago
+⚪ Team white · model not set · worker working, draft PR #692 · CI 7 of 8 passed · last move 2 h ago
 
-**#5 · 1652** `G` Settings › Motion: add a FULL MOTION choice  
+**#4 · 1652** `G` Settings › Motion: add a FULL MOTION choice  
 `████░░░░░░` **40.0000 %**  
 🔵 Team blue · model not set · worker working, draft PR #691 · CI 7 of 8 passed · last move 2 h ago
 
-**#6 · 1653** `G` Reduced motion: stop the remaining Club script fades  
+**#5 · 1653** `G` Reduced motion: stop the remaining Club script fades  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #693 · CI 7 of 8 passed · last move 98 min ago
+⚪ Team white · model not set · worker working, draft PR #693 · CI 7 of 8 passed · last move 2 h ago
 
 ### 👉 Next for you, in this order
 
@@ -527,8 +523,8 @@ Job 1650
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`██████░░░░` **63.5762 %**  
-Numbered jobs: 68 done, 55 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`██████░░░░` **64.0000 %**  
+Numbered jobs: 68 done, 54 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `██████░░░░` **56.0000 %**  
@@ -617,13 +613,13 @@ Open code PRs: 3/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T00:27:13Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T00:56:15Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
 | Gameplay audits | 112 of 112 | 0 | 0 |
-| Screen fixes | 45 of 266 | 60 | 161 |
-| Match desktop to mockups | 0 of 14 | 1 | 13 |
+| Screen fixes | 45 of 266 | 63 | 158 |
+| Match desktop to mockups | 0 of 14 | 3 | 11 |
 | Phone mockup studies | 23 of 70 | 37 | 10 |
 | Improved desktop studies | 1 of 56 | 0 | 55 |
 
