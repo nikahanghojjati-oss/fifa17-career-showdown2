@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T01:43:15Z",
+"updated": "2026-10-12T01:44:45Z",
 "total": 518,
 "next_free": 187,
 "highest_taken": 411,
@@ -9,8 +9,9 @@
 "ci_failed": 5,
 "ready": 10,
 "on_train": 9,
-"waiting": 230,
-"draft": 1
+"waiting": 229,
+"draft": 1,
+"started": 1
 },
 "stages": {
 "2": {
@@ -48,7 +49,8 @@
 "closed": 37,
 "merged": 23,
 "draft": 1,
-"waiting": 9
+"started": 1,
+"waiting": 8
 }
 },
 "5": {
@@ -92,13 +94,13 @@
 209,
 217,
 219,
-246,
 268,
 274,
 296,
 302,
 324,
-330
+330,
+352
 ],
 "ready_sol": [
 203,
@@ -106,13 +108,13 @@
 209,
 217,
 219,
-246,
 268,
 274,
 296,
 302,
 324,
-330
+330,
+352
 ],
 "ready_codex": [],
 "ready_all": [
@@ -121,7 +123,6 @@
 209,
 217,
 219,
-246,
 268,
 274,
 296,
@@ -188,7 +189,6 @@
 476
 ],
 "work_models": {
-"246": "Sol 6.1 \u00b7 High",
 "268": "Sol 6.1 \u00b7 High",
 "274": "Sol 6.1 \u00b7 High",
 "296": "Sol 6.1 \u00b7 High",
@@ -254,7 +254,6 @@
 "476": "Sol 6.1 \u00b7 High"
 },
 "ready_work": [
-246,
 268,
 274,
 296,
@@ -319,13 +318,13 @@
 474,
 476
 ],
-"ready_total": 70,
+"ready_total": 69,
 "held_until_picture": 0,
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 4,
-"claimed_last_10min": 2,
+"claimed_last_hour": 5,
+"claimed_last_10min": 3,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -364,14 +363,15 @@
 "merged": 86,
 "no_pr": 37,
 "wait_v": 1,
-"waiting": 85
+"started": 1,
+"waiting": 84
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 124,
+"picked_up": 125,
 "worker_done": 124,
 "finished": 123,
 "pending_lead": 0,
@@ -1436,13 +1436,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 34,
-"job": 1483,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 36,
@@ -3535,6 +3528,13 @@
 "job": 1216,
 "from": "waiting",
 "to": "on_train"
+},
+{
+"at": "2026-10-12T01:44:45Z",
+"item": 246,
+"job": 1255,
+"from": "waiting",
+"to": "started"
 }
 ],
 "items": {
@@ -7293,8 +7293,12 @@
 "title": "Standings: phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "started",
+"branch": "study/job-1255-standings-phone-a",
+"branch_sha": "7a098c0573be56dd2643f08e171e12ebbbf17835",
+"no_pr_reason": "",
+"first_seen": "2026-10-12T01:44:45Z",
+"since": "2026-10-12T01:44:45Z"
 },
 "247": {
 "job": 1306,
