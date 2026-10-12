@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1658,
+ "next": 1659,
  "claims": [
   {
    "number": 1001,
@@ -3944,6 +3944,12 @@
    "team": "G",
    "title": "Desktop: Select League and Club lose the stadium plate; Rivalry and Legacy plates mount into the hidden Season stage",
    "claimed": "2026-10-12T00:49:27Z"
+  },
+  {
+   "number": 1658,
+   "team": "G",
+   "title": "Season Results 1920 rules never match (unclosed 1366 query); Home tile double-tap guard expires under slow CPU",
+   "claimed": "2026-10-12T01:53:03Z"
   }
  ]
 }
