@@ -1,38 +1,38 @@
 {
  "sequence": {
   "ready": [
-   191,
    203,
    207,
+   209,
    217,
    219,
-   240,
-   246,
-   268,
-   274,
    296,
    302,
-   324
+   324,
+   330,
+   352,
+   358,
+   366
   ],
   "ready_sol": [
-   191,
    203,
    207,
+   209,
    217,
    219,
-   240,
-   246,
-   268,
-   274,
    296,
    302,
-   324
+   324,
+   330,
+   352,
+   358,
+   366
   ],
   "ready_codex": [],
   "held_until_picture": 0,
   "open_code_prs": 3,
   "open_train_prs": 3,
-  "next_free": 191,
+  "next_free": 203,
   "highest_taken": 411,
   "total": 518,
   "states": {
@@ -226,7 +226,7 @@
    "188": "merged",
    "189": "on_train",
    "190": "merged",
-   "191": "waiting",
+   "191": "on_train",
    "192": "merged",
    "193": "closed",
    "194": "merged",
@@ -275,13 +275,13 @@
    "237": "waiting",
    "238": "closed",
    "239": "waiting",
-   "240": "waiting",
+   "240": "pr_open",
    "241": "waiting",
    "242": "merged",
    "243": "waiting",
    "244": "closed",
    "245": "waiting",
-   "246": "waiting",
+   "246": "pr_open",
    "247": "closed",
    "248": "merged",
    "249": "waiting",
@@ -303,13 +303,13 @@
    "265": "closed",
    "266": "merged",
    "267": "waiting",
-   "268": "waiting",
+   "268": "blocked",
    "269": "waiting",
    "270": "closed",
    "271": "waiting",
    "272": "closed",
    "273": "waiting",
-   "274": "waiting",
+   "274": "pr_open",
    "275": "waiting",
    "276": "closed",
    "277": "waiting",
@@ -556,13 +556,14 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-12T01:28:41Z",
+ "updated": "2026-10-12T01:59:20Z",
  "counts": {
   "merged": 181,
-  "on_train": 8,
-  "waiting": 232,
+  "on_train": 9,
+  "waiting": 227,
   "closed": 82,
-  "pr_open": 15
+  "pr_open": 18,
+  "blocked": 1
  },
  "stages": {
   "2": {
@@ -572,12 +573,12 @@
   },
   "3": {
    "total": 14,
-   "taken": 5,
+   "taken": 6,
    "merged": 0
   },
   "4": {
    "total": 70,
-   "taken": 60,
+   "taken": 64,
    "merged": 23
   },
   "5": {
@@ -899,7 +900,9 @@
     1219,
     1220
    ],
-   "done": [],
+   "done": [
+    "1216"
+   ],
    "pr": null,
    "state": null
   },
@@ -2435,39 +2438,39 @@
    "branch": "gameplay/train-season-final-2"
   },
   "1216": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-season-final-3"
   },
   "1217": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-season-final-3"
   },
   "1218": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-season-final-3"
   },
   "1219": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-season-final-3"
   },
   "1220": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-season-final-3"
   },
   "1221": {
    "state": "waiting",
@@ -2708,18 +2711,18 @@
    "branch": null
   },
   "1255": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 698,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/698",
+   "branch": "study/job-1255-standings-phone-a"
   },
   "1256": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 699,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/699",
+   "branch": "study/job-1256-blocked"
   },
   "1257": {
    "state": "waiting",
@@ -3926,18 +3929,18 @@
    "branch": null
   },
   "1429": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 696,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/696",
+   "branch": "study/job-1429-rule-book-phone-a"
   },
   "1430": {
-   "state": "waiting",
+   "state": "blocked",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "study/job-1430-blocked"
   },
   "1431": {
    "state": "waiting",

@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 9:52 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 9:59 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r71** (main `2a511f6`, Sun 11 Oct 9:40 PM)
 
@@ -470,7 +470,17 @@ Paste this:
 1656
 ```
 
-**#44 · 1591** `G` Home soundtrack: swap to Nik's Audius top 10  
+**#44 · 1659** `G` Standings phone: wire adopted design (study 1255)  
+`░░░░░░░░░░` **0.0000 %**  
+🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
+
+Paste this:
+
+```text
+1659
+```
+
+**#45 · 1591** `G` Home soundtrack: swap to Nik's Audius top 10  
 `░░░░░░░░░░` **0.0000 %**  
 🟣 Team purple · model not set · Claude lane: Opus Medium for the change, Sonnet for the live listen and browser check: type 'Job 1591'
 
@@ -480,7 +490,7 @@ Type this in Claude lane: Opus Medium for the change, Sonnet for the live listen
 Job 1591
 ```
 
-**#45 · 1649** `G` Old CSS: archive the dead sheets (after the r71 release)  
+**#46 · 1649** `G` Old CSS: archive the dead sheets (after the r71 release)  
 `░░░░░░░░░░` **0.0000 %**  
 🟤 Team brown · model not set · Claude lane: Sonnet, medium: type 'Job 1649'
 
@@ -490,7 +500,7 @@ Type this in Claude lane: Sonnet, medium:
 Job 1649
 ```
 
-**#46 · 1650** `G` Service worker: can an old page ever mix with new files? (report only)  
+**#47 · 1650** `G` Service worker: can an old page ever mix with new files? (report only)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1650'
 
@@ -514,6 +524,10 @@ Job 1650
 `░░░░░░░░░░` **0.0000 %**  
 🟣 Team purple · **Claude Opus** · High effort · Claude lane: Opus fixing #666 after two failed browser checks
 
+**#4 · 1660** `G` Rule Book phone: wire adopted design (study 1429)  
+`░░░░░░░░░░` **0.0000 %**  
+🟢 Team green · **GPT Sol 6.1** · High effort · waits for 1654
+
 **Done, waiting for the next release:** 1583, 1584, 1585, 1586
 
 **Done and live:** r71: 1581, 1582, 1592, 1593, 1594, 1595, 1596, 1600, 1601, 1606, 1607, 1608 · r68: 1059, 1060, 1579, 1580, 1587 · r67: 1044, 1045, 1048, 1049, 1050, 1051, 1052, 1053, 1055, 1058 · r66: 1041, 1042, 1043 · r65: 1011, 1028, 1037, 1038, 1039, 1040 · r63: 1001, 1003, 1004, 1009, 1010, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
@@ -523,8 +537,8 @@ Job 1650
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`██████░░░░` **64.0000 %**  
-Numbered jobs: 68 done, 54 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`██████░░░░` **63.1579 %**  
+Numbered jobs: 68 done, 56 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `██████░░░░` **56.0000 %**  
@@ -571,7 +585,7 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-191 203 207 217 219 240 246 268 274 296 302 324
+203 207 209 217 219 296 302 324 330 352 358 366
 ```
 
 Open code PRs: 3/8.
@@ -582,8 +596,8 @@ Open code PRs: 3/8.
 | --- | --- | --- | --- |
 | audits | 112 | 112/112 | 112/112 |
 | screen fixes | 266 | 45/266 | 108/266 |
-| mockup match | 14 | 0/14 | 5/14 |
-| phone studies | 70 | 23/70 | 60/70 |
+| mockup match | 14 | 0/14 | 6/14 |
+| phone studies | 70 | 23/70 | 64/70 |
 | desktop studies | 56 | 1/56 | 1/56 |
 
 **Last taken numbers**
@@ -613,7 +627,7 @@ Open code PRs: 3/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T01:50:45Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T01:58:15Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
