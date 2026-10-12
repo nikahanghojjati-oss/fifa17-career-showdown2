@@ -88,6 +88,7 @@
       const attempt=await normalizeAttempt(options),prior=receiptFor(attempt);
       if(!prior)return jcFreeze({attempt,prior:null,staleRetry:false});
       if(attempt.nowEpochMs>=prior.expiresAtEpochMs){makeReceipt(attempt,{classification:"RECEIPT_EXPIRED",providerCode:"JOURNEY_CONFLICT_RECEIPT_EXPIRED",providerInvoked:false,retryCount:prior.retryCount});jcFail("JOURNEY_CONFLICT_RECEIPT_EXPIRED");}
+      if(prior.classification==="REPLAY_ALTERED")jcFail("JOURNEY_CONFLICT_REPLAY_ALTERED");
       if(prior.staticHash!==attempt.staticHash){makeReceipt(attempt,{classification:"REPLAY_ALTERED",providerCode:"JOURNEY_CONFLICT_REPLAY_ALTERED",providerInvoked:false,retryCount:prior.retryCount});jcFail("JOURNEY_CONFLICT_REPLAY_ALTERED");}
       if(prior.attemptHash===attempt.attemptHash)return jcFreeze({attempt,prior,staleRetry:false});
       const staleRetry=prior.classification==="STALE"&&prior.retryCount===0&&attempt.baseRevision>prior.baseRevision;
