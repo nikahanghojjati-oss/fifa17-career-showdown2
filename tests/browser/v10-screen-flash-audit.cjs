@@ -150,6 +150,16 @@ async function runJourney(page, journey, viewportName){
     const mountedOut = await page.evaluate(host => Boolean(window.CareerModeV10Screens && window.CareerModeV10Screens.isMounted(host)), journey.host);
     if(mountedOut) teamV.add(journey.host);
     recordings.push({ label: `${viewportName} Home→${journey.name}`, out });
+    // JOB-1657: the flash guard (html[data-v10-screen] body / #background = #060709) must not hide a setup skin's stadium plate.
+    const plateProblem = await page.evaluate(() => {
+        const skin = document.documentElement.dataset.v10Setup;
+        if(!skin) return null;
+        const bg = getComputedStyle(document.getElementById("background")).backgroundImage;
+        const body = getComputedStyle(document.body).backgroundColor;
+        if(bg === "none") return `setup skin "${skin}" lost its stadium plate (#background background-image: none)`;
+        if(body !== "rgba(0, 0, 0, 0)") return `setup skin "${skin}" body is opaque (${body}) and hides the plate`;
+        return null;
+    });
 
     await start();
     if(journey.close) await page.evaluate(journey.close);
@@ -162,6 +172,7 @@ async function runJourney(page, journey, viewportName){
     for(const rec of recordings){
         problems.push(...analyse(rec.out, teamV, rec.label));
     }
+    if(plateProblem) problems.push({ label: `${viewportName} Home→${journey.name}`, screen: journey.host, at: 0, reason: plateProblem });
     // Compact frame strip for the report (before/after evidence): one line per frame, relative time in ms.
     const strips = recordings.map(rec => {
         const t0 = rec.out.frames.length ? rec.out.frames[0].t : 0;

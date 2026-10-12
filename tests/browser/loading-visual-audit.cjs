@@ -64,7 +64,7 @@ async function prepareStartup(page, config){
             && fidelityStyle.sheet
             && getComputedStyle(image).objectFit === expectedFit
             && (expectedFit !== "cover" || Boolean(offlineStyle && offlineStyle.sheet));
-    }, config.mobile ? "cover" : "contain", { timeout: 12000 });
+    }, "cover", { timeout: 12000 });
 
     if(config.mobile){
         await page.waitForFunction(() => {
@@ -149,9 +149,9 @@ function assertCommon(result, config){
 
 function assertMobile(result, config){
     assert.equal(result.image.objectFit,"cover",`${config.name}: installed/mobile startup must use the stable photo-box cover treatment.`);
-    assert.match(result.image.objectPosition,/^54%\s+50%$/,`${config.name}: mobile Reus crop anchor changed.`);
+    assert.match(result.image.objectPosition,/^54%\s+0(?:px|%)$/,`${config.name}: mobile Reus crop anchor changed.`);
     assert.equal(result.image.position,"absolute",`${config.name}: mobile Reus must be anchored independently of normal flow.`);
-    assert.ok(result.topBand>=44&&result.topBand<=56,`${config.name}: top art band ${result.topBand.toFixed(1)}px is no longer width-bounded.`);
+    assertNear(result.topBand,0,1,`${config.name}: JOB-1647 removes the old reserved top art band`);
     assertNear(result.topBand,result.topBandVariable,1.25,`${config.name}: photo top must track the explicit mobile art-band variable`);
     assertNear(result.image.bottom,result.frame.bottom,1.25,`${config.name}: Reus photo must stay anchored to the stage bottom`);
     assert.ok(result.image.visibleSourceHeightRatio>=0.985,`${config.name}: less than 98.5% of Reus source height remains visible (${(result.image.visibleSourceHeightRatio*100).toFixed(1)}%).`);
@@ -174,7 +174,7 @@ async function runCase(browser, config){
     page.on("requestfailed",request=>{if(request.url().startsWith(baseUrl.href))localFailures.push(`${request.method()} ${request.url()} :: ${request.failure()?.errorText||"failed"}`);});
     try{
         await prepareStartup(page,config);const result=await inspectStartup(page);assertCommon(result,config);
-        if(config.mobile)assertMobile(result,config);else assert.equal(result.image.objectFit,"contain",`${config.name}: protected desktop loading treatment changed unexpectedly.`);
+        if(config.mobile)assertMobile(result,config);else assert.equal(result.image.objectFit,"cover",`${config.name}: JOB-1647 approved desktop photo must fill the diagonal split.`);
         const screenshotPath=path.join(resultsDirectory,`loading-${config.name}-${runLabel}.png`);await page.screenshot({path:screenshotPath,fullPage:true});
         assert.deepEqual(pageErrors,[],`${config.name}: page errors detected.`);assert.deepEqual(consoleErrors,[],`${config.name}: unexpected console errors detected.`);assert.deepEqual(localFailures,[],`${config.name}: failed first-party requests detected.`);
         if(externalConsoleNoise.length)process.stdout.write(`INFO ${config.name} :: ignored ${externalConsoleNoise.length} expected external production App Check browser console message(s).\n`);
