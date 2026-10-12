@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 12 Oct, 7:11 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 12 Oct, 7:15 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r71** (main `2a511f6`, Sun 11 Oct 9:40 PM)
 
@@ -22,27 +22,23 @@ Updated Mon 12 Oct, 7:11 AM Boston time. Bug hunting only, no new features until
 
 **#2 · 1697** `G` Select League: one Work mode job for the whole screen  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #755 · CI 7 of 8 passed · last move 32 min ago
+🟢 Team green · model not set · worker working, draft PR #755 · CI 3 of 4 passed · last move 0 min ago
 
 **#3 · 1700** `G` Season Results: one Work mode job for the whole screen  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #759 · CI 7 of 8 passed · last move 7 min ago
+🟢 Team green · model not set · worker working, draft PR #759 · CI 7 of 8 passed · last move 10 min ago
 
 **#4 · 1703** `G` Rivalry Statistics: one Work mode job for the whole screen  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #757 · CI 7 of 8 passed · last move 19 min ago
+🟢 Team green · model not set · worker working, draft PR #757 · CI 7 of 8 passed · last move 23 min ago
 
-**#5 · 1736** `G` Audit and fix js/transferChallenge.js (second half (lines 520 to the end))  
-`████████░░` **75.7143 %**  
-🔵 Team blue · model not set · worker done, PR #756 open, CI running · CI 4 of 7 passed · last move 0 min ago
-
-**#6 · 1739** `G` Audit and fix js/scoring.js (whole file)  
+**#5 · 1739** `G` Audit and fix js/scoring.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #758 · CI 7 of 8 passed · last move 8 min ago
+🔵 Team blue · model not set · worker working, draft PR #758 · CI 7 of 8 passed · last move 12 min ago
 
-**#7 · 1740** `G` Audit and fix js/showdownUI.js (whole file)  
+**#6 · 1740** `G` Audit and fix js/showdownUI.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #760 · CI 7 of 8 passed · last move 0 min ago
+🔵 Team blue · model not set · worker working, draft PR #760 · CI 7 of 8 passed · last move 4 min ago
 
 ### 👉 Next for you, in this order
 
@@ -839,8 +835,8 @@ Job 1744
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`█████░░░░░` **49.7409 %**  
-Numbered jobs: 68 done, 97 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`█████░░░░░` **50.0000 %**  
+Numbered jobs: 68 done, 96 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `██████░░░░` **56.0000 %**  
@@ -976,7 +972,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #745](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/745) | Release r72: screen trains, player improvements and FULL MOTION (1.9.1-r72) | 🟢 8 passed |
+| 🟧 Team G lead | [PR #745](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/745) | Release r72: screen trains, player improvements and FULL MOTION (1.9.1-r72) | ⏳ 0 passed, 7 running |
 
 **Up next**
 

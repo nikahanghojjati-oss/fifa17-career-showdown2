@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-12 7:11 AM Boston time (EDT)",
+ "generated": "2026-10-12 7:15 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 94,
@@ -908,11 +908,11 @@
      "title": "Release r72: screen trains, player improvements and FULL MOTION (1.9.1-r72)",
      "draft": false,
      "branch": "gameplay/release-r72",
-     "sha": "1498acf3cfec035400294ba62f3a2b66728dae78",
-     "updated": "2026-10-12T10:03:38Z",
+     "sha": "85910db0d7c7bbf2b56dd2b064c68c53a70033f3",
+     "updated": "2026-10-12T11:12:21Z",
      "gates": {
-      "passed": 8,
-      "running": 0,
+      "passed": 0,
+      "running": 7,
       "failed": 0,
       "cancelled": 0
      }
@@ -2561,11 +2561,11 @@
     "title": "Release r72: screen trains, player improvements and FULL MOTION (1.9.1-r72)",
     "draft": false,
     "branch": "gameplay/release-r72",
-    "sha": "1498acf3cfec035400294ba62f3a2b66728dae78",
-    "updated": "2026-10-12T10:03:38Z",
+    "sha": "85910db0d7c7bbf2b56dd2b064c68c53a70033f3",
+    "updated": "2026-10-12T11:12:21Z",
     "gates": {
-     "passed": 8,
-     "running": 0,
+     "passed": 0,
+     "running": 7,
      "failed": 0,
      "cancelled": 0
     }
