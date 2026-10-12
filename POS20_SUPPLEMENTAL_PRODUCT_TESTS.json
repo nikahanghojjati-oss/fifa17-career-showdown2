@@ -1362,6 +1362,14 @@
         "^tests/contracts/chat\\-audit\\-import\\-analysis\\-a\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-save-library-foundation-b-contracts.cjs",
+      "patterns": [
+        "^js/saveLibraryFoundation\\.js$",
+        "^tests/contracts/chat\\-audit\\-save\\-library\\-foundation\\-b\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
