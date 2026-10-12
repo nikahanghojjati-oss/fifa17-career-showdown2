@@ -63,7 +63,7 @@
   const sources={},sourceKeys={},getters={},resources={},originalMarkup={},reloads={};
   const LOAD_TIMEOUT=15000,RELOAD_INTERVAL=2000;
   const LOADING=rlFreeze({status:"loading"}),UNAVAILABLE=rlFreeze({status:"unavailable"});
-  let registration=null,installed=false,tabletLayoutCleanup=null;
+  let registration=null,installed=false,tabletLayoutCleanup=null,legacyLayoutCleanup=null;
   const screens=()=>root.CareerModeV10Screens;
   const state=name=>{try{return root[name]?.getState?.()??null;}catch(_){return null;}};
   const identity=()=>state("CareerModeOnlinePlayerIdentity");
@@ -92,7 +92,7 @@
   }
   function clean(screen){
     if(screen==="rivalryStatistics"){tabletLayoutCleanup?.();tabletLayoutCleanup=null;}
-    if(screen==="legacy"){root.LEGACY_BOOT?.cleanup?.();root.LegacyFixture?.stageController?.destroy?.();}
+    if(screen==="legacy"){legacyLayoutCleanup?.();legacyLayoutCleanup=null;root.LEGACY_BOOT?.cleanup?.();root.LegacyFixture?.stageController?.destroy?.();}
     else{root.rvStage?.destroy?.();root.rvStage=null;}
   }
   function draw(screen,model,host){
@@ -113,6 +113,29 @@
     for(const node of strayStages)node.removeAttribute("id");
     try{root[BOOT[screen]]();}
     finally{for(const node of strayStages)node.id="stage-root";}
+    if(screen==="legacy"){
+      // JOB-1704: the adopted touch compositions show one card without an inner
+      // swipe scroller. Team V still owns selection, arrows, keys and paging.
+      // Mark its current card for CSS, including records without season detail.
+      const grid=host.querySelector("#legacyCardGrid");
+      const syncCard=()=>{
+        const cards=Array.from(grid?.querySelectorAll(".legacyCard")||[]);
+        const selected=root.LegacyFixture?.selectedShowdown;
+        const current=cards.find(card=>Number(card.dataset.showdown)===Number(selected))||cards[0];
+        cards.forEach(card=>card.classList.toggle("legacyVisibleCard",card===current));
+      };
+      syncCard();
+      const observer=grid&&root.MutationObserver?new root.MutationObserver(syncCard):null;
+      observer?.observe(grid,{childList:true,subtree:true,attributes:true,attributeFilter:["data-selected"]});
+      const touch=root.matchMedia?.("(max-width:900px) and (orientation:portrait), (min-width:600px) and (max-width:900px) and (max-height:500px) and (orientation:landscape)");
+      const syncKey=event=>{
+        if(touch?.matches&&["ArrowLeft","ArrowRight"].includes(event.key)){
+          syncCard();grid.querySelector(".legacyVisibleCard")?.focus?.({preventScroll:true});
+        }
+      };
+      grid?.addEventListener("keydown",syncKey);
+      legacyLayoutCleanup=()=>{observer?.disconnect();grid?.removeEventListener("keydown",syncKey);};
+    }
     if(screen==="legacy"&&frame.status==="unavailable"){
       const banner=host.querySelector("#legacyStateBanner"),retry=banner&&root.document.createElement?.("button");
       if(retry){retry.type="button";retry.className="sd-btn sd-btn--secondary";retry.textContent="TRY AGAIN";retry.style.gridColumn="1 / -1";retry.style.justifySelf="center";retry.addEventListener("click",()=>{void refresh(screen).catch(report);});banner.appendChild(retry);}
@@ -267,3 +290,4 @@
   const RUNTIME_FILES=["visual-assets/v10_1/legacy/legacy.css", "visual-assets/v10_1/legacy/legacy.js", "visual-assets/v10_1/legacy/strings.json", "visual-assets/v10_1/legacy/assets/platemap.json", "visual-assets/v10_1/legacy/assets/ENV_LG_PHONE_V1.webp", "visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_1X.webp", "visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_RIM_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_RIM_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_PHONE_V1.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_RIM_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_RIM_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_PHONE_V1.webp", "visual-assets/v10_1/legacy/assets/TITLE_LG_V1.webp", "visual-assets/v10_1/rivalry-statistics/rivalry-statistics.css", "visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js", "visual-assets/v10_1/rivalry-statistics/strings.json", "visual-assets/v10_1/rivalry-statistics/assets/platemap.json", "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PHONE_V1.webp", "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PLATE_V1_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PLATE_V1_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_PHONE_V1.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_RIM_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_RIM_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_RIM_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_RIM_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_PHONE_V1.webp", "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V1.webp", "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V1_PHONE.webp", "js/rivalryLegacyV10.js", "js/rivalryLegacyV10Markup.js", "css/rivalryLegacyV10.css"];
   return rlFreeze({toV10Frame:rlToV10Frame,mount:rlMount,markup,loadCareerModel:rlLoadCareerModel,cachedCareerModel:rlCachedCareerModel,RUNTIME_FILES});
 });
+
