@@ -92,6 +92,51 @@
       restore();
     };
   }
+  // JOB-1731: adopted sideways study 1731. On short landscape phones the six numbered rule cards are shown one at a
+  // time under six section tabs. Presentation state only: every article, rule line and score stays in the DOM in live
+  // order (a hidden card is only display:none), and leaving the sideways size restores the exact original page.
+  function ruleBookTabs(content){
+    const media=root.matchMedia?.("(max-width: 900px) and (max-height: 500px) and (orientation: landscape)");
+    if(!media)return ()=>{};
+    const cards=Array.from(content.querySelectorAll(".ruleSection")),grid=content.querySelector("#ruleBookSections");
+    if(!grid||!cards.length)return ()=>{};
+    let bar=null,selected=0;
+    function showTab(index){
+      selected=index;
+      cards.forEach((card,i)=>{card.dataset.ruleTab=i===index?"on":"off";});
+    }
+    function restoreTabs(){
+      if(!bar)return;
+      const focused=bar.contains(doc().activeElement);
+      bar.remove();bar=null;
+      cards.forEach(card=>{delete card.dataset.ruleTab;});
+      if(focused)content.querySelector("#ruleBookBack")?.focus({preventScroll:true});
+    }
+    function syncTabs(){
+      if(!media.matches){restoreTabs();return;}
+      if(bar)return;
+      bar=element("div","ruleBookTabs");
+      bar.setAttribute("role","radiogroup");bar.setAttribute("aria-label","Rule book sections");
+      cards.forEach((card,index)=>{
+        const label=element("label","ruleBookTab"),input=doc().createElement("input");
+        input.type="radio";input.name="ruleBookSection";input.value=String(index);input.checked=index===selected;
+        input.addEventListener("change",()=>{if(input.checked)showTab(index);});
+        label.append(input,element("i","",card.querySelector(".ruleSectionNumber")?.textContent||String(index+1)),
+          element("b","",card.querySelector("h3")?.textContent||""));
+        bar.append(label);
+      });
+      grid.before(bar);
+      showTab(selected);
+    }
+    syncTabs();
+    if(media.addEventListener)media.addEventListener("change",syncTabs);
+    else media.addListener?.(syncTabs);
+    return ()=>{
+      if(media.removeEventListener)media.removeEventListener("change",syncTabs);
+      else media.removeListener?.(syncTabs);
+      restoreTabs();
+    };
+  }
   function mountRuleBook(frame,host){
     if(states.has(host))return;
     const original=Array.from(host.children),content=element("div","ruleBookV10Content");
@@ -109,13 +154,14 @@
     content.querySelector('.backButton').id='ruleBookBack';
     content.querySelector('.backButton').classList.add('sd-btn','sd-btn--secondary');
     content.querySelector('.backButton').dataset.sdEnter='button';
-    const disposeDisclosures=ruleBookDisclosures(content);
-    states.set(host,{...stage('v10RuleBookStage',host,content),original,content,disposeDisclosures});
+    const disposeDisclosures=ruleBookDisclosures(content),disposeTabs=ruleBookTabs(content);
+    states.set(host,{...stage('v10RuleBookStage',host,content),original,content,disposeDisclosures,disposeTabs});
     oldSheet('ruleBook',true);
     root.sdEnter?.(content);
   }
   function unmountRuleBook(host){
     const state=states.get(host);if(!state)return;
+    state.disposeTabs?.();
     state.disposeDisclosures?.();
     state.engine?.destroy();state.content.querySelector('.ruleBookWordmark')?.remove();
     host.replaceChildren(...state.original);host.classList.remove('v10RuleBook');states.delete(host);oldSheet('ruleBook',false);
