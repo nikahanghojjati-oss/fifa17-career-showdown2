@@ -174,22 +174,14 @@ function getMatchingCompletedActiveShowdown(showdownId){
     return active;
 }
 
-/* Unsent private drafts (Season Results, Transfer Challenge, signing) are kept per rivalry on this device; deleting the Showdown removes them too. */
-function getLegacyShowdownDraftKeys(showdown){
-    const ids = [];
+/* Deleting the Showdown also removes every unsent private draft on this device (Season Results, Transfer Challenge, signing), for every rivalry, including orphans.
+   The sweep lives in diagnostics.js (the only non-startup file allowed to touch browser storage directly) and loads on demand; it needs no rivalry id, so it also works offline or before the pair module loads. */
+function sweepLegacyShowdownDrafts(){
     try{
-        const pair = window.CareerModePersistentNikDanielPair;
-        ids.push(showdown && showdown.sharedJourney && showdown.sharedJourney.rivalryId, pair && pair.getState && pair.getState().rivalryId);
-    }catch(_error){ /* the Showdown's own rivalry id is still used */ }
-    const keys = [];
-    for(const id of new Set(ids.filter(Boolean).map(String))){
-        for(let season = 1; season <= 10; season++){
-            for(const role of ["playerOne", "playerTwo"]){
-                keys.push(`cms.signingDraft.v1:${id}:${season}:${role}`, `cms.draft.v1:${id}:${season}:${role}:seasonResult`, `cms.draft.v1:${id}:${season}:${role}:transferGuess`);
-            }
-        }
+        return Promise.resolve(window.ensureDiagnosticsModule()).then(() => window.clearAllShowdownDraftKeys() === true).catch(() => false);
+    }catch(_error){
+        return Promise.resolve(false);
     }
-    return keys;
 }
 
 function clearMatchingCompletedActiveShowdown(showdownId){
@@ -198,11 +190,10 @@ function clearMatchingCompletedActiveShowdown(showdownId){
         return true;
     }
 
-    const draftKeys = getLegacyShowdownDraftKeys(active);
     if(!clearSavedShowdown()){
         return false;
     }
-    draftKeys.forEach(key => removeStorageValue(key));
+    sweepLegacyShowdownDrafts();
 
     currentShowdown = null;
     if(typeof window.refreshMainMenuExperience === "function"){
@@ -457,7 +448,6 @@ function createLegacyDataControls(history){
             return;
         }
 
-        const draftKeys = getLegacyShowdownDraftKeys(currentShowdown || loadSavedShowdown());
         if(!clearAllCareerModeData()){
             currentShowdown = loadSavedShowdown();
             if(typeof window.showAppNotice === "function"){
@@ -471,7 +461,7 @@ function createLegacyDataControls(history){
             renderLegacy();
             return;
         }
-        draftKeys.forEach(key => removeStorageValue(key));
+        sweepLegacyShowdownDrafts();
 
         currentShowdown = null;
         if(typeof window.resetNavigationState === "function"){
