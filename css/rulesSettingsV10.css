@@ -529,7 +529,7 @@
   #app #ruleBook.v10RuleBook #v10RuleBookStage { margin-top:calc(-1 * var(--sd-nav-top-h,52px)); }
   #app #ruleBook.v10RuleBook .ruleBookV10Content {
     display:flex; flex-direction:column; gap:10px;
-    min-height:100svh; padding:calc(var(--sd-nav-top-h,52px) + 10px) 0 14px;
+    min-height:100svh; padding:calc(var(--sd-nav-top-h,52px) + 10px) 0 8px;
   }
   #app #ruleBook.v10RuleBook .ruleBookHero {
     position:relative; inset:auto; width:min(34%,620px); height:auto;
@@ -606,4 +606,43 @@
   #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow::before { block-size:10px; margin-bottom:2px; }
   #app #ruleBook.v10RuleBook .ruleBookHero .sd-tagline { font-size:9px; line-height:1.2; margin:0; }
   #app #ruleBook.v10RuleBook .ruleBookSummary { font-size:10px; line-height:1.2; margin:3px auto 0; }
+}
+
+/* Browser-check repairs. A docked Back needs an opaque band wherever the board
+   can run under it (sideways, short upright phones and short laptops); otherwise
+   rule text shows beside and below the button. Presentation only. */
+@media (max-width:900px) and (orientation:landscape),
+       (max-width:699px) and (orientation:portrait) and (max-height:700px),
+       (min-width:901px) and (max-height:700px) {
+  #app #ruleBook.v10RuleBook .ruleBookActions { isolation:isolate; }
+  #app #ruleBook.v10RuleBook .ruleBookActions::before {
+    content:""; position:absolute; z-index:-1; pointer-events:none;
+    left:50%; width:100vw; margin-left:-50vw; top:-14px; bottom:-4px;
+    background:linear-gradient(180deg,rgba(5,6,7,0),rgba(5,6,7,.96) 14px);
+  }
+}
+/* Short upright phones (360x640): reclaim spacing so the first view needs no scroll. */
+@media (max-width:699px) and (orientation:portrait) and (max-height:700px) {
+  #app #ruleBook.v10RuleBook .ruleBookV10Content { gap:4px; padding-top:3px; }
+  #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { gap:3px; }
+  #app #ruleBook.v10RuleBook .ruleBookDisclosure > :not(summary) { padding:4px 0; }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection ul { gap:2px; }
+  #app #ruleBook.v10RuleBook .ruleBookActions { margin-top:0; }
+}
+/* Sideways hero copy sits on busy stadium lights: keep it legible. */
+@media (max-width:900px) and (orientation:landscape) {
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow,
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-tagline,
+  #app #ruleBook.v10RuleBook .ruleBookSummary { text-shadow:0 1px 3px #000,0 0 6px rgba(0,0,0,.9); }
+}
+/* 768x1024 (study 1433): trim spacing so the six-card board and Back fit without scroll. */
+@media (min-width:700px) and (max-width:900px) and (orientation:portrait) and (max-height:1060px) {
+  #app #ruleBook.v10RuleBook .ruleBookV10Content { gap:8px; padding-top:8px; padding-bottom:8px; }
+  #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { gap:8px; }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection { padding:10px 14px; }
+}
+/* Hero lines sit on bright stadium lights at laptop and small sizes: keep them legible. */
+@media (max-width:1440px) {
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-tagline,
+  #app #ruleBook.v10RuleBook .ruleBookSummary { text-shadow:0 1px 3px #000,0 0 6px rgba(0,0,0,.85); }
 }
