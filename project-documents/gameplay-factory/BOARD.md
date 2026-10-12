@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 11:55 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 11:59 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r71** (main `2a511f6`, Sun 11 Oct 9:40 PM)
 
@@ -22,19 +22,19 @@ Updated Sun 11 Oct, 11:55 PM Boston time. Bug hunting only, no new features unti
 
 **#2 · 1648** `G` Old CSS: which old sheets and selectors are still live (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 28 min ago
+⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 32 min ago
 
 **#3 · 1651** `G` Flash guard: cover Season Results, Final Winner and Rivalry, and time tap feedback  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #692 · CI 7 of 8 passed · last move 5 h ago
+⚪ Team white · model not set · worker working, draft PR #692
 
 **#4 · 1652** `G` Settings › Motion: add a FULL MOTION choice  
 `██████░░░░` **60.0000 %**  
-🔵 Team blue · model not set · worker done, PR #691 open, CI failed · CI 13 of 16 passed · last move 10 min ago
+🔵 Team blue · model not set · worker done, PR #691 open, CI failed · CI 13 of 16 passed · last move 14 min ago
 
 **#5 · 1723** `G` QoL 2: Career Start errors in plain English  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #737 · CI 7 of 8 passed · last move 17 min ago
+🔵 Team blue · model not set · worker working, draft PR #737 · CI 7 of 8 passed · last move 21 min ago
 
 ### 👉 Next for you, in this order
 
@@ -841,23 +841,19 @@ Open code PRs: 1/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T03:39:58Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T03:56:49Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
 | Gameplay audits | 112 of 133 | 21 | 0 |
-| Screen fixes | 64 of 129 | 65 | 0 |
-| Match desktop to mockups | 1 of 6 | 5 | 0 |
+| Screen fixes | 85 of 129 | 44 | 0 |
+| Match desktop to mockups | 5 of 6 | 1 | 0 |
 | Phone mockup studies | 23 of 70 | 47 | 0 |
 | Improved desktop studies | 1 of 56 | 3 | 52 |
 
 **Open train PRs**
 
-- 712
-- 713
-- 705
-- 716
-- 721
+- none open right now
 
 **Latest finished numbers (up to 20)**
 
