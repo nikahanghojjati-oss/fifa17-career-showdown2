@@ -2,110 +2,54 @@
  "sequence": {
   "ready": [
    376,
-   404,
-   432,
    460,
    378,
-   406,
-   434,
    462,
    380,
-   408,
-   436,
    464,
    382,
-   410,
-   438,
    466,
    384,
-   412,
-   440,
    468,
    386,
-   414,
-   442,
    470,
    388,
-   416,
-   444,
    472,
    390,
-   418,
-   446,
    474,
    392,
-   420,
-   448,
    476,
-   394,
-   422,
    450,
-   396,
-   424,
    452,
-   398,
-   426,
    454,
-   400,
-   428,
    456,
-   402,
-   430,
    458
   ],
   "ready_chat": [],
   "ready_chat_batches": [],
   "ready_work": [
    376,
-   404,
-   432,
    460,
    378,
-   406,
-   434,
    462,
    380,
-   408,
-   436,
    464,
    382,
-   410,
-   438,
    466,
    384,
-   412,
-   440,
    468,
    386,
-   414,
-   442,
    470,
    388,
-   416,
-   444,
    472,
    390,
-   418,
-   446,
    474,
    392,
-   420,
-   448,
    476,
-   394,
-   422,
    450,
-   396,
-   424,
    452,
-   398,
-   426,
    454,
-   400,
-   428,
    456,
-   402,
-   430,
    458
   ],
   "ready_work_batches": [
@@ -113,16 +57,6 @@
     376,
     378,
     380
-   ],
-   [
-    404,
-    406,
-    408
-   ],
-   [
-    432,
-    434,
-    436
    ],
    [
     460,
@@ -135,16 +69,6 @@
     386
    ],
    [
-    410,
-    412,
-    414
-   ],
-   [
-    438,
-    440,
-    442
-   ],
-   [
     466,
     468,
     470
@@ -155,42 +79,14 @@
     392
    ],
    [
-    416,
-    418,
-    420
-   ],
-   [
-    444,
-    446,
-    448
-   ],
-   [
     472,
     474,
     476
    ],
    [
-    394,
-    396,
-    398
-   ],
-   [
-    422,
-    424,
-    426
-   ],
-   [
     450,
     452,
     454
-   ],
-   [
-    400,
-    402
-   ],
-   [
-    428,
-    430
    ],
    [
     456,
@@ -600,61 +496,61 @@
    "391": "retired",
    "392": "waiting",
    "393": "retired",
-   "394": "waiting",
+   "394": "retired",
    "395": "closed",
-   "396": "waiting",
+   "396": "retired",
    "397": "retired",
-   "398": "waiting",
+   "398": "retired",
    "399": "retired",
-   "400": "waiting",
+   "400": "retired",
    "401": "retired",
-   "402": "waiting",
+   "402": "retired",
    "403": "merged",
-   "404": "waiting",
+   "404": "retired",
    "405": "retired",
-   "406": "waiting",
+   "406": "retired",
    "407": "retired",
-   "408": "waiting",
+   "408": "retired",
    "409": "retired",
-   "410": "waiting",
+   "410": "retired",
    "411": "merged",
-   "412": "waiting",
+   "412": "retired",
    "413": "retired",
-   "414": "waiting",
+   "414": "retired",
    "415": "retired",
-   "416": "waiting",
+   "416": "retired",
    "417": "retired",
-   "418": "waiting",
+   "418": "retired",
    "419": "merged",
-   "420": "waiting",
+   "420": "retired",
    "421": "retired",
-   "422": "waiting",
+   "422": "retired",
    "423": "retired",
-   "424": "waiting",
+   "424": "retired",
    "425": "retired",
-   "426": "waiting",
+   "426": "retired",
    "427": "merged",
-   "428": "waiting",
+   "428": "retired",
    "429": "retired",
-   "430": "waiting",
+   "430": "retired",
    "431": "retired",
-   "432": "waiting",
+   "432": "retired",
    "433": "retired",
-   "434": "waiting",
+   "434": "retired",
    "435": "merged",
-   "436": "waiting",
+   "436": "retired",
    "437": "retired",
-   "438": "waiting",
+   "438": "retired",
    "439": "retired",
-   "440": "waiting",
+   "440": "retired",
    "441": "retired",
-   "442": "waiting",
+   "442": "retired",
    "443": "retired",
-   "444": "waiting",
+   "444": "retired",
    "445": "retired",
-   "446": "waiting",
+   "446": "retired",
    "447": "retired",
-   "448": "waiting",
+   "448": "retired",
    "449": "retired",
    "450": "waiting",
    "451": "retired",
@@ -761,12 +657,12 @@
    "552": "retired"
   }
  },
- "updated": "2026-10-12T12:16:17Z",
+ "updated": "2026-10-12T12:24:02Z",
  "counts": {
   "merged": 226,
-  "retired": 158,
+  "retired": 186,
   "closed": 82,
-  "waiting": 51,
+  "waiting": 23,
   "pr_open": 34,
   "blocked": 1
  },
@@ -788,7 +684,7 @@
   },
   "5": {
    "total": 56,
-   "taken": 5,
+   "taken": 33,
    "merged": 1
   },
   "1": {
@@ -1707,14 +1603,14 @@
    "branch": "study/job-1086-home-desktop-polish"
   },
   "1087": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1088": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -1910,14 +1806,14 @@
    "branch": null
   },
   "1116": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1117": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2113,14 +2009,14 @@
    "branch": "study/job-1144-league-desktop-a-polish"
   },
   "1145": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1146": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2316,14 +2212,14 @@
    "branch": "study/job-1173-desktop-polish"
   },
   "1174": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1175": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2519,14 +2415,14 @@
    "branch": null
   },
   "1203": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1204": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2722,14 +2618,14 @@
    "branch": null
   },
   "1232": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1233": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2925,14 +2821,14 @@
    "branch": null
   },
   "1261": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1262": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3128,14 +3024,14 @@
    "branch": "study/job-1289-desktop-a-polish"
   },
   "1290": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1291": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3331,14 +3227,14 @@
    "branch": null
   },
   "1319": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1320": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3534,14 +3430,14 @@
    "branch": null
   },
   "1348": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1349": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3737,14 +3633,14 @@
    "branch": null
   },
   "1377": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1378": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3940,14 +3836,14 @@
    "branch": "study/job-1405-desktop-polish"
   },
   "1406": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1407": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -4143,14 +4039,14 @@
    "branch": null
   },
   "1435": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1436": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -4346,14 +4242,14 @@
    "branch": null
   },
   "1464": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1465": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
