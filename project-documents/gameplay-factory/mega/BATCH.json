@@ -9,7 +9,52 @@
  "jobs_free": [],
  "jobs_after_wiring": [],
  "jobs_note": "Polish wave tickets (ChatGPT chat). The queue thread keeps these two lists; a job moves to jobs_free when its area's wiring train is merged or closed. 1650 (service worker audit) and 1652 (Settings motion choice) are ChatGPT chat jobs from the 1635 follow-ups. 1654-1656 are second attempts on failed train PRs #687, #686, #684 (ChatGPT chat). 1654-1656 left the lists: Claude lane.",
- "work_waiting": [],
+ "work_waiting": [
+  {
+   "job": 1695,
+   "note": "Sol 6.1 · High. Home screen job; starts after PR #712 merges."
+  },
+  {
+   "job": 1696,
+   "note": "Sol 6.1 · High. Connect Players screen job; starts after PR #713 merges."
+  },
+  {
+   "job": 1697,
+   "note": "Sol 6.1 · High. League screen job; starts after PR #702 merges."
+  },
+  {
+   "job": 1699,
+   "note": "Sol 6.1 · High. Transfer screen job; starts after PR #705 merges."
+  },
+  {
+   "job": 1700,
+   "note": "Sol 6.1 · High. Season Results screen job; starts after PR #716 merges."
+  },
+  {
+   "job": 1701,
+   "note": "Sol 6.1 · High. Standings screen job; starts after the Season Results job merges."
+  },
+  {
+   "job": 1702,
+   "note": "Sol 6.1 · High. Final Winner screen job; starts after the Standings job merges."
+  },
+  {
+   "job": 1703,
+   "note": "Sol 6.1 · High. Rivalry Statistics screen job; starts after PR #721 merges."
+  },
+  {
+   "job": 1704,
+   "note": "Sol 6.1 · High. Legacy screen job; starts after the Rivalry job merges."
+  },
+  {
+   "job": 1706,
+   "note": "Sol 6.1 · High. Career Statistics screen job; starts after the Trophy Room job merges."
+  },
+  {
+   "job": 1708,
+   "note": "Sol 6.1 · High. Settings screen job; starts after the Rule Book job merges."
+  }
+ ],
  "wiring_chains": {
   "model": "Sol 6.1 · High",
   "chains": [],
@@ -17,28 +62,18 @@
  },
  "work_extra": {
   "model": "Sol 6.1 · High",
-  "numbers": [],
-  "note": "Stage 3 moved to the Claude lane screen passes (2026-10-12)."
+  "numbers": [
+   1698,
+   1705,
+   1707
+  ],
+  "note": "Screen jobs: one Work mode number per screen (all sizes, desktop mockup, adopted studies, polish), one draft PR each, Claude browser-checks. One job per lock group at a time."
  },
  "claude_lane_jobs": {
   "jobs": [
-   1633,
-   1634,
-   1637,
-   1638,
-   1639,
-   1640,
-   1641,
-   1642,
-   1643,
-   1644,
-   1645,
-   1646,
    1654,
    1655,
-   1656,
-   1659,
-   1660
+   1656
   ],
   "note": "Claude lane (nothing to type)."
  },
@@ -49,45 +84,98 @@
   "source": "QUEUE_STATE.json sequence.ready_work_batches",
   "rule": "Optional: 3 independent Work mode numbers in one message, done one after another, stopping at the first problem. Singles stay available."
  },
- "work_free_jobs": [],
+ "work_free_jobs": [
+  1698,
+  1705,
+  1707
+ ],
  "claude_doing": {
   "title": "Claude is doing (nothing to type)",
-  "note": "Screen passes: all sizes plus desktop mockup match, browser-verified, one PR per screen, run by the Team G lead, in work order. Wiring of adopted studies (1633 1634 1646 1659 1660) and the polish wave (1637-1645) are Claude lane too.",
-  "screens": [
-   "Home",
-   "Connect Players",
-   "League",
-   "Club",
-   "Transfer",
-   "Season Results",
-   "Standings",
-   "Final Winner",
-   "Rivalry Statistics",
-   "Legacy",
-   "Trophy Room",
-   "Career Statistics",
-   "Rule Book",
-   "Settings"
-  ],
-  "jobs": [
-   1633,
-   1634,
-   1646,
-   1659,
-   1660,
-   1637,
-   1638,
-   1639,
-   1640,
-   1641,
-   1642,
-   1643,
-   1644,
-   1645,
-   1654,
-   1655,
-   1656
+  "note": "Claude browser-checks every screen PR and fixes failures. No retries by GPT.",
+  "open_prs": [
+   {
+    "screen": "Home",
+    "pr": 712
+   },
+   {
+    "screen": "Connect Players",
+    "pr": 713
+   },
+   {
+    "screen": "League",
+    "pr": 702
+   },
+   {
+    "screen": "Transfer",
+    "pr": 705
+   },
+   {
+    "screen": "Season Results",
+    "pr": 716
+   },
+   {
+    "screen": "Rivalry/Legacy",
+    "pr": 721
+   }
   ]
  },
- "plan": "2026-10-12 03:19 UTC (Nik): accuracy over volume. Work mode: stage 4 and 5 studies only. Chat: only jobs a test can prove (list pending from the lead). Per-size code items and new audits retired."
+ "plan": "2026-10-12 03:25 UTC: one Work mode number per screen (jobs 1695-1708) replaces per-size items, wiring and polish; study jobs follow; chat empty.",
+ "screen_jobs": [
+  {
+   "job": 1695,
+   "screen": "Home"
+  },
+  {
+   "job": 1696,
+   "screen": "Connect Players"
+  },
+  {
+   "job": 1697,
+   "screen": "League"
+  },
+  {
+   "job": 1698,
+   "screen": "Club"
+  },
+  {
+   "job": 1699,
+   "screen": "Transfer"
+  },
+  {
+   "job": 1700,
+   "screen": "Season Results"
+  },
+  {
+   "job": 1701,
+   "screen": "Standings"
+  },
+  {
+   "job": 1702,
+   "screen": "Final Winner"
+  },
+  {
+   "job": 1703,
+   "screen": "Rivalry Statistics"
+  },
+  {
+   "job": 1704,
+   "screen": "Legacy"
+  },
+  {
+   "job": 1705,
+   "screen": "Trophy Room"
+  },
+  {
+   "job": 1706,
+   "screen": "Career Statistics"
+  },
+  {
+   "job": 1707,
+   "screen": "Rule Book"
+  },
+  {
+   "job": 1708,
+   "screen": "Settings"
+  }
+ ]
 }
