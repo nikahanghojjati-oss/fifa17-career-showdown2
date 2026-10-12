@@ -4,7 +4,7 @@
   "clean_streak": 0,
   "goal": 10,
   "owner": "mega factory thread",
-  "updated": "2026-10-12T12:33:17Z",
+  "updated": "2026-10-12T12:35:00Z",
   "note": "Nik decided 06:55 UTC: 3 numbers per chat; 5 once 10 batches in a row run clean.",
   "jobs_free": [
     1763,
@@ -62,13 +62,7 @@
       1705,
       1707,
       1698,
-      1699,
-      1727,
-      1728,
-      1729,
-      1730,
-      1731,
-      1732
+      1699
     ],
     "note": "Phone/sideways/tablet work first (adopted phone studies); desktop is built by the Claude lane for Home, Club, Final Winner and Career Statistics. Transfer last (no adopted phone study). Study re-runs 1727-1732 (Team V redo lines) come after the screen numbers; 3 per message."
   },
@@ -95,13 +89,7 @@
     1705,
     1707,
     1698,
-    1699,
-    1727,
-    1728,
-    1729,
-    1730,
-    1731,
-    1732
+    1699
   ],
   "claude_doing": {
     "title": "Claude is doing (nothing to type)",
@@ -224,24 +212,5 @@
       "name": "r73",
       "when": "tonight"
     }
-  ],
-  "study_reruns": {
-    "jobs": [
-      1727,
-      1728,
-      1729,
-      1730,
-      1731,
-      1732
-    ],
-    "map": {
-      "1727": "Connect Players sideways (old 1113)",
-      "1728": "Connect Players tablet (old 1114)",
-      "1729": "Standings sideways (old 1258)",
-      "1730": "Trophy Room sideways (old 1345)",
-      "1731": "Rule Book sideways (old 1432)",
-      "1732": "Legacy tablet (old 1317)"
-    },
-    "note": "Transfer War phone (old 1197) is wired directly by screen job 1699, no re-run."
-  }
+  ]
 }
