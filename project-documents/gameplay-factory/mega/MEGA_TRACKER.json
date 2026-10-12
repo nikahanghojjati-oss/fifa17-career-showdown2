@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T09:49:56Z",
+"updated": "2026-10-12T09:51:26Z",
 "total": 394,
 "next_free": 374,
 "highest_taken": 541,
@@ -417,9 +417,8 @@
 "total": 68,
 "states": {
 "live": 23,
-"merged": 2,
+"merged": 3,
 "waiting": 40,
-"ci_running": 1,
 "draft": 2
 },
 "reviews": {
@@ -429,7 +428,7 @@
 },
 "picked_up": 28,
 "worker_done": 28,
-"finished": 25,
+"finished": 26,
 "pending_lead": 2,
 "wait_v": 0,
 "audit_batch": 0,
