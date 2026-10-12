@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1794,
+ "next": 1795,
  "claims": [
   {
    "number": 1001,
@@ -4760,6 +4760,12 @@
    "team": "G",
    "title": "Work mode audit and fix: sharedFinalReconciliation",
    "claimed": "2026-10-12T15:01:32Z"
+  },
+  {
+   "number": 1794,
+   "team": "G",
+   "title": "Work mode audit and fix: sharedTerminalClose",
+   "claimed": "2026-10-12T15:01:35Z"
   }
  ]
 }
