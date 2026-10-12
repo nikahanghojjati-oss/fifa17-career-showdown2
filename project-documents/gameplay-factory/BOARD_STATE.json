@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-12 8:29 AM Boston time (EDT)",
+ "generated": "2026-10-12 8:37 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 94,
@@ -869,8 +869,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "2754187",
-  "head_boston": "Mon 12 Oct 7:38 AM",
+  "head": "e2fd6fd",
+  "head_boston": "Mon 12 Oct 8:32 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -914,7 +914,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "",
+   "gate": "POS20 #304 6/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
