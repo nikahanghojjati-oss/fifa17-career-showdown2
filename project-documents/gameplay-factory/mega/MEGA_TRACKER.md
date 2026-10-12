@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-12T02:55:30Z
+# Mega factory tracker · updated 2026-10-12T02:57:00Z
 
-**Type now (82 free):** 324, 330, 352, 358, 366, 368, 370, 374, 376, 378, 380, 382, 384, 386, 388, 390, 392, 394, 396, 398, 400, 402, 404, 406, 408, 410, 412, 414, 416, 418, 420, 422, 424, 426, 428, 430, 432, 434, 435, 436, 438, 440, 442, 444, 446, 448, 450, 452, 454, 456, 458, 460, 462, 464, 466, 468, 470, 472, 474, 476, 525, 527, 529, 531, 533, 535, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552
+**Type now (81 free):** 324, 330, 352, 358, 366, 368, 370, 374, 376, 378, 380, 382, 384, 386, 388, 390, 392, 394, 396, 398, 400, 402, 404, 406, 408, 410, 412, 414, 416, 418, 420, 422, 424, 426, 428, 430, 432, 434, 435, 436, 438, 440, 442, 444, 446, 448, 450, 452, 454, 456, 458, 460, 462, 464, 466, 468, 470, 472, 474, 476, 525, 527, 529, 531, 533, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552
 **Next free number:** 187 · **highest taken:** 536 of 552
 **Code PRs open:** 3 of 8 · area locks: club, career-screens, rules-settings, home, start-join, league, transfer, season-final
-**Rate:** 2 claimed in 10 min · 34 in 1 h · 45 merged in 1 h
+**Rate:** 3 claimed in 10 min · 35 in 1 h · 45 merged in 1 h
 
 **Finished (merged or live): 181 of 552**
 
@@ -16,12 +16,13 @@ State | count
 📝 draft PR, not checked yet | 42
 🟥 PR open, checks FAILED | 5
 🟧 blocked | 1
+🟦 started, no PR yet | 1
 ⚫ closed without merge | 82
-⬜ waiting | 227
+⬜ waiting | 226
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
-1 Gameplay audits | 146 | 112 | 12 | 22
+1 Gameplay audits | 146 | 112 | 13 | 21
 2 Screen fixes | 266 | 45 | 39 | 138
 3 Match desktop to mockups | 14 | 0 | 5 | 8
 4 Phone mockup studies | 70 | 23 | 6 | 4
@@ -99,10 +100,12 @@ Stage | total | merged/live | in flight | waiting
 - 📝 **530** · Job 1672 · Audit js/ruleBook.js for gameplay bugs (first half) · draft PR, not checked yet · [PR #711](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/711)
 - 📝 **532** · Job 1674 · Audit js/menuFeedback.js for gameplay bugs (first half) · draft PR, not checked yet · [PR #714](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/714)
 - 📝 **534** · Job 1676 · Audit js/sharedJourneyConflicts.js for gameplay bugs (first half) · draft PR, not checked yet · [PR #715](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/715)
+- 🟦 **535** · Job 1677 · Audit js/productionSharedSeasonResultsRoute.js for gameplay bugs (first half) · started, no PR yet
 - 📝 **536** · Job 1678 · Audit js/scoring.js for gameplay bugs (second half) · draft PR, not checked yet · [PR #717](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/717)
 
 ## Latest changes
 
+- 2026-10-12T02:57:00Z · 535 (Job 1677): waiting → started
 - 2026-10-12T02:55:30Z · 302 (Job 1257): started → draft
 - 2026-10-12T02:52:30Z · 302 (Job 1257): waiting → started
 - 2026-10-12T02:51:00Z · 296 (Job 1431): started → draft
@@ -122,4 +125,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-12T02:47:18Z · 119 (Job 1212): merged → live
 - 2026-10-12T02:47:18Z · 113 (Job 1125): merged → live
 - 2026-10-12T02:47:18Z · 111 (Job 1096): merged → live
-- 2026-10-12T02:47:18Z · 109 (Job 1067): merged → live
