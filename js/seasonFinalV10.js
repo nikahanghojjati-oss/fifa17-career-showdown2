@@ -739,6 +739,8 @@
   padding-top:31.2dvh;
  }
 
+}
+
 /* JOB-1214: Full-HD Season Results. The registered first viewport still frames
    the artwork/title, while <main> owns the ONLY scroll. Review content and
    action rows must grow in normal flow, not inside fixed-height clipped cards. */
@@ -827,8 +829,6 @@
  }
 }
 
-}
-
 /* JOB-1215: Season Results at 2560x1080 only. Keep Team V's artwork and
    title in the first viewport; main alone scrolls the full live content. */
 @media (min-width:2500px) and (max-width:2620px) and (min-height:1040px) and (max-height:1120px) {
@@ -911,6 +911,45 @@
   padding-top:31.2dvh;
  }
 }
+/* JOB-1216: Full-HD mockup typography and manager ink, adapter only.
+   Keep the live form/review in normal flow; phones and Final Winner are excluded. */
+@media (min-width:1880px) and (max-width:1960px) and (min-height:1040px) and (max-height:1120px) {
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .season-eyebrow {
+  top:10.9dvh;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage #screen-title {
+  top:16.78dvh;left:27.99%;width:43.49%;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .season-tagline {
+  top:calc(16.78dvh + 6.44vw + 4px);
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage #scoring-heading {
+  font-size:clamp(28px,1.95vw,30px);
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .scoring-rule {
+  font-size:clamp(16px,.91vw,18px);line-height:1.2;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .scoring-trophy {
+  max-height:16.2dvh;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid:not(.hidden) {
+  gap:1.3vw;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonResultCard .seasonManagerHeader h3 {
+  font-size:clamp(36px,2.6vw,40px);line-height:1;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .entry-panel--nik input[type=number] {
+  border-color:rgb(216 221 229 / .55);
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .entry-panel--nik input[type=checkbox] {
+  background:linear-gradient(#06080a 0 0) center/16px 16px no-repeat,
+   linear-gradient(#d8dde5 0 0) center/20px 20px no-repeat;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .entry-panel--nik input[type=checkbox]:checked {
+  background:linear-gradient(#f2c45b 0 0) center/20px 20px no-repeat;
+ }
+}
+
 `;
     parent.appendChild(style);
   }
