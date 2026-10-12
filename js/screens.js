@@ -338,9 +338,6 @@ function flushScreenBeforeLeave(currentScreen, nextScreen){
             }
         }
 
-        if(typeof window.stopTransferTimerLoop === "function"){
-            window.stopTransferTimerLoop();
-        }
     }
 
     if(typeof window.flushScheduledCurrentShowdownSave === "function"){
@@ -348,6 +345,10 @@ function flushScreenBeforeLeave(currentScreen, nextScreen){
         if(flushed === false){
             return false;
         }
+    }
+
+    if(currentScreen === "transferChallenge" && typeof window.stopTransferTimerLoop === "function"){
+        window.stopTransferTimerLoop();
     }
 
     if(currentScreen === "leagueWheelScreen" && typeof window.cancelLeagueWheelOperation === "function"){
