@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1685,
+ "next": 1686,
  "claims": [
   {
    "number": 1001,
@@ -4106,6 +4106,12 @@
    "team": "G",
    "title": "Mega queue wave 2: gameplay audit 24 of 34",
    "claimed": "2026-10-12T02:22:50Z"
+  },
+  {
+   "number": 1685,
+   "team": "G",
+   "title": "Mega queue wave 2: gameplay audit 25 of 34",
+   "claimed": "2026-10-12T02:22:52Z"
   }
  ]
 }
