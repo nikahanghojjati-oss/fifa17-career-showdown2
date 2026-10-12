@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 12 Oct, 6:42 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 12 Oct, 6:43 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r71** (main `2a511f6`, Sun 11 Oct 9:40 PM)
 
@@ -22,23 +22,23 @@ Updated Mon 12 Oct, 6:42 AM Boston time. Bug hunting only, no new features until
 
 **#2 · 1695** `G` Home: one Work mode job for the whole screen  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #743 · CI 7 of 8 passed · last move 52 min ago
+🟢 Team green · model not set · worker working, draft PR #743 · CI 7 of 8 passed · last move 53 min ago
 
 **#3 · 1696** `G` Connect Players (Start and Join): one Work mode job for the whole screen  
 `████████░░` **77.3333 %**  
-🟢 Team green · model not set · worker done, PR #746 open, CI running · CI 11 of 15 passed · last move 0 min ago
+🟢 Team green · model not set · worker done, PR #746 open, CI running · CI 11 of 15 passed · last move 1 min ago
 
 **#4 · 1697** `G` Select League: one Work mode job for the whole screen  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #755 · CI 7 of 8 passed · last move 3 min ago
+🟢 Team green · model not set · worker working, draft PR #755 · CI 7 of 8 passed · last move 4 min ago
 
 **#5 · 1725** `G` QoL 5: a photo that failed once loads on the next try  
 `██████░░░░` **60.0000 %**  
-🔵 Team blue · model not set · worker done, PR #742 open, CI failed · CI 15 of 16 passed · last move 9 min ago
+🔵 Team blue · model not set · worker done, PR #742 open, CI failed · CI 15 of 16 passed · last move 10 min ago
 
 **#6 · 1726** `G` QoL 8: a failed load cannot double up taps on retry  
 `██████░░░░` **60.0000 %**  
-🔵 Team blue · model not set · worker done, PR #744 open, CI failed · CI 7 of 16 passed · last move 14 min ago
+🔵 Team blue · model not set · worker done, PR #744 open, CI failed · CI 7 of 16 passed · last move 15 min ago
 
 ### 👉 Next for you, in this order
 
