@@ -268,19 +268,41 @@
     const pic=(cls,file,enter,size)=>`<picture class="${cls}"${enter?` data-sd-enter="${enter}"`:""}><source media="${media}" srcset="${a}${file}" type="image/webp"><img alt=""${size||""} decoding="async"></picture>`;
     return `<div class="phone-hero-art" aria-hidden="true" data-sd-enter="scene">${pic("phone-hero-bg","ENV_TRANSFER_PHONE_V1.webp","",' width="1179" height="2096"')}${pic("phone-hero phone-hero-daniel","OVL_TRANSFER_DANIEL_PHONE_V2.webp","character-left")}${pic("phone-hero phone-hero-nik","OVL_TRANSFER_NIK_PHONE_V2.webp","character-right")}</div><div class="stage" data-phone-contract="cinematic" role="region" aria-label="Transfer Challenge"></div>`;
   }
-  // JOB-1699: let desktop text/cards grow independently of the frozen plate camera.
-  // Move the existing panels as one ordered group; no fields, ids, copy or listeners are recreated.
-  // The touch studies still receive exactly the original world children after rotation.
-  function tfFlowDesktop(){
-    if(!stage||typeof root.matchMedia!=="function")return;
+  // JOB-1699: on desktop the entry and verdict phases need more room than Team V's painted frames give them.
+  // Only those phases move the existing panels (same nodes, ids, copy and listeners) as one ordered group beside the
+  // frozen plate camera, so the cards can grow; every other phase keeps the plate's own painted layout.
+  // The group is aligned to the plate by the world's real rectangle (plate pixels x k), so the cards cover the painted
+  // frames instead of leaving them showing underneath. Rotation and teardown restore the original world children.
+  function tfFlowWanted(frame){
+    if(!frame)return false;
+    if(frame.phase==="COMPLETED")return Boolean(frame.verdicts);
+    if(frame.phase==="GUESS_ENTRY")return !frame.guessesLocked;
+    if(frame.phase==="SIGNING_ENTRY")return !frame.signingsLocked;
+    return false;
+  }
+  function tfFlowDesktop(frame){
+    if(!stage||typeof root.matchMedia!=="function"||!tfFlowWanted(frame))return;
     const world=stage.querySelector(".world"),footer=stage.querySelector(".hud-footer");
     if(!world||!footer)return;
     const media=root.matchMedia("(min-width: 1101px)");
-    let group=null,places=[];
+    let group=null,places=[],frameRequest=null;
+    const PLATE_W=1672;
     const restore=()=>{
       for(const {node,marker} of places){if(marker.parentNode){marker.parentNode.insertBefore(node,marker);marker.remove();}}
       places=[];if(group)group.remove();group=null;
     };
+    // Plate pixel size, world offset and the painted frames' bottom edge, as the group's CSS custom properties.
+    const measure=()=>{
+      frameRequest=null;
+      if(!group||!world.isConnected)return;
+      const box=world.getBoundingClientRect(),host=stage.getBoundingClientRect();
+      if(!box.width||!host.height)return;
+      const k=box.width/PLATE_W;
+      group.style.setProperty("--tw-k",`${k.toFixed(4)}px`);
+      group.style.setProperty("--tw-x0",`${Math.round(box.left-host.left)}px`);
+      group.style.setProperty("--tw-pb",`${Math.max(56,Math.round(host.height-(box.top-host.top)-792*k))}px`);
+    };
+    const schedule=()=>{if(frameRequest===null&&typeof root.requestAnimationFrame==="function")frameRequest=root.requestAnimationFrame(measure);};
     const sync=()=>{
       if(!media.matches){restore();return;}
       if(group)return;
@@ -290,11 +312,15 @@
         const marker=tfDoc().createComment("v10-transfer:desktop-panel");
         node.parentNode.insertBefore(marker,node);places.push({node,marker});group.appendChild(node);
       }
+      measure();schedule();
     };
     if(typeof media.addEventListener==="function")media.addEventListener("change",sync);else if(typeof media.addListener==="function")media.addListener(sync);
+    if(typeof root.addEventListener==="function")root.addEventListener("resize",schedule);
     desktopLayout={dispose:()=>{
       if(typeof media.removeEventListener==="function")media.removeEventListener("change",sync);else if(typeof media.removeListener==="function")media.removeListener(sync);
-      restore();
+      if(typeof root.removeEventListener==="function")root.removeEventListener("resize",schedule);
+      if(frameRequest!==null&&typeof root.cancelAnimationFrame==="function")root.cancelAnimationFrame(frameRequest);
+      frameRequest=null;restore();
     }};
     sync();
   }
@@ -326,7 +352,7 @@
       // undelivered notifications", which the app's error boundary shows as a 10 s error toast over the phone HUD's REFRESH.
       if(typeof root.ResizeObserver==="function"&&typeof root.requestAnimationFrame==="function"){let last="";stageSize=new root.ResizeObserver(entries=>{const box=entries[0]&&entries[0].contentRect;const size=box?`${Math.round(box.width)}x${Math.round(box.height)}`:"";if(!size||size===last)return;last=size;if(reframe===null&&typeof root.dispatchEvent==="function"&&typeof root.Event==="function")reframe=root.requestAnimationFrame(()=>{reframe=null;root.dispatchEvent(new root.Event("resize"));});});stageSize.observe(stage);}
       tfAdoptAll(frame,section);
-      tfFlowDesktop();
+      tfFlowDesktop(frame);
       if(drawn&&typeof drawn.catch==="function")drawn.catch(error=>tfWarn("Transfer War motion skipped.",error));
     }catch(error){
       // Any failure leaves the app's own screen exactly as production rendered it.

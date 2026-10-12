@@ -234,7 +234,7 @@
     scroll-behavior: auto !important;
   }
 }
-* JOB-1035 (HO-021 part 2): Transfer War on a phone held sideways (844x390, 932x430, touch).
+/* JOB-1035 (HO-021 part 2): Transfer War on a phone held sideways (844x390, 932x430, touch).
    Append to css/v10Transfer.css, after every other rule. CSS only: no markup, script or art changes.
 
    Composition: a narrow poster strip on the left (the TRANSFER WAR wordmark, Daniel LEFT and Nik RIGHT as the same two
@@ -599,7 +599,7 @@
   #app #transferChallenge .tw-host .btn-continue { font-size: 16px; }
   #app #transferChallenge .tw-host .hud-footer { position: fixed; bottom: 0; height: calc(var(--footer-h) + env(safe-area-inset-bottom)); padding: 0 var(--tb-side) env(safe-area-inset-bottom); gap: 12px; z-index: 8; background: linear-gradient(to top, rgba(6,5,3,.98) 0%, rgba(6,5,3,.94) 80%, rgba(6,5,3,0) 100%); }
   #app #transferChallenge .tw-host .hud-footer .ghost,
-  #app #transferChallenge .tw-host .hud-footer :is(.menuButton, .backButton) { height: 48px; min-height: 48px; min-width: 56px; padding: 0 16px; font-size: 14px; }
+  #app #transferChallenge .tw-host .hud-footer :is(.menuButton, .backButton) { height: 48px; min-height: 48px; min-width: 56px; padding: 0 16px; }
   #app #transferChallenge .tw-host .hud-footer :is(.backButton, #refreshSharedTransferChallenge)::after { font-size: 14px; }
   #app #transferChallenge .tw-host .hud-mid { flex-direction: column; gap: 4px; align-items: center; flex: 1; min-width: 0; }
   #app #transferChallenge .tw-host .hud-title { font-size: 14px; letter-spacing: .1em; }
@@ -622,8 +622,7 @@
    Expanded forms/verdicts use main; the plate camera never owns live overflow. */
 @media (max-width: 760px) and (orientation: portrait),
        (min-width: 761px) and (max-width: 1100px) and (orientation: portrait),
-       (orientation: landscape) and (max-height: 500px) and (max-width: 1100px),
-       (min-width: 1101px) {
+       (orientation: landscape) and (max-height: 500px) and (max-width: 1100px) {
   #app > main:has(#transferChallenge.tw-on:not(.hidden)) {
     position: fixed; inset: 0; z-index: 30; min-height: 0; padding: 0;
     overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
@@ -636,6 +635,11 @@
   #app #transferChallenge.tw-on > .tw-host {
     position: relative; inset: auto; width: 100%; min-height: 100svh; overflow: visible;
   }
+}
+@media (max-width: 760px) and (orientation: portrait),
+       (min-width: 761px) and (max-width: 1100px) and (orientation: portrait),
+       (orientation: landscape) and (max-height: 500px) and (max-width: 1100px),
+       (min-width: 1101px) {
   #app #transferChallenge .tw-host :is(.panel-title, .own-heading, .rival-name, .lock-summary, .privacy-note, .rule-note, .verdict-heading, .vr-name, .vr-meta, .vr-why) {
     min-width: 0; max-width: 100%; white-space: normal; overflow: visible;
     overflow-wrap: normal; word-break: normal; text-overflow: clip;
@@ -684,7 +688,7 @@
   #app #transferChallenge .tw-host :is(.scene-atmos, .scene .plane, .scene .plate) { display: none; }
   #app #transferChallenge .tw-host .scene {
     position: relative; inset: auto; display: flex; align-items: flex-end;
-    flex: 0 0 auto; height: clamp(96px, calc(100svh - 370px), 330px);
+    flex: 0 0 auto; height: clamp(96px, calc(100svh - 392px), 330px);
     min-height: 0; max-height: none; margin: 0 -12px; background: transparent;
   }
   #app #transferChallenge .tw-host .stage:is([data-phase="GUESS_ENTRY"], [data-phase="SIGNING_ENTRY"], [data-phase="COMPLETED"]) .scene {
@@ -755,7 +759,7 @@
   #app #transferChallenge .tw-host .world {
     position: relative; inset: auto; width: 100% !important; height: auto !important;
     min-height: calc(100svh - 52px); grid-template-rows: auto auto;
-    padding-bottom: 8px; align-content: start; overflow: visible;
+    padding-bottom: var(--ls-foot, 52px); align-content: start; overflow: visible;
   }
   #app #transferChallenge .tw-host .panel { min-height: auto; }
   #app #transferChallenge .tw-host .panel-body { min-height: 0; }
@@ -786,83 +790,109 @@
   #app #transferChallenge .tw-host .sign-status.reg { white-space: normal; font-size: 15px; letter-spacing: .07em; }
   #app #transferChallenge .tw-host .hud-title { white-space: normal; text-align: center; }
 }
-/* NEXT desktop: keep the plate's Daniel-left camera, with real text on growing cards.
-   The exact painted frame/plinth/emblem/lighting differences remain Team V evidence debt. */
+/* NEXT desktop. Window, locked and replay phases keep Team V's painted plate exactly (it is the NEXT_TRANSFER picture).
+   Entry and verdict phases (js/transferScreenV10.js tfFlowDesktop) move the same panels into .tw-desktop-content, a grid
+   that is placed in plate pixels (--tw-k = px per plate pixel, --tw-x0 = world left, --tw-pb = space under the painted
+   frames) so the growing cards sit over the painted frames and nothing of them shows around the cards. The frozen frame,
+   plinth and emblem art itself stays Team V evidence debt. */
 @media (min-width: 1101px) {
-  #app > main:has(#transferChallenge.tw-on:not(.hidden)) { top: var(--sd-nav-top-h, 52px); scroll-padding-block: 24px 64px; }
-  #app #transferChallenge.tw-on,
-  #app #transferChallenge.tw-on > .tw-host { min-height: calc(100svh - var(--sd-nav-top-h, 52px)); }
-  #app #transferChallenge .tw-host .stage {
+  /* Footer rail: 44px controls on every desktop phase. */
+  #app #transferChallenge .tw-host .hud-footer { height: 52px; }
+  #app #transferChallenge .tw-host .hud-footer :is(.menuButton, .backButton) { height: 44px; min-height: 44px; min-width: 44px; padding: 0 18px; }
+  #app #transferChallenge .tw-host .hud-footer :is(.backButton, #refreshSharedTransferChallenge)::after { font-size: 13px; }
+  /* Plate phases: the action keeps a 44px floor inside the painted frame. */
+  #app #transferChallenge .tw-host .stage:not(:has(> .tw-desktop-content)) :is(.btn-end, .btn-lock, .btn-continue) { min-height: 46px; }
+  #app #transferChallenge .tw-host .stage:not(:has(> .tw-desktop-content)) .end-row .btn-end { flex: 1 1 auto; width: 100%; }
+
+  #app > main:has(#transferChallenge .tw-desktop-content) {
+    position: fixed; inset: var(--sd-nav-top-h, 52px) 0 0 0; z-index: 30; min-height: 0; padding: 0;
+    overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scroll-padding-block: 24px 64px;
+  }
+  #app #transferChallenge.tw-on:has(.tw-desktop-content) {
+    position: relative; width: 100%; max-width: none; margin: 0; padding: 0; contain: none; overflow: visible;
+    min-height: calc(100svh - var(--sd-nav-top-h, 52px));
+  }
+  #app #transferChallenge.tw-on:has(.tw-desktop-content) > .tw-host {
+    position: relative; inset: auto; width: 100%; overflow: visible; min-height: calc(100svh - var(--sd-nav-top-h, 52px));
+  }
+  #app #transferChallenge .tw-host .stage:has(> .tw-desktop-content) .hud-footer {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 8; padding: 0 14px;
+  }
+  #app #transferChallenge .tw-host .stage:has(> .tw-desktop-content) {
     position: relative; inset: auto; height: calc(100svh - var(--sd-nav-top-h, 52px));
     min-height: 0; overflow: visible; background: transparent;
   }
-  #app #transferChallenge .tw-host .stage::before { position: fixed; }
-  /* Fixed decorative camera does not add its oversized cover-fit rectangle to main's scroll range. */
-  #app #transferChallenge .tw-host .world { position: fixed; margin-top: var(--sd-nav-top-h, 52px); pointer-events: none; }
-  #app #transferChallenge .tw-host .world .transfer-wordmark { display: none; }
+  #app #transferChallenge .tw-host .stage:has(> .tw-desktop-content)::before { position: fixed; }
+  /* The fixed decorative camera does not add its oversized cover-fit rectangle to main's scroll range. */
+  #app #transferChallenge .tw-host .stage:has(> .tw-desktop-content) .world { position: fixed; margin-top: var(--sd-nav-top-h, 52px); pointer-events: none; }
   #app #transferChallenge .tw-host .tw-desktop-content {
-    --k: 1; position: relative; z-index: 2; width: 73%; margin-left: 18%;
-    padding-top: min(58svh, calc(100svh - var(--sd-nav-top-h, 52px) - 220px));
-    padding-bottom: 64px; display: grid;
-    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.3fr) minmax(0, .95fr);
-    gap: clamp(14px, 3vw, 60px); align-items: end;
+    --k: 1; --tw-k: 1px; --tw-x0: 0px; --tw-pb: 64px;
+    position: relative; z-index: 2; box-sizing: border-box; min-height: 100%;
+    margin-left: calc(var(--tw-x0) + 130 * var(--tw-k)); width: calc(1405 * var(--tw-k));
+    padding-bottom: var(--tw-pb); display: grid; align-content: end; align-items: stretch;
+    grid-template-columns: calc(605 * var(--tw-k)) calc(95 * var(--tw-k)) calc(415 * var(--tw-k)) calc(40 * var(--tw-k)) calc(250 * var(--tw-k));
   }
-  #app #transferChallenge .tw-host .tw-desktop-content:has(.phase-guess, .phase-signing, .verdict) {
-    width: 82%; margin-left: 9%;
-    padding-top: max(80px, min(51svh, calc(100svh - var(--sd-nav-top-h, 52px) - 330px)));
-    grid-template-columns: minmax(0, 2fr) minmax(0, 1.1fr) minmax(0, .9fr);
-    gap: clamp(12px, 2vw, 36px); align-items: start;
-  }
-  #app #transferChallenge .tw-host .tw-desktop-content:has(.phase-guess, .phase-signing):has(.panel.own[data-panel="A"]) {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 2fr) minmax(0, .9fr);
+  /* Nik's own card is the wide one when he is the viewer. */
+  #app #transferChallenge .tw-host .tw-desktop-content:has(.panel.own[data-panel="A"]) {
+    grid-template-columns: calc(460 * var(--tw-k)) calc(20 * var(--tw-k)) calc(635 * var(--tw-k)) calc(40 * var(--tw-k)) calc(250 * var(--tw-k));
   }
   #app #transferChallenge .tw-host .tw-desktop-content:has(.verdict) {
-    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.5fr) minmax(0, .9fr);
+    grid-template-columns: calc(540 * var(--tw-k)) calc(30 * var(--tw-k)) calc(540 * var(--tw-k)) calc(45 * var(--tw-k)) calc(250 * var(--tw-k));
   }
-  #app #transferChallenge .tw-host .panel[data-panel="B"] { grid-column: 1; grid-row: 1; }
-  #app #transferChallenge .tw-host .panel[data-panel="A"] { grid-column: 2; grid-row: 1; }
-  #app #transferChallenge .tw-host .rules-card { grid-column: 3; grid-row: 1; }
+  #app #transferChallenge .tw-host .tw-desktop-content .panel[data-panel="B"] { grid-column: 1; grid-row: 1; }
+  #app #transferChallenge .tw-host .tw-desktop-content .panel[data-panel="A"] { grid-column: 3; grid-row: 1; }
+  #app #transferChallenge .tw-host .tw-desktop-content .rules-card { grid-column: 5; grid-row: 1; }
   #app #transferChallenge .tw-host .tw-desktop-content :is(.panel, .rules-card) {
-    position: relative; min-width: 0; height: auto;
+    position: relative; min-width: 0; height: auto; min-height: calc(275 * var(--tw-k));
     border: 1px solid rgba(242,196,91,.72); border-radius: 4px;
-    background: linear-gradient(180deg, rgba(29,23,12,.96), rgba(8,7,5,.97));
+    background: linear-gradient(180deg, rgba(29,23,12,.97), rgba(8,7,5,.98));
     box-shadow: inset 0 1px 0 rgba(255,232,160,.28), inset 0 0 0 3px rgba(0,0,0,.45), 0 8px 24px rgba(0,0,0,.55);
   }
   #app #transferChallenge .tw-host .tw-desktop-content :is(.panel-title, .panel-body, .rules-inner, .frost) {
     position: relative; inset: auto; width: auto; height: auto; transform: none;
   }
-  #app #transferChallenge .tw-host .panel-title { min-height: 30px; padding: 8px 12px 4px; gap: 8px; align-items: center; }
-  #app #transferChallenge .tw-host :is(.own-heading, .rival-name) { font-size: clamp(16px, 1.2vw, 24px); letter-spacing: .08em; transform: none; }
-  #app #transferChallenge .tw-host .panel-body { padding: 8px 12px 12px; gap: 8px; }
-  #app #transferChallenge .tw-host .f1-brief { max-width: none; font-size: clamp(20px, 1.7vw, 32px); line-height: 1.12; }
-  #app #transferChallenge .tw-host .end-row { flex-wrap: wrap; gap: 8px; }
+  #app #transferChallenge .tw-host .tw-desktop-content .panel-title { min-height: 30px; padding: 8px 12px 4px; gap: 8px; align-items: center; }
+  #app #transferChallenge .tw-host .tw-desktop-content :is(.own-heading, .rival-name) { font-size: clamp(16px, 1.2vw, 24px); letter-spacing: .08em; transform: none; }
+  #app #transferChallenge .tw-host .tw-desktop-content .panel-body { padding: 8px 12px 12px; gap: 8px; }
+  #app #transferChallenge .tw-host .tw-desktop-content .f1-brief { max-width: none; font-size: clamp(20px, 1.7vw, 32px); line-height: 1.12; }
+  #app #transferChallenge .tw-host .tw-desktop-content .end-row { flex-wrap: wrap; gap: 8px; }
   #app #transferChallenge .tw-host .btn-end:not(.requested):not(:disabled) {
     color: var(--ink); background: var(--sd-gold-metal, linear-gradient(180deg, #ffebae, #dfaa35)); text-shadow: none;
   }
-  #app #transferChallenge .tw-host :is(.btn-end, .btn-lock, .btn-continue) {
-    min-height: 40px; height: auto; padding: 8px 12px; font-size: clamp(13px, 1vw, 18px);
+  #app #transferChallenge .tw-host .tw-desktop-content :is(.btn-end, .btn-lock, .btn-continue) {
+    min-height: 44px; height: auto; padding: 8px 12px; font-size: clamp(13px, 1vw, 18px);
     letter-spacing: .07em; line-height: 1.15; white-space: normal; clip-path: none;
   }
-  #app #transferChallenge .tw-host .btn-end { flex: 1; width: 100%; }
-  #app #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly) {
-    grid-template-columns: 16px minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr); gap: 6px;
+  #app #transferChallenge .tw-host .tw-desktop-content .btn-end { flex: 1; width: 100%; }
+  #app #transferChallenge .tw-host .tw-desktop-content .signing-row.signingRow:not(.is-readonly) {
+    grid-template-columns: 16px minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr); gap: 6px; align-items: start;
   }
-  #app #transferChallenge .tw-host :is(.guess-col select, .guess-col input, .signing-row input) {
-    height: 38px; font-size: 16px; padding-inline: 6px;
+  #app #transferChallenge .tw-host .tw-desktop-content .signing-row.signingRow:not(.is-readonly) > .guess-num { align-self: start; line-height: 44px; }
+  #app #transferChallenge .tw-host .tw-desktop-content :is(.guess-col select, .guess-col input, .signing-row input) {
+    height: 44px; font-size: 16px; padding-inline: 6px;
   }
-  #app #transferChallenge .tw-host .action-row { flex-wrap: wrap; gap: 8px; }
-  #app #transferChallenge .tw-host .privacy-note { flex-basis: 100%; }
-  #app #transferChallenge .tw-host .panel.sealed .frost { min-height: clamp(90px, 14svh, 160px); margin: 4px 8px 8px; }
-  #app #transferChallenge .tw-host .rules-inner { padding: 12px; gap: 10px; }
-  #app #transferChallenge .tw-host .rules-line .stat-n { font-size: clamp(24px, 2vw, 38px); }
-  #app #transferChallenge .tw-host .rules-line .stat-l { font-size: 12px; letter-spacing: .06em; }
-  #app #transferChallenge .tw-host .rule-note { font-size: clamp(13px, 1vw, 18px); line-height: 1.22; }
-  #app #transferChallenge .tw-host .hud-footer {
-    position: fixed; bottom: 0; left: 0; right: 0; z-index: 8; height: 44px; padding: 0 14px;
+  #app #transferChallenge .tw-host .tw-desktop-content .action-row { flex-wrap: wrap; gap: 8px; }
+  #app #transferChallenge .tw-host .tw-desktop-content .privacy-note { flex-basis: 100%; }
+  #app #transferChallenge .tw-host .tw-desktop-content .panel.sealed .frost { min-height: clamp(90px, 14svh, 160px); margin: 4px 8px 8px; }
+  #app #transferChallenge .tw-host .tw-desktop-content .panel { display: flex; flex-direction: column; }
+  #app #transferChallenge .tw-host .tw-desktop-content .panel.sealed .panel-body { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; }
+  #app #transferChallenge .tw-host .tw-desktop-content .rules-inner { padding: 12px; gap: 10px; }
+  #app #transferChallenge .tw-host .tw-desktop-content .rules-line .stat-n { font-size: clamp(24px, 2vw, 38px); }
+  #app #transferChallenge .tw-host .tw-desktop-content .rules-line .stat-l { font-size: 12px; letter-spacing: .06em; }
+  #app #transferChallenge .tw-host .tw-desktop-content .rule-note { font-size: clamp(13px, 1vw, 18px); line-height: 1.22; }
+  #app #transferChallenge .tw-host .tw-desktop-content .vr-verdict { min-width: 0; max-width: 100%; }
+  #app #transferChallenge .tw-host .tw-desktop-content .vr-why { white-space: normal; }
+}
+
+/* Short narrow landscape phones (667x375): a slimmer poster strip and stacked verdict rows keep names whole words. */
+@media (orientation: landscape) and (max-height: 500px) and (max-width: 720px) {
+  #app #transferChallenge .tw-host { --ls-strip: 152px; }
+  #app #transferChallenge .tw-host .verdict-row { grid-template-columns: 20px minmax(0, 1fr); }
+  #app #transferChallenge .tw-host .vr-verdict {
+    grid-column: 2; flex-direction: row; flex-wrap: wrap; align-items: baseline; justify-content: flex-start;
+    text-align: left; gap: 0 6px;
   }
-  #app #transferChallenge .tw-host .hud-title { font-size: 12px; }
-  #app #transferChallenge .tw-host .vr-verdict { min-width: 0; max-width: 100%; }
-  #app #transferChallenge .tw-host .vr-why { white-space: normal; }
+  #app #transferChallenge .tw-host .vr-verdict .sep { display: none; }
 }
 
 /* The option-list itself participates in the same scroll surface at every supported size. */
