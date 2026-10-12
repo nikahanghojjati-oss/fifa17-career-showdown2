@@ -13,7 +13,17 @@ Previous known-good runtime: `1.9.1-r71`
     raw provider code; the code stays in diagnostics.
   - QoL 3 and 6 (PR #739): a half-typed Season Result and half-typed Transfer Challenge guesses survive a reload on the
     same device (own manager only), and are cleared on publish, lock and when the Showdown closes.
-- FULL MOTION setting (JOB-1652, PR #691): the in-app motion preference is stored and applied at startup.
+  - QoL 4, 5 and 8 (JOB-1724-1726, PR #741, carrying #742 and #744): a finished Showdown says WINS instead of LEADS;
+    a photo that failed once loads on the next visit; a failed gameplay load retried by a second tap starts each
+    module once.
+- Deleting or resetting Showdown data removes every unsent Season Result, Transfer Challenge and signing draft on the
+  device (PR #750, #754).
+- Desktop screens built from Team V's adopted studies, each browser-checked by the Team G lead: Home (1086, PR #753),
+  Club (1173, PR #747), Final Winner (1289, PR #752) and Career Statistics (1405, PR #748).
+- Connect Players on every size (JOB-1696, PR #746) and Home on phone, sideways phone and tablet (JOB-1695, PR #743),
+  from the adopted phone studies; Claude fixed the sideways and tablet layouts before merge.
+- FULL MOTION setting (JOB-1652, PR #691): the in-app motion preference is stored and applied at startup. Known gap:
+  on a device set to reduce motion, CSS and Team V reveals still follow the device; the fix (PR #751) rides r73.
 - Club reveal respects reduced motion (JOB-1653, PR #693).
 - Season Results: the 1920x1080 layout applies, and a double tap starts one navigation (JOB-1658, PR #700, #740).
 - Layout trains, each browser-checked by the Team G lead before merge:
