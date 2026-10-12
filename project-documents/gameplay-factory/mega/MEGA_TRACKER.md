@@ -1,11 +1,11 @@
-# Mega factory tracker · updated 2026-10-12T03:35:55Z
+# Mega factory tracker · updated 2026-10-12T03:36:37Z
 
-**Type now (68 free):** 525, 527, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552, 187, 195, 197, 374, 402, 430, 458, 376, 404, 432, 460, 378, 406, 434, 462, 380, 408, 436, 464, 382, 410, 438, 466, 384, 412, 440, 468, 386, 414, 442, 470, 388, 416, 444, 472, 390, 418, 446, 474, 392, 420, 448, 476, 394, 422, 450, 396, 424, 452, 398, 426, 454, 400, 428, 456
-**Next free number:** 187 · **highest taken:** 541 of 552
+**Type now (52 free):** 374, 402, 430, 458, 376, 404, 432, 460, 378, 406, 434, 462, 380, 408, 436, 464, 382, 410, 438, 466, 384, 412, 440, 468, 386, 414, 442, 470, 388, 416, 444, 472, 390, 418, 446, 474, 392, 420, 448, 476, 394, 422, 450, 396, 424, 452, 398, 426, 454, 400, 428, 456
+**Next free number:** 374 · **highest taken:** 541 of 394
 **Code PRs open:** 3 of 8 · area locks: home, start-join, league, transfer, season-final, rivalry-legacy
-**Rate:** 0 claimed in 10 min · 26 in 1 h · 60 merged in 1 h
+**Rate:** 0 claimed in 10 min · 24 in 1 h · 60 merged in 1 h
 
-**Finished (merged or live): 196 of 552**
+**Finished (merged or live): 196 of 394**
 
 State | count
 --- | ---
@@ -15,13 +15,13 @@ State | count
 🟥 PR open, checks FAILED | 15
 🟧 blocked | 1
 ⚫ closed without merge | 82
-⬜ waiting | 210
+⬜ waiting | 52
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
-1 Gameplay audits | 146 | 112 | 21 | 13
-2 Screen fixes | 266 | 60 | 25 | 137
-3 Match desktop to mockups | 14 | 0 | 5 | 8
+1 Gameplay audits | 133 | 112 | 21 | 0
+2 Screen fixes | 129 | 60 | 25 | 0
+3 Match desktop to mockups | 6 | 0 | 5 | 0
 4 Phone mockup studies | 70 | 23 | 10 | 0
 5 Improved desktop studies | 56 | 1 | 3 | 52
 
