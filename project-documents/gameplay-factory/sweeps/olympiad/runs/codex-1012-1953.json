@@ -1,0 +1,12 @@
+{
+  "run": "codex-1012-1953",
+  "mode": "codex",
+  "date_utc": "2026-10-12T19:54:00Z",
+  "main_sha": "a486b1f6a2a65fb248b8cb3d054ca6e481bc99dc",
+  "area": "10",
+  "files_read": ["js/legacy.js", "js/saveLibraryPersistence.js", "js/rivalryLegacyV10.js", "js/saveLibraryRuntime.js", "js/saveLibraryFoundation.js"],
+  "findings": [],
+  "coverage_pct": 82,
+  "clean_confidence_pct": 90,
+  "next_focus": "Archive after tied final + 0-0 season + browser reload and delete-with-active-completed edge"
+}
