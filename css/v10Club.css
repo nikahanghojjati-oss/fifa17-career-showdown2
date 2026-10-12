@@ -771,3 +771,84 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
     background-position: calc(var(--k) * -1034px) calc(var(--k) * -122px) !important;
   }
 }
+
+/* CLUB-PLATE-V2 (ticket 1610P, 6 of 14): desktop Club Assignment on Team V's night club-signing lounge plate
+   (visual-assets/v10_1/plates-v2/ENV_CLUB_PLATE_V2_*.webp), drawn to match NEXT_CLUB. Scope is Home's desktop picture
+   range (landscape windows of at least 1200x600 and 3:2 or wider); phones, sideways phones and tablets keep their art.
+   The Team V stage (visual-assets/v10_1/club/club.js) registers everything to the plate in plate units, so the plate
+   itself is swapped where club.css reads it (the plate layer, the pack halves and flap, the hairline repair). The V1-only
+   art that was cut to the old plate (seam mends, hand cut-outs and contact shadows, the hairline repair) and the dark
+   pack-body covers that hid the old painted pack are not drawn: the new plate has plain black packs and its own hands.
+   Both heads stay whole (the plate is cover-fit exactly as before). Looks only: every word, id and tap order stays. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  #app #clubWheelScreen.cl-on .plateBase,
+  #app #clubWheelScreen.cl-on .rvHalf,
+  #app #clubWheelScreen.cl-on .rvFlap {
+    background-image: image-set(url(../visual-assets/v10_1/plates-v2/ENV_CLUB_PLATE_V2_1X.webp) 1x, url(../visual-assets/v10_1/plates-v2/ENV_CLUB_PLATE_V2_2X.webp) 2x);
+  }
+  #app #clubWheelScreen.cl-on .seamMend,
+  #app #clubWheelScreen.cl-on .handContact,
+  #app #clubWheelScreen.cl-on .handCore,
+  #app #clubWheelScreen.cl-on .handOv,
+  #app #clubWheelScreen.cl-on .hairlineRepair { display: none !important; }
+  #app #clubWheelScreen.cl-on .rvDark,
+  #app #clubWheelScreen.cl-on .rvHole,
+  #app #clubWheelScreen.cl-on .rvEdge,
+  #app #clubWheelScreen.cl-on .rvVoid { display: none !important; }
+
+  /* ---- the packs are plain black in the plate: the live game draws the emblem and the pack words on them.
+     Plate pixel (x, y) is (x - 290, y - 335) inside Daniel's pack shell and (x - 995, y - 335) inside Nik's, times k. ---- */
+  #app #clubWheelScreen.cl-on .clubPackDoor::before {
+    content: ""; position: absolute; pointer-events: none;
+    left: calc(var(--k) * 78px); top: calc(var(--k) * 74px); width: calc(var(--k) * 100px); height: calc(var(--k) * 118px);
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 118'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23FFF1B8'/%3E%3Cstop offset='.5' stop-color='%23F2C45B'/%3E%3Cstop offset='1' stop-color='%23A97B24'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M50 4L92 18V58C92 88 74 105 50 114C26 105 8 88 8 58V18Z' fill='%230A0B0D' fill-opacity='.55' stroke='url(%23g)' stroke-width='4' stroke-linejoin='round'/%3E%3Cpath d='M50 11L85 23V58C85 83 70 98 50 106C30 98 15 83 15 58V23Z' fill='none' stroke='%23F2C45B' stroke-opacity='.45' stroke-width='1.5'/%3E%3Cpath d='M27 72l-5-30 16 12 12-20 12 20 16-12-5 30z' fill='url(%23g)' stroke='%236E5020' stroke-width='1.2' stroke-linejoin='round'/%3E%3Crect x='27' y='76' width='46' height='7' rx='1.5' fill='url(%23g)'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+    filter: drop-shadow(0 0 calc(var(--k) * 8px) rgba(242, 196, 91, .35));
+  }
+  #app #clubWheelScreen.cl-on .clubRevealCard.is-revealed .clubPackDoor::before { opacity: 0; }
+  #app #clubWheelScreen.cl-on .clubPackDoor::after, #app #clubWheelScreen.cl-on .clubPackStage::after {
+    position: absolute; pointer-events: none; white-space: nowrap; text-align: center; transform: translateX(-50%);
+    font: 700 calc(var(--k) * 25px)/1 var(--cond); letter-spacing: .1em; color: #E7B84A;
+    text-shadow: 0 1px 2px #000, 0 0 calc(var(--k) * 8px) rgba(0, 0, 0, .8);
+  }
+  #app #clubWheelScreen.cl-on .clubPackDoor::after { content: "CLUB PACK"; left: calc(var(--k) * 138px); top: calc(var(--k) * 190px); }
+  #app #clubWheelScreen.cl-on .clubPackStage::after { content: "CM17"; left: calc(var(--k) * 139px); top: calc(var(--k) * 224px); font-size: calc(var(--k) * 23px); }
+  #app #clubWheelScreen.cl-on #clubCardTwo .clubPackDoor::before { left: calc(var(--k) * 77px); }
+  #app #clubWheelScreen.cl-on #clubCardTwo .clubPackDoor::after { left: calc(var(--k) * 114px); top: calc(var(--k) * 193px); }
+  #app #clubWheelScreen.cl-on #clubCardTwo .clubPackStage::after { left: calc(var(--k) * 110px); top: calc(var(--k) * 227px); }
+  /* once a pack is opened the crest takes the middle and the words stay as a faint stamp, as in NEXT_CLUB */
+  #app #clubWheelScreen.cl-on .clubRevealCard.is-revealed .clubPackDoor::after,
+  #app #clubWheelScreen.cl-on .clubRevealCard.is-revealed .clubPackStage::after { opacity: .42; }
+  /* Short desktops (html.compact: 1280x650, 2560x1080) raise the lower deck over the bottom of the packs, so the emblem and
+     the words ride higher on the pack, and the words are left out once the crest is shown. */
+  html.compact #app #clubWheelScreen.cl-on .clubPackDoor::before { left: calc(var(--k) * 85px); top: calc(var(--k) * 46px); width: calc(var(--k) * 86px); height: calc(var(--k) * 100px); }
+  html.compact #app #clubWheelScreen.cl-on #clubCardTwo .clubPackDoor::before { left: calc(var(--k) * 84px); }
+  html.compact #app #clubWheelScreen.cl-on .clubPackDoor::after { top: calc(var(--k) * 130px); font-size: calc(var(--k) * 22px); }
+  html.compact #app #clubWheelScreen.cl-on .clubPackStage::after { top: calc(var(--k) * 156px); font-size: calc(var(--k) * 20px); }
+  html.compact #app #clubWheelScreen.cl-on #clubCardTwo .clubPackDoor::after { top: calc(var(--k) * 132px); }
+  html.compact #app #clubWheelScreen.cl-on #clubCardTwo .clubPackStage::after { top: calc(var(--k) * 158px); }
+  html.compact #app #clubWheelScreen.cl-on .clubRevealCard.is-revealed .clubPackDoor::after,
+  html.compact #app #clubWheelScreen.cl-on .clubRevealCard.is-revealed .clubPackStage::after { opacity: 0; }
+}
+
+/* CLUB-PLATE-V2 finish (CSS only): polished-gold bevel on the lower deck, the VS plate and the two actions. */
+@media (min-width: 1200px) and (min-height: 700px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  html:not(.compact) #app #clubWheelScreen.cl-on #world::after {
+    border-color: #f0cd7a;
+    box-shadow: inset 0 0 0 calc(var(--k) * 2.4px) #302514, inset 0 0 0 calc(var(--k) * 4.2px) #c9a24f90, inset 0 calc(var(--k) * 6px) calc(var(--k) * 14px) rgba(242, 196, 91, .1),
+      0 0 0 1px #000a, 0 calc(var(--k) * 5px) calc(var(--k) * 12px) #0009, 0 0 calc(var(--k) * 16px) rgba(242, 196, 91, .16);
+  }
+  html:not(.compact) #app #clubWheelScreen.cl-on .clubVs::after { border-color: #e2bd6a; box-shadow: inset 0 0 0 calc(var(--k) * 2px) #16130d, inset 0 0 0 calc(var(--k) * 3.6px) #b18d4980, 0 calc(var(--k) * 5px) calc(var(--k) * 11px) #0009; }
+  html:not(.compact) #app #clubWheelScreen.cl-on .menuButton:not(:disabled) {
+    background: linear-gradient(180deg, rgba(255, 255, 255, .42) 0, rgba(255, 255, 255, .1) 46%, rgba(255, 255, 255, 0) 50%), linear-gradient(115deg, #fff0ad, #f2c45b 45%, #c38b29);
+    box-shadow: inset 0 0 0 calc(var(--k) * 2.4px) #e3b550, inset 0 calc(var(--k) * -8px) calc(var(--k) * 14px) rgba(138, 106, 18, .28), 0 0 calc(var(--k) * 14px) #f2c45b55;
+  }
+  html:not(.compact) #app #clubWheelScreen.cl-on .backButton { border-color: #d9b45e; box-shadow: inset 0 1px 0 rgba(255, 241, 184, .2), 0 0 0 1px #000a; }
+}
+/* CLUB-PLATE-V2: from 1600px wide the wordmark gets the same smaller size r72 flaw 1 gave 1200-1599px, so it clears both
+   heads on the new plate too (Nik's hair now starts where the old plate's did, but the new Daniel curls reach plate x 455). */
+@media (min-width: 1600px) and (min-height: 700px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  html:not(.compact) #app #clubWheelScreen.cl-on h2 {
+    font-size: calc(var(--s) * 53px);
+    margin-top: calc(var(--s) * 5px);
+  }
+}
