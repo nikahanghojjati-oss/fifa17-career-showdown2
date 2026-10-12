@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-12T03:31:25Z
+# Mega factory tracker · updated 2026-10-12T03:32:55Z
 
 **Type now (68 free):** 525, 527, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552, 187, 195, 197, 374, 402, 430, 458, 376, 404, 432, 460, 378, 406, 434, 462, 380, 408, 436, 464, 382, 410, 438, 466, 384, 412, 440, 468, 386, 414, 442, 470, 388, 416, 444, 472, 390, 418, 446, 474, 392, 420, 448, 476, 394, 422, 450, 396, 424, 452, 398, 426, 454, 400, 428, 456
 **Next free number:** 187 · **highest taken:** 541 of 552
 **Code PRs open:** 0 of 8 · area locks: home, start-join, league, transfer, season-final, rivalry-legacy
-**Rate:** 0 claimed in 10 min · 35 in 1 h · 60 merged in 1 h
+**Rate:** 0 claimed in 10 min · 31 in 1 h · 60 merged in 1 h
 
 **Finished (merged or live): 196 of 552**
 
