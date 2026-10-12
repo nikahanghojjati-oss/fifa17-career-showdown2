@@ -28,11 +28,11 @@
  "work_waiting": [
   {
    "job": 1646,
-   "note": "Sol 6.1 \u00b7 High. After the Home train PR merges."
+   "note": "Sol 6.1 · High. After the Home train PR merges."
   }
  ],
  "wiring_chains": {
-  "model": "Sol 6.1 \u00b7 High",
+  "model": "Sol 6.1 · High",
   "note": "Work mode wiring jobs: one number per message, in order within each chain; chains can run side by side.",
   "chains": [
    [
@@ -74,7 +74,7 @@
   ]
  },
  "work_extra": {
-  "model": "Sol 6.1 \u00b7 High",
+  "model": "Sol 6.1 · High",
   "numbers": [
    189,
    191,
@@ -82,8 +82,13 @@
    193,
    195,
    443,
-   445
+   445,
+   268,
+   232,
+   260,
+   288,
+   316
   ],
-  "note": "Stage-3 jobs that need a PNG mockup: ChatGPT chat cannot open it (answers NEEDS MOCKUP), so they run in Work mode. 189 first, then 191. Chat still takes the JPG ones and the no-mockup ones."
+  "note": "Stage-3 jobs that need a PNG mockup: ChatGPT chat cannot open it (answers NEEDS MOCKUP), so they run in Work mode. 189 first, then 191. Chat still takes the JPG ones and the no-mockup ones. 232 260 268 288 316 are phone studies with PNG pictures; re-released 2026-10-12 with a 12-file read limit."
  }
 }

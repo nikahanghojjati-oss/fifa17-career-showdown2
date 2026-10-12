@@ -307,7 +307,7 @@ def main():
         if sid in MOCK:
             return f"the screen's desktop mockup: `{MOCK_DIR}{MOCK[sid]}` on branch `factory/v1-wtt5ye` (reference only; look at the picture, never copy real club crests, league logos or trophies from it)"
         return "this screen has no mockup: use the live screen (its CSS and the Read files) as the reference"
-    STUDY_RULES = ("- **Reading allowance (studies):** the Read list below is only a start. To get the real labels, markup and text, you may also read `index.html` and the `js/` file that creates this screen's text (search for a label you can see on the live screen), the `css/` file for the screen, and the two pictures: at most 8 files in all. Never invent text, and never take wording from a picture.\n"
+    STUDY_RULES = ("- **Reading allowance (studies):** the Read list below is only a start. To get the real labels, markup and text, you may also read `index.html` and the `js/` file that creates this screen's text (search for a label you can see on the live screen), the `css/` file for the screen, and the two pictures: at most 12 files in all (this overrides the 5-file line below). Never invent text, and never take wording from a picture.\n"
                    "- **Phone fit rule (phone studies):** the design must fit with no scroll at 393x660 and at 360x640, with the main button visible at 375x553. The bottom tab bar (HOME, CAREER, STANDINGS, STATS, RULES) shows at 900px wide or less, on hub screens only.\n"
                    "- **Product rules:** Daniel is always on the LEFT and Nik on the RIGHT, never mirrored. No player photos (the only exception is the Reus photo on Loading). No real club crests, league logos or trophies: use our own art only. On Home tiles the big art fills the right side of the tile, centred and fully inside, never small or clipped in a corner.\n")
     tickets, slots = [], {s: [] for s in SLOTS}
@@ -381,6 +381,8 @@ def main():
                     f"- The **{t['stitle'] if 'stitle' in t else t['screen']}** screen looks right at **{vp}** and is unchanged at 1920x1080 and 390x844 (except where this job says otherwise).\n\n")
             md = generic(j, t["title"], t["stage"], BASE, body, t["files"], tag=f"[{grp}] ", done=done, tr=t["train"])
             t["edit"] = EDIT[t["screen"]]
+        if "Reading allowance (studies)" in md or "GPT Work mode" in md:
+            md = md.replace("Read at most 5 files besides this ticket", "Read at most 12 files besides this ticket (this is a study or a Work mode job: finding the real live text is part of the job, so the Read list is only a start and the limit is not 5)")
         (out_jobs / f"JOB-{j}.md").write_text(md)
     for s in SLOTS:
         if s in REVIEW_SLOTS:
