@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T01:49:15Z",
+"updated": "2026-10-12T01:50:45Z",
 "total": 518,
 "next_free": 187,
 "highest_taken": 411,
@@ -9,9 +9,8 @@
 "ci_failed": 5,
 "ready": 10,
 "on_train": 9,
-"waiting": 228,
-"draft": 1,
-"started": 1,
+"waiting": 227,
+"draft": 3,
 "blocked": 1
 },
 "stages": {
@@ -49,10 +48,9 @@
 "states": {
 "closed": 37,
 "merged": 23,
-"draft": 1,
-"started": 1,
+"draft": 3,
 "blocked": 1,
-"waiting": 7
+"waiting": 6
 }
 },
 "5": {
@@ -96,13 +94,13 @@
 209,
 217,
 219,
-274,
 296,
 302,
 324,
 330,
 352,
-358
+358,
+366
 ],
 "ready_sol": [
 203,
@@ -110,13 +108,13 @@
 209,
 217,
 219,
-274,
 296,
 302,
 324,
 330,
 352,
-358
+358,
+366
 ],
 "ready_codex": [],
 "ready_all": [
@@ -125,7 +123,6 @@
 209,
 217,
 219,
-274,
 296,
 302,
 324,
@@ -190,7 +187,6 @@
 476
 ],
 "work_models": {
-"274": "Sol 6.1 \u00b7 High",
 "296": "Sol 6.1 \u00b7 High",
 "302": "Sol 6.1 \u00b7 High",
 "324": "Sol 6.1 \u00b7 High",
@@ -254,7 +250,6 @@
 "476": "Sol 6.1 \u00b7 High"
 },
 "ready_work": [
-274,
 296,
 302,
 324,
@@ -317,13 +312,13 @@
 474,
 476
 ],
-"ready_total": 68,
+"ready_total": 67,
 "held_until_picture": 0,
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 6,
-"claimed_last_10min": 3,
+"claimed_last_hour": 7,
+"claimed_last_10min": 4,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -361,21 +356,20 @@
 "states": {
 "merged": 86,
 "no_pr": 37,
-"wait_v": 1,
-"started": 1,
+"wait_v": 3,
 "blocked": 1,
-"waiting": 83
+"waiting": 82
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 126,
-"worker_done": 124,
+"picked_up": 127,
+"worker_done": 126,
 "finished": 123,
 "pending_lead": 0,
-"wait_v": 1,
+"wait_v": 3,
 "audit_batch": 0,
 "trouble": 1,
 "closed": 0,
@@ -1436,20 +1430,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 38,
-"job": 1485,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 40,
-"job": 1486,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 42,
@@ -3535,6 +3515,20 @@
 "job": 1430,
 "from": "waiting",
 "to": "blocked"
+},
+{
+"at": "2026-10-12T01:50:45Z",
+"item": 246,
+"job": 1255,
+"from": "started",
+"to": "draft"
+},
+{
+"at": "2026-10-12T01:50:45Z",
+"item": 274,
+"job": 1256,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -7293,12 +7287,19 @@
 "title": "Standings: phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "started",
+"pr": 698,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/698",
+"base": "study/mega-queue",
 "branch": "study/job-1255-standings-phone-a",
-"branch_sha": "7a098c0573be56dd2643f08e171e12ebbbf17835",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "9be3ba306d37807380a3c2aa0c3645161c31d318",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T01:49:48Z",
 "first_seen": "2026-10-12T01:44:45Z",
-"since": "2026-10-12T01:44:45Z"
+"since": "2026-10-12T01:50:45Z"
 },
 "247": {
 "job": 1306,
@@ -7639,8 +7640,19 @@
 "title": "Standings: phone mockup, version B (bold hierarchy)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 699,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/699",
+"base": "study/mega-queue",
+"branch": "study/job-1256-blocked",
+"ci": "draft",
+"ci_sha": "864e8d2666b6f4272be5912e6de98a113d5ff607",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T01:50:08Z",
+"first_seen": "2026-10-12T01:50:08Z",
+"since": "2026-10-12T01:50:45Z"
 },
 "275": {
 "job": 1134,
