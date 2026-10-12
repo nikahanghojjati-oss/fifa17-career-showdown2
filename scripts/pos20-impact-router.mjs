@@ -37,7 +37,7 @@ export function routeFiles(files,context={}){
   const reason=escalation
     ? `POS20 cognitive escalation requires complete inherited seal.${added.length?` Supplemental blocking tests added: ${added.join(', ')}.`:''}`
     : `POS20 preserves POS10 minimum proof and accepts its exact impact route. ${selected.reason}${added.length?` Supplemental blocking tests added: ${added.join(', ')}.`:''}`;
-  return {...selected,model,profile:escalation?'COGNITIVE_FULL_SEAL':`POS20_${selected.profile}`,reason,cognitiveEscalation:escalation,inheritedKernel:'POS10',tests,testsAddedByPos20:added,proofs:uniq(selected.proofs),testCount:tests.length};
+  return {...selected,model,profile:escalation?'COGNITIVE_FULL_SEAL':`POS20_${selected.profile}`,reason,cognitiveEscalation:escalation,inheritedKernel:'POS10',tests,testsAddedByPos20:added,proofs:uniq([...selected.proofs,'V10_FLASH_BROWSER']),proofGroups:uniq([...(selected.proofGroups||[]),'VISUAL']).sort(),proofCount:uniq([...selected.proofs,'V10_FLASH_BROWSER']).length,testCount:tests.length};
 }
 function output(result,file){const lines=[`profile=${result.profile}`,`tests_csv=${result.tests.join(',')}`,`proofs_csv=${result.proofs.join(',')}`,`proof_groups_json=${JSON.stringify(result.proofGroups||[])}`,`run_operations=${Boolean(result.operations)}`,`full_seal=${Boolean(result.fullSeal)}`,`test_count=${result.testCount||0}`,`proof_count=${result.proofCount||0}`,`selected_proof_cost=${result.selectedProofCost||0}`,`full_proof_cost=${result.fullProofCost||0}`,`proof_cost_saved_percent=${result.proofCostSavedPercent||0}`];fs.appendFileSync(path.resolve(file),`${lines.join('\n')}\n`);}
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){

@@ -1475,6 +1475,16 @@
         "^tests/contracts/season\\-entry\\-no\\-flash\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/flash-gate-always-contracts.cjs",
+      "patterns": [
+        "^scripts/pos20-impact-router\\.mjs$",
+        "^scripts/showdown-gate\\.mjs$",
+        "^tests/browser/v10-screen-flash-audit\\.cjs$",
+        "^tests/contracts/flash\\-gate\\-always\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
