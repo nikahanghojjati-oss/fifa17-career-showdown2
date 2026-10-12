@@ -6,11 +6,13 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 12 Oct, 8:08 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 12 Oct, 8:12 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+
+> ⚠ **Not fully current:** The Physio's own report is missing or older than 15 minutes; the check line comes straight from GitHub.
 
 🌐 **Live: 1.9.1-r72** (main `9b514ec`, Mon 12 Oct 7:41 AM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🩺 **All clear (from GitHub).** · POS20 #304 7/7
 
 ## Jobs
 
@@ -22,39 +24,39 @@ Updated Mon 12 Oct, 8:08 AM Boston time. Bug hunting only, no new features until
 
 **#2 · 1698** `G` Club packs: one Work mode job for the whole screen  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #764 · CI 7 of 8 passed · last move 27 min ago
+🟢 Team green · model not set · worker working, draft PR #764 · CI 7 of 8 passed · last move 31 min ago
 
 **#3 · 1699** `G` Transfer challenge and Signing Entry: one Work mode job for the whole screen  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #767 · CI 7 of 8 passed · last move 12 min ago
+🟢 Team green · model not set · worker working, draft PR #767 · CI 7 of 8 passed · last move 16 min ago
 
-**#4 · 1705** `G` Trophy Room: one Work mode job for the whole screen  
-`████████░░` **76.0000 %**  
-🟢 Team green · model not set · worker done, PR #761 open, CI running · CI 9 of 15 passed · last move 0 min ago
-
-**#5 · 1707** `G` Rule Book: one Work mode job for the whole screen  
+**#4 · 1707** `G` Rule Book: one Work mode job for the whole screen  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #762 · CI 7 of 8 passed · last move 37 min ago
+🟢 Team green · model not set · worker working, draft PR #762 · CI 7 of 8 passed · last move 41 min ago
 
-**#6 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
+**#5 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #769 · CI 6 of 7 passed · last move 2 min ago
+🟢 Team green · model not set · worker working, draft PR #769 · CI 6 of 7 passed · last move 6 min ago
 
-**#7 · 1748** `G` Audit and fix js/importAnalysis.js (first half (lines 1 to 470))  
+**#6 · 1748** `G` Audit and fix js/importAnalysis.js (first half (lines 1 to 470))  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #763 · CI 7 of 8 passed · last move 30 min ago
+🔵 Team blue · model not set · worker working, draft PR #763 · CI 7 of 8 passed · last move 34 min ago
 
-**#8 · 1749** `G` Audit and fix js/importAnalysis.js (second half (lines 470 to the end))  
+**#7 · 1749** `G` Audit and fix js/importAnalysis.js (second half (lines 470 to the end))  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #765 · CI 7 of 8 passed · last move 22 min ago
+🔵 Team blue · model not set · worker working, draft PR #765 · CI 7 of 8 passed · last move 26 min ago
 
-**#9 · 1751** `G` Audit and fix js/screens.js (first half (lines 1 to 406))  
+**#8 · 1751** `G` Audit and fix js/screens.js (first half (lines 1 to 406))  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #766 · CI 7 of 8 passed · last move 13 min ago
+🔵 Team blue · model not set · worker working, draft PR #766 · CI 7 of 8 passed · last move 17 min ago
 
-**#10 · 1752** `G` Audit and fix js/screens.js (second half (lines 406 to the end))  
+**#9 · 1752** `G` Audit and fix js/screens.js (second half (lines 406 to the end))  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #768 · CI 7 of 8 passed · last move 8 min ago
+🔵 Team blue · model not set · worker working, draft PR #768 · CI 7 of 8 passed · last move 13 min ago
+
+**#10 · 1754** `G` Audit and fix js/restore.js (second half (lines 372 to the end))  
+`████░░░░░░` **40.0000 %**  
+🔵 Team blue · model not set · worker working, draft PR #770 · CI 7 of 8 passed · last move 0 min ago
 
 ### 👉 Next for you, in this order
 
@@ -760,17 +762,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1753
 ```
 
-**#71 · 1754** `G` Audit and fix js/restore.js (second half (lines 372 to the end))  
-`░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · model not set · GPT chat: type 'Job 1754'
-
-New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
-
-```text
-Job 1754
-```
-
-**#72 · 1755** `G` Audit and fix js/saveLibraryUI.js (first half (lines 1 to 363))  
+**#71 · 1755** `G` Audit and fix js/saveLibraryUI.js (first half (lines 1 to 363))  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1755'
 
@@ -780,7 +772,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1755
 ```
 
-**#73 · 1756** `G` Audit and fix js/saveLibraryUI.js (second half (lines 363 to the end))  
+**#72 · 1756** `G` Audit and fix js/saveLibraryUI.js (second half (lines 363 to the end))  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1756'
 
@@ -790,7 +782,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1756
 ```
 
-**#74 · 1757** `G` Audit and fix js/menuExperience.js (first half (lines 1 to 341))  
+**#73 · 1757** `G` Audit and fix js/menuExperience.js (first half (lines 1 to 341))  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1757'
 
@@ -800,7 +792,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1757
 ```
 
-**#75 · 1758** `G` Audit and fix js/menuExperience.js (second half (lines 341 to the end))  
+**#74 · 1758** `G` Audit and fix js/menuExperience.js (second half (lines 341 to the end))  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1758'
 
@@ -810,7 +802,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1758
 ```
 
-**#76 · 1759** `G` Audit and fix js/saveLibraryRuntime.js (first half (lines 1 to 335))  
+**#75 · 1759** `G` Audit and fix js/saveLibraryRuntime.js (first half (lines 1 to 335))  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1759'
 
@@ -820,7 +812,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1759
 ```
 
-**#77 · 1760** `G` Audit and fix js/saveLibraryRuntime.js (second half (lines 335 to the end))  
+**#76 · 1760** `G` Audit and fix js/saveLibraryRuntime.js (second half (lines 335 to the end))  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1760'
 
@@ -830,7 +822,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1760
 ```
 
-**#78 · 1761** `G` Audit and fix js/backup.js (whole file)  
+**#77 · 1761** `G` Audit and fix js/backup.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1761'
 
@@ -840,7 +832,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1761
 ```
 
-**#79 · 1762** `G` Audit and fix js/sharedShowdownSetup.js (whole file)  
+**#78 · 1762** `G` Audit and fix js/sharedShowdownSetup.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1762'
 
@@ -941,8 +933,8 @@ Job 1762
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`█████░░░░░` **46.8293 %**  
-Numbered jobs: 68 done, 109 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`█████░░░░░` **47.0588 %**  
+Numbered jobs: 68 done, 108 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `██████░░░░` **56.0000 %**  
