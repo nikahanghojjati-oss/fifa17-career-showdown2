@@ -4,14 +4,9 @@
   "clean_streak": 0,
   "goal": 10,
   "owner": "mega factory thread",
-  "updated": "2026-10-12T10:01:34Z",
+  "updated": "2026-10-12T10:10:50Z",
   "note": "Nik decided 06:55 UTC: 3 numbers per chat; 5 once 10 batches in a row run clean.",
-  "jobs_free": [
-    1723,
-    1724,
-    1725,
-    1726
-  ],
+  "jobs_free": [],
   "jobs_after_wiring": [],
   "jobs_note": "Polish wave tickets (ChatGPT chat). The queue thread keeps these two lists; a job moves to jobs_free when its area's wiring train is merged or closed. 1650 (service worker audit) and 1652 (Settings motion choice) are ChatGPT chat jobs from the 1635 follow-ups. 1654-1656 are second attempts on failed train PRs #687, #686, #684 (ChatGPT chat). 1654-1656 left the lists: Claude lane.",
   "work_waiting": [
@@ -44,7 +39,6 @@
   "work_extra": {
     "model": "Sol 6.1 \u00b7 High",
     "numbers": [
-      1696,
       1697,
       1700,
       1703,
@@ -79,7 +73,6 @@
     "note": "Studies 3 per message; screen jobs 1695-1708 one per message."
   },
   "work_free_jobs": [
-    1696,
     1697,
     1700,
     1703,
