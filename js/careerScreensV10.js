@@ -911,6 +911,95 @@
 }
 `;
 
+
+  // TROPHY-PLATE-V2 (ticket 1610P): desktop Trophy Room on Team V's black-marble trophy-hall plate
+  // (visual-assets/v10_1/plates-v2/ENV_TROPHY_ROOM_PLATE_V2_*), drawn to match NEXT_TROPHY_ROOM. Strictly the desktop picture
+  // range: wide landscape windows of at least 1200x600; phones, sideways phones and tablets keep their art and rules.
+  // Team V's stage still draws the old plate on .sd-stage__plate; the adapter re-points that plane at the V2 files (height-fit,
+  // centred, top-anchored, with a soft darkened side fill on windows wider than 16:9), so the 2X swap and load timing are
+  // unchanged and the plate loads with this screen, never with the startup bundle. The plate carries both managers, all
+  // banners and the name tags, and an empty marble pedestal with a flat top: the live champion trophy is seated on it and its
+  // name and counts are written on the pedestal's face. Everything is placed in plate units (--tr-k = one plate pixel), so it
+  // stays registered on every window shape. Looks only: every word, id and tap order stays as it was.
+  const TROPHY_PLATE_V2_CSS=String.raw`
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #trophyRoom {
+    --tr-k:calc(100svh / 864);
+    --tr-bevel:linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%);
+    --tr-gold:linear-gradient(180deg,#fff0a6 0,#f8d764 20%,#e4b032 54%,#f4cf58 80%,#c98f1c 100%);
+  }
+  #app #trophyRoom .sd-stage__layer--plate {overflow:hidden}
+  #app #trophyRoom .sd-stage__layer--plate::before {
+    content:"";position:absolute;inset:-4%;pointer-events:none;filter:blur(16px) brightness(.5) saturate(.9);
+    background:#07080a image-set(url('visual-assets/v10_1/plates-v2/ENV_TROPHY_ROOM_PLATE_V2_1X.webp') 1x,url('visual-assets/v10_1/plates-v2/ENV_TROPHY_ROOM_PLATE_V2_2X.webp') 2x) center / cover no-repeat;
+  }
+  #app #trophyRoom .sd-stage__layer--plate > .sd-stage__registered {
+    left:50%;top:0;width:calc(1536 * var(--tr-k));height:calc(864 * var(--tr-k));transform:translateX(-50%) translateZ(0);
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 5%,#000 95%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 5%,#000 95%,transparent 100%);
+  }
+  #app #trophyRoom .sd-stage__plate {
+    background-image:image-set(url('visual-assets/v10_1/plates-v2/ENV_TROPHY_ROOM_PLATE_V2_1X.webp') 1x,url('visual-assets/v10_1/plates-v2/ENV_TROPHY_ROOM_PLATE_V2_2X.webp') 2x);
+  }
+  /* the title sits on dark marble; the brush image's black box melts into the plate */
+  #app #trophyRoom .trophyBrushTitle {mix-blend-mode:screen}
+  /* the plate already carries the crown over the kicker, so the live one keeps its space but is not drawn twice */
+  #app #trophyRoom .trophyEyebrow::before {visibility:hidden}
+  #app #trophyRoom .trophyEyebrow,
+  #app #trophyRoom .trophyTagline {color:#fff6d8;text-shadow:0 1px 3px #000,0 0 10px #000c}
+  /* the champion trophy stands on the plate's pedestal (flat top at plate y 450); its name and line are on the pedestal face */
+  #app #trophyRoom .heroCeremony {left:calc(50vw - 195 * var(--tr-k));top:calc(225 * var(--tr-k));width:calc(390 * var(--tr-k));height:calc(310 * var(--tr-k))}
+  #app #trophyRoom .heroTrophyPicture {left:calc(195 * var(--tr-k) - 90 * var(--tr-k));top:0;width:calc(180 * var(--tr-k));height:calc(243 * var(--tr-k))}
+  #app #trophyRoom .heroReflection {display:none}
+  #app #trophyRoom .heroPlinth {
+    left:0;right:0;top:calc(250 * var(--tr-k));bottom:auto;height:calc(64 * var(--tr-k));clip-path:none;border:0;
+    background:none;box-shadow:none;
+  }
+  #app #trophyRoom .heroPlinth::after {display:none}
+  #app #trophyRoom .heroPlinth span {font-size:max(12px,calc(16 * var(--tr-k)));text-shadow:0 1px 2px #000,0 0 10px #000a}
+  #app #trophyRoom .heroPlinth small {font-size:max(8px,calc(8 * var(--tr-k)));color:#d8c68f}
+  /* the two rank cards, the tab row and the cases sit as in the picture */
+  #app #trophyRoom .careerRank {
+    border:2px solid transparent;border-radius:2px;
+    background:linear-gradient(180deg,#121211e6,#050506f2) padding-box,var(--tr-bevel) border-box;
+    box-shadow:inset 0 0 0 1px #000a,0 6px 18px #000a;
+  }
+  /* tabs: black with a gold edge, ALL in polished gold */
+  #app #trophyRoom .trophyTabs {background:#050506e6;border:1px solid #d9aa3caa;box-shadow:0 8px 22px #0009}
+  #app #trophyRoom .trophyTab {background:linear-gradient(180deg,#141412,#060607);color:#f6efd8;box-shadow:inset 0 1px 0 #fff1b814}
+  #app #trophyRoom .trophyTab.is-active {
+    background:var(--tr-gold);color:#1a1305;text-shadow:0 1px 0 #fff2b588;
+    box-shadow:inset 0 1px 0 #fffbe0,inset 0 -3px 0 #a87a1288,0 0 16px #f5c51838;
+  }
+  /* the cases: gold-bevel frame around black marble glass */
+  #app #trophyRoom .shelfGlass {
+    border:clamp(3px,.4vh,4px) solid transparent;border-radius:0;
+    background:linear-gradient(180deg,#0d0d0eeb,#040405f2) padding-box,var(--tr-bevel) border-box;
+    box-shadow:inset 0 0 0 2px #050505,0 14px 34px #000b,0 0 22px #f0c84b26;
+  }
+  #app #trophyRoom .trophyCard {
+    border:1px solid #d9aa3c99;border-radius:0;
+    background:radial-gradient(ellipse at 50% 12%,#a07d3a52,transparent 62%),linear-gradient(180deg,#1a1812cc,#060607f2);
+    box-shadow:inset 0 0 0 1px #000a,inset 0 1px 0 2px #fff1b812;
+  }
+  #app #trophyRoom .recordRibbon {border:1px solid #d9aa3c99;background:linear-gradient(180deg,#0e0e0fe6,#050506f2);box-shadow:inset 0 0 0 1px #000a}
+  /* BACK: black with the gold-bevel edge, as in the picture */
+  #app #trophyRoom .trophyBack {
+    border:3px solid transparent;border-radius:4px;color:#fff1ae;
+    background:linear-gradient(180deg,#171512,#070708) padding-box,var(--tr-bevel) border-box;
+    box-shadow:inset 0 0 0 1px #050505,inset 0 1px 0 2px #fff1b81f,0 6px 18px #000b,0 0 18px #f0c84b30;
+  }
+}
+/* Tall windows seat the tab row, cases and rank cards exactly where the picture has them (plate y 540 and 465). Short windows
+   (1280x650, 1366x768) keep the live rows, which already fit one screen with BACK, and lift the pedestal text a little. */
+@media (min-width:1200px) and (min-height:821px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #trophyRoom .trophyRoomContent.sd-stage__ui-content {padding-top:calc(540 * var(--tr-k))}
+  #app #trophyRoom .careerRanks {top:calc(465 * var(--tr-k))}
+}
+@media (min-width:1200px) and (min-height:600px) and (max-height:820px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #trophyRoom .heroPlinth {top:calc(229 * var(--tr-k))}
+}
+`;
+
   const TROPHY_SIDEWAYS_1730_CSS=String.raw`
   /* JOB-1730: adopted study 1730 (sideways phones, 844x390 and 740x360). Left stage: title, Daniel LEFT, Nik RIGHT and the
      champion trophy between them. Right cabinet: five tabs in one row, then the four trophy cases in one row. BACK (wide)
@@ -1076,7 +1165,7 @@
     host.innerHTML=v10Markup(screen);
     if(screen==="trophyRoom"){
       const smallPhoneStyle=doc.createElement("style");
-      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS+TROPHY_1920_DESKTOP_CSS+TROPHY_2560_ULTRAWIDE_CSS+TROPHY_SCREEN_1705_CSS+TROPHY_SIDEWAYS_1730_CSS;
+      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS+TROPHY_1920_DESKTOP_CSS+TROPHY_2560_ULTRAWIDE_CSS+TROPHY_SCREEN_1705_CSS+TROPHY_SIDEWAYS_1730_CSS+TROPHY_PLATE_V2_CSS;
       host.appendChild(smallPhoneStyle);
     }
     v10Wire(screen,host);
