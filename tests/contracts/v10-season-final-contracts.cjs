@@ -122,6 +122,20 @@ check("V29.8 registry mount keeps the native final proof, close and Back nodes r
   defs.seasonEntry.unmount(host);assert.ok(proof.parentNode===review,"proof restored");assert.ok(terminal.parentNode===review,"terminal restored");assert.ok(back.closest(".v10SeasonStage")===host.querySelector(".v10SeasonStage"),"Back restored");
 });
 check("V29.9 the real clash contract keeps CHECK RESULTS and enabled commit/acknowledge",()=>{const r=spawnSync(process.execPath,["tests/contracts/season-result-clash-contracts.cjs"],{cwd:ROOT,encoding:"utf8"});assert.equal(r.status,0,r.stdout+r.stderr);});
+// JOB-1658: the JOB-1213 1366x768 block was left unclosed, which nested the JOB-1214 1920x1080 block inside it so it could never match.
+check("JOB-1658 the injected Season CSS keeps every @media block closed and top-level, so each viewport block can match",()=>{
+  const m=read("js/seasonFinalV10.js").match(/style\.textContent="[^"]*"\s*\+\s*`([\s\S]*?)`;\s*parent\.appendChild\(style\)/);
+  assert.ok(m,"the Season card rule template is found");
+  const css=m[1].replace(/\$\{[^}]*\}/g,"X").replace(/\/\*[\s\S]*?\*\//g,"");
+  let depth=0;const medias=[];
+  for(let i=0;i<css.length;i++){
+    if(css.startsWith("@media",i)){assert.equal(depth,0,`@media at offset ${i} is nested inside another block (depth ${depth}): ${css.slice(i,i+90).replace(/\s+/g," ")}`);medias.push(css.slice(i,css.indexOf("{",i)).replace(/\s+/g," ").trim());}
+    if(css[i]==="{")depth++;
+    else if(css[i]==="}"){depth--;assert.ok(depth>=0,`unbalanced closing brace at offset ${i}`);}
+  }
+  assert.equal(depth,0,"the template ends with every block closed");
+  for(const w of ["min-width:1340px) and (max-width:1390px","min-width:1880px) and (max-width:1960px","min-width:2500px) and (max-width:2620px"])assert.ok(medias.some(q=>q.includes(w)),`top-level @media for ${w}`);
+});
 // JOB-1038: keep the winner frame visible while career saving runs, then retain the existing closed state.
 check("JOB-1038 Final Winner stays visible while saving and after success",()=>{
   const r={phase:"FINAL_SEASON_RECONCILED",finalSeasonReconciled:true,rivalryId:"job1038",winner:"draw",managerTotals:{playerOne:10,playerTwo:10},totalSeasons:3};

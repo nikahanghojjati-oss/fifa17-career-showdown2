@@ -412,6 +412,9 @@
   }
   // JOB-1635: a second tap for the same target while its navigation is still in flight joins that navigation instead of
   // starting another (two shows, two renders). Synchronous results are returned untouched, so timing is unchanged.
+  // pendingNavigations holds every navigation promise that is still in flight, so a Home tap can ask "is one already running?"
+  // instead of guessing from a clock.
+  const pendingNavigations=new Set();
   function vsDedupe(name){
     const fn=root[name];
     if(typeof fn!=="function"||fn.v10Once===true)return;
@@ -420,7 +423,11 @@
       const key=String(target);
       if(inflight.has(key))return inflight.get(key);
       const result=fn.apply(this,arguments);
-      if(result&&typeof result.then==="function"){inflight.set(key,result);result.then(()=>inflight.delete(key),()=>inflight.delete(key));}
+      if(result&&typeof result.then==="function"){
+        inflight.set(key,result);pendingNavigations.add(result);
+        const done=()=>{inflight.delete(key);pendingNavigations.delete(result);};
+        result.then(done,done);
+      }
       return result;
     };
     wrapped.v10Once=true;wrapped.original=fn;
@@ -431,13 +438,16 @@
     installed=true;
     vsHookShowScreen();
     vsDedupe("navigateTo");vsDedupe("openOptionalModule");
-    // A Home tile ignores a repeat tap while its screen is still opening or settling (busy, or within TAP_GUARD_MS of the first
-    // tap): one tap, one navigation. Programmatic navigation is untouched.
+    // A Home tile ignores a repeat tap whenever its navigation is already underway, however late the second tap is delivered
+    // (a throttled CPU can run a 30 ms timer after several hundred ms): the tile is busy, a navigation is in flight, or Home is
+    // no longer the screen being shown (the first tap already left it). TAP_GUARD_MS stays as an extra debounce. Programmatic
+    // navigation is untouched.
     vsDoc().addEventListener("click",event=>{
       const tile=event.target&&typeof event.target.closest==="function"?event.target.closest("#mainMenu .menuTile"):null;
       if(!tile||!tile.dataset)return;
-      const now=Date.now(),last=Number(tile.dataset.v10Tap||0);
-      if(tile.getAttribute("aria-busy")==="true"||(last&&now-last<TAP_GUARD_MS)){event.stopImmediatePropagation();event.preventDefault();return;}
+      const now=Date.now(),last=Number(tile.dataset.v10Tap||0),home=vsHost("mainMenu"),active=vsActiveScreen();
+      const homeGone=Boolean(home&&home.classList.contains("hidden"))||(active!==null&&active!=="mainMenu");
+      if(tile.getAttribute("aria-busy")==="true"||pendingNavigations.size>0||homeGone||(last&&now-last<TAP_GUARD_MS)){event.stopImmediatePropagation();event.preventDefault();return;}
       tile.dataset.v10Tap=String(now);
     },true);
     vsDoc().addEventListener(EVENT,vsOnScreenShown);
