@@ -199,12 +199,12 @@
     const content=dialog.querySelector("#settingsContent");
     if(!media||!content)return ()=>{};
     let main=null;
-    function restore(){
+    function restoreSettingsContent(){
       if(!main)return;
       main.replaceWith(content);main=null;
     }
     const sync=focusSafe(()=>{
-      if(!media.matches){restore();return;}
+      if(!media.matches){restoreSettingsContent();return;}
       if(main)return;
       main=element("main","settingsTouchMain");
       content.before(main);main.append(content);
@@ -215,7 +215,7 @@
     return ()=>{
       if(media.removeEventListener)media.removeEventListener("change",sync);
       else media.removeListener?.(sync);
-      restore();
+      restoreSettingsContent();
     };
   }
   function mountSettings(frame,host){
