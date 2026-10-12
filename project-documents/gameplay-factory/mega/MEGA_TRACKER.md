@@ -1,27 +1,27 @@
-# Mega factory tracker · updated 2026-10-12T01:41:45Z
+# Mega factory tracker · updated 2026-10-12T01:43:15Z
 
-**Type now (70 free):** 191, 203, 207, 217, 219, 246, 268, 274, 296, 302, 324, 330, 352, 358, 366, 368, 370, 374, 376, 378, 380, 382, 384, 386, 388, 390, 392, 394, 396, 398, 400, 402, 404, 406, 408, 410, 412, 414, 416, 418, 419, 420, 422, 424, 426, 428, 430, 432, 434, 436, 438, 440, 442, 444, 446, 448, 450, 452, 454, 456, 458, 460, 462, 464, 466, 468, 470, 472, 474, 476
+**Type now (70 free):** 203, 207, 209, 217, 219, 246, 268, 274, 296, 302, 324, 330, 352, 358, 366, 368, 370, 374, 376, 378, 380, 382, 384, 386, 388, 390, 392, 394, 396, 398, 400, 402, 404, 406, 408, 410, 412, 414, 416, 418, 419, 420, 422, 424, 426, 428, 430, 432, 434, 436, 438, 440, 442, 444, 446, 448, 450, 452, 454, 456, 458, 460, 462, 464, 466, 468, 470, 472, 474, 476
 **Next free number:** 187 · **highest taken:** 411 of 518
 **Code PRs open:** 3 of 8 · area locks: club, career-screens, rules-settings
-**Rate:** 1 claimed in 10 min · 4 in 1 h · 0 merged in 1 h
+**Rate:** 2 claimed in 10 min · 4 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 181 of 518**
 
 State | count
 --- | ---
 ✅ merged to staging branch | 181
-🚂 done, on the train branch, no PR yet | 8
+🚂 done, on the train branch, no PR yet | 9
 🟩 PR open, checks green, waiting for review | 10
 📝 worker done, draft PR open | 1
 🟥 PR open, checks FAILED | 5
 ⚫ closed without merge | 82
-⬜ waiting | 231
+⬜ waiting | 230
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
 1 Gameplay audits | 112 | 112 | 0 | 0
 2 Screen fixes | 266 | 45 | 19 | 158
-3 Match desktop to mockups | 14 | 0 | 4 | 9
+3 Match desktop to mockups | 14 | 0 | 5 | 8
 4 Phone mockup studies | 70 | 23 | 1 | 9
 5 Improved desktop studies | 56 | 1 | 0 | 55
 
@@ -54,6 +54,7 @@ Stage | total | merged/live | in flight | waiting
 - 🚂 **183** · Job 1100 · Connect Players (start and join): match the desktop mockup · done, on the train branch, no PR yet
 - 🚂 **185** · Job 1129 · Select League: match the desktop mockup · done, on the train branch, no PR yet
 - 🚂 **189** · Job 1187 · Transfer challenge and Signing Entry: match the desktop mockup · done, on the train branch, no PR yet
+- 🚂 **191** · Job 1216 · Season Results: match the desktop mockup · done, on the train branch, no PR yet
 - 🚂 **199** · Job 1072 · Home: long names · done, on the train branch, no PR yet
 - 🚂 **201** · Job 1101 · Connect Players (start and join): long names · done, on the train branch, no PR yet
 - 📝 **240** · Job 1429 · Rule Book: phone mockup, version A (faithful) · worker done, draft PR open · [PR #696](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/696)
@@ -62,6 +63,7 @@ Stage | total | merged/live | in flight | waiting
 
 ## Latest changes
 
+- 2026-10-12T01:43:15Z · 191 (Job 1216): waiting → on_train
 - 2026-10-12T01:39:58Z · 240 (Job 1429): started → draft
 - 2026-10-12T01:35:28Z · 240 (Job 1429): waiting → started
 - 2026-10-12T01:27:58Z · 189 (Job 1187): waiting → on_train
@@ -81,4 +83,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-11T23:47:57Z · 109 (Job 1067): ready → merged
 - 2026-10-11T23:47:57Z · 95 (Job 1124): ready → merged
 - 2026-10-11T23:47:57Z · 91 (Job 1066): ready → merged
-- 2026-10-11T22:53:29Z · 179 (Job 1418): ci_running → ready

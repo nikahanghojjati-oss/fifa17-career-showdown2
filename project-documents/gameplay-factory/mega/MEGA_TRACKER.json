@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T01:41:45Z",
+"updated": "2026-10-12T01:43:15Z",
 "total": 518,
 "next_free": 187,
 "highest_taken": 411,
@@ -8,8 +8,8 @@
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 8,
-"waiting": 231,
+"on_train": 9,
+"waiting": 230,
 "draft": 1
 },
 "stages": {
@@ -36,8 +36,8 @@
 "name": "Match desktop to mockups",
 "total": 14,
 "states": {
-"on_train": 4,
-"waiting": 9,
+"on_train": 5,
+"waiting": 8,
 "closed": 1
 }
 },
@@ -74,6 +74,7 @@
 183,
 185,
 189,
+191,
 199,
 201,
 403,
@@ -86,9 +87,9 @@
 "rules-settings": 687
 },
 "ready": [
-191,
 203,
 207,
+209,
 217,
 219,
 246,
@@ -100,9 +101,9 @@
 330
 ],
 "ready_sol": [
-191,
 203,
 207,
+209,
 217,
 219,
 246,
@@ -115,9 +116,9 @@
 ],
 "ready_codex": [],
 "ready_all": [
-191,
 203,
 207,
+209,
 217,
 219,
 246,
@@ -324,7 +325,7 @@
 },
 "rate": {
 "claimed_last_hour": 4,
-"claimed_last_10min": 1,
+"claimed_last_10min": 2,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -336,18 +337,18 @@
 "closed": 25,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 8,
-"waiting": 146
+"on_train": 9,
+"waiting": 145
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 93,
-"worker_done": 68,
+"picked_up": 94,
+"worker_done": 69,
 "finished": 45,
-"pending_lead": 18,
+"pending_lead": 19,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 5,
@@ -1385,16 +1386,56 @@
 "fail": 0
 }
 }
+},
+{
+"at": "2026-10-12T01:43:15Z",
+"lanes": {
+"gpt1": {
+"t": 239,
+"fin": 45,
+"done": 69,
+"redone": 25,
+"fail": 5
+},
+"gpt2": {
+"t": 209,
+"fin": 123,
+"done": 124,
+"redone": 0,
+"fail": 0
+},
+"chat_jobs": {
+"t": 50,
+"fin": 20,
+"done": 21,
+"redone": 0,
+"fail": 0
+},
+"codex": {
+"t": 19,
+"fin": 11,
+"done": 14,
+"redone": 4,
+"fail": 0
+},
+"work": {
+"t": 35,
+"fin": 16,
+"done": 16,
+"redone": 3,
+"fail": 0
+},
+"claude": {
+"t": 76,
+"fin": 55,
+"done": 55,
+"redone": 20,
+"fail": 0
+}
+}
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 32,
-"job": 1482,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 34,
@@ -3487,6 +3528,13 @@
 "job": 1429,
 "from": "started",
 "to": "draft"
+},
+{
+"at": "2026-10-12T01:43:15Z",
+"item": 191,
+"job": 1216,
+"from": "waiting",
+"to": "on_train"
 }
 ],
 "items": {
@@ -6539,8 +6587,10 @@
 "title": "Season Results: match the desktop mockup",
 "mode": "code",
 "group": "season-final",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-season-final-3",
+"first_seen": "2026-10-12T01:43:15Z",
+"since": "2026-10-12T01:43:15Z"
 },
 "192": {
 "job": 1562,
