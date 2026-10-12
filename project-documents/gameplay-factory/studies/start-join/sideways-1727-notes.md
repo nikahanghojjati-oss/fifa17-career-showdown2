@@ -1,0 +1,11 @@
+# JOB-1727 Connect Players sideways phone (844x390, 740x360)
+- Re-run of 1113. Fixes from Team V: slim bottom bar, the picture's bright gold title, no scroll at either size.
+- Bottom bar is the real five tabs (HOME CAREER STANDINGS STATS RULES, shared navbar icons) in one 36px row: 9.2% of 390, 9.5% of 360. Taps are under 44px high by design.
+- Title is live text in Kaushan Script with a brighter gold fill than the live CSS, because the picture's title is brighter.
+- Daniel left, Nik right, never mirrored: the two phone cutouts flank one 430px centre column, so the heads and the pointing hand stay clear of text.
+- Column order matches the live screen: kicker, title, tagline, three tabs plus BACK, then the Daniel panel with CHOOSE SEASONS. The NIK · JOIN panel swaps in with the CSS-only radio, like the live phone.
+- Text is the live text (js/connectPlayersScreenV10.js). Kicker and tagline are uppercase through CSS only, as in css/connectPlayersV10.css. No stray double space.
+- Fonts are the shipped Barlow Condensed, Barlow and Kaushan Script files, linked from visual-assets/v10_1/shared/fonts. No JavaScript, no new art.
+- Browser check: Chromium 844x390 and 740x360. No page scroll, no clipped text, no overlaps, CHOOSE SEASONS above the bar, art loads.
+- Parts baked into Team V art (not faked): the cutout glow and suits, and the crowd photo behind the panel.
+- Out of scope: pair-code, recovery and connected-session panels are runtime-owned (js/persistentNikDanielPair.js); the CONNECTION tab shows nothing here, as in the live empty state.

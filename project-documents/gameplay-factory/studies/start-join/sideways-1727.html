@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en" data-nav="hub">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Connect Players · Sideways phone · JOB-1727</title>
+<style>
+/* Fonts and art are the shipped Team V files, linked by relative path (no copies). */
+@font-face{font-family:"Barlow Condensed";font-weight:600;font-display:block;src:url('../../../../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:"Barlow Condensed";font-weight:700;font-display:block;src:url('../../../../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:"Barlow";font-weight:400;font-display:block;src:url('../../../../visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:"Kaushan Script";font-weight:400;font-display:block;src:url('../../../../visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2') format('woff2')}
+:root{
+  color-scheme:dark;
+  --gold:#f5c518;--gold-hi:#fff3b0;--gold-mid:#ffd34d;--gold-edge:#d4a017;--ink:#07080a;--text:#f4f1ea;--muted:#d6d3c9;
+  --display:"Barlow Condensed","Arial Narrow",sans-serif;--body:"Barlow",system-ui,sans-serif;--title:"Kaushan Script","Brush Script MT",cursive;
+  /* slim bottom bar: about a tenth of the height (36px at 390, 34px at 360) */
+  --nav:min(36px,9.5svh);
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--ink);color:var(--text);font-family:var(--body)}
+button,input{font:inherit;color:inherit}
+button{cursor:default}
+.screen{position:relative;isolation:isolate;width:100%;height:100svh;overflow:hidden;background:var(--ink) url('../../../../visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp') center 30%/cover no-repeat}
+.screen::before{content:"";position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 46% 80% at 50% 48%,#07080a00 0%,#07080a66 70%,#07080aaa 100%),linear-gradient(#07080a22,#07080ac4 88%)}
+/* Daniel is LEFT, Nik is RIGHT (never mirrored). */
+.portraits{position:absolute;z-index:1;left:0;right:0;top:0;bottom:var(--nav);pointer-events:none;overflow:hidden}
+.portraits img{position:absolute;bottom:0;width:auto;max-width:none;filter:drop-shadow(0 6px 8px #000b) drop-shadow(0 0 3px #ffd34d44)}
+.portraits .daniel{left:-1.5%;height:min(100%,calc(100svh - var(--nav) - 4px))}
+.portraits .nik{right:-1.5%;height:min(97%,calc(100svh - var(--nav) - 8px))}
+.content{position:absolute;z-index:3;left:50%;transform:translateX(-50%);top:0;bottom:var(--nav);width:min(430px,53vw);display:flex;flex-direction:column;justify-content:center;gap:calc(1.9svh + 1px);padding:0 0 1.2svh}
+header{text-align:center}
+.kicker{margin:0;font:600 11px/1.3 var(--display);letter-spacing:.36em;text-transform:uppercase;color:#f1e3b4;text-shadow:0 1px 5px #000}
+h1{margin:1px -16px 0;width:auto;max-width:none;padding:0 .14em;font:400 min(12svh,48px)/1.3 var(--title);letter-spacing:.005em;text-transform:uppercase;white-space:nowrap;color:var(--gold-mid);background:linear-gradient(#fffbe0 0%,#ffe45c 38%,#ffc31a 72%,#f0a500 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;-webkit-text-stroke:.02em #ffd34d;filter:drop-shadow(0 2px 1px #000) drop-shadow(0 0 10px #f5c51855)}
+.tagline{margin:0 auto;font:600 clamp(11px,3.1svh,12.5px)/1.25 var(--display);letter-spacing:.11em;text-transform:uppercase;color:#f4ecd2;text-shadow:0 1px 5px #000}
+.workspace{display:flex;flex-direction:column;gap:1.7svh;min-height:0}
+.selector{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+.tabs{display:grid;grid-template-columns:1.12fr 1fr 1fr;min-height:38px;border:1px solid var(--gold-edge);background:#07080af0;box-shadow:inset 0 0 0 2px #8a6a1255,0 0 12px #f5c51822;overflow:hidden}
+.tabs label{position:relative;min-width:0;display:flex}
+.tabs input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.tabs span{display:flex;align-items:center;justify-content:center;width:100%;min-height:36px;padding:0 4px;font:700 14px/1 var(--display);letter-spacing:.06em;white-space:nowrap;color:#e6d9b0}
+.tabs input:checked+span{color:#1a1305;background:linear-gradient(#ffe778,#e9b422 70%,#c28a0c);clip-path:polygon(0 0,100% 0,calc(100% - 9px) 100%,0 100%);box-shadow:inset 0 -2px #fff0a0}
+.tabs input:focus-visible+span{outline:2px solid #fff6d1;outline-offset:-3px}
+.back{min-width:56px;min-height:38px;padding:0 12px;border:1px solid var(--gold-edge);background:#07080af0;box-shadow:inset 0 0 0 2px #8a6a1255;font:700 14px/1 var(--display);letter-spacing:.08em;color:#fff1ae}
+.panels{display:grid}
+.panel{grid-area:1/1;visibility:hidden;padding:10px 14px 12px;border:1px solid var(--gold-edge);background:linear-gradient(90deg,#060707f4 35%,#060707a8),url('../../../../visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp') center 78%/cover;box-shadow:inset 0 0 0 2px #d4a01724,0 0 14px #f5c51826}
+.workspace:has(#daniel-tab:checked) .daniel-panel,.workspace:has(#nik-tab:checked) .nik-panel{visibility:visible}
+.panel h2{margin:0 0 3px;font:700 clamp(21px,6.3svh,25px)/1.1 var(--display);letter-spacing:.03em;color:#fff}
+.panel p{margin:0 0 clamp(8px,2.4svh,11px);font:400 clamp(14px,4.1svh,16px)/1.3 var(--body);color:var(--muted)}
+.primary{display:block;min-height:42px;padding:0 24px;border:2px solid #ffe786;outline:1px solid #b48a21;outline-offset:3px;background:linear-gradient(120deg,#f9db4b,#ffde16 50%,#e3ad15);box-shadow:0 2px 14px #e5b82f55;color:#171205;font:700 20px/1 var(--display);letter-spacing:.05em}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+button:focus-visible{outline:2px solid #fff6d1;outline-offset:2px}
+.hub-nav{position:absolute;z-index:4;left:0;right:0;bottom:0;height:var(--nav);display:grid;grid-template-columns:repeat(5,1fr);padding:0 4px;background:linear-gradient(#0a0b0ef5,#07080a);border-top:1px solid var(--gold-edge)}
+.hub-nav a{position:relative;display:flex;align-items:center;justify-content:center;gap:6px;min-width:0;color:#e9dfc8;text-decoration:none;font:600 12.5px/1 var(--display);letter-spacing:.1em}
+.hub-nav a[aria-current]{color:var(--gold)}
+.hub-nav a[aria-current]::after{content:"";position:absolute;top:0;left:26%;right:26%;height:2px;background:var(--gold)}
+.hub-nav svg{flex:none;width:16px;height:16px;fill:currentColor}
+</style>
+</head>
+<body>
+<!-- Static study of the initial Daniel setup state. Pairing codes, recovery and connected-session controls are runtime-owned and stay outside this study. -->
+<main class="screen" aria-labelledby="title">
+<div class="portraits" aria-hidden="true">
+<img class="daniel" src="../../../../visual-assets/v10_1/start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp" alt="">
+<img class="nik" src="../../../../visual-assets/v10_1/start-join/assets/OVL_SJ_NIK_PHONE_V1.webp" alt="">
+</div>
+<div class="content">
+<header>
+<p class="kicker">CAREER MODE SHOWDOWN // 17</p>
+<h1 id="title">CONNECT PLAYERS</h1>
+<p class="tagline">Daniel and Nik must both be connected before the career begins.</p>
+</header>
+<div class="workspace">
+<div class="selector">
+<div class="tabs" role="group" aria-label="Connection steps">
+<label><input type="radio" name="connection-tab" id="daniel-tab" checked><span>DANIEL · START</span></label>
+<label><input type="radio" name="connection-tab" id="nik-tab"><span>NIK · JOIN</span></label>
+<label><input type="radio" name="connection-tab" id="connection-tab"><span>CONNECTION</span></label>
+</div>
+<button type="button" class="back">BACK</button>
+</div>
+<div class="panels">
+<section class="panel daniel-panel" aria-label="Daniel starts">
+<span class="sr-only">PLAYER ONE</span>
+<h2>DANIEL · START</h2>
+<p>Choose seasons, create your code, and send it to Nik.</p>
+<button type="button" class="primary">CHOOSE SEASONS</button>
+</section>
+<section class="panel nik-panel" aria-label="Nik joins">
+<span class="sr-only">PLAYER TWO</span>
+<h2>NIK · JOIN</h2>
+<p>On Nik's device, paste Daniel's code to join the rivalry.</p>
+</section>
+</div>
+</div>
+</div>
+<nav class="hub-nav" aria-label="Main navigation">
+<a href="#" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2.5 11h2.7v9.5h5.3v-6h3v6h5.3V11h2.7Z"/></svg><span>HOME</span></a>
+<a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3h11l-1 6.2A4.6 4.6 0 0 1 12 13a4.6 4.6 0 0 1-4.5-3.8ZM4 4.6h2.4l.4 2.6A2.4 2.4 0 0 1 4 4.6Zm16 0a2.4 2.4 0 0 1-2.8 2.6l.4-2.6ZM10.6 13.6h2.8v3.2h3v3.2H7.6v-3.2h3Z"/></svg><span>CAREER</span></a>
+<a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v3.2H3Zm0 6.4h18v3.2H3Zm0 6.4h18V20H3Z"/></svg><span>STANDINGS</span></a>
+<a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18v1.6H3ZM4.6 12h3.6v6.4H4.6Zm5.6-5h3.6v11.4h-3.6Zm5.6 3h3.6v8.4h-3.6Z"/></svg><span>STATS</span></a>
+<a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.5h10.5L19 7v13.5H5Zm9.6 1.3V8h3.2ZM7.6 10h8.8v1.5H7.6Zm0 3.2h8.8v1.5H7.6Zm0 3.2h6v1.5h-6Z"/></svg><span>RULES</span></a>
+</nav>
+</main>
+</body>
+</html>
