@@ -4,11 +4,18 @@
   "clean_streak": 0,
   "goal": 10,
   "owner": "mega factory thread",
-  "updated": "2026-10-12T10:10:50Z",
+  "updated": "2026-10-12T10:15:43Z",
   "note": "Nik decided 06:55 UTC: 3 numbers per chat; 5 once 10 batches in a row run clean.",
-  "jobs_free": [],
+  "jobs_free": [
+    1733,
+    1734,
+    1735,
+    1736,
+    1737,
+    1738
+  ],
   "jobs_after_wiring": [],
-  "jobs_note": "Polish wave tickets (ChatGPT chat). The queue thread keeps these two lists; a job moves to jobs_free when its area's wiring train is merged or closed. 1650 (service worker audit) and 1652 (Settings motion choice) are ChatGPT chat jobs from the 1635 follow-ups. 1654-1656 are second attempts on failed train PRs #687, #686, #684 (ChatGPT chat). 1654-1656 left the lists: Claude lane.",
+  "jobs_note": "Chat jobs 1733-1738: audit and fix one real bug per job (gameplay-only), 3 per message.",
   "work_waiting": [
     {
       "job": 1701,
@@ -16,7 +23,7 @@
     },
     {
       "job": 1702,
-      "note": "Sol 6.1 \u00b7 High. Final Winner screen job; starts after the Standings job 1701 merges."
+      "note": "Sol 6.1 \u00b7 High. Final Winner screen job; starts after the Season Results job 1700 merges."
     },
     {
       "job": 1704,
@@ -44,7 +51,6 @@
       1703,
       1705,
       1707,
-      1695,
       1698,
       1699,
       1727,
@@ -78,7 +84,6 @@
     1703,
     1705,
     1707,
-    1695,
     1698,
     1699,
     1727,
