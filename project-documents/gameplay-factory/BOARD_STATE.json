@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-12 5:54 PM Boston time (EDT)",
+ "generated": "2026-10-12 5:56 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 94,
+  "count": 95,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -849,6 +849,15 @@
     "subject": "Relay feed and inbox: add your hand-off rows to FEED.md (feed_sync.py --team G) and refresh your INBOX.json entry",
     "reply": "no",
     "boston": "Sat 10 Oct 11:37 PM"
+   },
+   {
+    "time": "2026-10-12 21:55",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-026 SENT",
+    "subject": "r75: phone, sideways and tablet in the exact desktop marble look (no glass)",
+    "reply": "yes (receive it)",
+    "boston": "Mon 12 Oct 5:55 PM"
    }
   ],
   "g2v": {
@@ -869,8 +878,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "9cd6bcd",
-  "head_boston": "Mon 12 Oct 11:01 AM",
+  "head": "08a8f20",
+  "head_boston": "Mon 12 Oct 5:55 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1269,6 +1278,19 @@
     "worker": "haiku",
     "pickup_min": 2,
     "waiting_min": null
+   },
+   {
+    "id": "HO-026",
+    "from": "G",
+    "to": "V",
+    "title": "r75: phone, sideways and tablet in the exact desktop marble look (no glass)",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-026_r75-phone-sideways-and-tablet-in-the-exa.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": 1
    }
   ],
   "relay_ok": true
@@ -1340,7 +1362,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 46,
+  "moving": 47,
   "next": 42,
   "nik": 2,
   "later": 21,
