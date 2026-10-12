@@ -1,27 +1,27 @@
-# Mega factory tracker · updated 2026-10-12T02:25:29Z
+# Mega factory tracker · updated 2026-10-12T02:26:59Z
 
-**Type now (101 free):** 235, 237, 245, 257, 261, 296, 302, 324, 330, 352, 358, 366, 368, 370, 374, 376, 378, 380, 382, 384, 386, 388, 390, 392, 394, 396, 398, 400, 402, 404, 406, 408, 410, 412, 414, 416, 418, 420, 422, 424, 426, 427, 428, 430, 432, 434, 436, 438, 440, 442, 444, 446, 448, 450, 452, 454, 456, 458, 460, 462, 464, 466, 468, 470, 472, 474, 476, 519, 520, 521, 522, 523, 524, 525, 526, 527, 528, 529, 530, 531, 532, 533, 534, 535, 536, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551
+**Type now (101 free):** 237, 245, 253, 257, 261, 296, 302, 324, 330, 352, 358, 366, 368, 370, 374, 376, 378, 380, 382, 384, 386, 388, 390, 392, 394, 396, 398, 400, 402, 404, 406, 408, 410, 412, 414, 416, 418, 420, 422, 424, 426, 427, 428, 430, 432, 434, 436, 438, 440, 442, 444, 446, 448, 450, 452, 454, 456, 458, 460, 462, 464, 466, 468, 470, 472, 474, 476, 519, 520, 521, 522, 523, 524, 525, 526, 527, 528, 529, 530, 531, 532, 533, 534, 535, 536, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551
 **Next free number:** 187 · **highest taken:** 419 of 552
 **Code PRs open:** 3 of 8 · area locks: club, career-screens, rules-settings
-**Rate:** 6 claimed in 10 min · 18 in 1 h · 0 merged in 1 h
+**Rate:** 5 claimed in 10 min · 18 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 181 of 552**
 
 State | count
 --- | ---
 ✅ merged to staging branch | 181
-🚂 done, on the train branch, no PR yet | 20
+🚂 done, on the train branch, no PR yet | 21
 🟩 PR open, checks green, waiting for review | 10
 📝 worker done, draft PR open | 3
 🟥 PR open, checks FAILED | 5
 🟧 blocked | 1
 ⚫ closed without merge | 82
-⬜ waiting | 250
+⬜ waiting | 249
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
 1 Gameplay audits | 146 | 112 | 0 | 34
-2 Screen fixes | 266 | 45 | 30 | 147
+2 Screen fixes | 266 | 45 | 31 | 146
 3 Match desktop to mockups | 14 | 0 | 5 | 8
 4 Phone mockup studies | 70 | 23 | 4 | 6
 5 Improved desktop studies | 56 | 1 | 0 | 55
@@ -67,6 +67,7 @@ Stage | total | merged/live | in flight | waiting
 - 🚂 **221** · Job 1131 · Select League: tap targets · done, on the train branch, no PR yet
 - 🚂 **225** · Job 1189 · Transfer challenge and Signing Entry: tap targets · done, on the train branch, no PR yet
 - 🚂 **227** · Job 1218 · Season Results: tap targets · done, on the train branch, no PR yet
+- 🚂 **235** · Job 1074 · Home: keyboard focus and reduced motion · done, on the train branch, no PR yet
 - 🚂 **239** · Job 1132 · Select League: keyboard focus and reduced motion · done, on the train branch, no PR yet
 - 📝 **240** · Job 1429 · Rule Book: phone mockup, version A (faithful) · worker done, draft PR open · [PR #696](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/696)
 - 🚂 **243** · Job 1190 · Transfer challenge and Signing Entry: keyboard focus and reduced motion · done, on the train branch, no PR yet
@@ -79,6 +80,7 @@ Stage | total | merged/live | in flight | waiting
 
 ## Latest changes
 
+- 2026-10-12T02:26:59Z · 235 (Job 1074): waiting → on_train
 - 2026-10-12T02:25:29Z · 227 (Job 1218): waiting → on_train
 - 2026-10-12T02:22:29Z · 243 (Job 1190): waiting → on_train
 - 2026-10-12T02:20:59Z · 239 (Job 1132): waiting → on_train
@@ -98,4 +100,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-12T01:39:58Z · 240 (Job 1429): started → draft
 - 2026-10-12T01:35:28Z · 240 (Job 1429): waiting → started
 - 2026-10-12T01:27:58Z · 189 (Job 1187): waiting → on_train
-- 2026-10-12T01:26:28Z · 185 (Job 1129): waiting → on_train

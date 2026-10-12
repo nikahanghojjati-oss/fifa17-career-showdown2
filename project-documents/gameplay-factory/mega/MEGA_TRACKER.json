@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T02:25:29Z",
+"updated": "2026-10-12T02:26:59Z",
 "total": 552,
 "next_free": 187,
 "highest_taken": 419,
@@ -8,8 +8,8 @@
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 20,
-"waiting": 250,
+"on_train": 21,
+"waiting": 249,
 "draft": 3,
 "blocked": 1
 },
@@ -22,8 +22,8 @@
 "closed": 44,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 15,
-"waiting": 147
+"on_train": 16,
+"waiting": 146
 }
 },
 "1": {
@@ -88,6 +88,7 @@
 221,
 225,
 227,
+235,
 239,
 243,
 403,
@@ -101,9 +102,9 @@
 "rules-settings": 687
 },
 "ready": [
-235,
 237,
 245,
+253,
 257,
 261,
 296,
@@ -115,9 +116,9 @@
 366
 ],
 "ready_sol": [
-235,
 237,
 245,
+253,
 257,
 261,
 296,
@@ -130,9 +131,9 @@
 ],
 "ready_codex": [],
 "ready_all": [
-235,
 237,
 245,
+253,
 257,
 261,
 296,
@@ -364,7 +365,7 @@
 },
 "rate": {
 "claimed_last_hour": 18,
-"claimed_last_10min": 6,
+"claimed_last_10min": 5,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -376,18 +377,18 @@
 "closed": 25,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 20,
-"waiting": 151
+"on_train": 21,
+"waiting": 150
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 105,
-"worker_done": 80,
+"picked_up": 106,
+"worker_done": 81,
 "finished": 45,
-"pending_lead": 30,
+"pending_lead": 31,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 5,
@@ -1478,13 +1479,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 64,
-"job": 1498,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 66,
@@ -3575,6 +3569,13 @@
 "at": "2026-10-12T02:25:29Z",
 "item": 227,
 "job": 1218,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-12T02:26:59Z",
+"item": 235,
+"job": 1074,
 "from": "waiting",
 "to": "on_train"
 }
@@ -7215,8 +7216,10 @@
 "title": "Home: keyboard focus and reduced motion",
 "mode": "code",
 "group": "home",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-home-3",
+"first_seen": "2026-10-12T02:26:59Z",
+"since": "2026-10-12T02:26:59Z"
 },
 "236": {
 "job": 1313,
