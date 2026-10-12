@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en" data-nav="hub">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Standings · Sideways phone · JOB-1729</title>
+<style>
+/* Fonts and art are the shipped Team V files, linked by relative path (no copies). */
+@font-face{font-family:"Barlow Condensed";font-weight:600;font-display:block;src:url('../../../../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:"Barlow Condensed";font-weight:700;font-display:block;src:url('../../../../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:"Barlow";font-weight:400;font-display:block;src:url('../../../../visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:"Barlow";font-weight:600;font-display:block;src:url('../../../../visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2') format('woff2')}
+:root{
+  color-scheme:dark;
+  --gold-100:#fff3b0;--gold-300:#ffd34d;--gold-500:#f5c518;--gold-700:#d4a017;--ink:#07080a;--text:#f4f1ea;--text-2:#b9b3a4;--edge:rgba(212,160,23,.7);
+  --condensed:"Barlow Condensed","Arial Narrow",sans-serif;--body:"Barlow",system-ui,sans-serif;
+  --nav:56px; /* the live phone bottom bar height (--sd-nav-bottom-h) */
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--ink);color:var(--text);font-family:var(--body)}
+button{font:inherit;color:inherit;cursor:default}
+.screen{position:relative;isolation:isolate;width:100%;height:100svh;overflow:hidden;background:var(--ink) url('../../../../visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PHONE_V1.webp') center 38%/cover no-repeat}
+.screen::before{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(#07080a33,#07080a99 55%,#07080ae6)}
+/* Daniel is LEFT, Nik is RIGHT (never mirrored). */
+.heroes{position:absolute;z-index:1;left:0;right:0;top:0;height:calc((100svh - var(--nav)) * .8);pointer-events:none;-webkit-mask-image:linear-gradient(#000 62%,transparent);mask-image:linear-gradient(#000 62%,transparent)}
+.heroes img{position:absolute;top:0;height:100%;width:auto;max-width:none;filter:drop-shadow(0 6px 8px #000b) drop-shadow(0 0 3px #ffd34d44)}
+.heroes .daniel{left:-1%}.heroes .nik{right:-1%}
+.gear{position:absolute;z-index:6;top:6px;right:6px;display:grid;place-items:center;width:34px;height:34px;border:1px solid var(--edge);border-radius:50%;background:#07080ab8;color:var(--gold-300)}
+.gear svg{width:20px;height:20px;fill:currentColor}
+.stage{position:absolute;z-index:3;left:0;right:0;top:0;bottom:var(--nav);display:flex;flex-direction:column;align-items:center;padding:4px 12px 7px;gap:3px}
+header{flex:none;text-align:center;filter:drop-shadow(0 2px 6px #000b)}
+.eyebrow{margin:0;font:600 10px/1.1 var(--condensed);letter-spacing:.5em;padding-left:.5em;text-transform:uppercase;color:var(--text);text-shadow:0 1px 6px #000}
+.eyebrow::before{content:"";display:block;width:16px;height:9px;margin:0 auto 1px;background:linear-gradient(180deg,var(--gold-100),var(--gold-300) 45%,var(--gold-700));clip-path:polygon(0 22%,25% 48%,50% 0,75% 48%,100% 22%,90% 85%,10% 85%)}
+.wordmark{margin:1px auto 0;width:min(232px,60svh)}
+.wordmark img{display:block;width:100%;height:auto}
+.tagline{margin:-2px 0 0;font:600 10px/1.1 var(--condensed);letter-spacing:.34em;padding-left:.34em;text-transform:uppercase;color:var(--text)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.board{flex:1 1 0;min-height:0;width:min(580px,70vw);display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);grid-template-rows:auto minmax(0,1fr);column-gap:14px;row-gap:3px;padding:7px 12px 6px;border:1px solid var(--gold-300);background:linear-gradient(180deg,#090b0de6,#050709d6);box-shadow:0 12px 32px #000a,0 0 24px #f2c45b2e,inset 0 1px 0 #ffd34d24}
+/* DOM order is the live order: toggle, section, progress, scoreboard, rows. Placement only moves it in the grid. */
+.toggle{grid-column:2;grid-row:1;display:flex;min-height:0;border:1px solid var(--edge);background:#07080ad9}
+.toggle button{flex:1 1 0;min-height:30px;padding:0 6px;border:0;background:transparent;font:600 13px/1 var(--condensed);letter-spacing:.12em;text-transform:uppercase;color:var(--text-2)}
+.toggle button[aria-selected="true"]{color:var(--gold-300);background:linear-gradient(#ffd34d1c,#ffd34d08);box-shadow:inset 0 -2px var(--gold-300)}
+.lead{grid-column:1;grid-row:1 / span 2;display:flex;flex-direction:column;min-height:0}
+.section{margin:0;font:600 14px/1.1 var(--condensed);letter-spacing:.14em;text-transform:uppercase;text-align:center;color:var(--text)}
+.progress{margin:2px 0 0;font:600 11px/1.2 var(--condensed);letter-spacing:.14em;text-transform:uppercase;text-align:center;color:var(--text-2)}
+.scoreboard{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:auto 1fr auto;align-items:center;column-gap:4px;font-family:var(--condensed)}
+.side{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0}
+.crest{width:34px;height:41px}.crest svg{display:block;width:100%;height:100%}
+.side strong{font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-300)}
+.score{display:flex;flex-direction:column;align-items:center;gap:1px}
+.score-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2);white-space:nowrap}
+.score-numbers{display:flex;align-items:baseline;gap:7px;font-variant-numeric:tabular-nums}
+.score-numbers b{min-width:1.1ch;text-align:center;font-size:clamp(40px,14svh,54px);line-height:1.2;font-weight:700;color:var(--text)}
+.score-numbers b.is-leader{color:var(--gold-300);text-shadow:0 0 18px #ffd34d80}
+.score-numbers i{font-style:normal;font-size:24px;color:var(--text-2)}
+.leader{min-height:14px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-300)}
+.rows{grid-column:2;grid-row:2;display:grid;grid-template-rows:repeat(7,minmax(0,1fr));min-height:0}
+.row{display:grid;grid-template-columns:1fr 1.9fr 1fr;align-items:center;min-height:0;border-top:1px solid #ffffff1a;font-family:var(--condensed)}
+.val{font-size:17px;line-height:1;font-weight:700;font-variant-numeric:tabular-nums}
+.val--daniel{text-align:right;padding-right:10px;color:var(--gold-300)}
+.val--nik{text-align:left;padding-left:10px;color:var(--text)}
+.label{text-align:center;color:#e6e0d0;font-size:12.5px;line-height:1;font-weight:600;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}
+.hub-nav{position:absolute;z-index:4;left:0;right:0;bottom:0;height:var(--nav);display:grid;grid-template-columns:repeat(5,1fr);padding:0 4px;background:linear-gradient(#0a0b0ef5,#07080a);border-top:1px solid var(--edge)}
+.hub-nav a{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:0;color:#e9dfc8;text-decoration:none;font:600 11px/1 var(--condensed);letter-spacing:.1em}
+.hub-nav a[aria-current]{color:var(--gold-500)}
+.hub-nav a[aria-current]::after{content:"";position:absolute;top:0;left:28%;right:28%;height:2px;background:var(--gold-500)}
+.hub-nav svg{flex:none;width:20px;height:20px;fill:currentColor}
+@media(max-height:380px){.wordmark{width:min(196px,60svh)}.row{font-size:15px}.val{font-size:16px}.label{font-size:12px}.toggle button{min-height:28px}.crest{width:30px;height:36px}}
+</style>
+</head>
+<body>
+<!-- Static study with sample numbers (fixture-style); the live screen fills them from the game. -->
+<main class="screen" aria-labelledby="title">
+<div class="heroes" aria-hidden="true">
+<img class="daniel" src="../../../../visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_PHONE_V1.webp" alt="">
+<img class="nik" src="../../../../visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_PHONE_V1.webp" alt="">
+</div>
+<button type="button" class="gear" aria-label="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Zm9 4.8v-2l-2.2-.7a7.4 7.4 0 0 0-.7-1.7l1-2.1-1.4-1.4-2.1 1a7.4 7.4 0 0 0-1.7-.7L13 3h-2l-.7 2.4a7.4 7.4 0 0 0-1.7.7l-2.1-1-1.4 1.4 1 2.1a7.4 7.4 0 0 0-.7 1.7L3 11v2l2.4.7c.2.6.4 1.2.7 1.7l-1 2.1 1.4 1.4 2.1-1c.5.3 1.1.5 1.7.7L11 21h2l.7-2.4c.6-.2 1.2-.4 1.7-.7l2.1 1 1.4-1.4-1-2.1c.3-.5.5-1.1.7-1.7L21 13Z"/></svg></button>
+<div class="stage">
+<header>
+<p class="eyebrow">CAREER MODE SHOWDOWN 17</p>
+<h1 id="title" class="wordmark"><span class="sr-only">STANDINGS</span><img src="../../../../visual-assets/v10_1/shared/wordmarks/TITLE_STANDINGS_V1.webp" alt="" aria-hidden="true"></h1>
+<p class="tagline">TWO MANAGERS • ONE LEGACY</p>
+</header>
+<section class="board" aria-labelledby="section">
+<div class="toggle" role="tablist" aria-label="Standings view">
+<button type="button" role="tab" aria-selected="true">This Showdown</button>
+<button type="button" role="tab" aria-selected="false" tabindex="-1">Career</button>
+</div>
+<div class="lead">
+<h2 id="section" class="section">HEAD-TO-HEAD</h2>
+<p class="progress">Season 3 of 3</p>
+<div class="scoreboard">
+<div class="side side--daniel"><div class="crest" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 144" aria-hidden="true" focusable="false"><defs><linearGradient id="cmsc1xr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbeaa0"/><stop offset=".45" stop-color="#c69a34"/><stop offset=".7" stop-color="#f3d470"/><stop offset="1" stop-color="#8e6a1f"/></linearGradient><linearGradient id="cmsc1xg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient><clipPath id="cmsc1xc"><path d="M12 10H108V66C108 102 85 122 60 132C35 122 12 102 12 66Z"/></clipPath></defs><g transform="translate(0 4)"><path d="M12 10H108V66C108 102 85 122 60 132C35 122 12 102 12 66Z" fill="url(#cmsc1xr)" transform="translate(60 70) scale(1.07) translate(-60 -70)"/><path d="M12 10H108V66C108 102 85 122 60 132C35 122 12 102 12 66Z" fill="#0d8a9a"/><g clip-path="url(#cmsc1xc)"><path d="M-10 118L130 34V56L-10 140Z" fill="#70dae3"/><path d="M28 100V60H24V48H32V54H38V48H46V60H50V44H46V34H54V40H58V34H62V40H66V34H74V44H70V60H74V48H82V54H88V48H96V60H92V100Z" fill="#f1dc42"/><path d="M52 100V82Q60 72 68 82V100Z" fill="#0d8a9a"/><path d="M12 10H108V66C108 102 85 122 60 132C35 122 12 102 12 66Z" fill="url(#cmsc1xg)"/></g><path d="M12 10H108V66C108 102 85 122 60 132C35 122 12 102 12 66Z" fill="none" stroke="#1a1206" stroke-opacity=".35" stroke-width="1.2"/></g></svg></div><strong>Daniel</strong></div>
+<div class="score">
+<span class="score-label">Showdown Points</span>
+<div class="score-numbers"><b class="is-leader">16</b><i aria-hidden="true">:</i><b>8</b></div>
+<span class="leader">Daniel leads</span>
+</div>
+<div class="side side--nik"><div class="crest" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 144" aria-hidden="true" focusable="false"><defs><linearGradient id="cmsc2xr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbeaa0"/><stop offset=".45" stop-color="#c69a34"/><stop offset=".7" stop-color="#f3d470"/><stop offset="1" stop-color="#8e6a1f"/></linearGradient><linearGradient id="cmsc2xg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient><clipPath id="cmsc2xc"><path d="M60 15A55 55 0 1 1 59.99 15Z"/></clipPath></defs><g transform="translate(0 4)"><path d="M60 15A55 55 0 1 1 59.99 15Z" fill="url(#cmsc2xr)" transform="translate(60 70) scale(1.07) translate(-60 -70)"/><path d="M60 15A55 55 0 1 1 59.99 15Z" fill="#8d3341"/><g clip-path="url(#cmsc2xc)"><rect x="0" y="30" width="120" height="13" fill="#e8c9ce"/><rect x="0" y="56" width="120" height="13" fill="#e8c9ce"/><rect x="0" y="82" width="120" height="13" fill="#e8c9ce"/><rect x="0" y="108" width="120" height="13" fill="#e8c9ce"/><g fill="none" stroke="#f4d343" stroke-width="6" stroke-linecap="round"><path d="M22 52Q31 42 41 52T60 52T79 52T98 52"/><path d="M22 72Q31 62 41 72T60 72T79 72T98 72"/><path d="M22 92Q31 82 41 92T60 92T79 92T98 92"/></g><path d="M60 15A55 55 0 1 1 59.99 15Z" fill="url(#cmsc2xg)"/></g><path d="M60 15A55 55 0 1 1 59.99 15Z" fill="none" stroke="#1a1206" stroke-opacity=".35" stroke-width="1.2"/></g></svg></div><strong>Nik</strong></div>
+</div>
+</div>
+<div class="rows">
+<div class="row" data-field="seasonwins"><span class="val val--daniel">2</span><span class="label">Season Wins</span><span class="val val--nik">1</span></div>
+<div class="row" data-field="seasondraws"><span class="val val--daniel">0</span><span class="label">Season Draws</span><span class="val val--nik">0</span></div>
+<div class="row" data-field="seasonlosses"><span class="val val--daniel">1</span><span class="label">Season Losses</span><span class="val val--nik">2</span></div>
+<div class="row" data-field="championsleagues"><span class="val val--daniel">1</span><span class="label">Champions Leagues</span><span class="val val--nik">1</span></div>
+<div class="row" data-field="leaguetitles"><span class="val val--daniel">2</span><span class="label">League Titles</span><span class="val val--nik">1</span></div>
+<div class="row" data-field="domesticcups"><span class="val val--daniel">2</span><span class="label">Domestic Cups</span><span class="val val--nik">0</span></div>
+<div class="row" data-field="totaltrophies"><span class="val val--daniel">5</span><span class="label">Total Trophies</span><span class="val val--nik">2</span></div>
+</div>
+</section>
+</div>
+<nav class="hub-nav" aria-label="Main navigation">
+<a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2.5 11h2.7v9.5h5.3v-6h3v6h5.3V11h2.7Z"/></svg><span>HOME</span></a>
+<a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3h11l-1 6.2A4.6 4.6 0 0 1 12 13a4.6 4.6 0 0 1-4.5-3.8ZM4 4.6h2.4l.4 2.6A2.4 2.4 0 0 1 4 4.6Zm16 0a2.4 2.4 0 0 1-2.8 2.6l.4-2.6ZM10.6 13.6h2.8v3.2h3v3.2H7.6v-3.2h3Z"/></svg><span>CAREER</span></a>
+<a href="#" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v3.2H3Zm0 6.4h18v3.2H3Zm0 6.4h18V20H3Z"/></svg><span>STANDINGS</span></a>
+<a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18v1.6H3ZM4.6 12h3.6v6.4H4.6Zm5.6-5h3.6v11.4h-3.6Zm5.6 3h3.6v8.4h-3.6Z"/></svg><span>STATS</span></a>
+<a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.5h10.5L19 7v13.5H5Zm9.6 1.3V8h3.2ZM7.6 10h8.8v1.5H7.6Zm0 3.2h8.8v1.5H7.6Zm0 3.2h6v1.5h-6Z"/></svg><span>RULES</span></a>
+</nav>
+</main>
+</body>
+</html>
