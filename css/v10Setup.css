@@ -266,13 +266,19 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   background: none;
   box-shadow: none;
 }
-#leagueWheelScreen.v26Skin .wheelContainer > * { grid-column: 1 / -1; }
+#leagueWheelScreen.v26Skin .wheelContainer > * { grid-column: 1 / -1; min-width: 0; max-width: 100%; }
 #leagueWheelScreen.v26Skin #selectedLeague { order: 0; }
 #leagueWheelScreen.v26Skin .wheelPointer { order: 1; }
 #leagueWheelScreen.v26Skin #leagueWheel { order: 2; }
 #leagueWheelScreen.v26Skin .wheelContainer > .stateNote { order: 3; }
 #leagueWheelScreen.v26Skin #spinLeague { order: 4; }
 #leagueWheelScreen.v26Skin .wheelContainer > .backButton { order: 5; }
+/* JOB-1130: long league/result/status text must stay in the available grid cell. */
+#leagueWheelScreen.v26Skin .wheelContainer > .stateNote {
+  min-width: 0;
+  width: 100%;
+  overflow-wrap: anywhere;
+}
 @media (min-width: 901px) {
   #leagueWheelScreen.v26Skin #spinLeague { grid-column: 1; justify-self: stretch; }
   #leagueWheelScreen.v26Skin .wheelContainer > .backButton { grid-column: 2; justify-self: stretch; }
@@ -280,9 +286,22 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   #leagueWheelScreen.v26Skin .wheelContainer > .backButton:only-of-type { grid-column: 1 / -1; }
 }
 #leagueWheelScreen.v26Skin #spinLeague,
-#leagueWheelScreen.v26Skin .wheelContainer > .backButton { width: 100%; margin: 6px 0 0; }
+#leagueWheelScreen.v26Skin .wheelContainer > .backButton {
+  width: 100%;
+  margin: 6px 0 0;
+  padding-inline: 12px;
+  line-height: 1.2;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
 
 #leagueWheelScreen.v26Skin #selectedLeague {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding-inline: 8px;
+  overflow-wrap: anywhere;
+  white-space: normal;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -381,7 +400,9 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   border: 0;
   font: 700 calc(var(--R) * 22 / 240)/1.15 var(--v26-cond);
   letter-spacing: .03em;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
   transform-origin: 50% 0;
   transform: rotate(var(--v26-a)) translateY(calc(var(--R) * -.86));
 }
@@ -419,6 +440,43 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
 #leagueWheelScreen.v26Skin .v26Burst { position: absolute; inset: 0; z-index: 4; width: 100%; height: 100%; pointer-events: none; }
 @keyframes v26-wedge-flash { 0%, 100% { opacity: 0; transform: scale(.985); } 34% { opacity: .92; transform: scale(1.012); } 64% { opacity: .38; transform: scale(1); } }
 @keyframes v26-mark-pop { 0%, 100% { transform: scale(1); } 46% { transform: scale(1.15); } 72% { transform: scale(1.08); } }
+
+/* JOB-1129: At the full 1920x1080 desktop stage, match the approved desktop
+   mockup (NEXT_LEAGUE): a wheel of about 500px (ring included) that stays clear
+   of both managers, a wider note/action row (about 730px) and a near-equal
+   action pair 1.04:1. Small laptops, tablets and phones retain their
+   specifically tuned sizing and one-scroll layout. */
+@media (min-width: 1600px) and (min-height: 900px) {
+  #leagueWheelScreen.v26Skin { --v26-wheel: clamp(250px, min(46vh, 34vw), 480px); }
+  #leagueWheelScreen.v26Skin > h2 { margin-top: clamp(12px, 1.5svh, 18px); margin-bottom: 4px; }
+  #leagueWheelScreen.v26Skin .wheelContainer {
+    width: min(730px, 94vw);
+    grid-template-columns: minmax(0, 1.04fr) minmax(0, 1fr);
+    column-gap: 12px;
+    padding-bottom: 10px;
+  }
+  #leagueWheelScreen.v26Skin #selectedLeague {
+    gap: 20px;
+    margin-bottom: 2px;
+    font-size: 18px;
+    letter-spacing: .34em;
+  }
+  #leagueWheelScreen.v26Skin #selectedLeague::before,
+  #leagueWheelScreen.v26Skin #selectedLeague::after { flex-basis: 118px; }
+  #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: 4px; }
+  #leagueWheelScreen.v26Skin #spinLeague,
+  #leagueWheelScreen.v26Skin .wheelContainer > .backButton {
+    margin-top: 8px;
+    font-size: 20px;
+  }
+}
+/* Only where the stage has room (1080p and taller): the mockup stands the wheel on a plinth, so the note and the
+   actions sit about 60px below the ring, and the actions are 60px high. Shorter desktops keep one screen. */
+@media (min-width: 1600px) and (min-height: 1040px) {
+  #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: 48px; }
+  #leagueWheelScreen.v26Skin #spinLeague,
+  #leagueWheelScreen.v26Skin .wheelContainer > .backButton { min-height: 60px; }
+}
 
 /* ---------- Club packs ---------- */
 #clubWheelScreen.v26Skin .clubAssignmentShell {
@@ -935,6 +993,38 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
     overflow-wrap: anywhere;
   }
   #leagueWheelScreen.v26Skin #spinLeague { min-height: 54px; }
+}
+
+/* JOB-1131: Select League only. Coarse-pointer and phone controls need a 44px
+   target and 8px clear space between neighbours; mouse desktop is unchanged.
+   The wheel is decorative/non-interactive: SPIN and BACK remain the controls. */
+@media (pointer: coarse), (max-width: 760px) {
+  #leagueWheelScreen.v26Skin :is(button, a, [role="button"], [role="tab"]) {
+    box-sizing: border-box;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  /* On stacked phones the pre-existing 6px top margin left two actions too close. */
+  #leagueWheelScreen.v26Skin .wheelContainer > .backButton { margin-top: 8px; }
+  /* The shell's navigational controls are also visible on Select League. */
+  html[data-v10-setup="league"] #topHeader :is(a, button, [role="button"], [role="tab"]) {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    margin: 4px;
+  }
+}
+
+/* JOB-1132: All keyboard-reachable controls, including the app header, need a
+   visible focus ring while Select League is active. :focus-visible avoids a
+   change to mouse/touch presentation and leaves other screens untouched. */
+html[data-v10-setup="league"] #app :is(button, a, input, select, textarea, [role="button"], [role="tab"], [tabindex]):focus-visible {
+  outline: 3px solid #fff1b8;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px #07080a, 0 0 0 5px rgba(245, 197, 24, .55);
 }
 
 /* Reduced motion: only the skin's own motion stops; the app's own reduced-motion rules (photos, wheel, packs) stay in charge. */

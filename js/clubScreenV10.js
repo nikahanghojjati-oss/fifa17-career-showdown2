@@ -253,6 +253,7 @@
     if(html.getAttribute("style")==="")html.removeAttribute("style");
   }
   function clTeardown(section){
+    root.removeEventListener("resize",clFinishReducedMotion);
     for(const observer of observers.splice(0))observer.disconnect();
     if(sectionSize){sectionSize.disconnect();sectionSize=null;}
     if(relayout!==null){root.cancelAnimationFrame(relayout);relayout=null;}
@@ -267,12 +268,25 @@
     if(mountedFrame)clClearRoot();
     mountedFrame=null;mountedSection=null;fx=null;crestFor=["",""];glyphs=null;
   }
-  function clLayout(){if(mountedFrame&&root.ClubPlate&&root.ClubPlate.app)root.ClubPlate.app.layout();}
+  // JOB-1653: club.js captures the device preference once and creates Web Animations
+  // with fixed durations. CSS cannot shorten those effects. Settle only this mounted
+  // screen, preserving each effect's final keyframe (cancel would hide the opened pack).
+  function clFinishReducedMotion(){
+    const section=mountedSection;
+    if(!section||clDoc().documentElement.dataset.motionReduced!=="true"||typeof section.getAnimations!=="function")return;
+    for(const animation of section.getAnimations({subtree:true})){
+      if(!animation.effect)continue;
+      animation.effect.updateTiming({duration:0,delay:0,endDelay:0,iterations:1});
+      animation.finish();
+    }
+  }
+  function clLayout(){if(mountedFrame&&root.ClubPlate&&root.ClubPlate.app){root.ClubPlate.app.layout();clFinishReducedMotion();}}
   function clUpdate(frame,section){
     fx.clubs={...frame.clubs};fx.frames=toPlateData(frame).fx.frames;
     clSyncCrests(frame,section);
     mountedFrame=frame;
     root.ClubPlate.app.frame(frame.frameId);
+    clFinishReducedMotion();
   }
   function clMount(frame,section){
     if(mountedFrame&&mountedSection===section&&section.classList.contains("cl-on")&&section.querySelector(":scope > .cl-stage")){
@@ -285,6 +299,14 @@
       const data=toPlateData(frame);fx=data.fx;
       mountedFrame=frame;mountedSection=section;crestFor=[frame.clubs.playerOne,frame.clubs.playerTwo];
       root.ClubPlate.app.mount({fx,map:platemap,hands:handmap,frame:data.frame});
+      // Registered after Team V's resize listener, so its rebuilt effects settle
+      // before the resize paints. Preference changes settle an already-open stage.
+      root.addEventListener("resize",clFinishReducedMotion);
+      if(typeof root.MutationObserver==="function"){
+        const motion=new root.MutationObserver(clFinishReducedMotion);
+        motion.observe(clDoc().documentElement,{attributes:true,attributeFilter:["data-motion-reduced"]});
+        observers.push(motion);
+      }
       clUniqueShieldIds(section);
       glyphs=clGlyphs(section);
       clWatchButtons(section);
@@ -301,6 +323,7 @@
       const fonts=root.document.fonts;
       if(fonts&&fonts.ready&&!fontsWait){fontsWait=true;fonts.ready.then(()=>{fontsWait=false;clLayout();},()=>{fontsWait=false;});}
       if(typeof root.sdEnter==="function"){try{root.sdEnter(section);}catch(_error){}}
+      clFinishReducedMotion();
     }catch(error){
       // Any failure leaves the app's own screen exactly as the product rendered it.
       clTeardown(section);
