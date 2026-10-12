@@ -918,3 +918,61 @@
   }
   #app #transferChallenge .tw-host .transferComboboxOption { white-space: normal; overflow-wrap: normal; }
 }
+
+/* TRANSFER-PLATE-V2 (ticket 1610P): desktop Transfer War on Team V's clean office plate (visual-assets/v10_1/plates-v2/), drawn
+   to match NEXT_TRANSFER. Strictly the desktop picture range (wide landscape windows of at least 1200x600); phones, sideways
+   phones and tablets keep their art. The plate carries Daniel, Nik, both name tags and Nik's finger, so the old fingertip cut-out
+   is hidden; the title, hanging sign, YOU chip, panels and buttons stay live on top. Every word, id and tap order is unchanged. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  #app #transferChallenge .tw-host .stage {
+    --tp-bevel: linear-gradient(135deg, #fff1b8 0%, #e8b94a 15%, #8a6a12 36%, #f2c45b 56%, #fff1b8 73%, #b8862a 100%);
+  }
+  #app #transferChallenge .tw-host .plate {
+    background: image-set(url('../visual-assets/v10_1/plates-v2/ENV_TRANSFER_PLATE_V2_1X.webp') 1x, url('../visual-assets/v10_1/plates-v2/ENV_TRANSFER_PLATE_V2_2X.webp') 2x) center / cover no-repeat;
+  }
+  #app #transferChallenge .tw-host .plate img { opacity: 0; }
+  #app #transferChallenge .tw-host .overlay-fingertip { display: none; }
+  /* the plate no longer paints the brush title: show the live one on the left wall */
+  #app #transferChallenge .tw-host .world > .transfer-wordmark {
+    display: block; position: absolute; z-index: 3; margin: 0; pointer-events: none;
+    left: calc(var(--k) * 36px); top: calc(var(--k) * 62px); width: calc(var(--k) * 400px); height: auto;
+  }
+  #app #transferChallenge .tw-host .world > .transfer-wordmark img { display: block; width: 100%; height: auto; }
+  /* the plate has no sign either: a live gold-bevel board behind the clock/status text, centred where NEXT_TRANSFER hangs it */
+  #app #transferChallenge .tw-host :is(.sign-screen, .sign-status) {
+    --rot: 0deg; transform: translate(calc(var(--k) * -44px), calc(var(--k) * 24px)) !important;
+  }
+  /* ultra-wide windows crop the plate's top and bottom: hang the sign lower so the board is not cut under the top bar */
+  @media (min-aspect-ratio: 11/5) {
+    #app #transferChallenge .tw-host :is(.sign-screen, .sign-status) { transform: translate(calc(var(--k) * -44px), calc(var(--k) * 140px)) !important; }
+  }
+  #app #transferChallenge .tw-host .sign-screen > * { position: relative; z-index: 1; }
+  #app #transferChallenge .tw-host .sign-screen::before {
+    content: ""; position: absolute; z-index: 0; pointer-events: none;
+    left: calc(var(--k) * -79px); right: calc(var(--k) * -79px); top: calc(var(--k) * -58px); bottom: calc(var(--k) * -50px);
+    border: max(3px, calc(var(--k) * 5px)) solid transparent; border-radius: calc(var(--k) * 10px);
+    background: linear-gradient(180deg, #14110bf2, #070607f5) padding-box, var(--tp-bevel) border-box;
+    box-shadow: 0 0 calc(var(--k) * 26px) #f0c84b55, 0 calc(var(--k) * 10px) calc(var(--k) * 24px) #000a;
+  }
+  #app #transferChallenge .tw-host .you-chip { --ay: 352 !important; --ax: 124 !important; }
+  /* gold-bevel panels. In the entry and verdict phases the panels are real boxes in .tw-desktop-content and wear the bevel
+     themselves; in the window phase they are zero-size shells over the plate, so each draws its frame at Team V's panel rect. */
+  #app #transferChallenge .tw-host .tw-desktop-content :is(.panel, .rules-card),
+  #app #transferChallenge .tw-host :is(.world > .panel, .world > .rules-card)::before {
+    clip-path: none; border: max(3px, calc(var(--k) * 5px)) solid transparent; border-radius: calc(var(--k) * 10px);
+    background: linear-gradient(180deg, #14110bf0, #070607f5 60%, #050506f8) padding-box, var(--tp-bevel) border-box;
+    box-shadow: inset 0 0 0 1px #050505, inset 0 0 0 calc(var(--k) * 2px) #0a0907, 0 0 calc(var(--k) * 22px) #f0c84b44, 0 calc(var(--k) * 10px) calc(var(--k) * 26px) #000b;
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+  }
+  #app #transferChallenge .tw-host .tw-desktop-content :is(.panel, .rules-card)::before { display: none; }
+  #app #transferChallenge .tw-host :is(.world > .panel, .world > .rules-card)::before {
+    content: ""; position: absolute; inset: auto; z-index: 0; pointer-events: none; display: block; box-sizing: border-box;
+  }
+  #app #transferChallenge .tw-host .world > .panel[data-panel="B"]::before { left: calc(var(--k) * 296px); top: calc(var(--k) * 520px); width: calc(var(--k) * 404px); height: calc(var(--k) * 252px); }
+  #app #transferChallenge .tw-host .world > .panel[data-panel="A"]::before { left: calc(var(--k) * 842px); top: calc(var(--k) * 580px); width: calc(var(--k) * 390px); height: calc(var(--k) * 206px); }
+  #app #transferChallenge .tw-host .world > .rules-card::before { left: calc(var(--k) * 1296px); top: calc(var(--k) * 552px); width: calc(var(--k) * 216px); height: calc(var(--k) * 156px); }
+  #app #transferChallenge .tw-host :is(.btn-lock, .btn-end:not(.requested):not(:disabled), .btn-continue).sd-btn {
+    background: linear-gradient(180deg, #fff0a6 0, #f8d764 22%, #e4b032 56%, #f4cf58 82%, #c98f1c 100%);
+    box-shadow: inset 0 1px 0 #fffbe0, inset 0 -2px 0 #a87a1288, 0 0 12px #f0c84b55; color: #1a1305; border-color: #fff1b8;
+  }
+}
