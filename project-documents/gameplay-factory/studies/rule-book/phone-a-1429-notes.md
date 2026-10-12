@@ -1,0 +1,13 @@
+# JOB-1429 · Rule Book phone A
+- Decision: follow PHONE_RULE_BOOK's stacked native accordion; section 01 starts open.
+- An exclusive details name keeps one section open without JavaScript; all six stay in live order.
+- Copy comes from js/ruleBook.js on study/mega-queue, never from the approved picture.
+- Every rule, scoring row, and maximum is preserved; the live phone-hidden intro stays accessible.
+- Retain the gold brush title, quiet stadium plate, numbered gold frames, and dark Back button.
+- Use the existing shared plate, wordmark, fonts, and live navigation SVG paths.
+- RULES is active; all five bottom tabs appear through 900px; Daniel precedes Nik.
+- Buttons are presentation placeholders; no game routing or rules were changed.
+- Re-read HTML; verified 25 rule sentences and five score rows against the live source.
+- Font-width budgets pass 390x844, 393x660, 360x640, and 375x553, for all six expanded states.
+- Back has its own 44px row above navigation; no fixed-height clipping or scroll containers.
+- Browser rendering was unavailable (Chromium download failed); budget checks are not browser QA.
