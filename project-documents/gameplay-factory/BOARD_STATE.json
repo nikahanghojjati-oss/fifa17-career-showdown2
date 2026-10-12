@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-12 5:40 PM Boston time (EDT)",
+ "generated": "2026-10-12 5:46 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 94,
@@ -898,27 +898,17 @@
  },
  "two": {
   "live": {
-   "sha": "33204d5",
-   "revision": "1.9.1-r73",
-   "when": "2026-10-12T15:16:11-04:00",
-   "subject": "Merge pull request #825 from nikahanghojjati-oss/gameplay/release-r73",
-   "fixes": [
+   "sha": "6610555",
+   "revision": "1.9.1-r74",
+   "when": "2026-10-12T17:41:00-04:00",
+   "subject": "Merge pull request #830 from nikahanghojjati-oss/gameplay/release-r74",
+   "fixes": [],
+   "today": [
     {
      "pr": 830,
      "title": "Release r74: Final Winner exit fix (1.9.1-r74)",
-     "draft": false,
-     "branch": "gameplay/release-r74",
-     "sha": "72b95ca6abf7c6a6db0b1d04f32c64c47b69f7a3",
-     "updated": "2026-10-12T21:26:02Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    }
-   ],
-   "today": [
+     "merged": "2026-10-12T21:41:00Z"
+    },
     {
      "pr": 825,
      "title": "Release r73: premium scenery on all 14 screens, no old-design flash, bug fixes (1.9.1-r73)",
@@ -934,7 +924,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #830: L1✓ L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #830 0/16",
+   "gate": "POS20 #304 6/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -1350,7 +1340,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 47,
+  "moving": 46,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -2566,22 +2556,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 830,
-    "title": "Release r74: Final Winner exit fix (1.9.1-r74)",
-    "draft": false,
-    "branch": "gameplay/release-r74",
-    "sha": "72b95ca6abf7c6a6db0b1d04f32c64c47b69f7a3",
-    "updated": "2026-10-12T21:26:02Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
