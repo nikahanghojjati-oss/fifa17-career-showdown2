@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T01:36:58Z",
+"updated": "2026-10-12T01:38:28Z",
 "total": 518,
 "next_free": 187,
 "highest_taken": 411,
@@ -258,7 +258,7 @@
 },
 "rate": {
 "claimed_last_hour": 6,
-"claimed_last_10min": 2,
+"claimed_last_10min": 1,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -7101,7 +7101,7 @@
 "group": null,
 "state": "started",
 "branch": "study/job-1429-rule-book-phone-a",
-"branch_sha": "7a098c0573be56dd2643f08e171e12ebbbf17835",
+"branch_sha": "ce338c475d13edeedac193bdb746ac55bfc23bf9",
 "no_pr_reason": "",
 "first_seen": "2026-10-12T01:35:28Z",
 "since": "2026-10-12T01:35:28Z"
