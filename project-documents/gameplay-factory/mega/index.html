@@ -128,7 +128,7 @@ a{color:inherit}
 <div id="det"></div>
 
 <script>
-const BUILD=1;let vlast=Date.now();
+const BUILD=2;let vlast=Date.now();
 const REPO="nikahanghojjati-oss/fifa17-career-showdown2",BR="factory/gameplay-v1",PATH="project-documents/gameplay-factory/mega/MEGA_TRACKER.json";
 const ST=["live","merged","no_pr","on_train","reviewed","ready","queued","ci_running","draft","ci_failed","blocked","started","closed","waiting"];
 const LB={waiting:"Waiting",started:"Started, no PR yet",on_train:"Done, on the train branch",draft:"Draft PR, not checked yet (grey, not a failure)",queued:"Ready for checks",ci_running:"Checks running",ci_failed:"Checks FAILED",ready:"Checks green",reviewed:"Reviewed, waiting for lead",merged:"Merged",no_pr:"Done, no PR (no change / needs Team V)",live:"Live in a release",blocked:"Blocked",closed:"Closed"};
@@ -189,7 +189,6 @@ function paint(only,fail){
     return `<div class="stage"><div class="h"><span><b>${esc(L.name)}</b></span><span><b>${L.first_time_ok==null?"-":L.first_time_ok+"%"}</b> first time OK</span></div><div class="lbl">${L.closed} thrown back · ${L.failing_now} failing checks now · ${tr}</div></div>`}).join("")}
   // TYPE NEXT
   const SENT0=getSent(),CL=Object.fromEntries(Object.entries(g.claimed||{}).filter(([j,v])=>!v.closed).map(([j])=>[j,1])),SENT=Object.assign({},SENT0,CL),all=(g.ready_all&&g.ready_all.length?g.ready_all:g.ready||[]).slice(0,150).filter(x=>!SENT[x]);
-  const fb=$("first");{const f=all.slice(0,B.size||3).join(" ");fb.textContent=f||"none";fb.dataset.n=f}fb.onclick=()=>all.length&&copyBtn(fb);
   $("rt").textContent=all.length+(g.ready_total>(g.ready_all||[]).length?g.ready_total-(g.ready_all||[]).length:0);
   {const hb=Object.entries(g.held_by_picture||{}),ph=hb.filter(([k])=>k.startsWith("phone")),dk=hb.filter(([k])=>k.startsWith("desktop"));
   const nm=k=>k.replace(/^\w+ /,"").toLowerCase().replace(/_/g," ");
@@ -209,7 +208,7 @@ function paint(only,fail){
   $("bstamp").textContent="Lists come from the lead's file BATCH.json"+(B.updated?", updated "+ago(B.updated):"")+". Numbers that already have a PR are removed automatically.";
   const cq=chat.filter(x=>!SENT[x]);$("cfirst").textContent=cq[0]||"nothing right now";$("cfirst").dataset.n=cq[0]||"";$("cfirst").onclick=()=>cq.length&&copyBtn($("cfirst"));const QT={};(B.qol_jobs||[]).forEach(q=>QT[q.job]=q.title);$("ctit").innerHTML=cq.slice(0,4).filter(x=>QT[x]).map(x=>`<b>${x}</b> ${esc(QT[x])}`).join("<br>");$("cnext").innerHTML=cq.slice(1,4).map(x=>`<button class="wbox" data-n="${x}">${x}</button>`).join("");
   const wl=wkList.length,cl=cq.length;
-  const fb2=$("first");fb2.textContent=wkList[0]||"nothing right now";fb2.dataset.n=wkList[0]||"";fb2.onclick=()=>wkList.length&&copyBtn(fb2);$("rt").textContent=wl+" Work mode + "+cl+" chat"}
+  const fb2=$("first");fb2.textContent=wkList[0]||"none";fb2.dataset.n=wkList[0]||"";fb2.onclick=()=>wkList.length&&copyBtn(fb2);$("rt").textContent=wl+" Work mode + "+cl+" chat"}
   {const NR=B.next_releases||[{n:"r72",when:"Mon about 6 p.m. Boston"},{n:"r73",when:"Tue evening"}];$("nextrel").innerHTML="Next release: "+NR.map(r=>"<b>"+esc(r.name||r.n)+"</b> "+esc(r.when)).join(" · ")}
   $("wkw").textContent=(B.work_waiting||[]).concat(B.chat_waiting||[]).map(x=>"Not free yet: "+x.job+" ("+x.note+")").join("; ");const wm=g.work_models||{};$("wkall").innerHTML=wkList.map(x=>`<button class="wbox" data-n="${x}">${x}</button>`).join("");$("wk").innerHTML=wkList.slice(1,4).map(x=>`<button class="wbox" data-n="${x}">${x}<small>${esc(wm[x]||(weN.includes(x)||wkFree.includes(x)?(WE.model||"Sol 6.1 · High"):"")||"")}</small></button>`).join("")||none;
   $("bmx").textContent=B.size||3;$("bsz").textContent=(B.size||3)+" numbers per chat";$("bst").textContent=(B.clean_streak||0)+" of "+(B.goal||10)+" clean batches in a row"+(B.size<B.max?" (then "+B.max+" per chat)":"");
