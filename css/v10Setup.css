@@ -1440,3 +1440,43 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
   #app #leagueWheelScreen.v26Skin #leagueStateNote { font-size: 14px; padding: 8px 14px; }
   #app #leagueWheelScreen.v26Skin .wheelContainer :is(.menuButton, .backButton) { min-height: 48px; font-size: 18px; }
 }
+
+/* JOB-1144: adopted desktop study (Select League, desktop, version A polish) built on the live JOB-1697 screen.
+   Fine-pointer desktops only; phones, sideways phones, tablets and touch laptops never match and render as before.
+   Product DOM, words, tap order, Daniel LEFT / Nik RIGHT plate, the CM17 badge and the header chips are unchanged.
+   One unit --u1144 (1px at 1080 high, smaller on shorter windows) scales the study's 580px wheel, wordmark,
+   note and buttons together so the stack ends just above the plate's lower frame line with no scroll at 1920x1080,
+   1366x768 and 1280x720. The football hub, gold pointer, one flat gold mark set with ink on the lit slice,
+   Barlow uppercase labels and the rim clearance come from the JOB-1697 geometry above, scaled with the wheel.
+   The marble plinth and floor wait for Team V art. */
+@media (min-width: 1200px) and (min-height: 700px) and (pointer: fine) {
+  #app #leagueWheelScreen.v26Skin {
+    --u1144: min(1px, calc((100svh - 126px) / 950), calc(100vw / 1920));
+    --v26-wheel: calc(580 * var(--u1144));
+  }
+  #app #leagueWheelScreen.v26Skin > h2 {
+    width: calc(760 * var(--u1144)); max-width: calc(100% - 16px);
+    margin: 6px auto calc(6 * var(--u1144));
+  }
+  #app #leagueWheelScreen.v26Skin .wheelContainer {
+    width: min(calc(740 * var(--u1144)), 100%);
+    column-gap: calc(14 * var(--u1144)); padding: 0;
+  }
+  #app #leagueWheelScreen.v26Skin #selectedLeague {
+    min-height: calc(30 * var(--u1144)); margin: 0 0 calc(13 * var(--u1144));
+    font-size: max(16px, calc(24 * var(--u1144))); gap: calc(24 * var(--u1144));
+  }
+  #app #leagueWheelScreen.v26Skin #selectedLeague::before,
+  #app #leagueWheelScreen.v26Skin #selectedLeague::after { flex: 0 1 calc(90 * var(--u1144)); }
+  #app #leagueWheelScreen.v26Skin .wheelPointer { margin: 0 0 calc(var(--v26-wheel) * -.1); }
+  #app #leagueWheelScreen.v26Skin #leagueWheel { margin: 0 0 calc(20 * var(--u1144)); }
+  #app #leagueWheelScreen.v26Skin #leagueStateNote {
+    margin: 0; padding: calc(10 * var(--u1144)) calc(22 * var(--u1144));
+    min-height: calc(62 * var(--u1144)); display: flex; align-items: center; justify-content: center;
+    font-size: max(13px, calc(16 * var(--u1144))); line-height: 1.4;
+  }
+  #app #leagueWheelScreen.v26Skin .wheelContainer :is(.menuButton, .backButton) {
+    min-height: max(44px, calc(62 * var(--u1144))); margin: calc(13 * var(--u1144)) 0 0;
+    font-size: clamp(16px, calc(20 * var(--u1144)), 20px);
+  }
+}
