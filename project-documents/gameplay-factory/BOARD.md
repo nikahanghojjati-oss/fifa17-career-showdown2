@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 10:47 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 11:02 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r71** (main `2a511f6`, Sun 11 Oct 9:40 PM)
 
@@ -34,7 +34,7 @@ Updated Sun 11 Oct, 10:47 PM Boston time. Bug hunting only, no new features unti
 
 **#5 · 1653** `G` Reduced motion: stop the remaining Club script fades  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #693 · CI 7 of 8 passed · last move 3 h ago
+⚪ Team white · model not set · worker working, draft PR #693 · CI 7 of 8 passed · last move 4 h ago
 
 ### 👉 Next for you, in this order
 
@@ -567,26 +567,33 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-253 255 263 296 302 324 330 352 358 366 368 370
+525 527 529 531 533 538 540 541 542 543 544 545 546 547 548 549 550 551 552
 ```
 
 Open code PRs: 3/8.
 
-528 taken of 552.
+539 taken of 552.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
-| audits | 146 | 112/146 | 120/146 |
-| screen fixes | 266 | 45/266 | 125/266 |
+| audits | 146 | 112/146 | 127/146 |
+| screen fixes | 266 | 45/266 | 129/266 |
 | mockup match | 14 | 0/14 | 6/14 |
-| phone studies | 70 | 23/70 | 64/70 |
+| phone studies | 70 | 23/70 | 68/70 |
 | desktop studies | 56 | 1/56 | 1/56 |
 
 **Last taken numbers**
 
 | # | Job | State | Title |
 | --- | --- | --- | --- |
-| 528 | 1670 | branch only | Audit js/backup.js for gameplay bugs (first half) |
+| 539 | 1681 | PR open | Audit js/leagueWheel.js for gameplay bugs (second half) |
+| 537 | 1679 | PR open | Audit js/showdownUI.js for gameplay bugs (second half) |
+| 536 | 1678 | PR open | Audit js/scoring.js for gameplay bugs (second half) |
+| 535 | 1677 | PR open | Audit js/productionSharedSeasonResultsRoute.js for gameplay bugs (first half) |
+| 534 | 1676 | PR open | Audit js/sharedJourneyConflicts.js for gameplay bugs (first half) |
+| 532 | 1674 | PR open | Audit js/menuFeedback.js for gameplay bugs (first half) |
+| 530 | 1672 | PR open | Audit js/ruleBook.js for gameplay bugs (first half) |
+| 528 | 1670 | PR open | Audit js/backup.js for gameplay bugs (first half) |
 | 526 | 1668 | PR open | Audit js/footballVisuals.js for gameplay bugs (first half) |
 | 524 | 1666 | PR open | Audit js/saveLibraryFoundation.js for gameplay bugs (first half) |
 | 523 | 1665 | PR open | Audit js/trophyRoom.js for gameplay bugs (first half) |
@@ -594,29 +601,22 @@ Open code PRs: 3/8.
 | 521 | 1663 | PR open | Audit js/transferSelector.js for gameplay bugs (first half) |
 | 520 | 1662 | PR open | Audit js/showdownUI.js for gameplay bugs (first half) |
 | 519 | 1661 | PR open | Audit js/scoring.js for gameplay bugs (first half) |
-| 427 | 1359 | on_train | Rivalry Statistics: fix the 1920x1080 view |
-| 419 | 1358 | on_train | Rivalry Statistics: fix the 1366x768 view |
-| 411 | 1357 | on_train | Rivalry Statistics: fix the 1280x650 view |
-| 403 | 1356 | on_train | Rivalry Statistics: fix the 768x1024 view |
-| 395 | 1355 | closed | Rivalry Statistics: fix the 932x430 view |
-| 387 | 1354 | closed | Rivalry Statistics: fix the 844x390 view |
-| 379 | 1353 | closed | Rivalry Statistics: fix the 430x932 view |
-| 372 | 1086 | merged | Home: improved desktop, version A (polish) |
-| 371 | 1352 | closed | Rivalry Statistics: fix the 390x844 view |
-| 364 | 1346 | merged | Trophy Room: upright tablet study |
-| 363 | 1351 | closed | Rivalry Statistics: fix the 360x640 view |
-| 362 | 1201 | closed | Transfer challenge and Signing Entry: upright tablet study |
+| 435 | 1360 | PR open | Rivalry Statistics: fix the 2560x1080 view |
+| 427 | 1359 | PR open | Rivalry Statistics: fix the 1920x1080 view |
+| 419 | 1358 | PR open | Rivalry Statistics: fix the 1366x768 view |
+| 411 | 1357 | PR open | Rivalry Statistics: fix the 1280x650 view |
+| 403 | 1356 | PR open | Rivalry Statistics: fix the 768x1024 view |
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T02:46:44Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T03:01:30Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
-| Gameplay audits | 112 of 146 | 12 | 22 |
-| Screen fixes | 45 of 266 | 83 | 138 |
+| Gameplay audits | 112 of 146 | 15 | 19 |
+| Screen fixes | 45 of 266 | 84 | 137 |
 | Match desktop to mockups | 0 of 14 | 6 | 8 |
-| Phone mockup studies | 23 of 70 | 41 | 6 |
+| Phone mockup studies | 23 of 70 | 45 | 2 |
 | Improved desktop studies | 1 of 56 | 0 | 55 |
 
 **Open train PRs**
@@ -629,6 +629,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 - 702
 - 705
 - 716
+- 721
 
 **Latest finished numbers (up to 20)**
 
