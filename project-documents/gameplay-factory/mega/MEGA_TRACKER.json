@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T03:26:55Z",
+"updated": "2026-10-12T03:28:25Z",
 "total": 552,
 "next_free": 187,
 "highest_taken": 541,
@@ -438,7 +438,7 @@
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 40,
+"claimed_last_hour": 39,
 "claimed_last_10min": 0,
 "merged_last_hour": 60
 },
@@ -554,11 +554,11 @@
 },
 "work": {
 "name": "ChatGPT Work mode",
-"total": 37,
+"total": 51,
 "states": {
 "live": 8,
 "merged": 8,
-"waiting": 18,
+"waiting": 32,
 "closed": 3
 },
 "reviews": {
@@ -660,7 +660,21 @@
 1634,
 1646,
 1659,
-1660
+1660,
+1695,
+1696,
+1697,
+1698,
+1699,
+1700,
+1701,
+1702,
+1703,
+1704,
+1705,
+1706,
+1707,
+1708
 ],
 "history": [
 {
@@ -9654,7 +9668,7 @@
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-rivalry-legacy-6",
 "ci": "draft",
-"ci_sha": "51cad6b1a7cfb6bc46f15db5279b94e573292300",
+"ci_sha": "bdd15ab39dae63c8976da632b2dfd37a5edc935d",
 "ci_total": 0,
 "ci_extra": 0,
 "draft": true,
@@ -9737,7 +9751,7 @@
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-rivalry-legacy-6",
 "ci": "draft",
-"ci_sha": "51cad6b1a7cfb6bc46f15db5279b94e573292300",
+"ci_sha": "bdd15ab39dae63c8976da632b2dfd37a5edc935d",
 "ci_total": 0,
 "ci_extra": 0,
 "draft": true,
@@ -9820,7 +9834,7 @@
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-rivalry-legacy-6",
 "ci": "draft",
-"ci_sha": "51cad6b1a7cfb6bc46f15db5279b94e573292300",
+"ci_sha": "bdd15ab39dae63c8976da632b2dfd37a5edc935d",
 "ci_total": 0,
 "ci_extra": 0,
 "draft": true,
@@ -9903,7 +9917,7 @@
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-rivalry-legacy-6",
 "ci": "draft",
-"ci_sha": "51cad6b1a7cfb6bc46f15db5279b94e573292300",
+"ci_sha": "bdd15ab39dae63c8976da632b2dfd37a5edc935d",
 "ci_total": 0,
 "ci_extra": 0,
 "draft": true,
@@ -9986,7 +10000,7 @@
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-rivalry-legacy-6",
 "ci": "draft",
-"ci_sha": "51cad6b1a7cfb6bc46f15db5279b94e573292300",
+"ci_sha": "bdd15ab39dae63c8976da632b2dfd37a5edc935d",
 "ci_total": 0,
 "ci_extra": 0,
 "draft": true,
