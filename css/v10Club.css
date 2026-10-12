@@ -533,6 +533,19 @@ html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: a
   }
   #clubWheelScreen.cl-on #sharedShowdownSeasonChoice .sharedSeasonChoices { flex-wrap: wrap; }
 }
+/* JOB-1653: the frozen Club sheet has its own important fades. Two Club ids
+   outrank them for the app's effective preference, including REDUCE MOTION
+   when the device has no reduced-motion preference. Script effects settle in
+   js/clubScreenV10.js; CSS effects and their delays are instant here. */
+html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen,
+html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *,
+html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::before,
+html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::after {
+  animation-duration: .001ms !important;
+  animation-delay: 0ms !important;
+  transition-duration: .001ms !important;
+  transition-delay: 0ms !important;
+}
 
 /* JOB-1656 (second attempt for JOB-1153/1154/1155): at 1280x650 and 1366x768
    the Club screen keeps bug-list-1's single-view composition (Team V's stage,
