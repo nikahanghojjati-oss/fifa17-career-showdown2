@@ -855,3 +855,43 @@
     bottom: calc(var(--land-bot) + 10px + 210px - 44px);
   }
 }
+
+
+/* JOB-1074: Home keyboard focus must stay visible over gold and smoked panels.
+   The invisible track-sheet checkbox paints focus on its visible sibling. */
+#mainMenu.v10Home :is(button,a[href],[role="button"],.menuTile,.menuMusicControl,.menuMediaChoice):focus-visible,
+body:has(#mainMenu.v10Home) .topBarNav :is(button,a[href]):focus-visible,
+#app:has(#mainMenu.v10Home) #onlinePlayerIdentityBadge:focus-visible {
+  outline:3px solid #f2c45b !important;
+  outline-offset:3px;
+  box-shadow:0 0 0 2px #060709,0 0 0 5px rgb(242 196 91 / .35);
+}
+#mainMenu.v10Home .phoneSheetToggle:focus-visible + .phoneTrackSheetOpen {
+  outline:3px solid #f2c45b !important;
+  outline-offset:3px;
+}
+
+/* System or in-app reduced motion: stop the runtime data-playing vinyl spin,
+   and finish entrances/transitions immediately without changing normal motion. */
+@media (prefers-reduced-motion: reduce) {
+  #mainMenu.v10Home *,#mainMenu.v10Home *::before,#mainMenu.v10Home *::after {
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
+  #mainMenu.v10Home .menuMusicTile[data-playing="true"] .vinyl {animation:none !important;}
+}
+html[data-motion-reduced="true"] #mainMenu.v10Home *,
+html[data-motion-reduced="true"] #mainMenu.v10Home *::before,
+html[data-motion-reduced="true"] #mainMenu.v10Home *::after,
+html[data-reduced-motion="true"] #mainMenu.v10Home *,
+html[data-reduced-motion="true"] #mainMenu.v10Home *::before,
+html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
+  animation-duration:.01ms !important;
+  animation-iteration-count:1 !important;
+  transition-duration:.01ms !important;
+}
+html[data-motion-reduced="true"] #mainMenu.v10Home .menuMusicTile[data-playing="true"] .vinyl,
+html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="true"] .vinyl {
+  animation:none !important;
+}
