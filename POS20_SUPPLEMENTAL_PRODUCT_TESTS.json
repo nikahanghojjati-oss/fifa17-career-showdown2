@@ -1418,6 +1418,14 @@
         "^tests/contracts/chat\\-audit\\-restore\\-a\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-multi-season-online-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^tests/contracts/chat\\-audit\\-multi\\-season\\-online\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
