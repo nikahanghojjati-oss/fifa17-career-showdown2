@@ -1312,3 +1312,37 @@
     box-shadow:inset 0 0 0 1px #050505,inset 0 1px 0 2px #fff1b81f,0 4px 14px #0009;
   }
 }
+
+/* RIVALRY-PLATE-V2: desktop Rivalry Statistics on Team V's V2 stadium plate (visual-assets/v10_1/plates-v2/ENV_RIVALRY_PLATE_V2_*),
+   with the totals card, the three lower panels and the Back button in the gold-bevel and polished-gold finish of NEXT_RIVALRY.
+   Strictly the desktop picture range: wide landscape windows of at least 1200x600; phones, sideways phones and tablets keep
+   their own art and rules. Team V's stage still draws the old plate on .sd-stage__plate; the adapter only points that one
+   plane at the V2 files, so the camera, the 2X swap and the load timing are unchanged, and the plate loads with this
+   screen, never with the startup bundle. The plate already carries both managers, so the old manager cut-outs, rim lights
+   and contact shadows are not drawn over it. Looks only: every word, id and tap order stays as it was. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #statistics[data-rivalry-legacy-v10] {
+    --rp-bevel:linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%);
+    --rp-gold:linear-gradient(180deg,#fff0a6 0,#f8d764 20%,#e4b032 54%,#f4cf58 80%,#c98f1c 100%);
+  }
+  #app #statistics[data-rivalry-legacy-v10] .sd-stage__plate {
+    background-image:image-set(url(../visual-assets/v10_1/plates-v2/ENV_RIVALRY_PLATE_V2_1X.webp) 1x,url(../visual-assets/v10_1/plates-v2/ENV_RIVALRY_PLATE_V2_2X.webp) 2x);
+  }
+  /* cover-fit, anchored at the top the way the picture is, so both heads show whole on short and ultrawide windows */
+  #app #statistics[data-rivalry-legacy-v10] .sd-stage__layer--plate > .sd-stage__registered {
+    left:50%; top:0; width:max(100vw,calc(100svh * 1536 / 864)); height:max(calc(100vw * 864 / 1536),100svh); transform:translateX(-50%) translateZ(0);
+  }
+  #app #statistics[data-rivalry-legacy-v10] :is(.sd-stage__layer--cutout,.sd-stage__layer--light .sd-stage__rim) { display:none; }
+
+  /* the totals card and the three lower panels: gold-bevel frame around black glass */
+  #app #statistics[data-rivalry-legacy-v10] :is(.rv-comparison,.rv-bottom) {
+    border:clamp(2px,.3vh,4px) solid transparent; border-radius:4px;
+    background:linear-gradient(180deg,#0e0e0fe8 0,#070708ee 40%,#040405f2 100%) padding-box,var(--rp-bevel) border-box;
+    box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c80,0 0 24px #f0c84b2a,0 12px 30px #000b;
+  }
+  #app #statistics[data-rivalry-legacy-v10] #rvBack {
+    border:2px solid transparent; border-radius:3px; color:#1a1305; text-shadow:0 1px 0 #fff2b588;
+    background:var(--rp-gold) padding-box,linear-gradient(135deg,#fff8d0,#d9a83a 40%,#fff1b8 70%,#a9781a) border-box;
+    box-shadow:inset 0 1px 0 #fffbe0,inset 0 -3px 0 #a87a1288,0 0 0 1px #000a,0 0 20px #f5c51840,0 5px 16px #0009;
+  }
+}
