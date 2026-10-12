@@ -1,0 +1,12 @@
+# JOB-1255 · Standings phone A
+- Faithful phone composition: Daniel left, Nik right, shared gold title, framed toggle and board.
+- Approved PHONE_STANDINGS.png supplies visual hierarchy only; app-shell.html and app-strings.json supply wording.
+- Live CSS/renderer supply comparison columns and all seven rows, in their existing order.
+- Preview uses 0–0 and Season 1 of 1 from live defaults, with the live Level label; no picture statistics copied.
+- Abstract CSS crest placeholders reserve the live own-art badge slots; no real crests or player photographs.
+- Existing Rivalry phone portraits/background and shared title/fonts are linked relatively; frozen assets unchanged.
+- One layout choice: shrink the portrait band at short heights, preserving all seven rows without scrolling.
+- This Showdown and Career retain their order; bottom hub navigation appears only at widths up to 900px.
+- HTML/CSS study only: controls are presentation placeholders; no JavaScript or gameplay changes.
+- Static checks: asset paths, seven rows, toggle/nav order, no scripts, and height budgets at all four phone sizes.
+- Browser capture could not run: the Chromium download returned an invalid archive; rendered QA remains for Team V.
