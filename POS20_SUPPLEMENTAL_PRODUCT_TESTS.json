@@ -1279,6 +1279,14 @@
         "^tests/contracts/chat\\-audit\\-showdown\\-ui\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-save-library-runtime-a-contracts.cjs",
+      "patterns": [
+        "^js/saveLibraryRuntime\\.js$",
+        "^tests/contracts/chat\\-audit\\-save\\-library\\-runtime\\-a\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
