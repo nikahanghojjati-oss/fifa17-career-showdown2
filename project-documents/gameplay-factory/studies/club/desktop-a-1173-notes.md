@@ -1,0 +1,14 @@
+# JOB-1173 · Desktop A
+- Decision: polish the live ready/sealed state with NEXT_CLUB's centred hierarchy and gold-framed lower deck.
+- Canvas: 1920×1080, scaled as one 16:9 composition; no JavaScript or external stylesheet.
+- Daniel stays left and Nik right; original Club plate, seam repair and local fonts remain frozen.
+- NEXT_CLUB guides hierarchy and framing; GOAL_CLUB guides pack positions, never wording or licensed marks.
+- Live text comes from index.html, clubScreenV10.js and club.js; League is the unpopulated live field.
+- The ready state keeps both unknown clubs, all five draw steps, OPEN SHOWDOWN PACKS and BACK.
+- The live ready stepper has no active stage; DRAW is not falsely marked complete or selected.
+- Confirmation copy and its disabled button remain hidden, as in the live ready markup.
+- Opening, both reveals, versus and confirmation retain their live order; this static study wires no taps.
+- Artwork is linked relatively from visual-assets/v10_1/club/assets/; no player photos or real crests added.
+- Scope: these two new study files only; the existing club README is unchanged.
+- Verification: re-read both files; static text, structure and 1920×1080 geometry checks pass.
+- Browser rendering is unverified: Chromium is absent and its download returned an invalid archive.

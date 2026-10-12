@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CLUB ASSIGNMENT</title>
+<style>
+@font-face{font-family:Condensed;src:url('../../../../visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2');font-weight:700}
+@font-face{font-family:Barlow;src:url('../../../../visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2');font-weight:400}
+@font-face{font-family:Brush;src:url('../../../../visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2');font-weight:400}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#030405;color:#efe6cf}
+body{display:grid;place-items:center;font-family:Barlow,Arial,sans-serif;overflow:hidden}
+.stage{position:relative;width:min(100vw,177.777778vh);aspect-ratio:16/9;container-type:inline-size;isolation:isolate;overflow:hidden}
+.world,.mends{position:absolute;inset:0;background-size:100% 100%;pointer-events:none;z-index:-3}
+.world{background-image:url('../../../../visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp')}
+.mends{background-image:url('../../../../visual-assets/v10_1/club/assets/OVL_CLUB_SEAM_MENDS_V1_2X.webp');z-index:-2}
+.world:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#030405ad,transparent 32%,transparent 87%,#030405a8)}
+header{position:absolute;inset:0 0 auto;height:5.3%;display:flex;align-items:center;gap:2cqw;padding:0 1.3cqw;background:linear-gradient(#08090bf5,#08090be0);border-bottom:1px solid #d4ab55;font:700 .92cqw Condensed,Arial,sans-serif;letter-spacing:.13em}
+.brand{display:grid;place-items:center;width:3.8cqw;height:2.25cqw;color:#ffe79c;border:1px solid #f2c45b;transform:skewX(-13deg);box-shadow:0 0 .65cqw #e0ae3a26;font-size:1.15cqw;letter-spacing:0}
+.brand span{transform:skewX(13deg)}nav{display:flex;align-items:stretch;gap:2cqw;height:100%}
+button{font:inherit;cursor:default}nav button{background:none;border:0;color:#c7c0ad;padding:0 .2cqw;letter-spacing:.15em}
+nav .active{color:#ffe295;border-bottom:2px solid #f2c45b}
+.chips{margin-left:auto;display:flex;gap:.5cqw;font-size:.83cqw}
+.chip{padding:.55cqw .85cqw;border:1px solid #8b6c32;color:#eadebe;background:#08090c}
+button:focus-visible{outline:2px solid #fff1b8;outline-offset:4px}
+.heading{position:absolute;top:10.8%;left:28.4%;width:43.2%;text-align:center}
+.kicker{font:700 .95cqw Condensed,Arial,sans-serif;letter-spacing:.42em;margin:0 0 .2cqw}
+h1{font:400 4.6cqw/1.1 Brush,cursive;letter-spacing:-.055em;color:#f2c45b;margin:0;text-shadow:0 .15cqw .12cqw #000,0 0 1.3cqw #f2c45b44;white-space:nowrap;transform:skewX(-4deg)}
+.league-info{position:absolute;top:24%;left:34.5%;width:31%;text-align:center;display:grid;gap:.5cqw}
+.eyebrow,.status{display:flex;justify-content:center;align-items:center;gap:.6cqw;font:700 1.02cqw/1.3 Condensed,Arial,sans-serif;letter-spacing:.2em}
+.league{font:700 1.8cqw/1.2 Condensed,Arial,sans-serif;color:#f2c45b}
+.glyph{width:1.25cqw;height:1.25cqw;flex:none;color:#f2c45b}
+.progress{position:absolute;top:36.2%;left:37.6%;width:24.8%;display:flex;justify-content:space-between;list-style:none;padding:0;margin:0}
+.progress:before{content:"";position:absolute;top:1.12cqw;left:1.1cqw;right:1.1cqw;height:1px;background:#c7a05288}
+.progress li{position:relative;display:flex;flex-direction:column;align-items:center;gap:.55cqw;font:700 .85cqw Condensed,Arial,sans-serif;letter-spacing:.05em;white-space:nowrap;color:#c9bd9f}
+.ring{width:2.25cqw;aspect-ratio:1;border-radius:50%;border:1px solid #c9a357;background:#080a0e;display:block;box-shadow:inset 0 0 .65cqw #a880271f}
+.versus{position:absolute;top:48%;left:42%;width:16%;height:17.5%;display:grid;align-content:center;justify-items:center;background:linear-gradient(145deg,#0c0c0dcf,#060708ed);border:1px solid #b18d49;box-shadow:inset 0 0 0 .25cqw #16130d,0 .7cqw 1.4cqw #0009}
+.versus span{font:700 1cqw Condensed,Arial,sans-serif;letter-spacing:.4em}
+.versus strong{font:400 6cqw/1.15 Brush,cursive;color:#f2c45b;text-shadow:0 .15cqw .15cqw #000,0 0 1cqw #f2c45b55}
+.deck{position:absolute;top:70.2%;left:8.4%;width:83.2%;height:16%;padding:1.2cqw 3cqw;display:grid;grid-template-columns:1fr 1fr;gap:24cqw;background:linear-gradient(120deg,#18140df5,#050608fa 37%,#12100cf5);border:1px solid #d2aa59;box-shadow:inset 0 0 0 .2cqw #302514,inset 0 0 0 .35cqw #b4914970,0 .7cqw 1.5cqw #0009}
+.manager{display:flex;align-items:center;gap:.6cqw;margin-bottom:.6cqw;font:700 1.45cqw Condensed,Arial,sans-serif}
+.index{font-size:.8cqw;padding:.2cqw .25cqw;background:#f2c45b;color:#101010}
+.face{display:grid;grid-template-columns:3.7cqw 1fr;gap:.2cqw 1cqw;align-items:center}
+.shield{grid-row:1/4;width:3.7cqw;height:4cqw}
+.labels{font:700 .82cqw Condensed,Arial,sans-serif;letter-spacing:.12em;white-space:nowrap}
+.labels span+span:before{content:"·";color:#f2c45b;margin:0 .5cqw}
+.club-name{font:700 2cqw/1.1 Condensed,Arial,sans-serif;margin:0}
+.state{font:700 .86cqw Condensed,Arial,sans-serif;letter-spacing:.18em;color:#baaf95}
+.divider{position:absolute;top:75.8%;left:48.7%;width:2.6%;font:700 1.2cqw Condensed,Arial,sans-serif;color:#f2c45b;text-align:center}
+.actions{position:absolute;top:88.3%;left:29.3%;width:41.4%;height:6.5%;display:grid;grid-template-columns:2fr 1fr;gap:1.2cqw}
+.actions button{font:700 1.3cqw Condensed,Arial,sans-serif;letter-spacing:.055em;border:1px solid #fff1b8;display:flex;justify-content:center;align-items:center;gap:.7cqw}
+.primary{background:linear-gradient(#fff0ad,#f2c45b 45%,#c38b29);color:#12100b;box-shadow:inset 0 0 0 .25cqw #e3b550,0 0 1.1cqw #f2c45b44}
+.secondary{background:#090b0eee;color:#efe6cf;border-color:#a6884e!important}
+.primary .glyph{color:#12100b}.chevron{margin-left:.6cqw}
+footer{position:absolute;bottom:0;left:0;width:100%;height:3.2%;display:flex;justify-content:space-between;align-items:center;padding:0 1.25cqw;background:#040507;border-top:1px solid #a17e3c;color:#cbbd9d;font:700 .65cqw/1.15 Condensed,Arial,sans-serif}
+.slogan{display:flex;align-items:center;gap:.65cqw;letter-spacing:.2em}
+.crown{width:1.2cqw;height:.85cqw;background:#f2c45b;clip-path:polygon(0 100%,0 20%,25% 55%,50% 0,75% 55%,100% 20%,100% 100%)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="stage">
+<div class="world" aria-hidden="true"></div><div class="mends" aria-hidden="true"></div>
+<svg width="0" height="0" aria-hidden="true"><defs>
+<symbol id="check" viewBox="0 0 20 20"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="m5.5 10.4 3 3 6-6.4" fill="none" stroke="#0b0d10" stroke-width="2.2"/></symbol>
+<symbol id="pack" viewBox="0 0 20 20"><path d="m4 5.5 6-3 6 3v9l-6 3-6-3zm0 0 6 3 6-3m-6 3v9" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+<symbol id="sealed" viewBox="0 0 56 60"><path d="M28 3 51 10V28C51 43 41 52 28 57 15 52 5 43 5 28V10Z" fill="#101216" stroke="#c99b45" stroke-width="1.6"/><path d="M21.5 23.5c0-4 3-6.5 6.6-6.5 3.8 0 6.6 2.4 6.6 5.9 0 3.1-2 4.4-3.9 5.6-1.6 1-2.1 1.7-2.1 3.6v1.1" fill="none" stroke="#e9dfc8" stroke-width="3.2" stroke-linecap="round"/><circle cx="28.6" cy="40.6" r="2.3" fill="#e9dfc8"/></symbol>
+</defs></svg>
+<header><div class="brand"><span>CM17</span></div><nav aria-label="Main">
+<button type="button">HOME</button><button type="button" class="active" aria-current="page">CAREER</button><button type="button">STANDINGS</button><button type="button">STATS</button><button type="button">RULES</button>
+</nav><div class="chips"><button type="button" class="chip">SIGN IN</button><span class="chip">No Active Showdown</span></div></header>
+<main id="clubWheelScreen" data-club-reveal-stage="ready">
+<div class="heading"><p class="kicker">CAREER MODE SHOWDOWN 17</p><h1>CLUB ASSIGNMENT</h1></div>
+<div class="league-info"><span class="eyebrow"><svg class="glyph" aria-hidden="true"><use href="#check"/></svg>LEAGUE CONFIRMED</span><div class="league" id="clubAssignmentLeague">League</div><div class="status" id="clubPackStatus"><svg class="glyph" aria-hidden="true"><use href="#pack"/></svg>TWO SEALED CLUB PACKS READY</div></div>
+<ol class="progress" aria-hidden="true"><li><i class="ring"></i>01 DRAW</li><li><i class="ring"></i>02 PACK 1</li><li><i class="ring"></i>03 PACK 2</li><li><i class="ring"></i>04 VS</li><li><i class="ring"></i>05 LOCK</li></ol>
+<div class="versus"><span>RIVALRY</span><strong>VS</strong></div>
+<section class="deck" aria-label="Club packs">
+<article id="clubCardOne"><div class="manager"><span class="index">01</span><span id="clubPlayerOne">Daniel</span></div><div class="face"><svg class="shield" aria-hidden="true"><use href="#sealed"/></svg><div class="labels"><span>CAREER DRAW</span><span>ASSIGNED CLUB</span></div><strong class="club-name" id="clubNameOne">?</strong><small class="state" id="clubCardStateOne">SEALED</small></div></article>
+<article id="clubCardTwo"><div class="manager"><span class="index">02</span><span id="clubPlayerTwo">Nik</span></div><div class="face"><svg class="shield" aria-hidden="true"><use href="#sealed"/></svg><div class="labels"><span>CAREER DRAW</span><span>ASSIGNED CLUB</span></div><strong class="club-name" id="clubNameTwo">?</strong><small class="state" id="clubCardStateTwo">SEALED</small></div></article>
+</section><div class="divider" aria-hidden="true">VS</div>
+<!-- Live confirmation remains hidden in the ready state; this study adds no interaction. -->
+<div id="clubRivalryConfirmation" hidden><div><span>CLUBS LOCKED</span><strong id="clubConfirmationShowdown">SHOWDOWN</strong><small id="clubConfirmationMeta">League · 1 season</small></div><div><span>Daniel</span><strong>Club</strong><span>VS</span><span>Nik</span><strong>Club</strong></div><p>These clubs are permanent for the full showdown. Confirmation starts the rivalry and never rerolls either club.</p></div>
+<div class="actions"><button id="openClubPack" type="button" class="primary"><svg class="glyph" aria-hidden="true"><use href="#pack"/></svg>OPEN SHOWDOWN PACKS<span class="chevron" aria-hidden="true">›</span></button><button id="clubAssignmentBack" type="button" class="secondary">BACK</button></div>
+<button id="continueClubAssignment" type="button" disabled hidden>CONFIRM RIVALRY &amp; START SHOWDOWN</button>
+</main>
+<footer><span>CM17<br>CAREER MODE SHOWDOWN 17</span><span class="slogan">FOOTBALL BRINGS US TOGETHER<i class="crown" aria-hidden="true"></i></span></footer>
+</div>
+</body>
+</html>
