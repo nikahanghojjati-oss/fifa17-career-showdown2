@@ -1,6 +1,6 @@
-# Mega factory run report · 2026-10-12T10:07:38Z
+# Mega factory run report · 2026-10-12T10:29:31Z
 
-Taken 500 of 552 jobs. By state: blocked 1, closed 82, merged 226, pr_open 33, retired 158, waiting 52
+Taken 501 of 552 jobs. By state: blocked 1, closed 82, merged 226, pr_open 34, retired 158, waiting 51
 
 ## By stage
 Stage | name | total | picked up | merged
@@ -9,7 +9,7 @@ Stage | name | total | picked up | merged
 2 | screen fixes | 266 | 266 | 85
 3 | mockup match | 14 | 14 | 5
 4 | phone studies | 70 | 70 | 23
-5 | desktop studies | 56 | 4 | 1
+5 | desktop studies | 56 | 5 | 1
 
 ## Code trains (5 fixes per pull request)
 Train | jobs done | PR | state
@@ -231,6 +231,7 @@ Number | job | title | state | link
 368 | 1173 | Club packs: improved desktop, version A (polish) | pr_open | [PR #728](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/728)
 370 | 1289 | Final Winner (Showdown Champion): improved desktop, version A (polish) | pr_open | [PR #730](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/730)
 372 | 1086 | Home: improved desktop, version A (polish) | merged | [PR #671](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/671)
+374 | 1144 | Select League: improved desktop, version A (polish) | pr_open | [PR #749](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/749)
 519 | 1661 | Audit js/scoring.js for gameplay bugs (first half) | pr_open | [PR #704](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/704)
 520 | 1662 | Audit js/showdownUI.js for gameplay bugs (first half) | pr_open | [PR #701](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/701)
 521 | 1663 | Audit js/transferSelector.js for gameplay bugs (first half) | pr_open | [PR #707](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/707)
