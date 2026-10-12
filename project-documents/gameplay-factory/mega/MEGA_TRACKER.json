@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T01:56:45Z",
+"updated": "2026-10-12T01:58:15Z",
 "total": 518,
 "next_free": 187,
 "highest_taken": 411,
@@ -432,11 +432,11 @@
 },
 "work": {
 "name": "ChatGPT Work mode",
-"total": 35,
+"total": 37,
 "states": {
 "live": 8,
 "merged": 8,
-"waiting": 16,
+"waiting": 18,
 "closed": 3
 },
 "reviews": {
@@ -532,7 +532,9 @@
 1632,
 1633,
 1634,
-1646
+1646,
+1659,
+1660
 ],
 "history": [
 {
