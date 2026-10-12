@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1729,
+ "next": 1730,
  "claims": [
   {
    "number": 1001,
@@ -4370,6 +4370,12 @@
    "team": "G",
    "title": "Study re-run: Connect Players tablet (1114 redo)",
    "claimed": "2026-10-12T10:00:43Z"
+  },
+  {
+   "number": 1729,
+   "team": "G",
+   "title": "Study re-run: Standings sideways (1258 redo)",
+   "claimed": "2026-10-12T10:00:45Z"
   }
  ]
 }
