@@ -1306,6 +1306,14 @@
         "^tests/contracts/chat\\-audit\\-backup\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-shared-transfer-challenge-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^tests/contracts/chat\\-audit\\-shared\\-transfer\\-challenge\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
