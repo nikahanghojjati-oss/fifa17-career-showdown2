@@ -1,17 +1,18 @@
 {
-"updated": "2026-10-12T02:26:59Z",
+"updated": "2026-10-12T02:28:29Z",
 "total": 552,
 "next_free": 187,
-"highest_taken": 419,
+"highest_taken": 520,
 "counts": {
 "merged": 181,
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 21,
-"waiting": 249,
+"on_train": 22,
+"waiting": 247,
 "draft": 3,
-"blocked": 1
+"blocked": 1,
+"started": 1
 },
 "stages": {
 "2": {
@@ -22,8 +23,8 @@
 "closed": 44,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 16,
-"waiting": 146
+"on_train": 17,
+"waiting": 145
 }
 },
 "1": {
@@ -31,7 +32,8 @@
 "total": 146,
 "states": {
 "merged": 112,
-"waiting": 34
+"waiting": 33,
+"started": 1
 }
 },
 "3": {
@@ -89,6 +91,7 @@
 225,
 227,
 235,
+237,
 239,
 243,
 403,
@@ -102,9 +105,9 @@
 "rules-settings": 687
 },
 "ready": [
-237,
 245,
 253,
+255,
 257,
 261,
 296,
@@ -116,9 +119,9 @@
 366
 ],
 "ready_sol": [
-237,
 245,
 253,
+255,
 257,
 261,
 296,
@@ -131,9 +134,9 @@
 ],
 "ready_codex": [],
 "ready_all": [
-237,
 245,
 253,
+255,
 257,
 261,
 296,
@@ -199,7 +202,6 @@
 474,
 476,
 519,
-520,
 521,
 522,
 523,
@@ -359,13 +361,13 @@
 474,
 476
 ],
-"ready_total": 101,
+"ready_total": 100,
 "held_until_picture": 0,
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 18,
-"claimed_last_10min": 5,
+"claimed_last_hour": 19,
+"claimed_last_10min": 6,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -377,24 +379,24 @@
 "closed": 25,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 21,
-"waiting": 150
+"on_train": 22,
+"waiting": 149
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 106,
-"worker_done": 81,
+"picked_up": 107,
+"worker_done": 82,
 "finished": 45,
-"pending_lead": 31,
+"pending_lead": 32,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 5,
 "closed": 25,
 "reviews_total": 0,
-"first_time_ok": 76,
+"first_time_ok": 77,
 "failing_now": 5
 },
 "gpt2": {
@@ -405,14 +407,15 @@
 "no_pr": 37,
 "wait_v": 3,
 "blocked": 1,
-"waiting": 99
+"waiting": 98,
+"started": 1
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 127,
+"picked_up": 128,
 "worker_done": 126,
 "finished": 123,
 "pending_lead": 0,
@@ -1479,20 +1482,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 66,
-"job": 1499,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 68,
-"job": 1500,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 70,
@@ -3578,6 +3567,20 @@
 "job": 1074,
 "from": "waiting",
 "to": "on_train"
+},
+{
+"at": "2026-10-12T02:28:29Z",
+"item": 237,
+"job": 1103,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-12T02:28:29Z",
+"item": 520,
+"job": 1662,
+"from": "waiting",
+"to": "started"
 }
 ],
 "items": {
@@ -7243,8 +7246,10 @@
 "title": "Connect Players (start and join): keyboard focus and reduced motion",
 "mode": "code",
 "group": "start-join",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-start-join-3",
+"first_seen": "2026-10-12T02:28:29Z",
+"since": "2026-10-12T02:28:29Z"
 },
 "238": {
 "job": 1371,
@@ -10259,8 +10264,12 @@
 "title": "Audit js/showdownUI.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-12T02:25:29Z"
+"state": "started",
+"branch": "qa/job-1662-showdown-ui-first-half-audit",
+"branch_sha": "ee7a19450dc77f7897fdd1b9c4f59a3b66d3eb2a",
+"no_pr_reason": "",
+"first_seen": "2026-10-12T02:28:29Z",
+"since": "2026-10-12T02:28:29Z"
 },
 "521": {
 "job": 1663,
