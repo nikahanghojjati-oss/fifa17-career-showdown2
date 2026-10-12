@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T02:05:59Z",
+"updated": "2026-10-12T02:07:29Z",
 "total": 518,
 "next_free": 187,
 "highest_taken": 411,
@@ -8,8 +8,8 @@
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 9,
-"waiting": 227,
+"on_train": 10,
+"waiting": 226,
 "draft": 3,
 "blocked": 1
 },
@@ -22,8 +22,8 @@
 "closed": 44,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 4,
-"waiting": 158
+"on_train": 5,
+"waiting": 157
 }
 },
 "1": {
@@ -79,6 +79,7 @@
 191,
 199,
 201,
+203,
 403,
 411
 ],
@@ -89,11 +90,11 @@
 "rules-settings": 687
 },
 "ready": [
-203,
 207,
 209,
 217,
 219,
+221,
 296,
 302,
 324,
@@ -103,11 +104,11 @@
 366
 ],
 "ready_sol": [
-203,
 207,
 209,
 217,
 219,
+221,
 296,
 302,
 324,
@@ -118,11 +119,11 @@
 ],
 "ready_codex": [],
 "ready_all": [
-203,
 207,
 209,
 217,
 219,
+221,
 296,
 302,
 324,
@@ -317,8 +318,8 @@
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 7,
-"claimed_last_10min": 0,
+"claimed_last_hour": 8,
+"claimed_last_10min": 1,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -330,24 +331,24 @@
 "closed": 25,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 9,
-"waiting": 145
+"on_train": 10,
+"waiting": 144
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 94,
-"worker_done": 69,
+"picked_up": 95,
+"worker_done": 70,
 "finished": 45,
-"pending_lead": 19,
+"pending_lead": 20,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 5,
 "closed": 25,
 "reviews_total": 0,
-"first_time_ok": 73,
+"first_time_ok": 74,
 "failing_now": 5
 },
 "gpt2": {
@@ -1432,13 +1433,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 42,
-"job": 1487,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 44,
@@ -3531,6 +3525,13 @@
 "job": 1256,
 "from": "waiting",
 "to": "draft"
+},
+{
+"at": "2026-10-12T02:07:29Z",
+"item": 203,
+"job": 1130,
+"from": "waiting",
+"to": "on_train"
 }
 ],
 "items": {
@@ -6745,8 +6746,10 @@
 "title": "Select League: long names",
 "mode": "code",
 "group": "league",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-league-3",
+"first_seen": "2026-10-12T02:07:29Z",
+"since": "2026-10-12T02:07:29Z"
 },
 "204": {
 "job": 1568,
