@@ -1,18 +1,17 @@
-# Mega factory tracker · updated 2026-10-12T03:39:58Z
+# Mega factory tracker · updated 2026-10-12T03:56:49Z
 
 **Type now (52 free):** 374, 402, 430, 458, 376, 404, 432, 460, 378, 406, 434, 462, 380, 408, 436, 464, 382, 410, 438, 466, 384, 412, 440, 468, 386, 414, 442, 470, 388, 416, 444, 472, 390, 418, 446, 474, 392, 420, 448, 476, 394, 422, 450, 396, 424, 452, 398, 426, 454, 400, 428, 456
 **Next free number:** 374 · **highest taken:** 541 of 394
-**Code PRs open:** 5 of 8 · area locks: home, start-join, transfer, season-final, rivalry-legacy
-**Rate:** 0 claimed in 10 min · 23 in 1 h · 65 merged in 1 h
+**Code PRs open:** 0 of 8 · area locks: none
+**Rate:** 0 claimed in 10 min · 13 in 1 h · 45 merged in 1 h
 
-**Finished (merged or live): 201 of 394**
+**Finished (merged or live): 226 of 394**
 
 State | count
 --- | ---
 🚀 live in a release | 45
-✅ merged to staging branch | 156
+✅ merged to staging branch | 181
 📝 draft PR, not checked yet | 33
-🟥 PR open, checks FAILED | 25
 🟧 blocked | 1
 ⚫ closed without merge | 82
 ⬜ waiting | 52
@@ -20,64 +19,19 @@ State | count
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
 1 Gameplay audits | 133 | 112 | 21 | 0
-2 Screen fixes | 129 | 64 | 21 | 0
-3 Match desktop to mockups | 6 | 1 | 4 | 0
+2 Screen fixes | 129 | 85 | 0 | 0
+3 Match desktop to mockups | 6 | 5 | 0 | 0
 4 Phone mockup studies | 70 | 23 | 10 | 0
 5 Improved desktop studies | 56 | 1 | 3 | 52
 
 ## Needs attention
 
-- 🟥 **181** · Job 1071 · Home: match the desktop mockup · PR open, checks FAILED · [PR #712](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712)
-- 🟥 **183** · Job 1100 · Connect Players (start and join): match the desktop mockup · PR open, checks FAILED · [PR #713](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713)
-- 🟥 **189** · Job 1187 · Transfer challenge and Signing Entry: match the desktop mockup · PR open, checks FAILED · [PR #705](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705)
-- 🟥 **191** · Job 1216 · Season Results: match the desktop mockup · PR open, checks FAILED · [PR #716](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/716)
-- 🟥 **199** · Job 1072 · Home: long names · PR open, checks FAILED · [PR #712](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712)
-- 🟥 **201** · Job 1101 · Connect Players (start and join): long names · PR open, checks FAILED · [PR #713](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713)
-- 🟥 **207** · Job 1188 · Transfer challenge and Signing Entry: long names · PR open, checks FAILED · [PR #705](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705)
-- 🟥 **209** · Job 1217 · Season Results: long names · PR open, checks FAILED · [PR #716](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/716)
-- 🟥 **217** · Job 1073 · Home: tap targets · PR open, checks FAILED · [PR #712](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712)
-- 🟥 **219** · Job 1102 · Connect Players (start and join): tap targets · PR open, checks FAILED · [PR #713](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713)
-- 🟥 **225** · Job 1189 · Transfer challenge and Signing Entry: tap targets · PR open, checks FAILED · [PR #705](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705)
-- 🟥 **227** · Job 1218 · Season Results: tap targets · PR open, checks FAILED · [PR #716](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/716)
-- 🟥 **235** · Job 1074 · Home: keyboard focus and reduced motion · PR open, checks FAILED · [PR #712](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712)
-- 🟥 **237** · Job 1103 · Connect Players (start and join): keyboard focus and reduced motion · PR open, checks FAILED · [PR #713](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713)
-- 🟥 **243** · Job 1190 · Transfer challenge and Signing Entry: keyboard focus and reduced motion · PR open, checks FAILED · [PR #705](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705)
-- 🟥 **245** · Job 1219 · Season Results: keyboard focus and reduced motion · PR open, checks FAILED · [PR #716](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/716)
-- 🟥 **253** · Job 1075 · Home: text contrast · PR open, checks FAILED · [PR #712](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712)
-- 🟥 **255** · Job 1104 · Connect Players (start and join): text contrast · PR open, checks FAILED · [PR #713](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713)
-- 🟥 **261** · Job 1191 · Transfer challenge and Signing Entry: text contrast · PR open, checks FAILED · [PR #705](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705)
-- 🟥 **263** · Job 1220 · Season Results: text contrast · PR open, checks FAILED · [PR #716](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/716)
 - 🟧 **268** · Job 1430 · Rule Book: phone mockup, version B (bold hierarchy) · blocked
-- 🟥 **403** · Job 1356 · Rivalry Statistics: fix the 768x1024 view · PR open, checks FAILED · [PR #721](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/721)
-- 🟥 **411** · Job 1357 · Rivalry Statistics: fix the 1280x650 view · PR open, checks FAILED · [PR #721](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/721)
-- 🟥 **419** · Job 1358 · Rivalry Statistics: fix the 1366x768 view · PR open, checks FAILED · [PR #721](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/721)
-- 🟥 **427** · Job 1359 · Rivalry Statistics: fix the 1920x1080 view · PR open, checks FAILED · [PR #721](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/721)
-- 🟥 **435** · Job 1360 · Rivalry Statistics: fix the 2560x1080 view · PR open, checks FAILED · [PR #721](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/721)
 
 ## In flight
 
-- 🟥 **181** · Job 1071 · Home: match the desktop mockup · PR open, checks FAILED · [PR #712](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712)
-- 🟥 **183** · Job 1100 · Connect Players (start and join): match the desktop mockup · PR open, checks FAILED · [PR #713](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713)
-- 🟥 **189** · Job 1187 · Transfer challenge and Signing Entry: match the desktop mockup · PR open, checks FAILED · [PR #705](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705)
-- 🟥 **191** · Job 1216 · Season Results: match the desktop mockup · PR open, checks FAILED · [PR #716](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/716)
-- 🟥 **199** · Job 1072 · Home: long names · PR open, checks FAILED · [PR #712](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712)
-- 🟥 **201** · Job 1101 · Connect Players (start and join): long names · PR open, checks FAILED · [PR #713](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713)
-- 🟥 **207** · Job 1188 · Transfer challenge and Signing Entry: long names · PR open, checks FAILED · [PR #705](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705)
-- 🟥 **209** · Job 1217 · Season Results: long names · PR open, checks FAILED · [PR #716](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/716)
-- 🟥 **217** · Job 1073 · Home: tap targets · PR open, checks FAILED · [PR #712](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712)
-- 🟥 **219** · Job 1102 · Connect Players (start and join): tap targets · PR open, checks FAILED · [PR #713](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713)
-- 🟥 **225** · Job 1189 · Transfer challenge and Signing Entry: tap targets · PR open, checks FAILED · [PR #705](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705)
-- 🟥 **227** · Job 1218 · Season Results: tap targets · PR open, checks FAILED · [PR #716](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/716)
-- 🟥 **235** · Job 1074 · Home: keyboard focus and reduced motion · PR open, checks FAILED · [PR #712](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712)
-- 🟥 **237** · Job 1103 · Connect Players (start and join): keyboard focus and reduced motion · PR open, checks FAILED · [PR #713](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713)
 - 📝 **240** · Job 1429 · Rule Book: phone mockup, version A (faithful) · draft PR, not checked yet · [PR #696](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/696)
-- 🟥 **243** · Job 1190 · Transfer challenge and Signing Entry: keyboard focus and reduced motion · PR open, checks FAILED · [PR #705](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705)
-- 🟥 **245** · Job 1219 · Season Results: keyboard focus and reduced motion · PR open, checks FAILED · [PR #716](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/716)
 - 📝 **246** · Job 1255 · Standings: phone mockup, version A (faithful) · draft PR, not checked yet · [PR #698](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/698)
-- 🟥 **253** · Job 1075 · Home: text contrast · PR open, checks FAILED · [PR #712](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712)
-- 🟥 **255** · Job 1104 · Connect Players (start and join): text contrast · PR open, checks FAILED · [PR #713](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713)
-- 🟥 **261** · Job 1191 · Transfer challenge and Signing Entry: text contrast · PR open, checks FAILED · [PR #705](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705)
-- 🟥 **263** · Job 1220 · Season Results: text contrast · PR open, checks FAILED · [PR #716](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/716)
 - 🟧 **268** · Job 1430 · Rule Book: phone mockup, version B (bold hierarchy) · blocked
 - 📝 **274** · Job 1256 · Standings: phone mockup, version B (bold hierarchy) · draft PR, not checked yet · [PR #699](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/699)
 - 📝 **296** · Job 1431 · Rule Book: phone mockup, version C (compact) · draft PR, not checked yet · [PR #718](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/718)
@@ -89,11 +43,6 @@ Stage | total | merged/live | in flight | waiting
 - 📝 **366** · Job 1405 · Career Statistics: improved desktop, version A (polish) · draft PR, not checked yet · [PR #729](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/729)
 - 📝 **368** · Job 1173 · Club packs: improved desktop, version A (polish) · draft PR, not checked yet · [PR #728](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/728)
 - 📝 **370** · Job 1289 · Final Winner (Showdown Champion): improved desktop, version A (polish) · draft PR, not checked yet · [PR #730](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/730)
-- 🟥 **403** · Job 1356 · Rivalry Statistics: fix the 768x1024 view · PR open, checks FAILED · [PR #721](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/721)
-- 🟥 **411** · Job 1357 · Rivalry Statistics: fix the 1280x650 view · PR open, checks FAILED · [PR #721](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/721)
-- 🟥 **419** · Job 1358 · Rivalry Statistics: fix the 1366x768 view · PR open, checks FAILED · [PR #721](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/721)
-- 🟥 **427** · Job 1359 · Rivalry Statistics: fix the 1920x1080 view · PR open, checks FAILED · [PR #721](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/721)
-- 🟥 **435** · Job 1360 · Rivalry Statistics: fix the 2560x1080 view · PR open, checks FAILED · [PR #721](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/721)
 - 📝 **519** · Job 1661 · Audit js/scoring.js for gameplay bugs (first half) · draft PR, not checked yet · [PR #704](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/704)
 - 📝 **520** · Job 1662 · Audit js/showdownUI.js for gameplay bugs (first half) · draft PR, not checked yet · [PR #701](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/701)
 - 📝 **521** · Job 1663 · Audit js/transferSelector.js for gameplay bugs (first half) · draft PR, not checked yet · [PR #707](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/707)
@@ -118,23 +67,23 @@ Stage | total | merged/live | in flight | waiting
 
 ## Latest changes
 
-- 2026-10-12T03:39:58Z · 435 (Job 1360): draft → ci_failed
-- 2026-10-12T03:39:58Z · 427 (Job 1359): draft → ci_failed
-- 2026-10-12T03:39:58Z · 419 (Job 1358): draft → ci_failed
-- 2026-10-12T03:39:58Z · 411 (Job 1357): draft → ci_failed
-- 2026-10-12T03:39:58Z · 403 (Job 1356): draft → ci_failed
-- 2026-10-12T03:39:58Z · 263 (Job 1220): draft → ci_failed
-- 2026-10-12T03:39:58Z · 257 (Job 1133): ci_failed → merged
-- 2026-10-12T03:39:58Z · 255 (Job 1104): draft → ci_failed
-- 2026-10-12T03:39:58Z · 245 (Job 1219): draft → ci_failed
-- 2026-10-12T03:39:58Z · 239 (Job 1132): ci_failed → merged
-- 2026-10-12T03:39:58Z · 237 (Job 1103): draft → ci_failed
-- 2026-10-12T03:39:58Z · 227 (Job 1218): draft → ci_failed
-- 2026-10-12T03:39:58Z · 221 (Job 1131): ci_failed → merged
-- 2026-10-12T03:39:58Z · 219 (Job 1102): draft → ci_failed
-- 2026-10-12T03:39:58Z · 209 (Job 1217): draft → ci_failed
-- 2026-10-12T03:39:58Z · 203 (Job 1130): ci_failed → merged
-- 2026-10-12T03:39:58Z · 201 (Job 1101): draft → ci_failed
-- 2026-10-12T03:39:58Z · 191 (Job 1216): draft → ci_failed
-- 2026-10-12T03:39:58Z · 185 (Job 1129): ci_failed → merged
-- 2026-10-12T03:39:58Z · 183 (Job 1100): draft → ci_failed
+- 2026-10-12T03:56:49Z · 435 (Job 1360): ci_failed → merged
+- 2026-10-12T03:56:49Z · 427 (Job 1359): ci_failed → merged
+- 2026-10-12T03:56:49Z · 419 (Job 1358): ci_failed → merged
+- 2026-10-12T03:56:49Z · 411 (Job 1357): ci_failed → merged
+- 2026-10-12T03:56:49Z · 403 (Job 1356): ci_failed → merged
+- 2026-10-12T03:56:49Z · 263 (Job 1220): ci_failed → merged
+- 2026-10-12T03:56:49Z · 261 (Job 1191): ci_failed → merged
+- 2026-10-12T03:56:49Z · 255 (Job 1104): ci_failed → merged
+- 2026-10-12T03:56:49Z · 253 (Job 1075): ci_failed → merged
+- 2026-10-12T03:56:49Z · 245 (Job 1219): ci_failed → merged
+- 2026-10-12T03:56:49Z · 243 (Job 1190): ci_failed → merged
+- 2026-10-12T03:56:49Z · 237 (Job 1103): ci_failed → merged
+- 2026-10-12T03:56:49Z · 235 (Job 1074): ci_failed → merged
+- 2026-10-12T03:56:49Z · 227 (Job 1218): ci_failed → merged
+- 2026-10-12T03:56:49Z · 225 (Job 1189): ci_failed → merged
+- 2026-10-12T03:56:49Z · 219 (Job 1102): ci_failed → merged
+- 2026-10-12T03:56:49Z · 217 (Job 1073): ci_failed → merged
+- 2026-10-12T03:56:49Z · 209 (Job 1217): ci_failed → merged
+- 2026-10-12T03:56:49Z · 207 (Job 1188): ci_failed → merged
+- 2026-10-12T03:56:49Z · 201 (Job 1101): ci_failed → merged
