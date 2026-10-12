@@ -1357,9 +1357,9 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 }
 
 /* JOB-1289: desktop Final Winner, built from Team V's adopted study desktop-a-1289 and NEXT_FINAL_WINNER.
-   Desktop only (1200x700 and up); phone, sideways and tablet keep Team V's own rules. One unit (--fwu) is 1/100 of the
+   Desktop only (1200x600 and up since FINAL-WINNER-PLATE-V2, it was 700); phone, sideways and tablet keep Team V's own rules. One unit (--fwu) is 1/100 of the
    stage width, shrunk on a short stage; positions are fractions of the stage so nothing scrolls. Words, taps and order are the live ones. */
-@media (min-width:1200px) and (min-height:700px) {
+@media (min-width:1200px) and (min-height:600px) {
  #app #seasonEntry .v10FinalStage { container-type:size; --fwu:min(1cqw,1.89cqh); --sd-z-ui:5; }
  #app #seasonEntry .v10FinalStage #finalWinnerScreen { inset:0; width:100%; max-width:none; margin:0; padding:0; }
  #app #seasonEntry .v10FinalStage .sd-stage__plate { filter:contrast(1.06) saturate(.92); }
@@ -1397,6 +1397,61 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions .backButton { flex-grow:1.12; background:linear-gradient(#fff0b0,#e4b94b 65%,#a47723); color:#17130a; box-shadow:none; }
  #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button:hover { filter:brightness(1.15); }
  #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button:focus-visible { outline:3px solid #fff5c4; outline-offset:-6px; }
+}
+
+/* FINAL-WINNER-PLATE-V2 (ticket 1610P): desktop Final Winner on Team V's black-marble champion-hall plate
+   (visual-assets/v10_1/plates-v2/ENV_FINAL_WINNER_PLATE_V2_*), drawn to match NEXT_FINAL_WINNER. Strictly the desktop picture
+   range: wide landscape windows of at least 1200x600; phones, sideways phones and tablets keep their art and rules. The plate
+   is the background of the screen's own scroller (so it fills the window under the top bar, as in the picture), fitted to the
+   window height and centred, with a darkened soft side fill on windows wider than 16:9, and loads with this screen, never
+   with the startup bundle. It carries both managers, every banner, the name tags and an empty marble pedestal with a flat
+   top: the live champion trophy is seated on it. The old plate layer and manager cut-outs are not drawn. Every slot is placed
+   in plate units (--fw-k is one plate pixel) so it stays registered on every window shape. Looks only: every word, id and tap
+   order stays as it was. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+ #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {
+  --fw-k:calc(100svh / 864); --fw-top:calc(var(--sd-nav-top-h,52px) + 14px);
+  --fw-edge:linear-gradient(90deg,#000b,#0000);
+  background-color:#07080a;
+  background-image:
+   linear-gradient(270deg,#000b,#0000),linear-gradient(90deg,#000b,#0000),
+   image-set(url("${assetUrl(BASE+"plates-v2/ENV_FINAL_WINNER_PLATE_V2_1X.webp")}") 1x,url("${assetUrl(BASE+"plates-v2/ENV_FINAL_WINNER_PLATE_V2_2X.webp")}") 2x),
+   linear-gradient(#000b,#000b),
+   image-set(url("${assetUrl(BASE+"plates-v2/ENV_FINAL_WINNER_PLATE_V2_1X.webp")}") 1x,url("${assetUrl(BASE+"plates-v2/ENV_FINAL_WINNER_PLATE_V2_2X.webp")}") 2x);
+  background-repeat:no-repeat;
+  background-size:calc(80 * var(--fw-k)) 100%,calc(80 * var(--fw-k)) 100%,auto 100svh,auto,cover;
+  background-position:calc(50% + 728 * var(--fw-k)) 0,calc(50% - 728 * var(--fw-k)) 0,50% calc(0px - var(--sd-nav-top-h,52px)),0 0,50% 50%;
+ }
+ #app #seasonEntry.v10FinalMode,
+ #app #seasonEntry .v10FinalStage { background:none; }
+ #app #seasonEntry .v10FinalStage :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light) { display:none; }
+ /* a soft dark pool behind the title lines, so they read over the bright arena lights */
+ #app #seasonEntry .v10FinalStage .finalWinnerTitleBlock::before { content:""; position:absolute; z-index:-1; left:-12%; right:-12%; top:-8%; bottom:-30%; pointer-events:none; background:radial-gradient(ellipse at 50% 52%,#050608a0,#05060860 48%,transparent 72%); }
+ #app #seasonEntry .v10FinalStage .finalWinnerTitleBlock { top:calc(108 * var(--fw-k) - var(--fw-top)); width:calc(522 * var(--fw-k)); }
+ #app #seasonEntry .v10FinalStage :is(.finalWinnerCrown--daniel,.finalWinnerCrown--nik) { top:calc(80 * var(--fw-k) - var(--fw-top)); }
+ #app #seasonEntry .v10FinalStage .finalWinnerHeroCopySlot { top:calc(238 * var(--fw-k) - var(--fw-top)); width:calc(418 * var(--fw-k)); }
+ /* the champion trophy stands on the pedestal's flat top (plate y 575 to 600) */
+ #app #seasonEntry .v10FinalStage .winnerTrophySlot { top:calc(291 * var(--fw-k) - var(--fw-top)); width:calc(210 * var(--fw-k)); height:calc(306 * var(--fw-k)); }
+ /* the summary plaque and the two buttons sit where the picture has them */
+ #app #seasonEntry .v10FinalStage .finalWinnerResultsPanel {
+  left:50%; translate:-50% 0; width:max(calc(913 * var(--fw-k)),59.3%); top:calc(640 * var(--fw-k) - var(--fw-top)); height:max(calc(138 * var(--fw-k)),112px);
+  border:3px solid transparent;
+  background:linear-gradient(115deg,#111110f2,#060706f0) padding-box,linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%) border-box;
+  box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #e4c56a70;
+ }
+ #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot { left:calc(50vw - 223 * var(--fw-k)); width:calc(448 * var(--fw-k)); top:min(calc(784 * var(--fw-k) - var(--fw-top)),calc(100% - 56px)); bottom:auto; }
+ #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button {
+  border:2px solid transparent;
+  background:linear-gradient(#171512,#070708) padding-box,linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%) border-box;
+ }
+ #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions .backButton {
+  background:linear-gradient(180deg,#fff0a6 0,#f8d764 20%,#e4b032 54%,#f4cf58 80%,#c98f1c 100%) padding-box,linear-gradient(135deg,#fff8d0,#d9a83a 40%,#fff1b8 70%,#a9781a) border-box;
+  box-shadow:inset 0 1px 0 #fffbe0,inset 0 -3px 0 #a87a1288,0 0 20px #f5c51840;
+ }
+}
+/* short windows (1280x650, 1366x768): the plaque rides a little higher so it clears the two buttons */
+@media (min-width:1200px) and (min-height:600px) and (max-height:800px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+ #app #seasonEntry .v10FinalStage .finalWinnerResultsPanel { top:calc(598 * var(--fw-k) - var(--fw-top)); }
 }
 
 `;
