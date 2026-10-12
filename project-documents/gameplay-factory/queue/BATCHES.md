@@ -5,13 +5,18 @@ The one-time project box in INSTRUCTIONS.md must be updated in each ChatGPT proj
 
 Picture-free numbers only. Work mode (Sol 6.1) and Codex stay one number per message. Batches must not repeat a screen area inside the same message unless the numbers are in train order.
 
-Snapshot from QUEUE_STATE ready list (the tracker page shows the live ones):
+Same-train batches (lead, 2026-10-12): a batch may be up to 3 consecutive items of the SAME in-progress train, in train order; still one open train PR per area. If GPT says a number is already done, take the next number on the board, never N+1.
 
-| Chat | Account | Type |
-| --- | --- | --- |
-| 1 | odd | 127 131 133 |
-| 2 | even | 147 159 173 |
-| 3 | odd | 179 189 1641 |
+Snapshot at 2026-10-12 02:50 UTC (the tracker page and QUEUE_STATE.json `ready_chat_batches` are the live source; `ready_work` lists every Work mode study, uncapped, Sol 6.1 High):
+
+| Order | Type (ChatGPT chat) |
+| --- | --- |
+| 1 | 1654 1655 1656 (second tries) |
+| 2 | 227 245 263 |
+| 3 | 235 253 257 |
+| 4 | 237 255 261 |
+| 5 | 427 435 |
+| 6 | 525 527 529 (new audits; 519 to 552 follow in threes) |
 
 Polish wave numbers (1637-1645) join the batches only after their area's wiring train has merged.
 

@@ -45,18 +45,18 @@ def main():
             tr = t["train"]; st = f"project-documents/gameplay-factory/status/JOB-{job}.md"
             head = (f"<!-- queue item {i:04d} = job {job}; train {tr['branch']} item {tr['pos']} of {tr['m']} -->\n"
                     f"**Queue item {i} · Job {job} · train `{tr['branch']}` item {tr['pos']} of {tr['m']}.** Before anything else, with the GitHub connector look at branch `{tr['branch']}` (it may not exist yet, that is fine for item 1).\n"
-                    f"- If `{st}` already exists on `origin/{tr['branch']}`, reply exactly `Number {i} is already done. Try {i+1}.` and stop.\n")
+                    f"- If `{st}` already exists on `origin/{tr['branch']}`, reply exactly `Number {i} is already done. Take the next number on the board.` and stop.\n")
             if tr["prev"] and tr["pos"] > 1:
                 head += f"- If `project-documents/gameplay-factory/status/JOB-{tr['prev']}.md` does not exist on `origin/{tr['branch']}`, the earlier item of this train is not finished: reply exactly `Number {i} must wait for the earlier number of train {tr['branch']}. Type the next number.` and stop.\n"
             head += f"- Nik starts numbers from the board's ready list, which already honours the lock group `{t['group']}` (one open train PR at a time) and the cap of eight ready PRs.\n"
         else:
             head = (f"<!-- queue item {i:04d} = job {job}; branch prefix {t['prefix']} -->\n"
-                    f"**Queue item {i} · Job {job}.** Before anything else (GitHub connector): if a branch starting with `{t['prefix']}` already exists (a branch whose name ends in `-blocked` does not count), reply exactly `Number {i} is already done. Try {i+1}.` and stop.\n")
+                    f"**Queue item {i} · Job {job}.** Before anything else (GitHub connector): if a branch starting with `{t['prefix']}` already exists (a branch whose name ends in `-blocked` does not count), reply exactly `Number {i} is already done. Take the next number on the board.` and stop.\n")
         if t["mode"] == "study" and t["screen"] in PIC:
             pk = f"{'PHONE' if t['stage'] == 4 else 'NEXT'}_{PIC[t['screen']]}"
-            head += (f"**Hold check:** open `project-documents/gameplay-factory/queue/PICTURES.json` on branch factory/gameplay-v1. If `{pk[pk.index('_')+1:]}` is not in the `approved` list named `{pk.split('_')[0]}`, reply exactly `Number {i} is on hold until Team V approves its picture. Try {i+1}.` and stop.\n")
+            head += (f"**Hold check:** open `project-documents/gameplay-factory/queue/PICTURES.json` on branch factory/gameplay-v1. If `{pk[pk.index('_')+1:]}` is not in the `approved` list named `{pk.split('_')[0]}`, reply exactly `Number {i} is on hold until Team V approves its picture. Take the next number on the board.` and stop.\n")
         if t["mode"] != "study":
-            head += f"**Claude-lane check:** open `project-documents/gameplay-factory/queue/CLAUDE_LANE.json` on branch factory/gameplay-v1. If {i} is in either list, reply exactly `Number {i} is in the Claude lane. Try {i+1}.` and stop.\n"
+            head += f"**Claude-lane check:** open `project-documents/gameplay-factory/queue/CLAUDE_LANE.json` on branch factory/gameplay-v1. If {i} is in either list, reply exactly `Number {i} is in the Claude lane. Take the next number on the board.` and stop.\n"
         head += "Otherwise do the job below, exactly.\n\n"
         (items / f"{i:04d}.md").write_text(head + body)
         seq[str(i)] = {"group": t.get("group"), "job": job, "prefix": t["prefix"], "stage": t["stage"], "title": t["title"], "mode": t["mode"], "screen": t["screen"]}

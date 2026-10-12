@@ -109,23 +109,40 @@ def main():
         cl = json.loads((HERE / "CLAUDE_LANE.json").read_text()) if (HERE / "CLAUDE_LANE.json").exists() else {}
         claude_items = set(cl.get("haiku", []) + cl.get("sonnet", []))
         held_items = [int(k) for k in o if held(tk[str(o[k]["job"])])]
-        ready, seen_group = [], set(locked)
-        for k in sorted(o, key=int):
+        ready_chat, ready_work, batches, audits, seen_group = [], [], [], [], set(locked)
+        keys = sorted(o, key=int)
+        for idx, k in enumerate(keys):
             j = str(o[k]["job"]); t = tk[j]
             if state[j]["state"] != "waiting": continue
             if held(t): continue
             if int(k) in claude_items:
                 if t["mode"] == "code": seen_group.add(t["train"]["group"])
                 continue
+            if t["mode"] == "study":
+                ready_work.append(int(k))  # picture studies: Work mode, Sol 6.1 High, one number per message, no cap
+                continue
             if t["mode"] == "code":
                 g = t["train"]["group"]
                 if g in seen_group or ready_open >= 8: continue
                 seen_group.add(g)
-            ready.append(int(k))
+                # same-train batch: this item plus the next consecutive waiting items of the SAME train, 3 at most
+                b, br = [int(k)], t["train"]["branch"]
+                for k2 in keys[idx + 1:]:
+                    t2 = tk[str(o[k2]["job"])]
+                    if len(b) >= 3 or t2["mode"] != "code" or t2["train"]["branch"] != br: continue
+                    if state[str(o[k2]["job"])]["state"] != "waiting" or int(k2) in claude_items: break
+                    b.append(int(k2))
+                ready_chat.extend(b); batches.append(b)
+            else:  # picture-free audits: chat
+                ready_chat.append(int(k)); audits.append(int(k))
+        batches += [audits[i:i + 3] for i in range(0, len(audits), 3)]  # picture-free audits: 3 per message
+        ready = ready_chat + ready_work
         mode = lambda r: tk[str(o[str(r)]["job"])]["mode"]
         taken = [int(k) for k, v in o.items() if state[str(v["job"])]["state"] != "waiting"]
-        seq = {"ready": ready[:12],
-               "ready_sol": ready[:12],  # every item runs in a GPT-6 Sol chat (Codex web cannot pick branches)
+        seq = {"ready": ready,
+               "ready_chat": ready_chat, "ready_chat_batches": batches,  # ChatGPT chat: up to 3 consecutive same-train items per message
+               "ready_work": ready_work, "ready_work_label": "Sol 6.1 · High",  # Work mode studies, no cap
+               "ready_sol": ready_chat,
                "ready_codex": [],
                "held_until_picture": len(held_items),
                "open_code_prs": ready_open, "open_train_prs": len(locked),
@@ -147,7 +164,9 @@ def main():
     (od / "QUEUE_STATE.json").write_text(json.dumps(out, indent=1) + "\n")
     L = [f"# Mega factory queue · updated {now}", "", "Stage | tickets | picked up | merged", "--- | --- | --- | ---"]
     for k in sorted(stages): L.append(f"{k} | {stages[k]['total']} | {stages[k]['taken']} | {stages[k]['merged']}")
-    L += ["", f"Type now (Sol chat): {seq.get('ready_sol')}", f"Type now (Codex): {seq.get('ready_codex')}"]
+    L += ["", f"Type now, ChatGPT chat (batches of up to 3, in order): {seq.get('ready_chat_batches')}",
+          f"Type now, Work mode ({seq.get('ready_work_label')}, one number per message): {seq.get('ready_work')}",
+          f"Type now, Codex: {seq.get('ready_codex')}"]
     (od / "QUEUE.md").write_text("\n".join(L) + "\n")
     # RUN_REPORT.md: the one file Nik points Claude at when back (generated, free)
     R = [f"# Mega factory run report · {now}", "",
