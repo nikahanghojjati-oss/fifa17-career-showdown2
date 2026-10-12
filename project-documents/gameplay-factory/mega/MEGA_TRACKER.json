@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T02:08:59Z",
+"updated": "2026-10-12T02:11:59Z",
 "total": 518,
 "next_free": 187,
 "highest_taken": 411,
@@ -8,8 +8,8 @@
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 11,
-"waiting": 225,
+"on_train": 12,
+"waiting": 224,
 "draft": 3,
 "blocked": 1
 },
@@ -22,8 +22,8 @@
 "closed": 44,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 6,
-"waiting": 156
+"on_train": 7,
+"waiting": 155
 }
 },
 "1": {
@@ -81,6 +81,7 @@
 201,
 203,
 207,
+209,
 403,
 411
 ],
@@ -91,11 +92,11 @@
 "rules-settings": 687
 },
 "ready": [
-209,
 217,
 219,
 221,
 225,
+227,
 296,
 302,
 324,
@@ -105,11 +106,11 @@
 366
 ],
 "ready_sol": [
-209,
 217,
 219,
 221,
 225,
+227,
 296,
 302,
 324,
@@ -120,11 +121,11 @@
 ],
 "ready_codex": [],
 "ready_all": [
-209,
 217,
 219,
 221,
 225,
+227,
 296,
 302,
 324,
@@ -319,8 +320,8 @@
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 9,
-"claimed_last_10min": 2,
+"claimed_last_hour": 10,
+"claimed_last_10min": 3,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -332,18 +333,18 @@
 "closed": 25,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 11,
-"waiting": 143
+"on_train": 12,
+"waiting": 142
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 96,
-"worker_done": 71,
+"picked_up": 97,
+"worker_done": 72,
 "finished": 45,
-"pending_lead": 21,
+"pending_lead": 22,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 5,
@@ -1434,13 +1435,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 46,
-"job": 1489,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 48,
@@ -3531,6 +3525,13 @@
 "at": "2026-10-12T02:08:59Z",
 "item": 207,
 "job": 1188,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-12T02:11:59Z",
+"item": 209,
+"job": 1217,
 "from": "waiting",
 "to": "on_train"
 }
@@ -6826,8 +6827,10 @@
 "title": "Season Results: long names",
 "mode": "code",
 "group": "season-final",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-season-final-3",
+"first_seen": "2026-10-12T02:11:59Z",
+"since": "2026-10-12T02:11:59Z"
 },
 "210": {
 "job": 1571,
