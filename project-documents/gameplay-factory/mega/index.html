@@ -71,18 +71,21 @@ a{color:inherit}
 .mut{color:var(--mut)}
 .none{color:var(--mut);font-size:14px}
 .more{background:none;border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:8px 14px;margin-top:8px;cursor:pointer;font-size:14px}
+.twobox{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:700px){.twobox{grid-template-columns:1fr}}.tbox{border:1px solid var(--line);border-radius:14px;padding:12px}.tbox h3{margin:0 0 8px;font-size:15px}.tbox .num{font-size:52px;font-weight:800;line-height:1;background:var(--ready);color:#fff;border:0;border-radius:14px;padding:8px 20px;cursor:pointer;display:block;margin-bottom:8px}.tbox .num.copied{background:var(--merged)}.chips.small .wbox,.chips.small .chip{font-size:16px;min-width:70px}
 </style>
 </head>
 <body>
 <div class="top"><h1>Mega factory tracker</h1><div class="age"><span class="dot" id="dot"></span><span id="age">loading…</span></div></div>
 <div class="banner" id="ban"></div>
 
-<div class="card next"><h2>TYPE NEXT <span class="mut" style="text-transform:none;letter-spacing:0">(Work mode · Sol 6.1 · High)</span></h2>
-<div class="nextbig"><button class="num" id="first" style="font-size:52px">-</button>
-<div><div class="lbl" style="font-size:15px;color:inherit">Tap the number to copy it, paste it in Work mode, send. One number per message.</div><div class="lbl" id="wkw"></div></div></div>
-<div class="lbl" style="margin-top:4px">Then, in this order:</div><div class="chips" id="wk"></div>
+<div class="card next"><h2>TYPE NEXT <span class="mut" style="text-transform:none;letter-spacing:0">one number per message</span></h2>
+<div class="twobox">
+<div class="tbox"><h3>ChatGPT chat · TYPE NEXT <span class="mut" style="text-transform:none">(GPT-6 Sol)</span></h3><button class="num" id="cfirst">-</button><div class="lbl">Then, in this order:</div><div class="chips small" id="cnext"></div></div>
+<div class="tbox"><h3>Work mode · TYPE NEXT <span class="mut" style="text-transform:none">(Sol 6.1 · High)</span></h3><button class="num" id="first">-</button><div class="lbl">Then, in this order:</div><div class="chips small" id="wk"></div></div>
+</div>
+<div class="lbl" id="wkw" style="margin-top:6px"></div>
 <div class="col" id="cdcol" style="margin-top:14px"><h3>Claude is doing · nothing to type</h3><div id="cdo"></div></div>
-<div class="col" id="tbcol" style="margin-top:14px;display:none"><h3>ChatGPT chat (GPT-6 Sol) · type these too · keep the order inside a line</h3><div class="chips" id="tb"></div></div>
+<div style="display:none"><div class="chips" id="tb"></div><div id="tbcol"></div></div>
 <div class="lbl" style="margin-top:8px" id="sentbox"></div><div class="lbl" style="margin-top:8px" id="nxtnote"></div>
 <details style="margin-top:10px"><summary class="lbl" style="cursor:pointer">More: whole Work mode list, optional batches, next release</summary>
 <div class="lbl" id="topnote" style="margin-top:6px"><b>Top = most important.</b> Boxes are in the lead's order. <span id="nextrel"></span></div>
@@ -201,7 +204,8 @@ function paint(only,fail){
   $("even").innerHTML=bl(chat.filter(x=>x%2===0));
   {const WB=B.work_batch||{},wb=(g.work_batches||[]).filter(b=>b.every(x=>!SENT[x])).slice(0,6);$("wbcol").style.display=wb.length?"":"none";$("wkb").innerHTML=wb.map(b=>`<button class="wbox" data-n="${b.join(" ")}">${b.join(" ")}<small>${esc(WB.model||"Sol 6.1 · High")}</small></button>`).join("");$("wkbl").textContent=WB.rule||""}
   {const CD=B.claude_doing||[];$("cdo").innerHTML=CD.length?CD.map((x,i)=>`<div class="lbl" style="font-size:14px;color:inherit;margin:3px 0"><b>${i+1}. ${esc(x.screen)}</b> · ${esc(x.state||"")}${x.pr?` · <a href="https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/${esc(String(x.pr))}" target="_blank" rel="noopener">PR ${esc(String(x.pr))}</a>`:""}</div>`).join(""):'<div class="lbl">Nothing listed yet.</div>';
-  const wl=wkList.length,cl=$("tb").querySelectorAll(".chip").length;$("tbcol").style.display=cl?"":"none";
+  const cq=chat.filter(x=>!SENT[x]);$("cfirst").textContent=cq[0]||"none";$("cfirst").dataset.n=cq[0]||"";$("cfirst").onclick=()=>cq.length&&copyBtn($("cfirst"));$("cnext").innerHTML=cq.slice(1,4).map(x=>`<button class="wbox" data-n="${x}">${x}</button>`).join("");
+  const wl=wkList.length,cl=cq.length;
   const fb2=$("first");fb2.textContent=wkList[0]||"none";fb2.dataset.n=wkList[0]||"";fb2.onclick=()=>wkList.length&&copyBtn(fb2);$("rt").textContent=wl+" Work mode + "+cl+" chat"}
   {const NR=B.next_releases||[{n:"r72",when:"Mon about 6 p.m. Boston"},{n:"r73",when:"Tue evening"}];$("nextrel").innerHTML="Next release: "+NR.map(r=>"<b>"+esc(r.n)+"</b> "+esc(r.when)).join(" · ")}
   $("wkw").textContent=(B.work_waiting||[]).map(x=>"Not free yet: "+x.job+" ("+x.note+")").join("; ");const wm=g.work_models||{};$("wkall").innerHTML=wkList.map(x=>`<button class="wbox" data-n="${x}">${x}</button>`).join("");$("wk").innerHTML=wkList.slice(1,4).map(x=>`<button class="wbox" data-n="${x}">${x}<small>${esc(wm[x]||(weN.includes(x)||wkFree.includes(x)?(WE.model||"Sol 6.1 · High"):"")||"")}</small></button>`).join("")||none;
