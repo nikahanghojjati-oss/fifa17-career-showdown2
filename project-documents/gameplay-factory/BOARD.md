@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 12 Oct, 8:03 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 12 Oct, 8:04 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r72** (main `9b514ec`, Mon 12 Oct 7:41 AM)
 
@@ -22,39 +22,39 @@ Updated Mon 12 Oct, 8:03 AM Boston time. Bug hunting only, no new features until
 
 **#2 · 1698** `G` Club packs: one Work mode job for the whole screen  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #764 · CI 7 of 8 passed · last move 21 min ago
+🟢 Team green · model not set · worker working, draft PR #764 · CI 7 of 8 passed · last move 23 min ago
 
 **#3 · 1699** `G` Transfer challenge and Signing Entry: one Work mode job for the whole screen  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #767 · CI 7 of 8 passed · last move 7 min ago
+🟢 Team green · model not set · worker working, draft PR #767 · CI 7 of 8 passed · last move 8 min ago
 
 **#4 · 1700** `G` Season Results: one Work mode job for the whole screen  
-`████████░░` **76.6667 %**  
-🟢 Team green · model not set · worker done, PR #759 open, CI running · CI 10 of 15 passed · last move 0 min ago
+`████████░░` **78.0000 %**  
+🟢 Team green · model not set · worker done, PR #759 open, CI running · CI 12 of 15 passed · last move 0 min ago
 
 **#5 · 1705** `G` Trophy Room: one Work mode job for the whole screen  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #761 · CI 7 of 8 passed · last move 3 min ago
+`███████░░░` **74.6667 %**  
+🟢 Team green · model not set · worker done, PR #761 open, CI running · CI 7 of 15 passed · last move 0 min ago
 
 **#6 · 1707** `G` Rule Book: one Work mode job for the whole screen  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #762 · CI 7 of 8 passed · last move 31 min ago
+🟢 Team green · model not set · worker working, draft PR #762 · CI 7 of 8 passed · last move 33 min ago
 
 **#7 · 1748** `G` Audit and fix js/importAnalysis.js (first half (lines 1 to 470))  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #763 · CI 7 of 8 passed · last move 25 min ago
+🔵 Team blue · model not set · worker working, draft PR #763 · CI 7 of 8 passed · last move 26 min ago
 
 **#8 · 1749** `G` Audit and fix js/importAnalysis.js (second half (lines 470 to the end))  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #765 · CI 7 of 8 passed · last move 17 min ago
+🔵 Team blue · model not set · worker working, draft PR #765 · CI 7 of 8 passed · last move 18 min ago
 
 **#9 · 1751** `G` Audit and fix js/screens.js (first half (lines 1 to 406))  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #766 · CI 7 of 8 passed · last move 8 min ago
+🔵 Team blue · model not set · worker working, draft PR #766 · CI 7 of 8 passed · last move 9 min ago
 
 **#10 · 1752** `G` Audit and fix js/screens.js (second half (lines 406 to the end))  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #768 · CI 7 of 8 passed · last move 3 min ago
+🔵 Team blue · model not set · worker working, draft PR #768 · CI 7 of 8 passed · last move 5 min ago
 
 ### 👉 Next for you, in this order
 
