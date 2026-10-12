@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 12 Oct, 12:06 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 12 Oct, 12:10 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r72** (main `9b514ec`, Mon 12 Oct 7:41 AM)
 
@@ -46,15 +46,15 @@ Updated Mon 12 Oct, 12:06 PM Boston time. Bug hunting only, no new features unti
 
 **#8 · 1752** `G` Audit and fix js/screens.js (second half (lines 406 to the end))  
 `██████░░░░` **60.0000 %**  
-🔵 Team blue · model not set · worker done, PR #815 open, CI failed · CI 6 of 8 passed · last move 30 min ago
+🔵 Team blue · model not set · worker done, PR #815 open, CI failed · CI 6 of 8 passed · last move 34 min ago
 
 **#9 · 1753** `G` Audit and fix js/restore.js (first half (lines 1 to 372))  
 `██████░░░░` **60.0000 %**  
-🟢 Team green · model not set · worker done, PR #818 open, CI failed · CI 15 of 16 passed · last move 25 min ago
+🟢 Team green · model not set · worker done, PR #818 open, CI failed · CI 15 of 16 passed · last move 29 min ago
 
 **#10 · 1766** `G` Audit and fix js/productionSharedMultiSeasonProgression.js (whole file)  
 `██████░░░░` **60.0000 %**  
-🟢 Team green · model not set · worker done, PR #819 open, CI failed · CI 15 of 16 passed · last move 22 min ago
+🟢 Team green · model not set · worker done, PR #819 open, CI failed · CI 15 of 16 passed · last move 26 min ago
 
 **#11 · 1778** `G` Audit and fix js/productionSharedFinalReconciliation.js (whole file)  
 `████░░░░░░` **40.0000 %**  
@@ -66,15 +66,15 @@ Updated Mon 12 Oct, 12:06 PM Boston time. Bug hunting only, no new features unti
 
 **#13 · 1787** `G` Audit and fix js/storage.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #803 · CI 7 of 8 passed · last move 103 min ago
+🔵 Team blue · model not set · worker working, draft PR #803 · CI 7 of 8 passed · last move 107 min ago
 
 **#14 · 1791** `G` Free startup gzip headroom, then carry the navigation guard  
 `██████░░░░` **60.0000 %**  
-🟢 Team green · model not set · worker done, PR #815 open, CI failed · CI 6 of 8 passed · last move 30 min ago
+🟢 Team green · model not set · worker done, PR #815 open, CI failed · CI 6 of 8 passed · last move 34 min ago
 
 **#15 · 1796** `G` Work mode audit and fix js/optionalModules.js (first half (lines 1 to 292))  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #822 · CI 7 of 8 passed · last move 24 min ago
+🟢 Team green · model not set · worker working, draft PR #822 · CI 7 of 8 passed · last move 28 min ago
 
 ### 👉 Next for you, in this order
 
