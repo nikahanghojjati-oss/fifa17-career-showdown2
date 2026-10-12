@@ -614,6 +614,65 @@
     "(min-width:901px) and (max-width:1000px) and (min-height:391px) and (max-height:470px)"
   );
 
+
+  // JOB-1655: at these laptop, Chromebook and ultrawide sizes Team V's stage
+  // keeps its own absolute layout, so the whole room including BACK stays in
+  // one view and #trophyRoom is never a scroller (main is the only scroller).
+  // Only the category tabs change: one ROW, 44px high. The first attempt
+  // rebuilt the stage as a flow layout, and analytics.css's old
+  // `.trophyShelf{display:grid}` then dropped the tabs into grid cells.
+  const TROPHY_1280_LAPTOP_CSS=String.raw`
+@media (min-width:1200px) and (max-width:1365px) and (min-height:600px) and (max-height:700px) {
+  #trophyRoom .trophyTabs {top:-44px; height:44px}
+  #trophyRoom .trophyTab {min-height:44px; line-height:1.15}
+  #trophyRoom .careerRanks {top:48.5%}
+}
+`;
+
+  const TROPHY_1366_CHROMEBOOK_CSS=String.raw`
+@media (min-width:1366px) and (max-width:1440px) and (min-height:720px) and (max-height:820px) {
+  #trophyRoom .trophyTabs {top:-44px; height:44px}
+  #trophyRoom .trophyTab {min-height:44px; line-height:1.15}
+}
+`;
+
+  // JOB-1330: full-HD desktop category targets are 35px high in Team V's
+  // frozen sheet. Give the tabs a 44px hit area without covering the shelf,
+  // and allow dynamic cabinet labels to wrap rather than overlap or clip.
+  const TROPHY_1920_DESKTOP_CSS=String.raw`
+@media (min-width:1880px) and (max-width:2000px) and (min-height:1000px) and (max-height:1160px) and (orientation:landscape) {
+  #trophyRoom .trophyTabs {top:-44px; height:44px}
+  #trophyRoom .trophyTab {
+    min-height:44px; padding:6px 8px; line-height:1.15;
+    white-space:normal; overflow-wrap:anywhere;
+  }
+  #trophyRoom .trophyCard h3 {
+    white-space:normal; overflow-wrap:anywhere; line-height:1.1;
+  }
+  #trophyRoom .managerCounts > div {min-width:0}
+  #trophyRoom .managerCounts span {
+    white-space:normal; overflow-wrap:anywhere; line-height:1.1;
+  }
+}
+`;
+
+  // JOB-1331: 2560x1080 ultrawide uses the same 44px tab row, in its own range.
+  const TROPHY_2560_ULTRAWIDE_CSS=String.raw`
+@media (min-width:2500px) and (max-width:2620px) and (min-height:1040px) and (max-height:1120px) {
+  #trophyRoom .trophyTabs {top:-44px; height:44px}
+  #trophyRoom .trophyTab {min-height:44px; line-height:1.15}
+}
+`;
+
+  // JOB-1327: upright 768x1024 tablet keeps Team V's stage too; 44px tab row only.
+  const TROPHY_768_TABLET_CSS=String.raw`
+@media (min-width:761px) and (max-width:820px) and (min-height:960px) and (max-height:1100px) and (orientation:portrait) {
+  #trophyRoom .trophyTabs {top:-44px; height:44px}
+  #trophyRoom .trophyTab {min-height:44px; line-height:1.15}
+}
+`;
+
+
   function v10Markup(screen){
     const cs=BASE+"career-statistics/",tr=BASE+"trophy-room/";
     if(screen==="careerStatistics")return `<div id="stage-root" class="careerStage" data-primary="trophyRoomButton"><div class="scene sd-stage" id="careerScene" data-plate-width="1672" data-plate-height="941"><div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true"><div class="sd-stage__registered"><div class="sd-stage__plate"></div><span class="managerMarker managerDaniel" data-manager="daniel" role="presentation"></span><span class="managerMarker managerNik" data-manager="nik" role="presentation"></span></div></div><div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div><div class="phoneSceneArt" aria-hidden="true"><picture class="phoneBackground"><source media="(max-width: 760px) and (orientation: portrait)" srcset="${cs}assets/ENV_CS_PHONE_V1.webp"><img alt="" decoding="async"></picture><picture class="phoneHero phoneHeroDaniel"><source media="(max-width: 760px) and (orientation: portrait)" srcset="${cs}assets/OVL_CS_DANIEL_PHONE_V1.webp"><img alt="" decoding="async"></picture><picture class="phoneHero phoneHeroNik"><source media="(max-width: 760px) and (orientation: portrait)" srcset="${cs}assets/OVL_CS_NIK_PHONE_V1.webp"><img alt="" decoding="async"></picture><span class="phoneHeroContact phoneHeroContactDaniel"></span><span class="phoneHeroContact phoneHeroContactNik"></span></div><div class="sd-stage__layer sd-stage__layer--ui"><div class="stateBackdrop" aria-hidden="true"></div><div class="careerScreen" aria-labelledby="careerStatisticsScreenTitle"><section class="phoneFaceBand" aria-label="Career Statistics presentation"><header class="titleBlock"><p class="sd-eyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="careerStatisticsScreenTitle" class="titleWordmark" data-sd-enter="title" tabindex="-1" data-route-focus-target="true"><span class="sd-visually-hidden">CAREER STATISTICS</span><img src="${cs}assets/TITLE_CS_V1.webp" alt="" aria-hidden="true" width="1216" height="126" decoding="async"></h2><p class="sd-tagline">TWO MANAGERS. ONE LEGACY.</p></header></section><div id="previewChip" class="previewChip" hidden></div><section class="phoneHub" aria-label="Career Statistics data"><section id="headlineTiles" class="headlineTiles" aria-label="Career headline totals"></section><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneTable" aria-label="Career Table" aria-controls="careerTablePanel" checked><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneCompare" aria-label="Manager Comparison" aria-controls="comparisonPanel"><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneLeaders" aria-label="Career Leaders" aria-controls="leadersPanel"><div class="phoneTabs" aria-label="Career Statistics sections"><label for="careerPhoneTable">TABLE</label><label for="careerPhoneCompare">COMPARE</label><label for="careerPhoneLeaders">LEADERS</label></div><section id="careerStatisticsContent" class="contentGrid" aria-live="polite"><section id="careerTablePanel" data-sd-enter="panel" class="glassPanel careerTablePanel" aria-labelledby="careerTableHeading"></section><section id="comparisonPanel" data-sd-enter="panel" class="glassPanel comparisonPanel" aria-labelledby="comparisonHeading"></section><section id="leadersPanel" data-sd-enter="panel" class="glassPanel leadersPanel" aria-labelledby="leadersHeading"></section><section id="statePanel" class="glassPanel statePanel" hidden></section></section></section><nav class="actionRow" aria-label="Career Statistics actions" data-phone-primary="trophyRoomButton"><button id="careerStatisticsRivalryButton" class="actionButton secondary" type="button"><span class="buttonIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19h3V9H4v10Zm6 0h3V5h-3v14Zm6 0h3V12h-3v7Z"/></svg></span><span class="actionLabel">CURRENT RIVALRY STATISTICS</span><span aria-hidden="true">›</span></button><button id="trophyRoomButton" data-sd-enter="button" class="actionButton primary" type="button"><img src="${BASE}shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="" aria-hidden="true"><span class="actionLabel">OPEN TROPHY ROOM</span><span aria-hidden="true">›</span></button><button class="actionButton secondary backButton" type="button"><span class="buttonIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3V11Z"/></svg></span><span class="actionLabel">BACK TO MAIN MENU</span><span aria-hidden="true">›</span></button></nav></div><div class="gridOverlay" aria-hidden="true"></div></div><div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true"><div class="sd-stage__registered"><span class="contactShadow"></span><div class="sd-stage__cutout armCutout" data-src1x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_1X.webp" data-src2x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_2X.webp"></div></div></div><div class="sd-stage__layer sd-stage__layer--light" aria-hidden="true"><div class="sd-stage__registered"><span class="sd-stage__rim armRim" data-src1x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_1X.webp" data-src2x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_2X.webp"></span></div></div></div></div>`;
@@ -661,7 +720,7 @@
     host.innerHTML=v10Markup(screen);
     if(screen==="trophyRoom"){
       const smallPhoneStyle=doc.createElement("style");
-      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS;
+      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS+TROPHY_1920_DESKTOP_CSS+TROPHY_2560_ULTRAWIDE_CSS;
       host.appendChild(smallPhoneStyle);
     }
     v10Wire(screen,host);

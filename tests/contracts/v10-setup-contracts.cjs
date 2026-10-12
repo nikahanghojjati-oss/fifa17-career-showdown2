@@ -503,6 +503,13 @@ check("S8 the top bar is locked (setup) on both wheels, also when the shared pre
   assert.equal(byId(root,"clubWheelScreen").classList.contains(SKIN),false);
 });
 
+check("S9b JOB-1657: the setup plate out-ranks the old-design flash guard in css/v10Shell.css",()=>{
+  const setup=read("css/v10Setup.css").replace(/\/\*[\s\S]*?\*\//g,""),shell=read("css/v10Shell.css");
+  assert.match(shell,/html\[data-v10-screen\] #background\s*\{\s*background:\s*#060709/,"the flash guard stays in place for every Team V screen");
+  assert.match(setup,/html\[data-v10-setup\]\[data-v10-screen\] body\s*\{\s*background:\s*transparent/,"body is transparent over the plate on a setup screen (beats the shell rule)");
+  for(const skin of ["start","league","club"])assert.match(setup,new RegExp('html\\[data-v10-setup="'+skin+'"\\]\\[data-v10-screen\\] #background\\s*\\{[^}]*background-image'),skin+" plate rule is higher specificity than html[data-v10-screen] #background");
+});
+
 check("S9 static guards: skin only, lazy only, no new storage, Rules, Firestore, scoring or revision change",()=>{
   const src=read("js/v10Setup.js");
   for(const banned of [".textContent=",".textContent =",".innerText",".innerHTML",".disabled=",".hidden=","removeAttribute(\"disabled\")","localStorage","sessionStorage","indexedDB","writeStorageValue","firestore","firebase","Firestore","RUNTIME_REVISION","scoring","Scoring","fetch(","Preview data","FIXTURE","fixture"])assert.ok(!src.includes(banned),`v10Setup.js: ${banned}`);

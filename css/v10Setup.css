@@ -21,24 +21,27 @@
 }
 
 /* ---------- page: stadium plate behind the app shell, dark header ---------- */
-/* The app paints body over #background; while a setup skin shows, the html carries the dark base instead. */
+/* The app paints body over #background; while a setup skin shows, the html carries the dark base instead.
+   JOB-1657: css/v10Shell.css loads later and paints html[data-v10-screen] body and #background opaque #060709 (the old-design
+   flash guard), which hid this plate on desktop. The [data-v10-screen] doubles below out-rank those two shell rules; before
+   this sheet has loaded the shell guard still holds, so no light page can paint. */
 html[data-v10-setup] { background: #070604; }
-html[data-v10-setup] body { background: transparent; }
-html[data-v10-setup] #background {
+html[data-v10-setup] body, html[data-v10-setup][data-v10-screen] body { background: transparent; }
+html[data-v10-setup] #background, html[data-v10-setup][data-v10-screen] #background {
   background-color: #070604;
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
 }
-html[data-v10-setup="start"] #background {
+html[data-v10-setup="start"] #background, html[data-v10-setup="start"][data-v10-screen] #background {
   background-image: url("../visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_1X.webp");
   background-image: image-set(url("../visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_1X.webp") 1x, url("../visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_2X.webp") 2x);
 }
-html[data-v10-setup="league"] #background {
+html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background {
   background-image: url("../visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp");
   background-image: image-set(url("../visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp") 1x, url("../visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp") 2x);
 }
-html[data-v10-setup="club"] #background {
+html[data-v10-setup="club"] #background, html[data-v10-setup="club"][data-v10-screen] #background {
   background-image: url("../visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp");
   background-image: image-set(url("../visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp") 1x, url("../visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp") 2x);
 }
@@ -539,9 +542,9 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
 /* ---------- phone (Team V portrait art, <= 900 px) ---------- */
 @media (max-width: 900px) {
   html[data-v10-setup] #background { background-position: 50% 0; }
-  html[data-v10-setup="start"] #background { background-image: url("../visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp"); }
-  html[data-v10-setup="league"] #background { background-image: url("../visual-assets/v10_1/league/assets/ENV_LEAGUE_PHONE_V1.webp"); }
-  html[data-v10-setup="club"] #background { background-image: url("../visual-assets/v10_1/club/assets/ENV_CLUB_PHONE_V1.webp"); }
+  html[data-v10-setup="start"] #background, html[data-v10-setup="start"][data-v10-screen] #background { background-image: url("../visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp"); }
+  html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background { background-image: url("../visual-assets/v10_1/league/assets/ENV_LEAGUE_PHONE_V1.webp"); }
+  html[data-v10-setup="club"] #background, html[data-v10-setup="club"][data-v10-screen] #background { background-image: url("../visual-assets/v10_1/club/assets/ENV_CLUB_PHONE_V1.webp"); }
   html[data-v10-setup] #overlay {
     background: linear-gradient(to bottom, rgba(7, 8, 10, .3) 0, rgba(7, 8, 10, .12) 18%, rgba(7, 8, 10, .45) 38%, rgba(7, 8, 10, .94) 58%, #07080a 100%);
   }
@@ -745,6 +748,176 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   #leagueWheelScreen.v26Skin #selectedLeague::before,
   #leagueWheelScreen.v26Skin #selectedLeague::after { flex: 0 1 30px; }
   #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: 6px; }
+  #leagueWheelScreen.v26Skin .wheelContainer > .stateNote {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 5px auto;
+    padding: 8px 12px;
+    overflow-wrap: anywhere;
+  }
+  #leagueWheelScreen.v26Skin .wheelContainer .menuButton,
+  #leagueWheelScreen.v26Skin .wheelContainer .backButton {
+    box-sizing: border-box;
+    min-height: 48px;
+    padding: 10px 12px;
+    line-height: 1.2;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  #leagueWheelScreen.v26Skin #spinLeague { min-height: 54px; }
+}
+
+/* JOB-1124: portrait 768x1024 tablets. The <=900px phone rules leave an
+   88px empty wheel lead-in at this size and stack two wide actions. Keep the
+   wheel, result and actions in the document's one scroll, with no clipped grid
+   or nested scroll area. The narrow query leaves phones and desktop alone. */
+@media (min-width: 740px) and (max-width: 800px) and (min-height: 980px) and (max-height: 1060px) and (orientation: portrait) {
+  #leagueWheelScreen.v26Skin {
+    --v26-band: clamp(270px, 29svh, 300px);
+    --v26-wheel: clamp(280px, 31svh, 320px);
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
+    max-height: none;
+    overflow: visible;
+  }
+  #leagueWheelScreen.v26Skin > h2 { margin: 4px auto 8px; }
+  #leagueWheelScreen.v26Skin .wheelContainer {
+    box-sizing: border-box;
+    width: min(640px, calc(100% - 32px));
+    min-width: 0;
+    max-width: 100%;
+    margin-top: 16px;
+    padding: 0 12px 12px;
+    max-height: none;
+    overflow: visible;
+  }
+  #leagueWheelScreen.v26Skin .wheelContainer > * { min-width: 0; max-width: 100%; }
+  #leagueWheelScreen.v26Skin #selectedLeague {
+    gap: 8px;
+    padding-inline: 8px;
+    letter-spacing: .18em;
+    overflow-wrap: anywhere;
+  }
+  #leagueWheelScreen.v26Skin[data-v26-league] #selectedLeague { letter-spacing: .14em; }
+  #leagueWheelScreen.v26Skin #selectedLeague::before,
+  #leagueWheelScreen.v26Skin #selectedLeague::after { flex: 0 1 48px; }
+  #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: 6px; }
+  #leagueWheelScreen.v26Skin .wheelContainer > .stateNote {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 6px auto;
+    padding: 8px 14px;
+    overflow-wrap: anywhere;
+  }
+  #leagueWheelScreen.v26Skin .wheelContainer .menuButton,
+  #leagueWheelScreen.v26Skin .wheelContainer .backButton {
+    box-sizing: border-box;
+    min-height: 48px;
+    padding: 10px 12px;
+    line-height: 1.2;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  #leagueWheelScreen.v26Skin #spinLeague { grid-column: 1; min-height: 54px; }
+  #leagueWheelScreen.v26Skin .wheelContainer > .backButton { grid-column: 2; }
+  #leagueWheelScreen.v26Skin #spinLeague.hidden + .backButton,
+  #leagueWheelScreen.v26Skin .wheelContainer > .backButton:only-of-type { grid-column: 1 / -1; }
+}
+
+/* JOB-1125: 1280x650 short laptop. The regular desktop wheel and widely
+   tracked result crowd the buttons in this height. Keep the entire selection
+   in normal page flow, with one outer scroll and no nested wheel scroller.
+   Limit this to short, mid-width landscape windows: 1920x1080 and phones
+   retain their existing composition. */
+@media (min-width: 1200px) and (max-width: 1360px) and (min-height: 600px) and (max-height: 700px) and (orientation: landscape) {
+  #leagueWheelScreen.v26Skin {
+    --v26-wheel: clamp(240px, 39svh, 270px);
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
+    max-height: none;
+    overflow: visible;
+  }
+  #leagueWheelScreen.v26Skin > h2 {
+    width: clamp(240px, 22vw, 320px);
+    margin: 2px auto 4px;
+  }
+  #leagueWheelScreen.v26Skin .wheelContainer {
+    width: min(600px, calc(100% - 32px));
+    min-width: 0;
+    max-width: 100%;
+    max-height: none;
+    padding: 0 8px 10px;
+    overflow: visible;
+  }
+  #leagueWheelScreen.v26Skin .wheelContainer > * { min-width: 0; max-width: 100%; }
+  #leagueWheelScreen.v26Skin #selectedLeague {
+    gap: 8px;
+    margin-bottom: 2px;
+    letter-spacing: .18em;
+    overflow-wrap: anywhere;
+  }
+  #leagueWheelScreen.v26Skin[data-v26-league] #selectedLeague { letter-spacing: .12em; }
+  #leagueWheelScreen.v26Skin #selectedLeague::before,
+  #leagueWheelScreen.v26Skin #selectedLeague::after { flex: 0 1 42px; }
+  #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: 4px; }
+  #leagueWheelScreen.v26Skin .wheelContainer > .stateNote {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 4px auto;
+    padding: 7px 12px;
+    overflow-wrap: anywhere;
+  }
+  #leagueWheelScreen.v26Skin .wheelContainer .menuButton,
+  #leagueWheelScreen.v26Skin .wheelContainer .backButton {
+    box-sizing: border-box;
+    min-height: 48px;
+    padding: 10px 12px;
+    line-height: 1.2;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  #leagueWheelScreen.v26Skin #spinLeague { min-height: 54px; }
+}
+
+/* JOB-1126: 1366x768 Chromebook Select League. The full desktop brush
+   title and 46vh wheel crowd the result and paired actions below the fold.
+   Fit the hierarchy in normal page flow; never scroll the wheel separately. */
+@media (min-width: 1361px) and (max-width: 1420px) and (min-height: 730px) and (max-height: 810px) and (orientation: landscape) {
+  #leagueWheelScreen.v26Skin {
+    --v26-wheel: clamp(270px, 39svh, 300px);
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
+    max-height: none;
+    overflow: visible;
+  }
+  #leagueWheelScreen.v26Skin > h2 {
+    width: clamp(280px, 28vw, 390px);
+    margin: 4px auto 6px;
+  }
+  #leagueWheelScreen.v26Skin .wheelContainer {
+    box-sizing: border-box;
+    width: min(620px, calc(100% - 32px));
+    min-width: 0;
+    max-width: 100%;
+    max-height: none;
+    margin: 0 auto;
+    padding: 0 8px 12px;
+    overflow: visible;
+  }
+  #leagueWheelScreen.v26Skin .wheelContainer > * { min-width: 0; max-width: 100%; }
+  #leagueWheelScreen.v26Skin #selectedLeague {
+    gap: 8px;
+    margin-bottom: 2px;
+    letter-spacing: .17em;
+    overflow-wrap: anywhere;
+  }
+  #leagueWheelScreen.v26Skin[data-v26-league] #selectedLeague { letter-spacing: .12em; }
+  #leagueWheelScreen.v26Skin #selectedLeague::before,
+  #leagueWheelScreen.v26Skin #selectedLeague::after { flex: 0 1 46px; }
+  #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: 4px; }
   #leagueWheelScreen.v26Skin .wheelContainer > .stateNote {
     box-sizing: border-box;
     width: 100%;
