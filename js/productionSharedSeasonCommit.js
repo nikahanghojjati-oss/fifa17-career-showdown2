@@ -170,7 +170,7 @@
         if(kind!=="commit"||current.managerRole!==current.coordinatorRole||psscSatisfied("acknowledge",current))return true;
         stage="acknowledge";
         if(!await psscWrite("acknowledge",ctx,request,current))return false;
-        await psscRefreshNow(request);return true;
+        try{await psscRefreshNow(request);}catch(_error){psscRefresh().catch(()=>{});}return true;
       });
     }catch(error){if(psscContextMatches(request)){pendingErrorKind=stage;if(stage==="acknowledge"&&view&&contextKey===request.key&&!view.committed)view={...view,committed:true};psscSetError(error.message||error.code||"Shared Season Commit failed.");psscReport("Unable to update Shared Season Commit",error);if(kind==="commit"&&stage==="acknowledge")void psscRefresh().catch(()=>{});}return false;}
     finally{busy=false;if(psscContextMatches(request))psscRender();}
