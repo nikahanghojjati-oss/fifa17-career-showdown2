@@ -750,3 +750,24 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
   }
 }
 
+/* r72 flaw 1: at 1200-1599px wide the CLUB ASSIGNMENT wordmark ran over the top of both managers' hair (the plate and the
+   wordmark scale together, but the 64px brush title is wider than the gap between the two heads once the stage is this
+   small). A slightly smaller wordmark, nudged down so it keeps its place between the eyebrow and the league line, clears
+   both heads. Desktop only; 1920x1080 keeps Team V's adopted study 1173 and short desktops (html.compact) keep their own
+   36px title. Phone, sideways phone and tablet are outside this query. */
+@media (min-width: 1200px) and (max-width: 1599px) and (min-height: 700px) and (orientation: landscape) {
+  html:not(.compact) #app #clubWheelScreen.cl-on h2 {
+    font-size: calc(var(--s) * 53px);
+    margin-top: calc(var(--s) * 5px);
+  }
+  /* The smaller wordmark no longer hides the sliver of the source title baked into Nik's hairline in the frozen plate (plate
+     x 1040..1069, y 148..162), so the plate-registered repair element club.js already places for short desktops is shown
+     here too, re-aimed (!over its inline box) at just that sliver and cloning the clean hair from a little above it. */
+  html:not(.compact) #app #clubWheelScreen.cl-on .hairlineRepair {
+    display: block;
+    left: calc(var(--k) * 1034px) !important; top: calc(var(--k) * 142px) !important;
+    width: calc(var(--k) * 44px) !important; height: calc(var(--k) * 26px) !important;
+    background-size: calc(var(--k) * 1536px) calc(var(--k) * 864px) !important;
+    background-position: calc(var(--k) * -1034px) calc(var(--k) * -122px) !important;
+  }
+}

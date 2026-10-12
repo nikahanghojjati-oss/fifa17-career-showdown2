@@ -1176,3 +1176,25 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
  #app #connectPlayersScreen .connectPlayersRoleNik>span,
  #app #connectPlayersScreen .connectPlayersRoleNik h3 { padding-right:70px; }
 }
+
+/* r72 flaw 3: on wide desktops the pairing panel (CREATE CODE FOR NIK, or the paste field and JOIN) kept the app's 800px
+   .stateNote width and sat flush left under the two role cards, which are 49.2% of the screen (945px at 1920x1080). It now
+   spans the cards' own width, centred under them (the same box the cards use, so its edges line up with theirs). Where the
+   cards are 800px or narrower (laptops) the panel already fitted, so those sizes are unchanged. Desktop only; phone,
+   sideways phone and tablet widths are outside this query. */
+@media (min-width:901px) and (min-height:600px) {
+ #app #connectPlayersScreen #persistentNikDanielPairPanel {
+  box-sizing:border-box;width:100%;max-width:100%;margin-inline:auto;
+ }
+}
+
+/* r72 flaw 4: on upright phones Nik's cut-out started at 49% of the screen and was 180% of the scene tall, so its right half ran
+   off the screen edge and only half his face showed (390x844: the picture was 368px wide from x=191). Each manager is now
+   anchored to his own screen edge (Daniel left, Nik right, so Daniel stays on the LEFT) and the pictures are capped at 90% of
+   the screen width tall, which leaves both heads whole with a gap between them at every phone size; the lower body still fades
+   out under the scene's gradient. Upright phones only (the tablet and sideways-phone rules above are untouched). */
+@media (max-width:760px) and (orientation:portrait) {
+ #app #connectPlayersScreen .connectPlayersPhoneScene img { height:min(180%,90vw); }
+ #app #connectPlayersScreen .connectPlayersSceneDaniel { left:0; }
+ #app #connectPlayersScreen .connectPlayersSceneNik { left:auto;right:0; }
+}
