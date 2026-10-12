@@ -20,28 +20,6 @@
    550,
    551,
    552,
-   352,
-   358,
-   380,
-   408,
-   436,
-   464,
-   386,
-   414,
-   442,
-   470,
-   366,
-   394,
-   422,
-   450,
-   368,
-   396,
-   424,
-   452,
-   370,
-   398,
-   426,
-   454,
    374,
    402,
    430,
@@ -54,6 +32,10 @@
    406,
    434,
    462,
+   380,
+   408,
+   436,
+   464,
    382,
    410,
    438,
@@ -62,6 +44,10 @@
    412,
    440,
    468,
+   386,
+   414,
+   442,
+   470,
    388,
    416,
    444,
@@ -74,6 +60,15 @@
    420,
    448,
    476,
+   394,
+   422,
+   450,
+   396,
+   424,
+   452,
+   398,
+   426,
+   454,
    400,
    428,
    456
@@ -135,28 +130,6 @@
    ]
   ],
   "ready_work": [
-   352,
-   358,
-   380,
-   408,
-   436,
-   464,
-   386,
-   414,
-   442,
-   470,
-   366,
-   394,
-   422,
-   450,
-   368,
-   396,
-   424,
-   452,
-   370,
-   398,
-   426,
-   454,
    374,
    402,
    430,
@@ -169,6 +142,10 @@
    406,
    434,
    462,
+   380,
+   408,
+   436,
+   464,
    382,
    410,
    438,
@@ -177,6 +154,10 @@
    412,
    440,
    468,
+   386,
+   414,
+   442,
+   470,
    388,
    416,
    444,
@@ -189,106 +170,106 @@
    420,
    448,
    476,
+   394,
+   422,
+   450,
+   396,
+   424,
+   452,
+   398,
+   426,
+   454,
    400,
    428,
    456
   ],
   "ready_work_batches": [
    [
-    352,
-    358,
-    366
+    374,
+    376,
+    378
+   ],
+   [
+    402,
+    404,
+    406
+   ],
+   [
+    430,
+    432,
+    434
+   ],
+   [
+    458,
+    460,
+    462
    ],
    [
     380,
-    386,
-    394
-   ],
-   [
-    408,
-    414,
-    422
-   ],
-   [
-    436,
-    442,
-    450
-   ],
-   [
-    464,
-    470,
-    368
-   ],
-   [
-    396,
-    370,
-    374
-   ],
-   [
-    424,
-    398,
-    402
-   ],
-   [
-    452,
-    426,
-    430
-   ],
-   [
-    454,
-    458,
-    376
-   ],
-   [
-    404,
-    378,
-    382
-   ],
-   [
-    432,
-    406,
-    410
-   ],
-   [
-    460,
-    434,
-    438
-   ],
-   [
-    462,
-    466,
+    382,
     384
    ],
    [
-    412,
+    408,
+    410,
+    412
+   ],
+   [
+    436,
+    438,
+    440
+   ],
+   [
+    464,
+    466,
+    468
+   ],
+   [
+    386,
     388,
     390
    ],
    [
-    440,
+    414,
     416,
     418
    ],
    [
-    468,
+    442,
     444,
     446
    ],
    [
+    470,
     472,
-    474,
-    392
+    474
+   ],
+   [
+    392,
+    394,
+    396
    ],
    [
     420,
-    400
+    422,
+    424
    ],
    [
     448,
-    428
+    450,
+    452
    ],
    [
     476,
+    398,
+    400
+   ],
+   [
+    426,
+    428
+   ],
+   [
+    454,
     456
    ]
   ],
@@ -651,7 +632,7 @@
    "327": "waiting",
    "328": "merged",
    "329": "waiting",
-   "330": "branch_only",
+   "330": "pr_open",
    "331": "waiting",
    "332": "closed",
    "333": "waiting",
@@ -673,13 +654,13 @@
    "349": "waiting",
    "350": "merged",
    "351": "waiting",
-   "352": "waiting",
+   "352": "pr_open",
    "353": "waiting",
    "354": "merged",
    "355": "closed",
    "356": "merged",
    "357": "waiting",
-   "358": "waiting",
+   "358": "branch_only",
    "359": "waiting",
    "360": "closed",
    "361": "waiting",
@@ -687,11 +668,11 @@
    "363": "closed",
    "364": "merged",
    "365": "waiting",
-   "366": "waiting",
+   "366": "branch_only",
    "367": "waiting",
-   "368": "waiting",
+   "368": "branch_only",
    "369": "waiting",
-   "370": "waiting",
+   "370": "branch_only",
    "371": "closed",
    "372": "merged",
    "373": "waiting",
@@ -876,13 +857,13 @@
    "552": "waiting"
   }
  },
- "updated": "2026-10-12T03:02:29Z",
+ "updated": "2026-10-12T03:06:28Z",
  "counts": {
   "merged": 181,
-  "pr_open": 66,
-  "waiting": 221,
+  "pr_open": 68,
+  "waiting": 216,
   "closed": 82,
-  "branch_only": 1,
+  "branch_only": 4,
   "blocked": 1
  },
  "stages": {
@@ -898,12 +879,12 @@
   },
   "4": {
    "total": 70,
-   "taken": 68,
+   "taken": 70,
    "merged": 23
   },
   "5": {
    "total": 56,
-   "taken": 1,
+   "taken": 4,
    "merged": 1
   },
   "1": {
@@ -2478,11 +2459,11 @@
    "branch": "study/job-1172-club-upright-tablet"
   },
   "1173": {
-   "state": "waiting",
+   "state": "branch_only",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "study/job-1173-desktop-polish"
   },
   "1174": {
    "state": "waiting",
@@ -3073,18 +3054,18 @@
    "branch": "study/job-1257-standings-phone-c"
   },
   "1258": {
+   "state": "pr_open",
+   "pr": 725,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/725",
+   "branch": "study/job-1258-sideways-standings"
+  },
+  "1259": {
    "state": "branch_only",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": "study/job-1258-sideways-standings"
-  },
-  "1259": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "branch": "study/job-1259-standings-upright-tablet"
   },
   "1260": {
    "state": "waiting",
@@ -3290,11 +3271,11 @@
    "branch": "study/job-1288-tablet"
   },
   "1289": {
-   "state": "waiting",
+   "state": "branch_only",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "study/job-1289-desktop-a-polish"
   },
   "1290": {
    "state": "waiting",
@@ -4102,11 +4083,11 @@
    "branch": "study/job-1404-career-statistics-tablet"
   },
   "1405": {
-   "state": "waiting",
+   "state": "branch_only",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "study/job-1405-desktop-polish"
   },
   "1406": {
    "state": "waiting",
@@ -4298,11 +4279,11 @@
    "branch": "study/job-1432-sideways-rule-book"
   },
   "1433": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 726,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/726",
+   "branch": "study/job-1433-upright-rule-book"
   },
   "1434": {
    "state": "waiting",
