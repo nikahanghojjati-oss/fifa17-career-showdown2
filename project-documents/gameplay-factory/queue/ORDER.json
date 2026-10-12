@@ -1,6 +1,6 @@
 {
  "_about": "Queue number -> job. Strict order, stages 1 to 5. Never renumber a published number.",
- "total": 518,
+ "total": 552,
  "items": {
   "1": {
    "group": "home",
@@ -4663,6 +4663,312 @@
    "title": "Final Winner (Showdown Champion): hover-only effects",
    "mode": "code",
    "screen": "final-winner"
+  },
+  "519": {
+   "group": null,
+   "job": 1661,
+   "prefix": "qa/job-1661-",
+   "stage": 1,
+   "title": "Audit js/scoring.js for gameplay bugs (first half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "520": {
+   "group": null,
+   "job": 1662,
+   "prefix": "qa/job-1662-",
+   "stage": 1,
+   "title": "Audit js/showdownUI.js for gameplay bugs (first half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "521": {
+   "group": null,
+   "job": 1663,
+   "prefix": "qa/job-1663-",
+   "stage": 1,
+   "title": "Audit js/transferSelector.js for gameplay bugs (first half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "522": {
+   "group": null,
+   "job": 1664,
+   "prefix": "qa/job-1664-",
+   "stage": 1,
+   "title": "Audit js/leagueWheel.js for gameplay bugs (first half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "523": {
+   "group": null,
+   "job": 1665,
+   "prefix": "qa/job-1665-",
+   "stage": 1,
+   "title": "Audit js/trophyRoom.js for gameplay bugs (first half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "524": {
+   "group": null,
+   "job": 1666,
+   "prefix": "qa/job-1666-",
+   "stage": 1,
+   "title": "Audit js/saveLibraryFoundation.js for gameplay bugs (first half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "525": {
+   "group": null,
+   "job": 1667,
+   "prefix": "qa/job-1667-",
+   "stage": 1,
+   "title": "Audit js/restoreUI.js for gameplay bugs (first half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "526": {
+   "group": null,
+   "job": 1668,
+   "prefix": "qa/job-1668-",
+   "stage": 1,
+   "title": "Audit js/footballVisuals.js for gameplay bugs (first half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "527": {
+   "group": null,
+   "job": 1669,
+   "prefix": "qa/job-1669-",
+   "stage": 1,
+   "title": "Audit js/saveLibraryPersistence.js for gameplay bugs (first half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "528": {
+   "group": null,
+   "job": 1670,
+   "prefix": "qa/job-1670-",
+   "stage": 1,
+   "title": "Audit js/backup.js for gameplay bugs (first half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "529": {
+   "group": null,
+   "job": 1671,
+   "prefix": "qa/job-1671-",
+   "stage": 1,
+   "title": "Audit js/optionalModules.js for gameplay bugs (first half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "530": {
+   "group": null,
+   "job": 1672,
+   "prefix": "qa/job-1672-",
+   "stage": 1,
+   "title": "Audit js/ruleBook.js for gameplay bugs (first half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "531": {
+   "group": null,
+   "job": 1673,
+   "prefix": "qa/job-1673-",
+   "stage": 1,
+   "title": "Audit js/storageTransaction.js for gameplay bugs (first half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "532": {
+   "group": null,
+   "job": 1674,
+   "prefix": "qa/job-1674-",
+   "stage": 1,
+   "title": "Audit js/menuFeedback.js for gameplay bugs (first half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "533": {
+   "group": null,
+   "job": 1675,
+   "prefix": "qa/job-1675-",
+   "stage": 1,
+   "title": "Audit js/productionSharedJourneyGuard.js for gameplay bugs (first half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "534": {
+   "group": null,
+   "job": 1676,
+   "prefix": "qa/job-1676-",
+   "stage": 1,
+   "title": "Audit js/sharedJourneyConflicts.js for gameplay bugs (first half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "535": {
+   "group": null,
+   "job": 1677,
+   "prefix": "qa/job-1677-",
+   "stage": 1,
+   "title": "Audit js/productionSharedSeasonResultsRoute.js for gameplay bugs (first half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "536": {
+   "group": null,
+   "job": 1678,
+   "prefix": "qa/job-1678-",
+   "stage": 1,
+   "title": "Audit js/scoring.js for gameplay bugs (second half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "537": {
+   "group": null,
+   "job": 1679,
+   "prefix": "qa/job-1679-",
+   "stage": 1,
+   "title": "Audit js/showdownUI.js for gameplay bugs (second half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "538": {
+   "group": null,
+   "job": 1680,
+   "prefix": "qa/job-1680-",
+   "stage": 1,
+   "title": "Audit js/transferSelector.js for gameplay bugs (second half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "539": {
+   "group": null,
+   "job": 1681,
+   "prefix": "qa/job-1681-",
+   "stage": 1,
+   "title": "Audit js/leagueWheel.js for gameplay bugs (second half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "540": {
+   "group": null,
+   "job": 1682,
+   "prefix": "qa/job-1682-",
+   "stage": 1,
+   "title": "Audit js/trophyRoom.js for gameplay bugs (second half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "541": {
+   "group": null,
+   "job": 1683,
+   "prefix": "qa/job-1683-",
+   "stage": 1,
+   "title": "Audit js/saveLibraryFoundation.js for gameplay bugs (second half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "542": {
+   "group": null,
+   "job": 1684,
+   "prefix": "qa/job-1684-",
+   "stage": 1,
+   "title": "Audit js/restoreUI.js for gameplay bugs (second half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "543": {
+   "group": null,
+   "job": 1685,
+   "prefix": "qa/job-1685-",
+   "stage": 1,
+   "title": "Audit js/footballVisuals.js for gameplay bugs (second half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "544": {
+   "group": null,
+   "job": 1686,
+   "prefix": "qa/job-1686-",
+   "stage": 1,
+   "title": "Audit js/saveLibraryPersistence.js for gameplay bugs (second half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "545": {
+   "group": null,
+   "job": 1687,
+   "prefix": "qa/job-1687-",
+   "stage": 1,
+   "title": "Audit js/backup.js for gameplay bugs (second half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "546": {
+   "group": null,
+   "job": 1688,
+   "prefix": "qa/job-1688-",
+   "stage": 1,
+   "title": "Audit js/optionalModules.js for gameplay bugs (second half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "547": {
+   "group": null,
+   "job": 1689,
+   "prefix": "qa/job-1689-",
+   "stage": 1,
+   "title": "Audit js/ruleBook.js for gameplay bugs (second half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "548": {
+   "group": null,
+   "job": 1690,
+   "prefix": "qa/job-1690-",
+   "stage": 1,
+   "title": "Audit js/storageTransaction.js for gameplay bugs (second half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "549": {
+   "group": null,
+   "job": 1691,
+   "prefix": "qa/job-1691-",
+   "stage": 1,
+   "title": "Audit js/menuFeedback.js for gameplay bugs (second half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "550": {
+   "group": null,
+   "job": 1692,
+   "prefix": "qa/job-1692-",
+   "stage": 1,
+   "title": "Audit js/productionSharedJourneyGuard.js for gameplay bugs (second half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "551": {
+   "group": null,
+   "job": 1693,
+   "prefix": "qa/job-1693-",
+   "stage": 1,
+   "title": "Audit js/sharedJourneyConflicts.js for gameplay bugs (second half)",
+   "mode": "audit",
+   "screen": "gameplay"
+  },
+  "552": {
+   "group": null,
+   "job": 1694,
+   "prefix": "qa/job-1694-",
+   "stage": 1,
+   "title": "Audit js/productionSharedSeasonResultsRoute.js for gameplay bugs (second half)",
+   "mode": "audit",
+   "screen": "gameplay"
   }
  }
 }

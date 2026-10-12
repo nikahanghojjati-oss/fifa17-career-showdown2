@@ -8,7 +8,7 @@
 - Code tickets (stages 2 and 3) PR into `gameplay/bug-list-1`; study tickets (stages 4 and 5, new HTML files only) PR into `study/mega-queue` and need Team V's decision.
 - Reviewer slots B9/B10 post a `Sol review` comment on open JOB- PRs so the Team G lead reads a verdict before merging.
 
-## Job families (518 tickets, jobs 1061-1578)
+## Job families (518 tickets, jobs 1061-1578; wave 2 adds items 519-552 = jobs 1661-1694, gameplay audits of 17 more modules, no lock group)
 - Per screen (14 screens, 29 jobs each, in one slot): 10 single-size layout fixes, match-the-mockup, 9 aspect fixes (long names, tap targets, focus/motion, contrast, alt text, loading/empty/error states, hover) = code PRs into `gameplay/bug-list-1`; then 9 studies (3 phone, sideways, tablet, 3 desktop, states sheet) = new HTML only into `study/mega-queue`.
 - B5-B9: 12 shared CSS checks plus 100 reading audits of gameplay modules (first and second half of 50 modules), findings only into `qa/mega-audits`; the lead turns real findings into fix jobs.
 - Refill: add families in make_queue.py, claim new numbers on leads/relay, regenerate with the new --first for the new tickets only (do not renumber published ones).
