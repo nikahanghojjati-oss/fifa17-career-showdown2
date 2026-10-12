@@ -1,5 +1,6 @@
 node_modules/
 test-results/
+gate-shots/
 playwright-report/
 .work-tools/
 gha-creds-*.json
