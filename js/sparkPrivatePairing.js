@@ -169,7 +169,7 @@
     const code=error&&typeof error.code==="string"?error.code.trim().toLowerCase():"";
     const message=error&&typeof error.message==="string"?error.message.trim():"";
     const opaqueCodes=new Set(["permission-denied","firestore/permission-denied","permission_denied","pairing_capability_not_found","pairing_scope_denied","pairing_capability_already_used","pairing_capability_expired","pairing_rivalry_not_joinable"]);
-    if(opaqueCodes.has(code)||/missing or insufficient permissions/i.test(message))return "This one-use pairing code could not be joined. It may be expired, already used, or unavailable to this account. Create a new code on the other device. If Daniel and Nik are already connected, go Home and tap CONTINUE CAREER instead.";
+    if(opaqueCodes.has(code)||/missing or insufficient permissions/i.test(message))return "This one-use pairing code could not be joined. It may be expired, already used, or unavailable to this account. Create a new code on the other device. If Daniel and Nik are already connected, go Home and tap CONTINUE CAREER instead. Also check that Nik is signed in with a different Google account than Daniel.";
     return message||"Private pairing could not be joined.";
   }
 
@@ -310,7 +310,7 @@
     const rivalry=rivalrySnapshot.data();
     const invite=inviteSnapshot.data();
     if(!invite.data||invite.data.purpose!=="rivalry-pairing")throw errorWithCode("PAIRING_SCOPE_DENIED","This capability is not valid for private rivalry pairing.");
-    if(invite.data.createdByAccountId===accountId)throw errorWithCode("PAIRING_CREATOR_CANNOT_REDEEM","The account that created a private pairing code cannot redeem it.");
+    if(invite.data.createdByAccountId===accountId)throw errorWithCode("PAIRING_CREATOR_CANNOT_REDEEM","This Google account made the code, so it cannot join it. Nik must sign in with a different Google account than Daniel, then paste the code again.");
     if(invite.data.state!=="open")throw errorWithCode("PAIRING_CAPABILITY_ALREADY_USED","This private pairing code is no longer open.");
     const expiresAt=timestampMillis(invite.data.expiresAt);
     if(!Number.isFinite(expiresAt)||expiresAt<=nowEpochMs)throw errorWithCode("PAIRING_CAPABILITY_EXPIRED","This private pairing code has expired.");

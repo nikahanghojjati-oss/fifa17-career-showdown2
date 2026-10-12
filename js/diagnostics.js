@@ -261,7 +261,7 @@ function getMotionPreferenceProblems(){
 
     const state = window.getApplicationMotionPreferenceState();
     const root = document.documentElement;
-    const expectedPreference = state.reducedMotionOverride ? "reduced" : "system";
+    const expectedPreference = state.motionPreference === "full" ? "full" : state.reducedMotionOverride ? "reduced" : "system";
     const expectedReduced = state.effectiveReduced ? "true" : "false";
     const problems = [];
 

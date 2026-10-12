@@ -112,6 +112,16 @@
    Settings now never shows them, whatever the start order. Their controls stay in the DOM for the internal flows. */
 #settingsOverlay #settingsContent :is(#sparkConnectedAccountPanel, #sparkPrivatePairingPanel, #sparkConnectedRivalryPanel, #saveLibraryProductPanel, .settingsOfflinePanel):not([data-test-surface="internal-audit"]) { display:none !important; }
 
+/* JOB-1652: three motion choices, with a single-column phone layout. */
+#settingsOverlay.v10Settings .settingsMotionChoices {
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+@media (max-width:760px) {
+  #settingsOverlay.v10Settings .settingsMotionChoices {
+    grid-template-columns:1fr;
+  }
+}
+
 /* JOB-1414 / JOB-1415 / JOB-1416 / JOB-1417: tablet, short laptop, 1366x768 and 1920x1080
    use content-sized cards and one page scroll, not fixed rows or card scrollbars. */
 @media (min-width:740px) and (max-width:800px) and (min-height:980px) and (max-height:1080px) and (orientation:portrait),
