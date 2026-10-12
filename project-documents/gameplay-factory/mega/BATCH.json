@@ -1,208 +1,239 @@
 {
- "size": 3,
- "max": 5,
- "clean_streak": 0,
- "goal": 10,
- "owner": "mega factory thread",
- "updated": "2026-10-12T01:40:00Z",
- "note": "Nik decided 06:55 UTC: 3 numbers per chat; 5 once 10 batches in a row run clean.",
- "jobs_free": [
-  1723,
-  1724,
-  1725,
-  1726
- ],
- "jobs_after_wiring": [],
- "jobs_note": "Polish wave tickets (ChatGPT chat). The queue thread keeps these two lists; a job moves to jobs_free when its area's wiring train is merged or closed. 1650 (service worker audit) and 1652 (Settings motion choice) are ChatGPT chat jobs from the 1635 follow-ups. 1654-1656 are second attempts on failed train PRs #687, #686, #684 (ChatGPT chat). 1654-1656 left the lists: Claude lane.",
- "work_waiting": [
-  {
-   "job": 1701,
-   "note": "Sol 6.1 · High. Standings screen job; starts after the Season Results job 1700 merges."
-  },
-  {
-   "job": 1702,
-   "note": "Sol 6.1 · High. Final Winner screen job; starts after the Standings job 1701 merges."
-  },
-  {
-   "job": 1704,
-   "note": "Sol 6.1 · High. Legacy screen job; starts after the Rivalry job 1703 merges."
-  },
-  {
-   "job": 1706,
-   "note": "Sol 6.1 · High. Career Statistics screen job; starts after the Trophy Room job 1705 merges."
-  },
-  {
-   "job": 1708,
-   "note": "Sol 6.1 · High. Settings screen job; starts after the Rule Book job 1707 merges."
-  }
- ],
- "wiring_chains": {
-  "model": "Sol 6.1 · High",
-  "chains": [],
-  "after_home_merge": []
- },
- "work_extra": {
-  "model": "Sol 6.1 · High",
-  "numbers": [
-   1696,
-   1697,
-   1700,
-   1703,
-   1705,
-   1707,
-   1695,
-   1698,
-   1699
-  ],
-  "note": "Phone/sideways/tablet work first (adopted phone studies); desktop is built by the Claude lane for Home, Club, Final Winner and Career Statistics. Transfer last (no adopted phone study)."
- },
- "claude_lane_jobs": {
-  "jobs": [
-   1654,
-   1655,
-   1656
-  ],
-  "note": "Claude lane (nothing to type)."
- },
- "work_batch": {
   "size": 3,
-  "model": "Sol 6.1 · High",
-  "optional": true,
-  "source": "QUEUE_STATE.json sequence.ready_work_batches",
-  "rule": "Optional: 3 independent Work mode numbers in one message, done one after another, stopping at the first problem. Singles stay available.",
-  "note": "Studies 3 per message; screen jobs 1695-1708 one per message."
- },
- "work_free_jobs": [
-  1696,
-  1697,
-  1700,
-  1703,
-  1705,
-  1707,
-  1695,
-  1698,
-  1699
- ],
- "claude_doing": {
-  "title": "Claude is doing (nothing to type)",
-  "note": "Claude browser-checks every screen PR and fixes failures. No retries by GPT.",
-  "open_prs": [],
-  "desktop_studies": [
-   {
-    "screen": "Home",
-    "study": 1086
-   },
-   {
-    "screen": "Club",
-    "study": 1173
-   },
-   {
-    "screen": "Final Winner",
-    "study": 1289
-   },
-   {
-    "screen": "Career Statistics",
-    "study": 1405
-   }
+  "max": 5,
+  "clean_streak": 0,
+  "goal": 10,
+  "owner": "mega factory thread",
+  "updated": "2026-10-12T10:01:34Z",
+  "note": "Nik decided 06:55 UTC: 3 numbers per chat; 5 once 10 batches in a row run clean.",
+  "jobs_free": [
+    1723,
+    1724,
+    1725,
+    1726
   ],
-  "desktop_note": "Desktop studies built by the Claude lane (branches gameplay/desktop-*), nothing to type.",
-  "release": {
-   "name": "r72",
-   "pr": 745,
-   "when": "before 2 pm Boston today (12 Oct)",
-   "carries": "six screen trains, QoL 1, 2, 3, 6 and 7, and FULL MOTION"
+  "jobs_after_wiring": [],
+  "jobs_note": "Polish wave tickets (ChatGPT chat). The queue thread keeps these two lists; a job moves to jobs_free when its area's wiring train is merged or closed. 1650 (service worker audit) and 1652 (Settings motion choice) are ChatGPT chat jobs from the 1635 follow-ups. 1654-1656 are second attempts on failed train PRs #687, #686, #684 (ChatGPT chat). 1654-1656 left the lists: Claude lane.",
+  "work_waiting": [
+    {
+      "job": 1701,
+      "note": "Sol 6.1 \u00b7 High. Standings screen job; starts after the Season Results job 1700 merges."
+    },
+    {
+      "job": 1702,
+      "note": "Sol 6.1 \u00b7 High. Final Winner screen job; starts after the Standings job 1701 merges."
+    },
+    {
+      "job": 1704,
+      "note": "Sol 6.1 \u00b7 High. Legacy screen job; starts after the Rivalry job 1703 merges."
+    },
+    {
+      "job": 1706,
+      "note": "Sol 6.1 \u00b7 High. Career Statistics screen job; starts after the Trophy Room job 1705 merges."
+    },
+    {
+      "job": 1708,
+      "note": "Sol 6.1 \u00b7 High. Settings screen job; starts after the Rule Book job 1707 merges."
+    }
+  ],
+  "wiring_chains": {
+    "model": "Sol 6.1 \u00b7 High",
+    "chains": [],
+    "after_home_merge": []
+  },
+  "work_extra": {
+    "model": "Sol 6.1 \u00b7 High",
+    "numbers": [
+      1696,
+      1697,
+      1700,
+      1703,
+      1705,
+      1707,
+      1695,
+      1698,
+      1699,
+      1727,
+      1728,
+      1729,
+      1730,
+      1731,
+      1732
+    ],
+    "note": "Phone/sideways/tablet work first (adopted phone studies); desktop is built by the Claude lane for Home, Club, Final Winner and Career Statistics. Transfer last (no adopted phone study). Study re-runs 1727-1732 (Team V redo lines) come after the screen numbers; 3 per message."
+  },
+  "claude_lane_jobs": {
+    "jobs": [
+      1654,
+      1655,
+      1656
+    ],
+    "note": "Claude lane (nothing to type)."
+  },
+  "work_batch": {
+    "size": 3,
+    "model": "Sol 6.1 \u00b7 High",
+    "optional": true,
+    "source": "QUEUE_STATE.json sequence.ready_work_batches",
+    "rule": "Optional: 3 independent Work mode numbers in one message, done one after another, stopping at the first problem. Singles stay available.",
+    "note": "Studies 3 per message; screen jobs 1695-1708 one per message."
+  },
+  "work_free_jobs": [
+    1696,
+    1697,
+    1700,
+    1703,
+    1705,
+    1707,
+    1695,
+    1698,
+    1699,
+    1727,
+    1728,
+    1729,
+    1730,
+    1731,
+    1732
+  ],
+  "claude_doing": {
+    "title": "Claude is doing (nothing to type)",
+    "note": "Claude browser-checks every screen PR and fixes failures. No retries by GPT.",
+    "open_prs": [],
+    "desktop_studies": [
+      {
+        "screen": "Home",
+        "study": 1086
+      },
+      {
+        "screen": "Club",
+        "study": 1173
+      },
+      {
+        "screen": "Final Winner",
+        "study": 1289
+      },
+      {
+        "screen": "Career Statistics",
+        "study": 1405
+      }
+    ],
+    "desktop_note": "Desktop studies built by the Claude lane (branches gameplay/desktop-*), nothing to type.",
+    "release": {
+      "name": "r72",
+      "pr": 745,
+      "when": "before 2 pm Boston today (12 Oct)",
+      "carries": "six screen trains, QoL 1, 2, 3, 6 and 7, and FULL MOTION"
+    }
+  },
+  "plan": "2026-10-12 03:25 UTC: one Work mode number per screen (jobs 1695-1708) replaces per-size items, wiring and polish; study jobs follow; chat empty.",
+  "screen_jobs": [
+    {
+      "job": 1695,
+      "screen": "Home"
+    },
+    {
+      "job": 1696,
+      "screen": "Connect Players"
+    },
+    {
+      "job": 1697,
+      "screen": "League"
+    },
+    {
+      "job": 1698,
+      "screen": "Club"
+    },
+    {
+      "job": 1699,
+      "screen": "Transfer"
+    },
+    {
+      "job": 1700,
+      "screen": "Season Results"
+    },
+    {
+      "job": 1701,
+      "screen": "Standings"
+    },
+    {
+      "job": 1702,
+      "screen": "Final Winner"
+    },
+    {
+      "job": 1703,
+      "screen": "Rivalry Statistics"
+    },
+    {
+      "job": 1704,
+      "screen": "Legacy"
+    },
+    {
+      "job": 1705,
+      "screen": "Trophy Room"
+    },
+    {
+      "job": 1706,
+      "screen": "Career Statistics"
+    },
+    {
+      "job": 1707,
+      "screen": "Rule Book"
+    },
+    {
+      "job": 1708,
+      "screen": "Settings"
+    }
+  ],
+  "qol_jobs": [
+    {
+      "qol": 2,
+      "job": 1723,
+      "title": "Career Start errors in plain English"
+    },
+    {
+      "qol": 4,
+      "job": 1724,
+      "title": "a finished Showdown stops saying LEADS"
+    },
+    {
+      "qol": 5,
+      "job": 1725,
+      "title": "a photo that failed once loads on the next try"
+    },
+    {
+      "qol": 8,
+      "job": 1726,
+      "title": "a failed load cannot double up taps on retry"
+    }
+  ],
+  "next_releases": [
+    {
+      "name": "r72",
+      "when": "today before 2 pm Boston",
+      "pr": 745
+    },
+    {
+      "name": "r73",
+      "when": "tonight"
+    }
+  ],
+  "study_reruns": {
+    "jobs": [
+      1727,
+      1728,
+      1729,
+      1730,
+      1731,
+      1732
+    ],
+    "map": {
+      "1727": "Connect Players sideways (old 1113)",
+      "1728": "Connect Players tablet (old 1114)",
+      "1729": "Standings sideways (old 1258)",
+      "1730": "Trophy Room sideways (old 1345)",
+      "1731": "Rule Book sideways (old 1432)",
+      "1732": "Legacy tablet (old 1317)"
+    },
+    "note": "Transfer War phone (old 1197) is wired directly by screen job 1699, no re-run."
   }
- },
- "plan": "2026-10-12 03:25 UTC: one Work mode number per screen (jobs 1695-1708) replaces per-size items, wiring and polish; study jobs follow; chat empty.",
- "screen_jobs": [
-  {
-   "job": 1695,
-   "screen": "Home"
-  },
-  {
-   "job": 1696,
-   "screen": "Connect Players"
-  },
-  {
-   "job": 1697,
-   "screen": "League"
-  },
-  {
-   "job": 1698,
-   "screen": "Club"
-  },
-  {
-   "job": 1699,
-   "screen": "Transfer"
-  },
-  {
-   "job": 1700,
-   "screen": "Season Results"
-  },
-  {
-   "job": 1701,
-   "screen": "Standings"
-  },
-  {
-   "job": 1702,
-   "screen": "Final Winner"
-  },
-  {
-   "job": 1703,
-   "screen": "Rivalry Statistics"
-  },
-  {
-   "job": 1704,
-   "screen": "Legacy"
-  },
-  {
-   "job": 1705,
-   "screen": "Trophy Room"
-  },
-  {
-   "job": 1706,
-   "screen": "Career Statistics"
-  },
-  {
-   "job": 1707,
-   "screen": "Rule Book"
-  },
-  {
-   "job": 1708,
-   "screen": "Settings"
-  }
- ],
- "qol_jobs": [
-  {
-   "qol": 2,
-   "job": 1723,
-   "title": "Career Start errors in plain English"
-  },
-  {
-   "qol": 4,
-   "job": 1724,
-   "title": "a finished Showdown stops saying LEADS"
-  },
-  {
-   "qol": 5,
-   "job": 1725,
-   "title": "a photo that failed once loads on the next try"
-  },
-  {
-   "qol": 8,
-   "job": 1726,
-   "title": "a failed load cannot double up taps on retry"
-  }
- ],
- "next_releases": [
-  {
-   "name": "r72",
-   "when": "today before 2 pm Boston",
-   "pr": 745
-  },
-  {
-   "name": "r73",
-   "when": "tonight"
-  }
- ]
 }
