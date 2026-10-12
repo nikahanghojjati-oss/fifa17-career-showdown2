@@ -898,49 +898,59 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
  #app #connectPlayersScreen .connectPlayersWorkspace { gap:6px; }
 }
 /* Both upright tablets use the same flow, including 820x1180 (previously
-   outside JOB-1095). Larger art never reserves space needed by controls. */
+   outside JOB-1095). The hero is the flexible row, so it grows to fill the
+   screen top to bottom yet always gives way to the controls. */
 @media (min-width:700px) and (max-width:900px) and (min-height:701px) and (orientation:portrait) {
- #app #connectPlayersScreen .connectPlayersPhoneFlow { padding-inline:24px;padding-bottom:20px;gap:12px; }
+ #app #connectPlayersScreen {
+  --cp-scene:clamp(0px,min(44svh,calc(100svh - var(--cp-top) - var(--cp-bottom) - 500px)),600px);
+ }
+ #app #connectPlayersScreen .connectPlayersPhoneFlow { padding-inline:24px;padding-bottom:24px;gap:16px; }
  #app #connectPlayersScreen .connectPlayersPhoneScene { margin-inline:-24px; }
- #app #connectPlayersScreen h2#connectPlayersTitle { font-size:48px; }
- #app #connectPlayersScreen .connectPlayersKicker { font-size:12px; }
- #app #connectPlayersScreen .connectPlayersTagline { max-width:600px;font-size:14px; }
- #app #connectPlayersScreen .connectPlayersTabs span { font-size:16px; }
- #app #connectPlayersScreen .connectPlayersRole { padding:16px; }
- #app #connectPlayersScreen .connectPlayersRole h3 { font-size:28px; }
- #app #connectPlayersScreen .connectPlayersRole p { font-size:15px; }
- #app #connectPlayersScreen #connectPlayersSetup { min-height:48px;font-size:19px; }
- #app #connectPlayersScreen #persistentNikDanielPairPanel { padding:14px; }
- #app #connectPlayersScreen #persistentNikDanielPairPanel>p { font-size:14px; }
- #app #connectPlayersScreen #persistentNikDanielPairPanel .menuButton { font-size:16px; }
- #app #connectPlayersScreen #persistentNikDanielPairPanel span { font-size:12px; }
+ #app #connectPlayersScreen .connectPlayersPhoneScene img { height:150%; }
+ #app #connectPlayersScreen h2#connectPlayersTitle { font-size:56px; }
+ #app #connectPlayersScreen .connectPlayersKicker { font-size:13px; }
+ #app #connectPlayersScreen .connectPlayersTagline { max-width:640px;font-size:16px; }
+ #app #connectPlayersScreen .connectPlayersTabs span { font-size:18px; }
+ #app #connectPlayersScreen .connectPlayersBack { font-size:14px; }
+ #app #connectPlayersScreen .connectPlayersRole { padding:20px; }
+ #app #connectPlayersScreen .connectPlayersRole h3 { font-size:32px; }
+ #app #connectPlayersScreen .connectPlayersRole p { font-size:17px; }
+ #app #connectPlayersScreen #connectPlayersSetup { min-height:52px;font-size:21px; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel { padding:18px; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel>strong { font-size:22px; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel>p { font-size:16px; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel .menuButton { min-height:50px;font-size:18px; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel span { font-size:13px; }
+ #app #connectPlayersScreen #persistentNikDanielPairCode { font-size:18px; }
 }
 
-/* Short landscape phones: art left, live header and controls right. Roles
-   and the pair panel sit side by side under the unchanged tab/tap order. */
+/* Short landscape phones (study 1113 layout): Daniel left and Nik right of a
+   centred column. Roles and the pair panel sit side by side under the
+   unchanged tab/tap order, so the primary stays in the first view. */
 @media (max-width:900px) and (max-height:500px) and (orientation:landscape) {
  #app #connectPlayersScreen { background:#07080a url('../visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp') center/cover no-repeat; }
  html[data-nav="hub"] #app #connectPlayersScreen { --cp-bottom:var(--sd-nav-bottom-space,calc(56px + env(safe-area-inset-bottom,0px))); }
  #app #connectPlayersScreen .connectPlayersArt { display:none; }
  #app #connectPlayersScreen .connectPlayersPhoneFlow {
-  display:grid;grid-template-columns:minmax(0,28fr) minmax(0,72fr);
-  grid-template-rows:auto 1fr;grid-template-areas:"scene header" "scene workspace";
-  gap:8px 12px;padding:8px max(12px,env(safe-area-inset-right,0px)) 12px max(12px,env(safe-area-inset-left,0px));
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:6px max(12px,env(safe-area-inset-right,0px)) 10px max(12px,env(safe-area-inset-left,0px));
  }
  #app #connectPlayersScreen .connectPlayersPhoneScene {
-  position:relative;display:block;grid-area:scene;min-width:0;min-height:0;
-  height:100%;max-height:calc(100svh - var(--cp-top) - var(--cp-bottom) - 20px);
-  margin:0;overflow:hidden;pointer-events:none;
+  position:absolute;inset:0;z-index:0;display:block;min-width:0;min-height:0;
+  height:auto;max-height:none;margin:0;overflow:hidden;pointer-events:none;
  }
  #app #connectPlayersScreen .connectPlayersPhoneScene img {
-  position:absolute;top:0;left:auto;height:100%;width:58%;max-width:none;
-  object-fit:contain;object-position:center top;filter:drop-shadow(0 4px 7px #000a);
+  position:absolute;top:0;height:100%;width:auto;max-width:none;
+  filter:drop-shadow(0 4px 7px #000a);
  }
- #app #connectPlayersScreen .connectPlayersSceneDaniel { left:0; }
- #app #connectPlayersScreen .connectPlayersSceneNik { right:0; }
- #app #connectPlayersScreen .connectPlayersPhoneScene::after { display:none; }
+ #app #connectPlayersScreen .connectPlayersSceneDaniel { left:-6%; }
+ #app #connectPlayersScreen .connectPlayersSceneNik { left:75%; }
+ #app #connectPlayersScreen .connectPlayersPhoneScene::after {
+  content:"";position:absolute;inset:0;height:auto;
+  background:linear-gradient(90deg,transparent 12%,#08090988 25%,#08090988 75%,transparent 88%);
+ }
  #app #connectPlayersScreen .connectPlayersHeader {
-  grid-area:header;position:relative;inset:auto;width:100%;min-width:0;
+  position:relative;z-index:2;inset:auto;flex:0 0 auto;width:clamp(440px,58%,640px);max-width:100%;min-width:0;
   display:flex;flex-direction:column;align-items:center;gap:2px;margin:0;
  }
  #app #connectPlayersScreen .connectPlayersKicker,
@@ -956,15 +966,15 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
   color:#ffda4e;background:none;-webkit-text-fill-color:#ffda4e;letter-spacing:-.03em;
  }
  #app #connectPlayersScreen .connectPlayersWorkspace {
-  grid-area:workspace;align-self:start;position:relative;inset:auto;
-  width:100%;height:auto;margin:0;padding:0;border:0;background:none;box-shadow:none;
+  align-self:center;position:relative;z-index:2;inset:auto;flex:0 0 auto;
+  width:clamp(440px,58%,640px);max-width:100%;height:auto;margin:0;padding:0;border:0;background:none;box-shadow:none;
   display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;
  }
  #app #connectPlayersScreen .connectPlayersTabRow { display:flex;grid-column:1/-1;position:relative;min-height:44px; }
  #app #connectPlayersScreen .connectPlayersTabs { display:flex;flex:1 1 auto;margin-right:60px;gap:0; }
  #app #connectPlayersScreen .connectPlayersTabs label { flex:1 1 0;min-width:44px;min-height:44px; }
  #app #connectPlayersScreen .connectPlayersTabs span { height:100%;min-height:44px;font-size:11px;line-height:1.1;letter-spacing:0; }
- #app #connectPlayersScreen .connectPlayersTabs input:checked+span { color:#000;background:#f0c84b; }
+ #app #connectPlayersScreen .connectPlayersTabs input:checked+span { color:#000;background:linear-gradient(120deg,#ad7917,#e0b837 52%,#9d6c15);box-shadow:inset 0 -2px #ffe17b; }
  #app #connectPlayersScreen .connectPlayersBack {
   position:absolute;top:0;right:0;width:52px;height:100%;padding:0;border-radius:0;font-size:11px;
  }
