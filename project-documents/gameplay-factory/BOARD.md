@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 12 Oct, 12:18 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 12 Oct, 12:22 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r72** (main `9b514ec`, Mon 12 Oct 7:41 AM)
 
@@ -45,8 +45,8 @@ Updated Mon 12 Oct, 12:18 PM Boston time. Bug hunting only, no new features unti
 🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 3 h ago
 
 **#8 · 1796** `G` Work mode audit and fix js/optionalModules.js (first half (lines 1 to 292))  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #822 · CI 7 of 8 passed · last move 36 min ago
+`████████░░` **78.7500 %**  
+🟢 Team green · model not set · worker done, PR #822 open, CI running · CI 7 of 8 passed · last move 0 min ago
 
 ### 👉 Next for you, in this order
 
