@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 11:35 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 11:42 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r71** (main `2a511f6`, Sun 11 Oct 9:40 PM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #705 has waited 7 min for a machine; POS20 has waited 4 min for a machine; Showdown Gate on #721 has waited 2 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -22,15 +22,19 @@ Updated Sun 11 Oct, 11:35 PM Boston time. Bug hunting only, no new features unti
 
 **#2 · 1648** `G` Old CSS: which old sheets and selectors are still live (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 8 min ago
+⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 15 min ago
 
 **#3 · 1651** `G` Flash guard: cover Season Results, Final Winner and Rivalry, and time tap feedback  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #692 · CI 7 of 8 passed · last move 5 h ago
 
 **#4 · 1652** `G` Settings › Motion: add a FULL MOTION choice  
+`████████░░` **77.3333 %**  
+🔵 Team blue · model not set · worker done, PR #691 open, CI running · CI 11 of 15 passed · last move 0 min ago
+
+**#5 · 1723** `G` QoL 2: Career Start errors in plain English  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #691 · CI 7 of 15 passed · last move 0 min ago
+🔵 Team blue · model not set · worker working, draft PR #737 · CI 7 of 8 passed · last move 4 min ago
 
 ### 👉 Next for you, in this order
 
@@ -626,17 +630,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1722
 ```
 
-**#60 · 1723** `G` QoL 2: Career Start errors in plain English  
-`░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · model not set · GPT chat: type 'Job 1723'
-
-New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
-
-```text
-Job 1723
-```
-
-**#61 · 1724** `G` QoL 4: a finished Showdown stops saying LEADS  
+**#60 · 1724** `G` QoL 4: a finished Showdown stops saying LEADS  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1724'
 
@@ -646,7 +640,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1724
 ```
 
-**#62 · 1725** `G` QoL 5: a photo that failed once loads on the next try  
+**#61 · 1725** `G` QoL 5: a photo that failed once loads on the next try  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1725'
 
@@ -656,7 +650,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1725
 ```
 
-**#63 · 1726** `G` QoL 8: a failed load cannot double up taps on retry  
+**#62 · 1726** `G` QoL 8: a failed load cannot double up taps on retry  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1726'
 
@@ -805,18 +799,18 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-525 527 542 543 544 545 546 547 548 549 550 551 552
+nothing ready
 ```
 
-Open code PRs: 0/8.
+Open code PRs: 3/8.
 
-541 taken of 552.
+552 taken of 552.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
-| audits | 146 | 112/146 | 133/146 |
-| screen fixes | 266 | 60/266 | 129/266 |
-| mockup match | 14 | 0/14 | 6/14 |
+| audits | 146 | 112/146 | 146/146 |
+| screen fixes | 266 | 60/266 | 266/266 |
+| mockup match | 14 | 0/14 | 14/14 |
 | phone studies | 70 | 23/70 | 70/70 |
 | desktop studies | 56 | 1/56 | 4/56 |
 
@@ -824,7 +818,18 @@ Open code PRs: 0/8.
 
 | # | Job | State | Title |
 | --- | --- | --- | --- |
-| 541 | 1683 | branch only | Audit js/saveLibraryFoundation.js for gameplay bugs (second half) |
+| 552 | 1694 | retired | Audit js/productionSharedSeasonResultsRoute.js for gameplay bugs (second half) |
+| 551 | 1693 | retired | Audit js/sharedJourneyConflicts.js for gameplay bugs (second half) |
+| 550 | 1692 | retired | Audit js/productionSharedJourneyGuard.js for gameplay bugs (second half) |
+| 549 | 1691 | retired | Audit js/menuFeedback.js for gameplay bugs (second half) |
+| 548 | 1690 | retired | Audit js/storageTransaction.js for gameplay bugs (second half) |
+| 547 | 1689 | retired | Audit js/ruleBook.js for gameplay bugs (second half) |
+| 546 | 1688 | retired | Audit js/optionalModules.js for gameplay bugs (second half) |
+| 545 | 1687 | retired | Audit js/backup.js for gameplay bugs (second half) |
+| 544 | 1686 | retired | Audit js/saveLibraryPersistence.js for gameplay bugs (second half) |
+| 543 | 1685 | retired | Audit js/footballVisuals.js for gameplay bugs (second half) |
+| 542 | 1684 | retired | Audit js/restoreUI.js for gameplay bugs (second half) |
+| 541 | 1683 | PR open | Audit js/saveLibraryFoundation.js for gameplay bugs (second half) |
 | 540 | 1682 | PR open | Audit js/trophyRoom.js for gameplay bugs (second half) |
 | 539 | 1681 | PR open | Audit js/leagueWheel.js for gameplay bugs (second half) |
 | 538 | 1680 | PR open | Audit js/transferSelector.js for gameplay bugs (second half) |
@@ -832,28 +837,17 @@ Open code PRs: 0/8.
 | 536 | 1678 | PR open | Audit js/scoring.js for gameplay bugs (second half) |
 | 535 | 1677 | PR open | Audit js/productionSharedSeasonResultsRoute.js for gameplay bugs (first half) |
 | 534 | 1676 | PR open | Audit js/sharedJourneyConflicts.js for gameplay bugs (first half) |
-| 533 | 1675 | branch only | Audit js/productionSharedJourneyGuard.js for gameplay bugs (first half) |
-| 532 | 1674 | PR open | Audit js/menuFeedback.js for gameplay bugs (first half) |
-| 531 | 1673 | PR open | Audit js/storageTransaction.js for gameplay bugs (first half) |
-| 530 | 1672 | PR open | Audit js/ruleBook.js for gameplay bugs (first half) |
-| 529 | 1671 | PR open | Audit js/optionalModules.js for gameplay bugs (first half) |
-| 528 | 1670 | PR open | Audit js/backup.js for gameplay bugs (first half) |
-| 526 | 1668 | PR open | Audit js/footballVisuals.js for gameplay bugs (first half) |
-| 524 | 1666 | PR open | Audit js/saveLibraryFoundation.js for gameplay bugs (first half) |
-| 523 | 1665 | PR open | Audit js/trophyRoom.js for gameplay bugs (first half) |
-| 522 | 1664 | PR open | Audit js/leagueWheel.js for gameplay bugs (first half) |
-| 521 | 1663 | PR open | Audit js/transferSelector.js for gameplay bugs (first half) |
-| 520 | 1662 | PR open | Audit js/showdownUI.js for gameplay bugs (first half) |
+| 533 | 1675 | PR open | Audit js/productionSharedJourneyGuard.js for gameplay bugs (first half) |
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T03:34:25Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T03:39:58Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
-| Gameplay audits | 112 of 146 | 21 | 13 |
-| Screen fixes | 60 of 266 | 69 | 137 |
-| Match desktop to mockups | 0 of 14 | 6 | 8 |
+| Gameplay audits | 112 of 133 | 21 | 0 |
+| Screen fixes | 64 of 129 | 65 | 0 |
+| Match desktop to mockups | 1 of 6 | 5 | 0 |
 | Phone mockup studies | 23 of 70 | 47 | 0 |
 | Improved desktop studies | 1 of 56 | 3 | 52 |
 
@@ -861,7 +855,6 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 - 712
 - 713
-- 702
 - 705
 - 716
 - 721
