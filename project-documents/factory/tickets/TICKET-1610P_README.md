@@ -17,9 +17,9 @@ Nik runs one ticket per screen in a brand-new normal ChatGPT chat outside any pr
 | 9 | Legacy | DONE 12 Oct (ENV_LEGACY_PLATE_V2) |
 | 10 | Trophy Room | DONE 12 Oct (ENV_TROPHY_ROOM_PLATE_V2) |
 | 11 | Settings | DONE 12 Oct (ENV_SETTINGS_PLATE_V2) |
-| 12 | Final Winner | TICKET-1610P_12_OF_14_FINAL_WINNER_PLATE.md |
-| 13 | Rule Book | TICKET-1610P_13_OF_14_RULE_BOOK_PLATE.md |
-| 14 | Standings | TICKET-1610P_14_OF_14_STANDINGS_PLATE.md |
+| 12 | Final Winner | DONE 12 Oct (ENV_FINAL_WINNER_PLATE_V2) |
+| 13 | Rule Book | DONE 12 Oct (ENV_RULE_BOOK_PLATE_V2) |
+| 14 | Standings | DONE 12 Oct (ENV_STANDINGS_PLATE_V2) |
 
 Removed areas per screen (1X px on the 1536x864 picture): tools in the lead's scratchpad, guides in attach/GUIDE_<KEY>_PLATE_V2.png (black bars 80 px top and bottom).
 
