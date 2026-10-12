@@ -801,6 +801,11 @@
   body:has(#mainMenu.v10Home) .topBarTab,
   body:has(#mainMenu.v10Home) .topBarSettings { min-width: 44px; min-height: 44px; }
 }
+/* Short phones (Team V's 44/56px tile rows with a 4px gap): an 8px gap
+   squeezes the tile icons under 30px, so these keep Team V's own 4px gap. */
+@media (max-height: 600px) {
+  #mainMenu.v10Home .fifaMenuGrid { gap: 4px; }
+}
 /* Portrait's expanded eleven-track sheet needs a larger close-header reserve
    and accurate height when the six rows are separated by eight pixels. */
 @media (min-width: 376px) and (max-width: 450px) and (min-height: 820px) and (orientation: portrait) {
