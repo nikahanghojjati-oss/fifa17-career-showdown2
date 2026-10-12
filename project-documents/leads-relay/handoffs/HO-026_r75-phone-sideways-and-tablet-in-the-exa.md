@@ -10,11 +10,11 @@
  "priority": "top",
  "worker": "images",
  "parent": null,
- "job": "1799",
+ "job": "1800",
  "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-12T21:55:07Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-12T21:56:19Z", "by": "V", "status": "RECEIVED", "note": "Cutouts: re-cut (V3) from the new marble phone plates so the light matches, faces checked against NEXT_*. Plan: per screen, a GPT ticket redraws the approved PHONE_<SCREEN> layout in the NEXT_<SCREEN> marble look (= PHONE_<SCREEN>_MARBLE mockup), then the 1610P cyan-box method makes the plate. First 3 samples: Home, Season Results, Final Winner."}, {"at": "2026-10-12T21:58:49Z", "by": "V", "status": "WORKING", "note": "Tickets for the 3 sample marble phone mockups are ready for Nik (factory/v1-wtt5ye 0fa01a28b, tickets/TICKET-1799_*)."}]
+ "log": [{"at": "2026-10-12T21:55:07Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-12T21:56:19Z", "by": "V", "status": "RECEIVED", "note": "Cutouts: re-cut (V3) from the new marble phone plates so the light matches, faces checked against NEXT_*. Plan: per screen, a GPT ticket redraws the approved PHONE_<SCREEN> layout in the NEXT_<SCREEN> marble look (= PHONE_<SCREEN>_MARBLE mockup), then the 1610P cyan-box method makes the plate. First 3 samples: Home, Season Results, Final Winner."}, {"at": "2026-10-12T21:58:49Z", "by": "V", "status": "WORKING", "note": "Tickets for the 3 sample marble phone mockups are ready for Nik (factory/v1-wtt5ye 0fa01a28b, tickets/TICKET-1799_*)."}, {"at": "2026-10-12T23:35:45Z", "by": "V", "status": "WORKING", "note": "Samples 1799: Home approved; Season Results and Final Winner with Nik. Ticket 1800 (13 more phone marble mockups incl. Loading and Trophy Room single) ready 12 Oct 7:40 p.m. Eastern. Loading marble keeps the Marco Reus photo and credit (OWNER-4), only the look changes."}]
 }
 ```
 
