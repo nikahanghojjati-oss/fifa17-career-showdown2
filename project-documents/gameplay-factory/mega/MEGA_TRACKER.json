@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T09:48:26Z",
+"updated": "2026-10-12T09:49:56Z",
 "total": 394,
 "next_free": 374,
 "highest_taken": 541,
@@ -471,24 +471,25 @@
 "states": {
 "live": 8,
 "merged": 8,
-"waiting": 32,
-"closed": 3
+"waiting": 31,
+"closed": 3,
+"draft": 1
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 19,
-"worker_done": 16,
+"picked_up": 20,
+"worker_done": 17,
 "finished": 16,
-"pending_lead": 0,
+"pending_lead": 1,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 0,
 "closed": 3,
 "reviews_total": 0,
-"first_time_ok": 84,
+"first_time_ok": 85,
 "failing_now": 0
 },
 "claude": {
@@ -567,7 +568,6 @@
 1646,
 1659,
 1660,
-1695,
 1696,
 1697,
 1698,
