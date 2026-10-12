@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 12 Oct, 11:23 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 12 Oct, 11:24 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r72** (main `9b514ec`, Mon 12 Oct 7:41 AM)
 
@@ -22,15 +22,15 @@ Updated Mon 12 Oct, 11:23 AM Boston time. Bug hunting only, no new features unti
 
 **#2 · 1699** `G` Transfer challenge and Signing Entry: one Work mode job for the whole screen  
 `██████░░░░` **60.0000 %**  
-🟢 Team green · model not set · worker done, PR #767 open, CI failed · CI 6 of 8 passed · last move 97 min ago
+🟢 Team green · model not set · worker done, PR #767 open, CI failed · CI 6 of 8 passed · last move 98 min ago
 
 **#3 · 1702** `G` Final Winner (Showdown Champion): one Work mode job for the whole screen  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #793 · CI 7 of 8 passed · last move 51 min ago
+`███████░░░` **74.6667 %**  
+🟢 Team green · model not set · worker done, PR #793 open, CI running · CI 7 of 15 passed · last move 0 min ago
 
 **#4 · 1706** `G` Career Statistics: one Work mode job for the whole screen  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #798
+`███████░░░` **70.0000 %**  
+🟢 Team green · model not set · worker done, PR #798 open, CI not started
 
 **#5 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -58,39 +58,39 @@ Updated Mon 12 Oct, 11:23 AM Boston time. Bug hunting only, no new features unti
 
 **#11 · 1752** `G` Audit and fix js/screens.js (second half (lines 406 to the end))  
 `██████░░░░` **60.0000 %**  
-🔵 Team blue · model not set · worker done, PR #815 open, CI failed · CI 15 of 16 passed · last move 3 min ago
+🔵 Team blue · model not set · worker done, PR #815 open, CI failed · CI 15 of 16 passed · last move 4 min ago
 
 **#12 · 1753** `G` Audit and fix js/restore.js (first half (lines 1 to 372))  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #818 · CI 7 of 8 passed · last move 1 min ago
+🟢 Team green · model not set · worker working, draft PR #818 · CI 7 of 8 passed · last move 2 min ago
 
 **#13 · 1766** `G` Audit and fix js/productionSharedMultiSeasonProgression.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #819 · CI 7 of 8 passed · last move 1 min ago
+🟢 Team green · model not set · worker working, draft PR #819 · CI 7 of 8 passed · last move 2 min ago
 
 **#14 · 1778** `G` Audit and fix js/productionSharedFinalReconciliation.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #792 · CI 7 of 8 passed · last move 93 min ago
+🔵 Team blue · model not set · worker working, draft PR #792 · CI 7 of 8 passed · last move 94 min ago
 
 **#15 · 1779** `G` Audit and fix js/productionSharedShowdownSetup.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #795 · CI 7 of 8 passed · last move 84 min ago
+🔵 Team blue · model not set · worker working, draft PR #795 · CI 7 of 8 passed · last move 85 min ago
 
 **#16 · 1780** `G` Audit and fix js/sparkSharedSeasonResults.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #796 · CI 7 of 8 passed · last move 79 min ago
+🔵 Team blue · model not set · worker working, draft PR #796 · CI 7 of 8 passed · last move 80 min ago
 
 **#17 · 1782** `G` Audit and fix js/sparkSharedSeasonCommit.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #800 · CI 7 of 8 passed · last move 67 min ago
+🔵 Team blue · model not set · worker working, draft PR #800 · CI 7 of 8 passed · last move 68 min ago
 
 **#18 · 1787** `G` Audit and fix js/storage.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #803 · CI 7 of 8 passed · last move 60 min ago
+🔵 Team blue · model not set · worker working, draft PR #803 · CI 7 of 8 passed · last move 61 min ago
 
 **#19 · 1791** `G` Free startup gzip headroom, then carry the navigation guard  
 `██████░░░░` **60.0000 %**  
-🟢 Team green · model not set · worker done, PR #815 open, CI failed · CI 15 of 16 passed · last move 3 min ago
+🟢 Team green · model not set · worker done, PR #815 open, CI failed · CI 15 of 16 passed · last move 4 min ago
 
 ### 👉 Next for you, in this order
 
