@@ -588,3 +588,6 @@
   overflow-wrap:anywhere;
  }
 }
+
+/* QoL 1 (BH-12): on the recovery screen RESTORE BACKUP leads (solid yellow, first in focus order); DELETE OLD SHOWDOWN & START OVER stays, smaller. #app prefix beats the Team V sheets that load later. */
+#app #connectPlayersScreen #persistentNikDanielPairPanel .menuButton.pairRecoverySecondary{flex:0 0 auto;min-height:40px;padding:6px 10px;font-size:12px;letter-spacing:.04em;}
