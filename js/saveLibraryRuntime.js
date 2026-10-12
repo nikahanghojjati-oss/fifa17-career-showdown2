@@ -436,8 +436,8 @@
         const target=runtimeGetSaveEntry(library,saveId);
         const prepared=runtimeCloneValue(target.showdown);
         await runtimePrimeSeasonIdentities(prepared);
-        runtimeAuthorityRawSnapshot();
         try{
+            if(runtimeAuthorityRawSnapshot().saveLibrary!==raw.saveLibrary)throw new Error("Save Library changed in another tab or operation. Reload before writing again.");
             if(library.activeSaveId!==saveId){
                 const next={...library,activeSaveId:saveId,profiles:library.profiles.map(runtimeCloneValue),saves:library.saves.map(runtimeCloneValue)};
                 const errors=runtimeGetFoundation().validateSaveLibrary(next);

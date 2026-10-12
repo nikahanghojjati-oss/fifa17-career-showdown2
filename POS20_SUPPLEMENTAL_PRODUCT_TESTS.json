@@ -1279,6 +1279,129 @@
         "^tests/contracts/chat\\-audit\\-showdown\\-ui\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/full-motion-honors-device-contracts.cjs",
+      "patterns": [
+        "^js/fullMotionHonor\\.js$",
+        "^js/storage\\.js$",
+        "^js/ssjr\\.js$",
+        "^service-worker\\.js$",
+        "^tests/contracts/full-motion-honors-device-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-save-library-runtime-b-contracts.cjs",
+      "patterns": [
+        "^js/saveLibraryRuntime\\.js$",
+        "^tests/contracts/chat\\-audit\\-save\\-library\\-runtime\\-b\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-backup-contracts.cjs",
+      "patterns": [
+        "^js/backup\\.js$",
+        "^tests/contracts/chat\\-audit\\-backup\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-shared-transfer-challenge-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^tests/contracts/chat\\-audit\\-shared\\-transfer\\-challenge\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-season-commit-online-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^tests/contracts/chat\\-audit\\-season\\-commit\\-online\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-canonical-scoring-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedCanonicalScoring\\.js$",
+        "^tests/contracts/chat\\-audit\\-canonical\\-scoring\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-restore-b-contracts.cjs",
+      "patterns": [
+        "^js/restore\\.js$",
+        "^tests/contracts/chat\\-audit\\-restore\\-b\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-screens-a-contracts.cjs",
+      "patterns": [
+        "^js/screens\\.js$",
+        "^tests/contracts/chat\\-audit\\-screens\\-a\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-import-analysis-b-contracts.cjs",
+      "patterns": [
+        "^js/importAnalysis\\.js$",
+        "^tests/contracts/chat\\-audit\\-import\\-analysis\\-b\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-import-analysis-a-contracts.cjs",
+      "patterns": [
+        "^js/importAnalysis\\.js$",
+        "^tests/contracts/chat\\-audit\\-import\\-analysis\\-a\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-save-library-foundation-b-contracts.cjs",
+      "patterns": [
+        "^js/saveLibraryFoundation\\.js$",
+        "^tests/contracts/chat\\-audit\\-save\\-library\\-foundation\\-b\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-save-library-foundation-a-contracts.cjs",
+      "patterns": [
+        "^js/saveLibraryFoundation\\.js$",
+        "^tests/contracts/chat\\-audit\\-save\\-library\\-foundation\\-a\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-season-results-route-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedSeasonResultsRoute\\.js$",
+        "^tests/contracts/chat\\-audit\\-season\\-results\\-route\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-journey-conflicts-contracts.cjs",
+      "patterns": [
+        "^js/sharedJourneyConflicts\\.js$",
+        "^tests/contracts/chat\\-audit\\-journey\\-conflicts\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-diagnostics-b-contracts.cjs",
+      "patterns": [
+        "^js/diagnostics\\.js$",
+        "^tests/contracts/chat\\-audit\\-diagnostics\\-b\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
