@@ -39,6 +39,59 @@
     const engine=root.ShowdownStage?.mount(s,{plate:{width:1672,height:941,src1x:BASE+"shared/plates/ENV_SYS_PLATE_V1_1X.webp",src2x:BASE+"shared/plates/ENV_SYS_PLATE_V1_2X.webp"},focal:{x:836,y:470.5}});
     return {stage:s,engine};
   }
+  // JOB-1707: adopted phone study 1429. Wrap the original nodes only on upright
+  // phones; widen/rotate and unmount restore the exact articles and heading nodes.
+  // Disclosures are presentation state only; every rule and scoring value stays live.
+  function ruleBookDisclosures(content){
+    const media=root.matchMedia?.("(max-width: 699px) and (orientation: portrait)");
+    if(!media)return ()=>{};
+    const rows=Array.from(content.querySelectorAll(".ruleSection")).map(card=>({
+      card,children:Array.from(card.childNodes||card.children),head:card.querySelector(".ruleSectionHeader")
+    }));
+    let mounted=false,selected=0;
+    function restore(){
+      if(!mounted)return;
+      const focused=rows.some(row=>row.summary===doc().activeElement);
+      for(const row of rows){
+        row.details.removeEventListener("toggle",row.onToggle);
+        row.head.append(...Array.from(row.summary.childNodes));
+        row.card.replaceChildren(...row.children);
+        row.details=null;row.summary=null;
+      }
+      mounted=false;
+      if(focused)content.querySelector("#ruleBookBack")?.focus({preventScroll:true});
+    }
+    function sync(){
+      if(!media.matches){restore();return;}
+      if(mounted)return;
+      mounted=true;
+      rows.forEach((row,index)=>{
+        const details=element("details","ruleBookDisclosure");
+        const summary=element("summary","ruleSectionHeader ruleBookDisclosureHeader");
+        summary.append(...Array.from(row.head.childNodes));
+        details.append(summary,...row.children.filter(node=>node!==row.head));
+        row.card.replaceChildren(details);
+        row.details=details;row.summary=summary;
+        // Native exclusive details plus a fallback for engines without details.name.
+        details.setAttribute("name","cm17-rule-book");
+        details.open=index===selected;
+        row.onToggle=()=>{
+          if(!mounted||!media.matches||!details.open)return;
+          selected=index;
+          rows.forEach(other=>{if(other!==row)other.details.open=false;});
+        };
+        details.addEventListener("toggle",row.onToggle);
+      });
+    }
+    sync();
+    if(media.addEventListener)media.addEventListener("change",sync);
+    else media.addListener?.(sync);
+    return ()=>{
+      if(media.removeEventListener)media.removeEventListener("change",sync);
+      else media.removeListener?.(sync);
+      restore();
+    };
+  }
   function mountRuleBook(frame,host){
     if(states.has(host))return;
     const original=Array.from(host.children),content=element("div","ruleBookV10Content");
@@ -56,12 +109,14 @@
     content.querySelector('.backButton').id='ruleBookBack';
     content.querySelector('.backButton').classList.add('sd-btn','sd-btn--secondary');
     content.querySelector('.backButton').dataset.sdEnter='button';
-    states.set(host,{...stage('v10RuleBookStage',host,content),original,content});
+    const disposeDisclosures=ruleBookDisclosures(content);
+    states.set(host,{...stage('v10RuleBookStage',host,content),original,content,disposeDisclosures});
     oldSheet('ruleBook',true);
     root.sdEnter?.(content);
   }
   function unmountRuleBook(host){
     const state=states.get(host);if(!state)return;
+    state.disposeDisclosures?.();
     state.engine?.destroy();state.content.querySelector('.ruleBookWordmark')?.remove();
     host.replaceChildren(...state.original);host.classList.remove('v10RuleBook');states.delete(host);oldSheet('ruleBook',false);
   }
