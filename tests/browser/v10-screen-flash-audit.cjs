@@ -409,8 +409,16 @@ async function reducedMotionPass(page, viewportName){
             console.log(`${reducedBlocking.length ? "FAIL" : "ok  "} ${vp.name} reduced-motion pass: ${reducedBlocking.length} problem(s)`);
             for(const p of reducedBlocking) console.log(`      ${p.label}: ${p.reason}`);
             for(const p of reducedFindings) console.log(`FINDING ${p.label}: ${p.reason}`);
-            // Last on purpose: running the tap check first warms the Rule Book and made the Setup journey flaky (picture painted before decode).
-            summary.tapFeedback = await tapFeedback(page, vp);
+            // Own fresh page, after the journeys: running the tap check first on the journey page warmed the Rule Book and made
+            // the Setup journey flaky (picture painted before decode). A fresh page keeps the tap check a first-press measurement.
+            const tapPage = await context.newPage();
+            tapPage.on("pageerror", error => pageErrors.push(`${vp.name} tap page: ${error.message}`));
+            const tapCdp = await context.newCDPSession(tapPage);
+            await tapCdp.send("Emulation.setCPUThrottlingRate", { rate: CPU_THROTTLE });
+            await tapPage.goto(baseUrl.href, { waitUntil: "domcontentloaded" });
+            await waitForHome(tapPage);
+            summary.tapFeedback = await tapFeedback(tapPage, vp);
+            await tapPage.close();
             report.viewports.push(summary);
             await context.close();
         }
