@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T03:29:55Z",
+"updated": "2026-10-12T03:31:25Z",
 "total": 552,
 "next_free": 187,
 "highest_taken": 541,
@@ -438,7 +438,7 @@
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 37,
+"claimed_last_hour": 35,
 "claimed_last_10min": 0,
 "merged_last_hour": 60
 },
@@ -501,11 +501,11 @@
 },
 "chat_jobs": {
 "name": "ChatGPT chat (job numbers 1000+)",
-"total": 64,
+"total": 68,
 "states": {
 "live": 23,
 "merged": 1,
-"waiting": 39,
+"waiting": 43,
 "draft": 1
 },
 "reviews": {
