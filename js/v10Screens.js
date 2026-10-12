@@ -46,6 +46,7 @@
   // expect()ed from the first frame, so the old header, page and footer never paint while that file is still on its way.
   const LAZY_V10_SCREENS=Object.freeze(["careerStatistics","statistics","trophyRoom","legacy","ruleBook"]);
   const DECODE_TIMEOUT_MS=1500;
+  const IMAGE_HOLD_MS=8000;
   const REVEAL_MS=220;
   const TAP_GUARD_MS=350;
   const ALWAYS_ON=Object.freeze([BASE+KIT.styles[0],BASE+NAV.style,NAV.shellStyle]);
@@ -173,12 +174,39 @@
   // JOB-1635: pictures a Team V screen adds after its reveal are held at opacity 0 (css/v10Shell.css img[data-v10-decoding])
   // until they are decoded, then shown. One observer per mounted host; it stops when the screen unmounts.
   const imageWatchers=new Map();
-  function vsHoldImage(img){
-    if(!img||!img.dataset||img.dataset.v10Decoding==="1"||(img.complete&&img.naturalWidth>0)||!(img.currentSrc||img.src||img.getAttribute("srcset")))return;
+  // A picture that will paint but is not loaded yet. An <img> inside <picture> whose only source is a matching <source> (Team V's
+  // phone heroes) has no src and, right after insertion, no currentSrc either: it still counts, or it was revealed half-decoded.
+  function vsPictureSource(img){
+    const picture=img.parentNode;
+    if(!picture||picture.tagName!=="PICTURE"||typeof picture.querySelectorAll!=="function")return false;
+    return [...picture.querySelectorAll("source[srcset]")].some(source=>{const media=source.getAttribute("media");if(!media)return true;try{return typeof root.matchMedia==="function"&&root.matchMedia(media).matches;}catch(_){return false;}});
+  }
+  function vsImagePending(img){
+    if(!img||(img.complete&&img.naturalWidth>0))return false;
+    if(img.currentSrc||img.src||(typeof img.getAttribute==="function"&&img.getAttribute("srcset")))return true;
+    return !img.complete&&vsPictureSource(img);
+  }
+  // Settles once the picture is decoded (or failed). decode() rejects at once before a <picture> has picked its source, and also when
+  // the browser swaps the request it was waiting on; a picture that is still loading then waits for its load event and decodes again.
+  function vsImageSettled(img){
+    const loaded=()=>new Promise(resolve=>{if(img.complete){resolve(img.naturalWidth>0);return;}img.addEventListener("load",()=>resolve(true),{once:true});img.addEventListener("error",()=>resolve(false),{once:true});});
+    if(typeof img.decode!=="function")return loaded();
+    const decode=()=>img.decode().then(()=>true,()=>false);
+    const retry=ok=>ok||img.complete?ok:loaded().then(again=>again?decode():false);
+    if(img.currentSrc||img.src)return decode().then(retry);
+    return loaded().then(ok=>ok?decode():false);
+  }
+  // cap: how long a picture may stay held. A longer hold replaces a shorter one (a picture still loading when the screen's own
+  // decode wait ran out stays hidden until it is ready instead of painting half-decoded).
+  const imageHolds=new WeakMap();
+  function vsHoldImage(img,cap=DECODE_TIMEOUT_MS){
+    if(!img||!img.dataset||!vsImagePending(img))return;
+    const held=imageHolds.get(img);
+    if(held&&held.cap>=cap)return;
+    const token={cap};imageHolds.set(img,token);
     img.dataset.v10Decoding="1";
-    const release=()=>{if(img.dataset)delete img.dataset.v10Decoding;};
-    const settled=typeof img.decode==="function"?img.decode().catch(()=>false):new Promise(resolve=>{img.addEventListener("load",()=>resolve(true),{once:true});img.addEventListener("error",()=>resolve(false),{once:true});});
-    Promise.race([settled,new Promise(resolve=>root.setTimeout(resolve,DECODE_TIMEOUT_MS))]).then(release,release);
+    const release=()=>{if(imageHolds.get(img)!==token)return;imageHolds.delete(img);if(img.dataset)delete img.dataset.v10Decoding;};
+    Promise.race([vsImageSettled(img),new Promise(resolve=>root.setTimeout(resolve,cap))]).then(release,release);
   }
   function vsWatchImages(id,host){
     if(imageWatchers.has(id)||typeof root.MutationObserver!=="function"||!host||typeof host.querySelectorAll!=="function")return;
@@ -188,7 +216,7 @@
         for(const node of record.addedNodes){
           if(!node||node.nodeType!==1)continue;
           if(node.tagName==="IMG")vsHoldImage(node);
-          else if(typeof node.querySelectorAll==="function")node.querySelectorAll("img").forEach(vsHoldImage);
+          else if(typeof node.querySelectorAll==="function")node.querySelectorAll("img").forEach(img=>vsHoldImage(img));
         }
       }
     });
@@ -232,7 +260,9 @@
       frame:definition.frame,mount:definition.mount,
       unmount:typeof definition.unmount==="function"?definition.unmount:null,
       overlay:definition.overlay===true,
-      auto:definition.auto!==false
+      auto:definition.auto!==false,
+      // hold: a screen its own module shows (auto:false) is still expect()ed on the frame the app shows it (JOB-1651).
+      hold:definition.hold===true
     }));
     return api;
   }
@@ -264,14 +294,13 @@
     if(!host||typeof host.querySelectorAll!=="function")return false;
     // One frame first: an <img> inside <picture> has no currentSrc until the browser has picked its source.
     await new Promise(resolve=>typeof root.requestAnimationFrame==="function"?root.requestAnimationFrame(()=>resolve()):root.setTimeout(resolve,0));
-    const waits=[];
-    for(const img of host.querySelectorAll("img")){
-      if(!img||(img.complete&&img.naturalWidth>0)||!(img.currentSrc||img.src))continue;
-      if(typeof img.decode==="function")waits.push(img.decode().catch(()=>false));
-      else waits.push(new Promise(resolve=>{img.addEventListener("load",()=>resolve(true),{once:true});img.addEventListener("error",()=>resolve(false),{once:true});}));
-    }
-    if(!waits.length)return false;
-    return Promise.race([Promise.all(waits).then(()=>true),new Promise(resolve=>root.setTimeout(()=>resolve(false),DECODE_TIMEOUT_MS))]);
+    const images=[...host.querySelectorAll("img")].filter(vsImagePending);
+    if(!images.length)return false;
+    const done=await Promise.race([Promise.all(images.map(vsImageSettled)).then(()=>true),new Promise(resolve=>root.setTimeout(()=>resolve(false),DECODE_TIMEOUT_MS))]);
+    // The screen is never held longer than DECODE_TIMEOUT_MS, but a picture that is still not ready then (slow load, or a request
+    // the browser swapped) is held on its own (opacity 0 until decoded, capped) instead of painting half-loaded after the reveal.
+    for(const img of images)if(vsImagePending(img))vsHoldImage(img,IMAGE_HOLD_MS);
+    return done;
   }
   function vsExpect(id){
     const host=vsHost(id);
@@ -378,7 +407,9 @@
       // Legacy's data tools page (backup, restore, reset) is the one career screen that keeps the app's own markup
       // (js/careerScreenSeam.js): it is never held for a Team V look that will not come.
       const lazy=screen&&LAZY_V10_SCREENS.includes(screen)&&!(screen==="legacy"&&root.careerModeLegacyDataTools===true);
-      const expected=def?def.auto&&vsExpect(screen):lazy&&vsExpect(screen);
+      // A screen its own module shows (auto:false) but registered with hold (Season Results / Final Winner) is held the same way:
+      // without it html[data-v10-screen] and the dark page waited for the module's next tick and the old design painted first.
+      const expected=def?(def.auto||def.hold)&&vsExpect(screen):lazy&&vsExpect(screen);
       if(!expected)vsSyncStyles();
       vsPaintNav(screen);
       if(def&&def.auto)vsShow(screen).catch(error=>vsReport("Team V screen could not load",error));

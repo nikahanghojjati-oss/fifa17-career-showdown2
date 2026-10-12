@@ -1466,6 +1466,15 @@
         "^tests/contracts/work\\-audit\\-optional\\-modules\\-a\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/season-entry-no-flash-contracts.cjs",
+      "patterns": [
+        "^js/v10Screens\\.js$",
+        "^js/seasonFinalV10\\.js$",
+        "^tests/contracts/season\\-entry\\-no\\-flash\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
