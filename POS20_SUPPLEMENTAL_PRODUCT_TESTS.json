@@ -1287,6 +1287,17 @@
         "^tests/contracts/chat\\-audit\\-screens\\-b\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/full-motion-honors-device-contracts.cjs",
+      "patterns": [
+        "^js/fullMotionHonor\\.js$",
+        "^js/storage\\.js$",
+        "^js/ssjr\\.js$",
+        "^service-worker\\.js$",
+        "^tests/contracts/full-motion-honors-device-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

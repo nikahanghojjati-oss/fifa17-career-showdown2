@@ -1320,3 +1320,112 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
 @media (min-width: 1200px) and (max-width: 1420px) and (min-height: 700px) and (pointer: fine) {
   #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel { font-size: 15px; line-height: 1.08; }
 }
+
+/* HOME-PLATE-V2 (ticket 1610P): desktop Home on Team V's marble-lounge plate (visual-assets/v10_1/plates-v2/), drawn to
+   match NEXT_HOME. Scope is the desktop picture range only (wide landscape windows of at least 1200x600); phones,
+   sideways phones and tablets keep their art. Looks only: every word, id and tap order stays as it was. The plate is
+   cover-fit and top-anchored (desktop rule near the top), 2X on high-density screens, and loads with Home, never with
+   the startup bundle. The plate already carries the banner words and the name tags, so the live script line is not
+   drawn over it, and the old plate's darkening scrims are lightened because the marble is already dark where text sits. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  #app #mainMenu.v10Home {
+    --bevel-gold: linear-gradient(135deg, #FFF1B8 0%, #E8B94A 16%, #8A6A12 38%, #F2C45B 58%, #FFF1B8 74%, #B8862A 100%);
+    --bevel-gold-soft: linear-gradient(135deg, #FFE9A0 0%, #D9A83A 28%, #7A5C10 52%, #E8B94A 78%, #FFF1B8 100%);
+  }
+  #app #mainMenu.v10Home .plateView {
+    background-image: image-set(url(../visual-assets/v10_1/plates-v2/ENV_HOME_PLATE_V2_1X.webp) 1x, url(../visual-assets/v10_1/plates-v2/ENV_HOME_PLATE_V2_2X.webp) 2x);
+  }
+  #app #mainMenu.v10Home .scriptLine { display: none; }
+  #app #mainMenu.v10Home .scrimTop { background: linear-gradient(90deg, rgba(6,7,9,.34) 0, rgba(6,7,9,.14) 70%, rgba(6,7,9,0)); }
+  #app #mainMenu.v10Home .dockBed {
+    background: linear-gradient(180deg, rgba(6,7,9,0), rgba(6,7,9,.3) 55%, rgba(6,7,9,.42));
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+  }
+  #app #mainMenu.v10Home .homeLockup::before, #app #mainMenu.v10Home .homeLockup::after,
+  #app #mainMenu.v10Home .fifaMenuHeading::before { background: rgba(6,7,9,.34); }
+  #app #mainMenu.v10Home .lockupKicker, #app #mainMenu.v10Home .lockupLegacy { color: #FFF6D8; text-shadow: 0 1px 3px #000, 0 0 10px rgba(0,0,0,.95), 0 0 22px rgba(0,0,0,.8); }
+  #app #mainMenu.v10Home > .nav-reserve { background: linear-gradient(180deg, rgba(6,7,9,.55), rgba(6,7,9,.82)); border-top-color: rgba(242,196,91,.34); }
+
+  /* ---- gold-bevel framed tiles: a two-tone gold frame, a dark smoked-glass face, a glossy edge line and a top sheen ---- */
+  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile {
+    clip-path: none; border-radius: 0; border: 2px solid transparent; border-image: var(--bevel-gold) 1;
+    background: linear-gradient(180deg, rgba(26,24,20,.9) 0%, rgba(9,9,11,.94) 46%, rgba(4,4,6,.96) 100%);
+    -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
+    box-shadow: 0 12px 26px rgba(0,0,0,.6), 0 0 0 1px rgba(0,0,0,.55), inset 0 0 0 1px rgba(0,0,0,.7), inset 0 0 22px rgba(242,196,91,.07);
+  }
+  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile::before {
+    content: ""; position: absolute; z-index: 0; inset: 0; pointer-events: none;
+    border: 1px solid rgba(255,241,184,.3); border-bottom-color: rgba(201,155,69,.22);
+    background: linear-gradient(180deg, rgba(255,243,176,.2) 0, rgba(255,243,176,.06) 24%, transparent 46%);
+  }
+  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(:disabled):hover {
+    box-shadow: 0 14px 30px rgba(0,0,0,.62), 0 0 0 1px rgba(0,0,0,.55), 0 0 24px rgba(242,196,91,.34), inset 0 0 0 1px rgba(0,0,0,.7), inset 0 0 22px rgba(242,196,91,.14);
+  }
+  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:focus-visible {
+    box-shadow: 0 0 0 2px var(--sd-black, #060709), 0 0 24px rgba(242,196,91,.4), inset 0 0 0 1px rgba(0,0,0,.7);
+  }
+  /* Continue Career: the gold tile, polished, with a bright bevel and a glossy top half */
+  #app #mainMenu.v10Home #continueCareer,
+  #app #mainMenu.v10Home #continueCareer:disabled {
+    border-image: var(--bevel-gold-soft) 1;
+    background: linear-gradient(115deg, #FFE98F 0%, #F4CB5A 34%, #E8B93F 62%, #CD9526 100%);
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+    box-shadow: 0 12px 28px rgba(0,0,0,.6), 0 0 0 1px rgba(0,0,0,.55), 0 0 22px rgba(242,196,91,.2), inset 0 0 0 1px rgba(255,255,255,.32), inset 0 -10px 22px rgba(138,106,18,.28);
+  }
+  #app #mainMenu.v10Home #continueCareer::before {
+    border-color: rgba(255,255,255,.5); border-bottom-color: rgba(138,106,18,.35);
+    background: linear-gradient(180deg, rgba(255,255,255,.46) 0, rgba(255,255,255,.14) 30%, transparent 50%), linear-gradient(100deg, rgba(255,255,255,.3) 0, transparent 38%);
+  }
+  /* ---- soundtrack card: the same gold frame around dark glass ---- */
+  #app #mainMenu.v10Home .menuMusicTile,
+  #app #mainMenu.v10Home .menuMusicTile.side {
+    border: 2px solid transparent; border-image: var(--bevel-gold) 1; border-radius: 0;
+    background: linear-gradient(180deg, rgba(28,25,20,.88) 0%, rgba(9,9,11,.92) 50%, rgba(4,4,6,.94) 100%);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    box-shadow: 0 14px 32px rgba(0,0,0,.62), 0 0 0 1px rgba(0,0,0,.55), inset 0 0 0 1px rgba(0,0,0,.7), inset 0 1px 0 3px rgba(255,241,184,.22), inset 0 0 26px rgba(242,196,91,.08);
+  }
+  #app #mainMenu.v10Home #menuMusicToggle { background: linear-gradient(180deg, #FFE48A, #EBB93B 55%, #CF9726); border-color: #FFF1B8; box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 2px 8px rgba(0,0,0,.45); }
+}
+
+/* HOME-PLATE-V2 placement: keep the soundtrack card and the headline off the managers' faces and hands. The plate is
+   cover-fit and top-anchored, so a plate pixel (x, y) lands at (50vw + (x - 768) * s, y * s), s being the cover scale.
+   Nik's watch ends at plate y 462 and his hand at plate x 1222; Daniel's pointing hand starts at plate x 585. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  #app #mainMenu.v10Home { --plate-s: max(100vw / 1536, 100vh / 864); --col-w: min(36vw, 560px, calc(50vw - 183 * var(--plate-s) - 14px - var(--gutter))); }
+}
+/* Short windows (1280x650, 1366x768): the card becomes one slim 80px strip below Nik's watch, over his jacket, so the
+   watch and hand stay clear. The same nodes, the same words and the same tap order; only the box changes. */
+@media (min-width: 1200px) and (min-height: 600px) and (max-height: 820px) and (min-aspect-ratio: 3/2) and (max-aspect-ratio: 21/10) and (orientation: landscape) {
+  #app #mainMenu.v10Home .menuMusicTile,
+  #app #mainMenu.v10Home .menuMusicTile.side {
+    left: calc(50vw + 32 * var(--plate-s)) !important; right: 2vw !important; width: auto !important;
+    top: auto !important; bottom: min(29.7vh, calc(100vh - 462 * var(--plate-s) - 84px)) !important;
+    height: 80px !important; min-height: 0 !important; max-height: none !important;
+    padding: 5px 10px; column-gap: 10px; row-gap: 1px; align-items: center;
+    grid-template-columns: 48px minmax(0, 1fr) auto auto; grid-template-rows: auto auto;
+    grid-template-areas: "player head ctrl tracks" "player status ctrl tracks";
+  }
+  #app #mainMenu.v10Home .menuMusicHeader span { font-size: 10px; letter-spacing: .18em; }
+  #app #mainMenu.v10Home .menuMusicHeader strong { font-size: 20px; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #app #mainMenu.v10Home .menuMusicArtist { font-size: 12px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #app #mainMenu.v10Home .menuMusicSource { font-size: 10px; }
+  #app #mainMenu.v10Home .menuMusicStatus { font-size: 11px; align-self: end; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #app #mainMenu.v10Home .menuMusicControls { align-self: center; }
+  #app #mainMenu.v10Home .menuMusicPlayer { align-self: center; }
+}
+/* Ultrawide (2560x1080): the plate is scaled so large that Nik's hand and watch reach the tile row's height, so the card
+   moves right of his hand and sits just above the tiles instead. */
+@media (min-width: 1200px) and (min-height: 801px) and (min-aspect-ratio: 21/10) and (orientation: landscape) {
+  #app #mainMenu.v10Home .menuMusicTile,
+  #app #mainMenu.v10Home .menuMusicTile.side {
+    left: calc(50vw + 454 * var(--plate-s) + 14px) !important; right: 2vw !important; width: auto !important;
+    top: auto !important; bottom: calc(100vh - var(--tile-top) + 10px) !important;
+  }
+}
+
+/* On short mouse windows the plate is small and its banner script ("More Than A Game") starts right under the nav bar,
+   so the two identity chips sit a few pixels higher and a little slimmer there. Touch screens keep their 44px chips. */
+@media (min-width: 1200px) and (min-height: 600px) and (max-height: 820px) and (min-aspect-ratio: 3/2) and (orientation: landscape) and (pointer: fine) {
+  #app #topHeader { top: calc(var(--sd-nav-top-h, 52px) + 4px); }
+  #app #topHeader #onlinePlayerIdentityBadge, #app #topHeader #seasonIndicator { min-height: 26px; padding-top: 4px !important; padding-bottom: 4px !important; }
+}
