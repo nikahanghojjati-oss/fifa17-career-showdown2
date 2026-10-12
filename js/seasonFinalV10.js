@@ -1007,6 +1007,41 @@
  }
 }
 
+
+/* JOB-1219: explicit keyboard ring for every live Season Results control.
+   The hidden phone radio toggles show their focus on the matching visual label. */
+#app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(button,a[href],input:not([type="hidden"]),select,textarea,summary,[role="button"],[tabindex]):focus-visible {
+ outline:3px solid #fff3c2 !important;outline-offset:3px !important;
+ box-shadow:0 0 0 2px #07080a;
+}
+#app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #season-phone-tab-daniel:focus-visible ~ .season-phone-toolbar .season-phone-tab--daniel,
+#app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #season-phone-tab-nik:focus-visible ~ .season-phone-toolbar .season-phone-tab--nik,
+#app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #season-phone-scoring-toggle:focus-visible ~ .season-phone-toolbar .season-phone-scoring-open {
+ outline:3px solid #fff3c2 !important;outline-offset:3px !important;
+}
+/* Respect system and in-game reduced-motion preferences without clearing
+   transform-based positioning. Native WAAPI feedback is already reduced in Team V JS. */
+@media (prefers-reduced-motion: reduce) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage,
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage *,
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage *::before,
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage *::after {
+  animation-duration:.01ms !important;animation-delay:0ms !important;
+  animation-iteration-count:1 !important;
+  transition-duration:.01ms !important;transition-delay:0ms !important;
+  scroll-behavior:auto !important;
+ }
+}
+html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage,
+html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage *,
+html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage *::before,
+html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage *::after {
+ animation-duration:.01ms !important;animation-delay:0ms !important;
+ animation-iteration-count:1 !important;
+ transition-duration:.01ms !important;transition-delay:0ms !important;
+ scroll-behavior:auto !important;
+}
+
 `;
     parent.appendChild(style);
   }
