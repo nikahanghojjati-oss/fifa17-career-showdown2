@@ -289,7 +289,7 @@
 /* JOB-1597: adopted 1226 entry layout, limited to the upright phone range.
    Existing nodes, labels, badges, input values and event handlers remain authoritative.
    Review/error content may grow; main is the only scroll owner. */
-@media (min-width:340px) and (max-width:410px) and (min-height:520px) and (max-height:700px) and (orientation:portrait) {
+@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait) {
  #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) { overflow-y:auto; overflow-x:hidden; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) { min-width:0; padding:0; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage:not([hidden]) {
@@ -403,7 +403,7 @@
 
 /* JOB-1598: adopted 1229 sideways composition only (740x360 and 844x390).
    Reuse the live form in document order. Review/errors expand in main's flow. */
-@media (min-width:700px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
  #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) {
   overflow-y:auto; overflow-x:hidden;
  }
@@ -523,7 +523,7 @@
 
 /* Claude lane, JOB-1598 at 740x360: the empty error line keeps a 20px placeholder that pushed the actions
    16px below the fold. It collapses only while empty; an error still shows and scrolls in main. */
-@media (min-width:700px) and (max-width:880px) and (min-height:340px) and (max-height:375px) and (orientation:landscape) {
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:375px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage #seasonEntryError:empty { min-height:0; height:0; padding:0; margin:0; }
 }
 
@@ -1044,8 +1044,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 
 /* JOB-1700: finish the adopted entry compositions, using the live nodes only.
    Entry fits the first view; review, scoring and error states grow in main. */
-@media (min-width:340px) and (max-width:410px) and (min-height:520px) and (max-height:700px) and (orientation:portrait),
-       (min-width:700px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait),
+       (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
  html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) {
   position:fixed;inset:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto;
@@ -1089,28 +1089,50 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
 }
 /* Remove the empty review track, rather than compressing fields or actions. */
-@media (min-width:340px) and (max-width:410px) and (min-height:520px) and (max-height:700px) and (orientation:portrait) {
+@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) {
-  grid-template-rows:auto 44px auto 56px;gap:6px;
+  grid-template-rows:minmax(clamp(110px,30svh,200px),1fr) 44px auto 56px;gap:6px;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:not(:has(.season-review-panel.hidden)) {
+  grid-template-rows:clamp(110px,30svh,200px) 44px auto auto 56px;
+ }
+ /* The hero takes the slack; managers keep their own proportions instead of being stretched. */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .v10SeasonPhoneScene { height:auto;max-height:none; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .v10SeasonPhoneScene::before {
+  background-size:auto min(100%,80vw),auto min(100%,80vw);background-position:left bottom 14%,right bottom 14%;
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) .season-action-row { grid-row:4;padding:0; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonResultCard { min-height:232px; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row button { letter-spacing:.5px;line-height:1.3; }
 }
-@media (min-width:700px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) {
   grid-template-rows:44px minmax(224px,1fr) 44px;gap:8px 14px;
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) .season-action-row { grid-row:3;padding:0; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .v10SeasonPhoneScene { grid-row:1/4; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-panel { grid-column:2; }
+ /* While reviewing, the hidden entry card must not keep its 224px track open. */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:not(:has(.season-review-panel.hidden)) { grid-template-rows:44px auto auto; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:not(:has(.season-review-panel.hidden)) .season-review-panel { grid-row:2; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:not(:has(.season-review-panel.hidden)) .season-action-row { grid-row:3; }
+ /* Expanded review, scoring and error content scrolls in main; the managers stay beside it. */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .v10SeasonPhoneScene {
+  align-self:start;position:sticky;top:10px;height:calc(100svh - 20px);min-height:0;
+ }
 }
 @media (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) {
-  grid-template-rows:auto 56px auto 64px;
+  grid-template-rows:minmax(160px,1fr) 56px auto 64px;
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) .season-action-row { grid-row:4;padding:0; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-panel { grid-template-columns:20% 1fr; }
+ /* The hero takes the slack and the managers keep their own proportions. */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .v10SeasonPhoneScene { height:auto;max-height:none; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .v10SeasonPhoneScene::before { background-size:auto min(100%,66vw),auto min(100%,66vw);background-position:left bottom 10%,right bottom 10%; }
+ /* At 761px and wider the inherited registration offsets the cards; the tablet grid places them. */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid .entry-panel { inset:auto;transform:none; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout> :is(:has(label[for="season-phone-tab-daniel"]),.season-action-row) { inset:auto auto auto auto;left:auto;top:auto;transform:none; }
 }
 
 /* Approved NEXT_SEASON_RESULTS: central scoring/card/actions, responsive to
@@ -1179,7 +1201,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #seasonEntryError { position:relative;inset:auto;width:60%;margin:0 auto; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #seasonEntryError:empty { display:none;min-height:0;padding:0;margin:0; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel:not(.hidden) {
-  position:relative;inset:auto;width:72.66%;height:auto;max-height:none;padding:12px 18px;margin:0 auto;overflow:visible;overscroll-behavior:auto;
+  position:relative;inset:auto;width:56%;height:auto;max-height:none;padding:12px 18px;margin:0 auto;overflow:visible;overscroll-behavior:auto;
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode):has(.season-review-panel:not(.hidden)) .v10SeasonStage .season-layout { padding-top:30.5svh; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel .seasonReviewActions {
@@ -1187,8 +1209,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel .seasonReviewActions button { min-width:0;min-height:44px;max-width:100%;white-space:normal;overflow-wrap:normal; }
 }
-@media (min-width:340px) and (max-width:410px) and (min-height:520px) and (max-height:700px) and (orientation:portrait),
-       (min-width:700px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait),
+       (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait),
        (min-width:1240px) and (max-width:1400px) and (min-height:620px) and (max-height:800px),
        (min-width:1880px) and (max-width:2620px) and (min-height:1040px) and (max-height:1120px) {
