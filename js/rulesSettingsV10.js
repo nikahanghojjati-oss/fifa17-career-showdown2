@@ -191,6 +191,33 @@
     const done=host.querySelector('.settingsFooter')?.querySelector('.menuButton');if(done)list.push([done,'primary']);
     return list;
   }
+  // JOB-1708: keep the original content element (settings.js and the identity
+  // observer retain it) inside a single main scroller on touch widths only.
+  // Restoring the original node on wide windows/unmount leaves desktop intact.
+  function settingsTouchScroller(dialog){
+    const media=root.matchMedia?.("(max-width: 1199px)");
+    const content=dialog.querySelector("#settingsContent");
+    if(!media||!content)return ()=>{};
+    let main=null;
+    function restore(){
+      if(!main)return;
+      main.replaceWith(content);main=null;
+    }
+    const sync=focusSafe(()=>{
+      if(!media.matches){restore();return;}
+      if(main)return;
+      main=element("main","settingsTouchMain");
+      content.before(main);main.append(content);
+    });
+    sync();
+    if(media.addEventListener)media.addEventListener("change",sync);
+    else media.addListener?.(sync);
+    return ()=>{
+      if(media.removeEventListener)media.removeEventListener("change",sync);
+      else media.removeListener?.(sync);
+      restore();
+    };
+  }
   function mountSettings(frame,host){
     if(states.has(host)){refreshSettings();return;}
     const dialog=doc().getElementById('settingsDialog');host.classList.add('v10Settings');
@@ -199,10 +226,11 @@
     // Team V's Settings frame: shared eyebrow type and the "TWO MANAGERS. ONE LEGACY." line under the wordmark.
     heading.querySelector('.settingsEyebrow')?.classList.add('sd-eyebrow');heading.append(element('p','sd-kicker settingsTagline','TWO MANAGERS. ONE LEGACY.'));
     doc().getElementById('settingsTitle').classList.add('settingsVisuallyHidden');
-    states.set(host,{...stage('v10SettingsStage',host,dialog),dialog});refreshSettings();root.sdEnter?.(dialog);
+    states.set(host,{...stage('v10SettingsStage',host,dialog),dialog,disposeTouch:settingsTouchScroller(dialog)});refreshSettings();root.sdEnter?.(dialog);
   }
   function unmountSettings(host){
     const state=states.get(host);if(!state)return;
+    state.disposeTouch?.();
     state.engine?.destroy();host.append(state.dialog);state.stage.remove();
     state.dialog.querySelector('.settingsWordmarkWrap')?.remove();state.dialog.querySelector('.settingsTagline')?.remove();
     state.dialog.querySelector('.settingsEyebrow')?.classList.remove('sd-eyebrow');
