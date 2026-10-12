@@ -199,7 +199,7 @@
     }
 
     function isFiniteNumber(value){
-        return Number.isFinite(Number(value));
+        return typeof value === "number" && Number.isFinite(value);
     }
 
     function isNullableString(value){
