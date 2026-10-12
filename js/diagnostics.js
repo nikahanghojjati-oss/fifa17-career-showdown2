@@ -237,6 +237,11 @@ function getOptionalModuleProblems(){
     return problems;
 }
 
+function hasExactAssetRevision(value, expected){
+    const match = /[?&]v=([^&#]*)/.exec(String(value || ""));
+    return Boolean(match) && match[1] === expected;
+}
+
 function getVisualSystemProblems(){
     const styles = document.getElementById("appStyles");
     if(!styles){
@@ -249,7 +254,7 @@ function getVisualSystemProblems(){
     }
 
     const href = String(styles.getAttribute("href") || "");
-    return href.includes("css/app.css") && href.includes(`v=${expected}`)
+    return href.includes("css/app.css") && hasExactAssetRevision(href, expected)
         ? []
         : ["unified application stylesheet revision is stale"];
 }
@@ -345,7 +350,7 @@ function getBundleProblems(){
         if(!/^(?:js|css|data)\//.test(value)){
             return problems;
         }
-        if(!value.includes(`v=${expected}`)){
+        if(!hasExactAssetRevision(value, expected)){
             problems.push(`stale local asset: ${value.split("?")[0]}`);
         }
         return problems;
