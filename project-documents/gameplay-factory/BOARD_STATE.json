@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-12 3:16 PM Boston time (EDT)",
+ "generated": "2026-10-12 3:20 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 94,
@@ -898,27 +898,17 @@
  },
  "two": {
   "live": {
-   "sha": "9b514ec",
-   "revision": "1.9.1-r72",
-   "when": "2026-10-12T11:41:31Z",
-   "subject": "Release r72: desktop studies, screen trains, player improvements (1.9.1-r72) (#745)",
-   "fixes": [
+   "sha": "33204d5",
+   "revision": "1.9.1-r73",
+   "when": "2026-10-12T15:16:11-04:00",
+   "subject": "Merge pull request #825 from nikahanghojjati-oss/gameplay/release-r73",
+   "fixes": [],
+   "today": [
     {
      "pr": 825,
      "title": "Release r73: premium scenery on all 14 screens, no old-design flash, bug fixes (1.9.1-r73)",
-     "draft": false,
-     "branch": "gameplay/release-r73",
-     "sha": "1b61bb2504b31f16f81fbe5818a7bab1d1d77f60",
-     "updated": "2026-10-12T18:47:50Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    }
-   ],
-   "today": [
+     "merged": "2026-10-12T19:16:11Z"
+    },
     {
      "pr": 745,
      "title": "Release r72: screen trains, player improvements and FULL MOTION (1.9.1-r72)",
@@ -929,7 +919,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #825: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #825 0/16",
+   "gate": "POS20 #304 6/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -1345,7 +1335,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 47,
+  "moving": 46,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -2561,22 +2551,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 825,
-    "title": "Release r73: premium scenery on all 14 screens, no old-design flash, bug fixes (1.9.1-r73)",
-    "draft": false,
-    "branch": "gameplay/release-r73",
-    "sha": "1b61bb2504b31f16f81fbe5818a7bab1d1d77f60",
-    "updated": "2026-10-12T18:47:50Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
