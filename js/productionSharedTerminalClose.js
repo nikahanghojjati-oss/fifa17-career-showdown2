@@ -96,7 +96,7 @@
     if(rivalry?.attached!==true||attachedRivalry!==request.rivalryId)ptcFail("TERMINAL_CLOSE_RIVALRY_REQUIRED","Attach the exact completed Connected Rivalry before Terminal Close.");
     if(rivalry.accountId&&rivalry.accountId!==accountId)ptcFail("TERMINAL_CLOSE_RIVALRY_ACCOUNT_MISMATCH");
     if(rivalry.deviceId&&rivalry.deviceId!==deviceId)ptcFail("TERMINAL_CLOSE_RIVALRY_DEVICE_MISMATCH");
-    const services=await runtimeApi.ensureAccountServices();
+    const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtimeApi.ensureAccountServices());
     if(!services||services.ok!==true||!services.auth||!services.firestore||!services.firestoreSdk)ptcFail("TERMINAL_CLOSE_PROVIDER_UNAVAILABLE","Private Firebase services are unavailable. No terminal state was changed.");
     const user=services.auth.currentUser;if(!user||user.uid!==accountId)ptcFail("TERMINAL_CLOSE_AUTH_MISMATCH","The current Firebase account no longer matches Connected Account authority.");
     return Object.freeze({request,accountId,deviceId,user,services});
@@ -291,6 +291,9 @@
     }
     if(stateContextKey&&stateContextKey!==request.key)ptcClear();
     if(busy||root.document?.visibilityState==="hidden")return;
+    // r75: while the close is pending (FINAL RESULT READY TO CLOSE and the pending/blocked states) the partner may close at
+    // any moment, so this check reads the rivalry root fresh instead of from the budget layer's quiet reuse.
+    if(["READY","RECOVERY_PENDING","BLOCKED"].includes(ptcCurrentState()?.phase))root.CareerModeFirestoreBudget?.wantFresh?.(`rivalries/${request.rivalryId}`);
     void ptcRefresh();
   }
   function ptcInstall(){

@@ -40,7 +40,7 @@
   // Job 33 (R1): a fast waiting read (light) reuses the already-confirmed Setup instead of re-reading it.
   async function pcstProviderOptions(light=false){
     await pcstEnsureDependencies();if(!(light===true&&pcstConfirmed()))await setupApi.refresh();const state=setupApi.getState();if(!state||state.ready!==true||!state.setup||state.setup.phase!=="SHOWDOWN_CONFIRMED"||state.setup.revision!==6)throw new Error("Both managers must finish Shared Setup before Career Start.");
-    const runtime=root.CareerModeProductionFirebaseRuntime,services=await runtime.ensureAccountServices();
+    const runtime=root.CareerModeProductionFirebaseRuntime,services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
     if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)throw new Error("Connected account services are unavailable.");
     return {state,options:{user:services.auth.currentUser,firestore:services.firestore,firebaseSdk:services.firestoreSdk,rivalryId:state.rivalryId,sessionId:state.sessionId,deviceId:state.deviceId,cryptoImpl:root.crypto}};
   }
@@ -128,6 +128,7 @@
   }
   // Keep provider codes in diagnostics, not in the sentence shown beneath the Career Start button.
   function pcstErrorText(error,fallback){
+    const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(error);if(quota)return quota;
     const code=String(error?.code||""),message=String(error?.message||"");
     const plain=error&&error.providerResult!==true&&message&&message!==code&&!/\b\w+(?:[-_/]\w+)+\b/.test(message)?message:fallback;
     return `${plain} Please try again.`;
@@ -175,7 +176,11 @@
   function pcstCapture(event){const button=event.target&&event.target.closest&&event.target.closest(`#${CONTROL_ID}`);if(!button||button.dataset.sharedCareerStart!=="true"||!pcstConfirmed())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();void pcstOpenPanel().catch(error=>pcstReport("Unable to open Shared Career Start",error));}
   function pcstWaitingKey(){if(!view||!view.state||pcstReady()||!pcstOwnAcknowledged(view)||!pcstPanelOpen())return "";return `${view.managerRole}|${view.state.revision}`;}
   function pcstFastPollDue(){const key=pcstWaitingKey();if(!key){fastWaitKey="";fastWaitSince=0;return false;}const now=Date.now();if(key!==fastWaitKey){fastWaitKey=key;fastWaitSince=now;}return now-fastWaitSince<FAST_POLL_WINDOW_MS;}
-  function pcstFastTick(){if(root.document&&root.document.visibilityState==="hidden")return;if(busy||!pcstFastPollDue())return;void pcstTick(true);}
+  // r75: while this screen waits on the partner, one live listener watches the shared document the partner's move changes;
+  // the 3 s check below keeps running as the fallback and reads from the listener while it is healthy.
+  function pcstWatchWait(){const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchWaitPoint!=="function")return;let path=null;try{path=root.document?.visibilityState==="hidden"?null:(pcstWaitingKey()?(rivalryId=>rivalryId?`rivalries/${rivalryId}/careerStart/authoritative`:null)(String(view?.setup?.rivalryId||view?.rivalryId||"").trim()):null);}catch(_error){path=null;}budget.watchWaitPoint("career-start",path,pcstWaitWake);}
+  function pcstWaitWake(){if(!busy){void pcstTick(true);return;}if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(!busy)void pcstTick(true);},400);}
+  function pcstFastTick(){pcstWatchWait();if(root.document&&root.document.visibilityState==="hidden")return;if(busy||!pcstFastPollDue())return;void pcstTick(true);}
   async function pcstTick(light=false){
     if(root.document&&root.document.visibilityState==="hidden")return false;
     if(pcstReady()){pcstStopPolling();return false;}

@@ -132,7 +132,7 @@
     if(managerRole!=="playerOne"&&managerRole!=="playerTwo")fail("SHARED_SETUP_BINDING_INVALID","The attached rivalry does not expose a valid manager role.");
     const remoteRole=remoteState.role;
     if(remoteRole!=="host"&&remoteRole!=="peer")fail("SHARED_SETUP_SESSION_ROLE_INVALID","This connection could not identify the host and joining player.");
-    const services=await runtime.ensureAccountServices();
+    const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
     if(!services||services.ok!==true||!services.auth||!services.firestore||!services.firestoreSdk)fail("SHARED_SETUP_PROVIDER_UNAVAILABLE","Private Firebase services are unavailable.");
     const user=services.auth.currentUser;
     if(!user||user.uid!==accountState.accountId)fail("SHARED_SETUP_AUTH_MISMATCH","The current Google account no longer matches Connected Account authority.");

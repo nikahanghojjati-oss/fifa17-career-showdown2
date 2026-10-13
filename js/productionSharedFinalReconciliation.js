@@ -7,7 +7,7 @@
   const POLL_MS=15000;
   const PANEL_ID="sharedFinalReconciliationPanel";
   const SAFE_LOCAL_PHASES=new Set(["REMOTE_OBSERVED","PREVIEW_READY","APPLIED"]);
-  let installed=false,busy=false,protocol=null,multiApi=null,historyApi=null,localApi=null,view=null,viewContextKey="",viewGeneration=-1,refreshPromise=null,refreshContextKey="",refreshGeneration=-1,authorityGeneration=0,observedContextKey="";
+  let installed=false,busy=false,protocol=null,multiApi=null,historyApi=null,localApi=null,view=null,viewContextKey="",viewGeneration=-1,refreshPromise=null,refreshContextKey="",refreshGeneration=-1,authorityGeneration=0,observedContextKey="",lastPeerEventKeys=Object.create(null),wakePending=false;
   function pfrShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
   function pfrShared(){const s=pfrShowdown();return Boolean(s&&s.sharedJourney&&s.sharedJourney.mode==="shared");}
   function pfrConfirmedSetupRivalry(){try{const s=root.CareerModeProductionSharedShowdownSetup?.getState?.();return s&&s.ready===true&&s.setup&&s.setup.phase==="SHOWDOWN_CONFIRMED"&&s.setup.revision===6&&s.rivalryId?String(s.rivalryId):"";}catch(_error){return "";}}
@@ -71,10 +71,26 @@
     const request=pfrRequest();pfrTrackRequest(request);const generation=authorityGeneration;if(pfrTerminalClosed())return Promise.resolve(pfrClearView({bump:true}));if(!request)return Promise.resolve(pfrClearView());
     if(viewContextKey&&(viewContextKey!==request.key||viewGeneration!==generation))pfrClearView();
     if(refreshPromise&&refreshContextKey===request.key&&refreshGeneration===generation)return refreshPromise;
-    busy=true;const current=pfrRefreshNow(request,generation).catch(error=>{if(pfrAuthorityMatches(request,generation)){pfrDiscard(request,generation);pfrReport("Unable to reconcile final Shared Showdown",error);}return null;}).finally(()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";refreshGeneration=-1;busy=false;}});
+    busy=true;const current=pfrRefreshNow(request,generation).catch(error=>{if(pfrAuthorityMatches(request,generation)){pfrDiscard(request,generation);pfrReport("Unable to reconcile final Shared Showdown",error);}return null;}).finally(()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";refreshGeneration=-1;busy=false;}if(wakePending&&!busy){wakePending=false;root.setTimeout?.(()=>pfrWake(),0);}});
     refreshPromise=current;refreshContextKey=request.key;refreshGeneration=generation;return current;
   }
-  function pfrWake(event){const request=pfrRequest(),contextChanged=pfrTrackRequest(request);if(contextChanged)pfrClearView();if((event?.type==="career-mode-shared-terminal-close-state-change"&&event.detail?.phase==="CLOSED")||pfrTerminalClosed())return pfrClearView({bump:true});if(event?.type==="career-mode-save-library-authority-invalidated")return pfrClearView({bump:true});if(event?.type==="career-mode-shared-local-reconciliation-state-change"){let localState=event.detail||null;if(!localState){try{localState=localApi?.getState?.()||null;}catch(_error){}}if(!pfrLocalAuthorityMatches(request,localState))return pfrClearView({bump:true});}if(root.document?.visibilityState==="hidden")return;if(!request||!pfrSaveAuthorityReady())return pfrClearView({bump:!pfrSaveAuthorityReady()});if(viewContextKey&&(viewContextKey!==request.key||viewGeneration!==authorityGeneration))pfrClearView();if(busy&&refreshPromise&&refreshContextKey===request.key&&refreshGeneration===authorityGeneration)return;void pfrRefresh();}
+  // r75: Terminal Close, Shared History and Local Reconciliation announce every refresh, even when nothing changed, and this
+  // module's own refresh refreshes them. Reacting to an unchanged announcement re-ran the whole chain several times a second.
+  // Once this module holds a reconciled view for the current context, only a changed Terminal Close phase, history witness or
+  // local state wakes the refresh; until then every announcement still retries at once. A wake that arrives while a refresh
+  // runs is no longer dropped: one more refresh follows it. The 15 s poll and every other event stay as they were.
+  function pfrRepeatedPeerEvent(event){
+    const type=event?.type,detail=event?.detail||{};
+    let key=null;
+    if(type==="career-mode-shared-terminal-close-state-change")key=`${detail.rivalryId||""}|${detail.phase||""}|${detail.terminal===true}`;
+    else if(type==="career-mode-shared-history-convergence-state-change")key=`${detail.phase||""}|${detail.throughSeason??""}|${detail.acceptedRevisionKey||""}`;
+    else if(type==="career-mode-shared-local-reconciliation-state-change"&&event?.detail){try{key=JSON.stringify(event.detail);}catch(_error){key=null;}}
+    if(key===null)return false;
+    const context=pfrRequest()?.key||"";
+    if(lastPeerEventKeys[type]===`${context}|${key}`)return true;
+    lastPeerEventKeys[type]=`${context}|${key}`;return false;
+  }
+  function pfrWake(event){if(pfrRepeatedPeerEvent(event)&&event?.detail?.phase!=="CLOSED"&&view&&viewContextKey&&viewContextKey===(pfrRequest()?.key||""))return;const request=pfrRequest(),contextChanged=pfrTrackRequest(request);if(contextChanged)pfrClearView();if((event?.type==="career-mode-shared-terminal-close-state-change"&&event.detail?.phase==="CLOSED")||pfrTerminalClosed())return pfrClearView({bump:true});if(event?.type==="career-mode-save-library-authority-invalidated")return pfrClearView({bump:true});if(event?.type==="career-mode-shared-local-reconciliation-state-change"){let localState=event.detail||null;if(!localState){try{localState=localApi?.getState?.()||null;}catch(_error){}}if(!pfrLocalAuthorityMatches(request,localState))return pfrClearView({bump:true});}if(root.document?.visibilityState==="hidden")return;if(!request||!pfrSaveAuthorityReady())return pfrClearView({bump:!pfrSaveAuthorityReady()});if(viewContextKey&&(viewContextKey!==request.key||viewGeneration!==authorityGeneration))pfrClearView();if(busy&&refreshPromise&&refreshContextKey===request.key&&refreshGeneration===authorityGeneration){wakePending=true;return;}void pfrRefresh();}
   function pfrInstall(){if(installed)return true;installed=true;for(const event of ["career-mode-shared-multi-season-state-change","career-mode-shared-history-convergence-state-change","career-mode-shared-local-reconciliation-state-change","career-mode-connected-account-state-change","career-mode-showdown-state-change","career-mode-active-save-changed","career-mode-save-library-authority-invalidated","career-mode-shared-terminal-close-state-change"]){root.addEventListener?.(event,pfrWake);}root.document?.addEventListener?.("visibilitychange",pfrWake);if(typeof root.setInterval==="function")root.setInterval(pfrWake,POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(pfrWake,0);return true;}
   return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-final-reconciliation",productionEnabled:true,runtimeRevision:"1.9.1-r17",pollIntervalMs:POLL_MS,install:pfrInstall,refresh:pfrRefresh,getState:pfrCurrentView,isActive:pfrShared,usesAccumulatedCanonicalPoints:true,createsAdditionalSeason:false,terminalCloseSeparate:true,saveLibraryAuthorityRequired:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false});
 });

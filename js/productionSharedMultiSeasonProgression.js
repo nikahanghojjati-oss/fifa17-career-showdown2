@@ -8,7 +8,7 @@
   const POLL_MS=15000;
   const ACTION_ID="sharedMultiSeasonContinueAction";
   const STATUS_ID="sharedMultiSeasonProgressionStatus";
-  let installed=false,busy=false,provider=null,setupApi=null,historyApi=null,view=null,contextKey="",refreshPromise=null,exposedRivalryId="",exposedSeason=0,dashboardObserver=null;
+  let installed=false,busy=false,provider=null,setupApi=null,historyApi=null,view=null,contextKey="",refreshPromise=null,exposedRivalryId="",exposedSeason=0,dashboardObserver=null,wakePending=false;
   let lastErrorCode="",lastErrorKey="",heldErrorKey="";
 
   function pmspFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
@@ -57,7 +57,7 @@
     if(!request||!pmspContextMatches(request))pmspFail("MULTI_SEASON_CONTEXT_STALE");
     const setup=pmspSetupState();if(!setup||setup.ready!==true||!setup.setup||setup.setup.phase!=="SHOWDOWN_CONFIRMED"||setup.setup.revision!==6||!setup.rivalryId||!setup.sessionId||!setup.deviceId||!setup.accountId||!setup.managerRole)pmspFail("MULTI_SEASON_SETUP_NOT_CONFIRMED");
     if(String(setup.rivalryId)!==request.rivalryId)pmspFail("MULTI_SEASON_RIVALRY_MISMATCH");
-    const services=await root.CareerModeProductionFirebaseRuntime.ensureAccountServices();
+    const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await root.CareerModeProductionFirebaseRuntime.ensureAccountServices());
     if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)pmspFail("MULTI_SEASON_PROVIDER_UNAVAILABLE","Connected account services are unavailable.");
     if(services.auth.currentUser.uid!==setup.accountId)pmspFail("MULTI_SEASON_AUTHORITY_MISMATCH");
     return Object.freeze({user:services.auth.currentUser,firestore:services.firestore,firebaseSdk:services.firestoreSdk,rivalryId:setup.rivalryId,sessionId:setup.sessionId,deviceId:setup.deviceId,nowEpochMs:Date.now()});
@@ -140,7 +140,7 @@
     if(result.runtimeRevision!=="1.9.1-r13"||String(result.rivalryId)!==request.rivalryId||!["SEASON_READY","SHOWDOWN_COMPLETE"].includes(result.phase)||result.state.runtimeRevision!=="1.9.1-r13"||result.state.rivalryId!==request.rivalryId)pmspFail("MULTI_SEASON_PROJECTION_INVALID");
     view=result;contextKey=request.key;const cursor=pmspEnsureCursor();if(cursor>result.state.acceptedSeasons+1)pmspFail("MULTI_SEASON_CURSOR_AHEAD_OF_AUTHORITY");pmspRender();pmspDecorateDashboard();return view;
   }
-  function pmspRefresh(){const request=pmspRequest();if(!request)return Promise.resolve(null);if(refreshPromise&&contextKey===request.key)return refreshPromise;contextKey=request.key;busy=true;const current=pmspRefreshNow(request).then(value=>{if(pmspContextMatches(request)){lastErrorCode="";lastErrorKey="";heldErrorKey="";}return value;},error=>{const code=String(error?.code||"MULTI_SEASON_REFRESH_FAILED").replace(/[^A-Za-z0-9_-]/g,"").slice(0,80);if(!pmspContextMatches(request))return null;const key=`${request.key}|${code}`;lastErrorCode=code;if(key!==lastErrorKey&&key!==heldErrorKey){heldErrorKey=key;return null;}heldErrorKey="";if(key!==lastErrorKey)pmspReport("Unable to refresh Shared Multi Season progression",error);lastErrorCode=code;lastErrorKey=key;return null;}).finally(()=>{busy=false;if(refreshPromise===current)refreshPromise=null;pmspRender();});refreshPromise=current;return current;}
+  function pmspRefresh(){const request=pmspRequest();if(!request)return Promise.resolve(null);if(refreshPromise&&contextKey===request.key)return refreshPromise;contextKey=request.key;busy=true;const current=pmspRefreshNow(request).then(value=>{if(pmspContextMatches(request)){lastErrorCode="";lastErrorKey="";heldErrorKey="";}return value;},error=>{const code=String(error?.code||"MULTI_SEASON_REFRESH_FAILED").replace(/[^A-Za-z0-9_-]/g,"").slice(0,80);if(!pmspContextMatches(request))return null;const key=`${request.key}|${code}`;lastErrorCode=code;if(key!==lastErrorKey&&key!==heldErrorKey){heldErrorKey=key;return null;}heldErrorKey="";if(key!==lastErrorKey)pmspReport("Unable to refresh Shared Multi Season progression",error);lastErrorCode=code;lastErrorKey=key;return null;}).finally(()=>{busy=false;if(refreshPromise===current)refreshPromise=null;pmspRender();if(wakePending){wakePending=false;root.setTimeout?.(pmspWake,0);}});refreshPromise=current;return current;}
   async function pmspAdvance(){
     if(busy&&refreshPromise){try{await refreshPromise;}catch(_error){}}
     if(busy||!pmspCanContinue())return false;const request=pmspRequest();if(!request)return false;const state=view.state,season=pmspEnsureCursor();
@@ -171,7 +171,9 @@
     return Object.freeze({rivalryId:request.rivalryId,season:exposedSeason,acceptedSeasons:accepted,totalSeasons:total,terminal:state.terminal===true});
   }
   function pmspCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||target.id!==ACTION_ID||!pmspSharedMarker())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();if(target.disabled)return;void pmspAdvance();}
-  function pmspWake(){if(busy||!pmspSharedMarker()||root.document?.visibilityState==="hidden")return;void pmspRefresh();}
+  // r75: a wake that arrives while a refresh is running (Shared History converging, setup changing) runs once more right
+  // after it instead of being dropped until the 15 s poll; the final season reached Final Winner up to 10 s late without it.
+  function pmspWake(){if(busy){wakePending=true;return;}if(!pmspSharedMarker()||root.document?.visibilityState==="hidden")return;void pmspRefresh();}
   function pmspInstall(){if(installed)return true;installed=true;if(root.document)root.document.addEventListener("click",pmspCapture,true);pmspObserveDashboard();for(const event of ["career-mode-shared-history-convergence-state-change","career-mode-shared-setup-state-change","career-mode-connected-account-state-change","career-mode-app-check-state-change"]){root.addEventListener?.(event,pmspWake);}root.document?.addEventListener?.("visibilitychange",pmspWake);if(typeof root.setInterval==="function")root.setInterval(pmspWake,POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(pmspWake,0);return true;}
 
   return Object.freeze({lastError:()=>lastErrorCode,contractVersion:1,feature:"ssjr-production-shared-multi-season-progression",productionEnabled:true,runtimeRevision:"1.9.1-r13",supportedLengths:Object.freeze([1,3,5,10]),requiresHistoryConvergence:true,requiresVisibleHistoryWitnessBeforeAdvance:true,exactOnceLocalCursor:true,replaysAcceptedSeasonsFromOneOnFreshRuntime:true,resumesAuthoritativeSeasonAfterFreshSession:true,fixedClubs:true,continueOpensNextTransferChallenge:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,install:pmspInstall,refresh:pmspRefresh,getState:()=>view,resolveSeason:pmspResolveSeason,decorateDashboard:pmspDecorateDashboard,canContinue:pmspCanContinue,continueToNextSeason:pmspAdvance,resumeFromAuthority:pmspResumeFromAuthority,isActive:pmspSharedMarker});

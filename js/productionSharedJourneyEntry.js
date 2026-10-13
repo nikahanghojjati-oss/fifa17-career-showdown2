@@ -41,7 +41,7 @@
   }
   function discardUnmarkedShell(){try{const runtime=root.CareerModeSaveLibraryRuntime;if(runtime&&typeof runtime.isReady==="function"&&runtime.isReady()&&typeof runtime.clearActiveShowdown==="function")runtime.clearActiveShowdown();}catch(_error){}}
   function create(tag,className,text){const element=root.document.createElement(tag);if(className)element.className=className;if(text!==undefined)element.textContent=String(text);return element;}
-  function report(context,error){if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else console.error(context,error);}
+  function report(context,error){const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(error);if(quota){context="Online play is paused for today";error=Object.assign(new Error(quota),{code:"resource-exhausted"});}if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else console.error(context,error);}
   function entryIdentity(){return root.CareerModeOnlinePlayerIdentity||null;}
   function entryIdentityState(){try{return entryIdentity()?.getState?.()||null;}catch(_error){return null;}}
   function entryIdentityReady(){const current=entryIdentityState();return Boolean(current&&current.status==="ready"&&current.managerId&&current.registered);}
