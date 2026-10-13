@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1816,
+ "next": 1817,
  "claims": [
   {
    "number": 1001,
@@ -4892,6 +4892,12 @@
    "team": "G",
    "title": "r76: Shared-journey guard stale marker (U-01) prove or fix",
    "claimed": "2026-10-13T13:13:20Z"
+  },
+  {
+   "number": 1816,
+   "team": "G",
+   "title": "r76: Integration branch of all r76 PRs plus full checks",
+   "claimed": "2026-10-13T15:12:37Z"
   }
  ]
 }
