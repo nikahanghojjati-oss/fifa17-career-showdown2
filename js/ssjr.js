@@ -19,7 +19,7 @@
   // (its stylesheets loaded first, js/v10Screens.js), the fonts are ready, every Home picture is decoded and data-v10-pending has
   // cleared. careerModeHomeHold: 1 = Home on its way (set by js/app.js when it requests this file), 0 = ready, or failed (the app's
   // own Home is then never lost). js/app.js keeps its minimum display time and hands over anyway at its safety cap (15 s).
-  const reusGate=async()=>{
+  const checkHome=async()=>{
     const doc=root.document,host=doc&&doc.getElementById("mainMenu"),V=root.CareerModeV10Screens;
     if(!host||typeof root.getActiveScreenName!=="function"||root.getActiveScreenName()!=="mainMenu"||!V||!V.isMounted("mainMenu"))return;
     const settled=node=>new Promise(resolve=>{node.addEventListener("load",resolve,{once:true});node.addEventListener("error",resolve,{once:true});});
@@ -43,6 +43,8 @@
     await Promise.all([...[...plates].map(url=>{const img=new root.Image();img.src=url;return decode(img);}),...[...host.querySelectorAll("img")].map(decode)]);
     while(host.hasAttribute("data-v10-pending")&&root.getActiveScreenName()==="mainMenu")await new Promise(resolve=>root.setTimeout(resolve,50));
   };
+  // The checks are bounded by the same 15 s as js/app.js, so a picture request that never ends cannot hold back what follows Home.
+  const reusGate=async()=>Promise.race([checkHome(),new Promise(resolve=>root.setTimeout(resolve,15e3))]);
   root.careerModeHomeHold=1;
   const home=v10().then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(()=>{root.careerModeHomeHold=0;});
   if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(()=>home.then(resultsV10),{timeout:2500});else root.setTimeout?.(()=>home.then(resultsV10),600);

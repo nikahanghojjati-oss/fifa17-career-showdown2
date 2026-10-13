@@ -1,6 +1,6 @@
-# Physical Journey Production Acceptance — r74
+# Physical Journey Production Acceptance — r75
 
-This checklist is for the irreducible two-account, two-physical-device, two-network MDP Physical Journey proof. Do not use it until runtime `1.9.1-r74` is the exact deployed production runtime.
+This checklist is for the irreducible two-account, two-physical-device, two-network MDP Physical Journey proof. Do not use it until runtime `1.9.1-r75` is the exact deployed production runtime.
 
 ## Acceptance URL
 
