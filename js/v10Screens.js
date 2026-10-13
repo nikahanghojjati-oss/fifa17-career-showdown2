@@ -339,8 +339,11 @@
     return true;
   }
   // Draws a registered screen if the app is showing it. A null frame keeps the app's own screen.
+  // r75: the show() whose pictures and plate are still decoding owns the cover. Another show() of the same screen meanwhile (a
+  // module re-showing on a data change with the same frame) used to settle it at once and reveal the screen before its plate.
+  const decoding=new Map();
   async function vsShow(id){
-    let revealed=false;
+    let revealed=false;const token={};
     try{
       const def=registry.get(id);
       if(!def)return false;
@@ -362,9 +365,9 @@
       catch(error){if(mounted.get(id)?.frame===frame){mounted.delete(id);vsUnwatchImages(id);}vsSyncStyles();throw error;}
       vsSyncStyles();
       // Still pending (content invisible) while the pictures decode; the reveal below starts only once they are ready.
-      if(pending.has(id)){await vsDecodeImages(host,id);if(vsIsShown(id)&&mounted.get(id)?.frame===frame)revealed=true;}
+      if(pending.has(id)){decoding.set(id,token);try{await vsDecodeImages(host,id);}finally{if(decoding.get(id)===token)decoding.delete(id);}if(vsIsShown(id)&&mounted.get(id)?.frame===frame)revealed=true;}
       return true;
-    }finally{vsSettle(id,revealed);}
+    }finally{if(!decoding.has(id))vsSettle(id,revealed);}
   }
   function vsHide(id){vsSettle(id);vsUnmount(id);vsSyncStyles();}
   // The app rewrote the screen's host (e.g. its old renderer ran): forget the drawn frame so the next show() draws
