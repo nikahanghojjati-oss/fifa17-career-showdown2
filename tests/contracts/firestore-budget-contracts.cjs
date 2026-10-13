@@ -366,6 +366,24 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     screen.stop();
   });
 
+  await check("FB4c","after the listener sees the partner's move, the follow-on checks of other screens reuse what the chain just read",async()=>{
+    const world=createWorld();seed(world);
+    const screen=createScreen(world,{owner:"season-commit",watched:RESULTS,context:[RIVALRY,SESSION]});
+    screen.start();
+    await world.advance(20000);
+    world.budget.wantFresh();  // as in a fast lane: without the chain window every read below would go to the server
+    world.serverWrite(RESULTS,{published:{daniel:true,nik:true}});
+    await world.advance(300);
+    assert.deepEqual(screen.seen,{published:{daniel:true,nik:true}},"the listener wakes the waiting screen");
+    const before=world.meter.reads;
+    const follow=()=>world.services.firestoreSdk.runTransaction(world.db,async tx=>{await tx.get({path:RIVALRY});await tx.get({path:SESSION});return true;});
+    for(const gap of [800,2200,2400]){await world.advance(gap);await follow();}
+    assert.equal(world.meter.reads-before,0,`scoring, history and the final result reuse the chain's fresh reads (read ${world.meter.reads-before})`);
+    await world.advance(7000);world.budget.wantFresh();await follow();
+    assert.equal(world.meter.reads-before,2,"after the 6 s chain window a fresh check reads again");
+    screen.stop();
+  });
+
   await check("FB5","a screen with only the 15 s poll stays within the idle budget; nothing writes while idle",async()=>{
     const world=createWorld();seed(world);
     const screen=createScreen(world,{owner:"home",watched:SESSION,context:[RIVALRY,"accounts/nik"],fast:false});

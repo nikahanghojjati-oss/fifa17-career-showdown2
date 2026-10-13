@@ -655,7 +655,11 @@ async function revokePairing(options={}){
   const FSB_QUIET_MS=60000,FSB_INPUT_FRESH_MS=5000,FSB_ASK_MS=7000,FSB_FAST_GAP_MS=6000,FSB_FAST_HOLD_MS=10000;
   const fsbWrapped=new WeakMap(),fsbEntries=new Map(),fsbInflight=new Map(),fsbCadence=new Map(),fsbWaitAsks=new Map(),fsbFreshPaths=new Map();
   const fsbStats={reusedReads:0,quietReuses:0,freshReruns:0,serverReads:0,serverTransactions:0,readOnlyWithoutCommit:0,quotaTrips:0,pausedRefusals:0,listenersAttached:0,listenerDeliveries:0,listenerServed:0,listenerFallbacks:0};
-  let fsbPause=null,fsbResumeTimer=null,fsbAccountId=null,fsbFirestore=null,fsbInputAt=0,fsbFreshAskAt=0;
+  let fsbPause=null,fsbResumeTimer=null,fsbAccountId=null,fsbFirestore=null,fsbInputAt=0,fsbFreshAskAt=0,fsbChainAt=0;
+  // After the listener sees the partner's move (or the page comes back from hidden) every screen re-checks in a short chain
+  // (commit -> scoring -> history -> final result). A document read after that moment already reflects it, so for the next
+  // 6 s the chain reuses it instead of reading it again for each screen.
+  const FSB_CHAIN_MS=6000;
 
   function fsbNow(){return Date.now();}
   function fsbPathOf(ref){return ref&&typeof ref.path==="string"?ref.path:"";}
@@ -697,7 +701,7 @@ async function revokePairing(options={}){
       if(root.document&&typeof root.document.addEventListener==="function"){
         // Back from hidden: forget what this page had and wake once every screen that was waiting on the partner when it
         // was hidden, so it catches up with one check now instead of on its next timer (no new timer, no repeated reads).
-        root.document.addEventListener("visibilitychange",()=>{if(fsbHidden()){fsbDetachWait();return;}fsbForgetAll();fsbWakeReturning();});
+        root.document.addEventListener("visibilitychange",()=>{if(fsbHidden()){fsbDetachWait();return;}fsbForgetAll();fsbChainAt=fsbNow();fsbWakeReturning();});
         // A tap or key press means someone is acting now: for the next 5 s every check reads fresh (2 s coalescing only).
         for(const type of ["pointerdown","touchstart","keydown"])root.document.addEventListener(type,()=>{fsbInputAt=fsbNow();},{capture:true,passive:true});
       }
@@ -746,8 +750,9 @@ async function revokePairing(options={}){
     const age=at-entry.at;
     // A hidden page renders nothing, so its background checks reuse what it already has; becoming visible forgets it all.
     if(fsbHidden())return {snapshot:entry.snapshot,old:age>FSB_COALESCE_MS};
-    if(age>fsbReuseLimit(path,at,fast,entry.snapshot))return null;
-    const old=age>FSB_COALESCE_MS&&!fsbOwnAccountPath(path);
+    const chained=fsbChainAt>0&&at-fsbChainAt<FSB_CHAIN_MS&&entry.at>=fsbChainAt;
+    if(!chained&&age>fsbReuseLimit(path,at,fast,entry.snapshot))return null;
+    const old=!chained&&age>FSB_COALESCE_MS&&!fsbOwnAccountPath(path);
     if(old)fsbStats.quietReuses+=1;
     return {snapshot:entry.snapshot,old};
   }
@@ -826,7 +831,7 @@ async function revokePairing(options={}){
     wait.snapshot=snapshot;wait.serial=serial;wait.version=version;wait.healthy=true;wait.dirty=false;wait.confirmedAt=fsbNow();
     if(wait.lagUntil&&(fsbVersionCompare(version,wait.lagVersion)>=0&&version!==null||serial===wait.lagSerial)){wait.lagUntil=0;wait.lagVersion=null;wait.lagSerial=null;}
     fsbStats.listenerDeliveries+=1;
-    if(changed){fsbForgetContext();fsbWakeOwners(wait);}
+    if(changed){fsbForgetContext();fsbChainAt=fsbNow();fsbWakeOwners(wait);}
   }
   function fsbWatchWaitPoint(owner,path,wake){
     const at=fsbNow();
@@ -966,6 +971,6 @@ async function revokePairing(options={}){
     noteError(error){if(fsbIsQuotaError(error))fsbTrip();return fsbQuotaMessage(error);},
     state:fsbState,
     stats:()=>Object.freeze({...fsbStats,remembered:fsbEntries.size,watching:fsbWait?fsbWait.path:null,watchHealthy:fsbWaitLive()}),
-    reset(){fsbDetachWait();fsbWaitFailed.clear();fsbReturnWakes.clear();fsbEntries.clear();fsbInflight.clear();fsbCadence.clear();fsbWaitAsks.clear();fsbFreshPaths.clear();fsbPause=null;fsbInputAt=0;fsbFreshAskAt=0;fsbPublish();}
+    reset(){fsbDetachWait();fsbWaitFailed.clear();fsbReturnWakes.clear();fsbEntries.clear();fsbInflight.clear();fsbCadence.clear();fsbWaitAsks.clear();fsbFreshPaths.clear();fsbPause=null;fsbInputAt=0;fsbFreshAskAt=0;fsbChainAt=0;fsbPublish();}
   });
 })(typeof globalThis!=="undefined"?globalThis:this);

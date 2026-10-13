@@ -85,7 +85,7 @@
   // r75: while this screen waits on the partner, one live listener watches the shared document the partner's move changes;
   // the 3 s check below keeps running as the fallback and reads from the listener while it is healthy.
   function pcscWatchWait(){const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchWaitPoint!=="function")return;let path=null;try{path=root.document?.visibilityState==="hidden"?null:(pcscWaitingKey()?(request=>request&&request.rivalryId&&Number.isInteger(request.seasonNumber)?`rivalries/${request.rivalryId}/seasonCommits/season_${request.seasonNumber}`:null)(pcscRequestContext()):null);}catch(_error){path=null;}budget.watchWaitPoint("canonical-scoring",path,pcscWaitWake);}
-  function pcscWaitWake(){if(!busy){void pcscTick(true);return;}if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(!busy)void pcscTick(true);},400);}
+  function pcscWaitWake(){const inflight=refreshPromise;if(inflight){const again=()=>{if(!busy)void pcscTick(true);};inflight.then(again,again);return;}if(!busy){void pcscTick(true);return;}if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(!busy)void pcscTick(true);},400);}
   function pcscFastTick(){pcscWatchWait();if(root.document?.visibilityState==="hidden"||busy||!pcscFastPollDue())return;void pcscTick(true);}
   // Job 33: a failed fast (3 s) read is retried by the next poll and is not reported; the 15 s poll still reports a real failure.
   // Job 33: a reconciled score is immutable, so the poll stops re-reading it (Spark reads, emulator contention) until the season changes.

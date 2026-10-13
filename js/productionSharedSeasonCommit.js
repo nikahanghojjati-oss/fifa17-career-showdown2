@@ -199,7 +199,7 @@
   // r75: while this screen waits on the partner, one live listener watches the shared document the partner's move changes;
   // the 3 s check below keeps running as the fallback and reads from the listener while it is healthy.
   function psscWatchWait(){const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchWaitPoint!=="function")return;let path=null;try{path=root.document?.visibilityState==="hidden"?null:(psscWaitingKey()?(request=>request&&request.rivalryId&&Number.isInteger(request.seasonNumber)?`rivalries/${request.rivalryId}/seasonCommits/season_${request.seasonNumber}`:null)(psscRequestContext()):null);}catch(_error){path=null;}budget.watchWaitPoint("season-commit",path,psscWaitWake);}
-  function psscWaitWake(){if(!busy){void psscTick(true);return;}if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(!busy)void psscTick(true);},400);}
+  function psscWaitWake(){const inflight=refreshPromise;if(inflight){const again=()=>{if(!busy)void psscTick(true);};inflight.then(again,again);return;}if(!busy){void psscTick(true);return;}if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(!busy)void psscTick(true);},400);}
   function psscFastTick(){psscWatchWait();if(root.document?.visibilityState==="hidden"||busy||!psscFastPollDue())return;void psscTick(true);}
   // r75: the 15 s check of the visible Season Commit screen reads the shared commit from the server (see Transfer).
   function psscScreenFresh(){try{const request=psscRequestContext();if(request&&request.rivalryId&&Number.isInteger(request.seasonNumber))root.CareerModeFirestoreBudget?.wantFresh?.(`rivalries/${request.rivalryId}/seasonCommits/season_${request.seasonNumber}`);}catch(_error){}}
