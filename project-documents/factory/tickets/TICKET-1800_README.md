@@ -17,3 +17,4 @@ Nik's decision (12 Oct 2026): phone, sideways and tablet use exactly the desktop
 | 11 | Settings | TICKET-1800_11_OF_13_PHONE_SETTINGS_MARBLE.md |
 | 12 | Loading | TICKET-1800_12_OF_13_PHONE_LOADING_MARBLE.md |
 | 13 | Trophy Room single cup | TICKET-1800_13_OF_13_PHONE_TROPHY_ROOM_SINGLE_MARBLE.md |
+| 11B | Settings, lower part (Motion & Feedback, Showdown Data with Delete Current Showdown) | TICKET-1800_11B_PHONE_SETTINGS_2_MARBLE.md |
