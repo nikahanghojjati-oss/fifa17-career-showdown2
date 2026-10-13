@@ -1512,6 +1512,14 @@
         "^tests/contracts/reus\\-gate\\-startup\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-setup-transaction-reads-contracts.cjs",
+      "patterns": [
+        "^js/sparkSharedShowdownSetup\\.js$",
+        "^tests/contracts/shared\\-setup\\-transaction\\-reads\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

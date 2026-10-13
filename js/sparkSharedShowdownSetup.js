@@ -151,7 +151,7 @@
       updatedByDeviceId:deviceId
     };
   }
-  async function context(options,transaction){
+  async function authorityContext(options,transaction){
     const uid=accountId(options.user);
     const rivalryId=ssrpNormalizeRivalryId(options.rivalryId);
     const sessionId=ssrpNormalizeSessionId(options.sessionId);
@@ -171,9 +171,26 @@
     assertDevice(ssrpSnapshot(await transaction.get(refs.device)),deviceId);
     const rivalry=assertRivalry(ssrpSnapshot(await transaction.get(refs.rivalry)),rivalryId,uid);
     const session=assertSession(ssrpSnapshot(await transaction.get(refs.session)),rivalryId,sessionId,rivalry.authorized,epochMs);
-    const setupValue=ssrpSnapshot(await transaction.get(refs.setup));
-    const ledger=setupValue?assertLedger(setupValue,rivalryId):null;
-    return Object.freeze({uid,rivalryId,sessionId,deviceId,epochMs,rivalry,session,ledger,refs});
+    return Object.freeze({uid,rivalryId,sessionId,deviceId,epochMs,rivalry,session,refs});
+  }
+  async function context(options,transaction){
+    const ctx=await authorityContext(options,transaction);
+    const setupValue=ssrpSnapshot(await transaction.get(ctx.refs.setup));
+    const ledger=setupValue?assertLedger(setupValue,ctx.rivalryId):null;
+    return Object.freeze({...ctx,ledger});
+  }
+  async function readWriteAuthority(options){
+    // The app SDK exposes no getDoc. End this read-only preflight before commit
+    // so authority reads cannot become verify writes in the ledger's request.
+    // The unchanged Rules independently recheck authority when the ledger writes.
+    const done={};
+    try{
+      await options.firebaseSdk.runTransaction(options.firestore,async transaction=>{
+        done.context=await authorityContext(options,transaction);
+        throw done;
+      });
+    }catch(error){if(error!==done)throw error;}
+    return done.context;
   }
   async function mutate(options={}){
     try{
@@ -186,9 +203,11 @@
       ssrpValidateSdk(options.firestore,options.firebaseSdk);
       const cryptoImpl=options.cryptoImpl||root.crypto;
       const protocol=await createCanonicalProtocol(cryptoImpl);
+      const validated=await readWriteAuthority(options);
       return await options.firebaseSdk.runTransaction(options.firestore,async transaction=>{
-        const ctx=await context(options,transaction);
-        const prior=ctx.ledger;
+        const ctx=validated;
+        const setupValue=ssrpSnapshot(await transaction.get(ctx.refs.setup));
+        const prior=setupValue?assertLedger(setupValue,ctx.rivalryId):null;
         const priorState=await rebuild(protocol,prior,ctx.rivalry,ctx.rivalryId,cryptoImpl);
         const actorRole=ctx.rivalry.actor.slotId;
         if(prior){
