@@ -178,7 +178,9 @@ function getSavedShowdownMenuMeta(){
     const managerOne = saved.managers && saved.managers.playerOne ? saved.managers.playerOne : "Manager 1";
     const managerTwo = saved.managers && saved.managers.playerTwo ? saved.managers.playerTwo : "Manager 2";
     const completed = saved.status === "Completed";
-    const currentRound = Number(saved.currentRound) || 1;
+    const progression = window.CareerModeProductionSharedMultiSeasonProgression;
+    const currentRound = Number(saved.sharedJourney?.mode === "shared" && typeof progression?.resolveSeason === "function"
+        ? progression.resolveSeason(saved.currentRound) : saved.currentRound) || 1;
     const totalRounds = Number(saved.totalRounds) || 1;
     const status = completed
         ? "Showdown complete"
