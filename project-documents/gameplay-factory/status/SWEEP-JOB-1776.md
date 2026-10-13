@@ -1,0 +1,12 @@
+# SWEEP-JOB-1776 · Shared Showdown history convergence audit
+
+The original audit reported **no confirmed player-visible gameplay bug**. Rechecked today's `gameplay/bug-list-1` convergence module and its authoritative read provider. The same-save-ID edge case is theoretical and not proven reachable in normal play.
+
+| finding | file:line then -> file:line now | verdict | evidence (quoted lines) |
+| --- | --- | --- | --- |
+| Contiguous, ordered shared Season history and exact Season attribution; no confirmed skipped/swapped-Season bug. | `js/sharedHistoryConvergence.js` (hcBuild) -> `js/sharedHistoryConvergence.js:95-102`; `js/sparkSharedHistoryConvergence.js:68-74` | NOT A BUG | `const seasonNumber=index+1,source=seasons[index];` (convergence line 100); `const commit=hcCommit(source.commit,id,seasonNumber,teamCount),canonical=hcScoring(source.scoring,id,seasonNumber,commit);` (line 101); provider: `for(let seasonNumber=1;seasonNumber<=throughSeason;seasonNumber+=1){` (line 68). |
+| Cross-Season results and winner/revision matching; no confirmed mixing of two Season records. | `js/sharedHistoryConvergence.js` (hcCommit/hcScoring) -> `js/sharedHistoryConvergence.js:73-85` | NOT A BUG | `value.resultsRevision!==commit.resultsRevision||value.resultsContentHash!==commit.resultsContentHash||value.seasonNumber!==seasonNumber` (line 79). A mismatch fails validation. |
+| Possible matching `saveId` values across two distinct manager slots; original audit found no reproducible swapped-history gameplay symptom. | `js/sharedHistoryConvergence.js` (hcSlots) -> `js/sharedHistoryConvergence.js:61-66`; `js/sparkSharedHistoryConvergence.js:33-37` | UNSURE | `if(ordered[0].accountId===ordered[1].accountId||ordered[0].profileId===ordered[1].profileId)hcFail("HISTORY_CONVERGENCE_BINDING_INVALID");` (convergence line 65); distinct save IDs are not enforced here. To settle: trace upstream shared Showdown slot creation/authority and demonstrate whether same save ID can be assigned to both accounts and cause wrong history. No confirmed gameplay defect is established. |
+| Projection/manager identity verification against tampering; no established mismatch bug. | `js/sharedHistoryConvergence.js` (hcVerify) -> `js/sharedHistoryConvergence.js:111-115` | NOT A BUG | `if(JSON.stringify(rebuilt)!==JSON.stringify(projection))hcFail("HISTORY_CONVERGENCE_PROJECTION_TAMPERED");return projection;` (line 114). |
+
+Still open: 0
