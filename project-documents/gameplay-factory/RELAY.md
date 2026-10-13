@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-12 8:45 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-12 8:48 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `b00ad1e` (Mon 12 Oct 8:44 PM Boston time) · 96 messages · 27 hand-offs · 160 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `1843abd` (Mon 12 Oct 8:48 PM Boston time) · 96 messages · 27 hand-offs · 160 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -33,6 +33,9 @@ Nik's words, in short: on some desktop and phone screens the game puts a filter 
 1. Find every place the code adds opacity, filter (grayscale, brightness, blur), mix-blend dimming, or a dark overlay on manager images, cutouts or screen plates for a state, and remove it.
 2. Check Legacy, Career/Statistics, Settings, Season Results, Final Winner, Rivalry, Standings, Club and League in the signed-out and loser states, on desktop and phone.
 3. Reply with the list of what was removed and screenshots.
+
+
+**Clarification (Nik, 12 Oct 8:48 p.m. Eastern):** this is NOT a brightness boost. The good signed-in look, with its natural, realistic lighting on the managers' skin and clothes matching the room, is the target and must not change. Only the extra state filters (dim, grey, blur, see-through, dark overlay) are removed, so every state looks like that good version. Remove them safely: no change to motion settings, no new flash on load, nothing else touched.
 
 Team V adds the same rule to PRODUCT_TRUTH.md and to every picture ticket.
 
