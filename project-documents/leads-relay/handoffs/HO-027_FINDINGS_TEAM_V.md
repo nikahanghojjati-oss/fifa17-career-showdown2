@@ -37,3 +37,7 @@ Target everywhere = the current desktop signed-in look: natural lighting on the 
 - Signed-in screens that still dim people/pictures: Final Winner loser (top), plus Trophy Room is-unwon cups and Legacy abandoned cards (these also happen signed in). Remove all three.
 - Phone extra shadow overlays (always on, phone only), also REMOVE and match the desktop lighting: css/rivalryLegacyV10.css:73-77, 199-203, 345-349 (stadium behind the phone managers at brightness(.64) plus a gradient to #07090c); career-statistics.css:207 `.phoneHeroContact` and rivalry-statistics.css:87 `.rv-phoneContact` blur(12px) .7 dark ovals if they read as a shadow over the men. The r76 marble phone plates (ENV_<KEY>_PHONE_V2) replace these backgrounds anyway; don't add a darkening layer on top of them.
 - Keep the desktop contact shadows, rims and spotlights: they are part of the good look.
+
+## Nik (12 Oct 8:55 p.m. Eastern): scope and reference
+Do not change lighting on screens that already look good (most of desktop). Only fix places where a manager is faded, dimmed, hidden, see-through or under a dark shadow overlay; those should end up matching the good screens.
+Lighting reference = live desktop Home (main 6610555b9): factory/v1-wtt5ye project-documents/factory/reviews/LIGHTING_REFERENCE_LIVE_HOME_DESKTOP.png. Warm gold light from the room on both men equally, natural highlights and soft shadows, neither man lighter or darker than the other, nothing laid over them.
