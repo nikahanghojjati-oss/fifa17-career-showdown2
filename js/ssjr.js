@@ -29,13 +29,13 @@
     await Promise.all([...doc.querySelectorAll("link[data-v10-style]")].filter(link=>sheets.includes(link.getAttribute("data-v10-style"))&&!done(link)).map(settled));
     if(doc.fonts&&doc.fonts.ready)await doc.fonts.ready;
     // Home's plate and phone heroes are CSS backgrounds: each one a shown Home element paints (from an image-set, the one this
-    // screen's density picks) is decoded too, with the <img> pictures.
+    // screen's density picks; Chromium reports its densities as dppx) is decoded too, with the <img> pictures.
     const dpr=root.devicePixelRatio||1,plates=new Set();
     for(const el of [host,...host.querySelectorAll("*")]){
       if(!el.getClientRects().length)continue;
       const bg=root.getComputedStyle(el).backgroundImage;
       if(!bg||!bg.includes("url("))continue;
-      const urls=[...bg.matchAll(/url\("?([^")]+)"?\)\s*(?:([\d.]+)x)?/g)].map(m=>({url:m[1],x:Number(m[2]||0)}));
+      const urls=[...bg.matchAll(/url\("?([^")]+)"?\)\s*(?:([\d.]+)(?:x|dppx))?/g)].map(m=>({url:m[1],x:Number(m[2]||0)})).filter(e=>!e.url.startsWith("data:"));
       if(/image-set\(/.test(bg)&&urls.length>1){const set=urls.slice().sort((a,b)=>a.x-b.x);plates.add((set.find(e=>e.x>=dpr)||set[set.length-1]).url);}
       else urls.forEach(e=>plates.add(e.url));
     }

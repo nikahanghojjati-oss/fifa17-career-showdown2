@@ -100,10 +100,13 @@ function exposedOldHome(rec){
     const base=`http://127.0.0.1:${port}/`;
 
     for(const reducedMotion of ["no-preference","reduce"]){
-      const {context,rec}=await start(browser,base,{reducedMotion});
+      const {context,page,rec}=await start(browser,base,{reducedMotion});
       assert.ok(rec.frames.length>0,`Reus Gate (${reducedMotion}): frames were recorded after the loading screen left`);
       assert.deepEqual(exposedOldHome(rec),[],`Reus Gate (${reducedMotion}): the loading screen left before the Team V Home was ready (old or half-loaded Home shown)`);
       assert.equal(rec.frames[0].hold,0,`Reus Gate (${reducedMotion}): the loading screen leaves only after Home reported ready`);
+      // The plate the gate decodes is the one this 1x screen paints (image-set densities are reported as dppx), never the 2X one.
+      const doubles=await page.evaluate(()=>performance.getEntriesByType("resource").map(e=>e.name).filter(name=>/ENV_HOME_PLATE_V2_2X/.test(name)));
+      assert.deepEqual(doubles,[],`Reus Gate (${reducedMotion}): a 1x desktop does not fetch Home's 2X plate`);
       console.log(`ok Reus Gate slow start (${reducedMotion}): loading screen handed over at ${rec.hiddenAt} ms to the finished Team V Home, no old Home frame`);
       await context.close();
     }
