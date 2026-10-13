@@ -1485,6 +1485,33 @@
         "^tests/contracts/flash\\-gate\\-always\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/firestore-budget-contracts.cjs",
+      "patterns": [
+        "^js/sparkPrivatePairing\\.js$",
+        "^js/productionShared[A-Za-z]+\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sparkConnected[A-Za-z]+\\.js$",
+        "^js/sparkRemoteJoining\\.js$",
+        "^js/seasonFinalV10\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^tests/contracts/firestore\\-budget\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/reus-gate-startup-contracts.cjs",
+      "patterns": [
+        "^js/app\\.js$",
+        "^js/ssjr\\.js$",
+        "^js/v10Screens\\.js$",
+        "^js/homeScreensV10\\.js$",
+        "^css/homeV10\\.css$",
+        "^tests/contracts/reus\\-gate\\-startup\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

@@ -213,7 +213,7 @@
     let model;
     if(!account?.connected||!runtime)model=UNAVAILABLE;
     else{
-      const services=await runtime.ensureAccountServices(),user=services?.auth?.currentUser;
+      const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices()),user=services?.auth?.currentUser;
       if(!services?.ok||!user||user.uid!==account.accountId)model=UNAVAILABLE;
       else{
         // Reuse the configured SDK host and memory-only services. This only adds an exact-get

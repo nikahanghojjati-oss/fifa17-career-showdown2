@@ -57,7 +57,7 @@
   async function phcProviderOptions(request){
     const setup=phcSetup();if(!request||!setup||!phcContextMatches(request))phcFail("HISTORY_CONVERGENCE_CONTEXT_STALE");
     if(!setup.sessionId||!setup.deviceId||!setup.accountId||!setup.managerRole)phcFail("HISTORY_CONVERGENCE_SETUP_AUTHORITY_INVALID");
-    const services=await root.CareerModeProductionFirebaseRuntime.ensureAccountServices();
+    const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await root.CareerModeProductionFirebaseRuntime.ensureAccountServices());
     if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)phcFail("HISTORY_CONVERGENCE_PROVIDER_UNAVAILABLE");
     if(setup.accountId&&services.auth.currentUser.uid!==setup.accountId)phcFail("HISTORY_CONVERGENCE_AUTHORITY_MISMATCH");
     return Object.freeze({user:services.auth.currentUser,firestore:services.firestore,firebaseSdk:services.firestoreSdk,rivalryId:setup.rivalryId,sessionId:setup.sessionId,deviceId:setup.deviceId,throughSeason:request.throughSeason,nowEpochMs:Date.now()});
@@ -102,7 +102,7 @@
     const request=phcRequest();if(!request||!phcSharedMarker())return Promise.resolve(phcClear(request));if(refreshPromise)return refreshPromise;busy=true;const current=phcRefreshNow(request,light===true).then(value=>{heldErrorKey="";return value;},error=>{if(/_CONTEXT_STALE$/.test(String(error?.code||"")))return view&&contextKey===request.key?view:null;if(phcContextMatches(request)){const key=`${request.key}|${String(error?.code||error?.message||"HISTORY_FAILED").slice(0,80)}`;if(key!==heldErrorKey){heldErrorKey=key;if(view&&contextKey===request.key)return view;phcClear(request);return null;}heldErrorKey="";phcClear(request);phcReport("Unable to converge Shared History",error);}return null;}).finally(()=>{busy=false;if(refreshPromise===current)refreshPromise=null;});refreshPromise=current;return current;
   }
   function phcWaitingKey(){const request=phcRequest();if(!request||!phcSharedMarker()||!phcCachedTerminal(request))return "";if(contextKey===request.key&&view&&view.phase==="HISTORY_CONVERGED")return "";return `${request.key}|history`;}
-  function phcFastPollDue(){const key=phcWaitingKey();if(!key){fastWaitKey="";fastWaitSince=0;return false;}const now=Date.now();if(key!==fastWaitKey){fastWaitKey=key;fastWaitSince=now;}return now-fastWaitSince<FAST_POLL_WINDOW_MS;}
+  function phcFastPollDue(){const key=phcWaitingKey();if(!key){fastWaitKey="";fastWaitSince=0;return false;}const now=Date.now();if(key!==fastWaitKey){fastWaitKey=key;fastWaitSince=now;}const due=now-fastWaitSince<FAST_POLL_WINDOW_MS;if(due&&root.document?.visibilityState!=="hidden")root.CareerModeFirestoreBudget?.wantFresh?.();return due;}
   function phcFastWake(){if(root.document?.visibilityState==="hidden"||busy||!phcFastPollDue())return;phcWake(true);}
   // Job 33: converged history for this season is final, so the poll stops re-reading it until the season changes.
   function phcWake(light=false){if(busy||root.document?.visibilityState==="hidden")return;const request=phcRequest();if(request&&contextKey===request.key&&view?.phase==="HISTORY_CONVERGED"){phcRender();return;}void phcRefresh(light===true);}

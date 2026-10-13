@@ -28,6 +28,11 @@
   let pairingAccountUnsubscribe=null;
   let pairingJoinDraft="";
   let pairingJoinRenderDeferred=false;
+  const DEVICE_REVERIFY_MS=10*60*1000;
+  let deviceVerified=null;
+  // r75: any denied Firestore read or write (the budget layer's event) ends the 10-minute trust, so a browser revoked from
+  // another browser is re-verified on its next check.
+  try{if(root&&typeof root.addEventListener==="function")root.addEventListener("career-mode-firestore-authority-denied",()=>{deviceVerified=null;});}catch(_error){}
   const pairingListeners=new Set();
 
   function freezeDeep(value){
@@ -233,6 +238,7 @@
   }
 
   async function revokeRegisteredDevice(options={}){
+    deviceVerified=null;
     try{
       validateFirestoreInputs(options);
       const accountId=normalizeAccountId(options.user);
@@ -416,7 +422,7 @@ async function revokePairing(options={}){
     if(!account||typeof account.getState!=="function"||!runtime||typeof runtime.ensureAccountServices!=="function")throw errorWithCode("PRIVATE_ACCOUNT_UNAVAILABLE","Connected account runtime is unavailable.");
     const accountState=account.getState();
     if(!accountState||accountState.connected!==true||!accountState.accountId)throw errorWithCode("PRIVATE_AUTH_REQUIRED","Sign in to your private account first.");
-    const services=pairingServices&&pairingServices.ok===true?pairingServices:await runtime.ensureAccountServices();
+    const services=pairingServices&&pairingServices.ok===true?pairingServices:(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
     if(!services||services.ok!==true)throw errorWithCode("PRIVATE_FIRESTORE_UNAVAILABLE","Private Firestore services are unavailable.");
     pairingServices=services;
     if(!pairingIdentity)pairingIdentity=await getOrCreateDeviceIdentity({indexedDBImpl:root.indexedDB,cryptoImpl:root.crypto});
@@ -428,12 +434,26 @@ async function revokePairing(options={}){
     if(!preservePairingStateAtStart)setState({status:"registering",busy:true,message:"Registering this browser privately…"});
     try{
       const context=await resolveConnectedContext();
-      const result=await registerDevice({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,cryptoImpl:root.crypto});
-      if(!result.ok)throw errorWithCode(result.code,result.message);
+      // r75: initialize() runs on many screens; once this page has verified this account+device, re-verify at most every
+      // 10 minutes, after an account change or after any registration error, instead of a transaction on every call.
+      const verifiedKey=`${context.accountState.accountId}|${context.identity.deviceId}`;
+      const recentlyVerified=pairingState.registered===true&&deviceVerified&&deviceVerified.key===verifiedKey&&Date.now()-deviceVerified.at<DEVICE_REVERIFY_MS;
+      if(!recentlyVerified){
+        deviceVerified=null;
+        const result=await registerDevice({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,cryptoImpl:root.crypto});
+        if(!result.ok)throw errorWithCode(result.code,result.message);
+        deviceVerified={key:verifiedKey,at:Date.now()};
+      }
       const preservePairingState=preservePairingStateAtStart||["creating-pair","joining-pair","pair-open","paired"].includes(pairingState.status);
-      if(preservePairingState)return setState({initialized:true,connected:true,registered:true,accountId:context.accountState.accountId,deviceId:context.identity.deviceId});
+      if(preservePairingState){
+        // r75: a re-check that confirms what the panel already shows does not rebuild it (that only replaced the open
+        // pairing code and its COPY button under the manager's finger); listeners are still told.
+        const next={initialized:true,connected:true,registered:true,accountId:context.accountState.accountId,deviceId:context.identity.deviceId};
+        const unchanged=Object.keys(next).every(key=>pairingState[key]===next[key]);
+        return setState(next,unchanged?{render:false}:{});
+      }
       return setState({status:"ready",initialized:true,busy:false,connected:true,registered:true,accountId:context.accountState.accountId,deviceId:context.identity.deviceId,message:"This browser is privately registered. Pairing only links the two manager identities; gameplay synchronization is still locked."});
-    }catch(error){return setState({status:error&&error.code==="PRIVATE_DEVICE_REVOKED"?"revoked":"device-error",initialized:true,busy:false,connected:true,registered:false,message:`${error&&error.message?error.message:"This browser could not be registered."} Local Career Mode remains unchanged.`});}
+    }catch(error){deviceVerified=null;return setState({status:error&&error.code==="PRIVATE_DEVICE_REVOKED"?"revoked":"device-error",initialized:true,busy:false,connected:true,registered:false,message:`${error&&error.message?error.message:"This browser could not be registered."} Local Career Mode remains unchanged.`});}
   }
 
   async function initialize(){
@@ -622,3 +642,376 @@ async function revokePairing(options={}){
     getState:()=>pairingState
   });
 });
+// Firestore budget layer (r75). Connected modules wrap the services they get from the runtime with
+// CareerModeFirestoreBudget.services(...). Only firestoreSdk.runTransaction changes; every poll keeps its cadence.
+// 1. A transaction that only reads ends without a commit RPC, so it no longer sends one "verify" write per document it
+//    read (the 2026-10-12 incident counted ~7K such writes in one hour). A transaction that writes commits exactly as before.
+// 2. A read-only transaction first runs against recent reads. A document read in the last 2 s is reused, so a burst of
+//    refreshes from several screens costs one read per document. When nobody waits (no tap in the last 5 s, no screen
+//    waiting on the partner without a healthy listener, no fast check running) the background checks reuse documents for up
+//    to 60 s. A check that sees a changed document re-runs on fresh reads only, so it never mixes old and new documents. This
+//    account's own account and device documents (only this account can change them) are reused for 5 minutes. A document
+//    this page wrote, a page that became visible again and any write all go to the server. Reads of the same document that
+//    are in flight together share one request. If the transaction wants to write, it runs as a normal server transaction.
+// 3. A "resource-exhausted" answer (the free daily limit) pauses all Firestore traffic from this page for 10 minutes
+//    (then 20, 40, 60) and publishes one plain message for the screens that would otherwise show a misleading error.
+(function(root){
+  "use strict";
+  if(!root||root.CareerModeFirestoreBudget)return;
+  const FSB_QUOTA_MESSAGE="Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.";
+  const FSB_PAUSE_STEPS_MS=Object.freeze([10,20,40,60].map(minutes=>minutes*60000));
+  const FSB_COALESCE_MS=2000,FSB_OWN_ACCOUNT_MS=5*60000,FSB_MAX_ENTRIES=200;
+  const FSB_QUIET_MS=60000,FSB_INPUT_FRESH_MS=5000,FSB_ASK_MS=7000,FSB_FAST_GAP_MS=6000,FSB_FAST_HOLD_MS=10000;
+  const fsbWrapped=new WeakMap(),fsbEntries=new Map(),fsbInflight=new Map(),fsbCadence=new Map(),fsbWaitAsks=new Map(),fsbFreshPaths=new Map();
+  const fsbStats={immutableReuses:0,reusedReads:0,quietReuses:0,freshReruns:0,serverReads:0,serverTransactions:0,readOnlyWithoutCommit:0,quotaTrips:0,pausedRefusals:0,listenersAttached:0,listenerDeliveries:0,listenerServed:0,listenerFallbacks:0};
+  let fsbPause=null,fsbResumeTimer=null,fsbAccountId=null,fsbFirestore=null,fsbInputAt=0,fsbFreshAskAt=0,fsbChainAt=0;
+  // After the listener sees the partner's move (or the page comes back from hidden) every screen re-checks in a short chain
+  // (commit -> scoring -> history -> final result). A document read after that moment already reflects it, so for the next
+  // 6 s the chain reuses it instead of reading it again for each screen.
+  const FSB_CHAIN_MS=6000;
+
+  function fsbNow(){return Date.now();}
+  function fsbPathOf(ref){return ref&&typeof ref.path==="string"?ref.path:"";}
+  function fsbIsQuotaError(error){
+    for(let item=error,depth=0;item&&typeof item==="object"&&depth<3;item=item.cause,depth+=1){
+      const code=String(item.code||"").toLowerCase(),message=String(item.message||"");
+      if(code==="resource-exhausted"||code==="resource_exhausted"||/resource[-_ ]exhausted|quota (?:has been )?exceeded/i.test(message))return true;
+    }
+    return false;
+  }
+  function fsbIsDeniedError(error){
+    for(let item=error,depth=0;item&&typeof item==="object"&&depth<3;item=item.cause,depth+=1){
+      const code=String(item.code||"").toLowerCase();
+      if(code==="permission-denied"||code==="permission_denied"||code==="unauthenticated")return true;
+    }
+    return false;
+  }
+  // A denied read or write means this account or device may have lost its authority (revoked elsewhere): nothing this page
+  // kept is reused after it, and the pairing check re-verifies the device on its next run instead of trusting its 10 minutes.
+  function fsbAuthorityDenied(error){
+    if(!fsbIsDeniedError(error))return;
+    fsbEntries.clear();fsbInflight.clear();
+    try{if(typeof root.dispatchEvent==="function"&&typeof root.CustomEvent==="function")root.dispatchEvent(new root.CustomEvent("career-mode-firestore-authority-denied"));}catch(_error){}
+  }
+  function fsbPaused(){return Boolean(fsbPause&&fsbNow()<fsbPause.until);}
+  function fsbQuotaError(){fsbStats.pausedRefusals+=1;const error=new Error(FSB_QUOTA_MESSAGE);error.code="resource-exhausted";error.quotaPaused=true;return error;}
+  function fsbQuotaMessage(error){return fsbPaused()||(error!==undefined&&fsbIsQuotaError(error))?FSB_QUOTA_MESSAGE:null;}
+  function fsbState(){const paused=fsbPaused();return Object.freeze({paused,until:fsbPause?fsbPause.until:null,step:fsbPause?fsbPause.step:null,message:paused?FSB_QUOTA_MESSAGE:null});}
+  function fsbPublish(){
+    const state=fsbState();
+    try{const html=root.document&&root.document.documentElement;if(html&&html.dataset){if(state.paused)html.dataset.firestoreQuota="paused";else delete html.dataset.firestoreQuota;}}catch(_error){}
+    try{if(typeof root.dispatchEvent==="function"&&typeof root.CustomEvent==="function")root.dispatchEvent(new root.CustomEvent("career-mode-firestore-quota",{detail:state}));}catch(_error){}
+  }
+  function fsbTrip(){
+    if(fsbPaused())return;
+    const at=fsbNow(),recent=fsbPause&&at-fsbPause.until<2*60*60000;
+    const step=recent?Math.min(fsbPause.step+1,FSB_PAUSE_STEPS_MS.length-1):0;
+    fsbPause=Object.freeze({step,since:at,until:at+FSB_PAUSE_STEPS_MS[step]});
+    fsbStats.quotaTrips+=1;
+    fsbEntries.clear();
+    fsbDetachWait();
+    if(fsbResumeTimer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(fsbResumeTimer);
+    // One timer per pause, only to tell the screens that online play may resume; it reads nothing itself.
+    fsbResumeTimer=typeof root.setTimeout==="function"?root.setTimeout(()=>{fsbResumeTimer=null;fsbPublish();},FSB_PAUSE_STEPS_MS[step]+50):null;
+    fsbPublish();
+  }
+  function fsbHidden(){return Boolean(root.document&&root.document.visibilityState==="hidden");}
+  // Documents the Rules make immutable once settled are kept: a season's published results (revision 2) and each manager's
+  // published result (create-only), and a season commit once ACKNOWLEDGED (revision 3). None of them can be updated or
+  // deleted again, so the history of past seasons is read once per page instead of on every check.
+  function fsbImmutable(path,snapshot){
+    try{
+      if(!snapshot||typeof snapshot.exists!=="function"||!snapshot.exists())return false;
+      if(/^rivalries\/[^/]+\/seasonResults\/[^/]+\/roles\/[^/]+$/.test(path))return true;
+      const value=snapshot.data();
+      if(/^rivalries\/[^/]+\/seasonResults\/[^/]+$/.test(path))return Boolean(value&&value.revision===2);
+      if(/^rivalries\/[^/]+\/seasonCommits\/[^/]+$/.test(path))return Boolean(value&&value.phase==="ACKNOWLEDGED"&&value.revision===3);
+    }catch(_error){}
+    return false;
+  }
+  function fsbForgetAll(){for(const [path,entry] of [...fsbEntries])if(!entry.immutable)fsbEntries.delete(path);}
+  if(typeof root.addEventListener==="function"){
+    try{
+      root.addEventListener("online",fsbForgetAll);
+      root.addEventListener("pageshow",fsbForgetAll);
+      if(root.document&&typeof root.document.addEventListener==="function"){
+        // Back from hidden: forget what this page had and wake once every screen that was waiting on the partner when it
+        // was hidden, so it catches up with one check now instead of on its next timer (no new timer, no repeated reads).
+        root.document.addEventListener("visibilitychange",()=>{if(fsbHidden()){fsbDetachWait();return;}fsbForgetAll();fsbChainAt=fsbNow();fsbWakeReturning();});
+        // A tap or key press means someone is acting now: for the next 5 s every check reads fresh (2 s coalescing only).
+        for(const type of ["pointerdown","touchstart","keydown"])root.document.addEventListener(type,()=>{fsbInputAt=fsbNow();},{capture:true,passive:true});
+      }
+    }catch(_error){}
+  }
+  function fsbOwnAccountPath(path){
+    if(!fsbAccountId)return false;
+    const prefix=`accounts/${fsbAccountId}`;
+    return path===prefix||(path.startsWith(`${prefix}/devices/`)&&path.split("/").length===4);
+  }
+  // A document asked for again 2-6 s after the previous ask, twice in a row, belongs to a fast check (pairing, joining,
+  // history...): it reads fresh for the next 10 s even if that check never told the budget layer it is waiting.
+  function fsbNoteAsk(path,at){
+    const cadence=fsbCadence.get(path)||{last:0,run:0,fastUntil:0};
+    const gap=at-cadence.last;
+    if(gap>=FSB_COALESCE_MS){cadence.run=gap<=FSB_FAST_GAP_MS?cadence.run+1:0;cadence.last=at;}
+    if(cadence.run>=2)cadence.fastUntil=at+FSB_FAST_HOLD_MS;
+    fsbCadence.delete(path);fsbCadence.set(path,cadence);
+    if(fsbCadence.size>FSB_MAX_ENTRIES)fsbCadence.delete(fsbCadence.keys().next().value);
+    return cadence.fastUntil>at;
+  }
+  // Quiet reuse is for a settled pair only: a rivalry root that is still pending (or in any state other than active or
+  // closed) is read fresh, so a partner's pairing is seen as soon as the screen checks.
+  function fsbSettled(path,snapshot){
+    if(!/^rivalries\/[^/]+$/.test(path))return true;
+    try{const value=snapshot&&snapshot.exists()?snapshot.data():null;const state=value&&value.data&&value.data.connectionState;return state==="active"||state==="closed";}catch(_error){return false;}
+  }
+  function fsbReuseLimit(path,at,fast,snapshot){
+    if(fsbOwnAccountPath(path))return FSB_OWN_ACCOUNT_MS;
+    if(at-fsbInputAt<FSB_INPUT_FRESH_MS||at-fsbFreshAskAt<FSB_ASK_MS||(fsbFreshPaths.get(path)||0)>at||!fsbSettled(path,snapshot))return FSB_COALESCE_MS;
+    // A screen waiting on the partner reads fresh unless the healthy listener watches exactly its document.
+    const live=fsbWaitLive();
+    for(const [owner,ask] of fsbWaitAsks){
+      if(at-ask.at>=FSB_ASK_MS){fsbWaitAsks.delete(owner);continue;}
+      if(!(live&&fsbWait&&ask.path===fsbWait.path))return FSB_COALESCE_MS;
+    }
+    if(live)return FSB_QUIET_MS;
+    return fast?FSB_COALESCE_MS:FSB_QUIET_MS;
+  }
+  // Returns {snapshot,old} or null. old: the copy is older than the 2 s burst window (see fsbProbe's fresh re-run).
+  function fsbReusable(path){
+    const at=fsbNow(),fast=path?fsbNoteAsk(path,at):false;
+    if(fsbWait&&path===fsbWait.path&&fsbWaitLive()){if(!fsbWaitHealthy())return null;fsbStats.listenerServed+=1;return {snapshot:fsbWait.snapshot,old:false};}
+    const entry=fsbEntries.get(path);
+    if(entry&&entry.immutable&&!entry.dirty){fsbStats.immutableReuses+=1;return {snapshot:entry.snapshot,old:false};}
+    if(!entry||entry.dirty||entry.forgotten)return null;
+    const age=at-entry.at;
+    // A hidden page renders nothing, so its background checks reuse what it already has; becoming visible forgets it all.
+    if(fsbHidden())return {snapshot:entry.snapshot,old:age>FSB_COALESCE_MS};
+    // Not for a rivalry that is still pending its pair or close, nor for a document a screen asked to read fresh.
+    const chained=fsbChainAt>0&&at-fsbChainAt<FSB_CHAIN_MS&&entry.at>=fsbChainAt&&!((fsbFreshPaths.get(path)||0)>at)&&fsbSettled(path,entry.snapshot);
+    if(!chained&&age>fsbReuseLimit(path,at,fast,entry.snapshot))return null;
+    const old=!chained&&age>FSB_COALESCE_MS&&!fsbOwnAccountPath(path);
+    if(old)fsbStats.quietReuses+=1;
+    return {snapshot:entry.snapshot,old};
+  }
+  function fsbRemember(db,ref,snapshot){
+    if(db!==fsbFirestore)return;
+    const path=fsbPathOf(ref);
+    if(!path)return;
+    fsbEntries.delete(path);
+    fsbEntries.set(path,{snapshot,at:fsbNow(),dirty:false,immutable:fsbImmutable(path,snapshot)});
+    if(fsbWait&&path===fsbWait.path)fsbWaitServerRead(snapshot);
+    if(fsbEntries.size>FSB_MAX_ENTRIES)fsbEntries.delete(fsbEntries.keys().next().value);
+  }
+  function fsbMarkWritten(db,paths){if(db!==fsbFirestore)return;for(const path of paths){const entry=fsbEntries.get(path);if(entry)entry.dirty=true;if(fsbWait&&fsbWait.path===path)fsbWait.dirty=true;}}
+
+  // Wait-point listener (r75). While a screen waits on the partner it may watch the one shared document the partner's
+  // move changes. One listener per page at most. It is dropped when the page is hidden, the screen stops waiting, online
+  // play pauses, or the listener errors or falls behind; the screen's own 3 s check keeps running throughout and simply
+  // reads from the server again whenever the listener is not healthy. A change seen by the listener wakes the screen at once.
+  const FSB_WAIT_CONFIRM_MS=30000,FSB_WAIT_LAG_MS=5000,FSB_WAIT_RETRY_MS=60000,FSB_WAIT_OWNER_MS=4500;
+  const fsbWaitFailed=new Map(),fsbReturnWakes=new Map();
+  let fsbWait=null,fsbSnapshotApi=null,fsbSnapshotApiPromise=null;
+  function fsbStable(value){
+    if(value===null||typeof value!=="object")return JSON.stringify(value);
+    if(typeof value.toJSON==="function")return fsbStable(value.toJSON());
+    if(Array.isArray(value))return `[${value.map(fsbStable).join(",")}]`;
+    return `{${Object.keys(value).sort().map(key=>`${JSON.stringify(key)}:${fsbStable(value[key])}`).join(",")}}`;
+  }
+  function fsbSerial(snapshot){try{return snapshot&&typeof snapshot.exists==="function"&&snapshot.exists()?fsbStable(snapshot.data()):"null";}catch(_error){return null;}}
+  function fsbVersion(snapshot){try{const time=snapshot&&snapshot._document&&snapshot._document.version&&snapshot._document.version.timestamp;return time&&Number.isFinite(time.seconds)&&Number.isFinite(time.nanoseconds)?[time.seconds,time.nanoseconds]:null;}catch(_error){return null;}}
+  function fsbVersionCompare(a,b){if(!a||!b)return 0;return a[0]!==b[0]?a[0]-b[0]:a[1]-b[1];}
+  function fsbLoadSnapshotApi(){
+    if(fsbSnapshotApi||fsbSnapshotApiPromise)return fsbSnapshotApiPromise;
+    const url=root.CareerModeProductionFirebaseRuntime&&root.CareerModeProductionFirebaseRuntime.firebaseFirestoreModule;
+    if(typeof url!=="string"||!/^https:\/\/www\.gstatic\.com\/firebasejs\/[\d.]+\/firebase-firestore\.js$/.test(url)||!root.document)return null;
+    fsbSnapshotApiPromise=Promise.resolve().then(()=>import(url)).then(module=>{fsbSnapshotApi=module&&typeof module.onSnapshot==="function"&&typeof module.doc==="function"?module:null;},()=>{fsbSnapshotApi=null;});
+    return fsbSnapshotApiPromise;
+  }
+  function fsbWaitLive(){
+    const wait=fsbWait;
+    if(!wait||!wait.healthy||wait.dirty)return false;
+    if(wait.lagUntil&&fsbNow()>wait.lagUntil){fsbWaitFail(wait.path);return false;}
+    return true;
+  }
+  // The watched document itself is served from the listener only if the server confirmed it in the last 30 s.
+  function fsbWaitHealthy(){return fsbWaitLive()&&fsbNow()-fsbWait.confirmedAt<=FSB_WAIT_CONFIRM_MS;}
+  function fsbWaitServerRead(snapshot){
+    const wait=fsbWait;
+    if(!wait||!wait.healthy)return;
+    const version=fsbVersion(snapshot),serial=fsbSerial(snapshot);
+    if(serial===wait.serial||fsbVersionCompare(version,wait.version)<0){wait.confirmedAt=fsbNow();return;}
+    // The server has a newer copy than the listener: give the listener a moment to deliver it, otherwise drop it.
+    if(!wait.lagUntil){wait.lagUntil=fsbNow()+FSB_WAIT_LAG_MS;wait.lagVersion=version;wait.lagSerial=serial;}
+  }
+  function fsbDetachWait(){const wait=fsbWait;fsbWait=null;if(wait&&typeof wait.unsubscribe==="function"){try{wait.unsubscribe();}catch(_error){}}}
+  function fsbWaitFail(path){fsbDetachWait();fsbStats.listenerFallbacks+=1;fsbWaitFailed.set(path,fsbNow()+FSB_WAIT_RETRY_MS);}
+  // Forgotten copies are never reused, but their content is kept for change detection: a document that is merely forgotten
+  // (not changed) must not count as changed, or every later check would re-run on fresh reads and forget again.
+  function fsbForgetContext(){for(const [path,entry] of fsbEntries)if(!fsbOwnAccountPath(path))entry.forgotten=true;}
+  function fsbWakeOwners(wait){
+    for(const info of wait.owners.values()){
+      const wake=info.wake;
+      if(typeof wake!=="function")continue;
+      if(typeof root.setTimeout==="function")root.setTimeout(()=>{try{wake();}catch(_error){}},0);
+      else{try{wake();}catch(_error){}}
+    }
+  }
+  function fsbWakeReturning(){
+    for(const wake of fsbReturnWakes.values()){if(typeof root.setTimeout==="function")root.setTimeout(()=>{try{wake();}catch(_error){}},0);}
+  }
+  function fsbWaitDelivery(wait,snapshot){
+    if(fsbWait!==wait)return;
+    if(!snapshot||!snapshot.metadata||snapshot.metadata.fromCache||snapshot.metadata.hasPendingWrites){wait.healthy=false;return;}
+    const serial=fsbSerial(snapshot),version=fsbVersion(snapshot);
+    const before=wait.serial!==null?wait.serial:fsbSerial(fsbEntries.get(wait.path)&&fsbEntries.get(wait.path).snapshot);
+    const changed=before!==null&&before!==serial;
+    wait.snapshot=snapshot;wait.serial=serial;wait.version=version;wait.healthy=true;wait.dirty=false;wait.confirmedAt=fsbNow();
+    if(wait.lagUntil&&(fsbVersionCompare(version,wait.lagVersion)>=0&&version!==null||serial===wait.lagSerial)){wait.lagUntil=0;wait.lagVersion=null;wait.lagSerial=null;}
+    fsbStats.listenerDeliveries+=1;
+    if(changed){fsbForgetContext();fsbChainAt=fsbNow();fsbWakeOwners(wait);}
+  }
+  function fsbWatchWaitPoint(owner,path,wake){
+    const at=fsbNow();
+    if(fsbWait){for(const [key,info] of [...fsbWait.owners])if(key!==owner&&at-info.seen>FSB_WAIT_OWNER_MS)fsbWait.owners.delete(key);if(!fsbWait.owners.size)fsbDetachWait();}
+    const release=()=>{if(fsbWait&&fsbWait.owners.delete(owner)&&!fsbWait.owners.size)fsbDetachWait();return false;};
+    if(typeof path!=="string"||!/^rivalries\/[^/]+(?:\/[^/]+\/[^/]+)+$/.test(path)){fsbWaitAsks.delete(owner);if(!fsbHidden())fsbReturnWakes.delete(owner);return release();}
+    fsbWaitAsks.set(owner,{path,at});if(typeof wake==="function")fsbReturnWakes.set(owner,wake);
+    if(fsbPaused()||fsbHidden()||!fsbFirestore||(fsbWaitFailed.get(path)||0)>at)return release();
+    if(fsbWait&&fsbWait.path===path){fsbWait.owners.set(owner,{wake,seen:at});return fsbWaitLive();}
+    if(fsbWait&&!(fsbWait.owners.size===1&&fsbWait.owners.has(owner)))return false;
+    const api=fsbSnapshotApi;
+    if(!api){fsbLoadSnapshotApi();return release();}
+    fsbDetachWait();
+    const wait={path,owners:new Map([[owner,{wake,seen:at}]]),snapshot:null,serial:null,version:null,healthy:false,dirty:false,confirmedAt:0,lagUntil:0,lagVersion:null,lagSerial:null,unsubscribe:null};
+    fsbWait=wait;fsbStats.listenersAttached+=1;
+    try{
+      wait.unsubscribe=api.onSnapshot(api.doc(fsbFirestore,path),{includeMetadataChanges:true},snapshot=>fsbWaitDelivery(wait,snapshot),error=>{if(fsbWait!==wait)return;fsbWaitFail(path);if(fsbIsQuotaError(error))fsbTrip();fsbAuthorityDenied(error);});
+    }catch(_error){if(fsbWait===wait)fsbWaitFail(path);}
+    return false;
+  }
+
+  // One document, read on the server inside a transaction that ends before commit (one BatchGetDocuments, no write).
+  function fsbReadOne(sdk,db,ref){
+    // A read in flight is shared only within the account that started it; one that lands after a sign-in change is not kept.
+    const path=fsbPathOf(ref),account=fsbAccountId,key=path?`${account||""}|${path}`:ref;
+    const running=fsbInflight.get(key);
+    if(running)return running;
+    const found={};
+    const request=Promise.resolve().then(()=>sdk.runTransaction(db,transaction=>Promise.resolve(transaction.get(ref)).then(snapshot=>{found.snapshot=snapshot;throw found;}))).then(()=>{throw new Error("Firestore read returned no snapshot.");},error=>{
+      if(error===found){fsbStats.serverReads+=1;if(fsbAccountId===account)fsbRemember(db,ref,found.snapshot);return found.snapshot;}
+      if(fsbIsQuotaError(error))fsbTrip();
+      fsbAuthorityDenied(error);
+      throw error;
+    }).finally(()=>{if(fsbInflight.get(key)===request)fsbInflight.delete(key);});
+    fsbInflight.set(key,request);
+    return request;
+  }
+
+  const FSB_PROBE_WRITE={fsbProbe:"write"};
+  // fresh=true: no reuse at all (only in-flight sharing). A probe that used an old copy and also read a document that changed
+  // (or was not known) runs once more on fresh reads, so a screen never acts on a mix of old and new documents.
+  async function fsbProbe(sdk,db,updateFunction,fresh=false){
+    let write=false,old=false,changed=false;
+    const refuse=()=>{write=true;throw FSB_PROBE_WRITE;};
+    const transaction={
+      get:ref=>{
+        if(write)return Promise.reject(FSB_PROBE_WRITE);
+        if(fsbPaused())return Promise.reject(fsbQuotaError());
+        const path=fsbPathOf(ref);
+        const reused=fresh?null:fsbReusable(path);
+        if(reused){fsbStats.reusedReads+=1;if(reused.old)old=true;return Promise.resolve(reused.snapshot);}
+        const known=fsbEntries.get(path),prior=known?fsbSerial(known.snapshot):null;
+        return fsbReadOne(sdk,db,ref).then(snapshot=>{if(prior===null||prior!==fsbSerial(snapshot))changed=true;return snapshot;});
+      },
+      set:refuse,update:refuse,delete:refuse
+    };
+    const again=()=>{fsbStats.freshReruns+=1;fsbForgetContext();return fsbProbe(sdk,db,updateFunction,true);};
+    try{
+      const value=await updateFunction(transaction);
+      if(write)return null;
+      if(old&&changed)return again();
+      return {value};
+    }catch(error){
+      if(write)return null;
+      if(old&&changed&&error!==FSB_PROBE_WRITE&&!(error&&error.quotaPaused))return again();
+      throw error;
+    }
+  }
+
+  async function fsbServerTransaction(sdk,db,updateFunction,rest){
+    if(fsbPaused())throw fsbQuotaError();
+    fsbStats.serverTransactions+=1;
+    let wrote=false,written=[];
+    const done={};
+    try{
+      const value=await sdk.runTransaction(db,async transaction=>{
+        wrote=false;written=[];
+        const proxy={
+          get:ref=>Promise.resolve(transaction.get(ref)).then(snapshot=>{fsbStats.serverReads+=1;fsbRemember(db,ref,snapshot);return snapshot;}),
+          set:(ref,...args)=>{wrote=true;written.push(fsbPathOf(ref));transaction.set(ref,...args);return proxy;},
+          update:(ref,...args)=>{wrote=true;written.push(fsbPathOf(ref));transaction.update(ref,...args);return proxy;},
+          delete:ref=>{wrote=true;written.push(fsbPathOf(ref));transaction.delete(ref);return proxy;}
+        };
+        const result=await updateFunction(proxy);
+        if(!wrote){done.value=result;throw done;}
+        return result;
+      },...rest);
+      fsbMarkWritten(db,written);
+      return value;
+    }catch(error){
+      if(error===done){fsbStats.readOnlyWithoutCommit+=1;return done.value;}
+      if(wrote)fsbMarkWritten(db,written);
+      if(fsbIsQuotaError(error))fsbTrip();
+      fsbAuthorityDenied(error);
+      throw error;
+    }
+  }
+
+  async function fsbRunTransaction(services,db,updateFunction,rest){
+    if(fsbPaused())throw fsbQuotaError();
+    const sdk=services.firestoreSdk;
+    if(typeof updateFunction!=="function")return sdk.runTransaction(db,updateFunction,...rest);
+    if(db!==fsbFirestore){fsbEntries.clear();fsbFirestore=db;}
+    const uid=services.auth&&services.auth.currentUser&&services.auth.currentUser.uid||null;
+    if(uid!==fsbAccountId){fsbEntries.clear();fsbInflight.clear();fsbAccountId=uid;}
+    const answer=await fsbProbe(sdk,db,updateFunction);
+    if(answer)return answer.value;
+    return fsbServerTransaction(sdk,db,updateFunction,rest);
+  }
+
+  function fsbWrapServices(services){
+    if(!services||typeof services!=="object"||services.ok!==true||!services.firestoreSdk||typeof services.firestoreSdk.runTransaction!=="function")return services;
+    if(services.firestoreBudget===true)return services;
+    const existing=fsbWrapped.get(services);
+    if(existing)return existing;
+    const sdk=services.firestoreSdk;
+    // A runtime that already hands out onSnapshot (none does today; the contract test does) is used as is; otherwise the
+    // listener API is loaded from the same Firestore module URL the runtime uses, so it shares one SDK instance.
+    if(!fsbSnapshotApi&&typeof sdk.onSnapshot==="function"&&typeof sdk.doc==="function")fsbSnapshotApi=Object.freeze({onSnapshot:sdk.onSnapshot,doc:sdk.doc});
+    const wrapped=Object.freeze({...services,firestoreBudget:true,firestoreSdk:Object.freeze({...sdk,runTransaction:(db,updateFunction,...rest)=>fsbRunTransaction(services,db,updateFunction,rest)})});
+    fsbWrapped.set(services,wrapped);
+    return wrapped;
+  }
+
+  root.CareerModeFirestoreBudget=Object.freeze({
+    contractVersion:1,
+    quotaMessageText:FSB_QUOTA_MESSAGE,
+    pauseStepsMs:FSB_PAUSE_STEPS_MS,
+    coalesceMs:FSB_COALESCE_MS,
+    ownAccountReuseMs:FSB_OWN_ACCOUNT_MS,
+    services:fsbWrapServices,
+    watchWaitPoint:fsbWatchWaitPoint,
+    quietReuseMs:FSB_QUIET_MS,
+    inputFreshMs:FSB_INPUT_FRESH_MS,
+    // wantFresh(): every read of this page is fresh for the next 7 s; wantFresh(path): only that document.
+    wantFresh(path){if(typeof path==="string"&&path){fsbFreshPaths.set(path,fsbNow()+FSB_ASK_MS);if(fsbFreshPaths.size>FSB_MAX_ENTRIES)fsbFreshPaths.delete(fsbFreshPaths.keys().next().value);}else fsbFreshAskAt=fsbNow();},
+    isQuotaError:fsbIsQuotaError,
+    paused:fsbPaused,
+    quotaMessage:fsbQuotaMessage,
+    noteError(error){if(fsbIsQuotaError(error))fsbTrip();return fsbQuotaMessage(error);},
+    state:fsbState,
+    stats:()=>Object.freeze({...fsbStats,remembered:fsbEntries.size,watching:fsbWait?fsbWait.path:null,watchHealthy:fsbWaitLive()}),
+    reset(){fsbDetachWait();fsbWaitFailed.clear();fsbReturnWakes.clear();fsbEntries.clear();fsbInflight.clear();fsbCadence.clear();fsbWaitAsks.clear();fsbFreshPaths.clear();fsbPause=null;fsbInputAt=0;fsbFreshAskAt=0;fsbChainAt=0;fsbPublish();}
+  });
+})(typeof globalThis!=="undefined"?globalThis:this);
