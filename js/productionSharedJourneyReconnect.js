@@ -146,11 +146,12 @@
     try{return pjrPublish(protocol.observe({authority:{rivalryId:state.rivalryId,accountId:state.accountId,deviceId:state.deviceId,managerRole:state.managerRole},previous:state,nowEpochMs:Date.now(),networkOnline:pjrOnline(),remote:null}));}
     catch(error){pjrReport("Unable to drop Shared Journey authority",error);return pjrPublish(null);}
   }
+  function pjrBootstrap(){return pjrEnsureDependencies().then(()=>{if(!unsubscribeRemote&&typeof remoteApi?.subscribe==="function")unsubscribeRemote=remoteApi.subscribe(()=>pjrWake());});}
   async function pjrRefreshNow(){
     const generation=pjrGeneration;
     if(!pjrSharedMarker())return pjrPublish(null);
     if(pjrSetupPending()&&pjrSetupPresentationActive())return pjrPublish(null);
-    await pjrEnsureDependencies();
+    await pjrBootstrap();
     if(!pjrOnline())return pjrOfflineHold();
     const authority=await pjrResolveIdentity();if(!authority)return pjrPublish(null);const previous=pjrPreviousFor(authority),remote=pjrRemoteSnapshot();
     const now=Date.now(),base={authority,previous,nowEpochMs:now,networkOnline:true,remote};
@@ -183,10 +184,9 @@
   }
   function pjrWake(){if(busy||!pjrSharedMarker()||root.document?.visibilityState==="hidden")return;void pjrRefresh();}
   function pjrInstall(){
-    if(installed)return true;installed=true;void pjrEnsureDependencies().then(()=>{
-      if(!unsubscribeRemote&&typeof remoteApi?.subscribe==="function")unsubscribeRemote=remoteApi.subscribe(()=>pjrWake());
-      pjrWake();
-    }).catch(error=>pjrReport("Shared Journey recovery bootstrap unavailable",error));
+    // r75: an ordinary startup with no Shared Journey loads none of the recovery runtime (Remote Joining stays unloaded);
+    // the first wake that finds the shared marker loads it through pjrRefreshNow.
+    if(installed)return true;installed=true;if(pjrSharedMarker())void pjrBootstrap().then(()=>pjrWake()).catch(error=>pjrReport("Shared Journey recovery bootstrap unavailable",error));
     root.addEventListener?.("online",pjrWake);
     root.addEventListener?.("offline",()=>pjrOfflineHold());
     root.addEventListener?.("career-mode-shared-setup-state-change",pjrWake);

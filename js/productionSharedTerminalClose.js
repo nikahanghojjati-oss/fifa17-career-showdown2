@@ -152,9 +152,10 @@
   function ptcClear(){stateGeneration+=1;state=null;stateContextKey="";ptcRender();return null;}
   function ptcStillCurrent(request,generation){return ptcRequest()?.key===request.key&&stateGeneration===generation;}
   function ptcClosedState(request,terminalRead){const witness=protocol.verifyIntent(terminalRead.terminalWitness);return {phase:"CLOSED",rivalryId:request.rivalryId,sessionId:witness.sessionId,rivalryRevision:terminalRead.rivalryRevision,terminal:true,terminalWitness:ptcClone(witness),canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false};}
+  function ptcBootstrap(){return ptcEnsureDependencies().then(()=>{if(!unsubscribeRemote&&typeof remoteApi?.subscribe==="function")unsubscribeRemote=remoteApi.subscribe(()=>ptcWake());});}
   async function ptcRefreshNow(){
     const request=ptcRequest();if(!request)return ptcClear();
-    await ptcEnsureDependencies();const context=await ptcResolveContext(request);if(ptcRequest()?.key!==request.key)return null;
+    await ptcBootstrap();const context=await ptcResolveContext(request);if(ptcRequest()?.key!==request.key)return null;
     const terminalRead=await provider.read({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:request.rivalryId,deviceId:context.deviceId,cryptoImpl:root.crypto});
     if(ptcRequest()?.key!==request.key)return null;
     // H1017-1: an unresolved close holds its exact witness. Only a verified closed read of that same witness resolves it here;
@@ -298,7 +299,9 @@
   }
   function ptcInstall(){
     if(installed)return true;installed=true;
-    void ptcEnsureDependencies().then(()=>{if(!unsubscribeRemote&&typeof remoteApi?.subscribe==="function")unsubscribeRemote=remoteApi.subscribe(()=>ptcWake());ptcWake();}).catch(error=>ptcReport("Shared Showdown Terminal Close bootstrap unavailable",error));
+    // r75: an ordinary startup with no shared Showdown loads none of the close runtime (Remote Joining stays unloaded);
+    // the first wake that finds a shared Showdown loads it through ptcRefreshNow.
+    if(ptcShowdown()?.sharedJourney?.mode==="shared")void ptcBootstrap().then(()=>ptcWake()).catch(error=>ptcReport("Shared Showdown Terminal Close bootstrap unavailable",error));
     for(const event of ["career-mode-shared-final-reconciliation-state-change","career-mode-connected-account-state-change","career-mode-connected-rivalry-state-change","career-mode-active-save-changed","career-mode-save-library-authority-invalidated","career-mode-showdown-state-change"]){root.addEventListener?.(event,ptcWake);}
     root.document?.addEventListener?.("visibilitychange",ptcWake);
     if(typeof root.setInterval==="function")root.setInterval(ptcWake,POLL_MS);
