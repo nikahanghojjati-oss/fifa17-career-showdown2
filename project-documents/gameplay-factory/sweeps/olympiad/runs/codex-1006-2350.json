@@ -1,0 +1,626 @@
+{
+  "run": "codex-1006-2350",
+  "mode": "codex",
+  "date_utc": "2026-10-06T23:50:04.001391Z",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "area": "11",
+  "files_read": [
+    "AGENTS.md",
+    "PROJECT_OPERATING_SYSTEM_POS20.json",
+    "PROJECT_OPERATING_SYSTEM_POS20.md",
+    "POS20_CURRENT_STATE.json",
+    "CURRENT_PRODUCT_GUARDS.json",
+    "NEXT_TASK.md",
+    "SHARED_SHOWDOWN_JOURNEY_READINESS.json",
+    "MILESTONE_DELIVERY_PROGRESS.json",
+    ".github/workflows/validate-gameplay-fast.yml",
+    "package.json",
+    "tests/browser/two-manager-browser-journey.cjs",
+    "tests/browser/support/firebase.browser-journey.json",
+    "tests/browser/support/emulator-runtime-switch.js",
+    "tests/support/chromium-runtime.cjs",
+    "js/sharedShowdownSetup.js",
+    "js/productionSharedShowdownSetup.js",
+    "js/persistentNikDanielPair.js",
+    "index.html",
+    "js/showdown.js",
+    "js/onlinePlayerIdentity.js",
+    "js/screens.js",
+    "js/optionalModules.js",
+    "js/app.js",
+    "js/ssjr.js",
+    "js/v10Setup.js",
+    "js/productionSharedJourneyEntry.js",
+    "js/productionSharedJourneyGuard.js"
+  ],
+  "findings": [
+    "codex-1006-2350-1"
+  ],
+  "coverage_pct": 8.33,
+  "clean_confidence_pct": 0,
+  "next_focus": "Correct the identity bootstrap dependency ordering and recovery in a separately authorized game-code task, then repeat these exact three Chromium journeys. In this sweep J1.1 fails before pairing; J1.2, J2-J12 and JZ are untested.",
+  "status": "completed_with_failures",
+  "partial": true,
+  "requested_runs": 3,
+  "completed_runs": 3,
+  "successful_runs": 0,
+  "full_journeys_completed": 0,
+  "test": "tests/browser/two-manager-browser-journey.cjs",
+  "ci_workflow": ".github/workflows/validate-gameplay-fast.yml",
+  "ci_job": "browser-journey",
+  "showdown_length": 3,
+  "isolation": "Each attempt started and stopped fresh Auth and Firestore emulators; the unchanged test created fresh Chromium browser contexts.",
+  "runtime": {
+    "node": "24.19.0",
+    "java": "OpenJDK 21.0.12.1",
+    "chromium": "149.0.7827.0",
+    "chromium_package": "@sparticuz/chromium@149.0.0",
+    "playwright": "1.62.1",
+    "firebase": "12.17.0",
+    "rules_unit_testing": "5.0.1",
+    "firebase_admin": "14.2.0",
+    "firebase_tools": "15.28.1"
+  },
+  "environment": {
+    "CI": "1",
+    "CMS_CHROMIUM_MULTI_CONTEXT": "1",
+    "CMS_BROWSER_JOURNEY_ARTIFACTS": "a distinct journey-N directory under /tmp/olympiad-evidence/codex-1006-2350",
+    "CMS_SHOWDOWN_LENGTH": "3"
+  },
+  "coverage": {
+    "definition": "coverage_pct = unique numbered checkpoints reached, including the failing checkpoint, / the 36 numbered checkpoints for the configured 3-season CI journey. This includes J0 preflight and is not code coverage.",
+    "expected_numbered_checks": 36,
+    "passed_per_run": 2,
+    "attempted_per_run": 3,
+    "not_reached_per_run": 33,
+    "passed_checkpoints_pct": 5.56,
+    "clean_confidence_basis": "0: all three journeys failed at sign-in, so there is no clean journey evidence.",
+    "sequence": [
+      "J0.1",
+      "J0.2",
+      "J1.1",
+      "J1.2",
+      "J2.1",
+      "J2.2",
+      "J3.1",
+      "J4.1",
+      "J4.2",
+      "J4.3",
+      "J4.4",
+      "J5.1",
+      "J5.2",
+      "J5.3",
+      "J6.1",
+      "J6.2",
+      "J6.3",
+      "J6.4",
+      "J6.5",
+      "J7.1",
+      "J7.2",
+      "J7.3",
+      "J8.1",
+      "J8.2",
+      "J9.1",
+      "J9.2",
+      "J9.3",
+      "J8.3",
+      "J8.4",
+      "J8.5",
+      "J10.1",
+      "J10.2",
+      "J11.1",
+      "J12.1",
+      "JZ.1",
+      "JZ.2"
+    ],
+    "checkpoint_results": [
+      {
+        "step": "J0.1",
+        "source_line": 225,
+        "run_1": "passed",
+        "run_2": "passed",
+        "run_3": "passed"
+      },
+      {
+        "step": "J0.2",
+        "source_line": 235,
+        "run_1": "passed",
+        "run_2": "passed",
+        "run_3": "passed"
+      },
+      {
+        "step": "J1.1",
+        "source_line": 241,
+        "run_1": "failed",
+        "run_2": "failed",
+        "run_3": "failed"
+      },
+      {
+        "step": "J1.2",
+        "source_line": 243,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J2.1",
+        "source_line": 255,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J2.2",
+        "source_line": 273,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J3.1",
+        "source_line": 296,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J4.1",
+        "source_line": 302,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J4.2",
+        "source_line": 310,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J4.3",
+        "source_line": 333,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J4.4",
+        "source_line": 344,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J5.1",
+        "source_line": 357,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J5.2",
+        "source_line": 365,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J5.3",
+        "source_line": 371,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J6.1",
+        "source_line": 384,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J6.2",
+        "source_line": 391,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J6.3",
+        "source_line": 409,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J6.4",
+        "source_line": 425,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J6.5",
+        "source_line": 439,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J7.1",
+        "source_line": 455,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J7.2",
+        "source_line": 473,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J7.3",
+        "source_line": 477,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J8.1",
+        "source_line": 486,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J8.2",
+        "source_line": 489,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J9.1",
+        "source_line": 510,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J9.2",
+        "source_line": 536,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J9.3",
+        "source_line": 554,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J8.3",
+        "source_line": 570,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J8.4",
+        "source_line": 572,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J8.5",
+        "source_line": 591,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J10.1",
+        "source_line": 650,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J10.2",
+        "source_line": 665,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J11.1",
+        "source_line": 685,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "J12.1",
+        "source_line": 736,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "JZ.1",
+        "source_line": 746,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      },
+      {
+        "step": "JZ.2",
+        "source_line": 749,
+        "run_1": "not_reached",
+        "run_2": "not_reached",
+        "run_3": "not_reached"
+      }
+    ]
+  },
+  "attempts": [
+    {
+      "number": 1,
+      "started_utc": "2026-10-06T23:50:04.003747Z",
+      "command": [
+        "npx",
+        "--yes",
+        "firebase-tools@15.28.1",
+        "emulators:exec",
+        "--config",
+        "tests/browser/support/firebase.browser-journey.json",
+        "--only",
+        "auth,firestore",
+        "--project",
+        "demo-cms-browser-journey",
+        "CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs"
+      ],
+      "exit_code": 1,
+      "duration_seconds": 203.822,
+      "finished_utc": "2026-10-06T23:53:27.825418Z",
+      "result": "failed",
+      "failing_step": "J1.1",
+      "failing_manager": "nik",
+      "passed_steps": [
+        "J0.1",
+        "J0.2"
+      ],
+      "passed_checks": 2,
+      "attempted_checks": 3,
+      "not_reached_steps": [
+        "J1.2",
+        "J2.1",
+        "J2.2",
+        "J3.1",
+        "J4.1",
+        "J4.2",
+        "J4.3",
+        "J4.4",
+        "J5.1",
+        "J5.2",
+        "J5.3",
+        "J6.1",
+        "J6.2",
+        "J6.3",
+        "J6.4",
+        "J6.5",
+        "J7.1",
+        "J7.2",
+        "J7.3",
+        "J8.1",
+        "J8.2",
+        "J9.1",
+        "J9.2",
+        "J9.3",
+        "J8.3",
+        "J8.4",
+        "J8.5",
+        "J10.1",
+        "J10.2",
+        "J11.1",
+        "J12.1",
+        "JZ.1",
+        "JZ.2"
+      ],
+      "output": "npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead\nnpm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).\nnpm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me\nnpm warn deprecated json-ptr@3.1.1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.\ni  emulators: Starting emulators: auth, firestore\ni  emulators: Detected demo project ID \"demo-cms-browser-journey\", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.\n⚠  firestore: Cloud Firestore Emulator does not support multiple databases yet.\n⚠  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file.\n⚠  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration.\n⚠  It appears you are running in a CI environment. You can avoid downloading the Firestore Emulator repeatedly by caching the /home/agent/.cache/firebase/emulators directory.\ni  firestore: downloading cloud-firestore-emulator-v1.22.0.jar...\n\ni  firestore: Firestore Emulator logging to firestore-debug.log\n✔  firestore: Firestore Emulator was started in standard edition.\n✔  firestore: Firestore Emulator UI websocket is running on 9150.\ni  Running script: CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\nok 1 J0.1 composed production Rules active on the emulator (open read 404 -> 403)\nok 2 J0.2 emulator switch active only via localhost + cmsEmulator=1 in both contexts\n--- daniel: screens=mainMenu | badge=DANIEL | panel=CONNECT PLAYERS Daniel and Nik need to connect before the first Showdown. CREATE CODE FOR NIK DANIEL STARTS THE SHOWDOWN AND SENDS THIS CODE TO NIK | overlays=\n--- daniel errors: []\n--- nik: screens=createShowdown | badge= | panel= | overlays=\n--- nik errors: []\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\n\n    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:35) {\n  log: [\n    \"  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\"\n  ],\n  name: 'TimeoutError'\n}\n⚠  Script exited unsuccessfully (code 1)\ni  emulators: Shutting down emulators.\ni  firestore: Stopping Firestore Emulator\ni  auth: Stopping Authentication Emulator\ni  hub: Stopping emulator hub\ni  logging: Stopping Logging Emulator\n\nError: Script \"CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\" exited with code 1\n",
+      "output_sha256": "6024c5cb1a99c6ccaa1757c629e16740c5fad8fdbe8d851b06cf7c583f8fb987",
+      "screenshots": [
+        {
+          "file": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2350/journey-1/failure-daniel.png",
+          "sha256": "da6457ea873439f8534295e59d0cdf5368fdcd4331d4a62d54917efd6b2bef1c"
+        },
+        {
+          "file": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2350/journey-1/failure-nik.png",
+          "sha256": "ce64cf8b45ce5cbf8bf53e85fe1e2caa71826861fb0865a8d7f8b5a1e3e83ef5"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "started_utc": "2026-10-06T23:53:27.825890Z",
+      "command": [
+        "npx",
+        "--yes",
+        "firebase-tools@15.28.1",
+        "emulators:exec",
+        "--config",
+        "tests/browser/support/firebase.browser-journey.json",
+        "--only",
+        "auth,firestore",
+        "--project",
+        "demo-cms-browser-journey",
+        "CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs"
+      ],
+      "exit_code": 1,
+      "duration_seconds": 50.24,
+      "finished_utc": "2026-10-06T23:54:18.066120Z",
+      "result": "failed",
+      "failing_step": "J1.1",
+      "failing_manager": "daniel",
+      "passed_steps": [
+        "J0.1",
+        "J0.2"
+      ],
+      "passed_checks": 2,
+      "attempted_checks": 3,
+      "not_reached_steps": [
+        "J1.2",
+        "J2.1",
+        "J2.2",
+        "J3.1",
+        "J4.1",
+        "J4.2",
+        "J4.3",
+        "J4.4",
+        "J5.1",
+        "J5.2",
+        "J5.3",
+        "J6.1",
+        "J6.2",
+        "J6.3",
+        "J6.4",
+        "J6.5",
+        "J7.1",
+        "J7.2",
+        "J7.3",
+        "J8.1",
+        "J8.2",
+        "J9.1",
+        "J9.2",
+        "J9.3",
+        "J8.3",
+        "J8.4",
+        "J8.5",
+        "J10.1",
+        "J10.2",
+        "J11.1",
+        "J12.1",
+        "JZ.1",
+        "JZ.2"
+      ],
+      "output": "i  emulators: Starting emulators: auth, firestore\ni  emulators: Detected demo project ID \"demo-cms-browser-journey\", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.\n⚠  firestore: Cloud Firestore Emulator does not support multiple databases yet.\n⚠  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file.\n⚠  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration.\ni  firestore: Firestore Emulator logging to firestore-debug.log\n✔  firestore: Firestore Emulator was started in standard edition.\n✔  firestore: Firestore Emulator UI websocket is running on 9150.\ni  Running script: CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\nok 1 J0.1 composed production Rules active on the emulator (open read 404 -> 403)\nok 2 J0.2 emulator switch active only via localhost + cmsEmulator=1 in both contexts\n--- daniel: screens=createShowdown | badge= | panel= | overlays=\n--- daniel errors: []\n--- nik: screens=mainMenu | badge=SIGN IN | panel= | overlays=\n--- nik errors: []\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\n\n    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:5) {\n  log: [\n    \"  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\"\n  ],\n  name: 'TimeoutError'\n}\n⚠  Script exited unsuccessfully (code 1)\ni  emulators: Shutting down emulators.\ni  firestore: Stopping Firestore Emulator\ni  auth: Stopping Authentication Emulator\ni  hub: Stopping emulator hub\ni  logging: Stopping Logging Emulator\n\nError: Script \"CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\" exited with code 1\n",
+      "output_sha256": "11335a2b33889f0ee4239294e6209188d6f85c08dfac70eefc592a21e22f63ac",
+      "screenshots": [
+        {
+          "file": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2350/journey-2/failure-daniel.png",
+          "sha256": "72815ee96058ad4345ece3ccde0e070cd931166c22664358f6f780a96584f69c"
+        },
+        {
+          "file": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2350/journey-2/failure-nik.png",
+          "sha256": "c3158006c41270e72c26fe68d075163c68ff6bd10448a7e419477fb1ffea66ca"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "started_utc": "2026-10-06T23:54:18.066973Z",
+      "command": [
+        "npx",
+        "--yes",
+        "firebase-tools@15.28.1",
+        "emulators:exec",
+        "--config",
+        "tests/browser/support/firebase.browser-journey.json",
+        "--only",
+        "auth,firestore",
+        "--project",
+        "demo-cms-browser-journey",
+        "CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs"
+      ],
+      "exit_code": 1,
+      "duration_seconds": 51.124,
+      "finished_utc": "2026-10-06T23:55:09.191036Z",
+      "result": "failed",
+      "failing_step": "J1.1",
+      "failing_manager": "daniel",
+      "passed_steps": [
+        "J0.1",
+        "J0.2"
+      ],
+      "passed_checks": 2,
+      "attempted_checks": 3,
+      "not_reached_steps": [
+        "J1.2",
+        "J2.1",
+        "J2.2",
+        "J3.1",
+        "J4.1",
+        "J4.2",
+        "J4.3",
+        "J4.4",
+        "J5.1",
+        "J5.2",
+        "J5.3",
+        "J6.1",
+        "J6.2",
+        "J6.3",
+        "J6.4",
+        "J6.5",
+        "J7.1",
+        "J7.2",
+        "J7.3",
+        "J8.1",
+        "J8.2",
+        "J9.1",
+        "J9.2",
+        "J9.3",
+        "J8.3",
+        "J8.4",
+        "J8.5",
+        "J10.1",
+        "J10.2",
+        "J11.1",
+        "J12.1",
+        "JZ.1",
+        "JZ.2"
+      ],
+      "output": "i  emulators: Starting emulators: auth, firestore\ni  emulators: Detected demo project ID \"demo-cms-browser-journey\", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.\n⚠  firestore: Cloud Firestore Emulator does not support multiple databases yet.\n⚠  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file.\n⚠  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration.\ni  firestore: Firestore Emulator logging to firestore-debug.log\n✔  firestore: Firestore Emulator was started in standard edition.\n✔  firestore: Firestore Emulator UI websocket is running on 9150.\ni  Running script: CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\nok 1 J0.1 composed production Rules active on the emulator (open read 404 -> 403)\nok 2 J0.2 emulator switch active only via localhost + cmsEmulator=1 in both contexts\n--- daniel: screens=createShowdown | badge= | panel= | overlays=\n--- daniel errors: []\n--- nik: screens=mainMenu | badge= | panel= | overlays=\n--- nik errors: []\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\n\n    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:5) {\n  log: [\n    \"  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\"\n  ],\n  name: 'TimeoutError'\n}\n⚠  Script exited unsuccessfully (code 1)\ni  emulators: Shutting down emulators.\ni  firestore: Stopping Firestore Emulator\ni  auth: Stopping Authentication Emulator\ni  hub: Stopping emulator hub\ni  logging: Stopping Logging Emulator\n\nError: Script \"CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\" exited with code 1\n",
+      "output_sha256": "17f290093d2e9ed96248040cd20daaa710235cf201f7c6d6fd55529a4dc7d72f",
+      "screenshots": [
+        {
+          "file": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2350/journey-3/failure-daniel.png",
+          "sha256": "72815ee96058ad4345ece3ccde0e070cd931166c22664358f6f780a96584f69c"
+        },
+        {
+          "file": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2350/journey-3/failure-nik.png",
+          "sha256": "f1bc61419da1608f8332ce3d8eb8829d66b21f8e69dcbc9c7e549f30c790cc95"
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "failing_or_differing_steps": [
+      "J1.1"
+    ],
+    "all_reached_numbered_step_outcomes_identical": true,
+    "details": "Both J0 checkpoints passed in each run. J1.1 failed each time, with the manager and visible identity state differing as documented in the finding. The remaining 33 checkpoints were never reached in any run.",
+    "non_gameplay_differences": "Run 1 included first-time firebase-tools installation/native build and official emulator download, explaining its longer wall time. These setup differences are not attributed to game code."
+  },
+  "main_verification": {
+    "main_sha_at_start": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+    "main_sha_after_runs": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+    "tracked_main_files_changed": false
+  },
+  "game_code_changed": false,
+  "official_test_changed": false,
+  "production_changes": false,
+  "product_credit": {
+    "SSJR": 0,
+    "MDP": 0
+  },
+  "related_existing_findings_read": [
+    "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-1957-1.json",
+    "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-2237-1.json",
+    "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-2308-1.json"
+  ]
+}

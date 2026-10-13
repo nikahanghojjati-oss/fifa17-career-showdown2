@@ -1,0 +1,277 @@
+{
+  "id": "codex-1006-2350-1",
+  "run": "codex-1006-2350",
+  "mode": "codex",
+  "date_utc": "2026-10-06T23:50:04.001391Z",
+  "area": "11",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "title": "J1.1: identity bootstrap races the deferred runtime loader; failing manager varies",
+  "severity": "S1",
+  "status": "reproduced",
+  "failing_step": "J1.1",
+  "step_description": "Daniel and Nik sign in through SIGN IN WITH GOOGLE and choose their players",
+  "test_location": {
+    "file": "tests/browser/two-manager-browser-journey.cjs",
+    "line": 115,
+    "function": "signIn",
+    "caller_line": 238
+  },
+  "steps": [
+    "Run CI browser-journey setup on the pinned current-main checkout: npm ci; install Firebase 12.17.0, rules-unit-testing 5.0.1 and firebase-admin 14.2.0 without saving dependency files; build composed Rules and run the zero-billing assertion.",
+    "Set CMS_CHROMIUM_MULTI_CONTEXT=1 and a distinct CMS_BROWSER_JOURNEY_ARTIFACTS directory per run.",
+    "Run npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json --only auth,firestore --project demo-cms-browser-journey \"CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\" three times with fresh emulator processes.",
+    "Observe signIn() clicking #newShowdown and waiting 30 seconds for SIGN IN WITH GOOGLE."
+  ],
+  "expected": "Each fresh manager context opens the identity dialog from #newShowdown, signs in, selects Daniel or Nik, and reaches J1.1 with both identities ready.",
+  "actual": "All three unmodified CI journeys passed J0.1 and J0.2, then timed out waiting for SIGN IN WITH GOOGLE at J1.1. Run 1 signed in Daniel and failed on Nik. Runs 2 and 3 failed on Daniel. The failed manager was on createShowdown with no identity badge or visible identity overlay.",
+  "output_by_run": [
+    {
+      "number": 1,
+      "failing_manager": "nik",
+      "failing_step": "J1.1",
+      "exit_code": 1,
+      "output": "--- daniel: screens=mainMenu | badge=DANIEL | panel=CONNECT PLAYERS Daniel and Nik need to connect before the first Showdown. CREATE CODE FOR NIK DANIEL STARTS THE SHOWDOWN AND SENDS THIS CODE TO NIK | overlays=\n--- daniel errors: []\n--- nik: screens=createShowdown | badge= | panel= | overlays=\n--- nik errors: []\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\n\n    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:35) {\n  log: [\n    \"  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\"\n  ],\n  name: 'TimeoutError'\n}\n",
+      "screenshots": [
+        {
+          "file": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2350/journey-1/failure-daniel.png",
+          "sha256": "da6457ea873439f8534295e59d0cdf5368fdcd4331d4a62d54917efd6b2bef1c"
+        },
+        {
+          "file": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2350/journey-1/failure-nik.png",
+          "sha256": "ce64cf8b45ce5cbf8bf53e85fe1e2caa71826861fb0865a8d7f8b5a1e3e83ef5"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "failing_manager": "daniel",
+      "failing_step": "J1.1",
+      "exit_code": 1,
+      "output": "--- daniel: screens=createShowdown | badge= | panel= | overlays=\n--- daniel errors: []\n--- nik: screens=mainMenu | badge=SIGN IN | panel= | overlays=\n--- nik errors: []\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\n\n    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:5) {\n  log: [\n    \"  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\"\n  ],\n  name: 'TimeoutError'\n}\n",
+      "screenshots": [
+        {
+          "file": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2350/journey-2/failure-daniel.png",
+          "sha256": "72815ee96058ad4345ece3ccde0e070cd931166c22664358f6f780a96584f69c"
+        },
+        {
+          "file": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2350/journey-2/failure-nik.png",
+          "sha256": "c3158006c41270e72c26fe68d075163c68ff6bd10448a7e419477fb1ffea66ca"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "failing_manager": "daniel",
+      "failing_step": "J1.1",
+      "exit_code": 1,
+      "output": "--- daniel: screens=createShowdown | badge= | panel= | overlays=\n--- daniel errors: []\n--- nik: screens=mainMenu | badge= | panel= | overlays=\n--- nik errors: []\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\n\n    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:5) {\n  log: [\n    \"  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\"\n  ],\n  name: 'TimeoutError'\n}\n",
+      "screenshots": [
+        {
+          "file": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2350/journey-3/failure-daniel.png",
+          "sha256": "72815ee96058ad4345ece3ccde0e070cd931166c22664358f6f780a96584f69c"
+        },
+        {
+          "file": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2350/journey-3/failure-nik.png",
+          "sha256": "f1bc61419da1608f8332ce3d8eb8829d66b21f8e69dcbc9c7e549f30c790cc95"
+        }
+      ]
+    }
+  ],
+  "between_run_differences": [
+    {
+      "step": "J1.1",
+      "field": "failing manager",
+      "values": [
+        "nik",
+        "daniel",
+        "daniel"
+      ]
+    },
+    {
+      "step": "J1.1",
+      "field": "Daniel final screen/badge",
+      "values": [
+        "mainMenu / DANIEL",
+        "createShowdown / empty",
+        "createShowdown / empty"
+      ]
+    },
+    {
+      "step": "J1.1",
+      "field": "Nik final screen/badge",
+      "values": [
+        "createShowdown / empty",
+        "mainMenu / SIGN IN",
+        "mainMenu / empty"
+      ]
+    }
+  ],
+  "where": [
+    {
+      "file": "index.html",
+      "line": 411,
+      "function": "deferred initial script order"
+    },
+    {
+      "file": "js/showdown.js",
+      "line": 4,
+      "function": "ensureOnlinePlayerIdentitySurface"
+    },
+    {
+      "file": "js/showdown.js",
+      "line": 6,
+      "function": "initializeOnlinePlayerEntry"
+    },
+    {
+      "file": "js/showdown.js",
+      "line": 21,
+      "function": "module bootstrap"
+    },
+    {
+      "file": "js/optionalModules.js",
+      "line": 92,
+      "function": "loadRuntimeScript"
+    },
+    {
+      "file": "js/app.js",
+      "line": 1,
+      "function": "reportApplicationError"
+    },
+    {
+      "file": "js/onlinePlayerIdentity.js",
+      "line": 57,
+      "function": "capture-phase gameplay identity guard"
+    },
+    {
+      "file": "js/screens.js",
+      "line": 774,
+      "function": "initializeScreens"
+    }
+  ],
+  "root_cause": "index.html loads deferred showdown.js before optionalModules.js and app.js. During deferred script execution document.readyState can already be interactive. initializeOnlinePlayerEntry() sets __cmsOnlinePlayerEntryBootstrap=true and then schedules start() with setTimeout(0), allowing it to run before the later scripts define loadRuntimeScript and reportApplicationError. ensureOnlinePlayerIdentitySurface() throws Online runtime loader unavailable; the catch uses the still-absent optional error reporter and loses the error. The bootstrap flag stays true and no automatic retry loads onlinePlayerIdentity.js. Its capture-phase gameplay guard is absent, so screens.js routes #newShowdown directly to createShowdown. This explains the blank badge, missing sign-in dialog, empty page-error lists, and which manager fails changing with script delivery timing.",
+  "likely_cause_in_game_code": "index.html loads deferred showdown.js before optionalModules.js and app.js. During deferred script execution document.readyState can already be interactive. initializeOnlinePlayerEntry() sets __cmsOnlinePlayerEntryBootstrap=true and then schedules start() with setTimeout(0), allowing it to run before the later scripts define loadRuntimeScript and reportApplicationError. ensureOnlinePlayerIdentitySurface() throws Online runtime loader unavailable; the catch uses the still-absent optional error reporter and loses the error. The bootstrap flag stays true and no automatic retry loads onlinePlayerIdentity.js. Its capture-phase gameplay guard is absent, so screens.js routes #newShowdown directly to createShowdown. This explains the blank badge, missing sign-in dialog, empty page-error lists, and which manager fails changing with script delivery timing.",
+  "root_cause_confidence": "High: source dependency ordering and a separate controlled browser observation support the cause; the three official journey runs were not instrumented or altered.",
+  "supplemental_diagnostic": {
+    "scope": "Two fresh-page startup observations on the same main; not extra journey runs. No emulator process was running, and no sign-in or gameplay write was performed. The existing localhost emulator switch and local Firebase SDK interception were used.",
+    "change": "Delay only the network response for the unchanged js/optionalModules.js by 400 ms in Playwright; preserve every source file.",
+    "control_result": "Identity loaded, signed-out status, sign-in dialog present, page stayed on mainMenu.",
+    "delayed_result": "At 32 ms the bootstrap latch was true while both loader and reporter were absent. At 432 ms the loader/reporter existed but identity was still absent. After Start, createShowdown was visible with no sign-in button or overlay.",
+    "output": {
+      "kind": "supplemental startup observation; not an additional journey run",
+      "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "cases": [
+        {
+          "optional_modules_response_delay_ms": 0,
+          "timeline": [
+            {
+              "milliseconds": 29,
+              "readyState": "interactive",
+              "bootstrap": false,
+              "loaderReady": false,
+              "reporterReady": false,
+              "identityLoaded": false
+            },
+            {
+              "milliseconds": 96,
+              "readyState": "interactive",
+              "bootstrap": true,
+              "loaderReady": true,
+              "reporterReady": true,
+              "identityLoaded": false
+            },
+            {
+              "milliseconds": 130,
+              "readyState": "interactive",
+              "bootstrap": true,
+              "loaderReady": true,
+              "reporterReady": true,
+              "identityLoaded": true
+            },
+            {
+              "milliseconds": 152,
+              "readyState": "complete",
+              "bootstrap": true,
+              "loaderReady": true,
+              "reporterReady": true,
+              "identityLoaded": true
+            }
+          ],
+          "identityLoaded": true,
+          "identityStatus": "signed-out",
+          "bootstrapLatched": true,
+          "loaderReady": true,
+          "reporterReady": true,
+          "visibleScreens": [
+            "mainMenu"
+          ],
+          "signInButtonPresent": true,
+          "overlayPresent": true,
+          "page_errors": []
+        },
+        {
+          "optional_modules_response_delay_ms": 400,
+          "timeline": [
+            {
+              "milliseconds": 23,
+              "readyState": "interactive",
+              "bootstrap": false,
+              "loaderReady": false,
+              "reporterReady": false,
+              "identityLoaded": false
+            },
+            {
+              "milliseconds": 32,
+              "readyState": "interactive",
+              "bootstrap": true,
+              "loaderReady": false,
+              "reporterReady": false,
+              "identityLoaded": false
+            },
+            {
+              "milliseconds": 432,
+              "readyState": "interactive",
+              "bootstrap": true,
+              "loaderReady": true,
+              "reporterReady": true,
+              "identityLoaded": false
+            },
+            {
+              "milliseconds": 482,
+              "readyState": "complete",
+              "bootstrap": true,
+              "loaderReady": true,
+              "reporterReady": true,
+              "identityLoaded": false
+            }
+          ],
+          "identityLoaded": false,
+          "identityStatus": null,
+          "bootstrapLatched": true,
+          "loaderReady": true,
+          "reporterReady": true,
+          "visibleScreens": [
+            "createShowdown"
+          ],
+          "signInButtonPresent": false,
+          "overlayPresent": false,
+          "page_errors": []
+        }
+      ]
+    }
+  },
+  "related_existing_findings": [
+    "codex-1006-1957-1",
+    "codex-1006-2237-1",
+    "codex-1006-2308-1"
+  ],
+  "fix": {
+    "files": [
+      "js/showdown.js"
+    ],
+    "change": "Schedule identity initialization after its deferred dependencies are ready, and permit recovery after initialization failure. Keep error reporting available and preserve the gameplay identity guard. This is a recommendation only; no game code was changed."
+  },
+  "limits": [
+    "No checkpoint after J1.1 was reached in this sweep.",
+    "No claim about later gameplay, physical-device behavior, production-account acceptance or SSJR/MDP credit."
+  ]
+}
