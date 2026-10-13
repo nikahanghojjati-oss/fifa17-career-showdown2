@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1809,
+ "next": 1810,
  "claims": [
   {
    "number": 1001,
@@ -4850,6 +4850,12 @@
    "team": "G",
    "title": "r76: Standings THIS SHOWDOWN stuck on Loading standings",
    "claimed": "2026-10-13T13:05:39Z"
+  },
+  {
+   "number": 1809,
+   "team": "G",
+   "title": "r76: Rivalry Statistics route and stuck loading",
+   "claimed": "2026-10-13T13:05:44Z"
   }
  ]
 }
