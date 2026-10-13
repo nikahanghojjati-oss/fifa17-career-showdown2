@@ -158,7 +158,7 @@
       sparkConnectedSetState({status:"connecting",busy:true,message:"Checking private account availability…"});
       const runtime=options.runtime||root.CareerModeProductionFirebaseRuntime;
       if(!runtime||typeof runtime.ensureAccountServices!=="function")return sparkConnectedSetState({status:"runtime-unavailable",initialized:true,busy:false,message:sparkConnectedLocalModeMessage("Connected account services are unavailable.")});
-      const resolved=await runtime.ensureAccountServices(options.runtimeOptions||{});
+      const resolved=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices(options.runtimeOptions||{}));
       if(!resolved||resolved.ok!==true)return sparkConnectedSetState({status:"runtime-unavailable",initialized:true,busy:false,message:sparkConnectedLocalModeMessage("Connected account services are unavailable.")});
       sparkConnectedServices=resolved;
       const authSdk=sparkConnectedServices.authSdk;

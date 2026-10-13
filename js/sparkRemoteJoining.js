@@ -99,7 +99,7 @@
     await rivalry.initialize();
     const rivalryState=rivalry.getState();
     if(!rivalryState||rivalryState.attached!==true||!rivalryState.rivalryId)throw srjError("REMOTE_JOINING_RIVALRY_REQUIRED","Daniel and Nik are not connected on this phone yet. Go Home and tap CONTINUE CAREER first.");
-    const services=await runtime.ensureAccountServices();
+    const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
     if(!services||services.ok!==true||!services.auth||!services.firestore||!services.firestoreSdk)throw srjError("REMOTE_JOINING_PROVIDER_UNAVAILABLE","Private Firebase services are unavailable. Local Career Mode remains available.");
     const user=services.auth.currentUser;
     if(!user||user.uid!==accountState.accountId)throw srjError("REMOTE_JOINING_AUTH_MISMATCH","The current Google account no longer matches the Connected Account authority.");
@@ -195,6 +195,7 @@
       if(!srjHostWaitingForJoin(sessionId)||Date.now()-startedAt>SRJ_JOIN_WATCH_LIMIT_MS)return;
       if(!srjState.busy&&root.document.visibilityState!=="hidden"){
         try{
+          root.CareerModeFirestoreBudget?.wantFresh?.();
           const context=await srjResolveContext();
           const result=await context.protocol.readSession(srjOperationOptions(context,sessionId));
           if(srjHostWaitingForJoin(sessionId)&&!srjState.busy&&result&&result.ok===true&&result.state!=="open")srjAcceptResult(result,context,"host",result.state==="active"?"The other manager joined. Private session is active with exactly the two paired rivalry accounts.":`Private session refreshed at revision ${result.revision}.`);
