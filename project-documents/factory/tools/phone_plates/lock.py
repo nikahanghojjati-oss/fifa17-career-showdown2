@@ -26,8 +26,10 @@ for i,f in enumerate(sorted(faces(n))):   # head = face box grown for hair, ears
     # snap the approved head onto the GPT head so it sits exactly on that neck and body (position, tilt, size)
     snapped=cv2.warpAffine(n,r['M'],(W,H),flags=cv2.INTER_LANCZOS4,borderMode=cv2.BORDER_REPLICATE)
     head_src[y0:y1,x0:x1]=snapped[y0:y1,x0:x1]
-    a=cv2.cvtColor(n[y0:y1,x0:x1],cv2.COLOR_BGR2LAB).reshape(-1,3).mean(0); b=cv2.cvtColor(gw[y0:y1,x0:x1],cv2.COLOR_BGR2LAB).reshape(-1,3).mean(0)
-    dL=float(a[0]-b[0])/2.55
+    # brightness step measured on the blend edge (a 24px band along the head box border), where a seam would show
+    band=np.zeros((H,W),bool); band[y0:y1,x0:x1]=True; band[y0+24:y1-24,x0+24:x1-24]=False
+    La=cv2.cvtColor(snapped,cv2.COLOR_BGR2LAB)[:,:,0].astype(np.float32); Lb=cv2.cvtColor(gw,cv2.COLOR_BGR2LAB)[:,:,0].astype(np.float32)
+    dL=float(np.median((La-Lb)[band]))/2.55
     ok=abs(r['dx'])<=2 and abs(r['dy'])<=2 and abs(r['tilt'])<=0.5 and abs(r['size'])<=1 and abs(dL)<=6
     report.append(ok)
     print(f"head {'Daniel' if i==0 else 'Nik'}: shift {r['dx']},{r['dy']} px, tilt {r['tilt']} deg, size {r['size']}%, brightness step {dL:.1f}% -> {'MATCH' if ok else 'CHECK BY EYE (snapped)'}")
