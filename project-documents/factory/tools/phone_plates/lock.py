@@ -1,4 +1,6 @@
-# Likeness lock for phone plates: fit GPT onto PHONE_<KEY>_MARBLE, keep the approved pixels outside the cyan rects,
+# Likeness lock for phone plates: fit GPT onto PHONE_<KEY>_MARBLE, keep ONLY the approved heads (faces + hair) from the mockup,
+# everything else is Nik's GPT picture (full bodies, floor, room). Changed 12 Oct 9:41 p.m. Eastern: the old rule kept every
+# mockup pixel outside the cyan rects, which brought back the mockup's faded half-bodies on League (Nik caught it).
 # then crop to 9:16 and save visual-assets/v10_1/plates-v2/ENV_<KEY>_PHONE_V2.webp (1179x2096) + a 2x-check png in /tmp.
 import sys, cv2, numpy as np
 from PIL import Image
@@ -16,12 +18,13 @@ ms=sorted(cv2.BFMatcher(cv2.NORM_HAMMING,crossCheck=True).match(d1,d2),key=lambd
 A,inl=cv2.estimateAffinePartial2D(np.float32([k1[x.queryIdx].pt for x in ms]),np.float32([k2[x.trainIdx].pt for x in ms]),ransacReprojThreshold=3)
 print('fit',np.round(A,4).tolist(),int(inl.sum()),'/',len(ms))
 gw=cv2.warpAffine(g,A,(W,H),flags=cv2.INTER_LANCZOS4,borderMode=cv2.BORDER_REPLICATE)
-mask=np.zeros((H,W),np.float32)
-for x0,y0,x1,y1 in rects: mask[max(0,y0-12):y1+12,max(0,x0-12):x1+12]=1
-# below the first wide game panel GPT redrew the bodies and floor: take GPT there completely (no seams across legs)
-wide=[y0 for x0,y0,x1,y1 in rects if x1-x0>0.6*W and y0>0.15*H]  # panels only, not title bars
-if wide: mask[max(0,min(wide)-12):,:]=1
-mask=cv2.GaussianBlur(mask,(0,0),5)[:,:,None]
+from facecheck import faces
+keep=np.zeros((H,W),np.float32)
+for fx,fy,fw,fh in faces(n):   # head = face box grown for hair, ears and chin
+    keep[max(0,int(fy-0.75*fh)):int(fy+1.2*fh),max(0,int(fx-0.35*fw)):int(fx+1.35*fw)]=1
+for x0,y0,x1,y1 in rects: keep[max(0,y0-12):y1+12,max(0,x0-12):x1+12]=0   # a head never sits in a game box (facecheck), but be safe
+mask=1-keep
+mask=cv2.GaussianBlur(mask,(0,0),9)[:,:,None]
 out=(gw*mask+n*(1-mask)).astype(np.uint8)
 cy=((out[:,:,0]>200)&(out[:,:,1]>200)&(out[:,:,2]<80)).sum(); print('cyan px',int(cy))
 cw=round(H*9/16); x=(W-cw)//2
