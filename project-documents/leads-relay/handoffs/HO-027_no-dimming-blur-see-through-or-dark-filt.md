@@ -34,4 +34,7 @@ Nik's words, in short: on some desktop and phone screens the game puts a filter 
 2. Check Legacy, Career/Statistics, Settings, Season Results, Final Winner, Rivalry, Standings, Club and League in the signed-out and loser states, on desktop and phone.
 3. Reply with the list of what was removed and screenshots.
 
+
+**Clarification (Nik, 12 Oct 8:48 p.m. Eastern):** this is NOT a brightness boost. The good signed-in look, with its natural, realistic lighting on the managers' skin and clothes matching the room, is the target and must not change. Only the extra state filters (dim, grey, blur, see-through, dark overlay) are removed, so every state looks like that good version. Remove them safely: no change to motion settings, no new flash on load, nothing else touched.
+
 Team V adds the same rule to PRODUCT_TRUTH.md and to every picture ticket.
