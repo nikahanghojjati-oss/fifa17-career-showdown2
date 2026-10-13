@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-13 5:23 AM Boston time (EDT)",
+ "generated": "2026-10-13 5:27 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 96,
@@ -941,7 +941,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #834: L1✓ L2✓ L3A… L3B✓ L4✓ L5✓ L6✓ · seal pending · POS20 #834 0/16",
+   "gate": "Gate #834: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #834 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
