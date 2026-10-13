@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-12 8:40 PM Boston time (EDT)",
+ "generated": "2026-10-12 8:44 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 95,
+  "count": 96,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -858,6 +858,15 @@
     "subject": "r75: phone, sideways and tablet in the exact desktop marble look (no glass)",
     "reply": "yes (receive it)",
     "boston": "Mon 12 Oct 5:55 PM"
+   },
+   {
+    "time": "2026-10-13 00:44",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-027 RECEIVED",
+    "subject": "No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76)",
+    "reply": "no",
+    "boston": "Mon 12 Oct 8:44 PM"
    }
   ],
   "g2v": {
@@ -878,8 +887,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "554d8e6",
-  "head_boston": "Mon 12 Oct 7:35 PM",
+  "head": "b00ad1e",
+  "head_boston": "Mon 12 Oct 8:44 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1291,6 +1300,19 @@
     "worker": "images",
     "pickup_min": 0,
     "waiting_min": null
+   },
+   {
+    "id": "HO-027",
+    "from": "V",
+    "to": "G",
+    "title": "No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76)",
+    "stage": "RECEIVED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-027_no-dimming-blur-see-through-or-dark-filt.md",
+    "worker": "",
+    "pickup_min": 0,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -1362,7 +1384,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 47,
+  "moving": 48,
   "next": 42,
   "nik": 2,
   "later": 21,

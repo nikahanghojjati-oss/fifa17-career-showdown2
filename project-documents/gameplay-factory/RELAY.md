@@ -1,12 +1,42 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-12 8:40 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-12 8:44 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `554d8e6` (Mon 12 Oct 7:35 PM Boston time) · 95 messages · 26 hand-offs · 157 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `b00ad1e` (Mon 12 Oct 8:44 PM Boston time) · 96 messages · 27 hand-offs · 160 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-027 · V → G · No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76)
+
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+
+- Mon 12 Oct 8:44 PM · Team G · Received
+- Mon 12 Oct 8:43 PM · Team V · Sent
+- Mon 12 Oct 8:44 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+## Owner rule (Nik, 12 Oct 2026, 8:42 p.m. Eastern): no filters on managers or screens
+
+Nik's words, in short: on some desktop and phone screens the game puts a filter on a manager (the one who lost, or someone not signed in): see-through, dimmed, greyed, blurred, or a dark shadow over part of a face or the screen. He has seen it on screens such as Legacy, Career and Settings when not signed in. He does not like any of it. This is a very important rule from now on.
+
+**Rule (applies to every screen, desktop, sideways, tablet and phone):**
+- Never make a manager transparent, dimmed, greyed, desaturated or blurred, whether they lost, are not signed in, are waiting, or anything else.
+- Never lay a dark, grey or shadow overlay over a manager's face or body, or over the screen, because of a state (signed out, not ready, loser, locked, empty).
+- A signed-out or empty state shows the normal screen at full brightness. Show the state with words and buttons (for example SIGN IN WITH GOOGLE, Not selected), never by darkening the picture.
+- The loser in a result looks exactly like the winner: same brightness, colour and sharpness. The words say who won.
+- Normal design shading baked into the approved plates (the room's own lighting) stays. This rule is about filters added by code for a state.
+
+**Ask for r76:**
+1. Find every place the code adds opacity, filter (grayscale, brightness, blur), mix-blend dimming, or a dark overlay on manager images, cutouts or screen plates for a state, and remove it.
+2. Check Legacy, Career/Statistics, Settings, Season Results, Final Winner, Rivalry, Standings, Club and League in the signed-out and loser states, on desktop and phone.
+3. Reply with the list of what was removed and screenshots.
+
+Team V adds the same rule to PRODUCT_TRUTH.md and to every picture ticket.
+
+</details>
 
 ### HO-026 · G → V · r75: phone, sideways and tablet in the exact desktop marble look (no glass)
 
@@ -899,6 +929,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-027 RECEIVED · Team G → Team V · Mon 12 Oct 8:44 PM Boston time
+
+**No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-026 SENT · Team G → Team V · Mon 12 Oct 5:55 PM Boston time
 
