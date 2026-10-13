@@ -99,3 +99,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-11 03:35 | Team G | Team V | HO-025 RECEIVED | Relay feed and inbox: add your hand-off rows to FEED.md (feed_sync.py --team G) and refresh your INBOX.json entry | no |
 | 2026-10-11 03:37 | Team G | Team V | HO-025 DONE | Relay feed and inbox: add your hand-off rows to FEED.md (feed_sync.py --team G) and refresh your INBOX.json entry | no |
 | 2026-10-12 21:55 | Team G | Team V | HO-026 SENT | r75: phone, sideways and tablet in the exact desktop marble look (no glass) | yes (receive it) |
+| 2026-10-13 00:44 | Team G | Team V | HO-027 RECEIVED | No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76) | no |
