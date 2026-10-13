@@ -58,7 +58,7 @@ P={
  'CM17 | THE RIVALRY STARTS HERE | CAREER MODE SHOWDOWN 17 | TWO MANAGERS · ONE LEGACY | PREPARING CAREER MODE SHOWDOWN | TWO MANAGERS · ONE SHOWDOWN | Marco Reus photo: Tim Reckmann · CC BY 2.0 · Display crop',
  'Keep the footballer in the yellow and black kit exactly as in picture 1 (same man, same pose); he is the only person on this screen. Keep the small photo credit line at the bottom left, letter for letter. '+NOTABS,'reus'),
 }
-WHO={'men':"The two men must look exactly like picture 2: same faces, hair, beards and black suits (Daniel has curly hair and a white shirt, Nik has a beard and a black shirt). Keep each man's pose and place from picture 1. Daniel stays on the LEFT and Nik on the RIGHT, never flipped. Show both men's full heads and all their hair. ",
+WHO={'men':"The two men must look exactly like picture 2: same faces, hair, beards and black suits (Daniel has curly hair and a white shirt, Nik has a beard and a black shirt). Keep each man's pose and place from picture 1. Daniel stays on the LEFT and Nik on the RIGHT, never flipped. Show both men's full heads and all their hair, both at full brightness and colour: never dim, grey, blur, darken or fade either man. ",
      'none':"There are no people on this screen; do not add any. ",
      'reus':""}
 CHK={'men':'   - Daniel (curly hair, white shirt) on the LEFT and Nik (beard, black shirt) on the RIGHT, faces like picture 2, poses like picture 1\n',

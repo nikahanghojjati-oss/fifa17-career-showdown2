@@ -79,3 +79,9 @@ Final Home destinations, all reachable on phone: **Continue** (dominant), **Star
 - All factory work lives on **`factory/v1-wtt5ye`**. Never push to `main`. Never force-push. Never delete branches.
 - Screen folders: `visual-assets/v10_1/<screen>/`. Shared kit: `visual-assets/v10_1/shared/`. Factory papers: `project-documents/factory/`.
 - `main` is read-only: read product code from it, never change it.
+
+## 9. No state filters on people or screens (Nik, 12 Oct 2026, 8:42 p.m. Eastern)
+
+- Never make a manager transparent, dimmed, greyed, blurred or shadowed because they lost, are not signed in, or any other state. The loser looks exactly like the winner.
+- Never put a dark or grey overlay on a screen for a signed-out, empty or locked state. Show the normal screen at full brightness and say the state in words and buttons.
+- Picture tickets must not ask for (or accept) a dimmed, see-through or shadowed manager. Team G hand-off HO-027 removes these filters from the live game (r76).
