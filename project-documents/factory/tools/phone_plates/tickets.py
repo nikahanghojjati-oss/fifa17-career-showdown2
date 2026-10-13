@@ -22,7 +22,7 @@ S=[
 ]
 n=len(S); rows=[]
 for i,(k,name,scene,people,extra) in enumerate(S,1):
-    who=("Keep everything that is not cyan exactly as it is: the same two men, same faces, same hair, same hands, same pose, same clothes, same framing, same natural lighting as the picture (never dimmed); Daniel stays on the LEFT and Nik on the RIGHT, never flipped. Where a man's body was covered, continue his clothes naturally. Show both men's full heads and all their hair."
+    who=("Keep everything that is not cyan exactly as it is: the same two men, same faces, same hair, same hands, same pose, same clothes, same framing, same natural lighting as the picture (never dimmed); Daniel stays on the LEFT and Nik on the RIGHT, never flipped. Where a cyan box covers part of a man, continue his body and suit naturally down into the box; never cut a man off in a straight line. Show both men's full heads and all their hair."
          if people else "Keep everything that is not cyan exactly as it is. Add no people.")
     chk=("   - Daniel (left) and Nik (right) are still there, same place and pose, not flipped, not dimmed (Claude puts the exact faces back afterwards)\n" if people else "   - no people anywhere\n")
     t=f"""# Ticket {JOB} · {i} of {n} · {name} clean phone background (ENV_{k}_PHONE_V2)
@@ -35,7 +35,7 @@ One image only. The result must be an EMPTY tall phone background: the room{' an
 4. Check the picture:
    - NO title, NO cards or panels, NO buttons, NO tab bar, NO game words anywhere (if any of these came back, it fails)
    - no cyan left anywhere
-{chk}   - the repainted parts blend in: no box edge, smear or colour step
+{chk}   - the repainted parts blend in: no box edge, smear or colour step, and neither man is cut off in a straight line
    - tall phone shape, same framing, not cropped
 5. If it passes, download it and drop it into Claude's factory thread with the words `{JOB} {k}`. If it fails, paste the fix line below once in the same chat; if it still fails, start again in a brand-new chat (up to 3 tries).
 
