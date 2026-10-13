@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1802,
+ "next": 1803,
  "claims": [
   {
    "number": 1001,
@@ -4808,6 +4808,12 @@
    "team": "V",
    "title": "HO-026 marble phone backgrounds (cyan-box plates ENV_<KEY>_PHONE_V2)",
    "claimed": "2026-10-13T00:47:06Z"
+  },
+  {
+   "number": 1802,
+   "team": "G",
+   "title": "r76: CE2PG harness on the r76 base plus baseline runs",
+   "claimed": "2026-10-13T13:05:22Z"
   }
  ]
 }
