@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 13 Oct, 6:08 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 13 Oct, 6:12 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -50,7 +50,11 @@ Updated Tue 13 Oct, 6:08 PM Boston time. Bug hunting only, no new features until
 
 **#9 · 1803** `G` Showdown close write refused: over the Rules 1000-expression limit (fix in the app, not the Rules)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #837 · CI 7 of 8 passed · last move 22 min ago
+⚪ Team white · model not set · worker working, draft PR #837 · CI 7 of 8 passed · last move 26 min ago
+
+**#10 · 1804** `G` Setup write refused by Rules (L2800 evaluation error) when Nik confirms league and clubs  
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · model not set · worker working, draft PR #838 · CI 7 of 8 passed · last move 1 min ago
 
 ### 👉 Next for you, in this order
 
@@ -1268,17 +1272,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1798
 ```
 
-**#122 · 1804** `G` Setup write refused by Rules (L2800 evaluation error) when Nik confirms league and clubs  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1804'
-
-Type this in Codex cloud:
-
-```text
-Job 1804
-```
-
-**#123 · 1805** `G` Home tile and header chip stay on "Season 1 of N" after season 1  
+**#122 · 1805** `G` Home tile and header chip stay on "Season 1 of N" after season 1  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1805'
 
@@ -1288,7 +1282,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1805
 ```
 
-**#124 · 1806** `G` BACK TO SHOWDOWN HOME lands on the dashboard instead of Home  
+**#123 · 1806** `G` BACK TO SHOWDOWN HOME lands on the dashboard instead of Home  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1806'
 
@@ -1298,7 +1292,7 @@ Type this in Codex cloud:
 Job 1806
 ```
 
-**#125 · 1807** `G` REVIEW SEASON button hidden on the Showdown Champion screen  
+**#124 · 1807** `G` REVIEW SEASON button hidden on the Showdown Champion screen  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1807'
 
@@ -1308,7 +1302,7 @@ Type this in Codex cloud:
 Job 1807
 ```
 
-**#126 · 1808** `G` Standings THIS SHOWDOWN stuck on "Loading standings." mid-Showdown  
+**#125 · 1808** `G` Standings THIS SHOWDOWN stuck on "Loading standings." mid-Showdown  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1808'
 
@@ -1318,7 +1312,7 @@ Type this in Codex cloud:
 Job 1808
 ```
 
-**#127 · 1809** `G` Rivalry Statistics: how the player gets there, and stuck on "Loading rivalry statistics…"  
+**#126 · 1809** `G` Rivalry Statistics: how the player gets there, and stuck on "Loading rivalry statistics…"  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1809'
 
@@ -1328,7 +1322,7 @@ Type this in Codex cloud:
 Job 1809
 ```
 
-**#128 · 1810** `G` Phone Trophy Room: ranks and all-time records missing, CAREER DETAILS empty  
+**#127 · 1810** `G` Phone Trophy Room: ranks and all-time records missing, CAREER DETAILS empty  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1810'
 
@@ -1338,7 +1332,7 @@ Type this in Codex cloud:
 Job 1810
 ```
 
-**#129 · 1811** `G` Final reconciliation and FINAL SEASON cells sometimes empty right after the close  
+**#128 · 1811** `G` Final reconciliation and FINAL SEASON cells sometimes empty right after the close  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1811'
 
@@ -1348,7 +1342,7 @@ Type this in Codex cloud:
 Job 1811
 ```
 
-**#130 · 1812** `G` Free-limit message must show as soon as Home opens  
+**#129 · 1812** `G` Free-limit message must show as soon as Home opens  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1812'
 
@@ -1358,7 +1352,7 @@ Type this in Codex cloud:
 Job 1812
 ```
 
-**#131 · 1813** `G` GPT chat review of the r76 Codex and Work mode PRs  
+**#130 · 1813** `G` GPT chat review of the r76 Codex and Work mode PRs  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1813'
 
@@ -1368,7 +1362,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1813
 ```
 
-**#132 · 1814** `G` Sweep the older audit reports for bugs that are still open (GPT chat, repeatable)  
+**#131 · 1814** `G` Sweep the older audit reports for bugs that are still open (GPT chat, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1814'
 
@@ -1378,7 +1372,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1814
 ```
 
-**#133 · 1815** `G` Shared-journey guard: prove or fix the stale-marker block (U-01)  
+**#132 · 1815** `G` Shared-journey guard: prove or fix the stale-marker block (U-01)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1815'
 
@@ -1388,7 +1382,7 @@ Type this in Codex cloud:
 Job 1815
 ```
 
-**#134 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
+**#133 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1816'
 
@@ -1398,7 +1392,7 @@ Type this in Codex cloud:
 Job 1816
 ```
 
-**#135 · 1817** `G` Bug cards from the audit sweep (GPT chat, repeatable)  
+**#134 · 1817** `G` Bug cards from the audit sweep (GPT chat, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1817'
 
@@ -1408,7 +1402,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1817
 ```
 
-**#136 · 1818** `G` Failing tests for the bug cards (GPT Work mode, repeatable)  
+**#135 · 1818** `G` Failing tests for the bug cards (GPT Work mode, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1818'
 
@@ -1418,7 +1412,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1818
 ```
 
-**#137 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
+**#136 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1819'
 
