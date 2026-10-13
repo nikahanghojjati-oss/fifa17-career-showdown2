@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 13 Oct, 6:20 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 13 Oct, 6:25 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -34,7 +34,7 @@ Updated Tue 13 Oct, 6:20 PM Boston time. Bug hunting only, no new features until
 
 **#5 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #775 · CI 6 of 7 passed · last move 33 h ago
+🟢 Team green · model not set · worker working, draft PR #775 · CI 6 of 7 passed · last move 34 h ago
 
 **#6 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -50,11 +50,11 @@ Updated Tue 13 Oct, 6:20 PM Boston time. Bug hunting only, no new features until
 
 **#9 · 1803** `G` Showdown close write refused: over the Rules 1000-expression limit (fix in the app, not the Rules)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #837 · CI 7 of 8 passed · last move 34 min ago
+⚪ Team white · model not set · worker working, draft PR #837 · CI 7 of 8 passed · last move 39 min ago
 
 **#10 · 1804** `G` Setup write refused by Rules (L2800 evaluation error) when Nik confirms league and clubs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #838 · CI 7 of 8 passed · last move 9 min ago
+⚪ Team white · model not set · worker working, draft PR #838 · CI 7 of 8 passed · last move 14 min ago
 
 ### 👉 Next for you, in this order
 
