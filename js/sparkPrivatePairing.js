@@ -30,6 +30,9 @@
   let pairingJoinRenderDeferred=false;
   const DEVICE_REVERIFY_MS=10*60*1000;
   let deviceVerified=null;
+  // r75: any denied Firestore read or write (the budget layer's event) ends the 10-minute trust, so a browser revoked from
+  // another browser is re-verified on its next check.
+  try{if(root&&typeof root.addEventListener==="function")root.addEventListener("career-mode-firestore-authority-denied",()=>{deviceVerified=null;});}catch(_error){}
   const pairingListeners=new Set();
 
   function freezeDeep(value){
@@ -676,6 +679,20 @@ async function revokePairing(options={}){
     }
     return false;
   }
+  function fsbIsDeniedError(error){
+    for(let item=error,depth=0;item&&typeof item==="object"&&depth<3;item=item.cause,depth+=1){
+      const code=String(item.code||"").toLowerCase();
+      if(code==="permission-denied"||code==="permission_denied"||code==="unauthenticated")return true;
+    }
+    return false;
+  }
+  // A denied read or write means this account or device may have lost its authority (revoked elsewhere): nothing this page
+  // kept is reused after it, and the pairing check re-verifies the device on its next run instead of trusting its 10 minutes.
+  function fsbAuthorityDenied(error){
+    if(!fsbIsDeniedError(error))return;
+    fsbEntries.clear();fsbInflight.clear();
+    try{if(typeof root.dispatchEvent==="function"&&typeof root.CustomEvent==="function")root.dispatchEvent(new root.CustomEvent("career-mode-firestore-authority-denied"));}catch(_error){}
+  }
   function fsbPaused(){return Boolean(fsbPause&&fsbNow()<fsbPause.until);}
   function fsbQuotaError(){fsbStats.pausedRefusals+=1;const error=new Error(FSB_QUOTA_MESSAGE);error.code="resource-exhausted";error.quotaPaused=true;return error;}
   function fsbQuotaMessage(error){return fsbPaused()||(error!==undefined&&fsbIsQuotaError(error))?FSB_QUOTA_MESSAGE:null;}
@@ -869,22 +886,24 @@ async function revokePairing(options={}){
     const wait={path,owners:new Map([[owner,{wake,seen:at}]]),snapshot:null,serial:null,version:null,healthy:false,dirty:false,confirmedAt:0,lagUntil:0,lagVersion:null,lagSerial:null,unsubscribe:null};
     fsbWait=wait;fsbStats.listenersAttached+=1;
     try{
-      wait.unsubscribe=api.onSnapshot(api.doc(fsbFirestore,path),{includeMetadataChanges:true},snapshot=>fsbWaitDelivery(wait,snapshot),error=>{if(fsbWait!==wait)return;fsbWaitFail(path);if(fsbIsQuotaError(error))fsbTrip();});
+      wait.unsubscribe=api.onSnapshot(api.doc(fsbFirestore,path),{includeMetadataChanges:true},snapshot=>fsbWaitDelivery(wait,snapshot),error=>{if(fsbWait!==wait)return;fsbWaitFail(path);if(fsbIsQuotaError(error))fsbTrip();fsbAuthorityDenied(error);});
     }catch(_error){if(fsbWait===wait)fsbWaitFail(path);}
     return false;
   }
 
   // One document, read on the server inside a transaction that ends before commit (one BatchGetDocuments, no write).
   function fsbReadOne(sdk,db,ref){
-    const path=fsbPathOf(ref),key=path||ref;
+    // A read in flight is shared only within the account that started it; one that lands after a sign-in change is not kept.
+    const path=fsbPathOf(ref),account=fsbAccountId,key=path?`${account||""}|${path}`:ref;
     const running=fsbInflight.get(key);
     if(running)return running;
     const found={};
     const request=Promise.resolve().then(()=>sdk.runTransaction(db,transaction=>Promise.resolve(transaction.get(ref)).then(snapshot=>{found.snapshot=snapshot;throw found;}))).then(()=>{throw new Error("Firestore read returned no snapshot.");},error=>{
-      if(error===found){fsbStats.serverReads+=1;fsbRemember(db,ref,found.snapshot);return found.snapshot;}
+      if(error===found){fsbStats.serverReads+=1;if(fsbAccountId===account)fsbRemember(db,ref,found.snapshot);return found.snapshot;}
       if(fsbIsQuotaError(error))fsbTrip();
+      fsbAuthorityDenied(error);
       throw error;
-    }).finally(()=>{fsbInflight.delete(key);});
+    }).finally(()=>{if(fsbInflight.get(key)===request)fsbInflight.delete(key);});
     fsbInflight.set(key,request);
     return request;
   }
@@ -944,6 +963,7 @@ async function revokePairing(options={}){
       if(error===done){fsbStats.readOnlyWithoutCommit+=1;return done.value;}
       if(wrote)fsbMarkWritten(db,written);
       if(fsbIsQuotaError(error))fsbTrip();
+      fsbAuthorityDenied(error);
       throw error;
     }
   }
@@ -954,7 +974,7 @@ async function revokePairing(options={}){
     if(typeof updateFunction!=="function")return sdk.runTransaction(db,updateFunction,...rest);
     if(db!==fsbFirestore){fsbEntries.clear();fsbFirestore=db;}
     const uid=services.auth&&services.auth.currentUser&&services.auth.currentUser.uid||null;
-    if(uid!==fsbAccountId){fsbEntries.clear();fsbAccountId=uid;}
+    if(uid!==fsbAccountId){fsbEntries.clear();fsbInflight.clear();fsbAccountId=uid;}
     const answer=await fsbProbe(sdk,db,updateFunction);
     if(answer)return answer.value;
     return fsbServerTransaction(sdk,db,updateFunction,rest);
