@@ -28,3 +28,7 @@ cw=round(H*9/16); x=(W-cw)//2
 im=Image.fromarray(cv2.cvtColor(out[:,x:x+cw],cv2.COLOR_BGR2RGB)).resize((1179,2096),Image.LANCZOS)
 im.save(ROOT+f'visual-assets/v10_1/plates-v2/ENV_{key}_PHONE_V2.webp',quality=88,method=6)
 im.save(f'/tmp/claude-0/ph/plate_{key}.png'); print('saved',im.size)
+
+# Face check (faces clear of every game box, visible on a 393x852 phone, same place as the approved mockup)
+from facecheck import check
+if key not in ("SETTINGS","RULE_BOOK","LOADING"): check(key)
