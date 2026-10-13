@@ -18,10 +18,12 @@ const QUOTA_TEXT="Today's free online limit is used up. It resets at 3 am Boston
 
 // Budgets (per browser). Measured with this proxy on r75: waiting with the listener 3.4/min, waiting with the listener
 // down 60/min (today's 3 s cadence, kept as the fallback), a screen with only the 15 s poll 1.8/min, hidden 0, idle writes 0.
+// The limits sit just above those numbers, so any drift back toward polling (one more document per check, a shorter reuse
+// window, a check that ignores the listener) fails here.
 const BUDGET=Object.freeze({
-  waitingVisibleReadsPerMinute:8,       // was 72/min before r75 (3 documents every 3 s plus the 15 s poll)
+  waitingVisibleReadsPerMinute:5,       // was 72/min before r75 (3 documents every 3 s plus the 15 s poll)
   waitingFallbackReadsPerMinute:66,     // listener down: the 3 s check must keep working, never above today's cadence
-  idleVisibleReadsPerMinute:5,          // a screen with only the 15 s poll (3 documents): was 12/min before r75
+  idleVisibleReadsPerMinute:3,          // a screen with only the 15 s poll (3 documents): was 12/min before r75
   hiddenReadsPerMinute:0,
   idleWritesPerMinute:0,
   partnerUpdateMs:1000                  // listener delivery -> waiting screen has the new data
@@ -343,6 +345,24 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.deepEqual(screen.seen,{published:{daniel:true}},"returning to the tab shows the partner's update from a fresh read");
     assert.ok(world.meter.reads-before>=1,"returning re-reads from the server");
     assert.equal(world.activeListeners().length,1,"returning re-attaches the listener");
+    screen.stop();
+  });
+
+  await check("FB4b","a screen that was waiting when the tab was hidden catches up with one check the moment it is visible again",async()=>{
+    const world=createWorld();seed(world);
+    const screen=createScreen(world,{owner:"season-commit",watched:RESULTS,context:[RIVALRY,SESSION]});
+    screen.start();
+    await world.advance(20000);
+    world.setVisible(false);
+    await world.advance(5*60000);
+    world.serverWrite(RESULTS,{published:{daniel:true,nik:true}});
+    const before=world.meter.reads;
+    world.setVisible(true);
+    await world.advance(200);  // well before the screen's next 3 s check
+    assert.deepEqual(screen.seen,{published:{daniel:true,nik:true}},"the waiting screen shows the partner's move right after the tab is visible again");
+    assert.ok(world.meter.reads-before<=3,`one catch-up check reads each of its 3 documents at most once (read ${world.meter.reads-before})`);
+    const after=await perMinute(world,2);
+    assert.ok(after.reads<=BUDGET.waitingVisibleReadsPerMinute,`after the catch-up the screen is back within the waiting budget (${after.reads}/min)`);
     screen.stop();
   });
 

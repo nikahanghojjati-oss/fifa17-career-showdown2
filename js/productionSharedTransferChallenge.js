@@ -292,9 +292,13 @@
     const revision=Number(view.revision),retryAllowed=revision!==expiryAttemptRevision||now-expiryAttemptAt>=EXPIRY_RETRY_MS;
     if(remaining===0&&!busy&&retryAllowed){expiryAttemptRevision=revision;expiryAttemptAt=now;void pstcMutate("advanceExpiredWindow");}
   }
+  // r75: a screen that starts or stops waiting on the partner registers its live listener at once (on the render that
+  // shows the new state) instead of on the next 3 s check, so the partner's move is seen as soon as it lands.
+  let pstcWatchedKey=null;
+  function pstcWatchSync(){let key="";try{key=pstcWaitingKey()+"|"+(root.document?.visibilityState||"");}catch(_error){key="";}if(key===pstcWatchedKey)return;pstcWatchedKey=key;try{pstcWatchWait();}catch(_error){}}
   function pstcRender(){
     if(!root.document||!pstcSharedMarker())return false;
-    pstcCapSigningNames();
+    pstcCapSigningNames();pstcWatchSync();
     const state=view?.state||null,role=view?.managerRole||pstcSetupState()?.managerRole||null;
     if(!role)return false;
     const key=viewContextKey||pstcBoundContextKey(view?.rivalryId||pstcSetupState()?.rivalryId||"",view?.seasonNumber||pstcSeason());pstcResetForContext(key,role);

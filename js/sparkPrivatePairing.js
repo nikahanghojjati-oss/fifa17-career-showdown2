@@ -695,7 +695,9 @@ async function revokePairing(options={}){
       root.addEventListener("online",fsbForgetAll);
       root.addEventListener("pageshow",fsbForgetAll);
       if(root.document&&typeof root.document.addEventListener==="function"){
-        root.document.addEventListener("visibilitychange",()=>{if(fsbHidden())fsbDetachWait();else fsbForgetAll();});
+        // Back from hidden: forget what this page had and wake once every screen that was waiting on the partner when it
+        // was hidden, so it catches up with one check now instead of on its next timer (no new timer, no repeated reads).
+        root.document.addEventListener("visibilitychange",()=>{if(fsbHidden()){fsbDetachWait();return;}fsbForgetAll();fsbWakeReturning();});
         // A tap or key press means someone is acting now: for the next 5 s every check reads fresh (2 s coalescing only).
         for(const type of ["pointerdown","touchstart","keydown"])root.document.addEventListener(type,()=>{fsbInputAt=fsbNow();},{capture:true,passive:true});
       }
@@ -764,8 +766,8 @@ async function revokePairing(options={}){
   // move changes. One listener per page at most. It is dropped when the page is hidden, the screen stops waiting, online
   // play pauses, or the listener errors or falls behind; the screen's own 3 s check keeps running throughout and simply
   // reads from the server again whenever the listener is not healthy. A change seen by the listener wakes the screen at once.
-  const FSB_WAIT_CONFIRM_MS=30000,FSB_WAIT_LAG_MS=5000,FSB_WAIT_RETRY_MS=60000,FSB_WAIT_OWNER_MS=7000;
-  const fsbWaitFailed=new Map();
+  const FSB_WAIT_CONFIRM_MS=30000,FSB_WAIT_LAG_MS=5000,FSB_WAIT_RETRY_MS=60000,FSB_WAIT_OWNER_MS=4500;
+  const fsbWaitFailed=new Map(),fsbReturnWakes=new Map();
   let fsbWait=null,fsbSnapshotApi=null,fsbSnapshotApiPromise=null;
   function fsbStable(value){
     if(value===null||typeof value!=="object")return JSON.stringify(value);
@@ -812,6 +814,9 @@ async function revokePairing(options={}){
       else{try{wake();}catch(_error){}}
     }
   }
+  function fsbWakeReturning(){
+    for(const wake of fsbReturnWakes.values()){if(typeof root.setTimeout==="function")root.setTimeout(()=>{try{wake();}catch(_error){}},0);}
+  }
   function fsbWaitDelivery(wait,snapshot){
     if(fsbWait!==wait)return;
     if(!snapshot||!snapshot.metadata||snapshot.metadata.fromCache||snapshot.metadata.hasPendingWrites){wait.healthy=false;return;}
@@ -827,8 +832,8 @@ async function revokePairing(options={}){
     const at=fsbNow();
     if(fsbWait){for(const [key,info] of [...fsbWait.owners])if(key!==owner&&at-info.seen>FSB_WAIT_OWNER_MS)fsbWait.owners.delete(key);if(!fsbWait.owners.size)fsbDetachWait();}
     const release=()=>{if(fsbWait&&fsbWait.owners.delete(owner)&&!fsbWait.owners.size)fsbDetachWait();return false;};
-    if(typeof path!=="string"||!/^rivalries\/[^/]+(?:\/[^/]+\/[^/]+)+$/.test(path)){fsbWaitAsks.delete(owner);return release();}
-    fsbWaitAsks.set(owner,{path,at});
+    if(typeof path!=="string"||!/^rivalries\/[^/]+(?:\/[^/]+\/[^/]+)+$/.test(path)){fsbWaitAsks.delete(owner);if(!fsbHidden())fsbReturnWakes.delete(owner);return release();}
+    fsbWaitAsks.set(owner,{path,at});if(typeof wake==="function")fsbReturnWakes.set(owner,wake);
     if(fsbPaused()||fsbHidden()||!fsbFirestore||(fsbWaitFailed.get(path)||0)>at)return release();
     if(fsbWait&&fsbWait.path===path){fsbWait.owners.set(owner,{wake,seen:at});return fsbWaitLive();}
     if(fsbWait&&!(fsbWait.owners.size===1&&fsbWait.owners.has(owner)))return false;
@@ -961,6 +966,6 @@ async function revokePairing(options={}){
     noteError(error){if(fsbIsQuotaError(error))fsbTrip();return fsbQuotaMessage(error);},
     state:fsbState,
     stats:()=>Object.freeze({...fsbStats,remembered:fsbEntries.size,watching:fsbWait?fsbWait.path:null,watchHealthy:fsbWaitLive()}),
-    reset(){fsbDetachWait();fsbWaitFailed.clear();fsbEntries.clear();fsbInflight.clear();fsbCadence.clear();fsbWaitAsks.clear();fsbFreshPaths.clear();fsbPause=null;fsbInputAt=0;fsbFreshAskAt=0;fsbPublish();}
+    reset(){fsbDetachWait();fsbWaitFailed.clear();fsbReturnWakes.clear();fsbEntries.clear();fsbInflight.clear();fsbCadence.clear();fsbWaitAsks.clear();fsbFreshPaths.clear();fsbPause=null;fsbInputAt=0;fsbFreshAskAt=0;fsbPublish();}
   });
 })(typeof globalThis!=="undefined"?globalThis:this);

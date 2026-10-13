@@ -93,7 +93,11 @@
     return lines.length?` · CHECK RESULTS: ${lines.join(" ")} ${who} can still commit; scores use what was entered.`:"";
   }
   function psscManagerName(role){return psscShowdown()?.managers?.[role]||(role==="playerOne"?"Manager 1":"Manager 2");}
-  function psscRender(){
+  // r75: a screen that starts or stops waiting on the partner registers its live listener at once (on the render that
+  // shows the new state) instead of on the next 3 s check, so the partner's move is seen as soon as it lands.
+  let psscWatchedKey=null;
+  function psscWatchSync(){let key="";try{key=psscWaitingKey()+"|"+(root.document?.visibilityState||"");}catch(_error){key="";}if(key===psscWatchedKey)return;psscWatchedKey=key;try{psscWatchWait();}catch(_error){}}
+  function psscRender(){psscWatchSync();
     const ui=psscEnsureUi();if(!ui)return false;
     const request=psscRequestContext(),ready=Boolean(psscSharedMarker()&&request&&psscResultsPublished(request)),eligible=Boolean(ready&&psscResultsReady(request)&&contextKey===request.key&&view);
     psscHidden(ui.status,!ready);psscHidden(ui.action,!ready);if(!ready)return false;
@@ -115,9 +119,14 @@
     return true;
   }
   function psscBind(result,ctx,request){if(!psscContextMatches(request))return false;const before=view&&contextKey===request.key?view.phase:null;view={...result,rivalryId:ctx.setup.rivalryId,coordinatorRole:result.coordinatorRole||ctx.setup.setup.coordinatorRole};contextKey=request.key;readError="";readErrorKey="";psscRender();if(before&&before!=="ACKNOWLEDGED"&&view.phase==="ACKNOWLEDGED")psscNudgeHistory();return true;}
-  // r75: the moment this page sees the season commit become ACKNOWLEDGED, Shared History checks once instead of waiting for
-  // its next 3 s check (nothing announces the commit change to it), so the next season or Final Winner appears sooner.
-  function psscNudgeHistory(){if(typeof root.setTimeout!=="function"||root.document?.visibilityState==="hidden")return;root.setTimeout(()=>{try{const history=root.CareerModeProductionSharedHistoryConvergence;if(history&&typeof history.refresh==="function")void Promise.resolve(history.refresh(true)).catch(()=>{});}catch(_error){}},0);}
+  // r75: the moment this page sees the season commit become ACKNOWLEDGED, Canonical Scoring and then Shared History check
+  // once, in that order (History needs the reconciled score), instead of each waiting for its next 3 s check: nothing else
+  // announces the commit change to them. The next season, the history screens and Final Winner follow from History's event.
+  function psscNudgeHistory(){if(typeof root.setTimeout!=="function"||root.document?.visibilityState==="hidden")return;root.setTimeout(()=>{void (async()=>{
+    const scoring=root.CareerModeProductionSharedCanonicalScoring,history=root.CareerModeProductionSharedHistoryConvergence;
+    try{if(scoring&&typeof scoring.refresh==="function"){let state=await scoring.refresh(true);if(state?.phase!=="SCORING_RECONCILED")state=await scoring.refresh(true);}}catch(_error){}
+    try{if(history&&typeof history.refresh==="function"){const state=await history.refresh(true);if(state?.phase!=="HISTORY_CONVERGED")await history.refresh(true);}}catch(_error){}
+  })();},0);}
   async function psscRefreshNow(request=psscRequestContext(),generation=0,light=false){
     if(!request)return null;
     if(contextKey&&contextKey!==request.key){psscSetError("");pendingErrorKind="";}
