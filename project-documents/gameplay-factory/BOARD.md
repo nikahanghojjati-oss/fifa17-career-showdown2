@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 13 Oct, 9:04 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 13 Oct, 9:09 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -1260,6 +1260,126 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1798
 ```
 
+**#122 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1802'
+
+Type this in Codex cloud:
+
+```text
+Job 1802
+```
+
+**#123 · 1803** `G` Showdown close write refused: over the Rules 1000-expression limit (fix in the app, not the Rules)  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1803'
+
+Type this in Codex cloud:
+
+```text
+Job 1803
+```
+
+**#124 · 1804** `G` Setup write refused by Rules (L2800 evaluation error) when Nik confirms league and clubs  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1804'
+
+Type this in Codex cloud:
+
+```text
+Job 1804
+```
+
+**#125 · 1805** `G` Home tile and header chip stay on "Season 1 of N" after season 1  
+`░░░░░░░░░░` **0.0000 %**  
+🟢 Team green · model not set · GPT Work mode: type 'Job 1805'
+
+New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (cheaper model), type:
+
+```text
+Job 1805
+```
+
+**#126 · 1806** `G` BACK TO SHOWDOWN HOME lands on the dashboard instead of Home  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1806'
+
+Type this in Codex cloud:
+
+```text
+Job 1806
+```
+
+**#127 · 1807** `G` REVIEW SEASON button hidden on the Showdown Champion screen  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1807'
+
+Type this in Codex cloud:
+
+```text
+Job 1807
+```
+
+**#128 · 1808** `G` Standings THIS SHOWDOWN stuck on "Loading standings." mid-Showdown  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1808'
+
+Type this in Codex cloud:
+
+```text
+Job 1808
+```
+
+**#129 · 1809** `G` Rivalry Statistics: how the player gets there, and stuck on "Loading rivalry statistics…"  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1809'
+
+Type this in Codex cloud:
+
+```text
+Job 1809
+```
+
+**#130 · 1810** `G` Phone Trophy Room: ranks and all-time records missing, CAREER DETAILS empty  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1810'
+
+Type this in Codex cloud:
+
+```text
+Job 1810
+```
+
+**#131 · 1811** `G` Final reconciliation and FINAL SEASON cells sometimes empty right after the close  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1811'
+
+Type this in Codex cloud:
+
+```text
+Job 1811
+```
+
+**#132 · 1812** `G` Free-limit message must show as soon as Home opens  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1812'
+
+Type this in Codex cloud:
+
+```text
+Job 1812
+```
+
+**#133 · 1813** `G` GPT chat review of the r76 Codex and Work mode PRs  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1813'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1813
+```
+
 ### ⏸ Waiting on something else
 
 **#1 · 1582** `G` Showdown Gate: screen shots of changed screens as a run artifact  
@@ -1355,8 +1475,8 @@ Job 1798
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`████░░░░░░` **36.0515 %**  
-Numbered jobs: 56 done, 149 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`███░░░░░░░` **34.2857 %**  
+Numbered jobs: 56 done, 161 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **53.5714 %**  
