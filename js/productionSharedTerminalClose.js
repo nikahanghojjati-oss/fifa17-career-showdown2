@@ -184,22 +184,23 @@
   }
   // Job 31: when the 4-hour private session ends (or a reload drops it) every shared refresher fails at once. The RECONNECT
   // SESSION banner owns that state, so those failures wake the banner instead of stacking red error toasts.
-  async function ptcSessionRecoveryOwnsFailure(){
+  function ptcSessionRecoveryOwnsFailure(){
     try{
       if(ptcShowdown()?.sharedJourney?.mode!=="shared")return false;
-      // r75: Remote Joining no longer loads at startup. A shared failure that arrives before a shared refresh has loaded it
-      // loads it here, so this check still reads the private session's real state.
-      if(!root.CareerModeSparkRemoteJoining&&typeof root.loadRuntimeScript==="function")await root.loadRuntimeScript("rj","js/sparkRemoteJoining.js",()=>root.CareerModeSparkRemoteJoining).catch(()=>null);
-      const remote=root.CareerModeSparkRemoteJoining?.getState?.();if(!remote)return false;
-      const expiry=Number(remote.expiresAtEpochMs);
-      if(remote.sessionState==="active"&&remote.sessionId&&remote.pendingAction==null&&Number.isFinite(expiry)&&Date.now()<expiry)return false;
+      const remote=root.CareerModeSparkRemoteJoining?.getState?.();
+      // r75: Remote Joining now loads with Journey Reconnect's first shared refresh instead of at startup. Its session lives in
+      // page memory only, so where Journey Reconnect runs, a Remote Joining not loaded yet holds no session, exactly as a freshly
+      // loaded one did before: the banner owns the failure and Reconnect's refresh loads it.
+      if(!remote){if(!root.CareerModeProductionSharedJourneyReconnect)return false;}
+      else{const expiry=Number(remote.expiresAtEpochMs);
+      if(remote.sessionState==="active"&&remote.sessionId&&remote.pendingAction==null&&Number.isFinite(expiry)&&Date.now()<expiry)return false;}
       root.console?.warn?.("[Career Mode Showdown] Shared refresh paused until the private session is reconnected.");
       void root.CareerModeProductionSharedJourneyReconnect?.refresh?.();
       return true;
     }catch(_error){return false;}
   }
   async function ptcReportUnlessClosed(context,error){
-    if(await ptcSessionRecoveryOwnsFailure())return false;
+    if(ptcSessionRecoveryOwnsFailure())return false;
     // Active-journey refreshers lose read access once the rivalry closes; a verified CLOSED state makes their failure expected, anything else is still reported.
     try{let current=ptcCurrentState();if(current?.phase!=="CLOSED"&&ptcRequest())current=await ptcRefresh();if(current&&current.phase==="CLOSED")return false;}catch(_error){}
     ptcReport(context,error);return true;
