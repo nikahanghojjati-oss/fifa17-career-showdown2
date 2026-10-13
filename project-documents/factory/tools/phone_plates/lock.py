@@ -19,7 +19,7 @@ gw=cv2.warpAffine(g,A,(W,H),flags=cv2.INTER_LANCZOS4,borderMode=cv2.BORDER_REPLI
 mask=np.zeros((H,W),np.float32)
 for x0,y0,x1,y1 in rects: mask[max(0,y0-12):y1+12,max(0,x0-12):x1+12]=1
 # below the first wide game panel GPT redrew the bodies and floor: take GPT there completely (no seams across legs)
-wide=[y0 for x0,y0,x1,y1 in rects if x1-x0>0.6*W]
+wide=[y0 for x0,y0,x1,y1 in rects if x1-x0>0.6*W and y0>0.15*H]  # panels only, not title bars
 if wide: mask[max(0,min(wide)-12):,:]=1
 mask=cv2.GaussianBlur(mask,(0,0),5)[:,:,None]
 out=(gw*mask+n*(1-mask)).astype(np.uint8)

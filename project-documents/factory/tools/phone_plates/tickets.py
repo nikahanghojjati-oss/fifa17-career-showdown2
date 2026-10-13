@@ -3,6 +3,12 @@ R='/home/claude/fifa17-career-showdown2/project-documents/factory/tickets/'
 GH='https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/tickets/attach/'
 JOB=1801
 BANS={'LEAGUE':'no wheel, no ring, no dial, no football, no league names and no league symbols','CLUB':'no club badges, no crests, no cards and no words on the packs','STATISTICS':'no charts, no tables and no numbers','RIVALRY':'no charts, no scoreboards and no numbers','LEGACY':'no cards, no badges and no numbers','TROPHY_ROOM':'no trophy or cup on the centre pedestal, no tabs, no display grid and no labels','SETTINGS':'no panels, no switches and no lists','FINAL_WINNER':'no trophy or cup on the centre pedestal, no scoreboard and no names','RULE_BOOK':'no open rule book, no pages and no lists','STANDINGS':'no league table, no rows, no badges and no numbers','HOME':'no tiles, no music card, no logo and no tab bar','CONNECT_PLAYERS':'no player cards, no tabs and no buttons','SEASON_RESULTS':'no title banner, no result cards, no scores and no buttons','TRANSFER':'no title sign, no cards, no timer and no numbers','LOADING':'no footballer or any person, no logo, no badge, no title and no words'}
+# Full length (Nik asked 12 Oct 9:23 p.m. Eastern, Claude's call): the game lays its own panels over the lower half,
+# so a whole man never shows a cut line in a gap or on a taller phone. Where a centre plinth or pedestal stays, the men stand behind it.
+STAND={'TRANSFER':' Exception: both men stay seated behind the desk exactly as they are; the desk hides their legs naturally.',
+'LEAGUE':' Both men stand BEHIND the round marble plinth: the plinth is in front of them and hides their lower legs, and its flat top stays empty and fully visible.',
+'TROPHY_ROOM':' Both men stand behind and to the sides of the centre pedestal: the pedestal stays in front of them, fully visible, with its flat top empty.',
+'FINAL_WINNER':' Both men stand behind and to the sides of the centre pedestal: the pedestal stays in front of them, fully visible, with its flat top empty.'}
 S=[
 ('HOME','Home','the luxury marble lounge: black marble pillars with gold light, leather sofas, the night stadium through the tall windows and the polished black marble floor',True,''),
 ('CONNECT_PLAYERS','Connect Players','the black-marble tunnel with gold-lit pillars, the lit stadium at the far end and the reflective black marble floor',True,''),
@@ -22,7 +28,7 @@ S=[
 ]
 n=len(S); rows=[]
 for i,(k,name,scene,people,extra) in enumerate(S,1):
-    who=("Keep everything that is not cyan exactly as it is: the same two men, same faces, same hair, same hands, same pose, same clothes, same framing, same natural lighting as the picture (never dimmed); Daniel stays on the LEFT and Nik on the RIGHT, never flipped. Where a cyan box covers part of a man, continue his body and suit naturally down into the box; never cut a man off in a straight line. Show both men's full heads and all their hair."
+    who=("Keep everything that is not cyan exactly as it is: the same two men, same faces, same hair, same hands, same pose, same clothes, same framing, same natural lighting as the picture (never dimmed); Daniel stays on the LEFT and Nik on the RIGHT, never flipped. Show both men FULL LENGTH, standing on the floor: where a cyan box covers part of a man, continue his body, suit, trousers and shoes naturally down to the floor. Never cut a man off at the waist or in a straight line, and never fade him out. Show both men's full heads and all their hair."+STAND.get(k,'')
          if people else "Keep everything that is not cyan exactly as it is. Add no people.")
     chk=("   - Daniel (left) and Nik (right) are still there, same place and pose, not flipped, not dimmed (Claude puts the exact faces back afterwards)\n" if people else "   - no people anywhere\n")
     t=f"""# Ticket {JOB} · {i} of {n} · {name} clean phone background (ENV_{k}_PHONE_V2)
@@ -35,7 +41,7 @@ One image only. The result must be an EMPTY tall phone background: the room{' an
 4. Check the picture:
    - NO title, NO cards or panels, NO buttons, NO tab bar, NO game words anywhere (if any of these came back, it fails)
    - no cyan left anywhere
-{chk}   - the repainted parts blend in: no box edge, smear or colour step, and neither man is cut off in a straight line
+{chk}   - the repainted parts blend in: no box edge, smear or colour step, and both men are full length down to their shoes (or naturally behind the plinth or desk), never cut off in a straight line or faded out
    - tall phone shape, same framing, not cropped
 5. If it passes, download it and drop it into Claude's factory thread with the words `{JOB} {k}`. If it fails, paste the fix line below once in the same chat; if it still fails, start again in a brand-new chat (up to 3 tries).
 
