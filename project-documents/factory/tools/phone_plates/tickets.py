@@ -22,7 +22,7 @@ S=[
 ]
 n=len(S); rows=[]
 for i,(k,name,scene,people,extra) in enumerate(S,1):
-    who=("Keep everything that is not cyan exactly as it is: the same two men, same faces, same hair, same hands, same pose, same clothes, same framing, both at full brightness and colour; Daniel stays on the LEFT and Nik on the RIGHT, never flipped. Where a man's body was covered, continue his clothes naturally. Show both men's full heads and all their hair."
+    who=("Keep everything that is not cyan exactly as it is: the same two men, same faces, same hair, same hands, same pose, same clothes, same framing, same natural lighting as the picture (never dimmed); Daniel stays on the LEFT and Nik on the RIGHT, never flipped. Where a man's body was covered, continue his clothes naturally. Show both men's full heads and all their hair."
          if people else "Keep everything that is not cyan exactly as it is. Add no people.")
     chk=("   - Daniel (left) and Nik (right) are still there, same place and pose, not flipped, not dimmed (Claude puts the exact faces back afterwards)\n" if people else "   - no people anywhere\n")
     t=f"""# Ticket {JOB} · {i} of {n} · {name} clean phone background (ENV_{k}_PHONE_V2)

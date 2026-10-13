@@ -83,5 +83,6 @@ Final Home destinations, all reachable on phone: **Continue** (dominant), **Star
 ## 9. No state filters on people or screens (Nik, 12 Oct 2026, 8:42 p.m. Eastern)
 
 - Never make a manager transparent, dimmed, greyed, blurred or shadowed because they lost, are not signed in, or any other state. The loser looks exactly like the winner.
-- Never put a dark or grey overlay on a screen for a signed-out, empty or locked state. Show the normal screen at full brightness and say the state in words and buttons.
+- Never put a dark or grey overlay on a screen for a signed-out, empty or locked state. Show the normal screen exactly as it looks in the good signed-in state and say the state in words and buttons.
+- This is not a brightness boost: the good signed-in look (its natural, realistic lighting on skin and clothes, matching the room) is the target and is not changed. Only the extra state filters go.
 - Picture tickets must not ask for (or accept) a dimmed, see-through or shadowed manager. Team G hand-off HO-027 removes these filters from the live game (r76).
