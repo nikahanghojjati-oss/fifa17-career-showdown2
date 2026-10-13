@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1818,
+ "next": 1819,
  "claims": [
   {
    "number": 1001,
@@ -4904,6 +4904,12 @@
    "team": "G",
    "title": "r76: GPT chat bug cards from the audit sweep",
    "claimed": "2026-10-13T15:12:57Z"
+  },
+  {
+   "number": 1818,
+   "team": "G",
+   "title": "r76: Work mode failing tests for sweep bug cards",
+   "claimed": "2026-10-13T15:13:00Z"
   }
  ]
 }
