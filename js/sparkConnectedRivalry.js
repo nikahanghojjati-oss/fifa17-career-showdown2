@@ -427,7 +427,7 @@
     if(!pairingState||pairingState.registered!==true||!pairingState.deviceId){
       throw crError("CONNECTED_RIVALRY_DEVICE_NOT_REGISTERED","Register this browser privately before using Connected Rivalry.");
     }
-    const services=options.services||await runtime.ensureAccountServices();
+    const services=options.services||(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
     if(!services||services.ok!==true)throw crError("CONNECTED_RIVALRY_FIRESTORE_UNAVAILABLE","Private Firestore services are unavailable.");
     const user=options.user||services.auth.currentUser;
     const accountId=crNormalizeAccountId(user);

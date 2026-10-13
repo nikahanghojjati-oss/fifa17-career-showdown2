@@ -136,5 +136,5 @@
     if(typeof root.setInterval==="function")timer=root.setInterval(lrPoll,POLL_MS);
     lrPoll();return true;
   }
-  return Object.freeze({contractVersion:2,feature:"ssjr-production-shared-local-reconciliation",productionEnabled:true,runtimeRevision:"1.9.1-r20",pollIntervalMs:POLL_MS,autoFinalCheck:true,autoCheckMinGapMs:AUTO_GAP_MS,install:lrInstall,refresh:lrRefresh,preview:lrPreviewOnce,previewFromUi:lrPreviewFromUi,apply:lrApply,getState:()=>state,isActive:lrSharedActive,canonicalStorageMutation:false,providerWriteRequired:false,automaticLocalApply:false,candidateCOnly:true,acceptanceStorageProofScope:"local-reconciliation-preview"});
+  return Object.freeze({contractVersion:2,feature:"ssjr-production-shared-local-reconciliation",productionEnabled:true,runtimeRevision:"1.9.1-r20",pollIntervalMs:POLL_MS,autoFinalCheck:true,autoCheckMinGapMs:AUTO_GAP_MS,autoCheck:lrAutoCheck,install:lrInstall,refresh:lrRefresh,preview:lrPreviewOnce,previewFromUi:lrPreviewFromUi,apply:lrApply,getState:()=>state,isActive:lrSharedActive,canonicalStorageMutation:false,providerWriteRequired:false,automaticLocalApply:false,candidateCOnly:true,acceptanceStorageProofScope:"local-reconciliation-preview"});
 });
