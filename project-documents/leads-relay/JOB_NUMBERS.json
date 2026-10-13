@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1811,
+ "next": 1812,
  "claims": [
   {
    "number": 1001,
@@ -4862,6 +4862,12 @@
    "team": "G",
    "title": "r76: Phone Trophy Room ranks and records missing",
    "claimed": "2026-10-13T13:05:48Z"
+  },
+  {
+   "number": 1811,
+   "team": "G",
+   "title": "r76: Final reconciliation cells sometimes empty after close",
+   "claimed": "2026-10-13T13:05:51Z"
   }
  ]
 }
