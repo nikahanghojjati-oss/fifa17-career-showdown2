@@ -184,9 +184,12 @@
   }
   // Job 31: when the 4-hour private session ends (or a reload drops it) every shared refresher fails at once. The RECONNECT
   // SESSION banner owns that state, so those failures wake the banner instead of stacking red error toasts.
-  function ptcSessionRecoveryOwnsFailure(){
+  async function ptcSessionRecoveryOwnsFailure(){
     try{
       if(ptcShowdown()?.sharedJourney?.mode!=="shared")return false;
+      // r75: Remote Joining no longer loads at startup. A shared failure that arrives before a shared refresh has loaded it
+      // loads it here, so this check still reads the private session's real state.
+      if(!root.CareerModeSparkRemoteJoining&&typeof root.loadRuntimeScript==="function")await root.loadRuntimeScript("rj","js/sparkRemoteJoining.js",()=>root.CareerModeSparkRemoteJoining).catch(()=>null);
       const remote=root.CareerModeSparkRemoteJoining?.getState?.();if(!remote)return false;
       const expiry=Number(remote.expiresAtEpochMs);
       if(remote.sessionState==="active"&&remote.sessionId&&remote.pendingAction==null&&Number.isFinite(expiry)&&Date.now()<expiry)return false;
@@ -196,7 +199,7 @@
     }catch(_error){return false;}
   }
   async function ptcReportUnlessClosed(context,error){
-    if(ptcSessionRecoveryOwnsFailure())return false;
+    if(await ptcSessionRecoveryOwnsFailure())return false;
     // Active-journey refreshers lose read access once the rivalry closes; a verified CLOSED state makes their failure expected, anything else is still reported.
     try{let current=ptcCurrentState();if(current?.phase!=="CLOSED"&&ptcRequest())current=await ptcRefresh();if(current&&current.phase==="CLOSED")return false;}catch(_error){}
     ptcReport(context,error);return true;
