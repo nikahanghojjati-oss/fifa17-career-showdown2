@@ -9,7 +9,7 @@ One image only. The result must be an EMPTY tall phone background: the room, wit
    - NO title, NO cards or panels, NO buttons, NO tab bar, NO game words anywhere (if any of these came back, it fails)
    - no cyan left anywhere
    - no people anywhere
-   - the repainted parts blend in: no box edge, smear or colour step, and both men are full length down to their shoes (or naturally behind the plinth or desk), never cut off in a straight line or faded out
+   - the repainted parts blend in: no box edge, smear or colour step
    - tall phone shape, same framing, not cropped
 5. If it passes, download it and drop it into Claude's factory thread with the words `1801 LOADING`. If it fails, paste the fix line below once in the same chat; if it still fails, start again in a brand-new chat (up to 3 tries).
 

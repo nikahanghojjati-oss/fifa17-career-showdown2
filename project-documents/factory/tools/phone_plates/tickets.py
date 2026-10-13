@@ -31,6 +31,7 @@ for i,(k,name,scene,people,extra) in enumerate(S,1):
     who=("Keep everything that is not cyan exactly as it is: the same two men, same faces, same hair, same hands, same pose, same clothes, same framing, same natural lighting as the picture (never dimmed); Daniel stays on the LEFT and Nik on the RIGHT, never flipped. Show both men FULL LENGTH, standing on the floor: where a cyan box covers part of a man, continue his body, suit, trousers and shoes naturally down to the floor. Never cut a man off at the waist or in a straight line, and never fade him out. Show both men's full heads and all their hair."+STAND.get(k,'')
          if people else "Keep everything that is not cyan exactly as it is. Add no people.")
     chk=("   - Daniel (left) and Nik (right) are still there, same place and pose, not flipped, not dimmed (Claude puts the exact faces back afterwards)\n" if people else "   - no people anywhere\n")
+    MEN=', and both men are full length down to their shoes (or naturally behind the plinth or desk), never cut off in a straight line or faded out' if people else ''
     t=f"""# Ticket {JOB} · {i} of {n} · {name} clean phone background (ENV_{k}_PHONE_V2)
 
 One image only. The result must be an EMPTY tall phone background: the room{' and the two men' if people else ''}, with no title, no cards, no buttons, no tab bar and no words of the game at all. The live game draws all of those itself on top. (Hand-off HO-026: the phone screens get the exact marble look of your approved PHONE_{k}_MARBLE picture.)
@@ -41,7 +42,7 @@ One image only. The result must be an EMPTY tall phone background: the room{' an
 4. Check the picture:
    - NO title, NO cards or panels, NO buttons, NO tab bar, NO game words anywhere (if any of these came back, it fails)
    - no cyan left anywhere
-{chk}   - the repainted parts blend in: no box edge, smear or colour step, and both men are full length down to their shoes (or naturally behind the plinth or desk), never cut off in a straight line or faded out
+{chk}   - the repainted parts blend in: no box edge, smear or colour step{MEN}
    - tall phone shape, same framing, not cropped
 5. If it passes, download it and drop it into Claude's factory thread with the words `{JOB} {k}`. If it fails, paste the fix line below once in the same chat; if it still fails, start again in a brand-new chat (up to 3 tries).
 
