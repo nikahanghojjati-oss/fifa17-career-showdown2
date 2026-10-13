@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-13 8:51 AM Boston time (EDT)",
+ "generated": "2026-10-13 8:55 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 96,
@@ -916,27 +916,18 @@
  },
  "two": {
   "live": {
-   "sha": "6610555",
-   "revision": "1.9.1-r74",
-   "when": "2026-10-12T17:41:00-04:00",
-   "subject": "Merge pull request #830 from nikahanghojjati-oss/gameplay/release-r74",
-   "fixes": [
+   "sha": "3f6b1c9",
+   "revision": "1.9.1-r75",
+   "when": "2026-10-13T12:52:44Z",
+   "subject": "Release r75: Firebase read/write fix and Reus Gate (#834)",
+   "fixes": [],
+   "today": [
     {
      "pr": 834,
      "title": "Release r75: Firebase read/write fix and Reus Gate (1.9.1-r75)",
-     "draft": false,
-     "branch": "gameplay/release-r75",
-     "sha": "fbf9596ac8211e01040b6ddf6f3ddc306b0ae896",
-     "updated": "2026-10-13T09:04:51Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
+     "merged": "2026-10-13T12:52:44Z"
     }
-   ],
-   "today": []
+   ]
   },
   "physio": {
    "state": "clear",
@@ -1396,7 +1387,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 49,
+  "moving": 48,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -2612,22 +2603,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 834,
-    "title": "Release r75: Firebase read/write fix and Reus Gate (1.9.1-r75)",
-    "draft": false,
-    "branch": "gameplay/release-r75",
-    "sha": "fbf9596ac8211e01040b6ddf6f3ddc306b0ae896",
-    "updated": "2026-10-13T09:04:51Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
