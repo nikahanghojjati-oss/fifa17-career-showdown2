@@ -1485,6 +1485,18 @@
         "^tests/contracts/flash\\-gate\\-always\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/reus-gate-startup-contracts.cjs",
+      "patterns": [
+        "^js/app\\.js$",
+        "^js/ssjr\\.js$",
+        "^js/v10Screens\\.js$",
+        "^js/homeScreensV10\\.js$",
+        "^css/homeV10\\.css$",
+        "^tests/contracts/reus\\-gate\\-startup\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
