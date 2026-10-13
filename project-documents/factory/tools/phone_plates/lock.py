@@ -19,13 +19,23 @@ A,inl=cv2.estimateAffinePartial2D(np.float32([k1[x.queryIdx].pt for x in ms]),np
 print('fit',np.round(A,4).tolist(),int(inl.sum()),'/',len(ms))
 gw=cv2.warpAffine(g,A,(W,H),flags=cv2.INTER_LANCZOS4,borderMode=cv2.BORDER_REPLICATE)
 from facecheck import faces
-keep=np.zeros((H,W),np.float32)
-for fx,fy,fw,fh in faces(n):   # head = face box grown for hair, ears and chin
-    keep[max(0,int(fy-0.75*fh)):int(fy+1.2*fh),max(0,int(fx-0.35*fw)):int(fx+1.35*fw)]=1
+from headmatch import match, head_box
+keep=np.zeros((H,W),np.float32); head_src=n.copy(); report=[]
+for i,f in enumerate(sorted(faces(n))):   # head = face box grown for hair, ears and chin
+    r=match(n,gw,f); x0,y0,x1,y1=r['box']
+    # snap the approved head onto the GPT head so it sits exactly on that neck and body (position, tilt, size)
+    snapped=cv2.warpAffine(n,r['M'],(W,H),flags=cv2.INTER_LANCZOS4,borderMode=cv2.BORDER_REPLICATE)
+    head_src[y0:y1,x0:x1]=snapped[y0:y1,x0:x1]
+    a=cv2.cvtColor(n[y0:y1,x0:x1],cv2.COLOR_BGR2LAB).reshape(-1,3).mean(0); b=cv2.cvtColor(gw[y0:y1,x0:x1],cv2.COLOR_BGR2LAB).reshape(-1,3).mean(0)
+    dL=float(a[0]-b[0])/2.55
+    ok=abs(r['dx'])<=2 and abs(r['dy'])<=2 and abs(r['tilt'])<=0.5 and abs(r['size'])<=1 and abs(dL)<=6
+    report.append(ok)
+    print(f"head {'Daniel' if i==0 else 'Nik'}: shift {r['dx']},{r['dy']} px, tilt {r['tilt']} deg, size {r['size']}%, brightness step {dL:.1f}% -> {'MATCH' if ok else 'CHECK BY EYE (snapped)'}")
+    keep[y0:y1,x0:x1]=1
 for x0,y0,x1,y1 in rects: keep[max(0,y0-12):y1+12,max(0,x0-12):x1+12]=0   # a head never sits in a game box (facecheck), but be safe
 mask=1-keep
 mask=cv2.GaussianBlur(mask,(0,0),9)[:,:,None]
-out=(gw*mask+n*(1-mask)).astype(np.uint8)
+out=(gw*mask+head_src*(1-mask)).astype(np.uint8)
 cy=((out[:,:,0]>200)&(out[:,:,1]>200)&(out[:,:,2]<80)).sum(); print('cyan px',int(cy))
 cw=round(H*9/16); x=(W-cw)//2
 im=Image.fromarray(cv2.cvtColor(out[:,x:x+cw],cv2.COLOR_BGR2RGB)).resize((1179,2096),Image.LANCZOS)
