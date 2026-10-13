@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1803,
+ "next": 1804,
  "claims": [
   {
    "number": 1001,
@@ -4814,6 +4814,12 @@
    "team": "G",
    "title": "r76: CE2PG harness on the r76 base plus baseline runs",
    "claimed": "2026-10-13T13:05:22Z"
+  },
+  {
+   "number": 1803,
+   "team": "G",
+   "title": "r76: Showdown close write over the Rules expression limit (client fix)",
+   "claimed": "2026-10-13T13:05:24Z"
   }
  ]
 }
