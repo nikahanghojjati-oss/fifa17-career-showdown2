@@ -31,3 +31,9 @@ VA = visual-assets/v10_1. None of these sit inside Reduce Motion / prefers-reduc
 - CSS only where possible; do not touch motion rules, reveal/pending fades or load order.
 - Before/after screenshots signed in vs signed out, desktop + phone (393x852), for Career Statistics, Trophy Room, Legacy, Rivalry, Final Winner (both winners + draw), Home.
 - The signed-in good look must be pixel-identical before and after.
+
+## Nik follow-up (12 Oct 8:52 p.m. Eastern)
+Target everywhere = the current desktop signed-in look: natural lighting on the managers that matches the room, with its reflections. Not full brightness.
+- Signed-in screens that still dim people/pictures: Final Winner loser (top), plus Trophy Room is-unwon cups and Legacy abandoned cards (these also happen signed in). Remove all three.
+- Phone extra shadow overlays (always on, phone only), also REMOVE and match the desktop lighting: css/rivalryLegacyV10.css:73-77, 199-203, 345-349 (stadium behind the phone managers at brightness(.64) plus a gradient to #07090c); career-statistics.css:207 `.phoneHeroContact` and rivalry-statistics.css:87 `.rv-phoneContact` blur(12px) .7 dark ovals if they read as a shadow over the men. The r76 marble phone plates (ENV_<KEY>_PHONE_V2) replace these backgrounds anyway; don't add a darkening layer on top of them.
+- Keep the desktop contact shadows, rims and spotlights: they are part of the good look.
