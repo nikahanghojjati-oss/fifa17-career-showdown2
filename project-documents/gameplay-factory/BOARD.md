@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 13 Oct, 7:53 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 13 Oct, 7:55 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -54,31 +54,31 @@ Updated Tue 13 Oct, 7:53 PM Boston time. Bug hunting only, no new features until
 
 **#10 · 1804** `G` Setup write refused by Rules (L2800 evaluation error) when Nik confirms league and clubs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #838 · CI 7 of 8 passed · last move 102 min ago
+⚪ Team white · model not set · worker working, draft PR #838 · CI 7 of 8 passed · last move 104 min ago
 
 **#11 · 1805** `G` Home tile and header chip stay on "Season 1 of N" after season 1  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #843 · CI 7 of 8 passed · last move 18 min ago
+🟢 Team green · model not set · worker working, draft PR #843 · CI 7 of 8 passed · last move 20 min ago
 
 **#12 · 1806** `G` BACK TO SHOWDOWN HOME lands on the dashboard instead of Home  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #839 · CI 7 of 8 passed · last move 69 min ago
+⚪ Team white · model not set · worker working, draft PR #839 · CI 7 of 8 passed · last move 70 min ago
 
 **#13 · 1807** `G` REVIEW SEASON button hidden on the Showdown Champion screen  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #840 · CI 7 of 8 passed · last move 66 min ago
+⚪ Team white · model not set · worker working, draft PR #840 · CI 7 of 8 passed · last move 68 min ago
 
 **#14 · 1808** `G` Standings THIS SHOWDOWN stuck on "Loading standings." mid-Showdown  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #841 · CI 7 of 8 passed · last move 38 min ago
+⚪ Team white · model not set · worker working, draft PR #841 · CI 7 of 8 passed · last move 40 min ago
 
 **#15 · 1810** `G` Phone Trophy Room: ranks and all-time records missing, CAREER DETAILS empty  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #844 · CI 7 of 8 passed · last move 16 min ago
+⚪ Team white · model not set · worker working, draft PR #844 · CI 7 of 8 passed · last move 17 min ago
 
 **#16 · 1812** `G` Free-limit message must show as soon as Home opens  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #842 · CI 7 of 8 passed · last move 24 min ago
+⚪ Team white · model not set · worker working, draft PR #842 · CI 7 of 8 passed · last move 26 min ago
 
 ### 👉 Next for you, in this order
 
@@ -1386,6 +1386,16 @@ Type this in Codex cloud:
 Job 1819
 ```
 
+**#131 · 1820** `G` Startup size room for r76 (report only, no app change)  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1820'
+
+Type this in Codex cloud:
+
+```text
+Job 1820
+```
+
 ### ⏸ Waiting on something else
 
 **#1 · 1582** `G` Showdown Gate: screen shots of changed screens as a run artifact  
@@ -1481,8 +1491,8 @@ Job 1819
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`███░░░░░░░` **33.4661 %**  
-Numbered jobs: 56 done, 167 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`███░░░░░░░` **33.3333 %**  
+Numbered jobs: 56 done, 168 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **53.5714 %**  
