@@ -442,7 +442,13 @@ async function revokePairing(options={}){
         deviceVerified={key:verifiedKey,at:Date.now()};
       }
       const preservePairingState=preservePairingStateAtStart||["creating-pair","joining-pair","pair-open","paired"].includes(pairingState.status);
-      if(preservePairingState)return setState({initialized:true,connected:true,registered:true,accountId:context.accountState.accountId,deviceId:context.identity.deviceId});
+      if(preservePairingState){
+        // r75: a re-check that confirms what the panel already shows does not rebuild it (that only replaced the open
+        // pairing code and its COPY button under the manager's finger); listeners are still told.
+        const next={initialized:true,connected:true,registered:true,accountId:context.accountState.accountId,deviceId:context.identity.deviceId};
+        const unchanged=Object.keys(next).every(key=>pairingState[key]===next[key]);
+        return setState(next,unchanged?{render:false}:{});
+      }
       return setState({status:"ready",initialized:true,busy:false,connected:true,registered:true,accountId:context.accountState.accountId,deviceId:context.identity.deviceId,message:"This browser is privately registered. Pairing only links the two manager identities; gameplay synchronization is still locked."});
     }catch(error){deviceVerified=null;return setState({status:error&&error.code==="PRIVATE_DEVICE_REVOKED"?"revoked":"device-error",initialized:true,busy:false,connected:true,registered:false,message:`${error&&error.message?error.message:"This browser could not be registered."} Local Career Mode remains unchanged.`});}
   }
