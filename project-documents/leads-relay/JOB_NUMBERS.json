@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1806,
+ "next": 1807,
  "claims": [
   {
    "number": 1001,
@@ -4832,6 +4832,12 @@
    "team": "G",
    "title": "r76: Home tile and header chip stuck on Season 1 of N",
    "claimed": "2026-10-13T13:05:30Z"
+  },
+  {
+   "number": 1806,
+   "team": "G",
+   "title": "r76: BACK TO SHOWDOWN HOME lands on the dashboard",
+   "claimed": "2026-10-13T13:05:33Z"
   }
  ]
 }
