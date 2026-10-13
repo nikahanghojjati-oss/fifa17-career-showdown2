@@ -41,3 +41,6 @@ Target everywhere = the current desktop signed-in look: natural lighting on the 
 ## Nik (12 Oct 8:55 p.m. Eastern): scope and reference
 Do not change lighting on screens that already look good (most of desktop). Only fix places where a manager is faded, dimmed, hidden, see-through or under a dark shadow overlay; those should end up matching the good screens.
 Lighting reference = live desktop Home (main 6610555b9): factory/v1-wtt5ye project-documents/factory/reviews/LIGHTING_REFERENCE_LIVE_HOME_DESKTOP.png. Warm gold light from the room on both men equally, natural highlights and soft shadows, neither man lighter or darker than the other, nothing laid over them.
+
+## Nik (12 Oct 9:03 p.m. Eastern): VERY IMPORTANT, keep every anti-flash protection
+Anything that stops the flash must be preserved exactly: css/v10Shell.css:17 `[data-v10-pending] > *`, :283 `[data-v10-reveal]::after` black cover, :292-303 reduced-motion handling, :300 `img[data-v10-decoding]`, VA/shared/motion.css:24-40 `[data-sd-enter]` start states, plus any preload, decode or plate-swap timing and the startup order. HO-027 edits must not touch these rules, their selectors or load order. Before/after check: cold load and screen-to-screen on desktop and phone, with no flash.
