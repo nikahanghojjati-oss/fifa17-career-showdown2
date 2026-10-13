@@ -21,7 +21,8 @@ gw=cv2.warpAffine(g,A,(W,H),flags=cv2.INTER_LANCZOS4,borderMode=cv2.BORDER_REPLI
 from facecheck import faces
 from headmatch import match, head_box
 keep=np.zeros((H,W),np.float32); head_src=n.copy(); report=[]
-for i,f in enumerate(sorted(faces(n))):   # head = face box grown for hair, ears and chin
+NOPEOPLE=("SETTINGS","RULE_BOOK","LOADING")   # empty plates: no managers (Loading: Team G layers the real Reus photo)
+for i,f in enumerate([] if key in NOPEOPLE else sorted(faces(n))):   # head = face box grown for hair, ears and chin
     r=match(n,gw,f); x0,y0,x1,y1=r['box']
     # snap the approved head onto the GPT head so it sits exactly on that neck and body (position, tilt, size)
     snapped=cv2.warpAffine(n,r['M'],(W,H),flags=cv2.INTER_LANCZOS4,borderMode=cv2.BORDER_REPLICATE)
