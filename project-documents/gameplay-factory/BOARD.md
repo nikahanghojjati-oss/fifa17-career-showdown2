@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 13 Oct, 9:13 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 13 Oct, 9:16 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -1380,6 +1380,26 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1813
 ```
 
+**#134 · 1814** `G` Sweep the older audit reports for bugs that are still open (GPT chat, repeatable)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1814'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1814
+```
+
+**#135 · 1815** `G` Shared-journey guard: prove or fix the stale-marker block (U-01)  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1815'
+
+Type this in Codex cloud:
+
+```text
+Job 1815
+```
+
 ### ⏸ Waiting on something else
 
 **#1 · 1582** `G` Showdown Gate: screen shots of changed screens as a run artifact  
@@ -1475,8 +1495,8 @@ Job 1813
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`███░░░░░░░` **34.2857 %**  
-Numbered jobs: 56 done, 161 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`███░░░░░░░` **34.0081 %**  
+Numbered jobs: 56 done, 163 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **53.5714 %**  
