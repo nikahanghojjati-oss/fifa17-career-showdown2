@@ -284,6 +284,26 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.equal(world.budget.stats().freshReruns,reruns+1,"no further re-runs while nothing changes");
   });
 
+  await check("FB2f","season documents the Rules make immutable (published results, ACKNOWLEDGED commits) are read once per page",async()=>{
+    const world=createWorld();seed(world);
+    const COMMIT=`${RIVALRY}/seasonCommits/season_1`,ROLE=`${RESULTS}/roles/playerOne`;
+    world.serverWrite(RESULTS,{revision:2,published:{daniel:true,nik:true}});
+    world.serverWrite(ROLE,{total:9});
+    world.serverWrite(COMMIT,{phase:"ACKNOWLEDGED",revision:3});
+    const history=()=>world.services.firestoreSdk.runTransaction(world.db,async tx=>{for(const p of [RESULTS,ROLE,COMMIT])await tx.get({path:p});return true;});
+    await history();
+    const before=world.meter.reads;
+    await world.advance(10*60000);world.budget.wantFresh();await history();
+    world.setVisible(false);world.setVisible(true);await history();
+    assert.equal(world.meter.reads-before,0,"immutable season documents are not read again (10 minutes later, after a fresh ask, after the tab returns)");
+    // A commit that is still COMMITTED (or results at revision 1) can change, so it is read again as before.
+    world.serverWrite(COMMIT,{phase:"COMMITTED",revision:2});world.budget.reset();
+    const mutable=()=>world.services.firestoreSdk.runTransaction(world.db,async tx=>(await tx.get({path:COMMIT})).data().phase);
+    await mutable();const mark=world.meter.reads;
+    await world.advance(70000);await mutable();
+    assert.equal(world.meter.reads-mark,1,"a commit that is not yet ACKNOWLEDGED is re-read after the reuse window");
+  });
+
   await check("FB2c","a rivalry that is still pending its pair is read fresh on every check, so the partner's join shows at once",async()=>{
     const world=createWorld();seed(world);
     world.serverWrite(RIVALRY,{status:"PENDING",data:{connectionState:"pending-pair"}});

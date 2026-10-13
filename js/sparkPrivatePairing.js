@@ -660,7 +660,7 @@ async function revokePairing(options={}){
   const FSB_COALESCE_MS=2000,FSB_OWN_ACCOUNT_MS=5*60000,FSB_MAX_ENTRIES=200;
   const FSB_QUIET_MS=60000,FSB_INPUT_FRESH_MS=5000,FSB_ASK_MS=7000,FSB_FAST_GAP_MS=6000,FSB_FAST_HOLD_MS=10000;
   const fsbWrapped=new WeakMap(),fsbEntries=new Map(),fsbInflight=new Map(),fsbCadence=new Map(),fsbWaitAsks=new Map(),fsbFreshPaths=new Map();
-  const fsbStats={reusedReads:0,quietReuses:0,freshReruns:0,serverReads:0,serverTransactions:0,readOnlyWithoutCommit:0,quotaTrips:0,pausedRefusals:0,listenersAttached:0,listenerDeliveries:0,listenerServed:0,listenerFallbacks:0};
+  const fsbStats={immutableReuses:0,reusedReads:0,quietReuses:0,freshReruns:0,serverReads:0,serverTransactions:0,readOnlyWithoutCommit:0,quotaTrips:0,pausedRefusals:0,listenersAttached:0,listenerDeliveries:0,listenerServed:0,listenerFallbacks:0};
   let fsbPause=null,fsbResumeTimer=null,fsbAccountId=null,fsbFirestore=null,fsbInputAt=0,fsbFreshAskAt=0,fsbChainAt=0;
   // After the listener sees the partner's move (or the page comes back from hidden) every screen re-checks in a short chain
   // (commit -> scoring -> history -> final result). A document read after that moment already reflects it, so for the next
@@ -699,7 +699,20 @@ async function revokePairing(options={}){
     fsbPublish();
   }
   function fsbHidden(){return Boolean(root.document&&root.document.visibilityState==="hidden");}
-  function fsbForgetAll(){fsbEntries.clear();}
+  // Documents the Rules make immutable once settled are kept: a season's published results (revision 2) and each manager's
+  // published result (create-only), and a season commit once ACKNOWLEDGED (revision 3). None of them can be updated or
+  // deleted again, so the history of past seasons is read once per page instead of on every check.
+  function fsbImmutable(path,snapshot){
+    try{
+      if(!snapshot||typeof snapshot.exists!=="function"||!snapshot.exists())return false;
+      if(/^rivalries\/[^/]+\/seasonResults\/[^/]+\/roles\/[^/]+$/.test(path))return true;
+      const value=snapshot.data();
+      if(/^rivalries\/[^/]+\/seasonResults\/[^/]+$/.test(path))return Boolean(value&&value.revision===2);
+      if(/^rivalries\/[^/]+\/seasonCommits\/[^/]+$/.test(path))return Boolean(value&&value.phase==="ACKNOWLEDGED"&&value.revision===3);
+    }catch(_error){}
+    return false;
+  }
+  function fsbForgetAll(){for(const [path,entry] of [...fsbEntries])if(!entry.immutable)fsbEntries.delete(path);}
   if(typeof root.addEventListener==="function"){
     try{
       root.addEventListener("online",fsbForgetAll);
@@ -752,6 +765,7 @@ async function revokePairing(options={}){
     const at=fsbNow(),fast=path?fsbNoteAsk(path,at):false;
     if(fsbWait&&path===fsbWait.path&&fsbWaitLive()){if(!fsbWaitHealthy())return null;fsbStats.listenerServed+=1;return {snapshot:fsbWait.snapshot,old:false};}
     const entry=fsbEntries.get(path);
+    if(entry&&entry.immutable&&!entry.dirty){fsbStats.immutableReuses+=1;return {snapshot:entry.snapshot,old:false};}
     if(!entry||entry.dirty||entry.forgotten)return null;
     const age=at-entry.at;
     // A hidden page renders nothing, so its background checks reuse what it already has; becoming visible forgets it all.
@@ -768,7 +782,7 @@ async function revokePairing(options={}){
     const path=fsbPathOf(ref);
     if(!path)return;
     fsbEntries.delete(path);
-    fsbEntries.set(path,{snapshot,at:fsbNow(),dirty:false});
+    fsbEntries.set(path,{snapshot,at:fsbNow(),dirty:false,immutable:fsbImmutable(path,snapshot)});
     if(fsbWait&&path===fsbWait.path)fsbWaitServerRead(snapshot);
     if(fsbEntries.size>FSB_MAX_ENTRIES)fsbEntries.delete(fsbEntries.keys().next().value);
   }
