@@ -756,7 +756,8 @@ async function revokePairing(options={}){
     const age=at-entry.at;
     // A hidden page renders nothing, so its background checks reuse what it already has; becoming visible forgets it all.
     if(fsbHidden())return {snapshot:entry.snapshot,old:age>FSB_COALESCE_MS};
-    const chained=fsbChainAt>0&&at-fsbChainAt<FSB_CHAIN_MS&&entry.at>=fsbChainAt;
+    // Not for a rivalry that is still pending its pair or close, nor for a document a screen asked to read fresh.
+    const chained=fsbChainAt>0&&at-fsbChainAt<FSB_CHAIN_MS&&entry.at>=fsbChainAt&&!((fsbFreshPaths.get(path)||0)>at)&&fsbSettled(path,entry.snapshot);
     if(!chained&&age>fsbReuseLimit(path,at,fast,entry.snapshot))return null;
     const old=!chained&&age>FSB_COALESCE_MS&&!fsbOwnAccountPath(path);
     if(old)fsbStats.quietReuses+=1;
