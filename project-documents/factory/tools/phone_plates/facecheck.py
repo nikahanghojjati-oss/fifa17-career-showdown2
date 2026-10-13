@@ -30,6 +30,19 @@ def check(k):
         if miss or len(P)!=len(F): bad.append(note)
     print(f"{k}: {len(F)} faces, {'OK' if not bad else 'FAIL'}; {note}"+''.join('\n  - '+b for b in bad))
     return not bad
+def zones(k):
+    # face-safe zones as fractions of ENV_<KEY>_PHONE_V2 (x0,y0,x1,y1), padded 15% so hair and chin stay clear
+    m=cv2.imread(ROOT+f'project-documents/factory/mockups/PHONE_{k}_MARBLE.png'); H,W=m.shape[:2]
+    cw=round(H*9/16); x0=(W-cw)//2; out=[]
+    for x,y,w,h in sorted(faces(m)):
+        px,py=0.15*w,0.15*h
+        out.append([round(max(0,(x-px-x0)/cw),4),round(max(0,(y-py)/H),4),round(min(1,(x+w+px-x0)/cw),4),round(min(1,(y+h+py)/H),4)])
+    return out
 if __name__=='__main__':
     keys=sys.argv[1:] or [k for k in M if k not in ('SETTINGS','RULE_BOOK','LOADING')]
-    sys.exit(0 if all([check(k) for k in keys]) else 1)
+    ok=all([check(k) for k in keys])
+    if not sys.argv[1:]:
+        import json
+        json.dump({'note':'Face-safe zones per phone background ENV_<KEY>_PHONE_V2, as fractions of the image (x0,y0,x1,y1), left face first (Daniel). Drawn with background-size:cover centred: no visible game element may overlap a zone at 393x852, 393x660, 375x667 or 360x640. Made by project-documents/factory/tools/phone_plates/facecheck.py.',
+                   'zones':{k:zones(k) for k in keys}},open(ROOT+'visual-assets/v10_1/plates-v2/PHONE_FACE_ZONES.json','w'),indent=1)
+    sys.exit(0 if ok else 1)
