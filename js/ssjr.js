@@ -13,7 +13,39 @@
   // JOB-24: Team V's screen loader and navigation bar, once the browser is idle (independent of the chain below).
   const v10=()=>load("v10-screens","js/v10Screens.js",()=>root.CareerModeV10Screens).then(()=>root.CareerModeV10Screens.install()).then(()=>load("v10-home-screens","js/homeScreensV10.js",()=>root.CareerModeHomeScreensV10)).then(()=>root.CareerModeHomeScreensV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Team V screens unavailable.",error));
   const resultsV10=()=>load("v10-season-final","js/seasonFinalV10.js",()=>root.CareerModeSeasonFinalV10).then(()=>root.CareerModeSeasonFinalV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Results visuals unavailable.",error));
-  if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(()=>v10().then(resultsV10),{timeout:2500});else root.setTimeout?.(()=>v10().then(resultsV10),600);
+  // The Reus Gate (r75; owner, 2026-10-13: the old or half-loaded Home flashed for seconds as the Reus loading screen left on a slow
+  // or cold start). Home is the first screen, so its Team V look starts loading at once instead of on idle, and js/app.js keeps the
+  // loading screen up until Home is really ready, judged by ready signals and never by a fixed time: the Team V Home has mounted
+  // (its stylesheets loaded first, js/v10Screens.js), the fonts are ready, every Home picture is decoded and data-v10-pending has
+  // cleared. careerModeHomeHold: 1 = Home on its way (set by js/app.js when it requests this file), 0 = ready, or failed (the app's
+  // own Home is then never lost). js/app.js keeps its minimum display time and hands over anyway at its safety cap (15 s).
+  const reusGate=async()=>{
+    const doc=root.document,host=doc&&doc.getElementById("mainMenu"),V=root.CareerModeV10Screens;
+    if(!host||typeof root.getActiveScreenName!=="function"||root.getActiveScreenName()!=="mainMenu"||!V||!V.isMounted("mainMenu"))return;
+    const settled=node=>new Promise(resolve=>{node.addEventListener("load",resolve,{once:true});node.addEventListener("error",resolve,{once:true});});
+    // Home's own sheets (the kit and Home's CSS): one still on its way is waited for; one whose request already ended has nothing to wait for.
+    const sheets=[...V.KIT.styles,...(root.CareerModeHomeScreensV10?.HOME_CSS||[])].map(file=>V.BASE+file);
+    const done=link=>Boolean(link.sheet)||(typeof root.performance?.getEntriesByName==="function"&&root.performance.getEntriesByName(link.href).length>0);
+    await Promise.all([...doc.querySelectorAll("link[data-v10-style]")].filter(link=>sheets.includes(link.getAttribute("data-v10-style"))&&!done(link)).map(settled));
+    if(doc.fonts&&doc.fonts.ready)await doc.fonts.ready;
+    // Home's plate and phone heroes are CSS backgrounds: each one a shown Home element paints (from an image-set, the one this
+    // screen's density picks; Chromium reports its densities as dppx) is decoded too, with the <img> pictures.
+    const dpr=root.devicePixelRatio||1,plates=new Set();
+    for(const el of [host,...host.querySelectorAll("*")]){
+      if(!el.getClientRects().length)continue;
+      const bg=root.getComputedStyle(el).backgroundImage;
+      if(!bg||!bg.includes("url("))continue;
+      const urls=[...bg.matchAll(/url\("?([^")]+)"?\)\s*(?:([\d.]+)(?:x|dppx))?/g)].map(m=>({url:m[1],x:Number(m[2]||0)})).filter(e=>!e.url.startsWith("data:"));
+      if(/image-set\(/.test(bg)&&urls.length>1){const set=urls.slice().sort((a,b)=>a.x-b.x);plates.add((set.find(e=>e.x>=dpr)||set[set.length-1]).url);}
+      else urls.forEach(e=>plates.add(e.url));
+    }
+    const decode=img=>typeof img.decode==="function"?img.decode().catch(()=>img.complete?null:settled(img)):null;
+    await Promise.all([...[...plates].map(url=>{const img=new root.Image();img.src=url;return decode(img);}),...[...host.querySelectorAll("img")].map(decode)]);
+    while(host.hasAttribute("data-v10-pending")&&root.getActiveScreenName()==="mainMenu")await new Promise(resolve=>root.setTimeout(resolve,50));
+  };
+  root.careerModeHomeHold=1;
+  const home=v10().then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(()=>{root.careerModeHomeHold=0;});
+  if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(()=>home.then(resultsV10),{timeout:2500});else root.setTimeout?.(()=>home.then(resultsV10),600);
   // JOB-26: Team V's skin for Start/Join, the League wheel and the Club packs, registered with that loader.
   const v10Setup=()=>load("v10-screens","js/v10Screens.js",()=>root.CareerModeV10Screens).then(()=>load("v10-setup","js/v10Setup.js",()=>root.CareerModeV10Setup)).then(()=>root.CareerModeV10Setup.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Team V setup skin unavailable.",error));
   if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(v10Setup,{timeout:3000});else root.setTimeout?.(v10Setup,700);
