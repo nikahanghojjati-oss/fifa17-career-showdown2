@@ -137,6 +137,20 @@
     }
     return layer;
   }
+  // r75 ready gate (owner, 2026-10-13): Connect Players' plate is the layer's own CSS background, so on a slow link the layer
+  // opened as a dark panel and the plate painted in seconds later. The plate this screen picks (an image-set density, reported
+  // as dppx) is decoded before the layer shows; capped at PLATE_TIMEOUT_MS so a plate that never arrives never blocks the layer.
+  const PLATE_TIMEOUT_MS=8000;
+  function platesReady(node){
+    if(!node||typeof root.getComputedStyle!=="function"||typeof root.Image!=="function")return Promise.resolve(true);
+    const bg=root.getComputedStyle(node).backgroundImage||"";
+    const list=[...bg.matchAll(/url\("?([^")]+)"?\)\s*(?:([\d.]+)(?:x|dppx))?/g)].map(m=>({url:m[1],x:Number(m[2]||0)})).filter(e=>!e.url.startsWith("data:"));
+    if(!list.length)return Promise.resolve(true);
+    const dpr=root.devicePixelRatio||1,set=list.sort((a,b)=>a.x-b.x);
+    const urls=/image-set\(/.test(bg)&&list.length>1?[(set.find(e=>e.x>=dpr)||set[set.length-1]).url]:list.map(e=>e.url);
+    const decode=url=>{const img=new root.Image();img.src=url;return typeof img.decode==="function"?img.decode().catch(()=>{}):new Promise(resolve=>{img.onload=img.onerror=resolve;});};
+    return Promise.race([Promise.all(urls.map(decode)).then(()=>true),new Promise(resolve=>root.setTimeout(()=>resolve(false),PLATE_TIMEOUT_MS))]);
+  }
   async function open(options={}){
     if(opening)return opening;
     opening=(async()=>{
@@ -144,6 +158,7 @@
       ensureLayer();
       if(typeof root.loadRuntimeStyle!=="function")throw new Error("Connect Players styles are unavailable.");
       await root.loadRuntimeStyle("connect-players-v10","css/connectPlayersV10.css");
+      if(layer.classList.contains("hidden"))await platesReady(layer);
       opener=root.document.activeElement;
       const home=typeof root.navigateTo==="function"
         ? await root.navigateTo("mainMenu",{addToHistory:false,allowCanonicalFallback:false})

@@ -46,6 +46,7 @@
   // expect()ed from the first frame, so the old header, page and footer never paint while that file is still on its way.
   const LAZY_V10_SCREENS=Object.freeze(["careerStatistics","statistics","trophyRoom","legacy","ruleBook"]);
   const DECODE_TIMEOUT_MS=1500;
+  const PLATE_TIMEOUT_MS=8000;
   const IMAGE_HOLD_MS=8000;
   const REVEAL_MS=220;
   const TAP_GUARD_MS=350;
@@ -288,19 +289,45 @@
     }
     vsSyncStyles();
   }
+  // r75 ready gate (owner, 2026-10-13: on a slow link a screen was revealed as a dark stage and its plate or title art painted in
+  // seconds later). A Team V screen's plate, title wordmarks and backdrops are mostly CSS backgrounds, which the <img> wait below
+  // never covered: each background a shown element of the screen paints (from an image-set, the density this screen picks;
+  // Chromium reports densities as dppx) is decoded before the reveal too. Capped at PLATE_TIMEOUT_MS, and the cover's own timer is
+  // moved to match, so a plate that never arrives never holds the screen longer. <img> pictures keep DECODE_TIMEOUT_MS and their hold.
+  function vsPlates(host){
+    if(typeof root.getComputedStyle!=="function"||typeof root.Image!=="function"||typeof host.querySelectorAll!=="function")return [];
+    const dpr=root.devicePixelRatio||1,urls=new Set();
+    for(const el of [host,...host.querySelectorAll("*")]){
+      if(typeof el.getClientRects!=="function"||!el.getClientRects().length)continue;
+      const bg=root.getComputedStyle(el).backgroundImage;
+      if(!bg||bg.indexOf("url(")<0)continue;
+      const list=[...bg.matchAll(/url\("?([^")]+)"?\)\s*(?:([\d.]+)(?:x|dppx))?/g)].map(m=>({url:m[1],x:Number(m[2]||0)})).filter(e=>!e.url.startsWith("data:"));
+      if(/image-set\(/.test(bg)&&list.length>1){const set=list.sort((a,b)=>a.x-b.x);urls.add((set.find(e=>e.x>=dpr)||set[set.length-1]).url);}
+      else list.forEach(e=>urls.add(e.url));
+    }
+    return [...urls].map(url=>{const img=new root.Image();img.src=url;return img;});
+  }
+  const vsWithin=(promise,ms)=>Promise.race([promise.then(()=>true),new Promise(resolve=>root.setTimeout(()=>resolve(false),ms))]);
   // JOB-1635: a screen's pictures are decoded before it is revealed, so artwork never paints half-loaded or at low resolution in
-  // front of the player. Capped: a slow network never holds the screen longer than DECODE_TIMEOUT_MS.
-  async function vsDecodeImages(host){
+  // front of the player. Capped: a slow network never holds the screen longer than DECODE_TIMEOUT_MS (PLATE_TIMEOUT_MS for plates).
+  async function vsDecodeImages(host,id){
     if(!host||typeof host.querySelectorAll!=="function")return false;
     // One frame first: an <img> inside <picture> has no currentSrc until the browser has picked its source.
     await new Promise(resolve=>typeof root.requestAnimationFrame==="function"?root.requestAnimationFrame(()=>resolve()):root.setTimeout(resolve,0));
     const images=[...host.querySelectorAll("img")].filter(vsImagePending);
-    if(!images.length)return false;
-    const done=await Promise.race([Promise.all(images.map(vsImageSettled)).then(()=>true),new Promise(resolve=>root.setTimeout(()=>resolve(false),DECODE_TIMEOUT_MS))]);
-    // The screen is never held longer than DECODE_TIMEOUT_MS, but a picture that is still not ready then (slow load, or a request
+    let plates=[];
+    try{plates=vsPlates(host);}catch(error){plates=[];}
+    if(!images.length&&!plates.length)return false;
+    const entry=id?pending.get(id):null;
+    if(plates.length&&entry){root.clearTimeout(entry.timer);entry.timer=root.setTimeout(()=>vsSettle(id),PLATE_TIMEOUT_MS+250);}
+    const [done,platesDone]=await Promise.all([
+      images.length?vsWithin(Promise.all(images.map(vsImageSettled)),DECODE_TIMEOUT_MS):Promise.resolve(true),
+      plates.length?vsWithin(Promise.all(plates.map(vsImageSettled)),PLATE_TIMEOUT_MS):Promise.resolve(true)
+    ]);
+    // The screen is never held longer than its cap, but a picture that is still not ready then (slow load, or a request
     // the browser swapped) is held on its own (opacity 0 until decoded, capped) instead of painting half-loaded after the reveal.
     for(const img of images)if(vsImagePending(img))vsHoldImage(img,IMAGE_HOLD_MS);
-    return done;
+    return done&&platesDone;
   }
   function vsExpect(id){
     const host=vsHost(id);
@@ -335,7 +362,7 @@
       catch(error){if(mounted.get(id)?.frame===frame){mounted.delete(id);vsUnwatchImages(id);}vsSyncStyles();throw error;}
       vsSyncStyles();
       // Still pending (content invisible) while the pictures decode; the reveal below starts only once they are ready.
-      if(pending.has(id)){await vsDecodeImages(host);if(vsIsShown(id)&&mounted.get(id)?.frame===frame)revealed=true;}
+      if(pending.has(id)){await vsDecodeImages(host,id);if(vsIsShown(id)&&mounted.get(id)?.frame===frame)revealed=true;}
       return true;
     }finally{vsSettle(id,revealed);}
   }

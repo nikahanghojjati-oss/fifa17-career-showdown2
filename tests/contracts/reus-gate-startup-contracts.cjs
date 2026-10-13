@@ -111,6 +111,37 @@ function exposedOldHome(rec){
       await context.close();
     }
 
+    // The same ready gate on a screen's first open: Rule Book's plate is a CSS background (image-set). On a slow link the screen
+    // was revealed as a dark stage and the plate painted in later; the cover now stays until the plate is decoded (capped).
+    {
+      const context=await browser.newContext({viewport:{width:1920,height:910},deviceScaleFactor:1,serviceWorkers:"block"});
+      await context.route(url=>!/^http:\/\/127\.0\.0\.1:/.test(url.href),route=>route.abort());
+      const page=await context.newPage();
+      await page.goto(base,{waitUntil:"domcontentloaded"});
+      await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:40000});
+      await page.waitForFunction(()=>window.CareerModeV10Screens&&window.CareerModeV10Screens.isMounted("mainMenu"),null,{timeout:40000});
+      await context.route(/ENV_RULE_BOOK_PLATE_V2_1X\.webp/,async route=>{await new Promise(resolve=>setTimeout(resolve,2500));return route.continue().catch(()=>{});});
+      await page.evaluate(()=>{
+        const rec=window.__plateGate={frames:[]};
+        const loop=()=>{
+          const host=document.getElementById("ruleBook");
+          const shown=Boolean(host&&!host.classList.contains("hidden")&&window.getActiveScreenName()==="ruleBook");
+          const plate=performance.getEntriesByType("resource").some(e=>/ENV_RULE_BOOK_PLATE_V2_1X/.test(e.name)&&e.responseEnd>0);
+          rec.frames.push({t:Math.round(performance.now()),shown,pending:Boolean(host&&host.hasAttribute("data-v10-pending")),plate});
+          const last=rec.frames.at(-1);
+          if(rec.frames.length<2000&&!(last.shown&&!last.pending&&last.plate))requestAnimationFrame(loop);
+        };
+        requestAnimationFrame(loop);
+        window.openOptionalModule("ruleBook");
+      });
+      await page.waitForFunction(()=>{const f=window.__plateGate.frames.at(-1);return f&&f.shown&&!f.pending&&f.plate;},null,{timeout:30000,polling:100});
+      await page.waitForTimeout(200);
+      const frames=await page.evaluate(()=>window.__plateGate.frames);
+      const early=frames.filter(f=>f.shown&&!f.pending&&!f.plate).map(f=>`${f.t}ms`);
+      assert.deepEqual(early.slice(0,5),[],`Ready gate (Rule Book first open): the screen was revealed before its plate arrived (${early.length} frames)`);
+      console.log(`ok Ready gate on a screen's first open: Rule Book stayed covered until its plate was ready (${frames.filter(f=>f.shown&&f.pending).length} covered frames, 0 revealed without the plate)`);
+      await context.close();
+    }
     // Safety: with no lazy loader at all (idle callbacks never run, as some audits arrange) the loading screen still leaves.
     {
       const {context,rec}=await start(browser,base,{delay:false,stubIdle:true,cpu:1});
@@ -130,5 +161,5 @@ function exposedOldHome(rec){
     if(browser)await browser.close().catch(()=>{});
     server.kill();
   }
-  console.log("PASS Reus Gate startup contracts: source, slow start (motion and reduced motion), no-loader fallback, failed-loader release.");
+  console.log("PASS Reus Gate startup contracts: source, slow start (motion and reduced motion), screen plate gate, no-loader fallback, failed-loader release.");
 })().catch(error=>{console.error(error&&error.stack||error);process.exit(1);});
