@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-13 5:03 AM Boston time (EDT)",
+ "generated": "2026-10-13 5:07 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 96,
@@ -926,11 +926,11 @@
      "title": "Release r75: Firebase read/write fix and Reus Gate (1.9.1-r75)",
      "draft": false,
      "branch": "gameplay/release-r75",
-     "sha": "d318fca0d228df8a3c083a8da55c03d72c87bcde",
-     "updated": "2026-10-13T08:48:55Z",
+     "sha": "fbf9596ac8211e01040b6ddf6f3ddc306b0ae896",
+     "updated": "2026-10-13T09:04:51Z",
      "gates": {
-      "passed": 8,
-      "running": 0,
+      "passed": 0,
+      "running": 7,
       "failed": 0,
       "cancelled": 0
      }
@@ -2618,11 +2618,11 @@
     "title": "Release r75: Firebase read/write fix and Reus Gate (1.9.1-r75)",
     "draft": false,
     "branch": "gameplay/release-r75",
-    "sha": "d318fca0d228df8a3c083a8da55c03d72c87bcde",
-    "updated": "2026-10-13T08:48:55Z",
+    "sha": "fbf9596ac8211e01040b6ddf6f3ddc306b0ae896",
+    "updated": "2026-10-13T09:04:51Z",
     "gates": {
-     "passed": 8,
-     "running": 0,
+     "passed": 0,
+     "running": 7,
      "failed": 0,
      "cancelled": 0
     }
