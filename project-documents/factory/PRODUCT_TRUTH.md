@@ -86,3 +86,10 @@ Final Home destinations, all reachable on phone: **Continue** (dominant), **Star
 - Never put a dark or grey overlay on a screen for a signed-out, empty or locked state. Show the normal screen exactly as it looks in the good signed-in state and say the state in words and buttons.
 - This is not a brightness boost: the good signed-in look (its natural, realistic lighting on skin and clothes, matching the room) is the target and is not changed. Only the extra state filters go.
 - Picture tickets must not ask for (or accept) a dimmed, see-through or shadowed manager. Team G hand-off HO-027 removes these filters from the live game (r76).
+
+## 10. Full bodies: no senseless fades or cuts (Nik, 12 Oct 2026, 9:43 p.m. Eastern)
+
+- On every screen where the managers' bodies are shown, the body stays whole. Never fade a manager out into empty space (a gradient mask at the waist or legs), never cut him off in a straight line in open space, and never use a half-body picture where the full body belongs.
+- A body hidden naturally behind something in front of it is fine: a game card or panel, the tab bar, the Transfer desk, the League plinth, the Trophy Room or Final Winner pedestal.
+- Phone backgrounds ENV_<KEY>_PHONE_V2 carry full bodies; only the approved heads are locked from the mockup (tools/phone_plates/lock.py).
+- Check: tools/phone_plates/live_facecheck.cjs fails on a covered face and on any faded, clipped, see-through or filtered manager element in the live game.
