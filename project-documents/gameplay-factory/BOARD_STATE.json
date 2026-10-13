@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-12 11:58 PM Boston time (EDT)",
+ "generated": "2026-10-13 12:02 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 96,
@@ -921,23 +921,7 @@
    "when": "2026-10-12T17:41:00-04:00",
    "subject": "Merge pull request #830 from nikahanghojjati-oss/gameplay/release-r74",
    "fixes": [],
-   "today": [
-    {
-     "pr": 830,
-     "title": "Release r74: Final Winner exit fix (1.9.1-r74)",
-     "merged": "2026-10-12T21:41:00Z"
-    },
-    {
-     "pr": 825,
-     "title": "Release r73: premium scenery on all 14 screens, no old-design flash, bug fixes (1.9.1-r73)",
-     "merged": "2026-10-12T19:16:11Z"
-    },
-    {
-     "pr": 745,
-     "title": "Release r72: screen trains, player improvements and FULL MOTION (1.9.1-r72)",
-     "merged": "2026-10-12T11:41:31Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",

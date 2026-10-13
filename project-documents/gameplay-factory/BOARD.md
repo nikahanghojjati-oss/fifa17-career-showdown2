@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 12 Oct, 11:59 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 13 Oct, 12:03 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r74** (main `6610555`, Mon 12 Oct 5:41 PM)
 
@@ -1478,10 +1478,4 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
 | 🟧 Opus | **V-F2** | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | queued · after G-F1 |
-
-## Shipped today
-
-- 5:41 PM · #830 Release r74: Final Winner exit fix (1.9.1-r74)
-- 3:16 PM · #825 Release r73: premium scenery on all 14 screens, no old-design flash, bug fixes (1.9.1-r73)
-- 7:41 AM · #745 Release r72: screen trains, player improvements and FULL MOTION (1.9.1-r72)
 
