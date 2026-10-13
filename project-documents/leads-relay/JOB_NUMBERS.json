@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1808,
+ "next": 1809,
  "claims": [
   {
    "number": 1001,
@@ -4844,6 +4844,12 @@
    "team": "G",
    "title": "r76: REVIEW SEASON hidden on the Showdown Champion screen",
    "claimed": "2026-10-13T13:05:36Z"
+  },
+  {
+   "number": 1808,
+   "team": "G",
+   "title": "r76: Standings THIS SHOWDOWN stuck on Loading standings",
+   "claimed": "2026-10-13T13:05:39Z"
   }
  ]
 }
