@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-12 8:48 PM Boston time (EDT)",
+ "generated": "2026-10-12 8:52 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 96,
@@ -887,8 +887,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "1843abd",
-  "head_boston": "Mon 12 Oct 8:48 PM",
+  "head": "92caa0b",
+  "head_boston": "Mon 12 Oct 8:52 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1303,6 +1303,19 @@
    },
    {
     "id": "HO-027",
+    "from": null,
+    "to": null,
+    "title": "ticket header unreadable",
+    "stage": "BROKEN",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-027_FINDINGS_TEAM_V.md",
+    "worker": null,
+    "pickup_min": null,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-027",
     "from": "V",
     "to": "G",
     "title": "No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76)",
@@ -1384,7 +1397,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 48,
+  "moving": 49,
   "next": 42,
   "nik": 2,
   "later": 21,

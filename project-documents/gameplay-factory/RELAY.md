@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-12 8:48 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-12 8:52 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `1843abd` (Mon 12 Oct 8:48 PM Boston time) · 96 messages · 27 hand-offs · 160 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `92caa0b` (Mon 12 Oct 8:52 PM Boston time) · 96 messages · 28 hand-offs · 160 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -38,6 +38,18 @@ Nik's words, in short: on some desktop and phone screens the game puts a filter 
 **Clarification (Nik, 12 Oct 8:48 p.m. Eastern):** this is NOT a brightness boost. The good signed-in look, with its natural, realistic lighting on the managers' skin and clothes matching the room, is the target and must not change. Only the extra state filters (dim, grey, blur, see-through, dark overlay) are removed, so every state looks like that good version. Remove them safely: no change to motion settings, no new flash on load, nothing else touched.
 
 Team V adds the same rule to PRODUCT_TRUTH.md and to every picture ticket.
+
+</details>
+
+### HO-027 · ? → ? · ticket header unreadable
+
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+
+- Mon 12 Oct 8:44 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+
 
 </details>
 

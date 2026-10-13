@@ -27,8 +27,8 @@
 <text x="622" y="162" font-size="12" font-weight="800" fill="#f0d900" text-anchor="end">36.5%</text>
 <text x="18" y="186" font-size="12" fill="#fbfcfc">2. Visual fixes</text>
 <rect x="210" y="177" width="368" height="10" rx="5" fill="#12191f" stroke="#43515b" stroke-width=".5"/>
-<rect x="210" y="177" width="190.8" height="10" rx="5" fill="#42b9da"/>
-<text x="622" y="186" font-size="12" font-weight="800" fill="#f0d900" text-anchor="end">51.9%</text>
+<rect x="210" y="177" width="184" height="10" rx="5" fill="#42b9da"/>
+<text x="622" y="186" font-size="12" font-weight="800" fill="#f0d900" text-anchor="end">50%</text>
 <text x="18" y="210" font-size="12" fill="#fbfcfc">3. Match current desktop screens to the mockup</text>
 <rect x="210" y="201" width="368" height="10" rx="5" fill="#12191f" stroke="#43515b" stroke-width=".5"/>
 <rect x="210" y="201" width="23" height="10" rx="5" fill="#42b9da"/>
