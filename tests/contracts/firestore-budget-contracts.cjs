@@ -264,6 +264,24 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.equal(world.budget.stats().freshReruns,reruns+1);
   });
 
+  await check("FB2d","a fresh re-run does not start a cascade: another screen's forgotten but unchanged documents do not count as changed",async()=>{
+    const world=createWorld();seed(world);
+    const screenA=()=>world.services.firestoreSdk.runTransaction(world.db,async tx=>[(await tx.get({path:TRANSFER})).data().phase,(await tx.get({path:SESSION})).data().status]);
+    const screenB=()=>world.services.firestoreSdk.runTransaction(world.db,async tx=>[(await tx.get({path:SESSION})).data().status,Object.keys((await tx.get({path:RESULTS})).data().published).length]);
+    await screenA();await screenB();
+    await world.advance(20000);
+    world.serverWrite(TRANSFER,{phase:"guess_entry",requests:{}});
+    const reruns=world.budget.stats().freshReruns;
+    world.budget.wantFresh(TRANSFER);  // the visible screen's 15 s check reads its own document fresh
+    assert.deepEqual(await screenA(),["guess_entry","ACTIVE"]);
+    assert.equal(world.budget.stats().freshReruns,reruns+1,"the changed document causes one fresh re-run");
+    for(let tick=0;tick<4;tick+=1){
+      await world.advance(5000);await screenB();
+      await world.advance(10000);world.budget.wantFresh(TRANSFER);await screenA();
+    }
+    assert.equal(world.budget.stats().freshReruns,reruns+1,"no further re-runs while nothing changes");
+  });
+
   await check("FB2c","a rivalry that is still pending its pair is read fresh on every check, so the partner's join shows at once",async()=>{
     const world=createWorld();seed(world);
     world.serverWrite(RIVALRY,{status:"PENDING",data:{connectionState:"pending-pair"}});

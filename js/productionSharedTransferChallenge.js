@@ -345,7 +345,7 @@
     if(!pstcSharedMarker()||root.document?.visibilityState==="hidden")return;
     const currentKey=pstcCurrentContextKey();if(viewContextKey&&(!currentKey||viewContextKey!==currentKey))pstcClearCachedContext();
     if(view?.state?.phase==="COMPLETED"&&viewContextKey&&currentKey&&viewContextKey===currentKey){pstcDecorateDashboard();return;}
-    try{if(!pstcConfirmedShared()||!pstcCareerReady()){await pstcEnsureDependencies();await setupApi.refresh();await careerApi.refresh();}if(pstcConfirmedShared()&&pstcCareerReady()&&!busy){const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden"))await pstcRefresh(light===true);else if(!view)await pstcRefresh();else pstcDecorateDashboard();}}catch(_error){}
+    try{if(!pstcConfirmedShared()||!pstcCareerReady()){await pstcEnsureDependencies();await setupApi.refresh();await careerApi.refresh();}if(pstcConfirmedShared()&&pstcCareerReady()&&!busy){const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden")){if(light!==true)pstcScreenFresh();await pstcRefresh(light===true);}else if(!view)await pstcRefresh();else pstcDecorateDashboard();}}catch(_error){}
   }
   // Read-only: the fast lane only calls pstcTick (the same provider read as REFRESH SHARED CHALLENGE), never a write.
   function pstcWaitingKey(){
@@ -361,6 +361,9 @@
   // r75: while this screen waits on the partner, one live listener watches the shared document the partner's move changes;
   // the 3 s check below keeps running as the fallback and reads from the listener while it is healthy.
   function pstcWatchWait(){const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchWaitPoint!=="function")return;let path=null;try{path=root.document?.visibilityState==="hidden"?null:(pstcWaitingKey()?(request=>request&&request.rivalryId&&Number.isInteger(request.seasonNumber)?`rivalries/${request.rivalryId}/transferChallenges/season_${request.seasonNumber}`:null)(pstcRequestContext()):null);}catch(_error){path=null;}budget.watchWaitPoint("transfer",path,pstcWaitWake);}
+  // r75: the 15 s check of the visible Transfer screen always reads the shared challenge from the server, so a partner's
+  // lock still shows within one poll on the screen the manager is looking at; checks from other screens reuse recent reads.
+  function pstcScreenFresh(){try{const request=pstcRequestContext();if(request&&request.rivalryId&&Number.isInteger(request.seasonNumber))root.CareerModeFirestoreBudget?.wantFresh?.(`rivalries/${request.rivalryId}/transferChallenges/season_${request.seasonNumber}`);}catch(_error){}}
   function pstcWaitWake(){if(!busy){void pstcTick(true);return;}if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(!busy)void pstcTick(true);},400);}
   function pstcFastTick(){pstcWatchWait();if(root.document?.visibilityState==="hidden"||busy||!pstcFastPollDue())return;void pstcTick(true);}
   function pstcSigningDraftChange(event){const target=event?.target,role=view?.managerRole;if(!target?.id||!role||!target.id.startsWith(`${pstcRolePrefix(role)}Signing`))return;if(view?.state?.phase==="SIGNING_ENTRY"&&!view.state.signingLockedRoles?.includes(role))pstcSaveSigningDraft(role);}

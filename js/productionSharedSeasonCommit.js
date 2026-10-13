@@ -114,7 +114,10 @@
     else{psscText(ui.status,`BOTH RESULTS ARE READY · WAITING FOR ${psscManagerName(coordinator)} TO COMMIT THE SHARED SEASON${psscClashWarning("The coordinator")}`);psscText(ui.action,"WAITING FOR COORDINATOR");psscDisable(ui.action,true);}
     return true;
   }
-  function psscBind(result,ctx,request){if(!psscContextMatches(request))return false;view={...result,rivalryId:ctx.setup.rivalryId,coordinatorRole:result.coordinatorRole||ctx.setup.setup.coordinatorRole};contextKey=request.key;readError="";readErrorKey="";psscRender();return true;}
+  function psscBind(result,ctx,request){if(!psscContextMatches(request))return false;const before=view&&contextKey===request.key?view.phase:null;view={...result,rivalryId:ctx.setup.rivalryId,coordinatorRole:result.coordinatorRole||ctx.setup.setup.coordinatorRole};contextKey=request.key;readError="";readErrorKey="";psscRender();if(before&&before!=="ACKNOWLEDGED"&&view.phase==="ACKNOWLEDGED")psscNudgeHistory();return true;}
+  // r75: the moment this page sees the season commit become ACKNOWLEDGED, Shared History checks once instead of waiting for
+  // its next 3 s check (nothing announces the commit change to it), so the next season or Final Winner appears sooner.
+  function psscNudgeHistory(){if(typeof root.setTimeout!=="function"||root.document?.visibilityState==="hidden")return;root.setTimeout(()=>{try{const history=root.CareerModeProductionSharedHistoryConvergence;if(history&&typeof history.refresh==="function")void Promise.resolve(history.refresh(true)).catch(()=>{});}catch(_error){}},0);}
   async function psscRefreshNow(request=psscRequestContext(),generation=0,light=false){
     if(!request)return null;
     if(contextKey&&contextKey!==request.key){psscSetError("");pendingErrorKind="";}
@@ -189,7 +192,9 @@
   function psscWatchWait(){const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchWaitPoint!=="function")return;let path=null;try{path=root.document?.visibilityState==="hidden"?null:(psscWaitingKey()?(request=>request&&request.rivalryId&&Number.isInteger(request.seasonNumber)?`rivalries/${request.rivalryId}/seasonCommits/season_${request.seasonNumber}`:null)(psscRequestContext()):null);}catch(_error){path=null;}budget.watchWaitPoint("season-commit",path,psscWaitWake);}
   function psscWaitWake(){if(!busy){void psscTick(true);return;}if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(!busy)void psscTick(true);},400);}
   function psscFastTick(){psscWatchWait();if(root.document?.visibilityState==="hidden"||busy||!psscFastPollDue())return;void psscTick(true);}
-  async function psscTick(light=false){if(!psscSharedMarker()||busy||root.document?.visibilityState==="hidden")return;const screen=psscField("seasonEntry");if(!screen||screen.classList.contains("hidden"))return;psscRender();if(view?.phase==="ACKNOWLEDGED"&&contextKey===psscRequestContext()?.key)return;try{await psscRefresh(light===true);}catch(_error){}}
+  // r75: the 15 s check of the visible Season Commit screen reads the shared commit from the server (see Transfer).
+  function psscScreenFresh(){try{const request=psscRequestContext();if(request&&request.rivalryId&&Number.isInteger(request.seasonNumber))root.CareerModeFirestoreBudget?.wantFresh?.(`rivalries/${request.rivalryId}/seasonCommits/season_${request.seasonNumber}`);}catch(_error){}}
+  async function psscTick(light=false){if(!psscSharedMarker()||busy||root.document?.visibilityState==="hidden")return;const screen=psscField("seasonEntry");if(!screen||screen.classList.contains("hidden"))return;psscRender();if(view?.phase==="ACKNOWLEDGED"&&contextKey===psscRequestContext()?.key)return;if(light!==true)psscScreenFresh();try{await psscRefresh(light===true);}catch(_error){}}
   function psscAttachHeadingObserver(){
     if(!root.MutationObserver||!root.document)return false;const heading=psscField("seasonReviewHeading");if(!heading)return false;if(headingObserver)return true;
     headingObserver=new root.MutationObserver(()=>void psscTick());headingObserver.observe(heading,{childList:true,characterData:true,subtree:true});return true;

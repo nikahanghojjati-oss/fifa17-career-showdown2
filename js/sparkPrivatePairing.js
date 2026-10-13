@@ -740,7 +740,7 @@ async function revokePairing(options={}){
     const at=fsbNow(),fast=path?fsbNoteAsk(path,at):false;
     if(fsbWait&&path===fsbWait.path&&fsbWaitLive()){if(!fsbWaitHealthy())return null;fsbStats.listenerServed+=1;return {snapshot:fsbWait.snapshot,old:false};}
     const entry=fsbEntries.get(path);
-    if(!entry||entry.dirty)return null;
+    if(!entry||entry.dirty||entry.forgotten)return null;
     const age=at-entry.at;
     // A hidden page renders nothing, so its background checks reuse what it already has; becoming visible forgets it all.
     if(fsbHidden())return {snapshot:entry.snapshot,old:age>FSB_COALESCE_MS};
@@ -801,7 +801,9 @@ async function revokePairing(options={}){
   }
   function fsbDetachWait(){const wait=fsbWait;fsbWait=null;if(wait&&typeof wait.unsubscribe==="function"){try{wait.unsubscribe();}catch(_error){}}}
   function fsbWaitFail(path){fsbDetachWait();fsbStats.listenerFallbacks+=1;fsbWaitFailed.set(path,fsbNow()+FSB_WAIT_RETRY_MS);}
-  function fsbForgetContext(){for(const path of [...fsbEntries.keys()])if(!fsbOwnAccountPath(path))fsbEntries.delete(path);}
+  // Forgotten copies are never reused, but their content is kept for change detection: a document that is merely forgotten
+  // (not changed) must not count as changed, or every later check would re-run on fresh reads and forget again.
+  function fsbForgetContext(){for(const [path,entry] of fsbEntries)if(!fsbOwnAccountPath(path))entry.forgotten=true;}
   function fsbWakeOwners(wait){
     for(const info of wait.owners.values()){
       const wake=info.wake;

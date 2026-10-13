@@ -8,7 +8,7 @@
   const POLL_MS=15000;
   const ACTION_ID="sharedMultiSeasonContinueAction";
   const STATUS_ID="sharedMultiSeasonProgressionStatus";
-  let installed=false,busy=false,provider=null,setupApi=null,historyApi=null,view=null,contextKey="",refreshPromise=null,exposedRivalryId="",exposedSeason=0,dashboardObserver=null,wakePending=false;
+  let installed=false,busy=false,provider=null,setupApi=null,historyApi=null,view=null,contextKey="",refreshPromise=null,exposedRivalryId="",exposedSeason=0,dashboardObserver=null,wakePending=false,announcedKey="";
   let lastErrorCode="",lastErrorKey="",heldErrorKey="";
 
   function pmspFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
@@ -138,7 +138,17 @@
     await setupApi.refresh();if(!pmspContextMatches(request))return null;
     const result=pmspResult(await provider.read(await pmspProviderOptions(request)));if(!pmspContextMatches(request))return null;
     if(result.runtimeRevision!=="1.9.1-r13"||String(result.rivalryId)!==request.rivalryId||!["SEASON_READY","SHOWDOWN_COMPLETE"].includes(result.phase)||result.state.runtimeRevision!=="1.9.1-r13"||result.state.rivalryId!==request.rivalryId)pmspFail("MULTI_SEASON_PROJECTION_INVALID");
-    view=result;contextKey=request.key;const cursor=pmspEnsureCursor();if(cursor>result.state.acceptedSeasons+1)pmspFail("MULTI_SEASON_CURSOR_AHEAD_OF_AUTHORITY");pmspRender();pmspDecorateDashboard();return view;
+    view=result;contextKey=request.key;const cursor=pmspEnsureCursor();if(cursor>result.state.acceptedSeasons+1)pmspFail("MULTI_SEASON_CURSOR_AHEAD_OF_AUTHORITY");pmspRender();pmspDecorateDashboard();pmspAnnounce(request);return view;
+  }
+  // r75: once the accepted count or terminal state changes, ask Local Reconciliation to run its automatic final check now. It
+  // used to learn about the last accepted season only from unrelated repeated events, which stopped once those cascades
+  // were cut, so Final Winner waited for the next 15 s poll. Called once per change, never for an unchanged refresh.
+  function pmspAnnounce(request){
+    const state=view?.state;if(!state)return;
+    const key=`${request.key}|${view.phase}|${state.acceptedSeasons}|${state.totalSeasons}|${state.terminal===true}`;
+    if(key===announcedKey)return;announcedKey=key;
+    const local=root.CareerModeProductionSharedLocalReconciliation;
+    if(state.terminal===true&&local&&typeof local.autoCheck==="function"&&typeof root.setTimeout==="function")root.setTimeout(()=>{try{void local.autoCheck();}catch(_error){}},0);
   }
   function pmspRefresh(){const request=pmspRequest();if(!request)return Promise.resolve(null);if(refreshPromise&&contextKey===request.key)return refreshPromise;contextKey=request.key;busy=true;const current=pmspRefreshNow(request).then(value=>{if(pmspContextMatches(request)){lastErrorCode="";lastErrorKey="";heldErrorKey="";}return value;},error=>{const code=String(error?.code||"MULTI_SEASON_REFRESH_FAILED").replace(/[^A-Za-z0-9_-]/g,"").slice(0,80);if(!pmspContextMatches(request))return null;const key=`${request.key}|${code}`;lastErrorCode=code;if(key!==lastErrorKey&&key!==heldErrorKey){heldErrorKey=key;return null;}heldErrorKey="";if(key!==lastErrorKey)pmspReport("Unable to refresh Shared Multi Season progression",error);lastErrorCode=code;lastErrorKey=key;return null;}).finally(()=>{busy=false;if(refreshPromise===current)refreshPromise=null;pmspRender();if(wakePending){wakePending=false;root.setTimeout?.(pmspWake,0);}});refreshPromise=current;return current;}
   async function pmspAdvance(){
