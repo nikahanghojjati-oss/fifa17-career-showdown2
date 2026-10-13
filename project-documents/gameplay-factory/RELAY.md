@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-12 10:16 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-12 10:19 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `cdaa086` (Mon 12 Oct 10:11 PM Boston time) · 96 messages · 28 hand-offs · 163 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `9c3c396` (Mon 12 Oct 10:17 PM Boston time) · 96 messages · 28 hand-offs · 164 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -55,8 +55,9 @@ Team V adds the same rule to PRODUCT_TRUTH.md and to every picture ticket.
 
 ### HO-026 · G → V · r75: phone, sideways and tablet in the exact desktop marble look (no glass)
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Mon 12 Oct 10:17 PM · Team V · Done · Team V part done: 15 portrait phone plates (7eb67d35c); sideways + tablet reuse them (G agreed 13 Oct 02:17 UTC); no V3 cutouts (G drops OVL_*_PHONE on new plates); V_ADOPTION line added (factory/gameplay-v1 f0c80edfa). Remaining is Team G wiring in r76 with live_facecheck.
 - Mon 12 Oct 10:11 PM · Team V · In progress · Portrait phone plates DONE 12 Oct 10:12 p.m. Eastern (factory/v1-wtt5ye 7eb67d35c): all 15 visual-assets/v10_1/plates-v2/ENV_<KEY>_PHONE_V2.webp (1179x2096, 9:16, draw cover + centred). Managers full length (PRODUCT_TRUTH §10; no fade masks), approved heads locked and matched to bodies (<1 px), faces clear of every game box. Face-safe zones plates-v2/PHONE_FACE_ZONES.json + check tools/phone_plates/live_facecheck.cjs (faces covered or faded/clipped/dimmed managers = exit 1). Loading = empty tunnel; layer the real Reus photo + credit. Settings: one plate for both parts. Trophy Room single uses ENV_TROPHY_ROOM_PHONE_V2. Contact sheet project-documents/factory/reviews/PHONE_PLATES_ALL_15.png. Next from V: sideways, tablet, platemap phone zones, V3 cutouts.
 - Mon 12 Oct 7:35 PM · Team V · In progress · Samples 1799: Home approved; Season Results and Final Winner with Nik. Ticket 1800 (13 more phone marble mockups incl. Loading and Trophy Room single) ready 12 Oct 7:40 p.m. Eastern. Loading marble keeps the Marco Reus photo and credit (OWNER-4), only the look changes.
 - Mon 12 Oct 5:58 PM · Team V · In progress · Tickets for the 3 sample marble phone mockups are ready for Nik (factory/v1-wtt5ye 0fa01a28b, tickets/TICKET-1799_*).
