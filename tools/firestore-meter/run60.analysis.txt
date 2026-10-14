@@ -1,0 +1,128 @@
+== per window, per device (rates over the window) ==
+window                                       dev     secs reads/s reads/min tx/s writes/min commitRPC/min verifyOnly%
+TransferChallenge_window_started             daniel    60    5.87    351.98  1.67          1        102.99 99%
+TransferChallenge_window_started             nik       60    4.08    244.99   1.2          0            75 100%
+TransferChallenge_completed                  daniel    60    4.23       254   1.3          0            78 100%
+TransferChallenge_completed                  nik       60     2.9       174  0.95          0            58 100%
+SeasonResults_entry_empty                    daniel    60    6.82    408.99  1.77          0           107 100%
+SeasonResults_entry_empty                    nik       60    5.73    343.99  1.53          0            92 100%
+PostCommit_S1_first3min                      daniel   180   12.32       739  2.74       0.67        165.67 100%
+PostCommit_S1_first3min                      nik      180    9.13    547.67  2.07       0.33        125.67 100%
+Home_mainMenu_activeShowdown                 daniel    60   12.57       754  2.88          0           174 100%
+Home_mainMenu_activeShowdown                 nik       60     7.7       462  1.83          0           111 100%
+Standings                                    daniel    60   12.08    724.98  2.77          0        166.99 100%
+Standings                                    nik       60    8.88    532.98   2.1          0           127 100%
+ShowdownHome_dashboard_season2               daniel    60    3.23    193.99  0.83          0            50 100%
+ShowdownHome_dashboard_season2               nik       60    4.12    246.99  1.03          0            63 100%
+FinalWinner_champion_beforeClose             daniel    60    9.53       572  1.67          0           105 100%
+FinalWinner_champion_beforeClose             nik       60    9.53       572   1.6          0           103 100%
+FinalWinner_champion_closedShowdown          daniel    60    1.07        64  0.93          0            56 100%
+FinalWinner_champion_closedShowdown          nik       60    0.98        59  0.85          0            51 100%
+Home_mainMenu_afterShowdownClosed            daniel    60    0.87        52  0.73          0            44 100%
+Home_mainMenu_afterShowdownClosed            nik       60    0.87        52  0.73          0            44 100%
+
+== per window: reads/s and tx/s by caller module (both devices summed) ==
+-- TransferChallenge_window_started (60s)
+   productionSharedMultiSeasonProgression.js reads/s   3.83 tx/s   0.62  docs: rivalries/{id}/seasonCommits/season_N x60; rivalries/{id} x38; rivalries/{id}/sessions/{id} x38; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x24
+   productionSharedShowdownSetup.js         reads/s   2.42 tx/s   0.47  docs: rivalries/{id} x29; rivalries/{id}/sessions/{id} x29; rivalries/{id}/sharedSetup/authoritative x29; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x17
+   productionSharedTransferChallenge.js     reads/s    1.8 tx/s   0.22  docs: rivalries/{id}/sharedSetup/authoritative x14; rivalries/{id}/careerStart/authoritative x14; rivalries/{id}/transferChallenges/season_N x14; rivalries/{id} x13
+   sparkPrivatePairing.js                   reads/s   1.45 tx/s   1.43  docs: accounts/kGhD0gOulUIrW6arn9UOUL9421xt/devices/{id} x50; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB/devices/{id} x37
+   productionSharedTerminalClose.js         reads/s   0.45 tx/s   0.13  docs: rivalries/{id} x9; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x5; accounts/kGhD0gOulUIrW6arn9UOUL9421xt/devices/{id} x5; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB x4
+-- TransferChallenge_completed (60s)
+   productionSharedMultiSeasonProgression.js reads/s      4 tx/s   0.67  docs: rivalries/{id}/seasonCommits/season_N x60; rivalries/{id} x40; rivalries/{id}/sessions/{id} x40; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x24
+   productionSharedShowdownSetup.js         reads/s    1.6 tx/s   0.32  docs: rivalries/{id}/sharedSetup/authoritative x20; rivalries/{id} x19; rivalries/{id}/sessions/{id} x19; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x12
+   sparkPrivatePairing.js                   reads/s   1.13 tx/s   1.13  docs: accounts/kGhD0gOulUIrW6arn9UOUL9421xt/devices/{id} x38; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB/devices/{id} x30
+   productionSharedTerminalClose.js         reads/s    0.4 tx/s   0.13  docs: rivalries/{id} x8; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x4; accounts/kGhD0gOulUIrW6arn9UOUL9421xt/devices/{id} x4; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB x4
+-- SeasonResults_entry_empty (60s)
+   productionSharedMultiSeasonProgression.js reads/s    3.8 tx/s   0.63  docs: rivalries/{id}/seasonCommits/season_N x57; rivalries/{id} x38; rivalries/{id}/sessions/{id} x38; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x22
+   productionSharedShowdownSetup.js         reads/s   2.92 tx/s   0.58  docs: rivalries/{id} x35; rivalries/{id}/sessions/{id} x35; rivalries/{id}/sharedSetup/authoritative x35; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x19
+   productionSharedTransferChallenge.js     reads/s   2.27 tx/s   0.13  docs: rivalries/{id} x16; rivalries/{id}/sessions/{id} x16; rivalries/{id}/sharedSetup/authoritative x16; rivalries/{id}/careerStart/authoritative x16
+   sparkPrivatePairing.js                   reads/s   1.67 tx/s   1.67  docs: accounts/kGhD0gOulUIrW6arn9UOUL9421xt/devices/{id} x52; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB/devices/{id} x48
+   productionSharedSeasonResults.js         reads/s    1.5 tx/s   0.15  docs: rivalries/{id} x9; rivalries/{id}/sessions/{id} x9; rivalries/{id}/sharedSetup/authoritative x9; rivalries/{id}/careerStart/authoritative x9
+   productionSharedTerminalClose.js         reads/s    0.4 tx/s   0.13  docs: rivalries/{id} x8; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x4; accounts/kGhD0gOulUIrW6arn9UOUL9421xt/devices/{id} x4; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB x4
+-- PostCommit_S1_first3min (180s)
+   productionSharedMultiSeasonProgression.js reads/s   8.51 tx/s   1.54  docs: rivalries/{id} x282; rivalries/{id}/seasonCommits/season_N x232; rivalries/{id}/sessions/{id} x228; rivalries/{id}/sharedSetup/authoritative x169
+   productionSharedHistoryConvergence.js    reads/s   3.98 tx/s   0.65  docs: rivalries/{id} x118; rivalries/{id}/sessions/{id} x89; rivalries/{id}/sharedSetup/authoritative x89; rivalries/{id}/seasonResults/season_N x60
+   sparkSharedMultiSeasonProgression.js     reads/s    2.7 tx/s    0.3  docs: rivalries/{id} x54; rivalries/{id}/sessions/{id} x54; rivalries/{id}/sharedSetup/authoritative x54; rivalries/{id}/seasonResults/season_N x54
+   productionSharedShowdownSetup.js         reads/s   2.67 tx/s   0.53  docs: rivalries/{id} x96; rivalries/{id}/sessions/{id} x96; rivalries/{id}/sharedSetup/authoritative x96; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x55
+   sparkPrivatePairing.js                   reads/s   1.53 tx/s   1.53  docs: accounts/kGhD0gOulUIrW6arn9UOUL9421xt/devices/{id} x151; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB/devices/{id} x124
+   productionSharedSeasonCommit.js          reads/s    0.7 tx/s   0.07  docs: rivalries/{id} x14; rivalries/{id}/sessions/{id} x14; rivalries/{id}/sharedSetup/authoritative x14; rivalries/{id}/seasonResults/season_N x14
+   productionSharedSeasonResults.js         reads/s   0.47 tx/s   0.02  docs: rivalries/{id} x8; rivalries/{id}/sessions/{id} x8; rivalries/{id}/sharedSetup/authoritative x8; rivalries/{id}/careerStart/authoritative x8
+   productionSharedTerminalClose.js         reads/s   0.42 tx/s   0.13  docs: rivalries/{id} x25; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB x13; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB/devices/{id} x13; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x12
+   productionSharedTransferChallenge.js     reads/s   0.38 tx/s   0.02  docs: rivalries/{id} x8; rivalries/{id}/sessions/{id} x8; rivalries/{id}/sharedSetup/authoritative x8; rivalries/{id}/careerStart/authoritative x8
+   productionSharedCanonicalScoring.js      reads/s    0.1 tx/s   0.01  docs: rivalries/{id} x2; rivalries/{id}/sessions/{id} x2; rivalries/{id}/sharedSetup/authoritative x2; rivalries/{id}/seasonResults/season_N x2
+-- Home_mainMenu_activeShowdown (60s)
+   productionSharedMultiSeasonProgression.js reads/s      9 tx/s   1.67  docs: rivalries/{id} x101; rivalries/{id}/sessions/{id} x81; rivalries/{id}/seasonCommits/season_N x79; rivalries/{id}/sharedSetup/authoritative x60
+   productionSharedHistoryConvergence.js    reads/s   4.15 tx/s   0.67  docs: rivalries/{id} x41; rivalries/{id}/sessions/{id} x31; rivalries/{id}/sharedSetup/authoritative x31; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x22
+   sparkSharedMultiSeasonProgression.js     reads/s   2.85 tx/s   0.32  docs: rivalries/{id} x19; rivalries/{id}/sessions/{id} x19; rivalries/{id}/sharedSetup/authoritative x19; rivalries/{id}/seasonResults/season_N x19
+   productionSharedShowdownSetup.js         reads/s    2.4 tx/s   0.47  docs: rivalries/{id} x29; rivalries/{id}/sessions/{id} x29; rivalries/{id}/sharedSetup/authoritative x29; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x18
+   sparkPrivatePairing.js                   reads/s   1.47 tx/s   1.47  docs: accounts/kGhD0gOulUIrW6arn9UOUL9421xt/devices/{id} x52; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB/devices/{id} x36
+   productionSharedTerminalClose.js         reads/s    0.4 tx/s   0.13  docs: rivalries/{id} x8; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x4; accounts/kGhD0gOulUIrW6arn9UOUL9421xt/devices/{id} x4; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB x4
+-- Standings (60s)
+   productionSharedMultiSeasonProgression.js reads/s      9 tx/s   1.67  docs: rivalries/{id} x100; rivalries/{id}/sessions/{id} x80; rivalries/{id}/seasonCommits/season_N x80; rivalries/{id}/sharedSetup/authoritative x60
+   productionSharedHistoryConvergence.js    reads/s    4.4 tx/s   0.73  docs: rivalries/{id} x44; rivalries/{id}/sessions/{id} x33; rivalries/{id}/sharedSetup/authoritative x33; rivalries/{id}/seasonResults/season_N x22
+   sparkSharedMultiSeasonProgression.js     reads/s   3.15 tx/s   0.33  docs: rivalries/{id} x21; rivalries/{id}/sessions/{id} x21; rivalries/{id}/sharedSetup/authoritative x21; rivalries/{id}/seasonResults/season_N x21
+   productionSharedShowdownSetup.js         reads/s   2.52 tx/s    0.5  docs: rivalries/{id}/sharedSetup/authoritative x31; rivalries/{id} x30; rivalries/{id}/sessions/{id} x30; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x18
+   sparkPrivatePairing.js                   reads/s    1.5 tx/s    1.5  docs: accounts/kGhD0gOulUIrW6arn9UOUL9421xt/devices/{id} x50; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB/devices/{id} x40
+   productionSharedTerminalClose.js         reads/s    0.4 tx/s   0.13  docs: rivalries/{id} x8; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x4; accounts/kGhD0gOulUIrW6arn9UOUL9421xt/devices/{id} x4; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB x4
+-- ShowdownHome_dashboard_season2 (60s)
+   productionSharedMultiSeasonProgression.js reads/s    3.6 tx/s   0.67  docs: rivalries/{id} x40; rivalries/{id}/sessions/{id} x32; rivalries/{id}/seasonCommits/season_N x32; rivalries/{id}/sharedSetup/authoritative x24
+   sparkSharedMultiSeasonProgression.js     reads/s    1.2 tx/s   0.13  docs: rivalries/{id} x8; rivalries/{id}/sessions/{id} x8; rivalries/{id}/sharedSetup/authoritative x8; rivalries/{id}/seasonResults/season_N x8
+   productionSharedShowdownSetup.js         reads/s   0.98 tx/s   0.18  docs: rivalries/{id} x12; rivalries/{id}/sessions/{id} x12; rivalries/{id}/sharedSetup/authoritative x12; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB/devices/{id} x8
+   sparkPrivatePairing.js                   reads/s    0.7 tx/s    0.7  docs: accounts/oFJRhDvmv8qInSgtysvZ5efb6doB/devices/{id} x24; accounts/kGhD0gOulUIrW6arn9UOUL9421xt/devices/{id} x18
+   productionSharedTerminalClose.js         reads/s    0.4 tx/s   0.13  docs: rivalries/{id} x8; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x4; accounts/kGhD0gOulUIrW6arn9UOUL9421xt/devices/{id} x4; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB x4
+   productionSharedTransferChallenge.js     reads/s   0.28 tx/s   0.02  docs: accounts/oFJRhDvmv8qInSgtysvZ5efb6doB x2; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB/devices/{id} x2; rivalries/{id} x2; rivalries/{id}/sessions/{id} x2
+   productionSharedCareerStart.js           reads/s   0.18 tx/s   0.03  docs: accounts/oFJRhDvmv8qInSgtysvZ5efb6doB x2; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB/devices/{id} x2; rivalries/{id} x2; rivalries/{id}/sessions/{id} x2
+-- FinalWinner_champion_beforeClose (60s)
+   productionSharedHistoryConvergence.js    reads/s   8.85 tx/s   1.05  docs: rivalries/{id} x71; rivalries/{id}/sessions/{id} x63; rivalries/{id}/sharedSetup/authoritative x63; rivalries/{id}/seasonResults/season_N x52
+   productionSharedMultiSeasonProgression.js reads/s   4.67 tx/s   0.72  docs: rivalries/{id} x44; rivalries/{id}/sessions/{id} x38; rivalries/{id}/seasonCommits/season_N x36; rivalries/{id}/sharedSetup/authoritative x32
+   sparkSharedMultiSeasonProgression.js     reads/s   2.85 tx/s    0.3  docs: rivalries/{id} x19; rivalries/{id}/sessions/{id} x19; rivalries/{id}/sharedSetup/authoritative x19; rivalries/{id}/seasonResults/season_N x19
+   productionSharedShowdownSetup.js         reads/s   1.33 tx/s   0.25  docs: rivalries/{id} x16; rivalries/{id}/sessions/{id} x16; rivalries/{id}/sharedSetup/authoritative x16; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x9
+   sparkPrivatePairing.js                   reads/s   0.77 tx/s   0.78  docs: accounts/kGhD0gOulUIrW6arn9UOUL9421xt/devices/{id} x24; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB/devices/{id} x22
+   productionSharedTerminalClose.js         reads/s    0.6 tx/s   0.17  docs: rivalries/{id} x12; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x6; accounts/kGhD0gOulUIrW6arn9UOUL9421xt/devices/{id} x6; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB x6
+-- FinalWinner_champion_closedShowdown (60s)
+   sparkPrivatePairing.js                   reads/s   1.65 tx/s   1.65  docs: accounts/kGhD0gOulUIrW6arn9UOUL9421xt/devices/{id} x52; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB/devices/{id} x47
+   productionSharedTerminalClose.js         reads/s    0.4 tx/s   0.13  docs: rivalries/{id} x8; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x4; accounts/kGhD0gOulUIrW6arn9UOUL9421xt/devices/{id} x4; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB x4
+-- Home_mainMenu_afterShowdownClosed (60s)
+   sparkPrivatePairing.js                   reads/s   1.33 tx/s   1.33  docs: accounts/kGhD0gOulUIrW6arn9UOUL9421xt/devices/{id} x40; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB/devices/{id} x40
+   productionSharedTerminalClose.js         reads/s    0.4 tx/s   0.13  docs: rivalries/{id} x8; accounts/kGhD0gOulUIrW6arn9UOUL9421xt x4; accounts/kGhD0gOulUIrW6arn9UOUL9421xt/devices/{id} x4; accounts/oFJRhDvmv8qInSgtysvZ5efb6doB x4
+
+== every write by window / module / op / path (count) ==
+-- TransferChallenge_window_started: 
+      1 daniel productionSharedTransferChallenge.js tx.set rivalries/{id}/transferChallenges/season_N
+-- TransferChallenge_completed: NO WRITES
+-- SeasonResults_entry_empty: NO WRITES
+-- PostCommit_S1_first3min: 
+      2 daniel productionSharedSeasonCommit.js tx.set rivalries/{id}/seasonCommits/season_N
+      1 nik productionSharedSeasonCommit.js tx.set rivalries/{id}/seasonCommits/season_N
+-- Home_mainMenu_activeShowdown: NO WRITES
+-- Standings: NO WRITES
+-- ShowdownHome_dashboard_season2: NO WRITES
+-- FinalWinner_champion_beforeClose: NO WRITES
+-- FinalWinner_champion_closedShowdown: NO WRITES
+-- Home_mainMenu_afterShowdownClosed: NO WRITES
+
+== RPC cross-check, whole run ==
+{":batchGet":{"rpc":18660,"docs":18660,"kinds":{}},":commit":{"rpc":4365,"docs":17814,"kinds":{"update":92,"verify":17722}}}
+SDK-level: tx.get reads 18660 getDoc/getDocs reads 0 listeners 0 tx started 4278 tx ok 4267 tx failed 10 tx.set/update/delete writes 85
+committed transactions with 0 writes: 4208 of 4267
+
+== TOP modules by reads over idle parks (540s of parked time, 2 devices) ==
+productionSharedMultiSeasonProgression.js  reads/min(both devs) 252.66 tx/min  44.22 reads/tx  5.71 median gap between tx on one device(s) 0.31
+     leaf modules: sparkSharedMultiSeasonProgression.js 791, sparkSharedShowdownSetup.js 840, sparkSharedHistoryConvergence.js 54, sparkSharedSeasonCommit.js 589 | docs: rivalries/{id}/seasonCommits/season_N x404; rivalries/{id} x401; accounts/{uid} x347; accounts/{uid}/devices/{id} x347; rivalries/{id}/sessions/{id} x347
+productionSharedHistoryConvergence.js      reads/min(both devs)    116 tx/min  16.33 reads/tx   7.1 median gap between tx on one device(s) 0.42
+     leaf modules: sparkSharedShowdownSetup.js 160, sparkSharedHistoryConvergence.js 29, sparkSharedSeasonCommit.js 855 | docs: rivalries/{id} x156; accounts/{uid} x127; accounts/{uid}/devices/{id} x127; rivalries/{id}/sessions/{id} x127; rivalries/{id}/sharedSetup/authoritative x127
+productionSharedShowdownSetup.js           reads/min(both devs)  94.44 tx/min  18.44 reads/tx  5.12 median gap between tx on one device(s) 2.45
+     leaf modules: sparkSharedShowdownSetup.js 850 | docs: rivalries/{id}/sharedSetup/authoritative x172; accounts/{uid}/devices/{id} x170; rivalries/{id} x170; rivalries/{id}/sessions/{id} x170; accounts/{uid} x168
+sparkPrivatePairing.js                     reads/min(both devs)  77.78 tx/min  77.78 reads/tx     1 median gap between tx on one device(s) 0.13
+     leaf modules: sparkPrivatePairing.js 700 | docs: accounts/{uid}/devices/{id} x700
+sparkSharedMultiSeasonProgression.js       reads/min(both devs)     67 tx/min   7.22 reads/tx  9.28 median gap between tx on one device(s) 5.17
+     leaf modules: sparkSharedSeasonCommit.js 603 | docs: accounts/{uid} x67; accounts/{uid}/devices/{id} x67; rivalries/{id} x67; rivalries/{id}/sessions/{id} x67; rivalries/{id}/sharedSetup/authoritative x67
+productionSharedTransferChallenge.js       reads/min(both devs)     29 tx/min   2.44 reads/tx 11.86 median gap between tx on one device(s) 14.91
+     leaf modules: sparkSharedTransferChallenge.js 261 | docs: rivalries/{id}/sharedSetup/authoritative x32; rivalries/{id}/careerStart/authoritative x32; rivalries/{id}/transferChallenges/season_N x32; accounts/{uid} x31; accounts/{uid}/devices/{id} x31
+productionSharedTerminalClose.js           reads/min(both devs)  25.67 tx/min   8.22 reads/tx  3.12 median gap between tx on one device(s) 14.99
+     leaf modules: sparkTerminalClose.js 231 | docs: accounts/{uid} x77; accounts/{uid}/devices/{id} x77; rivalries/{id} x77
+productionSharedSeasonResults.js           reads/min(both devs)     10 tx/min      1 reads/tx    10 median gap between tx on one device(s) 14.72
+     leaf modules: sparkSharedSeasonResults.js 90 | docs: accounts/{uid} x9; accounts/{uid}/devices/{id} x9; rivalries/{id} x9; rivalries/{id}/sessions/{id} x9; rivalries/{id}/sharedSetup/authoritative x9
+productionSharedCareerStart.js             reads/min(both devs)   1.22 tx/min   0.22 reads/tx   5.5 median gap between tx on one device(s) 0.15
+     leaf modules: sparkSharedShowdownSetup.js 5, sparkSharedCareerStart.js 6 | docs: accounts/{uid} x2; accounts/{uid}/devices/{id} x2; rivalries/{id} x2; rivalries/{id}/sessions/{id} x2; rivalries/{id}/sharedSetup/authoritative x2
