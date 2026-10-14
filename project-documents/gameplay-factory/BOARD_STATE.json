@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-13 9:36 PM Boston time (EDT)",
+ "generated": "2026-10-13 9:39 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 96,
@@ -963,7 +963,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-001_use-hand-off-tickets-for-passing-work-re.md",
     "worker": "opus",
-    "pickup_min": 173,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -976,7 +976,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-002_smooth-stage-atmosphere-on-idle-screens-.md",
     "worker": "opus",
-    "pickup_min": 171,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -989,7 +989,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-003_header-chips-and-footer-design-on-team-v.md",
     "worker": "opus",
-    "pickup_min": 171,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1002,7 +1002,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-004_visual-qa-live-2-0-screens-vs-approved-f.md",
     "worker": "sonnet",
-    "pickup_min": 171,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1015,7 +1015,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-005_mobile-home-hero-ghost-coat-between-dani.md",
     "worker": "images",
-    "pickup_min": 163,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1028,7 +1028,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-006_wire-v-247-phone-home-tile-icons-large-a.md",
     "worker": "codex",
-    "pickup_min": 7,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1041,7 +1041,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-007_shared-job-numbers-for-both-teams-from-1.md",
     "worker": "",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1054,7 +1054,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-008_bug-factory-mode-for-team-v-gpt-blue-and.md",
     "worker": "",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1067,7 +1067,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-009_gpt-workers-ci-gates-and-the-physio-are-.md",
     "worker": "sol-chat",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1080,7 +1080,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-010_sync-main-s-copy-of-transfer-war-f1actio.md",
     "worker": "sol-chat",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1093,7 +1093,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-011_final-winner-screen-with-the-last-season.md",
     "worker": "sol-chat",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1106,7 +1106,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-012_one-board-your-lead-view-copies-custom-v.md",
     "worker": "opus",
-    "pickup_min": 1,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1119,7 +1119,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-013_finished-showdown-shows-the-private-sess.md",
     "worker": "sol-work",
-    "pickup_min": 1,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1132,7 +1132,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-014_create-code-join-on-its-own-connect-play.md",
     "worker": "opus",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1145,7 +1145,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-015_season-results-on-phone-one-clean-column.md",
     "worker": "sol-chat",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1158,7 +1158,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-016_transfer-war-on-phone-port-team-v-s-reva.md",
     "worker": "sol-chat",
-    "pickup_min": 1,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1171,7 +1171,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-017_thursday-goal-team-v-toward-the-mockups-.md",
     "worker": "",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1184,7 +1184,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-018_season-results-desktop-port-team-v-s-moc.md",
     "worker": "sonnet",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1197,7 +1197,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-019_select-league-port-team-v-s-brush-title-.md",
     "worker": "sonnet",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1210,7 +1210,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-020_team-v-screens-lose-kit-css-when-a-style.md",
     "worker": "sonnet",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1223,7 +1223,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-021_studio-z-leftovers-real-upright-tablet-l.md",
     "worker": "",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1236,7 +1236,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-022_mega-factory-studies-how-team-v-adopts-t.md",
     "worker": "",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1249,7 +1249,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-023_five-fixes-to-the-126-study-tickets-befo.md",
     "worker": "",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1262,7 +1262,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-024_aim-the-studies-at-nik-s-new-mockup-pict.md",
     "worker": "",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1275,7 +1275,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-025_relay-feed-and-inbox-add-your-hand-off-r.md",
     "worker": "haiku",
-    "pickup_min": 2,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1288,7 +1288,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-026_r75-phone-sideways-and-tablet-in-the-exa.md",
     "worker": "images",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1314,11 +1314,11 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-027_no-dimming-blur-see-through-or-dark-filt.md",
     "worker": "",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    }
   ],
-  "relay_ok": true
+  "relay_ok": false
  },
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
