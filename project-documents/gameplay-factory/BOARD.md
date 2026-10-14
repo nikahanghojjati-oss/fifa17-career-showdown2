@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 13 Oct, 9:10 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 13 Oct, 9:11 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -54,11 +54,11 @@ Updated Tue 13 Oct, 9:10 PM Boston time. Bug hunting only, no new features until
 
 **#10 · 1804** `G` Setup write refused by Rules (L2800 evaluation error) when Nik confirms league and clubs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #838 · CI 7 of 8 passed · last move 2 h ago
+⚪ Team white · model not set · worker working, draft PR #838 · CI 7 of 8 passed · last move 3 h ago
 
 **#11 · 1805** `G` Home tile and header chip stay on "Season 1 of N" after season 1  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #845 · CI 7 of 8 passed · last move 42 min ago
+🟢 Team green · model not set · worker working, draft PR #845 · CI 7 of 8 passed · last move 43 min ago
 
 **#12 · 1806** `G` BACK TO SHOWDOWN HOME lands on the dashboard instead of Home  
 `████░░░░░░` **40.0000 %**  
@@ -70,19 +70,19 @@ Updated Tue 13 Oct, 9:10 PM Boston time. Bug hunting only, no new features until
 
 **#14 · 1808** `G` Standings THIS SHOWDOWN stuck on "Loading standings." mid-Showdown  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #841 · CI 7 of 8 passed · last move 115 min ago
+⚪ Team white · model not set · worker working, draft PR #841 · CI 7 of 8 passed · last move 116 min ago
 
 **#15 · 1810** `G` Phone Trophy Room: ranks and all-time records missing, CAREER DETAILS empty  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #844 · CI 7 of 8 passed · last move 93 min ago
+⚪ Team white · model not set · worker working, draft PR #844 · CI 7 of 8 passed · last move 94 min ago
 
 **#16 · 1812** `G` Free-limit message must show as soon as Home opens  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #842 · CI 7 of 8 passed · last move 101 min ago
+⚪ Team white · model not set · worker working, draft PR #842 · CI 7 of 8 passed · last move 103 min ago
 
 **#17 · 1821** `G` Season chip fix that fits the startup size limit (redo of JOB-1805)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #845 · CI 7 of 8 passed · last move 42 min ago
+⚪ Team white · model not set · worker working, draft PR #845 · CI 7 of 8 passed · last move 43 min ago
 
 ### 👉 Next for you, in this order
 
