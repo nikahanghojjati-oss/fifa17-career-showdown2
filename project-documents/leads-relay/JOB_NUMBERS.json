@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1824,
+ "next": 1825,
  "claims": [
   {
    "number": 1001,
@@ -4940,6 +4940,12 @@
    "team": "G",
    "title": "Stats and history bug hunt, part B (GPT chat, repeatable)",
    "claimed": "2026-10-14T00:03:20Z"
+  },
+  {
+   "number": 1824,
+   "team": "G",
+   "title": "Measure Firestore reads and writes per season on the emulator, predict seasons per day",
+   "claimed": "2026-10-14T12:55:43Z"
   }
  ]
 }
