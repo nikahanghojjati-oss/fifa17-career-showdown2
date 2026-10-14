@@ -6,6 +6,8 @@
 
 let dashboardUI = null;
 
+window.getShowdownSeason = (showdown, progression = window.CareerModeProductionSharedMultiSeasonProgression) => showdown.sharedJourney?.mode === "shared" && typeof progression?.resolveSeason === "function" ? progression.resolveSeason(showdown.currentRound) : showdown.currentRound;
+
 function cacheDashboardUI(){
     dashboardUI = {
         indicator: document.getElementById("seasonIndicator"),
@@ -347,9 +349,7 @@ function updateShowdownUI(){
     const completed = currentShowdown.status === "Completed";
     const leagueName = currentShowdown.selectedLeague ? currentShowdown.selectedLeague.name : null;
     const completedSeasonCount = Array.isArray(currentShowdown.rounds) ? currentShowdown.rounds.length : 0;
-    const progression = window.CareerModeProductionSharedMultiSeasonProgression;
-    const currentRound = currentShowdown.sharedJourney?.mode === "shared" && typeof progression?.resolveSeason === "function"
-        ? progression.resolveSeason(currentShowdown.currentRound) : currentShowdown.currentRound;
+    const currentRound = window.getShowdownSeason(currentShowdown);
     const roundLabel = completed
         ? `${completedSeasonCount} ${completedSeasonCount === 1 ? "season" : "seasons"} completed`
         : `Season ${currentRound} of ${currentShowdown.totalRounds}`;
