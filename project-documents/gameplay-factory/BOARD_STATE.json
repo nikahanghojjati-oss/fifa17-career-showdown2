@@ -921,13 +921,7 @@
    "when": "2026-10-13T12:52:44Z",
    "subject": "Release r75: Firebase read/write fix and Reus Gate (#834)",
    "fixes": [],
-   "today": [
-    {
-     "pr": 834,
-     "title": "Release r75: Firebase read/write fix and Reus Gate (1.9.1-r75)",
-     "merged": "2026-10-13T12:52:44Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",
@@ -936,18 +930,7 @@
    "source": "physio"
   },
   "v_headline": "Queued next",
-  "v_jobs": [
-   {
-    "job": "V-247",
-    "title": "Phone Home tile icons like GOAL_HOME",
-    "worker": "Opus",
-    "lane": "opus",
-    "done": 4,
-    "total": 4,
-    "pr": 381,
-    "current": "Done; handed to Team G as HO-006"
-   }
-  ],
+  "v_jobs": [],
   "inbox": {
    "G": true,
    "V": true
@@ -1326,16 +1309,20 @@
   "chat": 2,
   "work": 1
  },
- "overall": 100,
- "done": 33,
+ "overall": 92,
+ "done": 29,
  "total": 33,
  "start": {
   "chat": [],
   "work": []
  },
  "queued": [],
- "working": [],
- "blocked": [],
+ "working": [
+  29
+ ],
+ "blocked": [
+  28
+ ],
  "bug_hunt": [
   {
    "id": "BH-1",
@@ -2662,7 +2649,7 @@
    "phase": "0 Setup",
    "type": "build",
    "plain": "GitHub runs every gameplay test automatically on each worker save.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 6,
    "steps_total": 6,
@@ -2685,7 +2672,7 @@
    "phase": "1 Safety net",
    "type": "test",
    "plain": "Daniel and Nik play a whole Showdown against the real Rules in a test database, with a stranger and privacy checks.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 8,
    "steps_total": 8,
@@ -2708,7 +2695,7 @@
    "phase": "1 Safety net",
    "type": "fix",
    "plain": "When you both submit a result at once, the slower tap is told to refresh instead of getting an error.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 5,
    "steps_total": 5,
@@ -2733,7 +2720,7 @@
    "phase": "1 Safety net",
    "type": "test",
    "plain": "The same journey through the real app screens in a browser, test database only.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 9,
    "steps_total": 9,
@@ -2758,7 +2745,7 @@
    "phase": "1 Safety net",
    "type": "test",
    "plain": "Re-proves the full production Rules after the new career-data Rules land.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 8,
    "steps_total": 8,
@@ -2779,7 +2766,7 @@
    "phase": "2 Career model",
    "type": "build",
    "plain": "One pure function that turns Showdown data into the career numbers every screen shows.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 7,
    "steps_total": 7,
@@ -2802,7 +2789,7 @@
    "phase": "2 Career model",
    "type": "build",
    "plain": "Live Showdown (Rivalry, Continue, tiebreak, final result) feeds the career model.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 7,
    "steps_total": 7,
@@ -2825,7 +2812,7 @@
    "phase": "2 Career model",
    "type": "build",
    "plain": "Screens read from that career model instead of from one phone's local data.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 7,
    "steps_total": 7,
@@ -2846,7 +2833,7 @@
    "phase": "2 Career model",
    "type": "build",
    "plain": "Start/Join screen and top-bar locking driven by one view model.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 7,
    "steps_total": 7,
@@ -2870,7 +2857,7 @@
    "phase": "2 Career model",
    "type": "test",
    "plain": "Example data for Team V generated from the real model, so visuals and gameplay agree.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 8,
    "steps_total": 8,
@@ -2894,7 +2881,7 @@
    "phase": "3 Career history",
    "type": "rules",
    "plain": "A shared list of every Showdown the two of you played, protected by Rules.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 9,
    "steps_total": 9,
@@ -2917,7 +2904,7 @@
    "phase": "3 Career history",
    "type": "rules",
    "plain": "Finished Showdowns stay readable for both managers after they close.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 8,
    "steps_total": 8,
@@ -2941,7 +2928,7 @@
    "phase": "3 Career history",
    "type": "build",
    "plain": "Finished Showdowns flow into career totals and the Trophy Room.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 7,
    "steps_total": 7,
@@ -2964,7 +2951,7 @@
    "phase": "3 Career history",
    "type": "rules",
    "plain": "Transfer history visible only once a challenge is completed.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 8,
    "steps_total": 8,
@@ -3057,7 +3044,7 @@
    "phase": "1 Safety net",
    "type": "build",
    "plain": "When Nik pastes Daniel's code quickly, the app keeps it instead of wiping it and wrongly calling it invalid.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 5,
    "steps_total": 5,
@@ -3078,7 +3065,7 @@
    "phase": "1 Safety net",
    "type": "fix",
    "plain": "After a reload both players land on Home, rejoin a fresh session and pick up on the right season, instead of starting over at season 1.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 3,
    "steps_total": 3,
@@ -3099,7 +3086,7 @@
    "phase": "1 Safety net",
    "type": "fix",
    "plain": "When both players press acknowledge at the same moment, the second one is retried instead of showing a permission error.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 3,
    "steps_total": 3,
@@ -3120,9 +3107,9 @@
    "phase": "1 Safety net",
    "type": "fix",
    "plain": "When both players tap START, a lock button, early end or Setup confirm at the same moment, or the transfer timer hits 0:00 on both phones, the slower phone retries once instead of showing an error.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
-   "step": 3,
+   "step": 0,
    "steps_total": 3,
    "pct": 100,
    "ready": false
@@ -3145,7 +3132,7 @@
    "plain": "Start first: one shared way to load Team V's screens, the top bar, and lighter caching. Built in the lead thread by a helper (Nik, 2026-10-04: no cloud sessions).",
    "state": "MERGED",
    "stale": null,
-   "step": 7,
+   "step": 0,
    "steps_total": 7,
    "pct": 100,
    "ready": false
@@ -3168,7 +3155,7 @@
    "plain": "Home in Team V's style with Nik's Audius playlist playing across screens; Loading keeps the Reus credit. Codex builds (Nik pastes the box); starts from job 24's branch; the lead checks each screen in a browser and merges.",
    "state": "MERGED",
    "stale": null,
-   "step": 7,
+   "step": 0,
    "steps_total": 7,
    "pct": 100,
    "ready": false
@@ -3191,7 +3178,7 @@
    "plain": "Setup screens skinned without touching pairing, session or draw logic. Lead helper (Opus); starts from job 24's branch; the lead checks each screen in a browser and merges.",
    "state": "MERGED",
    "stale": null,
-   "step": 7,
+   "step": 0,
    "steps_total": 7,
    "pct": 100,
    "ready": false
@@ -3212,12 +3199,12 @@
    "phase": "READY",
    "type": "build",
    "plain": "Transfer window skinned; private inputs stay private; lock confirm and quiet retries kept. Lead helper (Opus); starts from job 24's branch; the lead checks each screen in a browser and merges.",
-   "state": "MERGED",
+   "state": "NOT STARTED",
    "stale": null,
-   "step": 7,
+   "step": 0,
    "steps_total": 7,
-   "pct": 100,
-   "ready": false
+   "pct": 0,
+   "ready": true
   },
   {
    "number": 28,
@@ -3235,11 +3222,11 @@
    "phase": "READY",
    "type": "build",
    "plain": "Same pattern as job 13 on the real career model; un-hides the last two Statistics buttons. Sol 6.1 Work mode, High; starts from job 24's branch; the lead checks each screen in a browser and merges.",
-   "state": "MERGED",
+   "state": "BLOCKED",
    "stale": null,
-   "step": 5,
+   "step": 4,
    "steps_total": 5,
-   "pct": 100,
+   "pct": 80,
    "ready": false
   },
   {
@@ -3258,11 +3245,11 @@
    "phase": "READY",
    "type": "build",
    "plain": "Results and commit skinned (clash warning kept); winner reveal uses the reconciliation exactly. Sol Work mode; starts from job 24's branch; the lead checks each screen in a browser and merges.",
-   "state": "MERGED",
+   "state": "IN PROGRESS",
    "stale": null,
-   "step": 4,
+   "step": 3,
    "steps_total": 4,
-   "pct": 100,
+   "pct": 75,
    "ready": false
   },
   {
@@ -3283,7 +3270,7 @@
    "plain": "Rules copy unchanged, Settings controls kept, credits added. Sol 6.1 Work mode, High; starts from job 24's branch; the lead checks each screen in a browser and merges.",
    "state": "MERGED",
    "stale": null,
-   "step": 6,
+   "step": 5,
    "steps_total": 6,
    "pct": 100,
    "ready": false
@@ -3346,11 +3333,11 @@
    "phase": "IN PROGRESS",
    "type": "build",
    "plain": "About 13 fewer taps for Daniel and 6 for Nik over 3 seasons, plus no refresh taps. Every lock, publish, commit, acknowledge and close stays a manual tap. Lead helper (Opus).",
-   "state": "MERGED",
+   "state": "NOT WRITTEN",
    "stale": null,
-   "step": 1,
+   "step": 0,
    "steps_total": 1,
-   "pct": 100,
+   "pct": 0,
    "ready": false
   }
  ]

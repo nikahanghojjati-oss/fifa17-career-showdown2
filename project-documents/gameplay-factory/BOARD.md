@@ -1999,7 +1999,3 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 | --- | --- | --- | --- |
 | 🟧 Opus | **V-F2** | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | queued · after G-F1 |
 
-## Shipped today
-
-- 8:52 AM · #834 Release r75: Firebase read/write fix and Reus Gate (1.9.1-r75)
-
