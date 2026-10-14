@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 14 Oct, 1:56 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 14 Oct, 2:00 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -94,7 +94,7 @@ Updated Wed 14 Oct, 1:56 PM Boston time. Bug hunting only, no new features until
 
 **#20 · 1818** `G` Failing tests for the bug cards (GPT Work mode, repeatable)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #850 · CI 7 of 8 passed · last move 89 min ago
+🟢 Team green · model not set · worker working, draft PR #850 · CI 7 of 8 passed · last move 94 min ago
 
 **#21 · 1821** `G` Season chip fix that fits the startup size limit (redo of JOB-1805)  
 `████░░░░░░` **40.0000 %**  
