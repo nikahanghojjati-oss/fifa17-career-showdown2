@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1822,
+ "next": 1823,
  "claims": [
   {
    "number": 1001,
@@ -4928,6 +4928,12 @@
    "team": "G",
    "title": "JOB-1805 redo: Season chip fix that fits the startup size limit",
    "claimed": "2026-10-13T23:59:41Z"
+  },
+  {
+   "number": 1822,
+   "team": "G",
+   "title": "Stats and history bug hunt, part A (GPT chat, repeatable)",
+   "claimed": "2026-10-14T00:03:17Z"
   }
  ]
 }
