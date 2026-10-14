@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-13 11:56 PM Boston time (EDT)",
+ "generated": "2026-10-14 12:00 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 96,
@@ -921,13 +921,7 @@
    "when": "2026-10-13T12:52:44Z",
    "subject": "Release r75: Firebase read/write fix and Reus Gate (#834)",
    "fixes": [],
-   "today": [
-    {
-     "pr": 834,
-     "title": "Release r75: Firebase read/write fix and Reus Gate (1.9.1-r75)",
-     "merged": "2026-10-13T12:52:44Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",

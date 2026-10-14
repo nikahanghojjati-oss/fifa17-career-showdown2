@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 13 Oct, 11:57 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 14 Oct, 12:01 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -1668,8 +1668,4 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
 | 🟧 Opus | **V-F2** | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | queued · after G-F1 |
-
-## Shipped today
-
-- 8:52 AM · #834 Release r75: Firebase read/write fix and Reus Gate (1.9.1-r75)
 
