@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 14 Oct, 10:54 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 14 Oct, 10:59 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -74,7 +74,7 @@ Updated Wed 14 Oct, 10:54 AM Boston time. Bug hunting only, no new features unti
 
 **#15 · 1809** `G` Rivalry Statistics: how the player gets there, and stuck on "Loading rivalry statistics…"  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #846 · CI 7 of 8 passed · last move 100 min ago
+⚪ Team white · model not set · worker working, draft PR #846 · CI 7 of 8 passed · last move 105 min ago
 
 **#16 · 1810** `G` Phone Trophy Room: ranks and all-time records missing, CAREER DETAILS empty  
 `████░░░░░░` **40.0000 %**  
@@ -82,7 +82,7 @@ Updated Wed 14 Oct, 10:54 AM Boston time. Bug hunting only, no new features unti
 
 **#17 · 1811** `G` Final reconciliation and FINAL SEASON cells sometimes empty right after the close  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #847 · CI 7 of 8 passed · last move 43 min ago
+⚪ Team white · model not set · worker working, draft PR #847 · CI 7 of 8 passed · last move 47 min ago
 
 **#18 · 1812** `G` Free-limit message must show as soon as Home opens  
 `████░░░░░░` **40.0000 %**  
