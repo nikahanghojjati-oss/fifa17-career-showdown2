@@ -1,19 +1,20 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-13 9:25 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-13 9:29 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `0e75666` (Tue 13 Oct 8:03 PM Boston time) · 96 messages · 28 hand-offs · 0 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `0e75666` (Tue 13 Oct 8:03 PM Boston time) · 96 messages · 28 hand-offs · 164 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-027 · V → G · No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
 
 - Mon 12 Oct 8:44 PM · Team G · Received
 - Mon 12 Oct 8:43 PM · Team V · Sent
+- Mon 12 Oct 8:44 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -42,8 +43,9 @@ Team V adds the same rule to PRODUCT_TRUTH.md and to every picture ticket.
 
 ### HO-027 · ? → ? · ticket header unreadable
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
 
+- Mon 12 Oct 8:44 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -53,7 +55,7 @@ Team V adds the same rule to PRODUCT_TRUTH.md and to every picture ticket.
 
 ### HO-026 · G → V · r75: phone, sideways and tablet in the exact desktop marble look (no glass)
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
 - Mon 12 Oct 10:17 PM · Team V · Done · Team V part done: 15 portrait phone plates (7eb67d35c); sideways + tablet reuse them (G agreed 13 Oct 02:17 UTC); no V3 cutouts (G drops OVL_*_PHONE on new plates); V_ADOPTION line added (factory/gameplay-v1 f0c80edfa). Remaining is Team G wiring in r76 with live_facecheck.
 - Mon 12 Oct 10:11 PM · Team V · In progress · Portrait phone plates DONE 12 Oct 10:12 p.m. Eastern (factory/v1-wtt5ye 7eb67d35c): all 15 visual-assets/v10_1/plates-v2/ENV_<KEY>_PHONE_V2.webp (1179x2096, 9:16, draw cover + centred). Managers full length (PRODUCT_TRUTH §10; no fade masks), approved heads locked and matched to bodies (<1 px), faces clear of every game box. Face-safe zones plates-v2/PHONE_FACE_ZONES.json + check tools/phone_plates/live_facecheck.cjs (faces covered or faded/clipped/dimmed managers = exit 1). Loading = empty tunnel; layer the real Reus photo + credit. Settings: one plate for both parts. Trophy Room single uses ENV_TROPHY_ROOM_PHONE_V2. Contact sheet project-documents/factory/reviews/PHONE_PLATES_ALL_15.png. Next from V: sideways, tablet, platemap phone zones, V3 cutouts.
@@ -61,6 +63,7 @@ Team V adds the same rule to PRODUCT_TRUTH.md and to every picture ticket.
 - Mon 12 Oct 5:58 PM · Team V · In progress · Tickets for the 3 sample marble phone mockups are ready for Nik (factory/v1-wtt5ye 0fa01a28b, tickets/TICKET-1799_*).
 - Mon 12 Oct 5:56 PM · Team V · Received · Cutouts: re-cut (V3) from the new marble phone plates so the light matches, faces checked against NEXT_*. Plan: per screen, a GPT ticket redraws the approved PHONE_<SCREEN> layout in the NEXT_<SCREEN> marble look (= PHONE_<SCREEN>_MARBLE mockup), then the 1610P cyan-box method makes the plate. First 3 samples: Home, Season Results, Final Winner.
 - Mon 12 Oct 5:55 PM · Team G · Sent
+- Mon 12 Oct 5:55 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -115,11 +118,12 @@ Team G starts wiring as soon as each screen's plate lands. It browser-checks eve
 
 ### HO-025 · V → G · Relay feed and inbox: add your hand-off rows to FEED.md (feed_sync.py --team G) and refresh your INBOX.json entry
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 2 min after delivery
 
 - Sat 10 Oct 11:37 PM · Team G · Done · Done. From now on every G hand-off change runs feed_sync --team G in the same commit and wakes Team V.
 - Sat 10 Oct 11:35 PM · Team G · Received · Team G lead ran feed_sync --team G (backfill HO-006..HO-024 G rows) and moved INBOX G to the lead thread; feed_sync runs with every handoff change from now on
 - Sat 10 Oct 11:32 PM · Team V · Sent
+- Sat 10 Oct 11:33 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -153,11 +157,12 @@ FEED.md has rows for both teams' hand-off moves up to now, INBOX.json `G` is cur
 
 ### HO-024 · V → G · Aim the studies at Nik's new mockup pictures: hold phone/desktop studies until each PHONE_/NEXT_<SCREEN>.png is approved (job 1588)
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
 - Sat 10 Oct 11:37 AM · Team G · Done · All 126 study items now say 'Work toward PHONE_<KEY>.png / NEXT_<KEY>.png' (fetch from factory/v1-wtt5ye). They are held: the item replies 'on hold until Team V approves its picture, try N+1' and the board's Type now list skips them. To release a screen, add its key under approved.PHONE or approved.NEXT in queue/PICTURES.json (Team V relay note PHONE_HOME approved -> Team G lead forwards to the mega factory). Keys: HOME CONNECT_PLAYERS SEASON_RESULTS TRANSFER LEAGUE CLUB STATISTICS RIVALRY LEGACY TROPHY_ROOM FINAL_WINNER SETTINGS RULE_BOOK STANDINGS.
 - Sat 10 Oct 11:35 AM · Team G · Received · Team G lead: forwarded to the mega factory (owns study tickets 226-476): add the PHONE_/NEXT_ picture target and hold each screen's studies until Team V approves its picture
 - Sat 10 Oct 11:35 AM · Team V · Sent
+- Sat 10 Oct 11:35 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -183,11 +188,12 @@ I'm writing the tickets now, starting with Home. The ticket set is job 1588 at `
 
 ### HO-023 · V → G · Five fixes to the 126 study tickets before Nik types them (missing art folders, mockup path, phone size, product rules, 4 already-decided studies)
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
 - Sat 10 Oct 11:33 AM · Team G · Done · Fixed: art folders (transfer to tr2 plate assets; rule-book, settings, standings to shared), mockup path on factory/v1-wtt5ye, phone fit 393x660/360x640/375x553, Daniel left and no photos or real crests, home tile art rule; items 316/334/344/362 now start from the 1035/1036 designs.
 - Sat 10 Oct 11:30 AM · Team G · Received · Team G lead: forwarded to the mega factory, which owns the study tickets (items 226-476); it will apply the five fixes before Nik types them
 - Sat 10 Oct 11:30 AM · Team V · Sent
+- Sat 10 Oct 11:30 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -226,10 +232,11 @@ Team V's INBOX entry points to this session (session_013pn5j1NjipzmcDNVpF7Fd3), 
 
 ### HO-022 · G → V · Mega factory studies: how Team V adopts them (queue/V_ADOPTION.md) and the NEEDS TEAM V rule
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
 
 - Sat 10 Oct 10:18 AM · Team V · Received · Team V will judge mega factory phone/desktop studies (items 226-476) and log adopted/not adopted in queue/V_ADOPTION.md; NEEDS TEAM V items come as normal hand-offs.
 - Sat 10 Oct 10:17 AM · Team G · Sent
+- Sat 10 Oct 10:17 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -260,12 +267,13 @@ Mark this RECEIVED. Fill in `V_ADOPTION.md` whenever studies come in; the first 
 
 ### HO-021 · G → V · Studio Z leftovers: real upright-tablet layout and sideways-phone Signing Entry
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
 - Thu 8 Oct 11:44 PM · Team V · Done · Both designs ready on factory/v1-wtt5ye. Part 1 upright tablet (V-1036, PR 430): CSS for css/v10Transfer.css and css/homeV10.css, then remove the 760 fallback for Transfer and Home. Part 2 sideways phone (V-1035, PR 428). Send me the port PR for a live look-check.
 - Thu 8 Oct 11:02 PM · Team V · In progress · Part 2 (sideways phone) design ready: port visual-assets/v10_1/tr2/evidence/1035/PORT.md on factory/v1-wtt5ye. Part 1 (upright tablet) is job 1036, in progress
 - Thu 8 Oct 10:06 PM · Team V · Received · Team V lead: measuring r63 at tablet and sideways-phone sizes first, then a design job
 - Thu 8 Oct 10:05 PM · Team G · Sent
+- Thu 8 Oct 10:06 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -291,10 +299,11 @@ Studio Z fixed the connectivity, refresh and sign-in problems from Nik and Danie
 
 ### HO-020 · V → G · Team V screens lose kit CSS when a stylesheet takes over 4 s (v10Screens.js timeout)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
 
 - Tue 6 Oct 1:16 AM · Team G · Received
 - Tue 6 Oct 1:16 AM · Team V · Sent
+- Tue 6 Oct 1:17 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -332,10 +341,11 @@ The screen is still released after 4 s, but the link is only toggled once it has
 
 ### HO-019 · V → G · Select League: port Team V's brush title wordmark (1030 · V)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
 
 - Tue 6 Oct 1:08 AM · Team G · Received
 - Tue 6 Oct 1:07 AM · Team V · Sent
+- Tue 6 Oct 1:08 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -357,10 +367,11 @@ https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-w
 
 ### HO-018 · V → G · Season Results desktop: port Team V's mockup-match CSS (1029 · V)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
 
 - Tue 6 Oct 12:47 AM · Team G · Received
 - Tue 6 Oct 12:47 AM · Team V · Sent
+- Tue 6 Oct 12:47 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -387,10 +398,11 @@ https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-w
 
 ### HO-017 · G → V · Thursday goal: Team V toward the mockups, Team G toward a bug-free game
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
 
 - Tue 6 Oct 12:03 AM · Team V · Received · Team V lead received; setting up mockup-progress board
 - Tue 6 Oct 12:02 AM · Team G · Sent
+- Tue 6 Oct 12:03 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -415,10 +427,11 @@ Acknowledge this ticket. Then set up your mockup-progress board and plan your wo
 
 ### HO-016 · V → G · Transfer War on phone: port Team V's revamp (1016) into the live game
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 1 min after delivery
 
 - Mon 5 Oct 9:54 PM · Team G · Received · bug factory: job 1021 · G (GPT green); lead verifies with v10-transfer contracts, Team V re-checks
 - Mon 5 Oct 9:53 PM · Team V · Sent
+- Mon 5 Oct 9:53 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -443,10 +456,11 @@ Team V re-checks your PR at 393x660, 360x640 and 375x553: send the link.
 
 ### HO-015 · V → G · Season Results on phone: one clean column (Team V's tested CSS for app.css)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
 
 - Mon 5 Oct 9:38 PM · Team G · Received · bug factory: job 1020 · G (GPT green) with the desktop window fix; Team V 1012 visual check
 - Mon 5 Oct 9:37 PM · Team V · Sent
+- Mon 5 Oct 9:38 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -476,10 +490,11 @@ Team V's 1012 is the visual check: send the PR link and the lead renders the ent
 
 ### HO-014 · V → G · Create code / Join on its own Connect Players screen, never on top of Home
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
 
 - Mon 5 Oct 9:32 PM · Team G · Received · bug factory: job 1015 · G (GPT green; Sonnet if green fails), lead runs pairing contracts + audits, Team V 1013 visual check
 - Mon 5 Oct 9:31 PM · Team V · Sent
+- Mon 5 Oct 9:32 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -510,10 +525,11 @@ Team V's 1013 is the visual check: when your PR is up, send the link and the lea
 
 ### HO-013 · V → G · Finished Showdown shows the 'private session has ended, reconnect' line
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 1 min after delivery
 
 - Mon 5 Oct 9:30 PM · Team G · Received · bug factory: job 1014 · G (GPT green), lead verifies with the reconnect audit
 - Mon 5 Oct 9:29 PM · Team V · Sent
+- Mon 5 Oct 9:30 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -531,12 +547,13 @@ Team V's 1013 is the visual check: when your PR is up, send the link and the lea
 
 ### HO-012 · G → V · One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 1 min after delivery
 
 - Mon 5 Oct 8:56 PM · Team V · Received · On hold: Team V's coordinator is confirming with Nik first, since one board reverses his 5 Oct 8:47 a.m. two-board decision. Team V board restored meanwhile.
 - Mon 5 Oct 8:54 PM · Team V · In progress · V archives its own board (factory BOARD.md -> BOARD_ARCHIVE.md, generator paused); V coordinator switches its Custom view to a verbatim copy of CUSTOM_VIEW_V.html
 - Mon 5 Oct 8:54 PM · Team V · Received
 - Mon 5 Oct 8:53 PM · Team G · Sent
+- Mon 5 Oct 8:54 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -574,11 +591,12 @@ Your lead view shows the same content as `CUSTOM_VIEW_V.html`, Team V first, wit
 
 ### HO-011 · G → V · Final Winner screen with the last season's score (job 1005)
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
 
 - Mon 5 Oct 8:35 PM · Team V · In progress · design packaged as 1006 · V for GPT blue (PR #393): FINAL SEASON cell first in the summary strip (desktop 3 cells; phone full-width top row of SUMMARY). Waiting for Nik to type 1006; lead renders, then sends ids + CSS.
 - Mon 5 Oct 8:32 PM · Team V · Received · received; packaging the design as a GPT blue job (shared number), lead renders phone + desktop
 - Mon 5 Oct 8:31 PM · Team G · Sent
+- Mon 5 Oct 8:32 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -602,11 +620,12 @@ Team G turns the design into GPT job 1005 · G (js/seasonFinalV10.js + its CSS),
 
 ### HO-010 · V → G · Sync main's copy of Transfer War f1Action to REQUEST EARLY END (1002 · V)
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
 - Mon 5 Oct 8:20 PM · Team G · Done · Job 1003 merged into gameplay/bug-list-1 (PR #391); rides Team G's next release to main
 - Mon 5 Oct 8:05 PM · Team G · Received · Packaged as job 1003 · G for GPT blue; rides Team G's next release
 - Mon 5 Oct 8:04 PM · Team V · Sent
+- Mon 5 Oct 8:05 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -630,11 +649,12 @@ Lead check evidence (phone 390x664, 360x640, 375x553 and desktop 1366, 1920): fa
 
 ### HO-009 · V → G · GPT workers: CI gates and the Physio are expected, never removed
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
 - Mon 5 Oct 7:42 PM · Team G · Done · Block added as WORKER_HANDBOOK.md section 9b on factory/gameplay-v1 (f4cbb74). Cause was ours: job 1001's branch was cut from main after #385 while its base gameplay/bug-list-1 was at 61489dd. Base is now brought up to main (84a04d8) and future job branches are cut from the base. Gate list matches ours.
 - Mon 5 Oct 7:42 PM · Team G · Received · Team G bug factory thread picked it up
 - Mon 5 Oct 7:41 PM · Team V · Sent
+- Mon 5 Oct 7:43 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -663,11 +683,12 @@ CHECKS AND THE PHYSIO (5 Oct 2026). The repo has automatic CI checks ("gates") a
 
 ### HO-008 · G → V · Bug factory mode for Team V: GPT blue and green lanes, escalation ladder
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
 - Mon 5 Oct 7:32 PM · Team V · Done · Team V is a bug factory now: GPT blue (sol-chat) and green (sol-work) lanes, shared numbers, ladder blue/green > Sonnet > Opus > Fable, images to Nik first, lead-verified done. Rules: factory/v1-wtt5ye project-documents/factory/BUG_FACTORY.md. Bug board: factory/v1-wtt5ye project-documents/factory/BOARD.md (bug jobs as NNNN · V).
 - Mon 5 Oct 7:31 PM · Team V · Received · received; switching Team V factory to bug mode (GPT blue/green lanes, shared numbers, ladder)
 - Mon 5 Oct 7:31 PM · Team G · Sent
+- Mon 5 Oct 7:31 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -694,11 +715,12 @@ Mark this ticket RECEIVED, then DONE once your factory is switched over, with a 
 
 ### HO-007 · G → V · Shared job numbers for both teams, from 1001
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
 - Mon 5 Oct 7:45 PM · Team V · Done · first Team V job on the shared counter: 1002 · V (Transfer War window strings, PR #389, GPT blue)
 - Mon 5 Oct 7:24 PM · Team V · Received · received; next new Team V job takes its number from claim_number.py
 - Mon 5 Oct 7:23 PM · Team G · Sent
+- Mon 5 Oct 7:27 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -719,12 +741,13 @@ Nik (2026-10-05, 7:23 PM Boston) approved one shared job counter for both teams,
 
 ### HO-006 · V → G · Wire V-247: phone Home tile icons large and centred
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 7 min after delivery
 
 - Mon 5 Oct 3:08 PM · Team G · Done · Live 2026-10-05 19:08 UTC. V-247 block appended to visual-assets/v10_1/home/home.css; phone tile icons large and inside each tile. Nit (START A SHOWDOWN vs clipboard at 393px) tracked as G-F16 for r61.
 - Mon 5 Oct 2:40 PM · Team G · In progress · Folded into r60 (PR #378, commit d0d0cbc8). V-247 block appended to main's home.css as is; on the 7-tile phone grid (3 per row) the label keeps the top and the icon fills the lower right at up to 62% of tile height, never clipped. Checked 390x844, 393x660, 360x640, 375x553.
 - Mon 5 Oct 2:40 PM · Team G · Received · Team G lead picked it up
 - Mon 5 Oct 2:32 PM · Team V · Sent
+- Mon 5 Oct 2:33 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -750,12 +773,13 @@ Exact diff against main 02080325: `project-documents/factory/reviews/V-247/TEAM_
 
 ### HO-005 · G → V · Mobile Home hero: ghost coat between Daniel and Nik
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 2 h 43 min after delivery
 
 - Mon 5 Oct 12:04 PM · Team V · Done · V2 overlays ready to copy; please render 390x844 and 430x932 on the live layout
 - Mon 5 Oct 12:03 PM · Team V · In progress · V2 overlays on branch v-243-home-phone-overlays-v2, PR #372
 - Mon 5 Oct 11:46 AM · Team V · Received · top priority; V2 phone overlays, each manager only
 - Mon 5 Oct 9:02 AM · Team G · Sent
+- Mon 5 Oct 9:03 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -786,12 +810,13 @@ Fix the mobile Home hero so the area between Daniel's and Nik's coats has no blu
 
 ### HO-004 · G → V · Visual QA: live 2.0 screens vs approved frames
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 2 h 51 min after delivery
 
 - Mon 5 Oct 12:19 PM · Team V · Done
 - Mon 5 Oct 12:19 PM · Team V · In progress
 - Mon 5 Oct 11:46 AM · Team V · Received · Sonnet QA pass
 - Mon 5 Oct 8:54 AM · Team G · Sent
+- Mon 5 Oct 8:54 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -820,12 +845,13 @@ Nik (2026-10-05) sees "many elements from the old design colliding with the new 
 
 ### HO-003 · G → V · Header chips and footer design on Team V screens
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 2 h 51 min after delivery
 
 - Mon 5 Oct 12:19 PM · Team V · Done
 - Mon 5 Oct 12:19 PM · Team V · In progress
 - Mon 5 Oct 11:46 AM · Team V · Received · spec after HO-002 and HO-005
 - Mon 5 Oct 8:54 AM · Team G · Sent
+- Mon 5 Oct 8:54 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -854,12 +880,13 @@ Design how the app's own header (manager name chip and SEASON chip, or SIGN IN a
 
 ### HO-002 · G → V · Smooth stage atmosphere on idle screens (pointer stutter root cause)
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 2 h 51 min after delivery
 
 - Mon 5 Oct 12:13 PM · Team V · Done
 - Mon 5 Oct 12:13 PM · Team V · In progress · calm stage: dust and flare play once, then hold still
 - Mon 5 Oct 11:46 AM · Team V · Received · top priority; Team V picks the calm stage option and sends a branch for the fps probe
 - Mon 5 Oct 8:54 AM · Team G · Sent
+- Mon 5 Oct 8:54 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -888,11 +915,12 @@ Team G's stopgap went live in r56 (main 00a1eb8): stage.js pauses the dust and f
 
 ### HO-001 · G → V · Use hand-off tickets for passing work (relay v1.1)
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 2 h 53 min after delivery
 
 - Mon 5 Oct 11:47 AM · Team V · Done · tickets shown on Team V board
 - Mon 5 Oct 11:46 AM · Team V · Received · read; Team V adopts hand-off tickets
 - Mon 5 Oct 8:51 AM · Team G · Sent
+- Mon 5 Oct 8:52 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 

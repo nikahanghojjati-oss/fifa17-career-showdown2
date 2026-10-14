@@ -4,7 +4,7 @@
   "home_root": {
    "diffs": 7
   },
-  "state": "unreadable"
+  "state": "ok"
  },
  "olympiad": {
   "files": {
@@ -7199,6 +7199,6 @@
     "sha": "48402f4937a90b12b609ba5630f5326c454c2c4c"
    }
   },
-  "state": "unreadable"
+  "state": "ok"
  }
 }
