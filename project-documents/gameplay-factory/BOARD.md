@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 13 Oct, 8:21 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 13 Oct, 8:23 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -34,7 +34,7 @@ Updated Tue 13 Oct, 8:21 PM Boston time. Bug hunting only, no new features until
 
 **#5 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #775 · CI 6 of 7 passed · last move 35 h ago
+🟢 Team green · model not set · worker working, draft PR #775 · CI 6 of 7 passed · last move 36 h ago
 
 **#6 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -58,27 +58,27 @@ Updated Tue 13 Oct, 8:21 PM Boston time. Bug hunting only, no new features until
 
 **#11 · 1805** `G` Home tile and header chip stay on "Season 1 of N" after season 1  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #843 · CI 7 of 8 passed · last move 47 min ago
+🟢 Team green · model not set · worker working, draft PR #843 · CI 7 of 8 passed · last move 48 min ago
 
 **#12 · 1806** `G` BACK TO SHOWDOWN HOME lands on the dashboard instead of Home  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #839 · CI 7 of 8 passed · last move 97 min ago
+⚪ Team white · model not set · worker working, draft PR #839 · CI 7 of 8 passed · last move 98 min ago
 
 **#13 · 1807** `G` REVIEW SEASON button hidden on the Showdown Champion screen  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #840 · CI 7 of 8 passed · last move 94 min ago
+⚪ Team white · model not set · worker working, draft PR #840 · CI 7 of 8 passed · last move 96 min ago
 
 **#14 · 1808** `G` Standings THIS SHOWDOWN stuck on "Loading standings." mid-Showdown  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #841 · CI 7 of 8 passed · last move 66 min ago
+⚪ Team white · model not set · worker working, draft PR #841 · CI 7 of 8 passed · last move 68 min ago
 
 **#15 · 1810** `G` Phone Trophy Room: ranks and all-time records missing, CAREER DETAILS empty  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #844 · CI 7 of 8 passed · last move 44 min ago
+⚪ Team white · model not set · worker working, draft PR #844 · CI 7 of 8 passed · last move 45 min ago
 
 **#16 · 1812** `G` Free-limit message must show as soon as Home opens  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #842 · CI 7 of 8 passed · last move 53 min ago
+⚪ Team white · model not set · worker working, draft PR #842 · CI 7 of 8 passed · last move 54 min ago
 
 ### 👉 Next for you, in this order
 
