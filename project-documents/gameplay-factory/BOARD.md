@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 14 Oct, 11:24 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 14 Oct, 11:28 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -26,11 +26,11 @@ Updated Wed 14 Oct, 11:24 AM Boston time. Bug hunting only, no new features unti
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 50 h ago
+🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 51 h ago
 
 **#4 · 1729** `G` Standings: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 50 h ago
+🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 51 h ago
 
 **#5 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -38,7 +38,7 @@ Updated Wed 14 Oct, 11:24 AM Boston time. Bug hunting only, no new features unti
 
 **#6 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 50 h ago
+🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 51 h ago
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -58,7 +58,7 @@ Updated Wed 14 Oct, 11:24 AM Boston time. Bug hunting only, no new features unti
 
 **#11 · 1805** `G` Home tile and header chip stay on "Season 1 of N" after season 1  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #845 · CI 7 of 8 passed · last move 14 h ago
+🟢 Team green · model not set · worker working, draft PR #845 · CI 7 of 8 passed · last move 15 h ago
 
 **#12 · 1806** `G` BACK TO SHOWDOWN HOME lands on the dashboard instead of Home  
 `████░░░░░░` **40.0000 %**  
@@ -82,7 +82,7 @@ Updated Wed 14 Oct, 11:24 AM Boston time. Bug hunting only, no new features unti
 
 **#17 · 1811** `G` Final reconciliation and FINAL SEASON cells sometimes empty right after the close  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #847 · CI 7 of 8 passed · last move 73 min ago
+⚪ Team white · model not set · worker working, draft PR #847 · CI 7 of 8 passed · last move 77 min ago
 
 **#18 · 1812** `G` Free-limit message must show as soon as Home opens  
 `████░░░░░░` **40.0000 %**  
@@ -90,7 +90,7 @@ Updated Wed 14 Oct, 11:24 AM Boston time. Bug hunting only, no new features unti
 
 **#19 · 1821** `G` Season chip fix that fits the startup size limit (redo of JOB-1805)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #845 · CI 7 of 8 passed · last move 14 h ago
+⚪ Team white · model not set · worker working, draft PR #845 · CI 7 of 8 passed · last move 15 h ago
 
 ### 👉 Next for you, in this order
 
