@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 14 Oct, 2:07 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 14 Oct, 2:11 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -54,7 +54,7 @@ Updated Wed 14 Oct, 2:07 AM Boston time. Bug hunting only, no new features until
 
 **#10 · 1804** `G` Setup write refused by Rules (L2800 evaluation error) when Nik confirms league and clubs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #838 · CI 7 of 8 passed · last move 7 h ago
+⚪ Team white · model not set · worker working, draft PR #838 · CI 7 of 8 passed · last move 8 h ago
 
 **#11 · 1805** `G` Home tile and header chip stay on "Season 1 of N" after season 1  
 `████░░░░░░` **40.0000 %**  
