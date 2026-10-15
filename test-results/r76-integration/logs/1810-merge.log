@@ -1,0 +1,14 @@
+Auto-merging js/careerScreensV10.js
+Merge made by the 'ort' strategy.
+ js/careerScreensV10.js                             |   2 +-
+ .../evidence/JOB-1810/after-393x660.png            | Bin 0 -> 184617 bytes
+ .../evidence/JOB-1810/after-393x852.png            | Bin 0 -> 216439 bytes
+ .../evidence/JOB-1810/before-393x660.png           | Bin 0 -> 188731 bytes
+ .../evidence/JOB-1810/before-393x852.png           | Bin 0 -> 257184 bytes
+ tests/browser/phone-trophy-room-data-audit.cjs     |  97 +++++++++++++++++++++
+ 6 files changed, 98 insertions(+), 1 deletion(-)
+ create mode 100644 project-documents/gameplay-factory/evidence/JOB-1810/after-393x660.png
+ create mode 100644 project-documents/gameplay-factory/evidence/JOB-1810/after-393x852.png
+ create mode 100644 project-documents/gameplay-factory/evidence/JOB-1810/before-393x660.png
+ create mode 100644 project-documents/gameplay-factory/evidence/JOB-1810/before-393x852.png
+ create mode 100644 tests/browser/phone-trophy-room-data-audit.cjs

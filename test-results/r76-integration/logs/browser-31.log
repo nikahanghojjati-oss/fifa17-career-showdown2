@@ -1,0 +1,2 @@
+PASS JOB-1038 automatic close: exactly once, restored session, manual retry, lost acknowledgement, stale-context cancellation and a bounded wait for Shared History.
+PASS r18 Terminal Close two-context runtime audit: both managers derive one exact witness, atomic close converges through terminal reads, lost acknowledgement recovers without replacement mutation, inactive-session close is blocked, stale cross-rivalry reads are discarded, and no browser storage authority is touched.

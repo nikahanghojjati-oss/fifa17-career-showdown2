@@ -620,7 +620,7 @@ function openCareerStatistics(request = false){
 
 function openRivalryStatistics(request = false){
     const suppliesModel = Boolean(request && typeof request === "object" && request.model);
-    if(!suppliesModel && !currentShowdown){ return; }
+    if(!suppliesModel && !currentShowdown && typeof window.loadRuntimeScript !== "function"){ return; }
     createStatisticsScreen();
     renderRivalryStatistics(request);
     showScreen("statistics");
@@ -633,3 +633,9 @@ window.createCareerStandingsTable = createCareerStandingsTable;
 window.renderRivalryStatistics = renderRivalryStatistics;
 window.openRivalryStatistics = openRivalryStatistics;
 window.createAnalyticsStat = createAnalyticsStat;
+// Rivalry Statistics also reads completed career history without a local active save.
+// Match the read-only Standings route extension; every other route keeps its guard.
+if(typeof window.isRouteStateValid === "function"){
+    const rivalryRouteStateValid = window.isRouteStateValid;
+    window.isRouteStateValid = function(screen){ return screen === "statistics" || rivalryRouteStateValid.apply(this, arguments); };
+}

@@ -98,7 +98,9 @@
             playerTwo:{leaguePosition:latest.playerTwo.leaguePosition,score:latest.playerTwo.scoring.total}
           }:null
         }:{acceptedSeasons:0,managerTotals:{playerOne:0,playerTwo:0},lastSeason:null};
-        return msp13Freeze({ok:true,authoritative:true,runtimeRevision:RUNTIME_REVISION,phase:state.phase,revision:state.revision,rivalryId,managerRole:authority.managerRole,state,dashboard});
+        // Retain the committed history this read already verified. Screen-local History
+        // can still point at the previous season after the active cursor advances.
+        return msp13Freeze({ok:true,authoritative:true,runtimeRevision:RUNTIME_REVISION,phase:state.phase,revision:state.revision,rivalryId,managerRole:authority.managerRole,state,dashboard,projection:history});
       }catch(error){return msp13Error(error);}
     }
     return msp13Freeze({contractVersion:1,feature:"ssjr-spark-shared-multi-season-progression",runtimeRevision:RUNTIME_REVISION,read:msp13Read,exactSeasonAddressing:true,derivesFromAcceptedPrefix:true,fixedClubs:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,sourceAuthorityPaths:Object.freeze(["accounts/{accountId}","accounts/{accountId}/devices/{deviceId}","rivalries/{rivalryId}","rivalries/{rivalryId}/sessions/{sessionId}","rivalries/{rivalryId}/sharedSetup/authoritative","rivalries/{rivalryId}/seasonCommits/season_{N}"])});

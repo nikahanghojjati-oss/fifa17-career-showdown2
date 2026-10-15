@@ -205,12 +205,12 @@
   // before; the last result is kept in memory for the current account, manager and pair only.
   // careerLoadSequence orders overlapping loads: only the newest started load may publish the shared cache.
   let careerCache=null,careerLoadSequence=0;
-  async function rlLoadCareerModel(canPublish=()=>true){
+  async function rlLoadCareerModel(canPublish=()=>true,rivalry=false){
     const key=context(),sequence=++careerLoadSequence;
     await modelDependencies();
     const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
     const account=state("CareerModeSparkConnectedAccount"),runtime=root.CareerModeProductionFirebaseRuntime;
-    let model;
+    let model,rivalryModel;
     if(!account?.connected||!runtime)model=UNAVAILABLE;
     else{
       const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices()),user=services?.auth?.currentUser;
@@ -221,10 +221,16 @@
         const sdk=services.firestoreSdk?.getDoc?services.firestoreSdk:await import(runtime.firebaseFirestoreModule);
         const result=await root.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc},user,current:active.careerInput});
         model=result.model??UNAVAILABLE;
+        if(rivalry){
+          // Career order is oldest first. Rebuild the latest verified completed entry,
+          // never mix whole-career manager counters into one rivalry's figures.
+          const input=result.careerInput,entry=input?.showdowns?.at(-1);
+          rivalryModel=input?.indexStatus==="ready"?(entry?.classification==="completed"?root.CareerModeSharedCareerAnalytics.buildCareerModel({indexStatus:"ready",showdowns:[entry]}):entry?.classification==="unavailable"?UNAVAILABLE:{status:"empty"}):UNAVAILABLE;
+        }
       }
     }
     if(canPublish()&&context()===key&&sequence===careerLoadSequence){careerCache={key,model};if(typeof root.CustomEvent==="function")root.dispatchEvent?.(new root.CustomEvent("career-mode-online-career-model-change"));}
-    return model;
+    return rivalry?rivalryModel??UNAVAILABLE:model;
   }
   const rlCachedCareerModel=()=>careerCache&&careerCache.key===context()?careerCache.model:null;
   function refresh(screen,event=false){
@@ -252,6 +258,7 @@
           if(screen==="rivalryStatistics"){
             await modelDependencies();
             const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
+            if(["none","abandoned","completed"].includes(active.classification)&&active.rivalry.status!=="ready")return rlLoadCareerModel(()=>flight.alive,true);
             return {...active.rivalry,lifecycle:active.classification};
           }
           return rlLoadCareerModel(()=>flight.alive);

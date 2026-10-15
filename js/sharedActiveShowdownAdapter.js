@@ -36,6 +36,15 @@
         }
       }catch(_error){invalid=true;}
     }
+    // Progression already read the accepted commits, even when the History screen
+    // cache is absent or lags. Reuse that verified projection without another read.
+    if(!p&&!invalid&&multi?.projection){
+      try{
+        const candidate=History.verifyProjection(multi.projection);
+        if(candidate.rivalryId!==rid||candidate.acceptedSeasons!==multi.state.acceptedSeasons||candidate.acceptedRevisionKey!==multi.state.acceptedRevisionKey||candidate.leagueId!==multi.state.leagueId||candidate.totalSeasons!==multi.state.totalSeasons||candidate.managerRecords.playerOne.club!==multi.state.fixedClubs?.playerOne||candidate.managerRecords.playerTwo.club!==multi.state.fixedClubs?.playerTwo)throw new Error("HISTORY_AUTHORITY_MISMATCH");
+        p=candidate;
+      }catch(_error){invalid=true;}
+    }
     let classification;
     if(close?.phase==="CLOSED"&&close.rivalryId===rid){
       try{

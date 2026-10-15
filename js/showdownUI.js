@@ -347,13 +347,16 @@ function updateShowdownUI(){
     const completed = currentShowdown.status === "Completed";
     const leagueName = currentShowdown.selectedLeague ? currentShowdown.selectedLeague.name : null;
     const completedSeasonCount = Array.isArray(currentShowdown.rounds) ? currentShowdown.rounds.length : 0;
+    const progression = window.CareerModeProductionSharedMultiSeasonProgression;
+    const currentRound = currentShowdown.sharedJourney?.mode === "shared" && typeof progression?.resolveSeason === "function"
+        ? progression.resolveSeason(currentShowdown.currentRound) : currentShowdown.currentRound;
     const roundLabel = completed
         ? `${completedSeasonCount} ${completedSeasonCount === 1 ? "season" : "seasons"} completed`
-        : `Season ${currentShowdown.currentRound} of ${currentShowdown.totalRounds}`;
+        : `Season ${currentRound} of ${currentShowdown.totalRounds}`;
     const latestRound = currentShowdown.rounds[currentShowdown.rounds.length - 1];
     const latestCompletedRound = latestRound && latestRound.playerOne && latestRound.playerTwo ? latestRound : null;
 
-    setDashboardTextIfChanged(ui.indicator, completed ? "Showdown Complete" : `Season ${currentShowdown.currentRound} / ${currentShowdown.totalRounds}`);
+    setDashboardTextIfChanged(ui.indicator, completed ? "Showdown Complete" : `Season ${currentRound} / ${currentShowdown.totalRounds}`);
     setDashboardTextIfChanged(ui.selectedLeague, leagueName || "Spin to select league");
     setDashboardTextIfChanged(ui.showdownName, currentShowdown.name);
     setDashboardTextIfChanged(ui.league, leagueName || "League not selected");

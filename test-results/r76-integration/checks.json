@@ -1,0 +1,1717 @@
+{
+  "job": 1816,
+  "base": "2f3865feca484223ac7d267d83a9c4828bad3078",
+  "testedProductHead": "e062e3dacea26307eec006ec67961e9de8711dc0",
+  "branch": "codex/job-1816-r76-integration",
+  "openPRs": [
+    {
+      "number": 836,
+      "title": "JOB-1802 CE2PG harness on the r76 base, plus baseline runs",
+      "head": "codex/job-1802-ce2pg-baseline",
+      "head_sha": "638eac62b09aa5aec77a0566b711b17e5cdb73c5",
+      "base": "gameplay/bug-list-1",
+      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/836"
+    },
+    {
+      "number": 837,
+      "title": "JOB-1803 Showdown close write refused: over the Rules 1000-expression limit (fix in the app, not the Rules)",
+      "head": "codex/job-1803-close-write-limit",
+      "head_sha": "1cdaab57066e675c3b9d13b9cf2f8f0d8679c800",
+      "base": "gameplay/bug-list-1",
+      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/837"
+    },
+    {
+      "number": 838,
+      "title": "JOB-1804 Setup write refused by Rules (L2800 evaluation error) when Nik confirms league and clubs",
+      "head": "codex/job-1804-setup-write-refused",
+      "head_sha": "20b9349e9b1b36aab9c5aec7498a22a6e614c35c",
+      "base": "gameplay/bug-list-1",
+      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/838"
+    },
+    {
+      "number": 843,
+      "title": "JOB-1805 Home tile and header chip stay on \"Season 1 of N\" after season 1",
+      "head": "gameplay/work-1805-season-chip",
+      "head_sha": "b1cbb27c6f0300eab2ff79046bd49a49897bc1bb",
+      "base": "gameplay/bug-list-1",
+      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/843"
+    },
+    {
+      "number": 841,
+      "title": "JOB-1808 Standings THIS SHOWDOWN stuck on \"Loading standings.\" mid-Showdown",
+      "head": "codex/job-1808-standings-loading",
+      "head_sha": "8c3e1f23b7bb51ee16075b26848d644c8e454e49",
+      "base": "gameplay/bug-list-1",
+      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/841"
+    },
+    {
+      "number": 846,
+      "title": "JOB-1809 Rivalry Statistics: how the player gets there, and stuck on \"Loading rivalry statistics\u2026\"",
+      "head": "codex/job-1809-rivalry-statistics",
+      "head_sha": "e4349c2502675a3e1001d4952e34f1f8e432f74e",
+      "base": "gameplay/bug-list-1",
+      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/846"
+    },
+    {
+      "number": 839,
+      "title": "JOB-1806 BACK TO SHOWDOWN HOME lands on the dashboard instead of Home",
+      "head": "codex/job-1806-back-home-route",
+      "head_sha": "9b9675fe51c5f4a771f9c01217724f03077c21d7",
+      "base": "gameplay/bug-list-1",
+      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/839"
+    },
+    {
+      "number": 840,
+      "title": "JOB-1807 REVIEW SEASON button hidden on the Showdown Champion screen",
+      "head": "codex/job-1807-review-season-hidden",
+      "head_sha": "4f57485eb07fdfa257546868b1875b027ea038a7",
+      "base": "gameplay/bug-list-1",
+      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/840"
+    },
+    {
+      "number": 844,
+      "title": "JOB-1810 Phone Trophy Room: ranks and all-time records missing, CAREER DETAILS empty",
+      "head": "codex/job-1810-phone-trophy-data",
+      "head_sha": "2ebe8c391698c92e6bbc873d031c94f6a16ab206",
+      "base": "gameplay/bug-list-1",
+      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/844"
+    },
+    {
+      "number": 847,
+      "title": "JOB-1811 Final reconciliation and FINAL SEASON cells sometimes empty right after the close",
+      "head": "codex/job-1811-final-cells-empty",
+      "head_sha": "74c6422f0070ba888816d6f1c7c98aa93444eb72",
+      "base": "gameplay/bug-list-1",
+      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/847"
+    },
+    {
+      "number": 842,
+      "title": "JOB-1812 Free-limit message must show as soon as Home opens",
+      "head": "codex/job-1812-free-limit-home",
+      "head_sha": "148a3fd1b177af643fefab9917b0dd6c9704bc45",
+      "base": "gameplay/bug-list-1",
+      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/842"
+    },
+    {
+      "number": 848,
+      "title": "JOB-1815 Shared-journey guard: prove or fix the stale-marker block (U-01)",
+      "head": "codex/job-1815-journey-guard-marker",
+      "head_sha": "b8f3b767027a400a1ac7f02d0313c7c125e7547b",
+      "base": "gameplay/bug-list-1",
+      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/848"
+    }
+  ],
+  "absentOpenJobs": [
+    1813,
+    1814
+  ],
+  "integration": [
+    {
+      "job": 1802,
+      "pr": 836,
+      "branch": "codex/job-1802-ce2pg-baseline",
+      "head": "638eac62b09aa5aec77a0566b711b17e5cdb73c5",
+      "before": "2f3865feca484223ac7d267d83a9c4828bad3078",
+      "checks": {
+        "syntax": {
+          "exit": 0,
+          "tail": [
+            "POS10 syntax: 353 active source files, 0 failures"
+          ],
+          "log": "1802-syntax.log",
+          "command": "node scripts/pos10-syntax.mjs",
+          "firstError": null
+        },
+        "contracts": {
+          "exit": 1,
+          "tail": [
+            "ok 16 FB10 every connected module goes through the budget layer; wait points ask for the listener; device re-checks are capped",
+            "PASS Firestore budget contracts: 16 checks, measured reads/min 3.4 / 0.0 / 3.0 / 1.8 / 60.0 (waiting <= 5 reads/min, hidden 0, idle writes 0, partner update <= 1000 ms).",
+            "ok Reus Gate source: app.js hold with minimum and cap, ssjr.js ready signals, startup budget",
+            "ok Reus Gate slow start (no-preference): loading screen handed over at 7084 ms to the finished Team V Home, no old Home frame",
+            "ok Reus Gate slow start (reduce): loading screen handed over at 7074 ms to the finished Team V Home, no old Home frame",
+            "ok Ready gate on Rule Book's first open: covered until its plate was ready (154 covered frames, 0 revealed without the plate)",
+            "ok Ready gate on Club's first open: covered until its plate was ready (154 covered frames, 0 revealed without the plate)",
+            "ok Reus Gate fallback: no lazy loader, loading screen left at 6072 ms",
+            "ok Reus Gate failure: Team V loader failed, loading screen left at 2781 ms",
+            "PASS Reus Gate startup contracts: source, slow start (motion and reduced motion), screen plate gate (Rule Book, Club), no-loader fallback, failed-loader release.",
+            "POS10 selected deterministic census failed in 1/191 contract(s):",
+            "- tests/contracts/season-entry-no-flash-contracts.cjs: exit 1"
+          ],
+          "log": "1802-contracts.log",
+          "command": "npm run -s test:contracts",
+          "firstError": "AssertionError [ERR_ASSERTION]: revealed once the hero is decoded"
+        },
+        "ops": {
+          "exit": 0,
+          "tail": [
+            "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (1.678141ms)",
+            "\u2714 live publication preflight preserves active change requests through later comment-only reviews (2.948695ms)",
+            "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (1.77005ms)",
+            "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.446546ms)",
+            "\u2139 tests 73",
+            "\u2139 suites 0",
+            "\u2139 pass 73",
+            "\u2139 fail 0",
+            "\u2139 cancelled 0",
+            "\u2139 skipped 0",
+            "\u2139 todo 0",
+            "\u2139 duration_ms 704.073162"
+          ],
+          "log": "1802-ops.log",
+          "command": "npm run -s test:ops",
+          "firstError": null
+        }
+      },
+      "status": "BREAKS contracts",
+      "title": "JOB-1802 CE2PG harness on the r76 base, plus baseline runs",
+      "contractFailures": [
+        "tests/contracts/season-entry-no-flash-contracts.cjs"
+      ],
+      "exclusionCaveat": "The no-flash assertion also failed on the unchanged base; this is not proof that this PR caused it. Rolled back under the job red-check rule; not retried."
+    },
+    {
+      "job": 1803,
+      "pr": 837,
+      "branch": "codex/job-1803-close-write-limit",
+      "head": "1cdaab57066e675c3b9d13b9cf2f8f0d8679c800",
+      "before": "2f3865feca484223ac7d267d83a9c4828bad3078",
+      "checks": {
+        "syntax": {
+          "exit": 0,
+          "tail": [
+            "POS10 syntax: 352 active source files, 0 failures"
+          ],
+          "log": "1803-syntax.log",
+          "command": "node scripts/pos10-syntax.mjs",
+          "firstError": null
+        },
+        "contracts": {
+          "exit": 0,
+          "tail": [
+            "ok Ready gate on Club's first open: covered until its plate was ready (154 covered frames, 0 revealed without the plate)",
+            "ok Reus Gate fallback: no lazy loader, loading screen left at 6066 ms",
+            "ok Reus Gate failure: Team V loader failed, loading screen left at 2766 ms",
+            "PASS Reus Gate startup contracts: source, slow start (motion and reduced motion), screen plate gate (Rule Book, Club), no-loader fallback, failed-loader release.",
+            "PASS 1-season progress: rivalry-only transaction reads; base-equivalent envelopes and scores",
+            "PASS 3-season progress: rivalry-only transaction reads; base-equivalent envelopes and scores",
+            "PASS 5-season progress: rivalry-only transaction reads; base-equivalent envelopes and scores",
+            "PASS 10-season progress: rivalry-only transaction reads; base-equivalent envelopes and scores",
+            "PASS race: rivalry compare-and-set retries preserve exact-once season scores",
+            "PASS retry: rivalry compare-and-set retries preserve exact-once season scores",
+            "PASS r75 budget: 12 progress reads for 3 seasons (base 22); zero read-only commit verifies",
+            "PASS POS10 selected deterministic census (192/192 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+          ],
+          "log": "1803-contracts.log",
+          "command": "npm run -s test:contracts",
+          "firstError": null
+        },
+        "ops": {
+          "exit": 0,
+          "tail": [
+            "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (1.46619ms)",
+            "\u2714 live publication preflight preserves active change requests through later comment-only reviews (1.626583ms)",
+            "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (1.530617ms)",
+            "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.265262ms)",
+            "\u2139 tests 73",
+            "\u2139 suites 0",
+            "\u2139 pass 73",
+            "\u2139 fail 0",
+            "\u2139 cancelled 0",
+            "\u2139 skipped 0",
+            "\u2139 todo 0",
+            "\u2139 duration_ms 392.308639"
+          ],
+          "log": "1803-ops.log",
+          "command": "npm run -s test:ops",
+          "firstError": null
+        }
+      },
+      "status": "merged",
+      "merge": "159735677d3a25e0bf331a6df8d743c3841d2c07",
+      "title": "JOB-1803 Showdown close write refused: over the Rules 1000-expression limit (fix in the app, not the Rules)",
+      "contractFailures": []
+    },
+    {
+      "job": 1804,
+      "pr": 838,
+      "branch": "codex/job-1804-setup-write-refused",
+      "head": "20b9349e9b1b36aab9c5aec7498a22a6e614c35c",
+      "before": "159735677d3a25e0bf331a6df8d743c3841d2c07",
+      "checks": {
+        "syntax": {
+          "exit": 0,
+          "tail": [
+            "POS10 syntax: 352 active source files, 0 failures"
+          ],
+          "log": "1804-syntax.log",
+          "command": "node scripts/pos10-syntax.mjs",
+          "firstError": null
+        },
+        "contracts": {
+          "exit": 0,
+          "tail": [
+            "PASS retry: rivalry compare-and-set retries preserve exact-once season scores",
+            "PASS r75 budget: 12 progress reads for 3 seasons (base 22); zero read-only commit verifies",
+            "PASS 1-season setup (bare SDK): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+            "PASS 3-season setup (bare SDK): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+            "PASS 5-season setup (bare SDK): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+            "PASS 10-season setup (bare SDK): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+            "PASS 1-season setup (r75 budget): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+            "PASS 3-season setup (r75 budget): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+            "PASS 5-season setup (r75 budget): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+            "PASS 10-season setup (r75 budget): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+            "PASS Shared Setup transaction reads: all six mutations, 1/3/5/10 seasons, SDK retries, stale revisions, actor-bound replay, authority validation order and Rules denial propagation",
+            "PASS POS10 selected deterministic census (193/193 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+          ],
+          "log": "1804-contracts.log",
+          "command": "npm run -s test:contracts",
+          "firstError": null
+        },
+        "ops": {
+          "exit": 0,
+          "tail": [
+            "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (1.485229ms)",
+            "\u2714 live publication preflight preserves active change requests through later comment-only reviews (1.613082ms)",
+            "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (1.663449ms)",
+            "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.297971ms)",
+            "\u2139 tests 73",
+            "\u2139 suites 0",
+            "\u2139 pass 73",
+            "\u2139 fail 0",
+            "\u2139 cancelled 0",
+            "\u2139 skipped 0",
+            "\u2139 todo 0",
+            "\u2139 duration_ms 372.99869"
+          ],
+          "log": "1804-ops.log",
+          "command": "npm run -s test:ops",
+          "firstError": null
+        }
+      },
+      "status": "merged",
+      "merge": "6d77876d514a6d92e6a70905f50a938d5b1e9c85",
+      "title": "JOB-1804 Setup write refused by Rules (L2800 evaluation error) when Nik confirms league and clubs",
+      "contractFailures": []
+    },
+    {
+      "job": 1805,
+      "pr": 843,
+      "branch": "gameplay/work-1805-season-chip",
+      "head": "b1cbb27c6f0300eab2ff79046bd49a49897bc1bb",
+      "before": "6d77876d514a6d92e6a70905f50a938d5b1e9c85",
+      "checks": {
+        "syntax": {
+          "exit": 0,
+          "tail": [
+            "POS10 syntax: 352 active source files, 0 failures"
+          ],
+          "log": "1805-syntax.log",
+          "command": "node scripts/pos10-syntax.mjs",
+          "firstError": null
+        },
+        "contracts": {
+          "exit": 1,
+          "tail": [
+            "\u2139 fail 0",
+            "\u2139 cancelled 0",
+            "\u2139 skipped 0",
+            "\u2139 todo 0",
+            "\u2139 duration_ms 12.718034",
+            "POS10 selected deterministic census failed in 6/194 contract(s):",
+            "- tests/contracts/static-app-release-contracts.cjs: exit 1",
+            "- tests/contracts/final-polish-presentation.cjs: exit 1",
+            "- tests/contracts/browser-journey-emulator-switch-contracts.cjs: exit 1",
+            "- tests/contracts/v10-transfer-contracts.cjs: exit 1",
+            "- tests/contracts/v10-club-contracts.cjs: exit 1",
+            "- tests/contracts/reus-gate-startup-contracts.cjs: exit 1"
+          ],
+          "log": "1805-contracts.log",
+          "command": "npm run -s test:contracts",
+          "firstError": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+        },
+        "ops": {
+          "exit": 0,
+          "tail": [
+            "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (1.522946ms)",
+            "\u2714 live publication preflight preserves active change requests through later comment-only reviews (1.68411ms)",
+            "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (1.661065ms)",
+            "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.338132ms)",
+            "\u2139 tests 73",
+            "\u2139 suites 0",
+            "\u2139 pass 73",
+            "\u2139 fail 0",
+            "\u2139 cancelled 0",
+            "\u2139 skipped 0",
+            "\u2139 todo 0",
+            "\u2139 duration_ms 371.667934"
+          ],
+          "log": "1805-ops.log",
+          "command": "npm run -s test:ops",
+          "firstError": null
+        }
+      },
+      "status": "merged (known, JOB-1805 size, Claude fixes)",
+      "merge": "e3d660a817baf88bdeaca585b6fa579ff7087df6",
+      "title": "JOB-1805 Home tile and header chip stay on \"Season 1 of N\" after season 1",
+      "contractFailures": [
+        "tests/contracts/static-app-release-contracts.cjs",
+        "tests/contracts/final-polish-presentation.cjs",
+        "tests/contracts/browser-journey-emulator-switch-contracts.cjs",
+        "tests/contracts/v10-transfer-contracts.cjs",
+        "tests/contracts/v10-club-contracts.cjs",
+        "tests/contracts/reus-gate-startup-contracts.cjs"
+      ]
+    },
+    {
+      "job": 1808,
+      "pr": 841,
+      "branch": "codex/job-1808-standings-loading",
+      "head": "8c3e1f23b7bb51ee16075b26848d644c8e454e49",
+      "before": "e3d660a817baf88bdeaca585b6fa579ff7087df6",
+      "checks": {
+        "syntax": {
+          "exit": 0,
+          "tail": [
+            "POS10 syntax: 352 active source files, 0 failures"
+          ],
+          "log": "1808-syntax.log",
+          "command": "node scripts/pos10-syntax.mjs",
+          "firstError": null
+        },
+        "contracts": {
+          "exit": 1,
+          "tail": [
+            "THIS SHOWDOWN daniel, History lagging: status=ready, rows=7, state=(none)",
+            "THIS SHOWDOWN daniel, History missing: status=ready, rows=7, state=(none)",
+            "THIS SHOWDOWN nik, History lagging: status=ready, rows=7, state=(none)",
+            "THIS SHOWDOWN nik, History missing: status=ready, rows=7, state=(none)",
+            "PASS midway THIS SHOWDOWN: both managers render correct 2/5 committed standings and enabled HEAD-TO-HEAD scope with lagging/missing History; one existing progression read, invalid proof fails closed, terminal totals preserved.",
+            "POS10 selected deterministic census failed in 6/195 contract(s):",
+            "- tests/contracts/static-app-release-contracts.cjs: exit 1",
+            "- tests/contracts/final-polish-presentation.cjs: exit 1",
+            "- tests/contracts/browser-journey-emulator-switch-contracts.cjs: exit 1",
+            "- tests/contracts/v10-transfer-contracts.cjs: exit 1",
+            "- tests/contracts/v10-club-contracts.cjs: exit 1",
+            "- tests/contracts/reus-gate-startup-contracts.cjs: exit 1"
+          ],
+          "log": "1808-contracts.log",
+          "command": "npm run -s test:contracts",
+          "firstError": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+        },
+        "ops": {
+          "exit": 0,
+          "tail": [
+            "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (1.596707ms)",
+            "\u2714 live publication preflight preserves active change requests through later comment-only reviews (1.843361ms)",
+            "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (2.132849ms)",
+            "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.31738ms)",
+            "\u2139 tests 73",
+            "\u2139 suites 0",
+            "\u2139 pass 73",
+            "\u2139 fail 0",
+            "\u2139 cancelled 0",
+            "\u2139 skipped 0",
+            "\u2139 todo 0",
+            "\u2139 duration_ms 429.717701"
+          ],
+          "log": "1808-ops.log",
+          "command": "npm run -s test:ops",
+          "firstError": null
+        }
+      },
+      "status": "merged (known, JOB-1805 size, Claude fixes)",
+      "merge": "40fa570a9f7208dce41b58c72d3c6fdc7278d91f",
+      "title": "JOB-1808 Standings THIS SHOWDOWN stuck on \"Loading standings.\" mid-Showdown",
+      "contractFailures": [
+        "tests/contracts/static-app-release-contracts.cjs",
+        "tests/contracts/final-polish-presentation.cjs",
+        "tests/contracts/browser-journey-emulator-switch-contracts.cjs",
+        "tests/contracts/v10-transfer-contracts.cjs",
+        "tests/contracts/v10-club-contracts.cjs",
+        "tests/contracts/reus-gate-startup-contracts.cjs"
+      ]
+    },
+    {
+      "job": 1809,
+      "pr": 846,
+      "branch": "codex/job-1809-rivalry-statistics",
+      "head": "e4349c2502675a3e1001d4952e34f1f8e432f74e",
+      "before": "40fa570a9f7208dce41b58c72d3c6fdc7278d91f",
+      "checks": {
+        "syntax": {
+          "exit": 0,
+          "tail": [
+            "POS10 syntax: 352 active source files, 0 failures"
+          ],
+          "log": "1809-syntax.log",
+          "command": "node scripts/pos10-syntax.mjs",
+          "firstError": null
+        },
+        "contracts": {
+          "exit": 1,
+          "tail": [
+            "mid-Showdown daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+            "after close daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+            "mid-Showdown nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+            "after close nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+            "PASS Rivalry Statistics load contracts: both managers render points and W/D/L after two committed seasons and after a legal three-season close, with the latest completed rivalry isolated from older history; classic-scope Career Statistics route works.",
+            "POS10 selected deterministic census failed in 6/196 contract(s):",
+            "- tests/contracts/static-app-release-contracts.cjs: exit 1",
+            "- tests/contracts/final-polish-presentation.cjs: exit 1",
+            "- tests/contracts/browser-journey-emulator-switch-contracts.cjs: exit 1",
+            "- tests/contracts/v10-transfer-contracts.cjs: exit 1",
+            "- tests/contracts/v10-club-contracts.cjs: exit 1",
+            "- tests/contracts/reus-gate-startup-contracts.cjs: exit 1"
+          ],
+          "log": "1809-contracts.log",
+          "command": "npm run -s test:contracts",
+          "firstError": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+        },
+        "ops": {
+          "exit": 0,
+          "tail": [
+            "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (1.444237ms)",
+            "\u2714 live publication preflight preserves active change requests through later comment-only reviews (1.517528ms)",
+            "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (1.475985ms)",
+            "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.288026ms)",
+            "\u2139 tests 73",
+            "\u2139 suites 0",
+            "\u2139 pass 73",
+            "\u2139 fail 0",
+            "\u2139 cancelled 0",
+            "\u2139 skipped 0",
+            "\u2139 todo 0",
+            "\u2139 duration_ms 370.499243"
+          ],
+          "log": "1809-ops.log",
+          "command": "npm run -s test:ops",
+          "firstError": null
+        }
+      },
+      "status": "merged (known, JOB-1805 size, Claude fixes)",
+      "merge": "794a247f7be5c7d13483b44dfab6a35a36b103e4",
+      "title": "JOB-1809 Rivalry Statistics: how the player gets there, and stuck on \"Loading rivalry statistics\u2026\"",
+      "contractFailures": [
+        "tests/contracts/static-app-release-contracts.cjs",
+        "tests/contracts/final-polish-presentation.cjs",
+        "tests/contracts/browser-journey-emulator-switch-contracts.cjs",
+        "tests/contracts/v10-transfer-contracts.cjs",
+        "tests/contracts/v10-club-contracts.cjs",
+        "tests/contracts/reus-gate-startup-contracts.cjs"
+      ]
+    },
+    {
+      "job": 1806,
+      "pr": 839,
+      "branch": "codex/job-1806-back-home-route",
+      "head": "9b9675fe51c5f4a771f9c01217724f03077c21d7",
+      "before": "794a247f7be5c7d13483b44dfab6a35a36b103e4",
+      "checks": {
+        "syntax": {
+          "exit": 0,
+          "tail": [
+            "POS10 syntax: 353 active source files, 0 failures"
+          ],
+          "log": "1806-syntax.log",
+          "command": "node scripts/pos10-syntax.mjs",
+          "firstError": null
+        },
+        "contracts": {
+          "exit": 1,
+          "tail": [
+            "mid-Showdown daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+            "after close daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+            "mid-Showdown nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+            "after close nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+            "PASS Rivalry Statistics load contracts: both managers render points and W/D/L after two committed seasons and after a legal three-season close, with the latest completed rivalry isolated from older history; classic-scope Career Statistics route works.",
+            "POS10 selected deterministic census failed in 6/196 contract(s):",
+            "- tests/contracts/static-app-release-contracts.cjs: exit 1",
+            "- tests/contracts/final-polish-presentation.cjs: exit 1",
+            "- tests/contracts/browser-journey-emulator-switch-contracts.cjs: exit 1",
+            "- tests/contracts/v10-transfer-contracts.cjs: exit 1",
+            "- tests/contracts/v10-club-contracts.cjs: exit 1",
+            "- tests/contracts/reus-gate-startup-contracts.cjs: exit 1"
+          ],
+          "log": "1806-contracts.log",
+          "command": "npm run -s test:contracts",
+          "firstError": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+        },
+        "ops": {
+          "exit": 0,
+          "tail": [
+            "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (1.442484ms)",
+            "\u2714 live publication preflight preserves active change requests through later comment-only reviews (1.606493ms)",
+            "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (1.55155ms)",
+            "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.27052ms)",
+            "\u2139 tests 73",
+            "\u2139 suites 0",
+            "\u2139 pass 73",
+            "\u2139 fail 0",
+            "\u2139 cancelled 0",
+            "\u2139 skipped 0",
+            "\u2139 todo 0",
+            "\u2139 duration_ms 384.252889"
+          ],
+          "log": "1806-ops.log",
+          "command": "npm run -s test:ops",
+          "firstError": null
+        }
+      },
+      "status": "merged (known, JOB-1805 size, Claude fixes)",
+      "merge": "d3fb9eb502ebf5c7430ef81b4f14a19b91ca08b2",
+      "title": "JOB-1806 BACK TO SHOWDOWN HOME lands on the dashboard instead of Home",
+      "contractFailures": [
+        "tests/contracts/static-app-release-contracts.cjs",
+        "tests/contracts/final-polish-presentation.cjs",
+        "tests/contracts/browser-journey-emulator-switch-contracts.cjs",
+        "tests/contracts/v10-transfer-contracts.cjs",
+        "tests/contracts/v10-club-contracts.cjs",
+        "tests/contracts/reus-gate-startup-contracts.cjs"
+      ]
+    },
+    {
+      "job": 1807,
+      "pr": 840,
+      "branch": "codex/job-1807-review-season-hidden",
+      "head": "4f57485eb07fdfa257546868b1875b027ea038a7",
+      "before": "d3fb9eb502ebf5c7430ef81b4f14a19b91ca08b2",
+      "checks": {
+        "syntax": {
+          "exit": 0,
+          "tail": [
+            "POS10 syntax: 354 active source files, 0 failures"
+          ],
+          "log": "1807-syntax.log",
+          "command": "node scripts/pos10-syntax.mjs",
+          "firstError": null
+        },
+        "contracts": {
+          "exit": 1,
+          "tail": [
+            "mid-Showdown daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+            "after close daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+            "mid-Showdown nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+            "after close nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+            "PASS Rivalry Statistics load contracts: both managers render points and W/D/L after two committed seasons and after a legal three-season close, with the latest completed rivalry isolated from older history; classic-scope Career Statistics route works.",
+            "POS10 selected deterministic census failed in 6/196 contract(s):",
+            "- tests/contracts/static-app-release-contracts.cjs: exit 1",
+            "- tests/contracts/final-polish-presentation.cjs: exit 1",
+            "- tests/contracts/browser-journey-emulator-switch-contracts.cjs: exit 1",
+            "- tests/contracts/v10-transfer-contracts.cjs: exit 1",
+            "- tests/contracts/v10-club-contracts.cjs: exit 1",
+            "- tests/contracts/reus-gate-startup-contracts.cjs: exit 1"
+          ],
+          "log": "1807-contracts.log",
+          "command": "npm run -s test:contracts",
+          "firstError": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+        },
+        "ops": {
+          "exit": 0,
+          "tail": [
+            "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (1.431661ms)",
+            "\u2714 live publication preflight preserves active change requests through later comment-only reviews (1.848273ms)",
+            "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (1.580206ms)",
+            "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.292323ms)",
+            "\u2139 tests 73",
+            "\u2139 suites 0",
+            "\u2139 pass 73",
+            "\u2139 fail 0",
+            "\u2139 cancelled 0",
+            "\u2139 skipped 0",
+            "\u2139 todo 0",
+            "\u2139 duration_ms 387.925335"
+          ],
+          "log": "1807-ops.log",
+          "command": "npm run -s test:ops",
+          "firstError": null
+        }
+      },
+      "status": "merged (known, JOB-1805 size, Claude fixes)",
+      "merge": "b281818545db0f574af77b12f12830cc8bfc1428",
+      "title": "JOB-1807 REVIEW SEASON button hidden on the Showdown Champion screen",
+      "contractFailures": [
+        "tests/contracts/static-app-release-contracts.cjs",
+        "tests/contracts/final-polish-presentation.cjs",
+        "tests/contracts/browser-journey-emulator-switch-contracts.cjs",
+        "tests/contracts/v10-transfer-contracts.cjs",
+        "tests/contracts/v10-club-contracts.cjs",
+        "tests/contracts/reus-gate-startup-contracts.cjs"
+      ]
+    },
+    {
+      "job": 1810,
+      "pr": 844,
+      "branch": "codex/job-1810-phone-trophy-data",
+      "head": "2ebe8c391698c92e6bbc873d031c94f6a16ab206",
+      "before": "b281818545db0f574af77b12f12830cc8bfc1428",
+      "checks": {
+        "syntax": {
+          "exit": 0,
+          "tail": [
+            "POS10 syntax: 355 active source files, 0 failures"
+          ],
+          "log": "1810-syntax.log",
+          "command": "node scripts/pos10-syntax.mjs",
+          "firstError": null
+        },
+        "contracts": {
+          "exit": 1,
+          "tail": [
+            "mid-Showdown daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+            "after close daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+            "mid-Showdown nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+            "after close nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+            "PASS Rivalry Statistics load contracts: both managers render points and W/D/L after two committed seasons and after a legal three-season close, with the latest completed rivalry isolated from older history; classic-scope Career Statistics route works.",
+            "POS10 selected deterministic census failed in 6/196 contract(s):",
+            "- tests/contracts/static-app-release-contracts.cjs: exit 1",
+            "- tests/contracts/final-polish-presentation.cjs: exit 1",
+            "- tests/contracts/browser-journey-emulator-switch-contracts.cjs: exit 1",
+            "- tests/contracts/v10-transfer-contracts.cjs: exit 1",
+            "- tests/contracts/v10-club-contracts.cjs: exit 1",
+            "- tests/contracts/reus-gate-startup-contracts.cjs: exit 1"
+          ],
+          "log": "1810-contracts.log",
+          "command": "npm run -s test:contracts",
+          "firstError": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+        },
+        "ops": {
+          "exit": 0,
+          "tail": [
+            "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (1.412979ms)",
+            "\u2714 live publication preflight preserves active change requests through later comment-only reviews (1.6183ms)",
+            "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (1.595746ms)",
+            "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.266433ms)",
+            "\u2139 tests 73",
+            "\u2139 suites 0",
+            "\u2139 pass 73",
+            "\u2139 fail 0",
+            "\u2139 cancelled 0",
+            "\u2139 skipped 0",
+            "\u2139 todo 0",
+            "\u2139 duration_ms 361.490994"
+          ],
+          "log": "1810-ops.log",
+          "command": "npm run -s test:ops",
+          "firstError": null
+        }
+      },
+      "status": "merged (known, JOB-1805 size, Claude fixes)",
+      "merge": "fabb119db423dc7ff53df969f7cfa58e5138372e",
+      "title": "JOB-1810 Phone Trophy Room: ranks and all-time records missing, CAREER DETAILS empty",
+      "contractFailures": [
+        "tests/contracts/static-app-release-contracts.cjs",
+        "tests/contracts/final-polish-presentation.cjs",
+        "tests/contracts/browser-journey-emulator-switch-contracts.cjs",
+        "tests/contracts/v10-transfer-contracts.cjs",
+        "tests/contracts/v10-club-contracts.cjs",
+        "tests/contracts/reus-gate-startup-contracts.cjs"
+      ]
+    },
+    {
+      "job": 1811,
+      "pr": 847,
+      "branch": "codex/job-1811-final-cells-empty",
+      "head": "74c6422f0070ba888816d6f1c7c98aa93444eb72",
+      "before": "fabb119db423dc7ff53df969f7cfa58e5138372e",
+      "checks": {},
+      "status": "CONFLICT",
+      "conflictFiles": [
+        "POS20_SUPPLEMENTAL_PRODUCT_TESTS.json",
+        "js/seasonFinalV10.js",
+        "tests/operations/pos20-control-plane.test.mjs"
+      ],
+      "title": "JOB-1811 Final reconciliation and FINAL SEASON cells sometimes empty right after the close",
+      "contractFailures": []
+    },
+    {
+      "job": 1812,
+      "pr": 842,
+      "branch": "codex/job-1812-free-limit-home",
+      "head": "148a3fd1b177af643fefab9917b0dd6c9704bc45",
+      "before": "fabb119db423dc7ff53df969f7cfa58e5138372e",
+      "checks": {
+        "syntax": {
+          "exit": 0,
+          "tail": [
+            "POS10 syntax: 355 active source files, 0 failures"
+          ],
+          "log": "1812-syntax.log",
+          "command": "node scripts/pos10-syntax.mjs",
+          "firstError": null
+        },
+        "contracts": {
+          "exit": 1,
+          "tail": [
+            "PASS pause before Home opens shows the exact line with zero taps",
+            "Home on quota event, taps=0: Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.",
+            "PASS pause starting on open Home shows the line immediately without taps",
+            "PASS quota on another screen appears when Home reopens; unrelated status survives resume",
+            "PASS free-limit Home message contracts: opening, live quota, reopening, resume, existing status styling, zero extra Firestore traffic.",
+            "POS10 selected deterministic census failed in 6/197 contract(s):",
+            "- tests/contracts/static-app-release-contracts.cjs: exit 1",
+            "- tests/contracts/final-polish-presentation.cjs: exit 1",
+            "- tests/contracts/browser-journey-emulator-switch-contracts.cjs: exit 1",
+            "- tests/contracts/v10-transfer-contracts.cjs: exit 1",
+            "- tests/contracts/v10-club-contracts.cjs: exit 1",
+            "- tests/contracts/reus-gate-startup-contracts.cjs: exit 1"
+          ],
+          "log": "1812-contracts.log",
+          "command": "npm run -s test:contracts",
+          "firstError": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+        },
+        "ops": {
+          "exit": 0,
+          "tail": [
+            "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (1.424527ms)",
+            "\u2714 live publication preflight preserves active change requests through later comment-only reviews (1.520803ms)",
+            "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (1.565821ms)",
+            "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.25059ms)",
+            "\u2139 tests 73",
+            "\u2139 suites 0",
+            "\u2139 pass 73",
+            "\u2139 fail 0",
+            "\u2139 cancelled 0",
+            "\u2139 skipped 0",
+            "\u2139 todo 0",
+            "\u2139 duration_ms 404.892322"
+          ],
+          "log": "1812-ops.log",
+          "command": "npm run -s test:ops",
+          "firstError": null
+        }
+      },
+      "additiveConflictsResolved": [
+        "POS20_SUPPLEMENTAL_PRODUCT_TESTS.json",
+        "tests/operations/pos20-control-plane.test.mjs"
+      ],
+      "status": "merged (known, JOB-1805 size, Claude fixes)",
+      "merge": "e062e3dacea26307eec006ec67961e9de8711dc0",
+      "title": "JOB-1812 Free-limit message must show as soon as Home opens",
+      "contractFailures": [
+        "tests/contracts/static-app-release-contracts.cjs",
+        "tests/contracts/final-polish-presentation.cjs",
+        "tests/contracts/browser-journey-emulator-switch-contracts.cjs",
+        "tests/contracts/v10-transfer-contracts.cjs",
+        "tests/contracts/v10-club-contracts.cjs",
+        "tests/contracts/reus-gate-startup-contracts.cjs"
+      ]
+    },
+    {
+      "job": 1815,
+      "pr": 848,
+      "branch": "codex/job-1815-journey-guard-marker",
+      "head": "b8f3b767027a400a1ac7f02d0313c7c125e7547b",
+      "before": "e062e3dacea26307eec006ec67961e9de8711dc0",
+      "checks": {
+        "syntax": {
+          "exit": 0,
+          "tail": [
+            "POS10 syntax: 356 active source files, 0 failures"
+          ],
+          "log": "1815-syntax.log",
+          "command": "node scripts/pos10-syntax.mjs",
+          "firstError": null
+        },
+        "contracts": {
+          "exit": 1,
+          "tail": [
+            "Home on quota event, taps=0: Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.",
+            "PASS pause starting on open Home shows the line immediately without taps",
+            "PASS quota on another screen appears when Home reopens; unrelated status survives resume",
+            "PASS free-limit Home message contracts: opening, live quota, reopening, resume, existing status styling, zero extra Firestore traffic.",
+            "POS10 selected deterministic census failed in 7/197 contract(s):",
+            "- tests/contracts/static-app-release-contracts.cjs: exit 1",
+            "- tests/contracts/final-polish-presentation.cjs: exit 1",
+            "- tests/contracts/browser-journey-emulator-switch-contracts.cjs: exit 1",
+            "- tests/contracts/v10-transfer-contracts.cjs: exit 1",
+            "- tests/contracts/v10-club-contracts.cjs: exit 1",
+            "- tests/contracts/season-entry-no-flash-contracts.cjs: exit 1",
+            "- tests/contracts/reus-gate-startup-contracts.cjs: exit 1"
+          ],
+          "log": "1815-contracts.log",
+          "command": "npm run -s test:contracts",
+          "firstError": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+        },
+        "ops": {
+          "exit": 0,
+          "tail": [
+            "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (1.571239ms)",
+            "\u2714 live publication preflight preserves active change requests through later comment-only reviews (1.866146ms)",
+            "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (1.658191ms)",
+            "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.305782ms)",
+            "\u2139 tests 73",
+            "\u2139 suites 0",
+            "\u2139 pass 73",
+            "\u2139 fail 0",
+            "\u2139 cancelled 0",
+            "\u2139 skipped 0",
+            "\u2139 todo 0",
+            "\u2139 duration_ms 407.578379"
+          ],
+          "log": "1815-ops.log",
+          "command": "npm run -s test:ops",
+          "firstError": null
+        }
+      },
+      "status": "BREAKS contracts",
+      "title": "JOB-1815 Shared-journey guard: prove or fix the stale-marker block (U-01)",
+      "contractFailures": [
+        "tests/contracts/static-app-release-contracts.cjs",
+        "tests/contracts/final-polish-presentation.cjs",
+        "tests/contracts/browser-journey-emulator-switch-contracts.cjs",
+        "tests/contracts/v10-transfer-contracts.cjs",
+        "tests/contracts/v10-club-contracts.cjs",
+        "tests/contracts/season-entry-no-flash-contracts.cjs",
+        "tests/contracts/reus-gate-startup-contracts.cjs"
+      ],
+      "exclusionCaveat": "The no-flash assertion also failed on the unchanged base; this is not proof that this PR caused it. Rolled back under the job red-check rule; not retried."
+    }
+  ],
+  "browser": {
+    "bundle": {
+      "command": "npm run -s test:browser",
+      "exit": 1,
+      "seconds": 102.4,
+      "tail": [
+        "locator.waitFor: Timeout 30000ms exceeded.",
+        "Call log:",
+        "\u001b[2m  - waiting for locator('#dashboard') to be visible\u001b[22m",
+        "\u001b[2m    63 \u00d7 locator resolved to hidden <section id=\"dashboard\" aria-hidden=\"true\" class=\"screen hidden\" aria-labelledby=\"dashboardScreenTitle\">\u2026</section>\u001b[22m",
+        "",
+        "    at /workspace/fifa17-career-showdown2/tests/browser/shared-season-results-audit.cjs:217:232 {",
+        "  log: [",
+        "    \"  - waiting for locator('#dashboard') to be visible\",",
+        "    '    63 \u00d7 locator resolved to hidden <section id=\"dashboard\" aria-hidden=\"true\" class=\"screen hidden\" aria-labelledby=\"dashboardScreenTitle\">\u2026</section>'",
+        "  ],",
+        "  name: 'TimeoutError'",
+        "}"
+      ],
+      "firstError": "locator.waitFor: Timeout 30000ms exceeded.",
+      "log": "browser-bundle.log"
+    },
+    "audits": [
+      {
+        "command": "node tests/contracts/full-gameplay-lifecycle-contracts.cjs",
+        "exit": 0,
+        "log": "browser-bundle.log",
+        "firstError": null
+      },
+      {
+        "command": "node tests/browser/persistent-pair-user-facing-routing-audit.cjs",
+        "exit": 0,
+        "log": "browser-bundle.log",
+        "firstError": null
+      },
+      {
+        "command": "node tests/browser/production-shared-setup-overlay-audit.cjs",
+        "exit": 0,
+        "log": "browser-bundle.log",
+        "firstError": null
+      },
+      {
+        "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-showdown-polished-presentation-audit.cjs",
+        "exit": 0,
+        "log": "browser-bundle.log",
+        "firstError": null
+      },
+      {
+        "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-career-start-r33-audit.cjs",
+        "exit": 0,
+        "log": "browser-bundle.log",
+        "firstError": null
+      },
+      {
+        "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-transfer-challenge-replay-audit.cjs",
+        "exit": 0,
+        "log": "browser-bundle.log",
+        "firstError": null
+      },
+      {
+        "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-season-results-audit.cjs",
+        "exit": 1,
+        "log": "browser-bundle.log",
+        "firstError": "locator.waitFor: Timeout 30000ms exceeded."
+      },
+      {
+        "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-season-commit-audit.cjs",
+        "exit": 0,
+        "seconds": 8.57,
+        "tail": [
+          "PASS Shared Season Commit desktop/mobile production flow: both managers experience the complete r9 Season Review; only the coordinator creates the immutable shared commit; both managers independently acknowledge it; one injected stale CAS is retried exactly once; both converge on terminal ACKNOWLEDGED; shared scoring remains locked; and canonical local storage/history/scoring stay untouched."
+        ],
+        "firstError": null,
+        "log": "browser-08.log"
+      },
+      {
+        "command": "node tests/browser/shared-season-commit-second-publisher-audit.cjs",
+        "exit": 0,
+        "seconds": 21.11,
+        "tail": [
+          "PASS Shared Season Commit second-publisher recovery: an incomplete RESULTS_READY publish projection with a failed follow-up read keeps a visible read-only Commit check, shows the failing code, never republishes or writes Commit, and one retry heals Results and restores the correct role action; a later season still checks Commit automatically after the previous season was acknowledged; a hung check times out visibly and cannot later overwrite the retry result."
+        ],
+        "firstError": null,
+        "log": "browser-09.log"
+      },
+      {
+        "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-canonical-scoring-audit.cjs",
+        "exit": 0,
+        "seconds": 7.0,
+        "tail": [
+          "PASS Shared Canonical Scoring desktop/mobile production flow: both managers traverse the real r9 results and r10 commit adapters, the bootstrapped r11 scoring adapter converges without duplicate observers, both see the same provider-authoritative 11\u20130 canonical score and five-part breakdown only after r10 ACKNOWLEDGED, exact account/device/rivalry/session context is forwarded for provider enforcement, and canonical local storage/history/scoring remain untouched."
+        ],
+        "firstError": null,
+        "log": "browser-10.log"
+      },
+      {
+        "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-history-convergence-audit.cjs",
+        "exit": 0,
+        "seconds": 7.12,
+        "tail": [
+          "PASS Shared History Convergence desktop/mobile production audit: both isolated manager contexts render the same two-season provider-authoritative history, cumulative score/lead, manager records and trophy attribution with exact account/device/rivalry/session forwarding; stale r10/r11 hashes, provider denial and an incomplete next season fail closed; canonical local storage remains byte-for-byte unchanged."
+        ],
+        "firstError": null,
+        "log": "browser-11.log"
+      },
+      {
+        "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-multi-season-progression-audit.cjs",
+        "exit": 0,
+        "seconds": 28.09,
+        "tail": [
+          "PASS Shared Multi Season desktop/mobile production flow: both isolated manager contexts complete 1/3/5/10 plans from Season 1, require a visible authoritative History Convergence witness before each exact-once advance, converge on identical next-season cursors, preserve fixed clubs, render Showdown Home from shared league/club/season/accumulated-score authority instead of stale local Save fields, reject duplicate advances, close exactly at the configured final season, and leave local currentRound plus canonical storage unchanged."
+        ],
+        "firstError": null,
+        "log": "browser-12.log"
+      },
+      {
+        "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-journey-reconnect-audit.cjs",
+        "exit": 0,
+        "seconds": 13.95,
+        "tail": [
+          "PASS Shared Journey Reconnect desktop/mobile audit: normal ACTIVE gameplay stays silent and performs zero reconnect progression reads, both managers recover the same durable journey after expiry, offline hold makes no provider claim, expiry exposes a direct Remote Joining recovery action, fresh sessions reauthorize without redraw/reset, fresh runtimes do not inherit ACTIVE authority, terminal state cannot resurrect, and canonical local storage remains unchanged."
+        ],
+        "firstError": null,
+        "log": "browser-13.log"
+      },
+      {
+        "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/ssjr-production-acceptance-recorder-audit.cjs",
+        "exit": 0,
+        "seconds": 18.46,
+        "tail": [
+          "PASS SSJR recorder is query-gated and absent from normal production mode",
+          "PASS SSJR recorder routes an already ACTIVE session into polished Shared Showdown instead of looping Remote Joining or opening engineering diagnostics",
+          "PASS SSJR recorder rejects stale cross-runtime evidence instead of mislabeling the live shell",
+          "PASS SSJR recorder validates real protocol league + club names against the repository catalog and derives safe club league identities",
+          "PASS SSJR recorder simple mode exposes one context-aware NEXT STEP control while fallback controls stay collapsed",
+          "PASS SSJR actor-attributed v2 replaces the visible impossible all-eight-per-manager controls while preserving the legacy API and real provider denial path",
+          "PASS SSJR recorder auto-captures paired-first, rev4, rev6, a real browser reload and fresh-session positive checkpoints",
+          "PASS SSJR recorder persists only sanitized SHA-256 evidence and preserves canonical local save bytes"
+        ],
+        "firstError": null,
+        "log": "browser-14.log"
+      },
+      {
+        "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/ssjr-production-actor-evidence-v2-audit.cjs",
+        "exit": 0,
+        "seconds": 10.77,
+        "tail": [
+          "PASS SSJR actor-attributed evidence v2 browser audit: ordinary mode is untouched, bound managers get the seven truthful actor checks inside the recorder surface, and witness mode is isolated from manager-positive recording."
+        ],
+        "firstError": null,
+        "log": "browser-15.log"
+      },
+      {
+        "command": "node tests/browser/stability-audit.cjs",
+        "exit": 1,
+        "seconds": 50.31,
+        "tail": [
+          "PASS  Chromebook reload and browser-history recovery :: pre-season dashboard retained without legacy local progression",
+          "PASS  Chromebook Rivalry Statistics accessibility scan",
+          "STABILITY BROWSER AUDIT FAILED",
+          "locator.waitFor: Timeout 12000ms exceeded.",
+          "Call log:",
+          "\u001b[2m  - waiting for locator('#dashboard') to be visible\u001b[22m",
+          "\u001b[2m    28 \u00d7 locator resolved to hidden <section id=\"dashboard\" aria-hidden=\"true\" class=\"screen hidden\" aria-labelledby=\"dashboardScreenTitle\">\u2026</section>\u001b[22m",
+          "",
+          "    at waitForScreen (/workspace/fifa17-career-showdown2/tests/browser/stability-audit.cjs:83:38)",
+          "    at smokeDestinations (/workspace/fifa17-career-showdown2/tests/browser/stability-audit.cjs:180:240)",
+          "    at async runProductScenario (/workspace/fifa17-career-showdown2/tests/browser/stability-audit.cjs:215:28)",
+          "    at async /workspace/fifa17-career-showdown2/tests/browser/stability-audit.cjs:241:289"
+        ],
+        "firstError": "locator.waitFor: Timeout 12000ms exceeded.",
+        "log": "browser-16.log"
+      },
+      {
+        "command": "node tests/browser/connected-account-settings-audit.cjs",
+        "exit": 0,
+        "seconds": 6.76,
+        "tail": [
+          "PASS clean Settings exposes safe remote-first Showdown deletion, returns Home after success, and keeps recovery/engineering account UI internal at http://127.0.0.1:4511/"
+        ],
+        "firstError": null,
+        "log": "browser-17.log"
+      },
+      {
+        "command": "node tests/browser/settings-offline-save-library-editor-audit.cjs",
+        "exit": 0,
+        "seconds": 5.46,
+        "tail": [
+          "PASS Settings offline-state regression: explicit internal recovery audit preserves the exact Save Library profile editor, unsaved draft and CANCEL control while updating connectivity presentation without canonical storage mutation, then restores hidden containment."
+        ],
+        "firstError": null,
+        "log": "browser-18.log"
+      },
+      {
+        "command": "node tests/browser/stage3-private-pairing-audit.cjs",
+        "exit": 0,
+        "seconds": 17.84,
+        "tail": [
+          "PASS Stage 3 desktop IndexedDB identity persistence, reload, offline, and localStorage isolation",
+          "PASS Stage 3 mobile IndexedDB identity persistence, reload, offline, and localStorage isolation",
+          "PASS Stage 3 mobile pairing editor survives repeated registration renders without losing focus/draft, retains manager selection, locks live capabilities, rejects late-dropdown races, and hides raw permission denials"
+        ],
+        "firstError": null,
+        "log": "browser-19.log"
+      },
+      {
+        "command": "node tests/browser/pairing-four-code-automation-audit.cjs",
+        "exit": 0,
+        "seconds": 31.06,
+        "tail": [
+          "PASS pairing automation Chromium ultra-audit: 3 fresh Player One and 3 fresh Player Two isolated Chromium processes, exact copy, late-registration state preservation, P1 prefill/postjoin auto-attach, one-paste retained P2 input, and exact Connected Rivalry equality"
+        ],
+        "firstError": null,
+        "log": "browser-20.log"
+      },
+      {
+        "command": "node tests/browser/stage4-remote-local-reconciliation-audit.cjs",
+        "exit": 0,
+        "seconds": 6.18,
+        "tail": [
+          "PASS Stage 4 browser reconciliation preview, explicit confirmation, backup download, identity-safe local commit and observed/committed UI at http://127.0.0.1:4511/"
+        ],
+        "firstError": null,
+        "log": "browser-21.log"
+      },
+      {
+        "command": "node tests/browser/stage5e-remote-joining-audit.cjs",
+        "exit": 0,
+        "seconds": 6.27,
+        "tail": [
+          "PASS Stage 5E migration audit: retired Remote Joining stays hidden/unloaded while the clean persistent Nik/Daniel pair surface is browser-inert at http://127.0.0.1:4511/"
+        ],
+        "firstError": null,
+        "log": "browser-22.log"
+      },
+      {
+        "command": "node tests/browser/stage5g-remote-joining-reconnect-audit.cjs",
+        "exit": 0,
+        "seconds": 13.48,
+        "tail": [
+          "Stage 5G Host first diagnostic {\"ok\":false,\"code\":\"firestore/unavailable\",\"recoverable\":true,\"message\":\"simulated Host acknowledgement loss\",\"providerOpenCalls\":1,\"state\":{\"status\":\"recovery-pending\",\"pendingAction\":\"host\",\"sessionState\":\"unresolved\",\"generated\":1}}",
+          "PASS Stage 5G Host lost-acknowledgement state is unresolved and capability-hidden",
+          "PASS Stage 5G Host exact-capability retry recovered without duplicate session",
+          "PASS Stage 5G Join lost-acknowledgement state is unresolved and capability-hidden",
+          "PASS Stage 5G both contexts converged to the one active session at revision 1",
+          "PASS Stage 5G bounded online retry converged both contexts to terminal revision 2",
+          "PASS Stage 5G two-context same-capability reconnect audit at http://127.0.0.1:4511/"
+        ],
+        "firstError": null,
+        "log": "browser-23.log"
+      },
+      {
+        "command": "node tests/browser/stage5h-remote-joining-adverse-network-audit.cjs",
+        "exit": 0,
+        "seconds": 13.43,
+        "tail": [
+          "PASS Stage 5H real browser offline Host recovered on online event with one capability and one provider mutation",
+          "PASS Stage 5H independently-offline peer recovered Join and both contexts converged at revision 1",
+          "PASS Stage 5H real browser offline Close recovered terminally and both contexts converged at revision 2",
+          "PASS Stage 5H two-context real-browser adverse-network recovery audit at http://127.0.0.1:4511/"
+        ],
+        "firstError": null,
+        "log": "browser-24.log"
+      },
+      {
+        "command": "node tests/browser/stage5i-remote-joining-acceptance-recorder-audit.cjs",
+        "exit": 0,
+        "seconds": 7.55,
+        "tail": [
+          "PASS Stage 5I recorder remains unloaded and invisible without the explicit acceptance query parameter",
+          "PASS Stage 5I recorder captures real offline/online lifecycle while exporting only a one-way capability fingerprint",
+          "PASS Stage 5I evidence excludes raw capability/account/device/rivalry identifiers and preserves canonical local storage"
+        ],
+        "firstError": null,
+        "log": "browser-25.log"
+      },
+      {
+        "command": "node tests/browser/shared-showdown-setup-audit.cjs",
+        "exit": 0,
+        "seconds": 0.54,
+        "tail": [
+          "PASS two isolated Chromium contexts: real WebCrypto provider-bound non-redrawable league/clubs, modified-client rejection, peer-first dual confirmation, exact setup convergence and unchanged canonical local bytes. Candidate protocol only; SSJR credit 0."
+        ],
+        "firstError": null,
+        "log": "browser-26.log"
+      },
+      {
+        "command": "node tests/browser/shared-showdown-paired-first-entry-audit.cjs",
+        "exit": 0,
+        "seconds": 8.33,
+        "tail": [
+          "PASS canonical paired-first entry: real Start a Showdown ownership reaches the shared shell, Daniel/P1 and Nik/P2 stay canonical, recovery data is preserved, ACTIVE peer return is automatic, durable lock survives reload, and league/club selection cannot bypass connection authority."
+        ],
+        "firstError": null,
+        "log": "browser-27.log"
+      },
+      {
+        "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-journey-conflicts-audit.cjs",
+        "exit": 0,
+        "seconds": 6.67,
+        "tail": [
+          "PASS Journey Conflicts browser audit: isolated two-manager contention, bounded stale retry, altered replay pre-provider denial, receipt expiry, quota/revocation classification, provider-code preservation and zero canonical local-save mutation."
+        ],
+        "firstError": null,
+        "log": "browser-28.log"
+      },
+      {
+        "command": "node tests/browser/shared-local-reconciliation-audit.cjs",
+        "exit": 0,
+        "seconds": 0.02,
+        "tail": [
+          "PASS r16 Local Reconciliation controlled-browser adapter: offline preview, explicit confirmation, Candidate C delegation, recovered UI errors and zero direct local writes"
+        ],
+        "firstError": null,
+        "log": "browser-29.log"
+      },
+      {
+        "command": "node tests/browser/shared-final-reconciliation-audit.cjs",
+        "exit": 0,
+        "seconds": 0.03,
+        "tail": [
+          "PASS r17 Final Reconciliation two-context audit: canonical Save Library identity, exact manager binding, synchronous local-authority + cross-tab Save Library invalidation including hidden/in-flight ABA recovery cases, published-view invalidation, stale cross-rivalry refresh suppression, correct winner, no extra season and zero direct storage writes"
+        ],
+        "firstError": null,
+        "log": "browser-30.log"
+      },
+      {
+        "command": "node tests/browser/shared-terminal-close-audit.cjs",
+        "exit": 0,
+        "seconds": 0.04,
+        "tail": [
+          "PASS JOB-1038 automatic close: exactly once, restored session, manual retry, lost acknowledgement, stale-context cancellation and a bounded wait for Shared History.",
+          "PASS r18 Terminal Close two-context runtime audit: both managers derive one exact witness, atomic close converges through terminal reads, lost acknowledgement recovers without replacement mutation, inactive-session close is blocked, stale cross-rivalry reads are discarded, and no browser storage authority is touched."
+        ],
+        "firstError": null,
+        "log": "browser-31.log"
+      }
+    ],
+    "extras": [
+      {
+        "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/v10-screen-flash-audit.cjs",
+        "exit": 0,
+        "seconds": 102.8,
+        "tail": [
+          "ok   desktop-1920x910 finalWinner: 55 frames, 0 problem(s)",
+          "ok   desktop-1920x910 rivalry: 51 frames, 0 problem(s)",
+          "ok   desktop-1920x910 standings: 58 frames, 0 problem(s)",
+          "ok   desktop-1920x910 double tap: one navigation each",
+          "ok   desktop-1920x910 reduced-motion pass: 0 problem(s)",
+          "ok   desktop-1920x910 tap feedback: pressed=26.2 ms, layout changed=false, layout-shift entries=0 (report only)",
+          "ok   393x660 Club REDUCE MOTION: all 6 reveal stages, resize and live preference change",
+          "ok   393x660 Club FOLLOW DEVICE: all 6 reveal stages, resize and live preference change",
+          "ok   1280x800 Club REDUCE MOTION: all 6 reveal stages, resize and live preference change",
+          "ok   1280x800 Club FOLLOW DEVICE: all 6 reveal stages, resize and live preference change",
+          "Report: /workspace/fifa17-career-showdown2/test-results/v10-screen-flash-report.json",
+          "v10 screen flash audit: PASS"
+        ],
+        "firstError": null,
+        "log": "final-flash.log"
+      },
+      {
+        "command": "node tests/contracts/firestore-budget-contracts.cjs",
+        "exit": 0,
+        "seconds": 0.11,
+        "tail": [
+          "ok 6 FB2c a rivalry that is still pending its pair is read fresh on every check, so the partner's join shows at once",
+          "ok 7 FB3 Transfer waiting screen, both visible: <= budget reads/min with the listener, 0 writes, and a partner move reaches it within 1 s",
+          "ok 8 FB4 a hidden tab reads nothing and drops its listener; returning re-reads once and re-attaches",
+          "ok 9 FB4b a screen that was waiting when the tab was hidden catches up with one check the moment it is visible again",
+          "ok 10 FB4c after the listener sees the partner's move, the follow-on checks of other screens reuse what the chain just read",
+          "ok 11 FB5 a screen with only the 15 s poll stays within the idle budget; nothing writes while idle",
+          "ok 12 FB6 listener drops or errors: the 3 s check takes over within one tick, stays within today's cadence, and no stale data is served",
+          "ok 13 FB7 a listener that falls behind the server is dropped within 5 s and the screen reads the server",
+          "ok 14 FB8 at most one listener per page; the other waiting screen keeps fresh 3 s checks and gets the listener once the first lets go",
+          "ok 15 FB9 resource-exhausted pauses all traffic (10, then 20 min), shows the exact message once, and wakes the screens after",
+          "ok 16 FB10 every connected module goes through the budget layer; wait points ask for the listener; device re-checks are capped",
+          "PASS Firestore budget contracts: 16 checks, measured reads/min 3.4 / 0.0 / 3.0 / 1.8 / 60.0 (waiting <= 5 reads/min, hidden 0, idle writes 0, partner update <= 1000 ms)."
+        ],
+        "firstError": null,
+        "log": "final-budget.log"
+      },
+      {
+        "command": "node tests/contracts/reus-gate-startup-contracts.cjs",
+        "exit": 1,
+        "seconds": 0.03,
+        "tail": [
+          "    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)",
+          "    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)",
+          "    at node:internal/main/run_main_module:33:47 {",
+          "  generatedMessage: false,",
+          "  code: 'ERR_ASSERTION',",
+          "  actual: false,",
+          "  expected: true,",
+          "  operator: '==',",
+          "  diff: 'simple'",
+          "}",
+          "",
+          "Node.js v24.19.0"
+        ],
+        "firstError": "AssertionError [ERR_ASSERTION]: startup gzip 37569 must stay <= 37495",
+        "log": "final-reus.log"
+      }
+    ]
+  },
+  "ce2pg": [
+    {
+      "verdict": "FAIL",
+      "finishedJourney": false,
+      "acceptedSeasons": 1,
+      "requestedSeasons": 3,
+      "minutes": 3.23,
+      "summary": {
+        "checks": 82,
+        "passed": 76,
+        "failed": 6,
+        "problems": 8
+      },
+      "historyPassed": 8,
+      "historyTotal": 8,
+      "http409": 0,
+      "lockTimeoutMessages": 0,
+      "rulesDeniedCommits": 1,
+      "evaluationErrorNetworkEntries": 1,
+      "evaluationErrorConsoleLines": 0,
+      "firstRulesError": "{\"error\":{\"code\":403,\"message\":\"\\nevaluation error at L2800:26 for 'update' @ L2800, false for 'update' @ L2883, false for 'update' @ L2800, false for 'update' @ L2883\",\"status\":\"PERMISSION_DENIED\"}}",
+      "failedIds": [
+        "S1.excursion.stats.daniel",
+        "S1.excursion.trophy.daniel",
+        "S1.rivalry.back.daniel",
+        "S1.excursion.stats.nik",
+        "S1.excursion.trophy.nik",
+        "S1.rivalry.back.nik"
+      ],
+      "fatal": {
+        "message": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#seasonPrimaryAction')\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 \u00d7 waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 \u00d7 waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    58 \u00d7 waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n",
+        "stack": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#seasonPrimaryAction')\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 \u00d7 waiting for element to be visible, enabled and stable\u001b[22m",
+        "state_daniel": "screens=mainMenu | badge=DANIEL | overlays=",
+        "state_nik": "screens=mainMenu | badge=NIK | overlays="
+      },
+      "knownBugs": {
+        "1": "not reached",
+        "2": "not observed in executed checks",
+        "3": "not observed in executed checks",
+        "4": "not observed in executed checks",
+        "5": "not reached",
+        "6": "not reached",
+        "7": "not reached",
+        "8": "observed"
+      },
+      "networkSummary": {
+        "daniel": {
+          "environment": 2,
+          "benign-listen-channel-closed": 4
+        },
+        "nik": {
+          "environment": 2,
+          "rules-denied-commit 403": 1,
+          "benign-listen-channel-closed": 3
+        }
+      },
+      "readsPerSeason": null,
+      "writesPerSeason": null,
+      "networkMeasurementLimit": "This unchanged harness records failed/environment HTTP requests and selected Commit error bodies, not successful document reads/writes or billable operations. Reads/writes per season cannot be derived from network; zero is not inferred.",
+      "seasons": 3,
+      "run": 1,
+      "exit": 1,
+      "seconds": 246.98,
+      "reportProduced": true,
+      "log": "ce2pg-3-1.log",
+      "baseline": {
+        "verdict": "FAIL",
+        "finishedJourney": true,
+        "acceptedSeasons": 2,
+        "requestedSeasons": 3,
+        "minutes": 14.57,
+        "summary": {
+          "checks": 433,
+          "passed": 403,
+          "failed": 30,
+          "problems": 30
+        },
+        "historyPassed": 186,
+        "historyTotal": 192,
+        "http409": 0,
+        "lockTimeoutMessages": 0,
+        "rulesDeniedCommits": 2,
+        "evaluationErrorNetworkEntries": 3,
+        "evaluationErrorConsoleLines": 0,
+        "firstRulesError": "{\"error\":{\"code\":403,\"message\":\"\\nUnable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L2741, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L2883, false for 'get' @ L2697,",
+        "failedIds": [
+          "S1.excursion.tile.daniel",
+          "S1.excursion.standings.daniel",
+          "S1.rivalry.loads.daniel",
+          "S1.excursion.tile.nik",
+          "S1.excursion.standings.nik",
+          "S1.rivalry.loads.nik",
+          "S2.excursion.tile.daniel",
+          "S2.excursion.standings.daniel",
+          "S2.rivalry.loads.daniel",
+          "S2.excursion.tile.nik",
+          "S2.excursion.standings.nik",
+          "S2.rivalry.loads.nik",
+          "final.live.reviewSeason.daniel",
+          "final.live.exitLabels.daniel",
+          "final.live.reviewSeason.trial.daniel",
+          "final.live.reviewSeason.nik",
+          "final.live.exitLabels.nik",
+          "final.live.reviewSeason.trial.nik",
+          "final.backHome.tap.daniel",
+          "final.backHome.tap.nik",
+          "final.rivalry.loads.daniel",
+          "final.rivalry.loads.nik",
+          "hist.final.trophy.visibleDetails.daniel",
+          "hist.final.trophy.visibleDetails.nik",
+          "hist.cleared.trophy.visibleDetails.daniel-cleared",
+          "hist.cleared.trophy.visibleDetails.nik-cleared",
+          "hist.fresh.trophy.visibleDetails.daniel-fresh",
+          "hist.fresh.trophy.visibleDetails.nik-fresh",
+          "zz.rulesLimit.daniel",
+          "zz.network.daniel"
+        ],
+        "fatal": null,
+        "knownBugs": {
+          "1": "observed",
+          "2": "observed",
+          "3": "observed",
+          "4": "observed",
+          "5": "observed",
+          "6": "observed",
+          "7": "not observed in executed checks",
+          "8": "observed"
+        },
+        "networkSummary": {
+          "daniel": {
+            "environment": 5,
+            "benign-listen-channel-closed": 12,
+            "rules-denied-commit 403": 1,
+            "unexpected 403": 1
+          },
+          "nik": {
+            "environment": 5,
+            "rules-denied-commit 403": 1,
+            "benign-listen-channel-closed": 12
+          }
+        },
+        "readsPerSeason": null,
+        "writesPerSeason": null,
+        "networkMeasurementLimit": "This unchanged harness records failed/environment HTTP requests and selected Commit error bodies, not successful document reads/writes or billable operations. Reads/writes per season cannot be derived from network; zero is not inferred."
+      },
+      "newFailedIds": [
+        "S1.excursion.stats.daniel",
+        "S1.excursion.stats.nik",
+        "S1.excursion.trophy.daniel",
+        "S1.excursion.trophy.nik",
+        "S1.rivalry.back.daniel",
+        "S1.rivalry.back.nik"
+      ],
+      "baselineFailedIdsNowPassing": [
+        "S1.excursion.standings.daniel",
+        "S1.excursion.standings.nik",
+        "S1.excursion.tile.daniel",
+        "S1.excursion.tile.nik",
+        "S1.rivalry.loads.daniel",
+        "S1.rivalry.loads.nik",
+        "zz.network.daniel",
+        "zz.rulesLimit.daniel"
+      ],
+      "comparisonLimit": "Final journey stops early. Failures absent because a phase was not reached are not credited as fixed."
+    },
+    {
+      "verdict": "FAIL",
+      "finishedJourney": false,
+      "acceptedSeasons": 1,
+      "requestedSeasons": 5,
+      "minutes": 3.35,
+      "summary": {
+        "checks": 82,
+        "passed": 76,
+        "failed": 6,
+        "problems": 8
+      },
+      "historyPassed": 8,
+      "historyTotal": 8,
+      "http409": 0,
+      "lockTimeoutMessages": 0,
+      "rulesDeniedCommits": 0,
+      "evaluationErrorNetworkEntries": 0,
+      "evaluationErrorConsoleLines": 0,
+      "firstRulesError": null,
+      "failedIds": [
+        "S1.excursion.stats.daniel",
+        "S1.excursion.trophy.daniel",
+        "S1.rivalry.back.daniel",
+        "S1.excursion.stats.nik",
+        "S1.excursion.trophy.nik",
+        "S1.rivalry.back.nik"
+      ],
+      "fatal": {
+        "message": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#seasonPrimaryAction')\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 \u00d7 waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 \u00d7 waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    58 \u00d7 waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n",
+        "stack": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#seasonPrimaryAction')\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 \u00d7 waiting for element to be visible, enabled and stable\u001b[22m",
+        "state_daniel": "screens=mainMenu | badge=DANIEL | overlays=",
+        "state_nik": "screens=mainMenu | badge=NIK | overlays="
+      },
+      "knownBugs": {
+        "1": "not reached",
+        "2": "not observed in executed checks",
+        "3": "not observed in executed checks",
+        "4": "not observed in executed checks",
+        "5": "not reached",
+        "6": "not reached",
+        "7": "not reached",
+        "8": "no observed setup denial; close not reached"
+      },
+      "networkSummary": {
+        "daniel": {
+          "environment": 2,
+          "benign-listen-channel-closed": 4
+        },
+        "nik": {
+          "environment": 2,
+          "benign-listen-channel-closed": 3
+        }
+      },
+      "readsPerSeason": null,
+      "writesPerSeason": null,
+      "networkMeasurementLimit": "This unchanged harness records failed/environment HTTP requests and selected Commit error bodies, not successful document reads/writes or billable operations. Reads/writes per season cannot be derived from network; zero is not inferred.",
+      "seasons": 5,
+      "run": 2,
+      "exit": 1,
+      "seconds": 208.9,
+      "reportProduced": true,
+      "log": "ce2pg-5-2.log",
+      "baseline": null,
+      "comparisonLimit": "JOB-1802 has no 5-season/run-2 baseline; its 3-season/run-2 is a different scenario length."
+    },
+    {
+      "verdict": "FAIL",
+      "finishedJourney": false,
+      "acceptedSeasons": 1,
+      "requestedSeasons": 10,
+      "minutes": 3.32,
+      "summary": {
+        "checks": 82,
+        "passed": 76,
+        "failed": 6,
+        "problems": 8
+      },
+      "historyPassed": 8,
+      "historyTotal": 8,
+      "http409": 0,
+      "lockTimeoutMessages": 0,
+      "rulesDeniedCommits": 1,
+      "evaluationErrorNetworkEntries": 1,
+      "evaluationErrorConsoleLines": 0,
+      "firstRulesError": "{\"error\":{\"code\":403,\"message\":\"\\nevaluation error at L2800:26 for 'update' @ L2800, false for 'update' @ L2883, false for 'update' @ L2800, false for 'update' @ L2883\",\"status\":\"PERMISSION_DENIED\"}}",
+      "failedIds": [
+        "S1.excursion.stats.daniel",
+        "S1.excursion.trophy.daniel",
+        "S1.rivalry.back.daniel",
+        "S1.excursion.stats.nik",
+        "S1.excursion.trophy.nik",
+        "S1.rivalry.back.nik"
+      ],
+      "fatal": {
+        "message": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#seasonPrimaryAction')\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 \u00d7 waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 \u00d7 waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    58 \u00d7 waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n",
+        "stack": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#seasonPrimaryAction')\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 \u00d7 waiting for element to be visible, enabled and stable\u001b[22m",
+        "state_daniel": "screens=mainMenu | badge=DANIEL | overlays=",
+        "state_nik": "screens=mainMenu | badge=NIK | overlays="
+      },
+      "knownBugs": {
+        "1": "not reached",
+        "2": "not observed in executed checks",
+        "3": "not observed in executed checks",
+        "4": "not observed in executed checks",
+        "5": "not reached",
+        "6": "not reached",
+        "7": "not reached",
+        "8": "observed"
+      },
+      "networkSummary": {
+        "daniel": {
+          "environment": 2,
+          "benign-listen-channel-closed": 4
+        },
+        "nik": {
+          "environment": 2,
+          "rules-denied-commit 403": 1,
+          "benign-listen-channel-closed": 3
+        }
+      },
+      "readsPerSeason": null,
+      "writesPerSeason": null,
+      "networkMeasurementLimit": "This unchanged harness records failed/environment HTTP requests and selected Commit error bodies, not successful document reads/writes or billable operations. Reads/writes per season cannot be derived from network; zero is not inferred.",
+      "seasons": 10,
+      "run": 3,
+      "exit": 1,
+      "seconds": 207.7,
+      "reportProduced": true,
+      "log": "ce2pg-10-3.log",
+      "baseline": {
+        "verdict": "FAIL",
+        "finishedJourney": true,
+        "acceptedSeasons": 9,
+        "requestedSeasons": 10,
+        "minutes": 23.45,
+        "summary": {
+          "checks": 878,
+          "passed": 822,
+          "failed": 56,
+          "problems": 56
+        },
+        "historyPassed": 277,
+        "historyTotal": 280,
+        "http409": 2,
+        "lockTimeoutMessages": 0,
+        "rulesDeniedCommits": 3,
+        "evaluationErrorNetworkEntries": 3,
+        "evaluationErrorConsoleLines": 0,
+        "firstRulesError": "{\"error\":{\"code\":403,\"message\":\"\\nUnable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L2741, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L2883, false for 'get' @ L2697,",
+        "failedIds": [
+          "S1.excursion.tile.daniel",
+          "S1.excursion.standings.daniel",
+          "S1.rivalry.loads.daniel",
+          "S1.excursion.tile.nik",
+          "S1.excursion.standings.nik",
+          "S1.rivalry.loads.nik",
+          "S2.excursion.tile.daniel",
+          "S2.excursion.standings.daniel",
+          "S2.rivalry.loads.daniel",
+          "S2.excursion.tile.nik",
+          "S2.excursion.standings.nik",
+          "S2.rivalry.loads.nik",
+          "S3.excursion.tile.daniel",
+          "S3.excursion.standings.daniel",
+          "S3.excursion.tile.nik",
+          "S3.excursion.standings.nik",
+          "S4.excursion.tile.daniel",
+          "S4.excursion.standings.daniel",
+          "S4.excursion.tile.nik",
+          "S4.excursion.standings.nik",
+          "S5.excursion.tile.daniel",
+          "S5.excursion.standings.daniel",
+          "S5.excursion.tile.nik",
+          "S5.excursion.standings.nik",
+          "S6.excursion.tile.daniel",
+          "S6.excursion.standings.daniel",
+          "S6.excursion.tile.nik",
+          "S6.excursion.standings.nik",
+          "S7.excursion.tile.daniel",
+          "S7.excursion.standings.daniel",
+          "S7.excursion.tile.nik",
+          "S7.excursion.standings.nik",
+          "S8.excursion.tile.daniel",
+          "S8.excursion.standings.daniel",
+          "S8.excursion.tile.nik",
+          "S8.excursion.standings.nik",
+          "S9.excursion.tile.daniel",
+          "S9.excursion.standings.daniel",
+          "S9.rivalry.loads.daniel",
+          "S9.excursion.tile.nik",
+          "S9.excursion.standings.nik",
+          "S9.rivalry.loads.nik",
+          "final.live.reviewSeason.daniel",
+          "final.live.exitLabels.daniel",
+          "final.live.reviewSeason.trial.daniel",
+          "final.live.reviewSeason.nik",
+          "final.live.exitLabels.nik",
+          "final.live.reviewSeason.trial.nik",
+          "final.backHome.tap.daniel",
+          "final.backHome.tap.nik",
+          "final.rivalry.loads.daniel",
+          "final.rivalry.loads.nik",
+          "hist.final.trophy.visibleDetails.nik",
+          "hist.cleared.trophy.visibleDetails.nik-cleared",
+          "hist.fresh.trophy.visibleDetails.nik-fresh",
+          "zz.rulesLimit.daniel"
+        ],
+        "fatal": null,
+        "knownBugs": {
+          "1": "observed",
+          "2": "observed",
+          "3": "observed",
+          "4": "observed",
+          "5": "observed",
+          "6": "observed",
+          "7": "not observed in executed checks",
+          "8": "observed"
+        },
+        "networkSummary": {
+          "daniel": {
+            "environment": 12,
+            "benign-listen-channel-closed": 24,
+            "rules-denied-commit 403": 2
+          },
+          "nik": {
+            "environment": 12,
+            "rules-denied-commit 403": 1,
+            "benign-listen-channel-closed": 20,
+            "benign-write-contention 409": 2
+          }
+        },
+        "readsPerSeason": null,
+        "writesPerSeason": null,
+        "networkMeasurementLimit": "This unchanged harness records failed/environment HTTP requests and selected Commit error bodies, not successful document reads/writes or billable operations. Reads/writes per season cannot be derived from network; zero is not inferred."
+      },
+      "newFailedIds": [
+        "S1.excursion.stats.daniel",
+        "S1.excursion.stats.nik",
+        "S1.excursion.trophy.daniel",
+        "S1.excursion.trophy.nik",
+        "S1.rivalry.back.daniel",
+        "S1.rivalry.back.nik"
+      ],
+      "baselineFailedIdsNowPassing": [
+        "S1.excursion.standings.daniel",
+        "S1.excursion.standings.nik",
+        "S1.excursion.tile.daniel",
+        "S1.excursion.tile.nik",
+        "S1.rivalry.loads.daniel",
+        "S1.rivalry.loads.nik",
+        "zz.rulesLimit.daniel"
+      ],
+      "comparisonLimit": "Final journey stops early. Failures absent because a phase was not reached are not credited as fixed."
+    }
+  ],
+  "baseChecks": {
+    "syntaxTail": [
+      "POS10 syntax: 352 active source files, 0 failures"
+    ],
+    "contractsTail": [
+      "POS10 selected deterministic census failed in 1/191 contract(s):",
+      "- tests/contracts/season-entry-no-flash-contracts.cjs: exit 1"
+    ],
+    "firstFailure": "AssertionError [ERR_ASSERTION]: decoded before the reveal",
+    "opsTail": [
+      "\u2139 tests 73",
+      "\u2139 suites 0",
+      "\u2139 pass 73",
+      "\u2139 fail 0",
+      "\u2139 cancelled 0",
+      "\u2139 skipped 0",
+      "\u2139 todo 0",
+      "\u2139 duration_ms 399.086774"
+    ]
+  },
+  "scope": "Local merges with additive registration conflict resolution, plus reports only. No independent product/test changes; no deployment or production Firebase. No failed check retried."
+}

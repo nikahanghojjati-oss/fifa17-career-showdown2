@@ -1,0 +1,32 @@
+Chromium 149.0.7827.0 · run-1
+PASS  Corrupt singleton bytes fail closed at canonical Start
+PASS  Save Library quota rejection rolls back before canonical retry
+PASS  Chromebook clean product identity :: v1.9.1 · Settings
+PASS  Chromebook Empty Home accessibility scan
+PASS  Chromebook Empty Home responsive containment :: 1366 × 768
+PASS  Chromebook Create Showdown accessibility scan
+PASS  Chromebook canonical rapid Start :: paired-first lock active · 0 singleton writes
+PASS  Chromebook paired-first precondition isolated :: Daniel/P1 · Nik/P2
+PASS  Chromebook League Selected accessibility scan
+PASS  Chromebook League Selected responsive containment :: 1366 × 768
+PASS  Chromebook direct stability resume :: leagueWheelScreen
+PASS  Chromebook league confirmation recovery :: Ligue 1
+PASS  Chromebook Club Confirmation accessibility scan
+PASS  Chromebook Showdown Home accessibility scan
+PASS  Chromebook Showdown Home responsive containment :: 1366 × 768
+PASS  Chromebook permanent club assignment :: Rennes vs Nancy
+PASS  Chromebook provider-owned career boundary :: dashboard stable · transfer/season remain gated
+PASS  Chromebook direct stability resume :: dashboard
+PASS  Chromebook direct stability resume :: dashboard
+PASS  Chromebook reload and browser-history recovery :: pre-season dashboard retained without legacy local progression
+PASS  Chromebook Rivalry Statistics accessibility scan
+STABILITY BROWSER AUDIT FAILED
+locator.waitFor: Timeout 12000ms exceeded.
+Call log:
+  - waiting for locator('#dashboard') to be visible
+    28 × locator resolved to hidden <section id="dashboard" aria-hidden="true" class="screen hidden" aria-labelledby="dashboardScreenTitle">…</section>
+
+    at waitForScreen (/workspace/fifa17-career-showdown2/tests/browser/stability-audit.cjs:83:38)
+    at smokeDestinations (/workspace/fifa17-career-showdown2/tests/browser/stability-audit.cjs:180:240)
+    at async runProductScenario (/workspace/fifa17-career-showdown2/tests/browser/stability-audit.cjs:215:28)
+    at async /workspace/fifa17-career-showdown2/tests/browser/stability-audit.cjs:241:289
