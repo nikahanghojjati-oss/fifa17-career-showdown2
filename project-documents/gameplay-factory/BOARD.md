@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 15 Oct, 6:23 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 15 Oct, 6:27 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -38,7 +38,7 @@ Updated Thu 15 Oct, 6:23 PM Boston time. Bug hunting only, no new features until
 
 **#6 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 81 h ago
+🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 82 h ago
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -98,7 +98,7 @@ Updated Thu 15 Oct, 6:23 PM Boston time. Bug hunting only, no new features until
 
 **#21 · 1818** `G` Failing tests for the bug cards (GPT Work mode, repeatable)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #860 · CI 7 of 8 passed · last move 26 min ago
+🟢 Team green · model not set · worker working, draft PR #860 · CI 7 of 8 passed · last move 30 min ago
 
 **#22 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
@@ -119,6 +119,10 @@ Updated Thu 15 Oct, 6:23 PM Boston time. Bug hunting only, no new features until
 **#26 · 1826** `G` Cheaper waiting: no repeating online checks while the live listener is working  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #852 · CI 7 of 8 passed · last move 18 h ago
+
+**#27 · 1827** `G` 1826 follow-up: prove that partner changes outside the watched document still arrive while waiting  
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · model not set · worker working, draft PR #861 · CI 7 of 8 passed · last move 3 min ago
 
 ### 👉 Next for you, in this order
 
@@ -1396,17 +1400,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1823
 ```
 
-**#128 · 1827** `G` 1826 follow-up: prove that partner changes outside the watched document still arrive while waiting  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1827'
-
-Type this in Codex cloud:
-
-```text
-Job 1827
-```
-
-**#129 · 1828** `G` Phone free-limit notice covers the soundtrack controls and shows through under Connect Players  
+**#128 · 1828** `G` Phone free-limit notice covers the soundtrack controls and shows through under Connect Players  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1828'
 
