@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 15 Oct, 3:14 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 15 Oct, 3:18 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -22,7 +22,7 @@ Updated Thu 15 Oct, 3:14 PM Boston time. Bug hunting only, no new features until
 
 **#2 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 78 h ago
+🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 79 h ago
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -70,7 +70,7 @@ Updated Thu 15 Oct, 3:14 PM Boston time. Bug hunting only, no new features until
 
 **#14 · 1808** `G` Standings THIS SHOWDOWN stuck on "Loading standings." mid-Showdown  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #841 · CI 7 of 8 passed · last move 43 h ago
+⚪ Team white · model not set · worker working, draft PR #841 · CI 7 of 8 passed · last move 44 h ago
 
 **#15 · 1809** `G` Rivalry Statistics: how the player gets there, and stuck on "Loading rivalry statistics…"  
 `████░░░░░░` **40.0000 %**  
@@ -110,7 +110,7 @@ Updated Thu 15 Oct, 3:14 PM Boston time. Bug hunting only, no new features until
 
 **#24 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 17 h ago
+⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 18 h ago
 
 **#25 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
