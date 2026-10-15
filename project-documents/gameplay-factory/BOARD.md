@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 15 Oct, 3:10 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 15 Oct, 3:14 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -54,7 +54,7 @@ Updated Thu 15 Oct, 3:10 PM Boston time. Bug hunting only, no new features until
 
 **#10 · 1804** `G` Setup write refused by Rules (L2800 evaluation error) when Nik confirms league and clubs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #838 · CI 7 of 8 passed · last move 44 h ago
+⚪ Team white · model not set · worker working, draft PR #838 · CI 7 of 8 passed · last move 45 h ago
 
 **#11 · 1805** `G` Home tile and header chip stay on "Season 1 of N" after season 1  
 `████░░░░░░` **40.0000 %**  
@@ -74,7 +74,7 @@ Updated Thu 15 Oct, 3:10 PM Boston time. Bug hunting only, no new features until
 
 **#15 · 1809** `G` Rivalry Statistics: how the player gets there, and stuck on "Loading rivalry statistics…"  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #846 · CI 7 of 8 passed · last move 29 h ago
+⚪ Team white · model not set · worker working, draft PR #846 · CI 7 of 8 passed · last move 30 h ago
 
 **#16 · 1810** `G` Phone Trophy Room: ranks and all-time records missing, CAREER DETAILS empty  
 `████░░░░░░` **40.0000 %**  
@@ -82,7 +82,7 @@ Updated Thu 15 Oct, 3:10 PM Boston time. Bug hunting only, no new features until
 
 **#17 · 1811** `G` Final reconciliation and FINAL SEASON cells sometimes empty right after the close  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #847 · CI 7 of 8 passed · last move 28 h ago
+⚪ Team white · model not set · worker working, draft PR #847 · CI 7 of 8 passed · last move 29 h ago
 
 **#18 · 1812** `G` Free-limit message must show as soon as Home opens  
 `████░░░░░░` **40.0000 %**  
