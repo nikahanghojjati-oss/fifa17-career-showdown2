@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1826,
+ "next": 1827,
  "claims": [
   {
    "number": 1001,
@@ -4952,6 +4952,12 @@
    "team": "G",
    "title": "Exact Rules lookup cost per season and a ranked cut plan (Codex, report only)",
    "claimed": "2026-10-15T02:35:39Z"
+  },
+  {
+   "number": 1826,
+   "team": "G",
+   "title": "Cheaper waiting: backup checks only when the live listener is down (Codex)",
+   "claimed": "2026-10-15T02:35:42Z"
   }
  ]
 }
