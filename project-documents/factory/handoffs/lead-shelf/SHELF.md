@@ -519,6 +519,8 @@ Nik's own to-dos
 - Type "go" in the Team G thread when their safety check asks (Sun 11 Oct 6:34 p.m.; last three released 9:20 p.m.).
 - Resolve the old thread after hand-over if better (Thu 15 Oct 6:43 p.m.). List small visual fixes after the play-through (Sun 04 Oct 6:08 p.m.).
 
+Answered Thu 15 Oct 7:18 p.m.: Nik agreed: Home tiles follow PHONE_HOME_MARBLE (no centred icons); season chip stays off phone stage screens; the lead makes the small-fixes list in the r77 check; "next-level desktop" = marble design, already DONE (r75). r77 (not r76) carries HO-026, HO-027 and the fade removal.
+
 Open question from Nik (Thu 15 Oct 6:43 p.m.): "I'm not sure what else you need to do for the R77 visual." No answer in the logs. Candidates from the record: r76 live checks above, the Transfer War phone study, Club/VS wordmarks, any small visual list Nik gives.
 
 ## S36 The 15 Oct thread transition

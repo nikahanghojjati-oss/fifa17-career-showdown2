@@ -56,7 +56,9 @@ All four are in `project-documents/factory/handoffs/lead-shelf/` on `factory/v1-
 ## 6. What may come next (r77, Nik expects a visual release)
 
 - When Team G ships r76: check the live phone screens against the PHONE_*_MARBLE mockups with `live_facecheck.cjs` (393x852, 393x660, 375x667, 360x640). Report any failing screen to Team G as a hand-off. Check for no fades, no filters, no flash.
-- Queued plan 2 (Nik, 08 Oct): the "next-level desktop" plan, GPT image upgrades of live screens level by level. It is only queued; start it only when Nik says so or when r76 visuals are confirmed. See SHELF.md, the queue and plans section.
+- "Next-level desktop" (plan 2) is DONE: Nik said on Thu 15 Oct 7:18 p.m. Eastern it was the code name for the marble design, already live (r75). Only desktop glitches Nik reports remain. Never revive it as a new plan.
+- r76 has NO visual changes (gameplay + Firestore reads only; Team G, 15 Oct). HO-026 phone marble, HO-027 no filters and the fade removal are all in **r77** (Nik moved them 13 Oct). After r76: quick no-regression check only; full phone check after r77.
+- Nik agreed (15 Oct 7:18 p.m.): phone Home tiles follow PHONE_HOME_MARBLE (name top left, big icon right, not centred); no season chip on phone stage screens; the lead builds the small-fixes list itself during the r77 check.
 - Mockup closeness board: `project-documents/factory/mockup-board/MOCKUP_BOARD.md` (74% on 06 Oct). Refresh its number after r76 lands.
 - Big goal: when both boards reach 100%, Nik and Daniel have a working, bug-free game on the live site with the new visual pack. That needs integration jobs 103-110, Codex review, a full two-player play-through, and Nik's OK.
 
