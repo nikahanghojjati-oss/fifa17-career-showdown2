@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 15 Oct, 9:41 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 15 Oct, 9:45 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -46,7 +46,7 @@ Updated Thu 15 Oct, 9:41 AM Boston time. Bug hunting only, no new features until
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 43 h ago
+⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 44 h ago
 
 **#9 · 1803** `G` Showdown close write refused: over the Rules 1000-expression limit (fix in the app, not the Rules)  
 `████░░░░░░` **40.0000 %**  
@@ -62,7 +62,7 @@ Updated Thu 15 Oct, 9:41 AM Boston time. Bug hunting only, no new features until
 
 **#12 · 1806** `G` BACK TO SHOWDOWN HOME lands on the dashboard instead of Home  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #839 · CI 7 of 8 passed · last move 38 h ago
+⚪ Team white · model not set · worker working, draft PR #839 · CI 7 of 8 passed · last move 39 h ago
 
 **#13 · 1807** `G` REVIEW SEASON button hidden on the Showdown Champion screen  
 `████░░░░░░` **40.0000 %**  
@@ -94,7 +94,7 @@ Updated Thu 15 Oct, 9:41 AM Boston time. Bug hunting only, no new features until
 
 **#20 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 58 min ago
+⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 62 min ago
 
 **#21 · 1818** `G` Failing tests for the bug cards (GPT Work mode, repeatable)  
 `████░░░░░░` **40.0000 %**  
