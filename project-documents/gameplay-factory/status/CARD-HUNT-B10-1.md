@@ -8,7 +8,7 @@
 
 ## What the player sees
 
-Daniel or Nik leaves Career Statistics or Trophy Room open while the online completed-Showdown career model updates. The screen can keep the preceding trophy or career totals (for example, Daniel still has **1 league title** after his online record reaches **2**) until an identity event, another render, or reopening the screen.
+Daniel or Nik leaves Career Statistics or Trophy Room open while the online completed-Showdown career model updates. The screen can keep the preceding trophy or career totals (for example, Daniel still has **3 league titles** after his online record reaches **4**) until an identity event, another render, or reopening the screen.
 
 ## Where in today's game
 
@@ -37,9 +37,9 @@ This is **not a duplicate** of `CARD-HUNT-A06-1.md`: that card concerns `rivalry
 
 ## How to reproduce
 
-Use the existing VM screen harness in `tests/contracts/career-screens-v10-contracts.cjs:165-214`: a signed-in Daniel/Nik account, `getModel:()=>null`, mounted `careerStatistics`, and a cached `ready` model from `tests/fixtures/data-contract-v1/multi-showdown-career.json`. Wait for the first online load to settle. Then replace the stub `CareerModeRivalryLegacyV10.cachedCareerModel()` return value with another valid `ready` model, changing Daniel's `leagueTitles` from 1 to 2, and dispatch `career-mode-online-career-model-change` through the captured `addEventListener` callback table. Keep the account, manager and pair unchanged; do not call open or render again.
+Use the existing VM screen harness in `tests/contracts/career-screens-v10-contracts.cjs:165-214`: a signed-in Daniel/Nik account, `getModel:()=>null`, mounted `careerStatistics`, and a cached `ready` model from `tests/fixtures/data-contract-v1/multi-showdown-career.json`. Wait for the first online load to settle. Then replace the stub `CareerModeRivalryLegacyV10.cachedCareerModel()` return value with another valid `ready` model, changing Daniel's `managers.daniel.leagueTitles` and `trophyRoom.cabinet.daniel.leagueTitles` from 3 to 4, and dispatch `career-mode-online-career-model-change` through the captured `addEventListener` callback table. Keep the account, manager and pair unchanged; do not call open or render again.
 
-**Expected:** the mounted Career Statistics frame switches to the new model and shows 2 league titles. **Wrong today:** no listener is registered for that event, so its frame remains the old object and shows 1. Repeat with `trophyRoom`; its cabinet remains stale in the same way. This is a deterministic event/VM reproduction rather than a claim of a completed browser test.
+**Expected:** the mounted Career Statistics frame switches to the new model and shows 4 league titles. **Wrong today:** no listener is registered for that event, so its frame remains the old object and shows 3. Repeat with `trophyRoom`; its cabinet remains stale in the same way. This is a deterministic event/VM reproduction rather than a claim of a completed browser test.
 
 ## Failing test to write
 
@@ -47,10 +47,10 @@ Use the existing VM screen harness in `tests/contracts/career-screens-v10-contra
 
 Copy the `vm`, `CareerModeV10Screens` registration/mount stubs, `loadRuntimeScript`, and in-memory provider-backed career fixture from `tests/contracts/career-screens-v10-contracts.cjs:165-214`; change `addEventListener` to retain callbacks and implement a `dispatchEvent` stub. Inputs:
 
-1. A signed-in manager with `getModel:()=>null`, open Career Statistics, valid initial online `ready` model with **1** Daniel league title; allow initial load to finish.
-2. Replace the shared `cachedCareerModel()` value with a second `ready` model with **2** Daniel league titles, dispatch `career-mode-online-career-model-change`, and flush microtasks.
-3. Expect one or more invalidation/show calls for the mounted screen and `drawn.get("careerStatistics")` to be the new model (whose Team V frame has Daniel league titles **2**). **Wrong today:** zero calls from this event and the frame remains the first model (**1**).
-4. Repeat for mounted Trophy Room; expect the cabinet to show **2**, not **1**. Assert no forced provider read or redraw when neither career screen is mounted, a separately supplied model is in use, or an unrelated account is active.
+1. A signed-in manager with `getModel:()=>null`, open Career Statistics, valid initial online `ready` model with **3** Daniel league titles; allow initial load to finish.
+2. Replace the shared `cachedCareerModel()` value with a second `ready` model with **4** Daniel league titles, dispatch `career-mode-online-career-model-change`, and flush microtasks.
+3. Expect one or more invalidation/show calls for the mounted screen and `drawn.get("careerStatistics")` to be the new model (whose Team V frame has Daniel league titles **4**). **Wrong today:** zero calls from this event and the frame remains the first model (**3**).
+4. Repeat for mounted Trophy Room; expect the cabinet to show **4**, not **3**. Assert no forced provider read or redraw when neither career screen is mounted, a separately supplied model is in use, or an unrelated account is active.
 5. Keep the existing identity-change assertion: switching accounts still uses the identity handler and must not display another account's previous cache.
 
 Run `node tests/contracts/sweep-online-career-live-refresh-contracts.cjs`. The named regression test is **proposed**, not yet implemented or run.
