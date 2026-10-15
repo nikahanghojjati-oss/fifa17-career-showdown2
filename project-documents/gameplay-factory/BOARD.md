@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 15 Oct, 2:23 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 15 Oct, 2:28 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -26,11 +26,11 @@ Updated Thu 15 Oct, 2:23 PM Boston time. Bug hunting only, no new features until
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 77 h ago
+🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 78 h ago
 
 **#4 · 1729** `G` Standings: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 77 h ago
+🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 78 h ago
 
 **#5 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -38,7 +38,7 @@ Updated Thu 15 Oct, 2:23 PM Boston time. Bug hunting only, no new features until
 
 **#6 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 77 h ago
+🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 78 h ago
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -58,7 +58,7 @@ Updated Thu 15 Oct, 2:23 PM Boston time. Bug hunting only, no new features until
 
 **#11 · 1805** `G` Home tile and header chip stay on "Season 1 of N" after season 1  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #845 · CI 7 of 8 passed · last move 41 h ago
+🟢 Team green · model not set · worker working, draft PR #845 · CI 7 of 8 passed · last move 42 h ago
 
 **#12 · 1806** `G` BACK TO SHOWDOWN HOME lands on the dashboard instead of Home  
 `████░░░░░░` **40.0000 %**  
@@ -98,15 +98,15 @@ Updated Thu 15 Oct, 2:23 PM Boston time. Bug hunting only, no new features until
 
 **#21 · 1818** `G` Failing tests for the bug cards (GPT Work mode, repeatable)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #850 · CI 7 of 8 passed · last move 25 h ago
+🟢 Team green · model not set · worker working, draft PR #850 · CI 7 of 8 passed · last move 26 h ago
 
 **#22 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 110 min ago
+⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 115 min ago
 
 **#23 · 1821** `G` Season chip fix that fits the startup size limit (redo of JOB-1805)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #845 · CI 7 of 8 passed · last move 41 h ago
+⚪ Team white · model not set · worker working, draft PR #845 · CI 7 of 8 passed · last move 42 h ago
 
 **#24 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
