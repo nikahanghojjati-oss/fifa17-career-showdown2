@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1827,
+ "next": 1828,
  "claims": [
   {
    "number": 1001,
@@ -4958,6 +4958,12 @@
    "team": "G",
    "title": "Cheaper waiting: backup checks only when the live listener is down (Codex)",
    "claimed": "2026-10-15T02:35:42Z"
+  },
+  {
+   "number": 1827,
+   "team": "G",
+   "title": "1826 follow-up: prove partner changes outside the watched document still arrive while waiting (Codex)",
+   "claimed": "2026-10-15T16:52:56Z"
   }
  ]
 }
