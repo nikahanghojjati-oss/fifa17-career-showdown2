@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 15 Oct, 12:28 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 15 Oct, 12:36 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -42,7 +42,7 @@ Updated Thu 15 Oct, 12:28 PM Boston time. Bug hunting only, no new features unti
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 75 h ago
+🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 76 h ago
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
@@ -100,19 +100,23 @@ Updated Thu 15 Oct, 12:28 PM Boston time. Bug hunting only, no new features unti
 `████░░░░░░` **40.0000 %**  
 🟢 Team green · model not set · worker working, draft PR #850 · CI 7 of 8 passed · last move 24 h ago
 
-**#22 · 1821** `G` Season chip fix that fits the startup size limit (redo of JOB-1805)  
+**#22 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 4 min ago
+
+**#23 · 1821** `G` Season chip fix that fits the startup size limit (redo of JOB-1805)  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #845 · CI 7 of 8 passed · last move 40 h ago
 
-**#23 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
+**#24 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 15 h ago
 
-**#24 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
+**#25 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 12 h ago
 
-**#25 · 1826** `G` Cheaper waiting: no repeating online checks while the live listener is working  
+**#26 · 1826** `G` Cheaper waiting: no repeating online checks while the live listener is working  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #852 · CI 7 of 8 passed · last move 12 h ago
 
@@ -1362,17 +1366,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1817
 ```
 
-**#125 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1819'
-
-Type this in Codex cloud:
-
-```text
-Job 1819
-```
-
-**#126 · 1820** `G` Startup size room for r76 (report only, no app change)  
+**#125 · 1820** `G` Startup size room for r76 (report only, no app change)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1820'
 
@@ -1382,7 +1376,7 @@ Type this in Codex cloud:
 Job 1820
 ```
 
-**#127 · 1822** `G` Stats and history bug hunt, part A (GPT chat, repeatable)  
+**#126 · 1822** `G` Stats and history bug hunt, part A (GPT chat, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1822'
 
@@ -1392,7 +1386,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1822
 ```
 
-**#128 · 1823** `G` Stats and history bug hunt, part B (GPT chat, repeatable)  
+**#127 · 1823** `G` Stats and history bug hunt, part B (GPT chat, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1823'
 
