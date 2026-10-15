@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 14 Oct, 10:34 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 14 Oct, 10:38 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -78,7 +78,7 @@ Updated Wed 14 Oct, 10:34 PM Boston time. Bug hunting only, no new features unti
 
 **#16 · 1810** `G` Phone Trophy Room: ranks and all-time records missing, CAREER DETAILS empty  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #844 · CI 7 of 8 passed · last move 26 h ago
+⚪ Team white · model not set · worker working, draft PR #844 · CI 7 of 8 passed · last move 27 h ago
 
 **#17 · 1811** `G` Final reconciliation and FINAL SEASON cells sometimes empty right after the close  
 `████░░░░░░` **40.0000 %**  
@@ -102,7 +102,7 @@ Updated Wed 14 Oct, 10:34 PM Boston time. Bug hunting only, no new features unti
 
 **#22 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 77 min ago
+⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 81 min ago
 
 ### 👉 Next for you, in this order
 
@@ -1400,6 +1400,26 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1823
 ```
 
+**#130 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1825'
+
+Type this in Codex cloud:
+
+```text
+Job 1825
+```
+
+**#131 · 1826** `G` Cheaper waiting: no repeating online checks while the live listener is working  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1826'
+
+Type this in Codex cloud:
+
+```text
+Job 1826
+```
+
 ### ⏸ Waiting on something else
 
 **#1 · 1582** `G` Showdown Gate: screen shots of changed screens as a run artifact  
@@ -1495,8 +1515,8 @@ Job 1823
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`███░░░░░░░` **32.8125 %**  
-Numbered jobs: 56 done, 172 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`███░░░░░░░` **32.5581 %**  
+Numbered jobs: 56 done, 174 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **53.5714 %**  
