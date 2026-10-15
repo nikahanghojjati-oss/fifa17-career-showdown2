@@ -2979,3 +2979,20 @@ The face check passes on all 12 screens with the managers. [All 15 on one pictur
 
 ### Thu 15 Oct 2026 6:43 p.m. Eastern [reply]
 Yes, I'll check whether a fresh thread saves usage, then build the short handoff, the detailed shelf file, and memory updates.
+
+### Thu 15 Oct 2026 6:45 p.m. Eastern [reply]
+Yes, after each release is a good rule for Team V too. Starting a new thread is cheap: it reads the short handoff and memory, a few thousand words. An old thread rereads its whole history on every reply. Here the hourly backlog check wakes it about 19 times a day, so that cost is much bigger.
+
+I'm writing the rule into the handoff. Every future Team V lead will remind you right after Team G tells us a release shipped. The files are being built now, and I'll send the coordinator line when they're pushed.
+
+### Thu 15 Oct 2026 6:47 p.m. Eastern [reply]
+I'll check exactly what wakes Claude in the background (the hourly check plus anything else) and explain it plainly.
+
+### Thu 15 Oct 2026 6:48 p.m. Eastern [reply]
+I've paused the hourly check, so it no longer uses your usage.
+
+**What it was:** a scheduled check you asked for on 4 Oct, back when GPT chats were sending many jobs: "never let more than 3 jobs wait for a Claude check." It woke this thread 19 times a day, every hour from 7 a.m. to 1 a.m. Eastern. Each time it looked for finished GPT jobs or new studies to review. It has found nothing since 13 Oct, but every run still reread this whole long thread. That is the waste you noticed (I wrote 19, not 90).
+
+**The relay is separate and costs nothing when quiet.** It only wakes Claude when Team G actually sends a message, so it keeps working as before. No other Team V task runs in the background.
+
+**Going forward:** the check stays off. The new Team V lead turns it back on only when you start handing GPT jobs to Team V again, and turns it off when the queue is empty. I wrote this into the handoff file. I'll send the coordinator line once the detailed shelf file is finished.
