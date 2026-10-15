@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 15 Oct, 7:00 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 15 Oct, 7:04 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -98,7 +98,7 @@ Updated Thu 15 Oct, 7:00 PM Boston time. Bug hunting only, no new features until
 
 **#21 · 1818** `G` Failing tests for the bug cards (GPT Work mode, repeatable)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #860 · CI 7 of 8 passed · last move 62 min ago
+🟢 Team green · model not set · worker working, draft PR #860 · CI 7 of 8 passed · last move 66 min ago
 
 **#22 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
@@ -122,11 +122,11 @@ Updated Thu 15 Oct, 7:00 PM Boston time. Bug hunting only, no new features until
 
 **#27 · 1827** `G` 1826 follow-up: prove that partner changes outside the watched document still arrive while waiting  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #861 · CI 7 of 8 passed · last move 36 min ago
+⚪ Team white · model not set · worker working, draft PR #861 · CI 7 of 8 passed · last move 40 min ago
 
 **#28 · 1828** `G` Phone free-limit notice covers the soundtrack controls and shows through under Connect Players  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #862 · CI 7 of 8 passed · last move 6 min ago
+⚪ Team white · model not set · worker working, draft PR #862 · CI 7 of 8 passed · last move 10 min ago
 
 ### 👉 Next for you, in this order
 
