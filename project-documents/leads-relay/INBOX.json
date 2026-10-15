@@ -1,9 +1,9 @@
 {
  "_how": "Each team's current Claude session for the relay. The sender of any relay message or hand-off change wakes the other team at once with the claude-code-remote send_message tool (CONTRACT.md §9). Update your own entry whenever your relay thread changes.",
  "G": {
-  "session_id": "session_01WtNr2MS7C9s34e26kzc17a",
-  "thread": "Team G lead: relay and factory (reads the relay, owns main)",
-  "updated": "2026-10-11T03:40:00Z"
+  "session_id": "session_013dkr2En27fWuBRYhcLxJRU",
+  "thread": "Team G lead: r76 (reads the relay, owns main)",
+  "updated": "2026-10-15T23:12:00Z"
  },
  "V": {
   "session_id": "session_014ZJxmmR5BHBU6KFwo3Mvsk",
