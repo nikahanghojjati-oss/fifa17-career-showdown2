@@ -131,12 +131,15 @@
   }
 
   function hmQuotaNotice(){
-    const budget=root.CareerModeFirestoreBudget,message=budget?.quotaMessage?.();
-    if(message){
-      if(root.getActiveScreenName?.()==="mainMenu")root.showAppNotice?.(message,"error",0);
+    const doc=hmDoc(),budget=root.CareerModeFirestoreBudget,message=budget?.quotaMessage?.(),home=doc?.getElementById("mainMenu");
+    if(message&&root.getActiveScreenName?.()==="mainMenu"&&!home?.closest?.("[inert]")){
+      root.showAppNotice?.(message,"error",0);
+      const notice=doc?.getElementById("appRuntimeNotice");
+      if(notice&&home?.parentNode){notice.dataset.homeQuota="1";if(notice.parentNode!==home)home.appendChild(notice);}
     }else{
-      const notice=hmDoc()?.getElementById("appRuntimeNotice");
+      const notice=doc?.getElementById("appRuntimeNotice");
       if(budget&&notice?.querySelector(".runtimeNoticeText")?.textContent===budget.quotaMessageText)notice.remove();
+      else if(notice?.dataset.homeQuota){delete notice.dataset.homeQuota;doc.body.appendChild(notice);}
     }
   }
 
@@ -172,6 +175,9 @@
     V.register("mainMenu",{css:HOME_CSS.slice(),js:[["v10-home-soundtrack","home/soundtrack.js",()=>Boolean(root.HomeSoundtrack)]],frame:()=>FRAME,mount:hmDecorate,unmount:hmUnmount});
     if(typeof root.addEventListener==="function")root.addEventListener("career-mode-offline-state-change",hmOnline);
     if(typeof root.addEventListener==="function")root.addEventListener("career-mode-firestore-quota",hmQuotaNotice);
+    hmDoc()?.addEventListener("career-mode-screen-shown",hmQuotaNotice);
+    const app=hmDoc()?.getElementById("app");
+    if(app&&root.MutationObserver)new root.MutationObserver(hmQuotaNotice).observe(app,{subtree:true,attributes:true,attributeFilter:["inert"]});
     registered=V.show("mainMenu").catch(error=>{root.console?.warn?.("[Career Mode Showdown] Team V Home unavailable.",error);return false;});
     return registered;
   }
