@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 14 Oct, 10:41 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 14 Oct, 10:45 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -46,7 +46,7 @@ Updated Wed 14 Oct, 10:41 PM Boston time. Bug hunting only, no new features unti
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 32 h ago
+⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 33 h ago
 
 **#9 · 1803** `G` Showdown close write refused: over the Rules 1000-expression limit (fix in the app, not the Rules)  
 `████░░░░░░` **40.0000 %**  
@@ -62,7 +62,7 @@ Updated Wed 14 Oct, 10:41 PM Boston time. Bug hunting only, no new features unti
 
 **#12 · 1806** `G` BACK TO SHOWDOWN HOME lands on the dashboard instead of Home  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #839 · CI 7 of 8 passed · last move 27 h ago
+⚪ Team white · model not set · worker working, draft PR #839 · CI 7 of 8 passed · last move 28 h ago
 
 **#13 · 1807** `G` REVIEW SEASON button hidden on the Showdown Champion screen  
 `████░░░░░░` **40.0000 %**  
@@ -102,7 +102,7 @@ Updated Wed 14 Oct, 10:41 PM Boston time. Bug hunting only, no new features unti
 
 **#22 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 84 min ago
+⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 88 min ago
 
 ### 👉 Next for you, in this order
 
