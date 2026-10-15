@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 15 Oct, 9:15 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 15 Oct, 9:19 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -22,7 +22,7 @@ Updated Thu 15 Oct, 9:15 AM Boston time. Bug hunting only, no new features until
 
 **#2 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 72 h ago
+🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 73 h ago
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -94,7 +94,7 @@ Updated Thu 15 Oct, 9:15 AM Boston time. Bug hunting only, no new features until
 
 **#20 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 32 min ago
+⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 36 min ago
 
 **#21 · 1818** `G` Failing tests for the bug cards (GPT Work mode, repeatable)  
 `████░░░░░░` **40.0000 %**  
@@ -106,7 +106,7 @@ Updated Thu 15 Oct, 9:15 AM Boston time. Bug hunting only, no new features until
 
 **#23 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 11 h ago
+⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 12 h ago
 
 **#24 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
