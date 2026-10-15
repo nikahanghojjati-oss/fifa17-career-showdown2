@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 15 Oct, 6:11 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 15 Oct, 6:15 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -74,7 +74,7 @@ Updated Thu 15 Oct, 6:11 PM Boston time. Bug hunting only, no new features until
 
 **#15 · 1809** `G` Rivalry Statistics: how the player gets there, and stuck on "Loading rivalry statistics…"  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #846 · CI 7 of 8 passed · last move 32 h ago
+⚪ Team white · model not set · worker working, draft PR #846 · CI 7 of 8 passed · last move 33 h ago
 
 **#16 · 1810** `G` Phone Trophy Room: ranks and all-time records missing, CAREER DETAILS empty  
 `████░░░░░░` **40.0000 %**  
@@ -82,7 +82,7 @@ Updated Thu 15 Oct, 6:11 PM Boston time. Bug hunting only, no new features until
 
 **#17 · 1811** `G` Final reconciliation and FINAL SEASON cells sometimes empty right after the close  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #847 · CI 7 of 8 passed · last move 31 h ago
+⚪ Team white · model not set · worker working, draft PR #847 · CI 7 of 8 passed · last move 32 h ago
 
 **#18 · 1812** `G` Free-limit message must show as soon as Home opens  
 `████░░░░░░` **40.0000 %**  
@@ -98,7 +98,7 @@ Updated Thu 15 Oct, 6:11 PM Boston time. Bug hunting only, no new features until
 
 **#21 · 1818** `G` Failing tests for the bug cards (GPT Work mode, repeatable)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #860 · CI 7 of 8 passed · last move 13 min ago
+🟢 Team green · model not set · worker working, draft PR #860 · CI 7 of 8 passed · last move 17 min ago
 
 **#22 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
