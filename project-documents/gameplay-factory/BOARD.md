@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 15 Oct, 12:48 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 15 Oct, 12:52 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -90,7 +90,7 @@ Updated Thu 15 Oct, 12:48 AM Boston time. Bug hunting only, no new features unti
 
 **#19 · 1815** `G` Shared-journey guard: prove or fix the stale-marker block (U-01)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #848 · CI 7 of 8 passed · last move 12 h ago
+⚪ Team white · model not set · worker working, draft PR #848 · CI 7 of 8 passed · last move 13 h ago
 
 **#20 · 1818** `G` Failing tests for the bug cards (GPT Work mode, repeatable)  
 `████░░░░░░` **40.0000 %**  
@@ -106,11 +106,11 @@ Updated Thu 15 Oct, 12:48 AM Boston time. Bug hunting only, no new features unti
 
 **#23 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 26 min ago
+⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 30 min ago
 
 **#24 · 1826** `G` Cheaper waiting: no repeating online checks while the live listener is working  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #852 · CI 7 of 8 passed · last move 70 min ago
+⚪ Team white · model not set · worker working, draft PR #852 · CI 7 of 8 passed · last move 74 min ago
 
 ### 👉 Next for you, in this order
 
