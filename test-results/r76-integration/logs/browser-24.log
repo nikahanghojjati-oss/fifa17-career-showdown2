@@ -1,0 +1,4 @@
+PASS Stage 5H real browser offline Host recovered on online event with one capability and one provider mutation
+PASS Stage 5H independently-offline peer recovered Join and both contexts converged at revision 1
+PASS Stage 5H real browser offline Close recovered terminally and both contexts converged at revision 2
+PASS Stage 5H two-context real-browser adverse-network recovery audit at http://127.0.0.1:4511/

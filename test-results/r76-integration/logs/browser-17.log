@@ -1,0 +1,1 @@
+PASS clean Settings exposes safe remote-first Showdown deletion, returns Home after success, and keeps recovery/engineering account UI internal at http://127.0.0.1:4511/

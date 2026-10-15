@@ -1,0 +1,17 @@
+ok 1 FB1 a read-only transaction ends without a commit RPC (no verify writes); a writing one commits once
+ok 2 FB2 refreshes of the same document within 2 s cost one read; concurrent reads share one request; quiet checks reuse up to 60 s; taps, waits and fast checks read fresh
+ok 3 FB2b a check that sees a changed document after reusing an old copy re-runs on fresh reads (never a mix of old and new)
+ok 4 FB2d a fresh re-run does not start a cascade: another screen's forgotten but unchanged documents do not count as changed
+ok 5 FB2f season documents the Rules make immutable (published results, ACKNOWLEDGED commits) are read once per page
+ok 6 FB2c a rivalry that is still pending its pair is read fresh on every check, so the partner's join shows at once
+ok 7 FB3 Transfer waiting screen, both visible: <= budget reads/min with the listener, 0 writes, and a partner move reaches it within 1 s
+ok 8 FB4 a hidden tab reads nothing and drops its listener; returning re-reads once and re-attaches
+ok 9 FB4b a screen that was waiting when the tab was hidden catches up with one check the moment it is visible again
+ok 10 FB4c after the listener sees the partner's move, the follow-on checks of other screens reuse what the chain just read
+ok 11 FB5 a screen with only the 15 s poll stays within the idle budget; nothing writes while idle
+ok 12 FB6 listener drops or errors: the 3 s check takes over within one tick, stays within today's cadence, and no stale data is served
+ok 13 FB7 a listener that falls behind the server is dropped within 5 s and the screen reads the server
+ok 14 FB8 at most one listener per page; the other waiting screen keeps fresh 3 s checks and gets the listener once the first lets go
+ok 15 FB9 resource-exhausted pauses all traffic (10, then 20 min), shows the exact message once, and wakes the screens after
+ok 16 FB10 every connected module goes through the budget layer; wait points ask for the listener; device re-checks are capped
+PASS Firestore budget contracts: 16 checks, measured reads/min 3.4 / 0.0 / 3.0 / 1.8 / 60.0 (waiting <= 5 reads/min, hidden 0, idle writes 0, partner update <= 1000 ms).

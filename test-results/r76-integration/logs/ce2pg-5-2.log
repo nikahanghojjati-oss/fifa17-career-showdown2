@@ -1,0 +1,116 @@
+⚠  Unable to fetch the CLI MOTD and remote config. This is not a fatal error, but may indicate an issue with your network connection.
+i  emulators: Starting emulators: auth, firestore
+i  emulators: Detected demo project ID "demo-cms-browser-journey", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+⚠  firestore: Cloud Firestore Emulator does not support multiple databases yet.
+⚠  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file.
+⚠  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration.
+i  firestore: Firestore Emulator logging to firestore-debug.log
+✔  firestore: Firestore Emulator was started in standard edition.
+✔  firestore: Firestore Emulator UI websocket is running on 9414.
+i  Running script: node tests/browser/ce2pg-journey.cjs
+ok   setup.switch.daniel [daniel] s0 emulator switch active (localhost + cmsEmulator=1 only)
+ok   setup.switch.nik [nik] s0 emulator switch active (localhost + cmsEmulator=1 only)
+ok   setup.signin [both] s0 Daniel and Nik signed in through SIGN IN WITH GOOGLE as two distinct accounts
+ok   setup.account.daniel [daniel] s0 account bootstrapped in the database
+ok   setup.account.nik [nik] s0 account bootstrapped in the database
+ok   setup.paircode [daniel] s0 Daniel created a pair code on the Start screen
+ok   setup.paired [both] s0 Nik joined with the code: Daniel is playerOne, Nik playerTwo, same rivalry
+ok   setup.session [both] s0 Daniel hosts the private session and Nik joins it without typing a code
+ok   setup.league.wait [nik] s0 Nik waits for the host and cannot draw the league
+ok   setup.league [both] s0 both managers see the same drawn league
+ok   setup.clubscreen.daniel [daniel] s0 the club screen names the shared league
+ok   setup.clubscreen.nik [nik] s0 the club screen names the shared league
+ok   setup.clubs.wait [nik] s0 Nik cannot draw the clubs
+ok   setup.clubs [nik] s0 both managers see the same two clubs
+ok   setup.careerstart.daniel [daniel] s0 Career Start names the manager and their assigned club
+ok   setup.careerstart.nik [nik] s0 Career Start names the manager and their assigned club
+PLAN ce2pg-5-2: league Ligue 1 (20 teams), clubs Lorient v Bordeaux, final {"daniel":15,"nik":26,"winner":"nik"}
+ok   S1.transfer.coordinator [nik] s1 only Daniel can start the shared transfer window
+ok   S1.transfer.privacy.nik [nik] s1 Daniel's locked signing stays hidden from Nik before completion
+ok   S1.transfer.privacy.daniel [daniel] s1 Nik's unfinished signing stays hidden from Daniel
+ok   S1.transfer.reveal.daniel [daniel] s1 completed transfer reveals both signings
+ok   S1.transfer.reveal.nik [nik] s1 completed transfer reveals both signings
+ok   S1.transfer.verdicts [both] s1 both managers see identical transfer verdicts
+ok   S1.results.privacy [nik] s1 Daniel's published numbers are not shown to Nik before Nik publishes
+ok   S1.results.converge [both] s1 both managers see identical result cards
+ok   S1.results.facts.daniel [daniel] s1 result cards show exactly the entered league position, points and goals
+ok   S1.results.noerror.daniel [daniel] s1 no error banner after publishing
+ok   S1.results.facts.nik [nik] s1 result cards show exactly the entered league position, points and goals
+ok   S1.results.noerror.nik [nik] s1 no error banner after publishing
+ok   S1.commit.coordinator [nik] s1 Nik cannot commit the season
+ok   S1.scoring.state.daniel [daniel] s1 canonical scoring state equals the recomputed breakdown
+ok   S1.scoring.totals.daniel [daniel] s1 season totals on screen
+ok   S1.scoring.winner.daniel [daniel] s1 season winner on screen
+ok   S1.scoring.state.nik [nik] s1 canonical scoring state equals the recomputed breakdown
+ok   S1.scoring.totals.nik [nik] s1 season totals on screen
+ok   S1.scoring.winner.nik [nik] s1 season winner on screen
+ok   S1.history.heading.daniel [daniel] s1 Shared History heading
+ok   S1.history.summary.daniel [daniel] s1 Shared History overall totals and lead
+ok   S1.history.records.daniel [daniel] s1 Shared History W/D/L and points per manager
+ok   S1.history.trophies.daniel [daniel] s1 Shared History trophy attribution
+ok   S1.history.heading.nik [nik] s1 Shared History heading
+ok   S1.history.summary.nik [nik] s1 Shared History overall totals and lead
+ok   S1.history.records.nik [nik] s1 Shared History W/D/L and points per manager
+ok   S1.history.trophies.nik [nik] s1 Shared History trophy attribution
+ok   S1.dashboard.after-continue.daniel [daniel] s1 dashboard after season 1 (after-continue): season counter, totals, lead, last season, last league finish
+ok   S1.dashboard.after-continue.nik [nik] s1 dashboard after season 1 (after-continue): season counter, totals, lead, last season, last league finish
+ok   S1.reload.session.daniel [daniel] s1 after a reload the manager is back in the same private session
+ok   S1.reload.noGetReady.daniel [daniel] s1 no GET READY overlay after reload
+ok   S1.reload.session.nik [nik] s1 after a reload the manager is back in the same private session
+ok   S1.reload.noGetReady.nik [nik] s1 no GET READY overlay after reload
+ok   S1.reload.resume.nik [nik] s1 after reload the manager resumes on the dashboard of the next season
+ok   S1.reload.noCareerStart.nik [nik] s1 resume does not replay Career Start
+ok   S1.dashboard.after-reload.nik [nik] s1 dashboard after season 1 (after-reload): season counter, totals, lead, last season, last league finish
+ok   S1.reload.resume.daniel [daniel] s1 after reload the manager resumes on the dashboard of the next season
+ok   S1.reload.noCareerStart.daniel [daniel] s1 resume does not replay Career Start
+ok   S1.dashboard.after-reload.daniel [daniel] s1 dashboard after season 1 (after-reload): season counter, totals, lead, last season, last league finish
+ok   S1.excursion.home.daniel [daniel] s1 BACK TO MAIN MENU from the dashboard reaches Showdown Home
+ok   S1.excursion.tile.daniel [daniel] s1 the CONTINUE CAREER tile on Showdown Home shows the current season (Season 2 of 5)
+FAIL S1.excursion.stats.daniel [daniel] s1 Career Statistics mid-showdown says there is no completed record yet -> CAREER STATISTICS TWO MANAGERS. ONE LEGACY. COMPLETED SHOWDOWNS 0 TOGETHER SEASONS PLAYED D 1 / N 1 CAREER POINTS D 4 / N 0 TROPHIES WON D 2 / N 0 TABLE COMPARE LEADERS CAREER TABLE # Manager Showdowns Season W-D-L Points Trophies 1 ♛ Daniel 0 1-0-0 4 2 2 Nik 0 0-0-1 0 0 CURRENT RIVALRY STATISTICS › OPEN TROPHY ROOM › BACK TO MAIN MENU ›
+PROBLEM S1.excursion.stats.daniel [daniel] season 1 (Career Statistics): Career Statistics mid-showdown says there is no completed record yet. CAREER STATISTICS TWO MANAGERS. ONE LEGACY. COMPLETED SHOWDOWNS 0 TOGETHER SEASONS PLAYED D 1 / N 1 CAREER POINTS D 4 / N 0 TROPHIES WON D 2 / N 0 TABLE COMPARE LEADERS CAREER TABLE # Manager Showdowns Season W-D-L Points Trophies
+FAIL S1.excursion.trophy.daniel [daniel] s1 Trophy Room mid-showdown shows no trophies yet (all NOT WON YET) -> [{"trophy":"showdown","text":"SHOWDOWN CHAMPION DANIEL — NIK — NOT WON YET","sides":{"daniel":"—","nik":"—"}},{"trophy":"leagueTitles","text":"LEAGUE TITLE DANIEL 1 NIK —","sides":{"daniel":"1","nik":"—"}},{"trophy":"domesticCups","text":"DOMESTIC CUP DANIEL 1 NIK —","sides":{"daniel":"1","nik":"—"}},{"trophy":"championsLeague","text":"CHAMPIONS LEAGUE DANIEL — NIK — NOT WON YET","sides":{"daniel":"—","nik":"—"}}]
+PROBLEM S1.excursion.trophy.daniel [daniel] season 1 (Trophy Room): Trophy Room mid-showdown shows no trophies yet (all NOT WON YET). [{"trophy":"showdown","text":"SHOWDOWN CHAMPION DANIEL — NIK — NOT WON YET","sides":{"daniel":"—","nik":"—"}},{"trophy":"leagueTitles","text":"LEAGUE TITLE DANIEL 1 NIK —","sides":{"daniel":"1","nik":"—"}},{"trophy":"domesticCups","te
+ok   S1.excursion.legacy.daniel [daniel] s1 Legacy mid-showdown shows no completed showdowns yet
+ok   S1.excursion.standings.daniel [daniel] s1 STANDINGS (This Showdown) is loaded and not stuck on Loading
+ok   S1.dashboard.after-excursion.daniel [daniel] s1 dashboard after season 1 (after-excursion): season counter, totals, lead, last season, last league finish
+ok   S1.rivalry.loads.daniel [daniel] s1 RIVALRY STATISTICS finishes loading (not stuck on 'Loading rivalry statistics')
+FAIL S1.rivalry.back.daniel [daniel] s1 RIVALRY STATISTICS: back returns to the season dashboard -> screens=mainMenu | badge=DANIEL | overlays=
+PROBLEM S1.rivalry.back.daniel [daniel] season 1 (Rivalry Statistics): RIVALRY STATISTICS: back returns to the season dashboard. screens=mainMenu | badge=DANIEL | overlays=
+ok   S1.excursion.home.nik [nik] s1 BACK TO MAIN MENU from the dashboard reaches Showdown Home
+ok   S1.excursion.tile.nik [nik] s1 the CONTINUE CAREER tile on Showdown Home shows the current season (Season 2 of 5)
+FAIL S1.excursion.stats.nik [nik] s1 Career Statistics mid-showdown says there is no completed record yet -> CAREER STATISTICS TWO MANAGERS. ONE LEGACY. COMPLETED SHOWDOWNS 0 TOGETHER SEASONS PLAYED D 1 / N 1 CAREER POINTS D 4 / N 0 TROPHIES WON D 2 / N 0 TABLE COMPARE LEADERS CAREER TABLE # Manager Showdowns Season W-D-L Points Trophies 1 ♛ Daniel 0 1-0-0 4 2 2 Nik 0 0-0-1 0 0 CURRENT RIVALRY STATISTICS › OPEN TROPHY ROOM › BACK TO MAIN MENU ›
+PROBLEM S1.excursion.stats.nik [nik] season 1 (Career Statistics): Career Statistics mid-showdown says there is no completed record yet. CAREER STATISTICS TWO MANAGERS. ONE LEGACY. COMPLETED SHOWDOWNS 0 TOGETHER SEASONS PLAYED D 1 / N 1 CAREER POINTS D 4 / N 0 TROPHIES WON D 2 / N 0 TABLE COMPARE LEADERS CAREER TABLE # Manager Showdowns Season W-D-L Points Trophies
+FAIL S1.excursion.trophy.nik [nik] s1 Trophy Room mid-showdown shows no trophies yet (all NOT WON YET) -> [{"trophy":"showdown","text":"SHOWDOWN CHAMPION DANIEL — NIK — NOT WON YET","sides":{"daniel":"—","nik":"—"}},{"trophy":"leagueTitles","text":"LEAGUE TITLE DANIEL 1 NIK —","sides":{"daniel":"1","nik":"—"}},{"trophy":"domesticCups","text":"DOMESTIC CUP DANIEL 1 NIK —","sides":{"daniel":"1","nik":"—"}},{"trophy":"championsLeague","text":"CHAMPIONS LEAGUE DANIEL — NIK — NOT WON YET","sides":{"daniel":"—","nik":"—"}}]
+PROBLEM S1.excursion.trophy.nik [nik] season 1 (Trophy Room): Trophy Room mid-showdown shows no trophies yet (all NOT WON YET). [{"trophy":"showdown","text":"SHOWDOWN CHAMPION DANIEL — NIK — NOT WON YET","sides":{"daniel":"—","nik":"—"}},{"trophy":"leagueTitles","text":"LEAGUE TITLE DANIEL 1 NIK —","sides":{"daniel":"1","nik":"—"}},{"trophy":"domesticCups","te
+ok   S1.excursion.legacy.nik [nik] s1 Legacy mid-showdown shows no completed showdowns yet
+ok   S1.excursion.standings.nik [nik] s1 STANDINGS (This Showdown) is loaded and not stuck on Loading
+ok   S1.dashboard.after-excursion.nik [nik] s1 dashboard after season 1 (after-excursion): season counter, totals, lead, last season, last league finish
+ok   S1.rivalry.loads.nik [nik] s1 RIVALRY STATISTICS finishes loading (not stuck on 'Loading rivalry statistics')
+FAIL S1.rivalry.back.nik [nik] s1 RIVALRY STATISTICS: back returns to the season dashboard -> screens=mainMenu | badge=NIK | overlays=
+PROBLEM S1.rivalry.back.nik [nik] season 1 (Rivalry Statistics): RIVALRY STATISTICS: back returns to the season dashboard. screens=mainMenu | badge=NIK | overlays=
+ok   S1.enter.label.daniel [daniel] s1 the dashboard action names season 2
+PROBLEM fatal [daniel] season 1 (journey stopped (season 1)): locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('#seasonPrimaryAction')
+    - locator resolved to <button type="button" class="menuButton" id="seasonPrimaryAction" data-transfer-primary-bound="true" data-shared-transfer-challenge="true">START SEASON 2 SHARED T
+PROBLEM fatal [nik] season 1 (journey stopped (season 1)): locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('#seasonPrimaryAction')
+    - locator resolved to <button type="button" class="menuButton" id="seasonPrimaryAction" data-transfer-primary-bound="true" data-shared-transfer-challenge="true">START SEASON 2 SHARED T
+ok   zz.production.daniel [daniel] s0 never contacted a production Firebase host or loaded the production runtime
+ok   zz.pageerrors.daniel [daniel] s0 no uncaught page errors or console errors
+ok   zz.rulesLimit.daniel [daniel] s0 no Firestore Rules evaluation-limit failure ("maximum of 1000 expressions") on any write
+ok   zz.network.daniel [daniel] s0 no failed network requests (HTTP 4xx/5xx or request failures other than aborted navigations)
+ok   zz.production.nik [nik] s0 never contacted a production Firebase host or loaded the production runtime
+ok   zz.pageerrors.nik [nik] s0 no uncaught page errors or console errors
+ok   zz.rulesLimit.nik [nik] s0 no Firestore Rules evaluation-limit failure ("maximum of 1000 expressions") on any write
+ok   zz.network.nik [nik] s0 no failed network requests (HTTP 4xx/5xx or request failures other than aborted navigations)
+FAIL ce2pg-5-2: 76/82 checks, 8 problem(s), 201 s -> test-results/ce2pg-5-2.json
+⚠  Script exited unsuccessfully (code 1)
+i  emulators: Shutting down emulators.
+i  firestore: Stopping Firestore Emulator
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+
+Error: Script "node tests/browser/ce2pg-journey.cjs" exited with code 1

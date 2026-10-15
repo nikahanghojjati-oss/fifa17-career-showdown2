@@ -1,0 +1,1 @@
+PASS Journey Conflicts browser audit: isolated two-manager contention, bounded stale retry, altered replay pre-provider denial, receipt expiry, quota/revocation classification, provider-code preservation and zero canonical local-save mutation.
