@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1830,
+ "next": 1831,
  "claims": [
   {
    "number": 1001,
@@ -4976,6 +4976,12 @@
    "team": "G",
    "title": "Transfer Challenge: stop re-reading unchanged documents (r76 read cut)",
    "claimed": "2026-10-15T23:04:38Z"
+  },
+  {
+   "number": 1830,
+   "team": "G",
+   "title": "r76 integration round 2: every r76 fix together, meter and CE2PG on the combined head",
+   "claimed": "2026-10-15T23:37:15Z"
   }
  ]
 }
