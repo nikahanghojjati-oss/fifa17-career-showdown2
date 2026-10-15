@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 15 Oct, 11:49 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 15 Oct, 11:53 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -90,7 +90,7 @@ Updated Thu 15 Oct, 11:49 AM Boston time. Bug hunting only, no new features unti
 
 **#19 · 1815** `G` Shared-journey guard: prove or fix the stale-marker block (U-01)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #848 · CI 7 of 8 passed · last move 23 h ago
+⚪ Team white · model not set · worker working, draft PR #848 · CI 7 of 8 passed · last move 24 h ago
 
 **#20 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
