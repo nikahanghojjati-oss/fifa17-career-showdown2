@@ -16,6 +16,39 @@
   const REPLAY_PHASES=Object.freeze(["WINDOW_OPEN","GUESS_ENTRY","SIGNING_ENTRY","COMPLETED"]);
   let installed=false,busy=false,provider=null,setupApi=null,careerApi=null,view=null,pollTimer=null,timerLoop=null,openedKey="",expiryAttemptRevision=-1,expiryAttemptAt=0,providerChain=Promise.resolve(),refreshPromise=null,refreshContextKey="",viewContextKey="",replayContextKey="",replayQueue=[],openPromise=null;
   let clockContextKey="",clockServerEpochMs=0,clockPerformanceMs=0,clockRefreshPerformanceMs=0;
+  // JOB-1829: presentation reuse is valid only while the existing wait listener is healthy.
+  // Its wake, the unchanged slow confirmation, and every authority/write boundary discard it.
+  let presentation=null,presentationGeneration=0,presentationAuthorityKey="",presentationCoverage=null;
+  function pstcForgetPresentation(){presentation=null;presentationGeneration+=1;}
+  function pstcAuthorityKey(){
+    const setup=root.CareerModeProductionSharedShowdownSetup?.getState?.(),account=root.CareerModeSparkConnectedAccount?.getState?.(),device=root.CareerModeSparkPrivatePairing?.getState?.(),rivalry=root.CareerModeSparkConnectedRivalry?.getState?.(),remote=root.CareerModeSparkRemoteJoining?.getState?.();
+    return JSON.stringify([setup?.accountId,setup?.sessionId,setup?.deviceId,setup?.managerRole,setup?.setup?.revision,setup?.setup?.phase,account?.connected,account?.accountId,device?.registered,device?.deviceId,rivalry?.attached,rivalry?.rivalryId,rivalry?.binding?.managerRole,remote?.sessionState,remote?.sessionId,remote?.accountId,remote?.deviceId,remote?.rivalryId,remote?.expiresAtEpochMs,remote?.pendingAction]);
+  }
+  function pstcAuthorityAvailable(){return [root.CareerModeSparkConnectedAccount,root.CareerModeSparkPrivatePairing,root.CareerModeSparkConnectedRivalry,root.CareerModeSparkRemoteJoining].every(api=>typeof api?.getState==="function");}
+  function pstcConfirmedAuthority(){
+    const state=pstcSetupState(),account=root.CareerModeSparkConnectedAccount?.getState?.(),device=root.CareerModeSparkPrivatePairing?.getState?.(),rivalry=root.CareerModeSparkConnectedRivalry?.getState?.(),remote=root.CareerModeSparkRemoteJoining?.getState?.();
+    return Boolean(state&&account?.connected&&account.accountId===state.accountId&&device?.registered&&device.deviceId===state.deviceId&&rivalry?.attached&&rivalry.rivalryId===state.rivalryId&&rivalry.binding?.managerRole===state.managerRole&&remote?.sessionState==="active"&&!remote.pendingAction&&remote.sessionId===state.sessionId&&remote.accountId===state.accountId&&remote.deviceId===state.deviceId&&remote.rivalryId===state.rivalryId&&Number.isFinite(remote.expiresAtEpochMs)&&Date.now()<remote.expiresAtEpochMs);
+  }
+  function pstcSerial(snapshot){return snapshot?.exists?.()?JSON.stringify(snapshot.data(),(_key,value)=>typeof value?.toMillis==="function"?value.toMillis():value):"null";}
+  function pstcStopCoverage(){const prior=presentationCoverage;presentationCoverage=null;if(prior)for(const entry of prior.entries)entry.stop?.();}
+  function pstcCoverageMatches(reads){return Boolean(reads&&presentationCoverage&&presentationCoverage.entries.every(entry=>entry.healthy&&reads.has(entry.path)&&pstcSerial(reads.get(entry.path))===entry.serial));}
+  function pstcEnsureCoverage(ctx){
+    const {firestore:db,firebaseSdk:sdk,rivalryId,sessionId}=ctx.options,key=ctx.authorityKey;
+    if(presentationCoverage?.key===key&&presentationCoverage.db===db&&presentationCoverage.sdk===sdk&&(!presentationCoverage.retryAt||Date.now()<presentationCoverage.retryAt))return;
+    pstcStopCoverage();
+    const coverage={key,db,sdk,entries:[`rivalries/${rivalryId}`,`rivalries/${rivalryId}/sessions/${sessionId}`].map(path=>({path,healthy:false,serial:null,stop:null}))};presentationCoverage=coverage;
+    // Reuse the loaded SDK when available; otherwise load its existing release-pinned module, without blocking refresh.
+    const api=typeof sdk.onSnapshot==="function"?Promise.resolve(sdk):(root.CareerModeProductionFirebaseRuntime?.firebaseFirestoreModule?import(root.CareerModeProductionFirebaseRuntime.firebaseFirestoreModule):Promise.reject());
+    void api.then(module=>{if(presentationCoverage!==coverage)return;for(const entry of coverage.entries){entry.stop=module.onSnapshot(sdk.doc(db,entry.path),{includeMetadataChanges:true},snapshot=>{
+      if(presentationCoverage!==coverage)return;
+      if(!snapshot.metadata||snapshot.metadata.fromCache||snapshot.metadata.hasPendingWrites){entry.healthy=false;pstcForgetPresentation();return;}
+      const serial=pstcSerial(snapshot),changed=entry.serial!==null&&entry.serial!==serial,first=entry.serial===null;
+      entry.serial=serial;entry.snapshot=snapshot;entry.healthy=true;
+      if(changed||first&&presentation){pstcForgetPresentation();pstcWaitWake();}
+    },error=>{entry.healthy=false;coverage.retryAt=Date.now()+60000;pstcForgetPresentation();root.CareerModeFirestoreBudget?.noteError?.(error);});}}).catch(()=>{for(const entry of coverage.entries)entry.healthy=false;coverage.retryAt=Date.now()+60000;pstcForgetPresentation();});
+  }
+  const authoritySubscriptions=new WeakSet();
+  function pstcWatchAuthority(){for(const api of [setupApi,root.CareerModeSparkConnectedAccount,root.CareerModeSparkPrivatePairing,root.CareerModeSparkConnectedRivalry,root.CareerModeSparkRemoteJoining])if(api&&typeof api.subscribe==="function"&&!authoritySubscriptions.has(api)){authoritySubscriptions.add(api);api.subscribe(()=>{const key=pstcAuthorityKey();if(presentationAuthorityKey&&key!==presentationAuthorityKey)pstcClearCachedContext();presentationAuthorityKey=key;});}}
   const witnessedByContext=new Map();
   let fastWaitKey="",fastWaitSince=0;
 
@@ -35,7 +68,7 @@
     await pstcLoadScript("ssjr-transfer-protocol","js/sharedTransferChallenge.js",()=>root.CareerModeSharedTransferChallenge);
     await pstcLoadScript("ssjr-transfer-provider","js/sparkSharedTransferChallenge.js",()=>root.CareerModeSparkSharedTransferChallenge);
     await pstcLoadScript("firebase-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime);
-    setupApi=root.CareerModeProductionSharedShowdownSetup;careerApi=root.CareerModeProductionSharedCareerStart;provider=root.CareerModeSparkSharedTransferChallenge;
+    setupApi=root.CareerModeProductionSharedShowdownSetup;careerApi=root.CareerModeProductionSharedCareerStart;provider=root.CareerModeSparkSharedTransferChallenge;pstcWatchAuthority();
     if(!setupApi||typeof setupApi.refresh!=="function"||typeof setupApi.getState!=="function")pstcFail("TRANSFER_SETUP_UNAVAILABLE");
     if(!careerApi||typeof careerApi.refresh!=="function"||typeof careerApi.getState!=="function")pstcFail("TRANSFER_CAREER_START_UNAVAILABLE");
     if(!provider||typeof provider.read!=="function"||typeof provider.startWindow!=="function"||typeof provider.requestEndWindow!=="function"||typeof provider.advanceExpiredWindow!=="function"||typeof provider.lockGuesses!=="function"||typeof provider.lockSignings!=="function")pstcFail("TRANSFER_PROVIDER_UNAVAILABLE");
@@ -48,10 +81,10 @@
   function pstcBoundContextKey(rivalryId,season,localContextKey=pstcLocalContextKey()){const local=String(localContextKey||"").trim(),remote=String(rivalryId||"").trim(),round=Number(season);return local&&remote&&Number.isInteger(round)&&round>0?`${local}|${remote}:${round}`:"";}
   function pstcCurrentContextKey(){const showdown=pstcShowdown(),setup=pstcSetupState(),rivalry=showdown?.sharedJourney?.rivalryId||setup?.rivalryId||"";let season;try{season=pstcSeason();}catch(_error){return "";}return pstcBoundContextKey(rivalry,season);}
   function pstcRequestContext(){const showdown=pstcShowdown(),localKey=pstcLocalContextKey(),rivalryId=String(showdown?.sharedJourney?.rivalryId||pstcSetupState()?.rivalryId||"").trim();let seasonNumber;try{seasonNumber=pstcSeason();}catch(_error){return null;}const key=pstcBoundContextKey(rivalryId,seasonNumber,localKey);return key?Object.freeze({key,localKey,rivalryId,seasonNumber}):null;}
-  function pstcRequestMatches(request,ctx=null){if(!request||pstcCurrentContextKey()!==request.key)return false;if(!ctx)return true;return String(ctx.state?.rivalryId||"").trim()===request.rivalryId&&Number(ctx.options?.seasonNumber)===request.seasonNumber;}
+  function pstcRequestMatches(request,ctx=null){if(!request||pstcCurrentContextKey()!==request.key)return false;if(!ctx)return true;if(ctx.authorityKey!==pstcAuthorityKey()||(ctx.auth&&ctx.auth.currentUser!==ctx.options.user)||(ctx.state.accountId&&ctx.options.user?.uid!==ctx.state.accountId))return false;return String(ctx.state?.rivalryId||"").trim()===request.rivalryId&&Number(ctx.options?.seasonNumber)===request.seasonNumber;}
   function pstcBindView(result,ctx,request){if(!pstcRequestMatches(request,ctx))return false;view={...result,setup:ctx.state.setup,rivalryId:ctx.state.rivalryId};viewContextKey=request.key;return true;}
   function pstcClearClock(){clockContextKey="";clockServerEpochMs=0;clockPerformanceMs=0;clockRefreshPerformanceMs=0;}
-  function pstcClearCachedContext(){view=null;viewContextKey="";openedKey="";replayContextKey="";replayQueue=[];expiryAttemptRevision=-1;expiryAttemptAt=0;pstcClearClock();}
+  function pstcClearCachedContext(){pstcForgetPresentation();pstcStopCoverage();view=null;viewContextKey="";openedKey="";replayContextKey="";replayQueue=[];expiryAttemptRevision=-1;expiryAttemptAt=0;pstcClearClock();}
   function pstcMonotonicNow(){const value=Number(root.performance&&typeof root.performance.now==="function"?root.performance.now():Number.NaN);if(!Number.isFinite(value)||value<0)pstcFail("TRANSFER_CLOCK_UNAVAILABLE","A monotonic browser clock is required for the shared Transfer Challenge.");return value;}
   function pstcClockReady(request){return Boolean(request&&clockContextKey===request.key&&Number.isFinite(clockServerEpochMs)&&clockServerEpochMs>0&&Number.isFinite(clockPerformanceMs));}
   function pstcAuthoritativeNow(request=pstcRequestContext()){if(!pstcClockReady(request))pstcFail("TRANSFER_CLOCK_UNAVAILABLE","Server time has not been established for this shared Transfer Challenge.");return Math.floor(clockServerEpochMs+Math.max(0,pstcMonotonicNow()-clockPerformanceMs));}
@@ -91,7 +124,8 @@
     if(!pstcSharedMarker())pstcFail("TRANSFER_SHARED_MODE_REQUIRED");
     if(!request||!pstcRequestMatches(request))pstcFail("TRANSFER_CONTEXT_STALE");
     await pstcEnsureDependencies();
-    const reuse=light===true&&pstcConfirmedShared()&&pstcCareerReady();
+    const authorityKey=pstcAuthorityKey();if(presentationAuthorityKey&&presentationAuthorityKey!==authorityKey)pstcClearCachedContext();presentationAuthorityKey=authorityKey;
+    const reuse=(light===true&&!pstcAuthorityAvailable()||(light===true||light==="presentation")&&pstcConfirmedAuthority())&&pstcConfirmedShared()&&pstcCareerReady();
     if(!reuse)await setupApi.refresh();
     if(!pstcRequestMatches(request))pstcFail("TRANSFER_CONTEXT_STALE");
     const state=setupApi.getState();
@@ -104,17 +138,26 @@
     if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)pstcFail("TRANSFER_PROVIDER_UNAVAILABLE","Connected account services are unavailable.");
     if(!await pstcEnsureServerClock(services.auth.currentUser,request))pstcFail("TRANSFER_CONTEXT_STALE");
     if(!pstcRequestMatches(request))pstcFail("TRANSFER_CONTEXT_STALE");
-    return {state,options:{user:services.auth.currentUser,firestore:services.firestore,firebaseSdk:services.firestoreSdk,rivalryId:state.rivalryId,sessionId:state.sessionId,deviceId:state.deviceId,seasonNumber:request.seasonNumber,cryptoImpl:root.crypto,nowEpochMs:pstcAuthoritativeNow(request)}};
+    if(state.accountId&&services.auth.currentUser.uid!==state.accountId)pstcFail("TRANSFER_CONTEXT_STALE");
+    presentationAuthorityKey=pstcAuthorityKey();
+    return {state,auth:services.auth,authorityKey:presentationAuthorityKey,options:{user:services.auth.currentUser,firestore:services.firestore,firebaseSdk:services.firestoreSdk,rivalryId:state.rivalryId,sessionId:state.sessionId,deviceId:state.deviceId,seasonNumber:request.seasonNumber,cryptoImpl:root.crypto,nowEpochMs:pstcAuthoritativeNow(request)}};
   }
   function pstcResultError(result,message){if(result&&result.ok===true)return result;const error=new Error(message||"The shared Transfer Challenge request was rejected.");error.code=result&&result.code||"TRANSFER_PROVIDER_FAILED";error.providerResult=true;throw error;}
   function pstcQueueProvider(task){const queued=providerChain.then(task,task);providerChain=queued.catch(()=>{});return queued;}
   async function pstcRefreshNow(request=pstcRequestContext(),light=false){
     if(!request)return null;
-    const ctx=await pstcProviderOptions(request,light);if(!pstcRequestMatches(request,ctx))return null;
-    const result=pstcResultError(await provider.read(ctx.options),"The shared Transfer Challenge could not be read.");if(!pstcRequestMatches(request,ctx))return null;
+    const ctx=await pstcProviderOptions(request,light===true?true:"presentation");if(!pstcRequestMatches(request,ctx))return null;
+    const key=JSON.stringify([request.key,ctx.authorityKey,careerApi.getState()?.state]),budget=root.CareerModeFirestoreBudget?.stats?.(),path=`rivalries/${request.rivalryId}/transferChallenges/season_${request.seasonNumber}`;
+    if(root.document?.visibilityState!=="hidden"&&budget?.watchHealthy&&budget.watching===path)pstcEnsureCoverage(ctx);else pstcStopCoverage();
+    const reuse=presentation&&presentation.key===key&&presentation.sdk===ctx.options.firebaseSdk&&presentation.db===ctx.options.firestore&&pstcConfirmedAuthority()&&budget?.watchHealthy&&budget.watching===path&&pstcCoverageMatches(presentation.reads)&&Date.now()-presentation.at<POLL_MS;
+    const generation=presentationGeneration;
+    let result,reads;
+    try{result=reuse?presentation.result:pstcResultError(await provider.read({...ctx.options,presentationSnapshot:path=>presentationCoverage?.entries.find(entry=>entry.path===path&&entry.healthy)?.snapshot,onPresentationRead:value=>{reads=value;}}),"The shared Transfer Challenge could not be read.");}catch(error){pstcForgetPresentation();throw error;}
+    if(!pstcRequestMatches(request,ctx))return null;
+    if(!reuse&&generation===presentationGeneration)presentation={key,sdk:ctx.options.firebaseSdk,db:ctx.options.firestore,at:Date.now(),result,reads};
     if(!pstcBindView(result,ctx,request))return null;if(pstcTransferScreenVisible())pstcPrepareReplay();pstcSetError("");pstcRender();pstcDecorateDashboard();return view;
   }
-  function pstcRefresh(light=false){const request=pstcRequestContext();if(!request)return Promise.resolve(null);if(viewContextKey&&viewContextKey!==request.key)pstcClearCachedContext();if(refreshPromise&&refreshContextKey===request.key)return refreshPromise;const current=pstcQueueProvider(()=>pstcRefreshNow(request,light===true));refreshPromise=current;refreshContextKey=request.key;current.then(()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";}},()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";}});return current;}
+  function pstcRefresh(light=false){const request=pstcRequestContext();if(!request)return Promise.resolve(null);if(viewContextKey&&viewContextKey!==request.key)pstcClearCachedContext();const refreshKey=request.key+"|"+pstcAuthorityKey();if(refreshPromise&&refreshContextKey===refreshKey)return refreshPromise;const current=pstcQueueProvider(()=>pstcRefreshNow(request,light===true));refreshPromise=current;refreshContextKey=refreshKey;current.then(()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";}},()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";}});return current;}
   // Job 21: when both managers tap at once the loser's write is rejected by the Rules (permission-denied) or by the provider
   // (stale revision / phase already moved). Re-read once; if the refreshed state already shows the outcome, finish silently,
   // otherwise retry the same method once with a fresh revision and operation id. A real denial surfaces after that one retry.
@@ -134,7 +177,7 @@
   function pstcCapSigningNames(){if(!root.document)return;for(const prefix of ["p1","p2"])for(let i=1;i<=3;i+=1){const input=pstcField(`${prefix}Signing${i}Name`);if(input&&typeof input.setAttribute==="function")input.setAttribute("maxlength",String(SIGNING_NAME_MAX));}}
   function pstcErrorText(error,fallback){const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(error);if(quota)return quota;const code=String(error?.code||""),message=String(error?.message||"");if(error&&error.providerResult!==true&&message&&message!==code)return message;if(PLAIN_PROVIDER_CODES[code])return PLAIN_PROVIDER_CODES[code];return code||message||fallback;}
   async function pstcMutate(method,payload={}){
-    const request=pstcRequestContext();if(!request||busy||pstcReplayPhase())return false;busy=true;pstcSetError("");pstcRender();
+    const request=pstcRequestContext();if(!request||busy||pstcReplayPhase())return false;pstcForgetPresentation();busy=true;pstcSetError("");pstcRender();
     try{
       return await pstcQueueProvider(async()=>{
         for(let attempt=0;;attempt+=1){
@@ -349,7 +392,7 @@
     if(!pstcSharedMarker()||root.document?.visibilityState==="hidden")return;
     const currentKey=pstcCurrentContextKey();if(viewContextKey&&(!currentKey||viewContextKey!==currentKey))pstcClearCachedContext();
     if(view?.state?.phase==="COMPLETED"&&viewContextKey&&currentKey&&viewContextKey===currentKey){pstcDecorateDashboard();return;}
-    try{if(!pstcConfirmedShared()||!pstcCareerReady()){await pstcEnsureDependencies();await setupApi.refresh();await careerApi.refresh();}if(pstcConfirmedShared()&&pstcCareerReady()&&!busy){const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden")){if(light!==true)pstcScreenFresh();await pstcRefresh(light===true);}else if(!view)await pstcRefresh();else pstcDecorateDashboard();}}catch(_error){}
+    try{if(!pstcConfirmedShared()||!pstcCareerReady()){await pstcEnsureDependencies();if(!pstcConfirmedShared()||!pstcCareerReady()||!pstcConfirmedAuthority()){await setupApi.refresh();await careerApi.refresh();}}if(pstcConfirmedShared()&&pstcCareerReady()&&!busy){const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden")){if(light!==true)pstcScreenFresh();await pstcRefresh(light===true);}else if(!view)await pstcRefresh();else pstcDecorateDashboard();}}catch(_error){}
   }
   // Read-only: the fast lane only calls pstcTick (the same provider read as REFRESH SHARED CHALLENGE), never a write.
   function pstcWaitingKey(){
@@ -364,16 +407,16 @@
   function pstcFastPollDue(){const key=pstcWaitingKey();if(!key){fastWaitKey="";fastWaitSince=0;return false;}const now=Date.now();if(key!==fastWaitKey){fastWaitKey=key;fastWaitSince=now;}return now-fastWaitSince<FAST_POLL_WINDOW_MS;}
   // r75: while this screen waits on the partner, one live listener watches the shared document the partner's move changes;
   // the 3 s check below keeps running as the fallback and reads from the listener while it is healthy.
-  function pstcWatchWait(){const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchWaitPoint!=="function")return;let path=null;try{path=root.document?.visibilityState==="hidden"?null:(pstcWaitingKey()?(request=>request&&request.rivalryId&&Number.isInteger(request.seasonNumber)?`rivalries/${request.rivalryId}/transferChallenges/season_${request.seasonNumber}`:null)(pstcRequestContext()):null);}catch(_error){path=null;}budget.watchWaitPoint("transfer",path,pstcWaitWake);}
+  function pstcWatchWait(){const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchWaitPoint!=="function")return;let path=null;try{path=root.document?.visibilityState==="hidden"?null:(pstcWaitingKey()?(request=>request&&request.rivalryId&&Number.isInteger(request.seasonNumber)?`rivalries/${request.rivalryId}/transferChallenges/season_${request.seasonNumber}`:null)(pstcRequestContext()):null);}catch(_error){path=null;}budget.watchWaitPoint("transfer",path,pstcWaitWake);if(!path)pstcStopCoverage();}
   // r75: the 15 s check of the visible Transfer screen always reads the shared challenge from the server, so a partner's
   // lock still shows within one poll on the screen the manager is looking at; checks from other screens reuse recent reads.
-  function pstcScreenFresh(){try{const request=pstcRequestContext();if(request&&request.rivalryId&&Number.isInteger(request.seasonNumber))root.CareerModeFirestoreBudget?.wantFresh?.(`rivalries/${request.rivalryId}/transferChallenges/season_${request.seasonNumber}`);}catch(_error){}}
-  function pstcWaitWake(){if(!busy){void pstcTick(true);return;}if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(!busy)void pstcTick(true);},400);}
+  function pstcScreenFresh(){pstcForgetPresentation();try{const request=pstcRequestContext();if(request&&request.rivalryId&&Number.isInteger(request.seasonNumber))root.CareerModeFirestoreBudget?.wantFresh?.(`rivalries/${request.rivalryId}/transferChallenges/season_${request.seasonNumber}`);}catch(_error){}}
+  function pstcWaitWake(){pstcForgetPresentation();if(!busy){void pstcTick(true);return;}if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(!busy)void pstcTick(true);},400);}
   function pstcFastTick(){pstcWatchWait();if(root.document?.visibilityState==="hidden"||busy||!pstcFastPollDue())return;void pstcTick(true);}
   function pstcSigningDraftChange(event){const target=event?.target,role=view?.managerRole;if(!target?.id||!role||!target.id.startsWith(`${pstcRolePrefix(role)}Signing`))return;if(view?.state?.phase==="SIGNING_ENTRY"&&!view.state.signingLockedRoles?.includes(role))pstcSaveSigningDraft(role);}
   function pstcTimerTick(){if(!pstcSharedMarker()||pstcReplayPhase())return;const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden"))pstcRenderTimer();}
-  function pstcVisibilityChange(){if(root.document?.visibilityState==="hidden")return;if(view?.state?.phase==="WINDOW_OPEN"&&!pstcReplayPhase())pstcClearClock();void pstcTick();}
-  function pstcInstall(){if(installed)return true;installed=true;if(root.document){root.document.addEventListener("click",pstcCapture,true);root.document.addEventListener("change",pstcGuessTypeChange,true);root.document.addEventListener("input",pstcSigningDraftChange,true);root.document.addEventListener("change",pstcSigningDraftChange,true);root.document.addEventListener("input",pstcGuessDraftChange,true);root.document.addEventListener("change",pstcGuessDraftChange,true);root.document.addEventListener("visibilitychange",pstcVisibilityChange);}root.addEventListener?.("career-mode-shared-season-cursor-change",()=>{pstcClearCachedContext();void pstcTick();});if(typeof root.setInterval==="function"){pollTimer=root.setInterval(()=>void pstcTick(),POLL_MS);timerLoop=root.setInterval(pstcTimerTick,TIMER_MS);root.setInterval(pstcFastTick,FAST_POLL_MS);}if(pstcSharedMarker())void pstcTick();return true;}
+  function pstcVisibilityChange(){pstcForgetPresentation();pstcStopCoverage();if(root.document?.visibilityState==="hidden")return;if(view?.state?.phase==="WINDOW_OPEN"&&!pstcReplayPhase())pstcClearClock();void pstcTick();}
+  function pstcInstall(){if(installed)return true;installed=true;if(root.document){root.document.addEventListener("click",pstcCapture,true);root.document.addEventListener("change",pstcGuessTypeChange,true);root.document.addEventListener("input",pstcSigningDraftChange,true);root.document.addEventListener("change",pstcSigningDraftChange,true);root.document.addEventListener("input",pstcGuessDraftChange,true);root.document.addEventListener("change",pstcGuessDraftChange,true);root.document.addEventListener("visibilitychange",pstcVisibilityChange);}root.addEventListener?.("career-mode-firestore-quota",event=>{if(event.detail?.paused){pstcForgetPresentation();pstcStopCoverage();}});root.addEventListener?.("career-mode-firestore-authority-denied",()=>{pstcClearCachedContext();});root.addEventListener?.("career-mode-shared-season-cursor-change",()=>{pstcClearCachedContext();void pstcTick();});if(typeof root.setInterval==="function"){pollTimer=root.setInterval(()=>void pstcTick(),POLL_MS);timerLoop=root.setInterval(pstcTimerTick,TIMER_MS);root.setInterval(pstcFastTick,FAST_POLL_MS);}if(pstcSharedMarker())void pstcTick();return true;}
 
   return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-transfer-challenge",productionEnabled:true,requiresCareerStartReady:true,requiresExactActiveSession:true,privateUntilCompleted:true,serverClockAuthoritative:true,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,orderedFullScreenReplay:true,inMemoryWitnessOnly:true,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pstcWaitingKey()),install:pstcInstall,open:pstcOpen,refresh:pstcRefresh,getState:()=>view,isActive:pstcSharedMarker,canRoute:pstcCanRoute});
 });

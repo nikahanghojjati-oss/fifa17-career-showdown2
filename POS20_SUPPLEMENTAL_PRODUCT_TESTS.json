@@ -1512,6 +1512,15 @@
         "^tests/contracts/reus\\-gate\\-startup\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/transfer-read-dedupe-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/sparkSharedTransferChallenge\\.js$",
+        "^tests/contracts/transfer-read-dedupe-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
