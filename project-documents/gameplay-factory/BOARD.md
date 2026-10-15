@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 14 Oct, 11:36 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 14 Oct, 11:40 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -78,7 +78,7 @@ Updated Wed 14 Oct, 11:36 PM Boston time. Bug hunting only, no new features unti
 
 **#16 · 1810** `G` Phone Trophy Room: ranks and all-time records missing, CAREER DETAILS empty  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #844 · CI 7 of 8 passed · last move 27 h ago
+⚪ Team white · model not set · worker working, draft PR #844 · CI 7 of 8 passed · last move 28 h ago
 
 **#17 · 1811** `G` Final reconciliation and FINAL SEASON cells sometimes empty right after the close  
 `████░░░░░░` **40.0000 %**  
@@ -103,6 +103,10 @@ Updated Wed 14 Oct, 11:36 PM Boston time. Bug hunting only, no new features unti
 **#22 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 2 h ago
+
+**#23 · 1826** `G` Cheaper waiting: no repeating online checks while the live listener is working  
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · model not set · worker working, draft PR #852 · CI 7 of 8 passed · last move 3 min ago
 
 ### 👉 Next for you, in this order
 
@@ -1408,16 +1412,6 @@ Type this in Codex cloud:
 
 ```text
 Job 1825
-```
-
-**#131 · 1826** `G` Cheaper waiting: no repeating online checks while the live listener is working  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1826'
-
-Type this in Codex cloud:
-
-```text
-Job 1826
 ```
 
 ### ⏸ Waiting on something else
