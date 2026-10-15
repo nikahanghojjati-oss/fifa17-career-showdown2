@@ -1002,6 +1002,7 @@ async function revokePairing(options={}){
     ownAccountReuseMs:FSB_OWN_ACCOUNT_MS,
     services:fsbWrapServices,
     watchWaitPoint:fsbWatchWaitPoint,
+    forgetContext:fsbForgetContext,
     quietReuseMs:FSB_QUIET_MS,
     inputFreshMs:FSB_INPUT_FRESH_MS,
     // wantFresh(): every read of this page is fresh for the next 7 s; wantFresh(path): only that document.
