@@ -1,0 +1,3 @@
+PASS Stage 3 desktop IndexedDB identity persistence, reload, offline, and localStorage isolation
+PASS Stage 3 mobile IndexedDB identity persistence, reload, offline, and localStorage isolation
+PASS Stage 3 mobile pairing editor survives repeated registration renders without losing focus/draft, retains manager selection, locks live capabilities, rejects late-dropdown races, and hides raw permission denials

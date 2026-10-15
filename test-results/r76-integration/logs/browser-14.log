@@ -1,0 +1,8 @@
+PASS SSJR recorder is query-gated and absent from normal production mode
+PASS SSJR recorder routes an already ACTIVE session into polished Shared Showdown instead of looping Remote Joining or opening engineering diagnostics
+PASS SSJR recorder rejects stale cross-runtime evidence instead of mislabeling the live shell
+PASS SSJR recorder validates real protocol league + club names against the repository catalog and derives safe club league identities
+PASS SSJR recorder simple mode exposes one context-aware NEXT STEP control while fallback controls stay collapsed
+PASS SSJR actor-attributed v2 replaces the visible impossible all-eight-per-manager controls while preserving the legacy API and real provider denial path
+PASS SSJR recorder auto-captures paired-first, rev4, rev6, a real browser reload and fresh-session positive checkpoints
+PASS SSJR recorder persists only sanitized SHA-256 evidence and preserves canonical local save bytes

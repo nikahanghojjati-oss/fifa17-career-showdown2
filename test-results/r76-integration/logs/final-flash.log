@@ -1,0 +1,45 @@
+ok   phone-portrait-390x844 legacy: 73 frames, 0 problem(s)
+ok   phone-portrait-390x844 careerStatistics: 60 frames, 0 problem(s)
+ok   phone-portrait-390x844 trophyRoom: 65 frames, 0 problem(s)
+ok   phone-portrait-390x844 ruleBook: 64 frames, 0 problem(s)
+ok   phone-portrait-390x844 setup: 58 frames, 0 problem(s)
+ok   phone-portrait-390x844 settings: 62 frames, 0 problem(s)
+ok   phone-portrait-390x844 seasonResults: 63 frames, 0 problem(s)
+ok   phone-portrait-390x844 finalWinner: 73 frames, 0 problem(s)
+ok   phone-portrait-390x844 rivalry: 64 frames, 0 problem(s)
+ok   phone-portrait-390x844 standings: 64 frames, 0 problem(s)
+ok   phone-portrait-390x844 double tap: one navigation each
+ok   phone-portrait-390x844 reduced-motion pass: 0 problem(s)
+ok   phone-portrait-390x844 tap feedback: pressed=61.5 ms, layout changed=false, layout-shift entries=0 (report only)
+ok   phone-landscape-844x390 legacy: 75 frames, 0 problem(s)
+ok   phone-landscape-844x390 careerStatistics: 60 frames, 0 problem(s)
+ok   phone-landscape-844x390 trophyRoom: 65 frames, 0 problem(s)
+ok   phone-landscape-844x390 ruleBook: 64 frames, 0 problem(s)
+ok   phone-landscape-844x390 setup: 59 frames, 0 problem(s)
+ok   phone-landscape-844x390 settings: 60 frames, 0 problem(s)
+ok   phone-landscape-844x390 seasonResults: 66 frames, 0 problem(s)
+ok   phone-landscape-844x390 finalWinner: 64 frames, 0 problem(s)
+ok   phone-landscape-844x390 rivalry: 60 frames, 0 problem(s)
+ok   phone-landscape-844x390 standings: 60 frames, 0 problem(s)
+ok   phone-landscape-844x390 double tap: one navigation each
+ok   phone-landscape-844x390 reduced-motion pass: 0 problem(s)
+ok   phone-landscape-844x390 tap feedback: pressed=63.5 ms, layout changed=false, layout-shift entries=0 (report only)
+ok   desktop-1920x910 legacy: 54 frames, 0 problem(s)
+ok   desktop-1920x910 careerStatistics: 55 frames, 0 problem(s)
+ok   desktop-1920x910 trophyRoom: 43 frames, 0 problem(s)
+ok   desktop-1920x910 ruleBook: 60 frames, 0 problem(s)
+ok   desktop-1920x910 setup: 50 frames, 0 problem(s)
+ok   desktop-1920x910 settings: 55 frames, 0 problem(s)
+ok   desktop-1920x910 seasonResults: 50 frames, 0 problem(s)
+ok   desktop-1920x910 finalWinner: 55 frames, 0 problem(s)
+ok   desktop-1920x910 rivalry: 51 frames, 0 problem(s)
+ok   desktop-1920x910 standings: 58 frames, 0 problem(s)
+ok   desktop-1920x910 double tap: one navigation each
+ok   desktop-1920x910 reduced-motion pass: 0 problem(s)
+ok   desktop-1920x910 tap feedback: pressed=26.2 ms, layout changed=false, layout-shift entries=0 (report only)
+ok   393x660 Club REDUCE MOTION: all 6 reveal stages, resize and live preference change
+ok   393x660 Club FOLLOW DEVICE: all 6 reveal stages, resize and live preference change
+ok   1280x800 Club REDUCE MOTION: all 6 reveal stages, resize and live preference change
+ok   1280x800 Club FOLLOW DEVICE: all 6 reveal stages, resize and live preference change
+Report: /workspace/fifa17-career-showdown2/test-results/v10-screen-flash-report.json
+v10 screen flash audit: PASS

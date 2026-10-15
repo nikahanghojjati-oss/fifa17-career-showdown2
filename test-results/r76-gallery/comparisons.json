@@ -1,0 +1,374 @@
+[
+  {
+    "file": "home-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "home--season-2-of-3-desktop-1920x1080.webp",
+    "meanChannelDifference": 1.452,
+    "pixelsDifferingOver20Percent": 0.078,
+    "review": "Shared progression is season 2 of 3 while the stored local round remains 1. After updates the header chip; desktop also updates the Continue tile metadata."
+  },
+  {
+    "file": "connect-players-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "new-showdown-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "select-league-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "club-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "club--confirmation-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "transfer-challenge-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "transfer-challenge--guess-entry-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "transfer-challenge--signing-entry-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "transfer-challenge--verdicts-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "season-results-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.9003,
+    "pixelsDifferingOver20Percent": 0.719,
+    "review": "Same content and layout observed. Minor text/animation rendering pixels differ; these pictures do not establish a product change."
+  },
+  {
+    "file": "season-results--bottom-desktop-1920x1080.webp",
+    "meanChannelDifference": 1.3558,
+    "pixelsDifferingOver20Percent": 0.736,
+    "review": "Same content and layout observed. Minor text/animation rendering pixels differ; these pictures do not establish a product change."
+  },
+  {
+    "file": "standings-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "standings-mid-showdown-desktop-1920x1080.webp",
+    "meanChannelDifference": 2.7664,
+    "pixelsDifferingOver20Percent": 1.261,
+    "review": "Before stays on Loading standings with THIS SHOWDOWN disabled. After shows the committed 6\u20133 score, Season 2 of 3, and all seven standings rows from the same progression fixture."
+  },
+  {
+    "file": "final-winner-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "final-winner-nik-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "final-winner-draw-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "final-winner-pending-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "champion-review-season-desktop-1920x1080.webp",
+    "meanChannelDifference": 2.2356,
+    "pixelsDifferingOver20Percent": 0.857,
+    "review": "This sequence first opens published Shared Results and then reaches Champion. Before hides REVIEW SEASON; after shows the exit beside BACK TO SHOWDOWN HOME."
+  },
+  {
+    "file": "rivalry-mid-showdown-desktop-1920x1080.webp",
+    "meanChannelDifference": 4.6811,
+    "pixelsDifferingOver20Percent": 3.028,
+    "review": "Before stays on Loading rivalry statistics. After shows the committed 6\u20133 points and season counters without a cached History projection. Transfer Signings still reads Unavailable in this fixture."
+  },
+  {
+    "file": "rivalry-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.6039,
+    "pixelsDifferingOver20Percent": 0.378,
+    "review": "Same completed 9\u20130 rivalry fixture and figures. Minor rendering pixels differ; Transfer Signings is Unavailable because the fixture supplies no transfer summary."
+  },
+  {
+    "file": "legacy-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.1398,
+    "pixelsDifferingOver20Percent": 0.023,
+    "review": "Same content and layout observed. Minor text/animation rendering pixels differ; these pictures do not establish a product change."
+  },
+  {
+    "file": "trophy-room-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "career-stats-desktop-1920x1080.webp",
+    "meanChannelDifference": 3.2874,
+    "pixelsDifferingOver20Percent": 1.988,
+    "review": "After adds CURRENT RIVALRY STATISTICS for this completed-career fixture without a local active Showdown. The career figures are unchanged."
+  },
+  {
+    "file": "rule-book-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "settings-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.9916,
+    "pixelsDifferingOver20Percent": 0.536,
+    "review": "Same content and layout observed. Minor text/animation rendering pixels differ; these pictures do not establish a product change."
+  },
+  {
+    "file": "loading-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "Real startup splash held before app.js executes, at the requested viewport. Its blocked script request is intentional."
+  },
+  {
+    "file": "home-free-limit-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.4573,
+    "pixelsDifferingOver20Percent": 0.495,
+    "review": "Quota is tripped locally with zero player taps. After shows the exact free-limit line immediately. Review concern: on phone, the notice covers the soundtrack controls."
+  },
+  {
+    "file": "connect-players-free-limit-desktop-1920x1080.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "The real pairing reader receives a local quota refusal and renders its free-limit message in both versions. After phone also exposes a clipped strip of the underlying Home runtime notice above the navigation bar."
+  },
+  {
+    "file": "home-phone-393x852.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "home--season-2-of-3-phone-393x852.webp",
+    "meanChannelDifference": 1.1686,
+    "pixelsDifferingOver20Percent": 0.069,
+    "review": "Shared progression is season 2 of 3 while the stored local round remains 1. After updates the header chip; desktop also updates the Continue tile metadata."
+  },
+  {
+    "file": "connect-players-phone-393x852.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "new-showdown-phone-393x852.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size. Review concern: the generic application header remains above the screen artwork; confirm this is the intended adopted phone presentation."
+  },
+  {
+    "file": "select-league-phone-393x852.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size. Review concern: the generic application header remains above the screen artwork; confirm this is the intended adopted phone presentation."
+  },
+  {
+    "file": "club-phone-393x852.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size. Review concern: the phone composition leaves a large empty stadium band above the small manager figures."
+  },
+  {
+    "file": "club--confirmation-phone-393x852.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size. Review concern: the phone composition leaves a large empty stadium band above the small manager figures."
+  },
+  {
+    "file": "transfer-challenge-phone-393x852.webp",
+    "meanChannelDifference": 1.0526,
+    "pixelsDifferingOver20Percent": 0.064,
+    "review": "Same live phase and layout; the running transfer countdown was sampled at a different instant."
+  },
+  {
+    "file": "transfer-challenge--guess-entry-phone-393x852.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "transfer-challenge--signing-entry-phone-393x852.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "transfer-challenge--verdicts-phone-393x852.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "season-results-phone-393x852.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "season-results--bottom-phone-393x852.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "standings-phone-393x852.webp",
+    "meanChannelDifference": 2.9245,
+    "pixelsDifferingOver20Percent": 1.927,
+    "review": "Same content and layout observed. Minor text/animation rendering pixels differ; these pictures do not establish a product change."
+  },
+  {
+    "file": "standings-mid-showdown-phone-393x852.webp",
+    "meanChannelDifference": 15.3312,
+    "pixelsDifferingOver20Percent": 11.068,
+    "review": "Before stays on Loading standings with THIS SHOWDOWN disabled. After shows the committed 6\u20133 score, Season 2 of 3, and all seven standings rows from the same progression fixture."
+  },
+  {
+    "file": "final-winner-phone-393x852.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "final-winner--honours-phone-393x852.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "final-winner-nik-phone-393x852.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "final-winner-draw-phone-393x852.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "final-winner-pending-phone-393x852.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "champion-review-season-phone-393x852.webp",
+    "meanChannelDifference": 4.9165,
+    "pixelsDifferingOver20Percent": 3.146,
+    "review": "This sequence first opens published Shared Results and then reaches Champion. Before hides REVIEW SEASON; after shows the exit beside BACK TO SHOWDOWN HOME."
+  },
+  {
+    "file": "rivalry-mid-showdown-phone-393x852.webp",
+    "meanChannelDifference": 14.2111,
+    "pixelsDifferingOver20Percent": 17.276,
+    "review": "Before stays on Loading rivalry statistics. After shows the committed 6\u20133 points and season counters without a cached History projection. Transfer Signings still reads Unavailable in this fixture."
+  },
+  {
+    "file": "rivalry-phone-393x852.webp",
+    "meanChannelDifference": 1.2693,
+    "pixelsDifferingOver20Percent": 0.519,
+    "review": "Same completed 9\u20130 rivalry fixture and figures. Minor rendering pixels differ; Transfer Signings is Unavailable because the fixture supplies no transfer summary."
+  },
+  {
+    "file": "legacy-phone-393x852.webp",
+    "meanChannelDifference": 0.2467,
+    "pixelsDifferingOver20Percent": 0.001,
+    "review": "Same content and layout observed. Minor text/animation rendering pixels differ; these pictures do not establish a product change."
+  },
+  {
+    "file": "trophy-room-phone-393x852.webp",
+    "meanChannelDifference": 0.0145,
+    "pixelsDifferingOver20Percent": 0.011,
+    "review": "Same content and layout observed. Minor text/animation rendering pixels differ; these pictures do not establish a product change."
+  },
+  {
+    "file": "trophy-room--more-phone-393x852.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "Both show identical career ranks and all-time records from the multi-Showdown fixture. Opened by an actual coordinate touch on the visible MORE control in both versions; r75 label-targeted Playwright click is intercepted by its transparent checkbox."
+  },
+  {
+    "file": "career-stats-phone-393x852.webp",
+    "meanChannelDifference": 2.4665,
+    "pixelsDifferingOver20Percent": 1.629,
+    "review": "After adds CURRENT RIVALRY STATISTICS for this completed-career fixture without a local active Showdown. The career figures are unchanged."
+  },
+  {
+    "file": "rule-book-phone-393x852.webp",
+    "meanChannelDifference": 2.7783,
+    "pixelsDifferingOver20Percent": 2.034,
+    "review": "Same content and layout observed. Minor text/animation rendering pixels differ; these pictures do not establish a product change."
+  },
+  {
+    "file": "settings-phone-393x852.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "No pixel difference between before and after at this size."
+  },
+  {
+    "file": "loading-phone-393x852.webp",
+    "meanChannelDifference": 0.0,
+    "pixelsDifferingOver20Percent": 0.0,
+    "review": "Real startup splash held before app.js executes, at the requested viewport. Its blocked script request is intentional."
+  },
+  {
+    "file": "home-free-limit-phone-393x852.webp",
+    "meanChannelDifference": 3.1135,
+    "pixelsDifferingOver20Percent": 2.128,
+    "review": "Quota is tripped locally with zero player taps. After shows the exact free-limit line immediately. Review concern: on phone, the notice covers the soundtrack controls."
+  },
+  {
+    "file": "connect-players-free-limit-phone-393x852.webp",
+    "meanChannelDifference": 0.915,
+    "pixelsDifferingOver20Percent": 0.477,
+    "review": "The real pairing reader receives a local quota refusal and renders its free-limit message in both versions. After phone also exposes a clipped strip of the underlying Home runtime notice above the navigation bar."
+  }
+]

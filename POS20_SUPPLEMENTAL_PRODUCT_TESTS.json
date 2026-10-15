@@ -1512,6 +1512,59 @@
         "^tests/contracts/reus\\-gate\\-startup\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/terminal-close-transaction-reads-contracts.cjs",
+      "patterns": [
+        "^js/sparkTerminalClose\\.js$",
+        "^tests/contracts/terminal-close-transaction-reads-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-setup-transaction-reads-contracts.cjs",
+      "patterns": [
+        "^js/sparkSharedShowdownSetup\\.js$",
+        "^tests/contracts/shared\\-setup\\-transaction\\-reads\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-season-chip-contracts.cjs",
+      "patterns": [
+        "^js/menuExperience\\.js$",
+        "^js/showdownUI\\.js$",
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^tests/contracts/shared-season-chip-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/standings-this-showdown-midway-contracts.cjs",
+      "patterns": [
+        "^js/sharedActiveShowdownAdapter\\.js$",
+        "^js/sparkSharedMultiSeasonProgression\\.js$",
+        "^tests/contracts/standings\\-this\\-showdown\\-midway\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/rivalry-statistics-load-contracts.cjs",
+      "patterns": [
+        "^js/careerScreensV10\\.js$",
+        "^js/statistics\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^tests/contracts/rivalry-statistics-load-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/free-limit-home-message-contracts.cjs",
+      "patterns": [
+        "^js/homeScreensV10\\.js$",
+        "^tests/contracts/free\\-limit\\-home\\-message\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

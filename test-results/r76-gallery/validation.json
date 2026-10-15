@@ -1,0 +1,62 @@
+{
+  "syntax": {
+    "exit": 0,
+    "summary": "355 active source files, 0 failures"
+  },
+  "contracts": {
+    "exit": 1,
+    "passed": 191,
+    "total": 197,
+    "failures": [
+      "static-app-release-contracts.cjs",
+      "final-polish-presentation.cjs",
+      "browser-journey-emulator-switch-contracts.cjs",
+      "v10-transfer-contracts.cjs",
+      "v10-club-contracts.cjs",
+      "reus-gate-startup-contracts.cjs"
+    ],
+    "cause": "Inherited startup gzip 37569 exceeds 37500 / 37495 limits"
+  },
+  "operations": {
+    "exit": 0,
+    "passed": 73,
+    "total": 73
+  },
+  "firestoreBudget": {
+    "exit": 0,
+    "checks": 16
+  },
+  "reusGateStartup": {
+    "exit": 1,
+    "error": "startup gzip 37569 must stay <= 37495"
+  },
+  "ce2pg": {
+    "seasonsRequested": 3,
+    "run": 1,
+    "exit": 1,
+    "emulatorsStarted": true,
+    "journeyStarted": false,
+    "journeyJsonProduced": false,
+    "error": "ENOENT: node_modules/firebase/firebase-app.js",
+    "retried": false
+  },
+  "gallery": {
+    "pairs": 62,
+    "images": 124,
+    "captureFailures": 0,
+    "viewports": [
+      [
+        1920,
+        1080
+      ],
+      [
+        393,
+        852
+      ]
+    ],
+    "dpr": 1,
+    "format": "WEBP",
+    "integrity": "passed",
+    "pageAudit": "passed at 1440 and 393 CSS px"
+  }
+}

@@ -1,0 +1,2210 @@
+{
+ "sourceBranch": "codex/job-1816-r76-integration",
+ "sourceHead": "d5695bd7979d72831be70e617ce4fad4b898d95c",
+ "shots": [
+  {
+   "slug": "home",
+   "title": "Home",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "home-desktop-1920x1080.webp",
+   "bytes": 229066,
+   "diag": {
+    "v10": "mainMenu",
+    "active": "mainMenu",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 42
+   }
+  },
+  {
+   "slug": "home",
+   "title": "Home",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "extra": "season-2-of-3",
+   "caption": "Shared season 2 of 3; local round still 1",
+   "file": "home--season-2-of-3-desktop-1920x1080.webp",
+   "bytes": 229946,
+   "diag": {
+    "v10": "mainMenu",
+    "active": "mainMenu",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 42
+   }
+  },
+  {
+   "slug": "connect-players",
+   "title": "Connect Players",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "connect-players-desktop-1920x1080.webp",
+   "bytes": 196052,
+   "diag": {
+    "v10": "mainMenu",
+    "active": "mainMenu",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 15
+   },
+   "captureBatch": "extra"
+  },
+  {
+   "slug": "new-showdown",
+   "title": "New Showdown \u00b7 choose seasons",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "new-showdown-desktop-1920x1080.webp",
+   "bytes": 151624,
+   "diag": {
+    "v10": "createShowdown",
+    "active": "createShowdown",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 5
+   },
+   "captureBatch": "extra"
+  },
+  {
+   "slug": "select-league",
+   "title": "Select League",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "select-league-desktop-1920x1080.webp",
+   "bytes": 219282,
+   "diag": {
+    "v10": "leagueWheelScreen",
+    "active": "leagueWheelScreen",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [
+     "h2#leagueWheelScreenScreenTitle 1662/772 \"SELECT LEAGUE\""
+    ],
+    "textCount": 10
+   }
+  },
+  {
+   "slug": "club",
+   "title": "Club",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "club-desktop-1920x1080.webp",
+   "bytes": 205180,
+   "diag": {
+    "v10": "clubWheelScreen",
+    "active": "clubWheelScreen",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 34
+   }
+  },
+  {
+   "slug": "club",
+   "title": "Club",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "extra": "confirmation",
+   "caption": "Both clubs confirmed",
+   "file": "club--confirmation-desktop-1920x1080.webp",
+   "bytes": 226668,
+   "diag": {
+    "v10": "clubWheelScreen",
+    "active": "clubWheelScreen",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 41
+   }
+  },
+  {
+   "slug": "transfer-challenge",
+   "title": "Transfer Challenge",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": "Live transfer window",
+   "file": "transfer-challenge-desktop-1920x1080.webp",
+   "bytes": 239116,
+   "diag": {
+    "v10": "transferChallenge",
+    "active": "transferChallenge",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 32
+   },
+   "log": [
+    "requestfailed: http://127.0.0.1:4511/visual-assets/v10_1/tr2/slice-02-plate/assets/ENV_TR2_PLATE_G_LOCKED_V1_1672.w"
+   ]
+  },
+  {
+   "slug": "transfer-challenge",
+   "title": "Transfer Challenge",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "extra": "guess-entry",
+   "caption": "Guess entry (live)",
+   "file": "transfer-challenge--guess-entry-desktop-1920x1080.webp",
+   "bytes": 216264,
+   "diag": {
+    "v10": "transferChallenge",
+    "active": "transferChallenge",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 27
+   },
+   "log": [
+    "requestfailed: http://127.0.0.1:4511/visual-assets/v10_1/tr2/slice-02-plate/assets/ENV_TR2_PLATE_G_LOCKED_V1_1672.w"
+   ]
+  },
+  {
+   "slug": "transfer-challenge",
+   "title": "Transfer Challenge",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "extra": "signing-entry",
+   "caption": "Signing entry (live)",
+   "file": "transfer-challenge--signing-entry-desktop-1920x1080.webp",
+   "bytes": 217732,
+   "diag": {
+    "v10": "transferChallenge",
+    "active": "transferChallenge",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 27
+   },
+   "log": [
+    "requestfailed: http://127.0.0.1:4511/visual-assets/v10_1/tr2/slice-02-plate/assets/ENV_TR2_PLATE_G_LOCKED_V1_1672.w"
+   ]
+  },
+  {
+   "slug": "transfer-challenge",
+   "title": "Transfer Challenge",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "extra": "verdicts",
+   "caption": "Verdicts (completed)",
+   "file": "transfer-challenge--verdicts-desktop-1920x1080.webp",
+   "bytes": 210912,
+   "diag": {
+    "v10": "transferChallenge",
+    "active": "transferChallenge",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 37
+   },
+   "log": [
+    "requestfailed: http://127.0.0.1:4511/visual-assets/v10_1/tr2/slice-02-plate/assets/ENV_TR2_PLATE_G_LOCKED_V1_1672.w"
+   ]
+  },
+  {
+   "slug": "season-results",
+   "title": "Season Results",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "season-results-desktop-1920x1080.webp",
+   "bytes": 177386,
+   "diag": {
+    "v10": "seasonEntry",
+    "active": "seasonEntry",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [
+     "main y 1297/1080"
+    ],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 75
+   },
+   "captureBatch": "more"
+  },
+  {
+   "slug": "season-results",
+   "title": "Season Results",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "extra": "bottom",
+   "caption": "Review and actions \u00b7 scrolled to bottom",
+   "file": "season-results--bottom-desktop-1920x1080.webp",
+   "bytes": 145706,
+   "diag": {
+    "v10": "seasonEntry",
+    "active": "seasonEntry",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [
+     "main y 1297/1080"
+    ],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 75
+   },
+   "captureBatch": "more"
+  },
+  {
+   "slug": "standings",
+   "title": "Standings",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "standings-desktop-1920x1080.webp",
+   "bytes": 165490,
+   "diag": {
+    "v10": "standings",
+    "active": "standings",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 37
+   }
+  },
+  {
+   "slug": "standings-mid-showdown",
+   "title": "Standings \u00b7 THIS SHOWDOWN mid-Showdown",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "standings-mid-showdown-desktop-1920x1080.webp",
+   "bytes": 165554,
+   "diag": {
+    "v10": "standings",
+    "active": "standings",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 37
+   },
+   "captureBatch": "extra"
+  },
+  {
+   "slug": "final-winner",
+   "title": "Final Winner \u00b7 Daniel",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "final-winner-desktop-1920x1080.webp",
+   "bytes": 203756,
+   "diag": {
+    "v10": "seasonEntry",
+    "active": "seasonEntry",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [
+     "p#outcomeHeadline.finalWinnerOutcome.sd-title-wipe 566/277 \"Daniel WINS\""
+    ],
+    "textCount": 39
+   },
+   "captureBatch": "more"
+  },
+  {
+   "slug": "final-winner-nik",
+   "title": "Final Winner \u00b7 Nik",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "final-winner-nik-desktop-1920x1080.webp",
+   "bytes": 203362,
+   "diag": {
+    "v10": "seasonEntry",
+    "active": "seasonEntry",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [
+     "p#outcomeHeadline.finalWinnerOutcome.sd-title-wipe 408/199 \"Nik WINS\""
+    ],
+    "textCount": 39
+   }
+  },
+  {
+   "slug": "final-winner-draw",
+   "title": "Final Winner \u00b7 Draw",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "final-winner-draw-desktop-1920x1080.webp",
+   "bytes": 202484,
+   "diag": {
+    "v10": "seasonEntry",
+    "active": "seasonEntry",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [
+     "p#outcomeHeadline.finalWinnerOutcome.sd-title-wipe 248/120 \"DRAW\""
+    ],
+    "textCount": 40
+   }
+  },
+  {
+   "slug": "final-winner-pending",
+   "title": "Final Winner \u00b7 Completion pending",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "final-winner-pending-desktop-1920x1080.webp",
+   "bytes": 203916,
+   "diag": {
+    "v10": "seasonEntry",
+    "active": "seasonEntry",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 40
+   }
+  },
+  {
+   "slug": "champion-review-season",
+   "title": "Champion \u00b7 REVIEW SEASON exit",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "champion-review-season-desktop-1920x1080.webp",
+   "bytes": 203756,
+   "diag": {
+    "v10": "seasonEntry",
+    "active": "seasonEntry",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [
+     "p#outcomeHeadline.finalWinnerOutcome.sd-title-wipe 566/277 \"Daniel WINS\""
+    ],
+    "textCount": 39
+   }
+  },
+  {
+   "slug": "rivalry-mid-showdown",
+   "title": "Rivalry Statistics \u00b7 mid-Showdown",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "rivalry-mid-showdown-desktop-1920x1080.webp",
+   "bytes": 155192,
+   "diag": {
+    "v10": "statistics",
+    "active": "statistics",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 67
+   },
+   "captureBatch": "extra"
+  },
+  {
+   "slug": "rivalry",
+   "title": "Rivalry Statistics",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "rivalry-desktop-1920x1080.webp",
+   "bytes": 154876,
+   "diag": {
+    "v10": "statistics",
+    "active": "statistics",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 67
+   },
+   "captureBatch": "extra"
+  },
+  {
+   "slug": "legacy",
+   "title": "Legacy",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "legacy-desktop-1920x1080.webp",
+   "bytes": 134160,
+   "diag": {
+    "v10": "legacy",
+    "active": "legacy",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 29
+   }
+  },
+  {
+   "slug": "trophy-room",
+   "title": "Trophy Room",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "trophy-room-desktop-1920x1080.webp",
+   "bytes": 189478,
+   "diag": {
+    "v10": "trophyRoom",
+    "active": "trophyRoom",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 55
+   }
+  },
+  {
+   "slug": "career-stats",
+   "title": "Career Statistics \u00b7 rivalry button",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "career-stats-desktop-1920x1080.webp",
+   "bytes": 174068,
+   "diag": {
+    "v10": "careerStatistics",
+    "active": "careerStatistics",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 82
+   }
+  },
+  {
+   "slug": "rule-book",
+   "title": "Rule Book",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "rule-book-desktop-1920x1080.webp",
+   "bytes": 173716,
+   "diag": {
+    "v10": "ruleBook",
+    "active": "ruleBook",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 54
+   }
+  },
+  {
+   "slug": "settings",
+   "title": "Settings",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "settings-desktop-1920x1080.webp",
+   "bytes": 153056,
+   "diag": {
+    "v10": "mainMenu",
+    "active": "mainMenu",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 57
+   }
+  },
+  {
+   "slug": "loading",
+   "title": "Loading",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "loading-desktop-1920x1080.webp",
+   "bytes": 83478,
+   "diag": {
+    "v10": null,
+    "active": "mainMenu",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 10
+   },
+   "log": [
+    "requestfailed: http://127.0.0.1:4511/js/app.js?v=1.9.1-r75",
+    "console.error: Failed to load resource: net::ERR_FAILED"
+   ]
+  },
+  {
+   "slug": "home-free-limit",
+   "title": "Home \u00b7 free-limit message, zero taps",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "home-free-limit-desktop-1920x1080.webp",
+   "bytes": 229684,
+   "diag": {
+    "v10": "mainMenu",
+    "active": "mainMenu",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 42
+   }
+  },
+  {
+   "slug": "connect-players-free-limit",
+   "title": "Connect Players \u00b7 free-limit message",
+   "size": "desktop-1920x1080",
+   "sizeLabel": "Desktop 1920x1080",
+   "caption": null,
+   "file": "connect-players-free-limit-desktop-1920x1080.webp",
+   "bytes": 197652,
+   "diag": {
+    "v10": "mainMenu",
+    "active": "mainMenu",
+    "viewport": [
+     1920,
+     1080
+    ],
+    "docScroll": [
+     1920,
+     1080,
+     1920,
+     1080
+    ],
+    "bodyScroll": [
+     1920,
+     1080
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 14
+   },
+   "captureBatch": "extra"
+  },
+  {
+   "slug": "home",
+   "title": "Home",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "home-phone-393x852.webp",
+   "bytes": 47156,
+   "diag": {
+    "v10": "mainMenu",
+    "active": "mainMenu",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 30
+   }
+  },
+  {
+   "slug": "home",
+   "title": "Home",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "extra": "season-2-of-3",
+   "caption": "Shared season 2 of 3; local round still 1",
+   "file": "home--season-2-of-3-phone-393x852.webp",
+   "bytes": 47182,
+   "diag": {
+    "v10": "mainMenu",
+    "active": "mainMenu",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 30
+   }
+  },
+  {
+   "slug": "connect-players",
+   "title": "Connect Players",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "connect-players-phone-393x852.webp",
+   "bytes": 31656,
+   "diag": {
+    "v10": "mainMenu",
+    "active": "mainMenu",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 14
+   },
+   "captureBatch": "extra"
+  },
+  {
+   "slug": "new-showdown",
+   "title": "New Showdown \u00b7 choose seasons",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "new-showdown-phone-393x852.webp",
+   "bytes": 28874,
+   "diag": {
+    "v10": "createShowdown",
+    "active": "createShowdown",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [
+     "main y 732/672"
+    ],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 5
+   },
+   "captureBatch": "extra"
+  },
+  {
+   "slug": "select-league",
+   "title": "Select League",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "select-league-phone-393x852.webp",
+   "bytes": 30622,
+   "diag": {
+    "v10": "leagueWheelScreen",
+    "active": "leagueWheelScreen",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [
+     "h2#leagueWheelScreenScreenTitle 706/299 \"SELECT LEAGUE\""
+    ],
+    "textCount": 10
+   }
+  },
+  {
+   "slug": "club",
+   "title": "Club",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "club-phone-393x852.webp",
+   "bytes": 51150,
+   "diag": {
+    "v10": "clubWheelScreen",
+    "active": "clubWheelScreen",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [
+     "span.clubTitleFallback [-2,395] \"CLUB ASSIGNMENT\""
+    ],
+    "clipped": [],
+    "textCount": 25
+   }
+  },
+  {
+   "slug": "club",
+   "title": "Club",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "extra": "confirmation",
+   "caption": "Both clubs confirmed",
+   "file": "club--confirmation-phone-393x852.webp",
+   "bytes": 55448,
+   "diag": {
+    "v10": "clubWheelScreen",
+    "active": "clubWheelScreen",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [
+     "span.clubTitleFallback [-2,395] \"CLUB ASSIGNMENT\""
+    ],
+    "clipped": [],
+    "textCount": 28
+   }
+  },
+  {
+   "slug": "transfer-challenge",
+   "title": "Transfer Challenge",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": "Live transfer window",
+   "file": "transfer-challenge-phone-393x852.webp",
+   "bytes": 36470,
+   "diag": {
+    "v10": "transferChallenge",
+    "active": "transferChallenge",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 31
+   }
+  },
+  {
+   "slug": "transfer-challenge",
+   "title": "Transfer Challenge",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "extra": "guess-entry",
+   "caption": "Guess entry (live)",
+   "file": "transfer-challenge--guess-entry-phone-393x852.webp",
+   "bytes": 37636,
+   "diag": {
+    "v10": "transferChallenge",
+    "active": "transferChallenge",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 26
+   }
+  },
+  {
+   "slug": "transfer-challenge",
+   "title": "Transfer Challenge",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "extra": "signing-entry",
+   "caption": "Signing entry (live)",
+   "file": "transfer-challenge--signing-entry-phone-393x852.webp",
+   "bytes": 38898,
+   "diag": {
+    "v10": "transferChallenge",
+    "active": "transferChallenge",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [
+     "main y 872/852"
+    ],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 26
+   }
+  },
+  {
+   "slug": "transfer-challenge",
+   "title": "Transfer Challenge",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "extra": "verdicts",
+   "caption": "Verdicts (completed)",
+   "file": "transfer-challenge--verdicts-phone-393x852.webp",
+   "bytes": 35050,
+   "diag": {
+    "v10": "transferChallenge",
+    "active": "transferChallenge",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 35
+   }
+  },
+  {
+   "slug": "season-results",
+   "title": "Season Results",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "season-results-phone-393x852.webp",
+   "bytes": 32252,
+   "diag": {
+    "v10": "seasonEntry",
+    "active": "seasonEntry",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [
+     "main y 1924/852"
+    ],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 62
+   },
+   "captureBatch": "more"
+  },
+  {
+   "slug": "season-results",
+   "title": "Season Results",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "extra": "bottom",
+   "caption": "Review and actions \u00b7 scrolled to bottom",
+   "file": "season-results--bottom-phone-393x852.webp",
+   "bytes": 13370,
+   "diag": {
+    "v10": "seasonEntry",
+    "active": "seasonEntry",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [
+     "main y 1924/852"
+    ],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 62
+   },
+   "captureBatch": "more"
+  },
+  {
+   "slug": "standings",
+   "title": "Standings",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "standings-phone-393x852.webp",
+   "bytes": 36062,
+   "diag": {
+    "v10": "standings",
+    "active": "standings",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 35
+   }
+  },
+  {
+   "slug": "standings-mid-showdown",
+   "title": "Standings \u00b7 THIS SHOWDOWN mid-Showdown",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "standings-mid-showdown-phone-393x852.webp",
+   "bytes": 36070,
+   "diag": {
+    "v10": "standings",
+    "active": "standings",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 35
+   },
+   "captureBatch": "extra"
+  },
+  {
+   "slug": "final-winner",
+   "title": "Final Winner \u00b7 Daniel",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "final-winner-phone-393x852.webp",
+   "bytes": 32302,
+   "diag": {
+    "v10": "seasonEntry",
+    "active": "seasonEntry",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [
+     "p#outcomeHeadline.finalWinnerOutcome.sd-title-wipe 289/140 \"Daniel WINS\""
+    ],
+    "textCount": 24
+   },
+   "captureBatch": "more"
+  },
+  {
+   "slug": "final-winner",
+   "title": "Final Winner \u00b7 Daniel",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "extra": "honours",
+   "caption": "Phone HONOURS tab",
+   "file": "final-winner--honours-phone-393x852.webp",
+   "bytes": 32766,
+   "diag": {
+    "v10": "seasonEntry",
+    "active": "seasonEntry",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [
+     "p#outcomeHeadline.finalWinnerOutcome.sd-title-wipe 289/140 \"Daniel WINS\""
+    ],
+    "textCount": 30
+   },
+   "captureBatch": "more"
+  },
+  {
+   "slug": "final-winner-nik",
+   "title": "Final Winner \u00b7 Nik",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "final-winner-nik-phone-393x852.webp",
+   "bytes": 30704,
+   "diag": {
+    "v10": "seasonEntry",
+    "active": "seasonEntry",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [
+     "p#outcomeHeadline.finalWinnerOutcome.sd-title-wipe 209/101 \"Nik WINS\""
+    ],
+    "textCount": 24
+   }
+  },
+  {
+   "slug": "final-winner-draw",
+   "title": "Final Winner \u00b7 Draw",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "final-winner-draw-phone-393x852.webp",
+   "bytes": 32764,
+   "diag": {
+    "v10": "seasonEntry",
+    "active": "seasonEntry",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [
+     "p#outcomeHeadline.finalWinnerOutcome.sd-title-wipe 128/60 \"DRAW\""
+    ],
+    "textCount": 25
+   }
+  },
+  {
+   "slug": "final-winner-pending",
+   "title": "Final Winner \u00b7 Completion pending",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "final-winner-pending-phone-393x852.webp",
+   "bytes": 33328,
+   "diag": {
+    "v10": "seasonEntry",
+    "active": "seasonEntry",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 25
+   }
+  },
+  {
+   "slug": "champion-review-season",
+   "title": "Champion \u00b7 REVIEW SEASON exit",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "champion-review-season-phone-393x852.webp",
+   "bytes": 32314,
+   "diag": {
+    "v10": "seasonEntry",
+    "active": "seasonEntry",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [
+     "p#outcomeHeadline.finalWinnerOutcome.sd-title-wipe 289/140 \"Daniel WINS\""
+    ],
+    "textCount": 24
+   }
+  },
+  {
+   "slug": "rivalry-mid-showdown",
+   "title": "Rivalry Statistics \u00b7 mid-Showdown",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "rivalry-mid-showdown-phone-393x852.webp",
+   "bytes": 32586,
+   "diag": {
+    "v10": "statistics",
+    "active": "statistics",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 33
+   },
+   "captureBatch": "extra"
+  },
+  {
+   "slug": "rivalry",
+   "title": "Rivalry Statistics",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "rivalry-phone-393x852.webp",
+   "bytes": 35318,
+   "diag": {
+    "v10": "statistics",
+    "active": "statistics",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 41
+   },
+   "captureBatch": "extra"
+  },
+  {
+   "slug": "legacy",
+   "title": "Legacy",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "legacy-phone-393x852.webp",
+   "bytes": 30352,
+   "diag": {
+    "v10": "legacy",
+    "active": "legacy",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 20
+   }
+  },
+  {
+   "slug": "trophy-room",
+   "title": "Trophy Room",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "trophy-room-phone-393x852.webp",
+   "bytes": 34502,
+   "diag": {
+    "v10": "trophyRoom",
+    "active": "trophyRoom",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 32
+   },
+   "captureBatch": "trophy"
+  },
+  {
+   "slug": "trophy-room",
+   "title": "Trophy Room",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "extra": "more",
+   "caption": "Phone MORE \u00b7 Career details",
+   "file": "trophy-room--more-phone-393x852.webp",
+   "bytes": 28438,
+   "diag": {
+    "v10": "trophyRoom",
+    "active": "trophyRoom",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 31
+   },
+   "captureBatch": "trophy"
+  },
+  {
+   "slug": "career-stats",
+   "title": "Career Statistics \u00b7 rivalry button",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "career-stats-phone-393x852.webp",
+   "bytes": 34332,
+   "diag": {
+    "v10": "careerStatistics",
+    "active": "careerStatistics",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 52
+   }
+  },
+  {
+   "slug": "rule-book",
+   "title": "Rule Book",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "rule-book-phone-393x852.webp",
+   "bytes": 35218,
+   "diag": {
+    "v10": "ruleBook",
+    "active": "ruleBook",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 54
+   }
+  },
+  {
+   "slug": "settings",
+   "title": "Settings",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "settings-phone-393x852.webp",
+   "bytes": 26992,
+   "diag": {
+    "v10": "mainMenu",
+    "active": "mainMenu",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [
+     "main.settingsTouchMain y 1437/676"
+    ],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 57
+   }
+  },
+  {
+   "slug": "loading",
+   "title": "Loading",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "loading-phone-393x852.webp",
+   "bytes": 29282,
+   "diag": {
+    "v10": null,
+    "active": "mainMenu",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 10
+   },
+   "log": [
+    "requestfailed: http://127.0.0.1:4511/js/app.js?v=1.9.1-r75",
+    "console.error: Failed to load resource: net::ERR_FAILED"
+   ]
+  },
+  {
+   "slug": "home-free-limit",
+   "title": "Home \u00b7 free-limit message, zero taps",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "home-free-limit-phone-393x852.webp",
+   "bytes": 48314,
+   "diag": {
+    "v10": "mainMenu",
+    "active": "mainMenu",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 30
+   }
+  },
+  {
+   "slug": "connect-players-free-limit",
+   "title": "Connect Players \u00b7 free-limit message",
+   "size": "phone-393x852",
+   "sizeLabel": "Phone 393x852",
+   "caption": null,
+   "file": "connect-players-free-limit-phone-393x852.webp",
+   "bytes": 30656,
+   "diag": {
+    "v10": "mainMenu",
+    "active": "mainMenu",
+    "viewport": [
+     393,
+     852
+    ],
+    "docScroll": [
+     393,
+     852,
+     393,
+     852
+    ],
+    "bodyScroll": [
+     393,
+     852
+    ],
+    "hOverflowPage": false,
+    "docVerticalScroll": false,
+    "scrollers": [],
+    "brokenImgs": [],
+    "offscreen": [],
+    "clipped": [],
+    "textCount": 13
+   },
+   "captureBatch": "extra"
+  }
+ ],
+ "failures": []
+}

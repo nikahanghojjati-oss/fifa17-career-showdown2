@@ -161,7 +161,7 @@
   function pssrWatchSync(){let key="";try{key=pssrWaitingKey()+"|"+(root.document?.visibilityState||"");}catch(_error){key="";}if(key===pssrWatchedKey)return;pssrWatchedKey=key;try{pssrWatchWait();}catch(_error){}}
   function pssrRender(){pssrWatchSync();if(!root.document||!pssrSharedMarker()||!view)return false;const request=pssrRequestContext();if(!request||contextKey!==request.key)return false;if(renderedContextKey!==request.key){renderedContextKey=request.key;draft=null;}const formKey=`${request.key}|${view.managerRole||""}`;if(formContextKey&&formContextKey!==formKey){draft=null;pssrClearForm();}formContextKey=formKey;pssrRenderEntry();return true;}
   function pssrBeginReview(){
-    if(!view||!view.managerRole)return false;if(view.ownResult){pssrRender();return true;}
+    if(!view||!view.managerRole)return false;if(view.ownResult){root.CareerModeSeasonFinalV10?.reviewFinalSeason?.();pssrRender();return true;}
     try{const result=pssrReadForm(view.managerRole);draft={contextKey,seasonNumber:view.seasonNumber,managerRole:view.managerRole,result,fingerprint:pssrFingerprint(result),operationId:null,baseRevision:null};pssrSetError("");pssrRenderReview(result);return true;}catch(error){draft=null;pssrSetError(error.message||error.code);return false;}
   }
   function pssrEdit(){if(busy||view?.ownResult)return false;draft=null;pssrSetError("");pssrEntryMode(false);pssrRenderEntry();const input=pssrField(`${pssrRolePrefix(view.managerRole)}LeaguePosition`);input?.focus?.({preventScroll:true});return true;}
