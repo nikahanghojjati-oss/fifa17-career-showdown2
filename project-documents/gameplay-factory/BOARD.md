@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 15 Oct, 7:49 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 15 Oct, 7:51 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -98,7 +98,7 @@ Updated Thu 15 Oct, 7:49 PM Boston time. Bug hunting only, no new features until
 
 **#21 · 1818** `G` Failing tests for the bug cards (GPT Work mode, repeatable)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #860 · CI 7 of 8 passed · last move 112 min ago
+🟢 Team green · model not set · worker working, draft PR #860 · CI 7 of 8 passed · last move 113 min ago
 
 **#22 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
@@ -122,11 +122,15 @@ Updated Thu 15 Oct, 7:49 PM Boston time. Bug hunting only, no new features until
 
 **#27 · 1827** `G` 1826 follow-up: prove that partner changes outside the watched document still arrive while waiting  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #861 · CI 7 of 8 passed · last move 85 min ago
+⚪ Team white · model not set · worker working, draft PR #861 · CI 7 of 8 passed · last move 86 min ago
 
 **#28 · 1828** `G` Phone free-limit notice covers the soundtrack controls and shows through under Connect Players  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #862 · CI 7 of 8 passed · last move 56 min ago
+⚪ Team white · model not set · worker working, draft PR #862 · CI 7 of 8 passed · last move 57 min ago
+
+**#29 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · model not set · worker working, draft PR #863 · CI 7 of 8 passed · last move 0 min ago
 
 ### 👉 Next for you, in this order
 
@@ -1404,17 +1408,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1823
 ```
 
-**#128 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1829'
-
-Type this in Codex cloud:
-
-```text
-Job 1829
-```
-
-**#129 · 1830** `G` r76 integration round 2: every r76 fix together, then the meter and CE2PG on the combined head  
+**#128 · 1830** `G` r76 integration round 2: every r76 fix together, then the meter and CE2PG on the combined head  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1830'
 
