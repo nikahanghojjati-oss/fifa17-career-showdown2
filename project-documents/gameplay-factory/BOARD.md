@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 15 Oct, 10:27 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 15 Oct, 10:30 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -58,7 +58,7 @@ Updated Thu 15 Oct, 10:27 AM Boston time. Bug hunting only, no new features unti
 
 **#11 · 1805** `G` Home tile and header chip stay on "Season 1 of N" after season 1  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #845 · CI 7 of 8 passed · last move 37 h ago
+🟢 Team green · model not set · worker working, draft PR #845 · CI 7 of 8 passed · last move 38 h ago
 
 **#12 · 1806** `G` BACK TO SHOWDOWN HOME lands on the dashboard instead of Home  
 `████░░░░░░` **40.0000 %**  
@@ -86,7 +86,7 @@ Updated Thu 15 Oct, 10:27 AM Boston time. Bug hunting only, no new features unti
 
 **#18 · 1812** `G` Free-limit message must show as soon as Home opens  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #842 · CI 7 of 8 passed · last move 38 h ago
+⚪ Team white · model not set · worker working, draft PR #842 · CI 7 of 8 passed · last move 39 h ago
 
 **#19 · 1815** `G` Shared-journey guard: prove or fix the stale-marker block (U-01)  
 `████░░░░░░` **40.0000 %**  
@@ -94,7 +94,7 @@ Updated Thu 15 Oct, 10:27 AM Boston time. Bug hunting only, no new features unti
 
 **#20 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 104 min ago
+⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 106 min ago
 
 **#21 · 1818** `G` Failing tests for the bug cards (GPT Work mode, repeatable)  
 `████░░░░░░` **40.0000 %**  
@@ -102,7 +102,7 @@ Updated Thu 15 Oct, 10:27 AM Boston time. Bug hunting only, no new features unti
 
 **#22 · 1821** `G` Season chip fix that fits the startup size limit (redo of JOB-1805)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #845 · CI 7 of 8 passed · last move 37 h ago
+⚪ Team white · model not set · worker working, draft PR #845 · CI 7 of 8 passed · last move 38 h ago
 
 **#23 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
