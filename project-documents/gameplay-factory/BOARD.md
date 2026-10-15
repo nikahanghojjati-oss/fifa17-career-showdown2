@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 15 Oct, 2:28 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 15 Oct, 2:29 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -86,7 +86,7 @@ Updated Thu 15 Oct, 2:28 PM Boston time. Bug hunting only, no new features until
 
 **#18 · 1812** `G` Free-limit message must show as soon as Home opens  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #842 · CI 7 of 8 passed · last move 42 h ago
+⚪ Team white · model not set · worker working, draft PR #842 · CI 7 of 8 passed · last move 43 h ago
 
 **#19 · 1815** `G` Shared-journey guard: prove or fix the stale-marker block (U-01)  
 `████░░░░░░` **40.0000 %**  
@@ -102,7 +102,7 @@ Updated Thu 15 Oct, 2:28 PM Boston time. Bug hunting only, no new features until
 
 **#22 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 115 min ago
+⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 117 min ago
 
 **#23 · 1821** `G` Season chip fix that fits the startup size limit (redo of JOB-1805)  
 `████░░░░░░` **40.0000 %**  
