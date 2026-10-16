@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 7:41 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 7:45 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r76** (main `b41f296`, Fri 16 Oct 7:00 PM)
 
@@ -46,11 +46,11 @@ Updated Fri 16 Oct, 7:41 PM Boston time. Bug hunting only, no new features until
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 77 h ago
+⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 78 h ago
 
 **#9 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 34 h ago
+⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 35 h ago
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
@@ -78,11 +78,15 @@ Updated Fri 16 Oct, 7:41 PM Boston time. Bug hunting only, no new features until
 
 **#16 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 77 min ago
+⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 81 min ago
 
 **#17 · 1839** `G` r76 gallery refresh: every screen from the final workbench, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 76 min ago
+⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 80 min ago
+
+**#18 · 1842** `G` CE2PG harness: stop flagging the two known wording items  
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · model not set · worker working, draft PR #879 · CI 7 of 8 passed · last move 3 min ago
 
 ### 👉 Next for you, in this order
 
@@ -1568,16 +1572,6 @@ Type this in Codex cloud:
 
 ```text
 Job 1841
-```
-
-**#149 · 1842** `G` CE2PG harness: stop flagging the two known wording items  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1842'
-
-Type this in Codex cloud:
-
-```text
-Job 1842
 ```
 
 ### ⏸ Waiting on something else
