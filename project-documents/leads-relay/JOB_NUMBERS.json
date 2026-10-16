@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1837,
+ "next": 1838,
  "claims": [
   {
    "number": 1001,
@@ -5018,6 +5018,12 @@
    "team": "G",
    "title": "CE2PG release run A: 1 and 3 seasons x3 plus draw",
    "claimed": "2026-10-16T16:20:17Z"
+  },
+  {
+   "number": 1837,
+   "team": "G",
+   "title": "CE2PG release run B: 5 seasons x3",
+   "claimed": "2026-10-16T16:20:20Z"
   }
  ]
 }
