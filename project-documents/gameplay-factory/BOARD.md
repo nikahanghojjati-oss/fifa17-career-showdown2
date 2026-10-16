@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 12:16 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 12:21 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -22,7 +22,7 @@ Updated Fri 16 Oct, 12:16 AM Boston time. Bug hunting only, no new features unti
 
 **#2 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 87 h ago
+🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 88 h ago
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -95,6 +95,10 @@ Updated Fri 16 Oct, 12:16 AM Boston time. Bug hunting only, no new features unti
 **#20 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #863 · CI 7 of 8 passed · last move 4 h ago
+
+**#21 · 1832** `G` Waiting fixes on PR #861: clock expiry, poll window, first-snapshot reads  
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · model not set · worker working, draft PR #866
 
 ### 👉 Next for you, in this order
 
@@ -1392,17 +1396,7 @@ Type this in Codex cloud:
 Job 1831
 ```
 
-**#130 · 1832** `G` Waiting fixes on PR #861: clock expiry, poll window, first-snapshot reads  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1832'
-
-Type this in Codex cloud:
-
-```text
-Job 1832
-```
-
-**#131 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
+**#130 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1833'
 
@@ -1412,7 +1406,7 @@ Type this in Codex cloud:
 Job 1833
 ```
 
-**#132 · 1834** `G` Standings fix on PR #841: keep the progression fallback out of the career screens  
+**#131 · 1834** `G` Standings fix on PR #841: keep the progression fallback out of the career screens  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1834'
 
@@ -1422,7 +1416,7 @@ Type this in Codex cloud:
 Job 1834
 ```
 
-**#133 · 1835** `G` Free-limit notice fix on PR #862: landscape phone Home layout  
+**#132 · 1835** `G` Free-limit notice fix on PR #862: landscape phone Home layout  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1835'
 
