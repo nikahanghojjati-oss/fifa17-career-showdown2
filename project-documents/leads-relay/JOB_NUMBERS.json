@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1832,
+ "next": 1833,
  "claims": [
   {
    "number": 1001,
@@ -4988,6 +4988,12 @@
    "team": "G",
    "title": "Career Start panel can hang: time limit and retry",
    "claimed": "2026-10-16T01:09:14Z"
+  },
+  {
+   "number": 1832,
+   "team": "G",
+   "title": "PR 861 waiting fixes",
+   "claimed": "2026-10-16T03:32:54Z"
   }
  ]
 }
