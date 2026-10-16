@@ -100,12 +100,22 @@ export function injectPersistentPairRules(){
     'function cmsCompletedTransferRoleReadable(rivalryId, transferId)',
     "challenge.phase == 'COMPLETED'",
     'allow get: if ssjrEntitled(rivalryId) || cmsCompletedSeasonReadable(rivalryId, transferId);',
-    "|| (managerRole in ['playerOne', 'playerTwo'] && cmsCompletedTransferRoleReadable(rivalryId, transferId));"
+    "|| (managerRole in ['playerOne', 'playerTwo'] && cmsCompletedTransferRoleReadable(rivalryId, transferId));",
+    'function cmsCareerStartCreateValid(accountId, startId)',
+    'function cmsCareerStartUpdateValid(accountId, startId)',
+    "after.data.diff(before.data).affectedKeys().hasOnly(['active'])",
+    'ids == get(indexPath).data.data.rivalryIds',
+    'match /accounts/{accountId}/careerStart/{startId}',
+    'allow create: if cmsCareerStartCreateValid(accountId, startId);',
+    'allow update: if cmsCareerStartUpdateValid(accountId, startId);'
   ]){
     if(!generated.includes(required))throw new Error(`Generated production Rules missing persistent pair boundary: ${required}`);
   }
   if((generated.match(/match \/accounts\/\{accountId\}\/careerIndex\/\{indexId\}/g)||[]).length!==1){
     throw new Error('Generated production Rules must contain exactly one career index account match.');
+  }
+  if((generated.match(/match \/accounts\/\{accountId\}\/careerStart\/\{startId\}/g)||[]).length!==1){
+    throw new Error('Generated production Rules must contain exactly one career start account match.');
   }
   if((generated.match(/match \/accounts\/\{accountId\}\/pairLinks\/\{pairId\}/g)||[]).length!==1){
     throw new Error('Generated production Rules must contain exactly one persistent pair account match.');

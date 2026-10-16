@@ -62,6 +62,7 @@ const SHELL_PATHS = Object.freeze([
   "js/sharedClosedShowdownAdapter.js",
   "js/sparkCompletedShowdownReader.js",
   "js/sparkClosedShowdownCareerLoader.js",
+  "js/careerStartMarker.js",
   "css/rivalryLegacyV10.css",
     "js/app.js",
     "js/backup.js",

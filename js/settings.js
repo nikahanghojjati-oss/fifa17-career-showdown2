@@ -660,6 +660,213 @@ async function deleteSettingsCurrentShowdown(button){
     }
 }
 
+/* Career start marker: one START REAL CAREER press per manager, before the first real game. Finished test Showdowns
+   stay saved; History, Career Statistics, Trophy Room, Legacy and Rivalry Statistics leave them out while the marker is
+   on. The marker module (js/careerStartMarker.js) loads only when Settings opens with a signed-in account. */
+let settingsCareerStartBusy = false;
+
+function isSettingsShowdownUnfinished(){
+    const active = getSettingsActiveShowdown();
+    if(active && active.status !== "Completed"){
+        return true;
+    }
+    let pairState = null;
+    try{
+        pairState = window.CareerModePersistentNikDanielPair && typeof window.CareerModePersistentNikDanielPair.getState === "function"
+            ? window.CareerModePersistentNikDanielPair.getState()
+            : null;
+    }catch(error){
+        pairState = null;
+    }
+    return Boolean(
+        pairState
+        && pairState.rivalryId
+        && (pairState.connectionState === "active" || pairState.connectionState === "pending-pair")
+    );
+}
+
+function isSettingsAccountConnected(){
+    try{
+        const account = window.CareerModeSparkConnectedAccount;
+        const accountState = account && typeof account.getState === "function" ? account.getState() : null;
+        return Boolean(accountState && accountState.connected && accountState.accountId);
+    }catch(error){
+        return false;
+    }
+}
+
+function formatSettingsCareerStartDate(epochMs){
+    if(!Number.isFinite(epochMs)){ return ""; }
+    try{
+        return new Date(epochMs).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }).toUpperCase();
+    }catch(error){
+        return "";
+    }
+}
+
+function getSettingsOtherManagerLabel(){
+    try{
+        const identity = window.CareerModeOnlinePlayerIdentity;
+        const identityState = identity && typeof identity.getState === "function" ? identity.getState() : null;
+        return identityState && identityState.managerId === "daniel" ? "Nik" : "Daniel";
+    }catch(error){
+        return "Daniel";
+    }
+}
+
+async function ensureSettingsCareerStartMarker(){
+    if(!window.CareerModeCareerStartMarker){
+        if(typeof window.loadRuntimeScript !== "function"){
+            throw new Error("The career service is unavailable.");
+        }
+        await window.loadRuntimeScript(
+            "career-start-marker",
+            "js/careerStartMarker.js",
+            () => Boolean(window.CareerModeCareerStartMarker)
+        );
+    }
+    const marker = window.CareerModeCareerStartMarker;
+    if(!marker || typeof marker.readCurrentMarker !== "function"){
+        throw new Error("The career service is unavailable.");
+    }
+    return marker;
+}
+
+function hideSettingsCareerStartRow(row){
+    row.hidden = true;
+    row.replaceChildren();
+}
+
+async function refreshSettingsCareerStartRow(row){
+    if(isSettingsShowdownUnfinished() || !isSettingsAccountConnected()){
+        hideSettingsCareerStartRow(row);
+        return false;
+    }
+    let marker = null;
+    try{
+        const api = await ensureSettingsCareerStartMarker();
+        marker = await api.readCurrentMarker();
+    }catch(error){
+        hideSettingsCareerStartRow(row);
+        return false;
+    }
+    if(!row.isConnected || isSettingsShowdownUnfinished()){
+        hideSettingsCareerStartRow(row);
+        return false;
+    }
+    renderSettingsCareerStartRow(row, marker);
+    return true;
+}
+
+function renderSettingsCareerStartRow(row, marker){
+    if(!marker || marker.status !== "ready"){
+        const start = createSettingsElement("button", "menuButton settingsDataButton settingsStartRealCareer", "START REAL CAREER");
+        start.type = "button";
+        start.disabled = settingsCareerStartBusy;
+        start.addEventListener("click", () => void startSettingsRealCareer(row, start));
+        row.replaceChildren(start);
+    }else{
+        const info = createSettingsElement("div", "settingsInfoGrid");
+        info.appendChild(createSettingsInfoRow("REAL CAREER STARTED", formatSettingsCareerStartDate(marker.startedAt) || "YES"));
+        const showing = marker.active !== true;
+        const toggleRow = createSettingsElement("div", "settingsAudioRow settingsCareerStartToggleRow");
+        const copy = createSettingsElement("div", "settingsAudioCopy");
+        copy.append(
+            createSettingsElement("strong", "", "SHOW TEST SHOWDOWNS AGAIN"),
+            createSettingsElement("small", "", "Shows the finished test Showdowns from before your real career in History, Trophy Room and Legacy. Nothing is deleted either way.")
+        );
+        const toggle = createSettingsElement("button", `settingsAudioToggle settingsCareerStartToggle ${showing ? "enabled" : "muted"}`);
+        toggle.type = "button";
+        toggle.disabled = settingsCareerStartBusy;
+        toggle.setAttribute("role", "switch");
+        toggle.setAttribute("aria-checked", String(showing));
+        toggle.setAttribute("aria-label", `Show test Showdowns again ${showing ? "on" : "off"}`);
+        toggle.append(
+            createSettingsElement("span", "settingsAudioToggleTrack"),
+            createSettingsElement("strong", "", showing ? "ON" : "OFF")
+        );
+        toggle.addEventListener("click", () => void setSettingsTestShowdownsShown(row, toggle, !showing));
+        toggleRow.append(copy, toggle);
+        row.replaceChildren(info, toggleRow);
+    }
+    row.hidden = false;
+    if(window.CareerModeRulesSettingsV10 && typeof window.CareerModeRulesSettingsV10.refreshSettings === "function"){
+        window.CareerModeRulesSettingsV10.refreshSettings();
+    }
+}
+
+async function runSettingsCareerStartChange(row, control, change, successMessage){
+    if(settingsCareerStartBusy){ return false; }
+    settingsCareerStartBusy = true;
+    control.disabled = true;
+    control.setAttribute("aria-busy", "true");
+    let marker = null;
+    let failure = null;
+    try{
+        const api = await ensureSettingsCareerStartMarker();
+        marker = await change(api);
+    }catch(error){
+        failure = error || new Error("Try again.");
+    }finally{
+        settingsCareerStartBusy = false;
+        if(control.isConnected){
+            control.disabled = false;
+            control.removeAttribute("aria-busy");
+        }
+    }
+    if(failure || !marker){
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice(
+                `Nothing was changed. ${failure && failure.message ? failure.message : "Try again."}`,
+                "error",
+                8000
+            );
+        }
+        return false;
+    }
+    if(row.isConnected){
+        renderSettingsCareerStartRow(row, marker);
+    }
+    if(typeof window.showAppNotice === "function"){
+        window.showAppNotice(successMessage, "success", 5200);
+    }
+    return true;
+}
+
+async function startSettingsRealCareer(row, button){
+    if(isSettingsShowdownUnfinished()){
+        hideSettingsCareerStartRow(row);
+        return false;
+    }
+    const other = getSettingsOtherManagerLabel();
+    const confirmed = window.confirm(
+        `Start your real career now? Finished test Showdowns stay saved but are hidden from History, Trophy Room and Legacy. Ask ${other} to press this too.`
+    );
+    if(!confirmed){ return false; }
+    return runSettingsCareerStartChange(
+        row,
+        button,
+        api => api.startRealCareer(),
+        `Real career started. Your finished test Showdowns are saved and hidden. Ask ${other} to press START REAL CAREER too.`
+    );
+}
+
+function setSettingsTestShowdownsShown(row, toggle, shown){
+    return runSettingsCareerStartChange(
+        row,
+        toggle,
+        api => api.setActive(!shown),
+        shown ? "Test Showdowns are shown again." : "Test Showdowns are hidden again."
+    );
+}
+
+function createSettingsCareerStartRow(){
+    const row = createSettingsElement("div", "settingsCareerStart");
+    row.hidden = true;
+    void refreshSettingsCareerStartRow(row);
+    return row;
+}
+
 function createDataPanel(){
     const active = getSettingsActiveShowdown();
     const history = getSettingsLegacyHistory();
@@ -711,7 +918,7 @@ function createDataPanel(){
             : "No current Showdown is stored on this device. Completed history, backup export and full reset remain available under History & Backup."
     );
 
-    panel.append(info, actions, note);
+    panel.append(info, actions, createSettingsCareerStartRow(), note);
     return panel;
 }
 
