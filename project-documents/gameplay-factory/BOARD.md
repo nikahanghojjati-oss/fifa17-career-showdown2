@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 3:02 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 3:06 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -67,6 +67,10 @@ Updated Fri 16 Oct, 3:02 PM Boston time. Bug hunting only, no new features until
 **#13 · 1830** `G` r76 integration round 2: every r76 fix together, then the meter and CE2PG on the combined head  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #869
+
+**#14 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 3 min ago
 
 ### 👉 Next for you, in this order
 
@@ -1524,17 +1528,7 @@ Type this in Codex cloud:
 Job 1833
 ```
 
-**#146 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1836'
-
-Type this in Codex cloud:
-
-```text
-Job 1836
-```
-
-**#147 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
+**#146 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1837'
 
@@ -1544,7 +1538,7 @@ Type this in Codex cloud:
 Job 1837
 ```
 
-**#148 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
+**#147 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1838'
 
@@ -1554,7 +1548,7 @@ Type this in Codex cloud:
 Job 1838
 ```
 
-**#149 · 1839** `G` r76 gallery refresh: every screen from the final workbench, desktop and phone  
+**#148 · 1839** `G` r76 gallery refresh: every screen from the final workbench, desktop and phone  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1839'
 
