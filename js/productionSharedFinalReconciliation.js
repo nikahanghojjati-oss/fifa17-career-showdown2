@@ -44,9 +44,23 @@
     return {panel,heading,summary,winner,close};
   }
   function pfrCurrentView(){const request=pfrRequest();pfrTrackRequest(request);let localState=null;try{localState=localApi?.getState?.()||null;}catch(_error){}return pfrSaveAuthorityReady()&&request&&view&&viewContextKey===request.key&&viewGeneration===authorityGeneration&&pfrLocalAuthorityMatches(request,localState)&&!pfrTerminalClosed()?view:null;}
+  // r76: the partner's Terminal Close now reaches this manager through the waiting listener within a second. Its session
+  // close also ends Shared Setup readiness, so pfrRequest is null from then on and this module can never reconcile again;
+  // CLOSED then lands without a reconciled view. The verified close witness Terminal Close holds for this exact save (its
+  // request falls back to the durable rivalry binding) carries the same locked totals and winner: the (still hidden) final
+  // result lines are filled from it. No read, no poll.
+  function pfrClosedText(ui){
+    let closed=null;try{closed=root.CareerModeProductionSharedTerminalClose?.getState?.()||null;}catch(_error){closed=null;}
+    const witness=closed?.phase==="CLOSED"?closed.terminalWitness:null,totals=witness?.managerTotals;
+    if(!pfrShared()||!witness||!closed.rivalryId||String(witness.rivalryId||"")!==String(closed.rivalryId)||!totals||!Number.isInteger(totals.playerOne)||!Number.isInteger(totals.playerTwo)||!["playerOne","playerTwo","draw"].includes(witness.winner))return false;
+    pfrText(ui.heading,"SHOWDOWN FINAL RESULT");
+    if(Number.isInteger(witness.totalSeasons))pfrText(ui.summary,`${witness.totalSeasons} OF ${witness.totalSeasons} SEASONS ACCEPTED · NO ADDITIONAL SEASON`);
+    pfrText(ui.winner,`${pfrManagerName("playerOne")} ${totals.playerOne} · ${pfrManagerName("playerTwo")} ${totals.playerTwo} · ${witness.winner==="draw"?"DRAW":`${pfrManagerName(witness.winner)} WINS`}`);
+    return true;
+  }
   function pfrRender(){
     const ui=pfrEnsureUi();if(!ui)return false;const current=pfrCurrentView(),active=Boolean(current&&current.phase==="FINAL_SEASON_RECONCILED"&&current.finalSeasonReconciled===true);
-    pfrHidden(ui.panel,!active);if(!active)return false;
+    pfrHidden(ui.panel,!active);if(!active){pfrClosedText(ui);return false;}
     pfrText(ui.heading,"SHOWDOWN FINAL RESULT");
     pfrText(ui.summary,`${current.acceptedSeasons} OF ${current.totalSeasons} SEASONS ACCEPTED · NO ADDITIONAL SEASON`);
     const winner=current.winner==="draw"?"DRAW":`${pfrManagerName(current.winner)} WINS`;
