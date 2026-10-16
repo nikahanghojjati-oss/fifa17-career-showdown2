@@ -1668,6 +1668,23 @@
         "^tests/contracts/rivalry-statistics-load-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/champion-back-home-contracts.cjs",
+      "patterns": [
+        "^js/seasonFinalV10\\.js$",
+        "^js/screens\\.js$",
+        "^tests/contracts/champion\\-back\\-home\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/terminal-close-progress-race-denied-contracts.cjs",
+      "patterns": [
+        "^js/sparkTerminalClose\\.js$",
+        "^tests/contracts/terminal\\-close\\-progress\\-race\\-denied\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

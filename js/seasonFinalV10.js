@@ -1864,6 +1864,16 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     if(typeof valid==="function"&&!valid.v10Standings){const wrapped=function(id){return id==="standings"||valid.apply(this,arguments);};wrapped.v10Standings=true;wrapped.original=valid;root.isRouteStateValid=wrapped;}
     root.CareerModeV10Screens.setNavRoute("standings",async app=>{let host=root.document.getElementById("standings");if(!host){host=root.document.createElement("section");host.id="standings";host.className="screen hidden";host.setAttribute("aria-label","Standings");root.document.querySelector("#app main").appendChild(host);}return app.navigateTo("standings");});
   }
+  // r76: BACK TO SHOWDOWN HOME on the Showdown Champion screen is the shared smart back of #seasonEntry, whose legal
+  // targets are dashboard then mainMenu. Once a season was entered from the dashboard (after a reload or a CONTINUE CAREER
+  // from Home), the history walk found the dashboard first. In final mode the only target is Showdown Home. The other
+  // #seasonEntry modes keep their targets; the startup screens.js stays unchanged (startup byte budget).
+  function installChampionBack(app=root){
+    const legal=app.getLegalBackTargets;
+    if(typeof legal!=="function"||legal.v10Champion)return false;
+    const wrapped=function(id){return id==="seasonEntry"&&app.document?.getElementById("seasonEntry")?.classList?.contains("v10FinalMode")?["mainMenu"]:legal.apply(this,arguments);};
+    wrapped.v10Champion=true;wrapped.original=legal;app.getLegalBackTargets=wrapped;return true;
+  }
   // JOB-1038: Terminal Close forgets the session, which clears the live history view. The last converged view of the same
   // rivalry is kept so the closed Final Winner still shows the final season and trophies; finalFrame re-verifies it.
   let retainedHistory=null;
@@ -1917,7 +1927,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     const loader=root.CareerModeV10Screens.install();
     loader.register("seasonEntry",{auto:false,hold:true,css:["season-results/season-results.css","final-winner/final-winner.css","season-results/app.css"],js:[["v10-season-results","season-results/season-results.js",()=>typeof root.ShowdownSeasonResultsBoot==="function"],["v10-final-winner","final-winner/final-winner.js",()=>typeof root.ShowdownFinalWinnerBoot==="function"]],prepare:()=>Promise.all([prepare("season-results"),prepare("final-winner")]),frame:seasonSource,mount:(frame,host)=>sfKeepFocus(()=>renderSeason(frame,host)),unmount:host=>sfKeepFocus(()=>{finalSeasonReview=false;restoreFinal(host);})});
     loader.register("standings",{auto:false,hold:true,css:["standings/standings.css","season-results/app.css"],js:[["v10-standings","standings/standings.js",()=>typeof root.ShowdownStandingsBoot==="function"]],prepare:()=>Promise.all([prepare("standings"),standingsModules()]),frame:()=>standingsFrames(currentRivalry(),currentCareer()),mount:renderStandings,unmount(host){host.firstElementChild?.v10StageHandle?.destroy();host.replaceChildren();}});
-    installStandingsRoute();
+    installStandingsRoute();installChampionBack();
     // Warm Season Results' kit, scripts and templates now (show() loads, then returns false while the screen is hidden),
     // so the skin mounts in the same tick the screen opens instead of after the form is already being filled in.
     if(typeof loader.show==="function")Promise.resolve(loader.show("seasonEntry")).catch(fail);
@@ -1927,5 +1937,5 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     followPair();
     wake();return true;
   }
-  return Object.freeze({finalFrame,standingsFrames,skinSeason,reviewFinalSeason,install:installResults});
+  return Object.freeze({finalFrame,standingsFrames,skinSeason,reviewFinalSeason,installChampionBack,install:installResults});
 });
