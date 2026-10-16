@@ -1548,6 +1548,16 @@
         "^tests/contracts/final-cells-late-data-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-season-chip-contracts.cjs",
+      "patterns": [
+        "^js/menuExperience\\.js$",
+        "^js/showdownUI\\.js$",
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^tests/contracts/shared-season-chip-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
