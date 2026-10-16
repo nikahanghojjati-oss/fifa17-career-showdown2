@@ -24,12 +24,13 @@
     const viewer=identity?.status==="ready"&&managerId(identity.managerId)||managerId(pair?.managerId);
     const multi=asdPlain(s.multiSeason)&&s.multiSeason.ok===true&&s.multiSeason.authoritative===true&&s.multiSeason.rivalryId===rid&&asdPlain(s.multiSeason.state)?s.multiSeason:null;
     const history=asdPlain(s.history)&&s.history.rivalryId===rid?s.history:null;
-    let p=null,invalid=false,witness=null,zero=false;
+    let p=null,invalid=false,witness=null,zero=false,fromProgression=false,historyAhead=false;
     if(history){
       try{
         if(history.ok!==true||history.authoritative!==true||history.phase!=="HISTORY_CONVERGED")throw new Error("HISTORY_NOT_AUTHORITATIVE");
         const candidate=History.verifyProjection(history.projection);
         if(candidate.rivalryId!==rid)throw new Error("HISTORY_RIVALRY_MISMATCH");
+        historyAhead=Boolean(multi&&candidate.acceptedSeasons>multi.state.acceptedSeasons);
         if(!multi||candidate.acceptedSeasons===multi.state.acceptedSeasons){
           if(multi&&(candidate.acceptedRevisionKey!==multi.state.acceptedRevisionKey||candidate.leagueId!==multi.state.leagueId||candidate.totalSeasons!==multi.state.totalSeasons||candidate.managerRecords.playerOne.club!==multi.state.fixedClubs?.playerOne||candidate.managerRecords.playerTwo.club!==multi.state.fixedClubs?.playerTwo))throw new Error("HISTORY_AUTHORITY_MISMATCH");
           p=candidate;
@@ -38,11 +39,12 @@
     }
     // Progression already read the accepted commits, even when the History screen
     // cache is absent or lags. Reuse that verified projection without another read.
-    if(!p&&!invalid&&multi?.projection){
+    // Only when History is absent or behind: a newer History waits for progression to catch up.
+    if(!p&&!invalid&&!historyAhead&&multi?.projection){
       try{
         const candidate=History.verifyProjection(multi.projection);
         if(candidate.rivalryId!==rid||candidate.acceptedSeasons!==multi.state.acceptedSeasons||candidate.acceptedRevisionKey!==multi.state.acceptedRevisionKey||candidate.leagueId!==multi.state.leagueId||candidate.totalSeasons!==multi.state.totalSeasons||candidate.managerRecords.playerOne.club!==multi.state.fixedClubs?.playerOne||candidate.managerRecords.playerTwo.club!==multi.state.fixedClubs?.playerTwo)throw new Error("HISTORY_AUTHORITY_MISMATCH");
-        p=candidate;
+        p=candidate;fromProgression=true;
       }catch(_error){invalid=true;}
     }
     let classification;
@@ -73,7 +75,7 @@
     }else if(p)classification="active";
     else if(!history&&multi?.state.acceptedSeasons===0){classification="active";zero=true;}
     else classification="loading";
-    return {s,pair,rid,viewer,multi,p,witness,classification,zero};
+    return {s,pair,rid,viewer,multi,p,witness,classification,zero,fromProgression};
   }
   function home(c){
     const {pair,viewer,multi,p,classification,zero}=c;
@@ -138,6 +140,9 @@
     return v;
   }
   function career(c){
+    // The progression fallback feeds live standings only. Career screens see what r75 saw
+    // without it: no projection, so a live Showdown stays loading and other states keep theirs.
+    if(c.fromProgression)c={...c,p:null,classification:["active","completion-pending"].includes(c.classification)?"loading":c.classification};
     const {classification,rid,p,zero}=c;
     const indexStatus=["loading","unavailable"].includes(classification)?classification:"ready",showdowns=[];
     if(indexStatus==="ready"&&classification!=="none"&&!zero){

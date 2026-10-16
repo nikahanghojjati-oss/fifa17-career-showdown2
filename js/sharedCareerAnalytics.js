@@ -152,6 +152,8 @@
       }
     }
     const records=LABELS.map((label,index)=>bestRecord(label,candidates[index]));
+    // A cross-manager tie for the biggest win is shared, as in the Trophy Room record.
+    if(biggestShowdownWin&&records[3].manager==="shared")biggestShowdownWin={manager:"shared",margin:biggestShowdownWin.margin,showdownRef:null};
     return caFreeze({status:entries.length===0?"empty":readable<entries.length?"partial":"ready",interimLabel,coverage:{readable,indexed:entries.length},managers,biggestShowdownWin,trophyRoom:trophyRoom(managers,records,false),history:{showdowns:rows}});
   }
   return Object.freeze({buildCareerModel,seasonTiebreak});

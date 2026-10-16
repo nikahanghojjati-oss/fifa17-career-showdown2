@@ -1514,6 +1514,143 @@
       ]
     },
     {
+      "path": "tests/contracts/terminal-close-transaction-reads-contracts.cjs",
+      "patterns": [
+        "^js/sparkTerminalClose\\.js$",
+        "^tests/contracts/terminal-close-transaction-reads-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-setup-transaction-reads-contracts.cjs",
+      "patterns": [
+        "^js/sparkSharedShowdownSetup\\.js$",
+        "^tests/contracts/shared\\-setup\\-transaction\\-reads\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/sweep-season-score-key-order-contracts.cjs",
+      "patterns": [
+        "^js/sparkSharedSeasonCommit\\.js$",
+        "^js/sharedSeasonCommit\\.js$",
+        "^js/sharedSeasonResults\\.js$",
+        "^js/sharedShowdownSetup\\.js$",
+        "^js/sharedShowdownCatalog\\.js$",
+        "^tests/contracts/sweep-season-score-key-order-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/final-cells-late-data-contracts.cjs",
+      "patterns": [
+        "^js/seasonFinalV10\\.js$",
+        "^tests/contracts/final-cells-late-data-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-season-chip-contracts.cjs",
+      "patterns": [
+        "^js/menuExperience\\.js$",
+        "^js/showdownUI\\.js$",
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^tests/contracts/shared-season-chip-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/sweep-rivalry-history-revision-refresh-contracts.cjs",
+      "patterns": [
+        "^js/rivalryLegacyV10\\.js$",
+        "^js/productionSharedHistoryConvergence\\.js$",
+        "^tests/contracts/sweep-rivalry-history-revision-refresh-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/sweep-online-career-live-refresh-contracts.cjs",
+      "patterns": [
+        "^js/careerScreensV10\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^js/careerScreenSeam\\.js$",
+        "^tests/contracts/sweep-online-career-live-refresh-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/sweep-biggest-showdown-tie-contracts.cjs",
+      "patterns": [
+        "^js/sharedCareerAnalytics\\.js$",
+        "^js/careerScreenSeam\\.js$",
+        "^tests/support/career-fixture-helpers\\.cjs$",
+        "^tests/contracts/sweep-biggest-showdown-tie-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/sweep-career-table-level-rank-contracts.cjs",
+      "patterns": [
+        "^js/careerScreenSeam\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^tests/contracts/sweep\\-career\\-table\\-level\\-rank\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/sweep-missing-season-stats-contracts.cjs",
+      "patterns": [
+        "^js/sharedSeasonResults\\.js$",
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^tests/contracts/sweep-missing-season-stats-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/waiting-reads-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedCanonicalScoring\\.js$",
+        "^js/productionSharedFinalReconciliation\\.js$",
+        "^js/productionSharedJourneyReconnect\\.js$",
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^js/productionSharedSeasonResults\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^tests/contracts/waiting-reads-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/waiting-continuity-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedFinalReconciliation\\.js$",
+        "^js/productionSharedJourneyReconnect\\.js$",
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^tests/contracts/waiting-continuity-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/career-start-open-timeout-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedCareerStart\\.js$",
+        "^tests/contracts/career-start-open-timeout-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/free-limit-home-message-contracts.cjs",
+      "patterns": [
+        "^js/homeScreensV10\\.js$",
+        "^tests/contracts/free\\-limit\\-home\\-message\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/standings-this-showdown-midway-contracts.cjs",
       "patterns": [
         "^js/sharedActiveShowdownAdapter\\.js$",

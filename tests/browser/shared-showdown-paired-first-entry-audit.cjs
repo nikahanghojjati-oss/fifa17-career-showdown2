@@ -109,6 +109,15 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     const freshStart=await page.evaluate(()=>({abandonCount:window.__freshStartAbandonCount,pairState:window.__freshStartPairState}));
     assert.deepEqual(freshStart,{abandonCount:1,pairState:"closed"},"START A SHOWDOWN must close one stale provider pair before creating the fresh local shell instead of looping into CAREER RECOVERY NEEDED.");
 
+    // START A SHOWDOWN persists the marker above and only then opens GET READY, whose status read
+    // waits on the real account/Remote Joining runtimes (Firebase SDK download in CI). Let that
+    // app-owned entry finish (GET READY rendered, Start button released) before the fixtures below
+    // replace those runtimes; otherwise its late render or script load overwrites the fixture state.
+    await page.waitForFunction(()=>{
+      const overlay=document.getElementById("productionSharedJourneyEntryOverlay"),start=document.getElementById("startShowdown");
+      return Boolean(overlay&&!overlay.classList.contains("hidden")&&overlay.querySelector(".remoteJoiningBody h2")?.textContent==="GET READY"&&overlay.querySelector(".remoteJoiningActions button")&&start&&start.disabled===false);
+    },null,{timeout:12000});
+
     // Reproduce the already-paired peer path: once the private session becomes ACTIVE, player
     // entry returns automatically and exposes the cleaned START CAREER action.
     await page.evaluate(async()=>{

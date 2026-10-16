@@ -4,6 +4,7 @@ const F=require("../support/active-showdown-fixtures.cjs");
 const {FakeNode}=require("../support/fake-dom.cjs");
 const A=require("../../js/sharedActiveShowdownAdapter.js"),S=require("../../js/seasonFinalV10.js");
 const Provider=require("../../js/sparkSharedMultiSeasonProgression.js");
+const Career=require("../../js/sharedCareerAnalytics.js");
 const read=p=>fs.readFileSync(p,"utf8"),clone=x=>JSON.parse(JSON.stringify(x));
 class Node extends FakeNode{
   constructor(tag){super(tag);this.listeners={};this.disabled=false;}
@@ -39,6 +40,38 @@ function render(snapshot){
   assert.equal(multi.ok,true);
   const snapshot={identity:F.identity(),pair:F.pair(p.rivalryId),multiSeason:multi,history:F.history(lagging)};
   const before=JSON.stringify(snapshot);
+  // Progression fixes live standings, but must preserve r75's empty career input.
+  const allNull=value=>{for(const item of Object.values(value)){if(item&&typeof item==="object")allNull(item);else assert.equal(item,null,"in-progress seasons must not supply career counters or trophies");}};
+  for(const acceptedSeasons of [1,2]){
+    const midway=F.projection({totalSeasons:3,seasons:seasons.slice(0,acceptedSeasons)});
+    const older=acceptedSeasons===1?null:F.history(F.projection({totalSeasons:3,seasons:seasons.slice(0,acceptedSeasons-1)}));
+    for(const managerId of ["daniel","nik"]){
+      for(const history of [older,null]){
+        const state={identity:F.identity(managerId),pair:F.pair(midway.rivalryId,{managerId}),multiSeason:{...F.multiFor(midway),projection:midway},history};
+        const input=A.careerInput(state),model=Career.buildCareerModel(input);
+        console.log(`CAREER S${acceptedSeasons} ${managerId}, History ${history?"lagging":"missing"}: indexStatus=${input.indexStatus}, showdowns=${input.showdowns.length}, model=${model.status}`);
+        assert.deepEqual(input,{indexStatus:"loading",showdowns:[],currentShowdownOnly:true,currentRivalryId:midway.rivalryId},"progression fallback must preserve r75 career input");
+        assert.equal(model.status,"loading");allNull(model.managers);allNull(model.trophyRoom.cabinet);
+        assert.deepEqual(model.history.showdowns,[]);assert.deepEqual(model.trophyRoom.standings,[]);assert.deepEqual(model.trophyRoom.records,[]);
+        assert.equal(A.rivalryView(state).status,"ready");
+        assert.deepEqual(A.homeView(state).continue.score,{daniel:midway.managerRecords.playerOne.totalPoints,nik:midway.managerRecords.playerTwo.totalPoints});
+      }
+    }
+  }
+  // Lifecycle states keep their own career input when a cached progression projection survives.
+  {
+    const midway=F.projection({totalSeasons:3,seasons:seasons.slice(0,2)}),multiSeason={...F.multiFor(midway),projection:midway};
+    for(const [pair,expected] of [[F.pair(midway.rivalryId,{connectionState:"closed"}),"abandoned"],[F.pair(midway.rivalryId,{connectionState:"pending-pair"}),"pending"],[F.pair(midway.rivalryId,{status:"signed-out"}),"unavailable"]]){
+      const state={identity:F.identity(),pair,multiSeason,history:null},bare={...state,multiSeason:{...multiSeason,projection:null}};
+      assert.deepEqual(A.careerInput(state),A.careerInput(bare),`${expected}: progression fallback must not change the r75 career input`);
+      assert.notEqual(A.careerInput(state).indexStatus,"loading",`${expected} must not become an endless loading state`);
+    }
+    // A History already ahead of a stale progression snapshot is not replaced by the older projection.
+    const newer=F.projection({totalSeasons:3,seasons:seasons.slice(0,2)}),stale=F.projection({totalSeasons:3,seasons:seasons.slice(0,1)});
+    const view=A.rivalryView({identity:F.identity(),pair:F.pair(newer.rivalryId),multiSeason:{...F.multiFor(stale),projection:stale},history:F.history(newer)});
+    assert.equal(view.status,"loading","History ahead of progression: wait for progression, never show the previous season as ready");
+  }
+  console.log("PASS midway career isolation: both managers retain r75 loading input with no career trophies, counters or history after seasons 1 and 2; live standings and Home scores remain ready.");
   for(const managerId of ["daniel","nik"]){
     for(const history of [F.history(lagging),null]){
       const {document:doc,frames}=render({...snapshot,history,identity:F.identity(managerId),pair:F.pair(p.rivalryId,{managerId})});
