@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1835,
+ "next": 1836,
  "claims": [
   {
    "number": 1001,
@@ -5006,6 +5006,12 @@
    "team": "G",
    "title": "PR 841 standings fallback fix",
    "claimed": "2026-10-16T03:32:59Z"
+  },
+  {
+   "number": 1835,
+   "team": "G",
+   "title": "PR 862 landscape Home fix",
+   "claimed": "2026-10-16T03:33:02Z"
   }
  ]
 }
