@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 12:22 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 12:25 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -89,8 +89,8 @@ Updated Fri 16 Oct, 12:22 PM Boston time. Bug hunting only, no new features unti
 ⚪ Team white · model not set · worker working, draft PR #869
 
 **#19 · 1831** `G` Career Start panel can hang: add a time limit and a working retry  
-`████████░░` **75.7143 %**  
-⚪ Team white · model not set · worker done, PR #867 open, CI running · CI 4 of 7 passed · last move 0 min ago
+`████████░░` **78.7500 %**  
+⚪ Team white · model not set · worker done, PR #867 open, CI running · CI 7 of 8 passed · last move 0 min ago
 
 **#20 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
 `████░░░░░░` **40.0000 %**  
