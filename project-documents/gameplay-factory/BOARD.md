@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 9:00 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 9:04 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -98,7 +98,7 @@ Updated Fri 16 Oct, 9:00 AM Boston time. Bug hunting only, no new features until
 
 **#21 · 1831** `G` Career Start panel can hang: add a time limit and a working retry  
 `████████░░` **78.6667 %**  
-⚪ Team white · model not set · worker done, PR #867 open, CI running · CI 13 of 15 passed · last move 2 min ago
+⚪ Team white · model not set · worker done, PR #867 open, CI running · CI 13 of 15 passed · last move 6 min ago
 
 **#22 · 1832** `G` Waiting fixes on PR #861: clock expiry, poll window, first-snapshot reads  
 `████░░░░░░` **40.0000 %**  
@@ -111,6 +111,10 @@ Updated Fri 16 Oct, 9:00 AM Boston time. Bug hunting only, no new features until
 **#24 · 1834** `G` Standings fix on PR #841: keep the progression fallback out of the career screens  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #868
+
+**#25 · 1835** `G` Free-limit notice fix on PR #862: landscape phone Home layout  
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · model not set · worker working, draft PR #871
 
 ### 👉 Next for you, in this order
 
@@ -1446,16 +1450,6 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 
 ```text
 Job 1823
-```
-
-**#134 · 1835** `G` Free-limit notice fix on PR #862: landscape phone Home layout  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1835'
-
-Type this in Codex cloud:
-
-```text
-Job 1835
 ```
 
 ### ⏸ Waiting on something else
