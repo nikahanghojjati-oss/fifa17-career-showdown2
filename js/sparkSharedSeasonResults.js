@@ -38,9 +38,11 @@
   function ssrpServerTimestamp(sdk){if(typeof sdk.serverTimestamp!=="function")ssrpFail("SEASON_RESULTS_PROVIDER_UNAVAILABLE");return sdk.serverTimestamp();}
   function ssrpValidateSdk(options){if(!options.firestore)ssrpFail("SEASON_RESULTS_PROVIDER_UNAVAILABLE");for(const name of ["doc","runTransaction","serverTimestamp"]){if(!options.firebaseSdk||typeof options.firebaseSdk[name]!=="function")ssrpFail("SEASON_RESULTS_PROVIDER_UNAVAILABLE");}}
   function ssrpRoleList(value,code="SEASON_RESULTS_PROVIDER_STATE_INVALID"){if(!Array.isArray(value)||value.length>2||new Set(value).size!==value.length||value.some(role=>!ROLES.includes(role)))ssrpFail(code);return value;}
+  // A stored stat that is absent (null, "", blank, boolean, array) is not a hash-valid 0.
+  function ssrpNumber(value){return typeof value==="number"||(typeof value==="string"&&value.trim()!=="")?Number(value):Number.NaN;}
   function ssrpResultShape(value,teamCount){
     ssrpExact(value,RESULT_KEYS,"SEASON_RESULTS_PRIVATE_STATE_INVALID");
-    const position=Number(value.leaguePosition),points=Number(value.leaguePoints),goals=Number(value.leagueGoals),maxPoints=(teamCount-1)*2*3;
+    const position=ssrpNumber(value.leaguePosition),points=ssrpNumber(value.leaguePoints),goals=ssrpNumber(value.leagueGoals),maxPoints=(teamCount-1)*2*3;
     if(!Number.isInteger(position)||position<1||position>teamCount||!Number.isInteger(points)||points<0||points>maxPoints||!Number.isInteger(goals)||goals<0||goals>300)ssrpFail("SEASON_RESULTS_PRIVATE_STATE_INVALID");
     for(const key of ["domesticCup","championsLeague","topScorer","topAssist"]){if(typeof value[key]!=="boolean")ssrpFail("SEASON_RESULTS_PRIVATE_STATE_INVALID");}
     return {leaguePosition:position,leaguePoints:points,leagueGoals:goals,domesticCup:value.domesticCup,championsLeague:value.championsLeague,topScorer:value.topScorer,topAssist:value.topAssist};
