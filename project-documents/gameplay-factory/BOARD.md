@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 8:38 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 8:42 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -92,13 +92,21 @@ Updated Fri 16 Oct, 8:38 AM Boston time. Bug hunting only, no new features until
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #863 · CI 7 of 8 passed · last move 12 h ago
 
-**#20 · 1831** `G` Career Start panel can hang: add a time limit and a working retry  
+**#20 · 1830** `G` r76 integration round 2: every r76 fix together, then the meter and CE2PG on the combined head  
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · model not set · worker working, draft PR #869
+
+**#21 · 1831** `G` Career Start panel can hang: add a time limit and a working retry  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #867
 
-**#21 · 1832** `G` Waiting fixes on PR #861: clock expiry, poll window, first-snapshot reads  
+**#22 · 1832** `G` Waiting fixes on PR #861: clock expiry, poll window, first-snapshot reads  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #866
+
+**#23 · 1834** `G` Standings fix on PR #841: keep the progression fallback out of the career screens  
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · model not set · worker working, draft PR #868
 
 ### 👉 Next for you, in this order
 
@@ -1436,17 +1444,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1823
 ```
 
-**#134 · 1830** `G` r76 integration round 2: every r76 fix together, then the meter and CE2PG on the combined head  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1830'
-
-Type this in Codex cloud:
-
-```text
-Job 1830
-```
-
-**#135 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
+**#134 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1833'
 
@@ -1456,17 +1454,7 @@ Type this in Codex cloud:
 Job 1833
 ```
 
-**#136 · 1834** `G` Standings fix on PR #841: keep the progression fallback out of the career screens  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1834'
-
-Type this in Codex cloud:
-
-```text
-Job 1834
-```
-
-**#137 · 1835** `G` Free-limit notice fix on PR #862: landscape phone Home layout  
+**#135 · 1835** `G` Free-limit notice fix on PR #862: landscape phone Home layout  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1835'
 
