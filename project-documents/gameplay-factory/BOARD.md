@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 15 Oct, 8:43 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 15 Oct, 8:44 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -46,7 +46,7 @@ Updated Thu 15 Oct, 8:43 PM Boston time. Bug hunting only, no new features until
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 54 h ago
+⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 55 h ago
 
 **#9 · 1803** `G` Showdown close write refused: over the Rules 1000-expression limit (fix in the app, not the Rules)  
 `████░░░░░░` **40.0000 %**  
@@ -62,7 +62,7 @@ Updated Thu 15 Oct, 8:43 PM Boston time. Bug hunting only, no new features until
 
 **#12 · 1806** `G` BACK TO SHOWDOWN HOME lands on the dashboard instead of Home  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #839 · CI 7 of 8 passed · last move 49 h ago
+⚪ Team white · model not set · worker working, draft PR #839 · CI 7 of 8 passed · last move 50 h ago
 
 **#13 · 1807** `G` REVIEW SEASON button hidden on the Showdown Champion screen  
 `████░░░░░░` **40.0000 %**  
@@ -126,11 +126,11 @@ Updated Thu 15 Oct, 8:43 PM Boston time. Bug hunting only, no new features until
 
 **#28 · 1828** `G` Phone free-limit notice covers the soundtrack controls and shows through under Connect Players  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #862 · CI 7 of 8 passed · last move 109 min ago
+⚪ Team white · model not set · worker working, draft PR #862 · CI 7 of 8 passed · last move 111 min ago
 
 **#29 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #863 · CI 7 of 8 passed · last move 53 min ago
+⚪ Team white · model not set · worker working, draft PR #863 · CI 7 of 8 passed · last move 54 min ago
 
 ### 👉 Next for you, in this order
 
