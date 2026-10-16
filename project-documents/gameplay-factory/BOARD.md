@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 9:21 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 9:25 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -34,7 +34,7 @@ Updated Fri 16 Oct, 9:21 AM Boston time. Bug hunting only, no new features until
 
 **#5 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #775 · CI 6 of 7 passed · last move 96 h ago
+🟢 Team green · model not set · worker working, draft PR #775 · CI 6 of 7 passed · last move 97 h ago
 
 **#6 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -74,7 +74,7 @@ Updated Fri 16 Oct, 9:21 AM Boston time. Bug hunting only, no new features until
 
 **#15 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 32 h ago
+⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 33 h ago
 
 **#16 · 1826** `G` Cheaper waiting: no repeating online checks while the live listener is working  
 `████░░░░░░` **40.0000 %**  
@@ -82,7 +82,7 @@ Updated Fri 16 Oct, 9:21 AM Boston time. Bug hunting only, no new features until
 
 **#17 · 1827** `G` 1826 follow-up: prove that partner changes outside the watched document still arrive while waiting  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #861 · CI 7 of 8 passed · last move 14 h ago
+⚪ Team white · model not set · worker working, draft PR #861 · CI 7 of 8 passed · last move 15 h ago
 
 **#18 · 1828** `G` Phone free-limit notice covers the soundtrack controls and shows through under Connect Players  
 `████░░░░░░` **40.0000 %**  
@@ -98,11 +98,11 @@ Updated Fri 16 Oct, 9:21 AM Boston time. Bug hunting only, no new features until
 
 **#21 · 1831** `G` Career Start panel can hang: add a time limit and a working retry  
 `██████░░░░` **60.0000 %**  
-⚪ Team white · model not set · worker done, PR #867 open, CI failed · CI 13 of 16 passed · last move 15 min ago
+⚪ Team white · model not set · worker done, PR #867 open, CI failed · CI 13 of 16 passed · last move 20 min ago
 
 **#22 · 1832** `G` Waiting fixes on PR #861: clock expiry, poll window, first-snapshot reads  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #866
+⚪ Team white · model not set · worker working, draft PR #866 · CI 7 of 8 passed · last move 3 min ago
 
 **#23 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
 `████░░░░░░` **40.0000 %**  
