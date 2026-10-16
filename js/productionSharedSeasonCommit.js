@@ -195,10 +195,10 @@
   // These listeners live only for the wait, share its existing health/fallback cadence, and never poll.
   let waitContext=null;
   function psscDropWaitContext(){const held=waitContext;waitContext=null;for(const stop of held?.stops||[])try{stop();}catch(_error){}}
-  function psscContextWake(){root.CareerModeFirestoreBudget?.forgetContext?.();try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-wait-context-change"));}catch(_error){}}
+  function psscContextWake(){try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-wait-context-change"));}catch(_error){}}
   function psscWaitContext(request,watching){
     const setup=psscSetupState(),runtime=root.CareerModeProductionFirebaseRuntime;
-    const key=`${request.rivalryId}|${setup?.accountId}|${setup?.deviceId}|${setup?.sessionId}|${watching}`;
+    const key=`${request.rivalryId}|${setup?.accountId}|${setup?.deviceId}|${setup?.sessionId}`;
     if(waitContext?.key===key){if(waitContext.failed&&Date.now()>=waitContext.retryAt)psscDropWaitContext();else return waitContext.ready&&!waitContext.failed;}
     psscDropWaitContext();
     const held={key,stops:[],ready:false,failed:false,retryAt:0};waitContext=held;
@@ -216,17 +216,18 @@
       const base=`rivalries/${request.rivalryId}`,paths=[base,`${base}/sharedSetup/authoritative`,`${base}/sessions/${setup.sessionId}`];
       const total=Number(setup.setup?.totalSeasons);
       if([1,3,5,10].includes(total))for(let n=1;n<=total;n++)paths.push(`${base}/seasonCommits/season_${n}`);
-      const pending=new Set(paths.filter(path=>path!==watching));let queued=false,sessionChanged=false;
-      const wake=()=>{if(queued)return;queued=true;Promise.resolve().then(async()=>{queued=false;if(waitContext!==held||held.failed)return;root.CareerModeFirestoreBudget?.forgetContext?.();if(sessionChanged){sessionChanged=false;try{await root.CareerModeSparkRemoteJoining?.refreshSession?.();}catch(_error){}}if(waitContext===held&&!held.failed)psscContextWake();});};
+      const pending=new Set(paths.filter(path=>path!==watching));let queued=false,sessionChanged=false,dirty=false,notified=false;
+      const wake=(changed=false)=>{dirty=dirty||changed;if(queued)return;queued=true;Promise.resolve().then(async()=>{queued=false;if(waitContext!==held||held.failed)return;if(dirty){dirty=false;root.CareerModeFirestoreBudget?.forgetContext?.();}if(sessionChanged){sessionChanged=false;try{await root.CareerModeSparkRemoteJoining?.refreshSession?.();}catch(_error){}}if(waitContext===held&&!held.failed)psscContextWake();});};
       for(const path of pending){
         let serial;
         const stop=sdk.onSnapshot(sdk.doc(services.firestore,path),{includeMetadataChanges:true},snapshot=>{
           if(waitContext!==held||held.failed)return;
           if(snapshot.metadata?.fromCache||snapshot.metadata?.hasPendingWrites){held.ready=false;pending.add(path);return;}
-          const next=JSON.stringify(snapshot.exists()?snapshot.data():null),changed=serial!==next;
+          const next=JSON.stringify(snapshot.exists()?snapshot.data():null),changed=serial!==undefined&&serial!==next;
           if(serial!==undefined&&changed&&(path===base||path===`${base}/sessions/${setup.sessionId}`))sessionChanged=true;
           serial=next;pending.delete(path);held.ready=pending.size===0;
-          if(changed)wake();
+          if(changed)wake(true);
+          if(held.ready&&!notified){notified=true;wake();}
         },fail);
         if(held.failed)stop();else held.stops.push(stop);
       }
@@ -242,7 +243,7 @@
     if(view.committed&&view.ownAcknowledged&&view.phase!=="ACKNOWLEDGED")return `${contextKey}|acknowledge`;
     return "";
   }
-  function psscFastPollDue(){const key=psscWaitingKey();if(!key){fastWaitKey="";fastWaitSince=0;return false;}const now=Date.now();if(key!==fastWaitKey){fastWaitKey=key;fastWaitSince=now;}return now-fastWaitSince<FAST_POLL_WINDOW_MS||Boolean(root.CareerModeFirestoreBudget);}
+  function psscFastPollDue(){const key=psscWaitingKey();if(!key){fastWaitKey="";fastWaitSince=0;return false;}const now=Date.now();if(key!==fastWaitKey){fastWaitKey=key;fastWaitSince=now;}return now-fastWaitSince<FAST_POLL_WINDOW_MS;}
   // r75: while this screen waits on the partner, one live listener watches the shared document the partner's move changes;
   // timer checks stop while that listener is healthy; deliveries still wake the provider immediately.
   function psscWatchWait(){const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchWaitPoint!=="function")return;let path=null;try{path=root.document?.visibilityState==="hidden"?null:(psscWaitScreen()&&psscResultsReady()&&view?.phase!=="ACKNOWLEDGED"?(request=>request&&request.rivalryId&&Number.isInteger(request.seasonNumber)?`rivalries/${request.rivalryId}/seasonCommits/season_${request.seasonNumber}`:null)(psscRequestContext()):null);}catch(_error){path=null;}return budget.watchWaitPoint("season-commit",path,psscWaitWake);}

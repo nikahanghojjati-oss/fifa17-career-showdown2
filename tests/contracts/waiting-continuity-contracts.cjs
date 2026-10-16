@@ -121,8 +121,8 @@ function projection(count){
     scoring:{ok:true,authoritative:true,phase:"SCORING_RECONCILED",revision:1,seasonCommitRevision:3,resultsRevision:2,resultsContentHash:hash,seasonNumber,scoring:{playerOne:score,playerTwo:score},winner:"draw"}};});
   return History.buildProjection({rivalryId,setup:plan,managerSlots:slots,seasons});
 }
-async function world(screen,owner,phase="results",reloaded=false){
-  const w=createWorld(),s=w.sandbox;
+async function world(screen,owner,phase="results",reloaded=false,options={}){
+  const w=createWorld(options),s=w.sandbox;
   s.setInterval=(fn,ms)=>{const id={active:true};const tick=()=>{if(id.active){fn();s.setTimeout(tick,ms);}};s.setTimeout(tick,ms);return id;};s.clearInterval=id=>{id.active=false;};
   const nodes=Object.fromEntries(["mainMenu","standings","seasonEntry"].map(id=>[id,{classList:{contains:()=>id!==screen}}]));
   w.document.getElementById=id=>nodes[id]||null;w.document.querySelector=()=>null;
@@ -142,9 +142,10 @@ async function world(screen,owner,phase="results",reloaded=false){
   s.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>w.services};
   for(const name of ["SharedShowdownCatalog","SharedShowdownSetup","SharedSeasonResults","SharedSeasonCommit"])s[`CareerMode${name}`]={};
   s.CareerModeProductionSharedJourneyConflicts={execute:async(_meta,run)=>run()};
+  const providerReads={results:0,commit:0};
   const noWrite=async()=>{throw Error("waiting must never write");};
-  s.CareerModeSparkSharedSeasonResults={publishResult:noWrite,read:async()=>{const [data]=await probe([RESULTS]);return {ok:true,rivalryId,seasonNumber:1,managerRole:"playerOne",ownResult:{leaguePosition:1},allResults:{playerOne:{leaguePosition:1},playerTwo:{leaguePosition:2}},state:data};}};
-  s.CareerModeSparkSharedSeasonCommit={commitSeason:noWrite,acknowledgeSeason:noWrite,read:async()=>{const [data]=await probe([COMMIT(1)]);return {ok:true,...data,rivalryId,seasonNumber:1,managerRole:"playerOne",coordinatorRole:"playerTwo",committed:false,ownAcknowledged:false};}};
+  s.CareerModeSparkSharedSeasonResults={publishResult:noWrite,read:async()=>{providerReads.results++;const [data]=await probe([RESULTS]);return {ok:true,rivalryId,seasonNumber:1,managerRole:"playerOne",ownResult:{leaguePosition:1},allResults:{playerOne:{leaguePosition:1},playerTwo:{leaguePosition:2}},state:data};}};
+  s.CareerModeSparkSharedSeasonCommit={commitSeason:noWrite,acknowledgeSeason:noWrite,read:async()=>{providerReads.commit++;const [data]=await probe([COMMIT(1)]);return {ok:true,...data,rivalryId,seasonNumber:1,managerRole:"playerOne",coordinatorRole:"playerTwo",committed:false,ownAcknowledged:false};}};
   s.CareerModeSharedMultiSeasonProgression=Multi;
   s.CareerModeSparkSharedMultiSeasonProgression={read:async()=>{await probe([RID,SESSION,SETUP,...[1,2,3].map(COMMIT)]);return multiView();}};
   s.CareerModeProductionSharedHistoryConvergence={refresh:async()=>{await probe([RID,...[1,2,3].map(COMMIT)]);history=historyView();return history;},getState:()=>history};
@@ -174,13 +175,15 @@ async function world(screen,owner,phase="results",reloaded=false){
     // The real reconnect controller first observes the disconnected state, then authorizes the same durable plan.
     remote={...remote,sessionState:"expired"};await api.refresh();remote={...remote,sessionState:"active"};await api.refresh();
   }
+  const attachStart={reads:w.meter.reads,listeners:w.meter.listenerReads};
   s.CareerModeProductionSharedSeasonResults.install();s.CareerModeProductionSharedSeasonCommit.install();api.install();
-  {const attach=()=>w.budget.watchWaitPoint("base-fixture",phase==="results"?RESULTS:COMMIT(1),()=>{});attach();s.setInterval(attach,3000);}
+  let waitPhase=phase;
+  {const attach=()=>w.budget.watchWaitPoint("base-fixture",waitPhase==="results"?RESULTS:COMMIT(1),()=>{});attach();s.setInterval(attach,3000);}
   await w.advance(12000);
-  assert.equal(w.budget.stats().watchHealthy,true,"A holds a confirmed server listener");
+  assert.equal(w.budget.stats().watchHealthy,options.initialSnapshot!==false,"A holds a confirmed server listener");
   assert.equal(errors.length,0,errors.join("\n"));
   const original=JSON.stringify(w.server.get(phase==="results"?RESULTS:COMMIT(1)));
-  return {...w,s,api,errors,probe,setup:()=>setup,original,reloaded,watched:phase==="results"?RESULTS:COMMIT(1),remote:()=>remote,setRemote:next=>{remote=next;}};
+  return {...w,s,api,errors,probe,providerReads,setWaitPhase:next=>{waitPhase=next;},attachReads:w.meter.reads-attachStart.reads,attachListenerReads:w.meter.listenerReads-attachStart.listeners,setup:()=>setup,original,reloaded,watched:phase==="results"?RESULTS:COMMIT(1),remote:()=>remote,setRemote:next=>{remote=next;}};
 }
 const baselinePath=process.env.WAITING_CONTINUITY_BASELINE,base=baselinePath?JSON.parse(fs.readFileSync(baselinePath,"utf8")):null;
 const measurements={},failures=[];
@@ -223,6 +226,63 @@ async function scenario(screen,owner,phase,reloaded){
   assert.equal(w.meter.docWrites+w.meter.verifyWrites,0,"continuity refreshes never write");
 }
 (async()=>{
+  // JOB-1832: expiry comes from the clock, without any server notification.
+  for(const screen of ["mainMenu","standings","seasonEntry"])for(const phase of ["results","commit"])for(const reload of [false,true]){
+    const label=`clock-only expiry ${screen}/${phase}/${reload?"reload":"live"}`;
+    try{
+      let w=await world(screen,"session",phase);
+      if(reload)w=await world(screen,"session",phase,true);
+      const start=w.clock.now,before=w.meter.reads,stored=JSON.stringify([...w.server]);
+      w.setRemote({...w.remote(),expiresAtEpochMs:start-1});
+      await w.advance(3000);
+      assert.equal(w.api.getState()?.phase,"FRESH_SESSION_REQUIRED","clock expiry must expose recovery within 3000 ms");
+      assert.equal(w.meter.reads,before,"expired-session clock check reads nothing");
+      assert.equal(JSON.stringify([...w.server]),stored,"no server write drives clock expiry");
+      console.log(`PASS ${label}: <=3000 ms, zero reads`);
+    }catch(e){failures.push(`${label}: ${e.message}`);console.error(`FAIL ${label}: ${e.stack}`);}
+  }
+  for(const phase of ["results","commit"]){
+    const label=`healthy ${phase} first delivery and tab return cost`;
+    try{
+      const w=await world("mainMenu","progression",phase);
+      // Initial subscription deliveries are billed separately; this limit covers reads they trigger.
+      const first=w.attachReads-w.attachListenerReads;
+      w.setVisible(false);await w.advance(0);const before=w.meter.reads;
+      w.setVisible(true);await w.advance(3000);const returned=w.meter.reads-before;
+      console.log(`MEASURE ${label}: ${first} first-delivery refresh reads (+${w.attachListenerReads} subscription reads), ${returned} tab-return reads`);
+      assert.ok(first<=2,`first delivery triggered ${first} reads (limit 2)`);
+      assert.ok(returned<=8,`tab return triggered ${returned} reads (limit 8)`);
+      console.log(`PASS ${label}`);
+    }catch(e){failures.push(`${label}: ${e.message}`);console.error(`FAIL ${label}: ${e.stack}`);}
+    const fastLabel=`unhealthy ${phase} fast window ends`;
+    try{
+      const w=await world("mainMenu","terminal",phase,false,{initialSnapshot:false});
+      const key=phase==="results"?"results":"commit",before=w.providerReads[key];
+      await w.advance(3000);assert.ok(w.providerReads[key]>before,"unhealthy wait initially uses 3 s checks");
+      await w.advance(180000);const after=w.providerReads[key];
+      await w.advance(3000);assert.equal(w.providerReads[key],after,"3 s provider checks stop after FAST_POLL_WINDOW_MS");
+      console.log(`PASS ${fastLabel}`);
+    }catch(e){failures.push(`${fastLabel}: ${e.message}`);console.error(`FAIL ${fastLabel}: ${e.stack}`);}
+  }
+  try{
+    const w=await world("mainMenu","terminal"),context=w.activeListeners().filter(l=>l.path!==RESULTS);
+    w.setWaitPhase("commit");w.serverWrite(RESULTS,{phase:"RESULTS_READY",revision:2});await w.advance(0);
+    await w.s.CareerModeProductionSharedSeasonResults.refresh();
+    await w.s.CareerModeProductionSharedSeasonCommit.refresh();await w.advance(6000);
+    assert.equal(w.budget.stats().watching,COMMIT(1),"Results switches to the Commit wait");
+    assert.ok(context.every(l=>l.active&&w.activeListeners().includes(l)),"Results-to-Commit keeps every authority listener");
+    console.log("PASS Results-to-Commit keeps authority listeners");
+  }catch(e){failures.push(`listener retention: ${e.message}`);console.error(`FAIL listener retention: ${e.stack}`);}
+  try{
+    const w=await world("mainMenu","terminal");let release,entered=false;
+    const gate=new Promise(resolve=>{release=resolve;});
+    w.s.CareerModeProductionSharedFinalReconciliation.refresh=async()=>{entered=true;return gate;};
+    const inflight=w.api.refresh();await settle();assert.equal(entered,true,"terminal read is held in flight");
+    w.serverWrite(RID,{data:{connectionState:"closed"}});await settle();
+    release(null);await inflight;await settle();
+    assert.equal(w.api.getState()?.phase,"CLOSED","context wake while busy must run after the held refresh");
+    console.log("PASS Terminal Close retains a context wake while busy");
+  }catch(e){failures.push(`terminal busy wake: ${e.message}`);console.error(`FAIL terminal busy wake: ${e.stack}`);}
   for(const screen of ["mainMenu","standings","seasonEntry"])for(const owner of ["progression","final","terminal","session","rivalry"])for(const phase of ["results","commit"])for(const reload of [false,true]){
     const label=`${screen}/${owner}/${phase}/${reload?"reload":"live"}`;
     if(process.env.WAITING_CONTINUITY_FILTER&&!label.includes(process.env.WAITING_CONTINUITY_FILTER))continue;
