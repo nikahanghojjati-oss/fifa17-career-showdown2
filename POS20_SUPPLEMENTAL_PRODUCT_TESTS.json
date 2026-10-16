@@ -1547,6 +1547,16 @@
         "^tests/contracts/standings\\-this\\-showdown\\-midway\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/rivalry-statistics-load-contracts.cjs",
+      "patterns": [
+        "^js/careerScreensV10\\.js$",
+        "^js/statistics\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^tests/contracts/rivalry-statistics-load-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

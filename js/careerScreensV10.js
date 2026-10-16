@@ -1334,7 +1334,7 @@
   function v10Wire(screen,host){
     if(screen==="careerStatistics"){
       const rivalry=host.querySelector("#careerStatisticsRivalryButton");
-      if(rivalry){rivalry.classList.toggle("hidden",!root.currentShowdown);rivalry.addEventListener("click",()=>{if(root.currentShowdown&&typeof root.openRivalryStatistics==="function")root.openRivalryStatistics();});}
+      if(rivalry){const available=(typeof currentShowdown!=="undefined"&&currentShowdown)||v10Source(screen)?.history?.showdowns?.some(r=>r.status==="completed");rivalry.classList.toggle("hidden",!available);rivalry.addEventListener("click",()=>{if(available&&typeof root.openRivalryStatistics==="function")root.openRivalryStatistics();});}
       const trophy=host.querySelector("#trophyRoomButton");
       if(trophy)trophy.addEventListener("click",()=>{if(typeof root.openOptionalModule==="function")root.openOptionalModule("trophyRoom");});
     }
