@@ -130,6 +130,19 @@
     if(card&&root.HomeSoundtrack&&event&&event.detail&&event.detail.connectivityLabel!=="Offline")root.HomeSoundtrack.init(MEDIA);
   }
 
+  function hmQuotaNotice(){
+    const doc=hmDoc(),budget=root.CareerModeFirestoreBudget,message=budget?.quotaMessage?.(),home=doc?.getElementById("mainMenu");
+    if(message&&root.getActiveScreenName?.()==="mainMenu"&&!home?.closest?.("[inert]")){
+      root.showAppNotice?.(message,"error",0);
+      const notice=doc?.getElementById("appRuntimeNotice");
+      if(notice&&home?.parentNode){notice.dataset.homeQuota="1";if(notice.parentNode!==home)home.appendChild(notice);}
+    }else{
+      const notice=doc?.getElementById("appRuntimeNotice");
+      if(budget&&notice?.querySelector(".runtimeNoticeText")?.textContent===budget.quotaMessageText)notice.remove();
+      else if(notice?.dataset.homeQuota){delete notice.dataset.homeQuota;doc.body.appendChild(notice);}
+    }
+  }
+
   function hmDecorate(frame,host){
     const shell=host.querySelector(".fifaMenuShell"),heading=host.querySelector(".fifaMenuHeading"),grid=host.querySelector(".fifaMenuGrid");
     if(!shell||!heading||!grid)return false;
@@ -150,6 +163,7 @@
     grid.querySelectorAll(".menuTile").forEach(tile=>tile.classList.add(...PANEL_CLASSES(tile)));
     hmMusic(host);
     host.classList.add("stage","v10Home");
+    hmQuotaNotice();
     return true;
   }
   function hmUnmount(host){if(!host)return;host.classList.remove("stage","v10Home");host.querySelectorAll(".fifaMenuGrid .menuTile").forEach(tile=>tile.classList.remove("sd-panel","sd-panel--hero"));}
@@ -160,6 +174,10 @@
     if(!V)return Promise.reject(new Error("V10_SCREEN_LOADER_UNAVAILABLE"));
     V.register("mainMenu",{css:HOME_CSS.slice(),js:[["v10-home-soundtrack","home/soundtrack.js",()=>Boolean(root.HomeSoundtrack)]],frame:()=>FRAME,mount:hmDecorate,unmount:hmUnmount});
     if(typeof root.addEventListener==="function")root.addEventListener("career-mode-offline-state-change",hmOnline);
+    if(typeof root.addEventListener==="function")root.addEventListener("career-mode-firestore-quota",hmQuotaNotice);
+    hmDoc()?.addEventListener("career-mode-screen-shown",hmQuotaNotice);
+    const app=hmDoc()?.getElementById("app");
+    if(app&&root.MutationObserver)new root.MutationObserver(hmQuotaNotice).observe(app,{subtree:true,attributes:true,attributeFilter:["inert"]});
     registered=V.show("mainMenu").catch(error=>{root.console?.warn?.("[Career Mode Showdown] Team V Home unavailable.",error);return false;});
     return registered;
   }
