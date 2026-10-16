@@ -1606,6 +1606,33 @@
         "^tests/contracts/sweep-missing-season-stats-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/waiting-reads-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedCanonicalScoring\\.js$",
+        "^js/productionSharedFinalReconciliation\\.js$",
+        "^js/productionSharedJourneyReconnect\\.js$",
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^js/productionSharedSeasonResults\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^tests/contracts/waiting-reads-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/waiting-continuity-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedFinalReconciliation\\.js$",
+        "^js/productionSharedJourneyReconnect\\.js$",
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^tests/contracts/waiting-continuity-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

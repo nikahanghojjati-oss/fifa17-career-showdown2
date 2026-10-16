@@ -8,7 +8,7 @@
   const POLL_MS=15000;
   const PANEL_ID="sharedTerminalClosePanel";
   const AMBIGUOUS_CODES=new Set(["unavailable","deadline-exceeded","aborted","internal","unknown","network-request-failed"]);
-  let installed=false,busy=false,state=null,stateContextKey="",refreshPromise=null,closePromise=null,unsubscribeRemote=null;
+  let installed=false,busy=false,state=null,stateContextKey="",refreshPromise=null,closePromise=null,unsubscribeRemote=null,wakePending=false;
   let rivalryWakeRequested=false;
   // JOB-1038: one automatic attempt per exact Showdown, account and device in this runtime.
   // Reloads first read the durable terminal witness; provider idempotency remains the authority.
@@ -180,7 +180,7 @@
   }
   function ptcRefresh(){
     if(refreshPromise)return refreshPromise;busy=true;ptcRender();
-    const run=ptcRefreshNow().catch(error=>{ptcReport("Unable to refresh Shared Showdown Terminal Close",error);return ptcCurrentState();}).finally(()=>{if(refreshPromise===run)refreshPromise=null;busy=false;ptcRender();});refreshPromise=run;return run;
+    const run=ptcRefreshNow().catch(error=>{ptcReport("Unable to refresh Shared Showdown Terminal Close",error);return ptcCurrentState();}).finally(()=>{if(refreshPromise===run)refreshPromise=null;busy=false;ptcRender();if(wakePending){wakePending=false;ptcWake();}});refreshPromise=run;return run;
   }
   // Job 31: when the 4-hour private session ends (or a reload drops it) every shared refresher fails at once. The RECONNECT
   // SESSION banner owns that state, so those failures wake the banner instead of stacking red error toasts.
@@ -244,7 +244,7 @@
         ptcPublish(request,{...current,automaticSaving:false,automaticCloseFailed:true,message:error.message});
         ptcReport("Shared Showdown Terminal Close failed",error);return {ok:false,code:error.code||"TERMINAL_CLOSE_FAILED",message:error.message};
       }
-    })().finally(()=>{if(closePromise===run)closePromise=null;busy=false;ptcRender();});closePromise=run;return run;
+    })().finally(()=>{if(closePromise===run)closePromise=null;busy=false;ptcRender();if(wakePending){wakePending=false;ptcWake();}});closePromise=run;return run;
   }
   async function ptcRetry(){
     if(closePromise)return closePromise;
@@ -265,7 +265,7 @@
         const rivalClosed=await ptcClosedByRival(request,context,intent,result,generation);if(rivalClosed)return rivalClosed;
         ptcPublish(request,{...current,message:result?.message||"The same Terminal Close retry was rejected; the exact witness remains held for inspection."});return result||{ok:false,code:"TERMINAL_CLOSE_FAILED"};
       }catch(error){if(ptcAmbiguous(error)){ptcPublish(request,current);return {ok:false,code:error.code||"TERMINAL_CLOSE_RECOVERY_PENDING",message:error.message,recoverable:true};}if(ptcStillCurrent(request,generation))ptcPublish(request,current);ptcReport("Shared Showdown Terminal Close retry failed",error);return {ok:false,code:error.code||"TERMINAL_CLOSE_FAILED",message:error.message};}
-    })().finally(()=>{if(closePromise===run)closePromise=null;busy=false;ptcRender();});closePromise=run;return run;
+    })().finally(()=>{if(closePromise===run)closePromise=null;busy=false;ptcRender();if(wakePending){wakePending=false;ptcWake();}});closePromise=run;return run;
   }
   // BH-7: the one-shot wake below never asks again when an initialize left Connected Rivalry unattached and "unavailable".
   // Re-ask at most once per 30 s, one attempt at a time (flag cleared in finally), only while no request exists and the page is
@@ -295,7 +295,7 @@
       return;
     }
     if(stateContextKey&&stateContextKey!==request.key)ptcClear();
-    if(busy||root.document?.visibilityState==="hidden")return;
+    if(root.document?.visibilityState==="hidden")return;if(busy){if(event?.type==="career-mode-shared-wait-context-change")wakePending=true;return;}
     // r75: while the close is pending (FINAL RESULT READY TO CLOSE and the pending/blocked states) the partner may close at
     // any moment, so this check reads the rivalry root fresh instead of from the budget layer's quiet reuse.
     if(["READY","RECOVERY_PENDING","BLOCKED"].includes(ptcCurrentState()?.phase))root.CareerModeFirestoreBudget?.wantFresh?.(`rivalries/${request.rivalryId}`);
@@ -306,9 +306,9 @@
     // r75: an ordinary startup with no shared Showdown loads none of the close runtime (Remote Joining stays unloaded);
     // the first wake that finds a shared Showdown loads it through ptcRefreshNow.
     if(ptcShowdown()?.sharedJourney?.mode==="shared")void ptcBootstrap().then(()=>ptcWake()).catch(error=>ptcReport("Shared Showdown Terminal Close bootstrap unavailable",error));
-    for(const event of ["career-mode-shared-final-reconciliation-state-change","career-mode-connected-account-state-change","career-mode-connected-rivalry-state-change","career-mode-active-save-changed","career-mode-save-library-authority-invalidated","career-mode-showdown-state-change"]){root.addEventListener?.(event,ptcWake);}
+    for(const event of ["career-mode-shared-wait-context-change","career-mode-shared-final-reconciliation-state-change","career-mode-connected-account-state-change","career-mode-connected-rivalry-state-change","career-mode-active-save-changed","career-mode-save-library-authority-invalidated","career-mode-showdown-state-change"]){root.addEventListener?.(event,ptcWake);}
     root.document?.addEventListener?.("visibilitychange",ptcWake);
-    if(typeof root.setInterval==="function")root.setInterval(ptcWake,POLL_MS);
+    if(typeof root.setInterval==="function")root.setInterval(()=>{if(!root.CareerModeProductionSharedSeasonCommit?.waitingListenerHealthy?.())ptcWake();},POLL_MS);
     if(typeof root.setTimeout==="function")root.setTimeout(ptcWake,0);
     return true;
   }
