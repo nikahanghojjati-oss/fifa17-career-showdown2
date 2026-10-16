@@ -1565,6 +1565,14 @@
         "^tests/contracts/free\\-limit\\-home\\-message\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/sweep-expired-season-results-contracts.cjs",
+      "patterns": [
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^tests/contracts/sweep\\-expired\\-season\\-results\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
