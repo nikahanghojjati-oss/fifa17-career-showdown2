@@ -737,7 +737,7 @@ async function revokePairing(options={}){
       if(root.document&&typeof root.document.addEventListener==="function"){
         // Back from hidden: forget what this page had and wake once every screen that was waiting on the partner when it
         // was hidden, so it catches up with one check now instead of on its next timer (no new timer, no repeated reads).
-        root.document.addEventListener("visibilitychange",()=>{if(fsbHidden()){fsbDetachWait();return;}fsbForgetAll();fsbChainAt=fsbNow();fsbWakeReturning();});
+        root.document.addEventListener("visibilitychange",()=>{if(fsbHidden()){fsbDetachWait();fsbWasHidden=true;return;}fsbForgetAll();fsbChainAt=fsbNow();if(fsbWasHidden)fsbListenReturning();fsbWasHidden=false;fsbWakeReturning();});
         // A tap or key press means someone is acting now: for the next 5 s every check reads fresh (2 s coalescing only).
         for(const type of ["pointerdown","touchstart","keydown"])root.document.addEventListener(type,()=>{fsbInputAt=fsbNow();},{capture:true,passive:true});
       }
@@ -892,7 +892,15 @@ async function revokePairing(options={}){
   }
 
   // One document, read on the server inside a transaction that ends before commit (one BatchGetDocuments, no write).
+  // r76: the waiting screen's authority listeners stop while the page is hidden and start again when it returns. A read
+  // of one of their documents that starts before that listener's first server delivery waits for it instead of reading the
+  // same document again, so a return costs one read per document. A listener that cannot deliver hands the read back.
+  let fsbReturnPaths=[],fsbWasHidden=false;const fsbListens=new Map();
+  function fsbListenReturning(){for(const path of fsbReturnPaths)if(!fsbListens.has(path)){const listen={};listen.promise=new Promise(resolve=>{listen.resolve=resolve;});fsbListens.set(path,listen);}}
+  function fsbListened(path,snapshot){if(path===undefined){for(const key of [...fsbListens.keys()])fsbListened(key,null);return;}const listen=fsbListens.get(path);if(!listen)return;fsbListens.delete(path);if(snapshot){fsbStats.listenerServed+=1;fsbRemember(fsbFirestore,{path},snapshot);}listen.resolve(snapshot||null);}
+  function fsbReturnListen(paths){fsbReturnPaths=Array.isArray(paths)?paths.filter(path=>typeof path==="string"):[];for(const path of [...fsbListens.keys()])if(!fsbReturnPaths.includes(path))fsbListened(path,null);}
   function fsbReadOne(sdk,db,ref){
+    const listen=fsbListens.get(fsbPathOf(ref));if(listen)return listen.promise.then(snapshot=>snapshot||fsbReadOne(sdk,db,ref));
     // A read in flight is shared only within the account that started it; one that lands after a sign-in change is not kept.
     const path=fsbPathOf(ref),account=fsbAccountId,key=path?`${account||""}|${path}`:ref;
     const running=fsbInflight.get(key);
@@ -974,7 +982,7 @@ async function revokePairing(options={}){
     if(typeof updateFunction!=="function")return sdk.runTransaction(db,updateFunction,...rest);
     if(db!==fsbFirestore){fsbEntries.clear();fsbFirestore=db;}
     const uid=services.auth&&services.auth.currentUser&&services.auth.currentUser.uid||null;
-    if(uid!==fsbAccountId){fsbEntries.clear();fsbInflight.clear();fsbAccountId=uid;}
+    if(uid!==fsbAccountId){fsbEntries.clear();fsbInflight.clear();fsbReturnListen([]);fsbAccountId=uid;}
     const answer=await fsbProbe(sdk,db,updateFunction);
     if(answer)return answer.value;
     return fsbServerTransaction(sdk,db,updateFunction,rest);
@@ -1003,6 +1011,8 @@ async function revokePairing(options={}){
     services:fsbWrapServices,
     watchWaitPoint:fsbWatchWaitPoint,
     forgetContext:fsbForgetContext,
+    returnListen:fsbReturnListen,
+    listened:fsbListened,
     quietReuseMs:FSB_QUIET_MS,
     inputFreshMs:FSB_INPUT_FRESH_MS,
     // wantFresh(): every read of this page is fresh for the next 7 s; wantFresh(path): only that document.
@@ -1013,6 +1023,6 @@ async function revokePairing(options={}){
     noteError(error){if(fsbIsQuotaError(error))fsbTrip();return fsbQuotaMessage(error);},
     state:fsbState,
     stats:()=>Object.freeze({...fsbStats,remembered:fsbEntries.size,watching:fsbWait?fsbWait.path:null,watchHealthy:fsbWaitLive()}),
-    reset(){fsbDetachWait();fsbWaitFailed.clear();fsbReturnWakes.clear();fsbEntries.clear();fsbInflight.clear();fsbCadence.clear();fsbWaitAsks.clear();fsbFreshPaths.clear();fsbPause=null;fsbInputAt=0;fsbFreshAskAt=0;fsbChainAt=0;fsbPublish();}
+    reset(){fsbDetachWait();fsbReturnListen([]);fsbWaitFailed.clear();fsbReturnWakes.clear();fsbEntries.clear();fsbInflight.clear();fsbCadence.clear();fsbWaitAsks.clear();fsbFreshPaths.clear();fsbPause=null;fsbInputAt=0;fsbFreshAskAt=0;fsbChainAt=0;fsbPublish();}
   });
 })(typeof globalThis!=="undefined"?globalThis:this);

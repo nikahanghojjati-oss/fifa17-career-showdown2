@@ -241,19 +241,35 @@ async function scenario(screen,owner,phase,reloaded){
       console.log(`PASS ${label}: <=3000 ms, zero reads`);
     }catch(e){failures.push(`${label}: ${e.message}`);console.error(`FAIL ${label}: ${e.stack}`);}
   }
-  for(const phase of ["results","commit"]){
-    const label=`healthy ${phase} first delivery and tab return cost`;
+  for(const phase of ["results","commit"])for(const screen of ["mainMenu","standings","seasonEntry"]){
+    const label=`healthy ${screen}/${phase} first delivery and tab return cost`;
     try{
-      const w=await world("mainMenu","progression",phase);
-      // Initial subscription deliveries are billed separately; this limit covers reads they trigger.
+      const w=await world(screen,"progression",phase);
+      // Initial subscription deliveries are billed separately (one per listener: the floor for watching a document);
+      // this limit covers reads they trigger.
       const first=w.attachReads-w.attachListenerReads;
-      w.setVisible(false);await w.advance(0);const before=w.meter.reads;
-      w.setVisible(true);await w.advance(3000);const returned=w.meter.reads-before;
-      console.log(`MEASURE ${label}: ${first} first-delivery refresh reads (+${w.attachListenerReads} subscription reads), ${returned} tab-return reads`);
+      w.setVisible(false);await w.advance(0);const before=w.meter.reads,listening=w.activeListeners().length;
+      // 30 s: every listener the return attaches again, and every check it wakes, lands inside the window.
+      w.setVisible(true);await w.advance(30000);const returned=w.meter.reads-before;
+      console.log(`MEASURE ${label}: ${first} first-delivery refresh reads (+${w.attachListenerReads} subscription reads), ${returned} tab-return reads / 30 s`);
+      assert.equal(listening,0,"hidden page holds no listener");
       assert.ok(first<=2,`first delivery triggered ${first} reads (limit 2)`);
       assert.ok(returned<=8,`tab return triggered ${returned} reads (limit 8)`);
+      assert.ok(w.s.CareerModeProductionSharedSeasonCommit.waitingListenerHealthy(),"the return restores the healthy wait");
+      const paths=w.activeListeners().map(l=>l.path);assert.equal(new Set(paths).size,paths.length,"one listener per document after the return");
       console.log(`PASS ${label}`);
     }catch(e){failures.push(`${label}: ${e.message}`);console.error(`FAIL ${label}: ${e.stack}`);}
+    const hiddenLabel=`${screen}/${phase} partner change while hidden arrives on return`;
+    try{
+      const w=await world(screen,"progression",phase);
+      w.setVisible(false);await w.advance(20000);w.serverWrite(COMMIT(2),{phase:"ACKNOWLEDGED",accepted:true,revision:3});await w.advance(20000);
+      const before=w.meter.reads;w.setVisible(true);await w.advance(3000);
+      assert.equal(w.api.getState()?.state?.acceptedSeasons,2,"the return check sees the partner's change from the server");
+      await w.advance(27000);assert.ok(w.meter.reads-before<=8,`return after a hidden change cost ${w.meter.reads-before} reads (limit 8)`);
+      console.log(`PASS ${hiddenLabel}: ${w.meter.reads-before} reads / 30 s`);
+    }catch(e){failures.push(`${hiddenLabel}: ${e.message}`);console.error(`FAIL ${hiddenLabel}: ${e.stack}`);}
+  }
+  for(const phase of ["results","commit"]){
     const fastLabel=`unhealthy ${phase} fast window ends`;
     try{
       const w=await world("mainMenu","terminal",phase,false,{initialSnapshot:false});
@@ -270,8 +286,14 @@ async function scenario(screen,owner,phase,reloaded){
     await w.s.CareerModeProductionSharedSeasonResults.refresh();
     await w.s.CareerModeProductionSharedSeasonCommit.refresh();await w.advance(6000);
     assert.equal(w.budget.stats().watching,COMMIT(1),"Results switches to the Commit wait");
-    assert.ok(context.every(l=>l.active&&w.activeListeners().includes(l)),"Results-to-Commit keeps every authority listener");
-    console.log("PASS Results-to-Commit keeps authority listeners");
+    assert.ok(context.every(l=>l.path===COMMIT(1)||l.active&&w.activeListeners().includes(l)),"Results-to-Commit keeps every authority listener");
+    assert.equal(w.activeListeners().filter(l=>l.path===COMMIT(1)).length,1,"the commit document has exactly one listener after the switch");
+    // One partner write on the watched commit costs its one listener read, as on a wait that starts on Commit.
+    const before=w.meter.reads,serverReads=w.budget.stats().serverReads;
+    w.serverWrite(COMMIT(1),{...w.server.get(COMMIT(1)).data,partnerNote:"seen"});await w.advance(6000);
+    assert.ok(w.meter.reads-before<=1,`one commit-document write cost ${w.meter.reads-before} reads (limit 1)`);
+    assert.equal(w.budget.stats().serverReads,serverReads,"the write starts no refresh wave");
+    console.log(`PASS Results-to-Commit keeps authority listeners; commit write ${w.meter.reads-before} read`);
   }catch(e){failures.push(`listener retention: ${e.message}`);console.error(`FAIL listener retention: ${e.stack}`);}
   try{
     const w=await world("mainMenu","terminal");let release,entered=false;
