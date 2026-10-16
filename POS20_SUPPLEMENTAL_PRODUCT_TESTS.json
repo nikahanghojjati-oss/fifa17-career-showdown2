@@ -1641,6 +1641,14 @@
         "^tests/contracts/career-start-open-timeout-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/free-limit-home-message-contracts.cjs",
+      "patterns": [
+        "^js/homeScreensV10\\.js$",
+        "^tests/contracts/free\\-limit\\-home\\-message\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
