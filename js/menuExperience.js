@@ -84,7 +84,6 @@ const MARCO_REUS_IMAGE = Object.freeze({
     license: "https://creativecommons.org/licenses/by/2.0/"
 });
 
-const MAX_REUS_IMAGE_ATTEMPTS = 2;
 const MENU_MEDIA_LOAD_TIMEOUT_MS = 12000;
 const MENU_FEEDBACK_INTERACTION_WINDOW_MS = 1800;
 
@@ -95,7 +94,6 @@ let menuMediaPlaying = false;
 let menuMediaMuted = false;
 let menuMediaLoadTimer = null;
 let menuExperienceUI = null;
-let reusImageLoadScheduled = false;
 let reusImageAttempts = 0;
 let menuFeedbackInteractionBound = false;
 let menuFeedbackInteractionPending = false;
@@ -178,7 +176,7 @@ function getSavedShowdownMenuMeta(){
     const managerOne = saved.managers && saved.managers.playerOne ? saved.managers.playerOne : "Manager 1";
     const managerTwo = saved.managers && saved.managers.playerTwo ? saved.managers.playerTwo : "Manager 2";
     const completed = saved.status === "Completed";
-    const currentRound = Number(saved.currentRound) || 1;
+    const currentRound = Number(window.getShowdownSeason ? window.getShowdownSeason(saved) : saved.currentRound) || 1;
     const totalRounds = Number(saved.totalRounds) || 1;
     const status = completed
         ? "Showdown complete"
