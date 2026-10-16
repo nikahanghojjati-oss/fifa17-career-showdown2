@@ -1540,6 +1540,14 @@
         "^tests/contracts/sweep-season-score-key-order-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/final-cells-late-data-contracts.cjs",
+      "patterns": [
+        "^js/seasonFinalV10\\.js$",
+        "^tests/contracts/final-cells-late-data-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

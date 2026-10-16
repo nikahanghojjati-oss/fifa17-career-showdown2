@@ -1871,7 +1871,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   // JOB-1042: the rival can close before this phone's live history converges. Reuse the session-free,
   // completed-only reader once per closed rivalry; the partial Final Winner stays visible during the read.
   const closedHistoryReads=new Map();
-  const sfConverged=(history,rivalryId)=>history?.authoritative===true&&history.phase==="HISTORY_CONVERGED"&&history.rivalryId===rivalryId&&history.projection;
+  // JOB-1811: previous-season convergence must not suppress the completed read after the rival closes.
+  const sfConverged=(history,closed)=>history?.authoritative===true&&history.phase==="HISTORY_CONVERGED"&&history.rivalryId===closed.rivalryId&&history.projection&&closed.terminalWitness&&closedHistoryBound(history.projection,closed.terminalWitness);
   function sfClosedHistory(rivalryId){
     if(!closedHistoryReads.has(rivalryId)){
       const entry={history:null,promise:null};closedHistoryReads.set(rivalryId,entry);
@@ -1890,7 +1891,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   }
   function seasonSource(){
     const s=sfSnapshot(),live=sfRetainHistory(s.history),closed=s.terminalClose?.phase==="CLOSED"?s.terminalClose:null;
-    const history=closed?.terminal===true?(sfConverged(live,closed.rivalryId)?live:sfConverged(retainedHistory,closed.rivalryId)?retainedHistory:sfClosedHistory(closed.rivalryId)):live;
+    const history=closed?.terminal===true?(sfConverged(live,closed)?live:sfConverged(retainedHistory,closed)?retainedHistory:sfClosedHistory(closed.rivalryId)):live;
     return {final:finalSeasonReview?{status:"unavailable"}:finalFrame(s.finalReconciliation,s.terminalClose,history)};
   }
   // The pair module notifies only its own subscribers (no window event), so Standings follows pairing
