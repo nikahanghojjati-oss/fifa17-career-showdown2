@@ -27,9 +27,11 @@
   function ssrConfirmedSetup(value){if(!ssrPlain(value)||value.phase!=="SHOWDOWN_CONFIRMED"||value.revision!==6||![1,3,5,10].includes(value.totalSeasons))ssrFail("SEASON_RESULTS_SETUP_NOT_CONFIRMED");if(!Array.isArray(value.confirmedRoles)||value.confirmedRoles.length!==2||!ROLES.every(role=>value.confirmedRoles.includes(role)))ssrFail("SEASON_RESULTS_SETUP_NOT_CONFIRMED");return value;}
   function ssrCareerReady(value){if(!ssrPlain(value)||value.phase!=="CAREER_START_READY"||value.revision!==2||!Array.isArray(value.acknowledgedRoles)||value.acknowledgedRoles.length!==2||!ROLES.every(role=>value.acknowledgedRoles.includes(role)))ssrFail("SEASON_RESULTS_CAREER_START_NOT_READY");return value;}
   function ssrTransferComplete(value,seasonNumber){if(!ssrPlain(value)||value.phase!=="COMPLETED"||value.seasonNumber!==seasonNumber||!Number.isInteger(value.revision)||value.revision<1)ssrFail("SEASON_RESULTS_TRANSFER_NOT_COMPLETE");return value;}
+  // An absent stat (null, "", blank, boolean, array) must not become a real 0.
+  function ssrNumber(value){return typeof value==="number"||(typeof value==="string"&&value.trim()!=="")?Number(value):Number.NaN;}
   function ssrNormalizeResult(value,teamCount){
     ssrExact(value,RESULT_KEYS,"SEASON_RESULTS_PAYLOAD_INVALID");
-    const position=Number(value.leaguePosition),points=Number(value.leaguePoints),goals=Number(value.leagueGoals),maxPoints=(teamCount-1)*2*3;
+    const position=ssrNumber(value.leaguePosition),points=ssrNumber(value.leaguePoints),goals=ssrNumber(value.leagueGoals),maxPoints=(teamCount-1)*2*3;
     if(!Number.isInteger(position)||position<1||position>teamCount)ssrFail("SEASON_RESULTS_POSITION_INVALID");
     if(!Number.isInteger(points)||points<0||points>maxPoints)ssrFail("SEASON_RESULTS_POINTS_INVALID");
     if(!Number.isInteger(goals)||goals<0||goals>300)ssrFail("SEASON_RESULTS_GOALS_INVALID");
