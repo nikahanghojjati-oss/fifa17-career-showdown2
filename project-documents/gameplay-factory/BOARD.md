@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 12:52 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 12:57 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -78,27 +78,19 @@ Updated Fri 16 Oct, 12:52 PM Boston time. Bug hunting only, no new features unti
 
 **#16 · 1828** `G` Phone free-limit notice covers the soundtrack controls and shows through under Connect Players  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #862 · CI 7 of 8 passed · last move 17 h ago
+⚪ Team white · model not set · worker working, draft PR #862 · CI 7 of 8 passed · last move 18 h ago
 
-**#17 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #863 · CI 7 of 8 passed · last move 17 h ago
-
-**#18 · 1830** `G` r76 integration round 2: every r76 fix together, then the meter and CE2PG on the combined head  
+**#17 · 1830** `G` r76 integration round 2: every r76 fix together, then the meter and CE2PG on the combined head  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #869
 
-**#19 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #870
+**#18 · 1834** `G` Standings fix on PR #841: keep the progression fallback out of the career screens  
+`███████░░░` **70.0000 %**  
+⚪ Team white · model not set · worker done, PR #868 open, CI running · CI 0 of 7 passed · last move 0 min ago
 
-**#20 · 1834** `G` Standings fix on PR #841: keep the progression fallback out of the career screens  
-`████████░░` **76.6667 %**  
-⚪ Team white · model not set · worker done, PR #868 open, CI running · CI 10 of 15 passed · last move 1 min ago
-
-**#21 · 1835** `G` Free-limit notice fix on PR #862: landscape phone Home layout  
-`████████░░` **77.3333 %**  
-⚪ Team white · model not set · worker done, PR #871 open, CI running · CI 11 of 15 passed · last move 0 min ago
+**#19 · 1835** `G` Free-limit notice fix on PR #862: landscape phone Home layout  
+`██████░░░░` **60.0000 %**  
+⚪ Team white · model not set · worker done, PR #871 open, CI failed · CI 15 of 16 passed · last move 2 min ago
 
 ### 👉 Next for you, in this order
 
@@ -1226,7 +1218,27 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1770
 ```
 
-**#113 · 1773** `G` Audit and fix js/saveLibraryPersistence.js (whole file)  
+**#113 · 1771** `G` Audit and fix js/saveLibraryFoundation.js (first half (lines 1 to 199))  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1771'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1771
+```
+
+**#114 · 1772** `G` Audit and fix js/saveLibraryFoundation.js (second half (lines 199 to the end))  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1772'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1772
+```
+
+**#115 · 1773** `G` Audit and fix js/saveLibraryPersistence.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1773'
 
@@ -1236,7 +1248,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1773
 ```
 
-**#114 · 1774** `G` Audit and fix js/storageTransaction.js (whole file)  
+**#116 · 1774** `G` Audit and fix js/storageTransaction.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1774'
 
@@ -1246,7 +1258,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1774
 ```
 
-**#115 · 1775** `G` Audit and fix js/menuFeedback.js (whole file)  
+**#117 · 1775** `G` Audit and fix js/menuFeedback.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1775'
 
@@ -1256,7 +1268,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1775
 ```
 
-**#116 · 1776** `G` Audit and fix js/sharedHistoryConvergence.js (whole file)  
+**#118 · 1776** `G` Audit and fix js/sharedHistoryConvergence.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1776'
 
@@ -1266,7 +1278,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1776
 ```
 
-**#117 · 1777** `G` Audit and fix js/productionSharedLocalReconciliation.js (whole file)  
+**#119 · 1777** `G` Audit and fix js/productionSharedLocalReconciliation.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1777'
 
@@ -1276,7 +1288,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1777
 ```
 
-**#118 · 1779** `G` Audit and fix js/productionSharedShowdownSetup.js (whole file)  
+**#120 · 1779** `G` Audit and fix js/productionSharedShowdownSetup.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1779'
 
@@ -1286,7 +1298,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1779
 ```
 
-**#119 · 1780** `G` Audit and fix js/sparkSharedSeasonResults.js (whole file)  
+**#121 · 1780** `G` Audit and fix js/sparkSharedSeasonResults.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1780'
 
@@ -1296,7 +1308,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1780
 ```
 
-**#120 · 1781** `G` Audit and fix js/sparkSharedTransferChallenge.js (whole file)  
+**#122 · 1781** `G` Audit and fix js/sparkSharedTransferChallenge.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1781'
 
@@ -1306,7 +1318,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1781
 ```
 
-**#121 · 1782** `G` Audit and fix js/sparkSharedSeasonCommit.js (whole file)  
+**#123 · 1782** `G` Audit and fix js/sparkSharedSeasonCommit.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1782'
 
@@ -1316,7 +1328,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1782
 ```
 
-**#122 · 1783** `G` Audit and fix js/sparkSharedMultiSeasonProgression.js (whole file)  
+**#124 · 1783** `G` Audit and fix js/sparkSharedMultiSeasonProgression.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1783'
 
@@ -1326,7 +1338,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1783
 ```
 
-**#123 · 1786** `G` Audit and fix js/sparkSharedHistoryConvergence.js (whole file)  
+**#125 · 1786** `G` Audit and fix js/sparkSharedHistoryConvergence.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1786'
 
@@ -1336,7 +1348,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1786
 ```
 
-**#124 · 1788** `G` Audit and fix js/sparkSharedCanonicalScoring.js (whole file)  
+**#126 · 1788** `G` Audit and fix js/sparkSharedCanonicalScoring.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1788'
 
@@ -1346,7 +1358,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1788
 ```
 
-**#125 · 1789** `G` Audit and fix js/diagnostics.js (first half (lines 1 to 225))  
+**#127 · 1789** `G` Audit and fix js/diagnostics.js (first half (lines 1 to 225))  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1789'
 
@@ -1356,7 +1368,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1789
 ```
 
-**#126 · 1792** `G` Contract sweep on gameplay/bug-list-1: run everything, report failures  
+**#128 · 1792** `G` Contract sweep on gameplay/bug-list-1: run everything, report failures  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1792'
 
@@ -1366,7 +1378,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1792
 ```
 
-**#127 · 1793** `G` Work mode audit and fix js/sharedFinalReconciliation.js (whole file)  
+**#129 · 1793** `G` Work mode audit and fix js/sharedFinalReconciliation.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1793'
 
@@ -1376,7 +1388,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1793
 ```
 
-**#128 · 1794** `G` Work mode audit and fix js/sharedTerminalClose.js (whole file)  
+**#130 · 1794** `G` Work mode audit and fix js/sharedTerminalClose.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1794'
 
@@ -1386,7 +1398,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1794
 ```
 
-**#129 · 1795** `G` Work mode audit and fix js/dataEngine.js (whole file)  
+**#131 · 1795** `G` Work mode audit and fix js/dataEngine.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1795'
 
@@ -1396,7 +1408,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1795
 ```
 
-**#130 · 1798** `G` Work mode audit and fix js/footballVisuals.js (whole file)  
+**#132 · 1798** `G` Work mode audit and fix js/footballVisuals.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1798'
 
@@ -1406,7 +1418,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1798
 ```
 
-**#131 · 1806** `G` BACK TO SHOWDOWN HOME lands on the dashboard instead of Home  
+**#133 · 1806** `G` BACK TO SHOWDOWN HOME lands on the dashboard instead of Home  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1806'
 
@@ -1416,7 +1428,7 @@ Type this in Codex cloud:
 Job 1806
 ```
 
-**#132 · 1813** `G` GPT chat review of the r76 Codex and Work mode PRs  
+**#134 · 1813** `G` GPT chat review of the r76 Codex and Work mode PRs  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1813'
 
@@ -1426,7 +1438,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1813
 ```
 
-**#133 · 1814** `G` Sweep the older audit reports for bugs that are still open (GPT chat, repeatable)  
+**#135 · 1814** `G` Sweep the older audit reports for bugs that are still open (GPT chat, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1814'
 
@@ -1436,7 +1448,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1814
 ```
 
-**#134 · 1817** `G` Bug cards from the audit sweep (GPT chat, repeatable)  
+**#136 · 1817** `G` Bug cards from the audit sweep (GPT chat, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1817'
 
@@ -1446,7 +1458,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1817
 ```
 
-**#135 · 1820** `G` Startup size room for r76 (report only, no app change)  
+**#137 · 1820** `G` Startup size room for r76 (report only, no app change)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1820'
 
@@ -1456,7 +1468,7 @@ Type this in Codex cloud:
 Job 1820
 ```
 
-**#136 · 1822** `G` Stats and history bug hunt, part A (GPT chat, repeatable)  
+**#138 · 1822** `G` Stats and history bug hunt, part A (GPT chat, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1822'
 
@@ -1466,7 +1478,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1822
 ```
 
-**#137 · 1823** `G` Stats and history bug hunt, part B (GPT chat, repeatable)  
+**#139 · 1823** `G` Stats and history bug hunt, part B (GPT chat, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1823'
 
@@ -1476,7 +1488,27 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1823
 ```
 
-**#138 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
+**#140 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1829'
+
+Type this in Codex cloud:
+
+```text
+Job 1829
+```
+
+**#141 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1833'
+
+Type this in Codex cloud:
+
+```text
+Job 1833
+```
+
+**#142 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1836'
 
@@ -1486,7 +1518,7 @@ Type this in Codex cloud:
 Job 1836
 ```
 
-**#139 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
+**#143 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1837'
 
@@ -1496,7 +1528,7 @@ Type this in Codex cloud:
 Job 1837
 ```
 
-**#140 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
+**#144 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1838'
 
@@ -1506,7 +1538,7 @@ Type this in Codex cloud:
 Job 1838
 ```
 
-**#141 · 1839** `G` r76 gallery refresh: every screen from the final workbench, desktop and phone  
+**#145 · 1839** `G` r76 gallery refresh: every screen from the final workbench, desktop and phone  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1839'
 
@@ -1611,8 +1643,8 @@ Job 1839
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`███░░░░░░░` **31.4607 %**  
-Numbered jobs: 56 done, 183 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`███░░░░░░░` **31.2268 %**  
+Numbered jobs: 56 done, 185 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **53.5714 %**  
