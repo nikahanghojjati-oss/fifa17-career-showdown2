@@ -72,7 +72,7 @@
   }
   function csCareerSections(model){
     const win=model.biggestShowdownWin;
-    const value=win&&csNames[win.manager]&&csNumeric(win.margin)?csNames[win.manager]+" by "+csNumber(win.margin):"-";
+    const value=win&&csNames[win.manager]&&csNumeric(win.margin)?csNames[win.manager]+(win.manager==="shared"?" · ":" by ")+csNumber(win.margin):"-";
     return [
       {heading:"CAREER TABLE",rows:[...csCompare(csCareerFields,model.managers),...csCompare(csShowdownFields,{daniel:model.managers.daniel.showdowns,nik:model.managers.nik.showdowns}),{label:"Biggest Showdown win",value}]},
       {heading:"SEASON RECORDS",rows:csCompare(csRecordFields,model.managers)}
@@ -82,7 +82,7 @@
     const room=model.trophyRoom;
     return [
       {heading:"MANAGER CABINETS",rows:csCompare(csCabinetFields,room.cabinet)},
-      {heading:"CAREER TABLE",rows:room.standings.map((row,index)=>({label:(index+1)+". "+csNames[row.manager]+(row.level?" (level)":""),value:csNumber(row.careerPoints)+" points, "+csNumber(row.seasonWins)+" season wins"}))},
+      {heading:"CAREER TABLE",rows:room.standings.map((row,index)=>({label:(row.level?1:index+1)+". "+csNames[row.manager]+(row.level?" (level)":""),value:csNumber(row.careerPoints)+" points, "+csNumber(row.seasonWins)+" season wins"}))},
       {heading:"ALL-TIME RECORDS",rows:room.records.map(row=>({label:row.label,value:row.value===null?"-":csNames[row.manager]+" · "+csNumber(row.value)}))}
     ];
   }

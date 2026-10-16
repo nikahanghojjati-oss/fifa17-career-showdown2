@@ -1577,6 +1577,35 @@
         "^tests/contracts/sweep-online-career-live-refresh-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/sweep-biggest-showdown-tie-contracts.cjs",
+      "patterns": [
+        "^js/sharedCareerAnalytics\\.js$",
+        "^js/careerScreenSeam\\.js$",
+        "^tests/support/career-fixture-helpers\\.cjs$",
+        "^tests/contracts/sweep-biggest-showdown-tie-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/sweep-career-table-level-rank-contracts.cjs",
+      "patterns": [
+        "^js/careerScreenSeam\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^tests/contracts/sweep\\-career\\-table\\-level\\-rank\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/sweep-missing-season-stats-contracts.cjs",
+      "patterns": [
+        "^js/sharedSeasonResults\\.js$",
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^tests/contracts/sweep-missing-season-stats-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

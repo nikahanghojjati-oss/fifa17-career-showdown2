@@ -119,7 +119,7 @@ await check("6. Left and right with all row mappings",()=>{
   assert.equal(records.find(r=>r.label==="Average league points").daniel,"60.3");assert.equal(records.find(r=>r.label==="Best league goals").nik,"-");
   const tied=model([entry(projection({totalSeasons:1,seasons:[[result(),result()]]}))]);
   const table=Seam.careerScreenView("trophyRoom",tied).sections[1].rows;
-  assert.deepEqual(table.map(r=>r.label),["1. Daniel (level)","2. Nik (level)"]);
+  assert.deepEqual(table.map(r=>r.label),["1. Daniel (level)","1. Nik (level)"]);
   assert.equal(Seam.careerScreenView("careerStatistics",tied).sections[0].rows.at(-1).value,"-");
   const daniel=model([entry(projection({totalSeasons:1,seasons:[[perfect,result()]]}))]);
   assert.equal(Seam.careerScreenView("careerStatistics",daniel).sections[0].rows.at(-1).value,"Daniel by 11");
