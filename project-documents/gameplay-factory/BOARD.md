@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 8:29 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 8:33 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -42,7 +42,7 @@ Updated Fri 16 Oct, 8:29 AM Boston time. Bug hunting only, no new features until
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 95 h ago
+🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 96 h ago
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
@@ -66,7 +66,7 @@ Updated Fri 16 Oct, 8:29 AM Boston time. Bug hunting only, no new features until
 
 **#13 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 19 h ago
+⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 20 h ago
 
 **#14 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
@@ -92,7 +92,11 @@ Updated Fri 16 Oct, 8:29 AM Boston time. Bug hunting only, no new features until
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #863 · CI 7 of 8 passed · last move 12 h ago
 
-**#20 · 1832** `G` Waiting fixes on PR #861: clock expiry, poll window, first-snapshot reads  
+**#20 · 1831** `G` Career Start panel can hang: add a time limit and a working retry  
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · model not set · worker working, draft PR #867
+
+**#21 · 1832** `G` Waiting fixes on PR #861: clock expiry, poll window, first-snapshot reads  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #866
 
@@ -1442,17 +1446,7 @@ Type this in Codex cloud:
 Job 1830
 ```
 
-**#135 · 1831** `G` Career Start panel can hang: add a time limit and a working retry  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1831'
-
-Type this in Codex cloud:
-
-```text
-Job 1831
-```
-
-**#136 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
+**#135 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1833'
 
@@ -1462,7 +1456,7 @@ Type this in Codex cloud:
 Job 1833
 ```
 
-**#137 · 1834** `G` Standings fix on PR #841: keep the progression fallback out of the career screens  
+**#136 · 1834** `G` Standings fix on PR #841: keep the progression fallback out of the career screens  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1834'
 
@@ -1472,7 +1466,7 @@ Type this in Codex cloud:
 Job 1834
 ```
 
-**#138 · 1835** `G` Free-limit notice fix on PR #862: landscape phone Home layout  
+**#137 · 1835** `G` Free-limit notice fix on PR #862: landscape phone Home layout  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1835'
 
