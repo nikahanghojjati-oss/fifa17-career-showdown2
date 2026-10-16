@@ -29,6 +29,28 @@ async function inspect(page,screen){
       if(e.matches(".phoneSheetToggle")||e.closest("[inert]"))continue;
       const hit=document.elementFromPoint(x,y);
       if(screen==="connect"&&!e.closest("#connectPlayersScreen")&&hit?.closest("#connectPlayersScreen"))continue;
+      if(screen==="home"&&["homeTrophyRoomButton","ruleBookButton","settingsButton"].includes(e.id)){
+        // Include decorative layers: pointer-events:none can still paint over a usable button.
+        const decorative=[...document.querySelectorAll("#mainMenu *")].filter(layer=>{
+          const r=rect(layer);return shown(layer)&&getComputedStyle(layer).pointerEvents==="none"&&x>=r.left&&x<r.right&&y>=r.top&&y<r.bottom;
+        }).map(layer=>({layer,style:layer.getAttribute("style")}));
+        let stack;
+        try{
+          for(const {layer} of decorative)layer.style.setProperty("pointer-events","auto","important");
+          stack=document.elementsFromPoint(x,y);
+        }finally{
+          for(const {layer,style} of decorative)if(style===null)layer.removeAttribute("style");else layer.setAttribute("style",style);
+        }
+        const target=stack.findIndex(layer=>layer===e||e.contains(layer));
+        const painted=layer=>{
+          const style=getComputedStyle(layer);
+          if(!shown(layer)||Number(style.opacity)===0)return false;
+          return style.backgroundImage!=="none"||(style.backgroundColor!=="transparent"&&!/[ ,/]0\)$/.test(style.backgroundColor))||style.boxShadow!=="none"||["IMG","SVG","CANVAS","VIDEO"].includes(layer.tagName)||[...layer.childNodes].some(n=>n.nodeType===Node.TEXT_NODE&&n.textContent.trim());
+        };
+        const above=(target<0?stack:stack.slice(0,target)).filter(layer=>!layer.contains(e)&&painted(layer));
+        hits.push({id,stack:stack.map(layer=>layer.id||layer.className||layer.tagName)});
+        if(target<0||above.length)errors.push(`${id} centre covered by ${above.map(layer=>layer.id||layer.className||layer.tagName).join(", ")||"missing button"}`);
+      }
       if(e.closest(".menuMusicTile,.sd-nav")){
         hits.push(id);
         if(hit!==e&&!e.contains(hit)&&!(e.matches("label[for]")&&hit?.id===e.htmlFor))errors.push(`${id} centre hits ${hit?.id||hit?.className||hit?.tagName}`);
@@ -58,10 +80,11 @@ async function inspect(page,screen){
       const unchanged=await page.evaluate(text=>{
         const controls=()=>[...document.querySelectorAll("#mainMenu button,.sd-nav button,#onlinePlayerIdentityBadge")].filter(e=>!e.closest("#appRuntimeNotice")).map(e=>({id:e.id||e.textContent.trim(),box:e.getBoundingClientRect().toJSON()}));
         const look=e=>Object.fromEntries(["color","backgroundColor","borderLeftColor","borderLeftWidth","fontFamily","fontSize","fontWeight","lineHeight","paddingTop","paddingRight","paddingBottom","paddingLeft"].map(key=>[key,getComputedStyle(e)[key]]));
-        window.__layoutLook=look;window.__layoutControls=controls;
+        const layout=()=>({rows:getComputedStyle(document.getElementById("mainMenu")).gridTemplateRows,children:[...document.querySelector("#mainMenu").children].filter(e=>e.id!=="appRuntimeNotice").map(e=>({id:e.id||e.className,box:e.getBoundingClientRect().toJSON()}))});
+        window.__layoutLook=look;window.__layoutControls=controls;window.__homeLayout=layout;
         showAppNotice(text,"error",0);
         const notice=document.getElementById("appRuntimeNotice"),style=look(notice);notice.remove();
-        return {controls:controls(),style};
+        return {controls:controls(),style,layout:layout()};
       },TEXT);
       await page.evaluate(async()=>{
         if(!window.CareerModeFirestoreBudget)await loadRuntimeScript("layout-budget","js/sparkPrivatePairing.js",()=>Boolean(window.CareerModeFirestoreBudget));
@@ -71,7 +94,10 @@ async function inspect(page,screen){
       await page.waitForFunction(text=>document.querySelector("#appRuntimeNotice .runtimeNoticeText")?.textContent===text,TEXT);
       await page.evaluate(()=>document.fonts.ready);
       const home=await inspect(page,"home");
-      const unchangedAfter=await page.evaluate(()=>({controls:__layoutControls(),style:__layoutLook(document.getElementById("appRuntimeNotice"))}));
+      const unchangedAfter=await page.evaluate(()=>({controls:__layoutControls(),style:__layoutLook(document.getElementById("appRuntimeNotice")),layout:__homeLayout()}));
+      home.layoutBefore=unchanged.layout;home.layoutAfter=unchangedAfter.layout;
+      try{assert.deepEqual(unchangedAfter.layout,unchanged.layout,"quota notice must preserve Home grid rows and every existing direct child rectangle");}
+      catch(error){home.errors.push(error.message.split("\n")[0]);console.log(`LAYOUT CHANGES ${width}x${height} rows ${unchanged.layout.rows} -> ${unchangedAfter.layout.rows}`);}
       if(JSON.stringify(unchanged.controls)!==JSON.stringify(unchangedAfter.controls)){
         home.errors.push("quota notice moved existing controls");
         home.changedControls=unchanged.controls.map((before,i)=>({before,after:unchangedAfter.controls[i]})).filter(pair=>JSON.stringify(pair.before)!==JSON.stringify(pair.after));
@@ -116,6 +142,6 @@ async function inspect(page,screen){
     }
     fs.writeFileSync(path.join(out,"audit.json"),JSON.stringify(report,null,2));
     assert.equal(report.filter(r=>r.home.errors.length||r.connect.errors.length).length,0,"all ten sizes must keep the notice clear of controls and hidden on Connect Players");
-    console.log("PASS free-limit notice layout audit: 10 sizes, Home and Connect Players, control hit tests, reachable notice, return and resume.");
+    console.log("PASS free-limit notice layout audit: 10 sizes, Home and Connect Players, unchanged grid rows and direct child rectangles, painted-layer control hit tests, reachable notice, return and resume.");
   }finally{await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

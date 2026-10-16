@@ -4,7 +4,7 @@
    removed, no product text changes, and the app's grid placement for the tiles is left as it is. */
 
 /* ---------- all sizes ---------- */
-#appRuntimeNotice[data-home-quota] { position: relative; inset: 60px auto auto; grid-area: 1 / 1; align-self: start; max-width: min(520px, calc(100% - 32px)); margin: 0 16px 8px; }
+#appRuntimeNotice[data-home-quota] { position: absolute; top: 60px; right: auto; bottom: auto; left: 16px; align-self: start; max-width: min(520px, calc(100% - 32px)); margin: 0 16px 8px; }
 #mainMenu.v10Home { position: fixed; inset: 0; width: auto; max-width: none; height: auto; margin: 0; padding: 0; }
 #mainMenu.v10Home .fifaMenuShell { min-height: 0; gap: 0; }
 #mainMenu.v10Home .fifaMenuHeading { padding: 0; border: 0; }
