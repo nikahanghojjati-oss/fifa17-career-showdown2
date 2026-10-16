@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1842,
+ "next": 1843,
  "claims": [
   {
    "number": 1001,
@@ -5048,6 +5048,12 @@
    "team": "G",
    "title": "Old games still open: release check for saved Showdowns",
    "claimed": "2026-10-16T22:31:35Z"
+  },
+  {
+   "number": 1842,
+   "team": "G",
+   "title": "CE2PG harness: stop flagging the two known wording items",
+   "claimed": "2026-10-16T22:31:37Z"
   }
  ]
 }
