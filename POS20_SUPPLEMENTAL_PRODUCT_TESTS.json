@@ -1512,6 +1512,14 @@
         "^tests/contracts/reus\\-gate\\-startup\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/terminal-close-transaction-reads-contracts.cjs",
+      "patterns": [
+        "^js/sparkTerminalClose\\.js$",
+        "^tests/contracts/terminal-close-transaction-reads-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
