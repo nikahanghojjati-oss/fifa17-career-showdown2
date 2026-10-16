@@ -1532,6 +1532,15 @@
         "^tests/contracts/sweep\\-career\\-table\\-level\\-rank\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/sweep-missing-season-stats-contracts.cjs",
+      "patterns": [
+        "^js/sharedSeasonResults\\.js$",
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^tests/contracts/sweep-missing-season-stats-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
