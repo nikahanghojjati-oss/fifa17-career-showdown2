@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 7:54 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 7:59 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r76** (main `b41f296`, Fri 16 Oct 7:00 PM)
 
@@ -78,15 +78,19 @@ Updated Fri 16 Oct, 7:54 PM Boston time. Bug hunting only, no new features until
 
 **#16 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 90 min ago
+⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 94 min ago
 
 **#17 · 1839** `G` r76 gallery refresh: every screen from the final workbench, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 89 min ago
+⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 93 min ago
 
-**#18 · 1842** `G` CE2PG harness: stop flagging the two known wording items  
-`███████░░░` **74.6667 %**  
-⚪ Team white · model not set · worker done, PR #879 open, CI running · CI 7 of 15 passed · last move 0 min ago
+**#18 · 1840** `G` Clean start: "real career starts here" marker  
+`███████░░░` **74.2857 %**  
+⚪ Team white · model not set · worker done, PR #880 open, CI running · CI 3 of 7 passed · last move 0 min ago
+
+**#19 · 1841** `G` Old games still open: a release check for saved Showdowns  
+`███████░░░` **72.8571 %**  
+⚪ Team white · model not set · worker done, PR #881 open, CI running · CI 2 of 7 passed · last move 1 min ago
 
 ### 👉 Next for you, in this order
 
@@ -1554,26 +1558,6 @@ Type this in Codex cloud:
 Job 1833
 ```
 
-**#147 · 1840** `G` Clean start: "real career starts here" marker  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1840'
-
-Type this in Codex cloud:
-
-```text
-Job 1840
-```
-
-**#148 · 1841** `G` Old games still open: a release check for saved Showdowns  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1841'
-
-Type this in Codex cloud:
-
-```text
-Job 1841
-```
-
 ### ⏸ Waiting on something else
 
 **#1 · 1582** `G` Showdown Gate: screen shots of changed screens as a run artifact  
@@ -1669,8 +1653,8 @@ Job 1841
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`███░░░░░░░` **30.9963 %**  
-Numbered jobs: 56 done, 187 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`███░░░░░░░` **31.1111 %**  
+Numbered jobs: 56 done, 186 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **53.5714 %**  
