@@ -33,14 +33,21 @@
   function pcstConfirmed(){const state=pcstSetupState();return Boolean(state&&state.ready===true&&state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"&&state.setup.revision===6&&state.managerRole&&state.rivalryId&&state.sessionId&&state.deviceId);}
   function pcstReady(){return Boolean(view&&view.state&&view.state.phase==="CAREER_START_READY");}
   function pcstStopPolling(){if(pollTimer!==null&&typeof root.clearInterval==="function"){root.clearInterval(pollTimer);pollTimer=null;}return true;}
+  function pcstWithTimeout(task,request){
+    if(request)return task(request);
+    let timer;const error=Object.assign(new Error("Career Start took too long. Check your connection and tap again."),{code:"CAREER_START_TIMEOUT"});
+    const timeout=new Promise((_,reject)=>{timer=root.setTimeout(()=>reject(error),25000);});
+    let active=true;request={wait:promise=>Promise.race([promise,timeout]).then(value=>{if(!active)throw error;return value;})};
+    return Promise.race([Promise.resolve().then(()=>task(request)),timeout]).catch(failure=>{if(failure===error){lastError=error.message;pcstEnsurePanel();pcstRender();pcstDecorateControl();}throw failure;}).finally(()=>{active=false;root.clearTimeout(timer);});
+  }
   function pcstSerialize(task){const run=operationTail.then(task,task);operationTail=run.then(()=>undefined,()=>undefined);return run;}
   function pcstDeactivateSetupPresentation(){const presentation=root.CareerModeProductionSharedShowdownPresentation;if(presentation&&typeof presentation.deactivate==="function")presentation.deactivate();return true;}
   function pcstLeagueName(id){try{const item=typeof root.getLeagueById==="function"&&root.getLeagueById(id);if(item&&item.name)return item.name;}catch(_error){}return String(id||"").replaceAll("_"," ").replace(/\b\w/g,char=>char.toUpperCase());}
   function pcstRandomOperationId(){if(!root.crypto||typeof root.crypto.getRandomValues!=="function")throw new Error("Secure randomness is unavailable.");const bytes=new Uint8Array(16);root.crypto.getRandomValues(bytes);return `career_start_op_${Array.from(bytes,b=>b.toString(16).padStart(2,"0")).join("")}`;}
   // Job 33 (R1): a fast waiting read (light) reuses the already-confirmed Setup instead of re-reading it.
-  async function pcstProviderOptions(light=false){
-    await pcstEnsureDependencies();if(!(light===true&&pcstConfirmed()))await setupApi.refresh();const state=setupApi.getState();if(!state||state.ready!==true||!state.setup||state.setup.phase!=="SHOWDOWN_CONFIRMED"||state.setup.revision!==6)throw new Error("Both managers must finish Shared Setup before Career Start.");
-    const runtime=root.CareerModeProductionFirebaseRuntime,services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
+  async function pcstProviderOptions(light=false,request){
+    await request.wait(pcstEnsureDependencies());if(!(light===true&&pcstConfirmed()))await request.wait(setupApi.refresh());const state=setupApi.getState();if(!state||state.ready!==true||!state.setup||state.setup.phase!=="SHOWDOWN_CONFIRMED"||state.setup.revision!==6)throw new Error("Both managers must finish Shared Setup before Career Start.");
+    const runtime=root.CareerModeProductionFirebaseRuntime,services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await request.wait(runtime.ensureAccountServices()));
     if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)throw new Error("Connected account services are unavailable.");
     return {state,options:{user:services.auth.currentUser,firestore:services.firestore,firebaseSdk:services.firestoreSdk,rivalryId:state.rivalryId,sessionId:state.sessionId,deviceId:state.deviceId,cryptoImpl:root.crypto}};
   }
@@ -64,10 +71,10 @@
   // CAREER_START_READY is final for one confirmed Shared Setup, and the Transfer and Season Result providers re-check it inside
   // their own transactions. Transfer and Season Results call this before every read and publish, so re-reading it there only
   // added a request that could fail ("Career Start could not be read.") and block a publish. Reuse it for the same Setup.
-  function pcstRefresh(light=false){
+  function pcstRefresh(light=false,request){
     if(pcstReady()&&readyKey&&pcstConfirmed()&&readyKey===pcstSetupKey(pcstSetupState()))return Promise.resolve(view);
     if(refreshPromise)return refreshPromise;
-    const run=pcstSerialize(async()=>{const ctx=await pcstProviderOptions(light===true),result=await provider.read(ctx.options);if(!result||result.ok!==true)throw Object.assign(new Error("Career Start could not be read."),{code:result&&result.code});return pcstApplyView(result,ctx.state);});
+    const run=pcstSerialize(()=>pcstWithTimeout(async request=>{const ctx=await pcstProviderOptions(light===true,request),result=await request.wait(provider.read(ctx.options));if(!result||result.ok!==true)throw Object.assign(new Error("Career Start could not be read."),{code:result&&result.code});return pcstApplyView(result,ctx.state);},request));
     refreshPromise=run.finally(()=>{if(refreshPromise===wrapped)refreshPromise=null;});
     const wrapped=refreshPromise;
     return wrapped;
@@ -78,17 +85,18 @@
     const operationId=pcstRandomOperationId();
     try{
       return await pcstSerialize(async()=>{
-        const ctx=await pcstProviderOptions();
-        let current=await provider.read(ctx.options);
+        return pcstWithTimeout(async request=>{
+        const ctx=await pcstProviderOptions(false,request);
+        let current=await request.wait(provider.read(ctx.options));
         if(!current||current.ok!==true)throw Object.assign(new Error("Career Start could not be read."),{code:current&&current.code});
         if(current?.state?.phase==="CAREER_START_READY"||pcstOwnAcknowledged(current)){pcstApplyView(current,ctx.state);return true;}
         for(let attempt=0;attempt<2;attempt+=1){
-          const result=await provider.acknowledge({...ctx.options,operationId,baseRevision:current.revision||0});
+          const result=await request.wait(provider.acknowledge({...ctx.options,operationId,baseRevision:current.revision||0}));
           if(result&&result.ok===true){pcstApplyView(result,ctx.state);return true;}
           const code=result&&result.code||"CAREER_START_PROVIDER_FAILED";
           // Job 21: two managers acknowledging at once -> the loser is rejected by the Rules (permission-denied); treat it like a stale revision (re-read, retry once).
           if(["CAREER_START_STALE_BASE_REVISION","CAREER_START_ROLE_ALREADY_ACKNOWLEDGED","CAREER_START_ALREADY_READY","permission-denied","firestore/permission-denied","permission_denied"].includes(code)){
-            const refreshed=await provider.read(ctx.options);
+            const refreshed=await request.wait(provider.read(ctx.options));
             if(!refreshed||refreshed.ok!==true)throw Object.assign(new Error("Career Start could not be reconciled after another acknowledgement."),{code:refreshed&&refreshed.code||code});
             current=refreshed;
             if(current?.state?.phase==="CAREER_START_READY"||pcstOwnAcknowledged(current)){pcstApplyView(current,ctx.state);return true;}
@@ -97,6 +105,7 @@
           throw Object.assign(new Error("Career Start acknowledgement was rejected."),{code});
         }
         throw Object.assign(new Error("Career Start acknowledgement could not be reconciled."),{code:"CAREER_START_ACK_RETRY_EXHAUSTED"});
+        });
       });
     }catch(error){
       lastError=pcstErrorText(error,"Your Career Start was not recorded.");
@@ -128,6 +137,7 @@
   }
   // Keep provider codes in diagnostics, not in the sentence shown beneath the Career Start button.
   function pcstErrorText(error,fallback){
+    if(error?.code==="CAREER_START_TIMEOUT")return error.message;
     const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(error);if(quota)return quota;
     const code=String(error?.code||""),message=String(error?.message||"");
     const plain=error&&error.providerResult!==true&&message&&message!==code&&!/\b\w+(?:[-_/]\w+)+\b/.test(message)?message:fallback;
@@ -154,13 +164,14 @@
   // so a slow first load never looks like a tap that did nothing.
   function pcstOpenPanel(){
     if(openPromise)return openPromise;
-    const run=Promise.resolve().then(pcstOpenPanelNow);openPromise=run;
+    const run=pcstWithTimeout(pcstOpenPanelNow);openPromise=run;
     run.finally(()=>{if(openPromise===run)openPromise=null;pcstDecorateControl();}).catch(()=>{});
     try{pcstDecorateControl();}catch(_error){}
     return run;
   }
-  async function pcstOpenPanelNow(){
-    pcstDeactivateSetupPresentation();await pcstEnsureDependencies();let overlay=root.document.getElementById(PANEL_ID);if(!overlay){overlay=pcstCreate("div","remoteJoiningOverlay");overlay.id=PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","Shared Career Start");const shell=pcstCreate("div","remoteJoiningShell"),header=pcstCreate("div","remoteJoiningHeader");header.append(pcstCreate("strong","","CAREER MODE SHOWDOWN // 17"));const close=pcstCreate("button","remoteJoiningDismiss","×");close.type="button";close.setAttribute("aria-label","Close Career Start");close.addEventListener("click",pcstClosePanel);header.append(close);const body=pcstCreate("div","remoteJoiningBody");shell.append(header,body);overlay.append(shell);root.document.body.append(overlay);}overlay.classList.remove("hidden");pcstRender();await pcstRefresh();return true;
+  function pcstEnsurePanel(){let overlay=root.document.getElementById(PANEL_ID);if(!overlay){overlay=pcstCreate("div","remoteJoiningOverlay");overlay.id=PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","Shared Career Start");const shell=pcstCreate("div","remoteJoiningShell"),header=pcstCreate("div","remoteJoiningHeader");header.append(pcstCreate("strong","","CAREER MODE SHOWDOWN // 17"));const close=pcstCreate("button","remoteJoiningDismiss","×");close.type="button";close.setAttribute("aria-label","Close Career Start");close.addEventListener("click",pcstClosePanel);header.append(close);const body=pcstCreate("div","remoteJoiningBody");shell.append(header,body);overlay.append(shell);root.document.body.append(overlay);}return overlay;}
+  async function pcstOpenPanelNow(request){
+    pcstDeactivateSetupPresentation();await request.wait(pcstEnsureDependencies());const overlay=pcstEnsurePanel();overlay.classList.remove("hidden");pcstRender();await request.wait(pcstRefresh(false,request));return true;
   }
   function pcstClosePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay)overlay.classList.add("hidden");return true;}
   function pcstPresentationOwnsControl(){const presentation=root.CareerModeProductionSharedShowdownPresentation;return Boolean(presentation&&typeof presentation.isPresentationActive==="function"&&presentation.isPresentationActive());}
