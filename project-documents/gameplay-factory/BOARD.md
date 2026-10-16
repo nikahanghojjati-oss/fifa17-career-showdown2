@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 12:39 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 12:48 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -46,7 +46,7 @@ Updated Fri 16 Oct, 12:39 PM Boston time. Bug hunting only, no new features unti
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 70 h ago
+⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 71 h ago
 
 **#9 · 1808** `G` Standings THIS SHOWDOWN stuck on "Loading standings." mid-Showdown  
 `████░░░░░░` **40.0000 %**  
@@ -62,7 +62,7 @@ Updated Fri 16 Oct, 12:39 PM Boston time. Bug hunting only, no new features unti
 
 **#12 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 27 h ago
+⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 28 h ago
 
 **#13 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
@@ -93,12 +93,12 @@ Updated Fri 16 Oct, 12:39 PM Boston time. Bug hunting only, no new features unti
 ⚪ Team white · model not set · worker working, draft PR #870
 
 **#20 · 1834** `G` Standings fix on PR #841: keep the progression fallback out of the career screens  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #868
+`███████░░░` **74.6667 %**  
+⚪ Team white · model not set · worker done, PR #868 open, CI running · CI 7 of 15 passed · last move 1 min ago
 
 **#21 · 1835** `G` Free-limit notice fix on PR #862: landscape phone Home layout  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #871
+`███████░░░` **74.6667 %**  
+⚪ Team white · model not set · worker done, PR #871 open, CI running · CI 7 of 15 passed · last move 1 min ago
 
 ### 👉 Next for you, in this order
 
