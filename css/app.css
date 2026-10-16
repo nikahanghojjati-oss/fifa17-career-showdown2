@@ -51,7 +51,6 @@ main{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;disp
 footer{flex:0 0 auto;min-height:33px;padding:7px 22px;color:#d7dfe4;background:linear-gradient(90deg,#252e35,#354149);border-top:2px solid rgba(240,217,0,.78);font-size:9px;line-height:1.2;letter-spacing:.55px;}
 
 @font-face{font-family:Startup;src:url(../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:block;}
-/* JOB-1647: first-paint loading composition; later sheets do not own this scene. */
 #loadingScreen{position:fixed;inset:0;z-index:100;overflow:hidden;color:#eee6d1;font:700 14px/1.2 Startup,Arial,sans-serif;background:#080909;transition:opacity 240ms ease,transform 240ms ease;}
 #loadingScreen::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#0003,#080909dd 65%),url(../visual-assets/v10_1/shared/plates/ENV_SYS_PLATE_V1_1X.webp) center/cover;filter:blur(8px);}
 #loadingScreen::after{content:"";position:absolute;z-index:3;left:49%;top:0;width:3px;height:100%;background:linear-gradient(transparent,#ffe793 20%,#d8a72f 80%,transparent);transform:skewX(-13deg);}
