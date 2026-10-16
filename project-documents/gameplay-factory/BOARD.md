@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 15 Oct, 9:07 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 15 Oct, 9:10 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -130,7 +130,7 @@ Updated Thu 15 Oct, 9:07 PM Boston time. Bug hunting only, no new features until
 
 **#29 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #863 · CI 7 of 8 passed · last move 77 min ago
+⚪ Team white · model not set · worker working, draft PR #863 · CI 7 of 8 passed · last move 79 min ago
 
 ### 👉 Next for you, in this order
 
@@ -1418,6 +1418,16 @@ Type this in Codex cloud:
 Job 1830
 ```
 
+**#129 · 1831** `G` Career Start panel can hang: add a time limit and a working retry  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1831'
+
+Type this in Codex cloud:
+
+```text
+Job 1831
+```
+
 ### ⏸ Waiting on something else
 
 **#1 · 1582** `G` Showdown Gate: screen shots of changed screens as a run artifact  
@@ -1513,8 +1523,8 @@ Job 1830
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`███░░░░░░░` **32.0611 %**  
-Numbered jobs: 56 done, 178 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`███░░░░░░░` **31.9392 %**  
+Numbered jobs: 56 done, 179 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **53.5714 %**  
