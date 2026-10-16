@@ -194,7 +194,7 @@
     root.addEventListener?.("career-mode-shared-season-cursor-change",pjrWake);
     root.addEventListener?.("career-mode-connected-account-state-change",pjrWake);
     root.document?.addEventListener?.("visibilitychange",pjrWake);
-    if(typeof root.setInterval==="function")root.setInterval(()=>{if(!root.CareerModeProductionSharedSeasonCommit?.waitingListenerHealthy?.()||!pjrRemoteExactActive(pjrRemoteSnapshot()))pjrWake();},POLL_MS);
+    if(typeof root.setInterval==="function")root.setInterval(()=>{if(!root.CareerModeProductionSharedSeasonCommit?.waitingListenerHealthy?.()||Date.now()>=Number(root.CareerModeSparkRemoteJoining?.getState?.()?.expiresAtEpochMs))pjrWake();},POLL_MS);
     if(typeof root.setTimeout==="function")root.setTimeout(pjrWake,0);
     return true;
   }
