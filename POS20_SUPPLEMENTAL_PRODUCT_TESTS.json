@@ -1522,6 +1522,16 @@
         "^tests/contracts/sweep-biggest-showdown-tie-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/sweep-career-table-level-rank-contracts.cjs",
+      "patterns": [
+        "^js/careerScreenSeam\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^tests/contracts/sweep\\-career\\-table\\-level\\-rank\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
