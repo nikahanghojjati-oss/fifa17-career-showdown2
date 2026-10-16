@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 9:30 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 9:34 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -42,7 +42,7 @@ Updated Fri 16 Oct, 9:30 AM Boston time. Bug hunting only, no new features until
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 96 h ago
+🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 97 h ago
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
@@ -66,7 +66,7 @@ Updated Fri 16 Oct, 9:30 AM Boston time. Bug hunting only, no new features until
 
 **#13 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 20 h ago
+⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 21 h ago
 
 **#14 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
@@ -98,11 +98,11 @@ Updated Fri 16 Oct, 9:30 AM Boston time. Bug hunting only, no new features until
 
 **#21 · 1831** `G` Career Start panel can hang: add a time limit and a working retry  
 `██████░░░░` **60.0000 %**  
-⚪ Team white · model not set · worker done, PR #867 open, CI failed · CI 13 of 16 passed · last move 24 min ago
+⚪ Team white · model not set · worker done, PR #867 open, CI failed · CI 13 of 16 passed · last move 29 min ago
 
 **#22 · 1832** `G` Waiting fixes on PR #861: clock expiry, poll window, first-snapshot reads  
-`████████░░` **76.0000 %**  
-⚪ Team white · model not set · worker done, PR #866 open, CI running · CI 9 of 15 passed · last move 0 min ago
+`██████░░░░` **60.0000 %**  
+⚪ Team white · model not set · worker done, PR #866 open, CI failed · CI 15 of 16 passed · last move 0 min ago
 
 **#23 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
 `████░░░░░░` **40.0000 %**  
