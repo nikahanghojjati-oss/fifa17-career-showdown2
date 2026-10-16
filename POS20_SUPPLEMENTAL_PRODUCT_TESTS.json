@@ -1573,6 +1573,18 @@
         "^tests/contracts/sweep\\-expired\\-season\\-results\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/sweep-season-score-key-order-contracts.cjs",
+      "patterns": [
+        "^js/sparkSharedSeasonCommit\\.js$",
+        "^js/sharedSeasonCommit\\.js$",
+        "^js/sharedSeasonResults\\.js$",
+        "^js/sharedShowdownSetup\\.js$",
+        "^js/sharedShowdownCatalog\\.js$",
+        "^tests/contracts/sweep-season-score-key-order-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
