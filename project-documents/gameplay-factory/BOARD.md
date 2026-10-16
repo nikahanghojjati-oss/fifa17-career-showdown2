@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 10:53 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 10:56 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -78,7 +78,7 @@ Updated Fri 16 Oct, 10:53 AM Boston time. Bug hunting only, no new features unti
 
 **#16 · 1828** `G` Phone free-limit notice covers the soundtrack controls and shows through under Connect Players  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #862 · CI 7 of 8 passed · last move 15 h ago
+⚪ Team white · model not set · worker working, draft PR #862 · CI 7 of 8 passed · last move 16 h ago
 
 **#17 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
 `████░░░░░░` **40.0000 %**  
@@ -90,7 +90,7 @@ Updated Fri 16 Oct, 10:53 AM Boston time. Bug hunting only, no new features unti
 
 **#19 · 1831** `G` Career Start panel can hang: add a time limit and a working retry  
 `██████░░░░` **60.0000 %**  
-⚪ Team white · model not set · worker done, PR #867 open, CI failed · CI 13 of 16 passed · last move 107 min ago
+⚪ Team white · model not set · worker done, PR #867 open, CI failed · CI 13 of 16 passed · last move 111 min ago
 
 **#20 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
 `████░░░░░░` **40.0000 %**  
