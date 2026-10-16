@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 6:34 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 6:38 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -82,7 +82,7 @@ Updated Fri 16 Oct, 6:34 AM Boston time. Bug hunting only, no new features until
 
 **#17 · 1826** `G` Cheaper waiting: no repeating online checks while the live listener is working  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #852 · CI 7 of 8 passed · last move 30 h ago
+⚪ Team white · model not set · worker working, draft PR #852 · CI 7 of 8 passed · last move 31 h ago
 
 **#18 · 1827** `G` 1826 follow-up: prove that partner changes outside the watched document still arrive while waiting  
 `████░░░░░░` **40.0000 %**  
