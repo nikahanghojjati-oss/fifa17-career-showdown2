@@ -1685,6 +1685,15 @@
         "^tests/contracts/terminal\\-close\\-progress\\-race\\-denied\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/final-reconciliation-partner-close-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedFinalReconciliation\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^tests/contracts/final\\-reconciliation\\-partner\\-close\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
