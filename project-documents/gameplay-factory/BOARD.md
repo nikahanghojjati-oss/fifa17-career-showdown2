@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 8:46 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 8:50 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -90,15 +90,15 @@ Updated Fri 16 Oct, 8:46 AM Boston time. Bug hunting only, no new features until
 
 **#19 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #863 · CI 7 of 8 passed · last move 12 h ago
+⚪ Team white · model not set · worker working, draft PR #863 · CI 7 of 8 passed · last move 13 h ago
 
 **#20 · 1830** `G` r76 integration round 2: every r76 fix together, then the meter and CE2PG on the combined head  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #869
 
 **#21 · 1831** `G` Career Start panel can hang: add a time limit and a working retry  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #867
+`███████░░░` **74.6667 %**  
+⚪ Team white · model not set · worker done, PR #867 open, CI running · CI 7 of 15 passed · last move 1 min ago
 
 **#22 · 1832** `G` Waiting fixes on PR #861: clock expiry, poll window, first-snapshot reads  
 `████░░░░░░` **40.0000 %**  
