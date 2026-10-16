@@ -37,14 +37,38 @@
   function stcProgress(value,totalSeasons){if(!stcExactObject(value,PROGRESS_KEYS)||value.schemaVersion!==1||value.runtimeRevision!=="1.9.1-r18"||value.totalSeasons!==totalSeasons||!Number.isInteger(value.acceptedThroughSeason)||value.acceptedThroughSeason<1||value.acceptedThroughSeason>totalSeasons||!stcExactObject(value.managerTotals,["playerOne","playerTwo"])||!Number.isInteger(value.managerTotals.playerOne)||value.managerTotals.playerOne<0||!Number.isInteger(value.managerTotals.playerTwo)||value.managerTotals.playerTwo<0||(value.closedSessionRevision!==null&&(!Number.isInteger(value.closedSessionRevision)||value.closedSessionRevision<1)))stpFail("TERMINAL_CLOSE_PROGRESS_INVALID");return value;}
   async function stcBuildRivalryEnvelope(operation,prior,data,now){const revision=prior.revision+1;return {schemaVersion:1,objectType:"rivalry",objectId:operation.rivalryId,revision,parentRevision:prior.revision,lifecycleState:"live",contentHash:await stcHashEnvelopeValue({objectType:"rivalry",objectId:operation.rivalryId,revision,data},operation.cryptoImpl),priorContentHash:prior.contentHash,updatedAt:now,updatedByAccountId:operation.accountId,updatedByDeviceId:operation.deviceId,data,tombstone:null};}
   function stcAccepted(operation,rivalry,sessionRevision,replayed){return stpFreeze({ok:true,status:replayed?"replayed":"accepted",replayed:Boolean(replayed),rivalryId:operation.rivalryId,sessionId:operation.sessionId,rivalryState:"closed",sessionState:"closed",rivalryRevision:rivalry.revision,sessionRevision,terminalWitness:stpClone(operation.intent),canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});}
-  async function stcAdvanceProgress(operation,references){return operation.firebaseSdk.runTransaction(operation.firestore,async transaction=>{
+  async function stcPrepareProgress(operation,references){return operation.firebaseSdk.runTransaction(operation.firestore,async transaction=>{
     stcAssertActiveAccount(stcSnapshotValue(await transaction.get(references.account)),operation.accountId);stcAssertActiveDevice(stcSnapshotValue(await transaction.get(references.device)),operation.deviceId);
     const rivalryValue=stcSnapshotValue(await transaction.get(references.rivalry));await stcVerifyEnvelope(rivalryValue,"rivalry",operation.rivalryId,operation.cryptoImpl);stcEntitledRivalry(rivalryValue,operation.accountId);
     if(rivalryValue.data.connectionState==="closed"){if(!protocol.sameWitness(rivalryValue.data.terminalClose,operation.intent))stpFail("TERMINAL_CLOSE_REPLAY_CONFLICT");const progress=stcProgress(rivalryValue.data.terminalProgress,operation.intent.totalSeasons);if(!Number.isInteger(progress.closedSessionRevision))stpFail("TERMINAL_CLOSE_PARTIAL_STATE_INVALID");return {closed:true,done:true,rivalry:rivalryValue,sessionRevision:progress.closedSessionRevision};}
     if(rivalryValue.data.connectionState!=="active")stpFail("TERMINAL_CLOSE_RIVALRY_NOT_ACTIVE");
     const prior=rivalryValue.data.terminalProgress===undefined?null:stcProgress(rivalryValue.data.terminalProgress,operation.intent.totalSeasons);if(prior&&prior.closedSessionRevision!==null)stpFail("TERMINAL_CLOSE_PARTIAL_STATE_INVALID");if(prior&&prior.acceptedThroughSeason===operation.intent.totalSeasons)return {closed:false,done:true,rivalry:rivalryValue,progress:prior};
-    const season=prior?prior.acceptedThroughSeason+1:1;if(!prior)stcSetup(stcSnapshotValue(await transaction.get(references.setup)),operation.rivalryId,operation.intent.totalSeasons);const scores=stcCommit(stcSnapshotValue(await transaction.get(references.commit(season))),operation.rivalryId,season);const nextProgress={schemaVersion:1,runtimeRevision:"1.9.1-r18",totalSeasons:operation.intent.totalSeasons,acceptedThroughSeason:season,managerTotals:{playerOne:(prior?prior.managerTotals.playerOne:0)+scores.playerOne,playerTwo:(prior?prior.managerTotals.playerTwo:0)+scores.playerTwo},closedSessionRevision:null};const now=operation.firebaseSdk.Timestamp.fromMillis(operation.nowEpochMs),nextRivalry=await stcBuildRivalryEnvelope(operation,rivalryValue,{...rivalryValue.data,terminalProgress:nextProgress},now);transaction.set(references.rivalry,nextRivalry);return {closed:false,done:season===operation.intent.totalSeasons,rivalry:nextRivalry,progress:nextProgress};
+    const season=prior?prior.acceptedThroughSeason+1:1;if(!prior)stcSetup(stcSnapshotValue(await transaction.get(references.setup)),operation.rivalryId,operation.intent.totalSeasons);const scores=stcCommit(stcSnapshotValue(await transaction.get(references.commit(season))),operation.rivalryId,season);const nextProgress={schemaVersion:1,runtimeRevision:"1.9.1-r18",totalSeasons:operation.intent.totalSeasons,acceptedThroughSeason:season,managerTotals:{playerOne:(prior?prior.managerTotals.playerOne:0)+scores.playerOne,playerTwo:(prior?prior.managerTotals.playerTwo:0)+scores.playerTwo},closedSessionRevision:null};const now=operation.firebaseSdk.Timestamp.fromMillis(operation.nowEpochMs),nextRivalry=await stcBuildRivalryEnvelope(operation,rivalryValue,{...rivalryValue.data,terminalProgress:nextProgress},now);return {closed:false,done:season===operation.intent.totalSeasons,rivalry:nextRivalry,progress:nextProgress,priorRivalry:rivalryValue};
   });}
+  // Both managers close together: the partner's identical progress write can land between this write's read and its
+  // commit, and the Rules then refuse the stale base (permission-denied, not an SDK-retried abort). Like r52's season
+  // commit, treat it as a lost race only when a fresh read shows the rivalry moved past the revision this attempt read;
+  // the next preflight re-checks everything. Any other denial is returned unchanged.
+  async function stcConcurrentAdvance(error,prior,operation,references){
+    if(!["permission-denied","firestore/permission-denied","permission_denied"].includes(error?.code))return false;
+    try{const fresh=await operation.firebaseSdk.runTransaction(operation.firestore,async transaction=>stcSnapshotValue(await transaction.get(references.rivalry)));return Boolean(fresh&&Number.isInteger(fresh.revision)&&fresh.revision>prior.revision);}catch(_error){return false;}
+  }
+  async function stcAdvanceProgress(operation,references){
+    // The r75 budget layer serves this read-only preflight as cached document reads without a commit.
+    // Keep its account/device/setup/commit reads out of the writing transaction's Rules expression budget.
+    for(let attempt=0;attempt<=operation.intent.totalSeasons;attempt++){
+      const prepared=await stcPrepareProgress(operation,references);if(!prepared.priorRivalry)return prepared;
+      let accepted;
+      try{accepted=await operation.firebaseSdk.runTransaction(operation.firestore,async transaction=>{
+        const current=stcSnapshotValue(await transaction.get(references.rivalry));
+        if(!current||current.revision!==prepared.priorRivalry.revision||current.contentHash!==prepared.priorRivalry.contentHash)return false;
+        transaction.set(references.rivalry,prepared.rivalry);return true;
+      });}catch(error){if(!await stcConcurrentAdvance(error,prepared.priorRivalry,operation,references))throw error;accepted=false;}
+      // A concurrent progress write requires a new preflight for the next season, including SDK callback retries.
+      if(accepted){const {priorRivalry,...progress}=prepared;return progress;}
+    }
+    stpFail("TERMINAL_CLOSE_PROGRESS_STALLED");
+  }
   async function stcFinalize(operation,references){return operation.firebaseSdk.runTransaction(operation.firestore,async transaction=>{
     stcAssertActiveAccount(stcSnapshotValue(await transaction.get(references.account)),operation.accountId);stcAssertActiveDevice(stcSnapshotValue(await transaction.get(references.device)),operation.deviceId);
     const rivalryValue=stcSnapshotValue(await transaction.get(references.rivalry));await stcVerifyEnvelope(rivalryValue,"rivalry",operation.rivalryId,operation.cryptoImpl);const authorized=stcEntitledRivalry(rivalryValue,operation.accountId);const progress=stcProgress(rivalryValue.data.terminalProgress,operation.intent.totalSeasons);

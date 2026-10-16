@@ -41,7 +41,7 @@
   function routeInstallEscapeStyle(){
     if(!root.document||root.document.getElementById("sharedSeasonResultsRouteStyle"))return false;
     const style=root.document.createElement("style");style.id="sharedSeasonResultsRouteStyle";
-    style.textContent='#seasonEntry[data-shared-season-results="review"] .seasonEntryActions{display:flex!important}#seasonEntry[data-shared-season-results="review"] #completeSeason{display:none!important}';
+    style.textContent='#seasonEntry[data-shared-season-results="review"] .seasonEntryActions{display:flex!important}#seasonEntry[data-shared-season-results="review"] #completeSeason:not(#v10ExitSlot #completeSeason){display:none!important}';
     root.document.head.appendChild(style);return true;
   }
   function routeSetText(node,value){if(node&&node.textContent!==value)node.textContent=value;}
