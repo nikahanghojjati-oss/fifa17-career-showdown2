@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 15 Oct, 11:29 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 15 Oct, 11:35 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -42,7 +42,7 @@ Updated Thu 15 Oct, 11:29 PM Boston time. Bug hunting only, no new features unti
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 86 h ago
+🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 87 h ago
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
@@ -102,7 +102,7 @@ Updated Thu 15 Oct, 11:29 PM Boston time. Bug hunting only, no new features unti
 
 **#22 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 10 h ago
+⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 11 h ago
 
 **#23 · 1821** `G` Season chip fix that fits the startup size limit (redo of JOB-1805)  
 `████░░░░░░` **40.0000 %**  
@@ -1428,6 +1428,46 @@ Type this in Codex cloud:
 Job 1831
 ```
 
+**#130 · 1832** `G` Waiting fixes on PR #861: clock expiry, poll window, first-snapshot reads  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1832'
+
+Type this in Codex cloud:
+
+```text
+Job 1832
+```
+
+**#131 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1833'
+
+Type this in Codex cloud:
+
+```text
+Job 1833
+```
+
+**#132 · 1834** `G` Standings fix on PR #841: keep the progression fallback out of the career screens  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1834'
+
+Type this in Codex cloud:
+
+```text
+Job 1834
+```
+
+**#133 · 1835** `G` Free-limit notice fix on PR #862: landscape phone Home layout  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1835'
+
+Type this in Codex cloud:
+
+```text
+Job 1835
+```
+
 ### ⏸ Waiting on something else
 
 **#1 · 1582** `G` Showdown Gate: screen shots of changed screens as a run artifact  
@@ -1523,8 +1563,8 @@ Job 1831
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`███░░░░░░░` **31.9392 %**  
-Numbered jobs: 56 done, 179 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`███░░░░░░░` **31.4607 %**  
+Numbered jobs: 56 done, 183 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **53.5714 %**  
