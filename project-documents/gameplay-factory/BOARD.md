@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 5:51 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 5:55 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -90,7 +90,7 @@ Updated Fri 16 Oct, 5:51 AM Boston time. Bug hunting only, no new features until
 
 **#19 · 1828** `G` Phone free-limit notice covers the soundtrack controls and shows through under Connect Players  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #862 · CI 7 of 8 passed · last move 10 h ago
+⚪ Team white · model not set · worker working, draft PR #862 · CI 7 of 8 passed · last move 11 h ago
 
 **#20 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
 `████░░░░░░` **40.0000 %**  
