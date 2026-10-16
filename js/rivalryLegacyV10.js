@@ -188,7 +188,7 @@
         installed=true;
         const events={"career-mode-online-identity-change":"CareerModeOnlinePlayerIdentity","career-mode-connected-account-state-change":"CareerModeSparkConnectedAccount","career-mode-shared-history-convergence-state-change":"CareerModeProductionSharedHistoryConvergence","career-mode-shared-terminal-close-state-change":"CareerModeProductionSharedTerminalClose"};
         for(const [event,provider] of Object.entries(events)){
-          const signature=value=>JSON.stringify([context(),value?.phase??null,value?.status??null]);
+          const signature=value=>JSON.stringify([context(),value?.phase??null,value?.status??null,value?.acceptedRevisionKey?value.throughSeason??null:null,value?.acceptedRevisionKey??null]);
           let last=signature(state(provider));
           root.addEventListener?.(event,change=>{
             const next=signature(change?.detail??state(provider));if(next===last)return;last=next;

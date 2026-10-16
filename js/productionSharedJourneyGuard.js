@@ -18,16 +18,18 @@
   function persistedPending(){
     try{
       const runtime=root.CareerModeSaveLibraryRuntime;
-      if(!runtime||typeof runtime.isReady!=="function"||!runtime.isReady()||typeof runtime.getLibrarySnapshot!=="function")return false;
+      if(!runtime||typeof runtime.isReady!=="function"||!runtime.isReady()||typeof runtime.getLibrarySnapshot!=="function")return null;
       const library=runtime.getLibrarySnapshot();
-      if(!library||!library.activeSaveId||!Array.isArray(library.saves))return false;
+      if(!library||!library.activeSaveId||!Array.isArray(library.saves))return null;
       const entry=library.saves.find(item=>item&&item.saveId===library.activeSaveId);
-      const marker=entry&&entry.showdown&&entry.showdown.sharedJourney;
+      if(!entry||!entry.showdown)return null;
+      const marker=entry.showdown.sharedJourney;
       return Boolean(marker&&marker.mode==="shared"&&marker.setupPending===true);
-    }catch(_error){return false;}
+    }catch(_error){return null;}
   }
   function pending(){
-    if(persistedPending())return true;
+    // A verified active save owns either verdict; no shell yet retains the transient lock.
+    const saved=persistedPending();if(saved!==null)return saved;
     try{return Boolean(root.sessionStorage&&root.sessionStorage.getItem(PENDING_KEY)==="1");}
     catch(_error){return false;}
   }
