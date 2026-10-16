@@ -421,8 +421,8 @@ check("F8 the bar is hidden on Loading and appears only after start-up",async()=
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
   const sw=read("service-worker.js"),html=read("index.html");
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
-  assert.equal(revision,"1.9.1-r75","RUNTIME_REVISION is the Firebase read/write fix and Reus Gate release (1.9.1-r75)");
-  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.1-r74");
+  assert.equal(revision,"1.9.1-r76","RUNTIME_REVISION is the gameplay bug-fix and read-cost release (1.9.1-r76)");
+  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.1-r75");
   assert.equal(/app-asset-revision"\s+content="([^"]+)/.exec(html)[1],revision);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   const v10=shell.filter(p=>p.startsWith("visual-assets/v10_1/"));
@@ -471,7 +471,7 @@ function swWorld(){
 
 check("F9b a rollback keeps its own Team V images (offline too); other old image caches are cleared",async()=>{
   const w=swWorld(),cur=w.diag.revision,prev=w.diag.previousRevision,IMG="career-mode-showdown-v10-images-";
-  assert.equal(cur,"1.9.1-r75");assert.equal(prev,"1.9.1-r74");
+  assert.equal(cur,"1.9.1-r76");assert.equal(prev,"1.9.1-r75");
   w.fill(cur);const prevShell=w.fill(prev);
   const art="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",only="visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp";
   // An older revision precached the art in its shell; the retained shell still has it.
