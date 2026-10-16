@@ -207,9 +207,10 @@ async function runFixture(env, name, expected) {
 
   // 4. A signed-in stranger still cannot read it (the Rules, not just the client, protect the saved Showdown).
   const stranger = env.authenticatedContext("acct_stranger_not_in_fixture").firestore();
-  await assertFails(getDoc(doc(stranger, "rivalries", rivalryId)));
-  await assertFails(getDoc(doc(stranger, "rivalries", rivalryId, "seasonCommits", "season_1")));
-  ok(`${name}.stranger`, "a signed-in stranger is denied the rivalry and its season commit");
+  // Every saved document is probed, so each path the completed reader uses (setup ledger, season results, role results,
+  // career index) stays covered even if a later Rules change opens one of them on its own.
+  for (const item of fixture.documents) await assertFails(getDoc(doc(stranger, ...item.path.split("/"))));
+  ok(`${name}.stranger`, `a signed-in stranger is denied all ${fixture.documents.length} saved documents`);
 }
 
 async function main() {
