@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 12:08 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 12:12 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -48,87 +48,51 @@ Updated Fri 16 Oct, 12:08 AM Boston time. Bug hunting only, no new features unti
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 58 h ago
 
-**#9 · 1803** `G` Showdown close write refused: over the Rules 1000-expression limit (fix in the app, not the Rules)  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #837 · CI 7 of 8 passed · last move 54 h ago
-
-**#10 · 1804** `G` Setup write refused by Rules (L2800 evaluation error) when Nik confirms league and clubs  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #838 · CI 7 of 8 passed · last move 53 h ago
-
-**#11 · 1805** `G` Home tile and header chip stay on "Season 1 of N" after season 1  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #845 · CI 7 of 8 passed · last move 51 h ago
-
-**#12 · 1806** `G` BACK TO SHOWDOWN HOME lands on the dashboard instead of Home  
+**#9 · 1806** `G` BACK TO SHOWDOWN HOME lands on the dashboard instead of Home  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #839 · CI 7 of 8 passed · last move 53 h ago
 
-**#13 · 1807** `G` REVIEW SEASON button hidden on the Showdown Champion screen  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #840 · CI 7 of 8 passed · last move 53 h ago
-
-**#14 · 1808** `G` Standings THIS SHOWDOWN stuck on "Loading standings." mid-Showdown  
+**#10 · 1808** `G` Standings THIS SHOWDOWN stuck on "Loading standings." mid-Showdown  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #841 · CI 7 of 8 passed · last move 52 h ago
 
-**#15 · 1809** `G` Rivalry Statistics: how the player gets there, and stuck on "Loading rivalry statistics…"  
+**#11 · 1809** `G` Rivalry Statistics: how the player gets there, and stuck on "Loading rivalry statistics…"  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #846 · CI 7 of 8 passed · last move 38 h ago
 
-**#16 · 1810** `G` Phone Trophy Room: ranks and all-time records missing, CAREER DETAILS empty  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #844 · CI 7 of 8 passed · last move 52 h ago
-
-**#17 · 1811** `G` Final reconciliation and FINAL SEASON cells sometimes empty right after the close  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #847 · CI 7 of 8 passed · last move 37 h ago
-
-**#18 · 1812** `G` Free-limit message must show as soon as Home opens  
+**#12 · 1812** `G` Free-limit message must show as soon as Home opens  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #842 · CI 7 of 8 passed · last move 52 h ago
 
-**#19 · 1815** `G` Shared-journey guard: prove or fix the stale-marker block (U-01)  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #848 · CI 7 of 8 passed · last move 36 h ago
-
-**#20 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
+**#13 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 15 h ago
 
-**#21 · 1818** `G` Failing tests for the bug cards (GPT Work mode, repeatable)  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #860 · CI 7 of 8 passed · last move 6 h ago
-
-**#22 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
+**#14 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 11 h ago
 
-**#23 · 1821** `G` Season chip fix that fits the startup size limit (redo of JOB-1805)  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #845 · CI 7 of 8 passed · last move 51 h ago
-
-**#24 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
+**#15 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 26 h ago
 
-**#25 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
+**#16 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 23 h ago
 
-**#26 · 1826** `G` Cheaper waiting: no repeating online checks while the live listener is working  
+**#17 · 1826** `G` Cheaper waiting: no repeating online checks while the live listener is working  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #852 · CI 7 of 8 passed · last move 24 h ago
 
-**#27 · 1827** `G` 1826 follow-up: prove that partner changes outside the watched document still arrive while waiting  
+**#18 · 1827** `G` 1826 follow-up: prove that partner changes outside the watched document still arrive while waiting  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #861 · CI 7 of 8 passed · last move 5 h ago
 
-**#28 · 1828** `G` Phone free-limit notice covers the soundtrack controls and shows through under Connect Players  
+**#19 · 1828** `G` Phone free-limit notice covers the soundtrack controls and shows through under Connect Players  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #862 · CI 7 of 8 passed · last move 5 h ago
 
-**#29 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
+**#20 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #863 · CI 7 of 8 passed · last move 4 h ago
 
@@ -1563,8 +1527,8 @@ Job 1835
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`███░░░░░░░` **31.4607 %**  
-Numbered jobs: 56 done, 183 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`███░░░░░░░` **32.5581 %**  
+Numbered jobs: 56 done, 174 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **53.5714 %**  
