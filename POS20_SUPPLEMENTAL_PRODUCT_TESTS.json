@@ -1649,6 +1649,15 @@
         "^tests/contracts/free\\-limit\\-home\\-message\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/standings-this-showdown-midway-contracts.cjs",
+      "patterns": [
+        "^js/sharedActiveShowdownAdapter\\.js$",
+        "^js/sparkSharedMultiSeasonProgression\\.js$",
+        "^tests/contracts/standings\\-this\\-showdown\\-midway\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
