@@ -1643,6 +1643,14 @@
       ]
     },
     {
+      "path": "tests/contracts/free-limit-home-message-contracts.cjs",
+      "patterns": [
+        "^js/homeScreensV10\\.js$",
+        "^tests/contracts/free\\-limit\\-home\\-message\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/standings-this-showdown-midway-contracts.cjs",
       "patterns": [
         "^js/sharedActiveShowdownAdapter\\.js$",

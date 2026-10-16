@@ -4,6 +4,9 @@
    removed, no product text changes, and the app's grid placement for the tiles is left as it is. */
 
 /* ---------- all sizes ---------- */
+#appRuntimeNotice[data-home-quota] { position: absolute; top: 60px; right: auto; bottom: auto; left: 16px; align-self: start; max-width: min(520px, calc(100% - 32px)); margin: 0 16px 8px; }
+/* Landscape phones: Continue Career spans the right 60%, so the notice stays inside the left hero panel (JOB-1835 follow-up). */
+@media (orientation: landscape) and (max-height: 480px) { #appRuntimeNotice[data-home-quota] { max-width: calc(40vw - 48px); } }
 #mainMenu.v10Home { position: fixed; inset: 0; width: auto; max-width: none; height: auto; margin: 0; padding: 0; }
 #mainMenu.v10Home .fifaMenuShell { min-height: 0; gap: 0; }
 #mainMenu.v10Home .fifaMenuHeading { padding: 0; border: 0; }
