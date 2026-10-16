@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 15 Oct, 9:36 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 15 Oct, 9:40 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -78,7 +78,7 @@ Updated Thu 15 Oct, 9:36 PM Boston time. Bug hunting only, no new features until
 
 **#16 · 1810** `G` Phone Trophy Room: ranks and all-time records missing, CAREER DETAILS empty  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #844 · CI 7 of 8 passed · last move 49 h ago
+⚪ Team white · model not set · worker working, draft PR #844 · CI 7 of 8 passed · last move 50 h ago
 
 **#17 · 1811** `G` Final reconciliation and FINAL SEASON cells sometimes empty right after the close  
 `████░░░░░░` **40.0000 %**  
@@ -118,7 +118,7 @@ Updated Thu 15 Oct, 9:36 PM Boston time. Bug hunting only, no new features until
 
 **#26 · 1826** `G` Cheaper waiting: no repeating online checks while the live listener is working  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #852 · CI 7 of 8 passed · last move 21 h ago
+⚪ Team white · model not set · worker working, draft PR #852 · CI 7 of 8 passed · last move 22 h ago
 
 **#27 · 1827** `G` 1826 follow-up: prove that partner changes outside the watched document still arrive while waiting  
 `████░░░░░░` **40.0000 %**  
@@ -130,7 +130,7 @@ Updated Thu 15 Oct, 9:36 PM Boston time. Bug hunting only, no new features until
 
 **#29 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #863 · CI 7 of 8 passed · last move 105 min ago
+⚪ Team white · model not set · worker working, draft PR #863 · CI 7 of 8 passed · last move 110 min ago
 
 ### 👉 Next for you, in this order
 
