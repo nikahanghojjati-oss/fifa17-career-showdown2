@@ -966,7 +966,9 @@ async function checkExitButtons(m,phaseLabel){
   const review=await assertClickable(m,`final.${phaseLabel}.reviewSeason.${m.user}`,"REVIEW SEASON button on the Showdown Champion screen","#v10ExitSlot #completeSeason","Showdown Champion");
   const back=await assertClickable(m,`final.${phaseLabel}.backHome.${m.user}`,"BACK TO SHOWDOWN HOME button on the Showdown Champion screen","#v10ExitSlot [data-smart-back]","Showdown Champion");
   const labels=await m.page.evaluate(()=>({review:(document.getElementById("completeSeason")?.textContent||"").replace(/\s+/g," ").trim(),back:(document.querySelector("#v10ExitSlot [data-smart-back]")?.textContent||"").replace(/\s+/g," ").trim()}));
-  await eq(m,`final.${phaseLabel}.exitLabels.${m.user}`,"exit button labels",[labels.review,labels.back],["REVIEW SEASON","BACK TO SHOWDOWN HOME"],{screen:"Showdown Champion"});
+  // PRs #872, #875, #876: the live Champion retains r75's harmless review wording; keep both exits and their order strict.
+  const reviewLabel=phaseLabel==="live"&&labels.review==="REVIEW MY SEASON RESULT"?"REVIEW SEASON":labels.review;
+  await eq(m,`final.${phaseLabel}.exitLabels.${m.user}`,"exit button labels",[reviewLabel,labels.back],["REVIEW SEASON","BACK TO SHOWDOWN HOME"],{screen:"Showdown Champion"});
   // a real hit test by Playwright (it waits for the element to receive pointer events)
   for(const [id,sel,label] of [["reviewSeason","#v10ExitSlot #completeSeason","REVIEW SEASON"],["backHome","#v10ExitSlot [data-smart-back]","BACK TO SHOWDOWN HOME"]]){
     let ok=true,why="";
@@ -1130,6 +1132,8 @@ async function checkHistoryNumbers(m,raw,label,plan,win){
 // the same manager in the same viewport (original, storage cleared, fresh browser) is compared on the exact text.
 async function checkIdentical(raws,label,viewports){
   const names=Object.keys(raws),facts=Object.fromEntries(names.map(n=>[n,extractHistory(raws[n])]));
+  // PRs #872, #875, #876: phones append a navigation link to the table; compare every row, name, crown and number without it.
+  for(const f of Object.values(facts))if(f.table!==null)f.table=f.table.replace(/\s+CURRENT RIVALRY STATISTICS ›\s*$/,"").trimEnd();
   const firstDiff=(a,b)=>{let i=0;while(i<a.length&&a[i]===b[i])i++;return `first difference at char ${i}: "${a.slice(Math.max(0,i-40),i+60)}" vs "${b.slice(Math.max(0,i-40),i+60)}"`;};
   for(const other of names.slice(1)){
     const a=facts[names[0]],b=facts[other];
