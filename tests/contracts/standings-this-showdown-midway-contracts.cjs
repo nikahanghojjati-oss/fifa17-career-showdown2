@@ -58,6 +58,19 @@ function render(snapshot){
       }
     }
   }
+  // Lifecycle states keep their own career input when a cached progression projection survives.
+  {
+    const midway=F.projection({totalSeasons:3,seasons:seasons.slice(0,2)}),multiSeason={...F.multiFor(midway),projection:midway};
+    for(const [pair,expected] of [[F.pair(midway.rivalryId,{connectionState:"closed"}),"abandoned"],[F.pair(midway.rivalryId,{connectionState:"pending-pair"}),"pending"],[F.pair(midway.rivalryId,{status:"signed-out"}),"unavailable"]]){
+      const state={identity:F.identity(),pair,multiSeason,history:null},bare={...state,multiSeason:{...multiSeason,projection:null}};
+      assert.deepEqual(A.careerInput(state),A.careerInput(bare),`${expected}: progression fallback must not change the r75 career input`);
+      assert.notEqual(A.careerInput(state).indexStatus,"loading",`${expected} must not become an endless loading state`);
+    }
+    // A History already ahead of a stale progression snapshot is not replaced by the older projection.
+    const newer=F.projection({totalSeasons:3,seasons:seasons.slice(0,2)}),stale=F.projection({totalSeasons:3,seasons:seasons.slice(0,1)});
+    const view=A.rivalryView({identity:F.identity(),pair:F.pair(newer.rivalryId),multiSeason:{...F.multiFor(stale),projection:stale},history:F.history(newer)});
+    assert.equal(view.status,"loading","History ahead of progression: wait for progression, never show the previous season as ready");
+  }
   console.log("PASS midway career isolation: both managers retain r75 loading input with no career trophies, counters or history after seasons 1 and 2; live standings and Home scores remain ready.");
   for(const managerId of ["daniel","nik"]){
     for(const history of [F.history(lagging),null]){
