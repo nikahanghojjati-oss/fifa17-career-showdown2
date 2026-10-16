@@ -45,16 +45,25 @@
     const prior=rivalryValue.data.terminalProgress===undefined?null:stcProgress(rivalryValue.data.terminalProgress,operation.intent.totalSeasons);if(prior&&prior.closedSessionRevision!==null)stpFail("TERMINAL_CLOSE_PARTIAL_STATE_INVALID");if(prior&&prior.acceptedThroughSeason===operation.intent.totalSeasons)return {closed:false,done:true,rivalry:rivalryValue,progress:prior};
     const season=prior?prior.acceptedThroughSeason+1:1;if(!prior)stcSetup(stcSnapshotValue(await transaction.get(references.setup)),operation.rivalryId,operation.intent.totalSeasons);const scores=stcCommit(stcSnapshotValue(await transaction.get(references.commit(season))),operation.rivalryId,season);const nextProgress={schemaVersion:1,runtimeRevision:"1.9.1-r18",totalSeasons:operation.intent.totalSeasons,acceptedThroughSeason:season,managerTotals:{playerOne:(prior?prior.managerTotals.playerOne:0)+scores.playerOne,playerTwo:(prior?prior.managerTotals.playerTwo:0)+scores.playerTwo},closedSessionRevision:null};const now=operation.firebaseSdk.Timestamp.fromMillis(operation.nowEpochMs),nextRivalry=await stcBuildRivalryEnvelope(operation,rivalryValue,{...rivalryValue.data,terminalProgress:nextProgress},now);return {closed:false,done:season===operation.intent.totalSeasons,rivalry:nextRivalry,progress:nextProgress,priorRivalry:rivalryValue};
   });}
+  // Both managers close together: the partner's identical progress write can land between this write's read and its
+  // commit, and the Rules then refuse the stale base (permission-denied, not an SDK-retried abort). Like r52's season
+  // commit, treat it as a lost race only when a fresh read shows the rivalry moved past the revision this attempt read;
+  // the next preflight re-checks everything. Any other denial is returned unchanged.
+  async function stcConcurrentAdvance(error,prior,operation,references){
+    if(!["permission-denied","firestore/permission-denied","permission_denied"].includes(error?.code))return false;
+    try{const fresh=await operation.firebaseSdk.runTransaction(operation.firestore,async transaction=>stcSnapshotValue(await transaction.get(references.rivalry)));return Boolean(fresh&&Number.isInteger(fresh.revision)&&fresh.revision>prior.revision);}catch(_error){return false;}
+  }
   async function stcAdvanceProgress(operation,references){
     // The r75 budget layer serves this read-only preflight as cached document reads without a commit.
     // Keep its account/device/setup/commit reads out of the writing transaction's Rules expression budget.
     for(let attempt=0;attempt<=operation.intent.totalSeasons;attempt++){
       const prepared=await stcPrepareProgress(operation,references);if(!prepared.priorRivalry)return prepared;
-      const accepted=await operation.firebaseSdk.runTransaction(operation.firestore,async transaction=>{
+      let accepted;
+      try{accepted=await operation.firebaseSdk.runTransaction(operation.firestore,async transaction=>{
         const current=stcSnapshotValue(await transaction.get(references.rivalry));
         if(!current||current.revision!==prepared.priorRivalry.revision||current.contentHash!==prepared.priorRivalry.contentHash)return false;
         transaction.set(references.rivalry,prepared.rivalry);return true;
-      });
+      });}catch(error){if(!await stcConcurrentAdvance(error,prepared.priorRivalry,operation,references))throw error;accepted=false;}
       // A concurrent progress write requires a new preflight for the next season, including SDK callback retries.
       if(accepted){const {priorRivalry,...progress}=prepared;return progress;}
     }
