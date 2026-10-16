@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 1:17 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 1:21 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
 
@@ -49,8 +49,8 @@ Updated Fri 16 Oct, 1:17 PM Boston time. Bug hunting only, no new features until
 ⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 71 h ago
 
 **#9 · 1809** `G` Rivalry Statistics: how the player gets there, and stuck on "Loading rivalry statistics…"  
-`████████░░` **76.6667 %**  
-⚪ Team white · model not set · worker done, PR #846 open, CI running · CI 10 of 15 passed · last move 0 min ago
+`██████░░░░` **60.0000 %**  
+⚪ Team white · model not set · worker done, PR #846 open, CI failed · CI 15 of 16 passed · last move 0 min ago
 
 **#10 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
@@ -66,7 +66,7 @@ Updated Fri 16 Oct, 1:17 PM Boston time. Bug hunting only, no new features until
 
 **#13 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 36 h ago
+⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 37 h ago
 
 **#14 · 1830** `G` r76 integration round 2: every r76 fix together, then the meter and CE2PG on the combined head  
 `████░░░░░░` **40.0000 %**  
