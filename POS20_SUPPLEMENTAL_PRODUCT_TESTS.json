@@ -1594,6 +1594,16 @@
         "^tests/contracts/sweep-rivalry-history-revision-refresh-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/sweep-online-career-live-refresh-contracts.cjs",
+      "patterns": [
+        "^js/careerScreensV10\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^js/careerScreenSeam\\.js$",
+        "^tests/contracts/sweep-online-career-live-refresh-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
