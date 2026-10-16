@@ -1,0 +1,7 @@
+Merge made by the 'ort' strategy.
+ POS20_SUPPLEMENTAL_PRODUCT_TESTS.json              |  8 +++
+ js/sparkTerminalClose.js                           | 19 ++++-
+ .../terminal-close-transaction-reads-contracts.cjs | 82 ++++++++++++++++++++++
+ tests/operations/pos20-control-plane.test.mjs      |  3 +-
+ 4 files changed, 109 insertions(+), 3 deletions(-)
+ create mode 100644 tests/contracts/terminal-close-transaction-reads-contracts.cjs

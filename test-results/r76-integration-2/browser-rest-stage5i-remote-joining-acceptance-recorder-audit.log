@@ -1,0 +1,3 @@
+PASS Stage 5I recorder remains unloaded and invisible without the explicit acceptance query parameter
+PASS Stage 5I recorder captures real offline/online lifecycle while exporting only a one-way capability fingerprint
+PASS Stage 5I evidence excludes raw capability/account/device/rivalry identifiers and preserves canonical local storage

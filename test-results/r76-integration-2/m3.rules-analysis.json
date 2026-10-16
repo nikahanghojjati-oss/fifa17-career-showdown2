@@ -1,0 +1,5627 @@
+{
+  "schemaVersion": 1,
+  "model": "distinct Rules document paths per backend request",
+  "tag": "/workspace/fifa17-career-showdown2/test-results/r76-m3.meter.raw.json",
+  "closedAt": null,
+  "logicalAuthorizations": 671,
+  "extraAuthorizations": 57,
+  "unresolved": [
+    {
+      "kind": "commit|update:rivalries/{rivalry}/sharedSetup/authoritative:open:SHARED_SETUP_OPEN:1|200|live",
+      "status": 200,
+      "phase": "league-and-clubs",
+      "season": 0
+    },
+    {
+      "kind": "commit|update:rivalries/{rivalry}/sharedSetup/authoritative:commit-league:LEAGUE_WHEEL_COMMITTED:2|200|live",
+      "status": 200,
+      "phase": "league-and-clubs",
+      "season": 0
+    },
+    {
+      "kind": "commit|update:rivalries/{rivalry}/sharedSetup/authoritative:commit-clubs:CLUB_ASSIGNMENTS_COMMITTED:3|200|live",
+      "status": 200,
+      "phase": "league-and-clubs",
+      "season": 0
+    },
+    {
+      "kind": "commit|update:rivalries/{rivalry}/sharedSetup/authoritative:commit-length:SEASON_LENGTH_COMMITTED:4|200|live",
+      "status": 200,
+      "phase": "league-and-clubs",
+      "season": 0
+    },
+    {
+      "kind": "commit|update:rivalries/{rivalry}/sharedSetup/authoritative:confirm:SEASON_LENGTH_COMMITTED:5|200|live",
+      "status": 200,
+      "phase": "league-and-clubs",
+      "season": 0
+    },
+    {
+      "kind": "commit|update:rivalries/{rivalry}/sharedSetup/authoritative:confirm:SEASON_LENGTH_COMMITTED:5|403|live",
+      "status": 403,
+      "phase": "league-and-clubs",
+      "season": 0
+    },
+    {
+      "kind": "commit|update:rivalries/{rivalry}/sharedSetup/authoritative:confirm:SHOWDOWN_CONFIRMED:6|200|live",
+      "status": 200,
+      "phase": "league-and-clubs",
+      "season": 0
+    }
+  ],
+  "inferredOwners": 0,
+  "unknownOwners": 0,
+  "unknownOwnerDetails": [],
+  "clientSdkAttempts": 512,
+  "rpcCount": 486,
+  "rpcWithoutTrace": [
+    {
+      "kind": "get|accounts/{uid}||missing|200|live",
+      "status": 200,
+      "operation": "read"
+    },
+    {
+      "kind": "get|rivalries/{rivalry}/seasonCommits/season_{n}||COMMITTED|200|live",
+      "status": 200,
+      "operation": "read"
+    }
+  ],
+  "gameplay": {
+    "key": "gameplay",
+    "count": 543,
+    "client": 512,
+    "rule": 1561,
+    "total": 2073,
+    "unpriced": 7,
+    "patterns": [
+      "accounts/{uid}",
+      "accounts/{uid}/devices/{device}",
+      "accounts/{uid}/pairLinks/current",
+      "accounts/{uid}/careerIndex/{id}",
+      "accounts/{uid}/pairLinks/current + accounts/{uid}/careerIndex/{id} + rivalries/{rivalry} + rivalries/{rivalry}/invites/{invite} + verify accounts/{uid}/devices/{device}",
+      "rivalries/{rivalry}",
+      "rivalries/{rivalry}/invites/{invite}",
+      "rivalries/{rivalry}/sessionOffers/current",
+      "rivalries/{rivalry}/sessions/{session}",
+      "rivalries/{rivalry}/sessions/{session} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry}",
+      "rivalries/{rivalry}/sharedSetup/authoritative",
+      "rivalries/{rivalry}/careerStart/authoritative",
+      "rivalries/{rivalry}/careerStart/authoritative + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative",
+      "rivalries/{rivalry}/seasonCommits/season_{n}",
+      "rivalries/{rivalry}/transferChallenges/season_{n}",
+      "rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}",
+      "rivalries/{rivalry}/transferChallenges/season_{n} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative + verify rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}",
+      "rivalries/{rivalry}/transferChallenges/season_{n} + rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative",
+      "rivalries/{rivalry}/sharedSetup/leagueProjection",
+      "rivalries/{rivalry}/seasonResults/season_{n}",
+      "rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}",
+      "rivalries/{rivalry}/sharedSetup/leagueProjection + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative + verify rivalries/{rivalry}/transferChallenges/season_{n} + verify rivalries/{rivalry}/seasonResults/season_{n} + verify rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}",
+      "rivalries/{rivalry}/seasonResults/season_{n} + rivalries/{rivalry}/seasonResults/season_{n}/roles/{role} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative + verify rivalries/{rivalry}/sharedSetup/leagueProjection + verify rivalries/{rivalry}/transferChallenges/season_{n}",
+      "rivalries/{rivalry}/seasonCommits/season_{n} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/seasonResults/season_{n} + verify rivalries/{rivalry}/seasonResults/season_{n}/roles/{role} + verify rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}"
+    ],
+    "operations": [
+      "transaction read",
+      "transaction commit",
+      "listen",
+      "get"
+    ],
+    "owners": [
+      "js/sparkConnectedAccount.js",
+      "js/sparkAccountBootstrap.js",
+      "js/onlinePlayerIdentity.js",
+      "js/persistentNikDanielPair.js",
+      "js/sparkRemoteJoining.js",
+      "js/productionSharedJourneyEntry.js",
+      "js/productionSharedShowdownSetup.js",
+      "js/productionSharedJourneyConflicts.js",
+      "js/productionSharedShowdownPresentation.js",
+      "js/productionSharedCareerStart.js",
+      "js/productionSharedMultiSeasonProgression.js",
+      "js/productionSharedTransferChallenge.js",
+      "js/productionSharedFinalReconciliation.js",
+      "js/productionSharedSeasonResults.js",
+      "js/productionSharedSeasonCommit.js",
+      "js/productionSharedTerminalClose.js",
+      "js/sparkPrivatePairing.js",
+      "js/productionSharedCanonicalScoring.js",
+      "js/showdown.js",
+      "js/sparkSharedMultiSeasonProgression.js",
+      "js/careerScreensV10.js",
+      "js/rivalryLegacyV10.js"
+    ],
+    "probeKeys": [
+      "get|accounts/{uid}||missing|200|live",
+      "commit|update:accounts/{uid}:0|200|live",
+      "get|accounts/{uid}/devices/{device}||missing|200|live",
+      "commit|update:accounts/{uid}/devices/{device}:active:0|200|live",
+      "get|accounts/{uid}/pairLinks/current||missing|200|live",
+      "get|accounts/{uid}/devices/{device}||active|200|live",
+      "get|accounts/{uid}/careerIndex/{id}||missing|200|live",
+      "commit|update:accounts/{uid}/pairLinks/current:0+update:accounts/{uid}/careerIndex/{id}:0+update:rivalries/{rivalry}:pending-pair:0+update:rivalries/{rivalry}/invites/{invite}:open:0+verify:accounts/{uid}/devices/{device}|200|live",
+      "get|rivalries/{rivalry}||pending-pair|200|live",
+      "get|rivalries/{rivalry}/invites/{invite}||open|200|live",
+      "commit|update:accounts/{uid}/pairLinks/current:0+update:accounts/{uid}/careerIndex/{id}:0+update:rivalries/{rivalry}:active:1+update:rivalries/{rivalry}/invites/{invite}:redeemed:1+verify:accounts/{uid}/devices/{device}|200|live",
+      "get|rivalries/{rivalry}||active|200|live",
+      "get|accounts/{uid}/pairLinks/current|||200|live",
+      "get|rivalries/{rivalry}/sessionOffers/current||missing|200|live",
+      "get|accounts/{uid}|||200|live",
+      "get|rivalries/{rivalry}/sessions/{session}||missing|200|live",
+      "commit|update:rivalries/{rivalry}/sessions/{session}:open:0+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}|200|live",
+      "commit|update:rivalries/{rivalry}/sessionOffers/current|200|live",
+      "get|rivalries/{rivalry}/sessionOffers/current|||200|live",
+      "get|rivalries/{rivalry}/sessions/{session}||open|200|live",
+      "commit|update:rivalries/{rivalry}/sessions/{session}:active:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}|200|live",
+      "get|rivalries/{rivalry}/sessions/{session}||active|200|live",
+      "get|rivalries/{rivalry}/sharedSetup/authoritative||missing|200|live",
+      "get|rivalries/{rivalry}/sharedSetup/authoritative||SHARED_SETUP_OPEN|200|live",
+      "get|rivalries/{rivalry}/sharedSetup/authoritative||LEAGUE_WHEEL_COMMITTED|200|live",
+      "get|rivalries/{rivalry}/sharedSetup/authoritative||CLUB_ASSIGNMENTS_COMMITTED|200|live",
+      "get|rivalries/{rivalry}/sharedSetup/authoritative||SEASON_LENGTH_COMMITTED|200|live",
+      "get|rivalries/{rivalry}/careerStart/authoritative||missing|200|live",
+      "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live",
+      "commit|update:rivalries/{rivalry}/careerStart/authoritative:ONE_MANAGER_ACKNOWLEDGED:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative|200|live",
+      "get|rivalries/{rivalry}/seasonCommits/season_{n}||missing|200|live",
+      "get|rivalries/{rivalry}/careerStart/authoritative||ONE_MANAGER_ACKNOWLEDGED|200|live",
+      "commit|update:rivalries/{rivalry}/careerStart/authoritative:CAREER_START_READY:2+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative|200|live",
+      "get|rivalries/{rivalry}/careerStart/authoritative||CAREER_START_READY|200|live",
+      "get|rivalries/{rivalry}/transferChallenges/season_{n}||missing|200|live",
+      "get|rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|own|missing|200|live",
+      "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:start-window:WINDOW_OPEN:1:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|200|live",
+      "get|rivalries/{rivalry}/transferChallenges/season_{n}||WINDOW_OPEN|200|live",
+      "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:request-end-window:WINDOW_OPEN:1:2+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|200|live",
+      "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:request-end-window:GUESS_ENTRY:1:3+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|200|live",
+      "get|rivalries/{rivalry}/transferChallenges/season_{n}||GUESS_ENTRY|200|live",
+      "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:lock-guesses:GUESS_ENTRY:1:4+update:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative|200|live",
+      "get|rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|own||200|live",
+      "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:lock-guesses:SIGNING_ENTRY:1:5+update:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative|200|live",
+      "get|rivalries/{rivalry}/transferChallenges/season_{n}||SIGNING_ENTRY|200|live",
+      "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:lock-signings:SIGNING_ENTRY:1:6+update:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative|200|live",
+      "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:lock-signings:COMPLETED:1:7+update:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative|200|live",
+      "get|rivalries/{rivalry}/transferChallenges/season_{n}||COMPLETED|200|live",
+      "get|rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|opponent||200|live",
+      "get|rivalries/{rivalry}/sharedSetup/leagueProjection||missing|200|live",
+      "get|rivalries/{rivalry}/seasonResults/season_{n}||missing|200|live",
+      "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|own|missing|200|live",
+      "commit|update:rivalries/{rivalry}/sharedSetup/leagueProjection+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/transferChallenges/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|200|live",
+      "get|rivalries/{rivalry}/sharedSetup/leagueProjection|||200|live",
+      "commit|update:rivalries/{rivalry}/seasonResults/season_{n}:COLLECTING:1:1+update:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/sharedSetup/leagueProjection+verify:rivalries/{rivalry}/transferChallenges/season_{n}|200|live",
+      "get|rivalries/{rivalry}/seasonResults/season_{n}||COLLECTING|200|live",
+      "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|own||200|live",
+      "commit|update:rivalries/{rivalry}/seasonResults/season_{n}:RESULTS_READY:1:2+update:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/sharedSetup/leagueProjection+verify:rivalries/{rivalry}/transferChallenges/season_{n}|200|live",
+      "get|rivalries/{rivalry}/seasonResults/season_{n}||RESULTS_READY|200|live",
+      "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|opponent||200|live",
+      "commit|update:rivalries/{rivalry}/seasonCommits/season_{n}:COMMITTED:1:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/seasonResults/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|200|live",
+      "get|rivalries/{rivalry}/seasonCommits/season_{n}||COMMITTED|200|live",
+      "commit|update:rivalries/{rivalry}/seasonCommits/season_{n}:COMMITTED:1:2+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/seasonResults/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|200|live",
+      "commit|update:rivalries/{rivalry}/seasonCommits/season_{n}:ACKNOWLEDGED:1:3+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/seasonResults/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|200|live",
+      "get|rivalries/{rivalry}/seasonCommits/season_{n}||ACKNOWLEDGED|200|live"
+    ],
+    "ruleCounts": [
+      0,
+      1,
+      5,
+      3,
+      8,
+      4,
+      7,
+      6,
+      9
+    ]
+  },
+  "bySeason": [
+    {
+      "key": "1",
+      "count": 543,
+      "client": 512,
+      "rule": 1561,
+      "total": 2073,
+      "unpriced": 7,
+      "patterns": [
+        "accounts/{uid}",
+        "accounts/{uid}/devices/{device}",
+        "accounts/{uid}/pairLinks/current",
+        "accounts/{uid}/careerIndex/{id}",
+        "accounts/{uid}/pairLinks/current + accounts/{uid}/careerIndex/{id} + rivalries/{rivalry} + rivalries/{rivalry}/invites/{invite} + verify accounts/{uid}/devices/{device}",
+        "rivalries/{rivalry}",
+        "rivalries/{rivalry}/invites/{invite}",
+        "rivalries/{rivalry}/sessionOffers/current",
+        "rivalries/{rivalry}/sessions/{session}",
+        "rivalries/{rivalry}/sessions/{session} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry}",
+        "rivalries/{rivalry}/sharedSetup/authoritative",
+        "rivalries/{rivalry}/careerStart/authoritative",
+        "rivalries/{rivalry}/careerStart/authoritative + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative",
+        "rivalries/{rivalry}/seasonCommits/season_{n}",
+        "rivalries/{rivalry}/transferChallenges/season_{n}",
+        "rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}",
+        "rivalries/{rivalry}/transferChallenges/season_{n} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative + verify rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}",
+        "rivalries/{rivalry}/transferChallenges/season_{n} + rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative",
+        "rivalries/{rivalry}/sharedSetup/leagueProjection",
+        "rivalries/{rivalry}/seasonResults/season_{n}",
+        "rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}",
+        "rivalries/{rivalry}/sharedSetup/leagueProjection + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative + verify rivalries/{rivalry}/transferChallenges/season_{n} + verify rivalries/{rivalry}/seasonResults/season_{n} + verify rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}",
+        "rivalries/{rivalry}/seasonResults/season_{n} + rivalries/{rivalry}/seasonResults/season_{n}/roles/{role} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative + verify rivalries/{rivalry}/sharedSetup/leagueProjection + verify rivalries/{rivalry}/transferChallenges/season_{n}",
+        "rivalries/{rivalry}/seasonCommits/season_{n} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/seasonResults/season_{n} + verify rivalries/{rivalry}/seasonResults/season_{n}/roles/{role} + verify rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction read",
+        "transaction commit",
+        "listen",
+        "get"
+      ],
+      "owners": [
+        "js/sparkConnectedAccount.js",
+        "js/sparkAccountBootstrap.js",
+        "js/onlinePlayerIdentity.js",
+        "js/persistentNikDanielPair.js",
+        "js/sparkRemoteJoining.js",
+        "js/productionSharedJourneyEntry.js",
+        "js/productionSharedShowdownSetup.js",
+        "js/productionSharedJourneyConflicts.js",
+        "js/productionSharedShowdownPresentation.js",
+        "js/productionSharedCareerStart.js",
+        "js/productionSharedMultiSeasonProgression.js",
+        "js/productionSharedTransferChallenge.js",
+        "js/productionSharedFinalReconciliation.js",
+        "js/productionSharedSeasonResults.js",
+        "js/productionSharedSeasonCommit.js",
+        "js/productionSharedTerminalClose.js",
+        "js/sparkPrivatePairing.js",
+        "js/productionSharedCanonicalScoring.js",
+        "js/showdown.js",
+        "js/sparkSharedMultiSeasonProgression.js",
+        "js/careerScreensV10.js",
+        "js/rivalryLegacyV10.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}||missing|200|live",
+        "commit|update:accounts/{uid}:0|200|live",
+        "get|accounts/{uid}/devices/{device}||missing|200|live",
+        "commit|update:accounts/{uid}/devices/{device}:active:0|200|live",
+        "get|accounts/{uid}/pairLinks/current||missing|200|live",
+        "get|accounts/{uid}/devices/{device}||active|200|live",
+        "get|accounts/{uid}/careerIndex/{id}||missing|200|live",
+        "commit|update:accounts/{uid}/pairLinks/current:0+update:accounts/{uid}/careerIndex/{id}:0+update:rivalries/{rivalry}:pending-pair:0+update:rivalries/{rivalry}/invites/{invite}:open:0+verify:accounts/{uid}/devices/{device}|200|live",
+        "get|rivalries/{rivalry}||pending-pair|200|live",
+        "get|rivalries/{rivalry}/invites/{invite}||open|200|live",
+        "commit|update:accounts/{uid}/pairLinks/current:0+update:accounts/{uid}/careerIndex/{id}:0+update:rivalries/{rivalry}:active:1+update:rivalries/{rivalry}/invites/{invite}:redeemed:1+verify:accounts/{uid}/devices/{device}|200|live",
+        "get|rivalries/{rivalry}||active|200|live",
+        "get|accounts/{uid}/pairLinks/current|||200|live",
+        "get|rivalries/{rivalry}/sessionOffers/current||missing|200|live",
+        "get|accounts/{uid}|||200|live",
+        "get|rivalries/{rivalry}/sessions/{session}||missing|200|live",
+        "commit|update:rivalries/{rivalry}/sessions/{session}:open:0+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}|200|live",
+        "commit|update:rivalries/{rivalry}/sessionOffers/current|200|live",
+        "get|rivalries/{rivalry}/sessionOffers/current|||200|live",
+        "get|rivalries/{rivalry}/sessions/{session}||open|200|live",
+        "commit|update:rivalries/{rivalry}/sessions/{session}:active:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}|200|live",
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||missing|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHARED_SETUP_OPEN|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||LEAGUE_WHEEL_COMMITTED|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||CLUB_ASSIGNMENTS_COMMITTED|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SEASON_LENGTH_COMMITTED|200|live",
+        "get|rivalries/{rivalry}/careerStart/authoritative||missing|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live",
+        "commit|update:rivalries/{rivalry}/careerStart/authoritative:ONE_MANAGER_ACKNOWLEDGED:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative|200|live",
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||missing|200|live",
+        "get|rivalries/{rivalry}/careerStart/authoritative||ONE_MANAGER_ACKNOWLEDGED|200|live",
+        "commit|update:rivalries/{rivalry}/careerStart/authoritative:CAREER_START_READY:2+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative|200|live",
+        "get|rivalries/{rivalry}/careerStart/authoritative||CAREER_START_READY|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||missing|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|own|missing|200|live",
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:start-window:WINDOW_OPEN:1:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||WINDOW_OPEN|200|live",
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:request-end-window:WINDOW_OPEN:1:2+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|200|live",
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:request-end-window:GUESS_ENTRY:1:3+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||GUESS_ENTRY|200|live",
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:lock-guesses:GUESS_ENTRY:1:4+update:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|own||200|live",
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:lock-guesses:SIGNING_ENTRY:1:5+update:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||SIGNING_ENTRY|200|live",
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:lock-signings:SIGNING_ENTRY:1:6+update:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative|200|live",
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:lock-signings:COMPLETED:1:7+update:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||COMPLETED|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|opponent||200|live",
+        "get|rivalries/{rivalry}/sharedSetup/leagueProjection||missing|200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}||missing|200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|own|missing|200|live",
+        "commit|update:rivalries/{rivalry}/sharedSetup/leagueProjection+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/transferChallenges/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/leagueProjection|||200|live",
+        "commit|update:rivalries/{rivalry}/seasonResults/season_{n}:COLLECTING:1:1+update:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/sharedSetup/leagueProjection+verify:rivalries/{rivalry}/transferChallenges/season_{n}|200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}||COLLECTING|200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|own||200|live",
+        "commit|update:rivalries/{rivalry}/seasonResults/season_{n}:RESULTS_READY:1:2+update:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/sharedSetup/leagueProjection+verify:rivalries/{rivalry}/transferChallenges/season_{n}|200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}||RESULTS_READY|200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|opponent||200|live",
+        "commit|update:rivalries/{rivalry}/seasonCommits/season_{n}:COMMITTED:1:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/seasonResults/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|200|live",
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||COMMITTED|200|live",
+        "commit|update:rivalries/{rivalry}/seasonCommits/season_{n}:COMMITTED:1:2+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/seasonResults/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|200|live",
+        "commit|update:rivalries/{rivalry}/seasonCommits/season_{n}:ACKNOWLEDGED:1:3+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/seasonResults/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|200|live",
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||ACKNOWLEDGED|200|live"
+      ],
+      "ruleCounts": [
+        0,
+        1,
+        5,
+        3,
+        8,
+        4,
+        7,
+        6,
+        9
+      ]
+    }
+  ],
+  "byKind": [
+    {
+      "key": "transaction read|rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|js/productionSharedTransferChallenge.js",
+      "count": 34,
+      "client": 34,
+      "rule": 136,
+      "total": 170,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|own|missing|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|own||200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|opponent||200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/transferChallenges/season_{n}|js/productionSharedTransferChallenge.js",
+      "count": 25,
+      "client": 25,
+      "rule": 75,
+      "total": 100,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/transferChallenges/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||missing|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||WINDOW_OPEN|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||GUESS_ENTRY|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||SIGNING_ENTRY|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||COMPLETED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonCommits/season_{n}|js/productionSharedMultiSeasonProgression.js",
+      "count": 22,
+      "client": 22,
+      "rule": 66,
+      "total": 88,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonCommits/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedMultiSeasonProgression.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||missing|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/careerStart/authoritative|js/productionSharedTransferChallenge.js",
+      "count": 22,
+      "client": 22,
+      "rule": 66,
+      "total": 88,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/careerStart/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/careerStart/authoritative||CAREER_START_READY|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedTransferChallenge.js",
+      "count": 14,
+      "client": 14,
+      "rule": 56,
+      "total": 70,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedShowdownPresentation.js",
+      "count": 17,
+      "client": 10,
+      "rule": 51,
+      "total": 61,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedShowdownPresentation.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||LEAGUE_WHEEL_COMMITTED|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||CLUB_ASSIGNMENTS_COMMITTED|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SEASON_LENGTH_COMMITTED|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedTransferChallenge.js",
+      "count": 15,
+      "client": 15,
+      "rule": 45,
+      "total": 60,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedTransferChallenge.js",
+      "count": 14,
+      "client": 14,
+      "rule": 42,
+      "total": 56,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonCommits/season_{n}|js/productionSharedFinalReconciliation.js",
+      "count": 14,
+      "client": 14,
+      "rule": 42,
+      "total": 56,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonCommits/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedFinalReconciliation.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||missing|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|js/productionSharedSeasonResults.js",
+      "count": 10,
+      "client": 10,
+      "rule": 40,
+      "total": 50,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|own|missing|200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|own||200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|opponent||200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedShowdownPresentation.js",
+      "count": 9,
+      "client": 9,
+      "rule": 36,
+      "total": 45,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedShowdownPresentation.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedJourneyConflicts.js",
+      "count": 11,
+      "client": 11,
+      "rule": 33,
+      "total": 44,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||missing|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHARED_SETUP_OPEN|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||LEAGUE_WHEEL_COMMITTED|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||CLUB_ASSIGNMENTS_COMMITTED|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SEASON_LENGTH_COMMITTED|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/leagueProjection|js/productionSharedSeasonResults.js",
+      "count": 11,
+      "client": 11,
+      "rule": 33,
+      "total": 44,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/leagueProjection"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/leagueProjection||missing|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/leagueProjection|||200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonCommits/season_{n}|js/productionSharedJourneyEntry.js",
+      "count": 10,
+      "client": 10,
+      "rule": 30,
+      "total": 40,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonCommits/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyEntry.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||ACKNOWLEDGED|200|live",
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||missing|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedShowdownPresentation.js",
+      "count": 9,
+      "client": 9,
+      "rule": 27,
+      "total": 36,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedShowdownPresentation.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonResults/season_{n}|js/productionSharedSeasonResults.js",
+      "count": 9,
+      "client": 9,
+      "rule": 27,
+      "total": 36,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonResults/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonResults/season_{n}||missing|200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}||COLLECTING|200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}||RESULTS_READY|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/sparkRemoteJoining.js",
+      "count": 7,
+      "client": 7,
+      "rule": 28,
+      "total": 35,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkRemoteJoining.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||missing|200|live",
+        "get|rivalries/{rivalry}/sessions/{session}||open|200|live",
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedSeasonResults.js",
+      "count": 7,
+      "client": 7,
+      "rule": 28,
+      "total": 35,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/careerStart/authoritative|js/productionSharedCareerStart.js",
+      "count": 8,
+      "client": 8,
+      "rule": 24,
+      "total": 32,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/careerStart/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCareerStart.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/careerStart/authoritative||missing|200|live",
+        "get|rivalries/{rivalry}/careerStart/authoritative||ONE_MANAGER_ACKNOWLEDGED|200|live",
+        "get|rivalries/{rivalry}/careerStart/authoritative||CAREER_START_READY|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction commit|rivalries/{rivalry}/transferChallenges/season_{n} + rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative|js/productionSharedTransferChallenge.js",
+      "count": 4,
+      "client": 0,
+      "rule": 32,
+      "total": 32,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/transferChallenges/season_{n} + rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:lock-guesses:GUESS_ENTRY:1:4+update:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative|200|live",
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:lock-guesses:SIGNING_ENTRY:1:5+update:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative|200|live",
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:lock-signings:SIGNING_ENTRY:1:6+update:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative|200|live",
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:lock-signings:COMPLETED:1:7+update:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative|200|live"
+      ],
+      "ruleCounts": [
+        8
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}/seasonCommits/season_{n}|js/productionSharedSeasonCommit.js",
+      "count": 7,
+      "client": 11,
+      "rule": 21,
+      "total": 32,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonCommits/season_{n}"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedSeasonCommit.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||COMMITTED|200|live",
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||missing|200|live",
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||ACKNOWLEDGED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|js/productionSharedJourneyConflicts.js",
+      "count": 6,
+      "client": 6,
+      "rule": 24,
+      "total": 30,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|own||200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|opponent||200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedSeasonResults.js",
+      "count": 7,
+      "client": 7,
+      "rule": 21,
+      "total": 28,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedShowdownSetup.js",
+      "count": 5,
+      "client": 5,
+      "rule": 20,
+      "total": 25,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedShowdownSetup.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedSeasonResults.js",
+      "count": 6,
+      "client": 6,
+      "rule": 18,
+      "total": 24,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction commit|rivalries/{rivalry}/transferChallenges/season_{n} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative + verify rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|js/productionSharedTransferChallenge.js",
+      "count": 3,
+      "client": 0,
+      "rule": 23,
+      "total": 23,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/transferChallenges/season_{n} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative + verify rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:start-window:WINDOW_OPEN:1:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|200|live",
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:request-end-window:WINDOW_OPEN:1:2+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|200|live",
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:request-end-window:GUESS_ENTRY:1:3+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|200|live"
+      ],
+      "ruleCounts": [
+        9,
+        7
+      ]
+    },
+    {
+      "key": "transaction commit|rivalries/{rivalry}/seasonCommits/season_{n} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/seasonResults/season_{n} + verify rivalries/{rivalry}/seasonResults/season_{n}/roles/{role} + verify rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|js/productionSharedJourneyConflicts.js",
+      "count": 3,
+      "client": 0,
+      "rule": 21,
+      "total": 21,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonCommits/season_{n} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/seasonResults/season_{n} + verify rivalries/{rivalry}/seasonResults/season_{n}/roles/{role} + verify rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "commit|update:rivalries/{rivalry}/seasonCommits/season_{n}:COMMITTED:1:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/seasonResults/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|200|live",
+        "commit|update:rivalries/{rivalry}/seasonCommits/season_{n}:COMMITTED:1:2+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/seasonResults/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|200|live",
+        "commit|update:rivalries/{rivalry}/seasonCommits/season_{n}:ACKNOWLEDGED:1:3+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/seasonResults/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|200|live"
+      ],
+      "ruleCounts": [
+        9,
+        6
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessionOffers/current|js/sparkRemoteJoining.js",
+      "count": 5,
+      "client": 5,
+      "rule": 15,
+      "total": 20,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessionOffers/current"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkRemoteJoining.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessionOffers/current||missing|200|live",
+        "get|rivalries/{rivalry}/sessionOffers/current|||200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/onlinePlayerIdentity.js",
+      "count": 5,
+      "client": 5,
+      "rule": 15,
+      "total": 20,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/onlinePlayerIdentity.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedJourneyEntry.js",
+      "count": 5,
+      "client": 5,
+      "rule": 15,
+      "total": 20,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyEntry.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||missing|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedJourneyConflicts.js",
+      "count": 4,
+      "client": 4,
+      "rule": 16,
+      "total": 20,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedMultiSeasonProgression.js",
+      "count": 5,
+      "client": 5,
+      "rule": 15,
+      "total": 20,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedMultiSeasonProgression.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|js/sparkSharedMultiSeasonProgression.js",
+      "count": 4,
+      "client": 4,
+      "rule": 16,
+      "total": 20,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkSharedMultiSeasonProgression.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|own||200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|opponent||200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedMultiSeasonProgression.js",
+      "count": 4,
+      "client": 4,
+      "rule": 16,
+      "total": 20,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedMultiSeasonProgression.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}/transferChallenges/season_{n}|js/productionSharedTransferChallenge.js",
+      "count": 4,
+      "client": 8,
+      "rule": 12,
+      "total": 20,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/transferChallenges/season_{n}"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||WINDOW_OPEN|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||GUESS_ENTRY|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||SIGNING_ENTRY|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||COMPLETED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}/sessions/{session}|js/productionSharedTransferChallenge.js",
+      "count": 4,
+      "client": 4,
+      "rule": 16,
+      "total": 20,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction commit|rivalries/{rivalry}/seasonResults/season_{n} + rivalries/{rivalry}/seasonResults/season_{n}/roles/{role} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative + verify rivalries/{rivalry}/sharedSetup/leagueProjection + verify rivalries/{rivalry}/transferChallenges/season_{n}|js/productionSharedSeasonResults.js",
+      "count": 2,
+      "client": 0,
+      "rule": 17,
+      "total": 17,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonResults/season_{n} + rivalries/{rivalry}/seasonResults/season_{n}/roles/{role} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative + verify rivalries/{rivalry}/sharedSetup/leagueProjection + verify rivalries/{rivalry}/transferChallenges/season_{n}"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "commit|update:rivalries/{rivalry}/seasonResults/season_{n}:COLLECTING:1:1+update:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/sharedSetup/leagueProjection+verify:rivalries/{rivalry}/transferChallenges/season_{n}|200|live",
+        "commit|update:rivalries/{rivalry}/seasonResults/season_{n}:RESULTS_READY:1:2+update:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/sharedSetup/leagueProjection+verify:rivalries/{rivalry}/transferChallenges/season_{n}|200|live"
+      ],
+      "ruleCounts": [
+        9,
+        8
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/persistentNikDanielPair.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/persistentNikDanielPair.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||pending-pair|200|live",
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/sparkRemoteJoining.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkRemoteJoining.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedShowdownPresentation.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedShowdownPresentation.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHARED_SETUP_OPEN|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||LEAGUE_WHEEL_COMMITTED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/careerStart/authoritative|js/productionSharedSeasonResults.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/careerStart/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/careerStart/authoritative||CAREER_START_READY|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/transferChallenges/season_{n}|js/productionSharedSeasonResults.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/transferChallenges/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||COMPLETED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonCommits/season_{n}|js/productionSharedSeasonCommit.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonCommits/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonCommit.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||missing|200|live",
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||COMMITTED|200|live",
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||ACKNOWLEDGED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedJourneyConflicts.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedSeasonCommit.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonCommit.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedMultiSeasonProgression.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedMultiSeasonProgression.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}|js/productionSharedTransferChallenge.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "get|rivalries/{rivalry}|js/careerScreensV10.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "get"
+      ],
+      "owners": [
+        "js/careerScreensV10.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedJourneyEntry.js",
+      "count": 3,
+      "client": 3,
+      "rule": 12,
+      "total": 15,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyEntry.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedCareerStart.js",
+      "count": 3,
+      "client": 3,
+      "rule": 12,
+      "total": 15,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCareerStart.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedSeasonCommit.js",
+      "count": 3,
+      "client": 3,
+      "rule": 12,
+      "total": 15,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonCommit.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedSeasonCommit.js",
+      "count": 4,
+      "client": 2,
+      "rule": 12,
+      "total": 14,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedSeasonCommit.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction commit|accounts/{uid}/pairLinks/current + accounts/{uid}/careerIndex/{id} + rivalries/{rivalry} + rivalries/{rivalry}/invites/{invite} + verify accounts/{uid}/devices/{device}|js/persistentNikDanielPair.js",
+      "count": 2,
+      "client": 0,
+      "rule": 13,
+      "total": 13,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/pairLinks/current + accounts/{uid}/careerIndex/{id} + rivalries/{rivalry} + rivalries/{rivalry}/invites/{invite} + verify accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/persistentNikDanielPair.js"
+      ],
+      "probeKeys": [
+        "commit|update:accounts/{uid}/pairLinks/current:0+update:accounts/{uid}/careerIndex/{id}:0+update:rivalries/{rivalry}:pending-pair:0+update:rivalries/{rivalry}/invites/{invite}:open:0+verify:accounts/{uid}/devices/{device}|200|live",
+        "commit|update:accounts/{uid}/pairLinks/current:0+update:accounts/{uid}/careerIndex/{id}:0+update:rivalries/{rivalry}:active:1+update:rivalries/{rivalry}/invites/{invite}:redeemed:1+verify:accounts/{uid}/devices/{device}|200|live"
+      ],
+      "ruleCounts": [
+        5,
+        8
+      ]
+    },
+    {
+      "key": "transaction commit|rivalries/{rivalry}/careerStart/authoritative + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedCareerStart.js",
+      "count": 2,
+      "client": 0,
+      "rule": 13,
+      "total": 13,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/careerStart/authoritative + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/productionSharedCareerStart.js"
+      ],
+      "probeKeys": [
+        "commit|update:rivalries/{rivalry}/careerStart/authoritative:ONE_MANAGER_ACKNOWLEDGED:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative|200|live",
+        "commit|update:rivalries/{rivalry}/careerStart/authoritative:CAREER_START_READY:2+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative|200|live"
+      ],
+      "ruleCounts": [
+        7,
+        6
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/pairLinks/current|js/persistentNikDanielPair.js",
+      "count": 12,
+      "client": 12,
+      "rule": 0,
+      "total": 12,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/pairLinks/current"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/persistentNikDanielPair.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/pairLinks/current||missing|200|live",
+        "get|accounts/{uid}/pairLinks/current|||200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedShowdownSetup.js",
+      "count": 3,
+      "client": 3,
+      "rule": 9,
+      "total": 12,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedShowdownSetup.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||missing|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedShowdownSetup.js",
+      "count": 3,
+      "client": 3,
+      "rule": 9,
+      "total": 12,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedShowdownSetup.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedCareerStart.js",
+      "count": 3,
+      "client": 3,
+      "rule": 9,
+      "total": 12,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCareerStart.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedCareerStart.js",
+      "count": 3,
+      "client": 3,
+      "rule": 9,
+      "total": 12,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCareerStart.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonResults/season_{n}|js/productionSharedJourneyConflicts.js",
+      "count": 3,
+      "client": 3,
+      "rule": 9,
+      "total": 12,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonResults/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonResults/season_{n}||RESULTS_READY|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonCommits/season_{n}|js/productionSharedJourneyConflicts.js",
+      "count": 3,
+      "client": 3,
+      "rule": 9,
+      "total": 12,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonCommits/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||missing|200|live",
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||COMMITTED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedSeasonCommit.js",
+      "count": 3,
+      "client": 3,
+      "rule": 9,
+      "total": 12,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonCommit.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction commit|rivalries/{rivalry}/sessions/{session} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry}|js/sparkRemoteJoining.js",
+      "count": 2,
+      "client": 0,
+      "rule": 10,
+      "total": 10,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/sparkRemoteJoining.js"
+      ],
+      "probeKeys": [
+        "commit|update:rivalries/{rivalry}/sessions/{session}:open:0+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}|200|live",
+        "commit|update:rivalries/{rivalry}/sessions/{session}:active:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}|200|live"
+      ],
+      "ruleCounts": [
+        5
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}/sessions/{session}|js/productionSharedSeasonCommit.js",
+      "count": 2,
+      "client": 2,
+      "rule": 8,
+      "total": 10,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedSeasonCommit.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonResults/season_{n}|js/sparkSharedMultiSeasonProgression.js",
+      "count": 2,
+      "client": 2,
+      "rule": 6,
+      "total": 8,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonResults/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkSharedMultiSeasonProgression.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonResults/season_{n}||RESULTS_READY|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}|js/productionSharedSeasonCommit.js",
+      "count": 2,
+      "client": 2,
+      "rule": 6,
+      "total": 8,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedSeasonCommit.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "get|rivalries/{rivalry}|js/rivalryLegacyV10.js",
+      "count": 2,
+      "client": 2,
+      "rule": 6,
+      "total": 8,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "get"
+      ],
+      "owners": [
+        "js/rivalryLegacyV10.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}|js/productionSharedTransferChallenge.js",
+      "count": 7,
+      "client": 7,
+      "rule": 0,
+      "total": 7,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}|||200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/devices/{device}|js/productionSharedTransferChallenge.js",
+      "count": 7,
+      "client": 7,
+      "rule": 0,
+      "total": 7,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/devices/{device}||active|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction commit|rivalries/{rivalry}/sharedSetup/leagueProjection + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative + verify rivalries/{rivalry}/transferChallenges/season_{n} + verify rivalries/{rivalry}/seasonResults/season_{n} + verify rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|js/productionSharedSeasonResults.js",
+      "count": 1,
+      "client": 0,
+      "rule": 7,
+      "total": 7,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/leagueProjection + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative + verify rivalries/{rivalry}/transferChallenges/season_{n} + verify rivalries/{rivalry}/seasonResults/season_{n} + verify rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "commit|update:rivalries/{rivalry}/sharedSetup/leagueProjection+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/transferChallenges/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|200|live"
+      ],
+      "ruleCounts": [
+        7
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/sparkPrivatePairing.js",
+      "count": 1,
+      "client": 1,
+      "rule": 4,
+      "total": 5,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkPrivatePairing.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedCanonicalScoring.js",
+      "count": 1,
+      "client": 1,
+      "rule": 4,
+      "total": 5,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCanonicalScoring.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}/seasonResults/season_{n}|js/productionSharedSeasonResults.js",
+      "count": 1,
+      "client": 2,
+      "rule": 3,
+      "total": 5,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonResults/season_{n}"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonResults/season_{n}||RESULTS_READY|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}|js/sparkAccountBootstrap.js",
+      "count": 4,
+      "client": 4,
+      "rule": 0,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkAccountBootstrap.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}||missing|200|live",
+        "get|accounts/{uid}|||200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/devices/{device}|js/onlinePlayerIdentity.js",
+      "count": 4,
+      "client": 4,
+      "rule": 0,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/onlinePlayerIdentity.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/devices/{device}||missing|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/devices/{device}|js/persistentNikDanielPair.js",
+      "count": 4,
+      "client": 4,
+      "rule": 0,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/persistentNikDanielPair.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/devices/{device}||active|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/careerIndex/{id}|js/persistentNikDanielPair.js",
+      "count": 4,
+      "client": 4,
+      "rule": 0,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/careerIndex/{id}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/persistentNikDanielPair.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/careerIndex/{id}||missing|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/invites/{invite}|js/persistentNikDanielPair.js",
+      "count": 2,
+      "client": 2,
+      "rule": 2,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/invites/{invite}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/persistentNikDanielPair.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/invites/{invite}||open|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}|js/sparkRemoteJoining.js",
+      "count": 4,
+      "client": 4,
+      "rule": 0,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkRemoteJoining.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}|||200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction commit|rivalries/{rivalry}/sessionOffers/current|js/sparkRemoteJoining.js",
+      "count": 1,
+      "client": 0,
+      "rule": 4,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessionOffers/current"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/sparkRemoteJoining.js"
+      ],
+      "probeKeys": [
+        "commit|update:rivalries/{rivalry}/sessionOffers/current|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedTerminalClose.js",
+      "count": 1,
+      "client": 1,
+      "rule": 3,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTerminalClose.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedCanonicalScoring.js",
+      "count": 1,
+      "client": 1,
+      "rule": 3,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCanonicalScoring.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonCommits/season_{n}|js/productionSharedCanonicalScoring.js",
+      "count": 1,
+      "client": 1,
+      "rule": 3,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonCommits/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCanonicalScoring.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||ACKNOWLEDGED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedCanonicalScoring.js",
+      "count": 1,
+      "client": 1,
+      "rule": 3,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCanonicalScoring.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "get|accounts/{uid}/careerIndex/{id}|js/careerScreensV10.js",
+      "count": 4,
+      "client": 4,
+      "rule": 0,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/careerIndex/{id}"
+      ],
+      "operations": [
+        "get"
+      ],
+      "owners": [
+        "js/careerScreensV10.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/careerIndex/{id}||missing|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}|js/productionSharedCareerStart.js",
+      "count": 3,
+      "client": 3,
+      "rule": 0,
+      "total": 3,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCareerStart.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}|||200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/devices/{device}|js/productionSharedCareerStart.js",
+      "count": 3,
+      "client": 3,
+      "rule": 0,
+      "total": 3,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCareerStart.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/devices/{device}||active|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}|js/productionSharedSeasonResults.js",
+      "count": 3,
+      "client": 3,
+      "rule": 0,
+      "total": 3,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}|||200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/devices/{device}|js/productionSharedSeasonResults.js",
+      "count": 3,
+      "client": 3,
+      "rule": 0,
+      "total": 3,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/devices/{device}||active|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}|js/productionSharedJourneyConflicts.js",
+      "count": 3,
+      "client": 3,
+      "rule": 0,
+      "total": 3,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}|||200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/devices/{device}|js/productionSharedJourneyConflicts.js",
+      "count": 3,
+      "client": 3,
+      "rule": 0,
+      "total": 3,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/devices/{device}||active|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}|js/sparkConnectedAccount.js",
+      "count": 2,
+      "client": 2,
+      "rule": 0,
+      "total": 2,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkConnectedAccount.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}||missing|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction commit|accounts/{uid}/devices/{device}|js/onlinePlayerIdentity.js",
+      "count": 2,
+      "client": 0,
+      "rule": 2,
+      "total": 2,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/onlinePlayerIdentity.js"
+      ],
+      "probeKeys": [
+        "commit|update:accounts/{uid}/devices/{device}:active:0|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/devices/{device}|js/sparkRemoteJoining.js",
+      "count": 2,
+      "client": 2,
+      "rule": 0,
+      "total": 2,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkRemoteJoining.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/devices/{device}||active|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/devices/{device}|js/showdown.js",
+      "count": 2,
+      "client": 2,
+      "rule": 0,
+      "total": 2,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/showdown.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/devices/{device}||active|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "get|accounts/{uid}/careerIndex/{id}|js/rivalryLegacyV10.js",
+      "count": 2,
+      "client": 2,
+      "rule": 0,
+      "total": 2,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/careerIndex/{id}"
+      ],
+      "operations": [
+        "get"
+      ],
+      "owners": [
+        "js/rivalryLegacyV10.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/careerIndex/{id}||missing|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}|js/productionSharedShowdownPresentation.js",
+      "count": 1,
+      "client": 1,
+      "rule": 0,
+      "total": 1,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedShowdownPresentation.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}|||200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/devices/{device}|js/productionSharedShowdownPresentation.js",
+      "count": 1,
+      "client": 1,
+      "rule": 0,
+      "total": 1,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedShowdownPresentation.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/devices/{device}||active|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction commit|accounts/{uid}|js/sparkAccountBootstrap.js",
+      "count": 2,
+      "client": 0,
+      "rule": 0,
+      "total": 0,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/sparkAccountBootstrap.js"
+      ],
+      "probeKeys": [
+        "commit|update:accounts/{uid}:0|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction commit|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedJourneyConflicts.js",
+      "count": 7,
+      "client": 0,
+      "rule": 0,
+      "total": 0,
+      "unpriced": 7,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [],
+      "ruleCounts": []
+    }
+  ],
+  "duplicateReadCuts": [],
+  "ruleCutSavingsAfterDuplicates": [
+    {
+      "key": "transaction read|rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|js/productionSharedTransferChallenge.js",
+      "count": 27,
+      "client": 0,
+      "rule": 27,
+      "total": 27,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|own|missing|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|own||200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedTransferChallenge.js",
+      "count": 14,
+      "client": 0,
+      "rule": 14,
+      "total": 14,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedShowdownPresentation.js",
+      "count": 9,
+      "client": 0,
+      "rule": 9,
+      "total": 9,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedShowdownPresentation.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|js/productionSharedSeasonResults.js",
+      "count": 8,
+      "client": 0,
+      "rule": 8,
+      "total": 8,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|own|missing|200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|own||200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedSeasonResults.js",
+      "count": 7,
+      "client": 0,
+      "rule": 7,
+      "total": 7,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/onlinePlayerIdentity.js",
+      "count": 5,
+      "client": 0,
+      "rule": 5,
+      "total": 5,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/onlinePlayerIdentity.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedMultiSeasonProgression.js",
+      "count": 5,
+      "client": 0,
+      "rule": 5,
+      "total": 5,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedMultiSeasonProgression.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/persistentNikDanielPair.js",
+      "count": 4,
+      "client": 0,
+      "rule": 4,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/persistentNikDanielPair.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||pending-pair|200|live",
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/sparkRemoteJoining.js",
+      "count": 4,
+      "client": 0,
+      "rule": 4,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkRemoteJoining.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedJourneyConflicts.js",
+      "count": 4,
+      "client": 0,
+      "rule": 4,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedSeasonCommit.js",
+      "count": 4,
+      "client": 0,
+      "rule": 4,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonCommit.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}|js/productionSharedTransferChallenge.js",
+      "count": 4,
+      "client": 0,
+      "rule": 4,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "get|rivalries/{rivalry}|js/careerScreensV10.js",
+      "count": 4,
+      "client": 0,
+      "rule": 4,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "get"
+      ],
+      "owners": [
+        "js/careerScreensV10.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedShowdownSetup.js",
+      "count": 3,
+      "client": 0,
+      "rule": 3,
+      "total": 3,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedShowdownSetup.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedCareerStart.js",
+      "count": 3,
+      "client": 0,
+      "rule": 3,
+      "total": 3,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCareerStart.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|js/productionSharedJourneyConflicts.js",
+      "count": 3,
+      "client": 0,
+      "rule": 3,
+      "total": 3,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|own||200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|js/sparkSharedMultiSeasonProgression.js",
+      "count": 2,
+      "client": 0,
+      "rule": 2,
+      "total": 2,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkSharedMultiSeasonProgression.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|own||200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}|js/productionSharedSeasonCommit.js",
+      "count": 2,
+      "client": 0,
+      "rule": 2,
+      "total": 2,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedSeasonCommit.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "get|rivalries/{rivalry}|js/rivalryLegacyV10.js",
+      "count": 2,
+      "client": 0,
+      "rule": 2,
+      "total": 2,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "get"
+      ],
+      "owners": [
+        "js/rivalryLegacyV10.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedTerminalClose.js",
+      "count": 1,
+      "client": 0,
+      "rule": 1,
+      "total": 1,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTerminalClose.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedCanonicalScoring.js",
+      "count": 1,
+      "client": 0,
+      "rule": 1,
+      "total": 1,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCanonicalScoring.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    }
+  ],
+  "ruleCutTotals": [
+    {
+      "key": "resource for direct rivalry read",
+      "count": 76,
+      "client": 0,
+      "rule": 76,
+      "total": 76,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read",
+        "listen",
+        "get"
+      ],
+      "owners": [
+        "js/persistentNikDanielPair.js",
+        "js/onlinePlayerIdentity.js",
+        "js/sparkRemoteJoining.js",
+        "js/productionSharedShowdownPresentation.js",
+        "js/productionSharedShowdownSetup.js",
+        "js/productionSharedCareerStart.js",
+        "js/productionSharedTransferChallenge.js",
+        "js/productionSharedSeasonResults.js",
+        "js/productionSharedJourneyConflicts.js",
+        "js/productionSharedSeasonCommit.js",
+        "js/productionSharedTerminalClose.js",
+        "js/productionSharedMultiSeasonProgression.js",
+        "js/productionSharedCanonicalScoring.js",
+        "js/careerScreensV10.js",
+        "js/rivalryLegacyV10.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||pending-pair|200|live",
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "own-role branch without public lookup",
+      "count": 40,
+      "client": 0,
+      "rule": 40,
+      "total": 40,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}",
+        "rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js",
+        "js/productionSharedSeasonResults.js",
+        "js/productionSharedJourneyConflicts.js",
+        "js/sparkSharedMultiSeasonProgression.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|own|missing|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|own||200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|own|missing|200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|own||200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    }
+  ],
+  "windows": [],
+  "allKinds": [
+    {
+      "key": "transaction read|rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|js/productionSharedTransferChallenge.js",
+      "count": 34,
+      "client": 34,
+      "rule": 136,
+      "total": 170,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|own|missing|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|own||200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|opponent||200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/transferChallenges/season_{n}|js/productionSharedTransferChallenge.js",
+      "count": 25,
+      "client": 25,
+      "rule": 75,
+      "total": 100,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/transferChallenges/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||missing|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||WINDOW_OPEN|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||GUESS_ENTRY|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||SIGNING_ENTRY|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||COMPLETED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonCommits/season_{n}|js/productionSharedMultiSeasonProgression.js",
+      "count": 22,
+      "client": 22,
+      "rule": 66,
+      "total": 88,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonCommits/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedMultiSeasonProgression.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||missing|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/careerStart/authoritative|js/productionSharedTransferChallenge.js",
+      "count": 22,
+      "client": 22,
+      "rule": 66,
+      "total": 88,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/careerStart/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/careerStart/authoritative||CAREER_START_READY|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedTransferChallenge.js",
+      "count": 14,
+      "client": 14,
+      "rule": 56,
+      "total": 70,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedShowdownPresentation.js",
+      "count": 17,
+      "client": 10,
+      "rule": 51,
+      "total": 61,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedShowdownPresentation.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||LEAGUE_WHEEL_COMMITTED|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||CLUB_ASSIGNMENTS_COMMITTED|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SEASON_LENGTH_COMMITTED|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedTransferChallenge.js",
+      "count": 15,
+      "client": 15,
+      "rule": 45,
+      "total": 60,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedTransferChallenge.js",
+      "count": 14,
+      "client": 14,
+      "rule": 42,
+      "total": 56,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonCommits/season_{n}|js/productionSharedFinalReconciliation.js",
+      "count": 14,
+      "client": 14,
+      "rule": 42,
+      "total": 56,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonCommits/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedFinalReconciliation.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||missing|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|js/productionSharedSeasonResults.js",
+      "count": 10,
+      "client": 10,
+      "rule": 40,
+      "total": 50,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|own|missing|200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|own||200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|opponent||200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedShowdownPresentation.js",
+      "count": 9,
+      "client": 9,
+      "rule": 36,
+      "total": 45,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedShowdownPresentation.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedJourneyConflicts.js",
+      "count": 11,
+      "client": 11,
+      "rule": 33,
+      "total": 44,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||missing|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHARED_SETUP_OPEN|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||LEAGUE_WHEEL_COMMITTED|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||CLUB_ASSIGNMENTS_COMMITTED|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SEASON_LENGTH_COMMITTED|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/leagueProjection|js/productionSharedSeasonResults.js",
+      "count": 11,
+      "client": 11,
+      "rule": 33,
+      "total": 44,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/leagueProjection"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/leagueProjection||missing|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/leagueProjection|||200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonCommits/season_{n}|js/productionSharedJourneyEntry.js",
+      "count": 10,
+      "client": 10,
+      "rule": 30,
+      "total": 40,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonCommits/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyEntry.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||ACKNOWLEDGED|200|live",
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||missing|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedShowdownPresentation.js",
+      "count": 9,
+      "client": 9,
+      "rule": 27,
+      "total": 36,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedShowdownPresentation.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonResults/season_{n}|js/productionSharedSeasonResults.js",
+      "count": 9,
+      "client": 9,
+      "rule": 27,
+      "total": 36,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonResults/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonResults/season_{n}||missing|200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}||COLLECTING|200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}||RESULTS_READY|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/sparkRemoteJoining.js",
+      "count": 7,
+      "client": 7,
+      "rule": 28,
+      "total": 35,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkRemoteJoining.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||missing|200|live",
+        "get|rivalries/{rivalry}/sessions/{session}||open|200|live",
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedSeasonResults.js",
+      "count": 7,
+      "client": 7,
+      "rule": 28,
+      "total": 35,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/careerStart/authoritative|js/productionSharedCareerStart.js",
+      "count": 8,
+      "client": 8,
+      "rule": 24,
+      "total": 32,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/careerStart/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCareerStart.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/careerStart/authoritative||missing|200|live",
+        "get|rivalries/{rivalry}/careerStart/authoritative||ONE_MANAGER_ACKNOWLEDGED|200|live",
+        "get|rivalries/{rivalry}/careerStart/authoritative||CAREER_START_READY|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction commit|rivalries/{rivalry}/transferChallenges/season_{n} + rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative|js/productionSharedTransferChallenge.js",
+      "count": 4,
+      "client": 0,
+      "rule": 32,
+      "total": 32,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/transferChallenges/season_{n} + rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:lock-guesses:GUESS_ENTRY:1:4+update:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative|200|live",
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:lock-guesses:SIGNING_ENTRY:1:5+update:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative|200|live",
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:lock-signings:SIGNING_ENTRY:1:6+update:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative|200|live",
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:lock-signings:COMPLETED:1:7+update:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative|200|live"
+      ],
+      "ruleCounts": [
+        8
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}/seasonCommits/season_{n}|js/productionSharedSeasonCommit.js",
+      "count": 7,
+      "client": 11,
+      "rule": 21,
+      "total": 32,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonCommits/season_{n}"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedSeasonCommit.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||COMMITTED|200|live",
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||missing|200|live",
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||ACKNOWLEDGED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|js/productionSharedJourneyConflicts.js",
+      "count": 6,
+      "client": 6,
+      "rule": 24,
+      "total": 30,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|own||200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|opponent||200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedSeasonResults.js",
+      "count": 7,
+      "client": 7,
+      "rule": 21,
+      "total": 28,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedShowdownSetup.js",
+      "count": 5,
+      "client": 5,
+      "rule": 20,
+      "total": 25,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedShowdownSetup.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedSeasonResults.js",
+      "count": 6,
+      "client": 6,
+      "rule": 18,
+      "total": 24,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction commit|rivalries/{rivalry}/transferChallenges/season_{n} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative + verify rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|js/productionSharedTransferChallenge.js",
+      "count": 3,
+      "client": 0,
+      "rule": 23,
+      "total": 23,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/transferChallenges/season_{n} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative + verify rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:start-window:WINDOW_OPEN:1:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|200|live",
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:request-end-window:WINDOW_OPEN:1:2+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|200|live",
+        "commit|update:rivalries/{rivalry}/transferChallenges/season_{n}:request-end-window:GUESS_ENTRY:1:3+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/transferChallenges/season_{n}/roles/{role}|200|live"
+      ],
+      "ruleCounts": [
+        9,
+        7
+      ]
+    },
+    {
+      "key": "transaction commit|rivalries/{rivalry}/seasonCommits/season_{n} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/seasonResults/season_{n} + verify rivalries/{rivalry}/seasonResults/season_{n}/roles/{role} + verify rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|js/productionSharedJourneyConflicts.js",
+      "count": 3,
+      "client": 0,
+      "rule": 21,
+      "total": 21,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonCommits/season_{n} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/seasonResults/season_{n} + verify rivalries/{rivalry}/seasonResults/season_{n}/roles/{role} + verify rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "commit|update:rivalries/{rivalry}/seasonCommits/season_{n}:COMMITTED:1:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/seasonResults/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|200|live",
+        "commit|update:rivalries/{rivalry}/seasonCommits/season_{n}:COMMITTED:1:2+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/seasonResults/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|200|live",
+        "commit|update:rivalries/{rivalry}/seasonCommits/season_{n}:ACKNOWLEDGED:1:3+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/seasonResults/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|200|live"
+      ],
+      "ruleCounts": [
+        9,
+        6
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessionOffers/current|js/sparkRemoteJoining.js",
+      "count": 5,
+      "client": 5,
+      "rule": 15,
+      "total": 20,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessionOffers/current"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkRemoteJoining.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessionOffers/current||missing|200|live",
+        "get|rivalries/{rivalry}/sessionOffers/current|||200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/onlinePlayerIdentity.js",
+      "count": 5,
+      "client": 5,
+      "rule": 15,
+      "total": 20,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/onlinePlayerIdentity.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedJourneyEntry.js",
+      "count": 5,
+      "client": 5,
+      "rule": 15,
+      "total": 20,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyEntry.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||missing|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedJourneyConflicts.js",
+      "count": 4,
+      "client": 4,
+      "rule": 16,
+      "total": 20,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedMultiSeasonProgression.js",
+      "count": 5,
+      "client": 5,
+      "rule": 15,
+      "total": 20,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedMultiSeasonProgression.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|js/sparkSharedMultiSeasonProgression.js",
+      "count": 4,
+      "client": 4,
+      "rule": 16,
+      "total": 20,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkSharedMultiSeasonProgression.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|own||200|live",
+        "get|rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|opponent||200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedMultiSeasonProgression.js",
+      "count": 4,
+      "client": 4,
+      "rule": 16,
+      "total": 20,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedMultiSeasonProgression.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}/transferChallenges/season_{n}|js/productionSharedTransferChallenge.js",
+      "count": 4,
+      "client": 8,
+      "rule": 12,
+      "total": 20,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/transferChallenges/season_{n}"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||WINDOW_OPEN|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||GUESS_ENTRY|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||SIGNING_ENTRY|200|live",
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||COMPLETED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}/sessions/{session}|js/productionSharedTransferChallenge.js",
+      "count": 4,
+      "client": 4,
+      "rule": 16,
+      "total": 20,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction commit|rivalries/{rivalry}/seasonResults/season_{n} + rivalries/{rivalry}/seasonResults/season_{n}/roles/{role} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative + verify rivalries/{rivalry}/sharedSetup/leagueProjection + verify rivalries/{rivalry}/transferChallenges/season_{n}|js/productionSharedSeasonResults.js",
+      "count": 2,
+      "client": 0,
+      "rule": 17,
+      "total": 17,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonResults/season_{n} + rivalries/{rivalry}/seasonResults/season_{n}/roles/{role} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative + verify rivalries/{rivalry}/sharedSetup/leagueProjection + verify rivalries/{rivalry}/transferChallenges/season_{n}"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "commit|update:rivalries/{rivalry}/seasonResults/season_{n}:COLLECTING:1:1+update:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/sharedSetup/leagueProjection+verify:rivalries/{rivalry}/transferChallenges/season_{n}|200|live",
+        "commit|update:rivalries/{rivalry}/seasonResults/season_{n}:RESULTS_READY:1:2+update:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/sharedSetup/leagueProjection+verify:rivalries/{rivalry}/transferChallenges/season_{n}|200|live"
+      ],
+      "ruleCounts": [
+        9,
+        8
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/persistentNikDanielPair.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/persistentNikDanielPair.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||pending-pair|200|live",
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/sparkRemoteJoining.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkRemoteJoining.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedShowdownPresentation.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedShowdownPresentation.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHARED_SETUP_OPEN|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||LEAGUE_WHEEL_COMMITTED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/careerStart/authoritative|js/productionSharedSeasonResults.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/careerStart/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/careerStart/authoritative||CAREER_START_READY|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/transferChallenges/season_{n}|js/productionSharedSeasonResults.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/transferChallenges/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/transferChallenges/season_{n}||COMPLETED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonCommits/season_{n}|js/productionSharedSeasonCommit.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonCommits/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonCommit.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||missing|200|live",
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||COMMITTED|200|live",
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||ACKNOWLEDGED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedJourneyConflicts.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedSeasonCommit.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonCommit.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedMultiSeasonProgression.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedMultiSeasonProgression.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}|js/productionSharedTransferChallenge.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "get|rivalries/{rivalry}|js/careerScreensV10.js",
+      "count": 4,
+      "client": 4,
+      "rule": 12,
+      "total": 16,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "get"
+      ],
+      "owners": [
+        "js/careerScreensV10.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedJourneyEntry.js",
+      "count": 3,
+      "client": 3,
+      "rule": 12,
+      "total": 15,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyEntry.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedCareerStart.js",
+      "count": 3,
+      "client": 3,
+      "rule": 12,
+      "total": 15,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCareerStart.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedSeasonCommit.js",
+      "count": 3,
+      "client": 3,
+      "rule": 12,
+      "total": 15,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonCommit.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedSeasonCommit.js",
+      "count": 4,
+      "client": 2,
+      "rule": 12,
+      "total": 14,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedSeasonCommit.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction commit|accounts/{uid}/pairLinks/current + accounts/{uid}/careerIndex/{id} + rivalries/{rivalry} + rivalries/{rivalry}/invites/{invite} + verify accounts/{uid}/devices/{device}|js/persistentNikDanielPair.js",
+      "count": 2,
+      "client": 0,
+      "rule": 13,
+      "total": 13,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/pairLinks/current + accounts/{uid}/careerIndex/{id} + rivalries/{rivalry} + rivalries/{rivalry}/invites/{invite} + verify accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/persistentNikDanielPair.js"
+      ],
+      "probeKeys": [
+        "commit|update:accounts/{uid}/pairLinks/current:0+update:accounts/{uid}/careerIndex/{id}:0+update:rivalries/{rivalry}:pending-pair:0+update:rivalries/{rivalry}/invites/{invite}:open:0+verify:accounts/{uid}/devices/{device}|200|live",
+        "commit|update:accounts/{uid}/pairLinks/current:0+update:accounts/{uid}/careerIndex/{id}:0+update:rivalries/{rivalry}:active:1+update:rivalries/{rivalry}/invites/{invite}:redeemed:1+verify:accounts/{uid}/devices/{device}|200|live"
+      ],
+      "ruleCounts": [
+        5,
+        8
+      ]
+    },
+    {
+      "key": "transaction commit|rivalries/{rivalry}/careerStart/authoritative + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedCareerStart.js",
+      "count": 2,
+      "client": 0,
+      "rule": 13,
+      "total": 13,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/careerStart/authoritative + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/productionSharedCareerStart.js"
+      ],
+      "probeKeys": [
+        "commit|update:rivalries/{rivalry}/careerStart/authoritative:ONE_MANAGER_ACKNOWLEDGED:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative|200|live",
+        "commit|update:rivalries/{rivalry}/careerStart/authoritative:CAREER_START_READY:2+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative|200|live"
+      ],
+      "ruleCounts": [
+        7,
+        6
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/pairLinks/current|js/persistentNikDanielPair.js",
+      "count": 12,
+      "client": 12,
+      "rule": 0,
+      "total": 12,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/pairLinks/current"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/persistentNikDanielPair.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/pairLinks/current||missing|200|live",
+        "get|accounts/{uid}/pairLinks/current|||200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedShowdownSetup.js",
+      "count": 3,
+      "client": 3,
+      "rule": 9,
+      "total": 12,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedShowdownSetup.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||missing|200|live",
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedShowdownSetup.js",
+      "count": 3,
+      "client": 3,
+      "rule": 9,
+      "total": 12,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedShowdownSetup.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedCareerStart.js",
+      "count": 3,
+      "client": 3,
+      "rule": 9,
+      "total": 12,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCareerStart.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedCareerStart.js",
+      "count": 3,
+      "client": 3,
+      "rule": 9,
+      "total": 12,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCareerStart.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonResults/season_{n}|js/productionSharedJourneyConflicts.js",
+      "count": 3,
+      "client": 3,
+      "rule": 9,
+      "total": 12,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonResults/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonResults/season_{n}||RESULTS_READY|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonCommits/season_{n}|js/productionSharedJourneyConflicts.js",
+      "count": 3,
+      "client": 3,
+      "rule": 9,
+      "total": 12,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonCommits/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||missing|200|live",
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||COMMITTED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedSeasonCommit.js",
+      "count": 3,
+      "client": 3,
+      "rule": 9,
+      "total": 12,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonCommit.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction commit|rivalries/{rivalry}/sessions/{session} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry}|js/sparkRemoteJoining.js",
+      "count": 2,
+      "client": 0,
+      "rule": 10,
+      "total": 10,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session} + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/sparkRemoteJoining.js"
+      ],
+      "probeKeys": [
+        "commit|update:rivalries/{rivalry}/sessions/{session}:open:0+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}|200|live",
+        "commit|update:rivalries/{rivalry}/sessions/{session}:active:1+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}|200|live"
+      ],
+      "ruleCounts": [
+        5
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}/sessions/{session}|js/productionSharedSeasonCommit.js",
+      "count": 2,
+      "client": 2,
+      "rule": 8,
+      "total": 10,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedSeasonCommit.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonResults/season_{n}|js/sparkSharedMultiSeasonProgression.js",
+      "count": 2,
+      "client": 2,
+      "rule": 6,
+      "total": 8,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonResults/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkSharedMultiSeasonProgression.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonResults/season_{n}||RESULTS_READY|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}|js/productionSharedSeasonCommit.js",
+      "count": 2,
+      "client": 2,
+      "rule": 6,
+      "total": 8,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedSeasonCommit.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "get|rivalries/{rivalry}|js/rivalryLegacyV10.js",
+      "count": 2,
+      "client": 2,
+      "rule": 6,
+      "total": 8,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "get"
+      ],
+      "owners": [
+        "js/rivalryLegacyV10.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}|js/productionSharedTransferChallenge.js",
+      "count": 7,
+      "client": 7,
+      "rule": 0,
+      "total": 7,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}|||200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/devices/{device}|js/productionSharedTransferChallenge.js",
+      "count": 7,
+      "client": 7,
+      "rule": 0,
+      "total": 7,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTransferChallenge.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/devices/{device}||active|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction commit|rivalries/{rivalry}/sharedSetup/leagueProjection + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative + verify rivalries/{rivalry}/transferChallenges/season_{n} + verify rivalries/{rivalry}/seasonResults/season_{n} + verify rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|js/productionSharedSeasonResults.js",
+      "count": 1,
+      "client": 0,
+      "rule": 7,
+      "total": 7,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/leagueProjection + verify accounts/{uid} + verify accounts/{uid}/devices/{device} + verify rivalries/{rivalry} + verify rivalries/{rivalry}/sessions/{session} + verify rivalries/{rivalry}/sharedSetup/authoritative + verify rivalries/{rivalry}/careerStart/authoritative + verify rivalries/{rivalry}/transferChallenges/season_{n} + verify rivalries/{rivalry}/seasonResults/season_{n} + verify rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "commit|update:rivalries/{rivalry}/sharedSetup/leagueProjection+verify:accounts/{uid}+verify:accounts/{uid}/devices/{device}+verify:rivalries/{rivalry}+verify:rivalries/{rivalry}/sessions/{session}+verify:rivalries/{rivalry}/sharedSetup/authoritative+verify:rivalries/{rivalry}/careerStart/authoritative+verify:rivalries/{rivalry}/transferChallenges/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}+verify:rivalries/{rivalry}/seasonResults/season_{n}/roles/{role}|200|live"
+      ],
+      "ruleCounts": [
+        7
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/sparkPrivatePairing.js",
+      "count": 1,
+      "client": 1,
+      "rule": 4,
+      "total": 5,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkPrivatePairing.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sessions/{session}|js/productionSharedCanonicalScoring.js",
+      "count": 1,
+      "client": 1,
+      "rule": 4,
+      "total": 5,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessions/{session}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCanonicalScoring.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sessions/{session}||active|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "listen|rivalries/{rivalry}/seasonResults/season_{n}|js/productionSharedSeasonResults.js",
+      "count": 1,
+      "client": 2,
+      "rule": 3,
+      "total": 5,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonResults/season_{n}"
+      ],
+      "operations": [
+        "listen"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonResults/season_{n}||RESULTS_READY|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}|js/sparkAccountBootstrap.js",
+      "count": 4,
+      "client": 4,
+      "rule": 0,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkAccountBootstrap.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}||missing|200|live",
+        "get|accounts/{uid}|||200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/devices/{device}|js/onlinePlayerIdentity.js",
+      "count": 4,
+      "client": 4,
+      "rule": 0,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/onlinePlayerIdentity.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/devices/{device}||missing|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/devices/{device}|js/persistentNikDanielPair.js",
+      "count": 4,
+      "client": 4,
+      "rule": 0,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/persistentNikDanielPair.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/devices/{device}||active|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/careerIndex/{id}|js/persistentNikDanielPair.js",
+      "count": 4,
+      "client": 4,
+      "rule": 0,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/careerIndex/{id}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/persistentNikDanielPair.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/careerIndex/{id}||missing|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/invites/{invite}|js/persistentNikDanielPair.js",
+      "count": 2,
+      "client": 2,
+      "rule": 2,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/invites/{invite}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/persistentNikDanielPair.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/invites/{invite}||open|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}|js/sparkRemoteJoining.js",
+      "count": 4,
+      "client": 4,
+      "rule": 0,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkRemoteJoining.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}|||200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction commit|rivalries/{rivalry}/sessionOffers/current|js/sparkRemoteJoining.js",
+      "count": 1,
+      "client": 0,
+      "rule": 4,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sessionOffers/current"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/sparkRemoteJoining.js"
+      ],
+      "probeKeys": [
+        "commit|update:rivalries/{rivalry}/sessionOffers/current|200|live"
+      ],
+      "ruleCounts": [
+        4
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedTerminalClose.js",
+      "count": 1,
+      "client": 1,
+      "rule": 3,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedTerminalClose.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}|js/productionSharedCanonicalScoring.js",
+      "count": 1,
+      "client": 1,
+      "rule": 3,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCanonicalScoring.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}||active|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/seasonCommits/season_{n}|js/productionSharedCanonicalScoring.js",
+      "count": 1,
+      "client": 1,
+      "rule": 3,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/seasonCommits/season_{n}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCanonicalScoring.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/seasonCommits/season_{n}||ACKNOWLEDGED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "transaction read|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedCanonicalScoring.js",
+      "count": 1,
+      "client": 1,
+      "rule": 3,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCanonicalScoring.js"
+      ],
+      "probeKeys": [
+        "get|rivalries/{rivalry}/sharedSetup/authoritative||SHOWDOWN_CONFIRMED|200|live"
+      ],
+      "ruleCounts": [
+        3
+      ]
+    },
+    {
+      "key": "get|accounts/{uid}/careerIndex/{id}|js/careerScreensV10.js",
+      "count": 4,
+      "client": 4,
+      "rule": 0,
+      "total": 4,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/careerIndex/{id}"
+      ],
+      "operations": [
+        "get"
+      ],
+      "owners": [
+        "js/careerScreensV10.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/careerIndex/{id}||missing|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}|js/productionSharedCareerStart.js",
+      "count": 3,
+      "client": 3,
+      "rule": 0,
+      "total": 3,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCareerStart.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}|||200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/devices/{device}|js/productionSharedCareerStart.js",
+      "count": 3,
+      "client": 3,
+      "rule": 0,
+      "total": 3,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedCareerStart.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/devices/{device}||active|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}|js/productionSharedSeasonResults.js",
+      "count": 3,
+      "client": 3,
+      "rule": 0,
+      "total": 3,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}|||200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/devices/{device}|js/productionSharedSeasonResults.js",
+      "count": 3,
+      "client": 3,
+      "rule": 0,
+      "total": 3,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedSeasonResults.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/devices/{device}||active|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}|js/productionSharedJourneyConflicts.js",
+      "count": 3,
+      "client": 3,
+      "rule": 0,
+      "total": 3,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}|||200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/devices/{device}|js/productionSharedJourneyConflicts.js",
+      "count": 3,
+      "client": 3,
+      "rule": 0,
+      "total": 3,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/devices/{device}||active|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}|js/sparkConnectedAccount.js",
+      "count": 2,
+      "client": 2,
+      "rule": 0,
+      "total": 2,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkConnectedAccount.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}||missing|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction commit|accounts/{uid}/devices/{device}|js/onlinePlayerIdentity.js",
+      "count": 2,
+      "client": 0,
+      "rule": 2,
+      "total": 2,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/onlinePlayerIdentity.js"
+      ],
+      "probeKeys": [
+        "commit|update:accounts/{uid}/devices/{device}:active:0|200|live"
+      ],
+      "ruleCounts": [
+        1
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/devices/{device}|js/sparkRemoteJoining.js",
+      "count": 2,
+      "client": 2,
+      "rule": 0,
+      "total": 2,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/sparkRemoteJoining.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/devices/{device}||active|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/devices/{device}|js/showdown.js",
+      "count": 2,
+      "client": 2,
+      "rule": 0,
+      "total": 2,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/showdown.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/devices/{device}||active|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "get|accounts/{uid}/careerIndex/{id}|js/rivalryLegacyV10.js",
+      "count": 2,
+      "client": 2,
+      "rule": 0,
+      "total": 2,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/careerIndex/{id}"
+      ],
+      "operations": [
+        "get"
+      ],
+      "owners": [
+        "js/rivalryLegacyV10.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/careerIndex/{id}||missing|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}|js/productionSharedShowdownPresentation.js",
+      "count": 1,
+      "client": 1,
+      "rule": 0,
+      "total": 1,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedShowdownPresentation.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}|||200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction read|accounts/{uid}/devices/{device}|js/productionSharedShowdownPresentation.js",
+      "count": 1,
+      "client": 1,
+      "rule": 0,
+      "total": 1,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}/devices/{device}"
+      ],
+      "operations": [
+        "transaction read"
+      ],
+      "owners": [
+        "js/productionSharedShowdownPresentation.js"
+      ],
+      "probeKeys": [
+        "get|accounts/{uid}/devices/{device}||active|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction commit|accounts/{uid}|js/sparkAccountBootstrap.js",
+      "count": 2,
+      "client": 0,
+      "rule": 0,
+      "total": 0,
+      "unpriced": 0,
+      "patterns": [
+        "accounts/{uid}"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/sparkAccountBootstrap.js"
+      ],
+      "probeKeys": [
+        "commit|update:accounts/{uid}:0|200|live"
+      ],
+      "ruleCounts": [
+        0
+      ]
+    },
+    {
+      "key": "transaction commit|rivalries/{rivalry}/sharedSetup/authoritative|js/productionSharedJourneyConflicts.js",
+      "count": 7,
+      "client": 0,
+      "rule": 0,
+      "total": 0,
+      "unpriced": 7,
+      "patterns": [
+        "rivalries/{rivalry}/sharedSetup/authoritative"
+      ],
+      "operations": [
+        "transaction commit"
+      ],
+      "owners": [
+        "js/productionSharedJourneyConflicts.js"
+      ],
+      "probeKeys": [],
+      "ruleCounts": []
+    }
+  ]
+}

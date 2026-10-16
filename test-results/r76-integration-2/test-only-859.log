@@ -1,0 +1,216 @@
+✖ protocol rejects absent leaguePoints=null (6.615778ms)
+✖ provider rejects absent leaguePoints=null without writing Season Results (19.70589ms)
+✖ private reader rejects persisted leaguePoints=null even with a hash-valid zero (22.024788ms)
+✖ protocol rejects absent leaguePoints="" (1.057347ms)
+✖ provider rejects absent leaguePoints="" without writing Season Results (10.570271ms)
+✖ private reader rejects persisted leaguePoints="" even with a hash-valid zero (21.093617ms)
+✖ protocol rejects absent leagueGoals=null (0.630244ms)
+✖ provider rejects absent leagueGoals=null without writing Season Results (13.11831ms)
+✖ private reader rejects persisted leagueGoals=null even with a hash-valid zero (18.494614ms)
+✖ protocol rejects absent leagueGoals="" (1.322124ms)
+✖ provider rejects absent leagueGoals="" without writing Season Results (6.447098ms)
+✖ private reader rejects persisted leagueGoals="" even with a hash-valid zero (15.220249ms)
+✔ protocol preserves explicit numeric zeros and 20-club maxima (0.71862ms)
+✔ provider preserves numeric zero, private opponent results, and two-manager reveal (27.589507ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 2
+ℹ fail 12
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 174.378871
+
+✖ failing tests:
+
+test at tests/contracts/sweep-missing-season-stats-contracts.cjs:83:5
+✖ protocol rejects absent leaguePoints=null (6.615778ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection: leaguePoints=null must not become zero
+      at async TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-missing-season-stats-contracts.cjs:85:7)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [Function (anonymous)],
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests/contracts/sweep-missing-season-stats-contracts.cjs:87:5
+✖ provider rejects absent leaguePoints=null without writing Season Results (19.70589ms)
+  AssertionError [ERR_ASSERTION]: leaguePoints=null must not write a public Season Result
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-missing-season-stats-contracts.cjs:91:14)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/contracts/sweep-missing-season-stats-contracts.cjs:97:5
+✖ private reader rejects persisted leaguePoints=null even with a hash-valid zero (22.024788ms)
+  AssertionError [ERR_ASSERTION]: leaguePoints=null must not be accepted as hash-valid zero
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-missing-season-stats-contracts.cjs:106:14)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/contracts/sweep-missing-season-stats-contracts.cjs:83:5
+✖ protocol rejects absent leaguePoints="" (1.057347ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection: leaguePoints="" must not become zero
+      at async TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-missing-season-stats-contracts.cjs:85:7)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [Function (anonymous)],
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests/contracts/sweep-missing-season-stats-contracts.cjs:87:5
+✖ provider rejects absent leaguePoints="" without writing Season Results (10.570271ms)
+  AssertionError [ERR_ASSERTION]: leaguePoints="" must not write a public Season Result
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-missing-season-stats-contracts.cjs:91:14)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/contracts/sweep-missing-season-stats-contracts.cjs:97:5
+✖ private reader rejects persisted leaguePoints="" even with a hash-valid zero (21.093617ms)
+  AssertionError [ERR_ASSERTION]: leaguePoints="" must not be accepted as hash-valid zero
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-missing-season-stats-contracts.cjs:106:14)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/contracts/sweep-missing-season-stats-contracts.cjs:83:5
+✖ protocol rejects absent leagueGoals=null (0.630244ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection: leagueGoals=null must not become zero
+      at async TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-missing-season-stats-contracts.cjs:85:7)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [Function (anonymous)],
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests/contracts/sweep-missing-season-stats-contracts.cjs:87:5
+✖ provider rejects absent leagueGoals=null without writing Season Results (13.11831ms)
+  AssertionError [ERR_ASSERTION]: leagueGoals=null must not write a public Season Result
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-missing-season-stats-contracts.cjs:91:14)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/contracts/sweep-missing-season-stats-contracts.cjs:97:5
+✖ private reader rejects persisted leagueGoals=null even with a hash-valid zero (18.494614ms)
+  AssertionError [ERR_ASSERTION]: leagueGoals=null must not be accepted as hash-valid zero
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-missing-season-stats-contracts.cjs:106:14)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/contracts/sweep-missing-season-stats-contracts.cjs:83:5
+✖ protocol rejects absent leagueGoals="" (1.322124ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection: leagueGoals="" must not become zero
+      at async TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-missing-season-stats-contracts.cjs:85:7)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [Function (anonymous)],
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests/contracts/sweep-missing-season-stats-contracts.cjs:87:5
+✖ provider rejects absent leagueGoals="" without writing Season Results (6.447098ms)
+  AssertionError [ERR_ASSERTION]: leagueGoals="" must not write a public Season Result
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-missing-season-stats-contracts.cjs:91:14)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/contracts/sweep-missing-season-stats-contracts.cjs:97:5
+✖ private reader rejects persisted leagueGoals="" even with a hash-valid zero (15.220249ms)
+  AssertionError [ERR_ASSERTION]: leagueGoals="" must not be accepted as hash-valid zero
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-missing-season-stats-contracts.cjs:106:14)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

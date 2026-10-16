@@ -1,0 +1,100 @@
+[
+  {
+    "run": "r76-m3",
+    "id": "S1.excursion.stats.daniel",
+    "context": "daniel",
+    "original": "test-results/r76-m3/problem-S1.excursion.stats.daniel-s1-daniel.png",
+    "committed": "journey-screens/r76-m3-problem-S1.excursion.stats.daniel-s1-daniel.png"
+  },
+  {
+    "run": "r76-m3",
+    "id": "S1.excursion.trophy.daniel",
+    "context": "daniel",
+    "original": "test-results/r76-m3/problem-S1.excursion.trophy.daniel-s1-daniel.png",
+    "committed": "journey-screens/r76-m3-problem-S1.excursion.trophy.daniel-s1-daniel.png"
+  },
+  {
+    "run": "r76-m3",
+    "id": "S1.excursion.stats.nik",
+    "context": "nik",
+    "original": "test-results/r76-m3/problem-S1.excursion.stats.nik-s1-nik.png",
+    "committed": "journey-screens/r76-m3-problem-S1.excursion.stats.nik-s1-nik.png"
+  },
+  {
+    "run": "r76-m3",
+    "id": "S1.excursion.trophy.nik",
+    "context": "nik",
+    "original": "test-results/r76-m3/problem-S1.excursion.trophy.nik-s1-nik.png",
+    "committed": "journey-screens/r76-m3-problem-S1.excursion.trophy.nik-s1-nik.png"
+  },
+  {
+    "run": "r76-m3",
+    "id": "fatal",
+    "context": "daniel",
+    "original": "test-results/r76-m3/fatal-daniel.png",
+    "committed": "journey-screens/r76-m3-fatal-daniel.png"
+  },
+  {
+    "run": "r76-m3",
+    "id": "fatal",
+    "context": "nik",
+    "original": "test-results/r76-m3/fatal-nik.png",
+    "committed": "journey-screens/r76-m3-fatal-nik.png"
+  },
+  {
+    "run": "r76-i3",
+    "id": "fatal",
+    "context": "daniel",
+    "original": "test-results/r76-i3/fatal-daniel.png",
+    "committed": "journey-screens/r76-i3-fatal-daniel.png"
+  },
+  {
+    "run": "r76-i3",
+    "id": "fatal",
+    "context": "nik",
+    "original": "test-results/r76-i3/fatal-nik.png",
+    "committed": "journey-screens/r76-i3-fatal-nik.png"
+  },
+  {
+    "run": "ce2pg-3-1",
+    "id": "fatal",
+    "context": "daniel",
+    "original": "test-results/ce2pg-3-1/fatal-daniel.png",
+    "committed": "journey-screens/ce2pg-3-1-fatal-daniel.png"
+  },
+  {
+    "run": "ce2pg-3-1",
+    "id": "fatal",
+    "context": "nik",
+    "original": "test-results/ce2pg-3-1/fatal-nik.png",
+    "committed": "journey-screens/ce2pg-3-1-fatal-nik.png"
+  },
+  {
+    "run": "ce2pg-5-2",
+    "id": "fatal",
+    "context": "daniel",
+    "original": "test-results/ce2pg-5-2/fatal-daniel.png",
+    "committed": "journey-screens/ce2pg-5-2-fatal-daniel.png"
+  },
+  {
+    "run": "ce2pg-5-2",
+    "id": "fatal",
+    "context": "nik",
+    "original": "test-results/ce2pg-5-2/fatal-nik.png",
+    "committed": "journey-screens/ce2pg-5-2-fatal-nik.png"
+  },
+  {
+    "run": "ce2pg-10-3",
+    "id": "fatal",
+    "context": "daniel",
+    "original": "test-results/ce2pg-10-3/fatal-daniel.png",
+    "committed": "journey-screens/ce2pg-10-3-fatal-daniel.png"
+  },
+  {
+    "run": "ce2pg-10-3",
+    "id": "fatal",
+    "context": "nik",
+    "original": "test-results/ce2pg-10-3/fatal-nik.png",
+    "committed": "journey-screens/ce2pg-10-3-fatal-nik.png"
+  }
+]

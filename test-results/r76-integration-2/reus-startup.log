@@ -1,0 +1,8 @@
+ok Reus Gate source: app.js hold with minimum and cap, ssjr.js ready signals, startup budget
+ok Reus Gate slow start (no-preference): loading screen handed over at 8128 ms to the finished Team V Home, no old Home frame
+ok Reus Gate slow start (reduce): loading screen handed over at 7578 ms to the finished Team V Home, no old Home frame
+ok Ready gate on Rule Book's first open: covered until its plate was ready (157 covered frames, 0 revealed without the plate)
+ok Ready gate on Club's first open: covered until its plate was ready (153 covered frames, 0 revealed without the plate)
+ok Reus Gate fallback: no lazy loader, loading screen left at 6130 ms
+ok Reus Gate failure: Team V loader failed, loading screen left at 2775 ms
+PASS Reus Gate startup contracts: source, slow start (motion and reduced motion), screen plate gate (Rule Book, Club), no-loader fallback, failed-loader release.

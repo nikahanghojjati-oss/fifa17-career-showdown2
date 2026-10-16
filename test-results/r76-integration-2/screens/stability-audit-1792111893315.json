@@ -1,0 +1,15 @@
+[
+  {
+    "id": 3,
+    "shot": "/workspace/fifa17-career-showdown2/test-results/r76-integration-2/screens/stability-audit-3.png",
+    "screen": {
+      "url": "http://127.0.0.1:4511/",
+      "title": "Career Mode Showdown",
+      "active": "mainMenu",
+      "visible": [
+        "mainMenu"
+      ],
+      "text": "CM17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\nCAREER MODE\n\nSHOWDOWN // 17\n\nDANIEL\nSEASON 1 / 1\n\nTHE RIVALRY STARTS HERE\n\nCAREER MODE SHOWDOWN 17\n\nTWO MANAGERS \u00b7 ONE LEGACY\n\nCAREER MODE // SHOWDOWN 17\nHOME\n\nRIVALRY HEADQUARTERS\nBuild the rivalry, play every season, and carry each trophy into your Legacy.\n\nCAREER\nCONTINUE CAREER\nDaniel vs Nik \u00b7 Season 1 of 1\nNEW\nSTART A SHOWDOWN\nChoose seasons and create the code\nHISTORY\nLEGACY\nCompleted rivalries and season history\nDATA\nSTATISTICS\nCareer totals, manager comparison and honours\nHONOURS\nTROPHY ROOM\nCareer trophies, standings and records\nRULES\nRULE BOOK\nCompetition rules, scoring and transfer challenge\nSETTINGS\nSETTINGS\nAccount, device and preferences\nAUDIUS SOUNDTRACK\nBUSINESS\n\nBehzad Leito ft. Sepehr Khalse, Saman Wilson, Sohrab MJ & Alireza JJ\n\nAUDIUS\nTRACKS\n\nBUSINESS \u00b7 AUDIUS \u00b7 READY\n\nPLAY TRACK\nMUTE\n01 TWO MANAGER CAREER COMPETITION\n02 FIFA 17 ERA RULESET\nDANIEL READY\nFOOTBALL BRINGS US TOGETHER\nCareer Mode Showdown\nv1.9.1 \u00b7 Stable"
+    }
+  }
+]

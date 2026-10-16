@@ -1,0 +1,7 @@
+{
+  "observedAt": "2026-10-16T12:37:54.245675+00:00",
+  "originalBase": "2f3865feca484223ac7d267d83a9c4828bad3078",
+  "liveBase": "5c66c989f415676f57f7b8d0318fa17ea3925cdd",
+  "testedProductHead": "b2e68639e835e5be9b0d17423ef175fb88360084",
+  "decision": "Preserve the frozen tested integration. Do not merge or rebase the advanced base into the candidate; report divergence in the draft."
+}

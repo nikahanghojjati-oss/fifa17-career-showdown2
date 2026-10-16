@@ -1,0 +1,187 @@
+[
+  {
+    "run": "r76-m3",
+    "seasonsRequested": 3,
+    "fullyFinishedLoopSeasons": 0,
+    "finished": false,
+    "minutes": 3.486266666666667,
+    "failedIds": [
+      "S1.excursion.stats.daniel",
+      "S1.excursion.stats.nik",
+      "S1.excursion.trophy.daniel",
+      "S1.excursion.trophy.nik",
+      "S1.rivalry.back.daniel",
+      "S1.rivalry.back.nik"
+    ],
+    "newVsM3a": [
+      "S1.excursion.stats.daniel",
+      "S1.excursion.stats.nik",
+      "S1.excursion.trophy.daniel",
+      "S1.excursion.trophy.nik",
+      "S1.rivalry.back.daniel",
+      "S1.rivalry.back.nik"
+    ],
+    "newVsM5": [
+      "S1.excursion.stats.daniel",
+      "S1.excursion.stats.nik",
+      "S1.excursion.trophy.daniel",
+      "S1.excursion.trophy.nik",
+      "S1.rivalry.back.daniel",
+      "S1.rivalry.back.nik"
+    ],
+    "fatal": {
+      "message": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#seasonPrimaryAction')\n    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\n  - attempting click action\n    2 \u00d7 waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n    - waiting 20ms\n    2 \u00d7 waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 100ms\n    58 \u00d7 waiting for element to be visible, enabled and stable\n       - element is not visible\n     - retrying click action\n       - waiting 500ms\n",
+      "stack": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#seasonPrimaryAction')\n    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\n  - attempting click action\n    2 \u00d7 waiting for element to be visible, enabled and stable",
+      "state_daniel": "screens=mainMenu | badge=DANIEL | overlays=",
+      "state_nik": "screens=mainMenu | badge=NIK | overlays="
+    }
+  },
+  {
+    "run": "r76-i3",
+    "seasonsRequested": 3,
+    "fullyFinishedLoopSeasons": 0,
+    "finished": false,
+    "minutes": 11.9503,
+    "failedIds": [
+      "S1.excursion.stats.daniel",
+      "S1.excursion.stats.nik",
+      "S1.excursion.trophy.daniel",
+      "S1.excursion.trophy.nik",
+      "S1.rivalry.back.daniel",
+      "S1.rivalry.back.nik"
+    ],
+    "newVsM3a": [
+      "S1.excursion.stats.daniel",
+      "S1.excursion.stats.nik",
+      "S1.excursion.trophy.daniel",
+      "S1.excursion.trophy.nik",
+      "S1.rivalry.back.daniel",
+      "S1.rivalry.back.nik"
+    ],
+    "newVsM5": [
+      "S1.excursion.stats.daniel",
+      "S1.excursion.stats.nik",
+      "S1.excursion.trophy.daniel",
+      "S1.excursion.trophy.nik",
+      "S1.rivalry.back.daniel",
+      "S1.rivalry.back.nik"
+    ],
+    "fatal": {
+      "message": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#seasonPrimaryAction')\n    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\n  - attempting click action\n    2 \u00d7 waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n    - waiting 20ms\n    2 \u00d7 waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 100ms\n    58 \u00d7 waiting for element to be visible, enabled and stable\n       - element is not visible\n     - retrying click action\n       - waiting 500ms\n",
+      "stack": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#seasonPrimaryAction')\n    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\n  - attempting click action\n    2 \u00d7 waiting for element to be visible, enabled and stable",
+      "state_daniel": "screens=mainMenu | badge=DANIEL | overlays=",
+      "state_nik": "screens=mainMenu | badge=NIK | overlays="
+    }
+  },
+  {
+    "run": "ce2pg-3-1",
+    "seasonsRequested": 3,
+    "fullyFinishedLoopSeasons": 0,
+    "finished": false,
+    "minutes": 3.4917,
+    "failedIds": [
+      "S1.excursion.stats.daniel",
+      "S1.excursion.stats.nik",
+      "S1.excursion.trophy.daniel",
+      "S1.excursion.trophy.nik",
+      "S1.rivalry.back.daniel",
+      "S1.rivalry.back.nik"
+    ],
+    "newVsM3a": [
+      "S1.excursion.stats.daniel",
+      "S1.excursion.stats.nik",
+      "S1.excursion.trophy.daniel",
+      "S1.excursion.trophy.nik",
+      "S1.rivalry.back.daniel",
+      "S1.rivalry.back.nik"
+    ],
+    "newVsM5": [
+      "S1.excursion.stats.daniel",
+      "S1.excursion.stats.nik",
+      "S1.excursion.trophy.daniel",
+      "S1.excursion.trophy.nik",
+      "S1.rivalry.back.daniel",
+      "S1.rivalry.back.nik"
+    ],
+    "fatal": {
+      "message": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#seasonPrimaryAction')\n    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\n  - attempting click action\n    2 \u00d7 waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n    - waiting 20ms\n    2 \u00d7 waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 100ms\n    58 \u00d7 waiting for element to be visible, enabled and stable\n       - element is not visible\n     - retrying click action\n       - waiting 500ms\n",
+      "stack": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#seasonPrimaryAction')\n    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\n  - attempting click action\n    2 \u00d7 waiting for element to be visible, enabled and stable",
+      "state_daniel": "screens=mainMenu | badge=DANIEL | overlays=",
+      "state_nik": "screens=mainMenu | badge=NIK | overlays="
+    }
+  },
+  {
+    "run": "ce2pg-5-2",
+    "seasonsRequested": 5,
+    "fullyFinishedLoopSeasons": 0,
+    "finished": false,
+    "minutes": 4.123566666666667,
+    "failedIds": [
+      "S1.excursion.stats.daniel",
+      "S1.excursion.stats.nik",
+      "S1.excursion.trophy.daniel",
+      "S1.excursion.trophy.nik",
+      "S1.rivalry.back.daniel",
+      "S1.rivalry.back.nik"
+    ],
+    "newVsM3a": [
+      "S1.excursion.stats.daniel",
+      "S1.excursion.stats.nik",
+      "S1.excursion.trophy.daniel",
+      "S1.excursion.trophy.nik",
+      "S1.rivalry.back.daniel",
+      "S1.rivalry.back.nik"
+    ],
+    "newVsM5": [
+      "S1.excursion.stats.daniel",
+      "S1.excursion.stats.nik",
+      "S1.excursion.trophy.daniel",
+      "S1.excursion.trophy.nik",
+      "S1.rivalry.back.daniel",
+      "S1.rivalry.back.nik"
+    ],
+    "fatal": {
+      "message": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#seasonPrimaryAction')\n    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\n  - attempting click action\n    2 \u00d7 waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n    - waiting 20ms\n    2 \u00d7 waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 100ms\n    58 \u00d7 waiting for element to be visible, enabled and stable\n       - element is not visible\n     - retrying click action\n       - waiting 500ms\n",
+      "stack": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#seasonPrimaryAction')\n    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\n  - attempting click action\n    2 \u00d7 waiting for element to be visible, enabled and stable",
+      "state_daniel": "screens=mainMenu | badge=DANIEL | overlays=",
+      "state_nik": "screens=mainMenu | badge=NIK | overlays="
+    }
+  },
+  {
+    "run": "ce2pg-10-3",
+    "seasonsRequested": 10,
+    "fullyFinishedLoopSeasons": 0,
+    "finished": false,
+    "minutes": 3.67415,
+    "failedIds": [
+      "S1.excursion.stats.daniel",
+      "S1.excursion.stats.nik",
+      "S1.excursion.trophy.daniel",
+      "S1.excursion.trophy.nik",
+      "S1.rivalry.back.daniel",
+      "S1.rivalry.back.nik"
+    ],
+    "newVsM3a": [
+      "S1.excursion.stats.daniel",
+      "S1.excursion.stats.nik",
+      "S1.excursion.trophy.daniel",
+      "S1.excursion.trophy.nik",
+      "S1.rivalry.back.daniel",
+      "S1.rivalry.back.nik"
+    ],
+    "newVsM5": [
+      "S1.excursion.stats.daniel",
+      "S1.excursion.stats.nik",
+      "S1.excursion.trophy.daniel",
+      "S1.excursion.trophy.nik",
+      "S1.rivalry.back.daniel",
+      "S1.rivalry.back.nik"
+    ],
+    "fatal": {
+      "message": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#seasonPrimaryAction')\n    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\n  - attempting click action\n    2 \u00d7 waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n    - waiting 20ms\n    2 \u00d7 waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 100ms\n    58 \u00d7 waiting for element to be visible, enabled and stable\n       - element is not visible\n     - retrying click action\n       - waiting 500ms\n",
+      "stack": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#seasonPrimaryAction')\n    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\n  - attempting click action\n    2 \u00d7 waiting for element to be visible, enabled and stable",
+      "state_daniel": "screens=mainMenu | badge=DANIEL | overlays=",
+      "state_nik": "screens=mainMenu | badge=NIK | overlays="
+    }
+  }
+]

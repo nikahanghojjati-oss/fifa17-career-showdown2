@@ -1,0 +1,191 @@
+[
+  {
+    "pr": 836,
+    "state": "open",
+    "merged": false,
+    "head": "codex/job-1802-ce2pg-baseline",
+    "head_sha": "638eac62b09aa5aec77a0566b711b17e5cdb73c5",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 837,
+    "state": "closed",
+    "merged": true,
+    "head": "codex/job-1803-close-write-limit",
+    "head_sha": "1cdaab57066e675c3b9d13b9cf2f8f0d8679c800",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 838,
+    "state": "closed",
+    "merged": true,
+    "head": "codex/job-1804-setup-write-refused",
+    "head_sha": "20b9349e9b1b36aab9c5aec7498a22a6e614c35c",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 845,
+    "state": "closed",
+    "merged": true,
+    "head": "codex/job-1821-season-chip-fit",
+    "head_sha": "33aabae4356ab2ee59fbb215c3af4ce3dabfe676",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 841,
+    "state": "open",
+    "merged": false,
+    "head": "codex/job-1808-standings-loading",
+    "head_sha": "8c3e1f23b7bb51ee16075b26848d644c8e454e49",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 846,
+    "state": "open",
+    "merged": false,
+    "head": "codex/job-1809-rivalry-statistics",
+    "head_sha": "e4349c2502675a3e1001d4952e34f1f8e432f74e",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 839,
+    "state": "closed",
+    "merged": false,
+    "head": "codex/job-1806-back-home-route",
+    "head_sha": "9b9675fe51c5f4a771f9c01217724f03077c21d7",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 840,
+    "state": "closed",
+    "merged": true,
+    "head": "codex/job-1807-review-season-hidden",
+    "head_sha": "4f57485eb07fdfa257546868b1875b027ea038a7",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 844,
+    "state": "closed",
+    "merged": true,
+    "head": "codex/job-1810-phone-trophy-data",
+    "head_sha": "2ebe8c391698c92e6bbc873d031c94f6a16ab206",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 862,
+    "state": "open",
+    "merged": false,
+    "head": "codex/job-1828-free-limit-phone-layout",
+    "head_sha": "cf1ace2b3c122f742e5b07a3306eb1078c93d682",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 848,
+    "state": "closed",
+    "merged": true,
+    "head": "codex/job-1815-journey-guard-marker",
+    "head_sha": "b8f3b767027a400a1ac7f02d0313c7c125e7547b",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 849,
+    "state": "closed",
+    "merged": false,
+    "head": "gameplay/work-1818-expired-season-results",
+    "head_sha": "ec6e23fdbcb4fd87f4c1cd1df37f1d6d3e9416ea",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 850,
+    "state": "closed",
+    "merged": true,
+    "head": "gameplay/work-1818-season-score-key-order",
+    "head_sha": "a579446f97fd880836a5e13ad2659ad41e2fa258",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 856,
+    "state": "closed",
+    "merged": true,
+    "head": "gameplay/work-1818-rivalry-history-revision-refresh",
+    "head_sha": "306e2e0700ae7bdf977f2056b6c4d1bf0abc01e4",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 860,
+    "state": "closed",
+    "merged": true,
+    "head": "gameplay/work-1818-online-career-live-refresh",
+    "head_sha": "ebada1276f01ae1f311f152802bfb1b929efbd6a",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 861,
+    "state": "open",
+    "merged": false,
+    "head": "codex/job-1827-waiting-continuity",
+    "head_sha": "7d3df03ba0f7c4a92fa13513d6aa8c7f8aff957e",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 863,
+    "state": "open",
+    "merged": false,
+    "head": "codex/job-1829-transfer-reads",
+    "head_sha": "d158e00df91c3e5d1769965f34f07a8e2e84a1dc",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 847,
+    "state": "closed",
+    "merged": true,
+    "head": "codex/job-1811-final-cells-empty",
+    "head_sha": "74c6422f0070ba888816d6f1c7c98aa93444eb72",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 857,
+    "state": "closed",
+    "merged": true,
+    "head": "gameplay/work-1818-biggest-showdown-tie",
+    "head_sha": "f9db71a7f99fbc713e948685818e5e6dbb241e87",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 858,
+    "state": "closed",
+    "merged": true,
+    "head": "gameplay/work-1818-career-table-level-rank",
+    "head_sha": "66e6e0fb1a8233939aed8f1c555f10181e475caa",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  },
+  {
+    "pr": 859,
+    "state": "closed",
+    "merged": true,
+    "head": "gameplay/work-1818-missing-season-stats",
+    "head_sha": "d8961abd5eb5e92d73a425b279b0d62a7611775a",
+    "base": "gameplay/bug-list-1",
+    "base_sha": "2f3865feca484223ac7d267d83a9c4828bad3078"
+  }
+]

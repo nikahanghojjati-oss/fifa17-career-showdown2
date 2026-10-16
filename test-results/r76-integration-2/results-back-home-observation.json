@@ -1,0 +1,12 @@
+{
+  "purpose": "Independent screen observation for browser failure classification; no audit verdict",
+  "fixtureSource": "tests/browser/shared-season-results-audit.cjs",
+  "button": "BACK TO SHOWDOWN HOME",
+  "screen": {
+    "active": "mainMenu",
+    "visible": [
+      "mainMenu"
+    ],
+    "text": "CM17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\nCAREER MODE\n\nSHOWDOWN // 17\n\nSIGN IN\nSEASON 1 / 3\n\nTHE RIVALRY STARTS HERE\n\nCAREER MODE SHOWDOWN 17\n\nTWO MANAGERS · ONE LEGACY\n\nCAREER MODE // SHOWDOWN 17\nHOME\n\nRIVALRY HEADQUARTERS\nBuild the rivalry, play every season, and carry each trophy into your Legacy.\n\nCAREER\nCONTINUE CAREER\nNik vs Daniel · Season 1 of 3\nNEW\nSTART A SHOWDOWN\nChoose seasons and create the code\nHISTORY\nLEGACY\nCompleted rivalries and season history\nDATA\nSTATISTICS\nCareer totals, manager comparison and honours\nHONOURS\nTROPHY ROOM\nCareer trophies, standings and records\nRULES\nRULE BOOK\nCompetition rules, scoring and transfer challenge\nSETTINGS\nSETTINGS\nAccount, device and preferences\nAUDIUS SOUNDTRACK\nBUSINESS\n\nBehzad Leito ft. Sepehr Khalse, Saman Wilson, Sohrab MJ & Alireza JJ\n\nAUDIUS\nTRACKS\n\nBUSINESS · AUDIUS · READY\n\nPLAY TRACK\nMUTE\n01 TWO MANAGER CAREER COMPETITION\n02 FIFA 17 ERA RULESET\nREADY\nFOOTBALL BRINGS US TOGETHER\nCareer Mode Showdown\nv1.9.1 · Stable"
+  }
+}

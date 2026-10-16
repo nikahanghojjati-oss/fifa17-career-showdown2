@@ -1,0 +1,635 @@
+PASS frozen SSJR-1.1 model, explicit zero-to-zero backcast, paired-first credit gate, ordering-regression cascade, one-time baseline and evidence-only credits; current 0/100.
+PASS Shared Showdown Setup: 67 accepted/rejected immutable transitions, provider-bound non-redrawable league/clubs, concurrent CAS/replay, exact two-manager authority, dual confirmation and fresh-session continuity; candidate protocol remains isolated behind reviewed production wrapper, SSJR credit 0.
+PASS Shared Showdown Spark provider boundary contracts: exact ACTIVE session identity, immutable repository catalog, actor-bound replay, bounded exactly-two-manager Rules authority, zero billing, no canonical local mutation, reviewed Spark base isolation, and candidate adapter/catalog remain non-production authorities behind the production wrapper.
+PASS SSJR production paired-first runtime: exact reviewed Rules splices for Shared Setup + Career Start + Transfer Challenge + Season Results + Season Commit, exact pairing + ACTIVE before draw, durable pre-draw shared-mode marker, capture-phase actual click-path denial, 1.9.1-r75 whole-shell installed-app delivery with 1.9.1-r74 recovery, lazy startup bootstrap, generated zero-billing Rules authority, exact repository-owned FIFA 17 Transfer catalog binding, candidate-equivalent production provider emulator coverage before PR merge and deploy publication, immutable provider catalog, fresh-session resume path, and canonical local-save non-mutation are permanently gated.
+PASS Shared Setup host/peer UI authority: only the exact ACTIVE session host can open an empty setup, peers fail closed before adapter mutation and receive wait/refresh copy, with r3 dependency identity preserved.
+PASS Shared Showdown polished presentation contracts: both manager roles witness the real league wheel and club packs; first taps become busy immediately, repeat taps coalesce, final confirmation can hand off to Career Start in one click, reveal witnesses reset per rivalry, provider draw authority remains sole, and the acceptance recorder stays bridged away from the engineering panel.
+PASS SSJR dual-full-screen contract: both managers individually traverse every canonical gameplay screen, role authority may differ, late peers replay missed screens, and MDP/SSJR remain separately governed.
+PASS SSJR production Shared Setup evidence validator contracts: exact r6, schema-closed privacy, catalog membership and final revision 6 are enforced.
+PASS SSJR production Shared Setup evidence recorder contracts: stdin-only raw authority is sanitized, exact r6 is enforced, closed-schema output is deterministic, and validator-compatible pair evidence is produced.
+PASS SSJR production storage observation: network-only host navigation, a54 cached-miss bypass and Pages packaging expose an explicit transient exact-raw three-key snapshot outside the ordinary game runtime directory with no writes, network transport, private identifier capture or durable evidence artifact.
+PASS MDP-1 exact SSJR denominator, six-stage lifecycle, current 95.50/100 r18 integrated ledger, anti-inflation rules, regression guard and strict SSJR separation
+Stability contracts passed for v1.9.1/1.9.1-r75; executable release identity, raw storage failures, workflow ownership and deployed product proof remain protected without player-facing architecture labels.
+PASS Dynamic static release contracts v1.9.1/1.9.1-r75; startup 159100/37484.
+Central transition, stale-callback cleanup, reduced motion, focus, and save-before-presentation contracts passed.
+Preference migration, user mute, media suppression, cooldown, and original Web Audio synthesis passed.
+Accessibility and presentation budgets passed for 1.9.1-r75: 159100 raw / 37484 compressed initial bytes; 4845 lazy feedback bytes.
+Licensed visual contracts passed for app v1.9.1 / 1.9.1-r75: immutable v1.1.3 archive has 12 assets / 1670358 bytes / 11 photo-free screens.
+Season Review preview, canonical scoring, fingerprint and tamper-blocking fixtures passed.
+Season pre-commit architecture, Smart Back integration, value preservation, rollback, lazy-loading and responsive contracts passed for 1.9.1-r75.
+Career totals, stable profile manager records, trophy accumulation, transfer totals, and label-scoped Rivalry Statistics fixtures passed.
+Main Menu Statistics alignment, lazy loading, shared analytics, Trophy Room reuse, route contracts, and 1.9.1-r75 shell identity passed.
+Identity-safe Career Analytics contracts passed: same-name profiles separate, explicit reuse aggregates, unresolved history stays excluded from manager totals, season records remain complete, Local Profile labels remain available without activating mutation authority, presentation changes invalidate caches, and identity remapping remains safe.
+PASS  Candidate A backup/storage contracts with dynamic 1.9.1 provenance and strict blocked-read failure
+[Career Mode Showdown] Unable to parse the active showdown: SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)
+    at JSON.parse (<anonymous>)
+    at parseStoredShowdown (js/storage.js:43:65)
+    at loadSavedShowdown (js/storage.js:45:100)
+    at Object.hasSavedShowdown (js/storage.js:48:36)
+    at /workspace/fifa17-career-showdown2/tests/contracts/backup-contracts.cjs:178:34
+[Career Mode Showdown] Unable to read legacyShowdowns for an exact raw snapshot: Error: blocked read: careerModeShowdown.legacyShowdowns
+    at Object.getItem (/workspace/fifa17-career-showdown2/tests/contracts/backup-contracts.cjs:21:46)
+    at captureStorageSnapshot (js/storage.js:20:138)
+    at Object.captureCareerModeRawRestoreSnapshot (js/storage.js:21:55)
+    at captureBackupRawProjection (js/backup.js:60:34)
+    at buildCareerModeBackupSnapshot (js/backup.js:71:24)
+    at Object.createCareerModeBackupEnvelope (js/backup.js:168:22)
+    at /workspace/fifa17-career-showdown2/tests/contracts/backup-contracts.cjs:185:30
+    at waitForActual (node:assert:632:21)
+    at strict.rejects (node:assert:769:31)
+    at /workspace/fifa17-career-showdown2/tests/contracts/backup-contracts.cjs:184:18
+PASS  Candidate B import-analysis contracts on v1.1.3
+PASS  Candidate C ownership-scoped atomic storage and strict snapshot contracts
+[Career Mode Showdown] Unable to read legacyShowdowns for an exact raw snapshot: Error: blocked
+    at runtime.hooks.get (/workspace/fifa17-career-showdown2/tests/contracts/restore-storage-contracts.cjs:82:84)
+    at Object.getItem (/workspace/fifa17-career-showdown2/tests/contracts/restore-storage-contracts.cjs:16:60)
+    at captureStorageSnapshot (js/storage.js:20:138)
+    at Object.captureCareerModeRawRestoreSnapshot (js/storage.js:21:55)
+    at /workspace/fifa17-career-showdown2/tests/contracts/restore-storage-contracts.cjs:83:44
+    at Object.<anonymous> (/workspace/fifa17-career-showdown2/tests/contracts/restore-storage-contracts.cjs:184:3)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+[Career Mode Showdown] Unable to write local save data: Error [QuotaExceededError]: first write
+    at quota (/workspace/fifa17-career-showdown2/tests/contracts/restore-storage-contracts.cjs:57:40)
+    at runtime.hooks.set (/workspace/fifa17-career-showdown2/tests/contracts/restore-storage-contracts.cjs:109:114)
+    at Object.setItem (/workspace/fifa17-career-showdown2/tests/contracts/restore-storage-contracts.cjs:21:55)
+    at writeStorageValue (js/storage.js:17:56)
+    at restoreStorageSnapshot (js/storage.js:57:88)
+    at Object.write (js/storage.js:59:585)
+    at Object.runCareerModeRawStorageTransaction (js/storageTransaction.js:96:13)
+    at Object.applyCareerModeRawStorageTransaction (js/storage.js:59:337)
+    at /workspace/fifa17-career-showdown2/tests/contracts/restore-storage-contracts.cjs:111:34
+    at Object.<anonymous> (/workspace/fifa17-career-showdown2/tests/contracts/restore-storage-contracts.cjs:184:3)
+[Career Mode Showdown] Unable to write local save data: Error [QuotaExceededError]: middle write
+    at quota (/workspace/fifa17-career-showdown2/tests/contracts/restore-storage-contracts.cjs:57:40)
+    at runtime.hooks.set (/workspace/fifa17-career-showdown2/tests/contracts/restore-storage-contracts.cjs:123:118)
+    at Object.setItem (/workspace/fifa17-career-showdown2/tests/contracts/restore-storage-contracts.cjs:21:55)
+    at writeStorageValue (js/storage.js:17:56)
+    at restoreStorageSnapshot (js/storage.js:57:88)
+    at Object.write (js/storage.js:59:585)
+    at Object.runCareerModeRawStorageTransaction (js/storageTransaction.js:96:13)
+    at Object.applyCareerModeRawStorageTransaction (js/storage.js:59:337)
+    at /workspace/fifa17-career-showdown2/tests/contracts/restore-storage-contracts.cjs:125:35
+    at Object.<anonymous> (/workspace/fifa17-career-showdown2/tests/contracts/restore-storage-contracts.cjs:184:3)
+[Career Mode Showdown] Unable to write local save data: Error [QuotaExceededError]: final write
+    at quota (/workspace/fifa17-career-showdown2/tests/contracts/restore-storage-contracts.cjs:57:40)
+    at runtime.hooks.set (/workspace/fifa17-career-showdown2/tests/contracts/restore-storage-contracts.cjs:134:108)
+    at Object.setItem (/workspace/fifa17-career-showdown2/tests/contracts/restore-storage-contracts.cjs:21:55)
+    at writeStorageValue (js/storage.js:17:56)
+    at restoreStorageSnapshot (js/storage.js:57:88)
+    at Object.write (js/storage.js:59:585)
+    at Object.runCareerModeRawStorageTransaction (js/storageTransaction.js:96:13)
+    at Object.applyCareerModeRawStorageTransaction (js/storage.js:59:337)
+    at /workspace/fifa17-career-showdown2/tests/contracts/restore-storage-contracts.cjs:136:34
+    at Object.<anonymous> (/workspace/fifa17-career-showdown2/tests/contracts/restore-storage-contracts.cjs:184:3)
+PASS  Candidate C restore planning, conflict, freshness, strict snapshot, idempotence and double-Apply contracts
+PASS  Candidate C reviewed-state plus transaction-precondition stale Apply contracts
+PASS  v1.1.5 confirmed-intent, strict-snapshot and transaction-boundary restore contracts
+PASS save-library foundation: deterministic identities, explicit historical mapping, conflict blocking and raw migration planning
+PASS Save Library canonical persistence transition: strict four-slot snapshots, singleton-last retirement, interruption retry, dual-authority rejection, exact rollback, cross-slot stale guards and anti-clobber critical recovery are protected.
+Save Library runtime authority cutover contracts: PASS
+Save Library architecture contracts passed: internal recovery containment, mutation focus ownership, additive multi-save storage, explicit active switching, scoped deletion, stable profile identity, detached snapshots, singleton non-resurrection and stale-authority fail-closed behavior remain protected without exposing Save Library as a normal product mode.
+Manager identity linkage contracts passed: explicit cross-Save reuse, same-name separation, stable-only Legacy propagation, unresolved history, profile retention, restore identity preservation and stale-authority fail-closed behavior are protected.
+PASS active cloud foundation: current Spark project/config/Rules/deployment authority and permanent product/privacy locks are protected independently of process-version labels and historical provenance.
+PASS Active remote-data privacy contract: machine-readable privacy/retention/provider guards and production configuration are protected without NEXT_TASK, handoff or frozen RJR score wording dependencies.
+PASS active two-device synchronization harness: provider-neutral isolation, deterministic CAS/conflict/replay, tombstone/reconnect, revocation, governance, local-only fallback and Candidate C transaction safety remain protected without historical routing prose.
+PASS current App Check bootstrap: production-only lazy attestation, enforcement OFF, no debug/secret/trusted-mutation authority, offline-shell isolation and separate memory-only Spark Firestore initialization remain protected without historical proof-run coupling.
+PASS production Firebase runtime uses Firebase App + Auth + Firestore with App Check/reCAPTCHA disabled and zero billing.
+PASS Stage 4 token lifecycle retired from live runtime: App Check/reCAPTCHA token acquisition and refresh are disabled while Firebase connectivity remains available.
+PASS production Pages deployment renders Firebase public config with no reCAPTCHA/App Check variable or runtime field.
+PASS current zero-billing Spark account bootstrap and operation-scoped Rules product authority without process-routing coupling.
+PASS Spark production connected-account policy: Google popup, session-only Auth, memory-only Firestore, bounded private Rules authority including dormant Stage 5D exact sessions, durable Settings mount and zero-billing boundary
+PASS Stage 3 registered devices / private pairing deterministic client contracts
+PASS pairing four-code automation ultra-contract: 25 deterministic two-account rounds, exact P1-generated/P1-Connected/P2-one-paste/P2-Connected equality, active-rivalry verification, and zero second-paste requirement
+PASS Stage 4 Connected Rivalry client contract: private exact attachment, full/selectable/copyable recovery ID, deterministic projection, immutable CAS/replay plan, integrity-checked observation, explicit Candidate C local Apply, and separate Stage 5D Rules boundary
+PASS Stage 4 Connected Rivalry restore + pairing QoL ultra-regression: creator/joiner exact-id handoff, bounded creator pending-to-active retries, Player One/Player Two binding isolation, dropdown-race lock, durable-pointer precedence, fail-closed prefill and zero-manual-reattach normal flow are protected without new storage, listing or authority
+PASS Stage 5C standard-auth session adapter: Firebase uid authority, honest account-owned device metadata, exact no-list capability, two-account host/join lifecycle, terminal/expiry denial, memory-only quota safety, exact Stage 5D production Rules source promotion and zero billing.
+PASS current Stage 5D session Rules: standard uid authority, registered-device mutation metadata, exact no-list two-account lifecycle, deny-by-default, lazy runtime separation and Spark zero-billing locks remain protected without dated provider-proof or candidate-lineage coupling.
+PASS Stage 5E connection runtime: lazy hidden authority, exact account/device/rivalry rechecks, non-orphaning host/join/revoke/read/close lifecycle, memory-only capability and zero-billing locks remain protected under the single Showdown UI.
+PASS Stage 5E provider + copy truth: hidden private/zero-billing authority remains intact while the only player-facing product is Daniel as Player One, Nik as Player Two, Start a Showdown, Continue Career and provider-backed Forget Device.
+PASS Stage 5G Remote Joining same-capability reconnect contracts
+PASS current zero-billing Firebase control plane: main-only credential boundary, pre-auth adversarial Rules proof, Rules-only publisher and no billing/Run/Functions expansion are protected without handoff inheritance.
+PASS Stage 4 adverse-network safety: attach/read fail bounded, publish can lose provider connectivity after authorized preflight without mutating canonical local saves, and handler-scoped retry UI preserves local-first recovery authority
+PASS Stage 4 structural abuse-hardening contract: provider Rules retain non-enumerability, exact two-manager bounds, declared/payload ten-season coherence, pairing TTL limits, and permanent forged-write emulator proof wiring
+PASS Stage 4 remote-to-local reconciliation: non-mutating preview, local identity preservation, immutable exact intent, backup-before-Apply, dual remote guards and Candidate C transaction authority
+PASS 1.9.1-r75 shell coherence: v1.9.1 simple Start/Continue product shell with 1.9.1-r74 recovery target and hidden provider machinery.
+Offline hotfix contracts passed for 1.9.1-r75: install activation boundary, Settings-only install UI, bounded standalone art, verified recovery shell, and product behavior without process-routing coupling.
+PASS  v1.3 offline lifecycle: live reconnect state, pre-armed update intent, and single registration ownership
+PASS CI orchestration: current product ownership is single-run and bounded, stale work is cancelled safely, specialist evidence remains authoritative, deployed release proof stays complete, and dormant Cloud Run compute is excluded.
+v1.1 final hardening contracts passed: 44px controls and decoded football-photo paint settlement are protected.
+Canonical Start remains fail-closed for unreadable historical bytes while internal Save creation stays additive and identity-preserving.
+Corrupt active-save validity probing remains silent; canonical Start crosses the strict storage boundary before additive creation.
+Candidate C hardening is permanent: immutable confirmed intent, strict snapshots, byte preconditions, ownership-scoped rollback, differentiated recovery UX, 44px file input, deep dedicated browser evidence, exhaustive deployed smoke, and non-duplicative integration Burn-In are protected.
+PASS SSJR safe evidence contracts: direct probes own browser denial capture, poisoned/reset/identity-swapped observations fail closed, expired-session proof uses real wall time, the unauthenticated v1 standalone assembler is retired, and production CLI routing no longer upgrades standalone JSON into accepted production proof.
+PASS SSJR actor-attributed evidence v2 contracts: actor attribution and privacy checks remain strict, offline browser exports are candidate-only, unauthenticated hand-written JSON is rejected by the production validator, legacy v1 remains unchanged, and no SSJR or MDP credit is granted.
+PASS Shared Career Start contracts: exact confirmed setup gates entry, each bound role acknowledges once, replay/stale/duplicate-role attempts fail closed, finished setup routes directly into Career Start through the simple Continue Career surface, Career Start ready state routes directly into the authoritative Shared Transfer Challenge, stale/concurrent Career Start acknowledgements reconcile against provider authority and unrecoverable errors remain visibly rendered, completed Shared Setup presentation polling is deactivated at handoff, confirmed-state decoration is idempotent and does not fight the active Shared Setup presentation, stale control ownership is cleared, provider operations are serialized and refresh-deduplicated, Spark polling is visibility-aware/backed off and stops at terminal readiness, and provider authority is account/device/rivalry/ACTIVE-session bound with zero billing.
+PASS Shared Transfer Challenge Spark provider: exact account/device/rivalry/ACTIVE-session and Career Start prerequisites, repository-owned FIFA 17 catalog snapshot with caller override rejection, split public/private storage, pre-completion opponent-read denial, role-owned writes, 15-minute expiry, CAS and identical post-completion verdicts stay Spark-only with zero local-save mutation.
+PASS Shared Transfer Challenge: confirmed Career Start gates entry; coordinator starts one 15-minute shared window; early end needs both roles; expiry is deterministic; guesses and signings are role-owned and private until completion; exact repository-owned FIFA 17 Transfer catalog IDs are enforced by provider and generated Firestore Rules; CAS/replay, season bounds and terminal completion fail closed; both managers derive identical verdicts; the production screen adapter reuses existing controls without local-save authority; Rules pin server time, atomic role payloads and pre-completion privacy before production promotion.
+PASS Shared Season Results deterministic contracts: exact seven-field reviewed result payload, confirmed setup/Career Start/completed same-season Transfer Challenge gates, one immutable publication per manager, opponent privacy until both publish, CAS/idempotency, numeric and boolean boundaries, state-hash tamper rejection, and deeply frozen returned authority all stay zero-billing with no canonical Save mutation or authoritative scoring.
+PASS Shared Season Results Spark provider: exact account/device/rivalry/ACTIVE-session/setup/Career Start/completed Transfer Challenge prerequisites, repository-derived league team count, split public/private result storage, result-dependent hashes kept private until reveal, pre-ready opponent-read denial, role-owned immutable publication, CAS/idempotency, timeout and early-end transfer completion compatibility, private payload integrity, Spark-only zero billing and zero canonical Save mutation.
+PASS Shared Season Results production Rules: deterministic generator includes exactly one r9 public authority and one r9 role-private authority, active-session/device writes are required, result fields and deterministic league-specific FIFA 17 bounds are exact, first publisher privacy lasts until RESULTS_READY, client update/delete/list are denied, r8 timeout and early-end completion paths are accepted, authoritative shared scoring stays absent, and the fragment remains Spark-only with zero billing.
+PASS Shared Season Results production contracts: core navigation grants seasonEntry only from refreshed shared authority; the real Results route bootstraps the bounded post-results production chain; completed Shared Transfer Challenge routes from verdicts and Showdown Home into the existing Season Results shell; paired-first startup remains nonblocking; each manager reviews and immutably publishes only their own canonical payload; opponent data stays private until both publish; Results now hands off to Shared Season Commit instead of presenting stale r9 dead-end copy; local persistence/scoring authority remains unchanged; and the r8 fallback stays fail-closed.
+PASS JOB-1579 shared Season Results navigation revision regression: newer tap wins; unchanged revision opens seasonEntry once.
+PASS Shared Season Commit deterministic core: only authoritative RESULTS_READY can be atomically snapshotted by the setup coordinator, stale/duplicate/conflicting commands fail closed, both distinct managers must acknowledge, terminal state is immutable, results drift is rejected, and scoring/local Save authority remains separate.
+PASS Shared Season Commit Spark provider: active account/device/two-manager rivalry/ACTIVE-session authority, authoritative r9 RESULTS_READY reconstruction, coordinator-only immutable commit, CAS/idempotency, two distinct acknowledgements, results-drift rejection, deterministic Bundesliga 103-point rejection, Spark-only zero billing, no scoring and no canonical Save mutation.
+PASS Shared Season Commit production Rules: exact r9 RESULTS_READY snapshot prerequisite, coordinator-only immutable commit, active-session/device CAS updates, append-only distinct manager acknowledgements to terminal ACKNOWLEDGED, league-specific result bounds, result immutability, generated single authority, Spark-only zero billing, no shared scoring and no canonical Save mutation.
+PASS Shared Season Commit production contracts: exact r9 RESULTS_READY is required before r10 may refresh or render over Season Results; only the coordinator can create the immutable shared commit; both managers independently acknowledge through a dedicated shared-only review action; stale CAS gets one bounded retry; local Season Engine persistence and scoring remain unreachable; Spark/zero-billing constraints remain explicit; r10 feature provenance stays immutable while current 1.9.1-r75 whole-shell delivery keeps its assets available as a predecessor capability.
+PASS Shared Canonical Scoring deterministic core: r10 ACKNOWLEDGED commit is mandatory, canonical 5/3/1 scoring and both one-point bonus caps are recomputed from supported raw results, submitted totals are not trusted, all tied Showdown scores use league position then league points as tiebreakers, and local Save authority remains untouched.
+PASS Shared Canonical Scoring Spark provider: the proven r10 Season Commit provider remains the sole active-account/device/two-manager/ACTIVE-session source, only terminal ACKNOWLEDGED revision 3 is scored, canonical totals and universal league-position/league-points tiebreaks are derived read-only from authoritative raw results, upstream denials propagate fail-closed, and Spark/zero-billing/local-save constraints remain intact.
+PASS Shared Canonical Scoring production contracts: Shared Journey bootstrap deterministically prepares r10 protocol/provider factories before r11 installation and r11 protocol/provider factories before r12 installation; scoring stays dormant until cached r10 ACKNOWLEDGED revision 3 exists, refreshes exact provider authority, renders both managers' canonical score breakdown and winner in the existing Season Review, and remains read-only with zero canonical local-save mutation and Spark-only zero billing.
+PASS Shared History Convergence core + provider: exact contiguous accepted seasons cross-check r10 raw commit authority against r11 result revision/hash and canonical scoring; stable manager profile/save identities receive matching history, records and trophies; provider reads only exact rivalry/setup/season authority, propagates upstream denials, requires no list permission or writes, and remains Spark-only with zero canonical local-save mutation.
+PASS Shared History Convergence production contracts: r12 remains dormant until exact cached r10 ACKNOWLEDGED and r11 SCORING_RECONCILED authority exists for the same season, refreshes those predecessors before one exact read-only provider projection, renders converged season history/manager records/trophies plus cumulative Showdown totals and lead without a second scoring policy, preserves stable account/device/rivalry/session identity, and exposes no write/list/billing authority.
+PASS Shared Multi Season Progression core: all supported 1/3/5/10 plans begin at Season 1, advance exactly one accepted contiguous season at a time, replay idempotently, keep league and clubs fixed, reconstruct a valid contiguous prefix on resume, close exactly at the configured final season, and reject skipped advance, regression, replay alteration, plan/club drift and terminal resurrection without canonical local-save mutation, provider writes, list permission or billing.
+PASS Shared Multi Season Progression provider: exact account/device/rivalry/session/setup authority probes every bounded season commit by exact path, accepts only the contiguous ACKNOWLEDGED rev3 prefix, rejects history gaps, reuses r12 History Convergence for accepted-season proof, emits only a sanitized Home summary from that verified history, derives the next active season for all 1/3/5/10 plans, propagates upstream denial, and adds no list/write/billing authority.
+PASS Shared Multi Season production contract: witnessed exact-once r13 cursor, additive pre-authority r12 fallback, five shared season consumers, ordered r12→r13 bootstrap and zero-write Spark boundary.
+PASS Journey Reconnect deterministic offline/reload/expiry/fresh-session recovery, durable-state monotonicity, malformed-authority denial and terminal non-resurrection
+PASS Journey Reconnect production contract: strict finite ACTIVE session authority, normal ACTIVE-gameplay dormancy, authoritative pre-confirmation setup deferral, ordered r12→r13→r14 bootstrap, read-only durable recovery, visible dual-manager status, terminal-closed completion messaging, a direct fresh-session recovery action, and permanent Spark zero-billing boundary.
+PASS fresh single-Showdown product: Daniel is Player One, Nik is Player Two, noncanonical historical mappings are rejected, no legacy pair migration exists, one-use pairing partial commits retain a deterministic retry path without refresh loss, active careers cannot redeem or create a second pair, provider membership selects the exact cached Save/Profile on reconnect, missing fresh-browser gameplay cache fails closed into verified recovery instead of divergent setup, explicit start-over closes only the exact remembered provider Showdown before local deletion, closed test Showdowns become safely replaceable while active careers remain protected, Forget Device clears browser identity, a provider-closed Showdown permits the same Google account to choose the other canonical manager on the next Showdown while active or pending authority remains protected, Connect Players reuses the same bounded stale-role reconciliation sidecar as Continue Career, and provider authority remains private and zero-billing.
+PASS Journey Conflicts deterministic contract: exact replay, one bounded stale retry, altered-replay pre-provider denial, receipt expiry, revocation/quota classification, provider-code preservation and non-authorizing client receipts.
+PASS Journey Conflicts production contract: r15 wraps existing Shared Setup and Season Commit mutation surfaces, preserves transaction-derived provider authority/error codes, adds no write/list/local-save authority, and is retained in the reload shell after r14 recovery.
+PASS Shared Local Reconciliation deterministic phases, offline fallback and Candidate C-only authority
+PASS r45 production Local Reconciliation exposes one contextual read-only preview action while delegating to existing Candidate B/C authority with shell/reload safety and no new provider/storage writer
+PASS r52 Local Reconciliation Preview observes the remote snapshot: read-only when it exists, one terminal-only publish when it is missing, online Preview always re-reads, no stale or blind preview/publish after a failed read, no publish before the Showdown ends
+PASS r17 Final Reconciliation deterministic complete-showdown projection, exact local manager binding, winner authority and no-extra-season boundary
+PASS r17 production Final Reconciliation is canonical-save-bound, exact-manager-bound, stale-view/context-safe, live-local-authority-safe, cross-tab-save-authority-safe, hidden-safe, read-only, shell-owned and keeps Terminal Close separate
+PASS Terminal Close protocol: exact r17 Final Reconciliation + exact active session produce one deterministic r18 close witness containing only provider-verifiable terminal facts; scoring/final-season authority is preserved while unverifiable revision-key/club metadata, extra seasons and local mutation are excluded.
+PASS Terminal Close provider: bounded staged terminal proof folds acknowledged seasons and canonical scores one exact path at a time, then atomically closes rivalry+session; replay/read, forged totals, fresh-session resurrection, active-session continuation beyond the old TTL, device denial, zero billing and zero canonical local mutation remain protected.
+BUILT firestore.spark.generated.rules 122542 bytes
+PASS r18 Terminal Close production Rules: acknowledged seasons are folded into bounded monotonic terminalProgress, canonical scores remain Rules-authoritative, final close remains atomic, and production publication plus regression tests now share one deterministic zero-billing validator instead of reparsing shell grep syntax.
+PASS r18 production Terminal Close contracts: exact r17 final authority + exact ACTIVE session gate the sole terminal mutation; ambiguous outcomes retain one exact witness for retry; closed rivalry recovers by exact read after reload; storage/list/billing/compute authority remains absent; bootstrap and offline shell ordering are explicit.
+PASS r51 Physical Journey recorder is query-gated, privacy-safe, non-writing, authority-sticky and scopes canonical storage integrity to Local Reconciliation preview
+PASS current peer entry uses Daniel's one-season host Showdown and Nik's code-based join, which provisions Nik's recovery copy before the separate ACTIVE session
+PASS current pair oracle accepts both safe PREVIEW_READY/after-hash callback orders while requiring opposite manager/remote roles, distinct devices/networks, every season of one confirmed plan in order, ordered recovery, scoped unchanged storage proof, no Candidate C Apply and terminal reload
+PASS r51 Physical Journey acceptance tooling is coherently versioned, offline-retained, query-gated and permanently routed into POS20 without changing provider authority
+PASS SSJR-2.1 physical-run credit contracts: SSJR-1.1 and SSJR-2.0 stay frozen, capabilities/weights/dependencies are unchanged, a validated two-device 1.9.1-r75 one-season run credits exactly 82/100 with multi-season and its dependents blocked, one validated 3-season run credits 100/100 (98 without Nik's stable-release acceptance), and invalid pairs, edited or replayed attestations, duplicates and unverified production mains credit nothing.
+PASS Shared Setup no-dropped-taps contracts: a tap during a background refresh waits and performs exactly one write, background refreshes coalesce, overlapping taps never duplicate a write, and a refresh during a write never races it.
+PASS Shared Career Analytics contracts (17/17 cases): capped scoring, verified deduplication, lifecycle exclusion, final integrity, weighted averages, role mapping, records, status, pure frozen outputs and history agreement.
+PASS Shared Active Showdown Adapter contracts (19/19 cases): provider authority, fixed manager roles, private inputs, lifecycle, capped scoring, tiebreaks and pure frozen views.
+PASS Start/Join view model contracts (21/21 cases): lock table, status, pairing/session actions, confirms, privacy, purity and frozen outputs.
+PASS Career screen seam contracts (17/17 cases): frozen pure views, exact row mapping, privacy, no online local fallback and deferred renderer loading.
+PASS shared season results race contracts: stale loser, denied stranger, idempotent replay.
+PASS career index contracts: constants, pure append plan, reads-before-writes, readCareerIndex states, Rules text, composed artifact.
+PASS completed-only read contracts: reader API, exact-get source, classification, witness checks, unavailable states, Rules text, composed artifact.
+PASS data contract v1 fixtures contracts (31 checks, 14 scenarios + nav): real provider shapes, generated from the model, V1 fields, privacy, scoring, cross-screen agreement, seam binding, state coverage.
+PASS pair code entry race contracts: typed code survives re-render, empty never invalid, malformed still rejected.
+PASS closed-Showdown adapter contracts (25/25 cases): completed and abandoned Showdowns from the session-free reader, witness totals, live-Showdown merge, stale pending exclusion, no backfill, unavailable never empty, two managers, pure frozen adapter, paged cached loader.
+ok 1 production Shared Journey marker is {contractVersion:1,mode:"shared",setupPending:true} without rivalryId
+ok 2 canonical scoring builds its season request from confirmed Shared Setup when the marker has no rivalryId
+ok 3 canonical scoring stays inert while Shared Setup is not SHOWDOWN_CONFIRMED
+ok 4 history convergence resolves the rivalry before its lazy dependencies load (global Shared Setup fallback)
+ok 5 history convergence stays inert while Shared Setup is not SHOWDOWN_CONFIRMED
+ok 6 multi-season progression builds its request and season cursor from confirmed Shared Setup
+ok 7 multi-season progression stays inert while Shared Setup is not SHOWDOWN_CONFIRMED
+ok 8 terminal close builds its request from confirmed Shared Setup plus identity.saveId/managerProfileIds (no session -> BLOCKED, no mutation)
+ok 9 terminal close stays inert while Shared Setup is not SHOWDOWN_CONFIRMED
+ok 10 final reconciliation builds its request from confirmed Shared Setup plus identity.saveId/managerProfileIds
+ok 11 final reconciliation stays inert while Shared Setup is not SHOWDOWN_CONFIRMED
+ok 12 all five modules prefer the marker rivalry and fall back only to confirmed Shared Setup
+PASS shared journey rivalry lookup contracts (12 checks)
+ok 1 stale publish is re-read and retried once with the fresh baseRevision and the same operationId
+ok 2 stale publish whose re-read shows the own result binds it without a second publish
+ok 3 second stale publish surfaces SEASON_RESULTS_STALE_BASE_REVISION after exactly two attempts
+ok 4 non-stale publish rejection surfaces after exactly one attempt
+PASS shared Season Results stale-base retry contracts (4 checks)
+PASS completed-only transfer history contracts: reader API, exact-get source, classification, witness checks, unavailable states, protocol-equal verdicts, provenance, Rules text, composed artifact, JOB-08 API intact.
+PASS browser journey emulator switch contracts: localhost+flag only, production runtime untouched, Pages excludes tests/, startup gzip 37484/37500, services parity.
+ok 1 T1 deploy workflow steps, env and build commands are the reviewed ones :: 18 steps
+ok 2 T2 temp composition with the deploy workflow's own build commands is deterministic :: sha256 6eaeefc63729a9e87c3ec776791bac0ec768f8d9998fa9244b07adc26a478832 gitBlob 81e515ee2982b968528f4ce3aa9e10158d52aad0 141446 bytes
+ok 3 T4 the deploy gate ("Refuse generated Rules ...", every grep -Fq line) holds on the artifact :: 47 needles
+ok 4 T5 zero billing and a Spark-only deploy path (deploy validators, billing-token census, publish hosts, config) :: 2 billingRequired token(s), hosts https://www.googleapis.com https://oauth2.googleapis.com https://firebaserules.googleapis.com
+ok 5 T6 no broad grant: every list/delete/read/write is "if false", nothing is unconditional, deny-all closes the Rules :: 72 allow statements
+ok 6 T7 career index Phase A is shipped; Phase B is exactly a one-line constant flip :: Phase A
+ok 7 T8 completed-only grant is get-only on exactly four lines, and candidate minus the reviewed delta is production main :: 0 hunks, -0 +0 lines vs main f42dac2
+ok 8 C1 fast CI rules-emulator composes with exactly the deploy workflow's build commands before any emulator step
+ok 9 C2 fast CI has one composed-rules-regression job: fetch main, run the whole matrix in one emulators:exec
+ok 10 C3 the regression runs every deploy and fast-CI emulator proof, both base suites and the gap suite :: 19 suites
+PASS composed production Rules contracts: 10 numbered checks (deploy workflow, deterministic composition 6eaeefc63729, deploy gate, zero billing, no broad grants, career index Phase A, reviewed delta from production main, CI wiring).
+ok 1 C1 Daniel's acknowledgement landing inside Nik's transaction is reported as SEASON_COMMIT_STALE_BASE_REVISION after one fresh read
+ok 2 C2 the adapter's single re-read-and-retry from the fresh revision reaches ACKNOWLEDGED with both roles
+ok 3 C3 the mirror ordering (Nik lands inside Daniel's transaction) is also STALE
+ok 4 C4 permission-denied with the commit unchanged (no concurrent advance) surfaces unchanged
+ok 5 C5 concurrent advance plus revoked actor device stays permission-denied
+ok 6 C6 a permission-denied read (no write queued) is surfaced unchanged
+ok 7 C7 the adapter keeps its single bounded STALE retry and the provider requires a proven advance
+PASS Shared Season Commit concurrent acknowledgement (7 checks): a rival acknowledgement landing inside this manager's transaction becomes a retryable STALE only after a fresh authority-checked read proves the commit advanced; unproven or unauthorized denials stay permission-denied.
+ok A1 closed Showdown keeps GET READY closed after reload
+ok A2 active paired Showdown keeps GET READY closed after reload
+ok A3 initialized pair state decides without an extra provider read
+ok A4 pre-pair shell still re-opens GET READY
+ok A6 unresolved pair authority never reopens GET READY
+ok A5 no shared marker keeps GET READY closed
+ok B1 fresh runtime resumes at acceptedSeasons+1 and announces the cursor once
+ok B3 terminal plan resumes on the final season
+ok B4 no accepted season keeps season 1
+ok C1 accepted season resumes on the dashboard; C2 season 1 still resumes into Career Start
+ok D page-memory capability, marker shape and Career Start route locks hold
+ok E persistent pair names the remembered CLOSED rivalry and never treats it as current
+ok F Reconnect, Multi Season and Shared History report a failure only when it repeats on the next poll
+ok G a confirmed Shared Setup survives one failed read and locks on a repeat
+PASS shared journey reload resume contracts: closed/active Showdowns never re-open GET READY, pre-pair shells still do, the season cursor resumes at provider authority after a fresh exact session, and Continue Career resumes on the dashboard instead of replaying Career Start.
+PASS Shared tap race contracts: Transfer Challenge, Career Start and Shared Setup retry a lost simultaneous tap once with a fresh revision, stay silent when the refreshed state already shows the outcome (advanceExpiredWindow only refreshes), surface a real denial after one retry, and show validation sentences before raw codes.
+Unable to update Shared Transfer Challenge Error: The shared Transfer Challenge update was rejected.
+    at pstcResultError (productionSharedTransferChallenge.js:105:98)
+    at productionSharedTransferChallenge.js:143:22 {
+  code: 'permission-denied',
+  providerResult: true
+}
+Shared Transfer Challenge action failed Error: Complete guess 1 with a FIFA 17 league or nationality.
+    at pstcFail (productionSharedTransferChallenge.js:18:47)
+    at pstcBuildGuesses (productionSharedTransferChallenge.js:187:297)
+    at pstcHandleAction (productionSharedTransferChallenge.js:338:101)
+    at Object.pstcCapture [as click] (productionSharedTransferChallenge.js:343:323)
+    at Object.tap (/workspace/fifa17-career-showdown2/tests/contracts/shared-tap-race-contracts.cjs:60:20)
+    at transferContracts (/workspace/fifa17-career-showdown2/tests/contracts/shared-tap-race-contracts.cjs:129:29)
+    at async /workspace/fifa17-career-showdown2/tests/contracts/shared-tap-race-contracts.cjs:310:3 {
+  code: 'TRANSFER_GUESSES_INVALID'
+}
+Unable to update Shared Transfer Challenge Error: The shared Transfer Challenge update was rejected.
+    at pstcResultError (productionSharedTransferChallenge.js:105:98)
+    at productionSharedTransferChallenge.js:143:22 {
+  code: 'TRANSFER_COORDINATOR_REQUIRED',
+  providerResult: true
+}
+Unable to acknowledge Shared Career Start Error: Career Start acknowledgement was rejected.
+    at productionSharedCareerStart.js:93:31 {
+  code: 'permission-denied'
+}
+PASS Season result clash contracts: same league position, both Champions League and both Domestic Cup show a CHECK RESULTS warning on the commit panel, top scorer and assist do not, and commit and acknowledge stay enabled.
+ok 1 V1 every fixture maps to the model's status on both screens
+ok 2 V2 Career Statistics carries exactly the model's numbers
+ok 3 V3 Trophy Room carries exactly the model's numbers
+ok 4 V4 partial shows the {readable} of {indexed} coverage
+ok 5 V5 Daniel first and Nik second in every row, also when Nik leads
+ok 6 V6 a level table ranks both managers first
+ok 7 V7 loading and unavailable carry no numbers; no preview chip with real data
+ok 8 V8 all Statistics buttons are reachable online; Career Statistics is shown
+ok 9 V9 startup shell unchanged; every new lazy file is shell-cached (images: revision-keyed runtime cache, job 24); runtime revision untouched
+ok 10 V10 production never reads fixtures
+ok 11 V-P1 online Career Statistics, Trophy Room and Standings Career read the provider-backed completed-Showdown model
+PASS career screens V10 contracts: 11 checks.
+ok T1 HOST asks for 4h minus one minute, so a slightly fast clock is not refused by the Rules
+ok T2 the host page sees the other manager's JOIN by itself, quietly and bounded
+ok T3 an ended session wakes the reconnect banner instead of stacking error toasts; real failures still report
+ok T4 the reconnect banner says who hosts and who joins, and Remote Joining closes itself once ACTIVE
+ok T5 fast CI plays 10 seasons with a real session expiry and re-join in the middle
+ok T6 a simultaneous-publish loser gets the retryable STALE code even when the rival write lands a moment late
+ok T7 unresolved account/device/rivalry authority stays quiet until attached; identity conflicts still report
+PASS ten-season session contracts: 7 checks (host clock margin, host sees the join, quiet refreshers while reconnecting, clear reconnect banner and auto-close, 10-season CI journey with mid-game expiry, simultaneous-publish loser stays retryable, unresolved reconnect authority stays quiet).
+PASS Career Start READY reuse contracts: 7 numbered checks (CS1-CS7) - READY is read once per confirmed Setup and reused by Transfer and Season Results, a failing re-read no longer blocks a publish, and a new Setup, an unfinished Career Start or an unconfirmed Setup still read or gate as before.
+Unable to continue to Shared Transfer Challenge Error: Shared Transfer Challenge is unavailable.
+    at pcstOpenTransferChallenge (productionSharedCareerStart.js:115:99)
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at listOnTimeout (node:internal/timers:597:9)
+    at process.processTimers (node:internal/timers:571:7)
+PASS context-stale quiet contracts: 4 numbered checks (QS1-QS4) - a refresh that outlives its season is not reported and keeps the last view; real failures are still reported.
+ok 1 F1 the loader API is small and fixed
+ok 1 - Home keeps every product id, button and text; the skin only decorates
+ok 2 - Daniel starts and Nik joins with the product's own copy (the binder never writes it)
+ok 3 - Audius makes no request before the Play tap
+ok 4 - one long-lived <audio> on <body> keeps playing after Home unmounts and is reused when Home mounts again
+ok 5 - the YouTube player is retired only by lazy Home code, and product diagnostics still see their nodes
+ok 6 - Audius is the only new network host
+ok 7 - Home registers through job 24's loader with Team V's CSS, the adapter and the soundtrack
+ok 8 - Loading stays the app's splash: Reus photo and its credit are untouched
+ok 9 - Home CSS/JS are precached; Home images use the revision-keyed runtime image cache, never SHELL_PATHS
+ok 10 - Home shows all seven of Team V's tiles (Nik, 2026-10-05): Legacy and Statistics are shown and Trophy Room is added
+ok 11 - the adapter keeps the product's protected Home facts (desktop tile placement); Reus is hidden, not restyled
+ok 12 - Team V files are the 5e05a1f copies with only the listed edits (HO-005: phone overlays V2)
+1..12
+ok 1 S1 the skin API is small, frozen and points at Team V's copied files
+ok 2 S2 pure helpers: league from shown text, pointer index, pack result
+ok 3 S3 install registers the two setup screens with the loader (not the Club screen) and loads one stylesheet, once
+ok 4 S4 every TRUTH.md id and every setup id survives mount and unmount; product text, state and listeners untouched
+ok 5 S5 the wheel shows the provider's league only after the wheel stops; the skin never picks
+ok 6 S6 the Club packs are no longer skinned here (JOB-34): revealing both packs leaves the product's screen to it
+ok 7 S7 Back routes unchanged: every Back keeps data-smart-back, its text and the app's listeners
+ok 8 S8 the top bar is locked (setup) on both wheels, also when the shared presentation forces a wheel
+ok 9 S9b JOB-1657: the setup plate out-ranks the old-design flash guard in css/v10Shell.css
+ok 10 S9 static guards: skin only, lazy only, no new storage, Rules, Firestore, scoring or revision change
+PASS v10 setup contracts: 10 checks.
+ok R0 the fake SDK matches the production firestoreSdk bundle (no getDoc)
+ok R1 denied write + newer revision on re-read -> SEASON_RESULTS_STALE_BASE_REVISION
+ok R2 denied write + same revision on re-read -> stays permission-denied
+ok R3 every permission-denied spelling is handled
+ok R4 an unreadable public document stays permission-denied after one read
+ok R5 the re-read never touches a role's private result
+ok R6 non-denial failures are not reinterpreted
+ok R7 a denied league-projection preflight is retried once, then re-read like a publish denial
+ok R8 a contended re-read is retried within the bound
+PASS season results race-denied contracts: 9 checks (production SDK shape, newer revision -> STALE, same revision stays denied, denial spellings, stranger one read, public-only re-read, other errors unchanged, preflight denial retried, contended re-read retried).
+ok 1 RS1 current rule constructors preserve all six sections and scoring
+ok 2 RS2 Rule Book skin carries exactly the current app rule text
+ok 3 RS3 rule render is idempotent and unmount restores the original DOM
+ok 4 RS4 every Settings control and internal recovery id survives unchanged
+ok 5 RS5 Reus credit has exact text and both real licence links; version remains shown
+ok 6 RS6 no Apply or hidden recovery panel is moved or exposed
+ok 7 RS7 Settings rerender preserves controls, refreshes credits once and never duplicates art
+ok 8 RS8 lazy loader registers Rule Book and native modal separately
+ok 9 RS9 app hooks are lazy; startup files and revision remain unchanged
+ok 10 RS10 visual code has no fixture reads, invented gameplay or destructive authority
+ok 11 RS11 system CSS is scoped and never overrides hidden recovery containment
+ok 12 RS12 lazy text files are shell cached and referenced art uses runtime cache
+ok 1 R1 Transfer: Nik waiting for Daniel's START reads every 3 s (read-only), the 15 s poll is unchanged
+ok 2 R1 Transfer: no fast reads when it is this manager's turn or the window is simply live
+ok 3 R1 Transfer: after early-end / guess lock / signing lock the rival's step arrives by the 3 s read, no REFRESH SHARED CHALLENGE tap
+ok 4 R1 Transfer: the fast lane is capped at 3 minutes per waiting state and paused while the tab is hidden
+ok 5 R1 Career Start: after this manager's attestation the rival's attestation arrives by the 3 s read (no REFRESH tap)
+ok 6 R4b Career Start: CAREER_START_READY with Career Start open moves on to the Transfer Challenge once, with no acknowledge write
+ok 7 R4b Career Start: a manager who has not tapped I STARTED AT is never moved on and never acknowledged for
+ok 8 R1 Season Results: after PUBLISH the rival's result arrives by the 3 s read; REVIEW and PUBLISH stay manual
+ok 9 R8 Season Results: once both published, the duplicate banner, meta line and sentence are gone; heading and both cards stay
+ok 10 R1 Season Commit: fast reads only while waiting for the coordinator's COMMIT or the rival's ACKNOWLEDGE; COMMIT and each ACKNOWLEDGE stay manual taps
+ok 11 R7 Season Commit: Daniel's one COMMIT & ACKNOWLEDGE tap commits, then records his own acknowledgement (separate operationIds); the clash warning shows first
+ok 12 R7 Season Commit: Nik still taps his own ACKNOWLEDGE (his failure keeps its error); the combined button exists only for the coordinator
+ok 13 R7 Season Commit: the acknowledge half keeps the existing stale/race retry
+ok 14 R7 Season Commit: if the acknowledge half fails after the commit, Daniel gets the existing ACKNOWLEDGE SHARED SEASON button (never stuck, never a second commit)
+ok 15 R1 Canonical Scoring: after both ACKNOWLEDGE the score appears by the 3 s read, then both lanes stop re-reading the immutable score; a read overtaken by CONTINUE TO SEASON N is not an error
+ok 16 R1 Shared History: 3 s read-only lane only between reconciled score and converged history, paused when hidden
+ok 17 R1 Pair: Daniel's waiting code panel re-reads every 4 s (15 s after 3 min), read-only, paused when hidden, stops when Nik joins
+ok 18 R1 Remote Joining: the host's join pickup is job 31's single bounded watch (no duplicate poll)
+ok 19 R2 Multi Season: CONTINUE TO SEASON N moves the cursor once, then opens the new Transfer Challenge (no START SEASON N tap, no window start)
+ok 20 R2 Multi Season: a failed open stays on the dashboard; reload resume keeps the dashboard button
+ok 21 R3 Presentation: the league reveal moves both devices to the club packs after the wheel (never while the tab is hidden); host-only draws stay manual taps
+ok 22 R4a Presentation: the first confirmer opens Career Start by itself once both confirmed; CONFIRM SHARED SHOWDOWN stays each manager's tap
+ok 23 R5a Entry (not landed): START A SHOWDOWN keeps GET READY over the locked league screen and never creates the code by itself
+ok 24 R5b Entry: a connected pair skips GET READY's CONTINUE and opens Remote Joining; GET READY remains before pairing and when ACTIVE
+ok 25 R6 Entry: an ACTIVE session bound to this account, device and rivalry continues into the Showdown by itself; foreign or expired sessions never do; a failure shows GET READY without bouncing
+ok 26 S Safety: locks, REVIEW + PUBLISH, COMMIT (+ Daniel's own ACKNOWLEDGE), Nik's ACKNOWLEDGE, pair code and hosting stay manual taps; every fast lane is read-only; all touched modules stay lazy
+PASS fewer taps contracts: 26 checks (R1 fast read-only waiting polls, R2 season continue opens transfers, R3 league auto-forward, R4 Career Start hand-offs, R5b entry hop, R6 ACTIVE auto-continue, R7 coordinator commit + own acknowledge in one tap, R8 banner cleanup).
+ok 1 V29.1 Final Winner copies reconciliation winner, including equal-total draw
+ok 2 V29.2 missing/invalid final authority never supplies zeroes or a winner
+ok 3 V29.3 Standings copies acknowledged rivalry rows and career standings in Daniel/Nik order
+ok 4 V29.4 failed and partial reads stay honest; interim history never masquerades as career
+ok 5 V29.5 mount preserves every live field, action, status, draft and listener by identity
+ok 6 V29.6 the lazy registry and shell cache include every binder resource
+ok 7 V29.7 live Team V scripts bypass preview fetches and never rebuild product actions
+ok 8 V29.8 registry mount keeps the native final proof, close and Back nodes reachable, then restores them
+ok 9 V29.9 the real clash contract keeps CHECK RESULTS and enabled commit/acknowledge
+ok 10 JOB-1658 the injected Season CSS keeps every @media block closed and top-level, so each viewport block can match
+ok 11 JOB-1038 Final Winner stays visible while saving and after success
+PASS 11 V10 season/final/standings contracts
+ok 1 Team V files are 5e05a1f bytes; plate.js differs only by the four marked app lines
+ok 2 the frame is pure, frozen and comes only from the provider view and production's own text
+ok 3 the rival's guesses and signings never reach the frame or Team V's fixtures before the reveal
+ok 4 the adoption plan moves the viewer's own production fields and every production control, never the rival's
+ok 5 lazy loading: index.html, the startup line and RUNTIME_REVISION unchanged; files shell-cached; images runtime-cached
+ok 6 after mount every listed production id exists once, is the same element and reaches the click handler (390 and 1440)
+ok 7 the rival's private inputs never appear in rendered text before the reveal
+ok 8 the clock on the sign is production's #transferTimerDisplay and follows it without a redraw
+ok 9 a Team V stylesheet that arrives after the loader timeout stays off while Transfer War shows
+ok 10 leaving the shared view puts every production element back where it was, with its own classes
+PASS v10 transfer contracts: 10 checks.
+ok 1 RL1 all contract fixtures map History and the current rivalry separately
+ok 2 RL2 History includes only verified completed rows, without backfill
+ok 3 RL3 current rivalry uses adapter numbers, Daniel first even when Nik leads
+ok 4 RL4 loading and unavailable contain no numbers or made-up cards
+ok 5 RL5 partial History keeps coverage; transfer gaps stay unavailable
+ok 6 RL6 a missing numeric field is unavailable, never zero
+ok 7 RL7 final draws and season tiebreaks survive mapping unchanged
+ok 8 RL8 all statistics buttons are outside online containment
+ok 9 RL9 production entry points are lazy and never read sample fixtures
+ok 10 RL10 referenced assets exist and only text enters the shell precache
+ok 11 RL11 real Team V renderers show honest states and live values without fixture fetches
+ok 12 RL12 loader registration, remount and unmount preserve the existing routes
+ok 13 RL13 the crest and league-mark globals Team V's screens call are provided by js/visualIdentity.js
+ok 14 RL14 every model dependency the History and Rivalry loader fetches is in the service-worker shell
+ok 15 RL15 History keeps a Back button and Rivalry Back stays clickable
+ok 16 RL16 rivalry preview chip stays hidden and the desktop stage fits its space
+v10-rivalry-legacy contracts passed (16 checks)
+ok 1 Team V files are 5e05a1f bytes; club.js differs only by the marked app lines
+ok 2 the frame is pure, frozen and comes only from what the product shows
+ok 3 a sealed pack's club never reaches the frame or Team V's data; the skin never picks a club
+ok 4 lazy loading: index.html, the startup line and RUNTIME_REVISION unchanged; files shell-cached; images runtime-cached
+ok 5 after mount every product id exists once, is the same element and its buttons are clickable (390, 1920x1080, 1920x910)
+ok 6 Daniel is left and Nik right; crests show only the clubs the product revealed
+ok 7 the shared flow's status line and season panel stay the product's nodes and sit inside the screen
+ok 8 leaving the screen restores the product's section, <html> and stylesheets exactly
+PASS v10 club contracts: 8 checks.
+PASS bug-batch-1 contracts: plain Setup/tap errors, neutral manager fallbacks, 80-character signing names.
+PASS bh7 transient hardening contracts: Setup one-poll context hold, Terminal Close throttled retry + lost-race CLOSED, plain Transfer copy.
+PASS BH-8 auto final check: nothing before terminal; after terminal one publish-once observe + preview, then stops at PREVIEW_READY and never applies
+PASS BH-8 auto final check is single-flight (a PREVIEW tap joins it) and throttled to the poll cadence, so a wake burst cannot loop
+PASS BH-8 auto final check retries quietly on the next poll after a transient read or preview failure
+PASS BH-8 auto final check stops once the Showdown is CLOSED and stays idle until Shared History is authoritative and the page is visible
+PASS BH-8 auto final check attaches an unattached Connected Rivalry after reload and still never applies
+ok R1 HOST can replace this phone's own ACTIVE or OPEN session; a plain HOST keeps the guard
+ok R1 replacement is refused for other accounts, unresolved capabilities and unconfirmed closes
+ok R1 JOIN can end this phone's ACTIVE session for a fresh code; OPEN host sessions keep the guard
+ok R1 the Remote Joining panel offers replace actions on the phone that still holds the session
+ok R1 the reloaded phone is told it is not connected and how both phones reconnect
+ok R1 the phone that still holds the old session gets a usable NEW SESSION CODE prompt
+ok R2 navigator.storage.persist() is requested once, best effort
+ok R2 destructive start-over paths need confirm()===true
+ok R3 a lost join acknowledgement or an 'already used' retry over a committed join reads as joined
+ok R3 JOIN is single-flight: a forced refresh waits for the in-flight join
+ok R6 a transient startup error shows plain text and a working CHECK STATUS retry
+ok R7 a refused join removes only the empty copy it created; ambiguous or pre-existing copies are kept
+ok R10 CREATE permission refusals carry the phone-clock hint; join wording points to Home
+ok R10 HOST/JOIN permission refusals carry the clock hint; no hidden-screen wording
+ok R11 a pasted message with exactly one code joins with that code; ambiguous pastes stay invalid
+PASS BH-11 pairing and reconnect contracts.
+PASS Showdown Gate Physio contracts (13 groups): recorded not-acquired selector is INFRA and re-run at most twice per head, a started test failure is never re-run, only Showdown Gate, Validate POS20 and Validate Gameplay Fast are re-run, helpers are preempted only from the allowlist and never mid-push, physio/v1 status with gate and pos20 is pushed best effort.
+ok H1018-1 a second replacement HOST tap is refused; one fresh OPEN session, and it is the held one
+ok H1018-1 a replacement JOIN tap is refused while a replacement HOST is in flight
+ok H1018-2 replacing an OPEN hosted session moves the join watcher to the new session
+ok Control a normal first host picks up the join through its watcher
+PASS Hunt 1018 session replacement contracts.
+ok H1018-3 signing out after recovery drops recovered authority but keeps the durable plan and history
+ok H1018-3 losing the registered device or the attached rivalry after recovery drops authority too
+ok H1018-3 control: identity still pending on a fresh runtime stays quiet
+ok H1018-3 signing out while a refresh awaits its reads does not publish recovered authority
+ok H1018-4 going offline during a refresh keeps OFFLINE_HOLD after the late successful read
+ok H1018-5 a successful read delivered after expiry requires a fresh session
+ok Control offline before the read holds; expired before the read requires a fresh session
+PASS Hunt 1018 reconnect authority contracts.
+PASS H1019-1 keep-current preview and apply agree and the populated Save Library is kept
+PASS H1019-1 a truly clean destination still plans a full clean restore
+PASS H1019-1b keep-current on a clean destination keeps it empty (JOB-1053)
+PASS H1019-2 a library the foundation rejects is blocked in analysis and before any write
+PASS H1019-2 the complete candidate is validated again at apply even if analysis was not authoritative
+PASS H1019-2 activation failure after commit rolls back to the exact previous snapshot and reports failure
+PASS H1019-4 an older overlapping career load never overwrites the newer career cache
+PASS 20 changed state events in one second share one slow load and one trailing reload
+PASS fast loads also coalesce a one-second burst with at least two seconds between starts
+PASS ready and partial frames stay visible during reloads, then swap in the new result
+PASS an unchanged phase/status never starts or queues a load for either state source
+PASS a hung load shows unavailable at 15 seconds and TRY AGAIN recovers without a late cache write
+PASS a rejected loader shows unavailable immediately and allows retry
+PASS context changes clear the old frame and stale loads cannot publish into the new account
+PASS a queued event reload is discarded when Legacy is hidden
+PASS Legacy refresh contracts (8/8).
+PASS JOB-1042 closed Final Winner reader contracts: ready final season/trophies, one cached read and redraw, verified rivalry/totals binding, partial failures and retained-history priority.
+PASS hunt 1017 terminal close recovery contracts: refresh keeps the held witness until a matching closed read, retry stops before close/cleanup when the context changes, closed Final Winner keeps verified trophies (1/3/10 seasons) and rejects tampered history.
+PASS hunt 1017 season fields reset contracts: a new shared season or role clears all seven facts for both managers, same-context polls keep typed input, published facts still render, season 2 cannot inherit season 1 trophies.
+ok 1 HO20-1 the style timeout releases the screen but a still-loading sheet is not settled: leaving for a non-Team-V screen does not disable it
+ok 2 HO20-2 a sheet switched back on is kept: no second fetch, never dropped (JOB-1635 C-1)
+ok 3 HO20-3 a sheet that loads in time clears its timer; a late load after the timeout resolves nothing twice
+PASS HO-020 style loader timeout contracts: 3 checks.
+PASS job-1005-final-season-cell-contracts
+PASS Job 1048 Rule Book and published Season Review text: 7 assertions.
+PASS JOB-1049 sealed club summary contracts: the summary never writes a club before its manager's pack opens, shows '?' until then, fills only the manager whose pack opened, and reseals on pack or witness reset.
+PASS full-library branch is gated on saveLibraryChoice==="use-backup"
+PASS classic-path complement is gated on saveLibraryChoice==="use-backup"
+PASS destinationIsClean is not part of any Save Library gating if( condition
+PASS destinationIsClean still selects full-restore-clean inside the explicit use-backup branch
+ok 1 D1 draft keys are scoped to rivalry, season, and manager role
+ok 2 D2 the same context restores locally saved rows only during unlocked Signing Entry
+ok 3 D3 locking signings clears the manager's draft and locked shared rows cannot restore it
+ok 4 D4 typing saves only this manager's signing fields on this device, through the storage.js helpers
+ok 5 D5 a rivalry, season, or role context change removes the previous local draft
+PASS JOB-1050 signing draft contracts: 5 checks.
+PASS JOB-1051 Transfer ledger privacy: lock hashes commit to the private payload plus a random salt kept only in the actor's own role document (40000-list brute force finds no match, fresh salt per lock, rival never sees it), idempotent replays succeed, conflicting replays fail with TRANSFER_IDEMPOTENCY_CONFLICT, r66 unsalted role documents still read and replay, and only the r66 and salted shapes are accepted.
+PASS JOB-1055: authoritative state teamCount, confirmed catalog fallback, and last-resort default limit Season Results to the league size.
+PASS JOB-1058: midpoint transfer clock, whole-second centring, precise ISO timestamps and authoritative elapsed time.
+ok 1 P1 aborted publish + rival landing a moment later -> re-read and one more publish reach RESULTS_READY
+ok 2 P2 permission-denied while the rival's write is still pending -> retry, one STALE re-read, accepted
+ok 3 P3 aborted, failed-precondition and every permission-denied spelling are treated as same-moment contention
+ok 4 P4 an aborted call whose own write landed binds the published result without a second publish
+ok 5 P5 contention that never clears is surfaced unchanged after exactly four publishes, rival still private
+ok 6 P6 refusals that are not contention are surfaced after one publish; stale stays bounded to two
+ok 7 P7 the real Spark provider surfaces SDK lock contention as {ok:false,code:"aborted"}
+ok 8 P8 contended reads inside a publish are retried within the same bound; refused reads surface at once
+PASS JOB-1611 simultaneous Season Result publish contracts (8 checks): contention is re-read and retried with the same operationId, bounded, privacy unchanged.
+ok 1 only storage.js and diagnostics.js touch localStorage; settings.js does not
+ok 2 three real accessible radio choices render in requested order
+ok 3 default preferences keep the legacy shape and read as follow
+ok 4 FOLLOW DEVICE responds to the live device preference
+ok 5 FULL MOTION overrides device reduction and corrects the root dataset
+ok 6 REDUCE MOTION forces reduced behaviour on a standard device
+ok 7 switching reduce -> full -> follow keeps boolean and consumers in step
+ok 8 old boolean-only saves map to follow or reduce and stay untouched
+ok 9 every stored choice survives a reload (fresh app over the same storage)
+ok 10 invalid stored choice falls back to the boolean
+ok 11 legacy setApplicationReducedMotionPreference still maps onto the choice
+ok 12 STARTUP: stored FULL is applied by storage.js alone, with Settings never loaded
+ok 13 STARTUP: stored REDUCE and FOLLOW are applied by storage.js alone
+ok 14 STARTUP: storage.js stays an eagerly loaded script and settings.js stays lazy
+ok 15 a storage event from another tab re-applies the choice and notifies
+ok 16 selecting a choice dispatches an updated preferences event
+PASS JOB-1652 motion setting contracts: 16 checks.
+ok 1 Q1 the Recovery screen leads with RESTORE BACKUP; the delete stays second as a smaller secondary; the note is kept
+ok 2 Q1 RESTORE BACKUP and the confirm-gated delete behave exactly as before
+ok 3 Q2 RESTORE BACKUP is the primary style; the delete is a smaller #app-prefixed secondary and nothing scrolls or hides
+ok 4 Q3 a wrong Google account is told to use a different account than Daniel, in plain words; pinned phrases are kept
+ok 5 Q4 the creator guard, two-manager rule and sign-in mechanics are untouched and no control was added
+PASS QoL 1+7 recovery leads with the safe button and a wrong Google account says what to do (5 checks).
+ok 1 Q1 typing half a season result saves one draft for this manager, rivalry and season
+ok 2 Q2 a reload restores the typed values and the ticked boxes
+ok 3 Q3 polls never overwrite typed input; Q4 clearing the form removes the draft
+ok 4 Q5 another season, role or rivalry, and a corrupt draft, are never restored
+ok 5 Q6 publishing removes the draft, and a published result never restores one
+ok 6 Q7 typing guesses saves the filled slots for this manager, rivalry and season
+ok 7 Q7 a reload restores the half-typed guesses without overwriting anything on screen
+ok 8 Q7 locking, emptying, a locked role, recorded guesses, other contexts and replay all leave no stale or foreign guess draft
+ok 9 Q8 the Showdown ending sweeps that rivalry's drafts and nothing else
+ok 10 Q9 drafts go through the js/storage.js helpers only, never sessionStorage, keyed by rivalry, season and role, cleared on publish, lock and Showdown end
+PASS QoL 3+6 keep-drafts contracts: 10 checks.
+Gate screenshots: no changed V10 screens
+PASS Showdown Gate screenshot contracts: complete V10 file map, five viewports, offline capture, non-blocking evidence and unchanged lane records
+PASS JOB-1581 canary L3A: GF_TRANSFER_FRESH_SESSION failure -> seal FAIL_TEST (exit 1); forged green with missing proof -> FAIL_TEST (exit 1).
+PASS JOB-1581 canary L3B: HOME_VISUAL failure -> seal FAIL_TEST (exit 1); forged green with missing proof -> FAIL_TEST (exit 1).
+PASS Showdown Gate coverage: 16 gates, 63 old steps mapped, 63 mappings verified, every POS10 proof group runs once, route equals the POS20 router (172 checks).
+PASS Showdown Gate L5 inputs: CSS-only skip, 24 input examples, mandatory push/main runs, independent fail-closed seal, route/finalize CLI and workflow conditions.
+PASS Showdown Gate watchdog contracts (15 groups): the seal fails closed on draft, superseded, foreign-head, missing or narrowed lanes; lane selection covers the route; the board tick yields to the three checks; gate-yield and gate-compare exit criteria; the Physio counts the 16 gates and the seven lanes of Showdown Gate.
+ok 1 Z1 the identity surface retries when the lazy loader is slow instead of leaving Home without a badge
+ok 2 Z2 one failed probe does not lock the game offline; it keeps re-checking and TRY AGAIN re-checks first
+ok 3 Z3 a refresh rejoins through the pair pointer; Remote Joining never stores the session
+ok 4 Z4 the session pointer is host-written, pair-read, never listed or deleted
+ok 5 Z5 a waiting update applies by itself only on a safe Home screen
+ok 6 Z9 Settings never shows the old engineering panels, even if the identity module starts late or not at all
+ok 7 Z6 a stuck or cancelled Google sign-in returns to SIGN IN WITH GOOGLE
+ok 8 Z7 upright touch tablets use the phone layout; sideways phones keep a usable player-name field
+ok 9 Z8 a league name two countries share waits for an explicit choice
+ok 10 Z10 Forget device never locks the account out, and a device revoked elsewhere stays revoked
+ok 11 Z11 LOCK MY SIGNINGS stays inside the phone scroll box and the sideways note stops overlapping row 03
+PASS Studio Z contracts: 11 checks (startup retry, offline recheck, refresh rejoin, session pointer, auto update, sign-in watchdog, tablet layout, shared league names, old Settings panels, Forget device sign-back-in, phone LOCK button).
+PASS Career Start failures show plain retry hints without raw codes.
+ok 1 D1 dashboard delete clears every cms.draft.v1 and cms.signingDraft.v1 key of every rivalry and nothing else
+ok 2 D1b dashboard delete clears every draft when the Showdown has no rivalry id and the pair module is not loaded
+ok 3 D2 Settings DELETE CURRENT SHOWDOWN clears every draft after the online connection is closed and the local copy is removed
+ok 4 D2b Settings delete clears every draft without depending on when the pair module initializes
+ok 5 D3 RESET ALL SHOWDOWN DATA (raw storage) clears every draft of every rivalry; preferences and unrelated keys stay
+ok 6 D3 RESET ALL SHOWDOWN DATA (library storage) clears every draft of every rivalry; preferences and unrelated keys stay
+ok 7 D3 RESET ALL clears the paired, the Showdown's and every orphaned rivalry's drafts even when the Showdown record has no rivalry id
+ok 8 D4 removing the completed active copy clears every draft
+ok 9 D5 a failed or cancelled delete leaves every draft in place
+ok 10 D5b an unavailable sweep module never blocks or breaks the delete
+ok 11 D6 startup files untouched; only storage.js and diagnostics.js touch localStorage; the sweep is wired into every delete path
+ok 12 D7 clearAllShowdownDraftKeys removes exactly the two prefixes and reports failure on blocked storage
+showdown-delete-clears-drafts contracts passed (12 checks)
+PASS completed showdown WINS contracts: completed leaders win, running leaders lead, ties unchanged.
+PASS football photo retry contracts: transient failures retry and successful loads stay cached.
+PASS optional gameplay modules retry starts completed modules once
+PASS transfer timer resumes on tab return and saves an expired window once
+PASS chat audit scoring: numeric Season tie-breaks, draws and stable ten-Season totals.
+PASS Showdown UI partial saved round: refresh remains usable and valid league finishes are unchanged.
+ok 1 the shim is a plain, dependency-free script with no storage or network access of its own
+ok 2 FOLLOW DEVICE with a reducing device: matchMedia and the CSS rules stay exactly as the browser reports
+ok 3 REDUCE with a reducing device (and with a calm device): still reported as reduced by the app, CSS untouched
+ok 4 FULL MOTION on a reducing device: the exact reduce query reports no match, other queries are untouched
+ok 5 FULL MOTION: every reduced-motion media rule is switched off, other rules are kept, nested rules are reached
+ok 6 switching Settings choices at runtime flips the CSS and matchMedia both ways, with the original query text restored
+ok 7 a stylesheet added later (lazy screen CSS) is handled while FULL MOTION is chosen
+ok 8 the shim is requested by js/ssjr.js before any screen module, is precached, and is not a start-up file
+full-motion-honors-device-contracts: 8 checks passed
+PASS Save Library switch does not overwrite a newer save written during preparation.
+PASS Career backup flushes the latest score and refuses export when a pending save fails.
+PASS: shared transfer start retry only reports success once the window advanced
+PASS Shared Season Commit stale-season contracts: an in-flight tap cannot commit or acknowledge after changing seasons.
+PASS Shared Canonical Scoring rivalry context contracts: a held old Setup cannot supply the current rivalry's score.
+PASS restore rejected, critical and committed Save Library authority contracts
+PASS chat audit screens A: rejected routes retain transfer timer updates.
+PASS import analysis preserves the currently selected backup across slow reads and clear
+PASS import analysis rejects invalid current career scores and retains older career score migration
+PASS save library manager identity contract
+PASS save-library migration preserves history or refuses an invalid Season list.
+PASS Season Results route: a newer navigation during script loading wins without blocking normal opens.
+PASS Journey Conflicts: repeated altered-operation replay cannot reach the provider.
+JOB-1790 diagnostic revision matching contracts passed
+PASS optional Statistics fast stylesheet failure is handled immediately; retry reuses scripts and opens the correct screen.
+PASS chat audit screens B: late presentation load cannot override newest route.
+PASS restore rejects unreadable local history records without writes; replacement, keep and repeated merge remain safe
+PASS overlapping shared season reads preserve accepted counts and totals; ten seasons advance once each and stop at ten.
+PASS storage: pending career save is flushed even when transfer save fails.
+PASS Final Reconciliation hides the obsolete pre-close panel immediately after Terminal Close, including on later refreshes; tied totals display DRAW before close.\nPASS Shared Setup online session-expiry read guard
+error: unhandled stylesheet rejections before script completes = 0
+timeout: unhandled stylesheet rejections before script completes = 0
+PASS optional stylesheet failures stay handled; retries open the right Statistics screen and reuse loaded assets.
+ok 1 SE-1 a held module-shown screen has html[data-v10-screen] and its pending hold in the same task the app shows it
+ok 2 SE-2 the hold never strands the screen: a module that never shows it is released by the style timeout
+ok 3 SE-3 auto:false without hold keeps its current behaviour (no hold from the loader)
+ok 4 SE-4 Season Results / Final Winner registers seasonEntry with the hold
+ok 5 SE-5 Standings (nav bar STANDINGS) registers with the same hold
+ok 6 SE-6 a phone hero whose <picture> source is still loading (no src, no currentSrc yet) holds the screen until it is decoded
+ok 7 SE-7 a hero still not ready when the screen's decode wait runs out stays hidden on its own until it is decoded
+ok 8 SE-8 pictures a Team V script adds later are each held for the full wait (not released by their position in the list)
+PASS Season Results / Final Winner no-flash contracts: 8 checks.
+PASS flash gate always contracts: V10_FLASH_BROWSER is routed to L3B on doc-only, operations-only, small-JS and full-seal routes; Season Results and Final Winner block.
+ok 1 FB1 a read-only transaction ends without a commit RPC (no verify writes); a writing one commits once
+ok 2 FB2 refreshes of the same document within 2 s cost one read; concurrent reads share one request; quiet checks reuse up to 60 s; taps, waits and fast checks read fresh
+ok 3 FB2b a check that sees a changed document after reusing an old copy re-runs on fresh reads (never a mix of old and new)
+ok 4 FB2d a fresh re-run does not start a cascade: another screen's forgotten but unchanged documents do not count as changed
+ok 5 FB2f season documents the Rules make immutable (published results, ACKNOWLEDGED commits) are read once per page
+ok 6 FB2c a rivalry that is still pending its pair is read fresh on every check, so the partner's join shows at once
+ok 7 FB3 Transfer waiting screen, both visible: <= budget reads/min with the listener, 0 writes, and a partner move reaches it within 1 s
+ok 8 FB4 a hidden tab reads nothing and drops its listener; returning re-reads once and re-attaches
+ok 9 FB4b a screen that was waiting when the tab was hidden catches up with one check the moment it is visible again
+ok 10 FB4c after the listener sees the partner's move, the follow-on checks of other screens reuse what the chain just read
+ok 11 FB5 a screen with only the 15 s poll stays within the idle budget; nothing writes while idle
+ok 12 FB6 listener drops or errors: the 3 s check takes over within one tick, stays within today's cadence, and no stale data is served
+ok 13 FB7 a listener that falls behind the server is dropped within 5 s and the screen reads the server
+ok 14 FB8 at most one listener per page; the other waiting screen keeps fresh 3 s checks and gets the listener once the first lets go
+ok 15 FB9 resource-exhausted pauses all traffic (10, then 20 min), shows the exact message once, and wakes the screens after
+ok 16 FB10 every connected module goes through the budget layer; wait points ask for the listener; device re-checks are capped
+PASS Firestore budget contracts: 16 checks, measured reads/min 3.4 / 0.0 / 3.0 / 1.8 / 60.0 (waiting <= 5 reads/min, hidden 0, idle writes 0, partner update <= 1000 ms).
+ok Reus Gate source: app.js hold with minimum and cap, ssjr.js ready signals, startup budget
+ok Reus Gate slow start (no-preference): loading screen handed over at 7210 ms to the finished Team V Home, no old Home frame
+ok Reus Gate slow start (reduce): loading screen handed over at 6958 ms to the finished Team V Home, no old Home frame
+ok Ready gate on Rule Book's first open: covered until its plate was ready (155 covered frames, 0 revealed without the plate)
+ok Ready gate on Club's first open: covered until its plate was ready (154 covered frames, 0 revealed without the plate)
+ok Reus Gate fallback: no lazy loader, loading screen left at 6128 ms
+ok Reus Gate failure: Team V loader failed, loading screen left at 2792 ms
+PASS Reus Gate startup contracts: source, slow start (motion and reduced motion), screen plate gate (Rule Book, Club), no-loader fallback, failed-loader release.
+PASS POS10 selected deterministic census (191/191 current blocking contracts: frozen POS10 floor + POS20 supplements).

@@ -1,0 +1,83 @@
+[
+  {
+    "pr": 857,
+    "sourceHead": "f9db71a7f99fbc713e948685818e5e6dbb241e87",
+    "file": "tests/contracts/sweep-biggest-showdown-tie-contracts.cjs",
+    "exit": 1,
+    "status": "FAIL",
+    "tail": [
+      "  -   'Shared \u00b7 1',",
+      "  -   'Shared \u00b7 1'",
+      "    ]",
+      "  ",
+      "      at TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-biggest-showdown-tie-contracts.cjs:58:12)",
+      "      at Test.runInAsyncScope (node:async_hooks:227:14)",
+      "      at Test.run (node:internal/test_runner/test:1382:25)",
+      "      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)",
+      "      at Test.postRun (node:internal/test_runner/test:1522:19)",
+      "      at Test.run (node:internal/test_runner/test:1447:12)",
+      "      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {",
+      "    generatedMessage: true,",
+      "    code: 'ERR_ASSERTION',",
+      "    actual: [Array],",
+      "    expected: [Array],",
+      "    operator: 'deepStrictEqual',",
+      "    diff: 'simple'",
+      "  }"
+    ]
+  },
+  {
+    "pr": 858,
+    "sourceHead": "66e6e0fb1a8233939aed8f1c555f10181e475caa",
+    "file": "tests/contracts/sweep-career-table-level-rank-contracts.cjs",
+    "exit": 1,
+    "status": "FAIL",
+    "tail": [
+      "          value: '12 points, 1 season wins'",
+      "        },",
+      "        { label: '2. Nik (level)', value: '12 points, 1 season wins' }",
+      "      ],",
+      "      expected: [",
+      "        {",
+      "          label: '1. Daniel (level)',",
+      "          value: '12 points, 1 season wins'",
+      "        },",
+      "        { label: '1. Nik (level)', value: '12 points, 1 season wins' }",
+      "      ],",
+      "      operator: 'deepStrictEqual',",
+      "      diff: 'simple'",
+      "    }",
+      "  ]",
+      "}",
+      "",
+      "Node.js v24.19.0"
+    ]
+  },
+  {
+    "pr": 859,
+    "sourceHead": "d8961abd5eb5e92d73a425b279b0d62a7611775a",
+    "file": "tests/contracts/sweep-missing-season-stats-contracts.cjs",
+    "exit": 1,
+    "status": "FAIL",
+    "tail": [
+      "  }",
+      "",
+      "test at tests/contracts/sweep-missing-season-stats-contracts.cjs:97:5",
+      "\u2716 private reader rejects persisted leagueGoals=\"\" even with a hash-valid zero (15.220249ms)",
+      "  AssertionError [ERR_ASSERTION]: leagueGoals=\"\" must not be accepted as hash-valid zero",
+      "  ",
+      "  true !== false",
+      "  ",
+      "      at TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-missing-season-stats-contracts.cjs:106:14)",
+      "      at async Test.run (node:internal/test_runner/test:1389:7)",
+      "      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {",
+      "    generatedMessage: false,",
+      "    code: 'ERR_ASSERTION',",
+      "    actual: true,",
+      "    expected: false,",
+      "    operator: 'strictEqual',",
+      "    diff: 'simple'",
+      "  }"
+    ]
+  }
+]

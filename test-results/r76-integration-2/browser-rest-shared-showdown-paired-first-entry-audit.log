@@ -1,0 +1,10 @@
+locator.waitFor: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('#productionSharedJourneyEntryOverlay button').filter({ hasText: 'REVIEW CONNECTION' }) to be visible[22m
+
+    at /workspace/fifa17-career-showdown2/tests/browser/shared-showdown-paired-first-entry-audit.cjs:138:22 {
+  log: [
+    "  - waiting for locator('#productionSharedJourneyEntryOverlay button').filter({ hasText: 'REVIEW CONNECTION' }) to be visible"
+  ],
+  name: 'TimeoutError'
+}

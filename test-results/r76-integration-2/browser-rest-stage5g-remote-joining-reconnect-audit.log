@@ -1,0 +1,7 @@
+Stage 5G Host first diagnostic {"ok":false,"code":"firestore/unavailable","recoverable":true,"message":"simulated Host acknowledgement loss","providerOpenCalls":1,"state":{"status":"recovery-pending","pendingAction":"host","sessionState":"unresolved","generated":1}}
+PASS Stage 5G Host lost-acknowledgement state is unresolved and capability-hidden
+PASS Stage 5G Host exact-capability retry recovered without duplicate session
+PASS Stage 5G Join lost-acknowledgement state is unresolved and capability-hidden
+PASS Stage 5G both contexts converged to the one active session at revision 1
+PASS Stage 5G bounded online retry converged both contexts to terminal revision 2
+PASS Stage 5G two-context same-capability reconnect audit at http://127.0.0.1:4511/

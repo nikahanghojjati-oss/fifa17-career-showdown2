@@ -1,0 +1,6 @@
+Auto-merging POS20_SUPPLEMENTAL_PRODUCT_TESTS.json
+CONFLICT (content): Merge conflict in POS20_SUPPLEMENTAL_PRODUCT_TESTS.json
+Auto-merging js/productionSharedSeasonResults.js
+Auto-merging tests/operations/pos20-control-plane.test.mjs
+CONFLICT (content): Merge conflict in tests/operations/pos20-control-plane.test.mjs
+Automatic merge failed; fix conflicts and then commit the result.

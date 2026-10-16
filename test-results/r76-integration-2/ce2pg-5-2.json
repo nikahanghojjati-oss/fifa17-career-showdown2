@@ -1,0 +1,1217 @@
+{
+  "tool": "CE2PG",
+  "seasons": 5,
+  "run": 2,
+  "startedAt": "2026-10-16T12:29:03.852Z",
+  "finishedAt": "2026-10-16T12:33:11.266Z",
+  "baseUrl": "http://127.0.0.1:4511/",
+  "viewports": {
+    "daniel": {
+      "width": 390,
+      "height": 844
+    },
+    "nik": {
+      "width": 412,
+      "height": 915
+    }
+  },
+  "league": "Premier League",
+  "clubs": [
+    "Bournemouth",
+    "Tottenham Hotspur"
+  ],
+  "teamCount": 20,
+  "plan": {
+    "target": "nik",
+    "intents": [
+      "daniel",
+      "tie",
+      "any",
+      "any",
+      "any"
+    ],
+    "seasons": [
+      {
+        "season": 1,
+        "daniel": {
+          "leaguePosition": 1,
+          "leaguePoints": 79,
+          "leagueGoals": 70,
+          "domesticCup": true,
+          "championsLeague": false,
+          "topScorer": false,
+          "topAssist": false
+        },
+        "nik": {
+          "leaguePosition": 10,
+          "leaguePoints": 38,
+          "leagueGoals": 74,
+          "domesticCup": false,
+          "championsLeague": false,
+          "topScorer": false,
+          "topAssist": false
+        },
+        "expected": {
+          "daniel": {
+            "championsLeague": 0,
+            "leagueTitle": 3,
+            "domesticCup": 1,
+            "performanceBonus": 0,
+            "individualAwardsBonus": 0,
+            "total": 4
+          },
+          "nik": {
+            "championsLeague": 0,
+            "leagueTitle": 0,
+            "domesticCup": 0,
+            "performanceBonus": 0,
+            "individualAwardsBonus": 0,
+            "total": 0
+          },
+          "winner": {
+            "side": "daniel",
+            "byTiebreak": false
+          }
+        }
+      },
+      {
+        "season": 2,
+        "daniel": {
+          "leaguePosition": 12,
+          "leaguePoints": 58,
+          "leagueGoals": 86,
+          "domesticCup": false,
+          "championsLeague": true,
+          "topScorer": false,
+          "topAssist": true
+        },
+        "nik": {
+          "leaguePosition": 2,
+          "leaguePoints": 44,
+          "leagueGoals": 41,
+          "domesticCup": false,
+          "championsLeague": true,
+          "topScorer": false,
+          "topAssist": true
+        },
+        "expected": {
+          "daniel": {
+            "championsLeague": 5,
+            "leagueTitle": 0,
+            "domesticCup": 0,
+            "performanceBonus": 0,
+            "individualAwardsBonus": 1,
+            "total": 6
+          },
+          "nik": {
+            "championsLeague": 5,
+            "leagueTitle": 0,
+            "domesticCup": 0,
+            "performanceBonus": 0,
+            "individualAwardsBonus": 1,
+            "total": 6
+          },
+          "winner": {
+            "side": "nik",
+            "byTiebreak": true
+          }
+        }
+      },
+      {
+        "season": 3,
+        "daniel": {
+          "leaguePosition": 9,
+          "leaguePoints": 106,
+          "leagueGoals": 32,
+          "domesticCup": false,
+          "championsLeague": false,
+          "topScorer": false,
+          "topAssist": true
+        },
+        "nik": {
+          "leaguePosition": 1,
+          "leaguePoints": 23,
+          "leagueGoals": 134,
+          "domesticCup": true,
+          "championsLeague": false,
+          "topScorer": false,
+          "topAssist": false
+        },
+        "expected": {
+          "daniel": {
+            "championsLeague": 0,
+            "leagueTitle": 0,
+            "domesticCup": 0,
+            "performanceBonus": 1,
+            "individualAwardsBonus": 1,
+            "total": 2
+          },
+          "nik": {
+            "championsLeague": 0,
+            "leagueTitle": 3,
+            "domesticCup": 1,
+            "performanceBonus": 1,
+            "individualAwardsBonus": 0,
+            "total": 5
+          },
+          "winner": {
+            "side": "nik",
+            "byTiebreak": false
+          }
+        }
+      },
+      {
+        "season": 4,
+        "daniel": {
+          "leaguePosition": 5,
+          "leaguePoints": 109,
+          "leagueGoals": 51,
+          "domesticCup": false,
+          "championsLeague": false,
+          "topScorer": false,
+          "topAssist": false
+        },
+        "nik": {
+          "leaguePosition": 1,
+          "leaguePoints": 29,
+          "leagueGoals": 54,
+          "domesticCup": true,
+          "championsLeague": true,
+          "topScorer": false,
+          "topAssist": false
+        },
+        "expected": {
+          "daniel": {
+            "championsLeague": 0,
+            "leagueTitle": 0,
+            "domesticCup": 0,
+            "performanceBonus": 1,
+            "individualAwardsBonus": 0,
+            "total": 1
+          },
+          "nik": {
+            "championsLeague": 5,
+            "leagueTitle": 3,
+            "domesticCup": 1,
+            "performanceBonus": 0,
+            "individualAwardsBonus": 0,
+            "total": 9
+          },
+          "winner": {
+            "side": "nik",
+            "byTiebreak": false
+          }
+        }
+      },
+      {
+        "season": 5,
+        "daniel": {
+          "leaguePosition": 10,
+          "leaguePoints": 108,
+          "leagueGoals": 83,
+          "domesticCup": false,
+          "championsLeague": false,
+          "topScorer": true,
+          "topAssist": false
+        },
+        "nik": {
+          "leaguePosition": 9,
+          "leaguePoints": 97,
+          "leagueGoals": 22,
+          "domesticCup": false,
+          "championsLeague": true,
+          "topScorer": true,
+          "topAssist": true
+        },
+        "expected": {
+          "daniel": {
+            "championsLeague": 0,
+            "leagueTitle": 0,
+            "domesticCup": 0,
+            "performanceBonus": 1,
+            "individualAwardsBonus": 1,
+            "total": 2
+          },
+          "nik": {
+            "championsLeague": 5,
+            "leagueTitle": 0,
+            "domesticCup": 0,
+            "performanceBonus": 0,
+            "individualAwardsBonus": 1,
+            "total": 6
+          },
+          "winner": {
+            "side": "nik",
+            "byTiebreak": false
+          }
+        }
+      }
+    ],
+    "expectedFinal": {
+      "daniel": 15,
+      "nik": 26,
+      "winner": "nik"
+    }
+  },
+  "verdict": "FAIL",
+  "fatal": {
+    "message": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#seasonPrimaryAction')\n    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 100ms\n    58 × waiting for element to be visible, enabled and stable\n       - element is not visible\n     - retrying click action\n       - waiting 500ms\n",
+    "stack": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#seasonPrimaryAction')\n    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable",
+    "state_daniel": "screens=mainMenu | badge=DANIEL | overlays=",
+    "state_nik": "screens=mainMenu | badge=NIK | overlays="
+  },
+  "checks": [
+    {
+      "id": "setup.switch.daniel",
+      "label": "emulator switch active (localhost + cmsEmulator=1 only)",
+      "context": "daniel",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.switch.nik",
+      "label": "emulator switch active (localhost + cmsEmulator=1 only)",
+      "context": "nik",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.signin",
+      "label": "Daniel and Nik signed in through SIGN IN WITH GOOGLE as two distinct accounts",
+      "context": "both",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.account.daniel",
+      "label": "account bootstrapped in the database",
+      "context": "daniel",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.account.nik",
+      "label": "account bootstrapped in the database",
+      "context": "nik",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.paircode",
+      "label": "Daniel created a pair code on the Start screen",
+      "context": "daniel",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.paired",
+      "label": "Nik joined with the code: Daniel is playerOne, Nik playerTwo, same rivalry",
+      "context": "both",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.session",
+      "label": "Daniel hosts the private session and Nik joins it without typing a code",
+      "context": "both",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.league.wait",
+      "label": "Nik waits for the host and cannot draw the league",
+      "context": "nik",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.league",
+      "label": "both managers see the same drawn league",
+      "context": "both",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.clubscreen.daniel",
+      "label": "the club screen names the shared league",
+      "context": "daniel",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.clubscreen.nik",
+      "label": "the club screen names the shared league",
+      "context": "nik",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.clubs.wait",
+      "label": "Nik cannot draw the clubs",
+      "context": "nik",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.clubs",
+      "label": "both managers see the same two clubs",
+      "context": "nik",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.careerstart.daniel",
+      "label": "Career Start names the manager and their assigned club",
+      "context": "daniel",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.careerstart.nik",
+      "label": "Career Start names the manager and their assigned club",
+      "context": "nik",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "S1.transfer.coordinator",
+      "label": "only Daniel can start the shared transfer window",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.transfer.privacy.nik",
+      "label": "Daniel's locked signing stays hidden from Nik before completion",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.transfer.privacy.daniel",
+      "label": "Nik's unfinished signing stays hidden from Daniel",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.transfer.reveal.daniel",
+      "label": "completed transfer reveals both signings",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.transfer.reveal.nik",
+      "label": "completed transfer reveals both signings",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.transfer.verdicts",
+      "label": "both managers see identical transfer verdicts",
+      "context": "both",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.results.privacy",
+      "label": "Daniel's published numbers are not shown to Nik before Nik publishes",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.results.converge",
+      "label": "both managers see identical result cards",
+      "context": "both",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.results.facts.daniel",
+      "label": "result cards show exactly the entered league position, points and goals",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.results.noerror.daniel",
+      "label": "no error banner after publishing",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.results.facts.nik",
+      "label": "result cards show exactly the entered league position, points and goals",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.results.noerror.nik",
+      "label": "no error banner after publishing",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.commit.coordinator",
+      "label": "Nik cannot commit the season",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.scoring.state.daniel",
+      "label": "canonical scoring state equals the recomputed breakdown",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.scoring.totals.daniel",
+      "label": "season totals on screen",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.scoring.winner.daniel",
+      "label": "season winner on screen",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.scoring.state.nik",
+      "label": "canonical scoring state equals the recomputed breakdown",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.scoring.totals.nik",
+      "label": "season totals on screen",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.scoring.winner.nik",
+      "label": "season winner on screen",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.history.heading.daniel",
+      "label": "Shared History heading",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.history.summary.daniel",
+      "label": "Shared History overall totals and lead",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.history.records.daniel",
+      "label": "Shared History W/D/L and points per manager",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.history.trophies.daniel",
+      "label": "Shared History trophy attribution",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.history.heading.nik",
+      "label": "Shared History heading",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.history.summary.nik",
+      "label": "Shared History overall totals and lead",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.history.records.nik",
+      "label": "Shared History W/D/L and points per manager",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.history.trophies.nik",
+      "label": "Shared History trophy attribution",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.dashboard.after-continue.daniel",
+      "label": "dashboard after season 1 (after-continue): season counter, totals, lead, last season, last league finish",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.dashboard.after-continue.nik",
+      "label": "dashboard after season 1 (after-continue): season counter, totals, lead, last season, last league finish",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.reload.session.daniel",
+      "label": "after a reload the manager is back in the same private session",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.reload.noGetReady.daniel",
+      "label": "no GET READY overlay after reload",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.reload.session.nik",
+      "label": "after a reload the manager is back in the same private session",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.reload.noGetReady.nik",
+      "label": "no GET READY overlay after reload",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.reload.resume.nik",
+      "label": "after reload the manager resumes on the dashboard of the next season",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.reload.noCareerStart.nik",
+      "label": "resume does not replay Career Start",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.dashboard.after-reload.nik",
+      "label": "dashboard after season 1 (after-reload): season counter, totals, lead, last season, last league finish",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.reload.resume.daniel",
+      "label": "after reload the manager resumes on the dashboard of the next season",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.reload.noCareerStart.daniel",
+      "label": "resume does not replay Career Start",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.dashboard.after-reload.daniel",
+      "label": "dashboard after season 1 (after-reload): season counter, totals, lead, last season, last league finish",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.excursion.home.daniel",
+      "label": "BACK TO MAIN MENU from the dashboard reaches Showdown Home",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.excursion.tile.daniel",
+      "label": "the CONTINUE CAREER tile on Showdown Home shows the current season (Season 2 of 5)",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.excursion.stats.daniel",
+      "label": "Career Statistics mid-showdown says there is no completed record yet",
+      "context": "daniel",
+      "season": 1,
+      "pass": false,
+      "detail": "CAREER STATISTICS TWO MANAGERS. ONE LEGACY. COMPLETED SHOWDOWNS 0 TOGETHER SEASONS PLAYED D 1 / N 1 CAREER POINTS D 4 / N 0 TROPHIES WON D 2 / N 0 TABLE COMPARE LEADERS CAREER TABLE # Manager Showdowns Season W-D-L Points Trophies 1 ♛ Daniel 0 1-0-0 4 2 2 Nik 0 0-0-1 0 0 CURRENT RIVALRY STATISTICS › OPEN TROPHY ROOM › BACK TO MAIN MENU ›"
+    },
+    {
+      "id": "S1.excursion.trophy.daniel",
+      "label": "Trophy Room mid-showdown shows no trophies yet (all NOT WON YET)",
+      "context": "daniel",
+      "season": 1,
+      "pass": false,
+      "detail": "[{\"trophy\":\"showdown\",\"text\":\"SHOWDOWN CHAMPION DANIEL — NIK — NOT WON YET\",\"sides\":{\"daniel\":\"—\",\"nik\":\"—\"}},{\"trophy\":\"leagueTitles\",\"text\":\"LEAGUE TITLE DANIEL 1 NIK —\",\"sides\":{\"daniel\":\"1\",\"nik\":\"—\"}},{\"trophy\":\"domesticCups\",\"text\":\"DOMESTIC CUP DANIEL 1 NIK —\",\"sides\":{\"daniel\":\"1\",\"nik\":\"—\"}},{\"trophy\":\"championsLeague\",\"text\":\"CHAMPIONS LEAGUE DANIEL — NIK — NOT WON YET\",\"sides\":{\"daniel\":\"—\",\"nik\":\"—\"}}]"
+    },
+    {
+      "id": "S1.excursion.legacy.daniel",
+      "label": "Legacy mid-showdown shows no completed showdowns yet",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.excursion.standings.daniel",
+      "label": "STANDINGS (This Showdown) is loaded and not stuck on Loading",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.dashboard.after-excursion.daniel",
+      "label": "dashboard after season 1 (after-excursion): season counter, totals, lead, last season, last league finish",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.rivalry.loads.daniel",
+      "label": "RIVALRY STATISTICS finishes loading (not stuck on 'Loading rivalry statistics')",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.rivalry.back.daniel",
+      "label": "RIVALRY STATISTICS: back returns to the season dashboard",
+      "context": "daniel",
+      "season": 1,
+      "pass": false,
+      "detail": "screens=mainMenu | badge=DANIEL | overlays="
+    },
+    {
+      "id": "S1.excursion.home.nik",
+      "label": "BACK TO MAIN MENU from the dashboard reaches Showdown Home",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.excursion.tile.nik",
+      "label": "the CONTINUE CAREER tile on Showdown Home shows the current season (Season 2 of 5)",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.excursion.stats.nik",
+      "label": "Career Statistics mid-showdown says there is no completed record yet",
+      "context": "nik",
+      "season": 1,
+      "pass": false,
+      "detail": "CAREER STATISTICS TWO MANAGERS. ONE LEGACY. COMPLETED SHOWDOWNS 0 TOGETHER SEASONS PLAYED D 1 / N 1 CAREER POINTS D 4 / N 0 TROPHIES WON D 2 / N 0 TABLE COMPARE LEADERS CAREER TABLE # Manager Showdowns Season W-D-L Points Trophies 1 ♛ Daniel 0 1-0-0 4 2 2 Nik 0 0-0-1 0 0 CURRENT RIVALRY STATISTICS › OPEN TROPHY ROOM › BACK TO MAIN MENU ›"
+    },
+    {
+      "id": "S1.excursion.trophy.nik",
+      "label": "Trophy Room mid-showdown shows no trophies yet (all NOT WON YET)",
+      "context": "nik",
+      "season": 1,
+      "pass": false,
+      "detail": "[{\"trophy\":\"showdown\",\"text\":\"SHOWDOWN CHAMPION DANIEL — NIK — NOT WON YET\",\"sides\":{\"daniel\":\"—\",\"nik\":\"—\"}},{\"trophy\":\"leagueTitles\",\"text\":\"LEAGUE TITLE DANIEL 1 NIK —\",\"sides\":{\"daniel\":\"1\",\"nik\":\"—\"}},{\"trophy\":\"domesticCups\",\"text\":\"DOMESTIC CUP DANIEL 1 NIK —\",\"sides\":{\"daniel\":\"1\",\"nik\":\"—\"}},{\"trophy\":\"championsLeague\",\"text\":\"CHAMPIONS LEAGUE DANIEL — NIK — NOT WON YET\",\"sides\":{\"daniel\":\"—\",\"nik\":\"—\"}}]"
+    },
+    {
+      "id": "S1.excursion.legacy.nik",
+      "label": "Legacy mid-showdown shows no completed showdowns yet",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.excursion.standings.nik",
+      "label": "STANDINGS (This Showdown) is loaded and not stuck on Loading",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.dashboard.after-excursion.nik",
+      "label": "dashboard after season 1 (after-excursion): season counter, totals, lead, last season, last league finish",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.rivalry.loads.nik",
+      "label": "RIVALRY STATISTICS finishes loading (not stuck on 'Loading rivalry statistics')",
+      "context": "nik",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "S1.rivalry.back.nik",
+      "label": "RIVALRY STATISTICS: back returns to the season dashboard",
+      "context": "nik",
+      "season": 1,
+      "pass": false,
+      "detail": "screens=mainMenu | badge=NIK | overlays="
+    },
+    {
+      "id": "S1.enter.label.daniel",
+      "label": "the dashboard action names season 2",
+      "context": "daniel",
+      "season": 1,
+      "pass": true
+    },
+    {
+      "id": "zz.production.daniel",
+      "label": "never contacted a production Firebase host or loaded the production runtime",
+      "context": "daniel",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "zz.pageerrors.daniel",
+      "label": "no uncaught page errors or console errors",
+      "context": "daniel",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "zz.rulesLimit.daniel",
+      "label": "no Firestore Rules evaluation-limit failure (\"maximum of 1000 expressions\") on any write",
+      "context": "daniel",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "zz.network.daniel",
+      "label": "no failed network requests (HTTP 4xx/5xx or request failures other than aborted navigations)",
+      "context": "daniel",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "zz.production.nik",
+      "label": "never contacted a production Firebase host or loaded the production runtime",
+      "context": "nik",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "zz.pageerrors.nik",
+      "label": "no uncaught page errors or console errors",
+      "context": "nik",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "zz.rulesLimit.nik",
+      "label": "no Firestore Rules evaluation-limit failure (\"maximum of 1000 expressions\") on any write",
+      "context": "nik",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "zz.network.nik",
+      "label": "no failed network requests (HTTP 4xx/5xx or request failures other than aborted navigations)",
+      "context": "nik",
+      "season": 0,
+      "pass": true
+    }
+  ],
+  "problems": [
+    {
+      "id": "S1.excursion.stats.daniel",
+      "severity": "game-bug",
+      "season": 1,
+      "context": "daniel",
+      "screen": "Career Statistics",
+      "description": "Career Statistics mid-showdown says there is no completed record yet. CAREER STATISTICS TWO MANAGERS. ONE LEGACY. COMPLETED SHOWDOWNS 0 TOGETHER SEASONS PLAYED D 1 / N 1 CAREER POINTS D 4 / N 0 TROPHIES WON D 2 / N 0 TABLE COMPARE LEADERS CAREER TABLE # Manager Showdowns Season W-D-L Points Trophies 1 ♛ Daniel 0 1-0-0 4 2 2 Nik 0 0-0-1 0 0 CURRENT RIVALRY STATISTICS › OPEN TROPHY ROOM › BACK TO MAIN MENU ›",
+      "screenshot": "test-results/ce2pg-5-2/problem-S1.excursion.stats.daniel-s1-daniel.png"
+    },
+    {
+      "id": "S1.excursion.trophy.daniel",
+      "severity": "game-bug",
+      "season": 1,
+      "context": "daniel",
+      "screen": "Trophy Room",
+      "description": "Trophy Room mid-showdown shows no trophies yet (all NOT WON YET). [{\"trophy\":\"showdown\",\"text\":\"SHOWDOWN CHAMPION DANIEL — NIK — NOT WON YET\",\"sides\":{\"daniel\":\"—\",\"nik\":\"—\"}},{\"trophy\":\"leagueTitles\",\"text\":\"LEAGUE TITLE DANIEL 1 NIK —\",\"sides\":{\"daniel\":\"1\",\"nik\":\"—\"}},{\"trophy\":\"domesticCups\",\"text\":\"DOMESTIC CUP DANIEL 1 NIK —\",\"sides\":{\"daniel\":\"1\",\"nik\":\"—\"}},{\"trophy\":\"championsLeague\",\"text\":\"CHAMPIONS LEAGUE DANIEL — NIK — NOT WON YET\",\"sides\":{\"daniel\":\"—\",\"nik\":\"—\"}}]",
+      "screenshot": "test-results/ce2pg-5-2/problem-S1.excursion.trophy.daniel-s1-daniel.png"
+    },
+    {
+      "id": "S1.rivalry.back.daniel",
+      "severity": "game-bug",
+      "season": 1,
+      "context": "daniel",
+      "screen": "Rivalry Statistics",
+      "description": "RIVALRY STATISTICS: back returns to the season dashboard. screens=mainMenu | badge=DANIEL | overlays=",
+      "screenshot": "test-results/ce2pg-5-2/problem-S1.rivalry.back.daniel-s1-daniel.png"
+    },
+    {
+      "id": "S1.excursion.stats.nik",
+      "severity": "game-bug",
+      "season": 1,
+      "context": "nik",
+      "screen": "Career Statistics",
+      "description": "Career Statistics mid-showdown says there is no completed record yet. CAREER STATISTICS TWO MANAGERS. ONE LEGACY. COMPLETED SHOWDOWNS 0 TOGETHER SEASONS PLAYED D 1 / N 1 CAREER POINTS D 4 / N 0 TROPHIES WON D 2 / N 0 TABLE COMPARE LEADERS CAREER TABLE # Manager Showdowns Season W-D-L Points Trophies 1 ♛ Daniel 0 1-0-0 4 2 2 Nik 0 0-0-1 0 0 CURRENT RIVALRY STATISTICS › OPEN TROPHY ROOM › BACK TO MAIN MENU ›",
+      "screenshot": "test-results/ce2pg-5-2/problem-S1.excursion.stats.nik-s1-nik.png"
+    },
+    {
+      "id": "S1.excursion.trophy.nik",
+      "severity": "game-bug",
+      "season": 1,
+      "context": "nik",
+      "screen": "Trophy Room",
+      "description": "Trophy Room mid-showdown shows no trophies yet (all NOT WON YET). [{\"trophy\":\"showdown\",\"text\":\"SHOWDOWN CHAMPION DANIEL — NIK — NOT WON YET\",\"sides\":{\"daniel\":\"—\",\"nik\":\"—\"}},{\"trophy\":\"leagueTitles\",\"text\":\"LEAGUE TITLE DANIEL 1 NIK —\",\"sides\":{\"daniel\":\"1\",\"nik\":\"—\"}},{\"trophy\":\"domesticCups\",\"text\":\"DOMESTIC CUP DANIEL 1 NIK —\",\"sides\":{\"daniel\":\"1\",\"nik\":\"—\"}},{\"trophy\":\"championsLeague\",\"text\":\"CHAMPIONS LEAGUE DANIEL — NIK — NOT WON YET\",\"sides\":{\"daniel\":\"—\",\"nik\":\"—\"}}]",
+      "screenshot": "test-results/ce2pg-5-2/problem-S1.excursion.trophy.nik-s1-nik.png"
+    },
+    {
+      "id": "S1.rivalry.back.nik",
+      "severity": "game-bug",
+      "season": 1,
+      "context": "nik",
+      "screen": "Rivalry Statistics",
+      "description": "RIVALRY STATISTICS: back returns to the season dashboard. screens=mainMenu | badge=NIK | overlays=",
+      "screenshot": "test-results/ce2pg-5-2/problem-S1.rivalry.back.nik-s1-nik.png"
+    },
+    {
+      "id": "fatal",
+      "severity": "harness-or-game",
+      "season": 1,
+      "context": "daniel",
+      "screen": "journey stopped (season 1)",
+      "description": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#seasonPrimaryAction')\n    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 100ms\n    58 × waiting for element to be visible, enabled and stable\n       - element is not visible\n     - retrying click action\n       - waiting 500ms\n | screens=mainMenu | badge=DANIEL | overlays=",
+      "screenshot": "test-results/ce2pg-5-2/fatal-daniel.png"
+    },
+    {
+      "id": "fatal",
+      "severity": "harness-or-game",
+      "season": 1,
+      "context": "nik",
+      "screen": "journey stopped (season 1)",
+      "description": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#seasonPrimaryAction')\n    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 100ms\n    58 × waiting for element to be visible, enabled and stable\n       - element is not visible\n     - retrying click action\n       - waiting 500ms\n | screens=mainMenu | badge=NIK | overlays=",
+      "screenshot": "test-results/ce2pg-5-2/fatal-nik.png"
+    }
+  ],
+  "timings": {
+    "phases": [
+      {
+        "phase": "sign-in",
+        "season": 0,
+        "ms": 4376
+      },
+      {
+        "phase": "pairing",
+        "season": 0,
+        "ms": 7107
+      },
+      {
+        "phase": "private-session",
+        "season": 0,
+        "ms": 5926
+      },
+      {
+        "phase": "league-and-clubs",
+        "season": 0,
+        "ms": 11477
+      },
+      {
+        "phase": "career-start",
+        "season": 0,
+        "ms": 7317
+      },
+      {
+        "phase": "season-1-transfers",
+        "season": 1,
+        "ms": 24044
+      },
+      {
+        "phase": "season-1-results",
+        "season": 1,
+        "ms": 6810
+      },
+      {
+        "phase": "season-1-commit",
+        "season": 1,
+        "ms": 5157
+      },
+      {
+        "phase": "season-1-history",
+        "season": 1,
+        "ms": 636
+      },
+      {
+        "phase": "season-1-continue",
+        "season": 1,
+        "ms": 1928
+      },
+      {
+        "phase": "season-1-reload",
+        "season": 1,
+        "ms": 7877
+      },
+      {
+        "phase": "season-1-excursion",
+        "season": 1,
+        "ms": 106748
+      },
+      {
+        "phase": "season-1-enter",
+        "season": 1,
+        "ms": 30032
+      }
+    ],
+    "totalMs": 247414
+  },
+  "seasonLog": [],
+  "console": {
+    "daniel": [
+      {
+        "season": 0,
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      },
+      {
+        "season": 1,
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      }
+    ],
+    "nik": [
+      {
+        "season": 0,
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      },
+      {
+        "season": 1,
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      }
+    ]
+  },
+  "network": {
+    "daniel": [
+      {
+        "season": 0,
+        "phase": "boot",
+        "at": 20116,
+        "kind": "requestfailed",
+        "method": "GET",
+        "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&display=swap",
+        "error": "net::ERR_TUNNEL_CONNECTION_FAILED",
+        "class": "environment"
+      },
+      {
+        "season": 0,
+        "phase": "career-start",
+        "at": 63071,
+        "kind": "requestfailed",
+        "method": "GET",
+        "url": "http://127.0.0.1:9411/google.firestore.v1.Firestore/Listen/channel?VER=8&database=projects%2Fdemo-cms-browser-journey%2Fdatabases%2F(default)&RID=rpc&SID=V-8WuZKGL9wuT6FJL5WlfQ%3D%3D&AID=0&CI=0&TYPE=x",
+        "error": "net::ERR_ABORTED",
+        "class": "benign-listen-channel-closed"
+      },
+      {
+        "season": 1,
+        "phase": "season-1-continue",
+        "at": 100619,
+        "kind": "requestfailed",
+        "method": "GET",
+        "url": "http://127.0.0.1:9411/google.firestore.v1.Firestore/Listen/channel?VER=8&database=projects%2Fdemo-cms-browser-journey%2Fdatabases%2F(default)&RID=rpc&SID=6nzYRrfbztTeBphBnT5sJQ%3D%3D&AID=0&CI=0&TYPE=x",
+        "error": "net::ERR_ABORTED",
+        "class": "benign-listen-channel-closed"
+      },
+      {
+        "season": 1,
+        "phase": "season-1-reload",
+        "at": 102972,
+        "kind": "requestfailed",
+        "method": "GET",
+        "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&display=swap",
+        "error": "net::ERR_TUNNEL_CONNECTION_FAILED",
+        "class": "environment"
+      },
+      {
+        "season": 1,
+        "phase": "season-1-excursion",
+        "at": 184727,
+        "kind": "requestfailed",
+        "method": "GET",
+        "url": "http://127.0.0.1:9411/google.firestore.v1.Firestore/Listen/channel?VER=8&database=projects%2Fdemo-cms-browser-journey%2Fdatabases%2F(default)&RID=rpc&SID=x6p9bUpaTtYTzsbF7XzD-Q%3D%3D&AID=0&CI=0&TYPE=x",
+        "error": "net::ERR_ABORTED",
+        "class": "benign-listen-channel-closed"
+      },
+      {
+        "season": 1,
+        "phase": "season-1-excursion",
+        "at": 199709,
+        "kind": "requestfailed",
+        "method": "GET",
+        "url": "http://127.0.0.1:9411/google.firestore.v1.Firestore/Listen/channel?VER=8&database=projects%2Fdemo-cms-browser-journey%2Fdatabases%2F(default)&RID=rpc&SID=x6p9bUpaTtYTzsbF7XzD-Q%3D%3D&AID=35&CI=0&TYPE=",
+        "error": "net::ERR_ABORTED",
+        "class": "benign-listen-channel-closed"
+      }
+    ],
+    "nik": [
+      {
+        "season": 0,
+        "phase": "boot",
+        "at": 24162,
+        "kind": "requestfailed",
+        "method": "GET",
+        "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&display=swap",
+        "error": "net::ERR_TUNNEL_CONNECTION_FAILED",
+        "class": "environment"
+      },
+      {
+        "season": 0,
+        "phase": "career-start",
+        "at": 57330,
+        "kind": "requestfailed",
+        "method": "GET",
+        "url": "http://127.0.0.1:9411/google.firestore.v1.Firestore/Listen/channel?VER=8&database=projects%2Fdemo-cms-browser-journey%2Fdatabases%2F(default)&RID=rpc&SID=eWy4-OiVWnRYEoTaHpUk4Q%3D%3D&AID=0&CI=0&TYPE=x",
+        "error": "net::ERR_ABORTED",
+        "class": "benign-listen-channel-closed"
+      },
+      {
+        "season": 1,
+        "phase": "season-1-continue",
+        "at": 101578,
+        "kind": "requestfailed",
+        "method": "GET",
+        "url": "http://127.0.0.1:9411/google.firestore.v1.Firestore/Listen/channel?VER=8&database=projects%2Fdemo-cms-browser-journey%2Fdatabases%2F(default)&RID=rpc&SID=WWSZEv3Ftr0kwJK4o4QMDg%3D%3D&AID=0&CI=0&TYPE=x",
+        "error": "net::ERR_ABORTED",
+        "class": "benign-listen-channel-closed"
+      },
+      {
+        "season": 1,
+        "phase": "season-1-reload",
+        "at": 105930,
+        "kind": "requestfailed",
+        "method": "GET",
+        "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&display=swap",
+        "error": "net::ERR_TUNNEL_CONNECTION_FAILED",
+        "class": "environment"
+      },
+      {
+        "season": 1,
+        "phase": "season-1-enter",
+        "at": 237647,
+        "kind": "requestfailed",
+        "method": "GET",
+        "url": "http://127.0.0.1:9411/google.firestore.v1.Firestore/Listen/channel?VER=8&database=projects%2Fdemo-cms-browser-journey%2Fdatabases%2F(default)&RID=rpc&SID=6SSM7RaZnoTd5PIp7f8E-A%3D%3D&AID=0&CI=0&TYPE=x",
+        "error": "net::ERR_ABORTED",
+        "class": "benign-listen-channel-closed"
+      }
+    ]
+  },
+  "realUiSteps": [
+    "SIGN IN WITH GOOGLE button and player choice (the emulator switch answers the Google popup with an Auth-emulator account)",
+    "CREATE CODE FOR NIK, typing the pair code on Nik's page, JOIN DANIEL'S SHOWDOWN, CONTINUE CAREER (session hosted/joined by the app itself)",
+    "league wheel SPIN, club pack OPEN, CONFIRM SHARED SHOWDOWN, I STARTED AT <club> (both managers)",
+    "Shared Transfer Challenge every season: START, early end (both), guess type + value, LOCK MY GUESSES, signing name/league/nationality, LOCK MY SIGNINGS, CONTINUE TO SHARED SEASON RESULTS",
+    "season results: typing league position, points, goals and ticking cup / Champions League / top scorer / top assist, REVIEW SEASON, confirm and publish (sequential and simultaneous)",
+    "COMMIT & ACKNOWLEDGE (Daniel), ACKNOWLEDGE (Nik), CONTINUE TO SEASON n",
+    "page reload every season, BACK TO MAIN MENU, Career Statistics, Trophy Room, Legacy, STANDINGS, CONTINUE CAREER, START CAREER",
+    "Showdown Champion screen, HONOURS tab, BACK TO SHOWDOWN HOME, reload, Career Statistics (TABLE / COMPARE / LEADERS), Trophy Room (and MORE on a phone), Legacy, STANDINGS (THIS SHOWDOWN / CAREER), VIEW SEASON HISTORY",
+    "History cross-check: both browsers read every figure; then each reloads after its local storage is wiped; then a brand-new browser signs in as Daniel and as Nik (SIGN IN WITH GOOGLE, player choice) and reads the same screens"
+  ],
+  "seededSteps": [
+    "Local storage is wiped with a page script (localStorage.clear()), not by a player action; sign-in lives in sessionStorage so it is left alone",
+    "Auth: the Google sign-in popup is replaced by the Firebase Auth emulator (tests/browser/support/emulator-runtime-switch.js), as in the existing two-manager journey",
+    "Transfer Challenge: the 15-minute window is ended early by both managers; guesses and signings are fixed typed values, not game-random",
+    "Season result numbers are typed from a seeded plan (they stand in for what the managers read off their FIFA 17 career)",
+    "Expected values are recomputed in this file from those inputs; the database is read directly (admin) only to confirm the terminal-close witness and account bootstrap",
+    "Rivalry Statistics season 1 (daniel): opened by the app function openRivalryStatistics() because the dashboard button is not visible",
+    "Rivalry Statistics season 1 (nik): opened by the app function openRivalryStatistics() because the dashboard button is not visible"
+  ],
+  "observations": [
+    {
+      "where": "Standings (THIS SHOWDOWN) after season 1",
+      "user": "daniel",
+      "text": "CAREER MODE SHOWDOWN 17 STANDINGS TWO MANAGERS • ONE LEGACY THIS SHOWDOWN CAREER HEAD-TO-HEAD SEASON 2 OF 5 DANIEL SHOWDOWN POINTS 4 : 0 DANIEL LEADS NIK 1 SEASON WINS 0 0 SEASON DRAWS 0 0 SEASON LOSSES 1 0 CHAMPIONS LEAGUES 0 1 LEAGUE TITLES 0 1 DOMESTIC CUPS 0 2 TOTAL TROPHIES 0"
+    },
+    {
+      "where": "Standings (THIS SHOWDOWN) after season 1",
+      "user": "nik",
+      "text": "CAREER MODE SHOWDOWN 17 STANDINGS TWO MANAGERS • ONE LEGACY THIS SHOWDOWN CAREER HEAD-TO-HEAD SEASON 2 OF 5 DANIEL SHOWDOWN POINTS 4 : 0 DANIEL LEADS NIK 1 SEASON WINS 0 0 SEASON DRAWS 0 0 SEASON LOSSES 1 0 CHAMPIONS LEAGUES 0 1 LEAGUE TITLES 0 1 DOMESTIC CUPS 0 2 TOTAL TROPHIES 0"
+    }
+  ],
+  "rivalryRaw": {
+    "daniel": {
+      "s1": {
+        "text": "CAREER MODE SHOWDOWN 17 RIVALRY STATISTICS TWO MANAGERS • ONE LEGACY TOTALS HEAD-TO-HEAD SEASONS TROPHIES DANIEL BOURNEMOUTH NIK TOTTENHAM HOTSPUR 1 / 5 SEASONS COMPLETED 4 ◇ SHOWDOWN POINTS 0 1 ▦ Season Wins 0 2 ♛ Total Trophies 0 0 ✦ Champions Leagues 0 1 ⬡ League Titles 0 1 ♜ Domestic Cups 0 Unavailable ⇄ Transfer Signings Unavailable BACK TO SHOWDOWN HOME",
+        "ok": true,
+        "entry": {
+          "exists": true,
+          "visible": false,
+          "display": "none",
+          "hasShowdown": true
+        },
+        "via": "window.openRivalryStatistics() (no visible button)",
+        "loadedAfterMs": 4256,
+        "stuck": false
+      }
+    },
+    "nik": {
+      "s1": {
+        "text": "CAREER MODE SHOWDOWN 17 RIVALRY STATISTICS TWO MANAGERS • ONE LEGACY TOTALS HEAD-TO-HEAD SEASONS TROPHIES DANIEL BOURNEMOUTH NIK TOTTENHAM HOTSPUR 1 / 5 SEASONS COMPLETED 4 ◇ SHOWDOWN POINTS 0 1 ▦ Season Wins 0 2 ♛ Total Trophies 0 0 ✦ Champions Leagues 0 1 ⬡ League Titles 0 1 ♜ Domestic Cups 0 Unavailable ⇄ Transfer Signings Unavailable BACK TO SHOWDOWN HOME",
+        "ok": true,
+        "entry": {
+          "exists": true,
+          "visible": false,
+          "display": "none",
+          "hasShowdown": true
+        },
+        "via": "window.openRivalryStatistics() (no visible button)",
+        "loadedAfterMs": 4238,
+        "stuck": false
+      }
+    }
+  },
+  "taps": {
+    "daniel": 34,
+    "nik": 27
+  },
+  "networkSummary": {
+    "daniel": {
+      "environment": 2,
+      "benign-listen-channel-closed": 4
+    },
+    "nik": {
+      "environment": 2,
+      "benign-listen-channel-closed": 3
+    }
+  },
+  "rulesDeniedCommits": [],
+  "summary": {
+    "checks": 82,
+    "passed": 76,
+    "failed": 6,
+    "problems": 8
+  }
+}

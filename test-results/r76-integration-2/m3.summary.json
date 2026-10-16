@@ -1,0 +1,1971 @@
+{
+  "schemaVersion": 1,
+  "tool": "CE2PG meter",
+  "seasons": 3,
+  "run": 1,
+  "tag": "r76-m3",
+  "idleMs": 0,
+  "rulesSha256": "6eaeefc63729a9e87c3ec776791bac0ec768f8d9998fa9244b07adc26a478832",
+  "harnessSha256": "38da09d8d2e406c0ee336614824b58304977be6656241c6bec1d836925921cce",
+  "codeHead": "b2e68639e835e5be9b0d17423ef175fb88360084",
+  "verdict": "FAIL",
+  "completedSeasons": 0,
+  "fatal": {
+    "message": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#seasonPrimaryAction')\n    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 100ms\n    58 × waiting for element to be visible, enabled and stable\n       - element is not visible\n     - retrying click action\n       - waiting 500ms\n",
+    "stack": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#seasonPrimaryAction')\n    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALLENGE</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable",
+    "state_daniel": "screens=mainMenu | badge=DANIEL | overlays=",
+    "state_nik": "screens=mainMenu | badge=NIK | overlays="
+  },
+  "checks": {
+    "checks": 82,
+    "passed": 76,
+    "failed": 6,
+    "problems": 8
+  },
+  "totals": {
+    "reads": 512,
+    "writes": 154,
+    "verifyWrites": 112,
+    "transactions": 329,
+    "failedTransactions": 2,
+    "readOnlyTransactions": 297,
+    "listenerDeliveries": 45
+  },
+  "bySeason": [
+    {
+      "key": "0",
+      "reads": 128,
+      "writes": 41,
+      "verifyWrites": 18,
+      "transactions": 92,
+      "failedTransactions": 2,
+      "readOnlyTransactions": 73,
+      "listenerDeliveries": 10
+    },
+    {
+      "key": "1",
+      "reads": 384,
+      "writes": 113,
+      "verifyWrites": 94,
+      "transactions": 237,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 224,
+      "listenerDeliveries": 35
+    }
+  ],
+  "bySource": [
+    {
+      "key": "js/sparkConnectedAccount.js",
+      "reads": 2,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 2,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 2,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "unknown",
+      "reads": 0,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 0,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 0,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/sparkAccountBootstrap.js",
+      "reads": 4,
+      "writes": 2,
+      "verifyWrites": 0,
+      "transactions": 4,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 2,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/onlinePlayerIdentity.js",
+      "reads": 9,
+      "writes": 2,
+      "verifyWrites": 0,
+      "transactions": 9,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 7,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/persistentNikDanielPair.js",
+      "reads": 26,
+      "writes": 10,
+      "verifyWrites": 2,
+      "transactions": 20,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 18,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/sparkRemoteJoining.js",
+      "reads": 22,
+      "writes": 9,
+      "verifyWrites": 6,
+      "transactions": 17,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 14,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/productionSharedJourneyEntry.js",
+      "reads": 18,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 18,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 18,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/productionSharedShowdownSetup.js",
+      "reads": 11,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 11,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 11,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/productionSharedJourneyConflicts.js",
+      "reads": 37,
+      "writes": 33,
+      "verifyWrites": 24,
+      "transactions": 13,
+      "failedTransactions": 1,
+      "readOnlyTransactions": 3,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/productionSharedShowdownPresentation.js",
+      "reads": 34,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 24,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 24,
+      "listenerDeliveries": 10
+    },
+    {
+      "key": "js/productionSharedCareerStart.js",
+      "reads": 23,
+      "writes": 12,
+      "verifyWrites": 10,
+      "transactions": 8,
+      "failedTransactions": 1,
+      "readOnlyTransactions": 5,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/productionSharedMultiSeasonProgression.js",
+      "reads": 35,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 35,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 35,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/productionSharedTransferChallenge.js",
+      "reads": 154,
+      "writes": 56,
+      "verifyWrites": 45,
+      "transactions": 89,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 82,
+      "listenerDeliveries": 16
+    },
+    {
+      "key": "js/productionSharedFinalReconciliation.js",
+      "reads": 14,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 14,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 14,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/productionSharedSeasonResults.js",
+      "reads": 66,
+      "writes": 30,
+      "verifyWrites": 25,
+      "transactions": 37,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 34,
+      "listenerDeliveries": 2
+    },
+    {
+      "key": "js/productionSharedSeasonCommit.js",
+      "reads": 31,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 14,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 14,
+      "listenerDeliveries": 17
+    },
+    {
+      "key": "js/productionSharedTerminalClose.js",
+      "reads": 1,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 1,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 1,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/sparkPrivatePairing.js",
+      "reads": 1,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 1,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 1,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/productionSharedCanonicalScoring.js",
+      "reads": 4,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 4,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 4,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/showdown.js",
+      "reads": 2,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 2,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 2,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/sparkSharedMultiSeasonProgression.js",
+      "reads": 6,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 6,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 6,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/careerScreensV10.js",
+      "reads": 8,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 0,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 0,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/rivalryLegacyV10.js",
+      "reads": 4,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 0,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 0,
+      "listenerDeliveries": 0
+    }
+  ],
+  "bySeasonAndSource": [
+    {
+      "key": "0|js/sparkConnectedAccount.js",
+      "reads": 2,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 2,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 2,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "0|unknown",
+      "reads": 0,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 0,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 0,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "0|js/sparkAccountBootstrap.js",
+      "reads": 2,
+      "writes": 2,
+      "verifyWrites": 0,
+      "transactions": 2,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 0,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "0|js/onlinePlayerIdentity.js",
+      "reads": 5,
+      "writes": 2,
+      "verifyWrites": 0,
+      "transactions": 5,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 3,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "0|js/persistentNikDanielPair.js",
+      "reads": 22,
+      "writes": 10,
+      "verifyWrites": 2,
+      "transactions": 16,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 14,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "0|js/sparkRemoteJoining.js",
+      "reads": 18,
+      "writes": 9,
+      "verifyWrites": 6,
+      "transactions": 13,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 10,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "0|js/productionSharedJourneyEntry.js",
+      "reads": 2,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 2,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 2,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "0|js/productionSharedShowdownSetup.js",
+      "reads": 7,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 7,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 7,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "0|js/productionSharedJourneyConflicts.js",
+      "reads": 7,
+      "writes": 6,
+      "verifyWrites": 0,
+      "transactions": 7,
+      "failedTransactions": 1,
+      "readOnlyTransactions": 0,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "0|js/productionSharedShowdownPresentation.js",
+      "reads": 34,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 24,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 24,
+      "listenerDeliveries": 10
+    },
+    {
+      "key": "0|js/productionSharedCareerStart.js",
+      "reads": 21,
+      "writes": 12,
+      "verifyWrites": 10,
+      "transactions": 6,
+      "failedTransactions": 1,
+      "readOnlyTransactions": 3,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "0|js/productionSharedMultiSeasonProgression.js",
+      "reads": 3,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 3,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 3,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "0|js/productionSharedTransferChallenge.js",
+      "reads": 5,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 5,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 5,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "1|js/productionSharedTransferChallenge.js",
+      "reads": 149,
+      "writes": 56,
+      "verifyWrites": 45,
+      "transactions": 84,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 77,
+      "listenerDeliveries": 16
+    },
+    {
+      "key": "1|unknown",
+      "reads": 0,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 0,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 0,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "1|js/productionSharedMultiSeasonProgression.js",
+      "reads": 32,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 32,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 32,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "1|js/productionSharedFinalReconciliation.js",
+      "reads": 14,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 14,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 14,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "1|js/productionSharedSeasonResults.js",
+      "reads": 66,
+      "writes": 30,
+      "verifyWrites": 25,
+      "transactions": 37,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 34,
+      "listenerDeliveries": 2
+    },
+    {
+      "key": "1|js/productionSharedSeasonCommit.js",
+      "reads": 31,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 14,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 14,
+      "listenerDeliveries": 17
+    },
+    {
+      "key": "1|js/productionSharedJourneyConflicts.js",
+      "reads": 30,
+      "writes": 27,
+      "verifyWrites": 24,
+      "transactions": 6,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 3,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "1|js/productionSharedTerminalClose.js",
+      "reads": 1,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 1,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 1,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "1|js/productionSharedShowdownSetup.js",
+      "reads": 4,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 4,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 4,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "1|js/sparkPrivatePairing.js",
+      "reads": 1,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 1,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 1,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "1|js/productionSharedCanonicalScoring.js",
+      "reads": 4,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 4,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 4,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "1|js/sparkAccountBootstrap.js",
+      "reads": 2,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 2,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 2,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "1|js/showdown.js",
+      "reads": 2,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 2,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 2,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "1|js/persistentNikDanielPair.js",
+      "reads": 4,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 4,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 4,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "1|js/onlinePlayerIdentity.js",
+      "reads": 4,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 4,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 4,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "1|js/sparkRemoteJoining.js",
+      "reads": 4,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 4,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 4,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "1|js/productionSharedJourneyEntry.js",
+      "reads": 16,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 16,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 16,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "1|js/sparkSharedMultiSeasonProgression.js",
+      "reads": 6,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 6,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 6,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "1|js/productionSharedCareerStart.js",
+      "reads": 2,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 2,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 2,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "1|js/careerScreensV10.js",
+      "reads": 8,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 0,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 0,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "1|js/rivalryLegacyV10.js",
+      "reads": 4,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 0,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 0,
+      "listenerDeliveries": 0
+    }
+  ],
+  "byPhase": [
+    {
+      "key": "sign-in",
+      "reads": 10,
+      "writes": 4,
+      "verifyWrites": 0,
+      "transactions": 10,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 6,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "pairing",
+      "reads": 19,
+      "writes": 10,
+      "verifyWrites": 2,
+      "transactions": 13,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 11,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "private-session",
+      "reads": 23,
+      "writes": 9,
+      "verifyWrites": 6,
+      "transactions": 18,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 15,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "league-and-clubs",
+      "reads": 49,
+      "writes": 6,
+      "verifyWrites": 0,
+      "transactions": 39,
+      "failedTransactions": 1,
+      "readOnlyTransactions": 32,
+      "listenerDeliveries": 10
+    },
+    {
+      "key": "career-start",
+      "reads": 27,
+      "writes": 12,
+      "verifyWrites": 10,
+      "transactions": 12,
+      "failedTransactions": 1,
+      "readOnlyTransactions": 9,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "season-1-transfers",
+      "reads": 125,
+      "writes": 56,
+      "verifyWrites": 45,
+      "transactions": 63,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 55,
+      "listenerDeliveries": 13
+    },
+    {
+      "key": "season-1-results",
+      "reads": 69,
+      "writes": 30,
+      "verifyWrites": 25,
+      "transactions": 39,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 36,
+      "listenerDeliveries": 3
+    },
+    {
+      "key": "season-1-commit",
+      "reads": 97,
+      "writes": 27,
+      "verifyWrites": 24,
+      "transactions": 57,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 54,
+      "listenerDeliveries": 16
+    },
+    {
+      "key": "season-1-history",
+      "reads": 0,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 0,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 1,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "season-1-continue",
+      "reads": 6,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 6,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 6,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "season-1-reload",
+      "reads": 35,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 32,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 32,
+      "listenerDeliveries": 3
+    },
+    {
+      "key": "season-1-excursion",
+      "reads": 44,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 32,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 32,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "season-1-enter",
+      "reads": 8,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 8,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 8,
+      "listenerDeliveries": 0
+    }
+  ],
+  "byManager": [
+    {
+      "key": "daniel",
+      "reads": 276,
+      "writes": 93,
+      "verifyWrites": 68,
+      "transactions": 172,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 153,
+      "listenerDeliveries": 27
+    },
+    {
+      "key": "nik",
+      "reads": 236,
+      "writes": 61,
+      "verifyWrites": 44,
+      "transactions": 157,
+      "failedTransactions": 2,
+      "readOnlyTransactions": 144,
+      "listenerDeliveries": 18
+    }
+  ],
+  "gameplayEnd": null,
+  "gameplayBoundaryMethod": "Phase buckets through final, excluding extended history/rivalry audits and timed idle windows; includes ordinary completed career screens.",
+  "gameplayTotals": {
+    "reads": 512,
+    "writes": 154,
+    "verifyWrites": 112,
+    "transactions": 329,
+    "failedTransactions": 2,
+    "readOnlyTransactions": 297,
+    "listenerDeliveries": 45
+  },
+  "terminalGameplayTotals": {
+    "reads": 512,
+    "writes": 154,
+    "verifyWrites": 112,
+    "transactions": 329,
+    "failedTransactions": 2,
+    "readOnlyTransactions": 297,
+    "listenerDeliveries": 45
+  },
+  "verificationTotals": {
+    "reads": 0,
+    "writes": 0,
+    "verifyWrites": 0,
+    "transactions": 0,
+    "failedTransactions": 0,
+    "readOnlyTransactions": 0,
+    "listenerDeliveries": 0
+  },
+  "gameplayBySeason": [
+    {
+      "key": "0",
+      "reads": 128,
+      "writes": 41,
+      "verifyWrites": 18,
+      "transactions": 92,
+      "failedTransactions": 2,
+      "readOnlyTransactions": 73,
+      "listenerDeliveries": 10
+    },
+    {
+      "key": "1",
+      "reads": 384,
+      "writes": 113,
+      "verifyWrites": 94,
+      "transactions": 237,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 224,
+      "listenerDeliveries": 35
+    }
+  ],
+  "gameplayBySource": [
+    {
+      "key": "js/sparkConnectedAccount.js",
+      "reads": 2,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 2,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 2,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "unknown",
+      "reads": 0,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 0,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 0,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/sparkAccountBootstrap.js",
+      "reads": 4,
+      "writes": 2,
+      "verifyWrites": 0,
+      "transactions": 4,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 2,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/onlinePlayerIdentity.js",
+      "reads": 9,
+      "writes": 2,
+      "verifyWrites": 0,
+      "transactions": 9,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 7,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/persistentNikDanielPair.js",
+      "reads": 26,
+      "writes": 10,
+      "verifyWrites": 2,
+      "transactions": 20,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 18,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/sparkRemoteJoining.js",
+      "reads": 22,
+      "writes": 9,
+      "verifyWrites": 6,
+      "transactions": 17,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 14,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/productionSharedJourneyEntry.js",
+      "reads": 18,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 18,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 18,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/productionSharedShowdownSetup.js",
+      "reads": 11,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 11,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 11,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/productionSharedJourneyConflicts.js",
+      "reads": 37,
+      "writes": 33,
+      "verifyWrites": 24,
+      "transactions": 13,
+      "failedTransactions": 1,
+      "readOnlyTransactions": 3,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/productionSharedShowdownPresentation.js",
+      "reads": 34,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 24,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 24,
+      "listenerDeliveries": 10
+    },
+    {
+      "key": "js/productionSharedCareerStart.js",
+      "reads": 23,
+      "writes": 12,
+      "verifyWrites": 10,
+      "transactions": 8,
+      "failedTransactions": 1,
+      "readOnlyTransactions": 5,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/productionSharedMultiSeasonProgression.js",
+      "reads": 35,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 35,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 35,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/productionSharedTransferChallenge.js",
+      "reads": 154,
+      "writes": 56,
+      "verifyWrites": 45,
+      "transactions": 89,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 82,
+      "listenerDeliveries": 16
+    },
+    {
+      "key": "js/productionSharedFinalReconciliation.js",
+      "reads": 14,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 14,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 14,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/productionSharedSeasonResults.js",
+      "reads": 66,
+      "writes": 30,
+      "verifyWrites": 25,
+      "transactions": 37,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 34,
+      "listenerDeliveries": 2
+    },
+    {
+      "key": "js/productionSharedSeasonCommit.js",
+      "reads": 31,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 14,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 14,
+      "listenerDeliveries": 17
+    },
+    {
+      "key": "js/productionSharedTerminalClose.js",
+      "reads": 1,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 1,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 1,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/sparkPrivatePairing.js",
+      "reads": 1,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 1,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 1,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/productionSharedCanonicalScoring.js",
+      "reads": 4,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 4,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 4,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/showdown.js",
+      "reads": 2,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 2,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 2,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/sparkSharedMultiSeasonProgression.js",
+      "reads": 6,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 6,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 6,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/careerScreensV10.js",
+      "reads": 8,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 0,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 0,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "js/rivalryLegacyV10.js",
+      "reads": 4,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 0,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 0,
+      "listenerDeliveries": 0
+    }
+  ],
+  "terminalClosed": null,
+  "byScreen": [
+    {
+      "key": "mainMenu",
+      "reads": 113,
+      "writes": 23,
+      "verifyWrites": 8,
+      "transactions": 102,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 93,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "leagueWheelScreen",
+      "reads": 13,
+      "writes": 2,
+      "verifyWrites": 0,
+      "transactions": 12,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 10,
+      "listenerDeliveries": 1
+    },
+    {
+      "key": "clubWheelScreen",
+      "reads": 63,
+      "writes": 16,
+      "verifyWrites": 10,
+      "transactions": 39,
+      "failedTransactions": 2,
+      "readOnlyTransactions": 31,
+      "listenerDeliveries": 9
+    },
+    {
+      "key": "transferChallenge",
+      "reads": 138,
+      "writes": 56,
+      "verifyWrites": 45,
+      "transactions": 73,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 66,
+      "listenerDeliveries": 16
+    },
+    {
+      "key": "seasonEntry",
+      "reads": 156,
+      "writes": 57,
+      "verifyWrites": 49,
+      "transactions": 86,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 80,
+      "listenerDeliveries": 19
+    },
+    {
+      "key": "dashboard",
+      "reads": 12,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 12,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 12,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "careerStatistics",
+      "reads": 9,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 5,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 5,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "trophyRoom",
+      "reads": 4,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 0,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 0,
+      "listenerDeliveries": 0
+    },
+    {
+      "key": "legacy",
+      "reads": 4,
+      "writes": 0,
+      "verifyWrites": 0,
+      "transactions": 0,
+      "failedTransactions": 0,
+      "readOnlyTransactions": 0,
+      "listenerDeliveries": 0
+    }
+  ],
+  "commits": [
+    {
+      "manager": "daniel",
+      "season": 0,
+      "phase": "sign-in",
+      "status": 200,
+      "writes": 1,
+      "verifies": 0
+    },
+    {
+      "manager": "daniel",
+      "season": 0,
+      "phase": "sign-in",
+      "status": 200,
+      "writes": 1,
+      "verifies": 0
+    },
+    {
+      "manager": "nik",
+      "season": 0,
+      "phase": "sign-in",
+      "status": 200,
+      "writes": 1,
+      "verifies": 0
+    },
+    {
+      "manager": "nik",
+      "season": 0,
+      "phase": "sign-in",
+      "status": 200,
+      "writes": 1,
+      "verifies": 0
+    },
+    {
+      "manager": "daniel",
+      "season": 0,
+      "phase": "pairing",
+      "status": 200,
+      "writes": 4,
+      "verifies": 1
+    },
+    {
+      "manager": "nik",
+      "season": 0,
+      "phase": "pairing",
+      "status": 200,
+      "writes": 4,
+      "verifies": 1
+    },
+    {
+      "manager": "daniel",
+      "season": 0,
+      "phase": "private-session",
+      "status": 200,
+      "writes": 1,
+      "verifies": 3
+    },
+    {
+      "manager": "daniel",
+      "season": 0,
+      "phase": "private-session",
+      "status": 200,
+      "writes": 1,
+      "verifies": 0
+    },
+    {
+      "manager": "nik",
+      "season": 0,
+      "phase": "private-session",
+      "status": 200,
+      "writes": 1,
+      "verifies": 3
+    },
+    {
+      "manager": "daniel",
+      "season": 0,
+      "phase": "league-and-clubs",
+      "status": 200,
+      "writes": 1,
+      "verifies": 0
+    },
+    {
+      "manager": "daniel",
+      "season": 0,
+      "phase": "league-and-clubs",
+      "status": 200,
+      "writes": 1,
+      "verifies": 0
+    },
+    {
+      "manager": "daniel",
+      "season": 0,
+      "phase": "league-and-clubs",
+      "status": 200,
+      "writes": 1,
+      "verifies": 0
+    },
+    {
+      "manager": "daniel",
+      "season": 0,
+      "phase": "league-and-clubs",
+      "status": 200,
+      "writes": 1,
+      "verifies": 0
+    },
+    {
+      "manager": "daniel",
+      "season": 0,
+      "phase": "league-and-clubs",
+      "status": 200,
+      "writes": 1,
+      "verifies": 0
+    },
+    {
+      "manager": "nik",
+      "season": 0,
+      "phase": "league-and-clubs",
+      "status": 403,
+      "writes": 1,
+      "verifies": 0
+    },
+    {
+      "manager": "nik",
+      "season": 0,
+      "phase": "league-and-clubs",
+      "status": 200,
+      "writes": 1,
+      "verifies": 0
+    },
+    {
+      "manager": "daniel",
+      "season": 0,
+      "phase": "career-start",
+      "status": 200,
+      "writes": 1,
+      "verifies": 5
+    },
+    {
+      "manager": "nik",
+      "season": 0,
+      "phase": "career-start",
+      "status": 200,
+      "writes": 1,
+      "verifies": 5
+    },
+    {
+      "manager": "daniel",
+      "season": 1,
+      "phase": "season-1-transfers",
+      "status": 200,
+      "writes": 1,
+      "verifies": 7
+    },
+    {
+      "manager": "daniel",
+      "season": 1,
+      "phase": "season-1-transfers",
+      "status": 200,
+      "writes": 1,
+      "verifies": 7
+    },
+    {
+      "manager": "nik",
+      "season": 1,
+      "phase": "season-1-transfers",
+      "status": 200,
+      "writes": 1,
+      "verifies": 7
+    },
+    {
+      "manager": "daniel",
+      "season": 1,
+      "phase": "season-1-transfers",
+      "status": 200,
+      "writes": 2,
+      "verifies": 6
+    },
+    {
+      "manager": "nik",
+      "season": 1,
+      "phase": "season-1-transfers",
+      "status": 200,
+      "writes": 2,
+      "verifies": 6
+    },
+    {
+      "manager": "daniel",
+      "season": 1,
+      "phase": "season-1-transfers",
+      "status": 200,
+      "writes": 2,
+      "verifies": 6
+    },
+    {
+      "manager": "nik",
+      "season": 1,
+      "phase": "season-1-transfers",
+      "status": 200,
+      "writes": 2,
+      "verifies": 6
+    },
+    {
+      "manager": "daniel",
+      "season": 1,
+      "phase": "season-1-results",
+      "status": 200,
+      "writes": 1,
+      "verifies": 9
+    },
+    {
+      "manager": "daniel",
+      "season": 1,
+      "phase": "season-1-results",
+      "status": 200,
+      "writes": 2,
+      "verifies": 8
+    },
+    {
+      "manager": "nik",
+      "season": 1,
+      "phase": "season-1-results",
+      "status": 200,
+      "writes": 2,
+      "verifies": 8
+    },
+    {
+      "manager": "daniel",
+      "season": 1,
+      "phase": "season-1-commit",
+      "status": 200,
+      "writes": 1,
+      "verifies": 8
+    },
+    {
+      "manager": "daniel",
+      "season": 1,
+      "phase": "season-1-commit",
+      "status": 200,
+      "writes": 1,
+      "verifies": 8
+    },
+    {
+      "manager": "nik",
+      "season": 1,
+      "phase": "season-1-commit",
+      "status": 200,
+      "writes": 1,
+      "verifies": 8
+    }
+  ],
+  "unparsedCommits": [],
+  "windows": [],
+  "blockedHosts": [
+    {
+      "manager": "daniel",
+      "season": 0,
+      "phase": "boot",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "manager": "nik",
+      "season": 0,
+      "phase": "boot",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "manager": "daniel",
+      "season": 1,
+      "phase": "season-1-reload",
+      "host": "fonts.googleapis.com"
+    },
+    {
+      "manager": "nik",
+      "season": 1,
+      "phase": "season-1-reload",
+      "host": "fonts.googleapis.com"
+    }
+  ],
+  "coverage": {
+    "status": 200,
+    "bytes": 46082247,
+    "path": "test-results/r76-m3.rules-coverage.json",
+    "lookupCountReliable": true,
+    "billableReadCountKnown": false,
+    "note": "One AST call node per source line/column; get(...).data parent nodes excluded. Evaluation totals bound additional reads conservatively; request-local Rules lookup caching can reduce billing.",
+    "getEvaluations": 10228,
+    "existsEvaluations": 368,
+    "getAfterEvaluations": 130,
+    "lookupEvaluations": 10726,
+    "callSites": [
+      {
+        "kind": "get",
+        "line": 75,
+        "column": 21,
+        "endOffset": 2510,
+        "evaluations": 5426
+      },
+      {
+        "kind": "get",
+        "line": 87,
+        "column": 20,
+        "endOffset": 2952,
+        "evaluations": 42
+      },
+      {
+        "kind": "get",
+        "line": 99,
+        "column": 20,
+        "endOffset": 3453,
+        "evaluations": 0
+      },
+      {
+        "kind": "getAfter",
+        "line": 286,
+        "column": 25,
+        "endOffset": 10400,
+        "evaluations": 4
+      },
+      {
+        "kind": "getAfter",
+        "line": 318,
+        "column": 26,
+        "endOffset": 12062,
+        "evaluations": 4
+      },
+      {
+        "kind": "get",
+        "line": 348,
+        "column": 26,
+        "endOffset": 13546,
+        "evaluations": 4
+      },
+      {
+        "kind": "getAfter",
+        "line": 349,
+        "column": 25,
+        "endOffset": 13663,
+        "evaluations": 4
+      },
+      {
+        "kind": "getAfter",
+        "line": 390,
+        "column": 26,
+        "endOffset": 16154,
+        "evaluations": 4
+      },
+      {
+        "kind": "get",
+        "line": 443,
+        "column": 21,
+        "endOffset": 18768,
+        "evaluations": 424
+      },
+      {
+        "kind": "get",
+        "line": 450,
+        "column": 21,
+        "endOffset": 19059,
+        "evaluations": 1874
+      },
+      {
+        "kind": "get",
+        "line": 486,
+        "column": 21,
+        "endOffset": 20406,
+        "evaluations": 0
+      },
+      {
+        "kind": "getAfter",
+        "line": 521,
+        "column": 21,
+        "endOffset": 21993,
+        "evaluations": 0
+      },
+      {
+        "kind": "exists",
+        "line": 522,
+        "column": 15,
+        "endOffset": 22123,
+        "evaluations": 0
+      },
+      {
+        "kind": "getAfter",
+        "line": 601,
+        "column": 19,
+        "endOffset": 25402,
+        "evaluations": 0
+      },
+      {
+        "kind": "get",
+        "line": 702,
+        "column": 21,
+        "endOffset": 29552,
+        "evaluations": 4
+      },
+      {
+        "kind": "exists",
+        "line": 838,
+        "column": 12,
+        "endOffset": 35129,
+        "evaluations": 352
+      },
+      {
+        "kind": "get",
+        "line": 875,
+        "column": 21,
+        "endOffset": 36852,
+        "evaluations": 6
+      },
+      {
+        "kind": "get",
+        "line": 887,
+        "column": 50,
+        "endOffset": 37562,
+        "evaluations": 430
+      },
+      {
+        "kind": "get",
+        "line": 889,
+        "column": 18,
+        "endOffset": 37702,
+        "evaluations": 0
+      },
+      {
+        "kind": "get",
+        "line": 927,
+        "column": 25,
+        "endOffset": 39716,
+        "evaluations": 84
+      },
+      {
+        "kind": "get",
+        "line": 931,
+        "column": 26,
+        "endOffset": 39974,
+        "evaluations": 84
+      },
+      {
+        "kind": "get",
+        "line": 932,
+        "column": 26,
+        "endOffset": 40065,
+        "evaluations": 84
+      },
+      {
+        "kind": "get",
+        "line": 933,
+        "column": 20,
+        "endOffset": 40161,
+        "evaluations": 84
+      },
+      {
+        "kind": "get",
+        "line": 934,
+        "column": 21,
+        "endOffset": 40265,
+        "evaluations": 84
+      },
+      {
+        "kind": "get",
+        "line": 969,
+        "column": 14,
+        "endOffset": 42051,
+        "evaluations": 4
+      },
+      {
+        "kind": "get",
+        "line": 990,
+        "column": 21,
+        "endOffset": 42839,
+        "evaluations": 4
+      },
+      {
+        "kind": "get",
+        "line": 1023,
+        "column": 19,
+        "endOffset": 44562,
+        "evaluations": 4
+      },
+      {
+        "kind": "get",
+        "line": 1140,
+        "column": 50,
+        "endOffset": 50054,
+        "evaluations": 8
+      },
+      {
+        "kind": "get",
+        "line": 1255,
+        "column": 52,
+        "endOffset": 60856,
+        "evaluations": 8
+      },
+      {
+        "kind": "get",
+        "line": 1256,
+        "column": 53,
+        "endOffset": 61003,
+        "evaluations": 4
+      },
+      {
+        "kind": "getAfter",
+        "line": 1340,
+        "column": 14,
+        "endOffset": 65298,
+        "evaluations": 20
+      },
+      {
+        "kind": "getAfter",
+        "line": 1508,
+        "column": 14,
+        "endOffset": 74441,
+        "evaluations": 16
+      },
+      {
+        "kind": "get",
+        "line": 1559,
+        "column": 20,
+        "endOffset": 77098,
+        "evaluations": 148
+      },
+      {
+        "kind": "get",
+        "line": 1576,
+        "column": 51,
+        "endOffset": 78016,
+        "evaluations": 0
+      },
+      {
+        "kind": "getAfter",
+        "line": 1577,
+        "column": 64,
+        "endOffset": 78182,
+        "evaluations": 8
+      },
+      {
+        "kind": "get",
+        "line": 1578,
+        "column": 52,
+        "endOffset": 78338,
+        "evaluations": 0
+      },
+      {
+        "kind": "get",
+        "line": 1579,
+        "column": 64,
+        "endOffset": 78500,
+        "evaluations": 0
+      },
+      {
+        "kind": "getAfter",
+        "line": 1701,
+        "column": 14,
+        "endOffset": 84277,
+        "evaluations": 8
+      },
+      {
+        "kind": "getAfter",
+        "line": 1774,
+        "column": 20,
+        "endOffset": 87727,
+        "evaluations": 8
+      },
+      {
+        "kind": "get",
+        "line": 1792,
+        "column": 20,
+        "endOffset": 88766,
+        "evaluations": 108
+      },
+      {
+        "kind": "get",
+        "line": 1810,
+        "column": 14,
+        "endOffset": 89684,
+        "evaluations": 4
+      },
+      {
+        "kind": "get",
+        "line": 1813,
+        "column": 14,
+        "endOffset": 89855,
+        "evaluations": 4
+      },
+      {
+        "kind": "get",
+        "line": 1816,
+        "column": 14,
+        "endOffset": 90061,
+        "evaluations": 8
+      },
+      {
+        "kind": "get",
+        "line": 2181,
+        "column": 19,
+        "endOffset": 108119,
+        "evaluations": 2
+      },
+      {
+        "kind": "get",
+        "line": 2182,
+        "column": 20,
+        "endOffset": 108228,
+        "evaluations": 2
+      },
+      {
+        "kind": "get",
+        "line": 2201,
+        "column": 20,
+        "endOffset": 109272,
+        "evaluations": 2
+      },
+      {
+        "kind": "getAfter",
+        "line": 2245,
+        "column": 25,
+        "endOffset": 111674,
+        "evaluations": 4
+      },
+      {
+        "kind": "get",
+        "line": 2253,
+        "column": 26,
+        "endOffset": 112117,
+        "evaluations": 4
+      },
+      {
+        "kind": "getAfter",
+        "line": 2254,
+        "column": 25,
+        "endOffset": 112213,
+        "evaluations": 4
+      },
+      {
+        "kind": "getAfter",
+        "line": 2281,
+        "column": 26,
+        "endOffset": 113713,
+        "evaluations": 0
+      },
+      {
+        "kind": "getAfter",
+        "line": 2323,
+        "column": 21,
+        "endOffset": 116083,
+        "evaluations": 16
+      },
+      {
+        "kind": "getAfter",
+        "line": 2349,
+        "column": 18,
+        "endOffset": 117122,
+        "evaluations": 4
+      },
+      {
+        "kind": "getAfter",
+        "line": 2360,
+        "column": 22,
+        "endOffset": 117674,
+        "evaluations": 4
+      },
+      {
+        "kind": "get",
+        "line": 2384,
+        "column": 26,
+        "endOffset": 118673,
+        "evaluations": 0
+      },
+      {
+        "kind": "get",
+        "line": 2385,
+        "column": 25,
+        "endOffset": 118804,
+        "evaluations": 0
+      },
+      {
+        "kind": "get",
+        "line": 2409,
+        "column": 18,
+        "endOffset": 119725,
+        "evaluations": 0
+      },
+      {
+        "kind": "getAfter",
+        "line": 2489,
+        "column": 17,
+        "endOffset": 123139,
+        "evaluations": 0
+      },
+      {
+        "kind": "exists",
+        "line": 2502,
+        "column": 15,
+        "endOffset": 123885,
+        "evaluations": 0
+      },
+      {
+        "kind": "get",
+        "line": 2502,
+        "column": 51,
+        "endOffset": 123918,
+        "evaluations": 0
+      },
+      {
+        "kind": "getAfter",
+        "line": 2517,
+        "column": 19,
+        "endOffset": 124580,
+        "evaluations": 8
+      },
+      {
+        "kind": "exists",
+        "line": 2518,
+        "column": 15,
+        "endOffset": 124669,
+        "evaluations": 8
+      },
+      {
+        "kind": "get",
+        "line": 2525,
+        "column": 20,
+        "endOffset": 124980,
+        "evaluations": 6
+      },
+      {
+        "kind": "getAfter",
+        "line": 2526,
+        "column": 19,
+        "endOffset": 125075,
+        "evaluations": 6
+      },
+      {
+        "kind": "get",
+        "line": 2532,
+        "column": 25,
+        "endOffset": 125492,
+        "evaluations": 6
+      },
+      {
+        "kind": "getAfter",
+        "line": 2536,
+        "column": 18,
+        "endOffset": 125687,
+        "evaluations": 8
+      },
+      {
+        "kind": "exists",
+        "line": 2548,
+        "column": 13,
+        "endOffset": 126264,
+        "evaluations": 8
+      },
+      {
+        "kind": "getAfter",
+        "line": 2555,
+        "column": 18,
+        "endOffset": 126561,
+        "evaluations": 0
+      },
+      {
+        "kind": "get",
+        "line": 2608,
+        "column": 24,
+        "endOffset": 128744,
+        "evaluations": 0
+      },
+      {
+        "kind": "getAfter",
+        "line": 2609,
+        "column": 23,
+        "endOffset": 128857,
+        "evaluations": 0
+      },
+      {
+        "kind": "get",
+        "line": 2629,
+        "column": 18,
+        "endOffset": 129973,
+        "evaluations": 618
+      },
+      {
+        "kind": "get",
+        "line": 2659,
+        "column": 19,
+        "endOffset": 131377,
+        "evaluations": 376
+      },
+      {
+        "kind": "get",
+        "line": 2668,
+        "column": 23,
+        "endOffset": 132120,
+        "evaluations": 74
+      },
+      {
+        "kind": "get",
+        "line": 2687,
+        "column": 20,
+        "endOffset": 133073,
+        "evaluations": 204
+      },
+      {
+        "kind": "exists",
+        "line": 2765,
+        "column": 16,
+        "endOffset": 136586,
+        "evaluations": 0
+      }
+    ]
+  },
+  "note": "Client read attempts (including denied/retried requests); successful SDK writes plus successful transaction verify entries. Admin probes and Rules upload excluded. Fresh-browser history verification included in final-season cost."
+}

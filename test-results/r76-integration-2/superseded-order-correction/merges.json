@@ -1,0 +1,481 @@
+[
+  {
+    "pr": 836,
+    "branch": "codex/job-1802-ce2pg-baseline",
+    "sourceHead": "638eac62b09aa5aec77a0566b711b17e5cdb73c5",
+    "before": "2f3865feca484223ac7d267d83a9c4828bad3078",
+    "testedHead": "8bfd46f0a1d0b177e524698d475828fc15b0d3a6",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 12.29,
+        "log": "test-results/r76-integration-2/pr-836-syntax.log",
+        "tail": [
+          "POS10 syntax: 353 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 115.73,
+        "log": "test-results/r76-integration-2/pr-836-contracts.log",
+        "tail": [
+          "ok 15 FB9 resource-exhausted pauses all traffic (10, then 20 min), shows the exact message once, and wakes the screens after",
+          "ok 16 FB10 every connected module goes through the budget layer; wait points ask for the listener; device re-checks are capped",
+          "PASS Firestore budget contracts: 16 checks, measured reads/min 3.4 / 0.0 / 3.0 / 1.8 / 60.0 (waiting <= 5 reads/min, hidden 0, idle writes 0, partner update <= 1000 ms).",
+          "ok Reus Gate source: app.js hold with minimum and cap, ssjr.js ready signals, startup budget",
+          "ok Reus Gate slow start (no-preference): loading screen handed over at 7606 ms to the finished Team V Home, no old Home frame",
+          "ok Reus Gate slow start (reduce): loading screen handed over at 7384 ms to the finished Team V Home, no old Home frame",
+          "ok Ready gate on Rule Book's first open: covered until its plate was ready (147 covered frames, 0 revealed without the plate)",
+          "ok Ready gate on Club's first open: covered until its plate was ready (151 covered frames, 0 revealed without the plate)",
+          "ok Reus Gate fallback: no lazy loader, loading screen left at 6157 ms",
+          "ok Reus Gate failure: Team V loader failed, loading screen left at 2897 ms",
+          "PASS Reus Gate startup contracts: source, slow start (motion and reduced motion), screen plate gate (Rule Book, Club), no-loader fallback, failed-loader release.",
+          "PASS POS10 selected deterministic census (191/191 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 1.13,
+        "log": "test-results/r76-integration-2/pr-836-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (2.363401ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (2.532832ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (5.280605ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (2.159964ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 804.358436"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "8bfd46f0a1d0b177e524698d475828fc15b0d3a6"
+  },
+  {
+    "pr": 837,
+    "branch": "codex/job-1803-close-write-limit",
+    "sourceHead": "1cdaab57066e675c3b9d13b9cf2f8f0d8679c800",
+    "before": "8bfd46f0a1d0b177e524698d475828fc15b0d3a6",
+    "testedHead": "962b1810086f062ed3d529fc2cbe9c1a2ca2634f",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 12.91,
+        "log": "test-results/r76-integration-2/pr-837-syntax.log",
+        "tail": [
+          "POS10 syntax: 353 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 115.04,
+        "log": "test-results/r76-integration-2/pr-837-contracts.log",
+        "tail": [
+          "ok Ready gate on Club's first open: covered until its plate was ready (156 covered frames, 0 revealed without the plate)",
+          "ok Reus Gate fallback: no lazy loader, loading screen left at 6092 ms",
+          "ok Reus Gate failure: Team V loader failed, loading screen left at 2798 ms",
+          "PASS Reus Gate startup contracts: source, slow start (motion and reduced motion), screen plate gate (Rule Book, Club), no-loader fallback, failed-loader release.",
+          "PASS 1-season progress: rivalry-only transaction reads; base-equivalent envelopes and scores",
+          "PASS 3-season progress: rivalry-only transaction reads; base-equivalent envelopes and scores",
+          "PASS 5-season progress: rivalry-only transaction reads; base-equivalent envelopes and scores",
+          "PASS 10-season progress: rivalry-only transaction reads; base-equivalent envelopes and scores",
+          "PASS race: rivalry compare-and-set retries preserve exact-once season scores",
+          "PASS retry: rivalry compare-and-set retries preserve exact-once season scores",
+          "PASS r75 budget: 12 progress reads for 3 seasons (base 22); zero read-only commit verifies",
+          "PASS POS10 selected deterministic census (192/192 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 1.02,
+        "log": "test-results/r76-integration-2/pr-837-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (2.679522ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (2.692596ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (3.050681ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.506107ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 765.553065"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "962b1810086f062ed3d529fc2cbe9c1a2ca2634f"
+  },
+  {
+    "pr": 838,
+    "branch": "codex/job-1804-setup-write-refused",
+    "sourceHead": "20b9349e9b1b36aab9c5aec7498a22a6e614c35c",
+    "before": "962b1810086f062ed3d529fc2cbe9c1a2ca2634f",
+    "additiveConflictsResolved": [
+      "POS20_SUPPLEMENTAL_PRODUCT_TESTS.json",
+      "tests/operations/pos20-control-plane.test.mjs"
+    ],
+    "testedHead": "dd24d665fd19db600bb021ed15db4844f4f10779",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 9.74,
+        "log": "test-results/r76-integration-2/pr-838-syntax.log",
+        "tail": [
+          "POS10 syntax: 353 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 107.42,
+        "log": "test-results/r76-integration-2/pr-838-contracts.log",
+        "tail": [
+          "PASS retry: rivalry compare-and-set retries preserve exact-once season scores",
+          "PASS r75 budget: 12 progress reads for 3 seasons (base 22); zero read-only commit verifies",
+          "PASS 1-season setup (bare SDK): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+          "PASS 3-season setup (bare SDK): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+          "PASS 5-season setup (bare SDK): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+          "PASS 10-season setup (bare SDK): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+          "PASS 1-season setup (r75 budget): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+          "PASS 3-season setup (r75 budget): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+          "PASS 5-season setup (r75 budget): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+          "PASS 10-season setup (r75 budget): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+          "PASS Shared Setup transaction reads: all six mutations, 1/3/5/10 seasons, SDK retries, stale revisions, actor-bound replay, authority validation order and Rules denial propagation",
+          "PASS POS10 selected deterministic census (193/193 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 0.74,
+        "log": "test-results/r76-integration-2/pr-838-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (2.517509ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (2.645741ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (2.823764ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.429637ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 576.414597"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "dd24d665fd19db600bb021ed15db4844f4f10779"
+  },
+  {
+    "pr": 845,
+    "branch": "codex/job-1821-season-chip-fit",
+    "sourceHead": "33aabae4356ab2ee59fbb215c3af4ce3dabfe676",
+    "before": "dd24d665fd19db600bb021ed15db4844f4f10779",
+    "additiveConflictsResolved": [
+      "POS20_SUPPLEMENTAL_PRODUCT_TESTS.json",
+      "tests/operations/pos20-control-plane.test.mjs"
+    ],
+    "testedHead": "cd9307fa6a0c35a11d9eaa601c7fc915299af943",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 9.07,
+        "log": "test-results/r76-integration-2/pr-845-syntax.log",
+        "tail": [
+          "POS10 syntax: 353 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 107.69,
+        "log": "test-results/r76-integration-2/pr-845-contracts.log",
+        "tail": [
+          "\u2714 Solo labels keep the local round even with a shared progression module loaded (1.068716ms)",
+          "\u2714 Shared labels fall back locally before the progression module is available (2.802374ms)",
+          "\u2714 Labels follow a shared cursor change on the next refresh without mutating the save (1.095283ms)",
+          "\u2139 tests 5",
+          "\u2139 suites 0",
+          "\u2139 pass 5",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 16.040693",
+          "PASS POS10 selected deterministic census (194/194 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 0.76,
+        "log": "test-results/r76-integration-2/pr-845-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (2.45513ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (2.783614ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (3.314002ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.499619ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 582.954352"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "cd9307fa6a0c35a11d9eaa601c7fc915299af943"
+  },
+  {
+    "pr": 841,
+    "branch": "codex/job-1808-standings-loading",
+    "sourceHead": "8c3e1f23b7bb51ee16075b26848d644c8e454e49",
+    "before": "cd9307fa6a0c35a11d9eaa601c7fc915299af943",
+    "additiveConflictsResolved": [
+      "POS20_SUPPLEMENTAL_PRODUCT_TESTS.json",
+      "tests/operations/pos20-control-plane.test.mjs"
+    ],
+    "testedHead": "3c054e1733dd067a5987e0da5ef21306f020c520",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 9.01,
+        "log": "test-results/r76-integration-2/pr-841-syntax.log",
+        "tail": [
+          "POS10 syntax: 353 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 111.2,
+        "log": "test-results/r76-integration-2/pr-841-contracts.log",
+        "tail": [
+          "\u2139 pass 5",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 17.504144",
+          "THIS SHOWDOWN daniel, History lagging: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN daniel, History missing: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN nik, History lagging: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN nik, History missing: status=ready, rows=7, state=(none)",
+          "PASS midway THIS SHOWDOWN: both managers render correct 2/5 committed standings and enabled HEAD-TO-HEAD scope with lagging/missing History; one existing progression read, invalid proof fails closed, terminal totals preserved.",
+          "PASS POS10 selected deterministic census (195/195 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 1.17,
+        "log": "test-results/r76-integration-2/pr-841-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (9.567793ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (7.431791ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (11.404035ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (2.788678ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 898.122192"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "3c054e1733dd067a5987e0da5ef21306f020c520"
+  },
+  {
+    "pr": 846,
+    "branch": "codex/job-1809-rivalry-statistics",
+    "sourceHead": "e4349c2502675a3e1001d4952e34f1f8e432f74e",
+    "before": "3c054e1733dd067a5987e0da5ef21306f020c520",
+    "status": "CONFLICT",
+    "conflictFiles": [
+      "tests/operations/pos20-control-plane.test.mjs"
+    ],
+    "head": "3c054e1733dd067a5987e0da5ef21306f020c520"
+  },
+  {
+    "pr": 839,
+    "branch": "codex/job-1806-back-home-route",
+    "sourceHead": "9b9675fe51c5f4a771f9c01217724f03077c21d7",
+    "before": "3c054e1733dd067a5987e0da5ef21306f020c520",
+    "testedHead": "4204cee74b4f5a44b0f317922c895477127a52f0",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 12.38,
+        "log": "test-results/r76-integration-2/pr-839-syntax.log",
+        "tail": [
+          "POS10 syntax: 354 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 120.73,
+        "log": "test-results/r76-integration-2/pr-839-contracts.log",
+        "tail": [
+          "\u2139 pass 5",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 20.545838",
+          "THIS SHOWDOWN daniel, History lagging: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN daniel, History missing: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN nik, History lagging: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN nik, History missing: status=ready, rows=7, state=(none)",
+          "PASS midway THIS SHOWDOWN: both managers render correct 2/5 committed standings and enabled HEAD-TO-HEAD scope with lagging/missing History; one existing progression read, invalid proof fails closed, terminal totals preserved.",
+          "PASS POS10 selected deterministic census (195/195 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 1.37,
+        "log": "test-results/r76-integration-2/pr-839-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (7.056505ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (10.938029ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (10.771074ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (2.497508ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 1015.7065"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "4204cee74b4f5a44b0f317922c895477127a52f0"
+  }
+]

@@ -1,0 +1,137 @@
+{
+  "job": 1830,
+  "base": "2f3865feca484223ac7d267d83a9c4828bad3078",
+  "testedProductHead": "b2e68639e835e5be9b0d17423ef175fb88360084",
+  "sourceRefs": {
+    "origin/factory/gameplay-v1": "312d8e1d8628fae00aa44402a575f4144fc8cd0c",
+    "origin/codex/job-1824-firestore-meter": "f1fbd2ee96da97978898158d0a69900426a84aa5",
+    "origin/codex/job-1825-rules-cost": "96d9e2ebe1f329720947454f4c1f5b68657d979a",
+    "origin/gameplay/ce2pg": "82bfcc74f9ed7893b912607f6d42b3ff7df667a2"
+  },
+  "mergedPrs": [
+    836,
+    837,
+    838,
+    845,
+    841,
+    846,
+    839,
+    840,
+    844,
+    862,
+    848,
+    849,
+    850,
+    856,
+    860,
+    861,
+    863
+  ],
+  "conflictPrs": [
+    847
+  ],
+  "baseRunsPassed": 3,
+  "baseDecodedBeforeRevealFailures": 0,
+  "browserAudits": 30,
+  "browserPassed": 27,
+  "completeSeasonCostAvailable": false,
+  "shipGateEstablished": false,
+  "requestModel": {
+    "method": "client server reads plus distinct concrete Rules documents per backend request; repeated get/getAfter paths counted once",
+    "referenceSignatures": 129,
+    "freshProbeReplay": false,
+    "unpricedRulesAllowancePerAuthorization": 20
+  },
+  "testOnly": [
+    {
+      "pr": 857,
+      "sourceHead": "f9db71a7f99fbc713e948685818e5e6dbb241e87",
+      "file": "tests/contracts/sweep-biggest-showdown-tie-contracts.cjs",
+      "exit": 1,
+      "status": "FAIL",
+      "tail": [
+        "  -   'Shared \u00b7 1',",
+        "  -   'Shared \u00b7 1'",
+        "    ]",
+        "  ",
+        "      at TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-biggest-showdown-tie-contracts.cjs:58:12)",
+        "      at Test.runInAsyncScope (node:async_hooks:227:14)",
+        "      at Test.run (node:internal/test_runner/test:1382:25)",
+        "      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)",
+        "      at Test.postRun (node:internal/test_runner/test:1522:19)",
+        "      at Test.run (node:internal/test_runner/test:1447:12)",
+        "      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {",
+        "    generatedMessage: true,",
+        "    code: 'ERR_ASSERTION',",
+        "    actual: [Array],",
+        "    expected: [Array],",
+        "    operator: 'deepStrictEqual',",
+        "    diff: 'simple'",
+        "  }"
+      ]
+    },
+    {
+      "pr": 858,
+      "sourceHead": "66e6e0fb1a8233939aed8f1c555f10181e475caa",
+      "file": "tests/contracts/sweep-career-table-level-rank-contracts.cjs",
+      "exit": 1,
+      "status": "FAIL",
+      "tail": [
+        "          value: '12 points, 1 season wins'",
+        "        },",
+        "        { label: '2. Nik (level)', value: '12 points, 1 season wins' }",
+        "      ],",
+        "      expected: [",
+        "        {",
+        "          label: '1. Daniel (level)',",
+        "          value: '12 points, 1 season wins'",
+        "        },",
+        "        { label: '1. Nik (level)', value: '12 points, 1 season wins' }",
+        "      ],",
+        "      operator: 'deepStrictEqual',",
+        "      diff: 'simple'",
+        "    }",
+        "  ]",
+        "}",
+        "",
+        "Node.js v24.19.0"
+      ]
+    },
+    {
+      "pr": 859,
+      "sourceHead": "d8961abd5eb5e92d73a425b279b0d62a7611775a",
+      "file": "tests/contracts/sweep-missing-season-stats-contracts.cjs",
+      "exit": 1,
+      "status": "FAIL",
+      "tail": [
+        "  }",
+        "",
+        "test at tests/contracts/sweep-missing-season-stats-contracts.cjs:97:5",
+        "\u2716 private reader rejects persisted leagueGoals=\"\" even with a hash-valid zero (15.220249ms)",
+        "  AssertionError [ERR_ASSERTION]: leagueGoals=\"\" must not be accepted as hash-valid zero",
+        "  ",
+        "  true !== false",
+        "  ",
+        "      at TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-missing-season-stats-contracts.cjs:106:14)",
+        "      at async Test.run (node:internal/test_runner/test:1389:7)",
+        "      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {",
+        "    generatedMessage: false,",
+        "    code: 'ERR_ASSERTION',",
+        "    actual: true,",
+        "    expected: false,",
+        "    operator: 'strictEqual',",
+        "    diff: 'simple'",
+        "  }"
+      ]
+    }
+  ],
+  "newJourneyFailureIds": [
+    "S1.excursion.stats.daniel",
+    "S1.excursion.stats.nik",
+    "S1.excursion.trophy.daniel",
+    "S1.excursion.trophy.nik",
+    "S1.rivalry.back.daniel",
+    "S1.rivalry.back.nik"
+  ],
+  "liveBaseAtPublication": "5c66c989f415676f57f7b8d0318fa17ea3925cdd"
+}

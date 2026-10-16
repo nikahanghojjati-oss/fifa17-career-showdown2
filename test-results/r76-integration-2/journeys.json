@@ -1,0 +1,192 @@
+[
+  {
+    "name": "meter-m3",
+    "command": [
+      "node",
+      "tests/browser/ce2pg-meter.cjs"
+    ],
+    "settings": {
+      "CE2PG_SEASONS": "3",
+      "CE2PG_RUN": "1",
+      "METER_RUN": "r76-m3",
+      "METER_IDLE_MS": "0",
+      "METER_OUT": "/workspace/fifa17-career-showdown2/test-results/r76-integration-2/m3.summary.json",
+      "NODE_OPTIONS": "--require /workspace/fifa17-career-showdown2/work/rules-cost/capture.cjs"
+    },
+    "exit": 1,
+    "wallMinutes": 3.845,
+    "head": "b2e68639e835e5be9b0d17423ef175fb88360084",
+    "tail": [
+      "Call log:",
+      "  - waiting for locator('#seasonPrimaryAction')",
+      "    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALL",
+      "ok   zz.production.daniel [daniel] s0 never contacted a production Firebase host or loaded the production runtime",
+      "ok   zz.pageerrors.daniel [daniel] s0 no uncaught page errors or console errors",
+      "ok   zz.rulesLimit.daniel [daniel] s0 no Firestore Rules evaluation-limit failure (\"maximum of 1000 expressions\") on any write",
+      "ok   zz.network.daniel [daniel] s0 no failed network requests (HTTP 4xx/5xx or request failures other than aborted navigations)",
+      "ok   zz.production.nik [nik] s0 never contacted a production Firebase host or loaded the production runtime",
+      "ok   zz.pageerrors.nik [nik] s0 no uncaught page errors or console errors",
+      "ok   zz.rulesLimit.nik [nik] s0 no Firestore Rules evaluation-limit failure (\"maximum of 1000 expressions\") on any write",
+      "ok   zz.network.nik [nik] s0 no failed network requests (HTTP 4xx/5xx or request failures other than aborted navigations)",
+      "FAIL r76-m3: 76/82 checks, 8 problem(s), 209 s -> test-results/r76-m3.json",
+      "\u26a0  Script exited unsuccessfully (code 1)",
+      "i  emulators: Shutting down emulators.",
+      "i  firestore: Stopping Firestore Emulator",
+      "i  auth: Stopping Authentication Emulator",
+      "i  hub: Stopping emulator hub",
+      "i  logging: Stopping Logging Emulator",
+      "",
+      "Error: Script \"node tests/browser/ce2pg-meter.cjs\" exited with code 1"
+    ]
+  },
+  {
+    "name": "meter-i3",
+    "command": [
+      "node",
+      "tests/browser/ce2pg-meter.cjs"
+    ],
+    "settings": {
+      "CE2PG_SEASONS": "3",
+      "CE2PG_RUN": "1",
+      "METER_RUN": "r76-i3",
+      "METER_IDLE_MS": "120000",
+      "METER_OUT": "/workspace/fifa17-career-showdown2/test-results/r76-integration-2/i3.summary.json",
+      "CMS_CHROMIUM_PATH": "/usr/bin/chromium",
+      "DISPLAY": ":100",
+      "NODE_OPTIONS": "--require /workspace/fifa17-career-showdown2/work/rules-cost/capture.cjs"
+    },
+    "exit": 1,
+    "wallMinutes": 12.169,
+    "head": "b2e68639e835e5be9b0d17423ef175fb88360084",
+    "tail": [
+      "Call log:",
+      "  - waiting for locator('#seasonPrimaryAction')",
+      "    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALL",
+      "ok   zz.production.daniel [daniel] s0 never contacted a production Firebase host or loaded the production runtime",
+      "ok   zz.pageerrors.daniel [daniel] s0 no uncaught page errors or console errors",
+      "ok   zz.rulesLimit.daniel [daniel] s0 no Firestore Rules evaluation-limit failure (\"maximum of 1000 expressions\") on any write",
+      "ok   zz.network.daniel [daniel] s0 no failed network requests (HTTP 4xx/5xx or request failures other than aborted navigations)",
+      "ok   zz.production.nik [nik] s0 never contacted a production Firebase host or loaded the production runtime",
+      "ok   zz.pageerrors.nik [nik] s0 no uncaught page errors or console errors",
+      "ok   zz.rulesLimit.nik [nik] s0 no Firestore Rules evaluation-limit failure (\"maximum of 1000 expressions\") on any write",
+      "ok   zz.network.nik [nik] s0 no failed network requests (HTTP 4xx/5xx or request failures other than aborted navigations)",
+      "FAIL r76-i3: 85/91 checks, 8 problem(s), 717 s -> test-results/r76-i3.json",
+      "\u26a0  Script exited unsuccessfully (code 1)",
+      "i  emulators: Shutting down emulators.",
+      "i  firestore: Stopping Firestore Emulator",
+      "i  auth: Stopping Authentication Emulator",
+      "i  hub: Stopping emulator hub",
+      "i  logging: Stopping Logging Emulator",
+      "",
+      "Error: Script \"node tests/browser/ce2pg-meter.cjs\" exited with code 1"
+    ]
+  },
+  {
+    "name": "ce2pg-3-1",
+    "command": [
+      "node",
+      "tests/browser/ce2pg-journey.cjs"
+    ],
+    "settings": {
+      "CE2PG_SEASONS": "3",
+      "CE2PG_RUN": "1"
+    },
+    "exit": 1,
+    "wallMinutes": 3.69,
+    "head": "b2e68639e835e5be9b0d17423ef175fb88360084",
+    "tail": [
+      "Call log:",
+      "  - waiting for locator('#seasonPrimaryAction')",
+      "    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALL",
+      "ok   zz.production.daniel [daniel] s0 never contacted a production Firebase host or loaded the production runtime",
+      "ok   zz.pageerrors.daniel [daniel] s0 no uncaught page errors or console errors",
+      "ok   zz.rulesLimit.daniel [daniel] s0 no Firestore Rules evaluation-limit failure (\"maximum of 1000 expressions\") on any write",
+      "ok   zz.network.daniel [daniel] s0 no failed network requests (HTTP 4xx/5xx or request failures other than aborted navigations)",
+      "ok   zz.production.nik [nik] s0 never contacted a production Firebase host or loaded the production runtime",
+      "ok   zz.pageerrors.nik [nik] s0 no uncaught page errors or console errors",
+      "ok   zz.rulesLimit.nik [nik] s0 no Firestore Rules evaluation-limit failure (\"maximum of 1000 expressions\") on any write",
+      "ok   zz.network.nik [nik] s0 no failed network requests (HTTP 4xx/5xx or request failures other than aborted navigations)",
+      "FAIL ce2pg-3-1: 76/82 checks, 8 problem(s), 210 s -> test-results/ce2pg-3-1.json",
+      "\u26a0  Script exited unsuccessfully (code 1)",
+      "i  emulators: Shutting down emulators.",
+      "i  firestore: Stopping Firestore Emulator",
+      "i  auth: Stopping Authentication Emulator",
+      "i  hub: Stopping emulator hub",
+      "i  logging: Stopping Logging Emulator",
+      "",
+      "Error: Script \"node tests/browser/ce2pg-journey.cjs\" exited with code 1"
+    ]
+  },
+  {
+    "name": "ce2pg-5-2",
+    "command": [
+      "node",
+      "tests/browser/ce2pg-journey.cjs"
+    ],
+    "settings": {
+      "CE2PG_SEASONS": "5",
+      "CE2PG_RUN": "2"
+    },
+    "exit": 1,
+    "wallMinutes": 4.448,
+    "head": "b2e68639e835e5be9b0d17423ef175fb88360084",
+    "tail": [
+      "Call log:",
+      "  - waiting for locator('#seasonPrimaryAction')",
+      "    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALL",
+      "ok   zz.production.daniel [daniel] s0 never contacted a production Firebase host or loaded the production runtime",
+      "ok   zz.pageerrors.daniel [daniel] s0 no uncaught page errors or console errors",
+      "ok   zz.rulesLimit.daniel [daniel] s0 no Firestore Rules evaluation-limit failure (\"maximum of 1000 expressions\") on any write",
+      "ok   zz.network.daniel [daniel] s0 no failed network requests (HTTP 4xx/5xx or request failures other than aborted navigations)",
+      "ok   zz.production.nik [nik] s0 never contacted a production Firebase host or loaded the production runtime",
+      "ok   zz.pageerrors.nik [nik] s0 no uncaught page errors or console errors",
+      "ok   zz.rulesLimit.nik [nik] s0 no Firestore Rules evaluation-limit failure (\"maximum of 1000 expressions\") on any write",
+      "ok   zz.network.nik [nik] s0 no failed network requests (HTTP 4xx/5xx or request failures other than aborted navigations)",
+      "FAIL ce2pg-5-2: 76/82 checks, 8 problem(s), 247 s -> test-results/ce2pg-5-2.json",
+      "\u26a0  Script exited unsuccessfully (code 1)",
+      "i  emulators: Shutting down emulators.",
+      "i  firestore: Stopping Firestore Emulator",
+      "i  auth: Stopping Authentication Emulator",
+      "i  hub: Stopping emulator hub",
+      "i  logging: Stopping Logging Emulator",
+      "",
+      "Error: Script \"node tests/browser/ce2pg-journey.cjs\" exited with code 1"
+    ]
+  },
+  {
+    "name": "ce2pg-10-3",
+    "command": [
+      "node",
+      "tests/browser/ce2pg-journey.cjs"
+    ],
+    "settings": {
+      "CE2PG_SEASONS": "10",
+      "CE2PG_RUN": "3"
+    },
+    "exit": 1,
+    "wallMinutes": 4.0,
+    "head": "b2e68639e835e5be9b0d17423ef175fb88360084",
+    "tail": [
+      "Call log:",
+      "  - waiting for locator('#seasonPrimaryAction')",
+      "    - locator resolved to <button type=\"button\" class=\"menuButton\" id=\"seasonPrimaryAction\" data-transfer-primary-bound=\"true\" data-shared-transfer-challenge=\"true\">START SEASON 2 SHARED TRANSFER CHALL",
+      "ok   zz.production.daniel [daniel] s0 never contacted a production Firebase host or loaded the production runtime",
+      "ok   zz.pageerrors.daniel [daniel] s0 no uncaught page errors or console errors",
+      "ok   zz.rulesLimit.daniel [daniel] s0 no Firestore Rules evaluation-limit failure (\"maximum of 1000 expressions\") on any write",
+      "ok   zz.network.daniel [daniel] s0 no failed network requests (HTTP 4xx/5xx or request failures other than aborted navigations)",
+      "ok   zz.production.nik [nik] s0 never contacted a production Firebase host or loaded the production runtime",
+      "ok   zz.pageerrors.nik [nik] s0 no uncaught page errors or console errors",
+      "ok   zz.rulesLimit.nik [nik] s0 no Firestore Rules evaluation-limit failure (\"maximum of 1000 expressions\") on any write",
+      "ok   zz.network.nik [nik] s0 no failed network requests (HTTP 4xx/5xx or request failures other than aborted navigations)",
+      "FAIL ce2pg-10-3: 76/82 checks, 8 problem(s), 220 s -> test-results/ce2pg-10-3.json",
+      "\u26a0  Script exited unsuccessfully (code 1)",
+      "i  emulators: Shutting down emulators.",
+      "i  firestore: Stopping Firestore Emulator",
+      "i  auth: Stopping Authentication Emulator",
+      "i  hub: Stopping emulator hub",
+      "i  logging: Stopping Logging Emulator",
+      "",
+      "Error: Script \"node tests/browser/ce2pg-journey.cjs\" exited with code 1"
+    ]
+  }
+]

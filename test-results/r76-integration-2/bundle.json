@@ -1,0 +1,352 @@
+[
+  {
+    "name": "browser-bundle",
+    "command": "npm run -s test:browser",
+    "exit": 1,
+    "seconds": 108.51,
+    "tail": [
+      "PASS r33 Career Start gameplay seam: the real Spark Career Start provider resolves a Shared Setup provider loaded after it, Daniel desktop and Nik mobile each acknowledge the same confirmed Showdown exactly once, both converge on CAREER_START_READY, and the real Career Start UI hands each device into Transfer Challenge without reset or redraw.",
+      "PASS Shared Transfer Challenge ordered full-screen replay and Save isolation: Player One desktop and Player Two mobile each replay missed WINDOW_OPEN -> GUESS_ENTRY -> SIGNING_ENTRY before actual COMPLETED, with both previous-league and nationality signing selectors independently usable; the live mobile guess value remains disabled until a League/Nationality type is selected and clears safely when type is removed; returning the mobile page to the foreground forces a fresh server-time anchor so a suspended monotonic clock cannot leave the 15-minute display stale; replay stays read-only/private with zero provider mutations or replay reads; the r9 Season Results route activates only after replay is complete; an in-flight Save A read is discarded when Save B becomes active; and the real 15-second automatic poll detects a completed-Save context switch.",
+      "locator.waitFor: Timeout 30000ms exceeded.",
+      "Call log:",
+      "\u001b[2m  - waiting for locator('#dashboard') to be visible\u001b[22m",
+      "\u001b[2m    63 \u00d7 locator resolved to hidden <section id=\"dashboard\" aria-hidden=\"true\" class=\"screen hidden\" aria-labelledby=\"dashboardScreenTitle\">\u2026</section>\u001b[22m",
+      "",
+      "    at /workspace/fifa17-career-showdown2/tests/browser/shared-season-results-audit.cjs:217:232 {",
+      "  log: [",
+      "    \"  - waiting for locator('#dashboard') to be visible\",",
+      "    '    63 \u00d7 locator resolved to hidden <section id=\"dashboard\" aria-hidden=\"true\" class=\"screen hidden\" aria-labelledby=\"dashboardScreenTitle\">\u2026</section>'",
+      "  ],",
+      "  name: 'TimeoutError'",
+      "}"
+    ]
+  },
+  {
+    "name": "browser-rest-shared-season-commit-audit",
+    "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-season-commit-audit.cjs",
+    "exit": 0,
+    "seconds": 9.74,
+    "tail": [
+      "PASS Shared Season Commit desktop/mobile production flow: both managers experience the complete r9 Season Review; only the coordinator creates the immutable shared commit; both managers independently acknowledge it; one injected stale CAS is retried exactly once; both converge on terminal ACKNOWLEDGED; shared scoring remains locked; and canonical local storage/history/scoring stay untouched."
+    ]
+  },
+  {
+    "name": "browser-rest-shared-season-commit-second-publisher-audit",
+    "command": "node tests/browser/shared-season-commit-second-publisher-audit.cjs",
+    "exit": 0,
+    "seconds": 21.77,
+    "tail": [
+      "PASS Shared Season Commit second-publisher recovery: an incomplete RESULTS_READY publish projection with a failed follow-up read keeps a visible read-only Commit check, shows the failing code, never republishes or writes Commit, and one retry heals Results and restores the correct role action; a later season still checks Commit automatically after the previous season was acknowledged; a hung check times out visibly and cannot later overwrite the retry result."
+    ]
+  },
+  {
+    "name": "browser-rest-shared-canonical-scoring-audit",
+    "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-canonical-scoring-audit.cjs",
+    "exit": 0,
+    "seconds": 8.87,
+    "tail": [
+      "PASS Shared Canonical Scoring desktop/mobile production flow: both managers traverse the real r9 results and r10 commit adapters, the bootstrapped r11 scoring adapter converges without duplicate observers, both see the same provider-authoritative 11\u20130 canonical score and five-part breakdown only after r10 ACKNOWLEDGED, exact account/device/rivalry/session context is forwarded for provider enforcement, and canonical local storage/history/scoring remain untouched."
+    ]
+  },
+  {
+    "name": "browser-rest-shared-history-convergence-audit",
+    "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-history-convergence-audit.cjs",
+    "exit": 0,
+    "seconds": 8.37,
+    "tail": [
+      "PASS Shared History Convergence desktop/mobile production audit: both isolated manager contexts render the same two-season provider-authoritative history, cumulative score/lead, manager records and trophy attribution with exact account/device/rivalry/session forwarding; stale r10/r11 hashes, provider denial and an incomplete next season fail closed; canonical local storage remains byte-for-byte unchanged."
+    ]
+  },
+  {
+    "name": "browser-rest-shared-multi-season-progression-audit",
+    "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-multi-season-progression-audit.cjs",
+    "exit": 0,
+    "seconds": 29.86,
+    "tail": [
+      "PASS Shared Multi Season desktop/mobile production flow: both isolated manager contexts complete 1/3/5/10 plans from Season 1, require a visible authoritative History Convergence witness before each exact-once advance, converge on identical next-season cursors, preserve fixed clubs, render Showdown Home from shared league/club/season/accumulated-score authority instead of stale local Save fields, reject duplicate advances, close exactly at the configured final season, and leave local currentRound plus canonical storage unchanged."
+    ]
+  },
+  {
+    "name": "browser-rest-shared-journey-reconnect-audit",
+    "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-journey-reconnect-audit.cjs",
+    "exit": 0,
+    "seconds": 14.58,
+    "tail": [
+      "PASS Shared Journey Reconnect desktop/mobile audit: normal ACTIVE gameplay stays silent and performs zero reconnect progression reads, both managers recover the same durable journey after expiry, offline hold makes no provider claim, expiry exposes a direct Remote Joining recovery action, fresh sessions reauthorize without redraw/reset, fresh runtimes do not inherit ACTIVE authority, terminal state cannot resurrect, and canonical local storage remains unchanged."
+    ]
+  },
+  {
+    "name": "browser-rest-ssjr-production-acceptance-recorder-audit",
+    "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/ssjr-production-acceptance-recorder-audit.cjs",
+    "exit": 0,
+    "seconds": 21.34,
+    "tail": [
+      "PASS SSJR recorder is query-gated and absent from normal production mode",
+      "PASS SSJR recorder routes an already ACTIVE session into polished Shared Showdown instead of looping Remote Joining or opening engineering diagnostics",
+      "PASS SSJR recorder rejects stale cross-runtime evidence instead of mislabeling the live shell",
+      "PASS SSJR recorder validates real protocol league + club names against the repository catalog and derives safe club league identities",
+      "PASS SSJR recorder simple mode exposes one context-aware NEXT STEP control while fallback controls stay collapsed",
+      "PASS SSJR actor-attributed v2 replaces the visible impossible all-eight-per-manager controls while preserving the legacy API and real provider denial path",
+      "PASS SSJR recorder auto-captures paired-first, rev4, rev6, a real browser reload and fresh-session positive checkpoints",
+      "PASS SSJR recorder persists only sanitized SHA-256 evidence and preserves canonical local save bytes"
+    ]
+  },
+  {
+    "name": "browser-rest-ssjr-production-actor-evidence-v2-audit",
+    "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/ssjr-production-actor-evidence-v2-audit.cjs",
+    "exit": 0,
+    "seconds": 12.37,
+    "tail": [
+      "PASS SSJR actor-attributed evidence v2 browser audit: ordinary mode is untouched, bound managers get the seven truthful actor checks inside the recorder surface, and witness mode is isolated from manager-positive recording."
+    ]
+  },
+  {
+    "name": "browser-rest-stability-audit",
+    "command": "node tests/browser/stability-audit.cjs",
+    "exit": 1,
+    "seconds": 57.89,
+    "tail": [
+      "PASS  Chromebook direct stability resume :: dashboard",
+      "PASS  Chromebook direct stability resume :: dashboard",
+      "PASS  Chromebook reload and browser-history recovery :: pre-season dashboard retained without legacy local progression",
+      "PASS  Chromebook Rivalry Statistics accessibility scan",
+      "STABILITY BROWSER AUDIT FAILED",
+      "locator.waitFor: Timeout 12000ms exceeded.",
+      "Call log:",
+      "\u001b[2m  - waiting for locator('#dashboard') to be visible\u001b[22m",
+      "\u001b[2m    28 \u00d7 locator resolved to hidden <section id=\"dashboard\" aria-hidden=\"true\" class=\"screen hidden\" aria-labelledby=\"dashboardScreenTitle\">\u2026</section>\u001b[22m",
+      "",
+      "    at waitForScreen (/workspace/fifa17-career-showdown2/tests/browser/stability-audit.cjs:83:38)",
+      "    at smokeDestinations (/workspace/fifa17-career-showdown2/tests/browser/stability-audit.cjs:180:240)",
+      "    at async runProductScenario (/workspace/fifa17-career-showdown2/tests/browser/stability-audit.cjs:215:28)",
+      "    at async /workspace/fifa17-career-showdown2/tests/browser/stability-audit.cjs:241:289"
+    ]
+  },
+  {
+    "name": "browser-rest-connected-account-settings-audit",
+    "command": "node tests/browser/connected-account-settings-audit.cjs",
+    "exit": 0,
+    "seconds": 9.49,
+    "tail": [
+      "PASS clean Settings exposes safe remote-first Showdown deletion, returns Home after success, and keeps recovery/engineering account UI internal at http://127.0.0.1:4511/"
+    ]
+  },
+  {
+    "name": "browser-rest-settings-offline-save-library-editor-audit",
+    "command": "node tests/browser/settings-offline-save-library-editor-audit.cjs",
+    "exit": 0,
+    "seconds": 6.78,
+    "tail": [
+      "PASS Settings offline-state regression: explicit internal recovery audit preserves the exact Save Library profile editor, unsaved draft and CANCEL control while updating connectivity presentation without canonical storage mutation, then restores hidden containment."
+    ]
+  },
+  {
+    "name": "browser-rest-stage3-private-pairing-audit",
+    "command": "node tests/browser/stage3-private-pairing-audit.cjs",
+    "exit": 0,
+    "seconds": 19.97,
+    "tail": [
+      "PASS Stage 3 desktop IndexedDB identity persistence, reload, offline, and localStorage isolation",
+      "PASS Stage 3 mobile IndexedDB identity persistence, reload, offline, and localStorage isolation",
+      "PASS Stage 3 mobile pairing editor survives repeated registration renders without losing focus/draft, retains manager selection, locks live capabilities, rejects late-dropdown races, and hides raw permission denials"
+    ]
+  },
+  {
+    "name": "browser-rest-pairing-four-code-automation-audit",
+    "command": "node tests/browser/pairing-four-code-automation-audit.cjs",
+    "exit": 0,
+    "seconds": 35.37,
+    "tail": [
+      "PASS pairing automation Chromium ultra-audit: 3 fresh Player One and 3 fresh Player Two isolated Chromium processes, exact copy, late-registration state preservation, P1 prefill/postjoin auto-attach, one-paste retained P2 input, and exact Connected Rivalry equality"
+    ]
+  },
+  {
+    "name": "browser-rest-stage4-remote-local-reconciliation-audit",
+    "command": "node tests/browser/stage4-remote-local-reconciliation-audit.cjs",
+    "exit": 0,
+    "seconds": 7.44,
+    "tail": [
+      "PASS Stage 4 browser reconciliation preview, explicit confirmation, backup download, identity-safe local commit and observed/committed UI at http://127.0.0.1:4511/"
+    ]
+  },
+  {
+    "name": "browser-rest-stage5e-remote-joining-audit",
+    "command": "node tests/browser/stage5e-remote-joining-audit.cjs",
+    "exit": 0,
+    "seconds": 8.25,
+    "tail": [
+      "PASS Stage 5E migration audit: retired Remote Joining stays hidden/unloaded while the clean persistent Nik/Daniel pair surface is browser-inert at http://127.0.0.1:4511/"
+    ]
+  },
+  {
+    "name": "browser-rest-stage5g-remote-joining-reconnect-audit",
+    "command": "node tests/browser/stage5g-remote-joining-reconnect-audit.cjs",
+    "exit": 0,
+    "seconds": 14.76,
+    "tail": [
+      "Stage 5G Host first diagnostic {\"ok\":false,\"code\":\"firestore/unavailable\",\"recoverable\":true,\"message\":\"simulated Host acknowledgement loss\",\"providerOpenCalls\":1,\"state\":{\"status\":\"recovery-pending\",\"pendingAction\":\"host\",\"sessionState\":\"unresolved\",\"generated\":1}}",
+      "PASS Stage 5G Host lost-acknowledgement state is unresolved and capability-hidden",
+      "PASS Stage 5G Host exact-capability retry recovered without duplicate session",
+      "PASS Stage 5G Join lost-acknowledgement state is unresolved and capability-hidden",
+      "PASS Stage 5G both contexts converged to the one active session at revision 1",
+      "PASS Stage 5G bounded online retry converged both contexts to terminal revision 2",
+      "PASS Stage 5G two-context same-capability reconnect audit at http://127.0.0.1:4511/"
+    ]
+  },
+  {
+    "name": "browser-rest-stage5h-remote-joining-adverse-network-audit",
+    "command": "node tests/browser/stage5h-remote-joining-adverse-network-audit.cjs",
+    "exit": 0,
+    "seconds": 14.9,
+    "tail": [
+      "PASS Stage 5H real browser offline Host recovered on online event with one capability and one provider mutation",
+      "PASS Stage 5H independently-offline peer recovered Join and both contexts converged at revision 1",
+      "PASS Stage 5H real browser offline Close recovered terminally and both contexts converged at revision 2",
+      "PASS Stage 5H two-context real-browser adverse-network recovery audit at http://127.0.0.1:4511/"
+    ]
+  },
+  {
+    "name": "browser-rest-stage5i-remote-joining-acceptance-recorder-audit",
+    "command": "node tests/browser/stage5i-remote-joining-acceptance-recorder-audit.cjs",
+    "exit": 0,
+    "seconds": 9.77,
+    "tail": [
+      "PASS Stage 5I recorder remains unloaded and invisible without the explicit acceptance query parameter",
+      "PASS Stage 5I recorder captures real offline/online lifecycle while exporting only a one-way capability fingerprint",
+      "PASS Stage 5I evidence excludes raw capability/account/device/rivalry identifiers and preserves canonical local storage"
+    ]
+  },
+  {
+    "name": "browser-rest-shared-showdown-setup-audit",
+    "command": "node tests/browser/shared-showdown-setup-audit.cjs",
+    "exit": 0,
+    "seconds": 1.45,
+    "tail": [
+      "PASS two isolated Chromium contexts: real WebCrypto provider-bound non-redrawable league/clubs, modified-client rejection, peer-first dual confirmation, exact setup convergence and unchanged canonical local bytes. Candidate protocol only; SSJR credit 0."
+    ]
+  },
+  {
+    "name": "browser-rest-shared-showdown-paired-first-entry-audit",
+    "command": "node tests/browser/shared-showdown-paired-first-entry-audit.cjs",
+    "exit": 1,
+    "seconds": 10.98,
+    "tail": [
+      "locator.waitFor: Timeout 5000ms exceeded.",
+      "Call log:",
+      "\u001b[2m  - waiting for locator('#productionSharedJourneyEntryOverlay button').filter({ hasText: 'REVIEW CONNECTION' }) to be visible\u001b[22m",
+      "",
+      "    at /workspace/fifa17-career-showdown2/tests/browser/shared-showdown-paired-first-entry-audit.cjs:138:22 {",
+      "  log: [",
+      "    \"  - waiting for locator('#productionSharedJourneyEntryOverlay button').filter({ hasText: 'REVIEW CONNECTION' }) to be visible\"",
+      "  ],",
+      "  name: 'TimeoutError'",
+      "}"
+    ]
+  },
+  {
+    "name": "browser-rest-shared-journey-conflicts-audit",
+    "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-journey-conflicts-audit.cjs",
+    "exit": 0,
+    "seconds": 8.0,
+    "tail": [
+      "PASS Journey Conflicts browser audit: isolated two-manager contention, bounded stale retry, altered replay pre-provider denial, receipt expiry, quota/revocation classification, provider-code preservation and zero canonical local-save mutation."
+    ]
+  },
+  {
+    "name": "browser-rest-shared-local-reconciliation-audit",
+    "command": "node tests/browser/shared-local-reconciliation-audit.cjs",
+    "exit": 0,
+    "seconds": 0.31,
+    "tail": [
+      "PASS r16 Local Reconciliation controlled-browser adapter: offline preview, explicit confirmation, Candidate C delegation, recovered UI errors and zero direct local writes"
+    ]
+  },
+  {
+    "name": "browser-rest-shared-final-reconciliation-audit",
+    "command": "node tests/browser/shared-final-reconciliation-audit.cjs",
+    "exit": 0,
+    "seconds": 0.3,
+    "tail": [
+      "PASS r17 Final Reconciliation two-context audit: canonical Save Library identity, exact manager binding, synchronous local-authority + cross-tab Save Library invalidation including hidden/in-flight ABA recovery cases, published-view invalidation, stale cross-rivalry refresh suppression, correct winner, no extra season and zero direct storage writes"
+    ]
+  },
+  {
+    "name": "browser-rest-shared-terminal-close-audit",
+    "command": "node tests/browser/shared-terminal-close-audit.cjs",
+    "exit": 0,
+    "seconds": 0.32,
+    "tail": [
+      "PASS JOB-1038 automatic close: exactly once, restored session, manual retry, lost acknowledgement, stale-context cancellation and a bounded wait for Shared History.",
+      "PASS r18 Terminal Close two-context runtime audit: both managers derive one exact witness, atomic close converges through terminal reads, lost acknowledgement recovers without replacement mutation, inactive-session close is blocked, stale cross-rivalry reads are discarded, and no browser storage authority is touched."
+    ]
+  },
+  {
+    "name": "screen-flash",
+    "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/v10-screen-flash-audit.cjs",
+    "exit": 0,
+    "seconds": 150.73,
+    "tail": [
+      "ok   desktop-1920x910 settings: 40 frames, 0 problem(s)",
+      "ok   desktop-1920x910 seasonResults: 41 frames, 0 problem(s)",
+      "ok   desktop-1920x910 finalWinner: 52 frames, 0 problem(s)",
+      "ok   desktop-1920x910 rivalry: 38 frames, 0 problem(s)",
+      "ok   desktop-1920x910 standings: 25 frames, 0 problem(s)",
+      "ok   desktop-1920x910 double tap: one navigation each",
+      "ok   desktop-1920x910 reduced-motion pass: 0 problem(s)",
+      "FINDING desktop-1920x910 tap feedback: pressed=not painted, layout changed=false, layout-shift entries=0 (report only)",
+      "ok   393x660 Club REDUCE MOTION: all 6 reveal stages, resize and live preference change",
+      "ok   393x660 Club FOLLOW DEVICE: all 6 reveal stages, resize and live preference change",
+      "ok   1280x800 Club REDUCE MOTION: all 6 reveal stages, resize and live preference change",
+      "ok   1280x800 Club FOLLOW DEVICE: all 6 reveal stages, resize and live preference change",
+      "Report: /workspace/fifa17-career-showdown2/test-results/v10-screen-flash-report.json",
+      "v10 screen flash audit: PASS"
+    ]
+  },
+  {
+    "name": "firestore-budget",
+    "command": "node tests/contracts/firestore-budget-contracts.cjs",
+    "exit": 0,
+    "seconds": 0.14,
+    "tail": [
+      "ok 4 FB2d a fresh re-run does not start a cascade: another screen's forgotten but unchanged documents do not count as changed",
+      "ok 5 FB2f season documents the Rules make immutable (published results, ACKNOWLEDGED commits) are read once per page",
+      "ok 6 FB2c a rivalry that is still pending its pair is read fresh on every check, so the partner's join shows at once",
+      "ok 7 FB3 Transfer waiting screen, both visible: <= budget reads/min with the listener, 0 writes, and a partner move reaches it within 1 s",
+      "ok 8 FB4 a hidden tab reads nothing and drops its listener; returning re-reads once and re-attaches",
+      "ok 9 FB4b a screen that was waiting when the tab was hidden catches up with one check the moment it is visible again",
+      "ok 10 FB4c after the listener sees the partner's move, the follow-on checks of other screens reuse what the chain just read",
+      "ok 11 FB5 a screen with only the 15 s poll stays within the idle budget; nothing writes while idle",
+      "ok 12 FB6 listener drops or errors: the 3 s check takes over within one tick, stays within today's cadence, and no stale data is served",
+      "ok 13 FB7 a listener that falls behind the server is dropped within 5 s and the screen reads the server",
+      "ok 14 FB8 at most one listener per page; the other waiting screen keeps fresh 3 s checks and gets the listener once the first lets go",
+      "ok 15 FB9 resource-exhausted pauses all traffic (10, then 20 min), shows the exact message once, and wakes the screens after",
+      "ok 16 FB10 every connected module goes through the budget layer; wait points ask for the listener; device re-checks are capped",
+      "PASS Firestore budget contracts: 16 checks, measured reads/min 3.4 / 0.0 / 3.0 / 1.8 / 60.0 (waiting <= 5 reads/min, hidden 0, idle writes 0, partner update <= 1000 ms)."
+    ]
+  },
+  {
+    "name": "reus-startup",
+    "command": "node tests/contracts/reus-gate-startup-contracts.cjs",
+    "exit": 0,
+    "seconds": 40.95,
+    "tail": [
+      "ok Reus Gate source: app.js hold with minimum and cap, ssjr.js ready signals, startup budget",
+      "ok Reus Gate slow start (no-preference): loading screen handed over at 8128 ms to the finished Team V Home, no old Home frame",
+      "ok Reus Gate slow start (reduce): loading screen handed over at 7578 ms to the finished Team V Home, no old Home frame",
+      "ok Ready gate on Rule Book's first open: covered until its plate was ready (157 covered frames, 0 revealed without the plate)",
+      "ok Ready gate on Club's first open: covered until its plate was ready (153 covered frames, 0 revealed without the plate)",
+      "ok Reus Gate fallback: no lazy loader, loading screen left at 6130 ms",
+      "ok Reus Gate failure: Team V loader failed, loading screen left at 2775 ms",
+      "PASS Reus Gate startup contracts: source, slow start (motion and reduced motion), screen plate gate (Rule Book, Club), no-loader fallback, failed-loader release."
+    ]
+  },
+  {
+    "name": "startup-size",
+    "command": "node tests/contracts/final-polish-presentation.cjs",
+    "exit": 0,
+    "seconds": 0.04,
+    "tail": [
+      "Accessibility and presentation budgets passed for 1.9.1-r75: 158862 raw / 37397 compressed initial bytes; 4845 lazy feedback bytes."
+    ]
+  }
+]

@@ -1,0 +1,34 @@
+Merging PR 836 638eac62b09aa5aec77a0566b711b17e5cdb73c5
+PR 836 syntax: exit 0 
+PR 836 contracts: exit 0 
+PR 836 ops: exit 0 
+PR 836: merged
+Merging PR 837 1cdaab57066e675c3b9d13b9cf2f8f0d8679c800
+PR 837 syntax: exit 0 
+PR 837 contracts: exit 0 
+PR 837 ops: exit 0 
+PR 837: merged
+Merging PR 838 20b9349e9b1b36aab9c5aec7498a22a6e614c35c
+PR 838 syntax: exit 0 
+PR 838 contracts: exit 0 
+PR 838 ops: exit 0 
+PR 838: merged
+Merging PR 845 33aabae4356ab2ee59fbb215c3af4ce3dabfe676
+PR 845 syntax: exit 0 
+PR 845 contracts: exit 0 
+PR 845 ops: exit 0 
+PR 845: merged
+Merging PR 841 8c3e1f23b7bb51ee16075b26848d644c8e454e49
+PR 841 syntax: exit 0 
+PR 841 contracts: exit 0 
+PR 841 ops: exit 0 
+PR 841: merged
+Merging PR 846 e4349c2502675a3e1001d4952e34f1f8e432f74e
+PR 846: CONFLICT ['tests/operations/pos20-control-plane.test.mjs']
+Merging PR 839 9b9675fe51c5f4a771f9c01217724f03077c21d7
+PR 839 syntax: exit 0 
+PR 839 contracts: exit 0 
+PR 839 ops: exit 0 
+PR 839: merged
+Merging PR 840 4f57485eb07fdfa257546868b1875b027ea038a7
+PR 840 syntax: exit 0 

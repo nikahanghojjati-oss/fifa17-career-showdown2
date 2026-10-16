@@ -1,0 +1,186 @@
+✔ Node: single completed winner keeps its Showdown reference (3.293692ms)
+✔ Node: unique larger Daniel win overrides the smaller cross-manager tie (1.862571ms)
+✔ Node: Trophy Room keeps the shared tied record in either history order (0.291743ms)
+✔ Node: tied career summary keeps the maximum margin (0.118017ms)
+✖ Node: tied biggest win credits both managers in either history order (1.378857ms)
+✖ Node: tied biggest win has no sole Showdown reference (0.36235ms)
+✖ Node: career summary agrees with Trophy Room instead of naming one manager (0.641723ms)
+✔ browser VM: single completed winner keeps its Showdown reference (1.253522ms)
+✔ browser VM: unique larger Daniel win overrides the smaller cross-manager tie (3.147323ms)
+✔ browser VM: Trophy Room keeps the shared tied record in either history order (0.331198ms)
+✔ browser VM: tied career summary keeps the maximum margin (0.119528ms)
+✖ browser VM: tied biggest win credits both managers in either history order (0.222099ms)
+✖ browser VM: tied biggest win has no sole Showdown reference (0.212706ms)
+✖ browser VM: career summary agrees with Trophy Room instead of naming one manager (0.673353ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 8
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 25.091953
+
+✖ failing tests:
+
+test at tests/contracts/sweep-biggest-showdown-tie-contracts.cjs:51:3
+✖ Node: tied biggest win credits both managers in either history order (1.378857ms)
+  AssertionError [ERR_ASSERTION]: equal cross-manager wins must be shared
+  + actual - expected
+  
+    [
+  +   'daniel',
+  +   'nik'
+  -   'shared',
+  -   'shared'
+    ]
+  
+      at TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-biggest-showdown-tie-contracts.cjs:52:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [Array],
+    expected: [Array],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/contracts/sweep-biggest-showdown-tie-contracts.cjs:54:3
+✖ Node: tied biggest win has no sole Showdown reference (0.36235ms)
+  AssertionError [ERR_ASSERTION]: cross-Showdown tie has no single witness
+  + actual - expected
+  
+    [
+  +   'pair_1111111111111111111111111111111111111111111111111111111111111111',
+  +   'pair_2222222222222222222222222222222222222222222222222222222222222222'
+  -   null,
+  -   null
+    ]
+  
+      at TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-biggest-showdown-tie-contracts.cjs:55:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [Array],
+    expected: [Array],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/contracts/sweep-biggest-showdown-tie-contracts.cjs:57:3
+✖ Node: career summary agrees with Trophy Room instead of naming one manager (0.641723ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'Daniel by 1',
+  +   'Nik by 1'
+  -   'Shared · 1',
+  -   'Shared · 1'
+    ]
+  
+      at TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-biggest-showdown-tie-contracts.cjs:58:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Array],
+    expected: [Array],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/contracts/sweep-biggest-showdown-tie-contracts.cjs:51:3
+✖ browser VM: tied biggest win credits both managers in either history order (0.222099ms)
+  AssertionError [ERR_ASSERTION]: equal cross-manager wins must be shared
+  + actual - expected
+  
+    [
+  +   'daniel',
+  +   'nik'
+  -   'shared',
+  -   'shared'
+    ]
+  
+      at TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-biggest-showdown-tie-contracts.cjs:52:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [Array],
+    expected: [Array],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/contracts/sweep-biggest-showdown-tie-contracts.cjs:54:3
+✖ browser VM: tied biggest win has no sole Showdown reference (0.212706ms)
+  AssertionError [ERR_ASSERTION]: cross-Showdown tie has no single witness
+  + actual - expected
+  
+    [
+  +   'pair_1111111111111111111111111111111111111111111111111111111111111111',
+  +   'pair_2222222222222222222222222222222222222222222222222222222222222222'
+  -   null,
+  -   null
+    ]
+  
+      at TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-biggest-showdown-tie-contracts.cjs:55:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [Array],
+    expected: [Array],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/contracts/sweep-biggest-showdown-tie-contracts.cjs:57:3
+✖ browser VM: career summary agrees with Trophy Room instead of naming one manager (0.673353ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'Daniel by 1',
+  +   'Nik by 1'
+  -   'Shared · 1',
+  -   'Shared · 1'
+    ]
+  
+      at TestContext.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-biggest-showdown-tie-contracts.cjs:58:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Array],
+    expected: [Array],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

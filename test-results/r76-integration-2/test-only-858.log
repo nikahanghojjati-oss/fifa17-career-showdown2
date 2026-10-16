@@ -1,0 +1,175 @@
+PASS the completed fixture has exactly 12 points and one Season win per manager
+PASS Node: unique leaders retain first and second place
+PASS Node: Team V keeps both tied managers ranked #1
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
+  [
+    {
+      label: '1. Daniel (level)',
+      value: '12 points, 1 season wins'
+    },
+    {
++     label: '2. Nik (level)',
+-     label: '1. Nik (level)',
+      value: '12 points, 1 season wins'
+    }
+  ]
+
+    at /workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-career-table-level-rank-contracts.cjs:61:12
+    at check (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-career-table-level-rank-contracts.cjs:30:7)
+    at Object.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-career-table-level-rank-contracts.cjs:60:3)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [Array],
+  expected: [Array],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+PASS browser VM: unique leaders retain first and second place
+PASS browser VM: Team V keeps both tied managers ranked #1
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
+  [
+    {
+      label: '1. Daniel (level)',
+      value: '12 points, 1 season wins'
+    },
+    {
++     label: '2. Nik (level)',
+-     label: '1. Nik (level)',
+      value: '12 points, 1 season wins'
+    }
+  ]
+
+    at /workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-career-table-level-rank-contracts.cjs:61:12
+    at check (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-career-table-level-rank-contracts.cjs:30:7)
+    at Object.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-career-table-level-rank-contracts.cjs:60:3)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [Array],
+  expected: [Array],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-career-table-level-rank-contracts.cjs:67
+if(errors.length)throw new AggregateError(errors,"Career Table level-rank contracts: "+errors.length+" failed; "+cases+" passed.");
+                 ^
+
+AggregateError: Career Table level-rank contracts: 2 failed; 5 passed.
+    at Object.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-career-table-level-rank-contracts.cjs:67:24)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  [errors]: [
+    AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      [
+        {
+          label: '1. Daniel (level)',
+          value: '12 points, 1 season wins'
+        },
+        {
+    +     label: '2. Nik (level)',
+    -     label: '1. Nik (level)',
+          value: '12 points, 1 season wins'
+        }
+      ]
+    
+        at /workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-career-table-level-rank-contracts.cjs:61:12
+        at check (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-career-table-level-rank-contracts.cjs:30:7)
+        at Object.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-career-table-level-rank-contracts.cjs:60:3)
+        at Module._compile (node:internal/modules/cjs/loader:1872:14)
+        at Object..js (node:internal/modules/cjs/loader:2003:10)
+        at Module.load (node:internal/modules/cjs/loader:1594:32)
+        at Module._load (node:internal/modules/cjs/loader:1396:12)
+        at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+        at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+        at node:internal/main/run_main_module:33:47 {
+      generatedMessage: true,
+      code: 'ERR_ASSERTION',
+      actual: [
+        {
+          label: '1. Daniel (level)',
+          value: '12 points, 1 season wins'
+        },
+        { label: '2. Nik (level)', value: '12 points, 1 season wins' }
+      ],
+      expected: [
+        {
+          label: '1. Daniel (level)',
+          value: '12 points, 1 season wins'
+        },
+        { label: '1. Nik (level)', value: '12 points, 1 season wins' }
+      ],
+      operator: 'deepStrictEqual',
+      diff: 'simple'
+    },
+    AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      [
+        {
+          label: '1. Daniel (level)',
+          value: '12 points, 1 season wins'
+        },
+        {
+    +     label: '2. Nik (level)',
+    -     label: '1. Nik (level)',
+          value: '12 points, 1 season wins'
+        }
+      ]
+    
+        at /workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-career-table-level-rank-contracts.cjs:61:12
+        at check (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-career-table-level-rank-contracts.cjs:30:7)
+        at Object.<anonymous> (/workspace/fifa17-career-showdown2/work/job1830/test-only/tests/contracts/sweep-career-table-level-rank-contracts.cjs:60:3)
+        at Module._compile (node:internal/modules/cjs/loader:1872:14)
+        at Object..js (node:internal/modules/cjs/loader:2003:10)
+        at Module.load (node:internal/modules/cjs/loader:1594:32)
+        at Module._load (node:internal/modules/cjs/loader:1396:12)
+        at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+        at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+        at node:internal/main/run_main_module:33:47 {
+      generatedMessage: true,
+      code: 'ERR_ASSERTION',
+      actual: [
+        {
+          label: '1. Daniel (level)',
+          value: '12 points, 1 season wins'
+        },
+        { label: '2. Nik (level)', value: '12 points, 1 season wins' }
+      ],
+      expected: [
+        {
+          label: '1. Daniel (level)',
+          value: '12 points, 1 season wins'
+        },
+        { label: '1. Nik (level)', value: '12 points, 1 season wins' }
+      ],
+      operator: 'deepStrictEqual',
+      diff: 'simple'
+    }
+  ]
+}
+
+Node.js v24.19.0

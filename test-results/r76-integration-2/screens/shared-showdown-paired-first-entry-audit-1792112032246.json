@@ -1,0 +1,15 @@
+[
+  {
+    "id": 1,
+    "shot": "/workspace/fifa17-career-showdown2/test-results/r76-integration-2/screens/shared-showdown-paired-first-entry-audit-1.png",
+    "screen": {
+      "url": "http://127.0.0.1:4511/",
+      "title": "Career Mode Showdown",
+      "active": "leagueWheelScreen",
+      "visible": [
+        "leagueWheelScreen"
+      ],
+      "text": "CM17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\nCAREER MODE\n\nSHOWDOWN // 17\n\nSIGN IN\nSEASON 1 / 5\nSELECT LEAGUE\n\nDaniel and Nik must both be connected before league selection.\n\n\u25bc\nPREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A\nLIGUE 1\nSPIN TO SELECT LEAGUE\nSPIN WHEEL\nCONTINUE CAREER\nBACK\nCareer Mode Showdown\nv1.9.1 \u00b7 Stable\nUnable to join Daniel's Showdown. Player connection is temporarily unavailable.\n\u00d7\nCAREER MODE SHOWDOWN // 17\n\u00d7\nCAREER MODE SHOWDOWN\nGET READY\n\nDaniel and Nik must both be connected before the career begins.\n\nACCOUNTREQUIRED\nTHIS BROWSERREQUIRED\nDANIEL + NIKCONNECT\nCAREERWAITING\nCONNECT PLAYERS\nCONTINUE\nWAITING FOR BOTH PLAYERS\nREFRESH\n\nBoth players must be connected before the career begins."
+    }
+  }
+]

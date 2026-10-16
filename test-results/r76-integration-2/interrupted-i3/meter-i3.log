@@ -1,0 +1,43 @@
+BUILT firestore.spark.generated.rules 122542 bytes
+INJECTED persistent Nik/Daniel pair authority 141446 bytes
+i  emulators: Starting emulators: auth, firestore
+i  emulators: Detected demo project ID "demo-cms-browser-journey", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+⚠  firestore: Cloud Firestore Emulator does not support multiple databases yet.
+⚠  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file.
+⚠  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration.
+i  firestore: Firestore Emulator logging to firestore-debug.log
+✔  firestore: Firestore Emulator was started in standard edition.
+✔  firestore: Firestore Emulator UI websocket is running on 9414.
+i  Running script: node tests/browser/ce2pg-meter.cjs
+ok   setup.switch.daniel [daniel] s0 emulator switch active (localhost + cmsEmulator=1 only)
+ok   setup.switch.nik [nik] s0 emulator switch active (localhost + cmsEmulator=1 only)
+ok   setup.signin [both] s0 Daniel and Nik signed in through SIGN IN WITH GOOGLE as two distinct accounts
+ok   setup.account.daniel [daniel] s0 account bootstrapped in the database
+ok   setup.account.nik [nik] s0 account bootstrapped in the database
+ok   setup.paircode [daniel] s0 Daniel created a pair code on the Start screen
+ok   setup.paired [both] s0 Nik joined with the code: Daniel is playerOne, Nik playerTwo, same rivalry
+ok   setup.session [both] s0 Daniel hosts the private session and Nik joins it without typing a code
+ok   setup.league.wait [nik] s0 Nik waits for the host and cannot draw the league
+ok   setup.league [both] s0 both managers see the same drawn league
+ok   setup.clubscreen.daniel [daniel] s0 the club screen names the shared league
+ok   setup.clubscreen.nik [nik] s0 the club screen names the shared league
+ok   setup.clubs.wait [nik] s0 Nik cannot draw the clubs
+ok   setup.clubs [nik] s0 both managers see the same two clubs
+ok   setup.careerstart.daniel [daniel] s0 Career Start names the manager and their assigned club
+ok   setup.careerstart.nik [nik] s0 Career Start names the manager and their assigned club
+PLAN r76-i3: league Serie A (20 teams), clubs Juventus v Palermo, final {"daniel":14,"nik":11,"winner":"daniel"}
+ok   S1.transfer.coordinator [nik] s1 only Daniel can start the shared transfer window
+ok   S1.transfer.privacy.nik [nik] s1 Daniel's locked signing stays hidden from Nik before completion
+ok   S1.transfer.privacy.daniel [daniel] s1 Nik's unfinished signing stays hidden from Daniel
+ok   S1.transfer.reveal.daniel [daniel] s1 completed transfer reveals both signings
+ok   S1.transfer.reveal.nik [nik] s1 completed transfer reveals both signings
+ok   S1.transfer.verdicts [both] s1 both managers see identical transfer verdicts
+ok   S1.results.privacy [nik] s1 Daniel's published numbers are not shown to Nik before Nik publishes
+ok   S1.results.converge [both] s1 both managers see identical result cards
+ok   S1.results.facts.daniel [daniel] s1 result cards show exactly the entered league position, points and goals
+ok   S1.results.noerror.daniel [daniel] s1 no error banner after publishing
+ok   S1.results.facts.nik [nik] s1 result cards show exactly the entered league position, points and goals
+ok   S1.results.noerror.nik [nik] s1 no error banner after publishing
+ok   meter.S1.Showdown Home visible.daniel.visibility [daniel] s1 daniel is visible during Showdown Home visible
+ok   meter.S1.Showdown Home visible.nik.visibility [nik] s1 nik is visible during Showdown Home visible
+METER PARK Showdown Home visible season 1: 120000 ms

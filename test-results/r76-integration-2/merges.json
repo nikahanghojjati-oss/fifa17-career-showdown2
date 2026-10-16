@@ -1,0 +1,1350 @@
+[
+  {
+    "pr": 836,
+    "branch": "codex/job-1802-ce2pg-baseline",
+    "sourceHead": "638eac62b09aa5aec77a0566b711b17e5cdb73c5",
+    "before": "2f3865feca484223ac7d267d83a9c4828bad3078",
+    "testedHead": "8bfd46f0a1d0b177e524698d475828fc15b0d3a6",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 12.29,
+        "log": "test-results/r76-integration-2/pr-836-syntax.log",
+        "tail": [
+          "POS10 syntax: 353 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 115.73,
+        "log": "test-results/r76-integration-2/pr-836-contracts.log",
+        "tail": [
+          "ok 15 FB9 resource-exhausted pauses all traffic (10, then 20 min), shows the exact message once, and wakes the screens after",
+          "ok 16 FB10 every connected module goes through the budget layer; wait points ask for the listener; device re-checks are capped",
+          "PASS Firestore budget contracts: 16 checks, measured reads/min 3.4 / 0.0 / 3.0 / 1.8 / 60.0 (waiting <= 5 reads/min, hidden 0, idle writes 0, partner update <= 1000 ms).",
+          "ok Reus Gate source: app.js hold with minimum and cap, ssjr.js ready signals, startup budget",
+          "ok Reus Gate slow start (no-preference): loading screen handed over at 7606 ms to the finished Team V Home, no old Home frame",
+          "ok Reus Gate slow start (reduce): loading screen handed over at 7384 ms to the finished Team V Home, no old Home frame",
+          "ok Ready gate on Rule Book's first open: covered until its plate was ready (147 covered frames, 0 revealed without the plate)",
+          "ok Ready gate on Club's first open: covered until its plate was ready (151 covered frames, 0 revealed without the plate)",
+          "ok Reus Gate fallback: no lazy loader, loading screen left at 6157 ms",
+          "ok Reus Gate failure: Team V loader failed, loading screen left at 2897 ms",
+          "PASS Reus Gate startup contracts: source, slow start (motion and reduced motion), screen plate gate (Rule Book, Club), no-loader fallback, failed-loader release.",
+          "PASS POS10 selected deterministic census (191/191 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 1.13,
+        "log": "test-results/r76-integration-2/pr-836-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (2.363401ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (2.532832ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (5.280605ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (2.159964ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 804.358436"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "8bfd46f0a1d0b177e524698d475828fc15b0d3a6"
+  },
+  {
+    "pr": 837,
+    "branch": "codex/job-1803-close-write-limit",
+    "sourceHead": "1cdaab57066e675c3b9d13b9cf2f8f0d8679c800",
+    "before": "8bfd46f0a1d0b177e524698d475828fc15b0d3a6",
+    "testedHead": "962b1810086f062ed3d529fc2cbe9c1a2ca2634f",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 12.91,
+        "log": "test-results/r76-integration-2/pr-837-syntax.log",
+        "tail": [
+          "POS10 syntax: 353 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 115.04,
+        "log": "test-results/r76-integration-2/pr-837-contracts.log",
+        "tail": [
+          "ok Ready gate on Club's first open: covered until its plate was ready (156 covered frames, 0 revealed without the plate)",
+          "ok Reus Gate fallback: no lazy loader, loading screen left at 6092 ms",
+          "ok Reus Gate failure: Team V loader failed, loading screen left at 2798 ms",
+          "PASS Reus Gate startup contracts: source, slow start (motion and reduced motion), screen plate gate (Rule Book, Club), no-loader fallback, failed-loader release.",
+          "PASS 1-season progress: rivalry-only transaction reads; base-equivalent envelopes and scores",
+          "PASS 3-season progress: rivalry-only transaction reads; base-equivalent envelopes and scores",
+          "PASS 5-season progress: rivalry-only transaction reads; base-equivalent envelopes and scores",
+          "PASS 10-season progress: rivalry-only transaction reads; base-equivalent envelopes and scores",
+          "PASS race: rivalry compare-and-set retries preserve exact-once season scores",
+          "PASS retry: rivalry compare-and-set retries preserve exact-once season scores",
+          "PASS r75 budget: 12 progress reads for 3 seasons (base 22); zero read-only commit verifies",
+          "PASS POS10 selected deterministic census (192/192 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 1.02,
+        "log": "test-results/r76-integration-2/pr-837-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (2.679522ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (2.692596ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (3.050681ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.506107ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 765.553065"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "962b1810086f062ed3d529fc2cbe9c1a2ca2634f"
+  },
+  {
+    "pr": 838,
+    "branch": "codex/job-1804-setup-write-refused",
+    "sourceHead": "20b9349e9b1b36aab9c5aec7498a22a6e614c35c",
+    "before": "962b1810086f062ed3d529fc2cbe9c1a2ca2634f",
+    "additiveConflictsResolved": [
+      "POS20_SUPPLEMENTAL_PRODUCT_TESTS.json",
+      "tests/operations/pos20-control-plane.test.mjs"
+    ],
+    "testedHead": "dd24d665fd19db600bb021ed15db4844f4f10779",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 9.74,
+        "log": "test-results/r76-integration-2/pr-838-syntax.log",
+        "tail": [
+          "POS10 syntax: 353 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 107.42,
+        "log": "test-results/r76-integration-2/pr-838-contracts.log",
+        "tail": [
+          "PASS retry: rivalry compare-and-set retries preserve exact-once season scores",
+          "PASS r75 budget: 12 progress reads for 3 seasons (base 22); zero read-only commit verifies",
+          "PASS 1-season setup (bare SDK): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+          "PASS 3-season setup (bare SDK): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+          "PASS 5-season setup (bare SDK): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+          "PASS 10-season setup (bare SDK): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+          "PASS 1-season setup (r75 budget): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+          "PASS 3-season setup (r75 budget): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+          "PASS 5-season setup (r75 budget): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+          "PASS 10-season setup (r75 budget): ledger-only write reads, no preflight commits, retry and actor-bound replay",
+          "PASS Shared Setup transaction reads: all six mutations, 1/3/5/10 seasons, SDK retries, stale revisions, actor-bound replay, authority validation order and Rules denial propagation",
+          "PASS POS10 selected deterministic census (193/193 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 0.74,
+        "log": "test-results/r76-integration-2/pr-838-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (2.517509ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (2.645741ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (2.823764ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.429637ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 576.414597"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "dd24d665fd19db600bb021ed15db4844f4f10779"
+  },
+  {
+    "pr": 845,
+    "branch": "codex/job-1821-season-chip-fit",
+    "sourceHead": "33aabae4356ab2ee59fbb215c3af4ce3dabfe676",
+    "before": "dd24d665fd19db600bb021ed15db4844f4f10779",
+    "additiveConflictsResolved": [
+      "POS20_SUPPLEMENTAL_PRODUCT_TESTS.json",
+      "tests/operations/pos20-control-plane.test.mjs"
+    ],
+    "testedHead": "cd9307fa6a0c35a11d9eaa601c7fc915299af943",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 9.07,
+        "log": "test-results/r76-integration-2/pr-845-syntax.log",
+        "tail": [
+          "POS10 syntax: 353 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 107.69,
+        "log": "test-results/r76-integration-2/pr-845-contracts.log",
+        "tail": [
+          "\u2714 Solo labels keep the local round even with a shared progression module loaded (1.068716ms)",
+          "\u2714 Shared labels fall back locally before the progression module is available (2.802374ms)",
+          "\u2714 Labels follow a shared cursor change on the next refresh without mutating the save (1.095283ms)",
+          "\u2139 tests 5",
+          "\u2139 suites 0",
+          "\u2139 pass 5",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 16.040693",
+          "PASS POS10 selected deterministic census (194/194 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 0.76,
+        "log": "test-results/r76-integration-2/pr-845-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (2.45513ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (2.783614ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (3.314002ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.499619ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 582.954352"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "cd9307fa6a0c35a11d9eaa601c7fc915299af943"
+  },
+  {
+    "pr": 841,
+    "branch": "codex/job-1808-standings-loading",
+    "sourceHead": "8c3e1f23b7bb51ee16075b26848d644c8e454e49",
+    "before": "cd9307fa6a0c35a11d9eaa601c7fc915299af943",
+    "additiveConflictsResolved": [
+      "POS20_SUPPLEMENTAL_PRODUCT_TESTS.json",
+      "tests/operations/pos20-control-plane.test.mjs"
+    ],
+    "testedHead": "3c054e1733dd067a5987e0da5ef21306f020c520",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 9.01,
+        "log": "test-results/r76-integration-2/pr-841-syntax.log",
+        "tail": [
+          "POS10 syntax: 353 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 111.2,
+        "log": "test-results/r76-integration-2/pr-841-contracts.log",
+        "tail": [
+          "\u2139 pass 5",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 17.504144",
+          "THIS SHOWDOWN daniel, History lagging: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN daniel, History missing: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN nik, History lagging: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN nik, History missing: status=ready, rows=7, state=(none)",
+          "PASS midway THIS SHOWDOWN: both managers render correct 2/5 committed standings and enabled HEAD-TO-HEAD scope with lagging/missing History; one existing progression read, invalid proof fails closed, terminal totals preserved.",
+          "PASS POS10 selected deterministic census (195/195 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 1.17,
+        "log": "test-results/r76-integration-2/pr-841-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (9.567793ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (7.431791ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (11.404035ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (2.788678ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 898.122192"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "3c054e1733dd067a5987e0da5ef21306f020c520"
+  },
+  {
+    "pr": 846,
+    "branch": "codex/job-1809-rivalry-statistics",
+    "sourceHead": "e4349c2502675a3e1001d4952e34f1f8e432f74e",
+    "before": "3c054e1733dd067a5987e0da5ef21306f020c520",
+    "additiveConflictsResolved": [
+      "tests/operations/pos20-control-plane.test.mjs"
+    ],
+    "testedHead": "4b67989763a2c6962c2e99d3982229223ee18781",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 9.75,
+        "log": "test-results/r76-integration-2/pr-846-syntax.log",
+        "tail": [
+          "POS10 syntax: 353 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 106.1,
+        "log": "test-results/r76-integration-2/pr-846-contracts.log",
+        "tail": [
+          "\u2139 duration_ms 15.80325",
+          "THIS SHOWDOWN daniel, History lagging: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN daniel, History missing: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN nik, History lagging: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN nik, History missing: status=ready, rows=7, state=(none)",
+          "PASS midway THIS SHOWDOWN: both managers render correct 2/5 committed standings and enabled HEAD-TO-HEAD scope with lagging/missing History; one existing progression read, invalid proof fails closed, terminal totals preserved.",
+          "mid-Showdown daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+          "after close daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+          "mid-Showdown nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+          "after close nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+          "PASS Rivalry Statistics load contracts: both managers render points and W/D/L after two committed seasons and after a legal three-season close, with the latest completed rivalry isolated from older history; classic-scope Career Statistics route works.",
+          "PASS POS10 selected deterministic census (196/196 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 0.71,
+        "log": "test-results/r76-integration-2/pr-846-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (2.240261ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (2.577364ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (2.971454ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.816149ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 551.350702"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "4b67989763a2c6962c2e99d3982229223ee18781"
+  },
+  {
+    "pr": 839,
+    "branch": "codex/job-1806-back-home-route",
+    "sourceHead": "9b9675fe51c5f4a771f9c01217724f03077c21d7",
+    "before": "4b67989763a2c6962c2e99d3982229223ee18781",
+    "testedHead": "e4f043cb1ce4c70c762f3453857599b34eae1143",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 9.1,
+        "log": "test-results/r76-integration-2/pr-839-syntax.log",
+        "tail": [
+          "POS10 syntax: 354 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 106.67,
+        "log": "test-results/r76-integration-2/pr-839-contracts.log",
+        "tail": [
+          "\u2139 duration_ms 16.078363",
+          "THIS SHOWDOWN daniel, History lagging: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN daniel, History missing: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN nik, History lagging: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN nik, History missing: status=ready, rows=7, state=(none)",
+          "PASS midway THIS SHOWDOWN: both managers render correct 2/5 committed standings and enabled HEAD-TO-HEAD scope with lagging/missing History; one existing progression read, invalid proof fails closed, terminal totals preserved.",
+          "mid-Showdown daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+          "after close daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+          "mid-Showdown nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+          "after close nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+          "PASS Rivalry Statistics load contracts: both managers render points and W/D/L after two committed seasons and after a legal three-season close, with the latest completed rivalry isolated from older history; classic-scope Career Statistics route works.",
+          "PASS POS10 selected deterministic census (196/196 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 0.72,
+        "log": "test-results/r76-integration-2/pr-839-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (2.43605ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (2.534992ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (2.855467ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.405634ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 566.833017"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "e4f043cb1ce4c70c762f3453857599b34eae1143"
+  },
+  {
+    "pr": 840,
+    "branch": "codex/job-1807-review-season-hidden",
+    "sourceHead": "4f57485eb07fdfa257546868b1875b027ea038a7",
+    "before": "e4f043cb1ce4c70c762f3453857599b34eae1143",
+    "testedHead": "e363f92f747829426e1d6b7c610bd30db8f1b5e5",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 9.31,
+        "log": "test-results/r76-integration-2/pr-840-syntax.log",
+        "tail": [
+          "POS10 syntax: 355 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 118.31,
+        "log": "test-results/r76-integration-2/pr-840-contracts.log",
+        "tail": [
+          "\u2139 duration_ms 48.964565",
+          "THIS SHOWDOWN daniel, History lagging: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN daniel, History missing: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN nik, History lagging: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN nik, History missing: status=ready, rows=7, state=(none)",
+          "PASS midway THIS SHOWDOWN: both managers render correct 2/5 committed standings and enabled HEAD-TO-HEAD scope with lagging/missing History; one existing progression read, invalid proof fails closed, terminal totals preserved.",
+          "mid-Showdown daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+          "after close daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+          "mid-Showdown nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+          "after close nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+          "PASS Rivalry Statistics load contracts: both managers render points and W/D/L after two committed seasons and after a legal three-season close, with the latest completed rivalry isolated from older history; classic-scope Career Statistics route works.",
+          "PASS POS10 selected deterministic census (196/196 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 1.79,
+        "log": "test-results/r76-integration-2/pr-840-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (2.558488ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (5.616966ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (6.695222ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.533737ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 1454.08602"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "e363f92f747829426e1d6b7c610bd30db8f1b5e5"
+  },
+  {
+    "pr": 844,
+    "branch": "codex/job-1810-phone-trophy-data",
+    "sourceHead": "2ebe8c391698c92e6bbc873d031c94f6a16ab206",
+    "before": "e363f92f747829426e1d6b7c610bd30db8f1b5e5",
+    "testedHead": "f3474fcfc1450117e20e2c52f6fc3b5b9141852a",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 15.38,
+        "log": "test-results/r76-integration-2/pr-844-syntax.log",
+        "tail": [
+          "POS10 syntax: 356 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 122.63,
+        "log": "test-results/r76-integration-2/pr-844-contracts.log",
+        "tail": [
+          "\u2139 duration_ms 19.692396",
+          "THIS SHOWDOWN daniel, History lagging: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN daniel, History missing: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN nik, History lagging: status=ready, rows=7, state=(none)",
+          "THIS SHOWDOWN nik, History missing: status=ready, rows=7, state=(none)",
+          "PASS midway THIS SHOWDOWN: both managers render correct 2/5 committed standings and enabled HEAD-TO-HEAD scope with lagging/missing History; one existing progression read, invalid proof fails closed, terminal totals preserved.",
+          "mid-Showdown daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+          "after close daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+          "mid-Showdown nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+          "after close nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+          "PASS Rivalry Statistics load contracts: both managers render points and W/D/L after two committed seasons and after a legal three-season close, with the latest completed rivalry isolated from older history; classic-scope Career Statistics route works.",
+          "PASS POS10 selected deterministic census (196/196 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 1.52,
+        "log": "test-results/r76-integration-2/pr-844-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (6.921831ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (13.284074ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (10.635719ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.471493ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 1208.48066"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "f3474fcfc1450117e20e2c52f6fc3b5b9141852a"
+  },
+  {
+    "pr": 862,
+    "branch": "codex/job-1828-free-limit-phone-layout",
+    "sourceHead": "cf1ace2b3c122f742e5b07a3306eb1078c93d682",
+    "before": "f3474fcfc1450117e20e2c52f6fc3b5b9141852a",
+    "additiveConflictsResolved": [
+      "POS20_SUPPLEMENTAL_PRODUCT_TESTS.json",
+      "tests/operations/pos20-control-plane.test.mjs"
+    ],
+    "testedHead": "36de11f04d8206be5801ebf79e862c6de7deed79",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 14.93,
+        "log": "test-results/r76-integration-2/pr-862-syntax.log",
+        "tail": [
+          "POS10 syntax: 357 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 122.88,
+        "log": "test-results/r76-integration-2/pr-862-contracts.log",
+        "tail": [
+          "mid-Showdown daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+          "after close daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+          "mid-Showdown nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+          "after close nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+          "PASS Rivalry Statistics load contracts: both managers render points and W/D/L after two committed seasons and after a legal three-season close, with the latest completed rivalry isolated from older history; classic-scope Career Statistics route works.",
+          "Home on open, taps=0: Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.",
+          "PASS pause before Home opens shows the exact line with zero taps",
+          "Home on quota event, taps=0: Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.",
+          "PASS pause starting on open Home shows the line immediately without taps",
+          "PASS quota on another screen appears when Home reopens; unrelated status survives resume",
+          "PASS free-limit Home message contracts: opening, live quota, reopening, resume, existing status styling, zero extra Firestore traffic.",
+          "PASS POS10 selected deterministic census (197/197 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 0.74,
+        "log": "test-results/r76-integration-2/pr-862-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (2.4887ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (2.843504ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (2.656123ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.42784ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 577.644922"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "36de11f04d8206be5801ebf79e862c6de7deed79"
+  },
+  {
+    "pr": 848,
+    "branch": "codex/job-1815-journey-guard-marker",
+    "sourceHead": "b8f3b767027a400a1ac7f02d0313c7c125e7547b",
+    "before": "36de11f04d8206be5801ebf79e862c6de7deed79",
+    "testedHead": "d2f1409e5cd288f8a5dfa0cf1809101426d8b037",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 9.17,
+        "log": "test-results/r76-integration-2/pr-848-syntax.log",
+        "tail": [
+          "POS10 syntax: 358 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 105.87,
+        "log": "test-results/r76-integration-2/pr-848-contracts.log",
+        "tail": [
+          "mid-Showdown daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+          "after close daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+          "mid-Showdown nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+          "after close nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+          "PASS Rivalry Statistics load contracts: both managers render points and W/D/L after two committed seasons and after a legal three-season close, with the latest completed rivalry isolated from older history; classic-scope Career Statistics route works.",
+          "Home on open, taps=0: Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.",
+          "PASS pause before Home opens shows the exact line with zero taps",
+          "Home on quota event, taps=0: Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.",
+          "PASS pause starting on open Home shows the line immediately without taps",
+          "PASS quota on another screen appears when Home reopens; unrelated status survives resume",
+          "PASS free-limit Home message contracts: opening, live quota, reopening, resume, existing status styling, zero extra Firestore traffic.",
+          "PASS POS10 selected deterministic census (197/197 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 0.73,
+        "log": "test-results/r76-integration-2/pr-848-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (2.339814ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (2.503268ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (2.839805ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.437647ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 567.36096"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "d2f1409e5cd288f8a5dfa0cf1809101426d8b037"
+  },
+  {
+    "pr": 849,
+    "branch": "gameplay/work-1818-expired-season-results",
+    "sourceHead": "ec6e23fdbcb4fd87f4c1cd1df37f1d6d3e9416ea",
+    "before": "d2f1409e5cd288f8a5dfa0cf1809101426d8b037",
+    "additiveConflictsResolved": [
+      "POS20_SUPPLEMENTAL_PRODUCT_TESTS.json",
+      "tests/operations/pos20-control-plane.test.mjs"
+    ],
+    "testedHead": "e8c8c0201d107f350a573b1f25b895822a7c780b",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 9.08,
+        "log": "test-results/r76-integration-2/pr-849-syntax.log",
+        "tail": [
+          "POS10 syntax: 358 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 107.46,
+        "log": "test-results/r76-integration-2/pr-849-contracts.log",
+        "tail": [
+          "mid-Showdown nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+          "after close nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+          "PASS Rivalry Statistics load contracts: both managers render points and W/D/L after two committed seasons and after a legal three-season close, with the latest completed rivalry isolated from older history; classic-scope Career Statistics route works.",
+          "Home on open, taps=0: Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.",
+          "PASS pause before Home opens shows the exact line with zero taps",
+          "Home on quota event, taps=0: Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.",
+          "PASS pause starting on open Home shows the line immediately without taps",
+          "PASS quota on another screen appears when Home reopens; unrelated status survives resume",
+          "PASS free-limit Home message contracts: opening, live quota, reopening, resume, existing status styling, zero extra Firestore traffic.",
+          "Session expiry observations: [{\"action\":\"read\",\"role\":\"playerOne\",\"now\":9999999,\"ok\":true,\"code\":null},{\"action\":\"read\",\"role\":\"playerOne\",\"now\":10000000,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"read\",\"role\":\"playerOne\",\"now\":10000001,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"publish\",\"role\":\"playerOne\",\"now\":9999999,\"ok\":true,\"code\":null},{\"action\":\"publish\",\"role\":\"playerOne\",\"now\":10000000,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"publish\",\"role\":\"playerOne\",\"now\":10000001,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"read\",\"role\":\"playerTwo\",\"now\":9999999,\"ok\":true,\"code\":null},{\"action\":\"read\",\"role\":\"playerTwo\",\"now\":10000000,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"read\",\"role\":\"playerTwo\",\"now\":10000001,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"publish\",\"role\":\"playerTwo\",\"now\":9999999,\"ok\":true,\"code\":null},{\"action\":\"publish\",\"role\":\"playerTwo\",\"now\":10000000,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"publish\",\"role\":\"playerTwo\",\"now\":10000001,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"}]",
+          "PASS Expired Season Results session: both managers can read/publish just before expiry; at/after expiry both paths require an active session and create no public/private/projection documents.",
+          "PASS POS10 selected deterministic census (198/198 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 0.81,
+        "log": "test-results/r76-integration-2/pr-849-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (2.531982ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (2.993632ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (3.096563ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.66857ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 616.796107"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "e8c8c0201d107f350a573b1f25b895822a7c780b"
+  },
+  {
+    "pr": 850,
+    "branch": "gameplay/work-1818-season-score-key-order",
+    "sourceHead": "a579446f97fd880836a5e13ad2659ad41e2fa258",
+    "before": "e8c8c0201d107f350a573b1f25b895822a7c780b",
+    "additiveConflictsResolved": [
+      "POS20_SUPPLEMENTAL_PRODUCT_TESTS.json",
+      "tests/operations/pos20-control-plane.test.mjs"
+    ],
+    "testedHead": "b2938196fe68f6c1e687b70f28cddf08e656d994",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 9.18,
+        "log": "test-results/r76-integration-2/pr-850-syntax.log",
+        "tail": [
+          "POS10 syntax: 358 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 105.99,
+        "log": "test-results/r76-integration-2/pr-850-contracts.log",
+        "tail": [
+          "after close nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+          "PASS Rivalry Statistics load contracts: both managers render points and W/D/L after two committed seasons and after a legal three-season close, with the latest completed rivalry isolated from older history; classic-scope Career Statistics route works.",
+          "Home on open, taps=0: Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.",
+          "PASS pause before Home opens shows the exact line with zero taps",
+          "Home on quota event, taps=0: Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.",
+          "PASS pause starting on open Home shows the line immediately without taps",
+          "PASS quota on another screen appears when Home reopens; unrelated status survives resume",
+          "PASS free-limit Home message contracts: opening, live quota, reopening, resume, existing status styling, zero extra Firestore traffic.",
+          "Session expiry observations: [{\"action\":\"read\",\"role\":\"playerOne\",\"now\":9999999,\"ok\":true,\"code\":null},{\"action\":\"read\",\"role\":\"playerOne\",\"now\":10000000,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"read\",\"role\":\"playerOne\",\"now\":10000001,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"publish\",\"role\":\"playerOne\",\"now\":9999999,\"ok\":true,\"code\":null},{\"action\":\"publish\",\"role\":\"playerOne\",\"now\":10000000,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"publish\",\"role\":\"playerOne\",\"now\":10000001,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"read\",\"role\":\"playerTwo\",\"now\":9999999,\"ok\":true,\"code\":null},{\"action\":\"read\",\"role\":\"playerTwo\",\"now\":10000000,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"read\",\"role\":\"playerTwo\",\"now\":10000001,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"publish\",\"role\":\"playerTwo\",\"now\":9999999,\"ok\":true,\"code\":null},{\"action\":\"publish\",\"role\":\"playerTwo\",\"now\":10000000,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"publish\",\"role\":\"playerTwo\",\"now\":10000001,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"}]",
+          "PASS Expired Season Results session: both managers can read/publish just before expiry; at/after expiry both paths require an active session and create no public/private/projection documents.",
+          "PASS Season score key order: both manager reads and rival acknowledgement accept identical reordered fields; real score drift rejects reads and writes without mutation.",
+          "PASS POS10 selected deterministic census (199/199 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 0.81,
+        "log": "test-results/r76-integration-2/pr-850-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (3.898997ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (6.383964ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (5.382279ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (1.799679ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 642.281347"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "b2938196fe68f6c1e687b70f28cddf08e656d994"
+  },
+  {
+    "pr": 856,
+    "branch": "gameplay/work-1818-rivalry-history-revision-refresh",
+    "sourceHead": "306e2e0700ae7bdf977f2056b6c4d1bf0abc01e4",
+    "before": "b2938196fe68f6c1e687b70f28cddf08e656d994",
+    "additiveConflictsResolved": [
+      "POS20_SUPPLEMENTAL_PRODUCT_TESTS.json",
+      "tests/operations/pos20-control-plane.test.mjs"
+    ],
+    "testedHead": "37ac4b7d5ef6c9384359c7c12bbfea05968dd197",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 9.07,
+        "log": "test-results/r76-integration-2/pr-856-syntax.log",
+        "tail": [
+          "POS10 syntax: 358 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 106.76,
+        "log": "test-results/r76-integration-2/pr-856-contracts.log",
+        "tail": [
+          "PASS pause before Home opens shows the exact line with zero taps",
+          "Home on quota event, taps=0: Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.",
+          "PASS pause starting on open Home shows the line immediately without taps",
+          "PASS quota on another screen appears when Home reopens; unrelated status survives resume",
+          "PASS free-limit Home message contracts: opening, live quota, reopening, resume, existing status styling, zero extra Firestore traffic.",
+          "Session expiry observations: [{\"action\":\"read\",\"role\":\"playerOne\",\"now\":9999999,\"ok\":true,\"code\":null},{\"action\":\"read\",\"role\":\"playerOne\",\"now\":10000000,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"read\",\"role\":\"playerOne\",\"now\":10000001,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"publish\",\"role\":\"playerOne\",\"now\":9999999,\"ok\":true,\"code\":null},{\"action\":\"publish\",\"role\":\"playerOne\",\"now\":10000000,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"publish\",\"role\":\"playerOne\",\"now\":10000001,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"read\",\"role\":\"playerTwo\",\"now\":9999999,\"ok\":true,\"code\":null},{\"action\":\"read\",\"role\":\"playerTwo\",\"now\":10000000,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"read\",\"role\":\"playerTwo\",\"now\":10000001,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"publish\",\"role\":\"playerTwo\",\"now\":9999999,\"ok\":true,\"code\":null},{\"action\":\"publish\",\"role\":\"playerTwo\",\"now\":10000000,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"},{\"action\":\"publish\",\"role\":\"playerTwo\",\"now\":10000001,\"ok\":false,\"code\":\"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED\"}]",
+          "PASS Expired Season Results session: both managers can read/publish just before expiry; at/after expiry both paths require an active session and create no public/private/projection documents.",
+          "PASS Season score key order: both manager reads and rival acknowledgement accept identical reordered fields; real score drift rejects reads and writes without mutation.",
+          "ok rivalryStatistics refreshes accepted Season/revision changes, coalesces duplicates and preserves identity guards",
+          "ok legacy refreshes accepted Season/revision changes, coalesces duplicates and preserves identity guards",
+          "rivalry/history revision refresh contracts passed (2 screens)",
+          "PASS POS10 selected deterministic census (200/200 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 0.72,
+        "log": "test-results/r76-integration-2/pr-856-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (2.485173ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (2.528964ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (2.756441ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.497139ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 553.837849"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "37ac4b7d5ef6c9384359c7c12bbfea05968dd197"
+  },
+  {
+    "pr": 860,
+    "branch": "gameplay/work-1818-online-career-live-refresh",
+    "sourceHead": "ebada1276f01ae1f311f152802bfb1b929efbd6a",
+    "before": "37ac4b7d5ef6c9384359c7c12bbfea05968dd197",
+    "additiveConflictsResolved": [
+      "POS20_SUPPLEMENTAL_PRODUCT_TESTS.json",
+      "tests/operations/pos20-control-plane.test.mjs"
+    ],
+    "testedHead": "955e2817d4d793e681ff28eab0b8c707a5e02f08",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 9.62,
+        "log": "test-results/r76-integration-2/pr-860-syntax.log",
+        "tail": [
+          "POS10 syntax: 358 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 110.97,
+        "log": "test-results/r76-integration-2/pr-860-contracts.log",
+        "tail": [
+          "ok rivalryStatistics refreshes accepted Season/revision changes, coalesces duplicates and preserves identity guards",
+          "ok legacy refreshes accepted Season/revision changes, coalesces duplicates and preserves identity guards",
+          "rivalry/history revision refresh contracts passed (2 screens)",
+          "ok 1 careerStatistics refreshes 3 to 4 titles after an independent cache publication",
+          "ok 2 careerStatistics ignores cache events when unmounted or using a supplied model",
+          "ok 3 careerStatistics ignores another account's cache event and still reloads on identity change",
+          "ok 4 trophyRoom refreshes 3 to 4 titles after an independent cache publication",
+          "ok 5 trophyRoom ignores cache events when unmounted or using a supplied model",
+          "ok 6 trophyRoom ignores another account's cache event and still reloads on identity change",
+          "ok 7 shared refresh leaves a simultaneously mounted supplied-model screen alone",
+          "PASS online career live refresh contracts: 7 checks.",
+          "PASS POS10 selected deterministic census (201/201 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 0.79,
+        "log": "test-results/r76-integration-2/pr-860-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (2.484759ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (2.642747ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (2.686066ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.440964ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 601.977783"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "955e2817d4d793e681ff28eab0b8c707a5e02f08"
+  },
+  {
+    "pr": 861,
+    "branch": "codex/job-1827-waiting-continuity",
+    "sourceHead": "7d3df03ba0f7c4a92fa13513d6aa8c7f8aff957e",
+    "before": "955e2817d4d793e681ff28eab0b8c707a5e02f08",
+    "additiveConflictsResolved": [
+      "POS20_SUPPLEMENTAL_PRODUCT_TESTS.json",
+      "tests/operations/pos20-control-plane.test.mjs"
+    ],
+    "testedHead": "9f2553863e2645cfb8a666019e918faf5341fcd7",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 9.87,
+        "log": "test-results/r76-integration-2/pr-861-syntax.log",
+        "tail": [
+          "POS10 syntax: 358 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 109.67,
+        "log": "test-results/r76-integration-2/pr-861-contracts.log",
+        "tail": [
+          "PASS standings/session real-owner idle and hidden cleanup: 0 reads / 10 min",
+          "PASS standings/rivalry real-owner idle and hidden cleanup: 0 reads / 10 min",
+          "PASS seasonEntry/progression real-owner idle and hidden cleanup: 0 reads / 10 min",
+          "PASS seasonEntry/final real-owner idle and hidden cleanup: 0 reads / 10 min",
+          "PASS seasonEntry/terminal real-owner idle and hidden cleanup: 0 reads / 10 min",
+          "PASS seasonEntry/session real-owner idle and hidden cleanup: 0 reads / 10 min",
+          "PASS seasonEntry/rivalry real-owner idle and hidden cleanup: 0 reads / 10 min",
+          "PASS mainMenu authority-listener cache/error fallback, recovery and quota cleanup",
+          "PASS standings authority-listener cache/error fallback, recovery and quota cleanup",
+          "PASS seasonEntry authority-listener cache/error fallback, recovery and quota cleanup",
+          "PASS waiting continuity contracts: real background controllers, all three waiting screens, Results/Commit listeners, partner authority changes and fresh-runtime reload.",
+          "PASS POS10 selected deterministic census (203/203 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 0.73,
+        "log": "test-results/r76-integration-2/pr-861-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (2.480337ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (2.572145ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (2.803657ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.469688ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 570.337088"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "9f2553863e2645cfb8a666019e918faf5341fcd7"
+  },
+  {
+    "pr": 863,
+    "branch": "codex/job-1829-transfer-reads",
+    "sourceHead": "d158e00df91c3e5d1769965f34f07a8e2e84a1dc",
+    "before": "9f2553863e2645cfb8a666019e918faf5341fcd7",
+    "additiveConflictsResolved": [
+      "POS20_SUPPLEMENTAL_PRODUCT_TESTS.json",
+      "tests/operations/pos20-control-plane.test.mjs"
+    ],
+    "testedHead": "b2e68639e835e5be9b0d17423ef175fb88360084",
+    "checks": [
+      {
+        "check": "syntax",
+        "command": [
+          "node",
+          "scripts/pos10-syntax.mjs"
+        ],
+        "exit": 0,
+        "seconds": 9.1,
+        "log": "test-results/r76-integration-2/pr-863-syntax.log",
+        "tail": [
+          "POS10 syntax: 358 active source files, 0 failures"
+        ]
+      },
+      {
+        "check": "contracts",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:contracts"
+        ],
+        "exit": 0,
+        "seconds": 113.86,
+        "log": "test-results/r76-integration-2/pr-863-contracts.log",
+        "tail": [
+          "PASS mainMenu authority-listener cache/error fallback, recovery and quota cleanup",
+          "PASS standings authority-listener cache/error fallback, recovery and quota cleanup",
+          "PASS seasonEntry authority-listener cache/error fallback, recovery and quota cleanup",
+          "PASS waiting continuity contracts: real background controllers, all three waiting screens, Results/Commit listeners, partner authority changes and fresh-runtime reload.",
+          "PASS unchanged context: five refreshes, six documents read at most once each",
+          "PASS partner/public change: next refresh shows GUESS_ENTRY without exposing private inputs",
+          "PASS session, device, season, closed membership and sign-out invalidate presentation",
+          "PASS outside-public rivalry/session changes and unconfirmed authority coverage retain fresh reads",
+          "PASS listener fallback, 15 s confirmation, fresh writes/race retry and read-error recovery",
+          "PASS completed reads touch each document once; partner role update appears on the next refresh",
+          "PASS Transfer Challenge read dedupe contracts",
+          "PASS POS10 selected deterministic census (204/204 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+        ]
+      },
+      {
+        "check": "ops",
+        "command": [
+          "npm",
+          "run",
+          "-s",
+          "test:ops"
+        ],
+        "exit": 0,
+        "seconds": 1.18,
+        "log": "test-results/r76-integration-2/pr-863-ops.log",
+        "tail": [
+          "\u2714 live publication preflight recomputes the changed-file route and refuses missing newly required checks (2.307449ms)",
+          "\u2714 live publication preflight preserves active change requests through later comment-only reviews (2.725945ms)",
+          "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (2.770063ms)",
+          "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.417401ms)",
+          "\u2139 tests 73",
+          "\u2139 suites 0",
+          "\u2139 pass 73",
+          "\u2139 fail 0",
+          "\u2139 cancelled 0",
+          "\u2139 skipped 0",
+          "\u2139 todo 0",
+          "\u2139 duration_ms 891.151798"
+        ]
+      }
+    ],
+    "status": "merged",
+    "head": "b2e68639e835e5be9b0d17423ef175fb88360084"
+  },
+  {
+    "pr": 847,
+    "branch": "codex/job-1811-final-cells-empty",
+    "sourceHead": "74c6422f0070ba888816d6f1c7c98aa93444eb72",
+    "before": "b2e68639e835e5be9b0d17423ef175fb88360084",
+    "status": "CONFLICT",
+    "conflictFiles": [
+      "POS20_SUPPLEMENTAL_PRODUCT_TESTS.json",
+      "js/seasonFinalV10.js",
+      "tests/operations/pos20-control-plane.test.mjs"
+    ],
+    "head": "b2e68639e835e5be9b0d17423ef175fb88360084"
+  }
+]

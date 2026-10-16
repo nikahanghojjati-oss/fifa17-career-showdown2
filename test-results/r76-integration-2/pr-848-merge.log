@@ -1,0 +1,6 @@
+Merge made by the 'ort' strategy.
+ js/productionSharedJourneyEntry.js                 |   4 +-
+ js/productionSharedJourneyGuard.js                 |  14 ++-
+ .../browser/shared-journey-guard-marker-audit.cjs  | 139 +++++++++++++++++++++
+ 3 files changed, 149 insertions(+), 8 deletions(-)
+ create mode 100644 tests/browser/shared-journey-guard-marker-audit.cjs

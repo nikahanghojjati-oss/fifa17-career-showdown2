@@ -1,0 +1,15 @@
+Merge made by the 'ort' strategy.
+ js/productionSharedSeasonResults.js                |   2 +-
+ js/productionSharedSeasonResultsRoute.js           |   2 +-
+ js/seasonFinalV10.js                               |  14 ++-
+ .../evidence/JOB-1807/after-1920x1080.png          | Bin 0 -> 2582617 bytes
+ .../evidence/JOB-1807/after-393x660.png            | Bin 0 -> 284758 bytes
+ .../evidence/JOB-1807/before-1920x1080.png         | Bin 0 -> 2538647 bytes
+ .../evidence/JOB-1807/before-393x660.png           | Bin 0 -> 282762 bytes
+ .../champion-review-season-visible-audit.cjs       | 117 +++++++++++++++++++++
+ 8 files changed, 129 insertions(+), 6 deletions(-)
+ create mode 100644 project-documents/gameplay-factory/evidence/JOB-1807/after-1920x1080.png
+ create mode 100644 project-documents/gameplay-factory/evidence/JOB-1807/after-393x660.png
+ create mode 100644 project-documents/gameplay-factory/evidence/JOB-1807/before-1920x1080.png
+ create mode 100644 project-documents/gameplay-factory/evidence/JOB-1807/before-393x660.png
+ create mode 100644 tests/browser/champion-review-season-visible-audit.cjs
