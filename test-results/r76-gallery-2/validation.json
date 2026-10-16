@@ -1,0 +1,572 @@
+{
+  "syntax": {
+    "exitCode": 0,
+    "lastLines": [
+      "POS10 syntax: 356 active source files, 0 failures"
+    ]
+  },
+  "contracts": {
+    "exitCode": 0,
+    "lastLines": [
+      "mid-Showdown daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+      "after close daniel: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+      "mid-Showdown nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=2",
+      "after close nik: status=ready, points={\"daniel\":6,\"nik\":8}, seasons=3",
+      "PASS Rivalry Statistics load contracts: both managers render points and W/D/L after two committed seasons and after a legal three-season close, with the latest completed rivalry isolated from older history; classic-scope Career Statistics route works.",
+      "PASS Showdown Champion BACK TO SHOWDOWN HOME opens Showdown Home after a dashboard-entered final season; other #seasonEntry backs unchanged",
+      "PASS plain SDK: a progress write refused because the partner's identical write landed first continues from the partner's progress; a real refusal is unchanged",
+      "PASS r75 budget layer: a progress write refused because the partner's identical write landed first continues from the partner's progress; a real refusal is unchanged",
+      "PASS Final Reconciliation shows the locked final result from the verified close witness when the partner's Terminal Close lands first; no read, panel stays hidden, nothing reconciles after CLOSED.",
+      "PASS POS10 selected deterministic census (210/210 current blocking contracts: frozen POS10 floor + POS20 supplements)."
+    ]
+  },
+  "ops": {
+    "exitCode": 0,
+    "lastLines": [
+      "\u2714 live publication preflight re-reads review state and blocks unresolved or newer unreviewed conversation (3.293937ms)",
+      "\u2714 continuity assessment fails closed on missing or unknown candidate-validation state (0.715851ms)",
+      "\u2139 tests 73",
+      "\u2139 suites 0",
+      "\u2139 pass 73",
+      "\u2139 fail 0",
+      "\u2139 cancelled 0",
+      "\u2139 skipped 0",
+      "\u2139 todo 0",
+      "\u2139 duration_ms 1413.459969"
+    ]
+  },
+  "budget": {
+    "exitCode": 0,
+    "lastLines": [
+      "ok 8 FB4 a hidden tab reads nothing and drops its listener; returning re-reads once and re-attaches",
+      "ok 9 FB4b a screen that was waiting when the tab was hidden catches up with one check the moment it is visible again",
+      "ok 10 FB4c after the listener sees the partner's move, the follow-on checks of other screens reuse what the chain just read",
+      "ok 11 FB5 a screen with only the 15 s poll stays within the idle budget; nothing writes while idle",
+      "ok 12 FB6 listener drops or errors: the 3 s check takes over within one tick, stays within today's cadence, and no stale data is served",
+      "ok 13 FB7 a listener that falls behind the server is dropped within 5 s and the screen reads the server",
+      "ok 14 FB8 at most one listener per page; the other waiting screen keeps fresh 3 s checks and gets the listener once the first lets go",
+      "ok 15 FB9 resource-exhausted pauses all traffic (10, then 20 min), shows the exact message once, and wakes the screens after",
+      "ok 16 FB10 every connected module goes through the budget layer; wait points ask for the listener; device re-checks are capped",
+      "PASS Firestore budget contracts: 16 checks, measured reads/min 3.4 / 0.0 / 3.0 / 1.8 / 60.0 (waiting <= 5 reads/min, hidden 0, idle writes 0, partner update <= 1000 ms)."
+    ]
+  },
+  "reus": {
+    "exitCode": 0,
+    "lastLines": [
+      "ok Reus Gate source: app.js hold with minimum and cap, ssjr.js ready signals, startup budget",
+      "ok Reus Gate slow start (no-preference): loading screen handed over at 7654 ms to the finished Team V Home, no old Home frame",
+      "ok Reus Gate slow start (reduce): loading screen handed over at 7113 ms to the finished Team V Home, no old Home frame",
+      "ok Ready gate on Rule Book's first open: covered until its plate was ready (155 covered frames, 0 revealed without the plate)",
+      "ok Ready gate on Club's first open: covered until its plate was ready (155 covered frames, 0 revealed without the plate)",
+      "ok Reus Gate fallback: no lazy loader, loading screen left at 6111 ms",
+      "ok Reus Gate failure: Team V loader failed, loading screen left at 2810 ms",
+      "PASS Reus Gate startup contracts: source, slow start (motion and reduced motion), screen plate gate (Rule Book, Club), no-loader fallback, failed-loader release."
+    ]
+  },
+  "galleryPage": [
+    {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "images": 138,
+      "broken": [],
+      "pairs": 69,
+      "sideBySide": true
+    },
+    {
+      "width": 393,
+      "scrollWidth": 393,
+      "images": 138,
+      "broken": [],
+      "pairs": 69,
+      "sideBySide": true
+    }
+  ],
+  "images": {
+    "pairs": 69,
+    "webpImages": 138,
+    "differingPairs": 25,
+    "noCaptureFailures": true,
+    "noBrokenImages": true,
+    "noPageErrors": true
+  },
+  "quota": [
+    {
+      "size": "phone-393x852",
+      "notice": {
+        "x": 32,
+        "y": 60,
+        "width": 345,
+        "height": 52,
+        "top": 60,
+        "right": 377,
+        "bottom": 112,
+        "left": 32
+      },
+      "text": "Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.\u00d7",
+      "visible": true,
+      "overlaps": [],
+      "controls": [
+        {
+          "id": "onlinePlayerIdentityBadge",
+          "rect": {
+            "x": 8,
+            "y": 6,
+            "width": 52.3125,
+            "height": 44,
+            "top": 6,
+            "right": 60.3125,
+            "bottom": 50,
+            "left": 8
+          }
+        },
+        {
+          "id": "continueCareer",
+          "rect": {
+            "x": 8,
+            "y": 480,
+            "width": 376.984375,
+            "height": 82,
+            "top": 480,
+            "right": 384.984375,
+            "bottom": 562,
+            "left": 8
+          }
+        },
+        {
+          "id": "newShowdown",
+          "rect": {
+            "x": 8,
+            "y": 568,
+            "width": 121.65625,
+            "height": 78,
+            "top": 568,
+            "right": 129.65625,
+            "bottom": 646,
+            "left": 8
+          }
+        },
+        {
+          "id": "legacyButton",
+          "rect": {
+            "x": 135.65625,
+            "y": 568,
+            "width": 121.671875,
+            "height": 78,
+            "top": 568,
+            "right": 257.328125,
+            "bottom": 646,
+            "left": 135.65625
+          }
+        },
+        {
+          "id": "careerStatisticsButton",
+          "rect": {
+            "x": 263.328125,
+            "y": 568,
+            "width": 121.65625,
+            "height": 78,
+            "top": 568,
+            "right": 384.984375,
+            "bottom": 646,
+            "left": 263.328125
+          }
+        },
+        {
+          "id": "homeTrophyRoomButton",
+          "rect": {
+            "x": 8,
+            "y": 652,
+            "width": 121.65625,
+            "height": 78,
+            "top": 652,
+            "right": 129.65625,
+            "bottom": 730,
+            "left": 8
+          }
+        },
+        {
+          "id": "ruleBookButton",
+          "rect": {
+            "x": 135.65625,
+            "y": 652,
+            "width": 121.671875,
+            "height": 78,
+            "top": 652,
+            "right": 257.328125,
+            "bottom": 730,
+            "left": 135.65625
+          }
+        },
+        {
+          "id": "settingsButton",
+          "rect": {
+            "x": 263.328125,
+            "y": 652,
+            "width": 121.65625,
+            "height": 78,
+            "top": 652,
+            "right": 384.984375,
+            "bottom": 730,
+            "left": 263.328125
+          }
+        },
+        {
+          "id": "TRACKS",
+          "rect": {
+            "x": 333.984375,
+            "y": 740,
+            "width": 44,
+            "height": 44,
+            "top": 740,
+            "right": 377.984375,
+            "bottom": 784,
+            "left": 333.984375
+          }
+        },
+        {
+          "id": "menuMusicToggle",
+          "rect": {
+            "x": 221.984375,
+            "y": 740,
+            "width": 56,
+            "height": 44,
+            "top": 740,
+            "right": 277.984375,
+            "bottom": 784,
+            "left": 221.984375
+          }
+        },
+        {
+          "id": "menuMusicMute",
+          "rect": {
+            "x": 283.984375,
+            "y": 740,
+            "width": 44,
+            "height": 44,
+            "top": 740,
+            "right": 327.984375,
+            "bottom": 784,
+            "left": 283.984375
+          }
+        },
+        {
+          "id": "HOME",
+          "rect": {
+            "x": 4,
+            "y": 797,
+            "width": 77,
+            "height": 56,
+            "top": 797,
+            "right": 81,
+            "bottom": 853,
+            "left": 4
+          }
+        },
+        {
+          "id": "CAREER",
+          "rect": {
+            "x": 81,
+            "y": 797,
+            "width": 77,
+            "height": 56,
+            "top": 797,
+            "right": 158,
+            "bottom": 853,
+            "left": 81
+          }
+        },
+        {
+          "id": "STANDINGS",
+          "rect": {
+            "x": 158,
+            "y": 797,
+            "width": 77,
+            "height": 56,
+            "top": 797,
+            "right": 235,
+            "bottom": 853,
+            "left": 158
+          }
+        },
+        {
+          "id": "STATS",
+          "rect": {
+            "x": 235,
+            "y": 797,
+            "width": 77,
+            "height": 56,
+            "top": 797,
+            "right": 312,
+            "bottom": 853,
+            "left": 235
+          }
+        },
+        {
+          "id": "RULES",
+          "rect": {
+            "x": 312,
+            "y": 797,
+            "width": 77,
+            "height": 56,
+            "top": 797,
+            "right": 389,
+            "bottom": 853,
+            "left": 312
+          }
+        },
+        {
+          "id": "",
+          "rect": {
+            "x": 342,
+            "y": 7,
+            "width": 44,
+            "height": 44,
+            "top": 7,
+            "right": 386,
+            "bottom": 51,
+            "left": 342
+          }
+        }
+      ]
+    },
+    {
+      "size": "phone-844x390",
+      "notice": {
+        "x": 32,
+        "y": 60,
+        "width": 289.59375,
+        "height": 52,
+        "top": 60,
+        "right": 321.59375,
+        "bottom": 112,
+        "left": 32
+      },
+      "text": "Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.\u00d7",
+      "visible": true,
+      "overlaps": [],
+      "controls": [
+        {
+          "id": "onlinePlayerIdentityBadge",
+          "rect": {
+            "x": 8,
+            "y": 6,
+            "width": 52.3125,
+            "height": 44,
+            "top": 6,
+            "right": 60.3125,
+            "bottom": 50,
+            "left": 8
+          }
+        },
+        {
+          "id": "continueCareer",
+          "rect": {
+            "x": 345.59375,
+            "y": 54,
+            "width": 490.40625,
+            "height": 68,
+            "top": 54,
+            "right": 836,
+            "bottom": 122,
+            "left": 345.59375
+          }
+        },
+        {
+          "id": "newShowdown",
+          "rect": {
+            "x": 345.59375,
+            "y": 128,
+            "width": 159.46875,
+            "height": 67,
+            "top": 128,
+            "right": 505.0625,
+            "bottom": 195,
+            "left": 345.59375
+          }
+        },
+        {
+          "id": "legacyButton",
+          "rect": {
+            "x": 511.0625,
+            "y": 128,
+            "width": 159.46875,
+            "height": 67,
+            "top": 128,
+            "right": 670.53125,
+            "bottom": 195,
+            "left": 511.0625
+          }
+        },
+        {
+          "id": "careerStatisticsButton",
+          "rect": {
+            "x": 676.53125,
+            "y": 128,
+            "width": 159.46875,
+            "height": 67,
+            "top": 128,
+            "right": 836,
+            "bottom": 195,
+            "left": 676.53125
+          }
+        },
+        {
+          "id": "homeTrophyRoomButton",
+          "rect": {
+            "x": 345.59375,
+            "y": 201,
+            "width": 159.46875,
+            "height": 67,
+            "top": 201,
+            "right": 505.0625,
+            "bottom": 268,
+            "left": 345.59375
+          }
+        },
+        {
+          "id": "ruleBookButton",
+          "rect": {
+            "x": 511.0625,
+            "y": 201,
+            "width": 159.46875,
+            "height": 67,
+            "top": 201,
+            "right": 670.53125,
+            "bottom": 268,
+            "left": 511.0625
+          }
+        },
+        {
+          "id": "settingsButton",
+          "rect": {
+            "x": 676.53125,
+            "y": 201,
+            "width": 159.46875,
+            "height": 67,
+            "top": 201,
+            "right": 836,
+            "bottom": 268,
+            "left": 676.53125
+          }
+        },
+        {
+          "id": "TRACKS",
+          "rect": {
+            "x": 785,
+            "y": 278,
+            "width": 44,
+            "height": 44,
+            "top": 278,
+            "right": 829,
+            "bottom": 322,
+            "left": 785
+          }
+        },
+        {
+          "id": "menuMusicToggle",
+          "rect": {
+            "x": 673,
+            "y": 278,
+            "width": 56,
+            "height": 44,
+            "top": 278,
+            "right": 729,
+            "bottom": 322,
+            "left": 673
+          }
+        },
+        {
+          "id": "menuMusicMute",
+          "rect": {
+            "x": 735,
+            "y": 278,
+            "width": 44,
+            "height": 44,
+            "top": 278,
+            "right": 779,
+            "bottom": 322,
+            "left": 735
+          }
+        },
+        {
+          "id": "HOME",
+          "rect": {
+            "x": 4,
+            "y": 335,
+            "width": 167.1875,
+            "height": 56,
+            "top": 335,
+            "right": 171.1875,
+            "bottom": 391,
+            "left": 4
+          }
+        },
+        {
+          "id": "CAREER",
+          "rect": {
+            "x": 171.1875,
+            "y": 335,
+            "width": 167.203125,
+            "height": 56,
+            "top": 335,
+            "right": 338.390625,
+            "bottom": 391,
+            "left": 171.1875
+          }
+        },
+        {
+          "id": "STANDINGS",
+          "rect": {
+            "x": 338.390625,
+            "y": 335,
+            "width": 167.203125,
+            "height": 56,
+            "top": 335,
+            "right": 505.59375,
+            "bottom": 391,
+            "left": 338.390625
+          }
+        },
+        {
+          "id": "STATS",
+          "rect": {
+            "x": 505.59375,
+            "y": 335,
+            "width": 167.203125,
+            "height": 56,
+            "top": 335,
+            "right": 672.796875,
+            "bottom": 391,
+            "left": 505.59375
+          }
+        },
+        {
+          "id": "RULES",
+          "rect": {
+            "x": 672.796875,
+            "y": 335,
+            "width": 167.1875,
+            "height": 56,
+            "top": 335,
+            "right": 839.984375,
+            "bottom": 391,
+            "left": 672.796875
+          }
+        },
+        {
+          "id": "",
+          "rect": {
+            "x": 793,
+            "y": 7,
+            "width": 44,
+            "height": 44,
+            "top": 7,
+            "right": 837,
+            "bottom": 51,
+            "left": 793
+          }
+        }
+      ]
+    }
+  ]
+}

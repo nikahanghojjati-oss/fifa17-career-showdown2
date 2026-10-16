@@ -1,0 +1,969 @@
+{
+  "before": {
+    "ref": "main",
+    "sha": "3f6b1c97ec20bd74c74a8330c0222511ecc02f6f",
+    "base": "http://127.0.0.1:4512/"
+  },
+  "after": {
+    "ref": "gameplay/bug-list-1",
+    "sha": "8964ede717bc1f1a128553c9ee1fbe8f6c866974",
+    "base": "http://127.0.0.1:4511/"
+  },
+  "pairCount": 69,
+  "imageCount": 138,
+  "comparisons": [
+    {
+      "file": "home-desktop-1920x1080.webp",
+      "slug": "home",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        860,
+        1920,
+        1080
+      ],
+      "meanChannelDifference": 0.1312,
+      "pixelsOver16": 1059,
+      "percentPixelsOver16": 0.051
+    },
+    {
+      "file": "home-phone-393x852.webp",
+      "slug": "home",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "home-phone-844x390.webp",
+      "slug": "home",
+      "size": "phone-844x390",
+      "width": 844,
+      "height": 390,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "new-showdown-desktop-1920x1080.webp",
+      "slug": "new-showdown",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "new-showdown-phone-393x852.webp",
+      "slug": "new-showdown",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        3,
+        393,
+        848
+      ],
+      "meanChannelDifference": 0.4611,
+      "pixelsOver16": 42,
+      "percentPixelsOver16": 0.013
+    },
+    {
+      "file": "connect-players-desktop-1920x1080.webp",
+      "slug": "connect-players",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "connect-players-phone-393x852.webp",
+      "slug": "connect-players",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "select-league-desktop-1920x1080.webp",
+      "slug": "select-league",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        360,
+        1920,
+        1080
+      ],
+      "meanChannelDifference": 0.7542,
+      "pixelsOver16": 2113,
+      "percentPixelsOver16": 0.102
+    },
+    {
+      "file": "select-league-phone-393x852.webp",
+      "slug": "select-league",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "club-desktop-1920x1080.webp",
+      "slug": "club",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "club--confirmation-desktop-1920x1080.webp",
+      "slug": "club",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "club-phone-393x852.webp",
+      "slug": "club",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "club--confirmation-phone-393x852.webp",
+      "slug": "club",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "transfer-challenge-desktop-1920x1080.webp",
+      "slug": "transfer-challenge",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        4,
+        1920,
+        1080
+      ],
+      "meanChannelDifference": 0.9508,
+      "pixelsOver16": 639,
+      "percentPixelsOver16": 0.031
+    },
+    {
+      "file": "transfer-challenge--guess-entry-desktop-1920x1080.webp",
+      "slug": "transfer-challenge",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "transfer-challenge--signing-entry-desktop-1920x1080.webp",
+      "slug": "transfer-challenge",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "transfer-challenge--verdicts-desktop-1920x1080.webp",
+      "slug": "transfer-challenge",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "transfer-challenge-phone-393x852.webp",
+      "slug": "transfer-challenge",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "transfer-challenge--guess-entry-phone-393x852.webp",
+      "slug": "transfer-challenge",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "transfer-challenge--signing-entry-phone-393x852.webp",
+      "slug": "transfer-challenge",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "transfer-challenge--verdicts-phone-393x852.webp",
+      "slug": "transfer-challenge",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "season-results-desktop-1920x1080.webp",
+      "slug": "season-results",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        5,
+        1920,
+        1080
+      ],
+      "meanChannelDifference": 1.0062,
+      "pixelsOver16": 4769,
+      "percentPixelsOver16": 0.23
+    },
+    {
+      "file": "season-results--bottom-desktop-1920x1080.webp",
+      "slug": "season-results",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        0,
+        1920,
+        1080
+      ],
+      "meanChannelDifference": 0.702,
+      "pixelsOver16": 4350,
+      "percentPixelsOver16": 0.21
+    },
+    {
+      "file": "season-results-phone-393x852.webp",
+      "slug": "season-results",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "season-results--bottom-phone-393x852.webp",
+      "slug": "season-results",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "standings-desktop-1920x1080.webp",
+      "slug": "standings",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "standings-phone-393x852.webp",
+      "slug": "standings",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "standings-phone-844x390.webp",
+      "slug": "standings",
+      "size": "phone-844x390",
+      "width": 844,
+      "height": 390,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "final-winner-desktop-1920x1080.webp",
+      "slug": "final-winner",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "final-winner-phone-393x852.webp",
+      "slug": "final-winner",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "final-winner--honours-phone-393x852.webp",
+      "slug": "final-winner",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "final-winner-nik-desktop-1920x1080.webp",
+      "slug": "final-winner-nik",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "final-winner-nik-phone-393x852.webp",
+      "slug": "final-winner-nik",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "final-winner-draw-desktop-1920x1080.webp",
+      "slug": "final-winner-draw",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "final-winner-draw-phone-393x852.webp",
+      "slug": "final-winner-draw",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "final-winner-pending-desktop-1920x1080.webp",
+      "slug": "final-winner-pending",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "final-winner-pending-phone-393x852.webp",
+      "slug": "final-winner-pending",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "champion-review-season-desktop-1920x1080.webp",
+      "slug": "champion-review-season",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        17,
+        1920,
+        1080
+      ],
+      "meanChannelDifference": 2.2356,
+      "pixelsOver16": 18565,
+      "percentPixelsOver16": 0.895
+    },
+    {
+      "file": "champion-review-season-phone-393x852.webp",
+      "slug": "champion-review-season",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        2,
+        393,
+        852
+      ],
+      "meanChannelDifference": 4.9165,
+      "pixelsOver16": 11438,
+      "percentPixelsOver16": 3.416
+    },
+    {
+      "file": "rivalry-desktop-1920x1080.webp",
+      "slug": "rivalry",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        20,
+        1920,
+        1080
+      ],
+      "meanChannelDifference": 0.304,
+      "pixelsOver16": 1769,
+      "percentPixelsOver16": 0.085
+    },
+    {
+      "file": "rivalry-phone-393x852.webp",
+      "slug": "rivalry",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "rivalry-mid-showdown-desktop-1920x1080.webp",
+      "slug": "rivalry-mid-showdown",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        0,
+        1920,
+        1080
+      ],
+      "meanChannelDifference": 3.9096,
+      "pixelsOver16": 57581,
+      "percentPixelsOver16": 2.777
+    },
+    {
+      "file": "rivalry-mid-showdown-phone-393x852.webp",
+      "slug": "rivalry-mid-showdown",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        0,
+        393,
+        852
+      ],
+      "meanChannelDifference": 12.6221,
+      "pixelsOver16": 46403,
+      "percentPixelsOver16": 13.858
+    },
+    {
+      "file": "legacy-desktop-1920x1080.webp",
+      "slug": "legacy",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "legacy-phone-393x852.webp",
+      "slug": "legacy",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "trophy-room-desktop-1920x1080.webp",
+      "slug": "trophy-room",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        178,
+        1920,
+        1080
+      ],
+      "meanChannelDifference": 0.5558,
+      "pixelsOver16": 89,
+      "percentPixelsOver16": 0.004
+    },
+    {
+      "file": "trophy-room-phone-393x852.webp",
+      "slug": "trophy-room",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "trophy-room--more-phone-393x852.webp",
+      "slug": "trophy-room",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "trophy-room-phone-844x390.webp",
+      "slug": "trophy-room",
+      "size": "phone-844x390",
+      "width": 844,
+      "height": 390,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "career-stats-desktop-1920x1080.webp",
+      "slug": "career-stats",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        171,
+        1920,
+        1080
+      ],
+      "meanChannelDifference": 3.2874,
+      "pixelsOver16": 43158,
+      "percentPixelsOver16": 2.081
+    },
+    {
+      "file": "career-stats-phone-393x852.webp",
+      "slug": "career-stats",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        0,
+        393,
+        852
+      ],
+      "meanChannelDifference": 1.7861,
+      "pixelsOver16": 3600,
+      "percentPixelsOver16": 1.075
+    },
+    {
+      "file": "career-stats-phone-844x390.webp",
+      "slug": "career-stats",
+      "size": "phone-844x390",
+      "width": 844,
+      "height": 390,
+      "identical": false,
+      "differenceBounds": [
+        79,
+        265,
+        844,
+        387
+      ],
+      "meanChannelDifference": 4.8332,
+      "pixelsOver16": 14565,
+      "percentPixelsOver16": 4.425
+    },
+    {
+      "file": "rule-book-desktop-1920x1080.webp",
+      "slug": "rule-book",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "rule-book-phone-393x852.webp",
+      "slug": "rule-book",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "settings-desktop-1920x1080.webp",
+      "slug": "settings",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "settings-phone-393x852.webp",
+      "slug": "settings",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "home-season-2-of-3-desktop-1920x1080.webp",
+      "slug": "home-season-2-of-3",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        11,
+        1920,
+        1080
+      ],
+      "meanChannelDifference": 1.452,
+      "pixelsOver16": 4014,
+      "percentPixelsOver16": 0.194
+    },
+    {
+      "file": "home-season-2-of-3-phone-393x852.webp",
+      "slug": "home-season-2-of-3",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        0,
+        393,
+        850
+      ],
+      "meanChannelDifference": 1.1686,
+      "pixelsOver16": 347,
+      "percentPixelsOver16": 0.104
+    },
+    {
+      "file": "home-season-2-of-3-phone-844x390.webp",
+      "slug": "home-season-2-of-3",
+      "size": "phone-844x390",
+      "width": 844,
+      "height": 390,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        0,
+        844,
+        384
+      ],
+      "meanChannelDifference": 1.0389,
+      "pixelsOver16": 426,
+      "percentPixelsOver16": 0.129
+    },
+    {
+      "file": "standings-mid-showdown-desktop-1920x1080.webp",
+      "slug": "standings-mid-showdown",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        0,
+        1920,
+        1080
+      ],
+      "meanChannelDifference": 2.7664,
+      "pixelsOver16": 27493,
+      "percentPixelsOver16": 1.326
+    },
+    {
+      "file": "standings-mid-showdown-phone-393x852.webp",
+      "slug": "standings-mid-showdown",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        0,
+        393,
+        852
+      ],
+      "meanChannelDifference": 15.3312,
+      "pixelsOver16": 40566,
+      "percentPixelsOver16": 12.115
+    },
+    {
+      "file": "standings-mid-showdown-phone-844x390.webp",
+      "slug": "standings-mid-showdown",
+      "size": "phone-844x390",
+      "width": 844,
+      "height": 390,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        0,
+        844,
+        390
+      ],
+      "meanChannelDifference": 6.6473,
+      "pixelsOver16": 26679,
+      "percentPixelsOver16": 8.105
+    },
+    {
+      "file": "home-free-limit-desktop-1920x1080.webp",
+      "slug": "home-free-limit",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        26,
+        1920,
+        1080
+      ],
+      "meanChannelDifference": 1.5926,
+      "pixelsOver16": 16569,
+      "percentPixelsOver16": 0.799
+    },
+    {
+      "file": "home-free-limit-phone-393x852.webp",
+      "slug": "home-free-limit",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        0,
+        393,
+        852
+      ],
+      "meanChannelDifference": 5.2309,
+      "pixelsOver16": 21899,
+      "percentPixelsOver16": 6.54
+    },
+    {
+      "file": "home-free-limit-phone-844x390.webp",
+      "slug": "home-free-limit",
+      "size": "phone-844x390",
+      "width": 844,
+      "height": 390,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        7,
+        844,
+        386
+      ],
+      "meanChannelDifference": 4.4835,
+      "pixelsOver16": 17725,
+      "percentPixelsOver16": 5.385
+    },
+    {
+      "file": "connect-players-free-limit-desktop-1920x1080.webp",
+      "slug": "connect-players-free-limit",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": false,
+      "differenceBounds": [
+        0,
+        27,
+        1920,
+        1080
+      ],
+      "meanChannelDifference": 0.8798,
+      "pixelsOver16": 174,
+      "percentPixelsOver16": 0.008
+    },
+    {
+      "file": "connect-players-free-limit-phone-393x852.webp",
+      "slug": "connect-players-free-limit",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "loading-desktop-1920x1080.webp",
+      "slug": "loading",
+      "size": "desktop-1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    },
+    {
+      "file": "loading-phone-393x852.webp",
+      "slug": "loading",
+      "size": "phone-393x852",
+      "width": 393,
+      "height": 852,
+      "identical": true,
+      "differenceBounds": null,
+      "meanChannelDifference": 0.0,
+      "pixelsOver16": 0,
+      "percentPixelsOver16": 0.0
+    }
+  ]
+}
