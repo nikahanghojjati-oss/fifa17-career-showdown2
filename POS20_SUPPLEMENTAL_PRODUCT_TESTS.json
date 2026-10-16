@@ -1585,6 +1585,15 @@
         "^tests/contracts/sweep-season-score-key-order-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/sweep-rivalry-history-revision-refresh-contracts.cjs",
+      "patterns": [
+        "^js/rivalryLegacyV10\\.js$",
+        "^js/productionSharedHistoryConvergence\\.js$",
+        "^tests/contracts/sweep-rivalry-history-revision-refresh-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
