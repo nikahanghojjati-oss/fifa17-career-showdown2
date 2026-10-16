@@ -26,7 +26,7 @@ function world(){
   async function advance(ms){await flush();now+=ms;for(const [id,t] of [...timers])if(t.at<=now){timers.delete(id);t.fn();await flush();}await flush();}
   const action=text=>body.descendants().find(n=>n.tagName==='button'&&n.textContent.startsWith(text));
   const status=()=>body.descendants().find(n=>n.dataset.careerStatus)?.textContent;
-  return {api,controls,calls,button,result,advance,action,status,timers};
+  return {api,controls,calls,button,result,advance,action,status,timers,panel:()=>sandbox.document.getElementById('productionSharedCareerStartOverlay')};
 }
 async function timedOpen(stage){
   const w=world(),late=deferred();w.controls[stage]=()=>late.promise;
@@ -44,6 +44,9 @@ async function timedOpen(stage){
 async function main(){
   const normal=world();assert.equal(await normal.api.openPanel(),true);assert.deepEqual(normal.calls,['setup','account','read']);assert.equal(normal.button.disabled,false);assert.equal(normal.timers.size,0);console.log('PASS normal open preserves reads and order');
   for(const stage of ['read','setup','account','style'])await timedOpen(stage);
+  {const w=world(),late=deferred();w.controls.read=()=>late.promise;const run=w.api.refresh().catch(()=>false);await flush();await w.advance(25000);await run;
+    assert.equal(w.button.disabled,false,'background refresh timeout leaves the button usable');
+    assert.equal(Boolean(w.panel()),false,'background refresh timeout opens no Career Start panel');console.log('PASS background refresh timeout opens no panel');}
   for(const action of ['refresh','ack-read','ack']){
     const w=world();await w.api.openPanel();const late=deferred();w.controls[action==='ack'?'ack':'read']=()=>late.promise;
     if(action==='refresh')w.action('REFRESH').tap();else w.action('I STARTED AT').tap();await flush();await w.advance(25000);
