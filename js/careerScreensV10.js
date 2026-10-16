@@ -1434,6 +1434,12 @@
         if(live.some(screen=>getters[screen]?.()==null)&&v10Seam().isOnlineCareerRoute(v10Identity())&&v10OnlineModel()==null)v10LoadOnline().catch(v10Fail);
         else v10Redraw();
       });
+      root.addEventListener?.("career-mode-online-career-model-change",()=>{
+        if(!v10Seam().isOnlineCareerRoute(v10Identity())||v10OnlineModel()==null)return;
+        for(const screen of Object.keys(SCREEN_IDS))if(screens.isMounted(screen)&&getters[screen]?.()==null){
+          screens.invalidate(screen);screens.show(screen).catch(v10Fail);
+        }
+      });
       return screens;
     }).catch(error=>{registered=null;throw error;});
     return registered;
