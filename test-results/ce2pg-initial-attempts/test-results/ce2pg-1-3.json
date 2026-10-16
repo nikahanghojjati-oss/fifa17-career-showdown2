@@ -1,0 +1,481 @@
+{
+  "tool": "CE2PG",
+  "seasons": 1,
+  "run": 3,
+  "startedAt": "2026-10-16T17:58:07.804Z",
+  "finishedAt": "2026-10-16T17:58:47.651Z",
+  "baseUrl": "http://127.0.0.1:4511/",
+  "viewports": {
+    "daniel": {
+      "width": 1280,
+      "height": 800
+    },
+    "nik": {
+      "width": 393,
+      "height": 660
+    }
+  },
+  "league": null,
+  "clubs": null,
+  "teamCount": null,
+  "plan": null,
+  "verdict": "FAIL",
+  "fatal": {
+    "message": "page.waitForFunction: Timeout 20000ms exceeded.",
+    "stack": "page.waitForFunction: Timeout 20000ms exceeded.\n    at /workspace/fifa17-career-showdown2/tests/browser/ce2pg-journey.cjs:791:23\n    at async phase (/workspace/fifa17-career-showdown2/tests/browser/ce2pg-journey.cjs:139:14)\n    at async setupShowdown (/workspace/fifa17-career-showdown2/tests/browser/ce2pg-journey.cjs:785:3)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/ce2pg-journey.cjs:855:17)",
+    "state_daniel": "screens=mainMenu | badge=DANIEL | overlays=sparkRemoteJoiningOverlay: CAREER MODE SHOWDOWN // 17 × PRIVATE CONNECTION REMOTE JOINING This connection is only for Daniel and Nik. If the network drops, retry the same code instead of creating another one. 01 · HOST CREATE CONNECTION CODE Creates one fresh code for this Showdown. HOST NEW SESSION (REPLACES CURRENT) 02 · JO",
+    "state_nik": "screens=mainMenu | badge=NIK | overlays=sparkRemoteJoiningOverlay: CAREER MODE SHOWDOWN // 17 × CAREER MODE SHOWDOWN WAITING FOR DANIEL Your game is ready. It continues by itself as soon as Daniel opens Career Mode Showdown and taps CONTINUE CAREER. USE A SESSION CODE Waiting for Daniel to open the game."
+  },
+  "checks": [
+    {
+      "id": "setup.switch.daniel",
+      "label": "emulator switch active (localhost + cmsEmulator=1 only)",
+      "context": "daniel",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.switch.nik",
+      "label": "emulator switch active (localhost + cmsEmulator=1 only)",
+      "context": "nik",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.signin",
+      "label": "Daniel and Nik signed in through SIGN IN WITH GOOGLE as two distinct accounts",
+      "context": "both",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.account.daniel",
+      "label": "account bootstrapped in the database",
+      "context": "daniel",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.account.nik",
+      "label": "account bootstrapped in the database",
+      "context": "nik",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.paircode",
+      "label": "Daniel created a pair code on the Start screen",
+      "context": "daniel",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "setup.paired",
+      "label": "Nik joined with the code: Daniel is playerOne, Nik playerTwo, same rivalry",
+      "context": "both",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "zz.production.daniel",
+      "label": "never contacted a production Firebase host or loaded the production runtime",
+      "context": "daniel",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "zz.pageerrors.daniel",
+      "label": "no uncaught page errors or console errors",
+      "context": "daniel",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "zz.rulesLimit.daniel",
+      "label": "no Firestore Rules evaluation-limit failure (\"maximum of 1000 expressions\") on any write",
+      "context": "daniel",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "zz.network.daniel",
+      "label": "no failed network requests (HTTP 4xx/5xx or request failures other than aborted navigations)",
+      "context": "daniel",
+      "season": 0,
+      "pass": false,
+      "detail": "{\"failed\":[],\"http\":[{\"season\":0,\"phase\":\"private-session\",\"at\":19014,\"kind\":\"http\",\"status\":403,\"method\":\"POST\",\"url\":\"http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key\",\"body\":\"{\\\"error\\\":{\\\"code\\\":403,\\\"message\\\":\\\"\\\\nfalse for 'get' @ L2824\\\",\\\"status\\\":\\\"PERMISSION_DENIED\\\"}}\",\"class\":\"unexpected\"}]}"
+    },
+    {
+      "id": "zz.production.nik",
+      "label": "never contacted a production Firebase host or loaded the production runtime",
+      "context": "nik",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "zz.pageerrors.nik",
+      "label": "no uncaught page errors or console errors",
+      "context": "nik",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "zz.rulesLimit.nik",
+      "label": "no Firestore Rules evaluation-limit failure (\"maximum of 1000 expressions\") on any write",
+      "context": "nik",
+      "season": 0,
+      "pass": true
+    },
+    {
+      "id": "zz.network.nik",
+      "label": "no failed network requests (HTTP 4xx/5xx or request failures other than aborted navigations)",
+      "context": "nik",
+      "season": 0,
+      "pass": false,
+      "detail": "{\"failed\":[],\"http\":[{\"season\":0,\"phase\":\"private-session\",\"at\":19322,\"kind\":\"http\",\"status\":403,\"method\":\"POST\",\"url\":\"http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key\",\"body\":\"{\\\"error\\\":{\\\"code\\\":403,\\\"message\\\":\\\"\\\\nfalse for 'get' @ L2824\\\",\\\"status\\\":\\\"PERMISSION_DENIED\\\"}}\",\"class\":\"unexpected\"},{\"season\":0,\"phase\":\"private-session\",\"at\":22360,\"kind\":\"http\",\"status\":403,\"method\":\"POST\",\"url\":\"http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key\",\"body\":\"{\\\"error\\\":{\\\"code\\\":403,\\\"message\\\":\\\"\\\\nfalse for 'get' @ L2824\\\",\\\"status\\\":\\\"PERMISSION_DENIED\\\"}}\",\"class\":\"unexpected\"},{\"season\":0,\"phase\":\"private-session\",\"at\":25382,\"kind\":\"http\",\"status\":403,\"method\":\"POST\",\"url\":\"http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key\",\"body\":\"{\\\"error\\\":{\\\"code\\\":403,\\\"message\\\":\\\"\\\\nfalse for 'get' @ L2824\\\",\\\"status\\\":\\\"PERMISSION_DENIED\\\"}}\",\"class\":\"unexpected\"},{\"season\":0,\"phase\":\"private-session\",\"at\":28407,\"kind\":\"http\",\"status\":403,\"method\":\"POST\",\"url\":\"http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key\",\"body\":\"{\\\"error\\\":{\\\"code\\\":403,\\\"message\\\":\\\"\\\\nfalse for 'get' @ L2824\\\",\\\"status\\\":\\\"PERMISSION_DENIED\\\"}}\",\"class\":\"unexpected\"},{\"season\":0,\"phase\":\"private-session\",\"at\":31433,\"kind\":\"http\",\"status\":403,\"method"
+    }
+  ],
+  "problems": [
+    {
+      "id": "fatal",
+      "severity": "harness-or-game",
+      "season": 0,
+      "context": "daniel",
+      "screen": "journey stopped (season 0)",
+      "description": "page.waitForFunction: Timeout 20000ms exceeded. | screens=mainMenu | badge=DANIEL | overlays=sparkRemoteJoiningOverlay: CAREER MODE SHOWDOWN // 17 × PRIVATE CONNECTION REMOTE JOINING This connection is only for Daniel and Nik. If the network drops, retry the same code instead of creating another one. 01 · HOST CREATE CONNECTION CODE Creates one fresh code for this Showdown. HOST NEW SESSION (REPLACES CURRENT) 02 · JO",
+      "screenshot": "test-results/ce2pg-1-3/fatal-daniel.png"
+    },
+    {
+      "id": "fatal",
+      "severity": "harness-or-game",
+      "season": 0,
+      "context": "nik",
+      "screen": "journey stopped (season 0)",
+      "description": "page.waitForFunction: Timeout 20000ms exceeded. | screens=mainMenu | badge=NIK | overlays=sparkRemoteJoiningOverlay: CAREER MODE SHOWDOWN // 17 × CAREER MODE SHOWDOWN WAITING FOR DANIEL Your game is ready. It continues by itself as soon as Daniel opens Career Mode Showdown and taps CONTINUE CAREER. USE A SESSION CODE Waiting for Daniel to open the game.",
+      "screenshot": "test-results/ce2pg-1-3/fatal-nik.png"
+    },
+    {
+      "id": "zz.network.daniel",
+      "severity": "game-bug",
+      "season": 0,
+      "context": "daniel",
+      "screen": "Network",
+      "description": "no failed network requests (HTTP 4xx/5xx or request failures other than aborted navigations). {\"failed\":[],\"http\":[{\"season\":0,\"phase\":\"private-session\",\"at\":19014,\"kind\":\"http\",\"status\":403,\"method\":\"POST\",\"url\":\"http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key\",\"body\":\"{\\\"error\\\":{\\\"code\\\":403,\\\"message\\\":\\\"\\\\nfalse for 'get' @ L2824\\\",\\\"status\\\":\\\"PERMISSION_DENIED\\\"}}\",\"class\":\"unexpected\"}]}",
+      "screenshot": "test-results/ce2pg-1-3/problem-zz.network.daniel-s0-daniel.png"
+    },
+    {
+      "id": "zz.network.nik",
+      "severity": "game-bug",
+      "season": 0,
+      "context": "nik",
+      "screen": "Network",
+      "description": "no failed network requests (HTTP 4xx/5xx or request failures other than aborted navigations). {\"failed\":[],\"http\":[{\"season\":0,\"phase\":\"private-session\",\"at\":19322,\"kind\":\"http\",\"status\":403,\"method\":\"POST\",\"url\":\"http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key\",\"body\":\"{\\\"error\\\":{\\\"code\\\":403,\\\"message\\\":\\\"\\\\nfalse for 'get' @ L2824\\\",\\\"status\\\":\\\"PERMISSION_DENIED\\\"}}\",\"class\":\"unexpected\"},{\"season\":0,\"phase\":\"private-session\",\"at\":22360,\"kind\":\"http\",\"status\":403,\"method\":\"POST\",\"url\":\"http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key\",\"body\":\"{\\\"error\\\":{\\\"code\\\":403,\\\"message\\\":\\\"\\\\nfalse for 'get' @ L2824\\\",\\\"status\\\":\\\"PERMISSION_DENIED\\\"}}\",\"class\":\"unexpected\"},{\"season\":0,\"phase\":\"private-session\",\"at\":25382,\"kind\":\"http\",\"status\":403,\"method\":\"POST\",\"url\":\"http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key\",\"body\":\"{\\\"error\\\":{\\\"code\\\":403,\\\"message\\\":\\\"\\\\nfalse for 'get' @ L2824\\\",\\\"status\\\":\\\"PERMISSION_DENIED\\\"}}\",\"class\":\"unexpected\"},{\"season\":0,\"phase\":\"private-session\",",
+      "screenshot": "test-results/ce2pg-1-3/problem-zz.network.nik-s0-nik.png"
+    }
+  ],
+  "timings": {
+    "phases": [
+      {
+        "phase": "sign-in",
+        "season": 0,
+        "ms": 1529
+      },
+      {
+        "phase": "pairing",
+        "season": 0,
+        "ms": 5320
+      },
+      {
+        "phase": "private-session",
+        "season": 0,
+        "ms": 20216
+      }
+    ],
+    "totalMs": 39846
+  },
+  "seasonLog": [],
+  "console": {
+    "daniel": [
+      {
+        "season": 0,
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      },
+      {
+        "season": 0,
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      },
+      {
+        "season": 0,
+        "type": "warning",
+        "text": "[2026-10-16T17:58:26.820Z]  @firebase/firestore: Firestore (12.17.0): RestConnection RPC 'BatchGetDocuments' 0x60ff810b failed with error:  {\"code\":\"permission-denied\",\"name\":\"FirebaseError\"} url:  http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key request: {\"documents\":[\"projects/demo-cms-browser-journey/databases/(default)/documents"
+      },
+      {
+        "season": 0,
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      },
+      {
+        "season": 0,
+        "type": "warning",
+        "text": "[2026-10-16T17:58:27.326Z]  @firebase/firestore: Firestore (12.17.0): RestConnection RPC 'Commit' 0x60ff811f failed with error:  {\"code\":\"permission-denied\",\"name\":\"FirebaseError\"} url:  http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:commit?key=demo-api-key request: {\"writes\":[{\"update\":{\"name\":\"projects/demo-cms-browser-journey/databases/(default)/documen"
+      }
+    ],
+    "nik": [
+      {
+        "season": 0,
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      },
+      {
+        "season": 0,
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      },
+      {
+        "season": 0,
+        "type": "warning",
+        "text": "[2026-10-16T17:58:27.128Z]  @firebase/firestore: Firestore (12.17.0): RestConnection RPC 'BatchGetDocuments' 0x5a772c9b failed with error:  {\"code\":\"permission-denied\",\"name\":\"FirebaseError\"} url:  http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key request: {\"documents\":[\"projects/demo-cms-browser-journey/databases/(default)/documents"
+      },
+      {
+        "season": 0,
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      },
+      {
+        "season": 0,
+        "type": "warning",
+        "text": "[2026-10-16T17:58:30.165Z]  @firebase/firestore: Firestore (12.17.0): RestConnection RPC 'BatchGetDocuments' 0x5a772c9f failed with error:  {\"code\":\"permission-denied\",\"name\":\"FirebaseError\"} url:  http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key request: {\"documents\":[\"projects/demo-cms-browser-journey/databases/(default)/documents"
+      },
+      {
+        "season": 0,
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      },
+      {
+        "season": 0,
+        "type": "warning",
+        "text": "[2026-10-16T17:58:33.186Z]  @firebase/firestore: Firestore (12.17.0): RestConnection RPC 'BatchGetDocuments' 0x5a772ca7 failed with error:  {\"code\":\"permission-denied\",\"name\":\"FirebaseError\"} url:  http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key request: {\"documents\":[\"projects/demo-cms-browser-journey/databases/(default)/documents"
+      },
+      {
+        "season": 0,
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      },
+      {
+        "season": 0,
+        "type": "warning",
+        "text": "[2026-10-16T17:58:36.212Z]  @firebase/firestore: Firestore (12.17.0): RestConnection RPC 'BatchGetDocuments' 0x5a772cab failed with error:  {\"code\":\"permission-denied\",\"name\":\"FirebaseError\"} url:  http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key request: {\"documents\":[\"projects/demo-cms-browser-journey/databases/(default)/documents"
+      },
+      {
+        "season": 0,
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      },
+      {
+        "season": 0,
+        "type": "warning",
+        "text": "[2026-10-16T17:58:39.238Z]  @firebase/firestore: Firestore (12.17.0): RestConnection RPC 'BatchGetDocuments' 0x5a772caf failed with error:  {\"code\":\"permission-denied\",\"name\":\"FirebaseError\"} url:  http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key request: {\"documents\":[\"projects/demo-cms-browser-journey/databases/(default)/documents"
+      },
+      {
+        "season": 0,
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      },
+      {
+        "season": 0,
+        "type": "warning",
+        "text": "[2026-10-16T17:58:42.273Z]  @firebase/firestore: Firestore (12.17.0): RestConnection RPC 'BatchGetDocuments' 0x5a772cb3 failed with error:  {\"code\":\"permission-denied\",\"name\":\"FirebaseError\"} url:  http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key request: {\"documents\":[\"projects/demo-cms-browser-journey/databases/(default)/documents"
+      },
+      {
+        "season": 0,
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      },
+      {
+        "season": 0,
+        "type": "warning",
+        "text": "[2026-10-16T17:58:45.300Z]  @firebase/firestore: Firestore (12.17.0): RestConnection RPC 'BatchGetDocuments' 0x5a772cb7 failed with error:  {\"code\":\"permission-denied\",\"name\":\"FirebaseError\"} url:  http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key request: {\"documents\":[\"projects/demo-cms-browser-journey/databases/(default)/documents"
+      }
+    ]
+  },
+  "network": {
+    "daniel": [
+      {
+        "season": 0,
+        "phase": "boot",
+        "at": 5717,
+        "kind": "requestfailed",
+        "method": "GET",
+        "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&display=swap",
+        "error": "net::ERR_TUNNEL_CONNECTION_FAILED",
+        "class": "environment"
+      },
+      {
+        "season": 0,
+        "phase": "private-session",
+        "at": 19014,
+        "kind": "http",
+        "status": 403,
+        "method": "POST",
+        "url": "http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key",
+        "body": "{\"error\":{\"code\":403,\"message\":\"\\nfalse for 'get' @ L2824\",\"status\":\"PERMISSION_DENIED\"}}",
+        "class": "unexpected"
+      },
+      {
+        "season": 0,
+        "phase": "private-session",
+        "at": 19522,
+        "kind": "http",
+        "status": 403,
+        "method": "POST",
+        "url": "http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:commit?key=demo-api-key",
+        "body": "{\"error\":{\"code\":403,\"message\":\"\\nfalse for 'create' @ L2824, false for 'update' @ L2824\",\"status\":\"PERMISSION_DENIED\"}}",
+        "documents": [
+          "rivalries/pair_179c32c2b09ca5f2a85eed56de2d13c1545bd34db0adbd79955c1e1198a91ec0/sessionOffers/current"
+        ],
+        "class": "rules-denied-commit"
+      }
+    ],
+    "nik": [
+      {
+        "season": 0,
+        "phase": "boot",
+        "at": 8926,
+        "kind": "requestfailed",
+        "method": "GET",
+        "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&display=swap",
+        "error": "net::ERR_TUNNEL_CONNECTION_FAILED",
+        "class": "environment"
+      },
+      {
+        "season": 0,
+        "phase": "private-session",
+        "at": 19322,
+        "kind": "http",
+        "status": 403,
+        "method": "POST",
+        "url": "http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key",
+        "body": "{\"error\":{\"code\":403,\"message\":\"\\nfalse for 'get' @ L2824\",\"status\":\"PERMISSION_DENIED\"}}",
+        "class": "unexpected"
+      },
+      {
+        "season": 0,
+        "phase": "private-session",
+        "at": 22360,
+        "kind": "http",
+        "status": 403,
+        "method": "POST",
+        "url": "http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key",
+        "body": "{\"error\":{\"code\":403,\"message\":\"\\nfalse for 'get' @ L2824\",\"status\":\"PERMISSION_DENIED\"}}",
+        "class": "unexpected"
+      },
+      {
+        "season": 0,
+        "phase": "private-session",
+        "at": 25382,
+        "kind": "http",
+        "status": 403,
+        "method": "POST",
+        "url": "http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key",
+        "body": "{\"error\":{\"code\":403,\"message\":\"\\nfalse for 'get' @ L2824\",\"status\":\"PERMISSION_DENIED\"}}",
+        "class": "unexpected"
+      },
+      {
+        "season": 0,
+        "phase": "private-session",
+        "at": 28407,
+        "kind": "http",
+        "status": 403,
+        "method": "POST",
+        "url": "http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key",
+        "body": "{\"error\":{\"code\":403,\"message\":\"\\nfalse for 'get' @ L2824\",\"status\":\"PERMISSION_DENIED\"}}",
+        "class": "unexpected"
+      },
+      {
+        "season": 0,
+        "phase": "private-session",
+        "at": 31433,
+        "kind": "http",
+        "status": 403,
+        "method": "POST",
+        "url": "http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key",
+        "body": "{\"error\":{\"code\":403,\"message\":\"\\nfalse for 'get' @ L2824\",\"status\":\"PERMISSION_DENIED\"}}",
+        "class": "unexpected"
+      },
+      {
+        "season": 0,
+        "phase": "private-session",
+        "at": 34468,
+        "kind": "http",
+        "status": 403,
+        "method": "POST",
+        "url": "http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key",
+        "body": "{\"error\":{\"code\":403,\"message\":\"\\nfalse for 'get' @ L2824\",\"status\":\"PERMISSION_DENIED\"}}",
+        "class": "unexpected"
+      },
+      {
+        "season": 0,
+        "phase": "private-session",
+        "at": 37495,
+        "kind": "http",
+        "status": 403,
+        "method": "POST",
+        "url": "http://127.0.0.1:9411/v1/projects/demo-cms-browser-journey/databases/(default)/documents:batchGet?key=demo-api-key",
+        "body": "{\"error\":{\"code\":403,\"message\":\"\\nfalse for 'get' @ L2824\",\"status\":\"PERMISSION_DENIED\"}}",
+        "class": "unexpected"
+      }
+    ]
+  },
+  "realUiSteps": [
+    "SIGN IN WITH GOOGLE button and player choice (the emulator switch answers the Google popup with an Auth-emulator account)",
+    "CREATE CODE FOR NIK, typing the pair code on Nik's page, JOIN DANIEL'S SHOWDOWN, CONTINUE CAREER (session hosted/joined by the app itself)",
+    "league wheel SPIN, club pack OPEN, CONFIRM SHARED SHOWDOWN, I STARTED AT <club> (both managers)",
+    "Shared Transfer Challenge every season: START, early end (both), guess type + value, LOCK MY GUESSES, signing name/league/nationality, LOCK MY SIGNINGS, CONTINUE TO SHARED SEASON RESULTS",
+    "season results: typing league position, points, goals and ticking cup / Champions League / top scorer / top assist, REVIEW SEASON, confirm and publish (sequential and simultaneous)",
+    "COMMIT & ACKNOWLEDGE (Daniel), ACKNOWLEDGE (Nik), CONTINUE TO SEASON n",
+    "page reload every season, BACK TO MAIN MENU, Career Statistics, Trophy Room, Legacy, STANDINGS, CONTINUE CAREER, START CAREER",
+    "Showdown Champion screen, HONOURS tab, BACK TO SHOWDOWN HOME, reload, Career Statistics (TABLE / COMPARE / LEADERS), Trophy Room (and MORE on a phone), Legacy, STANDINGS (THIS SHOWDOWN / CAREER), VIEW SEASON HISTORY",
+    "History cross-check: both browsers read every figure; then each reloads after its local storage is wiped; then a brand-new browser signs in as Daniel and as Nik (SIGN IN WITH GOOGLE, player choice) and reads the same screens"
+  ],
+  "seededSteps": [
+    "Local storage is wiped with a page script (localStorage.clear()), not by a player action; sign-in lives in sessionStorage so it is left alone",
+    "Auth: the Google sign-in popup is replaced by the Firebase Auth emulator (tests/browser/support/emulator-runtime-switch.js), as in the existing two-manager journey",
+    "Transfer Challenge: the 15-minute window is ended early by both managers; guesses and signings are fixed typed values, not game-random",
+    "Season result numbers are typed from a seeded plan (they stand in for what the managers read off their FIFA 17 career)",
+    "Expected values are recomputed in this file from those inputs; the database is read directly (admin) only to confirm the terminal-close witness and account bootstrap"
+  ],
+  "taps": {
+    "daniel": 10,
+    "nik": 6
+  },
+  "networkSummary": {
+    "daniel": {
+      "environment": 1,
+      "unexpected 403": 1,
+      "rules-denied-commit 403": 1
+    },
+    "nik": {
+      "environment": 1,
+      "unexpected 403": 7
+    }
+  },
+  "rulesDeniedCommits": [
+    {
+      "user": "daniel",
+      "season": 0,
+      "phase": "private-session",
+      "documents": [
+        "rivalries/pair_179c32c2b09ca5f2a85eed56de2d13c1545bd34db0adbd79955c1e1198a91ec0/sessionOffers/current"
+      ],
+      "message": "{\"error\":{\"code\":403,\"message\":\"\\nfalse for 'create' @ L2824, false for 'update' @ L2824\",\"status\":\"PERMISSION_DENIED\"}}"
+    }
+  ],
+  "summary": {
+    "checks": 15,
+    "passed": 13,
+    "failed": 2,
+    "problems": 4
+  }
+}
