@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-16 6:58 PM Boston time (EDT)",
+ "generated": "2026-10-16 7:02 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 96,
@@ -916,32 +916,23 @@
  },
  "two": {
   "live": {
-   "sha": "3f6b1c9",
-   "revision": "1.9.1-r75",
-   "when": "2026-10-13T12:52:44Z",
-   "subject": "Release r75: Firebase read/write fix and Reus Gate (#834)",
-   "fixes": [
+   "sha": "b41f296",
+   "revision": "1.9.1-r76",
+   "when": "2026-10-16T23:00:49Z",
+   "subject": "Release r76: gameplay bug fixes and read-cost cut (#878)",
+   "fixes": [],
+   "today": [
     {
      "pr": 878,
      "title": "Release r76: gameplay bug fixes and read-cost cut (1.9.1-r76)",
-     "draft": false,
-     "branch": "gameplay/release-r76",
-     "sha": "17f1f26b2e3efba571d2309f9596b7b75cb19257",
-     "updated": "2026-10-16T22:49:39Z",
-     "gates": {
-      "passed": 15,
-      "running": 0,
-      "failed": 1,
-      "cancelled": 0
-     }
+     "merged": "2026-10-16T23:00:49Z"
     }
-   ],
-   "today": []
+   ]
   },
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #878: L1… L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #878 0/16",
+   "gate": "Gate #878: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #878 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -1396,7 +1387,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 49,
+  "moving": 48,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -2612,22 +2603,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 878,
-    "title": "Release r76: gameplay bug fixes and read-cost cut (1.9.1-r76)",
-    "draft": false,
-    "branch": "gameplay/release-r76",
-    "sha": "17f1f26b2e3efba571d2309f9596b7b75cb19257",
-    "updated": "2026-10-16T22:49:39Z",
-    "gates": {
-     "passed": 15,
-     "running": 0,
-     "failed": 1,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {

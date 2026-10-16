@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 6:58 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 7:02 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
-🌐 **Live: 1.9.1-r75** (main `3f6b1c9`, Tue 13 Oct 8:52 AM)
+🌐 **Live: 1.9.1-r76** (main `b41f296`, Fri 16 Oct 7:00 PM)
 
-🩺 **All clear: every check has a machine.** · Gate #878: L1… L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #878 0/16
+🩺 **All clear: every check has a machine.** · Gate #878: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #878 0/16
 
 ## Jobs
 
@@ -74,15 +74,15 @@ Updated Fri 16 Oct, 6:58 PM Boston time. Bug hunting only, no new features until
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 89 min ago
+⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 93 min ago
 
 **#16 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 34 min ago
+⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 38 min ago
 
 **#17 · 1839** `G` r76 gallery refresh: every screen from the final workbench, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 33 min ago
+⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 37 min ago
 
 ### 👉 Next for you, in this order
 
@@ -1808,12 +1808,6 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 ## Other Team G work
 
-**Fixing now**
-
-| Lane | Item | What | State |
-| --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #878](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/878) | Release r76: gameplay bug fixes and read-cost cut (1.9.1-r76) | 🔴 15 passed, 1 failed |
-
 **Up next**
 
 | Lane | Item | What | State |
@@ -1834,4 +1828,8 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
 | 🟧 Opus | **V-F2** | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | queued · after G-F1 |
+
+## Shipped today
+
+- 7:00 PM · #878 Release r76: gameplay bug fixes and read-cost cut (1.9.1-r76)
 
