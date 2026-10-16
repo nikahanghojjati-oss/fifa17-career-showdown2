@@ -78,7 +78,7 @@
     scpExact(value,COMMIT_KEYS,"SEASON_COMMIT_PROVIDER_STATE_INVALID");
     if(value.schemaVersion!==1||value.objectType!=="sharedSeasonCommit"||value.runtimeRevision!==RUNTIME_REVISION||value.seasonNumber!==ready.seasonNumber||!["COMMITTED","ACKNOWLEDGED"].includes(value.phase)||!Number.isInteger(value.revision)||value.revision<1||value.revision>3||value.resultsRevision!==2)scpFail("SEASON_COMMIT_PROVIDER_STATE_INVALID");
     scpExact(value.results,ROLES,"SEASON_COMMIT_PROVIDER_STATE_INVALID");for(const role of ROLES)scpResult(value.results[role],teamCount);
-    if(JSON.stringify(value.results)!==JSON.stringify(ready.results))scpFail("SEASON_COMMIT_RESULTS_REVISION_MISMATCH");
+    if(scpCanonical(value.results)!==scpCanonical(ready.results))scpFail("SEASON_COMMIT_RESULTS_REVISION_MISMATCH");
     for(const key of ["operationIds","operationHashes","baseRevisions","actorRoles"]){if(!Array.isArray(value[key])||value[key].length!==value.revision)scpFail("SEASON_COMMIT_PROVIDER_STATE_INVALID");}
     if(!Array.isArray(value.acknowledgedRoles)||value.acknowledgedRoles.length!==value.revision-1)scpFail("SEASON_COMMIT_PROVIDER_STATE_INVALID");
     const receipts=value.operationIds.map((operationId,index)=>({operationId,baseRevision:value.baseRevisions[index],actorRole:value.actorRoles[index],type:index===0?"commit-season":"acknowledge-season",commandHash:value.operationHashes[index]}));
