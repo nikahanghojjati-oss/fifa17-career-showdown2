@@ -894,9 +894,9 @@ async function revokePairing(options={}){
   // One document, read on the server inside a transaction that ends before commit (one BatchGetDocuments, no write).
   // r76: the waiting screen's authority listeners stop while the page is hidden and start again when it returns. A read
   // of one of their documents that starts before that listener's first server delivery waits for it instead of reading the
-  // same document again, so a return costs one read per document. A listener that cannot deliver hands the read back.
+  // same document again, so a return costs one read per document. A listener that cannot deliver, or has not delivered within 5 s, hands the read back.
   let fsbReturnPaths=[],fsbWasHidden=false;const fsbListens=new Map();
-  function fsbListenReturning(){for(const path of fsbReturnPaths)if(!fsbListens.has(path)){const listen={};listen.promise=new Promise(resolve=>{listen.resolve=resolve;});fsbListens.set(path,listen);}}
+  function fsbListenReturning(){for(const path of fsbReturnPaths)if(!fsbListens.has(path)){const listen={};listen.promise=new Promise(resolve=>{listen.resolve=resolve;});fsbListens.set(path,listen);if(typeof root.setTimeout==="function")root.setTimeout(()=>fsbListened(path,null),5000);}}
   function fsbListened(path,snapshot){if(path===undefined){for(const key of [...fsbListens.keys()])fsbListened(key,null);return;}const listen=fsbListens.get(path);if(!listen)return;fsbListens.delete(path);if(snapshot){fsbStats.listenerServed+=1;fsbRemember(fsbFirestore,{path},snapshot);}listen.resolve(snapshot||null);}
   function fsbReturnListen(paths){fsbReturnPaths=Array.isArray(paths)?paths.filter(path=>typeof path==="string"):[];for(const path of [...fsbListens.keys()])if(!fsbReturnPaths.includes(path))fsbListened(path,null);}
   function fsbReadOne(sdk,db,ref){

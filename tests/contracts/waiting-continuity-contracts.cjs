@@ -305,6 +305,17 @@ async function scenario(screen,owner,phase,reloaded){
     assert.equal(w.api.getState()?.phase,"CLOSED","context wake while busy must run after the held refresh");
     console.log("PASS Terminal Close retains a context wake while busy");
   }catch(e){failures.push(`terminal busy wake: ${e.message}`);console.error(`FAIL terminal busy wake: ${e.stack}`);}
+  try{
+    // A tab return whose waiting listener never re-attaches must not leave a read of that document hanging.
+    const w=createWorld();w.server.set(SETUP,{data:{phase:"SHOWDOWN_CONFIRMED"},version:1});
+    await w.services.firestoreSdk.runTransaction(w.db,tx=>tx.get(w.sdk.doc(w.db,SESSION)));// signed-in account is known
+    w.budget.returnListen([SETUP]);w.setVisible(false);w.setVisible(true);
+    let done=false;const reading=w.services.firestoreSdk.runTransaction(w.db,tx=>tx.get(w.sdk.doc(w.db,SETUP))).then(snap=>{done=true;return snap;});
+    await w.advance(1000);assert.equal(done,false,"the read first waits for the returning listener");
+    await w.advance(5000);assert.equal(done,true,"with no listener delivery the read falls back to the server within 5 s");
+    assert.equal((await reading).data().phase,"SHOWDOWN_CONFIRMED");
+    console.log("PASS return read without a re-attached listener falls back within 5 s");
+  }catch(e){failures.push(`return read fallback: ${e.message}`);console.error(`FAIL return read fallback: ${e.stack}`);}
   for(const screen of ["mainMenu","standings","seasonEntry"])for(const owner of ["progression","final","terminal","session","rivalry"])for(const phase of ["results","commit"])for(const reload of [false,true]){
     const label=`${screen}/${owner}/${phase}/${reload?"reload":"live"}`;
     if(process.env.WAITING_CONTINUITY_FILTER&&!label.includes(process.env.WAITING_CONTINUITY_FILTER))continue;
