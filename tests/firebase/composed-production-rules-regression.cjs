@@ -52,7 +52,8 @@ const LABELS=Object.freeze({
   "tests/firebase/spark-account-bootstrap-emulator.cjs":"Spark account bootstrap (base suite on composed Rules)",
   "tests/firebase/stage4-mutation-rate-limit-emulator.cjs":"Stage 4 mutation rate limit (base suite on composed Rules)",
   [GAP_SUITE]:"G-12 gap suite (list/delete sweep, private scope, exact ACTIVE)",
-  "tests/firebase/career-start-marker-emulator.cjs":"Career start marker matrix"
+  "tests/firebase/career-start-marker-emulator.cjs":"Career start marker matrix",
+  "tests/firebase/terminal-close-stale-write-emulator.cjs":"Terminal Close stale-write race"
 });
 // Promise matrix: each promise passes only if every evidence item passed. Evidence: suite file (any run of it)
 // or a T/B/E check id from this runner.
