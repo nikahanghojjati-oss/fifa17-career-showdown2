@@ -250,6 +250,20 @@ const SHELL_PATHS = Object.freeze([
     "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2"
 ]);
 const SHELL_PATH_SET = new Set(SHELL_PATHS);
+// The retained previous shell was installed by its own worker with its own list, so it is verified against that list, not
+// this one: checked against SHELL_PATHS it would lack this release's new files, fail, and be deleted on activation, leaving
+// nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION (and empties
+// the set when it changes PREVIOUS_RUNTIME_REVISION again). r78 added these six to r77's 213 paths and removed none.
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([
+    "assets/LOADING_REUS_DESKTOP.webp",
+    "assets/LOADING_REUS_PHONE.webp",
+    "css/r78-type.css",
+    "css/r78-marble-surfaces.css",
+    "css/r78-marble-tile.webp",
+    "js/showdownConfirm.js"
+]);
+const PREVIOUS_SHELL_PATHS = Object.freeze(SHELL_PATHS.filter(path=>!SHELL_PATHS_ADDED_SINCE_PREVIOUS.has(path)));
+function shellPathsForRevision(revision){ return revision&&revision!==RUNTIME_REVISION&&revision===PREVIOUS_RUNTIME_REVISION?PREVIOUS_SHELL_PATHS:SHELL_PATHS; }
 
 function scopeUrl(path = ""){
     return new URL(path, self.registration.scope);
@@ -292,11 +306,11 @@ function relativeScopePath(url){
 }
 async function cacheExists(cacheName){ if(!cacheName){ return false; } return (await caches.keys()).includes(cacheName); }
 async function verifyCache(revision = RUNTIME_REVISION){
-    const cacheName = cacheNameForRevision(revision);
-    if(!revision || !(await cacheExists(cacheName))){ return { ok:false, available:false, cacheName, revision, expected:SHELL_PATHS.length, missing:SHELL_PATHS.slice() }; }
+    const cacheName = cacheNameForRevision(revision); const paths=shellPathsForRevision(revision);
+    if(!revision || !(await cacheExists(cacheName))){ return { ok:false, available:false, cacheName, revision, expected:paths.length, missing:paths.slice() }; }
     const cache=await caches.open(cacheName); const missing=[];
-    for(const path of SHELL_PATHS){ const response=await cache.match(versionedShellUrl(path,revision)); if(!response||!response.ok){ missing.push(path); } }
-    return { ok:missing.length===0, available:true, cacheName, revision,expected:SHELL_PATHS.length, missing };
+    for(const path of paths){ const response=await cache.match(versionedShellUrl(path,revision)); if(!response||!response.ok){ missing.push(path); } }
+    return { ok:missing.length===0, available:true, cacheName, revision,expected:paths.length, missing };
 }
 async function populateCurrentCache(){
     const cache=await caches.open(CACHE_NAME);
@@ -360,7 +374,7 @@ self.addEventListener("fetch",event=>{
         if(NETWORK_ONLY_NAVIGATION_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; }
         event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); if(selected){const cached=await cachedShellResponse("index.html",selected.revision);if(cached){return cached;}} return fetch(request); })()); return;
     }
-    const path=relativeScopePath(url); if(!path){return;} if(isV10ImagePath(path)){ event.respondWith(v10ImageResponse(event,request,path)); return; } if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(path===APP_CHECK_BOOTSTRAP_PATH){return;} const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){ if(UNVERSIONED_SHELL_ASSET_PATHS.has(path)){ event.respondWith(unversionedShellResponse(request,path)); } return; }
+    const path=relativeScopePath(url); if(!path){return;} if(isV10ImagePath(path)){ event.respondWith(v10ImageResponse(event,request,path)); return; } if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(path===APP_CHECK_BOOTSTRAP_PATH){return;} if(UNVERSIONED_SHELL_ASSET_PATHS.has(path)&&!url.searchParams.get("v")){ event.respondWith(unversionedShellResponse(request,path)); return; } const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
     event.respondWith((async()=>{const cached=await cachedShellResponse(path,requestedRevision);return cached||Response.error();})());
 });
-self.__CMS_SERVICE_WORKER_DIAGNOSTICS__=Object.freeze({revision:RUNTIME_REVISION,previousRevision:PREVIOUS_RUNTIME_REVISION,cacheName:CACHE_NAME,previousCacheName:PREVIOUS_CACHE_NAME,modeCacheName:MODE_CACHE_NAME,shellPaths:SHELL_PATHS});
+self.__CMS_SERVICE_WORKER_DIAGNOSTICS__=Object.freeze({revision:RUNTIME_REVISION,previousRevision:PREVIOUS_RUNTIME_REVISION,cacheName:CACHE_NAME,previousCacheName:PREVIOUS_CACHE_NAME,modeCacheName:MODE_CACHE_NAME,shellPaths:SHELL_PATHS,previousShellPaths:PREVIOUS_SHELL_PATHS});
