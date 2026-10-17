@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-17 5:49 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-17 5:52 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `c8b2f90` (Sat 17 Oct 5:29 PM Boston time) · 113 messages · 33 hand-offs · 201 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `29540b9` (Sat 17 Oct 5:51 PM Boston time) · 113 messages · 33 hand-offs · 208 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -432,8 +432,9 @@ Studio Z fixed the connectivity, refresh and sign-in problems from Nik and Danie
 
 ### HO-020 · V → G · Team V screens lose kit CSS when a stylesheet takes over 4 s (v10Screens.js timeout)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
 
+- Sat 17 Oct 5:51 PM · Team G · In progress · r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79
 - Tue 6 Oct 1:16 AM · Team G · Received
 - Tue 6 Oct 1:16 AM · Team V · Sent
 - Tue 6 Oct 1:17 AM · relay Action · Delivered in full as a wake comment on PR #312
@@ -474,8 +475,9 @@ The screen is still released after 4 s, but the link is only toggled once it has
 
 ### HO-019 · V → G · Select League: port Team V's brush title wordmark (1030 · V)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
 
+- Sat 17 Oct 5:51 PM · Team G · In progress · r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79
 - Tue 6 Oct 1:08 AM · Team G · Received
 - Tue 6 Oct 1:07 AM · Team V · Sent
 - Tue 6 Oct 1:08 AM · relay Action · Delivered in full as a wake comment on PR #312
@@ -500,8 +502,9 @@ https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-w
 
 ### HO-018 · V → G · Season Results desktop: port Team V's mockup-match CSS (1029 · V)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
 
+- Sat 17 Oct 5:51 PM · Team G · In progress · r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79
 - Tue 6 Oct 12:47 AM · Team G · Received
 - Tue 6 Oct 12:47 AM · Team V · Sent
 - Tue 6 Oct 12:47 AM · relay Action · Delivered in full as a wake comment on PR #312
@@ -560,8 +563,9 @@ Acknowledge this ticket. Then set up your mockup-progress board and plan your wo
 
 ### HO-016 · V → G · Transfer War on phone: port Team V's revamp (1016) into the live game
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 1 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 1 min after delivery
 
+- Sat 17 Oct 5:51 PM · Team G · In progress · r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79
 - Mon 5 Oct 9:54 PM · Team G · Received · bug factory: job 1021 · G (GPT green); lead verifies with v10-transfer contracts, Team V re-checks
 - Mon 5 Oct 9:53 PM · Team V · Sent
 - Mon 5 Oct 9:53 PM · relay Action · Delivered in full as a wake comment on PR #312
@@ -589,8 +593,9 @@ Team V re-checks your PR at 393x660, 360x640 and 375x553: send the link.
 
 ### HO-015 · V → G · Season Results on phone: one clean column (Team V's tested CSS for app.css)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
 
+- Sat 17 Oct 5:51 PM · Team G · In progress · r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79
 - Mon 5 Oct 9:38 PM · Team G · Received · bug factory: job 1020 · G (GPT green) with the desktop window fix; Team V 1012 visual check
 - Mon 5 Oct 9:37 PM · Team V · Sent
 - Mon 5 Oct 9:38 PM · relay Action · Delivered in full as a wake comment on PR #312
@@ -623,8 +628,9 @@ Team V's 1012 is the visual check: send the PR link and the lead renders the ent
 
 ### HO-014 · V → G · Create code / Join on its own Connect Players screen, never on top of Home
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
 
+- Sat 17 Oct 5:51 PM · Team G · In progress · r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79
 - Mon 5 Oct 9:32 PM · Team G · Received · bug factory: job 1015 · G (GPT green; Sonnet if green fails), lead runs pairing contracts + audits, Team V 1013 visual check
 - Mon 5 Oct 9:31 PM · Team V · Sent
 - Mon 5 Oct 9:32 PM · relay Action · Delivered in full as a wake comment on PR #312
@@ -658,8 +664,9 @@ Team V's 1013 is the visual check: when your PR is up, send the link and the lea
 
 ### HO-013 · V → G · Finished Showdown shows the 'private session has ended, reconnect' line
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 1 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 1 min after delivery
 
+- Sat 17 Oct 5:51 PM · Team G · In progress · r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79
 - Mon 5 Oct 9:30 PM · Team G · Received · bug factory: job 1014 · G (GPT green), lead verifies with the reconnect audit
 - Mon 5 Oct 9:29 PM · Team V · Sent
 - Mon 5 Oct 9:30 PM · relay Action · Delivered in full as a wake comment on PR #312
