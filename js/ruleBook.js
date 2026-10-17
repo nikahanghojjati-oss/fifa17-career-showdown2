@@ -66,7 +66,7 @@ function createRuleBookScreen(){
         createRuleSection("06", "CONNECTION & RECOVERY", [
             "Daniel and Nik connect once before the first Showdown and can then continue the same career from a remembered account and browser.",
             "A new or forgotten browser may need to be connected again before play continues.",
-            "Your career is saved to your account online. The browser only keeps small helpers for recovery; they do not create a separate gameplay mode.",
+            "Device storage may be used internally for recovery and rollback, but it does not create a separate gameplay mode.",
             "Results are entered manually from FIFA 17; screenshots and match notes are not required."
         ])
     );
