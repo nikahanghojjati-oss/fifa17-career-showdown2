@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-17 12:39 PM Boston time (EDT)",
+ "generated": "2026-10-17 12:42 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 112,
@@ -1031,8 +1031,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "5751140",
-  "head_boston": "Sat 17 Oct 11:04 AM",
+  "head": "a964df1",
+  "head_boston": "Sat 17 Oct 12:39 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1070,11 +1070,11 @@
      "title": "Release r78: look and feel (1.9.2-r78)",
      "draft": false,
      "branch": "gameplay/clean-start",
-     "sha": "7cb179ea6bec30a2aec88caecd81429439b6a133",
-     "updated": "2026-10-17T11:15:06Z",
+     "sha": "2b78d5d2c6fd885d490ad17abb2a793f1a3e2114",
+     "updated": "2026-10-17T16:39:35Z",
      "gates": {
-      "passed": 8,
-      "running": 0,
+      "passed": 2,
+      "running": 5,
       "failed": 0,
       "cancelled": 0
      }
@@ -1085,7 +1085,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #897: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #897 0/16",
+   "gate": "Gate #897: L1… L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #897 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -1514,8 +1514,8 @@
     "from": "V",
     "to": "G",
     "title": "r78 phone marble: use the painted-men plates, drop OVL cut-outs (no man-free plates)",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-031_r78-phone-marble-use-the-painted-men-pla.md",
     "worker": "",
@@ -1527,8 +1527,8 @@
     "from": "V",
     "to": "G",
     "title": "r78 phone League: smaller wheel so both faces show",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-032_r78-phone-league-smaller-wheel-so-both-f.md",
     "worker": "",
@@ -1605,7 +1605,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 50,
+  "moving": 48,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -2827,11 +2827,11 @@
     "title": "Release r78: look and feel (1.9.2-r78)",
     "draft": false,
     "branch": "gameplay/clean-start",
-    "sha": "7cb179ea6bec30a2aec88caecd81429439b6a133",
-    "updated": "2026-10-17T11:15:06Z",
+    "sha": "2b78d5d2c6fd885d490ad17abb2a793f1a3e2114",
+    "updated": "2026-10-17T16:39:35Z",
     "gates": {
-     "passed": 8,
-     "running": 0,
+     "passed": 2,
+     "running": 5,
      "failed": 0,
      "cancelled": 0
     }
