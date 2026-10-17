@@ -1353,3 +1353,16 @@
   }
   #app #legacy[data-rivalry-legacy-v10] .sd-stage__layer--ui { grid-template-rows:var(--lg-hero) auto auto auto; }
 }
+
+/* r78 HO-031 phone marble: upright phones and tablets draw Team V's ENV_LEGACY_PHONE_V2 (both managers painted in) over
+   the whole screen, sized as cover and pinned to the top, in place of the old plate and the two cut-outs. The dark grade
+   over the men is gone. The live layout (BACK, title, archive card, buttons) is unchanged. */
+@media (max-width:900px) and (orientation:portrait) {
+  #app #legacy[data-rivalry-legacy-v10] .sd-stage__layer--plate { inset:0; height:auto; overflow:hidden; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyPhonePlate { position:absolute; inset:0; overflow:hidden; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyPhonePlate img {
+    position:absolute; left:50%; top:0; width:max(100vw,calc(100svh * 1179 / 2096)); height:auto; max-width:none;
+    transform:translateX(-50%); object-fit:fill;
+  }
+  #app #legacy[data-rivalry-legacy-v10] .legacyPhoneGrade { display:none; }
+}

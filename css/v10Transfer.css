@@ -86,28 +86,11 @@
     --tw-s: min(calc(100vw * .001629), calc((var(--tw-window, 55svh) - 52px) / 300));
     --tw-top: calc(max(8px, env(safe-area-inset-top)) + 40px);
   }
-  #transferChallenge .tw-host .phone-hero { transform: none; }
   #transferChallenge .tw-host .phone-hero-bg {
     -webkit-mask-image: linear-gradient(to bottom, #000 calc(var(--tw-top) + 434 * var(--tw-s) - 70px), transparent calc(var(--tw-top) + 434 * var(--tw-s) + 6px));
             mask-image: linear-gradient(to bottom, #000 calc(var(--tw-top) + 434 * var(--tw-s) - 70px), transparent calc(var(--tw-top) + 434 * var(--tw-s) + 6px));
   }
   #transferChallenge .tw-host .scene { max-height: calc(40svh + var(--band-h)); }
-  #transferChallenge .tw-host .phone-hero-daniel {
-    height: calc(434 * var(--tw-s));
-    top: var(--tw-top);
-    left: calc(24.7vw - 313 * var(--tw-s));
-    z-index: 3;
-    -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
-  }
-  #transferChallenge .tw-host .phone-hero-nik {
-    height: calc(434 * var(--tw-s));
-    top: calc(var(--tw-top) + 10 * var(--tw-s));
-    left: calc(75.6vw - 340 * var(--tw-s));
-    z-index: 2;
-    -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
-  }
   #transferChallenge .tw-host .phone-hero-art::after { top: var(--tw-window, 46svh); background: var(--sd-black); }
   #transferChallenge .tw-host :is(.sign-main.closed, .sign-screen.status-board .sign-main.closed) { display: none; }
 
@@ -284,20 +267,7 @@
   #app #transferChallenge .tw-host .phone-hero-art img { display: none; }
   #app #transferChallenge .tw-host .phone-hero-bg {
     position: absolute; inset: 0; display: block; z-index: 1;
-    background: url("../visual-assets/v10_1/tr2/slice-02-plate/assets/ENV_TRANSFER_PHONE_V1.webp") 4% 34% / auto 165% no-repeat;
-  }
-  #app #transferChallenge .tw-host .phone-hero { position: absolute; display: block; transform: none; pointer-events: none;
-    background-repeat: no-repeat; background-size: 100% 100%;
-    -webkit-mask-image: linear-gradient(to bottom, #000 76%, transparent 100%); mask-image: linear-gradient(to bottom, #000 76%, transparent 100%); }
-  #app #transferChallenge .tw-host .phone-hero-daniel {
-    left: -8px; top: 44px; width: 148px; height: calc(148px * 608 / 701); z-index: 3;
-    background-image: url("../visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_DANIEL_PHONE_V2.webp");
-    filter: drop-shadow(-2px 0 5px rgba(245, 197, 24, .24)) drop-shadow(0 8px 10px rgba(0, 0, 0, .58));
-  }
-  #app #transferChallenge .tw-host .phone-hero-nik {
-    right: -12px; top: 50px; width: 156px; height: calc(156px * 781 / 925); z-index: 2;
-    background-image: url("../visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_NIK_PHONE_V2.webp");
-    filter: drop-shadow(2px 0 5px rgba(245, 197, 24, .24)) drop-shadow(0 8px 10px rgba(0, 0, 0, .58));
+    background: #070604 url("../visual-assets/v10_1/plates-v2/ENV_TRANSFER_PHONE_V2.webp") center top / cover no-repeat;
   }
   #app #transferChallenge .tw-host .transfer-wordmark {
     display: block; position: relative; z-index: 5; grid-area: 1 / 1 / 3 / 2; align-self: start; justify-self: center;
@@ -478,11 +448,8 @@
   /* hero: the phone portrait art (same three files the phone uses), as backgrounds so no picture source is needed */
   #app #transferChallenge .tw-host .phone-hero-art { display: block; position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: var(--sd-black); }
   #app #transferChallenge .tw-host .phone-hero-art img { display: none; }
-  #app #transferChallenge .tw-host .phone-hero-bg { position: absolute; inset: 0 0 auto; height: calc(var(--tb-top) + 56px + var(--tb-fig-h) + 40px); z-index: 1; overflow: hidden; background: url("../visual-assets/v10_1/tr2/slice-02-plate/assets/ENV_TRANSFER_PHONE_V1.webp") 50% 40% / cover no-repeat; }
+  #app #transferChallenge .tw-host .phone-hero-bg { position: absolute; inset: 0 0 auto; height: calc(var(--tb-top) + 56px + var(--tb-fig-h) + 40px); z-index: 1; overflow: hidden; background: url("../visual-assets/v10_1/plates-v2/ENV_TRANSFER_PHONE_V2.webp") center top / cover no-repeat; }
   #app #transferChallenge .tw-host .phone-hero-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(7,6,4,.94) 0, rgba(7,6,4,.80) 70px, rgba(7,6,4,.30) 150px, transparent 230px, transparent calc(100% - 90px), var(--sd-black) 100%); }
-  #app #transferChallenge .tw-host .phone-hero { position: absolute; display: block; width: auto; pointer-events: none; transform: none; background-repeat: no-repeat; background-size: 100% 100%; -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%); mask-image: linear-gradient(to bottom, #000 78%, transparent 100%); }
-  #app #transferChallenge .tw-host .phone-hero-daniel { z-index: 3; top: calc(var(--tb-top) + 58px); height: var(--tb-fig-h); aspect-ratio: 701 / 608; left: 0; background-image: url("../visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_DANIEL_PHONE_V2.webp"); filter: drop-shadow(-2px 0 5px rgba(245,197,24,.24)) drop-shadow(0 12px 14px rgba(0,0,0,.58)); }
-  #app #transferChallenge .tw-host .phone-hero-nik { z-index: 2; top: calc(var(--tb-top) + 58px + var(--tb-fig-h) * .02); height: var(--tb-fig-h); aspect-ratio: 925 / 781; right: 0; left: auto; background-image: url("../visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_NIK_PHONE_V2.webp"); filter: drop-shadow(2px 0 5px rgba(245,197,24,.24)) drop-shadow(0 12px 14px rgba(0,0,0,.58)); }
   #app #transferChallenge .tw-host .phone-hero-art::after { content: none; }
   #app #transferChallenge .tw-host .scene-atmos,
   #app #transferChallenge .tw-host .scene .plate,
@@ -975,4 +942,22 @@
     background: linear-gradient(180deg, #fff0a6 0, #f8d764 22%, #e4b032 56%, #f4cf58 82%, #c98f1c 100%);
     box-shadow: inset 0 1px 0 #fffbe0, inset 0 -2px 0 #a87a1288, 0 0 12px #f0c84b55; color: #1a1305; border-color: #fff1b8;
   }
+}
+
+/* r78 HO-031 phone marble: Transfer draws Team V's ENV_TRANSFER_PHONE_V2 (both managers painted in) in place of the
+   old phone plate and the two cut-outs. Upright phones and tablets: the plate covers the whole screen from the top,
+   behind the live layout (title, phase rail, cards and buttons stay where they were). Sideways phones: the plate fills
+   the left poster strip. No dark grades or black band over the men. */
+@media (max-width: 760px) and (orientation: portrait),
+       (min-width: 761px) and (max-width: 1100px) and (orientation: portrait) {
+  #app #transferChallenge .tw-host .phone-hero-art {
+    display: block; position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+    background: #070604 url("../visual-assets/v10_1/plates-v2/ENV_TRANSFER_PHONE_V2.webp") center top / max(100vw, calc(100svh * 1179 / 2096)) auto no-repeat;
+  }
+  #app #transferChallenge .tw-host .phone-hero-bg { display: none; }
+  #app #transferChallenge .tw-host .phone-hero-art::after { content: none; }
+}
+@media (orientation: landscape) and (max-height: 500px) and (max-width: 1100px) {
+  #app #transferChallenge .tw-host .phone-hero-bg { -webkit-mask-image: none; mask-image: none; }
+  #app #transferChallenge .tw-host :is(.phone-hero-art, .phone-hero-bg)::after { content: none; }
 }

@@ -1249,3 +1249,17 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
   box-shadow:inset 0 0 0 1px #050505,inset 0 1px 0 2px #fff1b81f,0 4px 14px #0009;
  }
 }
+
+/* r78 HO-031 phone marble: below the desktop layout (up to 900px wide: phones upright and sideways, upright tablets)
+   Connect Players draws Team V's ENV_CONNECT_PLAYERS_PHONE_V2, both managers painted in, sized as cover over the whole
+   screen and pinned to its top (the layer itself stops above the bottom bar). No cut-outs and no dark grades over the
+   men. Cards, tabs, places, words and tap order are unchanged. */
+@media (max-width:900px) {
+ #app #connectPlayersScreen {
+  background:#07080a url('../visual-assets/v10_1/plates-v2/ENV_CONNECT_PLAYERS_PHONE_V2.webp') center top/max(100vw,calc(100svh * 1179 / 2096)) auto no-repeat;
+ }
+ #app #connectPlayersScreen .connectPlayersArt::after,
+ #app #connectPlayersScreen .connectPlayersPhoneScene::after { content:none; }
+ /* Home's sheet paints every <main> near-black; upright and sideways tablets already clear it here, phones now too. */
+ #app #connectPlayersScreen .connectPlayersPhoneFlow { background:none; }
+}
