@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-17 10:25 AM Boston time (EDT)",
+ "generated": "2026-10-17 10:29 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 112,
@@ -1031,8 +1031,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "c86cc99",
-  "head_boston": "Sat 17 Oct 10:20 AM",
+  "head": "1c2ec09",
+  "head_boston": "Sat 17 Oct 10:28 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1527,7 +1527,7 @@
     "from": "V",
     "to": "G",
     "title": "r78 phone League: smaller wheel so both faces show",
-    "stage": "RECEIVED",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-032_r78-phone-league-smaller-wheel-so-both-f.md",

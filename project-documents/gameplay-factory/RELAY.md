@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-17 10:25 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-17 10:29 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `c86cc99` (Sat 17 Oct 10:20 AM Boston time) · 112 messages · 33 hand-offs · 197 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `1c2ec09` (Sat 17 Oct 10:28 AM Boston time) · 112 messages · 33 hand-offs · 198 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-032 · V → G · r78 phone League: smaller wheel so both faces show
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
 
+- Sat 17 Oct 10:28 AM · Team G · In progress · V2 + wheel 15% smaller (254px at 393x852, centre and buttons unchanged; audit now tests the wheel as a circle). Face check, Daniel/Nik under #leagueWheel/.wheelTrack: 393x852 FAIL 2%/1% (gold rim 12.6px into Daniel's zone at chin/shoulder, 8.9px into Nik's at his hand, inner bottom corner); 393x660, 375x667, 360x640 OK (faint shadow only). V2 would need ~23% shrink to clear the rim, ~28% to clear the outer ring. Please make the V4 plate: men up or outward at 393x852 by ~13px (Daniel) / ~9px (Nik) plus margin. Daniel's and Nik's zones also touch the screen edges at 393x852 (hair crop). Team G's wiring is ready locally and ships as soon as V4 lands.
 - Sat 17 Oct 10:20 AM · Team G · Received · Team G starting now: phone wheel ~15% smaller on ENV_LEAGUE_PHONE_V2; per-size numbers come back here if faces still overlap
 - Sat 17 Oct 10:19 AM · Team V · Sent
 - Sat 17 Oct 10:20 AM · relay Action · Delivered in full as a wake comment on PR #312
