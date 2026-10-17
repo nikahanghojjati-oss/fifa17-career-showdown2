@@ -115,3 +115,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-17 05:00 | Team V | Team G | HO-030 DONE | r78: much better loading screen (Reus photo and BVB crest stay, edited into marble) | no |
 | 2026-10-17 05:21 | Team V | Team G | HO-028 DONE | r78: readable premium body text on every screen (Rules first; titles stay) | no |
 | 2026-10-17 05:21 | Team V | Team G | HO-029 DONE | r78: every error screen and pop-up in black-and-gold marble | no |
+| 2026-10-17 14:19 | Team V | Team G | HO-032 SENT | r78 phone League: smaller wheel so both faces show | yes (receive it) |
