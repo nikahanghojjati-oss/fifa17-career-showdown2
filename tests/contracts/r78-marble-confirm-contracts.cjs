@@ -143,6 +143,37 @@ check("R4 the r78 sheets load with the kit and the box on first use, never in th
   assert.ok(fs.existsSync(path.join(ROOT,"css/r78-marble-tile.webp")));
 });
 
+// The marble sheet asks for its tile by a relative url(), so the request carries no ?v=. The worker must still answer it from
+// the precached shell (offline too), from the shell the page runs after a rollback, and from the network only on a miss.
+let tileChecks=Promise.reject(new Error("R4b did not run"));tileChecks.catch(()=>{});
+check("R4b the marble tile is served from the precached shell without a ?v= query (offline too)",()=>{
+  const vm=require("node:vm");
+  const SCOPE="https://cms.test/app/",store=new Map(),listeners={},net=new Map();let online=true;
+  const keyOf=k=>typeof k==="string"?k:k.url;
+  const caches={keys:async()=>[...store.keys()],delete:async name=>store.delete(name),
+    open:async name=>{if(!store.has(name))store.set(name,new Map());const m=store.get(name);return{match:async k=>{const r=m.get(keyOf(k));return r?r.clone():undefined;},put:async(k,r)=>{m.set(keyOf(k),r);}};}};
+  const fetch=async request=>{if(!online)throw new TypeError("offline");const body=net.get(new URL(keyOf(request)).pathname);return body===undefined?new Response("",{status:404}):new Response(body,{status:200});};
+  const self={registration:{scope:SCOPE},clients:{claim:async()=>{}},addEventListener:(type,fn)=>{listeners[type]=fn;}};
+  vm.runInContext(read("service-worker.js"),vm.createContext({self,caches,fetch,URL,Request,Response,console,setTimeout,clearTimeout}),{filename:"service-worker.js"});
+  const diag=self.__CMS_SERVICE_WORKER_DIAGNOSTICS__,TILE="css/r78-marble-tile.webp";
+  const fill=(revision,tile)=>{const m=new Map();for(const p of diag.shellPaths){const u=new URL(p,SCOPE);u.searchParams.set("v",revision);m.set(u.href,new Response(p===TILE?tile:p,{status:200}));}store.set("career-mode-showdown-shell-"+revision,m);};
+  const get=async url=>{let reply;listeners.fetch({request:new Request(SCOPE+url),respondWith:p=>{reply=p;},waitUntil:()=>{}});if(!reply)return "not answered";const r=await reply;return r.status===200?await r.text():`status ${r.status}`;};
+  const dispatch=async(type,event)=>{const waits=[];listeners[type]({waitUntil:p=>waits.push(p),...event});await Promise.all(waits);};
+  tileChecks=(async()=>{
+    fill(diag.revision,"current-tile");fill(diag.previousRevision,"previous-tile");
+    net.set("/app/"+TILE,"network-tile");online=false;
+    assert.equal(await get(TILE),"current-tile","offline: the tile comes from the current precached shell");
+    assert.equal(await get("css/r78-marble-tile.webp?v="+diag.revision),"current-tile","a versioned request still works");
+    assert.equal(await get("css/r78-type.css"),"not answered","other unversioned shell files are left to the network as before");
+    let reply;await dispatch("message",{data:{type:"CMS_ROLLBACK_TO_PREVIOUS"},ports:[{postMessage:m=>{reply=m;}}]});
+    assert.equal(reply&&reply.ok,true,"rollback accepted");
+    assert.equal(await get(TILE),"previous-tile","after a rollback: the tile of the shell the page runs");
+    store.delete("career-mode-showdown-shell-"+diag.previousRevision);store.delete("career-mode-showdown-shell-"+diag.revision);online=true;
+    assert.equal(await get(TILE),"network-tile","no precached copy: the network");
+  })();
+  tileChecks.catch(()=>{});
+});
+
 // ---- browser ----
 function freePort(){return new Promise((resolve,reject)=>{const server=net.createServer();server.unref();server.on("error",reject);server.listen(0,"127.0.0.1",()=>{const {port}=server.address();server.close(()=>resolve(port));});});}
 async function waitForServer(port){for(let i=0;i<100;i+=1){const ok=await new Promise(resolve=>{const socket=net.connect(port,"127.0.0.1",()=>{socket.end();resolve(true);});socket.on("error",()=>resolve(false));});if(ok)return;await new Promise(resolve=>setTimeout(resolve,100));}throw new Error("static server did not start");}
@@ -224,6 +255,7 @@ async function auditViewport(browser,base,options){
 
 (async()=>{
   await framedChecks;
+  await tileChecks;
   const {chromium}=require("playwright");
   const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
   const port=await freePort();

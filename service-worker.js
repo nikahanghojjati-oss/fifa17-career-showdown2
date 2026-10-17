@@ -18,6 +18,11 @@ const APP_CHECK_BOOTSTRAP_PATH = "js/productionAppCheckBootstrap.js";
 const NETWORK_ONLY_NAVIGATION_PATHS = new Set([
     "production-authorization-acceptance.html"
 ]);
+// Precached shell files that a stylesheet asks for by a relative url(), so the request has no ?v=: css/r78-marble-surfaces.css
+// draws its panels with url("r78-marble-tile.webp"). They come from the shell the page runs (the precached copy), then the network.
+const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
+    "css/r78-marble-tile.webp"
+]);
 const NETWORK_ONLY_ASSET_PATHS = new Set([
     "js/productionAuthorizationAcceptance.js",
     "js/productionProviderAbuseAcceptance.js"
@@ -344,6 +349,10 @@ async function v10ImageResponse(event,request,path){
     if(response&&response.ok&&response.type==="basic"){ event.waitUntil(cache.put(key,response.clone()).catch(()=>{})); }
     return response;
 }
+async function unversionedShellResponse(request,path){
+    const revision=await v10ImageRevision(); const cached=await cachedShellResponse(path,revision)||(revision!==RUNTIME_REVISION?await cachedShellResponse(path,RUNTIME_REVISION):null);
+    return cached||fetch(request);
+}
 self.addEventListener("fetch",event=>{
     const request=event.request; if(request.method!=="GET"){return;} const url=new URL(request.url); const scope=scopeUrl(); if(url.origin!==scope.origin){return;}
     if(request.mode==="navigate"){
@@ -351,7 +360,7 @@ self.addEventListener("fetch",event=>{
         if(NETWORK_ONLY_NAVIGATION_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; }
         event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); if(selected){const cached=await cachedShellResponse("index.html",selected.revision);if(cached){return cached;}} return fetch(request); })()); return;
     }
-    const path=relativeScopePath(url); if(!path){return;} if(isV10ImagePath(path)){ event.respondWith(v10ImageResponse(event,request,path)); return; } if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(path===APP_CHECK_BOOTSTRAP_PATH){return;} const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
+    const path=relativeScopePath(url); if(!path){return;} if(isV10ImagePath(path)){ event.respondWith(v10ImageResponse(event,request,path)); return; } if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(path===APP_CHECK_BOOTSTRAP_PATH){return;} const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){ if(UNVERSIONED_SHELL_ASSET_PATHS.has(path)){ event.respondWith(unversionedShellResponse(request,path)); } return; }
     event.respondWith((async()=>{const cached=await cachedShellResponse(path,requestedRevision);return cached||Response.error();})());
 });
 self.__CMS_SERVICE_WORKER_DIAGNOSTICS__=Object.freeze({revision:RUNTIME_REVISION,previousRevision:PREVIOUS_RUNTIME_REVISION,cacheName:CACHE_NAME,previousCacheName:PREVIOUS_CACHE_NAME,modeCacheName:MODE_CACHE_NAME,shellPaths:SHELL_PATHS});
