@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-16 10:18 PM Boston time (EDT)",
+ "generated": "2026-10-16 10:22 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 96,
@@ -916,27 +916,17 @@
  },
  "two": {
   "live": {
-   "sha": "b41f296",
-   "revision": "1.9.1-r76",
-   "when": "2026-10-16T23:00:49Z",
-   "subject": "Release r76: gameplay bug fixes and read-cost cut (#878)",
-   "fixes": [
+   "sha": "8f32e34",
+   "revision": "1.9.1-r77",
+   "when": "2026-10-17T02:19:37Z",
+   "subject": "Release r76b: START REAL CAREER marker and close-race fix (#884)",
+   "fixes": [],
+   "today": [
     {
      "pr": 884,
      "title": "Release r76b: START REAL CAREER marker and close-race fix",
-     "draft": false,
-     "branch": "gameplay/release-r76b",
-     "sha": "688ec25fd63b4c2e010493857530f7f5e931242a",
-     "updated": "2026-10-17T02:17:50Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    }
-   ],
-   "today": [
+     "merged": "2026-10-17T02:19:37Z"
+    },
     {
      "pr": 878,
      "title": "Release r76: gameplay bug fixes and read-cost cut (1.9.1-r76)",
@@ -1402,7 +1392,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 49,
+  "moving": 48,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -2618,22 +2608,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 884,
-    "title": "Release r76b: START REAL CAREER marker and close-race fix",
-    "draft": false,
-    "branch": "gameplay/release-r76b",
-    "sha": "688ec25fd63b4c2e010493857530f7f5e931242a",
-    "updated": "2026-10-17T02:17:50Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
