@@ -27,11 +27,12 @@ const worker=fs.readFileSync('service-worker.js','utf8');
 const menu=fs.readFileSync('js/menuExperience.js','utf8');
 const runtimeRevision=(worker.match(/const RUNTIME_REVISION = "([^"]+)";/)||[])[1];
 const previousRuntimeRevision=(worker.match(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/)||[])[1];
-assert.match(runtimeRevision||'',/^1\.9\.1-r[1-9]\d*$/,'SSJR production runtime must use a v1.9.1 whole-shell identity.');
-assert.match(previousRuntimeRevision||'',/^1\.9\.1-r[1-9]\d*$/,'SSJR production runtime must retain one v1.9.1 previous whole-shell identity.');
+const packageVersion=JSON.parse(fs.readFileSync('package.json','utf8')).version;
+assert.match(runtimeRevision||'',new RegExp(`^${packageVersion.replace(/\./g,'\\.')}-r[1-9]\\d*$`),'SSJR production runtime must use the current application version as its whole-shell identity.');
+assert.match(previousRuntimeRevision||'',/^1\.9\.[1-9]\d*-r[1-9]\d*$/,'SSJR production runtime must retain one v1.9.x previous whole-shell identity.');
 const runtimeGeneration=Number(runtimeRevision.match(/-r(\d+)$/)[1]);
 const previousGeneration=Number(previousRuntimeRevision.match(/-r(\d+)$/)[1]);
-const releasePath=runtimeGeneration===1?'RELEASE_V1.9.1.md':`RELEASE_V1.9.1_R${runtimeGeneration}.md`;
+const releasePath=runtimeGeneration===1?`RELEASE_V${packageVersion}.md`:`RELEASE_V${packageVersion}_R${runtimeGeneration}.md`;
 assert.ok(fs.existsSync(releasePath),`${releasePath} must exist for the current whole-shell runtime.`);
 const release=fs.readFileSync(releasePath,'utf8');
 
