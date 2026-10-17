@@ -675,9 +675,9 @@ async function r3r4aPresentationContracts(){
 
 // ------------------------------------------------------------------ R5 + R6 career entry
 const PENDING_KEY="careerModeShowdown.sharedJourneyPending.v1";
-function entryHarness({rivalryReady=false,active=false,pairState={status:"unpaired",rivalryId:null,connectionState:null},openExperience="presentation"}={}){
+function entryHarness({rivalryReady=false,active=false,pairState={status:"unpaired",initialized:true,rivalryId:null,connectionState:null},openExperience="presentation"}={}){
   const dom=createDom();const menu=dom.add("mainMenu");void menu;const connect=dom.add("connectPlayersScreen");dom.add("connectPlayersPairSlot",{parent:connect});dom.add("roundAmount",{tag:"select"}).value="3";dom.add("startShowdown",{tag:"button"});
-  const calls={pairRender:0,startPairing:0,remoteOpen:0,remoteClose:0,presentation:0,careerStart:0,navigate:[],host:0,join:0};
+  const calls={pairRender:0,startPairing:0,remoteOpen:0,remoteClose:0,presentation:0,careerStart:0,navigate:[],host:0,join:0,create:0,layerOpen:[],continuePair:0,openJoin:0};
   const storage=new Map([[PENDING_KEY,"1"]]);
   const remoteListeners=new Set();
   const remoteState={sessionState:active?"active":null,sessionId:active?SESSION:null,pendingAction:null,rivalryId:RIVALRY,accountId:"uid_daniel",deviceId:DEVICE,expiresAtEpochMs:Date.now()+3_600_000};
@@ -687,10 +687,11 @@ function entryHarness({rivalryReady=false,active=false,pairState={status:"unpair
     loadRuntimeStyle:async()=>true,loadRuntimeScript:async key=>{throw new Error(`unexpected load ${key}`);},
     ensureSaveLibraryRuntimeAuthority:async()=>true,ensureGameplayModules:async()=>true,
     navigateTo:async name=>{calls.navigate.push(name);return true;},
-    createShowdown:async()=>{sandbox.currentShowdown={id:"save_1",totalRounds:3,managers:{}};library.activeSaveId="save_1";library.saves=[{saveId:"save_1",showdown:sandbox.currentShowdown}];return true;},
+    createShowdown:async()=>{calls.create+=1;await new Promise(resolve=>setTimeout(resolve,2));sandbox.currentShowdown={id:"save_1",totalRounds:3,managers:{}};library.activeSaveId="save_1";library.saves=[{saveId:"save_1",showdown:sandbox.currentShowdown}];return true;},
     CareerModeSaveLibraryRuntime:{isReady:()=>true,getLibrarySnapshot:()=>library,saveCurrentShowdown:()=>true,clearActiveShowdown(){}},
-    CareerModeOnlinePlayerIdentity:{getState:()=>({status:"ready",managerId:"daniel",registered:true}),subscribe:()=>()=>{},syncPair:async()=>pairState},
-    CareerModePersistentNikDanielPair:{getState:()=>pairState,render:()=>{calls.pairRender+=1;if(!dom.document.getElementById("persistentNikDanielPairPanel"))dom.add("persistentNikDanielPairPanel",{parent:dom.document.getElementById("connectPlayersPairSlot")});},startPairing:async()=>{calls.startPairing+=1;}},
+    CareerModeOnlinePlayerIdentity:{getState:()=>({status:"ready",managerId:"daniel",registered:true}),subscribe:()=>()=>{},syncPair:async()=>pairState,openJoin:async()=>{calls.openJoin+=1;return pairState;}},
+    CareerModeConnectPlayersScreenV10:{open:async options=>{calls.layerOpen.push(options);return true;},close:()=>true},
+    CareerModePersistentNikDanielPair:{getState:()=>pairState,render:()=>{calls.pairRender+=1;if(!dom.document.getElementById("persistentNikDanielPairPanel"))dom.add("persistentNikDanielPairPanel",{parent:dom.document.getElementById("connectPlayersPairSlot")});},startPairing:async()=>{calls.startPairing+=1;},continuePair:async()=>{calls.continuePair+=1;}},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true})},
     CareerModeSparkConnectedAccount:{initialize:async()=>true,getState:()=>({connected:true,accountId:"uid_daniel"})},
     CareerModeSparkPrivatePairing:{initialize:async()=>true,getState:()=>({registered:true,deviceId:DEVICE})},
@@ -700,7 +701,7 @@ function entryHarness({rivalryReady=false,active=false,pairState={status:"unpair
     CareerModeProductionSharedShowdownPresentation:{activate:async()=>{calls.presentation+=1;if(openExperience==="fail")throw new Error("setup not ready");return true;},isPresentationActive:()=>false},
     reportApplicationError(){}};
   sandbox.currentShowdown=null;
-  vm.createContext(sandbox);vm.runInContext(read("js/productionSharedJourneyEntry.js"),sandbox,{filename:"productionSharedJourneyEntry.js"});
+  vm.createContext(sandbox);vm.runInContext(read("js/whichShowdownIsLive.js"),sandbox,{filename:"whichShowdownIsLive.js"});vm.runInContext(read("js/productionSharedJourneyEntry.js"),sandbox,{filename:"productionSharedJourneyEntry.js"});
   const api=sandbox.CareerModeProductionSharedJourneyEntry;
   const overlay=()=>dom.document.getElementById("productionSharedJourneyEntryOverlay");
   async function goActive(expired=false){Object.assign(remoteState,{sessionState:"active",sessionId:SESSION,expiresAtEpochMs:expired?Date.now()-1000:Date.now()+3_600_000});for(const fn of remoteListeners)fn(remoteState);await settle();}
@@ -709,16 +710,32 @@ function entryHarness({rivalryReady=false,active=false,pairState={status:"unpair
 async function r5r6EntryContracts(){
   {
     const h=entryHarness();h.api.install();await settle();
-    const started=await h.api.preparePairingShell();await settle();
+    // r79 PR2 (R5a lands): START goes straight to WAITING, the Connect Players layer over the locked league wheel, and makes
+    // the pair code itself. The POS10 stability rule still holds: START never leaves the canonical league screen.
+    const [started,again]=await Promise.all([h.api.preparePairingShell(),h.api.preparePairingShell()]);await settle();
     assert.equal(started,true,"START A SHOWDOWN still prepares the shared shell");
-    // R5a is not landed: the POS10 stability audit requires START A SHOWDOWN to stay on the locked canonical league screen,
-    // and the pair panel lives on Home, so GET READY (CONNECT PLAYERS) stays over the locked league wheel.
-    assert.equal(visible(h.overlay()),true,"R5a (kept): GET READY shows after START A SHOWDOWN");
-    assert.ok([...h.overlay().querySelectorAll("button")].some(button=>/CONNECT PLAYERS/.test(button.textContent)),"R5a (kept): CONNECT PLAYERS stays the way to the pair panel");
+    assert.equal(again,false,"a double tap is refused while the first START runs");
+    assert.equal(h.calls.create,1,"a double tap never creates a second shell");
+    assert.equal(h.calls.startPairing,1,"the pair code is created automatically, exactly once (no CREATE CODE FOR NIK tap)");
+    assert.deepEqual(h.calls.layerOpen.map(options=>options&&options.stayOnScreen),[true],"WAITING opens once, staying on the league wheel");
+    assert.equal(visible(h.overlay()),false,"R5a: GET READY is not shown after START A SHOWDOWN");
     assert.equal(h.calls.navigate.includes("mainMenu"),false,"START A SHOWDOWN never leaves the canonical league screen");
-    assert.equal(h.calls.startPairing,0,"the pair code is NOT created automatically (still Daniel's CREATE CODE FOR NIK tap)");
   }
-  ok("R5a Entry (not landed): START A SHOWDOWN keeps GET READY over the locked league screen and never creates the code by itself");
+  {
+    const live=entryHarness({pairState:{status:"paired",initialized:true,rivalryId:RIVALRY,connectionState:"active",managerRole:"playerOne"}});live.api.install();await settle();
+    assert.equal(await live.api.preparePairingShell(),false,"over a live pair START creates nothing");
+    assert.equal(live.calls.create,0,"no second shell over a live game");assert.equal(live.calls.continuePair,1,"START continues the live game");
+    assert.equal(live.calls.startPairing,0,"no second rivalry");
+    const waiting=entryHarness({pairState:{status:"waiting",initialized:true,rivalryId:RIVALRY,connectionState:"pending-pair",managerRole:"playerOne",capability:"CMS17-"+RIVALRY}});waiting.api.install();await settle();
+    assert.deepEqual(waiting.calls.layerOpen.map(options=>options&&options.stayOnScreen),[true],"a reload with the pending marker reopens WAITING, not GET READY");assert.equal(visible(waiting.overlay()),false,"no GET READY after the reload");
+    assert.equal(await waiting.api.preparePairingShell(),false,"with Daniel's code already out START creates nothing");
+    assert.equal(waiting.calls.create+waiting.calls.startPairing,0,"the code already sent stays the code (no new shell, no new code)");
+    assert.deepEqual(waiting.calls.layerOpen.map(options=>options&&options.stayOnScreen),[true,true],"START reopens WAITING");
+    const unknown=entryHarness({pairState:null});unknown.api.install();await settle();
+    assert.equal(await unknown.api.preparePairingShell(),false,"unreadable pair authority fails closed");
+    assert.equal(unknown.calls.create+unknown.calls.startPairing+unknown.calls.layerOpen.length,0,"nothing is created or opened when the pair cannot be read");
+  }
+  ok("R5a Entry (r79): START A SHOWDOWN opens WAITING over the locked league screen, makes the code once, and over a live pair continues it instead");
   {
     const h=entryHarness({rivalryReady:true,active:false});
     await h.api.openPanel();await settle();
@@ -781,7 +798,10 @@ function safetyContracts(){
   assert.doesNotMatch(auto,/ssjpMutate|commit-league|commit-clubs|"confirm"/,"R3/R4a auto steps never draw or confirm");
   assert.match(presentation,/async function ssjpOpenCareerStart\(\)\{\n[^\n]*\n\s*autoCareerStartKey=`\$\{presentationContextKey\}\|\$\{state\.setup\.revision\}`;busy=true;/,"R4a: any Career Start opening marks the revision, so the second confirmer's click path and the auto-open never open it twice");
   const entry=read("js/productionSharedJourneyEntry.js");
-  assert.doesNotMatch(entry,/startPairing|hostSession|joinSession/,"the entry never creates a pair code or hosts/joins a session by itself");
+  assert.doesNotMatch(entry,/hostSession|joinSession/,"the entry never hosts or joins a session by itself");
+  // r79: the code is made in one place only, WAITING right after Daniel's own START (or his reloaded seasons with no code yet).
+  assert.equal((entry.match(/startPairing\(/g)||[]).length,1,"the entry makes the pair code in exactly one place");
+  assert.match(entry,/if\(options\.createCode===true\)await pair\.startPairing\(\{managerRole:"playerOne"\}\)/,"only for Daniel (Player One), only when asked to");
   const career=read("js/productionSharedCareerStart.js");
   assert.doesNotMatch(career.match(/async function pcstAutoContinue\(\)\{[\s\S]*?\n  \}/)[0],/acknowledge/,"Career Start auto-continue never acknowledges");
   for(const file of ["js/persistentNikDanielPair.js"]){

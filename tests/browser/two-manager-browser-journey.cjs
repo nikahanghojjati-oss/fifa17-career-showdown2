@@ -30,7 +30,9 @@ let checks=0;
 const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${label}`);};
 // Job 33 (fewer taps): every real button tap is logged per manager. These buttons were pure navigation or reads and are now
 // automatic, so the journey must never need them (Daniel's ACKNOWLEDGE is folded into his COMMIT & ACKNOWLEDGE tap, R7).
-const REMOVED_TAPS=new Set(["CHECK STATUS","REFRESH / READ","START CAREER","CONTINUE","CONTINUE TO CLUB PACKS","CONTINUE TO CAREER START","CONTINUE TO TRANSFER CHALLENGE","REFRESH","REFRESH SHARED CHALLENGE","#refreshSharedTransferChallenge"]);
+// r79 one start flow: START makes the pair code itself and both managers continue by themselves once connected, so
+// CHOOSE SEASONS (Connect Players), CONNECT PLAYERS (GET READY) and CREATE CODE FOR NIK are no longer taps either.
+const REMOVED_TAPS=new Set(["CHOOSE SEASONS","#connectPlayersSetup","CONNECT PLAYERS","CREATE CODE FOR NIK","CHECK STATUS","REFRESH / READ","START CAREER","CONTINUE","CONTINUE TO CLUB PACKS","CONTINUE TO CAREER START","CONTINUE TO TRANSFER CHALLENGE","REFRESH","REFRESH SHARED CHALLENGE","#refreshSharedTransferChallenge"]);
 function assertNoRemovedTaps(m){
   const removed=m.log.taps.filter(tap=>REMOVED_TAPS.has(tap.text)||REMOVED_TAPS.has(`#${tap.id}`));
   assert.deepEqual(removed,[],`${m.user} never needed a removed navigation/read tap`);
@@ -111,6 +113,29 @@ async function assertNoCodeBox(m){assert.equal(await m.page.locator("#sparkRemot
 // Job 33 (R6): the ACTIVE session then continues into the Showdown by itself, so Remote Joining closes on both pages.
 async function hostSeesJoin(m){await m.page.waitForFunction(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState==="active",null,{timeout:20000});await remote(m).waitFor({state:"hidden",timeout:20000});assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: no GET READY after the peer joined`);}
 const pairPanel=m=>m.page.locator("#connectPlayersScreen #persistentNikDanielPairPanel");
+// r79 one start flow: Home START goes straight to NEW SHOWDOWN (seasons), START opens WAITING over the locked league wheel and
+// makes the code by itself; no Connect Players hop, no GET READY, no CREATE CODE FOR NIK tap.
+async function danielStartsShowdown(m,length){
+  await m.page.locator("#newShowdown").click({timeout:30000});
+  await m.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
+  assert.equal(await m.page.locator("#connectPlayersScreen").isVisible().catch(()=>false),false,"Home START goes straight to the seasons screen");
+  await m.page.locator("#roundAmount").selectOption(String(length));
+  await m.page.locator("#startShowdown").click({timeout:30000});
+  await pairPanel(m).locator("code").waitFor({timeout:30000});
+  const waiting=await m.page.evaluate(()=>({screen:window.getActiveScreenName?.(),stay:document.getElementById("connectPlayersScreen")?.dataset.stayOnScreen,getReady:Boolean(document.getElementById("productionSharedJourneyEntryOverlay")&&!document.getElementById("productionSharedJourneyEntryOverlay").classList.contains("hidden"))}));
+  assert.deepEqual(waiting,{screen:"leagueWheelScreen",stay:"true",getReady:false},"WAITING over the locked league wheel, no GET READY");
+  assert.equal(await m.page.locator("#mainMenu #persistentNikDanielPairPanel").count(),0,"Home must never contain the pair panel.");
+  return (await pairPanel(m).locator("code").innerText()).trim();
+}
+// r79: after Nik's own JOIN and Daniel's waiting poll see the pair ACTIVE, both continue by themselves into Remote Joining.
+async function bothPairedAndContinuing(managers){
+  for(const m of managers){
+    await m.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.connectionState==="active");},null,{timeout:30000});
+    await m.page.waitForFunction(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState==="active"||!document.getElementById("sparkRemoteJoiningOverlay")?.classList.contains("hidden"),null,{timeout:30000});
+    assert.equal(await m.page.locator("#connectPlayersScreen").isVisible().catch(()=>false),false,`${m.user}: Connect Players closed by itself`);
+    assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: no GET READY overlay before Remote Joining`);
+  }
+}
 async function waitTransferPhase(m,phase){
   await m.page.waitForFunction(value=>document.getElementById("transferChallenge")?.dataset.transferPhase===value,phase,{timeout:30000});
 }
@@ -341,29 +366,18 @@ async function main(){
     ok("J1.2","both accounts bootstrapped and devices registered through the composed Rules");
 
     // J2 pairing (seasons chosen on the real create screen)
-    await daniel.page.locator("#newShowdown").click();
-    await daniel.page.locator("#connectPlayersScreen").waitFor({state:"visible",timeout:30000});
-    await daniel.page.locator("#connectPlayersSetup").click({timeout:30000});
-    await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
-    await daniel.page.locator("#roundAmount").selectOption(String(LENGTH));
-    await daniel.page.locator("#startShowdown").click();
-    await entry(daniel).getByRole("button",{name:"CONNECT PLAYERS"}).click({timeout:30000});
-    assert.equal(await daniel.page.locator("#mainMenu #persistentNikDanielPairPanel").count(),0,"Home must never contain the pair panel.");
-    await pairPanel(daniel).getByRole("button",{name:"CREATE CODE FOR NIK"}).click({timeout:30000});
-    await pairPanel(daniel).locator("code").waitFor({timeout:30000});
-    const pairCode=(await pairPanel(daniel).locator("code").innerText()).trim();
+    const pairCode=await danielStartsShowdown(daniel,LENGTH);
     assert.match(pairCode,/^CMS17-pair_/,"pair code shape");
-    ok("J2.1","Daniel created the pair code on the real Start screen");
+    ok("J2.1","Daniel's START made the pair code by itself and shows WAITING over the locked league wheel");
     await nik.page.locator("#newShowdown").click();
     // Trap: the pair panel re-renders (replaceChildren) while the join sidecar syncs; a code typed before it settles is lost.
     await nik.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.busy===false&&s.status==="unpaired");},null,{timeout:30000});
     await nik.page.waitForTimeout(500);
     await pairPanel(nik).locator("#persistentNikDanielPairCode").fill(pairCode);
     await pairPanel(nik).getByRole("button",{name:"JOIN DANIEL'S SHOWDOWN",exact:true}).click();
-    // Job 33 (R1): Daniel's waiting code panel re-reads every 4 s, so Nik's join shows without CHECK STATUS.
-    for(const m of [nik,daniel]){
-      await m.page.waitForFunction(()=>/CAREER READY/.test(document.getElementById("persistentNikDanielPairPanel")?.innerText||""),null,{timeout:30000});
-    }
+    // Job 33 (R1): Daniel's waiting code panel re-reads every 4 s, so Nik's join shows without CHECK STATUS; r79: both then
+    // continue by themselves (no Back, no CONTINUE CAREER, no START CAREER).
+    await bothPairedAndContinuing([nik,daniel]);
     const linkD=await admin(`accounts/${uidD}/pairLinks/current`),linkN=await admin(`accounts/${uidN}/pairLinks/current`);
     assert.equal(field(linkD,"data","managerRole").stringValue,"playerOne","Daniel is playerOne");
     assert.equal(field(linkN,"data","managerRole").stringValue,"playerTwo","Nik is playerTwo");
@@ -375,17 +389,8 @@ async function main(){
     await shot(daniel,"j2-paired");await shot(nik,"j2-paired");
 
     // J3 private session through the real Remote Joining surface; the ACTIVE session continues into the league wheel.
-    // Job 33 (R5b): a connected pair goes from CONTINUE CAREER straight to Remote Joining (no GET READY CONTINUE).
-    for(const m of [daniel,nik]){
-      // JOB-1015: the Connect Players layer may already be closed on this phone; Back only when it is showing.
-      if(await m.page.locator("#connectPlayersScreen").isVisible())await m.page.locator("#connectPlayersScreen .connectPlayersBack").click();
-      assert.equal(await m.page.locator("#connectPlayersScreen").isVisible(),false,`${m.user}: Connect Players closed before CONTINUE CAREER`);
-      await m.page.locator("#continueCareer").click();
-      // Studio Z4: the connect card may already be gone when the rival is waiting (Nik joins at once), so wait for either.
-      await m.page.waitForFunction(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState==="active"||!document.getElementById("sparkRemoteJoiningOverlay")?.classList.contains("hidden"),null,{timeout:30000});
-      assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: no GET READY overlay before Remote Joining`);
-      await assertNoCodeBox(m);
-    }
+    // r79: the connected pair is already on its way to Remote Joining by itself (see J2.2); nobody taps CONTINUE CAREER.
+    for(const m of [daniel,nik])await assertNoCodeBox(m);
     // Studio Z4: nobody types a code. Daniel's phone hosts and shares the session through the pair; Nik's phone joins it.
     await hostSeesJoin(daniel);
     const sessionCode=await sessionOf(daniel);
@@ -839,25 +844,14 @@ async function main(){
       const entryOverlay=m.page.locator("#productionSharedJourneyEntryOverlay");
       assert.equal(await entryOverlay.isVisible().catch(()=>false),false,`${m.user}: a CLOSED Showdown must not re-open the GET READY career entry overlay after reload`);
     }
-    await daniel.page.locator("#newShowdown").click({timeout:30000});
-    await daniel.page.locator("#connectPlayersScreen").waitFor({state:"visible",timeout:30000});
-    await daniel.page.locator("#connectPlayersSetup").click({timeout:30000});
-    await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
-    await daniel.page.locator("#roundAmount").selectOption(String(LENGTH));
-    await daniel.page.locator("#startShowdown").click({timeout:30000});
-    await entry(daniel).getByRole("button",{name:"CONNECT PLAYERS"}).click({timeout:30000});
-    await pairPanel(daniel).getByRole("button",{name:"CREATE CODE FOR NIK"}).click({timeout:30000});
-    await pairPanel(daniel).locator("code").waitFor({timeout:30000});
-    const pairCode2=(await pairPanel(daniel).locator("code").innerText()).trim();
+    const pairCode2=await danielStartsShowdown(daniel,LENGTH);
     assert.match(pairCode2,/^CMS17-pair_/,"R2 pair code shape");
 
     await nik.page.locator("#newShowdown").click({timeout:30000});
     await pairPanel(nik).locator("#persistentNikDanielPairCode").waitFor({state:"visible",timeout:30000});
     await pairPanel(nik).locator("#persistentNikDanielPairCode").fill(pairCode2);
     await pairPanel(nik).getByRole("button",{name:"JOIN DANIEL'S SHOWDOWN",exact:true}).click({timeout:30000});
-    for(const m of [nik,daniel]){
-      await m.page.waitForFunction(()=>/CAREER READY/.test(document.getElementById("persistentNikDanielPairPanel")?.innerText||""),null,{timeout:30000});
-    }
+    await bothPairedAndContinuing([nik,daniel]);
     const linkD2=await admin(`accounts/${uidD}/pairLinks/current`),linkN2=await admin(`accounts/${uidN}/pairLinks/current`);
     const R2=field(linkD2,"data","rivalryId").stringValue;
     assert.ok(R2&&R2!==R1,"R2 is distinct from R1");
@@ -865,13 +859,6 @@ async function main(){
     assert.deepEqual(ids(field(await admin(`accounts/${uidD}/careerIndex/current`),"data","rivalryIds")),[R1,R2],"Daniel career index [R1,R2]");
     assert.deepEqual(ids(field(await admin(`accounts/${uidN}/careerIndex/current`),"data","rivalryIds")),[R1,R2],"Nik career index [R1,R2]");
 
-    for(const m of [daniel,nik]){
-      // JOB-1015: the Connect Players layer may already be closed on this phone; Back only when it is showing.
-      if(await m.page.locator("#connectPlayersScreen").isVisible())await m.page.locator("#connectPlayersScreen .connectPlayersBack").click();
-      assert.equal(await m.page.locator("#connectPlayersScreen").isVisible(),false,`${m.user}: Connect Players closed before CONTINUE CAREER`);
-      await m.page.locator("#continueCareer").click({timeout:30000});
-      await m.page.waitForFunction(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState==="active"||!document.getElementById("sparkRemoteJoiningOverlay")?.classList.contains("hidden"),null,{timeout:30000});
-    }
     for(const m of [daniel,nik])await assertNoCodeBox(m);
     await hostSeesJoin(daniel);
     const sessionCode2=await sessionOf(daniel);

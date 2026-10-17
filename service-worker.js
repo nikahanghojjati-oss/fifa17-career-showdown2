@@ -84,6 +84,7 @@ const SHELL_PATHS = Object.freeze([
     "js/optionalModules.js",
     "js/onlinePlayerIdentity.js",
     "js/persistentNikDanielPair.js",
+    "js/whichShowdownIsLive.js",
     "js/productionFirebaseRuntime.js",
     "js/fullMotionHonor.js",
     "js/ssjr.js",
@@ -253,14 +254,16 @@ const SHELL_PATH_SET = new Set(SHELL_PATHS);
 // The retained previous shell was installed by its own worker with its own list, so it is verified against that list, not
 // this one: checked against SHELL_PATHS it would lack this release's new files, fail, and be deleted on activation, leaving
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION (and empties
-// the set when it changes PREVIOUS_RUNTIME_REVISION again). r78 added these six to r77's 213 paths and removed none.
+// the set when it changes PREVIOUS_RUNTIME_REVISION again). r78 added these six to r77's 213 paths and removed none;
+// r79 adds js/whichShowdownIsLive.js (the one START decision, loaded lazily on the first START).
 const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([
     "assets/LOADING_REUS_DESKTOP.webp",
     "assets/LOADING_REUS_PHONE.webp",
     "css/r78-type.css",
     "css/r78-marble-surfaces.css",
     "css/r78-marble-tile.webp",
-    "js/showdownConfirm.js"
+    "js/showdownConfirm.js",
+    "js/whichShowdownIsLive.js"
 ]);
 const PREVIOUS_SHELL_PATHS = Object.freeze(SHELL_PATHS.filter(path=>!SHELL_PATHS_ADDED_SINCE_PREVIOUS.has(path)));
 function shellPathsForRevision(revision){ return revision&&revision!==RUNTIME_REVISION&&revision===PREVIOUS_RUNTIME_REVISION?PREVIOUS_SHELL_PATHS:SHELL_PATHS; }
