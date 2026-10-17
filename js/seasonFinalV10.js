@@ -1514,7 +1514,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .sd-number { line-height:1; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel {
   z-index:11;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:44px minmax(0,1fr);overflow:hidden;
-  border:1px solid #d9b64e;background:linear-gradient(115deg,#3927129c,#080909eb);
+  border:1px solid #d9b64e;background:linear-gradient(115deg,#39271240,transparent 60%),#110f0c url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;
   clip-path:polygon(2% 0,98% 0,100% 3%,100% 97%,98% 100%,2% 100%,0 97%,0 3%);
  }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel :is(.finalWinnerMetaStrip,.finalWinnerHonours) {
@@ -1879,6 +1879,52 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { object-position:center top; }
  #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerPhoneVeil,.finalWinnerManagerShade,.finalWinnerManagerSpotlight) { display:none; }
+}
+/* HO-033 item 5 · sideways phones (852x393): the upright phone plate ran the full width from its top, so both painted
+   managers sat under the results panel with only their head tops showing. Here the plate fills the left half only (the
+   panel and both exits own the right half), shown from just above the managers' heads, and the title, trophy and score
+   form one narrow column between the two men, so no face is covered and nothing sits on the panel. */
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground { right:auto;width:50%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { object-fit:cover;object-position:50% 30%; }
+ #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerTitleBlock,.finalWinnerHeroCopySlot) { left:25%;width:min(19%,200px); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTitleBlock { top:2%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerWordmark { width:100%; }
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot { left:25%;top:25%;height:29%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot { top:57%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerOutcome { font-size:clamp(20px,6.4svh,26px); }
+}
+/* HO-033 item 4 · phones (393x660, 360x640 and sideways): REVIEW SEASON / BACK and, on the review stage, the review actions
+   (CONFIRM & SAVE SEASON / EDIT RESULTS, or the shared commit) were 140-1300px down the page scroll. They now stay docked
+   at the bottom of the screen on an opaque black-gold marble band (the same docked-action pattern as the Rule Book and
+   Settings phones). The page still scrolls for the rest of the form and the review, and it ends with the band in its own
+   place in the flow, so at the end of the scroll nothing sits under it. (:not(#seasonEntryError) only lifts the selector over
+   the phone block's :is(...,#seasonEntryError) rule, which counts as an id.) */
+@media (max-width:760px), (max-width:1000px) and (orientation:landscape) and (max-height:520px) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row:not(.hidden):not(#seasonEntryError),
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel>.seasonReviewActions:has(>button:not(.hidden):not([hidden])) {
+  position:sticky;bottom:0;z-index:8;align-self:stretch;box-sizing:border-box;
+  margin-inline:-10px;padding:8px 10px max(8px,env(safe-area-inset-bottom));
+  background:var(--r78-panel,#110f0c) url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;
+  border-top:1px solid #d4a017;box-shadow:0 -1px 0 #000;
+ }
+}
+/* The upright phone grid (JOB-1597) keeps the entry action row in a fixed 56px track: the band's padding fits inside it. */
+@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row:not(.hidden):not(#seasonEntryError) { padding-top:4px;padding-bottom:max(4px,env(safe-area-inset-bottom)); }
+}
+/* HO-033 item 4 · Full-HD desktop (JOB-1214 range, 1920x1080): the review grows in the page scroll, which left CONFIRM &
+   SAVE SEASON and EDIT RESULTS at y 1163-1266. The review's action row now docks at the bottom edge of the window on the
+   same opaque band while the box is on screen; the layout, the scoring card and the box width stay as approved. */
+@media (min-width:1880px) and (max-width:1960px) and (min-height:1040px) and (max-height:1120px) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel>.seasonReviewActions:has(>button:not(.hidden):not([hidden])) {
+  position:sticky;bottom:0;z-index:8;align-self:stretch;width:auto;max-width:none;margin:6px 0 0;padding:10px 0 12px;
+  display:flex;flex-flow:row wrap;justify-content:center;gap:16px;
+  background:var(--r78-panel,#110f0c) url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;
+  border-top:1px solid #d4a017;box-shadow:0 -1px 0 #000;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel>.seasonReviewActions>button { flex:1 1 300px;width:auto;max-width:520px;margin:0; }
 }
 `;
     parent.appendChild(style);

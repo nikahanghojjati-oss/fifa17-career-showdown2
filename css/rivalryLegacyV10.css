@@ -1365,14 +1365,6 @@
     transform:translateX(-50%); object-fit:fill;
   }
   #app #legacy[data-rivalry-legacy-v10] .legacyPhoneGrade { display:none; }
-  /* r78 gallery fix: the plate now runs the full screen but the stage vignette still stops at the bottom of the managers'
-     band, so its darker lower edge ended in a hard horizontal line (~350px on a 390x844 phone). Fade the vignette out
-     over its lower part so it melts into the plate with no seam. This only takes darkening away; nothing new covers
-     the men and their faces are untouched. */
-  #app #legacy[data-rivalry-legacy-v10] .sd-stage__vignette {
-    -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 50%, transparent 100%);
-    mask-image:linear-gradient(to bottom, #000 0%, #000 50%, transparent 100%);
-  }
 }
 
 /* r78 HO-031 v3 phone marble: upright phones up to 600px wide and sideways phones draw Team V's ENV_RIVALRY_PHONE_V3

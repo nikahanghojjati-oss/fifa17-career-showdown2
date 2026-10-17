@@ -36,7 +36,15 @@
 #settingsOverlay.v10Settings .settingsStatus { color:#f5f1e8; background:#403318; }
 #settingsOverlay.v10Settings .settingsAudioToggleTrack { display:none; }
 #settingsOverlay.v10Settings .menuButton:not(.sd-btn):not(.settingsApplicationUpdateButton) { min-height:44px; color:#f5f1e8; background:rgba(0,0,0,.58); border:1px solid rgba(219,178,94,.66); font-family:var(--sd-font-condensed); }
-#settingsOverlay.v10Settings .settingsDeleteCurrentShowdown { color:#ffd9d9; background:rgba(95,15,15,.28); border-color:#d64b4b; }
+/* HO-033 item 7: DELETE CURRENT SHOWDOWN is the red marble button at every size (it kept the old pale pink .dangerButton from
+   css/app.css, which uses !important, everywhere outside the wide-landscape desktop block below). Same colours as that block. */
+#settingsOverlay.v10Settings .settingsDeleteCurrentShowdown {
+  color:#fff3df!important; border:2px solid transparent!important; border-radius:0;
+  border-image:linear-gradient(135deg,#fff3b0 0%,#e2b645 16%,#8a6118 40%,#c99a33 62%,#f6dc86 82%,#9a6f1d 100%) 1;
+  background:linear-gradient(180deg,#b01720 0%,#7d0e15 55%,#5a0a10 100%)!important;
+  box-shadow:inset 0 0 0 1px #2a0306,inset 0 1px 0 2px rgba(255,190,170,.28);
+}
+#settingsOverlay.v10Settings .settingsDeleteCurrentShowdown:hover:not(:disabled) { background:linear-gradient(180deg,#c01d27 0%,#8a1018 55%,#640b12 100%)!important; }
 #settingsOverlay.v10Settings .settingsFooter { left:auto; min-height:0; padding:0!important; border:0!important; visibility:visible; }
 #settingsOverlay.v10Settings a:focus-visible,
 #settingsOverlay.v10Settings button:focus-visible { outline:2px solid #f0c96d; outline-offset:3px; }
@@ -661,8 +669,8 @@
     column-gap:10px; row-gap:6px; align-content:stretch;
     height:100%; min-height:0; padding:0 max(8px,env(safe-area-inset-right)) 0 max(8px,env(safe-area-inset-left));
     box-sizing:border-box; overflow:hidden;
-    /* the study's dark wash over the stadium plate keeps the rail copy readable (the shared atmosphere layer stays off) */
-    background:linear-gradient(180deg,rgba(2,4,6,.8),rgba(2,4,6,.66) 31%,rgba(2,4,6,.86)),linear-gradient(90deg,rgba(0,0,0,.28),rgba(0,0,0,.08) 48%,rgba(0,0,0,.34));
+    /* HO-033: the study's dark wash (66-86% black) over the plate was removed with the Rule Book scrim (owner rule HO-027,
+       no dimming); the rail copy keeps its black text shadow and the section card is opaque. */
   }
   /* rail */
   #app #ruleBook.v10RuleBook .ruleBookHero {
@@ -1125,7 +1133,6 @@
   body #settingsOverlay.v10Settings #v10SettingsStage .sd-stage__plate {
     background-image: image-set(url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp") 2x);
   }
-  body #settingsOverlay.v10Settings .settingsStageScrim { background: linear-gradient(180deg, rgba(2, 2, 2, .12) 0%, rgba(2, 2, 2, .28) 100%); }
   body #settingsOverlay.v10Settings .settingsTitleBlock { top: 6.7%; width: min(34vw, 52.4vh); }
   body #settingsOverlay.v10Settings :is(.settingsEyebrow, .settingsTagline) { text-shadow: 0 1px 4px #000, 0 0 10px rgba(0, 0, 0, .85); }
   body #settingsOverlay.v10Settings #settingsContent {
@@ -1140,7 +1147,7 @@
   body #settingsOverlay.v10Settings .settingsPanel--data { grid-row: 2; }
   body #settingsOverlay.v10Settings .settingsPanel {
     border: var(--st2-bw) solid transparent; border-image: var(--st2-bevel) 1; border-radius: 0;
-    background: linear-gradient(160deg, rgba(10, 10, 11, .94), rgba(5, 5, 6, .9)); box-shadow: var(--st2-ring);
+    background: linear-gradient(160deg, rgba(10, 10, 11, .94), rgba(5, 5, 6, .9)) #060607; box-shadow: var(--st2-ring);
   }
   body #settingsOverlay.v10Settings .settingsPanelHeading { border-bottom-color: rgba(214, 178, 96, .35); }
   /* buttons: black lacquer with a gold bevel */
@@ -1192,11 +1199,11 @@
   #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { margin-bottom:30px; }
 }
 
-/* r78 phone marble: below 1200px Settings shows Team V's marble phone plate (ENV_SETTINGS_PHONE_V2, js/rulesSettingsV10.js)
-   under the same light shade desktop uses over its marble plate, so the penthouse marble reads instead of a near-black
-   screen. Background only: cards, order, scrolling and DONE are untouched. */
+/* r78 phone marble: below 1200px Settings shows Team V's marble phone plate (ENV_SETTINGS_PHONE_V2, js/rulesSettingsV10.js).
+   HO-033: the light shade that sat over it is gone with the settings scrim (owner rule HO-027, no dimming), so the cards
+   get a solid near-black base under their gradients: the plate no longer shows through them (no see-through panels). */
 @media (max-width:1199px) {
-  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsStageScrim {
-    background:linear-gradient(180deg,rgba(2,2,2,.12) 0%,rgba(2,2,2,.28) 100%);
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) :is(#settingsContent > .settingsPanel, .settingsMotionChoice) {
+    background-color:#070707;
   }
 }

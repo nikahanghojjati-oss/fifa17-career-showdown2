@@ -1131,6 +1131,59 @@
   #app #careerStatistics.careerScreenV10 .phoneSceneArt::after { content:none; }
   #app #careerStatistics.careerScreenV10 .phoneFaceBand { background:none; }
 }
+/* HO-033 items 5 and 6 (owner rules HO-027 and HO-028). Phones, sideways phones and upright tablets: the totals tiles, the
+   tab strip and the three panels get an opaque black-gold marble face (HO-029 kit tile) instead of the .73-.91 glass the
+   managers showed through. */
+@media ${CS_PHONE_ART_MEDIA} {
+  #app #careerStatistics.careerScreenV10 :is(.glassPanel,.headlineTile,.phoneTabs) {
+   background:linear-gradient(145deg,rgba(242,196,91,.05),transparent 46%),var(--r78-panel,#110f0c) url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;
+  }
+}
+/* Upright phones: readable type at the HO-028 sizes (labels 12px and up, table and values 15px; they were 6-9px). The
+   totals row grows to hold the bigger labels and the hub starts a little higher (still below the managers' faces), so the
+   picked panel keeps its room; the table headers may wrap to two lines. */
+@media (max-width:760px) and (orientation:portrait) {
+  #app #careerStatistics.careerScreenV10 .phoneHub { grid-template-rows:clamp(90px,14svh,104px) 44px minmax(0,1fr); }
+  #app #careerStatistics.careerScreenV10 .headlineTile { grid-template-columns:minmax(0,1fr);padding:4px 7px; }
+  #app #careerStatistics.careerScreenV10 .headlineIcon { display:none; }
+  #app #careerStatistics.careerScreenV10 .headlineLabel { font-size:12px;letter-spacing:.03em;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+  #app #careerStatistics.careerScreenV10 :is(.headlineTogether,.headlinePair small) { font-size:12px;letter-spacing:.04em; }
+  #app #careerStatistics.careerScreenV10 .phoneTabs label { font-size:13px; }
+  #app #careerStatistics.careerScreenV10 .panelTitle { padding:5px 8px 4px;font-size:13px; }
+  #app #careerStatistics.careerScreenV10 .careerTable th { padding:3px 1px;font-size:12px;line-height:1.1;letter-spacing:0;white-space:nowrap; }
+  #app #careerStatistics.careerScreenV10 .careerTable th:nth-child(1) { width:7%; }
+  #app #careerStatistics.careerScreenV10 .careerTable th:nth-child(2) { width:22%; }
+  #app #careerStatistics.careerScreenV10 .careerTable th:nth-child(3) { width:19%; }
+  #app #careerStatistics.careerScreenV10 .careerTable th:nth-child(4) { width:22%; }
+  #app #careerStatistics.careerScreenV10 .careerTable th:nth-child(5) { width:14%; }
+  #app #careerStatistics.careerScreenV10 .careerTable td { padding:6px 2px;font-size:15px; }
+  #app #careerStatistics.careerScreenV10 .rankCrown { font-size:15px; }
+  #app #careerStatistics.careerScreenV10 .compareRow :is(.dValue,.nValue) { font-size:15px; }
+  #app #careerStatistics.careerScreenV10 .compareLabel { font-size:12px; }
+  #app #careerStatistics.careerScreenV10 .leaderLabel { font-size:12px;line-height:1.1; }
+  #app #careerStatistics.careerScreenV10 .leaderName { font-size:15px; }
+  #app #careerStatistics.careerScreenV10 .leaderValue { font-size:18px; }
+  #app #careerStatistics.careerScreenV10 .actionRow .actionButton { font-size:13px; }
+}
+/* Short upright phones (660px tall and less): the bigger type needs about 50px more for the six comparison rows, so the hub
+   starts just under the managers' faces (the plate is drawn cover from the top: faces end at 25.31% of its height, Team V
+   PHONE_FACE_ZONES), and a panel that still runs long scrolls inside itself instead of being cut. */
+@media (max-width:760px) and (orientation:portrait) and (max-height:700px) {
+  #app #careerStatistics.careerScreenV10 { --cs-face-bottom:calc(max(100vw * 2096 / 1179, 100svh) * .2531); }
+  #app #careerStatistics.careerScreenV10 .phoneHub { top:calc(var(--cs-face-bottom) + 12px); }
+  #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] .phoneHub { top:calc(var(--cs-face-bottom) + 52px); }
+  #app #careerStatistics.careerScreenV10 .partialBanner { top:calc(var(--cs-face-bottom) + 10px); }
+  #app #careerStatistics.careerScreenV10 .contentGrid>:is(.careerTablePanel,.comparisonPanel,.leadersPanel) { overflow-y:auto;overscroll-behavior:contain; }
+}
+/* Sideways phones (852x393): the upright plate ran the full width, so Nik's face sat behind the Career Table panel and
+   Daniel's head was a big crop. The plate now fills only the left band under the title (the hub owns the right side),
+   shown from the top so both managers stand side by side below the title and no panel covers a face. */
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+  #app #careerStatistics.careerScreenV10 .phoneSceneArt { background:#090a0c; }
+  #app #careerStatistics.careerScreenV10 .phoneBackground { right:auto;width:44%;bottom:var(--cs-nav); }
+  #app #careerStatistics.careerScreenV10 .phoneBackground img { object-fit:cover;object-position:50% 0; }
+  #app #careerStatistics.careerScreenV10 .titleBlock { top:4px; }
+}
 `;
 
   // TROPHY-PLATE-V2 (ticket 1610P): desktop Trophy Room on Team V's black-marble trophy-hall plate
