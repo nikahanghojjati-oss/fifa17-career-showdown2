@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 8:45 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 8:52 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r76** (main `b41f296`, Fri 16 Oct 7:00 PM)
 
@@ -83,10 +83,6 @@ Updated Fri 16 Oct, 8:45 PM Boston time. Bug hunting only, no new features until
 **#17 · 1839** `G` r76 gallery refresh: every screen from the final workbench, desktop and phone  
 `████░░░░░░` **40.0000 %**  
 ⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 2 h ago
-
-**#18 · 1840** `G` Clean start: "real career starts here" marker  
-`███████░░░` **70.0000 %**  
-⚪ Team white · model not set · worker done, PR #880 open, CI running · CI 0 of 7 passed · last move 3 min ago
 
 ### 👉 Next for you, in this order
 
@@ -1574,7 +1570,17 @@ Type this in Codex cloud:
 Job 1833
 ```
 
-**#149 · 1841** `G` Old games still open: a release check for saved Showdowns  
+**#149 · 1840** `G` Clean start: "real career starts here" marker  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1840'
+
+Type this in Codex cloud:
+
+```text
+Job 1840
+```
+
+**#150 · 1841** `G` Old games still open: a release check for saved Showdowns  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1841'
 
@@ -1584,7 +1590,7 @@ Type this in Codex cloud:
 Job 1841
 ```
 
-**#150 · 1843** `G` Codex auto-start pilot: one CE2PG 1-season run on the r76b workbench  
+**#151 · 1843** `G` Codex auto-start pilot: one CE2PG 1-season run on the r76b workbench  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1843'
 
