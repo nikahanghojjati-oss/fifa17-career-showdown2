@@ -143,6 +143,89 @@ check("R4 the r78 sheets load with the kit and the box on first use, never in th
   assert.ok(fs.existsSync(path.join(ROOT,"css/r78-marble-tile.webp")));
 });
 
+// service-worker.js in a VM with fake caches and a fake network (the worker's own fetch, message and activate handlers).
+function swWorld(){
+  const vm=require("node:vm");
+  const SCOPE="https://cms.test/app/",store=new Map(),listeners={},net=new Map();let online=true;
+  const keyOf=k=>typeof k==="string"?k:k.url;
+  const caches={keys:async()=>[...store.keys()],delete:async name=>store.delete(name),
+    open:async name=>{if(!store.has(name))store.set(name,new Map());const m=store.get(name);return{match:async k=>{const r=m.get(keyOf(k));return r?r.clone():undefined;},put:async(k,r)=>{m.set(keyOf(k),r);}};}};
+  const fetch=async request=>{if(!online)throw new TypeError("offline");const body=net.get(new URL(keyOf(request)).pathname);return body===undefined?new Response("",{status:404}):new Response(body,{status:200});};
+  const self={registration:{scope:SCOPE},clients:{claim:async()=>{}},skipWaiting:async()=>{},addEventListener:(type,fn)=>{listeners[type]=fn;}};
+  vm.runInContext(read("service-worker.js"),vm.createContext({self,caches,fetch,URL,Request,Response,console,setTimeout,clearTimeout}),{filename:"service-worker.js"});
+  const diag=self.__CMS_SERVICE_WORKER_DIAGNOSTICS__;
+  const fill=(revision,paths,body=p=>p)=>{const m=new Map();for(const p of paths){const u=new URL(p,SCOPE);u.searchParams.set("v",revision);m.set(u.href,new Response(body(p),{status:200}));}store.set("career-mode-showdown-shell-"+revision,m);return m;};
+  const get=async url=>{let reply;listeners.fetch({request:new Request(SCOPE+url),respondWith:p=>{reply=p;},waitUntil:()=>{}});if(!reply)return "not answered";const r=await reply;return r.status===200?await r.text():`status ${r.status}`;};
+  const dispatch=async(type,event)=>{const waits=[];listeners[type]({waitUntil:p=>waits.push(p),...event});await Promise.all(waits);};
+  const message=async type=>{let reply;await dispatch("message",{data:{type},ports:[{postMessage:m=>{reply=m;}}]});return reply;};
+  return {SCOPE,store,net,diag,fill,get,dispatch,message,setOnline:v=>{online=v;}};
+}
+
+// The marble sheet asks for its tile by a relative url(), so the request carries no ?v=. The worker must still answer it from
+// the precached shell (offline too), from the shell the page runs after a rollback, and from the network only on a miss.
+let tileChecks=Promise.reject(new Error("R4b did not run"));tileChecks.catch(()=>{});
+check("R4b the marble tile is served from the precached shell without a ?v= query (offline too)",()=>{
+  const w=swWorld(),diag=w.diag,TILE="css/r78-marble-tile.webp";
+  tileChecks=(async()=>{
+    w.fill(diag.revision,diag.shellPaths,p=>p===TILE?"current-tile":p);w.fill(diag.previousRevision,diag.shellPaths,p=>p===TILE?"previous-tile":p);
+    w.net.set("/app/"+TILE,"network-tile");w.setOnline(false);
+    assert.equal(await w.get(TILE),"current-tile","offline: the tile comes from the current precached shell");
+    assert.equal(await w.get("css/r78-marble-tile.webp?v="+diag.revision),"current-tile","a versioned request still works");
+    assert.equal(await w.get("css/r78-type.css"),"not answered","other unversioned shell files are left to the network as before");
+    const reply=await w.message("CMS_ROLLBACK_TO_PREVIOUS");
+    assert.equal(reply&&reply.ok,true,"rollback accepted");
+    assert.equal(await w.get(TILE),"previous-tile","after a rollback: the tile of the shell the page runs");
+    w.store.delete("career-mode-showdown-shell-"+diag.previousRevision);w.store.delete("career-mode-showdown-shell-"+diag.revision);w.setOnline(true);
+    assert.equal(await w.get(TILE),"network-tile","no precached copy: the network");
+  })();
+  tileChecks.catch(()=>{});
+});
+
+// The r77 shell on an installed phone was filled by the r77 worker with r77's own 213 paths. Activating r78 must keep it (and its
+// image cache) as the recovery target instead of judging it against r78's longer list and deleting it.
+const R77_SHELL_PATHS_SHA256="b17059a35b39ad655d2efc48ee85b53f64a285f9cfd730f6bb0ad7643c96b552";// sorted JSON of r77's SHELL_PATHS (main 8f32e34)
+let previousShellChecks=Promise.reject(new Error("R4c did not run"));previousShellChecks.catch(()=>{});
+check("R4c an r77-only shell cache survives r78 activation and stays the rollback target",()=>{
+  const crypto=require("node:crypto");
+  const probe=swWorld(),diag=probe.diag;
+  assert.equal(diag.previousRevision,"1.9.1-r77");
+  assert.equal(diag.previousShellPaths.length,213,"r77 shipped 213 shell paths");
+  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R77_SHELL_PATHS_SHA256,"the previous list is exactly r77's");
+  assert.ok(diag.previousShellPaths.every(p=>diag.shellPaths.includes(p)),"r78 removed no shell path");
+  previousShellChecks=(async()=>{
+    const IMG="career-mode-showdown-v10-images-",PREV="career-mode-showdown-shell-"+diag.previousRevision;
+    // 1. a real r77 install: r77's own list only, plus its image cache and an older leftover
+    let w=swWorld();
+    w.fill(diag.revision,diag.shellPaths);w.fill(diag.previousRevision,diag.previousShellPaths,p=>"r77:"+p);w.fill("1.9.1-r76",diag.previousShellPaths);
+    w.store.set(IMG+diag.previousRevision,new Map([[w.SCOPE+"visual-assets/v10_1/home/assets/ENV_HOME_PHONE_V1.webp",new Response("r77-art",{status:200})]]));
+    const status=await w.message("CMS_GET_CACHE_STATUS");
+    assert.equal(status.previous.ok,true,"the r77 cache verifies against r77's own list");
+    assert.equal(status.recovery.ok,true);assert.equal(status.recovery.revision,diag.previousRevision);
+    await w.dispatch("activate",{});
+    const names=[...w.store.keys()];
+    assert.ok(names.includes(PREV),"activation keeps the r77 shell");
+    assert.ok(names.includes(IMG+diag.previousRevision),"activation keeps the r77 image cache");
+    assert.ok(!names.includes("career-mode-showdown-shell-1.9.1-r76"),"older shells are still cleared");
+    const reply=await w.message("CMS_ROLLBACK_TO_PREVIOUS");
+    assert.equal(reply&&reply.ok,true,"rollback to r77 accepted");assert.equal(reply.revision,diag.previousRevision);
+    w.setOnline(false);
+    let nav;w.dispatch("fetch",{request:Object.defineProperty(new Request(w.SCOPE),"mode",{value:"navigate"}),respondWith:p=>{nav=p;}});
+    assert.equal(await (await nav).text(),"r77:index.html","offline after rollback: the r77 page");
+    assert.equal(await w.get("js/app.js?v="+diag.previousRevision),"r77:js/app.js","and r77's own files");
+    // 2. an r77 cache missing one of r77's own files is not a recovery target
+    w=swWorld();
+    w.fill(diag.revision,diag.shellPaths);const broken=w.fill(diag.previousRevision,diag.previousShellPaths);
+    const gone=new URL("js/app.js",w.SCOPE);gone.searchParams.set("v",diag.previousRevision);broken.delete(gone.href);
+    assert.equal((await w.message("CMS_GET_CACHE_STATUS")).previous.ok,false,"an incomplete r77 shell fails its own check");
+    await w.dispatch("activate",{});
+    assert.ok(![...w.store.keys()].includes(PREV),"and is cleared on activation");
+    // 3. the current shell is still judged against the full r78 list
+    w=swWorld();w.fill(diag.revision,diag.previousShellPaths);
+    assert.equal((await w.message("CMS_ACTIVATE_UPDATE")).ok,false,"an r78 cache with only r77's files is refused");
+  })();
+  previousShellChecks.catch(()=>{});
+});
+
 // ---- browser ----
 function freePort(){return new Promise((resolve,reject)=>{const server=net.createServer();server.unref();server.on("error",reject);server.listen(0,"127.0.0.1",()=>{const {port}=server.address();server.close(()=>resolve(port));});});}
 async function waitForServer(port){for(let i=0;i<100;i+=1){const ok=await new Promise(resolve=>{const socket=net.connect(port,"127.0.0.1",()=>{socket.end();resolve(true);});socket.on("error",()=>resolve(false));});if(ok)return;await new Promise(resolve=>setTimeout(resolve,100));}throw new Error("static server did not start");}
@@ -224,6 +307,8 @@ async function auditViewport(browser,base,options){
 
 (async()=>{
   await framedChecks;
+  await tileChecks;
+  await previousShellChecks;
   const {chromium}=require("playwright");
   const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
   const port=await freePort();

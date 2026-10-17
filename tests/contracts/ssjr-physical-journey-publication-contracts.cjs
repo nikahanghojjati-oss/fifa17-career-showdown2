@@ -18,7 +18,7 @@ const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
 const supplemental=JSON.parse(fs.readFileSync("POS20_SUPPLEMENTAL_PRODUCT_TESTS.json","utf8"));
 
 const currentRevision=(index.match(/meta name="app-asset-revision" content="([^"]+)"/)||[])[1];
-assert.match(currentRevision||"",/^1\.9\.1-r[1-9]\d*$/);
+assert.match(currentRevision||"",new RegExp(`^${pkg.version.replace(/\./g,"\\.")}-r[1-9]\\d*$`));
 assert.match(app,new RegExp(`VISUAL_FIDELITY_STYLESHEET="css\\/visual-fidelity-r3\\.css\\?v=${currentRevision.replace(/\./g,"\\.")}"`));
 assert.match(menu,new RegExp(`marco-reus-2015-cc-by\\.webp\\?v=${currentRevision.replace(/\./g,"\\.")}`),
   "lazy menu image must share the current whole-shell identity while the acceptance recorder implementation remains historically r20");
@@ -39,7 +39,7 @@ assert.match(recorder,/recorderNetworkRequests:false/);
 assert.match(recorder,/1\.9\.1-r20/);
 assert.doesNotMatch(recorder,/\bfetch\s*\(/);
 assert.match(validator,/validatePhysicalJourneyPair/);
-assert.match(validator,/1\.9\.1-r77/);
+assert.match(validator,/1\.9\.2-r78/);
 assert.match(guide,/Physical Journey Production Acceptance — r75/);
 assert.match(guide,/ssjr-acceptance=1&ssjr-physical=1/);
 assert.match(guide,/Chromebook host/i);
