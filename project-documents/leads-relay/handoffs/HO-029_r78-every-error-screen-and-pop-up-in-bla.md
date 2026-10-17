@@ -13,8 +13,8 @@
  "job": null,
  "status": "RECEIVED",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-17T03:38:24Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-17T03:39:22Z", "by": "V", "status": "RECEIVED", "note": "Team V lead received; work starts in the fresh Team V lead thread"}]
+ "evidence": ["project-documents/leads-relay/attachments/HO-029/ERROR_POPUP_SURFACES.md"],
+ "log": [{"at": "2026-10-17T03:38:24Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-17T03:39:22Z", "by": "V", "status": "RECEIVED", "note": "Team V lead received; work starts in the fresh Team V lead thread"}, {"at": "2026-10-17T03:44:12Z", "by": "G", "status": "RECEIVED", "note": "Team G: full list of error screens, notes, 13 native confirm() sites, modals and toasts (base gameplay/clean-start 614f999b). Native confirm() needs a custom modal; Team G will wire it."}]
 }
 ```
 
