@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 17 Oct, 6:18 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 17 Oct, 6:21 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.2-r78** (main `f15f54f`, Sat 17 Oct 5:28 PM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #900 has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -62,7 +62,7 @@ Updated Sat 17 Oct, 6:18 PM Boston time. Bug hunting only, no new features until
 
 **#12 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 65 h ago
+⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 66 h ago
 
 **#13 · 1830** `G` r76 integration round 2: every r76 fix together, then the meter and CE2PG on the combined head  
 `████░░░░░░` **40.0000 %**  
@@ -1789,8 +1789,8 @@ Job 1845
 Numbered jobs: 56 done, 198 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
-`████████░░` **84.8485 %**  
-Team V hand-offs: 28 of 33 done
+`████████░░` **82.3529 %**  
+Team V hand-offs: 28 of 34 done
 
 **3. Match current desktop screens to the mockup** `after stage 2`  
 `█░░░░░░░░░` **6.2500 %**  
