@@ -10,8 +10,9 @@ r78 is the visual release the owner calls r78. The application version moves to 
 
 - Phone marble (HO-031, #894, #895). On phones, sideways phones and upright tablets, Home, Club, Connect Players, Final
   Winner, Legacy, Season Results, Statistics and Transfer draw Team V's marble phone plates with both managers painted in.
-  Standings, Rivalry Statistics and Trophy Room draw the v3 marble plates. League keeps its current look. Desktop is
-  unchanged.
+  Standings, Rivalry Statistics and Trophy Room draw the v3 marble plates. League (HO-032, #899) draws Team V's V5 marble
+  plate with a 15% smaller wheel on upright phones 340-430px wide, up to 960px tall, with a width/height ratio of at least
+  59/128; taller phones (for example 412x915 and 360x800) keep the old League look. Desktop is unchanged.
 - Rule Book and Settings on phone and tablet use Team V's marble phone plates. Phone panels lose the glass blur and wear the
   desktop tile's black-marble face (#891).
 - New marble loading screen (HO-030, #892): the Reus photo in the black-and-gold marble tunnel, title baked into the picture,
