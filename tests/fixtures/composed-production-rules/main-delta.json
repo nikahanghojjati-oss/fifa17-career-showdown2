@@ -9,10 +9,10 @@
     "bytes": 141446
   },
   "candidate": {
-    "base": "main b41f296 (r75, same composed Rules as the r67 pin) plus the owner-decided career start marker: accounts/{uid}/careerStart/current, get/create/update by the owner on an active device, created once from careerIndex/current with startedAt the server time of the press, then only active may change; list and delete false",
-    "sha256": "f276c229238cedeb9d939ed047d261608afedfae5e4db46d7f08c3d218960269",
-    "gitBlobSha1": "0eb2fde4ce6ed9ff0b485b5687d0ad93acadf33b",
-    "bytes": 144085
+    "base": "main b41f296 (r75, same composed Rules as the r67 pin) plus the owner-decided career start marker: accounts/{uid}/careerStart/current, get/create/update by the owner on an active device, created once from careerIndex/current with startedAt the server time of the press, then only active may change; list and delete false; plus the Terminal Close stale-write gate: terminal progress, terminal rivalry close and atomic session close take their CAS revision step as a ternary condition after their existing cheap checks, so a stale write is refused at once (no outcome changes)",
+    "sha256": "07a9269f5b00790e96403b0d370868293ef94d41996480e162d429e456b0b237",
+    "gitBlobSha1": "48676b6f901849a74f5f7a783663dffd1ce79d98",
+    "bytes": 144817
   },
   "allowedOwners": [
     "G-7",
@@ -24,12 +24,99 @@
     "JOB-1051",
     "JOB-1052",
     "JOB-1051+JOB-1052",
-    "G-7+CAREER-START"
+    "G-7+CAREER-START",
+    "TERMINAL-CLOSE-RACE"
   ],
   "hunks": [
     {
+      "mainLine": 2213,
+      "candidateLine": 2213,
+      "removed": [],
+      "added": [
+        "    // Stale-write gate (both managers save the same Terminal Close step at once). After the cheap checks that every",
+        "    // other write path already fails on, the CAS revision step is the condition of a ternary: a write built on a",
+        "    // revision the document already left is refused right there, and an evaluation pass that cannot read the stored",
+        "    // document stops there too instead of running the whole check into the 1,000-expression limit. The step stays",
+        "    // required inside ssjrTerminalFinalEnvelopeCas, so no outcome changes; only the refusal comes sooner."
+      ],
+      "owner": "TERMINAL-CLOSE-RACE",
+      "why": "Terminal Close stale-write gate, comment only: when both managers save the same step at once, the losing write is refused by its CAS revision step before the rest of the check, so the refusal is a plain denial, not the 1,000-expression limit."
+    },
+    {
+      "mainLine": 2219,
+      "candidateLine": 2224,
+      "removed": [
+        "        && ssjrTerminalFinalEnvelopeCas(before, after, 'rivalry', rivalryId)"
+      ],
+      "added": [
+        "        && ((after.revision == before.revision + 1) ? (ssjrTerminalFinalEnvelopeCas(before, after, 'rivalry', rivalryId)"
+      ],
+      "owner": "TERMINAL-CLOSE-RACE",
+      "why": "Terminal progress update: after the unchanged cheap checks (rivalry id, both states active), the CAS revision step becomes the condition of a ternary in front of the unchanged progress check. The step is still required inside ssjrTerminalFinalEnvelopeCas, so the allow/deny outcome is unchanged; a stale write is just refused at once."
+    },
+    {
+      "mainLine": 2225,
+      "candidateLine": 2230,
+      "removed": [
+        "        );"
+      ],
+      "added": [
+        "        )) : false);"
+      ],
+      "owner": "TERMINAL-CLOSE-RACE",
+      "why": "Closes the progress-update ternary: the unchanged progress check, else false. The step is still required inside ssjrTerminalFinalEnvelopeCas, so the allow/deny outcome is unchanged; a stale write is just refused at once."
+    },
+    {
+      "mainLine": 2257,
+      "candidateLine": 2262,
+      "removed": [
+        "        && signedIn()"
+      ],
+      "added": [
+        "        && ((after.revision == before.revision + 1) ? (signedIn()"
+      ],
+      "owner": "TERMINAL-CLOSE-RACE",
+      "why": "Atomic session close: after the unchanged state == closed and parent-close-requested checks, the CAS revision step becomes the condition of a ternary in front of the unchanged session-close check. The step is still required inside ssjrTerminalFinalEnvelopeCas, so the allow/deny outcome is unchanged; a stale write is just refused at once."
+    },
+    {
+      "mainLine": 2273,
+      "candidateLine": 2278,
+      "removed": [
+        "        && parentAfter.updatedByDeviceId == after.updatedByDeviceId;"
+      ],
+      "added": [
+        "        && parentAfter.updatedByDeviceId == after.updatedByDeviceId) : false);"
+      ],
+      "owner": "TERMINAL-CLOSE-RACE",
+      "why": "Closes the session-close ternary: the unchanged session-close check, else false. The step is still required inside ssjrTerminalFinalEnvelopeCas, so the allow/deny outcome is unchanged; a stale write is just refused at once."
+    },
+    {
+      "mainLine": 2286,
+      "candidateLine": 2291,
+      "removed": [
+        "        && ssjrTerminalFinalEnvelopeCas(before, after, 'rivalry', rivalryId)"
+      ],
+      "added": [
+        "        && ((after.revision == before.revision + 1) ? (ssjrTerminalFinalEnvelopeCas(before, after, 'rivalry', rivalryId)"
+      ],
+      "owner": "TERMINAL-CLOSE-RACE",
+      "why": "Terminal rivalry close: after the unchanged cheap checks (rivalry id, signed in, active to closed), the CAS revision step becomes the condition of a ternary in front of the unchanged close check. The step is still required inside ssjrTerminalFinalEnvelopeCas, so the allow/deny outcome is unchanged; a stale write is just refused at once."
+    },
+    {
+      "mainLine": 2308,
+      "candidateLine": 2313,
+      "removed": [
+        "        && sessionAfter.updatedByDeviceId == after.updatedByDeviceId;"
+      ],
+      "added": [
+        "        && sessionAfter.updatedByDeviceId == after.updatedByDeviceId) : false);"
+      ],
+      "owner": "TERMINAL-CLOSE-RACE",
+      "why": "Closes the rivalry-close ternary: the unchanged close check, else false. The step is still required inside ssjrTerminalFinalEnvelopeCas, so the allow/deny outcome is unchanged; a stale write is just refused at once."
+    },
+    {
       "mainLine": 2626,
-      "candidateLine": 2626,
+      "candidateLine": 2631,
       "removed": [],
       "added": [
         "    // CMS_CAREER_START (owner decision): own-account \"real career starts here\" marker. Created once, active,",
@@ -86,7 +173,7 @@
     },
     {
       "mainLine": 2734,
-      "candidateLine": 2782,
+      "candidateLine": 2787,
       "removed": [],
       "added": [
         "      allow list, delete: if false;",
