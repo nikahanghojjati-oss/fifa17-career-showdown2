@@ -1,25 +1,20 @@
 <!-- HO-030 (r78) Loading screen markup. Replaces <section id="loadingScreen"> ... </section> in index.html.
      Ids kept: #loadingScreen, #startupAthlete, #loadingText. Classes kept for the existing audits.
-     Images: assets/LOADING_REUS_DESKTOP.webp (1920x1080) and assets/LOADING_REUS_PHONE.webp (1179x2096).
+     Images: assets/LOADING_REUS_DESKTOP.webp (1920x1080) and assets/LOADING_REUS_PHONE.webp (stored 1080x1920, same 9:16
+     crop as the 1179x2096 layout grid). The title block (roundel, kicker, wordmark, edition) is baked into both
+     pictures (v3): no .startupIdentity markup and no wordmark preload.
      Put in <head>, before the stylesheets:
-     <link rel="preload" as="image" href="assets/LOADING_REUS_PHONE.webp?v=REV" media="(max-aspect-ratio: 6/5)" fetchpriority="high">
-     <link rel="preload" as="image" href="assets/LOADING_REUS_DESKTOP.webp?v=REV" media="not all and (max-aspect-ratio: 6/5)" fetchpriority="high">
-     <link rel="preload" as="image" href="visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V1.webp">
+     <link rel="preload" as="image" href="assets/LOADING_REUS_PHONE.webp?v=REV" media="(max-aspect-ratio: 7/5)" fetchpriority="high">
+     <link rel="preload" as="image" href="assets/LOADING_REUS_DESKTOP.webp?v=REV" media="not all and (max-aspect-ratio: 7/5)" fetchpriority="high">
 -->
 <section id="loadingScreen" role="status" aria-live="polite" aria-busy="true" aria-label="Career Mode Showdown is starting">
 <div class="startupScene" aria-hidden="true">
 <div class="startupAthleteFrame">
 <picture>
-<source media="(max-aspect-ratio: 6/5)" srcset="assets/LOADING_REUS_PHONE.webp?v=REV" width="1179" height="2096">
+<source media="(max-aspect-ratio: 7/5)" srcset="assets/LOADING_REUS_PHONE.webp?v=REV" width="1179" height="2096">
 <img id="startupAthlete" src="assets/LOADING_REUS_DESKTOP.webp?v=REV" width="1920" height="1080" alt="" decoding="async" fetchpriority="high">
 </picture>
 </div>
-</div>
-<div class="startupIdentity" aria-hidden="true">
-<div class="startupRoundel"><span>CM</span><strong>17</strong></div>
-<p class="startupKicker">THE RIVALRY STARTS HERE</p>
-<h1><span>CAREER MODE</span><strong>SHOWDOWN <em>17</em></strong></h1>
-<p class="startupEdition">TWO MANAGERS&nbsp;&nbsp;·&nbsp;&nbsp;ONE LEGACY</p>
 </div>
 <div class="startupStatus">
 <div class="startupPulse" aria-hidden="true"><i></i><i></i><i></i><i></i></div>

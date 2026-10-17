@@ -25,6 +25,8 @@ ALPHA = HERE / "source" / "reus_alpha.png"
 TUNNEL = REPO / "visual-assets" / "v10_1" / "plates-v2" / "ENV_LOADING_PHONE_V2.webp"
 OUT_DESKTOP = HERE / "LOADING_REUS_DESKTOP.webp"
 OUT_PHONE = HERE / "LOADING_REUS_PHONE.webp"
+IDENTITY_DESKTOP = HERE / "source" / "identity_desktop.png"
+IDENTITY_PHONE = HERE / "source" / "identity_phone.png"
 
 GOLD = np.array([0.80, 0.57, 0.21], np.float32)
 GOLD_HI = np.array([1.0, 0.86, 0.52], np.float32)
@@ -209,7 +211,7 @@ PHONE_FACE = (600, 775)      # where the top of his hair lands (x = head centre)
 
 def build_phone(rgb, a):
     tunnel = np.asarray(Image.open(TUNNEL).convert("RGB")).astype(np.float32) / 255
-    tunnel = 0.5 * tunnel + 0.5 * box_blur(tunnel, 1)
+    tunnel = box_blur(tunnel, 2)  # soft background (depth of field) so the picture fits the 95,000 B cap with a sharp face
     H, W = tunnel.shape[:2]
     y = np.arange(H, dtype=np.float32)[:, None, None]
     # Title zone at the top and loader zone at the bottom sink a little deeper into black marble (baked vignette).
@@ -243,6 +245,7 @@ def build_desktop(rgb, a):
     s = (DIV_TOP + 40) / tunnel.width
     tw, th = round(tunnel.width * s), round(tunnel.height * s)
     t = np.asarray(tunnel.resize((tw, th), Image.LANCZOS)).astype(np.float32) / 255
+    t = box_blur(t, 1)  # soft background (depth of field): room for the baked title under the 95,000 B cap
     oy = 300
     left = np.zeros((H, W, 3), np.float32)
     left[:, :tw] = t[oy:oy + H, :tw]
@@ -286,6 +289,14 @@ def build_desktop(rgb, a):
     return out * (1 - vb)
 
 
+def bake(arr, overlay_path):
+    """Alpha-composite a same-size RGBA overlay (the rendered title block) onto the picture."""
+    o = np.asarray(Image.open(overlay_path).convert("RGBA")).astype(np.float32) / 255
+    assert o.shape[:2] == arr.shape[:2], (o.shape, arr.shape)
+    al = o[..., 3:4]
+    return arr * (1 - al) + o[..., :3] * al
+
+
 def save(arr, path, budget_kb):
     """Highest WebP quality (30..85) that fits the release cap (95,000 B)."""
     import io
@@ -319,6 +330,12 @@ def main():
     rgb = grade(rgb, a)
     desk = build_desktop(rgb, a)
     phone = build_phone(rgb, a)
+    # The title block (CM17 roundel, kicker, wordmark, edition box) is baked in, so the screen is one picture and
+    # one paint (Team G r78: the wordmark may not be preloaded). Overlays are the v1 HTML block rendered at
+    # picture size with a transparent background by bake_identity.cjs: desktop at x1170 y196 (660 wide),
+    # phone at x170 y70 (839 wide, inside the crop of the tallest phones).
+    desk = bake(desk, IDENTITY_DESKTOP)
+    phone = bake(phone, IDENTITY_PHONE)
     save(desk, OUT_DESKTOP, 92)
     # Release cap 95,000 B: the phone picture is stored at 1080x1920 (same 9:16 crop as 1179x2096, so every
     # CSS anchor, which works in 1179x2096 picture px through object-fit, is unchanged) at a higher quality.

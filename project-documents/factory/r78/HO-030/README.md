@@ -93,3 +93,12 @@ desktop, bottom left on phone.
 - [x] No layout shift: the picture box is fixed to the screen (`position:absolute; inset:0`, `object-fit`), its size never depends on the file. Title, loader and credit are text and CSS, so the screen is complete on first paint; until the photo decodes the frame shows the picture's own dark tones (warm tunnel left, black slab right), so a late photo never flashes bright. Preload plus about 92 KB keeps that gap short.
 - [x] No flashing animation: the only motion is the slim gold line sweeping (transform only, opacity never changes). The four gold bars are static. Off with `prefers-reduced-motion` and with the app's reduced-motion setting (line shows full).
 - [x] Sizes: desktop 92,734 B, phone 93,162 B, both under the 95,000 B release cap, and each device loads only one. Face and BVB crest checked at 1:1 after re-export (17 Oct).
+
+## v3 (17 Oct, Team G r78 asks): title baked in, pictures under 95,000 B
+
+- The whole title block (CM17 roundel, THE RIVALRY STARTS HERE, the CAREER MODE SHOWDOWN 17 wordmark, the TWO MANAGERS · ONE LEGACY box) is now part of both pictures, so Loading is one picture and one paint (the career-screens V9 guard forbids preloading the wordmark, which made the title pop in late on a slow load). The `.startupIdentity` markup and the wordmark preload are gone; CSS keeps `.startupIdentity{display:none}` in case old markup is still there.
+- Overlays `source/identity_desktop.png` (block at x1170 y196, 660 wide) and `source/identity_phone.png` (x170 y70, 839 wide, inside the crop of the tallest phones) are the v1 HTML block rendered at picture size with a transparent background by `bake_identity.cjs`; `make_loading.py` composites them before encoding.
+- Crops: landscape crops from the left only as much as needed to keep picture x0..1860 in view (`--ox`), so the baked title is never cut; windows narrower than 7:5 (was 6:5) use the portrait picture. The `<source>` and preload media queries changed to `(max-aspect-ratio: 7/5)`.
+- Sizes: desktop 93,674 B (q52), phone 93,792 B (q40, stored 1080x1920). The tunnel backgrounds are softened slightly (depth of field) so the face, crest and title stay sharp under the cap.
+- CSS: `loading-r78.min.css` 3,623 B, 1,430 B gzip (was 1,883).
+- Shots: `shots/AFTER_V3_*.webp` (1440x900, 1366x768, 1500x1000, 852x393, 393x852, 360x640, 768x1024). On 360x640 the baked kicker is small (about 8 px), as decoration.
