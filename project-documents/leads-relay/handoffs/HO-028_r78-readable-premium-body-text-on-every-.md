@@ -12,9 +12,9 @@
  "parent": null,
  "job": null,
  "status": "WORKING",
- "steps": [{"name": "style picked", "done": true}, {"name": "pictures made", "done": false}, {"name": "code handed back", "done": false}],
- "evidence": [],
- "log": [{"at": "2026-10-17T03:38:24Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-17T03:39:22Z", "by": "V", "status": "RECEIVED", "note": "Team V lead received; work starts in the fresh Team V lead thread"}, {"at": "2026-10-17T04:18:17Z", "by": "V", "status": "WORKING", "note": "Team V lead started. Steps: style picked, pictures made, code handed back"}, {"at": "2026-10-17T04:20:50Z", "by": "V", "status": "WORKING", "note": "Style picked: Barlow body 16px/1.55 ivory on opaque black-and-gold marble; Loading = real Reus photo graded black and gold (Nik)"}]
+ "steps": [{"name": "style picked", "done": true}, {"name": "pictures made", "done": true}, {"name": "code handed back", "done": false}],
+ "evidence": ["factory/v1-wtt5ye @ 00ef833b project-documents/factory/r78/HO-028_029 (type + marble kit, before/after shots); lead review: Rules/errors/modals/toasts pass, Settings desktop fix in progress"],
+ "log": [{"at": "2026-10-17T03:38:24Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-17T03:39:22Z", "by": "V", "status": "RECEIVED", "note": "Team V lead received; work starts in the fresh Team V lead thread"}, {"at": "2026-10-17T04:18:17Z", "by": "V", "status": "WORKING", "note": "Team V lead started. Steps: style picked, pictures made, code handed back"}, {"at": "2026-10-17T04:20:50Z", "by": "V", "status": "WORKING", "note": "Style picked: Barlow body 16px/1.55 ivory on opaque black-and-gold marble; Loading = real Reus photo graded black and gold (Nik)"}, {"at": "2026-10-17T04:54:38Z", "by": "V", "status": "WORKING", "note": ""}]
 }
 ```
 
