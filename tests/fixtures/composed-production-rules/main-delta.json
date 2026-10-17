@@ -10,9 +10,9 @@
   },
   "candidate": {
     "base": "main f15f54f9 (r78, runtime 1.9.2-r78; Rules unchanged since r77). Candidate adds the r79 permanent pairing Rules (R79-PARTNER): accounts/{uid}/partner/current and the private JOIN note accounts/{uid}/partnerInbox/current, proven by tests/firebase/permanent-partner-emulator.cjs",
-    "sha256": "aa51e1639070bf3ae24ab0edbbdb3bd02e4241fc02a236967d86302d311ec356",
-    "gitBlobSha1": "a588efd8a88320d09bbb3081a37b11d645b03b6c",
-    "bytes": 151638
+    "sha256": "26bc608addfffa781e899dcb3338dd1cf8ed2a2a30e1630fde47e53c69e7a60a",
+    "gitBlobSha1": "9791fa8201068e6e71ce9a02d275c1bb2f86570c",
+    "bytes": 151951
   },
   "allowedOwners": [
     "G-7",
@@ -112,7 +112,8 @@
         "    // Both partner records must be active and point at each other, the writer must be playerOne, and the note must",
         "    // name the writer's own open pending rivalry with the invite's exact expiry and the season count in the id.",
         "    // One doc, overwritten on each START, never listed or deleted; an expired note is useless because redeem checks",
-        "    // the invite's expiry.",
+        "    // the invite's expiry. Re-writing the same rivalry is allowed only after 60 s (a safe client retry), so a retry loop",
+        "    // cannot burn the Spark quota.",
         "    function cmsPartnerInboxSeasonsMatch(rivalryId, totalSeasons) {",
         "      return (totalSeasons == 1 && rivalryId.matches('^pair_1[0-9a-f]{63}$'))",
         "        || (totalSeasons == 3 && rivalryId.matches('^pair_3[0-9a-f]{63}$'))",
@@ -154,7 +155,12 @@
         "        && invite.data.state == 'open'",
         "        && invite.data.createdByAccountId == request.auth.uid",
         "        && invite.data.expiresAt == note.expiresAt",
-        "        && note.expiresAt > request.time;",
+        "        && note.expiresAt > request.time",
+        "        && (",
+        "          resource == null",
+        "          || resource.data.rivalryId != note.rivalryId",
+        "          || request.time > resource.data.createdAt + duration.value(60, 's')",
+        "        );",
         "    }"
       ],
       "owner": "R79-PARTNER",
@@ -162,7 +168,7 @@
     },
     {
       "mainLine": 2797,
-      "candidateLine": 2919,
+      "candidateLine": 2925,
       "removed": [],
       "added": [
         "      allow list, delete: if false;",

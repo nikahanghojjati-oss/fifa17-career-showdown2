@@ -435,7 +435,8 @@
     // Both partner records must be active and point at each other, the writer must be playerOne, and the note must
     // name the writer's own open pending rivalry with the invite's exact expiry and the season count in the id.
     // One doc, overwritten on each START, never listed or deleted; an expired note is useless because redeem checks
-    // the invite's expiry.
+    // the invite's expiry. Re-writing the same rivalry is allowed only after 60 s (a safe client retry), so a retry loop
+    // cannot burn the Spark quota.
     function cmsPartnerInboxSeasonsMatch(rivalryId, totalSeasons) {
       return (totalSeasons == 1 && rivalryId.matches('^pair_1[0-9a-f]{63}$'))
         || (totalSeasons == 3 && rivalryId.matches('^pair_3[0-9a-f]{63}$'))
@@ -477,7 +478,12 @@
         && invite.data.state == 'open'
         && invite.data.createdByAccountId == request.auth.uid
         && invite.data.expiresAt == note.expiresAt
-        && note.expiresAt > request.time;
+        && note.expiresAt > request.time
+        && (
+          resource == null
+          || resource.data.rivalryId != note.rivalryId
+          || request.time > resource.data.createdAt + duration.value(60, 's')
+        );
     }
     // CMS_COMPLETED_READ (D2, JOB-08): read-only grant for a Showdown closed by a verified
     // Terminal Close. Get only; no write, list or delete rule refers to these functions.

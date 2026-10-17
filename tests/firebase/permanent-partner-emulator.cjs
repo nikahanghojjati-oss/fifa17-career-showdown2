@@ -87,8 +87,14 @@ const note=(rivalryId,totalSeasons,fromAccountId,expiresAt,extra={})=>({schemaVe
     await assertFails(setDoc(inboxD(dbN),note(pending3,3,'acct_n',inviteExpiry)));
     await assertFails(setDoc(inboxN(dbX),note(strangerPending,3,'acct_x',inviteExpiry)));
     await assertFails(setDoc(inboxN(dbN),note(pending3,3,'acct_n',inviteExpiry)));
+    await assertFails(setDoc(inboxN(dbD),note(pending3,3,'acct_d',inviteExpiry)));
     await assertSucceeds(setDoc(inboxN(dbD),note(pending5,5,'acct_d',inviteExpiry)));
     assert.equal((await getDoc(inboxN(dbN))).data().totalSeasons,5,'each START replaces the one note');
+    await assertFails(setDoc(inboxN(dbD),note(pending5,5,'acct_d',inviteExpiry)));
+    await testEnv.withSecurityRulesDisabled(async context=>{
+      await setDoc(doc(context.firestore(),'accounts','acct_n','partnerInbox','current'),{...note(pending5,5,'acct_d',inviteExpiry),createdAt:Timestamp.fromMillis(nowMs-120000)});
+    });
+    await assertSucceeds(setDoc(inboxN(dbD),note(pending5,5,'acct_d',inviteExpiry)));
 
     console.log('CHECKPOINT unpair-and-repair');
     const nikRecord=(await getDoc(partnerN(dbN))).data();
@@ -101,7 +107,7 @@ const note=(rivalryId,totalSeasons,fromAccountId,expiresAt,extra={})=>({schemaVe
     await assertSucceeds(setDoc(partnerN(dbN),partner('acct_d','playerTwo',paired)));
     await assertSucceeds(setDoc(inboxN(dbD),note(pending3,3,'acct_d',inviteExpiry)));
 
-    process.stdout.write('PASS permanent partner Rules emulator: partner records only by their owner with a real-career marker, matching an active pairing in the right slots, readable by owner and partner only; UNPAIR changes only active and blocks the JOIN note; re-pair needs a fresh valid pairing; the JOIN note is written only by the mutually paired playerOne for his own open pending rivalry with the invite expiry and season count, read only by the inbox owner, replaced on each START, never listed or deleted.\n');
+    process.stdout.write('PASS permanent partner Rules emulator: partner records only by their owner with a real-career marker, matching an active pairing in the right slots, readable by owner and partner only; UNPAIR changes only active and blocks the JOIN note; re-pair needs a fresh valid pairing; the JOIN note is written only by the mutually paired playerOne for his own open pending rivalry with the invite expiry and season count, read only by the inbox owner, replaced on each START (same rivalry only after 60 s), never listed or deleted.\n');
   }finally{
     try{await testEnv.clearFirestore();}catch(_error){}
     await testEnv.cleanup();
