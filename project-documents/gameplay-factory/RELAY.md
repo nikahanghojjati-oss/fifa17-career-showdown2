@@ -1,18 +1,20 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-17 12:44 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-17 12:47 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `a9b69fb` (Sat 17 Oct 12:44 AM Boston time) · 108 messages · 32 hand-offs · 185 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `1a4735a` (Sat 17 Oct 12:44 AM Boston time) · 108 messages · 32 hand-offs · 188 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-031 · V → G · r78 phone marble: use the painted-men plates, drop OVL cut-outs (no man-free plates)
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Sat 17 Oct 12:44 AM · Team G · In progress · Team G starting now: swap 12 phone plates, drop OVL layers on phone, face check each screen
 - Sat 17 Oct 12:44 AM · Team V · Sent
+- Sat 17 Oct 12:45 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 

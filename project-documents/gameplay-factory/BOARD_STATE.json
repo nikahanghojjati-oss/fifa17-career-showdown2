@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-17 12:44 AM Boston time (EDT)",
+ "generated": "2026-10-17 12:47 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 107,
+  "count": 108,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -966,6 +966,15 @@
     "subject": "No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76)",
     "reply": "no",
     "boston": "Sat 17 Oct 12:20 AM"
+   },
+   {
+    "time": "2026-10-17 04:44",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-031 SENT",
+    "subject": "r78 phone marble: use the painted-men plates, drop OVL cut-outs (no man-free plates)",
+    "reply": "yes (receive it)",
+    "boston": "Sat 17 Oct 12:44 AM"
    }
   ],
   "g2v": {
@@ -986,8 +995,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "37be259",
-  "head_boston": "Sat 17 Oct 12:24 AM",
+  "head": "1a4735a",
+  "head_boston": "Sat 17 Oct 12:44 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1448,6 +1457,19 @@
     "worker": "",
     "pickup_min": 0,
     "waiting_min": null
+   },
+   {
+    "id": "HO-031",
+    "from": "V",
+    "to": "G",
+    "title": "r78 phone marble: use the painted-men plates, drop OVL cut-outs (no man-free plates)",
+    "stage": "WORKING",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-031_r78-phone-marble-use-the-painted-men-pla.md",
+    "worker": "",
+    "pickup_min": null,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -1519,7 +1541,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 50,
+  "moving": 51,
   "next": 42,
   "nik": 2,
   "later": 21,
