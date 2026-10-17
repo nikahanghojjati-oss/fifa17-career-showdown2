@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1846,
+ "next": 1847,
  "claims": [
   {
    "number": 1001,
@@ -5072,6 +5072,12 @@
    "team": "G",
    "title": "Codex retry: no-dimming audit (HO-027), report only",
    "claimed": "2026-10-17T03:46:54Z"
+  },
+  {
+   "number": 1846,
+   "team": "V",
+   "title": "League phone background polish (ENV_LEAGUE_PHONE_V5) - GPT picture ticket",
+   "claimed": "2026-10-17T14:40:47Z"
   }
  ]
 }
