@@ -313,7 +313,7 @@
 }
 @media (max-width: 480px) {
   .r78-modal__panel { padding: 22px 18px 18px; }
-  .r78-modal__actions { flex-direction: column-reverse; }
+  .r78-modal__actions { flex-direction: column; } /* Cancel on top, OK below: same reading order as desktop (Cancel, then OK) */
   .r78-modal__actions .r78-btn { width: 100%; }
 }
 
@@ -559,6 +559,29 @@
   border-radius: var(--sd-radius, 3px);
   font-family: var(--r78-font-label);
   letter-spacing: var(--r78-tracking-label);
+}
+
+:root:not(#r78):not(#r78) #productionSharedCareerStartOverlay .settingsInfoGrid { gap: 8px; margin: 14px 0 4px; }
+/* Career Start label/value rows (YOU, RIVAL, LEAGUE, SHOWDOWN LENGTH): small gold caps label on its own line, value
+   below. The layout itself also lives in css/remoteJoining.css, which the panel always loads, so it holds without
+   the Settings sheets. */
+:root:not(#r78):not(#r78) #productionSharedCareerStartOverlay .settingsInfoRow {
+  min-height: 0;
+  padding: 9px 12px;
+  background: rgba(7, 8, 10, .6);
+  border: 1px solid rgba(242, 196, 91, .3);
+  border-left: 3px solid var(--r78-gold-edge);
+}
+:root:not(#r78):not(#r78) #productionSharedCareerStartOverlay .settingsInfoRow span {
+  color: var(--r78-gold);
+  font: var(--r78-weight-label) var(--r78-size-label)/var(--r78-line-label) var(--r78-font-label);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+:root:not(#r78):not(#r78) #productionSharedCareerStartOverlay .settingsInfoRow strong {
+  color: var(--r78-ivory);
+  font: 700 17px/1.25 var(--r78-font-body);
+  letter-spacing: .01em;
 }
 
 /* 7e · Online identity gate #onlinePlayerIdentityOverlay (js/onlinePlayerIdentity.js; all looks are inline styles
