@@ -357,6 +357,134 @@
         && after.data.diff(before.data).affectedKeys().hasOnly(['active']);
     }
 
+    // CMS_PERMANENT_PARTNER (r79, owner decision 2026-10-17): each real account keeps one partner record naming the
+    // account it paired with through a real (marker-holding) pairing. Written only by its owner, only while the named
+    // rivalry has the owner and the partner in their slots. UNPAIR sets active false; re-pair needs active false.
+    function cmsPartnerDataValid(data) {
+      return data.keys().hasOnly(['schemaVersion', 'partnerAccountId', 'myRole', 'pairedViaRivalryId', 'pairedAt', 'active', 'updatedAt'])
+        && data.keys().hasAll(['schemaVersion', 'partnerAccountId', 'myRole', 'pairedViaRivalryId', 'pairedAt', 'active', 'updatedAt'])
+        && data.schemaVersion == 1
+        && data.partnerAccountId is string
+        && data.partnerAccountId != request.auth.uid
+        && data.myRole in ['playerOne', 'playerTwo']
+        && data.pairedViaRivalryId is string
+        && data.pairedViaRivalryId.matches('^pair_[0-9a-f]{64}$')
+        && data.pairedAt is timestamp
+        && data.active is bool
+        && data.updatedAt == request.time;
+    }
+
+    function cmsPartnerSlotsMatch(slots, myRole, partnerAccountId) {
+      return slots is list
+        && slots.size() == 2
+        && slots[0].slotId == 'playerOne'
+        && slots[1].slotId == 'playerTwo'
+        && slots[0].entitlementState == 'active'
+        && slots[1].entitlementState == 'active'
+        && (
+          (myRole == 'playerOne' && slots[0].accountId == request.auth.uid && slots[1].accountId == partnerAccountId)
+          || (myRole == 'playerTwo' && slots[1].accountId == request.auth.uid && slots[0].accountId == partnerAccountId)
+        );
+    }
+
+    function cmsPartnerPairingValid(accountId, data) {
+      let rivalry = get(/databases/$(database)/documents/rivalries/$(data.pairedViaRivalryId)).data;
+      return cmsPartnerDataValid(data)
+        && data.active == true
+        && data.pairedAt == request.time
+        && rivalry.objectType == 'rivalry'
+        && rivalry.objectId == data.pairedViaRivalryId
+        && rivalry.lifecycleState == 'live'
+        && rivalry.data.connectionState in ['active', 'closed']
+        && rivalry.data.authorizedAccountIds is list
+        && rivalry.data.authorizedAccountIds.size() == 2
+        && cmsPartnerSlotsMatch(rivalry.data.managerSlots, data.myRole, data.partnerAccountId)
+        && exists(/databases/$(database)/documents/accounts/$(accountId)/careerStart/current);
+    }
+
+    function cmsPartnerCreateValid(accountId, partnerId) {
+      return signedIn()
+        && request.auth.uid == accountId
+        && partnerId == 'current'
+        && activeActor()
+        && cmsPartnerPairingValid(accountId, request.resource.data);
+    }
+
+    function cmsPartnerUpdateValid(accountId, partnerId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      return signedIn()
+        && request.auth.uid == accountId
+        && partnerId == 'current'
+        && activeActor()
+        && (
+          (
+            before.active == true
+            && cmsPartnerDataValid(after)
+            && after.active == false
+            && after.diff(before).affectedKeys().hasOnly(['active', 'updatedAt'])
+          )
+          || (
+            before.active == false
+            && cmsPartnerPairingValid(accountId, after)
+          )
+        );
+    }
+
+    // CMS_PARTNER_INBOX (r79): the private JOIN note. Daniel's START writes it into Nik's account; only Nik reads it.
+    // Both partner records must be active and point at each other, the writer must be playerOne, and the note must
+    // name the writer's own open pending rivalry with the invite's exact expiry and the season count in the id.
+    // One doc, overwritten on each START, never listed or deleted; an expired note is useless because redeem checks
+    // the invite's expiry. Re-writing the same rivalry is allowed only after 60 s (a safe client retry), so a retry loop
+    // cannot burn the Spark quota.
+    function cmsPartnerInboxSeasonsMatch(rivalryId, totalSeasons) {
+      return (totalSeasons == 1 && rivalryId.matches('^pair_1[0-9a-f]{63}$'))
+        || (totalSeasons == 3 && rivalryId.matches('^pair_3[0-9a-f]{63}$'))
+        || (totalSeasons == 5 && rivalryId.matches('^pair_5[0-9a-f]{63}$'))
+        || (totalSeasons == 10 && rivalryId.matches('^pair_a[0-9a-f]{63}$'));
+    }
+
+    function cmsPartnerInboxWriteValid(accountId, noteId) {
+      let note = request.resource.data;
+      let mine = get(/databases/$(database)/documents/accounts/$(request.auth.uid)/partner/current).data;
+      let theirs = get(/databases/$(database)/documents/accounts/$(accountId)/partner/current).data;
+      let rivalry = get(/databases/$(database)/documents/rivalries/$(note.rivalryId)).data;
+      let invite = get(/databases/$(database)/documents/rivalries/$(note.rivalryId)/invites/$(note.rivalryId)).data;
+      return signedIn()
+        && noteId == 'current'
+        && accountId != request.auth.uid
+        && activeActor()
+        && note.keys().hasOnly(['schemaVersion', 'rivalryId', 'totalSeasons', 'fromAccountId', 'createdAt', 'expiresAt'])
+        && note.keys().hasAll(['schemaVersion', 'rivalryId', 'totalSeasons', 'fromAccountId', 'createdAt', 'expiresAt'])
+        && note.schemaVersion == 1
+        && note.fromAccountId == request.auth.uid
+        && note.createdAt == request.time
+        && note.rivalryId is string
+        && note.rivalryId.matches('^pair_[0-9a-f]{64}$')
+        && cmsPartnerInboxSeasonsMatch(note.rivalryId, note.totalSeasons)
+        && mine.active == true
+        && mine.myRole == 'playerOne'
+        && mine.partnerAccountId == accountId
+        && theirs.active == true
+        && theirs.myRole == 'playerTwo'
+        && theirs.partnerAccountId == request.auth.uid
+        && rivalry.objectType == 'rivalry'
+        && rivalry.lifecycleState == 'live'
+        && rivalry.data.connectionState == 'pending-pair'
+        && rivalry.data.createdByAccountId == request.auth.uid
+        && invite.objectType == 'invite'
+        && invite.data.purpose == 'rivalry-pairing'
+        && invite.data.slotId == 'playerTwo'
+        && invite.data.state == 'open'
+        && invite.data.createdByAccountId == request.auth.uid
+        && invite.data.expiresAt == note.expiresAt
+        && note.expiresAt > request.time
+        && (
+          resource == null
+          || resource.data.rivalryId != note.rivalryId
+          || request.time > resource.data.createdAt + duration.value(60, 's')
+        );
+    }
     // CMS_COMPLETED_READ (D2, JOB-08): read-only grant for a Showdown closed by a verified
     // Terminal Close. Get only; no write, list or delete rule refers to these functions.
     function cmsCompletedShowdownReadable(rivalryId) {
@@ -442,6 +570,20 @@
         && activeActor();
       allow create: if cmsCareerStartCreateValid(accountId, startId);
       allow update: if cmsCareerStartUpdateValid(accountId, startId);
+      allow list, delete: if false;
+    }
+    match /accounts/{accountId}/partner/{partnerId} {
+      allow get: if signedIn()
+        && partnerId == 'current'
+        && (request.auth.uid == accountId || resource.data.partnerAccountId == request.auth.uid);
+      allow create: if cmsPartnerCreateValid(accountId, partnerId);
+      allow update: if cmsPartnerUpdateValid(accountId, partnerId);
+      allow list, delete: if false;
+    }
+
+    match /accounts/{accountId}/partnerInbox/{noteId} {
+      allow get: if signedIn() && request.auth.uid == accountId && noteId == 'current';
+      allow create, update: if cmsPartnerInboxWriteValid(accountId, noteId);
       allow list, delete: if false;
     }
 // CMS_PERSISTENT_PAIR_MATCH_END
