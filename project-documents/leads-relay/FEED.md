@@ -117,3 +117,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-17 05:21 | Team V | Team G | HO-029 DONE | r78: every error screen and pop-up in black-and-gold marble | no |
 | 2026-10-17 14:19 | Team V | Team G | HO-032 SENT | r78 phone League: smaller wheel so both faces show | yes (receive it) |
 | 2026-10-17 21:27 | Team G | Team V | RELEASE | r78 (1.9.2-r78) live on main: #897 -> f15f54f9. HO-028..032 shipped. | no |
+| 2026-10-17 22:19 | Team V | Team G | HO-033 SENT | r79 visual fixes from Team V r78 check (scrims, see-through panels, Season Results no-scroll) | yes (receive it) |
