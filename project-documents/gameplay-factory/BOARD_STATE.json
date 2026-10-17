@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-16 10:55 PM Boston time (EDT)",
+ "generated": "2026-10-16 10:59 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 96,
@@ -920,7 +920,22 @@
    "revision": "1.9.1-r77",
    "when": "2026-10-17T02:19:37Z",
    "subject": "Release r76b: START REAL CAREER marker and close-race fix (#884)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 885,
+     "title": "Re-pin the composed Rules check to production main r76b",
+     "draft": false,
+     "branch": "gameplay/repin-r76b",
+     "sha": "c754958900a6d6ea3d961a1e20ad0dea70208914",
+     "updated": "2026-10-17T02:56:37Z",
+     "gates": {
+      "passed": 0,
+      "running": 7,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": [
     {
      "pr": 884,
@@ -1392,7 +1407,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 48,
+  "moving": 49,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -2608,7 +2623,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 885,
+    "title": "Re-pin the composed Rules check to production main r76b",
+    "draft": false,
+    "branch": "gameplay/repin-r76b",
+    "sha": "c754958900a6d6ea3d961a1e20ad0dea70208914",
+    "updated": "2026-10-17T02:56:37Z",
+    "gates": {
+     "passed": 0,
+     "running": 7,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
