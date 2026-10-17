@@ -118,7 +118,6 @@ function ensurePhaseCHomeStyles(){
 
 function initializeShowdownUI(){
     ensurePhaseCHomeStyles();
-    ensureActiveShowdownDeleteControl();
     ensureDashboardIntegrityStatus();
     ensureCompletionHub();
     cacheDashboardUI();
@@ -141,19 +140,6 @@ function ensureDashboardIntegrityStatus(){
     note.id = "dashboardIntegrityStatus";
     note.className = "stateNote hidden";
     overview.appendChild(note);
-}
-
-function ensureActiveShowdownDeleteControl(){
-    if(document.getElementById("deleteActiveShowdown")){ return; }
-    const actions = document.querySelector("#dashboard .dashboardActions");
-    if(!actions){ return; }
-    const button = document.createElement("button");
-    button.type = "button";
-    button.id = "deleteActiveShowdown";
-    button.className = "backButton dangerButton";
-    button.textContent = "DELETE CURRENT SHOWDOWN";
-    button.addEventListener("click", deleteCurrentShowdownFromDashboard);
-    actions.appendChild(button);
 }
 
 /* Deleting the Showdown also removes every unsent private draft on this device (Season Results, Transfer Challenge, signing), for every rivalry, including orphans.
