@@ -277,6 +277,8 @@ async function selfTest(browser){
 const V3 = ["STANDINGS", "RIVALRY", "TROPHY_ROOM"];
 // HO-032 V5 (factory/v1-wtt5ye 0c2c6465): League draws ENV_LEAGUE_PHONE_V5, made for the 15% smaller phone wheel.
 const V5 = ["LEAGUE"];
+// Screens whose face zones must lie fully on screen (HO-032: League's plate is used only where they do).
+const ON_SCREEN_GATED = ["LEAGUE"];
 function plateFile(key){ return `ENV_${key}_PHONE_${V5.includes(key) ? "V5" : V3.includes(key) ? "V3" : "V2"}.webp`; }
 const OLD_LOOK = [];   // every manager screen now draws its plate on upright phones
 module.exports = { SCREENS, OLD_LOOK, openScreen };
@@ -307,11 +309,17 @@ if(require.main === module) (async () => {
                 const fades = await page.evaluate(fadedManagers);
                 const art = await page.evaluate(paintedArt, plateFile(key));
                 const covered = predict ? [] : await page.evaluate(plateCovered, { faces, plateName: plateFile(key) });
+                // Cover crops the plate's sides on tall screens: every face zone must lie on screen (0.5px tolerance). This
+                // gates the screens listed in ON_SCREEN_GATED (League's plate range is set by it); on the others it is printed
+                // as a note only (Connect Players' V2 zone runs 3px off the right edge at 393x852, in its padding).
+                const offScreen = faces.map((f, i) => f[0] < -.5 || f[2] > w + .5 || f[1] < -.5 || f[3] > h + .5
+                    ? `${i % 2 ? "Nik" : "Daniel"}'s face zone runs off screen (x ${f[0].toFixed(1)}-${f[2].toFixed(1)} of ${w})` : "").filter(Boolean);
+                const offScreenGated = ON_SCREEN_GATED.includes(key) ? offScreen : [];
                 const worst = {};
                 hits.forEach(x => { const k = x.face + " " + x.tag + (x.id ? "#" + x.id : "") + " " + x.text; if(!worst[k] || worst[k].pct < x.pct) worst[k] = x; });
                 const list = Object.values(worst).sort((a, b) => b.pct - a.pct);
                 const artBad = !predict && (!art.plate || art.cutouts.length || art.phoneV1.length);
-                const bad = list.length || fades.length || artBad || covered.length || errors.length;
+                const bad = list.length || fades.length || artBad || covered.length || offScreenGated.length || errors.length;
                 if(bad) results[key].ok = false;
                 let line = `${key} ${w}x${h}: ${bad ? "FAIL" : "OK"}`;
                 line += list.slice(0, 8).map(x => `\n  - ${x.face}'s face ${x.pct}% under <${x.tag}${x.id ? "#" + x.id : ""} class="${x.cls}"> ${x.text ? JSON.stringify(x.text) : ""}`).join("");
@@ -320,6 +328,7 @@ if(require.main === module) (async () => {
                 if(!predict && art.cutouts.length) line += `\n  - cut-outs still painted: ${art.cutouts.join(", ")}`;
                 if(!predict && art.phoneV1.length) line += `\n  - old phone plate still painted: ${art.phoneV1.join(", ")}`;
                 line += covered.map(c => `\n  - ${c}`).join("");
+                line += offScreen.map(c => `\n  ${offScreenGated.length ? "-" : "note:"} ${c}`).join("");
                 if(errors.length) line += `\n  - page errors: ${errors.join(" | ")}`;
                 const toolOnly = toolHits.filter(t => !hits.some(x => x.face === t.face && x.tag === t.tag && x.cls === t.cls && x.text === t.text));
                 if(toolOnly.length) line += `\n  note: with the tool's centred placement (not how the plate is drawn) also ` + [...new Set(toolOnly.map(x => `${x.face} ${x.pct}% under <${x.tag} class="${x.cls}">`))].join("; ");
