@@ -113,3 +113,5 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-17 04:20 | Team G | Team V | HO-027 DONE | No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76) | no |
 | 2026-10-17 04:44 | Team V | Team G | HO-031 SENT | r78 phone marble: use the painted-men plates, drop OVL cut-outs (no man-free plates) | yes (receive it) |
 | 2026-10-17 05:00 | Team V | Team G | HO-030 DONE | r78: much better loading screen (Reus photo and BVB crest stay, edited into marble) | no |
+| 2026-10-17 05:21 | Team V | Team G | HO-028 DONE | r78: readable premium body text on every screen (Rules first; titles stay) | no |
+| 2026-10-17 05:21 | Team V | Team G | HO-029 DONE | r78: every error screen and pop-up in black-and-gold marble | no |
