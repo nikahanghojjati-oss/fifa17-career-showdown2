@@ -907,7 +907,6 @@
   #app #trophyRoom .trophyShelf.is-filtered .managerCounts span {font-size:clamp(12px,.9vw,20px);color:#f4dc8b}
   #app #trophyRoom .trophyShelf.is-filtered .managerCounts strong {font-size:clamp(28px,3vw,64px);color:#f4dc8b}
   #app #trophyRoom .trophyShelf.is-filtered .notWonYet {grid-area:empty;margin:0;padding:4px 0;text-align:center}
-  #app #trophyRoom .trophyShelf.is-filtered .is-unwon .trophyCardPicture {opacity:.26}
 }
 `;
 
@@ -1004,7 +1003,7 @@
 }
 /* Sideways (study 1403): title and managers on the left; totals, the three tabs, the picked panel and the actions on the right. */
 @media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
-  #app #careerStatistics.careerScreenV10 .phoneSceneArt::after { inset:0;background:linear-gradient(90deg,transparent 0 40%,rgba(5,6,8,.55) 46%,rgba(5,6,8,.85) 100%),linear-gradient(180deg,transparent 0 62%,rgba(5,6,8,.75) 100%); }
+  #app #careerStatistics.careerScreenV10 .phoneSceneArt::after { inset:0 0 0 44%;background:linear-gradient(90deg,transparent,rgba(5,6,8,.55) 12%,rgba(5,6,8,.85) 100%); }
   #app #careerStatistics.careerScreenV10 .phoneHero { top:58px;height:calc(100% - 58px - var(--cs-nav) + 18px); }
   #app #careerStatistics.careerScreenV10 .phoneHeroDaniel { left:0; }
   #app #careerStatistics.careerScreenV10 .phoneHeroNik { left:auto;right:57%; }
@@ -1059,7 +1058,7 @@
 /* Upright tablet (study 1404): managers either side under the title, four totals in one row, table and comparison side by
    side above the leaders row, all three panels at once (the tabs still pick and outline one). Bigger comparison and leaders text. */
 @media (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
-  #app #careerStatistics.careerScreenV10 .phoneSceneArt::after { inset:30% 0 0;background:linear-gradient(180deg,rgba(5,6,8,0) 0%,rgba(5,6,8,.72) 22%,rgba(5,6,8,.94) 40%,rgba(5,6,8,.96) 100%); }
+  #app #careerStatistics.careerScreenV10 .phoneSceneArt::after { inset:44% 0 0;background:linear-gradient(180deg,rgba(5,6,8,0) 0%,rgba(5,6,8,.72) 22%,rgba(5,6,8,.94) 40%,rgba(5,6,8,.96) 100%); }
   #app #careerStatistics.careerScreenV10 .phoneHero { top:9%;height:34%; }
   #app #careerStatistics.careerScreenV10 .phoneHeroDaniel { left:3%; }
   #app #careerStatistics.careerScreenV10 .phoneHeroNik { left:auto;right:3%; }

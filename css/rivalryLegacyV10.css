@@ -69,12 +69,9 @@
     display:block; position:relative; overflow:hidden; width:100%;
     height:clamp(0px,calc(100svh - 500px - env(safe-area-inset-bottom)),360px);
   }
-  #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene::after {
-    content:""; position:absolute; inset:65% 0 0; background:linear-gradient(transparent,#07090c);
-  }
   #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneStadium {
     position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
-    object-position:50% 32%; filter:brightness(.64);
+    object-position:50% 32%;
   }
   #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneManager {
     position:absolute; height:145%; max-height:420px; width:auto; max-width:none; top:0; object-fit:contain;
@@ -195,12 +192,9 @@
     height:clamp(0px,calc(100svh - 156px - env(safe-area-inset-bottom)),344px);
     border-right:1px solid #b8904328;
   }
-  #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene::after {
-    content:""; position:absolute; inset:65% 0 0; background:linear-gradient(transparent,#07090c);
-  }
   #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneStadium {
     position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
-    object-position:50% 32%; filter:brightness(.64);
+    object-position:50% 32%;
   }
   #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneManager {
     position:absolute; top:0; width:52%; height:100%; max-width:none; max-height:none;
@@ -341,12 +335,9 @@
     display:block; position:relative; overflow:hidden; width:100%;
     height:clamp(0px,calc(100svh - 680px - env(safe-area-inset-bottom)),520px);
   }
-  #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene::after {
-    content:""; position:absolute; inset:65% 0 0; background:linear-gradient(transparent,#07090c);
-  }
   #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneStadium {
     position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
-    object-position:50% 32%; filter:brightness(.64);
+    object-position:50% 32%;
   }
   #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneManager {
     position:absolute; top:0; height:120%; max-height:520px; width:auto; max-width:none; object-fit:contain;

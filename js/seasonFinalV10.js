@@ -1484,10 +1484,9 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground { position:absolute;inset:0;z-index:1;display:block;overflow:hidden;pointer-events:none; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { display:block;width:100%;height:100%;object-fit:cover;object-position:50% 50%; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneVeil { position:absolute;inset:0;z-index:6;display:block;pointer-events:none; }
- #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero { position:absolute;z-index:9;display:block;width:auto;right:auto;bottom:auto;pointer-events:none;transform:none;opacity:.96; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero { position:absolute;z-index:9;display:block;width:auto;right:auto;bottom:auto;pointer-events:none;transform:none;opacity:1; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero img { display:block;width:auto;height:100%;max-width:none;filter:drop-shadow(0 11px 12px rgb(0 0 0 / .7)); }
- #app #seasonEntry.v10FinalMode #stage-root[data-spotlight="daniel"] .finalWinnerPhoneHero--nik,
- #app #seasonEntry.v10FinalMode #stage-root[data-spotlight="nik"] .finalWinnerPhoneHero--daniel { opacity:.78;filter:brightness(.74) saturate(.85); }
+ #app #seasonEntry.v10FinalMode #stage-root[data-spotlight] .finalWinnerPhoneHero { opacity:1;filter:brightness(1.08) saturate(1.04); }
  #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerTitleBlock,.finalWinnerHeroCopySlot,.winnerTrophySlot,.finalWinnerResultsPanel,.finalWinnerActionsSlot) {
   position:absolute;right:auto;bottom:auto;height:auto;max-height:none;margin:0;box-sizing:border-box;
  }

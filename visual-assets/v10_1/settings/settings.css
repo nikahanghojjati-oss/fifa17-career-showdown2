@@ -613,20 +613,6 @@
   outline: 2px solid #f0c96d;
   outline-offset: 3px;
 }
-#settingsOverlay.v10Settings #v10SettingsStage[data-confirm-open="true"] #settingsContent,
-#settingsOverlay.v10Settings #v10SettingsStage[data-confirm-open="true"] .settingsFooter,
-#settingsOverlay.v10Settings #v10SettingsStage[data-confirm-open="true"] .settingsHeader,
-#settingsOverlay.v10Settings #v10SettingsStage[data-confirm-open="true"] .settingsStateRail {
-  filter: brightness(0.52);
-}
-#settingsOverlay.v10Settings #v10SettingsStage[data-confirm-open="true"]::after {
-  content: "";
-  position: absolute;
-  z-index: 19;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.42);
-  pointer-events: none;
-}
 
 
 /* Claude recheck fix 2026-10-04: 1366 × 640 short-height desktop.

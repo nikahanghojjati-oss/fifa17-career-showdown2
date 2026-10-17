@@ -342,13 +342,6 @@ body {
   filter: blur(12px);
 }
 
-#stage-root[data-status="loading"] .winnerTrophySlot,
-#stage-root[data-status="empty"] .winnerTrophySlot,
-#stage-root[data-status="unavailable"] .winnerTrophySlot {
-  opacity: .34;
-  filter: saturate(.35);
-}
-
 /* STEP 6 · group B: compact final-result panel.
    The panel is deliberately data-dense because it occupies only the measured
    12.50% frame-height strip. No season-entry or career/all-time data appears. */
@@ -512,12 +505,6 @@ body {
 #stage-root[data-winner="nik"] .finalWinnerHonoursManager--nik {
   color: var(--sd-gold-300);
   text-shadow: 0 0 12px rgb(242 196 91 / .24);
-}
-
-#stage-root[data-status="loading"] .finalWinnerResultsPanel,
-#stage-root[data-status="empty"] .finalWinnerResultsPanel,
-#stage-root[data-status="unavailable"] .finalWinnerResultsPanel {
-  opacity: .62;
 }
 
 /* STEP 7 · group C: lower status + exact live Terminal Close actions.
@@ -745,18 +732,9 @@ body {
 }
 
 #stage-root[data-spotlight="daniel"] .finalWinnerManagerSpotlight--nik,
-#stage-root[data-spotlight="nik"] .finalWinnerManagerSpotlight--daniel {
-  opacity: .06;
-}
-
-
-#stage-root[data-spotlight="daniel"] .finalWinnerCutout--nik,
-#stage-root[data-spotlight="nik"] .finalWinnerCutout--daniel {
-  opacity: .70;
-}
-
+#stage-root[data-spotlight="nik"] .finalWinnerManagerSpotlight--daniel,
 #stage-root[data-spotlight="neutral"] .finalWinnerManagerSpotlight {
-  opacity: .18;
+  opacity: .48;
 }
 
 .finalWinnerTerminalHeading {
@@ -1554,22 +1532,11 @@ body {
     height: 60%;
   }
 
-  #stage-root[data-spotlight="daniel"] .finalWinnerPhoneHero--daniel,
-  #stage-root[data-spotlight="nik"] .finalWinnerPhoneHero--nik {
+  #stage-root[data-spotlight] .finalWinnerPhoneHero {
     opacity: 1;
     filter: brightness(1.08) saturate(1.04);
   }
 
-  #stage-root[data-spotlight="daniel"] .finalWinnerPhoneHero--nik,
-  #stage-root[data-spotlight="nik"] .finalWinnerPhoneHero--daniel {
-    opacity: .72;
-    filter: brightness(.72) saturate(.82);
-  }
-
-  #stage-root[data-spotlight="neutral"] .finalWinnerPhoneHero {
-    opacity: .94;
-    filter: brightness(.98);
-  }
 
   /* Heroes deliberately run 4–5% below the 55% face band and sit one layer over
      the results-panel lip. The ceremony title and live copy stay above them. */
@@ -1679,22 +1646,11 @@ body {
 
   /* Winner emphasis is lighting only. Never make the rival transparent: the
      opposite portrait must not double-expose through a face. */
-  #stage-root[data-spotlight="daniel"] .finalWinnerPhoneHero--daniel,
-  #stage-root[data-spotlight="nik"] .finalWinnerPhoneHero--nik {
+  #stage-root[data-spotlight] .finalWinnerPhoneHero {
     opacity: 1;
     filter: brightness(1.08) saturate(1.04);
   }
 
-  #stage-root[data-spotlight="daniel"] .finalWinnerPhoneHero--nik,
-  #stage-root[data-spotlight="nik"] .finalWinnerPhoneHero--daniel {
-    opacity: 1;
-    filter: brightness(.58) saturate(.74);
-  }
-
-  #stage-root[data-spotlight="neutral"] .finalWinnerPhoneHero {
-    opacity: 1;
-    filter: brightness(.96);
-  }
 }
 
 @media (max-width: 760px) and (max-height: 600px) {
