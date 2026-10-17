@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-16 11:59 PM Boston time (EDT)",
+ "generated": "2026-10-17 12:03 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 105,
@@ -1002,23 +1002,7 @@
    "when": "2026-10-17T03:05:54Z",
    "subject": "Re-pin the composed Rules check to production main r76b (#885)",
    "fixes": [],
-   "today": [
-    {
-     "pr": 885,
-     "title": "Re-pin the composed Rules check to production main r76b",
-     "merged": "2026-10-17T03:05:54Z"
-    },
-    {
-     "pr": 884,
-     "title": "Release r76b: START REAL CAREER marker and close-race fix",
-     "merged": "2026-10-17T02:19:37Z"
-    },
-    {
-     "pr": 878,
-     "title": "Release r76: gameplay bug fixes and read-cost cut (1.9.1-r76)",
-     "merged": "2026-10-16T23:00:49Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",
