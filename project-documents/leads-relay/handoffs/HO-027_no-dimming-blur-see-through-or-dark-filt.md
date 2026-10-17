@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-13T00:43:33Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-13T00:44:10Z", "by": "G", "status": "RECEIVED", "note": ""}]
+ "evidence": ["gameplay/clean-start @ 426245d8 - no dimming merged"],
+ "log": [{"at": "2026-10-13T00:43:33Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-13T00:44:10Z", "by": "G", "status": "RECEIVED", "note": ""}, {"at": "2026-10-17T04:20:17Z", "by": "G", "status": "DONE", "note": "r78: 26 state-dimming spots removed (PR #890, merged into gameplay/clean-start 426245d8); ships in 1.9.2-r78"}]
 }
 ```
 

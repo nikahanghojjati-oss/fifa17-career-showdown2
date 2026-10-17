@@ -1,6 +1,6 @@
 # SHOWDOWN LEADS RELAY CONTRACT (Visual lead <-> Gameplay lead)
 
-Version: 1.2 (2026-10-05: §8 hand-off tickets, §9 direct wake; messages unchanged)
+Version: 1.3 (2026-10-17: §11 lead rotation; 1.2: §8 hand-off tickets, §9 direct wake; messages unchanged)
 Owner: Nik
 Repository: nikahanghojjati-oss/fifa17-career-showdown2
 Relay branch: leads/relay
@@ -103,3 +103,21 @@ comments work; the relay threads were simply not subscribed.
 - Why it can't duplicate: the claim is a git push. If both teams push at once, GitHub refuses the second, which pulls and takes the next number. It does not depend on relay messages arriving.
 - Boards show "NNNN · G" or "NNNN · V". The letter also tells Nik which GPT project to type the number in: G = the gameplay project, V = the visual project (Nik, 2026-10-05). A job file lives only in its own team's factory branch. Older numbers (Team G 00-90, Team V V-001..V-2xx) keep their names.
 - Nik types the bare number in the right GPT chat to start a GPT job.
+
+## 11. Lead rotation (v1.3, 2026-10-17)
+What broke: on 2026-10-17 the Team V lead got HO-028..030 at 03:39 UTC, marked them RECEIVED with "work starts in the
+fresh Team V lead thread", and ended its turn waiting for a new thread nobody had started. Team G's wake reached it, but
+RECEIVED looked like progress and Team G never checked that the work had begun. The r78 design work sat for about 40
+minutes until Nik asked; one paste from Nik restarted it (WORKING 04:18 UTC).
+Rules:
+1. RECEIVED means "this thread is starting it now". A lead that will not start a ticket in this turn (because it is
+   handing over, out of usage, or waiting on Nik) never acknowledges it. It leaves the ticket SENT, runs
+   `handoff.py register --team X --state rotating` if it is handing over, and tells Nik in its own project what to type.
+2. Every lead handoff file (both teams) starts with: "First do project-documents/leads-relay/NEW_LEAD_START.md".
+3. New lead's first act: NEW_LEAD_START.md (register active, Team V subscribes PR #312, pick up the open tickets listed).
+4. `handoff.py new/set/wake` refuses to print a wake for a lead that is rotating or unregistered. It prints the line
+   telling the sender to give Nik the paste box in NEW_LEAD_START.md. The sender says it to Nik in that same turn.
+5. After every wake, the sender checks the other session once with `get_session`: if it is archived, or idle asking for
+   a new lead, treat it as rotating (rule 4). One check per wake, never a timer.
+6. Each team may set only its own INBOX entry, except: a sender that proves (rule 5) the other lead is retired marks
+   that entry rotating, so the block in rule 4 applies.

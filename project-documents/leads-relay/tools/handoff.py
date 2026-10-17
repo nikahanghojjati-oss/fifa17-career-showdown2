@@ -7,6 +7,8 @@ wake comment on PR #312, so the receiver gets it in full without opening anythin
 
   new   --from G --to V --title "..." --brief FILE [--kind design] [--worker sonnet] [--priority normal] [--parent HO-003]
         [--step "name" ...]           writes handoffs/HO-NNN_<slug>.md with status SENT
+  register --team V --session session_... [--thread "..."] [--state active|rotating]
+                                sets your own INBOX.json entry (CONTRACT.md §11); a new lead runs this first
   wake  --to V --text "..."     prints the one send_message call that wakes the other team now (CONTRACT.md §9)
   set   HO-NNN STATUS --by V [--note "..."] [--job V-012] [--evidence "branch @ sha - what"] [--done-step N ...]
         STATUS: RECEIVED (acknowledged), WORKING, DONE, RETURNED (with --note why)
@@ -42,17 +44,49 @@ def save(path, txt, m, t):
     open(path, "w").write(txt[:m.start()] + head + txt[m.end():] if m else txt)
 
 
+def inbox():
+    return os.path.join(D, "..", "INBOX.json")
+
+
 def wake_line(to, text):
     """The other team's session is woken directly (seconds, no polling). The GitHub comment stays as the record and backup."""
     try:
-        sid = json.load(open(os.path.join(D, "..", "INBOX.json")))[to]["session_id"]
+        e = json.load(open(inbox()))[to]
     except Exception:
-        sid = None
-    if not sid:
-        print(f"WAKE: Team {to} has no session_id in INBOX.json yet; the PR #312 comment is the only signal. Ask Team {to} to register.")
+        e = {}
+    sid, state = e.get("session_id"), e.get("state", "active")
+    if not sid or state != "active":
+        # CONTRACT.md §11: a lead between threads never acknowledges work. Nothing will happen until the new lead registers.
+        print(f"WAKE BLOCKED: Team {to}'s lead is '{state if sid else 'unregistered'}' in INBOX.json, so nobody will act on this.")
+        print(f"  Tell Nik now, in one line, to paste project-documents/leads-relay/NEW_LEAD_START.md's box into the new Team {to} lead thread.")
         return
     print(f"WAKE NOW (CONTRACT.md §9): call claude-code-remote send_message with session_id={sid} and message:")
     print(f"  Relay for Team {to}: {text} Fetch leads/relay (+refs/heads/leads/relay:refs/remotes/origin/leads/relay) and act per CONTRACT.md.")
+    print(f"  Then (CONTRACT.md §11) call get_session on {sid}: if it is idle asking for a new lead, or archived, tell Nik the same paste line.")
+
+
+def register(a):
+    """CONTRACT.md §11: the outgoing lead marks itself rotating; the new lead's first act is to register itself active."""
+    p = inbox()
+    j = json.load(open(p))
+    e = j.setdefault(a.team, {})
+    if a.session:
+        e["session_id"] = a.session
+    if a.thread:
+        e["thread"] = a.thread
+    e["state"] = a.state
+    e["updated"] = now()
+    json.dump(j, open(p, "w"), indent=1, ensure_ascii=False)
+    open(p, "a").write("\n")
+    print(f"INBOX {a.team} = {e.get('session_id')} ({a.state}). Commit and push leads/relay.")
+    if a.state == "active":
+        mine = []
+        for f in sorted(glob.glob(os.path.join(D, "HO-*.md"))):
+            m = re.search(r"```ticket\s*\n(.*?)```", open(f).read(), re.S)
+            t = json.loads(m.group(1)) if m else {}
+            if t.get("to") == a.team and t.get("status") in ("SENT", "RECEIVED", "WORKING"):
+                mine.append(os.path.basename(f))
+        print("Open tickets for you (pick these up now):", *mine or ["none"], sep="\n  ")
 
 
 def new(a):
@@ -124,5 +158,17 @@ s.add_argument("--note", default="")
 s.add_argument("--job", default=None, help="the job PR id that does the work, e.g. V-012 or 41; its progress block then drives the bar")
 s.add_argument("--evidence", default=None)
 s.add_argument("--done-step", type=int, action="append", default=[])
+r = sp.add_parser("register", help="CONTRACT.md §11 lead rotation: set your own INBOX.json entry")
+r.add_argument("--team", choices=TEAMS, required=True)
+r.add_argument("--session", default=None, help="this thread's session id (new lead)")
+r.add_argument("--thread", default=None, help="short thread name")
+r.add_argument("--state", choices=("active", "rotating"), default="active")
 a = p.parse_args()
-new(a) if a.cmd == "new" else set_(a) if a.cmd == "set" else wake_line(a.to, a.text)
+if a.cmd == "new":
+    new(a)
+elif a.cmd == "set":
+    set_(a)
+elif a.cmd == "register":
+    register(a)
+else:
+    wake_line(a.to, a.text)
