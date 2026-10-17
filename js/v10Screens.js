@@ -91,6 +91,10 @@
       if(typeof app.ensureGameplayModules==="function")await app.ensureGameplayModules();
       return app[opener]();
     }
+    // r78: no Showdown loaded yet (Home before resume) resolves to "mainMenu", which went nowhere. Hand the tap to
+    // the CONTINUE CAREER tile so the tab runs that tile's own click path and reaches the same destination.
+    const tile=target==="mainMenu"&&app.document?app.document.getElementById("continueCareer"):null;
+    if(tile&&!tile.disabled&&typeof tile.click==="function"){tile.click();return true;}
     return app.navigateTo(target);
   }
   async function vsNavigate(key,app=root){
