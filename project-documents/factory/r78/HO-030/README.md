@@ -16,7 +16,7 @@ Before and after: `shots/BEFORE_*.png` (main today, 1440x900 and 393x852) and `s
 | `LOADING_REUS_DESKTOP.webp` | 1920x1080. Tunnel and Reus on the left, black marble slab with a gold seam on the right (title side). | 118.1 KB |
 | `LOADING_REUS_PHONE.webp` | 1179x2096 portrait. Reus in the tunnel, dark ceiling above him for the title, dark floor below for the loader. | 129.5 KB |
 | `loading-r78.css` | The new `#loadingScreen` styles, readable, with comments. | 10 KB |
-| `loading-r78.min.css` | The same rules minified (written by `make_loading.py`). This is what goes into `css/app.css`. | 7.6 KB (2.3 KB gzip) |
+| `loading-r78.min.css` | The same rules minified (written by `make_loading.py`). This is what goes into `css/app.css`. | 5.3 KB (1.9 KB gzip) |
 | `loading-r78.html` | The new `<section id="loadingScreen">` markup and the preload tags. | 2 KB |
 | `preview.html` | Opens the design on this branch (serve the repo root, open `/project-documents/factory/r78/HO-030/preview.html`; add `?motion=reduce` for reduced motion). | |
 | `make_loading.py` | Rebuilds both pictures from the sources (Pillow and numpy only). Picks the best WebP quality under the size budget (desktop 120 KB, phone 130 KB) and writes `loading-r78.min.css`. | |
@@ -74,7 +74,7 @@ I ran the repo audits against main with this design dropped in (locally, not com
   `/^54%\s+0(?:px|%)$/` to `/^50%\s+0(?:px|%)$/`. With that change all four cases pass.
 - `tests/browser/loading-first-paint-audit.cjs`: passes as is, 12/12 viewports (labels visible, no overflow, later CSS cannot restyle the loader, both reduced-motion modes).
 - `tests/contracts/reus-gate-startup-contracts.cjs`: no JS change, so the gate behaviour is the same. With only its budget number raised to 38,100 (in a scratch copy) every browser check passes: slow start with and without reduced motion, Rule Book and Club plate gate, no-loader fallback, failed-loader release. With the real number it fails on the budget line only (below).
-- Startup gzip budget: main today is 37,396 of 37,495 bytes. With `loading-r78.min.css` in place of the old block it is 38,013 (old block 1.7 KB gzip, new 2.3 KB). That is 518 bytes over the line, so Team G must either raise the budget to about 38,100 (owner call) or find 0.6 KB elsewhere. I did not change any test or budget.
+- Startup gzip budget: the first kit (8c916268) was 2,326 B gzip and put main 518 B over 37,495. Slim v2 (Team G ask, 17 Oct) is 1,883 B gzip, 443 B smaller: the old block is replaced, so no rules cancel old ones; one font stack on `#loadingScreen`; the credit uses the system sans (no second font file, `StartupText` is gone); the CM17 roundel keeps its gold ring but drops the two thin inner/outer rings and the glow; tablet side bands are flat dark; portrait sizes come from `--s` = 1.3 picture px (within a few percent of v1). Same anchors, ids and classes. Team G measures the final bundle. I did not change any test or budget.
 
 ## Credit text
 
