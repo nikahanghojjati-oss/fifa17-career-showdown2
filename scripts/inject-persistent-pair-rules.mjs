@@ -108,7 +108,16 @@ export function injectPersistentPairRules(){
     'root.data.startedAt == request.time',
     'match /accounts/{accountId}/careerStart/{startId}',
     'allow create: if cmsCareerStartCreateValid(accountId, startId);',
-    'allow update: if cmsCareerStartUpdateValid(accountId, startId);'
+    'allow update: if cmsCareerStartUpdateValid(accountId, startId);',
+    'function cmsPartnerPairingValid(accountId, data)',
+    'function cmsPartnerInboxWriteValid(accountId, noteId)',
+    "theirs.partnerAccountId == request.auth.uid",
+    "mine.myRole == 'playerOne'",
+    "invite.data.expiresAt == note.expiresAt",
+    'match /accounts/{accountId}/partner/{partnerId}',
+    'match /accounts/{accountId}/partnerInbox/{noteId}',
+    "allow get: if signedIn() && request.auth.uid == accountId && noteId == 'current';",
+    'allow create, update: if cmsPartnerInboxWriteValid(accountId, noteId);'
   ]){
     if(!generated.includes(required))throw new Error(`Generated production Rules missing persistent pair boundary: ${required}`);
   }
@@ -117,6 +126,9 @@ export function injectPersistentPairRules(){
   }
   if((generated.match(/match \/accounts\/\{accountId\}\/careerStart\/\{startId\}/g)||[]).length!==1){
     throw new Error('Generated production Rules must contain exactly one career start account match.');
+  }
+  for(const [pattern,label] of [[/match \/accounts\/\{accountId\}\/partner\/\{partnerId\}/g,'partner record'],[/match \/accounts\/\{accountId\}\/partnerInbox\/\{noteId\}/g,'partner inbox']]){
+    if((generated.match(pattern)||[]).length!==1)throw new Error(`Generated production Rules must contain exactly one ${label} account match.`);
   }
   if((generated.match(/match \/accounts\/\{accountId\}\/pairLinks\/\{pairId\}/g)||[]).length!==1){
     throw new Error('Generated production Rules must contain exactly one persistent pair account match.');
