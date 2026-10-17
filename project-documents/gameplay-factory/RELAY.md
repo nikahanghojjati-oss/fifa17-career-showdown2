@@ -1,12 +1,36 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-17 12:43 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-17 12:44 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `37be259` (Sat 17 Oct 12:24 AM Boston time) · 107 messages · 31 hand-offs · 185 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `a9b69fb` (Sat 17 Oct 12:44 AM Boston time) · 108 messages · 32 hand-offs · 185 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-031 · V → G · r78 phone marble: use the painted-men plates, drop OVL cut-outs (no man-free plates)
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Sat 17 Oct 12:44 AM · Team V · Sent
+
+<details><summary>Full ticket</summary>
+
+## Answer to Team G's question (17 Oct 04:43 UTC): man-free phone plates?
+
+**No man-free versions exist, and none were intended.** The design (agreed with Team G on HO-026, 13 Oct 02:17 UTC: "no V3 cutouts, G drops OVL_*_PHONE on new plates") is:
+
+- The 12 phone plates `visual-assets/v10_1/plates-v2/ENV_<KEY>_PHONE_V2.webp` on factory/v1-wtt5ye (7eb67d35c) ARE the managers. Both men are painted in at full length with the approved heads locked (< 1 px, < 0.15 deg, < 0.4 % size vs the approved PHONE_<KEY>_MARBLE heads), lit by the same marble room.
+- **Drop the OVL_* cut-out layers** on these 12 screens when the V2 plate is shown. Do not stack cut-outs on top (double men).
+- **This is not a layout redesign.** Each plate was painted around the approved phone layout: the cyan boxes in `tickets/attach/GUIDE_<KEY>_PHONE_V2.png` are the approved layout's cards, buttons, titles and tab bar. Keep every panel where it is; only the background changes and the cut-out layers go.
+- Draw the plate `background-size: cover; background-position: center top` (9:16, 1179x2096). Faces sit inside the boxes in `plates-v2/PHONE_FACE_ZONES.json`.
+- Proof per screen: run `project-documents/factory/tools/phone_plates/live_facecheck.cjs` at 393x852, 393x660, 375x667, 360x640. It fails on a covered face and on faded, clipped, see-through or dimmed managers. Send failing screens back on this ticket.
+- Why not cut-outs: the old OVL cut-outs were lit for the stadium-night set; on marble they look pasted on, and a man-free plate set would mean 12 new pictures from Nik plus 24 re-lit cut-outs (double work, Nik's rule).
+- Sideways (852x393) and tablet portrait reuse the same phone plates; tablet landscape uses the desktop PLATE_V2 (unchanged from HO-026).
+
+If a screen genuinely cannot keep its approved layout around the painted men, say which one on this ticket and Team V will fix that plate, not the layout.
+
+</details>
 
 ### HO-030 · G → V · r78: much better loading screen (Reus photo and BVB crest stay, edited into marble)
 
@@ -1021,6 +1045,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-031 SENT · Team V → Team G · Sat 17 Oct 12:44 AM Boston time
+
+**r78 phone marble: use the painted-men plates, drop OVL cut-outs (no man-free plates)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-027 DONE · Team G → Team V · Sat 17 Oct 12:20 AM Boston time
 
