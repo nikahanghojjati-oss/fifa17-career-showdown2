@@ -1,12 +1,12 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-17T01:27:22.741Z",
+  "at": "2026-10-17T01:39:42.363Z",
   "state": "ALL_CLEAR",
   "checks": [],
   "helpers_paused": [],
   "gate": {
     "pr": 884,
-    "head_sha": "979e78c30f1cd970eeb60c786963bc46d58ba7fd",
+    "head_sha": "688ec25fd63b4c2e010493857530f7f5e931242a",
     "lanes": [
       {
         "name": "L1 core",
@@ -14,11 +14,11 @@
       },
       {
         "name": "L2 browser full",
-        "state": "pass"
+        "state": "running"
       },
       {
         "name": "L3A storage gameplay",
-        "state": "pass"
+        "state": "running"
       },
       {
         "name": "L3B visual",
@@ -26,18 +26,18 @@
       },
       {
         "name": "L4 remote",
-        "state": "pass"
+        "state": "running"
       },
       {
         "name": "L5 rules regression",
-        "state": "pass"
+        "state": "running"
       },
       {
         "name": "L6 browser journey",
         "state": "pass"
       }
     ],
-    "seal": "PASS"
+    "seal": "PENDING"
   },
   "pos20": {
     "pr": 884,
