@@ -1,0 +1,64 @@
+{
+ "LEAGUE": {
+  "managers": {
+   "daniel": {
+    "scale": 0.91,
+    "tx": -45.0,
+    "ty": -18.0
+   },
+   "nik": {
+    "scale": 0.82,
+    "tx": 212.42,
+    "ty": 48.0
+   }
+  },
+  "plinth_floor_scale": 1.32,
+  "plinth_scale_about": [
+   589.5,
+   2096
+  ],
+  "stadium_row_stretch_max": 3.24,
+  "stadium_row_stretch_median": 1.8,
+  "patchmatch_filled_px": 20289
+ },
+ "STANDINGS": {
+  "whole_shift_down_px": 35,
+  "top_stretch_rows": [
+   64,
+   99
+  ]
+ },
+ "RIVALRY": {
+  "whole_shift_down_px": 19,
+  "top_stretch_rows": [
+   70,
+   89
+  ]
+ },
+ "TROPHY_ROOM": {
+  "split_shift_px_each_side": 90.0,
+  "uniform_scale": 0.885,
+  "scale_about": [
+   590.0,
+   187.0
+  ],
+  "band_px_v2": {
+   "y<560": [
+    470.0,
+    708.0
+   ],
+   "y=800": [
+    560.0,
+    620.0
+   ],
+   "pedestal_rows": "pedestal silhouette"
+  },
+  "max_band_stretch": 4.051,
+  "top_rows_from_v2_rows": [
+   0,
+   60.0
+  ],
+  "floor_stretch_from_output_row": 1714.5,
+  "floor_max_magnification": 3.0
+ }
+}
