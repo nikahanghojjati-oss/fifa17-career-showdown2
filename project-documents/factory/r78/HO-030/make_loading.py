@@ -287,11 +287,11 @@ def build_desktop(rgb, a):
 
 
 def save(arr, path, budget_kb):
-    """Highest WebP quality (50..85) that fits the startup byte budget."""
+    """Highest WebP quality (30..85) that fits the release cap (95,000 B)."""
     import io
     img = to_img(arr)
     best = None
-    for q in range(85, 49, -1):
+    for q in range(85, 29, -1):
         buf = io.BytesIO()
         img.save(buf, "WEBP", quality=q, method=6)
         if buf.tell() <= budget_kb * 1024:
@@ -319,8 +319,11 @@ def main():
     rgb = grade(rgb, a)
     desk = build_desktop(rgb, a)
     phone = build_phone(rgb, a)
-    save(desk, OUT_DESKTOP, 120)
-    save(phone, OUT_PHONE, 130)
+    save(desk, OUT_DESKTOP, 92)
+    # Release cap 95,000 B: the phone picture is stored at 1080x1920 (same 9:16 crop as 1179x2096, so every
+    # CSS anchor, which works in 1179x2096 picture px through object-fit, is unchanged) at a higher quality.
+    phone = np.asarray(to_img(phone).resize((1080, 1920), Image.LANCZOS), np.float32) / 255.0
+    save(phone, OUT_PHONE, 92)
     write_min()
 
 

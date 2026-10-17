@@ -13,13 +13,13 @@ Before and after: `shots/BEFORE_*.png` (main today, 1440x900 and 393x852) and `s
 
 | File | What it is | Size |
 | --- | --- | --- |
-| `LOADING_REUS_DESKTOP.webp` | 1920x1080. Tunnel and Reus on the left, black marble slab with a gold seam on the right (title side). | 118.1 KB |
-| `LOADING_REUS_PHONE.webp` | 1179x2096 portrait. Reus in the tunnel, dark ceiling above him for the title, dark floor below for the loader. | 129.5 KB |
+| `LOADING_REUS_DESKTOP.webp` | 1920x1080. Tunnel and Reus on the left, black marble slab with a gold seam on the right (title side). WebP q64. | 92,734 B |
+| `LOADING_REUS_PHONE.webp` | Stored at 1080x1920 (same 9:16 crop as the 1179x2096 layout grid; CSS anchors are in 1179x2096 picture px through object-fit, so nothing moves; the markup's width/height 1179x2096 keep the same aspect). WebP q37. Portrait. Reus in the tunnel, dark ceiling above him for the title, dark floor below for the loader. | 93,162 B |
 | `loading-r78.css` | The new `#loadingScreen` styles, readable, with comments. | 10 KB |
 | `loading-r78.min.css` | The same rules minified (written by `make_loading.py`). This is what goes into `css/app.css`. | 5.3 KB (1.9 KB gzip) |
 | `loading-r78.html` | The new `<section id="loadingScreen">` markup and the preload tags. | 2 KB |
 | `preview.html` | Opens the design on this branch (serve the repo root, open `/project-documents/factory/r78/HO-030/preview.html`; add `?motion=reduce` for reduced motion). | |
-| `make_loading.py` | Rebuilds both pictures from the sources (Pillow and numpy only). Picks the best WebP quality under the size budget (desktop 120 KB, phone 130 KB) and writes `loading-r78.min.css`. | |
+| `make_loading.py` | Rebuilds both pictures from the sources (Pillow and numpy only). Picks the best WebP quality under the release cap (static-app-release-contracts: 95,000 B each; the script aims at 92 KiB) and writes `loading-r78.min.css`. | |
 | `make_matte.py`, `source/reus_alpha.png` | The one-time cut-out. The matte is kept, so you only need `make_matte.py` (rembg, pymatting) if the cut-out has to change. | 59 KB |
 
 ## What was done to the photo
@@ -90,6 +90,6 @@ desktop, bottom left on phone.
 - [x] Face fully visible and clear of all text at the same 18 sizes.
 - [x] Credit present, includes "edited", readable by screen readers.
 - [x] No dimming overlay, no CSS filter, no blur on the photo (grade is baked into the picture).
-- [x] No layout shift: the picture box is fixed to the screen (`position:absolute; inset:0`, `object-fit`), its size never depends on the file. Title, loader and credit are text and CSS, so the screen is complete on first paint; until the photo decodes the frame shows the picture's own dark tones (warm tunnel left, black slab right), so a late photo never flashes bright. Preload plus about 120 KB keeps that gap short.
+- [x] No layout shift: the picture box is fixed to the screen (`position:absolute; inset:0`, `object-fit`), its size never depends on the file. Title, loader and credit are text and CSS, so the screen is complete on first paint; until the photo decodes the frame shows the picture's own dark tones (warm tunnel left, black slab right), so a late photo never flashes bright. Preload plus about 92 KB keeps that gap short.
 - [x] No flashing animation: the only motion is the slim gold line sweeping (transform only, opacity never changes). The four gold bars are static. Off with `prefers-reduced-motion` and with the app's reduced-motion setting (line shows full).
-- [x] Sizes: desktop 118.1 KB, phone 129.5 KB, each well under 150 KB, and each device loads only one.
+- [x] Sizes: desktop 92,734 B, phone 93,162 B, both under the 95,000 B release cap, and each device loads only one. Face and BVB crest checked at 1:1 after re-export (17 Oct).
