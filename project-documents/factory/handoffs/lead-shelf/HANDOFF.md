@@ -47,6 +47,14 @@ All four are in `project-documents/factory/handoffs/lead-shelf/` on `factory/v1-
 
 ## 5. Live state (17 Oct 2026, 12:20 a.m. Eastern; refreshed by the "Team V lead" thread of 15-16 Oct)
 
+**TOP OF QUEUE (17 Oct 11:40 p.m. Eastern Fri 16 Oct): three Team G design hand-offs for r78, all RECEIVED by Team V (leads/relay 0a9fe0af), work not started:**
+- **HO-028** readable premium body text on every screen (Rules/Rule Book first; titles stay). Return type tokens/CSS + before/after of Rules on desktop and phone.
+- **HO-029** every error screen, inline error, confirm dialog and toast in black-and-gold marble (no dark overlay behind dialogs). Team V asked Team G for the list of every error/pop-up surface; it comes on the ticket. Return CSS/components + pictures.
+- **HO-030** much better Loading screen: Reus photo and Borussia Dortmund crest STAY (Nik, overrides no-crest rule for this screen only), edited into marble; credit "Marco Reus photo: Tim Reckmann · CC BY 2.0 · Cropped and edited for display". Marble colour asked of Nik (black-and-gold vs black-and-white); see the thread. Desktop + phone crops + layout; Team G keeps the Reus Gate (no flash).
+- **Release names (Team G, 17 Oct):** r77 = LIVE (the release once called r76b, runtime 1.9.1-r77). **r78 = look and feel** (HO-026 phone marble, HO-027 no dimming, fades, HO-028/029/030). r79 = start flow and pairing. Read "r77 visual check" in this file as the **r78** check.
+- Team G lead now session_01S7YvhXS4sKBu2Nd5WxLWNf (INBOX "G"). Ticket steps: `handoff.py set HO-0NN WORKING|DONE --by V`, then `feed_sync.py --team V`, push, and send_message to Team G.
+- Routing: picture work (HO-030 photo edit) = image ticket for Nik (normal new ChatGPT chat, showdown-likeness-image-ticket skill); CSS/type work = GPT job (GPT-5.6 Sol blue) per the bug factory rule, lead verifies.
+
 - **r76 SHIPPED** Fri 16 Oct about 7 p.m. Eastern (PR #878 squash-merged to main as b41f2969, runtime 1.9.1-r76, r75 kept for rollback). Gameplay fixes and Firestore read cut only; NO visual change. Team G gallery: https://claude.ai/artifact/V2gSpstRsPH3B9FNzJmzSn
 - **r76b LIVE** Fri 16 Oct ~10:45 p.m. Eastern (main 8f32e34e, PR #884, runtime 1.9.1-r77): START REAL CAREER marker in Settings + Terminal Close Rules fix. Team G lead that reported it: session_01Tv2qKPNxKEcxiXkxFsBmRH (a newer Team G lead may follow; check INBOX.json "G").
 - **r77 Nik asks** (Team G file `gameplay/r77/R77_NIK_ASKS.md` on branch gameplay/r77 or nearby): readable premium body fonts (Rules screen first), error screens and pop-ups in black-and-gold marble, a better Loading screen (Reus photo and Dortmund crest stay, edited into marble; check against OWNER-4 and the no-real-crests rule), no dimming, phone marble. Relay tickets will come from the next Team G lead.
