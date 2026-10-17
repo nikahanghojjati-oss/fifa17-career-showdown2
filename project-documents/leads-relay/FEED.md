@@ -100,3 +100,6 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-11 03:37 | Team G | Team V | HO-025 DONE | Relay feed and inbox: add your hand-off rows to FEED.md (feed_sync.py --team G) and refresh your INBOX.json entry | no |
 | 2026-10-12 21:55 | Team G | Team V | HO-026 SENT | r75: phone, sideways and tablet in the exact desktop marble look (no glass) | yes (receive it) |
 | 2026-10-13 00:44 | Team G | Team V | HO-027 RECEIVED | No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76) | no |
+| 2026-10-17 03:38 | Team G | Team V | HO-028 SENT | r78: readable premium body text on every screen (Rules first; titles stay) | yes (receive it) |
+| 2026-10-17 03:38 | Team G | Team V | HO-029 SENT | r78: every error screen and pop-up in black-and-gold marble | yes (receive it) |
+| 2026-10-17 03:38 | Team G | Team V | HO-030 SENT | r78: much better loading screen (Reus photo and BVB crest stay, edited into marble) | yes (receive it) |
