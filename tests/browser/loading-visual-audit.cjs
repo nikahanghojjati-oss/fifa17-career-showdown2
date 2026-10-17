@@ -149,7 +149,7 @@ function assertCommon(result, config){
 
 function assertMobile(result, config){
     assert.equal(result.image.objectFit,"cover",`${config.name}: installed/mobile startup must use the stable photo-box cover treatment.`);
-    assert.match(result.image.objectPosition,/^54%\s+0(?:px|%)$/,`${config.name}: mobile Reus crop anchor changed.`);
+    assert.match(result.image.objectPosition,/^50%\s+0(?:px|%)$/,`${config.name}: mobile Reus crop anchor changed.`);
     assert.equal(result.image.position,"absolute",`${config.name}: mobile Reus must be anchored independently of normal flow.`);
     assertNear(result.topBand,0,1,`${config.name}: JOB-1647 removes the old reserved top art band`);
     assertNear(result.topBand,result.topBandVariable,1.25,`${config.name}: photo top must track the explicit mobile art-band variable`);

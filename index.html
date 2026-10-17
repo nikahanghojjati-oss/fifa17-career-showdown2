@@ -7,6 +7,9 @@
 <title>Career Mode Showdown</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="assets/LOADING_REUS_PHONE.webp?v=1.9.1-r77" media="(max-aspect-ratio: 6/5)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/LOADING_REUS_DESKTOP.webp?v=1.9.1-r77" media="not all and (max-aspect-ratio: 6/5)" fetchpriority="high">
+<link rel="preload" as="image" href="visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V1.webp">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&display=swap">
 <link rel="stylesheet" id="appStyles" href="css/app.css?v=1.9.1-r77">
 </head>
@@ -16,11 +19,11 @@
 
 <section id="loadingScreen" role="status" aria-live="polite" aria-busy="true" aria-label="Career Mode Showdown is starting">
 <div class="startupScene" aria-hidden="true">
-<span class="startupShard startupShardOne"></span>
-<span class="startupShard startupShardTwo"></span>
-<span class="startupGrid"></span>
 <div class="startupAthleteFrame">
-<img id="startupAthlete" src="assets/marco-reus-2015-cc-by.webp?v=1.9.1-r77" alt="" decoding="async" fetchpriority="high">
+<picture>
+<source media="(max-aspect-ratio: 6/5)" srcset="assets/LOADING_REUS_PHONE.webp?v=1.9.1-r77" width="1179" height="2096">
+<img id="startupAthlete" src="assets/LOADING_REUS_DESKTOP.webp?v=1.9.1-r77" width="1920" height="1080" alt="" decoding="async" fetchpriority="high">
+</picture>
 </div>
 </div>
 <div class="startupIdentity" aria-hidden="true">
@@ -32,9 +35,10 @@
 <div class="startupStatus">
 <div class="startupPulse" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 <p id="loadingText">PREPARING CAREER MODE SHOWDOWN</p>
+<div class="startupLoader" aria-hidden="true"><i></i></div>
 </div>
 <p class="startupSaveNote" aria-hidden="true">TWO MANAGERS&nbsp;&nbsp;·&nbsp;&nbsp;ONE SHOWDOWN</p>
-<p class="startupPhotoCredit" aria-hidden="true">Marco Reus photo: Tim Reckmann · CC BY 2.0 · Display crop</p>
+<p class="startupPhotoCredit">Marco Reus photo: <a href="https://www.flickr.com/photos/foto_db/16204330530/" tabindex="-1" rel="noopener" target="_blank">Tim Reckmann</a> · <a href="https://creativecommons.org/licenses/by/2.0/" tabindex="-1" rel="noopener" target="_blank">CC BY 2.0</a> · Cropped and edited for display</p>
 </section>
 
 <div id="app" class="hidden" aria-hidden="true">
