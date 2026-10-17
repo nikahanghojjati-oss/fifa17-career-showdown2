@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#07080a">
+  <title>Showdown shared panel, button and table kit</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="showdown-tokens.css">
+  <link rel="stylesheet" href="showdown-type.css">
+  <link rel="stylesheet" href="showdown-ui.css">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: var(--sd-black); }
+    body { color: var(--sd-text-primary); font-family: var(--sd-font-body); }
+    button, input, select { font: inherit; }
+
+    .kit {
+      position: relative;
+      isolation: isolate;
+      height: 100svh;
+      min-height: 0;
+      padding: 10px 12px 12px;
+      display: grid;
+      grid-template-rows: 34px minmax(0, 1fr);
+      gap: 8px;
+      background: #07080a;
+    }
+    .kit::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      background:
+        linear-gradient(180deg, rgba(7,8,10,.12), rgba(7,8,10,.68) 58%, rgba(7,8,10,.94)),
+        url("../home/assets/ENV_HOME_PLATE_V1_1X.webp") center/cover no-repeat;
+    }
+    .kit::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 17% 18%, rgba(245,197,24,.1), transparent 27%),
+        radial-gradient(circle at 83% 15%, rgba(255,211,77,.07), transparent 24%),
+        linear-gradient(90deg, rgba(0,0,0,.2), transparent 28% 72%, rgba(0,0,0,.24));
+    }
+    .kit-mast {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid rgba(212,160,23,.44);
+      color: var(--sd-text-secondary);
+      font: 600 12px/1 var(--sd-font-condensed);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .kit-mast strong { color: var(--sd-gold-300); font-weight: 700; }
+    .kit-mast .sd-preview-tag { min-block-size: 24px; }
+    .kit-shell { min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 393px; gap: 10px; }
+    .desktop-stage, .phone-stage { min-height: 0; }
+    .desktop-stage { display: grid; grid-template-rows: 36px 82px 190px minmax(0,1fr); gap: 8px; }
+    .section-heading { min-height: 28px; display: flex; align-items: end; justify-content: space-between; gap: 16px; }
+    .section-heading h1 { margin: 0; font: 700 24px/1 var(--sd-font-condensed); letter-spacing: .05em; text-transform: uppercase; color: var(--sd-text-primary); }
+    .section-heading p { margin: 2px 0 0; color: var(--sd-text-secondary); font: 600 10px/1.1 var(--sd-font-condensed); letter-spacing: .08em; text-transform: uppercase; }
+
+    .tile-row { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; }
+    .tile-row .sd-tile { min-block-size: 82px; padding-block: 9px; }
+    .tile-row .sd-tile__value { font-size: 30px; }
+
+    .data-grid { min-height: 0; display: grid; grid-template-columns: minmax(0,1.35fr) minmax(310px,.86fr); gap: 8px; }
+    .data-grid .sd-panel { min-height: 0; padding: 10px 12px; }
+    .data-grid .sd-panel__header { min-height: 28px; margin: 0 0 4px; padding: 5px 0 7px; font-size: 13px; }
+    .data-grid .sd-panel__header::after { margin-top: 5px; }
+    .data-grid .sd-table th, .data-grid .sd-table td { height: 29px; padding: 6px 8px; font-size: 12px; }
+    .data-grid .sd-table th { font-size: 9px; }
+    .data-grid .sd-tabs { min-height: 36px; margin-top: 4px !important; }
+    .data-grid .sd-tab { min-height: 36px; font-size: 11px; }
+    .compare-list { display: grid; gap: 0; }
+    .compare-list .sd-compare-row { min-block-size: 27px; grid-template-columns: 42px 18px minmax(112px,1.6fr) 18px 42px; gap: 4px; }
+    .compare-list .sd-compare-row__left, .compare-list .sd-compare-row__right { font-size: 16px; }
+    .compare-list .sd-compare-row__label { font-size: 9px; }
+    .compare-list .sd-compare-row__icon { font-size: 10px; }
+    .compact-bar { margin-top: 4px; }
+
+    .control-grid { min-height: 0; display: grid; grid-template-columns: 1.05fr .95fr 1fr; gap: 8px; }
+    .control-grid > .sd-panel { min-height: 0; padding: 9px 11px; overflow: hidden; }
+    .control-grid .sd-panel__header { min-height: 27px; margin: 0 0 6px; padding: 4px 0 6px; font-size: 12px; }
+    .control-grid .sd-panel__header::after { margin-top: 5px; }
+    .button-state-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 5px 7px; }
+    .button-state-grid .sd-btn { width: 100%; min-inline-size: 0; min-block-size: 39px; padding-inline: 9px; font-size: 11px; }
+    .button-state-grid .sd-icon-btn { inline-size: 44px; block-size: 44px; }
+    .state-cell { display: grid; gap: 2px; }
+    .state-label { color: var(--sd-text-secondary); font: 600 9px/1 var(--sd-font-condensed); letter-spacing: .07em; text-transform: uppercase; }
+    .demo-hover { filter: brightness(1.08); box-shadow: var(--sd-shadow-glow), inset 0 1px 0 rgba(255,243,176,.2) !important; }
+    .demo-active { transform: translateY(1px); filter: brightness(.96); }
+    .demo-focus { outline: 2px solid var(--sd-gold-300) !important; outline-offset: 2px !important; box-shadow: 0 0 0 2px var(--sd-black), var(--sd-shadow-glow) !important; }
+
+    .mini-stack { display: grid; gap: 6px; }
+    .mini-row { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+    .mini-row .sd-chip { min-block-size: 34px; }
+    .mini-row .sd-tabs { width: 100%; min-block-size: 36px; }
+    .mini-row .sd-tab { min-block-size: 36px; min-inline-size: 0; padding-inline: 8px; font-size: 10px; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .field-row .sd-input, .field-row .sd-select { min-block-size: 44px; }
+    .check-toggle-row { display: grid; grid-template-columns: minmax(0,1.15fr) minmax(0,.85fr); gap: 8px; align-items: center; }
+    .check-toggle-row .sd-check, .check-toggle-row .sd-toggle { white-space: nowrap; min-width: 0; }
+
+    .overlay-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+    .overlay-mini-grid .sd-sheet, .overlay-mini-grid .sd-confirm { width: 100%; padding: 9px; overflow: hidden; }
+    .overlay-mini-grid .sd-sheet__title, .overlay-mini-grid .sd-confirm__title { margin-bottom: 4px; font-size: 13px; }
+    .overlay-mini-grid .sd-sheet__body, .overlay-mini-grid .sd-confirm__body { font-size: 10px; line-height: 1.25; }
+    .overlay-mini-grid .sd-sheet__actions, .overlay-mini-grid .sd-confirm__actions { margin-top: 7px; gap: 4px; }
+    .overlay-mini-grid .sd-btn { min-inline-size: 0; min-block-size: 34px; padding-inline: 7px; font-size: 9px; }
+    .kit-note { margin: 7px 0 0; color: var(--sd-text-secondary); font: 400 10px/1.25 var(--sd-font-body); }
+
+    .phone-stage {
+      width: 393px;
+      height: 100%;
+      justify-self: end;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(212,160,23,.65);
+      box-shadow: 0 18px 42px rgba(0,0,0,.55), 0 0 18px rgba(242,196,91,.1);
+      background:
+        linear-gradient(180deg, rgba(7,8,10,.22), rgba(7,8,10,.8) 44%, rgba(7,8,10,.98)),
+        url("../home/assets/ENV_HOME_PLATE_V1_1X.webp") center/cover no-repeat;
+    }
+    .phone-inner {
+      height: 100%;
+      min-height: 0;
+      padding: 8px 10px;
+      display: grid;
+      grid-template-rows: 30px 66px 88px 102px 140px minmax(124px,1fr);
+      gap: 6px;
+    }
+    .phone-head { display: flex; justify-content: space-between; align-items: center; }
+    .phone-head strong { color: var(--sd-gold-300); font: 700 15px/1 var(--sd-font-condensed); letter-spacing: .08em; text-transform: uppercase; }
+    .phone-head .sd-preview-tag { min-height: 26px; font-size: 9px; }
+    .phone-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .phone-tiles .sd-tile { min-block-size: 66px; padding: 7px 8px; grid-template-columns: 28px 1fr; column-gap: 6px; }
+    .phone-tiles .sd-tile__icon { inline-size: 28px; block-size: 28px; font-size: 17px; }
+    .phone-tiles .sd-tile__label { font-size: 8px; letter-spacing: .06em; }
+    .phone-tiles .sd-tile__value { font-size: 23px; }
+    .phone-panel { min-height: 0; padding: 6px 8px; overflow: hidden; }
+    .phone-panel .sd-panel__header { min-height: 18px; margin: 0 0 3px; padding: 2px 0 4px; font-size: 10px; }
+    .phone-panel .sd-panel__header::after { width: 28px; height: 1px; margin-top: 4px; }
+    .phone-panel .sd-table th, .phone-panel .sd-table td { height: 19px; padding: 3px 4px; font-size: 9px; }
+    .phone-panel .sd-table th { font-size: 8px; }
+    .phone-compare .sd-compare-row { min-block-size: 22px; grid-template-columns: 34px 15px minmax(0,1fr) 15px 34px; gap: 2px; }
+    .phone-compare .sd-compare-row__left, .phone-compare .sd-compare-row__right { font-size: 13px; }
+    .phone-compare .sd-compare-row__label { font-size: 7px; letter-spacing: .04em; }
+    .phone-compare .sd-split-bar { height: 5px; margin-top: 4px; }
+    .phone-controls { display: grid; grid-template-columns: 1fr 108px; grid-template-rows: 48px 44px; gap: 6px; align-items: end; }
+    .phone-controls .sd-field { gap: 2px; }
+    .phone-controls .sd-field > label { font-size: 8px; }
+    .phone-controls .sd-input, .phone-controls .sd-select { min-block-size: 44px; font-size: 16px; padding: 6px 8px; }
+    .phone-controls .sd-check { grid-column: 1; }
+    .phone-controls .sd-toggle { grid-column: 2; justify-content: flex-start; gap: 5px; }
+    .phone-controls .sd-check__box { inline-size: 44px; block-size: 44px; flex-basis: 44px; }
+    .phone-controls .sd-toggle__track { inline-size: 48px; flex-basis: 48px; }
+    .phone-actions { min-height: 0; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 44px 44px 44px; gap: 6px; align-content: end; }
+    .phone-actions .sd-tabs { grid-column: 1/-1; min-height: 44px; }
+    .phone-actions .sd-tab { min-height: 44px; min-inline-size: 44px; padding-inline: 5px; font-size: 9px; }
+    .phone-actions .sd-btn { min-inline-size: 0; width: 100%; min-height: 44px; padding-inline: 8px; font-size: 11px; }
+    .phone-action-row { grid-column: 1/-1; display: grid; grid-template-columns: auto 44px 1fr; align-items: center; gap: 8px; min-height: 44px; }
+    .phone-action-row .sd-chip { min-height: 44px; }
+    .phone-action-row .state-label { text-align: right; }
+
+    .dialog-demo[hidden] { display: none !important; }
+
+    @media (max-width: 700px) and (max-height: 580px) {
+      .phone-inner { grid-template-rows: 24px 56px 82px 88px 134px minmax(108px,1fr); gap: 5px; padding-block: 6px; }
+      .phone-tiles .sd-tile { min-height: 56px; padding-block: 4px; }
+      .phone-tiles .sd-tile__value { font-size: 21px; }
+      .phone-panel { padding-block: 5px; }
+      .phone-panel .sd-panel__header { min-height: 18px; margin-top: -5px; padding-block: 3px; }
+      .phone-panel .sd-table th, .phone-panel .sd-table td { height: 22px; padding-block: 2px; }
+      .phone-compare .sd-compare-row { min-height: 15px; }
+      .phone-controls .sd-input, .phone-controls .sd-select, .phone-controls .sd-check, .phone-controls .sd-toggle { min-height: 44px; }
+      .phone-actions { grid-template-rows: 30px 44px; gap: 4px 6px; align-content: start; max-height: 78px; }
+      .phone-actions .sd-tab { min-height: 30px; height: 30px; }
+      .phone-action-row { display: none; }
+    }
+
+    @media (max-width: 700px) {
+      html, body { overflow: hidden; }
+      .kit { padding: 0; grid-template-rows: 0 minmax(0,1fr); gap: 0; }
+      .kit-mast { display: none; }
+      .kit-shell { display: block; }
+      .desktop-stage { display: none; }
+      .phone-stage { width: 100%; height: 100svh; border: 0; }
+      .phone-inner { padding: 8px 10px calc(8px + env(safe-area-inset-bottom)); grid-template-rows: 30px 66px 88px 102px 140px minmax(124px,1fr); gap: 6px; }
+    }
+    @media (max-width: 700px) and (max-height: 580px) {
+      .phone-actions .sd-tabs, .phone-action-row { display: none; }
+      .phone-actions { grid-template-rows: 44px; align-content: end; }
+    }
+  </style>
+</head>
+<body>
+<main class="kit">
+  <header class="kit-mast">
+    <span><strong>CM17 / Shared UI kit</strong> · panel, button &amp; table system</span>
+    <span class="sd-preview-tag">Preview data</span>
+  </header>
+
+  <div class="kit-shell">
+    <section class="desktop-stage" aria-label="Desktop component specimen">
+      <header class="section-heading">
+        <div><h1>Career Statistics Kit</h1><p>Daniel left · Nik right · shared components</p></div>
+        <span class="sd-preview-tag">Preview data</span>
+      </header>
+
+      <div class="tile-row" aria-label="Statistic tiles">
+        <div class="sd-tile"><span class="sd-tile__icon" aria-hidden="true">★</span><span class="sd-tile__label">Completed Showdowns · Together</span><span class="sd-tile__value">4</span></div>
+        <div class="sd-tile"><span class="sd-tile__icon" aria-hidden="true">◫</span><span class="sd-tile__label">Seasons Played · Together</span><span class="sd-tile__value">24</span></div>
+        <button class="sd-tile" type="button"><span class="sd-tile__icon" aria-hidden="true">▥</span><span class="sd-tile__label">Career Points · Together</span><span class="sd-tile__value">73</span></button>
+        <button class="sd-tile" type="button" disabled><span class="sd-tile__icon" aria-hidden="true">◇</span><span class="sd-tile__label">Trophies Won · Together</span><span class="sd-tile__value">18</span></button>
+      </div>
+
+      <div class="data-grid">
+        <section class="sd-panel sd-panel--hero" aria-labelledby="career-table-title">
+          <h2 id="career-table-title" class="sd-panel__header">Career Table</h2>
+          <table class="sd-table">
+            <thead><tr><th># Manager</th><th>Showdowns</th><th>Season W-D-L</th><th>Points</th><th>Trophies</th></tr></thead>
+            <tbody>
+              <tr class="sd-table__leader" data-leader="true"><td>1 · Daniel</td><td>4</td><td>7-0-5</td><td>37</td><td>9</td></tr>
+              <tr><td>2 · Nik</td><td>4</td><td>5-0-7</td><td>36</td><td>9</td></tr>
+            </tbody>
+          </table>
+          <div class="sd-tabs" role="tablist" aria-label="Career table views" style="margin-top:4px">
+            <button class="sd-tab" role="tab" aria-selected="true">All</button>
+            <button class="sd-tab" role="tab" aria-selected="false">Seasons</button>
+            <button class="sd-tab" role="tab" aria-selected="false">Trophies</button>
+          </div>
+        </section>
+
+        <section class="sd-panel" aria-labelledby="manager-comparison-title">
+          <h2 id="manager-comparison-title" class="sd-panel__header">Manager Comparison</h2>
+          <div class="compare-list">
+            <div class="sd-compare-row"><span class="sd-compare-row__left">5</span><span class="sd-compare-row__icon">◆</span><span class="sd-compare-row__label">League Titles</span><span class="sd-compare-row__icon">◆</span><span class="sd-compare-row__right">4</span></div>
+            <div class="sd-compare-row"><span class="sd-compare-row__left">2</span><span class="sd-compare-row__icon">◇</span><span class="sd-compare-row__label">Domestic Cups</span><span class="sd-compare-row__icon">◇</span><span class="sd-compare-row__right">3</span></div>
+            <div class="sd-compare-row"><span class="sd-compare-row__left">2</span><span class="sd-compare-row__icon">✦</span><span class="sd-compare-row__label">Champions League Wins</span><span class="sd-compare-row__icon">✦</span><span class="sd-compare-row__right">2</span></div>
+            <div class="sd-compare-row"><span class="sd-compare-row__left">7</span><span class="sd-compare-row__icon">▦</span><span class="sd-compare-row__label">Season Wins</span><span class="sd-compare-row__icon">▦</span><span class="sd-compare-row__right">5</span></div>
+            <div class="sd-compare-row"><span class="sd-compare-row__left">91.3</span><span class="sd-compare-row__icon">●</span><span class="sd-compare-row__label">Avg League Points</span><span class="sd-compare-row__icon">●</span><span class="sd-compare-row__right">90.8</span></div>
+          </div>
+          <div class="sd-split-bar compact-bar" style="--sd-split:50.3%" aria-label="Daniel 37 career points, Nik 36 career points"></div>
+        </section>
+      </div>
+
+      <div class="control-grid">
+        <section class="sd-panel sd-panel--daniel" aria-labelledby="button-states-title">
+          <h2 id="button-states-title" class="sd-panel__header">Button States</h2>
+          <div class="button-state-grid">
+            <div class="state-cell"><span class="state-label">Default</span><button class="sd-btn sd-btn--primary"><span class="sd-btn__icon">◆</span>Primary<span class="sd-btn__chevron"></span></button></div>
+            <div class="state-cell"><span class="state-label">Hover</span><button class="sd-btn sd-btn--secondary demo-hover">Secondary<span class="sd-btn__chevron"></span></button></div>
+            <div class="state-cell"><span class="state-label">Focus</span><button class="sd-btn sd-btn--secondary demo-focus">Focused</button></div>
+            <div class="state-cell"><span class="state-label">Pressed</span><button class="sd-btn sd-btn--primary demo-active">Active</button></div>
+            <div class="state-cell"><span class="state-label">Disabled</span><button class="sd-btn sd-btn--secondary" disabled>Disabled</button></div>
+            <div class="state-cell"><span class="state-label">Icon 44 × 44</span><button class="sd-icon-btn" aria-label="Settings">⚙</button></div>
+          </div>
+        </section>
+
+        <section class="sd-panel sd-panel--nik" aria-labelledby="controls-title">
+          <h2 id="controls-title" class="sd-panel__header">Controls</h2>
+          <div class="mini-stack">
+            <div class="mini-row">
+              <button class="sd-chip" aria-pressed="true">Selected</button>
+              <button class="sd-chip" aria-pressed="false">Chip</button>
+              <button class="sd-chip" disabled>Disabled</button>
+            </div>
+            <div class="sd-tabs sd-tabs--chips" role="tablist" aria-label="Chip tabs">
+              <button class="sd-tab" role="tab" aria-selected="true">All</button><button class="sd-tab" role="tab" aria-selected="false">League</button><button class="sd-tab" role="tab" aria-selected="false">Cup</button>
+            </div>
+            <div class="field-row">
+              <div class="sd-field"><label for="points">League points</label><input class="sd-input" id="points" inputmode="numeric" value="98"></div>
+              <div class="sd-field"><label for="position">Position</label><select class="sd-select" id="position"><option>1</option><option>2</option></select></div>
+            </div>
+            <div class="check-toggle-row">
+              <label class="sd-check"><input type="checkbox" checked><span class="sd-check__box"></span><span>Domestic cup</span></label>
+              <label class="sd-toggle"><input type="checkbox" checked><span class="sd-toggle__track"></span><span>Motion</span></label>
+            </div>
+          </div>
+        </section>
+
+        <section class="sd-panel" aria-labelledby="overlay-title">
+          <h2 id="overlay-title" class="sd-panel__header">Overlays</h2>
+          <div class="overlay-mini-grid">
+            <div class="sd-sheet">
+              <h3 class="sd-sheet__title">Bottom Sheet</h3><p class="sd-sheet__body">Phone details live in a focused sheet.</p>
+              <div class="sd-sheet__actions"><button class="sd-btn sd-btn--secondary">Close</button></div>
+            </div>
+            <div class="sd-confirm">
+              <h3 class="sd-confirm__title">Confirm</h3><p class="sd-confirm__body">Danger stays inside confirmation.</p>
+              <div class="sd-confirm__actions"><button class="sd-btn sd-btn--danger" id="open-confirm">Delete</button></div>
+            </div>
+          </div>
+          <p class="kit-note">Confirm traps Tab, supports Escape, and restores focus to its opener.</p>
+        </section>
+      </div>
+    </section>
+
+    <section class="phone-stage" aria-label="393 pixel phone specimen">
+      <div class="phone-inner">
+        <header class="phone-head"><strong>Statistics</strong><span class="sd-preview-tag">Preview data</span></header>
+        <div class="phone-tiles">
+          <div class="sd-tile"><span class="sd-tile__icon">▥</span><span class="sd-tile__label">Career Points · Together</span><span class="sd-tile__value">73</span></div>
+          <div class="sd-tile"><span class="sd-tile__icon">◇</span><span class="sd-tile__label">Trophies · Together</span><span class="sd-tile__value">18</span></div>
+        </div>
+        <section class="sd-panel phone-panel">
+          <h2 class="sd-panel__header">Career Table</h2>
+          <table class="sd-table"><thead><tr><th>Manager</th><th>Points</th><th>Trophies</th></tr></thead><tbody><tr class="sd-table__leader" data-leader="true"><td>Daniel</td><td>37</td><td>9</td></tr><tr><td>Nik</td><td>36</td><td>9</td></tr></tbody></table>
+        </section>
+        <section class="sd-panel phone-panel phone-compare">
+          <h2 class="sd-panel__header">Head to Head</h2>
+          <div class="sd-compare-row"><span class="sd-compare-row__left">5</span><span class="sd-compare-row__icon">◆</span><span class="sd-compare-row__label">League Titles</span><span class="sd-compare-row__icon">◆</span><span class="sd-compare-row__right">4</span></div>
+          <div class="sd-compare-row"><span class="sd-compare-row__left">2</span><span class="sd-compare-row__icon">◇</span><span class="sd-compare-row__label">Domestic Cups</span><span class="sd-compare-row__icon">◇</span><span class="sd-compare-row__right">3</span></div>
+          <div class="sd-compare-row"><span class="sd-compare-row__left">7</span><span class="sd-compare-row__icon">▦</span><span class="sd-compare-row__label">Season Wins</span><span class="sd-compare-row__icon">▦</span><span class="sd-compare-row__right">5</span></div>
+          <div class="sd-split-bar" style="--sd-split:50.3%"></div>
+        </section>
+        <section class="sd-panel phone-panel">
+          <h2 class="sd-panel__header">Season Entry Pieces</h2>
+          <div class="phone-controls">
+            <div class="sd-field"><label for="phone-points">League points</label><input class="sd-input" id="phone-points" inputmode="numeric" value="98"></div>
+            <div class="sd-field"><label for="phone-position">Position</label><select class="sd-select" id="phone-position"><option>1</option><option>2</option></select></div>
+            <label class="sd-check"><input type="checkbox" checked><span class="sd-check__box"></span><span>Cup winner</span></label>
+            <label class="sd-toggle"><input type="checkbox" checked><span class="sd-toggle__track"></span><span>Motion</span></label>
+          </div>
+        </section>
+        <div class="phone-actions">
+          <div class="sd-tabs" role="tablist" aria-label="Phone manager tabs"><button class="sd-tab" role="tab" aria-selected="true">Daniel</button><button class="sd-tab" role="tab" aria-selected="false">Nik</button></div>
+          <button class="sd-btn sd-btn--secondary">Back</button>
+          <button class="sd-btn sd-btn--primary">Continue<span class="sd-btn__chevron"></span></button>
+          <div class="phone-action-row"><button class="sd-chip" aria-pressed="false">More</button><button class="sd-icon-btn" aria-label="Settings">⚙</button><span class="state-label">44 px targets</span></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="sd-overlay dialog-demo" id="confirm-overlay" hidden>
+    <section class="sd-confirm" role="dialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-body">
+      <h2 class="sd-confirm__title" id="confirm-title">Confirm delete</h2>
+      <p class="sd-confirm__body" id="confirm-body">This preview demonstrates focus containment and focus restoration.</p>
+      <div class="sd-confirm__actions"><button class="sd-btn sd-btn--secondary" data-close>Cancel</button><button class="sd-btn sd-btn--danger" data-close>Delete</button></div>
+    </section>
+  </div>
+</main>
+<script>
+(() => {
+  const overlay = document.getElementById('confirm-overlay');
+  const opener = document.getElementById('open-confirm');
+  let restore = null;
+  const focusables = () => [...overlay.querySelectorAll('button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), [tabindex]:not([tabindex="-1"])')];
+  function openDialog() {
+    restore = document.activeElement;
+    overlay.hidden = false;
+    focusables()[0]?.focus();
+  }
+  function closeDialog() {
+    overlay.hidden = true;
+    (restore || opener)?.focus();
+  }
+  opener?.addEventListener('click', openDialog);
+  overlay.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeDialog));
+  overlay.addEventListener('keydown', event => {
+    if (event.key === 'Escape') { event.preventDefault(); closeDialog(); return; }
+    if (event.key !== 'Tab') return;
+    const items = focusables(); if (!items.length) return;
+    const first = items[0], last = items[items.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+  });
+  document.querySelectorAll('.sd-tabs').forEach(tablist => {
+    const tabs = [...tablist.querySelectorAll('[role="tab"]')];
+    tabs.forEach(tab => tab.addEventListener('click', () => tabs.forEach(t => t.setAttribute('aria-selected', String(t === tab)))));
+  });
+})();
+</script>
+</body>
+</html>

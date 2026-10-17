@@ -1,0 +1,198 @@
+{
+ "task": "CLOUD-HLC-INTAKE-V1-R3 (R3.2)",
+ "screen": "club",
+ "result": "PASS",
+ "base_sha": "8fbda036c1d1f7910631964e982705d0f25290c0",
+ "inputs_ref": "claude-cloud/hlc-goals",
+ "inputs": {
+  "goal": {
+   "path": "visual-assets/goals/GOAL_CLUB.jpg",
+   "size": [
+    1536,
+    864
+   ],
+   "sha256": "4c0e66168a23241a1e14c0c7756a54b49fc5729029a246c51171d2f967b680f6"
+  },
+  "edit": {
+   "path": "visual-assets/goals/plates-in/ENV_CLUB_PLATE_V1.png",
+   "size": [
+    1672,
+    941
+   ],
+   "sha256": "9ec5925145fe8136615406cf37828997eed5220056a4aac93f5d4f59a8502d46"
+  },
+  "zones": {
+   "path": "visual-assets/goals/handoffs/HLC_PLATE_ZONES_V1.json",
+   "sha256": "a626b18781c4c057c98384d9ebccfe21638f09464379fc60f2ae7a854e9938e5"
+  }
+ },
+ "framing": {
+  "global_shift_dx_dy": [
+   0.36,
+   -0.09
+  ],
+  "global_response": 0.805,
+  "per_protected_box_dx_dy_resp": {
+   "face_daniel": [
+    0.18,
+    -0.13,
+    1.006
+   ],
+   "face_nik": [
+    0.72,
+    -0.27,
+    0.928
+   ],
+   "pack_daniel": [
+    0.13,
+    0.01,
+    0.928
+   ],
+   "pack_nik": [
+    0.61,
+    -0.21,
+    0.926
+   ]
+  },
+  "aligned_crop_error_px": 0.77,
+  "method": "lanczos_resize"
+ },
+ "framing_pass": true,
+ "tone_match": [
+  {
+   "pass": 1,
+   "zone": "rect[552,306,980,388]",
+   "ratio_before": 2.194,
+   "scale": 0.2934,
+   "ratio_after": 1.1
+  },
+  {
+   "pass": 1,
+   "zone": "rect[680,405,850,555]",
+   "ratio_before": 2.8866,
+   "scale": 0.2277,
+   "ratio_after": 1.0999
+  },
+  {
+   "pass": 1,
+   "zone": "rect[140,598,1400,742]",
+   "ratio_before": 1.3207,
+   "scale": 0.8026,
+   "ratio_after": 1.1
+  }
+ ],
+ "gates": {
+  "changed_px_outside_remove_zones": 0,
+  "changed_px_per_protected_box": {
+   "face_daniel": 0,
+   "face_nik": 0,
+   "pack_daniel": 0,
+   "pack_nik": 0
+  },
+  "changed_px_per_keep_rect": {},
+  "zones": [
+   {
+    "zone": "rect[0,22,888,78]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 40.11,
+    "mean_lum_ring12": 45.77,
+    "ratio": 0.8764,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[1192,22,1398,78]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 35.53,
+    "mean_lum_ring12": 49.02,
+    "ratio": 0.7249,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[1400,6,1528,78]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 70.11,
+    "mean_lum_ring12": 71.8,
+    "ratio": 0.9765,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[458,92,1070,298]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 59.07,
+    "mean_lum_ring12": 54.38,
+    "ratio": 1.0863,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[552,306,980,388]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 31.76,
+    "mean_lum_ring12": 28.88,
+    "ratio": 1.1,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[680,405,850,555]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 48.4,
+    "mean_lum_ring12": 44.0,
+    "ratio": 1.0999,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[556,572,980,628]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 94.02,
+    "mean_lum_ring12": 96.89,
+    "ratio": 0.9703,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[140,598,1400,742]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 63.08,
+    "mean_lum_ring12": 57.35,
+    "ratio": 1.1,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[444,744,1086,806]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 42.41,
+    "mean_lum_ring12": 38.48,
+    "ratio": 1.1022,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[0,812,1536,864]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 13.47,
+    "mean_lum_ring12": 19.4,
+    "ratio": 0.6941,
+    "lum_pass": true
+   }
+  ],
+  "ref_goal_jpeg_magic_ffd8ff": true
+ },
+ "ref_goal_method": "byte copy of JPEG source",
+ "outputs_sha256": {
+  "ENV_CLUB_PLATE_V1_1X.png": "24549db363c032ab37e8717649835cfe0f3f79a7778e0fd3ea84e1369f8ce76c",
+  "ENV_CLUB_PLATE_V1_1X.webp": "398e74faeb18ab2df655122fa0f78e9737aad4c1eff1ba16d019a305f275c255",
+  "ENV_CLUB_PLATE_V1_2X.png": "e46ac65feff4e80cab40d127c0f36e1ef53ac7c2cb31f6400b06c356caa62fc2",
+  "ENV_CLUB_PLATE_V1_2X.webp": "fed849bbb2c9f239ae1561f57eb5b145e0e33a518fb7bfd0e424691c00cfd6ca",
+  "REF_GOAL_CLUB.jpg": "4c0e66168a23241a1e14c0c7756a54b49fc5729029a246c51171d2f967b680f6"
+ },
+ "wordmark": null,
+ "params": {
+  "feather_px": 6,
+  "ring_px": 12,
+  "guide_band_px": 6,
+  "align_tol_px": 4.0,
+  "lum_gate": 1.15,
+  "tone_target": 1.1,
+  "tone_feather_px": 24,
+  "resize": "Lanczos",
+  "x2": "Lanczos x2 + UnsharpMask(r=1, 40 %, t=2)",
+  "webp_q": 92
+ }
+}

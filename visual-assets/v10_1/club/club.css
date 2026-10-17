@@ -1,0 +1,658 @@
+/* CLUB-V1: the plate owns the world (managers, packs, stadium). Covers, reveal and live UI are layered on top.
+   Desktop type scales with --s (1 at the 1366x768 Tier S reference). */
+@font-face { font-family: "Barlow Condensed"; font-weight: 600; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 700; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 400; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 600; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Kaushan Script"; font-weight: 400; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2) format("woff2"); }
+
+:root {
+  --gold: #F2C45B; --gold-deep: #C99B45; --gold-hi: #FFF1B8; --ink: #0B0D10; --cream: #E9DFC8; --dim: #9A8F7A;
+  --cond: "Barlow Condensed", "Arial Narrow", sans-serif; --text: "Barlow", system-ui, sans-serif;
+  --s: 1; --k: .889;
+  --plate: image-set(url(assets/ENV_CLUB_PLATE_V1_1X.webp) 1x, url(assets/ENV_CLUB_PLATE_V1_2X.webp) 2x);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #050607; color: var(--cream); }
+body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antialiased; }
+.hidden { display: none !important; }
+.sd-visually-hidden { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+html:not(.ready) .stage { visibility: hidden; }
+.stage { position: fixed; inset: 0; overflow: hidden; }
+
+/* ---------- world (plate-registered, aria-hidden) ---------- */
+.plateClip { position: absolute; overflow: hidden; z-index: 0; }
+.world { position: absolute; }
+.plateBase, .plateDup { will-change: transform; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-image: var(--plate); background-size: 100% 100%; background-repeat: no-repeat; }
+.world > svg, .rvInner > svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; }
+.covers { pointer-events: none; }
+.reveal { position: absolute; overflow: hidden; display: none; pointer-events: none; }
+.reveal.on { display: block; }
+.rvInner { position: absolute; }
+.rvBurst { mix-blend-mode: screen; }
+.rvEdge, .rvVoid, .rvHalf, .rvShockwave { will-change: transform, opacity; }
+.rvVoid { mix-blend-mode: multiply; }
+.rvHalf { z-index: 2; }
+.rvBurst { z-index: 3; }
+.rvShockwave {
+  position: absolute; z-index: 4; border-radius: 50%;
+  border: 2px solid rgba(255,231,161,.95);
+  box-shadow: 0 0 18px rgba(242,196,91,.62), inset 0 0 14px rgba(255,241,184,.24);
+  opacity: 0; transform-origin: 50% 50%;
+}
+.rvCrest { position: absolute; z-index: 5; will-change: transform, opacity; }
+.rvFlap { z-index: 6; will-change: transform, opacity; }
+.rvParticles { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 7; pointer-events: none; }
+.reveal .rvKitReveal.sd-reveal-target { position: absolute; inset: 0; z-index: 8; pointer-events: none; }
+.crestRim { display: block; width: 100%; height: 100%; filter: drop-shadow(0 0 .6px #F2C45B) drop-shadow(0 0 .6px #F2C45B) drop-shadow(0 0 calc(var(--k) * 12px) rgba(242,196,91,.6)); }
+.crestRim svg { display: block; width: 100%; height: 100%; }
+.handCore, .handOv { pointer-events: none; }
+.gridSvg { pointer-events: none; }
+
+/* Compact-only repair for the tiny source-title remnant on Nik's hairline.
+   It clones clean pixels from the same accepted plate and feathers the patch edge. */
+.hairlineRepair {
+  position: absolute; display: none; pointer-events: none; z-index: 1;
+  background-image: var(--plate); background-repeat: no-repeat;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 58%, transparent 100%);
+  mask-image: radial-gradient(ellipse at center, #000 58%, transparent 100%);
+}
+.compact .hairlineRepair { display: block; }
+
+/* ---------- header (C6) ---------- */
+#topHeader {
+  position: absolute; z-index: 40; left: 0; right: 0; top: 0; height: 56px; box-sizing: border-box;
+  display: flex; align-items: center; gap: 14px; padding: 0 20px 0 0;
+  background: linear-gradient(to bottom, rgba(6,7,9,.92), rgba(6,7,9,.70));
+  border-bottom: 1px solid rgba(201,155,69,.45);
+}
+.cm-badge { position: relative; height: 100%; display: flex; align-items: center; padding: 0 22px 0 18px; }
+.cm-badge::before { content: ""; position: absolute; inset: 0 0 0 -12px; background: #0d0f12; border-right: 2px solid var(--gold); transform: skewX(-14deg); transform-origin: bottom left; }
+.cm-badge span { position: relative; font: italic 700 24px/1.2 var(--cond); color: var(--gold); letter-spacing: .02em; }
+.brand { display: block; margin: 0; padding: 0; background: transparent; border-radius: 0; }
+.brand h1, .brand p { margin: 0; font: 600 13px/1.25 var(--cond); letter-spacing: .18em; color: var(--cream); font-variant: small-caps; }
+.brand p { color: var(--dim); font-size: 12px; }
+#onlinePlayerIdentityBadge, #seasonIndicator {
+  min-height: 40px; box-sizing: border-box; display: inline-flex; align-items: center; padding: 0 14px;
+  background: rgba(10,12,15,.72); border: 1px solid rgba(201,155,69,.55);
+  color: var(--cream); font: 600 14px/1 var(--cond); letter-spacing: .12em;
+}
+#onlinePlayerIdentityBadge { margin-left: auto; cursor: pointer; }
+button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
+
+/* ---------- footer (C6) ---------- */
+footer { position: absolute; left: 0; right: 0; bottom: 0; height: 28px; z-index: 5; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; background: #050506; border-top: 1px solid rgba(201,155,69,.25); }
+.footText { font: 400 12px/1.05 var(--text); color: #9A8F7A; white-space: nowrap; }
+.footSlogan { font: 600 12px/1.25 var(--cond); letter-spacing: .2em; color: #C9BC9C; display: flex; align-items: center; gap: 8px; }
+.crown { display: inline-block; width: 16px; height: 12px; background: linear-gradient(#F2C45B, #C99B45); clip-path: polygon(0 100%, 0 20%, 25% 55%, 50% 0, 75% 55%, 100% 20%, 100% 100%); }
+
+/* ---------- screen (desktop: absolutely placed by club.js) ---------- */
+main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+#clubWheelScreen { position: absolute; inset: 0; }
+#clubWheelScreen button { pointer-events: auto; }
+.clubAssignmentShell, .clubRevealArena, .clubRevealArea, .clubRevealCard { display: contents; }
+.clubKicker, #clubWheelScreen h2, .clubAssignmentHeader { position: absolute; transform: translateX(-50%); white-space: nowrap; text-align: center; }
+.clubKicker { font: 600 max(12px, calc(var(--s) * 13px))/1.25 var(--cond); letter-spacing: .5em; padding-left: .5em; color: #E9DFC8; text-shadow: 0 1px 6px #000; }
+#clubWheelScreen h2 {
+  margin: 0; padding: 0 .12em; font: 700 calc(var(--s) * 64px)/1.05 "Kaushan Script", "Brush Script MT", cursive;
+  text-transform: uppercase; letter-spacing: -.035em; color: #F2C45B; -webkit-text-stroke: .035em #F2C45B;
+  filter: drop-shadow(0 3px 3px rgba(0,0,0,.95)) drop-shadow(0 0 14px rgba(242,196,91,.28));
+}
+.clubTitleFallback { display: block; padding: .02em .1em .12em; transform: skewX(-6deg); background: linear-gradient(180deg, #FFF1B8 0%, #F2C45B 52%, #B98A2F 100%); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+.clubAssignmentHeader { display: flex; flex-direction: column; align-items: center; gap: calc(var(--s) * 5px); }
+.ebRow, .stRow { display: inline-flex; align-items: center; gap: calc(var(--s) * 8px); }
+.glyph { width: calc(var(--s) * 18px); height: calc(var(--s) * 18px); flex: none; }
+.clubAssignmentEyebrow { font: 600 max(12px, calc(var(--s) * 15px))/1.25 var(--cond); letter-spacing: .24em; color: #F4ECD8; }
+#clubAssignmentLeague { font: 700 calc(var(--s) * 26px)/1.25 var(--cond); letter-spacing: .04em; color: var(--gold); text-shadow: 0 0 14px rgba(242,196,91,.3); }
+#clubPackStatus { font: 600 max(12px, calc(var(--s) * 15px))/1.25 var(--cond); letter-spacing: .2em; color: #F4ECD8; }
+
+/* rail */
+.clubRevealProgress { position: absolute; display: flex; justify-content: space-between; }
+.clubRevealProgress::before { content: ""; position: absolute; left: 4px; right: 4px; top: 22px; height: 1px; background: linear-gradient(90deg, transparent, rgba(242,196,91,.75) 8%, rgba(242,196,91,.75) 92%, transparent); }
+.clubRevealProgress span { position: relative; width: 0; display: flex; flex-direction: column; align-items: center; white-space: nowrap; font: 600 max(12px, calc(var(--s) * 13px))/1.25 var(--cond); letter-spacing: .12em; color: #B3A88F; }
+.ring { display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: calc(var(--s) * 7px); border-radius: 50%; border: 1.5px solid rgba(242,196,91,.55); background: #0b0c0e; color: var(--ink); }
+.ringCheck { width: 55%; height: 55%; display: none; }
+.clubRevealProgress span.active { color: var(--gold); }
+.clubRevealProgress span.active .ring { background: radial-gradient(circle at 50% 35%, #FFE592, #E0AE3A); border-color: #FFE592; box-shadow: 0 0 14px rgba(242,196,91,.6); }
+.clubRevealProgress span.done { color: #E9DFC8; }
+.clubRevealProgress span.done .ring { border-color: var(--gold); color: var(--gold); }
+.clubRevealProgress span.done .ringCheck { display: block; }
+
+/* packs: the painted packs are the doors */
+.clubPackStage { position: absolute; pointer-events: none; }
+.clubPackDoor { position: absolute; inset: 0; background: transparent; border: 0; }
+.clubPackAnticipation {
+  position: absolute;
+  inset: -2px;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(.985);
+  border: 1px solid rgba(255,229,146,.9);
+  box-shadow: 0 0 10px rgba(242,196,91,.45), inset 0 0 10px rgba(255,229,146,.18);
+  will-change: opacity, transform;
+}
+.clubPackStage.is-anticipating .clubPackAnticipation {
+  animation: clubPackAnticipation var(--club-anticipation-ms, 500ms) var(--club-anticipation-ease, cubic-bezier(.2,.7,.3,1)) both;
+}
+.clubAnticipationDim {
+  position: fixed;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  background: #000;
+  opacity: 0;
+  will-change: opacity;
+}
+.clubAnticipationDim.is-anticipating {
+  animation: clubScreenAnticipation var(--club-anticipation-ms, 500ms) var(--club-anticipation-ease, cubic-bezier(.2,.7,.3,1)) both;
+}
+@keyframes clubScreenAnticipation {
+  0% { opacity: 0; }
+  42% { opacity: .24; }
+  72% { opacity: .18; }
+  100% { opacity: 0; }
+}
+@keyframes clubPackAnticipation {
+  0% { opacity: .18; transform: scale(.985); }
+  44% { opacity: .95; transform: scale(1.018); }
+  72% { opacity: .62; transform: scale(1.006); }
+  100% { opacity: 0; transform: scale(1); }
+}
+.clubPackDoor > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+
+/* VS medallion */
+.clubVs {
+  position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: calc(var(--s) * 2px);
+  isolation: isolate;
+}
+.clubVs::before {
+  content: ""; position: absolute; z-index: -1; left: 50%; top: 50%; width: 46%; aspect-ratio: 1;
+  border-radius: 50%; border: 2px solid rgba(255,231,161,.88);
+  box-shadow: 0 0 18px rgba(242,196,91,.52), inset 0 0 12px rgba(255,241,184,.22);
+  opacity: 0; transform: translate(-50%,-50%) scale(.2); pointer-events: none;
+}
+.clubVs.is-vs-slamming::before {
+  animation: clubVsImpact var(--club-vs-ms, 360ms) var(--club-vs-ease, cubic-bezier(.22,1,.36,1)) both;
+}
+@keyframes clubVsImpact {
+  0%, 30% { opacity: 0; transform: translate(-50%,-50%) scale(.2); }
+  48% { opacity: .9; transform: translate(-50%,-50%) scale(.62); }
+  100% { opacity: 0; transform: translate(-50%,-50%) scale(1.65); }
+}
+.clubVs > span { font: 600 max(12px, calc(var(--s) * 14px))/1.25 var(--cond); letter-spacing: .5em; padding-left: .5em; color: #F4ECD8; }
+.clubVs strong {
+  display: block; font: 700 calc(var(--s) * 96px)/1.02 "Kaushan Script", "Brush Script MT", cursive; padding: 0 .12em;
+  letter-spacing: -.055em; color: #F2C45B; -webkit-text-stroke: .04em #F2C45B;
+  filter: drop-shadow(0 3px 3px rgba(0,0,0,.95)) drop-shadow(0 0 16px rgba(242,196,91,.38));
+}
+.clubVsFallback { display: block; transform: skewX(-7deg); background: linear-gradient(180deg, #FFF1B8 0%, #F2C45B 50%, #B98A2F 100%); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+[data-club-reveal-stage="versus"] .clubVs strong, [data-club-reveal-stage="confirmation"] .clubVs strong { font-size: calc(var(--s) * 64px); }
+
+/* panel faces */
+.clubCardFace { position: absolute; display: grid; grid-template-columns: calc(var(--s) * 56px) auto auto 1fr; grid-template-rows: auto auto auto; column-gap: max(12px, calc(var(--s) * 12px)); align-content: start; text-shadow: 0 2px 8px rgba(0,0,0,.92); }
+#clubCardTwo .clubCardFace { }
+.shieldSlot { grid-row: 1 / span 3; position: relative; width: calc(var(--s) * 56px); height: calc(var(--s) * 60px); margin-top: calc(var(--s) * -24px); }
+.shieldSlot .sealedShield {
+  width: 100%; height: 100%; display: block; opacity: 1;
+  transition: opacity 120ms ease-out;
+}
+.panelCrest {
+  position: absolute; inset: 0; display: block; opacity: 0;
+  transition: opacity 120ms ease-out;
+}
+.panelCrest.on { opacity: 1; }
+.is-revealed .sealedShield { opacity: 0; pointer-events: none; }
+.clubCardEyebrow, .clubCardLabel { font: 600 max(12px, calc(var(--s) * 12px))/1.2 var(--cond); letter-spacing: .16em; color: #B9AE95; white-space: nowrap; }
+.clubCardEyebrow { grid-column: 2; grid-row: 1; }
+.clubCardLabel { grid-column: 3; grid-row: 1; padding-left: calc(var(--s) * 6px); }
+.clubCardLabel::before { content: "·"; margin-right: calc(var(--s) * 6px); color: var(--gold-deep); }
+.clubCardFace strong { grid-column: 2 / -1; grid-row: 2; position: relative; font: 700 calc(var(--s) * 28px)/1.16 var(--cond); letter-spacing: .025em; color: #F4ECD8; white-space: nowrap; }
+.is-revealed .clubCardFace strong { color: #FFF; }
+.clubCardFace strong.clubNameWalkout::before {
+  content: ""; position: absolute; left: -.08em; right: -.12em; top: 53%; height: .16em;
+  background: linear-gradient(90deg, rgba(242,196,91,0), #FFF1B8 20%, #F2C45B 58%, rgba(201,155,69,0));
+  transform-origin: 0 50%; opacity: 0; pointer-events: none;
+  animation: clubNameBrush var(--club-walkout-ms, 520ms) var(--club-walkout-ease, cubic-bezier(.18,.82,.24,1)) both;
+}
+@keyframes clubNameBrush {
+  0%, 32% { opacity: 0; transform: translateX(-24%) scaleX(.18); }
+  48% { opacity: .95; transform: translateX(-4%) scaleX(.72); }
+  72% { opacity: .5; transform: translateX(8%) scaleX(1); }
+  100% { opacity: 0; transform: translateX(18%) scaleX(1); }
+}
+.clubCardState { grid-column: 2 / -1; grid-row: 3; font: 600 max(12px, calc(var(--s) * 12px))/1.2 var(--cond); letter-spacing: .2em; color: #8E8570; }
+.is-revealed .clubCardState { color: var(--gold); }
+.clubManager { position: absolute; font: 700 calc(var(--s) * 22px)/1.25 var(--cond); letter-spacing: .04em; color: #F4ECD8; white-space: nowrap; }
+.clubRevealIndex { position: absolute; font: 700 max(12px, calc(var(--s) * 12px))/1.25 var(--cond); letter-spacing: .08em; color: var(--ink); background: var(--gold); padding: calc(var(--s) * 3px) calc(var(--s) * 5px); border-radius: 2px; }
+.panelDivider { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; pointer-events: none; }
+.panelDivider i { width: 1px; height: calc(var(--s) * 26px); background: linear-gradient(transparent, rgba(242,196,91,.7), transparent); }
+.panelDivider b { font: italic 700 calc(var(--s) * 18px)/1.25 var(--cond); color: var(--gold); letter-spacing: .04em; }
+[data-club-reveal-stage="versus"] .panelDivider, [data-club-reveal-stage="confirmation"] .panelDivider { display: none; }
+.bandSlot { display: none; }
+
+/* confirmation: tab headline + centre column */
+.clubRivalryConfirmation { position: absolute; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.clubRivalryHeadline { display: grid; grid-template-columns: auto auto; grid-template-rows: var(--tabH) auto; align-items: center; justify-content: center; column-gap: max(12px, calc(var(--s) * 12px)); }
+.clubRivalryHeadline small { grid-column: 1 / -1; }
+.clubRivalryHeadline span {
+  position: relative;
+  font: 600 max(12px, calc(var(--s) * 12px))/1.25 var(--cond); letter-spacing: .3em; color: var(--gold);
+}
+.clubRivalryHeadline span::after {
+  content: ""; position: absolute; left: -.75em; right: -.42em; top: 50%; height: 1.9em;
+  border: 2px solid rgba(242,196,91,.96); border-radius: 2px;
+  box-shadow: 0 0 14px rgba(242,196,91,.34), inset 0 0 8px rgba(255,241,184,.12);
+  opacity: 0; transform: translateY(-50%) rotate(-6deg) scale(1.45);
+  pointer-events: none;
+}
+.clubRivalryHeadline span.is-lock-stamping::after {
+  animation: clubLockStamp var(--club-lock-ms, 420ms) var(--club-lock-ease, cubic-bezier(.2,.9,.28,1)) both;
+}
+@keyframes clubLockStamp {
+  0%, 24% { opacity: 0; transform: translateY(-50%) rotate(-6deg) scale(1.45); }
+  48% { opacity: 1; transform: translateY(-50%) rotate(-6deg) scale(.92); }
+  70% { opacity: .95; transform: translateY(-50%) rotate(-6deg) scale(1.04); }
+  100% { opacity: .72; transform: translateY(-50%) rotate(-6deg) scale(1); }
+}
+.clubRivalryHeadline strong { font: 700 calc(var(--s) * 22px)/1.15 var(--cond); letter-spacing: .05em; color: #FFF6DE; text-shadow: 0 2px 8px #000; }
+.clubRivalryHeadline small { font: 600 max(12px, calc(var(--s) * 13px))/1.2 var(--cond); letter-spacing: .12em; color: #CDBF9E; margin-top: calc(var(--s) * 3px); }
+.clubRivalryMatchup { display: flex; align-items: center; gap: max(12px, calc(var(--s) * 14px)); margin-top: calc(var(--s) * 4px); }
+.clubConfirmationSide { display: flex; align-items: baseline; gap: calc(var(--s) * 6px); }
+.clubConfirmationSide span { font: 600 max(12px, calc(var(--s) * 14px))/1.25 var(--cond); letter-spacing: .08em; color: #CDBF9E; }
+.clubConfirmationSide strong { font: 700 calc(var(--s) * 20px)/1.25 var(--cond); letter-spacing: .03em; color: #FFF; }
+.clubConfirmationVs { font: italic 700 calc(var(--s) * 18px)/1.25 var(--cond); color: var(--gold); }
+.clubRivalryLockNote { margin: calc(var(--s) * 7px) calc(var(--noteBleedR, 0px) * -1) 0 calc(var(--noteBleedL, 0px) * -1); padding-top: calc(var(--s) * 6px); border-top: 1px solid rgba(242,196,91,.2); font: 400 max(12px, calc(var(--s) * 14px))/1.3 var(--text); color: #E3D9C2; text-shadow: 0 1px 6px #000; }
+
+/* buttons (C6) */
+#clubWheelScreen .menuButton, #clubWheelScreen .backButton {
+  position: absolute; top: var(--btnTop); height: calc(var(--s) * 56px); display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+  font: 700 calc(var(--s) * 20px)/1.25 var(--cond); letter-spacing: .06em; border-radius: 3px; cursor: pointer; white-space: nowrap; padding: 0 18px;
+}
+#clubWheelScreen .menuButton { background: linear-gradient(180deg, #F7D46A, #E0AE3A); color: var(--ink); border: 1px solid #FFE8A0; box-shadow: 0 6px 22px rgba(224,174,58,.28); }
+#clubWheelScreen .menuButton:disabled { background: rgba(12,12,13,.94); color: #E9DFC8; border-color: rgba(242,196,91,.6); box-shadow: inset 0 0 18px rgba(242,196,91,.12); cursor: default; }
+#openClubPack:disabled .btnGlyph svg rect { fill: #E9DFC8; }
+#clubWheelScreen .backButton { background: rgba(10,12,15,.55); color: #F4ECD8; border: 1px solid rgba(233,223,200,.55); }
+#openClubPack { width: calc(var(--s) * 400px); left: calc(var(--btnCx) - var(--s) * 310px); }
+#clubAssignmentBack { width: calc(var(--s) * 200px); left: calc(var(--btnCx) + var(--s) * 110px); }
+#openClubPack:disabled { left: calc(var(--btnCx) - var(--s) * 200px); }
+#continueClubAssignment { width: calc(var(--s) * 520px); left: calc(var(--btnCx) - var(--s) * 260px); }
+.btnGlyph { display: inline-flex; } .btnGlyph svg { width: 22px; height: 22px; }
+.btnGlyph.chevron { margin-left: auto; } .btnGlyph.chevron svg { width: 14px; height: 14px; }
+#openClubPack .btnLabel { margin-left: auto; }
+#openClubPack:disabled .btnGlyph { opacity: .5; }
+
+/* JOB-048 Step 4: tactile controls and state cross-fades. All transitions stay <= 120 ms. */
+#clubWheelScreen button,
+#clubWheelScreen [role="button"],
+#clubWheelScreen [role="tab"],
+#clubWheelScreen [aria-pressed],
+#topHeader button,
+#onlinePlayerIdentityBadge {
+  transition:
+    opacity 100ms ease-out,
+    transform 100ms ease-out,
+    filter 100ms ease-out,
+    background-color 100ms ease-out,
+    border-color 100ms ease-out,
+    box-shadow 100ms ease-out,
+    color 100ms ease-out;
+}
+@media (hover: hover) {
+  #clubWheelScreen button:hover:not(:disabled),
+  #clubWheelScreen [role="button"]:hover,
+  #clubWheelScreen [role="tab"]:hover,
+  #clubWheelScreen [aria-pressed]:hover,
+  #topHeader button:hover:not(:disabled),
+  #onlinePlayerIdentityBadge:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.06);
+  }
+}
+#clubWheelScreen button:active:not(:disabled),
+#clubWheelScreen [role="button"]:active,
+#clubWheelScreen [role="tab"]:active,
+#clubWheelScreen [aria-pressed]:active,
+#topHeader button:active:not(:disabled),
+#onlinePlayerIdentityBadge:active {
+  transform: translateY(1px) scale(.985);
+  filter: brightness(.96);
+  transition-duration: 80ms;
+}
+#clubWheelScreen button:disabled { transition-duration: 100ms; }
+
+.clubRevealProgress span,
+.clubRevealProgress .ring,
+.clubCardState,
+.clubCardFace strong,
+.clubRivalryHeadline,
+.clubRivalryConfirmation,
+#clubWheelScreen [role="tab"],
+#clubWheelScreen [aria-selected],
+#clubWheelScreen [aria-pressed] {
+  transition:
+    opacity 120ms ease-out,
+    color 120ms ease-out,
+    background-color 120ms ease-out,
+    border-color 120ms ease-out,
+    box-shadow 120ms ease-out;
+}
+
+/* short desktop (1366x640): fit the complete decision surface inside the viewport.
+   Footer chrome yields first; labels keep readable sizes and the page never scrolls. */
+.compact body { overflow: hidden; }
+.compact .stage { position: fixed; inset: 0; min-height: 0; overflow: hidden; }
+.compact footer { display: none; }
+.compact .clubKicker { display: none; }
+.compact #clubWheelScreen h2 { font-size: calc(var(--s) * 36px); line-height: 1; }
+/* Claude fix 2: compact keeps the same stacked status hierarchy as 768px; league stays below LEAGUE CONFIRMED. */
+.compact .clubAssignmentHeader { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; }
+.compact #clubAssignmentLeague { font-size: calc(var(--s) * 20px); }
+.compact .clubAssignmentEyebrow { font-size: 13px; }
+.compact #clubPackStatus { font-size: 14px; }
+.compact .clubCardFace strong { font-size: 21px; line-height: 1.05; }
+/* Claude fix 1: restore the 768-style gap between the index/name row and card metadata without shrinking readable type. */
+.compact .clubRevealIndex, .compact .clubManager { transform: translateY(-8px); }
+.compact .clubCardEyebrow, .compact .clubCardState { font-size: 12px; line-height: 1.1; }
+.compact .clubRivalryMatchup, .compact .clubRivalryLockNote { display: none; }
+.compact #clubWheelScreen .menuButton, .compact #clubWheelScreen .backButton { height: calc(var(--s) * 56px); font-size: 18px; }
+.compact #openClubPack { width: 300px; left: calc(var(--btnCx) - 150px); }
+.compact #clubAssignmentBack { width: 120px; left: 24px; }
+.compact #continueClubAssignment { width: 430px; left: calc(var(--btnCx) - 215px); }
+
+/* =================== PHONE · JOB-045 =================== */
+.phoneHeroStage, .phoneControlDeck { display: none; }
+.phoneSceneBackground, .phoneHero, .phoneHeroScrim { display: none; }
+.sd-sheet { display: contents; }
+
+@media (max-width: 760px) and (orientation: portrait) {
+  :root { --phone-hero-h: 55dvh; --phone-safe: max(8px, env(safe-area-inset-bottom)); }
+  html, body, .stage { width: 100%; height: 100%; min-height: 0; overflow: hidden; }
+  #topHeader, footer { display: none !important; }
+  main { position: absolute; inset: 0; overflow: hidden; pointer-events: auto; }
+  .plateClip { display: none !important; }
+  .hairlineRepair { display: none !important; }
+
+  #clubWheelScreen {
+    position: fixed; inset: 0; overflow: hidden; padding: 0;
+    display: block; background: #050607;
+  }
+  .phoneHeroStage {
+    display: block; position: absolute; inset: 0 0 auto; height: var(--phone-hero-h); z-index: 3;
+    overflow: visible; pointer-events: none;
+  }
+  .phoneSceneBackground {
+    display: block; position: absolute; inset: 0; z-index: 0; overflow: hidden;
+  }
+  .phoneSceneBackground img {
+    display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%;
+  }
+  .phoneHero {
+    display: block; position: absolute; z-index: 3; top: 0; width: auto;
+    transform: translateX(-50%); transform-origin: 50% 0; pointer-events: none;
+    filter: drop-shadow(0 8px 10px rgba(0,0,0,.58)) drop-shadow(0 0 2px rgba(255,225,157,.52));
+  }
+  .phoneHero img { display: block; width: auto; height: 100%; max-width: none; object-fit: contain; }
+  .phoneHeroDaniel { left: 31%; top: 3dvh; height: 56dvh; }
+  .phoneHeroNik { left: 69%; top: 2dvh; height: 57dvh; }
+  .phoneHeroScrim {
+    display: block; position: absolute; z-index: 4; left: 0; right: 0; top: 52dvh; height: 48dvh;
+    background: linear-gradient(180deg, rgba(5,6,7,0) 0%, rgba(5,6,7,.58) 42%, rgba(5,6,7,.96) 100%);
+    pointer-events: none;
+  }
+  .phoneControlDeck {
+    display: block; position: absolute; z-index: 2; left: 0; right: 0; top: calc(var(--phone-hero-h) - 8px); bottom: 0;
+    background: linear-gradient(180deg, rgba(9,10,12,.90), #08090b 22%, #050607 100%);
+    border-top: 1px solid rgba(242,196,91,.42);
+    box-shadow: 0 -14px 36px rgba(0,0,0,.55);
+    pointer-events: none;
+  }
+
+  .clubAssignmentShell, .clubRevealArena, .clubRevealArea { display: contents; }
+  .clubRevealCard { display: flex; align-items: center; gap: 8px; }
+  .clubKicker, .footSlogan, .footText { display: none !important; }
+
+  #clubWheelScreen h2 {
+    position: absolute; z-index: 5; top: max(8px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%);
+    width: min(92vw, 360px); margin: 0; padding: 0; text-align: center; white-space: nowrap;
+    font-size: clamp(28px, 8.4vw, 34px); line-height: 1.05;
+  }
+
+  .clubRevealProgress {
+    position: absolute; z-index: 5; top: calc(var(--phone-hero-h) - 18px); left: 26px; right: 26px; height: 36px;
+    display: flex; align-items: flex-start; justify-content: space-between; margin: 0;
+  }
+  .clubRevealProgress::before {
+    left: 6px; right: 6px; top: 7px; height: 1px;
+    background: linear-gradient(90deg, rgba(242,196,91,.22), rgba(242,196,91,.75), rgba(242,196,91,.22));
+  }
+  .clubRevealProgress span {
+    width: 14px; min-width: 14px; height: 36px; overflow: visible; color: transparent; font-size: 0; letter-spacing: 0;
+  }
+  .clubRevealProgress span::before {
+    content: ""; position: relative; z-index: 1; display: block; width: 14px; height: 14px; border-radius: 50%;
+    border: 1px solid rgba(242,196,91,.72); background: #090a0c; box-shadow: 0 0 0 3px rgba(5,6,7,.72);
+  }
+  .clubRevealProgress span.done::before { background: #7b6029; border-color: var(--gold); }
+  .clubRevealProgress span.active::before {
+    background: var(--gold); border-color: var(--gold-hi); box-shadow: 0 0 12px rgba(242,196,91,.68), 0 0 0 3px rgba(5,6,7,.82);
+  }
+  .clubRevealProgress span.active::after {
+    content: attr(data-phone-label); position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+    color: var(--gold-hi); font: 700 11px/1 var(--cond); letter-spacing: .12em; white-space: nowrap;
+  }
+  .ring, .ringCheck { display: none !important; }
+
+  .clubAssignmentHeader {
+    position: absolute; z-index: 4; top: calc(var(--phone-hero-h) + 22px); left: 12px; right: 12px; transform: none;
+    display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; align-items: center;
+    gap: 0 8px; min-height: 42px; text-align: left; white-space: normal;
+  }
+  .clubAssignmentEyebrow { font-size: 11px; letter-spacing: .18em; }
+  #clubAssignmentLeague { font-size: 18px; line-height: 1.05; justify-self: end; text-align: right; }
+  #clubPackStatus, .clubAssignmentHeader .stRow { display: none !important; }
+
+  #clubCardOne, #clubCardTwo {
+    position: absolute; z-index: 4; left: 12px; right: 12px; height: 50px; padding: 4px 8px;
+    background: linear-gradient(90deg, rgba(13,15,18,.93), rgba(8,9,11,.80));
+    border-left: 2px solid rgba(242,196,91,.70); border-bottom: 1px solid rgba(242,196,91,.18);
+  }
+  #clubCardOne { top: calc(var(--phone-hero-h) + 70px); }
+  #clubCardTwo { top: calc(var(--phone-hero-h) + 124px); }
+  .clubRevealIndex {
+    position: static; flex: 0 0 auto; transform: none !important; padding: 3px 5px; font-size: 11px; line-height: 1;
+  }
+  .clubManager {
+    position: static; flex: 0 0 58px; transform: none !important; margin: 0; font-size: 17px; line-height: 1.1;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .clubPackStage { position: static; flex: 1 1 auto; min-width: 0; pointer-events: none; }
+  .clubPackDoor { display: none; }
+  .clubCardFace {
+    position: static; width: 100%; min-width: 0; display: grid; grid-template-columns: 38px minmax(0, 1fr);
+    grid-template-rows: 13px 20px 13px; column-gap: 8px; align-items: center; text-shadow: 0 2px 8px #000;
+  }
+  .shieldSlot { grid-column: 1; grid-row: 1 / span 3; width: 36px; height: 39px; margin: 0; }
+  .clubCardEyebrow { display: none; }
+  .clubCardLabel { grid-column: 2; grid-row: 1; padding: 0; font-size: 10px; letter-spacing: .13em; }
+  .clubCardLabel::before { content: none; }
+  .clubCardFace strong {
+    grid-column: 2; grid-row: 2; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+    font-size: 18px; line-height: 1; white-space: nowrap;
+  }
+  .clubCardState { grid-column: 2; grid-row: 3; font-size: 10px; line-height: 1; letter-spacing: .14em; }
+  .panelDivider { display: none; }
+
+  .clubVs {
+    position: absolute; z-index: 5; top: calc(var(--phone-hero-h) - 76px); left: 50%; transform: translateX(-50%);
+    width: 64px; height: 54px; gap: 0; pointer-events: none;
+  }
+  .clubVs > span { font-size: 9px; letter-spacing: .22em; padding-left: .22em; }
+  .clubVs strong,
+  [data-club-reveal-stage="versus"] .clubVs strong,
+  [data-club-reveal-stage="confirmation"] .clubVs strong { font-size: 30px; line-height: 1; }
+
+  .clubRivalryConfirmation {
+    position: absolute; z-index: 4; top: calc(var(--phone-hero-h) + 180px); left: 12px; right: 12px;
+    min-height: 38px; padding: 4px 8px; background: transparent; border-top: 1px solid rgba(242,196,91,.45);
+  }
+  .clubRivalryHeadline { grid-template-columns: auto auto; grid-template-rows: auto auto; column-gap: 8px; }
+  .clubRivalryHeadline span { font-size: 10px; letter-spacing: .18em; }
+  .clubRivalryHeadline strong { font-size: 16px; }
+  .clubRivalryHeadline small { grid-column: 1 / -1; margin: 1px 0 0; font-size: 10px; }
+  .clubRivalryLockNote { margin: 3px 0 0; padding-top: 3px; font-size: 11px; line-height: 1.12; }
+  .sd-sheet { display: none; }
+
+  #clubWheelScreen .menuButton, #clubWheelScreen .backButton {
+    position: absolute; z-index: 6; top: auto; bottom: var(--phone-safe); height: 52px; min-width: 44px; min-height: 44px;
+    margin: 0; font-size: 16px; line-height: 1; padding: 0 12px; touch-action: manipulation;
+  }
+  #openClubPack, #continueClubAssignment {
+    left: 62px !important; right: 12px; width: auto !important; max-width: none;
+  }
+  #clubWheelScreen #clubAssignmentBack {
+    left: 12px !important; width: 44px !important; padding: 0; overflow: hidden;
+    color: transparent; font-size: 0;
+  }
+  #clubWheelScreen [data-phone-role="primary"]:focus-visible,
+  #clubWheelScreen [data-phone-role="secondary"]:focus-visible {
+    outline: 2px solid #FFF1B8; outline-offset: 3px;
+  }
+  #clubAssignmentBack::before {
+    content: "‹"; color: #F4ECD8; font: 700 26px/1 var(--cond);
+  }
+
+  #clubWheelScreen > *, .clubRevealCard { box-sizing: border-box; }
+  .bandSlot { display: none !important; }
+}
+
+@media (max-width: 760px) and (orientation: portrait) and (max-height: 600px) {
+  :root { --phone-hero-h: 53dvh; }
+  #clubWheelScreen h2 { font-size: 28px; }
+  .clubAssignmentHeader { top: calc(var(--phone-hero-h) + 18px); min-height: 38px; }
+  #clubCardOne { top: calc(var(--phone-hero-h) + 60px); }
+  #clubCardTwo { top: calc(var(--phone-hero-h) + 108px); }
+  #clubCardOne, #clubCardTwo { height: 44px; padding-block: 2px; }
+  .clubCardFace { grid-template-rows: 11px 18px 11px; }
+  .shieldSlot { width: 32px; height: 35px; }
+  .clubManager { font-size: 16px; }
+  .clubCardFace strong { font-size: 16px; }
+  .clubRivalryConfirmation { top: calc(var(--phone-hero-h) + 156px); min-height: 32px; padding-block: 2px; }
+  .clubRivalryLockNote { display: none; }
+  #clubWheelScreen .menuButton, #clubWheelScreen .backButton { height: 48px; }
+}
+
+/* JOB-048 Step 4: reduced motion. System preference and shared app datasets both collapse to fades only. */
+@media (prefers-reduced-motion: reduce) {
+  .clubPackStage.is-anticipating .clubPackAnticipation,
+  .clubAnticipationDim.is-anticipating,
+  .clubVs.is-vs-slamming::before,
+  .clubRivalryHeadline span.is-lock-stamping::after,
+  .clubCardFace strong.clubNameWalkout::before {
+    animation: none !important;
+  }
+  .rvHalf, .rvBurst, .rvShockwave, .rvKitReveal, .rvCrest,
+  .panelCrest, .shieldSlot .sealedShield, .clubCardFace strong,
+  #clubRivalryConfirmation, .clubRevealProgress span, .clubRevealProgress .ring {
+    animation: none !important;
+    transition: opacity 120ms ease-out !important;
+  }
+  #clubWheelScreen button,
+  #clubWheelScreen [role="button"],
+  #clubWheelScreen [role="tab"],
+  #clubWheelScreen [aria-pressed],
+  #topHeader button,
+  #onlinePlayerIdentityBadge {
+    transform: none !important;
+    filter: none !important;
+    transition: opacity 100ms ease-out !important;
+  }
+}
+
+html[data-motion-reduced="true"] .clubPackStage.is-anticipating .clubPackAnticipation,
+html[data-motion-reduced="true"] .clubAnticipationDim.is-anticipating,
+html[data-motion-reduced="true"] .clubVs.is-vs-slamming::before,
+html[data-motion-reduced="true"] .clubRivalryHeadline span.is-lock-stamping::after,
+html[data-motion-reduced="true"] .clubCardFace strong.clubNameWalkout::before,
+[data-sd-motion-reduced="true"] .clubPackStage.is-anticipating .clubPackAnticipation,
+[data-sd-motion-reduced="true"] .clubAnticipationDim.is-anticipating,
+[data-sd-motion-reduced="true"] .clubVs.is-vs-slamming::before,
+[data-sd-motion-reduced="true"] .clubRivalryHeadline span.is-lock-stamping::after,
+[data-sd-motion-reduced="true"] .clubCardFace strong.clubNameWalkout::before {
+  animation: none !important;
+}
+html[data-motion-reduced="true"] .rvHalf,
+html[data-motion-reduced="true"] .rvBurst,
+html[data-motion-reduced="true"] .rvShockwave,
+html[data-motion-reduced="true"] .rvKitReveal,
+html[data-motion-reduced="true"] .rvCrest,
+html[data-motion-reduced="true"] .panelCrest,
+html[data-motion-reduced="true"] .shieldSlot .sealedShield,
+html[data-motion-reduced="true"] .clubCardFace strong,
+html[data-motion-reduced="true"] #clubRivalryConfirmation,
+html[data-motion-reduced="true"] .clubRevealProgress span,
+html[data-motion-reduced="true"] .clubRevealProgress .ring,
+[data-sd-motion-reduced="true"] .rvHalf,
+[data-sd-motion-reduced="true"] .rvBurst,
+[data-sd-motion-reduced="true"] .rvShockwave,
+[data-sd-motion-reduced="true"] .rvKitReveal,
+[data-sd-motion-reduced="true"] .rvCrest,
+[data-sd-motion-reduced="true"] .panelCrest,
+[data-sd-motion-reduced="true"] .shieldSlot .sealedShield,
+[data-sd-motion-reduced="true"] .clubCardFace strong,
+[data-sd-motion-reduced="true"] #clubRivalryConfirmation,
+[data-sd-motion-reduced="true"] .clubRevealProgress span,
+[data-sd-motion-reduced="true"] .clubRevealProgress .ring {
+  animation: none !important;
+  transition: opacity 120ms ease-out !important;
+}
+html[data-motion-reduced="true"] #clubWheelScreen button,
+html[data-motion-reduced="true"] #clubWheelScreen [role="button"],
+html[data-motion-reduced="true"] #clubWheelScreen [role="tab"],
+html[data-motion-reduced="true"] #clubWheelScreen [aria-pressed],
+html[data-motion-reduced="true"] #topHeader button,
+html[data-motion-reduced="true"] #onlinePlayerIdentityBadge,
+[data-sd-motion-reduced="true"] #clubWheelScreen button,
+[data-sd-motion-reduced="true"] #clubWheelScreen [role="button"],
+[data-sd-motion-reduced="true"] #clubWheelScreen [role="tab"],
+[data-sd-motion-reduced="true"] #clubWheelScreen [aria-pressed],
+[data-sd-motion-reduced="true"] #topHeader button,
+[data-sd-motion-reduced="true"] #onlinePlayerIdentityBadge {
+  transform: none !important;
+  filter: none !important;
+  transition: opacity 100ms ease-out !important;
+}
+
+/* evidence-only modes */
+.plateOnly .covers, .plateOnly .seamMend, .plateOnly .handContact, .plateOnly .handCore, .plateOnly main, .plateOnly .reveal, .plateOnly .handOv, .plateOnly #topHeader, .plateOnly footer { display: none !important; }
+.qa-noreveal .reveal { display: none !important; }
+.qa-notext #clubWheelScreen *, .qa-notext #topHeader *, .qa-notext footer * { color: transparent !important; -webkit-text-fill-color: transparent !important; text-shadow: none !important; }
+.qa-notext #clubWheelScreen h2, .qa-notext .clubVs strong { background: none !important; filter: none !important; }
+
+
+/* C2W-005 extra 5 (Claude rework at intake): the stray gold letter was the desktop "VS" text fallback
+   pushed off the top-left corner on phone, not the plate. The phone composition has no VS mark, so hide it. */
+@media (max-width: 760px) and (orientation: portrait) {
+  .clubVsFallback { display: none; }
+}
+
+/* CC-008 A3 · Nik's review: Nik's cut-out covered Daniel and his pack. Both figures now share one height
+   (about 59% of the old Nik height), stand side by side with their packs visible and never overlap. */
+@media (max-width: 760px) and (orientation: portrait) {
+  .phoneHeroStage { --club-ph: min(55vw, 34dvh); }
+  .phoneHeroDaniel, .phoneHeroNik {
+    height: var(--club-ph);
+    top: calc((var(--phone-hero-h) + 40px - var(--club-ph)) / 2);
+  }
+  /* Image aspect: Daniel 625/740 (.8446), Nik 671/740 (.9068); the pair plus a 6 px gap is centred. */
+  .phoneHeroDaniel { left: calc(50% - var(--club-ph) * .4534 - 3px); }
+  .phoneHeroNik { left: calc(50% + var(--club-ph) * .4223 + 3px); }
+}
+@media (max-width: 760px) and (orientation: portrait) {
+  /* CC-008 A3: club.js writes the desktop plate rect inline on phone too (0x0 at the corner, so a stray
+     "RIVALRY" showed top left and the VS medallion never appeared). The phone rule owns its box. */
+  .clubVs {
+    left: 50% !important; top: calc(var(--phone-hero-h) - 76px) !important;
+    width: 64px !important; height: 54px !important;
+  }
+  .clubVsFallback { display: block; }
+}

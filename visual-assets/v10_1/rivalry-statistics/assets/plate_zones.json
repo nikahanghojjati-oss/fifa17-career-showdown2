@@ -1,0 +1,65 @@
+{
+ "source": "project-documents/factory/mockups/MOCKUP_RIVALRY_STATISTICS.png",
+ "size": [
+  1672,
+  941
+ ],
+ "format": "rectangles [x0, y0, x1, y1] in source pixels, inclusive, already include the margin",
+ "zones": [
+  [
+   0,
+   0,
+   975,
+   74
+  ],
+  [
+   1320,
+   8,
+   1510,
+   74
+  ],
+  [
+   1532,
+   8,
+   1672,
+   96
+  ],
+  [
+   520,
+   92,
+   1185,
+   246
+  ],
+  [
+   462,
+   248,
+   1210,
+   600
+  ],
+  [
+   40,
+   594,
+   1635,
+   828
+  ],
+  [
+   665,
+   828,
+   1008,
+   894
+  ],
+  [
+   1430,
+   830,
+   1622,
+   858
+  ],
+  [
+   0,
+   894,
+   1672,
+   941
+  ]
+ ],
+ "made_by": "Claude, 2026-10-02"
+}

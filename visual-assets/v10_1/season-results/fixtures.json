@@ -1,0 +1,721 @@
+{
+  "version": "SEASON_RESULTS_V1_FIXTURES",
+  "authority": "main@2de237391e17c7de2c6deb606b102b68ee640212 + DATA_CONTRACT_V1 §0/§3/§9 + PRODUCT_TRUTH.md + MOCKUP_SEASON_RESULTS.jpg@ac20f2a8a9aa6399f25c89b97f77b258dbc5aca9 + JOB-006",
+  "strings": {
+    "previewLabel": "Preview data",
+    "titleTemplate": "SEASON {SEASON_NUMBER} SHARED RESULTS",
+    "entryHintTemplate": "Enter only {MANAGER}'s FIFA 17 season result. Your rival enters their own result privately on their device. Nothing on this screen writes to the canonical local Save.",
+    "fieldLabels": {
+      "leaguePosition": "LEAGUE POSITION",
+      "leaguePoints": "LEAGUE POINTS",
+      "leagueGoals": "LEAGUE GOALS"
+    },
+    "inputAchievements": {
+      "domesticCup": "Domestic Cup Winner",
+      "championsLeague": "Champions League Winner",
+      "topScorer": "Top Scorer",
+      "topAssist": "Top Assist"
+    },
+    "reviewAchievements": {
+      "domesticCup": "Domestic Cup",
+      "championsLeague": "Champions League",
+      "topScorer": "Top Scorer",
+      "topAssist": "Top Assist"
+    },
+    "review": {
+      "inheritedStatusLabel": "FINAL CHECK",
+      "inheritedIntro": "Verify both managers' results and the calculated scores. Nothing becomes permanent until Confirm & Save Season is pressed.",
+      "draft": {
+        "heading": "REVIEW YOUR SEASON RESULT",
+        "status": "NOT PUBLISHED YET",
+        "result": "Check your seven season facts carefully. Publishing is immutable for this manager and season.",
+        "warning": "PUBLISHING IS FINAL FOR YOUR MANAGER · CANONICAL LOCAL SAVE IS NOT MODIFIED"
+      },
+      "waiting": {
+        "heading": "YOUR RESULT IS PUBLISHED",
+        "status": "PUBLISHED · WAITING FOR YOUR RIVAL",
+        "result": "Your rival cannot see this result until they publish their own. This screen refreshes automatically.",
+        "warning": "PUBLISHING IS FINAL FOR YOUR MANAGER · CANONICAL LOCAL SAVE IS NOT MODIFIED"
+      },
+      "ready": {
+        "heading": "BOTH MANAGERS PUBLISHED",
+        "status": "RESULTS READY · BOTH PRIVATE SIDES REVEALED",
+        "result": "Both managers published their reviewed FIFA 17 season results. Continue with the Shared Season Commit below.",
+        "warning": "RESULT PUBLICATION COMPLETE · SHARED SEASON COMMIT IS READY"
+      }
+    },
+    "buttons": {
+      "review": "REVIEW MY SEASON RESULT",
+      "publish": "PUBLISH MY SEASON RESULT",
+      "published": "PUBLISHED ✓",
+      "edit": "EDIT MY RESULT",
+      "back": "BACK TO SHOWDOWN HOME",
+      "commitCheck": "CHECK SHARED SEASON COMMIT",
+      "commitRetry": "RETRY COMMIT CHECK",
+      "commit": "COMMIT SHARED SEASON",
+      "waitCoordinator": "WAITING FOR COORDINATOR",
+      "acknowledge": "ACKNOWLEDGE SHARED SEASON",
+      "acknowledgedWaiting": "ACKNOWLEDGED ✓ · WAITING FOR RIVAL",
+      "acknowledged": "SEASON COMMIT ACKNOWLEDGED ✓"
+    },
+    "commitStatus": {
+      "checking": "CHECKING SHARED SEASON COMMIT · YOUR PUBLISHED RESULTS ARE SAVED",
+      "failedTemplate": "SHARED SEASON COMMIT CHECK FAILED · {ERROR_CODE} · YOUR PUBLISHED RESULTS ARE SAVED",
+      "coordinatorReady": "BOTH RESULTS ARE READY · AS COORDINATOR, COMMIT THE IMMUTABLE SHARED SEASON SNAPSHOT",
+      "peerReadyTemplate": "BOTH RESULTS ARE READY · WAITING FOR {COORDINATOR} TO COMMIT THE SHARED SEASON",
+      "committed": "THE SHARED RESULT SNAPSHOT IS COMMITTED · BOTH MANAGERS MUST ACKNOWLEDGE BEFORE SCORING CAN BEGIN",
+      "ownAcknowledged": "YOU ACKNOWLEDGED THIS SHARED SEASON · WAITING FOR YOUR RIVAL",
+      "acknowledged": "SHARED SEASON COMMIT ACKNOWLEDGED BY BOTH MANAGERS · SCORING REMAINS LOCKED FOR THE NEXT CAPABILITY"
+    },
+    "canonicalScoring": {
+      "heading": "SHARED CANONICAL SCORE",
+      "totalsTemplate": "{DANIEL}: {DANIEL_TOTAL} · {NIK}: {NIK_TOTAL}",
+      "breakdownTemplate": "Champions League {D_CL}–{N_CL} · League Title {D_LEAGUE}–{N_LEAGUE} · Domestic Cup {D_CUP}–{N_CUP} · Performance Bonus {D_PERFORMANCE}–{N_PERFORMANCE} · Awards Bonus {D_AWARDS}–{N_AWARDS}",
+      "draw": "Season result: Draw",
+      "winnerTemplate": "Season winner: {MANAGER}",
+      "reconciled": "Authoritative scoring reconciled.",
+      "scoreLabel": "CANONICAL SCORE"
+    },
+    "errors": {
+      "incompleteTemplate": "Enter league position, league points and league goals for {MANAGER}.",
+      "positionTemplate": "{MANAGER}'s league position must be a whole number from 1 to {TEAM_COUNT}.",
+      "pointsTemplate": "{MANAGER}'s league points must be a whole number from 0 to {MAX_POINTS}.",
+      "goalsTemplate": "{MANAGER}'s league goals must be a whole number from 0 to 300.",
+      "contextChanged": "The shared season context changed. Review your result again.",
+      "changedAfterReview": "Your season result changed after review. Choose Edit My Result and review it again before publishing.",
+      "transferRequired": "Finish the shared Transfer Challenge before publishing Season Results.",
+      "servicesUnavailable": "Connected account services are unavailable.",
+      "refreshBeforePublish": "Shared Season Results could not be refreshed before publishing.",
+      "publishRejected": "Your shared Season Result could not be published.",
+      "publishFailed": "Shared Season Result publication failed.",
+      "bothMustPublish": "Both managers must publish Shared Season Results before the shared season can be committed.",
+      "commitTimeout": "The Shared Season Commit check took too long. Check your connection and retry.",
+      "coordinatorRequired": "Only the confirmed coordinator can create the shared season commit.",
+      "commitFailed": "The shared season could not be committed.",
+      "acknowledgeFailed": "Your shared season acknowledgement could not be recorded.",
+      "sharedCommitFailed": "Shared Season Commit failed."
+    },
+    "route": {
+      "transfer": "CONTINUE TO SHARED SEASON RESULTS",
+      "dashboardEnter": "ENTER SHARED SEASON RESULTS",
+      "dashboardOwnPublished": "VIEW MY PUBLISHED RESULT",
+      "dashboardReady": "VIEW SHARED SEASON RESULTS",
+      "opening": "OPENING SEASON RESULTS…",
+      "dashboardStatusEnter": "Shared transfer challenge: complete · season results ready",
+      "dashboardStatusWaiting": "Shared season results: waiting for rival",
+      "dashboardStatusReady": "Shared season results: both published"
+    },
+    "scoringRulesSource": "index.html #seasonEntry .seasonEntryHint (static copy on main; the shared adapter replaces it with entryHintTemplate during shared entry, so the scoring panel / How scoring works pop-up must render this text from DOM, not from the hint node)",
+    "scoringRules": "Scoring: Champions League +5, league title +3, domestic cup +1. 100 league points and/or 100 league goals share one +1 performance bonus. Top Scorer and/or Top Assist share one +1 awards bonus. Maximum season score: 11.",
+    "interimLabel": "Current Showdown only. Career history is not yet available.",
+    "topBarLockSource": "DATA_CONTRACT_V1 §10 (A, G-6); not on main yet",
+    "topBarLock": "Finish this step first",
+    "sealedWaitingTemplate": "Waiting for {MANAGER}"
+  },
+  "ids": {
+    "screen": "seasonEntry",
+    "title": "seasonEntryTitle",
+    "entryError": "seasonEntryError",
+    "entryAction": "completeSeason",
+    "transferEntryAction": "continueFromTransfers",
+    "dashboardEntryAction": "seasonPrimaryAction",
+    "dashboardTransferStatus": "dashboardTransferStatus",
+    "backClass": "backButton",
+    "managerNames": {
+      "daniel": "seasonManagerOne",
+      "nik": "seasonManagerTwo"
+    },
+    "clubPlaceholders": {
+      "daniel": "seasonClubOne",
+      "nik": "seasonClubTwo"
+    },
+    "fields": {
+      "daniel": {
+        "leaguePosition": "p1LeaguePosition",
+        "leaguePoints": "p1LeaguePoints",
+        "leagueGoals": "p1LeagueGoals",
+        "domesticCup": "p1DomesticCup",
+        "championsLeague": "p1ChampionsLeague",
+        "topScorer": "p1TopScorer",
+        "topAssist": "p1TopAssist"
+      },
+      "nik": {
+        "leaguePosition": "p2LeaguePosition",
+        "leaguePoints": "p2LeaguePoints",
+        "leagueGoals": "p2LeagueGoals",
+        "domesticCup": "p2DomesticCup",
+        "championsLeague": "p2ChampionsLeague",
+        "topScorer": "p2TopScorer",
+        "topAssist": "p2TopAssist"
+      }
+    },
+    "review": {
+      "panel": "seasonReviewPanel",
+      "statusMeta": "seasonReviewStatusMeta",
+      "heading": "seasonReviewHeading",
+      "result": "seasonReviewResult",
+      "danielCard": "seasonReviewOne",
+      "nikCard": "seasonReviewTwo",
+      "overall": "seasonReviewOverallScore",
+      "error": "seasonReviewError",
+      "publish": "confirmSeasonCompletion",
+      "edit": "editSeasonResults"
+    },
+    "commit": {
+      "status": "sharedSeasonCommitStatus",
+      "action": "sharedSeasonCommitAction"
+    },
+    "canonicalScoring": {
+      "panel": "sharedCanonicalScoringPanel",
+      "heading": "sharedCanonicalScoringHeading",
+      "totals": "sharedCanonicalScoringTotals",
+      "breakdown": "sharedCanonicalScoringBreakdown",
+      "winner": "sharedCanonicalScoringWinner"
+    }
+  },
+  "frames": {
+    "SR1": {
+      "note": "Daniel device, private entry. Daniel values are fictional preview data; Nik's unpublished inputs are sealed and absent.",
+      "previewLabel": "Preview data",
+      "status": "ready",
+      "phase": "entering",
+      "viewer": "daniel",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "sealed": [
+        "nik"
+      ],
+      "managers": {
+        "daniel": {
+          "leaguePosition": 1,
+          "leaguePoints": 96,
+          "leagueGoals": 94,
+          "domesticCup": true,
+          "championsLeague": true,
+          "topScorer": false,
+          "topAssist": true
+        }
+      },
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": "laliga",
+        "clubs": {
+          "daniel": "Valencia",
+          "nik": "Villarreal"
+        }
+      },
+      "breakdown": null,
+      "winner": null,
+      "tiebreak": null,
+      "bind": {
+        "context.season": "viewers.daniel.seasonResults.season",
+        "context.totalSeasons": "viewers.daniel.home.continue.totalSeasons",
+        "context.leagueId": "viewers.daniel.home.continue.leagueId",
+        "context.clubs.daniel": "viewers.daniel.home.continue.clubs.daniel",
+        "context.clubs.nik": "viewers.daniel.home.continue.clubs.nik"
+      },
+      "bindScenario": "active-first-season · daniel"
+    },
+    "SR2": {
+      "note": "Nik device, private entry. Nik values are fictional preview data; Daniel's unpublished inputs are sealed and absent.",
+      "previewLabel": "Preview data",
+      "status": "ready",
+      "phase": "entering",
+      "viewer": "nik",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "sealed": [
+        "daniel"
+      ],
+      "managers": {
+        "nik": {
+          "leaguePosition": 2,
+          "leaguePoints": 91,
+          "leagueGoals": 103,
+          "domesticCup": false,
+          "championsLeague": true,
+          "topScorer": true,
+          "topAssist": false
+        }
+      },
+      "context": {
+        "season": 3,
+        "totalSeasons": 5,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "Arsenal",
+          "nik": "Chelsea"
+        }
+      },
+      "breakdown": null,
+      "winner": null,
+      "tiebreak": null,
+      "bind": {
+        "context.season": "viewers.nik.seasonResults.season",
+        "context.totalSeasons": "viewers.nik.home.continue.totalSeasons",
+        "context.leagueId": "viewers.nik.home.continue.leagueId",
+        "context.clubs.daniel": "viewers.nik.home.continue.clubs.daniel",
+        "context.clubs.nik": "viewers.nik.home.continue.clubs.nik"
+      },
+      "bindScenario": "active-mid-season · nik"
+    },
+    "SR2_REVIEW": {
+      "note": "Daniel device, unpublished review after entry and before publish. Daniel's reviewed result is read-only for review; Nik remains sealed.",
+      "previewLabel": "Preview data",
+      "status": "ready",
+      "phase": "unpublished-review",
+      "viewer": "daniel",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "sealed": [
+        "nik"
+      ],
+      "managers": {
+        "daniel": {
+          "leaguePosition": 1,
+          "leaguePoints": 96,
+          "leagueGoals": 94,
+          "domesticCup": true,
+          "championsLeague": true,
+          "topScorer": false,
+          "topAssist": true
+        }
+      },
+      "actionLabels": {
+        "primary": "PUBLISH MY SEASON RESULT",
+        "secondary": "EDIT MY RESULT"
+      },
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": "laliga",
+        "clubs": {
+          "daniel": "Valencia",
+          "nik": "Villarreal"
+        }
+      },
+      "breakdown": null,
+      "winner": null,
+      "tiebreak": null,
+      "bind": {
+        "context.season": "viewers.daniel.seasonResults.season",
+        "context.totalSeasons": "viewers.daniel.home.continue.totalSeasons",
+        "context.leagueId": "viewers.daniel.home.continue.leagueId",
+        "context.clubs.daniel": "viewers.daniel.home.continue.clubs.daniel",
+        "context.clubs.nik": "viewers.daniel.home.continue.clubs.nik"
+      },
+      "bindScenario": "active-first-season · daniel"
+    },
+    "SR3": {
+      "note": "Daniel has published first; own result is read-only and Nik remains sealed. The same privacy rule applies symmetrically when Nik publishes first.",
+      "previewLabel": "Preview data",
+      "status": "ready",
+      "phase": "waiting-for-rival",
+      "viewer": "daniel",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "sealed": [
+        "nik"
+      ],
+      "managers": {
+        "daniel": {
+          "leaguePosition": 2,
+          "leaguePoints": 86,
+          "leagueGoals": 131,
+          "domesticCup": false,
+          "championsLeague": false,
+          "topScorer": false,
+          "topAssist": true
+        }
+      },
+      "context": {
+        "season": 3,
+        "totalSeasons": 5,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "Arsenal",
+          "nik": "Chelsea"
+        }
+      },
+      "breakdown": null,
+      "winner": null,
+      "tiebreak": null,
+      "bind": {
+        "context.season": "viewers.daniel.seasonResults.season",
+        "context.totalSeasons": "viewers.daniel.home.continue.totalSeasons",
+        "context.leagueId": "viewers.daniel.home.continue.leagueId",
+        "context.clubs.daniel": "viewers.daniel.home.continue.clubs.daniel",
+        "context.clubs.nik": "viewers.daniel.home.continue.clubs.nik",
+        "status": "viewers.daniel.seasonResults.status",
+        "phase": "viewers.daniel.seasonResults.phase",
+        "managers.daniel.leaguePosition": "viewers.daniel.seasonResults.inputs.daniel.leaguePosition",
+        "managers.daniel.leaguePoints": "viewers.daniel.seasonResults.inputs.daniel.leaguePoints",
+        "managers.daniel.leagueGoals": "viewers.daniel.seasonResults.inputs.daniel.leagueGoals",
+        "managers.daniel.domesticCup": "viewers.daniel.seasonResults.inputs.daniel.domesticCup",
+        "managers.daniel.championsLeague": "viewers.daniel.seasonResults.inputs.daniel.championsLeague",
+        "managers.daniel.topScorer": "viewers.daniel.seasonResults.inputs.daniel.topScorer",
+        "managers.daniel.topAssist": "viewers.daniel.seasonResults.inputs.daniel.topAssist"
+      },
+      "bindScenario": "active-mid-season · daniel"
+    },
+    "SR4": {
+      "note": "Both managers have published. Both input records are revealed, Daniel first and Nik second. Shared Season Commit is pending; authoritative canonical scoring is not displayed yet.",
+      "previewLabel": "Preview data",
+      "status": "ready",
+      "phase": "results-ready",
+      "viewer": "either",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "sealed": [],
+      "managers": {
+        "daniel": {
+          "leaguePosition": 2,
+          "leaguePoints": 86,
+          "leagueGoals": 131,
+          "domesticCup": false,
+          "championsLeague": false,
+          "topScorer": false,
+          "topAssist": true
+        },
+        "nik": {
+          "leaguePosition": 4,
+          "leaguePoints": 70,
+          "leagueGoals": 66,
+          "domesticCup": false,
+          "championsLeague": false,
+          "topScorer": false,
+          "topAssist": false
+        }
+      },
+      "context": {
+        "season": 3,
+        "totalSeasons": 5,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "Arsenal",
+          "nik": "Chelsea"
+        }
+      },
+      "breakdown": null,
+      "winner": null,
+      "tiebreak": null,
+      "bind": {
+        "context.season": "viewers.daniel.seasonResults.season",
+        "context.totalSeasons": "viewers.daniel.home.continue.totalSeasons",
+        "context.leagueId": "viewers.daniel.home.continue.leagueId",
+        "context.clubs.daniel": "viewers.daniel.home.continue.clubs.daniel",
+        "context.clubs.nik": "viewers.daniel.home.continue.clubs.nik",
+        "status": "viewers.daniel.seasonResults.status",
+        "phase": "viewers.daniel.seasonResults.phase",
+        "managers.daniel.leaguePosition": "viewers.daniel.seasonResults.inputs.daniel.leaguePosition",
+        "managers.daniel.leaguePoints": "viewers.daniel.seasonResults.inputs.daniel.leaguePoints",
+        "managers.daniel.leagueGoals": "viewers.daniel.seasonResults.inputs.daniel.leagueGoals",
+        "managers.daniel.domesticCup": "viewers.daniel.seasonResults.inputs.daniel.domesticCup",
+        "managers.daniel.championsLeague": "viewers.daniel.seasonResults.inputs.daniel.championsLeague",
+        "managers.daniel.topScorer": "viewers.daniel.seasonResults.inputs.daniel.topScorer",
+        "managers.daniel.topAssist": "viewers.daniel.seasonResults.inputs.daniel.topAssist",
+        "managers.nik.leaguePosition": "viewers.daniel.seasonResults.inputs.nik.leaguePosition",
+        "managers.nik.leaguePoints": "viewers.daniel.seasonResults.inputs.nik.leaguePoints",
+        "managers.nik.leagueGoals": "viewers.daniel.seasonResults.inputs.nik.leagueGoals",
+        "managers.nik.domesticCup": "viewers.daniel.seasonResults.inputs.nik.domesticCup",
+        "managers.nik.championsLeague": "viewers.daniel.seasonResults.inputs.nik.championsLeague",
+        "managers.nik.topScorer": "viewers.daniel.seasonResults.inputs.nik.topScorer",
+        "managers.nik.topAssist": "viewers.daniel.seasonResults.inputs.nik.topAssist"
+      },
+      "bindScenario": "active-results-ready · daniel"
+    },
+    "SR5": {
+      "note": "Shared season is committed and acknowledged; authoritative scoring is read-only and reconciled from the same fictional results.",
+      "previewLabel": "Preview data",
+      "status": "ready",
+      "phase": "committed",
+      "viewer": "either",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "sealed": [],
+      "managers": {
+        "daniel": {
+          "leaguePosition": 1,
+          "leaguePoints": 89,
+          "leagueGoals": 85,
+          "domesticCup": true,
+          "championsLeague": false,
+          "topScorer": false,
+          "topAssist": false
+        },
+        "nik": {
+          "leaguePosition": 2,
+          "leaguePoints": 84,
+          "leagueGoals": 78,
+          "domesticCup": false,
+          "championsLeague": false,
+          "topScorer": true,
+          "topAssist": false
+        }
+      },
+      "breakdown": {
+        "daniel": {
+          "championsLeague": 0,
+          "leagueTitle": 3,
+          "domesticCup": 1,
+          "performanceBonus": 0,
+          "awardsBonus": 0,
+          "total": 4
+        },
+        "nik": {
+          "championsLeague": 0,
+          "leagueTitle": 0,
+          "domesticCup": 0,
+          "performanceBonus": 0,
+          "awardsBonus": 1,
+          "total": 1
+        }
+      },
+      "winner": "daniel",
+      "tiebreak": "none",
+      "context": {
+        "season": 1,
+        "totalSeasons": 5,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "Arsenal",
+          "nik": "Chelsea"
+        }
+      },
+      "bind": {
+        "context.season": "viewers.daniel.seasonResultsBySeason[0].season",
+        "context.totalSeasons": "viewers.daniel.home.continue.totalSeasons",
+        "context.leagueId": "viewers.daniel.home.continue.leagueId",
+        "context.clubs.daniel": "viewers.daniel.home.continue.clubs.daniel",
+        "context.clubs.nik": "viewers.daniel.home.continue.clubs.nik",
+        "status": "viewers.daniel.seasonResultsBySeason[0].status",
+        "phase": "viewers.daniel.seasonResultsBySeason[0].phase",
+        "managers.daniel.leaguePosition": "viewers.daniel.seasonResultsBySeason[0].inputs.daniel.leaguePosition",
+        "managers.daniel.leaguePoints": "viewers.daniel.seasonResultsBySeason[0].inputs.daniel.leaguePoints",
+        "managers.daniel.leagueGoals": "viewers.daniel.seasonResultsBySeason[0].inputs.daniel.leagueGoals",
+        "managers.daniel.domesticCup": "viewers.daniel.seasonResultsBySeason[0].inputs.daniel.domesticCup",
+        "managers.daniel.championsLeague": "viewers.daniel.seasonResultsBySeason[0].inputs.daniel.championsLeague",
+        "managers.daniel.topScorer": "viewers.daniel.seasonResultsBySeason[0].inputs.daniel.topScorer",
+        "managers.daniel.topAssist": "viewers.daniel.seasonResultsBySeason[0].inputs.daniel.topAssist",
+        "breakdown.daniel.championsLeague": "viewers.daniel.seasonResultsBySeason[0].breakdown.daniel.championsLeague",
+        "breakdown.daniel.leagueTitle": "viewers.daniel.seasonResultsBySeason[0].breakdown.daniel.leagueTitle",
+        "breakdown.daniel.domesticCup": "viewers.daniel.seasonResultsBySeason[0].breakdown.daniel.domesticCup",
+        "breakdown.daniel.performanceBonus": "viewers.daniel.seasonResultsBySeason[0].breakdown.daniel.performanceBonus",
+        "breakdown.daniel.awardsBonus": "viewers.daniel.seasonResultsBySeason[0].breakdown.daniel.awardsBonus",
+        "breakdown.daniel.total": "viewers.daniel.seasonResultsBySeason[0].breakdown.daniel.total",
+        "managers.nik.leaguePosition": "viewers.daniel.seasonResultsBySeason[0].inputs.nik.leaguePosition",
+        "managers.nik.leaguePoints": "viewers.daniel.seasonResultsBySeason[0].inputs.nik.leaguePoints",
+        "managers.nik.leagueGoals": "viewers.daniel.seasonResultsBySeason[0].inputs.nik.leagueGoals",
+        "managers.nik.domesticCup": "viewers.daniel.seasonResultsBySeason[0].inputs.nik.domesticCup",
+        "managers.nik.championsLeague": "viewers.daniel.seasonResultsBySeason[0].inputs.nik.championsLeague",
+        "managers.nik.topScorer": "viewers.daniel.seasonResultsBySeason[0].inputs.nik.topScorer",
+        "managers.nik.topAssist": "viewers.daniel.seasonResultsBySeason[0].inputs.nik.topAssist",
+        "breakdown.nik.championsLeague": "viewers.daniel.seasonResultsBySeason[0].breakdown.nik.championsLeague",
+        "breakdown.nik.leagueTitle": "viewers.daniel.seasonResultsBySeason[0].breakdown.nik.leagueTitle",
+        "breakdown.nik.domesticCup": "viewers.daniel.seasonResultsBySeason[0].breakdown.nik.domesticCup",
+        "breakdown.nik.performanceBonus": "viewers.daniel.seasonResultsBySeason[0].breakdown.nik.performanceBonus",
+        "breakdown.nik.awardsBonus": "viewers.daniel.seasonResultsBySeason[0].breakdown.nik.awardsBonus",
+        "breakdown.nik.total": "viewers.daniel.seasonResultsBySeason[0].breakdown.nik.total",
+        "winner": "viewers.daniel.seasonResultsBySeason[0].winner",
+        "tiebreak": "viewers.daniel.seasonResultsBySeason[0].tiebreak"
+      },
+      "bindScenario": "active-results-ready · daniel"
+    },
+    "SR6": {
+      "note": "Review validation/action error with only bounded fictional values. The exact changed-after-review error is layered onto the entering phase.",
+      "previewLabel": "Preview data",
+      "status": "ready",
+      "phase": "entering",
+      "viewer": "daniel",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "sealed": [
+        "nik"
+      ],
+      "managers": {
+        "daniel": {
+          "leaguePosition": 1,
+          "leaguePoints": 97,
+          "leagueGoals": 94,
+          "domesticCup": true,
+          "championsLeague": true,
+          "topScorer": false,
+          "topAssist": true
+        }
+      },
+      "error": "Your season result changed after review. Choose Edit My Result and review it again before publishing.",
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": "laliga",
+        "clubs": {
+          "daniel": "Valencia",
+          "nik": "Villarreal"
+        }
+      },
+      "breakdown": null,
+      "winner": null,
+      "tiebreak": null,
+      "bind": {
+        "context.season": "viewers.daniel.seasonResults.season",
+        "context.totalSeasons": "viewers.daniel.home.continue.totalSeasons",
+        "context.leagueId": "viewers.daniel.home.continue.leagueId",
+        "context.clubs.daniel": "viewers.daniel.home.continue.clubs.daniel",
+        "context.clubs.nik": "viewers.daniel.home.continue.clubs.nik"
+      },
+      "bindScenario": "active-first-season · daniel"
+    },
+    "SR7": {
+      "note": "Contract loading state; no result values are presented as facts.",
+      "previewLabel": "Preview data",
+      "status": "loading",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "arsenal",
+          "nik": "chelsea"
+        }
+      },
+      "bind": {
+        "status": "viewers.daniel.seasonResults.status"
+      },
+      "bindScenario": "loading · daniel"
+    },
+    "SR8": {
+      "note": "Contract empty state; the read succeeded but no usable Season Results record is shown, and no zero score is invented.",
+      "previewLabel": "Preview data",
+      "status": "empty",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "arsenal",
+          "nik": "chelsea"
+        }
+      }
+    },
+    "SR9": {
+      "note": "Contract partial/interim coverage state; no private rival values or fake complete result is shown.",
+      "previewLabel": "Preview data",
+      "status": "partial",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "interimLabel": "Current Showdown only. Career history is not yet available.",
+      "launchState": false,
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "arsenal",
+          "nik": "chelsea"
+        }
+      }
+    },
+    "SR10": {
+      "note": "Contract unavailable state; provider read failed and no result values are presented as facts.",
+      "previewLabel": "Preview data",
+      "status": "unavailable",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "arsenal",
+          "nik": "chelsea"
+        }
+      },
+      "bind": {
+        "status": "viewers.daniel.seasonResults.status"
+      },
+      "bindScenario": "unavailable · daniel"
+    }
+  },
+  "routes": {
+    "screen": "seasonEntry",
+    "fromTransfer": {
+      "controlId": "continueFromTransfers",
+      "controlText": "CONTINUE TO SHARED SEASON RESULTS",
+      "requires": "shared Transfer Challenge state phase COMPLETED and no data-shared-transfer-replay marker",
+      "flow": "productionSharedSeasonResultsRoute.open() -> productionSharedSeasonResults.open() -> navigateTo('seasonEntry')"
+    },
+    "fromDashboard": {
+      "controlId": "seasonPrimaryAction",
+      "controlTexts": [
+        "ENTER SHARED SEASON RESULTS",
+        "VIEW MY PUBLISHED RESULT",
+        "VIEW SHARED SEASON RESULTS"
+      ],
+      "flow": "productionSharedSeasonResultsRoute.open() -> productionSharedSeasonResults.open() -> navigateTo('seasonEntry')"
+    },
+    "back": {
+      "controlClass": "backButton",
+      "controlText": "BACK TO SHOWDOWN HOME",
+      "handler": "navigateBackSmart()",
+      "safeTargets": [
+        "dashboard",
+        "mainMenu"
+      ]
+    },
+    "topNavigation": {
+      "tabs": [
+        "HOME",
+        "CAREER",
+        "STANDINGS",
+        "STATS",
+        "RULES"
+      ],
+      "settingsIcon": true,
+      "lockedOnScreen": true,
+      "lockMessage": "Finish this step first"
+    },
+    "privacy": {
+      "revealOpponentAt": "results-ready",
+      "rule": "opponentResult is absent until Shared Season Results reaches RESULTS_READY"
+    },
+    "postResults": {
+      "commitControlId": "sharedSeasonCommitAction",
+      "canonicalScoringPanelId": "sharedCanonicalScoringPanel",
+      "scoringVisibleAt": "committed"
+    }
+  },
+  "nav": {
+    "active": "career",
+    "locked": true,
+    "reason": "season-entry",
+    "source": "nav.json screens.seasonEntry"
+  },
+  "bindingSource": "visual-assets/v10_1/shared/fixtures/data-contract-v1 (Team G G-11, gameplay/recovery-v1 @ dc78ed7b)"
+}

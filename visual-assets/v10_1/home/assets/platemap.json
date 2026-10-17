@@ -1,0 +1,103 @@
+{
+ "version": "PLATEMAP_HOME_V1",
+ "units": "1X plate px (= goal px)",
+ "plate_1x_size": [
+  1672,
+  941
+ ],
+ "plate_2x_size": [
+  3344,
+  1882
+ ],
+ "remove_rects": [
+  [
+   0,
+   22,
+   968,
+   84
+  ],
+  [
+   1305,
+   22,
+   1520,
+   88
+  ],
+  [
+   1522,
+   4,
+   1662,
+   84
+  ],
+  [
+   40,
+   118,
+   605,
+   398
+  ],
+  [
+   140,
+   398,
+   530,
+   540
+  ],
+  [
+   35,
+   535,
+   530,
+   678
+  ],
+  [
+   1068,
+   492,
+   1636,
+   662
+  ],
+  [
+   30,
+   684,
+   1640,
+   866
+  ],
+  [
+   0,
+   876,
+   1672,
+   941
+  ]
+ ],
+ "remove_circles_cx_cy_r": [],
+ "keep_rects": [],
+ "protected_boxes": {
+  "face_daniel": [
+   725,
+   85,
+   910,
+   400
+  ],
+  "face_nik": [
+   1050,
+   30,
+   1300,
+   395
+  ],
+  "hand_daniel": [
+   620,
+   385,
+   800,
+   545
+  ],
+  "hand_nik": [
+   1170,
+   295,
+   1305,
+   470
+  ]
+ },
+ "sha256": {
+  "ENV_HOME_PLATE_V1_1X.png": "fc0d10ccfa994517844ee4e690c20315a44a97b0733e4491a9a37c92035360d3",
+  "ENV_HOME_PLATE_V1_1X.webp": "3c35391805507bf8910f36f98147cd8383e4944eeb999021661d6d7030d30c39",
+  "ENV_HOME_PLATE_V1_2X.png": "ebba497bf337f7eb9fbf625a5cde3c68b633c3c8df695723b877ba2e91bec34f",
+  "ENV_HOME_PLATE_V1_2X.webp": "aed61ed9d6e10cbaead7251539e188101bc1371d83639b2ab6953dae875274f9"
+ },
+ "source_zones": "visual-assets/goals/handoffs/HLC_PLATE_ZONES_V1.json@claude-cloud/hlc-goals"
+}

@@ -1,0 +1,259 @@
+{
+  "issues": [
+    {
+      "id": "CP1-A-UPSCALE",
+      "detail": "Real-ESRGAN (x2plus or x4plus) was not installable/runnable in this sandboxed build (no GPU, no reachable pretrained-weight source). Used Lanczos x2 plus unsharp mask (radius 1.0, amount 40%) per the brief's stated fallback (c)."
+    }
+  ],
+  "plate": {
+    "master_path": "assets/derived/ENV_TR2_WARROOM_PLATE_V1_MASTER.png",
+    "master_size": [
+      3344,
+      1882
+    ],
+    "exports": [
+      {
+        "path": "assets/derived/ENV_TR2_WARROOM_PLATE_V1_3344.webp",
+        "width": 3344,
+        "height": 1882,
+        "bytes": 417070,
+        "sha256": "f0b388259e684a1791154a5040c3071c4c811714d8d0ef0626dad0a61867917b"
+      },
+      {
+        "path": "assets/derived/ENV_TR2_WARROOM_PLATE_V1_3344.avif",
+        "width": 3344,
+        "height": 1882,
+        "bytes": 278351,
+        "sha256": "786c30b7c86d0ca01a4aadc45ac6e41109642b24d8f2921ef7c857c6f75f4743"
+      },
+      {
+        "path": "assets/derived/ENV_TR2_WARROOM_PLATE_V1_1672.webp",
+        "width": 1672,
+        "height": 941,
+        "bytes": 195816,
+        "sha256": "4c7f2a4e09e3842e8af8c5fead4abbecea051935c86e5ad53d3c1d9095e8080f"
+      },
+      {
+        "path": "assets/derived/ENV_TR2_WARROOM_PLATE_V1_1672.avif",
+        "width": 1672,
+        "height": 941,
+        "bytes": 127379,
+        "sha256": "a8ff0ac617b26e2ce92f8f7125f2cae3e3b09da15660003e16e7385276adb319"
+      }
+    ],
+    "plate_map_path": "assets/derived/ENV_TR2_WARROOM_PLATEMAP_V1.json",
+    "table_cutout_path": "assets/derived/ENV_TR2_WARROOM_TABLEMASK_V1.png",
+    "cue_masks": {
+      "LIGHTRIG_GLASS": "assets/derived/LIGHTRIG_GLASS.png",
+      "LIGHTRIG_TACTICS": "assets/derived/LIGHTRIG_TACTICS.png",
+      "LIGHTRIG_SIGNFACE": "assets/derived/LIGHTRIG_SIGNFACE.png"
+    },
+    "blur_path": "assets/derived/ENV_TR2_PLATE_BLUR_V1.png"
+  },
+  "poses": {
+    "POSE_TRANSFER_DANIEL_FOCUSED_V1": {
+      "master_path": "assets/derived/POSE_TRANSFER_DANIEL_FOCUSED_V1_INTAKE.png",
+      "exports": [
+        {
+          "path": "assets/derived/POSE_TRANSFER_DANIEL_FOCUSED_V1_MASTER.png",
+          "bytes": 1923309,
+          "sha256": "601443aa7c150282b6626784a82b70fd3ca100588406263fc839ac2534d7c376"
+        },
+        {
+          "path": "assets/derived/POSE_TRANSFER_DANIEL_FOCUSED_V1.webp",
+          "bytes": 219856,
+          "sha256": "71b1033c4d5a8bffd5255db8ca636ee98b9bba8742548ea1ee2a14310330beab"
+        },
+        {
+          "path": "assets/derived/POSE_TRANSFER_DANIEL_FOCUSED_V1.avif",
+          "bytes": 204259,
+          "sha256": "b525a255cc8352b24e7f75a4f9d2896b02f9eb26bf743abf6a2fb89b2badbca4"
+        }
+      ],
+      "halo_ratio_before": 3.1659,
+      "halo_ratio_after": 2.9921,
+      "despeckle_before": 20585,
+      "despeckle_after": 7825,
+      "denoise_info": null
+    },
+    "POSE_TRANSFER_NIK_TACTICAL_V1": {
+      "master_path": "assets/derived/POSE_TRANSFER_NIK_TACTICAL_V1_INTAKE.png",
+      "exports": [
+        {
+          "path": "assets/derived/POSE_TRANSFER_NIK_TACTICAL_V1_MASTER.png",
+          "bytes": 1917832,
+          "sha256": "a15c8b008fedff1fec6e0c905dd15e8a35c40790abbf2c359f04c7bec8ec7122"
+        },
+        {
+          "path": "assets/derived/POSE_TRANSFER_NIK_TACTICAL_V1.webp",
+          "bytes": 224150,
+          "sha256": "c3e542858676d6dbd1f23759c94a236b8d3bef474d6dfdf617d468d9c476ac78"
+        },
+        {
+          "path": "assets/derived/POSE_TRANSFER_NIK_TACTICAL_V1.avif",
+          "bytes": 211350,
+          "sha256": "e228b623a8f7f9ce9d7feafb69f3f55ee79835d5c6578b91c73ccc7db95f99df"
+        }
+      ],
+      "halo_ratio_before": 2.8372,
+      "halo_ratio_after": 2.6595,
+      "despeckle_before": 27446,
+      "despeckle_after": 8407,
+      "denoise_info": null
+    },
+    "POSE_TR2_DANIEL_WINDOW_PITCH_V1": {
+      "master_path": "assets/derived/POSE_TR2_DANIEL_WINDOW_PITCH_V1_INTAKE.png",
+      "exports": [
+        {
+          "path": "assets/derived/POSE_TR2_DANIEL_WINDOW_PITCH_V1_MASTER.png",
+          "bytes": 2388661,
+          "sha256": "1188c2c7ff979c866556ff33342b1c3e4b454f1680aabafbb56600c027b19fac"
+        },
+        {
+          "path": "assets/derived/POSE_TR2_DANIEL_WINDOW_PITCH_V1.webp",
+          "bytes": 199748,
+          "sha256": "9aa5de9353a7d3263fff4319b21c20f76e4e0a33d97e143f78a4bf607f9122e5"
+        },
+        {
+          "path": "assets/derived/POSE_TR2_DANIEL_WINDOW_PITCH_V1.avif",
+          "bytes": 191549,
+          "sha256": "c0d82d6a77362a399affcf97bea45040157e1dfc1dbd89d6fd5a4cc143ccdce8"
+        }
+      ],
+      "halo_ratio_before": 2.6842,
+      "halo_ratio_after": 2.6329,
+      "despeckle_before": 17995,
+      "despeckle_after": 9255,
+      "denoise_info": null
+    },
+    "POSE_TR2_NIK_WINDOW_POINT_V1": {
+      "master_path": "assets/derived/POSE_TR2_NIK_WINDOW_POINT_V1_INTAKE.png",
+      "exports": [
+        {
+          "path": "assets/derived/POSE_TR2_NIK_WINDOW_POINT_V1_MASTER.png",
+          "bytes": 2501410,
+          "sha256": "7e9886121ce1426c82b2832d79f1e92c9a341c3e5b05381832012991f6dd8c4b"
+        },
+        {
+          "path": "assets/derived/POSE_TR2_NIK_WINDOW_POINT_V1.webp",
+          "bytes": 241362,
+          "sha256": "b302f3d4afe6af7c8ec536a8047647ceba027233dce125aeb1c51cbb37bbe41c"
+        },
+        {
+          "path": "assets/derived/POSE_TR2_NIK_WINDOW_POINT_V1.avif",
+          "bytes": 212897,
+          "sha256": "07d48626176bb5b43b7dfddd281e7419aa4a6f5db33dcfa42774525e3a160b8d"
+        }
+      ],
+      "halo_ratio_before": 2.329,
+      "halo_ratio_after": 2.3006,
+      "despeckle_before": 13887,
+      "despeckle_after": 8149,
+      "denoise_info": {
+        "path": "assets/derived/POSE_TR2_NIK_WINDOW_POINT_V1_DENOISE_CANDIDATE.png",
+        "params": {
+          "mask_polygon_src_px": [
+            [
+              396.0,
+              105.0
+            ],
+            [
+              594.0,
+              105.0
+            ],
+            [
+              585.0,
+              425.0
+            ],
+            [
+              405.0,
+              425.0
+            ]
+          ],
+          "h": 3,
+          "hColor": 3,
+          "template": 7,
+          "search": 21,
+          "blend": 0.6
+        }
+      }
+    }
+  },
+  "log": [
+    "== P1/Q1: verifying source hashes ==",
+    "  OK ENV_TR2_WARROOM_PLATE_V1.png 224a674659c853834d48e92411ffec5325b3c70c6e34f1d4e779a820128b15bb",
+    "  OK POSE_TRANSFER_DANIEL_FOCUSED_V1.png 8c9cde1e4ef118d57ca9b1b6dacc7429bb70494e5f8ebce853ed7f46036b2c49",
+    "  OK POSE_TRANSFER_NIK_TACTICAL_V1.png 92c40b1290b06945122ba442bb0368c8025cc20b39e494c3d69926396b8488f5",
+    "  OK POSE_TR2_DANIEL_WINDOW_PITCH_V1.png e606f640fcc0fceb57991c585e59d0366dc955dd83ebba1b14cddb5d9b397d2e",
+    "  OK POSE_TR2_NIK_WINDOW_POINT_V1.png ea7d465e70488045a1ebdaf431ecd6db205a89c5b2439a32f942f1c08e6c77ac",
+    "Q6: poses are not upscaled in CP1 per brief; source head heights (~375-400px measured) already exceed the largest DPR2 head target (~375px), so no CP1-A-POSERES issue is raised.",
+    "\n### PLATE PIPELINE (A2) ###",
+    "== P2: removing corner mark ==",
+    "== P3: upscaling plate x2 ==",
+    "ISSUE CP1-A-UPSCALE: Real-ESRGAN (x2plus or x4plus) was not installable/runnable in this sandboxed build (no GPU, no reachable pretrained-weight source). Used Lanczos x2 plus unsharp mask (radius 1.0, amount 40%) per the brief's stated fallback (c).",
+    "  saved master /home/user/fifa17-career-showdown2/visual-assets/v10_1/tr2/slice-01/assets/derived/ENV_TR2_WARROOM_PLATE_V1_MASTER.png (3344, 1882) sha256=2ef694beb09904ef3c55e74acdac832a482a271a84c4c3380cb0e8397ec9cea9",
+    "== P5/Q7: exporting page pyramid for ENV_TR2_WARROOM_PLATE_V1 ==",
+    "  ENV_TR2_WARROOM_PLATE_V1_3344.webp: 417070 bytes sha256=f0b388259e68",
+    "  ENV_TR2_WARROOM_PLATE_V1_3344.avif: 278351 bytes sha256=786c30b7c86d",
+    "  ENV_TR2_WARROOM_PLATE_V1_1672.webp: 195816 bytes sha256=4c7f2a4e09e3",
+    "  ENV_TR2_WARROOM_PLATE_V1_1672.avif: 127379 bytes sha256=a8ff0ac617b2",
+    "== P6: writing plate map ==",
+    "  saved /home/user/fifa17-career-showdown2/visual-assets/v10_1/tr2/slice-01/assets/derived/ENV_TR2_WARROOM_PLATEMAP_V1.json",
+    "== P7: building table cutout ==",
+    "  saved /home/user/fifa17-career-showdown2/visual-assets/v10_1/tr2/slice-01/assets/derived/ENV_TR2_WARROOM_TABLEMASK_V1.png",
+    "  saved /home/user/fifa17-career-showdown2/visual-assets/v10_1/tr2/slice-01/assets/derived/ENV_TR2_WARROOM_TABLEMASK_V1.webp (157624 bytes), /home/user/fifa17-career-showdown2/visual-assets/v10_1/tr2/slice-01/assets/derived/ENV_TR2_WARROOM_TABLEMASK_V1.avif (280246 bytes)",
+    "== P8: building cue light-rig masks ==",
+    "  saved /home/user/fifa17-career-showdown2/visual-assets/v10_1/tr2/slice-01/assets/derived/LIGHTRIG_GLASS.png ((1672, 941))",
+    "  saved /home/user/fifa17-career-showdown2/visual-assets/v10_1/tr2/slice-01/assets/derived/LIGHTRIG_TACTICS.png ((1672, 941))",
+    "  saved /home/user/fifa17-career-showdown2/visual-assets/v10_1/tr2/slice-01/assets/derived/LIGHTRIG_SIGNFACE.png ((1672, 941))",
+    "== P9: building blurred plate fallback ==",
+    "  saved /home/user/fifa17-career-showdown2/visual-assets/v10_1/tr2/slice-01/assets/derived/ENV_TR2_PLATE_BLUR_V1.png",
+    "\n### POSE PIPELINE (A3) for POSE_TRANSFER_DANIEL_FOCUSED_V1 ###",
+    "  Q2 alpha remap: 248-254 -> 255",
+    "    remapped 945151 px",
+    "  Q3 despeckle",
+    "    faint nonzero (0<alpha<16) before=20585 zeroed=12760 remaining_after=7825",
+    "  Q4 edge erosion + halo ratio",
+    "    halo ratio before=3.166 after=2.992 extra_erosion=True",
+    "  Q5 edge colour decontamination",
+    "  saved /home/user/fifa17-career-showdown2/visual-assets/v10_1/tr2/slice-01/assets/derived/POSE_TRANSFER_DANIEL_FOCUSED_V1_INTAKE.png",
+    "  Q7 export POSE_TRANSFER_DANIEL_FOCUSED_V1",
+    "  saved /home/user/fifa17-career-showdown2/visual-assets/v10_1/tr2/slice-01/assets/derived/POSEMAP_POSE_TRANSFER_DANIEL_FOCUSED_V1.json",
+    "\n### POSE PIPELINE (A3) for POSE_TRANSFER_NIK_TACTICAL_V1 ###",
+    "  Q2 alpha remap: 248-254 -> 255",
+    "    remapped 952624 px",
+    "  Q3 despeckle",
+    "    faint nonzero (0<alpha<16) before=27446 zeroed=19039 remaining_after=8407",
+    "  Q4 edge erosion + halo ratio",
+    "    halo ratio before=2.837 after=2.660 extra_erosion=True",
+    "  Q5 edge colour decontamination",
+    "  saved /home/user/fifa17-career-showdown2/visual-assets/v10_1/tr2/slice-01/assets/derived/POSE_TRANSFER_NIK_TACTICAL_V1_INTAKE.png",
+    "  Q7 export POSE_TRANSFER_NIK_TACTICAL_V1",
+    "  saved /home/user/fifa17-career-showdown2/visual-assets/v10_1/tr2/slice-01/assets/derived/POSEMAP_POSE_TRANSFER_NIK_TACTICAL_V1.json",
+    "\n### POSE PIPELINE (A3) for POSE_TR2_DANIEL_WINDOW_PITCH_V1 ###",
+    "  Q2 alpha remap: 248-254 -> 255",
+    "    remapped 985911 px",
+    "  Q3 despeckle",
+    "    faint nonzero (0<alpha<16) before=17995 zeroed=8740 remaining_after=9255",
+    "  Q4 edge erosion + halo ratio",
+    "    halo ratio before=2.684 after=2.633 extra_erosion=True",
+    "  Q5 edge colour decontamination",
+    "  saved /home/user/fifa17-career-showdown2/visual-assets/v10_1/tr2/slice-01/assets/derived/POSE_TR2_DANIEL_WINDOW_PITCH_V1_INTAKE.png",
+    "  Q7 export POSE_TR2_DANIEL_WINDOW_PITCH_V1",
+    "  saved /home/user/fifa17-career-showdown2/visual-assets/v10_1/tr2/slice-01/assets/derived/POSEMAP_POSE_TR2_DANIEL_WINDOW_PITCH_V1.json",
+    "\n### POSE PIPELINE (A3) for POSE_TR2_NIK_WINDOW_POINT_V1 ###",
+    "  Q2 alpha remap: 248-254 -> 255",
+    "    remapped 1036120 px",
+    "  Q3 despeckle",
+    "    faint nonzero (0<alpha<16) before=13887 zeroed=5738 remaining_after=8149",
+    "  Q4 edge erosion + halo ratio",
+    "    halo ratio before=2.329 after=2.301 extra_erosion=True",
+    "  Q5 edge colour decontamination",
+    "  saved /home/user/fifa17-career-showdown2/visual-assets/v10_1/tr2/slice-01/assets/derived/POSE_TR2_NIK_WINDOW_POINT_V1_INTAKE.png",
+    "  Q7 export POSE_TR2_NIK_WINDOW_POINT_V1",
+    "  saved /home/user/fifa17-career-showdown2/visual-assets/v10_1/tr2/slice-01/assets/derived/POSEMAP_POSE_TR2_NIK_WINDOW_POINT_V1.json",
+    "  A4 building Nik skin denoise candidate",
+    "    saved /home/user/fifa17-career-showdown2/visual-assets/v10_1/tr2/slice-01/assets/derived/POSE_TR2_NIK_WINDOW_POINT_V1_DENOISE_CANDIDATE.png",
+    "\nWrote manifest with 11 entries to /home/user/fifa17-career-showdown2/visual-assets/v10_1/tr2/slice-01/assets/manifest.json"
+  ]
+}

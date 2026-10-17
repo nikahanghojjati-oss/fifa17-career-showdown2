@@ -15,6 +15,8 @@
       await seasonCommit;
       await prepare([
         ["ssjr-shared-setup-catalog","js/sharedShowdownCatalog.js","CareerModeSharedShowdownCatalog"],
+        ["ssjr-shared-setup-protocol","js/sharedShowdownSetup.js","CareerModeSharedShowdownSetup"],
+        ["ssjr-season-results-protocol","js/sharedSeasonResults.js","CareerModeSharedSeasonResults"],
         ["ssjr-season-commit-protocol","js/sharedSeasonCommit.js","CareerModeSharedSeasonCommit"],
         ["ssjr-season-commit-provider","js/sparkSharedSeasonCommit.js","CareerModeSparkSharedSeasonCommit"],
         ["ssjr-canonical-scoring-protocol","js/sharedCanonicalScoring.js","CareerModeSharedCanonicalScoring"],

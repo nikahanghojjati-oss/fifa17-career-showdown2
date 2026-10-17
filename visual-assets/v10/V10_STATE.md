@@ -8,8 +8,8 @@ SOURCE_DRIFT: NO
 Owner / final taste authority: Nik
 Lead Visual Producer + Visual Coordinator: Claude Opus 5.5 in Claude Project
 Program Coordinator / Product-Truth Guard / Repo Steward: GPT-5.6 Sol
-Default implementation worker: Claude Opus 5.5 in Claude Project chat
-Cloud contingency worker: Claude Code Cloud Opus 5.5, Nik-approved per use
+Default implementation worker: Claude Code Cloud Sonnet 5
+First-of-kind architecture / rescue worker: Claude Code Cloud Opus 5.5
 Cinematic specialist: GPT-6 Astra High
 Integration architecture specialist: GPT-6 Sol High Work
 Runtime QA: Claude in Chrome
@@ -17,7 +17,7 @@ Runtime QA: Claude in Chrome
 ## Active visual authority
 
 Routing:
-visual-assets/v10_1/coordination/STUDIO_WORKFLOW_AND_ROUTING_V4_LEAN.md
+visual-assets/v10_1/coordination/STUDIO_WORKFLOW_AND_ROUTING_V2.md
 
 Likeness imagery:
 visual-assets/v10_1/coordination/LIKENESS_IMAGE_WORKFLOW_V1.md
@@ -31,7 +31,6 @@ visual-assets/v10_1/claude-project/CLAUDE_PROJECT_INSTRUCTIONS_V2.md
 Coordinator decisions:
 visual-assets/v10_1/coordination/SOL_RECONCILIATION_VPD02_VPD03_2026-09-27.md
 visual-assets/v10_1/coordination/SOL_RECONCILIATION_GATE0_R1_R2_2026-09-27.md
-visual-assets/v10_1/coordination/SOL_RECONCILIATION_CP1_BRIEF_R4_2026-09-27.md
 
 ## Transfer direction
 
@@ -47,117 +46,72 @@ Owner accepted:
 
 Old C2 technical proof remains rejected as visual target.
 
-## Gate 0
+## Gate 0 — final status
 
 ROUND 2 COMPLETE. GATE 0 PASSED.
 
 All five Transfer Gate 0 assets are approved:
-- ENV_TR2_WARROOM_PLATE_V1;
-- POSE_TRANSFER_DANIEL_FOCUSED_V1;
-- POSE_TRANSFER_NIK_TACTICAL_V1;
-- POSE_TR2_DANIEL_WINDOW_PITCH_V1;
-- POSE_TR2_NIK_WINDOW_POINT_V1.
 
-Gate 0 blockers: NONE.
+Approved with CP1 intake fixes:
+- `ENV_TR2_WARROOM_PLATE_V1`;
+- `POSE_TR2_DANIEL_WINDOW_PITCH_V1`;
+- `POSE_TR2_NIK_WINDOW_POINT_V1`.
 
-## CP1
+Approved by reuse:
+- `POSE_TRANSFER_DANIEL_FOCUSED_V1` for Guess Entry;
+- `POSE_TRANSFER_NIK_TACTICAL_V1` for Guess Entry.
 
-CP1 brief status: PRODUCT-TRUTH SIGNED.
+Current blockers: NONE.
 
-Canonical brief:
-visual-assets/v10_1/tr2/CP1_CLOUD_BUILD_BRIEF_TR2_SLICE01.md
-
-Task:
-CLOUD-TR2-01-CP1
-
-Task branch:
-claude-cloud/transfer-tr2-slice-01
-
-Branch-creation base:
-491a27db6ba476741eca0232d0574f89e0e42222
-
-Task branch post-pointer-resolution head:
-ab36d9bcef58775c1fc1fb525997f8ec70d0cc69
-
-The CP1 Cloud build completed. Frozen review head: `646e227aa71cd5d712c791e6436ece103a2e2dfd`. Sol product-truth and branch-safety validation passed with review notes in `visual-assets/v10_1/coordination/SOL_CP1_BUILD_CHECK_2026-09-27.md`.
-
-CP1 scope:
-- asset intake;
-- five static frames F1–F5;
-- two plate-only cue stills S1–S2;
-- evidence and self-QA;
-- CLOUD_BUILD_RESULT.md.
-
-CP1 stop:
-- no motion;
-- no transitions;
-- no Stage Engine;
-- no production integration;
-- no PR;
-- no merge;
-- main and production files untouched.
-
-Expected asset zip:
-TR2_CP1_ASSETS.zip
-SHA-256: 1e38367cfc4a170b47ae133bd7aa838b4b1b3b061703d70ec7fe8b5a059b2454
-
-Public-repo note:
-the CP1 brief instructs Cloud to commit the five approved source images under the task branch. The Window poses will therefore become public in the same public repository if the Cloud run proceeds.
+CP1 intake requirements:
+- environment plate: remove corner mark and perform approved upscale;
+- Window poses: remap alpha 248–254 to 255;
+- Window poses: erode 1–2 px and decontaminate warm edge fringe;
+- Nik Window pose: judge skin crackle at CP1 display size; light skin-only denoise only if visible.
 
 ## Likeness method
 
-LIKENESS_IMAGE_WORKFLOW_V1.md remains STANDARD.
+`LIKENESS_IMAGE_WORKFLOW_V1.md` is STANDARD.
 
 Golden anchors remain:
-- Daniel: POSE_TRANSFER_DANIEL_FOCUSED_V1.png;
-- Nik: POSE_TRANSFER_NIK_TACTICAL_V1.png.
+- Daniel: `POSE_TRANSFER_DANIEL_FOCUSED_V1.png`;
+- Nik: `POSE_TRANSFER_NIK_TACTICAL_V1.png`.
 
-The Window poses are approved assets, not golden anchors.
+The approved Window poses are not golden anchors.
+
+## CP1
+
+CP1 is UNBLOCKED FROM GATE 0, but implementation has not started.
+
+Do not create `claude-cloud/transfer-tr2-slice-01` until Claude issues the final CP1 `CLOUD_BUILD_BRIEF` with the intake manifest.
+
+Next authority handoff: Nik opens a fresh Claude Project chat, Opus 5.5 High, and asks for `CP1 brief`. No image attachments are required because Gate 0 R2 already records the approved asset IDs and hashes.
 
 ## Main-project Cloud-credit reserve
 
 Keep a meaningful Cloud-credit reserve for main-game readiness / E2E testing.
 
+## Transfer War · Plate G (Sol decisions TW-PLATE-G R2, 2026-09-28)
 
-## CP1P premium reconciliation
+Decision record: `visual-assets/v10_1/coordination/SOL_DECISIONS_TO_CLAUDE_TW_PLATE_G_R2_2026-09-28.md`.
 
-Frozen CP1 candidate:
-`claude-cloud/transfer-tr2-slice-01 @ 646e227aa71cd5d712c791e6436ece103a2e2dfd`
+- Accepted Claude working head: `claude-cloud/transfer-tr2-plate-g @ 03003c2` (R1 history point `f2125a5`). No merge is authorised.
+- Likeness (TWG-S1): an owner-accepted edited image is the likeness authority for its locked plate. Restoring against an earlier source applies only to edits that are not owner-accepted, or when Nik asks. See LIKENESS_IMAGE_WORKFLOW_V1 Part F.
+- Asset ledger (TWG-S2): every approved image used by the visual system has a repo path and SHA-256 in `visual-assets/v10_1/tr2/ASSET_LEDGER.md`. Once an asset is in the ledger and verified, it is never requested from Nik again, unless the hash is missing, the file is corrupt, or Nik supplies a replacement himself.
+- Environmental sign exception (TWG-S7): read-only live content on a painted in-world sign may be rotated to match the board (Plate G: ≈7.5°). Form fields, buttons and any interactive text stay screen-aligned.
+- F1 rival privacy (TWG-S10): during the Transfer Window the non-viewer panel shows the same constant sealed frost + CM17 seal as Guess Entry, with no live rival data and no state-dependent variation (text length, controls, glow, animation, loading state or geometry).
+- Desktop exception (TWG-S6): 31 px controls at 1366×768 on Plate G are accepted; do not go lower. Mobile keeps 44 px targets and 16 px inputs.
 
-Lead Visual Producer CP1 verdict: **REVISE**.
+## Owner decisions (Nik, 2026-09-28 09:27 ET)
 
-CP1R visual treatment is superseded by:
-`visual-assets/v10_1/tr2/CP1P_CLOUD_REVISE_BRIEF_TR2_SLICE01.md`
+1. **No player photos for now.** Signings and verdicts show no player pictures. Real-player imagery is too slow and too inconsistent to reach a good result. `PLAYER_IMAGERY_POLICY_V2` is suspended until Nik reopens it. Player names, leagues and nationalities stay live DOM text; nothing is baked into images.
+2. **Model roles:**
+   - Claude (Claude Project + Claude Code) owns visual direction, builds, QA of visual builds and handoffs.
+   - ChatGPT is used only as:
+     - (a) coordinator: GPT-5.6 Sol in chat, for product truth, branches and state;
+     - (b) Codex code review when a change needs one; visual prototypes normally don't;
+     - (c) QA on the main project's QA branch `project/showdown-qa-reliability`.
+   - ChatGPT Work mode (Sol / GPT-6 Sol / Astra) is no longer routed visual tasks: no task cards, no gate pre-checks.
 
-CP1P product-truth status: **SIGNED by GPT-5.6 Sol on 2026-09-27**.
-
-Sol decisions:
-- PT1 APPROVED: rival side uses the wax seal only; no padlock or other lock-state implication.
-- PT2 APPROVED: F5 removes the separate rival dossier row and embeds `DANIEL · SEALED` inside the scene strip; presentation only.
-- PT3 APPROVED: exactly three identical blank folio tabs are constant decorative structure, never rival progress/state.
-- PT4 APPROVED: viewer identity becomes the workstation pane tab; rival identity becomes the desk plaque beside the sealed folio; `YOU`, `SEALED` and `PRIVATE` retain their existing meaning.
-
-LEAN V4 execution scope:
-- DO: B0, M2, M3, M5, M4, P1, P2, P3, P4, P5, R3, A1.
-- DROP: A2 hair-rim pass and P6 contact shadows.
-- One fresh Claude Project chat, Opus 5.5 High, $0 Cloud credit.
-- Evidence: max four DPR1 screenshots (key desktop, alternate state, mobile, blur) plus QA JSON.
-- Sol product-truth checks and commits after return.
-- No Stage Engine, no PR, no merge, no main changes.
-
-## Active owner visual north star
-
-`visual-assets/v10_1/coordination/OWNER_VISUAL_NORTH_STAR_PREMIUM_TRANSFER_V1.md`
-
-Transfer must move away from generic rectangular card/dashboard presentation toward an integrated football operations desk: smoked glass, graphite, brass, stadium light, layered depth, asymmetry, physically grounded task surfaces and a premium sealed-rival metaphor with zero rival-private data.
-
-## Visual Cloud-credit ledger
-
-Approximate remaining credit at LEAN V4 reset: **$78**.
-Main-project reserve: **$43–50**.
-All remaining visual Cloud work: **target $30, hard stop $35**.
-Claude Project is the default builder, so expected additional visual Cloud spend is **$0–10** unless a contingency is approved.
-
-## Next action
-
-Run the signed CP1P build in a fresh Claude Project chat on Opus 5.5 High from the frozen task-branch candidate. After return, Sol checks product truth and branch safety, commits the accepted changes, and Nik performs the owner look. One focused correction round is allowed if needed.
+## Transfer War · current head
+`claude-cloud/transfer-tr2-plate-g`: F1 Transfer Window + Guess Entry built for desktop and phone (phone fits one screen, both managers whole), QA 37/37. **Owner look PASSED 2026-09-28** at `d5e45d4`. See `visual-assets/v10_1/tr2/slice-02-plate/BUILD_RESULT.md` R3–R3.2. No merge authorised. Next: Signing Entry + Verdicts (text-only), after Sol issues the string deck.

@@ -1,3 +1,9 @@
+# Showdown Factory (branch factory/v1-wtt5ye)
+
+If the user's whole message is a number N (or "job N"), you are a factory worker: open `project-documents/factory/FACTORY_RULES.md` and follow the rules inside its box exactly, then do `project-documents/factory/jobs/JOB-NNN.md` (N with three digits). Codex is the reviewer for job 108; for any other number, do it only if the user asked you to. Factory work stays on branch `factory/v1-wtt5ye`, never on main. The POS20 authority below still governs any change meant for main.
+
+---
+
 # Career Mode Showdown agent authority
 
 POS20 is the active project operating system after its activation PR merges. Start with `PROJECT_OPERATING_SYSTEM_POS20.json`, `PROJECT_OPERATING_SYSTEM_POS20.md`, `POS20_CURRENT_STATE.json`, `CURRENT_PRODUCT_GUARDS.json`, `NEXT_TASK.md`, `SHARED_SHOWDOWN_JOURNEY_READINESS.json`, and `MILESTONE_DELIVERY_PROGRESS.json`.
@@ -13,5 +19,7 @@ Handoff proximity and estimated focused sessions are retired as project-progress
 POS20 may escalate proof but never reduce any deterministic test or heavy proof selected by the POS10 kernel. Candidate mutation freezes during pending validation. Merge requires one exact head, clean review state, the POS20 benchmark, the POS20 exact-head seal and expected-head protection.
 
 Billing permanently OFF; Firebase Spark only; no Blaze, Cloud Billing linkage, Cloud Run or Cloud Functions. App Check enforcement OFF. Firestore memory-only. Google Auth popup-only browserSessionPersistence without extra scopes. Exactly two private managers; pairing plus exact ACTIVE before league/club authority. Candidate C alone owns destructive remote-to-local Apply with exact rollback. Preserve canonical storage and private scope.
+
+SSJR-2.1 (`SHARED_SHOWDOWN_JOURNEY_MODEL_SSJR2.json`, ledger `SHARED_SHOWDOWN_JOURNEY_READINESS_SSJR2.json`, owner authority `authority-history/OWNER_SSJR21_ONE_LONGER_RUN_AUTHORIZATION_2026-09-29.md`) is the active SSJR reporting model: unchanged SSJR-1.1 capabilities/weights/dependencies, credited only by `scripts/ssjr2-physical-run-credit.mjs` from one validated two-device production Physical Journey pair plus Nik's hash-bound owner attestation, with the automated suites verified live against GitHub on the credited production main. From runtime r51 the recorder captures every season, so one validated 3-season run can prove 100/100 (multi-season needs at least 2 confirmed seasons). SSJR-2.0 (`authority-history/SHARED_SHOWDOWN_JOURNEY_MODEL_SSJR2_0.json`) and SSJR-1.1 stay frozen for history. Run guide: `SSJR2_PHYSICAL_RUN_GUIDE.md`.
 
 POS20 process work earns zero SSJR and zero MDP credit. Once POS20 is active, resume the highest-value unfinished Shared Showdown Journey product dependency from live evidence.

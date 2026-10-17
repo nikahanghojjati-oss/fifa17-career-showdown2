@@ -1,0 +1,45 @@
+LEAGUE 393x852: FAIL
+  - Nik's face 20% under <div#leagueWheel class="leagueWheel"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Nik's face 20% under <div class="wheelTrack"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Daniel's face 19% under <div#leagueWheel class="leagueWheel"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Daniel's face 19% under <div class="wheelTrack"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+LEAGUE 393x660: FAIL
+  - Nik's face 7% under <div#leagueWheel class="leagueWheel"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Nik's face 7% under <div class="wheelTrack"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Daniel's face 6% under <div#leagueWheel class="leagueWheel"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Daniel's face 6% under <div class="wheelTrack"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  note: with the tool's centred placement (not how the plate is drawn) also Daniel 5% under <h2 class="">; Nik 5% under <h2 class="">
+LEAGUE 375x667: FAIL
+  - Daniel's face 4% under <div#leagueWheel class="leagueWheel"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Nik's face 4% under <div#leagueWheel class="leagueWheel"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Daniel's face 4% under <div class="wheelTrack"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Nik's face 4% under <div class="wheelTrack"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+LEAGUE 360x640: FAIL
+  - Daniel's face 1% under <div#leagueWheel class="leagueWheel"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Daniel's face 1% under <div class="wheelTrack"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+STANDINGS 393x852: OK
+STANDINGS 393x660: OK
+STANDINGS 375x667: OK
+STANDINGS 360x640: OK
+RIVALRY 393x852: FAIL
+  - Daniel's face 100% under <img class="rv-adoptedPhoneStadium"> 
+  - Nik's face 100% under <img class="rv-adoptedPhoneStadium"> 
+RIVALRY 393x660: FAIL
+  - Daniel's face 100% under <img class="rv-adoptedPhoneStadium"> 
+  - Nik's face 100% under <img class="rv-adoptedPhoneStadium"> 
+RIVALRY 375x667: FAIL
+  - Daniel's face 100% under <img class="rv-adoptedPhoneStadium"> 
+  - Nik's face 100% under <img class="rv-adoptedPhoneStadium"> 
+RIVALRY 360x640: FAIL
+  - Daniel's face 100% under <img class="rv-adoptedPhoneStadium"> 
+  - Nik's face 100% under <img class="rv-adoptedPhoneStadium"> 
+TROPHY_ROOM 393x852: FAIL
+  - FADED/CUT manager: <div class="heroSpotlight"> filter blur(3px)
+TROPHY_ROOM 393x660: FAIL
+  - FADED/CUT manager: <div class="heroSpotlight"> filter blur(3px)
+  note: with the tool's centred placement (not how the plate is drawn) also Nik 10% under <p class="sd-tagline trophyTagline">
+TROPHY_ROOM 375x667: FAIL
+  - FADED/CUT manager: <div class="heroSpotlight"> filter blur(3px)
+TROPHY_ROOM 360x640: FAIL
+  - FADED/CUT manager: <div class="heroSpotlight"> filter blur(3px)
+phone marble face check: FAIL (LEAGUE, RIVALRY, TROPHY_ROOM)

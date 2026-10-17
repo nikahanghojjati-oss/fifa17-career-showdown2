@@ -1,0 +1,560 @@
+{
+  "schema": "cms-data-contract-v1-fixture",
+  "contractVersion": "1.0",
+  "scenario": "loading",
+  "summary": "The pair provider is still starting: every screen is loading.",
+  "generator": "tests/support/data-contract-v1-fixtures.cjs",
+  "checkSource": [],
+  "career": {
+    "status": "loading",
+    "interimLabel": null,
+    "coverage": {
+      "readable": null,
+      "indexed": null
+    },
+    "managers": {
+      "daniel": {
+        "careerPoints": null,
+        "seasons": null,
+        "seasonWins": null,
+        "seasonDraws": null,
+        "seasonLosses": null,
+        "championsLeagues": null,
+        "leagueTitles": null,
+        "domesticCups": null,
+        "totalTrophies": null,
+        "hundredPointSeasons": null,
+        "hundredGoalSeasons": null,
+        "topScorerSeasons": null,
+        "topAssistSeasons": null,
+        "perfectSeasons": null,
+        "performanceBonuses": null,
+        "awardsBonuses": null,
+        "bestSeasonScore": null,
+        "bestLeaguePoints": null,
+        "bestLeagueGoals": null,
+        "bestLeaguePosition": null,
+        "averageSeasonScore": null,
+        "averageLeaguePoints": null,
+        "averageLeagueGoals": null,
+        "showdowns": {
+          "completed": null,
+          "wins": null,
+          "draws": null,
+          "losses": null
+        }
+      },
+      "nik": {
+        "careerPoints": null,
+        "seasons": null,
+        "seasonWins": null,
+        "seasonDraws": null,
+        "seasonLosses": null,
+        "championsLeagues": null,
+        "leagueTitles": null,
+        "domesticCups": null,
+        "totalTrophies": null,
+        "hundredPointSeasons": null,
+        "hundredGoalSeasons": null,
+        "topScorerSeasons": null,
+        "topAssistSeasons": null,
+        "perfectSeasons": null,
+        "performanceBonuses": null,
+        "awardsBonuses": null,
+        "bestSeasonScore": null,
+        "bestLeaguePoints": null,
+        "bestLeagueGoals": null,
+        "bestLeaguePosition": null,
+        "averageSeasonScore": null,
+        "averageLeaguePoints": null,
+        "averageLeagueGoals": null,
+        "showdowns": {
+          "completed": null,
+          "wins": null,
+          "draws": null,
+          "losses": null
+        }
+      }
+    },
+    "biggestShowdownWin": null,
+    "trophyRoom": {
+      "cabinet": {
+        "daniel": {
+          "championsLeagues": null,
+          "leagueTitles": null,
+          "domesticCups": null,
+          "totalTrophies": null
+        },
+        "nik": {
+          "championsLeagues": null,
+          "leagueTitles": null,
+          "domesticCups": null,
+          "totalTrophies": null
+        }
+      },
+      "standings": [],
+      "records": []
+    },
+    "history": {
+      "showdowns": []
+    }
+  },
+  "careerInterim": {
+    "status": "loading",
+    "interimLabel": "Current Showdown only. Career history is not yet available.",
+    "coverage": {
+      "readable": null,
+      "indexed": null
+    },
+    "managers": {
+      "daniel": {
+        "careerPoints": null,
+        "seasons": null,
+        "seasonWins": null,
+        "seasonDraws": null,
+        "seasonLosses": null,
+        "championsLeagues": null,
+        "leagueTitles": null,
+        "domesticCups": null,
+        "totalTrophies": null,
+        "hundredPointSeasons": null,
+        "hundredGoalSeasons": null,
+        "topScorerSeasons": null,
+        "topAssistSeasons": null,
+        "perfectSeasons": null,
+        "performanceBonuses": null,
+        "awardsBonuses": null,
+        "bestSeasonScore": null,
+        "bestLeaguePoints": null,
+        "bestLeagueGoals": null,
+        "bestLeaguePosition": null,
+        "averageSeasonScore": null,
+        "averageLeaguePoints": null,
+        "averageLeagueGoals": null,
+        "showdowns": {
+          "completed": null,
+          "wins": null,
+          "draws": null,
+          "losses": null
+        }
+      },
+      "nik": {
+        "careerPoints": null,
+        "seasons": null,
+        "seasonWins": null,
+        "seasonDraws": null,
+        "seasonLosses": null,
+        "championsLeagues": null,
+        "leagueTitles": null,
+        "domesticCups": null,
+        "totalTrophies": null,
+        "hundredPointSeasons": null,
+        "hundredGoalSeasons": null,
+        "topScorerSeasons": null,
+        "topAssistSeasons": null,
+        "perfectSeasons": null,
+        "performanceBonuses": null,
+        "awardsBonuses": null,
+        "bestSeasonScore": null,
+        "bestLeaguePoints": null,
+        "bestLeagueGoals": null,
+        "bestLeaguePosition": null,
+        "averageSeasonScore": null,
+        "averageLeaguePoints": null,
+        "averageLeagueGoals": null,
+        "showdowns": {
+          "completed": null,
+          "wins": null,
+          "draws": null,
+          "losses": null
+        }
+      }
+    },
+    "biggestShowdownWin": null,
+    "trophyRoom": {
+      "cabinet": {
+        "daniel": {
+          "championsLeagues": null,
+          "leagueTitles": null,
+          "domesticCups": null,
+          "totalTrophies": null
+        },
+        "nik": {
+          "championsLeagues": null,
+          "leagueTitles": null,
+          "domesticCups": null,
+          "totalTrophies": null
+        }
+      },
+      "standings": [],
+      "records": []
+    },
+    "history": {
+      "showdowns": []
+    }
+  },
+  "viewers": {
+    "daniel": {
+      "classification": "loading",
+      "home": {
+        "status": "loading",
+        "viewerRole": "daniel",
+        "continue": {
+          "state": null,
+          "leagueId": null,
+          "clubs": null,
+          "season": null,
+          "totalSeasons": null,
+          "score": null
+        }
+      },
+      "startJoin": {
+        "status": "loading",
+        "viewerRole": "daniel",
+        "busy": false,
+        "pairing": {
+          "state": "none",
+          "code": null,
+          "actions": {
+            "createCode": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "join": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "copyCode": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "newCode": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "checkStatus": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "retry": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            }
+          }
+        },
+        "session": {
+          "state": null,
+          "actions": {
+            "host": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "join": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "refresh": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "revoke": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "close": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "forget": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            }
+          }
+        },
+        "abandonShowdown": {
+          "available": false,
+          "enabled": false,
+          "provider": null,
+          "args": null,
+          "confirm": null,
+          "confirmedByProvider": false
+        },
+        "forgetThisDevice": {
+          "available": true,
+          "enabled": true,
+          "provider": "identity.forgetThisDevice",
+          "args": null,
+          "confirm": "Forget this device? This browser is signed out and must be set up again before it can play. Your Showdowns are not deleted.",
+          "confirmedByProvider": false
+        },
+        "primaryActions": [],
+        "moreActions": []
+      },
+      "seasonResults": {
+        "status": "loading",
+        "season": null,
+        "phase": null,
+        "viewerRole": "daniel",
+        "inputs": {
+          "daniel": null,
+          "nik": null
+        },
+        "breakdown": null,
+        "winner": null,
+        "tiebreak": null
+      },
+      "seasonResultsBySeason": [],
+      "finalWinner": {
+        "status": "loading",
+        "state": null,
+        "totals": null,
+        "winner": null,
+        "margin": null,
+        "seasonsPlayed": null,
+        "trophies": null
+      },
+      "rivalry": {
+        "status": "loading",
+        "leagueId": null,
+        "clubs": null,
+        "season": null,
+        "totalSeasons": null,
+        "score": null,
+        "managers": null,
+        "seasons": [],
+        "transfers": {
+          "status": "unavailable"
+        }
+      }
+    },
+    "nik": {
+      "classification": "loading",
+      "home": {
+        "status": "loading",
+        "viewerRole": "nik",
+        "continue": {
+          "state": null,
+          "leagueId": null,
+          "clubs": null,
+          "season": null,
+          "totalSeasons": null,
+          "score": null
+        }
+      },
+      "startJoin": {
+        "status": "loading",
+        "viewerRole": "nik",
+        "busy": false,
+        "pairing": {
+          "state": "none",
+          "code": null,
+          "actions": {
+            "createCode": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "join": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "copyCode": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "newCode": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "checkStatus": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "retry": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            }
+          }
+        },
+        "session": {
+          "state": null,
+          "actions": {
+            "host": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "join": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "refresh": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "revoke": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "close": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "forget": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            }
+          }
+        },
+        "abandonShowdown": {
+          "available": false,
+          "enabled": false,
+          "provider": null,
+          "args": null,
+          "confirm": null,
+          "confirmedByProvider": false
+        },
+        "forgetThisDevice": {
+          "available": true,
+          "enabled": true,
+          "provider": "identity.forgetThisDevice",
+          "args": null,
+          "confirm": "Forget this device? This browser is signed out and must be set up again before it can play. Your Showdowns are not deleted.",
+          "confirmedByProvider": false
+        },
+        "primaryActions": [],
+        "moreActions": []
+      },
+      "seasonResults": {
+        "status": "loading",
+        "season": null,
+        "phase": null,
+        "viewerRole": "nik",
+        "inputs": {
+          "daniel": null,
+          "nik": null
+        },
+        "breakdown": null,
+        "winner": null,
+        "tiebreak": null
+      },
+      "seasonResultsBySeason": [],
+      "finalWinner": {
+        "status": "loading",
+        "state": null,
+        "totals": null,
+        "winner": null,
+        "margin": null,
+        "seasonsPlayed": null,
+        "trophies": null
+      },
+      "rivalry": {
+        "status": "loading",
+        "leagueId": null,
+        "clubs": null,
+        "season": null,
+        "totalSeasons": null,
+        "score": null,
+        "managers": null,
+        "seasons": [],
+        "transfers": {
+          "status": "unavailable"
+        }
+      }
+    }
+  }
+}

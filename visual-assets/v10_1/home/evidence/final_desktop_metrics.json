@@ -1,0 +1,705 @@
+{
+  "views": [
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "ids": [
+        "continueCareer",
+        "newShowdown",
+        "legacyButton",
+        "careerStatisticsButton",
+        "trophyRoomButton",
+        "ruleBookButton",
+        "settingsButton"
+      ],
+      "labels": [
+        {
+          "id": "continueCareer",
+          "font": 26,
+          "rect": {
+            "left": 32.78125,
+            "top": 596,
+            "right": 345.890625,
+            "bottom": 732,
+            "width": 313.109375,
+            "height": 136
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_CONTINUE_V1.webp"
+        },
+        {
+          "id": "newShowdown",
+          "font": 20,
+          "rect": {
+            "left": 353.890625,
+            "top": 596,
+            "right": 510.4375,
+            "bottom": 732,
+            "width": 156.546875,
+            "height": 136
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_TACTICS_V1.webp"
+        },
+        {
+          "id": "legacyButton",
+          "font": 20,
+          "rect": {
+            "left": 518.4375,
+            "top": 596,
+            "right": 675,
+            "bottom": 732,
+            "width": 156.5625,
+            "height": 136
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_HISTORY_V1.webp"
+        },
+        {
+          "id": "careerStatisticsButton",
+          "font": 20,
+          "rect": {
+            "left": 683,
+            "top": 596,
+            "right": 839.546875,
+            "bottom": 732,
+            "width": 156.546875,
+            "height": 136
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_STATISTICS_V1.webp"
+        },
+        {
+          "id": "trophyRoomButton",
+          "font": 20,
+          "rect": {
+            "left": 847.546875,
+            "top": 596,
+            "right": 1004.109375,
+            "bottom": 732,
+            "width": 156.5625,
+            "height": 136
+          },
+          "inside": true,
+          "art": "../shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp"
+        },
+        {
+          "id": "ruleBookButton",
+          "font": 20,
+          "rect": {
+            "left": 1012.109375,
+            "top": 596,
+            "right": 1168.65625,
+            "bottom": 732,
+            "width": 156.546875,
+            "height": 136
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_RULEBOOK_V1.webp"
+        },
+        {
+          "id": "settingsButton",
+          "font": 20,
+          "rect": {
+            "left": 1176.65625,
+            "top": 596,
+            "right": 1333.21875,
+            "bottom": 732,
+            "width": 156.5625,
+            "height": 136
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_SETTINGS_V1.webp"
+        }
+      ],
+      "overlaps": [],
+      "protectedBoxes": {
+        "face_daniel": {
+          "left": 592.3145933014354,
+          "top": 69.44377990430623,
+          "right": 743.4569377990431,
+          "bottom": 326.79425837320576,
+          "width": 151.14234449760772,
+          "height": 257.35047846889955
+        },
+        "face_nik": {
+          "left": 857.8349282296651,
+          "top": 24.50956937799043,
+          "right": 1062.0813397129186,
+          "bottom": 322.7093301435407,
+          "width": 204.2464114832535,
+          "height": 298.19976076555025
+        },
+        "hand_daniel": {
+          "left": 506.5311004784689,
+          "top": 314.5394736842105,
+          "right": 653.5885167464115,
+          "bottom": 445.25717703349284,
+          "width": 147.05741626794264,
+          "height": 130.71770334928232
+        },
+        "hand_nik": {
+          "left": 955.8732057416269,
+          "top": 241.01076555023923,
+          "right": 1066.1662679425838,
+          "bottom": 383.98325358851673,
+          "width": 110.29306220095691,
+          "height": 142.9724880382775
+        }
+      },
+      "stageScroll": {
+        "w": 1366,
+        "cw": 1366,
+        "h": 768,
+        "ch": 768
+      },
+      "routes": [
+        "continueCareer",
+        "newShowdown",
+        "legacyButton",
+        "careerStatisticsButton",
+        "trophyRoom",
+        "ruleBookButton",
+        "settingsButton"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "viewport": [
+        1440,
+        900
+      ],
+      "ids": [
+        "continueCareer",
+        "newShowdown",
+        "legacyButton",
+        "careerStatisticsButton",
+        "trophyRoomButton",
+        "ruleBookButton",
+        "settingsButton"
+      ],
+      "labels": [
+        {
+          "id": "continueCareer",
+          "font": 26,
+          "rect": {
+            "left": 34.546875,
+            "top": 707,
+            "right": 365.265625,
+            "bottom": 864.5,
+            "width": 330.71875,
+            "height": 157.5
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_CONTINUE_V1.webp"
+        },
+        {
+          "id": "newShowdown",
+          "font": 20,
+          "rect": {
+            "left": 373.265625,
+            "top": 707,
+            "right": 538.625,
+            "bottom": 864.5,
+            "width": 165.359375,
+            "height": 157.5
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_TACTICS_V1.webp"
+        },
+        {
+          "id": "legacyButton",
+          "font": 20,
+          "rect": {
+            "left": 546.625,
+            "top": 707,
+            "right": 712,
+            "bottom": 864.5,
+            "width": 165.375,
+            "height": 157.5
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_HISTORY_V1.webp"
+        },
+        {
+          "id": "careerStatisticsButton",
+          "font": 20,
+          "rect": {
+            "left": 720,
+            "top": 707,
+            "right": 885.359375,
+            "bottom": 864.5,
+            "width": 165.359375,
+            "height": 157.5
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_STATISTICS_V1.webp"
+        },
+        {
+          "id": "trophyRoomButton",
+          "font": 20,
+          "rect": {
+            "left": 893.359375,
+            "top": 707,
+            "right": 1058.71875,
+            "bottom": 864.5,
+            "width": 165.359375,
+            "height": 157.5
+          },
+          "inside": true,
+          "art": "../shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp"
+        },
+        {
+          "id": "ruleBookButton",
+          "font": 20,
+          "rect": {
+            "left": 1066.71875,
+            "top": 707,
+            "right": 1232.078125,
+            "bottom": 864.5,
+            "width": 165.359375,
+            "height": 157.5
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_RULEBOOK_V1.webp"
+        },
+        {
+          "id": "settingsButton",
+          "font": 20,
+          "rect": {
+            "left": 1240.078125,
+            "top": 707,
+            "right": 1405.453125,
+            "bottom": 864.5,
+            "width": 165.375,
+            "height": 157.5
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_SETTINGS_V1.webp"
+        }
+      ],
+      "overlaps": [],
+      "protectedBoxes": {
+        "face_daniel": {
+          "left": 613.836344314559,
+          "top": 81.29649309245484,
+          "right": 790.7757704569607,
+          "bottom": 382.57173219978745,
+          "width": 176.93942614240166,
+          "height": 301.2752391073326
+        },
+        "face_nik": {
+          "left": 924.6758767268864,
+          "top": 28.69287991498406,
+          "right": 1163.7832093517534,
+          "bottom": 377.78958554729013,
+          "width": 239.107332624867,
+          "height": 349.09670563230605
+        },
+        "hand_daniel": {
+          "left": 513.4112646121148,
+          "top": 368.22529224229544,
+          "right": 685.5685441020191,
+          "bottom": 521.2539851222105,
+          "width": 172.15727948990434,
+          "height": 153.028692879915
+        },
+        "hand_nik": {
+          "left": 1039.4473963868227,
+          "top": 282.14665249734327,
+          "right": 1168.5653560042508,
+          "bottom": 449.5217853347503,
+          "width": 129.11795961742814,
+          "height": 167.37513283740702
+        }
+      },
+      "stageScroll": {
+        "w": 1440,
+        "cw": 1440,
+        "h": 900,
+        "ch": 900
+      },
+      "routes": [
+        "continueCareer",
+        "newShowdown",
+        "legacyButton",
+        "careerStatisticsButton",
+        "trophyRoom",
+        "ruleBookButton",
+        "settingsButton"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "ids": [
+        "continueCareer",
+        "newShowdown",
+        "legacyButton",
+        "careerStatisticsButton",
+        "trophyRoomButton",
+        "ruleBookButton",
+        "settingsButton"
+      ],
+      "labels": [
+        {
+          "id": "continueCareer",
+          "font": 26,
+          "rect": {
+            "left": 46.078125,
+            "top": 886,
+            "right": 491.03125,
+            "bottom": 1044,
+            "width": 444.953125,
+            "height": 158
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_CONTINUE_V1.webp"
+        },
+        {
+          "id": "newShowdown",
+          "font": 20,
+          "rect": {
+            "left": 499.03125,
+            "top": 886,
+            "right": 721.515625,
+            "bottom": 1044,
+            "width": 222.484375,
+            "height": 158
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_TACTICS_V1.webp"
+        },
+        {
+          "id": "legacyButton",
+          "font": 20,
+          "rect": {
+            "left": 729.515625,
+            "top": 886,
+            "right": 952,
+            "bottom": 1044,
+            "width": 222.484375,
+            "height": 158
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_HISTORY_V1.webp"
+        },
+        {
+          "id": "careerStatisticsButton",
+          "font": 20,
+          "rect": {
+            "left": 960,
+            "top": 886,
+            "right": 1182.46875,
+            "bottom": 1044,
+            "width": 222.46875,
+            "height": 158
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_STATISTICS_V1.webp"
+        },
+        {
+          "id": "trophyRoomButton",
+          "font": 20,
+          "rect": {
+            "left": 1190.46875,
+            "top": 886,
+            "right": 1412.953125,
+            "bottom": 1044,
+            "width": 222.484375,
+            "height": 158
+          },
+          "inside": true,
+          "art": "../shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp"
+        },
+        {
+          "id": "ruleBookButton",
+          "font": 20,
+          "rect": {
+            "left": 1420.953125,
+            "top": 886,
+            "right": 1643.4375,
+            "bottom": 1044,
+            "width": 222.484375,
+            "height": 158
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_RULEBOOK_V1.webp"
+        },
+        {
+          "id": "settingsButton",
+          "font": 20,
+          "rect": {
+            "left": 1651.4375,
+            "top": 886,
+            "right": 1873.921875,
+            "bottom": 1044,
+            "width": 222.484375,
+            "height": 158
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_SETTINGS_V1.webp"
+        }
+      ],
+      "overlaps": [],
+      "protectedBoxes": {
+        "face_daniel": {
+          "left": 832.5358851674641,
+          "top": 97.60765550239235,
+          "right": 1044.9760765550238,
+          "bottom": 459.33014354066984,
+          "width": 212.4401913875597,
+          "height": 361.7224880382775
+        },
+        "face_nik": {
+          "left": 1205.7416267942583,
+          "top": 34.44976076555024,
+          "right": 1492.822966507177,
+          "bottom": 453.58851674641147,
+          "width": 287.08133971291863,
+          "height": 419.1387559808612
+        },
+        "hand_daniel": {
+          "left": 711.9617224880383,
+          "top": 442.10526315789474,
+          "right": 918.6602870813397,
+          "bottom": 625.8373205741627,
+          "width": 206.6985645933014,
+          "height": 183.732057416268
+        },
+        "hand_nik": {
+          "left": 1343.5406698564593,
+          "top": 338.75598086124404,
+          "right": 1498.5645933014355,
+          "bottom": 539.7129186602871,
+          "width": 155.02392344497616,
+          "height": 200.95693779904303
+        }
+      },
+      "stageScroll": {
+        "w": 1920,
+        "cw": 1920,
+        "h": 1080,
+        "ch": 1080
+      },
+      "routes": [
+        "continueCareer",
+        "newShowdown",
+        "legacyButton",
+        "careerStatisticsButton",
+        "trophyRoom",
+        "ruleBookButton",
+        "settingsButton"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "viewport": [
+        1366,
+        640
+      ],
+      "ids": [
+        "continueCareer",
+        "newShowdown",
+        "legacyButton",
+        "careerStatisticsButton",
+        "trophyRoomButton",
+        "ruleBookButton",
+        "settingsButton"
+      ],
+      "labels": [
+        {
+          "id": "continueCareer",
+          "font": 26,
+          "rect": {
+            "left": 32.78125,
+            "top": 468,
+            "right": 345.890625,
+            "bottom": 604,
+            "width": 313.109375,
+            "height": 136
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_CONTINUE_V1.webp"
+        },
+        {
+          "id": "newShowdown",
+          "font": 20,
+          "rect": {
+            "left": 353.890625,
+            "top": 468,
+            "right": 510.4375,
+            "bottom": 604,
+            "width": 156.546875,
+            "height": 136
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_TACTICS_V1.webp"
+        },
+        {
+          "id": "legacyButton",
+          "font": 20,
+          "rect": {
+            "left": 518.4375,
+            "top": 468,
+            "right": 675,
+            "bottom": 604,
+            "width": 156.5625,
+            "height": 136
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_HISTORY_V1.webp"
+        },
+        {
+          "id": "careerStatisticsButton",
+          "font": 20,
+          "rect": {
+            "left": 683,
+            "top": 468,
+            "right": 839.546875,
+            "bottom": 604,
+            "width": 156.546875,
+            "height": 136
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_STATISTICS_V1.webp"
+        },
+        {
+          "id": "trophyRoomButton",
+          "font": 20,
+          "rect": {
+            "left": 847.546875,
+            "top": 468,
+            "right": 1004.109375,
+            "bottom": 604,
+            "width": 156.5625,
+            "height": 136
+          },
+          "inside": true,
+          "art": "../shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp"
+        },
+        {
+          "id": "ruleBookButton",
+          "font": 20,
+          "rect": {
+            "left": 1012.109375,
+            "top": 468,
+            "right": 1168.65625,
+            "bottom": 604,
+            "width": 156.546875,
+            "height": 136
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_RULEBOOK_V1.webp"
+        },
+        {
+          "id": "settingsButton",
+          "font": 20,
+          "rect": {
+            "left": 1176.65625,
+            "top": 468,
+            "right": 1333.21875,
+            "bottom": 604,
+            "width": 156.5625,
+            "height": 136
+          },
+          "inside": true,
+          "art": "../shared/art/home-tiles/TILE_SETTINGS_V1.webp"
+        }
+      ],
+      "overlaps": [],
+      "protectedBoxes": {
+        "face_daniel": {
+          "left": 592.3145933014354,
+          "top": 69.44377990430623,
+          "right": 743.4569377990431,
+          "bottom": 326.79425837320576,
+          "width": 151.14234449760772,
+          "height": 257.35047846889955
+        },
+        "face_nik": {
+          "left": 857.8349282296651,
+          "top": 24.50956937799043,
+          "right": 1062.0813397129186,
+          "bottom": 322.7093301435407,
+          "width": 204.2464114832535,
+          "height": 298.19976076555025
+        },
+        "hand_daniel": {
+          "left": 506.5311004784689,
+          "top": 314.5394736842105,
+          "right": 653.5885167464115,
+          "bottom": 445.25717703349284,
+          "width": 147.05741626794264,
+          "height": 130.71770334928232
+        },
+        "hand_nik": {
+          "left": 955.8732057416269,
+          "top": 241.01076555023923,
+          "right": 1066.1662679425838,
+          "bottom": 383.98325358851673,
+          "width": 110.29306220095691,
+          "height": 142.9724880382775
+        }
+      },
+      "stageScroll": {
+        "w": 1366,
+        "cw": 1366,
+        "h": 640,
+        "ch": 640
+      },
+      "routes": [
+        "continueCareer",
+        "newShowdown",
+        "legacyButton",
+        "careerStatisticsButton",
+        "trophyRoom",
+        "ruleBookButton",
+        "settingsButton"
+      ],
+      "consoleErrors": []
+    }
+  ],
+  "availability": [
+    {
+      "id": "legacyButton",
+      "disabled": true,
+      "available": "false",
+      "reason": "not-paired",
+      "message": "Pair with your rival first",
+      "visible": true
+    },
+    {
+      "id": "careerStatisticsButton",
+      "disabled": true,
+      "available": "false",
+      "reason": "not-paired",
+      "message": "Pair with your rival first",
+      "visible": true
+    },
+    {
+      "id": "trophyRoomButton",
+      "disabled": true,
+      "available": "false",
+      "reason": "not-paired",
+      "message": "Pair with your rival first",
+      "visible": true
+    }
+  ],
+  "hover": {
+    "beforeY": 596,
+    "afterY": 593,
+    "deltaY": -3
+  },
+  "focus": {
+    "id": "newShowdown",
+    "outlineWidth": "2px",
+    "outlineStyle": "solid",
+    "boxShadow": "rgb(242, 196, 91) 0px 4px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 10px 28px 0px"
+  }
+}

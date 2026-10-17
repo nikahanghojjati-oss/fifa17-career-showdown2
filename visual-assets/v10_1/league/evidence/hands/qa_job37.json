@@ -1,0 +1,543 @@
+{
+  "desktop": [
+    {
+      "frame": "L1",
+      "viewport": [
+        1366,
+        768
+      ],
+      "overlap": 3.0131018032974453,
+      "wheel": {
+        "left": 467.78125,
+        "top": 232.546875,
+        "right": 882.734375,
+        "bottom": 647.5,
+        "width": 414.953125
+      },
+      "note": null,
+      "noteClear": null,
+      "contactDataset": "3.0",
+      "wheelScale": "1.000",
+      "onSlot": "true",
+      "rimLoaded": true,
+      "titleFont": "\"Kaushan Script\", cursive",
+      "titleFilter": "drop-shadow(rgba(0, 0, 0, 0.96) 0px 3px 1px) drop-shadow(rgba(242, 196, 91, 0.28) 0px 0px 14px)",
+      "pageScroll": 0
+    },
+    {
+      "frame": "L2",
+      "viewport": [
+        1366,
+        768
+      ],
+      "overlap": 3.0131018032974453,
+      "wheel": {
+        "left": 467.78125,
+        "top": 232.546875,
+        "right": 882.734375,
+        "bottom": 647.5,
+        "width": 414.953125
+      },
+      "note": null,
+      "noteClear": null,
+      "contactDataset": "3.0",
+      "wheelScale": "1.000",
+      "onSlot": "true",
+      "rimLoaded": true,
+      "titleFont": "\"Kaushan Script\", cursive",
+      "titleFilter": "drop-shadow(rgba(0, 0, 0, 0.96) 0px 3px 1px) drop-shadow(rgba(242, 196, 91, 0.28) 0px 0px 14px)",
+      "pageScroll": 0
+    },
+    {
+      "frame": "L3",
+      "viewport": [
+        1366,
+        768
+      ],
+      "overlap": 3.014451180573417,
+      "wheel": {
+        "left": 470.0625,
+        "top": 228.125,
+        "right": 853.609375,
+        "bottom": 611.671875,
+        "width": 383.546875
+      },
+      "note": {
+        "top": 619.6875,
+        "bottom": 652.578125
+      },
+      "noteClear": 8.015625,
+      "contactDataset": "3.0",
+      "wheelScale": "0.924",
+      "onSlot": "false",
+      "rimLoaded": true,
+      "titleFont": "\"Kaushan Script\", cursive",
+      "titleFilter": "drop-shadow(rgba(0, 0, 0, 0.96) 0px 3px 1px) drop-shadow(rgba(242, 196, 91, 0.28) 0px 0px 14px)",
+      "pageScroll": 0
+    },
+    {
+      "frame": "L4",
+      "viewport": [
+        1366,
+        768
+      ],
+      "overlap": 3.014451180573417,
+      "wheel": {
+        "left": 470.0625,
+        "top": 228.125,
+        "right": 853.609375,
+        "bottom": 611.671875,
+        "width": 383.546875
+      },
+      "note": {
+        "top": 619.6875,
+        "bottom": 652.578125
+      },
+      "noteClear": 8.015625,
+      "contactDataset": "3.0",
+      "wheelScale": "0.924",
+      "onSlot": "false",
+      "rimLoaded": true,
+      "titleFont": "\"Kaushan Script\", cursive",
+      "titleFilter": "drop-shadow(rgba(0, 0, 0, 0.96) 0px 3px 1px) drop-shadow(rgba(242, 196, 91, 0.28) 0px 0px 14px)",
+      "pageScroll": 0
+    },
+    {
+      "frame": "L1",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "overlap": 3.0118368777249316,
+      "wheel": {
+        "left": 658.71875,
+        "top": 327.125,
+        "right": 1241.96875,
+        "bottom": 910.375,
+        "width": 583.25
+      },
+      "note": null,
+      "noteClear": null,
+      "contactDataset": "3.0",
+      "wheelScale": "1.000",
+      "onSlot": "true",
+      "rimLoaded": true,
+      "titleFont": "\"Kaushan Script\", cursive",
+      "titleFilter": "drop-shadow(rgba(0, 0, 0, 0.96) 0px 3px 1px) drop-shadow(rgba(242, 196, 91, 0.28) 0px 0px 14px)",
+      "pageScroll": 0
+    },
+    {
+      "frame": "L2",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "overlap": 3.0118368777249316,
+      "wheel": {
+        "left": 658.71875,
+        "top": 327.125,
+        "right": 1241.96875,
+        "bottom": 910.375,
+        "width": 583.25
+      },
+      "note": null,
+      "noteClear": null,
+      "contactDataset": "3.0",
+      "wheelScale": "1.000",
+      "onSlot": "true",
+      "rimLoaded": true,
+      "titleFont": "\"Kaushan Script\", cursive",
+      "titleFilter": "drop-shadow(rgba(0, 0, 0, 0.96) 0px 3px 1px) drop-shadow(rgba(242, 196, 91, 0.28) 0px 0px 14px)",
+      "pageScroll": 0
+    },
+    {
+      "frame": "L3",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "overlap": 3.004990950536353,
+      "wheel": {
+        "left": 662.125,
+        "top": 296.609375,
+        "right": 1245.375,
+        "bottom": 879.859375,
+        "width": 583.25
+      },
+      "note": {
+        "top": 887.859375,
+        "bottom": 920.75
+      },
+      "noteClear": 8,
+      "contactDataset": "3.0",
+      "wheelScale": "1.000",
+      "onSlot": "false",
+      "rimLoaded": true,
+      "titleFont": "\"Kaushan Script\", cursive",
+      "titleFilter": "drop-shadow(rgba(0, 0, 0, 0.96) 0px 3px 1px) drop-shadow(rgba(242, 196, 91, 0.28) 0px 0px 14px)",
+      "pageScroll": 0
+    },
+    {
+      "frame": "L4",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "overlap": 3.004990950536353,
+      "wheel": {
+        "left": 662.125,
+        "top": 296.609375,
+        "right": 1245.375,
+        "bottom": 879.859375,
+        "width": 583.25
+      },
+      "note": {
+        "top": 887.859375,
+        "bottom": 920.75
+      },
+      "noteClear": 8,
+      "contactDataset": "3.0",
+      "wheelScale": "1.000",
+      "onSlot": "false",
+      "rimLoaded": true,
+      "titleFont": "\"Kaushan Script\", cursive",
+      "titleFilter": "drop-shadow(rgba(0, 0, 0, 0.96) 0px 3px 1px) drop-shadow(rgba(242, 196, 91, 0.28) 0px 0px 14px)",
+      "pageScroll": 0
+    },
+    {
+      "frame": "L1",
+      "viewport": [
+        1366,
+        640
+      ],
+      "overlap": 3.008074599692918,
+      "wheel": {
+        "left": 470.515625,
+        "top": 192.015625,
+        "right": 850.484375,
+        "bottom": 571.984375,
+        "width": 379.96875
+      },
+      "note": null,
+      "noteClear": null,
+      "contactDataset": "3.0",
+      "wheelScale": "0.916",
+      "onSlot": "false",
+      "rimLoaded": true,
+      "titleFont": "\"Kaushan Script\", cursive",
+      "titleFilter": "drop-shadow(rgba(0, 0, 0, 0.96) 0px 3px 1px) drop-shadow(rgba(242, 196, 91, 0.28) 0px 0px 14px)",
+      "pageScroll": 0
+    },
+    {
+      "frame": "L2",
+      "viewport": [
+        1366,
+        640
+      ],
+      "overlap": 3.008074599692918,
+      "wheel": {
+        "left": 470.515625,
+        "top": 192.015625,
+        "right": 850.484375,
+        "bottom": 571.984375,
+        "width": 379.96875
+      },
+      "note": null,
+      "noteClear": null,
+      "contactDataset": "3.0",
+      "wheelScale": "0.916",
+      "onSlot": "false",
+      "rimLoaded": true,
+      "titleFont": "\"Kaushan Script\", cursive",
+      "titleFilter": "drop-shadow(rgba(0, 0, 0, 0.96) 0px 3px 1px) drop-shadow(rgba(242, 196, 91, 0.28) 0px 0px 14px)",
+      "pageScroll": 0
+    },
+    {
+      "frame": "L3",
+      "viewport": [
+        1366,
+        640
+      ],
+      "overlap": 3.0037134170566446,
+      "wheel": {
+        "left": 468.078125,
+        "top": 186.84375,
+        "right": 808.34375,
+        "bottom": 527.109375,
+        "width": 340.265625
+      },
+      "note": {
+        "top": 535.109375,
+        "bottom": 568
+      },
+      "noteClear": 8,
+      "contactDataset": "3.0",
+      "wheelScale": "0.820",
+      "onSlot": "false",
+      "rimLoaded": true,
+      "titleFont": "\"Kaushan Script\", cursive",
+      "titleFilter": "drop-shadow(rgba(0, 0, 0, 0.96) 0px 3px 1px) drop-shadow(rgba(242, 196, 91, 0.28) 0px 0px 14px)",
+      "pageScroll": 0
+    },
+    {
+      "frame": "L4",
+      "viewport": [
+        1366,
+        640
+      ],
+      "overlap": 3.0037134170566446,
+      "wheel": {
+        "left": 468.078125,
+        "top": 186.84375,
+        "right": 808.34375,
+        "bottom": 527.109375,
+        "width": 340.265625
+      },
+      "note": {
+        "top": 535.109375,
+        "bottom": 568
+      },
+      "noteClear": 8,
+      "contactDataset": "3.0",
+      "wheelScale": "0.820",
+      "onSlot": "false",
+      "rimLoaded": true,
+      "titleFont": "\"Kaushan Script\", cursive",
+      "titleFilter": "drop-shadow(rgba(0, 0, 0, 0.96) 0px 3px 1px) drop-shadow(rgba(242, 196, 91, 0.28) 0px 0px 14px)",
+      "pageScroll": 0
+    }
+  ],
+  "phone": [
+    {
+      "frame": "L1",
+      "viewport": [
+        393,
+        660
+      ],
+      "scroll": 0,
+      "spinBottom": 598,
+      "spinVisible": true,
+      "handVisible": "true",
+      "fingerDisplay": "block",
+      "contactDisplay": "block",
+      "contactOverlap": 3,
+      "bezel": {
+        "left": 86.328125,
+        "right": 367.78125
+      },
+      "noteClear": null
+    },
+    {
+      "frame": "L2",
+      "viewport": [
+        393,
+        660
+      ],
+      "scroll": 0,
+      "spinBottom": 598,
+      "spinVisible": true,
+      "handVisible": "true",
+      "fingerDisplay": "block",
+      "contactDisplay": "block",
+      "contactOverlap": 3,
+      "bezel": {
+        "left": 86.328125,
+        "right": 367.78125
+      },
+      "noteClear": null
+    },
+    {
+      "frame": "L3",
+      "viewport": [
+        393,
+        660
+      ],
+      "scroll": 0,
+      "spinBottom": 598,
+      "spinVisible": true,
+      "handVisible": "true",
+      "fingerDisplay": "block",
+      "contactDisplay": "block",
+      "contactOverlap": 3,
+      "bezel": {
+        "left": 86.328125,
+        "right": 367.78125
+      },
+      "noteClear": 26
+    },
+    {
+      "frame": "L4",
+      "viewport": [
+        393,
+        660
+      ],
+      "scroll": 0,
+      "spinBottom": 598,
+      "spinVisible": true,
+      "handVisible": "true",
+      "fingerDisplay": "block",
+      "contactDisplay": "block",
+      "contactOverlap": 3,
+      "bezel": {
+        "left": 86.328125,
+        "right": 367.78125
+      },
+      "noteClear": 59.03125
+    },
+    {
+      "frame": "L1",
+      "viewport": [
+        360,
+        640
+      ],
+      "scroll": 0,
+      "spinBottom": 578,
+      "spinVisible": true,
+      "handVisible": "true",
+      "fingerDisplay": "block",
+      "contactDisplay": "block",
+      "contactOverlap": 3,
+      "bezel": {
+        "left": 80.125,
+        "right": 333.375
+      },
+      "noteClear": null
+    },
+    {
+      "frame": "L2",
+      "viewport": [
+        360,
+        640
+      ],
+      "scroll": 0,
+      "spinBottom": 578,
+      "spinVisible": true,
+      "handVisible": "true",
+      "fingerDisplay": "block",
+      "contactDisplay": "block",
+      "contactOverlap": 3,
+      "bezel": {
+        "left": 80.125,
+        "right": 333.375
+      },
+      "noteClear": null
+    },
+    {
+      "frame": "L3",
+      "viewport": [
+        360,
+        640
+      ],
+      "scroll": 0,
+      "spinBottom": 578,
+      "spinVisible": true,
+      "handVisible": "true",
+      "fingerDisplay": "block",
+      "contactDisplay": "block",
+      "contactOverlap": 3,
+      "bezel": {
+        "left": 80.125,
+        "right": 333.375
+      },
+      "noteClear": 38.171875
+    },
+    {
+      "frame": "L4",
+      "viewport": [
+        360,
+        640
+      ],
+      "scroll": 0,
+      "spinBottom": 578,
+      "spinVisible": true,
+      "handVisible": "true",
+      "fingerDisplay": "block",
+      "contactDisplay": "block",
+      "contactOverlap": 3,
+      "bezel": {
+        "left": 80.125,
+        "right": 333.375
+      },
+      "noteClear": 54.6875
+    },
+    {
+      "frame": "L1",
+      "viewport": [
+        375,
+        553
+      ],
+      "scroll": 0,
+      "spinBottom": 541,
+      "spinVisible": true,
+      "handVisible": "true",
+      "fingerDisplay": "block",
+      "contactDisplay": "block",
+      "contactOverlap": 3,
+      "bezel": {
+        "left": 83.0625,
+        "right": 348.828125
+      },
+      "noteClear": null
+    },
+    {
+      "frame": "L2",
+      "viewport": [
+        375,
+        553
+      ],
+      "scroll": 0,
+      "spinBottom": 541,
+      "spinVisible": true,
+      "handVisible": "true",
+      "fingerDisplay": "block",
+      "contactDisplay": "block",
+      "contactOverlap": 3,
+      "bezel": {
+        "left": 83.0625,
+        "right": 348.828125
+      },
+      "noteClear": null
+    },
+    {
+      "frame": "L3",
+      "viewport": [
+        375,
+        553
+      ],
+      "scroll": 0,
+      "spinBottom": 541,
+      "spinVisible": true,
+      "handVisible": "true",
+      "fingerDisplay": "block",
+      "contactDisplay": "block",
+      "contactOverlap": 3,
+      "bezel": {
+        "left": 92.46875,
+        "right": 335.890625
+      },
+      "noteClear": 20.71875
+    },
+    {
+      "frame": "L4",
+      "viewport": [
+        375,
+        553
+      ],
+      "scroll": 0,
+      "spinBottom": 541,
+      "spinVisible": true,
+      "handVisible": "true",
+      "fingerDisplay": "block",
+      "contactDisplay": "block",
+      "contactOverlap": 3,
+      "bezel": {
+        "left": 83.0625,
+        "right": 348.828125
+      },
+      "noteClear": 23.046875
+    }
+  ],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "failures": []
+}

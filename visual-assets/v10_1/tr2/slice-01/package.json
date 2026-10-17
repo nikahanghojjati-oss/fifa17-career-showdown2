@@ -1,0 +1,15 @@
+{
+  "name": "tr2-cp1-slice-01",
+  "private": true,
+  "version": "0.0.0",
+  "description": "CLOUD-TR2-01-CP1 static prototype (Appendix B). No build step; served as static files.",
+  "dependencies": {
+    "@fontsource/barlow": "^5.3.0",
+    "@fontsource/barlow-condensed": "^5.3.0",
+    "@fontsource/kaushan-script": "^5.3.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0",
+    "pngjs": "^7.0.0"
+  }
+}

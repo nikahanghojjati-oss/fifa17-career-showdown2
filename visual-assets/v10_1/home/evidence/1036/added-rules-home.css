@@ -1,0 +1,102 @@
+/* JOB-1036 (HO-021 part 1): upright tablet Home (761 to 1100 px wide, portrait). The phone's three zones at tablet scale:
+   the managers on top with the CM17 lockup, then the hub (Continue, the dominant full-width gold tile, then two rows of
+   three tiles whose art fills the right half, centred vertically and fully inside, then one soundtrack strip), then the
+   shared bottom bar. Hero pictures are the phone's own files, set as backgrounds. Daniel LEFT, Nik RIGHT. */
+@media (min-width: 761px) and (max-width: 1100px) and (orientation: portrait) {
+  /* @@ = #mainMenu.v10Home (added by tools/build_home.py). */
+
+  /* frame: hero, hub, nav reserve (the phone's three zones at tablet scale) */
+  #mainMenu.v10Home { --tb-nav-b: calc(56px + env(safe-area-inset-bottom)); --tb-nav-t: 0px; --tb-hero: 40dvh; --tb-pad: clamp(16px, 3vw, 28px); --tb-gap: 10px; --hdr: 0px; --gutter: var(--tb-pad); display: grid; grid-template-rows: calc(var(--tb-hero) + var(--tb-nav-t)) minmax(0, 1fr) var(--tb-nav-b); height: auto; min-height: 100dvh; overflow: hidden; }
+  #mainMenu.v10Home .plateView { grid-row: 1; position: relative; z-index: 1; inset: auto; min-width: 0; min-height: 0; overflow: hidden; background-color: #060709; background-image: none; border-bottom: 1px solid rgba(201,155,69,.55); }
+  #mainMenu.v10Home .phoneHeroBackground { position: absolute; inset: 0; display: block; overflow: hidden; background: url("../visual-assets/v10_1/home/assets/ENV_HOME_PHONE_V1.webp") 50% 38% / cover no-repeat; }
+  #mainMenu.v10Home .phoneHeroBackground img,
+  #mainMenu.v10Home .phoneHeroCutout img { display: none; }
+  #mainMenu.v10Home .phoneHeroCutout { position: absolute; z-index: 2; display: block; width: auto; pointer-events: none; transform: translateX(-50%); background-repeat: no-repeat; background-size: 100% 100%; filter: drop-shadow(0 10px 16px rgba(0,0,0,.56)) drop-shadow(0 0 3px rgba(242,196,91,.46)); }
+  #mainMenu.v10Home .phoneHeroDaniel { left: 30%; top: calc(var(--tb-nav-t) + .5dvh); height: 41dvh; aspect-ratio: 489 / 800; background-image: url("../visual-assets/v10_1/home/assets/OVL_HOME_DANIEL_PHONE_V2.webp"); }
+  #mainMenu.v10Home .phoneHeroNik { left: 69%; top: calc(var(--tb-nav-t) - .5dvh); height: 43dvh; aspect-ratio: 637 / 800; background-image: url("../visual-assets/v10_1/home/assets/OVL_HOME_NIK_PHONE_V2.webp"); }
+  #mainMenu.v10Home .phoneHeroGrade { position: absolute; z-index: 3; left: 0; right: 0; top: calc(var(--tb-hero) + var(--tb-nav-t) - 15dvh); height: 15dvh; display: block; pointer-events: none; background: linear-gradient(180deg, rgba(5,6,7,0) 0%, rgba(5,6,7,.92) 100%); }
+  #mainMenu.v10Home .scrim,
+  #mainMenu.v10Home .scrimLow,
+  #mainMenu.v10Home .dockBed,
+  #mainMenu.v10Home .hdrBg,
+  #mainMenu.v10Home .areaMend,
+  #mainMenu.v10Home .mend,
+  #mainMenu.v10Home .scriptLine,
+  #mainMenu.v10Home .fifaMenuHeading,
+  #mainMenu.v10Home .menuBottomStrip,
+  #mainMenu.v10Home .footDeco { display: none !important; }
+  #mainMenu.v10Home #app > footer { display: block !important; position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+  #mainMenu.v10Home > .nav-reserve { grid-row: 3; position: relative; inset: auto; left: auto; right: auto; bottom: auto; width: 100%; height: auto; min-height: var(--tb-nav-b); background: #060709; border-top: 1px solid rgba(201,155,69,.24); }
+  #mainMenu.v10Home > .fifaMenuShell { grid-row: 2; position: relative; z-index: 4; display: block; height: 100%; min-height: 0; box-sizing: border-box; padding: var(--tb-gap) var(--tb-pad); overflow: hidden; background: linear-gradient(180deg, rgba(6,7,9,.97), #060709 24%); }
+  #mainMenu.v10Home .homeLockup { display: flex !important; position: fixed; z-index: 8; top: auto; bottom: calc(100dvh - var(--tb-hero) - var(--tb-nav-t) + 10px); left: 50%; width: min(36vw, 290px); transform: translateX(-50%); align-items: center; gap: 4px; pointer-events: none; }
+  #mainMenu.v10Home .homeLockup::before,
+  #mainMenu.v10Home .homeLockup::after { display: none; }
+  #mainMenu.v10Home .lockupKicker { align-self: center; max-width: 100%; padding: 0; font-size: 13px; letter-spacing: .27em; text-align: center; }
+  #mainMenu.v10Home .lockupLegacy { align-self: center; max-width: 100%; font-size: 12px; letter-spacing: .19em; text-align: center; }
+  #mainMenu.v10Home .lockupWordmarkWrap { width: 100%; margin: 0; }
+
+  /* the two status chips (the shared shell puts them top-left up to 900 px) get 44 px tap height */
+  html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge, html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #seasonIndicator { min-height: 44px; padding: 6px 14px !important; font-size: 14px !important; }
+
+  /* hub grid: Continue (dominant, full width), two rows of three, the soundtrack strip */
+  #mainMenu.v10Home .fifaMenuGrid { position: static; display: grid; width: 100%; height: 100%; min-height: 0; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(120px, 1.3fr) repeat(2, minmax(104px, 1fr)) 72px; gap: var(--tb-gap); }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile { flex: none; height: auto; min-height: 0; margin: 0; }
+  #mainMenu.v10Home .fifaMenuGrid > #continueCareer { grid-column: 1 / -1; grid-row: 1; }
+  #mainMenu.v10Home #newShowdown { grid-column: 1; grid-row: 2; }
+  #mainMenu.v10Home #legacyButton { grid-column: 2; grid-row: 2; }
+  #mainMenu.v10Home #careerStatisticsButton { grid-column: 3; grid-row: 2; }
+  #mainMenu.v10Home #homeTrophyRoomButton { grid-column: 1; grid-row: 3; }
+  #mainMenu.v10Home #ruleBookButton { grid-column: 2; grid-row: 3; }
+  #mainMenu.v10Home #settingsButton { grid-column: 3; grid-row: 3; }
+  #mainMenu.v10Home .menuMusicTile { grid-column: 1 / -1; grid-row: 4; }
+
+  /* secondary tiles: label top-left, the art fills the right side, centred vertically, fully inside */
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) { container-type: size; justify-content: flex-start; gap: 2px; padding: 14px 14px 14px 16px; overflow: hidden; }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileCode { font-size: 13px; }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel { max-width: calc(50% - 4px); font-size: clamp(20px, 3vw, 24px); line-height: 1.05; white-space: normal; }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .tileArt,
+  #mainMenu.v10Home #homeTrophyRoomButton .tileArt { top: 50%; bottom: auto; left: auto; right: 14px; width: auto; height: min(calc(100% - 24px), 46cqw); aspect-ratio: 1 / 1; max-width: none; object-position: center; translate: 0 -50%; opacity: 1; }
+  #mainMenu.v10Home #homeTrophyRoomButton .tileArt { aspect-ratio: 341 / 512; }
+  #mainMenu.v10Home .tileChevron { display: none; }
+
+  /* Continue: the biggest tile, gold; the player stands inside it on the right */
+  #mainMenu.v10Home .fifaMenuGrid > #continueCareer { container-type: size; padding: 14px 38% 14px 26px; justify-content: center; gap: 4px; overflow: hidden; }
+  #mainMenu.v10Home #continueCareer .menuTileCode { font-size: 14px; }
+  #mainMenu.v10Home #continueCareer .menuTileLabel { font-size: clamp(32px, 5.4vw, 44px); line-height: 1; }
+  #mainMenu.v10Home #continueCareer .menuTileMeta { font-size: 16px; max-width: 100%; white-space: normal; }
+  #mainMenu.v10Home #continueCareer .tileArt,
+  #mainMenu.v10Home #continueCareer:disabled .tileArt { top: auto; bottom: 0; right: 4%; left: auto; width: auto; height: calc(100% - 10px); aspect-ratio: 341 / 512; max-width: none; object-position: center bottom; translate: none; opacity: 1; }
+
+  /* soundtrack: one strip, vinyl left, title, PLAY / MUTE / TRACKS right */
+  #mainMenu.v10Home .menuMusicTile,
+  #mainMenu.v10Home .menuMusicTile.side { position: relative; left: auto !important; top: auto !important; width: auto !important; height: auto !important; min-height: 0 !important; max-height: none !important; padding: 8px 14px; overflow: visible; display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; grid-template-rows: minmax(0, 1fr); grid-template-areas: "player head ctrl tracks"; column-gap: 14px; row-gap: 0; align-items: center; --vinyl: 46px; }
+  #mainMenu.v10Home .menuMusicPlayer { display: block; grid-area: player; }
+  #mainMenu.v10Home .menuMusicPlayer .eq { display: none; }
+  #mainMenu.v10Home .menuMusicSource { display: none; }
+  #mainMenu.v10Home .menuMusicHeader { grid-area: head; align-items: center; }
+  #mainMenu.v10Home .menuMusicHeader > div { display: block; }
+  #mainMenu.v10Home .menuMusicHeader span { font-size: 13px; }
+  #mainMenu.v10Home .menuMusicHeader strong { display: block; font-size: 24px; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #mainMenu.v10Home .menuMusicArtist { display: none; }
+  #mainMenu.v10Home .menuMusicStatus { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+  #mainMenu.v10Home .menuMusicControls { grid-area: ctrl; display: flex; gap: 8px; }
+  #mainMenu.v10Home .menuMusicControl { height: 48px; min-width: 56px; padding: 0 16px; font-size: 15px; }
+  #mainMenu.v10Home .phoneSheetToggle { grid-area: tracks; position: relative !important; z-index: 3; display: block; width: 80px; height: 48px; margin: 0; padding: 0; opacity: 0; cursor: pointer; border: 0; }
+  #mainMenu.v10Home .phoneTrackSheetOpen { grid-area: tracks; z-index: 2; display: inline-flex; width: 80px; height: 48px; box-sizing: border-box; align-items: center; justify-content: center; cursor: pointer; border: 1px solid rgba(242,196,91,.72); background: rgba(255,255,255,.04); color: var(--cream); font: 700 14px/1 var(--cond); letter-spacing: .08em; text-transform: uppercase; pointer-events: none; }
+  #mainMenu.v10Home .phoneSheetToggle:focus-visible + .phoneTrackSheetOpen { outline: 2px solid var(--gold-hi); outline-offset: 2px; }
+  #mainMenu.v10Home .phoneSheetToggle:checked + .phoneTrackSheetOpen { opacity: .68; }
+  #mainMenu.v10Home .menuMediaSelector { display: none; }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector { position: fixed; z-index: 52; left: var(--tb-pad); right: var(--tb-pad); bottom: calc(var(--tb-nav-b) + 10px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 54px; gap: 8px; height: auto; max-height: min(calc(70px + 4 * 62px), calc(100dvh - var(--tb-nav-b) - 90px)); box-sizing: border-box; padding: 58px 14px 14px; overflow-y: auto; overscroll-behavior: contain; background: rgba(8,10,13,.98); border: 1px solid var(--gold); box-shadow: 0 -18px 52px rgba(0,0,0,.7), inset 0 2px 0 rgba(255,241,184,.65); }
+  #mainMenu.v10Home .menuMediaChoice { min-height: 44px; padding: 6px 10px; }
+  #mainMenu.v10Home .menuMediaChoice strong { font-size: 15px; }
+  #mainMenu.v10Home .menuMediaChoice small { font-size: 13px; }
+  #mainMenu.v10Home .phoneTrackSheetBackdrop,
+  #mainMenu.v10Home .phoneTrackSheetClose { display: none; }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetBackdrop { position: fixed; z-index: 50; inset: 0; display: block; cursor: pointer; background: rgba(0,0,0,.58); }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose { position: fixed; z-index: 53; right: calc(var(--tb-pad) + 14px); bottom: calc(var(--tb-nav-b) + 10px + min(calc(70px + 4 * 62px), calc(100dvh - var(--tb-nav-b) - 90px)) - 52px); display: inline-flex; min-width: 56px; height: 44px; align-items: center; justify-content: center; cursor: pointer; color: var(--gold); font: 700 14px/1 var(--cond); letter-spacing: .08em; text-transform: uppercase; }
+  #mainMenu.v10Home #persistentNikDanielPairPanel { left: var(--tb-pad); right: var(--tb-pad); width: auto; top: calc(var(--tb-nav-t) + 64px); max-height: calc(100dvh - 300px); }
+  /* wider than 900 px the app shows its top bar and no bottom bar */
+  @media (min-width: 901px) {
+    #mainMenu.v10Home { --tb-nav-b: 28px; --tb-nav-t: 52px; }
+  }
+}
