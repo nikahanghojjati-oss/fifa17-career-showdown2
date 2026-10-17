@@ -123,9 +123,9 @@ test("Home CSS/JS are precached; Home images use the revision-keyed runtime imag
   for(const file of ["js/homeScreensV10.js","visual-assets/v10_1/home/home.css","visual-assets/v10_1/home/soundtrack.js","css/homeV10.css"])assert.ok(shell.has(file),file);
   assert.ok(![...shell].some(file=>/^visual-assets\/.*\.(webp|png|jpe?g|avif|gif|svg)$/i.test(file)),"no Team V image precached");
   const imageRule=new RegExp(/const V10_IMAGE_PATH = \/(.+)\/i;/.exec(sw)[1],"i");
-  const images=[...binder.matchAll(/BASE\+"([^"]+\.webp)/g),...binder.matchAll(/\$\{BASE\}home\/assets\/\$\{file\}/g)].length;
+  const images=[...binder.matchAll(/BASE\+"([^"]+\.webp)/g),...binder.matchAll(/\$\{BASE\}\$\{file\}/g)].length;
   assert.ok(images>0);
-  const files=["home/assets/ENV_HOME_PHONE_V1.webp","home/assets/OVL_HOME_DANIEL_PHONE_V2.webp","home/assets/OVL_HOME_NIK_PHONE_V2.webp","home/assets/LOGO_CM17_WORDMARK_V1.webp",
+  const files=[...[...binder.matchAll(/pic\("[^"]+","([^"]+\.webp)"/g)].map(m=>m[1]),"home/assets/LOGO_CM17_WORDMARK_V1.webp",
     ...Object.values(Home.TILE_ART).map(f=>"shared/art/home-tiles/"+f),...[...homeCss.matchAll(/url\("?(assets\/[^")]+\.webp)"?\)/g)].map(m=>"home/"+m[1])];
   for(const file of files){const full="visual-assets/v10_1/"+file;assert.ok(fs.existsSync(path.join(ROOT,full)),full);assert.ok(imageRule.test(full),full);}
   for(const m of homeCss.matchAll(/url\((\.\.\/shared\/fonts\/[^)]+\.woff2)\)/g))assert.ok(shell.has("visual-assets/v10_1/"+m[1].slice(3)),m[1]);

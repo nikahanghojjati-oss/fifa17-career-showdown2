@@ -7,14 +7,12 @@
   // JOB-1015: a lazy presentation layer. The startup router and pairing operations stay untouched.
   const MARKUP=[
     "<section id=\"connectPlayersScreen\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"connectPlayersTitle\" aria-hidden=\"true\" class=\"connectPlayersLayer hidden\" data-role=\"unknown\" data-connection=\"none\">",
+    // r78 HO-031: the phone plate ENV_CONNECT_PLAYERS_PHONE_V2 has both managers painted in, so the phone cut-outs
+    // (OVL_SJ_*_PHONE_V1) are gone. The two holders stay: the scene still keeps the header's place in the column.
     "<div class=\"connectPlayersArt\" aria-hidden=\"true\">",
-    "<img class=\"connectPlayersDaniel\" src=\"visual-assets/v10_1/start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp\" alt=\"\" loading=\"lazy\">",
-    "<img class=\"connectPlayersNik\" src=\"visual-assets/v10_1/start-join/assets/OVL_SJ_NIK_PHONE_V1.webp\" alt=\"\" loading=\"lazy\">",
     "</div>",
     "<main class=\"connectPlayersPhoneFlow\" aria-labelledby=\"connectPlayersTitle\">",
     "<div class=\"connectPlayersPhoneScene\" aria-hidden=\"true\">",
-    "<img class=\"connectPlayersSceneDaniel\" src=\"visual-assets/v10_1/start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp\" alt=\"\" loading=\"lazy\">",
-    "<img class=\"connectPlayersSceneNik\" src=\"visual-assets/v10_1/start-join/assets/OVL_SJ_NIK_PHONE_V1.webp\" alt=\"\" loading=\"lazy\">",
     "</div>",
     "<header class=\"connectPlayersHeader\">",
     "<p class=\"connectPlayersKicker\">CAREER MODE SHOWDOWN // 17</p>",
