@@ -904,7 +904,7 @@ function createDataPanel(){
         "settingsDataNote",
         active
             ? "Delete Current Showdown closes this Showdown connection for both players before removing this device's current local copy. Player identity, registered device, completed history and app settings are kept."
-            : "No current Showdown is stored on this device. Completed history, backup export and full reset remain available under History & Backup."
+            : "No current Showdown. Your Showdowns are saved to your account online. Completed history, backup export and full reset remain available under History & Backup."
     );
 
     panel.append(info, actions, createSettingsCareerStartRow(), note);

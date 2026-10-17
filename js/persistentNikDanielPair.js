@@ -276,7 +276,7 @@ async function pairStartOverFromRecovery(){
   try{
     const refreshed=await pairInitialize({force:true});
     if(refreshed?.connectionState==="active"&&refreshed.status==="paired"){
-      pairSetState({status:"paired",busy:false,message:"Your restored career is available on this browser. Continue Career instead of deleting it."});
+      pairSetState({status:"paired",busy:false,message:"Your restored career is available. Continue Career instead of deleting it."});
       return false;
     }
     if(refreshed?.status==="unpaired"||refreshed?.connectionState==="closed"){
@@ -294,7 +294,7 @@ async function pairStartOverFromRecovery(){
     if(confirmed!==true)return false;
     const rechecked=await pairInitialize({force:true});
     if(rechecked?.connectionState==="active"&&rechecked.status==="paired"){
-      pairSetState({status:"paired",busy:false,message:"Your restored career is available on this browser. Continue Career instead of deleting it."});
+      pairSetState({status:"paired",busy:false,message:"Your restored career is available. Continue Career instead of deleting it."});
       return false;
     }
     if(!rechecked||rechecked.status!=="recovery-required"||rechecked.connectionState!=="active"||rechecked.rivalryId!==rivalryId){

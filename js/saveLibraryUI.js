@@ -63,13 +63,13 @@
 
     function saveLibraryUIFormatUpdated(showdown){
         const raw=showdown&&showdown.updatedAt;
-        if(!raw)return "Saved locally";
+        if(!raw)return "Saved to your account online";
         const date=new Date(raw);
-        if(Number.isNaN(date.getTime()))return "Saved locally";
+        if(Number.isNaN(date.getTime()))return "Saved to your account online";
         try{
             return `Updated ${new Intl.DateTimeFormat(undefined,{month:"short",day:"numeric",year:"numeric"}).format(date)}`;
         }catch(error){
-            return "Saved locally";
+            return "Saved to your account online";
         }
     }
 
