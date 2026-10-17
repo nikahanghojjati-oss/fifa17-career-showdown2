@@ -5,9 +5,9 @@
 // 360x640 no visible button, card, title or tab may cover a face zone from PHONE_FACE_ZONES.json, and no manager layer
 // may be faded, clipped or filtered. The gate uses the plate as the screens draw it (cover, centre top, as HO-031 asks);
 // the tool's own model (cover, centre) is also run and any extra overlap it finds is printed as a note. It also checks
-// that the screen really shows its plate (V2, or V3 for Standings, Rivalry and Trophy Room) and no OVL_*_PHONE cut-out.
-// With no KEY it runs the 11 screens that draw a plate. LEAGUE stays on the old look (the wheel would cover both faces);
-// run it by name with CMS_FACECHECK_PREDICT=1 to see the overlap a plate would have (cut-outs hidden, art check skipped).
+// that the screen really shows its plate (V2, V3 for Standings, Rivalry and Trophy Room, V4 for League) and no OVL_*_PHONE
+// cut-out. With no KEY it runs all 12 screens. CMS_FACECHECK_PREDICT=1 hides the cut-outs and skips the art check, to see
+// the overlap a plate would have on a screen that does not draw one yet.
 // Usage: node tests/browser/phone-marble-facecheck-audit.cjs [KEY ...]   (CMS_BASE_URL, CMS_FACECHECK_SHOTS optional)
 "use strict";
 process.env.CMS_CHROMIUM_MULTI_CONTEXT = process.env.CMS_CHROMIUM_MULTI_CONTEXT || "1"; // one context per size
@@ -136,16 +136,44 @@ function faceHits({ faces, w, h }){
         const text = [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim());
         return bg || bgImg || border || text || /^(IMG|SVG|CANVAS|BUTTON|INPUT|VIDEO)$/.test(el.tagName.toUpperCase()); };
     const cls = el => String(el.className && el.className.baseVal !== undefined ? el.className.baseVal : el.className || "");
+    // The one narrow exception to the box test (the League wheel): an element whose four corner radii are all at least
+    // half its width and height (border-radius: 50%, a circle or ellipse) is tested as that ellipse, not its square box.
+    // Its box is the untransformed border box (offsetWidth / offsetHeight) about the centre of its painted rect; under a
+    // transform only a true circle (rotation does not move it) is accepted, sized by the transform's scale. Anything
+    // else, clipped or not, keeps the box test.
+    const round = (el, r) => { if(!(el instanceof HTMLElement)) return null;
+        const cs = getComputedStyle(el), w = el.offsetWidth, h = el.offsetHeight; if(!(w > 0 && h > 0)) return null;
+        const half = v => { const [a, b = a] = v.split(" "); const px = (t, d) => t.endsWith("%") ? parseFloat(t) / 100 * d : parseFloat(t); return px(a, w) >= w / 2 - .01 && px(b, h) >= h / 2 - .01; };
+        if(![cs.borderTopLeftRadius, cs.borderTopRightRadius, cs.borderBottomRightRadius, cs.borderBottomLeftRadius].every(half)) return null;
+        let k = 1;
+        if(cs.transform && cs.transform !== "none"){
+            const m = /^matrix\(([^)]+)\)$/.exec(cs.transform); if(!m || Math.abs(w - h) > .5) return null;
+            const [a, b, c, d] = m[1].split(",").map(Number); k = Math.sqrt(Math.abs(a * d - b * c));
+        }
+        return { cx: (r.left + r.right) / 2, cy: (r.top + r.bottom) / 2, rx: w / 2 * k, ry: h / 2 * k }; };
     for(const el of document.querySelectorAll("body *")){
         const r = el.getBoundingClientRect();
         if(r.width < 2 || r.height < 2 || r.width * r.height > 0.6 * w * h) continue;
         if(!visible(el) || !drawsSomething(el)) continue;
         if(/cutout|manager|portrait|plate|backdrop|stage-art|background/i.test(cls(el))) continue;
+        const disc = round(el, r);
         faces.forEach((f, i) => {
-            const ix = Math.min(r.right, f[2]) - Math.max(r.left, f[0]), iy = Math.min(r.bottom, f[3]) - Math.max(r.top, f[1]);
-            const onTop = () => { const cx = (Math.max(r.left, f[0]) + Math.min(r.right, f[2])) / 2, cy = (Math.max(r.top, f[1]) + Math.min(r.bottom, f[3])) / 2;
-                const t = document.elementFromPoint(cx, cy); return t && (t === el || el.contains(t) || t.contains(el)); };
-            if(ix > 2 && iy > 2 && onTop()) out.push({ face: i % 2 ? "Nik" : "Daniel", tag: el.tagName.toLowerCase(), id: el.id, cls: cls(el).slice(0, 60), text: (el.innerText || "").trim().slice(0, 40), pct: Math.round(100 * ix * iy / ((f[2] - f[0]) * (f[3] - f[1]))) });
+            let ix = Math.min(r.right, f[2]) - Math.max(r.left, f[0]), iy = Math.min(r.bottom, f[3]) - Math.max(r.top, f[1]);
+            let cx = (Math.max(r.left, f[0]) + Math.min(r.right, f[2])) / 2, cy = (Math.max(r.top, f[1]) + Math.min(r.bottom, f[3])) / 2, area = ix * iy;
+            if(disc && ix > 2 && iy > 2){
+                // A round element covers only its disc: the overlap is the part of the zone inside the ellipse, sampled every
+                // half pixel, with the same > 2px rule on its extent; the hit test probes the overlap's centroid.
+                const x0 = Math.max(r.left, f[0]), y0 = Math.max(r.top, f[1]), x1 = Math.min(r.right, f[2]), y1 = Math.min(r.bottom, f[3]);
+                let n = 0, sx = 0, sy = 0, minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+                for(let y = y0 + .25; y < y1; y += .5) for(let x = x0 + .25; x < x1; x += .5){
+                    if(((x - disc.cx) / disc.rx) ** 2 + ((y - disc.cy) / disc.ry) ** 2 > 1) continue;
+                    n++; sx += x; sy += y; minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y);
+                }
+                ix = n ? maxX - minX + .5 : 0; iy = n ? maxY - minY + .5 : 0; area = n * .25;
+                if(n){ cx = sx / n; cy = sy / n; }
+            }
+            const onTop = () => { const t = document.elementFromPoint(cx, cy); return t && (t === el || el.contains(t) || t.contains(el)); };
+            if(ix > 2 && iy > 2 && onTop()) out.push({ face: i % 2 ? "Nik" : "Daniel", tag: el.tagName.toLowerCase(), id: el.id, cls: cls(el).slice(0, 60), text: (el.innerText || "").trim().slice(0, 40), pct: Math.round(100 * area / ((f[2] - f[0]) * (f[3] - f[1]))) });
         });
     }
     return out;
@@ -222,8 +250,10 @@ function paintedArt(plateName){
 
 // HO-031 v3 (factory/v1-wtt5ye 9867fa6b): Standings, Rivalry and Trophy Room draw ENV_<KEY>_PHONE_V3.
 const V3 = ["STANDINGS", "RIVALRY", "TROPHY_ROOM"];
-function plateFile(key){ return `ENV_${key}_PHONE_${V3.includes(key) ? "V3" : "V2"}.webp`; }
-const OLD_LOOK = ["LEAGUE"];
+// HO-032 V4 (factory/v1-wtt5ye 3a41831f): League draws ENV_LEAGUE_PHONE_V4, made for the 15% smaller phone wheel.
+const V4 = ["LEAGUE"];
+function plateFile(key){ return `ENV_${key}_PHONE_${V4.includes(key) ? "V4" : V3.includes(key) ? "V3" : "V2"}.webp`; }
+const OLD_LOOK = [];   // every manager screen now draws its plate on upright phones
 module.exports = { SCREENS, OLD_LOOK, openScreen };
 if(require.main === module) (async () => {
     const keys = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(SCREENS).filter(key => !OLD_LOOK.includes(key));
