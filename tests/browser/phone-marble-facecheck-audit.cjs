@@ -5,7 +5,7 @@
 // 360x640 no visible button, card, title or tab may cover a face zone from PHONE_FACE_ZONES.json, and no manager layer
 // may be faded, clipped or filtered. The gate uses the plate as the screens draw it (cover, centre top, as HO-031 asks);
 // the tool's own model (cover, centre) is also run and any extra overlap it finds is printed as a note. It also checks
-// that the screen really shows its plate (V2, V3 for Standings, Rivalry and Trophy Room, V4 for League) and no OVL_*_PHONE
+// that the screen really shows its plate (V2, V3 for Standings, Rivalry and Trophy Room, V5 for League) and no OVL_*_PHONE
 // cut-out. With no KEY it runs all 12 screens. CMS_FACECHECK_PREDICT=1 hides the cut-outs and skips the art check, to see
 // the overlap a plate would have on a screen that does not draw one yet.
 // Usage: node tests/browser/phone-marble-facecheck-audit.cjs [KEY ...]   (CMS_BASE_URL, CMS_FACECHECK_SHOTS optional)
@@ -250,9 +250,9 @@ function paintedArt(plateName){
 
 // HO-031 v3 (factory/v1-wtt5ye 9867fa6b): Standings, Rivalry and Trophy Room draw ENV_<KEY>_PHONE_V3.
 const V3 = ["STANDINGS", "RIVALRY", "TROPHY_ROOM"];
-// HO-032 V4 (factory/v1-wtt5ye 3a41831f): League draws ENV_LEAGUE_PHONE_V4, made for the 15% smaller phone wheel.
-const V4 = ["LEAGUE"];
-function plateFile(key){ return `ENV_${key}_PHONE_${V4.includes(key) ? "V4" : V3.includes(key) ? "V3" : "V2"}.webp`; }
+// HO-032 V5 (factory/v1-wtt5ye 0c2c6465): League draws ENV_LEAGUE_PHONE_V5, made for the 15% smaller phone wheel.
+const V5 = ["LEAGUE"];
+function plateFile(key){ return `ENV_${key}_PHONE_${V5.includes(key) ? "V5" : V3.includes(key) ? "V3" : "V2"}.webp`; }
 const OLD_LOOK = [];   // every manager screen now draws its plate on upright phones
 module.exports = { SCREENS, OLD_LOOK, openScreen };
 if(require.main === module) (async () => {
