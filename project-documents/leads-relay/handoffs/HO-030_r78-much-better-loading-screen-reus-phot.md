@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-17T03:38:24Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-17T03:39:22Z", "by": "V", "status": "RECEIVED", "note": "Team V lead received; work starts in the fresh Team V lead thread"}]
+ "log": [{"at": "2026-10-17T03:38:24Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-17T03:39:22Z", "by": "V", "status": "RECEIVED", "note": "Team V lead received; work starts in the fresh Team V lead thread"}, {"at": "2026-10-17T04:18:17Z", "by": "V", "status": "WORKING", "note": "Team V lead started. Steps: style picked, pictures made, code handed back"}]
 }
 ```
 
