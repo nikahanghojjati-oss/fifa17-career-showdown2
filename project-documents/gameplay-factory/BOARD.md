@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 11:26 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 11:28 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r77** (main `8ffe292`, Fri 16 Oct 11:05 PM)
 
@@ -26,11 +26,11 @@ Updated Fri 16 Oct, 11:26 PM Boston time. Bug hunting only, no new features unti
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 110 h ago
+🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 111 h ago
 
 **#4 · 1729** `G` Standings: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 110 h ago
+🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 111 h ago
 
 **#5 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
