@@ -62,7 +62,7 @@
     const wheel=root.document&&root.document.querySelector("#leagueWheelScreen .wheelContainer");
     if(wheel){
       let resume=root.document.getElementById(SHARED_CONTINUE_ID);
-      if(locked&&!presentationOwns&&!resume){resume=create("button","menuButton","CONTINUE CAREER");resume.id=SHARED_CONTINUE_ID;resume.type="button";resume.addEventListener("click",()=>void openPanel());wheel.insertBefore(resume,wheel.querySelector(".backButton")||null);}
+      if(locked&&!presentationOwns&&!resume){resume=create("button","menuButton","CONTINUE CAREER");resume.id=SHARED_CONTINUE_ID;resume.type="button";resume.addEventListener("click",()=>void continueFromLockedWheel());wheel.insertBefore(resume,wheel.querySelector(".backButton")||null);}
       if((!locked||presentationOwns)&&resume)resume.remove();
       let note=root.document.getElementById("sharedJourneyLeagueLockNote");
       if(locked&&!presentationOwns&&!note){note=create("p","stateNote","Daniel and Nik must both be connected before league selection.");note.id="sharedJourneyLeagueLockNote";wheel.insertBefore(note,wheel.firstChild);}
@@ -159,8 +159,48 @@
       return true;
     }catch(error){report("Unable to open the waiting screen",error);await openPanel({routeToRemote:false});return false;}
   }
+  // PR #901 P2: CONTINUE CAREER on the locked league wheel (shown once WAITING is closed with BACK or Escape) asks the same
+  // question START asks, so it reopens WAITING over the wheel (same stayOnScreen path) instead of the old GET READY overlay.
+  let lockedWheelContinuePromise=null;
+  function continueFromLockedWheel(){
+    if(lockedWheelContinuePromise)return lockedWheelContinuePromise;
+    lockedWheelContinuePromise=(async()=>{
+      try{const decision=await whichShowdownIsLive();if(decision.action==="new")return openWaiting({createCode:false});return await followStartDecision(decision);}
+      catch(error){report("Unable to continue the Showdown",error);return openWaiting({createCode:false});}
+    })().finally(()=>{lockedWheelContinuePromise=null;});
+    return lockedWheelContinuePromise;
+  }
+  // Nik's call (2026-10-17): Daniel's START on a Showdown that has ENDED but was never CLOSED closes it for both managers through
+  // exactly the final-screen terminal close (it requires the final reconciliation, i.e. history saved first, and one exact ACTIVE
+  // private session; same writes, same guards), then opens the seasons screen. Nothing is created unless the close succeeded; a
+  // close that cannot happen stops on the existing Connect Players / CHECK STATUS path with the reason.
+  let closeEndedPromise=null;
+  function closeEndedThenNew(){
+    if(closeEndedPromise)return closeEndedPromise;
+    closeEndedPromise=(async()=>{
+      let state=null,result=null;
+      try{
+        const close=await loadScript("ssjr-production-terminal-close","js/productionSharedTerminalClose.js",()=>root.CareerModeProductionSharedTerminalClose);
+        if(!close||typeof close.refresh!=="function"||typeof close.close!=="function")throw new Error("Showdown close is unavailable.");
+        close.install?.();
+        state=close.getState?.()||null;
+        if(!state||state.phase!=="CLOSED")state=await close.refresh();
+        if(state&&state.phase==="READY")result=await close.close();
+        else if(state&&state.phase==="RECOVERY_PENDING"&&typeof close.retry==="function")result=await close.retry();
+        if(close.getState?.()?.phase!=="CLOSED"&&result?.ok!==true){
+          throw new Error(state&&state.phase==="BLOCKED"
+            ?"This Showdown has ended. It closes when Daniel and Nik are both connected; nothing new was started."
+            :(result&&result.message)||"This Showdown has ended but could not be closed. Nothing new was started.");
+        }
+      }catch(error){report("Unable to close the ended Showdown",error);await openPersistentPairControls();return false;}
+      const opened=typeof root.navigateTo==="function"?await root.navigateTo("createShowdown"):root.showScreen?.("createShowdown");
+      return opened!==false;
+    })().finally(()=>{closeEndedPromise=null;});
+    return closeEndedPromise;
+  }
   async function followStartDecision(decision){
     if(!decision)return false;
+    if(decision.action==="close-then-new")return closeEndedThenNew();
     if(decision.action==="continue"){
       const pair=await loadScript("persistent-pair","js/persistentNikDanielPair.js",()=>root.CareerModePersistentNikDanielPair);
       if(!pair||typeof pair.continuePair!=="function")throw new Error("Career continue is unavailable.");
@@ -360,5 +400,5 @@
   }
   function install(){if(installed)return true;installed=true;installStartButton();applyLocalDrawLock();const identity=entryIdentity();if(identity&&typeof identity.subscribe==="function")identityUnsubscribe=identity.subscribe(()=>syncStartButtonIdentity());const observer=new MutationObserver(()=>{installStartButton();applyLocalDrawLock();});observer.observe(root.document.documentElement,{childList:true,subtree:true});if(pending())setTimeout(()=>void autoOpenAfterLoad().catch(error=>report("Unable to open career entry",error)),0);return true;}
 
-  return Object.freeze({contractVersion:7,feature:"ssjr-production-paired-first-entry",startOpensWaitingOverLeagueWheel:true,startNeverOffersToCloseLiveShowdown:true,connectedPairOpensRemoteJoiningDirectly:true,activeSessionContinuesIntoShowdown:true,productionEnabled:true,singleProductEntry:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,joinerShellProvisionedAutomatically:true,continueCareerUsesPairedAuthority:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,acceptedSeasonResumesAtActiveSeason:true,establishedPairNeverAutoOpensEntry:true,closedShowdownNeverReopensEntry:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,provisionJoinerShell,openWaiting,followStartDecision,openPanel,closePanel,openSharedExperience,isPending:pending});
+  return Object.freeze({contractVersion:7,feature:"ssjr-production-paired-first-entry",startOpensWaitingOverLeagueWheel:true,startNeverOffersToCloseLiveShowdown:true,connectedPairOpensRemoteJoiningDirectly:true,activeSessionContinuesIntoShowdown:true,productionEnabled:true,singleProductEntry:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,joinerShellProvisionedAutomatically:true,continueCareerUsesPairedAuthority:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,acceptedSeasonResumesAtActiveSeason:true,establishedPairNeverAutoOpensEntry:true,closedShowdownNeverReopensEntry:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,provisionJoinerShell,openWaiting,followStartDecision,closeEndedThenNew,continueFromLockedWheel,openPanel,closePanel,openSharedExperience,isPending:pending});
 });

@@ -13,14 +13,14 @@ let passed=0;
 async function check(name,fn){await fn();passed+=1;console.log(`ok ${passed} ${name}`);}
 
 const R={1:`pair_1${"0".repeat(63)}`,3:`pair_3${"1".repeat(63)}`,5:`pair_5${"2".repeat(63)}`,10:`pair_a${"3".repeat(63)}`};
-const OLD=`pair_3${"9".repeat(63)}`;
+const OLD=`pair_3${"9".repeat(63)}`,OLD_SAVE=`save_${"8".repeat(24)}`,FRESH_SAVE=`save_${"7".repeat(24)}`;
 const pair=(over={})=>({status:"unpaired",initialized:true,busy:false,rivalryId:null,connectionState:null,managerRole:null,closedRivalryId:null,...over});
 const shell=(over={})=>({pending:true,untouched:true,totalSeasons:3,...over});
 const decide=inputs=>Which.decide(inputs);
 
 (async()=>{
-await check("W1 the decision table: continue, resume-waiting, new, join, wait-for-daniel and pair-first",()=>{
-  assert.deepEqual([...Which.actions],["continue","resume-waiting","new","join","wait-for-daniel","pair-first"]);
+await check("W1 the decision table: continue, close-then-new, resume-waiting, new, join, wait-for-daniel and pair-first",()=>{
+  assert.deepEqual([...Which.actions],["continue","close-then-new","resume-waiting","new","join","wait-for-daniel","pair-first"]);
   // a live game continues for both managers, with the rivalry and its season length
   for(const role of ["playerOne","playerTwo"]){
     const live=decide({role,pair:pair({status:"paired",rivalryId:R[5],connectionState:"active",managerRole:role})});
@@ -56,17 +56,17 @@ await check("W2 one device never invents the other's action: Nik never starts, D
   for(const status of statuses)for(const connectionState of states)for(const managerRole of roles)for(const rivalryId of ids)for(const s of shells)for(const closedRivalryId of [null,OLD]){
     const p=pair({status,connectionState,managerRole,rivalryId,closedRivalryId});
     const nik=decide({role:"playerTwo",pair:p,shell:s}),daniel=decide({role:"playerOne",pair:p,shell:s});
-    assert.ok(!["new","resume-waiting"].includes(nik.action),`Nik never starts (${JSON.stringify(p)})`);
+    assert.ok(!["new","resume-waiting","close-then-new"].includes(nik.action),`Nik never starts (${JSON.stringify(p)})`);
     assert.ok(!["join","wait-for-daniel"].includes(daniel.action),`Daniel never joins (${JSON.stringify(p)})`);
     assert.ok(Which.actions.includes(nik.action)&&Which.actions.includes(daniel.action));
     assert.ok(Object.isFrozen(nik)&&Object.isFrozen(daniel));
     n+=1;
   }
   assert.equal(n,1536,"the whole matrix ran");
-  // a touched shell (league drawn) or an unsupported season length never resumes; a shell of a closed Showdown never resumes
+  // a touched shell (league drawn) or an unsupported season length never resumes; the shell bound to a closed Showdown never resumes
   assert.equal(decide({role:"playerOne",pair:pair(),shell:shell({untouched:false})}).action,"new");
   assert.equal(decide({role:"playerOne",pair:pair(),shell:shell({totalSeasons:7})}).action,"new");
-  assert.equal(decide({role:"playerOne",pair:pair({closedRivalryId:OLD}),shell:shell()}).action,"new");
+  assert.equal(decide({role:"playerOne",pair:pair({closedRivalryId:OLD,closedProviderSaveId:OLD_SAVE}),shell:shell({saveId:OLD_SAVE})}).action,"new");
 });
 
 await check("W3 read() reuses the identity sidecar's own pair read (one bounded retry, none when a fresh state is handed in)",async()=>{
@@ -78,12 +78,12 @@ await check("W3 read() reuses the identity sidecar's own pair read (one bounded 
   const handed=await Which.read(world,{pair:pair()});
   assert.equal(syncs,2,"a pair state START already read costs no second read");
   assert.equal(handed.action,"resume-waiting","the local untouched shell is read from the Save Library");
-  assert.deepEqual(Which.localShell(world),{pending:true,untouched:true,totalSeasons:3});
+  assert.deepEqual(Which.localShell(world),{pending:true,untouched:true,totalSeasons:3,saveId:null,completed:false});
   assert.equal((await Which.read({CareerModeOnlinePlayerIdentity:{getState:()=>({status:"signed-out"}),syncPair:async()=>{syncs+=1;return null;}}})).reason,"no-player");
   assert.equal(syncs,2,"no player, no read");
   const source=read("js/whichShowdownIsLive.js");
   assert.doesNotMatch(source,/firestore|getDoc|onSnapshot|runTransaction|fetch\(/i,"the module itself never reads Firebase");
-  assert.ok(Buffer.byteLength(source)<6000,"the module stays tiny");
+  assert.ok(Buffer.byteLength(source)<7000,"the module stays tiny (7000 since the ended-not-closed signal)");
 });
 
 await check("W4 every START entry routes through the one canonical START",()=>{
@@ -122,6 +122,50 @@ await check("W6 auto-continue after connect keeps START CAREER as the fallback a
   assert.match(auto,/const next=await pairContinueOnlineShowdown\(\);if\(next\?\.status!=="paired"\)\{try\{await layer\?\.open\?\.\(\{sync:false,stayOnScreen:true\}\);/,"a failed continue reopens Connect Players with START CAREER / TRY CONTINUE AGAIN");
   assert.doesNotMatch(auto,/createPairing|redeemPairing|hostSession|joinSession|startPairing/,"auto-continue never creates, redeems or hosts anything");
   assert.match(pairSource,/state\.status==="error"\?"TRY CONTINUE AGAIN":"START CAREER"/,"START CAREER stays");
+});
+
+await check("W8 PR #901 P1: an older closed Showdown never turns a fresh, code-less shell into a second shell",()=>{
+  // syncPair keeps the last closed rivalry (closedRivalryId) after Daniel creates a fresh shell; if code creation fails or the
+  // page reloads before the new pair is saved, START must re-make the code on THAT shell, never append a second one.
+  const fresh=decide({role:"playerOne",pair:pair({closedRivalryId:OLD,closedProviderSaveId:OLD_SAVE}),shell:shell({saveId:FRESH_SAVE})});
+  assert.deepEqual({...fresh},{action:"resume-waiting",rivalryId:null,totalSeasons:3,reason:"shell-without-code"},"closed old rivalry + fresh untouched shell -> WAITING on the same shell");
+  assert.equal(decide({role:"playerOne",pair:pair({closedRivalryId:OLD}),shell:shell({saveId:FRESH_SAVE})}).action,"resume-waiting","a closed rivalry with no known save never blocks a fresh shell");
+  assert.equal(decide({role:"playerOne",pair:pair({closedRivalryId:OLD,closedProviderSaveId:OLD_SAVE}),shell:shell({saveId:OLD_SAVE})}).action,"new","only the closed Showdown's own shell counts as closed");
+  const pairSource=read("js/persistentNikDanielPair.js");
+  assert.match(pairSource,/pairLastClosedRivalryId=link\.rivalryId;pairLastClosedProviderSaveId=pairValidSaveId\(slot\.saveId\)\?slot\.saveId:null;/,"the closed rivalry's own save (this account's manager slot) is remembered with it");
+  assert.match(pairSource,/closedRivalryId:pairLastClosedRivalryId,closedProviderSaveId:pairLastClosedProviderSaveId,/);
+  assert.match(read("js/whichShowdownIsLive.js"),/const closedHere=Boolean\(rid\(pair\.closedRivalryId\)&&wslSave\(pair\.closedProviderSaveId\)&&pair\.closedProviderSaveId===shell\.saveId\);/);
+});
+
+await check("W9 Nik's call (2026-10-17): an ENDED but never CLOSED Showdown is closed by Daniel's START, then seasons",async()=>{
+  const live=over=>pair({status:"paired",rivalryId:R[3],connectionState:"active",managerRole:"playerOne",providerSaveId:OLD_SAVE,...over});
+  const ended={pending:false,untouched:false,totalSeasons:3,saveId:OLD_SAVE,completed:true};
+  assert.deepEqual({...decide({role:"playerOne",pair:live(),shell:ended})},{action:"close-then-new",rivalryId:R[3],totalSeasons:3,reason:"ended-not-closed"});
+  assert.equal(decide({role:"playerOne",pair:live(),shell:{...ended,completed:false}}).action,"continue","a Showdown still in progress keeps continuing");
+  assert.equal(decide({role:"playerOne",pair:live(),shell:{...ended,saveId:FRESH_SAVE}}).action,"continue","only the live rivalry's own save counts as ended");
+  assert.equal(decide({role:"playerTwo",pair:live({managerRole:"playerTwo"}),shell:ended}).action,"continue","Nik's START never closes or starts anything");
+  assert.equal(decide({role:"playerOne",pair:live({status:"recovery-required"}),shell:ended}).action,"pair-first","recovery first, never a close");
+  const world={CareerModeSaveLibraryRuntime:{isReady:()=>true,getLibrarySnapshot:()=>({activeSaveId:OLD_SAVE,saves:[{saveId:OLD_SAVE,showdown:{status:"Ready",totalRounds:3,rounds:[{},{},{}],sharedJourney:{mode:"shared"},clubs:{}}}]})}};
+  assert.equal(Which.localShell(world).completed,true,"all seasons recorded counts as ended");
+  // a shared Showdown's local save stays "Created": read() takes "ended" from this page's own final reconciliation / terminal close
+  const created={CareerModeSaveLibraryRuntime:{isReady:()=>true,getLibrarySnapshot:()=>({activeSaveId:OLD_SAVE,saves:[{saveId:OLD_SAVE,showdown:{status:"Created",totalRounds:3,rounds:[],sharedJourney:{mode:"shared",setupPending:true},clubs:{}}}]})},
+    CareerModeOnlinePlayerIdentity:{getState:()=>({status:"ready",managerId:"daniel"})}};
+  const endedBy=async extra=>(await Which.read({...created,...extra},{pair:live()})).action;
+  assert.equal(await endedBy({}),"continue","nothing known to have ended: continue");
+  assert.equal(await endedBy({CareerModeProductionSharedFinalReconciliation:{getState:()=>({phase:"FINAL_SEASON_RECONCILED",rivalryId:R[3]})}}),"close-then-new","final reconciled for the live rivalry");
+  for(const phase of ["READY","BLOCKED","RECOVERY_PENDING","CLOSED"])assert.equal(await endedBy({CareerModeProductionSharedTerminalClose:{getState:()=>({phase,rivalryId:R[3]})}}),"close-then-new",phase);
+  assert.equal(await endedBy({CareerModeProductionSharedFinalReconciliation:{getState:()=>({phase:"FINAL_SEASON_RECONCILED",rivalryId:R[5]})}}),"continue","another rivalry's final never counts");
+  assert.equal(await endedBy({CareerModeProductionSharedFinalReconciliation:{getState:()=>({phase:"SEASON_RECONCILED",rivalryId:R[3]})}}),"continue","mid-Showdown keeps continuing");
+  assert.doesNotMatch(read("js/whichShowdownIsLive.js").slice(read("js/whichShowdownIsLive.js").indexOf("function wslEnded")),/refresh\(|close\(|retry\(/,"ended is read from page memory only (no new read)");
+  // the entry follows it through the final-screen terminal close only; nothing is created unless that close succeeded
+  const entry=read("js/productionSharedJourneyEntry.js"),identity=read("js/onlinePlayerIdentity.js");
+  const close=entry.slice(entry.indexOf("function closeEndedThenNew()"),entry.indexOf("async function followStartDecision"));
+  assert.match(close,/loadScript\("ssjr-production-terminal-close","js\/productionSharedTerminalClose\.js",\(\)=>root\.CareerModeProductionSharedTerminalClose\)/,"the same terminal close module the final screen uses");
+  assert.match(close,/if\(state&&state\.phase==="READY"\)result=await close\.close\(\);\s*else if\(state&&state\.phase==="RECOVERY_PENDING"&&typeof close\.retry==="function"\)result=await close\.retry\(\);/,"READY closes, RECOVERY_PENDING retries the same witness");
+  assert.match(close,/catch\(error\)\{report\("Unable to close the ended Showdown",error\);await openPersistentPairControls\(\);return false;\}\s*const opened=[^;]*navigateTo\("createShowdown"\)/,"seasons only after the close; a failed close stops on Connect Players");
+  assert.doesNotMatch(close,/createShowdown\(\)|startPairing|abandonCurrentShowdown|continuePair/,"the close path itself never creates, pairs, abandons or continues");
+  assert.match(entry,/if\(decision\.action==="close-then-new"\)return closeEndedThenNew\(\);/);
+  assert.match(identity,/decision\.action!=="close-then-new"\)\{await openCanonicalShowdownJoin/,"Home START hands close-then-new to the entry, not to JOIN");
 });
 
 await check("W7 the module is precached, lazy (not a startup file) and registered",()=>{

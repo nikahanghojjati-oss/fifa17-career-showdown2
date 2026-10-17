@@ -675,14 +675,19 @@ async function r3r4aPresentationContracts(){
 
 // ------------------------------------------------------------------ R5 + R6 career entry
 const PENDING_KEY="careerModeShowdown.sharedJourneyPending.v1";
-function entryHarness({rivalryReady=false,active=false,pairState={status:"unpaired",initialized:true,rivalryId:null,connectionState:null},openExperience="presentation"}={}){
+function entryHarness({rivalryReady=false,active=false,pairState={status:"unpaired",initialized:true,rivalryId:null,connectionState:null},openExperience="presentation",library:startLibrary=null,terminalClose=null}={}){
   const dom=createDom();const menu=dom.add("mainMenu");void menu;const connect=dom.add("connectPlayersScreen");dom.add("connectPlayersPairSlot",{parent:connect});dom.add("roundAmount",{tag:"select"}).value="3";dom.add("startShowdown",{tag:"button"});
-  const calls={pairRender:0,startPairing:0,remoteOpen:0,remoteClose:0,presentation:0,careerStart:0,navigate:[],host:0,join:0,create:0,layerOpen:[],continuePair:0,openJoin:0};
+  const calls={pairRender:0,startPairing:0,remoteOpen:0,remoteClose:0,presentation:0,careerStart:0,navigate:[],host:0,join:0,create:0,layerOpen:[],continuePair:0,openJoin:0,closeRefresh:0,close:0,closeRetry:0};
   const storage=new Map([[PENDING_KEY,"1"]]);
   const remoteListeners=new Set();
   const remoteState={sessionState:active?"active":null,sessionId:active?SESSION:null,pendingAction:null,rivalryId:RIVALRY,accountId:"uid_daniel",deviceId:DEVICE,expiresAtEpochMs:Date.now()+3_600_000};
-  const library={activeSaveId:null,saves:[]};
-  const sandbox={console,setTimeout,clearTimeout,Promise,Date,document:dom.document,MutationObserver:class{observe(){}disconnect(){}},
+  const library=startLibrary||{activeSaveId:null,saves:[]};
+  // r79 (Nik, 2026-10-17): the final-screen terminal close, as START reaches it for an ended-but-not-closed Showdown.
+  let closeState=terminalClose?{phase:String(terminalClose).replace(/-FAIL$/,""),rivalryId:RIVALRY}:null;
+  const closeApi=terminalClose?{install(){},getState:()=>closeState,refresh:async()=>{calls.closeRefresh+=1;return closeState;},
+    close:async()=>{calls.close+=1;await new Promise(resolve=>setTimeout(resolve,2));if(terminalClose==="READY"){closeState={phase:"CLOSED",rivalryId:RIVALRY};return{ok:true};}return{ok:false,code:"TERMINAL_CLOSE_FAILED",message:"Terminal Close was rejected without changing the completed Showdown."};},
+    retry:async()=>{calls.closeRetry+=1;closeState={phase:"CLOSED",rivalryId:RIVALRY};return{ok:true};}}:undefined;
+  const sandbox={CareerModeProductionSharedTerminalClose:closeApi,console,setTimeout,clearTimeout,Promise,Date,document:dom.document,MutationObserver:class{observe(){}disconnect(){}},
     sessionStorage:{getItem:k=>storage.has(k)?storage.get(k):null,setItem:(k,v)=>storage.set(k,String(v)),removeItem:k=>storage.delete(k)},
     loadRuntimeStyle:async()=>true,loadRuntimeScript:async key=>{throw new Error(`unexpected load ${key}`);},
     ensureSaveLibraryRuntimeAuthority:async()=>true,ensureGameplayModules:async()=>true,
@@ -734,6 +739,45 @@ async function r5r6EntryContracts(){
     const unknown=entryHarness({pairState:null});unknown.api.install();await settle();
     assert.equal(await unknown.api.preparePairingShell(),false,"unreadable pair authority fails closed");
     assert.equal(unknown.calls.create+unknown.calls.startPairing+unknown.calls.layerOpen.length,0,"nothing is created or opened when the pair cannot be read");
+  }
+  {
+    // r79 (Nik, 2026-10-17): Daniel's START on a Showdown that ENDED but was never CLOSED closes it through the final-screen
+    // terminal close first and only then opens the seasons screen. START never creates a shell while that Showdown exists.
+    const SAVE="save_"+"e".repeat(24);
+    const endedWorld=terminalClose=>entryHarness({terminalClose,pairState:{status:"paired",initialized:true,rivalryId:RIVALRY,connectionState:"active",managerRole:"playerOne",providerSaveId:SAVE},
+      // as in the real two-manager journey: the local save stays "Created"; this page's terminal close knows the Showdown ended
+      library:{activeSaveId:SAVE,saves:[{saveId:SAVE,showdown:{status:"Created",totalRounds:3,rounds:[],sharedJourney:{mode:"shared",setupPending:true},clubs:{}}}]}});
+    const ready=endedWorld("READY");ready.api.install();await settle();
+    const [first,second]=await Promise.all([ready.api.preparePairingShell(),ready.api.preparePairingShell()]);await settle();
+    assert.deepEqual([first,second],[false,false],"START over an ended Showdown creates no shell itself");
+    assert.equal(ready.calls.close,1,"the ended Showdown is closed once, through the terminal close (a double tap shares it)");
+    assert.equal(ready.calls.create+ready.calls.startPairing+ready.calls.continuePair,0,"no shell, no code and no continue while the ended Showdown exists");
+    assert.equal(ready.calls.navigate.filter(name=>name==="createShowdown").length,1,"after the close succeeds START opens the seasons screen");
+    for(const phase of ["BLOCKED","READY-FAIL"]){
+      const stuck=endedWorld(phase);stuck.api.install();await settle();
+      assert.equal(await stuck.api.preparePairingShell(),false);
+      assert.equal(stuck.calls.create+stuck.calls.startPairing+stuck.calls.continuePair,0,`${phase}: nothing is created when the close does not succeed`);
+      assert.equal(stuck.calls.navigate.includes("createShowdown"),false,`${phase}: no seasons screen without a successful close`);
+      assert.equal(stuck.calls.close,phase==="BLOCKED"?0:1,`${phase}: the close is attempted only when the terminal close is READY`);
+      assert.ok(stuck.calls.layerOpen.length>=1,`${phase}: START stops on Connect Players (CHECK STATUS path)`);
+    }
+    // A Showdown still in progress keeps continuing; Nik's START never closes anything.
+    const playing=entryHarness({pairState:{status:"paired",initialized:true,rivalryId:RIVALRY,connectionState:"active",managerRole:"playerOne",providerSaveId:SAVE},
+      library:{activeSaveId:SAVE,saves:[{saveId:SAVE,showdown:{status:"Ready",totalRounds:3,rounds:[{}],sharedJourney:{mode:"shared"},clubs:{}}}]}});playing.api.install();await settle();
+    assert.equal(await playing.api.preparePairingShell(),false);
+    assert.deepEqual([playing.calls.continuePair,playing.calls.close,playing.calls.create],[1,0,0],"in progress: START continues it, closes nothing, creates nothing");
+  }
+  {
+    // PR #901 P2: CONTINUE CAREER on the locked league wheel (shown after BACK/Escape closes WAITING) reopens WAITING over the
+    // wheel, never the GET READY overlay.
+    const waiting=entryHarness({pairState:{status:"waiting",initialized:true,rivalryId:RIVALRY,connectionState:"pending-pair",managerRole:"playerOne",capability:"CMS17-"+RIVALRY}});waiting.api.install();await settle();
+    const opened=waiting.calls.layerOpen.length;
+    await Promise.all([waiting.api.continueFromLockedWheel(),waiting.api.continueFromLockedWheel()]);await settle();
+    assert.deepEqual(waiting.calls.layerOpen.slice(opened).map(options=>options&&options.stayOnScreen),[true],"one WAITING reopen, on the same screen");
+    assert.equal(visible(waiting.overlay()),false,"no GET READY");assert.equal(waiting.calls.create+waiting.calls.startPairing,0,"the code already out stays the code");
+    const source=read("js/productionSharedJourneyEntry.js");
+    assert.ok(source.includes('resume.id=SHARED_CONTINUE_ID;resume.type="button";resume.addEventListener("click",()=>void continueFromLockedWheel());'),"the wheel's CONTINUE CAREER goes through the START decision");
+    assert.ok(!source.includes('addEventListener("click",()=>void openPanel())'),"no button opens GET READY directly");
   }
   ok("R5a Entry (r79): START A SHOWDOWN opens WAITING over the locked league screen, makes the code once, and over a live pair continues it instead");
   {

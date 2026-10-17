@@ -135,7 +135,7 @@ assert.match(identitySource,/isNik=current\?\.status==="ready"&&current\.manager
 assert.match(identitySource,/if\(gameplay\.id==="newShowdown"&&!gameplay\.disabled\)\{e\.preventDefault\(\);e\.stopImmediatePropagation\(\);void openCanonicalStart\(\);return;\}/,'The Home tile must route through the one canonical START for both managers.');
 const canonicalStartFlow=identitySource.slice(identitySource.indexOf('async function openCanonicalStart()'),identitySource.indexOf('async function openCanonicalShowdownJoin'));
 assert.match(canonicalStartFlow,/which\.read\(root\)[\s\S]*if\(decision\.action==="new"\)\{[^}]*navigateTo\("createShowdown"\)/,'Only a "new" decision (Daniel with nothing live) opens season selection.');
-assert.match(canonicalStartFlow,/if\(decision\.action!=="continue"&&decision\.action!=="resume-waiting"\)\{await openCanonicalShowdownJoin\(/,'Join, wait-for-daniel and pair-first open the join surface.');
+assert.match(canonicalStartFlow,/if\(decision\.action!=="continue"&&decision\.action!=="resume-waiting"&&decision\.action!=="close-then-new"\)\{await openCanonicalShowdownJoin\(/,'Join, wait-for-daniel and pair-first open the join surface.');
 assert.match(identitySource,/async function openCanonicalShowdownJoin\(options=\{\}\)[\s\S]*syncPersistentPairSidecar[\s\S]*persistentNikDanielPairPanel[\s\S]*persistentNikDanielPairCode/,'Nik Join must reconcile durable pair state and focus the single code-entry surface.');
 
 assert.match(identitySource,/"FORGET THIS DEVICE"/);
