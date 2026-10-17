@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 11:03 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 11:07 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
-🌐 **Live: 1.9.1-r77** (main `8f32e34`, Fri 16 Oct 10:19 PM)
+🌐 **Live: 1.9.1-r77** (main `8ffe292`, Fri 16 Oct 11:05 PM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🩺 **All clear: every check has a machine.** · Gate #885: L1✓ L2✓ L3A… L3B✓ L4✓ L5✓ L6✓ · seal pending · POS20 #885 0/16
 
 ## Jobs
 
@@ -1838,12 +1838,6 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 ## Other Team G work
 
-**Fixing now**
-
-| Lane | Item | What | State |
-| --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #885](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/885) | Re-pin the composed Rules check to production main r76b | ⏳ 5 passed, 2 running |
-
 **Up next**
 
 | Lane | Item | What | State |
@@ -1867,6 +1861,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 ## Shipped today
 
+- 11:05 PM · #885 Re-pin the composed Rules check to production main r76b
 - 10:19 PM · #884 Release r76b: START REAL CAREER marker and close-race fix
 - 7:00 PM · #878 Release r76: gameplay bug fixes and read-cost cut (1.9.1-r76)
 

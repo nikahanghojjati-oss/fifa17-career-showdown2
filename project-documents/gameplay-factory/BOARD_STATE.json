@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-16 11:03 PM Boston time (EDT)",
+ "generated": "2026-10-16 11:07 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 96,
@@ -916,27 +916,17 @@
  },
  "two": {
   "live": {
-   "sha": "8f32e34",
+   "sha": "8ffe292",
    "revision": "1.9.1-r77",
-   "when": "2026-10-17T02:19:37Z",
-   "subject": "Release r76b: START REAL CAREER marker and close-race fix (#884)",
-   "fixes": [
+   "when": "2026-10-17T03:05:54Z",
+   "subject": "Re-pin the composed Rules check to production main r76b (#885)",
+   "fixes": [],
+   "today": [
     {
      "pr": 885,
      "title": "Re-pin the composed Rules check to production main r76b",
-     "draft": false,
-     "branch": "gameplay/repin-r76b",
-     "sha": "c754958900a6d6ea3d961a1e20ad0dea70208914",
-     "updated": "2026-10-17T02:56:37Z",
-     "gates": {
-      "passed": 5,
-      "running": 2,
-      "failed": 0,
-      "cancelled": 0
-     }
-    }
-   ],
-   "today": [
+     "merged": "2026-10-17T03:05:54Z"
+    },
     {
      "pr": 884,
      "title": "Release r76b: START REAL CAREER marker and close-race fix",
@@ -952,7 +942,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "POS20 #304 6/16",
+   "gate": "Gate #885: L1✓ L2✓ L3A… L3B✓ L4✓ L5✓ L6✓ · seal pending · POS20 #885 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -1407,7 +1397,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 49,
+  "moving": 48,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -2623,22 +2613,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 885,
-    "title": "Re-pin the composed Rules check to production main r76b",
-    "draft": false,
-    "branch": "gameplay/repin-r76b",
-    "sha": "c754958900a6d6ea3d961a1e20ad0dea70208914",
-    "updated": "2026-10-17T02:56:37Z",
-    "gates": {
-     "passed": 5,
-     "running": 2,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
