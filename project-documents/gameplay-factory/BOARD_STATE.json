@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-17 1:19 AM Boston time (EDT)",
+ "generated": "2026-10-17 1:22 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 109,
+  "count": 111,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -984,6 +984,24 @@
     "subject": "r78: much better loading screen (Reus photo and BVB crest stay, edited into marble)",
     "reply": "no",
     "boston": "Sat 17 Oct 1:00 AM"
+   },
+   {
+    "time": "2026-10-17 05:21",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-028 DONE",
+    "subject": "r78: readable premium body text on every screen (Rules first; titles stay)",
+    "reply": "no",
+    "boston": "Sat 17 Oct 1:21 AM"
+   },
+   {
+    "time": "2026-10-17 05:21",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-029 DONE",
+    "subject": "r78: every error screen and pop-up in black-and-gold marble",
+    "reply": "no",
+    "boston": "Sat 17 Oct 1:21 AM"
    }
   ],
   "g2v": {
@@ -1004,8 +1022,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "e802876",
-  "head_boston": "Sat 17 Oct 1:00 AM",
+  "head": "d73c7d4",
+  "head_boston": "Sat 17 Oct 1:21 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1433,8 +1451,8 @@
     "from": "G",
     "to": "V",
     "title": "r78: readable premium body text on every screen (Rules first; titles stay)",
-    "stage": "WORKING",
-    "pct": 66.66666666666667,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-028_r78-readable-premium-body-text-on-every-.md",
     "worker": "",
@@ -1446,8 +1464,8 @@
     "from": "G",
     "to": "V",
     "title": "r78: every error screen and pop-up in black-and-gold marble",
-    "stage": "WORKING",
-    "pct": 66.66666666666667,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-029_r78-every-error-screen-and-pop-up-in-bla.md",
     "worker": "",
@@ -1550,7 +1568,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 50,
+  "moving": 48,
   "next": 42,
   "nik": 2,
   "later": 21,

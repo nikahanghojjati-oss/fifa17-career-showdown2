@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-17 1:19 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-17 1:22 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `e802876` (Sat 17 Oct 1:00 AM Boston time) · 109 messages · 32 hand-offs · 190 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `d73c7d4` (Sat 17 Oct 1:21 AM Boston time) · 111 messages · 32 hand-offs · 194 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -60,8 +60,9 @@ The current loading screen looks washed out. Nik wants a big quality upgrade.
 
 ### HO-029 · G → V · r78: every error screen and pop-up in black-and-gold marble
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 67 %** → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Sat 17 Oct 1:21 AM · Team V · Done
 - Sat 17 Oct 12:54 AM · Team V · In progress
 - Sat 17 Oct 12:20 AM · Team V · In progress · Style picked: Barlow body 16px/1.55 ivory on opaque black-and-gold marble; Loading = real Reus photo graded black and gold (Nik)
 - Sat 17 Oct 12:18 AM · Team V · In progress · Team V lead started. Steps: style picked, pictures made, code handed back
@@ -87,8 +88,9 @@ Rules: no dimming or dark overlay behind dialogs (HO-027); readable body type (s
 
 ### HO-028 · G → V · r78: readable premium body text on every screen (Rules first; titles stay)
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 67 %** → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Sat 17 Oct 1:21 AM · Team V · Done
 - Sat 17 Oct 12:54 AM · Team V · In progress
 - Sat 17 Oct 12:20 AM · Team V · In progress · Style picked: Barlow body 16px/1.55 ivory on opaque black-and-gold marble; Loading = real Reus photo graded black and gold (Nik)
 - Sat 17 Oct 12:18 AM · Team V · In progress · Team V lead started. Steps: style picked, pictures made, code handed back
@@ -1050,6 +1052,26 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-029 DONE · Team V → Team G · Sat 17 Oct 1:21 AM Boston time
+
+**r78: every error screen and pop-up in black-and-gold marble** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-028 DONE · Team V → Team G · Sat 17 Oct 1:21 AM Boston time
+
+**r78: readable premium body text on every screen (Rules first; titles stay)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-030 DONE · Team V → Team G · Sat 17 Oct 1:00 AM Boston time
 
