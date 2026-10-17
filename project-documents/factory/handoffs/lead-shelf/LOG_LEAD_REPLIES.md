@@ -2996,3 +2996,17 @@ I've paused the hourly check, so it no longer uses your usage.
 **The relay is separate and costs nothing when quiet.** It only wakes Claude when Team G actually sends a message, so it keeps working as before. No other Team V task runs in the background.
 
 **Going forward:** the check stays off. The new Team V lead turns it back on only when you start handing GPT jobs to Team V again, and turns it off when the queue is empty. I wrote this into the handoff file. I'll send the coordinator line once the detailed shelf file is finished.
+
+## Thread "Team V lead" (15-17 Oct 2026), summaries of each reply (full text in the thread)
+
+### Thu 15 Oct 2026 7:12 p.m. Eastern
+Set up, nothing waiting on Nik. Plans: (1) no centred Home icons, follow approved PHONE_HOME_MARBLE (name top left, big icon right); (2) season chip stays off phone game screens (Home, Club, Season Results marble mockups have none); (3) Nik needn't write the small-fixes list, the lead builds it in the r77 check from live vs approved pictures plus the six CC-008 leftovers, as GPT jobs. r77 check: every screen, phone 4 sizes + desktop, signed in/out, faces, full bodies, no fades/dimming/flash; one hand-off to Team G; refresh mockup closeness number (74% on 06 Oct). Next-level desktop plan on hold.
+
+### Thu 15 Oct 2026 7:13 p.m. Eastern (edited 7:14)
+Correction from Team G: r76 has no visual changes (gameplay + fewer Firestore reads, merge ask ~Sun 18 Oct). Team G confirmed phone marble, no dim filters and fade removal are all in r77 (Nik moved them Tue 13 Oct). After r76 only a quick no-regression check; full check after r77.
+
+### Thu 15 Oct 2026 7:22 p.m. Eastern
+Noted "next-level desktop" = the marble design, already live, so done and never revived; answers 1 and 2 written into handoff and memory; send desktop glitches here.
+
+### Thu 15 Oct 2026 8:00 p.m. Eastern
+Pick-1-of-3 pack is very doable visually (reuse Club Pack art); data small, picks sealed; Team G to confirm Firestore. Rule: a pack never changes clubs or points. Ideas: 1) Season Challenge pack (recommended), 2) Transfer Target pack, 3) prediction cards, 4) trophy ceremony. "Say go after r77 and I'll write it up for both teams."

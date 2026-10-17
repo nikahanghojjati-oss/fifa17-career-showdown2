@@ -523,6 +523,8 @@ Answered Thu 15 Oct 7:18 p.m.: Nik agreed: Home tiles follow PHONE_HOME_MARBLE (
 
 Open question from Nik (Thu 15 Oct 6:43 p.m.): "I'm not sure what else you need to do for the R77 visual." No answer in the logs. Candidates from the record: r76 live checks above, the Transfer War phone study, Club/VS wordmarks, any small visual list Nik gives.
 
+Feature idea (Nik, Thu 15 Oct 7:58 p.m.): he likes a pick-1-of-3 card pack after r77. Lead answered: visually doable (reuse Club Pack art), picks sealed, a pack must never change clubs or points. Ranked ideas: 1) Season Challenge pack (pick 1 of 3 play challenges, rival confirms at season end, Legacy badge) RECOMMENDED; 2) Transfer Target pack (player type, no real players); 3) secret season predictions revealed at Season Results; 4) trophy ceremony cinematic. Waiting on Nik's "go" after r77; then write it up for both teams (Team G confirms Firestore fit).
+
 ## S36 The 15 Oct thread transition
 
 - Nik's request (Thu 15 Oct 6:43 p.m.): the Team G lead thread had grown too large and burned his usage (each reply re-reads the whole chat); he wants the same check for Team V. Move to a new thread only if it really saves usage. While he works R76 with Team G, R77 will be visual (he thinks all backgrounds are done).

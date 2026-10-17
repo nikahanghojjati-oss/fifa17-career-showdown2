@@ -45,13 +45,15 @@ All four are in `project-documents/factory/handoffs/lead-shelf/` on `factory/v1-
 - Studies: Team G's mega factory makes coded study pages; Team V judges each in `project-documents/gameplay-factory/queue/V_ADOPTION.md` on `factory/gameplay-v1`. Edit only that file there; never edit Team G's board files.
 - Boards rebuild themselves through GitHub Actions; the Haiku V keeper thread owns `CUSTOM_VIEW_V.html`.
 
-## 5. Live state (15 Oct 2026, evening Eastern)
+## 5. Live state (17 Oct 2026, 12:20 a.m. Eastern; refreshed by the "Team V lead" thread of 15-16 Oct)
 
-- Live site build: r72 on 12 Oct; Team G is working on **r76** now. r75 was an urgent Firebase fix only.
-- **Done by Team V:** all 16 desktop NEXT mockups, all 17 phone marble mockups, all 14 desktop premium backgrounds, all 15 phone backgrounds (heads locked, 24 heads match bodies within 1px, 0.25 degrees and 0.4% size, face check passes on all 12 manager screens). HO-026 Team V part DONE. Sideways (852x393) and tablet portrait reuse the phone plates; tablet landscape uses the desktop plates. No new art needed there. Team G dropped the old OVL_*_PHONE cutouts (no V3 cutouts).
-- **With Team G for r76:** wiring the phone plates, HO-027 filter removal, and removing the fade masks Team V found on main (`css/v10Setup.css:628-629` `.v26Hero img`; `css/v10Transfer.css:91-92, 100-101, 108-109, 291`). They run `live_facecheck.cjs` on it.
-- Factory queue: empty. `waiting.sh` has listed nothing and no new studies have appeared since 13 Oct.
-- Nothing is waiting on Nik.
+- **r76 SHIPPED** Fri 16 Oct about 7 p.m. Eastern (PR #878 squash-merged to main as b41f2969, runtime 1.9.1-r76, r75 kept for rollback). Gameplay fixes and Firestore read cut only; NO visual change. Team G gallery: https://claude.ai/artifact/V2gSpstRsPH3B9FNzJmzSn
+- **Next at Team G:** r76b (small gameplay release on gameplay/clean-start), then **r77 = all visual**: HO-026 phone marble, HO-027 no dimming/filters, fade-mask removal (`css/v10Setup.css:628-629`; `css/v10Transfer.css:91-109, 291`), "local storage" wording.
+- **First job for the new lead:** a quick no-regression look at the live r76 site (no flash, no fades, no filters; nothing should have changed visually). Then wait for r77 and run the full phone check (section 6).
+- **Done by Team V:** all 16 desktop NEXT mockups, all 17 phone marble mockups, all 14 desktop premium backgrounds, all 15 phone backgrounds (heads locked, face check passes on all 12 manager screens). HO-026 Team V part DONE. Sideways and tablet portrait reuse the phone plates; tablet landscape uses the desktop plates.
+- **Relay wakes:** both leads UNSUBSCRIBED from PR #312 (a red seal check fires on every relay commit and woke the leads for nothing). Wake each other only with `send_message` to the INBOX.json ids. Team G lead = session_013dkr2En27fWuBRYhcLxJRU. Do NOT re-subscribe to #312.
+- **Waiting on Nik:** a "go" (after r77) for the new-feature idea: Season Challenge pack (pick 1 of 3), see SHELF S35.
+- Factory queue: empty. Hourly guard stays OFF.
 
 ## 6. What may come next (r77, Nik expects a visual release)
 
@@ -65,7 +67,7 @@ All four are in `project-documents/factory/handoffs/lead-shelf/` on `factory/v1-
 ## 7. Your first steps in the new thread (do these once)
 
 1. Read this file, then `grep -n '^## S' SHELF.md` so you know the shelf's sections.
-2. **Relay:** in a `leads/relay` checkout, set `INBOX.json` "V" to your session id and thread name, commit, push. Subscribe to PR #312 activity. Read `INBOX.json` "G" for Team G's current session (Team G is also moving to a fresh lead thread, so the old `session_01WtNr2MS7C9s34e26kzc17a` may be stale). Send Team G one short message with your new session id.
+2. **Relay:** in a `leads/relay` checkout, set `INBOX.json` "V" to your session id and thread name, commit, push. Do NOT subscribe to PR #312 (noise, see section 5). Read `INBOX.json` "G" for Team G's current session (Team G is also moving to a fresh lead thread, so the old `session_01WtNr2MS7C9s34e26kzc17a` may be stale). Send Team G one short message with your new session id.
 3. **Hourly backlog guard: PAUSED on purpose.** The scheduled task "Factory: keep the Claude check lane at 3 or fewer" (`trig_01WAbi3RfWbpwGEDPjeyiYgZ`, bound to the OLD session) checked every hour from 7 a.m. to 1 a.m. Eastern, 19 times a day, for GPT jobs waiting on a Claude check and for new studies. It found nothing from 13 Oct on and burned Nik's usage, so it was paused on 15 Oct at 6:47 p.m. Eastern. Leave it off. Turn the guard on again only when Nik starts handing out GPT jobs or studies for Team V again. To do that, create the same task bound to your own session: same cron `CRON_TZ=America/New_York 52 0,1,7-23 * * *`, same prompt (read it with `get_trigger`). Then delete the old one. Tell Nik when you turn it on, and turn it off again once the queue is empty. The relay does not need it: Team G wakes you directly.
 4. Tell Nik in one short reply that you are set up and nothing is waiting on him.
 
