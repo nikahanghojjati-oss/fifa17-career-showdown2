@@ -1837,6 +1837,11 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 }
 @media (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerResultsPanel { bottom:calc(4% + 72px + var(--fw-th)); }
+}/* r78 phone marble: below the desktop picture range the Season Results tab bar and the action row are no longer glass
+   (no backdrop blur); the row wears desktop's black-marble face. Looks only: size, place and order are unchanged. */
+@media not all and (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+ #app #seasonEntry .v10SeasonStage .season-phone-toolbar { -webkit-backdrop-filter:none; backdrop-filter:none; }
+ #app #seasonEntry .season-action-row { background:linear-gradient(180deg, rgba(26,24,20,.9) 0%, rgba(9,9,11,.94) 46%, rgba(4,4,6,.96) 100%); -webkit-backdrop-filter:none; backdrop-filter:none; }
 }
 `;
     parent.appendChild(style);

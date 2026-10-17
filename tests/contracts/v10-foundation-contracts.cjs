@@ -557,8 +557,6 @@ const V10_IMAGES={
     "visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.webp":"3c35391805507bf8910f36f98147cd8383e4944eeb999021661d6d7030d30c39",
     "visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_2X.webp":"aed61ed9d6e10cbaead7251539e188101bc1371d83639b2ab6953dae875274f9",
     "visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V1.webp":"d72524228798c02bd9c22750da3743099768a80b3ef904a21d8243a1f6dccda6",
-    "visual-assets/v10_1/home/assets/OVL_HOME_DANIEL_PHONE_V1.webp":"fdff22d11059c6c6f4c5f38780cd183b26ae737fecc1f913e74ffe754d53e169",
-    "visual-assets/v10_1/home/assets/OVL_HOME_NIK_PHONE_V1.webp":"abeb9551dc5cd8ad11d65b2993dfe5155725397ba42b7ba17020634938c62800",
     // HO-005 (V-243, factory 2daf437): phone overlays without the ghost coat
     "visual-assets/v10_1/home/assets/OVL_HOME_DANIEL_PHONE_V2.webp":"9c2bde331c0025b69d9122b0dc8e76200b914e2d10dc4e1f476525562f825193",
     "visual-assets/v10_1/home/assets/OVL_HOME_NIK_PHONE_V2.webp":"8b65513283e570a8a66a6de8762369f33354d751764e2dbf71f715338bddf374",
@@ -600,7 +598,9 @@ const V10_IMAGES={
     "visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_2X.webp":"d71bf0f4da18fd92b45727e1c1ae955d8bb83fc35c9c16bf9988c938425db003",
     "visual-assets/v10_1/start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp":"f5fdb5eedc90b83acd5225cc6b18078ddfcf9031c9b40128f91db3314c34a3cd",
     "visual-assets/v10_1/start-join/assets/OVL_SJ_NIK_PHONE_V1.webp":"7564a129eccae2bbaf1a6b5280f0073dbba5770190c2547ae245b1bb07dc5b75",
-    "visual-assets/v10_1/shared/plates/ENV_SYS_PHONE_V1.webp":"734d1d147c80e48f3b3a4744f35ea255c47cd23adb5e451c1e2e98fff6b54882",
+    // r78 phone marble: Team V's marble phone plates for Rule Book and Settings (factory/v1-wtt5ye, byte-identical)
+    "visual-assets/v10_1/plates-v2/ENV_RULE_BOOK_PHONE_V2.webp":"f96fe2a45130a645ff23a8df9e442cd6b9f6109adc1ea95211ae0c6cc8c28ee1",
+    "visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp":"231ce815b711bfaef2828d67364da9e96981c9fa5ef0dcdc7bb5324b0ea1c30b",
     "visual-assets/v10_1/shared/plates/ENV_SYS_PLATE_V1_1X.webp":"0342875dca95999886d5bd0b81daf1aca4a86d0b95bb738e2f6cc4548365a2b8",
     "visual-assets/v10_1/shared/plates/ENV_SYS_PLATE_V1_2X.webp":"005420e4c40d42fbe34d7a66ff7e5428cd3b58b15587ad9ca7ef438b2105b9fd",
     "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V1.webp":"a35299752e9d3cfcc44b21ff882ac7fdd81b727af78002c5ce5d76459b29e322",
@@ -614,8 +614,6 @@ const V10_IMAGES={
     "visual-assets/v10_1/tr2/slice-02-plate/assets/ENV_TRANSFER_PHONE_V1.webp":"0effe0edb3159888b4417201ffafa806a3435a1f94cf2630408b7b96dd3b6bd1",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_NIK_FINGERTIP_V1_1672.png":"09aa42ae27b63157cd89ce61ed75515b48b5c219f5828e27ca2b8b15f6b3cd50",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_NIK_FINGERTIP_V1_3344.png":"36ebfa43f2a1717be42f8a3e5dc708d1455de5fda4ea1be6f33ac42cd2fa136d",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_DANIEL_PHONE_V1.webp":"b57581b59b461ef11fa38e19e665103b3fb716e788a0e96ef315d3704ced351a",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_NIK_PHONE_V1.webp":"c15f8a2df3892472895978ae3f8ba029ee5b0a1dafa3afac9bbe10e03906c929",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_DANIEL_PHONE_V2.webp":"739359106c586b8e98640290c5091b97008550f4bebad4919eabde3c0c9c1086",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_NIK_PHONE_V2.webp":"d0d59dddf6988f0b24394d2363c30f15445f68dea3840fc4247dbf23ee826316",
     "visual-assets/v10_1/legacy/assets/ENV_LG_PHONE_V1.webp":"53832e23888504219270897b8c43ff165fca63d26d25e6d023220ee5c416fda1",

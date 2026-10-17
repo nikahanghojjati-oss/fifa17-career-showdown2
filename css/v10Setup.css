@@ -1597,3 +1597,16 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
 @media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 21/10) and (orientation: landscape) {
   #app #leagueWheelScreen.v26Skin { --lp-kb: min(var(--lp-s), 1.05px); }
 }
+
+/* r78 phone marble: below the desktop picture range the Start / Join, League, Club and Showdown Home panels, notes and
+   Back buttons are no longer glass (no backdrop blur); they wear desktop's black-marble face. Looks only: borders, sizes,
+   places, words and tap order are unchanged. */
+@media not all and (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin :is(.stateNote, .backButton),
+  #createShowdown.v26Skin .setupBox,
+  #dashboard.v26Skin :is(.showdownOverview, .lastSeasonSummary, .playerCard) {
+    background: linear-gradient(180deg, rgba(26,24,20,.9) 0%, rgba(9,9,11,.94) 46%, rgba(4,4,6,.96) 100%);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}

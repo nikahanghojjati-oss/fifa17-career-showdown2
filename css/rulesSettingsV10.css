@@ -1191,3 +1191,12 @@
 @media (min-width:901px) and (max-height:700px) {
   #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { margin-bottom:30px; }
 }
+
+/* r78 phone marble: below 1200px Settings shows Team V's marble phone plate (ENV_SETTINGS_PHONE_V2, js/rulesSettingsV10.js)
+   under the same light shade desktop uses over its marble plate, so the penthouse marble reads instead of a near-black
+   screen. Background only: cards, order, scrolling and DONE are untouched. */
+@media (max-width:1199px) {
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsStageScrim {
+    background:linear-gradient(180deg,rgba(2,2,2,.12) 0%,rgba(2,2,2,.28) 100%);
+  }
+}
