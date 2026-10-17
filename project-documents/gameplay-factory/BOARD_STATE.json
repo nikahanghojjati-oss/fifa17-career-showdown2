@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-17 7:12 AM Boston time (EDT)",
+ "generated": "2026-10-17 7:16 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 111,
@@ -1061,11 +1061,11 @@
      "title": "Release r78: look and feel (1.9.2-r78)",
      "draft": false,
      "branch": "gameplay/clean-start",
-     "sha": "c3f947172043e012875f8c3b4095bcd4a5e6133b",
-     "updated": "2026-10-17T10:21:02Z",
+     "sha": "7cb179ea6bec30a2aec88caecd81429439b6a133",
+     "updated": "2026-10-17T11:15:06Z",
      "gates": {
-      "passed": 8,
-      "running": 0,
+      "passed": 0,
+      "running": 7,
       "failed": 0,
       "cancelled": 0
      }
@@ -2805,11 +2805,11 @@
     "title": "Release r78: look and feel (1.9.2-r78)",
     "draft": false,
     "branch": "gameplay/clean-start",
-    "sha": "c3f947172043e012875f8c3b4095bcd4a5e6133b",
-    "updated": "2026-10-17T10:21:02Z",
+    "sha": "7cb179ea6bec30a2aec88caecd81429439b6a133",
+    "updated": "2026-10-17T11:15:06Z",
     "gates": {
-     "passed": 8,
-     "running": 0,
+     "passed": 0,
+     "running": 7,
      "failed": 0,
      "cancelled": 0
     }
