@@ -136,21 +136,23 @@ function faceHits({ faces, w, h }){
         const text = [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim());
         return bg || bgImg || border || text || /^(IMG|SVG|CANVAS|BUTTON|INPUT|VIDEO)$/.test(el.tagName.toUpperCase()); };
     const cls = el => String(el.className && el.className.baseVal !== undefined ? el.className.baseVal : el.className || "");
-    // The one narrow exception to the box test (the League wheel): an element whose four corner radii are all at least
-    // half its width and height (border-radius: 50%, a circle or ellipse) is tested as that ellipse, not its square box.
-    // Its box is the untransformed border box (offsetWidth / offsetHeight) about the centre of its painted rect; under a
-    // transform only a true circle (rotation does not move it) is accepted, sized by the transform's scale. Anything
-    // else, clipped or not, keeps the box test.
+    // The one narrow exception to the box test (the League wheel): a true circle is tested as its disc, not its square box.
+    // A true circle is a near-square border box (offsetWidth / offsetHeight within 2% of each other) whose four corner
+    // radii are all at least half its side (border-radius: 50%). A pill or capsule (border-radius: 999px on a wide box),
+    // an ellipse, a corner-cut card and anything else keep the box test. The disc is centred on the painted rect, its
+    // radius is half the longer side, and a 2D transform scales it (rotation does not move a circle).
     const round = (el, r) => { if(!(el instanceof HTMLElement)) return null;
         const cs = getComputedStyle(el), w = el.offsetWidth, h = el.offsetHeight; if(!(w > 0 && h > 0)) return null;
+        if(Math.abs(w - h) > .02 * Math.max(w, h)) return null;
         const half = v => { const [a, b = a] = v.split(" "); const px = (t, d) => t.endsWith("%") ? parseFloat(t) / 100 * d : parseFloat(t); return px(a, w) >= w / 2 - .01 && px(b, h) >= h / 2 - .01; };
         if(![cs.borderTopLeftRadius, cs.borderTopRightRadius, cs.borderBottomRightRadius, cs.borderBottomLeftRadius].every(half)) return null;
         let k = 1;
         if(cs.transform && cs.transform !== "none"){
-            const m = /^matrix\(([^)]+)\)$/.exec(cs.transform); if(!m || Math.abs(w - h) > .5) return null;
+            const m = /^matrix\(([^)]+)\)$/.exec(cs.transform); if(!m) return null;
             const [a, b, c, d] = m[1].split(",").map(Number); k = Math.sqrt(Math.abs(a * d - b * c));
         }
-        return { cx: (r.left + r.right) / 2, cy: (r.top + r.bottom) / 2, rx: w / 2 * k, ry: h / 2 * k }; };
+        const rad = Math.max(w, h) / 2 * k;
+        return { cx: (r.left + r.right) / 2, cy: (r.top + r.bottom) / 2, rx: rad, ry: rad }; };
     for(const el of document.querySelectorAll("body *")){
         const r = el.getBoundingClientRect();
         if(r.width < 2 || r.height < 2 || r.width * r.height > 0.6 * w * h) continue;
@@ -248,6 +250,29 @@ function paintedArt(plateName){
     return { plate: [...backdrops].includes(plateName), cutouts: list.filter(n => /^OVL_.*PHONE/i.test(n)), phoneV1: [...backdrops].filter(n => /^ENV_.*PHONE_V1/i.test(n)) };
 }
 
+// Self-test of the box / circle rule on a blank page, before any screen is checked. A face zone sits at 20,20-80,80 of
+// a 400x400 page. A 999px-radius pill whose box corner overlaps the zone must still be a hit (it is not a circle; as an
+// ellipse it would miss); an ellipse likewise; a 50% circle
+// whose square box covers the zone's corner but whose disc does not reach the zone must not be; the same circle moved
+// onto the zone must be a hit again.
+async function selfTest(browser){
+    const context = await browser.newContext({ viewport: { width: 400, height: 400 } });
+    const page = await context.newPage();
+    const run = async html => { await page.setContent(`<body style="margin:0;background:#000">${html}</body>`); return page.evaluate(faceHits, { faces: [[20, 20, 80, 80]], w: 400, h: 400 }); };
+    const box = "position:absolute;background:#c90;";
+    const cases = [
+        ["pill (border-radius 999px) whose box corner overlaps the face", `<div style="${box}left:75px;top:75px;width:200px;height:40px;border-radius:999px"></div>`, true],
+        ["circle whose box corner (not disc) overlaps the face", `<div style="${box}left:70px;top:70px;width:120px;height:120px;border-radius:50%"></div>`, false],
+        ["circle whose disc overlaps the face", `<div style="${box}left:40px;top:40px;width:120px;height:120px;border-radius:50%"></div>`, true],
+        ["ellipse (not a circle) whose box corner overlaps the face", `<div style="${box}left:70px;top:70px;width:200px;height:120px;border-radius:50%"></div>`, true]
+    ];
+    const bad = [];
+    for(const [name, html, expectHit] of cases) if((await run(html)).length > 0 !== expectHit) bad.push(`${name}: expected ${expectHit ? "a hit" : "no hit"}`);
+    await context.close();
+    if(bad.length) throw new Error("face check self-test failed: " + bad.join("; "));
+    console.log(`face check self-test: PASS (${cases.length} cases)`);
+}
+
 // HO-031 v3 (factory/v1-wtt5ye 9867fa6b): Standings, Rivalry and Trophy Room draw ENV_<KEY>_PHONE_V3.
 const V3 = ["STANDINGS", "RIVALRY", "TROPHY_ROOM"];
 // HO-032 V5 (factory/v1-wtt5ye 0c2c6465): League draws ENV_LEAGUE_PHONE_V5, made for the 15% smaller phone wheel.
@@ -261,6 +286,7 @@ if(require.main === module) (async () => {
     const browser = await chromium.launch({ headless: true, executablePath: runtime.executablePath, args: runtime.args });
     const results = {};
     try{
+        await selfTest(browser);
         for(const key of keys){
             if(!SCREENS[key]) throw new Error("unknown screen " + key);
             results[key] = { ok: true, lines: [] };
