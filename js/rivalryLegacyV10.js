@@ -67,7 +67,9 @@
   const screens=()=>root.CareerModeV10Screens;
   const state=name=>{try{return root[name]?.getState?.()??null;}catch(_){return null;}};
   const identity=()=>state("CareerModeOnlinePlayerIdentity");
-  const context=()=>JSON.stringify([state("CareerModeSparkConnectedAccount")?.accountId??null,identity()?.managerId??null,state("CareerModePersistentNikDanielPair")?.rivalryId??null]);
+  // The career start marker's epoch changes only when the marker changes, so a switch drops the cached career.
+  const markerEpoch=()=>{try{return root.CareerModeCareerStartMarker?.epoch?.()??0;}catch(_){return 0;}};
+  const context=()=>JSON.stringify([state("CareerModeSparkConnectedAccount")?.accountId??null,identity()?.managerId??null,state("CareerModePersistentNikDanielPair")?.rivalryId??null,markerEpoch()]);
   const report=error=>root.reportApplicationError?.("History and rivalry screens could not load",error);
   const load=(key,file,global)=>root.loadRuntimeScript(key,file,()=>Boolean(root[global]));
   async function modelDependencies(){
@@ -186,7 +188,7 @@
       }
       if(!installed){
         installed=true;
-        const events={"career-mode-online-identity-change":"CareerModeOnlinePlayerIdentity","career-mode-connected-account-state-change":"CareerModeSparkConnectedAccount","career-mode-shared-history-convergence-state-change":"CareerModeProductionSharedHistoryConvergence","career-mode-shared-terminal-close-state-change":"CareerModeProductionSharedTerminalClose"};
+        const events={"career-mode-online-identity-change":"CareerModeOnlinePlayerIdentity","career-mode-connected-account-state-change":"CareerModeSparkConnectedAccount","career-mode-shared-history-convergence-state-change":"CareerModeProductionSharedHistoryConvergence","career-mode-shared-terminal-close-state-change":"CareerModeProductionSharedTerminalClose","career-mode-career-start-change":"CareerModeCareerStartMarker"};
         for(const [event,provider] of Object.entries(events)){
           const signature=value=>JSON.stringify([context(),value?.phase??null,value?.status??null,value?.acceptedRevisionKey?value.throughSeason??null:null,value?.acceptedRevisionKey??null]);
           let last=signature(state(provider));
@@ -205,6 +207,27 @@
   // before; the last result is kept in memory for the current account, manager and pair only.
   // careerLoadSequence orders overlapping loads: only the newest started load may publish the shared cache.
   let careerCache=null,careerLoadSequence=0;
+  // Career start marker: one exact get per account per page load (cached by js/careerStartMarker.js, lazily loaded).
+  // Only an active marker hides anything; a missing module, document or read leaves the career as it was.
+  async function rlHiddenRivalryIds(services,getDoc,user){
+    try{
+      await load("career-start-marker","js/careerStartMarker.js","CareerModeCareerStartMarker");
+      const marker=root.CareerModeCareerStartMarker;
+      if(typeof marker?.readMarker!=="function")return [];
+      return marker.hiddenRivalryIds(await marker.readMarker({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc},accountId:user.uid}));
+    }catch(_){return [];}
+  }
+  // Rivalry Statistics shows a just-finished Showdown from live state. A hidden one must not show.
+  async function rlCurrentHidden(rivalryId){
+    try{
+      const account=state("CareerModeSparkConnectedAccount"),runtime=root.CareerModeProductionFirebaseRuntime;
+      if(typeof rivalryId!=="string"||!account?.connected||!runtime)return false;
+      const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices()),user=services?.auth?.currentUser;
+      if(!services?.ok||!user||user.uid!==account.accountId)return false;
+      const sdk=services.firestoreSdk?.getDoc?services.firestoreSdk:await import(runtime.firebaseFirestoreModule);
+      return (await rlHiddenRivalryIds(services,sdk.getDoc,user)).includes(rivalryId);
+    }catch(_){return false;}
+  }
   async function rlLoadCareerModel(canPublish=()=>true,rivalry=false){
     const key=context(),sequence=++careerLoadSequence;
     await modelDependencies();
@@ -219,7 +242,8 @@
         // Reuse the configured SDK host and memory-only services. This only adds an exact-get
         // function to the reader argument; it changes no auth scope, provider setting or Rules.
         const sdk=services.firestoreSdk?.getDoc?services.firestoreSdk:await import(runtime.firebaseFirestoreModule);
-        const result=await root.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc},user,current:active.careerInput});
+        const hidden=await rlHiddenRivalryIds(services,sdk.getDoc,user);
+        const result=await root.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc},user,current:active.careerInput,...(hidden.length?{hiddenRivalryIds:hidden}:{})});
         model=result.model??UNAVAILABLE;
         if(rivalry){
           // Career order is oldest first. Rebuild the latest verified completed entry,
@@ -258,7 +282,7 @@
           if(screen==="rivalryStatistics"){
             await modelDependencies();
             const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
-            if(["none","abandoned","completed"].includes(active.classification)&&active.rivalry.status!=="ready")return rlLoadCareerModel(()=>flight.alive,true);
+            if(["none","abandoned","completed"].includes(active.classification)&&(active.rivalry.status!=="ready"||await rlCurrentHidden(active.careerInput?.showdowns?.[0]?.rivalryId)))return rlLoadCareerModel(()=>flight.alive,true);
             return {...active.rivalry,lifecycle:active.classification};
           }
           return rlLoadCareerModel(()=>flight.alive);

@@ -3,16 +3,16 @@
   "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules on gameplay/recovery-v1 differ from what production main deploys. The main gate must see exactly these changes and nothing else. Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
   "productionMain": {
     "ref": "main",
-    "commit": "f42dac26991e356c093e0fc100b8afa3003462d2",
+    "commit": "b41f2969256dc2edd3731954d3b856e6a375d7f5",
     "sha256": "6eaeefc63729a9e87c3ec776791bac0ec768f8d9998fa9244b07adc26a478832",
     "gitBlobSha1": "81e515ee2982b968528f4ce3aa9e10158d52aad0",
     "bytes": 141446
   },
   "candidate": {
-    "base": "main f42dac2 (r67). JOB-1051 and JOB-1052 shipped in r67 and their Rules are deployed (Deploy Firebase Firestore Rules run 38020490656), so the candidate equals production main (re-pin planned in RELEASE_V1.9.1_R67.md under the owner-approved Rules change)",
-    "sha256": "6eaeefc63729a9e87c3ec776791bac0ec768f8d9998fa9244b07adc26a478832",
-    "gitBlobSha1": "81e515ee2982b968528f4ce3aa9e10158d52aad0",
-    "bytes": 141446
+    "base": "main b41f296 (r75, same composed Rules as the r67 pin) plus the owner-decided career start marker: accounts/{uid}/careerStart/current, get/create/update by the owner on an active device, created once from careerIndex/current with startedAt the server time of the press, then only active may change; list and delete false",
+    "sha256": "f276c229238cedeb9d939ed047d261608afedfae5e4db46d7f08c3d218960269",
+    "gitBlobSha1": "0eb2fde4ce6ed9ff0b485b5687d0ad93acadf33b",
+    "bytes": 144085
   },
   "allowedOwners": [
     "G-7",
@@ -23,7 +23,85 @@
     "Z4",
     "JOB-1051",
     "JOB-1052",
-    "JOB-1051+JOB-1052"
+    "JOB-1051+JOB-1052",
+    "G-7+CAREER-START"
   ],
-  "hunks": []
+  "hunks": [
+    {
+      "mainLine": 2626,
+      "candidateLine": 2626,
+      "removed": [],
+      "added": [
+        "    // CMS_CAREER_START (owner decision): own-account \"real career starts here\" marker. Created once, active,",
+        "    // naming exactly the account's career index head ids (none when no index exists; never over sealed pages).",
+        "    // startedAt is the server time of the press. Afterwards only `active` may change, by CAS (so startedAt and the",
+        "    // list stay as written). Get, create and update only; no list, no delete.",
+        "    function cmsCareerStartDataValid(data) {",
+        "      return data.keys().hasOnly(['hiddenRivalryIds', 'active', 'startedAt'])",
+        "        && data.keys().hasAll(['hiddenRivalryIds', 'active', 'startedAt'])",
+        "        && data.hiddenRivalryIds is list",
+        "        && data.hiddenRivalryIds.size() <= cmsCareerIndexPageCapacity()",
+        "        && data.active is bool",
+        "        && data.startedAt is timestamp;",
+        "    }",
+        "",
+        "    function cmsCareerStartMatchesIndex(accountId, ids) {",
+        "      let indexPath = /databases/$(database)/documents/accounts/$(accountId)/careerIndex/current;",
+        "      return (!exists(indexPath) && ids.size() == 0)",
+        "        || (exists(indexPath)",
+        "          && get(indexPath).data.data.sealedPageCount == 0",
+        "          && ids == get(indexPath).data.data.rivalryIds);",
+        "    }",
+        "",
+        "    function cmsCareerStartCreateValid(accountId, startId) {",
+        "      let root = request.resource.data;",
+        "      return signedIn()",
+        "        && request.auth.uid == accountId",
+        "        && startId == 'current'",
+        "        && activeDevice(root.updatedByDeviceId)",
+        "        && validCreateEnvelope(root, 'careerStart', 'current')",
+        "        && root.updatedByAccountId == accountId",
+        "        && cmsCareerStartDataValid(root.data)",
+        "        && root.data.active == true",
+        "        && root.data.startedAt == request.time",
+        "        && cmsCareerStartMatchesIndex(accountId, root.data.hiddenRivalryIds);",
+        "    }",
+        "",
+        "    function cmsCareerStartUpdateValid(accountId, startId) {",
+        "      let before = resource.data;",
+        "      let after = request.resource.data;",
+        "      return signedIn()",
+        "        && request.auth.uid == accountId",
+        "        && startId == 'current'",
+        "        && activeDevice(after.updatedByDeviceId)",
+        "        && validCasEnvelope(before, after, 'careerStart', 'current')",
+        "        && after.updatedByAccountId == accountId",
+        "        && cmsCareerStartDataValid(after.data)",
+        "        && after.data.diff(before.data).affectedKeys().hasOnly(['active']);",
+        "    }",
+        ""
+      ],
+      "owner": "G-7+CAREER-START",
+      "why": "Career start marker functions, placed after the G-7 career index functions they build on (cmsCareerIndexPageCapacity, careerIndex/current): exact three-key data (hiddenRivalryIds, active, startedAt), create only active with exactly the index head ids (empty when no index, refused over sealed pages) and startedAt == request.time, update by CAS changing only active (startedAt is kept)."
+    },
+    {
+      "mainLine": 2734,
+      "candidateLine": 2782,
+      "removed": [],
+      "added": [
+        "      allow list, delete: if false;",
+        "    }",
+        "",
+        "    match /accounts/{accountId}/careerStart/{startId} {",
+        "      allow get: if signedIn()",
+        "        && request.auth.uid == accountId",
+        "        && startId == 'current'",
+        "        && activeActor();",
+        "      allow create: if cmsCareerStartCreateValid(accountId, startId);",
+        "      allow update: if cmsCareerStartUpdateValid(accountId, startId);"
+      ],
+      "owner": "G-7+CAREER-START",
+      "why": "Career start marker match: owner-only get of current while the account is active; create and update only through the functions above (active device); list and delete false. No existing rule changes meaning."
+    }
+  ]
 }

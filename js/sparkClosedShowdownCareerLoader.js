@@ -53,6 +53,11 @@
       if(cclCacheAccount!==uid){cclCache.clear();cclCacheAccount=uid;}
       let index;
       try{index=await pair.readCareerIndex({firestore:o.firestore,firebaseSdk:o.firebaseSdk,accountId:uid});}catch(_error){index={status:"unavailable",code:"CAREER_INDEX_UNAVAILABLE"};}
+      // Career start marker: the caller may name Showdowns to leave out (the account's test Showdowns before its real
+      // career). They are dropped from the index before any read, so they get no read and never reach the model.
+      // Absent, empty or malformed: nothing changes.
+      const hidden=Array.isArray(o.hiddenRivalryIds)?new Set(o.hiddenRivalryIds.filter(id=>typeof id==="string")):null;
+      if(hidden&&hidden.size&&index&&index.status==="ready"&&Array.isArray(index.rivalryIds))index={...index,rivalryIds:index.rivalryIds.filter(id=>!hidden.has(id))};
       const reads={};
       if(index&&index.status==="ready"&&Array.isArray(index.rivalryIds)){
         for(const rivalryId of index.rivalryIds){if(typeof rivalryId==="string"&&!Object.hasOwn(reads,rivalryId))reads[rivalryId]=await cclRead(reader,o,uid,rivalryId);}
