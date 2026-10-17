@@ -602,7 +602,7 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   html[data-v10-setup] #background { background-position: 50% 0; }
   html[data-v10-setup="start"] #background, html[data-v10-setup="start"][data-v10-screen] #background { background-image: url("../visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp"); }
   html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background { background-image: url("../visual-assets/v10_1/league/assets/ENV_LEAGUE_PHONE_V1.webp"); }
-  html[data-v10-setup="club"] #background, html[data-v10-setup="club"][data-v10-screen] #background { background-image: url("../visual-assets/v10_1/club/assets/ENV_CLUB_PHONE_V1.webp"); }
+  html[data-v10-setup="club"] #background, html[data-v10-setup="club"][data-v10-screen] #background { background-image: url("../visual-assets/v10_1/plates-v2/ENV_CLUB_PHONE_V2.webp"); }
   html[data-v10-setup] #overlay {
     background: linear-gradient(to bottom, rgba(7, 8, 10, .3) 0, rgba(7, 8, 10, .12) 18%, rgba(7, 8, 10, .45) 38%, rgba(7, 8, 10, .94) 58%, #07080a 100%);
   }

@@ -206,10 +206,6 @@ html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: a
     content: ""; position: absolute; inset: auto 0 0; height: 35px;
     background: linear-gradient(transparent, #08090b);
   }
-  #app #clubWheelScreen.cl-on .clPhonePerson { display: block; width: 50%; height: 100%; min-height: 0; }
-  #app #clubWheelScreen.cl-on .clPhonePerson img {
-    display: block; width: 100%; height: 100%; object-fit: contain; object-position: center bottom;
-  }
   #app #clubWheelScreen.cl-on > h2 {
     position: absolute !important; top: max(10px, env(safe-area-inset-top)) !important;
     left: 0 !important; width: 100% !important; height: auto !important; z-index: 4;
@@ -450,7 +446,6 @@ html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: a
     flex: 1 1 var(--cl-phone-hero); height: var(--cl-phone-hero); min-height: 240px;
     padding: 104px 32px 80px;
   }
-  #app #clubWheelScreen.cl-on .clPhonePerson { width: calc(50% - 8px); }
   #app #clubWheelScreen.cl-on .clPhoneScene { gap: 16px; }
   #app #clubWheelScreen.cl-on > h2 { top: 24px !important; }
   #app #clubWheelScreen.cl-on .clubTitleFallback { font-size: 52px; -webkit-text-stroke: .3px #ffda69; }
@@ -873,4 +868,27 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
 @media (min-width: 1200px) and (min-height: 700px) {
   html:not(.compact) #app #clubWheelScreen.cl-on .clubRivalryHeadline > small { margin-top: calc(var(--s) * 10px); }
   html:not(.compact) #app #clubWheelScreen.cl-on .clubRivalryMatchup { margin-top: calc(var(--s) * 9px); }
+}
+
+/* r78 HO-031 phone marble: Club draws Team V's ENV_CLUB_PHONE_V2 (both managers painted in, holding the two plain club
+   packs) in place of the old plate and the two cut-outs. Upright phones and tablets: the plate covers the whole screen
+   from the top and the managers' band stays an empty spacer, so the progress line, cards and buttons keep their places.
+   Sideways phones: the plate fills the left band. No dark grade over the men. */
+@media (max-width: 760px) and (orientation: portrait),
+       (min-width: 761px) and (max-width: 1024px) and (orientation: portrait) {
+  #app #clubWheelScreen.cl-on {
+    background: #08090b url("../visual-assets/v10_1/plates-v2/ENV_CLUB_PHONE_V2.webp") center top / max(100vw, calc(100svh * 1179 / 2096)) auto no-repeat;
+  }
+  #app #clubWheelScreen.cl-on .clPhoneScene { background: none; }
+  #app #clubWheelScreen.cl-on .clubAssignmentShell { background: none; }
+}
+@media (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
+  #app #clubWheelScreen.cl-on .clPhoneScene {
+    background: #08090b url("../visual-assets/v10_1/plates-v2/ENV_CLUB_PHONE_V2.webp") center top / cover no-repeat;
+  }
+}
+@media (max-width: 760px) and (orientation: portrait),
+       (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape),
+       (min-width: 761px) and (max-width: 1024px) and (orientation: portrait) {
+  #app #clubWheelScreen.cl-on .clPhoneScene::after { content: none; }
 }

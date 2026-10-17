@@ -58,7 +58,13 @@ jobs:
           );
           assert.ok(app.includes(`const APP_VERSION = "${appVersion}"`), 'The application version declaration is inconsistent.');
           assert.ok(html.includes('id="loadingScreen" role="status" aria-live="polite" aria-busy="true"'), 'Startup status semantics are missing.');
-          assert.ok(html.includes(`src="${portraitPath}?v=${revision}"`), 'Startup portrait is missing or stale.');
+          // HO-030 (r78): startup shows the edited marble crops (desktop and phone) of the licensed portrait, each a WebP under 95 KB.
+          assert.ok(html.includes(`src="assets/LOADING_REUS_DESKTOP.webp?v=${revision}"`) && html.includes(`srcset="assets/LOADING_REUS_PHONE.webp?v=${revision}"`), 'Startup portrait is missing or stale.');
+          for (const loadingPath of ['assets/LOADING_REUS_DESKTOP.webp', 'assets/LOADING_REUS_PHONE.webp']) {
+            const loadingPicture = fs.readFileSync(loadingPath);
+            assert.strictEqual(loadingPicture.subarray(0, 4).toString('ascii') + loadingPicture.subarray(8, 12).toString('ascii'), 'RIFFWEBP', `${loadingPath} is not WebP.`);
+            assert.ok(loadingPicture.length <= 95000, `${loadingPath} exceeds 95 KB (${loadingPicture.length}).`);
+          }
           assert.ok(menu.includes(`thumbnail: "${portraitPath}?v=${revision}"`), 'Home must reuse the same portrait cache entry.');
           assert.strictEqual(portrait.subarray(0, 4).toString('ascii'), 'RIFF', 'Portrait is not a valid RIFF WebP container.');
           assert.strictEqual(portrait.subarray(8, 12).toString('ascii'), 'WEBP', 'Portrait is not WebP.');
@@ -78,8 +84,8 @@ jobs:
 
           assert.ok(app.includes(`css/visual-fidelity-r3.css?v=${revision}`), 'The bounded Reus visual fidelity layer is not aligned with the current runtime revision.');
           assert.ok(visualCss.includes('.menuTilePrimary:disabled') && visualCss.includes('opacity:1') && visualCss.includes('filter:none'), 'Disabled Home state must not dim the Reus hero tile.');
-          assert.ok(css.includes('#startupAthlete{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover'), 'Base startup Reus portrait must fill its own bounded frame (JOB-1647 approved first-paint composition).');
-          assert.ok(css.includes('.startupAthleteFrame{position:absolute;inset:0 auto 0 0;'), 'Desktop startup portrait frame must remain inside the viewport.');
+          assert.ok(css.includes('.startupScene,.startupAthleteFrame,#startupAthlete{position:absolute;inset:0}') && css.includes('#startupAthlete{width:100%;height:100%;max-width:none;object-fit:cover'), 'Base startup Reus portrait must fill its own bounded frame (JOB-1647 approved first-paint composition; HO-030 markup).');
+          assert.ok(css.includes('#loadingScreen{') && css.includes('position:fixed;inset:0;z-index:100;overflow:hidden'), 'Desktop startup portrait frame must remain inside the viewport.');
           assert.ok(visualCss.includes('.menuCoverAthlete.imageLoaded img') && visualCss.includes('opacity:1!important'), 'Loaded Home Reus portrait must render at guaranteed full opacity.');
           assert.ok(visualCss.includes('clip-path:none'), 'Desktop Reus must use a clean rectangular photo anchor without the rejected head/neck clipping edge.');
           assert.ok(visualCss.includes('.menuCoverNumber') && visualCss.includes('display:none'), 'Desktop Reus clean-anchor mode must suppress the competing jersey-number overlay.');
@@ -89,8 +95,8 @@ jobs:
           assert.ok(!visualCss.includes('rgba(229,237,239,.92)'), 'The old 92% white Reus wash must not return.');
 
           assert.ok(!/#loadingScreen|#startupAthlete|\.startup/.test(offlineCss) && !/#loadingScreen|#startupAthlete|\.startup/.test(visualCss) && !css.includes('--startup-mobile-top-band'), 'Standalone loading geometry must be owned by first-paint css/app.css only, with no reserved top band (JOB-1647).');
-          assert.ok(css.includes('@media(max-aspect-ratio:1/1){') && css.includes('.startupAthleteFrame{width:100%;clip-path:none;}'), 'Standalone loading art must have its own stable image box.');
-          assert.ok(css.includes('#startupAthlete{object-fit:cover;object-position:54% 0;}'), 'Standalone mobile Reus must retain the subject-safe (top-anchored) crop.');
+          assert.ok(css.includes('@media (max-aspect-ratio:7/5){') && css.includes('.startupScene,.startupAthleteFrame,#startupAthlete{position:absolute;inset:0}'), 'Standalone loading art must have its own stable image box.');
+          assert.ok(css.includes('#startupAthlete{object-fit:contain;object-position:50% 0}') && /@media \(max-aspect-ratio:31\/50\)\{[^@]*#startupAthlete\{object-fit:cover\}/.test(css), 'Standalone mobile Reus must retain the subject-safe (top-anchored, HO-030 50% 0) crop.');
           assert.ok(!/\b100(?:d|s|l)?vh\b/i.test(offlineCss), 'Loading art must not stretch from raw viewport-height units.');
 
           const normalDuration = Number((app.match(/STARTUP_SPLASH_MINIMUM_MS\s*=\s*(\d+)/) || [])[1]);

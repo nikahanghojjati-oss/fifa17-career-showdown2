@@ -112,9 +112,10 @@ test("Home registers through job 24's loader with Team V's CSS, the adapter and 
   assert.deepEqual([...Home.HOME_CSS],["home/home.css","../../css/homeV10.css"]);
   assert.doesNotMatch(binder,/register\("loadingScreen"/);
 });
-test("Loading stays the app's splash: Reus photo and its credit are untouched",()=>{
-  assert.match(html,/<img id="startupAthlete" src="assets\/marco-reus-2015-cc-by\.webp\?v=/);
-  assert.match(html,/<p class="startupPhotoCredit" aria-hidden="true">Marco Reus photo: Tim Reckmann · CC BY 2\.0 · Display crop<\/p>/);
+test("Loading stays the app's splash: edited Reus photo (HO-030) and its credit",()=>{
+  assert.match(html,/<source media="\(max-aspect-ratio: 7\/5\)" srcset="assets\/LOADING_REUS_PHONE\.webp\?v=[^"]+" width="1179" height="2096">\n<img id="startupAthlete" src="assets\/LOADING_REUS_DESKTOP\.webp\?v=[^"]+" width="1920" height="1080" alt="" decoding="async" fetchpriority="high">/,"HO-030: the edited Reus photo (phone and desktop crops) is the splash picture");
+  assert.ok(fs.existsSync(path.join(ROOT,"assets/marco-reus-2015-cc-by.webp")),"the licensed source photo stays");
+  assert.match(html,/<p class="startupPhotoCredit">Marco Reus photo: <a [^>]*>Tim Reckmann<\/a> · <a [^>]*>CC BY 2\.0<\/a> · Cropped and edited for display<\/p>/,"HO-030: credit keeps Tim Reckmann, CC BY 2.0 and says edited");
   assert.doesNotMatch(binder,/loadingScreen|startupPhotoCredit|startupIdentity/);
   assert.equal(fs.existsSync(path.join(ROOT,"visual-assets/v10_1/loading")),false,"no unwired Loading files are shipped");
 });
@@ -123,9 +124,9 @@ test("Home CSS/JS are precached; Home images use the revision-keyed runtime imag
   for(const file of ["js/homeScreensV10.js","visual-assets/v10_1/home/home.css","visual-assets/v10_1/home/soundtrack.js","css/homeV10.css"])assert.ok(shell.has(file),file);
   assert.ok(![...shell].some(file=>/^visual-assets\/.*\.(webp|png|jpe?g|avif|gif|svg)$/i.test(file)),"no Team V image precached");
   const imageRule=new RegExp(/const V10_IMAGE_PATH = \/(.+)\/i;/.exec(sw)[1],"i");
-  const images=[...binder.matchAll(/BASE\+"([^"]+\.webp)/g),...binder.matchAll(/\$\{BASE\}home\/assets\/\$\{file\}/g)].length;
+  const images=[...binder.matchAll(/BASE\+"([^"]+\.webp)/g),...binder.matchAll(/\$\{BASE\}\$\{file\}/g)].length;
   assert.ok(images>0);
-  const files=["home/assets/ENV_HOME_PHONE_V1.webp","home/assets/OVL_HOME_DANIEL_PHONE_V2.webp","home/assets/OVL_HOME_NIK_PHONE_V2.webp","home/assets/LOGO_CM17_WORDMARK_V1.webp",
+  const files=[...[...binder.matchAll(/pic\("[^"]+","([^"]+\.webp)"/g)].map(m=>m[1]),"home/assets/LOGO_CM17_WORDMARK_V1.webp",
     ...Object.values(Home.TILE_ART).map(f=>"shared/art/home-tiles/"+f),...[...homeCss.matchAll(/url\("?(assets\/[^")]+\.webp)"?\)/g)].map(m=>"home/"+m[1])];
   for(const file of files){const full="visual-assets/v10_1/"+file;assert.ok(fs.existsSync(path.join(ROOT,full)),full);assert.ok(imageRule.test(full),full);}
   for(const m of homeCss.matchAll(/url\((\.\.\/shared\/fonts\/[^)]+\.woff2)\)/g))assert.ok(shell.has("visual-assets/v10_1/"+m[1].slice(3)),m[1]);

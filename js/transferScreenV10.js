@@ -265,8 +265,10 @@
   }
   function tfHostMarkup(){
     const media="(max-width: 760px) and (orientation: portrait)",a=ASSET_BASE+"assets/";
-    const pic=(cls,file,enter,size)=>`<picture class="${cls}"${enter?` data-sd-enter="${enter}"`:""}><source media="${media}" srcset="${a}${file}" type="image/webp"><img alt=""${size||""} decoding="async"></picture>`;
-    return `<div class="phone-hero-art" aria-hidden="true" data-sd-enter="scene">${pic("phone-hero-bg","ENV_TRANSFER_PHONE_V1.webp","",' width="1179" height="2096"')}${pic("phone-hero phone-hero-daniel","OVL_TRANSFER_DANIEL_PHONE_V2.webp","character-left")}${pic("phone-hero phone-hero-nik","OVL_TRANSFER_NIK_PHONE_V2.webp","character-right")}</div><div class="stage" data-phone-contract="cinematic" role="region" aria-label="Transfer Challenge"></div>`;
+    const pic=(cls,file,enter,size)=>`<picture class="${cls}"${enter?` data-sd-enter="${enter}"`:""}><source media="${media}" srcset="${file.includes("/")?BASE+file:a+file}" type="image/webp"><img alt=""${size||""} decoding="async"></picture>`;
+    // r78 HO-031: the phone plate is Team V's ENV_TRANSFER_PHONE_V2 with both managers painted in (css/v10Transfer.css),
+    // so the phone cut-outs (OVL_TRANSFER_*_PHONE_V2) are gone.
+    return `<div class="phone-hero-art" aria-hidden="true" data-sd-enter="scene">${pic("phone-hero-bg","plates-v2/ENV_TRANSFER_PHONE_V2.webp","",' width="1179" height="2096"')}</div><div class="stage" data-phone-contract="cinematic" role="region" aria-label="Transfer Challenge"></div>`;
   }
   // JOB-1699: on desktop the entry and verdict phases need more room than Team V's painted frames give them.
   // Only those phases move the existing panels (same nodes, ids, copy and listeners) as one ordered group beside the
