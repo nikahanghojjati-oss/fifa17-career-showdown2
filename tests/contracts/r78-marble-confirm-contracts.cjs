@@ -92,6 +92,11 @@ check("R3 the box is one shared module: alertdialog, OK / Cancel, Esc = Cancel, 
   const css=read("css/r78-marble-surfaces.css");
   const modal=(css.match(/\n\.r78-modal \{[^}]*\}/)||[""])[0];
   assert.match(modal,/background: transparent;/);assert.match(modal,/backdrop-filter: none;/);
+  // r78 gallery fix: Cancel is built first and stays first on phones too (stacked Cancel above OK, as desktop reads Cancel, OK).
+  assert.ok(src.includes("actions.append(cancel,confirm);"),"Cancel comes before OK in the markup");
+  const phone=(css.match(/@media \(max-width: 480px\) \{[^@]*?\.r78-modal__actions \{[^}]*\}/)||[""])[0];
+  assert.match(phone,/\.r78-modal__actions \{ flex-direction: column; \}/,"phones stack Cancel on top, OK below");
+  assert.ok(!/\.r78-modal__actions[^{]*\{[^}]*(?:column-reverse|row-reverse)/.test(css),"no reversed button order");
 });
 
 check("R3b a framed app never shows the box: inside any frame (or when window.top cannot be read) every ask is Cancel",()=>{
