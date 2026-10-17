@@ -9,10 +9,10 @@
     "bytes": 141446
   },
   "candidate": {
-    "base": "main b41f296 (r75, same composed Rules as the r67 pin) plus the owner-decided career start marker: accounts/{uid}/careerStart/current, get/create/update by the owner on an active device, created once from careerIndex/current, then only active may change; list and delete false; plus the Terminal Close stale-write gate: terminal progress, terminal rivalry close and atomic session close take their CAS revision step as a ternary condition after their existing cheap checks, so a stale write is refused at once (no outcome changes)",
-    "sha256": "d7e21262b7d6cbc82b436d42e0f1b6037448496fec1ccfcb7ba852f8f9aecde9",
-    "gitBlobSha1": "0daf78171cc3e0b32e8bab611188b95856288a73",
-    "bytes": 144611
+    "base": "main b41f296 (r75, same composed Rules as the r67 pin) plus the owner-decided career start marker: accounts/{uid}/careerStart/current, get/create/update by the owner on an active device, created once from careerIndex/current with startedAt the server time of the press, then only active may change; list and delete false; plus the Terminal Close stale-write gate: terminal progress, terminal rivalry close and atomic session close take their CAS revision step as a ternary condition after their existing cheap checks, so a stale write is refused at once (no outcome changes)",
+    "sha256": "07a9269f5b00790e96403b0d370868293ef94d41996480e162d429e456b0b237",
+    "gitBlobSha1": "48676b6f901849a74f5f7a783663dffd1ce79d98",
+    "bytes": 144817
   },
   "allowedOwners": [
     "G-7",
@@ -121,13 +121,15 @@
       "added": [
         "    // CMS_CAREER_START (owner decision): own-account \"real career starts here\" marker. Created once, active,",
         "    // naming exactly the account's career index head ids (none when no index exists; never over sealed pages).",
-        "    // Afterwards only `active` may change, by CAS. Get, create and update only; no list, no delete.",
+        "    // startedAt is the server time of the press. Afterwards only `active` may change, by CAS (so startedAt and the",
+        "    // list stay as written). Get, create and update only; no list, no delete.",
         "    function cmsCareerStartDataValid(data) {",
-        "      return data.keys().hasOnly(['hiddenRivalryIds', 'active'])",
-        "        && data.keys().hasAll(['hiddenRivalryIds', 'active'])",
+        "      return data.keys().hasOnly(['hiddenRivalryIds', 'active', 'startedAt'])",
+        "        && data.keys().hasAll(['hiddenRivalryIds', 'active', 'startedAt'])",
         "        && data.hiddenRivalryIds is list",
         "        && data.hiddenRivalryIds.size() <= cmsCareerIndexPageCapacity()",
-        "        && data.active is bool;",
+        "        && data.active is bool",
+        "        && data.startedAt is timestamp;",
         "    }",
         "",
         "    function cmsCareerStartMatchesIndex(accountId, ids) {",
@@ -148,6 +150,7 @@
         "        && root.updatedByAccountId == accountId",
         "        && cmsCareerStartDataValid(root.data)",
         "        && root.data.active == true",
+        "        && root.data.startedAt == request.time",
         "        && cmsCareerStartMatchesIndex(accountId, root.data.hiddenRivalryIds);",
         "    }",
         "",
@@ -166,11 +169,11 @@
         ""
       ],
       "owner": "G-7+CAREER-START",
-      "why": "Career start marker functions, placed after the G-7 career index functions they build on (cmsCareerIndexPageCapacity, careerIndex/current): exact two-key data, create only active with exactly the index head ids (empty when no index, refused over sealed pages), update by CAS changing only active."
+      "why": "Career start marker functions, placed after the G-7 career index functions they build on (cmsCareerIndexPageCapacity, careerIndex/current): exact three-key data (hiddenRivalryIds, active, startedAt), create only active with exactly the index head ids (empty when no index, refused over sealed pages) and startedAt == request.time, update by CAS changing only active (startedAt is kept)."
     },
     {
       "mainLine": 2734,
-      "candidateLine": 2784,
+      "candidateLine": 2787,
       "removed": [],
       "added": [
         "      allow list, delete: if false;",

@@ -105,6 +105,7 @@ export function injectPersistentPairRules(){
     'function cmsCareerStartUpdateValid(accountId, startId)',
     "after.data.diff(before.data).affectedKeys().hasOnly(['active'])",
     'ids == get(indexPath).data.data.rivalryIds',
+    'root.data.startedAt == request.time',
     'match /accounts/{accountId}/careerStart/{startId}',
     'allow create: if cmsCareerStartCreateValid(accountId, startId);',
     'allow update: if cmsCareerStartUpdateValid(accountId, startId);'
