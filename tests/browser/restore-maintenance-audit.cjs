@@ -1,4 +1,5 @@
 const assert = require("node:assert/strict");
+const { answerNextMarbleConfirm } = require("./support/marble-confirm.cjs");
 const { chromium } = require("playwright");
 const { resolveChromiumRuntime } = require("../support/chromium-runtime.cjs");
 
@@ -67,7 +68,7 @@ async function review(page, envelope){
     await page.locator('select[name="restore-preferences"]').selectOption("keep-current");
     await page.locator("#careerModeRestorePanel .careerRestorePlan.ready").waitFor({ state: "visible", timeout: 3000 });
 }
-function acceptNextConfirm(page){ page.once("dialog", dialog => dialog.accept()); }
+function acceptNextConfirm(page){ return answerNextMarbleConfirm(page); }
 
 async function confirmedIntentCannotRace(browser){
     const context = await browser.newContext({ viewport: { width: 940, height: 700 } });
@@ -83,7 +84,7 @@ async function confirmedIntentCannotRace(browser){
             window.__maintenanceOriginalAnalyze = original;
             window.analyzeCareerModeBackupFile = async file => { await gate; return original(file); };
         });
-        acceptNextConfirm(page);
+        await acceptNextConfirm(page);
         const apply = page.locator("#careerModeRestorePanel .careerRestoreApply");
         await apply.click({ noWaitAfter: true });
         await page.waitForFunction(() => window.isCareerModeRestoreInFlight && window.isCareerModeRestoreInFlight());
@@ -138,7 +139,7 @@ async function firstWriteFailureIsClean(browser){
             };
             window.__releaseMaintenanceStoragePatch = () => { Storage.prototype.setItem = originalSet; Storage.prototype.removeItem = originalRemove; };
         }, { keys });
-        acceptNextConfirm(page);
+        await acceptNextConfirm(page);
         await page.locator("#careerModeRestorePanel .careerRestoreApply").click();
         await page.getByText("RESTORE NOT STARTED", { exact: true }).waitFor({ state: "visible", timeout: 8000 });
         const after = await page.evaluate(({ keys }) => localStorage.getItem(keys.active), { keys });

@@ -4,6 +4,11 @@
 ===================================================== */
 
 let settingsOverlay = null;
+
+// r78 (HO-029): the shared marble confirm box (js/showdownConfirm.js, loaded on first use) replaces the native confirm().
+// It resolves true only for OK; Cancel, Esc or a box that cannot load resolve false (undefined when no loader exists).
+function settingsAskConfirm(message,tone){return typeof window.askShowdownConfirm==="function"?window.askShowdownConfirm(message,{tone}):typeof window.loadRuntimeScript==="function"?window.loadRuntimeScript("showdown-confirm","js/showdownConfirm.js",()=>typeof window.askShowdownConfirm==="function").then(()=>window.askShowdownConfirm(message,{tone}),()=>false):Promise.resolve(undefined);}
+
 let settingsDialog = null;
 let settingsContent = null;
 let settingsPreviousFocus = null;
@@ -595,10 +600,11 @@ async function deleteSettingsCurrentShowdown(button){
     const name = active.name || "Daniel vs Nik";
     const confirmedSaveId = active && active.identity && active.identity.saveId ? String(active.identity.saveId) : null;
     const confirmedLocalId = active && active.id !== undefined && active.id !== null ? String(active.id) : null;
-    const confirmed = window.confirm(
-        `Delete the current "${name}" Showdown and start over? This closes the current Showdown connection for both players, removes this device's current local Showdown, and keeps your player identity, registered device, Legacy history and app settings. This cannot be undone.`
+    const confirmed = await settingsAskConfirm(
+        `Delete the current "${name}" Showdown and start over? This closes the current Showdown connection for both players, removes this device's current local Showdown, and keeps your player identity, registered device, Legacy history and app settings. This cannot be undone.`,
+        "danger"
     );
-    if(!confirmed){ return false; }
+    if(confirmed !== true){ return false; }
 
     if(button){
         button.disabled = true;
@@ -828,10 +834,11 @@ async function startSettingsRealCareer(row, button){
         return false;
     }
     const other = getSettingsOtherManagerLabel();
-    const confirmed = window.confirm(
-        `Start your real career now? Finished test Showdowns stay saved but are hidden from History, Trophy Room and Legacy. Ask ${other} to press this too.`
+    const confirmed = await settingsAskConfirm(
+        `Start your real career now? Finished test Showdowns stay saved but are hidden from History, Trophy Room and Legacy. Ask ${other} to press this too.`,
+        "primary"
     );
-    if(!confirmed){ return false; }
+    if(confirmed !== true){ return false; }
     return runSettingsCareerStartChange(
         row,
         button,

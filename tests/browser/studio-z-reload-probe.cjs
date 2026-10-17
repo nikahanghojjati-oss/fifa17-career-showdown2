@@ -4,6 +4,7 @@
 // Run: npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json \
 //        --only auth,firestore --project demo-cms-browser-journey "node tests/browser/two-manager-browser-journey.cjs"
 const assert=require("node:assert/strict");
+const {installMarbleConfirmAnswers}=require("./support/marble-confirm.cjs");
 const fs=require("node:fs");
 const os=require("node:os");
 const path=require("node:path");
@@ -62,6 +63,7 @@ async function openManager(browser,user,viewport){
   page.on("pageerror",error=>log.errors.push(error.message));
   // Job 22: LOCK MY GUESSES / LOCK MY SIGNINGS ask "Lock N of 3 ...?" when a form is partly filled; this journey fills one row, so it accepts that prompt.
   page.on("dialog",dialog=>{void dialog.accept().catch(()=>{});});
+  await installMarbleConfirmAnswers(page,{answer:true});
   page.on("console",message=>{if(message.type()==="error"&&!/Failed to load resource/.test(message.text()))log.errors.push(message.text().slice(0,300));});
   await page.goto(urlFor(user),{waitUntil:"domcontentloaded"});
   await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
@@ -582,6 +584,7 @@ async function main(){
         nik.page=await nik.context.newPage();
         nik.page.on("pageerror",error=>nik.log.errors.push(error.message));
         nik.page.on("dialog",dialog=>{void dialog.accept().catch(()=>{});});
+        await installMarbleConfirmAnswers(nik.page,{answer:true});
         await oldPage.close();
         await nik.page.goto(urlFor("nik"),{waitUntil:"domcontentloaded"});
         await nik.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});

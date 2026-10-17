@@ -4,6 +4,10 @@
    Transaction-Safe Lightweight Legacy Archive Engine
 ===================================================== */
 
+// r78 (HO-029): the shared marble confirm box (js/showdownConfirm.js, loaded on first use) replaces the native confirm().
+// It resolves true only for OK; Cancel, Esc or a box that cannot load resolve false (undefined when no loader exists).
+function legacyAskConfirm(message,tone){return typeof window.askShowdownConfirm==="function"?window.askShowdownConfirm(message,{tone}):typeof window.loadRuntimeScript==="function"?window.loadRuntimeScript("showdown-confirm","js/showdownConfirm.js",()=>typeof window.askShowdownConfirm==="function").then(()=>window.askShowdownConfirm(message,{tone}),()=>false):Promise.resolve(undefined);}
+
 const legacyDateFormatter = new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "short",
@@ -298,13 +302,13 @@ function createLegacyShowdownCard(showdown){
     deleteButton.type = "button";
     deleteButton.className = "compactButton dangerButton";
     deleteButton.textContent = "DELETE SHOWDOWN";
-    deleteButton.addEventListener("click", () => {
+    deleteButton.addEventListener("click", async () => {
         const alsoDeletesActive = Boolean(getMatchingCompletedActiveShowdown(showdown.id));
         const warning = alsoDeletesActive
             ? `Delete "${showdown.name}" from Legacy and remove its active completed copy? This cannot be undone.`
             : `Delete "${showdown.name}" from Legacy? This cannot be undone.`;
 
-        if(!window.confirm(warning)){ return; }
+        if(await legacyAskConfirm(warning, "danger") !== true){ return; }
         if(deleteLegacyShowdownTransaction(showdown)){
             if(typeof window.showAppNotice === "function"){
                 window.showAppNotice(`Deleted "${showdown.name}" from local Legacy history.`, "success", 4200);
@@ -420,7 +424,7 @@ function createLegacyDataControls(history){
     deleteHistory.type = "button";
     deleteHistory.className = "compactButton dangerButton";
     deleteHistory.textContent = "DELETE ALL LEGACY HISTORY";
-    deleteHistory.addEventListener("click", () => {
+    deleteHistory.addEventListener("click", async () => {
         const active = currentShowdown || loadSavedShowdown();
         const completedActiveWillBeRemoved = Boolean(
             active && active.status === "Completed" && history.some(item => String(item.id) === String(active.id))
@@ -429,7 +433,7 @@ function createLegacyDataControls(history){
             ? "Delete every archived showdown from Legacy? The active copy of the completed showdown will also be removed so it cannot immediately re-archive. Unfinished active saves are not affected. This cannot be undone."
             : "Delete every archived showdown from Legacy? Your unfinished active showdown, if any, will remain. This cannot be undone.";
 
-        if(!window.confirm(warning)){ return; }
+        if(await legacyAskConfirm(warning, "danger") !== true){ return; }
         if(deleteAllLegacyHistoryTransaction(history)){
             if(typeof window.showAppNotice === "function"){
                 window.showAppNotice("Legacy history was deleted successfully.", "success", 4200);
@@ -443,8 +447,8 @@ function createLegacyDataControls(history){
     resetAll.type = "button";
     resetAll.className = "compactButton dangerButton";
     resetAll.textContent = "RESET ALL SHOWDOWN DATA";
-    resetAll.addEventListener("click", () => {
-        if(!window.confirm("Reset ALL Career Mode Showdown data? This deletes the active showdown and every Legacy record. This cannot be undone.")){
+    resetAll.addEventListener("click", async () => {
+        if(await legacyAskConfirm("Reset ALL Career Mode Showdown data? This deletes the active showdown and every Legacy record. This cannot be undone.", "danger") !== true){
             return;
         }
 

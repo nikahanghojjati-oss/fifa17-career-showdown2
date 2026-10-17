@@ -96,7 +96,8 @@ function recoveryHarness({confirm}={}){
     navigateTo:async screen=>{calls.navigate.push(screen);return true;},
     openOptionalModule:async key=>{calls.openModule.push(key);return true;}
   };
-  if(confirm!==undefined)sandbox.confirm=confirm;
+  // r78 (HO-029): the native confirm() is now the shared marble box (askShowdownConfirm); the stub answers for it.
+  if(confirm!==undefined)sandbox.askShowdownConfirm=async message=>confirm(message);
   vm.createContext(sandbox);
   vm.runInContext(pairSource,sandbox,{filename:"js/persistentNikDanielPair.js"});
   return{pair:sandbox.CareerModePersistentNikDanielPair,document,deleted,calls,docs,sandbox,panel:()=>document.getElementById("persistentNikDanielPairPanel")};
@@ -147,7 +148,7 @@ async function q1HandlersAreUnchanged(){
   }
   // Same handlers as before, in the source: restore -> pairOpenRecoverySurface, delete -> pairStartOverFromRecovery.
   assert.match(pairSource,/startOver\.addEventListener\("click",\(\)=>void pairStartOverFromRecovery\(\)\);recover\.addEventListener\("click",\(\)=>void pairOpenRecoverySurface\(\)\);/);
-  assert.match(pairSource,/const confirmed=root\.confirm\?\.\("Delete the old Showdown and start over\?/);
+  assert.match(pairSource,/const confirmed=await pairAskConfirm\("Delete the old Showdown and start over\?/);
   assert.match(pairSource,/if\(confirmed!==true\)return false;/);
   ok("Q1 RESTORE BACKUP and the confirm-gated delete behave exactly as before");
 }

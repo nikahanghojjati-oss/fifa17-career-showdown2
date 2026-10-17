@@ -56,7 +56,7 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
       window.__freshStartPairState="active";
       window.__freshStartAbandonCount=0;
       window.__freshStartRivalryId=staleRivalryId;
-      window.confirm=()=>true;
+      window.askShowdownConfirm=async()=>true;
       window.CareerModePersistentNikDanielPair={
         abandonCurrentShowdown:async({expectedRivalryId}={})=>{
           if(expectedRivalryId!==staleRivalryId)throw new Error("Fresh-start abandonment targeted the wrong rivalry.");

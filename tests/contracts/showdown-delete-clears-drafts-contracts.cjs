@@ -71,9 +71,10 @@ function harness({initial,confirmAnswer=true,runtime=null,pairRivalry=null}){
   const notices=[],screens=[];
   const sandbox={console:{log(){},error(){},warn(){}},localStorage,Intl,Date,JSON,Promise,Map,Set,Array,Object,String,Number,Boolean,Error,
     document:{createElement:node,getElementById:()=>null,querySelector:()=>null,addEventListener(){},visibilityState:"visible"},
-    setTimeout,clearTimeout,confirm:()=>confirmAnswer};
+    setTimeout,clearTimeout,askShowdownConfirm:async()=>confirmAnswer};
   sandbox.window=sandbox;sandbox.globalThis=sandbox;
-  sandbox.confirm=()=>confirmAnswer;
+  // r78 (HO-029): the native confirm() is now the shared marble box (askShowdownConfirm); the stub answers for it.
+  sandbox.askShowdownConfirm=async()=>confirmAnswer;
   sandbox.showAppNotice=(text,kind)=>{notices.push({text,kind});};
   sandbox.CareerModeSaveLibraryRuntime=runtime;
   // The real optionalModules.js loads js/diagnostics.js on demand; here the same real file is evaluated in the page context on first use.
@@ -105,7 +106,7 @@ function assertKept(h,extra=[]){for(const key of Object.keys(KEPT))if(!extra.inc
     const initial=withAllDrafts({...KEPT,"careerModeShowdown.activeShowdown":JSON.stringify(active)});delete initial["careerModeShowdown.saveLibrary"];
     const h=harness({initial});vm.runInContext(`currentShowdown=${JSON.stringify(active)};`,h.ctx);
     assert.equal(h.localStorage.draftKeys().length,ALL_DRAFTS.length);
-    h.ctx.deleteCurrentShowdownFromDashboard();
+    await h.ctx.deleteCurrentShowdownFromDashboard();
     assert.equal(h.localStorage.getItem("careerModeShowdown.activeShowdown"),null,"the Showdown itself is deleted");
     await h.settle();
     assert.deepEqual(h.localStorage.draftKeys(),[],"every draft of every rivalry is gone, orphans included");
@@ -120,7 +121,7 @@ function assertKept(h,extra=[]){for(const key of Object.keys(KEPT))if(!extra.inc
     const initial=withAllDrafts({...KEPT,"careerModeShowdown.activeShowdown":JSON.stringify(bare)});delete initial["careerModeShowdown.saveLibrary"];
     const h=harness({initial});vm.runInContext(`currentShowdown=${JSON.stringify(bare)};`,h.ctx);
     assert.equal(h.ctx.CareerModePersistentNikDanielPair,undefined,"pair module is not loaded");
-    h.ctx.deleteCurrentShowdownFromDashboard();
+    await h.ctx.deleteCurrentShowdownFromDashboard();
     await h.settle();
     assert.deepEqual(h.localStorage.draftKeys(),[],"no rivalry id is needed to clear the drafts");
     assertKept(h,["careerModeShowdown.saveLibrary"]);
@@ -193,13 +194,13 @@ function assertKept(h,extra=[]){for(const key of Object.keys(KEPT))if(!extra.inc
     const initial=withAllDrafts({...KEPT,"careerModeShowdown.activeShowdown":JSON.stringify(active)});
     // Save Library present but its authority is not ready: clearSavedShowdown refuses.
     let h=harness({initial});vm.runInContext(`currentShowdown=${JSON.stringify(active)};`,h.ctx);
-    h.ctx.deleteCurrentShowdownFromDashboard();await h.settle();
+    await h.ctx.deleteCurrentShowdownFromDashboard();await h.settle();
     assert.equal(h.localStorage.draftKeys().length,ALL_DRAFTS.length,"failed dashboard delete keeps drafts");
     assert.ok(h.notices.some(n=>n.kind==="error"));
     assert.equal(h.diagnostics.loads,0,"no sweep is even started");
     // Cancelled confirm.
     h=harness({initial,confirmAnswer:false});vm.runInContext(`currentShowdown=${JSON.stringify(active)};`,h.ctx);
-    h.ctx.deleteCurrentShowdownFromDashboard();await h.settle();
+    await h.ctx.deleteCurrentShowdownFromDashboard();await h.settle();
     assert.equal(h.localStorage.draftKeys().length,ALL_DRAFTS.length,"cancelled dashboard delete keeps drafts");
     // Settings: local removal fails after the online close.
     h=harness({initial});const runtime=libraryRuntime(h.localStorage,{clearActive:false});h.ctx.CareerModeSaveLibraryRuntime=runtime;
@@ -220,7 +221,7 @@ function assertKept(h,extra=[]){for(const key of Object.keys(KEPT))if(!extra.inc
     const initial=withAllDrafts({...KEPT,"careerModeShowdown.activeShowdown":JSON.stringify(active)});delete initial["careerModeShowdown.saveLibrary"];
     const h=harness({initial});h.ctx.ensureDiagnosticsModule=async()=>{throw new Error("Unable to load js/diagnostics.js.");};
     vm.runInContext(`currentShowdown=${JSON.stringify(active)};`,h.ctx);
-    h.ctx.deleteCurrentShowdownFromDashboard();await h.settle();
+    await h.ctx.deleteCurrentShowdownFromDashboard();await h.settle();
     assert.equal(h.localStorage.getItem("careerModeShowdown.activeShowdown"),null,"the Showdown is still deleted");
     assert.deepEqual(h.screens,["mainMenu"]);
     ok("D5b an unavailable sweep module never blocks or breaks the delete");
