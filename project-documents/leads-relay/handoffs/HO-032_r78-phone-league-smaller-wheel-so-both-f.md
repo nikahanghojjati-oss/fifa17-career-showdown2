@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [{"name": "wheel shrunk on phone", "done": false}, {"name": "facecheck passes on League", "done": false}],
  "evidence": [],
- "log": [{"at": "2026-10-17T14:19:31Z", "by": "V", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-10-17T14:19:31Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-17T14:20:29Z", "by": "G", "status": "RECEIVED", "note": "Team G starting now: phone wheel ~15% smaller on ENV_LEAGUE_PHONE_V2; per-size numbers come back here if faces still overlap"}]
 }
 ```
 
