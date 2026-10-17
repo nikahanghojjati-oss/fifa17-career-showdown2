@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-17 12:19 AM Boston time (EDT)",
+ "generated": "2026-10-17 12:20 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 105,
+  "count": 107,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -948,6 +948,24 @@
     "subject": "r78: much better loading screen (Reus photo and BVB crest stay, edited into marble)",
     "reply": "no",
     "boston": "Fri 16 Oct 11:39 PM"
+   },
+   {
+    "time": "2026-10-17 03:44",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-029 RECEIVED",
+    "subject": "r78: every error screen and pop-up in black-and-gold marble",
+    "reply": "no",
+    "boston": "Fri 16 Oct 11:44 PM"
+   },
+   {
+    "time": "2026-10-17 04:20",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-027 DONE",
+    "subject": "No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76)",
+    "reply": "no",
+    "boston": "Sat 17 Oct 12:20 AM"
    }
   ],
   "g2v": {
@@ -968,8 +986,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "b69636d",
-  "head_boston": "Sat 17 Oct 12:18 AM",
+  "head": "5e04738",
+  "head_boston": "Sat 17 Oct 12:20 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1384,8 +1402,8 @@
     "from": "V",
     "to": "G",
     "title": "No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76)",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-027_no-dimming-blur-see-through-or-dark-filt.md",
     "worker": "",
@@ -1501,7 +1519,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 51,
+  "moving": 50,
   "next": 42,
   "nik": 2,
   "later": 21,

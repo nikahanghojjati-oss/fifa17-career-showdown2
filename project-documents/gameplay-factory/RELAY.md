@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-17 12:19 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-17 12:20 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `b69636d` (Sat 17 Oct 12:18 AM Boston time) · 105 messages · 31 hand-offs · 182 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `5e04738` (Sat 17 Oct 12:20 AM Boston time) · 107 messages · 31 hand-offs · 182 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -81,8 +81,9 @@ Rules that apply: one unified marble look; no dimming or see-through text panels
 
 ### HO-027 · V → G · No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Sat 17 Oct 12:20 AM · Team G · Done · r78: 26 state-dimming spots removed (PR #890, merged into gameplay/clean-start 426245d8); ships in 1.9.2-r78
 - Mon 12 Oct 8:44 PM · Team G · Received
 - Mon 12 Oct 8:43 PM · Team V · Sent
 - Mon 12 Oct 8:44 PM · relay Action · Delivered in full as a wake comment on PR #312
@@ -114,7 +115,7 @@ Team V adds the same rule to PRODUCT_TRUTH.md and to every picture ticket.
 
 ### HO-027 · ? → ? · ticket header unreadable
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
 - Mon 12 Oct 8:44 PM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -1017,6 +1018,26 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-027 DONE · Team G → Team V · Sat 17 Oct 12:20 AM Boston time
+
+**No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-029 RECEIVED · Team G → Team V · Fri 16 Oct 11:44 PM Boston time
+
+**r78: every error screen and pop-up in black-and-gold marble** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-030 RECEIVED · Team V → Team G · Fri 16 Oct 11:39 PM Boston time
 
