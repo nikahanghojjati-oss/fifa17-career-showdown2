@@ -1,0 +1,85 @@
+{
+  "status": "COMPLETE",
+  "model": "one extra read per Rules evaluation; request-local caching can reduce actual billing",
+  "bases": [
+    {
+      "run": "m1",
+      "clientReadsPerSeason": 486.0,
+      "writesPerSeason": 191.0,
+      "rulesEvaluationUpperPerSeason": 10342.0,
+      "budgetReadsPerSeason": 10828.0
+    },
+    {
+      "run": "m3a",
+      "clientReadsPerSeason": 404.3333333333333,
+      "writesPerSeason": 135.0,
+      "rulesEvaluationUpperPerSeason": 8804.666666666666,
+      "budgetReadsPerSeason": 9209.0
+    },
+    {
+      "run": "m3b",
+      "clientReadsPerSeason": 403.6666666666667,
+      "writesPerSeason": 135.0,
+      "rulesEvaluationUpperPerSeason": 9011.333333333334,
+      "budgetReadsPerSeason": 9415.0
+    },
+    {
+      "run": "m5",
+      "clientReadsPerSeason": 413.4,
+      "writesPerSeason": 123.8,
+      "rulesEvaluationUpperPerSeason": 9204.4,
+      "budgetReadsPerSeason": 9617.8
+    },
+    {
+      "run": "m10",
+      "clientReadsPerSeason": 486.1,
+      "writesPerSeason": 115.4,
+      "rulesEvaluationUpperPerSeason": 10183.0,
+      "budgetReadsPerSeason": 10669.1
+    },
+    {
+      "run": "i3",
+      "clientReadsPerSeason": 521.0,
+      "writesPerSeason": 135.0,
+      "rulesEvaluationUpperPerSeason": 10679.333333333334,
+      "budgetReadsPerSeason": 11200.333333333334
+    }
+  ],
+  "meanBaseReadsPerSeason": 10156.538888888888,
+  "meanBaseWritesPerSeason": 139.2,
+  "visibleIdleClientReadsPerMinute": 14.173803863139113,
+  "visibleIdleRulesEvaluationsPerMinute": 251.79607050912023,
+  "visibleIdleBudgetReadsPerMinute": 265.96987437225937,
+  "visibleIdleWritesPerMinute": 0.0,
+  "rows": [
+    {
+      "waitingMinutes": 30,
+      "readsPerSeason": 18135.63512005667,
+      "writesPerSeason": 139.2,
+      "seasonsPerDay": 2.7570029761297796,
+      "lowestObservedCapacity": 2.3988814336642466,
+      "highestObservedCapacity": 3.058096412504752,
+      "limit": "reads"
+    },
+    {
+      "waitingMinutes": 60,
+      "readsPerSeason": 26114.73135122445,
+      "writesPerSeason": 139.2,
+      "seasonsPerDay": 1.9146281586257112,
+      "lowestObservedCapacity": 1.6401099009343734,
+      "highestObservedCapacity": 2.128467407469485,
+      "limit": "reads"
+    },
+    {
+      "waitingMinutes": 120,
+      "readsPerSeason": 42072.92381356002,
+      "writesPerSeason": 139.2,
+      "seasonsPerDay": 1.1884127716335489,
+      "lowestObservedCapacity": 1.0045972267307617,
+      "highestObservedCapacity": 1.3236911525093689,
+      "limit": "reads"
+    }
+  ],
+  "plainSeasons60": 1,
+  "limit60": "reads"
+}

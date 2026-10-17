@@ -1,0 +1,9 @@
+'use strict';
+// Add stream-only GET cases and actual listener probes to a local replay input.
+const fs=require('node:fs'),M=require('./model.cjs');
+const raw=M.annotate(JSON.parse(fs.readFileSync(process.argv[2]))),traces=JSON.parse(fs.readFileSync(process.argv[3])).requests;
+const finals=new Map(raw.finalDocuments.filter(x=>x.found).map(x=>[x.found.name,x.found]));
+const keys=new Set(raw.rpc.map(M.signature)),tokens=new Map();for(const e of raw.rpc){try{const uid=JSON.parse(Buffer.from(e.authorization.split(' ')[1].split('.')[1],'base64url')).sub;tokens.set(uid,e);}catch{}}
+let n=0;for(const t of traces){if(t.method!=='get'||t.t<raw.closedAt||t.t>=raw.cutoffAt||!tokens.has(t.uid))continue;const origin=tokens.get(t.uid),name=M.prefix+t.path,doc=finals.get(name);const e={id:'stream-'+(++n),manager:origin.manager,context:origin.manager,authorization:origin.authorization,t:t.t,end:t.t+1,season:3,phase:'final',window:null,method:'POST',url:origin.url.replace(/documents:[^?]+/,'documents:batchGet'),body:JSON.stringify({documents:[name]}),status:t.outcome==='allow'?200:403,response:[doc?{found:doc}:{missing:name}],ruleAuthority:'closed',source:'captured stream GET authorization'};const key=M.signature(e);if(!keys.has(key)){keys.add(key);raw.rpc.push(e);}}
+const listenSeen=new Set();for(const e of [...raw.rpc]){const b=M.body(e),p=b.documents?.[0];if(!p||e.status!==200||!/\/(sharedSetup\/authoritative|transferChallenges\/season_\d+|seasonResults\/season_\d+|seasonCommits\/season_\d+)$/.test(p))continue;const key=M.pattern(p)+'|'+e.ruleAuthority;if(listenSeen.has(key))continue;listenSeen.add(key);raw.rpc.push({...e,id:'listen-'+(++n),probeTransport:'listen',source:'onSnapshot N-times control'});}
+fs.writeFileSync(process.argv[4],JSON.stringify(raw));console.log(JSON.stringify({rpc:raw.rpc.length,syntheticCases:raw.rpc.filter(e=>typeof e.id==='string').length}));

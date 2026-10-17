@@ -1,0 +1,6 @@
+'use strict';
+// Strip duplicated Rules text and collapse the emulator's dependency-loading passes.
+const fs=require('node:fs'),readline=require('node:readline'),M=require('./model.cjs');
+(async()=>{const byKey=new Map(),requests=[];let raw=0;for await(const line of readline.createInterface({input:fs.createReadStream(process.argv[2]),crlfDelay:Infinity})){if(!line)continue;const value=JSON.parse(line);for(const e of Array.isArray(value)?value:[value]){const c=e.rulesContext;if(!c?.path)continue;raw++;const req=M.plain(c.request),uid=req.auth?.uid||req.auth?.token?.sub||null;
+ const record={t:Date.parse(e.time),time:e.time,requestTime:c.time,path:c.path.replace(/^.*\/documents\//,''),method:c.method,uid,outcome:e.outcome,allowLines:e.granularAllowOutcomes,resource:M.plain(c.resource),requestResource:req.resource};const key=[c.time,c.path,c.method,uid].join('|');const index=byKey.get(key),old=index===undefined?null:requests[index];if(old&&old.outcome==='error'){requests[index]={...record,t:old.t,passes:(old.passes||1)+1};}else{byKey.set(key,requests.length);requests.push({...record,passes:1});}
+ }}fs.writeFileSync(process.argv[3],JSON.stringify({rawPasses:raw,requests},null,2));console.log(JSON.stringify({rawPasses:raw,logicalAuthorizations:requests.length}));})().catch(e=>{console.error(e);process.exitCode=1});
