@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-17 12:57 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-17 1:02 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `b5ae8b0` (Sat 17 Oct 12:54 AM Boston time) · 108 messages · 32 hand-offs · 188 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `e802876` (Sat 17 Oct 1:00 AM Boston time) · 109 messages · 32 hand-offs · 190 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -36,8 +36,9 @@ If a screen genuinely cannot keep its approved layout around the painted men, sa
 
 ### HO-030 · G → V · r78: much better loading screen (Reus photo and BVB crest stay, edited into marble)
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 33 %** → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Sat 17 Oct 1:00 AM · Team V · Done
 - Sat 17 Oct 12:20 AM · Team V · In progress · Style picked: Barlow body 16px/1.55 ivory on opaque black-and-gold marble; Loading = real Reus photo graded black and gold (Nik)
 - Sat 17 Oct 12:18 AM · Team V · In progress · Team V lead started. Steps: style picked, pictures made, code handed back
 - Fri 16 Oct 11:39 PM · Team V · Received · Team V lead received; work starts in the fresh Team V lead thread
@@ -1049,6 +1050,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-030 DONE · Team V → Team G · Sat 17 Oct 1:00 AM Boston time
+
+**r78: much better loading screen (Reus photo and BVB crest stay, edited into marble)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-031 SENT · Team V → Team G · Sat 17 Oct 12:44 AM Boston time
 
