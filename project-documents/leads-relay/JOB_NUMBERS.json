@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1847,
+ "next": 1848,
  "claims": [
   {
    "number": 1001,
@@ -5078,6 +5078,12 @@
    "team": "V",
    "title": "League phone background polish (ENV_LEAGUE_PHONE_V5) - GPT picture ticket",
    "claimed": "2026-10-17T14:40:47Z"
+  },
+  {
+   "number": 1847,
+   "team": "V",
+   "title": "V-1 picture: CONNECT PLAYERS gold brush title (HO-033 art)",
+   "claimed": "2026-10-17T23:36:44Z"
   }
  ]
 }
