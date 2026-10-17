@@ -90,9 +90,6 @@ button:focus-visible { outline: 3px solid #fff1b8; outline-offset: 3px; }
 .careerStage[data-state="partial"] .careerTablePanel, .careerStage[data-state="partial"] .comparisonPanel { top: 43.25%; }
 .careerStage[data-state="partial"] .careerTablePanel { height: 18.92%; }
 .careerStage[data-state="partial"] .comparisonPanel { height: 21.58%; }
-.careerStage[data-state="empty"] .headlineTiles, .careerStage[data-state="unavailable"] .headlineTiles, .careerStage[data-state="loading"] .headlineTiles { opacity:.34; }
-.careerStage[data-state="empty"] .stateBackdrop, .careerStage[data-state="unavailable"] .stateBackdrop, .careerStage[data-state="loading"] .stateBackdrop { display:block; }
-.careerStage[data-state="empty"] .armCutout, .careerStage[data-state="unavailable"] .armCutout, .careerStage[data-state="loading"] .armCutout, .careerStage[data-state="empty"] .armRim, .careerStage[data-state="unavailable"] .armRim, .careerStage[data-state="loading"] .armRim, .careerStage[data-state="empty"] .contactShadow, .careerStage[data-state="unavailable"] .contactShadow, .careerStage[data-state="loading"] .contactShadow { display:none; }
 .contactShadow { position: absolute; z-index: 2; left: 20.7%; top: 51.0%; width: 3.2%; height: 4.6%; border-radius: 50%; background: rgba(0,0,0,.47); filter: blur(8px); transform: rotate(-10deg); pointer-events: none; }
 .armCutout { z-index: 1; pointer-events: none; }
 .armRim { pointer-events:none; --sd-rim-angle:110deg; --sd-rim-opacity:.26; }

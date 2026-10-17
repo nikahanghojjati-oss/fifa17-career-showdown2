@@ -104,7 +104,6 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10 {
 .sd-nav .sd-nav-gear svg { position: absolute; width: 0; height: 0; overflow: hidden; }
 .sd-nav .sd-nav-gear::before { content: ""; width: 34px; height: 34px; background: url("../visual-assets/v10_1/shared/art/home-tiles/TILE_SETTINGS_V1.webp") center / contain no-repeat; filter: drop-shadow(0 1px 2px rgba(0,0,0,.6)); transition: filter .15s ease, transform .15s ease; }
 .sd-nav .sd-nav-gear:hover::before, .sd-nav .sd-nav-gear:focus-visible::before, .sd-nav .sd-nav-gear[aria-current="page"]::before { filter: drop-shadow(0 0 6px rgba(240,190,60,.55)) brightness(1.12); }
-.sd-nav[data-locked="true"] .sd-nav-gear:not([aria-current="page"])::before { filter: grayscale(.6) brightness(.8); }
 @media (prefers-reduced-motion: reduce) { .sd-nav .sd-nav-gear::before { transition: none; } }
 
 /* r61 (Nik, 2026-10-05: no old-design leftovers): the sign-in / connection card from js/onlinePlayerIdentity.js takes
