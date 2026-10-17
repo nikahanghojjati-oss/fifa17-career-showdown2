@@ -4,6 +4,9 @@
     let saveLibraryUIObserver=null;
     let saveLibraryUIAuthorityIssue="";
     let saveLibraryUIBusy=false;
+    // r78 (HO-029): the shared marble confirm box (js/showdownConfirm.js, loaded on first use) replaces the native confirm().
+    // It resolves true only for OK; Cancel, Esc or a box that cannot load resolve false (undefined when no loader exists).
+    function saveLibraryUIAskConfirm(message,tone){return typeof root.askShowdownConfirm==="function"?root.askShowdownConfirm(message,{tone}):typeof root.loadRuntimeScript==="function"?root.loadRuntimeScript("showdown-confirm","js/showdownConfirm.js",()=>typeof root.askShowdownConfirm==="function").then(()=>root.askShowdownConfirm(message,{tone}),()=>false):Promise.resolve(undefined);}
     // Phase B / Save Library Experience 2.0 first slice — local presentation-only sort (non-destructive, not persisted)
     let saveLibraryUISortMode="updated";
 
@@ -172,11 +175,11 @@
         }
     }
 
-    function saveLibraryUIDelete(saveId,showdown){
+    async function saveLibraryUIDelete(saveId,showdown){
         if(saveLibraryUIBusy)return;
         const name=showdown&&showdown.name?showdown.name:"Unnamed Showdown";
-        const confirmed=root.confirm(`Delete only “${name}” from this device? Other local Saves, Local Profiles, Legacy history and app settings remain. This cannot be undone.`);
-        if(!confirmed)return;
+        const confirmed=await saveLibraryUIAskConfirm(`Delete only “${name}” from this device? Other local Saves, Local Profiles, Legacy history and app settings remain. This cannot be undone.`,"danger");
+        if(confirmed!==true||saveLibraryUIBusy)return;
         const runtime=root.CareerModeSaveLibraryRuntime;
         if(!runtime||typeof runtime.deleteSave!=="function"){
             saveLibraryUIShowNotice("Single-Save deletion is unavailable in this session.");
@@ -411,7 +414,7 @@
         const action=config.kind==="legacy"&&profileId===null
             ? `Mark “${config.managerName}” in historical “${config.showdownName}” as unresolved? This removes only its explicit Local Profile link. The historical display name stays unchanged.`
             : `Link “${config.managerName}” in “${config.showdownName}” to ${profileLabel}? This changes stable manager identity only. Saved and historical display names stay unchanged.`;
-        if(!root.confirm(action))return;
+        if(await saveLibraryUIAskConfirm(action,"primary")!==true||saveLibraryUIBusy)return;
         if(!runtime||typeof runtime.assignSaveManagerProfile!=="function"||typeof runtime.assignLegacyManagerProfile!=="function"){
             saveLibraryUIShowNotice("Explicit manager identity linkage is unavailable in this session.");
             return;

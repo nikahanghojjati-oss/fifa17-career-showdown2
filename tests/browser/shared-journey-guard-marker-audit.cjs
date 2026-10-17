@@ -1,4 +1,5 @@
 const assert=require('node:assert/strict');
+const {answerNextMarbleConfirm}=require("./support/marble-confirm.cjs");
 const {chromium}=require('playwright');
 const {resolveChromiumRuntime}=require('../support/chromium-runtime.cjs');
 
@@ -52,7 +53,7 @@ async function savedDraw(page){
         await page.evaluate(()=>showScreen('mainMenu',false));
         await page.locator('#settingsButton').click();
         await page.locator('#settingsOverlay').waitFor({state:'visible'});
-        page.once('dialog',dialog=>void dialog.accept());
+        await answerNextMarbleConfirm(page);
         await page.locator('.settingsDeleteCurrentShowdown').click();
         await page.waitForFunction(key=>JSON.parse(localStorage.getItem(key)).activeSaveId===null,saveKey);
         await page.locator('#settingsOverlay').waitFor({state:'hidden'});

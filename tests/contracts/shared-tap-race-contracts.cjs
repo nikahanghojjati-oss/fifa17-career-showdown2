@@ -44,7 +44,7 @@ function transferHarness(initial,confirmFn){
     provider[method]=async options=>{calls.mutations.push({method,baseRevision:options.baseRevision,operationId:options.operationId});const step=scripts[method].shift();if(!step)throw new Error(`unscripted ${method} call`);return step(options);};
   }
   const sandbox={console,crypto:webcrypto,performance,setTimeout,clearTimeout,Promise,Date,document};
-  if(confirmFn)sandbox.confirm=confirmFn;
+  if(confirmFn)sandbox.askShowdownConfirm=async message=>confirmFn(message);
   sandbox.globalThis=sandbox;sandbox.setInterval=(fn,ms)=>{intervals.push({fn,ms});return intervals.length;};
   sandbox.currentShowdown={id:"save_1",sharedJourney:{mode:"shared",rivalryId:RIVALRY},currentRound:1};
   sandbox.CareerModeProductionSharedShowdownSetup={refresh:async()=>null,getState:()=>({ready:true,managerRole:"playerOne",rivalryId:RIVALRY,sessionId:SESSION,deviceId:DEVICE,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,coordinatorRole:"playerOne",clubs:{playerOne:"A",playerTwo:"B"}}})};

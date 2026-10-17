@@ -1,4 +1,5 @@
 const assert=require("node:assert/strict");
+const {answerNextMarbleConfirm}=require("./support/marble-confirm.cjs");
 const fs=require("node:fs");
 const path=require("node:path");
 const{chromium}=require("playwright");
@@ -102,7 +103,7 @@ async function applyLink(page,kind,sourceId,role,profileId){
   await row.waitFor({state:"visible",timeout:10000});
   const select=row.locator("select");
   await select.selectOption(profileId||"");
-  page.once("dialog",dialog=>dialog.accept());
+  await answerNextMarbleConfirm(page);
   await row.locator(".saveLibraryIdentityApply").click();
   await page.waitForFunction(({kind,sourceId,role,profileId})=>{
     const library=JSON.parse(localStorage.getItem("careerModeShowdown.saveLibrary"));
@@ -178,7 +179,7 @@ async function applyLink(page,kind,sourceId,role,profileId){
 
     await revealInternalLibrary(page);
     const firstCard=page.locator(`.saveLibraryCard[data-save-id="${ids.saveA}"]`);
-    page.once("dialog",dialog=>dialog.accept());
+    await answerNextMarbleConfirm(page);
     await firstCard.locator(".saveLibraryDeleteButton").click();
     await page.waitForFunction(saveId=>!JSON.parse(localStorage.getItem("careerModeShowdown.saveLibrary")).saves.some(entry=>entry.saveId===saveId),ids.saveA,{timeout:10000});
     state=await readCanonical(page);
