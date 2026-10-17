@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "WORKING",
  "steps": [{"name": "plates wired, OVL dropped", "done": false}, {"name": "live_facecheck passes on 12 screens", "done": false}],
  "evidence": [],
- "log": [{"at": "2026-10-17T04:44:35Z", "by": "V", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-10-17T04:44:35Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-17T04:44:55Z", "by": "G", "status": "WORKING", "note": "Team G starting now: swap 12 phone plates, drop OVL layers on phone, face check each screen"}]
 }
 ```
 
