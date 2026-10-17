@@ -1,0 +1,2006 @@
+{
+ "fixtureVersion": 1,
+ "name": "r76-1season-draw",
+ "release": "1.9.1-r76",
+ "releaseCommit": "b15282daa4966279582ee2ae1491a2353d2d0739",
+ "rivalryId": "pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462",
+ "format": "Firestore REST document fields (typed values), emulator uids only, no auth tokens",
+ "documents": [
+  {
+   "path": "accounts/a08nWyKNOLNYwxmjsyAi1quX9YjO",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "objectType": {
+     "stringValue": "account"
+    },
+    "objectId": {
+     "stringValue": "a08nWyKNOLNYwxmjsyAi1quX9YjO"
+    },
+    "revision": {
+     "integerValue": "0"
+    },
+    "parentRevision": {
+     "nullValue": null
+    },
+    "lifecycleState": {
+     "stringValue": "live"
+    },
+    "contentHash": {
+     "stringValue": "sha256:8927879e9d6c0c6e83201620c3c02bce4cfb8fc4632da28f5945702056c29f5c"
+    },
+    "priorContentHash": {
+     "nullValue": null
+    },
+    "updatedAt": {
+     "timestampValue": "2026-10-16T23:37:41.359Z"
+    },
+    "updatedByAccountId": {
+     "stringValue": "a08nWyKNOLNYwxmjsyAi1quX9YjO"
+    },
+    "updatedByDeviceId": {
+     "nullValue": null
+    },
+    "data": {
+     "mapValue": {
+      "fields": {
+       "status": {
+        "stringValue": "active"
+       },
+       "createdAt": {
+        "timestampValue": "2026-10-16T23:37:41.359Z"
+       },
+       "deletionRequestedAt": {
+        "nullValue": null
+       }
+      }
+     }
+    },
+    "tombstone": {
+     "nullValue": null
+    }
+   }
+  },
+  {
+   "path": "accounts/a08nWyKNOLNYwxmjsyAi1quX9YjO/careerIndex/current",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "objectType": {
+     "stringValue": "careerIndex"
+    },
+    "objectId": {
+     "stringValue": "current"
+    },
+    "revision": {
+     "integerValue": "0"
+    },
+    "parentRevision": {
+     "nullValue": null
+    },
+    "lifecycleState": {
+     "stringValue": "live"
+    },
+    "contentHash": {
+     "stringValue": "sha256:64e306a2e98e4d64932e0b0208857963181a89e58affe3557718cf5356796890"
+    },
+    "priorContentHash": {
+     "nullValue": null
+    },
+    "updatedAt": {
+     "timestampValue": "2026-10-16T23:37:43.785Z"
+    },
+    "updatedByAccountId": {
+     "stringValue": "a08nWyKNOLNYwxmjsyAi1quX9YjO"
+    },
+    "updatedByDeviceId": {
+     "stringValue": "device_0e4dba95ebe07a1d9acb71944925598b"
+    },
+    "data": {
+     "mapValue": {
+      "fields": {
+       "rivalryIds": {
+        "arrayValue": {
+         "values": [
+          {
+           "stringValue": "pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462"
+          }
+         ]
+        }
+       },
+       "sealedPageCount": {
+        "integerValue": "0"
+       }
+      }
+     }
+    },
+    "tombstone": {
+     "nullValue": null
+    }
+   }
+  },
+  {
+   "path": "accounts/bS9ULQq8wauE1RW2oDYkGh4ZlNae",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "objectType": {
+     "stringValue": "account"
+    },
+    "objectId": {
+     "stringValue": "bS9ULQq8wauE1RW2oDYkGh4ZlNae"
+    },
+    "revision": {
+     "integerValue": "0"
+    },
+    "parentRevision": {
+     "nullValue": null
+    },
+    "lifecycleState": {
+     "stringValue": "live"
+    },
+    "contentHash": {
+     "stringValue": "sha256:10ebf7bba4dd2fa354c5e6739433b2f54ac9224ac33dd010c7c4b03a13ffe947"
+    },
+    "priorContentHash": {
+     "nullValue": null
+    },
+    "updatedAt": {
+     "timestampValue": "2026-10-16T23:37:42.350Z"
+    },
+    "updatedByAccountId": {
+     "stringValue": "bS9ULQq8wauE1RW2oDYkGh4ZlNae"
+    },
+    "updatedByDeviceId": {
+     "nullValue": null
+    },
+    "data": {
+     "mapValue": {
+      "fields": {
+       "status": {
+        "stringValue": "active"
+       },
+       "createdAt": {
+        "timestampValue": "2026-10-16T23:37:42.350Z"
+       },
+       "deletionRequestedAt": {
+        "nullValue": null
+       }
+      }
+     }
+    },
+    "tombstone": {
+     "nullValue": null
+    }
+   }
+  },
+  {
+   "path": "accounts/bS9ULQq8wauE1RW2oDYkGh4ZlNae/careerIndex/current",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "objectType": {
+     "stringValue": "careerIndex"
+    },
+    "objectId": {
+     "stringValue": "current"
+    },
+    "revision": {
+     "integerValue": "0"
+    },
+    "parentRevision": {
+     "nullValue": null
+    },
+    "lifecycleState": {
+     "stringValue": "live"
+    },
+    "contentHash": {
+     "stringValue": "sha256:64e306a2e98e4d64932e0b0208857963181a89e58affe3557718cf5356796890"
+    },
+    "priorContentHash": {
+     "nullValue": null
+    },
+    "updatedAt": {
+     "timestampValue": "2026-10-16T23:37:45.268Z"
+    },
+    "updatedByAccountId": {
+     "stringValue": "bS9ULQq8wauE1RW2oDYkGh4ZlNae"
+    },
+    "updatedByDeviceId": {
+     "stringValue": "device_aa996ed71cebfb87ddd9b92ff3a5a837"
+    },
+    "data": {
+     "mapValue": {
+      "fields": {
+       "rivalryIds": {
+        "arrayValue": {
+         "values": [
+          {
+           "stringValue": "pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462"
+          }
+         ]
+        }
+       },
+       "sealedPageCount": {
+        "integerValue": "0"
+       }
+      }
+     }
+    },
+    "tombstone": {
+     "nullValue": null
+    }
+   }
+  },
+  {
+   "path": "rivalries/pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "objectType": {
+     "stringValue": "rivalry"
+    },
+    "objectId": {
+     "stringValue": "pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462"
+    },
+    "revision": {
+     "integerValue": "3"
+    },
+    "parentRevision": {
+     "integerValue": "2"
+    },
+    "lifecycleState": {
+     "stringValue": "live"
+    },
+    "contentHash": {
+     "stringValue": "sha256:58997b85119a8e62394dfaf389baeab22b5ec8696cb8931c7044cc8edf476b10"
+    },
+    "priorContentHash": {
+     "stringValue": "sha256:a1d3aeefdd1837980614c4c7556b2955005ca727205a90746f53c0fd2f11e4e6"
+    },
+    "updatedAt": {
+     "timestampValue": "2026-10-16T23:38:28.670Z"
+    },
+    "updatedByAccountId": {
+     "stringValue": "a08nWyKNOLNYwxmjsyAi1quX9YjO"
+    },
+    "updatedByDeviceId": {
+     "stringValue": "device_0e4dba95ebe07a1d9acb71944925598b"
+    },
+    "data": {
+     "mapValue": {
+      "fields": {
+       "connectionState": {
+        "stringValue": "closed"
+       },
+       "connectionStateBeforeDeletion": {
+        "nullValue": null
+       },
+       "managerSlots": {
+        "arrayValue": {
+         "values": [
+          {
+           "mapValue": {
+            "fields": {
+             "slotId": {
+              "stringValue": "playerOne"
+             },
+             "accountId": {
+              "stringValue": "a08nWyKNOLNYwxmjsyAi1quX9YjO"
+             },
+             "profileId": {
+              "stringValue": "profile_98c87f4d6c50d7447ef5a235"
+             },
+             "saveId": {
+              "stringValue": "save_e220c8adf98c42a4f0933a10"
+             },
+             "displayLabel": {
+              "stringValue": "Daniel"
+             },
+             "entitlementState": {
+              "stringValue": "active"
+             },
+             "deletionConsent": {
+              "booleanValue": false
+             }
+            }
+           }
+          },
+          {
+           "mapValue": {
+            "fields": {
+             "slotId": {
+              "stringValue": "playerTwo"
+             },
+             "accountId": {
+              "stringValue": "bS9ULQq8wauE1RW2oDYkGh4ZlNae"
+             },
+             "profileId": {
+              "stringValue": "profile_718f8d547d11a2b901f53112"
+             },
+             "saveId": {
+              "stringValue": "save_a67dfaa1fa9b62e1ce470210"
+             },
+             "displayLabel": {
+              "stringValue": "Nik"
+             },
+             "entitlementState": {
+              "stringValue": "active"
+             },
+             "deletionConsent": {
+              "booleanValue": false
+             }
+            }
+           }
+          }
+         ]
+        }
+       },
+       "authorizedAccountIds": {
+        "arrayValue": {
+         "values": [
+          {
+           "stringValue": "a08nWyKNOLNYwxmjsyAi1quX9YjO"
+          },
+          {
+           "stringValue": "bS9ULQq8wauE1RW2oDYkGh4ZlNae"
+          }
+         ]
+        }
+       },
+       "createdByAccountId": {
+        "stringValue": "a08nWyKNOLNYwxmjsyAi1quX9YjO"
+       },
+       "createdAt": {
+        "timestampValue": "2026-10-16T23:37:43.785Z"
+       },
+       "terminalProgress": {
+        "mapValue": {
+         "fields": {
+          "schemaVersion": {
+           "integerValue": "1"
+          },
+          "runtimeRevision": {
+           "stringValue": "1.9.1-r18"
+          },
+          "totalSeasons": {
+           "integerValue": "1"
+          },
+          "acceptedThroughSeason": {
+           "integerValue": "1"
+          },
+          "managerTotals": {
+           "mapValue": {
+            "fields": {
+             "playerOne": {
+              "integerValue": "8"
+             },
+             "playerTwo": {
+              "integerValue": "8"
+             }
+            }
+           }
+          },
+          "closedSessionRevision": {
+           "integerValue": "2"
+          }
+         }
+        }
+       },
+       "terminalClose": {
+        "mapValue": {
+         "fields": {
+          "schemaVersion": {
+           "integerValue": "1"
+          },
+          "runtimeRevision": {
+           "stringValue": "1.9.1-r18"
+          },
+          "phase": {
+           "stringValue": "TERMINAL_CLOSE_READY"
+          },
+          "rivalryId": {
+           "stringValue": "pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462"
+          },
+          "sessionId": {
+           "stringValue": "session_280e3876ca80f3fc31ffb5b816cf5a4d0fce7c268d7f4e99ad0e9340fe7a088d"
+          },
+          "totalSeasons": {
+           "integerValue": "1"
+          },
+          "completedSeason": {
+           "integerValue": "1"
+          },
+          "managerTotals": {
+           "mapValue": {
+            "fields": {
+             "playerOne": {
+              "integerValue": "8"
+             },
+             "playerTwo": {
+              "integerValue": "8"
+             }
+            }
+           }
+          },
+          "winner": {
+           "stringValue": "draw"
+          },
+          "terminal": {
+           "booleanValue": true
+          },
+          "finalSeasonReconciled": {
+           "booleanValue": true
+          },
+          "nextSeason": {
+           "nullValue": null
+          },
+          "extraSeasonAllowed": {
+           "booleanValue": false
+          },
+          "rivalryConnectionState": {
+           "stringValue": "closed"
+          },
+          "sessionTargetState": {
+           "stringValue": "closed"
+          },
+          "terminalReadAllowed": {
+           "booleanValue": true
+          },
+          "canonicalStorageMutation": {
+           "booleanValue": false
+          },
+          "providerWriteRequired": {
+           "booleanValue": true
+          },
+          "listPermissionRequired": {
+           "booleanValue": false
+          },
+          "billingRequired": {
+           "booleanValue": false
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "tombstone": {
+     "nullValue": null
+    }
+   }
+  },
+  {
+   "path": "rivalries/pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462/careerStart/authoritative",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "objectType": {
+     "stringValue": "sharedCareerStart"
+    },
+    "rivalryId": {
+     "stringValue": "pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462"
+    },
+    "revision": {
+     "integerValue": "2"
+    },
+    "phase": {
+     "stringValue": "CAREER_START_READY"
+    },
+    "setupRevision": {
+     "integerValue": "6"
+    },
+    "setupOperationIds": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "setup_op_ca3c6da9e34ea7b99ef5df2320d3babe"
+       },
+       {
+        "stringValue": "setup_op_6b9caefbf0dde97d170cf0394da558f8"
+       },
+       {
+        "stringValue": "setup_op_4ff784416900757196e0d4928ee0237a"
+       },
+       {
+        "stringValue": "setup_op_4e14d5b058c7b0322e163417a5701232"
+       },
+       {
+        "stringValue": "setup_op_f957ee681afa13cb805ddd710d9d21e7"
+       },
+       {
+        "stringValue": "setup_op_64ed4097c7e6ef2d636c6a78b016cd01"
+       }
+      ]
+     }
+    },
+    "totalSeasons": {
+     "integerValue": "1"
+    },
+    "acknowledgedRoles": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerTwo"
+       }
+      ]
+     }
+    },
+    "operationIds": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "career_start_op_a15c30410acdc0c456c428d8fd0338b9"
+       },
+       {
+        "stringValue": "career_start_op_3ff6bd643ab418eaa5633fb1f54eddfb"
+       }
+      ]
+     }
+    },
+    "baseRevisions": {
+     "arrayValue": {
+      "values": [
+       {
+        "integerValue": "0"
+       },
+       {
+        "integerValue": "1"
+       }
+      ]
+     }
+    },
+    "actorRoles": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerTwo"
+       }
+      ]
+     }
+    },
+    "activeSessionId": {
+     "stringValue": "session_280e3876ca80f3fc31ffb5b816cf5a4d0fce7c268d7f4e99ad0e9340fe7a088d"
+    },
+    "updatedByDeviceId": {
+     "stringValue": "device_aa996ed71cebfb87ddd9b92ff3a5a837"
+    },
+    "updatedAt": {
+     "timestampValue": "2026-10-16T23:38:05.064Z"
+    }
+   }
+  },
+  {
+   "path": "rivalries/pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462/invites/pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "objectType": {
+     "stringValue": "invite"
+    },
+    "objectId": {
+     "stringValue": "pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462"
+    },
+    "revision": {
+     "integerValue": "1"
+    },
+    "parentRevision": {
+     "integerValue": "0"
+    },
+    "lifecycleState": {
+     "stringValue": "live"
+    },
+    "contentHash": {
+     "stringValue": "sha256:349ef49d1da67324b3634b984f468a4772bbfdb784949e98d7195c42c8760eac"
+    },
+    "priorContentHash": {
+     "stringValue": "sha256:be3b8dff65197a8f07a3006138a3ef3dc29a0496267ff94a1634b829d07dcf62"
+    },
+    "updatedAt": {
+     "timestampValue": "2026-10-16T23:37:45.268Z"
+    },
+    "updatedByAccountId": {
+     "stringValue": "bS9ULQq8wauE1RW2oDYkGh4ZlNae"
+    },
+    "updatedByDeviceId": {
+     "stringValue": "device_aa996ed71cebfb87ddd9b92ff3a5a837"
+    },
+    "data": {
+     "mapValue": {
+      "fields": {
+       "purpose": {
+        "stringValue": "rivalry-pairing"
+       },
+       "slotId": {
+        "stringValue": "playerTwo"
+       },
+       "createdByAccountId": {
+        "stringValue": "a08nWyKNOLNYwxmjsyAi1quX9YjO"
+       },
+       "createdAt": {
+        "timestampValue": "2026-10-16T23:37:43.785Z"
+       },
+       "expiresAt": {
+        "timestampValue": "2026-10-16T23:52:43.785Z"
+       },
+       "state": {
+        "stringValue": "redeemed"
+       },
+       "redeemedByAccountId": {
+        "stringValue": "bS9ULQq8wauE1RW2oDYkGh4ZlNae"
+       },
+       "redeemedAt": {
+        "timestampValue": "2026-10-16T23:37:45.268Z"
+       },
+       "revokedAt": {
+        "nullValue": null
+       }
+      }
+     }
+    },
+    "tombstone": {
+     "nullValue": null
+    }
+   }
+  },
+  {
+   "path": "rivalries/pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462/seasonCommits/season_1",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "objectType": {
+     "stringValue": "sharedSeasonCommit"
+    },
+    "rivalryId": {
+     "stringValue": "pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462"
+    },
+    "seasonNumber": {
+     "integerValue": "1"
+    },
+    "runtimeRevision": {
+     "stringValue": "1.9.1-r10"
+    },
+    "phase": {
+     "stringValue": "ACKNOWLEDGED"
+    },
+    "revision": {
+     "integerValue": "3"
+    },
+    "resultsRevision": {
+     "integerValue": "2"
+    },
+    "results": {
+     "mapValue": {
+      "fields": {
+       "playerOne": {
+        "mapValue": {
+         "fields": {
+          "leaguePosition": {
+           "integerValue": "9"
+          },
+          "leaguePoints": {
+           "integerValue": "53"
+          },
+          "leagueGoals": {
+           "integerValue": "135"
+          },
+          "domesticCup": {
+           "booleanValue": true
+          },
+          "championsLeague": {
+           "booleanValue": true
+          },
+          "topScorer": {
+           "booleanValue": false
+          },
+          "topAssist": {
+           "booleanValue": true
+          }
+         }
+        }
+       },
+       "playerTwo": {
+        "mapValue": {
+         "fields": {
+          "leaguePosition": {
+           "integerValue": "8"
+          },
+          "leaguePoints": {
+           "integerValue": "102"
+          },
+          "leagueGoals": {
+           "integerValue": "45"
+          },
+          "domesticCup": {
+           "booleanValue": true
+          },
+          "championsLeague": {
+           "booleanValue": true
+          },
+          "topScorer": {
+           "booleanValue": true
+          },
+          "topAssist": {
+           "booleanValue": false
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "acknowledgedRoles": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerTwo"
+       }
+      ]
+     }
+    },
+    "operationIds": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "season_commit_op_eba80a60663f78488b6c4b78395cecea"
+       },
+       {
+        "stringValue": "season_commit_op_aebec6f5ff08746f2933ae25f16a8b05"
+       },
+       {
+        "stringValue": "season_commit_op_632e7c937969cd85f9b5a60305665526"
+       }
+      ]
+     }
+    },
+    "operationHashes": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "sha256:0c3fa3cff371f3b05035e0a713b10f59ba0fa2b0362c04a1d9178ffccc4b2477"
+       },
+       {
+        "stringValue": "sha256:5d7dbb8f35c00c54b6d68e0ac5657b80fd963adcb27f2d0648d06d28a1928894"
+       },
+       {
+        "stringValue": "sha256:09993250345fbb3e93dc04c70a7cbe4bc61e0e98e1db02c2597f3ed93d503f2f"
+       }
+      ]
+     }
+    },
+    "baseRevisions": {
+     "arrayValue": {
+      "values": [
+       {
+        "integerValue": "0"
+       },
+       {
+        "integerValue": "1"
+       },
+       {
+        "integerValue": "2"
+       }
+      ]
+     }
+    },
+    "actorRoles": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerTwo"
+       }
+      ]
+     }
+    },
+    "activeSessionId": {
+     "stringValue": "session_280e3876ca80f3fc31ffb5b816cf5a4d0fce7c268d7f4e99ad0e9340fe7a088d"
+    },
+    "updatedByDeviceId": {
+     "stringValue": "device_aa996ed71cebfb87ddd9b92ff3a5a837"
+    },
+    "updatedAt": {
+     "timestampValue": "2026-10-16T23:38:27.868Z"
+    }
+   }
+  },
+  {
+   "path": "rivalries/pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462/seasonResults/season_1",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "objectType": {
+     "stringValue": "sharedSeasonResults"
+    },
+    "rivalryId": {
+     "stringValue": "pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462"
+    },
+    "seasonNumber": {
+     "integerValue": "1"
+    },
+    "runtimeRevision": {
+     "stringValue": "1.9.1-r9"
+    },
+    "phase": {
+     "stringValue": "RESULTS_READY"
+    },
+    "revision": {
+     "integerValue": "2"
+    },
+    "teamCount": {
+     "integerValue": "20"
+    },
+    "publishedRoles": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerTwo"
+       }
+      ]
+     }
+    },
+    "operationIds": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "season_result_op_038ae9349c67945e63e697991aec43df"
+       },
+       {
+        "stringValue": "season_result_op_e1a22b3088dcc7f58a4bbafbee8411fa"
+       }
+      ]
+     }
+    },
+    "operationHashes": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "sha256:8953a2c83422afc00257dc7fa4ec4163ec65463319011d12ca0a22b5a901b5ad"
+       },
+       {
+        "stringValue": "sha256:7879fd888526c1e149011b8a3418c07ff827517ba9dc7121cfccde042221ba63"
+       }
+      ]
+     }
+    },
+    "baseRevisions": {
+     "arrayValue": {
+      "values": [
+       {
+        "integerValue": "0"
+       },
+       {
+        "integerValue": "1"
+       }
+      ]
+     }
+    },
+    "actorRoles": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerTwo"
+       }
+      ]
+     }
+    },
+    "activeSessionId": {
+     "stringValue": "session_280e3876ca80f3fc31ffb5b816cf5a4d0fce7c268d7f4e99ad0e9340fe7a088d"
+    },
+    "updatedByDeviceId": {
+     "stringValue": "device_aa996ed71cebfb87ddd9b92ff3a5a837"
+    },
+    "updatedAt": {
+     "timestampValue": "2026-10-16T23:38:26.231Z"
+    }
+   }
+  },
+  {
+   "path": "rivalries/pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462/seasonResults/season_1/roles/playerOne",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "objectType": {
+     "stringValue": "sharedSeasonResultRole"
+    },
+    "rivalryId": {
+     "stringValue": "pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462"
+    },
+    "seasonNumber": {
+     "integerValue": "1"
+    },
+    "managerRole": {
+     "stringValue": "playerOne"
+    },
+    "result": {
+     "mapValue": {
+      "fields": {
+       "leaguePosition": {
+        "integerValue": "9"
+       },
+       "leaguePoints": {
+        "integerValue": "53"
+       },
+       "leagueGoals": {
+        "integerValue": "135"
+       },
+       "domesticCup": {
+        "booleanValue": true
+       },
+       "championsLeague": {
+        "booleanValue": true
+       },
+       "topScorer": {
+        "booleanValue": false
+       },
+       "topAssist": {
+        "booleanValue": true
+       }
+      }
+     }
+    },
+    "operationId": {
+     "stringValue": "season_result_op_038ae9349c67945e63e697991aec43df"
+    },
+    "commandHash": {
+     "stringValue": "sha256:27ab166574a21f88950cf8022a1513411efebd3b47100c9a5f78c9ac3a779a21"
+    },
+    "activeSessionId": {
+     "stringValue": "session_280e3876ca80f3fc31ffb5b816cf5a4d0fce7c268d7f4e99ad0e9340fe7a088d"
+    },
+    "updatedByDeviceId": {
+     "stringValue": "device_0e4dba95ebe07a1d9acb71944925598b"
+    },
+    "publishedAt": {
+     "timestampValue": "2026-10-16T23:38:25.239Z"
+    }
+   }
+  },
+  {
+   "path": "rivalries/pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462/seasonResults/season_1/roles/playerTwo",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "objectType": {
+     "stringValue": "sharedSeasonResultRole"
+    },
+    "rivalryId": {
+     "stringValue": "pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462"
+    },
+    "seasonNumber": {
+     "integerValue": "1"
+    },
+    "managerRole": {
+     "stringValue": "playerTwo"
+    },
+    "result": {
+     "mapValue": {
+      "fields": {
+       "leaguePosition": {
+        "integerValue": "8"
+       },
+       "leaguePoints": {
+        "integerValue": "102"
+       },
+       "leagueGoals": {
+        "integerValue": "45"
+       },
+       "domesticCup": {
+        "booleanValue": true
+       },
+       "championsLeague": {
+        "booleanValue": true
+       },
+       "topScorer": {
+        "booleanValue": true
+       },
+       "topAssist": {
+        "booleanValue": false
+       }
+      }
+     }
+    },
+    "operationId": {
+     "stringValue": "season_result_op_e1a22b3088dcc7f58a4bbafbee8411fa"
+    },
+    "commandHash": {
+     "stringValue": "sha256:6f25799c213ae7261db4c5719dccb01617c2be8301f0bced122774a9971c418c"
+    },
+    "activeSessionId": {
+     "stringValue": "session_280e3876ca80f3fc31ffb5b816cf5a4d0fce7c268d7f4e99ad0e9340fe7a088d"
+    },
+    "updatedByDeviceId": {
+     "stringValue": "device_aa996ed71cebfb87ddd9b92ff3a5a837"
+    },
+    "publishedAt": {
+     "timestampValue": "2026-10-16T23:38:26.231Z"
+    }
+   }
+  },
+  {
+   "path": "rivalries/pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462/sessionOffers/current",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "sessionId": {
+     "stringValue": "session_280e3876ca80f3fc31ffb5b816cf5a4d0fce7c268d7f4e99ad0e9340fe7a088d"
+    },
+    "hostAccountId": {
+     "stringValue": "a08nWyKNOLNYwxmjsyAi1quX9YjO"
+    },
+    "expiresAt": {
+     "timestampValue": "2026-10-17T03:36:48.591Z"
+    },
+    "updatedAt": {
+     "timestampValue": "2026-10-16T23:37:48.961Z"
+    }
+   }
+  },
+  {
+   "path": "rivalries/pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462/sessions/session_280e3876ca80f3fc31ffb5b816cf5a4d0fce7c268d7f4e99ad0e9340fe7a088d",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "objectType": {
+     "stringValue": "session"
+    },
+    "objectId": {
+     "stringValue": "session_280e3876ca80f3fc31ffb5b816cf5a4d0fce7c268d7f4e99ad0e9340fe7a088d"
+    },
+    "revision": {
+     "integerValue": "2"
+    },
+    "parentRevision": {
+     "integerValue": "1"
+    },
+    "lifecycleState": {
+     "stringValue": "live"
+    },
+    "contentHash": {
+     "stringValue": "sha256:453d58ccda01b34ef64f94c016bb5fd43be11c290e11f3dc525393a00875e3e7"
+    },
+    "priorContentHash": {
+     "stringValue": "sha256:1022381dfd12cb66a51f767057d348d25e9387958dcccbcd0dced7d67b7e9989"
+    },
+    "updatedAt": {
+     "timestampValue": "2026-10-16T23:38:28.670Z"
+    },
+    "updatedByAccountId": {
+     "stringValue": "a08nWyKNOLNYwxmjsyAi1quX9YjO"
+    },
+    "updatedByDeviceId": {
+     "stringValue": "device_0e4dba95ebe07a1d9acb71944925598b"
+    },
+    "data": {
+     "mapValue": {
+      "fields": {
+       "rivalryId": {
+        "stringValue": "pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462"
+       },
+       "hostAccountId": {
+        "stringValue": "a08nWyKNOLNYwxmjsyAi1quX9YjO"
+       },
+       "memberAccountIds": {
+        "arrayValue": {
+         "values": [
+          {
+           "stringValue": "a08nWyKNOLNYwxmjsyAi1quX9YjO"
+          },
+          {
+           "stringValue": "bS9ULQq8wauE1RW2oDYkGh4ZlNae"
+          }
+         ]
+        }
+       },
+       "state": {
+        "stringValue": "closed"
+       },
+       "createdAt": {
+        "timestampValue": "2026-10-16T23:37:48.591Z"
+       },
+       "expiresAt": {
+        "timestampValue": "2026-10-17T03:36:48.591Z"
+       },
+       "lastActivityAt": {
+        "timestampValue": "2026-10-16T23:38:28.670Z"
+       },
+       "revokedAt": {
+        "nullValue": null
+       }
+      }
+     }
+    },
+    "tombstone": {
+     "nullValue": null
+    }
+   }
+  },
+  {
+   "path": "rivalries/pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462/sharedSetup/authoritative",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "objectType": {
+     "stringValue": "sharedSetupLedger"
+    },
+    "rivalryId": {
+     "stringValue": "pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462"
+    },
+    "revision": {
+     "integerValue": "6"
+    },
+    "phase": {
+     "stringValue": "SHOWDOWN_CONFIRMED"
+    },
+    "coordinatorRole": {
+     "stringValue": "playerOne"
+    },
+    "operationIds": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "setup_op_ca3c6da9e34ea7b99ef5df2320d3babe"
+       },
+       {
+        "stringValue": "setup_op_6b9caefbf0dde97d170cf0394da558f8"
+       },
+       {
+        "stringValue": "setup_op_4ff784416900757196e0d4928ee0237a"
+       },
+       {
+        "stringValue": "setup_op_4e14d5b058c7b0322e163417a5701232"
+       },
+       {
+        "stringValue": "setup_op_f957ee681afa13cb805ddd710d9d21e7"
+       },
+       {
+        "stringValue": "setup_op_64ed4097c7e6ef2d636c6a78b016cd01"
+       }
+      ]
+     }
+    },
+    "operationTypes": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "open"
+       },
+       {
+        "stringValue": "commit-league"
+       },
+       {
+        "stringValue": "commit-clubs"
+       },
+       {
+        "stringValue": "commit-length"
+       },
+       {
+        "stringValue": "confirm"
+       },
+       {
+        "stringValue": "confirm"
+       }
+      ]
+     }
+    },
+    "baseRevisions": {
+     "arrayValue": {
+      "values": [
+       {
+        "integerValue": "0"
+       },
+       {
+        "integerValue": "1"
+       },
+       {
+        "integerValue": "2"
+       },
+       {
+        "integerValue": "3"
+       },
+       {
+        "integerValue": "4"
+       },
+       {
+        "integerValue": "5"
+       }
+      ]
+     }
+    },
+    "actorRoles": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerTwo"
+       }
+      ]
+     }
+    },
+    "totalSeasons": {
+     "integerValue": "1"
+    },
+    "confirmedRoles": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerTwo"
+       }
+      ]
+     }
+    },
+    "activeSessionId": {
+     "stringValue": "session_280e3876ca80f3fc31ffb5b816cf5a4d0fce7c268d7f4e99ad0e9340fe7a088d"
+    },
+    "updatedByDeviceId": {
+     "stringValue": "device_aa996ed71cebfb87ddd9b92ff3a5a837"
+    },
+    "updatedAt": {
+     "timestampValue": "2026-10-16T23:38:03.468Z"
+    }
+   }
+  },
+  {
+   "path": "rivalries/pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462/sharedSetup/leagueProjection",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "objectType": {
+     "stringValue": "sharedLeagueProjection"
+    },
+    "rivalryId": {
+     "stringValue": "pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462"
+    },
+    "teamCount": {
+     "integerValue": "20"
+    },
+    "createdAt": {
+     "timestampValue": "2026-10-16T23:38:25.055Z"
+    }
+   }
+  },
+  {
+   "path": "rivalries/pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462/state/authoritative",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "objectType": {
+     "stringValue": "sharedState"
+    },
+    "objectId": {
+     "stringValue": "pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462"
+    },
+    "revision": {
+     "integerValue": "0"
+    },
+    "parentRevision": {
+     "nullValue": null
+    },
+    "lifecycleState": {
+     "stringValue": "live"
+    },
+    "contentHash": {
+     "stringValue": "sha256:2df668a15c0c685d64bf5d3731a14ff9d10a72684e1508a7c4c69f7c3a8db859"
+    },
+    "priorContentHash": {
+     "nullValue": null
+    },
+    "updatedByAccountId": {
+     "stringValue": "a08nWyKNOLNYwxmjsyAi1quX9YjO"
+    },
+    "updatedByDeviceId": {
+     "stringValue": "device_0e4dba95ebe07a1d9acb71944925598b"
+    },
+    "data": {
+     "mapValue": {
+      "fields": {
+       "saveId": {
+        "stringValue": "save_e220c8adf98c42a4f0933a10"
+       },
+       "managerBindings": {
+        "arrayValue": {
+         "values": [
+          {
+           "mapValue": {
+            "fields": {
+             "slotId": {
+              "stringValue": "playerOne"
+             },
+             "profileId": {
+              "stringValue": "profile_98c87f4d6c50d7447ef5a235"
+             }
+            }
+           }
+          },
+          {
+           "mapValue": {
+            "fields": {
+             "slotId": {
+              "stringValue": "playerTwo"
+             },
+             "profileId": {
+              "stringValue": "profile_718f8d547d11a2b901f53112"
+             }
+            }
+           }
+          }
+         ]
+        }
+       },
+       "seasonIds": {
+        "arrayValue": {}
+       },
+       "activeSeasonId": {
+        "nullValue": null
+       },
+       "payloadFormatVersion": {
+        "integerValue": "1"
+       },
+       "payload": {
+        "mapValue": {
+         "fields": {
+          "schemaVersion": {
+           "integerValue": "2"
+          },
+          "id": {
+           "integerValue": "1792193863393"
+          },
+          "name": {
+           "stringValue": "Daniel vs Nik"
+          },
+          "managers": {
+           "mapValue": {
+            "fields": {
+             "playerOne": {
+              "stringValue": "Daniel"
+             },
+             "playerTwo": {
+              "stringValue": "Nik"
+             }
+            }
+           }
+          },
+          "totalRounds": {
+           "integerValue": "1"
+          },
+          "currentRound": {
+           "integerValue": "1"
+          },
+          "status": {
+           "stringValue": "Created"
+          },
+          "selectedLeague": {
+           "nullValue": null
+          },
+          "clubs": {
+           "mapValue": {
+            "fields": {
+             "playerOne": {
+              "nullValue": null
+             },
+             "playerTwo": {
+              "nullValue": null
+             }
+            }
+           }
+          },
+          "score": {
+           "mapValue": {
+            "fields": {
+             "playerOne": {
+              "integerValue": "0"
+             },
+             "playerTwo": {
+              "integerValue": "0"
+             }
+            }
+           }
+          },
+          "transferChallenges": {
+           "arrayValue": {}
+          },
+          "rounds": {
+           "arrayValue": {}
+          },
+          "integrityWarnings": {
+           "arrayValue": {}
+          },
+          "createdAt": {
+           "stringValue": "2026-10-16T23:37:43.393Z"
+          },
+          "updatedAt": {
+           "stringValue": "2026-10-16T23:37:43.400Z"
+          },
+          "completedAt": {
+           "nullValue": null
+          },
+          "archivedAt": {
+           "nullValue": null
+          },
+          "identity": {
+           "mapValue": {
+            "fields": {
+             "schemaVersion": {
+              "integerValue": "1"
+             },
+             "saveId": {
+              "stringValue": "save_e220c8adf98c42a4f0933a10"
+             },
+             "managerProfileIds": {
+              "mapValue": {
+               "fields": {
+                "playerOne": {
+                 "stringValue": "profile_98c87f4d6c50d7447ef5a235"
+                },
+                "playerTwo": {
+                 "stringValue": "profile_718f8d547d11a2b901f53112"
+                }
+               }
+              }
+             }
+            }
+           }
+          },
+          "sharedJourney": {
+           "mapValue": {
+            "fields": {
+             "contractVersion": {
+              "integerValue": "1"
+             },
+             "mode": {
+              "stringValue": "shared"
+             },
+             "setupPending": {
+              "booleanValue": true
+             }
+            }
+           }
+          }
+         }
+        }
+       },
+       "mutationReceipt": {
+        "mapValue": {
+         "fields": {
+          "idempotencyKeyHash": {
+           "stringValue": "373c692581aba7fbca72370d643d2dc8d748d0286357cdc9546f5bffb537c223"
+          },
+          "requestFingerprint": {
+           "stringValue": "sha256:034084467ab0cfdd45d9973466eb97be0e45d5a6ac7167e3705b525f4a405678"
+          },
+          "baseRevision": {
+           "integerValue": "0"
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "tombstone": {
+     "nullValue": null
+    },
+    "updatedAt": {
+     "timestampValue": "2026-10-16T23:38:28.406Z"
+    }
+   }
+  },
+  {
+   "path": "rivalries/pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462/state/authoritative/idempotency/373c692581aba7fbca72370d643d2dc8d748d0286357cdc9546f5bffb537c223",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "objectType": {
+     "stringValue": "idempotency"
+    },
+    "objectId": {
+     "stringValue": "373c692581aba7fbca72370d643d2dc8d748d0286357cdc9546f5bffb537c223"
+    },
+    "revision": {
+     "integerValue": "0"
+    },
+    "parentRevision": {
+     "nullValue": null
+    },
+    "lifecycleState": {
+     "stringValue": "live"
+    },
+    "contentHash": {
+     "stringValue": "sha256:be7b3bebe7fbb9d7e1498ed1086f54c60f5904dbd2bb83bbc11ec949ac1d87f2"
+    },
+    "priorContentHash": {
+     "nullValue": null
+    },
+    "updatedAt": {
+     "timestampValue": "2026-10-16T23:38:28.393Z"
+    },
+    "updatedByAccountId": {
+     "stringValue": "a08nWyKNOLNYwxmjsyAi1quX9YjO"
+    },
+    "updatedByDeviceId": {
+     "stringValue": "device_0e4dba95ebe07a1d9acb71944925598b"
+    },
+    "data": {
+     "mapValue": {
+      "fields": {
+       "requestFingerprint": {
+        "stringValue": "sha256:034084467ab0cfdd45d9973466eb97be0e45d5a6ac7167e3705b525f4a405678"
+       },
+       "baseRevision": {
+        "integerValue": "0"
+       },
+       "acceptedRevision": {
+        "integerValue": "0"
+       },
+       "resultStatus": {
+        "stringValue": "accepted"
+       },
+       "resultContentHash": {
+        "stringValue": "sha256:2df668a15c0c685d64bf5d3731a14ff9d10a72684e1508a7c4c69f7c3a8db859"
+       },
+       "resultTombstone": {
+        "booleanValue": false
+       },
+       "actorAccountId": {
+        "stringValue": "a08nWyKNOLNYwxmjsyAi1quX9YjO"
+       },
+       "deviceId": {
+        "stringValue": "device_0e4dba95ebe07a1d9acb71944925598b"
+       },
+       "createdAt": {
+        "timestampValue": "2026-10-16T23:38:28.393Z"
+       },
+       "expiresAt": {
+        "timestampValue": "2026-10-23T23:38:28.393Z"
+       }
+      }
+     }
+    },
+    "tombstone": {
+     "nullValue": null
+    }
+   }
+  },
+  {
+   "path": "rivalries/pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462/transferChallenges/season_1",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "objectType": {
+     "stringValue": "sharedTransferChallenge"
+    },
+    "rivalryId": {
+     "stringValue": "pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462"
+    },
+    "seasonNumber": {
+     "integerValue": "1"
+    },
+    "runtimeRevision": {
+     "stringValue": "1.9.1-r8"
+    },
+    "coordinatorRole": {
+     "stringValue": "playerOne"
+    },
+    "phase": {
+     "stringValue": "COMPLETED"
+    },
+    "revision": {
+     "integerValue": "7"
+    },
+    "startedAt": {
+     "timestampValue": "2026-10-16T23:38:06.296Z"
+    },
+    "endedAt": {
+     "timestampValue": "2026-10-16T23:38:09.039Z"
+    },
+    "endRequestedRoles": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerTwo"
+       }
+      ]
+     }
+    },
+    "guessLockedRoles": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerTwo"
+       }
+      ]
+     }
+    },
+    "signingLockedRoles": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerTwo"
+       }
+      ]
+     }
+    },
+    "operationIds": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "transfer_op_cb39e645255f80cc99b7616ba0e7be17"
+       },
+       {
+        "stringValue": "transfer_op_bac8929de3ea2e520e4c1f1f814a6c13"
+       },
+       {
+        "stringValue": "transfer_op_0ae4b42ac477277a698ca7529e3b61f7"
+       },
+       {
+        "stringValue": "transfer_op_3c793a69039f1f31dac8f697c48eaa45"
+       },
+       {
+        "stringValue": "transfer_op_fa494b1c65c2473666fec018457da711"
+       },
+       {
+        "stringValue": "transfer_op_240e0065c4187d09a1c69b786593c6af"
+       },
+       {
+        "stringValue": "transfer_op_29ff3bbdf40be7607cc658802ca9f025"
+       }
+      ]
+     }
+    },
+    "operationTypes": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "start-window"
+       },
+       {
+        "stringValue": "request-end-window"
+       },
+       {
+        "stringValue": "request-end-window"
+       },
+       {
+        "stringValue": "lock-guesses"
+       },
+       {
+        "stringValue": "lock-guesses"
+       },
+       {
+        "stringValue": "lock-signings"
+       },
+       {
+        "stringValue": "lock-signings"
+       }
+      ]
+     }
+    },
+    "operationHashes": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "sha256:22244c6d2232a8b53c382a9d0c714e7683c9c6d24646e352056c1004affcc02a"
+       },
+       {
+        "stringValue": "sha256:15e0069f87f10a5baabb3cefb32186594285780c79b6ed5937b6b2491806e1fd"
+       },
+       {
+        "stringValue": "sha256:6b9a625e481c0cb0499aa4f14d6548d5c23fa9524f159bcef7b668f98dffdffa"
+       },
+       {
+        "stringValue": "sha256:b23c73e901e452c2d3b3becc8e94c5ca85b02a7d0700ba5cd383f453ff7b1fee"
+       },
+       {
+        "stringValue": "sha256:8faa4ece6b145880c0c5d2cd16bec44988fbd898a14b29280bc5501273a0e8da"
+       },
+       {
+        "stringValue": "sha256:475c20a5d4edc212dd74f293b63b783b2c6352f44b7819aa7a15443dc4f39333"
+       },
+       {
+        "stringValue": "sha256:a8b499d59d519a76b8f1cc4d8894fda8c6946539518621d0dc8f7e7335e63fe2"
+       }
+      ]
+     }
+    },
+    "baseRevisions": {
+     "arrayValue": {
+      "values": [
+       {
+        "integerValue": "0"
+       },
+       {
+        "integerValue": "1"
+       },
+       {
+        "integerValue": "2"
+       },
+       {
+        "integerValue": "3"
+       },
+       {
+        "integerValue": "4"
+       },
+       {
+        "integerValue": "5"
+       },
+       {
+        "integerValue": "6"
+       }
+      ]
+     }
+    },
+    "actorRoles": {
+     "arrayValue": {
+      "values": [
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerTwo"
+       },
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerTwo"
+       },
+       {
+        "stringValue": "playerOne"
+       },
+       {
+        "stringValue": "playerTwo"
+       }
+      ]
+     }
+    },
+    "activeSessionId": {
+     "stringValue": "session_280e3876ca80f3fc31ffb5b816cf5a4d0fce7c268d7f4e99ad0e9340fe7a088d"
+    },
+    "updatedByDeviceId": {
+     "stringValue": "device_aa996ed71cebfb87ddd9b92ff3a5a837"
+    },
+    "updatedAt": {
+     "timestampValue": "2026-10-16T23:38:23.794Z"
+    }
+   }
+  },
+  {
+   "path": "rivalries/pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462/transferChallenges/season_1/roles/playerOne",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "objectType": {
+     "stringValue": "sharedTransferChallengeRole"
+    },
+    "rivalryId": {
+     "stringValue": "pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462"
+    },
+    "seasonNumber": {
+     "integerValue": "1"
+    },
+    "managerRole": {
+     "stringValue": "playerOne"
+    },
+    "guesses": {
+     "arrayValue": {
+      "values": [
+       {
+        "mapValue": {
+         "fields": {
+          "slot": {
+           "integerValue": "1"
+          },
+          "type": {
+           "stringValue": "league"
+          },
+          "valueId": {
+           "stringValue": "england-premier-league"
+          }
+         }
+        }
+       }
+      ]
+     }
+    },
+    "signings": {
+     "arrayValue": {
+      "values": [
+       {
+        "mapValue": {
+         "fields": {
+          "slot": {
+           "integerValue": "1"
+          },
+          "name": {
+           "stringValue": "QW1X Daniel Signing"
+          },
+          "leagueId": {
+           "stringValue": "england-premier-league"
+          },
+          "nationalityId": {
+           "stringValue": "england"
+          }
+         }
+        }
+       }
+      ]
+     }
+    },
+    "guessLockedAt": {
+     "timestampValue": "2026-10-16T23:38:09.763Z"
+    },
+    "activeSessionId": {
+     "stringValue": "session_280e3876ca80f3fc31ffb5b816cf5a4d0fce7c268d7f4e99ad0e9340fe7a088d"
+    },
+    "updatedByDeviceId": {
+     "stringValue": "device_0e4dba95ebe07a1d9acb71944925598b"
+    },
+    "guessSalt": {
+     "stringValue": "1dfefaaec8db6fadd6b00dd46925eab9d407a51081b6a6fe902335a718d9628f"
+    },
+    "signingSalt": {
+     "stringValue": "689ce7e3dea9f7e6ab22bda76da184e660a81a632101990b5e757cd2244d9323"
+    },
+    "signingLockedAt": {
+     "timestampValue": "2026-10-16T23:38:10.659Z"
+    },
+    "updatedAt": {
+     "timestampValue": "2026-10-16T23:38:10.659Z"
+    }
+   }
+  },
+  {
+   "path": "rivalries/pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462/transferChallenges/season_1/roles/playerTwo",
+   "fields": {
+    "schemaVersion": {
+     "integerValue": "1"
+    },
+    "objectType": {
+     "stringValue": "sharedTransferChallengeRole"
+    },
+    "rivalryId": {
+     "stringValue": "pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462"
+    },
+    "seasonNumber": {
+     "integerValue": "1"
+    },
+    "managerRole": {
+     "stringValue": "playerTwo"
+    },
+    "guesses": {
+     "arrayValue": {
+      "values": [
+       {
+        "mapValue": {
+         "fields": {
+          "slot": {
+           "integerValue": "1"
+          },
+          "type": {
+           "stringValue": "nationality"
+          },
+          "valueId": {
+           "stringValue": "brazil"
+          }
+         }
+        }
+       }
+      ]
+     }
+    },
+    "signings": {
+     "arrayValue": {
+      "values": [
+       {
+        "mapValue": {
+         "fields": {
+          "slot": {
+           "integerValue": "1"
+          },
+          "name": {
+           "stringValue": "ZP1V Nik Signing"
+          },
+          "leagueId": {
+           "stringValue": "italy-serie-a"
+          },
+          "nationalityId": {
+           "stringValue": "brazil"
+          }
+         }
+        }
+       }
+      ]
+     }
+    },
+    "guessLockedAt": {
+     "timestampValue": "2026-10-16T23:38:10.090Z"
+    },
+    "activeSessionId": {
+     "stringValue": "session_280e3876ca80f3fc31ffb5b816cf5a4d0fce7c268d7f4e99ad0e9340fe7a088d"
+    },
+    "updatedByDeviceId": {
+     "stringValue": "device_aa996ed71cebfb87ddd9b92ff3a5a837"
+    },
+    "guessSalt": {
+     "stringValue": "cf2d20340baa7d6d0f892af00cb6d55d89430ce789fb18acfb31d18fb09a841a"
+    },
+    "signingSalt": {
+     "stringValue": "7ede523925529afbb52cb46be73d37c56647eb2ce838b472dd8ffaec950234dd"
+    },
+    "signingLockedAt": {
+     "timestampValue": "2026-10-16T23:38:23.794Z"
+    },
+    "updatedAt": {
+     "timestampValue": "2026-10-16T23:38:23.794Z"
+    }
+   }
+  }
+ ]
+}
