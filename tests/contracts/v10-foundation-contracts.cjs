@@ -644,7 +644,22 @@ const V10_IMAGES={
     "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_RIM_2X.webp":"474affc7f39d8239b24c8df81b09f6afd9a7568762588a1ae8375d7f122a0d2f",
     "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_PHONE_V1.webp":"9791dbb9ab97188cce419c0543302e2e36ba53da717a141e757febc00e48282d",
     "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V1.webp":"eae320e0604e221f749f9bff6d7c044bfde2fb1d9dbaa4f16a9321211fd3d554",
-    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V1_PHONE.webp":"ea8f4bd02533596680121dacbcf7cc35ec3be75aadb3c0dd0271d3b0fa16be81"
+    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V1_PHONE.webp":"ea8f4bd02533596680121dacbcf7cc35ec3be75aadb3c0dd0271d3b0fa16be81",
+    // r78 release: the r77 shell still draws these phone images. It runs (from its own cache) on every installed phone until
+    // the r78 worker takes over on Home, and it is the rollback copy afterwards, so they stay deployed for one release.
+    // r78's own code no longer uses them; remove them in r79, once r78 is the retained previous runtime.
+    "visual-assets/v10_1/career-statistics/assets/ENV_CS_PHONE_V1.webp":"6d1610bba1d480681ef5191ac78b9bf8f6f579e3931f26e444985d65e8d582fa",
+    "visual-assets/v10_1/career-statistics/assets/OVL_CS_DANIEL_PHONE_V1.webp":"4c6a1a06ea9933d7c695b30dcf1ef1a12be9fa7461356d759f2a9521d793563f",
+    "visual-assets/v10_1/career-statistics/assets/OVL_CS_NIK_PHONE_V1.webp":"570e96e38af9be0d4be10f647a3f23cad81fd26bcae7e091f3e61469fed7afeb",
+    "visual-assets/v10_1/club/assets/OVL_CLUB_DANIEL_PHONE_V1.webp":"6836d6b85c87fdc0d73e18d106b1a6bf98c102d1f8e0fe5eacdb81c7bf95dc2d",
+    "visual-assets/v10_1/club/assets/OVL_CLUB_NIK_PHONE_V1.webp":"2f509a89aa6485eac3ae8f7892dfb2c79e7733bed066eb3371dec9a2aa9c28bc",
+    "visual-assets/v10_1/home/assets/ENV_HOME_PHONE_V1.webp":"55b4c840aad140b95db47bf9a733c1c21c1aaceb25b539a367c5f6ffcb37453e",
+    "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_PHONE_V1.webp":"92d7f3f1be8d5e343a828e58e9e363b1ac8e8b01271c3c9bac6c46d72882b9f8",
+    "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_PHONE_V1.webp":"b3c343ea60650b7eb0a238c528cf85b5239c1bf166f8b939059c6c907d696f1a",
+    "visual-assets/v10_1/shared/plates/ENV_SYS_PHONE_V1.webp":"734d1d147c80e48f3b3a4744f35ea255c47cd23adb5e451c1e2e98fff6b54882",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/ENV_TRANSFER_PHONE_V1.webp":"0effe0edb3159888b4417201ffafa806a3435a1f94cf2630408b7b96dd3b6bd1",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_DANIEL_PHONE_V2.webp":"739359106c586b8e98640290c5091b97008550f4bebad4919eabde3c0c9c1086",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_NIK_PHONE_V2.webp":"d0d59dddf6988f0b24394d2363c30f15445f68dea3840fc4247dbf23ee826316"
 };
 check("F9c every shipped Team V image path names one generation (versioned name, pinned bytes)",()=>{
   const found=[];
