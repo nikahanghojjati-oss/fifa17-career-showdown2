@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-17 6:14 AM Boston time (EDT)",
+ "generated": "2026-10-17 6:18 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 111,
@@ -1055,7 +1055,22 @@
    "revision": "1.9.1-r77",
    "when": "2026-10-17T03:05:54Z",
    "subject": "Re-pin the composed Rules check to production main r76b (#885)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 897,
+     "title": "Release r78: look and feel (1.9.2-r78)",
+     "draft": false,
+     "branch": "gameplay/clean-start",
+     "sha": "c3f947172043e012875f8c3b4095bcd4a5e6133b",
+     "updated": "2026-10-17T10:18:01Z",
+     "gates": {
+      "passed": 0,
+      "running": 7,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": []
   },
   "physio": {
@@ -1568,7 +1583,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 48,
+  "moving": 49,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -2784,7 +2799,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 897,
+    "title": "Release r78: look and feel (1.9.2-r78)",
+    "draft": false,
+    "branch": "gameplay/clean-start",
+    "sha": "c3f947172043e012875f8c3b4095bcd4a5e6133b",
+    "updated": "2026-10-17T10:18:01Z",
+    "gates": {
+     "passed": 0,
+     "running": 7,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
