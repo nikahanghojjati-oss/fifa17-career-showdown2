@@ -12,6 +12,7 @@ const {spawn}=require("node:child_process");
 const ROOT=path.resolve(__dirname,"../..");
 const read=file=>fs.readFileSync(path.join(ROOT,file),"utf8");
 let passed=0;
+let framedChecks=Promise.reject(new Error("R3b did not run"));framedChecks.catch(()=>{});
 const check=(name,fn)=>{fn();passed+=1;console.log(`ok ${passed} ${name}`);};
 
 function walk(dir,out=[]){
@@ -93,6 +94,39 @@ check("R3 the box is one shared module: alertdialog, OK / Cancel, Esc = Cancel, 
   assert.match(modal,/background: transparent;/);assert.match(modal,/backdrop-filter: none;/);
 });
 
+check("R3b a framed app never shows the box: inside any frame (or when window.top cannot be read) every ask is Cancel",()=>{
+  const vm=require("node:vm");
+  const src=read("js/showdownConfirm.js");
+  assert.match(src,/function scIsFramed\(\)\{\n\s*try\{return root\.top!==root\.self;\}catch\(error\)\{return true;\}\n\s*\}/);
+  assert.match(src,/const run=\(\)=>\{\n\s*if\(scIsFramed\(\)\)return Promise\.resolve\(false\);/,"checked before any DOM work, on every ask");
+  const load=defineTop=>{
+    const touched=[];
+    const doc=new Proxy({},{get:(target,key)=>{touched.push(String(key));throw new Error(`document.${String(key)} touched while framed`);}});
+    const sandbox={document:doc,Promise,setTimeout,clearTimeout};
+    sandbox.self=sandbox;
+    defineTop(sandbox);
+    vm.runInNewContext(src,sandbox,{filename:"showdownConfirm.js"});
+    return {sandbox,touched};
+  };
+  const cases=[
+    ["cross-origin parent",box=>{box.top={};}],
+    ["unreadable window.top",box=>{Object.defineProperty(box,"top",{get(){throw new Error("SecurityError");}});}],
+  ];
+  const pending=[];
+  for(const [label,defineTop] of cases){
+    const {sandbox,touched}=load(defineTop);
+    assert.equal(sandbox.CareerModeShowdownConfirm.isFramed(),true,label);
+    assert.equal(sandbox.CareerModeShowdownConfirm.framedAnswer,false,label);
+    pending.push(sandbox.askShowdownConfirm("Reset all Showdown data on this device?",{tone:"danger"}).then(answer=>{
+      assert.equal(answer,false,`${label}: framed ask is Cancel`);
+      assert.deepEqual(touched,[],`${label}: no box is built`);
+    }));
+  }
+  const top=load(box=>{box.top=box;});
+  assert.equal(top.sandbox.CareerModeShowdownConfirm.isFramed(),false,"the top-level app still shows the box");
+  framedChecks=Promise.all(pending);
+});
+
 check("R4 the r78 sheets load with the kit and the box on first use, never in the startup bundle; the error plate exists",()=>{
   const html=read("index.html");
   for(const file of ["r78-type.css","r78-marble-surfaces.css","showdownConfirm.js"])assert.ok(!html.includes(file),`${file} is not a startup file`);
@@ -102,7 +136,7 @@ check("R4 the r78 sheets load with the kit and the box on first use, never in th
   assert.match(v10,/const css=\[\.\.\.KIT\.styles\.map\(file=>vsStyle\(BASE\+file\)\),\.\.\.R78_STYLES\.map\(vsStyle\)\];/,"loaded with the kit, before Home's first reveal");
   assert.match(read("css/r78-type.css"),/#loadingScreen \{ --f17-ui: "Segoe UI", "Helvetica Neue", Arial, sans-serif; \}/,"the loading screen keeps its font");
   const sw=read("service-worker.js");
-  for(const file of ["css/r78-type.css","css/r78-marble-surfaces.css","js/showdownConfirm.js"])assert.ok(sw.includes(`"${file}"`),`precache ${file}`);
+  for(const file of ["css/r78-type.css","css/r78-marble-surfaces.css","css/r78-marble-tile.webp","js/showdownConfirm.js"])assert.ok(sw.includes(`"${file}"`),`precache ${file}`);
   const css=read("css/r78-marble-surfaces.css");
   assert.ok(!css.includes("ENV_SYS_PHONE_V1"),"the removed phone plate is not referenced");
   for(const match of css.matchAll(/url\("\.\.\/(visual-assets\/[^"]+)"\)/g))assert.ok(fs.existsSync(path.join(ROOT,match[1])),match[1]);
@@ -189,6 +223,7 @@ async function auditViewport(browser,base,options){
 }
 
 (async()=>{
+  await framedChecks;
   const {chromium}=require("playwright");
   const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
   const port=await freePort();

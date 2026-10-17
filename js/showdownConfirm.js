@@ -112,8 +112,15 @@
     });
   }
 
+  // A framed app could have its OK button lined up under a hostile page's
+  // clicks (GitHub Pages cannot send frame-ancestors), so framed = Cancel.
+  function scIsFramed(){
+    try{return root.top!==root.self;}catch(error){return true;}
+  }
+
   function scAsk(message,options){
     const run=()=>{
+      if(scIsFramed())return Promise.resolve(false);
       const doc=root.document;
       return (doc?scEnsureStyles(doc):Promise.resolve()).then(()=>scShow(message,options));
     };
@@ -124,5 +131,5 @@
 
   function scIsOpen(){return open!==null;}
 
-  return Object.freeze({contractVersion:1,feature:"r78-marble-confirm",nativeConfirmReplaced:true,LAYER_ID,LABELS,ask:scAsk,isOpen:scIsOpen,splitMessage:scSplitMessage});
+  return Object.freeze({contractVersion:1,feature:"r78-marble-confirm",nativeConfirmReplaced:true,LAYER_ID,LABELS,ask:scAsk,isOpen:scIsOpen,isFramed:scIsFramed,framedAnswer:false,splitMessage:scSplitMessage});
 });

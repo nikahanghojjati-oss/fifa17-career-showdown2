@@ -217,6 +217,7 @@ const SHELL_PATHS = Object.freeze([
     "css/v10Shell.css",
     "css/r78-type.css",
     "css/r78-marble-surfaces.css",
+    "css/r78-marble-tile.webp",
     "js/showdownConfirm.js",
     "visual-assets/v10_1/shared/navbar/navbar.css",
     "visual-assets/v10_1/shared/navbar/navbar.js",
