@@ -1,5 +1,7 @@
 # Team V lead handoff (read this first)
 
+> **First do `project-documents/leads-relay/NEW_LEAD_START.md` on branch `leads/relay`** (relay v1.3, CONTRACT.md §11: RECEIVED means "starting now in this thread"; never acknowledge a ticket for a later thread, leave it SENT and run `handoff.py register --team V --state rotating`; a new lead registers with `handoff.py register --team V --session <id> --state active`; move each ticket's steps as you go, Nik watches those bars).
+
 Written Thu 15 Oct 2026, 6:50 p.m. Eastern, by the old Team V lead thread "Showdown Factory job board" when Nik moved Team V to a fresh thread to save usage.
 Repo: nikahanghojjati-oss/fifa17-career-showdown2. Team V work branch: `factory/v1-wtt5ye` (never main).
 
@@ -47,7 +49,7 @@ All four are in `project-documents/factory/handoffs/lead-shelf/` on `factory/v1-
 
 ## 5. Live state (17 Oct 2026, 12:20 a.m. Eastern; refreshed by the "Team V lead" thread of 15-16 Oct)
 
-**TOP OF QUEUE (17 Oct 11:40 p.m. Eastern Fri 16 Oct): three Team G design hand-offs for r78, all RECEIVED by Team V (leads/relay 0a9fe0af), work not started:**
+**TOP OF QUEUE (17 Oct 11:40 p.m. Eastern Fri 16 Oct): three Team G design hand-offs for r78, all RECEIVED by Team V (leads/relay 0a9fe0af), work STARTED in the "Team V lead" thread of 15-17 Oct (steps: style picked DONE, pictures made, code handed back; kit in project-documents/factory/r78/):**
 - **HO-028** readable premium body text on every screen (Rules/Rule Book first; titles stay). Return type tokens/CSS + before/after of Rules on desktop and phone.
 - **HO-029** every error screen, inline error, confirm dialog and toast in black-and-gold marble (no dark overlay behind dialogs). Surface list ARRIVED: leads/relay dddb7aa2, `project-documents/leads-relay/attachments/HO-029/ERROR_POPUP_SURFACES.md` (8 full-screen errors incl. the navy inline-styled sign-in gate #onlinePlayerIdentityOverlay in js/onlinePlayerIdentity.js; 15 inline notes; 13 native confirm() sites that Team G replaces with ONE custom marble modal Team V designs; 6 modals incl. Shared Career Start / Shared Showdown Setup on old pale remoteJoining.css; 1 toast #appRuntimeNotice, ~100 call sites). Return CSS/components + pictures.
 - **HO-030** much better Loading screen: Reus photo and Borussia Dortmund crest STAY (Nik, overrides no-crest rule for this screen only), edited into marble; credit "Marco Reus photo: Tim Reckmann · CC BY 2.0 · Cropped and edited for display". Marble colour = **BLACK AND GOLD** (Nik chose on the card, Sat 17 Oct 12:15 a.m. Eastern). Desktop + phone crops + layout; Team G keeps the Reus Gate (no flash).
