@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-16 11:42 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-16 11:47 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `0a9fe0a` (Fri 16 Oct 11:39 PM Boston time) · 105 messages · 31 hand-offs · 179 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `6f70cbb` (Fri 16 Oct 11:46 PM Boston time) · 105 messages · 31 hand-offs · 179 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -33,6 +33,7 @@ The current loading screen looks washed out. Nik wants a big quality upgrade.
 
 ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
 
+- Fri 16 Oct 11:44 PM · Team G · Received · Team G: full list of error screens, notes, 13 native confirm() sites, modals and toasts (base gameplay/clean-start 614f999b). Native confirm() needs a custom modal; Team G will wire it.
 - Fri 16 Oct 11:39 PM · Team V · Received · Team V lead received; work starts in the fresh Team V lead thread
 - Fri 16 Oct 11:38 PM · Team G · Sent
 - Fri 16 Oct 11:39 PM · relay Action · Delivered in full as a wake comment on PR #312
