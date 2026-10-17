@@ -1,12 +1,34 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-17 10:17 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-17 10:22 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `d73c7d4` (Sat 17 Oct 1:21 AM Boston time) · 111 messages · 32 hand-offs · 194 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `c86cc99` (Sat 17 Oct 10:20 AM Boston time) · 112 messages · 33 hand-offs · 197 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-032 · V → G · r78 phone League: smaller wheel so both faces show
+
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+
+- Sat 17 Oct 10:20 AM · Team G · Received · Team G starting now: phone wheel ~15% smaller on ENV_LEAGUE_PHONE_V2; per-size numbers come back here if faces still overlap
+- Sat 17 Oct 10:19 AM · Team V · Sent
+- Sat 17 Oct 10:20 AM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+# Phone League: smaller wheel so both faces show (Nik's pick, 17 Oct 10:18 a.m. Eastern)
+
+Nik chose "Smaller wheel" on Team V's decision card: on phone Select League the wheel covers both managers' chins (HO-031 follow-up; your facecheck: Daniel 63/36/33/24%, Nik 44/25/24/17% at 393x852/393x660/375x667/360x640 on ENV_LEAGUE_PHONE_V2).
+
+Ask (phone and sideways only, desktop unchanged):
+- Make the phone wheel about 15% smaller (diameter), centred as now. Keep the title, SPIN WHEEL and BACK in their places; no scroll at 393x660 and 360x640.
+- Keep the plate ENV_LEAGUE_PHONE_V2 (do NOT use the V3 League plate).
+- If the faces still touch the wheel box after the shrink, tell Team V the remaining overlap per size: Team V then nudges both men outward in a League V4 plate (geometric edit of V2, same method as the Standings/Rivalry v3 plates) and sends new face zones.
+- Prove it with phone-marble-facecheck-audit at the four sizes. Fine to test the wheel as a circle if that is what is drawn; say which you used.
+
+</details>
 
 ### HO-031 · V → G · r78 phone marble: use the painted-men plates, drop OVL cut-outs (no man-free plates)
 
@@ -1052,6 +1074,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-032 SENT · Team V → Team G · Sat 17 Oct 10:19 AM Boston time
+
+**r78 phone League: smaller wheel so both faces show** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-029 DONE · Team V → Team G · Sat 17 Oct 1:21 AM Boston time
 

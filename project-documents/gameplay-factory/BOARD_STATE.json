@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-17 10:17 AM Boston time (EDT)",
+ "generated": "2026-10-17 10:22 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 111,
+  "count": 112,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1002,6 +1002,15 @@
     "subject": "r78: every error screen and pop-up in black-and-gold marble",
     "reply": "no",
     "boston": "Sat 17 Oct 1:21 AM"
+   },
+   {
+    "time": "2026-10-17 14:19",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-032 SENT",
+    "subject": "r78 phone League: smaller wheel so both faces show",
+    "reply": "yes (receive it)",
+    "boston": "Sat 17 Oct 10:19 AM"
    }
   ],
   "g2v": {
@@ -1022,8 +1031,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "d73c7d4",
-  "head_boston": "Sat 17 Oct 1:21 AM",
+  "head": "c86cc99",
+  "head_boston": "Sat 17 Oct 10:20 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1512,6 +1521,19 @@
     "worker": "",
     "pickup_min": null,
     "waiting_min": null
+   },
+   {
+    "id": "HO-032",
+    "from": "V",
+    "to": "G",
+    "title": "r78 phone League: smaller wheel so both faces show",
+    "stage": "RECEIVED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-032_r78-phone-league-smaller-wheel-so-both-f.md",
+    "worker": "",
+    "pickup_min": 0,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -1583,7 +1605,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 49,
+  "moving": 50,
   "next": 42,
   "nik": 2,
   "later": 21,
