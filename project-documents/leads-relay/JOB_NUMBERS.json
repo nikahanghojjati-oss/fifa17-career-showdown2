@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1843,
+ "next": 1844,
  "claims": [
   {
    "number": 1001,
@@ -5054,6 +5054,12 @@
    "team": "G",
    "title": "CE2PG harness: stop flagging the two known wording items",
    "claimed": "2026-10-16T22:31:37Z"
+  },
+  {
+   "number": 1843,
+   "team": "G",
+   "title": "Codex auto-start pilot: CE2PG 1-season run on gameplay/clean-start",
+   "claimed": "2026-10-17T00:11:21Z"
   }
  ]
 }
