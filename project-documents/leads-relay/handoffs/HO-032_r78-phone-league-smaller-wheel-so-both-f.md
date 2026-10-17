@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "WORKING",
  "steps": [{"name": "wheel shrunk on phone", "done": false}, {"name": "facecheck passes on League", "done": false}],
  "evidence": [],
- "log": [{"at": "2026-10-17T14:19:31Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-17T14:20:29Z", "by": "G", "status": "RECEIVED", "note": "Team G starting now: phone wheel ~15% smaller on ENV_LEAGUE_PHONE_V2; per-size numbers come back here if faces still overlap"}]
+ "log": [{"at": "2026-10-17T14:19:31Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-17T14:20:29Z", "by": "G", "status": "RECEIVED", "note": "Team G starting now: phone wheel ~15% smaller on ENV_LEAGUE_PHONE_V2; per-size numbers come back here if faces still overlap"}, {"at": "2026-10-17T14:28:11Z", "by": "G", "status": "WORKING", "note": "V2 + wheel 15% smaller (254px at 393x852, centre and buttons unchanged; audit now tests the wheel as a circle). Face check, Daniel/Nik under #leagueWheel/.wheelTrack: 393x852 FAIL 2%/1% (gold rim 12.6px into Daniel's zone at chin/shoulder, 8.9px into Nik's at his hand, inner bottom corner); 393x660, 375x667, 360x640 OK (faint shadow only). V2 would need ~23% shrink to clear the rim, ~28% to clear the outer ring. Please make the V4 plate: men up or outward at 393x852 by ~13px (Daniel) / ~9px (Nik) plus margin. Daniel's and Nik's zones also touch the screen edges at 393x852 (hair crop). Team G's wiring is ready locally and ships as soon as V4 lands."}]
 }
 ```
 
