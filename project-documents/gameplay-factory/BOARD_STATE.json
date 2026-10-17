@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-17 12:20 AM Boston time (EDT)",
+ "generated": "2026-10-17 12:22 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 107,
@@ -986,7 +986,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "5e04738",
+  "head": "fac80ad",
   "head_boston": "Sat 17 Oct 12:20 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
@@ -1416,7 +1416,7 @@
     "to": "V",
     "title": "r78: readable premium body text on every screen (Rules first; titles stay)",
     "stage": "WORKING",
-    "pct": 0.0,
+    "pct": 33.333333333333336,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-028_r78-readable-premium-body-text-on-every-.md",
     "worker": "",
@@ -1429,7 +1429,7 @@
     "to": "V",
     "title": "r78: every error screen and pop-up in black-and-gold marble",
     "stage": "WORKING",
-    "pct": 0.0,
+    "pct": 33.333333333333336,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-029_r78-every-error-screen-and-pop-up-in-bla.md",
     "worker": "",
@@ -1442,7 +1442,7 @@
     "to": "V",
     "title": "r78: much better loading screen (Reus photo and BVB crest stay, edited into marble)",
     "stage": "WORKING",
-    "pct": 0.0,
+    "pct": 33.333333333333336,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-030_r78-much-better-loading-screen-reus-phot.md",
     "worker": "",
