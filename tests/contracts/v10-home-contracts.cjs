@@ -113,7 +113,7 @@ test("Home registers through job 24's loader with Team V's CSS, the adapter and 
   assert.doesNotMatch(binder,/register\("loadingScreen"/);
 });
 test("Loading stays the app's splash: edited Reus photo (HO-030) and its credit",()=>{
-  assert.match(html,/<source media="\(max-aspect-ratio: 6\/5\)" srcset="assets\/LOADING_REUS_PHONE\.webp\?v=[^"]+" width="1179" height="2096">\n<img id="startupAthlete" src="assets\/LOADING_REUS_DESKTOP\.webp\?v=[^"]+" width="1920" height="1080" alt="" decoding="async" fetchpriority="high">/,"HO-030: the edited Reus photo (phone and desktop crops) is the splash picture");
+  assert.match(html,/<source media="\(max-aspect-ratio: 7\/5\)" srcset="assets\/LOADING_REUS_PHONE\.webp\?v=[^"]+" width="1179" height="2096">\n<img id="startupAthlete" src="assets\/LOADING_REUS_DESKTOP\.webp\?v=[^"]+" width="1920" height="1080" alt="" decoding="async" fetchpriority="high">/,"HO-030: the edited Reus photo (phone and desktop crops) is the splash picture");
   assert.ok(fs.existsSync(path.join(ROOT,"assets/marco-reus-2015-cc-by.webp")),"the licensed source photo stays");
   assert.match(html,/<p class="startupPhotoCredit">Marco Reus photo: <a [^>]*>Tim Reckmann<\/a> · <a [^>]*>CC BY 2\.0<\/a> · Cropped and edited for display<\/p>/,"HO-030: credit keeps Tim Reckmann, CC BY 2.0 and says edited");
   assert.doesNotMatch(binder,/loadingScreen|startupPhotoCredit|startupIdentity/);
