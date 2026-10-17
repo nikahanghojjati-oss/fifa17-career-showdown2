@@ -121,8 +121,9 @@ Rules:
    a new lead, treat it as rotating (rule 4). One check per wake, never a timer.
 6. Each team may set only its own INBOX entry, except: a sender that proves (rule 5) the other lead is retired marks
    that entry rotating, so the block in rule 4 applies.
-7. A new lead thread is the exception, not the routine (Nik 2026-10-17 04:22 UTC). A lead keeps working in its thread and
-   switches only when it genuinely must: a compaction notice, or context above about 70% of the window. A release
-   shipping is a moment to check, not a reason by itself. Never copy the other team's rotation habit.
+7. Each team rotates on its own rhythm (Nik 2026-10-17 04:22-04:24 UTC). Team G does heavy work, so it starts a fresh
+   lead thread after each release ships (and on a compaction notice). Team V switches only when it genuinely must: a
+   compaction notice, or context above about 70% of the window; a release is not a reason by itself. Never copy the
+   other team's rotation habit.
 8. A lead never stops work to wait for a new thread. If a switch is genuinely needed, it writes the handoff, tells Nik
    in one line why and what to type, and keeps doing the open work in the current thread until the new one starts.
