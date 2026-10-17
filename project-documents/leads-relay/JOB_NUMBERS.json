@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1845,
+ "next": 1846,
  "claims": [
   {
    "number": 1001,
@@ -5066,6 +5066,12 @@
    "team": "G",
    "title": "r78 small fixes: Career tab goes to the game, no Home DELETE copy (Codex diff-in-reply pilot)",
    "claimed": "2026-10-17T03:33:41Z"
+  },
+  {
+   "number": 1845,
+   "team": "G",
+   "title": "Codex retry: no-dimming audit (HO-027), report only",
+   "claimed": "2026-10-17T03:46:54Z"
   }
  ]
 }
