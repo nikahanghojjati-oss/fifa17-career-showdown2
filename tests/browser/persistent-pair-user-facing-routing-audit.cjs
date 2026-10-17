@@ -1,4 +1,5 @@
 const assert=require("node:assert/strict");
+const {answerNextMarbleConfirm}=require("./support/marble-confirm.cjs");
 const {chromium}=require("playwright");
 const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
 
@@ -163,7 +164,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     assert.equal(await page.locator("#persistentNikDanielPairPanel button",{hasText:"NEW CODE"}).count(),0,"Nik must not create a replacement host code.");
     const discardOld=page.locator("#persistentNikDanielPairPanel button",{hasText:"DELETE OLD CONNECTION & START FRESH"});
     await discardOld.waitFor({state:"visible"});
-    page.once("dialog",dialog=>void dialog.accept());
+    await answerNextMarbleConfirm(page);
     await discardOld.click();
     await page.locator("#persistentNikDanielPairCode").waitFor({state:"visible",timeout:5000});
     await page.locator("#persistentNikDanielPairPanel button",{hasText:"JOIN DANIEL'S SHOWDOWN"}).waitFor({state:"visible",timeout:5000});
@@ -341,7 +342,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await page.evaluate(async()=>{window.__localRecoveryReady=false;window.__pairProviderMode="active-recovery";await window.CareerModePersistentNikDanielPair.initialize({force:true});window.CareerModePersistentNikDanielPair.render();});
     const startOverAgain=page.locator("#persistentNikDanielPairPanel button",{hasText:"DELETE OLD SHOWDOWN & START OVER"});
     await startOverAgain.waitFor({state:"visible"});
-    page.once("dialog",dialog=>void dialog.accept());
+    await answerNextMarbleConfirm(page);
     await startOverAgain.click();
     await page.locator("#createShowdown").waitFor({state:"visible",timeout:5000});
     const resetProof=await page.evaluate(()=>({providerMode:window.__pairProviderMode,abandonCount:window.__providerAbandonCount,pairStatus:window.CareerModePersistentNikDanielPair.getState().status}));

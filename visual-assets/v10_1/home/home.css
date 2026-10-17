@@ -304,8 +304,7 @@ button { font: inherit; color: inherit; }
   box-shadow: 0 0 0 2px var(--sd-black, #060709), 0 0 24px rgba(242,196,91,.34);
 }
 .menuTile:active:not(:disabled) { transform: translateY(-1px); }
-.menuTile:disabled { opacity: .76; cursor: not-allowed; filter: saturate(.72); }
-.menuTile:disabled .tileArt { opacity: .34; filter: grayscale(.35) drop-shadow(0 8px 10px rgba(0,0,0,.55)); }
+.menuTile:disabled { cursor: not-allowed; }
 .menuTile[data-available="false"] { justify-content: flex-start; }
 .menuTile[data-available="false"] .menuTileMeta {
   position: relative !important; width: auto; height: auto; overflow: visible; clip: auto; clip-path: none;
@@ -318,7 +317,7 @@ button { font: inherit; color: inherit; }
 .menuTileNew .tileArt, .menuTileLegacy .tileArt, .menuTileTrophy .tileArt, .menuTileTrophyRoom .tileArt, .menuTileRules .tileArt, .menuTileSettings .tileArt {
   right: -17px; bottom: -20px; width: 116px; height: 116px;
 }
-#continueCareer .tileArt { right: -6px; bottom: -30px; width: 190px; height: 190px; opacity: .82; filter: brightness(.28) saturate(.45) drop-shadow(0 10px 12px rgba(0,0,0,.38)); }
+#continueCareer .tileArt { right: -6px; bottom: -30px; width: 190px; height: 190px; filter: drop-shadow(0 8px 12px rgba(0,0,0,.45)); }
 #trophyRoomButton .tileArt { right: -12px; bottom: -24px; width: 108px; height: 128px; }
 #continueCareer { background: var(--sd-gold-500, #F2C45B); border-color: var(--sd-gold-100, #FFF1B8); box-shadow: 0 10px 28px rgba(0,0,0,.45); }
 /* Job 36 · Continue is the final visual beat. The shared runtime adds the pulse class at 760 ms;
@@ -337,7 +336,7 @@ button { font: inherit; color: inherit; }
   #continueCareer .tileArt { right: -52px; }
 }
 #continueCareer .tileChevron { color: var(--ink); }
-#continueCareer:disabled { opacity: .45; cursor: default; }
+#continueCareer:disabled { cursor: default; }
 #continueCareer:disabled:hover { transform: none; }
 .stage.primary-new #newShowdown { border-color: var(--gold); box-shadow: inset 0 4px 0 var(--gold), 0 10px 28px rgba(0,0,0,.45); }
 

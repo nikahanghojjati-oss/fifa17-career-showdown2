@@ -1,4 +1,5 @@
 const assert = require("node:assert/strict");
+const { answerNextMarbleConfirm } = require("./support/marble-confirm.cjs");
 const fs = require("node:fs/promises");
 const path = require("node:path");
 const { chromium } = require("playwright");
@@ -185,7 +186,7 @@ async function installCommitFailure(page, { critical = false } = {}){
     }, { keys, critical });
 }
 
-function acceptNextConfirm(page){ page.once("dialog", dialog => dialog.accept()); }
+function acceptNextConfirm(page){ return answerNextMarbleConfirm(page); }
 
 async function runAxeAndOverflow(page, rootSelector, label){
     await page.addScriptTag({ path: axePath });
@@ -226,7 +227,7 @@ async function successfulRestoreAndIdempotence(browser){
         await runAxeAndOverflow(page, "#careerModeRestorePanel", "desktop ready plan");
         await assertFooterSafe(page, "#careerModeRestorePanel .careerRestoreApply", "desktop Apply");
         await page.screenshot({ path: path.join(resultsDirectory, `candidate-c-restore-ready-${runLabel}.png`), fullPage: true });
-        acceptNextConfirm(page);
+        await acceptNextConfirm(page);
         await page.locator("#careerModeRestorePanel .careerRestoreApply").click();
         await page.locator("#leagueWheelScreen").waitFor({ state: "visible", timeout: 15000 });
         const after = await snapshot(page);
@@ -257,7 +258,7 @@ async function successfulRestoreAndIdempotence(browser){
         assert.equal(await page.locator("#careerModeRestorePanel .careerRestoreConflict").count(), 0);
         const repeatedBefore = await snapshot(page);
         await installWriteAudit(page);
-        acceptNextConfirm(page);
+        await acceptNextConfirm(page);
         await page.locator("#careerModeRestorePanel .careerRestoreApply").click();
         await page.locator("#leagueWheelScreen").waitFor({ state: "visible", timeout: 15000 });
         assert.deepEqual(await page.evaluate(() => ({ ...window.__restoreWriteAudit })), { set: 0, remove: 0 }, "Repeated identical restore must be a zero-write transaction.");
@@ -287,7 +288,7 @@ async function stalePreviewBlocks(browser){
         }, { keys });
         const changed = await snapshot(page);
         await installWriteAudit(page);
-        acceptNextConfirm(page);
+        await acceptNextConfirm(page);
         await page.locator("#careerModeRestorePanel .careerRestoreApply").click();
         const live = page.locator("#careerModeRestorePanel .careerRestoreStatus");
         await live.filter({ hasText: /changed after review/i }).waitFor({ state: "visible", timeout: 8000 });
@@ -307,7 +308,7 @@ async function safeRollback(browser){
         const before = await reviewBackup(page, envelope);
         await chooseMergeRestore(page, "use-backup");
         await installCommitFailure(page, { critical: false });
-        acceptNextConfirm(page);
+        await acceptNextConfirm(page);
         await page.locator("#careerModeRestorePanel .careerRestoreApply").click();
         const recovery = page.locator("#careerModeRestorePanel .careerRestoreRecovery").filter({ hasText: "RESTORE ROLLED BACK" });
         await recovery.waitFor({ state: "visible", timeout: 8000 });
@@ -329,7 +330,7 @@ async function criticalRollback(browser){
         const before = await reviewBackup(page, envelope);
         await chooseMergeRestore(page, "use-backup");
         await installCommitFailure(page, { critical: true });
-        acceptNextConfirm(page);
+        await acceptNextConfirm(page);
         await page.locator("#careerModeRestorePanel .careerRestoreApply").click();
         const recovery = page.locator("#careerModeRestorePanel .careerRestoreRecovery.critical");
         await recovery.waitFor({ state: "visible", timeout: 8000 });

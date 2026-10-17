@@ -3,12 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="app-asset-revision" content="1.9.1-r77">
+<meta name="app-asset-revision" content="1.9.2-r78">
 <title>Career Mode Showdown</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="assets/LOADING_REUS_PHONE.webp?v=1.9.2-r78" media="(max-aspect-ratio: 7/5)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/LOADING_REUS_DESKTOP.webp?v=1.9.2-r78" media="not all and (max-aspect-ratio: 7/5)" fetchpriority="high">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&display=swap">
-<link rel="stylesheet" id="appStyles" href="css/app.css?v=1.9.1-r77">
+<link rel="stylesheet" id="appStyles" href="css/app.css?v=1.9.2-r78">
 </head>
 <body>
 <div id="background"></div>
@@ -16,25 +18,20 @@
 
 <section id="loadingScreen" role="status" aria-live="polite" aria-busy="true" aria-label="Career Mode Showdown is starting">
 <div class="startupScene" aria-hidden="true">
-<span class="startupShard startupShardOne"></span>
-<span class="startupShard startupShardTwo"></span>
-<span class="startupGrid"></span>
 <div class="startupAthleteFrame">
-<img id="startupAthlete" src="assets/marco-reus-2015-cc-by.webp?v=1.9.1-r77" alt="" decoding="async" fetchpriority="high">
+<picture>
+<source media="(max-aspect-ratio: 7/5)" srcset="assets/LOADING_REUS_PHONE.webp?v=1.9.2-r78" width="1179" height="2096">
+<img id="startupAthlete" src="assets/LOADING_REUS_DESKTOP.webp?v=1.9.2-r78" width="1920" height="1080" alt="" decoding="async" fetchpriority="high">
+</picture>
 </div>
-</div>
-<div class="startupIdentity" aria-hidden="true">
-<div class="startupRoundel"><span>CM</span><strong>17</strong></div>
-<p class="startupKicker">THE RIVALRY STARTS HERE</p>
-<h1><span>CAREER MODE</span><strong>SHOWDOWN <em>17</em></strong></h1>
-<p class="startupEdition">TWO MANAGERS&nbsp;&nbsp;·&nbsp;&nbsp;ONE LEGACY</p>
 </div>
 <div class="startupStatus">
 <div class="startupPulse" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 <p id="loadingText">PREPARING CAREER MODE SHOWDOWN</p>
+<div class="startupLoader" aria-hidden="true"><i></i></div>
 </div>
 <p class="startupSaveNote" aria-hidden="true">TWO MANAGERS&nbsp;&nbsp;·&nbsp;&nbsp;ONE SHOWDOWN</p>
-<p class="startupPhotoCredit" aria-hidden="true">Marco Reus photo: Tim Reckmann · CC BY 2.0 · Display crop</p>
+<p class="startupPhotoCredit">Marco Reus photo: <a href="https://www.flickr.com/photos/foto_db/16204330530/" tabindex="-1" rel="noopener" target="_blank">Tim Reckmann</a> · <a href="https://creativecommons.org/licenses/by/2.0/" tabindex="-1" rel="noopener" target="_blank">CC BY 2.0</a> · Cropped and edited for display</p>
 </section>
 
 <div id="app" class="hidden" aria-hidden="true">
@@ -404,15 +401,15 @@
 <button class="backButton" data-smart-back type="button">BACK TO MAIN MENU</button>
 </section>
 </main>
-<footer>Career Mode Showdown<br>v1.9.1</footer>
+<footer>Career Mode Showdown<br>v1.9.2</footer>
 </div>
 
-<script defer src="js/storage.js?v=1.9.1-r77"></script>
-<script defer src="js/showdown.js?v=1.9.1-r77"></script>
-<script defer src="js/scoring.js?v=1.9.1-r77"></script>
-<script defer src="js/screens.js?v=1.9.1-r77"></script>
-<script defer src="js/menuExperience.js?v=1.9.1-r77"></script>
-<script defer src="js/optionalModules.js?v=1.9.1-r77"></script>
-<script defer src="js/app.js?v=1.9.1-r77"></script>
+<script defer src="js/storage.js?v=1.9.2-r78"></script>
+<script defer src="js/showdown.js?v=1.9.2-r78"></script>
+<script defer src="js/scoring.js?v=1.9.2-r78"></script>
+<script defer src="js/screens.js?v=1.9.2-r78"></script>
+<script defer src="js/menuExperience.js?v=1.9.2-r78"></script>
+<script defer src="js/optionalModules.js?v=1.9.2-r78"></script>
+<script defer src="js/app.js?v=1.9.2-r78"></script>
 </body>
 </html>

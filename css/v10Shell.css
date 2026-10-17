@@ -104,35 +104,10 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10 {
 .sd-nav .sd-nav-gear svg { position: absolute; width: 0; height: 0; overflow: hidden; }
 .sd-nav .sd-nav-gear::before { content: ""; width: 34px; height: 34px; background: url("../visual-assets/v10_1/shared/art/home-tiles/TILE_SETTINGS_V1.webp") center / contain no-repeat; filter: drop-shadow(0 1px 2px rgba(0,0,0,.6)); transition: filter .15s ease, transform .15s ease; }
 .sd-nav .sd-nav-gear:hover::before, .sd-nav .sd-nav-gear:focus-visible::before, .sd-nav .sd-nav-gear[aria-current="page"]::before { filter: drop-shadow(0 0 6px rgba(240,190,60,.55)) brightness(1.12); }
-.sd-nav[data-locked="true"] .sd-nav-gear:not([aria-current="page"])::before { filter: grayscale(.6) brightness(.8); }
 @media (prefers-reduced-motion: reduce) { .sd-nav .sd-nav-gear::before { transition: none; } }
 
-/* r61 (Nik, 2026-10-05: no old-design leftovers): the sign-in / connection card from js/onlinePlayerIdentity.js takes
-   Team V's black-and-gold panel and button kit (shared/showdown-tokens.css, always on). Its inline layout is kept. */
-#onlinePlayerIdentityOverlay { background: rgba(4, 5, 7, .9) !important; }
-#onlinePlayerIdentityOverlay > section {
-  background: linear-gradient(160deg, rgba(14, 15, 18, .98), rgba(8, 9, 12, .95)) !important;
-  border: 1px solid var(--sd-edge, rgba(212, 160, 23, .7)) !important;
-  box-shadow: 0 18px 48px rgba(0, 0, 0, .6), inset 0 0 0 1px rgba(242, 196, 91, .12);
-  color: #ece6d6; font-family: var(--sd-font-body, "Barlow", sans-serif); text-align: center;
-}
-#onlinePlayerIdentityOverlay > section > p:first-of-type {
-  margin: 0 0 6px; color: var(--sd-gold-400, #f2c45b);
-  font: 600 12px/1.2 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .24em; text-transform: uppercase;
-}
-#onlinePlayerIdentityOverlay h2 {
-  margin: 0 0 10px; color: var(--sd-gold-300, #f7d27a); font: 400 clamp(30px, 8vw, 40px)/1.1 var(--sd-font-title, cursive);
-  text-shadow: 0 2px 12px rgba(0, 0, 0, .6);
-}
-#onlinePlayerIdentityOverlay > section > p:not(:first-of-type) { margin: 0 0 18px; color: #c9c2b0; }
-#onlinePlayerIdentityOverlay .menuButton {
-  min-height: 48px; color: var(--sd-text-on-gold, #07080a); background: var(--sd-gold-500, #f5c518); border: 0;
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
-  font: 700 15px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .14em;
-}
-#onlinePlayerIdentityOverlay .menuButton:hover:not(:disabled),
-#onlinePlayerIdentityOverlay .menuButton:focus-visible { background: var(--sd-gold-400, #f2c45b); outline: 2px solid #ece6d6; outline-offset: 2px; }
-#onlinePlayerIdentityOverlay button[aria-label="Close sign-in"] { color: var(--sd-gold-400, #f2c45b) !important; }
+/* r78 (HO-029): the sign-in / connection card (js/onlinePlayerIdentity.js) is Team V's marble error screen now
+   (.r78-error-screen, css/r78-marble-surfaces.css, loaded with this sheet); the r61 block that dressed it here is gone. */
 
 /* r61: on desktop the setup screens (New Showdown, League, Club) drop the old brand bar under the navigation bar too:
    the chips sit in the bar like on every other Team V screen (HO-003) and the footer is visually hidden. Phone setup keeps

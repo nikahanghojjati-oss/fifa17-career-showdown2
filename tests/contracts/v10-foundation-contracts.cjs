@@ -421,8 +421,8 @@ check("F8 the bar is hidden on Loading and appears only after start-up",async()=
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
   const sw=read("service-worker.js"),html=read("index.html");
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
-  assert.equal(revision,"1.9.1-r77","RUNTIME_REVISION is the start-marker and close-race release r76b (1.9.1-r77)");
-  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.1-r76");
+  assert.equal(revision,"1.9.2-r78","RUNTIME_REVISION is the r78 visual release (1.9.2-r78)");
+  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.1-r77");
   assert.equal(/app-asset-revision"\s+content="([^"]+)/.exec(html)[1],revision);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   const v10=shell.filter(p=>p.startsWith("visual-assets/v10_1/"));
@@ -471,7 +471,7 @@ function swWorld(){
 
 check("F9b a rollback keeps its own Team V images (offline too); other old image caches are cleared",async()=>{
   const w=swWorld(),cur=w.diag.revision,prev=w.diag.previousRevision,IMG="career-mode-showdown-v10-images-";
-  assert.equal(cur,"1.9.1-r77");assert.equal(prev,"1.9.1-r76");
+  assert.equal(cur,"1.9.2-r78");assert.equal(prev,"1.9.1-r77");
   w.fill(cur);const prevShell=w.fill(prev);
   const art="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",only="visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp";
   // An older revision precached the art in its shell; the retained shell still has it.
@@ -528,15 +528,12 @@ const V10_IMAGES={
     "visual-assets/v10_1/shared/wordmarks/TITLE_FINAL_WINNER_V1.webp":"c200cad34fccb43d27492037e8a56fb754f30dfee216ac605ae7e5771ba77b71",
     "visual-assets/v10_1/shared/wordmarks/TITLE_STANDINGS_V1.webp":"adbf6ee3214a535b2d96cd12bd40110178ecae0e01cf53cd5eb17dde646e3807",
 
-    "visual-assets/v10_1/career-statistics/assets/ENV_CS_PHONE_V1.webp":"6d1610bba1d480681ef5191ac78b9bf8f6f579e3931f26e444985d65e8d582fa",
     "visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp":"77759cb0ff818bb674ae45f5431f6e5976b3724de98923f47521b0f59fcec352",
     "visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_2X.webp":"740e753cd4a6360a42658f5a1cd7c70ba848c05ed580a906f0333ecbd29149b9",
     "visual-assets/v10_1/career-statistics/assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_1X.webp":"a9bf051efc756f37fff4b2836f3f67a2f205e12054779e633f8c0cba4708fbb1",
     "visual-assets/v10_1/career-statistics/assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_2X.webp":"0f4802b0aa50f6f932d2ed18a49b90decb567dfb7d4f9abd73c52e23c52a992d",
     "visual-assets/v10_1/career-statistics/assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_1X.webp":"e51ce1190a73458dfab2c51e8663834be8e1ff831e8e915c9e3061fea732775a",
     "visual-assets/v10_1/career-statistics/assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_2X.webp":"a64f2bfebadef2966c59b1f598d0d5abe955888aa5b22c6c17116ee04c936148",
-    "visual-assets/v10_1/career-statistics/assets/OVL_CS_DANIEL_PHONE_V1.webp":"4c6a1a06ea9933d7c695b30dcf1ef1a12be9fa7461356d759f2a9521d793563f",
-    "visual-assets/v10_1/career-statistics/assets/OVL_CS_NIK_PHONE_V1.webp":"570e96e38af9be0d4be10f647a3f23cad81fd26bcae7e091f3e61469fed7afeb",
     "visual-assets/v10_1/career-statistics/assets/TITLE_CS_V1.webp":"7dbc3041a3b79684b5d28babfce2bb3aaf51138be820b4f7a4d4fcd7a68b4a04",
     "visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_512.webp":"15f47694e512f5f1555f3f1b919b0ab0203edd8544cd65b249c98277a28c2175",
     "visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_1536.webp":"ab2cebbb5913bbe4ac39c4117c86a8f2261a8c23dfbaa5a5a79c886e0f5e760a",
@@ -553,12 +550,9 @@ const V10_IMAGES={
     "visual-assets/v10_1/trophy-room/assets/OVL_TR_NIK_PHONE_V1.webp":"850352f3eb1db2f79c0ba8e5df447cde9b5a3371e7fa29e14dee1e3e989e3959",
     "visual-assets/v10_1/trophy-room/assets/TITLE_TR_V1.webp":"735bc4f176181b418becb54d699c2f19e80ac2e257b541cd5a1f4ebb39637b0c",
     // job 25: Team V Home (5e05a1f)
-    "visual-assets/v10_1/home/assets/ENV_HOME_PHONE_V1.webp":"55b4c840aad140b95db47bf9a733c1c21c1aaceb25b539a367c5f6ffcb37453e",
     "visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.webp":"3c35391805507bf8910f36f98147cd8383e4944eeb999021661d6d7030d30c39",
     "visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_2X.webp":"aed61ed9d6e10cbaead7251539e188101bc1371d83639b2ab6953dae875274f9",
     "visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V1.webp":"d72524228798c02bd9c22750da3743099768a80b3ef904a21d8243a1f6dccda6",
-    "visual-assets/v10_1/home/assets/OVL_HOME_DANIEL_PHONE_V1.webp":"fdff22d11059c6c6f4c5f38780cd183b26ae737fecc1f913e74ffe754d53e169",
-    "visual-assets/v10_1/home/assets/OVL_HOME_NIK_PHONE_V1.webp":"abeb9551dc5cd8ad11d65b2993dfe5155725397ba42b7ba17020634938c62800",
     // HO-005 (V-243, factory 2daf437): phone overlays without the ghost coat
     "visual-assets/v10_1/home/assets/OVL_HOME_DANIEL_PHONE_V2.webp":"9c2bde331c0025b69d9122b0dc8e76200b914e2d10dc4e1f476525562f825193",
     "visual-assets/v10_1/home/assets/OVL_HOME_NIK_PHONE_V2.webp":"8b65513283e570a8a66a6de8762369f33354d751764e2dbf71f715338bddf374",
@@ -572,8 +566,6 @@ const V10_IMAGES={
     "visual-assets/v10_1/club/assets/ENV_CLUB_PHONE_V1.webp":"b31092d3eac35a9851d9c51406dd0cf7972e2dd9a5a8adb83c78d4a27497ba2a",
     "visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp":"398e74faeb18ab2df655122fa0f78e9737aad4c1eff1ba16d019a305f275c255",
     "visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp":"fed849bbb2c9f239ae1561f57eb5b145e0e33a518fb7bfd0e424691c00cfd6ca",
-    "visual-assets/v10_1/club/assets/OVL_CLUB_DANIEL_PHONE_V1.webp":"6836d6b85c87fdc0d73e18d106b1a6bf98c102d1f8e0fe5eacdb81c7bf95dc2d",
-    "visual-assets/v10_1/club/assets/OVL_CLUB_NIK_PHONE_V1.webp":"2f509a89aa6485eac3ae8f7892dfb2c79e7733bed066eb3371dec9a2aa9c28bc",
     // job 34 (Club Assignment hand and seam overlays): Team V 5e05a1f, unchanged
     "visual-assets/v10_1/club/assets/OVL_CLUB_DANIEL_SIDE_HAND_V1_1X.webp":"8cf447697e04040380835f6a30ef4d53260e4f7961cab270ca1581862127c5e4",
     "visual-assets/v10_1/club/assets/OVL_CLUB_DANIEL_SIDE_HAND_V1_2X.webp":"fbfedd9e8d0ad7e897c15a3be5b705ecc3dacf4999e09129752df4888deff401",
@@ -600,7 +592,21 @@ const V10_IMAGES={
     "visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_2X.webp":"d71bf0f4da18fd92b45727e1c1ae955d8bb83fc35c9c16bf9988c938425db003",
     "visual-assets/v10_1/start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp":"f5fdb5eedc90b83acd5225cc6b18078ddfcf9031c9b40128f91db3314c34a3cd",
     "visual-assets/v10_1/start-join/assets/OVL_SJ_NIK_PHONE_V1.webp":"7564a129eccae2bbaf1a6b5280f0073dbba5770190c2547ae245b1bb07dc5b75",
-    "visual-assets/v10_1/shared/plates/ENV_SYS_PHONE_V1.webp":"734d1d147c80e48f3b3a4744f35ea255c47cd23adb5e451c1e2e98fff6b54882",
+    // r78 phone marble: Team V's marble phone plates for Rule Book and Settings (factory/v1-wtt5ye, byte-identical)
+    "visual-assets/v10_1/plates-v2/ENV_RULE_BOOK_PHONE_V2.webp":"f96fe2a45130a645ff23a8df9e442cd6b9f6109adc1ea95211ae0c6cc8c28ee1",
+    "visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp":"231ce815b711bfaef2828d67364da9e96981c9fa5ef0dcdc7bb5324b0ea1c30b",
+    "visual-assets/v10_1/plates-v2/ENV_CLUB_PHONE_V2.webp":"f1c490adad469e3f05dde6252b2f0455a11c468b3240f8d6dfebd34146b0c587",
+    "visual-assets/v10_1/plates-v2/ENV_CONNECT_PLAYERS_PHONE_V2.webp":"732622aff75137caa540a00067df4350ddf656524bcfb0fbfefe92301ff1c3c5",
+    "visual-assets/v10_1/plates-v2/ENV_FINAL_WINNER_PHONE_V2.webp":"88fbfc43316dc1e0fbff0f33b19492c7d08a513570c7c4c2252c982cb40894ee",
+    "visual-assets/v10_1/plates-v2/ENV_HOME_PHONE_V2.webp":"cd4b34aabebfb465a3a9c06bf60393c4759cbbd59ebc67717a68960baec7535c",
+    "visual-assets/v10_1/plates-v2/ENV_LEGACY_PHONE_V2.webp":"bfead87a57094e6f9cd91f298a75a16b11dd8a366ac04a3f47eb86d6482cef5e",
+    "visual-assets/v10_1/plates-v2/ENV_SEASON_RESULTS_PHONE_V2.webp":"ed01d6eb56ced42b1488ff37c88d1d28958b567522432ba3e238b89d0e0d3165",
+    "visual-assets/v10_1/plates-v2/ENV_STATISTICS_PHONE_V2.webp":"f7c92fa6efbb3479269ae11813062317945fe408011ac0974dbd2b2d767f8888",
+    "visual-assets/v10_1/plates-v2/ENV_TRANSFER_PHONE_V2.webp":"a9018f31d4b4e29323638833ceb813361e60b616f1210b8fd5fa749e7358c325",
+    "visual-assets/v10_1/plates-v3/ENV_RIVALRY_PHONE_V3.webp":"c73f720b9d5bb7f594651049e7ba37520b3a27d8a2c655c2dd25a7c3fd85deca",
+    "visual-assets/v10_1/plates-v3/ENV_STANDINGS_PHONE_V3.webp":"4650eb4249225ca7f0d78e296f785773aebbe44a5ea14f3623f6ec9eac35211c",
+    "visual-assets/v10_1/plates-v3/ENV_TROPHY_ROOM_PHONE_V3.webp":"c28f11124a9a4558b40299f86d9f7f34df37bd47c6576dc1addc05ec17a07504",
+    "visual-assets/v10_1/plates-v5/ENV_LEAGUE_PHONE_V5.webp":"b29a53eae630ae198866f1ae59ea6b933f88ba94175b904154365b43df983c75",
     "visual-assets/v10_1/shared/plates/ENV_SYS_PLATE_V1_1X.webp":"0342875dca95999886d5bd0b81daf1aca4a86d0b95bb738e2f6cc4548365a2b8",
     "visual-assets/v10_1/shared/plates/ENV_SYS_PLATE_V1_2X.webp":"005420e4c40d42fbe34d7a66ff7e5428cd3b58b15587ad9ca7ef438b2105b9fd",
     "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V1.webp":"a35299752e9d3cfcc44b21ff882ac7fdd81b727af78002c5ce5d76459b29e322",
@@ -611,13 +617,8 @@ const V10_IMAGES={
     "visual-assets/v10_1/tr2/slice-02-plate/assets/DER_TR2_PLATE_G_GLASS_C_V1.png":"b5c16f7491e9c30bf2e44478e552a26b3ef827df9d8d6787f8b47374910bc753",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/ENV_TR2_PLATE_G_LOCKED_V1_1672.webp":"fc982425ed87ed54ccf4d8da1daa3a8530b026a17beb2d7bc4e4262ac967e494",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/ENV_TR2_PLATE_G_LOCKED_V1_3344.webp":"bde994738d4ad3dd78c2cfa05621b780772150e1406304e33175d11916bd0443",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/ENV_TRANSFER_PHONE_V1.webp":"0effe0edb3159888b4417201ffafa806a3435a1f94cf2630408b7b96dd3b6bd1",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_NIK_FINGERTIP_V1_1672.png":"09aa42ae27b63157cd89ce61ed75515b48b5c219f5828e27ca2b8b15f6b3cd50",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_NIK_FINGERTIP_V1_3344.png":"36ebfa43f2a1717be42f8a3e5dc708d1455de5fda4ea1be6f33ac42cd2fa136d",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_DANIEL_PHONE_V1.webp":"b57581b59b461ef11fa38e19e665103b3fb716e788a0e96ef315d3704ced351a",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_NIK_PHONE_V1.webp":"c15f8a2df3892472895978ae3f8ba029ee5b0a1dafa3afac9bbe10e03906c929",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_DANIEL_PHONE_V2.webp":"739359106c586b8e98640290c5091b97008550f4bebad4919eabde3c0c9c1086",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_NIK_PHONE_V2.webp":"d0d59dddf6988f0b24394d2363c30f15445f68dea3840fc4247dbf23ee826316",
     "visual-assets/v10_1/legacy/assets/ENV_LG_PHONE_V1.webp":"53832e23888504219270897b8c43ff165fca63d26d25e6d023220ee5c416fda1",
     "visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_1X.webp":"23a0ca4d5754484ed398b484563dd39f06ef889f177cd40cd6c155513aa5c200",
     "visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_2X.webp":"8717d782eb337b4f77f7596a76c36b0ab461a9bc319a8cc149d16d51a7a039a1",
@@ -625,12 +626,10 @@ const V10_IMAGES={
     "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_2X.webp":"0aa338d5645323d5124d577fe00fb0f032cb5b0f2165059afdb350613a8cd2d6",
     "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_RIM_1X.webp":"c00563a759b047d94c62232f5775eb7d3dec22c2fde3b24133044171fc1c9cb3",
     "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_RIM_2X.webp":"bc136cf0dc2bcdb7c3932d4299b9a9fe690c8ecd4234ba64b8df3df76ff994aa",
-    "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_PHONE_V1.webp":"92d7f3f1be8d5e343a828e58e9e363b1ac8e8b01271c3c9bac6c46d72882b9f8",
     "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_1X.webp":"c154b8a45e48fe51bb5d3a3bf6ea135f427111fde6746a080e1bd9947b0536a4",
     "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_2X.webp":"b2439733700498ea51129509efda96ce5d7f5c0f1416a9ccab9dbe47d6d44e0e",
     "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_RIM_1X.webp":"6fdfde884721c092c8ab5409b2a9121a9de0168f766529495c6dbef80f452019",
     "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_RIM_2X.webp":"633993683aa5a1eba32a8587520df3edcc5751d85f3fe449b961c1b026e5d777",
-    "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_PHONE_V1.webp":"b3c343ea60650b7eb0a238c528cf85b5239c1bf166f8b939059c6c907d696f1a",
     "visual-assets/v10_1/legacy/assets/TITLE_LG_V1.webp":"e480352898b4e30aa42817e005cf3f46ca66fc5716aec9926231d58e82d5f7f6",
     "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PHONE_V1.webp":"e6ed2862c6afd5861cd2962b856c2e41b0e7499848bf98d19fb017e8968572d0",
     "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PLATE_V1_1X.webp":"c207d7a0dce3bc176b1b88b8903ab35bf772acf71c5b30ca4ef92be88e6f4c0c",
@@ -646,7 +645,22 @@ const V10_IMAGES={
     "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_RIM_2X.webp":"474affc7f39d8239b24c8df81b09f6afd9a7568762588a1ae8375d7f122a0d2f",
     "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_PHONE_V1.webp":"9791dbb9ab97188cce419c0543302e2e36ba53da717a141e757febc00e48282d",
     "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V1.webp":"eae320e0604e221f749f9bff6d7c044bfde2fb1d9dbaa4f16a9321211fd3d554",
-    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V1_PHONE.webp":"ea8f4bd02533596680121dacbcf7cc35ec3be75aadb3c0dd0271d3b0fa16be81"
+    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V1_PHONE.webp":"ea8f4bd02533596680121dacbcf7cc35ec3be75aadb3c0dd0271d3b0fa16be81",
+    // r78 release: the r77 shell still draws these phone images. It runs (from its own cache) on every installed phone until
+    // the r78 worker takes over on Home, and it is the rollback copy afterwards, so they stay deployed for one release.
+    // r78's own code no longer uses them; remove them in r79, once r78 is the retained previous runtime.
+    "visual-assets/v10_1/career-statistics/assets/ENV_CS_PHONE_V1.webp":"6d1610bba1d480681ef5191ac78b9bf8f6f579e3931f26e444985d65e8d582fa",
+    "visual-assets/v10_1/career-statistics/assets/OVL_CS_DANIEL_PHONE_V1.webp":"4c6a1a06ea9933d7c695b30dcf1ef1a12be9fa7461356d759f2a9521d793563f",
+    "visual-assets/v10_1/career-statistics/assets/OVL_CS_NIK_PHONE_V1.webp":"570e96e38af9be0d4be10f647a3f23cad81fd26bcae7e091f3e61469fed7afeb",
+    "visual-assets/v10_1/club/assets/OVL_CLUB_DANIEL_PHONE_V1.webp":"6836d6b85c87fdc0d73e18d106b1a6bf98c102d1f8e0fe5eacdb81c7bf95dc2d",
+    "visual-assets/v10_1/club/assets/OVL_CLUB_NIK_PHONE_V1.webp":"2f509a89aa6485eac3ae8f7892dfb2c79e7733bed066eb3371dec9a2aa9c28bc",
+    "visual-assets/v10_1/home/assets/ENV_HOME_PHONE_V1.webp":"55b4c840aad140b95db47bf9a733c1c21c1aaceb25b539a367c5f6ffcb37453e",
+    "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_PHONE_V1.webp":"92d7f3f1be8d5e343a828e58e9e363b1ac8e8b01271c3c9bac6c46d72882b9f8",
+    "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_PHONE_V1.webp":"b3c343ea60650b7eb0a238c528cf85b5239c1bf166f8b939059c6c907d696f1a",
+    "visual-assets/v10_1/shared/plates/ENV_SYS_PHONE_V1.webp":"734d1d147c80e48f3b3a4744f35ea255c47cd23adb5e451c1e2e98fff6b54882",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/ENV_TRANSFER_PHONE_V1.webp":"0effe0edb3159888b4417201ffafa806a3435a1f94cf2630408b7b96dd3b6bd1",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_DANIEL_PHONE_V2.webp":"739359106c586b8e98640290c5091b97008550f4bebad4919eabde3c0c9c1086",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_NIK_PHONE_V2.webp":"d0d59dddf6988f0b24394d2363c30f15445f68dea3840fc4247dbf23ee826316"
 };
 check("F9c every shipped Team V image path names one generation (versioned name, pinned bytes)",()=>{
   const found=[];
@@ -660,7 +674,7 @@ check("F9c every shipped Team V image path names one generation (versioned name,
 });
 
 check("F10 index.html is unchanged and the startup line is not higher",()=>{
-  assert.equal(sha256("index.html"),"3bf8d3506a6ac2871fb4abadf007e68af03ef94b3a64dc92e25aab40f125519b","index.html byte-identical to the r76b release");
+  assert.equal(sha256("index.html"),"e51cf3766551fa01b8574f44176f188acecbe5a2d43448be8d665d6002c62965","index.html byte-identical to the r78 release");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);

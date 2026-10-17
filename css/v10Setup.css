@@ -602,7 +602,7 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   html[data-v10-setup] #background { background-position: 50% 0; }
   html[data-v10-setup="start"] #background, html[data-v10-setup="start"][data-v10-screen] #background { background-image: url("../visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp"); }
   html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background { background-image: url("../visual-assets/v10_1/league/assets/ENV_LEAGUE_PHONE_V1.webp"); }
-  html[data-v10-setup="club"] #background, html[data-v10-setup="club"][data-v10-screen] #background { background-image: url("../visual-assets/v10_1/club/assets/ENV_CLUB_PHONE_V1.webp"); }
+  html[data-v10-setup="club"] #background, html[data-v10-setup="club"][data-v10-screen] #background { background-image: url("../visual-assets/v10_1/plates-v2/ENV_CLUB_PHONE_V2.webp"); }
   html[data-v10-setup] #overlay {
     background: linear-gradient(to bottom, rgba(7, 8, 10, .3) 0, rgba(7, 8, 10, .12) 18%, rgba(7, 8, 10, .45) 38%, rgba(7, 8, 10, .94) 58%, #07080a 100%);
   }
@@ -1596,4 +1596,44 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
 }
 @media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 21/10) and (orientation: landscape) {
   #app #leagueWheelScreen.v26Skin { --lp-kb: min(var(--lp-s), 1.05px); }
+}
+
+/* r78 phone marble: below the desktop picture range the Start / Join, League, Club and Showdown Home panels, notes and
+   Back buttons are no longer glass (no backdrop blur); they wear desktop's black-marble face. Looks only: borders, sizes,
+   places, words and tap order are unchanged. */
+@media not all and (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin :is(.stateNote, .backButton),
+  #createShowdown.v26Skin .setupBox,
+  #dashboard.v26Skin :is(.showdownOverview, .lastSeasonSummary, .playerCard) {
+    background: linear-gradient(180deg, rgba(26,24,20,.9) 0%, rgba(9,9,11,.94) 46%, rgba(4,4,6,.96) 100%);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* r78 HO-031 / HO-032 phone marble: upright phones 340-430px wide (up to 960px tall, the JOB-1697 phone layout) draw Team
+   V's ENV_LEAGUE_PHONE_V5 (both managers painted in, set clear of the smaller wheel below) in place of the old phone stadium and the two cut-outs. The plate is
+   cover of the screen, pinned to the top; the title, result line and buttons keep their places. No dark grade over the
+   men. Cover crops the plate's sides on tall screens, so the swap stops at 59/128 (width / height, 0.4609): any taller
+   and the screen edge would cut into Daniel's or Nik's face zone (9.03% and 9.11% in from the plate's sides), cropping
+   Daniel's ear and cheek first. Taller phones (412x915, 360x800, 430x960, 340x960) and the other phone and tablet sizes
+   keep the old art. */
+@media (min-width: 340px) and (max-width: 430px) and (max-height: 960px) and (min-aspect-ratio: 59/128) and (orientation: portrait) {
+  html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background {
+    background-image: url("../visual-assets/v10_1/plates-v5/ENV_LEAGUE_PHONE_V5.webp");
+    background-position: 50% 0;
+    background-size: cover;
+  }
+  html[data-v10-setup="league"] #overlay { background: none; }
+  #leagueWheelScreen.v26Skin .v26Art { display: none; }
+  /* HO-032 smaller wheel: the wheel and its pointer are 15% smaller so the painted faces beside it stay clear. The
+     pointer gains the space above and the wheel the space below, so the wheel's centre, the result line and SPIN WHEEL /
+     BACK stay where they were. */
+  #app #leagueWheelScreen.v26Skin { --v26-wheel-full: var(--v26-wheel); }
+  #app #leagueWheelScreen.v26Skin :is(.wheelPointer, #leagueWheel) {
+    --v26-wheel: calc(var(--v26-wheel-full) * .85);
+    --v26-wheel-cut: calc(var(--v26-wheel-full) * .15);
+  }
+  #app #leagueWheelScreen.v26Skin .wheelPointer { margin-top: calc(var(--v26-wheel-cut) * .5695); }
+  #app #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: calc(8px + var(--v26-wheel-cut) * .5); }
 }

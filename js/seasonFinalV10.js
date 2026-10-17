@@ -195,6 +195,16 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   #app #standings.standingsScreenV10 .sdg-label{color:#efe6cf}
   #app #standings.standingsScreenV10 .sdg-header .sd-eyebrow,#app #standings.standingsScreenV10 .sdg-header .sd-tagline{text-shadow:0 1px 3px #000,0 0 10px #000c}
 }
+/* r78 HO-031 v3 phone marble: upright phones up to 600px wide draw Team V's ENV_STANDINGS_PHONE_V3 (both managers painted
+   in, moved down 35px so Nik clears the settings corner) in place of the old stadium and the two cut-outs (their picture
+   sources no longer match there, standings/app-shell.html). The plate is sized as cover of the screen and pinned to the
+   top; the managers' band keeps its height, so the title, board and rows stay where they were. No dark grade over the
+   men. Upright tablets and sideways phones keep the old art: there the board or title would sit on the faces. */
+@media (max-width:600px) and (orientation:portrait){
+  #app #standings.standingsScreenV10 .sdg-phoneHero{display:none}
+  #app #standings.standingsScreenV10 .sdg-phoneBg img{position:absolute;left:50%;top:0;width:max(100vw,calc(100svh * 1179 / 2096));height:auto;max-width:none;transform:translateX(-50%);object-fit:fill}
+  #app #standings.standingsScreenV10 .sdg-phoneArt::after{content:none}
+}
 `;parent.appendChild(style);
   }
   /*SG-END*/
@@ -1484,10 +1494,9 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground { position:absolute;inset:0;z-index:1;display:block;overflow:hidden;pointer-events:none; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { display:block;width:100%;height:100%;object-fit:cover;object-position:50% 50%; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneVeil { position:absolute;inset:0;z-index:6;display:block;pointer-events:none; }
- #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero { position:absolute;z-index:9;display:block;width:auto;right:auto;bottom:auto;pointer-events:none;transform:none;opacity:.96; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero { position:absolute;z-index:9;display:block;width:auto;right:auto;bottom:auto;pointer-events:none;transform:none;opacity:1; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero img { display:block;width:auto;height:100%;max-width:none;filter:drop-shadow(0 11px 12px rgb(0 0 0 / .7)); }
- #app #seasonEntry.v10FinalMode #stage-root[data-spotlight="daniel"] .finalWinnerPhoneHero--nik,
- #app #seasonEntry.v10FinalMode #stage-root[data-spotlight="nik"] .finalWinnerPhoneHero--daniel { opacity:.78;filter:brightness(.74) saturate(.85); }
+ #app #seasonEntry.v10FinalMode #stage-root[data-spotlight] .finalWinnerPhoneHero { opacity:1;filter:brightness(1.08) saturate(1.04); }
  #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerTitleBlock,.finalWinnerHeroCopySlot,.winnerTrophySlot,.finalWinnerResultsPanel,.finalWinnerActionsSlot) {
   position:absolute;right:auto;bottom:auto;height:auto;max-height:none;margin:0;box-sizing:border-box;
  }
@@ -1838,6 +1847,38 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 }
 @media (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerResultsPanel { bottom:calc(4% + 72px + var(--fw-th)); }
+}/* r78 phone marble: below the desktop picture range the Season Results tab bar and the action row are no longer glass
+   (no backdrop blur); the row wears desktop's black-marble face. Looks only: size, place and order are unchanged. */
+@media not all and (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+ #app #seasonEntry .v10SeasonStage .season-phone-toolbar { -webkit-backdrop-filter:none; backdrop-filter:none; }
+ #app #seasonEntry .season-action-row { background:linear-gradient(180deg, rgba(26,24,20,.9) 0%, rgba(9,9,11,.94) 46%, rgba(4,4,6,.96) 100%); -webkit-backdrop-filter:none; backdrop-filter:none; }
+}
+/* r78 HO-031 phone marble: Season Results and Final Winner draw Team V's marble phone plates (both managers painted in)
+   in place of the old phone backgrounds and the managers' cut-outs; no dark veils or spotlights over the men. Upright phones
+   and tablets: the plate covers the whole screen from the top (the managers' band keeps its height, so every tab, card and
+   button stays where it was). Sideways phones: Season Results keeps the plate in its left band. */
+@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait),
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout {
+  background:#090b0e url("${assetUrl(BASE+"plates-v2/ENV_SEASON_RESULTS_PHONE_V2.webp")}") center top/max(100vw,calc(100svh * 1179 / 2096)) auto no-repeat;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background:none; }
+}
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene {
+  background:#090b0e url("${assetUrl(BASE+"plates-v2/ENV_SEASON_RESULTS_PHONE_V2.webp")}") center top/cover no-repeat;
+ }
+}
+@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait),
+       (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before { content:none; }
+}
+@media (max-width:760px),
+       (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape),
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { object-position:center top; }
+ #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerPhoneVeil,.finalWinnerManagerShade,.finalWinnerManagerSpotlight) { display:none; }
 }
 `;
     parent.appendChild(style);

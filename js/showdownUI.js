@@ -6,6 +6,10 @@
 
 let dashboardUI = null;
 
+// r78 (HO-029): the shared marble confirm box (js/showdownConfirm.js, loaded on first use) replaces the native confirm().
+// It resolves true only for OK; Cancel, Esc or a box that cannot load resolve false (undefined when no loader exists).
+function dashboardAskConfirm(message,tone){return typeof window.askShowdownConfirm==="function"?window.askShowdownConfirm(message,{tone}):typeof window.loadRuntimeScript==="function"?window.loadRuntimeScript("showdown-confirm","js/showdownConfirm.js",()=>typeof window.askShowdownConfirm==="function").then(()=>window.askShowdownConfirm(message,{tone}),()=>false):Promise.resolve(undefined);}
+
 window.getShowdownSeason = (showdown, progression = window.CareerModeProductionSharedMultiSeasonProgression) => showdown.sharedJourney?.mode === "shared" && typeof progression?.resolveSeason === "function" ? progression.resolveSeason(showdown.currentRound) : showdown.currentRound;
 
 function cacheDashboardUI(){
@@ -118,7 +122,6 @@ function ensurePhaseCHomeStyles(){
 
 function initializeShowdownUI(){
     ensurePhaseCHomeStyles();
-    ensureActiveShowdownDeleteControl();
     ensureDashboardIntegrityStatus();
     ensureCompletionHub();
     cacheDashboardUI();
@@ -143,19 +146,6 @@ function ensureDashboardIntegrityStatus(){
     overview.appendChild(note);
 }
 
-function ensureActiveShowdownDeleteControl(){
-    if(document.getElementById("deleteActiveShowdown")){ return; }
-    const actions = document.querySelector("#dashboard .dashboardActions");
-    if(!actions){ return; }
-    const button = document.createElement("button");
-    button.type = "button";
-    button.id = "deleteActiveShowdown";
-    button.className = "backButton dangerButton";
-    button.textContent = "DELETE CURRENT SHOWDOWN";
-    button.addEventListener("click", deleteCurrentShowdownFromDashboard);
-    actions.appendChild(button);
-}
-
 /* Deleting the Showdown also removes every unsent private draft on this device (Season Results, Transfer Challenge, signing), for every rivalry, including orphans.
    The sweep lives in diagnostics.js (the only non-startup file allowed to touch browser storage directly) and loads on demand; it needs no rivalry id, so it also works offline or before the pair module loads. */
 function sweepDashboardShowdownDrafts(){
@@ -166,7 +156,7 @@ function sweepDashboardShowdownDrafts(){
     }
 }
 
-function deleteCurrentShowdownFromDashboard(){
+async function deleteCurrentShowdownFromDashboard(){
     if(!currentShowdown && !hasSavedShowdown()){ return; }
     const saved = currentShowdown || loadSavedShowdown();
     const name = saved && saved.name ? saved.name : "the current showdown";
@@ -175,7 +165,7 @@ function deleteCurrentShowdownFromDashboard(){
         ? `Delete the active copy of "${name}"? Its completed Legacy record will remain available.`
         : `Delete "${name}" and all of its unfinished progress? This cannot be undone.`;
 
-    if(!window.confirm(message)){ return; }
+    if(await dashboardAskConfirm(message, "danger") !== true){ return; }
     if(!clearSavedShowdown()){
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice("The active showdown could not be deleted from browser storage.", "error");

@@ -32,7 +32,8 @@
     const plate=element("div","sd-stage__layer sd-stage__layer--plate");plate.setAttribute("aria-hidden","true");
     const reg=element("div","sd-stage__registered");reg.append(element("div","sd-stage__plate"));plate.append(reg);
     const phone=element("picture",id==="v10RuleBookStage"?"ruleBookPhonePlate":"settingsPhonePlate");
-    phone.append(image("","shared/plates/ENV_SYS_PHONE_V1.webp"));plate.append(phone);
+    /* r78: phone and tablet use Team V's marble phone plates (no people), the same black-and-gold look as desktop. */
+    phone.append(image("",id==="v10RuleBookStage"?"plates-v2/ENV_RULE_BOOK_PHONE_V2.webp":"plates-v2/ENV_SETTINGS_PHONE_V2.webp"));plate.append(phone);
     const atmosphere=element("div","sd-stage__layer sd-stage__layer--atmosphere");atmosphere.setAttribute("aria-hidden","true");
     atmosphere.append(element("div",id==="v10RuleBookStage"?"ruleBookScrim":"settingsStageScrim"));
     const ui=element("div","sd-stage__layer sd-stage__layer--ui");ui.append(content);s.append(plate,atmosphere,ui);host.append(s);

@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "1.9.1-r77";
-const PREVIOUS_RUNTIME_REVISION = "1.9.1-r76";
+const RUNTIME_REVISION = "1.9.2-r78";
+const PREVIOUS_RUNTIME_REVISION = "1.9.1-r77";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -17,6 +17,11 @@ const RUNTIME_CONFIG_PATH = "firebase.runtime-config.json";
 const APP_CHECK_BOOTSTRAP_PATH = "js/productionAppCheckBootstrap.js";
 const NETWORK_ONLY_NAVIGATION_PATHS = new Set([
     "production-authorization-acceptance.html"
+]);
+// Precached shell files that a stylesheet asks for by a relative url(), so the request has no ?v=: css/r78-marble-surfaces.css
+// draws its panels with url("r78-marble-tile.webp"). They come from the shell the page runs (the precached copy), then the network.
+const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
+    "css/r78-marble-tile.webp"
 ]);
 const NETWORK_ONLY_ASSET_PATHS = new Set([
     "js/productionAuthorizationAcceptance.js",
@@ -158,6 +163,8 @@ const SHELL_PATHS = Object.freeze([
     "js/trophyRoom.js",
     "js/visualIdentity.js",
     "assets/marco-reus-2015-cc-by.webp",
+    "assets/LOADING_REUS_DESKTOP.webp",
+    "assets/LOADING_REUS_PHONE.webp",
     "assets/football/anthony-martial-cska-2017-v113.webp",
     "assets/football/antoine-griezmann-atletico-2016-v113.webp",
     "assets/football/cristiano-ronaldo-euro-2016-v113.webp",
@@ -215,6 +222,10 @@ const SHELL_PATHS = Object.freeze([
     "visual-assets/v10_1/settings/settings.css",
     "js/startJoinViewModel.js",
     "css/v10Shell.css",
+    "css/r78-type.css",
+    "css/r78-marble-surfaces.css",
+    "css/r78-marble-tile.webp",
+    "js/showdownConfirm.js",
     "visual-assets/v10_1/shared/navbar/navbar.css",
     "visual-assets/v10_1/shared/navbar/navbar.js",
     "js/v10Setup.js",
@@ -239,6 +250,20 @@ const SHELL_PATHS = Object.freeze([
     "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2"
 ]);
 const SHELL_PATH_SET = new Set(SHELL_PATHS);
+// The retained previous shell was installed by its own worker with its own list, so it is verified against that list, not
+// this one: checked against SHELL_PATHS it would lack this release's new files, fail, and be deleted on activation, leaving
+// nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION (and empties
+// the set when it changes PREVIOUS_RUNTIME_REVISION again). r78 added these six to r77's 213 paths and removed none.
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([
+    "assets/LOADING_REUS_DESKTOP.webp",
+    "assets/LOADING_REUS_PHONE.webp",
+    "css/r78-type.css",
+    "css/r78-marble-surfaces.css",
+    "css/r78-marble-tile.webp",
+    "js/showdownConfirm.js"
+]);
+const PREVIOUS_SHELL_PATHS = Object.freeze(SHELL_PATHS.filter(path=>!SHELL_PATHS_ADDED_SINCE_PREVIOUS.has(path)));
+function shellPathsForRevision(revision){ return revision&&revision!==RUNTIME_REVISION&&revision===PREVIOUS_RUNTIME_REVISION?PREVIOUS_SHELL_PATHS:SHELL_PATHS; }
 
 function scopeUrl(path = ""){
     return new URL(path, self.registration.scope);
@@ -281,11 +306,11 @@ function relativeScopePath(url){
 }
 async function cacheExists(cacheName){ if(!cacheName){ return false; } return (await caches.keys()).includes(cacheName); }
 async function verifyCache(revision = RUNTIME_REVISION){
-    const cacheName = cacheNameForRevision(revision);
-    if(!revision || !(await cacheExists(cacheName))){ return { ok:false, available:false, cacheName, revision, expected:SHELL_PATHS.length, missing:SHELL_PATHS.slice() }; }
+    const cacheName = cacheNameForRevision(revision); const paths=shellPathsForRevision(revision);
+    if(!revision || !(await cacheExists(cacheName))){ return { ok:false, available:false, cacheName, revision, expected:paths.length, missing:paths.slice() }; }
     const cache=await caches.open(cacheName); const missing=[];
-    for(const path of SHELL_PATHS){ const response=await cache.match(versionedShellUrl(path,revision)); if(!response||!response.ok){ missing.push(path); } }
-    return { ok:missing.length===0, available:true, cacheName, revision,expected:SHELL_PATHS.length, missing };
+    for(const path of paths){ const response=await cache.match(versionedShellUrl(path,revision)); if(!response||!response.ok){ missing.push(path); } }
+    return { ok:missing.length===0, available:true, cacheName, revision,expected:paths.length, missing };
 }
 async function populateCurrentCache(){
     const cache=await caches.open(CACHE_NAME);
@@ -338,6 +363,10 @@ async function v10ImageResponse(event,request,path){
     if(response&&response.ok&&response.type==="basic"){ event.waitUntil(cache.put(key,response.clone()).catch(()=>{})); }
     return response;
 }
+async function unversionedShellResponse(request,path){
+    const revision=await v10ImageRevision(); const cached=await cachedShellResponse(path,revision)||(revision!==RUNTIME_REVISION?await cachedShellResponse(path,RUNTIME_REVISION):null);
+    return cached||fetch(request);
+}
 self.addEventListener("fetch",event=>{
     const request=event.request; if(request.method!=="GET"){return;} const url=new URL(request.url); const scope=scopeUrl(); if(url.origin!==scope.origin){return;}
     if(request.mode==="navigate"){
@@ -345,7 +374,7 @@ self.addEventListener("fetch",event=>{
         if(NETWORK_ONLY_NAVIGATION_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; }
         event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); if(selected){const cached=await cachedShellResponse("index.html",selected.revision);if(cached){return cached;}} return fetch(request); })()); return;
     }
-    const path=relativeScopePath(url); if(!path){return;} if(isV10ImagePath(path)){ event.respondWith(v10ImageResponse(event,request,path)); return; } if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(path===APP_CHECK_BOOTSTRAP_PATH){return;} const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
+    const path=relativeScopePath(url); if(!path){return;} if(isV10ImagePath(path)){ event.respondWith(v10ImageResponse(event,request,path)); return; } if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(path===APP_CHECK_BOOTSTRAP_PATH){return;} if(UNVERSIONED_SHELL_ASSET_PATHS.has(path)&&!url.searchParams.get("v")){ event.respondWith(unversionedShellResponse(request,path)); return; } const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
     event.respondWith((async()=>{const cached=await cachedShellResponse(path,requestedRevision);return cached||Response.error();})());
 });
-self.__CMS_SERVICE_WORKER_DIAGNOSTICS__=Object.freeze({revision:RUNTIME_REVISION,previousRevision:PREVIOUS_RUNTIME_REVISION,cacheName:CACHE_NAME,previousCacheName:PREVIOUS_CACHE_NAME,modeCacheName:MODE_CACHE_NAME,shellPaths:SHELL_PATHS});
+self.__CMS_SERVICE_WORKER_DIAGNOSTICS__=Object.freeze({revision:RUNTIME_REVISION,previousRevision:PREVIOUS_RUNTIME_REVISION,cacheName:CACHE_NAME,previousCacheName:PREVIOUS_CACHE_NAME,modeCacheName:MODE_CACHE_NAME,shellPaths:SHELL_PATHS,previousShellPaths:PREVIOUS_SHELL_PATHS});

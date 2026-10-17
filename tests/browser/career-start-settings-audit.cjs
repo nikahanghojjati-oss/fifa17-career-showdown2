@@ -2,6 +2,7 @@
 // the marker provider are in-page fakes; the provider itself is proved by tests/firebase/career-start-marker-emulator.cjs.
 //   CMS_TEST_PORT=4190 node tests/support/static-server.cjs   then   CMS_BASE_URL=http://127.0.0.1:4190/ node tests/browser/career-start-settings-audit.cjs
 const assert=require("node:assert/strict");
+const {installMarbleConfirmAnswers,marbleConfirmMessages}=require("./support/marble-confirm.cjs");
 const {chromium}=require("playwright");
 const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
 
@@ -13,8 +14,9 @@ const CONFIRM="Start your real career now? Finished test Showdowns stay saved bu
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
   const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,locale:"en-US"});
   const page=await context.newPage();
-  const dialogs=[];let answer=true;
-  page.on("dialog",dialog=>{dialogs.push(dialog.message());void(answer?dialog.accept():dialog.dismiss());});
+  // r78 (HO-029): START REAL CAREER asks in the shared marble confirm box (no native dialog any more).
+  await installMarbleConfirmAnswers(page,{answer:true});
+  const setAnswer=value=>page.evaluate(v=>{window.__marbleConfirmDefault=v;},value);
   const pageErrors=[];
   page.on("pageerror",error=>pageErrors.push(error.stack||error.message));
   let step=0;const ok=label=>console.log(`ok ${++step} ${label}`);
@@ -57,22 +59,21 @@ const CONFIRM="Start your real career now? Finished test Showdowns stay saved bu
     assert.equal((await start.innerText()).trim(),"START REAL CAREER");
     ok("signed in, no Showdown, no marker: one START REAL CAREER row");
 
-    answer=false;await start.click();await page.waitForTimeout(200);
-    assert.deepEqual(dialogs,[CONFIRM]);
+    await setAnswer(false);await start.click();await page.waitForTimeout(200);
+    assert.deepEqual(await marbleConfirmMessages(page),[CONFIRM]);
     assert.deepEqual(await page.evaluate(()=>window.__careerStart.calls.filter(c=>c!=="read")),[],"cancel writes nothing");
     assert.equal(await start.isVisible(),true);
     ok("confirm step: the owner text, and Cancel changes nothing");
 
-    answer=true;await start.click();
-    const started=page.locator(".settingsCareerStart .settingsInfoRow");
-    await started.waitFor({state:"visible",timeout:12000});
-    assert.match(await started.innerText(),/REAL CAREER STARTED\s+16 OCT 2026/);
+    await setAnswer(true);await start.click();
+    await page.locator(".settingsCareerStartToggleRow").waitFor({state:"visible",timeout:12000});
+    assert.equal(await page.locator(".settingsCareerStart .settingsInfoRow").count(),0,"r78: no REAL CAREER STARTED row (Nik 2026-10-17)");
     assert.equal(await page.locator(".settingsStartRealCareer").count(),0);
     const toggle=page.locator(".settingsCareerStartToggle");
     assert.match(await page.locator(".settingsCareerStartToggleRow").innerText(),/SHOW TEST SHOWDOWNS AGAIN/);
     assert.equal(await toggle.getAttribute("aria-checked"),"false");
     assert.deepEqual(await page.evaluate(()=>window.__careerStart.calls.filter(c=>c!=="read")),["start"]);
-    ok("after pressing: REAL CAREER STARTED <date> and a SHOW TEST SHOWDOWNS AGAIN switch (off)");
+    ok("after pressing: no REAL CAREER STARTED row, only the SHOW TEST SHOWDOWNS AGAIN switch (off)");
 
     await toggle.click();
     await page.waitForFunction(()=>document.querySelector(".settingsCareerStartToggle")?.getAttribute("aria-checked")==="true");

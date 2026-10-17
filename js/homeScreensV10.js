@@ -56,11 +56,12 @@
 
   // Team V's stage layers (index.html at 5e05a1f), all decorative.
   function hmScene(){
-    const pic=(cls,file,extra)=>`<picture class="${cls}"${extra||""}><source media="(max-width: 760px) and (orientation: portrait), (max-width: 900px) and (max-height: 480px) and (orientation: landscape)" srcset="${BASE}home/assets/${file}" type="image/webp"><img alt="" decoding="async"></picture>`;
+    const pic=(cls,file,extra)=>`<picture class="${cls}"${extra||""}><source media="(max-width: 760px) and (orientation: portrait), (max-width: 900px) and (max-height: 480px) and (orientation: landscape)" srcset="${BASE}${file}" type="image/webp"><img alt="" decoding="async"></picture>`;
     const frag=hmDoc().createDocumentFragment();
+    // r78 HO-031: the phone plate is Team V's marble ENV_HOME_PHONE_V2 with both managers painted in, so the phone
+    // cut-out layer (OVL_HOME_*_PHONE_V2) is gone.
     frag.append(
-      hmDecor("plateView",pic("phoneHeroBackground","ENV_HOME_PHONE_V1.webp")+'<div class="plateLayer"></div>'),
-      hmDecor("v10HomeCutouts",pic("phoneHeroCutout phoneHeroDaniel","OVL_HOME_DANIEL_PHONE_V2.webp")+pic("phoneHeroCutout phoneHeroNik","OVL_HOME_NIK_PHONE_V2.webp")),
+      hmDecor("plateView",pic("phoneHeroBackground","plates-v2/ENV_HOME_PHONE_V2.webp")+'<div class="plateLayer"></div>'),
       hmDecor("phoneHeroGrade"),hmDecor("scrim scrimTop"),hmDecor("scrim scrimLow"),hmDecor("dockBed"),
       hmDecor("scriptLine","<span>More Than A Game</span>")
     );

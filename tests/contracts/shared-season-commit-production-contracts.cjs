@@ -56,7 +56,7 @@ assert.ok(runtimeMatch&&runtimeMatch[1],'installed shell must expose a current r
 assert.ok(previousMatch&&previousMatch[1],'installed shell must expose a rollback runtime identity');
 const currentRevision=runtimeMatch[1];
 const previousRevision=previousMatch[1];
-const revisionNumber=value=>{const match=/^1\.9\.1-r(\d+)$/.exec(value);return match?Number(match[1]):NaN;};
+const revisionNumber=value=>{const match=/^1\.9\.[1-9]\d*-r(\d+)$/.exec(value);return match?Number(match[1]):NaN;};
 assert.ok(revisionNumber(currentRevision)>10,`current shell ${currentRevision} must remain newer than immutable r10`);
 assert.ok(revisionNumber(previousRevision)>=10&&revisionNumber(previousRevision)<revisionNumber(currentRevision),`rollback shell ${previousRevision} must remain an earlier known-good 1.9.1 revision`);
 for(const asset of ['js/sharedSeasonCommit.js','js/sparkSharedSeasonCommit.js','js/productionSharedSeasonCommit.js'])assert.ok(worker.includes(`"${asset}"`),`current installed shell must continue caching r10 predecessor asset ${asset}`);

@@ -32,11 +32,11 @@ const TRUTH_MD_IDS=["newShowdown","createShowdown","createShowdownScreenTitle","
 const TEAM_V_FILES={
   "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V1.webp":"a35299752e9d3cfcc44b21ff882ac7fdd81b727af78002c5ce5d76459b29e322",
   "visual-assets/v10_1/club/assets/ENV_CLUB_PHONE_V1.webp":"b31092d3eac35a9851d9c51406dd0cf7972e2dd9a5a8adb83c78d4a27497ba2a",
+  "visual-assets/v10_1/plates-v2/ENV_CLUB_PHONE_V2.webp":"f1c490adad469e3f05dde6252b2f0455a11c468b3240f8d6dfebd34146b0c587",
   "visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp":"398e74faeb18ab2df655122fa0f78e9737aad4c1eff1ba16d019a305f275c255",
   "visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp":"fed849bbb2c9f239ae1561f57eb5b145e0e33a518fb7bfd0e424691c00cfd6ca",
-  "visual-assets/v10_1/club/assets/OVL_CLUB_DANIEL_PHONE_V1.webp":"6836d6b85c87fdc0d73e18d106b1a6bf98c102d1f8e0fe5eacdb81c7bf95dc2d",
-  "visual-assets/v10_1/club/assets/OVL_CLUB_NIK_PHONE_V1.webp":"2f509a89aa6485eac3ae8f7892dfb2c79e7733bed066eb3371dec9a2aa9c28bc",
   "visual-assets/v10_1/league/assets/ENV_LEAGUE_PHONE_V1.webp":"b0eecfe1a5d4f79e847170a787f5c8805b0630b0508732fd19302fdd66804a0b",
+  "visual-assets/v10_1/plates-v5/ENV_LEAGUE_PHONE_V5.webp":"b29a53eae630ae198866f1ae59ea6b933f88ba94175b904154365b43df983c75",
   "visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp":"d9fd67a604ed9e2a1e9dd202826c664aed22061fa53b127a6a6b8cd50060fae9",
   "visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp":"fcb07fa4c01b07ef86b238d07d7584e476ba3e780bb76ac561cb0167661057b4",
   "visual-assets/v10_1/league/assets/OVL_LEAGUE_DANIEL_PHONE_V1.webp":"0748bd50eed0b6f9267a2368977f43f4706b0692daf642c2f6dddc51708c734f",

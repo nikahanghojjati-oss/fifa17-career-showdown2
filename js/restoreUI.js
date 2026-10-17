@@ -6,6 +6,9 @@
   const panel=()=>document.getElementById("careerModeRestorePanel");
   const status=message=>{const n=panel()&&panel().querySelector(".careerRestoreStatus");if(n)n.textContent=message;};
   const resetChoices=()=>{choices={active:"",legacy:"",preferences:"",saveLibrary:"",legacyConflicts:{}};};
+  // r78 (HO-029): the shared marble confirm box (js/showdownConfirm.js, loaded on first use) replaces the native confirm().
+  // It resolves true only for OK; Cancel, Esc or a box that cannot load resolve false (undefined when no loader exists).
+  function restoreAskConfirm(message,tone){return typeof window.askShowdownConfirm==="function"?window.askShowdownConfirm(message,{tone}):typeof window.loadRuntimeScript==="function"?window.loadRuntimeScript("showdown-confirm","js/showdownConfirm.js",()=>typeof window.askShowdownConfirm==="function").then(()=>window.askShowdownConfirm(message,{tone}),()=>false):Promise.resolve(undefined);}
   const cloneValue=value=>value===undefined?undefined:JSON.parse(JSON.stringify(value));
   const describeActive=value=>value&&value.name?value.name:"No active Showdown in backup";
 
@@ -192,7 +195,7 @@
     const confirmedFile=file,confirmedGeneration=fileGeneration,confirmedChoices=cloneValue(choices),confirmedRaw=cloneValue(reviewedRaw);
     const plan=window.createCareerModeRestorePlan(analysis,confirmedRaw,confirmedChoices);
     if(!plan||!plan.ok){refreshPlan();return;}
-    if(!window.confirm("Apply this exact restore plan? The selected file and browser data will be verified again before any write. Export Backup above now if you want an extra current-state recovery copy."))return;
+    if(await restoreAskConfirm("Apply this exact restore plan? The selected file and browser data will be verified again before any write. Export Backup above now if you want an extra current-state recovery copy.","primary")!==true)return;
     if(confirmedGeneration!==fileGeneration||confirmedFile!==file){status("The selected file changed before Apply could start. Nothing was written. Review the current file again.");return;}
     busy=true;setRestoreControlsLocked(root,true);const button=root.querySelector(".careerRestoreApply");if(button){button.setAttribute("aria-busy","true");button.textContent="REVALIDATING & APPLYING…";}status("Confirmed choices are locked. Revalidating the exact selected file and browser bytes before any write…");
     let preserveRecovery=false;

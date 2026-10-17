@@ -50,7 +50,10 @@
   const IMAGE_HOLD_MS=8000;
   const REVEAL_MS=220;
   const TAP_GUARD_MS=350;
-  const ALWAYS_ON=Object.freeze([BASE+KIT.styles[0],BASE+NAV.style,NAV.shellStyle]);
+  // r78 (HO-028 / HO-029): Team V's readable body type and the black-and-gold marble for errors, notes, pop-ups and
+  // toasts. They load with the kit sheets (never in the startup bundle) and stay on, like the shell sheet.
+  const R78_STYLES=Object.freeze(["css/r78-type.css","css/r78-marble-surfaces.css"]);
+  const ALWAYS_ON=Object.freeze([BASE+KIT.styles[0],BASE+NAV.style,NAV.shellStyle,...R78_STYLES]);
 
   const registry=new Map();
   const mounted=new Map();
@@ -91,6 +94,10 @@
       if(typeof app.ensureGameplayModules==="function")await app.ensureGameplayModules();
       return app[opener]();
     }
+    // r78: no Showdown loaded yet (Home before resume) resolves to "mainMenu", which went nowhere. Hand the tap to
+    // the CONTINUE CAREER tile so the tab runs that tile's own click path and reaches the same destination.
+    const tile=target==="mainMenu"&&app.document?app.document.getElementById("continueCareer"):null;
+    if(tile&&!tile.disabled&&typeof tile.click==="function"){tile.click();return true;}
     return app.navigateTo(target);
   }
   async function vsNavigate(key,app=root){
@@ -148,7 +155,9 @@
   }
   function vsEnsureKit(){
     if(!kitPromise)kitPromise=(async()=>{
-      const css=KIT.styles.map(file=>vsStyle(BASE+file));
+      // r78: the readable body type and marble sheets come with the kit, so Home's first reveal already has them (the Reus Gate
+      // waits for every data-v10-style sheet and for fonts.ready); they are always on (ALWAYS_ON) and never in the startup bundle.
+      const css=[...KIT.styles.map(file=>vsStyle(BASE+file)),...R78_STYLES.map(vsStyle)];
       for(const [key,file,ready] of KIT.scripts)await vsScript(key,BASE+file,ready);
       await Promise.all(css);
       vsSyncStyles();
@@ -512,7 +521,7 @@
   }
 
   const api=Object.freeze({
-    contractVersion:1,BASE,EVENT,UI_KEY,KIT,NAV,NAV_SCREENS,ROUTES,
+    contractVersion:1,BASE,EVENT,UI_KEY,KIT,NAV,R78_STYLES,NAV_SCREENS,ROUTES,
     install:vsInstall,ensureKit:vsEnsureKit,register:vsRegister,show:vsShow,hide:vsHide,expect:vsExpect,settle:vsSettle,invalidate:vsInvalidate,isMounted:vsIsMounted,
     navFor:vsNavFor,navigate:vsNavigate,setNavRoute:vsSetNavRoute,getUiPreference:vsGetUiPreference,setUiPreference:vsSetUiPreference
   });

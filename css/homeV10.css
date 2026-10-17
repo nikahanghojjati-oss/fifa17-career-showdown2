@@ -962,28 +962,11 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
   #app #mainMenu.v10Home .menuBottomStrip { display: none !important; }
   #app #mainMenu.v10Home .phoneHeroBackground {
     display: block; position: absolute; inset: 0;
-    background: url("../visual-assets/v10_1/home/assets/ENV_HOME_PHONE_V1.webp") center top / cover no-repeat;
+    background: url("../visual-assets/v10_1/plates-v2/ENV_HOME_PHONE_V2.webp") center top / cover no-repeat;
   }
-  #app #mainMenu.v10Home .phoneHeroBackground img,
-  #app #mainMenu.v10Home .phoneHeroCutout img { display: none; }
-  #app #mainMenu.v10Home .v10HomeCutouts {
-    display: block; position: absolute; z-index: 2;
-    left: 0; top: 48px; width: 100%; height: calc(var(--phone-hero) - 48px);
-    pointer-events: none;
-  }
-  #app #mainMenu.v10Home .phoneHeroCutout {
-    display: block; position: absolute; top: 0; bottom: 0;
-    width: 60%; height: 100%; transform: none !important;
-    animation: none !important;
-  }
-  #app #mainMenu.v10Home .phoneHeroCutout { background: center top / contain no-repeat; }
-  #app #mainMenu.v10Home .phoneHeroDaniel { left: 0; right: auto; background-image: url("../visual-assets/v10_1/home/assets/OVL_HOME_DANIEL_PHONE_V2.webp"); }
-  #app #mainMenu.v10Home .phoneHeroNik { left: auto; right: 0; background-image: url("../visual-assets/v10_1/home/assets/OVL_HOME_NIK_PHONE_V2.webp"); }
-  #app #mainMenu.v10Home .phoneHeroGrade {
-    display: block; left: 0; right: 0;
-    top: calc(var(--phone-hero) - var(--home-logo-h)); height: var(--home-logo-h);
-    background: linear-gradient(180deg, transparent, rgba(6,7,9,.84));
-  }
+  #app #mainMenu.v10Home .phoneHeroBackground img { display: none; }
+  /* r78 HO-031: the marble plate has both managers painted in; no cut-outs and no dark grade over them. */
+  #app #mainMenu.v10Home .phoneHeroGrade { display: none; }
   #app #mainMenu.v10Home > .fifaMenuShell {
     grid-column: 1; grid-row: 2; position: static;
     display: block; height: 100%; min-height: 0; margin: 0;
@@ -1148,9 +1131,7 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
     min-height: 340px; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
     grid-template-rows: minmax(0, 1fr) var(--phone-nav);
   }
-  #app #mainMenu.v10Home .plateView,
-  #app #mainMenu.v10Home .v10HomeCutouts { width: 40%; }
-  #app #mainMenu.v10Home .phoneHeroGrade { width: 40%; right: auto; }
+  #app #mainMenu.v10Home .plateView { width: 40%; }
   #app #mainMenu.v10Home .homeLockup { left: 20%; }
   #app #mainMenu.v10Home .lockupKicker,
   #app #mainMenu.v10Home .lockupLegacy { font-size: 8px; letter-spacing: .18em; }
@@ -1431,4 +1412,25 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
 @media (min-width: 1200px) and (min-height: 600px) and (max-height: 820px) and (min-aspect-ratio: 3/2) and (orientation: landscape) and (pointer: fine) {
   #app #topHeader { top: calc(var(--sd-nav-top-h, 52px) + 4px); }
   #app #topHeader #onlinePlayerIdentityBadge, #app #topHeader #seasonIndicator { min-height: 26px; padding-top: 4px !important; padding-bottom: 4px !important; }
+}
+
+/* r78 phone marble: below the desktop picture range the Home tiles and the soundtrack card are no longer glass (no
+   backdrop blur); they wear the same black-marble face as the desktop tiles. CONTINUE CAREER keeps its gold. Looks only:
+   frames, sizes, places, words and tap order are unchanged. */
+@media not all and (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer),
+  #app #mainMenu.v10Home .menuMusicTile {
+    background: linear-gradient(180deg, rgba(26,24,20,.9) 0%, rgba(9,9,11,.94) 46%, rgba(4,4,6,.96) 100%);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  #app #mainMenu.v10Home #continueCareer { -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+
+/* r78 HO-031 phone marble: in phone portrait Team V's ENV_HOME_PHONE_V2 is drawn over the whole screen (cover, centre top),
+   as it was painted around this layout, so the men stand full length behind the tiles. The control area lets the plate
+   show between the tiles. Tiles, places, words and tap order are unchanged. */
+@media (max-width: 760px) and (orientation: portrait) {
+  #app #mainMenu.v10Home .plateView { height: 100%; }
+  #app #mainMenu.v10Home > .fifaMenuShell { background: transparent; }
 }

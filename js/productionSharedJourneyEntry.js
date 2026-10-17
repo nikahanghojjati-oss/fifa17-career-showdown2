@@ -134,16 +134,20 @@
     if(!next)throw new Error("The current Showdown connection could not be verified.");
     return next;
   }
+  // r78 (HO-029): the shared marble confirm box (js/showdownConfirm.js, loaded on first use) replaces the native confirm().
+  // It resolves true only for OK; Cancel, Esc or a box that cannot load resolve false (undefined when no loader exists).
+  function entryAskConfirm(message,tone){return typeof root.askShowdownConfirm==="function"?root.askShowdownConfirm(message,{tone}):typeof root.loadRuntimeScript==="function"?root.loadRuntimeScript("showdown-confirm","js/showdownConfirm.js",()=>typeof root.askShowdownConfirm==="function").then(()=>root.askShowdownConfirm(message,{tone}),()=>false):Promise.resolve(undefined);}
   async function prepareFreshStart(){
     const pairState=await currentPairStateForFreshStart();
     if(pairState&&pairState.status==="unavailable")throw new Error("The current Showdown connection could not be verified. Try again before starting a new Showdown.");
     const hasLivePair=Boolean(pairState&&pairState.rivalryId&&["active","pending-pair"].includes(pairState.connectionState));
     if(!hasLivePair)return true;
 
-    const confirmed=root.confirm?.(
-      "Start a new Showdown? This will close the current Daniel vs Nik Showdown for both players. Your player identity, registered device, Legacy history, app settings and existing local recovery data will be kept."
+    const confirmed=await entryAskConfirm(
+      "Start a new Showdown? This will close the current Daniel vs Nik Showdown for both players. Your player identity, registered device, Legacy history, app settings and existing local recovery data will be kept.",
+      "danger"
     );
-    // BH-11 (#2): only an explicit yes closes the Showdown for both players; a missing confirm() never counts as consent.
+    // BH-11 (#2): only an explicit yes closes the Showdown for both players; a missing confirm box never counts as consent.
     if(confirmed!==true)return false;
 
     const pair=await loadScript("persistent-pair","js/persistentNikDanielPair.js",()=>root.CareerModePersistentNikDanielPair);

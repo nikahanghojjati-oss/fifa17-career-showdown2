@@ -569,8 +569,6 @@ button {
 .legacyCard[data-status="abandoned"],
 .legacyCard[data-status="unavailable"] {
   cursor: default;
-  opacity: .62;
-  filter: saturate(.45);
 }
 
 .legacyCard[data-status="abandoned"] .legacyCardBody,
@@ -1350,8 +1348,6 @@ button {
   .legacyCardTitle, .legacyManagerName { font-size: .75rem; }
   .legacyCardState, .legacyCardFooter { font-size: .6875rem; }
   .legacyStatusOnly { min-height: 0; padding: 4px; font-size: .75rem; }
-  .legacyCard[data-status="abandoned"],
-  .legacyCard[data-status="unavailable"] { opacity: 1; filter: none; }
   .legacyArchivePanel:has(.legacyStateBanner[data-compact="true"]:not([hidden])) {
     grid-template-rows: 44px 56px minmax(60px, 1fr) 44px;
   }

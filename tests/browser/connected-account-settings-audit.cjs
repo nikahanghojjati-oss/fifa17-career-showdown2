@@ -1,4 +1,5 @@
 const assert=require("node:assert/strict");
+const {installMarbleConfirmAnswers}=require("./support/marble-confirm.cjs");
 const {chromium}=require("playwright");
 const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
 
@@ -33,6 +34,7 @@ const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
   });
   const page=await context.newPage();
   page.on("dialog",dialog=>void dialog.accept());
+  await installMarbleConfirmAnswers(page,{answer:true});
   const pageErrors=[];
   page.on("pageerror",error=>pageErrors.push(error.stack||error.message));
 

@@ -13,7 +13,8 @@ const productionPathPrefix = "/fifa17-career-showdown2/";
 
 const cases = [
     { name: "desktop", viewport: { width: 1366, height: 768 }, dpr: 1, mobile: false },
-    { name: "windowed-desktop", viewport: { width: 940, height: 700 }, dpr: 1, mobile: false },
+    // HO-030 v3: windows narrower than 7:5 (here 940x700) show the whole portrait picture centred on the marble colour.
+    { name: "windowed-desktop", viewport: { width: 940, height: 700 }, dpr: 1, mobile: false, fit: "contain" },
     { name: "mobile-browser-height", viewport: { width: 390, height: 720 }, dpr: 3, mobile: true, standalone: false },
     { name: "ios-standalone-height", viewport: { width: 390, height: 844 }, dpr: 3, mobile: true, standalone: true }
 ];
@@ -64,7 +65,7 @@ async function prepareStartup(page, config){
             && fidelityStyle.sheet
             && getComputedStyle(image).objectFit === expectedFit
             && (expectedFit !== "cover" || Boolean(offlineStyle && offlineStyle.sheet));
-    }, "cover", { timeout: 12000 });
+    }, config.fit || "cover", { timeout: 12000 });
 
     if(config.mobile){
         await page.waitForFunction(() => {
@@ -101,12 +102,10 @@ async function inspectStartup(page){
         const loading = document.getElementById("loadingScreen");
         const frame = document.querySelector(".startupAthleteFrame");
         const image = document.getElementById("startupAthlete");
-        const identity = document.querySelector(".startupIdentity");
-        const heading = document.querySelector(".startupIdentity h1");
         const status = document.querySelector(".startupStatus");
         const saveNote = document.querySelector(".startupSaveNote");
         const credit = document.querySelector(".startupPhotoCredit");
-        if(!loading || !frame || !image || !identity || !heading || !status || !saveNote || !credit){
+        if(!loading || !frame || !image || !status || !saveNote || !credit){
             throw new Error("Startup composition is incomplete.");
         }
         const rect = element => {
@@ -119,6 +118,13 @@ async function inspectStartup(page){
             : Math.min(imageRect.width/image.naturalWidth,imageRect.height/image.naturalHeight);
         const visibleSourceWidth=scale>0?Math.min(image.naturalWidth,imageRect.width/scale):0;
         const visibleSourceHeight=scale>0?Math.min(image.naturalHeight,imageRect.height/scale):0;
+        // HO-030 v3: the title block is baked into the picture; map its box (picture pixels) to the screen.
+        const [positionX,positionY]=imageStyle.objectPosition.split(/\s+/),renderedWidth=image.naturalWidth*scale,renderedHeight=image.naturalHeight*scale;
+        const offset=(value,free)=>value.endsWith("%")?free*parseFloat(value)/100:parseFloat(value.replace(/^calc\(/,""));
+        const titleX=imageRect.left+offset(positionX,imageRect.width-renderedWidth),titleY=imageRect.top+offset(positionY,imageRect.height-renderedHeight);
+        const titleBox=image.naturalWidth>image.naturalHeight?[1144/1920,170/1080,1827/1920,658/1080]:[121/1179,21/2096,1005/1179,631/2096];
+        const title={left:titleX+titleBox[0]*renderedWidth,top:titleY+titleBox[1]*renderedHeight,right:titleX+titleBox[2]*renderedWidth,bottom:titleY+titleBox[3]*renderedHeight};
+        title.width=title.right-title.left;title.height=title.bottom-title.top;
         const bandExpression=loadingStyle.getPropertyValue("--startup-mobile-top-band").trim();
         const resolvedBand=bandExpression?Math.min(54,Math.max(46,innerWidth*0.12)):0;
         return {
@@ -128,7 +134,7 @@ async function inspectStartup(page){
             image:{...imageRect,naturalWidth:image.naturalWidth,naturalHeight:image.naturalHeight,objectFit:imageStyle.objectFit,objectPosition:imageStyle.objectPosition,position:imageStyle.position,visibleSourceWidthRatio:image.naturalWidth?visibleSourceWidth/image.naturalWidth:0,visibleSourceHeightRatio:image.naturalHeight?visibleSourceHeight/image.naturalHeight:0},
             topBand:imageRect.top-frameRect.top,
             topBandVariable:resolvedBand,
-            identity:rect(identity),heading:rect(heading),status:rect(status),saveNote:rect(saveNote),credit:rect(credit),
+            title,status:rect(status),saveNote:rect(saveNote),credit:rect(credit),
             documentWidth:document.documentElement.scrollWidth,clientWidth:document.documentElement.clientWidth
         };
     });
@@ -141,22 +147,23 @@ function assertCommon(result, config){
     assertNear(result.loading.top,0,1,`${config.name}: loading stage top edge`);
     assertNear(result.loading.width,result.viewport.width,1,`${config.name}: loading stage width`);
     assertNear(result.loading.height,result.viewport.height,1,`${config.name}: loading stage height`);
-    for(const [name,rect] of [["identity",result.identity],["heading",result.heading],["status",result.status],["save note",result.saveNote],["credit",result.credit]]){
+    for(const [name,rect] of [["baked title",result.title],["status",result.status],["save note",result.saveNote],["credit",result.credit]]){
         assert.ok(rect.left>=-1&&rect.right<=result.viewport.width+1,`${config.name}: ${name} escapes the horizontal viewport.`);
         assert.ok(rect.top>=-1&&rect.bottom<=result.viewport.height+1,`${config.name}: ${name} escapes the vertical viewport.`);
     }
+    for(const [name,rect] of [["status",result.status],["save note",result.saveNote],["credit",result.credit]])assert.ok(rect.right<=result.title.left||rect.left>=result.title.right||rect.bottom<=result.title.top||rect.top>=result.title.bottom,`${config.name}: ${name} covers the baked title.`);
 }
 
 function assertMobile(result, config){
     assert.equal(result.image.objectFit,"cover",`${config.name}: installed/mobile startup must use the stable photo-box cover treatment.`);
-    assert.match(result.image.objectPosition,/^54%\s+0(?:px|%)$/,`${config.name}: mobile Reus crop anchor changed.`);
+    assert.match(result.image.objectPosition,/^50%\s+0(?:px|%)$/,`${config.name}: mobile Reus crop anchor changed.`);
     assert.equal(result.image.position,"absolute",`${config.name}: mobile Reus must be anchored independently of normal flow.`);
     assertNear(result.topBand,0,1,`${config.name}: JOB-1647 removes the old reserved top art band`);
     assertNear(result.topBand,result.topBandVariable,1.25,`${config.name}: photo top must track the explicit mobile art-band variable`);
     assertNear(result.image.bottom,result.frame.bottom,1.25,`${config.name}: Reus photo must stay anchored to the stage bottom`);
     assert.ok(result.image.visibleSourceHeightRatio>=0.985,`${config.name}: less than 98.5% of Reus source height remains visible (${(result.image.visibleSourceHeightRatio*100).toFixed(1)}%).`);
     assert.ok(result.image.visibleSourceWidthRatio>=0.72,`${config.name}: mobile crop discards too much horizontal source (${(result.image.visibleSourceWidthRatio*100).toFixed(1)}% visible).`);
-    assert.ok(result.identity.top<=result.viewport.height*0.36,`${config.name}: startup identity drifted too far down the installed/mobile stage.`);
+    assert.ok(result.title.top<=result.viewport.height*0.36,`${config.name}: startup title drifted too far down the installed/mobile stage.`);
     assert.ok(result.status.bottom<=result.viewport.height-48,`${config.name}: loading status entered the protected bottom save/credit zone.`);
     assert.ok(result.saveNote.bottom<result.credit.top-4,`${config.name}: save note overlaps the attribution line.`);
 }
@@ -174,7 +181,7 @@ async function runCase(browser, config){
     page.on("requestfailed",request=>{if(request.url().startsWith(baseUrl.href))localFailures.push(`${request.method()} ${request.url()} :: ${request.failure()?.errorText||"failed"}`);});
     try{
         await prepareStartup(page,config);const result=await inspectStartup(page);assertCommon(result,config);
-        if(config.mobile)assertMobile(result,config);else assert.equal(result.image.objectFit,"cover",`${config.name}: JOB-1647 approved desktop photo must fill the diagonal split.`);
+        if(config.mobile)assertMobile(result,config);else assert.equal(result.image.objectFit,config.fit||"cover",`${config.name}: JOB-1647 approved desktop photo must fill the diagonal split (HO-030 v3: whole portrait picture below 7:5).`);
         const screenshotPath=path.join(resultsDirectory,`loading-${config.name}-${runLabel}.png`);await page.screenshot({path:screenshotPath,fullPage:true});
         assert.deepEqual(pageErrors,[],`${config.name}: page errors detected.`);assert.deepEqual(consoleErrors,[],`${config.name}: unexpected console errors detected.`);assert.deepEqual(localFailures,[],`${config.name}: failed first-party requests detected.`);
         if(externalConsoleNoise.length)process.stdout.write(`INFO ${config.name} :: ignored ${externalConsoleNoise.length} expected external production App Check browser console message(s).\n`);
@@ -189,7 +196,7 @@ async function runCase(browser, config){
         const mobile=results.get("mobile-browser-height"),standalone=results.get("ios-standalone-height");
         assertNear(standalone.topBand,mobile.topBand,2,"same-width browser/standalone mobile top-band stability");
         assert.equal(standalone.image.objectPosition,mobile.image.objectPosition,"same-width browser and installed-app Reus anchor must match.");
-        assert.ok(Math.abs(standalone.identity.top-mobile.identity.top)<=62,`startup identity moved ${Math.abs(standalone.identity.top-mobile.identity.top).toFixed(1)}px between browser-height and standalone-height mobile layouts.`);
+        assert.ok(Math.abs(standalone.title.top-mobile.title.top)<=62,`startup title moved ${Math.abs(standalone.title.top-mobile.title.top).toFixed(1)}px between browser-height and standalone-height mobile layouts.`);
         assert.ok(standalone.image.visibleSourceHeightRatio>=mobile.image.visibleSourceHeightRatio-0.015,"installed-app height must not lose materially more Reus source height than browser-height mobile.");
         process.stdout.write("Standalone/mobile startup composition regression audit passed.\n");
     }finally{await browser.close();}

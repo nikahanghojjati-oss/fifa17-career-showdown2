@@ -279,7 +279,7 @@
   "proofSources": {
     "HOME_BOOTSTRAP_INLINE": {
       "source": "tests/proof-sources/workflows/validate-menu-bootstrap.yml",
-      "gitBlobSha": "95301d1accdc1fe835ee46a2a0af4b6a578d1b7d"
+      "gitBlobSha": "c59cdd3495f5177d98fbc608dcc6c08536bf81e5"
     },
     "LEAGUE_CONFIRMATION_INLINE": {
       "source": "tests/proof-sources/workflows/validate-league-confirmation.yml",
@@ -295,7 +295,7 @@
     },
     "V1_VISUAL_IMMERSION_INLINE": {
       "source": "tests/proof-sources/workflows/validate-v1-visual-immersion.yml",
-      "gitBlobSha": "b6f5ebec658bf802de969503922a51f4c047369c"
+      "gitBlobSha": "1e7268383e9383929547430a23c2dcba7f57c1d2"
     }
   },
   "artifactRules": [
@@ -470,6 +470,8 @@
       "patterns": [
         "^css/visual-fidelity-r3\\.css$",
         "^assets/marco-reus-2015-cc-by\\.webp$",
+        "^assets/LOADING_REUS_DESKTOP\\.webp$",
+        "^assets/LOADING_REUS_PHONE\\.webp$",
         "^css/app\\.css$",
         "^index\\.html$",
         "^js/app\\.js$",

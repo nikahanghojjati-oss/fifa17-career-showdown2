@@ -19,9 +19,9 @@ A.ok(settings.includes('createOfflinePanel')&&settings.includes('settingsOffline
 const startupCss=read('css/app.css');
 A.doesNotMatch(offlineCss,/#loadingScreen|#startupAthlete|\.startup/,'offline CSS cannot restyle loading after first paint');
 for(const sheet of ['css/visual-fidelity-r2.css','css/visual-fidelity-r3.css'])A.doesNotMatch(read(sheet),/#loadingScreen|#startupAthlete|\.startup/,'lazy fidelity CSS cannot restyle loading');
-A.ok(startupCss.includes('object-fit:cover;object-position:54% 0;'),'phone crop is top-anchored, without reserved art band');
-A.ok(startupCss.includes('aspect-ratio:1040/378'),'wordmark keeps its native ratio');
-A.ok(startupCss.includes('html[data-motion-reduced="true"] #loadingScreen'),'app reduced motion owns loader');
-A.ok(startupCss.includes('@media(prefers-reduced-motion:reduce){#loadingScreen'),'device reduced motion owns loader');
+A.ok(startupCss.includes('#startupAthlete{object-fit:contain;object-position:50% 0}')&&startupCss.includes('@media (max-aspect-ratio:31/50){')&&/#startupAthlete\{object-fit:cover\}/.test(startupCss),'phone crop is top-anchored (HO-030: 50% 0), without reserved art band');
+A.ok(startupCss.includes('--ox:max(0px,var(--k)*1860 - 100cqw)')&&startupCss.includes('object-position:calc(0px - var(--ox)) 0')&&!/#startupAthlete\{[^}]*object-fit:(?:fill|none|scale-down)/.test(startupCss),'HO-030 v3: the title baked into the picture keeps its native ratio and the crop keeps it whole');
+A.ok(startupCss.includes('html[data-motion-reduced=true] .startupLoader i{animation:none!important;width:100%;transform:none}'),'app reduced motion shows a static loader');
+A.ok(startupCss.includes('@media (prefers-reduced-motion:reduce){#loadingScreen .startupLoader i{animation:none!important;width:100%;transform:none}'),'device reduced motion shows a static loader');
 A.equal(/--startup-mobile-top-band/.test(startupCss),false,'no old reserved mobile art space');
 console.log(`Offline hotfix contracts passed for ${revision}: install activation boundary, Settings-only install UI, bounded standalone art, verified recovery shell, and product behavior without process-routing coupling.`);

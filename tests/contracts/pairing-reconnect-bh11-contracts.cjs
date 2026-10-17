@@ -106,7 +106,8 @@ function pairHarness({role="playerTwo",saves=[],activeSaveId=null,docs:seed={},n
     navigateTo:async(screen)=>{calls.navigate.push(screen);return true;}
   };
   if(navigator)sandbox.navigator=navigator;
-  if(confirm!==undefined)sandbox.confirm=confirm;
+  // r78 (HO-029): the native confirm() is now the shared marble box (askShowdownConfirm); the stub answers for it.
+  if(confirm!==undefined)sandbox.askShowdownConfirm=async message=>confirm(message);
   vm.createContext(sandbox);
   vm.runInContext(pairSource,sandbox,{filename:"js/persistentNikDanielPair.js"});
   const pair=sandbox.CareerModePersistentNikDanielPair;
@@ -314,7 +315,7 @@ async function r2ExplicitConfirm(){
   assert.equal(await stale.pair.discardStalePendingConnection(),false,"R2 DELETE OLD CONNECTION without confirm() does nothing");
   assert.equal(stale.docs.get(`rivalries/${RIVALRY}`).data.connectionState,"pending-pair");assert.deepEqual(stale.deleted,[]);
   const entry=read("js/productionSharedJourneyEntry.js"),fresh=entry.slice(entry.indexOf("async function prepareFreshStart"),entry.indexOf("async function startShared"));
-  assert.match(fresh,/const confirmed=root\.confirm\?\.\([\s\S]*if\(confirmed!==true\)return false;[\s\S]*abandonCurrentShowdown/,"R2 START A SHOWDOWN over a live pair closes it only on an explicit yes");
+  assert.match(fresh,/const confirmed=await entryAskConfirm\([\s\S]*if\(confirmed!==true\)return false;[\s\S]*abandonCurrentShowdown/,"R2 START A SHOWDOWN over a live pair closes it only on an explicit yes");
   assert.doesNotMatch(entry+pairSource,/confirmed===false/,"R2 no destructive path treats a missing confirm() as consent");
   assert.match(pairSource,/"DELETE OLD SHOWDOWN & START OVER"\),recover=pairCreateElement\("button","menuButton","RESTORE BACKUP"\)/,"R2 the recovery buttons and their order are unchanged (owner decision)");
   console.log("ok R2 destructive start-over paths need confirm()===true");

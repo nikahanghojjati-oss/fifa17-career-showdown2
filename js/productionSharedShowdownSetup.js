@@ -241,14 +241,15 @@
     }
   }
   function create(tag,className,text){const element=root.document.createElement(tag);if(className)element.className=className;if(text!==undefined)element.textContent=String(text);return element;}
-  function action(label,handler,disabled=false){const button=create("button","compactButton",label);button.type="button";button.disabled=disabled;button.addEventListener("click",handler);return button;}
+  // r78 (HO-029): the one main action of each step wears Team V's gold button (.r78-btn--primary); the rest are gold outlines.
+  function action(label,handler,disabled=false,primary=false){const button=create("button",primary?"compactButton r78-btn--primary":"compactButton",label);button.type="button";button.disabled=disabled;button.addEventListener("click",handler);return button;}
   function renderSetup(body){
     const setup=state.setup;
     const summary=create("section","remoteJoiningCurrent");summary.append(create("span","remoteJoiningEyebrow","SHARED SETUP"));
     if(!setup){
       summary.append(create("strong","remoteJoiningState","EMPTY · REV 0"),create("p","remoteJoiningMeta","Both players are connected. No league or club has been drawn yet."));
       const actions=create("div","remoteJoiningActions");
-      if(state.ready&&state.remoteRole==="host")actions.append(action("OPEN SHARED SETUP",()=>void mutate("open"),state.busy));
+      if(state.ready&&state.remoteRole==="host")actions.append(action("OPEN SHARED SETUP",()=>void mutate("open"),state.busy,true));
       else if(state.ready)summary.append(create("p","remoteJoiningMeta","Waiting for the host to open the shared setup."));
       actions.append(action("REFRESH",()=>void refresh(),state.busy));summary.append(actions);body.append(summary);return;
     }
@@ -265,12 +266,12 @@
     for(const [label,value] of rows){const row=create("div","settingsInfoRow");row.append(create("span","",label),create("strong","",value));facts.append(row);}summary.append(facts);
     const actions=create("div","remoteJoiningActions");
     const coordinator=state.managerRole===setup.coordinatorRole;
-    if(setup.phase==="SHARED_SETUP_OPEN"&&coordinator)actions.append(action("DRAW SHARED LEAGUE",()=>void mutate("commit-league"),state.busy));
-    if(setup.phase==="LEAGUE_WHEEL_COMMITTED"&&coordinator)actions.append(action("DRAW DISTINCT CLUBS",()=>void mutate("commit-clubs"),state.busy));
+    if(setup.phase==="SHARED_SETUP_OPEN"&&coordinator)actions.append(action("DRAW SHARED LEAGUE",()=>void mutate("commit-league"),state.busy,true));
+    if(setup.phase==="LEAGUE_WHEEL_COMMITTED"&&coordinator)actions.append(action("DRAW DISTINCT CLUBS",()=>void mutate("commit-clubs"),state.busy,true));
     if(setup.phase==="CLUB_ASSIGNMENTS_COMMITTED"&&coordinator){
       for(const seasons of LENGTHS)actions.append(action(`${seasons} SEASON${seasons===1?"":"S"}`,()=>void mutate("commit-length",{totalSeasons:seasons}),state.busy));
     }
-    if(setup.phase==="SEASON_LENGTH_COMMITTED"&&state.managerRole&&!setup.confirmedRoles.includes(state.managerRole))actions.append(action("CONFIRM IDENTICAL SETUP",()=>void mutate("confirm"),state.busy));
+    if(setup.phase==="SEASON_LENGTH_COMMITTED"&&state.managerRole&&!setup.confirmedRoles.includes(state.managerRole))actions.append(action("CONFIRM IDENTICAL SETUP",()=>void mutate("confirm"),state.busy,true));
     actions.append(action("REFRESH",()=>void refresh(),state.busy));summary.append(actions);body.append(summary);
   }
   function render(){

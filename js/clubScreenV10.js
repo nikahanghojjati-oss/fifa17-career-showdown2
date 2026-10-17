@@ -128,7 +128,9 @@
     return {
       stage:'<div class="plateClip" aria-hidden="true" data-sd-enter="scene"><div class="world" id="world"></div></div>',
       kicker:"CAREER MODE SHOWDOWN 17",
-      phone:`${pic("phoneSceneBackground","ENV_CLUB_PHONE_V1.webp","")}${pic("phoneHero phoneHeroDaniel","OVL_CLUB_DANIEL_PHONE_V1.webp","character-left")}${pic("phoneHero phoneHeroNik","OVL_CLUB_NIK_PHONE_V1.webp","character-right")}<div class="phoneHeroScrim"></div>`,
+      // r78 HO-031: the old phone hero (plate + two cut-outs) was always hidden by css/v10Club.css; its pictures are
+      // dropped so the phone no longer fetches them. The empty stage keeps its place in the markup.
+      phone:'<div class="phoneHeroScrim"></div>',
       footer:'<span class="footText">CM17<br>CAREER MODE SHOWDOWN 17</span><span class="footSlogan"><span>FOOTBALL BRINGS US TOGETHER</span><i class="crown"></i></span>'
     };
   }
@@ -151,8 +153,9 @@
     for(const node of [kicker,hero,deck])section.insertBefore(node,before);
     // JOB-1594 / JOB-1595 / JOB-1596: one calm scene; CSS hides the original hero by class.
     // Sources match upright phones/tablets and compact sideways phones; desktop keeps its artwork.
-    const scene=clMake("div","clPhoneScene",["DANIEL","NIK"].map(name=>
-      `<picture class="clPhonePerson"><source srcset="${ASSET_BASE}assets/OVL_CLUB_${name}_PHONE_V1.webp" type="image/webp" media="(max-width: 760px) and (orientation: portrait)"><source srcset="${ASSET_BASE}assets/OVL_CLUB_${name}_PHONE_V1.webp" type="image/webp" media="(min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape)"><source srcset="${ASSET_BASE}assets/OVL_CLUB_${name}_PHONE_V1.webp" type="image/webp" media="(min-width: 761px) and (max-width: 1024px) and (orientation: portrait)"><img alt="" decoding="async"></picture>`).join(""));
+    // r78 HO-031: the scene is now an empty band that keeps the layout's place; the managers are painted into Team V's
+    // ENV_CLUB_PHONE_V2 plate (css/v10Club.css), so the phone cut-outs (OVL_CLUB_*_PHONE_V1) are gone from it.
+    const scene=clMake("div","clPhoneScene","");
     section.insertBefore(scene,before);
     // The title keeps its own text node (screen readers); the brush-style copy is decoration.
     if(h2&&h2.firstChild&&h2.childNodes.length===1&&h2.firstChild.nodeType===3){

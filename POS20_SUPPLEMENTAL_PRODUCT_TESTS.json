@@ -1707,6 +1707,26 @@
         "^tests/contracts/career\\-start\\-marker\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r78-marble-confirm-contracts.cjs",
+      "patterns": [
+        "^js/showdownConfirm\\.js$",
+        "^js/legacy\\.js$",
+        "^js/showdownUI\\.js$",
+        "^js/settings\\.js$",
+        "^js/restoreUI\\.js$",
+        "^js/saveLibraryUI\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/ssjrPhysicalJourneyAcceptance\\.js$",
+        "^js/v10Screens\\.js$",
+        "^css/r78\\-marble\\-surfaces\\.css$",
+        "^css/r78\\-type\\.css$",
+        "^tests/contracts/r78\\-marble\\-confirm\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

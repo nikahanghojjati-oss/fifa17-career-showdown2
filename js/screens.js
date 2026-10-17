@@ -589,10 +589,6 @@ async function navigateBackSmart(){
     }
 }
 
-function goBack(){
-    return navigateBackSmart();
-}
-
 function openLegacy(){
     if(typeof window.openOptionalModule === "function"){
         return window.openOptionalModule("legacy");

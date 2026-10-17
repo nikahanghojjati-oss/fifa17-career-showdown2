@@ -164,6 +164,9 @@
   async function pairEnsurePreparedBinding(context,role){const binding=pairPreparedBindingForRole(context.pairing,role);if(binding)return binding;root.showScreen?.("createShowdown");throw pairErrorWithCode("PERSISTENT_PAIR_SEASON_SELECTION_REQUIRED","Choose 1, 3, 5, or 10 seasons and press START A SHOWDOWN before connecting players.");}
   async function pairAttachRecoveryPointer(context,binding,rivalryId){const connected=await pairLoadConnectedRivalry();if(!connected?.attachRivalry)return{ok:false,connected:null,result:null};const result=await connected.attachRivalry({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,deviceId:context.deviceId,binding,rivalryId,indexedDBImpl:root.indexedDB});if(result?.ok&&typeof connected.initialize==="function")await connected.initialize();return{ok:Boolean(result?.ok),connected,result};}
 
+// r78 (HO-029): the shared marble confirm box (js/showdownConfirm.js, loaded on first use) replaces the native confirm().
+// It resolves true only for OK; Cancel, Esc or a box that cannot load resolve false (undefined when no loader exists).
+function pairAskConfirm(message,tone){return typeof root.askShowdownConfirm==="function"?root.askShowdownConfirm(message,{tone}):typeof root.loadRuntimeScript==="function"?root.loadRuntimeScript("showdown-confirm","js/showdownConfirm.js",()=>typeof root.askShowdownConfirm==="function").then(()=>root.askShowdownConfirm(message,{tone}),()=>false):Promise.resolve(undefined);}
 function pairTimestampMillis(value){if(value&&typeof value.toMillis==="function")return value.toMillis();if(value instanceof Date)return value.getTime();return Number.NaN;}
 function pairCreateDurablePairWitness(context,role,manager,expectedRivalryId,connectionState){const sdk=context.services.firestoreSdk,normalizedRole=pairNormalizeManagerRole(role),expected=expectedRivalryId?pairNormalizeRivalryId(expectedRivalryId):null;return async({transaction,binding,capability,now,nowEpochMs})=>{const normalizedRivalryId=pairNormalizeRivalryId(capability);if(expected&&normalizedRivalryId!==expected)throw pairErrorWithCode("PERSISTENT_PAIR_RIVALRY_INVALID","The Showdown connection changed during provider mutation.");if(!binding||binding.managerRole!==normalizedRole||!pairValidSaveId(binding.saveId)||!pairValidProfileId(binding.profileId))throw pairErrorWithCode("PERSISTENT_PAIR_BINDING_INVALID","The local career identity is invalid.");
   // READ PHASE: every transaction.get happens before any transaction.set (Sol S2C-005R2 §3).
@@ -252,8 +255,8 @@ async function pairDiscardStalePendingConnection(){
       throw pairErrorWithCode("PERSISTENT_PAIR_STALE_PENDING_STATE_CHANGED","This old connection changed. Nothing was deleted. Review the current screen and try again.");
     }
     const rivalryId=refreshed.rivalryId,providerSaveId=refreshed.providerSaveId,providerProfileId=refreshed.providerProfileId;
-    const confirmed=root.confirm?.("Delete this old connection and start fresh? This closes the stale online test connection and removes only its unfinished local Showdown so Nik can join the new code Daniel creates.");
-    // BH-11 (#2): only an explicit yes deletes; a missing or blocked confirm() never counts as consent.
+    const confirmed=await pairAskConfirm("Delete this old connection and start fresh? This closes the stale online test connection and removes only its unfinished local Showdown so Nik can join the new code Daniel creates.","danger");
+    // BH-11 (#2): only an explicit yes deletes; a missing or blocked confirm box never counts as consent.
     if(confirmed!==true)return false;
     const rechecked=await pairInitialize({force:true});
     if(!rechecked||rechecked.connectionState!=="pending-pair"||rechecked.managerRole!=="playerTwo"||pairCurrentIdentityRole()!=="playerTwo"||rechecked.rivalryId!==rivalryId||rechecked.providerSaveId!==providerSaveId||rechecked.providerProfileId!==providerProfileId){
@@ -289,8 +292,8 @@ async function pairStartOverFromRecovery(){
       throw pairErrorWithCode("PERSISTENT_PAIR_RECOVERY_STATE_CHANGED","The old Showdown state changed. Nothing was deleted. Review the current screen and try again.");
     }
     const rivalryId=refreshed.rivalryId;
-    const confirmed=root.confirm?.("Delete the old Showdown and start over? This closes the old online Showdown for both players. Your player identity, registered device, Legacy history and app settings are kept.");
-    // BH-11 (#2): only an explicit yes deletes; a missing or blocked confirm() never counts as consent.
+    const confirmed=await pairAskConfirm("Delete the old Showdown and start over? This closes the old online Showdown for both players. Your player identity, registered device, Legacy history and app settings are kept.","danger");
+    // BH-11 (#2): only an explicit yes deletes; a missing or blocked confirm box never counts as consent.
     if(confirmed!==true)return false;
     const rechecked=await pairInitialize({force:true});
     if(rechecked?.connectionState==="active"&&rechecked.status==="paired"){
