@@ -11,10 +11,10 @@
  "worker": "sol-chat",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-06T01:37:36Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-06T01:38:18Z", "by": "G", "status": "RECEIVED", "note": "bug factory: job 1020 · G (GPT green) with the desktop window fix; Team V 1012 visual check"}, {"at": "2026-10-17T21:51:02Z", "by": "G", "status": "WORKING", "note": "r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79"}]
+ "evidence": ["triage vs r78 main f15f54f9: phone one column in visual-assets/v10_1/season-results/app.css:114-159"],
+ "log": [{"at": "2026-10-06T01:37:36Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-06T01:38:18Z", "by": "G", "status": "RECEIVED", "note": "bug factory: job 1020 · G (GPT green) with the desktop window fix; Team V 1012 visual check"}, {"at": "2026-10-17T21:51:02Z", "by": "G", "status": "WORKING", "note": "r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79"}, {"at": "2026-10-17T21:52:37Z", "by": "G", "status": "DONE", "note": "disabled commit/plan buttons kept on purpose: 5 browser audits pin their text; a separate status line already exists"}]
 }
 ```
 

@@ -11,10 +11,10 @@
  "worker": "opus",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-06T01:31:04Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-06T01:32:16Z", "by": "G", "status": "RECEIVED", "note": "bug factory: job 1015 · G (GPT green; Sonnet if green fails), lead runs pairing contracts + audits, Team V 1013 visual check"}, {"at": "2026-10-17T21:51:02Z", "by": "G", "status": "WORKING", "note": "r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79"}]
+ "evidence": ["triage vs r78 main f15f54f9: Connect Players screen js/connectPlayersScreenV10.js; pairRender mounts only in #connectPlayersPairSlot (pair.js:322)"],
+ "log": [{"at": "2026-10-06T01:31:04Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-06T01:32:16Z", "by": "G", "status": "RECEIVED", "note": "bug factory: job 1015 · G (GPT green; Sonnet if green fails), lead runs pairing contracts + audits, Team V 1013 visual check"}, {"at": "2026-10-17T21:51:02Z", "by": "G", "status": "WORKING", "note": "r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79"}, {"at": "2026-10-17T21:52:37Z", "by": "G", "status": "DONE", "note": ""}]
 }
 ```
 

@@ -11,10 +11,10 @@
  "worker": "sonnet",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-06T05:07:44Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-06T05:08:02Z", "by": "G", "status": "RECEIVED", "note": ""}, {"at": "2026-10-17T21:51:02Z", "by": "G", "status": "WORKING", "note": "r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79"}]
+ "evidence": ["triage vs r78 main f15f54f9: TITLE_LEAGUE_V1.webp, css/v10Setup.css:129-151"],
+ "log": [{"at": "2026-10-06T05:07:44Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-06T05:08:02Z", "by": "G", "status": "RECEIVED", "note": ""}, {"at": "2026-10-17T21:51:02Z", "by": "G", "status": "WORKING", "note": "r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79"}, {"at": "2026-10-17T21:52:37Z", "by": "G", "status": "DONE", "note": ""}]
 }
 ```
 
