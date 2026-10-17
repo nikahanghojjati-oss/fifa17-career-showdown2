@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-16 11:39 PM Boston time (EDT)",
+ "generated": "2026-10-16 11:40 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 99,
+  "count": 105,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -860,6 +860,24 @@
     "boston": "Mon 12 Oct 5:55 PM"
    },
    {
+    "time": "2026-10-12 21:56",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-026 RECEIVED",
+    "subject": "r75: phone, sideways and tablet in the exact desktop marble look (no glass)",
+    "reply": "no",
+    "boston": "Mon 12 Oct 5:56 PM"
+   },
+   {
+    "time": "2026-10-13 00:43",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-027 SENT",
+    "subject": "No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76)",
+    "reply": "yes (receive it)",
+    "boston": "Mon 12 Oct 8:43 PM"
+   },
+   {
     "time": "2026-10-13 00:44",
     "from": "Team G",
     "to": "Team V",
@@ -867,6 +885,15 @@
     "subject": "No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76)",
     "reply": "no",
     "boston": "Mon 12 Oct 8:44 PM"
+   },
+   {
+    "time": "2026-10-13 02:17",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-026 DONE",
+    "subject": "r75: phone, sideways and tablet in the exact desktop marble look (no glass)",
+    "reply": "no",
+    "boston": "Mon 12 Oct 10:17 PM"
    },
    {
     "time": "2026-10-17 03:38",
@@ -894,6 +921,33 @@
     "subject": "r78: much better loading screen (Reus photo and BVB crest stay, edited into marble)",
     "reply": "yes (receive it)",
     "boston": "Fri 16 Oct 11:38 PM"
+   },
+   {
+    "time": "2026-10-17 03:39",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-028 RECEIVED",
+    "subject": "r78: readable premium body text on every screen (Rules first; titles stay)",
+    "reply": "no",
+    "boston": "Fri 16 Oct 11:39 PM"
+   },
+   {
+    "time": "2026-10-17 03:39",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-029 RECEIVED",
+    "subject": "r78: every error screen and pop-up in black-and-gold marble",
+    "reply": "no",
+    "boston": "Fri 16 Oct 11:39 PM"
+   },
+   {
+    "time": "2026-10-17 03:39",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-030 RECEIVED",
+    "subject": "r78: much better loading screen (Reus photo and BVB crest stay, edited into marble)",
+    "reply": "no",
+    "boston": "Fri 16 Oct 11:39 PM"
    }
   ],
   "g2v": {
@@ -914,8 +968,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "4d68867",
-  "head_boston": "Fri 16 Oct 11:38 PM",
+  "head": "0a9fe0a",
+  "head_boston": "Fri 16 Oct 11:39 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1359,39 +1413,39 @@
     "from": "G",
     "to": "V",
     "title": "r78: readable premium body text on every screen (Rules first; titles stay)",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-028_r78-readable-premium-body-text-on-every-.md",
     "worker": "",
-    "pickup_min": null,
-    "waiting_min": 0
+    "pickup_min": 0,
+    "waiting_min": null
    },
    {
     "id": "HO-029",
     "from": "G",
     "to": "V",
     "title": "r78: every error screen and pop-up in black-and-gold marble",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-029_r78-every-error-screen-and-pop-up-in-bla.md",
     "worker": "",
-    "pickup_min": null,
-    "waiting_min": 0
+    "pickup_min": 0,
+    "waiting_min": null
    },
    {
     "id": "HO-030",
     "from": "G",
     "to": "V",
     "title": "r78: much better loading screen (Reus photo and BVB crest stay, edited into marble)",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-030_r78-much-better-loading-screen-reus-phot.md",
     "worker": "",
-    "pickup_min": null,
-    "waiting_min": 0
+    "pickup_min": 0,
+    "waiting_min": null
    }
   ],
   "relay_ok": true

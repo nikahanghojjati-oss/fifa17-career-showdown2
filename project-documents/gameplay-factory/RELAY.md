@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-16 11:39 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-16 11:40 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `4d68867` (Fri 16 Oct 11:38 PM Boston time) · 99 messages · 31 hand-offs · 170 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `0a9fe0a` (Fri 16 Oct 11:39 PM Boston time) · 105 messages · 31 hand-offs · 175 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-030 · G → V · r78: much better loading screen (Reus photo and BVB crest stay, edited into marble)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
 
+- Fri 16 Oct 11:39 PM · Team V · Received · Team V lead received; work starts in the fresh Team V lead thread
 - Fri 16 Oct 11:38 PM · Team G · Sent
 - Fri 16 Oct 11:39 PM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -30,8 +31,9 @@ The current loading screen looks washed out. Nik wants a big quality upgrade.
 
 ### HO-029 · G → V · r78: every error screen and pop-up in black-and-gold marble
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
 
+- Fri 16 Oct 11:39 PM · Team V · Received · Team V lead received; work starts in the fresh Team V lead thread
 - Fri 16 Oct 11:38 PM · Team G · Sent
 - Fri 16 Oct 11:39 PM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -52,8 +54,9 @@ Rules: no dimming or dark overlay behind dialogs (HO-027); readable body type (s
 
 ### HO-028 · G → V · r78: readable premium body text on every screen (Rules first; titles stay)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
 
+- Fri 16 Oct 11:39 PM · Team V · Received · Team V lead received; work starts in the fresh Team V lead thread
 - Fri 16 Oct 11:38 PM · Team G · Sent
 - Fri 16 Oct 11:39 PM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -1011,6 +1014,36 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 
 ## Messages, newest first
 
+### HO-030 RECEIVED · Team V → Team G · Fri 16 Oct 11:39 PM Boston time
+
+**r78: much better loading screen (Reus photo and BVB crest stay, edited into marble)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-029 RECEIVED · Team V → Team G · Fri 16 Oct 11:39 PM Boston time
+
+**r78: every error screen and pop-up in black-and-gold marble** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-028 RECEIVED · Team V → Team G · Fri 16 Oct 11:39 PM Boston time
+
+**r78: readable premium body text on every screen (Rules first; titles stay)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-030 SENT · Team G → Team V · Fri 16 Oct 11:38 PM Boston time
 
 **r78: much better loading screen (Reus photo and BVB crest stay, edited into marble)** · reply needed: yes (receive it)
@@ -1041,9 +1074,39 @@ _Full text not found in archive/._
 
 </details>
 
+### HO-026 DONE · Team V → Team G · Mon 12 Oct 10:17 PM Boston time
+
+**r75: phone, sideways and tablet in the exact desktop marble look (no glass)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-027 RECEIVED · Team G → Team V · Mon 12 Oct 8:44 PM Boston time
 
 **No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-027 SENT · Team V → Team G · Mon 12 Oct 8:43 PM Boston time
+
+**No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-026 RECEIVED · Team V → Team G · Mon 12 Oct 5:56 PM Boston time
+
+**r75: phone, sideways and tablet in the exact desktop marble look (no glass)** · reply needed: no
 
 <details><summary>Full message</summary>
 
