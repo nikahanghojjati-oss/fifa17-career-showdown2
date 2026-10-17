@@ -94,7 +94,6 @@ let menuMediaPlaying = false;
 let menuMediaMuted = false;
 let menuMediaLoadTimer = null;
 let menuExperienceUI = null;
-let reusImageAttempts = 0;
 let menuFeedbackInteractionBound = false;
 let menuFeedbackInteractionPending = false;
 let menuFeedbackInteractionAt = -Infinity;

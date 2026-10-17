@@ -158,6 +158,8 @@ const SHELL_PATHS = Object.freeze([
     "js/trophyRoom.js",
     "js/visualIdentity.js",
     "assets/marco-reus-2015-cc-by.webp",
+    "assets/LOADING_REUS_DESKTOP.webp",
+    "assets/LOADING_REUS_PHONE.webp",
     "assets/football/anthony-martial-cska-2017-v113.webp",
     "assets/football/antoine-griezmann-atletico-2016-v113.webp",
     "assets/football/cristiano-ronaldo-euro-2016-v113.webp",
