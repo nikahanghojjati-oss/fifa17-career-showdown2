@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-17 5:28 PM Boston time (EDT)",
+ "generated": "2026-10-17 5:30 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 112,
+  "count": 113,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1011,6 +1011,15 @@
     "subject": "r78 phone League: smaller wheel so both faces show",
     "reply": "yes (receive it)",
     "boston": "Sat 17 Oct 10:19 AM"
+   },
+   {
+    "time": "2026-10-17 21:27",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "RELEASE",
+    "subject": "r78 (1.9.2-r78) live on main: #897 -> f15f54f9. HO-028..032 shipped.",
+    "reply": "no",
+    "boston": "Sat 17 Oct 5:27 PM"
    }
   ],
   "g2v": {
@@ -1031,8 +1040,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "a964df1",
-  "head_boston": "Sat 17 Oct 12:39 PM",
+  "head": "c8b2f90",
+  "head_boston": "Sat 17 Oct 5:29 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1060,32 +1069,23 @@
  },
  "two": {
   "live": {
-   "sha": "8ffe292",
-   "revision": "1.9.1-r77",
-   "when": "2026-10-17T03:05:54Z",
-   "subject": "Re-pin the composed Rules check to production main r76b (#885)",
-   "fixes": [
+   "sha": "f15f54f",
+   "revision": "1.9.2-r78",
+   "when": "2026-10-17T21:28:14Z",
+   "subject": "r78: look and feel (1.9.2-r78) (#897)",
+   "fixes": [],
+   "today": [
     {
      "pr": 897,
      "title": "Release r78: look and feel (1.9.2-r78)",
-     "draft": false,
-     "branch": "gameplay/clean-start",
-     "sha": "2b78d5d2c6fd885d490ad17abb2a793f1a3e2114",
-     "updated": "2026-10-17T16:43:14Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
+     "merged": "2026-10-17T21:28:14Z"
     }
-   ],
-   "today": []
+   ]
   },
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #897: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #897 0/16",
+   "gate": "POS20 #304 6/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -1605,7 +1605,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 48,
+  "moving": 47,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -2821,22 +2821,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 897,
-    "title": "Release r78: look and feel (1.9.2-r78)",
-    "draft": false,
-    "branch": "gameplay/clean-start",
-    "sha": "2b78d5d2c6fd885d490ad17abb2a793f1a3e2114",
-    "updated": "2026-10-17T16:43:14Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {

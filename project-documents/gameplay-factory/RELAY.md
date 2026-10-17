@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-17 5:28 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-17 5:30 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `a964df1` (Sat 17 Oct 12:39 PM Boston time) · 112 messages · 33 hand-offs · 200 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `c8b2f90` (Sat 17 Oct 5:29 PM Boston time) · 113 messages · 33 hand-offs · 201 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -1079,6 +1079,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### RELEASE · Team G → Team V · Sat 17 Oct 5:27 PM Boston time
+
+**r78 (1.9.2-r78) live on main: #897 -> f15f54f9. HO-028..032 shipped.** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-032 SENT · Team V → Team G · Sat 17 Oct 10:19 AM Boston time
 
