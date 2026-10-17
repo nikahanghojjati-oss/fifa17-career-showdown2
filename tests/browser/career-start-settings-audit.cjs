@@ -64,15 +64,14 @@ const CONFIRM="Start your real career now? Finished test Showdowns stay saved bu
     ok("confirm step: the owner text, and Cancel changes nothing");
 
     answer=true;await start.click();
-    const started=page.locator(".settingsCareerStart .settingsInfoRow");
-    await started.waitFor({state:"visible",timeout:12000});
-    assert.match(await started.innerText(),/REAL CAREER STARTED\s+16 OCT 2026/);
+    await page.locator(".settingsCareerStartToggleRow").waitFor({state:"visible",timeout:12000});
+    assert.equal(await page.locator(".settingsCareerStart .settingsInfoRow").count(),0,"r78: no REAL CAREER STARTED row (Nik 2026-10-17)");
     assert.equal(await page.locator(".settingsStartRealCareer").count(),0);
     const toggle=page.locator(".settingsCareerStartToggle");
     assert.match(await page.locator(".settingsCareerStartToggleRow").innerText(),/SHOW TEST SHOWDOWNS AGAIN/);
     assert.equal(await toggle.getAttribute("aria-checked"),"false");
     assert.deepEqual(await page.evaluate(()=>window.__careerStart.calls.filter(c=>c!=="read")),["start"]);
-    ok("after pressing: REAL CAREER STARTED <date> and a SHOW TEST SHOWDOWNS AGAIN switch (off)");
+    ok("after pressing: no REAL CAREER STARTED row, only the SHOW TEST SHOWDOWNS AGAIN switch (off)");
 
     await toggle.click();
     await page.waitForFunction(()=>document.querySelector(".settingsCareerStartToggle")?.getAttribute("aria-checked")==="true");

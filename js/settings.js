@@ -695,15 +695,6 @@ function isSettingsAccountConnected(){
     }
 }
 
-function formatSettingsCareerStartDate(epochMs){
-    if(!Number.isFinite(epochMs)){ return ""; }
-    try{
-        return new Date(epochMs).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }).toUpperCase();
-    }catch(error){
-        return "";
-    }
-}
-
 function getSettingsOtherManagerLabel(){
     try{
         const identity = window.CareerModeOnlinePlayerIdentity;
@@ -766,8 +757,6 @@ function renderSettingsCareerStartRow(row, marker){
         start.addEventListener("click", () => void startSettingsRealCareer(row, start));
         row.replaceChildren(start);
     }else{
-        const info = createSettingsElement("div", "settingsInfoGrid");
-        info.appendChild(createSettingsInfoRow("REAL CAREER STARTED", formatSettingsCareerStartDate(marker.startedAt) || "YES"));
         const showing = marker.active !== true;
         const toggleRow = createSettingsElement("div", "settingsAudioRow settingsCareerStartToggleRow");
         const copy = createSettingsElement("div", "settingsAudioCopy");
@@ -787,7 +776,7 @@ function renderSettingsCareerStartRow(row, marker){
         );
         toggle.addEventListener("click", () => void setSettingsTestShowdownsShown(row, toggle, !showing));
         toggleRow.append(copy, toggle);
-        row.replaceChildren(info, toggleRow);
+        row.replaceChildren(toggleRow);
     }
     row.hidden = false;
     if(window.CareerModeRulesSettingsV10 && typeof window.CareerModeRulesSettingsV10.refreshSettings === "function"){
