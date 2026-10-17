@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-17 12:52 AM Boston time (EDT)",
+ "generated": "2026-10-17 12:57 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 108,
@@ -995,8 +995,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "1a4735a",
-  "head_boston": "Sat 17 Oct 12:44 AM",
+  "head": "b5ae8b0",
+  "head_boston": "Sat 17 Oct 12:54 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1425,7 +1425,7 @@
     "to": "V",
     "title": "r78: readable premium body text on every screen (Rules first; titles stay)",
     "stage": "WORKING",
-    "pct": 33.333333333333336,
+    "pct": 66.66666666666667,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-028_r78-readable-premium-body-text-on-every-.md",
     "worker": "",
@@ -1438,7 +1438,7 @@
     "to": "V",
     "title": "r78: every error screen and pop-up in black-and-gold marble",
     "stage": "WORKING",
-    "pct": 33.333333333333336,
+    "pct": 66.66666666666667,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-029_r78-every-error-screen-and-pop-up-in-bla.md",
     "worker": "",

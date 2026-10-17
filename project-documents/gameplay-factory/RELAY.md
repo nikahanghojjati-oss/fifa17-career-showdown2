@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-17 12:52 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-17 12:57 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `1a4735a` (Sat 17 Oct 12:44 AM Boston time) · 108 messages · 32 hand-offs · 188 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `b5ae8b0` (Sat 17 Oct 12:54 AM Boston time) · 108 messages · 32 hand-offs · 188 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -59,8 +59,9 @@ The current loading screen looks washed out. Nik wants a big quality upgrade.
 
 ### HO-029 · G → V · r78: every error screen and pop-up in black-and-gold marble
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 33 %** → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 67 %** → ○ Done · picked up 0 min after delivery
 
+- Sat 17 Oct 12:54 AM · Team V · In progress
 - Sat 17 Oct 12:20 AM · Team V · In progress · Style picked: Barlow body 16px/1.55 ivory on opaque black-and-gold marble; Loading = real Reus photo graded black and gold (Nik)
 - Sat 17 Oct 12:18 AM · Team V · In progress · Team V lead started. Steps: style picked, pictures made, code handed back
 - Fri 16 Oct 11:44 PM · Team G · Received · Team G: full list of error screens, notes, 13 native confirm() sites, modals and toasts (base gameplay/clean-start 614f999b). Native confirm() needs a custom modal; Team G will wire it.
@@ -85,8 +86,9 @@ Rules: no dimming or dark overlay behind dialogs (HO-027); readable body type (s
 
 ### HO-028 · G → V · r78: readable premium body text on every screen (Rules first; titles stay)
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 33 %** → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 67 %** → ○ Done · picked up 0 min after delivery
 
+- Sat 17 Oct 12:54 AM · Team V · In progress
 - Sat 17 Oct 12:20 AM · Team V · In progress · Style picked: Barlow body 16px/1.55 ivory on opaque black-and-gold marble; Loading = real Reus photo graded black and gold (Nik)
 - Sat 17 Oct 12:18 AM · Team V · In progress · Team V lead started. Steps: style picked, pictures made, code handed back
 - Fri 16 Oct 11:39 PM · Team V · Received · Team V lead received; work starts in the fresh Team V lead thread
