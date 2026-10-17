@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "WORKING",
  "steps": [{"name": "owner-rule breaks fixed (1-5)", "done": false}, {"name": "readability and polish (6-9)", "done": false}],
  "evidence": [],
- "log": [{"at": "2026-10-17T22:19:44Z", "by": "V", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-10-17T22:19:44Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-17T22:21:26Z", "by": "G", "status": "RECEIVED", "note": "r79 lead: starting now in a helper, branch claude-gameplay/r79-visual-fixes into gameplay/r79"}, {"at": "2026-10-17T22:21:26Z", "by": "G", "status": "WORKING", "note": "items 1-9 in one PR; render check per changed screen"}]
 }
 ```
 
