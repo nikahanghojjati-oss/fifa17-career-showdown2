@@ -9,10 +9,10 @@
     "bytes": 141446
   },
   "candidate": {
-    "base": "main b41f296 (r75, same composed Rules as the r67 pin) plus the owner-decided career start marker: accounts/{uid}/careerStart/current, get/create/update by the owner on an active device, created once from careerIndex/current, then only active may change; list and delete false",
-    "sha256": "585b8313fa93500362f526dcded452ed84c2be6643bf605bf119787a08111237",
-    "gitBlobSha1": "1915b10d643ae9cc830ddde0509398d67362f1e3",
-    "bytes": 143879
+    "base": "main b41f296 (r75, same composed Rules as the r67 pin) plus the owner-decided career start marker: accounts/{uid}/careerStart/current, get/create/update by the owner on an active device, created once from careerIndex/current with startedAt the server time of the press, then only active may change; list and delete false",
+    "sha256": "f276c229238cedeb9d939ed047d261608afedfae5e4db46d7f08c3d218960269",
+    "gitBlobSha1": "0eb2fde4ce6ed9ff0b485b5687d0ad93acadf33b",
+    "bytes": 144085
   },
   "allowedOwners": [
     "G-7",
@@ -34,13 +34,15 @@
       "added": [
         "    // CMS_CAREER_START (owner decision): own-account \"real career starts here\" marker. Created once, active,",
         "    // naming exactly the account's career index head ids (none when no index exists; never over sealed pages).",
-        "    // Afterwards only `active` may change, by CAS. Get, create and update only; no list, no delete.",
+        "    // startedAt is the server time of the press. Afterwards only `active` may change, by CAS (so startedAt and the",
+        "    // list stay as written). Get, create and update only; no list, no delete.",
         "    function cmsCareerStartDataValid(data) {",
-        "      return data.keys().hasOnly(['hiddenRivalryIds', 'active'])",
-        "        && data.keys().hasAll(['hiddenRivalryIds', 'active'])",
+        "      return data.keys().hasOnly(['hiddenRivalryIds', 'active', 'startedAt'])",
+        "        && data.keys().hasAll(['hiddenRivalryIds', 'active', 'startedAt'])",
         "        && data.hiddenRivalryIds is list",
         "        && data.hiddenRivalryIds.size() <= cmsCareerIndexPageCapacity()",
-        "        && data.active is bool;",
+        "        && data.active is bool",
+        "        && data.startedAt is timestamp;",
         "    }",
         "",
         "    function cmsCareerStartMatchesIndex(accountId, ids) {",
@@ -61,6 +63,7 @@
         "        && root.updatedByAccountId == accountId",
         "        && cmsCareerStartDataValid(root.data)",
         "        && root.data.active == true",
+        "        && root.data.startedAt == request.time",
         "        && cmsCareerStartMatchesIndex(accountId, root.data.hiddenRivalryIds);",
         "    }",
         "",
@@ -79,11 +82,11 @@
         ""
       ],
       "owner": "G-7+CAREER-START",
-      "why": "Career start marker functions, placed after the G-7 career index functions they build on (cmsCareerIndexPageCapacity, careerIndex/current): exact two-key data, create only active with exactly the index head ids (empty when no index, refused over sealed pages), update by CAS changing only active."
+      "why": "Career start marker functions, placed after the G-7 career index functions they build on (cmsCareerIndexPageCapacity, careerIndex/current): exact three-key data (hiddenRivalryIds, active, startedAt), create only active with exactly the index head ids (empty when no index, refused over sealed pages) and startedAt == request.time, update by CAS changing only active (startedAt is kept)."
     },
     {
       "mainLine": 2734,
-      "candidateLine": 2779,
+      "candidateLine": 2782,
       "removed": [],
       "added": [
         "      allow list, delete: if false;",

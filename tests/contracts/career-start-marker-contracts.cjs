@@ -51,12 +51,16 @@ const services={firestore:{},firebaseSdk:{doc:()=>({}),getDoc:async()=>({exists:
 
 // The career screens' caller in a vm: real loader, adapters, analytics and marker module; fake Firestore documents.
 const MARKER_PATH="accounts/acct_daniel/careerStart/current";
-const markerDoc=(ids,active,revision=0)=>({schemaVersion:1,objectType:"careerStart",objectId:"current",revision,parentRevision:revision?revision-1:null,lifecycleState:"live",contentHash:"sha256:"+"a".repeat(64),priorContentHash:revision?"sha256:"+"b".repeat(64):null,updatedAt:{toMillis:()=>Date.UTC(2026,9,16,12)},updatedByAccountId:"acct_daniel",updatedByDeviceId:"device_"+"d".repeat(32),data:{hiddenRivalryIds:ids,active},tombstone:null});
+// data.startedAt (first press, server time) differs from updatedAt (last write): the shown date comes from data.
+const STARTED_AT=Date.UTC(2026,9,15,9),SERVER_NOW=Date.UTC(2026,9,17,8);
+// The fake provider applies serverTimestamp() like the server does; timestamps keep their toMillis().
+const materialize=v=>v&&v.__serverTimestamp===true?{toMillis:()=>SERVER_NOW}:v&&typeof v.toMillis==="function"?v:Array.isArray(v)?v.map(materialize):v&&typeof v==="object"?Object.fromEntries(Object.entries(v).map(([k,x])=>[k,materialize(x)])):v;
+const markerDoc=(ids,active,revision=0)=>({schemaVersion:1,objectType:"careerStart",objectId:"current",revision,parentRevision:revision?revision-1:null,lifecycleState:"live",contentHash:"sha256:"+"a".repeat(64),priorContentHash:revision?"sha256:"+"b".repeat(64):null,updatedAt:{toMillis:()=>Date.UTC(2026,9,16,12)},updatedByAccountId:"acct_daniel",updatedByDeviceId:"device_"+"d".repeat(32),data:{hiddenRivalryIds:ids,active,startedAt:{toMillis:()=>STARTED_AT}},tombstone:null});
 function callerWith({docs={},snapshot,markerModule=true}){
   const log=[],loaderOptions=[],frames=[],definitions=new Map(),errors=[];
   const sdk={doc:(_db,...parts)=>({path:parts.join("/")}),getDoc:async ref=>{log.push(ref.path);const v=docs[ref.path];return {exists:()=>v!==undefined,data:()=>v};},
-    Timestamp:{fromMillis:ms=>({toMillis:()=>ms})},
-    runTransaction:async(_db,fn)=>{const writes=[];const out=await fn({get:async ref=>{log.push("tx:"+ref.path);const v=docs[ref.path];return {exists:()=>v!==undefined,data:()=>v};},set:(ref,value)=>writes.push([ref.path,value])});for(const [p,v] of writes)docs[p]=clone(v);return out;}};
+    Timestamp:{fromMillis:ms=>({toMillis:()=>ms})},serverTimestamp:()=>({__serverTimestamp:true}),
+    runTransaction:async(_db,fn)=>{const writes=[];const out=await fn({get:async ref=>{log.push("tx:"+ref.path);const v=docs[ref.path];return {exists:()=>v!==undefined,data:()=>v};},set:(ref,value)=>writes.push([ref.path,value])});for(const [p,v] of writes)docs[p]=materialize(v);return out;}};
   const files={"career-closed-loader":"js/sparkClosedShowdownCareerLoader.js","career-closed-adapter":"js/sharedClosedShowdownAdapter.js","career-start-marker":"js/careerStartMarker.js"};
   const c=vm.createContext({console,URLSearchParams,setTimeout,clearTimeout,TextEncoder,crypto:require("node:crypto").webcrypto,
     CustomEvent:class{constructor(type,init){this.type=type;this.detail=init?.detail;}},dispatchEvent(){return true;},addEventListener(){},
@@ -180,13 +184,67 @@ await check("C7 a marker change clears the cached career and the next load uses 
   assert.equal(completedRows(await h.model()).length,3);
   const Marker=h.c.CareerModeCareerStartMarker,options={firestore:{},firebaseSdk:h.sdk,accountId:"acct_daniel",deviceId:"device_"+"d".repeat(32),cryptoImpl:require("node:crypto").webcrypto};
   const started=await Marker.startRealCareer(options);
-  same([...started.hiddenRivalryIds],ALL);assert.equal(h.docs[MARKER_PATH].revision,0);same(clone(h.docs[MARKER_PATH].data),{hiddenRivalryIds:ALL,active:true});
+  same([...started.hiddenRivalryIds],ALL);assert.equal(h.docs[MARKER_PATH].revision,0);same({hiddenRivalryIds:h.docs[MARKER_PATH].data.hiddenRivalryIds,active:h.docs[MARKER_PATH].data.active},{hiddenRivalryIds:ALL,active:true});
+  assert.equal(h.docs[MARKER_PATH].data.startedAt.toMillis(),SERVER_NOW,"startedAt is written as the server time of the press");
+  assert.ok(h.log.includes("tx:accounts/acct_daniel/pairLinks/current")&&!h.log.includes("accounts/acct_daniel/pairLinks/current"),"the unfinished-Showdown check reads the pair link inside the write transaction");
   assert.equal(h.c.CareerModeRivalryLegacyV10.cachedCareerModel(),null,"the old career is no longer served");
   assert.equal((await h.model()).status,"empty");
-  await Marker.setActive(false,options);
+  assert.equal((await Marker.setActive(false,options)).startedAt,SERVER_NOW,"switching keeps the original career-start date");
   assert.equal(h.c.CareerModeRivalryLegacyV10.cachedCareerModel(),null);
   assert.equal(completedRows(await h.model()).length,3);
   assert.equal(h.log.filter(p=>p===MARKER_PATH).length,1,"writes refresh the per-account cache; no extra read");
+});
+await check("C9 a read that recovers after a failed one finds an active marker: mounted Career Statistics and Trophy Room reload without the hidden Showdowns",async()=>{
+  const fixture=JSON.parse(read("tests/fixtures/data-contract-v1/multi-showdown-career.json")).career;
+  const all={...fixture,label:"all"},real={...fixture,label:"real"};
+  const events=[],registrations=new Map(),drawn=new Map(),listeners=new Map();let markerReads=0,loads=0;
+  const sdk={doc:(_db,...parts)=>({path:parts.join("/")}),getDoc:async ref=>{if(ref.path!==MARKER_PATH)return {exists:()=>false,data:()=>undefined};markerReads+=1;if(markerReads===1)throw Object.assign(new Error("unavailable"),{code:"unavailable"});return {exists:()=>true,data:()=>markerDoc([p1.rivalryId,p2.rivalryId],true)};}};
+  const ctx={console,document:{getElementById:()=>null},
+    CareerModeCareerScreenSeam:Seam,CareerModeOnlinePlayerIdentity:{getState:()=>({registered:true,managerId:"daniel"})},
+    CareerModeSparkConnectedAccount:{getState:()=>({connected:true,accountId:"acct_daniel"})},CareerModePersistentNikDanielPair:{getState:()=>({rivalryId:null})},
+    CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"acct_daniel"}},firestore:{},firestoreSdk:sdk})},
+    CareerModeSharedActiveShowdownAdapter:{buildActiveShowdownViews:()=>({careerInput:null})},
+    CareerModeSparkClosedShowdownCareerLoader:{loadClosedShowdownCareer:async options=>{loads+=1;return {model:options.hiddenRivalryIds?.length?real:all};}},
+    CustomEvent:class{constructor(type,init){this.type=type;this.detail=init?.detail;}},
+    addEventListener(type,fn){if(!listeners.has(type))listeners.set(type,[]);listeners.get(type).push(fn);},
+    dispatchEvent(event){events.push(event.type);for(const fn of listeners.get(event.type)||[])fn(event);return true;}};
+  for(const name of ["CareerModeSharedHistoryConvergence","CareerModeSharedFinalReconciliation","CareerModeSharedTerminalClose","CareerModeSharedCareerAnalytics","CareerModeSharedClosedShowdownAdapter","CareerModeSparkCompletedShowdownReader"])ctx[name]={};
+  ctx.window=ctx;
+  ctx.CareerModeV10Screens={install(){return this;},register(id,def){registrations.set(id,def);},isMounted:id=>drawn.has(id),invalidate(id){drawn.delete(id);},hide:id=>drawn.delete(id),
+    async show(id){const frame=registrations.get(id).frame();if(frame==null)return false;drawn.set(id,frame);return true;}};
+  vm.createContext(ctx);
+  ctx.loadRuntimeScript=async(key,file,ready)=>{if(!ready())vm.runInContext(read(file),ctx);return true;};
+  vm.runInContext(read("js/careerScreensV10.js"),ctx);
+  const settle=async()=>{for(let i=0;i<30;i++)await new Promise(resolve=>setImmediate(resolve));};
+  for(const screen of ["careerStatistics","trophyRoom"]){
+    drawn.clear();
+    if(screen==="careerStatistics"){await ctx.CareerModeCareerScreensV10.mount(screen,()=>null);await settle();}
+    else{await ctx.CareerModeCareerScreensV10.mount(screen,()=>null);await settle();drawn.set(screen,all);}
+    if(screen==="careerStatistics"){
+      assert.equal(markerReads,1);assert.equal(drawn.get(screen),all,"the failed marker read shows the whole career (fail-open)");
+      const Marker=ctx.CareerModeCareerStartMarker,epoch=Marker.epoch();
+      // A later read (Settings, or another screen) succeeds and the marker is active.
+      const marker=await Marker.readMarker({firestore:{},firebaseSdk:sdk,accountId:"acct_daniel"});
+      assert.equal(marker.active,true);assert.equal(Marker.epoch(),epoch+1,"recovery counts as a marker change");
+      assert.deepEqual(events.filter(type=>type==="career-mode-career-start-change"),["career-mode-career-start-change"]);
+      await settle();
+      assert.equal(drawn.get(screen),real,"the mounted screen reloads without the hidden Showdowns");
+      await Marker.readMarker({firestore:{},firebaseSdk:sdk,accountId:"acct_daniel"});
+      assert.equal(Marker.epoch(),epoch+1,"a cached read after recovery changes nothing");
+    }else{
+      // Trophy Room mounted on the stale career: the recovery event reloads it too.
+      const Marker=ctx.CareerModeCareerStartMarker;Marker.clearCache();markerReads=0;
+      drawn.set(screen,all);await Marker.readMarker({firestore:{},firebaseSdk:sdk,accountId:"acct_daniel"}).catch(()=>null);
+      await Marker.readMarker({firestore:{},firebaseSdk:sdk,accountId:"acct_daniel"});await settle();
+      assert.equal(drawn.get(screen),real,"Trophy Room reloads without the hidden Showdowns");
+    }
+  }
+  // Recovery with an inactive marker hides nothing, so nothing changes.
+  const Marker=require(path.join(root,"js/careerStartMarker.js"));Marker.clearCache();
+  let n=0;const flaky={doc:sdk.doc,getDoc:async()=>{n+=1;if(n===1)throw new Error("unavailable");return {exists:()=>true,data:()=>markerDoc(ALL,false,1)};}};
+  await Marker.readMarker({firestore:{},firebaseSdk:flaky,accountId:"acct_x"}).catch(()=>null);const before=Marker.epoch();
+  assert.equal((await Marker.readMarker({firestore:{},firebaseSdk:flaky,accountId:"acct_x"})).active,false);assert.equal(Marker.epoch(),before);
+  assert.equal((await Marker.readMarker({firestore:{},firebaseSdk:flaky,accountId:"acct_x"})).startedAt,STARTED_AT,"the shown date is data.startedAt, not updatedAt");
 });
 await check("C8 the loader source makes no new reads and stays exact-get only",()=>{
   const src=read("js/sparkClosedShowdownCareerLoader.js");

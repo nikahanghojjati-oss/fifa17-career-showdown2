@@ -12,7 +12,7 @@
   // lazily by the career screens and Settings, never at startup.
   const DOC_ID="current",OBJECT_TYPE="careerStart",INDEX_CAPACITY=500,RIVALRY_ID=/^pair_[0-9a-f]{64}$/;
   const CHANGE_EVENT="career-mode-career-start-change";
-  const markers=new Map();
+  const markers=new Map(),failedReads=new Set();
   let markerEpoch=0,state=Object.freeze({status:"unknown",accountId:null,epoch:0});
 
   function csmError(code,message){const error=new Error(message);error.code=code;return error;}
@@ -32,8 +32,10 @@
   function parseMarker(value){
     if(!csmEnvelopeValid(value,OBJECT_TYPE,DOC_ID))throw csmError("CAREER_START_INVALID","The career start marker is invalid.");
     const data=value.data||{};
-    if(Object.keys(data).sort().join(",")!=="active,hiddenRivalryIds"||typeof data.active!=="boolean"||!csmIdsValid(data.hiddenRivalryIds,0,INDEX_CAPACITY))throw csmError("CAREER_START_INVALID","The career start marker is invalid.");
-    return csmFreeze({status:"ready",active:data.active,hiddenRivalryIds:[...data.hiddenRivalryIds],startedAt:csmMillis(value.updatedAt),revision:value.revision,contentHash:value.contentHash});
+    const startedAt=csmMillis(data.startedAt);
+    if(Object.keys(data).sort().join(",")!=="active,hiddenRivalryIds,startedAt"||typeof data.active!=="boolean"||startedAt===null||!csmIdsValid(data.hiddenRivalryIds,0,INDEX_CAPACITY))throw csmError("CAREER_START_INVALID","The career start marker is invalid.");
+    // startedAt is the server time of the first press (immutable), so toggles never move the shown date.
+    return csmFreeze({status:"ready",active:data.active,hiddenRivalryIds:[...data.hiddenRivalryIds],startedAt,revision:value.revision,contentHash:value.contentHash});
   }
   // The ids the career screens leave out: only while the marker is active.
   function hiddenRivalryIds(marker){return marker&&marker.status==="ready"&&marker.active===true?marker.hiddenRivalryIds.slice():[];}
@@ -43,19 +45,21 @@
     if(Object.keys(data).sort().join(",")!=="rivalryIds,sealedPageCount"||!csmIdsValid(data.rivalryIds,1,INDEX_CAPACITY)||!Number.isInteger(data.sealedPageCount)||data.sealedPageCount<0)throw csmError("CAREER_START_INDEX_INVALID","The career index is invalid.");
     return {rivalryIds:[...data.rivalryIds],sealedPageCount:data.sealedPageCount};
   }
-  async function csmEnvelope({revision,parentRevision,priorContentHash,now,accountId,deviceId,data,cryptoImpl}){
-    const contentHash=await csmSha256({objectType:OBJECT_TYPE,objectId:DOC_ID,revision,data},cryptoImpl);
+  async function csmEnvelope({revision,parentRevision,priorContentHash,now,accountId,deviceId,data,hashData=data,cryptoImpl}){
+    const contentHash=await csmSha256({objectType:OBJECT_TYPE,objectId:DOC_ID,revision,data:hashData},cryptoImpl);
     return {schemaVersion:1,objectType:OBJECT_TYPE,objectId:DOC_ID,revision,parentRevision,lifecycleState:"live",contentHash,priorContentHash,updatedAt:now,updatedByAccountId:accountId,updatedByDeviceId:deviceId,data,tombstone:null};
   }
   // Pure plans (the Rules check the same things): create names exactly the career index head, never a paged index.
-  async function planCreate({indexValue,accountId,deviceId,now,cryptoImpl}){
+  // startedAt is the provider's serverTimestamp() sentinel (the Rules require request.time); it is hashed as a marker.
+  async function planCreate({indexValue,accountId,deviceId,now,serverTimestamp,cryptoImpl}){
     let ids=[];
     if(indexValue){const head=parseIndexHead(indexValue);if(head.sealedPageCount>0)throw csmError("CAREER_START_INDEX_PAGED","This career is too long to mark from here.");ids=head.rivalryIds;}
-    return csmEnvelope({revision:0,parentRevision:null,priorContentHash:null,now,accountId,deviceId,data:{hiddenRivalryIds:ids,active:true},cryptoImpl});
+    if(!serverTimestamp)throw csmError("CAREER_START_PROVIDER_UNAVAILABLE","The career service is unavailable.");
+    return csmEnvelope({revision:0,parentRevision:null,priorContentHash:null,now,accountId,deviceId,data:{hiddenRivalryIds:ids,active:true,startedAt:serverTimestamp},hashData:{hiddenRivalryIds:ids,active:true,startedAt:{$serverTimestamp:true}},cryptoImpl});
   }
   async function planToggle({markerValue,active,accountId,deviceId,now,cryptoImpl}){
     const before=parseMarker(markerValue);
-    return csmEnvelope({revision:before.revision+1,parentRevision:before.revision,priorContentHash:before.contentHash,now,accountId,deviceId,data:{hiddenRivalryIds:[...before.hiddenRivalryIds],active:active===true},cryptoImpl});
+    return csmEnvelope({revision:before.revision+1,parentRevision:before.revision,priorContentHash:before.contentHash,now,accountId,deviceId,data:{hiddenRivalryIds:[...before.hiddenRivalryIds],active:active===true,startedAt:markerValue.data.startedAt},cryptoImpl});
   }
 
   function csmRef(sdk,firestore,accountId,...path){return sdk.doc(firestore,"accounts",accountId,...path);}
@@ -74,11 +78,17 @@
       if(!firestore||typeof firebaseSdk?.doc!=="function"||typeof firebaseSdk.getDoc!=="function")throw csmError("CAREER_START_PROVIDER_UNAVAILABLE","The career service is unavailable.");
       const snapshot=await firebaseSdk.getDoc(csmRef(firebaseSdk,firestore,accountId,"careerStart",DOC_ID));
       const marker=snapshot.exists()?parseMarker(snapshot.data()):NONE;
-      if(markers.get(accountId)===promise)state=Object.freeze({status:marker.status,accountId,epoch:markerEpoch});
+      // An earlier failed read showed the whole career (fail-open). If the marker turns out to be active, the
+      // career already on screen is wrong: count it as a change so cached careers drop and mounted screens reload.
+      const recovered=failedReads.delete(accountId);
+      if(markers.get(accountId)===promise){
+        if(recovered&&marker.status==="ready"&&marker.active===true)return csmPublish(accountId,marker,true);
+        state=Object.freeze({status:marker.status,accountId,epoch:markerEpoch});
+      }
       return marker;
     })();
     markers.set(accountId,promise);
-    promise.catch(()=>{if(markers.get(accountId)===promise)markers.delete(accountId);});
+    promise.catch(()=>{failedReads.add(accountId);if(markers.get(accountId)===promise)markers.delete(accountId);});
     return promise;
   }
 
@@ -103,24 +113,23 @@
   }
   async function readCurrentMarker(){return readMarker(await resolveServices());}
 
-  // A Showdown that is still being played (or waiting for the other manager) is part of the real career.
-  async function csmAssertNoUnfinishedShowdown({firestore,firebaseSdk,accountId}){
+  // A Showdown that is still being played (or waiting for the other manager) is part of the real career. Checked
+  // inside the write transaction: the pair link read is part of it, so a Showdown started in another tab meanwhile
+  // makes the transaction retry and refuse. A rivalry this account cannot read is not its unfinished Showdown.
+  async function csmAssertNoUnfinishedShowdown(transaction,sdk,firestore,accountId){
+    const pair=await transaction.get(csmRef(sdk,firestore,accountId,"pairLinks","current"));
+    const rivalryId=pair.exists()?pair.data()?.data?.rivalryId:null;
     let connectionState=null;
-    try{
-      const pair=await firebaseSdk.getDoc(csmRef(firebaseSdk,firestore,accountId,"pairLinks","current"));
-      const rivalryId=pair.exists()?pair.data()?.data?.rivalryId:null;
-      if(typeof rivalryId==="string"&&RIVALRY_ID.test(rivalryId)){
-        const rivalry=await firebaseSdk.getDoc(firebaseSdk.doc(firestore,"rivalries",rivalryId));
-        connectionState=rivalry.exists()?rivalry.data()?.data?.connectionState??null:null;
-      }
-    }catch(_error){connectionState=null;}
+    if(typeof rivalryId==="string"&&RIVALRY_ID.test(rivalryId)){
+      try{const rivalry=await transaction.get(sdk.doc(firestore,"rivalries",rivalryId));connectionState=rivalry.exists()?rivalry.data()?.data?.connectionState??null:null;}
+      catch(_error){connectionState=null;}
+    }
     if(connectionState==="active"||connectionState==="pending-pair")throw csmError("CAREER_START_SHOWDOWN_UNFINISHED","Finish or delete the current Showdown before starting your real career.");
   }
   async function csmWrite(options,mode,active){
     const o=options&&options.firestore?options:await resolveServices({write:true});
     const {firestore,firebaseSdk:sdk,accountId,deviceId,cryptoImpl}=o;
     if(typeof sdk?.runTransaction!=="function"||typeof sdk.doc!=="function")throw csmError("CAREER_START_PROVIDER_UNAVAILABLE","The career service is unavailable.");
-    if(mode==="start")await csmAssertNoUnfinishedShowdown(o);
     const markerRef=csmRef(sdk,firestore,accountId,"careerStart",DOC_ID),indexRef=csmRef(sdk,firestore,accountId,"careerIndex","current");
     const now=sdk.Timestamp?.fromMillis?sdk.Timestamp.fromMillis(Date.now()):null;
     if(!now)throw csmError("CAREER_START_PROVIDER_UNAVAILABLE","The career service is unavailable.");
@@ -132,15 +141,20 @@
       if(!existing&&mode!=="start")throw csmError("CAREER_START_MISSING","Start your real career first.");
       let value;
       if(existing)value=await planToggle({markerValue:markerSnapshot.data(),active:wanted,accountId,deviceId,now,cryptoImpl});
-      else{const indexSnapshot=await transaction.get(indexRef);value=await planCreate({indexValue:indexSnapshot.exists()?indexSnapshot.data():null,accountId,deviceId,now,cryptoImpl});}
+      else{
+        await csmAssertNoUnfinishedShowdown(transaction,sdk,firestore,accountId);
+        const indexSnapshot=await transaction.get(indexRef);
+        value=await planCreate({indexValue:indexSnapshot.exists()?indexSnapshot.data():null,accountId,deviceId,now,serverTimestamp:typeof sdk.serverTimestamp==="function"?sdk.serverTimestamp():null,cryptoImpl});
+      }
       transaction.set(markerRef,value);
-      return {marker:parseMarker(value),changed:true};
+      // The server fills startedAt on create; until the next read this page shows the local time of the press.
+      return {marker:parseMarker(existing?value:{...value,data:{...value.data,startedAt:now}}),changed:true};
     });
     return csmPublish(accountId,outcome.marker,outcome.changed);
   }
   function startRealCareer(options){return csmWrite(options,"start",true);}
   function setActive(active,options){return csmWrite(options,"toggle",active===true);}
-  function clearCache(){markers.clear();markerEpoch+=1;state=Object.freeze({status:"unknown",accountId:null,epoch:markerEpoch});}
+  function clearCache(){markers.clear();failedReads.clear();markerEpoch+=1;state=Object.freeze({status:"unknown",accountId:null,epoch:markerEpoch});}
 
   return Object.freeze({contractVersion:1,feature:"cms-career-start-marker",changeEvent:CHANGE_EVENT,documentPath:"accounts/{uid}/careerStart/current",
     readMarker,readCurrentMarker,hiddenRivalryIds,startRealCareer,setActive,clearCache,parseMarker,planCreate,planToggle,

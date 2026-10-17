@@ -9,7 +9,7 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
-const {Timestamp,collection,collectionGroup,deleteDoc,doc,getDoc,getDocs,setDoc}=require('firebase/firestore');
+const {Timestamp,collection,collectionGroup,deleteDoc,doc,getDoc,getDocs,serverTimestamp,setDoc}=require('firebase/firestore');
 const firestoreSdk=require('firebase/firestore');
 const {initializeTestEnvironment,assertSucceeds,assertFails}=require('@firebase/rules-unit-testing');
 
@@ -26,8 +26,10 @@ function envelope({objectType,objectId,revision=0,parentRevision=null,contentHas
 const accountEnvelope=(uid,now)=>envelope({objectType:'account',objectId:uid,updatedAt:now,accountId:uid,data:{status:'active',createdAt:now,deletionRequestedAt:null}});
 const deviceEnvelope=(uid,id,now,state='active')=>envelope({objectType:'device',objectId:id,updatedAt:now,accountId:uid,deviceId:id,data:{deviceId:id,installationId:`installation_${id.slice(7)}`,displayLabel:null,state,registeredAt:now,lastSeenAt:now,revokedAt:state==='active'?null:now}});
 const headEnvelope=(uid,ids,now,sealedPageCount=0)=>envelope({objectType:'careerIndex',objectId:'current',revision:ids.length,parentRevision:ids.length-1,priorContentHash:nextHash(),updatedAt:now,accountId:uid,data:{rivalryIds:ids,sealedPageCount}});
-const marker=(uid,device,ids,at,extra={})=>envelope({objectType:'careerStart',objectId:'current',updatedAt:at,accountId:uid,deviceId:device,data:{hiddenRivalryIds:ids,active:true},...extra});
-const next=(before,uid,device,at,data,extra={})=>envelope({objectType:'careerStart',objectId:'current',revision:before.revision+1,parentRevision:before.revision,priorContentHash:before.contentHash,updatedAt:at,accountId:uid,deviceId:device,data,...extra});
+// data.startedAt is the server time of the press: serverTimestamp() on create (request.time), then carried unchanged.
+const withStart=(data,startedAt)=>data&&!('startedAt' in data)?{...data,startedAt}:data;
+const marker=(uid,device,ids,at,extra={})=>envelope({objectType:'careerStart',objectId:'current',updatedAt:at,accountId:uid,deviceId:device,data:{hiddenRivalryIds:ids,active:true,startedAt:serverTimestamp()},...extra,...(extra.data?{data:withStart(extra.data,serverTimestamp())}:{})});
+const next=(before,uid,device,at,data,extra={})=>envelope({objectType:'careerStart',objectId:'current',revision:before.revision+1,parentRevision:before.revision,priorContentHash:before.contentHash,updatedAt:at,accountId:uid,deviceId:device,data:withStart(data,before.data.startedAt),...extra});
 
 let step=0;
 async function check(id,label,promise){await promise;step+=1;console.log(`ok ${step} ${id} ${label}`);}
@@ -40,9 +42,9 @@ async function check(id,label,promise){await promise;step+=1;console.log(`ok ${s
   try{
     await env.clearFirestore();
     const t0=Date.now(),now=Timestamp.fromMillis(t0);
-    const D='acct_daniel',N='acct_nik',E='acct_extra',P='acct_paged',R='acct_revoked',S='acct_stranger',F='acct_free',G='acct_module',H='acct_unfinished';
-    const dev=Object.fromEntries([[D,'d'],[N,'e'],[E,'a'],[P,'b'],[R,'c'],[S,'5'],[F,'6'],[G,'7'],[H,'8']].map(([uid,seed])=>[uid,deviceId(seed)]));
-    const X1=rid(1),X2=rid(2),X3=rid(3),X9=rid(9),LIVE=rid(0x11fe);
+    const D='acct_daniel',N='acct_nik',E='acct_extra',P='acct_paged',R='acct_revoked',S='acct_stranger',F='acct_free',G='acct_module',H='acct_unfinished',K='acct_race';
+    const dev=Object.fromEntries([[D,'d'],[N,'e'],[E,'a'],[P,'b'],[R,'c'],[S,'5'],[F,'6'],[G,'7'],[H,'8'],[K,'9']].map(([uid,seed])=>[uid,deviceId(seed)]));
+    const X1=rid(1),X2=rid(2),X3=rid(3),X9=rid(9),LIVE=rid(0x11fe),RACE=rid(0x4ace);
     await env.withSecurityRulesDisabled(async c=>{
       const db=c.firestore();
       for(const uid of Object.keys(dev)){await setDoc(doc(db,'accounts',uid),accountEnvelope(uid,now));await setDoc(doc(db,'accounts',uid,'devices',dev[uid]),deviceEnvelope(uid,dev[uid],now,uid===R?'revoked':'active'));}
@@ -54,6 +56,7 @@ async function check(id,label,promise){await promise;step+=1;console.log(`ok ${s
       await setDoc(doc(db,'accounts',F,'careerIndex','current'),headEnvelope(F,[X1],now));
       await setDoc(doc(db,'accounts',G,'careerIndex','current'),headEnvelope(G,[X1,X2,X3],now));
       await setDoc(doc(db,'accounts',H,'careerIndex','current'),headEnvelope(H,[X1,LIVE],now));
+      await setDoc(doc(db,'accounts',K,'careerIndex','current'),headEnvelope(K,[X1],now));
       await setDoc(doc(db,'accounts',H,'pairLinks','current'),envelope({objectType:'pairLink',objectId:'current',updatedAt:now,accountId:H,deviceId:dev[H],data:{rivalryId:LIVE,managerRole:'playerOne',managerId:'daniel',linkedAt:now,lastConfirmedAt:now}}));
       await setDoc(doc(db,'rivalries',LIVE),envelope({objectType:'rivalry',objectId:LIVE,updatedAt:now,accountId:H,deviceId:dev[H],data:{connectionState:'active',connectionStateBeforeDeletion:null,managerSlots:[],authorizedAccountIds:[H,S],createdByAccountId:H,createdAt:now}}));
     });
@@ -69,7 +72,7 @@ async function check(id,label,promise){await promise;step+=1;console.log(`ok ${s
     await check('A3','wrong list refused: a superset of the career index',assertFails(setDoc(ref(db[E],E),marker(E,dev[E],[X1,X2,X3,X9],at()))));
     await check('A4','wrong list refused: an empty list while a career index exists',assertFails(setDoc(ref(db[E],E),marker(E,dev[E],[],at()))));
     await check('A5','create refused unless active is true',assertFails(setDoc(ref(db[E],E),marker(E,dev[E],[X1,X2,X3],at(),{data:{hiddenRivalryIds:[X1,X2,X3],active:false}}))));
-    await check('A6','create refused with an extra data key',assertFails(setDoc(ref(db[E],E),marker(E,dev[E],[X1,X2,X3],at(),{data:{hiddenRivalryIds:[X1,X2,X3],active:true,startedAt:now}}))));
+    await check('A6','create refused with an extra data key',assertFails(setDoc(ref(db[E],E),marker(E,dev[E],[X1,X2,X3],at(),{data:{hiddenRivalryIds:[X1,X2,X3],active:true,note:'x'}}))));
     await check('A7','create refused with a non-boolean active',assertFails(setDoc(ref(db[E],E),marker(E,dev[E],[X1,X2,X3],at(),{data:{hiddenRivalryIds:[X1,X2,X3],active:'true'}}))));
     await check('A8','create refused with a wrong envelope (objectType, revision, document id)',Promise.all([
       assertFails(setDoc(ref(db[E],E),marker(E,dev[E],[X1,X2,X3],at(),{objectType:'careerIndex'}))),
@@ -77,6 +80,8 @@ async function check(id,label,promise){await promise;step+=1;console.log(`ok ${s
       assertFails(setDoc(ref(db[E],E,'page_1'),marker(E,dev[E],[X1,X2,X3],at(),{objectId:'page_1'})))
     ]));
     await check('A9','create refused when updatedByAccountId is not the owner',assertFails(setDoc(ref(db[E],E),marker(E,dev[E],[X1,X2,X3],at(),{accountId:D}))));
+    await check('A17','create refused when startedAt is not the server time of the write (a client clock value)',assertFails(setDoc(ref(db[F],F),marker(F,dev[F],[X1],at(),{data:{hiddenRivalryIds:[X1],active:true,startedAt:Timestamp.fromMillis(Date.now()-60000)}}))));
+    await check('A18','create refused without startedAt',assertFails(setDoc(ref(db[F],F),envelope({objectType:'careerStart',objectId:'current',updatedAt:at(),accountId:F,deviceId:dev[F],data:{hiddenRivalryIds:[X1],active:true}}))));
     await check('A10','owner create ok: exactly the career index ids, oldest first',assertSucceeds(setDoc(ref(db[D],D),marker(D,dev[D],[X1,X2],at()))));
     await check('A11','owner create ok with the full list on a three-Showdown index',assertSucceeds(setDoc(ref(db[E],E),marker(E,dev[E],[X1,X2,X3],at()))));
     await check('A12','no career index: a non-empty list is refused',assertFails(setDoc(ref(db[N],N),marker(N,dev[N],[X1],at()))));
@@ -129,6 +134,7 @@ async function check(id,label,promise){await promise;step+=1;console.log(`ok ${s
       assertFails(setDoc(ref(db[D],D),next(dBefore,D,dev[R],at(),{hiddenRivalryIds:[X1,X2],active:false}))),
       assertFails(setDoc(ref(db[D],D),next(dBefore,N,dev[D],at(),{hiddenRivalryIds:[X1,X2],active:false})))
     ]));
+    await check('C11','startedAt never changes after the press (update with another startedAt refused)',assertFails(setDoc(ref(db[D],D),next(dBefore,D,dev[D],at(),{hiddenRivalryIds:[X1,X2],active:false,startedAt:Timestamp.fromMillis(dBefore.data.startedAt.toMillis()+1000)}))));
     const off=next(dBefore,D,dev[D],at(),{hiddenRivalryIds:[X1,X2],active:false});
     await check('C7','active toggle ok: owner switches the marker off',assertSucceeds(setDoc(ref(db[D],D),off)));
     await check('C8','active toggle ok: owner switches it back on',assertSucceeds(setDoc(ref(db[D],D),next(off,D,dev[D],at(),{hiddenRivalryIds:[X1,X2],active:true}))));
@@ -143,7 +149,8 @@ async function check(id,label,promise){await promise;step+=1;console.log(`ok ${s
       assertFails(getDocs(collectionGroup(db[D],'careerStart')))
     ]));
     const still=await raw(D);
-    assert.deepEqual(still.data,{hiddenRivalryIds:[X1,X2],active:true},'D3 the marker survives every refused write');
+    assert.deepEqual({hiddenRivalryIds:still.data.hiddenRivalryIds,active:still.data.active},{hiddenRivalryIds:[X1,X2],active:true},'D3 the marker survives every refused write');
+    assert.equal(still.data.startedAt.toMillis(),dBefore.data.startedAt.toMillis(),'D3 startedAt is the original press time');
     assert.equal(still.revision,2);
     await check('D3','after all refusals the marker is unchanged: same list, active, revision 2',Promise.resolve());
 
@@ -151,15 +158,40 @@ async function check(id,label,promise){await promise;step+=1;console.log(`ok ${s
     const services=uid=>({firestore:db[uid],firebaseSdk:firestoreSdk,accountId:uid,deviceId:dev[uid],cryptoImpl:require('node:crypto').webcrypto});
     Marker.clearCache();
     await check('M1','module: a missing marker reads as none',(async()=>{const v=await Marker.readMarker(services(G));assert.equal(v.status,'none');assert.deepEqual(Marker.hiddenRivalryIds(v),[]);})());
-    let started;
-    await check('M2','module: START REAL CAREER writes exactly the career index ids, active',(async()=>{started=await Marker.startRealCareer(services(G));assert.equal(started.status,'ready');assert.equal(started.active,true);assert.deepEqual([...started.hiddenRivalryIds],[X1,X2,X3]);assert.equal(started.revision,0);assert.equal(typeof started.startedAt,'number');})());
-    await check('M3','module: the cached read returns the new marker; a fresh read agrees',(async()=>{assert.deepEqual([...Marker.hiddenRivalryIds(await Marker.readMarker(services(G)))],[X1,X2,X3]);Marker.clearCache();const v=await Marker.readMarker(services(G));assert.deepEqual([...v.hiddenRivalryIds],[X1,X2,X3]);assert.equal(v.active,true);})());
+    let started,serverStarted;
+    await check('M2','module: START REAL CAREER writes exactly the career index ids, active',(async()=>{started=await Marker.startRealCareer(services(G));assert.equal(started.status,'ready');assert.equal(started.active,true);assert.deepEqual([...started.hiddenRivalryIds],[X1,X2,X3]);assert.equal(started.revision,0);assert.equal(typeof started.startedAt,'number');
+      const raw=(await getDoc(ref(db[G],G))).data();assert.ok(raw.data.startedAt instanceof Timestamp,'startedAt is a server timestamp');assert.ok(Math.abs(raw.data.startedAt.toMillis()-Date.now())<60000);})());
+    await check('M3','module: the cached read returns the new marker; a fresh read agrees',(async()=>{assert.deepEqual([...Marker.hiddenRivalryIds(await Marker.readMarker(services(G)))],[X1,X2,X3]);Marker.clearCache();const v=await Marker.readMarker(services(G));assert.deepEqual([...v.hiddenRivalryIds],[X1,X2,X3]);assert.equal(v.active,true);serverStarted=v.startedAt;assert.equal(serverStarted,(await getDoc(ref(db[G],G))).data().data.startedAt.toMillis());})());
     await check('M4','module: SHOW TEST SHOWDOWNS AGAIN switches active off; hidden ids become none',(async()=>{const before=Marker.epoch();const v=await Marker.setActive(false,services(G));assert.equal(v.active,false);assert.equal(v.revision,1);assert.deepEqual(Marker.hiddenRivalryIds(v),[]);assert.equal(Marker.epoch(),before+1,'a change clears the career caches');})());
-    await check('M5','module: switching back on keeps the original list',(async()=>{const v=await Marker.setActive(true,services(G));assert.equal(v.active,true);assert.equal(v.revision,2);assert.deepEqual([...v.hiddenRivalryIds],[X1,X2,X3]);})());
-    await check('M6','module: pressing START again changes nothing (no write, same revision)',(async()=>{const v=await Marker.startRealCareer(services(G));assert.equal(v.revision,2);const raw=(await getDoc(ref(db[G],G))).data();assert.equal(raw.revision,2);assert.equal(raw.objectType,'careerStart');assert.deepEqual(Object.keys(raw.data).sort(),['active','hiddenRivalryIds']);})());
+    await check('M5','module: switching back on keeps the original list',(async()=>{const v=await Marker.setActive(true,services(G));assert.equal(v.active,true);assert.equal(v.revision,2);assert.deepEqual([...v.hiddenRivalryIds],[X1,X2,X3]);assert.equal(v.startedAt,serverStarted,'toggles keep the original career-start date');Marker.clearCache();assert.equal((await Marker.readMarker(services(G))).startedAt,serverStarted);})());
+    await check('M6','module: pressing START again changes nothing (no write, same revision)',(async()=>{const v=await Marker.startRealCareer(services(G));assert.equal(v.revision,2);const raw=(await getDoc(ref(db[G],G))).data();assert.equal(raw.revision,2);assert.equal(raw.objectType,'careerStart');assert.deepEqual(Object.keys(raw.data).sort(),['active','hiddenRivalryIds','startedAt']);})());
     await check('M7','module: refused while the account\'s current Showdown is unfinished; nothing written',(async()=>{
       await assert.rejects(Marker.startRealCareer(services(H)),error=>error.code==='CAREER_START_SHOWDOWN_UNFINISHED');
       assert.equal((await getDoc(ref(db[H],H))).exists(),false);
+    })());
+    await check('M9','module: a Showdown started in another tab during the press makes the transaction retry and refuse; nothing written',(async()=>{
+      let injected=false,pairReads=0;
+      const racing={...firestoreSdk,runTransaction:(dbx,fn)=>firestoreSdk.runTransaction(dbx,tx=>fn({
+        set:(...args)=>tx.set(...args),
+        get:async target=>{
+          const snapshot=await tx.get(target);
+          if(target.path===`accounts/${K}/pairLinks/current`){
+            pairReads+=1;
+            if(!injected){
+              injected=true;
+              await env.withSecurityRulesDisabled(async c=>{
+                const dbc=c.firestore(),at0=Timestamp.fromMillis(Date.now());
+                await setDoc(doc(dbc,'rivalries',RACE),envelope({objectType:'rivalry',objectId:RACE,updatedAt:at0,accountId:K,deviceId:dev[K],data:{connectionState:'pending-pair',connectionStateBeforeDeletion:null,managerSlots:[],authorizedAccountIds:[K],createdByAccountId:K,createdAt:at0}}));
+                await setDoc(doc(dbc,'accounts',K,'pairLinks','current'),envelope({objectType:'pairLink',objectId:'current',updatedAt:at0,accountId:K,deviceId:dev[K],data:{rivalryId:RACE,managerRole:'playerOne',managerId:'daniel',linkedAt:at0,lastConfirmedAt:at0}}));
+              });
+            }
+          }
+          return snapshot;
+        }
+      }))};
+      await assert.rejects(Marker.startRealCareer({...services(K),firebaseSdk:racing}),error=>error.code==='CAREER_START_SHOWDOWN_UNFINISHED');
+      assert.ok(injected&&pairReads>=2,'the pair link was read again on retry');
+      assert.equal((await raw(K)),null,'nothing written');
     })());
     await check('M8','module: refused when the career index has sealed pages; nothing written',(async()=>{
       await assert.rejects(Marker.startRealCareer(services(P)),error=>error.code==='CAREER_START_INDEX_PAGED');

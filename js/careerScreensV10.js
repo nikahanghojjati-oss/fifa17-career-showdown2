@@ -1434,6 +1434,11 @@
         if(live.some(screen=>getters[screen]?.()==null)&&v10Seam().isOnlineCareerRoute(v10Identity())&&v10OnlineModel()==null)v10LoadOnline().catch(v10Fail);
         else v10Redraw();
       });
+      // The career start marker changed (switched, or first read after a failed one): reload the online career.
+      root.addEventListener?.("career-mode-career-start-change",()=>{
+        if(!Object.keys(SCREEN_IDS).some(screen=>screens.isMounted(screen)&&getters[screen]?.()==null))return;
+        if(v10Seam().isOnlineCareerRoute(v10Identity()))v10LoadOnline().catch(v10Fail);
+      });
       root.addEventListener?.("career-mode-online-career-model-change",()=>{
         if(!v10Seam().isOnlineCareerRoute(v10Identity())||v10OnlineModel()==null)return;
         for(const screen of Object.keys(SCREEN_IDS))if(screens.isMounted(screen)&&getters[screen]?.()==null){

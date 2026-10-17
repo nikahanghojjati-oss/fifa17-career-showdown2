@@ -311,13 +311,15 @@
 
     // CMS_CAREER_START (owner decision): own-account "real career starts here" marker. Created once, active,
     // naming exactly the account's career index head ids (none when no index exists; never over sealed pages).
-    // Afterwards only `active` may change, by CAS. Get, create and update only; no list, no delete.
+    // startedAt is the server time of the press. Afterwards only `active` may change, by CAS (so startedAt and the
+    // list stay as written). Get, create and update only; no list, no delete.
     function cmsCareerStartDataValid(data) {
-      return data.keys().hasOnly(['hiddenRivalryIds', 'active'])
-        && data.keys().hasAll(['hiddenRivalryIds', 'active'])
+      return data.keys().hasOnly(['hiddenRivalryIds', 'active', 'startedAt'])
+        && data.keys().hasAll(['hiddenRivalryIds', 'active', 'startedAt'])
         && data.hiddenRivalryIds is list
         && data.hiddenRivalryIds.size() <= cmsCareerIndexPageCapacity()
-        && data.active is bool;
+        && data.active is bool
+        && data.startedAt is timestamp;
     }
 
     function cmsCareerStartMatchesIndex(accountId, ids) {
@@ -338,6 +340,7 @@
         && root.updatedByAccountId == accountId
         && cmsCareerStartDataValid(root.data)
         && root.data.active == true
+        && root.data.startedAt == request.time
         && cmsCareerStartMatchesIndex(accountId, root.data.hiddenRivalryIds);
     }
 
