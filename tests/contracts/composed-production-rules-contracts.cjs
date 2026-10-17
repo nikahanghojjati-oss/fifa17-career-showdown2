@@ -83,7 +83,9 @@ function staticChecks(getCandidate){
           if(methods.some(x=>['list','delete','read','write'].includes(x)))assert.ok(/:\s*if false;\s*$/.test(line),`delta adds a list/delete grant: ${line}`);
           // Studio Z4 (Nik approved 2026-10-09 01:29 UTC): exactly one more write line, the host-only session pointer.
           const z4Pointer=hunk.owner==='Z4'&&line.trim()==='allow create, update: if validSessionOfferWrite(rivalryId, offerId);';
-          if(methods.some(x=>['create','update'].includes(x)))assert.ok(hunk.owner.split('+').includes('G-7')||z4Pointer,`only the reviewed G-7 career index block may add write rules: ${line}`);
+          // r79 permanent pairing (Nik chose 2026-10-17 02:22 UTC): exactly the partner record and JOIN note writes.
+          const r79Partner=hunk.owner==='R79-PARTNER'&&['allow create: if cmsPartnerCreateValid(accountId, partnerId);','allow update: if cmsPartnerUpdateValid(accountId, partnerId);','allow create, update: if cmsPartnerInboxWriteValid(accountId, noteId);'].includes(line.trim());
+          if(methods.some(x=>['create','update'].includes(x)))assert.ok(hunk.owner.split('+').includes('G-7')||z4Pointer||r79Partner,`only the reviewed G-7 career index block may add write rules: ${line}`);
         }
       }
       return `${delta.hunks.length} hunks, -${delta.hunks.reduce((a,x)=>a+x.removed.length,0)} +${delta.hunks.reduce((a,x)=>a+x.added.length,0)} lines vs main ${delta.productionMain.commit.slice(0,7)}`;
