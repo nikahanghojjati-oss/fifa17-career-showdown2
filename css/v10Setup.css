@@ -1614,8 +1614,10 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
 /* r78 HO-031 / HO-032 phone marble: upright phones 340-430px wide (up to 960px tall, the JOB-1697 phone layout) draw Team
    V's ENV_LEAGUE_PHONE_V5 (both managers painted in, set clear of the smaller wheel below) in place of the old phone stadium and the two cut-outs. The plate is
    cover of the screen, pinned to the top; the title, result line and buttons keep their places. No dark grade over the
-   men. Other phone and tablet sizes keep the old art. */
-@media (min-width: 340px) and (max-width: 430px) and (max-height: 960px) and (orientation: portrait) {
+   men. Cover crops the plate's sides on tall screens, so the swap stops at 11/25 (width / height): any taller and the
+   edge of the screen would cut into Daniel's or Nik's face (their face boxes sit 10.9% in from each side of the plate).
+   Taller phones (340x960) and the other phone and tablet sizes keep the old art. */
+@media (min-width: 340px) and (max-width: 430px) and (max-height: 960px) and (min-aspect-ratio: 11/25) and (orientation: portrait) {
   html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background {
     background-image: url("../visual-assets/v10_1/plates-v5/ENV_LEAGUE_PHONE_V5.webp");
     background-position: 50% 0;
