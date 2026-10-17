@@ -1,5 +1,5 @@
 {
- "note": "Face-safe zones per phone background ENV_<KEY>_PHONE_V2, as fractions of the image (x0,y0,x1,y1), left face first (Daniel). Drawn with background-size:cover centred: no visible game element may overlap a zone at 393x852, 393x660, 375x667 or 360x640. Made by project-documents/factory/tools/phone_plates/facecheck.py.",
+ "note": "Face-safe zones per phone background, as fractions of the image (x0,y0,x1,y1), left face first (Daniel). STANDINGS, RIVALRY and TROPHY_ROOM refer to ENV_<KEY>_PHONE_V3 (HO-031 v3, PHONE_FACE_ZONES_V3.json at factory/v1-wtt5ye 9867fa6b); every other key refers to ENV_<KEY>_PHONE_V2 (LEAGUE keeps its V2 zones: League stays on its old look). Drawn with background-size:cover, centre top: no visible game element may overlap a zone at 393x852, 393x660, 375x667 or 360x640.",
  "zones": {
   "HOME": [
    [
@@ -102,15 +102,15 @@
   "RIVALRY": [
    [
     0.2276,
-    0.0726,
-    0.4168,
-    0.211
+    0.0816,
+    0.418,
+    0.2253
    ],
    [
     0.6213,
-    0.0583,
-    0.8218,
-    0.2087
+    0.0656,
+    0.8264,
+    0.2237
    ]
   ],
   "LEGACY": [
@@ -129,16 +129,16 @@
   ],
   "TROPHY_ROOM": [
    [
-    0.2094,
-    0.1646,
-    0.3627,
-    0.2764
+    0.1753,
+    0.1559,
+    0.3147,
+    0.2549
    ],
    [
-    0.6416,
-    0.1535,
-    0.8147,
-    0.282
+    0.6929,
+    0.1461,
+    0.8462,
+    0.2599
    ]
   ],
   "FINAL_WINNER": [
@@ -158,15 +158,15 @@
   "STANDINGS": [
    [
     0.2107,
-    0.0673,
+    0.0839,
     0.381,
-    0.1919
+    0.2086
    ],
    [
     0.612,
-    0.049,
-    0.8149,
-    0.1991
+    0.0656,
+    0.8153,
+    0.2158
    ]
   ]
  }

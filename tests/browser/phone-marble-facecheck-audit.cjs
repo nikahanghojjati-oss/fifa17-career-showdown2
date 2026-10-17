@@ -5,10 +5,9 @@
 // 360x640 no visible button, card, title or tab may cover a face zone from PHONE_FACE_ZONES.json, and no manager layer
 // may be faded, clipped or filtered. The gate uses the plate as the screens draw it (cover, centre top, as HO-031 asks);
 // the tool's own model (cover, centre) is also run and any extra overlap it finds is printed as a note. It also checks
-// that the screen really shows the V2 plate and no OVL_*_PHONE cut-out.
-// With no KEY it runs the 8 screens that draw the V2 plate. LEAGUE, STANDINGS, RIVALRY and TROPHY_ROOM stay on the old
-// look (a panel would cover a face without a layout move); run them by name with CMS_FACECHECK_PREDICT=1 to see the
-// overlap the plate would have (cut-outs hidden, art check skipped).
+// that the screen really shows its plate (V2, or V3 for Standings, Rivalry and Trophy Room) and no OVL_*_PHONE cut-out.
+// With no KEY it runs the 11 screens that draw a plate. LEAGUE stays on the old look (the wheel would cover both faces);
+// run it by name with CMS_FACECHECK_PREDICT=1 to see the overlap a plate would have (cut-outs hidden, art check skipped).
 // Usage: node tests/browser/phone-marble-facecheck-audit.cjs [KEY ...]   (CMS_BASE_URL, CMS_FACECHECK_SHOTS optional)
 "use strict";
 process.env.CMS_CHROMIUM_MULTI_CONTEXT = process.env.CMS_CHROMIUM_MULTI_CONTEXT || "1"; // one context per size
@@ -26,7 +25,10 @@ const shotDir = process.env.CMS_FACECHECK_SHOTS || "";
 // CMS_FACECHECK_PREDICT=1 (for a build before the swap): hide the cut-outs and skip the plate check, to see which UI
 // would cover the painted faces.
 const predict = process.env.CMS_FACECHECK_PREDICT === "1";
-const SIZES = [[393, 852], [393, 660], [375, 667], [360, 640]];
+// Team V's four sizes. CMS_FACECHECK_SIZES="430x932,480x1000" checks other upright sizes instead (a screen keeps its old
+// art outside the range where the plate fits, so only sizes inside that range should pass).
+const SIZES = process.env.CMS_FACECHECK_SIZES ? process.env.CMS_FACECHECK_SIZES.split(",").map(s => s.split("x").map(Number))
+    : [[393, 852], [393, 660], [375, 667], [360, 640]];
 const IW = 1179, IH = 2096;
 const showdown = fixtures.completedShowdownStorage();
 // A three-season completed career (same shape as phone-trophy-room-data-audit), so the career screens show real data.
@@ -121,8 +123,9 @@ async function openScreen(page, key){
     await page.waitForTimeout(3500);
 }
 
-// Same element walks as live_facecheck.cjs (factory/v1-wtt5ye). One change in the fade walk: a UI card (.sd-panel) is not a
-// manager even when its size class is sd-panel--hero (its corner-cut clip-path is the card's shape).
+// Same element walks as live_facecheck.cjs (factory/v1-wtt5ye). Two changes in the fade walk: a UI card (.sd-panel) is not
+// a manager even when its size class is sd-panel--hero (its corner-cut clip-path is the card's shape), and an element
+// that paints no picture (no img, no url() background, no img inside) is not a manager layer.
 function faceHits({ faces, w, h }){
     const out = [];
     const visible = el => { const cs = getComputedStyle(el); return cs.visibility !== "hidden" && cs.display !== "none" && parseFloat(cs.opacity) > 0.05; };
@@ -148,6 +151,34 @@ function faceHits({ faces, w, h }){
     return out;
 }
 
+// The plate must really show at each face: at the centre of every zone, the stacked elements above the one that paints
+// the plate may not paint an opaque colour, another picture or an image (a full-screen layer with a solid background
+// would hide the managers while the plate is still "painted").
+function plateCovered({ faces, plateName }){
+    const out = [];
+    // Decorative layers are pointer-events:none, which hides them from elementsFromPoint; let every element be hit for
+    // the duration of this check.
+    const probe = document.createElement("style"); probe.textContent = "*{pointer-events:auto!important}"; document.head.appendChild(probe);
+    const paintsPlate = el => { const src = (el.tagName === "IMG" ? el.currentSrc || el.src || "" : "") + " " + (getComputedStyle(el).backgroundImage || "");
+        return src.split(/[?#")\s]/).some(part => part.endsWith("/" + plateName)); };
+    faces.forEach((f, i) => {
+        const cx = (f[0] + f[2]) / 2, cy = (f[1] + f[3]) / 2;
+        for(const el of document.elementsFromPoint(cx, cy)){
+            if(paintsPlate(el)) return;
+            const cs = getComputedStyle(el), a = (/rgba?\(([^)]+)\)/.exec(cs.backgroundColor) || [, "0,0,0,0"])[1].split(",").map(Number);
+            const opaque = (a.length < 4 ? 1 : a[3]) >= 0.5;
+            if(parseFloat(cs.opacity) < 0.5) continue;   // a faint texture (the shared sd-stage__grain) does not hide the men
+            if(opaque || /url\(/.test(cs.backgroundImage || "") || el.tagName === "IMG"){
+                out.push(`${i % 2 ? "Nik" : "Daniel"}: plate hidden by <${el.tagName.toLowerCase()}${el.id ? "#" + el.id : ""} class="${String(el.className).slice(0, 50)}">`);
+                return;
+            }
+        }
+        out.push(`${i % 2 ? "Nik" : "Daniel"}: no plate under the face`);
+    });
+    probe.remove();
+    return out;
+}
+
 function fadedManagers(){
     const out = [], who = /^(.*hero.*|.*cutout.*|manager.*|.*daniel.*|nik|nik[-_].*|.*[-_]nik|.*portrait.*|ovl_.*)$/i;
     for(const el of document.querySelectorAll("body *")){
@@ -155,6 +186,9 @@ function fadedManagers(){
         let src = ""; if(el.tagName === "IMG") src = el.currentSrc || el.src || "";
         if(/^(BUTTON|A|INPUT|LABEL)$/.test(el.tagName)) continue;
         if(/(^|\s)sd-panel(\s|$)/.test(name)) continue;   // a UI card (sd-panel--hero is the large card size, not a manager)
+        // A manager layer paints a picture. A glow with "hero" in its name (Trophy Room's heroSpotlight: a gradient and
+        // no image) is lighting, not a manager.
+        if(el.tagName !== "IMG" && !/url\(/.test(getComputedStyle(el).backgroundImage || "") && !el.querySelector("img")) continue;
         if(!(name + " " + src.split("/").pop()).split(/\s+/).some(t => who.test(t))) continue;
         const r = el.getBoundingClientRect(); if(r.width < 20 || r.height < 20) continue;
         const cs = getComputedStyle(el); if(cs.display === "none" || cs.visibility === "hidden") continue;
@@ -170,7 +204,7 @@ function fadedManagers(){
 
 // Which phone pictures are actually painted: the V2 plate must be the background, no old phone plate may be, and no
 // OVL_*_PHONE cut-out may be painted anywhere.
-function paintedArt(key){
+function paintedArt(plateName){
     const seen = new Set(), backdrops = new Set();
     const vis = el => { for(let n = el; n && n.nodeType === 1; n = n.parentElement){ const cs = getComputedStyle(n); if(cs.display === "none" || cs.visibility === "hidden" || parseFloat(cs.opacity) === 0) return false; } const r = el.getBoundingClientRect(); return r.width > 2 && r.height > 2; };
     for(const el of document.querySelectorAll("body *")){
@@ -183,10 +217,13 @@ function paintedArt(key){
         for(const m of (bg || "").matchAll(/url\("?([^")]+)"?\)/g)) add(m[1].split("/").pop());
     }
     const list = [...seen];
-    return { plate: [...backdrops].includes(`ENV_${key}_PHONE_V2.webp`), cutouts: list.filter(n => /^OVL_.*PHONE/i.test(n)), phoneV1: [...backdrops].filter(n => /^ENV_.*PHONE_V1/i.test(n)) };
+    return { plate: [...backdrops].includes(plateName), cutouts: list.filter(n => /^OVL_.*PHONE/i.test(n)), phoneV1: [...backdrops].filter(n => /^ENV_.*PHONE_V1/i.test(n)) };
 }
 
-const OLD_LOOK = ["LEAGUE", "STANDINGS", "RIVALRY", "TROPHY_ROOM"];
+// HO-031 v3 (factory/v1-wtt5ye 9867fa6b): Standings, Rivalry and Trophy Room draw ENV_<KEY>_PHONE_V3.
+const V3 = ["STANDINGS", "RIVALRY", "TROPHY_ROOM"];
+function plateFile(key){ return `ENV_${key}_PHONE_${V3.includes(key) ? "V3" : "V2"}.webp`; }
+const OLD_LOOK = ["LEAGUE"];
 module.exports = { SCREENS, OLD_LOOK, openScreen };
 if(require.main === module) (async () => {
     const keys = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(SCREENS).filter(key => !OLD_LOOK.includes(key));
@@ -212,19 +249,21 @@ if(require.main === module) (async () => {
                 const hits = await page.evaluate(faceHits, { faces, w, h });
                 const toolHits = await page.evaluate(faceHits, { faces: toolFaces, w, h });
                 const fades = await page.evaluate(fadedManagers);
-                const art = await page.evaluate(paintedArt, key);
+                const art = await page.evaluate(paintedArt, plateFile(key));
+                const covered = predict ? [] : await page.evaluate(plateCovered, { faces, plateName: plateFile(key) });
                 const worst = {};
                 hits.forEach(x => { const k = x.face + " " + x.tag + (x.id ? "#" + x.id : "") + " " + x.text; if(!worst[k] || worst[k].pct < x.pct) worst[k] = x; });
                 const list = Object.values(worst).sort((a, b) => b.pct - a.pct);
                 const artBad = !predict && (!art.plate || art.cutouts.length || art.phoneV1.length);
-                const bad = list.length || fades.length || artBad || errors.length;
+                const bad = list.length || fades.length || artBad || covered.length || errors.length;
                 if(bad) results[key].ok = false;
                 let line = `${key} ${w}x${h}: ${bad ? "FAIL" : "OK"}`;
                 line += list.slice(0, 8).map(x => `\n  - ${x.face}'s face ${x.pct}% under <${x.tag}${x.id ? "#" + x.id : ""} class="${x.cls}"> ${x.text ? JSON.stringify(x.text) : ""}`).join("");
                 line += fades.map(f => `\n  - FADED/CUT manager: ${f}`).join("");
-                if(!predict && !art.plate) line += `\n  - ENV_${key}_PHONE_V2 is not painted`;
+                if(!predict && !art.plate) line += `\n  - ${plateFile(key)} is not painted`;
                 if(!predict && art.cutouts.length) line += `\n  - cut-outs still painted: ${art.cutouts.join(", ")}`;
                 if(!predict && art.phoneV1.length) line += `\n  - old phone plate still painted: ${art.phoneV1.join(", ")}`;
+                line += covered.map(c => `\n  - ${c}`).join("");
                 if(errors.length) line += `\n  - page errors: ${errors.join(" | ")}`;
                 const toolOnly = toolHits.filter(t => !hits.some(x => x.face === t.face && x.tag === t.tag && x.cls === t.cls && x.text === t.text));
                 if(toolOnly.length) line += `\n  note: with the tool's centred placement (not how the plate is drawn) also ` + [...new Set(toolOnly.map(x => `${x.face} ${x.pct}% under <${x.tag} class="${x.cls}">`))].join("; ");

@@ -195,6 +195,16 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   #app #standings.standingsScreenV10 .sdg-label{color:#efe6cf}
   #app #standings.standingsScreenV10 .sdg-header .sd-eyebrow,#app #standings.standingsScreenV10 .sdg-header .sd-tagline{text-shadow:0 1px 3px #000,0 0 10px #000c}
 }
+/* r78 HO-031 v3 phone marble: upright phones up to 600px wide draw Team V's ENV_STANDINGS_PHONE_V3 (both managers painted
+   in, moved down 35px so Nik clears the settings corner) in place of the old stadium and the two cut-outs (their picture
+   sources no longer match there, standings/app-shell.html). The plate is sized as cover of the screen and pinned to the
+   top; the managers' band keeps its height, so the title, board and rows stay where they were. No dark grade over the
+   men. Upright tablets and sideways phones keep the old art: there the board or title would sit on the faces. */
+@media (max-width:600px) and (orientation:portrait){
+  #app #standings.standingsScreenV10 .sdg-phoneHero{display:none}
+  #app #standings.standingsScreenV10 .sdg-phoneBg img{position:absolute;left:50%;top:0;width:max(100vw,calc(100svh * 1179 / 2096));height:auto;max-width:none;transform:translateX(-50%);object-fit:fill}
+  #app #standings.standingsScreenV10 .sdg-phoneArt::after{content:none}
+}
 `;parent.appendChild(style);
   }
   /*SG-END*/
