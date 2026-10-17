@@ -3,16 +3,16 @@
   "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules on gameplay/recovery-v1 differ from what production main deploys. The main gate must see exactly these changes and nothing else. Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
   "productionMain": {
     "ref": "main",
-    "commit": "f42dac26991e356c093e0fc100b8afa3003462d2",
+    "commit": "b41f2969256dc2edd3731954d3b856e6a375d7f5",
     "sha256": "6eaeefc63729a9e87c3ec776791bac0ec768f8d9998fa9244b07adc26a478832",
     "gitBlobSha1": "81e515ee2982b968528f4ce3aa9e10158d52aad0",
     "bytes": 141446
   },
   "candidate": {
-    "base": "main f42dac2 (r67). JOB-1051 and JOB-1052 shipped in r67 and their Rules are deployed (Deploy Firebase Firestore Rules run 38020490656), so the candidate equals production main (re-pin planned in RELEASE_V1.9.1_R67.md under the owner-approved Rules change)",
-    "sha256": "6eaeefc63729a9e87c3ec776791bac0ec768f8d9998fa9244b07adc26a478832",
-    "gitBlobSha1": "81e515ee2982b968528f4ce3aa9e10158d52aad0",
-    "bytes": 141446
+    "base": "main b41f296 (r75, same composed Rules as the r67 pin) plus the owner-decided career start marker: accounts/{uid}/careerStart/current, get/create/update by the owner on an active device, created once from careerIndex/current with startedAt the server time of the press, then only active may change; list and delete false; plus the Terminal Close stale-write gate: terminal progress, terminal rivalry close and atomic session close take their CAS revision step as a ternary condition after their existing cheap checks, so a stale write is refused at once (no outcome changes)",
+    "sha256": "07a9269f5b00790e96403b0d370868293ef94d41996480e162d429e456b0b237",
+    "gitBlobSha1": "48676b6f901849a74f5f7a783663dffd1ce79d98",
+    "bytes": 144817
   },
   "allowedOwners": [
     "G-7",
@@ -23,7 +23,172 @@
     "Z4",
     "JOB-1051",
     "JOB-1052",
-    "JOB-1051+JOB-1052"
+    "JOB-1051+JOB-1052",
+    "G-7+CAREER-START",
+    "TERMINAL-CLOSE-RACE"
   ],
-  "hunks": []
+  "hunks": [
+    {
+      "mainLine": 2213,
+      "candidateLine": 2213,
+      "removed": [],
+      "added": [
+        "    // Stale-write gate (both managers save the same Terminal Close step at once). After the cheap checks that every",
+        "    // other write path already fails on, the CAS revision step is the condition of a ternary: a write built on a",
+        "    // revision the document already left is refused right there, and an evaluation pass that cannot read the stored",
+        "    // document stops there too instead of running the whole check into the 1,000-expression limit. The step stays",
+        "    // required inside ssjrTerminalFinalEnvelopeCas, so no outcome changes; only the refusal comes sooner."
+      ],
+      "owner": "TERMINAL-CLOSE-RACE",
+      "why": "Terminal Close stale-write gate, comment only: when both managers save the same step at once, the losing write is refused by its CAS revision step before the rest of the check, so the refusal is a plain denial, not the 1,000-expression limit."
+    },
+    {
+      "mainLine": 2219,
+      "candidateLine": 2224,
+      "removed": [
+        "        && ssjrTerminalFinalEnvelopeCas(before, after, 'rivalry', rivalryId)"
+      ],
+      "added": [
+        "        && ((after.revision == before.revision + 1) ? (ssjrTerminalFinalEnvelopeCas(before, after, 'rivalry', rivalryId)"
+      ],
+      "owner": "TERMINAL-CLOSE-RACE",
+      "why": "Terminal progress update: after the unchanged cheap checks (rivalry id, both states active), the CAS revision step becomes the condition of a ternary in front of the unchanged progress check. The step is still required inside ssjrTerminalFinalEnvelopeCas, so the allow/deny outcome is unchanged; a stale write is just refused at once."
+    },
+    {
+      "mainLine": 2225,
+      "candidateLine": 2230,
+      "removed": [
+        "        );"
+      ],
+      "added": [
+        "        )) : false);"
+      ],
+      "owner": "TERMINAL-CLOSE-RACE",
+      "why": "Closes the progress-update ternary: the unchanged progress check, else false. The step is still required inside ssjrTerminalFinalEnvelopeCas, so the allow/deny outcome is unchanged; a stale write is just refused at once."
+    },
+    {
+      "mainLine": 2257,
+      "candidateLine": 2262,
+      "removed": [
+        "        && signedIn()"
+      ],
+      "added": [
+        "        && ((after.revision == before.revision + 1) ? (signedIn()"
+      ],
+      "owner": "TERMINAL-CLOSE-RACE",
+      "why": "Atomic session close: after the unchanged state == closed and parent-close-requested checks, the CAS revision step becomes the condition of a ternary in front of the unchanged session-close check. The step is still required inside ssjrTerminalFinalEnvelopeCas, so the allow/deny outcome is unchanged; a stale write is just refused at once."
+    },
+    {
+      "mainLine": 2273,
+      "candidateLine": 2278,
+      "removed": [
+        "        && parentAfter.updatedByDeviceId == after.updatedByDeviceId;"
+      ],
+      "added": [
+        "        && parentAfter.updatedByDeviceId == after.updatedByDeviceId) : false);"
+      ],
+      "owner": "TERMINAL-CLOSE-RACE",
+      "why": "Closes the session-close ternary: the unchanged session-close check, else false. The step is still required inside ssjrTerminalFinalEnvelopeCas, so the allow/deny outcome is unchanged; a stale write is just refused at once."
+    },
+    {
+      "mainLine": 2286,
+      "candidateLine": 2291,
+      "removed": [
+        "        && ssjrTerminalFinalEnvelopeCas(before, after, 'rivalry', rivalryId)"
+      ],
+      "added": [
+        "        && ((after.revision == before.revision + 1) ? (ssjrTerminalFinalEnvelopeCas(before, after, 'rivalry', rivalryId)"
+      ],
+      "owner": "TERMINAL-CLOSE-RACE",
+      "why": "Terminal rivalry close: after the unchanged cheap checks (rivalry id, signed in, active to closed), the CAS revision step becomes the condition of a ternary in front of the unchanged close check. The step is still required inside ssjrTerminalFinalEnvelopeCas, so the allow/deny outcome is unchanged; a stale write is just refused at once."
+    },
+    {
+      "mainLine": 2308,
+      "candidateLine": 2313,
+      "removed": [
+        "        && sessionAfter.updatedByDeviceId == after.updatedByDeviceId;"
+      ],
+      "added": [
+        "        && sessionAfter.updatedByDeviceId == after.updatedByDeviceId) : false);"
+      ],
+      "owner": "TERMINAL-CLOSE-RACE",
+      "why": "Closes the rivalry-close ternary: the unchanged close check, else false. The step is still required inside ssjrTerminalFinalEnvelopeCas, so the allow/deny outcome is unchanged; a stale write is just refused at once."
+    },
+    {
+      "mainLine": 2626,
+      "candidateLine": 2631,
+      "removed": [],
+      "added": [
+        "    // CMS_CAREER_START (owner decision): own-account \"real career starts here\" marker. Created once, active,",
+        "    // naming exactly the account's career index head ids (none when no index exists; never over sealed pages).",
+        "    // startedAt is the server time of the press. Afterwards only `active` may change, by CAS (so startedAt and the",
+        "    // list stay as written). Get, create and update only; no list, no delete.",
+        "    function cmsCareerStartDataValid(data) {",
+        "      return data.keys().hasOnly(['hiddenRivalryIds', 'active', 'startedAt'])",
+        "        && data.keys().hasAll(['hiddenRivalryIds', 'active', 'startedAt'])",
+        "        && data.hiddenRivalryIds is list",
+        "        && data.hiddenRivalryIds.size() <= cmsCareerIndexPageCapacity()",
+        "        && data.active is bool",
+        "        && data.startedAt is timestamp;",
+        "    }",
+        "",
+        "    function cmsCareerStartMatchesIndex(accountId, ids) {",
+        "      let indexPath = /databases/$(database)/documents/accounts/$(accountId)/careerIndex/current;",
+        "      return (!exists(indexPath) && ids.size() == 0)",
+        "        || (exists(indexPath)",
+        "          && get(indexPath).data.data.sealedPageCount == 0",
+        "          && ids == get(indexPath).data.data.rivalryIds);",
+        "    }",
+        "",
+        "    function cmsCareerStartCreateValid(accountId, startId) {",
+        "      let root = request.resource.data;",
+        "      return signedIn()",
+        "        && request.auth.uid == accountId",
+        "        && startId == 'current'",
+        "        && activeDevice(root.updatedByDeviceId)",
+        "        && validCreateEnvelope(root, 'careerStart', 'current')",
+        "        && root.updatedByAccountId == accountId",
+        "        && cmsCareerStartDataValid(root.data)",
+        "        && root.data.active == true",
+        "        && root.data.startedAt == request.time",
+        "        && cmsCareerStartMatchesIndex(accountId, root.data.hiddenRivalryIds);",
+        "    }",
+        "",
+        "    function cmsCareerStartUpdateValid(accountId, startId) {",
+        "      let before = resource.data;",
+        "      let after = request.resource.data;",
+        "      return signedIn()",
+        "        && request.auth.uid == accountId",
+        "        && startId == 'current'",
+        "        && activeDevice(after.updatedByDeviceId)",
+        "        && validCasEnvelope(before, after, 'careerStart', 'current')",
+        "        && after.updatedByAccountId == accountId",
+        "        && cmsCareerStartDataValid(after.data)",
+        "        && after.data.diff(before.data).affectedKeys().hasOnly(['active']);",
+        "    }",
+        ""
+      ],
+      "owner": "G-7+CAREER-START",
+      "why": "Career start marker functions, placed after the G-7 career index functions they build on (cmsCareerIndexPageCapacity, careerIndex/current): exact three-key data (hiddenRivalryIds, active, startedAt), create only active with exactly the index head ids (empty when no index, refused over sealed pages) and startedAt == request.time, update by CAS changing only active (startedAt is kept)."
+    },
+    {
+      "mainLine": 2734,
+      "candidateLine": 2787,
+      "removed": [],
+      "added": [
+        "      allow list, delete: if false;",
+        "    }",
+        "",
+        "    match /accounts/{accountId}/careerStart/{startId} {",
+        "      allow get: if signedIn()",
+        "        && request.auth.uid == accountId",
+        "        && startId == 'current'",
+        "        && activeActor();",
+        "      allow create: if cmsCareerStartCreateValid(accountId, startId);",
+        "      allow update: if cmsCareerStartUpdateValid(accountId, startId);"
+      ],
+      "owner": "G-7+CAREER-START",
+      "why": "Career start marker match: owner-only get of current while the account is active; create and update only through the functions above (active device); list and delete false. No existing rule changes meaning."
+    }
+  ]
 }

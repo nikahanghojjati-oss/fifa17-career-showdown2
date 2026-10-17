@@ -309,6 +309,54 @@
         && headAfter.data.sealedPageCount == root.data.pageNumber;
     }
 
+    // CMS_CAREER_START (owner decision): own-account "real career starts here" marker. Created once, active,
+    // naming exactly the account's career index head ids (none when no index exists; never over sealed pages).
+    // startedAt is the server time of the press. Afterwards only `active` may change, by CAS (so startedAt and the
+    // list stay as written). Get, create and update only; no list, no delete.
+    function cmsCareerStartDataValid(data) {
+      return data.keys().hasOnly(['hiddenRivalryIds', 'active', 'startedAt'])
+        && data.keys().hasAll(['hiddenRivalryIds', 'active', 'startedAt'])
+        && data.hiddenRivalryIds is list
+        && data.hiddenRivalryIds.size() <= cmsCareerIndexPageCapacity()
+        && data.active is bool
+        && data.startedAt is timestamp;
+    }
+
+    function cmsCareerStartMatchesIndex(accountId, ids) {
+      let indexPath = /databases/$(database)/documents/accounts/$(accountId)/careerIndex/current;
+      return (!exists(indexPath) && ids.size() == 0)
+        || (exists(indexPath)
+          && get(indexPath).data.data.sealedPageCount == 0
+          && ids == get(indexPath).data.data.rivalryIds);
+    }
+
+    function cmsCareerStartCreateValid(accountId, startId) {
+      let root = request.resource.data;
+      return signedIn()
+        && request.auth.uid == accountId
+        && startId == 'current'
+        && activeDevice(root.updatedByDeviceId)
+        && validCreateEnvelope(root, 'careerStart', 'current')
+        && root.updatedByAccountId == accountId
+        && cmsCareerStartDataValid(root.data)
+        && root.data.active == true
+        && root.data.startedAt == request.time
+        && cmsCareerStartMatchesIndex(accountId, root.data.hiddenRivalryIds);
+    }
+
+    function cmsCareerStartUpdateValid(accountId, startId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      return signedIn()
+        && request.auth.uid == accountId
+        && startId == 'current'
+        && activeDevice(after.updatedByDeviceId)
+        && validCasEnvelope(before, after, 'careerStart', 'current')
+        && after.updatedByAccountId == accountId
+        && cmsCareerStartDataValid(after.data)
+        && after.data.diff(before.data).affectedKeys().hasOnly(['active']);
+    }
+
     // CMS_COMPLETED_READ (D2, JOB-08): read-only grant for a Showdown closed by a verified
     // Terminal Close. Get only; no write, list or delete rule refers to these functions.
     function cmsCompletedShowdownReadable(rivalryId) {
@@ -384,6 +432,16 @@
       allow create: if (indexId == 'current' && cmsCareerIndexHeadCreateValid(accountId))
         || (indexId.matches('^page_[1-9][0-9]*$') && cmsCareerIndexPageCreateValid(accountId, indexId));
       allow update: if indexId == 'current' && cmsCareerIndexHeadUpdateValid(accountId);
+      allow list, delete: if false;
+    }
+
+    match /accounts/{accountId}/careerStart/{startId} {
+      allow get: if signedIn()
+        && request.auth.uid == accountId
+        && startId == 'current'
+        && activeActor();
+      allow create: if cmsCareerStartCreateValid(accountId, startId);
+      allow update: if cmsCareerStartUpdateValid(accountId, startId);
       allow list, delete: if false;
     }
 // CMS_PERSISTENT_PAIR_MATCH_END

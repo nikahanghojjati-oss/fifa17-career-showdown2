@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "1.9.1-r76";
-const PREVIOUS_RUNTIME_REVISION = "1.9.1-r75";
+const RUNTIME_REVISION = "1.9.1-r77";
+const PREVIOUS_RUNTIME_REVISION = "1.9.1-r76";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -62,6 +62,7 @@ const SHELL_PATHS = Object.freeze([
   "js/sharedClosedShowdownAdapter.js",
   "js/sparkCompletedShowdownReader.js",
   "js/sparkClosedShowdownCareerLoader.js",
+  "js/careerStartMarker.js",
   "css/rivalryLegacyV10.css",
     "js/app.js",
     "js/backup.js",

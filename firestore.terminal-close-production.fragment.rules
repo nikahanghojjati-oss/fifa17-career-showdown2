@@ -131,19 +131,24 @@
         && progress.managerTotals.playerOne == prior.managerTotals.playerOne + ssjrTerminalScore(commit.results.playerOne)
         && progress.managerTotals.playerTwo == prior.managerTotals.playerTwo + ssjrTerminalScore(commit.results.playerTwo);
     }
+    // Stale-write gate (both managers save the same Terminal Close step at once). After the cheap checks that every
+    // other write path already fails on, the CAS revision step is the condition of a ternary: a write built on a
+    // revision the document already left is refused right there, and an evaluation pass that cannot read the stored
+    // document stops there too instead of running the whole check into the 1,000-expression limit. The step stays
+    // required inside ssjrTerminalFinalEnvelopeCas, so no outcome changes; only the refusal comes sooner.
     function ssjrTerminalValidProgressUpdate(rivalryId) {
       let before = resource.data;
       let after = request.resource.data;
       return rivalryId.matches('^pair_[0-9a-f]{64}$')
         && before.data.connectionState == 'active'
         && after.data.connectionState == 'active'
-        && ssjrTerminalFinalEnvelopeCas(before, after, 'rivalry', rivalryId)
+        && ((after.revision == before.revision + 1) ? (ssjrTerminalFinalEnvelopeCas(before, after, 'rivalry', rivalryId)
         && after.data.diff(before.data).affectedKeys().hasOnly(['terminalProgress'])
         && ssjrTerminalProgressActorValid(before, after)
         && (
           (!('terminalProgress' in before.data) && ssjrTerminalInitialProgress(rivalryId, before, after))
           || ('terminalProgress' in before.data && ssjrTerminalAdvanceProgress(rivalryId, before, after))
-        );
+        )) : false);
     }
     function ssjrTerminalFinalEnvelopeCas(before, after, objectType, objectId) {
       return before.objectType == objectType
@@ -175,7 +180,7 @@
       let parentAfter = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)).data;
       return after.data.state == 'closed'
         && ssjrTerminalParentCloseRequested(rivalryId, sessionId)
-        && signedIn()
+        && ((after.revision == before.revision + 1) ? (signedIn()
         && validSessionId(sessionId)
         && before.data.rivalryId == rivalryId
         && before.data.state == 'active'
@@ -191,7 +196,7 @@
         && parentAfter.data.terminalClose.sessionId == sessionId
         && parentAfter.data.terminalProgress.closedSessionRevision == after.revision
         && parentAfter.updatedByAccountId == request.auth.uid
-        && parentAfter.updatedByDeviceId == after.updatedByDeviceId;
+        && parentAfter.updatedByDeviceId == after.updatedByDeviceId) : false);
     }
     function ssjrTerminalValidCloseUpdate(rivalryId) {
       let before = resource.data;
@@ -204,7 +209,7 @@
         && signedIn()
         && before.data.connectionState == 'active'
         && after.data.connectionState == 'closed'
-        && ssjrTerminalFinalEnvelopeCas(before, after, 'rivalry', rivalryId)
+        && ((after.revision == before.revision + 1) ? (ssjrTerminalFinalEnvelopeCas(before, after, 'rivalry', rivalryId)
         && after.data.diff(before.data).affectedKeys().hasOnly(['connectionState','terminalProgress','terminalClose'])
         && before.data.authorizedAccountIds is list
         && before.data.authorizedAccountIds.size() == 2
@@ -226,7 +231,7 @@
         && sessionAfter.data.rivalryId == rivalryId
         && sessionAfter.data.state == 'closed'
         && sessionAfter.updatedByAccountId == request.auth.uid
-        && sessionAfter.updatedByDeviceId == after.updatedByDeviceId;
+        && sessionAfter.updatedByDeviceId == after.updatedByDeviceId) : false);
     }
     function ssjrTerminalValidRivalryUpdate(rivalryId) {
       return (request.resource.data.data.connectionState == 'active' && ssjrTerminalValidProgressUpdate(rivalryId))

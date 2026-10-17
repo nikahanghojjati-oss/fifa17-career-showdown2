@@ -1694,6 +1694,19 @@
         "^tests/contracts/final\\-reconciliation\\-partner\\-close\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/career-start-marker-contracts.cjs",
+      "patterns": [
+        "^js/careerStartMarker\\.js$",
+        "^js/sparkClosedShowdownCareerLoader\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^js/sharedClosedShowdownAdapter\\.js$",
+        "^js/sharedActiveShowdownAdapter\\.js$",
+        "^js/settings\\.js$",
+        "^tests/contracts/career\\-start\\-marker\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
