@@ -83,9 +83,9 @@ All four are in `project-documents/factory/handoffs/lead-shelf/` on `factory/v1-
 3. **Hourly backlog guard: PAUSED on purpose.** The scheduled task "Factory: keep the Claude check lane at 3 or fewer" (`trig_01WAbi3RfWbpwGEDPjeyiYgZ`, bound to the OLD session) checked every hour from 7 a.m. to 1 a.m. Eastern, 19 times a day, for GPT jobs waiting on a Claude check and for new studies. It found nothing from 13 Oct on and burned Nik's usage, so it was paused on 15 Oct at 6:47 p.m. Eastern. Leave it off. Turn the guard on again only when Nik starts handing out GPT jobs or studies for Team V again. To do that, create the same task bound to your own session: same cron `CRON_TZ=America/New_York 52 0,1,7-23 * * *`, same prompt (read it with `get_trigger`). Then delete the old one. Tell Nik when you turn it on, and turn it off again once the queue is empty. The relay does not need it: Team G wakes you directly.
 4. Tell Nik in one short reply that you are set up and nothing is waiting on him.
 
-## 8. Fresh-thread rule (Nik, 15 Oct 2026, 6:45 p.m. Eastern)
+## 8. When to move to a new lead thread (Nik, Sat 17 Oct 12:22 a.m. Eastern; replaces the 15 Oct "after every release" rule; CONTRACT.md §11.7-8)
 
-Start a new Team V lead thread **after every release**, the same time Team G moves to a new lead thread. **Remind Nik every time**: as soon as Team G says a release shipped, tell him "Release rNN shipped. Time to move Team V to a fresh lead thread too." Before he moves, refresh this file (section 5 and the date), append new decisions to SHELF.md in the right section, add new Nik messages and replies to the two logs, and update team memory.
+A new lead thread is the EXCEPTION. Switch only on a compaction notice or when context is above about 70%. A release shipping is a moment to check, not a trigger. Never stop work while waiting for a new thread: if a switch is genuinely needed, refresh this file (section 5 and the date), append to SHELF.md and the two logs, update team memory, tell Nik in one line why, and keep working here until the new thread registers (`handoff.py register --team V --state rotating`, then the new lead registers active).
 
 ## 9. Push pattern
 
