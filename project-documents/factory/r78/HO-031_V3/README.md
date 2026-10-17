@@ -83,7 +83,7 @@ The faces move to the top corners, outside the wheel disc.
 
 ### How the numbers were made
 
-Team G's `tests/browser/phone-marble-facecheck-audit.cjs` was used on `claude-gameplay/r78-phone-marble-2` at
+Team G's `tests/browser/phone-marble-facecheck-audit.cjs` was used on the PR #894 branch (r78-phone-marble-2) at
 6dbd740b, with `CMS_FACECHECK_PREDICT=1`.
 
 - "Before" uses the branch's own V2 zones.
