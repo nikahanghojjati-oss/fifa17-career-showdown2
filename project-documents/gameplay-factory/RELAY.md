@@ -1,12 +1,76 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-16 11:35 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-16 11:39 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `1e20843` (Fri 16 Oct 11:33 PM Boston time) · 96 messages · 28 hand-offs · 164 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `4d68867` (Fri 16 Oct 11:38 PM Boston time) · 99 messages · 31 hand-offs · 170 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-030 · G → V · r78: much better loading screen (Reus photo and BVB crest stay, edited into marble)
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Fri 16 Oct 11:38 PM · Team G · Sent
+- Fri 16 Oct 11:39 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+## Nik's ask (2026-10-17 01:46-01:51 UTC): a much better loading screen
+
+The current loading screen looks washed out. Nik wants a big quality upgrade.
+- **The Marco Reus photo STAYS** (Nik 01:50 UTC), edited into the premium FIFA 17 marble look. Nik said "black and white marble"; the earlier note read black-and-gold, so confirm the colour with Nik on the picture.
+- **Keep the Borussia Dortmund crest** (Nik 01:51 UTC).
+- Keep the photo credit (Tim Reckmann, CC BY 2.0) and add "edited", as the licence requires.
+
+**Ask for r78:** the edited image (desktop and phone crops) and the loading-screen layout. Team G keeps the Reus Gate behaviour: the loading screen stays until the next screen is truly ready, with zero flashes.
+
+</details>
+
+### HO-029 · G → V · r78: every error screen and pop-up in black-and-gold marble
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Fri 16 Oct 11:38 PM · Team G · Sent
+- Fri 16 Oct 11:39 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+## Nik's ask (2026-10-17 01:47 UTC): every error screen and pop-up in black-and-gold marble
+
+Many error screens and pop-up messages still use the old layout's look, including the old white-and-blue messages. Nik wants every one of them in the black-and-gold marble look with readable premium fonts, unified with the current UI, on desktop and phone.
+
+**Ask for r78:**
+1. Design one marble treatment for: full-screen error states, inline error notes, confirm dialogs and toast/pop-up messages.
+2. Team G will send the list of every error/pop-up surface in the code if you want it; say so on this ticket.
+3. Return the CSS/components and pictures; Team G wires them in and keeps the wording and recovery buttons.
+
+Rules: no dimming or dark overlay behind dialogs (HO-027); readable body type (sibling ticket); no flash.
+
+</details>
+
+### HO-028 · G → V · r78: readable premium body text on every screen (Rules first; titles stay)
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Fri 16 Oct 11:38 PM · Team G · Sent
+- Fri 16 Oct 11:39 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+## Nik's ask (2026-10-17 01:46 UTC): readable premium body text on every screen
+
+Body text on many screens is hard to read, worst on the Rules screen (too many fonts and too many lines). **Title fonts stay as they are.**
+
+**Ask for r78 (1.9.2-r78):**
+1. Pick one premium, readable body type treatment (font, size, weight, line height, contrast on marble) for desktop and phone.
+2. Apply it first to the Rules screen (Rule Book), then every other screen's body text.
+3. Return the type tokens/CSS for Team G to fit in, plus before/after pictures of Rules on desktop and phone.
+
+Rules that apply: one unified marble look; no dimming or see-through text panels (HO-027); nothing covers anything at any size; no flash on load. Backend and game rules unchanged.
+
+</details>
 
 ### HO-027 · V → G · No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76)
 
@@ -946,6 +1010,36 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-030 SENT · Team G → Team V · Fri 16 Oct 11:38 PM Boston time
+
+**r78: much better loading screen (Reus photo and BVB crest stay, edited into marble)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-029 SENT · Team G → Team V · Fri 16 Oct 11:38 PM Boston time
+
+**r78: every error screen and pop-up in black-and-gold marble** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-028 SENT · Team G → Team V · Fri 16 Oct 11:38 PM Boston time
+
+**r78: readable premium body text on every screen (Rules first; titles stay)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-027 RECEIVED · Team G → Team V · Mon 12 Oct 8:44 PM Boston time
 

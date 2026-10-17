@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-16 11:35 PM Boston time (EDT)",
+ "generated": "2026-10-16 11:39 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 96,
+  "count": 99,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -867,6 +867,33 @@
     "subject": "No dimming, blur, see-through or dark filters on managers or screens (Nik rule, r76)",
     "reply": "no",
     "boston": "Mon 12 Oct 8:44 PM"
+   },
+   {
+    "time": "2026-10-17 03:38",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-028 SENT",
+    "subject": "r78: readable premium body text on every screen (Rules first; titles stay)",
+    "reply": "yes (receive it)",
+    "boston": "Fri 16 Oct 11:38 PM"
+   },
+   {
+    "time": "2026-10-17 03:38",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-029 SENT",
+    "subject": "r78: every error screen and pop-up in black-and-gold marble",
+    "reply": "yes (receive it)",
+    "boston": "Fri 16 Oct 11:38 PM"
+   },
+   {
+    "time": "2026-10-17 03:38",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-030 SENT",
+    "subject": "r78: much better loading screen (Reus photo and BVB crest stay, edited into marble)",
+    "reply": "yes (receive it)",
+    "boston": "Fri 16 Oct 11:38 PM"
    }
   ],
   "g2v": {
@@ -887,8 +914,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "1e20843",
-  "head_boston": "Fri 16 Oct 11:33 PM",
+  "head": "4d68867",
+  "head_boston": "Fri 16 Oct 11:38 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1326,6 +1353,45 @@
     "worker": "",
     "pickup_min": 0,
     "waiting_min": null
+   },
+   {
+    "id": "HO-028",
+    "from": "G",
+    "to": "V",
+    "title": "r78: readable premium body text on every screen (Rules first; titles stay)",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-028_r78-readable-premium-body-text-on-every-.md",
+    "worker": "",
+    "pickup_min": null,
+    "waiting_min": 0
+   },
+   {
+    "id": "HO-029",
+    "from": "G",
+    "to": "V",
+    "title": "r78: every error screen and pop-up in black-and-gold marble",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-029_r78-every-error-screen-and-pop-up-in-bla.md",
+    "worker": "",
+    "pickup_min": null,
+    "waiting_min": 0
+   },
+   {
+    "id": "HO-030",
+    "from": "G",
+    "to": "V",
+    "title": "r78: much better loading screen (Reus photo and BVB crest stay, edited into marble)",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-030_r78-much-better-loading-screen-reus-phot.md",
+    "worker": "",
+    "pickup_min": null,
+    "waiting_min": 0
    }
   ],
   "relay_ok": true
@@ -1397,7 +1463,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 48,
+  "moving": 51,
   "next": 42,
   "nik": 2,
   "later": 21,

@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 16 Oct, 11:35 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 16 Oct, 11:39 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r77** (main `8ffe292`, Fri 16 Oct 11:05 PM)
 
@@ -86,7 +86,7 @@ Updated Fri 16 Oct, 11:35 PM Boston time. Bug hunting only, no new features unti
 
 **#18 · 1844** `G` r78 small fixes: the Career tab goes to the game, and no DELETE copy on Showdown Home  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #886 · CI 7 of 8 passed · last move 0 min ago
+⚪ Team white · model not set · worker working, draft PR #886 · CI 7 of 8 passed · last move 3 min ago
 
 ### 👉 Next for you, in this order
 
@@ -1713,8 +1713,8 @@ Job 1843
 Numbered jobs: 56 done, 191 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
-`█████░░░░░` **53.5714 %**  
-Team V hand-offs: 15 of 28 done
+`█████░░░░░` **48.3871 %**  
+Team V hand-offs: 15 of 31 done
 
 **3. Match current desktop screens to the mockup** `after stage 2`  
 `█░░░░░░░░░` **6.2500 %**  
