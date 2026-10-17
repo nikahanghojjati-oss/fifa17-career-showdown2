@@ -11,10 +11,10 @@
  "worker": "sonnet",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-06T05:16:35Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-06T05:16:54Z", "by": "G", "status": "RECEIVED", "note": ""}]
+ "log": [{"at": "2026-10-06T05:16:35Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-06T05:16:54Z", "by": "G", "status": "RECEIVED", "note": ""}, {"at": "2026-10-17T21:51:02Z", "by": "G", "status": "WORKING", "note": "r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79"}]
 }
 ```
 

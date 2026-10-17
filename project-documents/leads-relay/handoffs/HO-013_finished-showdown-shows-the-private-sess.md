@@ -11,10 +11,10 @@
  "worker": "sol-work",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-06T01:29:39Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-06T01:30:42Z", "by": "G", "status": "RECEIVED", "note": "bug factory: job 1014 · G (GPT green), lead verifies with the reconnect audit"}]
+ "log": [{"at": "2026-10-06T01:29:39Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-06T01:30:42Z", "by": "G", "status": "RECEIVED", "note": "bug factory: job 1014 · G (GPT green), lead verifies with the reconnect audit"}, {"at": "2026-10-17T21:51:01Z", "by": "G", "status": "WORKING", "note": "r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79"}]
 }
 ```
 

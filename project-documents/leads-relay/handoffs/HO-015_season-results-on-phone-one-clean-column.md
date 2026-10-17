@@ -11,10 +11,10 @@
  "worker": "sol-chat",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-06T01:37:36Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-06T01:38:18Z", "by": "G", "status": "RECEIVED", "note": "bug factory: job 1020 · G (GPT green) with the desktop window fix; Team V 1012 visual check"}]
+ "log": [{"at": "2026-10-06T01:37:36Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-06T01:38:18Z", "by": "G", "status": "RECEIVED", "note": "bug factory: job 1020 · G (GPT green) with the desktop window fix; Team V 1012 visual check"}, {"at": "2026-10-17T21:51:02Z", "by": "G", "status": "WORKING", "note": "r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79"}]
 }
 ```
 
