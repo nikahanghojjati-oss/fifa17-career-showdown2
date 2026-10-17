@@ -600,6 +600,9 @@ const V10_IMAGES={
     "visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_2X.webp":"d71bf0f4da18fd92b45727e1c1ae955d8bb83fc35c9c16bf9988c938425db003",
     "visual-assets/v10_1/start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp":"f5fdb5eedc90b83acd5225cc6b18078ddfcf9031c9b40128f91db3314c34a3cd",
     "visual-assets/v10_1/start-join/assets/OVL_SJ_NIK_PHONE_V1.webp":"7564a129eccae2bbaf1a6b5280f0073dbba5770190c2547ae245b1bb07dc5b75",
+    // r78 phone marble: Team V's marble phone plates for Rule Book and Settings (factory/v1-wtt5ye, byte-identical)
+    "visual-assets/v10_1/plates-v2/ENV_RULE_BOOK_PHONE_V2.webp":"f96fe2a45130a645ff23a8df9e442cd6b9f6109adc1ea95211ae0c6cc8c28ee1",
+    "visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp":"231ce815b711bfaef2828d67364da9e96981c9fa5ef0dcdc7bb5324b0ea1c30b",
     "visual-assets/v10_1/shared/plates/ENV_SYS_PHONE_V1.webp":"734d1d147c80e48f3b3a4744f35ea255c47cd23adb5e451c1e2e98fff6b54882",
     "visual-assets/v10_1/shared/plates/ENV_SYS_PLATE_V1_1X.webp":"0342875dca95999886d5bd0b81daf1aca4a86d0b95bb738e2f6cc4548365a2b8",
     "visual-assets/v10_1/shared/plates/ENV_SYS_PLATE_V1_2X.webp":"005420e4c40d42fbe34d7a66ff7e5428cd3b58b15587ad9ca7ef438b2105b9fd",
