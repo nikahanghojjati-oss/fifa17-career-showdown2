@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-16 9:30 PM Boston time (EDT)",
+ "generated": "2026-10-16 9:34 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 96,
@@ -926,11 +926,11 @@
      "title": "Release r76b: START REAL CAREER marker and close-race fix",
      "draft": false,
      "branch": "gameplay/release-r76b",
-     "sha": "979e78c30f1cd970eeb60c786963bc46d58ba7fd",
-     "updated": "2026-10-17T01:13:10Z",
+     "sha": "688ec25fd63b4c2e010493857530f7f5e931242a",
+     "updated": "2026-10-17T01:34:24Z",
      "gates": {
-      "passed": 8,
-      "running": 0,
+      "passed": 0,
+      "running": 7,
       "failed": 0,
       "cancelled": 0
      }
@@ -2624,11 +2624,11 @@
     "title": "Release r76b: START REAL CAREER marker and close-race fix",
     "draft": false,
     "branch": "gameplay/release-r76b",
-    "sha": "979e78c30f1cd970eeb60c786963bc46d58ba7fd",
-    "updated": "2026-10-17T01:13:10Z",
+    "sha": "688ec25fd63b4c2e010493857530f7f5e931242a",
+    "updated": "2026-10-17T01:34:24Z",
     "gates": {
-     "passed": 8,
-     "running": 0,
+     "passed": 0,
+     "running": 7,
      "failed": 0,
      "cancelled": 0
     }
