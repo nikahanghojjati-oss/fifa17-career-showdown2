@@ -205,6 +205,11 @@ await check("PC1h Codex #904 (10-season audit): real vs test fails closed. Nik w
   await pairedNik.pair.initialize({force:true});
   assert.equal((await pairedNik.pair.joinPairing(`CMS17-${R3}`,{managerRole:"playerTwo",autoContinue:false})).status,"paired","the permanent pair's plain code (JOIN note or backup code) still joins");
   assert.ok(!pairedNik.log.includes("marker read"),"an active record answers without reading the marker");
+  const strangerDocs=joinable(R3);strangerDocs[`rivalries/${R3}/invites/${R3}`].data.createdByAccountId="uid_stranger";
+  const strayNik=harness({marker:"ready",docs:{...strangerDocs,"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerTwo",OLD)},redeem:commitRedeem});
+  await strayNik.pair.initialize({force:true});
+  const stray=await strayNik.pair.joinPairing(`CMS17-${R3}`,{managerRole:"playerTwo",autoContinue:false});
+  assert.equal(stray.status,"error");assert.match(stray.message,/not made by the account you are paired with/,"Codex #909: a paired Nik never joins a plain code from another account");nothingWritten(strayNik);
   for(const [label,setup] of [["marker unknown",{marker:"unknown"}],["partner record unreadable",{marker:"ready",flaky:true}]]){
     const daniel=harness({role:"playerOne",marker:setup.marker,saves:[danielShell()],activeSaveId:DANIEL_SAVE,create:commitCreate(Date.now()+20*60000)});
     if(setup.flaky)daniel.failReads=p=>p.endsWith("/partner/current");
