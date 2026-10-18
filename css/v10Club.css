@@ -892,3 +892,64 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
        (min-width: 761px) and (max-width: 1024px) and (orientation: portrait) {
   #app #clubWheelScreen.cl-on .clPhoneScene::after { content: none; }
 }
+
+/* HO-033 follow-up (Team V): the two club packs in ENV_CLUB_PHONE_V2 are plain black, so upright and sideways phones draw
+   the desktop pack emblem on them (CSS only, no new art): the same gold shield and crown as desktop, with "CLUB PACK"
+   and "CM17" under it, fading to .42 once that pack is revealed. Placed in plate pixels (1179x2096) on the plate exactly
+   as it is drawn: emblem 120x140 from (335,630) for Daniel and (770,630) for Nik, CLUB PACK on y 800 and CM17 on y 835,
+   inside the pack faces and clear of the hands. --clp-s is one plate pixel on screen, --clp-u the badge's own scale.
+   They are the same unless the hero band is too short to hold the badge: the band is the screen height minus the cards
+   and buttons, so on a short phone (375x553) the badge shrinks to end at the band's bottom edge instead of running
+   under the progress line (in the versus and confirmation states of 375x553 the panels cover the packs and there is no
+   room at all, so it shrinks to nothing rather than cover them), and it is never clipped (upright phones let the empty band overflow; it paints nothing).
+   Upright phones: the band is an empty box, so it has no padding (100cqh is then its whole height); the plate is the screen's (centre top, width max(100vw, 100svh * 1179 / 2096)) and the band starts at
+   its top. Sideways phones: the plate fills the band (cover, centre top; the band is 42vw x 100svh, always tall enough). */
+@media (max-width: 760px) and (orientation: portrait),
+       (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
+  #app #clubWheelScreen.cl-on .clPhoneScene::before,
+  #app #clubWheelScreen.cl-on .clPhoneScene::after {
+    content: "CLUB PACK\A CM17"; display: block; position: absolute; z-index: 1; pointer-events: none;
+    top: calc(var(--clp-s) * 630); width: calc(var(--clp-u) * 170); height: calc(var(--clp-u) * 225);
+    box-sizing: border-box; padding-top: calc(var(--clp-u) * 153); overflow: hidden;
+    white-space: pre; text-align: center; color: #E7B84A;
+    font: 700 calc(var(--clp-u) * 24)/calc(var(--clp-u) * 35) var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .1em;
+    text-shadow: 0 1px 2px #000, 0 0 calc(var(--clp-u) * 8) rgba(0, 0, 0, .8);
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 118'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23FFF1B8'/%3E%3Cstop offset='.5' stop-color='%23F2C45B'/%3E%3Cstop offset='1' stop-color='%23A97B24'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M50 4L92 18V58C92 88 74 105 50 114C26 105 8 88 8 58V18Z' fill='%230A0B0D' fill-opacity='.55' stroke='url(%23g)' stroke-width='4' stroke-linejoin='round'/%3E%3Cpath d='M50 11L85 23V58C85 83 70 98 50 106C30 98 15 83 15 58V23Z' fill='none' stroke='%23F2C45B' stroke-opacity='.45' stroke-width='1.5'/%3E%3Cpath d='M27 72l-5-30 16 12 12-20 12 20 16-12-5 30z' fill='url(%23g)' stroke='%236E5020' stroke-width='1.2' stroke-linejoin='round'/%3E%3Crect x='27' y='76' width='46' height='7' rx='1.5' fill='url(%23g)'/%3E%3C/svg%3E") center top / calc(var(--clp-u) * 120) calc(var(--clp-u) * 140) no-repeat;
+    filter: drop-shadow(0 0 calc(var(--clp-u) * 8) rgba(242, 196, 91, .35));
+    transition: opacity .3s ease;
+  }
+  #app #clubWheelScreen.cl-on .clPhoneScene::before { left: calc(var(--clp-x) + var(--clp-s) * 395 - var(--clp-u) * 85); }
+  #app #clubWheelScreen.cl-on .clPhoneScene::after { left: calc(var(--clp-x) + var(--clp-s) * 830 - var(--clp-u) * 85); }
+  #app #clubWheelScreen.cl-on:has(#clubCardOne.is-revealed) .clPhoneScene::before,
+  #app #clubWheelScreen.cl-on:has(#clubCardTwo.is-revealed) .clPhoneScene::after { opacity: .42; }
+}
+@media (max-width: 760px) and (orientation: portrait) {
+  #app #clubWheelScreen.cl-on .clPhoneScene {
+    --clp-w: max(100vw, calc(100svh * 1179 / 2096));
+    --clp-s: calc(var(--clp-w) / 1179);
+    --clp-x: calc((100vw - var(--clp-w)) / 2);
+    --clp-u: var(--clp-s);
+    padding: 0; overflow: visible;
+  }
+}
+@supports (height: 1cqh) {
+  @media (max-width: 760px) and (orientation: portrait) {
+    #app #clubWheelScreen.cl-on .clPhoneScene {
+      container-type: size;
+      --clp-u: max(0px, min(var(--clp-s), calc((100cqh - var(--clp-s) * 630 - 2px) / 225)));
+    }
+  }
+}
+@media (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
+  #app #clubWheelScreen.cl-on .clPhoneScene {
+    --clp-w: max(42vw, calc(100svh * 1179 / 2096));
+    --clp-s: calc(var(--clp-w) / 1179);
+    --clp-x: calc((42vw - var(--clp-w)) / 2);
+    --clp-u: var(--clp-s);
+  }
+}
+@media (max-width: 760px) and (orientation: portrait) and (prefers-reduced-motion: reduce),
+       (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) and (prefers-reduced-motion: reduce) {
+  #app #clubWheelScreen.cl-on .clPhoneScene::before,
+  #app #clubWheelScreen.cl-on .clPhoneScene::after { transition: none; }
+}

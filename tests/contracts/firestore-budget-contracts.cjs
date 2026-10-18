@@ -91,7 +91,7 @@ function createWorld(){
       for(const [pathName,data] of writes)serverWrite(pathName,data);
       return value;
     },
-    doc(_db,pathName){return {path:pathName};},
+    doc(_db,...segments){return {path:segments.join("/")};},
     onSnapshot(ref,_options,next,error){
       const listener={path:ref.path,next,error,active:true};
       docListeners.push(listener);
@@ -526,6 +526,439 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     }
     assert.match(source,/const DEVICE_REVERIFY_MS=10\*60\*1000;/,"device registration is re-verified at most every 10 minutes");
     assert.ok(!/setInterval\(/.test(BUDGET_SOURCE),"the budget layer starts no interval of its own");
+  });
+
+  // r79 PR3: Nik's pair module in the budget sandbox, paired as playerTwo; serverReads counts reads that reached the server.
+  async function nikPairWorld(){
+    // The pair module runs in the same sandbox as the budget layer, so its reads go through the real budget wrapper.
+    const world=createWorld(),{sandbox}=world,inbox="accounts/nik/partnerInbox/current",partner="accounts/nik/partner/current";
+    const revive=value=>value===undefined?undefined:JSON.parse(JSON.stringify(value),(_key,item)=>item&&typeof item==="object"&&"__ms" in item?{toMillis:()=>item.__ms}:item);
+    const serverReads={};
+    const listeners={active:0,max:0,attached:0};
+    const onSnapshot=(ref,options,next,error)=>{listeners.active+=1;listeners.attached+=1;listeners.max=Math.max(listeners.max,listeners.active);let open=true;
+      const off=world.sdk.onSnapshot(ref,options,snapshot=>{if(!open)return;serverReads[ref.path]=(serverReads[ref.path]||0)+1;next({...snapshot,data:()=>revive(snapshot.data())});},error);
+      return()=>{if(open){open=false;listeners.active-=1;}off();};};
+    const sdk={...world.sdk,onSnapshot,doc:(_db,...segments)=>({path:segments.join("/")}),serverTimestamp:()=>({__serverTimestamp:true}),Timestamp:{fromMillis:ms=>({__ms:ms})},runTransaction:(db,fn)=>world.sdk.runTransaction(db,transaction=>fn({get:async ref=>{const snapshot=await transaction.get(ref);serverReads[ref.path]=(serverReads[ref.path]||0)+1;return{...snapshot,data:()=>revive(snapshot.data())};},set:(ref,value)=>transaction.set(ref,value)}))};
+    // No Connect Players screen on Home: the panel render finds nothing and draws nothing.
+    Object.assign(world.document,{querySelector:()=>null,getElementById:()=>null,querySelectorAll:()=>[],dispatchEvent:()=>true});
+    Object.assign(sandbox,{TextEncoder,crypto:require("node:crypto").webcrypto,
+      CareerModeOnlinePlayerIdentity:{getState:()=>({managerId:"nik"})},
+      CareerModeSparkConnectedAccount:{initialize:async()=>({}),getState:()=>({connected:true,accountId:"nik"})},
+      CareerModeSparkPrivatePairing:{initialize:async()=>({}),getState:()=>({registered:true,deviceId:"device_nik"})},
+      CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,firestore:world.db,firestoreSdk:sdk,auth:{currentUser:{uid:"nik"}}})}});
+    vm.runInContext(fs.readFileSync(path.join(ROOT,"js/persistentNikDanielPair.js"),"utf8"),sandbox,{filename:"js/persistentNikDanielPair.js"});
+    const pair=sandbox.CareerModePersistentNikDanielPair;
+    world.serverWrite(partner,{schemaVersion:1,partnerAccountId:"daniel",myRole:"playerTwo",pairedViaRivalryId:`pair_1${"0".repeat(63)}`,pairedAt:{__ms:1},active:true,updatedAt:{__ms:1}});
+    await pair.initialize();  // as on page load: no Showdown link yet
+    return {world,pair,serverReads,inbox,partner,listeners};
+  }
+  await check("FB11","r79 PR3 JOIN note: Nik's Home reads it at most once per 30 s (fresh, never cached past a write), never while hidden; the partner record once per page",async()=>{
+    const {world,pair,serverReads,inbox,partner}=await nikPairWorld();
+    for(let i=0;i<5;i+=1)await pair.readPartnerRecord();
+    assert.equal(serverReads[partner],1,"the partner record is read once per page");
+    // Home shown (screen changes, tab returns, taps) every 5 s for 10 minutes while visible: one note read per 30 s at most.
+    const homeShown=async minutes=>{for(let t=0;t<minutes*60000;t+=5000){void pair.readJoinNote();await world.advance(5000);}};
+    await homeShown(10);
+    assert.ok(serverReads[inbox]>=19&&serverReads[inbox]<=21,`10 visible minutes of Home: ${serverReads[inbox]} note reads (budget: one per 30 s)`);
+    // Daniel's START writes the note: the next memo-expired Home shown reads it fresh (the budget layer never serves an old copy).
+    const rivalryId=`pair_3${"1".repeat(63)}`;
+    world.serverWrite(inbox,{schemaVersion:1,rivalryId,totalSeasons:3,fromAccountId:"daniel",createdAt:{__ms:world.clock.now},expiresAt:{__ms:world.clock.now+20*60000}});
+    const before=serverReads[inbox];let seenAfter=null;
+    for(let t=0;t<=30000&&seenAfter===null;t+=5000){await pair.readJoinNote();if(pair.getJoinNoteState(world.clock.now).note?.rivalryId===rivalryId)seenAfter=t;else await world.advance(5000);}
+    assert.ok(seenAfter!==null&&seenAfter<=30000,`Daniel's note reaches Nik's Home within one memo window (${seenAfter} ms)`);
+    assert.equal(serverReads[inbox]-before,1,"one read found it");
+    // hidden: nothing is read however often the app asks
+    world.setVisible(false);const hidden=serverReads[inbox];
+    for(let t=0;t<5*60000;t+=5000){await pair.readJoinNote();await world.advance(5000);}
+    assert.equal(serverReads[inbox],hidden,"a hidden tab reads no note");
+    world.setVisible(true);
+    assert.equal(serverReads[partner],1,"still one partner read for the whole page");
+    assert.equal(world.meter.docWrites,0,"reading the note writes nothing");
+  });
+
+  await check("FB11b","Nik 2026-10-18 (check by itself): ONE note listener while Home is shown and visible; reads only on attach and on change; none hidden or off Home; JOIN with no tap; 10 minutes per visit; errors fall back to the 30 s memo",async()=>{
+    const {world,pair,serverReads,inbox,listeners}=await nikPairWorld();let home=true;const isHomeShown=()=>home;
+    const reads=()=>serverReads[inbox]||0;
+    await pair.readPartnerRecord();
+    // Home shown: attach. Its first delivery IS the read; taps / tab returns every 5 s on Home cost nothing more.
+    assert.equal(await pair.watchJoinNote({isHomeShown}),true,"the listener delivered the note from the server");
+    assert.equal(reads(),1,"attach costs one read");
+    for(let t=0;t<9*60000;t+=5000){await pair.watchJoinNote({isHomeShown});await pair.readJoinNote();await world.advance(5000);}
+    assert.equal(listeners.max,1,"never more than one listener");
+    assert.equal(listeners.attached,1,"Home shown again and again keeps the same listener");
+    assert.equal(reads(),1,"9 quiet minutes on Home: no further reads (nothing changed)");
+    // after 10 minutes from the last Home visit the listener detaches
+    await world.advance(11*60000);
+    assert.equal(listeners.active,0,"the listener detaches 10 minutes after the Home visit");
+    // a new Home visit re-attaches; hiding the tab detaches at once and nothing is read while hidden
+    await pair.watchJoinNote({isHomeShown});assert.equal(listeners.active,1);let before=reads();
+    world.setVisible(false);assert.equal(listeners.active,0,"hidden: detached at once");
+    world.serverWrite(inbox,null);await world.advance(5*60000);
+    for(let i=0;i<5;i+=1){await pair.readJoinNote();await pair.watchJoinNote({isHomeShown});}
+    assert.equal(reads(),before,"hidden: no note reads at all");assert.equal(listeners.active,0);
+    world.setVisible(true);await pair.watchJoinNote({isHomeShown});assert.equal(listeners.active,1,"tab visible again: re-attached");
+    // leaving Home detaches; nothing is read off Home
+    pair.stopJoinNoteWatch();home=false;before=reads();
+    for(let i=0;i<5;i+=1)await pair.watchJoinNote({isHomeShown});await world.advance(5*60000);
+    assert.equal(listeners.active,0,"off Home: no listener");assert.equal(reads(),before,"off Home: no reads");
+    // Daniel's START writes the note while Nik sits on Home: JOIN with no tap, no tab event; then the listener detaches.
+    home=true;await pair.watchJoinNote({isHomeShown});await world.advance(60000);before=reads();
+    const rivalryId=`pair_3${"2".repeat(63)}`,writtenAt=world.clock.now;
+    world.serverWrite(inbox,{schemaVersion:1,rivalryId,totalSeasons:3,fromAccountId:"daniel",createdAt:{__ms:writtenAt},expiresAt:{__ms:writtenAt+20*60000}});
+    await world.advance(0);
+    assert.equal(pair.getJoinNoteState(world.clock.now).note?.rivalryId,rivalryId,"JOIN shows as soon as the note is written");
+    assert.equal(reads()-before,1,"the change costs one delivery");
+    assert.equal(listeners.active,0,"JOIN showing: the listener detaches");
+    await world.advance(5*60000);assert.equal(reads()-before,1,"nothing more is read while JOIN shows");
+    assert.equal(world.meter.docWrites,0,"watching writes nothing");
+  });
+
+  await check("FB11c","a note listener that errors falls back to the memoised read: at most once per 30 s, same stop rules, never a second listener",async()=>{
+    const {world,pair,serverReads,inbox,listeners}=await nikPairWorld();let home=true;const isHomeShown=()=>home;
+    const reads=()=>serverReads[inbox]||0;
+    await pair.readPartnerRecord();
+    assert.equal(await pair.watchJoinNote({isHomeShown}),true);
+    // the listen stream drops (as a denied or broken stream would): the one listener is gone and the memoised read takes over
+    world.failListeners();await world.advance(0);
+    assert.equal(listeners.active,0,"the failed listener is detached");
+    assert.equal(pair.getJoinNoteWatch().mode,"fallback");
+    assert.equal(await pair.watchJoinNote({isHomeShown}),false,"no live listener: the caller uses the memoised read");
+    for(let t=0;t<9*60000;t+=5000){await pair.watchJoinNote({isHomeShown});await pair.readJoinNote();await world.advance(5000);}
+    assert.ok(reads()<=20,`fallback: at most one read per 30 s over 9 minutes (${reads()})`);
+    assert.ok(listeners.max<=1,"never a second listener");
+    world.setVisible(false);const before=reads();await world.advance(5*60000);assert.equal(reads(),before,"fallback: none while hidden");world.setVisible(true);
+    pair.stopJoinNoteWatch();home=false;const off=reads();await world.advance(5*60000);assert.equal(reads(),off,"fallback: none off Home");
+  });
+
+  await check("FB11d","Codex #903: a miss the listener delivered is never served as the 30 s memo once the listener is gone (Daniel may write right after)",async()=>{
+    const {world,pair,serverReads,inbox}=await nikPairWorld();let home=true;const isHomeShown=()=>home;
+    const reads=()=>serverReads[inbox]||0;
+    await pair.readPartnerRecord();
+    assert.equal(await pair.watchJoinNote({isHomeShown}),true);assert.equal(reads(),1);
+    assert.equal(pair.getJoinNoteState().note,null,"the listener delivered a miss");
+    pair.stopJoinNoteWatch();home=false;           // Nik leaves Home
+    const rivalryId=`pair_3${"4".repeat(63)}`;
+    world.serverWrite(inbox,{schemaVersion:1,rivalryId,totalSeasons:3,fromAccountId:"daniel",createdAt:{__ms:world.clock.now},expiresAt:{__ms:world.clock.now+20*60000}});
+    await world.advance(1000);home=true;
+    await pair.readJoinNote();                      // the next Home moment, 1 s later, without a listener
+    assert.equal(reads(),2,"the listener's miss was not reused: one server read");
+    assert.equal(pair.getJoinNoteState(world.clock.now).note?.rivalryId,rivalryId,"so Daniel's note shows JOIN");
+  });
+
+  await check("FB11e","Codex #904: switching apps (tab hidden -> visible) costs at most one note read per 30 s and never extends a running 10-minute Home visit",async()=>{
+    const {world,pair,serverReads,inbox,listeners}=await nikPairWorld();let home=true;const isHomeShown=()=>home;
+    const reads=()=>serverReads[inbox]||0;
+    await pair.readPartnerRecord();
+    assert.equal(await pair.watchJoinNote({isHomeShown}),true);assert.equal(reads(),1,"the Home visit attaches once");
+    // 20 quick app switches inside 25 s: page memory answers, nothing is read, no listener piles up
+    for(let i=0;i<20;i+=1){world.setVisible(false);await world.advance(500);world.setVisible(true);assert.notEqual(await pair.watchJoinNote({isHomeShown,resume:true}),false,"a quick return never falls back to a read");await world.advance(750);}
+    assert.equal(reads(),1,"quick app switches inside 30 s read nothing");
+    assert.ok(listeners.max<=1,"never a second listener");
+    // still visible at the 30 s mark: the one deferred listener attaches (one read)
+    await world.advance(30000);
+    assert.equal(listeners.active,1,"re-attached once at the 30 s mark");assert.equal(reads(),2,"one read for that attach");
+    // Codex #907: a tap (or a new Home visit) during a deferred return attaches at once and sees a note Daniel wrote meanwhile
+    world.setVisible(false);await world.advance(1000);
+    const tapId=`pair_3${"6".repeat(63)}`;world.serverWrite(inbox,{schemaVersion:1,rivalryId:tapId,totalSeasons:3,fromAccountId:"daniel",createdAt:{__ms:world.clock.now},expiresAt:{__ms:world.clock.now+20*60000}});
+    world.setVisible(true);assert.equal(await pair.watchJoinNote({isHomeShown,resume:true}),"deferred","the quick return defers");
+    assert.equal(await pair.watchJoinNote({isHomeShown}),true,"the tap attaches at once instead of waiting");
+    assert.equal(pair.getJoinNoteState(world.clock.now).note?.rivalryId,tapId,"and sees Daniel's new note");
+    assert.ok(listeners.max<=1,"still never a second listener");
+    // JOIN is showing, so the listener has detached; start a fresh visit for the window check below
+    world.serverWrite(inbox,null);await pair.readJoinNote({fresh:true});await world.advance(31000);await pair.watchJoinNote({isHomeShown});
+    // the visit window is not restarted by tab returns: switching at 9:30 still ends the listener at 10:00 after the visit began
+    await world.advance(9*60000);world.setVisible(false);world.setVisible(true);await pair.watchJoinNote({isHomeShown,resume:true});
+    await world.advance(90000);
+    assert.equal(listeners.active,0,"the 10-minute Home visit ends on time despite tab returns");
+    const before=reads();for(let i=0;i<5;i+=1){world.setVisible(false);world.setVisible(true);await pair.watchJoinNote({isHomeShown,resume:true});await world.advance(1000);}
+    assert.ok(reads()-before<=1,`after the visit ended, a tab return may start a new visit but 5 returns in 5 s cost at most one read (${reads()-before})`);
+    assert.ok(listeners.max<=1,"never a second listener");
+  });
+  await check("FB12","r79 PR4 modes: the partner-side read is one get per page, only while this account's own record is active; the mode's marker read is one memoised get, only without a partner record; nothing is timed",async()=>{
+    const revive=value=>value===undefined?undefined:JSON.parse(JSON.stringify(value),(_key,item)=>item&&typeof item==="object"&&"__ms" in item?{toMillis:()=>item.__ms}:item);
+    const record=(partnerAccountId,myRole,active)=>({schemaVersion:1,partnerAccountId,myRole,pairedViaRivalryId:`pair_1${"0".repeat(63)}`,pairedAt:{__ms:1},active,updatedAt:{__ms:1}});
+    const MINE="accounts/nik/partner/current",THEIRS="accounts/daniel/partner/current",MARKER="accounts/nik/careerStart/current";
+    async function page({mine,theirs,laterTheirs,laterOffline}){
+      const world=createWorld(),{sandbox}=world,serverReads={},freshAsks=[];let offline=false;const count=p=>{serverReads[p]=(serverReads[p]||0)+1;};
+      const sdk={...world.sdk,doc:(_db,...segments)=>({path:segments.join("/")}),serverTimestamp:()=>({__serverTimestamp:true}),Timestamp:{fromMillis:ms=>({__ms:ms})},
+        runTransaction:(db,fn)=>world.sdk.runTransaction(db,transaction=>fn({get:async ref=>{if(offline&&ref.path===THEIRS)throw Object.assign(new Error("offline"),{code:"unavailable"});const snapshot=await transaction.get(ref);count(ref.path);return{...snapshot,data:()=>revive(snapshot.data())};},set:(ref,value)=>transaction.set(ref,value)})),
+        getDoc:async ref=>{count(ref.path);const entry=world.server.get(ref.path);return{exists:()=>Boolean(entry),data:()=>entry?revive(entry.data):undefined};}};
+      Object.assign(world.document,{querySelector:()=>null,getElementById:()=>null,querySelectorAll:()=>[],dispatchEvent:()=>true});
+      Object.assign(sandbox,{TextEncoder,crypto:require("node:crypto").webcrypto,loadRuntimeScript:async()=>true,CareerModeFirestoreBudget:{wantFresh:p=>freshAsks.push(p),readServerNext:p=>freshAsks.push(p)},
+        CareerModeOnlinePlayerIdentity:{getState:()=>({status:"ready",registered:true,accountId:"nik",managerId:"nik"})},
+        CareerModeSparkConnectedAccount:{initialize:async()=>({}),getState:()=>({connected:true,accountId:"nik"})},
+        CareerModeSparkPrivatePairing:{initialize:async()=>({}),getState:()=>({registered:true,deviceId:"device_nik"})},
+        CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,firestore:world.db,firestoreSdk:sdk,auth:{currentUser:{uid:"nik"}}})}});
+      for(const file of ["js/persistentNikDanielPair.js","js/careerStartMarker.js","js/showdownModes.js"])vm.runInContext(fs.readFileSync(path.join(ROOT,file),"utf8"),sandbox,{filename:file});
+      if(mine)world.serverWrite(MINE,mine);if(theirs)world.serverWrite(THEIRS,theirs);
+      const pair=sandbox.CareerModePersistentNikDanielPair,modes=sandbox.CareerModeShowdownModes;
+      await pair.initialize();modes.install();
+      // Page load, Settings opened twice, START pressed twice: the same memoised questions.
+      for(let i=0;i<5;i+=1){await modes.resolve();await pair.readPartnerSide();}
+      const first={...serverReads};
+      // Ten visible minutes on Home with screen changes: no timer reads anything.
+      for(let t=0;t<10*60000;t+=5000){const event={type:"career-mode-screen-shown",detail:{screen:t%10000?"mainMenu":"settings"}};for(const fn of world.document.listeners[event.type]||[])fn(event);await world.advance(5000);}
+      assert.ok((world.document.listeners["career-mode-screen-shown"]||[]).length>=1,"the modes module listens to screen changes");
+      assert.deepEqual({...serverReads},first,"no read happens without a page load or a user action");
+      assert.equal(world.meter.docWrites,0,"reading the mode writes nothing");
+      const view=modes.getView(),side=pair.getPartnerSideState();
+      // Codex #904: the partner unpairs on their phone after this page loaded. The memo keeps its answer; Daniel's START tap
+      // (options.fresh) reads the partner's record once more and sees it.
+      let later=null;if(laterTheirs){world.serverWrite(THEIRS,laterTheirs);const memo=(await pair.readPartnerSide()).status,memoReads=serverReads[THEIRS]||0;const fresh=(await pair.readPartnerSide({fresh:true})).status;later={memo,memoReads,fresh,freshReads:serverReads[THEIRS]||0,freshAsks:freshAsks.filter(p=>p===THEIRS).length};}
+      if(laterOffline){offline=true;later={fresh:(await pair.readPartnerSide({fresh:true})).status};}
+      return {reads:first,view,side,later};
+    }
+    const paired=await page({mine:record("daniel","playerTwo",true),theirs:record("nik","playerOne",true)});
+    assert.equal(paired.reads[MINE],1,"own partner record: once per page");assert.equal(paired.reads[THEIRS],1,"partner side: once per page");
+    assert.equal(paired.reads[MARKER]||0,0,"an active partner record proves real mode: no marker read");
+    assert.equal(paired.view.mode,"real");assert.equal(paired.view.pairing,"paired");assert.equal(paired.side.status,"mutual");
+    const unpairedLater=await page({mine:record("daniel","playerTwo",true),theirs:record("nik","playerOne",true),laterTheirs:record("nik","playerOne",false)});
+    assert.deepEqual(unpairedLater.later,{memo:"mutual",memoReads:1,fresh:"unpaired",freshReads:2,freshAsks:1},"a later UNPAIR on the other phone: the memo stays one read, a START tap's fresh read is exactly one more, skips the budget's shared snapshot of that document, and sees it");
+    const offlineLater=await page({mine:record("daniel","playerTwo",true),theirs:record("nik","playerOne",true),laterOffline:true});
+    assert.equal(offlineLater.later.fresh,"unavailable","a START tap that cannot read the partner side says so instead of keeping the old answer");
+    const startSource=fs.readFileSync(path.join(ROOT,"js/onlinePlayerIdentity.js"),"utf8");
+    assert.match(startSource,/if\(state\.managerId==="daniel"&&typeof root\.CareerModePersistentNikDanielPair\?\.readPartnerSide==="function"\)\{const pair=root\.CareerModePersistentNikDanielPair;await pair\.readPartnerRecord\?\.\(\);await pair\.readPartnerSide\(\{fresh:true\}\);\}let decision=await which\.read\(root\);/,"Daniel's START tap reads the partner side fresh before deciding");
+    assert.match(startSource,/if\(\(decision\.action==="new"\|\|decision\.action==="resume-waiting"&&!decision\.rivalryId\)&&state\.managerId==="daniel"&&typeof root\.CareerModePersistentNikDanielPair\?\.getPartnerSideState==="function"&&!\["mutual","not-paired"\]\.includes\(root\.CareerModePersistentNikDanielPair\.getPartnerSideState\(\)\?\.status\)\)throw new Error\(/,"Codex #915: an unanswered pairing check never starts a code, new or resumed code-less shell (fail closed)");
+    const oneSided=await page({mine:record("daniel","playerTwo",true),theirs:record("nik","playerOne",false)});
+    assert.equal(oneSided.reads[THEIRS],1);assert.equal(oneSided.view.pairing,"partner-unpaired");assert.equal(oneSided.side.status,"unpaired");
+    const gone=await page({mine:record("daniel","playerTwo",true),theirs:null});
+    assert.equal(gone.reads[THEIRS],1);assert.equal(gone.view.pairing,"partner-unpaired","a missing partner record (the Rules deny it) is unpaired");
+    const unpaired=await page({mine:record("daniel","playerTwo",false),theirs:record("nik","playerOne",true)});
+    assert.equal(unpaired.reads[THEIRS]||0,0,"my own record inactive: the partner side is never read");assert.equal(unpaired.reads[MARKER]||0,0,"an unpaired record still proves real mode: no marker read");
+    assert.equal(unpaired.view.mode,"real");assert.equal(unpaired.view.pairing,"unpaired");
+    const test=await page({mine:null,theirs:null});
+    assert.equal(test.reads[THEIRS]||0,0,"no record: the partner side is never read");assert.equal(test.reads[MARKER],1,"the marker: one get per page, memoised across five asks");
+    assert.equal(test.view.mode,"test");
+  });
+
+  await check("FB13","Codex #918: readServerNext(path) sends the next read of that document to the server, inside the 2 s window and past a read already in flight; once only, and other documents keep their copies",async()=>{
+    const world=createWorld();seed(world);
+    const read=path=>world.services.firestoreSdk.runTransaction(world.db,async tx=>(await tx.get({path})).data());
+    await read(SESSION);await read(RIVALRY);const start=world.meter.reads;
+    await world.advance(500);world.budget.readServerNext(SESSION);await read(SESSION);
+    assert.equal(world.meter.reads-start,1,"inside the 2 s window the asked document still reads the server");
+    await read(SESSION);await read(RIVALRY);
+    assert.equal(world.meter.reads-start,1,"once only: the next reads of it, and other documents, reuse the copy");
+    await world.advance(61000);const flight=world.meter.reads;
+    const running=read(SESSION);world.budget.readServerNext(SESSION);const own=read(SESSION);await Promise.all([running,own]);
+    assert.equal(world.meter.reads-flight,2,"a read already in flight is not shared with the asked read");
+  });
+
+  await check("FB14","r79 gallery: Nik waiting for Daniel's session pointer reads it fresh every 3 s even while another wait-point listener is healthy, and joins within one poll of Daniel publishing",async()=>{
+    const world=createWorld();seed(world);
+    // The previous Showdown's shared-setup screen keeps a healthy listener on this page (any listener puts the budget layer in
+    // its 60 s quiet-reuse mode for documents the listener does not watch).
+    const OLD_SETUP="rivalries/r0/sharedSetup/authoritative";world.serverWrite(OLD_SETUP,{phase:"LEAGUE_WHEEL_OPEN"});
+    const setupScreen=createScreen(world,{owner:"shared-setup",watched:OLD_SETUP,context:[],slow:false});setupScreen.start();
+    await world.advance(10000);
+    assert.equal(world.budget.stats().watchHealthy,true,"the other screen's listener is healthy");
+    const RIVAL="pair_"+"a".repeat(64),OFFER=`rivalries/${RIVAL}/sessionOffers/current`,SESSION_ID="session_"+"b".repeat(64),DEVICE="device_"+"c".repeat(32);
+    // Remote Joining as Nik, on the same budget layer; the SDK hands out Timestamps (toMillis) like the web SDK.
+    const stamp=value=>value&&typeof value==="object"&&Number.isFinite(value.epochMs)?{toMillis:()=>value.epochMs}:value;
+    const rawSdk={...world.sdk,runTransaction:(db,fn)=>world.sdk.runTransaction(db,tx=>fn({...tx,get:async ref=>{const snapshot=await tx.get(ref);return {...snapshot,data:()=>{const data=snapshot.data();return data&&Object.fromEntries(Object.entries(data).map(([key,value])=>[key,stamp(value)]));}};}}))};
+    const rawServices={ok:true,firestore:world.db,firestoreSdk:rawSdk,auth:{currentUser:{uid:"nik"}}};
+    const joins=[];
+    Object.assign(world.sandbox,{
+      CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>rawServices},
+      CareerModeSparkConnectedAccount:{initialize:async()=>true,getState:()=>({connected:true,accountId:"nik"})},
+      CareerModeSparkPrivatePairing:{initialize:async()=>true,getState:()=>({registered:true,deviceId:DEVICE})},
+      CareerModeSparkConnectedRivalry:{initialize:async()=>true,getState:()=>({attached:true,rivalryId:RIVAL,accountId:"nik",deviceId:DEVICE})},
+      CareerModeSparkPrivateSession:{},
+      CareerModeOnlinePlayerIdentity:{getState:()=>({managerId:"nik"})},
+      CareerModeSparkStandardAuthPrivateSession:{
+        normalizeSessionId:value=>value,
+        readSession:async options=>({ok:true,sessionId:options.sessionId,state:"open",revision:0,expiresAtEpochMs:world.clock.now+4*3600000}),
+        joinSession:async options=>{joins.push(world.clock.now);return {ok:true,sessionId:options.sessionId,state:"active",revision:1,expiresAtEpochMs:world.clock.now+4*3600000};}
+      }
+    });
+    vm.runInContext(fs.readFileSync(path.join(ROOT,"js/sparkRemoteJoining.js"),"utf8"),world.sandbox,{filename:"sparkRemoteJoining.js"});
+    const remote=world.sandbox.CareerModeSparkRemoteJoining;
+    const readsBefore=world.meter.reads;
+    await remote.autoConnect();
+    assert.equal(remote.getState().auto,"waiting","no pointer yet: Nik waits for Daniel");
+    await world.advance(7000);  // past the 5 s window a tap gives; Daniel's phone is still noticing the pairing
+    const published=world.clock.now,waitingReads=world.meter.reads-readsBefore;
+    world.serverWrite(OFFER,{schemaVersion:1,sessionId:SESSION_ID,hostAccountId:"daniel",expiresAt:{epochMs:published+4*3600000}});
+    await world.advance(3500);
+    assert.equal(joins.length,1,"Nik's next 3 s poll sees the pointer and joins (it was served a 60 s old copy before)");
+    assert.ok(joins[0]-published<=3500,`joined ${joins[0]-published} ms after Daniel published`);
+    assert.equal(remote.getState().sessionState,"active");
+    assert.equal(remote.getState().auto,null,"the waiting state ends with the join");
+    // Cost: while waiting, the pointer is read once per 3 s poll (the cadence it always had), never more.
+    assert.ok(waitingReads<=4,`${waitingReads} reads in 7 s of waiting (autoConnect + two polls)`);
+    setupScreen.stop();
+  });
+
+  await check("FB15","Codex #904 release review: a paired Daniel whose session pointer write fails keeps WAITING and publishes it again (3 s doubling to 60 s, visible tab only, sooner back online, 10 min) so Nik still joins; an unpaired Daniel keeps the session-code fallback. Codex #920: never over a newer live session, no rewrite after a lost answer, and reopening the panel restarts a retry that gave up",async()=>{
+    const RIVAL="pair_"+"a".repeat(64),OFFER=`rivalries/${RIVAL}/sessionOffers/current`,SESSION_ID="session_"+"d".repeat(64),DEVICE="device_"+"e".repeat(32);
+    // Remote Joining as Daniel (the host) on the budget layer; writes of the pointer fail `fail` times, then land.
+    const daniel=({paired,fail,lost=0})=>{
+      const world=createWorld();seed(world);
+      let failures=fail,lostAnswers=lost;const offerWrites=[];const sessions={[SESSION_ID]:"open"};
+      const rawSdk={...world.sdk,Timestamp:{fromMillis:ms=>({epochMs:ms})},serverTimestamp:()=>({serverTimestamp:true}),
+        runTransaction:(db,fn)=>world.sdk.runTransaction(db,tx=>fn({...tx,get:async ref=>{const snapshot=await tx.get(ref);return {...snapshot,data:()=>{const data=snapshot.data();return data&&Object.fromEntries(Object.entries(data).map(([key,value])=>[key,value&&typeof value==="object"&&Number.isFinite(value.epochMs)?{toMillis:()=>value.epochMs}:value]));}};},set:(ref,data)=>{if(ref.path===OFFER){offerWrites.push(world.clock.now);if(failures>0){failures-=1;throw Object.assign(new Error("Failed to get document because the client is offline."),{code:"unavailable"});}}tx.set(ref,data);}})).then(value=>{if(lostAnswers>0&&offerWrites.length&&world.server.get(OFFER)){lostAnswers-=1;throw Object.assign(new Error("Deadline exceeded."),{code:"deadline-exceeded"});}return value;})};
+      const rawServices={ok:true,firestore:world.db,firestoreSdk:rawSdk,auth:{currentUser:{uid:"daniel"}}};
+      Object.assign(world.sandbox,{
+        CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>rawServices},
+        CareerModeSparkConnectedAccount:{initialize:async()=>true,getState:()=>({connected:true,accountId:"daniel"})},
+        CareerModeSparkPrivatePairing:{initialize:async()=>true,getState:()=>({registered:true,deviceId:DEVICE})},
+        CareerModeSparkConnectedRivalry:{initialize:async()=>true,getState:()=>({attached:true,rivalryId:RIVAL,accountId:"daniel",deviceId:DEVICE})},
+        CareerModeSparkPrivateSession:{},
+        CareerModeOnlinePlayerIdentity:{getState:()=>({managerId:"daniel"})},
+        CareerModePersistentNikDanielPair:{getPartnerState:()=>paired?{status:"ready",accountId:"daniel",record:{active:true,partnerAccountId:"nik"}}:{status:"none"}},
+        CareerModeSparkStandardAuthPrivateSession:{
+          normalizeSessionId:value=>value,generateSessionId:()=>SESSION_ID,
+          openSession:async options=>({ok:true,sessionId:options.sessionId,state:"open",revision:0,expiresAtEpochMs:world.clock.now+4*3600000}),
+          readSession:async options=>{const known=sessions[options.sessionId];return known&&typeof known==="object"?known:{ok:true,sessionId:options.sessionId,state:known||"closed",revision:0,expiresAtEpochMs:world.clock.now+4*3600000};}
+        }
+      });
+      vm.runInContext(fs.readFileSync(path.join(ROOT,"js/sparkRemoteJoining.js"),"utf8"),world.sandbox,{filename:"sparkRemoteJoining.js"});
+      return {world,remote:world.sandbox.CareerModeSparkRemoteJoining,offerWrites,sessions,online:()=>{for(const fn of world.sandbox.windowListeners.online||[])fn();}};
+    };
+    const published=world=>world.server.get(OFFER)?.data?.sessionId===SESSION_ID;
+
+    // A: two failed writes, then the third (3 s + 6 s later) lands; nothing more is written after that.
+    {const {world,remote,offerWrites}=daniel({paired:true,fail:2});
+      const result=await remote.autoConnect();
+      assert.equal(result.kind,"hosted-publishing");
+      assert.equal(remote.getState().auto,"waiting","Daniel keeps WAITING FOR NIK, never the dead-end session code");
+      assert.doesNotMatch(remote.getState().message,/session code/i);
+      assert.equal(published(world),false);
+      await world.advance(3000);assert.equal(offerWrites.length,2,"second try 3 s later");assert.equal(published(world),false);
+      await world.advance(6000);assert.equal(offerWrites.length,3,"third try 6 s after that");assert.equal(published(world),true,"the pointer lands, so Nik's 3 s poll finds it");
+      await world.advance(20*60000);assert.equal(offerWrites.length,3,"no write once it has landed");
+      assert.equal(remote.useManualCode().auto,"waiting","a paired account still has no session-code path");}
+
+    // B: it never lands: at most one write per minute after the first minute, nothing past 10 min, and Daniel is told why.
+    {const {world,remote,offerWrites}=daniel({paired:true,fail:Infinity});
+      await remote.autoConnect();
+      await world.advance(11*60000);
+      assert.ok(offerWrites.length<=15,`${offerWrites.length} pointer writes in 11 min`);
+      const count=offerWrites.length;await world.advance(30*60000);assert.equal(offerWrites.length,count,"the retry stops after 10 min");
+      assert.equal(remote.getState().auto,"waiting");
+      assert.match(remote.getState().message,/could not be reached[\s\S]*open the game again/);}
+
+    // C: a hidden tab writes nothing; back on screen the retry continues.
+    {const {world,remote,offerWrites}=daniel({paired:true,fail:1});
+      await remote.autoConnect();world.setVisible(false);
+      await world.advance(5*60000);assert.equal(offerWrites.length,1,"hidden: no writes");assert.equal(published(world),false);
+      world.setVisible(true);await world.advance(60000);
+      assert.equal(offerWrites.length,2);assert.equal(published(world),true);}
+
+    // D: back online restarts the wait at 3 s instead of waiting out the 60 s step.
+    {const {world,remote,offerWrites,online}=daniel({paired:true,fail:6});
+      await remote.autoConnect();
+      await world.advance(3000+6000+12000+24000+48000);assert.equal(offerWrites.length,6,"five retries, the next one a minute away");
+      online();await world.advance(3000);
+      assert.equal(offerWrites.length,7,"the online event tries again 3 s later");assert.equal(published(world),true);}
+
+    // E: an account that is not permanently paired keeps today's fallback: Nik can still paste the code.
+    {const {world,remote,offerWrites}=daniel({paired:false,fail:1});
+      const result=await remote.autoConnect();
+      assert.equal(result.kind,"hosted-manual");
+      assert.equal(remote.getState().auto,null);assert.match(remote.getState().message,/Send Nik this session code/);
+      await world.advance(5*60000);assert.equal(offerWrites.length,1,"no retry: the session code is the way in");}
+
+    // F (Codex #920): after the 10 min give-up, reopening the player panel (autoConnect on the held session) starts again.
+    {const {world,remote,offerWrites}=daniel({paired:true,fail:15});
+      await remote.autoConnect();await world.advance(11*60000);
+      assert.match(remote.getState().message,/could not be reached/);const before=offerWrites.length;
+      const again=await remote.autoConnect();
+      assert.equal(again.kind,"held-publishing","the held session publishes again instead of staying stuck");
+      assert.equal(remote.getState().auto,"waiting");assert.doesNotMatch(remote.getState().message,/could not be reached/);
+      await world.advance(10*60000);assert.ok(offerWrites.length>before);assert.equal(published(world),true,"it lands once the connection is back");
+      const landed=offerWrites.length;assert.equal((await remote.autoConnect()).kind,"held","once it has landed, reopening costs nothing");
+      await world.advance(5*60000);assert.equal(offerWrites.length,landed);}
+
+    // J (Codex #920): the pointer lands after Daniel's 10 min join watch would have ended (and again after a reopen): the
+    // watch starts afresh when it lands, so Nik joining later still moves Daniel's screen on, with no reload.
+    for(const reopen of [false,true]){const {world,remote,sessions}=daniel({paired:true,fail:reopen?15:13});
+      await remote.autoConnect();
+      if(reopen){await world.advance(11*60000);await remote.autoConnect();}
+      await world.advance(10*60000);
+      assert.equal(published(world),true,"it landed");
+      sessions[SESSION_ID]="active";  // Nik joins well after the first 10 minutes
+      await world.advance(4100);
+      assert.equal(remote.getState().sessionState,"active",`Daniel sees Nik join (${reopen?"after a reopen":"late landing"})`);}
+
+    // G (Codex #920): a newer screen of Daniel's published live session B meanwhile: the retry for A never writes over it.
+    {const {world,remote,offerWrites,sessions}=daniel({paired:true,fail:1});
+      await remote.autoConnect();
+      const B="session_"+"f".repeat(64);sessions[B]="open";
+      world.serverWrite(OFFER,{schemaVersion:1,sessionId:B,hostAccountId:"daniel",expiresAt:{epochMs:world.clock.now+4*3600000}});
+      await world.advance(20*60000);
+      assert.equal(world.server.get(OFFER).data.sessionId,B,"Nik is still sent to the newer session");
+      assert.equal(offerWrites.length,1,"no write after the first failure");
+      assert.match(remote.getState().message,/open on another screen/,"the 10 min end keeps the right note");}
+
+    // G2: the other screen's session ends while this one still waits: this session is published after all.
+    {const {world,remote,offerWrites,sessions}=daniel({paired:true,fail:1});
+      await remote.autoConnect();
+      const B="session_"+"c".repeat(64);sessions[B]="open";
+      world.serverWrite(OFFER,{schemaVersion:1,sessionId:B,hostAccountId:"daniel",expiresAt:{epochMs:world.clock.now+4*3600000}});
+      await world.advance(60000);assert.match(remote.getState().message,/open on another screen/);
+      sessions[B]="revoked";await world.advance(61000);
+      assert.equal(published(world),true,"once B has ended, Nik is pointed at this session");assert.equal(offerWrites.length,2);
+      assert.match(remote.getState().message,/Waiting for Nik/);}
+
+    // K (Codex #920): the newer session's read is refused (this device was revoked): it is never overwritten.
+    {const {world,remote,offerWrites,sessions}=daniel({paired:true,fail:1});
+      await remote.autoConnect();
+      const B="session_"+"e".repeat(64);sessions[B]={ok:false,code:"PRIVATE_SESSION_DEVICE_REVOKED",message:"revoked"};
+      world.serverWrite(OFFER,{schemaVersion:1,sessionId:B,hostAccountId:"daniel",expiresAt:{epochMs:world.clock.now+4*3600000}});
+      await world.advance(20*60000);
+      assert.equal(world.server.get(OFFER).data.sessionId,B);assert.equal(offerWrites.length,1);}
+
+    // N (Codex #920): a competing pointer with a minute or less left is stale here as it is for Nik's poll: it is replaced.
+    {const {world,remote,offerWrites,sessions}=daniel({paired:true,fail:1});
+      const SHORT="session_"+"7".repeat(64);sessions[SHORT]="open";
+      world.serverWrite(OFFER,{schemaVersion:1,sessionId:SHORT,hostAccountId:"daniel",expiresAt:{epochMs:world.clock.now+30000}});
+      await remote.autoConnect();await world.advance(3000);
+      assert.equal(offerWrites.length,2);assert.equal(published(world),true,"the nearly expired pointer is replaced");
+      assert.doesNotMatch(remote.getState().message,/another screen/);}
+
+    // L: a pointer to a session the server reports as not found is replaced.
+    {const {world,remote,offerWrites,sessions}=daniel({paired:true,fail:1});
+      const GONE="session_"+"9".repeat(64);sessions[GONE]={ok:false,code:"PRIVATE_SESSION_NOT_FOUND",message:"gone"};
+      world.serverWrite(OFFER,{schemaVersion:1,sessionId:GONE,hostAccountId:"daniel",expiresAt:{epochMs:world.clock.now+4*3600000}});
+      await remote.autoConnect();await world.advance(3000);
+      assert.equal(offerWrites.length,2);assert.equal(published(world),true);}
+
+    // M: this session itself no longer reads OPEN (ended elsewhere, or Nik already joined it): nothing is published.
+    for(const state of ["revoked","active"]){const {world,remote,offerWrites,sessions}=daniel({paired:true,fail:1});
+      await remote.autoConnect();sessions[SESSION_ID]=state;
+      await world.advance(20*60000);
+      assert.equal(offerWrites.length,1,`no write once the session is ${state}`);assert.equal(published(world),false);
+      if(state==="active")assert.equal(remote.getState().sessionState,"active","a join seen by the retry moves Daniel on");}
+
+    // H: a stale pointer (an old session that has ended) is replaced.
+    {const {world,offerWrites,remote}=daniel({paired:true,fail:1});
+      const OLD="session_"+"0".repeat(64);  // not open: readSession answers closed
+      world.serverWrite(OFFER,{schemaVersion:1,sessionId:OLD,hostAccountId:"daniel",expiresAt:{epochMs:world.clock.now+4*3600000}});
+      await remote.autoConnect();await world.advance(3000);
+      assert.equal(offerWrites.length,2);assert.equal(published(world),true,"the ended session's pointer is replaced");}
+
+    // I: the write landed but its answer was lost: the next try reads the pointer, sees this session and writes nothing.
+    {const {world,remote,offerWrites}=daniel({paired:true,fail:0,lost:1});
+      const result=await remote.autoConnect();
+      assert.equal(result.kind,"hosted-publishing");assert.equal(published(world),true);
+      await world.advance(10*60000);assert.equal(offerWrites.length,1,"no second write");}
+    // O (Codex #904 P2): a host open whose answer was lost leaves an unresolved request; once that Showdown is reported ended
+    // (another rivalry's end changes nothing) the request is let go, so the next auto-connect is not blocked as busy.
+    {const {world,remote}=daniel({paired:true,fail:0});
+      const api=world.sandbox.CareerModeSparkStandardAuthPrivateSession,open=api.openSession;let drop=1;
+      api.openSession=async options=>{if(drop>0){drop-=1;throw Object.assign(new Error("Failed to get document because the client is offline."),{code:"unavailable"});}return open(options);};
+      const ended=rivalryId=>{for(const fn of world.sandbox.windowListeners["career-mode-permanent-pair-ended"]||[])fn({detail:{closedRivalryId:rivalryId}});};
+      await remote.autoConnect();
+      assert.equal(remote.getState().pendingAction,"host","the lost answer leaves an unresolved host request");
+      assert.equal((await remote.autoConnect()).code,"REMOTE_JOINING_BUSY","before: the next auto-connect is blocked");
+      ended("pair_"+"b".repeat(64));
+      assert.equal(remote.getState().pendingAction,"host","another Showdown's end leaves this request alone");
+      ended(RIVAL);
+      assert.equal(remote.getState().pendingAction,null,"the ended Showdown's request is let go");
+      assert.equal(remote.getState().sessionId,null);
+      const next=await remote.autoConnect();
+      assert.equal(next.kind,"hosted",JSON.stringify(next));assert.equal(remote.getState().auto,"waiting");assert.equal(published(world),true);}
   });
 
   console.log(`PASS Firestore budget contracts: ${results.length} checks, measured reads/min ${measured.join(" / ")} (waiting <= ${BUDGET.waitingVisibleReadsPerMinute} reads/min, hidden ${BUDGET.hiddenReadsPerMinute}, idle writes 0, partner update <= ${BUDGET.partnerUpdateMs} ms).`);

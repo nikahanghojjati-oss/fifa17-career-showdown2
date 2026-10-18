@@ -85,3 +85,38 @@ test('Labels follow a shared cursor change on the next refresh without mutating 
   assertLabels(ui, 4);
   assert.equal(JSON.stringify(ui.showdown), before);
 });
+
+// r79 gallery (fix 3): after Daniel's DELETE CURRENT SHOWDOWN Nik's pair holds the rivalry as closed (closedRivalryId +
+// closedProviderSaveId) and keeps its save as the library's active save. Home then shows no live career for it.
+test('A Showdown the pair holds as closed is not offered as CONTINUE CAREER and drops the season chip', () => {
+  const ui = loadUI({ localSeason: 1 });
+  ui.showdown.totalRounds = 3; ui.showdown.status = 'Created';
+  const closedSave = 'save_' + 'a'.repeat(24);
+  let pair = { status: 'unpaired', rivalryId: null, closedRivalryId: 'pair_' + 'b'.repeat(64), closedProviderSaveId: closedSave };
+  ui.context.CareerModePersistentNikDanielPair = { getState: () => pair };
+  ui.context.CareerModeSaveLibraryRuntime = { getLibrarySnapshot: () => ({ activeSaveId: closedSave }) };
+  ui.context.refreshMainMenuExperience();
+  assert.equal(ui.meta.textContent, 'No active showdown saved');
+  assert.equal(ui.indicator.textContent, 'No Active Showdown');
+  // a live pair (or another save) keeps the career
+  pair = { status: 'paired', rivalryId: 'pair_' + 'c'.repeat(64), connectionState: 'active', closedRivalryId: null };
+  ui.context.refreshMainMenuExperience();
+  assert.equal(ui.meta.textContent, 'Nik vs Daniel · Season 1 of 3');
+  assert.equal(ui.indicator.textContent, 'Season 1 / 3');
+  // a finished (Completed) closed Showdown still reads VIEW COMPLETED SHOWDOWN
+  pair = { status: 'unpaired', rivalryId: null, closedRivalryId: 'pair_' + 'b'.repeat(64), closedProviderSaveId: closedSave };
+  ui.showdown.status = 'Completed';
+  ui.context.refreshMainMenuExperience();
+  assert.equal(ui.indicator.textContent, 'Showdown Complete');
+  // Codex #916: a cold reload of a closed pair never starts the Save Library runtime; the save's own id decides
+  ui.showdown.status = 'Created'; ui.showdown.identity = { ...(ui.showdown.identity || {}), saveId: closedSave };
+  delete ui.context.CareerModeSaveLibraryRuntime;
+  ui.context.refreshMainMenuExperience();
+  assert.equal(ui.indicator.textContent, 'No Active Showdown', 'the save id alone identifies the closed Showdown');
+  ui.showdown.identity.saveId = 'save_' + 'd'.repeat(24);
+  ui.context.refreshMainMenuExperience();
+  assert.equal(ui.indicator.textContent, 'Season 1 / 3', 'another save stays a live career');
+  // ...and Home drawn before the pair answered is redrawn once the pair is initialised
+  const identitySource = require('node:fs').readFileSync(require('node:path').join(__dirname, '../../js/onlinePlayerIdentity.js'), 'utf8');
+  assert.match(identitySource, /\.finally\(\(\)=>\{persistentPairSyncPromise=null;[^}]*try\{root\.refreshMainMenuExperience\?\.\(\);\}catch\(_\)\{\}\}\);return persistentPairSyncPromise;\}/);
+});

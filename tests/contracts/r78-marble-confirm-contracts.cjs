@@ -2,7 +2,7 @@
 "use strict";
 // r78 (HO-029, Team G): every native window.confirm() is replaced by ONE shared black-and-gold marble confirm box
 // (js/showdownConfirm.js, styled by Team V's .r78-modal in css/r78-marble-surfaces.css).
-// Source: no native confirm() is left anywhere in the app; each of the 13 audited call sites (C1-C12, C11 twice) keeps its
+// Source: no native confirm() is left anywhere in the app; each of the 12 live audited call sites (C1-C11, C11 twice; C12 retired in r79) keeps its
 // exact wording and awaits the box; the r78 sheets and the box stay out of the startup bundle.
 // Browser: the real Settings > History & Backup > RESET ALL SHOWDOWN DATA button (C3) opens the box over the unchanged
 // screen (no dimming or blur, opaque marble panel); focus is trapped, Esc = Cancel, Enter = OK, Cancel never resets,
@@ -35,10 +35,13 @@ const SITES=[
   ["C7","js/restoreUI.js","restoreAskConfirm(\"Apply this exact restore plan? The selected file and browser data will be verified again before any write. Export Backup above now if you want an extra current-state recovery copy.\",\"primary\")",[]],
   ["C8","js/productionSharedTransferChallenge.js","pstcAskConfirm(`Lock ${filled} of ${PSTC_MAX_ROWS} ${noun}? You can't change them after locking.`,\"primary\")",[]],
   ["C9","js/settings.js","settingsAskConfirm(\n        `Delete the current \"${name}\" Showdown and start over? This closes the current Showdown connection for both players, removes this device's current local Showdown, and keeps your player identity, registered device, Legacy history and app settings. This cannot be undone.`,\n        \"danger\"",[]],
-  ["C10","js/settings.js","settingsAskConfirm(\n        `Start your real career now? Finished test Showdowns stay saved but are hidden from History, Trophy Room and Legacy. Ask ${other} to press this too.`,\n        \"primary\"",[]],
+  // C10 (Settings START REAL CAREER) is retired in r79 PR4 (Nik 2026-10-17): the row is gone; the one-time checkmark on the
+  // seasons screen needs no box. C13 is r79 PR4's UNPAIR in Settings (js/showdownModes.js).
+  ["C13","js/showdownModes.js","smAskConfirm(`Unpair from ${v.partnerLabel}? Your Showdowns stay saved. To play again you pair again with a new code.`,\"danger\")",[]],
   ["C11a","js/persistentNikDanielPair.js","pairAskConfirm(\"Delete this old connection and start fresh? This closes the stale online test connection and removes only its unfinished local Showdown so Nik can join the new code Daniel creates.\",\"danger\")",[]],
-  ["C11b","js/persistentNikDanielPair.js","pairAskConfirm(\"Delete the old Showdown and start over? This closes the old online Showdown for both players. Your player identity, registered device, Legacy history and app settings are kept.\",\"danger\")",[]],
-  ["C12","js/productionSharedJourneyEntry.js","entryAskConfirm(\n      \"Start a new Showdown? This will close the current Daniel vs Nik Showdown for both players. Your player identity, registered device, Legacy history, app settings and existing local recovery data will be kept.\",\n      \"danger\"",[]]
+  ["C11b","js/persistentNikDanielPair.js","pairAskConfirm(\"Delete the old Showdown and start over? This closes the old online Showdown for both players. Your player identity, registered device, Legacy history and app settings are kept.\",\"danger\")",[]]
+  // C12 (START A SHOWDOWN "Start a new Showdown? This will close the current ...") is retired in r79: START never offers to close
+  // a live Showdown (owner rule); closing stays in Settings (C9). R2 checks the entry module has no confirm box left.
 ];
 
 check("R1 no native confirm() is left in the app (js/, visual-assets/, index.html)",()=>{
@@ -54,7 +57,7 @@ check("R1 no native confirm() is left in the app (js/, visual-assets/, index.htm
 });
 
 check("R2 the 13 audited confirm sites await the shared box with their exact wording, and only OK counts as consent",()=>{
-  assert.equal(SITES.length,13);
+  assert.equal(SITES.length,12,"13 audited r78 sites minus C12 and C10, retired in r79, plus C13 (r79 PR4 UNPAIR)");
   for(const [id,file,call,extra] of SITES){
     const source=read(file);
     assert.ok(source.includes(call),`${id} ${file}: ${call.slice(0,60)}`);
@@ -62,19 +65,20 @@ check("R2 the 13 audited confirm sites await the shared box with their exact wor
   }
   assert.equal((read("js/legacy.js").match(/await legacyAskConfirm\([^)]*\) !== true/g)||[]).length,3,"C1-C3 only an explicit OK deletes or resets");
   assert.match(read("js/showdownUI.js"),/if\(await dashboardAskConfirm\(message, "danger"\) !== true\)\{ return; \}/);
-  assert.equal((read("js/settings.js").match(/if\(confirmed !== true\)\{ return false; \}/g)||[]).length,2,"C9/C10");
+  assert.equal((read("js/settings.js").match(/if\(confirmed !== true\)\{ return false; \}/g)||[]).length,1,"C9 (C10 retired in r79 PR4)");
+  assert.match(read("js/showdownModes.js"),/const ok=await smAskConfirm\([^\n]*\);\n\s*if\(ok!==true\)return false;/,"C13 only an explicit OK unpairs");
   assert.match(read("js/restoreUI.js"),/if\(await restoreAskConfirm\([^)]*\)!==true\)return;/);
   assert.match(read("js/saveLibraryUI.js"),/const confirmed=await saveLibraryUIAskConfirm\([\s\S]*?\);\n\s*if\(confirmed!==true\|\|saveLibraryUIBusy\)return;/);
   assert.match(read("js/saveLibraryUI.js"),/if\(await saveLibraryUIAskConfirm\(action,"primary"\)!==true\|\|saveLibraryUIBusy\)return;/);
   assert.equal((read("js/persistentNikDanielPair.js").match(/const confirmed=await pairAskConfirm\([^;]*;\n[^\n]*\n\s*if\(confirmed!==true\)return false;/g)||[]).length,2,"C11 x2 BH-11: only an explicit yes");
-  assert.match(read("js/productionSharedJourneyEntry.js"),/const confirmed=await entryAskConfirm\([\s\S]*?\);\n[^\n]*\n\s*if\(confirmed!==true\)return false;/);
+  assert.doesNotMatch(read("js/productionSharedJourneyEntry.js"),/entryAskConfirm|askShowdownConfirm|Start a new Showdown\? This will close/,"C12 retired (r79): START never asks to close a live Showdown");
   // C8 keeps its one exception: no confirm box at all (no loader) still locks as before; a Cancel never locks.
   const pstc=read("js/productionSharedTransferChallenge.js");
   assert.match(pstc,/async function pstcConfirmPartialLock\(filled,noun\)\{\n\s*if\(filled>=PSTC_MAX_ROWS\)return true;\n\s*return \(await pstcAskConfirm\([^;]*\)\)!==false;/);
   assert.match(pstc,/if\(!await pstcConfirmPartialLock\(guesses\.length,"guesses"\)\)return false;/);
   assert.match(pstc,/if\(!await pstcConfirmPartialLock\(signings\.length,"signings"\)\)return false;/);
   // each helper prefers the loaded box, loads it on first use, and never treats a load failure as consent
-  for(const [file,name] of [["js/legacy.js","legacyAskConfirm"],["js/showdownUI.js","dashboardAskConfirm"],["js/settings.js","settingsAskConfirm"],["js/restoreUI.js","restoreAskConfirm"],["js/saveLibraryUI.js","saveLibraryUIAskConfirm"],["js/productionSharedTransferChallenge.js","pstcAskConfirm"],["js/persistentNikDanielPair.js","pairAskConfirm"],["js/productionSharedJourneyEntry.js","entryAskConfirm"],["js/ssjrPhysicalJourneyAcceptance.js","ssjrAskConfirm"]]){
+  for(const [file,name] of [["js/legacy.js","legacyAskConfirm"],["js/showdownUI.js","dashboardAskConfirm"],["js/settings.js","settingsAskConfirm"],["js/showdownModes.js","smAskConfirm"],["js/restoreUI.js","restoreAskConfirm"],["js/saveLibraryUI.js","saveLibraryUIAskConfirm"],["js/productionSharedTransferChallenge.js","pstcAskConfirm"],["js/persistentNikDanielPair.js","pairAskConfirm"],["js/ssjrPhysicalJourneyAcceptance.js","ssjrAskConfirm"]]){
     const source=read(file);
     assert.match(source,new RegExp(`function ${name}\\(message,tone\\)\\{return typeof (?:window|root)\\.askShowdownConfirm==="function"\\?[^\\n]*loadRuntimeScript\\("showdown-confirm","js/showdownConfirm\\.js"[^\\n]*,\\(\\)=>false\\):Promise\\.resolve\\(undefined\\);\\}`),`${file} ${name}`);
   }
@@ -186,47 +190,47 @@ check("R4b the marble tile is served from the precached shell without a ?v= quer
   tileChecks.catch(()=>{});
 });
 
-// The r77 shell on an installed phone was filled by the r77 worker with r77's own 213 paths. Activating r78 must keep it (and its
-// image cache) as the recovery target instead of judging it against r78's longer list and deleting it.
-const R77_SHELL_PATHS_SHA256="b17059a35b39ad655d2efc48ee85b53f64a285f9cfd730f6bb0ad7643c96b552";// sorted JSON of r77's SHELL_PATHS (main 8f32e34)
+// The r78 shell on an installed phone was filled by the r78 worker with r78's own 219 paths. Activating r79 must keep it (and its
+// image cache) as the recovery target instead of judging it against r79's longer list and deleting it.
+const R78_SHELL_PATHS_SHA256="a13204a973ce3b1f4d50d9c5e07dfcf4892d519ac7325ec7d64917a94a533bfd";// sorted JSON of r78's SHELL_PATHS (main f15f54f9)
 let previousShellChecks=Promise.reject(new Error("R4c did not run"));previousShellChecks.catch(()=>{});
-check("R4c an r77-only shell cache survives r78 activation and stays the rollback target",()=>{
+check("R4c an r78-only shell cache survives r79 activation and stays the rollback target",()=>{
   const crypto=require("node:crypto");
   const probe=swWorld(),diag=probe.diag;
-  assert.equal(diag.previousRevision,"1.9.1-r77");
-  assert.equal(diag.previousShellPaths.length,213,"r77 shipped 213 shell paths");
-  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R77_SHELL_PATHS_SHA256,"the previous list is exactly r77's");
-  assert.ok(diag.previousShellPaths.every(p=>diag.shellPaths.includes(p)),"r78 removed no shell path");
+  assert.equal(diag.previousRevision,"1.9.2-r78");
+  assert.equal(diag.previousShellPaths.length,219,"r78 shipped 219 shell paths");
+  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R78_SHELL_PATHS_SHA256,"the previous list is exactly r78's");
+  assert.ok(diag.previousShellPaths.every(p=>diag.shellPaths.includes(p)),"r79 removed no shell path");
   previousShellChecks=(async()=>{
     const IMG="career-mode-showdown-v10-images-",PREV="career-mode-showdown-shell-"+diag.previousRevision;
-    // 1. a real r77 install: r77's own list only, plus its image cache and an older leftover
+    // 1. a real r78 install: r78's own list only, plus its image cache and an older leftover
     let w=swWorld();
-    w.fill(diag.revision,diag.shellPaths);w.fill(diag.previousRevision,diag.previousShellPaths,p=>"r77:"+p);w.fill("1.9.1-r76",diag.previousShellPaths);
-    w.store.set(IMG+diag.previousRevision,new Map([[w.SCOPE+"visual-assets/v10_1/home/assets/ENV_HOME_PHONE_V1.webp",new Response("r77-art",{status:200})]]));
+    w.fill(diag.revision,diag.shellPaths);w.fill(diag.previousRevision,diag.previousShellPaths,p=>"r78:"+p);w.fill("1.9.1-r77",diag.previousShellPaths);
+    w.store.set(IMG+diag.previousRevision,new Map([[w.SCOPE+"visual-assets/v10_1/home/assets/ENV_HOME_PHONE_V1.webp",new Response("r78-art",{status:200})]]));
     const status=await w.message("CMS_GET_CACHE_STATUS");
-    assert.equal(status.previous.ok,true,"the r77 cache verifies against r77's own list");
+    assert.equal(status.previous.ok,true,"the r78 cache verifies against r78's own list");
     assert.equal(status.recovery.ok,true);assert.equal(status.recovery.revision,diag.previousRevision);
     await w.dispatch("activate",{});
     const names=[...w.store.keys()];
-    assert.ok(names.includes(PREV),"activation keeps the r77 shell");
-    assert.ok(names.includes(IMG+diag.previousRevision),"activation keeps the r77 image cache");
-    assert.ok(!names.includes("career-mode-showdown-shell-1.9.1-r76"),"older shells are still cleared");
+    assert.ok(names.includes(PREV),"activation keeps the r78 shell");
+    assert.ok(names.includes(IMG+diag.previousRevision),"activation keeps the r78 image cache");
+    assert.ok(!names.includes("career-mode-showdown-shell-1.9.1-r77"),"older shells are still cleared");
     const reply=await w.message("CMS_ROLLBACK_TO_PREVIOUS");
-    assert.equal(reply&&reply.ok,true,"rollback to r77 accepted");assert.equal(reply.revision,diag.previousRevision);
+    assert.equal(reply&&reply.ok,true,"rollback to r78 accepted");assert.equal(reply.revision,diag.previousRevision);
     w.setOnline(false);
     let nav;w.dispatch("fetch",{request:Object.defineProperty(new Request(w.SCOPE),"mode",{value:"navigate"}),respondWith:p=>{nav=p;}});
-    assert.equal(await (await nav).text(),"r77:index.html","offline after rollback: the r77 page");
-    assert.equal(await w.get("js/app.js?v="+diag.previousRevision),"r77:js/app.js","and r77's own files");
-    // 2. an r77 cache missing one of r77's own files is not a recovery target
+    assert.equal(await (await nav).text(),"r78:index.html","offline after rollback: the r78 page");
+    assert.equal(await w.get("js/app.js?v="+diag.previousRevision),"r78:js/app.js","and r78's own files");
+    // 2. an r78 cache missing one of r78's own files is not a recovery target
     w=swWorld();
     w.fill(diag.revision,diag.shellPaths);const broken=w.fill(diag.previousRevision,diag.previousShellPaths);
     const gone=new URL("js/app.js",w.SCOPE);gone.searchParams.set("v",diag.previousRevision);broken.delete(gone.href);
-    assert.equal((await w.message("CMS_GET_CACHE_STATUS")).previous.ok,false,"an incomplete r77 shell fails its own check");
+    assert.equal((await w.message("CMS_GET_CACHE_STATUS")).previous.ok,false,"an incomplete r78 shell fails its own check");
     await w.dispatch("activate",{});
     assert.ok(![...w.store.keys()].includes(PREV),"and is cleared on activation");
-    // 3. the current shell is still judged against the full r78 list
+    // 3. the current shell is still judged against the full r79 list
     w=swWorld();w.fill(diag.revision,diag.previousShellPaths);
-    assert.equal((await w.message("CMS_ACTIVATE_UPDATE")).ok,false,"an r78 cache with only r77's files is refused");
+    assert.equal((await w.message("CMS_ACTIVATE_UPDATE")).ok,false,"an r79 cache with only r78's files is refused");
   })();
   previousShellChecks.catch(()=>{});
 });
@@ -327,7 +331,7 @@ async function auditViewport(browser,base,options){
     await auditViewport(browser,base,{viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true});
     await auditViewport(browser,base,{viewport:{width:1280,height:800}});
     passed+=1;console.log(`ok ${passed} R5 the real RESET ALL SHOWDOWN DATA confirm works by keyboard and pointer at 390x844 and 1280x800`);
-    console.log(`PASS r78 marble confirm contracts: ${passed} checks (no native confirm() left; 13 call sites keep their words; one keyboard-accessible marble box).`);
+    console.log(`PASS r78 marble confirm contracts: ${passed} checks (no native confirm() left; 12 call sites keep their words; one keyboard-accessible marble box).`);
   }finally{
     if(browser)await browser.close();
     server.kill();

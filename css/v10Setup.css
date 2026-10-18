@@ -1299,6 +1299,15 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
     max-width: 116px; padding: 7px 8px; font-size: 11px; letter-spacing: .06em;
   }
   html[data-v10-setup="league"] #app > footer { min-height: 28px; padding: 3px 10px; font-size: 10px; line-height: 1.1; }
+  /* HO-033 item 9: the old brand bar text ("CAREER MODE / SHOWDOWN // 17") and the version footer go, as on desktop
+     (css/v10Shell.css r61). SIGN IN and the status chip stay one tap away on a slim bar, right-aligned. */
+  html[data-v10-setup="league"] #app #topHeader { grid-template-columns: minmax(0, 1fr) auto auto; min-height: 52px; }
+  html[data-v10-setup="league"] #app #topHeader .brand,
+  html[data-v10-setup="league"] #app > footer {
+    position: absolute; width: 1px; height: 1px; min-height: 0; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+  }
+  html[data-v10-setup="league"] #app #topHeader #onlinePlayerIdentityBadge { grid-column: 2; }
+  html[data-v10-setup="league"] #app #topHeader #seasonIndicator { grid-column: 3; }
   #app #leagueWheelScreen.v26Skin {
     --v26-wheel: max(140px, min(76vw, calc(100svh - 420px)));
     --v1697-title: min(76vw, 42svh, 310px);
@@ -1636,4 +1645,25 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
   }
   #app #leagueWheelScreen.v26Skin .wheelPointer { margin-top: calc(var(--v26-wheel-cut) * .5695); }
   #app #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: calc(8px + var(--v26-wheel-cut) * .5); }
+}
+
+/* r79 PR4: the one-time START REAL CAREER checkmark and the TEST RUN label on the seasons screen. They wear the screen's own
+   stateNote face (marble on phones) and sit in the setup box's flow above START, never over it. */
+#createShowdown :is(.cmsRealCareerRow, .cmsTestRunNote, .cmsSeasonsStartMessage)[hidden] { display: none !important; }
+#createShowdown .cmsRealCareerRow { display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: center; column-gap: 12px; row-gap: 3px; min-height: 48px; text-align: left; }
+#createShowdown .cmsRealCareerRow input { grid-row: 1 / span 2; width: 24px; height: 24px; margin: 0; accent-color: #f2c45b; cursor: pointer; }
+#createShowdown.v26Skin .setupBox .cmsRealCareerRow label, #createShowdown .cmsRealCareerRow label { margin: 0; text-align: left; letter-spacing: .14em; cursor: pointer; color: #f6ebd0; font-weight: 700; }
+#createShowdown .cmsRealCareerRow small { grid-column: 2; font-size: 12px; line-height: 1.3; color: #d9cdb0; }
+#createShowdown .cmsTestRunNote { font-weight: 700; letter-spacing: .1em; color: #fff1ae; }
+/* Gallery #11/#12 (r79): on phones the one-time checkmark, the TEST RUN label or the refusal message used to push START A
+   SHOWDOWN and BACK behind the version footer and the bottom bar (393x852: BACK at 770-818 under the bar at 796). While one of
+   them is on the screen the hero band follows the free height and the setup box keeps the short-phone spacing, so START and
+   BACK stay in the first view at 393x852, 390x844 and 360x800 (same order, same marble face; main stays the only scroller). */
+@media (max-width: 900px) {
+  #createShowdown.v26Skin:has(.setupBox :is(.cmsRealCareerRow, .cmsTestRunNote, .cmsSeasonsStartMessage):not([hidden])) { --v26-band: clamp(140px, calc(100svh - 575px), 300px); }
+  #createShowdown.v26Skin:has(.setupBox :is(.cmsRealCareerRow, .cmsTestRunNote, .cmsSeasonsStartMessage):not([hidden])) .setupBox { margin-top: calc(var(--v26-band) - 70px); padding: 12px; gap: 8px; }
+  #createShowdown.v26Skin:has(.setupBox :is(.cmsRealCareerRow, .cmsTestRunNote, .cmsSeasonsStartMessage):not([hidden])) .setupBox :is(.stateNote, label:not([hidden]), #roundAmount, .menuButton, .backButton) { margin-top: 0; margin-bottom: 0; }
+  #createShowdown.v26Skin:has(.setupBox :is(.cmsRealCareerRow, .cmsTestRunNote, .cmsSeasonsStartMessage):not([hidden])) .setupBox .stateNote { padding: 6px 12px; }
+  #createShowdown.v26Skin:has(.setupBox :is(.cmsRealCareerRow, .cmsTestRunNote, .cmsSeasonsStartMessage):not([hidden])) #roundAmount { min-height: 44px; }
+  #createShowdown.v26Skin .setupBox .cmsSeasonsStartMessage { font-size: 13px; line-height: 1.3; }
 }

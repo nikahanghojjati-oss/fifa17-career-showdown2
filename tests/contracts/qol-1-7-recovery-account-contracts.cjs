@@ -154,7 +154,7 @@ async function q1HandlersAreUnchanged(){
 }
 
 function q2StylingAndNoScroller(){
-  assert.match(adapterSource,/const PRIMARY=\/\^\(START A SHOWDOWN\|CREATE CODE FOR NIK\|JOIN DANIEL'S SHOWDOWN\|START CAREER\|TRY CONTINUE AGAIN\|RESTORE BACKUP\)\$\/;/,"Q2 the Connect Players adapter makes RESTORE BACKUP the solid primary button");
+  assert.match(adapterSource,/const PRIMARY=\/\^\(START A SHOWDOWN\|CHOOSE SEASONS\|CREATE CODE FOR NIK\|JOIN DANIEL'S SHOWDOWN\|START CAREER\|TRY CONTINUE AGAIN\|RESTORE BACKUP\)\$\/;/,"Q2 the Connect Players adapter makes RESTORE BACKUP the solid primary button");
   assert.equal(/DELETE OLD/.test(adapterSource.match(/const PRIMARY=[^\n]*/)[0]),false,"Q2 the delete is never a primary button");
   const rule=connectCss.match(/(^|\n)(#app #connectPlayersScreen #persistentNikDanielPairPanel \.menuButton\.pairRecoverySecondary)\{([^}]*)\}/);
   assert.ok(rule,"Q2 the smaller-secondary rule is #app-prefixed so it beats the Team V sheets that load later");
@@ -196,7 +196,10 @@ function q4NothingElseMoved(){
   assert.match(account,/signInWithPopup/,"Q4 sign-in stays popup-only");
   assert.doesNotMatch(account,/addScope|setCustomParameters\(\{[^}]*scope/i,"Q4 sign-in adds no extra scopes");
   const createButtons=(pairSource.match(/pairCreateElement\("button"/g)||[]).length;
-  assert.equal(createButtons,13,"Q4 no button was added or removed from the pair panel");
+  // r79: +1, CHOOSE SEASONS replaces CREATE CODE FOR NIK for Daniel while no seasons are chosen (no more bounce to the seasons screen).
+  // r79 Codex #915: +1, PAIR AGAIN replaces CREATE CODE FOR NIK for Daniel when Nik unpaired while he chose the seasons.
+  assert.equal(createButtons,15,"Q4 only the r79 CHOOSE SEASONS and PAIR AGAIN buttons were added to the pair panel");
+  assert.equal((pairSource.match(/pairCreateElement\("button","menuButton","CHOOSE SEASONS"\)/g)||[]).length,1,"Q4 (r79) the one added button is CHOOSE SEASONS");
   ok("Q4 the creator guard, two-manager rule and sign-in mechanics are untouched and no control was added");
 }
 

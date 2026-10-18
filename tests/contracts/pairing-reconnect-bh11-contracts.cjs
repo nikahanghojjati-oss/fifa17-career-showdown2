@@ -100,6 +100,7 @@ function pairHarness({role="playerTwo",saves=[],activeSaveId=null,docs:seed={},n
     CareerModeOnlinePlayerIdentity:{getState:()=>({managerId:role==="playerTwo"?"nik":"daniel"})},
     CareerModeSparkConnectedAccount:{initialize:async()=>({}),getState:()=>({connected:true,accountId:uid})},
     CareerModeSparkPrivatePairing:pairing,
+    CareerModeCareerStartMarker:{readCurrentMarker:async()=>({status:"none"})},
     CareerModeSaveLibraryRuntime:runtime,
     CareerModeProductionSharedJourneyEntry:{provisionJoinerShell:async rounds=>{calls.provision+=1;library.saves.push(shell(SAVE_NEW,PROFILE_NEW,Number(rounds)));library.activeSaveId=SAVE_NEW;return true;}},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>{if(h.servicesError)throw h.servicesError;return{ok:true,auth:{currentUser:{uid}},firestore:{},firestoreSdk};}},
@@ -314,8 +315,11 @@ async function r2ExplicitConfirm(){
   assert.equal((await stale.pair.initialize({force:true})).connectionState,"pending-pair");
   assert.equal(await stale.pair.discardStalePendingConnection(),false,"R2 DELETE OLD CONNECTION without confirm() does nothing");
   assert.equal(stale.docs.get(`rivalries/${RIVALRY}`).data.connectionState,"pending-pair");assert.deepEqual(stale.deleted,[]);
-  const entry=read("js/productionSharedJourneyEntry.js"),fresh=entry.slice(entry.indexOf("async function prepareFreshStart"),entry.indexOf("async function startShared"));
-  assert.match(fresh,/const confirmed=await entryAskConfirm\([\s\S]*if\(confirmed!==true\)return false;[\s\S]*abandonCurrentShowdown/,"R2 START A SHOWDOWN over a live pair closes it only on an explicit yes");
+  // r79 (owner): START never offers to close a live Showdown; closing stays in Settings (DELETE CURRENT SHOWDOWN, its own confirm).
+  const entry=read("js/productionSharedJourneyEntry.js"),start=entry.slice(entry.indexOf("async function startShared"),entry.indexOf("async function openPersistentPairControls"));
+  assert.ok(start.length>0&&!/async function prepareFreshStart/.test(entry),"R2 (r79) the START close-the-live-pair preflight is gone");
+  assert.doesNotMatch(entry,/abandonCurrentShowdown|askShowdownConfirm/,"R2 (r79) START A SHOWDOWN never closes or offers to close a live pair");
+  assert.match(start,/const decision=await whichShowdownIsLive\(\);\s*if\(decision\.action!=="new"\)\{await followStartDecision\(decision\);return false;\}/,"R2 (r79) over a live pair START follows it (continue / WAITING / JOIN) and creates nothing");
   assert.doesNotMatch(entry+pairSource,/confirmed===false/,"R2 no destructive path treats a missing confirm() as consent");
   assert.match(pairSource,/"DELETE OLD SHOWDOWN & START OVER"\),recover=pairCreateElement\("button","menuButton","RESTORE BACKUP"\)/,"R2 the recovery buttons and their order are unchanged (owner decision)");
   console.log("ok R2 destructive start-over paths need confirm()===true");

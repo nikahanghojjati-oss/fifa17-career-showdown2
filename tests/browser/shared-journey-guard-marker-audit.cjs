@@ -13,7 +13,8 @@ async function prepareShared(page){
   // Provider-neutral pre-pair setup: real entry and local storage, no Firebase account.
   await page.evaluate(()=>{
     const state={status:'unpaired',initialized:true,busy:false,rivalryId:null,connectionState:null};
-    window.CareerModePersistentNikDanielPair={initialize:async()=>state,getState:()=>state,render:()=>null};
+    window.__markerAuditCodes=0;
+    window.CareerModePersistentNikDanielPair={initialize:async()=>state,getState:()=>state,render:()=>null,startPairing:async()=>{window.__markerAuditCodes+=1;return state;}};
     window.CareerModeOnlinePlayerIdentity={
       getState:()=>({status:'ready',initialized:true,online:true,accountId:'account_marker_audit',managerId:'daniel',managerLabel:'Daniel',deviceId:'device_marker_audit',registered:true}),
       syncPair:async()=>state,openGate:()=>false
@@ -21,16 +22,19 @@ async function prepareShared(page){
     window.CareerModeProductionFirebaseRuntime={};
     window.CareerModeSparkConnectedAccount={initialize:async()=>true,getState:()=>({connected:false})};
   });
+  // r79: Daniel's Home START goes straight to the seasons screen (no Connect Players hop).
   await page.locator('#newShowdown').click();
-  await page.locator('#connectPlayersSetup').click();
+  await page.locator('#createShowdown').waitFor({state:'visible'});
   await page.locator('#roundAmount').selectOption('3');
   await page.locator('#startShowdown').click();
   await page.waitForFunction(key=>{
     const library=JSON.parse(localStorage.getItem(key)||'null');
     return library?.saves.find(entry=>entry.saveId===library.activeSaveId)?.showdown.sharedJourney?.setupPending===true;
   },saveKey,{timeout:15000});
-  await page.locator('#productionSharedJourneyEntryOverlay button',{hasText:'WAITING FOR BOTH PLAYERS'}).waitFor({state:'visible'});
-  await page.evaluate(()=>CareerModeProductionSharedJourneyEntry.closePanel());
+  // r79: START opens WAITING (Connect Players over the locked league wheel) and makes the code once; no GET READY.
+  await page.locator('#connectPlayersScreen').waitFor({state:'visible'});
+  await page.waitForFunction(()=>window.__markerAuditCodes===1,null,{timeout:15000});
+  await page.evaluate(()=>CareerModeConnectPlayersScreenV10.close({restoreFocus:false}));
 }
 
 async function savedDraw(page){

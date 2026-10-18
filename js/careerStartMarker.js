@@ -5,11 +5,12 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  // Career start marker (owner decision): before their first real game each manager presses START REAL CAREER
-  // once. accounts/{uid}/careerStart/current then names the Showdowns already in that account's career index
-  // (hiddenRivalryIds, oldest first). While `active`, the career screens leave those Showdowns out. Nothing is
-  // ever deleted; switching `active` off shows them again. Exact gets and one small transaction only; loaded
-  // lazily by the career screens and Settings, never at startup.
+  // Career start marker (owner decision): the first real START (the one-time START REAL CAREER checkmark on the seasons
+  // screen; Nik's app before he redeems a first real pairing code) writes accounts/{uid}/careerStart/current. It names the
+  // Showdowns already in that account's career index (hiddenRivalryIds, oldest first): the test games, which stay stored
+  // and are never shown again (r79 PR4, Nik 2026-10-17: the SHOW TEST SHOWDOWNS AGAIN switch is gone, so `active` no
+  // longer matters). The account is REAL once this document exists. Exact gets and one small transaction only; loaded
+  // lazily by the career screens, Settings and the modes module, never at startup.
   const DOC_ID="current",OBJECT_TYPE="careerStart",INDEX_CAPACITY=500,RIVALRY_ID=/^pair_[0-9a-f]{64}$/;
   const CHANGE_EVENT="career-mode-career-start-change";
   const markers=new Map(),failedReads=new Set();
@@ -37,8 +38,9 @@
     // startedAt is the server time of the first press (immutable), so toggles never move the shown date.
     return csmFreeze({status:"ready",active:data.active,hiddenRivalryIds:[...data.hiddenRivalryIds],startedAt,revision:value.revision,contentHash:value.contentHash});
   }
-  // The ids the career screens leave out: only while the marker is active.
-  function hiddenRivalryIds(marker){return marker&&marker.status==="ready"&&marker.active===true?marker.hiddenRivalryIds.slice():[];}
+  // The ids the career screens leave out. r79 PR4: always, whatever `active` says (an account that switched the retired
+  // SHOW TEST SHOWDOWNS AGAIN on keeps its test games stored but hidden).
+  function hiddenRivalryIds(marker){return marker&&marker.status==="ready"?marker.hiddenRivalryIds.slice():[];}
   function parseIndexHead(value){
     if(!csmEnvelopeValid(value,"careerIndex","current"))throw csmError("CAREER_START_INDEX_INVALID","The career index is invalid.");
     const data=value.data||{};
@@ -78,11 +80,11 @@
       if(!firestore||typeof firebaseSdk?.doc!=="function"||typeof firebaseSdk.getDoc!=="function")throw csmError("CAREER_START_PROVIDER_UNAVAILABLE","The career service is unavailable.");
       const snapshot=await firebaseSdk.getDoc(csmRef(firebaseSdk,firestore,accountId,"careerStart",DOC_ID));
       const marker=snapshot.exists()?parseMarker(snapshot.data()):NONE;
-      // An earlier failed read showed the whole career (fail-open). If the marker turns out to be active, the
-      // career already on screen is wrong: count it as a change so cached careers drop and mounted screens reload.
+      // An earlier failed read showed the whole career (fail-open). If a marker turns out to exist, the career already
+      // on screen is wrong: count it as a change so cached careers drop and mounted screens reload.
       const recovered=failedReads.delete(accountId);
       if(markers.get(accountId)===promise){
-        if(recovered&&marker.status==="ready"&&marker.active===true)return csmPublish(accountId,marker,true);
+        if(recovered&&marker.status==="ready"&&marker.hiddenRivalryIds.length>0)return csmPublish(accountId,marker,true);
         state=Object.freeze({status:marker.status,accountId,epoch:markerEpoch});
       }
       return marker;
@@ -116,15 +118,24 @@
   // A Showdown that is still being played (or waiting for the other manager) is part of the real career. Checked
   // inside the write transaction: the pair link read is part of it, so a Showdown started in another tab meanwhile
   // makes the transaction retry and refuse. A rivalry this account cannot read is not its unfinished Showdown.
+  // r79 PR4: a pending rivalry whose code has expired or was used up is finished (nobody can join it any more), so an
+  // old test code never blocks the first real START. An invite that cannot be read keeps it unfinished (fail closed).
+  // Codex #908: this device's clock may run ahead of the server, so a code counts as expired only 10 minutes after its expiry.
+  const INVITE_CLOCK_MARGIN_MS=10*60*1000;
+  function csmInviteOpen(value,nowMs){const expires=csmMillis(value?.data?.expiresAt);return value?.data?.state==="open"&&(expires===null||expires>nowMs-INVITE_CLOCK_MARGIN_MS);}
   async function csmAssertNoUnfinishedShowdown(transaction,sdk,firestore,accountId){
     const pair=await transaction.get(csmRef(sdk,firestore,accountId,"pairLinks","current"));
     const rivalryId=pair.exists()?pair.data()?.data?.rivalryId:null;
-    let connectionState=null;
+    let connectionState=null,codeOpen=true;
     if(typeof rivalryId==="string"&&RIVALRY_ID.test(rivalryId)){
       try{const rivalry=await transaction.get(sdk.doc(firestore,"rivalries",rivalryId));connectionState=rivalry.exists()?rivalry.data()?.data?.connectionState??null:null;}
       catch(_error){connectionState=null;}
+      if(connectionState==="pending-pair"){
+        try{const invite=await transaction.get(sdk.doc(firestore,"rivalries",rivalryId,"invites",rivalryId));codeOpen=invite.exists()&&csmInviteOpen(invite.data(),Date.now());}
+        catch(_error){codeOpen=true;}
+      }
     }
-    if(connectionState==="active"||connectionState==="pending-pair")throw csmError("CAREER_START_SHOWDOWN_UNFINISHED","Finish or delete the current Showdown before starting your real career.");
+    if(connectionState==="active"||(connectionState==="pending-pair"&&codeOpen))throw csmError("CAREER_START_SHOWDOWN_UNFINISHED","Finish or delete the current Showdown before starting your real career.");
   }
   async function csmWrite(options,mode,active){
     const o=options&&options.firestore?options:await resolveServices({write:true});
@@ -156,7 +167,7 @@
   function setActive(active,options){return csmWrite(options,"toggle",active===true);}
   function clearCache(){markers.clear();failedReads.clear();markerEpoch+=1;state=Object.freeze({status:"unknown",accountId:null,epoch:markerEpoch});}
 
-  return Object.freeze({contractVersion:1,feature:"cms-career-start-marker",changeEvent:CHANGE_EVENT,documentPath:"accounts/{uid}/careerStart/current",
+  return Object.freeze({contractVersion:2,feature:"cms-career-start-marker",hiddenWhateverActive:true,changeEvent:CHANGE_EVENT,documentPath:"accounts/{uid}/careerStart/current",
     readMarker,readCurrentMarker,hiddenRivalryIds,startRealCareer,setActive,clearCache,parseMarker,planCreate,planToggle,
     epoch:()=>markerEpoch,getState:()=>state,listPermissionRequired:false,deletionRequired:false,billingRequired:false});
 });

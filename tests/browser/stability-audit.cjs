@@ -40,7 +40,8 @@ function createPageMonitors(page,expectedConsoleErrors=[]){
   return{assertClean(label){assert.deepEqual(pageErrors,[],`${label} emitted page errors.`);assert.deepEqual(severeConsole,[],`${label} emitted unexpected console errors.`);assert.deepEqual(localFailures,[],`${label} had failed local assets or requests.`);}};
 }
 // JOB-1015: New Showdown opens the Connect Players layer; CHOOSE SEASONS leads to the season picker.
-async function chooseSeasonsFromConnectPlayers(page){await page.locator("#connectPlayersScreen").waitFor({state:"visible",timeout:12000});await page.locator("#connectPlayersSetup").click();}
+// r79: Daniel's Home START goes straight to the seasons screen (no Connect Players hop, no bounce).
+async function expectSeasonsStraightFromHome(page){await waitForScreen(page,"createShowdown");assert.equal(await page.locator("#connectPlayersScreen").isVisible().catch(()=>false),false,"Home START must not stop on Connect Players first.");}
 async function installAuditRuntime(page){
   await page.addInitScript(()=>{window.__cmsRouteEvents=[];document.addEventListener("DOMContentLoaded",()=>{const observer=new MutationObserver(records=>records.forEach(record=>{if(record.type==="attributes"&&record.attributeName==="data-route-state"&&record.target instanceof Element&&record.target.getAttribute("data-route-state")==="entering")window.__cmsRouteEvents.push({id:record.target.id,direction:record.target.getAttribute("data-route-direction")});}));observer.observe(document.body,{subtree:true,attributes:true});},{once:true});});
   await page.addInitScript({path:axePath});
@@ -60,7 +61,12 @@ async function installAuthorizedOnlineIdentityFixture(page){
     window.CareerModeProductionFirebaseRuntime=window.CareerModeProductionFirebaseRuntime||{};
     window.CareerModeSparkConnectedAccount={initialize:async()=>({connected:true,accountId}),getState:()=>({connected:true,accountId}),signIn:async()=>({connected:true,accountId}),signOut:async()=>({connected:false,accountId:null})};
     window.CareerModeSparkPrivatePairing={initialize:async()=>({registered:true,deviceId}),getState:()=>({registered:true,deviceId,message:"Ready"}),getOrCreateDeviceIdentity:async()=>({deviceId})};
-    window.CareerModePersistentNikDanielPair={initialize:async()=>({accountId,managerId:"daniel",connectionState:"idle",rivalryId:null}),render:()=>null};
+    const pairState={status:"unpaired",initialized:true,busy:false,accountId,managerId:null,managerRole:null,connectionState:null,rivalryId:null};
+    // r79 PR4 (Nik): every Home START is real, so START first asks whether this account's real career has started and
+    // refuses while that cannot be checked. This fixture Daniel has already started it (a career start marker).
+    window.CareerModeCareerStartMarker={readCurrentMarker:async()=>({status:"ready",hiddenRivalryIds:[],active:true,revision:0}),startRealCareer:async()=>{throw new Error("the fixture marker already exists");},hiddenRivalryIds:()=>[],epoch:()=>0,getState:()=>({status:"ready",accountId})};
+    window.__stabilityPairCodes=0;
+    window.CareerModePersistentNikDanielPair={initialize:async()=>pairState,getState:()=>pairState,render:()=>null,startPairing:async()=>{window.__stabilityPairCodes+=1;return pairState;}};
     const identity=window.CareerModeOnlinePlayerIdentity;
     let state=await identity.initialize(true);
     if(state?.status==="choose-manager")state=await identity.chooseManager("daniel");
@@ -110,6 +116,7 @@ async function releasePairedFirstGateForGameplayStability(page,prefix){
     if(window.CareerModeSaveLibraryRuntime.saveCurrentShowdown()!==true)throw new Error("Could not persist test-only paired-first completion.");
     sessionStorage.removeItem(pendingKey);
     document.getElementById("productionSharedJourneyEntryOverlay")?.classList.add("hidden");
+    window.CareerModeConnectPlayersScreenV10?.close?.({restoreFocus:false});
     for(const id of ["spinLeague","openClubPack"]){const button=document.getElementById(id);if(button){button.disabled=false;button.removeAttribute("aria-disabled");delete button.dataset.sharedJourneyLocked;button.removeAttribute("title");}}
     document.getElementById("continueSharedSetupGate")?.remove();document.getElementById("sharedJourneyLeagueLockNote")?.remove();
     return{pending:window.CareerModeProductionSharedJourneyEntry.isPending(),name:currentShowdown.name,managers:currentShowdown.managers,marker:currentShowdown.sharedJourney};
@@ -131,7 +138,7 @@ async function resumeSavedUnderStability(page,expectedScreen,prefix){
 }
 async function createShowdownWithRapidActivation(page,prefix){
   await installAuthorizedOnlineIdentityFixture(page);
-  await page.locator("#newShowdown").click();await chooseSeasonsFromConnectPlayers(page);await waitForScreen(page,"createShowdown");await runAxe(page,`${prefix} Create Showdown`);
+  await page.locator("#newShowdown").click();await expectSeasonsStraightFromHome(page);await waitForScreen(page,"createShowdown");await runAxe(page,`${prefix} Create Showdown`);
   assert.deepEqual(await page.evaluate(()=>["showdownName","managerOne","managerTwo"].map(id=>{const input=document.getElementById(id);return{id,value:input.value,hidden:input.hidden,ariaHidden:input.getAttribute("aria-hidden")};})),[
     {id:"showdownName",value:"Daniel vs Nik",hidden:true,ariaHidden:"true"},{id:"managerOne",value:"Daniel",hidden:true,ariaHidden:"true"},{id:"managerTwo",value:"Nik",hidden:true,ariaHidden:"true"}
   ],"Setup must preserve the canonical Daniel/P1 and Nik/P2 mapping without exposing editable manager fields.");
@@ -142,7 +149,12 @@ async function createShowdownWithRapidActivation(page,prefix){
   assert.equal(writes.singletonWrites,0);assert.equal(writes.singletonRaw,null);assert.ok(writes.libraryWrites>=1);assert.ok(writes.library?.activeSaveId);assert.ok(writes.library.saves.length>=1);
   const active=await readActiveSave(page);assert.equal(active.name,"Daniel vs Nik");assert.deepEqual(active.managers,{playerOne:"Daniel",playerTwo:"Nik"});assert.deepEqual(active.sharedJourney,{contractVersion:1,mode:"shared",setupPending:true});
   assert.equal(await page.locator("#spinLeague").isDisabled(),true,"League draw must be locked before both players are connected.");
-  checkpoint(`${prefix} canonical rapid Start`,`paired-first lock active · 0 singleton writes`);
+  // r79: START opens WAITING (Connect Players over the locked league wheel) and makes the pair code once, even on a double tap.
+  await page.locator("#connectPlayersScreen").waitFor({state:"visible",timeout:12000});
+  await page.waitForFunction(()=>window.__stabilityPairCodes===1,null,{timeout:12000});
+  assert.deepEqual(await activeScreens(page),["leagueWheelScreen"],"START never leaves the canonical league screen.");
+  assert.equal(await page.locator("#productionSharedJourneyEntryOverlay").isVisible().catch(()=>false),false,"No GET READY after START.");
+  checkpoint(`${prefix} canonical rapid Start`,`paired-first lock active · WAITING over the league wheel · 1 code · 0 singleton writes`);
   await releasePairedFirstGateForGameplayStability(page,prefix);
 }
 async function selectAndConfirmLeague(page,prefix){
@@ -222,13 +234,13 @@ async function runCorruptStorageFixture(browser){
   const page=await context.newPage(),monitors=createPageMonitors(page,[/Unable to parse the active showdown/,/Unable to parse Legacy history/,/Unable to parse application preferences/,/Unable to prepare local Save Library authority/,/Save Library activation failed/,/Unable to prepare Showdown/]);await installAuditRuntime(page);
   try{
     await openApplication(page);await installAuthorizedOnlineIdentityFixture(page);assert.equal(await page.locator("#continueCareer").isEnabled(),false);assert.equal(await page.evaluate(key=>localStorage.getItem(key),activeStorageKey),"{corrupt active");
-    await page.locator("#newShowdown").click();await chooseSeasonsFromConnectPlayers(page);await waitForScreen(page,"createShowdown");await page.locator("#startShowdown").click();await page.waitForFunction(()=>!document.getElementById("startShowdown").disabled);assert.deepEqual(await activeScreens(page),["createShowdown"]);assert.equal(await page.evaluate(key=>localStorage.getItem(key),activeStorageKey),"{corrupt active","Unreadable legacy singleton bytes must remain byte-for-byte untouched when canonical Start fails closed.");assert.equal(await page.evaluate(key=>localStorage.getItem(key),saveLibraryStorageKey),null,"Corrupt singleton failure must not fabricate Save Library authority.");monitors.assertClean("Corrupt storage fixture");checkpoint("Corrupt singleton bytes fail closed at canonical Start");
+    await page.locator("#newShowdown").click();await expectSeasonsStraightFromHome(page);await waitForScreen(page,"createShowdown");await page.locator("#startShowdown").click();await page.waitForFunction(()=>!document.getElementById("startShowdown").disabled);assert.deepEqual(await activeScreens(page),["createShowdown"]);assert.equal(await page.evaluate(key=>localStorage.getItem(key),activeStorageKey),"{corrupt active","Unreadable legacy singleton bytes must remain byte-for-byte untouched when canonical Start fails closed.");assert.equal(await page.evaluate(key=>localStorage.getItem(key),saveLibraryStorageKey),null,"Corrupt singleton failure must not fabricate Save Library authority.");monitors.assertClean("Corrupt storage fixture");checkpoint("Corrupt singleton bytes fail closed at canonical Start");
   }finally{await context.close();}
 }
 async function runQuotaFailureFixture(browser){
   const context=await browser.newContext({viewport:{width:1366,height:768},locale:"en-US"});const page=await context.newPage(),monitors=createPageMonitors(page,[/Unable to write local save data/,/Unable to prepare local Save Library authority/,/Save Library/,/Unable to prepare Showdown/]);await installAuditRuntime(page);
   try{
-    await openApplication(page);await installAuthorizedOnlineIdentityFixture(page);await page.locator("#newShowdown").click();await chooseSeasonsFromConnectPlayers(page);await waitForScreen(page,"createShowdown");
+    await openApplication(page);await installAuthorizedOnlineIdentityFixture(page);await page.locator("#newShowdown").click();await expectSeasonsStraightFromHome(page);await waitForScreen(page,"createShowdown");
     await page.evaluate(key=>{window.__cmsQuotaOriginalSetItem=Storage.prototype.setItem;Storage.prototype.setItem=function(storageKey,value){if(storageKey===key)throw new DOMException("Simulated quota exhaustion","QuotaExceededError");return window.__cmsQuotaOriginalSetItem.call(this,storageKey,value);};},saveLibraryStorageKey);
     await page.locator("#startShowdown").click();await page.waitForFunction(()=>!document.getElementById("startShowdown").disabled);assert.deepEqual(await activeScreens(page),["createShowdown"]);assert.equal(await page.evaluate(key=>localStorage.getItem(key),saveLibraryStorageKey),null,"Failed Save Library write must roll back without accepting authority.");
     await page.evaluate(()=>{Storage.prototype.setItem=window.__cmsQuotaOriginalSetItem;delete window.__cmsQuotaOriginalSetItem;document.getElementById("startShowdown").click();});await waitForScreen(page,"leagueWheelScreen");assert.equal((await readActiveSave(page)).name,"Daniel vs Nik");monitors.assertClean("Quota failure fixture");checkpoint("Save Library quota rejection rolls back before canonical retry");

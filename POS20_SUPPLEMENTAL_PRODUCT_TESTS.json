@@ -844,7 +844,18 @@
         "^js/productionSharedCanonicalScoring\\.js$",
         "^js/productionSharedHistoryConvergence\\.js$",
         "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^js/ssjr\\.js$",
+        "^js/connectPlayersScreenV10\\.js$",
         "^tests/contracts/fewer-taps-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r79-home-start-busy-contracts.cjs",
+      "patterns": [
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/v10Screens\\.js$",
+        "^tests/contracts/r79\\-home\\-start\\-busy\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },
@@ -967,6 +978,19 @@
         "^js/sparkPrivatePairing\\.js$",
         "^js/productionSharedJourneyEntry\\.js$",
         "^tests/contracts/pairing-reconnect-bh11-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r79-delete-rejoin-contracts.cjs",
+      "patterns": [
+        "^js/sparkTerminalClose\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/productionSharedFinalReconciliation\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^tests/contracts/r79-delete-rejoin-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },
@@ -1725,6 +1749,54 @@
         "^css/r78\\-marble\\-surfaces\\.css$",
         "^css/r78\\-type\\.css$",
         "^tests/contracts/r78\\-marble\\-confirm\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/which-showdown-is-live-contracts.cjs",
+      "patterns": [
+        "^js/whichShowdownIsLive\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/connectPlayersScreenV10\\.js$",
+        "^js/showdownUI\\.js$",
+        "^js/screens\\.js$",
+        "^service\\-worker\\.js$",
+        "^index\\.html$",
+        "^tests/contracts/which\\-showdown\\-is\\-live\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/permanent-pairing-client-contracts.cjs",
+      "patterns": [
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/whichShowdownIsLive\\.js$",
+        "^js/sparkRemoteJoining\\.js$",
+        "^js/careerStartMarker\\.js$",
+        "^firestore\\.persistent\\-pair\\-production\\.fragment\\.rules$",
+        "^tests/contracts/permanent\\-pairing\\-client\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r79-modes-settings-contracts.cjs",
+      "patterns": [
+        "^js/showdownModes\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/careerStartMarker\\.js$",
+        "^js/whichShowdownIsLive\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/settings\\.js$",
+        "^css/v10Setup\\.css$",
+        "^css/connectPlayersV10\\.css$",
+        "^css/rulesSettingsV10\\.css$",
+        "^service\\-worker\\.js$",
+        "^index\\.html$",
+        "^tests/contracts/r79\\-modes\\-settings\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }

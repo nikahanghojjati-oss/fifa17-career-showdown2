@@ -1263,3 +1263,21 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
  /* Home's sheet paints every <main> near-black; upright and sideways tablets already clear it here, phones now too. */
  #app #connectPlayersScreen .connectPlayersPhoneFlow { background:none; }
 }
+/* r79 PR4: a test-mode account's Connect Players says so above the pair panel (in the slot's flow; never over anything). */
+#cmsConnectTestRunNote{box-sizing:border-box;width:100%;max-width:100%;margin:0 0 8px;padding:8px 12px;border:1px solid #e0b230b3;background:linear-gradient(145deg,#070a0deb,#0c0e11d1);color:#fff1ae;font:700 13px/1.25 var(--f17-display);letter-spacing:.08em;text-align:center;}
+#cmsConnectTestRunNote[hidden]{display:none!important;}
+/* Gallery #13 (r79): the strip spans the pair panel's own width (it kept the 800px .stateNote width on desktop and sat short of
+   the WAITING card's edge) and paints above the neighbouring cards' drop shadows, so nothing lies over it. On short laptops
+   (1366x768) it is slimmer and the role cards drop their spare min-height while it shows, so the WAITING card and its buttons
+   stay inside the first view as they did before the strip. */
+#app #connectPlayersScreen #cmsConnectTestRunNote{position:relative;z-index:1;}
+@media (min-width:901px) and (min-height:600px) and (max-height:820px){
+ #app #connectPlayersScreen #cmsConnectTestRunNote{padding:5px 12px;font-size:12px;line-height:1.2;}
+ #app #connectPlayersScreen:has(#cmsConnectTestRunNote:not([hidden])) .connectPlayersRole{min-height:calc(27.3vh - 40px);padding-top:14px;}
+ #app #connectPlayersScreen:has(#cmsConnectTestRunNote:not([hidden])) .connectPlayersWorkspace{margin-bottom:8px;}
+}
+@media (min-width:901px) and (min-height:600px) and (max-height:740px){
+ #app #connectPlayersScreen #cmsConnectTestRunNote{margin-bottom:6px;padding:4px 12px;}
+ #app #connectPlayersScreen:has(#cmsConnectTestRunNote:not([hidden])) .connectPlayersWorkspace{gap:8px;}
+ #app #connectPlayersScreen:has(#cmsConnectTestRunNote:not([hidden])) .connectPlayersRole{padding:10px 16px 10px;}
+}

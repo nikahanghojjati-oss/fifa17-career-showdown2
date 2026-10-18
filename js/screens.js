@@ -532,6 +532,8 @@ async function navigateTo(screenName, options = {}){
 }
 
 function getLegalBackTargets(screenName){
+    // r79: a shared Showdown's league wheel goes BACK to Home, never to the seasons screen (START would then begin another one).
+    if(screenName === "leagueWheelScreen" && currentShowdown?.sharedJourney?.setupPending === true){ return ["mainMenu"]; }
     return SAFE_BACK_TARGETS[screenName] || ["mainMenu"];
 }
 

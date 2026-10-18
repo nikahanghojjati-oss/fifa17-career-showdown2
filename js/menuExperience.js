@@ -79,7 +79,7 @@ const MENU_MEDIA_SOURCES = Object.freeze({
 });
 
 const MARCO_REUS_IMAGE = Object.freeze({
-    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.9.2-r78",
+    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.9.3-r79",
     source: "https://commons.wikimedia.org/wiki/File:Marco_Reus_(16204330530)_(cropped).jpg",
     license: "https://creativecommons.org/licenses/by/2.0/"
 });
@@ -158,10 +158,20 @@ function updateExistingTileText(button, label, meta){
     setTextIfChanged(button.querySelector(".menuTileMeta"), meta);
 }
 
+// r79: a save the pair holds as closed (deleted) is no live career; its own id first (cold reload: no Save Library runtime).
+function isPairClosedSave(s){
+    try{
+        const p = window.CareerModePersistentNikDanielPair?.getState?.();
+        const id = s?.identity?.saveId || window.CareerModeSaveLibraryRuntime?.getLibrarySnapshot?.()?.activeSaveId;
+        return Boolean(s && s.status !== "Completed" && p && !p.rivalryId && p.closedRivalryId && id === p.closedProviderSaveId);
+    }catch(_error){ return false; }
+}
+
 function getSavedShowdownMenuMeta(){
-    const saved = (typeof currentShowdown !== "undefined" && currentShowdown)
+    let saved = (typeof currentShowdown !== "undefined" && currentShowdown)
         ? currentShowdown
         : (typeof loadSavedShowdown === "function" ? loadSavedShowdown() : null);
+    if(isPairClosedSave(saved)){ saved = null; }
 
     if(!saved){
         return {
