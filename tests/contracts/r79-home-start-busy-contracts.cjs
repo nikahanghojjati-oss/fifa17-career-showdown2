@@ -68,9 +68,10 @@ function harness({manager="nik",account="uid_nik"}={}){
   vm.runInContext(identitySource,sandbox,{filename:"js/onlinePlayerIdentity.js"});
   const api=sandbox.CareerModeOnlinePlayerIdentity;
   const meta=()=>tile.querySelector(".menuTileMeta").textContent;
+  const label=()=>tile.querySelector(".menuTileLabel").textContent;
   const busy=()=>tile.getAttribute("aria-busy")==="true";
   function tap(){const event={target:tile.querySelector(".menuTileLabel"),defaultPrevented:false,preventDefault(){this.defaultPrevented=true;},stopImmediatePropagation(){}};for(const fn of clicks)fn(event);return event;}
-  return {api,tile,meta,busy,tap,ctl,calls,sandbox};
+  return {api,tile,meta,label,busy,tap,ctl,calls,sandbox};
 }
 async function ready(h){const state=await h.api.initialize();assert.equal(state.status,"ready","the player is signed in and chosen");await settle();}
 
@@ -84,6 +85,8 @@ await check("HB1 Nik's JOIN tap shows Checking… at once, while the fresh note 
   // synchronously, before any await has settled: the tile already answers
   assert.equal(h.busy(),true,"the tile is aria-busy from the tap itself");
   assert.equal(h.meta(),"Checking…","and says it is checking");
+  // r79 gallery: the r78 Home clips .menuTileMeta to 1 px; the visible label carries the busy word (desktop and phone)
+  assert.equal(h.label(),"CHECKING…","the visible tile label says CHECKING… from the tap itself");
   await settle();
   assert.equal(h.calls.watch,1,"the fresh note check is under way (the listener's first delivery can take up to 5 s)");
   assert.equal(h.busy(),true,"still busy while it waits");assert.equal(h.meta(),"Checking…","still Checking… while it waits");
@@ -94,11 +97,12 @@ await check("HB1 Nik's JOIN tap shows Checking… at once, while the fresh note 
   assert.equal(h.busy(),true,"busy through the pair read");assert.equal(h.meta(),"Checking…");
   h.ctl.which.resolve({action:"join",rivalryId:RIVALRY});await settle();
   assert.equal(h.calls.join,1,"the join starts");
-  assert.equal(h.busy(),true,"busy through the join");assert.equal(h.meta(),"Joining Daniel's Showdown…","the join shows its own line");
+  assert.equal(h.busy(),true,"busy through the join");assert.equal(h.meta(),"Joining Daniel's Showdown…","the join shows its own line");assert.equal(h.label(),"JOINING…","and its own visible label");
   h.ctl.join.resolve({status:"paired",connectionState:"active",rivalryId:RIVALRY});await settle();
   assert.equal(h.busy(),false,"cleared once the join has settled");
   assert.equal(h.tile.dataset.homeStartChecking,undefined,"no busy marker is left behind");
   assert.match(h.meta(),/Tap to join\./,"the tile is drawn again from page memory");
+  assert.equal(h.label(),"JOIN DANIEL'S SHOWDOWN","the visible label is drawn back too");
   assert.equal(h.tile.disabled,false,"never disabled (no dimming)");
 });
 
@@ -116,11 +120,11 @@ await check("HB2 the busy state is cleared on every exit: a failed check, a refu
   {const h=harness({manager:"daniel",account:"uid_daniel"});await ready(h);
    const navigations=[];h.sandbox.navigateTo=async name=>{navigations.push(name);return true;};
    assert.equal(h.meta(),"Choose seasons and create the code","Daniel's tile");
-   h.tap();assert.equal(h.busy(),true,"Daniel's START answers at once too");assert.equal(h.meta(),"Checking…");
+   h.tap();assert.equal(h.busy(),true,"Daniel's START answers at once too");assert.equal(h.meta(),"Checking…");assert.equal(h.label(),"CHECKING…","Daniel sees CHECKING… on the tile");
    await settle();assert.equal(h.calls.watch,0,"Daniel has no note check");
    h.ctl.which.resolve({action:"new"});await settle();
    assert.deepEqual(navigations,["createShowdown"],"Daniel goes to the seasons screen");
-   assert.equal(h.busy(),false,"and the tile is cleared");assert.equal(h.meta(),"Choose seasons and create the code");}
+   assert.equal(h.busy(),false,"and the tile is cleared");assert.equal(h.meta(),"Choose seasons and create the code");assert.equal(h.label(),"START A SHOWDOWN","Daniel's label is drawn back");}
 });
 
 await check("HB3 the busy tile costs nothing: no read, no timer, never disabled or dimmed; only the Home tile is wrapped",async()=>{

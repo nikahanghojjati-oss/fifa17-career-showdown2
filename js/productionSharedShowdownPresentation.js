@@ -93,14 +93,21 @@
   function ssjpSetControl(button,{label,disabled=false,hidden=false}={}){if(!button)return;if(workingControlId&&button.id===workingControlId&&!hidden){label="WORKING…";disabled=true;}button.disabled=Boolean(disabled);button.classList.toggle("hidden",Boolean(hidden));button.setAttribute("aria-disabled",String(Boolean(disabled)));if(label)ssjpText(button,label);delete button.dataset.sharedJourneyLocked;button.removeAttribute("title");}
   function ssjpClubDigest(setup){return setup&&setup.clubs?`${setup.leagueId}|${setup.clubs.playerOne}|${setup.clubs.playerTwo}`:null;}
 
+  // r79 gallery: before this rivalry's league is drawn the wheel shows no league. The lock note and the turned wheel of a
+  // previous rivalry on this page (deleted on Daniel's phone, then a new START + JOIN) are cleared, so Nik never reads
+  // "<league> is locked for both managers." before Daniel has spun, and no "Checking the shared setup…" note outlives its read.
+  function ssjpClearLeagueLock(note,track){
+    if(note&&(note.textContent||!note.classList.contains("hidden"))){ssjpText(note,"");note.classList.add("hidden");}
+    if(track&&track.dataset.sharedLeagueId){delete track.dataset.sharedLeagueId;if(typeof root.setLeagueWheelTransition==="function")root.setLeagueWheelTransition(track,0);else track.style.transition="none";track.style.transform="rotate(0deg)";}
+  }
   function ssjpRenderLeague(){
     if(!root.document||!ssjpPending())return false;ssjpRemoveForeignStatus();
     const screen=root.document.getElementById("leagueWheelScreen"),result=root.document.getElementById("selectedLeague"),button=root.document.getElementById("spinLeague"),note=root.document.getElementById("leagueStateNote"),wheel=root.document.getElementById("leagueWheel"),track=wheel&&wheel.querySelector(".wheelTrack");
     if(!screen||!button||!result)return false;screen.dataset.sharedPresentationRole=state&&state.managerRole||"unresolved";
     const ready=Boolean(state&&state.ready);
-    if(!ready){ssjpText(result,"Pair managers to unlock the league wheel");ssjpSetControl(button,{label:"PAIR + ACTIVATE SESSION FIRST",disabled:true});if(note){ssjpText(note,state&&state.message||"Both players must be connected before the wheel can spin.");note.classList.remove("hidden");}return true;}
-    if(!state.setup){ssjpText(result,"Shared league wheel ready");ssjpSetControl(button,{label:state.remoteRole==="host"?"SPIN SHARED LEAGUE WHEEL":"WAITING FOR HOST",disabled:state.remoteRole!=="host"||ssjpActionBusy()});ssjpSetSharedStatus(state.remoteRole==="host"?"BOTH PLAYERS CONNECTED · Spin the league wheel.":"PAIRING + ACTIVE SESSION VERIFIED · Waiting for the host. This screen will update automatically.");return true;}
-    if(state.setup.phase==="SHARED_SETUP_OPEN"){ssjpText(result,"Spin to reveal the shared league");ssjpSetControl(button,{label:ssjpCoordinator()?"SPIN SHARED LEAGUE WHEEL":"WAITING FOR HOST SPIN",disabled:!ssjpCoordinator()||ssjpActionBusy()});ssjpSetSharedStatus(ssjpCoordinator()?"SHARED SETUP OPEN · Spin the league wheel.":"SHARED SETUP OPEN · Waiting for the host to spin. This screen will update automatically.");return true;}
+    if(!ready){ssjpClearLeagueLock(null,track);ssjpText(result,"Pair managers to unlock the league wheel");ssjpSetControl(button,{label:"PAIR + ACTIVATE SESSION FIRST",disabled:true});if(note){ssjpText(note,state&&state.message||"Both players must be connected before the wheel can spin.");note.classList.remove("hidden");}return true;}
+    if(!state.setup){ssjpClearLeagueLock(note,track);ssjpText(result,"Shared league wheel ready");ssjpSetControl(button,{label:state.remoteRole==="host"?"SPIN SHARED LEAGUE WHEEL":"WAITING FOR HOST",disabled:state.remoteRole!=="host"||ssjpActionBusy()});ssjpSetSharedStatus(state.remoteRole==="host"?"BOTH PLAYERS CONNECTED · Spin the league wheel.":"PAIRING + ACTIVE SESSION VERIFIED · Waiting for the host. This screen will update automatically.");return true;}
+    if(state.setup.phase==="SHARED_SETUP_OPEN"){ssjpClearLeagueLock(note,track);ssjpText(result,"Spin to reveal the shared league");ssjpSetControl(button,{label:ssjpCoordinator()?"SPIN SHARED LEAGUE WHEEL":"WAITING FOR HOST SPIN",disabled:!ssjpCoordinator()||ssjpActionBusy()});ssjpSetSharedStatus(ssjpCoordinator()?"SHARED SETUP OPEN · Spin the league wheel.":"SHARED SETUP OPEN · Waiting for the host to spin. This screen will update automatically.");return true;}
     const league=ssjpLeagueRecord(state.setup.leagueId);ssjpText(result,league&&league.name||state.setup.leagueId);
     if(witnessedLeagueId!==state.setup.leagueId){
       witnessedLeagueId=state.setup.leagueId;screen.dataset.sharedLeagueWitnessed=state.setup.leagueId;
@@ -210,7 +217,11 @@
   async function ssjpPoll(){ssjpWatchWait();if(!active||!ssjpPending()||busy||pollBusy||root.document&&root.document.visibilityState==="hidden")return;pollBusy=true;try{await ssjpRefresh();}catch(_error){}finally{pollBusy=false;}}
   function ssjpStartPolling(){if(pollTimer!==null||typeof root.setInterval!=="function")return;pollTimer=root.setInterval(()=>void ssjpPoll(),POLL_MS);}
   function ssjpStopPolling(){if(pollTimer!==null){root.clearInterval(pollTimer);pollTimer=null;}}
-  async function ssjpMutate(type,extra){if(busy){lastMutationCode="SHARED_SETUP_BUSY";lastMutationMessage="";return Promise.resolve(false);}busy=true;lastMutationCode="";lastMutationMessage="";const run=(async()=>{try{const api=await ssjpEnsureSetup(),result=await api.mutate(type,extra||{});ssjpAdoptState(api.getState());await ssjpRenderCurrent();lastMutationCode=result&&result.ok===true?"":String(result&&result.code||"SHARED_SETUP_MUTATION_FAILED");lastMutationMessage=result&&result.ok===true?"":String(result&&result.message||"");return result&&result.ok===true;}finally{busy=false;await ssjpRenderCurrent();}})();mutationPromise=run;run.finally(()=>{if(mutationPromise===run)mutationPromise=null;}).catch(()=>{});return run;}
+  // r79 gallery: js/productionSharedShowdownSetup.js answers a write that landed with its own ready state (status "ready", no
+  // errorCode, no "ok"); a refused write is {ok:false,code}. Reading only ok===true took every landed write for a failure, so
+  // Daniel's SPIN (open + commit-league) ended on "THAT TAP DID NOT GO THROUGH · Both managers now have the same shared setup."
+  function ssjpMutationLanded(result){return Boolean(result&&(result.ok===true||(result.ok===undefined&&result.status==="ready"&&!result.errorCode)));}
+  async function ssjpMutate(type,extra){if(busy){lastMutationCode="SHARED_SETUP_BUSY";lastMutationMessage="";return Promise.resolve(false);}busy=true;lastMutationCode="";lastMutationMessage="";const run=(async()=>{try{const api=await ssjpEnsureSetup(),result=await api.mutate(type,extra||{}),landed=ssjpMutationLanded(result);ssjpAdoptState(api.getState());await ssjpRenderCurrent();lastMutationCode=landed?"":String(result&&result.code||"SHARED_SETUP_MUTATION_FAILED");lastMutationMessage=landed?"":String(result&&result.message||"");return landed;}finally{busy=false;await ssjpRenderCurrent();}})();mutationPromise=run;run.finally(()=>{if(mutationPromise===run)mutationPromise=null;}).catch(()=>{});return run;}
   function ssjpStateSignature(){return state?`${state.ready?1:0}|${state.remoteRole||""}|${state.setup?.phase||""}|${state.setup?.revision||0}`:"";}
   async function ssjpAwaitIdle(){for(let attempt=0;attempt<3&&mutationPromise;attempt+=1){try{await mutationPromise;}catch(_error){}}}
   async function ssjpCommitPreparedSeasonLength(){

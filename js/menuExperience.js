@@ -158,10 +158,20 @@ function updateExistingTileText(button, label, meta){
     setTextIfChanged(button.querySelector(".menuTileMeta"), meta);
 }
 
+// r79: the save of a Showdown the pair holds as closed (deleted by Daniel) stays in the library but is no live career.
+function isPairClosedSave(s){
+    try{
+        const p = window.CareerModePersistentNikDanielPair?.getState?.();
+        return Boolean(s && s.status !== "Completed" && p && !p.rivalryId && p.closedRivalryId && p.closedProviderSaveId
+            && window.CareerModeSaveLibraryRuntime?.getLibrarySnapshot?.()?.activeSaveId === p.closedProviderSaveId);
+    }catch(_error){ return false; }
+}
+
 function getSavedShowdownMenuMeta(){
-    const saved = (typeof currentShowdown !== "undefined" && currentShowdown)
+    let saved = (typeof currentShowdown !== "undefined" && currentShowdown)
         ? currentShowdown
         : (typeof loadSavedShowdown === "function" ? loadSavedShowdown() : null);
+    if(isPairClosedSave(saved)){ saved = null; }
 
     if(!saved){
         return {

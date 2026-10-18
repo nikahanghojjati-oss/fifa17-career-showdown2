@@ -221,13 +221,18 @@ async function commitFinalSeasonViaUi(daniel,nik,p1,p2,seasonNumber){
 }
 // After a reload the manager is back in the Showdown; if the app parks on the season dashboard, the player taps its primary
 // action (OPEN SHARED ... / VIEW SHARED TRANSFER VERDICTS) as in two-manager-browser-journey.cjs J9.3.
-async function reloadMidShowdown(m,{expectSession,expectShowdown,landing,button}){
+// r79 gallery (fix 4): the reload runs with reduced motion, whose 220 ms splash minimum (js/app.js) cannot hide a Home frame the
+// way the 2.7 s one did: only the startup hold (js/ssjr.js, live-game resume) keeps Home off screen.
+async function reloadMidShowdown(m,{expectSession,expectShowdown,landing,button,screens="#dashboard, #transferChallenge, #seasonEntry"}){
   await m.page.evaluate(key=>sessionStorage.setItem(key,"1"),FRAME_PROBE);
-  await m.page.reload({waitUntil:"domcontentloaded"});
-  await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
-  await m.page.waitForFunction(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState==="active",null,{timeout:45000});
-  await m.page.locator("#dashboard, #transferChallenge, #seasonEntry").filter({visible:true}).first().waitFor({state:"visible",timeout:45000});
-  await m.page.waitForTimeout(1500);
+  await m.page.emulateMedia({reducedMotion:"reduce"});
+  try{
+    await m.page.reload({waitUntil:"domcontentloaded"});
+    await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
+    await m.page.waitForFunction(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState==="active",null,{timeout:45000});
+    await m.page.locator(screens).filter({visible:true}).first().waitFor({state:"visible",timeout:45000});
+    await m.page.waitForTimeout(1500);
+  }finally{await m.page.emulateMedia({reducedMotion:null});}
   const frames=await m.page.evaluate(key=>{sessionStorage.removeItem(key);return window.__r79Frames||[];},FRAME_PROBE);
   const after=frames.filter(f=>!f.loading);
   const homeFrames=after.filter(f=>f.home);
@@ -334,6 +339,10 @@ async function main(){
     const league=(await daniel.page.locator("#selectedLeague").textContent()).trim();
     await nik.page.waitForFunction(l=>document.getElementById("selectedLeague")?.textContent===l,league,{timeout:30000});
     for(const m of [daniel,nik])await m.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:30000});
+    // r79 gallery (fix 4): a reload in the shared setup (club packs ready) lands back on the wheel with no Home frame.
+    const reloadSetup=await reloadMidShowdown(daniel,{expectSession:session1,expectShowdown:await showdownOf(daniel),screens:"#leagueWheelScreen, #clubWheelScreen"});
+    await daniel.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:30000});
+    ok("P2.1b",`Daniel's reload in the shared setup: same Showdown and session, back on the setup screens, no Home frame (${reloadSetup.frames} frames, first: ${reloadSetup.firstScreens})`);
     await daniel.page.locator("#openClubPack").click({timeout:30000});
     await daniel.page.waitForFunction(()=>document.getElementById("clubCardTwo")?.classList.contains("is-revealed")&&document.getElementById("clubNameOne")?.textContent!=="?"&&document.getElementById("clubNameTwo")?.textContent!=="?",null,{timeout:30000});
     const clubs=await daniel.page.evaluate(()=>[document.getElementById("clubNameOne")?.textContent?.trim(),document.getElementById("clubNameTwo")?.textContent?.trim()]);
