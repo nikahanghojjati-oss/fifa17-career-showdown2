@@ -34,11 +34,13 @@ r79 is the release the owner calls r79. The application version moves to 1.9.3 a
 - The shell and service worker advance to r79 in a fresh `career-mode-showdown-shell-1.9.3-r79` cache, and r78 is retained
   for rollback. The retained r78 shell is checked against r78's own 219 shell paths; r79 adds `js/whichShowdownIsLive.js`
   and `js/showdownModes.js` and removes none.
+- The 12 phone images r78 stopped using (kept in r78 for the r77 rollback shell) are not used by r78 or r79 code. They stay
+  deployed in r79 and can be removed in a later release.
 
 ## What did not change
 
 - The scoring formula, game rules and Remote Joining stay as they were.
-- The no-flash rules, the Reus Gate, preload, decode and startup order are unchanged. Startup stays within its gzip budget.
+- The no-flash rules, the Reus Gate, preload and decode are unchanged; reload only holds the loading screen longer (above). Startup stays within its gzip budget.
 - Firebase remains Spark-only, billing remains OFF and App Check enforcement remains OFF.
 - No saved Showdown is rewritten.
 
