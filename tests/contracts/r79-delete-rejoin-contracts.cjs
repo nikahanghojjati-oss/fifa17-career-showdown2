@@ -144,7 +144,7 @@ function pairHarness({rivalryState="active",linked=true,rounds=3}={}){
   if(linked){docs.set("accounts/uid_nik/pairLinks/current",pairLink(R1));docs.set(`rivalries/${R1}`,pairRivalry(R1,rivalryState,{saveId:SAVE_OLD,profileId:PROFILE_OLD}));}
   docs.set("accounts/uid_nik/devices/device_nik",deviceDoc());
   const library={activeSaveId:SAVE_OLD,saves:[shell(SAVE_OLD,PROFILE_OLD,rounds)]};
-  const listeners={},calls={redeem:[],provision:0,transactions:0},deleted=[];
+  const listeners={},calls={redeem:[],provision:0,transactions:0,events:[]},deleted=[];
   const firestoreSdk={
     doc:(_db,...parts)=>({path:parts.join("/")}),
     Timestamp:{fromMillis:ms=>({toMillis:()=>ms})},
@@ -161,6 +161,7 @@ function pairHarness({rivalryState="active",linked=true,rounds=3}={}){
   const document={visibilityState:"visible",body:null,createElement:()=>({style:{},classList:{add(){},remove(){},toggle(){}},append(){},appendChild(n){return n;},replaceChildren(){},setAttribute(){},addEventListener(){}}),getElementById:()=>null,querySelector:()=>null};
   const sandbox={console,setTimeout:()=>0,clearTimeout:()=>{},TextEncoder,crypto:webcrypto,Promise,Date,document,
     addEventListener:(type,fn)=>{(listeners[type]||(listeners[type]=[])).push(fn);},
+    CustomEvent:class{constructor(type,init){this.type=type;this.detail=init&&init.detail;}},dispatchEvent:event=>{calls.events.push({type:event.type,detail:event.detail});return true;},
     CareerModeOnlinePlayerIdentity:{getState:()=>({managerId:"nik"})},
     CareerModeSparkConnectedAccount:{initialize:async()=>({}),getState:()=>({connected:true,accountId:"uid_nik"})},
     CareerModeSparkPrivatePairing:pairing,CareerModeSaveLibraryRuntime:runtime,
@@ -241,6 +242,21 @@ async function pairContracts(){
     await h.pair.initialize({force:true});
     assert.equal(h.pair.getState().rivalryId,null,"nor does any later read that still finds the old link");
     ok("J1e DELETED holds across overlapping and later pair reads (an ended rivalry is never live again)");
+  }
+  {
+    // Codex #910 (4th): Home may already be showing when the Showdown ends; the page is told once, after the state change.
+    const h=pairHarness();
+    await h.pair.initialize({force:true});
+    const ended=()=>h.calls.events.filter(e=>e.type==="career-mode-permanent-pair-ended");
+    h.fire({phase:"DELETED",rivalryId:R1,terminal:false});
+    assert.equal(ended().length,0,"never inside the state change");
+    await new Promise(resolve=>setImmediate(resolve));
+    assert.deepEqual(plain(ended()),[{type:"career-mode-permanent-pair-ended",detail:{closedRivalryId:R1}}],"told once that R1 was let go");
+    await h.pair.initialize({force:true});await new Promise(resolve=>setImmediate(resolve));
+    assert.equal(ended().length,2,"a later read that is held again tells it again (Home redraws; the note watch has its own limits)");
+    const identity=read("js/onlinePlayerIdentity.js");
+    assert.ok(identity.includes('root.addEventListener("career-mode-permanent-pair-ended",()=>{configureOnlineProductSurface();void refreshJoinNoteOnHome().catch(()=>null);});'),"Home redraws and (re)watches Daniel's JOIN note");
+    ok("J1f an ended Showdown tells the page once it is let go, so a Home already showing redraws and watches the next JOIN note");
   }
   {
     const h=pairHarness();

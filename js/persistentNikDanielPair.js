@@ -21,7 +21,7 @@
   // r79: rivalries Terminal Close announced as ended (DELETED by the other phone; CLOSED by a normal finish once Home is shown).
   // An ended rivalry never comes back, so any later publication of it as live (a busy action, an in-flight or overlapping pair
   // read) is held as closed instead (Codex #910). closedOnHomeRivalryId waits for Home.
-  const endedRivalryIds=new Set();let closedOnHomeRivalryId=null;
+  const endedRivalryIds=new Set();let closedOnHomeRivalryId=null,endedHeldNow=false;
   // Job 19: the remembered pair whose Showdown is CLOSED (terminal). Non-secret; lets Home tell a finished
   // Showdown apart from a never-paired shell after reload without another provider read.
   let pairLastClosedRivalryId=null;
@@ -53,7 +53,7 @@
   function pairJoinFailureIsDefinitive(error){const code=pairProviderCode(error);return Boolean(code)&&!PAIR_AMBIGUOUS_PROVIDER_CODES.has(code);}
 
   function pairFreezeDeep(value){if(!value||typeof value!=="object"||Object.isFrozen(value))return value;Object.freeze(value);Object.values(value).forEach(pairFreezeDeep);return value;}
-  function pairSetState(next){state=pairFreezeDeep(pairHeldIfEnded({...state,...next}));pairRememberActiveShell();for(const listener of pairListeners){try{listener(state);}catch(_error){}}pairRender();pairSyncWaitingPoll();pairContinueAfterWaitEnded();return state;}
+  function pairSetState(next){state=pairFreezeDeep(pairHeldIfEnded({...state,...next}));pairRememberActiveShell();for(const listener of pairListeners){try{listener(state);}catch(_error){}}pairRender();pairSyncWaitingPoll();pairContinueAfterWaitEnded();if(endedHeldNow)pairAnnounceEnded();return state;}
   // r79 (PR #901, smoothness): once the pair is ACTIVE this device remembers, locally, that its shell is paired (only the saveId,
   // no rivalry or account data; through js/storage.js, the one owner of local storage), so a reload mid-Showdown never holds the
   // loading screen for a pre-pair recovery (js/ssjr.js).
@@ -515,7 +515,10 @@ async function pairStartOverFromRecovery(){
   // action settles, or when an in-flight or overlapping pair read answers with the old live rivalry), never lost.
   // r79 PR5 (two-player journey): a normal finish (CLOSED, with its witness) is let go the same way, but only once Home is
   // shown again, because the Final Winner screen, Final Reconciliation and Apply still run on it.
-  function pairHeldIfEnded(next){if(next.busy||!next.rivalryId||!endedRivalryIds.has(next.rivalryId)||!["active","pending-pair"].includes(next.connectionState))return next;return {...next,status:"unpaired",initialized:true,busy:false,managerRole:null,managerId:null,rivalryId:null,connectionState:null,providerSaveId:null,providerProfileId:null,capability:null,closedRivalryId:next.rivalryId,closedProviderSaveId:pairValidSaveId(next.providerSaveId)?next.providerSaveId:null,message:"Daniel and Nik need to connect before the first Showdown."};}
+  function pairHeldIfEnded(next){if(next.busy||!next.rivalryId||!endedRivalryIds.has(next.rivalryId)||!["active","pending-pair"].includes(next.connectionState))return next;endedHeldNow=true;return {...next,status:"unpaired",initialized:true,busy:false,managerRole:null,managerId:null,rivalryId:null,connectionState:null,providerSaveId:null,providerProfileId:null,capability:null,closedRivalryId:next.rivalryId,closedProviderSaveId:pairValidSaveId(next.providerSaveId)?next.providerSaveId:null,message:"Daniel and Nik need to connect before the first Showdown."};}
+  // Codex #910: Home may already be showing (its JOIN note watch stopped while the Showdown was live), so the page is told once
+  // the ended Showdown is let go; Nik's Home then redraws and watches Daniel's next JOIN note without a tap.
+  function pairAnnounceEnded(){endedHeldNow=false;const closedRivalryId=state.closedRivalryId;/* after this state change has finished, never inside it */void Promise.resolve().then(()=>{try{if(typeof root.dispatchEvent==="function"&&typeof root.CustomEvent==="function")root.dispatchEvent(new root.CustomEvent("career-mode-permanent-pair-ended",{detail:{closedRivalryId}}));}catch(_error){}});}
   function pairEndRivalry(rivalryId){endedRivalryIds.add(rivalryId);if(!state.busy&&state.rivalryId===rivalryId)pairSetState({});}
   function pairEndClosedOnHome(){const rivalryId=closedOnHomeRivalryId;if(!rivalryId)return;closedOnHomeRivalryId=null;pairEndRivalry(rivalryId);}
   function pairOnShowdownDeleted(event){const detail=event?.detail;if(!detail||!/^pair_[0-9a-f]{64}$/.test(String(detail.rivalryId||"")))return;if(detail.phase==="DELETED")pairEndRivalry(detail.rivalryId);else if(detail.phase==="CLOSED"&&!endedRivalryIds.has(detail.rivalryId))closedOnHomeRivalryId=detail.rivalryId;}
