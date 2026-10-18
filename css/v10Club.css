@@ -900,7 +900,8 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
    inside the pack faces and clear of the hands. --clp-s is one plate pixel on screen, --clp-u the badge's own scale.
    They are the same unless the hero band is too short to hold the badge: the band is the screen height minus the cards
    and buttons, so on a short phone (375x553) the badge shrinks to end at the band's bottom edge instead of running
-   under the progress line, and it is never clipped (upright phones let the empty band overflow; it paints nothing).
+   under the progress line (in the versus and confirmation states of 375x553 the panels cover the packs and there is no
+   room at all, so it shrinks to nothing rather than cover them), and it is never clipped (upright phones let the empty band overflow; it paints nothing).
    Upright phones: the band is an empty box, so it has no padding (100cqh is then its whole height); the plate is the screen's (centre top, width max(100vw, 100svh * 1179 / 2096)) and the band starts at
    its top. Sideways phones: the plate fills the band (cover, centre top; the band is 42vw x 100svh, always tall enough). */
 @media (max-width: 760px) and (orientation: portrait),
