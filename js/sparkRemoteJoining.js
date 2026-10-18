@@ -392,9 +392,10 @@
   // Daniel keeps waiting and this page publishes the pointer again (3 s, doubling to once a minute, visible tab only, 10 min
   // like Nik's own wait, sooner when the browser comes back online) until it lands or the session stops waiting for a join.
   // Codex #920: each try first reads the pointer. It already naming this session ends the retry with no write (a write whose
-  // answer was lost); naming another session that is still open or active ends it too, because a newer screen of Daniel's
-  // owns the game and Nik must not be sent back to this one; a stale or missing pointer is replaced only if it is still the
-  // one just read. Reopening the player panel restarts a retry that gave up.
+  // answer was lost); naming another session that the server does not positively report as gone or over ends it too (a
+  // newer screen of Daniel's may own the game, and Nik must not be sent back to this one); this session must still read
+  // OPEN; and a stale or missing pointer is replaced only if it is still the one just read. Reopening the player panel
+  // restarts a retry that gave up.
   let srjOfferConfirmed=null;
   // Codex #920: the host's join watch has its own 10 min limit, so it starts afresh whenever the pointer lands or publishing
   // restarts; otherwise Nik could join after it ended and Daniel's screen would stay on WAITING until a reload.
@@ -406,10 +407,17 @@
     const seen=await sdk.runTransaction(context.services.firestore,async transaction=>{const snapshot=await transaction.get(srjOfferRef(context));const data=snapshot&&snapshot.exists()?snapshot.data():null;return data&&typeof data.sessionId==="string"?{sessionId:data.sessionId,expiresAtEpochMs:data.expiresAt&&typeof data.expiresAt.toMillis==="function"?data.expiresAt.toMillis():0}:null;});
     if(seen&&seen.sessionId===sessionId)return "ours";
     if(seen&&seen.expiresAtEpochMs>Date.now()){
+      // Another session is replaced only when the server positively says it is gone or over; any other answer (a revoked
+      // device, a denied or failed read) leaves it alone and tries again later.
       const other=await context.protocol.readSession(srjOperationOptions(context,seen.sessionId));
-      if(!other||other.ok!==true&&srjIsAmbiguousFailure(other))return "retry";
-      if(other.ok===true&&["open","active"].includes(other.state)&&!other.expiredByClock&&Number(other.expiresAtEpochMs)>Date.now())return "taken";
+      const over=other&&(other.ok===true?!["open","active"].includes(other.state)||other.expiredByClock===true||!(Number(other.expiresAtEpochMs)>Date.now()):other.code==="PRIVATE_SESSION_NOT_FOUND");
+      if(!over)return other&&other.ok===true?"taken":"retry";
     }
+    // This session itself must still be open on the server (not joined, closed or refused) before Nik is pointed at it.
+    const own=await context.protocol.readSession(srjOperationOptions(context,sessionId));
+    if(!own||own.ok!==true)return "retry";
+    if(own.state==="active"&&!own.expiredByClock){if(srjHostWaitingForJoin(sessionId))srjAcceptResult(own,context,"host","The other manager joined. Private session is active with exactly the two paired rivalry accounts.");return "stop";}
+    if(own.state!=="open"||own.expiredByClock===true||!(Number(own.expiresAtEpochMs)>Date.now()))return "stop";
     if(!srjHostWaitingForJoin(sessionId)||!srjPendingContextMatches(context)||srjState.role!=="host")return "stop";
     const value={schemaVersion:1,sessionId,hostAccountId:context.accountId,expiresAt:sdk.Timestamp.fromMillis(srjState.expiresAtEpochMs),updatedAt:sdk.serverTimestamp()};
     root.CareerModeFirestoreBudget?.wantFresh?.(path);

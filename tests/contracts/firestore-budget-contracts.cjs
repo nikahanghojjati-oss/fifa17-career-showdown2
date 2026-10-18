@@ -809,7 +809,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
         CareerModeSparkStandardAuthPrivateSession:{
           normalizeSessionId:value=>value,generateSessionId:()=>SESSION_ID,
           openSession:async options=>({ok:true,sessionId:options.sessionId,state:"open",revision:0,expiresAtEpochMs:world.clock.now+4*3600000}),
-          readSession:async options=>({ok:true,sessionId:options.sessionId,state:sessions[options.sessionId]||"closed",revision:0,expiresAtEpochMs:world.clock.now+4*3600000})
+          readSession:async options=>{const known=sessions[options.sessionId];return known&&typeof known==="object"?known:{ok:true,sessionId:options.sessionId,state:known||"closed",revision:0,expiresAtEpochMs:world.clock.now+4*3600000};}
         }
       });
       vm.runInContext(fs.readFileSync(path.join(ROOT,"js/sparkRemoteJoining.js"),"utf8"),world.sandbox,{filename:"sparkRemoteJoining.js"});
@@ -890,6 +890,28 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
       assert.equal(world.server.get(OFFER).data.sessionId,B,"Nik is still sent to the newer session");
       assert.equal(offerWrites.length,1,"no write after the first failure");
       assert.match(remote.getState().message,/open on another screen/);}
+
+    // K (Codex #920): the newer session's read is refused (this device was revoked): it is never overwritten.
+    {const {world,remote,offerWrites,sessions}=daniel({paired:true,fail:1});
+      await remote.autoConnect();
+      const B="session_"+"e".repeat(64);sessions[B]={ok:false,code:"PRIVATE_SESSION_DEVICE_REVOKED",message:"revoked"};
+      world.serverWrite(OFFER,{schemaVersion:1,sessionId:B,hostAccountId:"daniel",expiresAt:{epochMs:world.clock.now+4*3600000}});
+      await world.advance(20*60000);
+      assert.equal(world.server.get(OFFER).data.sessionId,B);assert.equal(offerWrites.length,1);}
+
+    // L: a pointer to a session the server reports as not found is replaced.
+    {const {world,remote,offerWrites,sessions}=daniel({paired:true,fail:1});
+      const GONE="session_"+"9".repeat(64);sessions[GONE]={ok:false,code:"PRIVATE_SESSION_NOT_FOUND",message:"gone"};
+      world.serverWrite(OFFER,{schemaVersion:1,sessionId:GONE,hostAccountId:"daniel",expiresAt:{epochMs:world.clock.now+4*3600000}});
+      await remote.autoConnect();await world.advance(3000);
+      assert.equal(offerWrites.length,2);assert.equal(published(world),true);}
+
+    // M: this session itself no longer reads OPEN (ended elsewhere, or Nik already joined it): nothing is published.
+    for(const state of ["revoked","active"]){const {world,remote,offerWrites,sessions}=daniel({paired:true,fail:1});
+      await remote.autoConnect();sessions[SESSION_ID]=state;
+      await world.advance(20*60000);
+      assert.equal(offerWrites.length,1,`no write once the session is ${state}`);assert.equal(published(world),false);
+      if(state==="active")assert.equal(remote.getState().sessionState,"active","a join seen by the retry moves Daniel on");}
 
     // H: a stale pointer (an old session that has ended) is replaced.
     {const {world,offerWrites,remote}=daniel({paired:true,fail:1});
