@@ -12,7 +12,8 @@
 //   D1  DELETE CURRENT SHOWDOWN (dashboard) removes every draft key of every rivalry; preferences, Legacy, the save library and other keys stay.
 //       This holds offline: no rivalry id on the Showdown and no pair module.
 //   D2  END SHOWDOWN (r80; was DELETE CURRENT SHOWDOWN) in Settings (remote-first, Save Library authority) removes every draft key of every rivalry, also with no
-//       rivalry id on the Showdown and a pair module that only initializes later; the rest stays.
+//       rivalry id on the Showdown and a pair module that only initializes later; the rest stays. END records the accepted seasons
+//       read from the rivalry's Shared Season Commits, also on a fresh browser before CONTINUE (D2d, D2e).
 //   D3  RESET ALL SHOWDOWN DATA removes every draft key of every rivalry, orphans included (raw storage and Save Library authority); preferences
 //       and other keys stay.
 //   D4  deleting the completed active copy of a Showdown (Legacy cleanup) removes every draft key.
@@ -87,6 +88,17 @@ function harness({initial,confirmAnswer=true,runtime=null,pairRivalry=null}){
   // Replace only screen infrastructure and the online pair call; every delete decision and the draft sweep are the real code.
   vm.runInContext("closeSettings=function(){};loadSavedShowdown=function(){return currentShowdown;};hasSavedShowdown=function(){return Boolean(currentShowdown);};",ctx);
   return {ctx,localStorage,notices,screens,diagnostics,settle:()=>new Promise(resolve=>setTimeout(resolve,5))};
+}
+function commitDoc(rivalryId,seasonNumber,phase){return {schemaVersion:1,objectType:"sharedSeasonCommit",rivalryId,seasonNumber,runtimeRevision:"1.9.1-r10",phase,revision:phase==="ACKNOWLEDGED"?3:2,resultsRevision:2};}
+// A connected-services fake: exact document gets inside runTransaction only (a write would throw), every read recorded.
+function firestoreFake(rivalryId,docs){
+  const db={reads:[],serverNext:[],writes:0,transactions:0,fail:false};
+  const firestore={name:"fake"};
+  const refuse=()=>{db.writes+=1;throw new Error("no write allowed");};
+  const firestoreSdk={doc:(store,...parts)=>{assert.equal(store,firestore);return {path:parts.join("/")};},runTransaction:async(store,fn)=>{assert.equal(store,firestore);db.transactions+=1;return fn({get:async ref=>{if(db.fail){const error=new Error("offline");error.code="unavailable";throw error;}db.reads.push(ref.path);const prefix=`rivalries/${rivalryId}/seasonCommits/`;const data=ref.path.startsWith(prefix)?docs[ref.path.slice(prefix.length)]:undefined;return {exists:()=>Boolean(data),data:()=>data?JSON.parse(JSON.stringify(data)):undefined};},set:refuse,update:refuse,delete:refuse});}};
+  db.runtime={ensureAccountServices:async()=>({ok:true,firestore,auth:{currentUser:{uid:"uid_daniel"}},firestoreSdk})};
+  db.budget={services:services=>services,readServerNext:path=>{db.serverNext.push(path);}};
+  return db;
 }
 const completed={id:"s1",name:"Nik vs Daniel",status:"Completed",identity:{saveId:"save_1"},sharedJourney:{rivalryId:RIVALRY}};
 const active={id:"s1",name:"Nik vs Daniel",status:"In progress",identity:{saveId:"save_1"},sharedJourney:{rivalryId:RIVALRY}};
@@ -168,21 +180,28 @@ function assertKept(h,extra=[]){for(const key of Object.keys(KEPT))if(!extra.inc
     assert.equal(d.localStorage.draftKeys().length,ALL_DRAFTS.length);
     ok("D2c END SHOWDOWN: a double tap is one END and already-closed is success; the dashboard delete of a two-player Showdown routes to END");
   }
-  // ---- D2d r80: END reads the seasons with the progression's plain authority refresh (never resumeFromAuthority, which
-  // moves the season cursor), marks the abandon with it, and forgets this page's session for the ended rivalry ----
+  // ---- D2d r80: END reads the seasons from this rivalry's accepted Shared Season Commits (one read-only transaction, no
+  // write, never resumeFromAuthority, which moves the season cursor), marks the abandon with it, and forgets this page's
+  // session for the ended rivalry only ----
   {
     const h=harness({initial:withAllDrafts({...KEPT})});
+    const db=firestoreFake(RIVALRY,{season_1:commitDoc(RIVALRY,1,"ACKNOWLEDGED"),season_2:commitDoc(RIVALRY,2,"ACKNOWLEDGED"),season_3:commitDoc(RIVALRY,3,"COMMITTED")});
+    h.ctx.CareerModeProductionFirebaseRuntime=db.runtime;h.ctx.CareerModeFirestoreBudget=db.budget;
     vm.runInContext(`var __abandon=null,__forgot=0,__resumed=0,__refreshes=0;
       CareerModeProductionSharedShowdownSetup={getState:()=>({ready:true,rivalryId:${JSON.stringify(RIVALRY)},setup:{phase:"SHOWDOWN_CONFIRMED"}})};
-      CareerModeProductionSharedMultiSeasonProgression={refresh:async()=>{__refreshes+=1;return {authoritative:true,rivalryId:${JSON.stringify(RIVALRY)},state:{acceptedSeasons:2}};},resumeFromAuthority:async()=>{__resumed+=1;return null;}};
+      CareerModeProductionSharedMultiSeasonProgression={refresh:async()=>{__refreshes+=1;return null;},resumeFromAuthority:async()=>{__resumed+=1;return null;}};
       CareerModeSparkRemoteJoining={getState:()=>({rivalryId:${JSON.stringify(RIVALRY)}}),forgetSession:()=>{__forgot+=1;return {ok:true};}};
       ensureSettingsPersistentPairAuthority=async function(){return {getState:()=>({rivalryId:${JSON.stringify(RIVALRY)},connectionState:"active"}),abandonCurrentShowdown:async options=>{__abandon=options;return {ok:true,status:"closed"};}};};`,h.ctx);
     const result=await h.ctx.releaseSettingsCurrentShowdownConnection(active);
     assert.equal(result.ok,true);assert.equal(result.endedRivalryId,RIVALRY);
-    assert.deepEqual(JSON.parse(JSON.stringify(vm.runInContext("__abandon",h.ctx))),{expectedRivalryId:RIVALRY,expectedSaveId:"save_1",seasonsPlayed:2});
-    assert.equal(vm.runInContext("__refreshes",h.ctx),1,"one progression read");assert.equal(vm.runInContext("__resumed",h.ctx),0,"the season cursor is never moved");
+    assert.deepEqual(JSON.parse(JSON.stringify(vm.runInContext("__abandon",h.ctx))),{expectedRivalryId:RIVALRY,expectedSaveId:"save_1",seasonsPlayed:2},"season 3 is committed but not acknowledged: 2 seasons");
+    assert.deepEqual(db.reads,[1,2,3].map(n=>`rivalries/${RIVALRY}/seasonCommits/season_${n}`),"exact gets in order, stopping at the first season not accepted");
+    assert.deepEqual(db.serverNext,db.reads,"every read goes to the server (no reused copy)");
+    assert.equal(db.transactions,1,"one read-only transaction");assert.equal(db.writes,0,"no write");
+    assert.equal(vm.runInContext("__refreshes",h.ctx),0,"the count does not depend on the progression module");assert.equal(vm.runInContext("__resumed",h.ctx),0,"the season cursor is never moved");
     assert.equal(vm.runInContext("__forgot",h.ctx),0,"the session stays while this device still holds the Showdown");
-    vm.runInContext(`CareerModeProductionSharedMultiSeasonProgression={refresh:async()=>null};CareerModeSparkRemoteJoining={getState:()=>({rivalryId:"pair_${"b".repeat(64)}"}),forgetSession:()=>{__forgot+=1;}};`,h.ctx);
+    db.fail=true;
+    vm.runInContext(`CareerModeSparkRemoteJoining={getState:()=>({rivalryId:"pair_${"b".repeat(64)}"}),forgetSession:()=>{__forgot+=1;}};`,h.ctx);
     await h.ctx.releaseSettingsCurrentShowdownConnection(active);
     assert.equal(vm.runInContext("__abandon",h.ctx).seasonsPlayed,null,"an unreadable count is null");
     h.ctx.forgetSettingsEndedSession(RIVALRY);
@@ -193,7 +212,44 @@ function assertKept(h,extra=[]){for(const key of Object.keys(KEPT))if(!extra.inc
       CareerModeSparkRemoteJoining={getState:()=>({rivalryId:${JSON.stringify(RIVALRY)}}),forgetSession:()=>{__order.push(currentShowdown===null?"forget-after-close":"forget-too-early");}};`,e.ctx);
     assert.equal(await e.ctx.endSettingsCurrentShowdown(null),true);
     assert.deepEqual(Array.from(vm.runInContext("__order",e.ctx)),["release","forget-after-close"],"the ended session is forgotten once, after this device closed the Showdown");
-    ok("D2d END SHOWDOWN reads the seasons with one plain progression refresh (no cursor move), marks the abandon with it and forgets only the ended session");
+    ok("D2d END SHOWDOWN reads the seasons from the accepted Shared Season Commits (one read-only transaction, no cursor move), marks the abandon with it and forgets only the ended session");
+  }
+  // ---- D2e r80 (Codex P2): a fresh browser opens Settings before CONTINUE. The live shell was rebuilt from the pair link,
+  // but no Shared Setup state, no progression module and no private session exist on this page yet. END still records the
+  // accepted seasons (was null, so History showed "- seasons" for good); 0 when no season was ever committed; null only
+  // when the count truly cannot be read (offline, denied, malformed, a read that never answers is bounded elsewhere) ----
+  {
+    const fresh=async(docs,configure)=>{
+      const h=harness({initial:withAllDrafts({...KEPT})}),db=firestoreFake(RIVALRY,docs);
+      h.ctx.CareerModeProductionFirebaseRuntime=db.runtime;h.ctx.CareerModeFirestoreBudget=db.budget;if(configure)configure(db,h);
+      vm.runInContext(`var __abandon=null;
+        ensureSettingsPersistentPairAuthority=async function(){return {getState:()=>({rivalryId:${JSON.stringify(RIVALRY)},connectionState:"active"}),abandonCurrentShowdown:async options=>{__abandon=options;return {ok:true,status:"closed"};}};};`,h.ctx);
+      for(const name of ["CareerModeProductionSharedShowdownSetup","CareerModeProductionSharedMultiSeasonProgression","CareerModeSparkRemoteJoining","loadRuntimeScript"])assert.equal(h.ctx[name],undefined,`${name} is absent on the fresh page`);
+      const result=await h.ctx.releaseSettingsCurrentShowdownConnection({id:"s1",identity:{saveId:"save_1"},sharedJourney:{contractVersion:1,mode:"shared",setupPending:true}});
+      assert.equal(result.ok,true);assert.equal(result.endedRivalryId,RIVALRY);
+      return {played:vm.runInContext("__abandon",h.ctx).seasonsPlayed,db};
+    };
+    const one=await fresh({season_1:commitDoc(RIVALRY,1,"ACKNOWLEDGED")});
+    assert.equal(one.played,1,"season 1 accepted online: 1 season, not a dash");
+    assert.deepEqual(one.db.reads,[1,2].map(n=>`rivalries/${RIVALRY}/seasonCommits/season_${n}`),"two exact gets (season 1, then the missing season 2)");
+    assert.equal(one.db.writes,0);assert.equal(one.db.transactions,1);
+    const all=await fresh(Object.fromEntries([1,2,3,4,5,6,7,8,9,10].map(n=>[`season_${n}`,commitDoc(RIVALRY,n,"ACKNOWLEDGED")])));
+    assert.equal(all.played,10);assert.equal(all.db.reads.length,10,"never more than ten season reads");
+    const none=await fresh({});
+    assert.equal(none.played,0,"no committed season (league wheel, test run): 0 seasons");assert.equal(none.db.reads.length,1);
+    const pending=await fresh({season_1:commitDoc(RIVALRY,1,"ACKNOWLEDGED"),season_2:commitDoc(RIVALRY,2,"COMMITTED")});
+    assert.equal(pending.played,1,"a committed but unacknowledged season does not count");
+    const foreign=await fresh({season_1:commitDoc(RIVALRY,1,"ACKNOWLEDGED"),season_2:commitDoc("pair_"+"c".repeat(64),2,"ACKNOWLEDGED")});
+    assert.equal(foreign.played,null,"a malformed commit makes the count unknown");
+    const torn=await fresh({season_1:{...commitDoc(RIVALRY,1,"ACKNOWLEDGED"),revision:2}});
+    assert.equal(torn.played,null,"an acknowledged commit that is not revision 3 makes the count unknown");
+    const offline=await fresh({season_1:commitDoc(RIVALRY,1,"ACKNOWLEDGED")},db=>{db.fail=true;});
+    assert.equal(offline.played,null,"offline: END still closes, with null");
+    const signedOut=await fresh({season_1:commitDoc(RIVALRY,1,"ACKNOWLEDGED")},(db,h)=>{h.ctx.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:false,code:"offline"})};});
+    assert.equal(signedOut.played,null,"no connected services: null");assert.equal(signedOut.db.reads.length,0);
+    const noRuntime=await fresh({season_1:commitDoc(RIVALRY,1,"ACKNOWLEDGED")},(db,h)=>{delete h.ctx.CareerModeProductionFirebaseRuntime;});
+    assert.equal(noRuntime.played,null,"no runtime: null");
+    ok("D2e a fresh browser that opens Settings before CONTINUE records the accepted seasons at END (1, not a dash) from the season commits, with no setup, progression or session on the page; 0 when none, null when unreadable");
   }
   // ---- D3 reset all ----
   for(const mode of ["raw","library"]){
