@@ -132,7 +132,10 @@ async function smStartTestRun(){
   root.closeSettings?.(false);const identity=root.CareerModeOnlinePlayerIdentity;
   if(v.managerId==="nik")return identity?.openJoin?.();
   armed=true;smRefresh();
-  return identity?.openStart?.();
+  /* Codex #908: a launch that does not reach the seasons screen (refused, failed, or it continued a live Showdown) disarms,
+     so the next Home START is real again and a real Showdown never wears the TEST RUN label. */
+  let opened=null;try{opened=await identity?.openStart?.();}finally{if(!opened||smScreen()!=="createShowdown"){armed=false;smRefresh();}}
+  return opened;
 }
 
 // ---------- the seasons screen: the one-time checkmark, or the test-run label ----------

@@ -71,7 +71,7 @@ function createDocument(){
 }
 
 // ---------- one page: the modes module with stubbed neighbours ----------
-function page({managerId="daniel",partner=null,side=null,marker=null,pairState={rivalryId:null,connectionState:"none"},confirm=true,unpairError=null,screen="mainMenu"}={}){
+function page({managerId="daniel",partner=null,side=null,marker=null,pairState={rivalryId:null,connectionState:"none"},confirm=true,unpairError=null,screen="mainMenu",startResult=true,startReaches="createShowdown"}={}){
   const dom=createDocument(),accountId="acct_"+managerId,calls=[];
   const partnerState={accountId,status:partner?"ready":"none",record:partner};
   let sideState=side?{accountId,status:side,partnerAccountId:"acct_other"}:{accountId,status:"unknown",partnerAccountId:null};
@@ -84,7 +84,7 @@ function page({managerId="daniel",partner=null,side=null,marker=null,pairState={
   const markerApi={readCurrentMarker:async()=>{calls.push("readMarker");return markerDoc?{status:"ready",...markerDoc}:{status:"none"};},
     startRealCareer:async()=>{calls.push("startRealCareer");markerDoc={hiddenRivalryIds:[],active:true};return {status:"ready",hiddenRivalryIds:[],active:true};}};
   const identity={getState:()=>({status:"ready",registered:true,accountId,managerId}),
-    openStart:async()=>{calls.push("openStart");return true;},openJoin:async()=>{calls.push("openJoin");return true;},
+    openStart:async()=>{calls.push("openStart");if(startResult instanceof Error)throw startResult;if(startResult)currentScreen=startReaches;return startResult;},openJoin:async()=>{calls.push("openJoin");return true;},
     forgetThisDevice:async()=>{calls.push("forgetThisDevice");return true;},refreshBadge:()=>null,renderSettings:()=>null};
   const sandbox={console,document:dom.doc,CareerModePersistentNikDanielPair:pair,CareerModeCareerStartMarker:markerApi,CareerModeOnlinePlayerIdentity:identity,
     getActiveScreenName:()=>currentScreen,closeSettings:()=>calls.push("closeSettings"),
@@ -213,6 +213,17 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     const entry=read("js/productionSharedJourneyEntry.js");
     assert.match(entry,/if\(decision\.action!=="new"\)[^\n]*\n(?:\s*\/\/[^\n]*\n)*\s*if\(options&&typeof options\.beforeCreate==="function"&&await options\.beforeCreate\(\)!==true\)return false;\n\s*setPending\(true\);/,"the gate runs once START is really making a new Showdown, before the shell");
     assert.match(read("js/onlinePlayerIdentity.js"),/beforeCreate:[^\n]*modes[^\n]*beforeSeasonsStart\(\)/);
+  });
+  await check("M7d","Codex #908: a START TEST RUN that never reaches the seasons screen disarms, so the next Home START is real again",async()=>{
+    for(const [label,options] of [["refused",{startResult:null}],["failed",{startResult:new Error("offline")}],["continued a live Showdown",{startReaches:"dashboard"}]]){
+      const p=page(options);await p.modes.resolve();
+      await p.modes.startTestRun().catch(()=>null);
+      assert.equal(p.modes.isTestRunArmed(),false,`${label}: not armed`);
+      p.setScreen("createShowdown");p.modes.renderSeasons();
+      assert.equal(p.dom.doc.getElementById("cmsRealCareerRow").hidden,false,`${label}: the seasons screen shows the real-career checkmark`);
+      assert.equal(await p.modes.beforeSeasonsStart(),true);assert.equal(p.calls.filter(c=>c==="startRealCareer").length,1,`${label}: the next Home START is real`);
+    }
+    const ok=page();await ok.modes.resolve();await ok.modes.startTestRun();assert.equal(ok.modes.isTestRunArmed(),true,"a launch that reached the seasons screen stays a test run");
   });
   await check("M8","the START REAL CAREER checkmark is one-time: Daniel's test account only, never once real, never to Nik, never on a test run",async()=>{
     const row=p=>p.dom.doc.getElementById("cmsRealCareerRow");

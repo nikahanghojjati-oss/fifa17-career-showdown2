@@ -42,9 +42,9 @@ async function check(id,label,promise){await promise;step+=1;console.log(`ok ${s
   try{
     await env.clearFirestore();
     const t0=Date.now(),now=Timestamp.fromMillis(t0);
-    const D='acct_daniel',N='acct_nik',E='acct_extra',P='acct_paged',R='acct_revoked',S='acct_stranger',F='acct_free',G='acct_module',H='acct_unfinished',K='acct_race',W='acct_expired_code',V='acct_open_code';
-    const dev=Object.fromEntries([[D,'d'],[N,'e'],[E,'a'],[P,'b'],[R,'c'],[S,'5'],[F,'6'],[G,'7'],[H,'8'],[K,'9'],[W,'3'],[V,'4']].map(([uid,seed])=>[uid,deviceId(seed)]));
-    const X1=rid(1),X2=rid(2),X3=rid(3),X9=rid(9),LIVE=rid(0x11fe),RACE=rid(0x4ace),OLD=rid(0x01dc),OPEN=rid(0x0bee);
+    const D='acct_daniel',N='acct_nik',E='acct_extra',P='acct_paged',R='acct_revoked',S='acct_stranger',F='acct_free',G='acct_module',H='acct_unfinished',K='acct_race',W='acct_expired_code',V='acct_open_code',Q='acct_skewed_code';
+    const dev=Object.fromEntries([[D,'d'],[N,'e'],[E,'a'],[P,'b'],[R,'c'],[S,'5'],[F,'6'],[G,'7'],[H,'8'],[K,'9'],[W,'3'],[V,'4'],[Q,'2']].map(([uid,seed])=>[uid,deviceId(seed)]));
+    const X1=rid(1),X2=rid(2),X3=rid(3),X9=rid(9),LIVE=rid(0x11fe),RACE=rid(0x4ace),OLD=rid(0x01dc),OPEN=rid(0x0bee),SKEW=rid(0x05ce);
     await env.withSecurityRulesDisabled(async c=>{
       const db=c.firestore();
       for(const uid of Object.keys(dev)){await setDoc(doc(db,'accounts',uid),accountEnvelope(uid,now));await setDoc(doc(db,'accounts',uid,'devices',dev[uid]),deviceEnvelope(uid,dev[uid],now,uid===R?'revoked':'active'));}
@@ -58,8 +58,9 @@ async function check(id,label,promise){await promise;step+=1;console.log(`ok ${s
       await setDoc(doc(db,'accounts',H,'careerIndex','current'),headEnvelope(H,[X1,LIVE],now));
       await setDoc(doc(db,'accounts',K,'careerIndex','current'),headEnvelope(K,[X1],now));
       await setDoc(doc(db,'accounts',H,'pairLinks','current'),envelope({objectType:'pairLink',objectId:'current',updatedAt:now,accountId:H,deviceId:dev[H],data:{rivalryId:LIVE,managerRole:'playerOne',managerId:'daniel',linkedAt:now,lastConfirmedAt:now}}));
-      // r79 PR4: a pending test rivalry whose code has expired (W) no longer blocks the first real START; one still open (V) does.
-      for(const [uid,rivalry,expiresAt] of [[W,OLD,Timestamp.fromMillis(t0-60000)],[V,OPEN,Timestamp.fromMillis(t0+20*60000)]]){
+      // r79 PR4: a pending test rivalry whose code expired over 10 minutes ago (W) no longer blocks the first real START; one
+      // still open (V) does, and so does one that expired only 5 minutes ago (Q, Codex #908: this device's clock may be ahead).
+      for(const [uid,rivalry,expiresAt] of [[W,OLD,Timestamp.fromMillis(t0-15*60000)],[V,OPEN,Timestamp.fromMillis(t0+20*60000)],[Q,SKEW,Timestamp.fromMillis(t0-5*60000)]]){
         await setDoc(doc(db,'accounts',uid,'careerIndex','current'),headEnvelope(uid,[X1],now));
         await setDoc(doc(db,'accounts',uid,'pairLinks','current'),envelope({objectType:'pairLink',objectId:'current',updatedAt:now,accountId:uid,deviceId:dev[uid],data:{rivalryId:rivalry,managerRole:'playerOne',managerId:'daniel',linkedAt:now,lastConfirmedAt:now}}));
         await setDoc(doc(db,'rivalries',rivalry),envelope({objectType:'rivalry',objectId:rivalry,updatedAt:now,accountId:uid,deviceId:dev[uid],data:{connectionState:'pending-pair',connectionStateBeforeDeletion:null,managerSlots:[],authorizedAccountIds:[uid],createdByAccountId:uid,createdAt:now}}));
@@ -185,6 +186,10 @@ async function check(id,label,promise){await promise;step+=1;console.log(`ok ${s
     await check('M7c','module (r79 PR4): a pending Showdown whose code is still open is unfinished; nothing written',(async()=>{
       await assert.rejects(Marker.startRealCareer(services(V)),error=>error.code==='CAREER_START_SHOWDOWN_UNFINISHED');
       assert.equal((await getDoc(ref(db[V],V))).exists(),false);
+    })());
+    await check('M7e','module (Codex #908): a code that expired only 5 minutes ago still blocks (this clock may be ahead); nothing written',(async()=>{
+      await assert.rejects(Marker.startRealCareer(services(Q)),error=>error.code==='CAREER_START_SHOWDOWN_UNFINISHED');
+      assert.equal((await getDoc(ref(db[Q],Q))).exists(),false);
     })());
     await check('M9','module: a Showdown started in another tab during the press makes the transaction retry and refuse; nothing written',(async()=>{
       let injected=false,pairReads=0;

@@ -120,7 +120,9 @@
   // makes the transaction retry and refuse. A rivalry this account cannot read is not its unfinished Showdown.
   // r79 PR4: a pending rivalry whose code has expired or was used up is finished (nobody can join it any more), so an
   // old test code never blocks the first real START. An invite that cannot be read keeps it unfinished (fail closed).
-  function csmInviteOpen(value,nowMs){const expires=csmMillis(value?.data?.expiresAt);return value?.data?.state==="open"&&(expires===null||expires>nowMs);}
+  // Codex #908: this device's clock may run ahead of the server, so a code counts as expired only 10 minutes after its expiry.
+  const INVITE_CLOCK_MARGIN_MS=10*60*1000;
+  function csmInviteOpen(value,nowMs){const expires=csmMillis(value?.data?.expiresAt);return value?.data?.state==="open"&&(expires===null||expires>nowMs-INVITE_CLOCK_MARGIN_MS);}
   async function csmAssertNoUnfinishedShowdown(transaction,sdk,firestore,accountId){
     const pair=await transaction.get(csmRef(sdk,firestore,accountId,"pairLinks","current"));
     const rivalryId=pair.exists()?pair.data()?.data?.rivalryId:null;
