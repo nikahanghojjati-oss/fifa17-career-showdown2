@@ -1,16 +1,16 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-18T16:40:45.794Z",
+  "at": "2026-10-18T16:54:54.738Z",
   "state": "ALL_CLEAR",
   "checks": [],
   "helpers_paused": [],
   "gate": {
     "pr": 904,
-    "head_sha": "2ddf8f79f0337e969ce06910c2ed22b9fe2f0006",
+    "head_sha": "ac8fb558d44f4d1fae4114f8021d14cacf01a7f6",
     "lanes": [
       {
         "name": "L1 core",
-        "state": "pass"
+        "state": "running"
       },
       {
         "name": "L2 browser full",
@@ -22,15 +22,15 @@
       },
       {
         "name": "L3B visual",
-        "state": "pass"
+        "state": "running"
       },
       {
         "name": "L4 remote",
-        "state": "pass"
+        "state": "running"
       },
       {
         "name": "L5 rules regression",
-        "state": "pass"
+        "state": "running"
       },
       {
         "name": "L6 browser journey",
