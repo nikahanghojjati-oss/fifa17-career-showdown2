@@ -164,8 +164,63 @@ check("V10 production never reads fixtures",()=>{
   assert.ok(!binder.includes("Preview data"));
   assert.ok(!/console\.(error|warn)/.test(binder),"loading is a normal state, never an error log");
 });
+// r80: the first Career Statistics visit after a reload mounts the screen twice in a row (loading, then the provider
+// model; v10Render rewrites the host and boots again each time). Both boots reach the headline count-up for the same
+// tiles; the count-up must still land on the career's numbers, never on the 0 the other boot's count-up started from.
+// Runs the real career-statistics.js and motion.js in the pinned Chromium with motion on (no Firebase, no network).
+async function headlineCountUpAcrossMounts(){
+  const {chromium}=require("playwright");
+  const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
+  const V10=require(path.join(ROOT,"js/careerScreensV10.js"));
+  const fmt=n=>Number.isInteger(n)?String(n):Number(n).toFixed(2).replace(/\.00$/,"");
+  const loading=V10.toV10Frame(fixture("loading").career,"careerStatistics");
+  const MARKUP='<div id="stage-root"><div id="careerScene"></div><h2 id="careerStatisticsScreenTitle"><span class="sd-visually-hidden"></span></h2><div id="previewChip" hidden></div><section id="headlineTiles"></section><section id="careerTablePanel"></section><section id="comparisonPanel"></section><section id="leadersPanel"></section><section id="statePanel" hidden></section></div>';
+  const origin="http://career-statistics.test/";
+  const runtime=await resolveChromiumRuntime();
+  const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
+  try{
+    // One context (the pinned Chromium runs single-process unless CMS_CHROMIUM_MULTI_CONTEXT=1); a fresh page per case.
+    const context=await browser.newContext({viewport:{width:1280,height:800},reducedMotion:"no-preference",serviceWorkers:"block"});
+    await context.route(`${origin}**`,route=>route.fulfill({status:200,contentType:"text/html",body:'<!doctype html><html><body><section id="careerStatistics"></section></body></html>'}));
+    for(const id of ["finished-three-seasons","multi-showdown-career"]){
+      const model=V10.toV10Frame(fixture(id).career,"careerStatistics"),D=model.managers.daniel,N=model.managers.nik;
+      const expected=[Math.max(model.showdowns.daniel.completed,model.showdowns.nik.completed),D.seasons,N.seasons,D.careerPoints,N.careerPoints,D.totalTrophies,N.totalTrophies].map(fmt);
+      // [first frame, gap before the second mount in ms]: both boots pending at once (the reload case), then the second
+      // mount landing before, during and after the first boot's count-up.
+      for(const [first,gapMs] of [[loading,0],[model,0],[model,300],[model,700],[model,1400]]){
+        const page=await context.newPage();
+        try{
+          const pageErrors=[];page.on("pageerror",error=>pageErrors.push(String(error?.message||error)));
+          await page.goto(origin,{waitUntil:"load"});
+          await page.evaluate(({markup,strings,first})=>{
+            window.ShowdownStage={mount:()=>({})};window.CAREER_STATISTICS_APP=true;window.CAREER_STATISTICS_QS="frame=LIVE";window.CAREER_STATISTICS_PLATEMAP={};
+            window.__csMarkup=markup;window.__csStrings=strings;window.__csFirst=first;
+          },{markup:MARKUP,strings:V10.STRINGS.careerStatistics,first});
+          await page.addScriptTag({path:path.join(ROOT,"visual-assets/v10_1/shared/motion.js")});
+          await page.addScriptTag({path:path.join(ROOT,"visual-assets/v10_1/career-statistics/career-statistics.js")});
+          assert.equal(await page.evaluate(()=>window.ShowdownMotion.isReducedMotion()),false,"motion is on, so the count-up runs");
+          // As v10Render: rewrite the host, set the frame, boot.
+          const mount=frame=>page.evaluate(frame=>{document.getElementById("careerStatistics").innerHTML=window.__csMarkup;window.CAREER_STATISTICS_FIXTURES={strings:window.__csStrings,frames:{LIVE:frame}};window.ShowdownCareerStatisticsBoot();},frame);
+          if(gapMs===0)await page.evaluate(({first,model})=>{for(const frame of [first,model]){document.getElementById("careerStatistics").innerHTML=window.__csMarkup;window.CAREER_STATISTICS_FIXTURES={strings:window.__csStrings,frames:{LIVE:frame}};window.ShowdownCareerStatisticsBoot();}},{first,model});
+          else{await mount(first);await page.waitForTimeout(gapMs);await mount(model);}
+          const label=`${id} (${first.status} then ${model.status}, ${gapMs} ms apart)`;
+          await page.waitForTimeout(1600);
+          const seen=await page.evaluate(()=>[...document.querySelectorAll("#headlineTiles .headlineNumber, #headlineTiles .headlinePair b")].map(el=>({text:el.textContent.trim(),counted:el.classList.contains("sd-count-up")})));
+          assert.deepEqual(seen.map(x=>x.text),expected,`${label}: the headline lands on the career's numbers`);
+          assert.ok(seen.every(x=>x.counted),`${label}: every headline number counted up`);
+          const table=await page.evaluate(()=>[...document.querySelectorAll("#careerTablePanel tbody tr")].map(tr=>tr.children[2]?.textContent.trim()));
+          assert.deepEqual(table,[String(model.showdowns.daniel.completed),String(model.showdowns.nik.completed)],`${label}: the table's Showdowns column agrees`);
+          assert.deepEqual(pageErrors,[],`${label}: no page errors`);
+        }finally{await page.close();}
+      }
+    }
+  }finally{await browser.close();}
+}
 // Codex P1 on release PR #366: a registered manager opening Stats or Trophy Room with no supplied model must
 // get the provider-backed completed-Showdown career (the loader History uses), not a permanent "unavailable".
+// A browser that dies mid-check can leave nothing to wait on: Node then exits 0 without the PASS line, so that fails.
+let finished=false;
+process.on("exit",code=>{if(!finished&&!code){console.error("career screens V10 contracts ended before their last check.");process.exitCode=1;}});
 (async()=>{
   const vm=require("node:vm");
   const registrations=new Map(),drawn=new Map(),frames=[];let release,loads=0;
@@ -206,5 +261,7 @@ check("V10 production never reads fixtures",()=>{
   const sf=read("js/seasonFinalV10.js");
   assert.ok(/function currentCareer\(\)\{[^\n]*cachedCareerModel/.test(sf)&&sf.includes('"career-mode-online-career-model-change"'),"the Standings Career view reads the same provider-backed model and redraws when it arrives");
   console.log(`ok ${++n} V-P1 online Career Statistics, Trophy Room and Standings Career read the provider-backed completed-Showdown model`);
-  console.log(`PASS career screens V10 contracts: ${n} checks.`);
+  await headlineCountUpAcrossMounts();
+  console.log(`ok ${++n} V-C1 the headline count-up lands on the career's numbers whatever order two back-to-back mounts finish in (first visit after a reload: loading, then the model)`);
+  console.log(`PASS career screens V10 contracts: ${n} checks.`);finished=true;
 })().catch(error=>{console.error(error);process.exitCode=1;});

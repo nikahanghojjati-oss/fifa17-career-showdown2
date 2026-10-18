@@ -50,9 +50,12 @@
     if(!rivalryId||!throughSeason)return null;return Object.freeze({rivalryId,throughSeason,key:`${saveId||"shared"}|${rivalryId}|history:${throughSeason}`});
   }
   function phcContextMatches(request){const current=phcRequest();return Boolean(request&&current&&request.key===current.key);}
+  // r80: the Commit and Scoring views outlive their Showdown on a page that finished one and started the next without a
+  // reload, so the cached terminal authority must belong to this request's rivalry as well as its season (a finished
+  // Showdown's season 1 is not the next Showdown's season 1).
   function phcCachedTerminal(request){
     const setup=phcSetup(),commit=phcCommit(),scoring=phcScoring();
-    return Boolean(request&&setup&&setup.ready===true&&setup.setup?.phase==="SHOWDOWN_CONFIRMED"&&setup.setup?.revision===6&&Number(setup.setup?.totalSeasons)>=request.throughSeason&&String(setup.rivalryId||"")===request.rivalryId&&commit&&commit.committed===true&&commit.phase==="ACKNOWLEDGED"&&commit.revision===3&&Number(commit.seasonNumber)===request.throughSeason&&scoring&&scoring.authoritative===true&&scoring.phase==="SCORING_RECONCILED"&&scoring.revision===1&&Number(scoring.seasonNumber)===request.throughSeason&&Number(scoring.seasonCommitRevision)===3&&Number(scoring.resultsRevision)===Number(commit.resultsRevision)&&String(scoring.resultsContentHash||"")===String(commit.resultsContentHash||""));
+    return Boolean(request&&setup&&setup.ready===true&&setup.setup?.phase==="SHOWDOWN_CONFIRMED"&&setup.setup?.revision===6&&Number(setup.setup?.totalSeasons)>=request.throughSeason&&String(setup.rivalryId||"")===request.rivalryId&&commit&&String(commit.rivalryId||"")===request.rivalryId&&commit.committed===true&&commit.phase==="ACKNOWLEDGED"&&commit.revision===3&&Number(commit.seasonNumber)===request.throughSeason&&scoring&&String(scoring.rivalryId||"")===request.rivalryId&&scoring.authoritative===true&&scoring.phase==="SCORING_RECONCILED"&&scoring.revision===1&&Number(scoring.seasonNumber)===request.throughSeason&&Number(scoring.seasonCommitRevision)===3&&Number(scoring.resultsRevision)===Number(commit.resultsRevision)&&String(scoring.resultsContentHash||"")===String(commit.resultsContentHash||""));
   }
   async function phcProviderOptions(request){
     const setup=phcSetup();if(!request||!setup||!phcContextMatches(request))phcFail("HISTORY_CONVERGENCE_CONTEXT_STALE");

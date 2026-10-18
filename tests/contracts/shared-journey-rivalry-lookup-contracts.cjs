@@ -63,7 +63,8 @@ async function history(confirmed){
   const reads=[];
   const {sandbox,reports}=load("js/productionSharedHistoryConvergence.js",{...base(confirmed),
     CareerModeProductionSharedSeasonCommit:{refresh:async()=>true,getState:()=>({committed:true,phase:"ACKNOWLEDGED",revision:3,seasonNumber:1,rivalryId:RIVALRY,resultsRevision:2,resultsContentHash:"hash"})},
-    CareerModeProductionSharedCanonicalScoring:{refresh:async()=>true,getState:()=>({authoritative:true,phase:"SCORING_RECONCILED",revision:1,seasonNumber:1,seasonCommitRevision:3,resultsRevision:2,resultsContentHash:"hash"})},
+    // The production Scoring view carries its rivalry (js/productionSharedCanonicalScoring.js), as History checks since r80.
+    CareerModeProductionSharedCanonicalScoring:{refresh:async()=>true,getState:()=>({authoritative:true,phase:"SCORING_RECONCILED",revision:1,seasonNumber:1,seasonCommitRevision:3,resultsRevision:2,resultsContentHash:"hash",rivalryId:RIVALRY})},
     CareerModeSharedHistoryConvergence:{},CareerModeSharedShowdownCatalog:{catalog:{}},CareerModeSparkSharedSeasonCommit:{},CareerModeSharedCanonicalScoring:{},CareerModeSparkSharedCanonicalScoring:{},
     CareerModeSparkSharedHistoryConvergence:{read:async options=>{reads.push(options);return {ok:true,authoritative:true,phase:"HISTORY_CONVERGED",revision:1,throughSeason:1,rivalryId:options.rivalryId,projection:{phase:"HISTORY_CONVERGED",acceptedSeasons:1}};}}});
   const view=await sandbox.CareerModeProductionSharedHistoryConvergence.refresh();
