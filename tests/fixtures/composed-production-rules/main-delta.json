@@ -9,10 +9,10 @@
     "bytes": 144817
   },
   "candidate": {
-    "base": "main f15f54f9 (r78, runtime 1.9.2-r78; Rules unchanged since r77). Candidate adds the r79 permanent pairing Rules (R79-PARTNER): accounts/{uid}/partner/current and the private JOIN note accounts/{uid}/partnerInbox/current, proven by tests/firebase/permanent-partner-emulator.cjs",
-    "sha256": "26bc608addfffa781e899dcb3338dd1cf8ed2a2a30e1630fde47e53c69e7a60a",
-    "gitBlobSha1": "9791fa8201068e6e71ce9a02d275c1bb2f86570c",
-    "bytes": 151951
+    "base": "main f15f54f9 (r78, runtime 1.9.2-r78; Rules unchanged since r77). Candidate adds the r79 permanent pairing Rules (R79-PARTNER): accounts/{uid}/partner/current and the private JOIN note accounts/{uid}/partnerInbox/current, proven by tests/firebase/permanent-partner-emulator.cjs; partner records only from real-career rivalries (not hidden by the marker, created after it)",
+    "sha256": "c038534a372c776cb672091c474ac3cfa151effdb06dd2f6e6e40d633cdea6ad",
+    "gitBlobSha1": "9df379812e0b0cc8cd509a8865b488f00e2b8d19",
+    "bytes": 152771
   },
   "allowedOwners": [
     "G-7",
@@ -64,8 +64,14 @@
         "        );",
         "    }",
         "",
+        "    // The pairing rivalry must belong to the real career: never one the account's career-start marker hid",
+        "    // (pre-career test games), and created after the marker (playerOne made it after pressing START REAL",
+        "    // CAREER; playerTwo writes its marker just before redeeming, so the rivalry is at most one invite",
+        "    // window, 30 min, older than that marker). rivalry.createdAt is the creating device's clock, so both",
+        "    // windows allow 5 min of clock skew.",
         "    function cmsPartnerPairingValid(accountId, data) {",
         "      let rivalry = get(/databases/$(database)/documents/rivalries/$(data.pairedViaRivalryId)).data;",
+        "      let start = get(/databases/$(database)/documents/accounts/$(accountId)/careerStart/current).data.data;",
         "      return cmsPartnerDataValid(data)",
         "        && data.active == true",
         "        && data.pairedAt == request.time",
@@ -76,7 +82,12 @@
         "        && rivalry.data.authorizedAccountIds is list",
         "        && rivalry.data.authorizedAccountIds.size() == 2",
         "        && cmsPartnerSlotsMatch(rivalry.data.managerSlots, data.myRole, data.partnerAccountId)",
-        "        && exists(/databases/$(database)/documents/accounts/$(accountId)/careerStart/current);",
+        "        && start.active == true",
+        "        && !(data.pairedViaRivalryId in start.hiddenRivalryIds)",
+        "        && (",
+        "          (data.myRole == 'playerOne' && rivalry.data.createdAt >= start.startedAt - duration.value(5, 'm'))",
+        "          || (data.myRole == 'playerTwo' && rivalry.data.createdAt >= start.startedAt - duration.value(35, 'm'))",
+        "        );",
         "    }",
         "",
         "    function cmsPartnerCreateValid(accountId, partnerId) {",
@@ -168,7 +179,7 @@
     },
     {
       "mainLine": 2797,
-      "candidateLine": 2925,
+      "candidateLine": 2936,
       "removed": [],
       "added": [
         "      allow list, delete: if false;",
