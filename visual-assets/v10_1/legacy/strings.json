@@ -12,7 +12,7 @@
     "viewSeasonHistory": "VIEW SEASON HISTORY"
   },
   "states": {
-    "abandoned": "Abandoned · not counted",
+    "abandoned": "Ended early",
     "completionPending": "Completion pending",
     "interim": "Current Showdown only. Career history is not yet available.",
     "loading": "Loading your Showdown history…",

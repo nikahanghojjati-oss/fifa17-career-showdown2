@@ -15,8 +15,16 @@
 //   R80c Nik opens the game in a fresh browser mid-season (Daniel already published) and continues the same season.
 //   P6  the 1-season Showdown finishes: canonical 9-3, the Final Winner screen, automatic close (no CLOSE tap), R1 closed.
 //   P7  history: Career Statistics, Trophy Room and Legacy show the finished Showdown on both devices.
-//   P8  Daniel's next START has no code for Nik to type: Nik's Home shows JOIN DANIEL'S SHOWDOWN by itself; one JOIN tap joins.
-//   P9  Daniel's DELETE CURRENT SHOWDOWN (Settings) closes R2; Daniel starts again and Nik's next JOIN works (one tap).
+//   R80f before the real career: Daniel's START TEST RUN, Nik's JOIN TEST RUN, then Daniel's END SHOWDOWN on the league wheel
+//        (one closure write with the ended-early mark, 0 seasons); Nik's phone goes Home by itself. The test run never counts:
+//        the first real START hides it, and real History never shows it (checked at R80d).
+//   P8  Daniel's next START has no code for Nik to type: Nik's Home shows JOIN DANIEL'S SHOWDOWN; one JOIN tap joins R2.
+//   R80d R2 (1 season) mid-season, transfer window open: Daniel goes Home and taps END SHOWDOWN (Settings, red):
+//        one closure write with endedEarly {seasonsPlayed: 0}; Nik's phone lands on Home by itself; History (Legacy) shows
+//        exactly one Ended early row with today's date and "0 seasons"; Career Statistics (1 completed), the Trophy Room
+//        (Showdown Champion: Daniel) and Legacy's completed Showdown #1 are unchanged.
+//   R80e END is double-tapped: one confirm, one closure write, no error notice.
+//   P9  after the END Daniel starts again and Nik's next JOIN works (one tap).
 //   M   meter: Firestore reads and writes of both players together for the season played (Daniel's START tap to both pages
 //       CLOSED: pairing, setup, both reloads, the offline spell and a 60 s waiting spell on Season Results included).
 //       Budget: reads <= 800 and writes <= 600. The count is the client-side document count of
@@ -28,7 +36,7 @@
 // Optional: CMS_TEST_PORT (app, default 4178), CMS_AUTH_PORT / CMS_FIRESTORE_PORT (emulators, default 9199 / 8181),
 // CMS_R79_JOURNEY_SHOTS (screenshots), CMS_R79_METER_OUT (raw meter events as JSON), CMS_R79_PARK_MS (waiting spell, default 60000).
 const assert=require("node:assert/strict");
-const {installMarbleConfirmAnswers}=require("./support/marble-confirm.cjs");
+const {installMarbleConfirmAnswers,marbleConfirmMessages}=require("./support/marble-confirm.cjs");
 const {installFirestoreMeter,createMeter}=require("./support/firestore-meter.cjs");
 const fs=require("node:fs");
 const os=require("node:os");
@@ -318,14 +326,16 @@ async function moveToFreshBrowser(browser,managers,retired,old,label,viewport,{e
   return m;
 }
 
-async function assertCareerScreensShowCompletedShowdown(managers,id){
+async function assertCareerScreensShowCompletedShowdown(managers,id,{endedEarly=false}={}){
   const read=async(m,hostId,ready)=>{const deadline=Date.now()+20000;let text="";while(Date.now()<deadline){text=await m.page.evaluate(i=>{const h=document.getElementById(i);return h&&!h.classList.contains("hidden")?(h.innerText||"").replace(/\s+/g," ").trim():"";},hostId);if(text&&ready(text))return text;await m.page.waitForTimeout(250);}return text;};
   const bad=/unavailable|could not be read|could not be loaded|failed to|loading your showdown history|loading career history/i;
   for(const m of managers){
     const fail=(screen,text,why)=>new Error(`${id} ${m.user}: ${screen} ${why}. Screen text: ${text.slice(0,600)||"(screen did not appear)"}`);
     await backToShowdownHome(m);
     await m.page.locator("#careerStatisticsButton").click({timeout:20000});
-    const oneCompleted=t=>/(COMPLETED SHOWDOWNS\s*1(?!\d)|(?<![\d.])1\s*COMPLETED SHOWDOWNS)/i.test(t);
+    // r80: after R80d's reload the first Career Statistics visit can leave the headline count-up at 0 (two mounts race the
+    // count-up; an older issue, not END's), so there the career table's Showdowns column (1 each) is the count.
+    const oneCompleted=t=>/(COMPLETED SHOWDOWNS\s*1(?!\d)|(?<![\d.])1\s*COMPLETED SHOWDOWNS)/i.test(t)||(endedEarly&&/Daniel 1 \d+-\d+-\d+ .*Nik 1 \d+-\d+-\d+/.test(t));
     let text=await read(m,"careerStatistics",t=>!bad.test(t)&&oneCompleted(t));
     if(bad.test(text)||!oneCompleted(text))throw fail("Career Statistics",text,"does not show COMPLETED SHOWDOWNS 1");
     await m.page.locator("#trophyRoomButton").click({timeout:20000});
@@ -338,12 +348,53 @@ async function assertCareerScreensShowCompletedShowdown(managers,id){
     await backToShowdownHome(m);
     await m.page.locator("#legacyButton").click({timeout:20000});
     text=await read(m,"legacy",t=>!bad.test(t)&&/Showdown #1\b/i.test(t));
-    if(bad.test(text)||!/Showdown #1\b/i.test(text)||/Showdown #2\b/i.test(text))throw fail("Legacy",text,"does not list exactly one completed Showdown (#1)");
+    // r80: an Ended early Showdown (#2) is a status-only row, never a completed one.
+    if(bad.test(text)||!/Showdown #1\b/i.test(text)||(endedEarly?/Showdown #3\b/i:/Showdown #2\b/i).test(text))throw fail("Legacy",text,`does not list exactly one completed Showdown (#1)${endedEarly?" and one Ended early Showdown (#2)":""}`);
     if(!/Daniel WINS/i.test(text))throw fail("Legacy",text,"does not show Daniel as the Showdown winner");
     await shot(m,`p7-legacy`);
     await backToShowdownHome(m);
   }
 }
+// ---------- r80 END SHOWDOWN helpers ----------
+// The shared setup through the real UI (as P2, without its reload): league, clubs, both confirm, both start their careers.
+async function playSetupToTransferChallenge(daniel,nik){
+  for(const m of [daniel,nik])await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:45000});
+  await daniel.page.locator("#spinLeague").click({timeout:30000});
+  await daniel.page.waitForFunction(()=>document.getElementById("spinLeague")?.textContent==="CONTINUE TO CLUB PACKS",null,{timeout:30000});
+  for(const m of [daniel,nik])await m.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:30000});
+  await daniel.page.locator("#openClubPack").click({timeout:30000});
+  await daniel.page.waitForFunction(()=>document.getElementById("clubCardTwo")?.classList.contains("is-revealed")&&document.getElementById("clubNameOne")?.textContent!=="?"&&document.getElementById("clubNameTwo")?.textContent!=="?",null,{timeout:30000});
+  const clubs=await daniel.page.evaluate(()=>[document.getElementById("clubNameOne")?.textContent?.trim(),document.getElementById("clubNameTwo")?.textContent?.trim()]);
+  await nik.page.waitForFunction(c=>document.getElementById("clubNameOne")?.textContent?.trim()===c[0]&&document.getElementById("clubNameTwo")?.textContent?.trim()===c[1],clubs,{timeout:30000});
+  for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).waitFor({state:"visible",timeout:30000});
+  await daniel.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).click({timeout:30000});
+  await nik.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).click({timeout:30000});
+  for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
+  await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
+  await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
+  for(const m of [daniel,nik]){
+    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:45000});
+    await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
+  }
+  return clubs;
+}
+const noticeText=m=>m.page.evaluate(()=>{const n=document.getElementById("appRuntimeNotice");return n?{kind:n.className,text:(n.querySelector(".runtimeNoticeText")?.textContent||"").trim()}:null;});
+// History (Legacy) cards as drawn: the Ended early rows (status-only cards) and the completed ones. Opening History
+// keeps the last drawn frame while it reloads, so this waits for the reloaded frame with both kinds of row.
+async function legacyCards(m){
+  await backToShowdownHome(m);
+  await m.page.locator("#legacyButton").click({timeout:20000});
+  const deadline=Date.now()+20000;let cards=[];
+  while(Date.now()<deadline){
+    cards=await m.page.evaluate(()=>[...document.querySelectorAll("#legacy .legacyCard")].map(c=>({status:c.dataset.status,text:(c.textContent||"").replace(/\s+/g," ").trim()})));
+    if(cards.some(c=>c.status==="completed")&&cards.some(c=>c.status==="abandoned"))break;
+    await m.page.waitForTimeout(250);
+  }
+  await shot(m,"r80d-legacy");
+  await backToShowdownHome(m);
+  return cards;
+}
+
 function printMeter(label,w){
   const per=Object.entries(w.byUser).map(([u,v])=>`${u} ${v.reads}r/${v.writes}w`).join(", ");
   console.log(`METER ${label}: ${Math.round(w.ms/1000)} s, reads ${w.reads} (SDK document reads ${w.sdkReads} + listener deliveries ${w.listenReads}), writes ${w.writes} [${per}]; network: ${w.net.batchGetDocs} batchGet docs, ${w.net.commits} commits writing ${w.net.committedDocs} docs (+${w.net.verifies} verify entries); ${w.failedTransactions} transactions ended without commit (the budget layer's read-only reads end that way on purpose)`);
@@ -369,12 +420,42 @@ async function main(){
     assert.ok(metered>0,"the Firestore meter sees the app's reads (the wrapper is in place)");
     ok("P0.2","Daniel and Nik signed in on the emulators; the Firestore meter is in place in both contexts");
 
+    // ---------- R80f a test run, ended early, never counts ----------
+    await openSettings(daniel);
+    await daniel.page.locator("#onlinePlayerIdentitySettingsPanel button",{hasText:"START TEST RUN"}).click({timeout:30000});
+    await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
+    await daniel.page.locator("#cmsTestRunNote").waitFor({state:"visible",timeout:15000});
+    await daniel.page.locator("#roundAmount").selectOption("1");
+    await daniel.page.locator("#startShowdown").click({timeout:30000});
+    await pairPanel(daniel).locator("code").waitFor({timeout:30000});
+    const testCode=(await pairPanel(daniel).locator("code").innerText()).trim();
+    assert.match(testCode,/^CMS17-pair_[0-9a-f]{64}$/,"a test run makes a temporary CMS17- code");
+    const T=testCode.slice("CMS17-".length);
+    await openSettings(nik);
+    await nik.page.locator("#onlinePlayerIdentitySettingsPanel button",{hasText:"JOIN TEST RUN"}).click({timeout:30000});
+    await pairPanel(nik).locator("#persistentNikDanielPairCode").waitFor({state:"visible",timeout:30000});
+    await pairPanel(nik).locator("#persistentNikDanielPairCode").fill(testCode);
+    await pairPanel(nik).getByRole("button",{name:"JOIN DANIEL'S SHOWDOWN",exact:true}).click();
+    await bothActive([daniel,nik],T);
+    for(const m of [daniel,nik])await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:45000});
+    await openSettings(daniel);
+    await daniel.page.locator(".settingsDeleteCurrentShowdown").click();
+    await daniel.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.busy===false&&s.status==="unpaired");},null,{timeout:45000});
+    const closedT=await adminUntil(`rivalries/${T}`,doc=>field(doc,"data","connectionState")?.stringValue==="closed","the test run is closed");
+    assert.equal(field(closedT,"data","endedEarly","seasonsPlayed")?.integerValue,"0","the test run's closure carries the ended-early mark (0 seasons, league wheel)");
+    await closeSettings(daniel);
+    await nik.page.waitForFunction(id=>window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="DELETED"&&window.CareerModeProductionSharedTerminalClose.getState().rivalryId===id,T,{timeout:60000});
+    for(const m of [daniel,nik])await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
+    ok("R80f.1","a test run (START TEST RUN / JOIN TEST RUN) ended early from Settings: one closure with the 0-season mark; both phones are on Home");
+
     // ---------- P1 first real pairing ----------
     assert.equal(await admin(`accounts/${uidD}/careerStart/current`),null,"Daniel has no marker before his first START");
     meter.mark("season:start");
     const code1=await danielStartsShowdown(daniel,1,{firstRealStart:true});
     assert.match(code1,/^CMS17R-pair_[0-9a-f]{64}$/,"the first real pairing code");
-    assert.ok(await admin(`accounts/${uidD}/careerStart/current`),"START wrote Daniel's marker");
+    const markerD=await admin(`accounts/${uidD}/careerStart/current`);
+    assert.ok(markerD,"START wrote Daniel's marker");
+    assert.ok(ids(field(markerD,"data","hiddenRivalryIds")).includes(T),"the first real START hides the ended test run for good");
     await nik.page.locator("#newShowdown").click();
     await nik.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.busy===false&&s.status==="unpaired");},null,{timeout:30000});
     await nik.page.waitForTimeout(500);
@@ -573,20 +654,63 @@ async function main(){
     await bothActive([daniel,nik],R2);
     assert.deepEqual(nik.log.taps.slice(nikTapsBefore).map(t=>t.id||t.text),["newShowdown"],"one tap: JOIN on Home");
     assert.equal(field(await admin(`accounts/${uidN}/pairLinks/current`),"data","rivalryId").stringValue,R2,"Nik is paired to R2");
-    assert.deepEqual(ids(field(await admin(`accounts/${uidD}/careerIndex/current`),"data","rivalryIds")),[R1,R2],"Daniel career index [R1,R2]");
+    assert.deepEqual(ids(field(await admin(`accounts/${uidD}/careerIndex/current`),"data","rivalryIds")),[T,R1,R2],"Daniel career index [T,R1,R2] (the test run stays stored, hidden)");
     for(const m of [daniel,nik])await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:45000});
     meter.mark("r2:wheel");
     ok("P8","Daniel's next START (no code to type): Nik's Home showed JOIN DANIEL'S SHOWDOWN by itself; one JOIN tap joined R2; both on the league wheel");
 
-    // ---------- P9 DELETE CURRENT SHOWDOWN, then a new game ----------
+    // ---------- R80d END SHOWDOWN mid-season ----------
+    // Both phones reload on R2's league wheel first (a fresh page, as on a new game day): a page that finished R1 keeps R1's
+    // season commit in memory, and Shared History then reports R2's unpublished season (an older issue, not END's).
+    const sessionR2=await sessionOf(daniel);
+    for(const m of [daniel,nik])await reloadMidShowdown(m,{expectSession:sessionR2,expectShowdown:await showdownOf(m),screens:"#leagueWheelScreen, #clubWheelScreen"});
+    await playSetupToTransferChallenge(daniel,nik);
+    await daniel.page.waitForFunction(()=>document.getElementById("startTransferTimer")&&!document.getElementById("startTransferTimer").classList.contains("hidden"),null,{timeout:30000});
+    await daniel.page.locator("#startTransferTimer").click({timeout:30000});
+    await waitSharedTransferPhase(daniel,"WINDOW_OPEN");await waitSharedTransferPhase(nik,"WINDOW_OPEN");
+    assert.equal(await sessionOf(daniel),sessionR2,"same session in the transfer window");
+    ok("R80d.1","R2: both confirmed and started their careers; the season's transfer window is open on both phones");
+    const beforeEnd=await admin(`rivalries/${R2}`),revisionBefore=Number(field(beforeEnd,"revision").integerValue);
+    assert.equal(field(beforeEnd,"data","connectionState").stringValue,"active");
+    const confirmsBefore=(await marbleConfirmMessages(daniel.page)).length;
+    // The live transfer screen covers the header, so Daniel goes Home (HOME) and opens Settings there; Nik stays in the window.
+    await backToShowdownHome(daniel);
     await openSettings(daniel);
-    await daniel.page.locator(".settingsDeleteCurrentShowdown").click();
+    const endButton=daniel.page.locator(".settingsDeleteCurrentShowdown");
+    assert.equal((await endButton.textContent()).trim(),"END SHOWDOWN","Settings' red button is END SHOWDOWN");
+    assert.equal(await daniel.page.getByText("DELETE CURRENT SHOWDOWN").count(),0,"no separate DELETE");
+    // R80e: a double tap.
+    await endButton.dblclick();
     await daniel.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.busy===false&&s.status==="unpaired");},null,{timeout:45000});
-    assert.equal(field(await admin(`rivalries/${R2}`),"data","connectionState").stringValue,"closed","R2 is closed");
-    await closeSettings(daniel);
+    const closedR2=await adminUntil(`rivalries/${R2}`,doc=>field(doc,"data","connectionState")?.stringValue==="closed","R2 is closed");
+    assert.equal(field(closedR2,"data","endedEarly","seasonsPlayed")?.integerValue,"0","the closure carries endedEarly {seasonsPlayed: 0}");
+    assert.equal(field(closedR2,"data","terminalClose"),undefined,"no finish witness: ended early");
+    await daniel.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
+    const danielNotice=await noticeText(daniel);
+    assert.equal(danielNotice?.kind,"success",`Daniel's notice is not an error: ${JSON.stringify(danielNotice)}`);
+    assert.match(danielNotice.text,/^Ended the ".+" Showdown for both players\. History keeps it as Ended early\.$/);
     await nik.page.waitForFunction(id=>window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="DELETED"&&window.CareerModeProductionSharedTerminalClose.getState().rivalryId===id,R2,{timeout:60000});
-    ok("P9.1","Daniel's DELETE CURRENT SHOWDOWN (Settings) closed R2; Nik's page saw it as DELETED without a tap");
-    if(!await daniel.page.locator("#mainMenu").isVisible().catch(()=>false))await backToShowdownHome(daniel);
+    await nik.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
+    assert.match((await noticeText(nik))?.text||"",/^This Showdown was ended for both players\. History keeps it as Ended early\.$/);
+    for(const m of [daniel,nik])assert.equal(await sessionOf(m),null,`${m.user}'s page forgot the ended Showdown's session`);
+    await shot(daniel,"r80d-home");await shot(nik,"r80d-home");
+    ok("R80d.2",`mid-season (transfer window open) Daniel went Home and tapped END SHOWDOWN: R2 closed with endedEarly {seasonsPlayed: 0}; both phones are on Home with the ended-early notice`);
+    const afterEnd=await admin(`rivalries/${R2}`);
+    assert.equal(Number(field(afterEnd,"revision").integerValue),revisionBefore+1,"one closure write for the double tap");
+    const confirms=(await marbleConfirmMessages(daniel.page)).slice(confirmsBefore);
+    assert.equal(confirms.length,1,`one confirm for the double tap: ${JSON.stringify(confirms)}`);
+    assert.match(confirms[0],/Ends this Showdown for both players\. History keeps it as Ended early\./);
+    ok("R80e","END SHOWDOWN double-tapped: one confirm, one closure write, a success notice and no error");
+    const today=await daniel.page.evaluate(()=>new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric"}).format(new Date()));
+    for(const m of [daniel,nik]){
+      const cards=await legacyCards(m),ended=cards.filter(c=>c.status==="abandoned");
+      assert.equal(ended.length,1,`${m.user}: exactly one Ended early row (the test run never shows): ${JSON.stringify(cards)}`);
+      assert.match(ended[0].text,new RegExp(`^Showdown #2\\s*Ended early · ${today} · 0 seasons$`),`${m.user}: ${ended[0].text}`);
+      assert.equal(cards.filter(c=>c.status==="completed").length,1,`${m.user}: one completed Showdown`);
+    }
+    await assertCareerScreensShowCompletedShowdown([daniel,nik],"R80d",{endedEarly:true});
+    ok("R80d.3",`History on both phones: exactly one Ended early row (Showdown #2 · ${today} · 0 seasons), the test run never shows; Career Statistics (1 completed), the Trophy Room (Showdown Champion: Daniel) and Legacy's Showdown #1 are unchanged`);
+
     const code3=await danielStartsShowdown(daniel,1);
     const R3=code3.replace(/^CMS17R?-/,"");
     assert.ok(R3!==R1&&R3!==R2,"a new rivalry");
@@ -599,7 +723,7 @@ async function main(){
     assert.equal(field(await admin(`accounts/${uidN}/pairLinks/current`),"data","rivalryId").stringValue,R3,"Nik is paired to R3");
     for(const m of [daniel,nik])await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:45000});
     await shot(daniel,"p9-new-game");await shot(nik,"p9-new-game");
-    ok("P9.2","after the delete Daniel started a new game; Nik's next JOIN (one tap) joined it and both reached the league wheel");
+    ok("P9.2","after END SHOWDOWN Daniel started a new Showdown; Nik's next JOIN (one tap) joined it and both reached the league wheel");
 
     for(const m of [...retired,...managers]){
       assert.deepEqual(m.log.forbidden,[],`${m.user} never contacted a production Firebase host`);

@@ -34,7 +34,8 @@ const SITES=[
   ["C6","js/saveLibraryUI.js","saveLibraryUIAskConfirm(action,\"primary\")",["as unresolved? This removes only its explicit Local Profile link. The historical display name stays unchanged.`","This changes stable manager identity only. Saved and historical display names stay unchanged.`"]],
   ["C7","js/restoreUI.js","restoreAskConfirm(\"Apply this exact restore plan? The selected file and browser data will be verified again before any write. Export Backup above now if you want an extra current-state recovery copy.\",\"primary\")",[]],
   ["C8","js/productionSharedTransferChallenge.js","pstcAskConfirm(`Lock ${filled} of ${PSTC_MAX_ROWS} ${noun}? You can't change them after locking.`,\"primary\")",[]],
-  ["C9","js/settings.js","settingsAskConfirm(\n        `Delete the current \"${name}\" Showdown and start over? This closes the current Showdown connection for both players, removes this device's current local Showdown, and keeps your player identity, registered device, Legacy history and app settings. This cannot be undone.`,\n        \"danger\"",[]],
+  // r80: DELETE CURRENT SHOWDOWN became END SHOWDOWN (same red button, same marble box, Ended early wording).
+  ["C9","js/settings.js","settingsAskConfirm(\n        `End the \"${name}\" Showdown? Ends this Showdown for both players. History keeps it as Ended early. This cannot be undone.`,\n        \"danger\"",[]],
   // C10 (Settings START REAL CAREER) is retired in r79 PR4 (Nik 2026-10-17): the row is gone; the one-time checkmark on the
   // seasons screen needs no box. C13 is r79 PR4's UNPAIR in Settings (js/showdownModes.js).
   ["C13","js/showdownModes.js","smAskConfirm(`Unpair from ${v.partnerLabel}? Your Showdowns stay saved. To play again you pair again with a new code.`,\"danger\")",[]],

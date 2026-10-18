@@ -78,7 +78,7 @@ const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
     ok("phone width: no horizontal overflow");
     await closeSettings();
 
-    // An unfinished Showdown: still nothing, and DELETE CURRENT SHOWDOWN is the Settings control for it (unchanged).
+    // An unfinished Showdown: still nothing, and END SHOWDOWN is the Settings control for it.
     await page.evaluate(()=>{
       const rivalryId="pair_"+"a".repeat(64);
       window.CareerModePersistentNikDanielPair={...(window.CareerModePersistentNikDanielPair||{}),getState:()=>({status:"paired",initialized:true,rivalryId,connectionState:"active"})};

@@ -33,6 +33,7 @@ const PersistentPair=require("../../js/persistentNikDanielPair.js");
 const Reader=require("../../js/sparkCompletedShowdownReader.js");
 const Active=require("../../js/sharedActiveShowdownAdapter.js");
 const Loader=require("../../js/sparkClosedShowdownCareerLoader.js");
+const Seam=require("../../js/careerScreenSeam.js");
 
 const PROJECT_ID=process.env.GCLOUD_PROJECT||"demo-cms-closed-adapter";
 const RULES=fs.readFileSync("firestore.spark.generated.rules","utf8");
@@ -183,15 +184,27 @@ async function main(env){
   globalThis.CareerModeSparkConnectedAccount={initialize:async()=>{},getState:()=>({connected:true,accountId:A})};
   globalThis.CareerModeSparkPrivatePairing={initialize:async()=>{},getState:()=>({registered:true,deviceId:DA})};
   globalThis.CareerModeOnlinePlayerIdentity={getState:()=>({managerId:"daniel"})};
-  const abandoned=await PersistentPair.abandonCurrentShowdown({expectedRivalryId:R2,expectedSaveId:SA,cryptoImpl:crypto.webcrypto});
-  assert.equal(abandoned.ok,true,JSON.stringify(abandoned));
-  await ok("B2","after abandon the career is rebuilt without Showdown 2's seasons",async()=>{
+  // r80 END SHOWDOWN: the same single abandon write carries the ended-early mark (one season finished).
+  const abandoned=await PersistentPair.abandonCurrentShowdown({expectedRivalryId:R2,expectedSaveId:SA,seasonsPlayed:1,cryptoImpl:crypto.webcrypto});
+  assert.equal(abandoned.ok,true,JSON.stringify(abandoned));assert.equal(abandoned.status,"closed");
+  let endedRoot2;await env.withSecurityRulesDisabled(async context=>{endedRoot2=(await getDoc(doc(context.firestore(),"rivalries",R2))).data();});
+  await ok("B2","after END SHOWDOWN the career is rebuilt without Showdown 2's seasons; its one Ended early row names the date and 1 season",async()=>{
+    assert.deepEqual(endedRoot2.data.endedEarly,{seasonsPlayed:1});assert.equal(endedRoot2.data.connectionState,"closed");assert.equal(endedRoot2.revision,abandoned.revision);
     for(const uid of [A,B]){
       const {value}=await load(env,uid,await liveCareerInput(env,uid));
       assert.deepEqual(classes(value),["completed","abandoned"]);assert.deepEqual(rows(value),["completed","abandoned"]);
       assert.equal(value.model.managers.nik.careerPoints,4);assert.equal(value.model.managers.nik.perfectSeasons,0);assert.equal(value.model.managers.nik.bestSeasonScore,3);
+      assert.deepEqual(value.model.managers.daniel.showdowns,{completed:1,wins:1,draws:0,losses:0},"Ended early never counts as a Showdown");
       const row=value.model.history.showdowns[1];assert.equal(row.totals,null);assert.equal(row.winner,null);assert.deepEqual(row.seasons,[]);
+      assert.equal(row.seasonsPlayed,1);assert.equal(row.endedAt,endedRoot2.updatedAt.toMillis());
+      assert.match(Seam.careerScreenView("legacy",value.model).sections[0].rows[1].value,/^Ended early · \d{1,2} [A-Z][a-z]{2} \d{4} · 1 season$/);
     }
+  });
+  await ok("B3","a retried END on the already-closed Showdown is success and writes nothing",async()=>{
+    const again=await PersistentPair.abandonCurrentShowdown({expectedRivalryId:R2,expectedSaveId:SA,seasonsPlayed:1,cryptoImpl:crypto.webcrypto});
+    assert.equal(again.ok,true,JSON.stringify(again));assert.equal(again.status,"already-closed");
+    let now;await env.withSecurityRulesDisabled(async context=>{now=(await getDoc(doc(context.firestore(),"rivalries",R2))).data();});
+    assert.equal(now.revision,endedRoot2.revision);assert.equal(now.contentHash,endedRoot2.contentHash);
   });
 
   // Showdown 3: paired and live with one accepted season (Daniel 3, Nik 0).
@@ -266,6 +279,9 @@ async function main(env){
     const {value}=await load(env,A,await liveCareerInput(env,A));
     assert.equal(value.status,"ready");assert.deepEqual(value.model.coverage,{readable:3,indexed:3});assert.deepEqual(classes(value),["completed","abandoned","abandoned"]);assert.deepEqual(rows(value),["completed","abandoned","abandoned"]);
     assert.equal(value.model.managers.daniel.careerPoints,11);assert.equal(value.model.managers.nik.careerPoints,4);
+    // r80: Showdown 3 was closed without the mark (as before END SHOWDOWN): its row shows a dash for the seasons.
+    assert.deepEqual(value.model.history.showdowns.map(row=>row.seasonsPlayed),[3,1,null]);
+    assert.match(Seam.careerScreenView("legacy",value.model).sections[0].rows[2].value,/^Ended early · \d{1,2} [A-Z][a-z]{2} \d{4} · - seasons$/);
   });
   await ok("E2","abandoning the never-joined code still leaves a ready, unpoisoned career",async()=>{
     const db=env.authenticatedContext(A).firestore();
@@ -283,6 +299,6 @@ async function main(env){
 
 (async()=>{
   const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});
-  try{await env.clearFirestore();await main(env);assert.equal(checks,16);process.stdout.write(`PASS closed-Showdown adapter emulator: ${checks} numbered checks (I0, A Terminal Close, B abandon rebuild, C three-Showdown career for both managers with cache, D stranger and unknown live state, E never-joined codes and current-row isolation).\n`);}
+  try{await env.clearFirestore();await main(env);assert.equal(checks,17);process.stdout.write(`PASS closed-Showdown adapter emulator: ${checks} numbered checks (I0, A Terminal Close, B abandon rebuild, C three-Showdown career for both managers with cache, D stranger and unknown live state, E never-joined codes and current-row isolation).\n`);}
   finally{await env.cleanup();}
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});

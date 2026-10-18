@@ -25,7 +25,9 @@
     if(!Array.isArray(rows))return bare("unavailable");
     const completed=rows.filter(r=>r.status==="completed");
     if(!completed.every(validRow))return bare("unavailable");
-    const frame={...bare(status==="ready"&&!completed.length?"empty":status),showdowns:completed.map(r=>({number:r.number,status:"completed",leagueId:r.leagueId,clubs:copy(r.clubs),seasonsPlayed:r.seasonsPlayed,totalSeasons:r.totalSeasons,totals:copy(r.totals),winner:r.winner,seasons:copy(r.seasons)})),ui:{page:1,pageSize:4,selectedShowdown:completed[0]?.number??null}};
+    // r80: an Ended early Showdown is listed as one status-only row (date, seasons played); it never counts anywhere.
+    const listed=rows.filter(r=>r.status==="completed"||(r.status==="abandoned"&&Number.isInteger(r.number)));
+    const frame={...bare(status==="ready"&&!listed.length?"empty":status),showdowns:listed.map(r=>r.status==="abandoned"?{number:r.number,status:"abandoned",endedAt:r.endedAt??null,seasonsPlayed:r.seasonsPlayed??null,endedLabel:seam().endedEarlyText(r)}:{number:r.number,status:"completed",leagueId:r.leagueId,clubs:copy(r.clubs),seasonsPlayed:r.seasonsPlayed,totalSeasons:r.totalSeasons,totals:copy(r.totals),winner:r.winner,seasons:copy(r.seasons)}),ui:{page:1,pageSize:4,selectedShowdown:completed[0]?.number??null}};
     if(status==="partial")frame.coverage=copy(model.coverage);
     // Current-only projections are never offered as an archive or backfilled.
     if(model.interimLabel){frame.status="unavailable";return bare("unavailable");}
@@ -248,7 +250,7 @@
         if(rivalry){
           // Career order is oldest first. Rebuild the latest verified completed entry,
           // never mix whole-career manager counters into one rivalry's figures.
-          const input=result.careerInput,entry=input?.showdowns?.at(-1);
+          const input=result.careerInput,entry=input?.showdowns?.filter(item=>item.classification!=="abandoned").at(-1);
           rivalryModel=input?.indexStatus==="ready"?(entry?.classification==="completed"?root.CareerModeSharedCareerAnalytics.buildCareerModel({indexStatus:"ready",showdowns:[entry]}):entry?.classification==="unavailable"?UNAVAILABLE:{status:"empty"}):UNAVAILABLE;
         }
       }

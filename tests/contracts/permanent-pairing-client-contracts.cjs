@@ -502,7 +502,7 @@ await check("PC2g Codex #904 (P1): Nik's UNPAIR racing Daniel's START never leav
   const open=await stuck.pair.startPairing({managerRole:"playerOne"});
   assert.equal(open.status,"error");assert.ok(!open.capability);
   assert.doesNotMatch(open.message,/nothing was started/,"an unconfirmed close never claims nothing was started");
-  assert.match(open.message,/could not be closed yet.*DELETE CURRENT SHOWDOWN/);
+  assert.match(open.message,/could not be closed yet.*END SHOWDOWN/);
   assert.equal(stuck.docs.get(`rivalries/${refusedId(stuck)}`)?.data?.connectionState,"pending-pair","the Showdown really is still online");
   // 3. Control: Nik's record still names Daniel and the note is refused for another reason: the code stays (PC2b), no close.
   const keep=harness({role:"playerOne",marker:"ready",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:docs(),create:commitCreate(Date.now()+20*60000)});
