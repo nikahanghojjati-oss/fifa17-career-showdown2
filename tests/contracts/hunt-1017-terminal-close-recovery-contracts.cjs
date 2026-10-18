@@ -55,6 +55,15 @@ async function recoveryHeldAcrossRefresh(){
   const retried=await second.api.retry();assert.equal(retried.ok,true);assert.equal(second.api.getState().phase,"CLOSED");
   assert.equal(protocol.sameWitness(second.env.closeCalls[1].intent,second.env.closeCalls[0].intent),true,"retry sends the same witness");
 }
+// Codex #910: a pending close whose rivalry the other phone then deleted (closed with no witness) resolves as DELETED.
+async function recoveryResolvedByDelete(){
+  const {api,env}=await pending();
+  env.readImpl=async()=>({ok:true,status:"deleted",rivalryId:PAIR,rivalryState:"closed",rivalryRevision:7,terminal:false,deleted:true});
+  await api.refresh();
+  assert.equal(api.getState().phase,"DELETED","a deleted read resolves the held close as DELETED (it is not held forever)");
+  assert.equal(env.forgets,1,"the dead session is forgotten as on CLOSE");
+  assert.equal(env.closeCalls.length,1,"no close is re-sent against the deleted rivalry");
+}
 async function retryStopsOnContextChange(){
   // Context changes while the retry's read is in flight: no close for the old Save.
   {const {api,context,env}=await pending();const gate=hold();env.readImpl=gate.impl;const retry=api.retry();await gate.entered;
@@ -189,6 +198,7 @@ function apiFrame(f){return require(path.join(root,"js/seasonFinalV10.js")).fina
 
 (async()=>{
   await recoveryHeldAcrossRefresh();
+  await recoveryResolvedByDelete();
   await retryStopsOnContextChange();
   await closedFrameKeepsTrophies();
   await closedReaderRecoversFinalSeason();

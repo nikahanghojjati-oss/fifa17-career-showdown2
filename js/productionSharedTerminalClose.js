@@ -164,7 +164,12 @@
     // H1017-1: an unresolved close holds its exact witness. Only a verified closed read of that same witness resolves it here;
     // an open, mismatched or failed read keeps RECOVERY_PENDING so RETRY SAME TERMINAL CLOSE stays bound to that witness.
     const held=ptcCurrentState();
+    const deletedRead=terminalRead?.ok===true&&terminalRead.deleted===true&&terminalRead.rivalryState==="closed";
+    const publishDeleted=()=>{try{remoteApi?.forgetSession?.();}catch(_error){}return ptcPublish(request,{phase:"DELETED",rivalryId:request.rivalryId,rivalryRevision:terminalRead.rivalryRevision,terminal:false,deleted:true,canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});};
     if(held?.phase==="RECOVERY_PENDING"&&held.intent){
+      // Codex #910: a pending close whose rivalry the other phone has since deleted (closed, no witness, so this close never
+      // landed) is resolved as DELETED instead of being held and retried against a closed rivalry.
+      if(deletedRead)return publishDeleted();
       if(terminalRead?.ok===true&&terminalRead.terminal===true&&protocol.sameWitness(terminalRead.terminalWitness,held.intent)){try{remoteApi?.forgetSession?.();}catch(_error){}return ptcPublish(request,ptcClosedState(request,terminalRead));}
       return held;
     }
@@ -172,7 +177,7 @@
     // r79: DELETE CURRENT SHOWDOWN on the other phone closed this rivalry without a terminal witness. This same read (no extra one)
     // says so; this page then lets the dead Showdown go like the CLOSE path does (session forgotten, drafts swept) and announces
     // DELETED, so the pair holds the rivalry as closed and the next JOIN is not blocked by the deleted Showdown.
-    if(terminalRead?.ok===true&&terminalRead.deleted===true&&terminalRead.rivalryState==="closed"){try{remoteApi?.forgetSession?.();}catch(_error){}return ptcPublish(request,{phase:"DELETED",rivalryId:request.rivalryId,rivalryRevision:terminalRead.rivalryRevision,terminal:false,deleted:true,canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});}
+    if(deletedRead)return publishDeleted();
     if(!terminalRead||terminalRead.ok!==true)ptcFail(terminalRead?.code||"TERMINAL_CLOSE_READ_FAILED",terminalRead?.message||"Terminal state could not be verified.");
     let final=finalApi.getState();if(!final||final.phase!=="FINAL_SEASON_RECONCILED"||final.rivalryId!==request.rivalryId)final=await finalApi.refresh();
     if(ptcRequest()?.key!==request.key)return null;

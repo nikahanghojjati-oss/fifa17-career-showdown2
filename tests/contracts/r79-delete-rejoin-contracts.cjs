@@ -166,7 +166,7 @@ function pairHarness({rivalryState="active",linked=true,rounds=3}={}){
     CareerModeSparkPrivatePairing:pairing,CareerModeSaveLibraryRuntime:runtime,
     CareerModeCareerStartMarker:{readCurrentMarker:async()=>({status:"none"})},
     CareerModeProductionSharedJourneyEntry:{provisionJoinerShell:async total=>{calls.provision+=1;library.saves.push(shell(SAVE_NEW,PROFILE_NEW,Number(total)));library.activeSaveId=SAVE_NEW;return true;}},
-    CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"uid_nik"}},firestore:{},firestoreSdk})},
+    CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>{if(calls.gate)await calls.gate;return {ok:true,auth:{currentUser:{uid:"uid_nik"}},firestore:{},firestoreSdk};}},
     navigateTo:async()=>true};
   vm.createContext(sandbox);
   vm.runInContext(pairSource,sandbox,{filename:"js/persistentNikDanielPair.js"});
@@ -177,6 +177,39 @@ function pairHarness({rivalryState="active",linked=true,rounds=3}={}){
 }
 const plain=value=>JSON.parse(JSON.stringify(value));
 async function pairContracts(){
+  {
+    // r79 PR5 (two-player journey bug): a normal finish (CLOSED, with its witness) keeps the pair through Final Winner and
+    // reconciliation, and settles it the moment Home is shown, exactly as DELETED does (no read).
+    const h=pairHarness();
+    await h.pair.initialize({force:true});
+    const reads=h.calls.transactions;
+    h.fire({phase:"CLOSED",rivalryId:R1,terminal:true});
+    assert.equal(h.pair.getState().connectionState,"active","CLOSED alone changes nothing while the final screens run");
+    await h.pair.watchJoinNote({isHomeShown:()=>false});
+    assert.equal(h.pair.getState().connectionState,"active","not on Home: still unchanged");
+    await h.pair.watchJoinNote({isHomeShown:()=>true});
+    const state=h.pair.getState();
+    assert.deepEqual(plain({status:state.status,rivalryId:state.rivalryId,connectionState:state.connectionState,closedRivalryId:state.closedRivalryId,closedProviderSaveId:state.closedProviderSaveId}),
+      {status:"unpaired",rivalryId:null,connectionState:null,closedRivalryId:R1,closedProviderSaveId:SAVE_OLD},"Home shown: the pair holds R1 as closed");
+    assert.equal(h.calls.transactions,reads,"no read for it");
+    ok("J1b CLOSED (a normal finish) settles the pair when Home is shown, not before; no read");
+  }
+  {
+    // Codex #910: DELETED that lands while a pair action is busy is kept and applied once the action settles.
+    const h=pairHarness();
+    await h.pair.initialize({force:true});
+    let release;h.calls.gate=new Promise(resolve=>{release=resolve;});
+    const action=h.pair.continuePair();
+    await new Promise(resolve=>setImmediate(resolve));
+    assert.equal(h.pair.getState().busy,true,"a pair action is running");
+    h.fire({phase:"DELETED",rivalryId:R1,terminal:false});
+    assert.equal(h.pair.getState().rivalryId,R1,"not applied in the middle of the action");
+    h.calls.gate=null;release();await action.catch(()=>null);
+    const state=h.pair.getState();
+    assert.deepEqual(plain({busy:state.busy,rivalryId:state.rivalryId,connectionState:state.connectionState,closedRivalryId:state.closedRivalryId}),
+      {busy:false,rivalryId:null,connectionState:null,closedRivalryId:R1},"applied once the action settled (not lost)");
+    ok("J1c DELETED during a busy pair action is applied when the action settles, not dropped");
+  }
   {
     const h=pairHarness();
     let state=await h.pair.initialize({force:true});
