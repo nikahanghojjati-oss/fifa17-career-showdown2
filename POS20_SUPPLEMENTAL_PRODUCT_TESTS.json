@@ -982,6 +982,19 @@
       ]
     },
     {
+      "path": "tests/contracts/r79-delete-rejoin-contracts.cjs",
+      "patterns": [
+        "^js/sparkTerminalClose\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/productionSharedFinalReconciliation\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^tests/contracts/r79-delete-rejoin-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/showdown-gate-physio-contracts.cjs",
       "patterns": [
         "^\\.github/workflows/gate-watchdog\\.yml$",

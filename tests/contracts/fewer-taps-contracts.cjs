@@ -806,7 +806,7 @@ async function r5r6EntryContracts(){
      assert.equal(fn(world({flag:"1",library:shared(),paired:SHELL}),null),false,"and skips it when that save is the paired one");
      assert.equal(fn(world({flag:"1",library:null}),null),false,"nothing readable: no wait (smoothness first)");
      const pairSrc=read("js/persistentNikDanielPair.js");
-     assert.ok(pairSrc.includes('state=pairFreezeDeep({...state,...next});pairRememberActiveShell();'),"every ACTIVE paired state (init, JOIN, START CAREER, auto-continue) remembers its shell");
+     assert.ok(pairSrc.includes('state=pairFreezeDeep(pairHeldIfEnded({...state,...next}));pairRememberActiveShell();'),"every ACTIVE paired state (init, JOIN, START CAREER, auto-continue) remembers its shell");
      assert.ok(pairSrc.includes('if(state.status!=="paired"||state.connectionState!=="active"||!pairValidSaveId(state.providerSaveId))return;'),"only an ACTIVE paired shell, by saveId only");
      const gate=ssjr.slice(ssjr.indexOf("const pendingShell="),ssjr.indexOf("root.careerModeHomeHold=1;"));
      assert.doesNotMatch(gate,/firestore|getDoc|syncPair|initialize\(/i,"the marker check is local only");}
