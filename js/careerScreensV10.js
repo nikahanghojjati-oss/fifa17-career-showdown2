@@ -1183,6 +1183,45 @@
   #app #careerStatistics.careerScreenV10 .phoneBackground { right:auto;width:44%;bottom:var(--cs-nav); }
   #app #careerStatistics.careerScreenV10 .phoneBackground img { object-fit:cover;object-position:50% 0; }
   #app #careerStatistics.careerScreenV10 .titleBlock { top:4px; }
+  /* HO-033 follow-up: no dark wash over the right side (owner rule: no dimming); the hub's panels are opaque marble. */
+  #app #careerStatistics.careerScreenV10 .phoneSceneArt::after { content:none; }
+  /* HO-028 type on sideways phones too: labels 12px or more, values and secondary text 15px. The four totals keep one row
+     (labels wrap to two lines instead of shrinking); the tabs, table, comparison, leaders and actions grow in place, and
+     every tab still fits its panel without scrolling at 852x393. The hub stays right of the managers (no face covered). */
+  #app #careerStatistics.careerScreenV10 .phoneHub { grid-template-rows:58px 40px minmax(0,1fr); }
+  #app #careerStatistics.careerScreenV10 .headlineTile { padding:1px 6px;align-content:center; }
+  #app #careerStatistics.careerScreenV10 .headlineLabel { font-size:12px;line-height:1.05;letter-spacing:.03em;white-space:normal;overflow:visible; }
+  #app #careerStatistics.careerScreenV10 .headlineTogether,
+  #app #careerStatistics.careerScreenV10 .headlinePair small { font-size:12px; }
+  #app #careerStatistics.careerScreenV10 .headlineNumber { font-size:20px; }
+  #app #careerStatistics.careerScreenV10 .headlinePair b { font-size:17px; }
+  #app #careerStatistics.careerScreenV10 .phoneTabs label { font-size:13px; }
+  #app #careerStatistics.careerScreenV10 .panelTitle { padding:4px 8px 3px;font-size:13px; }
+  #app #careerStatistics.careerScreenV10 .careerTable th { padding:3px 3px;font-size:12px;letter-spacing:.02em;white-space:nowrap; }
+  #app #careerStatistics.careerScreenV10 .careerTable td { padding:5px 3px;font-size:15px; }
+  #app #careerStatistics.careerScreenV10 .careerTable .rankCrown { font-size:15px; }
+  #app #careerStatistics.careerScreenV10 .compareRow { grid-template-columns:44px 1fr 44px; }
+  #app #careerStatistics.careerScreenV10 .compareRow :is(.dValue,.nValue) { font-size:15px; }
+  #app #careerStatistics.careerScreenV10 .compareLabel { font-size:12px; }
+  #app #careerStatistics.careerScreenV10 .leaderCard { min-height:48px;grid-template-columns:24px minmax(0,1fr); }
+  #app #careerStatistics.careerScreenV10 .leaderLabel { font-size:12px; }
+  #app #careerStatistics.careerScreenV10 .leaderName { font-size:15px; }
+  #app #careerStatistics.careerScreenV10 .leaderValue { font-size:18px; }
+  #app #careerStatistics.careerScreenV10 .actionRow { grid-template-columns:1.3fr 1.1fr 1fr; }
+  #app #careerStatistics.careerScreenV10 .actionRow .actionButton { font-size:13px;line-height:1.05; }
+  #app #careerStatistics.careerScreenV10 .statePanel p { font-size:15px; }
+}
+/* Shorter sideways phones (740x360): the same sizes, with tighter rows so Compare and Leaders still fit their panel. */
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:375px) and (orientation:landscape) {
+  #app #careerStatistics.careerScreenV10 .phoneHub { grid-template-rows:58px 36px minmax(0,1fr);gap:4px; }
+  #app #careerStatistics.careerScreenV10 .panelTitle { padding:2px 8px 1px; }
+  #app #careerStatistics.careerScreenV10 .compareRow :is(.dValue,.nValue,.compareLabel) { line-height:1; }
+  #app #careerStatistics.careerScreenV10 .compareTrack { margin-top:0; }
+  #app #careerStatistics.careerScreenV10 .leaderGrid { gap:3px;padding:2px 6px 3px; }
+  #app #careerStatistics.careerScreenV10 .leaderCard { min-height:0;padding-block:1px; }
+  #app #careerStatistics.careerScreenV10 .leaderCard :is(.leaderLabel,.leaderName,.leaderValue) { line-height:1.05;margin-top:0; }
+  #app #careerStatistics.careerScreenV10 .actionRow { grid-template-columns:1.2fr 1.05fr 1.05fr;gap:5px; }
+  #app #careerStatistics.careerScreenV10 .actionRow .actionButton { padding:0 5px;gap:4px;font-size:12px;letter-spacing:.02em; }
 }
 `;
 
@@ -1234,11 +1273,12 @@
   /* the two rank cards, the tab row and the cases sit as in the picture */
   #app #trophyRoom .careerRank {
     border:2px solid transparent;border-radius:2px;
-    background:linear-gradient(180deg,#121211e6,#050506f2) padding-box,var(--tr-bevel) border-box;
+    /* HO-033 follow-up: opaque black-gold marble (HO-029 kit tile), not the .90-.95 see-through glass (owner rule HO-027) */
+    background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,url("css/r78-marble-tile.webp") 0 0/256px 256px repeat padding-box,var(--tr-bevel) border-box #110f0c;
     box-shadow:inset 0 0 0 1px #000a,0 6px 18px #000a;
   }
-  /* tabs: black with a gold edge, ALL in polished gold */
-  #app #trophyRoom .trophyTabs {background:#050506e6;border:1px solid #d9aa3caa;box-shadow:0 8px 22px #0009}
+  /* tabs: black with a gold edge, ALL in polished gold (HO-033 follow-up: solid black, no longer 90%) */
+  #app #trophyRoom .trophyTabs {background:#050506;border:1px solid #d9aa3caa;box-shadow:0 8px 22px #0009}
   #app #trophyRoom .trophyTab {background:linear-gradient(180deg,#141412,#060607);color:#f6efd8;box-shadow:inset 0 1px 0 #fff1b814}
   #app #trophyRoom .trophyTab.is-active {
     background:var(--tr-gold);color:#1a1305;text-shadow:0 1px 0 #fff2b588;
@@ -1247,7 +1287,7 @@
   /* the cases: gold-bevel frame around black marble glass */
   #app #trophyRoom .shelfGlass {
     border:clamp(3px,.4vh,4px) solid transparent;border-radius:0;
-    background:linear-gradient(180deg,#0d0d0eeb,#040405f2) padding-box,var(--tr-bevel) border-box;
+    background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,url("css/r78-marble-tile.webp") 0 0/256px 256px repeat padding-box,var(--tr-bevel) border-box #110f0c;
     box-shadow:inset 0 0 0 2px #050505,0 14px 34px #000b,0 0 22px #f0c84b26;
   }
   #app #trophyRoom .trophyCard {
