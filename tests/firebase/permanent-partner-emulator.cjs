@@ -14,7 +14,7 @@ function envelope({objectType,objectId,updatedAt,accountId,deviceId:updatedByDev
 }
 const accountEnvelope=(uid,now)=>envelope({objectType:'account',objectId:uid,updatedAt:now,accountId:uid,data:{status:'active',createdAt:now,deletionRequestedAt:null}});
 const deviceEnvelope=(uid,id,now)=>envelope({objectType:'device',objectId:id,updatedAt:now,accountId:uid,deviceId:id,data:{deviceId:id,installationId:`installation_${id.slice(7)}`,displayLabel:null,state:'active',registeredAt:now,lastSeenAt:now,revokedAt:null}});
-const markerEnvelope=(uid,now)=>envelope({objectType:'careerStart',objectId:'current',updatedAt:now,accountId:uid,data:{hiddenRivalryIds:[],active:true,startedAt:now}});
+const markerEnvelope=(uid,now,hiddenRivalryIds=[],active=true)=>envelope({objectType:'careerStart',objectId:'current',updatedAt:now,accountId:uid,data:{hiddenRivalryIds,active,startedAt:now}});
 const openSlot=slotId=>({slotId,accountId:null,profileId:null,saveId:null,displayLabel:null,entitlementState:'open',deletionConsent:false});
 const managerSlot=(slotId,uid,char)=>({slotId,accountId:uid,profileId:`profile_${char.repeat(24)}`,saveId:`save_${char.repeat(24)}`,displayLabel:slotId==='playerOne'?'Daniel':'Nik',entitlementState:'active',deletionConsent:false});
 function rivalryEnvelope(id,now,p1,p2,state,createdBy){
@@ -32,15 +32,24 @@ const note=(rivalryId,totalSeasons,fromAccountId,expiresAt,extra={})=>({schemaVe
   try{
     await testEnv.clearFirestore();
     const nowMs=Date.now(),now=Timestamp.fromMillis(nowMs),inviteExpiry=Timestamp.fromMillis(nowMs+20*60000);
-    const paired=`pair_1${'0'.repeat(63)}`,pending3=`pair_3${'1'.repeat(63)}`,pending5=`pair_5${'2'.repeat(63)}`,strangerPending=`pair_3${'3'.repeat(63)}`,expiredPending=`pair_3${'4'.repeat(63)}`,unmarkedPair=`pair_1${'5'.repeat(63)}`,stillPending=`pair_1${'6'.repeat(63)}`;
+    const paired=`pair_1${'0'.repeat(63)}`,pending3=`pair_3${'1'.repeat(63)}`,pending5=`pair_5${'2'.repeat(63)}`,strangerPending=`pair_3${'3'.repeat(63)}`,expiredPending=`pair_3${'4'.repeat(63)}`,unmarkedPair=`pair_1${'5'.repeat(63)}`,stillPending=`pair_1${'6'.repeat(63)}`,preCareer=`pair_1${'7'.repeat(63)}`,hiddenByNik=`pair_1${'8'.repeat(63)}`,staleForNik=`pair_1${'9'.repeat(63)}`;
     await testEnv.withSecurityRulesDisabled(async context=>{
       const db=context.firestore();
       for(const [uid,key] of [['acct_d','d'],['acct_n','n'],['acct_x','x'],['acct_m','m']]){
         await setDoc(doc(db,'accounts',uid),accountEnvelope(uid,now));
         await setDoc(doc(db,'accounts',uid,'devices',deviceId(key)),deviceEnvelope(uid,deviceId(key),now));
       }
-      for(const uid of ['acct_d','acct_n','acct_x'])await setDoc(doc(db,'accounts',uid,'careerStart','current'),markerEnvelope(uid,now));
-      await setDoc(doc(db,'rivalries',paired),rivalryEnvelope(paired,now,managerSlot('playerOne','acct_d','1'),managerSlot('playerTwo','acct_n','2'),'active','acct_d'));
+      await setDoc(doc(db,'accounts','acct_x','careerStart','current'),markerEnvelope('acct_x',now));
+      // Codex #905: Daniel shows his test Showdowns again (active:false); that display choice never blocks pairing.
+      await setDoc(doc(db,'accounts','acct_d','careerStart','current'),markerEnvelope('acct_d',now,[],false));
+      await setDoc(doc(db,'accounts','acct_n','careerStart','current'),markerEnvelope('acct_n',now,[hiddenByNik]));
+      // Pre-career rivalries between the same two accounts: one created before Daniel's marker, one Nik's
+      // marker hid, one older than one invite window before Nik's marker.
+      const hourAgo=Timestamp.fromMillis(nowMs-60*60000),skewed=Timestamp.fromMillis(nowMs-3*60000);
+      await setDoc(doc(db,'rivalries',preCareer),rivalryEnvelope(preCareer,hourAgo,managerSlot('playerOne','acct_d','7'),managerSlot('playerTwo','acct_n','8'),'closed','acct_d'));
+      await setDoc(doc(db,'rivalries',hiddenByNik),rivalryEnvelope(hiddenByNik,now,managerSlot('playerOne','acct_d','9'),managerSlot('playerTwo','acct_n','a'),'closed','acct_d'));
+      await setDoc(doc(db,'rivalries',staleForNik),rivalryEnvelope(staleForNik,hourAgo,managerSlot('playerOne','acct_d','b'),managerSlot('playerTwo','acct_n','c'),'closed','acct_d'));
+      await setDoc(doc(db,'rivalries',paired),rivalryEnvelope(paired,skewed,managerSlot('playerOne','acct_d','1'),managerSlot('playerTwo','acct_n','2'),'active','acct_d'));
       await setDoc(doc(db,'rivalries',unmarkedPair),rivalryEnvelope(unmarkedPair,now,managerSlot('playerOne','acct_d','3'),managerSlot('playerTwo','acct_m','4'),'active','acct_d'));
       await setDoc(doc(db,'rivalries',stillPending),rivalryEnvelope(stillPending,now,managerSlot('playerOne','acct_d','5'),openSlot('playerTwo'),'pending-pair','acct_d'));
       for(const [id,by,expiry] of [[pending3,'acct_d',inviteExpiry],[pending5,'acct_d',inviteExpiry],[strangerPending,'acct_x',inviteExpiry],[expiredPending,'acct_d',Timestamp.fromMillis(nowMs-1000)]]){
@@ -60,6 +69,10 @@ const note=(rivalryId,totalSeasons,fromAccountId,expiresAt,extra={})=>({schemaVe
     await assertFails(setDoc(partnerD(dbX),partner('acct_n','playerOne',paired)));
     await assertFails(setDoc(doc(dbM,'accounts','acct_m','partner','current'),partner('acct_d','playerTwo',unmarkedPair)));
     await assertFails(setDoc(doc(dbN,'accounts','acct_n','partner','other'),partner('acct_d','playerTwo',paired)));
+    // Codex #904: a pre-career (test) rivalry can never become the permanent pairing.
+    await assertFails(setDoc(partnerD(dbD),partner('acct_n','playerOne',preCareer)));
+    await assertFails(setDoc(partnerN(dbN),partner('acct_d','playerTwo',hiddenByNik)));
+    await assertFails(setDoc(partnerN(dbN),partner('acct_d','playerTwo',staleForNik)));
     await assertSucceeds(setDoc(partnerD(dbD),partner('acct_n','playerOne',paired)));
     await assertSucceeds(setDoc(partnerN(dbN),partner('acct_d','playerTwo',paired)));
     assert.equal((await assertSucceeds(getDoc(partnerD(dbD)))).data().partnerAccountId,'acct_n');
