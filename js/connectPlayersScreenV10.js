@@ -152,8 +152,9 @@
     const dpr=root.devicePixelRatio||1,set=list.sort((a,b)=>a.x-b.x);
     const urls=/image-set\(/.test(bg)&&list.length>1?[(set.find(e=>e.x>=dpr)||set[set.length-1]).url]:list.map(e=>e.url);
     if(urls.every(url=>decodedPlates.has(url)))return Promise.resolve(true);
-    const decode=url=>{const img=new root.Image();img.src=url;return typeof img.decode==="function"?img.decode().catch(()=>{}):new Promise(resolve=>{img.onload=img.onerror=resolve;});};
-    return Promise.race([Promise.all(urls.map(decode)).then(()=>{urls.forEach(url=>decodedPlates.add(url));return true;}),new Promise(resolve=>root.setTimeout(()=>resolve(false),PLATE_TIMEOUT_MS))]);
+    // Codex #911: only a plate that really loaded and decoded is remembered; a failed one is tried again on the next open().
+    const decode=url=>{const img=new root.Image();img.src=url;return (typeof img.decode==="function"?img.decode().then(()=>true,()=>false):new Promise(resolve=>{img.onload=()=>resolve(true);img.onerror=()=>resolve(false);})).then(ok=>{if(ok)decodedPlates.add(url);return ok;});};
+    return Promise.race([Promise.all(urls.map(decode)).then(()=>true),new Promise(resolve=>root.setTimeout(()=>resolve(false),PLATE_TIMEOUT_MS))]);
   }
   // Codex #904 (P1): everything open() waits for (the pair module, the layer, its stylesheet and decoded plate), without showing
   // anything or reading Firestore. START runs it before it routes to the locked league wheel, so WAITING covers the wheel at once.

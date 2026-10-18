@@ -806,7 +806,7 @@ async function r5r6EntryContracts(){
      assert.equal(fn(world({flag:"1",library:shared(),paired:SHELL}),null),false,"and skips it when that save is the paired one");
      assert.equal(fn(world({flag:"1",library:null}),null),false,"nothing readable: no wait (smoothness first)");
      const pairSrc=read("js/persistentNikDanielPair.js");
-     assert.ok(pairSrc.includes('state=pairFreezeDeep({...state,...next});pairRememberActiveShell();'),"every ACTIVE paired state (init, JOIN, START CAREER, auto-continue) remembers its shell");
+     assert.ok(pairSrc.includes('state=pairFreezeDeep(pairHeldIfEnded({...state,...next}));pairRememberActiveShell();'),"every ACTIVE paired state (init, JOIN, START CAREER, auto-continue) remembers its shell");
      assert.ok(pairSrc.includes('if(state.status!=="paired"||state.connectionState!=="active"||!pairValidSaveId(state.providerSaveId))return;'),"only an ACTIVE paired shell, by saveId only");
      const gate=ssjr.slice(ssjr.indexOf("const pendingShell="),ssjr.indexOf("root.careerModeHomeHold=1;"));
      assert.doesNotMatch(gate,/firestore|getDoc|syncPair|initialize\(/i,"the marker check is local only");}
@@ -918,6 +918,8 @@ async function r5r6EntryContracts(){
     assert.doesNotMatch(prep,/syncPair|initialize\(|readJoinNote|readPartnerRecord|getDoc|runTransaction|setInterval/,"files only: no Firestore read, no polling");
     const layer=read("js/connectPlayersScreenV10.js");
     assert.ok(layer.includes("if(urls.every(url=>decodedPlates.has(url)))return Promise.resolve(true);"),"a plate already decoded answers at once");
+    assert.ok(layer.includes("img.decode().then(()=>true,()=>false)")&&layer.includes(".then(ok=>{if(ok)decodedPlates.add(url);return ok;})"),"Codex #911: only a plate that loaded and decoded is remembered; a failed one is tried again");
+    assert.doesNotMatch(layer,/urls\.forEach\(url=>decodedPlates\.add\(url\)\)/,"Codex #911: a failed decode is never cached as ready");
     assert.ok(layer.includes("return Object.freeze({open,close,prepare:prepareConnectPlayers});"),"the layer exposes prepare()");}
   ok("Codex #904 P1 Entry: on a cold cache START makes WAITING ready before routing to the locked wheel, so the bare wheel never paints");
   {
