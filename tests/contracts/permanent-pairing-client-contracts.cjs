@@ -410,6 +410,14 @@ await check("PC2d Codex #915: Daniel's permanent-pair START makes a code only wh
   const lateStart=await late.pair.startPairing({managerRole:"playerOne"});
   assert.equal(lateStart.status,"error");assert.match(lateStart.message,/no longer paired with you/,"the code-creation read is fresh, not the START tap's memo");
   assert.ok(!late.log.some(line=>/^(create|write)/.test(line)),"no Showdown and no note after a late UNPAIR");
+  assert.equal(late.pair.getPartnerSideState().status,"unpaired","the waiting screen knows Nik unpaired");
+  // ...so it offers PAIR AGAIN (START's pair-again flow), never a CREATE CODE that repeats the same error.
+  const source=fs.readFileSync(path.join(ROOT,"js/persistentNikDanielPair.js"),"utf8");
+  assert.match(source,/if\(role==="playerOne"&&partnerSideState\.status==="unpaired"&&pairPartnerRecordFor\(partnerSideState\.accountId\)\?\.active===true\)\{[^}]*pairCreateElement\("button","menuButton","PAIR AGAIN"\)[\s\S]{0,200}addEventListener\("click",\(\)=>void root\.CareerModeOnlinePlayerIdentity\?\.openStart\?\.\(\)\)/,"Codex #915: a late UNPAIR shows PAIR AGAIN, which runs START");
+  // PAIR AGAIN's provider half: Daniel's stale record goes inactive, then the same START makes the first-pairing code for Nik.
+  const reset=await late.pair.unpair();assert.equal(reset.ok,true,`PAIR AGAIN unpairs Daniel's stale record: ${JSON.stringify(reset)}`);
+  const again=await late.pair.startPairing({managerRole:"playerOne"});
+  assert.match(again.capability||"",/^CMS17R-pair_/,`after PAIR AGAIN the code is a first-pairing CMS17R- code: ${JSON.stringify({status:again.status,message:again.message})}`);
 });
 await check("PC3a Nik's note read: one memoised read per 30 s (failures count), none while hidden, only with an active playerTwo record",async()=>{
   const now=Date.now();
