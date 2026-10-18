@@ -334,8 +334,13 @@
   const SRJ_OFFER_POLL_MS=3000,SRJ_OFFER_POLL_LIMIT_MS=10*60*1000,SRJ_OFFER_MIN_LIFE_MS=60*1000;
   let srjAutoPromise=null,srjOfferTimer=null;
   function srjOfferRef(context){return context.services.firestoreSdk.doc(context.services.firestore,"rivalries",context.rivalryId,"sessionOffers","current");}
+  // r79 gallery (Nik's JOIN after a deleted Showdown): the pointer is what a waiting phone polls for, so the budget layer must
+  // not answer it from a copy. With any healthy wait-point listener on the page (the previous Showdown's shared setup kept one)
+  // a background check reused documents for 60 s, so Nik read "no offer" for a minute after Daniel had published his session.
+  // wantFresh(path) keeps this one document on the 2 s coalescing window: one read per 3 s poll, the cadence it always had.
   async function srjReadOffer(context){
     try{
+      root.CareerModeFirestoreBudget?.wantFresh?.(`rivalries/${context.rivalryId}/sessionOffers/current`);
       const sdk=context.services.firestoreSdk;
       const data=await sdk.runTransaction(context.services.firestore,async transaction=>{const snapshot=await transaction.get(srjOfferRef(context));return snapshot&&snapshot.exists()?snapshot.data():null;});
       if(!data||data.schemaVersion!==1||typeof data.sessionId!=="string"||typeof data.hostAccountId!=="string"||!data.expiresAt||typeof data.expiresAt.toMillis!=="function")return null;

@@ -174,7 +174,7 @@ function pairHarness({rivalryState="active",linked=true,rounds=3}={}){
   const fire=detail=>{for(const fn of listeners["career-mode-shared-terminal-close-state-change"]||[])fn({type:"career-mode-shared-terminal-close-state-change",detail});};
   // Daniel's delete as Firestore sees it: R1 closed (no terminal witness).
   const deleteOnDanielsPhone=()=>docs.set(`rivalries/${R1}`,pairRivalry(R1,"closed",{saveId:SAVE_OLD,profileId:PROFILE_OLD}));
-  return {pair:sandbox.CareerModePersistentNikDanielPair,library,calls,deleted,fire,deleteOnDanielsPhone};
+  return {pair:sandbox.CareerModePersistentNikDanielPair,library,calls,deleted,fire,deleteOnDanielsPhone,sandbox};
 }
 const plain=value=>JSON.parse(JSON.stringify(value));
 async function pairContracts(){
@@ -306,6 +306,19 @@ async function pairContracts(){
     assert.equal(h.calls.provision,0,"the empty shell of the same length is reused as before");
     assert.deepEqual(h.calls.redeem,[{capability:R2SAME,saveId:SAVE_OLD}]);
     ok("J4 the same length still reuses the closed Showdown's empty shell (unchanged)");
+  }
+  {
+    // r79 gallery: with that reuse nothing on Nik's way (no createShowdown, no Home) redrew Home's chip, which still read the
+    // shell as the closed Showdown's: his league wheel said NO ACTIVE SHOWDOWN while Daniel's said SEASON 1 / 3. The pair
+    // redraws Home whenever what isPairClosedSave reads (rivalry, closed rivalry, closed save) moves, and only then.
+    const h=pairHarness();await h.pair.initialize({force:true});
+    const redraws=[];h.sandbox.refreshMainMenuExperience=()=>{const s=h.pair.getState();redraws.push(`${s.rivalryId||"-"}|${s.closedRivalryId?"closed":"-"}`);};
+    h.deleteOnDanielsPhone();h.fire({phase:"DELETED",rivalryId:R1,terminal:false});
+    assert.deepEqual(redraws,["-|closed"],"Daniel's DELETE: Home redrawn once with the closed Showdown");
+    const joined=await h.pair.joinPairing(`CMS17-${R2SAME}`,{managerRole:"playerTwo",autoContinue:false});
+    assert.equal(joined.status,"paired",joined.message);assert.equal(h.calls.provision,0,"the empty shell is reused");
+    assert.deepEqual(redraws,["-|closed",`${R2SAME}|closed`],"the JOIN redraws Home once, with the new live pairing (a rivalry makes the shell live again; busy and joining steps redraw nothing)");
+    ok("J4b Nik's JOIN on the reused shell redraws Home's chip once the new pairing lands (and on nothing else)");
   }
   {
     // Nothing says the local Showdown is closed: the refusal and its Settings message are unchanged.
