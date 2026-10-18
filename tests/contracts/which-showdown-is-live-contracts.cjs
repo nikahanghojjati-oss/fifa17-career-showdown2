@@ -167,8 +167,9 @@ await check("W9 Nik's call (2026-10-17): an ENDED but never CLOSED Showdown is c
   const close=entry.slice(entry.indexOf("function closeEndedThenNew()"),entry.indexOf("async function followStartDecision"));
   assert.match(close,/loadScript\("ssjr-production-terminal-close","js\/productionSharedTerminalClose\.js",\(\)=>root\.CareerModeProductionSharedTerminalClose\)/,"the same terminal close module the final screen uses");
   assert.match(close,/if\(state&&state\.phase==="READY"\)result=await close\.close\(\);\s*else if\(state&&state\.phase==="RECOVERY_PENDING"&&typeof close\.retry==="function"\)result=await close\.retry\(\);/,"READY closes, RECOVERY_PENDING retries the same witness");
-  assert.match(close,/catch\(error\)\{report\("Unable to close the ended Showdown",error\);await openPersistentPairControls\(\);return false;\}\s*const opened=[^;]*navigateTo\("createShowdown"\)/,"seasons only after the close; a failed close stops on Connect Players");
+  assert.match(close,/catch\(error\)\{report\("Unable to close the ended Showdown",error\);await openPersistentPairControls\(\);return false;\}\s*(?:\/\/[^\n]*\n\s*)*try\{pair\?\.settleOnHome\?\.\(\);\}catch\(_error\)\{\}\s*const opened=[^;]*navigateTo\("createShowdown"\)/,"seasons only after the close; a failed close stops on Connect Players; Codex #904 (P2): the just-closed Showdown is let go first, so START on the seasons screen creates instead of reopening it");
   assert.doesNotMatch(close,/createShowdown\(\)|startPairing|abandonCurrentShowdown|continuePair/,"the close path itself never creates, pairs, abandons or continues");
+  assert.ok(close.indexOf('loadScript("persistent-pair"')>=0&&close.indexOf('loadScript("persistent-pair"')<close.indexOf('loadScript("ssjr-production-terminal-close"'),"the pair (and its CLOSED listener) is loaded before the close");
   assert.match(entry,/if\(decision\.action==="close-then-new"\)return closeEndedThenNew\(\);/);
   assert.match(identity,/decision\.action!=="close-then-new"\)\{await openCanonicalShowdownJoin/,"Home START hands close-then-new to the entry, not to JOIN");
 });

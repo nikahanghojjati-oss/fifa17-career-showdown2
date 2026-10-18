@@ -201,7 +201,10 @@
     if(closeEndedPromise)return closeEndedPromise;
     closeEndedPromise=(async()=>{
       let state=null,result=null;
+      let pair=null;
       try{
+        // Loaded first so its CLOSED listener hears this close (Codex #904: it is let go right after, below).
+        pair=await loadScript("persistent-pair","js/persistentNikDanielPair.js",()=>root.CareerModePersistentNikDanielPair);
         const close=await loadScript("ssjr-production-terminal-close","js/productionSharedTerminalClose.js",()=>root.CareerModeProductionSharedTerminalClose);
         if(!close||typeof close.refresh!=="function"||typeof close.close!=="function")throw new Error("Showdown close is unavailable.");
         close.install?.();
@@ -215,6 +218,10 @@
             :(result&&result.message)||"This Showdown has ended but could not be closed. Nothing new was started.");
         }
       }catch(error){report("Unable to close the ended Showdown",error);await openPersistentPairControls();return false;}
+      // Codex #904 (P2): the pair keeps a CLOSED rivalry until Home is shown (the final screen still runs on it). This path leaves
+      // for the seasons screen instead, so it lets the closed Showdown go now; otherwise START there would find it live again and
+      // reopen the same screen. No read, no write.
+      try{pair?.settleOnHome?.();}catch(_error){}
       const opened=typeof root.navigateTo==="function"?await root.navigateTo("createShowdown"):root.showScreen?.("createShowdown");
       return opened!==false;
     })().finally(()=>{closeEndedPromise=null;});
