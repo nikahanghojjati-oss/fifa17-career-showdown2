@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-18 9:51 AM Boston time (EDT)",
+ "generated": "2026-10-18 9:55 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 114,
@@ -1088,11 +1088,11 @@
      "title": "r79 release (1.9.3-r79): one start flow, permanent pairing, real/test modes [draft]",
      "draft": false,
      "branch": "gameplay/r79",
-     "sha": "868d4042dd3a7dacbd59b0dcec6f5de9ae7bad13",
-     "updated": "2026-10-18T12:44:48Z",
+     "sha": "468240b739d8877c3260a019d5185bb4ee684bd8",
+     "updated": "2026-10-18T13:54:52Z",
      "gates": {
-      "passed": 8,
-      "running": 0,
+      "passed": 0,
+      "running": 7,
       "failed": 0,
       "cancelled": 0
      }
@@ -1103,7 +1103,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #904: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #904 0/16",
+   "gate": "Gate #904: L1… L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #904 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -2858,11 +2858,11 @@
     "title": "r79 release (1.9.3-r79): one start flow, permanent pairing, real/test modes [draft]",
     "draft": false,
     "branch": "gameplay/r79",
-    "sha": "868d4042dd3a7dacbd59b0dcec6f5de9ae7bad13",
-    "updated": "2026-10-18T12:44:48Z",
+    "sha": "468240b739d8877c3260a019d5185bb4ee684bd8",
+    "updated": "2026-10-18T13:54:52Z",
     "gates": {
-     "passed": 8,
-     "running": 0,
+     "passed": 0,
+     "running": 7,
      "failed": 0,
      "cancelled": 0
     }
