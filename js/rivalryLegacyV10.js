@@ -71,7 +71,9 @@
   const identity=()=>state("CareerModeOnlinePlayerIdentity");
   // The career start marker's epoch changes only when the marker changes, so a switch drops the cached career.
   const markerEpoch=()=>{try{return root.CareerModeCareerStartMarker?.epoch?.()??0;}catch(_){return 0;}};
-  const context=()=>JSON.stringify([state("CareerModeSparkConnectedAccount")?.accountId??null,identity()?.managerId??null,state("CareerModePersistentNikDanielPair")?.rivalryId??null,markerEpoch()]);
+  // CE2PG: after a Showdown closes the pair holds no rivalry id but names the closed one, so a career read after Showdown A
+  // and one after Showdown B no longer share a key (Standings and Settings showed A's career after B had finished).
+  const context=()=>{const pair=state("CareerModePersistentNikDanielPair");return JSON.stringify([state("CareerModeSparkConnectedAccount")?.accountId??null,identity()?.managerId??null,pair?.rivalryId??null,pair?.closedRivalryId??null,markerEpoch()]);};
   const report=error=>root.reportApplicationError?.("History and rivalry screens could not load",error);
   const load=(key,file,global)=>root.loadRuntimeScript(key,file,()=>Boolean(root[global]));
   async function modelDependencies(){
