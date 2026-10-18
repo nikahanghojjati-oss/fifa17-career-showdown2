@@ -31,7 +31,7 @@
   // Job 33 (R1): while Daniel's code is shown and Nik has not joined yet, re-read the pair link every 4 s for at most
   // 3 minutes, then every 15 s, instead of waiting for a CHECK STATUS tap. Read-only; paused while the tab is hidden.
   const PAIR_WAIT_FAST_MS=4000,PAIR_WAIT_SLOW_MS=15000,PAIR_WAIT_WINDOW_MS=180000;
-  let pairWaitTimer=null,pairWaitKey="",pairWaitSince=0;
+  let pairWaitTimer=null,pairWaitKey="",pairWaitSince=0,pairWaitEndedKey="";
   // BH-11 (#3): CREATE and JOIN are single-flight. A refresh from the online event or the identity sidecar waits for the
   // running action instead of clearing busy and re-enabling JOIN while the first redeem is still in flight.
   let pairBusyAction=null;
@@ -49,7 +49,7 @@
   function pairJoinFailureIsDefinitive(error){const code=pairProviderCode(error);return Boolean(code)&&!PAIR_AMBIGUOUS_PROVIDER_CODES.has(code);}
 
   function pairFreezeDeep(value){if(!value||typeof value!=="object"||Object.isFrozen(value))return value;Object.freeze(value);Object.values(value).forEach(pairFreezeDeep);return value;}
-  function pairSetState(next){state=pairFreezeDeep({...state,...next});pairRememberActiveShell();for(const listener of pairListeners){try{listener(state);}catch(_error){}}pairRender();pairSyncWaitingPoll();return state;}
+  function pairSetState(next){state=pairFreezeDeep({...state,...next});pairRememberActiveShell();for(const listener of pairListeners){try{listener(state);}catch(_error){}}pairRender();pairSyncWaitingPoll();pairContinueAfterWaitEnded();return state;}
   // r79 (PR #901, smoothness): once the pair is ACTIVE this device remembers, locally, that its shell is paired (only the saveId,
   // no rivalry or account data; through js/storage.js, the one owner of local storage), so a reload mid-Showdown never holds the
   // loading screen for a pre-pair recovery (js/ssjr.js).
@@ -58,12 +58,16 @@
   function pairWaitingKey(){const staleNikPending=state.managerRole==="playerTwo"&&pairCurrentIdentityRole()==="playerTwo";return state.connectionState==="pending-pair"&&state.capability&&state.rivalryId&&state.accountId&&!staleNikPending?`${state.accountId}|${state.rivalryId}`:"";}
   function pairClearWaitingTimer(){if(pairWaitTimer!==null){root.clearTimeout?.(pairWaitTimer);pairWaitTimer=null;}}
   function pairSyncWaitingPoll(){
-    const key=pairWaitingKey();if(!key){pairWaitKey="";pairWaitSince=0;pairClearWaitingTimer();return;}
+    const key=pairWaitingKey();if(!key){if(pairWaitKey)pairWaitEndedKey=pairWaitKey;pairWaitKey="";pairWaitSince=0;pairClearWaitingTimer();return;}
     if(key!==pairWaitKey){pairWaitKey=key;pairWaitSince=Date.now();}
     if(pairWaitTimer!==null||typeof root.setTimeout!=="function")return;
     const delay=Date.now()-pairWaitSince<PAIR_WAIT_WINDOW_MS?PAIR_WAIT_FAST_MS:PAIR_WAIT_SLOW_MS;
     pairWaitTimer=root.setTimeout(()=>{pairWaitTimer=null;void pairWaitingPollTick();},delay);pairWaitTimer?.unref?.();
   }
+  // r79 (Codex #901): however this device learns that Nik joined the rivalry it was waiting on (the poll, CHECK STATUS,
+  // an identity or online refresh), Daniel goes on into the Showdown by himself once the refresh settles. Any other
+  // settled state (a different rivalry, an error, still pending) drops the remembered wait.
+  function pairContinueAfterWaitEnded(){if(!pairWaitEndedKey||state.busy)return;const key=pairWaitEndedKey;pairWaitEndedKey="";if(state.connectionState==="active"&&state.status==="paired"&&`${state.accountId}|${state.rivalryId}`===key)void Promise.resolve().then(pairAutoContinueAfterConnect).catch(()=>{});}
   async function pairWaitingPollTick(){root.CareerModeFirestoreBudget?.wantFresh?.();
     try{
       const key=pairWaitingKey();
