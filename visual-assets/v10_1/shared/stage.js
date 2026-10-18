@@ -76,8 +76,8 @@
       dust.appendChild(p);
     }
     const flare = document.createElement("div"); flare.className = "sd-stage__flare";
-    const vignette = document.createElement("div"); vignette.className = "sd-stage__vignette";
-    layer.append(dust, flare, vignette);
+    // HO-033 (owner rule HO-027, no dimming): the old .sd-stage__vignette (edges darkened to 62% black) is gone.
+    layer.append(dust, flare);
   }
 
   class Stage {
