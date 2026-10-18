@@ -630,5 +630,20 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     pair.stopJoinNoteWatch();home=false;const off=reads();await world.advance(5*60000);assert.equal(reads(),off,"fallback: none off Home");
   });
 
+  await check("FB11d","Codex #903: a miss the listener delivered is never served as the 30 s memo once the listener is gone (Daniel may write right after)",async()=>{
+    const {world,pair,serverReads,inbox}=await nikPairWorld();let home=true;const isHomeShown=()=>home;
+    const reads=()=>serverReads[inbox]||0;
+    await pair.readPartnerRecord();
+    assert.equal(await pair.watchJoinNote({isHomeShown}),true);assert.equal(reads(),1);
+    assert.equal(pair.getJoinNoteState().note,null,"the listener delivered a miss");
+    pair.stopJoinNoteWatch();home=false;           // Nik leaves Home
+    const rivalryId=`pair_3${"4".repeat(63)}`;
+    world.serverWrite(inbox,{schemaVersion:1,rivalryId,totalSeasons:3,fromAccountId:"daniel",createdAt:{__ms:world.clock.now},expiresAt:{__ms:world.clock.now+20*60000}});
+    await world.advance(1000);home=true;
+    await pair.readJoinNote();                      // the next Home moment, 1 s later, without a listener
+    assert.equal(reads(),2,"the listener's miss was not reused: one server read");
+    assert.equal(pair.getJoinNoteState(world.clock.now).note?.rivalryId,rivalryId,"so Daniel's note shows JOIN");
+  });
+
   console.log(`PASS Firestore budget contracts: ${results.length} checks, measured reads/min ${measured.join(" / ")} (waiting <= ${BUDGET.waitingVisibleReadsPerMinute} reads/min, hidden ${BUDGET.hiddenReadsPerMinute}, idle writes 0, partner update <= ${BUDGET.partnerUpdateMs} ms).`);
 })().catch(error=>{console.error(error);process.exitCode=1;});

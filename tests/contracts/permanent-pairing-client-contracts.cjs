@@ -272,6 +272,7 @@ await check("PC2a Daniel's START for the permanent pair: plain CMS17- code, then
 await check("PC2b a JOIN note that cannot be written never breaks the Showdown: the waiting code stays, nothing is retried in a loop",async()=>{
   const h=harness({role:"playerOne",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:{"accounts/uid_daniel/partner/current":partnerDoc(UID.playerTwo,"playerOne",OLD)},create:commitCreate(Date.now()+20*60000)});
   await h.pair.initialize({force:true});
+  const warnings=[];h.sandbox.console={...console,warn:(...args)=>warnings.push(args.join(" "))};
   const original=h.firestoreSdk.runTransaction;let noteAttempts=0;
   h.firestoreSdk.runTransaction=async(db,fn)=>original(db,async tx=>{const set=tx.set;tx.set=(ref,value)=>{if(ref.path.includes("partnerInbox")){noteAttempts+=1;throw providerError("permission-denied","Missing or insufficient permissions.");}return set(ref,value);};return fn(tx);});
   const waiting=await h.pair.startPairing({managerRole:"playerOne"});
@@ -279,6 +280,7 @@ await check("PC2b a JOIN note that cannot be written never breaks the Showdown: 
   assert.match(waiting.capability,/^CMS17-pair_/,"Nik can still paste the code");
   assert.match(waiting.message,/Send this code to Nik/);
   assert.equal(noteAttempts,1,"one attempt, no retry loop (Rules also refuse a same-rivalry rewrite inside 60 s)");
+  assert.deepEqual(warnings,["[Career Mode Showdown] JOIN note for Nik could not be written (permission-denied); the code still works."],"Codex #903: the failed note write is one log line (no UI), with its code");
   // test mode (no partner record): no note at all
   const test=harness({role:"playerOne",saves:[danielShell()],activeSaveId:DANIEL_SAVE,create:commitCreate(Date.now()+20*60000)});
   await test.pair.initialize({force:true});
@@ -440,16 +442,61 @@ await check("PC6 reload recovery needs the other manager's record; a paired acco
   assert.match(remote,/partner\.status==="ready"&&partner\.record&&partner\.record\.active===true&&account&&partner\.accountId===account\.accountId/);
 });
 
+await check("PC8 Codex #903: Nik's explicit tap reads the JOIN note fresh (bypasses the 30 s memo, still one read in flight); a background Home moment keeps the memo",async()=>{
+  const h=harness({docs:{"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerTwo",OLD)}});
+  await h.pair.initialize({force:true});await h.pair.readPartnerRecord();
+  await h.pair.readJoinNote();assert.equal(h.pair.getJoinNoteState().note,null,"no note yet: a miss");
+  const noteReads=()=>h.transactions.filter(t=>t.reads.includes("accounts/uid_nik/partnerInbox/current")).length,before=noteReads();
+  h.docs.set("accounts/uid_nik/partnerInbox/current",noteDoc(R5,5,UID.playerOne,Date.now()+600000));  // Daniel writes right after
+  await h.pair.readJoinNote();
+  assert.equal(noteReads(),before,"a background Home moment inside 30 s keeps the memoised miss (no read)");
+  assert.equal(h.pair.getJoinNoteState().note,null);
+  const [a,b]=await Promise.all([h.pair.readJoinNote({fresh:true}),h.pair.readJoinNote({fresh:true})]);
+  assert.equal(noteReads(),before+1,"two taps at once: one fresh read in flight");
+  assert.equal(a,b);
+  assert.equal(h.pair.getJoinNoteState().note?.rivalryId,R5,"the tap sees Daniel's note at once (JOIN, not the paste box)");
+});
+
+await check("PC9 Codex #903: Nik's once-per-page record recovery (mirror of Daniel's): no record, real career started, pairing ACTIVE with Nik in playerTwo and Daniel's record naming him",async()=>{
+  const nikShell=()=>shellEntry(NIK_SAVE,NIK_PROFILE,3,"playerTwo");
+  const base=extra=>({role:"playerTwo",marker:"ready",saves:[nikShell()],activeSaveId:NIK_SAVE,docs:{"accounts/uid_nik/pairLinks/current":linkDoc(R3,"playerTwo"),[`rivalries/${R3}`]:rivalryDoc(R3,"active"),...extra}});
+  const ok=harness(base({"accounts/uid_daniel/partner/current":partnerDoc(UID.playerTwo,"playerOne",R3)}));
+  await ok.pair.initialize({force:true});
+  assert.equal(ok.pair.getState().status,"paired");assert.equal(ok.pair.getState().managerRole,"playerTwo");
+  const written=await ok.pair.ensurePartnerRecord();
+  assert.equal(written?.status,"paired","Nik's dropped record is written on load");
+  assert.deepEqual(ok.transactions.at(-1).reads,[`rivalries/${R3}`,"accounts/uid_daniel/partner/current","accounts/uid_nik/partner/current"],"it re-reads the ACTIVE rivalry and Daniel's record first");
+  assert.deepEqual({...ok.docs.get("accounts/uid_nik/partner/current")},{schemaVersion:1,partnerAccountId:UID.playerOne,myRole:"playerTwo",pairedViaRivalryId:R3,pairedAt:SERVER_TIME,active:true,updatedAt:SERVER_TIME});
+  const writes=ok.transactions.reduce((n,t)=>n+t.writes.length,0);
+  assert.equal(await ok.pair.ensurePartnerRecord(),null,"at most once per page");
+  assert.equal(ok.transactions.reduce((n,t)=>n+t.writes.length,0),writes);
+  for(const [label,extra,options] of [
+    ["Daniel's record is missing",{},{}],
+    ["Daniel's record names someone else",{"accounts/uid_daniel/partner/current":partnerDoc("uid_someone","playerOne",R3)},{}],
+    ["Nik unpaired (active:false is never undone)",{"accounts/uid_daniel/partner/current":partnerDoc(UID.playerTwo,"playerOne",R3),"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerTwo",OLD,false)},{}],
+    ["no real career on Nik's account",{"accounts/uid_daniel/partner/current":partnerDoc(UID.playerTwo,"playerOne",R3)},{marker:"none"}]
+  ]){
+    const h=harness({...base(extra),...options});
+    const before=extra["accounts/uid_nik/partner/current"]?JSON.stringify(extra["accounts/uid_nik/partner/current"]):null;
+    await h.pair.initialize({force:true});
+    assert.equal(await h.pair.ensurePartnerRecord(),null,`${label}: nothing is written`);
+    assert.equal(h.transactions.reduce((n,t)=>n+t.writes.length,0),0,`${label}: no write at all`);
+    assert.equal(h.docs.has("accounts/uid_nik/partner/current")?JSON.stringify(h.docs.get("accounts/uid_nik/partner/current")):null,before,`${label}: Nik's record unchanged`);
+  }
+});
+
 await check("PC7 the identity sidecar reads the partner record once per load and the note only on Home shown / tab visible, never in render",async()=>{
   const identity=read("js/onlinePlayerIdentity.js");
   assert.match(identity,/pair\.render\?\.\(\);void afterPersistentPairSync\(pair\);return pairState;/);
-  assert.match(identity,/async function afterPersistentPairSync\(pair\)\{try\{if\(typeof pair\?\.readPartnerRecord!=="function"\)return;await pair\.readPartnerRecord\(\);if\(state\.managerId==="daniel"\)await pair\.ensurePartnerRecord\?\.\(\);else await refreshJoinNoteOnHome\(\);/);
-  assert.match(identity,/async function refreshJoinNoteOnHome\(\)\{[^\n]*state\.managerId!=="nik"[^\n]*!onlineHomeShown\(\)\)return null;/);
+  assert.match(identity,/async function afterPersistentPairSync\(pair\)\{try\{if\(typeof pair\?\.readPartnerRecord!=="function"\)return;await pair\.readPartnerRecord\(\);await pair\.ensurePartnerRecord\?\.\(\);\/\*[^*]*\*\/if\(state\.managerId!=="daniel"\)await refreshJoinNoteOnHome\(\);/,"after the one partner read: the once-per-page record recovery (both managers), then Nik's note");
+  assert.match(identity,/await root\.CareerModePersistentNikDanielPair\.readPartnerRecord\(\);\/\*[^*]*\*\/await refreshJoinNoteOnHome\(\{fresh:true\}\);/,"Nik's explicit tap reads the note fresh");
+  assert.match(identity,/await pair\.readJoinNote\(\{fresh:options\.fresh===true\}\)/);
+  assert.match(identity,/async function refreshJoinNoteOnHome\(options=\{\}\)\{[^\n]*state\.managerId!=="nik"[^\n]*!onlineHomeShown\(\)\)return null;/);
   assert.match(identity,/function onlineHomeShown\(\)\{if\(root\.document\?\.visibilityState==="hidden"\)return false;[^\n]*screen==="mainMenu"/);
   assert.match(identity,/addEventListener\("career-mode-screen-shown",event=>\{if\(!event\?\.detail\?\.screen\|\|event\.detail\.screen==="mainMenu"\)void refreshJoinNoteOnHome\(\);else root\.CareerModePersistentNikDanielPair\?\.stopJoinNoteWatch\?\.\(\);\}\)/,"leaving Home detaches the note listener at once");
   // Nik 2026-10-18 ("check by itself"): Home shown / tab visible (re)attaches ONE note listener; its first server delivery is the
   // read, and without a live listener the memoised read answers.
-  assert.match(identity,/const listening=typeof pair\.watchJoinNote==="function"\?await pair\.watchJoinNote\(\{isHomeShown:onlineHomeShown\}\)\.catch\(\(\)=>false\):false;const note=listening\?pair\.getJoinNoteState\(\):await pair\.readJoinNote\(\)\.catch\(\(\)=>null\);/);
+  assert.match(identity,/const listening=typeof pair\.watchJoinNote==="function"\?await pair\.watchJoinNote\(\{isHomeShown:onlineHomeShown\}\)\.catch\(\(\)=>false\):false;const note=listening\?pair\.getJoinNoteState\(\):await pair\.readJoinNote\(\{fresh:options\.fresh===true\}\)\.catch\(\(\)=>null\);/);
   const pairSource=read("js/persistentNikDanielPair.js");
   assert.match(pairSource,/JOIN_NOTE_WATCH_WINDOW_MS=600000,/,"10 minutes per Home visit");
   assert.match(pairSource,/noteWatch\.unsubscribe=api\.onSnapshot\(ref,\{includeMetadataChanges:false\},/,"the note is watched by one onSnapshot listener");
