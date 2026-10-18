@@ -134,7 +134,20 @@
         && request.auth.uid in before.data.authorizedAccountIds
         && (before.data.connectionState == 'pending-pair' || before.data.connectionState == 'active')
         && after.data.connectionState == 'closed'
-        && after.data.diff(before.data).affectedKeys().hasOnly(['connectionState']);
+        && after.data.diff(before.data).affectedKeys().hasOnly(['connectionState', 'endedEarly'])
+        && (!('endedEarly' in after.data) || cmsPersistentPairEndedEarlyValid(after.data.endedEarly));
+    }
+
+    // r80 END SHOWDOWN: the abandon write may carry the ended-early mark. seasonsPlayed is the
+    // number of finished seasons (0..10), or null when the count could not be read.
+    function cmsPersistentPairEndedEarlyValid(mark) {
+      return mark is map
+        && mark.keys().hasOnly(['seasonsPlayed'])
+        && mark.keys().hasAll(['seasonsPlayed'])
+        && (
+          mark.seasonsPlayed == null
+          || (mark.seasonsPlayed is int && mark.seasonsPlayed >= 0 && mark.seasonsPlayed <= 10)
+        );
     }
 
     function cmsPersistentPairCreateValid(accountId, pairId) {
