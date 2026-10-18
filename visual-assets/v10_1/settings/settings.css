@@ -24,16 +24,7 @@
   overflow: hidden;
 }
 
-/* Heavy settings scrim: the stadium remains legible as atmosphere, but text
-   panels get a quieter field than gameplay-facing screens. */
-#settingsOverlay.v10Settings .settingsStageScrim {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(2, 2, 2, 0.50) 0%, rgba(2, 2, 2, 0.68) 100%),
-    radial-gradient(circle at 50% 44%, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.34) 72%);
-}
+/* HO-033: the settings scrim was removed (owner rule HO-027, no dimming); the cards are opaque marble. */
 #settingsOverlay.v10Settings .sd-stage__layer--ui {
   min-width: 0;
   min-height: 0;
@@ -845,11 +836,6 @@
     height: 100%;
     object-fit: cover;
     object-position: 50% 50%;
-  }
-#settingsOverlay.v10Settings .settingsStageScrim {
-    background:
-      linear-gradient(180deg, rgba(2,2,2,.48), rgba(2,2,2,.74)),
-      radial-gradient(circle at 50% 28%, rgba(0,0,0,.08), rgba(0,0,0,.38) 74%);
   }
 #settingsOverlay.v10Settings .settingsDialog {
     inset: 0;
