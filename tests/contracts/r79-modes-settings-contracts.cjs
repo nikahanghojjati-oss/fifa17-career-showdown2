@@ -213,6 +213,8 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     const entry=read("js/productionSharedJourneyEntry.js");
     assert.match(entry,/if\(decision\.action!=="new"\)[^\n]*\n(?:\s*\/\/[^\n]*\n)*\s*if\(options&&typeof options\.beforeCreate==="function"&&await options\.beforeCreate\(\)!==true\)return false;\n\s*setPending\(true\);/,"the gate runs once START is really making a new Showdown, before the shell");
     assert.match(read("js/onlinePlayerIdentity.js"),/beforeCreate:[^\n]*modes[^\n]*beforeSeasonsStart\(\)/);
+    assert.doesNotMatch(read("js/onlinePlayerIdentity.js"),/beforeSeasonsStart\(\):null/,"Codex #908: a mode gate that could not load never lets a Showdown be created without it");
+    assert.match(read("js/onlinePlayerIdentity.js"),/beforeSeasonsStart\(\):\(\)=>\{root\.reportApplicationError\?\.\("Unable to start the Showdown"[^\n]*?return false;\}/);
   });
   await check("M7d","Codex #908: a START TEST RUN that never reaches the seasons screen disarms, so the next Home START is real again",async()=>{
     for(const [label,options] of [["refused",{startResult:null}],["failed",{startResult:new Error("offline")}],["continued a live Showdown",{startReaches:"dashboard"}]]){
