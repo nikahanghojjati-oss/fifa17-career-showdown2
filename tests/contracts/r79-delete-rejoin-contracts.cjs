@@ -194,6 +194,15 @@ async function pairContracts(){
       {status:"unpaired",rivalryId:null,connectionState:null,closedRivalryId:R1,closedProviderSaveId:SAVE_OLD},"Home shown: the pair holds R1 as closed");
     assert.equal(h.calls.transactions,reads,"no read for it");
     ok("J1b CLOSED (a normal finish) settles the pair when Home is shown, not before; no read");
+    // Codex #910 (5th): Daniel has no JOIN note watch; the generic Home-shown path lets it go for him too.
+    const d=pairHarness();await d.pair.initialize({force:true});
+    d.fire({phase:"CLOSED",rivalryId:R1,terminal:true});
+    assert.equal(d.pair.getState().connectionState,"active");
+    d.pair.settleOnHome();
+    assert.equal(d.pair.getState().closedRivalryId,R1,"settleOnHome (Home shown, any manager) lets the finished Showdown go");
+    const identitySource=read("js/onlinePlayerIdentity.js");
+    assert.ok(identitySource.includes('async function refreshJoinNoteOnHome(options={}){const pair=root.CareerModePersistentNikDanielPair;/*')&&/refreshJoinNoteOnHome\(options=\{\}\)\{const pair=root\.CareerModePersistentNikDanielPair;\/\*[^*]*\*\/if\(onlineHomeShown\(\)\)\{try\{pair\?\.settleOnHome\?\.\(\);\}catch\(_error\)\{\}\}if\(state\.status!=="ready"\|\|state\.managerId!=="nik"/.test(identitySource),"Home shown settles it before the Nik-only note refresh");
+    ok("J1b2 Daniel's Home (no note watch) lets a normally finished Showdown go too");
   }
   {
     // Codex #910: DELETED that lands while a pair action is busy is kept and applied once the action settles.
