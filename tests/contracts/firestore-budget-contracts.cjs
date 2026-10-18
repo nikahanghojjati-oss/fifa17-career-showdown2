@@ -91,7 +91,7 @@ function createWorld(){
       for(const [pathName,data] of writes)serverWrite(pathName,data);
       return value;
     },
-    doc(_db,pathName){return {path:pathName};},
+    doc(_db,...segments){return {path:segments.join("/")};},
     onSnapshot(ref,_options,next,error){
       const listener={path:ref.path,next,error,active:true};
       docListeners.push(listener);
@@ -742,6 +742,51 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     await world.advance(61000);const flight=world.meter.reads;
     const running=read(SESSION);world.budget.readServerNext(SESSION);const own=read(SESSION);await Promise.all([running,own]);
     assert.equal(world.meter.reads-flight,2,"a read already in flight is not shared with the asked read");
+  });
+
+  await check("FB14","r79 gallery: Nik waiting for Daniel's session pointer reads it fresh every 3 s even while another wait-point listener is healthy, and joins within one poll of Daniel publishing",async()=>{
+    const world=createWorld();seed(world);
+    // The previous Showdown's shared-setup screen keeps a healthy listener on this page (any listener puts the budget layer in
+    // its 60 s quiet-reuse mode for documents the listener does not watch).
+    const OLD_SETUP="rivalries/r0/sharedSetup/authoritative";world.serverWrite(OLD_SETUP,{phase:"LEAGUE_WHEEL_OPEN"});
+    const setupScreen=createScreen(world,{owner:"shared-setup",watched:OLD_SETUP,context:[],slow:false});setupScreen.start();
+    await world.advance(10000);
+    assert.equal(world.budget.stats().watchHealthy,true,"the other screen's listener is healthy");
+    const RIVAL="pair_"+"a".repeat(64),OFFER=`rivalries/${RIVAL}/sessionOffers/current`,SESSION_ID="session_"+"b".repeat(64),DEVICE="device_"+"c".repeat(32);
+    // Remote Joining as Nik, on the same budget layer; the SDK hands out Timestamps (toMillis) like the web SDK.
+    const stamp=value=>value&&typeof value==="object"&&Number.isFinite(value.epochMs)?{toMillis:()=>value.epochMs}:value;
+    const rawSdk={...world.sdk,runTransaction:(db,fn)=>world.sdk.runTransaction(db,tx=>fn({...tx,get:async ref=>{const snapshot=await tx.get(ref);return {...snapshot,data:()=>{const data=snapshot.data();return data&&Object.fromEntries(Object.entries(data).map(([key,value])=>[key,stamp(value)]));}};}}))};
+    const rawServices={ok:true,firestore:world.db,firestoreSdk:rawSdk,auth:{currentUser:{uid:"nik"}}};
+    const joins=[];
+    Object.assign(world.sandbox,{
+      CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>rawServices},
+      CareerModeSparkConnectedAccount:{initialize:async()=>true,getState:()=>({connected:true,accountId:"nik"})},
+      CareerModeSparkPrivatePairing:{initialize:async()=>true,getState:()=>({registered:true,deviceId:DEVICE})},
+      CareerModeSparkConnectedRivalry:{initialize:async()=>true,getState:()=>({attached:true,rivalryId:RIVAL,accountId:"nik",deviceId:DEVICE})},
+      CareerModeSparkPrivateSession:{},
+      CareerModeOnlinePlayerIdentity:{getState:()=>({managerId:"nik"})},
+      CareerModeSparkStandardAuthPrivateSession:{
+        normalizeSessionId:value=>value,
+        readSession:async options=>({ok:true,sessionId:options.sessionId,state:"open",revision:0,expiresAtEpochMs:world.clock.now+4*3600000}),
+        joinSession:async options=>{joins.push(world.clock.now);return {ok:true,sessionId:options.sessionId,state:"active",revision:1,expiresAtEpochMs:world.clock.now+4*3600000};}
+      }
+    });
+    vm.runInContext(fs.readFileSync(path.join(ROOT,"js/sparkRemoteJoining.js"),"utf8"),world.sandbox,{filename:"sparkRemoteJoining.js"});
+    const remote=world.sandbox.CareerModeSparkRemoteJoining;
+    const readsBefore=world.meter.reads;
+    await remote.autoConnect();
+    assert.equal(remote.getState().auto,"waiting","no pointer yet: Nik waits for Daniel");
+    await world.advance(7000);  // past the 5 s window a tap gives; Daniel's phone is still noticing the pairing
+    const published=world.clock.now,waitingReads=world.meter.reads-readsBefore;
+    world.serverWrite(OFFER,{schemaVersion:1,sessionId:SESSION_ID,hostAccountId:"daniel",expiresAt:{epochMs:published+4*3600000}});
+    await world.advance(3500);
+    assert.equal(joins.length,1,"Nik's next 3 s poll sees the pointer and joins (it was served a 60 s old copy before)");
+    assert.ok(joins[0]-published<=3500,`joined ${joins[0]-published} ms after Daniel published`);
+    assert.equal(remote.getState().sessionState,"active");
+    assert.equal(remote.getState().auto,null,"the waiting state ends with the join");
+    // Cost: while waiting, the pointer is read once per 3 s poll (the cadence it always had), never more.
+    assert.ok(waitingReads<=4,`${waitingReads} reads in 7 s of waiting (autoConnect + two polls)`);
+    setupScreen.stop();
   });
 
   console.log(`PASS Firestore budget contracts: ${results.length} checks, measured reads/min ${measured.join(" / ")} (waiting <= ${BUDGET.waitingVisibleReadsPerMinute} reads/min, hidden ${BUDGET.hiddenReadsPerMinute}, idle writes 0, partner update <= ${BUDGET.partnerUpdateMs} ms).`);

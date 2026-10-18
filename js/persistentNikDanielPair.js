@@ -53,7 +53,12 @@
   function pairJoinFailureIsDefinitive(error){const code=pairProviderCode(error);return Boolean(code)&&!PAIR_AMBIGUOUS_PROVIDER_CODES.has(code);}
 
   function pairFreezeDeep(value){if(!value||typeof value!=="object"||Object.isFrozen(value))return value;Object.freeze(value);Object.values(value).forEach(pairFreezeDeep);return value;}
-  function pairSetState(next){state=pairFreezeDeep(pairHeldIfEnded({...state,...next}));pairRememberActiveShell();for(const listener of pairListeners){try{listener(state);}catch(_error){}}pairRender();pairSyncWaitingPoll();pairContinueAfterWaitEnded();if(endedHeldNow)pairAnnounceEnded();return state;}
+  // r79 gallery: Home's chip and CONTINUE tile read whether this pair holds the active save as closed (js/menuExperience.js
+  // isPairClosedSave), so they are redrawn when those inputs move. Nik's JOIN after a deleted Showdown reuses its empty shell
+  // (no createShowdown, no Home on the way), so nothing else redrew them and his league wheel kept NO ACTIVE SHOWDOWN.
+  let pairHomeKey=null;
+  function pairRedrawHome(){const key=`${state.rivalryId||""}|${state.closedRivalryId||""}|${state.closedProviderSaveId||""}`;if(key===pairHomeKey)return;pairHomeKey=key;try{root.refreshMainMenuExperience?.();}catch(_error){}}
+  function pairSetState(next){state=pairFreezeDeep(pairHeldIfEnded({...state,...next}));pairRememberActiveShell();for(const listener of pairListeners){try{listener(state);}catch(_error){}}pairRedrawHome();pairRender();pairSyncWaitingPoll();pairContinueAfterWaitEnded();if(endedHeldNow)pairAnnounceEnded();return state;}
   // r79 (PR #901, smoothness): once the pair is ACTIVE this device remembers, locally, that its shell is paired (only the saveId,
   // no rivalry or account data; through js/storage.js, the one owner of local storage), so a reload mid-Showdown never holds the
   // loading screen for a pre-pair recovery (js/ssjr.js).
