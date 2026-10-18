@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-17 8:19 PM Boston time (EDT)",
+ "generated": "2026-10-17 8:25 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 114,
@@ -1049,8 +1049,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "493243a",
-  "head_boston": "Sat 17 Oct 7:36 PM",
+  "head": "8ba29b2",
+  "head_boston": "Sat 17 Oct 8:24 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1549,8 +1549,8 @@
     "from": "V",
     "to": "G",
     "title": "r79 visual fixes from Team V r78 check (scrims, see-through panels, Season Results no-scroll)",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-033_r79-visual-fixes-from-team-v-r78-check-s.md",
     "worker": "",
@@ -1627,7 +1627,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 40,
   "next": 42,
   "nik": 2,
   "later": 21,

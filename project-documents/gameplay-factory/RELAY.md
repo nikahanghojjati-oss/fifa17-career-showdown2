@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-17 8:19 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-17 8:25 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `493243a` (Sat 17 Oct 7:36 PM Boston time) · 114 messages · 34 hand-offs · 218 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `8ba29b2` (Sat 17 Oct 8:24 PM Boston time) · 114 messages · 34 hand-offs · 219 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-033 · V → G · r79 visual fixes from Team V r78 check (scrims, see-through panels, Season Results no-scroll)
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 1 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 1 min after delivery
 
+- Sat 17 Oct 8:24 PM · Team G · Done
 - Sat 17 Oct 7:33 PM · Team G · In progress · Fixed in PR #902 (claude-gameplay/r79-visual-fixes): scrims/vignette removed, opaque panels, phone buttons docked, faces clear, fonts, red DELETE. Desktop see-through panels follow-up in progress. Art needed from V: gold brush CONNECT PLAYERS wordmark; Club phone blank black bags.
 - Sat 17 Oct 6:21 PM · Team G · In progress · items 1-9 in one PR; render check per changed screen
 - Sat 17 Oct 6:21 PM · Team G · Received · r79 lead: starting now in a helper, branch claude-gameplay/r79-visual-fixes into gameplay/r79
