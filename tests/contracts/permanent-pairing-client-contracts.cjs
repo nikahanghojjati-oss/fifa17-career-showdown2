@@ -493,6 +493,17 @@ await check("PC2g Codex #904 (P1): Nik's UNPAIR racing Daniel's START never leav
   assert.equal(closed?.data?.connectionState,"closed","the code is closed again, so Daniel is not left waiting on it");
   assert.equal(after.pair.getPartnerSideState().status,"unpaired");
   assert.equal(after.server.filter(p=>p===NIK).length,2,"one fresh read of Nik's record at START and one only because the note failed");
+  // 2b. Codex #923: the close itself fails (here: the device check refuses it): never "nothing was started"; Settings DELETE is the retry.
+  const stuck=harness({role:"playerOne",marker:"ready",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:docs(),create:async(options,h)=>{const made=await commitCreate(Date.now()+20*60000)(options,h);h.docs.set(NIK,partnerDoc(UID.playerOne,"playerTwo",OLD,false));return made;}});
+  await stuck.pair.initialize({force:true});
+  const stuckRun=stuck.firestoreSdk.runTransaction;
+  stuck.firestoreSdk.runTransaction=async(db,fn)=>stuckRun(db,async tx=>{const set=tx.set;tx.set=(ref,value)=>{if(ref.path===INBOX)throw providerError("permission-denied","Missing or insufficient permissions.");return set(ref,value);};return fn(tx);});
+  stuck.sandbox.console={...console,warn:()=>{}};
+  const open=await stuck.pair.startPairing({managerRole:"playerOne"});
+  assert.equal(open.status,"error");assert.ok(!open.capability);
+  assert.doesNotMatch(open.message,/nothing was started/,"an unconfirmed close never claims nothing was started");
+  assert.match(open.message,/could not be closed yet.*DELETE CURRENT SHOWDOWN/);
+  assert.equal(stuck.docs.get(`rivalries/${refusedId(stuck)}`)?.data?.connectionState,"pending-pair","the Showdown really is still online");
   // 3. Control: Nik's record still names Daniel and the note is refused for another reason: the code stays (PC2b), no close.
   const keep=harness({role:"playerOne",marker:"ready",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:docs(),create:commitCreate(Date.now()+20*60000)});
   await keep.pair.initialize({force:true});
