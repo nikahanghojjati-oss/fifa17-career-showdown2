@@ -273,14 +273,18 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.ok(nikNote()&&nikNote().hidden===true,"Nik's real first JOIN from Home: no TEST RUN strip");
     // Codex #917: the layer opens by going Home first (career-mode-screen-shown "mainMenu" while it is still hidden), then shows.
     const openLayer=()=>{nik.setScreen("mainMenu");nik.dom.layer.hidden=false;nik.dom.layer.classList.remove("hidden");nik.dom.doc.dispatch({type:"career-mode-screen-shown",detail:{screen:"mainMenu"}});return true;};
-    const closeLayer=()=>{nik.dom.layer.hidden=true;nik.dom.layer.classList.add("hidden");};
+    const closeLayer=()=>{nik.dom.layer.hidden=true;nik.dom.layer.classList.add("hidden");nik.dom.doc.dispatch({type:"career-mode-connect-players-closed"});};
     nik.modes.install();
     sandboxOpenJoin(nik,openLayer);
     await nik.modes.startTestRun();assert.equal(nik.modes.isTestRunArmed(),true,"opening the layer through Home keeps JOIN TEST RUN armed");
     assert.equal(nikNote().hidden,false,"JOIN TEST RUN: the strip shows on Nik's code box");
     assert.equal(nik.modes.badgeSuffix()," · TEST RUN · NOTHING COUNTS");
     closeLayer();assert.equal(nik.modes.badgeSuffix(),"","layer closed, back on Home: no TEST RUN badge");
-    openLayer();assert.equal(nik.modes.isTestRunArmed(),false,"the next JOIN from Home is real");assert.equal(nikNote().hidden,true,"and carries no strip");
+    assert.equal(nik.modes.isTestRunArmed(),false,"closing the layer ends JOIN TEST RUN");
+    // Codex #917: reopening from Home is no screen change (already on Home), so only the close may end it
+    nik.dom.layer.hidden=false;nik.dom.layer.classList.remove("hidden");nik.modes.renderSeasons();
+    assert.equal(nik.modes.badgeSuffix(),"","the next JOIN from Home is real");assert.equal(nikNote().hidden,true,"and carries no strip");
+    assert.match(read("js/connectPlayersScreenV10.js"),/function close\(options=\{\}\)\{[\s\S]{0,500}dispatchEvent\(new root\.CustomEvent\("career-mode-connect-players-closed"\)\)/,"every close of the layer says so");
   });
   await check("M10","Settings has no START REAL CAREER row or SHOW TEST SHOWDOWNS AGAIN switch; old test games stay stored and hidden",async()=>{
     const code=file=>read(file).replace(/\/\*[\s\S]*?\*\//g,"").replace(/^\s*\/\/.*$/gm,"");

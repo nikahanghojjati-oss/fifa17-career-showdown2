@@ -195,6 +195,7 @@ function smRefresh(){
 function smInstall(){
   if(installed)return api;installed=true;
   const d=smDoc();
+  /* Codex #917: the layer's close ends Nik's JOIN TEST RUN; reopening it from Home (already on Home) sends no screen change */if(d&&d.addEventListener)d.addEventListener("career-mode-connect-players-closed",()=>{if(armed&&!joinArming&&smIdentity()?.managerId==="nik"){armed=false;smRefresh();}});
   if(d&&d.addEventListener)d.addEventListener("career-mode-screen-shown",event=>{const screen=event&&event.detail&&event.detail.screen;if(screen==="mainMenu"&&armed&&!joinArming&&!smLayerOpen()){armed=false;}if(seasonsMessage&&screen!=="createShowdown")seasonsMessage="";smRefresh();});
   try{smPair()?.subscribe?.(()=>smRefresh());}catch(_){}
   if(root.addEventListener){root.addEventListener("career-mode-permanent-pair-change",()=>smRefresh());root.addEventListener("career-mode-career-start-change",event=>{const s=event&&event.detail;if(s&&s.accountId&&s.status)markerView=Object.freeze({status:s.status==="ready"?"ready":"none",accountId:s.accountId});smRefresh();});}
