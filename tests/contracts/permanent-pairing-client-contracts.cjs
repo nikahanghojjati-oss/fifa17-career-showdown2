@@ -308,6 +308,39 @@ await check("PC2b a JOIN note that cannot be written never breaks the Showdown: 
   assert.equal((await test.pair.writeJoinNote({rivalryId:plain.rivalryId})).status,"not-paired");
 });
 
+await check("PC2c Codex #904: the permanent pair's START stays one busy action until the JOIN note write settles: NEW CODE and CHECK STATUS during the note write start no second createPairing",async()=>{
+  for(const outcome of ["written","failed"]){
+    let releaseNote=null;const noteGate=new Promise(resolve=>{releaseNote=resolve;});
+    const create=commitCreate(Date.now()+20*60000);
+    const h=harness({role:"playerOne",marker:"ready",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:{"accounts/uid_daniel/partner/current":partnerDoc(UID.playerTwo,"playerOne",OLD)},create:async(options,hh)=>{const result=await create(options,hh);hh.created=true;return result;}});
+    await h.pair.initialize({force:true});
+    const original=h.firestoreSdk.runTransaction;let noteStarted=false;
+    h.firestoreSdk.runTransaction=async(db,fn)=>{if(!h.created)return original(db,fn);noteStarted=true;await noteGate;return original(db,async tx=>{if(outcome==="failed"){tx.set=()=>{throw providerError("unavailable","offline");};}return fn(tx);});};
+    h.sandbox.console={...console,warn(){}};
+    const first=h.pair.startPairing({managerRole:"playerOne"});
+    for(let i=0;i<400&&!noteStarted;i+=1)await new Promise(resolve=>setTimeout(resolve,5));/* real time: device crypto runs off the event loop */
+    assert.equal(noteStarted,true,`${outcome}: the note write is under way`);
+    const during=h.pair.getState();
+    assert.equal(during.status,"waiting",`${outcome}: the code is already shown`);assert.match(during.capability,/^CMS17-pair_/);
+    assert.equal(during.busy,true,`${outcome}: the START action is still busy while its note is written`);
+    const again=await h.pair.startPairing({managerRole:"playerOne"});
+    assert.equal(again.rivalryId,during.rivalryId,`${outcome}: NEW CODE during the note write is the same action, not a new one`);
+    const check=h.pair.initialize({force:true});
+    assert.equal(h.log.filter(line=>line.startsWith("create ")).length,1,`${outcome}: no second createPairing`);
+    releaseNote();
+    const done=await first;await check;await settle();
+    assert.equal(done.busy,false,`${outcome}: busy ends once the note write settles`);
+    assert.equal(h.pair.getState().busy,false,`${outcome}: and stays ended`);
+    assert.equal(h.log.filter(line=>line.startsWith("create ")).length,1,`${outcome}: still one createPairing`);
+    if(outcome==="written")assert.match(done.message,/JOIN on his Home/);else assert.match(done.message,/Send this code to Nik/,"a failed note keeps the code message");
+  }
+  // a pair that is not permanent yet (no partner record) has no note, so its waiting state is not busy at all
+  const plain=harness({role:"playerOne",marker:"ready",saves:[danielShell()],activeSaveId:DANIEL_SAVE,create:commitCreate(Date.now()+20*60000)});
+  await plain.pair.initialize({force:true});
+  const waiting=await plain.pair.startPairing({managerRole:"playerOne"});
+  assert.equal(waiting.busy,false,"no note to write: the code is ready at once");
+});
+
 await check("PC3a Nik's note read: one memoised read per 30 s (failures count), none while hidden, only with an active playerTwo record",async()=>{
   const now=Date.now();
   const h=harness({docs:{"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerTwo",OLD),"accounts/uid_nik/partnerInbox/current":noteDoc(R5,5,UID.playerOne,now+10*60000)}});

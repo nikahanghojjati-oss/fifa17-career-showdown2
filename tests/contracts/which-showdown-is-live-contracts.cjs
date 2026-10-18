@@ -89,7 +89,7 @@ await check("W3 read() reuses the identity sidecar's own pair read (one bounded 
 
 await check("W4 every START entry routes through the one canonical START",()=>{
   const identity=read("js/onlinePlayerIdentity.js"),entry=read("js/productionSharedJourneyEntry.js"),pairSource=read("js/persistentNikDanielPair.js"),hub=read("js/showdownUI.js");
-  assert.match(identity,/if\(gameplay\.id==="newShowdown"&&!gameplay\.disabled\)\{e\.preventDefault\(\);e\.stopImmediatePropagation\(\);void openCanonicalStart\(\);return;\}/,"Home tile (both managers)");
+  assert.match(identity,/if\(gameplay\.id==="newShowdown"&&!gameplay\.disabled\)\{e\.preventDefault\(\);e\.stopImmediatePropagation\(\);void openHomeStart\(\);return;\}/,"Home tile (both managers)");assert.match(identity,/function openHomeStart\(\)\{if\(canonicalStartFlowPromise\)return canonicalStartFlowPromise;homeStartChecking=true;applyHomeStartChecking\(\);const flow=openCanonicalStart\(\);/,"Codex #904: the Home tile shows its busy state, then runs that same canonical START");
   assert.equal((identity.match(/gameplay\.id==="newShowdown"/g)||[]).length,1,"one Home tile route");
   assert.match(identity,/openStart:openCanonicalStart,openJoin:openCanonicalShowdownJoin/);
   assert.match(identity,/async function openCanonicalStart\(\)\{if\(canonicalStartFlowPromise\)return canonicalStartFlowPromise;/,"a double tap on the Home tile shares one flow");

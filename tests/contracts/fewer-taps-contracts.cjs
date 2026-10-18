@@ -675,7 +675,17 @@ async function r3r4aPresentationContracts(){
 
 // ------------------------------------------------------------------ R5 + R6 career entry
 const PENDING_KEY="careerModeShowdown.sharedJourneyPending.v1";
-function entryHarness({rivalryReady=false,active=false,pairState={status:"unpaired",initialized:true,rivalryId:null,connectionState:null},openExperience="presentation",library:startLibrary=null,terminalClose=null,identityStatus="ready",continueResult=null}={}){
+// Codex #904 (P1): the Connect Players layer on a cold cache. Its script, stylesheet and plate take a while (40 ms here); once
+// prepare() has run them, open() reveals the layer without waiting for any of them again (as js/connectPlayersScreenV10.js).
+function coldConnectPlayersLayer(calls){
+  const slow=()=>new Promise(resolve=>setTimeout(resolve,40));
+  return {
+    prepare:async()=>{calls.prepareCalls=(calls.prepareCalls||0)+1;await slow();calls.layerPrepared=true;return true;},
+    open:async options=>{if(calls.layerPrepared!==true){await slow();calls.layerPrepared=true;}calls.layerOpen.push(options);calls.layerVisible=true;return true;},
+    close:()=>{calls.layerVisible=false;return true;}
+  };
+}
+function entryHarness({rivalryReady=false,active=false,pairState={status:"unpaired",initialized:true,rivalryId:null,connectionState:null},openExperience="presentation",library:startLibrary=null,terminalClose=null,identityStatus="ready",continueResult=null,coldLayer=false}={}){
   const dom=createDom();const menu=dom.add("mainMenu");void menu;const connect=dom.add("connectPlayersScreen");dom.add("connectPlayersPairSlot",{parent:connect});dom.add("roundAmount",{tag:"select"}).value="3";dom.add("startShowdown",{tag:"button"});
   const calls={pairRender:0,startPairing:0,remoteOpen:0,remoteClose:0,presentation:0,careerStart:0,navigate:[],host:0,join:0,create:0,layerOpen:[],screenAtOpen:[],resume:0,continuePair:0,openJoin:0,closeRefresh:0,close:0,closeRetry:0};
   const storage=new Map([[PENDING_KEY,"1"]]);
@@ -695,10 +705,14 @@ function entryHarness({rivalryReady=false,active=false,pairState={status:"unpair
     navigateTo:async name=>{calls.navigate.push(name==="leagueWheelScreen"&&!sandbox.currentShowdown?"mainMenu":name);return true;},
     loadSavedShowdown:()=>{const entry=library.saves.find(item=>item&&item.saveId===library.activeSaveId);return entry?entry.showdown:null;},
     resumeSavedShowdown:async()=>{calls.resume+=1;const entry=library.saves.find(item=>item&&item.saveId===library.activeSaveId);sandbox.currentShowdown=entry.showdown;calls.navigate.push("leagueWheelScreen");},
-    createShowdown:async()=>{calls.create+=1;await new Promise(resolve=>setTimeout(resolve,2));sandbox.currentShowdown={id:"save_1",totalRounds:3,managers:{}};library.activeSaveId="save_1";library.saves=[{saveId:"save_1",showdown:sandbox.currentShowdown}];return true;},
+    createShowdown:async()=>{calls.create+=1;await new Promise(resolve=>setTimeout(resolve,2));sandbox.currentShowdown={id:"save_1",totalRounds:3,managers:{}};library.activeSaveId="save_1";library.saves=[{saveId:"save_1",showdown:sandbox.currentShowdown}];
+      // as js/showdown.js: the locked league wheel is shown synchronously, at the end of createShowdown(). The next task is the
+      // first chance the browser has to paint it; WAITING must already cover it by then.
+      if(coldLayer){calls.wheelShown=true;calls.preparedAtRoute=calls.layerPrepared===true;setImmediate(()=>{calls.coveredAtFirstPaint=calls.layerVisible===true;});}
+      return true;},
     CareerModeSaveLibraryRuntime:{isReady:()=>true,getLibrarySnapshot:()=>library,saveCurrentShowdown:()=>true,clearActiveShowdown(){}},
     CareerModeOnlinePlayerIdentity:{getState:()=>(identityStatus==="ready"?{status:"ready",managerId:"daniel",registered:true}:{status:identityStatus}),subscribe:()=>()=>{},syncPair:async()=>pairState,openJoin:async()=>{calls.openJoin+=1;return pairState;}},
-    CareerModeConnectPlayersScreenV10:{open:async options=>{calls.layerOpen.push(options);calls.screenAtOpen.push(calls.navigate[calls.navigate.length-1]||"mainMenu");return true;},close:()=>true},
+    CareerModeConnectPlayersScreenV10:coldLayer?coldConnectPlayersLayer(calls):{open:async options=>{calls.layerOpen.push(options);calls.screenAtOpen.push(calls.navigate[calls.navigate.length-1]||"mainMenu");return true;},close:()=>true},
     CareerModePersistentNikDanielPair:{getState:()=>continueResult||pairState,render:()=>{calls.pairRender+=1;if(!dom.document.getElementById("persistentNikDanielPairPanel"))dom.add("persistentNikDanielPairPanel",{parent:dom.document.getElementById("connectPlayersPairSlot")});},startPairing:async()=>{calls.startPairing+=1;},continuePair:async()=>{calls.continuePair+=1;return continueResult||{...(pairState||{}),status:"paired",busy:false};}},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true})},
     CareerModeSparkConnectedAccount:{initialize:async()=>true,getState:()=>({connected:true,accountId:"uid_daniel"})},
@@ -714,6 +728,33 @@ function entryHarness({rivalryReady=false,active=false,pairState={status:"unpair
   const overlay=()=>dom.document.getElementById("productionSharedJourneyEntryOverlay");
   async function goActive(expired=false){Object.assign(remoteState,{sessionState:"active",sessionId:SESSION,expiresAtEpochMs:expired?Date.now()-1000:Date.now()+3_600_000});for(const fn of remoteListeners)fn(remoteState);await settle();}
   return {api,dom,calls,overlay,goActive,remoteState,remoteListeners};
+}
+// Codex #904 (P1): js/ssjr.js itself, run with a pending pre-pair shell and an entry whose reload recovery is still waiting
+// (for example the identity restoring for longer than 3 s). The loading screen (careerModeHomeHold) must stay until that
+// recovery settles, and only js/app.js's overall cap (15 s from the start of the load) may cut it short.
+async function startupHoldContracts(){
+  const run=({nowMs=2000}={})=>{
+    const timers=[];let release=null;const resume=new Promise(resolve=>{release=resolve;});
+    const shell={identity:{saveId:"save_"+"5".repeat(24)},sharedJourney:{mode:"shared",setupPending:true},selectedLeague:null,clubs:{},rounds:[]};
+    const sandbox={console:{warn(){},log(){},error(){}},Promise,URLSearchParams,location:{search:""},document:{getElementById:()=>null},
+      performance:{now:()=>nowMs},setTimeout:(fn,ms)=>{timers.push({fn,ms:Number(ms)||0,fired:false});return timers.length;},clearTimeout(){},
+      readStorageValue:()=>null,currentShowdown:shell,
+      loadRuntimeScript:async(key)=>{if(key==="ssjr-production-entry")sandbox.CareerModeProductionSharedJourneyEntry={install(){},startupResume:()=>resume};return true;}};
+    vm.createContext(sandbox);vm.runInContext(read("js/ssjr.js"),sandbox,{filename:"js/ssjr.js"});
+    const fire=async limit=>{for(let pass=0;pass<4;pass+=1){for(const t of timers)if(!t.fired&&t.ms<=limit){t.fired=true;t.fn();}await settle();}};
+    return {sandbox,timers,release,fire,hold:()=>sandbox.careerModeHomeHold};
+  };
+  {const h=run();await settle();
+   assert.equal(h.hold(),1,"the loading screen is held while the reload recovery runs");
+   await h.fire(3000);
+   assert.equal(h.hold(),1,"3 s later the recovery is still waiting (identity restoring): the loading screen stays, Home does not show");
+   assert.ok(h.timers.some(t=>t.ms===13000&&!t.fired),"the only bound left is the overall cap: 15 s from the start of the load (2 s in, 13 s left)");
+   h.release(true);await settle();
+   assert.equal(h.hold(),0,"once the recovery has settled the loading screen hands over");}
+  {const h=run();await settle();await h.fire(13000);
+   assert.equal(h.hold(),0,"a recovery that never settles is still cut off at the overall startup cap");}
+  {const h=run({nowMs:20000});await settle();await h.fire(0);
+   assert.equal(h.hold(),0,"past the cap already: no extra wait at all");}
 }
 async function r5r6EntryContracts(){
   {
@@ -780,10 +821,15 @@ async function r5r6EntryContracts(){
     assert.equal(waiting.calls.resume,1,"the saved shell is resumed first (Home's CONTINUE path), so the wheel route does not fall back to Home");
     assert.equal(await waiting.api.startupResume(),true,"the reload recovery reports when it has settled (Reus Gate hold)");
     assert.equal(entryHarness({pairState:{status:"paired",initialized:true,rivalryId:RIVALRY,connectionState:"active",managerRole:"playerOne"}}).api.startupResume(),null,"no recovery is pending before install");
+    await startupHoldContracts();
     {const ssjr=read("js/ssjr.js");
      assert.ok(ssjr.includes('.then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(resumeGate).catch(()=>null).then(()=>{root.careerModeHomeHold=0;});'),"the loading screen is released only after Home is ready AND the reload recovery settled");
      assert.ok(ssjr.includes('const resume=entry&&typeof entry.startupResume==="function"?entry.startupResume():null;if(resume)await Promise.race([Promise.resolve(resume).catch(()=>null),deadline]);'),"one deadline bounds the whole wait");
-     assert.ok(ssjr.includes('const deadline=new Promise(resolve=>root.setTimeout(resolve,3e3));'),"at most 3 s more");
+     // Codex #904 (P1): the old 3 s deadline (pinned here before) let Home show while the identity was still restoring and then
+     // jump to the wheel and WAITING. The wait now lasts until the recovery settles, bounded by js/app.js's overall startup cap.
+     assert.ok(ssjr.includes('const deadline=new Promise(resolve=>root.setTimeout(resolve,startupCapLeft()));'),"bounded by the overall startup cap only");
+     assert.ok(ssjr.includes('const STARTUP_CAP_MS=15e3,')&&!ssjr.includes("setTimeout(resolve,3e3)"),"the cap is js/app.js's 15 s from the start of the load; no shorter deadline");
+     assert.ok(read("js/app.js").includes("performance.now()<(window.careerModeHomeHold?15e3:6e3)"),"js/app.js hands over at 15 s from the start of the load, the same cap");
      assert.ok(ssjr.includes('install("ssjr-production-entry","js/productionSharedJourneyEntry.js","CareerModeProductionSharedJourneyEntry").then(api=>{entryInstalled(api);return api;},error=>{entryInstalled(null);throw error;}),'));}
     {const source=read("js/productionSharedJourneyEntry.js");
      assert.ok(source.includes('if(decision&&decision.action==="resume-waiting")await showLockedWheel();'),"Daniel's WAITING reopens over the league wheel");
@@ -855,6 +901,24 @@ async function r5r6EntryContracts(){
     assert.ok(!source.includes('addEventListener("click",()=>void openPanel())'),"no button opens GET READY directly");
   }
   ok("R5a Entry (r79): START A SHOWDOWN opens WAITING over the locked league screen, makes the code once, and over a live pair continues it instead");
+  {// Codex #904 (P1): on a cold cache, START used to show the locked league wheel and only then load WAITING's script, stylesheet
+   // and plate, so Daniel saw (and could tap) the bare wheel. WAITING is now made ready first and covers the wheel in the same task.
+    const h=entryHarness({coldLayer:true});h.api.install();await settle();
+    assert.equal(await h.api.preparePairingShell(),true,"START still prepares the shared shell");await settle();
+    assert.equal(h.calls.wheelShown,true,"the locked league wheel is shown");
+    assert.equal(h.calls.coveredAtFirstPaint,true,"no frame shows the bare locked wheel: WAITING covers it before the first paint");
+    assert.equal(h.calls.preparedAtRoute,true,"WAITING (script, stylesheet, plate) is ready before the route to the wheel");
+    assert.deepEqual(h.calls.layerOpen.map(options=>options&&options.stayOnScreen),[true],"WAITING opens once, over the wheel");
+    assert.deepEqual([h.calls.create,h.calls.startPairing,h.calls.prepareCalls],[1,1,1],"one shell, one code, one preparation");
+    const source=read("js/productionSharedJourneyEntry.js");
+    assert.ok(source.includes("const waitingReady=prepareWaiting();await ensureSaveAuthority();"),"the preparation runs alongside START's own checks (no extra wait when warm)");
+    assert.ok(source.includes("await waitingReady;const created=await root.createShowdown();"),"and is awaited before the route to the wheel");
+    const prep=source.slice(source.indexOf("function prepareWaiting(){"),source.indexOf("async function openWaiting("));
+    assert.doesNotMatch(prep,/syncPair|initialize\(|readJoinNote|readPartnerRecord|getDoc|runTransaction|setInterval/,"files only: no Firestore read, no polling");
+    const layer=read("js/connectPlayersScreenV10.js");
+    assert.ok(layer.includes("if(urls.every(url=>decodedPlates.has(url)))return Promise.resolve(true);"),"a plate already decoded answers at once");
+    assert.ok(layer.includes("return Object.freeze({open,close,prepare:prepareConnectPlayers});"),"the layer exposes prepare()");}
+  ok("Codex #904 P1 Entry: on a cold cache START makes WAITING ready before routing to the locked wheel, so the bare wheel never paints");
   {
     const h=entryHarness({rivalryReady:true,active:false});
     await h.api.openPanel();await settle();
