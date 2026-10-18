@@ -6,9 +6,9 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 18 Oct, 1:14 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 18 Oct, 1:18 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
-🌐 **Live: 1.9.2-r78** (main `f15f54f`, Sat 17 Oct 5:28 PM)
+🌐 **Live: 1.9.3-r79** (main `9b8190f`, Sun 18 Oct 1:17 PM)
 
 🩺 **All clear: every check has a machine.** · Gate #904: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #904 0/16
 
@@ -22,7 +22,7 @@ Updated Sun 18 Oct, 1:14 PM Boston time. Bug hunting only, no new features until
 
 **#2 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 148 h ago
+🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 149 h ago
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -58,7 +58,7 @@ Updated Sun 18 Oct, 1:14 PM Boston time. Bug hunting only, no new features until
 
 **#11 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 87 h ago
+⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 88 h ago
 
 **#12 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
@@ -1710,7 +1710,17 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1823
 ```
 
-**#163 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
+**#163 · 1826** `G` Cheaper waiting: no repeating online checks while the live listener is working  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1826'
+
+Type this in Codex cloud:
+
+```text
+Job 1826
+```
+
+**#164 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1829'
 
@@ -1720,7 +1730,7 @@ Type this in Codex cloud:
 Job 1829
 ```
 
-**#164 · 1832** `G` Waiting fixes on PR #861: clock expiry, poll window, first-snapshot reads  
+**#165 · 1832** `G` Waiting fixes on PR #861: clock expiry, poll window, first-snapshot reads  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1832'
 
@@ -1730,7 +1740,7 @@ Type this in Codex cloud:
 Job 1832
 ```
 
-**#165 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
+**#166 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1833'
 
@@ -1740,7 +1750,7 @@ Type this in Codex cloud:
 Job 1833
 ```
 
-**#166 · 1840** `G` Clean start: "real career starts here" marker  
+**#167 · 1840** `G` Clean start: "real career starts here" marker  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1840'
 
@@ -1750,7 +1760,7 @@ Type this in Codex cloud:
 Job 1840
 ```
 
-**#167 · 1841** `G` Old games still open: a release check for saved Showdowns  
+**#168 · 1841** `G` Old games still open: a release check for saved Showdowns  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1841'
 
@@ -1760,7 +1770,7 @@ Type this in Codex cloud:
 Job 1841
 ```
 
-**#168 · 1843** `G` Codex auto-start pilot: one CE2PG 1-season run on the r76b workbench  
+**#169 · 1843** `G` Codex auto-start pilot: one CE2PG 1-season run on the r76b workbench  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1843'
 
@@ -1770,7 +1780,7 @@ Type this in Codex cloud:
 Job 1843
 ```
 
-**#169 · 1844** `G` r78 small fixes: the Career tab goes to the game, and no DELETE copy on Showdown Home  
+**#170 · 1844** `G` r78 small fixes: the Career tab goes to the game, and no DELETE copy on Showdown Home  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1844'
 
@@ -1780,7 +1790,7 @@ Type this in Codex cloud:
 Job 1844
 ```
 
-**#170 · 1845** `G` No-dimming audit (HO-027), report only  
+**#171 · 1845** `G` No-dimming audit (HO-027), report only  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1845'
 
@@ -1885,8 +1895,8 @@ Job 1845
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`███░░░░░░░` **28.7671 %**  
-Numbered jobs: 56 done, 208 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`███░░░░░░░` **28.6689 %**  
+Numbered jobs: 56 done, 209 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████████░` **85.2941 %**  
@@ -2018,12 +2028,6 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 ## Other Team G work
 
-**Fixing now**
-
-| Lane | Item | What | State |
-| --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #904](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/904) | r79 release (1.9.3-r79): one start flow, permanent pairing, real/test modes [draft] | 🟢 8 passed |
-
 **Up next**
 
 | Lane | Item | What | State |
@@ -2044,4 +2048,8 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
 | 🟧 Opus | **V-F2** | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | queued · after G-F1 |
+
+## Shipped today
+
+- 1:17 PM · #904 Release r79: one start flow, permanent pairing, real/test modes (1.9.3-r79)
 

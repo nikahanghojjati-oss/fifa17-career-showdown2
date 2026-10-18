@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-18 1:14 PM Boston time (EDT)",
+ "generated": "2026-10-18 1:18 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 114,
@@ -1078,27 +1078,18 @@
  },
  "two": {
   "live": {
-   "sha": "f15f54f",
-   "revision": "1.9.2-r78",
-   "when": "2026-10-17T21:28:14Z",
-   "subject": "r78: look and feel (1.9.2-r78) (#897)",
-   "fixes": [
+   "sha": "9b8190f",
+   "revision": "1.9.3-r79",
+   "when": "2026-10-18T17:17:45Z",
+   "subject": "r79: one start flow, permanent pairing, real/test modes (1.9.3-r79) (#904)",
+   "fixes": [],
+   "today": [
     {
      "pr": 904,
-     "title": "r79 release (1.9.3-r79): one start flow, permanent pairing, real/test modes [draft]",
-     "draft": false,
-     "branch": "gameplay/r79",
-     "sha": "ac8fb558d44f4d1fae4114f8021d14cacf01a7f6",
-     "updated": "2026-10-18T17:10:40Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
+     "title": "Release r79: one start flow, permanent pairing, real/test modes (1.9.3-r79)",
+     "merged": "2026-10-18T17:17:45Z"
     }
-   ],
-   "today": []
+   ]
   },
   "physio": {
    "state": "clear",
@@ -1636,7 +1627,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 40,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -2852,22 +2843,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 904,
-    "title": "r79 release (1.9.3-r79): one start flow, permanent pairing, real/test modes [draft]",
-    "draft": false,
-    "branch": "gameplay/r79",
-    "sha": "ac8fb558d44f4d1fae4114f8021d14cacf01a7f6",
-    "updated": "2026-10-18T17:10:40Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
