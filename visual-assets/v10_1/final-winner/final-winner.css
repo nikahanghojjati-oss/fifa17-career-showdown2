@@ -352,9 +352,11 @@ body {
   box-sizing: border-box;
   padding: 0;
   border-color: rgb(242 196 91 / .72);
+  /* HO-033: opaque black-gold marble (HO-029 kit tile), not the old .93 -> .82 see-through face: the managers' suits and
+     the stadium no longer show through the numbers on phones (owner rule HO-027). */
   background:
-    linear-gradient(110deg, rgb(8 9 11 / .93), rgb(13 14 17 / .82)),
-    linear-gradient(90deg, rgb(242 196 91 / .06), transparent 48%);
+    linear-gradient(90deg, rgb(242 196 91 / .06), transparent 48%),
+    var(--r78-panel, #110f0c) url("../../../css/r78-marble-tile.webp") 0 0 / 256px 256px repeat;
   box-shadow: 0 16px 38px rgb(0 0 0 / .48), inset 0 1px 0 rgb(255 228 150 / .08);
 }
 

@@ -14,7 +14,7 @@
 #settingsOverlay.v10Settings #settingsClose { z-index:20; border:1px solid #d9b15f; color:#f5f1e8; background:rgba(0,0,0,.7); }
 #settingsOverlay.v10Settings #settingsContent { padding:0 5px 8px; overflow-y:auto; overscroll-behavior:contain; align-content:start; grid-template-rows:auto auto; scrollbar-color:#d9b15f #151515; }
 #settingsOverlay.v10Settings .settingsPanel,
-#settingsOverlay.v10Settings .settingsConnectedAccountPanel { border:1px solid rgba(219,178,94,.58); padding:16px; color:#f5f1e8; background:linear-gradient(180deg,rgba(18,18,18,.9),rgba(7,7,7,.85)); box-shadow:inset 0 1px rgba(255,231,179,.1),0 18px 42px rgba(0,0,0,.28); overflow:visible; }
+#settingsOverlay.v10Settings .settingsConnectedAccountPanel { border:1px solid rgba(219,178,94,.58); padding:16px; color:#f5f1e8; background:linear-gradient(180deg,rgba(18,18,18,.9),rgba(7,7,7,.85)) #070707; box-shadow:inset 0 1px rgba(255,231,179,.1),0 18px 42px rgba(0,0,0,.28); overflow:visible; }
 #settingsOverlay.v10Settings .settingsConnectedAccountPanel { grid-column:1/4; grid-row:1; }
 #settingsOverlay.v10Settings .settingsPanelHeading { margin:0 0 12px; padding:0 0 10px; border-bottom:1px solid rgba(219,178,94,.25); }
 #settingsOverlay.v10Settings .settingsPanelEyebrow { color:#d9b15f; font:700 11px/1.2 var(--sd-font-condensed); letter-spacing:.2em; }
@@ -36,7 +36,15 @@
 #settingsOverlay.v10Settings .settingsStatus { color:#f5f1e8; background:#403318; }
 #settingsOverlay.v10Settings .settingsAudioToggleTrack { display:none; }
 #settingsOverlay.v10Settings .menuButton:not(.sd-btn):not(.settingsApplicationUpdateButton) { min-height:44px; color:#f5f1e8; background:rgba(0,0,0,.58); border:1px solid rgba(219,178,94,.66); font-family:var(--sd-font-condensed); }
-#settingsOverlay.v10Settings .settingsDeleteCurrentShowdown { color:#ffd9d9; background:rgba(95,15,15,.28); border-color:#d64b4b; }
+/* HO-033 item 7: DELETE CURRENT SHOWDOWN is the red marble button at every size (it kept the old pale pink .dangerButton from
+   css/app.css, which uses !important, everywhere outside the wide-landscape desktop block below). Same colours as that block. */
+#settingsOverlay.v10Settings .settingsDeleteCurrentShowdown {
+  color:#fff3df!important; border:2px solid transparent!important; border-radius:0;
+  border-image:linear-gradient(135deg,#fff3b0 0%,#e2b645 16%,#8a6118 40%,#c99a33 62%,#f6dc86 82%,#9a6f1d 100%) 1;
+  background:linear-gradient(180deg,#b01720 0%,#7d0e15 55%,#5a0a10 100%)!important;
+  box-shadow:inset 0 0 0 1px #2a0306,inset 0 1px 0 2px rgba(255,190,170,.28);
+}
+#settingsOverlay.v10Settings .settingsDeleteCurrentShowdown:hover:not(:disabled) { background:linear-gradient(180deg,#c01d27 0%,#8a1018 55%,#640b12 100%)!important; }
 #settingsOverlay.v10Settings .settingsFooter { left:auto; min-height:0; padding:0!important; border:0!important; visibility:visible; }
 #settingsOverlay.v10Settings a:focus-visible,
 #settingsOverlay.v10Settings button:focus-visible { outline:2px solid #f0c96d; outline-offset:3px; }
@@ -67,8 +75,8 @@
 #ruleBook.v10RuleBook .ruleBookHero > .sd-eyebrow { color:var(--sd-text-primary)!important; }
 #ruleBook.v10RuleBook .ruleBookHero > .sd-tagline { color:var(--sd-text-warm)!important; }
 #ruleBook.v10RuleBook .ruleBookHero > .ruleBookSummary { color:rgba(244,241,234,.78)!important; }
-#ruleBook.v10RuleBook .ruleSection { color:var(--sd-text-primary)!important; background:linear-gradient(180deg,rgba(17,17,17,.88),rgba(6,7,8,.91)),linear-gradient(90deg,rgba(242,196,91,.045),transparent 42%)!important; border:1px solid rgba(222,179,79,.62)!important; box-shadow:inset 0 1px rgba(255,231,161,.07),0 18px 34px rgba(0,0,0,.34)!important; }
-#ruleBook.v10RuleBook .ruleSection.scoringRuleSection { background:linear-gradient(115deg,rgba(4,6,8,.90),rgba(13,14,15,.76)),linear-gradient(90deg,rgba(242,196,91,.09),transparent 45%)!important; border-color:rgba(242,196,91,.86)!important; box-shadow:inset 0 0 0 1px rgba(255,224,135,.08),0 18px 40px rgba(0,0,0,.32)!important; }
+#ruleBook.v10RuleBook .ruleSection { color:var(--sd-text-primary)!important; background:linear-gradient(180deg,rgba(17,17,17,.88),rgba(6,7,8,.91)),linear-gradient(90deg,rgba(242,196,91,.045),transparent 42%) #070808!important; border:1px solid rgba(222,179,79,.62)!important; box-shadow:inset 0 1px rgba(255,231,161,.07),0 18px 34px rgba(0,0,0,.34)!important; }
+#ruleBook.v10RuleBook .ruleSection.scoringRuleSection { background:linear-gradient(115deg,rgba(4,6,8,.90),rgba(13,14,15,.76)),linear-gradient(90deg,rgba(242,196,91,.09),transparent 45%) #070808!important; border-color:rgba(242,196,91,.86)!important; box-shadow:inset 0 0 0 1px rgba(255,224,135,.08),0 18px 40px rgba(0,0,0,.32)!important; }
 #settingsOverlay.v10Settings .settingsAudioRow { color:#f5f1e8; background:rgba(255,255,255,.025)!important; border-color:rgba(219,178,94,.4)!important; }
 #settingsOverlay.v10Settings .settingsFooter { background:transparent!important; box-shadow:none!important; }
 
@@ -369,7 +377,7 @@
     position:sticky; left:auto; bottom:12px; z-index:14;
     width:min(100% - 24px,280px); height:auto; margin:12px auto 0;
     padding:4px; box-sizing:border-box; transform:none;
-    background:rgba(5,6,7,.94);
+    background:#050607; /* HO-033 follow-up: solid, not 94% (owner rule HO-027) */
   }
   #app #ruleBook.v10RuleBook #ruleBookBack {
     width:100%; min-width:0; min-height:44px; height:auto;
@@ -661,8 +669,8 @@
     column-gap:10px; row-gap:6px; align-content:stretch;
     height:100%; min-height:0; padding:0 max(8px,env(safe-area-inset-right)) 0 max(8px,env(safe-area-inset-left));
     box-sizing:border-box; overflow:hidden;
-    /* the study's dark wash over the stadium plate keeps the rail copy readable (the shared atmosphere layer stays off) */
-    background:linear-gradient(180deg,rgba(2,4,6,.8),rgba(2,4,6,.66) 31%,rgba(2,4,6,.86)),linear-gradient(90deg,rgba(0,0,0,.28),rgba(0,0,0,.08) 48%,rgba(0,0,0,.34));
+    /* HO-033: the study's dark wash (66-86% black) over the plate was removed with the Rule Book scrim (owner rule HO-027,
+       no dimming); the rail copy keeps its black text shadow and the section card is opaque. */
   }
   /* rail */
   #app #ruleBook.v10RuleBook .ruleBookHero {
@@ -693,7 +701,7 @@
     display:grid; place-items:center; width:100%; min-width:0; height:44px; min-height:44px; margin:0; padding:0 10px;
     box-sizing:border-box; clip-path:none; white-space:nowrap; cursor:pointer;
     border:1px solid rgba(237,196,98,.86); color:#f2deab;
-    background:linear-gradient(180deg,rgba(24,23,19,.96),rgba(5,6,7,.98));
+    background:linear-gradient(180deg,rgba(24,23,19,.96),rgba(5,6,7,.98)) #050607;
     box-shadow:0 10px 24px rgba(0,0,0,.45),inset 0 1px rgba(255,230,153,.08);
     font:700 13px/1 var(--sd-font-condensed,"Barlow Condensed",sans-serif); letter-spacing:.14em;
   }
@@ -705,7 +713,7 @@
   #app #ruleBook.v10RuleBook .ruleBookTab {
     position:relative; display:flex; align-items:center; gap:6px; min-width:0; min-height:44px; padding:3px 7px;
     box-sizing:border-box; cursor:pointer; touch-action:manipulation;
-    border:1px solid rgba(217,174,83,.45); background:rgba(8,9,10,.88); color:#e9dfc8;
+    border:1px solid rgba(217,174,83,.45); background:#08090a; color:#e9dfc8;
     font:700 10.5px/1.05 var(--sd-font-condensed,"Barlow Condensed",sans-serif); letter-spacing:.07em; text-transform:uppercase;
   }
   #app #ruleBook.v10RuleBook .ruleBookTab input {
@@ -732,7 +740,7 @@
     box-sizing:border-box; overflow-x:hidden; overflow-y:auto; overscroll-behavior:contain; margin:0;
     scrollbar-width:thin; scrollbar-color:rgba(242,196,91,.55) transparent;
     border:1px solid rgba(222,179,79,.62); border-radius:0;
-    background:linear-gradient(180deg,rgba(17,17,17,.9),rgba(6,7,8,.93)),linear-gradient(90deg,rgba(242,196,91,.05),transparent 42%);
+    background:linear-gradient(180deg,rgba(17,17,17,.9),rgba(6,7,8,.93)),linear-gradient(90deg,rgba(242,196,91,.05),transparent 42%) #070808;
     box-shadow:inset 0 1px rgba(255,231,161,.07),0 18px 34px rgba(0,0,0,.34);
   }
   #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection[data-rule-tab="off"] { display:none; }
@@ -1125,7 +1133,6 @@
   body #settingsOverlay.v10Settings #v10SettingsStage .sd-stage__plate {
     background-image: image-set(url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp") 2x);
   }
-  body #settingsOverlay.v10Settings .settingsStageScrim { background: linear-gradient(180deg, rgba(2, 2, 2, .12) 0%, rgba(2, 2, 2, .28) 100%); }
   body #settingsOverlay.v10Settings .settingsTitleBlock { top: 6.7%; width: min(34vw, 52.4vh); }
   body #settingsOverlay.v10Settings :is(.settingsEyebrow, .settingsTagline) { text-shadow: 0 1px 4px #000, 0 0 10px rgba(0, 0, 0, .85); }
   body #settingsOverlay.v10Settings #settingsContent {
@@ -1140,7 +1147,7 @@
   body #settingsOverlay.v10Settings .settingsPanel--data { grid-row: 2; }
   body #settingsOverlay.v10Settings .settingsPanel {
     border: var(--st2-bw) solid transparent; border-image: var(--st2-bevel) 1; border-radius: 0;
-    background: linear-gradient(160deg, rgba(10, 10, 11, .94), rgba(5, 5, 6, .9)); box-shadow: var(--st2-ring);
+    background: linear-gradient(160deg, rgba(10, 10, 11, .94), rgba(5, 5, 6, .9)) #060607; box-shadow: var(--st2-ring);
   }
   body #settingsOverlay.v10Settings .settingsPanelHeading { border-bottom-color: rgba(214, 178, 96, .35); }
   /* buttons: black lacquer with a gold bevel */
@@ -1192,11 +1199,11 @@
   #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { margin-bottom:30px; }
 }
 
-/* r78 phone marble: below 1200px Settings shows Team V's marble phone plate (ENV_SETTINGS_PHONE_V2, js/rulesSettingsV10.js)
-   under the same light shade desktop uses over its marble plate, so the penthouse marble reads instead of a near-black
-   screen. Background only: cards, order, scrolling and DONE are untouched. */
+/* r78 phone marble: below 1200px Settings shows Team V's marble phone plate (ENV_SETTINGS_PHONE_V2, js/rulesSettingsV10.js).
+   HO-033: the light shade that sat over it is gone with the settings scrim (owner rule HO-027, no dimming), so the cards
+   get a solid near-black base under their gradients: the plate no longer shows through them (no see-through panels). */
 @media (max-width:1199px) {
-  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsStageScrim {
-    background:linear-gradient(180deg,rgba(2,2,2,.12) 0%,rgba(2,2,2,.28) 100%);
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) :is(#settingsContent > .settingsPanel, .settingsMotionChoice) {
+    background-color:#070707;
   }
 }

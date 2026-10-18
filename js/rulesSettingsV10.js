@@ -35,7 +35,7 @@
     /* r78: phone and tablet use Team V's marble phone plates (no people), the same black-and-gold look as desktop. */
     phone.append(image("",id==="v10RuleBookStage"?"plates-v2/ENV_RULE_BOOK_PHONE_V2.webp":"plates-v2/ENV_SETTINGS_PHONE_V2.webp"));plate.append(phone);
     const atmosphere=element("div","sd-stage__layer sd-stage__layer--atmosphere");atmosphere.setAttribute("aria-hidden","true");
-    atmosphere.append(element("div",id==="v10RuleBookStage"?"ruleBookScrim":"settingsStageScrim"));
+    /* HO-033 (owner rule HO-027, no dimming): no ruleBookScrim / settingsStageScrim is drawn over the plate any more. */
     const ui=element("div","sd-stage__layer sd-stage__layer--ui");ui.append(content);s.append(plate,atmosphere,ui);host.append(s);
     const engine=root.ShowdownStage?.mount(s,{plate:{width:1672,height:941,src1x:BASE+"shared/plates/ENV_SYS_PLATE_V1_1X.webp",src2x:BASE+"shared/plates/ENV_SYS_PLATE_V1_2X.webp"},focal:{x:836,y:470.5}});
     return {stage:s,engine};

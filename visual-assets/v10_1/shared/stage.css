@@ -125,13 +125,8 @@
 /* r56 stopgap, still harmless: stage.js sets this while the pointer moves, which only pauses the opening drift. */
 html[data-sd-pointer-active] .sd-stage__dust i,
 html[data-sd-pointer-active] .sd-stage__flare { animation-play-state: paused; }
-.sd-stage__vignette {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse at 50% 42%, transparent 35%, rgba(0,0,0,.22) 73%, rgba(0,0,0,.62) 100%),
-    linear-gradient(to bottom, rgba(0,0,0,.12), transparent 24%, transparent 72%, rgba(0,0,0,.30));
-}
+/* HO-033 (owner rule HO-027, no dimming): the edge vignette (62% black corners, 30% bottom) was removed; stage.js no
+   longer draws it, so every shared-stage screen shows its plate at the approved lighting. */
 
 /* Contact shadow lives in the cutout plane: above UI, below cutout pixels. */
 .sd-stage__contact-shadow {
