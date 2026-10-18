@@ -298,6 +298,26 @@ async function browserChecks(){
       await page.evaluate(()=>{document.getElementById("sharedShowdownPresentationStatus").remove();document.getElementById("sharedShowdownSeasonChoice").remove();});
     });
 
+    check("7b the pack emblems and labels sit whole on the packs, inside the hero band and clear of the progress line (375x553, 390x844, 852x393)",async()=>{
+      await stage(page,"ready");
+      for(const size of [{width:375,height:553},{width:390,height:844},{width:852,height:393}]){
+        await page.setViewportSize(size);await page.waitForTimeout(400);
+        const found=await page.evaluate(()=>{
+          const scene=document.querySelector("#clubWheelScreen .clPhoneScene"),band=scene.getBoundingClientRect(),progress=document.querySelector("#clubWheelScreen .clubRevealProgress").getBoundingClientRect();
+          return ["::before","::after"].map(pseudo=>{
+            const css=getComputedStyle(scene,pseudo),left=band.left+parseFloat(css.left),top=band.top+parseFloat(css.top),width=parseFloat(css.width),height=parseFloat(css.height);
+            return {drawn:css.content!=="none"&&css.display!=="none"&&width>0&&height>0,left,top,right:left+width,bottom:top+height,bandRight:band.right,bandBottom:band.bottom,progressTop:progress.top,progressLeft:progress.left,innerWidth};});
+        });
+        const label=`${size.width}x${size.height}`;
+        for(const [i,b] of found.entries()){
+          assert.ok(b.drawn,`${label}: pack badge ${i+1} is drawn`);
+          assert.ok(b.left>=0&&b.right<=b.bandRight+.5&&b.bottom<=b.bandBottom+.5,`${label}: pack badge ${i+1} is inside the plate band, not clipped: ${JSON.stringify(b)}`);
+          if(size.width<size.height)assert.ok(b.bottom<=b.progressTop+.5,`${label}: pack badge ${i+1} ends above the progress line: ${JSON.stringify(b)}`);
+        }
+      }
+      await page.setViewportSize({width:1920,height:1080});
+    });
+
     check("8 leaving the screen restores the product's section, <html> and stylesheets exactly",async()=>{
       await stage(page,"ready");
       await page.evaluate(()=>showScreen("mainMenu"));
@@ -347,5 +367,5 @@ async function browserChecks(){
   const sync=checks.slice();checks.length=0;
   for(const [name,fn] of sync){await fn();console.log(`ok ${name}`);}
   await browserChecks();
-  console.log("PASS v10 club contracts: 8 checks.");
+  console.log("PASS v10 club contracts: 9 checks.");
 })().catch(error=>{console.error(error);process.exit(1);});
