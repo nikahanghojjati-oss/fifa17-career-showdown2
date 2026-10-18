@@ -210,6 +210,9 @@ await check("PC1h Codex #904 (10-season audit): real vs test fails closed. Nik w
   await strayNik.pair.initialize({force:true});
   const stray=await strayNik.pair.joinPairing(`CMS17-${R3}`,{managerRole:"playerTwo",autoContinue:false});
   assert.equal(stray.status,"error");assert.match(stray.message,/not made by the account you are paired with/,"Codex #909: a paired Nik never joins a plain code from another account");nothingWritten(strayNik);
+  const strayReal=harness({marker:"ready",docs:{...strangerDocs,"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerTwo",OLD)},redeem:commitRedeem});
+  await strayReal.pair.initialize({force:true});
+  assert.match((await strayReal.pair.joinPairing(`CMS17R-${R3}`,{managerRole:"playerTwo",autoContinue:false})).message,/not made by the account you are paired with/,"Codex #909: the R prefix is only text, so it never skips the partner checks");nothingWritten(strayReal);
   const swapped=harness({marker:"ready",docs:{...joinable(R3),"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerOne",OLD)},redeem:commitRedeem});
   await swapped.pair.initialize({force:true});
   const seat=await swapped.pair.joinPairing(`CMS17-${R3}`,{managerRole:"playerTwo",autoContinue:false});
