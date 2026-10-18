@@ -12,7 +12,7 @@ const TEST_LABEL="TEST RUN · nothing counts",BADGE_SUFFIX=" · TEST RUN · NOTH
 const LAYER_NOTE_ID="cmsConnectTestRunNote",ROW_ID="cmsRealCareerRow",CHECK_ID="cmsRealCareerCheck",NOTE_ID="cmsTestRunNote",MESSAGE_ID="cmsSeasonsStartMessage",SETTINGS_ID="cmsModeSettings";
 const GAMEPLAY=Object.freeze(["createShowdown","leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge","seasonEntry","seasonSummary"]);
 const LABELS=Object.freeze({daniel:"Daniel",nik:"Nik"});
-let installed=false,armed=false,busy=false,settingsMessage="",settingsTone="",settingsMessageWhileLive=false,seasonsMessage="",markerView=Object.freeze({status:"unknown",accountId:null}),markerPromise=null;
+let installed=false,armed=false,joinArming=false,busy=false,settingsMessage="",settingsTone="",settingsMessageWhileLive=false,seasonsMessage="",markerView=Object.freeze({status:"unknown",accountId:null}),markerPromise=null;
 const smDoc=()=>root.document||null;
 function smIdentity(){try{const s=root.CareerModeOnlinePlayerIdentity?.getState?.();return s&&s.status==="ready"&&s.registered&&s.accountId&&LABELS[s.managerId]?s:null;}catch(_){return null;}}
 const smPair=()=>root.CareerModePersistentNikDanielPair||null;
@@ -41,7 +41,7 @@ function smScreen(){try{return typeof root.getActiveScreenName==="function"?root
 // START TEST RUN, a test Showdown that is live, or any later gameplay screen of a test account. Never on an idle test Home
 // or the seasons screen Home START opened, where START is real.
 function smLayerOpen(){const l=smDoc()?.getElementById("connectPlayersScreen");return Boolean(l&&!l.hidden&&!l.classList.contains("hidden"));}
-function smTestRunShown(view=smView()){if(view.mode!=="test")return false;if(armed||smLiveShowdown())return true;const screen=smScreen();return screen!=="createShowdown"&&GAMEPLAY.includes(screen);}
+function smTestRunShown(view=smView()){if(view.mode!=="test")return false;/* Nik's JOIN TEST RUN counts while it opens and while its layer is up (the layer's close sends no event) */if(armed&&(view.managerId!=="nik"||joinArming||smLayerOpen()))return true;if(smLiveShowdown())return true;const screen=smScreen();return screen!=="createShowdown"&&GAMEPLAY.includes(screen);}
 // Connect Players (Daniel's WAITING of a test run, Nik's JOIN TEST RUN code box) is a full layer over the header, so it
 // carries the label itself, above the pair panel, whenever this account is in test mode.
 function smRenderLayerLabel(){
@@ -135,9 +135,11 @@ async function smPairWithFromSettings(){root.closeSettings?.(false);const identi
 async function smStartTestRun(){
   const v=smView();if(v.mode!=="test")return false;
   root.closeSettings?.(false);const identity=root.CareerModeOnlinePlayerIdentity;
-  /* Nik's JOIN TEST RUN is a test run too (the strip on his code box); back on Home it is over */
-  armed=true;smRefresh();
-  if(v.managerId==="nik")return identity?.openJoin?.();
+  /* Nik's JOIN TEST RUN is a test run too (the strip on his code box). Opening the layer passes through Home first, so that
+     step keeps it armed (Codex #917); a later Home, or the next JOIN from Home, ends it. */
+  armed=true;
+  if(v.managerId==="nik"){joinArming=true;smRefresh();try{return await identity?.openJoin?.();}finally{joinArming=false;smRefresh();}}
+  smRefresh();
   /* Codex #908: a launch that does not reach the seasons screen (refused, failed, or it continued a live Showdown) disarms,
      so the next Home START is real again and a real Showdown never wears the TEST RUN label. */
   let opened=null;try{opened=await identity?.openStart?.();}finally{if(!opened||smScreen()!=="createShowdown"){armed=false;smRefresh();}}
@@ -193,7 +195,7 @@ function smRefresh(){
 function smInstall(){
   if(installed)return api;installed=true;
   const d=smDoc();
-  if(d&&d.addEventListener)d.addEventListener("career-mode-screen-shown",event=>{const screen=event&&event.detail&&event.detail.screen;if(screen==="mainMenu"&&armed&&!smLayerOpen()){armed=false;}if(seasonsMessage&&screen!=="createShowdown")seasonsMessage="";smRefresh();});
+  if(d&&d.addEventListener)d.addEventListener("career-mode-screen-shown",event=>{const screen=event&&event.detail&&event.detail.screen;if(screen==="mainMenu"&&armed&&!joinArming&&!smLayerOpen()){armed=false;}if(seasonsMessage&&screen!=="createShowdown")seasonsMessage="";smRefresh();});
   try{smPair()?.subscribe?.(()=>smRefresh());}catch(_){}
   if(root.addEventListener){root.addEventListener("career-mode-permanent-pair-change",()=>smRefresh());root.addEventListener("career-mode-career-start-change",event=>{const s=event&&event.detail;if(s&&s.accountId&&s.status)markerView=Object.freeze({status:s.status==="ready"?"ready":"none",accountId:s.accountId});smRefresh();});}
   smRefresh();return api;

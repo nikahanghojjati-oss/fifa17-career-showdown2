@@ -99,8 +99,10 @@ function page({managerId="daniel",partner=null,side=null,marker=null,pairState={
   const modes=sandbox.CareerModeShowdownModes;
   const settings=()=>{modes.decorateSettingsPanel(dom.panel);const rows={};for(const r of dom.grid.querySelectorAll("[data-mode-row]"))rows[r.dataset.modeRow]=r.querySelector("strong").textContent;
     return {rows,buttons:dom.actions.children.map(b=>b.textContent),button:text=>dom.actions.children.find(b=>b.textContent===text)||null,note:dom.doc.getElementById("cmsModeSettings")?.textContent||""};};
-  return {dom,modes,calls,settings,pair,marker:markerApi,setScreen:s=>{currentScreen=s;dom.doc.dispatch({type:"career-mode-screen-shown",detail:{screen:s}});},setPairState:s=>{pairState=s;}};
+  return {dom,modes,calls,settings,pair,identity,marker:markerApi,setScreen:s=>{currentScreen=s;dom.doc.dispatch({type:"career-mode-screen-shown",detail:{screen:s}});},setPairState:s=>{pairState=s;}};
 }
+// Replaces a page's openJoin with one that opens the Connect Players layer the way js/connectPlayersScreenV10.js does.
+function sandboxOpenJoin(p,openLayer){const id=p.identity;id.openJoin=async()=>{p.calls.push("openJoin");return openLayer();};}
 const ACTIVE_NIK={partnerAccountId:"acct_nik",myRole:"playerOne",active:true};
 const ACTIVE_DANIEL={partnerAccountId:"acct_daniel",myRole:"playerTwo",active:true};
 const OFF=record=>({...record,active:false});
@@ -269,8 +271,16 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     const nik=page({managerId:"nik"});await nik.modes.resolve();nik.modes.install();nik.modes.refresh?.();
     const nikNote=()=>nik.dom.doc.getElementById("cmsConnectTestRunNote");
     assert.ok(nikNote()&&nikNote().hidden===true,"Nik's real first JOIN from Home: no TEST RUN strip");
-    await nik.modes.startTestRun();assert.equal(nikNote().hidden,false,"JOIN TEST RUN: the strip shows");
-    nik.setScreen("mainMenu");assert.equal(nikNote().hidden,true,"back on Home the test run is over");
+    // Codex #917: the layer opens by going Home first (career-mode-screen-shown "mainMenu" while it is still hidden), then shows.
+    const openLayer=()=>{nik.setScreen("mainMenu");nik.dom.layer.hidden=false;nik.dom.layer.classList.remove("hidden");nik.dom.doc.dispatch({type:"career-mode-screen-shown",detail:{screen:"mainMenu"}});return true;};
+    const closeLayer=()=>{nik.dom.layer.hidden=true;nik.dom.layer.classList.add("hidden");};
+    nik.modes.install();
+    sandboxOpenJoin(nik,openLayer);
+    await nik.modes.startTestRun();assert.equal(nik.modes.isTestRunArmed(),true,"opening the layer through Home keeps JOIN TEST RUN armed");
+    assert.equal(nikNote().hidden,false,"JOIN TEST RUN: the strip shows on Nik's code box");
+    assert.equal(nik.modes.badgeSuffix()," · TEST RUN · NOTHING COUNTS");
+    closeLayer();assert.equal(nik.modes.badgeSuffix(),"","layer closed, back on Home: no TEST RUN badge");
+    openLayer();assert.equal(nik.modes.isTestRunArmed(),false,"the next JOIN from Home is real");assert.equal(nikNote().hidden,true,"and carries no strip");
   });
   await check("M10","Settings has no START REAL CAREER row or SHOW TEST SHOWDOWNS AGAIN switch; old test games stay stored and hidden",async()=>{
     const code=file=>read(file).replace(/\/\*[\s\S]*?\*\//g,"").replace(/^\s*\/\/.*$/gm,"");
