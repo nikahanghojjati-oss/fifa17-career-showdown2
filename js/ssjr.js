@@ -51,10 +51,14 @@
   let entryInstalled=null;const entryReady=new Promise(resolve=>{entryInstalled=resolve;});
   // PR #901: the marker is read first, synchronously and locally (no Firebase read), so a startup with nothing pending never waits
   // for the entry to load. Only a pre-pair shell can resume onto the wheel: the active shared shell's setupPending marker with no
-  // league, clubs or seasons on it (or, before the shell is known, this tab's pending flag). One deadline bounds the whole wait.
+  // league, clubs or seasons on it, and not a shell this device already saw paired (careerModeShowdown.pairedShell.v1, written by
+  // js/persistentNikDanielPair.js when the pair went ACTIVE), so a reload mid-Showdown gets no extra time. Before the shell is
+  // known, this tab's pending flag reads the active save locally (js/storage.js). One deadline bounds the whole wait.
   const pendingShell=()=>{let s=null;try{s=typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){s=null;}
-    if(s)return Boolean(s.sharedJourney&&s.sharedJourney.mode==="shared"&&s.sharedJourney.setupPending===true&&!s.selectedLeague&&!(s.clubs&&(s.clubs.playerOne||s.clubs.playerTwo))&&!(Array.isArray(s.rounds)&&s.rounds.length));
-    try{return root.sessionStorage?.getItem("careerModeShowdown.sharedJourneyPending.v1")==="1";}catch(_error){return false;}};
+    if(!s){let flag=false;try{flag=root.sessionStorage?.getItem("careerModeShowdown.sharedJourneyPending.v1")==="1";}catch(_error){flag=false;}if(!flag)return false;try{s=typeof root.readSaveLibraryActive==="function"?root.readSaveLibraryActive():null;}catch(_error){s=null;}if(!s)return false;}
+    if(!(s.sharedJourney&&s.sharedJourney.mode==="shared"&&s.sharedJourney.setupPending===true)||s.selectedLeague||(s.clubs&&(s.clubs.playerOne||s.clubs.playerTwo))||(Array.isArray(s.rounds)&&s.rounds.length))return false;
+    let paired=null;try{paired=typeof root.readStorageValue==="function"?root.readStorageValue("careerModeShowdown.pairedShell.v1"):null;}catch(_error){paired=null;}
+    return !(paired&&s.identity&&paired===s.identity.saveId);};
   const resumeGate=async()=>{if(!pendingShell())return;const deadline=new Promise(resolve=>root.setTimeout(resolve,3e3));const entry=await Promise.race([entryReady,deadline]);const resume=entry&&typeof entry.startupResume==="function"?entry.startupResume():null;if(resume)await Promise.race([Promise.resolve(resume).catch(()=>null),deadline]);};
   root.careerModeHomeHold=1;
   const home=v10().then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(resumeGate).catch(()=>null).then(()=>{root.careerModeHomeHold=0;});

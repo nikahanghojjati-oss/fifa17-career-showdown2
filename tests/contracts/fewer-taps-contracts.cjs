@@ -677,7 +677,7 @@ async function r3r4aPresentationContracts(){
 const PENDING_KEY="careerModeShowdown.sharedJourneyPending.v1";
 function entryHarness({rivalryReady=false,active=false,pairState={status:"unpaired",initialized:true,rivalryId:null,connectionState:null},openExperience="presentation",library:startLibrary=null,terminalClose=null,identityStatus="ready",continueResult=null}={}){
   const dom=createDom();const menu=dom.add("mainMenu");void menu;const connect=dom.add("connectPlayersScreen");dom.add("connectPlayersPairSlot",{parent:connect});dom.add("roundAmount",{tag:"select"}).value="3";dom.add("startShowdown",{tag:"button"});
-  const calls={pairRender:0,startPairing:0,remoteOpen:0,remoteClose:0,presentation:0,careerStart:0,navigate:[],host:0,join:0,create:0,layerOpen:[],screenAtOpen:[],continuePair:0,openJoin:0,closeRefresh:0,close:0,closeRetry:0};
+  const calls={pairRender:0,startPairing:0,remoteOpen:0,remoteClose:0,presentation:0,careerStart:0,navigate:[],host:0,join:0,create:0,layerOpen:[],screenAtOpen:[],resume:0,continuePair:0,openJoin:0,closeRefresh:0,close:0,closeRetry:0};
   const storage=new Map([[PENDING_KEY,"1"]]);
   const remoteListeners=new Set();
   const remoteState={sessionState:active?"active":null,sessionId:active?SESSION:null,pendingAction:null,rivalryId:RIVALRY,accountId:"uid_daniel",deviceId:DEVICE,expiresAtEpochMs:Date.now()+3_600_000};
@@ -691,7 +691,10 @@ function entryHarness({rivalryReady=false,active=false,pairState={status:"unpair
     sessionStorage:{getItem:k=>storage.has(k)?storage.get(k):null,setItem:(k,v)=>storage.set(k,String(v)),removeItem:k=>storage.delete(k)},
     loadRuntimeStyle:async()=>true,loadRuntimeScript:async key=>{throw new Error(`unexpected load ${key}`);},
     ensureSaveLibraryRuntimeAuthority:async()=>true,ensureGameplayModules:async()=>true,
-    navigateTo:async name=>{calls.navigate.push(name);return true;},
+    // as in screens.js: the wheel is not a valid route before a showdown is loaded, so it falls back to Home
+    navigateTo:async name=>{calls.navigate.push(name==="leagueWheelScreen"&&!sandbox.currentShowdown?"mainMenu":name);return true;},
+    loadSavedShowdown:()=>{const entry=library.saves.find(item=>item&&item.saveId===library.activeSaveId);return entry?entry.showdown:null;},
+    resumeSavedShowdown:async()=>{calls.resume+=1;const entry=library.saves.find(item=>item&&item.saveId===library.activeSaveId);sandbox.currentShowdown=entry.showdown;calls.navigate.push("leagueWheelScreen");},
     createShowdown:async()=>{calls.create+=1;await new Promise(resolve=>setTimeout(resolve,2));sandbox.currentShowdown={id:"save_1",totalRounds:3,managers:{}};library.activeSaveId="save_1";library.saves=[{saveId:"save_1",showdown:sandbox.currentShowdown}];return true;},
     CareerModeSaveLibraryRuntime:{isReady:()=>true,getLibrarySnapshot:()=>library,saveCurrentShowdown:()=>true,clearActiveShowdown(){}},
     CareerModeOnlinePlayerIdentity:{getState:()=>(identityStatus==="ready"?{status:"ready",managerId:"daniel",registered:true}:{status:identityStatus}),subscribe:()=>()=>{},syncPair:async()=>pairState,openJoin:async()=>{calls.openJoin+=1;return pairState;}},
@@ -744,22 +747,37 @@ async function r5r6EntryContracts(){
     {// PR #901: no pending shell means no extra loading-screen wait (the marker is read before waiting for the entry)
      const ssjr=read("js/ssjr.js");
      assert.ok(ssjr.includes('const resumeGate=async()=>{if(!pendingShell())return;const deadline='),"nothing pending: the startup never waits for the entry");
-     assert.ok(ssjr.includes('root.sessionStorage?.getItem("careerModeShowdown.sharedJourneyPending.v1")==="1"')&&ssjr.includes('s.sharedJourney.setupPending===true&&!s.selectedLeague&&!(s.clubs&&(s.clubs.playerOne||s.clubs.playerTwo))&&!(Array.isArray(s.rounds)&&s.rounds.length)'),"local marker of a pre-pair shell only; no Firebase read");
+     assert.ok(ssjr.includes('root.readStorageValue("careerModeShowdown.pairedShell.v1")')&&ssjr.includes('return !(paired&&s.identity&&paired===s.identity.saveId);'),"a shell this device saw paired never holds startup; no Firebase read");
      // behaviour: run the marker check itself against the shapes that matter
      const fn=new Function("root","currentShowdown",ssjr.slice(ssjr.indexOf("const pendingShell="),ssjr.indexOf("const resumeGate="))+"return pendingShell();");
-     const store=v=>({sessionStorage:{getItem:()=>v}});
-     assert.equal(fn(store(null),null),false,"no shell, no tab flag: no wait");
-     assert.equal(fn(store(null),{sharedJourney:{mode:"shared",setupPending:true},clubs:{},rounds:[]}),true,"pre-pair shared shell: wait");
-     assert.equal(fn(store("1"),{sharedJourney:{mode:"shared",setupPending:true},clubs:{playerOne:"Lazio",playerTwo:"Empoli"},rounds:[]}),false,"a Showdown with clubs never waits, even with the tab flag");
-     assert.equal(fn(store(null),{sharedJourney:null,clubs:{},rounds:[]}),false,"a local Showdown never waits");
-     assert.equal(fn(store("1"),null),true,"shell not known yet, tab flag set: wait (bounded)");
+     const SHELL="save_"+"5".repeat(24),OTHER="save_"+"6".repeat(24);
+     const shared=(over={})=>({identity:{saveId:SHELL},sharedJourney:{mode:"shared",setupPending:true},selectedLeague:null,clubs:{},rounds:[],...over});
+     const world=({flag=null,paired=null,library=null}={})=>({sessionStorage:{getItem:()=>flag},readStorageValue:key=>key==="careerModeShowdown.pairedShell.v1"?paired:null,readSaveLibraryActive:()=>library});
+     assert.equal(fn(world(),null),false,"no shell, no tab flag: no wait");
+     assert.equal(fn(world(),shared()),true,"pre-pair shared shell: wait");
+     // a reload of an ACTIVE paired Showdown: this device remembered its shell as paired -> no hold (its local copy looks untouched)
+     assert.equal(fn(world({paired:SHELL}),shared()),false,"ACTIVE paired Showdown reload: no extra loading-screen time");
+     assert.equal(fn(world({paired:OTHER}),shared()),true,"another shell's paired mark never skips a fresh pre-pair shell");
+     assert.equal(fn(world({flag:"1"}),shared({clubs:{playerOne:"Lazio",playerTwo:"Empoli"}})),false,"a Showdown with clubs never waits, even with the tab flag");
+     assert.equal(fn(world(),{sharedJourney:null,clubs:{},rounds:[]}),false,"a local Showdown never waits");
+     assert.equal(fn(world({flag:"1",library:shared()}),null),true,"shell not loaded yet: the tab flag reads the active save locally");
+     assert.equal(fn(world({flag:"1",library:shared(),paired:SHELL}),null),false,"and skips it when that save is the paired one");
+     assert.equal(fn(world({flag:"1",library:null}),null),false,"nothing readable: no wait (smoothness first)");
+     const pairSrc=read("js/persistentNikDanielPair.js");
+     assert.ok(pairSrc.includes('state=pairFreezeDeep({...state,...next});pairRememberActiveShell();'),"every ACTIVE paired state (init, JOIN, START CAREER, auto-continue) remembers its shell");
+     assert.ok(pairSrc.includes('if(state.status!=="paired"||state.connectionState!=="active"||!pairValidSaveId(state.providerSaveId))return;'),"only an ACTIVE paired shell, by saveId only");
      const gate=ssjr.slice(ssjr.indexOf("const pendingShell="),ssjr.indexOf("root.careerModeHomeHold=1;"));
      assert.doesNotMatch(gate,/firestore|getDoc|syncPair|initialize\(/i,"the marker check is local only");}
-    const waiting=entryHarness({pairState:{status:"waiting",initialized:true,rivalryId:RIVALRY,connectionState:"pending-pair",managerRole:"playerOne",capability:"CMS17-"+RIVALRY}});waiting.api.install();await settle();
+    // a reload: the code is out, the saved shell is in the Save Library but not loaded yet (currentShowdown null, as a real
+    // browser shows it; the wheel route alone would fall back to Home)
+    const WAIT_SAVE="save_"+"4".repeat(24);
+    const waiting=entryHarness({pairState:{status:"waiting",initialized:true,rivalryId:RIVALRY,connectionState:"pending-pair",managerRole:"playerOne",capability:"CMS17-"+RIVALRY,providerSaveId:WAIT_SAVE},
+      library:{activeSaveId:WAIT_SAVE,saves:[{saveId:WAIT_SAVE,showdown:{identity:{saveId:WAIT_SAVE},status:"Created",totalRounds:3,rounds:[],selectedLeague:null,clubs:{playerOne:null,playerTwo:null},sharedJourney:{contractVersion:1,mode:"shared",setupPending:true}}}]}});waiting.api.install();await settle();
     assert.deepEqual(waiting.calls.layerOpen.map(options=>options&&options.stayOnScreen),[true],"a reload with the pending marker reopens WAITING, not GET READY");assert.equal(visible(waiting.overlay()),false,"no GET READY after the reload");
     // PR #901: startup leaves Home active; reload recovery puts WAITING back over the locked league wheel (closing it shows the
     // wheel and its CONTINUE CAREER, not Home), and js/ssjr.js holds the loading screen until this recovery has settled.
     assert.deepEqual(waiting.calls.screenAtOpen,["leagueWheelScreen"],"after a reload WAITING's underlying screen is leagueWheelScreen");
+    assert.equal(waiting.calls.resume,1,"the saved shell is resumed first (Home's CONTINUE path), so the wheel route does not fall back to Home");
     assert.equal(await waiting.api.startupResume(),true,"the reload recovery reports when it has settled (Reus Gate hold)");
     assert.equal(entryHarness({pairState:{status:"paired",initialized:true,rivalryId:RIVALRY,connectionState:"active",managerRole:"playerOne"}}).api.startupResume(),null,"no recovery is pending before install");
     {const ssjr=read("js/ssjr.js");

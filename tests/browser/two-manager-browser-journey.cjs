@@ -368,7 +368,14 @@ async function main(){
     // J2 pairing (seasons chosen on the real create screen)
     const pairCode=await danielStartsShowdown(daniel,LENGTH);
     assert.match(pairCode,/^CMS17-pair_/,"pair code shape");
-    ok("J2.1","Daniel's START made the pair code by itself and shows WAITING over the locked league wheel");
+    // r79 (PR #901): a reload while Daniel's code is out reopens WAITING over the locked league wheel (not over Home), same code.
+    await daniel.page.reload({waitUntil:"domcontentloaded"});
+    await daniel.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
+    await pairPanel(daniel).locator("code").waitFor({timeout:30000});
+    await daniel.page.waitForTimeout(1000);
+    const afterReload=await daniel.page.evaluate(()=>({screen:window.getActiveScreenName?.(),stay:document.getElementById("connectPlayersScreen")?.dataset.stayOnScreen,code:document.querySelector("#connectPlayersScreen #persistentNikDanielPairPanel code")?.textContent?.trim()}));
+    assert.deepEqual(afterReload,{screen:"leagueWheelScreen",stay:"true",code:pairCode},"after a reload WAITING is back over the locked league wheel with the same code");
+    ok("J2.1","Daniel's START made the pair code by itself and shows WAITING over the locked league wheel, also after a reload");
     await nik.page.locator("#newShowdown").click();
     // Trap: the pair panel re-renders (replaceChildren) while the join sidecar syncs; a code typed before it settles is lost.
     await nik.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.busy===false&&s.status==="unpaired");},null,{timeout:30000});
@@ -403,6 +410,8 @@ async function main(){
       assert.equal(await m.page.evaluate(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState),"active",`${m.user}: the private session is ACTIVE`);
       assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: GET READY is not shown`);
     }
+    // r79 (PR #901): once ACTIVE each device remembers its own shell as paired, so a reload mid-Showdown gets no startup hold.
+    for(const m of [daniel,nik]){const mark=await m.page.evaluate(()=>({mark:window.readStorageValue("careerModeShowdown.pairedShell.v1"),save:typeof currentShowdown!=="undefined"&&currentShowdown?currentShowdown.identity?.saveId:null}));assert.ok(mark.mark&&mark.mark===mark.save,`${m.user}: the active shell is remembered as paired (${JSON.stringify(mark)})`);}
     ok("J3.1","private session hosted by Daniel, joined by Nik; both reached the league wheel");
     await shot(daniel,"j3-setup");await shot(nik,"j3-setup");
 
