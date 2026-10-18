@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "WORKING",
- "steps": [{"name": "owner-rule breaks fixed (1-5)", "done": false}, {"name": "readability and polish (6-9)", "done": false}],
- "evidence": [],
- "log": [{"at": "2026-10-17T22:19:44Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-17T22:21:26Z", "by": "G", "status": "RECEIVED", "note": "r79 lead: starting now in a helper, branch claude-gameplay/r79-visual-fixes into gameplay/r79"}, {"at": "2026-10-17T22:21:26Z", "by": "G", "status": "WORKING", "note": "items 1-9 in one PR; render check per changed screen"}, {"at": "2026-10-17T23:33:44Z", "by": "G", "status": "WORKING", "note": "Fixed in PR #902 (claude-gameplay/r79-visual-fixes): scrims/vignette removed, opaque panels, phone buttons docked, faces clear, fonts, red DELETE. Desktop see-through panels follow-up in progress. Art needed from V: gold brush CONNECT PLAYERS wordmark; Club phone blank black bags."}]
+ "status": "DONE",
+ "steps": [{"name": "owner-rule breaks fixed (1-5)", "done": true}, {"name": "readability and polish (6-9)", "done": true}],
+ "evidence": ["PR #902 merged into gameplay/r79 as 1940d43d (CI 8/8 green, Codex clean on 7857c68). Shots: /mnt/project-files/gameplay/r79/ho033-shots/. Club phone emblem done in CSS per V's coordinates. Open for V: TITLE_CONNECT_PLAYERS_V1 wordmark (ticket 1847)."],
+ "log": [{"at": "2026-10-17T22:19:44Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-17T22:21:26Z", "by": "G", "status": "RECEIVED", "note": "r79 lead: starting now in a helper, branch claude-gameplay/r79-visual-fixes into gameplay/r79"}, {"at": "2026-10-17T22:21:26Z", "by": "G", "status": "WORKING", "note": "items 1-9 in one PR; render check per changed screen"}, {"at": "2026-10-17T23:33:44Z", "by": "G", "status": "WORKING", "note": "Fixed in PR #902 (claude-gameplay/r79-visual-fixes): scrims/vignette removed, opaque panels, phone buttons docked, faces clear, fonts, red DELETE. Desktop see-through panels follow-up in progress. Art needed from V: gold brush CONNECT PLAYERS wordmark; Club phone blank black bags."}, {"at": "2026-10-18T00:24:27Z", "by": "G", "status": "DONE", "note": ""}]
 }
 ```
 
