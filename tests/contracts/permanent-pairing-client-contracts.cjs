@@ -465,6 +465,62 @@ await check("PC2f Codex #904 (P1): an UNPAIR from Daniel's other browser that co
   assert.match(made.capability||"",/^CMS17-pair_/,JSON.stringify({status:made.status,message:made.message}));
   assert.ok(ok.transactions.some(tx=>tx.reads[0]===DANIEL&&tx.writes.some(path=>/^rivalries\//.test(path))),"the committed code-creation transaction read Daniel's record");
 });
+await check("PC2g Codex #904 (P1): Nik's UNPAIR racing Daniel's START never leaves Daniel an open code Nik can never join: before the code it conflicts inside the code-creation transaction; between the code and its JOIN note the refused note leads to one fresh check and the code is closed",async()=>{
+  const DANIEL="accounts/uid_daniel/partner/current",NIK="accounts/uid_nik/partner/current",INBOX="accounts/uid_nik/partnerInbox/current";
+  const refusedId=h=>(h.log.find(line=>line.startsWith("create "))||"").slice(7);
+  const asResult=create=>async(options,h)=>{try{return await create(options,h);}catch(error){return{ok:false,code:error.code,message:error.message};}};
+  const docs=()=>({[DANIEL]:partnerDoc(UID.playerTwo,"playerOne",OLD),[NIK]:partnerDoc(UID.playerOne,"playerTwo",OLD)});
+  // 1. Nik's UNPAIR commits after START's fresh partner-side read, before createPairing commits.
+  const before=harness({role:"playerOne",marker:"ready",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:docs(),create:asResult(async(options,h)=>{h.docs.set(NIK,partnerDoc(UID.playerOne,"playerTwo",OLD,false));return commitCreate(Date.now()+20*60000)(options,h);})});
+  await before.pair.initialize({force:true});
+  const refused=await before.pair.startPairing({managerRole:"playerOne"});
+  assert.equal(refused.status,"error",JSON.stringify({status:refused.status,message:refused.message}));
+  assert.ok(!refused.capability,"no code");assert.match(refused.message,/no longer paired with you.*nothing was started/);
+  assert.ok(!before.log.some(line=>/^write /.test(line)),`no pending Showdown, no link, no note: ${before.log.join(", ")}`);
+  assert.deepEqual(before.transactions[before.transactions.length-1].reads.slice(0,2),[DANIEL,NIK],"the code-creation transaction reads both records, so either UNPAIR conflicts with it");
+  assert.equal(before.pair.getPartnerSideState().status,"unpaired","the waiting screen offers PAIR AGAIN");
+  // 2. Nik's UNPAIR commits after the code but before its JOIN note: the note Rules refuse it.
+  const after=harness({role:"playerOne",marker:"ready",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:{...docs(),"accounts/uid_daniel/devices/device_daniel":{schemaVersion:1,objectType:"device",objectId:"device_daniel",revision:0,lifecycleState:"live",contentHash:`sha256:${"7".repeat(64)}`,data:{deviceId:"device_daniel",state:"active"}}},create:async(options,h)=>{const made=await commitCreate(Date.now()+20*60000)(options,h);h.docs.set(NIK,partnerDoc(UID.playerOne,"playerTwo",OLD,false));return made;}});
+  await after.pair.initialize({force:true});
+  const original=after.firestoreSdk.runTransaction;
+  after.firestoreSdk.runTransaction=async(db,fn)=>original(db,async tx=>{const set=tx.set;tx.set=(ref,value)=>{if(ref.path===INBOX)throw providerError("permission-denied","Missing or insufficient permissions.");return set(ref,value);};return fn(tx);});
+  after.sandbox.console={...console,warn:()=>{}};
+  const late=await after.pair.startPairing({managerRole:"playerOne"});
+  assert.equal(late.status,"error",JSON.stringify({status:late.status,message:late.message}));
+  assert.ok(!late.capability,"the code Nik can no longer join is not shown");
+  assert.match(late.message,/no longer paired with you.*PAIR AGAIN/);
+  const closed=after.docs.get(`rivalries/${refusedId(after)}`);
+  assert.equal(closed?.data?.connectionState,"closed","the code is closed again, so Daniel is not left waiting on it");
+  assert.equal(after.pair.getPartnerSideState().status,"unpaired");
+  assert.equal(after.server.filter(p=>p===NIK).length,2,"one fresh read of Nik's record at START and one only because the note failed");
+  // 3. Control: Nik's record still names Daniel and the note is refused for another reason: the code stays (PC2b), no close.
+  const keep=harness({role:"playerOne",marker:"ready",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:docs(),create:commitCreate(Date.now()+20*60000)});
+  await keep.pair.initialize({force:true});
+  const kept=keep.firestoreSdk.runTransaction;
+  keep.firestoreSdk.runTransaction=async(db,fn)=>kept(db,async tx=>{const set=tx.set;tx.set=(ref,value)=>{if(ref.path===INBOX)throw providerError("unavailable","offline");return set(ref,value);};return fn(tx);});
+  keep.sandbox.console={...console,warn:()=>{}};
+  const stays=await keep.pair.startPairing({managerRole:"playerOne"});
+  assert.equal(stays.status,"waiting");assert.match(stays.capability||"",/^CMS17-pair_/);
+});
+await check("PC2h the same on Nik's side: an UNPAIR from Nik's other browser that commits after his fresh join check stops the redeem inside its own transaction (no ACTIVE Showdown for an unpaired Nik)",async()=>{
+  const NIK="accounts/uid_nik/partner/current";
+  const race=redeem=>async(options,h)=>{if(h.unpairFirst){h.unpairFirst=false;h.docs.set(NIK,partnerDoc(UID.playerOne,"playerTwo",OLD,false));}try{return await redeem(options,h);}catch(error){return{ok:false,code:error.code,message:error.message};}};
+  const nik=harness({marker:"ready",docs:{...joinable(R3),[NIK]:partnerDoc(UID.playerOne,"playerTwo",OLD)},redeem:race(commitRedeem)});
+  await nik.pair.initialize({force:true});
+  nik.unpairFirst=true;
+  const joined=await nik.pair.joinPairing(`CMS17-${R3}`,{managerRole:"playerTwo",autoContinue:false});
+  assert.equal(joined.status,"error",JSON.stringify({status:joined.status,message:joined.message}));
+  assert.match(joined.message,/unpaired on another screen.*nothing was joined/);
+  assert.ok(!nik.log.some(line=>line===`write rivalries/${R3}`),`the Showdown is not made ACTIVE: ${nik.log.join(", ")}`);
+  // the record flipped only inside the redeem, after the fresh join check: only a read inside the redeem transaction sees it
+  assert.equal(nik.pair.getPartnerState().record.active,false,"this tab now knows it was unpaired");
+  // Control: still paired, the same redeem joins.
+  const ok=harness({marker:"ready",docs:{...joinable(R3),[NIK]:partnerDoc(UID.playerOne,"playerTwo",OLD)},redeem:race(commitRedeem)});
+  await ok.pair.initialize({force:true});
+  const made=await ok.pair.joinPairing(`CMS17-${R3}`,{managerRole:"playerTwo",autoContinue:false});
+  assert.equal(made.connectionState,"active",JSON.stringify({status:made.status,message:made.message}));
+  assert.ok(ok.transactions.some(tx=>tx.reads[0]===NIK&&tx.writes.includes(`rivalries/${R3}`)),"the committed redeem read Nik's record first");
+});
 await check("PC3a Nik's note read: one memoised read per 30 s (failures count), none while hidden, only with an active playerTwo record",async()=>{
   const now=Date.now();
   const h=harness({docs:{"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerTwo",OLD),"accounts/uid_nik/partnerInbox/current":noteDoc(R5,5,UID.playerOne,now+10*60000)}});
