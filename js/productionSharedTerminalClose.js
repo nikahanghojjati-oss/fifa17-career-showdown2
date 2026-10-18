@@ -225,11 +225,14 @@
   // BH-7: when both managers tap CLOSE together the loser's write is refused (permission-denied once the winner closed the
   // session/rivalry). Re-read once, like Season Results does; if the rivalry is already CLOSED with this exact witness, show
   // CLOSED quietly. Anything else keeps the existing rejection path.
-  const PTC_RACE_CODES=new Set(["permission-denied","permission_denied","terminal_close_session_not_active","terminal_close_rivalry_not_active"]);
+  // Codex #910: a rivalry the other phone deleted after READY rejects the close as a replay conflict (closed, no matching
+  // witness); the same one re-read then shows DELETED instead of a rejected close.
+  const PTC_RACE_CODES=new Set(["permission-denied","permission_denied","terminal_close_session_not_active","terminal_close_rivalry_not_active","terminal_close_replay_conflict"]);
   async function ptcClosedByRival(request,context,intent,result,generation){
     if(!PTC_RACE_CODES.has(ptcCode(result)))return null;
     try{
       const terminalRead=await provider.read({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:request.rivalryId,deviceId:context.deviceId,cryptoImpl:root.crypto});
+      if(ptcStillCurrent(request,generation)&&terminalRead?.ok===true&&terminalRead.deleted===true&&terminalRead.rivalryState==="closed"){try{remoteApi?.forgetSession?.();}catch(_error){}ptcPublish(request,ptcDeletedState(request,terminalRead));return {ok:true,status:"deleted",rivalryId:request.rivalryId};}
       if(!ptcStillCurrent(request,generation)||terminalRead?.ok!==true||terminalRead.terminal!==true||!protocol.sameWitness(terminalRead.terminalWitness,intent))return null;
       try{remoteApi?.forgetSession?.();}catch(_error){}
       ptcPublish(request,ptcClosedState(request,terminalRead));

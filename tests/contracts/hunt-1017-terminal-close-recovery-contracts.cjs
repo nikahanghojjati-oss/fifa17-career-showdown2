@@ -70,6 +70,12 @@ async function recoveryResolvedByDelete(){
   assert.equal(retried.ok,true);assert.equal(retried.status,"deleted");
   assert.equal(second.api.getState().phase,"DELETED","RETRY on a deleted rivalry publishes DELETED");
   assert.equal(second.env.closeCalls.length,1,"RETRY sends no close against the deleted rivalry");
+  // and the normal close (Codex #910, 3rd): deleted after READY, the close is rejected as a replay conflict -> DELETED
+  const third=harness();await third.api.refresh();assert.equal(third.api.getState().phase,"READY");
+  third.env.closeImpl=async()=>({ok:false,code:"TERMINAL_CLOSE_REPLAY_CONFLICT",message:"TERMINAL_CLOSE_REPLAY_CONFLICT"});
+  third.env.readImpl=async()=>({ok:true,status:"deleted",rivalryId:PAIR,rivalryState:"closed",rivalryRevision:7,terminal:false,deleted:true});
+  await third.api.close();
+  assert.equal(third.api.getState().phase,"DELETED","a close rejected because the rivalry was deleted after READY shows DELETED");
 }
 async function retryStopsOnContextChange(){
   // Context changes while the retry's read is in flight: no close for the old Save.
