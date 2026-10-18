@@ -264,7 +264,7 @@ async function pairContracts(){
     await h.pair.initialize({force:true});await new Promise(resolve=>setImmediate(resolve));
     assert.equal(ended().length,2,"a later read that is held again tells it again (Home redraws; the note watch has its own limits)");
     const identity=read("js/onlinePlayerIdentity.js");
-    assert.ok(identity.includes('root.addEventListener("career-mode-permanent-pair-ended",()=>{configureOnlineProductSurface();void refreshJoinNoteOnHome().catch(()=>null);});'),"Home redraws and (re)watches Daniel's JOIN note");
+    assert.ok(identity.includes('root.addEventListener("career-mode-permanent-pair-ended",()=>{configureOnlineProductSurface();try{root.refreshMainMenuExperience?.();}catch(_){}void refreshJoinNoteOnHome().catch(()=>null);});'),"Home redraws (tiles and the CONTINUE CAREER tile + season chip) and (re)watches Daniel's JOIN note");
     ok("J1f an ended Showdown tells the page once it is let go, so a Home already showing redraws and watches the next JOIN note");
   }
   {

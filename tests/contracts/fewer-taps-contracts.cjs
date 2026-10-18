@@ -579,7 +579,7 @@ async function r2MultiSeasonContracts(){
 }
 
 // ------------------------------------------------------------------ R3 + R4a Shared Setup presentation
-function presentationHarness({role="playerTwo",setup=null}={}){
+function presentationHarness({role="playerTwo",setup=null,mutate=null}={}){
   const dom=createDom(),timers=makeTimers();
   const screens={};for(const id of ["mainMenu","leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge"]){screens[id]=dom.add(id,{hidden:id!=="mainMenu",className:"screen"});}
   const wheel=dom.add("leagueWheel",{parent:screens.leagueWheelScreen});dom.add("track",{parent:wheel,className:"wheelTrack"});
@@ -590,7 +590,7 @@ function presentationHarness({role="playerTwo",setup=null}={}){
   for(const id of ["openClubPack","continueClubAssignment","clubAssignmentBack"])dom.add(id,{tag:"button",parent:screens.clubWheelScreen});
   const listeners=new Set(),calls={mutations:[],careerStart:0};
   let current={ready:true,remoteRole:role==="playerOne"?"host":"peer",managerRole:role,rivalryId:RIVALRY,setup};
-  const setupApi={refresh:async()=>current,getState:()=>current,subscribe:fn=>{listeners.add(fn);return()=>listeners.delete(fn);},mutate:async type=>{calls.mutations.push(type);return {ok:false,code:"UNEXPECTED_WRITE"};}};
+  const setupApi={refresh:async()=>current,getState:()=>current,subscribe:fn=>{listeners.add(fn);return()=>listeners.delete(fn);},mutate:async (type,extra)=>{calls.mutations.push(type);if(mutate)return mutate(type,extra,{get:()=>current,set:next=>{current=next;}});return {ok:false,code:"UNEXPECTED_WRITE"};}};
   const sandbox={console,Promise,Date,document:dom.document,setTimeout:timers.setTimeout,clearTimeout:timers.clearTimeout,setInterval:timers.setInterval,clearInterval:timers.clearInterval,
     currentShowdown:{id:"save_1",totalRounds:3,managers:{playerOne:"Daniel",playerTwo:"Nik"},sharedJourney:{mode:"shared",setupPending:true}},
     ensureGameplayModules:async()=>true,isReducedClubMotionPreferred:()=>true,getLeagueById:id=>({id,name:"Premier League"}),
@@ -604,6 +604,26 @@ function presentationHarness({role="playerTwo",setup=null}={}){
 }
 const leagueSetup={phase:"LEAGUE_WHEEL_COMMITTED",revision:2,coordinatorRole:"playerOne",leagueId:"premier_league",confirmedRoles:[]};
 const lengthSetup=(roles)=>({phase:"SEASON_LENGTH_COMMITTED",revision:roles.length?5:4,coordinatorRole:"playerOne",leagueId:"premier_league",clubs:{playerOne:"Arsenal",playerTwo:"Chelsea"},totalSeasons:3,confirmedRoles:roles});
+// r79 gallery (fix 1): js/productionSharedShowdownSetup.js answers a write that landed with its own ready state (status "ready",
+// errorCode "", no "ok"), exactly as the emulator run showed. One SPIN tap by Daniel (open + commit-league) must not leave
+// "THAT TAP DID NOT GO THROUGH · Both managers now have the same shared setup." on his club packs; a refused write still does.
+async function galleryFix1SpinContracts(){
+  const landed=(type,_extra,store)=>{const cur=store.get();const setup=type==="open"?{phase:"SHARED_SETUP_OPEN",revision:1,coordinatorRole:"playerOne",confirmedRoles:[]}:type==="commit-league"?{...cur.setup,phase:"LEAGUE_WHEEL_COMMITTED",revision:2,leagueId:"premier_league"}:cur.setup;const next={...cur,setup,status:"ready",busy:false,errorCode:"",message:"Both managers now have the same shared setup."};store.set(next);return next;};
+  {
+    const h=presentationHarness({role:"playerOne",setup:null,mutate:landed});await h.api.activate();await settle();
+    await h.api.handleControlClick("spinLeague");await settle();
+    assert.deepEqual(h.calls.mutations,["open","commit-league"],"one SPIN tap opens the setup and commits the league, once each");
+    const status=h.node("sharedShowdownPresentationStatus");
+    assert.doesNotMatch(status.textContent,/DID NOT GO THROUGH/,"a landed SPIN shows no failure strip");
+    assert.equal(status.getAttribute("data-failure-code"),null,"no failure code on a landed SPIN");
+  }
+  {
+    const h=presentationHarness({role:"playerOne",setup:null,mutate:async()=>({ok:false,code:"SHARED_SETUP_TRANSIENT_WRITE_FAILURE"})});await h.api.activate();await settle();
+    await h.api.handleControlClick("spinLeague");await settle();
+    assert.match(h.node("sharedShowdownPresentationStatus").textContent,/THAT TAP DID NOT GO THROUGH/,"a refused write still says so");
+  }
+  ok("Gallery fix 1: a landed Shared Setup write (ready state, no ok) is a success; only a refused write shows THAT TAP DID NOT GO THROUGH");
+}
 async function r3r4aPresentationContracts(){
   {
     const h=presentationHarness({role:"playerTwo",setup:{phase:"SHARED_SETUP_OPEN",revision:1,coordinatorRole:"playerOne",confirmedRoles:[]}});
@@ -757,6 +777,23 @@ async function startupHoldContracts(){
   {const h=run({nowMs:20000});await settle();await h.fire(0);
    assert.equal(h.hold(),0,"past the cap already: no extra wait at all");}
 }
+// r79 gallery (fix 2): after Daniel deleted the first Showdown and started a new one, Nik's league wheel still read
+// "<league> is locked for both managers." with the wheel turned to the old league before anyone spun (stale page DOM of the deleted
+// rivalry; the new rivalry's setup was empty). Before this rivalry's league is drawn the note is hidden and the wheel is at rest.
+async function galleryFix2StaleLockContracts(){
+  const h=presentationHarness({role:"playerTwo",setup:leagueSetup});await h.api.activate();await settle();
+  assert.match(h.node("leagueStateNote").textContent,/is locked for both managers/,"fixture: the first rivalry's league is locked on this page");
+  const track=h.node("track");assert.equal(track.dataset.sharedLeagueId,"premier_league","fixture: the wheel turned to the first league");
+  await h.push(null,{rivalryId:"pair_4"+"8".repeat(63)});
+  assert.match(h.node("spinLeague").textContent,/WAITING FOR HOST/,"the new rivalry waits for Daniel's spin");
+  assert.equal(h.node("leagueStateNote").textContent,"","no league lock is shown for a rivalry with no league yet");
+  assert.equal(visible(h.node("leagueStateNote")),false,"the lock note is hidden");
+  assert.equal(track.dataset.sharedLeagueId,undefined,"the wheel no longer belongs to the old league");
+  assert.equal(track.style.transform,"rotate(0deg)","the wheel is back at rest");
+  await h.push({phase:"SHARED_SETUP_OPEN",revision:1,coordinatorRole:"playerOne",confirmedRoles:[]});
+  assert.equal(visible(h.node("leagueStateNote")),false,"an open setup with no league shows no lock either");
+  ok("Gallery fix 2: a new rivalry's league wheel shows no lock note or turned wheel from a deleted rivalry before Daniel spins");
+}
 async function r5r6EntryContracts(){
   {
     const h=entryHarness();h.api.install();await settle();
@@ -824,7 +861,11 @@ async function r5r6EntryContracts(){
     assert.equal(entryHarness({pairState:{status:"paired",initialized:true,rivalryId:RIVALRY,connectionState:"active",managerRole:"playerOne"}}).api.startupResume(),null,"no recovery is pending before install");
     await startupHoldContracts();
     {const ssjr=read("js/ssjr.js");
-     assert.ok(ssjr.includes('.then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(resumeGate).catch(()=>null).then(()=>{root.careerModeHomeHold=0;});'),"the loading screen is released only after Home is ready AND the reload recovery settled");
+     assert.ok(ssjr.includes('.then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(resumeGate).catch(()=>null).then(liveGameGate).catch(()=>null).then(()=>{root.careerModeHomeHold=0;});'),"the loading screen is released only after Home is ready AND the reload recovery settled AND (r79 gallery) a live-game reload resume has left Home");
+     // r79 gallery (fix 4): the live-game resume (Studio Z3) is held too, until it leaves Home or lets go, under the same cap.
+     assert.ok(ssjr.includes('if(!liveGameHeld()||startupCapLeft()<=0||root.careerModeTabResumeLetGo===true)return false;'),"the live-game hold is bounded by the startup cap and released when the resume lets go");
+     assert.ok(ssjr.includes('if(typeof root.getActiveScreenName==="function"&&root.getActiveScreenName()!=="mainMenu")return false;'),"the live-game hold ends as soon as the resume has left Home");
+     assert.ok(read("js/onlinePlayerIdentity.js").includes('void openCanonicalCareerContinue().then(next=>{if(!next||next.status!=="paired")root.careerModeTabResumeLetGo=true;});'),"a failed resume lets the hold go at once");
      assert.ok(ssjr.includes('const resume=entry&&typeof entry.startupResume==="function"?entry.startupResume():null;if(resume)await Promise.race([Promise.resolve(resume).catch(()=>null),deadline]);'),"one deadline bounds the whole wait");
      // Codex #904 (P1): the old 3 s deadline (pinned here before) let Home show while the identity was still restoring and then
      // jump to the wheel and WAITING. The wait now lasts until the recovery settles, bounded by js/app.js's overall startup cap.
@@ -1000,6 +1041,7 @@ function safetyContracts(){
 
 const watchdog=setTimeout(()=>{console.error("fewer-taps: a promise never settled");process.exit(1);},90000);
 (async()=>{
+  await galleryFix1SpinContracts();
   await r1TransferContracts();
   await r1r4CareerStartContracts();
   await r1r8ResultsContracts();
@@ -1011,6 +1053,7 @@ const watchdog=setTimeout(()=>{console.error("fewer-taps: a promise never settle
   await r2MultiSeasonContracts();
   await r3r4aPresentationContracts();
   await r5r6EntryContracts();
+  await galleryFix2StaleLockContracts();
   safetyContracts();ok("S Safety: locks, REVIEW + PUBLISH, COMMIT (+ Daniel's own ACKNOWLEDGE), Nik's ACKNOWLEDGE, pair code and hosting stay manual taps; every fast lane is read-only; all touched modules stay lazy");
   clearTimeout(watchdog);
   console.log(`PASS fewer taps contracts: ${checks} checks (R1 fast read-only waiting polls, R2 season continue opens transfers, R3 league auto-forward, R4 Career Start hand-offs, R5b entry hop, R6 ACTIVE auto-continue, R7 coordinator commit + own acknowledge in one tap, R8 banner cleanup).`);

@@ -158,10 +158,20 @@ function updateExistingTileText(button, label, meta){
     setTextIfChanged(button.querySelector(".menuTileMeta"), meta);
 }
 
+// r79: a save the pair holds as closed (deleted) is no live career; its own id first (cold reload: no Save Library runtime).
+function isPairClosedSave(s){
+    try{
+        const p = window.CareerModePersistentNikDanielPair?.getState?.();
+        const id = s?.identity?.saveId || window.CareerModeSaveLibraryRuntime?.getLibrarySnapshot?.()?.activeSaveId;
+        return Boolean(s && s.status !== "Completed" && p && !p.rivalryId && p.closedRivalryId && id === p.closedProviderSaveId);
+    }catch(_error){ return false; }
+}
+
 function getSavedShowdownMenuMeta(){
-    const saved = (typeof currentShowdown !== "undefined" && currentShowdown)
+    let saved = (typeof currentShowdown !== "undefined" && currentShowdown)
         ? currentShowdown
         : (typeof loadSavedShowdown === "function" ? loadSavedShowdown() : null);
+    if(isPairClosedSave(saved)){ saved = null; }
 
     if(!saved){
         return {

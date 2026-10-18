@@ -63,8 +63,28 @@
     return !(paired&&s.identity&&paired===s.identity.saveId);};
   const STARTUP_CAP_MS=15e3,startupCapLeft=()=>{let now=0;try{now=root.performance&&typeof root.performance.now==="function"?root.performance.now():0;}catch(_error){now=0;}return Math.max(0,STARTUP_CAP_MS-now);};
   const resumeGate=async()=>{if(!pendingShell())return;const deadline=new Promise(resolve=>root.setTimeout(resolve,startupCapLeft()));const entry=await Promise.race([entryReady,deadline]);const resume=entry&&typeof entry.startupResume==="function"?entry.startupResume():null;if(resume)await Promise.race([Promise.resolve(resume).catch(()=>null),deadline]);};
+  // r79 gallery: a reload in a live Showdown (this tab's careerModeShowdown.liveGame.v1 flag, js/productionSharedJourneyEntry.js)
+  // is taken back into the game by js/onlinePlayerIdentity.js (Studio Z3) once the identity and the pair are ready. The hold above
+  // let go first (that shell is already paired), so Home showed for 0.7-1.0 s, with a Remote Joining flicker, before the league
+  // wheel; only the 2.7 s splash minimum hid it without reduced motion. The loading screen now stays until that resume has left
+  // Home, the flag is dropped (pair no longer playing), the resume let go (careerModeTabResumeLetGo: failed or gave up), the
+  // identity cannot resume (signed out, offline, choosing), or a screen that needs the player is up (GET READY, the identity card,
+  // or a Remote Joining card settled on a session that is not active, e.g. hosting for the partner
+  // again after the 4-hour session ended; its first, unresolved frame is part of the resume), bounded by js/app.js's 15 s startup cap.
+  const liveGameHeld=()=>{try{return root.sessionStorage?.getItem("careerModeShowdown.liveGame.v1")==="1";}catch(_error){return false;}};
+  const shownLayer=id=>{const el=root.document&&root.document.getElementById(id);return Boolean(el&&!el.hidden&&!el.classList.contains("hidden"));};
+  const liveGameResumeOpen=()=>{
+    if(!liveGameHeld()||startupCapLeft()<=0||root.careerModeTabResumeLetGo===true)return false;
+    if(typeof root.getActiveScreenName==="function"&&root.getActiveScreenName()!=="mainMenu")return false;
+    let current=null;try{current=root.CareerModeOnlinePlayerIdentity?.getState?.()||null;}catch(_error){current=null;}
+    if(current&&!["idle","connecting","signing-in","saving-manager","ready"].includes(current.status))return false;
+    if(shownLayer("productionSharedJourneyEntryOverlay")||shownLayer("onlinePlayerIdentityOverlay"))return false;
+    if(shownLayer("sparkRemoteJoiningOverlay")){let remote=null;try{remote=root.CareerModeSparkRemoteJoining?.getState?.()||null;}catch(_error){remote=null;}if(remote&&remote.busy!==true&&typeof remote.sessionState==="string"&&!["active","unresolved"].includes(remote.sessionState))return false;}
+    return true;
+  };
+  const liveGameGate=async()=>{while(liveGameResumeOpen())await new Promise(resolve=>root.setTimeout(resolve,50));};
   root.careerModeHomeHold=1;
-  const home=v10().then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(resumeGate).catch(()=>null).then(()=>{root.careerModeHomeHold=0;});
+  const home=v10().then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(resumeGate).catch(()=>null).then(liveGameGate).catch(()=>null).then(()=>{root.careerModeHomeHold=0;});
   if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(()=>home.then(resultsV10),{timeout:2500});else root.setTimeout?.(()=>home.then(resultsV10),600);
   // JOB-26: Team V's skin for Start/Join, the League wheel and the Club packs, registered with that loader.
   const v10Setup=()=>load("v10-screens","js/v10Screens.js",()=>root.CareerModeV10Screens).then(()=>load("v10-setup","js/v10Setup.js",()=>root.CareerModeV10Setup)).then(()=>root.CareerModeV10Setup.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Team V setup skin unavailable.",error));
