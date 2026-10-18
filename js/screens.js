@@ -329,7 +329,7 @@ function flushScreenBeforeLeave(currentScreen, nextScreen){
             if(flushed === false){
                 if(typeof window.showAppNotice === "function"){
                     window.showAppNotice(
-                        "Your latest transfer entry could not be saved, so navigation was paused. Try again after browser storage becomes available.",
+                        "Your latest transfer entry could not be saved, so navigation was paused. Try again.",
                         "error",
                         9000
                     );
@@ -668,7 +668,7 @@ async function resumeSavedShowdown(){
         if(didNormalizationChange(saved, currentShowdown) && !saveCurrentShowdown()){
             if(typeof window.showAppNotice === "function"){
                 window.showAppNotice(
-                    "The saved showdown was loaded, but its repaired state could not be written back to browser storage.",
+                    "The saved showdown was loaded, but its repaired state could not be saved.",
                     "error",
                     10000
                 );

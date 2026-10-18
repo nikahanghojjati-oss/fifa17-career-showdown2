@@ -379,7 +379,7 @@
         const migrated=await runtimeGetFoundation().migrateShowdownIdentity(sourceRecord,runtimeManagerProfileRefs(sourceRecord));
         const saveId=migrated.identity&&migrated.identity.saveId;
         if(!saveId)throw new Error("Historical Showdown could not receive stable Save identity.");
-        if(library.saves.some(entry=>entry&&entry.saveId===saveId))throw new Error("This historical record still has a local Save. Link the Save manager so its matching Legacy copy stays consistent.");
+        if(library.saves.some(entry=>entry&&entry.saveId===saveId))throw new Error("This historical record still has a saved Showdown. Link the Save manager so its matching Legacy copy stays consistent.");
         const refs=runtimeManagerProfileRefs(migrated);
         const otherRole=role==="playerOne"?"playerTwo":"playerOne";
         if(profileId!==null&&refs[otherRole]===profileId)throw new Error("One Local Profile cannot represent both manager roles inside the same historical Showdown.");

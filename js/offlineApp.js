@@ -53,7 +53,7 @@ function getInstallGuidance(){
         return "In Safari, open Share and choose Add to Home Screen. Career Mode Showdown will launch like an app and can reopen its verified local shell offline.";
     }
     if(/Android|CrOS/i.test(ua)){
-        return "Use Install app from the browser address bar or menu when offered. Career Mode Showdown keeps tracker data local to this device.";
+        return "Use Install app from the browser address bar or menu when offered.";
     }
     return "Use your browser's Install app or Add to Home Screen command when available. Installation support and wording vary by browser.";
 }

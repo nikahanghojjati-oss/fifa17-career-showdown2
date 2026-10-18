@@ -87,7 +87,7 @@
     const pairing=deps["private-pairing"];
     const rivalry=deps["connected-rivalry"];
     const protocol=deps["standard-auth-session"];
-    if(!runtime||typeof runtime.ensureAccountServices!=="function")throw srjError("REMOTE_JOINING_RUNTIME_UNAVAILABLE","Private Firebase runtime is unavailable. Local Career Mode remains available.");
+    if(!runtime||typeof runtime.ensureAccountServices!=="function")throw srjError("REMOTE_JOINING_RUNTIME_UNAVAILABLE","Private Firebase runtime is unavailable.");
     if(!account||typeof account.initialize!=="function"||typeof account.getState!=="function")throw srjError("REMOTE_JOINING_ACCOUNT_UNAVAILABLE","Connected Account is unavailable.");
     await account.initialize();
     const accountState=account.getState();
@@ -101,7 +101,7 @@
     const rivalryState=rivalry.getState();
     if(!rivalryState||rivalryState.attached!==true||!rivalryState.rivalryId)throw srjError("REMOTE_JOINING_RIVALRY_REQUIRED","Daniel and Nik are not connected on this phone yet. Go Home and tap CONTINUE CAREER first.");
     const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
-    if(!services||services.ok!==true||!services.auth||!services.firestore||!services.firestoreSdk)throw srjError("REMOTE_JOINING_PROVIDER_UNAVAILABLE","Private Firebase services are unavailable. Local Career Mode remains available.");
+    if(!services||services.ok!==true||!services.auth||!services.firestore||!services.firestoreSdk)throw srjError("REMOTE_JOINING_PROVIDER_UNAVAILABLE","Private Firebase services are unavailable.");
     const user=services.auth.currentUser;
     if(!user||user.uid!==accountState.accountId)throw srjError("REMOTE_JOINING_AUTH_MISMATCH","The current Google account no longer matches the Connected Account authority.");
     if(rivalryState.accountId&&rivalryState.accountId!==user.uid)throw srjError("REMOTE_JOINING_RIVALRY_ACCOUNT_MISMATCH","The attached Connected Rivalry belongs to a different account.");
@@ -112,7 +112,7 @@
     return {firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,user:context.user,deviceId:context.deviceId,rivalryId:context.rivalryId,sessionId,nowEpochMs:Date.now(),cryptoImpl:root.crypto};
   }
   function srjFailureMessage(result,fallback){
-    if(result&&result.code==="resource-exhausted")return "Firebase Spark quota is temporarily exhausted. No upgrade will be attempted; local Career Mode remains available.";
+    if(result&&result.code==="resource-exhausted")return "Firebase Spark quota is temporarily exhausted. No upgrade will be attempted; try again later.";
     if(result&&typeof result.message==="string"&&result.message.trim())return result.message.trim();
     return fallback;
   }
@@ -141,7 +141,7 @@
   }
   function srjPendingFailure(error,action){
     const message=error&&error.message?error.message:"The provider acknowledgement was not received.";
-    srjSetState({status:"recovery-pending",busy:false,pendingAction:action,capabilityCopyAllowed:false,message:`${message} The outcome is unresolved. The exact same page-memory capability is retained for deterministic retry; no new session will be generated and no local save was changed.`});
+    srjSetState({status:"recovery-pending",busy:false,pendingAction:action,capabilityCopyAllowed:false,message:`${message} The outcome is unresolved. The exact same page-memory capability is retained for deterministic retry; no new session will be generated and your Showdown was not changed.`});
     return {ok:false,code:error&&error.code||"REMOTE_JOINING_RECOVERY_PENDING",message,recoverable:true,pendingAction:action};
   }
   // BH-11 (#10): a host or join write is refused when the phone clock is minutes off server time (the Rules check createdAt and
@@ -154,9 +154,9 @@
   function srjClearRejectedPending(error,action){
     const message=srjRejectionMessage(error,action);
     if(action==="close"){
-      srjSetState({status:"error",busy:false,pendingAction:null,capabilityCopyAllowed:true,message:`${message} The last confirmed active session remains held in page memory; no local save was changed.`});
+      srjSetState({status:"error",busy:false,pendingAction:null,capabilityCopyAllowed:true,message:`${message} The last confirmed active session remains held in page memory; your Showdown was not changed.`});
     }else{
-      srjSetState({status:"error",busy:false,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,message:`${message} No unresolved capability is exposed and no local save was changed.`});
+      srjSetState({status:"error",busy:false,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,message:`${message} No unresolved capability is exposed and your Showdown was not changed.`});
     }
     return {ok:false,code:error&&error.code||`REMOTE_JOINING_${String(action).toUpperCase()}_FAILED`,message,recoverable:false};
   }
@@ -238,7 +238,7 @@
     }catch(error){
       if(srjState.pendingAction==="host"&&srjIsAmbiguousFailure(error))return srjPendingFailure(error,"host");
       if(srjState.pendingAction==="host")return srjClearRejectedPending(error,"host");
-      srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be opened."} No local save was changed.`});
+      srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be opened."} Your Showdown was not changed.`});
       return {ok:false,code:error&&error.code||"REMOTE_JOINING_HOST_FAILED",message:error&&error.message||"Private session could not be opened."};
     }
   }
@@ -268,7 +268,7 @@
     }catch(error){
       if(srjState.pendingAction==="join"&&srjIsAmbiguousFailure(error))return srjPendingFailure(error,"join");
       if(srjState.pendingAction==="join")return srjClearRejectedPending(error,"join");
-      srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be joined."} No local save was changed.`});
+      srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be joined."} Your Showdown was not changed.`});
       return {ok:false,code:error&&error.code||"REMOTE_JOINING_JOIN_FAILED",message:error&&error.message||"Private session could not be joined."};
     }
   }
@@ -284,7 +284,7 @@
       const clockNote=result.expiredByClock?" The provider expiry boundary has passed; no automatic mutation was performed.":"";
       srjAcceptResult(result,context,srjState.role||"member",`Private session refreshed at revision ${result.revision}.${clockNote}`);
       return result;
-    }catch(error){srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be read."} Local Career Mode remains available.`});return {ok:false,code:error&&error.code||"REMOTE_JOINING_READ_FAILED",message:error&&error.message||"Private session could not be read."};}
+    }catch(error){srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be read."}`});return {ok:false,code:error&&error.code||"REMOTE_JOINING_READ_FAILED",message:error&&error.message||"Private session could not be read."};}
   }
   async function srjRevokeSession(){
     const remembered=srjState.sessionId;
@@ -312,7 +312,7 @@
     }catch(error){
       if(srjState.pendingAction==="close"&&srjIsAmbiguousFailure(error))return srjPendingFailure(error,"close");
       if(srjState.pendingAction==="close")return srjClearRejectedPending(error,"close");
-      srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be closed."} Local Career Mode remains available.`});
+      srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be closed."}`});
       return {ok:false,code:error&&error.code||"REMOTE_JOINING_CLOSE_FAILED",message:error&&error.message||"Private session could not be closed."};
     }
   }
@@ -569,7 +569,7 @@
   // Codex #904 (P2): an unresolved request (a host, join or close whose answer was lost) belongs to one Showdown. Once the
   // pair layer reports that Showdown ended (deleted on the other phone, or finished and let go on Home), the request is
   // moot: it is retired here so the next Showdown's auto-connect is not blocked as busy until a reload. No read, no write.
-  function srjRetireEnded(){if(srjState.busy||!srjState.rivalryId||!srjEndedRivalryIds.has(srjState.rivalryId)||!(srjState.pendingAction||srjState.sessionState==="unresolved"))return false;srjStopPublishRetry();srjSetState({status:"idle",busy:false,auto:null,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,message:"That Showdown has ended, so its unfinished connection was let go. No local save was changed."});return true;}
+  function srjRetireEnded(){if(srjState.busy||!srjState.rivalryId||!srjEndedRivalryIds.has(srjState.rivalryId)||!(srjState.pendingAction||srjState.sessionState==="unresolved"))return false;srjStopPublishRetry();srjSetState({status:"idle",busy:false,auto:null,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,message:"That Showdown has ended, so its unfinished connection was let go. Your Showdown was not changed."});return true;}
   function srjOnPairEnded(event){const rivalryId=String(event&&event.detail&&event.detail.closedRivalryId||"");if(!/^pair_[0-9a-f]{64}$/.test(rivalryId))return;srjEndedRivalryIds.add(rivalryId);if(srjRetireEnded())try{srjRenderPanel();}catch(_error){}}
   if(root&&typeof root.addEventListener==="function")root.addEventListener("career-mode-permanent-pair-ended",srjOnPairEnded);
   function srjOnOnline(){if(srjState.pendingAction&&!srjState.busy)void srjRetryPendingOperation();if(srjPublishRetry)srjRetryOfferPublish(srjPublishRetry.sessionId,srjPublishRetry.startedAt);}

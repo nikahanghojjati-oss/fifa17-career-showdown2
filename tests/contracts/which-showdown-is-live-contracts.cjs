@@ -80,7 +80,7 @@ await check("W3 read() reuses the identity sidecar's own pair read (one bounded 
   const handed=await Which.read(world,{pair:pair()});
   assert.equal(syncs,2,"a pair state START already read costs no second read");
   assert.equal(handed.action,"resume-waiting","the local untouched shell is read from the Save Library");
-  assert.deepEqual(Which.localShell(world),{pending:true,untouched:true,totalSeasons:3,saveId:null,completed:false});
+  assert.deepEqual(Which.cachedShell(world),{pending:true,untouched:true,totalSeasons:3,saveId:null,completed:false});
   assert.equal((await Which.read({CareerModeOnlinePlayerIdentity:{getState:()=>({status:"signed-out"}),syncPair:async()=>{syncs+=1;return null;}}})).reason,"no-player");
   assert.equal(syncs,2,"no player, no read");
   const source=read("js/whichShowdownIsLive.js");
@@ -151,7 +151,7 @@ await check("W9 Nik's call (2026-10-17): an ENDED but never CLOSED Showdown is c
   assert.equal(decide({role:"playerTwo",pair:live({managerRole:"playerTwo"}),shell:ended}).action,"continue","Nik's START never closes or starts anything");
   assert.equal(decide({role:"playerOne",pair:live({status:"recovery-required"}),shell:ended}).action,"pair-first","recovery first, never a close");
   const world={CareerModeSaveLibraryRuntime:{isReady:()=>true,getLibrarySnapshot:()=>({activeSaveId:OLD_SAVE,saves:[{saveId:OLD_SAVE,showdown:{status:"Ready",totalRounds:3,rounds:[{},{},{}],sharedJourney:{mode:"shared"},clubs:{}}}]})}};
-  assert.equal(Which.localShell(world).completed,true,"all seasons recorded counts as ended");
+  assert.equal(Which.cachedShell(world).completed,true,"all seasons recorded counts as ended");
   // a shared Showdown's local save stays "Created": read() takes "ended" from this page's own final reconciliation / terminal close
   const created={CareerModeSaveLibraryRuntime:{isReady:()=>true,getLibrarySnapshot:()=>({activeSaveId:OLD_SAVE,saves:[{saveId:OLD_SAVE,showdown:{status:"Created",totalRounds:3,rounds:[],sharedJourney:{mode:"shared",setupPending:true},clubs:{}}}]})},
     CareerModeOnlinePlayerIdentity:{getState:()=>({status:"ready",managerId:"daniel"})}};
@@ -214,7 +214,7 @@ await check("W7 the module is precached, lazy (not a startup file) and registere
   const sw=read("service-worker.js"),html=read("index.html");
   assert.ok(sw.includes('"js/whichShowdownIsLive.js",'),"precached in SHELL_PATHS");
   const added=sw.slice(sw.indexOf("const SHELL_PATHS_ADDED_SINCE_PREVIOUS"),sw.indexOf("const PREVIOUS_SHELL_PATHS"));
-  assert.ok(added.includes('"js/whichShowdownIsLive.js"'),"listed as added since the retained previous shell");
+  assert.ok(!added.includes('"js/whichShowdownIsLive.js"'),"r80: the retained r79 shell already carries it, so it is not listed as added");
   assert.ok(!html.includes("whichShowdownIsLive"),"not a startup script (startup budget)");
   assert.match(read("js/onlinePlayerIdentity.js"),/loadOnlineDependency\("which-showdown","js\/whichShowdownIsLive\.js",\(\)=>root\.CareerModeWhichShowdownIsLive\)/);
   assert.match(read("js/productionSharedJourneyEntry.js"),/loadScript\("which-showdown","js\/whichShowdownIsLive\.js",\(\)=>root\.CareerModeWhichShowdownIsLive\)/);

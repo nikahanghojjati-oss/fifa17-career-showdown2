@@ -209,7 +209,7 @@ async function provePlayerOne(browser,iteration){
     },generated,{timeout:5000});
     const p1After=await page.evaluate(()=>window.CareerModeSparkConnectedRivalry.getState());
     assert.equal(p1After.rivalryId,generated,`iteration ${iteration}: Player One normal re-entry did not auto-attach exact rivalry`);
-    assert.match(p1After.message,/attached automatically|saved on this browser/i,`iteration ${iteration}: Player One did not reach durable auto-attached state`);
+    assert.match(p1After.message,/attached automatically|Connected Rivalry link is saved/i,`iteration ${iteration}: Player One did not reach durable auto-attached state`);
     const p1DurableB=await page.evaluate(async binding=>window.CareerModeSparkConnectedRivalry.loadPointer(window.__fourCodeHarness.accountState.accountId,binding),P1_BINDING);
     assert.equal(p1DurableB.rivalryId,generated,`iteration ${iteration}: exact provider-active B was not persisted over stale A`);
     assert.deepEqual(await canonicalSnapshot(page),canonicalBefore,`iteration ${iteration}: Player One convergence mutated canonical localStorage`);

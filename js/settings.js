@@ -106,7 +106,7 @@ function focusSelectedSettingsMotionChoice(){
 function setSettingsMotionPreference(choice){
     if(typeof window.setApplicationMotionPreference !== "function"){
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("Motion preferences are unavailable in this browser session.", "error");
+            window.showAppNotice("Motion preferences are unavailable right now.", "error");
         }
         return;
     }
@@ -129,7 +129,7 @@ function setSettingsMotionPreference(choice){
 function setSettingsMenuFeedbackPreference(enabled){
     if(typeof window.setApplicationMenuFeedbackPreference !== "function"){
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("Menu feedback preferences are unavailable in this browser session.", "error");
+            window.showAppNotice("Menu feedback preferences are unavailable right now.", "error");
         }
         return;
     }
@@ -696,7 +696,7 @@ async function runSettingsEndShowdown(button){
         const released = await releaseSettingsCurrentShowdownConnection(authoritative);
 
         if(!runtime.clearActiveShowdown()){
-            throw new Error("The Showdown was ended, but this device could not close it here. Tap END SHOWDOWN again; nothing new will be created.");
+            throw new Error("The Showdown was ended, but it could not be closed here. Tap END SHOWDOWN again; nothing new will be created.");
         }
 
         await sweepSettingsShowdownDrafts();
@@ -780,7 +780,7 @@ function createDataPanel(){
         "settingsDataNote",
         active
             ? "End Showdown ends this Showdown for both players. History keeps it as Ended early. Player identity, registered device, completed history and app settings are kept."
-            : "No current Showdown is stored on this device. Completed history, backup export and full reset remain available under History & Backup."
+            : "No Showdown is in progress. Completed history, backup export and full reset remain available under History & Backup."
     );
 
     panel.append(info, actions, note);

@@ -120,7 +120,7 @@ async function q1RecoveryLeadsWithTheSafeButton(){
   assert.equal(classesOf(remove).includes("dangerButton"),true,"Q1 the delete keeps its danger styling");
   assert.equal(classesOf(remove).includes("pairRecoverySecondary"),true,"Q1 the delete carries the smaller-secondary hook");
   assert.equal(classesOf(restore).includes("pairRecoverySecondary"),false);
-  assert.match(panel.textContent,/NO LOCAL CAREER DATA ON THIS BROWSER/,"Q1 the explanatory note is still shown");
+  assert.match(panel.textContent,/THIS SHOWDOWN COULD NOT BE LOADED HERE/,"Q1 the explanatory note is still shown");
   const actions=restore.parent;
   assert.equal(actions.children[0],restore,"Q1 the first child of the action row is the safe button");
   assert.equal(actions.children.indexOf(remove),1);

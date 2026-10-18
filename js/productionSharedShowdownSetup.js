@@ -78,7 +78,7 @@
     if(!before)return true;
     const after=storageSnapshot();
     if(!after)fail("SHARED_SETUP_STORAGE_AUTHORITY_UNAVAILABLE","Canonical storage authority became unavailable during Shared Setup.");
-    for(const key of CANONICAL_KEYS){if(after[key]!==before[key])fail("SHARED_SETUP_LOCAL_SAVE_MUTATION","Shared Setup must never mutate canonical local saves.");}
+    for(const key of CANONICAL_KEYS){if(after[key]!==before[key])fail("SHARED_SETUP_LOCAL_SAVE_MUTATION","Shared Setup must never change a saved Showdown.");}
     return true;
   }
   function randomOperationId(){
@@ -125,7 +125,7 @@
     const remoteState=remote&&typeof remote.getState==="function"?remote.getState():null;
     if(!remoteState||remoteState.sessionState!=="active"||!remoteState.sessionId||remoteState.pendingAction)fail("SHARED_SETUP_ACTIVE_SESSION_REQUIRED","Both players must be connected before league or club selection.");
     if(Number.isFinite(remoteState.expiresAtEpochMs)&&Date.now()>=remoteState.expiresAtEpochMs)fail("SHARED_SETUP_ACTIVE_SESSION_REQUIRED","The connection ended. Reconnect both players to resume the shared setup.");
-    if(remoteState.rivalryId!==rivalryState.rivalryId||remoteState.accountId!==accountState.accountId||remoteState.deviceId!==pairingState.deviceId)fail("SHARED_SETUP_AUTHORITY_MISMATCH","This connection no longer matches this Showdown on this device. Reconnect both players.");
+    if(remoteState.rivalryId!==rivalryState.rivalryId||remoteState.accountId!==accountState.accountId||remoteState.deviceId!==pairingState.deviceId)fail("SHARED_SETUP_AUTHORITY_MISMATCH","This connection no longer matches this Showdown. Reconnect both players.");
     if(rivalryState.accountId&&rivalryState.accountId!==accountState.accountId)fail("SHARED_SETUP_AUTHORITY_MISMATCH");
     if(rivalryState.deviceId&&rivalryState.deviceId!==pairingState.deviceId)fail("SHARED_SETUP_AUTHORITY_MISMATCH");
     const managerRole=rivalryState.binding.managerRole;

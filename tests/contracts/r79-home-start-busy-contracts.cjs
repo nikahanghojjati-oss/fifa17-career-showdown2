@@ -138,5 +138,27 @@ await check("HB3 the busy tile costs nothing: no read, no timer, never disabled 
   assert.match(read("js/v10Screens.js"),/if\(tile\.getAttribute\("aria-busy"\)==="true"\|\|homeGone/,"js/v10Screens.js ignores a tap on an aria-busy Home tile");
 });
 
-console.log(`PASS r79 Home START busy contracts: ${passed} checks (Codex #904 P2: Nik's JOIN and Daniel's START answer the tap at once with Checking…, aria-busy through the check and join, cleared on every exit, no read, no timer, no dimming).`);
+await check("HB4 r80: a live Showdown reads as continuing on Home on any device (Daniel and Nik); Daniel's open code reads as waiting; the tile follows the pair",async()=>{
+  for(const [manager,account,role] of [["daniel","uid_daniel","playerOne"],["nik","uid_nik","playerTwo"]]){
+    const h=harness({manager,account}),pair=h.sandbox.CareerModePersistentNikDanielPair,listeners=[];
+    let p={status:"paired",initialized:true,busy:false,rivalryId:RIVALRY,connectionState:"active",managerRole:role};
+    pair.getState=()=>p;pair.subscribe=fn=>{listeners.push(fn);return()=>{};};
+    await ready(h);
+    assert.equal(h.label(),"CONTINUE SHOWDOWN",`${manager}: a live game never reads START A SHOWDOWN or JOIN`);
+    assert.equal(h.meta(),"Your Showdown is live. Tap to continue.");
+    assert.equal(listeners.length,1,"one pair subscription, made once");
+    p={...p,status:"recovery-required"};listeners[0](p);
+    assert.notEqual(h.label(),"CONTINUE SHOWDOWN","a live game that could not be loaded here does not claim to continue");
+    p={...p,status:"unpaired",rivalryId:null,connectionState:null};listeners[0](p);
+    assert.equal(h.label(),manager==="daniel"?"START A SHOWDOWN":"JOIN DANIEL'S SHOWDOWN","once it ends the tile is drawn back from the pair");
+    assert.equal(listeners.length,1,"still one subscription");
+    assert.equal(h.tile.disabled,false,"never disabled (no dimming)");
+  }
+  const h=harness({manager:"daniel",account:"uid_daniel"}),pair=h.sandbox.CareerModePersistentNikDanielPair;
+  pair.getState=()=>({status:"waiting",initialized:true,busy:false,rivalryId:RIVALRY,connectionState:"pending-pair",managerRole:"playerOne"});
+  await ready(h);
+  assert.equal(h.label(),"WAITING FOR NIK","Daniel's open code reads as waiting, not as a new start");assert.equal(h.meta(),"Tap to see your code");
+});
+
+console.log(`PASS r79 Home START busy contracts: ${passed} checks (Codex #904 P2: Nik's JOIN and Daniel's START answer the tap at once with Checking…, aria-busy through the check and join, cleared on every exit, no read, no timer, no dimming; r80: a live Showdown reads CONTINUE SHOWDOWN on any device).`);
 })().catch(error=>{console.error(error);process.exitCode=1;});

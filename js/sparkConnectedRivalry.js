@@ -47,7 +47,7 @@
     localCommitRevision:null,
     localCommitContentHash:null,
     localCommitSaveId:null,
-    message:"Connected Rivalry is available after private pairing. Local saves remain the recovery authority."
+    message:"Connected Rivalry is available after private pairing."
   });
   let crInitializePromise=null;
   let crSettingsObserver=null;
@@ -155,7 +155,7 @@
     const profileId=typeof source.profileId==="string"?source.profileId.trim():"";
     const managerRole=typeof source.managerRole==="string"?source.managerRole.trim():"";
     const displayLabel=typeof source.displayLabel==="string"?source.displayLabel.trim().slice(0,80):"";
-    if(!/^save_[0-9a-f]{24}$/.test(saveId))throw crError("CONNECTED_RIVALRY_SAVE_REQUIRED","Choose a local Showdown with a stable Save Library identity.");
+    if(!/^save_[0-9a-f]{24}$/.test(saveId))throw crError("CONNECTED_RIVALRY_SAVE_REQUIRED","Choose a Showdown with a stable Save Library identity.");
     if(!/^profile_[0-9a-f]{24}$/.test(profileId))throw crError("CONNECTED_RIVALRY_PROFILE_REQUIRED","Choose a manager with a stable Local Profile identity.");
     if(!CR_MANAGER_ROLES.includes(managerRole))throw crError("CONNECTED_RIVALRY_ROLE_REQUIRED","Choose Player One or Player Two.");
     return Object.freeze({saveId,profileId,managerRole,displayLabel:displayLabel||null});
@@ -265,7 +265,7 @@
   function crAssertActiveDeviceValue(value,deviceId){
     if(!crIsEnvelopeValue(value,"device",deviceId))throw crError("CONNECTED_RIVALRY_DEVICE_NOT_REGISTERED","This browser is not a registered private device.");
     if(!value.data||value.data.deviceId!==deviceId)throw crError("CONNECTED_RIVALRY_DEVICE_CONFLICT","Registered device identity does not match this browser.");
-    if(value.data.state==="revoked")throw crError("CONNECTED_RIVALRY_DEVICE_REVOKED","This registered device has been revoked. Local Career Mode remains available.");
+    if(value.data.state==="revoked")throw crError("CONNECTED_RIVALRY_DEVICE_REVOKED","This registered device has been revoked.");
     if(value.data.state!=="active")throw crError("CONNECTED_RIVALRY_DEVICE_CONFLICT","Registered device state is invalid.");
     return value;
   }
@@ -311,10 +311,10 @@
     }
     const library=saveRuntime.getLibrarySnapshot();
     if(!library||library.activeSaveId!==binding.saveId||!Array.isArray(library.saves)){
-      throw crError("CONNECTED_RIVALRY_ACTIVE_SAVE_REQUIRED","Select the same active local Showdown that is paired to this manager.");
+      throw crError("CONNECTED_RIVALRY_ACTIVE_SAVE_REQUIRED","Select the same active Showdown that is paired to this manager.");
     }
     const entry=library.saves.find(item=>item&&item.saveId===binding.saveId);
-    if(!entry||!entry.showdown)throw crError("CONNECTED_RIVALRY_ACTIVE_SAVE_REQUIRED","The paired local Showdown is unavailable.");
+    if(!entry||!entry.showdown)throw crError("CONNECTED_RIVALRY_ACTIVE_SAVE_REQUIRED","The paired Showdown is unavailable.");
     return {library,entry};
   }
 
@@ -838,11 +838,11 @@
           localCommitContentHash:null,
           localCommitSaveId:null,
           message:autoAttached
-            ?"Connected Rivalry attached automatically from the completed private pairing. No second code entry was required. Refresh shared state before publishing; local saves were not changed."
+            ?"Connected Rivalry attached automatically from the completed private pairing. No second code entry was required. Refresh shared state before publishing; your Showdowns were not changed."
             :pointer
               ?prefillRivalryId&&autoAttachResult&&autoAttachResult.code==="CONNECTED_RIVALRY_NOT_ACTIVE"
                 ?"The previous Connected Rivalry remains safely attached while the new private pairing waits for Player Two. The exact new rivalry will be rechecked automatically with bounded retries until pairing expiry; no manual Verify/Reattach is required."
-                :"A private Connected Rivalry link is saved on this browser. Refresh verifies current remote authority before any publish."
+                :"A private Connected Rivalry link is saved. Refresh verifies current remote authority before any publish."
               :prefillRivalryId
                 ?autoAttachResult&&autoAttachResult.code==="CONNECTED_RIVALRY_NOT_ACTIVE"
                   ?"The pairing code is prefilled automatically. The exact rivalry will be rechecked automatically with bounded retries after the second manager joins; no manual Attach is required."
@@ -861,7 +861,7 @@
           prefillRivalryId:null,
           observedEnvelope:null,
           ...crClearReconciliationPreview(),
-          message:`${error&&error.message?error.message:"Connected Rivalry is unavailable."} Local Career Mode remains unchanged.`
+          message:`${error&&error.message?error.message:"Connected Rivalry is unavailable."}`
         });
       }
     })().finally(()=>{crInitializePromise=null;});
@@ -927,10 +927,10 @@
         localCommitRevision:null,
         localCommitContentHash:null,
         localCommitSaveId:null,
-        message:"Connected Rivalry attached privately. Refresh shared state before publishing; local saves were not changed."
+        message:"Connected Rivalry attached privately. Refresh shared state before publishing; your Showdowns were not changed."
       });
     }catch(error){
-      crSetState({status:"attach-error",busy:false,message:`${error&&error.message?error.message:"Connected Rivalry could not be attached."} Local saves were not changed.`});
+      crSetState({status:"attach-error",busy:false,message:`${error&&error.message?error.message:"Connected Rivalry could not be attached."} Your Showdowns were not changed.`});
     }
   }
 
@@ -960,13 +960,13 @@
         observedTombstone:Boolean(result.tombstoned),
         ...crClearReconciliationPreview(),
         message:result.tombstoned
-          ?"This Connected Rivalry is tombstoned. Normal publishing is locked; local saves remain available."
+          ?"This Connected Rivalry is tombstoned. Normal publishing is locked; your Showdowns remain available."
           :result.exists
-            ?`Shared game updated. Your local save was not changed.`
+            ?`Shared game updated. Your saved Showdown was not changed.`
             :"No shared game is online yet. Your first publish will create it."
       });
     }catch(error){
-      crSetState({status:"refresh-error",busy:false,message:`${error&&error.message?error.message:"Shared state could not be refreshed."} Local saves remain available.`});
+      crSetState({status:"refresh-error",busy:false,message:`${error&&error.message?error.message:"Shared state could not be refreshed."} Your Showdowns remain available.`});
     }
   }
 
@@ -1001,16 +1001,16 @@
         ...crClearReconciliationPreview(),
         message:result.replayed
           ?`Your previous publish was confirmed. No duplicate was created.`
-          :`Shared game published. Your local Save Library is unchanged.`
+          :`Shared game published. Your Save Library is unchanged.`
       });
     }catch(error){
-      crSetState({status:error&&error.code==="STALE_BASE_REVISION"?"conflict":"publish-error",busy:false,message:`${error&&error.message?error.message:"Shared gameplay state could not be published."} Local saves were not changed.`});
+      crSetState({status:error&&error.code==="STALE_BASE_REVISION"?"conflict":"publish-error",busy:false,message:`${error&&error.message?error.message:"Shared gameplay state could not be published."} Your Showdowns were not changed.`});
     }
   }
 
   async function crHandleReconciliationPreview(binding){
     if(!crState.rivalryId||!crState.observedEnvelope)return;
-    crSetState({status:"reconciliation-previewing",busy:true,...crClearReconciliationPreview(),message:"Building a read-only preview for this shared result and local Save…"});
+    crSetState({status:"reconciliation-previewing",busy:true,...crClearReconciliationPreview(),message:"Building a read-only preview for this shared result and your saved Showdown…"});
     try{
       if(typeof root.ensureCareerModeCandidateCAuthority!=="function")throw crError("CONNECTED_RIVALRY_CANDIDATE_C_UNAVAILABLE","Candidate C recovery authority cannot be loaded.");
       await root.ensureCareerModeCandidateCAuthority();
@@ -1031,11 +1031,11 @@
         previewContentHash:result.preview.remoteContentHash,
         previewSaveId:result.preview.localSaveId,
         message:result.preview.changesLocalSave
-          ?`Preview ready. Remote revision ${result.preview.remoteRevision} is observed only and has not changed local Save ${crShort(result.preview.localSaveId)}.`
+          ?`Preview ready. Remote revision ${result.preview.remoteRevision} is observed only and has not changed saved Showdown ${crShort(result.preview.localSaveId)}.`
           :`Preview ready. Remote revision ${result.preview.remoteRevision} already matches the identity-safe local gameplay candidate; explicit Apply still records the reviewed commit boundary.`
       });
     }catch(error){
-      crSetState({status:"reconciliation-preview-error",busy:false,...crClearReconciliationPreview(),message:`${error&&error.message?error.message:"Remote-to-local preview could not be prepared."} Local saves were not changed.`});
+      crSetState({status:"reconciliation-preview-error",busy:false,...crClearReconciliationPreview(),message:`${error&&error.message?error.message:"Remote-to-local preview could not be prepared."} Your Showdowns were not changed.`});
     }
   }
 
@@ -1043,10 +1043,10 @@
     const intent=crReconciliationIntent;
     if(!intent||!crState.reconciliationPreviewReady)return;
     if(binding.saveId!==intent.target.saveId||binding.profileId!==intent.target.profileId||binding.managerRole!==intent.target.managerRole){
-      crSetState({status:"reconciliation-target-changed",busy:false,...crClearReconciliationPreview(),message:"The selected local target changed after preview. Review the exact remote revision and local Save again."});
+      crSetState({status:"reconciliation-target-changed",busy:false,...crClearReconciliationPreview(),message:"The selected target changed after preview. Review the exact remote revision and saved Showdown again."});
       return;
     }
-    crSetState({status:"reconciliation-applying",busy:true,message:"Checking the shared result, backing up your local Save, and preparing Apply…"});
+    crSetState({status:"reconciliation-applying",busy:true,message:"Checking the shared result, backing up your saved Showdown, and preparing Apply…"});
     try{
       const context=await crResolveContext();
       if(typeof root.applyCareerModeRemoteReconciliation!=="function")throw crError("CONNECTED_RIVALRY_CANDIDATE_C_UNAVAILABLE","Candidate C reconciliation Apply authority is unavailable.");
@@ -1102,7 +1102,7 @@
     heading.append(
       crCreate("span","settingsPanelEyebrow","CONNECTED RIVALRY"),
       crCreate("h3","","OBSERVE REMOTE · COMMIT LOCAL EXPLICITLY"),
-      crCreate("p","","Refresh and preview do not change your local game. Your local Save changes only after confirmation, a verified backup, and Apply. Private joining is available from Showdown Home once both players are connected.")
+      crCreate("p","","Refresh and preview do not change your game. Your saved Showdown changes only after confirmation, a verified backup, and Apply. Private joining is available from Showdown Home once both players are connected.")
     );
     const info=crCreate("div","settingsInfoGrid");
     const revisionLabel=crState.observedTombstone
@@ -1257,7 +1257,7 @@
         const binding=bindings[Number(select.value)||0];
         if(binding)void crHandleRefresh(binding);
       });
-      const publish=crCreate("button","menuButton settingsConnectedAccountButton","PUBLISH LOCAL SAVE");
+      const publish=crCreate("button","menuButton settingsConnectedAccountButton","PUBLISH SAVE");
       publish.type="button";
       publish.disabled=crState.busy||!crState.attached||crState.observedTombstone||!bindings.length;
       publish.addEventListener("click",()=>{
@@ -1371,7 +1371,7 @@
             localCommitRevision:null,
             localCommitContentHash:null,
             localCommitSaveId:null,
-            message:"Sign in above to use Connected Rivalry. Local Career Mode remains available."
+            message:"Sign in above to use Connected Rivalry."
           });
         }else if(crState.accountId!==next.accountId){
           void crInitialize();

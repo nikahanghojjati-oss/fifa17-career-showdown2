@@ -135,7 +135,7 @@
         catch(_error){codeOpen=true;}
       }
     }
-    if(connectionState==="active"||(connectionState==="pending-pair"&&codeOpen))throw csmError("CAREER_START_SHOWDOWN_UNFINISHED","Finish or delete the current Showdown before starting your real career.");
+    if(connectionState==="active"||(connectionState==="pending-pair"&&codeOpen))throw csmError("CAREER_START_SHOWDOWN_UNFINISHED","Finish or end the current Showdown before starting your real career.");
   }
   async function csmWrite(options,mode,active){
     const o=options&&options.firestore?options:await resolveServices({write:true});

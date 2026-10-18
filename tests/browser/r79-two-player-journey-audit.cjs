@@ -18,12 +18,13 @@
 //   R80f before the real career: Daniel's START TEST RUN, Nik's JOIN TEST RUN, then Daniel's END SHOWDOWN on the league wheel
 //        (one closure write with the ended-early mark, 0 seasons); Nik's phone goes Home by itself. The test run never counts:
 //        the first real START hides it, and real History never shows it (checked at R80d).
-//   P8  Daniel's next START has no code for Nik to type: Nik's Home shows JOIN DANIEL'S SHOWDOWN; one JOIN tap joins R2.
-//   R80d R2 (1 season), played on the same pages that finished R1 (no reload; Shared History must not reuse R1's accepted
-//        season), mid-season, transfer window open: Daniel goes Home and taps END SHOWDOWN (Settings, red):
-//        one closure write with endedEarly {seasonsPlayed: 0}; Nik's phone lands on Home by itself; History (Legacy) shows
-//        exactly one Ended early row with today's date and "0 seasons"; Career Statistics (1 completed), the Trophy Room
-//        (Showdown Champion: Daniel) and Legacy's completed Showdown #1 are unchanged.
+//   P8  Daniel's next START (3 seasons) has no code for Nik to type: Nik's Home shows JOIN DANIEL'S SHOWDOWN; one JOIN tap joins R2.
+//   R80d R2 (3 seasons), played on the same pages that finished R1 (no reload; Shared History must not reuse R1's accepted
+//        season): season 1 is played and committed, both continue to season 2, and mid-season 2 (transfer window open)
+//        Daniel goes Home and taps END SHOWDOWN (Settings, red): one closure write with endedEarly {seasonsPlayed: 1};
+//        Nik's phone lands on Home by itself; History (Legacy) shows exactly one Ended early row with today's date and
+//        "1 season" on both phones; Career Statistics (1 completed), the Trophy Room (Showdown Champion: Daniel) and
+//        Legacy's completed Showdown #1 are unchanged (R2's committed season never counts).
 //   R80e END is double-tapped: one confirm, one closure write, no error notice.
 //   P9  after the END Daniel starts again and Nik's next JOIN works (one tap).
 //   M   meter: Firestore reads and writes of both players together for the season played (Daniel's START tap to both pages
@@ -357,6 +358,57 @@ async function assertCareerScreensShowCompletedShowdown(managers,id,{endedEarly=
   }
 }
 // ---------- r80 END SHOWDOWN helpers ----------
+// A season that is not the last: Daniel's COMMIT & ACKNOWLEDGE, Nik's ACKNOWLEDGE, then both see the season's canonical score
+// and Shared History; CONTINUE TO SEASON N then opens the next season's Transfer Challenge (as two-manager-browser-journey.cjs).
+async function commitSeasonViaUi(daniel,nik,p1,p2,seasonNumber){
+  await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="COMMIT & ACKNOWLEDGE SHARED SEASON",null,{timeout:45000});
+  await nik.page.waitForFunction(()=>/^(WAITING FOR COORDINATOR|ACKNOWLEDGE SHARED SEASON)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:45000});
+  await daniel.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
+  await daniel.page.waitForFunction(()=>/^(ACKNOWLEDGED ✓ · WAITING FOR RIVAL|SEASON COMMIT ACKNOWLEDGED ✓)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000});
+  await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="ACKNOWLEDGE SHARED SEASON",null,{timeout:45000});
+  await nik.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
+  for(const m of [daniel,nik]){
+    await m.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="SEASON COMMIT ACKNOWLEDGED ✓",null,{timeout:45000});
+    await m.page.waitForFunction(n=>{const s=window.CareerModeProductionSharedCanonicalScoring?.getState?.();return s?.phase==="SCORING_RECONCILED"&&s.seasonNumber===n;},seasonNumber,{timeout:60000});
+    assert.equal((await m.page.locator("#sharedCanonicalScoringTotals").textContent()).trim(),`Daniel: ${p1} · Nik: ${p2}`,`${m.user}: season ${seasonNumber} canonical score`);
+    await m.page.locator("#sharedHistoryConvergencePanel").waitFor({state:"visible",timeout:45000});
+  }
+}
+async function continueToSeason(daniel,nik,season,total){
+  for(const m of [daniel,nik]){
+    await m.page.waitForFunction(next=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${next}`,season,{timeout:45000});
+    await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
+    await m.page.waitForFunction(value=>document.getElementById("seasonIndicator")?.textContent===value,`Season ${season} / ${total}`,{timeout:30000});
+    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
+  }
+}
+// One season's Transfer Challenge through the real UI: window, guesses, signings, then both open Season Results.
+async function playTransferSeason(daniel,nik,tokenD,tokenN){
+  await daniel.page.waitForFunction(()=>document.getElementById("startTransferTimer")&&!document.getElementById("startTransferTimer").classList.contains("hidden"),null,{timeout:30000});
+  await daniel.page.locator("#startTransferTimer").click({timeout:30000});
+  await waitTransferPhase(daniel,"window");await waitTransferPhase(nik,"window");
+  await daniel.page.locator("#endTransferTimer").click({timeout:30000});
+  await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.endRequestedRoles?.includes("playerOne")===true,null,{timeout:30000});
+  await nik.page.locator("#endTransferTimer").click({timeout:30000});
+  await waitTransferPhase(nik,"guess_entry");await waitTransferPhase(daniel,"guess_entry");
+  await daniel.page.locator("#p2Guess1Type").selectOption("league");await fillTransferCombo(daniel,"p2Guess1Value","Premier League");
+  await nik.page.locator("#p1Guess1Type").selectOption("nationality");await fillTransferCombo(nik,"p1Guess1Value","Brazil");
+  await daniel.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
+  await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.guessLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
+  await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
+  await waitTransferPhase(nik,"signing_entry");await waitTransferPhase(daniel,"signing_entry");
+  await daniel.page.locator("#p1Signing1Name").fill(tokenD);await fillTransferCombo(daniel,"p1Signing1League","Premier League");await fillTransferCombo(daniel,"p1Signing1Nationality","England");
+  await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
+  await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.signingLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
+  await waitTransferState(nik,"signingLockedRoles","playerOne");
+  await nik.page.locator("#p2Signing1Name").fill(tokenN);await fillTransferCombo(nik,"p2Signing1League","TIM Serie A");await fillTransferCombo(nik,"p2Signing1Nationality","Brazil");
+  await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
+  await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
+  for(const m of [daniel,nik]){
+    await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).click({timeout:30000});
+    await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
+  }
+}
 // The shared setup through the real UI (as P2, without its reload): league, clubs, both confirm, both start their careers.
 async function playSetupToTransferChallenge(daniel,nik){
   for(const m of [daniel,nik])await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:45000});
@@ -634,12 +686,12 @@ async function main(){
 
     // ---------- P8 Daniel's next START, Nik's Home JOIN ----------
     meter.mark("r2:start");
-    const code2=await danielStartsShowdown(daniel,1);
+    const code2=await danielStartsShowdown(daniel,3);
     assert.match(code2,/^CMS17-pair_[0-9a-f]{64}$/,"already paired: no CMS17R- code");
     const R2=code2.slice("CMS17-".length);
     assert.notEqual(R2,R1);
     await adminUntil(`accounts/${uidN}/partnerInbox/current`,doc=>field(doc,"rivalryId")?.stringValue===R2,"Daniel's JOIN note");
-    const joinTile=["JOIN","JOIN DANIEL'S SHOWDOWN","Daniel started 1 season. Tap to join."];
+    const joinTile=["JOIN","JOIN DANIEL'S SHOWDOWN","Daniel started 3 seasons. Tap to join."];
     const nikTapsBefore=nik.log.taps.length;
     // Nik went Home from the finished Showdown (no reload) and stays there: his Home's note listener must show JOIN by itself.
     try{await nik.page.waitForFunction(text=>(document.querySelector("#newShowdown .menuTileMeta")?.textContent||"").trim()===text,joinTile[2],{timeout:45000});}
@@ -658,23 +710,39 @@ async function main(){
     assert.deepEqual(ids(field(await admin(`accounts/${uidD}/careerIndex/current`),"data","rivalryIds")),[T,R1,R2],"Daniel career index [T,R1,R2] (the test run stays stored, hidden)");
     for(const m of [daniel,nik])await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:45000});
     meter.mark("r2:wheel");
-    ok("P8","Daniel's next START (no code to type): Nik's Home showed JOIN DANIEL'S SHOWDOWN by itself; one JOIN tap joined R2; both on the league wheel");
+    ok("P8","Daniel's next START (3 seasons, no code to type): Nik's Home showed JOIN DANIEL'S SHOWDOWN by itself; one JOIN tap joined R2; both on the league wheel");
 
-    // ---------- R80d END SHOWDOWN mid-season ----------
+    // ---------- R80d END SHOWDOWN mid-season 2 ----------
     // No reload between R1 and R2: both pages still hold R1's accepted season 1 (Commit and Scoring) while R2's season 1
-    // starts, and Shared History must not take it for R2's (no "Unable to converge Shared History"; PZ checks the errors).
+    // is played and committed, and Shared History must not take it for R2's (no "Unable to converge Shared History"; PZ
+    // checks the errors).
     const sessionR2=await sessionOf(daniel);
     await playSetupToTransferChallenge(daniel,nik);
+    for(const m of [daniel,nik])assert.equal((await m.page.locator("#seasonIndicator").textContent()).trim(),"Season 1 / 3",`${m.user}: R2 season 1 of 3`);
+    await playTransferSeason(daniel,nik,"QWR Daniel Signing","ZPR Nik Signing");
+    await fillSeasonResult(daniel,"p1",{leaguePosition:1,leaguePoints:87,leagueGoals:93,domesticCup:false,championsLeague:true,topScorer:true,topAssist:false});
+    await publishSeasonResult(daniel);
+    await fillSeasonResult(nik,"p2",{leaguePosition:2,leaguePoints:84,leagueGoals:101,domesticCup:true,championsLeague:false,topScorer:false,topAssist:true});
+    await publishSeasonResult(nik);
+    for(const m of [daniel,nik])await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS PUBLISHED",null,{timeout:45000});
+    await commitSeasonViaUi(daniel,nik,FINAL_EXPECTED.daniel,FINAL_EXPECTED.nik,1);
+    await adminUntil(`rivalries/${R2}/seasonCommits/season_1`,doc=>Boolean(doc),"R2 season 1 committed",45000);
+    ok("R80d.1",`R2 season 1 played and committed on the pages that finished R1: Daniel ${FINAL_EXPECTED.daniel} · Nik ${FINAL_EXPECTED.nik}, Shared History shown on both`);
+    await continueToSeason(daniel,nik,2,3);
     await daniel.page.waitForFunction(()=>document.getElementById("startTransferTimer")&&!document.getElementById("startTransferTimer").classList.contains("hidden"),null,{timeout:30000});
     await daniel.page.locator("#startTransferTimer").click({timeout:30000});
     await waitSharedTransferPhase(daniel,"WINDOW_OPEN");await waitSharedTransferPhase(nik,"WINDOW_OPEN");
-    assert.equal(await sessionOf(daniel),sessionR2,"same session in the transfer window");
-    ok("R80d.1","R2: both confirmed and started their careers; the season's transfer window is open on both phones");
+    assert.equal(await sessionOf(daniel),sessionR2,"same session in the season-2 transfer window");
+    ok("R80d.1b","both continued to R2 season 2 (Season 2 / 3); its transfer window is open on both phones");
     const beforeEnd=await admin(`rivalries/${R2}`),revisionBefore=Number(field(beforeEnd,"revision").integerValue);
     assert.equal(field(beforeEnd,"data","connectionState").stringValue,"active");
     const confirmsBefore=(await marbleConfirmMessages(daniel.page)).length;
     // The live transfer screen covers the header, so Daniel goes Home (HOME) and opens Settings there; Nik stays in the window.
     await backToShowdownHome(daniel);
+    // r80: the live game reads as continuing on Home, never as a new start.
+    await daniel.page.waitForFunction(()=>(document.querySelector("#newShowdown .menuTileLabel")?.textContent||"").trim()==="CONTINUE SHOWDOWN",null,{timeout:15000});
+    assert.deepEqual(await homeTile(daniel),["LIVE","CONTINUE SHOWDOWN","Your Showdown is live. Tap to continue."],"Daniel's Home tile mid-season reads CONTINUE SHOWDOWN");
+    await shot(daniel,"r80d-home-live");
     await openSettings(daniel);
     const endButton=daniel.page.locator(".settingsDeleteCurrentShowdown");
     assert.equal((await endButton.textContent()).trim(),"END SHOWDOWN","Settings' red button is END SHOWDOWN");
@@ -683,7 +751,7 @@ async function main(){
     await endButton.dblclick();
     await daniel.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.busy===false&&s.status==="unpaired");},null,{timeout:45000});
     const closedR2=await adminUntil(`rivalries/${R2}`,doc=>field(doc,"data","connectionState")?.stringValue==="closed","R2 is closed");
-    assert.equal(field(closedR2,"data","endedEarly","seasonsPlayed")?.integerValue,"0","the closure carries endedEarly {seasonsPlayed: 0}");
+    assert.equal(field(closedR2,"data","endedEarly","seasonsPlayed")?.integerValue,"1","the closure carries endedEarly {seasonsPlayed: 1} (season 1 committed)");
     assert.equal(field(closedR2,"data","terminalClose"),undefined,"no finish witness: ended early");
     await daniel.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
     const danielNotice=await noticeText(daniel);
@@ -694,7 +762,7 @@ async function main(){
     assert.match((await noticeText(nik))?.text||"",/^This Showdown was ended for both players\. History keeps it as Ended early\.$/);
     for(const m of [daniel,nik])assert.equal(await sessionOf(m),null,`${m.user}'s page forgot the ended Showdown's session`);
     await shot(daniel,"r80d-home");await shot(nik,"r80d-home");
-    ok("R80d.2",`mid-season (transfer window open) Daniel went Home and tapped END SHOWDOWN: R2 closed with endedEarly {seasonsPlayed: 0}; both phones are on Home with the ended-early notice`);
+    ok("R80d.2",`mid-season 2 (transfer window open) Daniel went Home and tapped END SHOWDOWN: R2 closed with endedEarly {seasonsPlayed: 1}; both phones are on Home with the ended-early notice`);
     const afterEnd=await admin(`rivalries/${R2}`);
     assert.equal(Number(field(afterEnd,"revision").integerValue),revisionBefore+1,"one closure write for the double tap");
     const confirms=(await marbleConfirmMessages(daniel.page)).slice(confirmsBefore);
@@ -705,17 +773,17 @@ async function main(){
     for(const m of [daniel,nik]){
       const cards=await legacyCards(m),ended=cards.filter(c=>c.status==="abandoned");
       assert.equal(ended.length,1,`${m.user}: exactly one Ended early row (the test run never shows): ${JSON.stringify(cards)}`);
-      assert.match(ended[0].text,new RegExp(`^Showdown #2\\s*Ended early · ${today} · 0 seasons$`),`${m.user}: ${ended[0].text}`);
+      assert.match(ended[0].text,new RegExp(`^Showdown #2\\s*Ended early · ${today} · 1 season$`),`${m.user}: ${ended[0].text}`);
       assert.equal(cards.filter(c=>c.status==="completed").length,1,`${m.user}: one completed Showdown`);
     }
     await assertCareerScreensShowCompletedShowdown([daniel,nik],"R80d",{endedEarly:true});
-    ok("R80d.3",`History on both phones: exactly one Ended early row (Showdown #2 · ${today} · 0 seasons), the test run never shows; Career Statistics (1 completed), the Trophy Room (Showdown Champion: Daniel) and Legacy's Showdown #1 are unchanged`);
+    ok("R80d.3",`History on both phones: exactly one Ended early row (Showdown #2 · ${today} · 1 season), the test run never shows; Career Statistics (1 completed), the Trophy Room (Showdown Champion: Daniel) and Legacy's Showdown #1 are unchanged`);
 
     const code3=await danielStartsShowdown(daniel,1);
     const R3=code3.replace(/^CMS17R?-/,"");
     assert.ok(R3!==R1&&R3!==R2,"a new rivalry");
     await backToShowdownHome(nik);
-    await nik.page.waitForFunction(text=>(document.querySelector("#newShowdown .menuTileMeta")?.textContent||"").trim()===text,joinTile[2],{timeout:45000});
+    await nik.page.waitForFunction(text=>(document.querySelector("#newShowdown .menuTileMeta")?.textContent||"").trim()===text,"Daniel started 1 season. Tap to join.",{timeout:45000});
     const nikTapsBeforeJoin=nik.log.taps.length;
     await nik.page.locator("#newShowdown").click({timeout:30000});
     await bothActive([daniel,nik],R3);
