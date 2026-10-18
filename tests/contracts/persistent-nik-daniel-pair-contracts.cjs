@@ -55,7 +55,7 @@ assert.match(pairSource,/providerProfileId:providerBinding\.profileId/);
 assert.match(pairSource,/pairExactLocalBindingForProviderSlot/);
 assert.match(pairSource,/async function pairEnsureSaveLibraryAuthority\(\)[\s\S]*loadRuntimeScript\("save-library-cutover","js\/saveLibraryCutover\.js"[\s\S]*ensureSaveLibraryRuntimeAuthority/,'A remembered active pair must lazily activate established Save Library authority before deciding Continue versus Recovery.');
 const initializeFunction=pairSource.slice(pairSource.indexOf('async function pairInitialize'),pairSource.indexOf('function pairSelectedRole'));
-assert.match(initializeFunction,/capability:link\.connectionState==="pending-pair"\?[\s\S]*pairBuildPlayerJoinCode\(link\.rivalryId\)/,'A pending Daniel browser must reconstruct the same season-bearing player code directly from durable rivalry authority after reload, without requiring Save Library activation.');
+assert.match(initializeFunction,/capability:link\.connectionState==="pending-pair"\?[\s\S]*pairBuildPlayerJoinCode\(link\.rivalryId,\{real:pairRealRivalryId===link\.rivalryId\}\)/,'A pending Daniel browser must reconstruct the same season-bearing player code directly from durable rivalry authority after reload, without requiring Save Library activation (r79 PR3: still CMS17R- while it is his first real pairing).');
 assert.match(initializeFunction,/if\(active\)await pairEnsureSaveLibraryAuthority\(\);[\s\S]*pairHasExactLocalRecoveryCopy/,'Active-pair reload classification must activate local authority before checking the provider-linked Save/Profile copy.');
 assert.match(initializeFunction,/localManagerId!==link\.managerId&&typeof options\.reconcileIdentity==="function"[\s\S]*await options\.reconcileIdentity\(link\.managerId,link\.managerRole\)[\s\S]*localManagerId=pairCurrentIdentityManagerId\(\)[\s\S]*if\(localManagerId&&localManagerId!==link\.managerId\)/,'Validated durable pair identity must get one bounded chance to reconcile stale browser role state before the existing mismatch guard rejects it.');
 
@@ -97,15 +97,22 @@ assert.match(pairSource,/role==="playerTwo"[\s\S]*Paste Daniel's code[\s\S]*"JOI
 assert.match(pairSource,/PAIR_SEASON_NIBBLE=Object\.freeze\(\{1:"1",3:"3",5:"5",10:"a"\}\)/,"Supported season plans must have a deterministic provider-capability marker.");
 assert.match(pairSource,/function pairCreateSeasonBoundCapability\(totalRounds[\s\S]*getRandomValues[\s\S]*pair_\$\{marker\}\$\{hex\.slice\(1\)\}/,"Daniel's provider capability itself must bind the selected season length while retaining secure random entropy.");
 assert.match(pairSource,/function pairSeasonFromCapability\(rivalryId\)[\s\S]*PAIR_SEASON_BY_NIBBLE/,"Nik must derive season length from the exact provider capability rather than trusting separately editable code metadata.");
-assert.match(pairSource,/function pairBuildPlayerJoinCode\(rivalryId\)[\s\S]*pairSeasonFromCapability\(normalized\)[\s\S]*CMS17-\$\{normalized\}/,"The player-facing code must wrap the exact season-bound provider capability without a second mutable season field.");
-assert.match(pairSource,/function pairParsePlayerJoinCode\(value\)[\s\S]*CMS17-\(pair_\[0-9a-f\]\{64\}\)[\s\S]*pairSeasonFromCapability\(rivalryId\)/,'Nik Join must parse one player code and derive its season plan from the exact provider rivalry id.');
+assert.match(pairSource,/function pairBuildPlayerJoinCode\(rivalryId,options=\{\}\)\{const normalized=pairNormalizeRivalryId\(rivalryId\);pairSeasonFromCapability\(normalized\);return `\$\{options&&options\.real===true\?REAL_CODE_PREFIX:CODE_PREFIX\}\$\{normalized\}`;\}/,"The player-facing code must wrap the exact season-bound provider capability without a second mutable season field (r79 PR3: CMS17R- marks only Daniel's first real pairing).");
+assert.match(pairSource,/REAL_CODE_PREFIX="CMS17R-",CODE_PREFIX="CMS17-"/,"r79 PR3: the two code prefixes.");
+assert.match(pairSource,/function pairParsePlayerJoinCode\(value\)[\s\S]*CMS17\(R\?\)-\(pair_\[0-9a-f\]\{64\}\)[\s\S]*pairSeasonFromCapability\(rivalryId\)/,'Nik Join must parse one player code (CMS17- or the first real pairing CMS17R-) and derive its season plan from the exact provider rivalry id.');
 assert.match(pairSource,/async function pairProvisionJoinerBinding\(context,role,totalRounds\)[\s\S]*preparedRounds=pairPreparedTotalRounds\(\)[\s\S]*PERSISTENT_PAIR_SEASON_MISMATCH[\s\S]*role!=="playerTwo"[\s\S]*entry\.provisionJoinerShell\(Number\(totalRounds\)\)[\s\S]*pairPreparedBindingForRole/,'Only Nik may auto-provision a missing local shell; an existing shell with a different season plan must fail closed, and a newly provisioned binding must be re-read before provider redemption.');
 
 assert.doesNotMatch(pairSource,/actions\.append\(start,input,join\)/,'The normal unpaired UI must not show CREATE and JOIN controls together on both devices.');
 
 
 const pairApi=require(path.join(root,'js/persistentNikDanielPair.js'));
-assert.equal(pairApi.contractVersion,4);
+assert.equal(pairApi.contractVersion,5,'r79 PR3: the permanent pair (partner record, JOIN note, UNPAIR) advances the pair contract');
+for(const name of ['writePartnerRecord','writeJoinNote','readJoinNote','unpair','readPartnerRecord','getJoinNoteState','getPartnerState'])assert.equal(typeof pairApi[name],'function',`r79 PR3 exports ${name}`);
+assert.equal(pairApi.joinNoteMemoMs,30000);
+assert.equal(pairApi.buildPlayerJoinCode(`pair_3${'c'.repeat(63)}`),`CMS17-pair_3${'c'.repeat(63)}`);
+assert.equal(pairApi.buildPlayerJoinCode(`pair_3${'c'.repeat(63)}`,{real:true}),`CMS17R-pair_3${'c'.repeat(63)}`);
+assert.deepEqual({...pairApi.parsePlayerJoinCode(`CMS17R-pair_5${'d'.repeat(63)}`)},{rivalryId:`pair_5${'d'.repeat(63)}`,totalRounds:5,legacy:false,real:true});
+assert.deepEqual({...pairApi.parsePlayerJoinCode(`CMS17-pair_5${'d'.repeat(63)}`)},{rivalryId:`pair_5${'d'.repeat(63)}`,totalRounds:5,legacy:false,real:false});
 assert.equal(pairApi.legacyPairMigration,false);
 assert.equal(pairApi.pairLinkPersistentAcrossRegisteredBrowsers,true);
 assert.equal(pairApi.gameplayCacheHydrationAcrossFreshBrowsers,false);
@@ -129,7 +136,8 @@ assert.match(identitySource,/const MANAGERS=Object\.freeze\(\{daniel:Object\.fre
 assert.match(identitySource,/"WHO ARE YOU\?"/);
 assert.match(identitySource,/"DANIEL · PLAYER ONE"/);
 assert.match(identitySource,/"NIK · PLAYER TWO"/);
-assert.match(identitySource,/isNik=current\?\.status==="ready"&&current\.managerId==="nik"[\s\S]*"JOIN DANIEL'S SHOWDOWN"[\s\S]*"Paste Daniel's code"/, "Nik's primary Home action must be Join, not Start a second Showdown.");
+assert.match(identitySource,/isNik=current\?\.status==="ready"&&current\.managerId==="nik"[\s\S]*const nik=isNik\?nikHomeTile\(\):null/, "Nik's primary Home action must be Join, not Start a second Showdown.");
+assert.match(identitySource.slice(identitySource.indexOf("function nikHomeTile()"),identitySource.indexOf("async function resolveOnlineDependencies")),/"JOIN DANIEL'S SHOWDOWN"[\s\S]*"WAITING FOR DANIEL","PASTE A CODE"[\s\S]*"JOIN DANIEL'S SHOWDOWN","Paste Daniel's code"/,"r79 PR3: Nik's tile is JOIN (note), Waiting for Daniel with PASTE A CODE (partner, no note), or Join with a pasted code.");
 // r79: both managers' Home tile goes through the one canonical START; whichShowdownIsLive never gives Nik "new" (seasons), so
 // his tile still opens the join surface (whichShowdownIsLive contracts prove the decisions).
 assert.match(identitySource,/if\(gameplay\.id==="newShowdown"&&!gameplay\.disabled\)\{e\.preventDefault\(\);e\.stopImmediatePropagation\(\);void openCanonicalStart\(\);return;\}/,'The Home tile must route through the one canonical START for both managers.');
