@@ -645,5 +645,26 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.equal(pair.getJoinNoteState(world.clock.now).note?.rivalryId,rivalryId,"so Daniel's note shows JOIN");
   });
 
+  await check("FB11e","Codex #904: switching apps (tab hidden -> visible) costs at most one note read per 30 s and never extends a running 10-minute Home visit",async()=>{
+    const {world,pair,serverReads,inbox,listeners}=await nikPairWorld();let home=true;const isHomeShown=()=>home;
+    const reads=()=>serverReads[inbox]||0;
+    await pair.readPartnerRecord();
+    assert.equal(await pair.watchJoinNote({isHomeShown}),true);assert.equal(reads(),1,"the Home visit attaches once");
+    // 20 quick app switches inside 25 s: page memory answers, nothing is read, no listener piles up
+    for(let i=0;i<20;i+=1){world.setVisible(false);await world.advance(500);world.setVisible(true);assert.notEqual(await pair.watchJoinNote({isHomeShown,resume:true}),false,"a quick return never falls back to a read");await world.advance(750);}
+    assert.equal(reads(),1,"quick app switches inside 30 s read nothing");
+    assert.ok(listeners.max<=1,"never a second listener");
+    // still visible at the 30 s mark: the one deferred listener attaches (one read)
+    await world.advance(30000);
+    assert.equal(listeners.active,1,"re-attached once at the 30 s mark");assert.equal(reads(),2,"one read for that attach");
+    // the visit window is not restarted by tab returns: switching at 9:30 still ends the listener at 10:00 after the visit began
+    await world.advance(9*60000-60000);world.setVisible(false);world.setVisible(true);await pair.watchJoinNote({isHomeShown,resume:true});
+    await world.advance(90000);
+    assert.equal(listeners.active,0,"the 10-minute Home visit ends on time despite tab returns");
+    const before=reads();for(let i=0;i<5;i+=1){world.setVisible(false);world.setVisible(true);await pair.watchJoinNote({isHomeShown,resume:true});await world.advance(1000);}
+    assert.ok(reads()-before<=1,`after the visit ended, a tab return may start a new visit but 5 returns in 5 s cost at most one read (${reads()-before})`);
+    assert.ok(listeners.max<=1,"never a second listener");
+  });
+
   console.log(`PASS Firestore budget contracts: ${results.length} checks, measured reads/min ${measured.join(" / ")} (waiting <= ${BUDGET.waitingVisibleReadsPerMinute} reads/min, hidden ${BUDGET.hiddenReadsPerMinute}, idle writes 0, partner update <= ${BUDGET.partnerUpdateMs} ms).`);
 })().catch(error=>{console.error(error);process.exitCode=1;});
