@@ -204,7 +204,17 @@
     if(decision.action==="continue"){
       const pair=await loadScript("persistent-pair","js/persistentNikDanielPair.js",()=>root.CareerModePersistentNikDanielPair);
       if(!pair||typeof pair.continuePair!=="function")throw new Error("Career continue is unavailable.");
-      await pair.continuePair();return true;
+      // PR #901: continuePair() reports a failure in its returned state (error / recovery-required) instead of rejecting, so a
+      // failed continue reopens Connect Players with that state (TRY CONTINUE AGAIN / RESTORE BACKUP) like the auto-continue
+      // fallback does, instead of rendering into a hidden panel. Nothing is created.
+      const next=await pair.continuePair();
+      if(next&&next.busy!==true&&next.status!=="paired"){
+        report("Unable to continue the Showdown",Object.assign(new Error(next.message||"The career could not be opened."),{code:next.status}));
+        try{const layer=await loadScript("connect-players-screen","js/connectPlayersScreenV10.js",()=>root.CareerModeConnectPlayersScreenV10);await layer?.open?.({sync:false,stayOnScreen:true});pair.render?.();}
+        catch(_error){await openPersistentPairControls();}
+        return false;
+      }
+      return true;
     }
     if(decision.action==="resume-waiting")return openWaiting({createCode:!decision.rivalryId});
     const identity=entryIdentity();

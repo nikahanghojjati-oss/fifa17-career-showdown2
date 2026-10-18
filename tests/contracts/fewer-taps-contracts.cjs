@@ -675,7 +675,7 @@ async function r3r4aPresentationContracts(){
 
 // ------------------------------------------------------------------ R5 + R6 career entry
 const PENDING_KEY="careerModeShowdown.sharedJourneyPending.v1";
-function entryHarness({rivalryReady=false,active=false,pairState={status:"unpaired",initialized:true,rivalryId:null,connectionState:null},openExperience="presentation",library:startLibrary=null,terminalClose=null,identityStatus="ready"}={}){
+function entryHarness({rivalryReady=false,active=false,pairState={status:"unpaired",initialized:true,rivalryId:null,connectionState:null},openExperience="presentation",library:startLibrary=null,terminalClose=null,identityStatus="ready",continueResult=null}={}){
   const dom=createDom();const menu=dom.add("mainMenu");void menu;const connect=dom.add("connectPlayersScreen");dom.add("connectPlayersPairSlot",{parent:connect});dom.add("roundAmount",{tag:"select"}).value="3";dom.add("startShowdown",{tag:"button"});
   const calls={pairRender:0,startPairing:0,remoteOpen:0,remoteClose:0,presentation:0,careerStart:0,navigate:[],host:0,join:0,create:0,layerOpen:[],screenAtOpen:[],continuePair:0,openJoin:0,closeRefresh:0,close:0,closeRetry:0};
   const storage=new Map([[PENDING_KEY,"1"]]);
@@ -696,7 +696,7 @@ function entryHarness({rivalryReady=false,active=false,pairState={status:"unpair
     CareerModeSaveLibraryRuntime:{isReady:()=>true,getLibrarySnapshot:()=>library,saveCurrentShowdown:()=>true,clearActiveShowdown(){}},
     CareerModeOnlinePlayerIdentity:{getState:()=>(identityStatus==="ready"?{status:"ready",managerId:"daniel",registered:true}:{status:identityStatus}),subscribe:()=>()=>{},syncPair:async()=>pairState,openJoin:async()=>{calls.openJoin+=1;return pairState;}},
     CareerModeConnectPlayersScreenV10:{open:async options=>{calls.layerOpen.push(options);calls.screenAtOpen.push(calls.navigate[calls.navigate.length-1]||"mainMenu");return true;},close:()=>true},
-    CareerModePersistentNikDanielPair:{getState:()=>pairState,render:()=>{calls.pairRender+=1;if(!dom.document.getElementById("persistentNikDanielPairPanel"))dom.add("persistentNikDanielPairPanel",{parent:dom.document.getElementById("connectPlayersPairSlot")});},startPairing:async()=>{calls.startPairing+=1;},continuePair:async()=>{calls.continuePair+=1;}},
+    CareerModePersistentNikDanielPair:{getState:()=>continueResult||pairState,render:()=>{calls.pairRender+=1;if(!dom.document.getElementById("persistentNikDanielPairPanel"))dom.add("persistentNikDanielPairPanel",{parent:dom.document.getElementById("connectPlayersPairSlot")});},startPairing:async()=>{calls.startPairing+=1;},continuePair:async()=>{calls.continuePair+=1;return continueResult||{...(pairState||{}),status:"paired",busy:false};}},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true})},
     CareerModeSparkConnectedAccount:{initialize:async()=>true,getState:()=>({connected:true,accountId:"uid_daniel"})},
     CareerModeSparkPrivatePairing:{initialize:async()=>true,getState:()=>({registered:true,deviceId:DEVICE})},
@@ -731,6 +731,30 @@ async function r5r6EntryContracts(){
     assert.equal(await live.api.preparePairingShell(),false,"over a live pair START creates nothing");
     assert.equal(live.calls.create,0,"no second shell over a live game");assert.equal(live.calls.continuePair,1,"START continues the live game");
     assert.equal(live.calls.startPairing,0,"no second rivalry");
+    assert.equal(visible(live.overlay()),false,"a continue that worked opens nothing else");
+    // PR #901: continuePair() reports a failure in its returned state; START reopens Connect Players with it and creates nothing.
+    for(const status of ["error","recovery-required"]){
+      const failed=entryHarness({pairState:{status:"paired",initialized:true,rivalryId:RIVALRY,connectionState:"active",managerRole:"playerOne"},continueResult:{status,busy:false,rivalryId:RIVALRY,connectionState:"active",message:"The career could not be opened."}});
+      failed.api.install();await settle();
+      assert.equal(await failed.api.followStartDecision({action:"continue",rivalryId:RIVALRY}),false,`${status}: the failed continue is not reported as done`);
+      assert.deepEqual(failed.calls.layerOpen.map(options=>options&&options.stayOnScreen),[true],`${status}: Connect Players opens with the failure (TRY CONTINUE AGAIN / RESTORE BACKUP)`);
+      assert.ok(failed.calls.pairRender>=1,`${status}: the pair panel renders that state`);
+      assert.equal(failed.calls.create+failed.calls.startPairing,0,`${status}: nothing is created`);
+    }
+    {// PR #901: no pending shell means no extra loading-screen wait (the marker is read before waiting for the entry)
+     const ssjr=read("js/ssjr.js");
+     assert.ok(ssjr.includes('const resumeGate=async()=>{if(!pendingShell())return;const deadline='),"nothing pending: the startup never waits for the entry");
+     assert.ok(ssjr.includes('root.sessionStorage?.getItem("careerModeShowdown.sharedJourneyPending.v1")==="1"')&&ssjr.includes('s.sharedJourney.setupPending===true&&!s.selectedLeague&&!(s.clubs&&(s.clubs.playerOne||s.clubs.playerTwo))&&!(Array.isArray(s.rounds)&&s.rounds.length)'),"local marker of a pre-pair shell only; no Firebase read");
+     // behaviour: run the marker check itself against the shapes that matter
+     const fn=new Function("root","currentShowdown",ssjr.slice(ssjr.indexOf("const pendingShell="),ssjr.indexOf("const resumeGate="))+"return pendingShell();");
+     const store=v=>({sessionStorage:{getItem:()=>v}});
+     assert.equal(fn(store(null),null),false,"no shell, no tab flag: no wait");
+     assert.equal(fn(store(null),{sharedJourney:{mode:"shared",setupPending:true},clubs:{},rounds:[]}),true,"pre-pair shared shell: wait");
+     assert.equal(fn(store("1"),{sharedJourney:{mode:"shared",setupPending:true},clubs:{playerOne:"Lazio",playerTwo:"Empoli"},rounds:[]}),false,"a Showdown with clubs never waits, even with the tab flag");
+     assert.equal(fn(store(null),{sharedJourney:null,clubs:{},rounds:[]}),false,"a local Showdown never waits");
+     assert.equal(fn(store("1"),null),true,"shell not known yet, tab flag set: wait (bounded)");
+     const gate=ssjr.slice(ssjr.indexOf("const pendingShell="),ssjr.indexOf("root.careerModeHomeHold=1;"));
+     assert.doesNotMatch(gate,/firestore|getDoc|syncPair|initialize\(/i,"the marker check is local only");}
     const waiting=entryHarness({pairState:{status:"waiting",initialized:true,rivalryId:RIVALRY,connectionState:"pending-pair",managerRole:"playerOne",capability:"CMS17-"+RIVALRY}});waiting.api.install();await settle();
     assert.deepEqual(waiting.calls.layerOpen.map(options=>options&&options.stayOnScreen),[true],"a reload with the pending marker reopens WAITING, not GET READY");assert.equal(visible(waiting.overlay()),false,"no GET READY after the reload");
     // PR #901: startup leaves Home active; reload recovery puts WAITING back over the locked league wheel (closing it shows the
@@ -740,8 +764,8 @@ async function r5r6EntryContracts(){
     assert.equal(entryHarness({pairState:{status:"paired",initialized:true,rivalryId:RIVALRY,connectionState:"active",managerRole:"playerOne"}}).api.startupResume(),null,"no recovery is pending before install");
     {const ssjr=read("js/ssjr.js");
      assert.ok(ssjr.includes('.then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(resumeGate).catch(()=>null).then(()=>{root.careerModeHomeHold=0;});'),"the loading screen is released only after Home is ready AND the reload recovery settled");
-     assert.ok(ssjr.includes('const resume=entry&&typeof entry.startupResume==="function"?entry.startupResume():null;if(resume)await Promise.race([Promise.resolve(resume).catch(()=>null),cap()]);'),"bounded (6 s); no pending shell means no wait");
-     assert.ok(ssjr.includes('const cap=()=>new Promise(resolve=>root.setTimeout(resolve,6e3));'));
+     assert.ok(ssjr.includes('const resume=entry&&typeof entry.startupResume==="function"?entry.startupResume():null;if(resume)await Promise.race([Promise.resolve(resume).catch(()=>null),deadline]);'),"one deadline bounds the whole wait");
+     assert.ok(ssjr.includes('const deadline=new Promise(resolve=>root.setTimeout(resolve,3e3));'),"at most 3 s more");
      assert.ok(ssjr.includes('install("ssjr-production-entry","js/productionSharedJourneyEntry.js","CareerModeProductionSharedJourneyEntry").then(api=>{entryInstalled(api);return api;},error=>{entryInstalled(null);throw error;}),'));}
     {const source=read("js/productionSharedJourneyEntry.js");
      assert.ok(source.includes('if(decision&&decision.action==="resume-waiting")await showLockedWheel();'),"Daniel's WAITING reopens over the league wheel");
