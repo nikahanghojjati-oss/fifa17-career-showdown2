@@ -943,6 +943,22 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
       const result=await remote.autoConnect();
       assert.equal(result.kind,"hosted-publishing");assert.equal(published(world),true);
       await world.advance(10*60000);assert.equal(offerWrites.length,1,"no second write");}
+    // O (Codex #904 P2): a host open whose answer was lost leaves an unresolved request; once that Showdown is reported ended
+    // (another rivalry's end changes nothing) the request is let go, so the next auto-connect is not blocked as busy.
+    {const {world,remote}=daniel({paired:true,fail:0});
+      const api=world.sandbox.CareerModeSparkStandardAuthPrivateSession,open=api.openSession;let drop=1;
+      api.openSession=async options=>{if(drop>0){drop-=1;throw Object.assign(new Error("Failed to get document because the client is offline."),{code:"unavailable"});}return open(options);};
+      const ended=rivalryId=>{for(const fn of world.sandbox.windowListeners["career-mode-permanent-pair-ended"]||[])fn({detail:{closedRivalryId:rivalryId}});};
+      await remote.autoConnect();
+      assert.equal(remote.getState().pendingAction,"host","the lost answer leaves an unresolved host request");
+      assert.equal((await remote.autoConnect()).code,"REMOTE_JOINING_BUSY","before: the next auto-connect is blocked");
+      ended("pair_"+"b".repeat(64));
+      assert.equal(remote.getState().pendingAction,"host","another Showdown's end leaves this request alone");
+      ended(RIVAL);
+      assert.equal(remote.getState().pendingAction,null,"the ended Showdown's request is let go");
+      assert.equal(remote.getState().sessionId,null);
+      const next=await remote.autoConnect();
+      assert.equal(next.kind,"hosted",JSON.stringify(next));assert.equal(remote.getState().auto,"waiting");assert.equal(published(world),true);}
   });
 
   console.log(`PASS Firestore budget contracts: ${results.length} checks, measured reads/min ${measured.join(" / ")} (waiting <= ${BUDGET.waitingVisibleReadsPerMinute} reads/min, hidden ${BUDGET.hiddenReadsPerMinute}, idle writes 0, partner update <= ${BUDGET.partnerUpdateMs} ms).`);
