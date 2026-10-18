@@ -402,6 +402,14 @@ await check("PC2d Codex #915: Daniel's permanent-pair START makes a code only wh
     assert.equal(started.status,"error",label);assert.ok(!started.capability,`${label}: no code at all`);assert.match(started.message,message,label);
     assert.ok(!h.log.some(line=>/^(create|write)/.test(line)),`${label}: no Showdown and no note: ${h.log.join(", ")}`);
   }
+  // Nik unpairs while Daniel chooses the seasons: the page memo still says mutual, the code-creation read is fresh and sees it.
+  const late=harness({role:"playerOne",marker:"ready",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:{"accounts/uid_daniel/partner/current":partnerDoc(UID.playerTwo,"playerOne",OLD),"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerTwo",OLD)},create:commitCreate(Date.now()+20*60000)});
+  await late.pair.initialize({force:true});
+  await late.pair.readPartnerRecord();const tap=await late.pair.readPartnerSide();assert.equal(tap.status,"mutual",`START tap: Nik still names Daniel (${JSON.stringify(tap)})`);
+  late.docs.set("accounts/uid_nik/partner/current",partnerDoc(UID.playerOne,"playerTwo",OLD,false));
+  const lateStart=await late.pair.startPairing({managerRole:"playerOne"});
+  assert.equal(lateStart.status,"error");assert.match(lateStart.message,/no longer paired with you/,"the code-creation read is fresh, not the START tap's memo");
+  assert.ok(!late.log.some(line=>/^(create|write)/.test(line)),"no Showdown and no note after a late UNPAIR");
 });
 await check("PC3a Nik's note read: one memoised read per 30 s (failures count), none while hidden, only with an active playerTwo record",async()=>{
   const now=Date.now();
