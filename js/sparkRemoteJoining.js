@@ -396,6 +396,9 @@
   // owns the game and Nik must not be sent back to this one; a stale or missing pointer is replaced only if it is still the
   // one just read. Reopening the player panel restarts a retry that gave up.
   let srjOfferConfirmed=null;
+  // Codex #920: the host's join watch has its own 10 min limit, so it starts afresh whenever the pointer lands or publishing
+  // restarts; otherwise Nik could join after it ended and Daniel's screen would stay on WAITING until a reload.
+  function srjRewatchForJoin(sessionId){if(srjJoinWatchTimer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(srjJoinWatchTimer);srjJoinWatchTimer=null;srjJoinWatchSessionId=null;return srjWatchForJoin(sessionId);}
   function srjStopPublishRetry(){if(srjPublishTimer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(srjPublishTimer);srjPublishTimer=null;srjPublishRetry=null;}
   async function srjPublishIfStillOurs(context,sessionId){
     const path=`rivalries/${context.rivalryId}/sessionOffers/current`,sdk=context.services.firestoreSdk;
@@ -431,7 +434,7 @@
           if(srjPublishTimer!==null)return;  // the browser came back online meanwhile and restarted the retry
           if(!srjPendingContextMatches(context)){srjPublishRetry=null;return;}  // another account or Showdown now: not ours to publish
           const outcome=await srjPublishIfStillOurs(context,sessionId);
-          if(outcome==="ours"||outcome==="written"){srjOfferConfirmed=sessionId;srjPublishRetry=null;return;}
+          if(outcome==="ours"||outcome==="written"){srjOfferConfirmed=sessionId;srjPublishRetry=null;srjRewatchForJoin(sessionId);return;}
           if(outcome==="taken"){srjPublishRetry=null;if(srjHostWaitingForJoin(sessionId))srjSetState({message:"Your game is open on another screen. Carry on there."});return;}
           if(outcome==="stop"){srjPublishRetry=null;return;}
         }catch(_error){}
@@ -447,7 +450,7 @@
     try{context=await srjResolveContext();}catch(error){srjSetState({auto:null});return {ok:false,code:error&&error.code||"REMOTE_JOINING_CONTEXT_UNAVAILABLE",message:error&&error.message||"Player connection is unavailable."};}
     if(srjHasNonterminalSession()&&srjPendingContextMatches(context)){
       if(srjState.sessionState==="active")srjSetState({auto:null});
-      else if(srjHostWaitingForJoin(srjState.sessionId)&&srjOfferConfirmed!==srjState.sessionId&&!srjPublishRetry&&srjPermanentlyPaired()){srjSetState({auto:"waiting",message:"Waiting for Nik to open the game."});srjRetryOfferPublish(srjState.sessionId);return {ok:true,kind:"held-publishing"};}
+      else if(srjHostWaitingForJoin(srjState.sessionId)&&srjOfferConfirmed!==srjState.sessionId&&!srjPublishRetry&&srjPermanentlyPaired()){srjSetState({auto:"waiting",message:"Waiting for Nik to open the game."});srjRewatchForJoin(srjState.sessionId);srjRetryOfferPublish(srjState.sessionId);return {ok:true,kind:"held-publishing"};}
       return {ok:true,kind:"held"};
     }
     srjSetState({auto:"connecting",message:"Connecting to your Showdown…"});

@@ -870,6 +870,17 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
       const landed=offerWrites.length;assert.equal((await remote.autoConnect()).kind,"held","once it has landed, reopening costs nothing");
       await world.advance(5*60000);assert.equal(offerWrites.length,landed);}
 
+    // J (Codex #920): the pointer lands after Daniel's 10 min join watch would have ended (and again after a reopen): the
+    // watch starts afresh when it lands, so Nik joining later still moves Daniel's screen on, with no reload.
+    for(const reopen of [false,true]){const {world,remote,sessions}=daniel({paired:true,fail:reopen?15:13});
+      await remote.autoConnect();
+      if(reopen){await world.advance(11*60000);await remote.autoConnect();}
+      await world.advance(10*60000);
+      assert.equal(published(world),true,"it landed");
+      sessions[SESSION_ID]="active";  // Nik joins well after the first 10 minutes
+      await world.advance(4100);
+      assert.equal(remote.getState().sessionState,"active",`Daniel sees Nik join (${reopen?"after a reopen":"late landing"})`);}
+
     // G (Codex #920): a newer screen of Daniel's published live session B meanwhile: the retry for A never writes over it.
     {const {world,remote,offerWrites,sessions}=daniel({paired:true,fail:1});
       await remote.autoConnect();
