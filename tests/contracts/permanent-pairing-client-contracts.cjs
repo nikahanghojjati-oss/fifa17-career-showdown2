@@ -419,6 +419,26 @@ await check("PC2d Codex #915: Daniel's permanent-pair START makes a code only wh
   const again=await late.pair.startPairing({managerRole:"playerOne"});
   assert.match(again.capability||"",/^CMS17R-pair_/,`after PAIR AGAIN the code is a first-pairing CMS17R- code: ${JSON.stringify({status:again.status,message:again.message})}`);
 });
+await check("PC2e Codex #904: an UNPAIR made on another device counts at once in a tab that stayed open: code creation and redeem read this account's own record fresh",async()=>{
+  // Daniel's old tab: its page memo still says paired, his record is UNPAIRed elsewhere, so START makes a first-pairing code.
+  const daniel=harness({role:"playerOne",marker:"ready",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:{"accounts/uid_daniel/partner/current":partnerDoc(UID.playerTwo,"playerOne",OLD),"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerTwo",OLD)},create:commitCreate(Date.now()+20*60000)});
+  await daniel.pair.initialize({force:true});
+  assert.equal((await daniel.pair.readPartnerRecord()).record.active,true,"the open tab remembers the active pair");
+  daniel.docs.set("accounts/uid_daniel/partner/current",partnerDoc(UID.playerTwo,"playerOne",OLD,false));
+  const started=await daniel.pair.startPairing({managerRole:"playerOne"});
+  assert.match(started.capability||"",/^CMS17R-pair_/,`an UNPAIRed Daniel never makes a permanent-pair code: ${JSON.stringify({status:started.status,message:started.message})}`);
+  assert.ok(daniel.fresh.includes("accounts/uid_daniel/partner/current"),"the code-creation read of his own record is fresh");
+  assert.ok(!daniel.log.some(line=>/^write.*partnerInbox/.test(line)),`no JOIN note for an UNPAIRed pair: ${daniel.log.join(", ")}`);
+  // Nik's old tab: his record is UNPAIRed elsewhere, so a plain code is refused like any test code on a real account.
+  const nik=harness({marker:"ready",docs:{...joinable(R3),"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerTwo",OLD)},redeem:commitRedeem});
+  await nik.pair.initialize({force:true});
+  assert.equal((await nik.pair.readPartnerRecord()).record.active,true);
+  nik.docs.set("accounts/uid_nik/partner/current",partnerDoc(UID.playerOne,"playerTwo",OLD,false));
+  const joined=await nik.pair.joinPairing(`CMS17-${R3}`,{managerRole:"playerTwo",autoContinue:false});
+  assert.equal(joined.status,"error",`an UNPAIRed Nik never redeems a plain code: ${JSON.stringify(joined)}`);
+  assert.ok(nik.fresh.includes("accounts/uid_nik/partner/current"),"the redeem read of his own record is fresh");
+  assert.ok(!nik.log.some(line=>/^(redeem|create|provision|write|marker write)/.test(line)),`nothing is joined or written: ${nik.log.join(", ")}`);
+});
 await check("PC3a Nik's note read: one memoised read per 30 s (failures count), none while hidden, only with an active playerTwo record",async()=>{
   const now=Date.now();
   const h=harness({docs:{"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerTwo",OLD),"accounts/uid_nik/partnerInbox/current":noteDoc(R5,5,UID.playerOne,now+10*60000)}});
