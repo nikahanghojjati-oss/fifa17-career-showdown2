@@ -678,7 +678,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     const revive=value=>value===undefined?undefined:JSON.parse(JSON.stringify(value),(_key,item)=>item&&typeof item==="object"&&"__ms" in item?{toMillis:()=>item.__ms}:item);
     const record=(partnerAccountId,myRole,active)=>({schemaVersion:1,partnerAccountId,myRole,pairedViaRivalryId:`pair_1${"0".repeat(63)}`,pairedAt:{__ms:1},active,updatedAt:{__ms:1}});
     const MINE="accounts/nik/partner/current",THEIRS="accounts/daniel/partner/current",MARKER="accounts/nik/careerStart/current";
-    async function page({mine,theirs}){
+    async function page({mine,theirs,laterTheirs}){
       const world=createWorld(),{sandbox}=world,serverReads={};const count=p=>{serverReads[p]=(serverReads[p]||0)+1;};
       const sdk={...world.sdk,doc:(_db,...segments)=>({path:segments.join("/")}),serverTimestamp:()=>({__serverTimestamp:true}),Timestamp:{fromMillis:ms=>({__ms:ms})},
         runTransaction:(db,fn)=>world.sdk.runTransaction(db,transaction=>fn({get:async ref=>{const snapshot=await transaction.get(ref);count(ref.path);return{...snapshot,data:()=>revive(snapshot.data())};},set:(ref,value)=>transaction.set(ref,value)})),
@@ -701,12 +701,20 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
       assert.ok((world.document.listeners["career-mode-screen-shown"]||[]).length>=1,"the modes module listens to screen changes");
       assert.deepEqual({...serverReads},first,"no read happens without a page load or a user action");
       assert.equal(world.meter.docWrites,0,"reading the mode writes nothing");
-      return {reads:first,view:modes.getView(),side:pair.getPartnerSideState()};
+      const view=modes.getView(),side=pair.getPartnerSideState();
+      // Codex #904: the partner unpairs on their phone after this page loaded. The memo keeps its answer; Daniel's START tap
+      // (options.fresh) reads the partner's record once more and sees it.
+      let later=null;if(laterTheirs){world.serverWrite(THEIRS,laterTheirs);const memo=(await pair.readPartnerSide()).status,memoReads=serverReads[THEIRS]||0;const fresh=(await pair.readPartnerSide({fresh:true})).status;later={memo,memoReads,fresh,freshReads:serverReads[THEIRS]||0};}
+      return {reads:first,view,side,later};
     }
     const paired=await page({mine:record("daniel","playerTwo",true),theirs:record("nik","playerOne",true)});
     assert.equal(paired.reads[MINE],1,"own partner record: once per page");assert.equal(paired.reads[THEIRS],1,"partner side: once per page");
     assert.equal(paired.reads[MARKER]||0,0,"an active partner record proves real mode: no marker read");
     assert.equal(paired.view.mode,"real");assert.equal(paired.view.pairing,"paired");assert.equal(paired.side.status,"mutual");
+    const unpairedLater=await page({mine:record("daniel","playerTwo",true),theirs:record("nik","playerOne",true),laterTheirs:record("nik","playerOne",false)});
+    assert.deepEqual(unpairedLater.later,{memo:"mutual",memoReads:1,fresh:"unpaired",freshReads:2},"a later UNPAIR on the other phone: the memo stays one read, a START tap's fresh read is exactly one more and sees it");
+    const startSource=fs.readFileSync(path.join(ROOT,"js/onlinePlayerIdentity.js"),"utf8");
+    assert.match(startSource,/if\(state\.managerId==="daniel"&&typeof root\.CareerModePersistentNikDanielPair\?\.readPartnerSide==="function"\)\{const pair=root\.CareerModePersistentNikDanielPair;await pair\.readPartnerRecord\?\.\(\);await pair\.readPartnerSide\(\{fresh:true\}\);\}let decision=await which\.read\(root\);/,"Daniel's START tap reads the partner side fresh before deciding");
     const oneSided=await page({mine:record("daniel","playerTwo",true),theirs:record("nik","playerOne",false)});
     assert.equal(oneSided.reads[THEIRS],1);assert.equal(oneSided.view.pairing,"partner-unpaired");assert.equal(oneSided.side.status,"unpaired");
     const gone=await page({mine:record("daniel","playerTwo",true),theirs:null});
