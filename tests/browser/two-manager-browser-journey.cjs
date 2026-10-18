@@ -892,7 +892,8 @@ async function main(){
     }
     assert.deepEqual(await waitHomeTile(nik,"WAITING FOR DANIEL"),["WAIT","WAITING FOR DANIEL","PASTE A CODE"],"expired note: Nik's Home waits for Daniel");
     assert.equal(field(await admin(`accounts/${uidN}/partnerInbox/current`),"rivalryId").stringValue,staleRid,"the expired note is still there; it is simply not offered");
-    ok("J12.0","an expired JOIN note leaves Nik's Home on WAITING FOR DANIEL with the PASTE A CODE backup");
+    await nik.page.waitForFunction(()=>window.CareerModePersistentNikDanielPair?.getJoinNoteWatch?.().listening===true,null,{timeout:30000});
+    ok("J12.0","an expired JOIN note leaves Nik's Home on WAITING FOR DANIEL with the PASTE A CODE backup, and one note listener waits");
     const pairCode2=await danielStartsShowdown(daniel,LENGTH);
     assert.match(pairCode2,/^CMS17-pair_[0-9a-f]{64}$/,"R2 pair code shape (already paired: no CMS17R-)");
     const R2pending=pairCode2.slice("CMS17-".length);
@@ -905,12 +906,20 @@ async function main(){
       assert.deepEqual(Object.keys(note.fields).sort(),["createdAt","expiresAt","fromAccountId","rivalryId","schemaVersion","totalSeasons"]);
       assert.match(await pairPanel(daniel).innerText(),/Nik can tap JOIN on his Home screen now/,"Daniel's waiting panel says Nik can tap JOIN");
     }
-    // Nik's Home picks the note up the next time Home is shown or the tab becomes visible (memoised: at most one read per 30 s).
-    // The tab-visible event is dispatched on the still-visible page; nothing else reads the note.
+    // Nik already sits on Home when Daniel presses START: his Home holds one listener on his JOIN note while it is shown and
+    // visible (Nik 2026-10-18, "check by itself"), so JOIN appears with no tap and no tab event.
     const joinTile=["JOIN","JOIN DANIEL'S SHOWDOWN",`Daniel started ${LENGTH} season${LENGTH===1?"":"s"}. Tap to join.`];
-    {const end=Date.now()+45000;let tile;for(;;){await nik.page.evaluate(()=>document.dispatchEvent(new Event("visibilitychange")));await nik.page.waitForTimeout(2000);tile=await homeTile(nik);if(JSON.stringify(tile)===JSON.stringify(joinTile)||Date.now()>end)break;await nik.page.waitForTimeout(3000);}
-      assert.deepEqual(tile,joinTile,"Daniel START -> Nik's Home shows JOIN");}
-    ok("J12.1a","Daniel's START writes Nik's JOIN note (own transaction, invite expiry) and Nik's Home shows JOIN without a reload");
+    {
+      const nikTaps=nik.log.taps.length,written=Date.parse((await admin(`accounts/${uidN}/partnerInbox/current`)).updateTime);
+      await nik.page.waitForFunction(text=>(document.querySelector("#newShowdown .menuTileMeta")?.textContent||"").trim()===text,joinTile[2],{timeout:30000});
+      const seenAfter=Date.now()-written;
+      assert.deepEqual(await homeTile(nik),joinTile,"Daniel START -> Nik's Home shows JOIN");
+      assert.equal(nik.log.taps.length,nikTaps,"Nik tapped nothing");
+      assert.equal(await nik.page.evaluate(()=>window.getActiveScreenName?.()),"mainMenu","Nik stayed on Home");
+      assert.ok(seenAfter<=10000,`JOIN appeared ${seenAfter} ms after Daniel's note was written (listener)`);
+      assert.equal(await nik.page.evaluate(()=>window.CareerModePersistentNikDanielPair.getJoinNoteWatch().listening),false,"JOIN showing: the note listener has detached");
+    }
+    ok("J12.1a","Daniel's START writes Nik's JOIN note (own transaction, invite expiry); Nik, already on Home, sees JOIN by itself (one listener) with no tap, no tab event, no reload");
     // Reload on both: Daniel's code is still out (reload recovery reopens his WAITING by itself), Nik's Home still shows JOIN.
     for(const m of [daniel,nik]){
       await m.page.reload({waitUntil:"domcontentloaded"});

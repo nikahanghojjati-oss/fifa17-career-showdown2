@@ -528,12 +528,17 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.ok(!/setInterval\(/.test(BUDGET_SOURCE),"the budget layer starts no interval of its own");
   });
 
-  await check("FB11","r79 PR3 JOIN note: Nik's Home reads it at most once per 30 s (fresh, never cached past a write), never while hidden; the partner record once per page",async()=>{
+  // r79 PR3: Nik's pair module in the budget sandbox, paired as playerTwo; serverReads counts reads that reached the server.
+  async function nikPairWorld(){
     // The pair module runs in the same sandbox as the budget layer, so its reads go through the real budget wrapper.
     const world=createWorld(),{sandbox}=world,inbox="accounts/nik/partnerInbox/current",partner="accounts/nik/partner/current";
     const revive=value=>value===undefined?undefined:JSON.parse(JSON.stringify(value),(_key,item)=>item&&typeof item==="object"&&"__ms" in item?{toMillis:()=>item.__ms}:item);
     const serverReads={};
-    const sdk={...world.sdk,doc:(_db,...segments)=>({path:segments.join("/")}),serverTimestamp:()=>({__serverTimestamp:true}),Timestamp:{fromMillis:ms=>({__ms:ms})},runTransaction:(db,fn)=>world.sdk.runTransaction(db,transaction=>fn({get:async ref=>{const snapshot=await transaction.get(ref);serverReads[ref.path]=(serverReads[ref.path]||0)+1;return{...snapshot,data:()=>revive(snapshot.data())};},set:(ref,value)=>transaction.set(ref,value)}))};
+    const listeners={active:0,max:0,attached:0};
+    const onSnapshot=(ref,options,next,error)=>{listeners.active+=1;listeners.attached+=1;listeners.max=Math.max(listeners.max,listeners.active);let open=true;
+      const off=world.sdk.onSnapshot(ref,options,snapshot=>{if(!open)return;serverReads[ref.path]=(serverReads[ref.path]||0)+1;next({...snapshot,data:()=>revive(snapshot.data())});},error);
+      return()=>{if(open){open=false;listeners.active-=1;}off();};};
+    const sdk={...world.sdk,onSnapshot,doc:(_db,...segments)=>({path:segments.join("/")}),serverTimestamp:()=>({__serverTimestamp:true}),Timestamp:{fromMillis:ms=>({__ms:ms})},runTransaction:(db,fn)=>world.sdk.runTransaction(db,transaction=>fn({get:async ref=>{const snapshot=await transaction.get(ref);serverReads[ref.path]=(serverReads[ref.path]||0)+1;return{...snapshot,data:()=>revive(snapshot.data())};},set:(ref,value)=>transaction.set(ref,value)}))};
     // No Connect Players screen on Home: the panel render finds nothing and draws nothing.
     Object.assign(world.document,{querySelector:()=>null,getElementById:()=>null,querySelectorAll:()=>[],dispatchEvent:()=>true});
     Object.assign(sandbox,{TextEncoder,crypto:require("node:crypto").webcrypto,
@@ -545,6 +550,10 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     const pair=sandbox.CareerModePersistentNikDanielPair;
     world.serverWrite(partner,{schemaVersion:1,partnerAccountId:"daniel",myRole:"playerTwo",pairedViaRivalryId:`pair_1${"0".repeat(63)}`,pairedAt:{__ms:1},active:true,updatedAt:{__ms:1}});
     await pair.initialize();  // as on page load: no Showdown link yet
+    return {world,pair,serverReads,inbox,partner,listeners};
+  }
+  await check("FB11","r79 PR3 JOIN note: Nik's Home reads it at most once per 30 s (fresh, never cached past a write), never while hidden; the partner record once per page",async()=>{
+    const {world,pair,serverReads,inbox,partner}=await nikPairWorld();
     for(let i=0;i<5;i+=1)await pair.readPartnerRecord();
     assert.equal(serverReads[partner],1,"the partner record is read once per page");
     // Home shown (screen changes, tab returns, taps) every 5 s for 10 minutes while visible: one note read per 30 s at most.
@@ -565,6 +574,60 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     world.setVisible(true);
     assert.equal(serverReads[partner],1,"still one partner read for the whole page");
     assert.equal(world.meter.docWrites,0,"reading the note writes nothing");
+  });
+
+  await check("FB11b","Nik 2026-10-18 (check by itself): ONE note listener while Home is shown and visible; reads only on attach and on change; none hidden or off Home; JOIN with no tap; 10 minutes per visit; errors fall back to the 30 s memo",async()=>{
+    const {world,pair,serverReads,inbox,listeners}=await nikPairWorld();let home=true;const isHomeShown=()=>home;
+    const reads=()=>serverReads[inbox]||0;
+    await pair.readPartnerRecord();
+    // Home shown: attach. Its first delivery IS the read; taps / tab returns every 5 s on Home cost nothing more.
+    assert.equal(await pair.watchJoinNote({isHomeShown}),true,"the listener delivered the note from the server");
+    assert.equal(reads(),1,"attach costs one read");
+    for(let t=0;t<9*60000;t+=5000){await pair.watchJoinNote({isHomeShown});await pair.readJoinNote();await world.advance(5000);}
+    assert.equal(listeners.max,1,"never more than one listener");
+    assert.equal(listeners.attached,1,"Home shown again and again keeps the same listener");
+    assert.equal(reads(),1,"9 quiet minutes on Home: no further reads (nothing changed)");
+    // after 10 minutes from the last Home visit the listener detaches
+    await world.advance(11*60000);
+    assert.equal(listeners.active,0,"the listener detaches 10 minutes after the Home visit");
+    // a new Home visit re-attaches; hiding the tab detaches at once and nothing is read while hidden
+    await pair.watchJoinNote({isHomeShown});assert.equal(listeners.active,1);let before=reads();
+    world.setVisible(false);assert.equal(listeners.active,0,"hidden: detached at once");
+    world.serverWrite(inbox,null);await world.advance(5*60000);
+    for(let i=0;i<5;i+=1){await pair.readJoinNote();await pair.watchJoinNote({isHomeShown});}
+    assert.equal(reads(),before,"hidden: no note reads at all");assert.equal(listeners.active,0);
+    world.setVisible(true);await pair.watchJoinNote({isHomeShown});assert.equal(listeners.active,1,"tab visible again: re-attached");
+    // leaving Home detaches; nothing is read off Home
+    pair.stopJoinNoteWatch();home=false;before=reads();
+    for(let i=0;i<5;i+=1)await pair.watchJoinNote({isHomeShown});await world.advance(5*60000);
+    assert.equal(listeners.active,0,"off Home: no listener");assert.equal(reads(),before,"off Home: no reads");
+    // Daniel's START writes the note while Nik sits on Home: JOIN with no tap, no tab event; then the listener detaches.
+    home=true;await pair.watchJoinNote({isHomeShown});await world.advance(60000);before=reads();
+    const rivalryId=`pair_3${"2".repeat(63)}`,writtenAt=world.clock.now;
+    world.serverWrite(inbox,{schemaVersion:1,rivalryId,totalSeasons:3,fromAccountId:"daniel",createdAt:{__ms:writtenAt},expiresAt:{__ms:writtenAt+20*60000}});
+    await world.advance(0);
+    assert.equal(pair.getJoinNoteState(world.clock.now).note?.rivalryId,rivalryId,"JOIN shows as soon as the note is written");
+    assert.equal(reads()-before,1,"the change costs one delivery");
+    assert.equal(listeners.active,0,"JOIN showing: the listener detaches");
+    await world.advance(5*60000);assert.equal(reads()-before,1,"nothing more is read while JOIN shows");
+    assert.equal(world.meter.docWrites,0,"watching writes nothing");
+  });
+
+  await check("FB11c","a note listener that errors falls back to the memoised read: at most once per 30 s, same stop rules, never a second listener",async()=>{
+    const {world,pair,serverReads,inbox,listeners}=await nikPairWorld();let home=true;const isHomeShown=()=>home;
+    const reads=()=>serverReads[inbox]||0;
+    await pair.readPartnerRecord();
+    assert.equal(await pair.watchJoinNote({isHomeShown}),true);
+    // the listen stream drops (as a denied or broken stream would): the one listener is gone and the memoised read takes over
+    world.failListeners();await world.advance(0);
+    assert.equal(listeners.active,0,"the failed listener is detached");
+    assert.equal(pair.getJoinNoteWatch().mode,"fallback");
+    assert.equal(await pair.watchJoinNote({isHomeShown}),false,"no live listener: the caller uses the memoised read");
+    for(let t=0;t<9*60000;t+=5000){await pair.watchJoinNote({isHomeShown});await pair.readJoinNote();await world.advance(5000);}
+    assert.ok(reads()<=20,`fallback: at most one read per 30 s over 9 minutes (${reads()})`);
+    assert.ok(listeners.max<=1,"never a second listener");
+    world.setVisible(false);const before=reads();await world.advance(5*60000);assert.equal(reads(),before,"fallback: none while hidden");world.setVisible(true);
+    pair.stopJoinNoteWatch();home=false;const off=reads();await world.advance(5*60000);assert.equal(reads(),off,"fallback: none off Home");
   });
 
   console.log(`PASS Firestore budget contracts: ${results.length} checks, measured reads/min ${measured.join(" / ")} (waiting <= ${BUDGET.waitingVisibleReadsPerMinute} reads/min, hidden ${BUDGET.hiddenReadsPerMinute}, idle writes 0, partner update <= ${BUDGET.partnerUpdateMs} ms).`);

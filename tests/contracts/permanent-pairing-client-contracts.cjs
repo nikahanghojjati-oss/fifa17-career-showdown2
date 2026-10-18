@@ -36,6 +36,8 @@ function shellEntry(saveId,profileId,rounds,role){return{saveId,showdown:{totalR
 function envelope(objectType,objectId,data,revision=0){return{schemaVersion:1,objectType,objectId,revision,parentRevision:revision?revision-1:null,lifecycleState:"live",contentHash:`sha256:${"9".repeat(64)}`,data};}
 function rivalryDoc(id,connectionState,{nik=true}={}){return envelope("rivalry",id,{connectionState,createdByAccountId:UID.playerOne,authorizedAccountIds:nik?[UID.playerOne,UID.playerTwo]:[UID.playerOne],managerSlots:[{slotId:"playerOne",accountId:UID.playerOne,saveId:DANIEL_SAVE,profileId:DANIEL_PROFILE,entitlementState:"active"},nik?{slotId:"playerTwo",accountId:UID.playerTwo,saveId:NIK_SAVE,profileId:NIK_PROFILE,entitlementState:"active"}:{slotId:"playerTwo",accountId:null,saveId:null,profileId:null,entitlementState:"open"}]},nik?1:0);}
 function inviteDoc(id,expiresAtMs,state="open"){return envelope("invite",id,{purpose:"rivalry-pairing",slotId:"playerTwo",createdByAccountId:UID.playerOne,expiresAt:ts(expiresAtMs),state});}
+// Daniel's open code as a code holder can read it: pending rivalry (playerTwo slot free) and its open, unexpired invite.
+function joinable(id,{expiresAtMs=Date.now()+600000,state="open"}={}){return{[`rivalries/${id}`]:rivalryDoc(id,"pending-pair",{nik:false}),[`rivalries/${id}/invites/${id}`]:inviteDoc(id,expiresAtMs,state)};}
 function linkDoc(id,role){return envelope("pairLink","current",{rivalryId:id,managerRole:role,managerId:role==="playerOne"?"daniel":"nik",linkedAt:ts(1),lastConfirmedAt:ts(1)});}
 function partnerDoc(partnerAccountId,myRole,rivalryId,active=true){return{schemaVersion:1,partnerAccountId,myRole,pairedViaRivalryId:rivalryId,pairedAt:ts(1000),active,updatedAt:ts(1000)};}
 function noteDoc(rivalryId,totalSeasons,fromAccountId,expiresAtMs){return{schemaVersion:1,rivalryId,totalSeasons,fromAccountId,createdAt:ts(Date.now()),expiresAt:ts(expiresAtMs)};}
@@ -53,7 +55,7 @@ function harness({role="playerTwo",docs:seed={},saves=[],activeSaveId=null,marke
     runTransaction:async(_db,fn)=>{
       const record={reads:[],writes:[]};transactions.push(record);
       const pending=[];
-      const tx={get:async ref=>{if(h.failReads&&h.failReads(ref.path))throw providerError("unavailable","offline");record.reads.push(ref.path);return{exists:()=>docs.has(ref.path),data:()=>JSON.parse(JSON.stringify(docs.get(ref.path)),(k,v)=>v&&typeof v==="object"&&"__ms" in v?ts(v.__ms):v)};},set:(ref,value)=>{pending.push([ref.path,value]);}};
+      const tx={get:async ref=>{if(h.failReads&&h.failReads(ref.path))throw providerError(h.failCode||"unavailable",h.failCode==="permission-denied"?"Missing or insufficient permissions.":"offline");record.reads.push(ref.path);return{exists:()=>docs.has(ref.path),data:()=>JSON.parse(JSON.stringify(docs.get(ref.path)),(k,v)=>v&&typeof v==="object"&&"__ms" in v?ts(v.__ms):v)};},set:(ref,value)=>{pending.push([ref.path,value]);}};
       const result=await fn(tx);
       for(const [key,value] of pending){record.writes.push(key);docs.set(key,value);log.push(`write ${key}`);}
       return result;
@@ -118,7 +120,7 @@ const danielShell=()=>shellEntry(DANIEL_SAVE,DANIEL_PROFILE,3,"playerOne");
 
 (async()=>{
 await check("PC1a first real pairing (Nik): CMS17R- writes his marker BEFORE redeeming, then his partner record after the redeem",async()=>{
-  const h=harness({redeem:commitRedeem});
+  const h=harness({docs:joinable(R3),redeem:commitRedeem});
   await h.pair.initialize({force:true});
   const joined=await h.pair.joinPairing(`Daniel: CMS17R-${R3}`,{managerRole:"playerTwo",autoContinue:false});
   assert.equal(joined.status,"paired");assert.equal(joined.connectionState,"active");
@@ -132,8 +134,44 @@ await check("PC1a first real pairing (Nik): CMS17R- writes his marker BEFORE red
   assert.equal(h.pair.getPartnerState().record.active,true);
 });
 
+await check("PC1f Codex #903: the R prefix is only text, so a CMS17R- code that cannot be joined (expired, used, unknown, unreadable, made by Nik, wrong slot) writes nothing: no marker, no shell, no redeem, the normal join error",async()=>{
+  const nikMade=joinable(R3);nikMade[`rivalries/${R3}/invites/${R3}`]={...nikMade[`rivalries/${R3}/invites/${R3}`],data:{...nikMade[`rivalries/${R3}/invites/${R3}`].data,createdByAccountId:UID.playerTwo}};
+  const wrongSlot=joinable(R3);wrongSlot[`rivalries/${R3}/invites/${R3}`]={...wrongSlot[`rivalries/${R3}/invites/${R3}`],data:{...wrongSlot[`rivalries/${R3}/invites/${R3}`].data,slotId:"playerOne"}};
+  const taken={...joinable(R3),[`rivalries/${R3}`]:rivalryDoc(R3,"active")};
+  const cases=[
+    ["expired invite",joinable(R3,{expiresAtMs:Date.now()-1000}),"PAIRING_CAPABILITY_EXPIRED"],
+    ["redeemed invite",joinable(R3,{state:"redeemed"}),"PAIRING_CAPABILITY_ALREADY_USED"],
+    ["unknown code",{},"PAIRING_CAPABILITY_NOT_FOUND"],
+    ["unreadable (offline)",joinable(R3),"unavailable",path=>path.startsWith(`rivalries/${R3}`)],
+    ["refused by Rules (permission-denied)",joinable(R3),"permission-denied",path=>path.startsWith(`rivalries/${R3}`),"permission-denied"],
+    ["made by Nik's own account",nikMade,"PAIRING_CREATOR_CANNOT_REDEEM"],
+    ["code for Daniel's slot",wrongSlot,"PAIRING_SLOT_MISMATCH"],
+    ["playerTwo slot already taken",taken,"PAIRING_RIVALRY_NOT_JOINABLE"]
+  ];
+  for(const [label,docs,code,failReads,failCode] of cases){
+    const h=harness({docs,redeem:commitRedeem});
+    await h.pair.initialize({force:true});
+    if(failReads)h.failReads=failReads;if(failCode)h.failCode=failCode;
+    // a tampered prefix: Daniel's plain CMS17- code edited to CMS17R-
+    const refused=await h.pair.joinPairing(`CMS17R-${R3}`,{managerRole:"playerTwo",autoContinue:false});
+    assert.equal(refused.status,"error",`${label}: the join is refused`);
+    assert.ok(!h.log.includes("marker write"),`${label}: no career start marker is written`);
+    assert.ok(!h.log.includes("provision")&&!h.log.some(line=>line.startsWith("redeem")),`${label}: no shell, no redeem`);
+    assert.ok(!h.docs.has("accounts/uid_nik/careerStart/current")&&!h.docs.has("accounts/uid_nik/partner/current"),`${label}: nothing is written`);
+    assert.equal(h.transactions.filter(t=>t.writes.length).length,0,`${label}: no transaction wrote anything`);
+    assert.equal(h.library.saves.length,0,`${label}: no shell is left`);
+    assert.ok(typeof refused.message==="string"&&refused.message.length>0,`${label}: the normal join error is shown (${code})`);
+  }
+  // control: the same tampered prefix on a joinable code still reads the capability first, then writes the marker
+  const ok=harness({docs:joinable(R3),redeem:commitRedeem});await ok.pair.initialize({force:true});
+  await ok.pair.joinPairing(`CMS17R-${R3}`,{managerRole:"playerTwo",autoContinue:false});
+  const checkTx=ok.transactions.findIndex(t=>t.reads.includes(`rivalries/${R3}/invites/${R3}`)&&!t.writes.length);
+  assert.ok(checkTx>=0&&ok.log.indexOf("marker write")>=0,"joinable: capability read, then marker");
+  assert.deepEqual(ok.transactions[checkTx].reads,[`rivalries/${R3}`,`rivalries/${R3}/invites/${R3}`],"the check reads exactly the rivalry and its invite (what the redeem reads)");
+});
+
 await check("PC1b a marker that already exists is not written again; a plain CMS17- code never writes a marker or a partner record",async()=>{
-  const real=harness({marker:"ready",redeem:commitRedeem});
+  const real=harness({marker:"ready",docs:joinable(R3),redeem:commitRedeem});
   await real.pair.initialize({force:true});
   await real.pair.joinPairing(`CMS17R-${R3}`,{managerRole:"playerTwo",autoContinue:false});
   assert.ok(!real.log.includes("marker write"),"an existing marker is kept as it is");
@@ -147,20 +185,20 @@ await check("PC1b a marker that already exists is not written again; a plain CMS
 });
 
 await check("PC1c the marker comes first: a marker that cannot be written stops the join before any shell or redeem; a refused redeem keeps the createdShell rollback",async()=>{
-  const blocked=harness({markerError:providerError("CAREER_START_SHOWDOWN_UNFINISHED","Finish or delete the current Showdown before starting your real career."),redeem:commitRedeem});
+  const blocked=harness({markerError:providerError("CAREER_START_SHOWDOWN_UNFINISHED","Finish or delete the current Showdown before starting your real career."),docs:joinable(R3),redeem:commitRedeem});
   await blocked.pair.initialize({force:true});
   const refused=await blocked.pair.joinPairing(`CMS17R-${R3}`,{managerRole:"playerTwo",autoContinue:false});
   assert.equal(refused.status,"error");
   assert.ok(!blocked.log.includes("provision")&&!blocked.log.some(line=>line.startsWith("redeem")),"no shell, no redeem without the marker");
   assert.equal(blocked.library.saves.length,0);
-  const denied=harness({redeem:async()=>({ok:false,code:"permission-denied",message:"denied"})});
+  const denied=harness({docs:joinable(R3),redeem:async()=>({ok:false,code:"permission-denied",message:"denied"})});
   await denied.pair.initialize({force:true});
   await denied.pair.joinPairing(`CMS17R-${R3}`,{managerRole:"playerTwo",autoContinue:false});
   assert.ok(denied.log.indexOf("marker write")<denied.log.indexOf(`redeem ${R3}`));
   assert.deepEqual(denied.deleted,[NIK_SAVE],"the empty shell this attempt created is removed after a definite refusal");
   assert.ok(!denied.docs.has("accounts/uid_nik/partner/current"),"no partner record without an ACTIVE pairing");
   const source=pairSource.slice(pairSource.indexOf("async function pairJoinPairing"),pairSource.indexOf("function pairContextualJoinMessage"));
-  assert.match(source,/manager=pairRequireCurrentIdentity\(role\);[^]*?if\(parsed\.real&&role==="playerTwo"\)await pairEnsureOwnMarkerBeforeRealJoin\(\);const knownSaveIds=/,"the marker is ensured before the shell is provisioned");
+  assert.match(source,/manager=pairRequireCurrentIdentity\(role\);[^]*?if\(parsed\.real&&role==="playerTwo"\)\{\/\*[^*]*\*\/await pairCheckJoinableBeforeMarker\(context,parsed\.rivalryId,role\);await pairEnsureOwnMarkerBeforeRealJoin\(\);\}const knownSaveIds=/,"the code is checked joinable, then the marker is ensured, before the shell is provisioned");
 });
 
 await check("PC1d first real pairing (Daniel): CMS17R- code, no note; his waiting poll writes his record only after reading the rivalry ACTIVE with Nik in playerTwo, then continues",async()=>{
@@ -367,6 +405,18 @@ await check("PC5 UNPAIR: active:false + updatedAt only; blocked while a Showdown
   assert.equal((await closed.pair.unpair()).status,"already-unpaired");
   assert.equal(closed.transactions.reduce((n,t)=>n+t.writes.length,0),writes,"UNPAIR twice writes once");
   const none=harness();assert.equal((await none.pair.unpair()).status,"not-paired");
+  // Codex #903: fail closed. A linked Showdown (or its invite) this account cannot read never lets UNPAIR through.
+  for(const [label,docs,unreadable,code] of [
+    ["active rivalry refused by Rules",{[`rivalries/${R3}`]:rivalryDoc(R3,"active")},`rivalries/${R3}`,"permission-denied"],
+    ["rivalry read offline",{[`rivalries/${R3}`]:rivalryDoc(R3,"active")},`rivalries/${R3}`,"unavailable"],
+    ["open invite refused by Rules",{[`rivalries/${R3}`]:rivalryDoc(R3,"pending-pair",{nik:false}),[`rivalries/${R3}/invites/${R3}`]:inviteDoc(R3,Date.now()+600000)},`rivalries/${R3}/invites/${R3}`,"permission-denied"]
+  ]){
+    const h=harness({docs:{"accounts/uid_nik/partner/current":record,"accounts/uid_nik/pairLinks/current":linkDoc(R3,"playerTwo"),...docs}});
+    h.failReads=p=>p===unreadable;h.failCode=code;
+    await assert.rejects(h.pair.unpair(),error=>error.code==="PERMANENT_PARTNER_UNPAIR_UNVERIFIED"&&/could not be checked, so nothing was unpaired/.test(error.message),`${label}: UNPAIR is refused with a clear reason`);
+    assert.equal(h.docs.get("accounts/uid_nik/partner/current").active,true,`${label}: the partner record is unchanged`);
+    assert.equal(h.transactions.reduce((n,t)=>n+t.writes.length,0),0,`${label}: nothing is written`);
+  }
 });
 
 await check("PC6 reload recovery needs the other manager's record; a paired account has no USE A SESSION CODE path",async()=>{
@@ -394,9 +444,21 @@ await check("PC7 the identity sidecar reads the partner record once per load and
   const identity=read("js/onlinePlayerIdentity.js");
   assert.match(identity,/pair\.render\?\.\(\);void afterPersistentPairSync\(pair\);return pairState;/);
   assert.match(identity,/async function afterPersistentPairSync\(pair\)\{try\{if\(typeof pair\?\.readPartnerRecord!=="function"\)return;await pair\.readPartnerRecord\(\);if\(state\.managerId==="daniel"\)await pair\.ensurePartnerRecord\?\.\(\);else await refreshJoinNoteOnHome\(\);/);
-  assert.match(identity,/async function refreshJoinNoteOnHome\(\)\{[^\n]*state\.managerId!=="nik"[^\n]*!onlineHomeShown\(\)\)return null;const note=await pair\.readJoinNote\(\)/);
+  assert.match(identity,/async function refreshJoinNoteOnHome\(\)\{[^\n]*state\.managerId!=="nik"[^\n]*!onlineHomeShown\(\)\)return null;/);
   assert.match(identity,/function onlineHomeShown\(\)\{if\(root\.document\?\.visibilityState==="hidden"\)return false;[^\n]*screen==="mainMenu"/);
-  assert.match(identity,/addEventListener\("career-mode-screen-shown",event=>\{if\(!event\?\.detail\?\.screen\|\|event\.detail\.screen==="mainMenu"\)void refreshJoinNoteOnHome\(\);\}\)/);
+  assert.match(identity,/addEventListener\("career-mode-screen-shown",event=>\{if\(!event\?\.detail\?\.screen\|\|event\.detail\.screen==="mainMenu"\)void refreshJoinNoteOnHome\(\);else root\.CareerModePersistentNikDanielPair\?\.stopJoinNoteWatch\?\.\(\);\}\)/,"leaving Home detaches the note listener at once");
+  // Nik 2026-10-18 ("check by itself"): Home shown / tab visible (re)attaches ONE note listener; its first server delivery is the
+  // read, and without a live listener the memoised read answers.
+  assert.match(identity,/const listening=typeof pair\.watchJoinNote==="function"\?await pair\.watchJoinNote\(\{isHomeShown:onlineHomeShown\}\)\.catch\(\(\)=>false\):false;const note=listening\?pair\.getJoinNoteState\(\):await pair\.readJoinNote\(\)\.catch\(\(\)=>null\);/);
+  const pairSource=read("js/persistentNikDanielPair.js");
+  assert.match(pairSource,/JOIN_NOTE_WATCH_WINDOW_MS=600000,/,"10 minutes per Home visit");
+  assert.match(pairSource,/noteWatch\.unsubscribe=api\.onSnapshot\(ref,\{includeMetadataChanges:false\},/,"the note is watched by one onSnapshot listener");
+  assert.match(pairSource,/api\.doc\(context\.services\.firestore,"accounts",context\.accountId,"partnerInbox",PARTNER_DOC_ID\)/,"on exactly the one awaited document");
+  assert.match(pairSource,/root\.document\.addEventListener\("visibilitychange",\(\)=>\{if\(root\.document\.visibilityState==="hidden"\)pairJoinNoteWatchStop\(\);\}\)/,"a hidden tab detaches it at once");
+  assert.match(pairSource,/if\(pairJoinNoteListening\(accountId\)\)return joinNoteState;/,"no extra read while the listener is live");
+  assert.match(pairSource,/\(\)=>\{if\(noteWatch\.seq===seq&&noteWatch\.mode==="listen"\)pairJoinNoteFallback\(\);\}/,"a listener error falls back to the memoised read");
+  const surfaceText=identity.slice(identity.indexOf("function configureOnlineProductSurface"),identity.indexOf("function ensureOnlineIdentityOverlay"));
+  assert.doesNotMatch(surfaceText,/watchJoinNote|onSnapshot/,"render never attaches the listener");
   assert.match(identity,/addEventListener\("visibilitychange",\(\)=>\{if\(root\.document\.visibilityState==="visible"\)void refreshJoinNoteOnHome\(\);\}\)/);
   const surface=identity.slice(identity.indexOf("function configureOnlineProductSurface"),identity.indexOf("function ensureOnlineIdentityOverlay"));
   const tile=identity.slice(identity.indexOf("function nikHomeTile"),identity.indexOf("async function resolveOnlineDependencies"));
