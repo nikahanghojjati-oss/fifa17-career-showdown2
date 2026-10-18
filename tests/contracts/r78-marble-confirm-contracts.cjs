@@ -190,47 +190,47 @@ check("R4b the marble tile is served from the precached shell without a ?v= quer
   tileChecks.catch(()=>{});
 });
 
-// The r77 shell on an installed phone was filled by the r77 worker with r77's own 213 paths. Activating r78 must keep it (and its
-// image cache) as the recovery target instead of judging it against r78's longer list and deleting it.
-const R77_SHELL_PATHS_SHA256="b17059a35b39ad655d2efc48ee85b53f64a285f9cfd730f6bb0ad7643c96b552";// sorted JSON of r77's SHELL_PATHS (main 8f32e34)
+// The r78 shell on an installed phone was filled by the r78 worker with r78's own 219 paths. Activating r79 must keep it (and its
+// image cache) as the recovery target instead of judging it against r79's longer list and deleting it.
+const R78_SHELL_PATHS_SHA256="a13204a973ce3b1f4d50d9c5e07dfcf4892d519ac7325ec7d64917a94a533bfd";// sorted JSON of r78's SHELL_PATHS (main f15f54f9)
 let previousShellChecks=Promise.reject(new Error("R4c did not run"));previousShellChecks.catch(()=>{});
-check("R4c an r77-only shell cache survives r78 activation and stays the rollback target",()=>{
+check("R4c an r78-only shell cache survives r79 activation and stays the rollback target",()=>{
   const crypto=require("node:crypto");
   const probe=swWorld(),diag=probe.diag;
-  assert.equal(diag.previousRevision,"1.9.1-r77");
-  assert.equal(diag.previousShellPaths.length,213,"r77 shipped 213 shell paths");
-  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R77_SHELL_PATHS_SHA256,"the previous list is exactly r77's");
-  assert.ok(diag.previousShellPaths.every(p=>diag.shellPaths.includes(p)),"r78 removed no shell path");
+  assert.equal(diag.previousRevision,"1.9.2-r78");
+  assert.equal(diag.previousShellPaths.length,219,"r78 shipped 219 shell paths");
+  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R78_SHELL_PATHS_SHA256,"the previous list is exactly r78's");
+  assert.ok(diag.previousShellPaths.every(p=>diag.shellPaths.includes(p)),"r79 removed no shell path");
   previousShellChecks=(async()=>{
     const IMG="career-mode-showdown-v10-images-",PREV="career-mode-showdown-shell-"+diag.previousRevision;
-    // 1. a real r77 install: r77's own list only, plus its image cache and an older leftover
+    // 1. a real r78 install: r78's own list only, plus its image cache and an older leftover
     let w=swWorld();
-    w.fill(diag.revision,diag.shellPaths);w.fill(diag.previousRevision,diag.previousShellPaths,p=>"r77:"+p);w.fill("1.9.1-r76",diag.previousShellPaths);
-    w.store.set(IMG+diag.previousRevision,new Map([[w.SCOPE+"visual-assets/v10_1/home/assets/ENV_HOME_PHONE_V1.webp",new Response("r77-art",{status:200})]]));
+    w.fill(diag.revision,diag.shellPaths);w.fill(diag.previousRevision,diag.previousShellPaths,p=>"r78:"+p);w.fill("1.9.1-r77",diag.previousShellPaths);
+    w.store.set(IMG+diag.previousRevision,new Map([[w.SCOPE+"visual-assets/v10_1/home/assets/ENV_HOME_PHONE_V1.webp",new Response("r78-art",{status:200})]]));
     const status=await w.message("CMS_GET_CACHE_STATUS");
-    assert.equal(status.previous.ok,true,"the r77 cache verifies against r77's own list");
+    assert.equal(status.previous.ok,true,"the r78 cache verifies against r78's own list");
     assert.equal(status.recovery.ok,true);assert.equal(status.recovery.revision,diag.previousRevision);
     await w.dispatch("activate",{});
     const names=[...w.store.keys()];
-    assert.ok(names.includes(PREV),"activation keeps the r77 shell");
-    assert.ok(names.includes(IMG+diag.previousRevision),"activation keeps the r77 image cache");
-    assert.ok(!names.includes("career-mode-showdown-shell-1.9.1-r76"),"older shells are still cleared");
+    assert.ok(names.includes(PREV),"activation keeps the r78 shell");
+    assert.ok(names.includes(IMG+diag.previousRevision),"activation keeps the r78 image cache");
+    assert.ok(!names.includes("career-mode-showdown-shell-1.9.1-r77"),"older shells are still cleared");
     const reply=await w.message("CMS_ROLLBACK_TO_PREVIOUS");
-    assert.equal(reply&&reply.ok,true,"rollback to r77 accepted");assert.equal(reply.revision,diag.previousRevision);
+    assert.equal(reply&&reply.ok,true,"rollback to r78 accepted");assert.equal(reply.revision,diag.previousRevision);
     w.setOnline(false);
     let nav;w.dispatch("fetch",{request:Object.defineProperty(new Request(w.SCOPE),"mode",{value:"navigate"}),respondWith:p=>{nav=p;}});
-    assert.equal(await (await nav).text(),"r77:index.html","offline after rollback: the r77 page");
-    assert.equal(await w.get("js/app.js?v="+diag.previousRevision),"r77:js/app.js","and r77's own files");
-    // 2. an r77 cache missing one of r77's own files is not a recovery target
+    assert.equal(await (await nav).text(),"r78:index.html","offline after rollback: the r78 page");
+    assert.equal(await w.get("js/app.js?v="+diag.previousRevision),"r78:js/app.js","and r78's own files");
+    // 2. an r78 cache missing one of r78's own files is not a recovery target
     w=swWorld();
     w.fill(diag.revision,diag.shellPaths);const broken=w.fill(diag.previousRevision,diag.previousShellPaths);
     const gone=new URL("js/app.js",w.SCOPE);gone.searchParams.set("v",diag.previousRevision);broken.delete(gone.href);
-    assert.equal((await w.message("CMS_GET_CACHE_STATUS")).previous.ok,false,"an incomplete r77 shell fails its own check");
+    assert.equal((await w.message("CMS_GET_CACHE_STATUS")).previous.ok,false,"an incomplete r78 shell fails its own check");
     await w.dispatch("activate",{});
     assert.ok(![...w.store.keys()].includes(PREV),"and is cleared on activation");
-    // 3. the current shell is still judged against the full r78 list
+    // 3. the current shell is still judged against the full r79 list
     w=swWorld();w.fill(diag.revision,diag.previousShellPaths);
-    assert.equal((await w.message("CMS_ACTIVATE_UPDATE")).ok,false,"an r78 cache with only r77's files is refused");
+    assert.equal((await w.message("CMS_ACTIVATE_UPDATE")).ok,false,"an r79 cache with only r78's files is refused");
   })();
   previousShellChecks.catch(()=>{});
 });
