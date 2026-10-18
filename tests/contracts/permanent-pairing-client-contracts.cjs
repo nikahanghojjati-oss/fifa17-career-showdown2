@@ -46,7 +46,7 @@ function harness({role="playerTwo",docs:seed={},saves=[],activeSaveId=null,marke
   const uid=UID[role],deviceId=role==="playerTwo"?"device_nik":"device_daniel";
   const docs=new Map(Object.entries(seed));
   const library={activeSaveId,saves:saves.map(entry=>JSON.parse(JSON.stringify(entry)))};
-  const log=[],transactions=[],timers=[],fresh=[],deleted=[];
+  const log=[],transactions=[],timers=[],fresh=[],server=[],deleted=[];
   const h={failReads:null,hidden:false,markerStatus:marker};
   const firestoreSdk={
     doc:(_db,...parts)=>({path:parts.join("/")}),
@@ -79,7 +79,7 @@ function harness({role="playerTwo",docs:seed={},saves=[],activeSaveId=null,marke
     document:{get visibilityState(){return h.hidden?"hidden":"visible";},querySelector:()=>null,getElementById:()=>null},
     CustomEvent:class{constructor(type,init){this.type=type;this.detail=init&&init.detail;}},
     dispatchEvent:event=>{log.push(`event ${event.type}`);return true;},
-    CareerModeFirestoreBudget:{services:s=>s,wantFresh:p=>fresh.push(p),quotaMessage:()=>null},
+    CareerModeFirestoreBudget:{services:s=>s,wantFresh:p=>fresh.push(p),readServerNext:p=>server.push(p),quotaMessage:()=>null},
     CareerModeOnlinePlayerIdentity:{getState:()=>({managerId:role==="playerTwo"?"nik":"daniel"})},
     CareerModeSparkConnectedAccount:{initialize:async()=>({}),getState:()=>({connected:true,accountId:uid})},
     CareerModeSparkPrivatePairing:pairing,
@@ -91,7 +91,7 @@ function harness({role="playerTwo",docs:seed={},saves=[],activeSaveId=null,marke
   vm.createContext(sandbox);
   vm.runInContext(pairSource,sandbox,{filename:"js/persistentNikDanielPair.js"});
   const pair=sandbox.CareerModePersistentNikDanielPair;
-  return Object.assign(h,{pair,docs,library,log,transactions,timers,fresh,deleted,uid,firestoreSdk,sandbox});
+  return Object.assign(h,{pair,docs,library,log,transactions,timers,fresh,server,deleted,uid,firestoreSdk,sandbox});
 }
 // Nik's redeem: the durable pair-link witness plus the activated rivalry in one transaction (as sparkPrivatePairing does).
 async function commitRedeem(options,h){
@@ -427,7 +427,7 @@ await check("PC2e Codex #904: an UNPAIR made on another device counts at once in
   daniel.docs.set("accounts/uid_daniel/partner/current",partnerDoc(UID.playerTwo,"playerOne",OLD,false));
   const started=await daniel.pair.startPairing({managerRole:"playerOne"});
   assert.match(started.capability||"",/^CMS17R-pair_/,`an UNPAIRed Daniel never makes a permanent-pair code: ${JSON.stringify({status:started.status,message:started.message})}`);
-  assert.ok(daniel.fresh.includes("accounts/uid_daniel/partner/current"),"the code-creation read of his own record is fresh");
+  assert.ok(daniel.server.includes("accounts/uid_daniel/partner/current"),"the code-creation read of his own record goes to the server");
   assert.ok(!daniel.log.some(line=>/^write.*partnerInbox/.test(line)),`no JOIN note for an UNPAIRed pair: ${daniel.log.join(", ")}`);
   // Nik's old tab: his record is UNPAIRed elsewhere, so a plain code is refused like any test code on a real account.
   const nik=harness({marker:"ready",docs:{...joinable(R3),"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerTwo",OLD)},redeem:commitRedeem});
@@ -436,7 +436,7 @@ await check("PC2e Codex #904: an UNPAIR made on another device counts at once in
   nik.docs.set("accounts/uid_nik/partner/current",partnerDoc(UID.playerOne,"playerTwo",OLD,false));
   const joined=await nik.pair.joinPairing(`CMS17-${R3}`,{managerRole:"playerTwo",autoContinue:false});
   assert.equal(joined.status,"error",`an UNPAIRed Nik never redeems a plain code: ${JSON.stringify(joined)}`);
-  assert.ok(nik.fresh.includes("accounts/uid_nik/partner/current"),"the redeem read of his own record is fresh");
+  assert.ok(nik.server.includes("accounts/uid_nik/partner/current"),"the redeem read of his own record goes to the server");
   assert.ok(!nik.log.some(line=>/^(redeem|create|provision|write|marker write)/.test(line)),`nothing is joined or written: ${nik.log.join(", ")}`);
 });
 await check("PC3a Nik's note read: one memoised read per 30 s (failures count), none while hidden, only with an active playerTwo record",async()=>{

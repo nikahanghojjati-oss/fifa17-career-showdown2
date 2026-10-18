@@ -684,7 +684,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
         runTransaction:(db,fn)=>world.sdk.runTransaction(db,transaction=>fn({get:async ref=>{if(offline&&ref.path===THEIRS)throw Object.assign(new Error("offline"),{code:"unavailable"});const snapshot=await transaction.get(ref);count(ref.path);return{...snapshot,data:()=>revive(snapshot.data())};},set:(ref,value)=>transaction.set(ref,value)})),
         getDoc:async ref=>{count(ref.path);const entry=world.server.get(ref.path);return{exists:()=>Boolean(entry),data:()=>entry?revive(entry.data):undefined};}};
       Object.assign(world.document,{querySelector:()=>null,getElementById:()=>null,querySelectorAll:()=>[],dispatchEvent:()=>true});
-      Object.assign(sandbox,{TextEncoder,crypto:require("node:crypto").webcrypto,loadRuntimeScript:async()=>true,CareerModeFirestoreBudget:{wantFresh:p=>freshAsks.push(p)},
+      Object.assign(sandbox,{TextEncoder,crypto:require("node:crypto").webcrypto,loadRuntimeScript:async()=>true,CareerModeFirestoreBudget:{wantFresh:p=>freshAsks.push(p),readServerNext:p=>freshAsks.push(p)},
         CareerModeOnlinePlayerIdentity:{getState:()=>({status:"ready",registered:true,accountId:"nik",managerId:"nik"})},
         CareerModeSparkConnectedAccount:{initialize:async()=>({}),getState:()=>({connected:true,accountId:"nik"})},
         CareerModeSparkPrivatePairing:{initialize:async()=>({}),getState:()=>({registered:true,deviceId:"device_nik"})},
@@ -729,6 +729,19 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     const test=await page({mine:null,theirs:null});
     assert.equal(test.reads[THEIRS]||0,0,"no record: the partner side is never read");assert.equal(test.reads[MARKER],1,"the marker: one get per page, memoised across five asks");
     assert.equal(test.view.mode,"test");
+  });
+
+  await check("FB13","Codex #918: readServerNext(path) sends the next read of that document to the server, inside the 2 s window and past a read already in flight; once only, and other documents keep their copies",async()=>{
+    const world=createWorld();seed(world);
+    const read=path=>world.services.firestoreSdk.runTransaction(world.db,async tx=>(await tx.get({path})).data());
+    await read(SESSION);await read(RIVALRY);const start=world.meter.reads;
+    await world.advance(500);world.budget.readServerNext(SESSION);await read(SESSION);
+    assert.equal(world.meter.reads-start,1,"inside the 2 s window the asked document still reads the server");
+    await read(SESSION);await read(RIVALRY);
+    assert.equal(world.meter.reads-start,1,"once only: the next reads of it, and other documents, reuse the copy");
+    await world.advance(61000);const flight=world.meter.reads;
+    const running=read(SESSION);world.budget.readServerNext(SESSION);const own=read(SESSION);await Promise.all([running,own]);
+    assert.equal(world.meter.reads-flight,2,"a read already in flight is not shared with the asked read");
   });
 
   console.log(`PASS Firestore budget contracts: ${results.length} checks, measured reads/min ${measured.join(" / ")} (waiting <= ${BUDGET.waitingVisibleReadsPerMinute} reads/min, hidden ${BUDGET.hiddenReadsPerMinute}, idle writes 0, partner update <= ${BUDGET.partnerUpdateMs} ms).`);

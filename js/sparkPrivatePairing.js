@@ -662,6 +662,8 @@ async function revokePairing(options={}){
   const FSB_PAUSE_STEPS_MS=Object.freeze([10,20,40,60].map(minutes=>minutes*60000));
   const FSB_COALESCE_MS=2000,FSB_OWN_ACCOUNT_MS=5*60000,FSB_MAX_ENTRIES=200;
   const FSB_QUIET_MS=60000,FSB_INPUT_FRESH_MS=5000,FSB_ASK_MS=7000,FSB_FAST_GAP_MS=6000,FSB_FAST_HOLD_MS=10000;
+  // fsbServerNext: documents whose next read must reach the server (no copy, no read already in flight), set by readServerNext.
+  const fsbServerNext=new Map();
   const fsbWrapped=new WeakMap(),fsbEntries=new Map(),fsbInflight=new Map(),fsbCadence=new Map(),fsbWaitAsks=new Map(),fsbFreshPaths=new Map();
   const fsbStats={immutableReuses:0,reusedReads:0,quietReuses:0,freshReruns:0,serverReads:0,serverTransactions:0,readOnlyWithoutCommit:0,quotaTrips:0,pausedRefusals:0,listenersAttached:0,listenerDeliveries:0,listenerServed:0,listenerFallbacks:0};
   let fsbPause=null,fsbResumeTimer=null,fsbAccountId=null,fsbFirestore=null,fsbInputAt=0,fsbFreshAskAt=0,fsbChainAt=0;
@@ -899,11 +901,12 @@ async function revokePairing(options={}){
   function fsbListenReturning(){for(const path of fsbReturnPaths)if(!fsbListens.has(path)){const listen={};listen.promise=new Promise(resolve=>{listen.resolve=resolve;});fsbListens.set(path,listen);if(typeof root.setTimeout==="function")root.setTimeout(()=>fsbListened(path,null),5000);}}
   function fsbListened(path,snapshot){if(path===undefined){for(const key of [...fsbListens.keys()])fsbListened(key,null);return;}const listen=fsbListens.get(path);if(!listen)return;fsbListens.delete(path);if(snapshot){fsbStats.listenerServed+=1;fsbRemember(fsbFirestore,{path},snapshot);}listen.resolve(snapshot||null);}
   function fsbReturnListen(paths){fsbReturnPaths=Array.isArray(paths)?paths.filter(path=>typeof path==="string"):[];for(const path of [...fsbListens.keys()])if(!fsbReturnPaths.includes(path))fsbListened(path,null);}
-  function fsbReadOne(sdk,db,ref){
+  function fsbTakeServerNext(path){const until=fsbServerNext.get(path)||0;if(until)fsbServerNext.delete(path);return until>fsbNow();}
+  function fsbReadOne(sdk,db,ref,serverOnly=false){
     const listen=fsbListens.get(fsbPathOf(ref));if(listen)return listen.promise.then(snapshot=>snapshot||fsbReadOne(sdk,db,ref));
     // A read in flight is shared only within the account that started it; one that lands after a sign-in change is not kept.
     const path=fsbPathOf(ref),account=fsbAccountId,key=path?`${account||""}|${path}`:ref;
-    const running=fsbInflight.get(key);
+    const running=serverOnly?null:fsbInflight.get(key);
     if(running)return running;
     const found={};
     const request=Promise.resolve().then(()=>sdk.runTransaction(db,transaction=>Promise.resolve(transaction.get(ref)).then(snapshot=>{found.snapshot=snapshot;throw found;}))).then(()=>{throw new Error("Firestore read returned no snapshot.");},error=>{
@@ -927,10 +930,10 @@ async function revokePairing(options={}){
         if(write)return Promise.reject(FSB_PROBE_WRITE);
         if(fsbPaused())return Promise.reject(fsbQuotaError());
         const path=fsbPathOf(ref);
-        const reused=fresh?null:fsbReusable(path);
+        const serverOnly=fsbTakeServerNext(path),reused=fresh||serverOnly?null:fsbReusable(path);
         if(reused){fsbStats.reusedReads+=1;if(reused.old)old=true;return Promise.resolve(reused.snapshot);}
         const known=fsbEntries.get(path),prior=known?fsbSerial(known.snapshot):null;
-        return fsbReadOne(sdk,db,ref).then(snapshot=>{if(prior===null||prior!==fsbSerial(snapshot))changed=true;return snapshot;});
+        return fsbReadOne(sdk,db,ref,serverOnly).then(snapshot=>{if(prior===null||prior!==fsbSerial(snapshot))changed=true;return snapshot;});
       },
       set:refuse,update:refuse,delete:refuse
     };
@@ -1017,12 +1020,14 @@ async function revokePairing(options={}){
     inputFreshMs:FSB_INPUT_FRESH_MS,
     // wantFresh(): every read of this page is fresh for the next 7 s; wantFresh(path): only that document.
     wantFresh(path){if(typeof path==="string"&&path){fsbFreshPaths.set(path,fsbNow()+FSB_ASK_MS);if(fsbFreshPaths.size>FSB_MAX_ENTRIES)fsbFreshPaths.delete(fsbFreshPaths.keys().next().value);}else fsbFreshAskAt=fsbNow();},
+    // readServerNext(path): the next read of that document goes to the server, even inside the 2 s window (revocation checks).
+    readServerNext(path){if(typeof path==="string"&&path){fsbServerNext.set(path,fsbNow()+FSB_ASK_MS);if(fsbServerNext.size>FSB_MAX_ENTRIES)fsbServerNext.delete(fsbServerNext.keys().next().value);}},
     isQuotaError:fsbIsQuotaError,
     paused:fsbPaused,
     quotaMessage:fsbQuotaMessage,
     noteError(error){if(fsbIsQuotaError(error))fsbTrip();return fsbQuotaMessage(error);},
     state:fsbState,
     stats:()=>Object.freeze({...fsbStats,remembered:fsbEntries.size,watching:fsbWait?fsbWait.path:null,watchHealthy:fsbWaitLive()}),
-    reset(){fsbDetachWait();fsbReturnListen([]);fsbWaitFailed.clear();fsbReturnWakes.clear();fsbEntries.clear();fsbInflight.clear();fsbCadence.clear();fsbWaitAsks.clear();fsbFreshPaths.clear();fsbPause=null;fsbInputAt=0;fsbFreshAskAt=0;fsbChainAt=0;fsbPublish();}
+    reset(){fsbDetachWait();fsbReturnListen([]);fsbWaitFailed.clear();fsbReturnWakes.clear();fsbEntries.clear();fsbInflight.clear();fsbCadence.clear();fsbWaitAsks.clear();fsbFreshPaths.clear();fsbServerNext.clear();fsbPause=null;fsbInputAt=0;fsbFreshAskAt=0;fsbChainAt=0;fsbPublish();}
   });
 })(typeof globalThis!=="undefined"?globalThis:this);
