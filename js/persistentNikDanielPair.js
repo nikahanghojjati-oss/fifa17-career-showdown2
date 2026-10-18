@@ -49,7 +49,12 @@
   function pairJoinFailureIsDefinitive(error){const code=pairProviderCode(error);return Boolean(code)&&!PAIR_AMBIGUOUS_PROVIDER_CODES.has(code);}
 
   function pairFreezeDeep(value){if(!value||typeof value!=="object"||Object.isFrozen(value))return value;Object.freeze(value);Object.values(value).forEach(pairFreezeDeep);return value;}
-  function pairSetState(next){state=pairFreezeDeep({...state,...next});for(const listener of pairListeners){try{listener(state);}catch(_error){}}pairRender();pairSyncWaitingPoll();return state;}
+  function pairSetState(next){state=pairFreezeDeep({...state,...next});pairRememberActiveShell();for(const listener of pairListeners){try{listener(state);}catch(_error){}}pairRender();pairSyncWaitingPoll();return state;}
+  // r79 (PR #901, smoothness): once the pair is ACTIVE this device remembers, locally, that its shell is paired (only the saveId,
+  // no rivalry or account data; through js/storage.js, the one owner of local storage), so a reload mid-Showdown never holds the
+  // loading screen for a pre-pair recovery (js/ssjr.js).
+  const PAIRED_SHELL_KEY="careerModeShowdown.pairedShell.v1";
+  function pairRememberActiveShell(){if(state.status!=="paired"||state.connectionState!=="active"||!pairValidSaveId(state.providerSaveId))return;try{if(typeof root.readStorageValue==="function"&&typeof root.writeStorageValue==="function"&&root.readStorageValue(PAIRED_SHELL_KEY)!==state.providerSaveId)root.writeStorageValue(PAIRED_SHELL_KEY,state.providerSaveId);}catch(_error){}}
   function pairWaitingKey(){const staleNikPending=state.managerRole==="playerTwo"&&pairCurrentIdentityRole()==="playerTwo";return state.connectionState==="pending-pair"&&state.capability&&state.rivalryId&&state.accountId&&!staleNikPending?`${state.accountId}|${state.rivalryId}`:"";}
   function pairClearWaitingTimer(){if(pairWaitTimer!==null){root.clearTimeout?.(pairWaitTimer);pairWaitTimer=null;}}
   function pairSyncWaitingPoll(){

@@ -204,7 +204,17 @@
     if(decision.action==="continue"){
       const pair=await loadScript("persistent-pair","js/persistentNikDanielPair.js",()=>root.CareerModePersistentNikDanielPair);
       if(!pair||typeof pair.continuePair!=="function")throw new Error("Career continue is unavailable.");
-      await pair.continuePair();return true;
+      // PR #901: continuePair() reports a failure in its returned state (error / recovery-required) instead of rejecting, so a
+      // failed continue reopens Connect Players with that state (TRY CONTINUE AGAIN / RESTORE BACKUP) like the auto-continue
+      // fallback does, instead of rendering into a hidden panel. Nothing is created.
+      const next=await pair.continuePair();
+      if(next&&next.busy!==true&&next.status!=="paired"){
+        report("Unable to continue the Showdown",Object.assign(new Error(next.message||"The career could not be opened."),{code:next.status}));
+        try{const layer=await loadScript("connect-players-screen","js/connectPlayersScreenV10.js",()=>root.CareerModeConnectPlayersScreenV10);await layer?.open?.({sync:false,stayOnScreen:true});pair.render?.();}
+        catch(_error){await openPersistentPairControls();}
+        return false;
+      }
+      return true;
     }
     if(decision.action==="resume-waiting")return openWaiting({createCode:!decision.rivalryId});
     const identity=entryIdentity();
@@ -409,9 +419,14 @@
     if(decision&&["resume-waiting","join","wait-for-daniel"].includes(decision.action))return followStartDecision(decision);
     return openPanel();
   }
+  // Right after a reload the saved shell is not loaded yet (currentShowdown is null) and the wheel route falls back to Home (seen
+  // in a real browser), so the saved shell is resumed first, exactly as Home's CONTINUE does: its canonical route is the wheel.
+  function loadedShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
   async function showLockedWheel(){
-    try{if(root.getActiveScreenName?.()!=="leagueWheelScreen"){if(typeof root.navigateTo==="function")await root.navigateTo("leagueWheelScreen",{addToHistory:false});else root.showScreen?.("leagueWheelScreen");}}
-    catch(error){report("Unable to reopen the league screen",error);}
+    try{
+      if(!loadedShowdown()&&typeof root.resumeSavedShowdown==="function"){await ensureSaveAuthority();if(typeof root.loadSavedShowdown==="function"&&root.loadSavedShowdown())await root.resumeSavedShowdown();}
+      if(root.getActiveScreenName?.()!=="leagueWheelScreen"){if(typeof root.navigateTo==="function")await root.navigateTo("leagueWheelScreen",{addToHistory:false});else root.showScreen?.("leagueWheelScreen");}
+    }catch(error){report("Unable to reopen the league screen",error);}
     applyLocalDrawLock();
   }
   // The startup hold is kept only while this recovery can still end on the wheel: a player who is signed out, offline or still
