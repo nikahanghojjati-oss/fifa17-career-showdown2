@@ -227,12 +227,29 @@ async function pairContracts(){
     ok("J1d DELETED during an in-flight pair read is applied after it, never overwritten by it");
   }
   {
+    // Codex #910 (3rd): two overlapping forced reads that both saw the old live link: neither answer undoes DELETED.
+    const h=pairHarness();
+    await h.pair.initialize({force:true});
+    let release;h.calls.gate=new Promise(resolve=>{release=resolve;});
+    const first=h.pair.initialize({force:true}),second=h.pair.initialize({force:true});
+    await new Promise(resolve=>setImmediate(resolve));
+    h.fire({phase:"DELETED",rivalryId:R1,terminal:false});
+    h.calls.gate=null;release();await Promise.all([first,second]);await new Promise(resolve=>setImmediate(resolve));
+    const state=h.pair.getState();
+    assert.deepEqual(plain({rivalryId:state.rivalryId,connectionState:state.connectionState,closedRivalryId:state.closedRivalryId}),
+      {rivalryId:null,connectionState:null,closedRivalryId:R1},"no overlapping read's active answer undid DELETED");
+    await h.pair.initialize({force:true});
+    assert.equal(h.pair.getState().rivalryId,null,"nor does any later read that still finds the old link");
+    ok("J1e DELETED holds across overlapping and later pair reads (an ended rivalry is never live again)");
+  }
+  {
     const h=pairHarness();
     let state=await h.pair.initialize({force:true});
     assert.equal(state.connectionState,"active");assert.equal(state.rivalryId,R1);assert.equal(state.providerSaveId,SAVE_OLD);
     const reads=h.calls.transactions;
     h.fire({phase:"CLOSED",rivalryId:R1,terminal:true});
-    h.fire({phase:"DELETED",rivalryId:R2,terminal:false});
+    // another rivalry (not R2: an ended rivalry is never joined again, and R2 is joined below)
+    h.fire({phase:"DELETED",rivalryId:"pair_7"+"ab".repeat(31)+"c",terminal:false});
     assert.equal(h.pair.getState().connectionState,"active","the CLOSED event and another rivalry's DELETED change nothing");
     h.deleteOnDanielsPhone();h.fire({phase:"DELETED",rivalryId:R1,terminal:false});
     state=h.pair.getState();
