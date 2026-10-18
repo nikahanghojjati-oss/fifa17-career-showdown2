@@ -19,7 +19,8 @@
 //        (one closure write with the ended-early mark, 0 seasons); Nik's phone goes Home by itself. The test run never counts:
 //        the first real START hides it, and real History never shows it (checked at R80d).
 //   P8  Daniel's next START has no code for Nik to type: Nik's Home shows JOIN DANIEL'S SHOWDOWN; one JOIN tap joins R2.
-//   R80d R2 (1 season) mid-season, transfer window open: Daniel goes Home and taps END SHOWDOWN (Settings, red):
+//   R80d R2 (1 season), played on the same pages that finished R1 (no reload; Shared History must not reuse R1's accepted
+//        season), mid-season, transfer window open: Daniel goes Home and taps END SHOWDOWN (Settings, red):
 //        one closure write with endedEarly {seasonsPlayed: 0}; Nik's phone lands on Home by itself; History (Legacy) shows
 //        exactly one Ended early row with today's date and "0 seasons"; Career Statistics (1 completed), the Trophy Room
 //        (Showdown Champion: Daniel) and Legacy's completed Showdown #1 are unchanged.
@@ -333,9 +334,9 @@ async function assertCareerScreensShowCompletedShowdown(managers,id,{endedEarly=
     const fail=(screen,text,why)=>new Error(`${id} ${m.user}: ${screen} ${why}. Screen text: ${text.slice(0,600)||"(screen did not appear)"}`);
     await backToShowdownHome(m);
     await m.page.locator("#careerStatisticsButton").click({timeout:20000});
-    // r80: after R80d's reload the first Career Statistics visit can leave the headline count-up at 0 (two mounts race the
-    // count-up; an older issue, not END's), so there the career table's Showdowns column (1 each) is the count.
-    const oneCompleted=t=>/(COMPLETED SHOWDOWNS\s*1(?!\d)|(?<![\d.])1\s*COMPLETED SHOWDOWNS)/i.test(t)||(endedEarly&&/Daniel 1 \d+-\d+-\d+ .*Nik 1 \d+-\d+-\d+/.test(t));
+    // The headline (COMPLETED SHOWDOWNS 1) is the count, also on the first visit after a reload (two mounts in a row
+    // count up the same tiles; the count-up's target is the tile's data-count-value, never the 0 it starts from).
+    const oneCompleted=t=>/(COMPLETED SHOWDOWNS\s*1(?!\d)|(?<![\d.])1\s*COMPLETED SHOWDOWNS)/i.test(t);
     let text=await read(m,"careerStatistics",t=>!bad.test(t)&&oneCompleted(t));
     if(bad.test(text)||!oneCompleted(text))throw fail("Career Statistics",text,"does not show COMPLETED SHOWDOWNS 1");
     await m.page.locator("#trophyRoomButton").click({timeout:20000});
@@ -660,10 +661,9 @@ async function main(){
     ok("P8","Daniel's next START (no code to type): Nik's Home showed JOIN DANIEL'S SHOWDOWN by itself; one JOIN tap joined R2; both on the league wheel");
 
     // ---------- R80d END SHOWDOWN mid-season ----------
-    // Both phones reload on R2's league wheel first (a fresh page, as on a new game day): a page that finished R1 keeps R1's
-    // season commit in memory, and Shared History then reports R2's unpublished season (an older issue, not END's).
+    // No reload between R1 and R2: both pages still hold R1's accepted season 1 (Commit and Scoring) while R2's season 1
+    // starts, and Shared History must not take it for R2's (no "Unable to converge Shared History"; PZ checks the errors).
     const sessionR2=await sessionOf(daniel);
-    for(const m of [daniel,nik])await reloadMidShowdown(m,{expectSession:sessionR2,expectShowdown:await showdownOf(m),screens:"#leagueWheelScreen, #clubWheelScreen"});
     await playSetupToTransferChallenge(daniel,nik);
     await daniel.page.waitForFunction(()=>document.getElementById("startTransferTimer")&&!document.getElementById("startTransferTimer").classList.contains("hidden"),null,{timeout:30000});
     await daniel.page.locator("#startTransferTimer").click({timeout:30000});
