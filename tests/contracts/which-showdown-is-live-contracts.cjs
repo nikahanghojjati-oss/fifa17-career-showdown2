@@ -114,6 +114,9 @@ await check("W6 auto-continue after connect keeps START CAREER as the fallback a
   const tick=pairSource.match(/async function pairWaitingPollTick\(\)\{[\s\S]*?\n  \}/)[0];
   assert.match(tick,/await pairInitialize\(\{force:true\}\);[\s\S]*state\.connectionState==="active"&&state\.status==="paired"&&`\$\{state\.accountId\}\|\$\{state\.rivalryId\}`===key\)await pairAutoContinueAfterConnect\(\)/,"Daniel continues only for the rivalry he was waiting on");
   assert.match(pairSource,/async function pairJoinAndContinue\(capability,options=\{\}\)\{const wasActive=state\.connectionState==="active",joined=await pairJoinPairing\(capability,options\);if\(!wasActive&&options\.autoContinue!==false&&joined\?\.status==="paired"&&joined\.connectionState==="active"\)await pairAutoContinueAfterConnect\(\);return joined;\}/,"Nik continues after his own successful JOIN");
+  assert.match(pairSource,/pairSyncWaitingPoll\(\);pairContinueAfterWaitEnded\(\);return state;\}/,"every settled state change can continue, not only the poll");
+  assert.match(pairSource,/if\(!key\)\{if\(pairWaitKey\)pairWaitEndedKey=pairWaitKey;/,"the waited-on rivalry is remembered when the wait ends");
+  assert.match(pairSource,/function pairContinueAfterWaitEnded\(\)\{if\(!pairWaitEndedKey\|\|state\.busy\)return;const key=pairWaitEndedKey;pairWaitEndedKey="";if\(state\.connectionState==="active"&&state\.status==="paired"&&`\$\{state\.accountId\}\|\$\{state\.rivalryId\}`===key\)/,"CHECK STATUS or a refresh continues only for the rivalry Daniel was waiting on");
   assert.match(pairSource,/joinPairing:pairJoinAndContinue/);
   assert.match(pairSource,/void pairJoinAndContinue\(input\.value,\{managerRole:"playerTwo"\}\)/,"the JOIN button");
   assert.match(pairSource,/if\(createdShell&&committed\.checked&&pairJoinFailureIsDefinitive\(error\)\)\{try\{await pairDeleteExactPreparedShell\(context,role,createdShell\.saveId,createdShell\.profileId\);/,"createdShell rollback unchanged");
