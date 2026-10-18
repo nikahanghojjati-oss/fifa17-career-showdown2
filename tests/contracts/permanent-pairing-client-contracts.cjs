@@ -210,6 +210,10 @@ await check("PC1h Codex #904 (10-season audit): real vs test fails closed. Nik w
   await strayNik.pair.initialize({force:true});
   const stray=await strayNik.pair.joinPairing(`CMS17-${R3}`,{managerRole:"playerTwo",autoContinue:false});
   assert.equal(stray.status,"error");assert.match(stray.message,/not made by the account you are paired with/,"Codex #909: a paired Nik never joins a plain code from another account");nothingWritten(strayNik);
+  const swapped=harness({marker:"ready",docs:{...joinable(R3),"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerOne",OLD)},redeem:commitRedeem});
+  await swapped.pair.initialize({force:true});
+  const seat=await swapped.pair.joinPairing(`CMS17-${R3}`,{managerRole:"playerTwo",autoContinue:false});
+  assert.equal(seat.status,"error");assert.match(seat.message,/other manager's seat/,"Codex #909: a record for the other seat never authorises a join");nothingWritten(swapped);
   for(const [label,setup] of [["marker unknown",{marker:"unknown"}],["partner record unreadable",{marker:"ready",flaky:true}]]){
     const daniel=harness({role:"playerOne",marker:setup.marker,saves:[danielShell()],activeSaveId:DANIEL_SAVE,create:commitCreate(Date.now()+20*60000)});
     if(setup.flaky)daniel.failReads=p=>p.endsWith("/partner/current");
