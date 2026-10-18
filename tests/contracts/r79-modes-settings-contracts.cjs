@@ -284,6 +284,15 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     // Codex #917: reopening from Home is no screen change (already on Home), so only the close may end it
     nik.dom.layer.hidden=false;nik.dom.layer.classList.remove("hidden");nik.modes.renderSeasons();
     assert.equal(nik.modes.badgeSuffix(),"","the next JOIN from Home is real");assert.equal(nikNote().hidden,true,"and carries no strip");
+    // Codex #917: BACK while openJoin is still syncing (layer shown, call not yet returned) also ends it
+    const slow=page({managerId:"nik"});await slow.modes.resolve();slow.modes.install();let release;
+    slow.identity.openJoin=async()=>{slow.setScreen("mainMenu");slow.dom.layer.hidden=false;slow.dom.layer.classList.remove("hidden");await new Promise(r=>{release=r;});return true;};
+    const pending=slow.modes.startTestRun();await settle();assert.equal(slow.modes.badgeSuffix()," · TEST RUN · NOTHING COUNTS","shown while the layer is up");
+    slow.dom.layer.hidden=true;slow.dom.layer.classList.add("hidden");slow.dom.doc.dispatch({type:"career-mode-connect-players-closed"});
+    release();await pending;assert.equal(slow.modes.isTestRunArmed(),false,"a close during openJoin ends JOIN TEST RUN");
+    // and an openJoin that never shows the layer leaves nothing armed
+    const failed=page({managerId:"nik"});await failed.modes.resolve();failed.modes.install();failed.identity.openJoin=async()=>false;
+    await failed.modes.startTestRun();assert.equal(failed.modes.isTestRunArmed(),false,"no layer, no test run");
     assert.match(read("js/connectPlayersScreenV10.js"),/function close\(options=\{\}\)\{[\s\S]{0,500}dispatchEvent\(new root\.CustomEvent\("career-mode-connect-players-closed"\)\)/,"every close of the layer says so");
   });
   await check("M10","Settings has no START REAL CAREER row or SHOW TEST SHOWDOWNS AGAIN switch; old test games stay stored and hidden",async()=>{
