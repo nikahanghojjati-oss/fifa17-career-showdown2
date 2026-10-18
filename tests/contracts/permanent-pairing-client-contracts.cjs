@@ -439,6 +439,32 @@ await check("PC2e Codex #904: an UNPAIR made on another device counts at once in
   assert.ok(nik.server.includes("accounts/uid_nik/partner/current"),"the redeem read of his own record goes to the server");
   assert.ok(!nik.log.some(line=>/^(redeem|create|provision|write|marker write)/.test(line)),`nothing is joined or written: ${nik.log.join(", ")}`);
 });
+await check("PC2f Codex #904 (P1): an UNPAIR from Daniel's other browser that commits after START's fresh reads stops the code inside the code-creation transaction (no open code Nik could still redeem)",async()=>{
+  const DANIEL="accounts/uid_daniel/partner/current",NIK="accounts/uid_nik/partner/current";
+  // Daniel's real createPairing: errors come back as ok:false (sparkPrivatePairing's asResultError), never thrown.
+  const race=create=>async(options,h)=>{if(h.unpairFirst){h.unpairFirst=false;h.docs.set(DANIEL,partnerDoc(UID.playerTwo,"playerOne",OLD,false));}try{return await create(options,h);}catch(error){return{ok:false,code:error.code,message:error.message};}};
+  const h=harness({role:"playerOne",marker:"ready",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:{[DANIEL]:partnerDoc(UID.playerTwo,"playerOne",OLD),[NIK]:partnerDoc(UID.playerOne,"playerTwo",OLD)},create:race(commitCreate(Date.now()+20*60000))});
+  await h.pair.initialize({force:true});
+  h.unpairFirst=true;
+  const started=await h.pair.startPairing({managerRole:"playerOne"});
+  assert.equal(started.status,"error",JSON.stringify({status:started.status,message:started.message}));
+  assert.ok(!started.capability,"no code is shown");
+  assert.match(started.message,/unpaired on another screen.*nothing was started/);
+  assert.ok(!h.log.some(line=>/^write /.test(line)),`no pending Showdown, no link, no note: ${h.log.join(", ")}`);
+  const createTx=h.transactions[h.transactions.length-1];
+  assert.equal(createTx.reads[0],DANIEL,"the code-creation transaction reads Daniel's own record first, so a concurrent UNPAIR conflicts with it");
+  assert.equal(h.pair.getPartnerState().record.active,false,"this tab now knows the pair was unpaired");
+  assert.equal(h.pair.getPartnerSideState().status,"not-paired");
+  // START again is Daniel's first real pairing: a CMS17R- code (the same flow as PAIR AGAIN).
+  const again=await h.pair.startPairing({managerRole:"playerOne"});
+  assert.match(again.capability||"",/^CMS17R-pair_/,JSON.stringify({status:again.status,message:again.message}));
+  // Control: with the pair still active the same transaction reads the record and the permanent-pair code is made.
+  const ok=harness({role:"playerOne",marker:"ready",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:{[DANIEL]:partnerDoc(UID.playerTwo,"playerOne",OLD),[NIK]:partnerDoc(UID.playerOne,"playerTwo",OLD)},create:race(commitCreate(Date.now()+20*60000))});
+  await ok.pair.initialize({force:true});
+  const made=await ok.pair.startPairing({managerRole:"playerOne"});
+  assert.match(made.capability||"",/^CMS17-pair_/,JSON.stringify({status:made.status,message:made.message}));
+  assert.ok(ok.transactions.some(tx=>tx.reads[0]===DANIEL&&tx.writes.some(path=>/^rivalries\//.test(path))),"the committed code-creation transaction read Daniel's record");
+});
 await check("PC3a Nik's note read: one memoised read per 30 s (failures count), none while hidden, only with an active playerTwo record",async()=>{
   const now=Date.now();
   const h=harness({docs:{"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerTwo",OLD),"accounts/uid_nik/partnerInbox/current":noteDoc(R5,5,UID.playerOne,now+10*60000)}});
