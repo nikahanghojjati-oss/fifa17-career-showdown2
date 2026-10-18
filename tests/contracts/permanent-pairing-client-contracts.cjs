@@ -622,7 +622,7 @@ await check("PC7 the identity sidecar reads the partner record once per load and
   assert.match(identity,/const listening=typeof pair\.watchJoinNote==="function"\?await pair\.watchJoinNote\(\{isHomeShown:onlineHomeShown,resume:options\.resume===true\}\)\.catch\(\(\)=>false\):false;\/\*[^*]*\*\/const note=listening===true\|\|\(listening==="deferred"&&options\.fresh!==true\)\?pair\.getJoinNoteState\(\):await pair\.readJoinNote\(\{fresh:options\.fresh===true\}\)\.catch\(\(\)=>null\);/);
   const pairSource=read("js/persistentNikDanielPair.js");
   assert.match(pairSource,/JOIN_NOTE_WATCH_WINDOW_MS=600000,/,"10 minutes per Home visit");
-  assert.match(pairSource,/noteWatch\.unsubscribe=api\.onSnapshot\(ref,\{includeMetadataChanges:false\},/,"the note is watched by one onSnapshot listener");
+  assert.match(pairSource,/noteWatch\.unsubscribe=api\.onSnapshot\(ref,\{includeMetadataChanges:true\},/,"the note is watched by one onSnapshot listener; metadata changes deliver the server copy after a cached first snapshot (r79 PR5)");
   assert.match(pairSource,/api\.doc\(context\.services\.firestore,"accounts",context\.accountId,"partnerInbox",PARTNER_DOC_ID\)/,"on exactly the one awaited document");
   assert.match(pairSource,/root\.document\.addEventListener\("visibilitychange",\(\)=>\{if\(root\.document\.visibilityState==="hidden"\)pairJoinNoteWatchStop\(\);\}\)/,"a hidden tab detaches it at once");
   assert.match(pairSource,/if\(pairJoinNoteListening\(accountId\)\)return joinNoteState;/,"no extra read while the listener is live");
