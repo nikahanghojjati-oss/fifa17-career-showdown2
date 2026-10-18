@@ -100,6 +100,7 @@ function pairHarness({role="playerTwo",saves=[],activeSaveId=null,docs:seed={},n
     CareerModeOnlinePlayerIdentity:{getState:()=>({managerId:role==="playerTwo"?"nik":"daniel"})},
     CareerModeSparkConnectedAccount:{initialize:async()=>({}),getState:()=>({connected:true,accountId:uid})},
     CareerModeSparkPrivatePairing:pairing,
+    CareerModeCareerStartMarker:{readCurrentMarker:async()=>({status:"none"})},
     CareerModeSaveLibraryRuntime:runtime,
     CareerModeProductionSharedJourneyEntry:{provisionJoinerShell:async rounds=>{calls.provision+=1;library.saves.push(shell(SAVE_NEW,PROFILE_NEW,Number(rounds)));library.activeSaveId=SAVE_NEW;return true;}},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>{if(h.servicesError)throw h.servicesError;return{ok:true,auth:{currentUser:{uid}},firestore:{},firestoreSdk};}},

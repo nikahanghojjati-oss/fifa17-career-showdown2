@@ -180,8 +180,47 @@ await check("PC1b a marker that already exists is not written again; a plain CMS
   await test.pair.initialize({force:true});
   const joined=await test.pair.joinPairing(`CMS17-${R3}`,{managerRole:"playerTwo",autoContinue:false});
   assert.equal(joined.status,"paired");
-  assert.ok(!test.log.some(line=>/^marker/.test(line)),"a test code never touches the marker");
+  assert.ok(!test.log.includes("marker write"),"a test code never writes the marker (it only reads it: Codex #904)");
   assert.ok(!test.docs.has("accounts/uid_nik/partner/current"),"a test code never writes a partner record");
+});
+
+await check("PC1h Codex #904 (10-season audit): real vs test fails closed. Nik with a marker and no active record refuses a plain CMS17- code; an unreadable marker or partner record refuses; Daniel's START never makes a test code for a real account it could not check",async()=>{
+  const nothingWritten=h=>{assert.ok(!h.log.some(line=>/^(redeem|create|provision|write|marker write)/.test(line)),`nothing is joined, made or written: ${h.log.join(", ")}`);};
+  const realNik=harness({marker:"ready",docs:joinable(R3),redeem:commitRedeem});
+  await realNik.pair.initialize({force:true});
+  const refused=await realNik.pair.joinPairing(`CMS17-${R3}`,{managerRole:"playerTwo",autoContinue:false});
+  assert.equal(refused.status,"error");assert.match(refused.message,/test code.*real career has started.*CMS17R-/);nothingWritten(realNik);
+  const unpairedNik=harness({marker:"ready",docs:{...joinable(R3),"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerTwo",OLD,false)},redeem:commitRedeem});
+  await unpairedNik.pair.initialize({force:true});
+  assert.equal((await unpairedNik.pair.joinPairing(`CMS17-${R3}`,{managerRole:"playerTwo",autoContinue:false})).status,"error","an UNPAIRed real Nik is still real");nothingWritten(unpairedNik);
+  const unknownNik=harness({marker:"unknown",docs:joinable(R3),redeem:commitRedeem});
+  await unknownNik.pair.initialize({force:true});
+  const unknown=await unknownNik.pair.joinPairing(`CMS17-${R3}`,{managerRole:"playerTwo",autoContinue:false});
+  assert.equal(unknown.status,"error");assert.match(unknown.message,/could not be checked.*nothing was started/);nothingWritten(unknownNik);
+  const flakyNik=harness({docs:joinable(R3),redeem:commitRedeem});
+  flakyNik.failReads=p=>p.endsWith("/partner/current");
+  await flakyNik.pair.initialize({force:true});
+  assert.match((await flakyNik.pair.joinPairing(`CMS17-${R3}`,{managerRole:"playerTwo",autoContinue:false})).message,/could not be checked/);nothingWritten(flakyNik);
+  const pairedNik=harness({marker:"ready",docs:{...joinable(R3),"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerTwo",OLD)},redeem:commitRedeem});
+  await pairedNik.pair.initialize({force:true});
+  assert.equal((await pairedNik.pair.joinPairing(`CMS17-${R3}`,{managerRole:"playerTwo",autoContinue:false})).status,"paired","the permanent pair's plain code (JOIN note or backup code) still joins");
+  assert.ok(!pairedNik.log.includes("marker read"),"an active record answers without reading the marker");
+  for(const [label,setup] of [["marker unknown",{marker:"unknown"}],["partner record unreadable",{marker:"ready",flaky:true}]]){
+    const daniel=harness({role:"playerOne",marker:setup.marker,saves:[danielShell()],activeSaveId:DANIEL_SAVE,create:commitCreate(Date.now()+20*60000)});
+    if(setup.flaky)daniel.failReads=p=>p.endsWith("/partner/current");
+    await daniel.pair.initialize({force:true});
+    const started=await daniel.pair.startPairing({managerRole:"playerOne"});
+    assert.equal(started.status,"error",label);assert.ok(!started.capability,`${label}: no code at all`);assert.match(started.message,/could not be checked/,label);
+    assert.ok(!daniel.log.some(line=>line.startsWith("create ")),`${label}: no Showdown is made`);
+  }
+  const testDaniel=harness({role:"playerOne",marker:"none",saves:[danielShell()],activeSaveId:DANIEL_SAVE,create:commitCreate(Date.now()+20*60000)});
+  await testDaniel.pair.initialize({force:true});
+  assert.match((await testDaniel.pair.startPairing({managerRole:"playerOne"})).capability,/^CMS17-pair_/,"a test account (no marker) still gets its test code");
+  const reloaded=harness({role:"playerOne",marker:"unknown",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:{"accounts/uid_daniel/pairLinks/current":linkDoc(R3,"playerOne"),...joinable(R3)}});
+  const shown=await reloaded.pair.initialize({force:true});
+  assert.equal(shown.connectionState,"pending-pair");assert.equal(shown.capability,null,"after a reload an unchecked first pairing shows no code (never a plain one)");assert.match(shown.message,/CHECK STATUS/);
+  reloaded.markerStatus="ready";
+  assert.match((await reloaded.pair.initialize({force:true})).capability,/^CMS17R-/,"CHECK STATUS asks again and shows the real code");
 });
 
 await check("PC1c the marker comes first: a marker that cannot be written stops the join before any shell or redeem; a refused redeem keeps the createdShell rollback",async()=>{
