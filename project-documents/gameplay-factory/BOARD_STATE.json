@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-17 9:24 PM Boston time (EDT)",
+ "generated": "2026-10-17 9:28 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 114,
@@ -1082,7 +1082,22 @@
    "revision": "1.9.2-r78",
    "when": "2026-10-17T21:28:14Z",
    "subject": "r78: look and feel (1.9.2-r78) (#897)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 904,
+     "title": "r79 release (1.9.3-r79): one start flow, permanent pairing, real/test modes [draft]",
+     "draft": true,
+     "branch": "gameplay/r79",
+     "sha": "1940d43d1228624cfa7631918b7eabeae658bea3",
+     "updated": "2026-10-18T01:27:54Z",
+     "gates": {
+      "passed": 7,
+      "running": 0,
+      "failed": 1,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": [
     {
      "pr": 897,
@@ -1627,7 +1642,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 40,
+  "moving": 41,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -2843,7 +2858,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 904,
+    "title": "r79 release (1.9.3-r79): one start flow, permanent pairing, real/test modes [draft]",
+    "draft": true,
+    "branch": "gameplay/r79",
+    "sha": "1940d43d1228624cfa7631918b7eabeae658bea3",
+    "updated": "2026-10-18T01:27:54Z",
+    "gates": {
+     "passed": 7,
+     "running": 0,
+     "failed": 1,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
