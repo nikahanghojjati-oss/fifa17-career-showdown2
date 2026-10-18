@@ -53,6 +53,9 @@ function reloadFixtures({restoreMs,rivalryId}){
         :{status:"unpaired",initialized:true,busy:false,managerRole:null,connectionState:null,rivalryId:null,message:"Daniel and Nik need to connect before the first Showdown."};
       window.CareerModePersistentNikDanielPair={getState:pairState,initialize:async()=>pairState(),startPairing:async()=>{window.__pairState="waiting";return pairState();},continuePair:async()=>pairState(),
         render:()=>{const slot=document.getElementById("connectPlayersPairSlot");if(!slot)return null;let panel=document.getElementById("persistentNikDanielPairPanel");if(!panel){panel=document.createElement("section");panel.id="persistentNikDanielPairPanel";slot.append(panel);}panel.textContent=window.__pairState==="waiting"?"WAITING FOR THE OTHER PLAYER":"CONNECT PLAYERS";return panel;}};
+      // r79 PR4 (Nik): every Home START is real, so START first asks whether this account's real career has started
+      // (js/showdownModes.js) and refuses while that cannot be checked. This fixture Daniel has already started his real career.
+      window.CareerModeCareerStartMarker={readCurrentMarker:async()=>({status:"ready",hiddenRivalryIds:[],active:true,revision:0}),startRealCareer:async()=>{throw new Error("the fixture marker already exists");},hiddenRivalryIds:()=>[],epoch:()=>0,getState:()=>({status:"ready",accountId:"account_daniel_fixture"})};
       window.CareerModeOnlinePlayerIdentity={getState:()=>({status:"ready",initialized:true,online:true,accountId:"account_daniel_fixture",managerId:"daniel",managerLabel:"Daniel",deviceId:"device_daniel_fixture",registered:true}),openGate:()=>false,syncPair:async()=>pairState()};
       document.getElementById("startShowdown").textContent="";
     },RIVALRY);

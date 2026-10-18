@@ -34,6 +34,9 @@ async function run(browser,spec){
         startPairing:async()=>{window.__codes+=1;window.__pairState="waiting";return pairState();},
         continuePair:async()=>pairState()
       };
+      // r79 PR4 (Nik): every Home START is real, so START first asks whether this account's real career has started
+      // (js/showdownModes.js) and refuses while that cannot be checked. This fixture Daniel has already started his real career.
+      window.CareerModeCareerStartMarker={readCurrentMarker:async()=>({status:"ready",hiddenRivalryIds:[],active:true,revision:0}),startRealCareer:async()=>{throw new Error("the fixture marker already exists");},hiddenRivalryIds:()=>[],epoch:()=>0,getState:()=>({status:"ready",accountId:"account_daniel_fixture"})};
       window.CareerModeOnlinePlayerIdentity={
         getState:()=>({status:"ready",initialized:true,online:true,accountId:"account_daniel_fixture",managerId:"daniel",managerLabel:"Daniel",deviceId:"device_daniel_fixture",registered:true}),
         openGate:()=>false,syncPair:async()=>pairState()
