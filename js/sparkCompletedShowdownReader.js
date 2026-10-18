@@ -40,7 +40,7 @@
   function csrResult(value,teamCount){csrExact(value,RESULT_KEYS,"COMPLETED_SEASON_INVALID");const maxPoints=(teamCount-1)*2*3;if(!Number.isInteger(value.leaguePosition)||value.leaguePosition<1||value.leaguePosition>teamCount||!Number.isInteger(value.leaguePoints)||value.leaguePoints<0||value.leaguePoints>maxPoints||!Number.isInteger(value.leagueGoals)||value.leagueGoals<0||value.leagueGoals>300)csrFail("COMPLETED_SEASON_INVALID");for(const key of ["domesticCup","championsLeague","topScorer","topAssist"]){if(typeof value[key]!=="boolean")csrFail("COMPLETED_SEASON_INVALID");}return csrClone(value);}
 
   function csrState(status,fields={}){
-    return csrFreeze({status,code:fields.code||null,rivalryId:fields.rivalryId||null,managerRole:fields.managerRole||null,terminalWitness:fields.terminalWitness||null,projection:fields.projection||null,final:fields.final||null});
+    return csrFreeze({status,code:fields.code||null,rivalryId:fields.rivalryId||null,managerRole:fields.managerRole||null,terminalWitness:fields.terminalWitness||null,projection:fields.projection||null,final:fields.final||null,ended:fields.ended||null});
   }
   async function csrGet(sdk,db,parts){
     try{return csrSnapshot(await sdk.getDoc(sdk.doc(db,...parts)));}
@@ -144,6 +144,11 @@
     return state;
   }
 
+  function csrEnded(value){
+    const at=value.updatedAt,millis=at&&typeof at.toMillis==="function"?at.toMillis():at instanceof Date?at.getTime():null,played=value.data.endedEarly?.seasonsPlayed;
+    return {endedAt:Number.isFinite(millis)?millis:null,seasonsPlayed:Number.isInteger(played)&&played>=0&&played<=10?played:null};
+  }
+
   async function csrRead(options={}){
     let rivalryId=null,managerRole=null;
     try{
@@ -161,7 +166,8 @@
       if(state==="pending-pair"||state==="active")return csrState("not-closed",{rivalryId,managerRole});
       if(state!=="closed")csrFail("COMPLETED_RIVALRY_INVALID");
       // Abandoned (closed without a Terminal Close witness): status only, nothing else is read or counted.
-      if(!Object.hasOwn(value.data,"terminalClose"))return csrState("abandoned",{rivalryId,managerRole});
+      // r80: Ended early: the close time and the seasons played come from this same root (old closes carry no mark: null).
+      if(!Object.hasOwn(value.data,"terminalClose"))return csrState("abandoned",{rivalryId,managerRole,ended:csrEnded(value)});
       const intent=csrVerifyWitness(value.data,rivalryId),total=intent.totalSeasons;
       const ledger=csrAssertLedger(await csrGet(sdk,db,["rivalries",rivalryId,"sharedSetup","authoritative"]),rivalryId,total);
       const setup=await csrRebuildSetup(ledger,rivalry,rivalryId,cryptoImpl),teamCount=csrTeamCount(setup);

@@ -142,13 +142,27 @@
   function ptcPublish(request,next){
     if(!request||!next){stateGeneration+=1;state=null;stateContextKey="";ptcRender();return null;}
     const current=ptcRequest();if(!current||current.key!==request.key)return null;
+    const previousPhase=stateContextKey===request.key?state?.phase:null;
     state=ptcFreeze(next);stateContextKey=request.key;ptcRender();
     // QoL 3+6: the Showdown has ended, so no unsent season result or guess draft for this rivalry stays on this device.
     // Swept here through the generic js/storage.js remove helper (a Showdown has at most 10 seasons) so the startup budget stays put.
     if(state.phase==="CLOSED")ptcClearDrafts(state.rivalryId||request.rivalryId);
     if(state.phase==="DELETED")ptcClearDrafts(state.rivalryId||request.rivalryId);
     try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-terminal-close-state-change",{detail:{phase:state.phase,rivalryId:state.rivalryId||request.rivalryId,terminal:state.phase==="CLOSED"}}));}catch(_error){}
+    if(state.phase==="DELETED"&&previousPhase!=="DELETED")ptcLeaveEndedShowdown();
     return state;
+  }
+  // r80 END SHOWDOWN: the Showdown was ended (this page's own terminal read saw it closed with no finish witness). This phone
+  // leaves it for Home once and says so; History keeps it as Ended early. Phase names stay (DELETED).
+  function ptcLeaveEndedShowdown(){
+    try{
+      const home=root.document?.getElementById("mainMenu");
+      if(home&&!home.classList.contains("hidden"))return;
+      root.stopTransferTimerLoop?.();root.resetTransientSelectionOperations?.();root.resetNavigationState?.();
+      if(typeof root.showScreen==="function")root.showScreen("mainMenu",false);else void root.navigateTo?.("mainMenu",{addToHistory:false});
+      root.refreshMainMenuExperience?.();
+      root.showAppNotice?.("This Showdown was ended for both players. History keeps it as Ended early.","info",8000);
+    }catch(_error){}
   }
   function ptcClear(){stateGeneration+=1;state=null;stateContextKey="";ptcRender();return null;}
   function ptcStillCurrent(request,generation){return ptcRequest()?.key===request.key&&stateGeneration===generation;}
@@ -157,7 +171,7 @@
   function ptcOnOtherRivalry(request){try{const s=ptcRivalryApi()?.getState?.(),id=String(s?.rivalryId||"").trim().toLowerCase();return s?.attached===true&&/^pair_[0-9a-f]{64}$/.test(id)&&id!==request.rivalryId;}catch(_error){return false;}}
   async function ptcRefreshNow(){
     const request=ptcRequest();if(!request)return ptcClear();
-    // r79: a Showdown deleted by the other manager stays deleted (a closed rivalry never reopens): no further read for it.
+    // r79: a Showdown ended by the other manager (END SHOWDOWN) stays ended (a closed rivalry never reopens): no further read for it.
     const deleted=ptcCurrentState();if(deleted?.phase==="DELETED")return deleted;
     await ptcBootstrap();
     // r79: right after a delete and a new JOIN, the page's rivalry can already be the new Showdown while this Showdown's request

@@ -32,7 +32,7 @@
   }
   function verified(entry){
     const classification=entry.classification;
-    if(classification==="abandoned"||classification==="unavailable")return {rivalryId:entry.rivalryId,classification,projection:null,final:null};
+    if(classification==="abandoned"||classification==="unavailable")return {rivalryId:entry.rivalryId,classification,projection:null,final:null,...(classification==="abandoned"&&entry.ended&&typeof entry.ended==="object"?{ended:endedOf(entry.ended)}:{})};
     if(!["active","completion-pending","completed"].includes(classification))return {rivalryId:entry.rivalryId,classification:"unavailable",projection:null,final:null};
     try{
       const p=History.verifyProjection(entry.projection);
@@ -62,7 +62,10 @@
     }
     return entries;
   }
-  function statusRow(entry,number){return {number,rivalryId:entry.rivalryId,status:entry.classification,leagueId:null,clubs:null,seasonsPlayed:null,totalSeasons:null,totals:null,winner:null,seasons:[]};}
+  // r80 Ended early: an abandoned row read from its closed root also carries its close time and seasons played (null when
+  // unknown); it never counts.
+  function endedOf(ended){const at=ended?.endedAt,played=ended?.seasonsPlayed;return {endedAt:Number.isFinite(at)&&at>0?at:null,seasonsPlayed:Number.isInteger(played)&&played>=0&&played<=10?played:null};}
+  function statusRow(entry,number){const ended=entry.ended||null;return {number,rivalryId:entry.rivalryId,status:entry.classification,leagueId:null,clubs:null,seasonsPlayed:ended?ended.seasonsPlayed:null,totalSeasons:null,totals:null,winner:null,seasons:[],...(ended?{endedAt:ended.endedAt}:{})};}
   function seasonRow(season){
     const pair=field=>({daniel:season.playerOne[field],nik:season.playerTwo[field]});
     return {season:season.roundNumber,score:{daniel:season.playerOne.scoring.total,nik:season.playerTwo.scoring.total},winner:managerFor(season.winner),tiebreak:seasonTiebreak(season),leaguePosition:pair("leaguePosition"),leaguePoints:pair("leaguePoints"),leagueGoals:pair("leagueGoals")};

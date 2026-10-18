@@ -108,7 +108,7 @@
     // r79: the save of a Showdown that is already closed (the pair names it: finished, or deleted on Daniel's phone) never blocks
     // Nik's next JOIN. The new shell is made beside it, exactly as Daniel's next START does; that save is kept, never rewritten.
     if(existing&&!activeSaveIsClosedShowdown(runtime)){
-      throw new Error("This phone already has a different current Showdown. Delete it in Settings (DELETE CURRENT SHOWDOWN), then paste Daniel's code again.");
+      throw new Error("This phone already has a different current Showdown. End it in Settings (END SHOWDOWN), then paste Daniel's code again.");
     }
 
     const round=root.document?.getElementById("roundAmount");

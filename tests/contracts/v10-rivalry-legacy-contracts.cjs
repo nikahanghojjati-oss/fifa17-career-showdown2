@@ -9,18 +9,20 @@ const managers=['daniel','nik'],clone=x=>JSON.parse(JSON.stringify(x));
 let n=0;function check(name,fn){fn();console.log(`ok ${++n} ${name}`);}
 function numbers(v){return typeof v==='number'?[v]:v&&typeof v==='object'?Object.values(v).flatMap(numbers):[];}
 check('RL1 all contract fixtures map History and the current rivalry separately',()=>{
- for(const id of ids){const f=fixture(id),h=V.toV10Frame(f.career,'legacy');assert.equal(h.status,f.career.status==='ready'&&!f.career.history.showdowns.some(x=>x.status==='completed')?'empty':f.career.status,id);
+ for(const id of ids){const f=fixture(id),h=V.toV10Frame(f.career,'legacy');assert.equal(h.status,f.career.status==='ready'&&!f.career.history.showdowns.some(x=>['completed','abandoned'].includes(x.status))?'empty':f.career.status,id);
   for(const who of managers){const src=f.viewers[who].rivalry,r=V.toV10Frame(src,'rivalryStatistics');assert.equal(r.status,src.status,id);assert.deepEqual(r.managerOrder,managers);assert.ok(Object.isFrozen(r));}
   assert.deepEqual(h.managerOrder,managers);assert.ok(Object.isFrozen(h));
  }
  assert.equal(V.toV10Frame(null,'legacy').status,'unavailable');assert.equal(V.toV10Frame({},'rivalryStatistics').status,'unavailable');
 });
-check('RL2 History includes only verified completed rows, without backfill',()=>{
+check('RL2 History includes only verified completed rows and status-only Ended early rows, without backfill',()=>{
  for(const id of ids){const m=fixture(id).career,f=V.toV10Frame(m,'legacy');
-  if(['ready','partial','empty'].includes(f.status))assert.deepEqual(f.showdowns.map(x=>x.number),m.history.showdowns.filter(x=>x.status==='completed').map(x=>x.number));
-  for(const row of f.showdowns||[]){const src=m.history.showdowns.find(x=>x.number===row.number);assert.deepEqual(row.totals,src.totals);assert.deepEqual(row.seasons,src.seasons);assert.deepEqual(Object.keys(row.clubs),managers);assert.equal(row.winner,src.winner);}
+  if(['ready','partial','empty'].includes(f.status))assert.deepEqual(f.showdowns.map(x=>x.number),m.history.showdowns.filter(x=>['completed','abandoned'].includes(x.status)).map(x=>x.number));
+  for(const row of (f.showdowns||[]).filter(x=>x.status==='completed')){const src=m.history.showdowns.find(x=>x.number===row.number);assert.deepEqual(row.totals,src.totals);assert.deepEqual(row.seasons,src.seasons);assert.deepEqual(Object.keys(row.clubs),managers);assert.equal(row.winner,src.winner);}
  }
- const m=clone(fixture('multi-showdown-career').career);m.history.showdowns.push({...m.history.showdowns[0],number:99,status:'abandoned'});assert.ok(!V.toV10Frame(m,'legacy').showdowns.some(x=>x.number===99));
+ const m=clone(fixture('multi-showdown-career').career);m.history.showdowns.push({...m.history.showdowns[0],number:99,status:'abandoned',seasonsPlayed:1,endedAt:Date.UTC(2026,9,18,12)});
+ // r80: an Ended early Showdown is one status-only row (date, seasons played): no clubs, totals, winner or seasons.
+ assert.deepEqual(clone(V.toV10Frame(m,'legacy').showdowns.find(x=>x.number===99)),{number:99,status:'abandoned',endedAt:Date.UTC(2026,9,18,12),seasonsPlayed:1,endedLabel:'Ended early · 18 Oct 2026 · 1 season'});
 });
 check('RL3 current rivalry uses adapter numbers, Daniel first even when Nik leads',()=>{
  for(const id of ids){const src=fixture(id).viewers.daniel.rivalry,f=V.toV10Frame(src,'rivalryStatistics');
@@ -46,6 +48,11 @@ check('RL7 final draws and season tiebreaks survive mapping unchanged',()=>{
 });
 check('RL8 all statistics buttons are outside online containment',()=>{
  const src=read('js/onlinePlayerIdentity.js'),css=/style\.textContent="(.*?)\{display:none!important\}/.exec(src);assert.ok(css);for(const id of ['legacyButton','rivalryStatisticsButton','careerStatisticsButton','trophyRoomButton'])assert.ok(!css[1].includes('#'+id));
+});
+check('RL8b r80: Rivalry Statistics after END SHOWDOWN rebuilds the latest Showdown that was not ended early (an Ended early one never counts there)',()=>{
+ const src=read('js/rivalryLegacyV10.js');
+ assert.match(src,/entry=input\?\.showdowns\?\.filter\(item=>item\.classification!=="abandoned"\)\.at\(-1\);/);
+ assert.match(src,/entry\?\.classification==="completed"\?root\.CareerModeSharedCareerAnalytics\.buildCareerModel\(\{indexStatus:"ready",showdowns:\[entry\]\}\)/);
 });
 check('RL9 production entry points are lazy and never read sample fixtures',()=>{
  for(const f of ['js/rivalryLegacyV10.js','visual-assets/v10_1/legacy/legacy.js','visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js'])assert.ok(!read(f).includes('fixtures.json'),f);

@@ -19,7 +19,7 @@
 //     account, never on an idle test Home (where START is real).
 // M10 Settings no longer has the START REAL CAREER row or the SHOW TEST SHOWDOWNS AGAIN switch; old test games stay stored
 //     and stay hidden, whatever the old switch left in the marker.
-// M11 DELETE CURRENT SHOWDOWN is exactly as it was (byte-identical function and button).
+// M11 END SHOWDOWN (r80; was DELETE CURRENT SHOWDOWN) is exactly as reviewed (byte-identical function and button).
 // M12 Lazy, cached, no timers: not in index.html, in the service-worker shell list (runtime version untouched), no polling.
 // M13 Gallery #5/#6: with a Showdown in play both managers read the same UNPAIR rule before any tap; a refusal lasts only
 //     while that Showdown is live (after DELETE the note is the plain one again and UNPAIR is offered).
@@ -308,13 +308,14 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.deepEqual(Marker.hiddenRivalryIds(null),[]);
     assert.doesNotMatch(read("js/careerStartMarker.js"),/deleteDoc|transaction\.delete\(|writeBatch/,"test games are never deleted");
   });
-  await check("M11","DELETE CURRENT SHOWDOWN is byte-identical to r79 PR3",async()=>{
+  await check("M11","END SHOWDOWN (r80, was DELETE CURRENT SHOWDOWN) is byte-identical to its reviewed r80 form",async()=>{
     const s=read("js/settings.js");
-    const i=s.indexOf("async function deleteSettingsCurrentShowdown(");assert.ok(i>=0);
-    assert.equal(sha(s.slice(i,s.indexOf("\n}\n",i)+3)),"9b130e490dff72b84aaa816800ecd075a9ad0216f00f736bc73b062f11f5c667");
-    const a=s.indexOf("    if(active){\n        const deleteCurrent"),end="actions.appendChild(deleteCurrent);\n    }\n",b=s.indexOf(end,a)+end.length;
-    assert.ok(a>=0);assert.equal(sha(s.slice(a,b)),"86e03e1e8b935443dce308c24695367e0b04f74158ea1c0d2d257ad20e284823");
-    assert.doesNotMatch(MODES_SOURCE,/DELETE CURRENT SHOWDOWN|deleteSettingsCurrentShowdown/);
+    assert.doesNotMatch(s,/DELETE CURRENT SHOWDOWN|deleteSettingsCurrentShowdown/,"no separate DELETE");
+    const i=s.indexOf("async function runSettingsEndShowdown(");assert.ok(i>=0);
+    assert.equal(sha(s.slice(i,s.indexOf("\n}\n",i)+3)),"bdfe99f476b0e40f16b0ce224950fdb7ed363808569ba40d52e8675638acf577");
+    const a=s.indexOf("    if(active){\n        const endCurrent"),end="actions.appendChild(endCurrent);\n    }\n",b=s.indexOf(end,a)+end.length;
+    assert.ok(a>=0);assert.equal(sha(s.slice(a,b)),"8a4f90656a5d2eec26a478bc84dff8dcf59e66b46f3c0b2eb36e501abbcc1820");
+    assert.doesNotMatch(MODES_SOURCE,/DELETE CURRENT SHOWDOWN|END SHOWDOWN|deleteSettingsCurrentShowdown|endSettingsCurrentShowdown/);
   });
   await check("M12","lazy (never at startup), cached by the service worker without a runtime bump, no timers or polling",async()=>{
     assert.doesNotMatch(read("index.html"),/showdownModes/);
@@ -367,5 +368,5 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.match(connect,/@media \(min-width:901px\) and \(min-height:600px\) and \(max-height:820px\)\{[^@]*:has\(#cmsConnectTestRunNote:not\(\[hidden\]\)\) \.connectPlayersRole\{min-height:calc\(27\.3vh - 40px\);padding-top:14px;\}/,"short laptops keep the WAITING card in view");
     assert.match(connect,/#cmsConnectTestRunNote\[hidden\]\{display:none!important;\}/,"the strip still shows only in test mode");
   });
-  console.log(`PASS r79 modes and Settings contracts: ${results.length} checks (REAL = marker; Settings pairing rows; UNPAIR blocked while in progress; one-sided PAIR AGAIN; TEST RUN label, START TEST RUN, FORGET THIS DEVICE only in test; every Home START real; one-time checkmark; DELETE CURRENT SHOWDOWN unchanged; lazy, no timers).`);
+  console.log(`PASS r79 modes and Settings contracts: ${results.length} checks (REAL = marker; Settings pairing rows; UNPAIR blocked while in progress; one-sided PAIR AGAIN; TEST RUN label, START TEST RUN, FORGET THIS DEVICE only in test; every Home START real; one-time checkmark; END SHOWDOWN pinned; lazy, no timers).`);
 })().catch(error=>{console.error(error);process.exitCode=1;});

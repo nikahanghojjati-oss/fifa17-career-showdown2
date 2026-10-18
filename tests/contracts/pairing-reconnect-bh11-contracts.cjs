@@ -210,10 +210,10 @@ async function r7FailedJoinCleanup(){
     const h=pairHarness({saves:[shell(SAVE_OLD,PROFILE_OLD,5)],activeSaveId:SAVE_OLD});
     await h.pair.initialize({force:true});
     const result=await h.pair.joinPairing(CODE,{managerRole:"playerTwo"});
-    assert.match(result.message,/Settings \(DELETE CURRENT SHOWDOWN\)/,"R7 the season mismatch says where to delete the old Showdown");
+    assert.match(result.message,/Settings \(END SHOWDOWN\)/,"R7 the season mismatch says where to delete the old Showdown");
     assert.equal(h.calls.redeem.length,0);assert.deepEqual(h.deleted,[]);
   }
-  assert.match(read("js/productionSharedJourneyEntry.js"),/Delete it in Settings \(DELETE CURRENT SHOWDOWN\), then paste Daniel's code again/,"R7 the joiner-shell refusal points to Settings too");
+  assert.match(read("js/productionSharedJourneyEntry.js"),/End it in Settings \(END SHOWDOWN\), then paste Daniel's code again/,"R7 the joiner-shell refusal points to Settings too");
   console.log("ok R7 a refused join removes only the empty copy it created; ambiguous or pre-existing copies are kept");
 }
 

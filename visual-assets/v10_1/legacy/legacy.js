@@ -165,7 +165,7 @@ window.ShowdownLegacyBoot = function () {
       const status = document.createElement("span");
       status.className = "legacyStatusOnly";
       status.textContent = showdown.status === "abandoned"
-        ? strings.states.abandoned
+        ? (showdown.endedLabel || strings.states.abandoned)
         : strings.states.unavailable;
       body.appendChild(status);
       card.append(title, body);

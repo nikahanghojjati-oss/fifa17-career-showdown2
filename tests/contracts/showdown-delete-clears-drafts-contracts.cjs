@@ -11,7 +11,7 @@
 // Node only; the real js/storage.js, js/diagnostics.js, js/showdownUI.js, js/legacy.js and js/settings.js run in one page context.
 //   D1  DELETE CURRENT SHOWDOWN (dashboard) removes every draft key of every rivalry; preferences, Legacy, the save library and other keys stay.
 //       This holds offline: no rivalry id on the Showdown and no pair module.
-//   D2  DELETE CURRENT SHOWDOWN in Settings (remote-first, Save Library authority) removes every draft key of every rivalry, also with no
+//   D2  END SHOWDOWN (r80; was DELETE CURRENT SHOWDOWN) in Settings (remote-first, Save Library authority) removes every draft key of every rivalry, also with no
 //       rivalry id on the Showdown and a pair module that only initializes later; the rest stays.
 //   D3  RESET ALL SHOWDOWN DATA removes every draft key of every rivalry, orphans included (raw storage and Save Library authority); preferences
 //       and other keys stay.
@@ -133,11 +133,11 @@ function assertKept(h,extra=[]){for(const key of Object.keys(KEPT))if(!extra.inc
     const h=harness({initial});
     const runtime=libraryRuntime(h.localStorage);h.ctx.CareerModeSaveLibraryRuntime=runtime;
     vm.runInContext(`currentShowdown=${JSON.stringify(active)};ensureSettingsShowdownStorageAuthority=async function(){return true;};releaseSettingsCurrentShowdownConnection=async function(){return {ok:true};};`,h.ctx);
-    const result=await h.ctx.deleteSettingsCurrentShowdown(null);
+    const result=await h.ctx.endSettingsCurrentShowdown(null);
     assert.equal(result,true);assert.deepEqual(runtime.calls,["clearActive"]);
     assert.deepEqual(h.localStorage.draftKeys(),[],"drafts are gone by the time the delete resolves, orphans included");assertKept(h);
     assert.ok(h.notices.some(n=>n.kind==="success"));
-    ok("D2 Settings DELETE CURRENT SHOWDOWN clears every draft after the online connection is closed and the local copy is removed");
+    ok("D2 Settings END SHOWDOWN clears every draft after the online connection is closed and the local copy is removed");
   }
   // ---- D2b Settings delete: no rivalry id on the Showdown, pair module initializes only during the delete ----
   {
@@ -145,9 +145,55 @@ function assertKept(h,extra=[]){for(const key of Object.keys(KEPT))if(!extra.inc
     const h=harness({initial:withAllDrafts({...KEPT})});
     const runtime=libraryRuntime(h.localStorage);runtime.loadActiveShowdown=()=>bare;h.ctx.CareerModeSaveLibraryRuntime=runtime;
     vm.runInContext(`currentShowdown=${JSON.stringify(bare)};ensureSettingsShowdownStorageAuthority=async function(){return true;};releaseSettingsCurrentShowdownConnection=async function(){CareerModePersistentNikDanielPair={getState:()=>({rivalryId:${JSON.stringify(PAIRED)}})};return {ok:true};};`,h.ctx);
-    assert.equal(await h.ctx.deleteSettingsCurrentShowdown(null),true);
+    assert.equal(await h.ctx.endSettingsCurrentShowdown(null),true);
     assert.deepEqual(h.localStorage.draftKeys(),[],"drafts of the late-initialized pair rivalry, the old rivalry and orphans are all gone");assertKept(h);
     ok("D2b Settings delete clears every draft without depending on when the pair module initializes");
+  }
+  // ---- D2c r80: a double tap joins the END in flight; the dashboard path of a two-player Showdown routes to END ----
+  {
+    const h=harness({initial:withAllDrafts({...KEPT})});
+    const runtime=libraryRuntime(h.localStorage);h.ctx.CareerModeSaveLibraryRuntime=runtime;
+    vm.runInContext(`currentShowdown=${JSON.stringify(active)};ensureSettingsShowdownStorageAuthority=async function(){return true;};var __releases=0;releaseSettingsCurrentShowdownConnection=async function(){__releases+=1;return {ok:true,status:"already-closed"};};`,h.ctx);
+    const [first,second]=await Promise.all([h.ctx.endSettingsCurrentShowdown(null),h.ctx.endSettingsCurrentShowdown(null)]);
+    assert.equal(first,true);assert.equal(second,true,"the second tap is the same END");
+    assert.equal(vm.runInContext("__releases",h.ctx),1,"one close attempt");assert.deepEqual(runtime.calls,["clearActive"]);
+    assert.equal(h.notices.filter(n=>n.kind==="success").length,1);assert.equal(h.notices.filter(n=>n.kind==="error").length,0,"already closed is success, not an error");
+    assert.match(h.notices[0].text,/History keeps it as Ended early\./);
+    const shared={...active,sharedJourney:{mode:"shared",rivalryId:RIVALRY}};
+    const d=harness({initial:withAllDrafts({...KEPT,"careerModeShowdown.activeShowdown":JSON.stringify(shared)})});
+    vm.runInContext(`currentShowdown=${JSON.stringify(shared)};var __ends=0;endSettingsCurrentShowdown=async function(){__ends+=1;return true;};`,d.ctx);
+    await d.ctx.deleteCurrentShowdownFromDashboard();await d.settle();
+    assert.equal(vm.runInContext("__ends",d.ctx),1,"a two-player Showdown ends through END SHOWDOWN");
+    assert.ok(d.localStorage.getItem("careerModeShowdown.activeShowdown"),"never removed from this browser alone");
+    assert.equal(d.localStorage.draftKeys().length,ALL_DRAFTS.length);
+    ok("D2c END SHOWDOWN: a double tap is one END and already-closed is success; the dashboard delete of a two-player Showdown routes to END");
+  }
+  // ---- D2d r80: END reads the seasons with the progression's plain authority refresh (never resumeFromAuthority, which
+  // moves the season cursor), marks the abandon with it, and forgets this page's session for the ended rivalry ----
+  {
+    const h=harness({initial:withAllDrafts({...KEPT})});
+    vm.runInContext(`var __abandon=null,__forgot=0,__resumed=0,__refreshes=0;
+      CareerModeProductionSharedShowdownSetup={getState:()=>({ready:true,rivalryId:${JSON.stringify(RIVALRY)},setup:{phase:"SHOWDOWN_CONFIRMED"}})};
+      CareerModeProductionSharedMultiSeasonProgression={refresh:async()=>{__refreshes+=1;return {authoritative:true,rivalryId:${JSON.stringify(RIVALRY)},state:{acceptedSeasons:2}};},resumeFromAuthority:async()=>{__resumed+=1;return null;}};
+      CareerModeSparkRemoteJoining={getState:()=>({rivalryId:${JSON.stringify(RIVALRY)}}),forgetSession:()=>{__forgot+=1;return {ok:true};}};
+      ensureSettingsPersistentPairAuthority=async function(){return {getState:()=>({rivalryId:${JSON.stringify(RIVALRY)},connectionState:"active"}),abandonCurrentShowdown:async options=>{__abandon=options;return {ok:true,status:"closed"};}};};`,h.ctx);
+    const result=await h.ctx.releaseSettingsCurrentShowdownConnection(active);
+    assert.equal(result.ok,true);assert.equal(result.endedRivalryId,RIVALRY);
+    assert.deepEqual(JSON.parse(JSON.stringify(vm.runInContext("__abandon",h.ctx))),{expectedRivalryId:RIVALRY,expectedSaveId:"save_1",seasonsPlayed:2});
+    assert.equal(vm.runInContext("__refreshes",h.ctx),1,"one progression read");assert.equal(vm.runInContext("__resumed",h.ctx),0,"the season cursor is never moved");
+    assert.equal(vm.runInContext("__forgot",h.ctx),0,"the session stays while this device still holds the Showdown");
+    vm.runInContext(`CareerModeProductionSharedMultiSeasonProgression={refresh:async()=>null};CareerModeSparkRemoteJoining={getState:()=>({rivalryId:"pair_${"b".repeat(64)}"}),forgetSession:()=>{__forgot+=1;}};`,h.ctx);
+    await h.ctx.releaseSettingsCurrentShowdownConnection(active);
+    assert.equal(vm.runInContext("__abandon",h.ctx).seasonsPlayed,null,"an unreadable count is null");
+    h.ctx.forgetSettingsEndedSession(RIVALRY);
+    assert.equal(vm.runInContext("__forgot",h.ctx),0,"another rivalry's session is kept");
+    const e=harness({initial:withAllDrafts({...KEPT})}),eRuntime=libraryRuntime(e.localStorage);e.ctx.CareerModeSaveLibraryRuntime=eRuntime;
+    vm.runInContext(`currentShowdown=${JSON.stringify(active)};ensureSettingsShowdownStorageAuthority=async function(){return true;};var __order=[];
+      releaseSettingsCurrentShowdownConnection=async function(){__order.push("release");return {ok:true,status:"closed",endedRivalryId:${JSON.stringify(RIVALRY)}};};
+      CareerModeSparkRemoteJoining={getState:()=>({rivalryId:${JSON.stringify(RIVALRY)}}),forgetSession:()=>{__order.push(currentShowdown===null?"forget-after-close":"forget-too-early");}};`,e.ctx);
+    assert.equal(await e.ctx.endSettingsCurrentShowdown(null),true);
+    assert.deepEqual(Array.from(vm.runInContext("__order",e.ctx)),["release","forget-after-close"],"the ended session is forgotten once, after this device closed the Showdown");
+    ok("D2d END SHOWDOWN reads the seasons with one plain progression refresh (no cursor move), marks the abandon with it and forgets only the ended session");
   }
   // ---- D3 reset all ----
   for(const mode of ["raw","library"]){
@@ -205,7 +251,7 @@ function assertKept(h,extra=[]){for(const key of Object.keys(KEPT))if(!extra.inc
     // Settings: local removal fails after the online close.
     h=harness({initial});const runtime=libraryRuntime(h.localStorage,{clearActive:false});h.ctx.CareerModeSaveLibraryRuntime=runtime;
     vm.runInContext(`currentShowdown=${JSON.stringify(active)};ensureSettingsShowdownStorageAuthority=async function(){return true;};releaseSettingsCurrentShowdownConnection=async function(){return {ok:true};};`,h.ctx);
-    assert.equal(await h.ctx.deleteSettingsCurrentShowdown(null),false);
+    assert.equal(await h.ctx.endSettingsCurrentShowdown(null),false);
     assert.equal(h.localStorage.draftKeys().length,ALL_DRAFTS.length,"failed Settings delete keeps drafts");
     // Reset all that fails.
     h=harness({initial});h.ctx.CareerModeSaveLibraryRuntime=libraryRuntime(h.localStorage,{clearAll:false});
