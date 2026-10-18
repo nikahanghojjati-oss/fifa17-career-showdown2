@@ -21,6 +21,10 @@
 //     and stay hidden, whatever the old switch left in the marker.
 // M11 DELETE CURRENT SHOWDOWN is exactly as it was (byte-identical function and button).
 // M12 Lazy, cached, no timers: not in index.html, in the service-worker shell list (runtime version untouched), no polling.
+// M13 Gallery #5/#6: with a Showdown in play both managers read the same UNPAIR rule before any tap; a refusal lasts only
+//     while that Showdown is live (after DELETE the note is the plain one again and UNPAIR is offered).
+// M14 Gallery #11-#13: the r79 seasons rows keep START/BACK in the first view on phones; the TEST RUN strip spans the WAITING
+//     card, nothing paints over it, and short laptops keep the WAITING card in view (measured in the real app, see the PR).
 const assert=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path"),vm=require("node:vm"),crypto=require("node:crypto");
 const ROOT=path.resolve(__dirname,"../..");
 const read=file=>fs.readFileSync(path.join(ROOT,file),"utf8");
@@ -95,8 +99,10 @@ function page({managerId="daniel",partner=null,side=null,marker=null,pairState={
   const modes=sandbox.CareerModeShowdownModes;
   const settings=()=>{modes.decorateSettingsPanel(dom.panel);const rows={};for(const r of dom.grid.querySelectorAll("[data-mode-row]"))rows[r.dataset.modeRow]=r.querySelector("strong").textContent;
     return {rows,buttons:dom.actions.children.map(b=>b.textContent),button:text=>dom.actions.children.find(b=>b.textContent===text)||null,note:dom.doc.getElementById("cmsModeSettings")?.textContent||""};};
-  return {dom,modes,calls,settings,pair,marker:markerApi,setScreen:s=>{currentScreen=s;dom.doc.dispatch({type:"career-mode-screen-shown",detail:{screen:s}});},setPairState:s=>{pairState=s;}};
+  return {dom,modes,calls,settings,pair,identity,marker:markerApi,setScreen:s=>{currentScreen=s;dom.doc.dispatch({type:"career-mode-screen-shown",detail:{screen:s}});},setPairState:s=>{pairState=s;}};
 }
+// Replaces a page's openJoin with one that opens the Connect Players layer the way js/connectPlayersScreenV10.js does.
+function sandboxOpenJoin(p,openLayer){const id=p.identity;id.openJoin=async()=>{p.calls.push("openJoin");return openLayer();};}
 const ACTIVE_NIK={partnerAccountId:"acct_nik",myRole:"playerOne",active:true};
 const ACTIVE_DANIEL={partnerAccountId:"acct_daniel",myRole:"playerTwo",active:true};
 const OFF=record=>({...record,active:false});
@@ -260,6 +266,34 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     const real=page({partner:ACTIVE_NIK,side:"mutual",screen:"dashboard"});await real.modes.resolve();real.modes.install();
     assert.equal(real.modes.badgeSuffix(),"");assert.equal(real.dom.doc.getElementById("cmsConnectTestRunNote").hidden,true);
     assert.match(read("js/onlinePlayerIdentity.js"),/badgeSuffix/,"the header badge carries the suffix");
+    // r79 gallery: Nik's account is in test mode until his first real pairing. His code box opened from Home (a real first JOIN)
+    // carries no TEST RUN strip; JOIN TEST RUN from Settings does, until he is back on Home.
+    const nik=page({managerId:"nik"});await nik.modes.resolve();nik.modes.install();nik.modes.refresh?.();
+    const nikNote=()=>nik.dom.doc.getElementById("cmsConnectTestRunNote");
+    assert.ok(nikNote()&&nikNote().hidden===true,"Nik's real first JOIN from Home: no TEST RUN strip");
+    // Codex #917: the layer opens by going Home first (career-mode-screen-shown "mainMenu" while it is still hidden), then shows.
+    const openLayer=()=>{nik.setScreen("mainMenu");nik.dom.layer.hidden=false;nik.dom.layer.classList.remove("hidden");nik.dom.doc.dispatch({type:"career-mode-screen-shown",detail:{screen:"mainMenu"}});return true;};
+    const closeLayer=()=>{nik.dom.layer.hidden=true;nik.dom.layer.classList.add("hidden");nik.dom.doc.dispatch({type:"career-mode-connect-players-closed"});};
+    nik.modes.install();
+    sandboxOpenJoin(nik,openLayer);
+    await nik.modes.startTestRun();assert.equal(nik.modes.isTestRunArmed(),true,"opening the layer through Home keeps JOIN TEST RUN armed");
+    assert.equal(nikNote().hidden,false,"JOIN TEST RUN: the strip shows on Nik's code box");
+    assert.equal(nik.modes.badgeSuffix()," · TEST RUN · NOTHING COUNTS");
+    closeLayer();assert.equal(nik.modes.badgeSuffix(),"","layer closed, back on Home: no TEST RUN badge");
+    assert.equal(nik.modes.isTestRunArmed(),false,"closing the layer ends JOIN TEST RUN");
+    // Codex #917: reopening from Home is no screen change (already on Home), so only the close may end it
+    nik.dom.layer.hidden=false;nik.dom.layer.classList.remove("hidden");nik.modes.renderSeasons();
+    assert.equal(nik.modes.badgeSuffix(),"","the next JOIN from Home is real");assert.equal(nikNote().hidden,true,"and carries no strip");
+    // Codex #917: BACK while openJoin is still syncing (layer shown, call not yet returned) also ends it
+    const slow=page({managerId:"nik"});await slow.modes.resolve();slow.modes.install();let release;
+    slow.identity.openJoin=async()=>{slow.setScreen("mainMenu");slow.dom.layer.hidden=false;slow.dom.layer.classList.remove("hidden");await new Promise(r=>{release=r;});return true;};
+    const pending=slow.modes.startTestRun();await settle();assert.equal(slow.modes.badgeSuffix()," · TEST RUN · NOTHING COUNTS","shown while the layer is up");
+    slow.dom.layer.hidden=true;slow.dom.layer.classList.add("hidden");slow.dom.doc.dispatch({type:"career-mode-connect-players-closed"});
+    release();await pending;assert.equal(slow.modes.isTestRunArmed(),false,"a close during openJoin ends JOIN TEST RUN");
+    // and an openJoin that never shows the layer leaves nothing armed
+    const failed=page({managerId:"nik"});await failed.modes.resolve();failed.modes.install();failed.identity.openJoin=async()=>false;
+    await failed.modes.startTestRun();assert.equal(failed.modes.isTestRunArmed(),false,"no layer, no test run");
+    assert.match(read("js/connectPlayersScreenV10.js"),/function close\(options=\{\}\)\{[\s\S]{0,500}dispatchEvent\(new root\.CustomEvent\("career-mode-connect-players-closed"\)\)/,"every close of the layer says so");
   });
   await check("M10","Settings has no START REAL CAREER row or SHOW TEST SHOWDOWNS AGAIN switch; old test games stay stored and hidden",async()=>{
     const code=file=>read(file).replace(/\/\*[\s\S]*?\*\//g,"").replace(/^\s*\/\/.*$/gm,"");
@@ -291,6 +325,47 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     for(const banned of [/setTimeout|setInterval|requestAnimationFrame/,/onSnapshot|getDocs|collection\(|query\(/,/runTransaction|getDoc\(/,/localStorage|sessionStorage|indexedDB/])assert.doesNotMatch(MODES_SOURCE,banned,String(banned));
     assert.match(read("js/onlinePlayerIdentity.js"),/loadOnlineDependency\("showdown-modes","js\/showdownModes\.js"/);
     assert.ok(Buffer.byteLength(read("js/whichShowdownIsLive.js"))<7000);
+  });
+  await check("M13","gallery #5/#6: both managers read the same UNPAIR note for the same state, and a refusal goes away once the Showdown is deleted",async()=>{
+    const RULE="Finish or delete the current Showdown before you unpair.",IDLE="Every Showdown counts in your career.";
+    const live={rivalryId:"r1",connectionState:"active"},gone={rivalryId:null,connectionState:"none"};
+    for(const [managerId,record] of [["daniel",ACTIVE_NIK],["nik",ACTIVE_DANIEL]]){
+      const p=page({managerId,partner:record,side:"mutual",pairState:live});await p.modes.resolve();
+      assert.equal(p.settings().note,RULE,`${managerId}: a Showdown in play says why UNPAIR waits, before any tap`);
+      p.setPairState(gone);assert.equal(p.settings().note,IDLE,`${managerId}: nothing in play`);
+    }
+    // Daniel taps UNPAIR while the Showdown is live, then deletes it: the refusal does not outlive the Showdown.
+    const d=page({partner:ACTIVE_NIK,side:"mutual",pairState:live});await d.modes.resolve();
+    const before=d.modes.signature();
+    d.settings().button("UNPAIR").click();await settle();
+    assert.equal(d.settings().note,`${RULE} Nothing was changed.`);
+    d.setPairState(gone);
+    assert.notEqual(d.modes.signature(),before,"the Settings panel is redrawn when the Showdown ends");
+    assert.equal(d.settings().note,IDLE,"after DELETE the stale refusal is gone");
+    assert.deepEqual(d.settings().buttons,["UNPAIR"],"and UNPAIR is offered");
+    d.setPairState(live);assert.equal(d.settings().note,RULE,"a later Showdown shows the rule, not the old refusal");
+    // The fail-closed refusal of a pending Showdown also clears once it is gone.
+    const pending=page({partner:ACTIVE_NIK,side:"mutual",pairState:{rivalryId:"r1",connectionState:"pending-pair"},unpairError:Object.assign(new Error("in progress"),{code:"PERMANENT_PARTNER_UNPAIR_BLOCKED"})});await pending.modes.resolve();
+    pending.settings().button("UNPAIR").click();await settle();
+    assert.equal(pending.settings().note,`${RULE} Nothing was changed.`);
+    pending.setPairState(gone);assert.equal(pending.settings().note,IDLE);
+    // Other messages are not tied to the Showdown (the result of an UNPAIR stays).
+    const ok=page({partner:ACTIVE_NIK,side:"mutual"});await ok.modes.resolve();ok.settings().button("UNPAIR").click();await settle();
+    ok.setPairState(gone);assert.equal(ok.settings().note,"Unpaired from Nik.");
+  });
+  await check("M14","gallery #11-#13: the r79 seasons rows and the TEST RUN strip never push START/BACK or the WAITING card out of the first view",async()=>{
+    const strip=s=>s.replace(/\/\*[\s\S]*?\*\//g,"");
+    const setup=strip(read("css/v10Setup.css")),connect=strip(read("css/connectPlayersV10.css"));
+    const ROWS=String.raw`#createShowdown\.v26Skin:has\(\.setupBox :is\(\.cmsRealCareerRow, \.cmsTestRunNote, \.cmsSeasonsStartMessage\):not\(\[hidden\]\)\)`;
+    const phone=setup.slice(setup.lastIndexOf("@media (max-width: 900px) {"));
+    assert.match(phone,new RegExp(ROWS+String.raw` \{ --v26-band: clamp\(140px, calc\(100svh - 575px\), 300px\); \}`),"phones: the hero band follows the free height while a row shows");
+    assert.match(phone,new RegExp(ROWS+String.raw` \.setupBox \{ margin-top: calc\(var\(--v26-band\) - 70px\); padding: 12px; gap: 8px; \}`),"short-phone spacing in the setup box");
+    assert.match(phone,new RegExp(ROWS+String.raw` \.setupBox :is\(\.stateNote, label:not\(\[hidden\]\), #roundAmount, \.menuButton, \.backButton\) \{ margin-top: 0; margin-bottom: 0; \}`));
+    for(const banned of [/display\s*:\s*none/,/opacity/,/filter/,/position\s*:\s*(fixed|absolute)/,/order\s*:/])assert.doesNotMatch(phone,banned,`the seasons fix never hides, dims, floats or reorders: ${banned}`);
+    assert.match(connect,/#cmsConnectTestRunNote\{box-sizing:border-box;width:100%;max-width:100%;margin:0 0 8px;/,"the strip spans the WAITING card's width");
+    assert.match(connect,/#app #connectPlayersScreen #cmsConnectTestRunNote\{position:relative;z-index:1;\}/,"no neighbour's shadow paints over the strip");
+    assert.match(connect,/@media \(min-width:901px\) and \(min-height:600px\) and \(max-height:820px\)\{[^@]*:has\(#cmsConnectTestRunNote:not\(\[hidden\]\)\) \.connectPlayersRole\{min-height:calc\(27\.3vh - 40px\);padding-top:14px;\}/,"short laptops keep the WAITING card in view");
+    assert.match(connect,/#cmsConnectTestRunNote\[hidden\]\{display:none!important;\}/,"the strip still shows only in test mode");
   });
   console.log(`PASS r79 modes and Settings contracts: ${results.length} checks (REAL = marker; Settings pairing rows; UNPAIR blocked while in progress; one-sided PAIR AGAIN; TEST RUN label, START TEST RUN, FORGET THIS DEVICE only in test; every Home START real; one-time checkmark; DELETE CURRENT SHOWDOWN unchanged; lazy, no timers).`);
 })().catch(error=>{console.error(error);process.exitCode=1;});
