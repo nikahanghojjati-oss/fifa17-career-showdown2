@@ -84,20 +84,6 @@ async function closeSettings(m){
   await m.page.locator(".settingsFooter .menuButton").click();
   await m.page.locator("#settingsOverlay").waitFor({state:"hidden",timeout:15000});
 }
-// r79 PR3: the first real pairing (so both managers hold partner records and Daniel's START writes Nik's JOIN note).
-async function startRealCareerInSettings(m){
-  for(let attempt=0;;attempt+=1){
-    await m.page.locator("#settingsButton").click({timeout:30000});
-    await m.page.locator("#settingsOverlay").waitFor({state:"visible",timeout:12000});
-    const shown=await m.page.locator(".settingsStartRealCareer").waitFor({state:"visible",timeout:10000}).then(()=>true,()=>false);
-    if(shown)break;
-    if(attempt>=1)throw new Error(`${m.user}: Settings never offered START REAL CAREER`);
-    await closeSettings(m);
-  }
-  await m.page.locator(".settingsStartRealCareer").click({timeout:20000});
-  await m.page.locator(".settingsCareerStartToggleRow").waitFor({state:"visible",timeout:20000});
-  await closeSettings(m);
-}
 async function goHome(m){
   if(await m.page.locator("#mainMenu").isVisible().catch(()=>false))return;
   // The visible BACK of the current screen, as a player would; the app's own navigation only if none is shown.
@@ -123,7 +109,7 @@ async function main(){
     ok("D0.2","Daniel and Nik signed in on the emulators");
 
     // A live Showdown: Daniel's real START (3 seasons), Nik pastes the code, both reach the live session.
-    await startRealCareerInSettings(daniel);
+    // r79 PR4: Home START's one-time START REAL CAREER checkmark (ticked by default) makes this the first real pairing.
     const code1=await danielStartsShowdown(daniel,3);
     assert.match(code1,/^CMS17R-pair_[0-9a-f]{64}$/,"the first real pairing code");
     await nik.page.locator("#newShowdown").click();

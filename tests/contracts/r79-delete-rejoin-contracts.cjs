@@ -164,6 +164,7 @@ function pairHarness({rivalryState="active",linked=true,rounds=3}={}){
     CareerModeOnlinePlayerIdentity:{getState:()=>({managerId:"nik"})},
     CareerModeSparkConnectedAccount:{initialize:async()=>({}),getState:()=>({connected:true,accountId:"uid_nik"})},
     CareerModeSparkPrivatePairing:pairing,CareerModeSaveLibraryRuntime:runtime,
+    CareerModeCareerStartMarker:{readCurrentMarker:async()=>({status:"none"})},
     CareerModeProductionSharedJourneyEntry:{provisionJoinerShell:async total=>{calls.provision+=1;library.saves.push(shell(SAVE_NEW,PROFILE_NEW,Number(total)));library.activeSaveId=SAVE_NEW;return true;}},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"uid_nik"}},firestore:{},firestoreSdk})},
     navigateTo:async()=>true};

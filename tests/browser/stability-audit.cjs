@@ -62,6 +62,9 @@ async function installAuthorizedOnlineIdentityFixture(page){
     window.CareerModeSparkConnectedAccount={initialize:async()=>({connected:true,accountId}),getState:()=>({connected:true,accountId}),signIn:async()=>({connected:true,accountId}),signOut:async()=>({connected:false,accountId:null})};
     window.CareerModeSparkPrivatePairing={initialize:async()=>({registered:true,deviceId}),getState:()=>({registered:true,deviceId,message:"Ready"}),getOrCreateDeviceIdentity:async()=>({deviceId})};
     const pairState={status:"unpaired",initialized:true,busy:false,accountId,managerId:null,managerRole:null,connectionState:null,rivalryId:null};
+    // r79 PR4 (Nik): every Home START is real, so START first asks whether this account's real career has started and
+    // refuses while that cannot be checked. This fixture Daniel has already started it (a career start marker).
+    window.CareerModeCareerStartMarker={readCurrentMarker:async()=>({status:"ready",hiddenRivalryIds:[],active:true,revision:0}),startRealCareer:async()=>{throw new Error("the fixture marker already exists");},hiddenRivalryIds:()=>[],epoch:()=>0,getState:()=>({status:"ready",accountId})};
     window.__stabilityPairCodes=0;
     window.CareerModePersistentNikDanielPair={initialize:async()=>pairState,getState:()=>pairState,render:()=>null,startPairing:async()=>{window.__stabilityPairCodes+=1;return pairState;}};
     const identity=window.CareerModeOnlinePlayerIdentity;
