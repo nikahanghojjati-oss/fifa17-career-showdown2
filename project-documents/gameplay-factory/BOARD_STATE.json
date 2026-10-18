@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-18 1:47 PM Boston time (EDT)",
+ "generated": "2026-10-18 1:51 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 114,
+  "count": 126,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1013,6 +1013,33 @@
     "boston": "Sat 17 Oct 10:19 AM"
    },
    {
+    "time": "2026-10-17 14:20",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-032 RECEIVED",
+    "subject": "r78 phone League: smaller wheel so both faces show",
+    "reply": "no",
+    "boston": "Sat 17 Oct 10:20 AM"
+   },
+   {
+    "time": "2026-10-17 16:39",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-031 DONE",
+    "subject": "r78 phone marble: use the painted-men plates, drop OVL cut-outs (no man-free plates)",
+    "reply": "no",
+    "boston": "Sat 17 Oct 12:39 PM"
+   },
+   {
+    "time": "2026-10-17 16:39",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-032 DONE",
+    "subject": "r78 phone League: smaller wheel so both faces show",
+    "reply": "no",
+    "boston": "Sat 17 Oct 12:39 PM"
+   },
+   {
     "time": "2026-10-17 21:27",
     "from": "Team G",
     "to": "Team V",
@@ -1022,6 +1049,69 @@
     "boston": "Sat 17 Oct 5:27 PM"
    },
    {
+    "time": "2026-10-17 21:52",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-013 DONE",
+    "subject": "Finished Showdown shows the 'private session has ended, reconnect' line",
+    "reply": "no",
+    "boston": "Sat 17 Oct 5:52 PM"
+   },
+   {
+    "time": "2026-10-17 21:52",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-014 DONE",
+    "subject": "Create code / Join on its own Connect Players screen, never on top of Home",
+    "reply": "no",
+    "boston": "Sat 17 Oct 5:52 PM"
+   },
+   {
+    "time": "2026-10-17 21:52",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-015 DONE",
+    "subject": "Season Results on phone: one clean column (Team V's tested CSS for app.css)",
+    "reply": "no",
+    "boston": "Sat 17 Oct 5:52 PM"
+   },
+   {
+    "time": "2026-10-17 21:52",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-016 DONE",
+    "subject": "Transfer War on phone: port Team V's revamp (1016) into the live game",
+    "reply": "no",
+    "boston": "Sat 17 Oct 5:52 PM"
+   },
+   {
+    "time": "2026-10-17 21:52",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-018 DONE",
+    "subject": "Season Results desktop: port Team V's mockup-match CSS (1029 · V)",
+    "reply": "no",
+    "boston": "Sat 17 Oct 5:52 PM"
+   },
+   {
+    "time": "2026-10-17 21:52",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-019 DONE",
+    "subject": "Select League: port Team V's brush title wordmark (1030 · V)",
+    "reply": "no",
+    "boston": "Sat 17 Oct 5:52 PM"
+   },
+   {
+    "time": "2026-10-17 21:52",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-020 DONE",
+    "subject": "Team V screens lose kit CSS when a stylesheet takes over 4 s (v10Screens.js timeout)",
+    "reply": "no",
+    "boston": "Sat 17 Oct 5:52 PM"
+   },
+   {
     "time": "2026-10-17 22:19",
     "from": "Team V",
     "to": "Team G",
@@ -1029,6 +1119,24 @@
     "subject": "r79 visual fixes from Team V r78 check (scrims, see-through panels, Season Results no-scroll)",
     "reply": "yes (receive it)",
     "boston": "Sat 17 Oct 6:19 PM"
+   },
+   {
+    "time": "2026-10-17 22:21",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-033 RECEIVED",
+    "subject": "r79 visual fixes from Team V r78 check (scrims, see-through panels, Season Results no-scroll)",
+    "reply": "no",
+    "boston": "Sat 17 Oct 6:21 PM"
+   },
+   {
+    "time": "2026-10-18 00:24",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-033 DONE",
+    "subject": "r79 visual fixes from Team V r78 check (scrims, see-through panels, Season Results no-scroll)",
+    "reply": "no",
+    "boston": "Sat 17 Oct 8:24 PM"
    }
   ],
   "g2v": {
@@ -1049,8 +1157,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "8ba29b2",
-  "head_boston": "Sat 17 Oct 8:24 PM",
+  "head": "0e35900",
+  "head_boston": "Sun 18 Oct 1:51 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1089,10 +1197,10 @@
      "draft": false,
      "branch": "gameplay/r79-repin",
      "sha": "020eacf85ae87a11f498dacefbde52d1ff3ea43c",
-     "updated": "2026-10-18T17:47:19Z",
+     "updated": "2026-10-18T17:48:31Z",
      "gates": {
-      "passed": 0,
-      "running": 7,
+      "passed": 2,
+      "running": 5,
       "failed": 0,
       "cancelled": 0
      }
@@ -2865,10 +2973,10 @@
     "draft": false,
     "branch": "gameplay/r79-repin",
     "sha": "020eacf85ae87a11f498dacefbde52d1ff3ea43c",
-    "updated": "2026-10-18T17:47:19Z",
+    "updated": "2026-10-18T17:48:31Z",
     "gates": {
-     "passed": 0,
-     "running": 7,
+     "passed": 2,
+     "running": 5,
      "failed": 0,
      "cancelled": 0
     }

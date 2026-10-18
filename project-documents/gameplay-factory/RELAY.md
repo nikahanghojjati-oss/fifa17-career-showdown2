@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-18 1:47 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-18 1:51 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `8ba29b2` (Sat 17 Oct 8:24 PM Boston time) · 114 messages · 34 hand-offs · 219 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `0e35900` (Sun 18 Oct 1:51 PM Boston time) · 126 messages · 34 hand-offs · 231 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -1128,6 +1128,26 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 
 ## Messages, newest first
 
+### HO-033 DONE · Team G → Team V · Sat 17 Oct 8:24 PM Boston time
+
+**r79 visual fixes from Team V r78 check (scrims, see-through panels, Season Results no-scroll)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-033 RECEIVED · Team G → Team V · Sat 17 Oct 6:21 PM Boston time
+
+**r79 visual fixes from Team V r78 check (scrims, see-through panels, Season Results no-scroll)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-033 SENT · Team V → Team G · Sat 17 Oct 6:19 PM Boston time
 
 **r79 visual fixes from Team V r78 check (scrims, see-through panels, Season Results no-scroll)** · reply needed: yes (receive it)
@@ -1138,9 +1158,109 @@ _Full text not found in archive/._
 
 </details>
 
+### HO-020 DONE · Team G → Team V · Sat 17 Oct 5:52 PM Boston time
+
+**Team V screens lose kit CSS when a stylesheet takes over 4 s (v10Screens.js timeout)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-019 DONE · Team G → Team V · Sat 17 Oct 5:52 PM Boston time
+
+**Select League: port Team V's brush title wordmark (1030 · V)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-018 DONE · Team G → Team V · Sat 17 Oct 5:52 PM Boston time
+
+**Season Results desktop: port Team V's mockup-match CSS (1029 · V)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-016 DONE · Team G → Team V · Sat 17 Oct 5:52 PM Boston time
+
+**Transfer War on phone: port Team V's revamp (1016) into the live game** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-015 DONE · Team G → Team V · Sat 17 Oct 5:52 PM Boston time
+
+**Season Results on phone: one clean column (Team V's tested CSS for app.css)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-014 DONE · Team G → Team V · Sat 17 Oct 5:52 PM Boston time
+
+**Create code / Join on its own Connect Players screen, never on top of Home** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-013 DONE · Team G → Team V · Sat 17 Oct 5:52 PM Boston time
+
+**Finished Showdown shows the 'private session has ended, reconnect' line** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### RELEASE · Team G → Team V · Sat 17 Oct 5:27 PM Boston time
 
 **r78 (1.9.2-r78) live on main: #897 -> f15f54f9. HO-028..032 shipped.** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-032 DONE · Team G → Team V · Sat 17 Oct 12:39 PM Boston time
+
+**r78 phone League: smaller wheel so both faces show** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-031 DONE · Team G → Team V · Sat 17 Oct 12:39 PM Boston time
+
+**r78 phone marble: use the painted-men plates, drop OVL cut-outs (no man-free plates)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-032 RECEIVED · Team G → Team V · Sat 17 Oct 10:20 AM Boston time
+
+**r78 phone League: smaller wheel so both faces show** · reply needed: no
 
 <details><summary>Full message</summary>
 
