@@ -12,7 +12,7 @@ const TEST_LABEL="TEST RUN · nothing counts",BADGE_SUFFIX=" · TEST RUN · NOTH
 const LAYER_NOTE_ID="cmsConnectTestRunNote",ROW_ID="cmsRealCareerRow",CHECK_ID="cmsRealCareerCheck",NOTE_ID="cmsTestRunNote",MESSAGE_ID="cmsSeasonsStartMessage",SETTINGS_ID="cmsModeSettings";
 const GAMEPLAY=Object.freeze(["createShowdown","leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge","seasonEntry","seasonSummary"]);
 const LABELS=Object.freeze({daniel:"Daniel",nik:"Nik"});
-let installed=false,armed=false,busy=false,settingsMessage="",settingsTone="",seasonsMessage="",markerView=Object.freeze({status:"unknown",accountId:null}),markerPromise=null;
+let installed=false,armed=false,busy=false,settingsMessage="",settingsTone="",settingsMessageWhileLive=false,seasonsMessage="",markerView=Object.freeze({status:"unknown",accountId:null}),markerPromise=null;
 const smDoc=()=>root.document||null;
 function smIdentity(){try{const s=root.CareerModeOnlinePlayerIdentity?.getState?.();return s&&s.status==="ready"&&s.registered&&s.accountId&&LABELS[s.managerId]?s:null;}catch(_){return null;}}
 const smPair=()=>root.CareerModePersistentNikDanielPair||null;
@@ -49,7 +49,8 @@ function smRenderLayerLabel(){
   let note=d.getElementById(LAYER_NOTE_ID);
   if(!note){note=smEl("p","stateNote locked cmsTestRunNote",TEST_LABEL);note.id=LAYER_NOTE_ID;}
   if(note.parentNode!==slot)slot.prepend(note);
-  note.hidden=smView().mode!=="test";
+  /* r79 gallery: the strip follows the same rule as the badge, so a test account's real first JOIN (Home) never wears it */
+  note.hidden=!smTestRunShown();
 }
 function smBadgeSuffix(){return smTestRunShown()?BADGE_SUFFIX:"";}
 async function smLoad(key,path,ready){if(ready())return ready();if(typeof root.loadRuntimeScript!=="function")throw new Error("The career service is unavailable.");await root.loadRuntimeScript(key,path,()=>Boolean(ready()));return ready();}
@@ -73,7 +74,11 @@ async function smResolve(){
 function smEl(tag,className,text){const e=smDoc().createElement(tag);if(className)e.className=className;if(text!=null)e.textContent=String(text);return e;}
 function smInfoRow(label,value,mode){const row=smEl("div","settingsInfoRow"),a=smEl("span","",label),v=smEl("strong","",value);row.dataset.modeRow=mode;row.append(a,v);return row;}
 function smButton(text,fn,className="menuButton"){const b=smEl("button",className,text);b.type="button";b.disabled=busy;b.dataset.modeRow="action";b.addEventListener("click",fn);return b;}
-function smSignature(){const v=smView();return [v.mode,v.pairing,busy,settingsMessage,settingsTone].join("|");}
+// Gallery #5/#6: UNPAIR is refused while a Showdown is being played, so the note says so on both managers' pages before any
+// tap, and the refusal (kept only while that Showdown is live) goes away by itself once it is finished or deleted.
+function smUnpairBlocked(){try{return smPair()?.getState?.()?.connectionState==="active";}catch(_){return false;}}
+function smMessage(){if(settingsMessageWhileLive&&!smLiveShowdown()){settingsMessage="";settingsTone="";settingsMessageWhileLive=false;}return settingsMessage;}
+function smSignature(){const v=smView();return [v.mode,v.pairing,busy,smMessage(),settingsTone,smUnpairBlocked()].join("|");}
 function smDecorateSettingsPanel(panel){
   if(!panel||!smDoc())return panel;
   const v=smView(),grid=panel.querySelector(".settingsInfoGrid"),actions=panel.querySelector(".settingsConnectedAccountActions");
@@ -91,14 +96,14 @@ function smDecorateSettingsPanel(panel){
     actions.append(smButton(v.managerId==="daniel"?"START TEST RUN":"JOIN TEST RUN",()=>void smStartTestRun(),"menuButton settingsStartTestRun"));
     actions.append(smButton("FORGET THIS DEVICE",()=>void root.CareerModeOnlinePlayerIdentity?.forgetThisDevice?.(),"menuButton settingsForgetDevice"));
   }
-  const note=smEl("p","settingsOfflineNote settingsModeNote",settingsMessage||(v.mode==="test"?"Test runs never count in any history. Your first Home START becomes your real career.":v.mode==="real"?"Every Showdown counts in your career.":""));
+  const note=smEl("p","settingsOfflineNote settingsModeNote",smMessage()||(v.mode==="test"?"Test runs never count in any history. Your first Home START becomes your real career.":v.mode==="real"?(v.pairing==="paired"&&smUnpairBlocked()?RULE:"Every Showdown counts in your career."):""));
   note.id=SETTINGS_ID;note.setAttribute("role","status");note.setAttribute("aria-live","polite");if(settingsTone)note.dataset.tone=settingsTone;
   if(note.textContent)actions.after(note);
   return panel;
 }
-function smSetSettingsMessage(text,tone=""){settingsMessage=text||"";settingsTone=tone;smRefresh();}
+function smSetSettingsMessage(text,tone="",whileLive=false){settingsMessage=text||"";settingsTone=tone;settingsMessageWhileLive=Boolean(text)&&whileLive;smRefresh();}
 function smAskConfirm(message,tone){return typeof root.askShowdownConfirm==="function"?root.askShowdownConfirm(message,{tone}):typeof root.loadRuntimeScript==="function"?root.loadRuntimeScript("showdown-confirm","js/showdownConfirm.js",()=>typeof root.askShowdownConfirm==="function").then(()=>root.askShowdownConfirm(message,{tone}),()=>false):Promise.resolve(undefined);}
-const BLOCKED="Finish or delete the current Showdown before you unpair. Nothing was changed.";
+const RULE="Finish or delete the current Showdown before you unpair.",BLOCKED=`${RULE} Nothing was changed.`;
 function smPlain(error){return error&&error.code==="PERMANENT_PARTNER_UNPAIR_BLOCKED"?BLOCKED:`Nothing was changed. ${error&&error.message?error.message:"Try again."}`;}
 // UNPAIR: a Showdown that is being played is caught here without a read; the pair module's unpair() is the fail-closed check
 // (an ACTIVE rivalry, or a pending one whose code is still open, refuses inside its transaction).
@@ -109,20 +114,20 @@ async function smRunUnpair(){
 }
 async function smUnpairFromSettings(){
   if(busy)return false;const v=smView();
-  if(smPair()?.getState?.()?.connectionState==="active"){smSetSettingsMessage(BLOCKED,"error");return false;}
+  if(smUnpairBlocked()){smSetSettingsMessage(BLOCKED,"error",true);return false;}
   const ok=await smAskConfirm(`Unpair from ${v.partnerLabel}? Your Showdowns stay saved. To play again you pair again with a new code.`,"danger");
   if(ok!==true)return false;
   busy=true;smSetSettingsMessage("Unpairing…");
   const result=await smRunUnpair();busy=false;
-  smSetSettingsMessage(result.ok?`Unpaired from ${v.partnerLabel}.`:result.blocked?BLOCKED:smPlain(result.error),result.ok?"success":"error");
+  smSetSettingsMessage(result.ok?`Unpaired from ${v.partnerLabel}.`:result.blocked?BLOCKED:smPlain(result.error),result.ok?"success":"error",!result.ok&&result.blocked);
   return result.ok;
 }
 // PAIR AGAIN: this account's own stale record goes inactive (the same fail-closed unpair), then the existing first real pairing.
 async function smUnpairForPairAgain(){
   if(busy)return Object.freeze({ok:false,message:"Unpairing is already in progress."});busy=true;smRefresh();
   const result=await smRunUnpair();busy=false;
-  if(!result.ok){const message=result.blocked?BLOCKED:smPlain(result.error);smSetSettingsMessage(message,"error");return Object.freeze({ok:false,message});}
-  settingsMessage="";smRefresh();return Object.freeze({ok:true});
+  if(!result.ok){const message=result.blocked?BLOCKED:smPlain(result.error);smSetSettingsMessage(message,"error",result.blocked);return Object.freeze({ok:false,message});}
+  settingsMessage="";settingsMessageWhileLive=false;smRefresh();return Object.freeze({ok:true});
 }
 async function smPairAgainFromSettings(){const result=await smUnpairForPairAgain();if(!result||result.ok!==true)return false;return smPairWithFromSettings();}
 async function smPairWithFromSettings(){root.closeSettings?.(false);const identity=root.CareerModeOnlinePlayerIdentity;if(smView().managerId==="nik")return identity?.openJoin?.();return identity?.openStart?.();}
@@ -130,8 +135,9 @@ async function smPairWithFromSettings(){root.closeSettings?.(false);const identi
 async function smStartTestRun(){
   const v=smView();if(v.mode!=="test")return false;
   root.closeSettings?.(false);const identity=root.CareerModeOnlinePlayerIdentity;
-  if(v.managerId==="nik")return identity?.openJoin?.();
+  /* Nik's JOIN TEST RUN is a test run too (the strip on his code box); back on Home it is over */
   armed=true;smRefresh();
+  if(v.managerId==="nik")return identity?.openJoin?.();
   /* Codex #908: a launch that does not reach the seasons screen (refused, failed, or it continued a live Showdown) disarms,
      so the next Home START is real again and a real Showdown never wears the TEST RUN label. */
   let opened=null;try{opened=await identity?.openStart?.();}finally{if(!opened||smScreen()!=="createShowdown"){armed=false;smRefresh();}}
