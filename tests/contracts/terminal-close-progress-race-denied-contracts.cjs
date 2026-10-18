@@ -70,4 +70,32 @@ async function world(totalSeasons,{partnerLands,budget=false}){
     assert.equal(real.store.get(rivalryPath).revision,2);
     console.log(`PASS ${label}: a progress write refused because the partner's identical write landed first continues from the partner's progress; a real refusal is unchanged`);
   }
+  // r79 (L3A stale-write race): both finalize at once and the partner's atomic close lands between this attempt's rivalry
+  // and session reads; the refused session read must end as a replay of the partner's close, not a failed close.
+  async function finalizeWorld({finalizeError,preflight}){
+    const calls={finalize:0,preflight:0};
+    const hooks={finalize:async()=>{calls.finalize+=1;throw finalizeError;},preflight:async()=>{calls.preflight+=1;return preflight();}};
+    const sandbox={console,TextEncoder,crypto:webcrypto,__hooks:hooks,CareerModeSharedTerminalClose:require("../../js/sharedTerminalClose.js"),CareerModeSparkPrivateSession:require("../../js/sparkPrivateSession.js")};
+    vm.createContext(sandbox);
+    const hooked=[
+      ["async function stcClose(options={}){try{const operation=stcNormalizeOptions(options),references=stcRefs(operation);","async function stcClose(options={}){try{const operation=options,references={};"],
+      ["async function stcAdvanceProgress(operation,references){","async function stcAdvanceProgress(operation,references){if(globalThis.__hooks)return {closed:false,done:true};"],
+      ["async function stcFinalize(operation,references){return","async function stcFinalize(operation,references){if(globalThis.__hooks)return globalThis.__hooks.finalize();return"],
+      ["function stcPrepareProgress(operation,references){return","function stcPrepareProgress(operation,references){if(globalThis.__hooks)return globalThis.__hooks.preflight();return"]
+    ].reduce((text,[from,to])=>{assert.equal(text.split(from).length,2,`hook anchor present once: ${from.slice(0,40)}`);return text.replace(from,to);},source);
+    vm.runInContext(hooked,sandbox,{filename:"js/sparkTerminalClose.js"});
+    const result=await sandbox.CareerModeSparkTerminalClose.close({rivalryId,sessionId:`session_${"c".repeat(64)}`,intent:{totalSeasons:3}});
+    return {result:plain(result),calls};
+  }
+  const won=await finalizeWorld({finalizeError:denied(),preflight:()=>({closed:true,done:true,rivalry:{revision:9},sessionRevision:7})});
+  assert.equal(won.result.ok,true,JSON.stringify(won.result));assert.equal(won.result.status,"replayed");assert.equal(won.result.replayed,true);
+  assert.equal(won.result.sessionRevision,7,"the replay carries the partner's closing session revision");assert.equal(won.result.rivalryRevision,9);
+  assert.deepEqual(won.calls,{finalize:1,preflight:1},"one fresh preflight, no second finalize");
+  const stillOpen=await finalizeWorld({finalizeError:denied(),preflight:()=>({closed:false,done:false,priorRivalry:{revision:2}})});
+  assert.equal(stillOpen.result.ok,false);assert.equal(stillOpen.result.code,"permission-denied","a denial while the rivalry is still open stays a denial");
+  const otherClose=await finalizeWorld({finalizeError:denied(),preflight:()=>{throw Object.assign(new Error("conflict"),{code:"TERMINAL_CLOSE_REPLAY_CONFLICT"});}});
+  assert.equal(otherClose.result.ok,false);assert.equal(otherClose.result.code,"permission-denied","a rivalry closed with another witness keeps the original denial");
+  const otherError=await finalizeWorld({finalizeError:Object.assign(new Error("offline"),{code:"unavailable"}),preflight:()=>{throw new Error("must not run");}});
+  assert.equal(otherError.result.code,"unavailable");assert.deepEqual(otherError.calls,{finalize:1,preflight:0},"only a permission denial triggers the fresh preflight");
+  console.log("PASS finalize race: a final close refused because the partner's identical close landed first ends as a replay of it; an open rivalry, another witness or a non-denial error stays a failure");
 })().catch(error=>{console.error(error);process.exitCode=1;});
