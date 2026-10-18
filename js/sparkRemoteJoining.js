@@ -332,7 +332,7 @@
   // joins; either phone re-attaches to it after a closed tab. The manual code controls stay behind USE A SESSION CODE
   // for accounts that are not permanently paired (r79 PR3: a paired account has no USE A SESSION CODE path).
   const SRJ_OFFER_POLL_MS=3000,SRJ_OFFER_POLL_LIMIT_MS=10*60*1000,SRJ_OFFER_MIN_LIFE_MS=60*1000;
-  let srjAutoPromise=null,srjOfferTimer=null;
+  let srjAutoPromise=null,srjOfferTimer=null,srjPublishTimer=null,srjPublishRetry=null;
   function srjOfferRef(context){return context.services.firestoreSdk.doc(context.services.firestore,"rivalries",context.rivalryId,"sessionOffers","current");}
   // r79 gallery (Nik's JOIN after a deleted Showdown): the pointer is what a waiting phone polls for, so the budget layer must
   // not answer it from a copy. With any healthy wait-point listener on the page (the previous Showdown's shared setup kept one)
@@ -363,7 +363,7 @@
     if(!result||result.ok!==true||result.expiredByClock||!Number.isFinite(result.expiresAtEpochMs)||result.expiresAtEpochMs<=Date.now())return null;
     if(result.state==="active"){srjAcceptResult(result,context,role,"Connected to your Showdown again.");return {ok:true,kind:"resumed"};}
     if(result.state!=="open")return null;
-    if(role==="host"){srjAcceptResult(result,context,"host",`Waiting for ${srjRivalName()==="NIK"?"Nik":"Daniel"} to open the game.`);srjSetState({auto:"waiting"});srjWatchForJoin(sessionId);return {ok:true,kind:"hosting"};}
+    if(role==="host"){srjOfferConfirmed=sessionId;srjAcceptResult(result,context,"host",`Waiting for ${srjRivalName()==="NIK"?"Nik":"Daniel"} to open the game.`);srjSetState({auto:"waiting"});srjWatchForJoin(sessionId);return {ok:true,kind:"hosting"};}
     if(!joinOpen)return null;
     const joined=await srjStartJoin(sessionId);
     return joined&&joined.ok===true?{ok:true,kind:"joined"}:null;
@@ -387,11 +387,81 @@
       srjWaitForOffer(startedAt);
     },SRJ_OFFER_POLL_MS);
   }
+  // Codex #904 (release review): a permanently paired account has no USE A SESSION CODE path, so when Daniel's session is
+  // open but the pointer write fails, "send Nik this session code" was a dead end: Nik's phone only ever reads the pointer.
+  // Daniel keeps waiting and this page publishes the pointer again (3 s, doubling to once a minute, visible tab only, 10 min
+  // like Nik's own wait, sooner when the browser comes back online) until it lands or the session stops waiting for a join.
+  // Codex #920: each try first reads the pointer. Naming this session ends the retry with no write (a write whose answer
+  // was lost). Naming another session that the server does not positively report as gone, over or within a minute of its
+  // end means no write (a newer screen of Daniel's may own the game, and Nik must not be sent back to this one); the retry
+  // keeps checking in case that session ends. This session must still read OPEN, and a stale or missing pointer is replaced
+  // only if it is still the one just read. Reopening the player panel restarts a retry that gave up.
+  let srjOfferConfirmed=null;
+  // Codex #920: the host's join watch has its own 10 min limit, so it starts afresh whenever the pointer lands or publishing
+  // restarts; otherwise Nik could join after it ended and Daniel's screen would stay on WAITING until a reload.
+  function srjRewatchForJoin(sessionId){if(srjJoinWatchTimer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(srjJoinWatchTimer);srjJoinWatchTimer=null;srjJoinWatchSessionId=null;return srjWatchForJoin(sessionId);}
+  function srjStopPublishRetry(){if(srjPublishTimer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(srjPublishTimer);srjPublishTimer=null;srjPublishRetry=null;}
+  async function srjPublishIfStillOurs(context,sessionId){
+    const path=`rivalries/${context.rivalryId}/sessionOffers/current`,sdk=context.services.firestoreSdk;
+    root.CareerModeFirestoreBudget?.wantFresh?.(path);
+    const seen=await sdk.runTransaction(context.services.firestore,async transaction=>{const snapshot=await transaction.get(srjOfferRef(context));const data=snapshot&&snapshot.exists()?snapshot.data():null;return data&&typeof data.sessionId==="string"?{sessionId:data.sessionId,expiresAtEpochMs:data.expiresAt&&typeof data.expiresAt.toMillis==="function"?data.expiresAt.toMillis():0}:null;});
+    if(seen&&seen.sessionId===sessionId)return "ours";
+    // A pointer with a minute or less left is stale here exactly as it is for Nik's poll and for a fresh START.
+    if(seen&&seen.expiresAtEpochMs>Date.now()+SRJ_OFFER_MIN_LIFE_MS){
+      // Another session is replaced only when the server positively says it is gone or over; any other answer (a revoked
+      // device, a denied or failed read) leaves it alone and tries again later.
+      const other=await context.protocol.readSession(srjOperationOptions(context,seen.sessionId));
+      const over=other&&(other.ok===true?!["open","active"].includes(other.state)||other.expiredByClock===true||!(Number(other.expiresAtEpochMs)>Date.now()+SRJ_OFFER_MIN_LIFE_MS):other.code==="PRIVATE_SESSION_NOT_FOUND");
+      if(!over)return other&&other.ok===true?"taken":"retry";
+    }
+    // This session itself must still be open on the server (not joined, closed or refused) before Nik is pointed at it.
+    const own=await context.protocol.readSession(srjOperationOptions(context,sessionId));
+    if(!own||own.ok!==true)return "retry";
+    if(own.state==="active"&&!own.expiredByClock){if(srjHostWaitingForJoin(sessionId))srjAcceptResult(own,context,"host","The other manager joined. Private session is active with exactly the two paired rivalry accounts.");return "stop";}
+    if(own.state!=="open"||own.expiredByClock===true||!(Number(own.expiresAtEpochMs)>Date.now()+SRJ_OFFER_MIN_LIFE_MS))return "stop";
+    if(!srjHostWaitingForJoin(sessionId)||!srjPendingContextMatches(context)||srjState.role!=="host")return "stop";
+    const value={schemaVersion:1,sessionId,hostAccountId:context.accountId,expiresAt:sdk.Timestamp.fromMillis(srjState.expiresAtEpochMs),updatedAt:sdk.serverTimestamp()};
+    root.CareerModeFirestoreBudget?.wantFresh?.(path);
+    return sdk.runTransaction(context.services.firestore,async transaction=>{
+      const snapshot=await transaction.get(srjOfferRef(context));const data=snapshot&&snapshot.exists()?snapshot.data():null;
+      if((data&&typeof data.sessionId==="string"?data.sessionId:null)!==(seen?seen.sessionId:null))return "retry";  // the pointer moved since it was read
+      transaction.set(srjOfferRef(context),value);return "written";
+    });
+  }
+  function srjRetryOfferPublish(sessionId,startedAt=Date.now(),attempt=0){
+    srjStopPublishRetry();
+    if(typeof root.setTimeout!=="function")return false;
+    srjPublishRetry={sessionId,startedAt};
+    const timer=root.setTimeout(async()=>{
+      if(srjPublishTimer!==timer)return;
+      srjPublishTimer=null;
+      if(!srjHostWaitingForJoin(sessionId)){srjPublishRetry=null;return;}
+      if(Date.now()-startedAt>SRJ_OFFER_POLL_LIMIT_MS){srjPublishRetry=null;if(srjState.message!=="Your game is open on another screen. Carry on there.")srjSetState({message:"Nik's phone could not be reached. Check your connection, then open the game again."});return;}
+      if(!srjState.busy&&(!root.document||root.document.visibilityState!=="hidden")){
+        try{
+          const context=await srjResolveContext();
+          if(srjPublishTimer!==null)return;  // the browser came back online meanwhile and restarted the retry
+          if(!srjPendingContextMatches(context)){srjPublishRetry=null;return;}  // another account or Showdown now: not ours to publish
+          const outcome=await srjPublishIfStillOurs(context,sessionId);
+          if(outcome==="ours"||outcome==="written"){srjOfferConfirmed=sessionId;srjPublishRetry=null;if(srjState.message==="Your game is open on another screen. Carry on there.")srjSetState({message:"Waiting for Nik to open the game."});srjRewatchForJoin(sessionId);return;}
+          if(outcome==="taken"){if(srjHostWaitingForJoin(sessionId)&&srjState.message!=="Your game is open on another screen. Carry on there.")srjSetState({message:"Your game is open on another screen. Carry on there."});}
+          if(outcome==="stop"){srjPublishRetry=null;return;}
+        }catch(_error){}
+      }
+      if(srjPublishTimer===null&&srjPublishRetry&&srjPublishRetry.sessionId===sessionId)srjRetryOfferPublish(sessionId,startedAt,attempt+1);
+    },Math.min(SRJ_OFFER_POLL_MS*2**attempt,60*1000));
+    srjPublishTimer=timer;
+    return true;
+  }
   async function srjAutoConnectOnce(){
     if(srjState.busy||srjState.pendingAction||srjReplaceAction)return {ok:false,code:"REMOTE_JOINING_BUSY",message:"A private-session operation is already in progress."};
     let context;
     try{context=await srjResolveContext();}catch(error){srjSetState({auto:null});return {ok:false,code:error&&error.code||"REMOTE_JOINING_CONTEXT_UNAVAILABLE",message:error&&error.message||"Player connection is unavailable."};}
-    if(srjHasNonterminalSession()&&srjPendingContextMatches(context)){if(srjState.sessionState==="active")srjSetState({auto:null});return {ok:true,kind:"held"};}
+    if(srjHasNonterminalSession()&&srjPendingContextMatches(context)){
+      if(srjState.sessionState==="active")srjSetState({auto:null});
+      else if(srjHostWaitingForJoin(srjState.sessionId)&&srjOfferConfirmed!==srjState.sessionId&&!srjPublishRetry&&srjPermanentlyPaired()){srjSetState({auto:"waiting",message:"Waiting for Nik to open the game."});srjRewatchForJoin(srjState.sessionId);srjRetryOfferPublish(srjState.sessionId);return {ok:true,kind:"held-publishing"};}
+      return {ok:true,kind:"held"};
+    }
     srjSetState({auto:"connecting",message:"Connecting to your Showdown…"});
     const offer=await srjReadOffer(context);
     if(offer&&offer.expiresAtEpochMs>Date.now()+SRJ_OFFER_MIN_LIFE_MS){
@@ -403,8 +473,14 @@
       const hosted=await srjStartHost();
       if(hosted&&hosted.ok===true&&srjState.role==="host"&&srjState.sessionId){
         const published=await srjWriteOffer(context);
-        srjSetState(published?{auto:"waiting",message:"Waiting for Nik to open the game."}:{auto:null,message:"Send Nik this session code to connect."});
-        return {ok:true,kind:published?"hosted":"hosted-manual"};
+        if(published)srjOfferConfirmed=srjState.sessionId;
+        if(published||srjPermanentlyPaired()){
+          srjSetState({auto:"waiting",message:"Waiting for Nik to open the game."});
+          if(!published)srjRetryOfferPublish(srjState.sessionId);
+          return {ok:true,kind:published?"hosted":"hosted-publishing"};
+        }
+        srjSetState({auto:null,message:"Send Nik this session code to connect."});
+        return {ok:true,kind:"hosted-manual"};
       }
       srjSetState({auto:null});
       return hosted||{ok:false,code:"REMOTE_JOINING_HOST_FAILED",message:"Private session could not be opened."};
@@ -487,7 +563,7 @@
   }
   function srjClosePanel(){const overlay=root.document&&root.document.getElementById(SRJ_PANEL_ID);if(overlay)overlay.classList.add("hidden");srjState=srjFreeze({...srjState,open:false});return true;}
   function srjSubscribe(listener){if(typeof listener!=="function")return()=>{};srjListeners.add(listener);return()=>srjListeners.delete(listener);}
-  function srjOnOnline(){if(srjState.pendingAction&&!srjState.busy)void srjRetryPendingOperation();}
+  function srjOnOnline(){if(srjState.pendingAction&&!srjState.busy)void srjRetryPendingOperation();if(srjPublishRetry)srjRetryOfferPublish(srjPublishRetry.sessionId,srjPublishRetry.startedAt);}
   if(root&&typeof root.addEventListener==="function")root.addEventListener("online",srjOnOnline);
   // r79 PR3: the partner record can land while this panel is open (Daniel records his first real pairing alongside his
   // auto-continue), so the open panel re-renders and USE A SESSION CODE goes away. No read: render only.
