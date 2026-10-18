@@ -108,4 +108,15 @@ test('A Showdown the pair holds as closed is not offered as CONTINUE CAREER and 
   ui.showdown.status = 'Completed';
   ui.context.refreshMainMenuExperience();
   assert.equal(ui.indicator.textContent, 'Showdown Complete');
+  // Codex #916: a cold reload of a closed pair never starts the Save Library runtime; the save's own id decides
+  ui.showdown.status = 'Created'; ui.showdown.identity = { ...(ui.showdown.identity || {}), saveId: closedSave };
+  delete ui.context.CareerModeSaveLibraryRuntime;
+  ui.context.refreshMainMenuExperience();
+  assert.equal(ui.indicator.textContent, 'No Active Showdown', 'the save id alone identifies the closed Showdown');
+  ui.showdown.identity.saveId = 'save_' + 'd'.repeat(24);
+  ui.context.refreshMainMenuExperience();
+  assert.equal(ui.indicator.textContent, 'Season 1 / 3', 'another save stays a live career');
+  // ...and Home drawn before the pair answered is redrawn once the pair is initialised
+  const identitySource = require('node:fs').readFileSync(require('node:path').join(__dirname, '../../js/onlinePlayerIdentity.js'), 'utf8');
+  assert.match(identitySource, /\.finally\(\(\)=>\{persistentPairSyncPromise=null;[^}]*try\{root\.refreshMainMenuExperience\?\.\(\);\}catch\(_\)\{\}\}\);return persistentPairSyncPromise;\}/);
 });
