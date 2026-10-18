@@ -46,8 +46,10 @@
   // The checks are bounded by the same 15 s as js/app.js, so a picture request that never ends cannot hold back what follows Home.
   const reusGate=async()=>Promise.race([checkHome(),new Promise(resolve=>root.setTimeout(resolve,15e3))]);
   // r79 (PR #901): a reload with Daniel's unfinished pre-pair shell keeps the loading screen up until the entry has put WAITING
-  // back over the locked league wheel (at most 3 s more in all), so neither Home nor the bare wheel flashes first. No pending
-  // pre-pair shell: no wait.
+  // back over the locked league wheel, so neither Home nor the bare wheel flashes first. No pending pre-pair shell: no wait.
+  // Codex #904 (P1): the wait lasts until that recovery settles (the entry itself lets go at once for a player who is signed
+  // out, offline or still choosing), bounded only by js/app.js's overall startup cap (15 s from the start of the page load). A
+  // shorter deadline of its own (it was 3 s) let Home show while the identity was still restoring and then jump to the wheel.
   let entryInstalled=null;const entryReady=new Promise(resolve=>{entryInstalled=resolve;});
   // PR #901: the marker is read first, synchronously and locally (no Firebase read), so a startup with nothing pending never waits
   // for the entry to load. Only a pre-pair shell can resume onto the wheel: the active shared shell's setupPending marker with no
@@ -59,7 +61,8 @@
     if(!(s.sharedJourney&&s.sharedJourney.mode==="shared"&&s.sharedJourney.setupPending===true)||s.selectedLeague||(s.clubs&&(s.clubs.playerOne||s.clubs.playerTwo))||(Array.isArray(s.rounds)&&s.rounds.length))return false;
     let paired=null;try{paired=typeof root.readStorageValue==="function"?root.readStorageValue("careerModeShowdown.pairedShell.v1"):null;}catch(_error){paired=null;}
     return !(paired&&s.identity&&paired===s.identity.saveId);};
-  const resumeGate=async()=>{if(!pendingShell())return;const deadline=new Promise(resolve=>root.setTimeout(resolve,3e3));const entry=await Promise.race([entryReady,deadline]);const resume=entry&&typeof entry.startupResume==="function"?entry.startupResume():null;if(resume)await Promise.race([Promise.resolve(resume).catch(()=>null),deadline]);};
+  const STARTUP_CAP_MS=15e3,startupCapLeft=()=>{let now=0;try{now=root.performance&&typeof root.performance.now==="function"?root.performance.now():0;}catch(_error){now=0;}return Math.max(0,STARTUP_CAP_MS-now);};
+  const resumeGate=async()=>{if(!pendingShell())return;const deadline=new Promise(resolve=>root.setTimeout(resolve,startupCapLeft()));const entry=await Promise.race([entryReady,deadline]);const resume=entry&&typeof entry.startupResume==="function"?entry.startupResume():null;if(resume)await Promise.race([Promise.resolve(resume).catch(()=>null),deadline]);};
   root.careerModeHomeHold=1;
   const home=v10().then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(resumeGate).catch(()=>null).then(()=>{root.careerModeHomeHold=0;});
   if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(()=>home.then(resultsV10),{timeout:2500});else root.setTimeout?.(()=>home.then(resultsV10),600);

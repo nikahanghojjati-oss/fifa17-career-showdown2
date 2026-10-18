@@ -141,6 +141,9 @@
   // opened as a dark panel and the plate painted in seconds later. The plate this screen picks (an image-set density, reported
   // as dppx) is decoded before the layer shows; capped at PLATE_TIMEOUT_MS so a plate that never arrives never blocks the layer.
   const PLATE_TIMEOUT_MS=8000;
+  // Codex #904 (P1): a plate already decoded (prepare() below) answers at once, so open() after a route change reveals the layer
+  // in the same task as that change and no frame shows the screen underneath bare.
+  const decodedPlates=new Set();
   function platesReady(node){
     if(!node||typeof root.getComputedStyle!=="function"||typeof root.Image!=="function")return Promise.resolve(true);
     const bg=root.getComputedStyle(node).backgroundImage||"";
@@ -148,8 +151,20 @@
     if(!list.length)return Promise.resolve(true);
     const dpr=root.devicePixelRatio||1,set=list.sort((a,b)=>a.x-b.x);
     const urls=/image-set\(/.test(bg)&&list.length>1?[(set.find(e=>e.x>=dpr)||set[set.length-1]).url]:list.map(e=>e.url);
-    const decode=url=>{const img=new root.Image();img.src=url;return typeof img.decode==="function"?img.decode().catch(()=>{}):new Promise(resolve=>{img.onload=img.onerror=resolve;});};
+    if(urls.every(url=>decodedPlates.has(url)))return Promise.resolve(true);
+    // Codex #911: only a plate that really loaded and decoded is remembered; a failed one is tried again on the next open().
+    const decode=url=>{const img=new root.Image();img.src=url;return (typeof img.decode==="function"?img.decode().then(()=>true,()=>false):new Promise(resolve=>{img.onload=()=>resolve(true);img.onerror=()=>resolve(false);})).then(ok=>{if(ok)decodedPlates.add(url);return ok;});};
     return Promise.race([Promise.all(urls.map(decode)).then(()=>true),new Promise(resolve=>root.setTimeout(()=>resolve(false),PLATE_TIMEOUT_MS))]);
+  }
+  // Codex #904 (P1): everything open() waits for (the pair module, the layer, its stylesheet and decoded plate), without showing
+  // anything or reading Firestore. START runs it before it routes to the locked league wheel, so WAITING covers the wheel at once.
+  async function prepareConnectPlayers(){
+    await loadPair();
+    ensureLayer();
+    if(typeof root.loadRuntimeStyle!=="function")throw new Error("Connect Players styles are unavailable.");
+    await root.loadRuntimeStyle("connect-players-v10","css/connectPlayersV10.css");
+    if(layer.classList.contains("hidden"))await platesReady(layer);
+    return true;
   }
   async function open(options={}){
     if(opening)return opening;
@@ -177,5 +192,5 @@
     })().finally(()=>{opening=null;});
     return opening;
   }
-  return Object.freeze({open,close});
+  return Object.freeze({open,close,prepare:prepareConnectPlayers});
 });

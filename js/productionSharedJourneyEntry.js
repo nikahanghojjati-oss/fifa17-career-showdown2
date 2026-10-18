@@ -154,6 +154,18 @@
     if(decision.reason==="pair-unknown")throw new Error("The current Showdown connection could not be verified. Try again before starting a new Showdown.");
     return decision;
   }
+  // Codex #904 (P1): createShowdown() shows the locked league wheel at once, so on a cold cache WAITING's script, stylesheet and
+  // plate are made ready first (alongside START's own checks, while the seasons screen and its disabled START stay up); openWaiting
+  // then covers the wheel in the same task as the route change. Files only, no Firestore read. A failure here is left to
+  // openWaiting, which reports it as before.
+  function prepareWaiting(){
+    return (async()=>{
+      await loadScript("persistent-pair","js/persistentNikDanielPair.js",()=>root.CareerModePersistentNikDanielPair);
+      const layer=await loadScript("connect-players-screen","js/connectPlayersScreenV10.js",()=>root.CareerModeConnectPlayersScreenV10);
+      if(layer&&typeof layer.prepare==="function")await layer.prepare();
+      return true;
+    })().catch(()=>false);
+  }
   // WAITING: the Connect Players layer over the locked league wheel (no trip back to Home). With createCode the pair code is made
   // here, once, from the shell START just prepared; Daniel no longer taps CREATE CODE FOR NIK. A layer that cannot open falls back
   // to GET READY.
@@ -241,7 +253,7 @@
     busy=true;const button=root.document.getElementById(SHARED_START_ID)||root.document.getElementById("startShowdown");if(button)button.disabled=true;
     const round=root.document.getElementById("roundAmount"),priorRound=round?round.value:null;let shellCreated=false,markerPersisted=false;
     try{
-      await ensureSaveAuthority();
+      const waitingReady=prepareWaiting();await ensureSaveAuthority();
       const decision=await whichShowdownIsLive();
       if(decision.action!=="new"){await followStartDecision(decision);return false;}
       // r79 PR4: the real/test mode gate (js/showdownModes.js) runs only now that a new Showdown is really being made: the
@@ -249,7 +261,7 @@
       if(options&&typeof options.beforeCreate==="function"&&await options.beforeCreate()!==true)return false;
       setPending(true);
       if(typeof root.createShowdown!=="function")throw new Error("Showdown preparation is unavailable.");
-      const created=await root.createShowdown();shellCreated=Boolean(created);if(!created)throw new Error("The Showdown could not be prepared.");
+      await waitingReady;const created=await root.createShowdown();shellCreated=Boolean(created);if(!created)throw new Error("The Showdown could not be prepared.");
       normalizeCanonicalPlayers();persistPendingMarker();markerPersisted=true;applyLocalDrawLock();await openWaiting({createCode:true});return true;
     }catch(error){if(shellCreated&&!markerPersisted)discardUnmarkedShell();setPending(false);report("Unable to prepare Showdown",error);return false;}
     finally{if(round&&priorRound!==null)round.value=priorRound;if(button)button.disabled=false;busy=false;syncStartButtonIdentity();}
