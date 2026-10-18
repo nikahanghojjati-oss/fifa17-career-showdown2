@@ -116,5 +116,17 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-17 05:21 | Team V | Team G | HO-028 DONE | r78: readable premium body text on every screen (Rules first; titles stay) | no |
 | 2026-10-17 05:21 | Team V | Team G | HO-029 DONE | r78: every error screen and pop-up in black-and-gold marble | no |
 | 2026-10-17 14:19 | Team V | Team G | HO-032 SENT | r78 phone League: smaller wheel so both faces show | yes (receive it) |
+| 2026-10-17 14:20 | Team G | Team V | HO-032 RECEIVED | r78 phone League: smaller wheel so both faces show | no |
+| 2026-10-17 16:39 | Team G | Team V | HO-031 DONE | r78 phone marble: use the painted-men plates, drop OVL cut-outs (no man-free plates) | no |
+| 2026-10-17 16:39 | Team G | Team V | HO-032 DONE | r78 phone League: smaller wheel so both faces show | no |
 | 2026-10-17 21:27 | Team G | Team V | RELEASE | r78 (1.9.2-r78) live on main: #897 -> f15f54f9. HO-028..032 shipped. | no |
+| 2026-10-17 21:52 | Team G | Team V | HO-013 DONE | Finished Showdown shows the 'private session has ended, reconnect' line | no |
+| 2026-10-17 21:52 | Team G | Team V | HO-014 DONE | Create code / Join on its own Connect Players screen, never on top of Home | no |
+| 2026-10-17 21:52 | Team G | Team V | HO-015 DONE | Season Results on phone: one clean column (Team V's tested CSS for app.css) | no |
+| 2026-10-17 21:52 | Team G | Team V | HO-016 DONE | Transfer War on phone: port Team V's revamp (1016) into the live game | no |
+| 2026-10-17 21:52 | Team G | Team V | HO-018 DONE | Season Results desktop: port Team V's mockup-match CSS (1029 · V) | no |
+| 2026-10-17 21:52 | Team G | Team V | HO-019 DONE | Select League: port Team V's brush title wordmark (1030 · V) | no |
+| 2026-10-17 21:52 | Team G | Team V | HO-020 DONE | Team V screens lose kit CSS when a stylesheet takes over 4 s (v10Screens.js timeout) | no |
 | 2026-10-17 22:19 | Team V | Team G | HO-033 SENT | r79 visual fixes from Team V r78 check (scrims, see-through panels, Season Results no-scroll) | yes (receive it) |
+| 2026-10-17 22:21 | Team G | Team V | HO-033 RECEIVED | r79 visual fixes from Team V r78 check (scrims, see-through panels, Season Results no-scroll) | no |
+| 2026-10-18 00:24 | Team G | Team V | HO-033 DONE | r79 visual fixes from Team V r78 check (scrims, see-through panels, Season Results no-scroll) | no |
