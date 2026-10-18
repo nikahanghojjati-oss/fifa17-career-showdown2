@@ -255,7 +255,9 @@ assert.match(rulesFragment,/function cmsPersistentPairAbandonValid\(rivalryId\)/
 assert.match(rulesFragment,/cmsPersistentPairAbandonActorValid\(before, rivalryId\)/,'Abandonment must be bound to the account current-pair witness and matching manager slot.');
 assert.match(rulesFragment,/before\.data\.connectionState == 'pending-pair' \|\| before\.data\.connectionState == 'active'/,'Only nonterminal pending/active Showdowns may use the start-over close.');
 assert.match(rulesFragment,/after\.data\.connectionState == 'closed'/,'Start-over abandonment must terminate the old rivalry before local deletion.');
-assert.match(rulesFragment,/after\.data\.diff\(before\.data\)\.affectedKeys\(\)\.hasOnly\(\['connectionState'\]\)/,'Abandonment must preserve every other rivalry data field.');
+assert.match(rulesFragment,/after\.data\.diff\(before\.data\)\.affectedKeys\(\)\.hasOnly\(\['connectionState', 'endedEarly'\]\)/,'Abandonment must preserve every other rivalry data field; only the r80 ended-early mark may ride along.');
+assert.match(rulesFragment,/\(!\('endedEarly' in after\.data\) \|\| cmsPersistentPairEndedEarlyValid\(after\.data\.endedEarly\)\)/,'An ended-early mark on the abandon write must be validated.');
+assert.match(rulesFragment,/mark\.keys\(\)\.hasOnly\(\['seasonsPlayed'\]\)[\s\S]*mark\.seasonsPlayed == null[\s\S]*mark\.seasonsPlayed is int && mark\.seasonsPlayed >= 0 && mark\.seasonsPlayed <= 10/,'The ended-early mark is exactly {seasonsPlayed: 0..10 or null}.');
 
 assert.match(injector,/cmsPersistentPairCreationWitnessValid\(rivalryId\)/,'Production Rules injection must make the creator pair witness mandatory for initial rivalry creation.');
 assert.match(injector,/cmsPersistentPairRedemptionWitnessValid\(rivalryId, inviteBefore\.data\.slotId\)/,'Production Rules injection must make the joiner pair witness mandatory for validRivalryRedeem.');
