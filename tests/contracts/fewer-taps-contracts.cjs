@@ -747,6 +747,18 @@ async function r5r6EntryContracts(){
      assert.ok(source.includes('if(decision&&decision.action==="resume-waiting")await showLockedWheel();'),"Daniel's WAITING reopens over the league wheel");
      assert.ok(source.includes('if(pending())startStartupResume();return true;}'),"only a pending shell holds startup");
      assert.ok(source.includes('return !current||entryIdentityReady()||["idle","connecting","signing-in","saving-manager"].includes(current.status);'),"a signed-out, offline or choosing player never holds the loading screen");}
+    {// PR #901 (next to W8): reload recovery uses the same correlated closed check as START. A fresh, code-less shell made after
+     // an older closed Showdown reopens WAITING over the wheel and re-makes the code on that same shell; the closed Showdown's
+     // own shell does not reopen.
+     const OLD_RIVALRY="pair_3"+"9".repeat(63),OLD_SAVE="save_"+"8".repeat(24),FRESH_SAVE="save_"+"7".repeat(24);
+     const reload=saveId=>{const t=entryHarness({pairState:{status:"unpaired",initialized:true,busy:false,rivalryId:null,connectionState:null,managerRole:null,closedRivalryId:OLD_RIVALRY,closedProviderSaveId:OLD_SAVE},
+       library:{activeSaveId:saveId,saves:[{saveId,showdown:{status:"Created",totalRounds:3,rounds:[],selectedLeague:null,clubs:{playerOne:null,playerTwo:null},sharedJourney:{contractVersion:1,mode:"shared",setupPending:true}}}]}});t.api.install();return t;};
+     const fresh=reload(FRESH_SAVE);await fresh.api.startupResume();await settle();
+     assert.deepEqual(fresh.calls.layerOpen.map(options=>options&&options.stayOnScreen),[true],"fresh shell after an older closed Showdown: WAITING reopens on reload");
+     assert.deepEqual(fresh.calls.screenAtOpen,["leagueWheelScreen"],"over the locked league wheel");
+     assert.deepEqual([fresh.calls.startPairing,fresh.calls.create],[1,0],"the code is re-made on the same shell, never a second shell");
+     const own=reload(OLD_SAVE);await own.api.startupResume();await settle();
+     assert.deepEqual([own.calls.layerOpen.length,own.calls.startPairing,own.calls.create],[0,0,0],"the closed Showdown's own shell stays shut on reload");}
     {// a signed-out player with a pending shell: nothing can reopen on the wheel, so the loading screen is released at once
      // (the recovery itself still waits up to 15 s for a sign-in, but never behind the loading screen)
      const out=entryHarness({identityStatus:"signed-out",pairState:{status:"waiting",initialized:true,rivalryId:RIVALRY,connectionState:"pending-pair",managerRole:"playerOne"}});
