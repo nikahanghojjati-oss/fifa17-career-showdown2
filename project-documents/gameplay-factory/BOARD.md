@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 18 Oct, 11:51 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 18 Oct, 11:55 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.2-r78** (main `f15f54f`, Sat 17 Oct 5:28 PM)
 
-🩺 **All clear: every check has a machine.** · Gate #904: L1… L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #904 0/16
+🩺 **All clear: every check has a machine.** · Gate #904: L1✗ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal FAIL (test) · POS20 #904 0/16
 
 ## Jobs
 
@@ -2012,7 +2012,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #904](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/904) | r79 release (1.9.3-r79): one start flow, permanent pairing, real/test modes [draft] | 🔴 5 passed, 1 running, 1 failed |
+| 🟧 Team G lead | [PR #904](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/904) | r79 release (1.9.3-r79): one start flow, permanent pairing, real/test modes [draft] | 🔴 6 passed, 2 failed |
 
 **Up next**
 
