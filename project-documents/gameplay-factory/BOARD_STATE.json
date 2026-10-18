@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-18 1:57 PM Boston time (EDT)",
+ "generated": "2026-10-18 2:01 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 126,
@@ -1186,27 +1186,17 @@
  },
  "two": {
   "live": {
-   "sha": "9b8190f",
+   "sha": "d1888c3",
    "revision": "1.9.3-r79",
-   "when": "2026-10-18T17:17:45Z",
-   "subject": "r79: one start flow, permanent pairing, real/test modes (1.9.3-r79) (#904)",
-   "fixes": [
+   "when": "2026-10-18T13:57:45-04:00",
+   "subject": "Re-pin the composed Rules safety check to r79 main (#926)",
+   "fixes": [],
+   "today": [
     {
      "pr": 926,
      "title": "Re-pin the composed Rules safety check to r79 main",
-     "draft": false,
-     "branch": "gameplay/r79-repin",
-     "sha": "020eacf85ae87a11f498dacefbde52d1ff3ea43c",
-     "updated": "2026-10-18T17:48:31Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    }
-   ],
-   "today": [
+     "merged": "2026-10-18T17:57:45Z"
+    },
     {
      "pr": 904,
      "title": "Release r79: one start flow, permanent pairing, real/test modes (1.9.3-r79)",
@@ -1750,7 +1740,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 40,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -2966,22 +2956,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 926,
-    "title": "Re-pin the composed Rules safety check to r79 main",
-    "draft": false,
-    "branch": "gameplay/r79-repin",
-    "sha": "020eacf85ae87a11f498dacefbde52d1ff3ea43c",
-    "updated": "2026-10-18T17:48:31Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
