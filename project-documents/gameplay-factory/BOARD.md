@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 18 Oct, 5:07 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 18 Oct, 5:12 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.2-r78** (main `f15f54f`, Sat 17 Oct 5:28 PM)
 
-🩺 **All clear: every check has a machine.** · Gate #904: L1… L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #904 0/16
+🩺 **All clear: every check has a machine.** · Gate #904: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #904 0/16
 
 ## Jobs
 
