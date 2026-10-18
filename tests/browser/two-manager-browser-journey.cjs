@@ -50,8 +50,18 @@ async function assertNoSessionCodeOption(m){assert.equal(await m.page.locator("#
 // r79 PR3: Daniel's first real pairing. He presses START REAL CAREER in Settings first (Nik's app writes his own marker
 // before redeeming the CMS17R- code).
 async function startRealCareerInSettings(m){
-  await m.page.locator("#settingsButton").click({timeout:30000});
-  await m.page.locator("#settingsOverlay").waitFor({state:"visible",timeout:12000});
+  // Settings decides the row when it opens: wait until the account is connected and the pair state is known (as a person who
+  // opens Settings a moment after signing in), and reopen Settings once if the row was decided before that.
+  await m.page.waitForFunction(()=>window.CareerModeSparkConnectedAccount?.getState?.()?.connected===true&&window.CareerModePersistentNikDanielPair?.getState?.()?.initialized===true&&window.CareerModePersistentNikDanielPair.getState().busy===false,null,{timeout:30000});
+  for(let attempt=0;;attempt+=1){
+    await m.page.locator("#settingsButton").click({timeout:30000});
+    await m.page.locator("#settingsOverlay").waitFor({state:"visible",timeout:12000});
+    const shown=await m.page.locator(".settingsStartRealCareer").waitFor({state:"visible",timeout:10000}).then(()=>true,()=>false);
+    if(shown)break;
+    if(attempt>=1)throw new Error(`${m.user}: Settings never offered START REAL CAREER`);
+    await m.page.locator(".settingsFooter .menuButton").click();
+    await m.page.locator("#settingsOverlay").waitFor({state:"hidden",timeout:12000});
+  }
   await m.page.locator(".settingsStartRealCareer").click({timeout:20000});
   await m.page.locator(".settingsCareerStartToggleRow").waitFor({state:"visible",timeout:20000});
   await m.page.locator(".settingsFooter .menuButton").click();
@@ -901,17 +911,17 @@ async function main(){
     {const end=Date.now()+45000;let tile;for(;;){await nik.page.evaluate(()=>document.dispatchEvent(new Event("visibilitychange")));await nik.page.waitForTimeout(2000);tile=await homeTile(nik);if(JSON.stringify(tile)===JSON.stringify(joinTile)||Date.now()>end)break;await nik.page.waitForTimeout(3000);}
       assert.deepEqual(tile,joinTile,"Daniel START -> Nik's Home shows JOIN");}
     ok("J12.1a","Daniel's START writes Nik's JOIN note (own transaction, invite expiry) and Nik's Home shows JOIN without a reload");
-    // Reload on both: Daniel's code is still out (START resumes his WAITING), Nik's Home still shows JOIN.
+    // Reload on both: Daniel's code is still out (reload recovery reopens his WAITING by itself), Nik's Home still shows JOIN.
     for(const m of [daniel,nik]){
       await m.page.reload({waitUntil:"domcontentloaded"});
       await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
-      await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
       await m.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.initialized===true&&s.busy===false);},null,{timeout:30000});
     }
+    await nik.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
     assert.deepEqual(await waitHomeTile(nik,"JOIN DANIEL'S SHOWDOWN").then(()=>nik.page.waitForFunction(text=>(document.querySelector("#newShowdown .menuTileMeta")?.textContent||"").trim()===text,joinTile[2],{timeout:30000})).then(()=>homeTile(nik)),joinTile,"after reload Nik's Home still shows JOIN");
-    await daniel.page.locator("#newShowdown").click({timeout:30000});
     await pairPanel(daniel).locator("code").waitFor({timeout:30000});
-    assert.equal((await pairPanel(daniel).locator("code").innerText()).trim(),pairCode2,"after reload Daniel's START resumes WAITING with the same code");
+    // (Which screen sits under WAITING after a reload is PR2's reload recovery; this step only needs the same code back, untapped.)
+    assert.equal((await pairPanel(daniel).locator("code").innerText()).trim(),pairCode2,"after reload Daniel's WAITING shows the same code");
     const nikTapsBefore=nik.log.taps.length;
     await nik.page.locator("#newShowdown").click({timeout:30000});
     await bothPairedAndContinuing([nik,daniel]);

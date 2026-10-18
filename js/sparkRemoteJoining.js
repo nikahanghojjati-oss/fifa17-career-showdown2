@@ -484,6 +484,9 @@
   function srjSubscribe(listener){if(typeof listener!=="function")return()=>{};srjListeners.add(listener);return()=>srjListeners.delete(listener);}
   function srjOnOnline(){if(srjState.pendingAction&&!srjState.busy)void srjRetryPendingOperation();}
   if(root&&typeof root.addEventListener==="function")root.addEventListener("online",srjOnOnline);
+  // r79 PR3: the partner record can land while this panel is open (Daniel records his first real pairing alongside his
+  // auto-continue), so the open panel re-renders and USE A SESSION CODE goes away. No read: render only.
+  if(root&&typeof root.addEventListener==="function")root.addEventListener("career-mode-permanent-pair-change",()=>{try{srjRenderPanel();}catch(_error){}});
 
   return srjFreeze({
     contractVersion:1,

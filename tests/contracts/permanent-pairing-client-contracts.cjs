@@ -386,6 +386,7 @@ await check("PC6 reload recovery needs the other manager's record; a paired acco
   const remote=read("js/sparkRemoteJoining.js"),auto=remote.slice(remote.indexOf("function srjRenderAuto"),remote.indexOf("function srjCreate"));
   assert.match(auto,/if\(!srjPermanentlyPaired\(\)\)\{[\s\S]*"USE A SESSION CODE"[\s\S]*\}/,"USE A SESSION CODE only for an account that is not permanently paired");
   assert.match(remote,/function srjUseManualCode\(\)\{if\(srjPermanentlyPaired\(\)\)return srjState;/,"the manual path cannot be reached for a paired account either");
+  assert.match(remote,/root\.addEventListener\("career-mode-permanent-pair-change",\(\)=>\{try\{srjRenderPanel\(\);\}catch\(_error\)\{\}\}\);/,"a partner record that lands while the panel is open re-renders it (render only, no read)");
   assert.match(remote,/partner\.status==="ready"&&partner\.record&&partner\.record\.active===true&&account&&partner\.accountId===account\.accountId/);
 });
 

@@ -208,7 +208,7 @@
     }
     if(decision.action==="resume-waiting")return openWaiting({createCode:!decision.rivalryId});
     const identity=entryIdentity();
-    if(identity&&typeof identity.openJoin==="function"){await identity.openJoin({pair:decision.pair||null});return true;}
+    if(identity&&typeof identity.openJoin==="function"){await identity.openJoin({pair:decision.pair||null,decision});return true;}
     await openPersistentPairControls();return true;
   }
   async function startShared(){

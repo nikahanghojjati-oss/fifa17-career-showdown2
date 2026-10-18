@@ -196,6 +196,10 @@ await check("W10 r79 PR3: Daniel's JOIN note routes Nik to JOIN only while it is
   // Home's JOIN redeems through the existing joinPairing (auto-continue) with the note's rivalry; a failure opens the code box
   const identity=read("js/onlinePlayerIdentity.js");
   assert.match(identity,/const decision=await which\.read\(root\);if\(decision\.action==="join"&&decision\.rivalryId\)\{await openCanonicalNoteJoin\(decision\);return decision;\}/);
+  // The entry's other START paths (reload recovery, locked-wheel CONTINUE) hand their decision over, so a note JOIN redeems there too;
+  // the fallback to the paste panel passes no decision, so it cannot loop.
+  assert.match(identity,/async function openCanonicalShowdownJoin\(options=\{\}\)\{\/\*[^*]*\*\/if\(options&&options\.decision&&options\.decision\.action==="join"&&options\.decision\.rivalryId\)return openCanonicalNoteJoin\(options\.decision\);/);
+  assert.match(fs.readFileSync(path.join(ROOT,"js/productionSharedJourneyEntry.js"),"utf8"),/identity\.openJoin\(\{pair:decision\.pair\|\|null,decision\}\)/);
   assert.match(identity,/async function openCanonicalNoteJoin\(decision\)\{[^\n]*joined=await pair\.joinPairing\(pair\.buildPlayerJoinCode\(decision\.rivalryId\),\{managerRole:"playerTwo"\}\);[^\n]*if\(!joined\|\|joined\.connectionState!=="active"\)await openCanonicalShowdownJoin\(/);
   assert.match(identity,/if\(decision\.action!=="continue"&&decision\.action!=="resume-waiting"&&decision\.action!=="close-then-new"\)\{await openCanonicalShowdownJoin\(/,"wait-for-daniel (the tile is the PASTE A CODE backup) opens the code box");
 });
