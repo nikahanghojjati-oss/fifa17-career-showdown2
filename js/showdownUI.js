@@ -89,7 +89,10 @@ function ensureCompletionHub(){
         createCompletionAction("VIEW LEGACY", () => window.openOptionalModule && window.openOptionalModule("legacy")),
         createCompletionAction("TROPHY ROOM", () => window.openOptionalModule && window.openOptionalModule("trophyRoom")),
         createCompletionAction("RIVALRY STATISTICS", () => window.openOptionalModule && window.openOptionalModule("statistics")),
-        createCompletionAction("NEW SHOWDOWN", () => window.navigateTo && window.navigateTo("createShowdown")),
+        // r79: the same canonical START as Home (Daniel: seasons; Nik: JOIN, never the seasons screen).
+        createCompletionAction("NEW SHOWDOWN", () => typeof window.CareerModeOnlinePlayerIdentity?.openStart === "function"
+            ? window.CareerModeOnlinePlayerIdentity.openStart()
+            : window.navigateTo && window.navigateTo("createShowdown")),
         createCompletionAction("MAIN MENU", () => window.navigateTo && window.navigateTo("mainMenu", { addToHistory: false }), "backButton")
     );
 

@@ -45,7 +45,7 @@
     "</section>"
   ].join("\n");
   let layer=null,opening=null,opener=null,observer=null,homeObserver=null;
-  const PRIMARY=/^(START A SHOWDOWN|CREATE CODE FOR NIK|JOIN DANIEL'S SHOWDOWN|START CAREER|TRY CONTINUE AGAIN|RESTORE BACKUP)$/;
+  const PRIMARY=/^(START A SHOWDOWN|CHOOSE SEASONS|CREATE CODE FOR NIK|JOIN DANIEL'S SHOWDOWN|START CAREER|TRY CONTINUE AGAIN|RESTORE BACKUP)$/;
   const inertBefore=new Map();
   function byId(id){return root.document?.getElementById(id)||null;}
   function report(error){root.reportApplicationError?.("Unable to open Connect Players",error);}
@@ -100,6 +100,8 @@
     return true;
   }
   async function chooseSeasons(){
+    // r79: only Daniel starts Showdowns; Nik's device never opens the seasons screen.
+    if(root.CareerModeOnlinePlayerIdentity?.getState?.()?.managerId==="nik")return false;
     close({restoreFocus:false});
     if(typeof root.navigateTo==="function")return root.navigateTo("createShowdown");
     return root.showScreen?.("createShowdown");
@@ -158,10 +160,14 @@
       await root.loadRuntimeStyle("connect-players-v10","css/connectPlayersV10.css");
       if(layer.classList.contains("hidden"))await platesReady(layer);
       opener=root.document.activeElement;
-      const home=typeof root.navigateTo==="function"
-        ? await root.navigateTo("mainMenu",{addToHistory:false,allowCanonicalFallback:false})
-        : root.showScreen?.("mainMenu",false);
-      if(home===false)throw new Error("Home could not be opened safely.");
+      // r79: stayOnScreen keeps the screen underneath (WAITING over Daniel's locked league wheel) instead of going back Home.
+      layer.dataset.stayOnScreen=options.stayOnScreen===true?"true":"false";
+      if(options.stayOnScreen!==true){
+        const home=typeof root.navigateTo==="function"
+          ? await root.navigateTo("mainMenu",{addToHistory:false,allowCanonicalFallback:false})
+          : root.showScreen?.("mainMenu",false);
+        if(home===false)throw new Error("Home could not be opened safely.");
+      }
       pair?.render?.();updatePresentation();
       layer.classList.remove("hidden");layer.setAttribute("aria-hidden","false");setBackgroundInert(true);
       const focus=layer.querySelector("#persistentNikDanielPairCode,#persistentNikDanielPairPanel button")||byId("connectPlayersSetup");

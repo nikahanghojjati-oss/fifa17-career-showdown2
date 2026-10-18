@@ -130,8 +130,13 @@ assert.match(identitySource,/"WHO ARE YOU\?"/);
 assert.match(identitySource,/"DANIEL · PLAYER ONE"/);
 assert.match(identitySource,/"NIK · PLAYER TWO"/);
 assert.match(identitySource,/isNik=current\?\.status==="ready"&&current\.managerId==="nik"[\s\S]*"JOIN DANIEL'S SHOWDOWN"[\s\S]*"Paste Daniel's code"/, "Nik's primary Home action must be Join, not Start a second Showdown.");
-assert.match(identitySource,/gameplay\.id==="newShowdown"[\s\S]*managerId==="nik"[\s\S]*openCanonicalShowdownJoin\(\)/,'Nik clicking the primary Home tile must open the join surface instead of season selection.');
-assert.match(identitySource,/async function openCanonicalShowdownJoin\(\)[\s\S]*syncPersistentPairSidecar[\s\S]*persistentNikDanielPairPanel[\s\S]*persistentNikDanielPairCode/,'Nik Join must reconcile durable pair state and focus the single code-entry surface.');
+// r79: both managers' Home tile goes through the one canonical START; whichShowdownIsLive never gives Nik "new" (seasons), so
+// his tile still opens the join surface (whichShowdownIsLive contracts prove the decisions).
+assert.match(identitySource,/if\(gameplay\.id==="newShowdown"&&!gameplay\.disabled\)\{e\.preventDefault\(\);e\.stopImmediatePropagation\(\);void openCanonicalStart\(\);return;\}/,'The Home tile must route through the one canonical START for both managers.');
+const canonicalStartFlow=identitySource.slice(identitySource.indexOf('async function openCanonicalStart()'),identitySource.indexOf('async function openCanonicalShowdownJoin'));
+assert.match(canonicalStartFlow,/which\.read\(root\)[\s\S]*if\(decision\.action==="new"\)\{[^}]*navigateTo\("createShowdown"\)/,'Only a "new" decision (Daniel with nothing live) opens season selection.');
+assert.match(canonicalStartFlow,/if\(decision\.action!=="continue"&&decision\.action!=="resume-waiting"&&decision\.action!=="close-then-new"\)\{await openCanonicalShowdownJoin\(/,'Join, wait-for-daniel and pair-first open the join surface.');
+assert.match(identitySource,/async function openCanonicalShowdownJoin\(options=\{\}\)[\s\S]*syncPersistentPairSidecar[\s\S]*persistentNikDanielPairPanel[\s\S]*persistentNikDanielPairCode/,'Nik Join must reconcile durable pair state and focus the single code-entry surface.');
 
 assert.match(identitySource,/"FORGET THIS DEVICE"/);
 assert.match(identitySource,/pairing\.revokeDevice/);
@@ -162,29 +167,32 @@ assert.match(workerSource,/"js\/persistentNikDanielPair\.js"/,'Installed applica
 assert.match(entrySource,/preparePairingShell:startShared/,'Single Start a Showdown action must continue to use the established paired-first shell authority.');
 
 const startSharedFunction=entrySource.slice(entrySource.indexOf('async function startShared'),entrySource.indexOf('async function openPersistentPairControls'));
-assert.match(entrySource,/async function prepareFreshStart\(\)/,'New Showdown entry must have a provider preflight before creating any local shell.');
-assert.match(entrySource,/currentPairStateForFreshStart[\s\S]*identity\.syncPair/,'Fresh start must reuse provider-authoritative persistent-pair reconciliation.');
-assert.match(entrySource,/currentPairStateForFreshStart[\s\S]*if\(!next\)throw new Error\("The current Showdown connection could not be verified\."\)/,'A missing pair-authority result after bounded retry must fail closed instead of being misclassified as unpaired.');
-assert.match(entrySource,/prepareFreshStart[\s\S]*abandonCurrentShowdown\(\{expectedRivalryId:pairState\.rivalryId\}\)/,'An existing active or pending pair must be explicitly closed before a new Showdown is created.');
-const freshStartFunction=entrySource.slice(entrySource.indexOf('async function prepareFreshStart'),entrySource.indexOf('async function startShared'));
-assert.doesNotMatch(freshStartFunction,/clearActiveShowdown|deleteSave|clearAllData/,'START A SHOWDOWN must not destroy local recovery data while retiring stale provider authority.');
-assert.match(freshStartFunction,/existing local recovery data will be kept/,'Fresh-start confirmation must state that existing local recovery data is preserved.');
-assert.ok(startSharedFunction.indexOf('await prepareFreshStart()')<startSharedFunction.indexOf('root.createShowdown()'),'Fresh-start provider preflight must complete before local Showdown creation, preventing the recovery-loop bug.');
-assert.match(entrySource,/The current Showdown connection could not be verified\. Try again before starting a new Showdown\./,'Ambiguous provider state must fail closed instead of creating another local shell.');
+// r79 (owner): START never offers to close a live Showdown (closing stays in Settings). The provider preflight stays: START asks
+// whichShowdownIsLive (the identity sidecar's own pair read) BEFORE any local shell exists, and only "new" creates one.
+assert.doesNotMatch(entrySource,/async function prepareFreshStart\(\)|abandonCurrentShowdown|askShowdownConfirm/,'START A SHOWDOWN must never close or offer to close a live pair.');
+assert.match(entrySource,/async function whichShowdownIsLive\(pairState=null\)[\s\S]*which\.read\(root/,'START must decide from the shared whichShowdownIsLive reader.');
+assert.match(read('js/whichShowdownIsLive.js'),/first=await identity\.syncPair\(\);pair=!first\|\|first\.status==="unavailable"\?await identity\.syncPair\(\):first;/,'The START reader must reuse provider-authoritative persistent-pair reconciliation with one bounded retry.');
+assert.match(entrySource,/async function whichShowdownIsLive[\s\S]*if\(decision\.reason==="pair-unknown"\)throw new Error\("The current Showdown connection could not be verified\. Try again before starting a new Showdown\."\)/,'A missing pair-authority result after bounded retry must fail closed instead of being misclassified as unpaired.');
+assert.doesNotMatch(startSharedFunction,/clearActiveShowdown\(\)|deleteSave|clearAllData/,'START A SHOWDOWN must not destroy local recovery data.');
+assert.ok(startSharedFunction.indexOf('await whichShowdownIsLive()')>0&&startSharedFunction.indexOf('await whichShowdownIsLive()')<startSharedFunction.indexOf('root.createShowdown()'),'The provider preflight must complete before local Showdown creation, preventing the recovery-loop bug.');
+assert.match(startSharedFunction,/if\(decision\.action!=="new"\)\{await followStartDecision\(decision\);return false;\}/,'Over a live pair START follows it (continue, WAITING or JOIN) and creates no second shell.');
+assert.match(startSharedFunction,/persistPendingMarker\(\);markerPersisted=true;applyLocalDrawLock\(\);await openWaiting\(\{createCode:true\}\);return true;/,'After the marker START opens WAITING over the locked league wheel and makes the code itself.');
+assert.match(entrySource,/async function openWaiting\(options=\{\}\)[\s\S]*layer\.open\(\{sync:false,stayOnScreen:true\}\)[\s\S]*if\(options\.createCode===true\)await pair\.startPairing\(\{managerRole:"playerOne"\}\)/,'WAITING stays on the league wheel and Daniel no longer taps CREATE CODE FOR NIK.');
 
 const pairControlsFunction=entrySource.slice(entrySource.indexOf('async function openPersistentPairControls'),entrySource.indexOf('async function remoteState'));
 assert.match(pairControlsFunction,/identity=root\.CareerModeOnlinePlayerIdentity/,'Connect Players must delegate identity reconciliation to the existing identity sidecar.');
 assert.match(pairControlsFunction,/first=await identity\.syncPair\(\),next=!first\|\|first\.status==="unavailable"\?await identity\.syncPair\(\):first/,'Connect Players must share Continue Career’s one bounded retry after a transient unavailable pair read.');
 assert.doesNotMatch(pairControlsFunction,/pair\.initialize\(/,'Connect Players must not bypass stale-role reconciliation with a callback-free pair initialization.');
 const ensurePrepared=pairSource.slice(pairSource.indexOf('async function pairEnsurePreparedBinding'),pairSource.indexOf('async function pairAttachRecoveryPointer'));
-assert.match(ensurePrepared,/showScreen\?\.\("createShowdown"\)/,'Home pairing controls must route an unprepared player to explicit season selection.');
+assert.doesNotMatch(ensurePrepared,/showScreen|navigateTo/,"r79: an unprepared Daniel is not bounced to season selection from the pair controls; the panel offers CHOOSE SEASONS.");
+assert.match(pairSource,/role==="playerOne"&&pairPreparedTotalRounds\(\)===null\)[\s\S]*"CHOOSE SEASONS"[\s\S]*else if\(role==="playerOne"\)[\s\S]*"CREATE CODE FOR NIK"/,"r79: CHOOSE SEASONS replaces CREATE CODE FOR NIK while no seasons are chosen.");
 assert.match(ensurePrepared,/PERSISTENT_PAIR_SEASON_SELECTION_REQUIRED/);
 assert.doesNotMatch(ensurePrepared,/preparePairingShell\(/,'Pair controls must never auto-create a default one-season shell.');
 assert.match(entrySource,/showdown\.name="Daniel vs Nik"/);
 assert.match(entrySource,/function normalizeCanonicalPlayers\(\)[\s\S]*playerOne:"Daniel",playerTwo:"Nik"/,'Paired-first entry must canonicalize the pre-draw shell to Daniel as Player One and Nik as Player Two.');
 assert.match(entrySource,/async function provisionJoinerShell\(totalRounds\)[\s\S]*\[1,3,5,10\]\.includes\(rounds\)[\s\S]*root\.createShowdown\(\)[\s\S]*persistPendingMarker\(\)[\s\S]*showScreen\("mainMenu",false\)/, "Nik's local shell must be created invisibly with Daniel's exact season length, marked shared-pending, and return to Home before Join continues.");
 assert.match(entrySource,/joinerShellProvisionedAutomatically:true/,'The production entry contract must advertise automatic joiner-shell provisioning.');
-assert.match(entrySource,/contractVersion:6/,'Automatic joiner provisioning must advance the production entry contract.');
+assert.match(entrySource,/contractVersion:7,feature:"ssjr-production-paired-first-entry",startOpensWaitingOverLeagueWheel:true,startNeverOffersToCloseLiveShowdown:true/,'r79: the one start flow advances the production entry contract (v6 automatic joiner provisioning is kept).');
 
 
 
