@@ -144,7 +144,7 @@ function pairHarness({rivalryState="active",linked=true,rounds=3}={}){
   if(linked){docs.set("accounts/uid_nik/pairLinks/current",pairLink(R1));docs.set(`rivalries/${R1}`,pairRivalry(R1,rivalryState,{saveId:SAVE_OLD,profileId:PROFILE_OLD}));}
   docs.set("accounts/uid_nik/devices/device_nik",deviceDoc());
   const library={activeSaveId:SAVE_OLD,saves:[shell(SAVE_OLD,PROFILE_OLD,rounds)]};
-  const listeners={},calls={redeem:[],provision:0,transactions:0},deleted=[];
+  const listeners={},calls={redeem:[],provision:0,transactions:0,events:[]},deleted=[];
   const firestoreSdk={
     doc:(_db,...parts)=>({path:parts.join("/")}),
     Timestamp:{fromMillis:ms=>({toMillis:()=>ms})},
@@ -161,6 +161,7 @@ function pairHarness({rivalryState="active",linked=true,rounds=3}={}){
   const document={visibilityState:"visible",body:null,createElement:()=>({style:{},classList:{add(){},remove(){},toggle(){}},append(){},appendChild(n){return n;},replaceChildren(){},setAttribute(){},addEventListener(){}}),getElementById:()=>null,querySelector:()=>null};
   const sandbox={console,setTimeout:()=>0,clearTimeout:()=>{},TextEncoder,crypto:webcrypto,Promise,Date,document,
     addEventListener:(type,fn)=>{(listeners[type]||(listeners[type]=[])).push(fn);},
+    CustomEvent:class{constructor(type,init){this.type=type;this.detail=init&&init.detail;}},dispatchEvent:event=>{calls.events.push({type:event.type,detail:event.detail});return true;},
     CareerModeOnlinePlayerIdentity:{getState:()=>({managerId:"nik"})},
     CareerModeSparkConnectedAccount:{initialize:async()=>({}),getState:()=>({connected:true,accountId:"uid_nik"})},
     CareerModeSparkPrivatePairing:pairing,CareerModeSaveLibraryRuntime:runtime,
@@ -211,12 +212,60 @@ async function pairContracts(){
     ok("J1c DELETED during a busy pair action is applied when the action settles, not dropped");
   }
   {
+    // Codex #910 (2nd): DELETED that lands while a pair read is in flight (not busy) is applied after that read publishes,
+    // so the read's older "active" answer never overwrites it.
+    const h=pairHarness();
+    await h.pair.initialize({force:true});
+    let release;h.calls.gate=new Promise(resolve=>{release=resolve;});
+    const reading=h.pair.initialize({force:true});
+    await new Promise(resolve=>setImmediate(resolve));
+    assert.equal(h.pair.getState().busy,false,"a background read is not a busy action");
+    h.fire({phase:"DELETED",rivalryId:R1,terminal:false});
+    h.calls.gate=null;release();await reading;await new Promise(resolve=>setImmediate(resolve));
+    const state=h.pair.getState();
+    assert.deepEqual(plain({rivalryId:state.rivalryId,connectionState:state.connectionState,closedRivalryId:state.closedRivalryId}),
+      {rivalryId:null,connectionState:null,closedRivalryId:R1},"the in-flight read's active answer did not undo DELETED");
+    ok("J1d DELETED during an in-flight pair read is applied after it, never overwritten by it");
+  }
+  {
+    // Codex #910 (3rd): two overlapping forced reads that both saw the old live link: neither answer undoes DELETED.
+    const h=pairHarness();
+    await h.pair.initialize({force:true});
+    let release;h.calls.gate=new Promise(resolve=>{release=resolve;});
+    const first=h.pair.initialize({force:true}),second=h.pair.initialize({force:true});
+    await new Promise(resolve=>setImmediate(resolve));
+    h.fire({phase:"DELETED",rivalryId:R1,terminal:false});
+    h.calls.gate=null;release();await Promise.all([first,second]);await new Promise(resolve=>setImmediate(resolve));
+    const state=h.pair.getState();
+    assert.deepEqual(plain({rivalryId:state.rivalryId,connectionState:state.connectionState,closedRivalryId:state.closedRivalryId}),
+      {rivalryId:null,connectionState:null,closedRivalryId:R1},"no overlapping read's active answer undid DELETED");
+    await h.pair.initialize({force:true});
+    assert.equal(h.pair.getState().rivalryId,null,"nor does any later read that still finds the old link");
+    ok("J1e DELETED holds across overlapping and later pair reads (an ended rivalry is never live again)");
+  }
+  {
+    // Codex #910 (4th): Home may already be showing when the Showdown ends; the page is told once, after the state change.
+    const h=pairHarness();
+    await h.pair.initialize({force:true});
+    const ended=()=>h.calls.events.filter(e=>e.type==="career-mode-permanent-pair-ended");
+    h.fire({phase:"DELETED",rivalryId:R1,terminal:false});
+    assert.equal(ended().length,0,"never inside the state change");
+    await new Promise(resolve=>setImmediate(resolve));
+    assert.deepEqual(plain(ended()),[{type:"career-mode-permanent-pair-ended",detail:{closedRivalryId:R1}}],"told once that R1 was let go");
+    await h.pair.initialize({force:true});await new Promise(resolve=>setImmediate(resolve));
+    assert.equal(ended().length,2,"a later read that is held again tells it again (Home redraws; the note watch has its own limits)");
+    const identity=read("js/onlinePlayerIdentity.js");
+    assert.ok(identity.includes('root.addEventListener("career-mode-permanent-pair-ended",()=>{configureOnlineProductSurface();void refreshJoinNoteOnHome().catch(()=>null);});'),"Home redraws and (re)watches Daniel's JOIN note");
+    ok("J1f an ended Showdown tells the page once it is let go, so a Home already showing redraws and watches the next JOIN note");
+  }
+  {
     const h=pairHarness();
     let state=await h.pair.initialize({force:true});
     assert.equal(state.connectionState,"active");assert.equal(state.rivalryId,R1);assert.equal(state.providerSaveId,SAVE_OLD);
     const reads=h.calls.transactions;
     h.fire({phase:"CLOSED",rivalryId:R1,terminal:true});
-    h.fire({phase:"DELETED",rivalryId:R2,terminal:false});
+    // another rivalry (not R2: an ended rivalry is never joined again, and R2 is joined below)
+    h.fire({phase:"DELETED",rivalryId:"pair_7"+"ab".repeat(31)+"c",terminal:false});
     assert.equal(h.pair.getState().connectionState,"active","the CLOSED event and another rivalry's DELETED change nothing");
     h.deleteOnDanielsPhone();h.fire({phase:"DELETED",rivalryId:R1,terminal:false});
     state=h.pair.getState();
