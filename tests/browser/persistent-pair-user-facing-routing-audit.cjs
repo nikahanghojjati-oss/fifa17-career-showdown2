@@ -180,6 +180,13 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await page.locator("#persistentNikDanielPairPanel button",{hasText:"CREATE CODE FOR NIK"}).waitFor({state:"visible"});
     assert.equal(await page.locator("#persistentNikDanielPairCode").count(),0,"Daniel must not be shown Nik's join-code input.");
     assert.match(await panel.innerText(),/DANIEL STARTS THE SHOWDOWN AND SENDS THIS CODE TO NIK/,"Daniel's surface must make the host action explicit.");
+    // r79: with no seasons chosen yet Daniel is offered CHOOSE SEASONS; there is no CREATE CODE tap that bounces him to the seasons screen.
+    await page.evaluate(async()=>{window.__localRecoveryReady=false;await window.CareerModePersistentNikDanielPair.initialize({force:true});});
+    await page.locator("#persistentNikDanielPairPanel button",{hasText:"CHOOSE SEASONS"}).waitFor({state:"visible",timeout:5000});
+    assert.equal(await page.locator("#persistentNikDanielPairPanel button",{hasText:"CREATE CODE FOR NIK"}).count(),0,"r79: no CREATE CODE FOR NIK without chosen seasons");
+    assert.equal(await page.evaluate(()=>window.getActiveScreenName?.()),"mainMenu","r79: the pair panel itself never moves Daniel to another screen");
+    await page.evaluate(async()=>{window.__localRecoveryReady=true;await window.CareerModePersistentNikDanielPair.initialize({force:true});});
+    await page.locator("#persistentNikDanielPairPanel button",{hasText:"CREATE CODE FOR NIK"}).waitFor({state:"visible",timeout:5000});
 
     // CONNECT PLAYERS must share the identity sidecar's one bounded retry and stale-role reconciliation instead of callback-free pair initialization.
     await page.evaluate(async()=>{
@@ -221,21 +228,28 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
           window.__joinerProvisionRounds=totalRounds;
           window.__localRecoveryReady=true;
           return true;
-        }
+        },
+        openPanel:async()=>{window.__continueOpened+=1;return true;}
       };
       await window.CareerModePersistentNikDanielPair.initialize({force:true});
     });
     await page.locator("#persistentNikDanielPairCode").fill(playerJoinCode);
     await page.locator("#persistentNikDanielPairPanel button",{hasText:"JOIN DANIEL'S SHOWDOWN"}).click();
-    await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER READY"}).waitFor({state:"visible",timeout:5000});
+    // r79: Nik's own successful JOIN continues into the Showdown by itself (no START CAREER tap) and the Connect layer closes.
+    await page.waitForFunction(()=>window.__continueOpened===1,null,{timeout:5000});
+    await page.locator("#connectPlayersScreen").waitFor({state:"hidden",timeout:5000});
     assert.match(playerJoinCode,/^CMS17-pair_5[0-9a-f]{63}$/i,"The five-season plan must be bound into the exact provider capability itself.");
     assert.equal(await page.evaluate(()=>window.__joinerProvisionRounds),5,"Nik Join must automatically provision the same season length Daniel selected.");
-    assert.match(await panel.innerText(),/Nik joined Daniel's Showdown/i,"Nik must receive a single successful Join outcome, not another Start Showdown instruction.");
-    const continueButton=page.locator("#persistentNikDanielPairPanel button",{hasText:"START CAREER"});
-    await continueButton.waitFor({state:"visible"});
+    const joinedState=await page.evaluate(()=>window.CareerModePersistentNikDanielPair.getState());
+    assert.deepEqual([joinedState.status,joinedState.connectionState,joinedState.message],["paired","active","Career ready."],"Nik's JOIN ends in the Showdown, not another Start Showdown instruction.");
+    // START CAREER stays the fallback: a continue that fails reopens Connect Players on the same screen with TRY CONTINUE AGAIN.
+    await page.evaluate(async()=>{window.CareerModeProductionSharedJourneyEntry={install(){},openPanel:async()=>{throw new Error("Entry failed in this fixture.");}};await window.CareerModePersistentNikDanielPair.autoContinueAfterConnect();});
+    await page.locator("#connectPlayersScreen").waitFor({state:"visible",timeout:5000});
+    const continueButton=page.locator("#persistentNikDanielPairPanel button",{hasText:"TRY CONTINUE AGAIN"});
+    await continueButton.waitFor({state:"visible",timeout:5000});
     await page.evaluate(()=>{window.CareerModeProductionSharedJourneyEntry={install(){},openPanel:async()=>{window.__continueOpened+=1;return true;}};});
     await continueButton.click();
-    await page.waitForFunction(()=>window.__continueOpened===1,null,{timeout:3000});
+    await page.waitForFunction(()=>window.__continueOpened===2,null,{timeout:3000});
 
     // A stale opposite role on another registered browser must be repaired from validated durable pair authority before mismatch rejection.
     const staleRoleRepair=await page.evaluate(async()=>{

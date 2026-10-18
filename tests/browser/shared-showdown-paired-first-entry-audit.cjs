@@ -49,41 +49,54 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     assert.equal(await page.locator("#createShowdown").isVisible(),false,"signed-out fallback guard must not expose or create gameplay");
     assert.equal(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).activeSaveId,SAVE_KEY),oldSaveId,"signed-out entry must not create or replace a Showdown shell");
 
-    // Simulate Daniel's host browser. In the unified r25 flow, only Daniel enters season
-    // selection and starts the Showdown; Nik joins later from the Home join action.
+    // Simulate Daniel's host browser. Only Daniel enters season selection and starts the Showdown; Nik joins from Home.
+    // r79 (owner): START works out by itself what to do and never offers to close a live Showdown (closing stays in Settings).
     await page.evaluate(()=>{
-      const staleRivalryId="pair_"+("e".repeat(64));
+      const staleRivalryId="pair_"+("e".repeat(64)),freshRivalryId="pair_5"+("d".repeat(63));
       window.__freshStartPairState="active";
-      window.__freshStartAbandonCount=0;
+      window.__freshStartAbandonCount=0;window.__startPairingCount=0;window.__continuePairCount=0;
       window.__freshStartRivalryId=staleRivalryId;
-      window.askShowdownConfirm=async()=>true;
+      window.askShowdownConfirm=async()=>{window.__closeOffered=(window.__closeOffered||0)+1;return true;};
+      const pairState=()=>window.__freshStartPairState==="active"
+        ?{status:"recovery-required",initialized:true,busy:false,managerRole:"playerOne",connectionState:"active",rivalryId:staleRivalryId,providerSaveId:"save_"+("f".repeat(24)),message:"The old online Showdown is still connected."}
+        :window.__freshStartPairState==="waiting"
+          ?{status:"waiting",initialized:true,busy:false,managerRole:"playerOne",connectionState:"pending-pair",rivalryId:freshRivalryId,capability:"CMS17-"+freshRivalryId,message:"Send this code to Nik. It is needed only once."}
+          :{status:"unpaired",initialized:true,busy:false,managerRole:null,connectionState:null,rivalryId:null,closedRivalryId:staleRivalryId,message:"Daniel and Nik need to connect before the first Showdown."};
       window.CareerModePersistentNikDanielPair={
-        abandonCurrentShowdown:async({expectedRivalryId}={})=>{
-          if(expectedRivalryId!==staleRivalryId)throw new Error("Fresh-start abandonment targeted the wrong rivalry.");
-          window.__freshStartAbandonCount+=1;
-          window.__freshStartPairState="closed";
-          return{ok:true,status:"closed",rivalryId:staleRivalryId};
-        }
+        getState:pairState,
+        initialize:async()=>pairState(),
+        render:()=>{const slot=document.getElementById("connectPlayersPairSlot");if(!slot)return null;let panel=document.getElementById("persistentNikDanielPairPanel");if(!panel){panel=document.createElement("section");panel.id="persistentNikDanielPairPanel";slot.append(panel);}panel.textContent=pairState().status==="waiting"?"WAITING FOR THE OTHER PLAYER "+pairState().capability:pairState().status==="recovery-required"?"OLD SHOWDOWN FOUND":"CONNECT PLAYERS";return panel;},
+        startPairing:async()=>{window.__startPairingCount+=1;window.__freshStartPairState="waiting";return pairState();},
+        continuePair:async()=>{window.__continuePairCount+=1;return pairState();},
+        abandonCurrentShowdown:async()=>{window.__freshStartAbandonCount+=1;window.__freshStartPairState="closed";return{ok:true,status:"closed",rivalryId:staleRivalryId};}
       };
       window.CareerModeOnlinePlayerIdentity={
         getState:()=>({status:"ready",initialized:true,online:true,accountId:"account_daniel_fixture",managerId:"daniel",managerLabel:"Daniel",deviceId:"device_daniel_fixture",registered:true}),
         openGate:()=>false,
-        syncPair:async()=>window.__freshStartPairState==="active"
-          ?{status:"recovery-required",connectionState:"active",rivalryId:staleRivalryId,providerSaveId:"save_"+("f".repeat(24))}
-          :{status:"unpaired",connectionState:null,rivalryId:null}
+        syncPair:async()=>pairState()
       };
     });
     await page.evaluate(()=>{window.CareerModeOnlinePlayerIdentity?.getState?.();document.getElementById("startShowdown").textContent="";});
     await page.waitForFunction(()=>document.getElementById("startShowdown")?.textContent==="START A SHOWDOWN",null,{timeout:4000});
+    // A stale ACTIVE Showdown with no local career: START opens Connect Players (RESTORE BACKUP / START OVER live there) and
+    // never closes it or offers to.
     await page.locator("#newShowdown").click();
     await page.locator("#connectPlayersScreen").waitFor({state:"visible",timeout:5000});
-    await page.locator("#connectPlayersSetup").click();
+    await page.locator("#persistentNikDanielPairPanel",{hasText:"OLD SHOWDOWN FOUND"}).waitFor({state:"visible",timeout:5000});
+    assert.equal(await page.locator("#createShowdown").isVisible(),false,"a Showdown needing recovery is not replaced by the seasons screen");
+    assert.deepEqual(await page.evaluate(()=>[window.__freshStartAbandonCount,window.__closeOffered||0]),[0,0],"START never closes or offers to close a live Showdown");
+    await page.locator("#connectPlayersScreen .connectPlayersBack").click();
+    // Once that Showdown is closed (Settings or START OVER), Home START goes straight to the seasons screen: no Connect Players hop.
+    await page.evaluate(()=>{window.__freshStartPairState="closed";});
+    await page.locator("#newShowdown").click();
     await page.locator("#createShowdown").waitFor({state:"visible",timeout:5000});
+    assert.equal(await page.locator("#connectPlayersScreen").isVisible(),false,"Daniel's Home START goes straight to NEW SHOWDOWN");
     assert.equal(await page.locator("#managerOne").inputValue(),"Daniel");
     assert.equal(await page.locator("#managerTwo").inputValue(),"Nik");
     assert.equal(await page.locator("#startShowdown").textContent(),"START A SHOWDOWN");
     await page.locator("#roundAmount").selectOption("5");
-    await page.locator("#startShowdown").click();
+    // A double tap on START must never create two shells or two codes.
+    await page.locator("#startShowdown").dblclick();
 
     await page.waitForFunction(()=>window.CareerModeProductionSharedJourneyEntry?.singleProductEntry===true,null,{timeout:12000});
     await page.waitForFunction(key=>{
@@ -99,6 +112,7 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     assert.match(created.activeSaveId,/^save_[a-f0-9]{24}$/);
     assert.notEqual(created.activeSaveId,oldSaveId,"Canonical start must create a new shared shell rather than reuse unrelated recovery data.");
     assert.equal(created.saveIds.includes(oldSaveId),true,"Canonical start must preserve unrelated recovery data.");
+    assert.equal(created.saveIds.length,2,"a double tap creates exactly one shared shell");
     assert.equal(created.name,"Daniel vs Nik");
     assert.deepEqual(created.managers,{playerOne:"Daniel",playerTwo:"Nik"});
     assert.equal(created.totalRounds,5,"Paired-first shell must preserve the selected 1/3/5/10 season count.");
@@ -106,17 +120,12 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     assert.equal(created.selectedLeague,null);
     assert.deepEqual(created.clubs,{playerOne:null,playerTwo:null});
     assert.deepEqual(created.rounds,[]);
-    const freshStart=await page.evaluate(()=>({abandonCount:window.__freshStartAbandonCount,pairState:window.__freshStartPairState}));
-    assert.deepEqual(freshStart,{abandonCount:1,pairState:"closed"},"START A SHOWDOWN must close one stale provider pair before creating the fresh local shell instead of looping into CAREER RECOVERY NEEDED.");
 
-    // START A SHOWDOWN persists the marker above and only then opens GET READY, whose status read
-    // waits on the real account/Remote Joining runtimes (Firebase SDK download in CI). Let that
-    // app-owned entry finish (GET READY rendered, Start button released) before the fixtures below
-    // replace those runtimes; otherwise its late render or script load overwrites the fixture state.
-    await page.waitForFunction(()=>{
-      const overlay=document.getElementById("productionSharedJourneyEntryOverlay"),start=document.getElementById("startShowdown");
-      return Boolean(overlay&&!overlay.classList.contains("hidden")&&overlay.querySelector(".remoteJoiningBody h2")?.textContent==="GET READY"&&overlay.querySelector(".remoteJoiningActions button")&&start&&start.disabled===false);
-    },null,{timeout:12000});
+    // START goes straight to WAITING (Connect Players over the locked league wheel) and makes the code itself, once.
+    await page.locator("#persistentNikDanielPairPanel",{hasText:"WAITING FOR THE OTHER PLAYER"}).waitFor({state:"visible",timeout:12000});
+    await page.waitForFunction(()=>document.getElementById("startShowdown")?.disabled===false,null,{timeout:12000});
+    const waiting=await page.evaluate(()=>({screen:window.getActiveScreenName?.(),layer:document.getElementById("connectPlayersScreen")?.dataset.stayOnScreen,getReady:Boolean(document.getElementById("productionSharedJourneyEntryOverlay")&&!document.getElementById("productionSharedJourneyEntryOverlay").classList.contains("hidden")),codes:window.__startPairingCount,abandon:window.__freshStartAbandonCount,offered:window.__closeOffered||0}));
+    assert.deepEqual(waiting,{screen:"leagueWheelScreen",layer:"true",getReady:false,codes:1,abandon:0,offered:0},"START: WAITING over the locked league wheel, one code, no GET READY, nothing closed");
 
     // Reproduce the already-paired peer path: once the private session becomes ACTIVE, player
     // entry returns automatically and exposes the cleaned START CAREER action.
