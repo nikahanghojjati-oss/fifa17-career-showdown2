@@ -45,8 +45,23 @@
   };
   // The checks are bounded by the same 15 s as js/app.js, so a picture request that never ends cannot hold back what follows Home.
   const reusGate=async()=>Promise.race([checkHome(),new Promise(resolve=>root.setTimeout(resolve,15e3))]);
+  // r79 (PR #901): a reload with Daniel's unfinished pre-pair shell keeps the loading screen up until the entry has put WAITING
+  // back over the locked league wheel (at most 3 s more in all), so neither Home nor the bare wheel flashes first. No pending
+  // pre-pair shell: no wait.
+  let entryInstalled=null;const entryReady=new Promise(resolve=>{entryInstalled=resolve;});
+  // PR #901: the marker is read first, synchronously and locally (no Firebase read), so a startup with nothing pending never waits
+  // for the entry to load. Only a pre-pair shell can resume onto the wheel: the active shared shell's setupPending marker with no
+  // league, clubs or seasons on it, and not a shell this device already saw paired (careerModeShowdown.pairedShell.v1, written by
+  // js/persistentNikDanielPair.js when the pair went ACTIVE), so a reload mid-Showdown gets no extra time. Before the shell is
+  // known, this tab's pending flag reads the active save locally (js/storage.js). One deadline bounds the whole wait.
+  const pendingShell=()=>{let s=null;try{s=typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){s=null;}
+    if(!s){let flag=false;try{flag=root.sessionStorage?.getItem("careerModeShowdown.sharedJourneyPending.v1")==="1";}catch(_error){flag=false;}if(!flag)return false;try{s=typeof root.readSaveLibraryActive==="function"?root.readSaveLibraryActive():null;}catch(_error){s=null;}if(!s)return false;}
+    if(!(s.sharedJourney&&s.sharedJourney.mode==="shared"&&s.sharedJourney.setupPending===true)||s.selectedLeague||(s.clubs&&(s.clubs.playerOne||s.clubs.playerTwo))||(Array.isArray(s.rounds)&&s.rounds.length))return false;
+    let paired=null;try{paired=typeof root.readStorageValue==="function"?root.readStorageValue("careerModeShowdown.pairedShell.v1"):null;}catch(_error){paired=null;}
+    return !(paired&&s.identity&&paired===s.identity.saveId);};
+  const resumeGate=async()=>{if(!pendingShell())return;const deadline=new Promise(resolve=>root.setTimeout(resolve,3e3));const entry=await Promise.race([entryReady,deadline]);const resume=entry&&typeof entry.startupResume==="function"?entry.startupResume():null;if(resume)await Promise.race([Promise.resolve(resume).catch(()=>null),deadline]);};
   root.careerModeHomeHold=1;
-  const home=v10().then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(()=>{root.careerModeHomeHold=0;});
+  const home=v10().then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(resumeGate).catch(()=>null).then(()=>{root.careerModeHomeHold=0;});
   if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(()=>home.then(resultsV10),{timeout:2500});else root.setTimeout?.(()=>home.then(resultsV10),600);
   // JOB-26: Team V's skin for Start/Join, the League wheel and the Club packs, registered with that loader.
   const v10Setup=()=>load("v10-screens","js/v10Screens.js",()=>root.CareerModeV10Screens).then(()=>load("v10-setup","js/v10Setup.js",()=>root.CareerModeV10Setup)).then(()=>root.CareerModeV10Setup.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Team V setup skin unavailable.",error));
@@ -120,7 +135,7 @@
     })();
     await Promise.all([
       load("firebase-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime),
-      install("ssjr-production-entry","js/productionSharedJourneyEntry.js","CareerModeProductionSharedJourneyEntry"),
+      install("ssjr-production-entry","js/productionSharedJourneyEntry.js","CareerModeProductionSharedJourneyEntry").then(api=>{entryInstalled(api);return api;},error=>{entryInstalled(null);throw error;}),
       install("ssjr-production-guard","js/productionSharedJourneyGuard.js","CareerModeProductionSharedJourneyGuard"),
       install("ssjr-production-career-start","js/productionSharedCareerStart.js","CareerModeProductionSharedCareerStart"),
       install("ssjr-production-season-results","js/productionSharedSeasonResults.js","CareerModeProductionSharedSeasonResults"),

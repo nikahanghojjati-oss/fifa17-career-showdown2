@@ -62,7 +62,7 @@
     const wheel=root.document&&root.document.querySelector("#leagueWheelScreen .wheelContainer");
     if(wheel){
       let resume=root.document.getElementById(SHARED_CONTINUE_ID);
-      if(locked&&!presentationOwns&&!resume){resume=create("button","menuButton","CONTINUE CAREER");resume.id=SHARED_CONTINUE_ID;resume.type="button";resume.addEventListener("click",()=>void openPanel());wheel.insertBefore(resume,wheel.querySelector(".backButton")||null);}
+      if(locked&&!presentationOwns&&!resume){resume=create("button","menuButton","CONTINUE CAREER");resume.id=SHARED_CONTINUE_ID;resume.type="button";resume.addEventListener("click",()=>void continueFromLockedWheel());wheel.insertBefore(resume,wheel.querySelector(".backButton")||null);}
       if((!locked||presentationOwns)&&resume)resume.remove();
       let note=root.document.getElementById("sharedJourneyLeagueLockNote");
       if(locked&&!presentationOwns&&!note){note=create("p","stateNote","Daniel and Nik must both be connected before league selection.");note.id="sharedJourneyLeagueLockNote";wheel.insertBefore(note,wheel.firstChild);}
@@ -134,31 +134,92 @@
     if(!next)throw new Error("The current Showdown connection could not be verified.");
     return next;
   }
-  // r78 (HO-029): the shared marble confirm box (js/showdownConfirm.js, loaded on first use) replaces the native confirm().
-  // It resolves true only for OK; Cancel, Esc or a box that cannot load resolve false (undefined when no loader exists).
-  function entryAskConfirm(message,tone){return typeof root.askShowdownConfirm==="function"?root.askShowdownConfirm(message,{tone}):typeof root.loadRuntimeScript==="function"?root.loadRuntimeScript("showdown-confirm","js/showdownConfirm.js",()=>typeof root.askShowdownConfirm==="function").then(()=>root.askShowdownConfirm(message,{tone}),()=>false):Promise.resolve(undefined);}
-  async function prepareFreshStart(){
-    const pairState=await currentPairStateForFreshStart();
-    if(pairState&&pairState.status==="unavailable")throw new Error("The current Showdown connection could not be verified. Try again before starting a new Showdown.");
-    const hasLivePair=Boolean(pairState&&pairState.rivalryId&&["active","pending-pair"].includes(pairState.connectionState));
-    if(!hasLivePair)return true;
-
-    const confirmed=await entryAskConfirm(
-      "Start a new Showdown? This will close the current Daniel vs Nik Showdown for both players. Your player identity, registered device, Legacy history, app settings and existing local recovery data will be kept.",
-      "danger"
-    );
-    // BH-11 (#2): only an explicit yes closes the Showdown for both players; a missing confirm box never counts as consent.
-    if(confirmed!==true)return false;
-
-    const pair=await loadScript("persistent-pair","js/persistentNikDanielPair.js",()=>root.CareerModePersistentNikDanielPair);
-    if(!pair||typeof pair.abandonCurrentShowdown!=="function")throw new Error("Safe Showdown restart is unavailable in this build.");
-    const closed=await pair.abandonCurrentShowdown({expectedRivalryId:pairState.rivalryId});
-    if(!closed||closed.ok!==true)throw new Error("The current Showdown could not be closed safely. No new Showdown was created.");
-
-    setPending(false);
-    root.stopTransferTimerLoop?.();
-    root.resetTransientSelectionOperations?.();
-    return true;
+  // r79: START never offers to close a live Showdown (closing stays in Settings). It asks whichShowdownIsLive instead: a live
+  // game continues, Daniel's code already out (or his seasons chosen with no code yet) reopens WAITING, a fresh start creates the
+  // shell, and Nik is never given a shell of his own here (he JOINs). Pair authority that cannot be read fails closed.
+  async function whichShowdownIsLive(pairState=null){
+    const which=await loadScript("which-showdown","js/whichShowdownIsLive.js",()=>root.CareerModeWhichShowdownIsLive);
+    if(!which||typeof which.read!=="function")throw new Error("Showdown start is unavailable.");
+    const decision=await which.read(root,pairState?{pair:pairState}:{});
+    if(decision.reason==="pair-unknown")throw new Error("The current Showdown connection could not be verified. Try again before starting a new Showdown.");
+    return decision;
+  }
+  // WAITING: the Connect Players layer over the locked league wheel (no trip back to Home). With createCode the pair code is made
+  // here, once, from the shell START just prepared; Daniel no longer taps CREATE CODE FOR NIK. A layer that cannot open falls back
+  // to GET READY.
+  async function openWaiting(options={}){
+    closePanel();
+    try{
+      const pair=await loadScript("persistent-pair","js/persistentNikDanielPair.js",()=>root.CareerModePersistentNikDanielPair);
+      const layer=await loadScript("connect-players-screen","js/connectPlayersScreenV10.js",()=>root.CareerModeConnectPlayersScreenV10);
+      if(!pair||typeof pair.startPairing!=="function"||!layer||typeof layer.open!=="function")throw new Error("Player connection is unavailable.");
+      await layer.open({sync:false,stayOnScreen:true});
+      if(options.createCode===true)await pair.startPairing({managerRole:"playerOne"});
+      pair.render?.();
+      return true;
+    }catch(error){report("Unable to open the waiting screen",error);await openPanel({routeToRemote:false});return false;}
+  }
+  // PR #901 P2: CONTINUE CAREER on the locked league wheel (shown once WAITING is closed with BACK or Escape) asks the same
+  // question START asks, so it reopens WAITING over the wheel (same stayOnScreen path) instead of the old GET READY overlay.
+  let lockedWheelContinuePromise=null;
+  function continueFromLockedWheel(){
+    if(lockedWheelContinuePromise)return lockedWheelContinuePromise;
+    lockedWheelContinuePromise=(async()=>{
+      try{const decision=await whichShowdownIsLive();if(decision.action==="new")return openWaiting({createCode:false});return await followStartDecision(decision);}
+      catch(error){report("Unable to continue the Showdown",error);return openWaiting({createCode:false});}
+    })().finally(()=>{lockedWheelContinuePromise=null;});
+    return lockedWheelContinuePromise;
+  }
+  // Nik's call (2026-10-17): Daniel's START on a Showdown that has ENDED but was never CLOSED closes it for both managers through
+  // exactly the final-screen terminal close (it requires the final reconciliation, i.e. history saved first, and one exact ACTIVE
+  // private session; same writes, same guards), then opens the seasons screen. Nothing is created unless the close succeeded; a
+  // close that cannot happen stops on the existing Connect Players / CHECK STATUS path with the reason.
+  let closeEndedPromise=null;
+  function closeEndedThenNew(){
+    if(closeEndedPromise)return closeEndedPromise;
+    closeEndedPromise=(async()=>{
+      let state=null,result=null;
+      try{
+        const close=await loadScript("ssjr-production-terminal-close","js/productionSharedTerminalClose.js",()=>root.CareerModeProductionSharedTerminalClose);
+        if(!close||typeof close.refresh!=="function"||typeof close.close!=="function")throw new Error("Showdown close is unavailable.");
+        close.install?.();
+        state=close.getState?.()||null;
+        if(!state||state.phase!=="CLOSED")state=await close.refresh();
+        if(state&&state.phase==="READY")result=await close.close();
+        else if(state&&state.phase==="RECOVERY_PENDING"&&typeof close.retry==="function")result=await close.retry();
+        if(close.getState?.()?.phase!=="CLOSED"&&result?.ok!==true){
+          throw new Error(state&&state.phase==="BLOCKED"
+            ?"This Showdown has ended. It closes when Daniel and Nik are both connected; nothing new was started."
+            :(result&&result.message)||"This Showdown has ended but could not be closed. Nothing new was started.");
+        }
+      }catch(error){report("Unable to close the ended Showdown",error);await openPersistentPairControls();return false;}
+      const opened=typeof root.navigateTo==="function"?await root.navigateTo("createShowdown"):root.showScreen?.("createShowdown");
+      return opened!==false;
+    })().finally(()=>{closeEndedPromise=null;});
+    return closeEndedPromise;
+  }
+  async function followStartDecision(decision){
+    if(!decision)return false;
+    if(decision.action==="close-then-new")return closeEndedThenNew();
+    if(decision.action==="continue"){
+      const pair=await loadScript("persistent-pair","js/persistentNikDanielPair.js",()=>root.CareerModePersistentNikDanielPair);
+      if(!pair||typeof pair.continuePair!=="function")throw new Error("Career continue is unavailable.");
+      // PR #901: continuePair() reports a failure in its returned state (error / recovery-required) instead of rejecting, so a
+      // failed continue reopens Connect Players with that state (TRY CONTINUE AGAIN / RESTORE BACKUP) like the auto-continue
+      // fallback does, instead of rendering into a hidden panel. Nothing is created.
+      const next=await pair.continuePair();
+      if(next&&next.busy!==true&&next.status!=="paired"){
+        report("Unable to continue the Showdown",Object.assign(new Error(next.message||"The career could not be opened."),{code:next.status}));
+        try{const layer=await loadScript("connect-players-screen","js/connectPlayersScreenV10.js",()=>root.CareerModeConnectPlayersScreenV10);await layer?.open?.({sync:false,stayOnScreen:true});pair.render?.();}
+        catch(_error){await openPersistentPairControls();}
+        return false;
+      }
+      return true;
+    }
+    if(decision.action==="resume-waiting")return openWaiting({createCode:!decision.rivalryId});
+    const identity=entryIdentity();
+    if(identity&&typeof identity.openJoin==="function"){await identity.openJoin({pair:decision.pair||null});return true;}
+    await openPersistentPairControls();return true;
   }
   async function startShared(){
     if(busy)return false;
@@ -171,12 +232,12 @@
     const round=root.document.getElementById("roundAmount"),priorRound=round?round.value:null;let shellCreated=false,markerPersisted=false;
     try{
       await ensureSaveAuthority();
-      const freshStartReady=await prepareFreshStart();
-      if(!freshStartReady)return false;
+      const decision=await whichShowdownIsLive();
+      if(decision.action!=="new"){await followStartDecision(decision);return false;}
       setPending(true);
       if(typeof root.createShowdown!=="function")throw new Error("Showdown preparation is unavailable.");
       const created=await root.createShowdown();shellCreated=Boolean(created);if(!created)throw new Error("The Showdown could not be prepared.");
-      normalizeCanonicalPlayers();persistPendingMarker();markerPersisted=true;applyLocalDrawLock();await openPanel();return true;
+      normalizeCanonicalPlayers();persistPendingMarker();markerPersisted=true;applyLocalDrawLock();await openWaiting({createCode:true});return true;
     }catch(error){if(shellCreated&&!markerPersisted)discardUnmarkedShell();setPending(false);report("Unable to prepare Showdown",error);return false;}
     finally{if(round&&priorRound!==null)round.value=priorRound;if(button)button.disabled=false;busy=false;syncStartButtonIdentity();}
   }
@@ -333,17 +394,52 @@
     const identity=entryIdentity();if(!identity||typeof identity.subscribe!=="function")return Promise.resolve(false);
     return new Promise(resolve=>{let done=false,unsubscribe=null;const finish=value=>{if(done)return;done=true;try{unsubscribe?.();}catch(_error){}resolve(value);};unsubscribe=identity.subscribe(()=>{if(entryIdentityReady())finish(true);});setTimeout(()=>finish(entryIdentityReady()),AUTO_OPEN_IDENTITY_WAIT_MS);if(entryIdentityReady())finish(true);});
   }
-  function pairAlreadyEstablished(pairState){if(!pairState)return false;if(pairState.rivalryId&&(pairState.connectionState==="active"||pairState.connectionState==="closed"))return true;return Boolean(pairState.status==="unpaired"&&!pairState.rivalryId&&/^pair_[0-9a-f]{64}$/.test(String(pairState.closedRivalryId||"")));}
+  function pairAlreadyEstablished(pairState){if(!pairState)return false;if(pairState.rivalryId&&(pairState.connectionState==="active"||pairState.connectionState==="closed"))return true;return Boolean(pairState.status==="unpaired"&&!pairState.rivalryId&&/^pair_[0-9a-f]{64}$/.test(String(pairState.closedRivalryId||""))&&closedRivalryOwnsActiveShell(pairState));}
+  // PR #901 (as whichShowdownIsLive): a closed rivalry only counts against the save it was bound to, so a fresh shell made after an
+  // older closed Showdown still reopens WAITING over the wheel on reload; only the closed Showdown's own shell stays shut.
+  function closedRivalryOwnsActiveShell(pairState){
+    const closed=pairState&&pairState.closedProviderSaveId;if(typeof closed!=="string"||!/^save_[0-9a-f]{24}$/.test(closed))return false;
+    try{const library=root.CareerModeSaveLibraryRuntime?.getLibrarySnapshot?.();return Boolean(library&&library.activeSaveId===closed);}catch(_error){return false;}
+  }
   async function autoOpenAfterLoad(){
     if(!pending())return false;
     let pairState=null;
     try{if(await settledIdentity()){const known=root.CareerModePersistentNikDanielPair?.getState?.();pairState=known&&known.initialized===true&&known.busy!==true&&(known.rivalryId||known.closedRivalryId)?known:await currentPairStateForFreshStart();}}catch(_error){pairState=null;}
-    // Only a positively observed pre-pair state reopens GET READY; unresolved authority (offline, timeout, error) keeps it closed.
+    // Only a positively observed pre-pair state reopens anything; unresolved authority (offline, timeout, error) keeps it closed.
     if(!pairState||!["unpaired","waiting"].includes(pairState.status)||pairAlreadyEstablished(pairState))return false;
     if(!pending())return false;
+    // r79: a pending pre-pair shell reopens WAITING for Daniel (his code, or the code made now from his chosen seasons) and JOIN
+    // for Nik. GET READY stays only as the fallback when neither applies or the decision cannot be made.
+    let decision=null;try{decision=await whichShowdownIsLive(pairState);}catch(_error){decision=null;}
+    // An older closed Showdown is remembered: only Daniel's fresh code-less shell (resume-waiting) reopens; nothing else (no GET READY).
+    if(/^pair_[0-9a-f]{64}$/.test(String(pairState.closedRivalryId||""))&&!pairState.rivalryId&&!(decision&&decision.action==="resume-waiting"))return false;
+    // PR #901: reload recovery puts Daniel's WAITING back over the locked league wheel (startup leaves Home active), so closing it
+    // shows the wheel and its CONTINUE CAREER, not Home. The loading screen is held until this settles (js/ssjr.js, Reus Gate).
+    if(decision&&decision.action==="resume-waiting")await showLockedWheel();
+    if(decision&&["resume-waiting","join","wait-for-daniel"].includes(decision.action))return followStartDecision(decision);
     return openPanel();
   }
-  function install(){if(installed)return true;installed=true;installStartButton();applyLocalDrawLock();const identity=entryIdentity();if(identity&&typeof identity.subscribe==="function")identityUnsubscribe=identity.subscribe(()=>syncStartButtonIdentity());const observer=new MutationObserver(()=>{installStartButton();applyLocalDrawLock();});observer.observe(root.document.documentElement,{childList:true,subtree:true});if(pending())setTimeout(()=>void autoOpenAfterLoad().catch(error=>report("Unable to open career entry",error)),0);return true;}
+  // Right after a reload the saved shell is not loaded yet (currentShowdown is null) and the wheel route falls back to Home (seen
+  // in a real browser), so the saved shell is resumed first, exactly as Home's CONTINUE does: its canonical route is the wheel.
+  function loadedShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
+  async function showLockedWheel(){
+    try{
+      if(!loadedShowdown()&&typeof root.resumeSavedShowdown==="function"){await ensureSaveAuthority();if(typeof root.loadSavedShowdown==="function"&&root.loadSavedShowdown())await root.resumeSavedShowdown();}
+      if(root.getActiveScreenName?.()!=="leagueWheelScreen"){if(typeof root.navigateTo==="function")await root.navigateTo("leagueWheelScreen",{addToHistory:false});else root.showScreen?.("leagueWheelScreen");}
+    }catch(error){report("Unable to reopen the league screen",error);}
+    applyLocalDrawLock();
+  }
+  // The startup hold is kept only while this recovery can still end on the wheel: a player who is signed out, offline or still
+  // choosing (anything but a restoring or ready identity) releases it at once, and js/ssjr.js bounds it anyway.
+  let startupResumePromise=null,releaseStartupHold=null;
+  function startupHoldWorthKeeping(){const current=entryIdentityState();return !current||entryIdentityReady()||["idle","connecting","signing-in","saving-manager"].includes(current.status);}
+  function startStartupResume(){
+    startupResumePromise=new Promise(resolve=>{releaseStartupHold=()=>resolve(true);});
+    const identity=entryIdentity();let unsubscribe=null;const watch=()=>{if(!startupHoldWorthKeeping())releaseStartupHold();};
+    try{unsubscribe=typeof identity?.subscribe==="function"?identity.subscribe(watch):null;}catch(_error){unsubscribe=null;}watch();
+    setTimeout(()=>void autoOpenAfterLoad().catch(error=>report("Unable to open career entry",error)).finally(()=>{releaseStartupHold();try{unsubscribe?.();}catch(_error){}}),0);
+  }
+  function install(){if(installed)return true;installed=true;installStartButton();applyLocalDrawLock();const identity=entryIdentity();if(identity&&typeof identity.subscribe==="function")identityUnsubscribe=identity.subscribe(()=>syncStartButtonIdentity());const observer=new MutationObserver(()=>{installStartButton();applyLocalDrawLock();});observer.observe(root.document.documentElement,{childList:true,subtree:true});if(pending())startStartupResume();return true;}
 
-  return Object.freeze({contractVersion:6,feature:"ssjr-production-paired-first-entry",connectedPairOpensRemoteJoiningDirectly:true,activeSessionContinuesIntoShowdown:true,productionEnabled:true,singleProductEntry:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,joinerShellProvisionedAutomatically:true,continueCareerUsesPairedAuthority:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,acceptedSeasonResumesAtActiveSeason:true,establishedPairNeverAutoOpensEntry:true,closedShowdownNeverReopensEntry:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,provisionJoinerShell,openPanel,closePanel,openSharedExperience,isPending:pending});
+  return Object.freeze({contractVersion:7,feature:"ssjr-production-paired-first-entry",startOpensWaitingOverLeagueWheel:true,startNeverOffersToCloseLiveShowdown:true,connectedPairOpensRemoteJoiningDirectly:true,activeSessionContinuesIntoShowdown:true,productionEnabled:true,singleProductEntry:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,joinerShellProvisionedAutomatically:true,continueCareerUsesPairedAuthority:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,acceptedSeasonResumesAtActiveSeason:true,establishedPairNeverAutoOpensEntry:true,closedShowdownNeverReopensEntry:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,provisionJoinerShell,openWaiting,followStartDecision,closeEndedThenNew,continueFromLockedWheel,startupResume:()=>startupResumePromise,openPanel,closePanel,openSharedExperience,isPending:pending});
 });

@@ -2,7 +2,7 @@
 "use strict";
 // r78 (HO-029, Team G): every native window.confirm() is replaced by ONE shared black-and-gold marble confirm box
 // (js/showdownConfirm.js, styled by Team V's .r78-modal in css/r78-marble-surfaces.css).
-// Source: no native confirm() is left anywhere in the app; each of the 13 audited call sites (C1-C12, C11 twice) keeps its
+// Source: no native confirm() is left anywhere in the app; each of the 12 live audited call sites (C1-C11, C11 twice; C12 retired in r79) keeps its
 // exact wording and awaits the box; the r78 sheets and the box stay out of the startup bundle.
 // Browser: the real Settings > History & Backup > RESET ALL SHOWDOWN DATA button (C3) opens the box over the unchanged
 // screen (no dimming or blur, opaque marble panel); focus is trapped, Esc = Cancel, Enter = OK, Cancel never resets,
@@ -37,8 +37,9 @@ const SITES=[
   ["C9","js/settings.js","settingsAskConfirm(\n        `Delete the current \"${name}\" Showdown and start over? This closes the current Showdown connection for both players, removes this device's current local Showdown, and keeps your player identity, registered device, Legacy history and app settings. This cannot be undone.`,\n        \"danger\"",[]],
   ["C10","js/settings.js","settingsAskConfirm(\n        `Start your real career now? Finished test Showdowns stay saved but are hidden from History, Trophy Room and Legacy. Ask ${other} to press this too.`,\n        \"primary\"",[]],
   ["C11a","js/persistentNikDanielPair.js","pairAskConfirm(\"Delete this old connection and start fresh? This closes the stale online test connection and removes only its unfinished local Showdown so Nik can join the new code Daniel creates.\",\"danger\")",[]],
-  ["C11b","js/persistentNikDanielPair.js","pairAskConfirm(\"Delete the old Showdown and start over? This closes the old online Showdown for both players. Your player identity, registered device, Legacy history and app settings are kept.\",\"danger\")",[]],
-  ["C12","js/productionSharedJourneyEntry.js","entryAskConfirm(\n      \"Start a new Showdown? This will close the current Daniel vs Nik Showdown for both players. Your player identity, registered device, Legacy history, app settings and existing local recovery data will be kept.\",\n      \"danger\"",[]]
+  ["C11b","js/persistentNikDanielPair.js","pairAskConfirm(\"Delete the old Showdown and start over? This closes the old online Showdown for both players. Your player identity, registered device, Legacy history and app settings are kept.\",\"danger\")",[]]
+  // C12 (START A SHOWDOWN "Start a new Showdown? This will close the current ...") is retired in r79: START never offers to close
+  // a live Showdown (owner rule); closing stays in Settings (C9). R2 checks the entry module has no confirm box left.
 ];
 
 check("R1 no native confirm() is left in the app (js/, visual-assets/, index.html)",()=>{
@@ -54,7 +55,7 @@ check("R1 no native confirm() is left in the app (js/, visual-assets/, index.htm
 });
 
 check("R2 the 13 audited confirm sites await the shared box with their exact wording, and only OK counts as consent",()=>{
-  assert.equal(SITES.length,13);
+  assert.equal(SITES.length,12,"13 audited r78 sites minus C12, retired in r79");
   for(const [id,file,call,extra] of SITES){
     const source=read(file);
     assert.ok(source.includes(call),`${id} ${file}: ${call.slice(0,60)}`);
@@ -67,14 +68,14 @@ check("R2 the 13 audited confirm sites await the shared box with their exact wor
   assert.match(read("js/saveLibraryUI.js"),/const confirmed=await saveLibraryUIAskConfirm\([\s\S]*?\);\n\s*if\(confirmed!==true\|\|saveLibraryUIBusy\)return;/);
   assert.match(read("js/saveLibraryUI.js"),/if\(await saveLibraryUIAskConfirm\(action,"primary"\)!==true\|\|saveLibraryUIBusy\)return;/);
   assert.equal((read("js/persistentNikDanielPair.js").match(/const confirmed=await pairAskConfirm\([^;]*;\n[^\n]*\n\s*if\(confirmed!==true\)return false;/g)||[]).length,2,"C11 x2 BH-11: only an explicit yes");
-  assert.match(read("js/productionSharedJourneyEntry.js"),/const confirmed=await entryAskConfirm\([\s\S]*?\);\n[^\n]*\n\s*if\(confirmed!==true\)return false;/);
+  assert.doesNotMatch(read("js/productionSharedJourneyEntry.js"),/entryAskConfirm|askShowdownConfirm|Start a new Showdown\? This will close/,"C12 retired (r79): START never asks to close a live Showdown");
   // C8 keeps its one exception: no confirm box at all (no loader) still locks as before; a Cancel never locks.
   const pstc=read("js/productionSharedTransferChallenge.js");
   assert.match(pstc,/async function pstcConfirmPartialLock\(filled,noun\)\{\n\s*if\(filled>=PSTC_MAX_ROWS\)return true;\n\s*return \(await pstcAskConfirm\([^;]*\)\)!==false;/);
   assert.match(pstc,/if\(!await pstcConfirmPartialLock\(guesses\.length,"guesses"\)\)return false;/);
   assert.match(pstc,/if\(!await pstcConfirmPartialLock\(signings\.length,"signings"\)\)return false;/);
   // each helper prefers the loaded box, loads it on first use, and never treats a load failure as consent
-  for(const [file,name] of [["js/legacy.js","legacyAskConfirm"],["js/showdownUI.js","dashboardAskConfirm"],["js/settings.js","settingsAskConfirm"],["js/restoreUI.js","restoreAskConfirm"],["js/saveLibraryUI.js","saveLibraryUIAskConfirm"],["js/productionSharedTransferChallenge.js","pstcAskConfirm"],["js/persistentNikDanielPair.js","pairAskConfirm"],["js/productionSharedJourneyEntry.js","entryAskConfirm"],["js/ssjrPhysicalJourneyAcceptance.js","ssjrAskConfirm"]]){
+  for(const [file,name] of [["js/legacy.js","legacyAskConfirm"],["js/showdownUI.js","dashboardAskConfirm"],["js/settings.js","settingsAskConfirm"],["js/restoreUI.js","restoreAskConfirm"],["js/saveLibraryUI.js","saveLibraryUIAskConfirm"],["js/productionSharedTransferChallenge.js","pstcAskConfirm"],["js/persistentNikDanielPair.js","pairAskConfirm"],["js/ssjrPhysicalJourneyAcceptance.js","ssjrAskConfirm"]]){
     const source=read(file);
     assert.match(source,new RegExp(`function ${name}\\(message,tone\\)\\{return typeof (?:window|root)\\.askShowdownConfirm==="function"\\?[^\\n]*loadRuntimeScript\\("showdown-confirm","js/showdownConfirm\\.js"[^\\n]*,\\(\\)=>false\\):Promise\\.resolve\\(undefined\\);\\}`),`${file} ${name}`);
   }
@@ -327,7 +328,7 @@ async function auditViewport(browser,base,options){
     await auditViewport(browser,base,{viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true});
     await auditViewport(browser,base,{viewport:{width:1280,height:800}});
     passed+=1;console.log(`ok ${passed} R5 the real RESET ALL SHOWDOWN DATA confirm works by keyboard and pointer at 390x844 and 1280x800`);
-    console.log(`PASS r78 marble confirm contracts: ${passed} checks (no native confirm() left; 13 call sites keep their words; one keyboard-accessible marble box).`);
+    console.log(`PASS r78 marble confirm contracts: ${passed} checks (no native confirm() left; 12 call sites keep their words; one keyboard-accessible marble box).`);
   }finally{
     if(browser)await browser.close();
     server.kill();

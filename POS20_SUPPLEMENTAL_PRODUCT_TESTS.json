@@ -1727,6 +1727,22 @@
         "^tests/contracts/r78\\-marble\\-confirm\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/which-showdown-is-live-contracts.cjs",
+      "patterns": [
+        "^js/whichShowdownIsLive\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/connectPlayersScreenV10\\.js$",
+        "^js/showdownUI\\.js$",
+        "^js/screens\\.js$",
+        "^service\\-worker\\.js$",
+        "^index\\.html$",
+        "^tests/contracts/which\\-showdown\\-is\\-live\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
