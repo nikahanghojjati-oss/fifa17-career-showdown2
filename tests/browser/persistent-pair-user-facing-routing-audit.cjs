@@ -207,6 +207,9 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     assert.equal(await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER RECOVERY NEEDED"}).count(),0,"Successful stale-role reconciliation must not dead-end into recovery or unavailable controls.");
     await page.evaluate(async()=>{window.__pairProviderMode="unpaired";window.__routeManagerId="daniel";window.__identitySyncTransientFailures=0;await window.CareerModePersistentNikDanielPair.initialize({force:true});});
 
+    // Codex #904: real vs test now fails closed, so this audit's Daniel says what he is: a test account (no career
+    // start marker). The fake provider here cannot answer the marker read, which would rightly refuse CREATE CODE.
+    await page.evaluate(()=>{const real=window.CareerModeCareerStartMarker;window.CareerModeCareerStartMarker=Object.freeze({...(real||{}),readCurrentMarker:async()=>({status:"none"})});});
     // Daniel CREATE CODE must transition the real panel into a complete waiting state with all recovery controls.
     await page.locator("#persistentNikDanielPairPanel button",{hasText:"CREATE CODE FOR NIK"}).click();
     await page.locator("#persistentNikDanielPairPanel",{hasText:"WAITING FOR THE OTHER PLAYER"}).waitFor({state:"visible",timeout:5000});
