@@ -88,7 +88,7 @@ function terminalSandbox(){
   sandbox.CareerModeSparkRemoteJoining={getState:()=>({sessionState:"active",sessionId:S,expiresAtEpochMs:Date.now()+3_600_000,rivalryId:R,accountId:U,deviceId:D,role:"guest",pendingAction:null}),forgetSession:()=>{env.forgot+=1;}};
   vm.createContext(sandbox);
   vm.runInContext(read("js/productionSharedTerminalClose.js"),sandbox,{filename:"productionSharedTerminalClose.js"});
-  return {api:sandbox.CareerModeProductionSharedTerminalClose,env,reports,events,removed};
+  return {api:sandbox.CareerModeProductionSharedTerminalClose,env,reports,events,removed,sandbox};
 }
 async function terminalContracts(){
   {
@@ -119,6 +119,21 @@ async function terminalContracts(){
     assert.equal(reports.length,1,"an invalid (forged) witness is still reported");
     assert.match(String(reports[0].error&&reports[0].error.code),/TERMINAL_CLOSE_INTENT_INVALID/);
     ok("T3 an invalid terminal witness is still reported exactly as before");
+  }
+  {
+    // CI (L6 on #923): after DELETE and Nik's next JOIN, the rivalry was already the new Showdown while the old request was still current.
+    const OTHER="pair_"+"e".repeat(64);
+    const t=terminalSandbox();
+    const rivalry=t.sandbox.CareerModeSparkConnectedRivalry;rivalry.getState=()=>({initialized:true,attached:true,rivalryId:OTHER,accountId:U,deviceId:D,binding:{saveId:SAVE,managerRole:"playerTwo",profileId:P2}});
+    const state=await t.api.refresh();
+    assert.equal(state,null,"no Terminal Close for a Showdown this page has moved on from");
+    assert.equal(t.reports.length,0,`no red error notice (${t.reports.map(r=>r.error&&r.error.message).join(",")})`);
+    assert.equal(t.env.readCalls,0,"no read for it either");
+    rivalry.getState=()=>({initialized:true,attached:false,rivalryId:null});
+    await t.api.refresh();
+    assert.equal(t.reports.length,1,"no rivalry attached at all is still reported as before");
+    assert.match(String(t.reports[0].error&&t.reports[0].error.code),/TERMINAL_CLOSE_RIVALRY_REQUIRED/);
+    ok("T4 the rivalry already on the next Showdown (delete, then JOIN) is not reported as a Terminal Close failure; no rivalry at all still is");
   }
 }
 
