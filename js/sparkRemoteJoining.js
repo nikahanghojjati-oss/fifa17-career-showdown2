@@ -363,7 +363,7 @@
     if(!result||result.ok!==true||result.expiredByClock||!Number.isFinite(result.expiresAtEpochMs)||result.expiresAtEpochMs<=Date.now())return null;
     if(result.state==="active"){srjAcceptResult(result,context,role,"Connected to your Showdown again.");return {ok:true,kind:"resumed"};}
     if(result.state!=="open")return null;
-    if(role==="host"){srjAcceptResult(result,context,"host",`Waiting for ${srjRivalName()==="NIK"?"Nik":"Daniel"} to open the game.`);srjSetState({auto:"waiting"});srjWatchForJoin(sessionId);return {ok:true,kind:"hosting"};}
+    if(role==="host"){srjOfferConfirmed=sessionId;srjAcceptResult(result,context,"host",`Waiting for ${srjRivalName()==="NIK"?"Nik":"Daniel"} to open the game.`);srjSetState({auto:"waiting"});srjWatchForJoin(sessionId);return {ok:true,kind:"hosting"};}
     if(!joinOpen)return null;
     const joined=await srjStartJoin(sessionId);
     return joined&&joined.ok===true?{ok:true,kind:"joined"}:null;
@@ -391,7 +391,31 @@
   // open but the pointer write fails, "send Nik this session code" was a dead end: Nik's phone only ever reads the pointer.
   // Daniel keeps waiting and this page publishes the pointer again (3 s, doubling to once a minute, visible tab only, 10 min
   // like Nik's own wait, sooner when the browser comes back online) until it lands or the session stops waiting for a join.
+  // Codex #920: each try first reads the pointer. It already naming this session ends the retry with no write (a write whose
+  // answer was lost); naming another session that is still open or active ends it too, because a newer screen of Daniel's
+  // owns the game and Nik must not be sent back to this one; a stale or missing pointer is replaced only if it is still the
+  // one just read. Reopening the player panel restarts a retry that gave up.
+  let srjOfferConfirmed=null;
   function srjStopPublishRetry(){if(srjPublishTimer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(srjPublishTimer);srjPublishTimer=null;srjPublishRetry=null;}
+  async function srjPublishIfStillOurs(context,sessionId){
+    const path=`rivalries/${context.rivalryId}/sessionOffers/current`,sdk=context.services.firestoreSdk;
+    root.CareerModeFirestoreBudget?.wantFresh?.(path);
+    const seen=await sdk.runTransaction(context.services.firestore,async transaction=>{const snapshot=await transaction.get(srjOfferRef(context));const data=snapshot&&snapshot.exists()?snapshot.data():null;return data&&typeof data.sessionId==="string"?{sessionId:data.sessionId,expiresAtEpochMs:data.expiresAt&&typeof data.expiresAt.toMillis==="function"?data.expiresAt.toMillis():0}:null;});
+    if(seen&&seen.sessionId===sessionId)return "ours";
+    if(seen&&seen.expiresAtEpochMs>Date.now()){
+      const other=await context.protocol.readSession(srjOperationOptions(context,seen.sessionId));
+      if(!other||other.ok!==true&&srjIsAmbiguousFailure(other))return "retry";
+      if(other.ok===true&&["open","active"].includes(other.state)&&!other.expiredByClock&&Number(other.expiresAtEpochMs)>Date.now())return "taken";
+    }
+    if(!srjHostWaitingForJoin(sessionId)||!srjPendingContextMatches(context)||srjState.role!=="host")return "stop";
+    const value={schemaVersion:1,sessionId,hostAccountId:context.accountId,expiresAt:sdk.Timestamp.fromMillis(srjState.expiresAtEpochMs),updatedAt:sdk.serverTimestamp()};
+    root.CareerModeFirestoreBudget?.wantFresh?.(path);
+    return sdk.runTransaction(context.services.firestore,async transaction=>{
+      const snapshot=await transaction.get(srjOfferRef(context));const data=snapshot&&snapshot.exists()?snapshot.data():null;
+      if((data&&typeof data.sessionId==="string"?data.sessionId:null)!==(seen?seen.sessionId:null))return "retry";  // the pointer moved since it was read
+      transaction.set(srjOfferRef(context),value);return "written";
+    });
+  }
   function srjRetryOfferPublish(sessionId,startedAt=Date.now(),attempt=0){
     srjStopPublishRetry();
     if(typeof root.setTimeout!=="function")return false;
@@ -400,12 +424,16 @@
       if(srjPublishTimer!==timer)return;
       srjPublishTimer=null;
       if(!srjHostWaitingForJoin(sessionId)){srjPublishRetry=null;return;}
-      if(Date.now()-startedAt>SRJ_OFFER_POLL_LIMIT_MS){srjPublishRetry=null;srjSetState({message:"Nik's phone could not be reached. Check your connection, then open Career Mode Showdown again."});return;}
+      if(Date.now()-startedAt>SRJ_OFFER_POLL_LIMIT_MS){srjPublishRetry=null;srjSetState({message:"Nik's phone could not be reached. Check your connection, then open the game again."});return;}
       if(!srjState.busy&&(!root.document||root.document.visibilityState!=="hidden")){
         try{
           const context=await srjResolveContext();
           if(srjPublishTimer!==null)return;  // the browser came back online meanwhile and restarted the retry
-          if(srjHostWaitingForJoin(sessionId)&&srjPendingContextMatches(context)&&await srjWriteOffer(context)){srjPublishRetry=null;return;}
+          if(!srjPendingContextMatches(context)){srjPublishRetry=null;return;}  // another account or Showdown now: not ours to publish
+          const outcome=await srjPublishIfStillOurs(context,sessionId);
+          if(outcome==="ours"||outcome==="written"){srjOfferConfirmed=sessionId;srjPublishRetry=null;return;}
+          if(outcome==="taken"){srjPublishRetry=null;if(srjHostWaitingForJoin(sessionId))srjSetState({message:"Your game is open on another screen. Carry on there."});return;}
+          if(outcome==="stop"){srjPublishRetry=null;return;}
         }catch(_error){}
       }
       if(srjPublishTimer===null&&srjPublishRetry&&srjPublishRetry.sessionId===sessionId)srjRetryOfferPublish(sessionId,startedAt,attempt+1);
@@ -417,7 +445,11 @@
     if(srjState.busy||srjState.pendingAction||srjReplaceAction)return {ok:false,code:"REMOTE_JOINING_BUSY",message:"A private-session operation is already in progress."};
     let context;
     try{context=await srjResolveContext();}catch(error){srjSetState({auto:null});return {ok:false,code:error&&error.code||"REMOTE_JOINING_CONTEXT_UNAVAILABLE",message:error&&error.message||"Player connection is unavailable."};}
-    if(srjHasNonterminalSession()&&srjPendingContextMatches(context)){if(srjState.sessionState==="active")srjSetState({auto:null});return {ok:true,kind:"held"};}
+    if(srjHasNonterminalSession()&&srjPendingContextMatches(context)){
+      if(srjState.sessionState==="active")srjSetState({auto:null});
+      else if(srjHostWaitingForJoin(srjState.sessionId)&&srjOfferConfirmed!==srjState.sessionId&&!srjPublishRetry&&srjPermanentlyPaired()){srjSetState({auto:"waiting",message:"Waiting for Nik to open the game."});srjRetryOfferPublish(srjState.sessionId);return {ok:true,kind:"held-publishing"};}
+      return {ok:true,kind:"held"};
+    }
     srjSetState({auto:"connecting",message:"Connecting to your Showdown…"});
     const offer=await srjReadOffer(context);
     if(offer&&offer.expiresAtEpochMs>Date.now()+SRJ_OFFER_MIN_LIFE_MS){
@@ -429,6 +461,7 @@
       const hosted=await srjStartHost();
       if(hosted&&hosted.ok===true&&srjState.role==="host"&&srjState.sessionId){
         const published=await srjWriteOffer(context);
+        if(published)srjOfferConfirmed=srjState.sessionId;
         if(published||srjPermanentlyPaired()){
           srjSetState({auto:"waiting",message:"Waiting for Nik to open the game."});
           if(!published)srjRetryOfferPublish(srjState.sessionId);

@@ -789,14 +789,14 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     setupScreen.stop();
   });
 
-  await check("FB15","Codex #904 release review: a paired Daniel whose session pointer write fails keeps WAITING and publishes it again (3 s doubling to 60 s, visible tab only, sooner back online, 10 min) so Nik still joins; an unpaired Daniel keeps the session-code fallback",async()=>{
+  await check("FB15","Codex #904 release review: a paired Daniel whose session pointer write fails keeps WAITING and publishes it again (3 s doubling to 60 s, visible tab only, sooner back online, 10 min) so Nik still joins; an unpaired Daniel keeps the session-code fallback. Codex #920: never over a newer live session, no rewrite after a lost answer, and reopening the panel restarts a retry that gave up",async()=>{
     const RIVAL="pair_"+"a".repeat(64),OFFER=`rivalries/${RIVAL}/sessionOffers/current`,SESSION_ID="session_"+"d".repeat(64),DEVICE="device_"+"e".repeat(32);
     // Remote Joining as Daniel (the host) on the budget layer; writes of the pointer fail `fail` times, then land.
-    const daniel=({paired,fail})=>{
+    const daniel=({paired,fail,lost=0})=>{
       const world=createWorld();seed(world);
-      let failures=fail;const offerWrites=[];
+      let failures=fail,lostAnswers=lost;const offerWrites=[];const sessions={[SESSION_ID]:"open"};
       const rawSdk={...world.sdk,Timestamp:{fromMillis:ms=>({epochMs:ms})},serverTimestamp:()=>({serverTimestamp:true}),
-        runTransaction:(db,fn)=>world.sdk.runTransaction(db,tx=>fn({...tx,set:(ref,data)=>{if(ref.path===OFFER){offerWrites.push(world.clock.now);if(failures>0){failures-=1;throw Object.assign(new Error("Failed to get document because the client is offline."),{code:"unavailable"});}}tx.set(ref,data);}}))};
+        runTransaction:(db,fn)=>world.sdk.runTransaction(db,tx=>fn({...tx,get:async ref=>{const snapshot=await tx.get(ref);return {...snapshot,data:()=>{const data=snapshot.data();return data&&Object.fromEntries(Object.entries(data).map(([key,value])=>[key,value&&typeof value==="object"&&Number.isFinite(value.epochMs)?{toMillis:()=>value.epochMs}:value]));}};},set:(ref,data)=>{if(ref.path===OFFER){offerWrites.push(world.clock.now);if(failures>0){failures-=1;throw Object.assign(new Error("Failed to get document because the client is offline."),{code:"unavailable"});}}tx.set(ref,data);}})).then(value=>{if(lostAnswers>0&&offerWrites.length&&world.server.get(OFFER)){lostAnswers-=1;throw Object.assign(new Error("Deadline exceeded."),{code:"deadline-exceeded"});}return value;})};
       const rawServices={ok:true,firestore:world.db,firestoreSdk:rawSdk,auth:{currentUser:{uid:"daniel"}}};
       Object.assign(world.sandbox,{
         CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>rawServices},
@@ -809,11 +809,11 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
         CareerModeSparkStandardAuthPrivateSession:{
           normalizeSessionId:value=>value,generateSessionId:()=>SESSION_ID,
           openSession:async options=>({ok:true,sessionId:options.sessionId,state:"open",revision:0,expiresAtEpochMs:world.clock.now+4*3600000}),
-          readSession:async options=>({ok:true,sessionId:options.sessionId,state:"open",revision:0,expiresAtEpochMs:world.clock.now+4*3600000})
+          readSession:async options=>({ok:true,sessionId:options.sessionId,state:sessions[options.sessionId]||"closed",revision:0,expiresAtEpochMs:world.clock.now+4*3600000})
         }
       });
       vm.runInContext(fs.readFileSync(path.join(ROOT,"js/sparkRemoteJoining.js"),"utf8"),world.sandbox,{filename:"sparkRemoteJoining.js"});
-      return {world,remote:world.sandbox.CareerModeSparkRemoteJoining,offerWrites,online:()=>{for(const fn of world.sandbox.windowListeners.online||[])fn();}};
+      return {world,remote:world.sandbox.CareerModeSparkRemoteJoining,offerWrites,sessions,online:()=>{for(const fn of world.sandbox.windowListeners.online||[])fn();}};
     };
     const published=world=>world.server.get(OFFER)?.data?.sessionId===SESSION_ID;
 
@@ -836,7 +836,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
       assert.ok(offerWrites.length<=15,`${offerWrites.length} pointer writes in 11 min`);
       const count=offerWrites.length;await world.advance(30*60000);assert.equal(offerWrites.length,count,"the retry stops after 10 min");
       assert.equal(remote.getState().auto,"waiting");
-      assert.match(remote.getState().message,/could not be reached[\s\S]*open Career Mode Showdown again/);}
+      assert.match(remote.getState().message,/could not be reached[\s\S]*open the game again/);}
 
     // C: a hidden tab writes nothing; back on screen the retry continues.
     {const {world,remote,offerWrites}=daniel({paired:true,fail:1});
@@ -858,6 +858,40 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
       assert.equal(result.kind,"hosted-manual");
       assert.equal(remote.getState().auto,null);assert.match(remote.getState().message,/Send Nik this session code/);
       await world.advance(5*60000);assert.equal(offerWrites.length,1,"no retry: the session code is the way in");}
+
+    // F (Codex #920): after the 10 min give-up, reopening the player panel (autoConnect on the held session) starts again.
+    {const {world,remote,offerWrites}=daniel({paired:true,fail:15});
+      await remote.autoConnect();await world.advance(11*60000);
+      assert.match(remote.getState().message,/could not be reached/);const before=offerWrites.length;
+      const again=await remote.autoConnect();
+      assert.equal(again.kind,"held-publishing","the held session publishes again instead of staying stuck");
+      assert.equal(remote.getState().auto,"waiting");assert.doesNotMatch(remote.getState().message,/could not be reached/);
+      await world.advance(10*60000);assert.ok(offerWrites.length>before);assert.equal(published(world),true,"it lands once the connection is back");
+      const landed=offerWrites.length;assert.equal((await remote.autoConnect()).kind,"held","once it has landed, reopening costs nothing");
+      await world.advance(5*60000);assert.equal(offerWrites.length,landed);}
+
+    // G (Codex #920): a newer screen of Daniel's published live session B meanwhile: the retry for A never writes over it.
+    {const {world,remote,offerWrites,sessions}=daniel({paired:true,fail:1});
+      await remote.autoConnect();
+      const B="session_"+"f".repeat(64);sessions[B]="open";
+      world.serverWrite(OFFER,{schemaVersion:1,sessionId:B,hostAccountId:"daniel",expiresAt:{epochMs:world.clock.now+4*3600000}});
+      await world.advance(20*60000);
+      assert.equal(world.server.get(OFFER).data.sessionId,B,"Nik is still sent to the newer session");
+      assert.equal(offerWrites.length,1,"no write after the first failure");
+      assert.match(remote.getState().message,/open on another screen/);}
+
+    // H: a stale pointer (an old session that has ended) is replaced.
+    {const {world,offerWrites,remote}=daniel({paired:true,fail:1});
+      const OLD="session_"+"0".repeat(64);  // not open: readSession answers closed
+      world.serverWrite(OFFER,{schemaVersion:1,sessionId:OLD,hostAccountId:"daniel",expiresAt:{epochMs:world.clock.now+4*3600000}});
+      await remote.autoConnect();await world.advance(3000);
+      assert.equal(offerWrites.length,2);assert.equal(published(world),true,"the ended session's pointer is replaced");}
+
+    // I: the write landed but its answer was lost: the next try reads the pointer, sees this session and writes nothing.
+    {const {world,remote,offerWrites}=daniel({paired:true,fail:0,lost:1});
+      const result=await remote.autoConnect();
+      assert.equal(result.kind,"hosted-publishing");assert.equal(published(world),true);
+      await world.advance(10*60000);assert.equal(offerWrites.length,1,"no second write");}
   });
 
   console.log(`PASS Firestore budget contracts: ${results.length} checks, measured reads/min ${measured.join(" / ")} (waiting <= ${BUDGET.waitingVisibleReadsPerMinute} reads/min, hidden ${BUDGET.hiddenReadsPerMinute}, idle writes 0, partner update <= ${BUDGET.partnerUpdateMs} ms).`);
