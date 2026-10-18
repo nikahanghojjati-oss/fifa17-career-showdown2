@@ -918,6 +918,8 @@ async function r5r6EntryContracts(){
     assert.doesNotMatch(prep,/syncPair|initialize\(|readJoinNote|readPartnerRecord|getDoc|runTransaction|setInterval/,"files only: no Firestore read, no polling");
     const layer=read("js/connectPlayersScreenV10.js");
     assert.ok(layer.includes("if(urls.every(url=>decodedPlates.has(url)))return Promise.resolve(true);"),"a plate already decoded answers at once");
+    assert.ok(layer.includes("img.decode().then(()=>true,()=>false)")&&layer.includes(".then(ok=>{if(ok)decodedPlates.add(url);return ok;})"),"Codex #911: only a plate that loaded and decoded is remembered; a failed one is tried again");
+    assert.doesNotMatch(layer,/urls\.forEach\(url=>decodedPlates\.add\(url\)\)/,"Codex #911: a failed decode is never cached as ready");
     assert.ok(layer.includes("return Object.freeze({open,close,prepare:prepareConnectPlayers});"),"the layer exposes prepare()");}
   ok("Codex #904 P1 Entry: on a cold cache START makes WAITING ready before routing to the locked wheel, so the bare wheel never paints");
   {
