@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 18 Oct, 1:53 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 18 Oct, 1:58 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.3-r79** (main `9b8190f`, Sun 18 Oct 1:17 PM)
 
@@ -1720,7 +1720,17 @@ Type this in Codex cloud:
 Job 1826
 ```
 
-**#164 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
+**#164 · 1827** `G` 1826 follow-up: prove that partner changes outside the watched document still arrive while waiting  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1827'
+
+Type this in Codex cloud:
+
+```text
+Job 1827
+```
+
+**#165 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1829'
 
@@ -1730,7 +1740,7 @@ Type this in Codex cloud:
 Job 1829
 ```
 
-**#165 · 1832** `G` Waiting fixes on PR #861: clock expiry, poll window, first-snapshot reads  
+**#166 · 1832** `G` Waiting fixes on PR #861: clock expiry, poll window, first-snapshot reads  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1832'
 
@@ -1740,7 +1750,7 @@ Type this in Codex cloud:
 Job 1832
 ```
 
-**#166 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
+**#167 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1833'
 
@@ -1750,7 +1760,7 @@ Type this in Codex cloud:
 Job 1833
 ```
 
-**#167 · 1840** `G` Clean start: "real career starts here" marker  
+**#168 · 1840** `G` Clean start: "real career starts here" marker  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1840'
 
@@ -1760,7 +1770,7 @@ Type this in Codex cloud:
 Job 1840
 ```
 
-**#168 · 1841** `G` Old games still open: a release check for saved Showdowns  
+**#169 · 1841** `G` Old games still open: a release check for saved Showdowns  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1841'
 
@@ -1770,7 +1780,7 @@ Type this in Codex cloud:
 Job 1841
 ```
 
-**#169 · 1843** `G` Codex auto-start pilot: one CE2PG 1-season run on the r76b workbench  
+**#170 · 1843** `G` Codex auto-start pilot: one CE2PG 1-season run on the r76b workbench  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1843'
 
@@ -1780,7 +1790,7 @@ Type this in Codex cloud:
 Job 1843
 ```
 
-**#170 · 1844** `G` r78 small fixes: the Career tab goes to the game, and no DELETE copy on Showdown Home  
+**#171 · 1844** `G` r78 small fixes: the Career tab goes to the game, and no DELETE copy on Showdown Home  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1844'
 
@@ -1790,7 +1800,7 @@ Type this in Codex cloud:
 Job 1844
 ```
 
-**#171 · 1845** `G` No-dimming audit (HO-027), report only  
+**#172 · 1845** `G` No-dimming audit (HO-027), report only  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1845'
 
@@ -1895,8 +1905,8 @@ Job 1845
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`███░░░░░░░` **28.6689 %**  
-Numbered jobs: 56 done, 209 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`███░░░░░░░` **28.5714 %**  
+Numbered jobs: 56 done, 210 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████████░` **85.2941 %**  
@@ -2032,7 +2042,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #926](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/926) | Re-pin the composed Rules safety check to r79 main | ⏳ 3 passed, 4 running |
+| 🟧 Team G lead | [PR #926](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/926) | Re-pin the composed Rules safety check to r79 main | 🟢 8 passed |
 
 **Up next**
 
