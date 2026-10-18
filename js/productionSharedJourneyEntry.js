@@ -75,6 +75,14 @@
     if(typeof root.ensureGameplayModules!=="function")throw new Error("Gameplay runtime is unavailable.");
     await root.ensureGameplayModules();
   }
+  // r79: the pair names the Showdown it last saw CLOSED (finished, or deleted on Daniel's phone) and that Showdown's save.
+  function activeSaveIsClosedShowdown(runtime){
+    try{
+      const pair=root.CareerModePersistentNikDanielPair?.getState?.(),closed=pair&&pair.closedProviderSaveId;
+      if(!pair||pair.rivalryId||!/^pair_[0-9a-f]{64}$/.test(String(pair.closedRivalryId||""))||typeof closed!=="string"||!/^save_[0-9a-f]{24}$/.test(closed))return false;
+      return runtime.getLibrarySnapshot?.()?.activeSaveId===closed;
+    }catch(_error){return false;}
+  }
   async function provisionJoinerShell(totalRounds){
     const rounds=Number(totalRounds);
     if(![1,3,5,10].includes(rounds))throw new Error("Daniel's connection code does not contain a valid season length.");
@@ -97,7 +105,9 @@
       applyLocalDrawLock();
       return true;
     }
-    if(existing){
+    // r79: the save of a Showdown that is already closed (the pair names it: finished, or deleted on Daniel's phone) never blocks
+    // Nik's next JOIN. The new shell is made beside it, exactly as Daniel's next START does; that save is kept, never rewritten.
+    if(existing&&!activeSaveIsClosedShowdown(runtime)){
       throw new Error("This phone already has a different current Showdown. Delete it in Settings (DELETE CURRENT SHOWDOWN), then paste Daniel's code again.");
     }
 

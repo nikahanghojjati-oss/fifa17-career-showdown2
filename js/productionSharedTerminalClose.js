@@ -146,6 +146,7 @@
     // QoL 3+6: the Showdown has ended, so no unsent season result or guess draft for this rivalry stays on this device.
     // Swept here through the generic js/storage.js remove helper (a Showdown has at most 10 seasons) so the startup budget stays put.
     if(state.phase==="CLOSED")ptcClearDrafts(state.rivalryId||request.rivalryId);
+    if(state.phase==="DELETED")ptcClearDrafts(state.rivalryId||request.rivalryId);
     try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-terminal-close-state-change",{detail:{phase:state.phase,rivalryId:state.rivalryId||request.rivalryId,terminal:state.phase==="CLOSED"}}));}catch(_error){}
     return state;
   }
@@ -155,6 +156,8 @@
   function ptcBootstrap(){return ptcEnsureDependencies().then(()=>{if(!unsubscribeRemote&&typeof remoteApi?.subscribe==="function")unsubscribeRemote=remoteApi.subscribe(()=>ptcWake());});}
   async function ptcRefreshNow(){
     const request=ptcRequest();if(!request)return ptcClear();
+    // r79: a Showdown deleted by the other manager stays deleted (a closed rivalry never reopens): no further read for it.
+    const deleted=ptcCurrentState();if(deleted?.phase==="DELETED")return deleted;
     await ptcBootstrap();const context=await ptcResolveContext(request);if(ptcRequest()?.key!==request.key)return null;
     const terminalRead=await provider.read({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:request.rivalryId,deviceId:context.deviceId,cryptoImpl:root.crypto});
     if(ptcRequest()?.key!==request.key)return null;
@@ -166,6 +169,10 @@
       return held;
     }
     if(terminalRead?.ok===true&&terminalRead.terminal===true){try{remoteApi?.forgetSession?.();}catch(_error){}return ptcPublish(request,ptcClosedState(request,terminalRead));}
+    // r79: DELETE CURRENT SHOWDOWN on the other phone closed this rivalry without a terminal witness. This same read (no extra one)
+    // says so; this page then lets the dead Showdown go like the CLOSE path does (session forgotten, drafts swept) and announces
+    // DELETED, so the pair holds the rivalry as closed and the next JOIN is not blocked by the deleted Showdown.
+    if(terminalRead?.ok===true&&terminalRead.deleted===true&&terminalRead.rivalryState==="closed"){try{remoteApi?.forgetSession?.();}catch(_error){}return ptcPublish(request,{phase:"DELETED",rivalryId:request.rivalryId,rivalryRevision:terminalRead.rivalryRevision,terminal:false,deleted:true,canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});}
     if(!terminalRead||terminalRead.ok!==true)ptcFail(terminalRead?.code||"TERMINAL_CLOSE_READ_FAILED",terminalRead?.message||"Terminal state could not be verified.");
     let final=finalApi.getState();if(!final||final.phase!=="FINAL_SEASON_RECONCILED"||final.rivalryId!==request.rivalryId)final=await finalApi.refresh();
     if(ptcRequest()?.key!==request.key)return null;
@@ -202,7 +209,7 @@
   async function ptcReportUnlessClosed(context,error){
     if(ptcSessionRecoveryOwnsFailure())return false;
     // Active-journey refreshers lose read access once the rivalry closes; a verified CLOSED state makes their failure expected, anything else is still reported.
-    try{let current=ptcCurrentState();if(current?.phase!=="CLOSED"&&ptcRequest())current=await ptcRefresh();if(current&&current.phase==="CLOSED")return false;}catch(_error){}
+    try{let current=ptcCurrentState();if(current?.phase!=="CLOSED"&&ptcRequest())current=await ptcRefresh();if(current&&current.phase==="CLOSED")return false;if(current&&current.phase==="DELETED")return false;}catch(_error){}
     ptcReport(context,error);return true;
   }
   function ptcCloseOptions(context,intent){return {user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:context.request.rivalryId,sessionId:intent.sessionId,deviceId:context.deviceId,intent,nowEpochMs:Date.now(),cryptoImpl:root.crypto};}
