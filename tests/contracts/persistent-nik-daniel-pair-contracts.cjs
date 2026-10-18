@@ -38,8 +38,8 @@ assert.match(pairSource,/publicDiscovery:false/);
 assert.match(pairSource,/billingRequired:false/);
 assert.match(pairSource,/persistentAcrossRegisteredBrowsers:true/);
 assert.match(pairSource,/pairLinkPersistentAcrossRegisteredBrowsers:true/);
-assert.match(pairSource,/gameplayCacheHydrationAcrossFreshBrowsers:false/);
-assert.match(pairSource,/freshBrowserGameplayRequiresVerifiedLocalRecovery:true/);
+assert.match(pairSource,/gameplayCacheHydrationAcrossFreshBrowsers:true/);
+assert.match(pairSource,/freshBrowserGameplayRequiresVerifiedLocalRecovery:false/);
 assert.match(pairSource,/state\.connectionState==="pending-pair"&&state\.capability/);
 assert.match(pairSource,/pairCopyText\(state\.capability\)/);
 assert.match(pairSource,/state\.connectionState==="pending-pair"&&state\.capability[\s\S]*"NEW CODE"[\s\S]*pairStartPairing\(\{managerRole:state\.managerRole\}\)/,'A pending creator must always have a provider-guarded replacement action so an expired invite cannot strand the account.');
@@ -56,7 +56,11 @@ assert.match(pairSource,/pairExactLocalBindingForProviderSlot/);
 assert.match(pairSource,/async function pairEnsureSaveLibraryAuthority\(\)[\s\S]*loadRuntimeScript\("save-library-cutover","js\/saveLibraryCutover\.js"[\s\S]*ensureSaveLibraryRuntimeAuthority/,'A remembered active pair must lazily activate established Save Library authority before deciding Continue versus Recovery.');
 const initializeFunction=pairSource.slice(pairSource.indexOf('async function pairInitialize'),pairSource.indexOf('function pairSelectedRole'));
 assert.match(initializeFunction,/capability:link\.connectionState==="pending-pair"&&!realUnknown\?[\s\S]*pairBuildPlayerJoinCode\(link\.rivalryId,\{real:pairRealRivalryId===link\.rivalryId\}\)/,'A pending Daniel browser must reconstruct the same season-bearing player code directly from durable rivalry authority after reload, without requiring Save Library activation (r79 PR3: still CMS17R- while it is his first real pairing; Codex #904: no code at all while that cannot be checked).');
-assert.match(initializeFunction,/if\(active\)await pairEnsureSaveLibraryAuthority\(\);[\s\S]*pairHasExactLocalRecoveryCopy/,'Active-pair reload classification must activate local authority before checking the provider-linked Save/Profile copy.');
+assert.match(initializeFunction,/if\(active\)await pairEnsureSaveLibraryAuthority\(\);await pairAdoptOnlineShell\(link\.managerRole,link\.connectionState,link\.rivalryId,link\.providerSaveId,link\.providerProfileId\)\.catch\(\(\)=>false\);const localRecoveryReady=active&&pairHasExactLocalRecoveryCopy/,'Active-pair reload classification must activate local authority and rebuild a missing exact shell (r80) before checking the provider-linked Save/Profile copy, so recovery-required is published only when that rebuild failed.');
+const adoptFunction=pairSource.slice(pairSource.indexOf('async function pairAdoptOnlineShell'),pairSource.indexOf('async function pairDeleteExactPreparedShell'));
+assert.match(adoptFunction,/connectionState!=="active"&&!\(connectionState==="pending-pair"&&normalized==="playerOne"\)\)return false/,'r80: only a live Showdown is rebuilt: ACTIVE, or Daniel\'s own code still pending.');
+assert.match(adoptFunction,/if\(pairHasExactLocalRecoveryCopy\(normalized,saveId,profileId\)\)return true;[\s\S]*runtime\.adoptOnlineEntry\(\{saveId,profileId,role:normalized,totalRounds:pairSeasonFromCapability\(rivalryId\)\}\)/,'r80: an exact shell is reused; a missing one is rebuilt from the pair link ids and the seasons in the rivalry id.');
+assert.doesNotMatch(adoptFunction,/runTransaction|getDoc|setDoc|transaction\.|pairReadPairLink|pairResolveContext/,'r80: the rebuild makes no Firestore read or write.');
 assert.match(initializeFunction,/localManagerId!==link\.managerId&&typeof options\.reconcileIdentity==="function"[\s\S]*await options\.reconcileIdentity\(link\.managerId,link\.managerRole\)[\s\S]*localManagerId=pairCurrentIdentityManagerId\(\)[\s\S]*if\(localManagerId&&localManagerId!==link\.managerId\)/,'Validated durable pair identity must get one bounded chance to reconcile stale browser role state before the existing mismatch guard rejects it.');
 
 assert.match(pairSource,/runtime\.switchActiveSave\(saveId\)/,'Continue Career must activate the exact locally cached Save linked by provider membership instead of using whichever Save is currently active.');
@@ -64,7 +68,8 @@ const exactBindingFunction=pairSource.slice(pairSource.indexOf('async function p
 assert.match(exactBindingFunction,/if\(typeof runtime\.switchActiveSave!=="function"\)return null;await runtime\.switchActiveSave\(saveId\);const library=runtime\.getLibrarySnapshot\(\)/,'Provider-linked Continue must hydrate the canonical Save through runtime authority even when that Save is already active.');
 assert.doesNotMatch(exactBindingFunction,/activeSaveId!==saveId[\s\S]*switchActiveSave/,'Hydration must not be skipped merely because the provider-linked Save is already the active Save Library selection.');
 const continuePairFunction=pairSource.slice(pairSource.indexOf('async function pairContinueOnlineShowdown'),pairSource.indexOf('async function pairOpenRecoverySurface'));
-assert.match(continuePairFunction,/await pairEnsureSaveLibraryAuthority\(\);[\s\S]*pairExactLocalBindingForProviderSlot/,'The persistent-pair panel Continue path must reactivate Save Library authority before deciding whether verified local recovery exists.');
+assert.match(continuePairFunction,/await pairEnsureSaveLibraryAuthority\(\);await pairAdoptOnlineShell\(role,state\.connectionState,state\.rivalryId,state\.providerSaveId,state\.providerProfileId\)\.catch\(\(\)=>false\);const binding=await pairExactLocalBindingForProviderSlot/,'The persistent-pair panel Continue path must reactivate Save Library authority and rebuild a missing exact shell (r80) before deciding whether verified local recovery exists.');
+assert.match(pairSource,/async function pairRetryPairLink[\s\S]*?await pairAdoptOnlineShell\(role,priorConnectionState,state\.rivalryId,providerSaveId,providerProfileId\)\.catch\(\(\)=>false\);let binding=await pairExactLocalBindingForProviderSlot/,'RETRY CONNECTION rebuilds a missing exact shell (r80) before looking for the binding.');
 
 assert.match(pairSource,/binding\.saveId!==saveId\|\|binding\.profileId!==profileId\|\|binding\.managerRole!==normalized/,'Reconnect must reject a role-only local binding that does not match provider Save/Profile identity.');
 assert.match(pairSource,/does not have the verified local recovery copy for this career/,'A browser without the provider-linked local cache must explain verified recovery rather than create divergent identity.');
@@ -115,8 +120,8 @@ assert.deepEqual({...pairApi.parsePlayerJoinCode(`CMS17R-pair_5${'d'.repeat(63)}
 assert.deepEqual({...pairApi.parsePlayerJoinCode(`CMS17-pair_5${'d'.repeat(63)}`)},{rivalryId:`pair_5${'d'.repeat(63)}`,totalRounds:5,legacy:false,real:false});
 assert.equal(pairApi.legacyPairMigration,false);
 assert.equal(pairApi.pairLinkPersistentAcrossRegisteredBrowsers,true);
-assert.equal(pairApi.gameplayCacheHydrationAcrossFreshBrowsers,false);
-assert.equal(pairApi.freshBrowserGameplayRequiresVerifiedLocalRecovery,true);
+assert.equal(pairApi.gameplayCacheHydrationAcrossFreshBrowsers,true);
+assert.equal(pairApi.freshBrowserGameplayRequiresVerifiedLocalRecovery,false);
 assert.equal(typeof pairApi.retryPairLink,'function');
 assert.equal(typeof pairApi.abandonCurrentShowdown,'function');
 assert.equal(typeof pairApi.startOver,'function');
@@ -311,4 +316,4 @@ assert.match(generated,/allow list, delete: if false/);
 assert.match(generated,/match \/sharedSetup\/authoritative/);
 assert.match(generated,/function ssjrTerminalValidAtomicSessionClose\(rivalryId, sessionId\)/);
 
-console.log('PASS fresh single-Showdown product: Daniel is Player One, Nik is Player Two, noncanonical historical mappings are rejected, no legacy pair migration exists, one-use pairing partial commits retain a deterministic retry path without refresh loss, active careers cannot redeem or create a second pair, provider membership selects the exact cached Save/Profile on reconnect, missing fresh-browser gameplay cache fails closed into verified recovery instead of divergent setup, explicit start-over closes only the exact remembered provider Showdown before local deletion, closed test Showdowns become safely replaceable while active careers remain protected, Forget Device clears browser identity, a provider-closed Showdown permits the same Google account to choose the other canonical manager on the next Showdown while active or pending authority remains protected, Connect Players reuses the same bounded stale-role reconciliation sidecar as Continue Career, and provider authority remains private and zero-billing.');
+console.log('PASS fresh single-Showdown product: Daniel is Player One, Nik is Player Two, noncanonical historical mappings are rejected, no legacy pair migration exists, one-use pairing partial commits retain a deterministic retry path without refresh loss, active careers cannot redeem or create a second pair, provider membership selects the exact cached Save/Profile on reconnect, a fresh browser rebuilds the exact shell of the live Showdown from the pair link (recovery only when that rebuild fails, never divergent setup), explicit start-over closes only the exact remembered provider Showdown before local deletion, closed test Showdowns become safely replaceable while active careers remain protected, Forget Device clears browser identity, a provider-closed Showdown permits the same Google account to choose the other canonical manager on the next Showdown while active or pending authority remains protected, Connect Players reuses the same bounded stale-role reconciliation sidecar as Continue Career, and provider authority remains private and zero-billing.');

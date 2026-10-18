@@ -9,6 +9,10 @@
 //   P4  Nik goes offline during guess entry (Daniel locks his guesses meanwhile), comes back online and continues.
 //   P5  Nik reloads mid-Showdown (Season Results, Daniel already published): same Showdown and session, Home never shows;
 //       a landing on the Transfer Challenge replay is tapped through (CONTINUE REPLAY, as in the two-manager journey J9.3).
+//   R80a Daniel opens the game in a fresh browser (same Google account, empty storage) mid-season: the live Showdown's shell is
+//        rebuilt from the pair link, and he continues the same season (same session, same save id) on the live transfer window.
+//   R80b both reload at the same time mid-season (Season Results) and continue.
+//   R80c Nik opens the game in a fresh browser mid-season (Daniel already published) and continues the same season.
 //   P6  the 1-season Showdown finishes: canonical 9-3, the Final Winner screen, automatic close (no CLOSE tap), R1 closed.
 //   P7  history: Career Statistics, Trophy Room and Legacy show the finished Showdown on both devices.
 //   P8  Daniel's next START has no code for Nik to type: Nik's Home shows JOIN DANIEL'S SHOWDOWN by itself; one JOIN tap joins.
@@ -255,6 +259,59 @@ async function reloadMidShowdown(m,{expectSession,expectShowdown,landing,button,
   return {firstScreens,frames:after.length,landed};
 }
 
+// r80: the Transfer Challenge's historical replay after a reload is tapped through (CONTINUE REPLAY, as in the two-manager journey
+// J9.3) until CONTINUE TO SHARED SEASON RESULTS shows; returns the taps.
+async function tapThroughReplayToSeasonResults(m){
+  let replayTaps=0;
+  if(await m.page.locator("#transferChallenge").isVisible().catch(()=>false)){
+    const cont=m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true});
+    for(let i=0;i<12&&!(await cont.isVisible().catch(()=>false));i++){
+      const replay=m.page.locator("#continueFromTransfers");
+      if(await replay.isVisible().catch(()=>false)&&await replay.isEnabled().catch(()=>false)&&!/SEASON RESULTS/.test(await replay.textContent())){await replay.click({timeout:10000}).catch(()=>{});replayTaps+=1;}
+      await m.page.waitForTimeout(700);
+    }
+    await cont.click({timeout:30000});
+    await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
+  }
+  return replayTaps;
+}
+// r80: the player moves to a fresh browser (same Google account, nothing stored): the old context is closed, a new one opens the
+// app, signs in, and taps START / CONTINUE on Home until the live Showdown opens. Nothing is copied between the contexts.
+async function moveToFreshBrowser(browser,managers,retired,old,label,viewport,{expectSession,expectSaveId,screens,button,landing}){
+  retired.push(old);await old.context.close();
+  const m=await openManager(browser,old.user,viewport);managers[managers.indexOf(old)]=m;
+  assert.equal(await m.page.evaluate(()=>{try{return localStorage.length;}catch(_){return -1;}}),0,`${m.user}: the fresh browser starts with empty storage`);
+  // Same Google account: the player was already chosen on the account, so the fresh browser may skip the player choice.
+  await m.page.locator("#newShowdown").click();
+  await m.page.getByRole("button",{name:"SIGN IN WITH GOOGLE"}).click({timeout:30000});
+  const choose=m.page.getByRole("button",{name:new RegExp(`^${label} · PLAYER`,"i")});
+  await m.page.waitForFunction(text=>document.getElementById("onlinePlayerIdentityBadge")?.textContent===text||[...document.querySelectorAll("button")].some(b=>b.offsetParent!==null&&/· PLAYER/i.test(b.textContent||"")),label.toUpperCase(),{timeout:30000});
+  if(await choose.isVisible().catch(()=>false))await choose.click({timeout:30000});
+  await m.page.waitForFunction(text=>document.getElementById("onlinePlayerIdentityBadge")?.textContent===text,label.toUpperCase(),{timeout:30000});
+  await m.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.initialized===true&&s.busy===false&&s.connectionState==="active");},null,{timeout:30000});
+  const pair=await pairState(m);
+  assert.equal(pair.status,"paired",`${m.user}: the fresh browser's pair read is paired (the shell was rebuilt), not ${pair.status}`);
+  const deadline=Date.now()+45000;
+  while(!await m.page.locator(screens).filter({visible:true}).first().isVisible().catch(()=>false)){
+    if(Date.now()>deadline)throw new Error(`${m.user}: the fresh browser never opened the live Showdown: ${await describe(m)}`);
+    if(await m.page.locator("#mainMenu").isVisible().catch(()=>false)&&await m.page.locator("#newShowdown").isEnabled().catch(()=>false))await m.page.locator("#newShowdown").click({timeout:5000}).catch(()=>{});
+    await m.page.waitForTimeout(1000);
+  }
+  await m.page.waitForFunction(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState==="active",null,{timeout:45000});
+  assert.equal(await sessionOf(m),expectSession,`${m.user}: the fresh browser is in the same private session`);
+  const saved=await showdownOf(m);
+  assert.equal(saved&&saved.saveId,expectSaveId,`${m.user}: the fresh browser's active save is the pair link's exact save`);
+  const library=await m.page.evaluate(()=>window.CareerModeSaveLibraryRuntime.getLibrarySnapshot());
+  assert.equal(library.saves.length,1,`${m.user}: exactly one save was rebuilt`);
+  assert.deepEqual(library.saves[0].showdown.sharedJourney,{contractVersion:1,mode:"shared",setupPending:true},`${m.user}: the rebuilt shell carries the shared marker`);
+  if(await m.page.locator("#dashboard").isVisible().catch(()=>false)){
+    await m.page.waitForFunction(re=>new RegExp(re).test(document.getElementById("seasonPrimaryAction")?.textContent||""),button,{timeout:45000});
+    await m.page.locator("#seasonPrimaryAction").click({timeout:30000});
+    await m.page.locator(landing).waitFor({state:"visible",timeout:30000});
+  }
+  return m;
+}
+
 async function assertCareerScreensShowCompletedShowdown(managers,id){
   const read=async(m,hostId,ready)=>{const deadline=Date.now()+20000;let text="";while(Date.now()<deadline){text=await m.page.evaluate(i=>{const h=document.getElementById(i);return h&&!h.classList.contains("hidden")?(h.innerText||"").replace(/\s+/g," ").trim():"";},hostId);if(text&&ready(text))return text;await m.page.waitForTimeout(250);}return text;};
   const bad=/unavailable|could not be read|could not be loaded|failed to|loading your showdown history|loading career history/i;
@@ -295,8 +352,9 @@ async function main(){
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
   const managers=[];
   try{
-    const daniel=await openManager(browser,"daniel",{width:393,height:660});managers.push(daniel);
-    const nik=await openManager(browser,"nik",{width:390,height:844});managers.push(nik);
+    let daniel=await openManager(browser,"daniel",{width:393,height:660});managers.push(daniel);
+    let nik=await openManager(browser,"nik",{width:390,height:844});managers.push(nik);
+    const retired=[];
     for(const m of managers)assert.equal(await m.page.evaluate(()=>window.__cmsEmulatorSwitch?.active===true),true,`${m.user} emulator switch active`);
     await signIn(daniel,"Daniel");await signIn(nik,"Nik");
     const uidD=await accountId(daniel),uidN=await accountId(nik);
@@ -372,6 +430,13 @@ async function main(){
     await waitSharedTransferPhase(daniel,"WINDOW_OPEN");await waitTransferPhase(daniel,"window");
     await daniel.page.locator("#endTransferTimer").waitFor({state:"visible",timeout:30000});
     ok("P3",`Daniel's reload mid-Showdown: same Showdown and session, back on the live transfer window, no Home frame (${reloadD.frames} frames, first: ${reloadD.firstScreens})`);
+    // ---------- R80a Daniel continues the same season in a fresh browser ----------
+    daniel=await moveToFreshBrowser(browser,managers,retired,daniel,"Daniel",{width:393,height:660},{expectSession:session1,expectSaveId:showdownD.saveId,screens:"#dashboard, #transferChallenge",button:"^OPEN SHARED TRANSFER WINDOW$",landing:"#transferChallenge"});
+    await waitSharedTransferPhase(daniel,"WINDOW_OPEN");await waitTransferPhase(daniel,"window");
+    await daniel.page.locator("#endTransferTimer").waitFor({state:"visible",timeout:30000});
+    assert.equal(await nik.page.locator("#transferChallenge").isVisible(),true,"Nik stayed on the live transfer window meanwhile");
+    await shot(daniel,"r80a-fresh-browser");
+    ok("R80a","Daniel opened the game in a fresh browser mid-season (same account, empty storage): the shell was rebuilt from the pair link with the exact save id; same session, back on the live transfer window");
     await daniel.page.locator("#endTransferTimer").click({timeout:30000});
     await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.endRequestedRoles?.includes("playerOne")===true,null,{timeout:30000});
     await nik.page.locator("#endTransferTimer").click({timeout:30000});
@@ -410,6 +475,11 @@ async function main(){
       await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
     }
     ok("P4.2","signings locked privately on both sides; the Transfer Challenge completed and both opened Season Results");
+    // ---------- R80b both reload at the same time mid-season ----------
+    const reloadBoth=await Promise.all([daniel,nik].map(m=>reloadMidShowdown(m,{expectSession:session1,expectShowdown:m===daniel?showdownD:showdownN,landing:"#seasonEntry",button:"^(ENTER SHARED SEASON RESULTS|VIEW MY PUBLISHED RESULT|VIEW SHARED SEASON RESULTS)$"})));
+    const bothReplayTaps=[];for(const m of [daniel,nik])bothReplayTaps.push(await tapThroughReplayToSeasonResults(m));
+    for(const m of [daniel,nik])await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
+    ok("R80b",`both reloaded at the same time mid-season: same Showdown and session each, both back on Season Results, no Home frame (${reloadBoth.map(r=>r.frames).join("/")} frames; replay taps ${bothReplayTaps.join("/")})`);
 
     // ---------- P5 Daniel publishes, Nik reloads mid-Showdown, then publishes ----------
     await fillSeasonResult(daniel,"p1",{leaguePosition:1,leaguePoints:87,leagueGoals:93,domesticCup:false,championsLeague:true,topScorer:true,topAssist:false});
@@ -419,20 +489,17 @@ async function main(){
     const reloadN=await reloadMidShowdown(nik,{expectSession:session1,expectShowdown:showdownN,landing:"#seasonEntry",button:"^(ENTER SHARED SEASON RESULTS|VIEW MY PUBLISHED RESULT|VIEW SHARED SEASON RESULTS)$"});
     // If the reload lands on the Transfer Challenge's historical replay, the player taps through it (CONTINUE REPLAY, as in
     // two-manager-browser-journey.cjs J9.3) until CONTINUE TO SHARED SEASON RESULTS shows; the taps are counted and reported.
-    let replayTaps=0;
-    if(await nik.page.locator("#transferChallenge").isVisible().catch(()=>false)){
-      const cont=nik.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true});
-      for(let i=0;i<12&&!(await cont.isVisible().catch(()=>false));i++){
-        const replay=nik.page.locator("#continueFromTransfers");
-        if(await replay.isVisible().catch(()=>false)&&await replay.isEnabled().catch(()=>false)&&!/SEASON RESULTS/.test(await replay.textContent())){await replay.click({timeout:10000}).catch(()=>{});replayTaps+=1;}
-        await nik.page.waitForTimeout(700);
-      }
-      await cont.click({timeout:30000});
-      await nik.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
-    }
+    const replayTaps=await tapThroughReplayToSeasonResults(nik);
     console.log(`P5 landing after Nik's reload: ${JSON.stringify(reloadN.landed)}; replay taps to get back to Season Results: ${replayTaps}`);
     assert.equal(await nik.page.locator("#seasonReviewOne").isVisible(),false,"Daniel's published result stays private from Nik after the reload");
     ok("P5",`Nik's reload mid-Showdown (Season Results): same Showdown and session, Daniel's result still private, no Home frame (${reloadN.frames} frames, first: ${reloadN.firstScreens})`);
+    // ---------- R80c Nik continues the same season in a fresh browser ----------
+    nik=await moveToFreshBrowser(browser,managers,retired,nik,"Nik",{width:390,height:844},{expectSession:session1,expectSaveId:showdownN.saveId,screens:"#dashboard, #transferChallenge, #seasonEntry",button:"^(ENTER SHARED SEASON RESULTS|VIEW MY PUBLISHED RESULT|VIEW SHARED SEASON RESULTS)$",landing:"#seasonEntry"});
+    const freshReplayTaps=await tapThroughReplayToSeasonResults(nik);
+    await nik.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
+    assert.equal(await nik.page.locator("#seasonReviewOne").isVisible(),false,"Daniel's published result stays private from Nik in the fresh browser");
+    await shot(nik,"r80c-fresh-browser");
+    ok("R80c",`Nik opened the game in a fresh browser mid-season (Daniel already published): shell rebuilt with the exact save id, same session, back on Season Results, Daniel's result still private (replay taps ${freshReplayTaps})`);
     await fillSeasonResult(nik,"p2",{leaguePosition:2,leaguePoints:84,leagueGoals:101,domesticCup:true,championsLeague:false,topScorer:false,topAssist:true});
     await publishSeasonResult(nik);
     for(const m of [daniel,nik])await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS PUBLISHED",null,{timeout:45000});
@@ -528,7 +595,7 @@ async function main(){
     await shot(daniel,"p9-new-game");await shot(nik,"p9-new-game");
     ok("P9.2","after the delete Daniel started a new game; Nik's next JOIN (one tap) joined it and both reached the league wheel");
 
-    for(const m of managers){
+    for(const m of [...retired,...managers]){
       assert.deepEqual(m.log.forbidden,[],`${m.user} never contacted a production Firebase host`);
       assert.equal(m.log.productionRuntime,0,`${m.user} never loaded the production runtime`);
       assert.deepEqual(m.log.errors,[],`${m.user} page errors`);
