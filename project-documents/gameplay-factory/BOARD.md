@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 18 Oct, 11:40 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 18 Oct, 11:44 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.2-r78** (main `f15f54f`, Sat 17 Oct 5:28 PM)
 
@@ -46,11 +46,11 @@ Updated Sun 18 Oct, 11:40 AM Boston time. Bug hunting only, no new features unti
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 117 h ago
+⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 118 h ago
 
 **#9 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 74 h ago
+⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 75 h ago
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
@@ -1570,7 +1570,17 @@ Type this in Codex cloud:
 Job 1804
 ```
 
-**#149 · 1806** `G` BACK TO SHOWDOWN HOME lands on the dashboard instead of Home  
+**#149 · 1805** `G` Home tile and header chip stay on "Season 1 of N" after season 1  
+`░░░░░░░░░░` **0.0000 %**  
+🟢 Team green · model not set · GPT Work mode: type 'Job 1805'
+
+New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (cheaper model), type:
+
+```text
+Job 1805
+```
+
+**#150 · 1806** `G` BACK TO SHOWDOWN HOME lands on the dashboard instead of Home  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1806'
 
@@ -1580,7 +1590,7 @@ Type this in Codex cloud:
 Job 1806
 ```
 
-**#150 · 1807** `G` REVIEW SEASON button hidden on the Showdown Champion screen  
+**#151 · 1807** `G` REVIEW SEASON button hidden on the Showdown Champion screen  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1807'
 
@@ -1590,7 +1600,7 @@ Type this in Codex cloud:
 Job 1807
 ```
 
-**#151 · 1810** `G` Phone Trophy Room: ranks and all-time records missing, CAREER DETAILS empty  
+**#152 · 1810** `G` Phone Trophy Room: ranks and all-time records missing, CAREER DETAILS empty  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1810'
 
@@ -1600,7 +1610,7 @@ Type this in Codex cloud:
 Job 1810
 ```
 
-**#152 · 1811** `G` Final reconciliation and FINAL SEASON cells sometimes empty right after the close  
+**#153 · 1811** `G` Final reconciliation and FINAL SEASON cells sometimes empty right after the close  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1811'
 
@@ -1610,7 +1620,7 @@ Type this in Codex cloud:
 Job 1811
 ```
 
-**#153 · 1813** `G` GPT chat review of the r76 Codex and Work mode PRs  
+**#154 · 1813** `G` GPT chat review of the r76 Codex and Work mode PRs  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1813'
 
@@ -1620,7 +1630,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1813
 ```
 
-**#154 · 1814** `G` Sweep the older audit reports for bugs that are still open (GPT chat, repeatable)  
+**#155 · 1814** `G` Sweep the older audit reports for bugs that are still open (GPT chat, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1814'
 
@@ -1630,7 +1640,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1814
 ```
 
-**#155 · 1815** `G` Shared-journey guard: prove or fix the stale-marker block (U-01)  
+**#156 · 1815** `G` Shared-journey guard: prove or fix the stale-marker block (U-01)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1815'
 
@@ -1640,7 +1650,7 @@ Type this in Codex cloud:
 Job 1815
 ```
 
-**#156 · 1817** `G` Bug cards from the audit sweep (GPT chat, repeatable)  
+**#157 · 1817** `G` Bug cards from the audit sweep (GPT chat, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1817'
 
@@ -1650,7 +1660,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1817
 ```
 
-**#157 · 1818** `G` Failing tests for the bug cards (GPT Work mode, repeatable)  
+**#158 · 1818** `G` Failing tests for the bug cards (GPT Work mode, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1818'
 
@@ -1660,7 +1670,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1818
 ```
 
-**#158 · 1820** `G` Startup size room for r76 (report only, no app change)  
+**#159 · 1820** `G` Startup size room for r76 (report only, no app change)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1820'
 
@@ -1670,7 +1680,7 @@ Type this in Codex cloud:
 Job 1820
 ```
 
-**#159 · 1821** `G` Season chip fix that fits the startup size limit (redo of JOB-1805)  
+**#160 · 1821** `G` Season chip fix that fits the startup size limit (redo of JOB-1805)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1821'
 
@@ -1680,7 +1690,7 @@ Type this in Codex cloud:
 Job 1821
 ```
 
-**#160 · 1822** `G` Stats and history bug hunt, part A (GPT chat, repeatable)  
+**#161 · 1822** `G` Stats and history bug hunt, part A (GPT chat, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1822'
 
@@ -1690,7 +1700,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1822
 ```
 
-**#161 · 1823** `G` Stats and history bug hunt, part B (GPT chat, repeatable)  
+**#162 · 1823** `G` Stats and history bug hunt, part B (GPT chat, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1823'
 
@@ -1700,7 +1710,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1823
 ```
 
-**#162 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
+**#163 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1829'
 
@@ -1710,7 +1720,7 @@ Type this in Codex cloud:
 Job 1829
 ```
 
-**#163 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
+**#164 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1833'
 
@@ -1720,7 +1730,7 @@ Type this in Codex cloud:
 Job 1833
 ```
 
-**#164 · 1840** `G` Clean start: "real career starts here" marker  
+**#165 · 1840** `G` Clean start: "real career starts here" marker  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1840'
 
@@ -1730,7 +1740,7 @@ Type this in Codex cloud:
 Job 1840
 ```
 
-**#165 · 1841** `G` Old games still open: a release check for saved Showdowns  
+**#166 · 1841** `G` Old games still open: a release check for saved Showdowns  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1841'
 
@@ -1740,7 +1750,7 @@ Type this in Codex cloud:
 Job 1841
 ```
 
-**#166 · 1843** `G` Codex auto-start pilot: one CE2PG 1-season run on the r76b workbench  
+**#167 · 1843** `G` Codex auto-start pilot: one CE2PG 1-season run on the r76b workbench  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1843'
 
@@ -1750,7 +1760,7 @@ Type this in Codex cloud:
 Job 1843
 ```
 
-**#167 · 1844** `G` r78 small fixes: the Career tab goes to the game, and no DELETE copy on Showdown Home  
+**#168 · 1844** `G` r78 small fixes: the Career tab goes to the game, and no DELETE copy on Showdown Home  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1844'
 
@@ -1760,7 +1770,7 @@ Type this in Codex cloud:
 Job 1844
 ```
 
-**#168 · 1845** `G` No-dimming audit (HO-027), report only  
+**#169 · 1845** `G` No-dimming audit (HO-027), report only  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1845'
 
@@ -1865,8 +1875,8 @@ Job 1845
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`███░░░░░░░` **28.9655 %**  
-Numbered jobs: 56 done, 206 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`███░░░░░░░` **28.8660 %**  
+Numbered jobs: 56 done, 207 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████████░` **85.2941 %**  
@@ -2002,7 +2012,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #904](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/904) | r79 release (1.9.3-r79): one start flow, permanent pairing, real/test modes [draft] | 🟢 8 passed |
+| 🟧 Team G lead | [PR #904](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/904) | r79 release (1.9.3-r79): one start flow, permanent pairing, real/test modes [draft] | ⏳ 0 passed, 7 running |
 
 **Up next**
 
