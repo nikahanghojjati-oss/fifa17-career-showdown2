@@ -232,6 +232,24 @@ await check("PC1d first real pairing (Daniel): CMS17R- code, no note; his waitin
   assert.match(poll,/const recording=pairRecordRealPairing\(state\.rivalryId,"playerOne"\);await pairAutoContinueAfterConnect\(\);await recording;/,"the record write starts once the tick read ACTIVE and runs alongside the existing auto-continue (never delaying it); the tick waits for both");
 });
 
+await check("PC1g #901 merge: Daniel learns Nik joined through any refresh (not only the waiting poll): his record is still written, once, alongside the continue",async()=>{
+  const h=harness({role:"playerOne",marker:"ready",saves:[danielShell()],activeSaveId:DANIEL_SAVE,create:commitCreate(Date.now()+20*60000)});
+  await h.pair.initialize({force:true});
+  const waiting=await h.pair.startPairing({managerRole:"playerOne"});const rivalryId=waiting.rivalryId;
+  assert.match(waiting.capability,/^CMS17R-/);
+  h.docs.set(`rivalries/${rivalryId}`,rivalryDoc(rivalryId,"active"));
+  // an identity / online refresh (or CHECK STATUS) sees ACTIVE first; the 4 s poll never runs
+  await h.pair.initialize({force:true});await settle();
+  const record=h.docs.get("accounts/uid_daniel/partner/current");
+  assert.equal(record?.active,true,"Daniel's record is written");assert.equal(record.pairedViaRivalryId,rivalryId);
+  const writes=h.transactions.filter(t=>t.writes.includes("accounts/uid_daniel/partner/current"));
+  assert.equal(writes.length,1,"exactly one record write");
+  assert.deepEqual(writes[0].reads.slice(0,1),[`rivalries/${rivalryId}`],"after re-reading the rivalry ACTIVE");
+  // the waiting poll firing late shares the same single-flight write: nothing more
+  const tick=h.timers.filter(t=>t.ms===4000).pop();if(tick){tick.fn();await settle();}
+  assert.equal(h.transactions.filter(t=>t.writes.includes("accounts/uid_daniel/partner/current")).length,1,"no second write");
+});
+
 await check("PC1e only the rivalry this page paired with CMS17R- writes a record; an existing record for another account is never replaced",async()=>{
   const h=harness({role:"playerOne",docs:{[`rivalries/${R3}`]:rivalryDoc(R3,"active"),"accounts/uid_daniel/partner/current":partnerDoc("uid_someone","playerOne",OLD)}});
   await assert.rejects(h.pair.writePartnerRecord({rivalryId:R3,managerRole:"playerOne"}),/Unpair it/,"PERMANENT_PARTNER_CONFLICT");
