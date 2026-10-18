@@ -10,9 +10,9 @@
   },
   "candidate": {
     "base": "main f15f54f9 (r78, runtime 1.9.2-r78; Rules unchanged since r77). Candidate adds the r79 permanent pairing Rules (R79-PARTNER): accounts/{uid}/partner/current and the private JOIN note accounts/{uid}/partnerInbox/current, proven by tests/firebase/permanent-partner-emulator.cjs; partner records only from real-career rivalries (not hidden by the marker, created after it)",
-    "sha256": "c038534a372c776cb672091c474ac3cfa151effdb06dd2f6e6e40d633cdea6ad",
-    "gitBlobSha1": "9df379812e0b0cc8cd509a8865b488f00e2b8d19",
-    "bytes": 152771
+    "sha256": "2d8c9996ec7941e9d64d06a32c007f9181b15224219a551a7ba63ad431023e31",
+    "gitBlobSha1": "38f996874ffc8c3b8aedb814603068718f91565b",
+    "bytes": 152849
   },
   "allowedOwners": [
     "G-7",
@@ -68,7 +68,8 @@
         "    // (pre-career test games), and created after the marker (playerOne made it after pressing START REAL",
         "    // CAREER; playerTwo writes its marker just before redeeming, so the rivalry is at most one invite",
         "    // window, 30 min, older than that marker). rivalry.createdAt is the creating device's clock, so both",
-        "    // windows allow 5 min of clock skew.",
+        "    // windows allow 5 min of clock skew. The marker's `active` flag only chooses whether test Showdowns are shown,",
+        "    // so it never affects pairing.",
         "    function cmsPartnerPairingValid(accountId, data) {",
         "      let rivalry = get(/databases/$(database)/documents/rivalries/$(data.pairedViaRivalryId)).data;",
         "      let start = get(/databases/$(database)/documents/accounts/$(accountId)/careerStart/current).data.data;",
@@ -82,7 +83,6 @@
         "        && rivalry.data.authorizedAccountIds is list",
         "        && rivalry.data.authorizedAccountIds.size() == 2",
         "        && cmsPartnerSlotsMatch(rivalry.data.managerSlots, data.myRole, data.partnerAccountId)",
-        "        && start.active == true",
         "        && !(data.pairedViaRivalryId in start.hiddenRivalryIds)",
         "        && (",
         "          (data.myRole == 'playerOne' && rivalry.data.createdAt >= start.startedAt - duration.value(5, 'm'))",

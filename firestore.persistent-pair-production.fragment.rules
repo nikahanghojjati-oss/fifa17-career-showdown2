@@ -391,7 +391,8 @@
     // (pre-career test games), and created after the marker (playerOne made it after pressing START REAL
     // CAREER; playerTwo writes its marker just before redeeming, so the rivalry is at most one invite
     // window, 30 min, older than that marker). rivalry.createdAt is the creating device's clock, so both
-    // windows allow 5 min of clock skew.
+    // windows allow 5 min of clock skew. The marker's `active` flag only chooses whether test Showdowns are shown,
+    // so it never affects pairing.
     function cmsPartnerPairingValid(accountId, data) {
       let rivalry = get(/databases/$(database)/documents/rivalries/$(data.pairedViaRivalryId)).data;
       let start = get(/databases/$(database)/documents/accounts/$(accountId)/careerStart/current).data.data;
@@ -405,7 +406,6 @@
         && rivalry.data.authorizedAccountIds is list
         && rivalry.data.authorizedAccountIds.size() == 2
         && cmsPartnerSlotsMatch(rivalry.data.managerSlots, data.myRole, data.partnerAccountId)
-        && start.active == true
         && !(data.pairedViaRivalryId in start.hiddenRivalryIds)
         && (
           (data.myRole == 'playerOne' && rivalry.data.createdAt >= start.startedAt - duration.value(5, 'm'))

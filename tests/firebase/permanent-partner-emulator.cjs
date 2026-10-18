@@ -14,7 +14,7 @@ function envelope({objectType,objectId,updatedAt,accountId,deviceId:updatedByDev
 }
 const accountEnvelope=(uid,now)=>envelope({objectType:'account',objectId:uid,updatedAt:now,accountId:uid,data:{status:'active',createdAt:now,deletionRequestedAt:null}});
 const deviceEnvelope=(uid,id,now)=>envelope({objectType:'device',objectId:id,updatedAt:now,accountId:uid,deviceId:id,data:{deviceId:id,installationId:`installation_${id.slice(7)}`,displayLabel:null,state:'active',registeredAt:now,lastSeenAt:now,revokedAt:null}});
-const markerEnvelope=(uid,now,hiddenRivalryIds=[])=>envelope({objectType:'careerStart',objectId:'current',updatedAt:now,accountId:uid,data:{hiddenRivalryIds,active:true,startedAt:now}});
+const markerEnvelope=(uid,now,hiddenRivalryIds=[],active=true)=>envelope({objectType:'careerStart',objectId:'current',updatedAt:now,accountId:uid,data:{hiddenRivalryIds,active,startedAt:now}});
 const openSlot=slotId=>({slotId,accountId:null,profileId:null,saveId:null,displayLabel:null,entitlementState:'open',deletionConsent:false});
 const managerSlot=(slotId,uid,char)=>({slotId,accountId:uid,profileId:`profile_${char.repeat(24)}`,saveId:`save_${char.repeat(24)}`,displayLabel:slotId==='playerOne'?'Daniel':'Nik',entitlementState:'active',deletionConsent:false});
 function rivalryEnvelope(id,now,p1,p2,state,createdBy){
@@ -39,7 +39,9 @@ const note=(rivalryId,totalSeasons,fromAccountId,expiresAt,extra={})=>({schemaVe
         await setDoc(doc(db,'accounts',uid),accountEnvelope(uid,now));
         await setDoc(doc(db,'accounts',uid,'devices',deviceId(key)),deviceEnvelope(uid,deviceId(key),now));
       }
-      for(const uid of ['acct_d','acct_x'])await setDoc(doc(db,'accounts',uid,'careerStart','current'),markerEnvelope(uid,now));
+      await setDoc(doc(db,'accounts','acct_x','careerStart','current'),markerEnvelope('acct_x',now));
+      // Codex #905: Daniel shows his test Showdowns again (active:false); that display choice never blocks pairing.
+      await setDoc(doc(db,'accounts','acct_d','careerStart','current'),markerEnvelope('acct_d',now,[],false));
       await setDoc(doc(db,'accounts','acct_n','careerStart','current'),markerEnvelope('acct_n',now,[hiddenByNik]));
       // Pre-career rivalries between the same two accounts: one created before Daniel's marker, one Nik's
       // marker hid, one older than one invite window before Nik's marker.
