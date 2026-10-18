@@ -17,6 +17,15 @@ for `endedEarly`. Section 2's careerSave doc, section 3's push hook and section 
 `endedEarly` Rule, PR 2+3 merge into "rebuild on continue". Open question 1 disappears (any device can rebuild).
 Kept from below: END SHOWDOWN (4), wording sweep (5), tests (7, minus push cases), PR 4 and 5.
 Fallback (A, sections 2-3) only if review finds shell state that cannot be derived.
+**Where the rebuild runs (Codex #927 P1):** right after the active pair read in `pairInitialize()`, before any
+`recovery-required` state is published. Today a fresh browser reaches `recovery-required` there, START returns `pair-first`, and
+the recovery UI offers only RESTORE BACKUP / DELETE, so `pairContinueOnlineShowdown()` is never reached. r80: when the pairLink is
+active and the exact shell is missing, adopt it first (no extra read); `recovery-required` stays only for a failed adopt. Also adopt
+in `pairContinueOnlineShowdown()` and `pairRetryPairLink()` (idempotent: an existing exact shell is reused, never duplicated).
+**END season count (Codex #927 P2):** after a reload Settings can END before multi-season progression is loaded, so the in-memory
+count is not trustworthy. END first runs the existing progression `resumeFromAuthority()` for that exact rivalry (a few reads, once
+per END), then writes the mark in the abandon transaction; if the count cannot be read, END still closes and records
+`seasonsPlayed` as unknown (History shows a dash). Test: reload, then END mid-season 2 => row shows 1 season.
 
 ## 1. Where the save lives today
 
