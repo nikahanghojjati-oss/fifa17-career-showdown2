@@ -64,7 +64,7 @@ export const LANES=Object.freeze({
   L3B:{job:'l3b',name:'L3B visual',groups:['VISUAL'],fixed:[],steps:{proof_visual:['@group:VISUAL']}},
   L4:{job:'l4-remote',name:'L4 remote',groups:['REMOTE'],fixed:[],steps:{proof_remote:['@group:REMOTE'],lifecycle_rules:['LIFECYCLE_COMPOSED_RULES_BUILD'],lifecycle:['LIFECYCLE_COMPOSED_1_3_5_10']}},
   L5:{job:'l5-rules-regression',name:'L5 rules regression',groups:[],fixed:['COMPOSED_RULES_REGRESSION'],steps:{regression:['COMPOSED_RULES_REGRESSION']}},
-  L6:{job:'l6-browser-journey',name:'L6 browser journey',groups:[],fixed:['JOURNEY_RULES_BUILD_ZERO_BILLING','TWO_MANAGER_BROWSER_JOURNEY'],steps:{rules:['JOURNEY_RULES_BUILD_ZERO_BILLING'],journey:['TWO_MANAGER_BROWSER_JOURNEY']}}
+  L6:{job:'l6-browser-journey',name:'L6 browser journey',groups:[],fixed:['JOURNEY_RULES_BUILD_ZERO_BILLING','TWO_MANAGER_BROWSER_JOURNEY','R79_TWO_PLAYER_JOURNEY'],steps:{rules:['JOURNEY_RULES_BUILD_ZERO_BILLING'],journey:['TWO_MANAGER_BROWSER_JOURNEY'],r79_journey:['R79_TWO_PLAYER_JOURNEY']}}
 });
 export const LANE_IDS=Object.freeze(Object.keys(LANES));
 export const ALL_GROUPS=Object.freeze([...new Set(Object.values(graph.proofBundleGroups))].sort());
