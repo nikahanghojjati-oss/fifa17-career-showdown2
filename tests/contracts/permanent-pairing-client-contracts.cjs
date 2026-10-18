@@ -514,7 +514,7 @@ await check("PC7 the identity sidecar reads the partner record once per load and
   assert.match(identity,/addEventListener\("career-mode-screen-shown",event=>\{if\(!event\?\.detail\?\.screen\|\|event\.detail\.screen==="mainMenu"\)void refreshJoinNoteOnHome\(\);else root\.CareerModePersistentNikDanielPair\?\.stopJoinNoteWatch\?\.\(\);\}\)/,"leaving Home detaches the note listener at once");
   // Nik 2026-10-18 ("check by itself"): Home shown / tab visible (re)attaches ONE note listener; its first server delivery is the
   // read, and without a live listener the memoised read answers.
-  assert.match(identity,/const listening=typeof pair\.watchJoinNote==="function"\?await pair\.watchJoinNote\(\{isHomeShown:onlineHomeShown\}\)\.catch\(\(\)=>false\):false;const note=listening\?pair\.getJoinNoteState\(\):await pair\.readJoinNote\(\{fresh:options\.fresh===true\}\)\.catch\(\(\)=>null\);/);
+  assert.match(identity,/const listening=typeof pair\.watchJoinNote==="function"\?await pair\.watchJoinNote\(\{isHomeShown:onlineHomeShown,resume:options\.resume===true\}\)\.catch\(\(\)=>false\):false;\/\*[^*]*\*\/const note=listening===true\|\|\(listening==="deferred"&&options\.fresh!==true\)\?pair\.getJoinNoteState\(\):await pair\.readJoinNote\(\{fresh:options\.fresh===true\}\)\.catch\(\(\)=>null\);/);
   const pairSource=read("js/persistentNikDanielPair.js");
   assert.match(pairSource,/JOIN_NOTE_WATCH_WINDOW_MS=600000,/,"10 minutes per Home visit");
   assert.match(pairSource,/noteWatch\.unsubscribe=api\.onSnapshot\(ref,\{includeMetadataChanges:false\},/,"the note is watched by one onSnapshot listener");
@@ -524,7 +524,7 @@ await check("PC7 the identity sidecar reads the partner record once per load and
   assert.match(pairSource,/\(\)=>\{if\(noteWatch\.seq===seq&&noteWatch\.mode==="listen"\)pairJoinNoteFallback\(\);\}/,"a listener error falls back to the memoised read");
   const surfaceText=identity.slice(identity.indexOf("function configureOnlineProductSurface"),identity.indexOf("function ensureOnlineIdentityOverlay"));
   assert.doesNotMatch(surfaceText,/watchJoinNote|onSnapshot/,"render never attaches the listener");
-  assert.match(identity,/addEventListener\("visibilitychange",\(\)=>\{if\(root\.document\.visibilityState==="visible"\)void refreshJoinNoteOnHome\(\);\}\)/);
+  assert.match(identity,/addEventListener\("visibilitychange",\(\)=>\{if\(root\.document\.visibilityState==="visible"\)void refreshJoinNoteOnHome\(\{resume:true\}\);\}\)/);
   const surface=identity.slice(identity.indexOf("function configureOnlineProductSurface"),identity.indexOf("function ensureOnlineIdentityOverlay"));
   const tile=identity.slice(identity.indexOf("function nikHomeTile"),identity.indexOf("async function resolveOnlineDependencies"));
   for(const [label,text] of [["render",surface],["tile",tile]])assert.doesNotMatch(text,/readJoinNote|readPartnerRecord|runTransaction|getDoc/,`${label} never reads`);

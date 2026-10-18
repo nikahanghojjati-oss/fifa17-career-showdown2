@@ -645,6 +645,35 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.equal(pair.getJoinNoteState(world.clock.now).note?.rivalryId,rivalryId,"so Daniel's note shows JOIN");
   });
 
+  await check("FB11e","Codex #904: switching apps (tab hidden -> visible) costs at most one note read per 30 s and never extends a running 10-minute Home visit",async()=>{
+    const {world,pair,serverReads,inbox,listeners}=await nikPairWorld();let home=true;const isHomeShown=()=>home;
+    const reads=()=>serverReads[inbox]||0;
+    await pair.readPartnerRecord();
+    assert.equal(await pair.watchJoinNote({isHomeShown}),true);assert.equal(reads(),1,"the Home visit attaches once");
+    // 20 quick app switches inside 25 s: page memory answers, nothing is read, no listener piles up
+    for(let i=0;i<20;i+=1){world.setVisible(false);await world.advance(500);world.setVisible(true);assert.notEqual(await pair.watchJoinNote({isHomeShown,resume:true}),false,"a quick return never falls back to a read");await world.advance(750);}
+    assert.equal(reads(),1,"quick app switches inside 30 s read nothing");
+    assert.ok(listeners.max<=1,"never a second listener");
+    // still visible at the 30 s mark: the one deferred listener attaches (one read)
+    await world.advance(30000);
+    assert.equal(listeners.active,1,"re-attached once at the 30 s mark");assert.equal(reads(),2,"one read for that attach");
+    // Codex #907: a tap (or a new Home visit) during a deferred return attaches at once and sees a note Daniel wrote meanwhile
+    world.setVisible(false);await world.advance(1000);
+    const tapId=`pair_3${"6".repeat(63)}`;world.serverWrite(inbox,{schemaVersion:1,rivalryId:tapId,totalSeasons:3,fromAccountId:"daniel",createdAt:{__ms:world.clock.now},expiresAt:{__ms:world.clock.now+20*60000}});
+    world.setVisible(true);assert.equal(await pair.watchJoinNote({isHomeShown,resume:true}),"deferred","the quick return defers");
+    assert.equal(await pair.watchJoinNote({isHomeShown}),true,"the tap attaches at once instead of waiting");
+    assert.equal(pair.getJoinNoteState(world.clock.now).note?.rivalryId,tapId,"and sees Daniel's new note");
+    assert.ok(listeners.max<=1,"still never a second listener");
+    // JOIN is showing, so the listener has detached; start a fresh visit for the window check below
+    world.serverWrite(inbox,null);await pair.readJoinNote({fresh:true});await world.advance(31000);await pair.watchJoinNote({isHomeShown});
+    // the visit window is not restarted by tab returns: switching at 9:30 still ends the listener at 10:00 after the visit began
+    await world.advance(9*60000);world.setVisible(false);world.setVisible(true);await pair.watchJoinNote({isHomeShown,resume:true});
+    await world.advance(90000);
+    assert.equal(listeners.active,0,"the 10-minute Home visit ends on time despite tab returns");
+    const before=reads();for(let i=0;i<5;i+=1){world.setVisible(false);world.setVisible(true);await pair.watchJoinNote({isHomeShown,resume:true});await world.advance(1000);}
+    assert.ok(reads()-before<=1,`after the visit ended, a tab return may start a new visit but 5 returns in 5 s cost at most one read (${reads()-before})`);
+    assert.ok(listeners.max<=1,"never a second listener");
+  });
   await check("FB12","r79 PR4 modes: the partner-side read is one get per page, only while this account's own record is active; the mode's marker read is one memoised get, only without a partner record; nothing is timed",async()=>{
     const revive=value=>value===undefined?undefined:JSON.parse(JSON.stringify(value),(_key,item)=>item&&typeof item==="object"&&"__ms" in item?{toMillis:()=>item.__ms}:item);
     const record=(partnerAccountId,myRole,active)=>({schemaVersion:1,partnerAccountId,myRole,pairedViaRivalryId:`pair_1${"0".repeat(63)}`,pairedAt:{__ms:1},active,updatedAt:{__ms:1}});
