@@ -460,7 +460,9 @@ await check("PC5 UNPAIR: active:false + updatedAt only; blocked while a Showdown
   assert.equal(active.docs.get("accounts/uid_nik/partner/current").active,true,"nothing written while a Showdown is in progress");
   const pending=harness({role:"playerOne",docs:{"accounts/uid_daniel/partner/current":partnerDoc(UID.playerTwo,"playerOne",OLD),"accounts/uid_daniel/pairLinks/current":linkDoc(R3,"playerOne"),[`rivalries/${R3}`]:rivalryDoc(R3,"pending-pair",{nik:false}),[`rivalries/${R3}/invites/${R3}`]:inviteDoc(R3,Date.now()+600000)}});
   await assert.rejects(pending.pair.unpair(),/Finish or delete/,"a code that is still open counts as in progress");
-  pending.docs.set(`rivalries/${R3}/invites/${R3}`,inviteDoc(R3,Date.now()-1000));
+  pending.docs.set(`rivalries/${R3}/invites/${R3}`,inviteDoc(R3,Date.now()-5*60000));
+  await assert.rejects(pending.pair.unpair(),/Finish or delete/,"Codex #908: a code expired only 5 minutes ago still counts (this clock may be ahead)");
+  pending.docs.set(`rivalries/${R3}/invites/${R3}`,inviteDoc(R3,Date.now()-15*60000));
   assert.equal((await pending.pair.unpair()).status,"unpaired","an expired code is no Showdown in progress");
   const closed=harness({docs:{"accounts/uid_nik/partner/current":record,"accounts/uid_nik/pairLinks/current":linkDoc(R3,"playerTwo"),[`rivalries/${R3}`]:rivalryDoc(R3,"closed")}});
   const before=JSON.parse(JSON.stringify(closed.docs.get("accounts/uid_nik/partner/current")));
@@ -488,6 +490,25 @@ await check("PC5 UNPAIR: active:false + updatedAt only; blocked while a Showdown
     assert.equal(h.docs.get("accounts/uid_nik/partner/current").active,true,`${label}: the partner record is unchanged`);
     assert.equal(h.transactions.reduce((n,t)=>n+t.writes.length,0),0,`${label}: nothing is written`);
   }
+});
+
+await check("PC5b Codex #904 pairing audit: Nik's UNPAIR also waits for Daniel's next code in his mailbox (his own link still names the last Showdown)",async()=>{
+  const record=partnerDoc(UID.playerOne,"playerTwo",OLD),inbox="accounts/uid_nik/partnerInbox/current";
+  const base=()=>({"accounts/uid_nik/partner/current":record,"accounts/uid_nik/pairLinks/current":linkDoc(R3,"playerTwo"),[`rivalries/${R3}`]:rivalryDoc(R3,"closed"),...joinable(R5),[inbox]:noteDoc(R5,5,UID.playerOne,Date.now()+600000)});
+  const waiting=harness({docs:base()});
+  await assert.rejects(waiting.pair.unpair(),error=>error.code==="PERMANENT_PARTNER_UNPAIR_BLOCKED"&&/next Showdown is waiting for you/.test(error.message));
+  assert.equal(waiting.docs.get("accounts/uid_nik/partner/current").active,true,"nothing written while Daniel's code waits");
+  const used=harness({docs:{...base(),[`rivalries/${R5}/invites/${R5}`]:inviteDoc(R5,Date.now()+600000,"redeemed")}});
+  assert.equal((await used.pair.unpair()).status,"unpaired","a used code does not block");
+  const stale=harness({docs:{...base(),[inbox]:noteDoc(R5,5,UID.playerOne,Date.now()-15*60000)}});
+  assert.equal((await stale.pair.unpair()).status,"unpaired","an expired note does not block");
+  const foreign=harness({docs:{...base(),[inbox]:noteDoc(R5,5,"uid_stranger",Date.now()+600000)}});
+  assert.equal((await foreign.pair.unpair()).status,"unpaired","a note not from the partner is ignored");
+  const offline=harness({docs:base()});offline.failReads=p=>p===inbox;offline.failCode="unavailable";
+  await assert.rejects(offline.pair.unpair(),error=>error.code==="PERMANENT_PARTNER_UNPAIR_UNVERIFIED","a mailbox that cannot be read refuses");
+  assert.equal(offline.transactions.reduce((n,t)=>n+t.writes.length,0),0);
+  const daniel=harness({role:"playerOne",docs:{"accounts/uid_daniel/partner/current":partnerDoc(UID.playerTwo,"playerOne",OLD),"accounts/uid_daniel/pairLinks/current":linkDoc(R3,"playerOne"),[`rivalries/${R3}`]:rivalryDoc(R3,"closed")}});
+  assert.equal((await daniel.pair.unpair()).status,"unpaired");assert.ok(!daniel.transactions.some(t=>t.reads.some(r=>r.includes("partnerInbox"))),"Daniel's UNPAIR never reads a mailbox");
 });
 
 await check("PC6 reload recovery needs the other manager's record; a paired account has no USE A SESSION CODE path",async()=>{

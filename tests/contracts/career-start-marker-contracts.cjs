@@ -3,7 +3,8 @@
 // no Firebase, no emulator. The Rules and the provider writes are proved in tests/firebase/career-start-marker-emulator.cjs.
 // L: js/sparkClosedShowdownCareerLoader.js skips hiddenRivalryIds (no read, not in the model); absent or empty is today's
 //    behaviour exactly. C: js/rivalryLegacyV10.js reads the marker once per account (js/careerStartMarker.js) and passes
-//    the ids only while it is active, for History, Career Statistics, Trophy Room, Legacy and Rivalry Statistics.
+//    the ids whenever the marker exists (r79 PR4: test games stay hidden, whatever the old active switch says), for
+//    History, Career Statistics, Trophy Room, Legacy and Rivalry Statistics.
 const assert=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path"),vm=require("node:vm");
 const root=path.resolve(__dirname,"../..");
 const read=f=>fs.readFileSync(path.join(root,f),"utf8");
@@ -143,10 +144,12 @@ await check("C1 marker active and hiding the first two: History, Career Statisti
   same(h.loaderOptions,["current,firebaseSdk,firestore,hiddenRivalryIds,user"]);
   assert.equal(model.managers.nik.careerPoints,p3.managerRecords.playerTwo.totalPoints);assert.equal(model.managers.daniel.careerPoints,p3.managerRecords.playerOne.totalPoints);
 });
-await check("C2 marker switched off (SHOW TEST SHOWDOWNS AGAIN): all three count again",async()=>{
+// r79 PR4 (Nik): the SHOW TEST SHOWDOWNS AGAIN switch is gone; old test games stay stored but are never shown, so a
+// marker left switched off by the old Settings row still hides them (this pin used to expect all three).
+await check("C2 a marker left switched off by the old SHOW TEST SHOWDOWNS AGAIN switch still hides the test games",async()=>{
   const h=callerWith({docs:{[MARKER_PATH]:markerDoc([p1.rivalryId,p2.rivalryId],false,1)},snapshot:offline});
   const model=await h.model();
-  assert.equal(completedRows(model).length,3);same(h.loaderOptions,["current,firebaseSdk,firestore,user"],"an inactive marker passes nothing");
+  assert.equal(completedRows(model).length,1);same(h.loaderOptions,["current,firebaseSdk,firestore,hiddenRivalryIds,user"],"an inactive marker still passes the hidden ids");
 });
 await check("C3 no marker document: identical to today (and to a build without the marker module)",async()=>{
   const none=callerWith({snapshot:offline}),without=callerWith({snapshot:offline,markerModule:false});
@@ -171,7 +174,7 @@ await check("C5 Rivalry Statistics never shows a hidden newest Showdown",async()
   const shown=await callerWith({docs:{[MARKER_PATH]:markerDoc([p1.rivalryId,p2.rivalryId],true)},snapshot:justClosed}).rivalry();
   same(clone(shown),clone(today),"a real newest Showdown still shows exactly as today");
   const off=await callerWith({docs:{[MARKER_PATH]:markerDoc(ALL,false,1)},snapshot:justClosed}).rivalry();
-  same(clone(off),clone(today),"an inactive marker shows exactly as today");
+  assert.equal(off.status,"empty","r79 PR4: an inactive marker still hides the test Showdown");
 });
 await check("C6 Rivalry Statistics after a reload (no live state) picks the newest Showdown that is not hidden",async()=>{
   const two=await callerWith({docs:{[MARKER_PATH]:markerDoc([p3.rivalryId],true)},snapshot:offline}).rivalry();
@@ -191,7 +194,7 @@ await check("C7 a marker change clears the cached career and the next load uses 
   assert.equal((await h.model()).status,"empty");
   assert.equal((await Marker.setActive(false,options)).startedAt,SERVER_NOW,"switching keeps the original career-start date");
   assert.equal(h.c.CareerModeRivalryLegacyV10.cachedCareerModel(),null);
-  assert.equal(completedRows(await h.model()).length,3);
+  assert.equal((await h.model()).status,"empty","r79 PR4: an old inactive marker still hides every test Showdown");
   assert.equal(h.log.filter(p=>p===MARKER_PATH).length,1,"writes refresh the per-account cache; no extra read");
 });
 await check("C9 a read that recovers after a failed one finds an active marker: mounted Career Statistics and Trophy Room reload without the hidden Showdowns",async()=>{
@@ -239,11 +242,12 @@ await check("C9 a read that recovers after a failed one finds an active marker: 
       assert.equal(drawn.get(screen),real,"Trophy Room reloads without the hidden Showdowns");
     }
   }
-  // Recovery with an inactive marker hides nothing, so nothing changes.
+  // r79 PR4: recovery with an inactive marker still hides the ids, so it counts as a change too.
   const Marker=require(path.join(root,"js/careerStartMarker.js"));Marker.clearCache();
   let n=0;const flaky={doc:sdk.doc,getDoc:async()=>{n+=1;if(n===1)throw new Error("unavailable");return {exists:()=>true,data:()=>markerDoc(ALL,false,1)};}};
   await Marker.readMarker({firestore:{},firebaseSdk:flaky,accountId:"acct_x"}).catch(()=>null);const before=Marker.epoch();
-  assert.equal((await Marker.readMarker({firestore:{},firebaseSdk:flaky,accountId:"acct_x"})).active,false);assert.equal(Marker.epoch(),before);
+  assert.equal((await Marker.readMarker({firestore:{},firebaseSdk:flaky,accountId:"acct_x"})).active,false);assert.equal(Marker.epoch(),before+1);
+  same(Marker.hiddenRivalryIds(await Marker.readMarker({firestore:{},firebaseSdk:flaky,accountId:"acct_x"})),ALL,"an inactive marker still hides every id");
   assert.equal((await Marker.readMarker({firestore:{},firebaseSdk:flaky,accountId:"acct_x"})).startedAt,STARTED_AT,"the shown date is data.startedAt, not updatedAt");
 });
 await check("C8 the loader source makes no new reads and stays exact-get only",()=>{
@@ -253,5 +257,5 @@ await check("C8 the loader source makes no new reads and stays exact-get only",(
   for(const banned of [/getDocs\(/,/collection\(/,/query\(/,/onSnapshot/,/deleteDoc|updateDoc|writeBatch/,/localStorage|sessionStorage|indexedDB/])assert.doesNotMatch(marker,banned,String(banned));
   const html=read("index.html");assert.doesNotMatch(html,/careerStartMarker/,"the marker module is lazily loaded, never in the startup shell");
 });
-console.log(`PASS career start marker contracts: ${cases} cases (loader skips hidden Showdowns without reads; absent marker is today's behaviour; History, Career Statistics, Trophy Room, Legacy and Rivalry Statistics honour an active marker).`);
+console.log(`PASS career start marker contracts: ${cases} cases (loader skips hidden Showdowns without reads; absent marker is today's behaviour; History, Career Statistics, Trophy Room, Legacy and Rivalry Statistics honour the marker, active or not).`);
 })().catch(error=>{console.error(error);process.exitCode=1;});

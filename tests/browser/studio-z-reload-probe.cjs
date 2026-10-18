@@ -320,7 +320,9 @@ async function main(){
 
     // J2 pairing (seasons chosen on the real create screen)
     const pairCode=await danielStartsShowdown(daniel,LENGTH);
-    assert.match(pairCode,/^CMS17-pair_/,"pair code shape");
+    // r79 PR4: every Home START is real; Daniel's first one (the ticked one-time checkmark) writes his marker first, so with
+    // no partner yet his code is the first real pairing's CMS17R- code (this probe used to expect CMS17-).
+    assert.match(pairCode,/^CMS17R-pair_/,"pair code shape (first real pairing)");
     ok("J2.1","Daniel's START made the pair code by itself and shows WAITING over the locked league wheel");
     await nik.page.locator("#newShowdown").click();
     // Trap: the pair panel re-renders (replaceChildren) while the join sidecar syncs; a code typed before it settles is lost.
@@ -770,7 +772,7 @@ async function main(){
       assert.equal(await entryOverlay.isVisible().catch(()=>false),false,`${m.user}: a CLOSED Showdown must not re-open the GET READY career entry overlay after reload`);
     }
     const pairCode2=await danielStartsShowdown(daniel,LENGTH);
-    assert.match(pairCode2,/^CMS17-pair_/,"R2 pair code shape");
+    assert.match(pairCode2,/^CMS17-pair_/,"R2 pair code shape (already paired: no CMS17R-)");
 
     await nik.page.locator("#newShowdown").click({timeout:30000});
     await pairPanel(nik).locator("#persistentNikDanielPairCode").waitFor({state:"visible",timeout:30000});

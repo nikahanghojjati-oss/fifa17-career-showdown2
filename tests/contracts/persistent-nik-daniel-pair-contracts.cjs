@@ -136,7 +136,7 @@ assert.match(identitySource,/const MANAGERS=Object\.freeze\(\{daniel:Object\.fre
 assert.match(identitySource,/"WHO ARE YOU\?"/);
 assert.match(identitySource,/"DANIEL · PLAYER ONE"/);
 assert.match(identitySource,/"NIK · PLAYER TWO"/);
-assert.match(identitySource,/isNik=current\?\.status==="ready"&&current\.managerId==="nik"[\s\S]*const nik=isNik\?nikHomeTile\(\):null/, "Nik's primary Home action must be Join, not Start a second Showdown.");
+assert.match(identitySource,/isNik=current\?\.status==="ready"&&current\.managerId==="nik"[\s\S]*const nik=isNik\?nikHomeTile\(\):current\?\.status==="ready"\?pairAgainTile\(\):null/, "Nik's primary Home action must be Join, not Start a second Showdown (r79 PR4: Daniel's tile changes only to PAIR AGAIN when Nik unpaired).");
 assert.match(identitySource.slice(identitySource.indexOf("function nikHomeTile()"),identitySource.indexOf("async function resolveOnlineDependencies")),/"JOIN DANIEL'S SHOWDOWN"[\s\S]*"WAITING FOR DANIEL","PASTE A CODE"[\s\S]*"JOIN DANIEL'S SHOWDOWN","Paste Daniel's code"/,"r79 PR3: Nik's tile is JOIN (note), Waiting for Daniel with PASTE A CODE (partner, no note), or Join with a pasted code.");
 // r79: both managers' Home tile goes through the one canonical START; whichShowdownIsLive never gives Nik "new" (seasons), so
 // his tile still opens the join surface (whichShowdownIsLive contracts prove the decisions).
@@ -146,7 +146,8 @@ assert.match(canonicalStartFlow,/which\.read\(root\)[\s\S]*if\(decision\.action=
 assert.match(canonicalStartFlow,/if\(decision\.action!=="continue"&&decision\.action!=="resume-waiting"&&decision\.action!=="close-then-new"\)\{await openCanonicalShowdownJoin\(/,'Join, wait-for-daniel and pair-first open the join surface.');
 assert.match(identitySource,/async function openCanonicalShowdownJoin\(options=\{\}\)[\s\S]*syncPersistentPairSidecar[\s\S]*persistentNikDanielPairPanel[\s\S]*persistentNikDanielPairCode/,'Nik Join must reconcile durable pair state and focus the single code-entry surface.');
 
-assert.match(identitySource,/"FORGET THIS DEVICE"/);
+// r79 PR4 (Nik): FORGET THIS DEVICE lives only in test mode, in the modes module's Settings rows; the revoke itself stays here.
+{const modesSource=fs.readFileSync(path.join(__dirname,"../../js/showdownModes.js"),"utf8");assert.match(modesSource,/\}else if\(v\.mode==="test"\)\{\n[^\n]*\n[^\n]*"FORGET THIS DEVICE"[^\n]*\n  \}/,"FORGET THIS DEVICE only in test mode");assert.equal((modesSource.match(/"FORGET THIS DEVICE"/g)||[]).length,1);assert.doesNotMatch(identitySource,/"FORGET THIS DEVICE"|"CONNECT PLAYERS",\(\)=>/,"no FORGET THIS DEVICE / CONNECT PLAYERS row of the identity's own");}
 assert.match(identitySource,/pairing\.revokeDevice/);
 assert.match(identitySource,/clearRole\(\)/);
 assert.match(identitySource,/clearPrivateDeviceIdentity\(\)/);

@@ -221,7 +221,7 @@
     if(identity&&typeof identity.openJoin==="function"){await identity.openJoin({pair:decision.pair||null,decision});return true;}
     await openPersistentPairControls();return true;
   }
-  async function startShared(){
+  async function startShared(options={}){
     if(busy)return false;
     if(!entryIdentityReady()){
       const identity=entryIdentity();syncStartButtonIdentity();
@@ -234,6 +234,9 @@
       await ensureSaveAuthority();
       const decision=await whichShowdownIsLive();
       if(decision.action!=="new"){await followStartDecision(decision);return false;}
+      // r79 PR4: the real/test mode gate (js/showdownModes.js) runs only now that a new Showdown is really being made: the
+      // one-time START REAL CAREER checkmark writes the career start marker first; a refusal creates nothing.
+      if(options&&typeof options.beforeCreate==="function"&&await options.beforeCreate()!==true)return false;
       setPending(true);
       if(typeof root.createShowdown!=="function")throw new Error("Showdown preparation is unavailable.");
       const created=await root.createShowdown();shellCreated=Boolean(created);if(!created)throw new Error("The Showdown could not be prepared.");

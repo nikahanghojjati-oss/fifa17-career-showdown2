@@ -42,9 +42,9 @@ async function check(id,label,promise){await promise;step+=1;console.log(`ok ${s
   try{
     await env.clearFirestore();
     const t0=Date.now(),now=Timestamp.fromMillis(t0);
-    const D='acct_daniel',N='acct_nik',E='acct_extra',P='acct_paged',R='acct_revoked',S='acct_stranger',F='acct_free',G='acct_module',H='acct_unfinished',K='acct_race';
-    const dev=Object.fromEntries([[D,'d'],[N,'e'],[E,'a'],[P,'b'],[R,'c'],[S,'5'],[F,'6'],[G,'7'],[H,'8'],[K,'9']].map(([uid,seed])=>[uid,deviceId(seed)]));
-    const X1=rid(1),X2=rid(2),X3=rid(3),X9=rid(9),LIVE=rid(0x11fe),RACE=rid(0x4ace);
+    const D='acct_daniel',N='acct_nik',E='acct_extra',P='acct_paged',R='acct_revoked',S='acct_stranger',F='acct_free',G='acct_module',H='acct_unfinished',K='acct_race',W='acct_expired_code',V='acct_open_code',Q='acct_skewed_code';
+    const dev=Object.fromEntries([[D,'d'],[N,'e'],[E,'a'],[P,'b'],[R,'c'],[S,'5'],[F,'6'],[G,'7'],[H,'8'],[K,'9'],[W,'3'],[V,'4'],[Q,'2']].map(([uid,seed])=>[uid,deviceId(seed)]));
+    const X1=rid(1),X2=rid(2),X3=rid(3),X9=rid(9),LIVE=rid(0x11fe),RACE=rid(0x4ace),OLD=rid(0x01dc),OPEN=rid(0x0bee),SKEW=rid(0x05ce);
     await env.withSecurityRulesDisabled(async c=>{
       const db=c.firestore();
       for(const uid of Object.keys(dev)){await setDoc(doc(db,'accounts',uid),accountEnvelope(uid,now));await setDoc(doc(db,'accounts',uid,'devices',dev[uid]),deviceEnvelope(uid,dev[uid],now,uid===R?'revoked':'active'));}
@@ -58,6 +58,14 @@ async function check(id,label,promise){await promise;step+=1;console.log(`ok ${s
       await setDoc(doc(db,'accounts',H,'careerIndex','current'),headEnvelope(H,[X1,LIVE],now));
       await setDoc(doc(db,'accounts',K,'careerIndex','current'),headEnvelope(K,[X1],now));
       await setDoc(doc(db,'accounts',H,'pairLinks','current'),envelope({objectType:'pairLink',objectId:'current',updatedAt:now,accountId:H,deviceId:dev[H],data:{rivalryId:LIVE,managerRole:'playerOne',managerId:'daniel',linkedAt:now,lastConfirmedAt:now}}));
+      // r79 PR4: a pending test rivalry whose code expired over 10 minutes ago (W) no longer blocks the first real START; one
+      // still open (V) does, and so does one that expired only 5 minutes ago (Q, Codex #908: this device's clock may be ahead).
+      for(const [uid,rivalry,expiresAt] of [[W,OLD,Timestamp.fromMillis(t0-15*60000)],[V,OPEN,Timestamp.fromMillis(t0+20*60000)],[Q,SKEW,Timestamp.fromMillis(t0-5*60000)]]){
+        await setDoc(doc(db,'accounts',uid,'careerIndex','current'),headEnvelope(uid,[X1],now));
+        await setDoc(doc(db,'accounts',uid,'pairLinks','current'),envelope({objectType:'pairLink',objectId:'current',updatedAt:now,accountId:uid,deviceId:dev[uid],data:{rivalryId:rivalry,managerRole:'playerOne',managerId:'daniel',linkedAt:now,lastConfirmedAt:now}}));
+        await setDoc(doc(db,'rivalries',rivalry),envelope({objectType:'rivalry',objectId:rivalry,updatedAt:now,accountId:uid,deviceId:dev[uid],data:{connectionState:'pending-pair',connectionStateBeforeDeletion:null,managerSlots:[],authorizedAccountIds:[uid],createdByAccountId:uid,createdAt:now}}));
+        await setDoc(doc(db,'rivalries',rivalry,'invites',rivalry),envelope({objectType:'invite',objectId:rivalry,updatedAt:now,accountId:uid,deviceId:dev[uid],data:{state:'open',createdByAccountId:uid,createdAt:now,expiresAt}}));
+      }
       await setDoc(doc(db,'rivalries',LIVE),envelope({objectType:'rivalry',objectId:LIVE,updatedAt:now,accountId:H,deviceId:dev[H],data:{connectionState:'active',connectionStateBeforeDeletion:null,managerSlots:[],authorizedAccountIds:[H,S],createdByAccountId:H,createdAt:now}}));
     });
     const db=Object.fromEntries(Object.keys(dev).map(uid=>[uid,env.authenticatedContext(uid).firestore()]));
@@ -162,12 +170,26 @@ async function check(id,label,promise){await promise;step+=1;console.log(`ok ${s
     await check('M2','module: START REAL CAREER writes exactly the career index ids, active',(async()=>{started=await Marker.startRealCareer(services(G));assert.equal(started.status,'ready');assert.equal(started.active,true);assert.deepEqual([...started.hiddenRivalryIds],[X1,X2,X3]);assert.equal(started.revision,0);assert.equal(typeof started.startedAt,'number');
       const raw=(await getDoc(ref(db[G],G))).data();assert.ok(raw.data.startedAt instanceof Timestamp,'startedAt is a server timestamp');assert.ok(Math.abs(raw.data.startedAt.toMillis()-Date.now())<60000);})());
     await check('M3','module: the cached read returns the new marker; a fresh read agrees',(async()=>{assert.deepEqual([...Marker.hiddenRivalryIds(await Marker.readMarker(services(G)))],[X1,X2,X3]);Marker.clearCache();const v=await Marker.readMarker(services(G));assert.deepEqual([...v.hiddenRivalryIds],[X1,X2,X3]);assert.equal(v.active,true);serverStarted=v.startedAt;assert.equal(serverStarted,(await getDoc(ref(db[G],G))).data().data.startedAt.toMillis());})());
-    await check('M4','module: SHOW TEST SHOWDOWNS AGAIN switches active off; hidden ids become none',(async()=>{const before=Marker.epoch();const v=await Marker.setActive(false,services(G));assert.equal(v.active,false);assert.equal(v.revision,1);assert.deepEqual(Marker.hiddenRivalryIds(v),[]);assert.equal(Marker.epoch(),before+1,'a change clears the career caches');})());
+    // r79 PR4 (Nik): the SHOW TEST SHOWDOWNS AGAIN switch is gone from Settings; a marker an older build switched off still
+    // hides the test games (this check used to expect none hidden).
+    await check('M4','module: a marker switched off by the retired SHOW TEST SHOWDOWNS AGAIN still hides the test games',(async()=>{const before=Marker.epoch();const v=await Marker.setActive(false,services(G));assert.equal(v.active,false);assert.equal(v.revision,1);assert.deepEqual([...Marker.hiddenRivalryIds(v)],[X1,X2,X3]);assert.equal(Marker.epoch(),before+1,'a change clears the career caches');})());
     await check('M5','module: switching back on keeps the original list',(async()=>{const v=await Marker.setActive(true,services(G));assert.equal(v.active,true);assert.equal(v.revision,2);assert.deepEqual([...v.hiddenRivalryIds],[X1,X2,X3]);assert.equal(v.startedAt,serverStarted,'toggles keep the original career-start date');Marker.clearCache();assert.equal((await Marker.readMarker(services(G))).startedAt,serverStarted);})());
     await check('M6','module: pressing START again changes nothing (no write, same revision)',(async()=>{const v=await Marker.startRealCareer(services(G));assert.equal(v.revision,2);const raw=(await getDoc(ref(db[G],G))).data();assert.equal(raw.revision,2);assert.equal(raw.objectType,'careerStart');assert.deepEqual(Object.keys(raw.data).sort(),['active','hiddenRivalryIds','startedAt']);})());
     await check('M7','module: refused while the account\'s current Showdown is unfinished; nothing written',(async()=>{
       await assert.rejects(Marker.startRealCareer(services(H)),error=>error.code==='CAREER_START_SHOWDOWN_UNFINISHED');
       assert.equal((await getDoc(ref(db[H],H))).exists(),false);
+    })());
+    await check('M7b','module (r79 PR4): a pending test Showdown whose code has expired is finished, so the first real START writes the marker',(async()=>{
+      const v=await Marker.startRealCareer(services(W));assert.equal(v.status,'ready');assert.deepEqual([...v.hiddenRivalryIds],[X1]);
+      assert.equal((await getDoc(ref(db[W],W))).exists(),true);
+    })());
+    await check('M7c','module (r79 PR4): a pending Showdown whose code is still open is unfinished; nothing written',(async()=>{
+      await assert.rejects(Marker.startRealCareer(services(V)),error=>error.code==='CAREER_START_SHOWDOWN_UNFINISHED');
+      assert.equal((await getDoc(ref(db[V],V))).exists(),false);
+    })());
+    await check('M7e','module (Codex #908): a code that expired only 5 minutes ago still blocks (this clock may be ahead); nothing written',(async()=>{
+      await assert.rejects(Marker.startRealCareer(services(Q)),error=>error.code==='CAREER_START_SHOWDOWN_UNFINISHED');
+      assert.equal((await getDoc(ref(db[Q],Q))).exists(),false);
     })());
     await check('M9','module: a Showdown started in another tab during the press makes the transaction retry and refuse; nothing written',(async()=>{
       let injected=false,pairReads=0;
