@@ -567,5 +567,50 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.equal(world.meter.docWrites,0,"reading the note writes nothing");
   });
 
+  await check("FB12","r79 PR4 modes: the partner-side read is one get per page, only while this account's own record is active; the mode's marker read is one memoised get, only without a partner record; nothing is timed",async()=>{
+    const revive=value=>value===undefined?undefined:JSON.parse(JSON.stringify(value),(_key,item)=>item&&typeof item==="object"&&"__ms" in item?{toMillis:()=>item.__ms}:item);
+    const record=(partnerAccountId,myRole,active)=>({schemaVersion:1,partnerAccountId,myRole,pairedViaRivalryId:`pair_1${"0".repeat(63)}`,pairedAt:{__ms:1},active,updatedAt:{__ms:1}});
+    const MINE="accounts/nik/partner/current",THEIRS="accounts/daniel/partner/current",MARKER="accounts/nik/careerStart/current";
+    async function page({mine,theirs}){
+      const world=createWorld(),{sandbox}=world,serverReads={};const count=p=>{serverReads[p]=(serverReads[p]||0)+1;};
+      const sdk={...world.sdk,doc:(_db,...segments)=>({path:segments.join("/")}),serverTimestamp:()=>({__serverTimestamp:true}),Timestamp:{fromMillis:ms=>({__ms:ms})},
+        runTransaction:(db,fn)=>world.sdk.runTransaction(db,transaction=>fn({get:async ref=>{const snapshot=await transaction.get(ref);count(ref.path);return{...snapshot,data:()=>revive(snapshot.data())};},set:(ref,value)=>transaction.set(ref,value)})),
+        getDoc:async ref=>{count(ref.path);const entry=world.server.get(ref.path);return{exists:()=>Boolean(entry),data:()=>entry?revive(entry.data):undefined};}};
+      Object.assign(world.document,{querySelector:()=>null,getElementById:()=>null,querySelectorAll:()=>[],dispatchEvent:()=>true});
+      Object.assign(sandbox,{TextEncoder,crypto:require("node:crypto").webcrypto,loadRuntimeScript:async()=>true,
+        CareerModeOnlinePlayerIdentity:{getState:()=>({status:"ready",registered:true,accountId:"nik",managerId:"nik"})},
+        CareerModeSparkConnectedAccount:{initialize:async()=>({}),getState:()=>({connected:true,accountId:"nik"})},
+        CareerModeSparkPrivatePairing:{initialize:async()=>({}),getState:()=>({registered:true,deviceId:"device_nik"})},
+        CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,firestore:world.db,firestoreSdk:sdk,auth:{currentUser:{uid:"nik"}}})}});
+      for(const file of ["js/persistentNikDanielPair.js","js/careerStartMarker.js","js/showdownModes.js"])vm.runInContext(fs.readFileSync(path.join(ROOT,file),"utf8"),sandbox,{filename:file});
+      if(mine)world.serverWrite(MINE,mine);if(theirs)world.serverWrite(THEIRS,theirs);
+      const pair=sandbox.CareerModePersistentNikDanielPair,modes=sandbox.CareerModeShowdownModes;
+      await pair.initialize();modes.install();
+      // Page load, Settings opened twice, START pressed twice: the same memoised questions.
+      for(let i=0;i<5;i+=1){await modes.resolve();await pair.readPartnerSide();}
+      const first={...serverReads};
+      // Ten visible minutes on Home with screen changes: no timer reads anything.
+      for(let t=0;t<10*60000;t+=5000){const event={type:"career-mode-screen-shown",detail:{screen:t%10000?"mainMenu":"settings"}};for(const fn of world.document.listeners[event.type]||[])fn(event);await world.advance(5000);}
+      assert.ok((world.document.listeners["career-mode-screen-shown"]||[]).length>=1,"the modes module listens to screen changes");
+      assert.deepEqual({...serverReads},first,"no read happens without a page load or a user action");
+      assert.equal(world.meter.docWrites,0,"reading the mode writes nothing");
+      return {reads:first,view:modes.getView(),side:pair.getPartnerSideState()};
+    }
+    const paired=await page({mine:record("daniel","playerTwo",true),theirs:record("nik","playerOne",true)});
+    assert.equal(paired.reads[MINE],1,"own partner record: once per page");assert.equal(paired.reads[THEIRS],1,"partner side: once per page");
+    assert.equal(paired.reads[MARKER]||0,0,"an active partner record proves real mode: no marker read");
+    assert.equal(paired.view.mode,"real");assert.equal(paired.view.pairing,"paired");assert.equal(paired.side.status,"mutual");
+    const oneSided=await page({mine:record("daniel","playerTwo",true),theirs:record("nik","playerOne",false)});
+    assert.equal(oneSided.reads[THEIRS],1);assert.equal(oneSided.view.pairing,"partner-unpaired");assert.equal(oneSided.side.status,"unpaired");
+    const gone=await page({mine:record("daniel","playerTwo",true),theirs:null});
+    assert.equal(gone.reads[THEIRS],1);assert.equal(gone.view.pairing,"partner-unpaired","a missing partner record (the Rules deny it) is unpaired");
+    const unpaired=await page({mine:record("daniel","playerTwo",false),theirs:record("nik","playerOne",true)});
+    assert.equal(unpaired.reads[THEIRS]||0,0,"my own record inactive: the partner side is never read");assert.equal(unpaired.reads[MARKER]||0,0,"an unpaired record still proves real mode: no marker read");
+    assert.equal(unpaired.view.mode,"real");assert.equal(unpaired.view.pairing,"unpaired");
+    const test=await page({mine:null,theirs:null});
+    assert.equal(test.reads[THEIRS]||0,0,"no record: the partner side is never read");assert.equal(test.reads[MARKER],1,"the marker: one get per page, memoised across five asks");
+    assert.equal(test.view.mode,"test");
+  });
+
   console.log(`PASS Firestore budget contracts: ${results.length} checks, measured reads/min ${measured.join(" / ")} (waiting <= ${BUDGET.waitingVisibleReadsPerMinute} reads/min, hidden ${BUDGET.hiddenReadsPerMinute}, idle writes 0, partner update <= ${BUDGET.partnerUpdateMs} ms).`);
 })().catch(error=>{console.error(error);process.exitCode=1;});

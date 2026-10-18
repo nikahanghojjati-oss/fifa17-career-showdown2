@@ -36,7 +36,8 @@ A.ok(onlineIdentity.includes('id:"daniel",label:"Daniel",role:"playerOne"'));
 A.ok(onlineIdentity.includes('id:"nik",label:"Nik",role:"playerTwo"'));
 A.ok(onlineIdentity.includes('"WHO ARE YOU?"'));
 A.ok(onlineIdentity.includes('"DANIEL · PLAYER ONE"') && onlineIdentity.includes('"NIK · PLAYER TWO"'));
-A.ok(onlineIdentity.includes('"FORGET THIS DEVICE"'));
+// r79 PR4 (Nik): the FORGET THIS DEVICE button is the modes module's (test mode only); the identity keeps the revoke.
+A.ok(read('js/showdownModes.js').includes('"FORGET THIS DEVICE"')&&onlineIdentity.includes('forgetThisDevice:forgetOnlineDevice'));
 A.ok(onlineIdentity.includes('pairing.revokeDevice'));
 A.ok(onlineIdentity.indexOf('pairing.revokeDevice') < onlineIdentity.indexOf('clearPrivateDeviceIdentity()'),"Provider revoke must be attempted before the browser device identity is cleared.");
 A.ok(!/max(?:imum)?(?:Active)?Devices|deviceCap|MAX_DEVICES|three devices/i.test(onlineIdentity),"The product must not introduce an arbitrary device-count cap.");

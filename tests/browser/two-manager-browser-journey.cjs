@@ -47,26 +47,6 @@ async function adminUntil(p,test,label,timeout=30000){const end=Date.now()+timeo
 const homeTile=m=>m.page.evaluate(()=>{const t=document.getElementById("newShowdown");return t?[".menuTileCode",".menuTileLabel",".menuTileMeta"].map(s=>(t.querySelector(s)?.textContent||"").trim()):null;});
 async function waitHomeTile(m,label,timeout=30000){await m.page.waitForFunction(text=>(document.querySelector("#newShowdown .menuTileLabel")?.textContent||"").trim()===text,label,{timeout});return homeTile(m);}
 async function assertNoSessionCodeOption(m){assert.equal(await m.page.locator("#sparkRemoteJoiningOverlay button").filter({hasText:"USE A SESSION CODE"}).count(),0,`${m.user}: a permanently paired account has no USE A SESSION CODE`);}
-// r79 PR3: Daniel's first real pairing. He presses START REAL CAREER in Settings first (Nik's app writes his own marker
-// before redeeming the CMS17R- code).
-async function startRealCareerInSettings(m){
-  // Settings decides the row when it opens: wait until the account is connected and the pair state is known (as a person who
-  // opens Settings a moment after signing in), and reopen Settings once if the row was decided before that.
-  await m.page.waitForFunction(()=>window.CareerModeSparkConnectedAccount?.getState?.()?.connected===true&&window.CareerModePersistentNikDanielPair?.getState?.()?.initialized===true&&window.CareerModePersistentNikDanielPair.getState().busy===false,null,{timeout:30000});
-  for(let attempt=0;;attempt+=1){
-    await m.page.locator("#settingsButton").click({timeout:30000});
-    await m.page.locator("#settingsOverlay").waitFor({state:"visible",timeout:12000});
-    const shown=await m.page.locator(".settingsStartRealCareer").waitFor({state:"visible",timeout:10000}).then(()=>true,()=>false);
-    if(shown)break;
-    if(attempt>=1)throw new Error(`${m.user}: Settings never offered START REAL CAREER`);
-    await m.page.locator(".settingsFooter .menuButton").click();
-    await m.page.locator("#settingsOverlay").waitFor({state:"hidden",timeout:12000});
-  }
-  await m.page.locator(".settingsStartRealCareer").click({timeout:20000});
-  await m.page.locator(".settingsCareerStartToggleRow").waitFor({state:"visible",timeout:20000});
-  await m.page.locator(".settingsFooter .menuButton").click();
-  await m.page.locator("#settingsOverlay").waitFor({state:"hidden",timeout:12000});
-}
 const field=(doc,...keys)=>keys.reduce((v,k)=>v&&(v.mapValue?v.mapValue.fields[k]:v.fields?v.fields[k]:undefined),doc);
 const ids=arr=>(arr&&arr.arrayValue&&arr.arrayValue.values||[]).map(v=>v.stringValue);
 // Studio Z4: the pair's session pointer, read and written as a signed-in manager (their own emulator ID token).
@@ -141,10 +121,22 @@ async function hostSeesJoin(m){await m.page.waitForFunction(()=>window.CareerMod
 const pairPanel=m=>m.page.locator("#connectPlayersScreen #persistentNikDanielPairPanel");
 // r79 one start flow: Home START goes straight to NEW SHOWDOWN (seasons), START opens WAITING over the locked league wheel and
 // makes the code by itself; no Connect Players hop, no GET READY, no CREATE CODE FOR NIK tap.
-async function danielStartsShowdown(m,length){
+// r79 PR4 (Nik): every Home START is real. On Daniel's first one (no career start marker yet) the seasons screen shows the
+// one-time START REAL CAREER checkmark, already ticked, and that START writes the marker before the code; once real it never
+// shows again. (This journey used to press START REAL CAREER in Settings first; that row is gone.)
+async function danielStartsShowdown(m,length,{firstRealStart=false}={}){
   await m.page.locator("#newShowdown").click({timeout:30000});
   await m.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
   assert.equal(await m.page.locator("#connectPlayersScreen").isVisible().catch(()=>false),false,"Home START goes straight to the seasons screen");
+  if(firstRealStart){
+    await m.page.locator("#cmsRealCareerRow").waitFor({state:"visible",timeout:30000});
+    assert.equal(await m.page.locator("#cmsRealCareerCheck").isChecked(),true,"the START REAL CAREER checkmark is ticked");
+    assert.match(await m.page.locator("#cmsRealCareerRow").innerText(),/START REAL CAREER/);
+  }else{
+    await m.page.waitForTimeout(300);
+    assert.equal(await m.page.locator("#cmsRealCareerRow").isVisible().catch(()=>false),false,"the checkmark is one-time: a real account never sees it");
+  }
+  assert.equal(await m.page.locator("#cmsTestRunNote").isVisible().catch(()=>false),false,"Home START is never a test run");
   await m.page.locator("#roundAmount").selectOption(String(length));
   await m.page.locator("#startShowdown").click({timeout:30000});
   await pairPanel(m).locator("code").waitFor({timeout:30000});
@@ -392,12 +384,13 @@ async function main(){
     ok("J1.2","both accounts bootstrapped and devices registered through the composed Rules");
 
     // J2 pairing (seasons chosen on the real create screen)
-    // r79 PR3: Daniel has pressed START REAL CAREER and has no partner yet, so his first code is the real-pairing CMS17R- code.
-    await startRealCareerInSettings(daniel);
-    assert.ok(await admin(`accounts/${uidD}/careerStart/current`),"Daniel's careerStart marker");
+    // r79 PR4: Daniel's first Home START (the ticked START REAL CAREER checkmark) writes his marker before the code, and he
+    // has no partner yet, so his first code is the real-pairing CMS17R- code (only issued to an account with a marker).
+    assert.equal(await admin(`accounts/${uidD}/careerStart/current`),null,"Daniel has no marker before his first START");
+    const pairCode=await danielStartsShowdown(daniel,LENGTH,{firstRealStart:true});
+    assert.ok(await admin(`accounts/${uidD}/careerStart/current`),"Daniel's careerStart marker, written by START");
     assert.equal(await admin(`accounts/${uidN}/careerStart/current`),null,"Nik has no marker before he redeems");
-    const pairCode=await danielStartsShowdown(daniel,LENGTH);
-    assert.match(pairCode,/^CMS17R-pair_[0-9a-f]{64}$/,"first real pairing code shape (CMS17R-)");
+    assert.match(pairCode,/^CMS17R-pair_[0-9a-f]{64}$/,"first real pairing code shape (CMS17R-): the marker was there before the code");
     assert.equal(await daniel.page.locator("#connectPlayersScreen #persistentNikDanielPairPanel code").count(),1,"the code is shown once");
     ok("J2.1","Daniel's START made the CMS17R- pair code by itself and shows WAITING over the locked league wheel");
     await nik.page.locator("#newShowdown").click();

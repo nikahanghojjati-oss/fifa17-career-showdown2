@@ -1637,3 +1637,12 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
   #app #leagueWheelScreen.v26Skin .wheelPointer { margin-top: calc(var(--v26-wheel-cut) * .5695); }
   #app #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: calc(8px + var(--v26-wheel-cut) * .5); }
 }
+
+/* r79 PR4: the one-time START REAL CAREER checkmark and the TEST RUN label on the seasons screen. They wear the screen's own
+   stateNote face (marble on phones) and sit in the setup box's flow above START, never over it. */
+#createShowdown :is(.cmsRealCareerRow, .cmsTestRunNote, .cmsSeasonsStartMessage)[hidden] { display: none !important; }
+#createShowdown .cmsRealCareerRow { display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: center; column-gap: 12px; row-gap: 3px; min-height: 48px; text-align: left; }
+#createShowdown .cmsRealCareerRow input { grid-row: 1 / span 2; width: 24px; height: 24px; margin: 0; accent-color: #f2c45b; cursor: pointer; }
+#createShowdown.v26Skin .setupBox .cmsRealCareerRow label, #createShowdown .cmsRealCareerRow label { margin: 0; text-align: left; letter-spacing: .14em; cursor: pointer; color: #f6ebd0; font-weight: 700; }
+#createShowdown .cmsRealCareerRow small { grid-column: 2; font-size: 12px; line-height: 1.3; color: #d9cdb0; }
+#createShowdown .cmsTestRunNote { font-weight: 700; letter-spacing: .1em; color: #fff1ae; }
