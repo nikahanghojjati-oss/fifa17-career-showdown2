@@ -286,8 +286,14 @@ async function moveToFreshBrowser(browser,managers,retired,old,label,viewport,{e
   await m.page.getByRole("button",{name:"SIGN IN WITH GOOGLE"}).click({timeout:30000});
   const choose=m.page.getByRole("button",{name:new RegExp(`^${label} · PLAYER`,"i")});
   await m.page.waitForFunction(text=>document.getElementById("onlinePlayerIdentityBadge")?.textContent===text||[...document.querySelectorAll("button")].some(b=>b.offsetParent!==null&&/· PLAYER/i.test(b.textContent||"")),label.toUpperCase(),{timeout:30000});
-  if(await choose.isVisible().catch(()=>false))await choose.click({timeout:30000});
-  await m.page.waitForFunction(text=>document.getElementById("onlinePlayerIdentityBadge")?.textContent===text,label.toUpperCase(),{timeout:30000});
+  // The chooser can show for a moment and then close by itself once the account's player loads (seen in CI), so a click on it
+  // may find it detached: tap it only while it is still there, until the badge names the player.
+  const chosenBy=Date.now()+30000;
+  while(await m.page.evaluate(()=>document.getElementById("onlinePlayerIdentityBadge")?.textContent||"")!==label.toUpperCase()){
+    if(Date.now()>chosenBy)throw new Error(`${m.user}: the fresh browser never named the player ${label}: ${await describe(m)}`);
+    if(await choose.isVisible().catch(()=>false))await choose.click({timeout:3000}).catch(()=>{});
+    await m.page.waitForTimeout(500);
+  }
   await m.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.initialized===true&&s.busy===false&&s.connectionState==="active");},null,{timeout:30000});
   const pair=await pairState(m);
   assert.equal(pair.status,"paired",`${m.user}: the fresh browser's pair read is paired (the shell was rebuilt), not ${pair.status}`);
