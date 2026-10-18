@@ -227,6 +227,19 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     }
     const ok=page();await ok.modes.resolve();await ok.modes.startTestRun();assert.equal(ok.modes.isTestRunArmed(),true,"a launch that reached the seasons screen stays a test run");
   });
+  await check("M7f","Codex #908: a test run asks the server once more before it is made; a real career started on another browser refuses it, and an unknown marker is never test",async()=>{
+    const other=page();await other.modes.resolve();await other.modes.startTestRun();
+    const reads=other.calls.filter(c=>c==="readMarker").length;
+    other.marker.readCurrentMarker=async()=>{other.calls.push("readMarker");return {status:"ready",hiddenRivalryIds:[],active:true};};
+    assert.equal(await other.modes.beforeSeasonsStart(),false,"the other browser's real career wins");
+    assert.equal(other.calls.filter(c=>c==="readMarker").length,reads+1,"exactly one fresh read");
+    assert.equal(other.modes.isTestRunArmed(),false);assert.equal(other.modes.getView().mode,"real");
+    assert.match(other.dom.doc.getElementById("cmsSeasonsStartMessage").textContent,/^Your real career has started on another device/);
+    assert.ok(!other.calls.includes("startRealCareer"),"nothing is written");
+    const fine=page();await fine.modes.resolve();await fine.modes.startTestRun();assert.equal(await fine.modes.beforeSeasonsStart(),true,"still no marker: the test run starts");
+    const unknown=page();unknown.marker.readCurrentMarker=async()=>({status:"unknown"});await unknown.modes.resolve();
+    assert.notEqual(unknown.modes.getView().mode,"test","an unknown marker never reads as a test account");
+  });
   await check("M8","the START REAL CAREER checkmark is one-time: Daniel's test account only, never once real, never to Nik, never on a test run",async()=>{
     const row=p=>p.dom.doc.getElementById("cmsRealCareerRow");
     const d=page();await d.modes.resolve();d.modes.renderSeasons();assert.equal(row(d).hidden,false);

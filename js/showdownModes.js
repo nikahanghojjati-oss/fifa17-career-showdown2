@@ -55,10 +55,10 @@ function smBadgeSuffix(){return smTestRunShown()?BADGE_SUFFIX:"";}
 async function smLoad(key,path,ready){if(ready())return ready();if(typeof root.loadRuntimeScript!=="function")throw new Error("The career service is unavailable.");await root.loadRuntimeScript(key,path,()=>Boolean(ready()));return ready();}
 // The marker memo for this account (one exact get per page in js/careerStartMarker.js). A failed read is kept as
 // "unavailable" here and asked again only on the next user action (Settings, START).
-function smReadMarker(accountId){
-  if(markerView.accountId===accountId&&(markerView.status==="ready"||markerView.status==="none"))return Promise.resolve(markerView);
+function smReadMarker(accountId,options={}){
+  if(options.fresh!==true&&markerView.accountId===accountId&&(markerView.status==="ready"||markerView.status==="none"))return Promise.resolve(markerView);
   if(markerPromise&&markerPromise.accountId===accountId)return markerPromise.promise;
-  const promise=(async()=>{try{const api=await smLoad("career-start-marker","js/careerStartMarker.js",()=>root.CareerModeCareerStartMarker);const marker=await api.readCurrentMarker();markerView=Object.freeze({status:marker&&marker.status==="ready"?"ready":"none",accountId});}catch(_){markerView=Object.freeze({status:"unavailable",accountId});}return markerView;})().finally(()=>{if(markerPromise&&markerPromise.promise===promise)markerPromise=null;});
+  const promise=(async()=>{try{const api=await smLoad("career-start-marker","js/careerStartMarker.js",()=>root.CareerModeCareerStartMarker);/* Codex #908: fresh asks the server again (another browser of this account may have started the real career) */if(options.fresh===true)api.clearCache?.();const marker=await api.readCurrentMarker();/* only a real answer decides: an unknown marker is unavailable, never test */markerView=Object.freeze({status:marker&&(marker.status==="ready"||marker.status==="none")?marker.status:"unavailable",accountId});}catch(_){markerView=Object.freeze({status:"unavailable",accountId});}return markerView;})().finally(()=>{if(markerPromise&&markerPromise.promise===promise)markerPromise=null;});
   markerPromise={accountId,promise};return promise;
 }
 // Page load, Settings open and START ask the same memoised questions; nothing here reads twice.
@@ -156,7 +156,15 @@ async function smBeforeSeasonsStart(){
   const id=smIdentity();if(!id||id.managerId!=="daniel")return true;
   smSetSeasonsMessage("");
   const v=await smResolve();
-  if(armed&&v.mode==="test")return true;
+  if(armed&&v.mode==="test"){
+    /* Codex #908: a test run is checked against the server once more just before it is made (one read per test START): if this
+       account's real career started meanwhile on another browser, the game would count, so it is refused instead. */
+    const fresh=await smReadMarker(id.accountId,{fresh:true});
+    if(fresh.status==="none")return true;
+    armed=false;smRefresh();
+    smSetSeasonsMessage(fresh.status==="ready"?"Your real career has started on another device, so this cannot be a test run. Press START again for a Showdown that counts.":"Your career could not be checked. Check your connection, then press START again.");
+    return false;
+  }
   if(v.mode==="real")return true;
   if(v.mode!=="test"){smSetSeasonsMessage("Your career could not be checked. Check your connection, then press START again.");return false;}
   const check=smDoc()?.getElementById(CHECK_ID);
