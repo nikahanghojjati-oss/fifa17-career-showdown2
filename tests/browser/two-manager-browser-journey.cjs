@@ -392,7 +392,15 @@ async function main(){
     assert.equal(await admin(`accounts/${uidN}/careerStart/current`),null,"Nik has no marker before he redeems");
     assert.match(pairCode,/^CMS17R-pair_[0-9a-f]{64}$/,"first real pairing code shape (CMS17R-): the marker was there before the code");
     assert.equal(await daniel.page.locator("#connectPlayersScreen #persistentNikDanielPairPanel code").count(),1,"the code is shown once");
-    ok("J2.1","Daniel's START made the CMS17R- pair code by itself and shows WAITING over the locked league wheel");
+    // r79 (PR #901): a reload while Daniel's code is out reopens WAITING over the locked league wheel (not over Home), same code
+    // (r79 PR3: still the CMS17R- code: the first real pairing survives the reload).
+    await daniel.page.reload({waitUntil:"domcontentloaded"});
+    await daniel.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
+    await pairPanel(daniel).locator("code").waitFor({timeout:30000});
+    await daniel.page.waitForTimeout(1000);
+    const afterReload=await daniel.page.evaluate(()=>({screen:window.getActiveScreenName?.(),stay:document.getElementById("connectPlayersScreen")?.dataset.stayOnScreen,code:document.querySelector("#connectPlayersScreen #persistentNikDanielPairPanel code")?.textContent?.trim()}));
+    assert.deepEqual(afterReload,{screen:"leagueWheelScreen",stay:"true",code:pairCode},"after a reload WAITING is back over the locked league wheel with the same code");
+    ok("J2.1","Daniel's START made the CMS17R- pair code by itself and shows WAITING over the locked league wheel, also after a reload");
     await nik.page.locator("#newShowdown").click();
     // Trap: the pair panel re-renders (replaceChildren) while the join sidecar syncs; a code typed before it settles is lost.
     await nik.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.busy===false&&s.status==="unpaired");},null,{timeout:30000});
@@ -439,6 +447,8 @@ async function main(){
       assert.equal(await m.page.evaluate(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState),"active",`${m.user}: the private session is ACTIVE`);
       assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: GET READY is not shown`);
     }
+    // r79 (PR #901): once ACTIVE each device remembers its own shell as paired, so a reload mid-Showdown gets no startup hold.
+    for(const m of [daniel,nik]){const mark=await m.page.evaluate(()=>({mark:window.readStorageValue("careerModeShowdown.pairedShell.v1"),save:typeof currentShowdown!=="undefined"&&currentShowdown?currentShowdown.identity?.saveId:null}));assert.ok(mark.mark&&mark.mark===mark.save,`${m.user}: the active shell is remembered as paired (${JSON.stringify(mark)})`);}
     ok("J3.1","private session hosted by Daniel, joined by Nik; both reached the league wheel");
     await shot(daniel,"j3-setup");await shot(nik,"j3-setup");
 
@@ -885,7 +895,8 @@ async function main(){
     }
     assert.deepEqual(await waitHomeTile(nik,"WAITING FOR DANIEL"),["WAIT","WAITING FOR DANIEL","PASTE A CODE"],"expired note: Nik's Home waits for Daniel");
     assert.equal(field(await admin(`accounts/${uidN}/partnerInbox/current`),"rivalryId").stringValue,staleRid,"the expired note is still there; it is simply not offered");
-    ok("J12.0","an expired JOIN note leaves Nik's Home on WAITING FOR DANIEL with the PASTE A CODE backup");
+    await nik.page.waitForFunction(()=>window.CareerModePersistentNikDanielPair?.getJoinNoteWatch?.().listening===true,null,{timeout:30000});
+    ok("J12.0","an expired JOIN note leaves Nik's Home on WAITING FOR DANIEL with the PASTE A CODE backup, and one note listener waits");
     const pairCode2=await danielStartsShowdown(daniel,LENGTH);
     assert.match(pairCode2,/^CMS17-pair_[0-9a-f]{64}$/,"R2 pair code shape (already paired: no CMS17R-)");
     const R2pending=pairCode2.slice("CMS17-".length);
@@ -898,12 +909,20 @@ async function main(){
       assert.deepEqual(Object.keys(note.fields).sort(),["createdAt","expiresAt","fromAccountId","rivalryId","schemaVersion","totalSeasons"]);
       assert.match(await pairPanel(daniel).innerText(),/Nik can tap JOIN on his Home screen now/,"Daniel's waiting panel says Nik can tap JOIN");
     }
-    // Nik's Home picks the note up the next time Home is shown or the tab becomes visible (memoised: at most one read per 30 s).
-    // The tab-visible event is dispatched on the still-visible page; nothing else reads the note.
+    // Nik already sits on Home when Daniel presses START: his Home holds one listener on his JOIN note while it is shown and
+    // visible (Nik 2026-10-18, "check by itself"), so JOIN appears with no tap and no tab event.
     const joinTile=["JOIN","JOIN DANIEL'S SHOWDOWN",`Daniel started ${LENGTH} season${LENGTH===1?"":"s"}. Tap to join.`];
-    {const end=Date.now()+45000;let tile;for(;;){await nik.page.evaluate(()=>document.dispatchEvent(new Event("visibilitychange")));await nik.page.waitForTimeout(2000);tile=await homeTile(nik);if(JSON.stringify(tile)===JSON.stringify(joinTile)||Date.now()>end)break;await nik.page.waitForTimeout(3000);}
-      assert.deepEqual(tile,joinTile,"Daniel START -> Nik's Home shows JOIN");}
-    ok("J12.1a","Daniel's START writes Nik's JOIN note (own transaction, invite expiry) and Nik's Home shows JOIN without a reload");
+    {
+      const nikTaps=nik.log.taps.length,written=Date.parse((await admin(`accounts/${uidN}/partnerInbox/current`)).updateTime);
+      await nik.page.waitForFunction(text=>(document.querySelector("#newShowdown .menuTileMeta")?.textContent||"").trim()===text,joinTile[2],{timeout:30000});
+      const seenAfter=Date.now()-written;
+      assert.deepEqual(await homeTile(nik),joinTile,"Daniel START -> Nik's Home shows JOIN");
+      assert.equal(nik.log.taps.length,nikTaps,"Nik tapped nothing");
+      assert.equal(await nik.page.evaluate(()=>window.getActiveScreenName?.()),"mainMenu","Nik stayed on Home");
+      assert.ok(seenAfter<=10000,`JOIN appeared ${seenAfter} ms after Daniel's note was written (listener)`);
+      assert.equal(await nik.page.evaluate(()=>window.CareerModePersistentNikDanielPair.getJoinNoteWatch().listening),false,"JOIN showing: the note listener has detached");
+    }
+    ok("J12.1a","Daniel's START writes Nik's JOIN note (own transaction, invite expiry); Nik, already on Home, sees JOIN by itself (one listener) with no tap, no tab event, no reload");
     // Reload on both: Daniel's code is still out (reload recovery reopens his WAITING by itself), Nik's Home still shows JOIN.
     for(const m of [daniel,nik]){
       await m.page.reload({waitUntil:"domcontentloaded"});

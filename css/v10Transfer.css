@@ -904,6 +904,9 @@
     display: block; position: absolute; z-index: 3; margin: 0; pointer-events: none;
     left: calc(var(--k) * 36px); top: calc(var(--k) * 62px); width: calc(var(--k) * 400px); height: auto;
   }
+  /* HO-033 item 9: when the plate is wider than the window (1440x900, 1280x800) the world is pushed left off-screen and the
+     title's first letter was clipped. Keep the title at least 16px inside the visible window; no change where the world fits. */
+  #app #transferChallenge .tw-host .world > .transfer-wordmark { left: max(calc(var(--k) * 36px), calc(100% - 100vw + 16px)); }
   #app #transferChallenge .tw-host .world > .transfer-wordmark img { display: block; width: 100%; height: auto; }
   /* the plate has no sign either: a live gold-bevel board behind the clock/status text, centred where NEXT_TRANSFER hangs it */
   #app #transferChallenge .tw-host :is(.sign-screen, .sign-status) {

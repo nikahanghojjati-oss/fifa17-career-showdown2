@@ -15,14 +15,8 @@
   width: 100vw;
   min-height: 100vh;
 }
-#ruleBook.v10RuleBook .ruleBookScrim {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(2, 4, 6, 0.72) 0%, rgba(2, 4, 6, 0.54) 31%, rgba(2, 4, 6, 0.74) 100%),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.28) 0%, rgba(0, 0, 0, 0.08) 48%, rgba(0, 0, 0, 0.34) 100%);
-}
+/* HO-033: the full-screen .ruleBookScrim (48-74% black) was removed (owner rule HO-027, no dimming); the text panels
+   are opaque marble (HO-028), so the library plate shows at its approved lighting. */
 #ruleBook.v10RuleBook .sd-stage__layer--ui {
   pointer-events: none;
 }
@@ -329,11 +323,6 @@
     height: 100%;
     object-fit: cover;
     object-position: 50% 50%;
-  }
-#ruleBook.v10RuleBook .ruleBookScrim {
-    background:
-      linear-gradient(180deg, rgba(2, 4, 6, .70) 0%, rgba(2, 4, 6, .48) 22%, rgba(2, 4, 6, .72) 100%),
-      linear-gradient(90deg, rgba(0, 0, 0, .20), rgba(0, 0, 0, .06) 50%, rgba(0, 0, 0, .20));
   }
 #ruleBook.v10RuleBook .ruleBookV10Content {
     height: 100svh;

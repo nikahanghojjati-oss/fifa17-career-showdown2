@@ -1238,17 +1238,17 @@
   #app #legacy[data-rivalry-legacy-v10] :is(.legacyDepthCutout,.legacyDepthRim) { display:none; }
   /* a soft dark pool behind the kicker, wordmark and line, so they read over the bright arch lights */
   #app #legacy[data-rivalry-legacy-v10] .legacyTitleBlock { position:relative; }
-  #app #legacy[data-rivalry-legacy-v10] .legacyTitleBlock::before {
-    content:""; position:absolute; z-index:-1; left:22%; right:22%; top:0; bottom:-6%; pointer-events:none;
-    background:radial-gradient(ellipse at 50% 55%,#050608a8,#05060870 46%,transparent 72%);
-  }
+  /* HO-033 follow-up: the dark 44-66% shade behind the title is gone (owner rule: no dimming); the eyebrow and tagline keep
+     their own text shadows below. */
+  #app #legacy[data-rivalry-legacy-v10] .legacyTitleBlock::before { content:none; }
   #app #legacy[data-rivalry-legacy-v10] .legacyEyebrow,
   #app #legacy[data-rivalry-legacy-v10] .legacyTagline { color:#fff6d8; text-shadow:0 1px 3px #000,0 0 10px #000c,0 0 22px #000a; }
 
   /* the archive panel: gold-bevel frame around black marble glass */
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel {
     position:relative; box-sizing:border-box; border:clamp(3px,.4vh,5px) solid transparent; border-radius:4px;
-    background:linear-gradient(180deg,#0e0e0fe6 0,#070708ed 40%,#040405f2 100%) padding-box,var(--lg-bevel) border-box;
+    /* HO-033 follow-up: opaque black-gold marble (HO-029 kit tile) instead of the .90-.95 see-through glass (owner rule HO-027) */
+    background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,url("r78-marble-tile.webp") 0 0/256px 256px repeat padding-box,var(--lg-bevel) border-box #110f0c;
     box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c80,0 0 26px #f0c84b2e,0 14px 36px #000b;
   }
   /* the second, empty slot of the archive (only one showdown is live): a glass pane with a thin gold edge */
@@ -1328,7 +1328,8 @@
   /* the totals card and the three lower panels: gold-bevel frame around black glass */
   #app #statistics[data-rivalry-legacy-v10] :is(.rv-comparison,.rv-bottom) {
     border:clamp(2px,.3vh,4px) solid transparent; border-radius:4px;
-    background:linear-gradient(180deg,#0e0e0fe8 0,#070708ee 40%,#040405f2 100%) padding-box,var(--rp-bevel) border-box;
+    /* HO-033 follow-up: opaque black-gold marble (HO-029 kit tile) instead of the .91-.95 see-through glass (owner rule HO-027) */
+    background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,url("r78-marble-tile.webp") 0 0/256px 256px repeat padding-box,var(--rp-bevel) border-box #110f0c;
     box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c80,0 0 24px #f0c84b2a,0 12px 30px #000b;
   }
   #app #statistics[data-rivalry-legacy-v10] #rvBack {
@@ -1365,14 +1366,6 @@
     transform:translateX(-50%); object-fit:fill;
   }
   #app #legacy[data-rivalry-legacy-v10] .legacyPhoneGrade { display:none; }
-  /* r78 gallery fix: the plate now runs the full screen but the stage vignette still stops at the bottom of the managers'
-     band, so its darker lower edge ended in a hard horizontal line (~350px on a 390x844 phone). Fade the vignette out
-     over its lower part so it melts into the plate with no seam. This only takes darkening away; nothing new covers
-     the men and their faces are untouched. */
-  #app #legacy[data-rivalry-legacy-v10] .sd-stage__vignette {
-    -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 50%, transparent 100%);
-    mask-image:linear-gradient(to bottom, #000 0%, #000 50%, transparent 100%);
-  }
 }
 
 /* r78 HO-031 v3 phone marble: upright phones up to 600px wide and sideways phones draw Team V's ENV_RIVALRY_PHONE_V3
