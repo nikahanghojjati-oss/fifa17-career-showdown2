@@ -1743,6 +1743,19 @@
         "^tests/contracts/which\\-showdown\\-is\\-live\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/permanent-pairing-client-contracts.cjs",
+      "patterns": [
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/whichShowdownIsLive\\.js$",
+        "^js/sparkRemoteJoining\\.js$",
+        "^js/careerStartMarker\\.js$",
+        "^firestore\\.persistent\\-pair\\-production\\.fragment\\.rules$",
+        "^tests/contracts/permanent\\-pairing\\-client\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

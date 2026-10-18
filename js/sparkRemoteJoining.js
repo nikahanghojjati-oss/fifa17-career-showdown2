@@ -329,7 +329,8 @@
   // Studio Z4: every new game day Daniel had to host and send Nik a long session code to paste. The two paired accounts now
   // share one pointer, rivalries/{rivalryId}/sessionOffers/current, which only they can read (Rules) and only the session's
   // host can point at their own open or active session. Daniel's phone hosts and publishes it; Nik's phone reads it and
-  // joins; either phone re-attaches to it after a closed tab. The manual code controls stay behind USE A SESSION CODE.
+  // joins; either phone re-attaches to it after a closed tab. The manual code controls stay behind USE A SESSION CODE
+  // for accounts that are not permanently paired (r79 PR3: a paired account has no USE A SESSION CODE path).
   const SRJ_OFFER_POLL_MS=3000,SRJ_OFFER_POLL_LIMIT_MS=10*60*1000,SRJ_OFFER_MIN_LIFE_MS=60*1000;
   let srjAutoPromise=null,srjOfferTimer=null;
   function srjOfferRef(context){return context.services.firestoreSdk.doc(context.services.firestore,"rivalries",context.rivalryId,"sessionOffers","current");}
@@ -408,15 +409,20 @@
     return {ok:true,kind:"waiting"};
   }
   function srjAutoConnect(){if(srjAutoPromise)return srjAutoPromise;if(!srjHasNonterminalSession()&&!srjState.busy&&!srjState.pendingAction)srjSetState({auto:"connecting",message:"Connecting to your Showdown…"});srjAutoPromise=srjAutoConnectOnce().catch(error=>{srjSetState({auto:null});return {ok:false,code:error&&error.code||"REMOTE_JOINING_AUTO_FAILED",message:error&&error.message||"Player connection failed."};}).finally(()=>{srjAutoPromise=null;});return srjAutoPromise;}
-  function srjUseManualCode(){srjStopOfferWait();return srjSetState({auto:null});}
+  function srjPermanentlyPaired(){try{const partner=root.CareerModePersistentNikDanielPair?.getPartnerState?.(),account=root.CareerModeSparkConnectedAccount?.getState?.();return Boolean(partner&&partner.status==="ready"&&partner.record&&partner.record.active===true&&account&&partner.accountId===account.accountId);}catch(_error){return false;}}
+  function srjUseManualCode(){if(srjPermanentlyPaired())return srjState;srjStopOfferWait();return srjSetState({auto:null});}
   function srjRenderAuto(body){
     const waiting=srjState.auto==="waiting";
     const intro=srjCreate("div","remoteJoiningIntro");
     intro.append(srjCreate("span","remoteJoiningEyebrow","CAREER MODE SHOWDOWN"),srjCreate("h2","",waiting?`WAITING FOR ${srjRivalName()}`:"CONNECTING"),srjCreate("p","",waiting?`Your game is ready. It continues by itself as soon as ${srjRivalName()==="NIK"?"Nik":"Daniel"} opens Career Mode Showdown and taps CONTINUE CAREER.`:"Connecting Daniel and Nik to the same game. This takes a moment."));
     body.appendChild(intro);
-    const actions=srjCreate("div","remoteJoiningActions");
-    const manual=srjCreate("button","compactButton","USE A SESSION CODE");manual.type="button";manual.disabled=srjState.busy;manual.addEventListener("click",srjUseManualCode);actions.appendChild(manual);
-    body.appendChild(actions);
+    // r79 PR3: a permanently paired account connects through the pair's session pointer only, so the manual USE A SESSION CODE
+    // path is gone for it. An account that is not (yet) permanently paired keeps it as the fallback.
+    if(!srjPermanentlyPaired()){
+      const actions=srjCreate("div","remoteJoiningActions");
+      const manual=srjCreate("button","compactButton","USE A SESSION CODE");manual.type="button";manual.disabled=srjState.busy;manual.addEventListener("click",srjUseManualCode);actions.appendChild(manual);
+      body.appendChild(actions);
+    }
     const note=srjCreate("p","remoteJoiningStatus",srjState.message);note.setAttribute("role","status");note.setAttribute("aria-live","polite");body.appendChild(note);
   }
   function srjCreate(tag,className,text){const element=root.document.createElement(tag);if(className)element.className=className;if(text!==undefined&&text!==null)element.textContent=String(text);return element;}
@@ -478,6 +484,9 @@
   function srjSubscribe(listener){if(typeof listener!=="function")return()=>{};srjListeners.add(listener);return()=>srjListeners.delete(listener);}
   function srjOnOnline(){if(srjState.pendingAction&&!srjState.busy)void srjRetryPendingOperation();}
   if(root&&typeof root.addEventListener==="function")root.addEventListener("online",srjOnOnline);
+  // r79 PR3: the partner record can land while this panel is open (Daniel records his first real pairing alongside his
+  // auto-continue), so the open panel re-renders and USE A SESSION CODE goes away. No read: render only.
+  if(root&&typeof root.addEventListener==="function")root.addEventListener("career-mode-permanent-pair-change",()=>{try{srjRenderPanel();}catch(_error){}});
 
   return srjFreeze({
     contractVersion:1,

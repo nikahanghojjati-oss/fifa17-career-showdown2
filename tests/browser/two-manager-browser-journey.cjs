@@ -41,6 +41,32 @@ function assertNoRemovedTaps(m){
 const urlFor=user=>`${BASE}?cmsEmulator=1&cmsEmulatorUser=${user}&cmsAuthPort=${AUTH_PORT}&cmsFirestorePort=${FIRESTORE_PORT}`;
 const docUrl=p=>`${FIRESTORE}/v1/projects/${PROJECT}/databases/(default)/documents/${p}`;
 async function admin(p){const r=await fetch(docUrl(p),{headers:{Authorization:"Bearer owner"}});return r.status===200?r.json():null;}
+// r79 PR3: an owner (rules-bypassing) emulator write, used only to plant an EXPIRED JOIN note before a reload.
+async function adminWrite(p,fields){const r=await fetch(docUrl(p),{method:"PATCH",headers:{Authorization:"Bearer owner","Content-Type":"application/json"},body:JSON.stringify({fields})});assert.equal(r.status,200,`owner write ${p}`);}
+async function adminUntil(p,test,label,timeout=30000){const end=Date.now()+timeout;for(;;){const doc=await admin(p);if(doc&&test(doc))return doc;if(Date.now()>end)throw new Error(`${label}: ${JSON.stringify(doc).slice(0,400)}`);await new Promise(resolve=>setTimeout(resolve,500));}}
+const homeTile=m=>m.page.evaluate(()=>{const t=document.getElementById("newShowdown");return t?[".menuTileCode",".menuTileLabel",".menuTileMeta"].map(s=>(t.querySelector(s)?.textContent||"").trim()):null;});
+async function waitHomeTile(m,label,timeout=30000){await m.page.waitForFunction(text=>(document.querySelector("#newShowdown .menuTileLabel")?.textContent||"").trim()===text,label,{timeout});return homeTile(m);}
+async function assertNoSessionCodeOption(m){assert.equal(await m.page.locator("#sparkRemoteJoiningOverlay button").filter({hasText:"USE A SESSION CODE"}).count(),0,`${m.user}: a permanently paired account has no USE A SESSION CODE`);}
+// r79 PR3: Daniel's first real pairing. He presses START REAL CAREER in Settings first (Nik's app writes his own marker
+// before redeeming the CMS17R- code).
+async function startRealCareerInSettings(m){
+  // Settings decides the row when it opens: wait until the account is connected and the pair state is known (as a person who
+  // opens Settings a moment after signing in), and reopen Settings once if the row was decided before that.
+  await m.page.waitForFunction(()=>window.CareerModeSparkConnectedAccount?.getState?.()?.connected===true&&window.CareerModePersistentNikDanielPair?.getState?.()?.initialized===true&&window.CareerModePersistentNikDanielPair.getState().busy===false,null,{timeout:30000});
+  for(let attempt=0;;attempt+=1){
+    await m.page.locator("#settingsButton").click({timeout:30000});
+    await m.page.locator("#settingsOverlay").waitFor({state:"visible",timeout:12000});
+    const shown=await m.page.locator(".settingsStartRealCareer").waitFor({state:"visible",timeout:10000}).then(()=>true,()=>false);
+    if(shown)break;
+    if(attempt>=1)throw new Error(`${m.user}: Settings never offered START REAL CAREER`);
+    await m.page.locator(".settingsFooter .menuButton").click();
+    await m.page.locator("#settingsOverlay").waitFor({state:"hidden",timeout:12000});
+  }
+  await m.page.locator(".settingsStartRealCareer").click({timeout:20000});
+  await m.page.locator(".settingsCareerStartToggleRow").waitFor({state:"visible",timeout:20000});
+  await m.page.locator(".settingsFooter .menuButton").click();
+  await m.page.locator("#settingsOverlay").waitFor({state:"hidden",timeout:12000});
+}
 const field=(doc,...keys)=>keys.reduce((v,k)=>v&&(v.mapValue?v.mapValue.fields[k]:v.fields?v.fields[k]:undefined),doc);
 const ids=arr=>(arr&&arr.arrayValue&&arr.arrayValue.values||[]).map(v=>v.stringValue);
 // Studio Z4: the pair's session pointer, read and written as a signed-in manager (their own emulator ID token).
@@ -366,9 +392,14 @@ async function main(){
     ok("J1.2","both accounts bootstrapped and devices registered through the composed Rules");
 
     // J2 pairing (seasons chosen on the real create screen)
+    // r79 PR3: Daniel has pressed START REAL CAREER and has no partner yet, so his first code is the real-pairing CMS17R- code.
+    await startRealCareerInSettings(daniel);
+    assert.ok(await admin(`accounts/${uidD}/careerStart/current`),"Daniel's careerStart marker");
+    assert.equal(await admin(`accounts/${uidN}/careerStart/current`),null,"Nik has no marker before he redeems");
     const pairCode=await danielStartsShowdown(daniel,LENGTH);
-    assert.match(pairCode,/^CMS17-pair_/,"pair code shape");
-    ok("J2.1","Daniel's START made the pair code by itself and shows WAITING over the locked league wheel");
+    assert.match(pairCode,/^CMS17R-pair_[0-9a-f]{64}$/,"first real pairing code shape (CMS17R-)");
+    assert.equal(await daniel.page.locator("#connectPlayersScreen #persistentNikDanielPairPanel code").count(),1,"the code is shown once");
+    ok("J2.1","Daniel's START made the CMS17R- pair code by itself and shows WAITING over the locked league wheel");
     await nik.page.locator("#newShowdown").click();
     // Trap: the pair panel re-renders (replaceChildren) while the join sidecar syncs; a code typed before it settles is lost.
     await nik.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.busy===false&&s.status==="unpaired");},null,{timeout:30000});
@@ -386,6 +417,18 @@ async function main(){
     assert.deepEqual(ids(field(await admin(`accounts/${uidD}/careerIndex/current`),"data","rivalryIds")),[R1],"Daniel career index [R1]");
     assert.deepEqual(ids(field(await admin(`accounts/${uidN}/careerIndex/current`),"data","rivalryIds")),[R1],"Nik career index [R1]");
     ok("J2.2","Nik joined with the code; Daniel=playerOne, Nik=playerTwo, both career indexes [R1]");
+    {
+      // r79 PR3: Nik's app wrote his marker BEFORE redeeming; after ACTIVE both managers hold a permanent partner record.
+      const markerN=await admin(`accounts/${uidN}/careerStart/current`);
+      assert.ok(markerN,"Nik's careerStart marker was written by the join");
+      assert.ok(Date.parse(markerN.createTime)<Date.parse(linkN.createTime),`Nik's marker (${markerN.createTime}) is written before his redeem (${linkN.createTime})`);
+      const partner=async(uid,other,role)=>{const d=await adminUntil(`accounts/${uid}/partner/current`,doc=>field(doc,"active")?.booleanValue===true,`${role} partner record`);
+        assert.equal(field(d,"partnerAccountId").stringValue,other);assert.equal(field(d,"myRole").stringValue,role);assert.equal(field(d,"pairedViaRivalryId").stringValue,R1);assert.equal(field(d,"schemaVersion").integerValue,"1");return d;};
+      await partner(uidN,uidD,"playerTwo");await partner(uidD,uidN,"playerOne");
+      for(const m of [daniel,nik])await m.page.waitForFunction(()=>window.CareerModePersistentNikDanielPair?.getPartnerState?.()?.record?.active===true,null,{timeout:30000});
+      for(const m of [daniel,nik])await assertNoSessionCodeOption(m);
+    }
+    ok("J2.3","first real pairing: Nik's marker before redeem, both partner records active naming R1, no USE A SESSION CODE");
     await shot(daniel,"j2-paired");await shot(nik,"j2-paired");
 
     // J3 private session through the real Remote Joining surface; the ACTIVE session continues into the league wheel.
@@ -832,6 +875,9 @@ async function main(){
     await shot(stranger,"j11-stranger");
 
     // J12 second Showdown: terminal authority is durable; Daniel and Nik can start a fresh R2 from Home.
+    // r79 PR3: an EXPIRED JOIN note in Nik's inbox (planted by the emulator owner) must leave Nik's Home on Waiting for Daniel.
+    const staleRid=`pair_3${"e".repeat(63)}`,pastIso=new Date(Date.now()-60000).toISOString();
+    await adminWrite(`accounts/${uidN}/partnerInbox/current`,{schemaVersion:{integerValue:"1"},rivalryId:{stringValue:staleRid},totalSeasons:{integerValue:"3"},fromAccountId:{stringValue:uidD},createdAt:{timestampValue:new Date(Date.now()-21*60000).toISOString()},expiresAt:{timestampValue:pastIso}});
     for(const m of [daniel,nik]){
       await m.page.reload({waitUntil:"domcontentloaded"});
       await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
@@ -844,14 +890,44 @@ async function main(){
       const entryOverlay=m.page.locator("#productionSharedJourneyEntryOverlay");
       assert.equal(await entryOverlay.isVisible().catch(()=>false),false,`${m.user}: a CLOSED Showdown must not re-open the GET READY career entry overlay after reload`);
     }
+    assert.deepEqual(await waitHomeTile(nik,"WAITING FOR DANIEL"),["WAIT","WAITING FOR DANIEL","PASTE A CODE"],"expired note: Nik's Home waits for Daniel");
+    assert.equal(field(await admin(`accounts/${uidN}/partnerInbox/current`),"rivalryId").stringValue,staleRid,"the expired note is still there; it is simply not offered");
+    ok("J12.0","an expired JOIN note leaves Nik's Home on WAITING FOR DANIEL with the PASTE A CODE backup");
     const pairCode2=await danielStartsShowdown(daniel,LENGTH);
-    assert.match(pairCode2,/^CMS17-pair_/,"R2 pair code shape");
-
+    assert.match(pairCode2,/^CMS17-pair_[0-9a-f]{64}$/,"R2 pair code shape (already paired: no CMS17R-)");
+    const R2pending=pairCode2.slice("CMS17-".length);
+    {
+      // Daniel's START wrote Nik's JOIN note in its own transaction, with the invite's own expiry.
+      const note=await adminUntil(`accounts/${uidN}/partnerInbox/current`,doc=>field(doc,"rivalryId")?.stringValue===R2pending,"Daniel's JOIN note");
+      const invite=await admin(`rivalries/${R2pending}/invites/${R2pending}`);
+      assert.equal(field(note,"expiresAt").timestampValue,field(invite,"data","expiresAt").timestampValue,"note expiresAt == invite expiresAt");
+      assert.equal(field(note,"fromAccountId").stringValue,uidD);assert.equal(field(note,"totalSeasons").integerValue,String(LENGTH));assert.equal(field(note,"schemaVersion").integerValue,"1");
+      assert.deepEqual(Object.keys(note.fields).sort(),["createdAt","expiresAt","fromAccountId","rivalryId","schemaVersion","totalSeasons"]);
+      assert.match(await pairPanel(daniel).innerText(),/Nik can tap JOIN on his Home screen now/,"Daniel's waiting panel says Nik can tap JOIN");
+    }
+    // Nik's Home picks the note up the next time Home is shown or the tab becomes visible (memoised: at most one read per 30 s).
+    // The tab-visible event is dispatched on the still-visible page; nothing else reads the note.
+    const joinTile=["JOIN","JOIN DANIEL'S SHOWDOWN",`Daniel started ${LENGTH} season${LENGTH===1?"":"s"}. Tap to join.`];
+    {const end=Date.now()+45000;let tile;for(;;){await nik.page.evaluate(()=>document.dispatchEvent(new Event("visibilitychange")));await nik.page.waitForTimeout(2000);tile=await homeTile(nik);if(JSON.stringify(tile)===JSON.stringify(joinTile)||Date.now()>end)break;await nik.page.waitForTimeout(3000);}
+      assert.deepEqual(tile,joinTile,"Daniel START -> Nik's Home shows JOIN");}
+    ok("J12.1a","Daniel's START writes Nik's JOIN note (own transaction, invite expiry) and Nik's Home shows JOIN without a reload");
+    // Reload on both: Daniel's code is still out (reload recovery reopens his WAITING by itself), Nik's Home still shows JOIN.
+    for(const m of [daniel,nik]){
+      await m.page.reload({waitUntil:"domcontentloaded"});
+      await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
+      await m.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.initialized===true&&s.busy===false);},null,{timeout:30000});
+    }
+    await nik.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
+    assert.deepEqual(await waitHomeTile(nik,"JOIN DANIEL'S SHOWDOWN").then(()=>nik.page.waitForFunction(text=>(document.querySelector("#newShowdown .menuTileMeta")?.textContent||"").trim()===text,joinTile[2],{timeout:30000})).then(()=>homeTile(nik)),joinTile,"after reload Nik's Home still shows JOIN");
+    await pairPanel(daniel).locator("code").waitFor({timeout:30000});
+    // (Which screen sits under WAITING after a reload is PR2's reload recovery; this step only needs the same code back, untapped.)
+    assert.equal((await pairPanel(daniel).locator("code").innerText()).trim(),pairCode2,"after reload Daniel's WAITING shows the same code");
+    const nikTapsBefore=nik.log.taps.length;
     await nik.page.locator("#newShowdown").click({timeout:30000});
-    await pairPanel(nik).locator("#persistentNikDanielPairCode").waitFor({state:"visible",timeout:30000});
-    await pairPanel(nik).locator("#persistentNikDanielPairCode").fill(pairCode2);
-    await pairPanel(nik).getByRole("button",{name:"JOIN DANIEL'S SHOWDOWN",exact:true}).click({timeout:30000});
     await bothPairedAndContinuing([nik,daniel]);
+    assert.deepEqual(nik.log.taps.slice(nikTapsBefore).map(t=>t.id||t.text),["newShowdown"],"Nik's one tap was JOIN on Home: no code typed, no second tap");
+    for(const m of [daniel,nik])await assertNoSessionCodeOption(m);
+    ok("J12.1b","after reload on both: Nik taps JOIN on Home, the note redeems the code and both continue by themselves");
     const linkD2=await admin(`accounts/${uidD}/pairLinks/current`),linkN2=await admin(`accounts/${uidN}/pairLinks/current`);
     const R2=field(linkD2,"data","rivalryId").stringValue;
     assert.ok(R2&&R2!==R1,"R2 is distinct from R1");

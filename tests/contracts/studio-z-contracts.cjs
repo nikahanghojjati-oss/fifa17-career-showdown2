@@ -44,7 +44,9 @@ check("Z4","the session pointer is host-written, pair-read, never listed or dele
   assert.equal(read("firestore.stage5c.rules"),rules,"Stage 5C candidate stays the promoted production source");
   const remote=read("js/sparkRemoteJoining.js");
   assert.match(remote,/autoConnect:srjAutoConnect/);
-  assert.match(remote,/USE A SESSION CODE/,"the manual code stays reachable");
+  assert.match(remote,/USE A SESSION CODE/,"the manual code stays reachable for an account that is not permanently paired");
+  // r79 PR3 (owner decision): a permanently paired account has no USE A SESSION CODE path; the pair's pointer connects it.
+  assert.match(remote,/if\(!srjPermanentlyPaired\(\)\)\{\s*const actions=srjCreate\("div","remoteJoiningActions"\);\s*const manual=srjCreate\("button","compactButton","USE A SESSION CODE"\)/,"no session code button for a paired account");
 });
 
 check("Z5","a waiting update applies by itself only on a safe Home screen",()=>{
