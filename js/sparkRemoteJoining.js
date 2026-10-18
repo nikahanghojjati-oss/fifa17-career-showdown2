@@ -391,11 +391,11 @@
   // open but the pointer write fails, "send Nik this session code" was a dead end: Nik's phone only ever reads the pointer.
   // Daniel keeps waiting and this page publishes the pointer again (3 s, doubling to once a minute, visible tab only, 10 min
   // like Nik's own wait, sooner when the browser comes back online) until it lands or the session stops waiting for a join.
-  // Codex #920: each try first reads the pointer. It already naming this session ends the retry with no write (a write whose
-  // answer was lost); naming another session that the server does not positively report as gone or over ends it too (a
-  // newer screen of Daniel's may own the game, and Nik must not be sent back to this one); this session must still read
-  // OPEN; and a stale or missing pointer is replaced only if it is still the one just read. Reopening the player panel
-  // restarts a retry that gave up.
+  // Codex #920: each try first reads the pointer. Naming this session ends the retry with no write (a write whose answer
+  // was lost). Naming another session that the server does not positively report as gone, over or within a minute of its
+  // end means no write (a newer screen of Daniel's may own the game, and Nik must not be sent back to this one); the retry
+  // keeps checking in case that session ends. This session must still read OPEN, and a stale or missing pointer is replaced
+  // only if it is still the one just read. Reopening the player panel restarts a retry that gave up.
   let srjOfferConfirmed=null;
   // Codex #920: the host's join watch has its own 10 min limit, so it starts afresh whenever the pointer lands or publishing
   // restarts; otherwise Nik could join after it ended and Daniel's screen would stay on WAITING until a reload.
@@ -406,18 +406,19 @@
     root.CareerModeFirestoreBudget?.wantFresh?.(path);
     const seen=await sdk.runTransaction(context.services.firestore,async transaction=>{const snapshot=await transaction.get(srjOfferRef(context));const data=snapshot&&snapshot.exists()?snapshot.data():null;return data&&typeof data.sessionId==="string"?{sessionId:data.sessionId,expiresAtEpochMs:data.expiresAt&&typeof data.expiresAt.toMillis==="function"?data.expiresAt.toMillis():0}:null;});
     if(seen&&seen.sessionId===sessionId)return "ours";
-    if(seen&&seen.expiresAtEpochMs>Date.now()){
+    // A pointer with a minute or less left is stale here exactly as it is for Nik's poll and for a fresh START.
+    if(seen&&seen.expiresAtEpochMs>Date.now()+SRJ_OFFER_MIN_LIFE_MS){
       // Another session is replaced only when the server positively says it is gone or over; any other answer (a revoked
       // device, a denied or failed read) leaves it alone and tries again later.
       const other=await context.protocol.readSession(srjOperationOptions(context,seen.sessionId));
-      const over=other&&(other.ok===true?!["open","active"].includes(other.state)||other.expiredByClock===true||!(Number(other.expiresAtEpochMs)>Date.now()):other.code==="PRIVATE_SESSION_NOT_FOUND");
+      const over=other&&(other.ok===true?!["open","active"].includes(other.state)||other.expiredByClock===true||!(Number(other.expiresAtEpochMs)>Date.now()+SRJ_OFFER_MIN_LIFE_MS):other.code==="PRIVATE_SESSION_NOT_FOUND");
       if(!over)return other&&other.ok===true?"taken":"retry";
     }
     // This session itself must still be open on the server (not joined, closed or refused) before Nik is pointed at it.
     const own=await context.protocol.readSession(srjOperationOptions(context,sessionId));
     if(!own||own.ok!==true)return "retry";
     if(own.state==="active"&&!own.expiredByClock){if(srjHostWaitingForJoin(sessionId))srjAcceptResult(own,context,"host","The other manager joined. Private session is active with exactly the two paired rivalry accounts.");return "stop";}
-    if(own.state!=="open"||own.expiredByClock===true||!(Number(own.expiresAtEpochMs)>Date.now()))return "stop";
+    if(own.state!=="open"||own.expiredByClock===true||!(Number(own.expiresAtEpochMs)>Date.now()+SRJ_OFFER_MIN_LIFE_MS))return "stop";
     if(!srjHostWaitingForJoin(sessionId)||!srjPendingContextMatches(context)||srjState.role!=="host")return "stop";
     const value={schemaVersion:1,sessionId,hostAccountId:context.accountId,expiresAt:sdk.Timestamp.fromMillis(srjState.expiresAtEpochMs),updatedAt:sdk.serverTimestamp()};
     root.CareerModeFirestoreBudget?.wantFresh?.(path);
@@ -435,15 +436,15 @@
       if(srjPublishTimer!==timer)return;
       srjPublishTimer=null;
       if(!srjHostWaitingForJoin(sessionId)){srjPublishRetry=null;return;}
-      if(Date.now()-startedAt>SRJ_OFFER_POLL_LIMIT_MS){srjPublishRetry=null;srjSetState({message:"Nik's phone could not be reached. Check your connection, then open the game again."});return;}
+      if(Date.now()-startedAt>SRJ_OFFER_POLL_LIMIT_MS){srjPublishRetry=null;if(srjState.message!=="Your game is open on another screen. Carry on there.")srjSetState({message:"Nik's phone could not be reached. Check your connection, then open the game again."});return;}
       if(!srjState.busy&&(!root.document||root.document.visibilityState!=="hidden")){
         try{
           const context=await srjResolveContext();
           if(srjPublishTimer!==null)return;  // the browser came back online meanwhile and restarted the retry
           if(!srjPendingContextMatches(context)){srjPublishRetry=null;return;}  // another account or Showdown now: not ours to publish
           const outcome=await srjPublishIfStillOurs(context,sessionId);
-          if(outcome==="ours"||outcome==="written"){srjOfferConfirmed=sessionId;srjPublishRetry=null;srjRewatchForJoin(sessionId);return;}
-          if(outcome==="taken"){srjPublishRetry=null;if(srjHostWaitingForJoin(sessionId))srjSetState({message:"Your game is open on another screen. Carry on there."});return;}
+          if(outcome==="ours"||outcome==="written"){srjOfferConfirmed=sessionId;srjPublishRetry=null;if(srjState.message==="Your game is open on another screen. Carry on there.")srjSetState({message:"Waiting for Nik to open the game."});srjRewatchForJoin(sessionId);return;}
+          if(outcome==="taken"){if(srjHostWaitingForJoin(sessionId)&&srjState.message!=="Your game is open on another screen. Carry on there.")srjSetState({message:"Your game is open on another screen. Carry on there."});}
           if(outcome==="stop"){srjPublishRetry=null;return;}
         }catch(_error){}
       }

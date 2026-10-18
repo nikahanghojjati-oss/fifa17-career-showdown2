@@ -889,7 +889,17 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
       await world.advance(20*60000);
       assert.equal(world.server.get(OFFER).data.sessionId,B,"Nik is still sent to the newer session");
       assert.equal(offerWrites.length,1,"no write after the first failure");
-      assert.match(remote.getState().message,/open on another screen/);}
+      assert.match(remote.getState().message,/open on another screen/,"the 10 min end keeps the right note");}
+
+    // G2: the other screen's session ends while this one still waits: this session is published after all.
+    {const {world,remote,offerWrites,sessions}=daniel({paired:true,fail:1});
+      await remote.autoConnect();
+      const B="session_"+"c".repeat(64);sessions[B]="open";
+      world.serverWrite(OFFER,{schemaVersion:1,sessionId:B,hostAccountId:"daniel",expiresAt:{epochMs:world.clock.now+4*3600000}});
+      await world.advance(60000);assert.match(remote.getState().message,/open on another screen/);
+      sessions[B]="revoked";await world.advance(61000);
+      assert.equal(published(world),true,"once B has ended, Nik is pointed at this session");assert.equal(offerWrites.length,2);
+      assert.match(remote.getState().message,/Waiting for Nik/);}
 
     // K (Codex #920): the newer session's read is refused (this device was revoked): it is never overwritten.
     {const {world,remote,offerWrites,sessions}=daniel({paired:true,fail:1});
@@ -898,6 +908,14 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
       world.serverWrite(OFFER,{schemaVersion:1,sessionId:B,hostAccountId:"daniel",expiresAt:{epochMs:world.clock.now+4*3600000}});
       await world.advance(20*60000);
       assert.equal(world.server.get(OFFER).data.sessionId,B);assert.equal(offerWrites.length,1);}
+
+    // N (Codex #920): a competing pointer with a minute or less left is stale here as it is for Nik's poll: it is replaced.
+    {const {world,remote,offerWrites,sessions}=daniel({paired:true,fail:1});
+      const SHORT="session_"+"7".repeat(64);sessions[SHORT]="open";
+      world.serverWrite(OFFER,{schemaVersion:1,sessionId:SHORT,hostAccountId:"daniel",expiresAt:{epochMs:world.clock.now+30000}});
+      await remote.autoConnect();await world.advance(3000);
+      assert.equal(offerWrites.length,2);assert.equal(published(world),true,"the nearly expired pointer is replaced");
+      assert.doesNotMatch(remote.getState().message,/another screen/);}
 
     // L: a pointer to a session the server reports as not found is replaced.
     {const {world,remote,offerWrites,sessions}=daniel({paired:true,fail:1});
