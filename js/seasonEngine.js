@@ -529,7 +529,7 @@ function persistCompletedSeason(roundRecord, seasonNumber){
         currentShowdown.status = previousState.status;
         currentShowdown.completedAt = previousState.completedAt;
         currentShowdown.score = previousState.score;
-        throw new Error("The season could not be saved to browser storage.");
+        throw new Error("The season could not be saved.");
     }
 
     if(currentShowdown.status === "Completed"){

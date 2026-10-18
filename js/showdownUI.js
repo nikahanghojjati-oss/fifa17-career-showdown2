@@ -177,7 +177,7 @@ async function deleteCurrentShowdownFromDashboard(){
     if(await dashboardAskConfirm(message, "danger") !== true){ return; }
     if(!clearSavedShowdown()){
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("The active showdown could not be deleted from browser storage.", "error");
+            window.showAppNotice("The active showdown could not be deleted.", "error");
         }
         return;
     }

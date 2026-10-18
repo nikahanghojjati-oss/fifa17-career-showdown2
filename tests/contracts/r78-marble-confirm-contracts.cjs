@@ -39,7 +39,7 @@ const SITES=[
   // C10 (Settings START REAL CAREER) is retired in r79 PR4 (Nik 2026-10-17): the row is gone; the one-time checkmark on the
   // seasons screen needs no box. C13 is r79 PR4's UNPAIR in Settings (js/showdownModes.js).
   ["C13","js/showdownModes.js","smAskConfirm(`Unpair from ${v.partnerLabel}? Your Showdowns stay saved. To play again you pair again with a new code.`,\"danger\")",[]],
-  ["C11a","js/persistentNikDanielPair.js","pairAskConfirm(\"Delete this old connection and start fresh? This closes the stale online test connection and removes only its unfinished local Showdown so Nik can join the new code Daniel creates.\",\"danger\")",[]],
+  ["C11a","js/persistentNikDanielPair.js","pairAskConfirm(\"Delete this old connection and start fresh? This closes the stale online test connection and clears only its unfinished Showdown so Nik can join the new code Daniel creates.\",\"danger\")",[]],
   ["C11b","js/persistentNikDanielPair.js","pairAskConfirm(\"Delete the old Showdown and start over? This closes the old online Showdown for both players. Your player identity, registered device, Legacy history and app settings are kept.\",\"danger\")",[]]
   // C12 (START A SHOWDOWN "Start a new Showdown? This will close the current ...") is retired in r79: START never offers to close
   // a live Showdown (owner rule); closing stays in Settings (C9). R2 checks the entry module has no confirm box left.
@@ -191,47 +191,48 @@ check("R4b the marble tile is served from the precached shell without a ?v= quer
   tileChecks.catch(()=>{});
 });
 
-// The r78 shell on an installed phone was filled by the r78 worker with r78's own 219 paths. Activating r79 must keep it (and its
-// image cache) as the recovery target instead of judging it against r79's longer list and deleting it.
-const R78_SHELL_PATHS_SHA256="a13204a973ce3b1f4d50d9c5e07dfcf4892d519ac7325ec7d64917a94a533bfd";// sorted JSON of r78's SHELL_PATHS (main f15f54f9)
+// The r79 shell on an installed phone was filled by the r79 worker with r79's own 221 paths. Activating r80 must keep it (and its
+// image cache) as the recovery target instead of deleting it. r80 adds and removes no shell path, so both lists are the same 221.
+const R79_SHELL_PATHS_SHA256="99d8ad165dc2da11cd05d11b06d38c839a810253ab78ae22cbdf53efd425631b";// sorted JSON of r79's SHELL_PATHS (main d1888c33)
 let previousShellChecks=Promise.reject(new Error("R4c did not run"));previousShellChecks.catch(()=>{});
-check("R4c an r78-only shell cache survives r79 activation and stays the rollback target",()=>{
+check("R4c an r79-only shell cache survives r80 activation and stays the rollback target",()=>{
   const crypto=require("node:crypto");
   const probe=swWorld(),diag=probe.diag;
-  assert.equal(diag.previousRevision,"1.9.2-r78");
-  assert.equal(diag.previousShellPaths.length,219,"r78 shipped 219 shell paths");
-  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R78_SHELL_PATHS_SHA256,"the previous list is exactly r78's");
-  assert.ok(diag.previousShellPaths.every(p=>diag.shellPaths.includes(p)),"r79 removed no shell path");
+  assert.equal(diag.previousRevision,"1.9.3-r79");
+  assert.equal(diag.previousShellPaths.length,221,"r79 shipped 221 shell paths");
+  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly r79's");
+  assert.ok(diag.previousShellPaths.every(p=>diag.shellPaths.includes(p)),"r80 removed no shell path");
   previousShellChecks=(async()=>{
     const IMG="career-mode-showdown-v10-images-",PREV="career-mode-showdown-shell-"+diag.previousRevision;
-    // 1. a real r78 install: r78's own list only, plus its image cache and an older leftover
+    // 1. a real r79 install: r79's own list only, plus its image cache and an older leftover
     let w=swWorld();
-    w.fill(diag.revision,diag.shellPaths);w.fill(diag.previousRevision,diag.previousShellPaths,p=>"r78:"+p);w.fill("1.9.1-r77",diag.previousShellPaths);
-    w.store.set(IMG+diag.previousRevision,new Map([[w.SCOPE+"visual-assets/v10_1/home/assets/ENV_HOME_PHONE_V1.webp",new Response("r78-art",{status:200})]]));
+    w.fill(diag.revision,diag.shellPaths);w.fill(diag.previousRevision,diag.previousShellPaths,p=>"r79:"+p);w.fill("1.9.2-r78",diag.previousShellPaths);
+    w.store.set(IMG+diag.previousRevision,new Map([[w.SCOPE+"visual-assets/v10_1/home/assets/ENV_HOME_PHONE_V1.webp",new Response("r79-art",{status:200})]]));
     const status=await w.message("CMS_GET_CACHE_STATUS");
-    assert.equal(status.previous.ok,true,"the r78 cache verifies against r78's own list");
+    assert.equal(status.previous.ok,true,"the r79 cache verifies against r79's own list");
     assert.equal(status.recovery.ok,true);assert.equal(status.recovery.revision,diag.previousRevision);
     await w.dispatch("activate",{});
     const names=[...w.store.keys()];
-    assert.ok(names.includes(PREV),"activation keeps the r78 shell");
-    assert.ok(names.includes(IMG+diag.previousRevision),"activation keeps the r78 image cache");
-    assert.ok(!names.includes("career-mode-showdown-shell-1.9.1-r77"),"older shells are still cleared");
+    assert.ok(names.includes(PREV),"activation keeps the r79 shell");
+    assert.ok(names.includes(IMG+diag.previousRevision),"activation keeps the r79 image cache");
+    assert.ok(!names.includes("career-mode-showdown-shell-1.9.2-r78"),"older shells are still cleared");
     const reply=await w.message("CMS_ROLLBACK_TO_PREVIOUS");
-    assert.equal(reply&&reply.ok,true,"rollback to r78 accepted");assert.equal(reply.revision,diag.previousRevision);
+    assert.equal(reply&&reply.ok,true,"rollback to r79 accepted");assert.equal(reply.revision,diag.previousRevision);
     w.setOnline(false);
     let nav;w.dispatch("fetch",{request:Object.defineProperty(new Request(w.SCOPE),"mode",{value:"navigate"}),respondWith:p=>{nav=p;}});
-    assert.equal(await (await nav).text(),"r78:index.html","offline after rollback: the r78 page");
-    assert.equal(await w.get("js/app.js?v="+diag.previousRevision),"r78:js/app.js","and r78's own files");
-    // 2. an r78 cache missing one of r78's own files is not a recovery target
+    assert.equal(await (await nav).text(),"r79:index.html","offline after rollback: the r79 page");
+    assert.equal(await w.get("js/app.js?v="+diag.previousRevision),"r79:js/app.js","and r79's own files");
+    // 2. an r79 cache missing one of r79's own files is not a recovery target
     w=swWorld();
     w.fill(diag.revision,diag.shellPaths);const broken=w.fill(diag.previousRevision,diag.previousShellPaths);
     const gone=new URL("js/app.js",w.SCOPE);gone.searchParams.set("v",diag.previousRevision);broken.delete(gone.href);
-    assert.equal((await w.message("CMS_GET_CACHE_STATUS")).previous.ok,false,"an incomplete r78 shell fails its own check");
+    assert.equal((await w.message("CMS_GET_CACHE_STATUS")).previous.ok,false,"an incomplete r79 shell fails its own check");
     await w.dispatch("activate",{});
     assert.ok(![...w.store.keys()].includes(PREV),"and is cleared on activation");
-    // 3. the current shell is still judged against the full r79 list
-    w=swWorld();w.fill(diag.revision,diag.previousShellPaths);
-    assert.equal((await w.message("CMS_ACTIVATE_UPDATE")).ok,false,"an r79 cache with only r78's files is refused");
+    // 3. the current shell is still judged against the full r80 list (r80 added no path, so drop one of its own files)
+    w=swWorld();const partial=w.fill(diag.revision,diag.shellPaths);
+    const missing=new URL("js/app.js",w.SCOPE);missing.searchParams.set("v",diag.revision);partial.delete(missing.href);
+    assert.equal((await w.message("CMS_ACTIVATE_UPDATE")).ok,false,"an r80 cache missing one of its own files is refused");
   })();
   previousShellChecks.catch(()=>{});
 });

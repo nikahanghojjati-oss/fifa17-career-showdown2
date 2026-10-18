@@ -441,7 +441,7 @@ function runApplicationDiagnostics(){
         if(bindingProblems.length){ problems.push(`integrity problems: ${bindingProblems.join(", ")}`); }
         if(versionProblems.length){ problems.push(`version mismatch: ${versionProblems.join(", ")}`); }
         if(gameplayState === "error"){ problems.push("gameplay runtime previously failed to load"); }
-        if(!storageAvailable){ problems.push("browser storage unavailable"); }
+        if(!storageAvailable){ problems.push("storage unavailable"); }
 
         if(typeof window.reportApplicationError === "function"){
             window.reportApplicationError("Application integrity check failed", new Error(problems.join("; ")));

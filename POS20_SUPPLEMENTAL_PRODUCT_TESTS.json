@@ -1799,6 +1799,16 @@
         "^tests/contracts/r79\\-modes\\-settings\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r80-online-save-wording-contracts.cjs",
+      "patterns": [
+        "^js/.*\\.js$",
+        "^index\\.html$",
+        "^visual-assets/.*/strings\\.json$",
+        "^tests/contracts/r80\\-online\\-save\\-wording\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

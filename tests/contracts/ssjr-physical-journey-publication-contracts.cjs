@@ -39,7 +39,7 @@ assert.match(recorder,/recorderNetworkRequests:false/);
 assert.match(recorder,/1\.9\.1-r20/);
 assert.doesNotMatch(recorder,/\bfetch\s*\(/);
 assert.match(validator,/validatePhysicalJourneyPair/);
-assert.match(validator,/1\.9\.3-r79/);
+assert.match(validator,/1\.9\.4-r80/);
 assert.match(guide,/Physical Journey Production Acceptance — r75/);
 assert.match(guide,/ssjr-acceptance=1&ssjr-physical=1/);
 assert.match(guide,/Chromebook host/i);

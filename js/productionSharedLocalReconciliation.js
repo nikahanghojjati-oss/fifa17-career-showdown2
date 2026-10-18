@@ -27,15 +27,15 @@
     let preview=lrField(ACTION_ID);if(!preview){preview=root.document.createElement("button");preview.id=ACTION_ID;preview.className="menuButton";preview.type="button";preview.addEventListener("click",()=>{void lrPreviewFromUi();});actions.appendChild(preview);}
     return {panel,heading,summary,status,actions,preview};
   }
-  function lrReason(reason){return ({["history-not-authoritative"]:"Waiting for shared history.",["connected-rivalry-not-exact"]:"Checking the exact connected rivalry and registered local Save.",["remote-not-observed"]:lrMultiTerminal()?"Last season committed. Getting the final result; this updates by itself.":"Waiting for your partner to finish the last season. The final result shows here by itself.",["offline-preview-only"]:"Offline: you can preview the last shared result saved on this device.",["offline-no-observed-remote"]:"Offline: no shared result has been saved on this device yet."})[reason]||"Local save check is getting ready.";}
+  function lrReason(reason){return ({["history-not-authoritative"]:"Waiting for shared history.",["connected-rivalry-not-exact"]:"Checking the exact connected rivalry and your saved Showdown.",["remote-not-observed"]:lrMultiTerminal()?"Last season committed. Getting the final result; this updates by itself.":"Waiting for your partner to finish the last season. The final result shows here by itself.",["offline-preview-only"]:"Offline: you can preview the last shared result already loaded.",["offline-no-observed-remote"]:"Offline: no shared result has been loaded yet."})[reason]||"Save check is getting ready.";}
   function lrRender(){
     const ui=lrEnsureUi();if(!ui)return false;const visible=Boolean(lrSharedActive()&&lrHistoryReady()&&state);lrHidden(ui.panel,!visible);if(!visible)return false;
     lrText(ui.heading,"LOCAL RECONCILIATION");
-    lrText(ui.summary,"Compare the shared result with this device without changing your local Save. Apply is available only in advanced recovery.");
+    lrText(ui.summary,"Compare the shared result with your saved Showdown without changing it. Apply is available only in advanced recovery.");
     const ready=state.phase==="PREVIEW_READY",applied=state.phase==="APPLIED";
-    const message=uiError||(ready?"PREVIEW READY ✓ · YOUR LOCAL SAVE IS UNCHANGED":applied?"THIS RESULT WAS ALREADY APPLIED IN ADVANCED RECOVERY":state.phase==="OFFLINE_FALLBACK"&&state.previewAllowed?"OFFLINE PREVIEW AVAILABLE · APPLY REMAINS DISABLED":lrReason(state.reason));
+    const message=uiError||(ready?"PREVIEW READY ✓ · YOUR SAVE IS UNCHANGED":applied?"THIS RESULT WAS ALREADY APPLIED IN ADVANCED RECOVERY":state.phase==="OFFLINE_FALLBACK"&&state.previewAllowed?"OFFLINE PREVIEW AVAILABLE · APPLY REMAINS DISABLED":lrReason(state.reason));
     lrText(ui.status,message);
-    lrHidden(ui.preview,ready||applied);ui.preview.disabled=uiBusy;lrText(ui.preview,uiBusy?"CHECKING LOCAL SAVE…":"PREVIEW LOCAL RECONCILIATION");
+    lrHidden(ui.preview,ready||applied);ui.preview.disabled=uiBusy;lrText(ui.preview,uiBusy?"CHECKING YOUR SAVE…":"PREVIEW LOCAL RECONCILIATION");
     return true;
   }
   function lrDispatch(){lrRender();try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-local-reconciliation-state-change",{detail:state}));}catch(_error){}return state;}

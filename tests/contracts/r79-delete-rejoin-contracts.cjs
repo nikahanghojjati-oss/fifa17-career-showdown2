@@ -347,7 +347,7 @@ async function pairContracts(){
     await h.pair.initialize({force:true});
     const joined=await h.pair.joinPairing(`CMS17-${R2}`,{managerRole:"playerTwo",autoContinue:false});
     assert.notEqual(joined.status,"paired");
-    assert.match(joined.message,/This phone still has a different unfinished Showdown\. End it in Settings \(END SHOWDOWN\)/);
+    assert.match(joined.message,/You still have a different unfinished Showdown\. End it in Settings \(END SHOWDOWN\)/);
     assert.equal(h.calls.redeem.length,0);assert.equal(h.calls.provision,0);
     ok("J5 a local Showdown not known closed still refuses with the Settings message (not weakened)");
   }
@@ -382,7 +382,7 @@ async function entryContracts(){
   }
   {
     const {api,library,calls}=entrySandbox({closed:false});
-    await assert.rejects(api.provisionJoinerShell(1),/This phone already has a different current Showdown\. End it in Settings \(END SHOWDOWN\)/);
+    await assert.rejects(api.provisionJoinerShell(1),/You already have a different current Showdown\. End it in Settings \(END SHOWDOWN\)/);
     assert.equal(calls.create,0);assert.equal(library.saves.length,1);
     ok("E2 any other current Showdown still refuses with the Settings message");
   }

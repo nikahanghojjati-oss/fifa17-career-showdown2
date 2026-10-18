@@ -369,7 +369,7 @@ function getOrCreateTransferChallenge(seasonNumber){
     currentShowdown.transferChallenges.push(challenge);
     if(!saveCurrentShowdown()){
         currentShowdown.transferChallenges = currentShowdown.transferChallenges.filter(item => item !== challenge);
-        throw new Error("The season transfer challenge could not be created in browser storage.");
+        throw new Error("The season transfer challenge could not be created.");
     }
     return challenge;
 }
@@ -393,7 +393,7 @@ function openTransferChallenge(){
         synchronizeTransferDeadline(challenge);
         const migrated = migrateTransferChallengeRecord(challenge);
         if(migrated && !saveCurrentShowdown() && typeof window.showAppNotice === "function"){
-            window.showAppNotice("Transfer data was upgraded in memory but could not yet be written to browser storage. Your existing values remain available.", "error", 9000);
+            window.showAppNotice("Transfer data was upgraded in memory but could not be saved yet. Your existing values remain available.", "error", 9000);
         }
         restoreTransferForm(challenge);
         transferDraftDirty = false;
@@ -527,7 +527,7 @@ function finishTransferWindow(challenge, endedEarly){
         const stillHasTime = challenge.status === "active" && Number.isFinite(restoredDeadline) && restoredDeadline > Date.now();
         if(stillHasTime){ startTransferTimerLoop(); }
         else if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("The transfer window closed, but that state could not be saved. Refresh after browser storage is available; the timer will not retry in the background.", "error", 12000);
+            window.showAppNotice("The transfer window closed, but that state could not be saved. Refresh to try again; the timer will not retry in the background.", "error", 12000);
         }
         return false;
     }

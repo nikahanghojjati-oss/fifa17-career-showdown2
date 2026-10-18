@@ -32,7 +32,7 @@ const SHOTS=process.env.CMS_MODES_SHOTS||path.join(os.tmpdir(),"cms-r79-modes");
 const FORBIDDEN_HOSTS=/(^|\.)(firestore|identitytoolkit|securetoken|firebaseinstallations|firebaseappcheck|content-firebaseappcheck)\.googleapis\.com$/;
 const SIZES=[{width:1280,height:800},{width:390,height:844}];
 const TEST_LABEL="TEST RUN · nothing counts",BADGE_SUFFIX=" · TEST RUN · NOTHING COUNTS";
-const BLOCKED="Finish or delete the current Showdown before you unpair. Nothing was changed.";
+const BLOCKED="Finish or end the current Showdown before you unpair. Nothing was changed.";
 let checks=0;
 const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${label}`);};
 const urlFor=user=>`${BASE}?cmsEmulator=1&cmsEmulatorUser=${user}&cmsAuthPort=${AUTH_PORT}&cmsFirestorePort=${FIRESTORE_PORT}`;

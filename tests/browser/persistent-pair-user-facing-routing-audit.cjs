@@ -333,7 +333,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await recovery.waitFor({state:"visible"});
     const startOver=page.locator("#persistentNikDanielPairPanel button",{hasText:"DELETE OLD SHOWDOWN & START OVER"});
     await startOver.waitFor({state:"visible"});
-    assert.match(await panel.innerText(),/old online Showdown is still connected, but this browser no longer has its local career data/i,"Fresh-browser recovery must explain the real local/server split.");
+    assert.match(await panel.innerText(),/The online Showdown is still live, but it could not be loaded here\./i,"r80: a live Showdown that could not be rebuilt here says so plainly.");
     await recovery.click();
     await page.waitForFunction(()=>window.__recoveryOpened===1,null,{timeout:3000});
     await page.locator("#careerModeRestorePanel input[type=file]").waitFor({state:"attached",timeout:3000});

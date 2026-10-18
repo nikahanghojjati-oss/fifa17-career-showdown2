@@ -236,7 +236,7 @@ await check("PC1h Codex #904 (10-season audit): real vs test fails closed. Nik w
 });
 
 await check("PC1c the marker comes first: a marker that cannot be written stops the join before any shell or redeem; a refused redeem keeps the createdShell rollback",async()=>{
-  const blocked=harness({markerError:providerError("CAREER_START_SHOWDOWN_UNFINISHED","Finish or delete the current Showdown before starting your real career."),docs:joinable(R3),redeem:commitRedeem});
+  const blocked=harness({markerError:providerError("CAREER_START_SHOWDOWN_UNFINISHED","Finish or end the current Showdown before starting your real career."),docs:joinable(R3),redeem:commitRedeem});
   await blocked.pair.initialize({force:true});
   const refused=await blocked.pair.joinPairing(`CMS17R-${R3}`,{managerRole:"playerTwo",autoContinue:false});
   assert.equal(refused.status,"error");
@@ -629,12 +629,12 @@ await check("PC4 the partner record is read once per page load; a failed read is
 await check("PC5 UNPAIR: active:false + updatedAt only; blocked while a Showdown is in progress (finish or delete first)",async()=>{
   const record=partnerDoc(UID.playerOne,"playerTwo",OLD);
   const active=harness({docs:{"accounts/uid_nik/partner/current":record,"accounts/uid_nik/pairLinks/current":linkDoc(R3,"playerTwo"),[`rivalries/${R3}`]:rivalryDoc(R3,"active")}});
-  await assert.rejects(active.pair.unpair(),/Finish or delete the current Showdown before you unpair/);
+  await assert.rejects(active.pair.unpair(),/Finish or end the current Showdown before you unpair/);
   assert.equal(active.docs.get("accounts/uid_nik/partner/current").active,true,"nothing written while a Showdown is in progress");
   const pending=harness({role:"playerOne",docs:{"accounts/uid_daniel/partner/current":partnerDoc(UID.playerTwo,"playerOne",OLD),"accounts/uid_daniel/pairLinks/current":linkDoc(R3,"playerOne"),[`rivalries/${R3}`]:rivalryDoc(R3,"pending-pair",{nik:false}),[`rivalries/${R3}/invites/${R3}`]:inviteDoc(R3,Date.now()+600000)}});
-  await assert.rejects(pending.pair.unpair(),/Finish or delete/,"a code that is still open counts as in progress");
+  await assert.rejects(pending.pair.unpair(),/Finish or end/,"a code that is still open counts as in progress");
   pending.docs.set(`rivalries/${R3}/invites/${R3}`,inviteDoc(R3,Date.now()-5*60000));
-  await assert.rejects(pending.pair.unpair(),/Finish or delete/,"Codex #908: a code expired only 5 minutes ago still counts (this clock may be ahead)");
+  await assert.rejects(pending.pair.unpair(),/Finish or end/,"Codex #908: a code expired only 5 minutes ago still counts (this clock may be ahead)");
   pending.docs.set(`rivalries/${R3}/invites/${R3}`,inviteDoc(R3,Date.now()-15*60000));
   assert.equal((await pending.pair.unpair()).status,"unpaired","an expired code is no Showdown in progress");
   const closed=harness({docs:{"accounts/uid_nik/partner/current":record,"accounts/uid_nik/pairLinks/current":linkDoc(R3,"playerTwo"),[`rivalries/${R3}`]:rivalryDoc(R3,"closed")}});

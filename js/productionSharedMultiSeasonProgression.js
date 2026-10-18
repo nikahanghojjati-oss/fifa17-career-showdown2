@@ -127,7 +127,7 @@
       pmspText(ui.status,`ALL ${state.totalSeasons} SEASONS ARE ACCEPTED · FINAL RESULT IS NEXT`);pmspText(ui.action,"SEASON PLAN COMPLETE ✓");pmspDisable(ui.action,true);return true;
     }
     if(pmspHistoryWitnessed()){
-      const next=season+1;pmspText(ui.status,`SEASON ${season} HISTORY IS READY ON THIS DEVICE · CONTINUE ONCE TO SEASON ${next}`);pmspText(ui.action,`CONTINUE TO SEASON ${next}`);pmspDisable(ui.action,!pmspCanContinue());return true;
+      const next=season+1;pmspText(ui.status,`SEASON ${season} HISTORY IS READY · CONTINUE ONCE TO SEASON ${next}`);pmspText(ui.action,`CONTINUE TO SEASON ${next}`);pmspDisable(ui.action,!pmspCanContinue());return true;
     }
     // Job 33 (R8): the Shared Season Commit status already says SEASON COMMITTED · SCORE BELOW; do not repeat it.
     const commitStatus=pmspField("sharedSeasonCommitStatus"),duplicate=Boolean(commitStatus&&!commitStatus.classList.contains("hidden")&&commitStatus.textContent==="SEASON COMMITTED · SCORE BELOW");pmspHidden(ui.status,duplicate);

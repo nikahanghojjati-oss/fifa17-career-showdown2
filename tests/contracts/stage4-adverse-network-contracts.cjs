@@ -125,8 +125,8 @@ function sdk(runTransaction){
   assert.ok(refreshStart>=0&&publishStart>refreshStart&&reconciliationStart>publishStart,"Connected Rivalry UI handler boundaries must remain discoverable for focused recovery assertions.");
   const refreshHandler=source.slice(refreshStart,publishStart);
   const publishHandler=source.slice(publishStart,reconciliationStart);
-  assert.match(refreshHandler,/status:\"refresh-error\"[\s\S]*Local saves remain available/);
-  assert.match(publishHandler,/status:error&&error\.code===\"STALE_BASE_REVISION\"\?\"conflict\":\"publish-error\"[\s\S]*Local saves were not changed/);
+  assert.match(refreshHandler,/status:\"refresh-error\"[\s\S]*Your Showdowns remain available/);
+  assert.match(publishHandler,/status:error&&error\.code===\"STALE_BASE_REVISION\"\?\"conflict\":\"publish-error\"[\s\S]*Your Showdowns were not changed/);
 
   process.stdout.write("PASS Stage 4 adverse-network safety: attach/read fail bounded, publish can lose provider connectivity after authorized preflight without mutating canonical local saves, and handler-scoped retry UI preserves local-first recovery authority\n");
 })().catch(error=>{

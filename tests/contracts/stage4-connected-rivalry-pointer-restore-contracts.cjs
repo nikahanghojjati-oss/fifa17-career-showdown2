@@ -115,7 +115,7 @@ function pointer(accountId,deviceId,bindingValue,rivalryHex,attachedAtEpochMs){
   assert.match(source,/crState\.attached\?"VERIFY \/ REATTACH":crState\.prefillRivalryId\?"VERIFY AUTO LINK":"ATTACH CONNECTED RIVALRY"/,"Manual attach/verify must remain a fallback surface rather than the normal pairing handoff.");
 
   assert.match(pairingSource,/status:"paired",busy:false,capability:result\.capability,expiresAtEpochMs:null/,"Player Two must retain the redeemed exact rivalry ID in page memory so Connected Rivalry can attach automatically.");
-  assert.match(pairingSource,/Connected Rivalry below is prefilled automatically on this browser/,"Player One must be told the generated pairing ID is handed to Connected Rivalry automatically.");
+  assert.match(pairingSource,/Connected Rivalry below is prefilled automatically\./,"Player One must be told the generated pairing ID is handed to Connected Rivalry automatically.");
   assert.match(pairingSource,/do not manually attach in the normal flow: return to Save Library or open Private Remote Joining/,"Player One normal flow must explicitly avoid unnecessary manual reattach after Player Two joins.");
   assert.match(pairingSource,/no second copy, paste, or manual Attach is required in the normal flow/,"Player Two normal flow must explicitly confirm automatic Connected Rivalry handoff.");
   assert.match(pairingSource,/select\.disabled=select\.disabled\|\|pairingState\.busy\|\|Boolean\(pairingState\.capability\)/,"Manager selection must lock as soon as CREATE/JOIN begins and remain locked while a pairing capability is live.");

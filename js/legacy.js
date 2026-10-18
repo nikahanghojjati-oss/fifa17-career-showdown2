@@ -226,7 +226,7 @@ function deleteLegacyShowdownTransaction(showdown){
 
     if(!deleteLegacyShowdown(showdown.id)){
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("The Legacy showdown could not be deleted from browser storage.", "error", 9000);
+            window.showAppNotice("The Legacy showdown could not be deleted.", "error", 9000);
         }
         return false;
     }
@@ -331,7 +331,7 @@ function deleteAllLegacyHistoryTransaction(history){
 
     if(!clearLegacyHistory()){
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("Legacy history could not be cleared from browser storage.", "error", 9000);
+            window.showAppNotice("Legacy history could not be cleared.", "error", 9000);
         }
         return false;
     }
@@ -385,7 +385,7 @@ function createLegacyDataControls(history){
     exportBackup.addEventListener("click", async () => {
         if(backupExportInProgress){ return; }
         if(typeof window.exportCareerModeBackup !== "function"){
-            status.textContent = "Backup export is unavailable in this browser session.";
+            status.textContent = "Backup export is unavailable right now.";
             if(typeof window.showAppNotice === "function"){
                 window.showAppNotice(status.textContent, "error", 9000);
             }

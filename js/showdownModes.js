@@ -103,7 +103,7 @@ function smDecorateSettingsPanel(panel){
 }
 function smSetSettingsMessage(text,tone="",whileLive=false){settingsMessage=text||"";settingsTone=tone;settingsMessageWhileLive=Boolean(text)&&whileLive;smRefresh();}
 function smAskConfirm(message,tone){return typeof root.askShowdownConfirm==="function"?root.askShowdownConfirm(message,{tone}):typeof root.loadRuntimeScript==="function"?root.loadRuntimeScript("showdown-confirm","js/showdownConfirm.js",()=>typeof root.askShowdownConfirm==="function").then(()=>root.askShowdownConfirm(message,{tone}),()=>false):Promise.resolve(undefined);}
-const RULE="Finish or delete the current Showdown before you unpair.",BLOCKED=`${RULE} Nothing was changed.`;
+const RULE="Finish or end the current Showdown before you unpair.",BLOCKED=`${RULE} Nothing was changed.`;
 function smPlain(error){return error&&error.code==="PERMANENT_PARTNER_UNPAIR_BLOCKED"?BLOCKED:`Nothing was changed. ${error&&error.message?error.message:"Try again."}`;}
 // UNPAIR: a Showdown that is being played is caught here without a read; the pair module's unpair() is the fail-closed check
 // (an ACTIVE rivalry, or a pending one whose code is still open, refuses inside its transaction).
