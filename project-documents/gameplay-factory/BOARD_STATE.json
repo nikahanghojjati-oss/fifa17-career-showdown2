@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-18 11:23 AM Boston time (EDT)",
+ "generated": "2026-10-18 11:27 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 114,
@@ -1089,10 +1089,10 @@
      "draft": false,
      "branch": "gameplay/r79",
      "sha": "2bac5cd08a1942d6bfd29a9db00aec8721a45603",
-     "updated": "2026-10-18T15:21:22Z",
+     "updated": "2026-10-18T15:26:20Z",
      "gates": {
-      "passed": 1,
-      "running": 6,
+      "passed": 5,
+      "running": 2,
       "failed": 0,
       "cancelled": 0
      }
@@ -2859,10 +2859,10 @@
     "draft": false,
     "branch": "gameplay/r79",
     "sha": "2bac5cd08a1942d6bfd29a9db00aec8721a45603",
-    "updated": "2026-10-18T15:21:22Z",
+    "updated": "2026-10-18T15:26:20Z",
     "gates": {
-     "passed": 1,
-     "running": 6,
+     "passed": 5,
+     "running": 2,
      "failed": 0,
      "cancelled": 0
     }
