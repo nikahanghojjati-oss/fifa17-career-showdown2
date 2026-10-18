@@ -41,6 +41,34 @@
   // The ids the career screens leave out. r79 PR4: always, whatever `active` says (an account that switched the retired
   // SHOW TEST SHOWDOWNS AGAIN on keeps its test games stored but hidden).
   function hiddenRivalryIds(marker){return marker&&marker.status==="ready"?marker.hiddenRivalryIds.slice():[];}
+  // r80 (Nik's missing first real game, 2026-10-18): r79's Home START could reopen an old code, or make one for a code-less
+  // shell, without the checkmark (js/productionSharedJourneyEntry.js, fixed there), so the pair's first r79 game was played
+  // as a test Showdown and the checkmark at the next START named it here. A marker made on r79 or later shows again the
+  // Showdowns it hides that were FINISHED (closed with a Terminal Close) on r79 or later: newest first, at most
+  // REVEAL_SCAN_LIMIT exact gets of rivalries/{id}, once per account and marker per page, stopping at the first one last
+  // written before r79 went live. A read that fails, or a document that is missing or not a rivalry, keeps it and every
+  // older one hidden (fail closed). Read-only: the marker, the index and every Showdown stay exactly as they are.
+  const R79_LIVE_MS=Date.UTC(2026,9,18,17,17,45),REVEAL_SCAN_LIMIT=10;
+  const reveals=new Map();
+  function careerHiddenRivalryIds({marker,firestore,firebaseSdk,accountId}={}){
+    const hidden=hiddenRivalryIds(marker);
+    if(!hidden.length||!(marker.startedAt>=R79_LIVE_MS)||!firestore||typeof firebaseSdk?.doc!=="function"||typeof firebaseSdk.getDoc!=="function")return Promise.resolve(hidden);
+    const key=`${accountId}|${marker.startedAt}|${marker.contentHash}`;
+    if(reveals.has(key))return reveals.get(key);
+    const promise=(async()=>{
+      const shown=new Set();
+      for(const id of hidden.slice(-REVEAL_SCAN_LIMIT).reverse()){
+        let value=null;
+        try{const snapshot=await firebaseSdk.getDoc(firebaseSdk.doc(firestore,"rivalries",id));value=snapshot.exists()?snapshot.data():null;}catch(_error){break;}
+        const written=csmMillis(value?.updatedAt);
+        if(!value||value.objectType!=="rivalry"||value.objectId!==id||written===null||written<R79_LIVE_MS)break;
+        if(value.data?.connectionState==="closed"&&Object.hasOwn(value.data,"terminalClose"))shown.add(id);
+      }
+      return hidden.filter(id=>!shown.has(id));
+    })();
+    reveals.set(key,promise);
+    return promise;
+  }
   function parseIndexHead(value){
     if(!csmEnvelopeValid(value,"careerIndex","current"))throw csmError("CAREER_START_INDEX_INVALID","The career index is invalid.");
     const data=value.data||{};
@@ -165,9 +193,9 @@
   }
   function startRealCareer(options){return csmWrite(options,"start",true);}
   function setActive(active,options){return csmWrite(options,"toggle",active===true);}
-  function clearCache(){markers.clear();failedReads.clear();markerEpoch+=1;state=Object.freeze({status:"unknown",accountId:null,epoch:markerEpoch});}
+  function clearCache(){markers.clear();failedReads.clear();reveals.clear();markerEpoch+=1;state=Object.freeze({status:"unknown",accountId:null,epoch:markerEpoch});}
 
   return Object.freeze({contractVersion:2,feature:"cms-career-start-marker",hiddenWhateverActive:true,changeEvent:CHANGE_EVENT,documentPath:"accounts/{uid}/careerStart/current",
-    readMarker,readCurrentMarker,hiddenRivalryIds,startRealCareer,setActive,clearCache,parseMarker,planCreate,planToggle,
+    readMarker,readCurrentMarker,hiddenRivalryIds,careerHiddenRivalryIds,revealSinceEpochMs:R79_LIVE_MS,startRealCareer,setActive,clearCache,parseMarker,planCreate,planToggle,
     epoch:()=>markerEpoch,getState:()=>state,listPermissionRequired:false,deletionRequired:false,billingRequired:false});
 });

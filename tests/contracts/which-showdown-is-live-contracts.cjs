@@ -97,7 +97,7 @@ await check("W4 every START entry routes through the one canonical START",()=>{
   assert.match(hub,/"NEW SHOWDOWN", \(\) => typeof window\.CareerModeOnlinePlayerIdentity\?\.openStart === "function"\s*\? window\.CareerModeOnlinePlayerIdentity\.openStart\(\)/,"completed hub NEW SHOWDOWN");
   assert.match(pairSource,/async function pairOpenCanonicalStart\(\)\{[\s\S]*identity\.openStart\(\)/,"recovery START OVER");
   assert.equal((pairSource.match(/await pairOpenCanonicalStart\(\)/g)||[]).length,2,"both START OVER exits");
-  assert.match(entry,/const decision=await whichShowdownIsLive\(\);\s*if\(decision\.action!=="new"\)\{await followStartDecision\(decision\);return false;\}/,"seasons-screen START");
+  assert.match(entry,/const decision=await whichShowdownIsLive\(\),realStart=await unarmedTestStart\(decision\);\s*if\(decision\.action!=="new"&&!realStart\)\{await followStartDecision\(decision\);return false;\}/,"seasons-screen START");
   assert.match(entry,/\["resume-waiting","join","wait-for-daniel"\]\.includes\(decision\.action\)\)return followStartDecision\(decision\);\s*return openPanel\(\);/,"reload: WAITING / JOIN, GET READY only as the fallback");
   assert.match(read("js/connectPlayersScreenV10.js"),/async function chooseSeasons\(\)\{[\s\S]*managerId==="nik"\)return false;/,"Nik's device never opens the seasons screen from Connect Players");
 });

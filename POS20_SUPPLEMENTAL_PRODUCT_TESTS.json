@@ -1809,6 +1809,23 @@
         "^tests/contracts/r80\\-online\\-save\\-wording\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r80-first-real-game-history-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/whichShowdownIsLive\\.js$",
+        "^js/showdownModes\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/careerStartMarker\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^js/sparkClosedShowdownCareerLoader\\.js$",
+        "^js/sharedClosedShowdownAdapter\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^tests/support/active\\-showdown\\-fixtures\\.cjs$",
+        "^tests/contracts/r80\\-first\\-real\\-game\\-history\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
