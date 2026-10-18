@@ -63,6 +63,13 @@ async function recoveryResolvedByDelete(){
   assert.equal(api.getState().phase,"DELETED","a deleted read resolves the held close as DELETED (it is not held forever)");
   assert.equal(env.forgets,1,"the dead session is forgotten as on CLOSE");
   assert.equal(env.closeCalls.length,1,"no close is re-sent against the deleted rivalry");
+  // and the explicit RETRY path (Codex #910, 2nd): DELETED at once, no close sent
+  const second=await pending();
+  second.env.readImpl=async()=>({ok:true,status:"deleted",rivalryId:PAIR,rivalryState:"closed",rivalryRevision:7,terminal:false,deleted:true});
+  const retried=await second.api.retry();
+  assert.equal(retried.ok,true);assert.equal(retried.status,"deleted");
+  assert.equal(second.api.getState().phase,"DELETED","RETRY on a deleted rivalry publishes DELETED");
+  assert.equal(second.env.closeCalls.length,1,"RETRY sends no close against the deleted rivalry");
 }
 async function retryStopsOnContextChange(){
   // Context changes while the retry's read is in flight: no close for the old Save.
