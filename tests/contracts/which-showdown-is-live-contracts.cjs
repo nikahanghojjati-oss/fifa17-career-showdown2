@@ -17,6 +17,7 @@ const OLD=`pair_3${"9".repeat(63)}`,OLD_SAVE=`save_${"8".repeat(24)}`,FRESH_SAVE
 const pair=(over={})=>({status:"unpaired",initialized:true,busy:false,rivalryId:null,connectionState:null,managerRole:null,closedRivalryId:null,...over});
 const shell=(over={})=>({pending:true,untouched:true,totalSeasons:3,...over});
 const decide=inputs=>Which.decide(inputs);
+const NOW=1_800_000_000_000;
 
 (async()=>{
 await check("W1 the decision table: continue, close-then-new, resume-waiting, new, join, wait-for-daniel and pair-first",()=>{
@@ -30,11 +31,11 @@ await check("W1 the decision table: continue, close-then-new, resume-waiting, ne
   assert.deepEqual({...decide({role:"playerOne",pair:pair({status:"waiting",rivalryId:R[10],connectionState:"pending-pair",managerRole:"playerOne"})})},{action:"resume-waiting",rivalryId:R[10],totalSeasons:10,reason:"resume-waiting"});
   // Daniel chose seasons on this browser but the code was never made (failure or reload): WAITING, the code is made from that shell
   assert.deepEqual({...decide({role:"playerOne",pair:pair(),shell:shell({totalSeasons:3})})},{action:"resume-waiting",rivalryId:null,totalSeasons:3,reason:"shell-without-code"});
-  // nothing live: Daniel chooses seasons; Nik joins with a pasted code (no JOIN note yet in this PR)
+  // nothing live: Daniel chooses seasons; Nik with no JOIN note known joins with a pasted code
   assert.equal(decide({role:"playerOne",pair:pair(),shell:{pending:false}}).action,"new");
   assert.deepEqual({...decide({role:"playerTwo",pair:pair()})},{action:"join",rivalryId:null,totalSeasons:null,reason:"paste-code"});
-  // r80 seam: a JOIN note carries the rivalry; a checked-and-empty inbox means wait for Daniel
-  assert.deepEqual({...decide({role:"playerTwo",pair:pair(),note:{rivalryId:R[3]}})},{action:"join",rivalryId:R[3],totalSeasons:3,reason:"note"});
+  // r79 PR3: an unexpired JOIN note carries the rivalry; a checked-and-empty inbox means wait for Daniel
+  assert.deepEqual({...decide({role:"playerTwo",pair:pair(),note:{rivalryId:R[3],expiresAtEpochMs:NOW+60000},nowEpochMs:NOW})},{action:"join",rivalryId:R[3],totalSeasons:3,reason:"note"});
   assert.equal(decide({role:"playerTwo",pair:pair(),noteChecked:true}).action,"wait-for-daniel");
   // the connection itself needs attention first
   assert.equal(decide({role:null,pair:pair()}).reason,"no-player");
@@ -83,7 +84,7 @@ await check("W3 read() reuses the identity sidecar's own pair read (one bounded 
   assert.equal(syncs,2,"no player, no read");
   const source=read("js/whichShowdownIsLive.js");
   assert.doesNotMatch(source,/firestore|getDoc|onSnapshot|runTransaction|fetch\(/i,"the module itself never reads Firebase");
-  assert.ok(Buffer.byteLength(source)<7000,"the module stays tiny (7000 since the ended-not-closed signal)");
+  assert.ok(Buffer.byteLength(source)<7000,"the module stays tiny (7000 since the ended-not-closed signal; r79 PR3's note check fits inside it)");
 });
 
 await check("W4 every START entry routes through the one canonical START",()=>{
@@ -112,7 +113,7 @@ await check("W5 no bounce: WAITING stays on the league wheel, no reverse trip to
 await check("W6 auto-continue after connect keeps START CAREER as the fallback and the createdShell rollback",()=>{
   const pairSource=read("js/persistentNikDanielPair.js");
   const tick=pairSource.match(/async function pairWaitingPollTick\(\)\{[\s\S]*?\n  \}/)[0];
-  assert.match(tick,/await pairInitialize\(\{force:true\}\);[\s\S]*state\.connectionState==="active"&&state\.status==="paired"&&`\$\{state\.accountId\}\|\$\{state\.rivalryId\}`===key\)await pairAutoContinueAfterConnect\(\)/,"Daniel continues only for the rivalry he was waiting on");
+  assert.match(tick,/await pairInitialize\(\{force:true\}\);[\s\S]*state\.connectionState==="active"&&state\.status==="paired"&&`\$\{state\.accountId\}\|\$\{state\.rivalryId\}`===key\)\{[^}]*\*\/const recording=pairRecordRealPairing\(state\.rivalryId,"playerOne"\);await pairAutoContinueAfterConnect\(\);await recording;\}/,"Daniel continues only for the rivalry he was waiting on (r79 PR3: a real first pairing is recorded alongside)");
   assert.match(pairSource,/async function pairJoinAndContinue\(capability,options=\{\}\)\{const wasActive=state\.connectionState==="active",joined=await pairJoinPairing\(capability,options\);if\(!wasActive&&options\.autoContinue!==false&&joined\?\.status==="paired"&&joined\.connectionState==="active"\)await pairAutoContinueAfterConnect\(\);return joined;\}/,"Nik continues after his own successful JOIN");
   assert.match(pairSource,/joinPairing:pairJoinAndContinue/);
   assert.match(pairSource,/void pairJoinAndContinue\(input\.value,\{managerRole:"playerTwo"\}\)/,"the JOIN button");
@@ -166,6 +167,37 @@ await check("W9 Nik's call (2026-10-17): an ENDED but never CLOSED Showdown is c
   assert.doesNotMatch(close,/createShowdown\(\)|startPairing|abandonCurrentShowdown|continuePair/,"the close path itself never creates, pairs, abandons or continues");
   assert.match(entry,/if\(decision\.action==="close-then-new"\)return closeEndedThenNew\(\);/);
   assert.match(identity,/decision\.action!=="close-then-new"\)\{await openCanonicalShowdownJoin/,"Home START hands close-then-new to the entry, not to JOIN");
+});
+
+await check("W10 r79 PR3: Daniel's JOIN note routes Nik to JOIN only while it is valid; otherwise Waiting for Daniel",async()=>{
+  const note=(over={})=>({rivalryId:R[5],totalSeasons:5,fromAccountId:"uid_daniel",expiresAtEpochMs:NOW+5*60000,...over});
+  const nik=(over={})=>decide({role:"playerTwo",pair:pair(),noteChecked:true,nowEpochMs:NOW,...over});
+  assert.deepEqual({...nik({note:note()})},{action:"join",rivalryId:R[5],totalSeasons:5,reason:"note"},"a valid note -> JOIN on Home with its rivalry");
+  assert.equal(nik({note:note({expiresAtEpochMs:NOW})}).action,"wait-for-daniel","an expired note -> Waiting for Daniel");
+  assert.equal(nik({note:note({expiresAtEpochMs:undefined})}).action,"wait-for-daniel","a note without an expiry never counts");
+  assert.equal(nik({note:note(),nowEpochMs:undefined}).action,"wait-for-daniel","no clock, no note");
+  assert.equal(nik({note:note({rivalryId:"pair_bad"})}).action,"wait-for-daniel","a malformed rivalry never counts");
+  assert.equal(nik({note:note({rivalryId:OLD}),pair:pair({closedRivalryId:OLD})}).action,"wait-for-daniel","the note of the Showdown Nik already finished never reopens it");
+  assert.equal(nik({note:null}).action,"wait-for-daniel");
+  assert.deepEqual({...nik({note:null,noteChecked:false})},{action:"join",rivalryId:null,totalSeasons:null,reason:"paste-code"},"inbox not checked (no partner, read failed): paste a code");
+  // a live pair always wins over a note: continue an ACTIVE game, never redeem the note
+  assert.equal(nik({note:note(),pair:pair({status:"paired",rivalryId:R[3],connectionState:"active",managerRole:"playerTwo"})}).action,"continue");
+  // Daniel never reads or acts on a note
+  assert.equal(decide({role:"playerOne",pair:pair(),note:note(),noteChecked:true,nowEpochMs:NOW,shell:{pending:false}}).action,"new");
+  // read() takes the note from the pair module's memo (no read of its own); noteChecked needs an active partner record
+  const memo={status:"ready",checked:true,partnerActive:true,note:note({expiresAtEpochMs:Date.now()+60000})};
+  const world=view=>({CareerModeOnlinePlayerIdentity:{getState:()=>({status:"ready",managerId:"nik"})},CareerModePersistentNikDanielPair:{getJoinNoteState:()=>view}});
+  assert.deepEqual([(await Which.read(world(memo),{pair:pair()})).action,(await Which.read(world(memo),{pair:pair()})).rivalryId],["join",R[5]]);
+  assert.equal((await Which.read(world({...memo,note:null}),{pair:pair()})).action,"wait-for-daniel");
+  assert.equal((await Which.read(world({...memo,note:null,partnerActive:false}),{pair:pair()})).reason,"paste-code","no active partner: the paste-code path");
+  assert.equal((await Which.read(world({...memo,note:null,checked:false}),{pair:pair()})).reason,"paste-code","an unread inbox never claims Waiting for Daniel");
+  const danielWorld={...world(memo),CareerModeOnlinePlayerIdentity:{getState:()=>({status:"ready",managerId:"daniel"})}};
+  assert.equal((await Which.read(danielWorld,{pair:pair()})).action,"new","Daniel's read ignores any note");
+  // Home's JOIN redeems through the existing joinPairing (auto-continue) with the note's rivalry; a failure opens the code box
+  const identity=read("js/onlinePlayerIdentity.js");
+  assert.match(identity,/const decision=await which\.read\(root\);if\(decision\.action==="join"&&decision\.rivalryId\)\{await openCanonicalNoteJoin\(decision\);return decision;\}/);
+  assert.match(identity,/async function openCanonicalNoteJoin\(decision\)\{[^\n]*joined=await pair\.joinPairing\(pair\.buildPlayerJoinCode\(decision\.rivalryId\),\{managerRole:"playerTwo"\}\);[^\n]*if\(!joined\|\|joined\.connectionState!=="active"\)await openCanonicalShowdownJoin\(/);
+  assert.match(identity,/if\(decision\.action!=="continue"&&decision\.action!=="resume-waiting"&&decision\.action!=="close-then-new"\)\{await openCanonicalShowdownJoin\(/,"wait-for-daniel (the tile is the PASTE A CODE backup) opens the code box");
 });
 
 await check("W7 the module is precached, lazy (not a startup file) and registered",()=>{

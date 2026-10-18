@@ -59,7 +59,11 @@ test("Home keeps every product id, button and text; the skin only decorates",()=
 });
 test("Daniel starts and Nik joins with the product's own copy (the binder never writes it)",()=>{
   assert.match(html,/START A SHOWDOWN/);
-  assert.match(read("js/onlinePlayerIdentity.js"),/isNik\?"JOIN DANIEL'S SHOWDOWN":"START A SHOWDOWN"/);
+  // r79 PR3: Nik's tile copy comes from the permanent pair (JOIN with Daniel's note, WAITING FOR DANIEL, or Join with a code);
+  // Daniel's stays START A SHOWDOWN. Still the product's own copy, never the binder's.
+  const identity=read("js/onlinePlayerIdentity.js");
+  assert.match(identity,/const nik=isNik\?nikHomeTile\(\):null;[^\n]*nik\?nik\[1\]:"START A SHOWDOWN"/);
+  assert.match(identity,/function nikHomeTile\(\)\{[^\n]*"JOIN DANIEL'S SHOWDOWN"[^\n]*"WAITING FOR DANIEL"[^\n]*"JOIN DANIEL'S SHOWDOWN"/);
   assert.doesNotMatch(binder,/JOIN DANIEL|START A SHOWDOWN|"(?:Daniel|Nik)"/);
 });
 test("Audius makes no request before the Play tap",()=>{
