@@ -35,7 +35,9 @@ const SITES=[
   ["C7","js/restoreUI.js","restoreAskConfirm(\"Apply this exact restore plan? The selected file and browser data will be verified again before any write. Export Backup above now if you want an extra current-state recovery copy.\",\"primary\")",[]],
   ["C8","js/productionSharedTransferChallenge.js","pstcAskConfirm(`Lock ${filled} of ${PSTC_MAX_ROWS} ${noun}? You can't change them after locking.`,\"primary\")",[]],
   ["C9","js/settings.js","settingsAskConfirm(\n        `Delete the current \"${name}\" Showdown and start over? This closes the current Showdown connection for both players, removes this device's current local Showdown, and keeps your player identity, registered device, Legacy history and app settings. This cannot be undone.`,\n        \"danger\"",[]],
-  ["C10","js/settings.js","settingsAskConfirm(\n        `Start your real career now? Finished test Showdowns stay saved but are hidden from History, Trophy Room and Legacy. Ask ${other} to press this too.`,\n        \"primary\"",[]],
+  // C10 (Settings START REAL CAREER) is retired in r79 PR4 (Nik 2026-10-17): the row is gone; the one-time checkmark on the
+  // seasons screen needs no box. C13 is r79 PR4's UNPAIR in Settings (js/showdownModes.js).
+  ["C13","js/showdownModes.js","smAskConfirm(`Unpair from ${v.partnerLabel}? Your Showdowns stay saved. To play again you pair again with a new code.`,\"danger\")",[]],
   ["C11a","js/persistentNikDanielPair.js","pairAskConfirm(\"Delete this old connection and start fresh? This closes the stale online test connection and removes only its unfinished local Showdown so Nik can join the new code Daniel creates.\",\"danger\")",[]],
   ["C11b","js/persistentNikDanielPair.js","pairAskConfirm(\"Delete the old Showdown and start over? This closes the old online Showdown for both players. Your player identity, registered device, Legacy history and app settings are kept.\",\"danger\")",[]]
   // C12 (START A SHOWDOWN "Start a new Showdown? This will close the current ...") is retired in r79: START never offers to close
@@ -55,7 +57,7 @@ check("R1 no native confirm() is left in the app (js/, visual-assets/, index.htm
 });
 
 check("R2 the 13 audited confirm sites await the shared box with their exact wording, and only OK counts as consent",()=>{
-  assert.equal(SITES.length,12,"13 audited r78 sites minus C12, retired in r79");
+  assert.equal(SITES.length,12,"13 audited r78 sites minus C12 and C10, retired in r79, plus C13 (r79 PR4 UNPAIR)");
   for(const [id,file,call,extra] of SITES){
     const source=read(file);
     assert.ok(source.includes(call),`${id} ${file}: ${call.slice(0,60)}`);
@@ -63,7 +65,8 @@ check("R2 the 13 audited confirm sites await the shared box with their exact wor
   }
   assert.equal((read("js/legacy.js").match(/await legacyAskConfirm\([^)]*\) !== true/g)||[]).length,3,"C1-C3 only an explicit OK deletes or resets");
   assert.match(read("js/showdownUI.js"),/if\(await dashboardAskConfirm\(message, "danger"\) !== true\)\{ return; \}/);
-  assert.equal((read("js/settings.js").match(/if\(confirmed !== true\)\{ return false; \}/g)||[]).length,2,"C9/C10");
+  assert.equal((read("js/settings.js").match(/if\(confirmed !== true\)\{ return false; \}/g)||[]).length,1,"C9 (C10 retired in r79 PR4)");
+  assert.match(read("js/showdownModes.js"),/const ok=await smAskConfirm\([^\n]*\);\n\s*if\(ok!==true\)return false;/,"C13 only an explicit OK unpairs");
   assert.match(read("js/restoreUI.js"),/if\(await restoreAskConfirm\([^)]*\)!==true\)return;/);
   assert.match(read("js/saveLibraryUI.js"),/const confirmed=await saveLibraryUIAskConfirm\([\s\S]*?\);\n\s*if\(confirmed!==true\|\|saveLibraryUIBusy\)return;/);
   assert.match(read("js/saveLibraryUI.js"),/if\(await saveLibraryUIAskConfirm\(action,"primary"\)!==true\|\|saveLibraryUIBusy\)return;/);
@@ -75,7 +78,7 @@ check("R2 the 13 audited confirm sites await the shared box with their exact wor
   assert.match(pstc,/if\(!await pstcConfirmPartialLock\(guesses\.length,"guesses"\)\)return false;/);
   assert.match(pstc,/if\(!await pstcConfirmPartialLock\(signings\.length,"signings"\)\)return false;/);
   // each helper prefers the loaded box, loads it on first use, and never treats a load failure as consent
-  for(const [file,name] of [["js/legacy.js","legacyAskConfirm"],["js/showdownUI.js","dashboardAskConfirm"],["js/settings.js","settingsAskConfirm"],["js/restoreUI.js","restoreAskConfirm"],["js/saveLibraryUI.js","saveLibraryUIAskConfirm"],["js/productionSharedTransferChallenge.js","pstcAskConfirm"],["js/persistentNikDanielPair.js","pairAskConfirm"],["js/ssjrPhysicalJourneyAcceptance.js","ssjrAskConfirm"]]){
+  for(const [file,name] of [["js/legacy.js","legacyAskConfirm"],["js/showdownUI.js","dashboardAskConfirm"],["js/settings.js","settingsAskConfirm"],["js/showdownModes.js","smAskConfirm"],["js/restoreUI.js","restoreAskConfirm"],["js/saveLibraryUI.js","saveLibraryUIAskConfirm"],["js/productionSharedTransferChallenge.js","pstcAskConfirm"],["js/persistentNikDanielPair.js","pairAskConfirm"],["js/ssjrPhysicalJourneyAcceptance.js","ssjrAskConfirm"]]){
     const source=read(file);
     assert.match(source,new RegExp(`function ${name}\\(message,tone\\)\\{return typeof (?:window|root)\\.askShowdownConfirm==="function"\\?[^\\n]*loadRuntimeScript\\("showdown-confirm","js/showdownConfirm\\.js"[^\\n]*,\\(\\)=>false\\):Promise\\.resolve\\(undefined\\);\\}`),`${file} ${name}`);
   }

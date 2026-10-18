@@ -503,6 +503,7 @@ function pairHarness(){
     CareerModeOnlinePlayerIdentity:{getState:()=>({managerId:"daniel"})},
     CareerModeSparkConnectedAccount:{initialize:async()=>({}),getState:()=>({connected:true,accountId:"uid_daniel"})},
     CareerModeSparkPrivatePairing:{initialize:async()=>({}),getState:()=>({registered:true,deviceId:DEVICE}),localBindingOptions:()=>[]},
+    CareerModeCareerStartMarker:{readCurrentMarker:async()=>({status:"none"})},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"uid_daniel"}},firestore:{},firestoreSdk})},
     CareerModeSaveLibraryRuntime:{isReady:()=>true,getLibrarySnapshot:()=>({activeSaveId:null,saves:[]})}};
   vm.createContext(sandbox);vm.runInContext(read("js/persistentNikDanielPair.js"),sandbox,{filename:"js/persistentNikDanielPair.js"});

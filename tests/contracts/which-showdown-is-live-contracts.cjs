@@ -20,8 +20,9 @@ const decide=inputs=>Which.decide(inputs);
 const NOW=1_800_000_000_000;
 
 (async()=>{
-await check("W1 the decision table: continue, close-then-new, resume-waiting, new, join, wait-for-daniel and pair-first",()=>{
-  assert.deepEqual([...Which.actions],["continue","close-then-new","resume-waiting","new","join","wait-for-daniel","pair-first"]);
+await check("W1 the decision table: continue, close-then-new, resume-waiting, new, join, wait-for-daniel, pair-first and pair-again",()=>{
+  // r79 PR4 adds pair-again (one-sided UNPAIR); the r79 PR2/PR3 actions are unchanged.
+  assert.deepEqual([...Which.actions],["continue","close-then-new","resume-waiting","new","join","wait-for-daniel","pair-first","pair-again"]);
   // a live game continues for both managers, with the rivalry and its season length
   for(const role of ["playerOne","playerTwo"]){
     const live=decide({role,pair:pair({status:"paired",rivalryId:R[5],connectionState:"active",managerRole:role})});
@@ -198,7 +199,8 @@ await check("W10 r79 PR3: Daniel's JOIN note routes Nik to JOIN only while it is
   assert.equal((await Which.read(danielWorld,{pair:pair()})).action,"new","Daniel's read ignores any note");
   // Home's JOIN redeems through the existing joinPairing (auto-continue) with the note's rivalry; a failure opens the code box
   const identity=read("js/onlinePlayerIdentity.js");
-  assert.match(identity,/const decision=await which\.read\(root\);if\(decision\.action==="join"&&decision\.rivalryId\)\{await openCanonicalNoteJoin\(decision\);return decision;\}/);
+  // r79 PR4: a pair-again decision first resets this account's stale record, then START asks again; the JOIN routing is unchanged.
+  assert.match(identity,/let decision=await which\.read\(root\);\/\*[^*]*\*\/if\(decision\.action==="pair-again"\)\{await pairAgainFirst\(\);decision=await which\.read\(root\);\}if\(decision\.action==="join"&&decision\.rivalryId\)\{await openCanonicalNoteJoin\(decision\);return decision;\}/);
   // The entry's other START paths (reload recovery, locked-wheel CONTINUE) hand their decision over, so a note JOIN redeems there too;
   // the fallback to the paste panel passes no decision, so it cannot loop.
   assert.match(identity,/async function openCanonicalShowdownJoin\(options=\{\}\)\{\/\*[^*]*\*\/if\(options&&options\.decision&&options\.decision\.action==="join"&&options\.decision\.rivalryId\)return openCanonicalNoteJoin\(options\.decision\);/);

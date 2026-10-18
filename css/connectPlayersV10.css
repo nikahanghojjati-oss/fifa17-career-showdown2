@@ -1263,3 +1263,6 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
  /* Home's sheet paints every <main> near-black; upright and sideways tablets already clear it here, phones now too. */
  #app #connectPlayersScreen .connectPlayersPhoneFlow { background:none; }
 }
+/* r79 PR4: a test-mode account's Connect Players says so above the pair panel (in the slot's flow; never over anything). */
+#cmsConnectTestRunNote{margin:0 0 10px;padding:8px 12px;border:1px solid #e0b230b3;background:linear-gradient(145deg,#070a0deb,#0c0e11d1);color:#fff1ae;font:700 13px/1.25 var(--f17-display);letter-spacing:.08em;text-align:center;}
+#cmsConnectTestRunNote[hidden]{display:none!important;}
