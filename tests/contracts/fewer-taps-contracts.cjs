@@ -675,9 +675,9 @@ async function r3r4aPresentationContracts(){
 
 // ------------------------------------------------------------------ R5 + R6 career entry
 const PENDING_KEY="careerModeShowdown.sharedJourneyPending.v1";
-function entryHarness({rivalryReady=false,active=false,pairState={status:"unpaired",initialized:true,rivalryId:null,connectionState:null},openExperience="presentation",library:startLibrary=null,terminalClose=null}={}){
+function entryHarness({rivalryReady=false,active=false,pairState={status:"unpaired",initialized:true,rivalryId:null,connectionState:null},openExperience="presentation",library:startLibrary=null,terminalClose=null,identityStatus="ready"}={}){
   const dom=createDom();const menu=dom.add("mainMenu");void menu;const connect=dom.add("connectPlayersScreen");dom.add("connectPlayersPairSlot",{parent:connect});dom.add("roundAmount",{tag:"select"}).value="3";dom.add("startShowdown",{tag:"button"});
-  const calls={pairRender:0,startPairing:0,remoteOpen:0,remoteClose:0,presentation:0,careerStart:0,navigate:[],host:0,join:0,create:0,layerOpen:[],continuePair:0,openJoin:0,closeRefresh:0,close:0,closeRetry:0};
+  const calls={pairRender:0,startPairing:0,remoteOpen:0,remoteClose:0,presentation:0,careerStart:0,navigate:[],host:0,join:0,create:0,layerOpen:[],screenAtOpen:[],continuePair:0,openJoin:0,closeRefresh:0,close:0,closeRetry:0};
   const storage=new Map([[PENDING_KEY,"1"]]);
   const remoteListeners=new Set();
   const remoteState={sessionState:active?"active":null,sessionId:active?SESSION:null,pendingAction:null,rivalryId:RIVALRY,accountId:"uid_daniel",deviceId:DEVICE,expiresAtEpochMs:Date.now()+3_600_000};
@@ -694,8 +694,8 @@ function entryHarness({rivalryReady=false,active=false,pairState={status:"unpair
     navigateTo:async name=>{calls.navigate.push(name);return true;},
     createShowdown:async()=>{calls.create+=1;await new Promise(resolve=>setTimeout(resolve,2));sandbox.currentShowdown={id:"save_1",totalRounds:3,managers:{}};library.activeSaveId="save_1";library.saves=[{saveId:"save_1",showdown:sandbox.currentShowdown}];return true;},
     CareerModeSaveLibraryRuntime:{isReady:()=>true,getLibrarySnapshot:()=>library,saveCurrentShowdown:()=>true,clearActiveShowdown(){}},
-    CareerModeOnlinePlayerIdentity:{getState:()=>({status:"ready",managerId:"daniel",registered:true}),subscribe:()=>()=>{},syncPair:async()=>pairState,openJoin:async()=>{calls.openJoin+=1;return pairState;}},
-    CareerModeConnectPlayersScreenV10:{open:async options=>{calls.layerOpen.push(options);return true;},close:()=>true},
+    CareerModeOnlinePlayerIdentity:{getState:()=>(identityStatus==="ready"?{status:"ready",managerId:"daniel",registered:true}:{status:identityStatus}),subscribe:()=>()=>{},syncPair:async()=>pairState,openJoin:async()=>{calls.openJoin+=1;return pairState;}},
+    CareerModeConnectPlayersScreenV10:{open:async options=>{calls.layerOpen.push(options);calls.screenAtOpen.push(calls.navigate[calls.navigate.length-1]||"mainMenu");return true;},close:()=>true},
     CareerModePersistentNikDanielPair:{getState:()=>pairState,render:()=>{calls.pairRender+=1;if(!dom.document.getElementById("persistentNikDanielPairPanel"))dom.add("persistentNikDanielPairPanel",{parent:dom.document.getElementById("connectPlayersPairSlot")});},startPairing:async()=>{calls.startPairing+=1;},continuePair:async()=>{calls.continuePair+=1;}},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true})},
     CareerModeSparkConnectedAccount:{initialize:async()=>true,getState:()=>({connected:true,accountId:"uid_daniel"})},
@@ -733,6 +733,27 @@ async function r5r6EntryContracts(){
     assert.equal(live.calls.startPairing,0,"no second rivalry");
     const waiting=entryHarness({pairState:{status:"waiting",initialized:true,rivalryId:RIVALRY,connectionState:"pending-pair",managerRole:"playerOne",capability:"CMS17-"+RIVALRY}});waiting.api.install();await settle();
     assert.deepEqual(waiting.calls.layerOpen.map(options=>options&&options.stayOnScreen),[true],"a reload with the pending marker reopens WAITING, not GET READY");assert.equal(visible(waiting.overlay()),false,"no GET READY after the reload");
+    // PR #901: startup leaves Home active; reload recovery puts WAITING back over the locked league wheel (closing it shows the
+    // wheel and its CONTINUE CAREER, not Home), and js/ssjr.js holds the loading screen until this recovery has settled.
+    assert.deepEqual(waiting.calls.screenAtOpen,["leagueWheelScreen"],"after a reload WAITING's underlying screen is leagueWheelScreen");
+    assert.equal(await waiting.api.startupResume(),true,"the reload recovery reports when it has settled (Reus Gate hold)");
+    assert.equal(entryHarness({pairState:{status:"paired",initialized:true,rivalryId:RIVALRY,connectionState:"active",managerRole:"playerOne"}}).api.startupResume(),null,"no recovery is pending before install");
+    {const ssjr=read("js/ssjr.js");
+     assert.ok(ssjr.includes('.then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(resumeGate).catch(()=>null).then(()=>{root.careerModeHomeHold=0;});'),"the loading screen is released only after Home is ready AND the reload recovery settled");
+     assert.ok(ssjr.includes('const resume=entry&&typeof entry.startupResume==="function"?entry.startupResume():null;if(resume)await Promise.race([Promise.resolve(resume).catch(()=>null),cap()]);'),"bounded (6 s); no pending shell means no wait");
+     assert.ok(ssjr.includes('const cap=()=>new Promise(resolve=>root.setTimeout(resolve,6e3));'));
+     assert.ok(ssjr.includes('install("ssjr-production-entry","js/productionSharedJourneyEntry.js","CareerModeProductionSharedJourneyEntry").then(api=>{entryInstalled(api);return api;},error=>{entryInstalled(null);throw error;}),'));}
+    {const source=read("js/productionSharedJourneyEntry.js");
+     assert.ok(source.includes('if(decision&&decision.action==="resume-waiting")await showLockedWheel();'),"Daniel's WAITING reopens over the league wheel");
+     assert.ok(source.includes('if(pending())startStartupResume();return true;}'),"only a pending shell holds startup");
+     assert.ok(source.includes('return !current||entryIdentityReady()||["idle","connecting","signing-in","saving-manager"].includes(current.status);'),"a signed-out, offline or choosing player never holds the loading screen");}
+    {// a signed-out player with a pending shell: nothing can reopen on the wheel, so the loading screen is released at once
+     // (the recovery itself still waits up to 15 s for a sign-in, but never behind the loading screen)
+     const out=entryHarness({identityStatus:"signed-out",pairState:{status:"waiting",initialized:true,rivalryId:RIVALRY,connectionState:"pending-pair",managerRole:"playerOne"}});
+     out.api.install();
+     const released=await Promise.race([out.api.startupResume(),new Promise(resolve=>setTimeout(()=>resolve("held"),300))]);
+     assert.equal(released,true,"signed out: the startup hold ends at once");
+     assert.deepEqual(out.calls.layerOpen,[],"and nothing is reopened for a player who is not signed in");}
     assert.equal(await waiting.api.preparePairingShell(),false,"with Daniel's code already out START creates nothing");
     assert.equal(waiting.calls.create+waiting.calls.startPairing,0,"the code already sent stays the code (no new shell, no new code)");
     assert.deepEqual(waiting.calls.layerOpen.map(options=>options&&options.stayOnScreen),[true,true],"START reopens WAITING");
