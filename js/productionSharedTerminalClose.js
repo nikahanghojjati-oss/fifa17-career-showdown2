@@ -154,11 +154,17 @@
   function ptcStillCurrent(request,generation){return ptcRequest()?.key===request.key&&stateGeneration===generation;}
   function ptcClosedState(request,terminalRead){const witness=protocol.verifyIntent(terminalRead.terminalWitness);return {phase:"CLOSED",rivalryId:request.rivalryId,sessionId:witness.sessionId,rivalryRevision:terminalRead.rivalryRevision,terminal:true,terminalWitness:ptcClone(witness),canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false};}
   function ptcBootstrap(){return ptcEnsureDependencies().then(()=>{if(!unsubscribeRemote&&typeof remoteApi?.subscribe==="function")unsubscribeRemote=remoteApi.subscribe(()=>ptcWake());});}
+  function ptcOnOtherRivalry(request){try{const s=ptcRivalryApi()?.getState?.(),id=String(s?.rivalryId||"").trim().toLowerCase();return s?.attached===true&&/^pair_[0-9a-f]{64}$/.test(id)&&id!==request.rivalryId;}catch(_error){return false;}}
   async function ptcRefreshNow(){
     const request=ptcRequest();if(!request)return ptcClear();
     // r79: a Showdown deleted by the other manager stays deleted (a closed rivalry never reopens): no further read for it.
     const deleted=ptcCurrentState();if(deleted?.phase==="DELETED")return deleted;
-    await ptcBootstrap();const context=await ptcResolveContext(request);if(ptcRequest()?.key!==request.key)return null;
+    await ptcBootstrap();
+    // r79: right after a delete and a new JOIN, the page's rivalry can already be the new Showdown while this Showdown's request
+    // (the old one) is still on screen for a moment. That is not a failure to report: this page has moved on, and the next wake
+    // (the save or rivalry change) refreshes the new one. A held RECOVERY_PENDING close keeps its witness.
+    let context;try{context=await ptcResolveContext(request);}catch(error){if(error?.code==="TERMINAL_CLOSE_RIVALRY_REQUIRED"&&ptcOnOtherRivalry(request)){const held=ptcCurrentState();return held?.phase==="RECOVERY_PENDING"?held:ptcClear();}throw error;}
+    if(ptcRequest()?.key!==request.key)return null;
     const terminalRead=await provider.read({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:request.rivalryId,deviceId:context.deviceId,cryptoImpl:root.crypto});
     if(ptcRequest()?.key!==request.key)return null;
     // H1017-1: an unresolved close holds its exact witness. Only a verified closed read of that same witness resolves it here;
