@@ -211,6 +211,22 @@ async function pairContracts(){
     ok("J1c DELETED during a busy pair action is applied when the action settles, not dropped");
   }
   {
+    // Codex #910 (2nd): DELETED that lands while a pair read is in flight (not busy) is applied after that read publishes,
+    // so the read's older "active" answer never overwrites it.
+    const h=pairHarness();
+    await h.pair.initialize({force:true});
+    let release;h.calls.gate=new Promise(resolve=>{release=resolve;});
+    const reading=h.pair.initialize({force:true});
+    await new Promise(resolve=>setImmediate(resolve));
+    assert.equal(h.pair.getState().busy,false,"a background read is not a busy action");
+    h.fire({phase:"DELETED",rivalryId:R1,terminal:false});
+    h.calls.gate=null;release();await reading;await new Promise(resolve=>setImmediate(resolve));
+    const state=h.pair.getState();
+    assert.deepEqual(plain({rivalryId:state.rivalryId,connectionState:state.connectionState,closedRivalryId:state.closedRivalryId}),
+      {rivalryId:null,connectionState:null,closedRivalryId:R1},"the in-flight read's active answer did not undo DELETED");
+    ok("J1d DELETED during an in-flight pair read is applied after it, never overwritten by it");
+  }
+  {
     const h=pairHarness();
     let state=await h.pair.initialize({force:true});
     assert.equal(state.connectionState,"active");assert.equal(state.rivalryId,R1);assert.equal(state.providerSaveId,SAVE_OLD);
