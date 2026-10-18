@@ -664,7 +664,12 @@ jobs:
         id: r79_journey
         env:
           CMS_CHROMIUM_MULTI_CONTEXT: '1'
-        run: npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json --only auth,firestore --project demo-cms-browser-journey "node tests/browser/r79-two-player-journey-audit.cjs && node tests/browser/r79-delete-rejoin-audit.cjs && node tests/browser/r79-modes-settings-audit.cjs"
+        # Each audit gets fresh emulators: they sign in the same Daniel and Nik accounts, and one
+        # audit's pairing and Showdowns must not leak into the next.
+        run: |
+          for audit in r79-two-player-journey-audit r79-delete-rejoin-audit r79-modes-settings-audit; do
+            npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json --only auth,firestore --project demo-cms-browser-journey "node tests/browser/$audit.cjs" || exit 1
+          done
       - name: Upload journey screenshots
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
