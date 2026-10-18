@@ -315,7 +315,7 @@ await check("PC1e only the rivalry this page paired with CMS17R- writes a record
 
 await check("PC2a Daniel's START for the permanent pair: plain CMS17- code, then the JOIN note in its OWN transaction with the invite's exact expiry",async()=>{
   const expiresAt=Date.now()+20*60000;
-  const h=harness({role:"playerOne",marker:"ready",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:{"accounts/uid_daniel/partner/current":partnerDoc(UID.playerTwo,"playerOne",OLD)},create:commitCreate(expiresAt)});
+  const h=harness({role:"playerOne",marker:"ready",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:{"accounts/uid_daniel/partner/current":partnerDoc(UID.playerTwo,"playerOne",OLD),"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerTwo",OLD)},create:commitCreate(expiresAt)});
   await h.pair.initialize({force:true});
   const waiting=await h.pair.startPairing({managerRole:"playerOne"});
   assert.match(waiting.capability,/^CMS17-pair_3[0-9a-f]{63}$/,"a permanent pair's code stays CMS17- (the backup)");
@@ -339,7 +339,7 @@ await check("PC2a Daniel's START for the permanent pair: plain CMS17- code, then
 });
 
 await check("PC2b a JOIN note that cannot be written never breaks the Showdown: the waiting code stays, nothing is retried in a loop",async()=>{
-  const h=harness({role:"playerOne",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:{"accounts/uid_daniel/partner/current":partnerDoc(UID.playerTwo,"playerOne",OLD)},create:commitCreate(Date.now()+20*60000)});
+  const h=harness({role:"playerOne",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:{"accounts/uid_daniel/partner/current":partnerDoc(UID.playerTwo,"playerOne",OLD),"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerTwo",OLD)},create:commitCreate(Date.now()+20*60000)});
   await h.pair.initialize({force:true});
   const warnings=[];h.sandbox.console={...console,warn:(...args)=>warnings.push(args.join(" "))};
   const original=h.firestoreSdk.runTransaction;let noteAttempts=0;
@@ -363,7 +363,7 @@ await check("PC2c Codex #904: the permanent pair's START stays one busy action u
   for(const outcome of ["written","failed"]){
     let releaseNote=null;const noteGate=new Promise(resolve=>{releaseNote=resolve;});
     const create=commitCreate(Date.now()+20*60000);
-    const h=harness({role:"playerOne",marker:"ready",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:{"accounts/uid_daniel/partner/current":partnerDoc(UID.playerTwo,"playerOne",OLD)},create:async(options,hh)=>{const result=await create(options,hh);hh.created=true;return result;}});
+    const h=harness({role:"playerOne",marker:"ready",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:{"accounts/uid_daniel/partner/current":partnerDoc(UID.playerTwo,"playerOne",OLD),"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerTwo",OLD)},create:async(options,hh)=>{const result=await create(options,hh);hh.created=true;return result;}});
     await h.pair.initialize({force:true});
     const original=h.firestoreSdk.runTransaction;let noteStarted=false;
     h.firestoreSdk.runTransaction=async(db,fn)=>{if(!h.created)return original(db,fn);noteStarted=true;await noteGate;return original(db,async tx=>{if(outcome==="failed"){tx.set=()=>{throw providerError("unavailable","offline");};}return fn(tx);});};
@@ -392,6 +392,33 @@ await check("PC2c Codex #904: the permanent pair's START stays one busy action u
   assert.equal(waiting.busy,false,"no note to write: the code is ready at once");
 });
 
+await check("PC2d Codex #915: Daniel's permanent-pair START makes a code only while Nik's record still names him; an UNPAIR on Nik's side or an unanswered check makes no code (START then leads into PAIR AGAIN)",async()=>{
+  for(const [label,nik,flaky,message] of [["Nik unpaired",partnerDoc(UID.playerOne,"playerTwo",OLD,false),false,/no longer paired with you.*nothing was started/],["Nik's record gone",null,false,/no longer paired with you/],["Nik's record unreadable",partnerDoc(UID.playerOne,"playerTwo",OLD),true,/could not be checked.*nothing was started/]]){
+    const docs={"accounts/uid_daniel/partner/current":partnerDoc(UID.playerTwo,"playerOne",OLD)};if(nik)docs["accounts/uid_nik/partner/current"]=nik;
+    const h=harness({role:"playerOne",marker:"ready",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs,create:commitCreate(Date.now()+20*60000)});
+    if(flaky)h.failReads=p=>p==="accounts/uid_nik/partner/current";
+    await h.pair.initialize({force:true});
+    const started=await h.pair.startPairing({managerRole:"playerOne"});
+    assert.equal(started.status,"error",label);assert.ok(!started.capability,`${label}: no code at all`);assert.match(started.message,message,label);
+    assert.ok(!h.log.some(line=>/^(create|write)/.test(line)),`${label}: no Showdown and no note: ${h.log.join(", ")}`);
+  }
+  // Nik unpairs while Daniel chooses the seasons: the page memo still says mutual, the code-creation read is fresh and sees it.
+  const late=harness({role:"playerOne",marker:"ready",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:{"accounts/uid_daniel/partner/current":partnerDoc(UID.playerTwo,"playerOne",OLD),"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerTwo",OLD)},create:commitCreate(Date.now()+20*60000)});
+  await late.pair.initialize({force:true});
+  await late.pair.readPartnerRecord();const tap=await late.pair.readPartnerSide();assert.equal(tap.status,"mutual",`START tap: Nik still names Daniel (${JSON.stringify(tap)})`);
+  late.docs.set("accounts/uid_nik/partner/current",partnerDoc(UID.playerOne,"playerTwo",OLD,false));
+  const lateStart=await late.pair.startPairing({managerRole:"playerOne"});
+  assert.equal(lateStart.status,"error");assert.match(lateStart.message,/no longer paired with you/,"the code-creation read is fresh, not the START tap's memo");
+  assert.ok(!late.log.some(line=>/^(create|write)/.test(line)),"no Showdown and no note after a late UNPAIR");
+  assert.equal(late.pair.getPartnerSideState().status,"unpaired","the waiting screen knows Nik unpaired");
+  // ...so it offers PAIR AGAIN (START's pair-again flow), never a CREATE CODE that repeats the same error.
+  const source=fs.readFileSync(path.join(ROOT,"js/persistentNikDanielPair.js"),"utf8");
+  assert.match(source,/if\(role==="playerOne"&&partnerSideState\.status==="unpaired"&&pairPartnerRecordFor\(partnerSideState\.accountId\)\?\.active===true\)\{[^}]*pairCreateElement\("button","menuButton","PAIR AGAIN"\)[\s\S]{0,200}addEventListener\("click",\(\)=>void root\.CareerModeOnlinePlayerIdentity\?\.openStart\?\.\(\)\)/,"Codex #915: a late UNPAIR shows PAIR AGAIN, which runs START");
+  // PAIR AGAIN's provider half: Daniel's stale record goes inactive, then the same START makes the first-pairing code for Nik.
+  const reset=await late.pair.unpair();assert.equal(reset.ok,true,`PAIR AGAIN unpairs Daniel's stale record: ${JSON.stringify(reset)}`);
+  const again=await late.pair.startPairing({managerRole:"playerOne"});
+  assert.match(again.capability||"",/^CMS17R-pair_/,`after PAIR AGAIN the code is a first-pairing CMS17R- code: ${JSON.stringify({status:again.status,message:again.message})}`);
+});
 await check("PC3a Nik's note read: one memoised read per 30 s (failures count), none while hidden, only with an active playerTwo record",async()=>{
   const now=Date.now();
   const h=harness({docs:{"accounts/uid_nik/partner/current":partnerDoc(UID.playerOne,"playerTwo",OLD),"accounts/uid_nik/partnerInbox/current":noteDoc(R5,5,UID.playerOne,now+10*60000)}});
