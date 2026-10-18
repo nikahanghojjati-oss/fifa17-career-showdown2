@@ -789,5 +789,76 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     setupScreen.stop();
   });
 
+  await check("FB15","Codex #904 release review: a paired Daniel whose session pointer write fails keeps WAITING and publishes it again (3 s doubling to 60 s, visible tab only, sooner back online, 10 min) so Nik still joins; an unpaired Daniel keeps the session-code fallback",async()=>{
+    const RIVAL="pair_"+"a".repeat(64),OFFER=`rivalries/${RIVAL}/sessionOffers/current`,SESSION_ID="session_"+"d".repeat(64),DEVICE="device_"+"e".repeat(32);
+    // Remote Joining as Daniel (the host) on the budget layer; writes of the pointer fail `fail` times, then land.
+    const daniel=({paired,fail})=>{
+      const world=createWorld();seed(world);
+      let failures=fail;const offerWrites=[];
+      const rawSdk={...world.sdk,Timestamp:{fromMillis:ms=>({epochMs:ms})},serverTimestamp:()=>({serverTimestamp:true}),
+        runTransaction:(db,fn)=>world.sdk.runTransaction(db,tx=>fn({...tx,set:(ref,data)=>{if(ref.path===OFFER){offerWrites.push(world.clock.now);if(failures>0){failures-=1;throw Object.assign(new Error("Failed to get document because the client is offline."),{code:"unavailable"});}}tx.set(ref,data);}}))};
+      const rawServices={ok:true,firestore:world.db,firestoreSdk:rawSdk,auth:{currentUser:{uid:"daniel"}}};
+      Object.assign(world.sandbox,{
+        CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>rawServices},
+        CareerModeSparkConnectedAccount:{initialize:async()=>true,getState:()=>({connected:true,accountId:"daniel"})},
+        CareerModeSparkPrivatePairing:{initialize:async()=>true,getState:()=>({registered:true,deviceId:DEVICE})},
+        CareerModeSparkConnectedRivalry:{initialize:async()=>true,getState:()=>({attached:true,rivalryId:RIVAL,accountId:"daniel",deviceId:DEVICE})},
+        CareerModeSparkPrivateSession:{},
+        CareerModeOnlinePlayerIdentity:{getState:()=>({managerId:"daniel"})},
+        CareerModePersistentNikDanielPair:{getPartnerState:()=>paired?{status:"ready",accountId:"daniel",record:{active:true,partnerAccountId:"nik"}}:{status:"none"}},
+        CareerModeSparkStandardAuthPrivateSession:{
+          normalizeSessionId:value=>value,generateSessionId:()=>SESSION_ID,
+          openSession:async options=>({ok:true,sessionId:options.sessionId,state:"open",revision:0,expiresAtEpochMs:world.clock.now+4*3600000}),
+          readSession:async options=>({ok:true,sessionId:options.sessionId,state:"open",revision:0,expiresAtEpochMs:world.clock.now+4*3600000})
+        }
+      });
+      vm.runInContext(fs.readFileSync(path.join(ROOT,"js/sparkRemoteJoining.js"),"utf8"),world.sandbox,{filename:"sparkRemoteJoining.js"});
+      return {world,remote:world.sandbox.CareerModeSparkRemoteJoining,offerWrites,online:()=>{for(const fn of world.sandbox.windowListeners.online||[])fn();}};
+    };
+    const published=world=>world.server.get(OFFER)?.data?.sessionId===SESSION_ID;
+
+    // A: two failed writes, then the third (3 s + 6 s later) lands; nothing more is written after that.
+    {const {world,remote,offerWrites}=daniel({paired:true,fail:2});
+      const result=await remote.autoConnect();
+      assert.equal(result.kind,"hosted-publishing");
+      assert.equal(remote.getState().auto,"waiting","Daniel keeps WAITING FOR NIK, never the dead-end session code");
+      assert.doesNotMatch(remote.getState().message,/session code/i);
+      assert.equal(published(world),false);
+      await world.advance(3000);assert.equal(offerWrites.length,2,"second try 3 s later");assert.equal(published(world),false);
+      await world.advance(6000);assert.equal(offerWrites.length,3,"third try 6 s after that");assert.equal(published(world),true,"the pointer lands, so Nik's 3 s poll finds it");
+      await world.advance(20*60000);assert.equal(offerWrites.length,3,"no write once it has landed");
+      assert.equal(remote.useManualCode().auto,"waiting","a paired account still has no session-code path");}
+
+    // B: it never lands: at most one write per minute after the first minute, nothing past 10 min, and Daniel is told why.
+    {const {world,remote,offerWrites}=daniel({paired:true,fail:Infinity});
+      await remote.autoConnect();
+      await world.advance(11*60000);
+      assert.ok(offerWrites.length<=15,`${offerWrites.length} pointer writes in 11 min`);
+      const count=offerWrites.length;await world.advance(30*60000);assert.equal(offerWrites.length,count,"the retry stops after 10 min");
+      assert.equal(remote.getState().auto,"waiting");
+      assert.match(remote.getState().message,/could not be reached[\s\S]*open Career Mode Showdown again/);}
+
+    // C: a hidden tab writes nothing; back on screen the retry continues.
+    {const {world,remote,offerWrites}=daniel({paired:true,fail:1});
+      await remote.autoConnect();world.setVisible(false);
+      await world.advance(5*60000);assert.equal(offerWrites.length,1,"hidden: no writes");assert.equal(published(world),false);
+      world.setVisible(true);await world.advance(60000);
+      assert.equal(offerWrites.length,2);assert.equal(published(world),true);}
+
+    // D: back online restarts the wait at 3 s instead of waiting out the 60 s step.
+    {const {world,remote,offerWrites,online}=daniel({paired:true,fail:6});
+      await remote.autoConnect();
+      await world.advance(3000+6000+12000+24000+48000);assert.equal(offerWrites.length,6,"five retries, the next one a minute away");
+      online();await world.advance(3000);
+      assert.equal(offerWrites.length,7,"the online event tries again 3 s later");assert.equal(published(world),true);}
+
+    // E: an account that is not permanently paired keeps today's fallback: Nik can still paste the code.
+    {const {world,remote,offerWrites}=daniel({paired:false,fail:1});
+      const result=await remote.autoConnect();
+      assert.equal(result.kind,"hosted-manual");
+      assert.equal(remote.getState().auto,null);assert.match(remote.getState().message,/Send Nik this session code/);
+      await world.advance(5*60000);assert.equal(offerWrites.length,1,"no retry: the session code is the way in");}
+  });
+
   console.log(`PASS Firestore budget contracts: ${results.length} checks, measured reads/min ${measured.join(" / ")} (waiting <= ${BUDGET.waitingVisibleReadsPerMinute} reads/min, hidden ${BUDGET.hiddenReadsPerMinute}, idle writes 0, partner update <= ${BUDGET.partnerUpdateMs} ms).`);
 })().catch(error=>{console.error(error);process.exitCode=1;});

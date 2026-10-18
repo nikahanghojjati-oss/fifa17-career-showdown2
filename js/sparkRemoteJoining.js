@@ -332,7 +332,7 @@
   // joins; either phone re-attaches to it after a closed tab. The manual code controls stay behind USE A SESSION CODE
   // for accounts that are not permanently paired (r79 PR3: a paired account has no USE A SESSION CODE path).
   const SRJ_OFFER_POLL_MS=3000,SRJ_OFFER_POLL_LIMIT_MS=10*60*1000,SRJ_OFFER_MIN_LIFE_MS=60*1000;
-  let srjAutoPromise=null,srjOfferTimer=null;
+  let srjAutoPromise=null,srjOfferTimer=null,srjPublishTimer=null,srjPublishRetry=null;
   function srjOfferRef(context){return context.services.firestoreSdk.doc(context.services.firestore,"rivalries",context.rivalryId,"sessionOffers","current");}
   // r79 gallery (Nik's JOIN after a deleted Showdown): the pointer is what a waiting phone polls for, so the budget layer must
   // not answer it from a copy. With any healthy wait-point listener on the page (the previous Showdown's shared setup kept one)
@@ -387,6 +387,32 @@
       srjWaitForOffer(startedAt);
     },SRJ_OFFER_POLL_MS);
   }
+  // Codex #904 (release review): a permanently paired account has no USE A SESSION CODE path, so when Daniel's session is
+  // open but the pointer write fails, "send Nik this session code" was a dead end: Nik's phone only ever reads the pointer.
+  // Daniel keeps waiting and this page publishes the pointer again (3 s, doubling to once a minute, visible tab only, 10 min
+  // like Nik's own wait, sooner when the browser comes back online) until it lands or the session stops waiting for a join.
+  function srjStopPublishRetry(){if(srjPublishTimer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(srjPublishTimer);srjPublishTimer=null;srjPublishRetry=null;}
+  function srjRetryOfferPublish(sessionId,startedAt=Date.now(),attempt=0){
+    srjStopPublishRetry();
+    if(typeof root.setTimeout!=="function")return false;
+    srjPublishRetry={sessionId,startedAt};
+    const timer=root.setTimeout(async()=>{
+      if(srjPublishTimer!==timer)return;
+      srjPublishTimer=null;
+      if(!srjHostWaitingForJoin(sessionId)){srjPublishRetry=null;return;}
+      if(Date.now()-startedAt>SRJ_OFFER_POLL_LIMIT_MS){srjPublishRetry=null;srjSetState({message:"Nik's phone could not be reached. Check your connection, then open Career Mode Showdown again."});return;}
+      if(!srjState.busy&&(!root.document||root.document.visibilityState!=="hidden")){
+        try{
+          const context=await srjResolveContext();
+          if(srjPublishTimer!==null)return;  // the browser came back online meanwhile and restarted the retry
+          if(srjHostWaitingForJoin(sessionId)&&srjPendingContextMatches(context)&&await srjWriteOffer(context)){srjPublishRetry=null;return;}
+        }catch(_error){}
+      }
+      if(srjPublishTimer===null&&srjPublishRetry&&srjPublishRetry.sessionId===sessionId)srjRetryOfferPublish(sessionId,startedAt,attempt+1);
+    },Math.min(SRJ_OFFER_POLL_MS*2**attempt,60*1000));
+    srjPublishTimer=timer;
+    return true;
+  }
   async function srjAutoConnectOnce(){
     if(srjState.busy||srjState.pendingAction||srjReplaceAction)return {ok:false,code:"REMOTE_JOINING_BUSY",message:"A private-session operation is already in progress."};
     let context;
@@ -403,8 +429,13 @@
       const hosted=await srjStartHost();
       if(hosted&&hosted.ok===true&&srjState.role==="host"&&srjState.sessionId){
         const published=await srjWriteOffer(context);
-        srjSetState(published?{auto:"waiting",message:"Waiting for Nik to open the game."}:{auto:null,message:"Send Nik this session code to connect."});
-        return {ok:true,kind:published?"hosted":"hosted-manual"};
+        if(published||srjPermanentlyPaired()){
+          srjSetState({auto:"waiting",message:"Waiting for Nik to open the game."});
+          if(!published)srjRetryOfferPublish(srjState.sessionId);
+          return {ok:true,kind:published?"hosted":"hosted-publishing"};
+        }
+        srjSetState({auto:null,message:"Send Nik this session code to connect."});
+        return {ok:true,kind:"hosted-manual"};
       }
       srjSetState({auto:null});
       return hosted||{ok:false,code:"REMOTE_JOINING_HOST_FAILED",message:"Private session could not be opened."};
@@ -487,7 +518,7 @@
   }
   function srjClosePanel(){const overlay=root.document&&root.document.getElementById(SRJ_PANEL_ID);if(overlay)overlay.classList.add("hidden");srjState=srjFreeze({...srjState,open:false});return true;}
   function srjSubscribe(listener){if(typeof listener!=="function")return()=>{};srjListeners.add(listener);return()=>srjListeners.delete(listener);}
-  function srjOnOnline(){if(srjState.pendingAction&&!srjState.busy)void srjRetryPendingOperation();}
+  function srjOnOnline(){if(srjState.pendingAction&&!srjState.busy)void srjRetryPendingOperation();if(srjPublishRetry)srjRetryOfferPublish(srjPublishRetry.sessionId,srjPublishRetry.startedAt);}
   if(root&&typeof root.addEventListener==="function")root.addEventListener("online",srjOnOnline);
   // r79 PR3: the partner record can land while this panel is open (Daniel records his first real pairing alongside his
   // auto-continue), so the open panel re-renders and USE A SESSION CODE goes away. No read: render only.
