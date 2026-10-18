@@ -844,7 +844,18 @@
         "^js/productionSharedCanonicalScoring\\.js$",
         "^js/productionSharedHistoryConvergence\\.js$",
         "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^js/ssjr\\.js$",
+        "^js/connectPlayersScreenV10\\.js$",
         "^tests/contracts/fewer-taps-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r79-home-start-busy-contracts.cjs",
+      "patterns": [
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/v10Screens\\.js$",
+        "^tests/contracts/r79\\-home\\-start\\-busy\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },
