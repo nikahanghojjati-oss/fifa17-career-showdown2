@@ -514,7 +514,7 @@ await check("PC7 the identity sidecar reads the partner record once per load and
   assert.match(identity,/addEventListener\("career-mode-screen-shown",event=>\{if\(!event\?\.detail\?\.screen\|\|event\.detail\.screen==="mainMenu"\)void refreshJoinNoteOnHome\(\);else root\.CareerModePersistentNikDanielPair\?\.stopJoinNoteWatch\?\.\(\);\}\)/,"leaving Home detaches the note listener at once");
   // Nik 2026-10-18 ("check by itself"): Home shown / tab visible (re)attaches ONE note listener; its first server delivery is the
   // read, and without a live listener the memoised read answers.
-  assert.match(identity,/const listening=typeof pair\.watchJoinNote==="function"\?await pair\.watchJoinNote\(\{isHomeShown:onlineHomeShown,resume:options\.resume===true\}\)\.catch\(\(\)=>false\):false;\/\*[^*]*\*\/const note=listening===true\|\|listening==="deferred"\?pair\.getJoinNoteState\(\):await pair\.readJoinNote\(\{fresh:options\.fresh===true\}\)\.catch\(\(\)=>null\);/);
+  assert.match(identity,/const listening=typeof pair\.watchJoinNote==="function"\?await pair\.watchJoinNote\(\{isHomeShown:onlineHomeShown,resume:options\.resume===true\}\)\.catch\(\(\)=>false\):false;\/\*[^*]*\*\/const note=listening===true\|\|\(listening==="deferred"&&options\.fresh!==true\)\?pair\.getJoinNoteState\(\):await pair\.readJoinNote\(\{fresh:options\.fresh===true\}\)\.catch\(\(\)=>null\);/);
   const pairSource=read("js/persistentNikDanielPair.js");
   assert.match(pairSource,/JOIN_NOTE_WATCH_WINDOW_MS=600000,/,"10 minutes per Home visit");
   assert.match(pairSource,/noteWatch\.unsubscribe=api\.onSnapshot\(ref,\{includeMetadataChanges:false\},/,"the note is watched by one onSnapshot listener");
