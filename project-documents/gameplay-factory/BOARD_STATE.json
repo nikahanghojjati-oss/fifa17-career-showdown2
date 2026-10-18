@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-18 11:15 AM Boston time (EDT)",
+ "generated": "2026-10-18 11:19 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 114,
@@ -1088,11 +1088,11 @@
      "title": "r79 release (1.9.3-r79): one start flow, permanent pairing, real/test modes [draft]",
      "draft": false,
      "branch": "gameplay/r79",
-     "sha": "4c55155f41ed50e35c7f769dd7c651539d63035e",
-     "updated": "2026-10-18T15:07:37Z",
+     "sha": "2bac5cd08a1942d6bfd29a9db00aec8721a45603",
+     "updated": "2026-10-18T15:18:58Z",
      "gates": {
-      "passed": 8,
-      "running": 0,
+      "passed": 0,
+      "running": 7,
       "failed": 0,
       "cancelled": 0
      }
@@ -2858,11 +2858,11 @@
     "title": "r79 release (1.9.3-r79): one start flow, permanent pairing, real/test modes [draft]",
     "draft": false,
     "branch": "gameplay/r79",
-    "sha": "4c55155f41ed50e35c7f769dd7c651539d63035e",
-    "updated": "2026-10-18T15:07:37Z",
+    "sha": "2bac5cd08a1942d6bfd29a9db00aec8721a45603",
+    "updated": "2026-10-18T15:18:58Z",
     "gates": {
-     "passed": 8,
-     "running": 0,
+     "passed": 0,
+     "running": 7,
      "failed": 0,
      "cancelled": 0
     }

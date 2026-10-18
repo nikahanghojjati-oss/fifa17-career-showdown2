@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 18 Oct, 11:15 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 18 Oct, 11:19 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.2-r78** (main `f15f54f`, Sat 17 Oct 5:28 PM)
 
@@ -22,7 +22,7 @@ Updated Sun 18 Oct, 11:15 AM Boston time. Bug hunting only, no new features unti
 
 **#2 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 146 h ago
+🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 147 h ago
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -58,7 +58,7 @@ Updated Sun 18 Oct, 11:15 AM Boston time. Bug hunting only, no new features unti
 
 **#11 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 85 h ago
+⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 86 h ago
 
 **#12 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
@@ -1650,7 +1650,17 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1817
 ```
 
-**#157 · 1820** `G` Startup size room for r76 (report only, no app change)  
+**#157 · 1818** `G` Failing tests for the bug cards (GPT Work mode, repeatable)  
+`░░░░░░░░░░` **0.0000 %**  
+🟢 Team green · model not set · GPT Work mode: type 'Job 1818'
+
+New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (cheaper model), type:
+
+```text
+Job 1818
+```
+
+**#158 · 1820** `G` Startup size room for r76 (report only, no app change)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1820'
 
@@ -1660,7 +1670,7 @@ Type this in Codex cloud:
 Job 1820
 ```
 
-**#158 · 1821** `G` Season chip fix that fits the startup size limit (redo of JOB-1805)  
+**#159 · 1821** `G` Season chip fix that fits the startup size limit (redo of JOB-1805)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1821'
 
@@ -1670,7 +1680,7 @@ Type this in Codex cloud:
 Job 1821
 ```
 
-**#159 · 1822** `G` Stats and history bug hunt, part A (GPT chat, repeatable)  
+**#160 · 1822** `G` Stats and history bug hunt, part A (GPT chat, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1822'
 
@@ -1680,7 +1690,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1822
 ```
 
-**#160 · 1823** `G` Stats and history bug hunt, part B (GPT chat, repeatable)  
+**#161 · 1823** `G` Stats and history bug hunt, part B (GPT chat, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1823'
 
@@ -1690,7 +1700,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1823
 ```
 
-**#161 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
+**#162 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1829'
 
@@ -1700,7 +1710,7 @@ Type this in Codex cloud:
 Job 1829
 ```
 
-**#162 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
+**#163 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1833'
 
@@ -1710,7 +1720,7 @@ Type this in Codex cloud:
 Job 1833
 ```
 
-**#163 · 1840** `G` Clean start: "real career starts here" marker  
+**#164 · 1840** `G` Clean start: "real career starts here" marker  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1840'
 
@@ -1720,7 +1730,7 @@ Type this in Codex cloud:
 Job 1840
 ```
 
-**#164 · 1841** `G` Old games still open: a release check for saved Showdowns  
+**#165 · 1841** `G` Old games still open: a release check for saved Showdowns  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1841'
 
@@ -1730,7 +1740,7 @@ Type this in Codex cloud:
 Job 1841
 ```
 
-**#165 · 1843** `G` Codex auto-start pilot: one CE2PG 1-season run on the r76b workbench  
+**#166 · 1843** `G` Codex auto-start pilot: one CE2PG 1-season run on the r76b workbench  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1843'
 
@@ -1740,7 +1750,7 @@ Type this in Codex cloud:
 Job 1843
 ```
 
-**#166 · 1844** `G` r78 small fixes: the Career tab goes to the game, and no DELETE copy on Showdown Home  
+**#167 · 1844** `G` r78 small fixes: the Career tab goes to the game, and no DELETE copy on Showdown Home  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1844'
 
@@ -1750,7 +1760,7 @@ Type this in Codex cloud:
 Job 1844
 ```
 
-**#167 · 1845** `G` No-dimming audit (HO-027), report only  
+**#168 · 1845** `G` No-dimming audit (HO-027), report only  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1845'
 
@@ -1855,8 +1865,8 @@ Job 1845
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`███░░░░░░░` **29.0657 %**  
-Numbered jobs: 56 done, 205 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`███░░░░░░░` **28.9655 %**  
+Numbered jobs: 56 done, 206 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████████░` **85.2941 %**  
@@ -1992,7 +2002,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #904](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/904) | r79 release (1.9.3-r79): one start flow, permanent pairing, real/test modes [draft] | 🟢 8 passed |
+| 🟧 Team G lead | [PR #904](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/904) | r79 release (1.9.3-r79): one start flow, permanent pairing, real/test modes [draft] | ⏳ 0 passed, 7 running |
 
 **Up next**
 
