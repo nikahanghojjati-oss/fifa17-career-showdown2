@@ -137,6 +137,12 @@ check("JOB-1658 the injected Season CSS keeps every @media block closed and top-
   for(const w of ["min-width:1340px) and (max-width:1390px","min-width:1880px) and (max-width:1960px","min-width:2500px) and (max-width:2620px"])assert.ok(medias.some(q=>q.includes(w)),`top-level @media for ${w}`);
 });
 // JOB-1038: keep the winner frame visible while career saving runs, then retain the existing closed state.
+check("r80 gallery: SEASON N HISTORY IS READY is the first line of the action row (the docked band), never under it",()=>{
+  const pmsp=read("js/productionSharedMultiSeasonProgression.js"),css=read("js/seasonFinalV10.js");
+  assert.doesNotMatch(pmsp,/actions\.parentNode\.insertBefore\(status,actions\)/,"the status line no longer sits outside the band, where the docked band covered it at 393x852");
+  assert.match(pmsp,/if\(status\.parentNode!==actions\)actions\.prepend\(status\);/,"the status line is moved into the action row once");
+  assert.match(css,/#app #seasonEntry\.seasonScreenV10 \.season-review-panel \.seasonReviewActions>\.sharedMultiSeasonProgressionStatus:not\(\.hidden\) \{\s*order:-1;flex:0 0 auto;width:100%;max-width:none;margin:0;box-sizing:border-box;\s*\}/,"first, full width, in the row's own flow (a column band on phones, a wrapping row at 1920x1080)");
+});
 check("JOB-1038 Final Winner stays visible while saving and after success",()=>{
   const r={phase:"FINAL_SEASON_RECONCILED",finalSeasonReconciled:true,rivalryId:"job1038",winner:"draw",managerTotals:{playerOne:10,playerTwo:10},totalSeasons:3};
   const saving=api.finalFrame(r,{phase:"READY",automaticSaving:true});

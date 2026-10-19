@@ -22,7 +22,10 @@ const BANNED=[
   /\bthis browser\b/i,/\bthis device\b/i,/\bthis phone\b/i,
   /\blocal cop(?:y|ies)\b/i,/\bbrowser storage\b/i,/\bbrowser data\b/i,
   /\blocal saves?\b/i,/\bsaved locally\b/i,/\bstored locally\b/i,/\blocal to this\b/i,
-  /\blocal showdowns?\b/i,/\blocal career\b/i,/\blocal game\b/i
+  /\blocal showdowns?\b/i,/\blocal career\b/i,/\blocal game\b/i,
+  // r80 gallery sweep: the Season Results check, the History & Backup page, install notices and error messages.
+  /\blocal reconciliation\b/i,/\blocal backup\b/i,/\blocal (?:legacy )?history\b/i,/\blocal (?:offline|shell|application|data|cleanup)\b/i,
+  /\bblocks local\b/i,/\blocal-save\b/i,/\bsaved on\b/i
 ];
 
 // Whole files, each with its reason. Nothing else is skipped.
@@ -136,4 +139,38 @@ check("W6 the r80 wording: END, not delete; a live game continues; nothing claim
   assert.match(read("js/whichShowdownIsLive.js"),/cachedShell:wslCachedShell/);
 });
 
-console.log(`PASS r80 online save wording contracts: ${passed} checks (no screen says the save lives in this browser or device; sign-in/device wording and backup-file screens listed exactly; END, not delete).`);
+// r80 gallery (Season Results, History & Backup, install notice, error messages): the exact old strings, so none comes back.
+const REMOVED=Object.freeze([
+  "LOCAL RECONCILIATION",
+  "PREVIEW LOCAL RECONCILIATION",
+  "Compare the shared result with your saved Showdown without changing it.",
+  "LOCAL BACKUP",
+  "Download a checksum-protected local backup",
+  "from local Legacy history.",
+  "can reopen its verified local shell offline",
+  "Career Mode Showdown is installed and ready for local offline use.",
+  "The verified local application is kept separate from your saved Showdown data.",
+  "No local data was changed.",
+  "but local cleanup needs attention.",
+  "Shared Showdown blocks local ",
+  "no replacement session or local-save mutation will be generated",
+  "Local gameplay remains unchanged.",
+  "before opening local data tools."
+]);
+check("W7 r80 Season Results: the result check speaks of the shared result, and no removed local-era string comes back",()=>{
+  const lr=read("js/productionSharedLocalReconciliation.js");
+  assert.match(lr,/lrText\(ui\.heading,"SHARED RESULT CHECK"\);/);
+  assert.match(lr,/lrText\(ui\.summary,"Compare the shared result with your Showdown without changing it\. Apply is available only in advanced recovery\."\);/);
+  assert.match(lr,/"CHECKING YOUR SAVE…":"PREVIEW SHARED RESULT"/);
+  const legacy=read("js/legacy.js");
+  assert.match(legacy,/backupTitle\.textContent = "BACKUP FILE";/);
+  assert.match(legacy,/"Download a checksum-protected backup file before destructive maintenance\./);
+  const shown=[];
+  for(const file of [...tracked("js/*.js"),"index.html",...tracked("visual-assets/**/*.js"),...tracked("visual-assets/**/strings.json")]){
+    const text=file.endsWith(".js")?jsStrings(read(file)).join("\n"):read(file);
+    for(const old of REMOVED)if(text.includes(old))shown.push(`${file}: ${old}`);
+  }
+  assert.deepEqual(shown,[],"the r80 wording replaced these strings");
+});
+
+console.log(`PASS r80 online save wording contracts: ${passed} checks (no screen says the save lives in this browser or device; sign-in/device wording and backup-file screens listed exactly; END, not delete; no local reconciliation, local backup or other removed local-era string).`);

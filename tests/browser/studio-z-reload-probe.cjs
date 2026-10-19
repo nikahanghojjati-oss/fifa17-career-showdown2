@@ -667,7 +667,7 @@ async function main(){
 
     // J10 final reconciliation and Terminal Close through the real UI.
     // Owner decision 2026-10-05 (BH-8): once the last season is committed each phone checks on its own poll and shows the
-    // final winner and CLOSE by itself. Nobody taps PREVIEW LOCAL RECONCILIATION here; Apply stays a separate explicit tap.
+    // final winner and CLOSE by itself. Nobody taps PREVIEW SHARED RESULT here; Apply stays a separate explicit tap.
     for(const m of [daniel,nik])await m.page.evaluate(()=>{window.__bh8PreviewTaps=0;document.addEventListener("click",event=>{if(event.target?.closest?.("#sharedLocalReconciliationPreview"))window.__bh8PreviewTaps+=1;},true);});
     for(const m of [daniel,nik]){
       try{

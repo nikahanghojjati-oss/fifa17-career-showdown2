@@ -400,7 +400,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
  #app #seasonEntry.seasonScreenV10 .season-review-panel>.seasonReviewWarning:not(.hidden)~.seasonReviewWarning{margin-top:-6px;border-top:1px solid rgb(242 196 91 / .16)}
  #app #seasonEntry.seasonScreenV10 .season-review-panel>.seasonReviewActions{order:9}
  #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions{position:static;width:auto;margin:0;padding:0;background:none}
- /* 6. Local Reconciliation in the black-and-gold kit, readable size. */
+ /* 6. Shared result check in the black-and-gold kit, readable size. */
  #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel h3{margin:0;color:#f2c45b;font:800 13px/1.2 var(--f17-display,inherit);letter-spacing:1.2px}
  #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel p{margin:4px 0;font-size:12px;line-height:1.4;color:#c9c2b0}
  #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel .stateNote{width:auto;color:#efe7d2;background:rgb(5 7 9 / .82);border-left:3px solid #f2c45b}
@@ -1944,6 +1944,12 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   border-top:1px solid #d4a017;box-shadow:0 -1px 0 #000;
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel>.seasonReviewActions>button { flex:1 1 300px;width:auto;max-width:520px;margin:0; }
+}
+/* r80 gallery: the line that explains CONTINUE TO SEASON N ("SEASON 1 HISTORY IS READY · CONTINUE ONCE TO SEASON 2") is the
+   first, full-width line of the action row, so it travels with the docked band on phones and at 1920x1080 and is never
+   under it; on the other sizes it stays right above the buttons. */
+#app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions>.sharedMultiSeasonProgressionStatus:not(.hidden) {
+ order:-1;flex:0 0 auto;width:100%;max-width:none;margin:0;box-sizing:border-box;
 }
 `;
     parent.appendChild(style);

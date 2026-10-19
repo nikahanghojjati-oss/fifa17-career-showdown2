@@ -311,7 +311,7 @@ function createLegacyShowdownCard(showdown){
         if(await legacyAskConfirm(warning, "danger") !== true){ return; }
         if(deleteLegacyShowdownTransaction(showdown)){
             if(typeof window.showAppNotice === "function"){
-                window.showAppNotice(`Deleted "${showdown.name}" from local Legacy history.`, "success", 4200);
+                window.showAppNotice(`Deleted "${showdown.name}" from Legacy history.`, "success", 4200);
             }
             lastLegacyRenderedRevision = null;
             renderLegacy();
@@ -359,12 +359,12 @@ function createLegacyDataControls(history){
     const heading = document.createElement("h3");
     heading.textContent = "DATA MANAGEMENT";
     const description = document.createElement("p");
-    description.textContent = "Download a checksum-protected local backup before destructive maintenance. Export is read-only: it does not change your active Showdown, Legacy history or application preferences.";
+    description.textContent = "Download a checksum-protected backup file before destructive maintenance. Export is read-only: it does not change your active Showdown, Legacy history or application preferences.";
 
     const backupSummary = document.createElement("div");
     backupSummary.className = "legacyBackupSummary";
     const backupTitle = document.createElement("strong");
-    backupTitle.textContent = "LOCAL BACKUP";
+    backupTitle.textContent = "BACKUP FILE";
     const backupText = document.createElement("span");
     backupText.textContent = "Human-readable JSON · format v1 · SHA-256 corruption check · malformed current bytes preserved in recovery data";
     backupSummary.append(backupTitle, backupText);

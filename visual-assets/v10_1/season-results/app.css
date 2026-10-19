@@ -268,7 +268,7 @@ html #app #topHeader{color:var(--f17-ink);font-family:var(--f17-ui)}
  #app #seasonEntry.seasonScreenV10 .season-review-panel>.seasonReviewActions{position:sticky;bottom:0;z-index:3;margin:4px 0 0;padding:6px 0 8px;background:#0a0c0f;gap:10px}
  #app #seasonEntry.seasonScreenV10 .season-review-panel>.seasonReviewActions:not(:has(>button:not(.hidden):not([hidden]))){display:none}
  #app #seasonEntry.seasonScreenV10 .season-review-panel>.seasonReviewActions button{flex:1 1 clamp(150px,13vw,260px)}
- /* Local reconciliation: text on the left, its preview button on the right, so the whole panel needs about 100 px. */
+ /* Shared result check: text on the left, its preview button on the right, so the whole panel needs about 100 px. */
  #app #seasonEntry.seasonScreenV10 .season-review-panel .sharedLocalReconciliationPanel:not(.hidden):not([hidden]){display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:14px;align-items:center;margin:4px 0;padding:8px 10px}
  #app #seasonEntry.seasonScreenV10 .season-review-panel .sharedLocalReconciliationPanel>:not(.seasonReviewActions){grid-column:1}
  #app #seasonEntry.seasonScreenV10 .season-review-panel .sharedLocalReconciliationPanel>.stateNote{grid-column:1/-1;grid-row:3;padding:4px 10px}
@@ -325,7 +325,7 @@ html #app #topHeader{color:var(--f17-ink);font-family:var(--f17-ui)}
  #app #seasonEntry.seasonScreenV10 .season-review-panel>.seasonReviewWarning:not(.hidden)~.seasonReviewWarning{margin-top:-6px;border-top:1px solid rgb(242 196 91 / .16)}
  #app #seasonEntry.seasonScreenV10 .season-review-panel>.seasonReviewActions{order:9}
  #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions{position:static;width:auto;margin:0;padding:0;background:none}
- /* 6. Local Reconciliation in the black-and-gold kit, readable size. */
+ /* 6. Shared result check in the black-and-gold kit, readable size. */
  #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel h3{margin:0;color:#f2c45b;font:800 13px/1.2 var(--f17-display,inherit);letter-spacing:1.2px}
  #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel p{margin:4px 0;font-size:12px;line-height:1.4;color:#c9c2b0}
  #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel .stateNote{width:auto;color:#efe7d2;background:rgb(5 7 9 / .82);border-left:3px solid #f2c45b}

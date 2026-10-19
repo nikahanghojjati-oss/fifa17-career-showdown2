@@ -184,7 +184,7 @@
       await pairInitialize({force:true});
       return result;
     }catch(error){
-      pairSetState({status:"error",busy:false,message:"The current Showdown connection was not closed. "+(error?.message||"No local data was changed.")});
+      pairSetState({status:"error",busy:false,message:"The current Showdown connection was not closed. "+(error?.message||"Nothing was changed.")});
       throw error;
     }
   }
@@ -476,7 +476,7 @@ async function pairDiscardStalePendingConnection(){
     await pairDeleteExactPreparedShell(context,"playerTwo",providerSaveId,providerProfileId);
     return pairSetState({...state,status:"unpaired",busy:false,managerRole:null,managerId:null,rivalryId:null,connectionState:null,providerSaveId:null,providerProfileId:null,capability:null,message:"Old connection and unfinished test Showdown deleted. Paste the new code Daniel sends."});
   }catch(error){
-    const prefix=remoteClosed?"The old online connection was closed, but local cleanup needs attention. ":"Old connection cleanup could not finish. ";
+    const prefix=remoteClosed?"The old online connection was closed, but its unfinished Showdown was not cleared yet. ":"Old connection cleanup could not finish. ";
     return pairSetState({...state,status:remoteClosed?"save-required":state.status,busy:false,message:prefix+(error?.message||"Nothing else was changed.")});
   }
 }

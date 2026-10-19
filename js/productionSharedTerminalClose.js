@@ -284,7 +284,7 @@
         const result=await provider.close(ptcCloseOptions(context,intent));
         if(!ptcStillCurrent(request,generation))return {ok:false,code:"TERMINAL_CLOSE_CONTEXT_CHANGED"};
         if(result?.ok===true){ptcAccepted(request,intent,result);return result;}
-        if(ptcAmbiguous(result)){ptcPublish(request,{phase:"RECOVERY_PENDING",rivalryId:request.rivalryId,sessionId:intent.sessionId,terminal:false,intent:ptcClone(intent),automaticSaving:false,automaticCloseFailed:true,message:"Terminal Close acknowledgement was not received. The exact same terminal witness is retained in page memory for deterministic retry; no replacement session or local-save mutation will be generated.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});return {...result,recoverable:true};}
+        if(ptcAmbiguous(result)){ptcPublish(request,{phase:"RECOVERY_PENDING",rivalryId:request.rivalryId,sessionId:intent.sessionId,terminal:false,intent:ptcClone(intent),automaticSaving:false,automaticCloseFailed:true,message:"The close was not confirmed yet. Tap RETRY SAME TERMINAL CLOSE to send the same close again; a retry never starts a new session.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});return {...result,recoverable:true};}
         const rivalClosed=await ptcClosedByRival(request,context,intent,result,generation);if(rivalClosed)return rivalClosed;
         ptcPublish(request,{...current,automaticSaving:false,automaticCloseFailed:true,message:result?.message||"Terminal Close was rejected without changing the completed Showdown."});return result||{ok:false,code:"TERMINAL_CLOSE_FAILED"};
       }catch(error){

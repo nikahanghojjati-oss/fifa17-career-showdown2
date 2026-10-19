@@ -122,8 +122,11 @@
   function pmspTerminalWitnessed(){const season=pmspEnsureCursor(),state=view?.state;return Boolean(season&&state?.terminal===true&&state.acceptedSeasons===state.totalSeasons&&season===state.totalSeasons&&pmspHistoryWitnessed());}
   function pmspEnsureUi(){
     const review=pmspField("seasonReviewPanel"),actions=review?.querySelector?.(".seasonReviewActions");if(!review||!actions)return null;
-    let status=pmspField(STATUS_ID);if(!status){status=root.document.createElement("p");status.id=STATUS_ID;status.className="seasonReviewWarning sharedMultiSeasonProgressionStatus hidden";actions.parentNode.insertBefore(status,actions);}
+    // r80: the status line belongs to CONTINUE, so it sits inside the action row, first: on phones and at 1920x1080 that row
+    // is the docked band, and a line just above the band was under it wherever the page scrolled. Moved only once.
+    let status=pmspField(STATUS_ID);if(!status){status=root.document.createElement("p");status.id=STATUS_ID;status.className="seasonReviewWarning sharedMultiSeasonProgressionStatus hidden";}
     let action=pmspField(ACTION_ID);if(!action){action=root.document.createElement("button");action.id=ACTION_ID;action.className="menuButton hidden";action.type="button";actions.prepend(action);}
+    if(status.parentNode!==actions)actions.prepend(status);
     return {status,action};
   }
   function pmspRender(){

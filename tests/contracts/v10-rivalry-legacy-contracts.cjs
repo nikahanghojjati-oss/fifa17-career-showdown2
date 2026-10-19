@@ -87,10 +87,31 @@ check('RL11 real Team V renderers show honest states and live values without fix
    else{assert.equal(map.get('rvRows').childElementCount,0);assert.equal(map.get('rvProgress').textContent,'');assert.equal(map.get('rvReadState').hidden,false);}
   }else if(screen==='legacy')assert.equal(map.get('legacyCardGrid').childElementCount,frame.showdowns.length);
   else{assert.ok(map.get('rvRows').innerHTML.includes('Unavailable'));assert.ok(map.get('rvSeasonBody').innerHTML.includes('<td>10</td>'));}
+  return map;
  };
  for(const screen of ['legacy','rivalryStatistics'])for(const id of ['loading','unavailable','finished-three-seasons']){
   const f=fixture(id);run(screen,V.toV10Frame(screen==='legacy'?f.career:f.viewers.daniel.rivalry,screen));
  }
+ // r80 gallery: the Ended early card reads "Ended early" on its own line and "18 Oct 2026 · 1 season" on the footer line under
+ // it; no drawn line starts with "·" (the separator between the two lines is a hidden span), and the card's text is still the
+ // seam's whole label, as the journeys read it.
+ const m=clone(fixture('multi-showdown-career').career);m.history.showdowns.push({...m.history.showdowns[0],number:99,status:'abandoned',seasonsPlayed:1,endedAt:Date.UTC(2026,9,18,12)});
+ const card=run('legacy',V.toV10Frame(m,'legacy')).get('legacyCardGrid').all().find(x=>x.dataset.status==='abandoned'&&x.dataset.showdown==='99');
+ assert.ok(card,'the Ended early card is drawn');
+ assert.equal(card.textContent,'Showdown #99Ended early · 18 Oct 2026 · 1 season');
+ const status=card.all().find(x=>x.className==='legacyStatusOnly'),meta=card.all().find(x=>x.className==='legacyEndedMeta');
+ assert.equal(status?.textContent,'Ended early','the status line is the status only');
+ assert.ok(meta,'the date and seasons played have their own footer line');
+ assert.equal(meta.children[0].className,'legacyEndedSeparator');assert.equal(meta.children[0].textContent,' · ');
+ assert.equal(meta.textContent.slice(3),'18 Oct 2026 · 1 season');
+ const sheet=read('css/rivalryLegacyV10.css'),own=read('visual-assets/v10_1/legacy/legacy.css');
+ const block=sel=>{const i=sheet.lastIndexOf(sel+' {');return i<0?'':sheet.slice(i,sheet.indexOf('}',i));};
+ const ended='#app #legacy[data-rivalry-legacy-v10] .legacyCard:is([data-status="abandoned"],[data-status="unavailable"])';
+ assert.match(block(ended),/text-transform:none;\s*letter-spacing:normal;/,'the <div> card does not take the panel\'s capitals and spacing');
+ assert.match(block(ended+' .legacyCardBody'),/grid-template-columns:minmax\(0,1fr\);/,'one full-width column, never the completed card\'s three');
+ assert.match(block('#app #legacy[data-rivalry-legacy-v10] .legacyCard .legacyEndedSeparator'),/display:none;/,'the separator is not drawn');
+ assert.match(block('#app #legacy[data-rivalry-legacy-v10] .legacyCard .legacyEndedMeta'),/display:block;/,'the footer line is never hidden');
+ assert.match(own,/\.legacyEndedSeparator \{\s*display: none;/,'Team V\'s sheet hides the separator too');
 });
 
 (async()=>{
