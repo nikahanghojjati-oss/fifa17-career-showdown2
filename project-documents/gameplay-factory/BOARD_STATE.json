@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-19 5:44 PM Boston time (EDT)",
+ "generated": "2026-10-19 5:48 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1213,27 +1213,17 @@
  },
  "two": {
   "live": {
-   "sha": "3b4b4ac",
-   "revision": "1.9.4-r80",
-   "when": "2026-10-19T16:40:31Z",
-   "subject": "Re-pin composed production Rules safety check to r80 main (#954)",
-   "fixes": [
+   "sha": "012e8b8",
+   "revision": "1.9.5-r81",
+   "when": "2026-10-19T21:48:15Z",
+   "subject": "Release 1.9.5-r81: show the real r79 game the checkmark hid (#955)",
+   "fixes": [],
+   "today": [
     {
      "pr": 955,
      "title": "r81 (1.9.5-r81): show the real r79 game the checkmark hid",
-     "draft": false,
-     "branch": "gameplay/r80-reveal-hotfix",
-     "sha": "17e0bc5abf67ab5e71a55622e4fa5afb7ae90be3",
-     "updated": "2026-10-19T21:39:43Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    }
-   ],
-   "today": [
+     "merged": "2026-10-19T21:48:16Z"
+    },
     {
      "pr": 954,
      "title": "Re-pin the Rules safety check to r80 main",
@@ -1795,7 +1785,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 40,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3011,22 +3001,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 955,
-    "title": "r81 (1.9.5-r81): show the real r79 game the checkmark hid",
-    "draft": false,
-    "branch": "gameplay/r80-reveal-hotfix",
-    "sha": "17e0bc5abf67ab5e71a55622e4fa5afb7ae90be3",
-    "updated": "2026-10-19T21:39:43Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {

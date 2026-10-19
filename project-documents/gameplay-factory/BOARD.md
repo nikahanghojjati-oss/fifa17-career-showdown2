@@ -6,9 +6,9 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 19 Oct, 5:45 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 19 Oct, 5:49 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
-🌐 **Live: 1.9.4-r80** (main `3b4b4ac`, Mon 19 Oct 12:40 PM)
+🌐 **Live: 1.9.5-r81** (main `012e8b8`, Mon 19 Oct 5:48 PM)
 
 🩺 **All clear: every check has a machine.** · Gate #955: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #955 0/16
 
@@ -2118,12 +2118,6 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 ## Other Team G work
 
-**Fixing now**
-
-| Lane | Item | What | State |
-| --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #955](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/955) | r81 (1.9.5-r81): show the real r79 game the checkmark hid | 🟢 8 passed |
-
 **Up next**
 
 | Lane | Item | What | State |
@@ -2147,6 +2141,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 ## Shipped today
 
+- 5:48 PM · #955 r81 (1.9.5-r81): show the real r79 game the checkmark hid
 - 12:40 PM · #954 Re-pin the Rules safety check to r80 main
 - 10:21 AM · #933 Release r80: career save online, END SHOWDOWN (1.9.4-r80)
 
