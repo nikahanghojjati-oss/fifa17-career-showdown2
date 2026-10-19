@@ -159,6 +159,12 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   #app #standings.standingsScreenV10 .sdg-label{font-size:clamp(13px,1.05vw,17px);color:#d9d4c6}
   #app #standings.standingsScreenV10 .sdg-rows{margin-bottom:14px}
 }
+/* r80 short screens: with the Europa League the board holds eight rows; at 1536x864 they no longer fit Team V's 52% board,
+   so the board scrolled inside itself and TOTAL TROPHIES sat out of sight. On taller windows the board keeps 52% as its
+   least height and grows down to fit every row (main stays the only scroller). */
+@media (min-width:901px) and (min-height:861px){
+  #app #standings.standingsScreenV10 .sdg-board{height:auto;min-height:52%}
+}
 /* 1366x768 and similar: the crest block, score and toggle pushed the last row onto the board edge. */
 @media (min-width:901px) and (max-height:860px){
   #app #standings.standingsScreenV10 .sdg-board{overflow:hidden}
@@ -1333,6 +1339,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 /* Approved NEXT_SEASON_RESULTS: central scoring/card/actions, responsive to
    the viewport height. Retain the registered Team V plate, trophy and badge. */
 @media (min-width:1240px) and (max-width:1400px) and (min-height:620px) and (max-height:800px),
+       (min-width:901px) and (max-width:1239px) and (min-height:501px) and (max-height:800px) and (orientation:landscape),
+       (min-width:1401px) and (max-width:1879px) and (min-height:620px) and (max-height:1039px) and (orientation:landscape),
        (min-width:1880px) and (max-width:2620px) and (min-height:1040px) and (max-height:1120px) {
  html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) {
   position:fixed;inset:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto;
@@ -1408,6 +1416,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
        (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait),
        (min-width:1240px) and (max-width:1400px) and (min-height:620px) and (max-height:800px),
+       (min-width:901px) and (max-width:1239px) and (min-height:501px) and (max-height:800px) and (orientation:landscape),
+       (min-width:1401px) and (max-width:1879px) and (min-height:620px) and (max-height:1039px) and (orientation:landscape),
        (min-width:1880px) and (max-width:2620px) and (min-height:1040px) and (max-height:1120px) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(button,.season-phone-tab,.season-phone-scoring-open,.season-phone-sheet-close):active {
   filter:brightness(.88);box-shadow:inset 0 2px 4px #0008;
@@ -1724,9 +1734,10 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry .v10FinalStage .finalWinnerHeroCopySlot { top:calc(238 * var(--fw-k) - var(--fw-top)); width:calc(418 * var(--fw-k)); }
  /* the champion trophy stands on the pedestal's flat top (plate y 575 to 600) */
  #app #seasonEntry .v10FinalStage .winnerTrophySlot { top:calc(291 * var(--fw-k) - var(--fw-top)); width:calc(210 * var(--fw-k)); height:calc(306 * var(--fw-k)); }
- /* the summary plaque and the two buttons sit where the picture has them (r80: at least 124px for the five honours rows with the Europa League) */
+ /* the summary plaque and the two buttons sit where the picture has them (r80: at least 124px for the five honours rows with the Europa League;
+    r80 short screens: 148 picture px, not 138, as TOTAL TROPHIES ran into the plaque's bottom border at 1920x1080, 1536x864 and 1366x768) */
  #app #seasonEntry .v10FinalStage .finalWinnerResultsPanel {
-  left:50%; translate:-50% 0; width:max(calc(913 * var(--fw-k)),59.3%); top:calc(640 * var(--fw-k) - var(--fw-top)); height:max(calc(138 * var(--fw-k)),124px);
+  left:50%; translate:-50% 0; width:max(calc(913 * var(--fw-k)),59.3%); top:calc(640 * var(--fw-k) - var(--fw-top)); height:max(calc(148 * var(--fw-k)),124px);
   border:3px solid transparent;
   background:linear-gradient(115deg,#111110f2,#060706f0) padding-box,linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%) border-box;
   box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #e4c56a70;
@@ -1803,7 +1814,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    buttons; then it rides up just enough. The buttons always sit 6px under the plaque, never on it. */
 @media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
  #app #seasonEntry .v10FinalStage {
-  --fw-r0:calc(640 * var(--fw-k) - var(--fw-top)); --fw-rh:max(calc(138 * var(--fw-k)),124px); --fw-bh:calc(max(44px,var(--fwu) * 2.9) + 12px);
+  --fw-r0:calc(640 * var(--fw-k) - var(--fw-top)); --fw-rh:max(calc(148 * var(--fw-k)),124px); --fw-bh:calc(max(44px,var(--fwu) * 2.9) + 12px);
   --fw-rt:min(var(--fw-r0),calc(100% - var(--fw-rh) - var(--fw-bh) - var(--fw-th) - 6px));
  }
  #app #seasonEntry .v10FinalStage .finalWinnerResultsPanel { top:var(--fw-rt); }
@@ -1952,6 +1963,22 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions>.sharedMultiSeasonProgressionStatus:not(.hidden) {
  order:-1;flex:0 0 auto;width:100%;max-width:none;margin:0;box-sizing:border-box;
 }
+/* r80 short screens: Season Results at 901-1239px wide and up to 800px tall (1024x768, 1100x600, 1024x600) and at 1401-1879px
+   wide (1536x864) used the fixed one-window stage, where the two forms ran under the scoring card and the action row (TOP
+   SCORER and TOP ASSIST were cut, 1024x600 and 1100x600) and the review scrolled inside its own box, hiding CONFIRMATION IS
+   FINAL (1024x768, 1536x864). Those windows now use the page-scroll layout 1366x768 and 1920x1080 already use (same cards,
+   same order; main is the only scroller). Below 1240px the forms are wider than the gap between the two
+   managers, so the cards stay in front of the cut-out and rim-light layers, as on the fixed stage. */
+@media (min-width:901px) and (max-width:1239px) and (min-height:501px) and (max-height:800px) and (orientation:landscape) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__layer--ui { z-index:5; }
+ /* the stadium plate fills the window from its top, as on the fixed stage (no black bands on 4:3 and 16:10 windows) */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__registered {
+  top:0!important;width:max(100vw,177.77778svh)!important;height:max(56.25vw,100svh)!important;
+ }
+}
+/* r80 short screens: the final season's result line ("DANIEL TAKES THE SEASON") wraps inside its own cell of the summary
+   strip; it was kept on one line and ran into SEASONS PLAYED in the next cell (1024x768). */
+#app #seasonEntry #finalWinnerLastSeason #panelLastSeasonResult { max-width:100%;white-space:normal;overflow-wrap:normal;text-align:center; }
 `;
     parent.appendChild(style);
   }

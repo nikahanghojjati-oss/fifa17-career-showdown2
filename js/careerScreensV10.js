@@ -917,6 +917,11 @@
   #app #trophyRoom .trophyShelf.is-filtered .managerCounts strong {font-size:clamp(28px,3vw,64px);color:#f4dc8b}
   #app #trophyRoom .trophyShelf.is-filtered .notWonYet {grid-area:empty;margin:0;padding:4px 0;text-align:center}
 }
+/* r80 short screens: on 600px-tall desktop windows (1100x600, 1024x600) the cabinet ran 5px under the docked BACK. There
+   BACK joins the flow under the cabinet, so it never sits on the shelf; main scrolls the few pixels to reach it. */
+@media (min-width:901px) and (min-height:481px) and (max-height:630px) {
+  #app #trophyRoom .trophyBack {position:relative;bottom:auto}
+}
 /* r78 HO-031 v3 phone marble: upright phones up to 400px wide draw Team V's ENV_TROPHY_ROOM_PHONE_V3 (both managers
    painted in, set wider apart and a little smaller so the faces sit between the title and the shelf) in place of the old
    phone backdrop and the two cut-outs (their picture sources only match the other phone and tablet sizes). The plate
@@ -1253,6 +1258,16 @@
   #app #careerStatistics.careerScreenV10 .compareRow { padding:0; }
   #app #careerStatistics.careerScreenV10 .compareTrack { margin-top:0; }
 }
+/* r80 short screens: narrow tall phones (360x740): the hub starts at 41% and left the Compare panel 136px, so AVERAGE LEAGUE
+   POINTS and AVERAGE LEAGUE GOALS ran under CURRENT RIVALRY STATISTICS / BACK TO MAIN MENU. The rows take the short-phone
+   spacing above and the hub starts 2.5% higher (it stays clear of both faces), so the seven rows fit the panel. */
+@media (max-width:370px) and (orientation:portrait) and (min-height:701px) and (max-height:800px) {
+  #app #careerStatistics.careerScreenV10 .phoneHub { top:38.5%; }
+  #app #careerStatistics.careerScreenV10 .partialBanner { top:calc((100% - 56px - env(safe-area-inset-bottom)) * .385 - 27px); }
+  #app #careerStatistics.careerScreenV10 .comparisonPanel .panelTitle { padding:4px 8px 3px; }
+  #app #careerStatistics.careerScreenV10 .compareRow { padding:0; }
+  #app #careerStatistics.careerScreenV10 .compareTrack { margin-top:0; }
+}
 /* Shorter sideways phones (740x360): the Compare tab already names the panel, so its heading is kept for screen readers only
    and the seven rows take its place. */
 @media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:375px) and (orientation:landscape) {
@@ -1366,7 +1381,9 @@
     #app #trophyRoom {
       --tr-act:44px; --tr-gap:6px;
       --tr-lcol:max(236px,34vw);
-      --tr-title:78px;
+      /* r80 short screens: 78px cut TWO MANAGERS. ONE LEGACY. under the wordmark at 844x390 (it started at 80px); the
+         champion trophy keeps its size and place (it stands on the stage's floor). */
+      --tr-title:88px;
       --tr-areab:calc(100svh - var(--tr-hub) - var(--tr-act) - 2 * var(--tr-gap));
       --tr-areah:calc(var(--tr-areab) - 4px);
       --tr-stage:calc(var(--tr-lcol) - 12px);

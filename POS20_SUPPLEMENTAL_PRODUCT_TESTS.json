@@ -2013,6 +2013,19 @@
         "^tests/contracts/r80\\-resume\\-active\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r80-short-screens-contracts.cjs",
+      "patterns": [
+        "^css/homeV10\\.css$",
+        "^css/rivalryLegacyV10\\.css$",
+        "^js/careerScreensV10\\.js$",
+        "^js/seasonFinalV10\\.js$",
+        "^tests/browser/r80\\-short\\-screens\\-audit\\.cjs$",
+        "^tests/contracts/r80\\-short\\-screens\\-contracts\\.cjs$",
+        "^package\\.json$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

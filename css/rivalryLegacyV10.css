@@ -704,6 +704,12 @@
   #app #statistics[data-rivalry-legacy-v10] .rv-seasonTable :is(th,td) { height:21px; padding:1px 2px; }
   #app #statistics[data-rivalry-legacy-v10] .rv-trophy img { height:54px; }
 }
+/* r80 short screens: on 600px-tall desktop windows (1100x600, 1024x600) the panels still ended 19px under the docked BACK
+   TO SHOWDOWN HOME. There the action joins the flow under the panels (as it does from 5-6 season rows), so it never sits
+   on a panel; main scrolls the few pixels to reach it. */
+@media (min-width:1024px) and (max-height:630px) and (orientation:landscape) {
+  #app #statistics[data-rivalry-legacy-v10] .rv-actions { position:static; margin:6px 0 0; }
+}
 
 
 
