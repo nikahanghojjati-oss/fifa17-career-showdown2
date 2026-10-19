@@ -232,6 +232,8 @@ process.on("exit",code=>{if(!finished&&!code){console.error("career screens V10 
     CareerModeSparkConnectedAccount:{getState:()=>({connected:true,accountId:"uid-nik"})},
     CareerModePersistentNikDanielPair:{getState:()=>({rivalryId:"r1"})},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"uid-nik"}},firestore:{},firestoreSdk:{doc(){},getDoc(){}}})},
+    // r80 real vs test: a real account (its career-start marker, nothing hidden); career pages show nothing while it is unknown.
+    CareerModeCareerStartMarker:{readMarker:async()=>({status:"ready",hiddenRivalryIds:[]}),hiddenRivalryIds:m=>m.hiddenRivalryIds.slice(),epoch:()=>0},
     CareerModeSharedActiveShowdownAdapter:{buildActiveShowdownViews:()=>({careerInput:null})},
     CareerModeSparkClosedShowdownCareerLoader:{loadClosedShowdownCareer:async options=>{loads+=1;assert.equal(options.user.uid,"uid-nik");await new Promise(r=>{release=r;});return {model:career};}},
     addEventListener(){},dispatchEvent(){}};

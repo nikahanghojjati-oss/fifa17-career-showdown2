@@ -35,6 +35,8 @@ function legacyHarness(){
     CareerModeSparkConnectedAccount:{getState:()=>({connected:true,accountId:"uid-daniel"})},
     CareerModePersistentNikDanielPair:{getState:()=>pair},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"uid-daniel"}},firestore:{},firestoreSdk:{doc(){},getDoc(){}}})},
+    // r80 real vs test: a real account (its career-start marker, nothing hidden); career pages show nothing while it is unknown.
+    CareerModeCareerStartMarker:{readMarker:async()=>({status:"ready",hiddenRivalryIds:[]}),hiddenRivalryIds:m=>m.hiddenRivalryIds.slice(),epoch:()=>0},
     CareerModeSharedActiveShowdownAdapter:{buildActiveShowdownViews:()=>({careerInput:null})},
     CareerModeSparkClosedShowdownCareerLoader:{loadClosedShowdownCareer:async()=>{loads+=1;return {model:next};}},
     CustomEvent:class{constructor(type){this.type=type;}},

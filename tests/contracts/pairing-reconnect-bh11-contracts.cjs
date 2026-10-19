@@ -96,6 +96,8 @@ function pairHarness({role="playerTwo",saves=[],activeSaveId=null,docs:seed={},n
   };
   const sandbox={
     console,setTimeout:()=>0,clearTimeout:()=>{},TextEncoder,crypto:webcrypto,Promise,Date,document,
+    /* r80 real vs test: a test code (no marker, no partner record) is made only by an armed Settings > START TEST RUN; this page stands for one */
+    CareerModeShowdownModes:{isTestRunArmed:()=>true},
     addEventListener:(type,fn)=>{(listeners[type]||(listeners[type]=[])).push(fn);},
     CareerModeOnlinePlayerIdentity:{getState:()=>({managerId:role==="playerTwo"?"nik":"daniel"})},
     CareerModeSparkConnectedAccount:{initialize:async()=>({}),getState:()=>({connected:true,accountId:uid})},

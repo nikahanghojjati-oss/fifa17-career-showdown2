@@ -214,7 +214,8 @@ await check("R2 the reveal is gone: no reveal export, no r79 window, no rivalrie
   assert.doesNotMatch(source,/deleteDoc|setDoc|updateDoc|writeBatch|transaction\.delete\(/);
   const legacy=read("js/rivalryLegacyV10.js");
   assert.doesNotMatch(legacy,/careerHiddenRivalryIds/,"the career screens never ask for a reveal");
-  assert.match(legacy,/return marker\.hiddenRivalryIds\(await marker\.readMarker\(\{firestore:services\.firestore,firebaseSdk:\{\.\.\.services\.firestoreSdk,getDoc\},accountId:user\.uid\}\)\);/,"the career screens hide exactly hiddenRivalryIds(marker)");
+  /* r80 real vs test: with a marker the career screens hide exactly hiddenRivalryIds(marker); without one the account holds only test runs */
+  assert.match(legacy,/const value=await marker\.readMarker\(\{firestore:services\.firestore,firebaseSdk:\{\.\.\.services\.firestoreSdk,getDoc\},accountId:user\.uid,recheckNone:true\}\);\s*if\(value\?\.status==="ready"\)return \{testOnly:false,hidden:marker\.hiddenRivalryIds\(value\)\};/,"the career screens hide exactly hiddenRivalryIds(marker)");
 });
 
 // ------------------------------------------------------------------ C: the career screens keep it hidden

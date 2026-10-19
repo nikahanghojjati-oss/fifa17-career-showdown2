@@ -28,6 +28,8 @@ function harness(){
     CareerModeProductionSharedHistoryConvergence:{getState:()=>history},CareerModeProductionSharedTerminalClose:{getState:()=>terminal},
     CareerModeSharedActiveShowdownAdapter:{buildActiveShowdownViews:()=>({careerInput:{}})},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:accountId}},firestoreSdk:{getDoc(){}}})},
+    // r80 real vs test: a real account (its career-start marker, nothing hidden); career pages show nothing while it is unknown.
+    CareerModeCareerStartMarker:{readMarker:async()=>({status:'ready',hiddenRivalryIds:[]}),hiddenRivalryIds:m=>m.hiddenRivalryIds.slice(),epoch:()=>0},
     CareerModeSparkClosedShowdownCareerLoader:{loadClosedShowdownCareer(){return new Promise((resolve,reject)=>loads.push({resolve,reject,at:now}));}},
     CareerModeV10Screens:{install(){return this;},register:(id,def)=>definitions.set(id,def),isMounted:id=>id==='legacy'&&mounted,invalidate(){},
       async show(id){if(id!=='legacy'||!mounted)return false;const def=definitions.get(id);await def.prepare();def.mount(def.frame(),host);return true;}},

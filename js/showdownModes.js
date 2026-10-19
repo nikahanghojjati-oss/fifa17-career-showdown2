@@ -36,12 +36,14 @@ function smView(){
   return Object.freeze({...decided,managerId:id.managerId,partnerLabel:smOther(id.managerId)});
 }
 function smLiveShowdown(){try{const p=smPair()?.getState?.();return Boolean(p&&p.rivalryId&&(p.connectionState==="active"||p.connectionState==="pending-pair"));}catch(_){return false;}}
+function smOwnCode(){try{const p=smPair()?.getState?.();return Boolean(p&&p.rivalryId&&p.connectionState==="pending-pair"&&p.managerRole==="playerOne");}catch(_){return false;}}
+const smOwnCodeShown=()=>smLayerOpen()&&smOwnCode();
 function smScreen(){try{return typeof root.getActiveScreenName==="function"?root.getActiveScreenName()||"mainMenu":"mainMenu";}catch(_){return "mainMenu";}}
 // The badge on the header chip (every screen) carries the label while a test run is on screen: the seasons screen opened by
 // START TEST RUN, a test Showdown that is live, or any later gameplay screen of a test account. Never on an idle test Home
 // or the seasons screen Home START opened, where START is real.
 function smLayerOpen(){const l=smDoc()?.getElementById("connectPlayersScreen");return Boolean(l&&!l.hidden&&!l.classList.contains("hidden"));}
-function smTestRunShown(view=smView()){if(view.mode!=="test")return false;/* Nik's JOIN TEST RUN counts while it opens and while its layer is up (the layer's close sends no event) */if(armed&&(view.managerId!=="nik"||joinArming||smLayerOpen()))return true;if(smLiveShowdown())return true;const screen=smScreen();return screen!=="createShowdown"&&GAMEPLAY.includes(screen);}
+function smTestRunShown(view=smView()){if(view.mode!=="test")return false;/* Nik's JOIN TEST RUN counts while it opens and while its layer is up (the layer's close sends no event) */if(armed&&(view.managerId!=="nik"||joinArming||smLayerOpen()))return true;/* r80 real vs test: unarmed, Daniel's old unjoined test code is never reopened from the main menu (START opens the seasons screen of the real career), so neither Home nor that seasons screen wears the label, never next to the START REAL CAREER checkmark */if(!armed){const screen=smScreen();if(screen==="createShowdown"||screen==="mainMenu"&&smOwnCode())return false;}if(smLiveShowdown())return true;const screen=smScreen();return screen!=="createShowdown"&&GAMEPLAY.includes(screen);}
 // Connect Players (Daniel's WAITING of a test run, Nik's JOIN TEST RUN code box) is a full layer over the header, so it
 // carries the label itself, above the pair panel, whenever this account is in test mode.
 function smRenderLayerLabel(){
@@ -142,7 +144,9 @@ async function smStartTestRun(){
   smRefresh();
   /* Codex #908: a launch that does not reach the seasons screen (refused, failed, or it continued a live Showdown) disarms,
      so the next Home START is real again and a real Showdown never wears the TEST RUN label. */
-  let opened=null;try{opened=await identity?.openStart?.();}finally{if(!opened||smScreen()!=="createShowdown"){armed=false;smRefresh();}}
+  /* r80 real vs test: START TEST RUN over Daniel's open test code reopens its WAITING; the run stays armed while that layer is
+     up, so its NEW CODE (js/persistentNikDanielPair.js refuses a test code unless armed) still works. Home disarms it. */
+  let opened=null;try{opened=await identity?.openStart?.();}finally{if(!opened||smScreen()!=="createShowdown"&&!smOwnCodeShown()){armed=false;smRefresh();}}
   return opened;
 }
 
