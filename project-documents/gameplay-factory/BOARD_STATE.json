@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-19 10:22 AM Boston time (EDT)",
+ "generated": "2026-10-19 10:26 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1213,27 +1213,18 @@
  },
  "two": {
   "live": {
-   "sha": "d1888c3",
-   "revision": "1.9.3-r79",
-   "when": "2026-10-18T13:57:45-04:00",
-   "subject": "Re-pin the composed Rules safety check to r79 main (#926)",
-   "fixes": [
+   "sha": "f4481e1",
+   "revision": "1.9.4-r80",
+   "when": "2026-10-19T14:21:52Z",
+   "subject": "Release 1.9.4-r80: career save to Firebase, Europa League, END SHOWDOWN (#933)",
+   "fixes": [],
+   "today": [
     {
      "pr": 933,
      "title": "Release r80: career save online, END SHOWDOWN (1.9.4-r80)",
-     "draft": false,
-     "branch": "gameplay/r80",
-     "sha": "b095e72abf72a971e4a628dca39bf4da7e28ebde",
-     "updated": "2026-10-19T12:35:22Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
+     "merged": "2026-10-19T14:21:52Z"
     }
-   ],
-   "today": []
+   ]
   },
   "physio": {
    "state": "clear",
@@ -1784,7 +1775,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 40,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3000,22 +2991,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 933,
-    "title": "Release r80: career save online, END SHOWDOWN (1.9.4-r80)",
-    "draft": false,
-    "branch": "gameplay/r80",
-    "sha": "b095e72abf72a971e4a628dca39bf4da7e28ebde",
-    "updated": "2026-10-19T12:35:22Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
