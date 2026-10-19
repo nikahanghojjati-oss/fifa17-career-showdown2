@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 19 Oct, 12:30 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 19 Oct, 12:32 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.4-r80** (main `f4481e1`, Mon 19 Oct 10:21 AM)
 
-🐕 **Barking: Showdown Gate on #954 has waited 14 min for a machine.** · Gate #954: L1· L2· L3A· L3B· L4· L5· L6· · seal pending · POS20 #954 0/16
+🐕 **Barking: Showdown Gate on #954 has waited 26 min for a machine.** · Gate #954: L1✓ L2… L3A… L3B✓ L4… L5✓ L6✓ · seal pending · POS20 #954 0/16
 
 ## Jobs
 
@@ -42,7 +42,7 @@ Updated Mon 19 Oct, 12:30 PM Boston time. Bug hunting only, no new features unti
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 171 h ago
+🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 172 h ago
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
@@ -54,7 +54,7 @@ Updated Mon 19 Oct, 12:30 PM Boston time. Bug hunting only, no new features unti
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 95 h ago
+⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 96 h ago
 
 **#11 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #954](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/954) | Re-pin the Rules safety check to r80 main | ⏳ 4 passed, 4 running |
+| 🟧 Team G lead | [PR #954](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/954) | Re-pin the Rules safety check to r80 main | ⏳ 5 passed, 3 running |
 
 **Up next**
 
