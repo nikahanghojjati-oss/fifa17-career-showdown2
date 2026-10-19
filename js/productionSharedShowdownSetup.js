@@ -30,6 +30,7 @@
     rivalryId:null,sessionId:null,accountId:null,deviceId:null,managerRole:null,remoteRole:null,
     setup:null,message:"Shared Setup is locked until the exact paired rivalry has an ACTIVE private session."
   });
+  const INITIAL_STATE=state;
 
   function freeze(value){
     if(!value||typeof value!=="object"||Object.isFrozen(value))return value;
@@ -63,7 +64,7 @@
     return Object.freeze(resolved);
   }
   function setState(next){
-    state=freeze({...state,errorCode:"",...next});for(const listener of listeners){try{listener(state);}catch(_error){}}render();return state;
+    state=freeze({...state,errorCode:"",...next});const view=currentState();for(const listener of listeners){try{listener(view);}catch(_error){}}render();return view;
   }
   function storageSnapshot(){
     if(typeof root.captureCareerModeRawBackupInputs!=="function")return null;
@@ -138,14 +139,14 @@
     if(!user||user.uid!==accountState.accountId)fail("SHARED_SETUP_AUTH_MISMATCH","The current Google account no longer matches Connected Account authority.");
     if(!adapter||typeof adapter.read!=="function"||typeof adapter.mutate!=="function")fail("SHARED_SETUP_PROVIDER_UNAVAILABLE","Shared Setup transaction authority is unavailable.");
     if(!conflicts||typeof conflicts.execute!=="function")fail("JOURNEY_CONFLICT_GUARD_UNAVAILABLE","Shared Journey conflict guard is unavailable.");
-    return Object.freeze({adapter,conflicts,services,user,rivalryId:rivalryState.rivalryId,sessionId:remoteState.sessionId,accountId:user.uid,deviceId:pairingState.deviceId,managerRole,remoteRole});
+    return Object.freeze({adapter,conflicts,services,user,rivalryId:rivalryState.rivalryId,saveId:rivalryState.binding.saveId||null,sessionId:remoteState.sessionId,accountId:user.uid,deviceId:pairingState.deviceId,managerRole,remoteRole});
   }
   function providerOptions(context){
     return {firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,user:context.user,rivalryId:context.rivalryId,sessionId:context.sessionId,deviceId:context.deviceId,nowEpochMs:Date.now(),cryptoImpl:root.crypto};
   }
   function accept(result,context,message){
     if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_PROVIDER_FAILED");
-    return setState({status:"ready",busy:false,ready:true,revision:result.revision||0,phase:result.state&&result.state.phase||null,rivalryId:context.rivalryId,sessionId:context.sessionId,accountId:context.accountId,deviceId:context.deviceId,managerRole:context.managerRole,remoteRole:context.remoteRole,setup:result.state||null,message});
+    return setState({status:"ready",busy:false,ready:true,revision:result.revision||0,phase:result.state&&result.state.phase||null,rivalryId:context.rivalryId,saveId:context.saveId||null,sessionId:context.sessionId,accountId:context.accountId,deviceId:context.deviceId,managerRole:context.managerRole,remoteRole:context.remoteRole,setup:result.state||null,message});
   }
   // r49: taps used to be dropped with SHARED_SETUP_BUSY whenever any module's background refresh was
   // in flight (every 2.5-15s), so the wheel/packs/confirm needed a second tap. Refreshes now coalesce,
@@ -162,7 +163,7 @@
   function boundedWait(promise){let timer=null;return Promise.race([promise.catch(()=>null),new Promise(resolve=>{timer=root.setTimeout?.(resolve,refreshWaitMs());})]).finally(()=>{if(timer!==null)root.clearTimeout?.(timer);});}
   function refresh(){
     // A refresh during a write resolves after the write publishes its accepted state.
-    if(mutateInFlight)return mutateInFlight.then(()=>state,()=>state);
+    if(mutateInFlight)return mutateInFlight.then(currentState,currentState);
     // Coalesce concurrent refreshes, but never wait on one that has hung past the bound.
     if(refreshInFlight&&Date.now()-refreshStartedAt<refreshWaitMs())return refreshInFlight;
     refreshStartedAt=Date.now();
@@ -174,7 +175,7 @@
     let readReached=false;
     try{
       const context=await resolveContext();readReached=true;const result=await context.adapter.read(providerOptions(context));assertStorageUnchanged(before);
-      if(generation!==setupGeneration)return state;
+      if(generation!==setupGeneration)return currentState();
       if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_READ_FAILED");
       const message=result.status==="empty"
         ? context.remoteRole==="host"?"The paired managers have reached an empty Shared Setup. Open it once for both managers.":"The paired managers have reached an empty Shared Setup. Waiting for the session host to open it."
@@ -182,7 +183,7 @@
       heldReadFailure=false;return accept(result,context,message);
     }catch(error){
       try{assertStorageUnchanged(before);}catch(storageError){error=storageError;}
-      if(generation!==setupGeneration)return state;
+      if(generation!==setupGeneration)return currentState();
       // BH-7: a transient context failure (Connected Rivalry briefly unavailable, Firebase services not ready) is the one exception to "context failures never hold" below: it gets the same one-poll hold, only while the same private session is still exact-ACTIVE and unexpired.
       if(!readReached&&TRANSIENT_CONTEXT_CODES.includes(String(error&&error.code||""))&&!heldReadFailure&&state.ready===true&&state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"&&heldSessionStillActive()){heldReadFailure=true;return setState({status:"ready",busy:false});}
       // A session that expired while the read was in flight is not held: marking the hold as already used makes the check below lock the Setup.
@@ -217,16 +218,16 @@
   async function mutateNow(type,extra={}){
     const before=storageSnapshot();setState({status:`writing-${type}`,busy:true,message:"Saving this shared setup step…"});
     try{
-      const context=await resolveContext();
+      const context=await resolveContext();assertShellSave(context);
       if(type==="open"&&context.remoteRole!=="host")fail("SHARED_SETUP_HOST_REQUIRED","Only the ACTIVE session host may open an empty Shared Setup.");
       for(let attempt=0;;attempt+=1){
         const current=await context.adapter.read(providerOptions(context));
         if(!current||current.ok!==true)fail(current&&current.code||"SHARED_SETUP_READ_FAILED");
         if(attempt>0&&stepAlreadyShown(type,current,context.managerRole,extra)){assertStorageUnchanged(before);return accept(current,context,"Both managers now have the same shared setup.");}
         const operationId=randomOperationId(),baseRevision=current.revision||0;
-        const providerRequest={...providerOptions(context),type,operationId,baseRevision,...extra};
+        assertShellSave(context);const providerRequest={...providerOptions(context),type,operationId,baseRevision,...extra};
         let result;
-        try{result=await context.conflicts.execute({surface:"shared-setup",action:type,operationId,baseRevision,authority:{accountId:context.accountId,deviceId:context.deviceId,rivalryId:context.rivalryId,sessionId:context.sessionId,managerRole:context.managerRole},intent:type==="commit-length"?{totalSeasons:extra.totalSeasons}:{}},()=>context.adapter.mutate(providerRequest));}
+        try{result=await context.conflicts.execute({surface:"shared-setup",action:type,operationId,baseRevision,authority:{accountId:context.accountId,deviceId:context.deviceId,rivalryId:context.rivalryId,sessionId:context.sessionId,managerRole:context.managerRole},intent:type==="commit-length"?{totalSeasons:extra.totalSeasons}:{}},()=>{assertShellSave(context);return context.adapter.mutate(providerRequest);});}
         catch(error){if(attempt===0&&RACE_CODES.includes(safeError(error,""))){continue;}throw error;}
         assertStorageUnchanged(before);
         if(result&&result.ok!==true&&attempt===0&&RACE_CODES.includes(result.code))continue;
@@ -275,13 +276,13 @@
     actions.append(action("REFRESH",()=>void refresh(),state.busy));summary.append(actions);body.append(summary);
   }
   function render(){
-    if(!root.document)return null;const overlay=root.document.getElementById(PANEL_ID);if(!overlay)return null;
+    if(!root.document)return null;const view=currentState();const overlay=root.document.getElementById(PANEL_ID);if(!overlay)return null;
     const body=overlay.querySelector(".remoteJoiningBody");if(!body)return overlay;body.replaceChildren();
     body.append(create("span","remoteJoiningEyebrow","BOTH PLAYERS CONNECTED"),create("h2","","SHARED SHOWDOWN SETUP"),create("p","","One shared league, two different permanent clubs from that league, and a 1 / 3 / 5 / 10 season length. Reconnecting resumes the same setup without a redraw."));
-    if(state.ready)renderSetup(body);else{
-      const locked=create("section","remoteJoiningCurrent");locked.append(create("strong","remoteJoiningState","LOCKED"),create("p","remoteJoiningMeta",state.message));locked.append(action("CHECK ACTIVE SESSION",()=>void refresh(),state.busy));body.append(locked);
+    if(view.ready)renderSetup(body);else{
+      const locked=create("section","remoteJoiningCurrent");locked.append(create("strong","remoteJoiningState","LOCKED"),create("p","remoteJoiningMeta",view.message));locked.append(action("CHECK ACTIVE SESSION",()=>void refresh(),state.busy));body.append(locked);
     }
-    const note=create("p","remoteJoiningStatus",state.message);if(state.errorCode&&(state.status==="error"||state.status==="locked"))note.setAttribute("data-error-code",state.errorCode);note.setAttribute("role","status");note.setAttribute("aria-live","polite");body.append(note);return overlay;
+    const note=create("p","remoteJoiningStatus",view.message);if(view.errorCode&&(view.status==="error"||view.status==="locked"))note.setAttribute("data-error-code",view.errorCode);note.setAttribute("role","status");note.setAttribute("aria-live","polite");body.append(note);return overlay;
   }
   async function openPanel(){
     if(!root.document)return false;let overlay=root.document.getElementById(PANEL_ID);
@@ -290,6 +291,23 @@
   }
   function closePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay)overlay.classList.add("hidden");state=freeze({...state,open:false});return true;}
   function subscribe(listener){if(typeof listener!=="function")return()=>{};listeners.add(listener);return()=>listeners.delete(listener);}
+  // r80: the Setup held in page memory belongs to the save it was read for. After END SHOWDOWN, START (or Nik's JOIN) opens
+  // a new save shell before anything re-reads this Setup, so it still holds the ended Showdown's confirmed Setup. The shared
+  // modules take the rivalry from it while the shell's marker names none (Multi Season, Season Results, Transfer Challenge,
+  // Season Commit, History, Scoring, Final, Terminal Close), so the new Showdown ran on the ended one: Nik's new 3-season
+  // Showdown resumed the ended one's season 2 and read "Season 2 / 3". Another save's Setup is not this Showdown's: every public
+  // read (getState, refresh's result, what subscribers are handed, the panel) shows the locked start state instead until a
+  // refresh reads this save's own Setup. A write refuses a context bound to another save, checked again right before the
+  // provider write (the conflict preflight before it awaits, and END or JOIN can switch the shell meanwhile).
+  function shellSaveId(){try{const showdown=typeof currentShowdown!=="undefined"?currentShowdown:null;return String(showdown?.identity?.saveId||"").trim();}catch(_error){return "";}}
+  // Nik's JOIN can reuse the ended Showdown's own save shell (it never left setupPending), so the save alone does not tell the
+  // Showdowns apart there: once the persistent pair names another rivalry (Daniel started the next Showdown), the Setup of the
+  // ended one is dropped the same way. A pair that names no rivalry is not judged.
+  function pairRivalryId(){try{return String(root.CareerModePersistentNikDanielPair?.getState?.()?.rivalryId||"").trim();}catch(_error){return "";}}
+  function otherShowdown(saveId,rivalryId){const shellSave=shellSaveId(),pairRivalry=pairRivalryId();return Boolean((saveId&&shellSave&&saveId!==shellSave)||(rivalryId&&pairRivalry&&String(rivalryId)!==pairRivalry));}
+  const OTHER_SHOWDOWN_OPEN=freeze({...INITIAL_STATE,open:true});
+  function currentState(){return otherShowdown(state.saveId,state.rivalryId)?(state.open?OTHER_SHOWDOWN_OPEN:INITIAL_STATE):state;}
+  function assertShellSave(context){if(otherShowdown(context.saveId,context.rivalryId))fail("SHARED_SETUP_AUTHORITY_MISMATCH","This connection no longer matches this Showdown. Reconnect both players.");}
 
   return freeze({
     contractVersion:1,
@@ -305,6 +323,6 @@
     canonicalStorageMutation:false,
     canonicalStorageKeys:CANONICAL_KEYS,
     billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,appCheckEnforcementRequired:false,persistentFirestoreCache:false,
-    refresh,mutate,openPanel,closePanel,subscribe,describeFailure,getState:()=>state
+    refresh,mutate,openPanel,closePanel,subscribe,describeFailure,getState:currentState
   });
 });
