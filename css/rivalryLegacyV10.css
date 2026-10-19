@@ -1388,3 +1388,21 @@
 @media (max-width:600px) and (orientation:portrait), (min-width:600px) and (max-width:900px) and (max-height:500px) and (orientation:landscape) {
   #app #statistics[data-rivalry-legacy-v10] :is(.rv-adoptedPhoneStadium,.rv-adoptedPhoneManager) { display:none; }
 }
+/* r80 gallery · the Ended early card (History): it is a <div> where the completed card is a <button>, so it took the archive
+   panel's inherited capitals and wide spacing, and this sheet's three-column body put its one line in the first column, where
+   "Ended early · 19 Oct 2026 · 1 season" wrapped with a "·" opening each line. It now has the completed card's type and one
+   full-width column: the status in the body, then the date and seasons played on the footer line (as the completed card's
+   season count, but never hidden: it is the row's content). The separator before that line is not drawn. */
+#app #legacy[data-rivalry-legacy-v10] .legacyCard:is([data-status="abandoned"],[data-status="unavailable"]) {
+  text-transform:none; letter-spacing:normal;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyCard:is([data-status="abandoned"],[data-status="unavailable"]) .legacyCardBody {
+  grid-template-columns:minmax(0,1fr);
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyCard:is([data-status="abandoned"],[data-status="unavailable"]) .legacyStatusOnly {
+  color:#fff; font-size:15px; line-height:18px; letter-spacing:.035em;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyCard .legacyEndedMeta {
+  display:block; margin-top:6px; color:rgba(255,255,255,.64); font-size:12px; line-height:16px; letter-spacing:.04em; white-space:normal;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyCard .legacyEndedSeparator { display:none; }

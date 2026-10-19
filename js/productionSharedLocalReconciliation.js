@@ -30,12 +30,12 @@
   function lrReason(reason){return ({["history-not-authoritative"]:"Waiting for shared history.",["connected-rivalry-not-exact"]:"Checking the exact connected rivalry and your saved Showdown.",["remote-not-observed"]:lrMultiTerminal()?"Last season committed. Getting the final result; this updates by itself.":"Waiting for your partner to finish the last season. The final result shows here by itself.",["offline-preview-only"]:"Offline: you can preview the last shared result already loaded.",["offline-no-observed-remote"]:"Offline: no shared result has been loaded yet."})[reason]||"Save check is getting ready.";}
   function lrRender(){
     const ui=lrEnsureUi();if(!ui)return false;const visible=Boolean(lrSharedActive()&&lrHistoryReady()&&state);lrHidden(ui.panel,!visible);if(!visible)return false;
-    lrText(ui.heading,"LOCAL RECONCILIATION");
-    lrText(ui.summary,"Compare the shared result with your saved Showdown without changing it. Apply is available only in advanced recovery.");
+    lrText(ui.heading,"SHARED RESULT CHECK");
+    lrText(ui.summary,"Compare the shared result with your Showdown without changing it. Apply is available only in advanced recovery.");
     const ready=state.phase==="PREVIEW_READY",applied=state.phase==="APPLIED";
     const message=uiError||(ready?"PREVIEW READY ✓ · YOUR SAVE IS UNCHANGED":applied?"THIS RESULT WAS ALREADY APPLIED IN ADVANCED RECOVERY":state.phase==="OFFLINE_FALLBACK"&&state.previewAllowed?"OFFLINE PREVIEW AVAILABLE · APPLY REMAINS DISABLED":lrReason(state.reason));
     lrText(ui.status,message);
-    lrHidden(ui.preview,ready||applied);ui.preview.disabled=uiBusy;lrText(ui.preview,uiBusy?"CHECKING YOUR SAVE…":"PREVIEW LOCAL RECONCILIATION");
+    lrHidden(ui.preview,ready||applied);ui.preview.disabled=uiBusy;lrText(ui.preview,uiBusy?"CHECKING YOUR SAVE…":"PREVIEW SHARED RESULT");
     return true;
   }
   function lrDispatch(){lrRender();try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-local-reconciliation-state-change",{detail:state}));}catch(_error){}return state;}

@@ -36,7 +36,7 @@
   function deny(name){
     if(typeof root.showAppNotice==="function"){
       root.showAppNotice(
-        `Shared Showdown blocks local ${name}. Exact pairing, the exact ACTIVE private session and provider-authoritative Shared Setup own the outcome.`,
+        `In a shared Showdown, ${name} happens only in Shared Setup. Exact pairing, the exact ACTIVE private session and provider-authoritative Shared Setup own the outcome.`,
         "error",
         9000
       );

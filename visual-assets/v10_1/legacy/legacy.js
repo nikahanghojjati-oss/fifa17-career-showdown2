@@ -164,11 +164,24 @@ window.ShowdownLegacyBoot = function () {
     if (statusOnly) {
       const status = document.createElement("span");
       status.className = "legacyStatusOnly";
-      status.textContent = showdown.status === "abandoned"
-        ? (showdown.endedLabel || strings.states.abandoned)
-        : strings.states.unavailable;
+      // r80 Ended early: the seam's "Ended early · 19 Oct 2026 · 1 season" reads as the status line, then the date and
+      // seasons played on one footer line (as the completed card's season count). The separator between the two lines is
+      // not drawn, so no line starts with "·", and the row's text stays the seam's label.
+      const [label, ...details] = showdown.status === "abandoned"
+        ? String(showdown.endedLabel || strings.states.abandoned).split(" · ")
+        : [strings.states.unavailable];
+      status.textContent = label;
       body.appendChild(status);
       card.append(title, body);
+      if (details.length) {
+        const meta = document.createElement("span");
+        meta.className = "legacyEndedMeta";
+        const separator = document.createElement("span");
+        separator.className = "legacyEndedSeparator";
+        separator.textContent = " · ";
+        meta.append(separator, document.createTextNode(details.join(" · ")));
+        card.appendChild(meta);
+      }
       return card;
     }
 

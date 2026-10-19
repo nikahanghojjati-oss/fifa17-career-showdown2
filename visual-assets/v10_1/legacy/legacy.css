@@ -576,6 +576,27 @@ button {
   grid-template-columns: 1fr;
 }
 
+/* r80 Ended early: a <div> card, so it does not inherit the panel's capitals; the date and seasons played sit on a footer line
+   under the status, and the separator before that line is not drawn (the row's text stays "Ended early · <date> · <n> season"). */
+.legacyCard[data-status="abandoned"],
+.legacyCard[data-status="unavailable"] {
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.legacyEndedMeta {
+  display: block;
+  margin-top: 7px;
+  color: rgba(255,255,255,.64);
+  font-size: .66rem;
+  line-height: 1.35;
+  letter-spacing: .04em;
+}
+
+.legacyEndedSeparator {
+  display: none;
+}
+
 .legacyStatusOnly {
   display: grid;
   place-items: center;
