@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-18 10:25 PM Boston time (EDT)",
+ "generated": "2026-10-18 10:29 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 126,
@@ -1196,11 +1196,11 @@
      "title": "Release r80: career save online, END SHOWDOWN (1.9.4-r80)",
      "draft": false,
      "branch": "gameplay/r80",
-     "sha": "4880c2c67110c5bb81869b3f11d9f43aa8debe62",
-     "updated": "2026-10-19T02:09:35Z",
+     "sha": "2bc9f535709e3ee507898dcbf8491b5efa4e2680",
+     "updated": "2026-10-19T02:28:47Z",
      "gates": {
-      "passed": 8,
-      "running": 0,
+      "passed": 0,
+      "running": 7,
       "failed": 0,
       "cancelled": 0
      }
@@ -1222,7 +1222,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #933: L1✓ L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #933 0/16",
+   "gate": "Gate #933: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #933 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -2977,11 +2977,11 @@
     "title": "Release r80: career save online, END SHOWDOWN (1.9.4-r80)",
     "draft": false,
     "branch": "gameplay/r80",
-    "sha": "4880c2c67110c5bb81869b3f11d9f43aa8debe62",
-    "updated": "2026-10-19T02:09:35Z",
+    "sha": "2bc9f535709e3ee507898dcbf8491b5efa4e2680",
+    "updated": "2026-10-19T02:28:47Z",
     "gates": {
-     "passed": 8,
-     "running": 0,
+     "passed": 0,
+     "running": 7,
      "failed": 0,
      "cancelled": 0
     }
