@@ -12,3 +12,4 @@ TITLE_LEAGUE_V1 (job 1030) is not generated: it is cropped from Nik's own goal i
 | SETTINGS | TITLE_SETTINGS_V1 | generated (ticket 124-TITLE_SETTINGS) | c4ad45bc0e39c2c38f3257a47e41e1bff657f672a4345a45cf1fb7ed9481dd44 |
 | STANDINGS | TITLE_STANDINGS_V1 | generated (ticket 124-TITLE_STANDINGS) | adbf6ee3214a535b2d96cd12bd40110178ecae0e01cf53cd5eb17dde646e3807 |
 | LEAGUE | TITLE_LEAGUE_V1 | cropped from goal image (job 1030) | a35299752e9d3cfcc44b21ff882ac7fdd81b727af78002c5ce5d76459b29e322 |
+| CONNECT PLAYERS | TITLE_CONNECT_PLAYERS_V1 | generated (ticket 1847, normal new chat, try 1; style from TITLE_STANDINGS_V1; luminance key on black, master 2108x368, WebP 1400x244 q75) | 38213f962b9db6ae748eb3becce92f0dc08da7f76a3da2ae886c358d1cbaaf99 |
