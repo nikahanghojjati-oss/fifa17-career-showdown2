@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 19 Oct, 5:23 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 19 Oct, 5:27 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.4-r80** (main `3b4b4ac`, Mon 19 Oct 12:40 PM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🩺 **All clear: every check has a machine.** · Gate #955: L1✓ L2… L3A… L3B✓ L4… L5… L6… · seal pending · POS20 #955 0/16
 
 ## Jobs
 
@@ -38,7 +38,7 @@ Updated Mon 19 Oct, 5:23 PM Boston time. Bug hunting only, no new features until
 
 **#6 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 176 h ago
+🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 177 h ago
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -78,11 +78,11 @@ Updated Mon 19 Oct, 5:23 PM Boston time. Bug hunting only, no new features until
 
 **#16 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 70 h ago
+⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 71 h ago
 
 **#17 · 1839** `G` r76 gallery refresh: every screen from the final workbench, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 70 h ago
+⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 71 h ago
 
 ### 👉 Next for you, in this order
 
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #955](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/955) | r81 (1.9.5-r81): show the real r79 game the checkmark hid | ⏳ 1 passed, 6 running |
+| 🟧 Team G lead | [PR #955](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/955) | r81 (1.9.5-r81): show the real r79 game the checkmark hid | ⏳ 3 passed, 4 running |
 
 **Up next**
 
