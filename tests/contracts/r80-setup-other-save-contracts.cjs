@@ -12,14 +12,18 @@
 //      read of R2 under the new shell, the cursor stays at season 1, the header reads Season 1 / 3 and the dashboard is never
 //      decorated with R2.
 //   N3 the Setup held for save A reads as locked for the new shell (no rivalry, not ready), so every borrower gets no rivalry;
-//      the same save in a new object or a shell without a save id still reads R2's.
-//   N4 once save B's own Setup (R3) is confirmed it is read and used: Season 1 / 3 from R3's authority.
-//   N5 every shared module that borrows the Setup's rivalry reads it through getState() (so N2 covers all of them).
+//      the same save in a new object or a shell without a save id still reads R2's (checked in N1).
+//   N4 (Codex P1 on #944) after the switch nothing announces, renders or writes save A's Setup: a refresh that still answers
+//      for save A notifies subscribers and renders the panel only with the locked start state, and a write bound to save A is
+//      refused before the provider is touched.
+//   N5 once save B's own Setup (R3) is confirmed it is read and used: Season 1 / 3 from R3's authority.
+//   N6 every shared module that borrows the Setup's rivalry reads it through getState() (so N2 covers all of them).
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
 const vm=require("node:vm");
 const {webcrypto}=require("node:crypto");
+const {FakeNode}=require("../support/fake-dom.cjs");
 
 const ROOT=path.resolve(__dirname,"../..");
 const read=file=>fs.readFileSync(path.join(ROOT,file),"utf8");
@@ -59,7 +63,8 @@ function boot(){
   sandbox.CareerModeSparkConnectedRivalry={initialize:async()=>true,getState:()=>({connected:true,attached:true,rivalryId:env.rivalryId,binding:{saveId:env.saveId,profileId:PROFILE,managerRole:"playerTwo"},accountId:UID,deviceId:DEVICE})};
   sandbox.CareerModeSparkRemoteJoining={getState:()=>({sessionState:"active",sessionId:env.sessionId,expiresAtEpochMs:Date.now()+3_600_000,rivalryId:env.rivalryId,accountId:UID,deviceId:DEVICE,role:"peer",pendingAction:null})};
   sandbox.CareerModeSharedShowdownSetup={};sandbox.CareerModeSharedShowdownCatalog={catalog:{}};
-  sandbox.CareerModeSparkSharedShowdownSetup={read:async options=>({ok:true,status:"ready",revision:6,state:{...confirmed,rivalryId:options.rivalryId}}),mutate:async()=>({ok:false,code:"UNUSED"})};
+  const writes=[];
+  sandbox.CareerModeSparkSharedShowdownSetup={read:async options=>({ok:true,status:"ready",revision:6,state:{...confirmed,rivalryId:options.rivalryId}}),mutate:async options=>{writes.push(options.rivalryId);return {ok:false,code:"UNUSED"};}};
   sandbox.CareerModeProductionSharedJourneyConflicts={execute:async(_intent,write)=>write()};
   sandbox.CareerModeProductionSharedHistoryConvergence={refresh:async()=>null,getState:()=>null};
   sandbox.CareerModeSharedMultiSeasonProgression={};
@@ -78,7 +83,7 @@ function boot(){
   vm.runInContext(menuMetaSource,sandbox,{filename:"js/menuExperience.js"});
   const setup=sandbox.CareerModeProductionSharedShowdownSetup,multi=sandbox.CareerModeProductionSharedMultiSeasonProgression;
   assert.ok(setup&&typeof setup.getState==="function"&&multi&&typeof multi.resumeFromAuthority==="function","the Shared Setup and Multi Season modules load in the sandbox");
-  return {setup,multi,sandbox,env,page,reads,indicator:()=>sandbox.getSavedShowdownMenuMeta().indicator};
+  return {setup,multi,sandbox,env,page,reads,writes,indicator:()=>sandbox.getSavedShowdownMenuMeta().indicator};
 }
 
 (async()=>{
@@ -90,6 +95,12 @@ function boot(){
   const resumed=await t.multi.resumeFromAuthority();
   assert.equal(resumed&&resumed.season,2,"N1 R2 resumes on season 2");
   assert.equal(t.indicator(),"Season 2 / 3","N1 the live R2 reads Season 2 / 3");
+  const liveShell=t.sandbox.currentShowdown;
+  t.sandbox.currentShowdown=JSON.parse(JSON.stringify(liveShell));
+  assert.equal(t.setup.getState().rivalryId,R2,"N1 the same save in a new object (the Save Library swaps it) still reads its Setup");
+  t.sandbox.currentShowdown=shell(1700000000003,null);
+  assert.equal(t.setup.getState().rivalryId,R2,"N1 a shell without a save id is not judged (unchanged)");
+  t.sandbox.currentShowdown=liveShell;
   console.log("ok N1 the live R2 reads its confirmed Setup and Season 2 / 3");
 
   // N2: Daniel ends R2; Nik's JOIN opens a new shell (save B) before anything re-reads the Setup on this page, and the ACTIVE
@@ -111,33 +122,45 @@ function boot(){
   assert.equal(other.ready,false,"N3 the Setup read for save A is not ready for the new shell (save B)");
   assert.equal(other.rivalryId,null,`N3 the new shell borrows no rivalry from the ended Showdown's Setup (got ${other.rivalryId})`);
   assert.equal(other.setup,null,"N3 the ended Showdown's league and clubs are not offered to the new shell");
-  t.sandbox.currentShowdown=JSON.parse(JSON.stringify(shell(1700000000001,SAVE_A)));
-  assert.equal(t.setup.getState().rivalryId,R2,"N3 the same save in a new object still reads its Setup");
-  t.sandbox.currentShowdown=shell(1700000000003,null);
-  assert.equal(t.setup.getState().rivalryId,R2,"N3 a shell without a save id is not judged (unchanged)");
-  t.sandbox.currentShowdown=shell(1700000000002,SAVE_B);
-  console.log("ok N3 after END the new shell reads the ended Showdown's Setup as locked; the same save still reads it");
+  console.log("ok N3 after END the new shell reads the ended Showdown's Setup as locked");
 
-  // N4: R3 is attached to save B and both players confirmed its Setup.
+  // N4: the Setup panel is open on this page and a refresh still answers for save A (Connected Rivalry not yet moved).
+  const body=new FakeNode("div"),overlay={querySelector:selector=>selector===".remoteJoiningBody"?body:null,classList:{add(){},remove(){}}};
+  t.sandbox.document={getElementById:id=>id==="productionSharedSetupOverlay"?overlay:null,createElement:tag=>new FakeNode(tag)};
+  const seen=[];const unsubscribe=t.setup.subscribe(next=>seen.push({ready:next.ready,rivalryId:next.rivalryId,setup:next.setup,body:body.textContent}));
+  await t.setup.refresh();
+  assert.ok(seen.length>0,"N4 the refresh notified its subscribers");
+  assert.deepEqual(seen.filter(next=>next.ready||next.rivalryId||next.setup),[],`N4 no subscriber is handed save A's Setup after the switch: ${JSON.stringify(seen.map(next=>next.rivalryId))}`);
+  assert.match(body.textContent,/LOCKED/,"N4 the Setup panel renders the locked start state, not save A's controls");
+  assert.equal(t.setup.getState().rivalryId,null,"N4 the refresh for save A leaves nothing for save B to borrow");
+  const write=await t.setup.mutate("confirm");
+  assert.equal(write.ok,false,"N4 a write bound to save A is refused on save B");
+  assert.equal(write.code,"SHARED_SETUP_AUTHORITY_MISMATCH",`N4 the refusal names the authority mismatch (got ${write.code})`);
+  assert.deepEqual(t.writes,[],"N4 the provider is never asked to write save A's Setup from save B");
+  assert.deepEqual(seen.filter(next=>next.ready||next.rivalryId||next.setup),[],"N4 the refused write announced nothing of save A");
+  unsubscribe();delete t.sandbox.document;
+  console.log("ok N4 after the switch no subscriber, panel or write ever sees save A's Setup");
+
+  // N5: R3 is attached to save B and both players confirmed its Setup.
   Object.assign(t.env,{rivalryId:R3,sessionId:SESSION_R3,saveId:SAVE_B});
   await t.setup.refresh();
-  assert.equal(t.setup.getState().ready,true,"N4 R3's own Setup is confirmed for save B");
-  assert.equal(t.setup.getState().rivalryId,R3,"N4 the new shell reads R3's Setup");
+  assert.equal(t.setup.getState().ready,true,"N5 R3's own Setup is confirmed for save B");
+  assert.equal(t.setup.getState().rivalryId,R3,"N5 the new shell reads R3's Setup");
   const r3=await t.multi.resumeFromAuthority();
-  assert.equal(r3&&r3.season,1,"N4 R3 with no accepted season resumes on season 1");
-  assert.equal(r3&&r3.acceptedSeasons,0,"N4 R3 has no accepted season (Career Start is next, not the dashboard)");
-  assert.equal(t.reads[t.reads.length-1]?.rivalryId,R3,"N4 the progression read is R3's");
-  assert.equal(t.multi.resolveSeason(1),1,"N4 R3 is on season 1");
-  assert.equal(t.indicator(),"Season 1 / 3","N4 the header reads Season 1 / 3");
-  console.log("ok N4 R3's own Setup is read and used: Season 1 / 3");
+  assert.equal(r3&&r3.season,1,"N5 R3 with no accepted season resumes on season 1");
+  assert.equal(r3&&r3.acceptedSeasons,0,"N5 R3 has no accepted season (Career Start is next, not the dashboard)");
+  assert.equal(t.reads[t.reads.length-1]?.rivalryId,R3,"N5 the progression read is R3's");
+  assert.equal(t.multi.resolveSeason(1),1,"N5 R3 is on season 1");
+  assert.equal(t.indicator(),"Season 1 / 3","N5 the header reads Season 1 / 3");
+  console.log("ok N5 R3's own Setup is read and used: Season 1 / 3");
 
-  // N5: the borrowers all take the Setup through getState(), so N2 holds for each of them.
+  // N6: the borrowers all take the Setup through getState(), so N2 holds for each of them.
   for(const file of ["productionSharedMultiSeasonProgression","productionSharedSeasonResults","productionSharedTransferChallenge","productionSharedSeasonCommit","productionSharedHistoryConvergence","productionSharedCanonicalScoring","productionSharedFinalReconciliation","productionSharedTerminalClose"]){
     const source=read(`js/${file}.js`);
-    assert.match(source,/sharedJourney\??\.rivalryId\|\|/,`N5 ${file} borrows the Setup's rivalry when the marker names none`);
-    assert.match(source,/(setupApi\|\|root\.CareerModeProductionSharedShowdownSetup\)\?\.getState\?\.\(\)|setupApi\?\.getState\?\.\(\)|root\.CareerModeProductionSharedShowdownSetup\?\.getState\?\.\(\))/,`N5 ${file} reads the Setup through getState()`);
-    assert.doesNotMatch(source,/CareerModeProductionSharedShowdownSetup[^;]*\.subscribe\(/,`N5 ${file} does not keep its own copy of the Setup state`);
+    assert.match(source,/sharedJourney\??\.rivalryId\|\|/,`N6 ${file} borrows the Setup's rivalry when the marker names none`);
+    assert.match(source,/(setupApi\|\|root\.CareerModeProductionSharedShowdownSetup\)\?\.getState\?\.\(\)|setupApi\?\.getState\?\.\(\)|root\.CareerModeProductionSharedShowdownSetup\?\.getState\?\.\(\))/,`N6 ${file} reads the Setup through getState()`);
+    assert.doesNotMatch(source,/CareerModeProductionSharedShowdownSetup[^;]*\.subscribe\(/,`N6 ${file} does not keep its own copy of the Setup state`);
   }
-  console.log("ok N5 every shared module that borrows the Setup's rivalry reads it through getState()");
+  console.log("ok N6 every shared module that borrows the Setup's rivalry reads it through getState()");
   console.log("PASS r80 setup other-save contracts");
 })().catch(error=>{console.error(error);process.exitCode=1;});
