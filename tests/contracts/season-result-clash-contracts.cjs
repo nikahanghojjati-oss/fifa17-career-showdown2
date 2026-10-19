@@ -1,11 +1,13 @@
 "use strict";
-// Job 23 (bug hunt item 3, Nik's decision 2026-10-04): when both managers' revealed season results clash, the Shared Season
-// Commit panel shows a clear CHECK RESULTS warning, but COMMIT SHARED SEASON stays enabled so the game never gets stuck.
-// A clash is the same leaguePosition, or both championsLeague, or both domesticCup. Top scorer and top assist are not clashes.
-//   A. seasonResultClash(results) is pure and returns plain-English lines ([] when there is no clash).
-//   B. The commit panel status shows the warning only on a clash, for the coordinator and for the waiting manager.
-//   C. The commit button is never disabled by a clash and a tap still reaches provider.commitSeason.
-//   D. Scoring, Rules and providers are untouched: this contract pins that the clash code only reads the revealed results.
+// Job 23 (bug hunt item 3, Nik's decision 2026-10-04) added a CHECK RESULTS warning on the Shared Season Commit panel.
+// r80 (Nik, 2026-10-19): the two managers play DIFFERENT FIFA saves on different consoles, so in the same season both can
+// finish 1st (same league position), both win the Champions League and both win the domestic cup. That is normal and must
+// never show a warning. Only one save winning two exclusive trophies (Champions League and Europa League) is impossible;
+// that same-manager line is not added yet, so every combination below returns [].
+//   A. seasonResultClash(results) is pure, still returns an array, and returns [] for every cross-manager combination.
+//   B. The commit panel status never shows CHECK RESULTS for these combinations, for the coordinator or the waiting manager.
+//   C. The commit button is never disabled and a tap still reaches provider.commitSeason.
+//   D. Scoring, Rules and providers are untouched: the clash code only reads the revealed results and never disables.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -67,43 +69,57 @@ function pureContracts(){
   const raw=harness(result(),result({leaguePosition:2})).api.seasonResultClash;
   assert.equal(typeof raw,"function","seasonResultClash must be exported");
   const clash=value=>{const lines=raw(value);assert.ok(Array.isArray(lines),"seasonResultClash must return an array");return [...lines];};
-  assert.deepEqual(clash({playerOne:result({leaguePosition:1}),playerTwo:result({leaguePosition:1})}),["Both managers entered league position 1."]);
-  assert.deepEqual(clash({playerOne:result({leaguePosition:4,championsLeague:true}),playerTwo:result({leaguePosition:7,championsLeague:true})}),["Both managers ticked Champions League."]);
-  assert.deepEqual(clash({playerOne:result({leaguePosition:3,domesticCup:true}),playerTwo:result({leaguePosition:5,domesticCup:true})}),["Both managers ticked Domestic Cup."]);
-  assert.deepEqual(clash({playerOne:result({leaguePosition:2,championsLeague:true,domesticCup:true}),playerTwo:result({leaguePosition:2,championsLeague:true,domesticCup:true})}),
-    ["Both managers entered league position 2.","Both managers ticked Champions League.","Both managers ticked Domestic Cup."],"multiple clashes are all listed");
-  assert.deepEqual(clash({playerOne:result({leaguePosition:2,domesticCup:true}),playerTwo:result({leaguePosition:4,domesticCup:true})}),["Both managers ticked Domestic Cup."],"the browser journey's season 3 (positions 2 and 4, both cup) is a clash");
+  assert.deepEqual(clash({playerOne:result({leaguePosition:1}),playerTwo:result({leaguePosition:1})}),[],"both managers 1st in their own saves is not a clash");
+  assert.deepEqual(clash({playerOne:result({leaguePosition:4}),playerTwo:result({leaguePosition:4})}),[],"any shared league position is not a clash");
+  assert.deepEqual(clash({playerOne:result({leaguePosition:4,championsLeague:true}),playerTwo:result({leaguePosition:7,championsLeague:true})}),[],"both winning the Champions League is not a clash");
+  assert.deepEqual(clash({playerOne:result({leaguePosition:3,domesticCup:true}),playerTwo:result({leaguePosition:5,domesticCup:true})}),[],"both winning the domestic cup is not a clash");
+  assert.deepEqual(clash({playerOne:result({leaguePosition:2,championsLeague:true,domesticCup:true}),playerTwo:result({leaguePosition:2,championsLeague:true,domesticCup:true})}),[],
+    "same position, both Champions League and both domestic cup together is still not a clash");
+  assert.deepEqual(clash({playerOne:result({leaguePosition:1,championsLeague:true,domesticCup:true,topScorer:true,topAssist:true}),playerTwo:result({leaguePosition:1,championsLeague:true,domesticCup:true,topScorer:true,topAssist:true})}),[],
+    "both managers winning everything in their own saves is not a clash");
+  assert.deepEqual(clash({playerOne:result({leaguePosition:2,domesticCup:true}),playerTwo:result({leaguePosition:4,domesticCup:true})}),[],"the browser journey's season 3 (positions 2 and 4, both cup) is not a clash");
   assert.deepEqual(clash({playerOne:result({leaguePosition:1,championsLeague:true}),playerTwo:result({leaguePosition:3,domesticCup:true})}),[],"different positions and different cups do not clash");
   assert.deepEqual(clash({playerOne:result({leaguePosition:1,topScorer:true,topAssist:true}),playerTwo:result({leaguePosition:2,topScorer:true,topAssist:true})}),[],"top scorer and top assist on both sides are not a clash");
   assert.deepEqual(clash({playerOne:result({leaguePosition:1,championsLeague:false,domesticCup:false}),playerTwo:result({leaguePosition:2,championsLeague:false,domesticCup:false})}),[],"both unticked is not a clash");
   for(const bad of [null,undefined,{},{playerOne:result()},{playerOne:result(),playerTwo:null},"x"])assert.deepEqual(clash(bad),[],"missing results never throw and never clash");
-  const input={playerOne:result(),playerTwo:result()};const copy=JSON.parse(JSON.stringify(input));clash(input);assert.deepEqual(input,copy,"the function must not mutate its input");
+  const input={playerOne:result({championsLeague:true}),playerTwo:result({championsLeague:true})};const copy=JSON.parse(JSON.stringify(input));clash(input);assert.deepEqual(input,copy,"the function must not mutate its input");
 }
 
 async function renderContracts(){
-  // B1. Clash: the coordinator sees the warning and the original text.
+  const coordinatorStatus="BOTH RESULTS ARE READY · AS COORDINATOR, COMMIT THE IMMUTABLE SHARED SEASON SNAPSHOT";
+  // B1. Both 1st: the coordinator sees the plain status, no CHECK RESULTS.
   let h=harness(result({leaguePosition:1}),result({leaguePosition:1}),{role:"playerOne"});h.api.install();await h.api.refresh();await settle();
-  assert.match(h.status(),/^BOTH RESULTS ARE READY · AS COORDINATOR, COMMIT THE IMMUTABLE SHARED SEASON SNAPSHOT/,"the original status text must stay");
-  assert.match(h.status(),/CHECK RESULTS: Both managers entered league position 1\. You can still commit; scores use what was entered\./);
+  assert.equal(h.status(),coordinatorStatus,"both managers 1st shows the unchanged status text");
+  assert.ok(!/CHECK RESULTS/.test(h.status()),"both managers 1st never shows CHECK RESULTS");
   assert.equal(h.action().textContent,"COMMIT & ACKNOWLEDGE SHARED SEASON");
   // C. The commit action stays enabled and a tap still commits.
-  assert.equal(h.action().disabled,false,"a clash must never disable COMMIT & ACKNOWLEDGE SHARED SEASON");assert.notEqual(h.action().attributes["aria-disabled"],"true");
-  await h.tap();assert.equal(h.calls.commit,1,"a tap on a clashing season must still reach commitSeason");
+  assert.equal(h.action().disabled,false,"both managers 1st must never disable COMMIT & ACKNOWLEDGE SHARED SEASON");assert.notEqual(h.action().attributes["aria-disabled"],"true");
+  await h.tap();assert.equal(h.calls.commit,1,"a tap on a season where both managers finished 1st reaches commitSeason");
   assert.match(h.status(),/THE SHARED SEASON RESULT IS LOCKED/,"after commit the normal acknowledge state shows");
   assert.equal(h.action().textContent,"ACKNOWLEDGE SHARED SEASON");assert.equal(h.action().disabled,false,"acknowledge stays enabled");
-  assert.ok(!/CHECK RESULTS/.test(h.status()),"the warning is only for the pre-commit decision");
+  assert.ok(!/CHECK RESULTS/.test(h.status()),"no CHECK RESULTS after commit either");
   assert.equal(h.calls.acknowledge,1,"the coordinator's one tap also records his acknowledgement (R7)");
   await h.tap();assert.equal(h.calls.acknowledge,2,"the ACKNOWLEDGE fallback still works");
-  // B2. Several clashes together.
-  h=harness(result({leaguePosition:2,championsLeague:true,domesticCup:true}),result({leaguePosition:2,championsLeague:true,domesticCup:true}));h.api.install();await h.api.refresh();await settle();
-  assert.match(h.status(),/CHECK RESULTS: Both managers entered league position 2\. Both managers ticked Champions League\. Both managers ticked Domestic Cup\. You can still commit/);
-  // B3. The waiting manager sees it too, and the button is the existing waiting state (disabled by role, not by clash).
-  h=harness(result({domesticCup:true,leaguePosition:2}),result({domesticCup:true,leaguePosition:4}),{role:"playerTwo"});h.api.install();await h.api.refresh();await settle();
-  assert.match(h.status(),/WAITING FOR Daniel TO COMMIT THE SHARED SEASON/);assert.match(h.status(),/CHECK RESULTS: Both managers ticked Domestic Cup\. The coordinator can still commit; scores use what was entered\./);
+  // B2. Each formerly flagged combination on its own, and all together: no warning, enabled, commits.
+  for(const [label,one,two] of [
+    ["both Champions League",result({leaguePosition:4,championsLeague:true}),result({leaguePosition:7,championsLeague:true})],
+    ["both domestic cup",result({leaguePosition:3,domesticCup:true}),result({leaguePosition:5,domesticCup:true})],
+    ["same position, both Champions League and both domestic cup",result({leaguePosition:2,championsLeague:true,domesticCup:true}),result({leaguePosition:2,championsLeague:true,domesticCup:true})]
+  ]){
+    h=harness(one,two);h.api.install();await h.api.refresh();await settle();
+    assert.equal(h.status(),coordinatorStatus,`${label}: the status text is unchanged`);
+    assert.ok(!/CHECK RESULTS/.test(h.status()),`${label}: no CHECK RESULTS`);
+    assert.equal(h.action().disabled,false,`${label}: COMMIT stays enabled`);
+    await h.tap();assert.equal(h.calls.commit,1,`${label}: a tap reaches commitSeason`);
+  }
+  // B3. The waiting manager never sees it either; the button is the existing waiting state (disabled by role only).
+  h=harness(result({domesticCup:true,championsLeague:true,leaguePosition:1}),result({domesticCup:true,championsLeague:true,leaguePosition:1}),{role:"playerTwo"});h.api.install();await h.api.refresh();await settle();
+  assert.equal(h.status(),"BOTH RESULTS ARE READY · WAITING FOR Daniel TO COMMIT THE SHARED SEASON","the waiting manager sees the unchanged waiting text");
+  assert.ok(!/CHECK RESULTS/.test(h.status()),"the waiting manager never sees CHECK RESULTS for both managers winning");
   assert.equal(h.action().textContent,"WAITING FOR COORDINATOR");
-  // B4. No clash: nothing extra, and top scorer on both sides is not a clash.
+  // B4. Different results: nothing extra, and top scorer on both sides is not a clash.
   h=harness(result({leaguePosition:1,topScorer:true,championsLeague:true}),result({leaguePosition:3,topScorer:true,domesticCup:true}));h.api.install();await h.api.refresh();await settle();
-  assert.equal(h.status(),"BOTH RESULTS ARE READY · AS COORDINATOR, COMMIT THE IMMUTABLE SHARED SEASON SNAPSHOT","no clash means the status text is unchanged");
+  assert.equal(h.status(),coordinatorStatus,"different results leave the status text unchanged");
   assert.equal(h.action().disabled,false);await h.tap();assert.equal(h.calls.commit,1);
 }
 
@@ -113,6 +129,7 @@ function sourceContracts(){
   const fn=commit.slice(commit.indexOf("function psscSeasonResultClash"),commit.indexOf("function psscManagerName"));
   assert.ok(fn.length>0&&!/psscDisable|disabled|psscFail|throw /.test(fn),"the clash code must never disable a control or throw");
   assert.ok(!/topScorer|topAssist/.test(fn),"top scorer and top assist are not clashes");
+  assert.ok(!/leaguePosition|domesticCup|Both managers/.test(fn),"r80: the same league position or both managers winning a trophy is never a clash");
   const render=commit.slice(commit.indexOf("function psscRender"),commit.indexOf("function psscBind"));
   assert.ok(!/psscDisable\([^)]*psscSeasonResultClash|psscDisable\([^)]*psscClashWarning/.test(render),"no disable decision may depend on a clash");
 }
@@ -121,5 +138,5 @@ const watchdog=setTimeout(()=>{console.error("season-result-clash: a promise nev
 (async()=>{
   pureContracts();await renderContracts();sourceContracts();
   clearTimeout(watchdog);
-  console.log("PASS Season result clash contracts: same league position, both Champions League and both Domestic Cup show a CHECK RESULTS warning on the commit panel, top scorer and assist do not, and commit and acknowledge stay enabled.");
+  console.log("PASS Season result clash contracts: same league position, both Champions League and both Domestic Cup are normal (different saves) and never show CHECK RESULTS; seasonResultClash still returns an array; commit and acknowledge stay enabled and commit reaches commitSeason.");
 })().catch(error=>{console.error(error);process.exit(1);});
