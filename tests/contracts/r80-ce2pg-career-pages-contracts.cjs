@@ -189,6 +189,16 @@ const PAIR={
       assert.equal(h.rows(node)["CURRENT SHOWDOWN"],"Daniel vs Nik · Created");
     }
   });
+  await check("C3 a transient unavailable pair state is unknown: the local save decides, END SHOWDOWN stays (Codex #935)",async()=>{
+    const h=settingsHarness({pair:{initialized:true,rivalryId:null,connectionState:null,status:"unavailable",closedRivalryId:null}});const node=h.panel();
+    assert.equal(h.buttons(node).includes("END SHOWDOWN"),true);
+    assert.equal(h.rows(node)["CURRENT SHOWDOWN"],"Daniel vs Nik · Created");
+  });
+  await check("C4 a partial career's HISTORY count is a floor, never the total (Codex #935)",async()=>{
+    const partial={...career(1),status:"partial",coverage:{readable:2,indexed:3}};
+    const h=settingsHarness({pair:PAIR.finished,cached:partial});
+    assert.equal(h.rows(h.panel()).HISTORY,"At least 2 completed showdowns");
+  });
   await check("C4 Settings HISTORY online counts the shared career's completed Showdowns",async()=>{
     const h=settingsHarness({pair:PAIR.finished,cached:career(1)});
     assert.equal(h.rows(h.panel()).HISTORY,"2 completed showdowns","the fixture career has 2 completed and 1 ended-early Showdown");
