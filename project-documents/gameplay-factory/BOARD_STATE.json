@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-19 12:40 PM Boston time (EDT)",
+ "generated": "2026-10-19 12:43 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1233,8 +1233,8 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Showdown Gate on #954 has waited 26 min for a machine.",
-   "gate": "Gate #954: L1✓ L2… L3A… L3B✓ L4… L5✓ L6✓ · seal pending · POS20 #954 0/16",
+   "line": "Barking: Showdown Gate has waited 2 min for a machine.",
+   "gate": "POS20 #304 6/16",
    "source": "physio"
   },
   "v_headline": "Queued next",

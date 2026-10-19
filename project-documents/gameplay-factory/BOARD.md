@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 19 Oct, 12:41 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 19 Oct, 12:43 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.4-r80** (main `3b4b4ac`, Mon 19 Oct 12:40 PM)
 
-🐕 **Barking: Showdown Gate on #954 has waited 26 min for a machine.** · Gate #954: L1✓ L2… L3A… L3B✓ L4… L5✓ L6✓ · seal pending · POS20 #954 0/16
+🐕 **Barking: Showdown Gate has waited 2 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -50,7 +50,7 @@ Updated Mon 19 Oct, 12:41 PM Boston time. Bug hunting only, no new features unti
 
 **#9 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 99 h ago
+⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 100 h ago
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
