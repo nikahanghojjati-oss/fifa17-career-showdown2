@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-19 5:01 AM Boston time (EDT)",
+ "generated": "2026-10-19 5:05 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1223,11 +1223,11 @@
      "title": "Release r80: career save online, END SHOWDOWN (1.9.4-r80)",
      "draft": false,
      "branch": "gameplay/r80",
-     "sha": "57d0eeff4e4ea61a3f76664ce9f021238652e097",
-     "updated": "2026-10-19T07:10:19Z",
+     "sha": "18762a9333bef2c1cf1070b768a64d5fd5c97d18",
+     "updated": "2026-10-19T09:02:08Z",
      "gates": {
-      "passed": 8,
-      "running": 0,
+      "passed": 0,
+      "running": 7,
       "failed": 0,
       "cancelled": 0
      }
@@ -3006,11 +3006,11 @@
     "title": "Release r80: career save online, END SHOWDOWN (1.9.4-r80)",
     "draft": false,
     "branch": "gameplay/r80",
-    "sha": "57d0eeff4e4ea61a3f76664ce9f021238652e097",
-    "updated": "2026-10-19T07:10:19Z",
+    "sha": "18762a9333bef2c1cf1070b768a64d5fd5c97d18",
+    "updated": "2026-10-19T09:02:08Z",
     "gates": {
-     "passed": 8,
-     "running": 0,
+     "passed": 0,
+     "running": 7,
      "failed": 0,
      "cancelled": 0
     }
