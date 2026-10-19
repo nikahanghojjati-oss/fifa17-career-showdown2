@@ -782,7 +782,9 @@ async function revokePairing(options={}){
   // Returns {snapshot,old} or null. old: the copy is older than the 2 s burst window (see fsbProbe's fresh re-run).
   function fsbReusable(path){
     const at=fsbNow(),fast=path?fsbNoteAsk(path,at):false;
-    if(fsbWait&&path===fsbWait.path&&fsbWaitLive()){if(!fsbWaitHealthy())return null;fsbStats.listenerServed+=1;return {snapshot:fsbWait.snapshot,old:false};}
+    // r80: a listener known to be behind a server read this page already made (lagUntil) never answers: the newer
+    // server copy does (or the server). Otherwise a write's bounded stale retry re-read the older copy and failed again.
+    if(fsbWait&&path===fsbWait.path&&fsbWaitLive()&&!fsbWait.lagUntil){if(!fsbWaitHealthy())return null;fsbStats.listenerServed+=1;return {snapshot:fsbWait.snapshot,old:false};}
     const entry=fsbEntries.get(path);
     if(entry&&entry.immutable&&!entry.dirty){fsbStats.immutableReuses+=1;return {snapshot:entry.snapshot,old:false};}
     if(!entry||entry.dirty||entry.forgotten)return null;
@@ -972,7 +974,9 @@ async function revokePairing(options={}){
       return value;
     }catch(error){
       if(error===done){fsbStats.readOnlyWithoutCommit+=1;return done.value;}
-      if(wrote)fsbMarkWritten(db,written);
+      // r80: a write that failed (a rival's write may have landed first) is followed by a check of what is stored now:
+      // the next read of each document it wrote goes to the server, even if the listener delivers an older copy meanwhile.
+      if(wrote){fsbMarkWritten(db,written);for(const path of written)if(path){fsbServerNext.set(path,fsbNow()+FSB_ASK_MS);if(fsbServerNext.size>FSB_MAX_ENTRIES)fsbServerNext.delete(fsbServerNext.keys().next().value);}}
       if(fsbIsQuotaError(error))fsbTrip();
       fsbAuthorityDenied(error);
       throw error;
