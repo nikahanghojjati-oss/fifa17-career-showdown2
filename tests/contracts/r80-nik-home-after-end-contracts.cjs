@@ -12,6 +12,8 @@
 //      RECONNECT SESSION; for both roles and for the shell with or without its rivalry id.
 //   E2 the order race: the forgotten session wakes the banner first (the old Showdown, no session: NOT CONNECTED), then
 //      Terminal Close announces DELETED: the banner hides at once and stays hidden on later wakes.
+//   E4 (Codex #942) END lands while a refresh is in flight (stalled on a network-backed read): the banner and its action clear
+//      at once, before that refresh settles, and the stalled refresh can no longer publish or report when it finally does.
 //   E3 not a blanket hide: a live Showdown with no session on this phone (a reload) still says NOT CONNECTED with RECONNECT
 //      SESSION, and a finished Showdown (CLOSED) keeps its SHOWDOWN COMPLETE line with no button.
 const assert=require("node:assert/strict");
@@ -27,7 +29,7 @@ const NO_SESSION=Object.freeze({sessionId:null,rivalryId:null,accountId:null,dev
 
 function harness({role="playerTwo",terminal=null,marker={contractVersion:1,mode:"shared",rivalryId:RIVALRY}}={}){
   const remoteListeners=new Set(),events=new Map(),reports=[];
-  const page={terminal,remote:NO_SESSION};
+  const page={terminal,remote:NO_SESSION,stall:null};
   const status={id:"sharedJourneyReconnectStatus",text:"",dataset:{},hidden:true,children:[],
     classList:{toggle:(name,force)=>{if(name==="hidden")status.hidden=Boolean(force);}},
     replaceChildren(...items){status.children=items;status.text=items.map(item=>typeof item==="string"?item:item.textContent||"").join("");},
@@ -46,7 +48,7 @@ function harness({role="playerTwo",terminal=null,marker={contractVersion:1,mode:
     CareerModeProductionSharedMultiSeasonProgression:{refresh:async()=>true,getState:()=>({authoritative:false}),lastError:()=>""},
     CareerModeProductionSharedTerminalClose:{getState:()=>page.terminal},
     CareerModeSparkRemoteJoining:{getState:()=>page.remote,subscribe:listener=>{remoteListeners.add(listener);return ()=>remoteListeners.delete(listener);},openPanel:async()=>true,closePanel:()=>true},
-    CareerModeSparkConnectedAccount:{getState:()=>({connected:true,accountId:role==="playerTwo"?"uid_nik":"uid_daniel"})},
+    CareerModeSparkConnectedAccount:{initialize:()=>page.stall?page.stall.promise:undefined,getState:()=>({connected:true,accountId:role==="playerTwo"?"uid_nik":"uid_daniel"})},
     CareerModeSparkPrivatePairing:{getState:()=>({registered:true,deviceId:DEVICE})},
     // The ended rivalry is still the attached one on this page (as on Nik's phone right after END).
     CareerModeSparkConnectedRivalry:{getState:()=>({attached:true,rivalryId:RIVALRY,binding:{managerRole:role}})}};
@@ -91,6 +93,21 @@ const assertNoBanner=(h,label)=>{
   await race.api.refresh();await settle();
   assertNoBanner(race,"E2 later wakes and refreshes");
   console.log("ok E2 a banner raised by the forgotten session hides as soon as Terminal Close announces the END");
+
+  // E4: the refresh is stalled in a network-backed read when Terminal Close announces DELETED.
+  const stalled=harness();
+  await stalled.api.refresh();await settle();
+  assert.equal(stalled.api.getState()?.phase,"FRESH_SESSION_REQUIRED","E4 precondition: the banner shows");
+  assert.equal(stalled.status.hidden,false);
+  let release;stalled.page.stall={promise:new Promise(resolve=>{release=resolve;})};
+  const inFlight=stalled.api.refresh();await settle();
+  assert.equal(stalled.api.isBusy(),true,"E4 precondition: a refresh is in flight");
+  stalled.page.terminal=deleted();
+  stalled.fire("career-mode-shared-terminal-close-state-change");
+  assertNoBanner(stalled,"E4 at once, while the refresh is still in flight");
+  stalled.page.stall=null;release();await inFlight;await settle();
+  assertNoBanner(stalled,"E4 after the stalled refresh settles");
+  console.log("ok E4 END during an in-flight refresh clears the banner at once; the stalled refresh cannot bring it back");
 
   // E3: controls.
   const reload=harness({terminal:null});
