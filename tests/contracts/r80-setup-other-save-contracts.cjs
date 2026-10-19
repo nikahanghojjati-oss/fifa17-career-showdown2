@@ -17,6 +17,10 @@
 //      for save A notifies subscribers and renders the panel only with the locked start state, and a write bound to save A is
 //      refused before the provider is touched, including when END / JOIN switches the shell during the conflict preflight.
 //   N5 once save B's own Setup (R3) is confirmed it is read and used: Season 1 / 3 from R3's authority.
+//   N7 (the release lane's failure: Nik's side) Nik's JOIN reuses the ended Showdown's own save shell (it never left
+//      setupPending). After END the page still holds R2's confirmed Setup and R2's season-2 cursor for that same save and
+//      shell; once Daniel's START makes the pair name R3, the header reads Season 1 / 3 (it read "Season 2 / 3"), nothing
+//      borrows R2 and a resume never reads it; R3's own Setup on that same save is then read and used.
 //   N6 every shared module that borrows the Setup's rivalry reads it through getState() (so N2 covers all of them).
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
@@ -138,17 +142,23 @@ function boot(){
   assert.equal(write.ok,false,"N4 a write bound to save A is refused on save B");
   assert.equal(write.code,"SHARED_SETUP_AUTHORITY_MISMATCH",`N4 the refusal names the authority mismatch (got ${write.code})`);
   assert.deepEqual(t.writes,[],"N4 the provider is never asked to write save A's Setup from save B");
+  assert.deepEqual(seen.filter(next=>next.ready||next.rivalryId||next.setup),[],"N4 the refused write announced nothing of save A");
   // Codex P2 on #944: a write that starts on save A, where END (or JOIN) switches the shell to save B during the conflict
   // guard's preflight, never reaches the provider.
+  const pairOnB=t.page.pair;
   t.sandbox.currentShowdown=shell(1700000000001,SAVE_A);
-  t.env.preflight=async()=>{t.sandbox.currentShowdown=shell(1700000000002,SAVE_B);};
+  t.page.pair={initialized:true,busy:false,status:"paired",rivalryId:R2,connectionState:"active",closedRivalryId:null,closedProviderSaveId:null};
+  t.env.preflight=async()=>{t.sandbox.currentShowdown=shell(1700000000002,SAVE_B);t.page.pair=pairOnB;};
+  const seenBeforeRace=seen.length;
   const raced=await t.setup.mutate("confirm");
   t.env.preflight=null;
   assert.equal(t.sandbox.currentShowdown.identity.saveId,SAVE_B,"N4 precondition: the shell switched to save B during the preflight");
   assert.equal(raced.ok,false,"N4 a write whose shell switched during the conflict preflight is refused");
   assert.equal(raced.code,"SHARED_SETUP_AUTHORITY_MISMATCH",`N4 the late refusal names the authority mismatch (got ${raced.code})`);
   assert.deepEqual(t.writes,[],`N4 the provider is never called for save A once the shell is save B: ${JSON.stringify(t.writes)}`);
-  assert.deepEqual(seen.filter(next=>next.ready||next.rivalryId||next.setup),[],"N4 the refused write announced nothing of save A");
+  const afterRace=seen.slice(seenBeforeRace).at(-1);
+  assert.ok(afterRace&&!afterRace.ready&&!afterRace.rivalryId&&!afterRace.setup,`N4 what the refused write announced after the switch is not save A's Setup: ${JSON.stringify(afterRace&&afterRace.rivalryId)}`);
+  assert.equal(t.setup.getState().rivalryId,null,"N4 after the race save B still borrows nothing");
   unsubscribe();delete t.sandbox.document;
   console.log("ok N4 after the switch no subscriber, panel or write ever sees save A's Setup");
 
@@ -173,5 +183,30 @@ function boot(){
     assert.doesNotMatch(source,/CareerModeProductionSharedShowdownSetup[^;]*\.subscribe\(/,`N6 ${file} does not keep its own copy of the Setup state`);
   }
   console.log("ok N6 every shared module that borrows the Setup's rivalry reads it through getState()");
+
+  // N7: Nik's page. R2 is live on save A (season 2); Daniel ends it; Daniel's START makes the pair name R3; Nik's JOIN reuses
+  // the same save shell for R3.
+  const n=boot();
+  await n.setup.refresh();
+  assert.equal((await n.multi.resumeFromAuthority())?.season,2,"N7 R2 is live on season 2");
+  assert.equal(n.indicator(),"Season 2 / 3","N7 the live R2 reads Season 2 / 3");
+  n.page.pair={initialized:true,busy:false,status:"unpaired",rivalryId:null,connectionState:null,closedRivalryId:R2,closedProviderSaveId:SAVE_A};
+  assert.equal(n.indicator(),"No Active Showdown","N7 Home after END has no live Showdown");
+  n.page.pair={initialized:true,busy:false,status:"unpaired",rivalryId:R3,connectionState:"pending-pair",closedRivalryId:R2,closedProviderSaveId:SAVE_A};
+  assert.equal(n.sandbox.currentShowdown.identity.saveId,SAVE_A,"N7 precondition: the same save shell is reused for the next Showdown");
+  assert.equal(n.indicator(),"Season 1 / 3",`N7 once the pair names R3 the reused shell reads Season 1 / 3, never the ended R2's season (got "${n.indicator()}")`);
+  assert.equal(n.multi.resolveSeason(1),1,"N7 every shared consumer resolves season 1");
+  assert.equal(n.setup.getState().rivalryId,null,"N7 nothing borrows the ended R2's Setup once the pair names R3");
+  const nReads=n.reads.length;
+  assert.equal(await n.multi.resumeFromAuthority(),null,"N7 a resume does not read the ended R2");
+  assert.deepEqual(n.reads.slice(nReads),[],"N7 no progression read of R2 after the pair moved on");
+  assert.equal(n.multi.decorateDashboard(),false,"N7 the dashboard is never decorated with R2");
+  n.page.pair={initialized:true,busy:false,status:"paired",rivalryId:R3,connectionState:"active",closedRivalryId:R2,closedProviderSaveId:SAVE_A};
+  Object.assign(n.env,{rivalryId:R3,sessionId:SESSION_R3,saveId:SAVE_A});
+  await n.setup.refresh();
+  assert.equal(n.setup.getState().rivalryId,R3,"N7 R3's own Setup on the same save is read");
+  assert.equal((await n.multi.resumeFromAuthority())?.season,1,"N7 R3 resumes on season 1");
+  assert.equal(n.indicator(),"Season 1 / 3","N7 R3 reads Season 1 / 3");
+  console.log("ok N7 Nik's reused save shell reads Season 1 / 3 once the pair names R3 (the ended R2's season 2 never shows)");
   console.log("PASS r80 setup other-save contracts");
 })().catch(error=>{console.error(error);process.exitCode=1;});
