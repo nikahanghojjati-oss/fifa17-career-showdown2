@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 19 Oct, 12:24 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 19 Oct, 12:27 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.4-r80** (main `f4481e1`, Mon 19 Oct 10:21 AM)
 
@@ -38,7 +38,7 @@ Updated Mon 19 Oct, 12:24 PM Boston time. Bug hunting only, no new features unti
 
 **#6 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 171 h ago
+🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 172 h ago
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -82,7 +82,7 @@ Updated Mon 19 Oct, 12:24 PM Boston time. Bug hunting only, no new features unti
 
 **#17 · 1839** `G` r76 gallery refresh: every screen from the final workbench, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 65 h ago
+⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 66 h ago
 
 ### 👉 Next for you, in this order
 
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #954](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/954) | Re-pin the Rules safety check to r80 main | ⏳ 0 passed, 8 running |
+| 🟧 Team G lead | [PR #954](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/954) | Re-pin the Rules safety check to r80 main | ⏳ 1 passed, 7 running |
 
 **Up next**
 
