@@ -1866,6 +1866,17 @@
         "^tests/contracts/r80\\-nik\\-home\\-after\\-end\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r80-could-not-load-contracts.cjs",
+      "patterns": [
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/whichShowdownIsLive\\.js$",
+        "^js/connectPlayersScreenV10\\.js$",
+        "^tests/contracts/r80\\-could\\-not\\-load\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
