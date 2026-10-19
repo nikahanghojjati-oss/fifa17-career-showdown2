@@ -98,6 +98,9 @@ async function showSetupWith(img,options){
   V.register("createShowdown",{frame:()=>({}),mount(){root.mounts++;},unmount(){}});
   root.showScreen("createShowdown");
   for(let i=0;i<4;i++){root.deliver();await flush();}
+  // The loader waits one frame (a real timer here) before it looks at the pictures; let that frame run so a check that loads
+  // the picture afterwards always finds the loader waiting on it (on a fast runner the flush alone could finish first).
+  await new Promise(r=>setTimeout(r,50));await flush();
   return ctx;
 }
 
