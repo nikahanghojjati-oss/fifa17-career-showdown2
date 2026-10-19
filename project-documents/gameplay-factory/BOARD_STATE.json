@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-19 5:39 PM Boston time (EDT)",
+ "generated": "2026-10-19 5:44 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1224,7 +1224,7 @@
      "draft": false,
      "branch": "gameplay/r80-reveal-hotfix",
      "sha": "17e0bc5abf67ab5e71a55622e4fa5afb7ae90be3",
-     "updated": "2026-10-19T21:35:12Z",
+     "updated": "2026-10-19T21:39:43Z",
      "gates": {
       "passed": 8,
       "running": 0,
@@ -3018,7 +3018,7 @@
     "draft": false,
     "branch": "gameplay/r80-reveal-hotfix",
     "sha": "17e0bc5abf67ab5e71a55622e4fa5afb7ae90be3",
-    "updated": "2026-10-19T21:35:12Z",
+    "updated": "2026-10-19T21:39:43Z",
     "gates": {
      "passed": 8,
      "running": 0,
