@@ -158,7 +158,7 @@ function createScoringRuleSection(){
     const notes = document.createElement("ul");
     notes.className = "ruleScoreNotes";
     [
-        "A club plays in the Champions League or the Europa League in the same season, never both. A manager can win the Champions League in one season and the Europa League in another, and both count.",
+        "A manager can never win both the Champions League and the Europa League in the same season. A manager can win the Champions League in one season and the Europa League in another, and both count.",
         "Season 1: both clubs play in the Champions League. This is set up in the FIFA save, after redrawing the Champions League groups twice.",
         "A club that finishes 3rd in its Champions League group drops into the Europa League and can still win it that season.",
         "A club can also qualify for the Europa League by its league position.",

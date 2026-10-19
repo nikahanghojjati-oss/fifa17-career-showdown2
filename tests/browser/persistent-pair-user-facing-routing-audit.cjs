@@ -209,7 +209,9 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
 
     // Codex #904: real vs test now fails closed, so this audit's Daniel says what he is: a test account (no career
     // start marker). The fake provider here cannot answer the marker read, which would rightly refuse CREATE CODE.
-    await page.evaluate(()=>{const real=window.CareerModeCareerStartMarker;window.CareerModeCareerStartMarker=Object.freeze({...(real||{}),readCurrentMarker:async()=>({status:"none"})});});
+    // r80 real vs test (Nik, 2026-10-19): on a test account only an armed Settings START TEST RUN makes a plain code, so this
+    // Daniel's CREATE CODE is that test run's (Home START would make his real CMS17R- code instead).
+    await page.evaluate(()=>{const real=window.CareerModeCareerStartMarker;window.CareerModeCareerStartMarker=Object.freeze({...(real||{}),readCurrentMarker:async()=>({status:"none"})});const modes=window.CareerModeShowdownModes;window.CareerModeShowdownModes=Object.freeze({...(modes||{}),isTestRunArmed:()=>true});});
     // Daniel CREATE CODE must transition the real panel into a complete waiting state with all recovery controls.
     await page.locator("#persistentNikDanielPairPanel button",{hasText:"CREATE CODE FOR NIK"}).click();
     await page.locator("#persistentNikDanielPairPanel",{hasText:"WAITING FOR THE OTHER PLAYER"}).waitFor({state:"visible",timeout:5000});

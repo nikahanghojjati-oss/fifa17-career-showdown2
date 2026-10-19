@@ -13,7 +13,7 @@
   // lazily by the career screens, Settings and the modes module, never at startup.
   const DOC_ID="current",OBJECT_TYPE="careerStart",INDEX_CAPACITY=500,RIVALRY_ID=/^pair_[0-9a-f]{64}$/;
   const CHANGE_EVENT="career-mode-career-start-change";
-  const markers=new Map(),failedReads=new Set();
+  const markers=new Map(),failedReads=new Set(),settled=new Map();
   let markerEpoch=0,state=Object.freeze({status:"unknown",accountId:null,epoch:0});
 
   function csmError(code,message){const error=new Error(message);error.code=code;return error;}
@@ -67,25 +67,31 @@
 
   function csmRef(sdk,firestore,accountId,...path){return sdk.doc(firestore,"accounts",accountId,...path);}
   function csmPublish(accountId,marker,changed){
-    markers.set(accountId,Promise.resolve(marker));
+    const published=Promise.resolve(marker);markers.set(accountId,published);settled.set(accountId,{status:marker.status,promise:published});
     if(changed)markerEpoch+=1;
     state=Object.freeze({status:marker.status,accountId,epoch:markerEpoch});
     if(changed&&typeof root.CustomEvent==="function")try{root.dispatchEvent?.(new root.CustomEvent(CHANGE_EVENT,{detail:state}));}catch(_error){}
     return marker;
   }
   // One exact get per account per page load. A failed read is not kept, so the next screen load asks again.
-  function readMarker({firestore,firebaseSdk,accountId}={}){
+  // r80 (real vs test): recheckNone (the career screens) asks again while the answer is "no marker": that account's career
+  // pages show nothing (every Showdown it holds is a test run), so a real career started meanwhile on another browser must
+  // not stay hidden here. A marker, once read, is kept (it is never deleted).
+  function readMarker({firestore,firebaseSdk,accountId,recheckNone=false}={}){
     if(typeof accountId!=="string"||!accountId)return Promise.reject(csmError("CAREER_START_AUTH_REQUIRED","Sign in before continuing."));
-    if(markers.has(accountId))return markers.get(accountId);
+    const prior=settled.get(accountId)||null;
+    if(markers.has(accountId)&&!(recheckNone===true&&prior&&prior.status==="none"&&markers.get(accountId)===prior.promise))return markers.get(accountId);
     const promise=(async()=>{
       if(!firestore||typeof firebaseSdk?.doc!=="function"||typeof firebaseSdk.getDoc!=="function")throw csmError("CAREER_START_PROVIDER_UNAVAILABLE","The career service is unavailable.");
       const snapshot=await firebaseSdk.getDoc(csmRef(firebaseSdk,firestore,accountId,"careerStart",DOC_ID));
       const marker=snapshot.exists()?parseMarker(snapshot.data()):NONE;
-      // An earlier failed read showed the whole career (fail-open). If a marker turns out to exist, the career already
-      // on screen is wrong: count it as a change so cached careers drop and mounted screens reload.
+      // r80 (fail-closed): the career screens show nothing while the marker is unknown. A read that answers after a failed
+      // one, or a marker found after "no marker", changes what they show: count it as a change so cached careers drop and
+      // mounted screens reload.
       const recovered=failedReads.delete(accountId);
       if(markers.get(accountId)===promise){
-        if(recovered&&marker.status==="ready"&&marker.hiddenRivalryIds.length>0)return csmPublish(accountId,marker,true);
+        settled.set(accountId,{status:marker.status,promise});
+        if(recovered||(prior&&prior.status==="none"&&marker.status==="ready"))return csmPublish(accountId,marker,true);
         state=Object.freeze({status:marker.status,accountId,epoch:markerEpoch});
       }
       return marker;
@@ -166,7 +172,7 @@
   }
   function startRealCareer(options){return csmWrite(options,"start",true);}
   function setActive(active,options){return csmWrite(options,"toggle",active===true);}
-  function clearCache(){markers.clear();failedReads.clear();markerEpoch+=1;state=Object.freeze({status:"unknown",accountId:null,epoch:markerEpoch});}
+  function clearCache(){markers.clear();failedReads.clear();settled.clear();markerEpoch+=1;state=Object.freeze({status:"unknown",accountId:null,epoch:markerEpoch});}
 
   return Object.freeze({contractVersion:2,feature:"cms-career-start-marker",hiddenWhateverActive:true,changeEvent:CHANGE_EVENT,documentPath:"accounts/{uid}/careerStart/current",
     readMarker,readCurrentMarker,hiddenRivalryIds,startRealCareer,setActive,clearCache,parseMarker,planCreate,planToggle,

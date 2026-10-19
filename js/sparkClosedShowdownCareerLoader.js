@@ -52,7 +52,10 @@
       // A different signed-in account never sees the previous account's cached Showdowns.
       if(cclCacheAccount!==uid){cclCache.clear();cclCacheAccount=uid;}
       let index;
-      try{index=await pair.readCareerIndex({firestore:o.firestore,firebaseSdk:o.firebaseSdk,accountId:uid});}catch(_error){index={status:"unavailable",code:"CAREER_INDEX_UNAVAILABLE"};}
+      // r80 (real vs test): an account whose real career has not started holds only test runs; its career is empty and
+      // nothing is read (a live test Showdown outside the index is dropped by the adapter as well).
+      if(o.testRunsOnly===true)index={status:"ready",rivalryIds:[]};
+      else try{index=await pair.readCareerIndex({firestore:o.firestore,firebaseSdk:o.firebaseSdk,accountId:uid});}catch(_error){index={status:"unavailable",code:"CAREER_INDEX_UNAVAILABLE"};}
       // Career start marker: the caller may name Showdowns to leave out (the account's test Showdowns before its real
       // career). They are dropped from the index before any read, so they get no read and never reach the model.
       // Absent, empty or malformed: nothing changes.

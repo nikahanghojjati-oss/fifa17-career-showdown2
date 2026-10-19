@@ -12,8 +12,9 @@
 //       sees EL, both ticked is a validation message, the change handler keeps the boxes exclusive, the review chip and the
 //       breakdown line (only for a season that won it).
 //   E5  Standings: the Europa Leagues row after Champions Leagues (8 rows, phone board budget 8 rows), frames need the counter.
-//   E6  Final Winner: the Europa League honours row (TRO_EUROPA art) and the trophies line; a record without the counter fails closed.
-//   E7  Rule Book: EL +3 row, CL or EL never both in the same season (both count across seasons), the season 1 setup note, the EL final may be played, best season 11 / EL 9.
+//   E6  Final Winner: the Europa League honours row (TRO_EUROPA art) and the trophies line; a record without the counter fails closed;
+//       the honours grids have five metric rows and the short-window plaque leaves room for them.
+//   E7  Rule Book: EL +3 row, never both CL and EL wins in the same season (both count across seasons), the season 1 setup note, the EL final may be played, best season 11 / EL 9.
 //   E8  text lines: canonical breakdown and Shared History trophy line name the Europa League only when it was won; the scoring
 //       panel and the entry hint list EL +3 and keep the maximum 11; the entry form has an EL box right after each CL box.
 const assert=require("node:assert/strict");
@@ -235,7 +236,12 @@ function standingsAndFinal(){
     assert.equal(require("node:crypto").createHash("sha256").update(fs.readFileSync(path.join(ROOT,"visual-assets/v10_1/shared/trophies",file))).digest("hex"),sha,file);
   assert.match(fw,/setMetricValue\("panelDanielEuropa", d && d\.europaLeague\);/);assert.match(fw,/setMetricValue\("panelNikEuropa", n && n\.europaLeague\);/);
   assert.deepEqual(fws.trophySummary.order,["championsLeague","europaLeague","leagueTitles","domesticCups","total"]);assert.equal(fws.trophySummary.labels.europaLeague,"Europa League");
-  ok("E6 Final Winner: Europa League honours row with the TRO_EUROPA art after Champions League, trophies line order, both may win it, a record without the counter fails closed");
+  // Codex P2 on #948: the honours grids count five metric rows, and the short-window plaque minimums leave room for them.
+  const fwcss=read("visual-assets/v10_1/final-winner/final-winner.css");
+  assert.ok(fwcss.includes("grid-template-rows: 20% repeat(5, 1fr);")&&fwcss.includes("grid-template-rows: 26px repeat(5, 1fr);")&&fwcss.includes("height: max(12.5%, 132px);")&&!/repeat\(4, 1fr\)/.test(fwcss),"final-winner.css: five honours rows, a 132px short-desktop panel");
+  assert.ok(sf.includes("grid-template-rows:auto repeat(5,1fr);")&&sf.includes("grid-template-rows:auto repeat(5,minmax(0,1fr));")&&!/grid-template-rows:auto repeat\(4,/.test(sf),"seasonFinalV10: five honours rows on every layout");
+  assert.ok(sf.includes("height:max(calc(138 * var(--fw-k)),124px);")&&sf.includes("--fw-rh:max(calc(138 * var(--fw-k)),124px);")&&sf.includes("height:max(16.8%,124px);")&&!sf.includes("138 * var(--fw-k)),112px)"),"seasonFinalV10: the plaque and the button placement both use the 124px minimum");
+  ok("E6 Final Winner: Europa League honours row with the TRO_EUROPA art after Champions League, trophies line order, both may win it, a record without the counter fails closed, five-row honours grids with room at 1366x640");
 }
 
 function ruleBook(){
@@ -256,7 +262,7 @@ function ruleBook(){
   assert.ok(items.includes("A Champions League or Europa League final may be played or simulated by the manager."),"the EL final may be played, like the CL final");
   assert.ok(items.includes("The main domestic cup final may be played or simulated by the manager."),"the cup final line is unchanged");
   const notes=flat(book.all().find(n=>n.className==="ruleScoreNotes")).map(n=>n.textContent).join(" ");
-  for(const pattern of [/Champions League or the Europa League in the same season, never both\. A manager can win the Champions League in one season and the Europa League in another, and both count\./,/Season 1: both clubs play in the Champions League/,/redrawing the Champions League groups twice/,/3rd in its Champions League group drops into the Europa League/,/qualify for the Europa League by its league position/,/Best possible season: 11, which needs the Champions League\. A Europa League season tops out at 9\./])assert.match(notes,pattern);
+  for(const pattern of [/A manager can never win both the Champions League and the Europa League in the same season\. A manager can win the Champions League in one season and the Europa League in another, and both count\./,/Season 1: both clubs play in the Champions League/,/redrawing the Champions League groups twice/,/3rd in its Champions League group drops into the Europa League/,/qualify for the Europa League by its league position/,/Best possible season: 11, which needs the Champions League\. A Europa League season tops out at 9\./])assert.match(notes,pattern);
   assert.equal(book.all().filter(n=>n.className==="ruleSection"||n.className==="ruleSection scoringRuleSection").length,6,"still six rule cards");
   ok("E7 Rule Book: EL +3 row, CL or EL never both, the season 1 Champions League setup note, the EL final may be played, best season 11 / EL 9, six cards");
 }
