@@ -194,6 +194,18 @@ const PAIR={
     assert.equal(h.buttons(node).includes("END SHOWDOWN"),true);
     assert.equal(h.rows(node)["CURRENT SHOWDOWN"],"Daniel vs Nik · Created");
   });
+  await check("C3 END never ends locally on an outage: only a pair read (paired/unpaired) may skip the online close (Codex #937)",async()=>{
+    for(const status of ["unavailable","error","signed-out","idle"]){
+      const h=settingsHarness();
+      h.ctx.ensureSettingsPersistentPairAuthority=async()=>({getState:()=>({initialized:true,status,rivalryId:null,connectionState:null})});
+      vm.runInContext("ensureSettingsPersistentPairAuthority=window.ensureSettingsPersistentPairAuthority;",h.ctx);
+      await assert.rejects(()=>h.ctx.releaseSettingsCurrentShowdownConnection({id:"s1",identity:{saveId:"save_a"}}),/could not be checked/,status);
+    }
+    const h=settingsHarness();
+    h.ctx.ensureSettingsPersistentPairAuthority=async()=>({getState:()=>({initialized:true,status:"unpaired",rivalryId:null,connectionState:null})});
+    vm.runInContext("ensureSettingsPersistentPairAuthority=window.ensureSettingsPersistentPairAuthority;",h.ctx);
+    assert.equal((await h.ctx.releaseSettingsCurrentShowdownConnection({id:"s1",identity:{saveId:"save_a"}})).status,"unpaired");
+  });
   await check("C4 a partial career's HISTORY count is a floor, never the total (Codex #935)",async()=>{
     const partial={...career(1),status:"partial",coverage:{readable:2,indexed:3}};
     const h=settingsHarness({pair:PAIR.finished,cached:partial});

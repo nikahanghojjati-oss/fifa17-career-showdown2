@@ -667,6 +667,11 @@ async function releaseSettingsCurrentShowdownConnection(showdown){
     );
 
     if(!expectedRivalryId && !hasCurrentPair){
+        // Codex #937: only a refresh that read the pair link ("paired" or "unpaired") may end locally; an outage or error
+        // state must not turn END for both players into a local-only delete.
+        if(!pairState || !["paired", "unpaired"].includes(pairState.status)){
+            throw new Error("The online Showdown could not be checked, so nothing was changed. Try again.");
+        }
         return { ok: true, status: "unpaired" };
     }
 
