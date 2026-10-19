@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-19T05:21:37Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-19T05:22:40Z", "by": "V", "status": "RECEIVED", "note": ""}]
+ "log": [{"at": "2026-10-19T05:21:37Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-19T05:22:40Z", "by": "V", "status": "RECEIVED", "note": ""}, {"at": "2026-10-19T05:23:55Z", "by": "V", "status": "WORKING", "note": "picture ticket 1848 with Nik; original cup in the Europa silhouette (tall silver, wide flared bowl, no handles), same render recipe as the other four trophies"}]
 }
 ```
 
