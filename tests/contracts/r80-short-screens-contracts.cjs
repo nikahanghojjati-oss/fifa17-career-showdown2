@@ -12,7 +12,8 @@
 //   S7 Home 1024x768, 1100x600, 1024x600 and 1366x640: the soundtrack credit keeps one line and the card fits its content
 //      (AUDIUS SOUNDTRACK is not cut) and ends above the tile row; at 1024x600 RIVALRY HEADQUARTERS keeps one line, so HOME
 //      no longer runs into TWO MANAGERS · ONE LEGACY; from 1001px to 1099px the tile names fit their text column.
-//   S8 the browser audit covers every screen and window size above and fails on any finding outside its listed design items.
+//   S8 the browser audit covers every screen and window size above and fails on any finding outside its listed design items;
+//      test:browser (the Gate's full browser bundle) runs every screen at 1366x768, 1100x600, 1024x768, 844x390 and 393x660.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -112,7 +113,13 @@ const homeCss=read("css/homeV10.css");
     assert.match(audit,new RegExp(`\\b${screen}\\s*:`),`the audit opens ${screen}`);
   assert.match(audit,/if\(open\.length\) process\.exitCode = 1;/,"any finding outside the listed design items fails the audit");
   assert.doesNotMatch(audit,/\.only\(|\.skip\(/);
-  ok("S8 the browser audit sweeps 13 sizes and 13 screens and fails on any open finding");
+  // the Gate executes it: every screen at five representative sizes, one test:browser audit per size
+  const pkg=JSON.parse(read("package.json"));
+  const bundle=pkg.scripts["test:browser"].split(/\s+&&\s+/).map(command=>command.trim());
+  for(const size of ["1366x768","1100x600","1024x768","844x390","393x660"])
+    assert.ok(bundle.includes(`CMS_SHORT_SIZES=${size} node tests/browser/r80-short-screens-audit.cjs`),`test:browser runs the short-screens audit at ${size}`);
+  assert.equal(pkg.scripts["test:short-screens"],"node tests/browser/r80-short-screens-audit.cjs","the full 13-size sweep stays a script");
+  ok("S8 the browser audit sweeps 13 sizes and 13 screens, fails on any open finding, and test:browser runs it at five sizes");
 }
 
 console.log(`r80 short-screens contracts: ${checks} checks passed`);

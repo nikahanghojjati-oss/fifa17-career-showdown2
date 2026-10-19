@@ -12,6 +12,8 @@
 // Any finding fails the run (exit 1) unless it is one of the LISTED design items below, each named with its reason.
 // Screens open the way tests/browser/phone-marble-facecheck-audit.cjs opens them: the real renderers on the real app,
 // fed read-only verified models (no Firebase service, no account; every request off the local origin is aborted).
+// The Gate runs every screen at 1366x768, 1100x600, 1024x768, 844x390 and 393x660 (one test:browser audit per size, each
+// inside the bundle's per-audit time limit); `npm run test:short-screens` is the full 13-size sweep, run by hand.
 // Usage: node tests/browser/r80-short-screens-audit.cjs [SCREEN ...]
 //   CMS_BASE_URL (default http://127.0.0.1:4173/), CMS_SHORT_SIZES="1100x600,393x660" (default: every size below),
 //   CMS_SHORT_SHOTS=<dir> (one png per screen and size), CMS_SHORT_REPORT=<file> (JSON of every finding).
