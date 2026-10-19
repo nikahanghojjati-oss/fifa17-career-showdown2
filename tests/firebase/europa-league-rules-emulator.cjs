@@ -1,8 +1,9 @@
 "use strict";
 // r80 Europa League (EL) in the composed production Rules (firestore.spark.generated.rules).
 // Nik's rule: a club plays the Champions League (CL) or the EL in a season, never both. That is checked per manager per
-// season only: the two managers play different FIFA saves, so both may win the CL, the EL, the league or the cup in the
-// same season, and nothing compares one manager's result with the other's. Only winning scores:
+// season only. A CL season followed by an EL season counts both, and the two managers play different FIFA saves, so
+// both may win the CL, the EL, the league or the cup in the same season. Nothing compares one manager's result with
+// the other's, or one season with another. Only winning scores:
 // EL winner +3 (CL +5, league +3, cup +1, performance +1, awards +1). A season still scores at most 11.
 // Storage: `europaLeague` is present only when the EL was won, and then it is exactly `true` (sparse key).
 // Proven here, on the Rules alone (the app does not send the key until the protocol PR):
@@ -274,6 +275,26 @@ async function terminalClose(){
       ],"mixed 7/8-key 3-season Showdown");
       assert.deepEqual(totals,{playerOne:20,playerTwo:23});assert.equal(refused,5);
       checks.push("initial progress: EL win scored +3 accepted, 0 and +5 refused","advance progress: EL max season (9) accepted, 0 and +5 refused","a 7-key season gets no EL points","both managers winning the CL, the league and the cup in one season (11-11) is accepted","a mixed 7/8-key 3-season Showdown closes (20-23)");
+    }finally{await env.cleanup();}
+  }
+  // Nik (06:38 UTC): the CL-or-EL rule is per manager AND per season. One manager wins the CL in season 1 and the EL in
+  // season 2; the other wins the EL in season 1. No Rules check compares seasons, so every win counts.
+  {
+    const env=await initializeTestEnvironment({projectId:nextProject("terminalmix"),firestore:{rules:RULES}});
+    try{
+      const seasons=[
+        [result({championsLeague:true}),result({europaLeague:true})],
+        [result({europaLeague:true}),result()],
+        [result(),result()]
+      ];
+      assert.deepEqual(seasons.map(([one,two])=>[score(one),score(two)]),[[5,3],[3,0],[0,0]]);
+      const {totals,refused}=await closeShowdown(env,`pair_${"b".repeat(64)}`,`session_${"a".repeat(64)}`,seasons,(season,one,two)=>[
+        ...(one.championsLeague?[["playerOne",-5,"the CL win scored 0 is refused"]]:[]),
+        ...(one.europaLeague?[["playerOne",-3,"the EL win after a CL season scored 0 is refused"]]:[]),
+        ...(two.europaLeague?[["playerTwo",-3,"EL scored 0 is refused"]]:[])
+      ],"CL in season 1 then EL in season 2 Showdown");
+      assert.deepEqual(totals,{playerOne:8,playerTwo:3});assert.equal(refused,3);
+      checks.push("one manager's CL in season 1 and EL in season 2 both count, the other's EL in season 1 counts: the 3-season close is accepted (8-3)");
     }finally{await env.cleanup();}
   }
   // 10 seasons with an EL win in every season (both managers on even seasons), CL max seasons (11) in between.
