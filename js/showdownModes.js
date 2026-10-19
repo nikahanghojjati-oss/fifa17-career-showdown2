@@ -206,6 +206,8 @@ function smRefresh(){
   try{smRenderSeasons();}catch(_){}
   try{smRenderLayerLabel();}catch(_){}
   try{root.CareerModeOnlinePlayerIdentity?.refreshBadge?.();}catch(_){}
+  /* r80 resume (Home item 5): Home's START tile and season chip follow the mode, which can be learnt after Home was drawn */
+  try{root.CareerModeOnlinePlayerIdentity?.refreshHome?.();}catch(_){}
   try{root.CareerModeOnlinePlayerIdentity?.renderSettings?.();}catch(_){}
 }
 function smInstall(){

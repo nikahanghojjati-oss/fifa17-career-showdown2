@@ -426,6 +426,11 @@
     await loadStyle();applyLocalDrawLock();
     const status=options.routeToRemote===false?null:await statusSnapshot();
     if(routesToRemote(status,options)){await openRemote();return true;}
+    // r80 resume (G7): continuing a Showdown whose private session this page already holds ACTIVE (Home START / CONTINUE CAREER
+    // after going Home from the game) enters the game exactly as a reload does once Remote Joining is ACTIVE again
+    // (armRemoteReturn: openSharedExperience), instead of GET READY, whose START CAREER replayed Career Start. GET READY stays
+    // the fallback when that entry fails (routeToRemote:false) and for every other caller.
+    if(options.resumeActive===true&&status&&status.active){closePanel();await openSharedExperience();return true;}
     let overlay=root.document.getElementById(PANEL_ID);
     if(!overlay){overlay=create("div","remoteJoiningOverlay");overlay.id=PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","Career Mode Showdown entry");const shell=create("div","remoteJoiningShell"),header=create("div","remoteJoiningHeader");header.append(create("strong","","CAREER MODE SHOWDOWN // 17"));const dismiss=create("button","remoteJoiningDismiss","×");dismiss.type="button";dismiss.setAttribute("aria-label","Close career entry");dismiss.addEventListener("click",closePanel);header.append(dismiss);const body=create("div","remoteJoiningBody");shell.append(header,body);overlay.append(shell);root.document.body.append(overlay);}
     // JOB-1015: the entry card replaces an open Connect Players layer instead of opening underneath it.

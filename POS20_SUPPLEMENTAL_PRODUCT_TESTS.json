@@ -2000,6 +2000,21 @@
       ]
     },
     {
+      "path": "tests/contracts/r80-resume-active-contracts.cjs",
+      "patterns": [
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/productionSharedCareerStart\\.js$",
+        "^js/showdownModes\\.js$",
+        "^css/homeV10\\.css$",
+        "^css/app\\.css$",
+        "^js/menuExperience\\.js$",
+        "^tests/contracts/r80\\-resume\\-active\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r80-short-screens-contracts.cjs",
       "patterns": [
         "^css/homeV10\\.css$",
