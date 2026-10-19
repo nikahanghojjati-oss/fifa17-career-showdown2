@@ -9,14 +9,17 @@
 //      Nik's first CMS17R- join wrote his own marker the same way. The list never changes, so the game was gone for good.
 // This audit runs the r80 code through that sequence. Real app, two Chromium contexts, Auth + Firestore emulators with the
 // composed production Rules (demo project only; production Firebase hosts fail the run). Taps and typing only; page globals
-// are only read. Two emulator-side steps stand in for what only time does: the leftover code's invite is moved past its
-// expiry (it was hours old), and the finished test game stands in for the game r79's leak left behind (the data is the same:
-// a CMS17- Showdown of the two accounts, played to the end and closed with a Terminal Close before the first real START).
+// are only read. Two emulator-side stand-ins: the finished test game stands in for the game r79's leak left behind (the data
+// is the same: a CMS17- Showdown of the two accounts, played to the end and closed with a Terminal Close before the first real
+// START), and both markers' startedAt is set to an r79 time (2026-10-18 20:00 UTC), as the markers r79 wrote for Nik and
+// Daniel have it (js/careerStartMarker.js shows the hidden game again only for markers made before r80's cutoff).
 //   H1  the game r79 left behind: a 1-season test Showdown (CMS17-) played to the end and closed; History shows it.
-//   H2  Daniel's leftover code (CMS17-, never used, expired); Daniel reloads: nothing reopens it (no WAITING, no code; he
-//       is on Home); on r79 WAITING came back over the wheel with that test code.
-//   H3  Daniel's Home START opens the seasons screen with the START REAL CAREER checkmark ticked; its START writes the marker
-//       first (it names the finished game and the leftover), then makes a NEW real code (CMS17R-), never the leftover.
+//   H2  Daniel's leftover code (CMS17-, never used, still OPEN: Codex #936, unexpired); Daniel reloads: nothing reopens it
+//       (no WAITING, no code; he is on Home); on r79 WAITING came back over the wheel with that test code.
+//   H3  Daniel's Home START opens the seasons screen with the START REAL CAREER checkmark ticked; its START closes the
+//       leftover (nobody joined it), writes the marker (it names the finished game and the leftover), then makes a NEW real
+//       code (CMS17R-), never the leftover. Before Codex #936 the marker refused here ("Finish or end the current Showdown").
+//   H3b Nik types the leftover code (Settings > JOIN TEST RUN): refused, it is closed; nothing of his changes.
 //   H4  Nik types the code once and joins; his marker is written before the join (it names the finished game).
 //   H5  the real 1-season Showdown is played to the end and closed by itself.
 //   H6  History (Legacy), Career Statistics and the Trophy Room show BOTH finished games on both phones (the one the marker
@@ -497,10 +500,15 @@ async function assertBothGamesShown(managers,games,leftover,label){
     assert.ok(!/^[1-9]/.test(String(v.trophies.nik)),`${label} ${m.user}: and none for Nik ${JSON.stringify(v.trophies)}`);
   }
 }
-async function expireInvite(rivalryId){
-  const url=`${docUrl(`rivalries/${rivalryId}/invites/${rivalryId}`)}?updateMask.fieldPaths=data.expiresAt`;
-  const r=await fetch(url,{method:"PATCH",headers:{Authorization:"Bearer owner","content-type":"application/json"},body:JSON.stringify({fields:{data:{mapValue:{fields:{expiresAt:{timestampValue:new Date(Date.now()-3*3600_000).toISOString()}}}}}})});
-  assert.equal(r.status,200,`the leftover invite is moved past its expiry (${r.status})`);
+// The markers r79 wrote for Nik and Daniel were made on 2026-10-18 after 17:17:45 UTC; r80 shows the leaked game again only for
+// markers made before its cutoff (js/careerStartMarker.js R80_PREVENTION_MS, 2026-10-19 12:00 UTC).
+const R79_MARKER_MS=Date.UTC(2026,9,18,20,0,0),R80_CUTOFF_MS=Date.UTC(2026,9,19,12,0,0);
+async function setMarkerStartedAt(uid,ms){
+  const before=await admin(`accounts/${uid}/careerStart/current`);assert.ok(before,`${uid} has a marker`);
+  const url=`${docUrl(`accounts/${uid}/careerStart/current`)}?updateMask.fieldPaths=data.startedAt`;
+  const r=await fetch(url,{method:"PATCH",headers:{Authorization:"Bearer owner","content-type":"application/json"},body:JSON.stringify({fields:{data:{mapValue:{fields:{startedAt:{timestampValue:new Date(ms).toISOString()}}}}}})});
+  assert.equal(r.status,200,`the marker's startedAt is set to an r79 time (${r.status})`);
+  assert.deepEqual(ids(field(await admin(`accounts/${uid}/careerStart/current`),"data","hiddenRivalryIds")),ids(field(before,"data","hiddenRivalryIds")),"only startedAt changed");
 }
 
 async function main(){
@@ -551,7 +559,9 @@ async function main(){
     const leftoverCode=(await pairPanel(daniel).locator("code").innerText()).trim();
     assert.match(leftoverCode,/^CMS17-pair_[0-9a-f]{64}$/);
     const L=leftoverCode.slice("CMS17-".length);
-    await expireInvite(L);
+    const leftoverInvite=await admin(`rivalries/${L}/invites/${L}`);
+    const leftoverExpires=Date.parse(field(leftoverInvite,"data","expiresAt").timestampValue);
+    assert.equal(field(leftoverInvite,"data","state").stringValue,"open");assert.ok(leftoverExpires>Date.now()+10*60_000,"the leftover code is open and unexpired");
     await daniel.page.reload({waitUntil:"domcontentloaded"});
     await daniel.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
     await daniel.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.initialized===true&&s.busy===false);},null,{timeout:30000});
@@ -560,11 +570,12 @@ async function main(){
     assert.equal(await pairPanel(daniel).locator("code").isVisible().catch(()=>false),false,"no WAITING with the leftover test code after the reload");
     assert.equal(await daniel.page.locator("#mainMenu").isVisible(),true,"Daniel is on Home");
     const tile=await homeTile(daniel);
-    ok("H2",`the leftover CMS17- code (expired, never used) is not reopened after the reload (Home tile ${JSON.stringify(tile)})`);
+    ok("H2",`the leftover CMS17- code (unexpired, never used) is not reopened after the reload (Home tile ${JSON.stringify(tile)})`);
 
     // ---------- H3 Daniel's Home START: the checkmark first, then a new real code ----------
     // Every code the pair panel ever shows on screen from here on is recorded (no flash of the leftover code while the new one is made).
     await daniel.page.evaluate(()=>{window.__h3Codes=[];const seen=()=>{for(const c of document.querySelectorAll("#connectPlayersScreen #persistentNikDanielPairPanel code")){const t=(c.textContent||"").trim(),shown=c.getClientRects().length>0&&getComputedStyle(c).visibility!=="hidden";if(t&&shown&&!window.__h3Codes.includes(t))window.__h3Codes.push(t);}};new MutationObserver(seen).observe(document.body,{subtree:true,childList:true,characterData:true});seen();});
+    assert.ok(leftoverExpires>Date.now()+60_000,"the leftover is still unexpired when START is pressed (Nik could still join it)");
     await danielStartsShowdown(daniel,1,{firstRealStart:true});
     await daniel.page.waitForFunction(()=>/^CMS17R-/.test((document.querySelector("#connectPlayersScreen #persistentNikDanielPairPanel code")?.textContent||"").trim()),null,{timeout:30000});
     const code1=(await pairPanel(daniel).locator("code").innerText()).trim();
@@ -577,7 +588,28 @@ async function main(){
     const hiddenD=ids(field(markerD,"data","hiddenRivalryIds"));
     assert.ok(hiddenD.includes(G)&&hiddenD.includes(L)&&!hiddenD.includes(R),`Daniel's marker names the finished game and the leftover, not the new one: ${JSON.stringify(hiddenD)}`);
     assert.equal(field(await admin(`accounts/${uidD}/pairLinks/current`),"data","rivalryId").stringValue,R,"Daniel's pairing is the new real one");
-    ok("H3","Home START opened the seasons screen (checkmark ticked); its START wrote the marker, then made a new CMS17R- code");
+    const leftoverAfter=await admin(`rivalries/${L}`);
+    assert.equal(field(leftoverAfter,"data","connectionState").stringValue,"closed","the leftover code was closed before the marker (nobody can join it any more)");
+    assert.equal(field(leftoverAfter,"data","terminalClose"),undefined,"closed without a Terminal Close (an unused code, never a finished game)");
+    ok("H3","Home START opened the seasons screen (checkmark ticked); its START closed the unexpired leftover, wrote the marker, then made a new CMS17R- code");
+
+    // ---------- H3b Nik types the leftover code ----------
+    await openSettings(nik);
+    await nik.page.locator("#onlinePlayerIdentitySettingsPanel button",{hasText:"JOIN TEST RUN"}).click({timeout:30000});
+    await pairPanel(nik).locator("#persistentNikDanielPairCode").waitFor({state:"visible",timeout:30000});
+    await pairPanel(nik).locator("#persistentNikDanielPairCode").fill(leftoverCode);
+    await pairPanel(nik).getByRole("button",{name:"JOIN DANIEL'S SHOWDOWN",exact:true}).click();
+    await nik.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.busy===false&&s.status!=="joining");},null,{timeout:30000});
+    await nik.page.waitForTimeout(1500);
+    const refused=await pairState(nik);
+    assert.notEqual(refused&&refused.connectionState,"active",`Nik could not join the closed leftover ${JSON.stringify(refused)}`);
+    assert.equal(field(await admin(`rivalries/${L}`),"data","connectionState").stringValue,"closed","the leftover stays closed");
+    assert.equal(await admin(`accounts/${uidN}/careerStart/current`),null,"no marker for Nik from that attempt");
+    const refusedText=(await pairPanel(nik).innerText().catch(()=>"")).replace(/\s+/g," ").slice(0,240);
+    await nik.page.reload({waitUntil:"domcontentloaded"});
+    await nik.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
+    await nik.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.initialized===true&&s.busy===false);},null,{timeout:30000});
+    ok("H3b",`Nik's join of the closed leftover was refused ("${refusedText}"); Nik reloads`);
 
     // ---------- H4 Nik types the code once ----------
     await nik.page.locator("#newShowdown").click();
@@ -591,6 +623,8 @@ async function main(){
     const hiddenN=ids(field(markerN,"data","hiddenRivalryIds"));
     assert.ok(hiddenN.includes(G)&&!hiddenN.includes(R),`Nik's marker names the finished game, not the new one: ${JSON.stringify(hiddenN)}`);
     for(const m of managers)assert.ok(!(await m.page.locator("#onlinePlayerIdentityBadge").textContent()).includes("TEST RUN"),`${m.user}: the real game is not a test run`);
+    // Stand-in (see the top): the markers r79 wrote carry an r79 startedAt; this run's own press time may be after r80's cutoff.
+    for(const uid of [uidD,uidN])await setMarkerStartedAt(uid,R79_MARKER_MS);
     ok("H4","Nik typed the code once and joined; both markers name the finished game; no TEST RUN badge");
 
     // ---------- H5 the real game ----------
@@ -598,8 +632,12 @@ async function main(){
     ok("H5","the real 1-season Showdown was played to the end and closed by itself");
 
     // ---------- H6 History, Career Statistics, Trophy Room ----------
+    // Each page still holds the marker it wrote, with this run's own press time. Before r80's cutoff that is an r79-window
+    // marker, so the screens are checked right away; after it, the pages read the (r79-dated) markers again first.
+    const pressedAfterCutoff=Date.now()>=R80_CUTOFF_MS;
+    if(pressedAfterCutoff)for(const m of managers){await m.page.reload({waitUntil:"domcontentloaded"});await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});await m.page.waitForTimeout(2000);}
     await assertBothGamesShown(managers,[G,R],L,"H6.1");
-    ok("H6.1","History (Legacy), Career Statistics and the Trophy Room show both finished games on both phones; the leftover never shows");
+    ok("H6.1",`History (Legacy), Career Statistics and the Trophy Room show both finished games on both phones; the leftover never shows${pressedAfterCutoff?" (after a reload: this run is past r80's cutoff)":""}`);
     for(const m of managers){await m.page.reload({waitUntil:"domcontentloaded"});await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});await m.page.waitForTimeout(2000);}
     await assertBothGamesShown(managers,[G,R],L,"H6.2");
     for(const uid of [uidD,uidN])assert.deepEqual(ids(field(await admin(`accounts/${uid}/careerStart/current`),"data","hiddenRivalryIds")),uid===uidD?hiddenD:hiddenN,"the markers are unchanged (nothing rewritten)");

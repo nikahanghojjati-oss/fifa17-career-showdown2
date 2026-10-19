@@ -10,6 +10,9 @@
 // R: js/careerStartMarker.js careerHiddenRivalryIds(). A marker made on r79 or later shows again the Showdowns it hides that
 //    were finished (closed with a Terminal Close) on r79 or later; bounded exact gets, fail closed, read-only.
 // C: js/rivalryLegacyV10.js uses it, so that game is back in History, Legacy, Career Statistics and the Trophy Room.
+// U (Codex #936): when the leftover is a code Nik could still join (unexpired), the seasons START closes it (only while nobody
+//    has joined it, and only once the server says the real career has not started) before the marker is written, because
+//    the marker refuses while such a code is open. R7: markers made from r80 on (after the fixed cutoff) reveal nothing.
 // Plain node:assert, no Firebase. The browser sequence is tests/browser/r80-first-real-game-history-audit.cjs.
 const assert=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path"),vm=require("node:vm");
 const ROOT=path.resolve(__dirname,"../..");
@@ -58,6 +61,28 @@ function entryHarness({mode="test",armed=false,pair="leftover",manager="daniel",
 }
 const decisionFor=h=>h.pairState.rivalryId?{action:"resume-waiting",rivalryId:LEFTOVER,totalSeasons:1,reason:"resume-waiting"}:{action:"resume-waiting",rivalryId:null,totalSeasons:1,reason:"shell-without-code"};
 
+// ------------------------------------------------------------------ U: the seasons START over an unexpired leftover code
+// js/showdownModes.js beforeSeasonsStart() as the page has it (test account, nothing armed), with the pair and marker modules stubbed.
+function modesGate({pending=true,ticked=true,fresh="none",close="closed"}={}){
+  const calls=[],check={checked:ticked};let reads=0;
+  const pairState=pending?{status:"waiting",rivalryId:LEFTOVER,connectionState:"pending-pair",managerRole:"playerOne"}:{status:"unpaired",rivalryId:null,connectionState:null};
+  const none={accountId:"acct_daniel",status:"none",record:null};
+  const pair={getState:()=>pairState,getPartnerState:()=>none,getPartnerSideState:()=>null,readPartnerRecord:async()=>none,subscribe:()=>()=>{},
+    closeUnjoinedCode:async options=>{calls.push(["close",options&&options.expectedRivalryId]);if(close instanceof Error)throw close;return {ok:true,status:close};}};
+  const marker={clearCache:()=>calls.push("clearCache"),
+    readCurrentMarker:async()=>{reads+=1;calls.push("readMarker");if(reads===1)return {status:"none"};if(fresh==="unavailable")throw new Error("offline");return {status:fresh};},
+    startRealCareer:async()=>{calls.push("startRealCareer");if(pairState.connectionState==="pending-pair"&&!calls.some(c=>Array.isArray(c)&&c[0]==="close"))throw Object.assign(new Error("Finish or end the current Showdown before starting your real career."),{code:"CAREER_START_SHOWDOWN_UNFINISHED"});return {status:"ready"};}};
+  const sandbox={console,Promise,setTimeout,
+    document:{getElementById:id=>id==="cmsRealCareerCheck"?check:null,querySelector:()=>null,querySelectorAll:()=>[],addEventListener(){}},
+    CareerModePersistentNikDanielPair:pair,CareerModeCareerStartMarker:marker,
+    CareerModeOnlinePlayerIdentity:{getState:()=>({status:"ready",registered:true,accountId:"acct_daniel",managerId:"daniel"}),refreshBadge(){},renderSettings(){}},
+    getActiveScreenName:()=>"createShowdown",addEventListener(){},loadRuntimeScript:async()=>{throw new Error("preloaded");}};
+  sandbox.globalThis=sandbox;vm.createContext(sandbox);
+  vm.runInContext(read("js/showdownModes.js"),sandbox,{filename:"showdownModes.js"});
+  return {modes:sandbox.CareerModeShowdownModes,calls};
+}
+const closes=g=>g.calls.filter(c=>Array.isArray(c)&&c[0]==="close");
+
 // ------------------------------------------------------------------ R: the marker module
 const Marker=require(path.join(ROOT,"js/careerStartMarker.js"));
 const R79_LIVE=Date.UTC(2026,9,18,17,17,45),HOUR=3_600_000;
@@ -69,6 +94,7 @@ function fakeSdk(docs,{fail=new Set()}={}){const log=[];return {log,sdk:{doc:(_d
 const reveal=(marker,docs,options)=>{Marker.clearCache();const f=fakeSdk(docs,options);return Marker.careerHiddenRivalryIds({marker,firestore:{},firebaseSdk:f.sdk,accountId:"acct_daniel"}).then(ids=>({ids,log:f.log,f}));};
 
 (async()=>{
+
 await check("G1 a test-mode Daniel's Home START over an old open code goes to the seasons screen, not into that test code",async()=>{
   const h=entryHarness();h.api.install();await settle();
   await h.api.followStartDecision(decisionFor(h));
@@ -122,6 +148,54 @@ await check("G6 no flash: a code that replaces the leftover is begun while WAITI
   const pair=read("js/persistentNikDanielPair.js");
   assert.match(pair,/\}else if\(state\.status==="starting"&&state\.busy\)\{\/\*[^*]*\*\/\}else if\(state\.connectionState==="pending-pair"&&state\.capability\)\{const code=/,"while a code is being made the panel draws no older code");
 });
+await check("U1 an unexpired leftover code: the seasons START closes it, then writes the marker (the marker refuses while it is open)",async()=>{
+  const g=modesGate();
+  assert.equal(await g.modes.beforeSeasonsStart(),true,"the real career starts");
+  same(g.calls.filter(c=>c!=="clearCache"),["readMarker","readMarker",["close",LEFTOVER],"startRealCareer"],"fresh marker check, the close of exactly that code, then the marker");
+});
+await check("U2 nothing is closed when START refuses before the marker: unticked, a real career started elsewhere, or no answer",async()=>{
+  for(const [label,options] of [["unticked",{ticked:false}],["started on another browser",{fresh:"ready"}],["offline",{fresh:"unavailable"}]]){
+    const g=modesGate(options);
+    assert.equal(await g.modes.beforeSeasonsStart(),false,label);
+    same([closes(g).length,g.calls.includes("startRealCareer")],[0,false],`${label}: no close, no marker`);
+  }
+});
+await check("U3 a code Nik has joined meanwhile (or a close that fails) is never ended from START, and no marker is written",async()=>{
+  for(const error of [Object.assign(new Error("Nik has already joined your earlier code, so that test run is being played. Finish or end it first. Nothing was changed."),{code:"PERSISTENT_PAIR_CODE_JOINED"}),Object.assign(new Error("offline"),{code:"unavailable"})]){
+    const g=modesGate({close:error});
+    assert.equal(await g.modes.beforeSeasonsStart(),false,error.code);
+    assert.equal(g.calls.includes("startRealCareer"),false,`${error.code}: no marker`);
+  }
+});
+await check("U4 unchanged: no leftover code means no extra read and no close (a first START, a code-less shell)",async()=>{
+  const g=modesGate({pending:false});
+  assert.equal(await g.modes.beforeSeasonsStart(),true);
+  same(g.calls,["readMarker","startRealCareer"],"one memoised read, then the marker, as before");
+});
+await check("U5 the close itself: only Daniel's own code, only while it is still pending-pair, inside the close transaction",async()=>{
+  const pair=read("js/persistentNikDanielPair.js");
+  const tx=pair.slice(pair.indexOf("async function pairAbandonCurrentShowdown("),pair.indexOf("async function pairLoadConnectedRivalry("));
+  const guard=tx.indexOf('if(options.unjoinedOnly===true&&(link.managerRole!=="playerOne"||rivalryValue.data?.connectionState!=="pending-pair"))throw pairErrorWithCode("PERSISTENT_PAIR_CODE_JOINED"');
+  assert.ok(guard>0,"the joined-code refusal is in the close");
+  assert.ok(guard>tx.indexOf("const rivalryRef=pairRivalryReference(context,link.rivalryId),rivalrySnapshot=await transaction.get(rivalryRef);")&&guard<tx.indexOf("transaction.set(rivalryRef,next);"),"read in the same transaction, before the only write");
+  assert.match(pair,/closeUnjoinedCode:options=>options&&options\.expectedRivalryId\?pairAbandonCurrentShowdown\(\{expectedRivalryId:options\.expectedRivalryId,unjoinedOnly:true\}\):Promise\.reject\(/,"always for one named code");
+});
+await check("U6 the marker guard is unchanged: an open pending code, or an active Showdown, still refuses the marker",async()=>{
+  const RID="pair_"+"9".repeat(64),now=Date.now();
+  async function attempt(rivalryState,inviteExpires){
+    const docs={"accounts/acct_daniel/pairLinks/current":{data:{rivalryId:RID}},[`rivalries/${RID}`]:{data:{connectionState:rivalryState}},[`rivalries/${RID}/invites/${RID}`]:{data:{state:"open",expiresAt:ts(inviteExpires)}}};
+    const writes=[];
+    const sdk={doc:(_db,...parts)=>({path:parts.join("/")}),Timestamp:{fromMillis:ts},serverTimestamp:()=>({sentinel:true}),
+      runTransaction:async(_db,fn)=>fn({get:async ref=>({exists:()=>docs[ref.path]!==undefined,data:()=>docs[ref.path]}),set:(ref,value)=>writes.push(ref.path)})};
+    Marker.clearCache();
+    try{await Marker.startRealCareer({firestore:{},firebaseSdk:sdk,accountId:"acct_daniel",deviceId:"device_"+"d".repeat(32),cryptoImpl:require("node:crypto").webcrypto});return writes;}
+    catch(error){return error.code;}
+  }
+  assert.equal(await attempt("pending-pair",now+3600_000),"CAREER_START_SHOWDOWN_UNFINISHED","an unexpired open code refuses (why the close comes first)");
+  assert.equal(await attempt("active",now+3600_000),"CAREER_START_SHOWDOWN_UNFINISHED","an active Showdown refuses");
+  same(await attempt("closed",now+3600_000),["accounts/acct_daniel/careerStart/current"],"once closed, the marker is written");
+  Marker.clearCache();
+});
 await check("R1 the r79 leak: the hidden game finished on r79 shows again; the older test games stay hidden",async()=>{
   const old1=id(1),old2=id(2),leftover=id(3),game=id(4);
   const marker=markerAt([old1,old2,leftover,game],R79_LIVE+3*HOUR);
@@ -160,12 +234,25 @@ await check("R5 bounded and once per page: at most 10 gets, the second ask reads
   same(again,first.ids);assert.equal(first.log.length,10,"cached for the page");
   Marker.clearCache();
 });
-await check("R6 the marker module writes nothing new and the r79 time is pinned",async()=>{
+await check("R6 the marker module writes nothing new and the r79 time and the r80 cutoff are pinned",async()=>{
   const source=read("js/careerStartMarker.js");
-  assert.match(source,/const R79_LIVE_MS=Date\.UTC\(2026,9,18,17,17,45\),REVEAL_SCAN_LIMIT=10;/);
+  assert.match(source,/const R79_LIVE_MS=Date\.UTC\(2026,9,18,17,17,45\),R80_PREVENTION_MS=Date\.UTC\(2026,9,19,12,0,0\),REVEAL_SCAN_LIMIT=10;/);
+  assert.equal(Marker.revealBeforeEpochMs,Date.UTC(2026,9,19,12,0,0),"2026-10-19 12:00 UTC");
   assert.equal((source.match(/transaction\.set\(/g)||[]).length,1,"the one marker write, unchanged");
   assert.doesNotMatch(source,/deleteDoc|setDoc|updateDoc|writeBatch|transaction\.delete\(/);
   assert.equal(Marker.revealSinceEpochMs,R79_LIVE);
+});
+
+await check("R7 Codex #936: a marker made after the r80 cutoff keeps every id hidden (deliberate test runs stay test runs), with no read",async()=>{
+  const CUTOFF=Date.UTC(2026,9,19,12,0,0),ids=[id(1),id(2),id(3)];
+  const docs=Object.fromEntries(ids.map((x,i)=>[`rivalries/${x}`,rivalryDoc(x,{at:CUTOFF+(i+1)*HOUR})]));
+  for(const startedAt of [CUTOFF,CUTOFF+1,CUTOFF+4*HOUR,CUTOFF+400*24*HOUR]){
+    const {ids:out,log}=await reveal(markerAt(ids,startedAt),docs);
+    same(out,ids,`started ${new Date(startedAt).toISOString()}: every START TEST RUN game finished after r79 stays hidden`);same(log,[],"and nothing is read");
+  }
+  const inside=await reveal(markerAt(ids,CUTOFF-1),docs);
+  same(inside.ids,[],"a marker made just before the cutoff (on r79) still shows the games finished on r79");
+  Marker.clearCache();
 });
 
 // ------------------------------------------------------------------ C: the career screens see it
