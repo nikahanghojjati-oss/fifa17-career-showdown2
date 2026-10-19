@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 19 Oct, 8:43 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 19 Oct, 8:47 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.3-r79** (main `d1888c3`, Sun 18 Oct 1:57 PM)
 
-🩺 **All clear: every check has a machine.** · Gate #933: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #933 0/16
+🩺 **All clear: every check has a machine.** · Gate #933: L1✓ L2… L3A✓ L3B✓ L4✓ L5✓ L6… · seal pending · POS20 #933 0/16
 
 ## Jobs
 
@@ -46,11 +46,11 @@ Updated Mon 19 Oct, 8:43 AM Boston time. Bug hunting only, no new features until
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 138 h ago
+⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 139 h ago
 
 **#9 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 95 h ago
+⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 96 h ago
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #933](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/933) | Release r80: career save online, END SHOWDOWN (1.9.4-r80) | ⏳ 3 passed, 4 running |
+| 🟧 Team G lead | [PR #933](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/933) | Release r80: career save online, END SHOWDOWN (1.9.4-r80) | ⏳ 6 passed, 1 running |
 
 **Up next**
 
