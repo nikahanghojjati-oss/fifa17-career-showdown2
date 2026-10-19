@@ -1,17 +1,19 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-19 1:22 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-19 1:24 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `157017f` (Mon 19 Oct 1:21 AM Boston time) · 127 messages · 35 hand-offs · 233 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `649aba7` (Mon 19 Oct 1:23 AM Boston time) · 128 messages · 35 hand-offs · 236 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-034 · G → V · r80 Europa League trophy picture (TRO_EUROPA_V1)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
 
+- Mon 19 Oct 1:23 AM · Team V · In progress · picture ticket 1848 with Nik; original cup in the Europa silhouette (tall silver, wide flared bowl, no handles), same render recipe as the other four trophies
+- Mon 19 Oct 1:22 AM · Team V · Received
 - Mon 19 Oct 1:21 AM · Team G · Sent
 - Mon 19 Oct 1:22 AM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -1157,6 +1159,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-034 RECEIVED · Team V → Team G · Mon 19 Oct 1:22 AM Boston time
+
+**r80 Europa League trophy picture (TRO_EUROPA_V1)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-034 SENT · Team G → Team V · Mon 19 Oct 1:21 AM Boston time
 
