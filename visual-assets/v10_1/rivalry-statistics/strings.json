@@ -16,8 +16,7 @@
     "Total Trophies",
     "Champions Leagues",
     "League Titles",
-    "Domestic Cups",
-    "Transfer Signings"
+    "Domestic Cups"
   ],
   "seasonLabelTemplate": "SEASON {SEASON}",
   "draw": "Draw",
@@ -104,10 +103,6 @@
     },
     "coverage": {
       "text": "{readable} of {indexed} Showdowns readable.",
-      "source": "new"
-    },
-    "transferUnavailable": {
-      "text": "Transfer history is unavailable.",
       "source": "new"
     }
   }

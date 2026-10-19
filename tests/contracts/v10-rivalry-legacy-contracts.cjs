@@ -86,7 +86,7 @@ check('RL11 real Team V renderers show honest states and live values without fix
    if(screen==='legacy'){assert.equal(map.get('legacyCardGrid').childElementCount,0);assert.equal(map.get('viewSeasonHistory').disabled,true);assert.equal(map.get('legacyStateBanner').hidden,false);}
    else{assert.equal(map.get('rvRows').childElementCount,0);assert.equal(map.get('rvProgress').textContent,'');assert.equal(map.get('rvReadState').hidden,false);}
   }else if(screen==='legacy')assert.equal(map.get('legacyCardGrid').childElementCount,frame.showdowns.length);
-  else{assert.ok(map.get('rvRows').innerHTML.includes('Unavailable'));assert.ok(map.get('rvSeasonBody').innerHTML.includes('<td>10</td>'));}
+  else{const rowsHtml=map.get('rvRows').innerHTML;assert.deepEqual([...rowsHtml.matchAll(/<span class="rv-label">([^<]*)<\/span>/g)].map(x=>x[1]),['Showdown Points','Season Wins','Total Trophies','Champions Leagues','League Titles','Domestic Cups'],'r80 (Nik): Rivalry Statistics shows the six tracked rows; transfers live only on the Transfer screen verdict');assert.ok(!rowsHtml.includes('Transfer Signings')&&!rowsHtml.includes('Unavailable'),'no Transfer Signings row and no always-Unavailable value');assert.ok(map.get('rvSeasonBody').innerHTML.includes('<td>10</td>'));}
   return map;
  };
  for(const screen of ['legacy','rivalryStatistics'])for(const id of ['loading','unavailable','finished-three-seasons']){
