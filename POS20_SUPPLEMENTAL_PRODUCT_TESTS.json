@@ -1826,6 +1826,18 @@
         "^tests/contracts/r80\\-first\\-real\\-game\\-history\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r80-ce2pg-career-pages-contracts.cjs",
+      "patterns": [
+        "^js/settings\\.js$",
+        "^js/seasonFinalV10\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^tests/fixtures/data\\-contract\\-v1/multi\\-showdown\\-career\\.json$",
+        "^tests/support/fake\\-dom\\.cjs$",
+        "^tests/contracts/r80\\-ce2pg\\-career\\-pages\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

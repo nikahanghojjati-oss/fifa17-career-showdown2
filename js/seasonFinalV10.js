@@ -261,10 +261,28 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   const templates={},strings={};let installed=false,scheduled=false,signature="",finalSeasonReview=false;
   const state=name=>{try{return root[name]?.getState?.()||null;}catch(_){return null;}};
   function sfSnapshot(){return {identity:state("CareerModeOnlinePlayerIdentity"),pair:state("CareerModePersistentNikDanielPair"),multiSeason:state("CareerModeProductionSharedMultiSeasonProgression"),history:state("CareerModeProductionSharedHistoryConvergence"),finalReconciliation:state("CareerModeProductionSharedFinalReconciliation"),terminalClose:state("CareerModeProductionSharedTerminalClose")};}
-  function currentRivalry(){return root.CareerModeSharedActiveShowdownAdapter?.rivalryView(sfSnapshot())||{status:"unavailable"};}
-  // A supplied model first, then the provider-backed career model Stats, Trophy Room or History last read
-  // for this account and pair. Standings itself adds no provider read.
-  function currentCareer(){try{const supplied=typeof careerStatisticsModel!=="undefined"?careerStatisticsModel:null;return supplied??root.CareerModeRivalryLegacyV10?.cachedCareerModel?.()??null;}catch(_){return null;}}
+  // CE2PG: once the pair has let a finished Showdown go (Home was shown), it is no longer "this Showdown": the closed Terminal
+  // Close kept in memory for the Final Winner screen made THIS SHOWDOWN show it until a reload, while every reloaded or new
+  // browser said "No active showdown". Rivalry Statistics keeps showing the newest finished Showdown on every browser.
+  function currentRivalry(){
+    const snapshot=sfSnapshot(),pair=snapshot.pair;
+    if(pair?.initialized===true&&pair.status==="unpaired"&&!pair.rivalryId&&snapshot.terminalClose?.phase==="CLOSED")snapshot.terminalClose=null;
+    return root.CareerModeSharedActiveShowdownAdapter?.rivalryView(snapshot)||{status:"unavailable"};
+  }
+  // A supplied model first, then the provider-backed career model shared with Stats, Trophy Room and History.
+  // CE2PG: Standings only reused the model another screen last read, so opened first it said "unavailable" and
+  // after a newer Showdown closed it kept the older career. Each Standings open now refreshes that model once
+  // (the same exact gets Career Statistics makes when it opens); Career says Loading until it lands.
+  let standingsCareerLoad=null;
+  function sfOnlineCareer(){const id=state("CareerModeOnlinePlayerIdentity");return id?.registered===true&&["daniel","nik"].includes(id.managerId);}
+  function refreshStandingsCareer(){
+    if(standingsCareerLoad||!sfOnlineCareer()||typeof root.loadRuntimeScript!=="function")return;
+    const load=standingsCareerLoad=Promise.resolve().then(async()=>{
+      if(!root.CareerModeRivalryLegacyV10)await root.loadRuntimeScript("rivalry-legacy-v10","js/rivalryLegacyV10.js",()=>Boolean(root.CareerModeRivalryLegacyV10));
+      await root.CareerModeRivalryLegacyV10.loadCareerModel();
+    }).catch(()=>{}).then(()=>{if(standingsCareerLoad===load)standingsCareerLoad=null;signature="";wake();});
+  }
+  function currentCareer(){try{const supplied=typeof careerStatisticsModel!=="undefined"?careerStatisticsModel:null;return supplied??(standingsCareerLoad?{status:"loading"}:root.CareerModeRivalryLegacyV10?.cachedCareerModel?.())??null;}catch(_){return null;}}
   function stageElement(folder){const holder=root.document.createElement("div");holder.innerHTML=templates[folder];return holder.firstElementChild;}
   const fail=error=>root.console?.warn?.("[Career Mode Showdown] Season visual unavailable",error);
   async function prepare(folder){
@@ -2021,7 +2039,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     if(typeof loader.show==="function")Promise.resolve(loader.show("seasonEntry")).catch(fail);
     for(const e of ["career-mode-shared-final-reconciliation-state-change","career-mode-shared-terminal-close-state-change","career-mode-shared-history-convergence-state-change","career-mode-shared-multi-season-state-change","career-mode-online-identity-change","career-mode-active-save-changed","career-mode-showdown-state-change","career-mode-online-career-model-change"])root.addEventListener?.(e,wake);
     root.addEventListener?.("career-mode-shared-history-convergence-state-change",()=>sfRetainHistory(state("CareerModeProductionSharedHistoryConvergence")));
-    root.document.addEventListener("career-mode-screen-shown",()=>{signature="";followPair();wake();});
+    root.document.addEventListener("career-mode-screen-shown",()=>{signature="";followPair();if(root.getActiveScreenName?.()==="standings")refreshStandingsCareer();wake();});
     followPair();
     wake();return true;
   }

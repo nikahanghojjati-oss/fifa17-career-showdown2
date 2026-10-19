@@ -44,6 +44,78 @@ function getSettingsLegacyHistory(){
     }
 }
 
+/* CE2PG (r80): online, the local save outlives its Showdown (it still reads "Created" after the Final Winner, or after the
+   other phone ended it) and the local history list is never written. Home's LIVE tile reads the pair state, so Settings
+   reads it too: CURRENT SHOWDOWN and END SHOWDOWN only while the pair holds a live (active or waiting) Showdown. With no
+   pair state yet (module not loaded or not initialized) the local save decides, as before. */
+function getSettingsPairState(){
+    try{
+        const pair = window.CareerModePersistentNikDanielPair;
+        const pairState = pair && typeof pair.getState === "function" ? pair.getState() : null;
+        return pairState && pairState.initialized === true ? pairState : null;
+    }catch(_error){
+        return null;
+    }
+}
+
+function getSettingsLiveShowdown(){
+    const active = getSettingsActiveShowdown();
+    if(!active){ return null; }
+    const pairState = getSettingsPairState();
+    if(!pairState){ return { showdown: active, status: active.status || "Saved" }; }
+    if(!pairState.rivalryId){ return null; }
+    if(pairState.connectionState === "active"){ return { showdown: active, status: "Live" }; }
+    if(pairState.connectionState === "pending-pair"){ return { showdown: active, status: "Waiting to join" }; }
+    return null;
+}
+
+/* CE2PG (r80): online, HISTORY counts the completed Showdowns of the shared career model that History, Career Statistics
+   and Trophy Room show (the same exact gets Career Statistics makes when it opens, once per Settings open). The local list
+   is still used when this browser is not a registered Daniel or Nik. */
+function isSettingsOnlineCareer(){
+    try{
+        const identity = window.CareerModeOnlinePlayerIdentity && typeof window.CareerModeOnlinePlayerIdentity.getState === "function"
+            ? window.CareerModeOnlinePlayerIdentity.getState()
+            : null;
+        return Boolean(identity && identity.registered === true && (identity.managerId === "daniel" || identity.managerId === "nik"));
+    }catch(_error){
+        return false;
+    }
+}
+
+function settingsCompletedCountText(count){
+    return `${count} completed showdown${count === 1 ? "" : "s"}`;
+}
+
+function getSettingsOnlineHistoryText(){
+    try{
+        const legacy = window.CareerModeRivalryLegacyV10;
+        const model = legacy && typeof legacy.cachedCareerModel === "function" ? legacy.cachedCareerModel() : null;
+        if(model && ["ready", "partial", "empty"].includes(model.status)){
+            const showdowns = model.history && Array.isArray(model.history.showdowns) ? model.history.showdowns : [];
+            return settingsCompletedCountText(showdowns.filter(row => row && row.status === "completed").length);
+        }
+        return settingsHistoryLoad ? "Loading…" : "Unavailable right now";
+    }catch(_error){
+        return "Unavailable right now";
+    }
+}
+
+let settingsHistoryLoad = null;
+function refreshSettingsOnlineHistory(){
+    if(settingsHistoryLoad || typeof window.loadRuntimeScript !== "function"){ return; }
+    const load = settingsHistoryLoad = Promise.resolve().then(async () => {
+        if(!window.CareerModeRivalryLegacyV10){
+            await window.loadRuntimeScript("rivalry-legacy-v10", "js/rivalryLegacyV10.js", () => Boolean(window.CareerModeRivalryLegacyV10));
+        }
+        await window.CareerModeRivalryLegacyV10.loadCareerModel();
+    }).catch(() => {}).then(() => {
+        if(settingsHistoryLoad === load){ settingsHistoryLoad = null; }
+        const value = settingsContent ? settingsContent.querySelector(".settingsHistoryCount") : null;
+        if(value){ value.textContent = getSettingsOnlineHistoryText(); }
+    });
+}
+
 function createSettingsElement(tagName, className = "", text = ""){
     const element = document.createElement(tagName);
     if(className){ element.className = className; }
@@ -51,10 +123,10 @@ function createSettingsElement(tagName, className = "", text = ""){
     return element;
 }
 
-function createSettingsInfoRow(label, value){
+function createSettingsInfoRow(label, value, valueClass = ""){
     const row = createSettingsElement("div", "settingsInfoRow");
     const labelElement = createSettingsElement("span", "", label);
-    const valueElement = createSettingsElement("strong", "", value);
+    const valueElement = createSettingsElement("strong", valueClass, value);
     row.append(labelElement, valueElement);
     return row;
 }
@@ -751,8 +823,10 @@ async function runSettingsEndShowdown(button){
    are js/showdownModes.js. */
 
 function createDataPanel(){
-    const active = getSettingsActiveShowdown();
-    const history = getSettingsLegacyHistory();
+    const live = getSettingsLiveShowdown();
+    const active = live ? live.showdown : null;
+    const online = isSettingsOnlineCareer();
+    const historyText = online ? getSettingsOnlineHistoryText() : settingsCompletedCountText(getSettingsLegacyHistory().length);
     const panel = createSettingsPanel(
         "CAREER DATA",
         "SHOWDOWN DATA",
@@ -761,15 +835,13 @@ function createDataPanel(){
     panel.classList.add("settingsDataPanel");
 
     const info = createSettingsElement("div", "settingsInfoGrid");
+    const historyRow = createSettingsInfoRow("HISTORY", historyText, "settingsHistoryCount");
     info.append(
         createSettingsInfoRow(
             "CURRENT SHOWDOWN",
-            active ? `${active.name || "Unnamed Showdown"} · ${active.status || "Saved"}` : "None"
+            active ? `${active.name || "Unnamed Showdown"} · ${live.status}` : "None"
         ),
-        createSettingsInfoRow(
-            "HISTORY",
-            `${history.length} completed showdown${history.length === 1 ? "" : "s"}`
-        )
+        historyRow
     );
 
     const actions = createSettingsElement("div", "settingsOfflineActions settingsDataActions");
@@ -952,6 +1024,7 @@ function setSettingsBackgroundInert(inert){
 function openSettings(){
     ensureSettingsDialog();
     settingsOfflineGuidance = "";
+    if(isSettingsOnlineCareer()){ refreshSettingsOnlineHistory(); }
     renderSettings();
 
     settingsPreviousFocus = document.activeElement instanceof HTMLElement
