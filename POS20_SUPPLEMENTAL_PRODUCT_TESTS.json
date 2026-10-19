@@ -1912,6 +1912,24 @@
         "^tests/contracts/europa\\-league\\-scoring\\-parity\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r80-setup-other-save-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedShowdownSetup\\.js$",
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^js/productionSharedSeasonResults\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^js/productionSharedHistoryConvergence\\.js$",
+        "^js/productionSharedCanonicalScoring\\.js$",
+        "^js/productionSharedFinalReconciliation\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/showdownUI\\.js$",
+        "^js/menuExperience\\.js$",
+        "^tests/contracts/r80\\-setup\\-other\\-save\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
