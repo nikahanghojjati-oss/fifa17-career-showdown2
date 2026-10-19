@@ -15,6 +15,8 @@
   const OPERATION=/^season_commit_op_[0-9a-f]{32}$/;
   const RESULT_OPERATION=/^season_result_op_[0-9a-f]{32}$/;
   const HASH=/^sha256:[0-9a-f]{64}$/;
+  // r80 Europa League: optional 8th key, present only as exactly true for a manager who won it, never with championsLeague true
+  // (checked per manager only). A result without it keeps the r79 7-key shape, and the key is copied only when present, so old hashes never change.
   const RESULT_KEYS=Object.freeze(["leaguePosition","leaguePoints","leagueGoals","domesticCup","championsLeague","topScorer","topAssist"]);
   const SETUP_LEDGER_KEYS=Object.freeze(["schemaVersion","objectType","rivalryId","revision","phase","coordinatorRole","operationIds","operationTypes","baseRevisions","actorRoles","totalSeasons","confirmedRoles","activeSessionId","updatedAt","updatedByDeviceId"]);
   const COMMIT_KEYS=Object.freeze(["schemaVersion","objectType","rivalryId","seasonNumber","runtimeRevision","phase","revision","resultsRevision","results","acknowledgedRoles","operationIds","operationHashes","baseRevisions","actorRoles","activeSessionId","updatedAt","updatedByDeviceId"]);
@@ -38,7 +40,8 @@
   function scpUid(user){const id=user&&typeof user.uid==="string"?user.uid.trim():"";if(!id)scpFail("SEASON_COMMIT_AUTH_REQUIRED");return id;}
   function scpNow(value){const n=Number(value===undefined?Date.now():value);if(!Number.isSafeInteger(n)||n<0)scpFail("SEASON_COMMIT_CLOCK_INVALID");return n;}
   function scpTeamCount(setup){const clubs=scpModules.catalogModule?.catalog?.[setup?.leagueId];if(!Array.isArray(clubs)||clubs.length<2||clubs.length>20)scpFail("SEASON_COMMIT_TEAM_COUNT_INVALID");return clubs.length;}
-  function scpResult(value,teamCount){scpExact(value,RESULT_KEYS,"SEASON_COMMIT_RESULTS_INVALID");const maxPoints=(teamCount-1)*2*3;if(!Number.isInteger(value.leaguePosition)||value.leaguePosition<1||value.leaguePosition>teamCount||!Number.isInteger(value.leaguePoints)||value.leaguePoints<0||value.leaguePoints>maxPoints||!Number.isInteger(value.leagueGoals)||value.leagueGoals<0||value.leagueGoals>300)scpFail("SEASON_COMMIT_RESULTS_INVALID");for(const key of ["domesticCup","championsLeague","topScorer","topAssist"]){if(typeof value[key]!=="boolean")scpFail("SEASON_COMMIT_RESULTS_INVALID");}return scpClone(value);}
+  function scpEuropaLeague(value,code){if(!scpPlain(value))scpFail(code);const won=Object.hasOwn(value,"europaLeague");scpExact(value,won?[...RESULT_KEYS,"europaLeague"]:RESULT_KEYS,code);if(won&&(value.europaLeague!==true||value.championsLeague!==false))scpFail(code);return won;}
+  function scpResult(value,teamCount){scpEuropaLeague(value,"SEASON_COMMIT_RESULTS_INVALID");const maxPoints=(teamCount-1)*2*3;if(!Number.isInteger(value.leaguePosition)||value.leaguePosition<1||value.leaguePosition>teamCount||!Number.isInteger(value.leaguePoints)||value.leaguePoints<0||value.leaguePoints>maxPoints||!Number.isInteger(value.leagueGoals)||value.leagueGoals<0||value.leagueGoals>300)scpFail("SEASON_COMMIT_RESULTS_INVALID");for(const key of ["domesticCup","championsLeague","topScorer","topAssist"]){if(typeof value[key]!=="boolean")scpFail("SEASON_COMMIT_RESULTS_INVALID");}return scpClone(value);}
   function scpSdk(options){if(!options.firestore)scpFail("SEASON_COMMIT_PROVIDER_UNAVAILABLE");for(const name of ["doc","runTransaction","serverTimestamp"]){if(!options.firebaseSdk||typeof options.firebaseSdk[name]!=="function")scpFail("SEASON_COMMIT_PROVIDER_UNAVAILABLE");}return options.firebaseSdk;}
   function scpPath(sdk,db,...parts){return sdk.doc(db,...parts);}
   async function scpGet(tx,ref){return scpSnapshot(await tx.get(ref));}

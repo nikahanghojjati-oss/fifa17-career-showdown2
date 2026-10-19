@@ -16,7 +16,9 @@ const INTERIM="Current Showdown only. Career history is not yet available.";
 const STATUS5=["loading","empty","unavailable","partial","ready"];
 const MANAGERS=["daniel","nik"];
 const TEAMS={premier_league:20,laliga:20,bundesliga:18,serie_a:20,ligue_1:20};
-const INPUT_KEYS=["leaguePosition","leaguePoints","leagueGoals","domesticCup","championsLeague","topScorer","topAssist"];
+// r80 Europa League (R80_EUROPA_PLAN PR 2 is this field change's relay message): every view input carries europaLeague (boolean),
+// every breakdown europaLeague (0 or 3), the trophies europaLeague and every manager record europaLeagues; totals include them.
+const INPUT_KEYS=["leaguePosition","leaguePoints","leagueGoals","domesticCup","championsLeague","topScorer","topAssist","europaLeague"];
 const REQUIRED_SCENARIOS=["empty-career","active-mid-season","finished-three-seasons","abandoned","tiebreak-finish","equal-position-tiebreaks","multi-showdown-career"];
 let checks=0;
 function check(name,fn){try{fn();checks+=1;}catch(error){console.error("FAIL "+name+": "+error.message);throw error;}}
@@ -80,14 +82,14 @@ const SPEC={
   pairingActions:["createCode","join","copyCode","newCode","checkStatus","retry"],
   sessionActions:["host","join","refresh","revoke","close","forget"],
   seasonResults:["status","season","phase","viewerRole","inputs","breakdown","winner","tiebreak"], // V1 §3 + G-5 §4 (season, viewerRole)
-  breakdown:["championsLeague","leagueTitle","domesticCup","performanceBonus","awardsBonus","total"], // V1 §3, nested per manager (G2V-005 item 1)
+  breakdown:["championsLeague","europaLeague","leagueTitle","domesticCup","performanceBonus","awardsBonus","total"], // V1 §3, nested per manager (G2V-005 item 1)
   finalWinner:["status","state","totals","winner","margin","seasonsPlayed","trophies"], // V1 §4
-  trophies:["championsLeague","leagueTitles","domesticCups","total"],
+  trophies:["championsLeague","europaLeague","leagueTitles","domesticCups","total"],
   rivalry:["status","leagueId","clubs","season","totalSeasons","score","managers","seasons","transfers"], // V1 §5
-  rivalryManager:["seasonWins","seasonDraws","seasonLosses","championsLeagues","leagueTitles","domesticCups","totalTrophies","hundredPointSeasons","hundredGoalSeasons","topScorerSeasons","topAssistSeasons","perfectSeasons","bestSeasonScore"],
+  rivalryManager:["seasonWins","seasonDraws","seasonLosses","championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies","hundredPointSeasons","hundredGoalSeasons","topScorerSeasons","topAssistSeasons","perfectSeasons","bestSeasonScore"],
   rivalrySeason:["season","score","winner","leaguePosition","leaguePoints","leagueGoals"],
   career:["status","interimLabel","coverage","managers","biggestShowdownWin","trophyRoom","history"], // V1 §0, §6, §7, §8
-  careerManager:["careerPoints","seasons","seasonWins","seasonDraws","seasonLosses","championsLeagues","leagueTitles","domesticCups","totalTrophies","hundredPointSeasons","hundredGoalSeasons","topScorerSeasons","topAssistSeasons","perfectSeasons","performanceBonuses","awardsBonuses","bestSeasonScore","bestLeaguePoints","bestLeagueGoals","bestLeaguePosition","averageSeasonScore","averageLeaguePoints","averageLeagueGoals","showdowns"],
+  careerManager:["careerPoints","seasons","seasonWins","seasonDraws","seasonLosses","championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies","hundredPointSeasons","hundredGoalSeasons","topScorerSeasons","topAssistSeasons","perfectSeasons","performanceBonuses","awardsBonuses","bestSeasonScore","bestLeaguePoints","bestLeagueGoals","bestLeaguePosition","averageSeasonScore","averageLeaguePoints","averageLeagueGoals","showdowns"],
   historyRow:["number","rivalryId","status","leagueId","clubs","seasonsPlayed","totalSeasons","totals","winner","seasons"], // V1 §8 + rivalryId (G-3 ref target)
   historySeason:["season","score","winner","tiebreak","leaguePosition","leaguePoints","leagueGoals"],
   record:["label","manager","value","ref"],
@@ -97,12 +99,14 @@ const SPEC={
 const pairOf=(v,where,test)=>{exact(v,MANAGERS,where);for(const m of MANAGERS)test(v[m],where+"."+m);};
 function league(v,where,nullable=true){if(nullable&&v===null)return;oneOf(v,Object.keys(TEAMS),where);}
 function seasonsTotal(v,where){if(v===null)return;oneOf(v,[1,3,5,10],where);}
-function input(r,where,leagueId){
-  if(r===null)return;exact(r,INPUT_KEYS,where);const teams=TEAMS[leagueId]||20;
+// stored=true: a provider-shaped result (checkSource) has the sparse key, present only as true; a view input always carries it.
+function input(r,where,leagueId,stored=false){
+  if(r===null)return;exact(r,stored&&r.europaLeague!==true?INPUT_KEYS.filter(k=>k!=="europaLeague"):INPUT_KEYS,where);const teams=TEAMS[leagueId]||20;
   assert.ok(isInt(r.leaguePosition)&&r.leaguePosition>=1&&r.leaguePosition<=teams,where+".leaguePosition bound");
   assert.ok(isInt(r.leaguePoints)&&r.leaguePoints>=0&&r.leaguePoints<=(teams-1)*6,where+".leaguePoints bound");
   assert.ok(isInt(r.leagueGoals)&&r.leagueGoals>=0&&r.leagueGoals<=300,where+".leagueGoals bound");
-  for(const k of INPUT_KEYS.slice(3))assert.equal(typeof r[k],"boolean",where+"."+k);
+  for(const k of INPUT_KEYS.slice(3))if(!stored||k in r)assert.equal(typeof r[k],"boolean",where+"."+k);
+  assert.ok(!(r.championsLeague===true&&r.europaLeague===true),where+" one manager never wins CL and EL in one season");
 }
 function action(a,where){exact(a,SPEC.action,where);assert.equal(typeof a.available,"boolean");assert.equal(typeof a.enabled,"boolean");assert.equal(typeof a.confirmedByProvider,"boolean");assert.ok(a.provider===null||typeof a.provider==="string",where);assert.ok(a.confirm===null||typeof a.confirm==="string",where);if(!a.available)assert.deepEqual(a,{available:false,enabled:false,provider:null,args:null,confirm:null,confirmedByProvider:false},where);}
 function validateHome(h,where){
@@ -125,7 +129,7 @@ function validateSeasonResults(r,where,leagueId){
   exact(r,SPEC.seasonResults,where);oneOf(r.status,STATUS5,where+".status");intOrNull(r.season,where+".season");
   oneOf(r.phase,["entering","waiting-for-rival","results-ready","committed",null],where+".phase");oneOf(r.viewerRole,[...MANAGERS,null],where+".viewerRole");
   if(r.inputs!==null)pairOf(r.inputs,where+".inputs",(v,w)=>input(v,w,leagueId));
-  if(r.breakdown!==null)pairOf(r.breakdown,where+".breakdown",(b,w)=>{exact(b,SPEC.breakdown,w);oneOf(b.championsLeague,[0,5],w);oneOf(b.leagueTitle,[0,3],w);oneOf(b.domesticCup,[0,1],w);oneOf(b.performanceBonus,[0,1],w);oneOf(b.awardsBonus,[0,1],w);assert.equal(b.total,b.championsLeague+b.leagueTitle+b.domesticCup+b.performanceBonus+b.awardsBonus,w+".total");assert.ok(b.total<=11);});
+  if(r.breakdown!==null)pairOf(r.breakdown,where+".breakdown",(b,w)=>{exact(b,SPEC.breakdown,w);oneOf(b.championsLeague,[0,5],w);oneOf(b.europaLeague,[0,3],w);assert.ok(!(b.championsLeague&&b.europaLeague),w+" one manager's season is CL or EL");oneOf(b.leagueTitle,[0,3],w);oneOf(b.domesticCup,[0,1],w);oneOf(b.performanceBonus,[0,1],w);oneOf(b.awardsBonus,[0,1],w);assert.equal(b.total,b.championsLeague+b.europaLeague+b.leagueTitle+b.domesticCup+b.performanceBonus+b.awardsBonus,w+".total");assert.ok(b.total<=11);});
   oneOf(r.winner,[...MANAGERS,"draw",null],where+".winner");oneOf(r.tiebreak,["none","league-position","league-points","draw",null],where+".tiebreak");
   if(r.phase!=="committed")assert.ok(r.breakdown===null&&r.winner===null&&r.tiebreak===null,where+" breakdown/winner/tiebreak only once committed");
 }
@@ -134,7 +138,7 @@ function validateFinal(f,where){
   if(f.totals!==null){pairOf(f.totals,where+".totals",(v,w)=>assert.ok(isInt(v)&&v>=0,w));const a=f.totals.daniel,b=f.totals.nik;assert.equal(f.winner,a>b?"daniel":b>a?"nik":"draw",where+" totals-only winner");assert.equal(f.margin,Math.abs(a-b),where+".margin");}
   else assert.ok(f.winner===null&&f.margin===null,where);
   intOrNull(f.seasonsPlayed,where+".seasonsPlayed");
-  if(f.trophies!==null)pairOf(f.trophies,where+".trophies",(t,w)=>{exact(t,SPEC.trophies,w);assert.equal(t.total,t.championsLeague+t.leagueTitles+t.domesticCups,w);});
+  if(f.trophies!==null)pairOf(f.trophies,where+".trophies",(t,w)=>{exact(t,SPEC.trophies,w);assert.equal(t.total,t.championsLeague+t.europaLeague+t.leagueTitles+t.domesticCups,w);});
 }
 function validateRivalry(v,where){
   exact(v,SPEC.rivalry,where);oneOf(v.status,STATUS5,where+".status");league(v.leagueId,where+".leagueId");intOrNull(v.season,where+".season");seasonsTotal(v.totalSeasons,where+".totalSeasons");
@@ -148,7 +152,7 @@ function validateCareer(c,where){
   exact(c.coverage,["readable","indexed"],where+".coverage");intOrNull(c.coverage.readable,where);intOrNull(c.coverage.indexed,where);
   pairOf(c.managers,where+".managers",(m,w)=>{exact(m,SPEC.careerManager,w);for(const k of SPEC.careerManager){if(k==="showdowns"){exact(m.showdowns,["completed","wins","draws","losses"],w+".showdowns");for(const x of Object.values(m.showdowns))intOrNull(x,w);}else if(k.startsWith("average"))numOrNull(m[k],w+"."+k);else intOrNull(m[k],w+"."+k);}});
   if(c.biggestShowdownWin!==null){exact(c.biggestShowdownWin,["manager","margin","showdownRef"],where+".biggestShowdownWin");oneOf(c.biggestShowdownWin.manager,MANAGERS,where);assert.ok(isInt(c.biggestShowdownWin.margin)&&c.biggestShowdownWin.margin>0);}
-  exact(c.trophyRoom,["cabinet","standings","records"],where+".trophyRoom");pairOf(c.trophyRoom.cabinet,where+".cabinet",(x,w)=>exact(x,["championsLeagues","leagueTitles","domesticCups","totalTrophies"],w));
+  exact(c.trophyRoom,["cabinet","standings","records"],where+".trophyRoom");pairOf(c.trophyRoom.cabinet,where+".cabinet",(x,w)=>exact(x,["championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies"],w));
   for(const row of c.trophyRoom.standings){assert.ok(keysOf(row).every(k=>["manager","careerPoints","seasonWins","level"].includes(k)),where+" standings keys");oneOf(row.manager,MANAGERS,where);if("level" in row)assert.equal(row.level,true);}
   if(["ready","partial","empty"].includes(c.status))assert.deepEqual(c.trophyRoom.records.map(r=>r.label),SPEC.recordLabels,where+" record labels");
   for(const r of c.trophyRoom.records){exact(r,SPEC.record,where+".record");oneOf(r.manager,[...MANAGERS,"shared"],where);numOrNull(r.value,where);}
@@ -179,7 +183,7 @@ for(const {row,fx} of fixtures){
       if(v.viewerRole!==undefined)assert.fail("viewerRole belongs inside views");
       for(const view of [v.home,v.startJoin,v.seasonResults])if(view.viewerRole!==null)assert.equal(view.viewerRole,m,w+" viewerRole");
     }
-    fx.checkSource.forEach((sd,i)=>{const w=row.id+".checkSource["+i+"]";exact(sd,SPEC.checkSource,w);league(sd.leagueId,w,false);seasonsTotal(sd.totalSeasons,w);oneOf(sd.state,["completed","active","completion-pending","abandoned"],w);assert.ok(sd.seasons.length<=sd.totalSeasons);sd.seasons.forEach((s,j)=>pairOf(s,w+".seasons["+j+"]",(r,ww)=>input(r,ww,sd.leagueId)));});
+    fx.checkSource.forEach((sd,i)=>{const w=row.id+".checkSource["+i+"]";exact(sd,SPEC.checkSource,w);league(sd.leagueId,w,false);seasonsTotal(sd.totalSeasons,w);oneOf(sd.state,["completed","active","completion-pending","abandoned"],w);assert.ok(sd.seasons.length<=sd.totalSeasons);sd.seasons.forEach((s,j)=>pairOf(s,w+".seasons["+j+"]",(r,ww)=>input(r,ww,sd.leagueId,true)));});
   });
 }
 
@@ -223,7 +227,7 @@ check("K4 checkSource holds only accepted seasons (both managers already saw the
 });
 
 // ---------- K5. Scoring never changes (independent re-derivation from checkSource) ----------
-function score(r){const b={championsLeague:r.championsLeague?5:0,leagueTitle:r.leaguePosition===1?3:0,domesticCup:r.domesticCup?1:0,performanceBonus:(r.leaguePoints>=100||r.leagueGoals>=100)?1:0,awardsBonus:(r.topScorer||r.topAssist)?1:0};b.total=b.championsLeague+b.leagueTitle+b.domesticCup+b.performanceBonus+b.awardsBonus;return b;}
+function score(r){const b={championsLeague:r.championsLeague?5:0,europaLeague:r.europaLeague===true?3:0,leagueTitle:r.leaguePosition===1?3:0,domesticCup:r.domesticCup?1:0,performanceBonus:(r.leaguePoints>=100||r.leagueGoals>=100)?1:0,awardsBonus:(r.topScorer||r.topAssist)?1:0};b.total=b.championsLeague+b.europaLeague+b.leagueTitle+b.domesticCup+b.performanceBonus+b.awardsBonus;return b;}
 function seasonWinner(d,n){const a=score(d).total,b=score(n).total;if(a!==b)return [a>b?"daniel":"nik","none"];if(d.leaguePosition!==n.leaguePosition)return [d.leaguePosition<n.leaguePosition?"daniel":"nik","league-position"];if(d.leaguePoints!==n.leaguePoints)return [d.leaguePoints>n.leaguePoints?"daniel":"nik","league-points"];return ["draw","draw"];}
 check("K5 every season score, winner, tiebreak and total re-derives from the season facts",()=>{
   for(const {row,fx} of fixtures){

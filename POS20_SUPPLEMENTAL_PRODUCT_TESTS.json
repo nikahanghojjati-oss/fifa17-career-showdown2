@@ -1878,6 +1878,40 @@
         "^tests/contracts/r80\\-could\\-not\\-load\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/europa-league-compat-contracts.cjs",
+      "patterns": [
+        "^js/sharedCanonicalScoring\\.js$",
+        "^js/sharedSeasonResults\\.js$",
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^js/sharedSeasonCommit\\.js$",
+        "^js/sparkSharedSeasonCommit\\.js$",
+        "^js/sparkTerminalClose\\.js$",
+        "^js/sparkCompletedShowdownReader\\.js$",
+        "^js/sharedHistoryConvergence\\.js$",
+        "^js/sharedActiveShowdownAdapter\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^tests/fixtures/saved\\-showdowns(\\-in\\-progress)?/",
+        "^tests/fixtures/data\\-contract\\-v1/",
+        "^tests/contracts/europa\\-league\\-compat\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/europa-league-scoring-parity-contracts.cjs",
+      "patterns": [
+        "^js/sharedCanonicalScoring\\.js$",
+        "^js/sparkTerminalClose\\.js$",
+        "^js/sharedHistoryConvergence\\.js$",
+        "^js/scoring\\.js$",
+        "^js/analytics\\.js$",
+        "^js/legacy\\.js$",
+        "^visual\\-assets/v10_1/season\\-results/season\\-results\\.js$",
+        "^tests/support/career\\-fixture\\-helpers\\.cjs$",
+        "^tests/contracts/europa\\-league\\-scoring\\-parity\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

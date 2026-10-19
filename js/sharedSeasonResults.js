@@ -11,11 +11,14 @@
   const OPERATION=/^season_result_op_[0-9a-f]{32}$/;
   const HASH=/^sha256:[0-9a-f]{64}$/;
   const RESULT_KEYS=Object.freeze(["leaguePosition","leaguePoints","leagueGoals","domesticCup","championsLeague","topScorer","topAssist"]);
+  // r80 Europa League: optional 8th key, present only as exactly true for a manager who won it, never with championsLeague true
+  // (checked per manager only). A result without it keeps the r79 7-key shape, and the key is copied only when present, so old hashes never change.
   const STATE_KEYS=Object.freeze(["schemaVersion","runtimeRevision","seasonNumber","phase","revision","publishedRoles","results","receipts","contentHash"]);
 
   function ssrFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function ssrPlain(value){return !!value&&typeof value==="object"&&!Array.isArray(value)&&Object.getPrototypeOf(value)===Object.prototype;}
   function ssrExact(value,keys,code="SEASON_RESULTS_VALUE_INVALID"){if(!ssrPlain(value)||Object.keys(value).length!==keys.length||keys.some(key=>!Object.hasOwn(value,key)))ssrFail(code);return value;}
+  function ssrEuropaLeague(value,code){if(!ssrPlain(value))ssrFail(code);const won=Object.hasOwn(value,"europaLeague");ssrExact(value,won?[...RESULT_KEYS,"europaLeague"]:RESULT_KEYS,code);if(won&&(value.europaLeague!==true||value.championsLeague!==false))ssrFail(code);return won;}
   function ssrClone(value){return JSON.parse(JSON.stringify(value));}
   function ssrFreeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(ssrFreeze);Object.freeze(value);}return value;}
   function ssrCanonical(value){if(Array.isArray(value))return `[${value.map(ssrCanonical).join(",")}]`;if(ssrPlain(value))return `{${Object.keys(value).sort().map(key=>`${JSON.stringify(key)}:${ssrCanonical(value[key])}`).join(",")}}`;return JSON.stringify(value);}
@@ -30,13 +33,13 @@
   // An absent stat (null, "", blank, boolean, array) must not become a real 0.
   function ssrNumber(value){return typeof value==="number"||(typeof value==="string"&&value.trim()!=="")?Number(value):Number.NaN;}
   function ssrNormalizeResult(value,teamCount){
-    ssrExact(value,RESULT_KEYS,"SEASON_RESULTS_PAYLOAD_INVALID");
+    const europaLeague=ssrEuropaLeague(value,"SEASON_RESULTS_PAYLOAD_INVALID");
     const position=ssrNumber(value.leaguePosition),points=ssrNumber(value.leaguePoints),goals=ssrNumber(value.leagueGoals),maxPoints=(teamCount-1)*2*3;
     if(!Number.isInteger(position)||position<1||position>teamCount)ssrFail("SEASON_RESULTS_POSITION_INVALID");
     if(!Number.isInteger(points)||points<0||points>maxPoints)ssrFail("SEASON_RESULTS_POINTS_INVALID");
     if(!Number.isInteger(goals)||goals<0||goals>300)ssrFail("SEASON_RESULTS_GOALS_INVALID");
     for(const key of ["domesticCup","championsLeague","topScorer","topAssist"]){if(typeof value[key]!=="boolean")ssrFail("SEASON_RESULTS_PAYLOAD_INVALID");}
-    return {leaguePosition:position,leaguePoints:points,leagueGoals:goals,domesticCup:value.domesticCup,championsLeague:value.championsLeague,topScorer:value.topScorer,topAssist:value.topAssist};
+    return {leaguePosition:position,leaguePoints:points,leagueGoals:goals,domesticCup:value.domesticCup,championsLeague:value.championsLeague,topScorer:value.topScorer,topAssist:value.topAssist,...(europaLeague?{europaLeague:true}:{})};
   }
   function ssrReceipt(value){ssrExact(value,["operationId","baseRevision","actorRole","type","commandHash"],"SEASON_RESULTS_STATE_INVALID");if(!OPERATION.test(value.operationId)||!Number.isInteger(value.baseRevision)||value.baseRevision<0||!ROLES.includes(value.actorRole)||value.type!=="publish-result"||!HASH.test(value.commandHash))ssrFail("SEASON_RESULTS_STATE_INVALID");return value;}
   async function ssrVerifyState(value,teamCount,cryptoImpl){

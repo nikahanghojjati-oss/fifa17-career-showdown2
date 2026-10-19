@@ -31,7 +31,23 @@ check("2. Trophy is not points",()=>{
   assert.equal(m.managers.daniel.championsLeagues,1);
   assert.equal(m.managers.daniel.totalTrophies,1);
   assert.equal(m.managers.daniel.careerPoints,5);
-  assert.deepEqual(m.trophyRoom.cabinet.daniel,{championsLeagues:1,leagueTitles:0,domesticCups:0,totalTrophies:1});
+  assert.deepEqual(m.trophyRoom.cabinet.daniel,{championsLeagues:1,europaLeagues:0,leagueTitles:0,domesticCups:0,totalTrophies:1});
+});
+check("2b. r80 Europa League: +3, a trophy, never a perfect season; both managers may win it in one season",()=>{
+  const el=o=>result({europaLeague:true,...o});
+  const p=projection({totalSeasons:3,seasons:[[el({leaguePosition:1,leaguePoints:100,domesticCup:true,topScorer:true}),el()],[result({championsLeague:true}),el()],[result(),result()]]}),m=model([entry(p)]);
+  assert.equal(m.history.showdowns[0].seasons[0].score.daniel,9,"an Europa League season scores at most 9");
+  assert.equal(m.history.showdowns[0].seasons[0].score.nik,3);
+  assert.equal(m.managers.daniel.europaLeagues,1);assert.equal(m.managers.nik.europaLeagues,2);
+  assert.equal(m.managers.daniel.championsLeagues,1);assert.equal(m.managers.nik.championsLeagues,0);
+  assert.equal(m.managers.daniel.totalTrophies,1+1+1+1,"EL + CL + league title + cup");
+  assert.equal(m.managers.nik.totalTrophies,2);
+  assert.equal(m.managers.daniel.perfectSeasons,0,"a perfect (11-point) season stays Champions League only");
+  assert.deepEqual(m.trophyRoom.cabinet.nik,{championsLeagues:0,europaLeagues:2,leagueTitles:0,domesticCups:0,totalTrophies:2});
+  assert.equal(m.managers.daniel.careerPoints,9+5);assert.equal(m.managers.nik.careerPoints,3+3);
+  // An old (7-key) history counts no Europa League and keeps its totals.
+  const old=model([entry(projection({totalSeasons:1,seasons:[[result({championsLeague:true}),result()]]}))]);
+  assert.equal(old.managers.daniel.europaLeagues,0);assert.equal(old.managers.daniel.totalTrophies,1);
 });
 check("3. Season tiebreaks",()=>{
   const seasons=[[result({domesticCup:true}),result()],[result({leaguePosition:2}),result({leaguePosition:3})],[result({leaguePoints:61}),result()],[result(),result()]];
@@ -213,11 +229,11 @@ check("17. Agreement with sharedHistoryConvergence",()=>{
   const p=projection({seasons:[[perfect,result({leaguePosition:2,leaguePoints:100,leagueGoals:100,topAssist:true})],[result(),result({leaguePosition:3,championsLeague:true})],[result({leaguePoints:70,domesticCup:true}),result({leaguePoints:70,domesticCup:true})]]});
   History.verifyProjection(p);
   const m=model([entry(p)]);
-  const sharedFields=["seasons","seasonWins","seasonDraws","seasonLosses","championsLeagues","leagueTitles","domesticCups","totalTrophies","hundredPointSeasons","hundredGoalSeasons","topScorerSeasons","topAssistSeasons","perfectSeasons","bestSeasonScore","bestLeaguePoints","bestLeagueGoals","bestLeaguePosition"];
+  const sharedFields=["seasons","seasonWins","seasonDraws","seasonLosses","championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies","hundredPointSeasons","hundredGoalSeasons","topScorerSeasons","topAssistSeasons","perfectSeasons","bestSeasonScore","bestLeaguePoints","bestLeagueGoals","bestLeaguePosition"];
   for(const [role,manager] of [["playerOne","daniel"],["playerTwo","nik"]]){
     for(const field of sharedFields)assert.equal(m.managers[manager][field],p.managerRecords[role][field],`${manager}.${field} agrees with verified history`);
     assert.equal(m.managers[manager].careerPoints,p.managerRecords[role].totalPoints,`${manager}.careerPoints equals totalPoints`);
   }
 });
 
-console.log(`PASS Shared Career Analytics contracts (${cases}/17 cases): capped scoring, verified deduplication, lifecycle exclusion, final integrity, weighted averages, role mapping, records, status, pure frozen outputs and history agreement.`);
+console.log(`PASS Shared Career Analytics contracts (${cases}/18 cases): capped scoring, verified deduplication, lifecycle exclusion, final integrity, weighted averages, role mapping, records, status, pure frozen outputs and history agreement.`);

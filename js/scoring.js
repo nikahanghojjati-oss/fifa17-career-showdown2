@@ -26,10 +26,14 @@ function calculatePlayerSeasonScore(result){
         }
     };
 
+    // r80: Europa League win +3, never with CL
+    if(result.europaLeague === true && !result.championsLeague){ breakdown.europaLeague = 3; }
+
     breakdown.awardsBonus = breakdown.individualAwardsBonus;
 
     breakdown.total =
         breakdown.championsLeague +
+        (breakdown.europaLeague || 0) +
         breakdown.leagueTitle +
         breakdown.domesticCup +
         breakdown.performanceBonus +
