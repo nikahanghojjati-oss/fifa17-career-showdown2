@@ -218,9 +218,8 @@
       await load("career-start-marker","js/careerStartMarker.js","CareerModeCareerStartMarker");
       const marker=root.CareerModeCareerStartMarker;
       if(typeof marker?.readMarker!=="function")return [];
-      const firebaseSdk={...services.firestoreSdk,getDoc},current=await marker.readMarker({firestore:services.firestore,firebaseSdk,accountId:user.uid});
-      // r80: a Showdown finished on r79 or later that the r79 checkmark hid by mistake shows again (js/careerStartMarker.js).
-      return typeof marker.careerHiddenRivalryIds==="function"?await marker.careerHiddenRivalryIds({marker:current,firestore:services.firestore,firebaseSdk,accountId:user.uid}):marker.hiddenRivalryIds(current);
+      // r80: Nik chose Keep hidden (2026-10-19): an r79 test game stays hidden, even the leaked first real game.
+      return marker.hiddenRivalryIds(await marker.readMarker({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc},accountId:user.uid}));
     }catch(_){return [];}
   }
   // Rivalry Statistics shows a just-finished Showdown from live state. A hidden one must not show.
