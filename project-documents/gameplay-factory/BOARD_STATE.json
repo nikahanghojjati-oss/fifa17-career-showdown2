@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-19 5:35 PM Boston time (EDT)",
+ "generated": "2026-10-19 5:39 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1224,7 +1224,7 @@
      "draft": false,
      "branch": "gameplay/r80-reveal-hotfix",
      "sha": "17e0bc5abf67ab5e71a55622e4fa5afb7ae90be3",
-     "updated": "2026-10-19T21:35:01Z",
+     "updated": "2026-10-19T21:35:12Z",
      "gates": {
       "passed": 8,
       "running": 0,
@@ -1249,7 +1249,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #955: L1✓ L2… L3A… L3B✓ L4… L5… L6… · seal pending · POS20 #955 0/16",
+   "gate": "Gate #955: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #955 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -3018,7 +3018,7 @@
     "draft": false,
     "branch": "gameplay/r80-reveal-hotfix",
     "sha": "17e0bc5abf67ab5e71a55622e4fa5afb7ae90be3",
-    "updated": "2026-10-19T21:35:01Z",
+    "updated": "2026-10-19T21:35:12Z",
     "gates": {
      "passed": 8,
      "running": 0,
