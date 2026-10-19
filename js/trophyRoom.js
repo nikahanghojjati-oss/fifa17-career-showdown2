@@ -88,6 +88,7 @@ function createManagerCabinet(manager, rank){
     shelf.className = "trophyShelf";
     shelf.append(
         createTrophyCount("Champions League", manager.championsLeagues, "UCL"),
+        createTrophyCount("Europa League", manager.europaLeagues || 0, "UEL"),
         createTrophyCount("League Titles", manager.leagueTitles, "LGE"),
         createTrophyCount("Domestic Cups", manager.domesticCups, "CUP")
     );

@@ -1281,3 +1281,11 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
  #app #connectPlayersScreen:has(#cmsConnectTestRunNote:not([hidden])) .connectPlayersWorkspace{gap:8px;}
  #app #connectPlayersScreen:has(#cmsConnectTestRunNote:not([hidden])) .connectPlayersRole{padding:10px 16px 10px;}
 }
+/* r80 (Team V HO-033): the CONNECT PLAYERS title is the TITLE_CONNECT_PLAYERS_V1 picture. Every rule above still sizes the
+   title by its font size, so the picture is sized in em and keeps each layout's place; the words stay as hidden text. */
+#app #connectPlayersScreen h2#connectPlayersTitle{background:none;-webkit-background-clip:border-box;background-clip:border-box;-webkit-text-stroke:0;-webkit-text-fill-color:currentColor;color:#ffd34d;line-height:1;white-space:nowrap;}
+#app #connectPlayersScreen h2#connectPlayersTitle .connectPlayersWordmark{display:block;width:6.8em;max-width:100%;height:auto;margin:0 auto;}
+#app #connectPlayersScreen h2#connectPlayersTitle .connectPlayersTitleText{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;}
+@media (max-width:900px){
+ #app #connectPlayersScreen h2#connectPlayersTitle .connectPlayersWordmark{width:9em;}
+}

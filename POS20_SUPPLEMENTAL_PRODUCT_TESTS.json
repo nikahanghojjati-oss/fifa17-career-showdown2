@@ -1965,6 +1965,26 @@
         "^tests/contracts/r80\\-real\\-vs\\-test\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r80-europa-career-pages-contracts.cjs",
+      "patterns": [
+        "^js/sharedCareerAnalytics\\.js$",
+        "^js/careerScreenSeam\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^js/connectPlayersScreenV10\\.js$",
+        "^css/connectPlayersV10\\.css$",
+        "^css/rivalryLegacyV10\\.css$",
+        "^js/statistics\\.js$",
+        "^js/trophyRoom\\.js$",
+        "^js/legacy\\.js$",
+        "^visual\\-assets/v10_1/(trophy\\-room|rivalry\\-statistics|career\\-statistics|legacy)/",
+        "^visual\\-assets/v10_1/shared/(trophies/TRO_EUROPA_V1|wordmarks/TITLE_CONNECT_PLAYERS_V1)",
+        "^tests/support/career\\-fixture\\-helpers\\.cjs$",
+        "^tests/contracts/v10\\-foundation\\-contracts\\.cjs$",
+        "^tests/contracts/r80\\-europa\\-career\\-pages\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
