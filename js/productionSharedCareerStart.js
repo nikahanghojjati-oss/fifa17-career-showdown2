@@ -170,8 +170,14 @@
     return run;
   }
   function pcstEnsurePanel(){let overlay=root.document.getElementById(PANEL_ID);if(!overlay){overlay=pcstCreate("div","remoteJoiningOverlay");overlay.id=PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","Shared Career Start");const shell=pcstCreate("div","remoteJoiningShell"),header=pcstCreate("div","remoteJoiningHeader");header.append(pcstCreate("strong","","CAREER MODE SHOWDOWN // 17"));const close=pcstCreate("button","remoteJoiningDismiss","×");close.type="button";close.setAttribute("aria-label","Close Career Start");close.addEventListener("click",pcstClosePanel);header.append(close);const body=pcstCreate("div","remoteJoiningBody");shell.append(header,body);overlay.append(shell);root.document.body.append(overlay);}return overlay;}
+  // r80 resume (G7): a Career Start this page already holds as READY for the current Setup (both managers started) is not
+  // shown again: it goes straight on to the Transfer Challenge, as its automatic continue does, with no read and no frame of
+  // this panel. The automatic continue fires once per page, so re-entering the game from Home used to stop here.
+  function pcstReadyHere(){return Boolean(pcstReady()&&readyKey&&pcstConfirmed()&&readyKey===pcstSetupKey(pcstSetupState()));}
   async function pcstOpenPanelNow(request){
-    pcstDeactivateSetupPresentation();await request.wait(pcstEnsureDependencies());const overlay=pcstEnsurePanel();overlay.classList.remove("hidden");pcstRender();await request.wait(pcstRefresh(false,request));return true;
+    pcstDeactivateSetupPresentation();await request.wait(pcstEnsureDependencies());
+    if(!pcstPanelOpen()&&pcstReadyHere()&&await request.wait(pcstOpenTransferChallenge()))return true;
+    const overlay=pcstEnsurePanel();overlay.classList.remove("hidden");pcstRender();await request.wait(pcstRefresh(false,request));return true;
   }
   function pcstClosePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay)overlay.classList.add("hidden");return true;}
   function pcstPresentationOwnsControl(){const presentation=root.CareerModeProductionSharedShowdownPresentation;return Boolean(presentation&&typeof presentation.isPresentationActive==="function"&&presentation.isPresentationActive());}

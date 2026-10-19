@@ -69,6 +69,9 @@
 }
 #app #topHeader #onlinePlayerIdentityBadge { color: var(--gold) !important; cursor: pointer; }
 #app #topHeader #seasonIndicator::before, #app #topHeader #seasonIndicator::after { content: none; }
+/* r80 resume (Home item 6): on Home the season chip shows only while it describes a current Showdown (a live one, or Daniel's
+   open real code); js/onlinePlayerIdentity.js marks it. A leftover test code, a closed Showdown or no Showdown shows no chip. */
+#app:has(#mainMenu.v10Home:not(.hidden)) #topHeader #seasonIndicator:not([data-home-showdown="current"]) { display: none !important; }
 #app > footer { min-height: 0; }
 /* The player connection panel (js/persistentNikDanielPair.js) is put inside the Home shell, under Team V's full-screen
    plate; on this stage it is a card above the plate. !important beats the panel's own inline box styles. */
