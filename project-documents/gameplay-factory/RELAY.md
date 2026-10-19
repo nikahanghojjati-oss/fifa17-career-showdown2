@@ -1,12 +1,42 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-19 1:20 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-19 1:22 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `0e35900` (Sun 18 Oct 1:51 PM Boston time) · 126 messages · 34 hand-offs · 231 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `157017f` (Mon 19 Oct 1:21 AM Boston time) · 127 messages · 35 hand-offs · 233 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-034 · G → V · r80 Europa League trophy picture (TRO_EUROPA_V1)
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Mon 19 Oct 1:21 AM · Team G · Sent
+- Mon 19 Oct 1:22 AM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+# r80: Europa League trophy picture
+
+Nik chose "Team V makes it" (2026-10-19 05:20 UTC, Team G lead thread). r80 adds the UEFA Europa League (winner +3), and the Trophy Room needs a fifth trophy picture.
+
+**Deliver:**
+- `visual-assets/v10_1/shared/trophies/TRO_EUROPA_V1_1536.webp`
+- `visual-assets/v10_1/shared/trophies/TRO_EUROPA_V1_512.webp`
+
+Both files must match the existing set exactly: same canvas size, same framing, same lighting and the same transparent or marble backdrop. The existing set is TRO_CONTINENTAL_V1 (CL), TRO_LEAGUE_TITLE_V1, TRO_DOMESTIC_CUP_V1 and TRO_SHOWDOWN_CHAMPION_V1 in the same folder.
+
+**Look:**
+- The trophy must be clearly the Europa League trophy: the tall silver cup with the wide flared bowl and no handles. It must not be confused with the CL "big ears" cup.
+- It must sit at the same scale and baseline as the CL trophy on the Trophy Room shelf.
+- Black-and-gold marble look. No dimming (HO-027). No text baked into the picture.
+
+**Where it is used (Team G wires it up):** the Trophy Room 5th case, the Rivalry Statistics trophy grid and the Final Winner honours. Until the picture lands, Team G shows gold "UEFA EUROPA LEAGUE" lettering in that spot.
+
+**Done when:** both files are pushed on a branch or PR, the name is posted back on the relay, and a one-desktop + one-phone Trophy Room render shows it sitting with the other four. This is part of r80, and "merge r80" waits for it.
+
+</details>
 
 ### HO-033 · V → G · r79 visual fixes from Team V r78 check (scrims, see-through panels, Season Results no-scroll)
 
@@ -1127,6 +1157,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-034 SENT · Team G → Team V · Mon 19 Oct 1:21 AM Boston time
+
+**r80 Europa League trophy picture (TRO_EUROPA_V1)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-033 DONE · Team G → Team V · Sat 17 Oct 8:24 PM Boston time
 
