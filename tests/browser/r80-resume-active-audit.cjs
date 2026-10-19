@@ -8,13 +8,14 @@
 // production Firebase host fails the run). Taps and typing only; page globals are only read.
 //   T1  test mode (no marker yet): Daniel's Settings START TEST RUN leaves an unjoined test code; on Home (same page and after a
 //       reload) the START tile never shows WAITING FOR NIK, not even for one frame, and the header chip never shows
-//       "Season 1 / 1" for that leftover (item 5, item 6).
+//       "Season 1 / 1" for that leftover, and the CONTINUE CAREER tile's line never describes it (items 5, 6, 2).
 //   R1  Daniel's first real Home START (checkmark) makes the CMS17R- code; Home shows WAITING FOR NIK and the chip describes
 //       that real Showdown (Season 1 / 3); Nik pastes the code; both reach the league wheel ACTIVE.
 //   G7w both go Home from the league wheel and tap START: back on the league wheel.
 //   G7a both reach the Transfer Challenge (season 1, Career Start done). Each reloads first (the reference landing), then goes
 //       Home and taps START (Daniel) / START and CONTINUE CAREER (Nik): each lands where the reload landed, in the same
-//       session, and no frame between the tap and the landing shows GET READY, Career Start or Remote Joining.
+//       session, and no frame between the tap and the landing shows GET READY, Career Start or Remote Joining; on every Home
+//       frame of a resume (CONTINUE CAREER too) the START tile keeps the live wording, never START A SHOWDOWN or JOIN.
 //   G7b the transfer window is open on the server: Daniel reloads (reference), then goes Home and taps START: the same landing.
 //   G7c both on Season Results: each reloads (reference), then goes Home and taps START: the same landing.
 // Run (two browser contexts):
@@ -70,7 +71,8 @@ function frameRecorder({probeKey,never}){
       const chip=document.getElementById("seasonIndicator");
       window.__r80Frames.push({t:Math.round(performance.now()),loading:shown(document.getElementById("loadingScreen")),home:shown(document.getElementById("mainMenu")),
         screens:[...document.querySelectorAll(".screen")].filter(shown).map(s=>s.id).join(","),layers:never.filter(id=>shown(document.getElementById(id))),
-        tile:(document.querySelector("#newShowdown .menuTileLabel")?.textContent||"").trim(),chip:shown(chip)?(chip.textContent||"").trim():null});
+        tile:(document.querySelector("#newShowdown .menuTileLabel")?.textContent||"").trim(),chip:shown(chip)?(chip.textContent||"").trim():null,
+        cont:(meta=>shown(meta)?(meta.textContent||"").trim():null)(document.querySelector("#continueCareer .menuTileMeta"))});
       if(window.__r80Frames.length<20000)requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
@@ -115,6 +117,7 @@ const accountId=m=>m.page.evaluate(()=>window.CareerModeSparkConnectedAccount?.g
 const pairPanel=m=>m.page.locator("#connectPlayersScreen #persistentNikDanielPairPanel");
 const sessionOf=m=>m.page.evaluate(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionId||null);
 const tileLabel=m=>m.page.evaluate(()=>(document.querySelector("#newShowdown .menuTileLabel")?.textContent||"").trim());
+const contMetaShown=m=>m.page.evaluate(()=>{const e=document.querySelector("#continueCareer .menuTileMeta");const s=e&&getComputedStyle(e);return e&&e.getClientRects().length&&s.display!=="none"&&s.visibility!=="hidden"?(e.textContent||"").trim():null;});
 const chipShown=m=>m.page.evaluate(()=>{const c=document.getElementById("seasonIndicator");const s=c&&getComputedStyle(c);return c&&!c.hidden&&c.getClientRects().length&&s.display!=="none"&&s.visibility!=="hidden"?(c.textContent||"").trim():null;});
 
 async function signIn(m,label){
@@ -242,10 +245,13 @@ async function homeTapResumes(m,tile,{expect,session,screens,label}){
   const reads=readsOf()-before;
   const landed=await landing(m);
   const seen=[...new Set(frames.map(f=>`${f.screens}|${f.layers.join("+")}`))];
-  console.log(`PROBE ${label} ${m.user} tile="${homeTile}" tap=${tile} landed=${landed} expect=${expect} reads=${reads} frames=${frames.length} seen=${JSON.stringify(seen)}`);
+  console.log(`PROBE ${label} ${m.user} tile="${homeTile}" tiles=${JSON.stringify([...new Set(frames.filter(f=>f.home).map(f=>f.tile))])} tap=${tile} landed=${landed} expect=${expect} reads=${reads} frames=${frames.length} seen=${JSON.stringify(seen)}`);
   if(!settled||landed!==expect){await shot(m,`${label}-stuck`);throw new Error(`${label} ${m.user}: Home ${tile} landed on "${landed}", the reload landed on "${expect}": ${await describe(m)}`);}
   const forbidden=frames.filter(f=>f.layers.length);
   assert.equal(forbidden.length,0,`${label} ${m.user}: ${forbidden.length} frame(s) showed ${JSON.stringify(forbidden[0]?.layers)} on the way back (first at ${forbidden[0]?.t})`);
+  // r80 resume (item 3): while the resume runs Home's START tile keeps the live Showdown's wording (or its CHECKING…), never START or JOIN.
+  const wrongTile=frames.filter(f=>f.home&&/^(START A SHOWDOWN|JOIN DANIEL'S SHOWDOWN)$/i.test(f.tile));
+  assert.equal(wrongTile.length,0,`${label} ${m.user}: ${wrongTile.length} Home frame(s) read "${wrongTile[0]?.tile}" on the START tile during the ${tile} resume`);
   const target=expect.split(":")[0];
   const stray=frames.filter(f=>f.screens&&f.screens!=="mainMenu"&&f.screens!==target);
   assert.equal(stray.length,0,`${label} ${m.user}: ${stray.length} frame(s) showed another screen (${JSON.stringify(stray[0])})`);
@@ -301,6 +307,7 @@ async function main(){
     await daniel.page.waitForTimeout(1500);
     assert.doesNotMatch(await tileLabel(daniel),/WAITING FOR NIK/i,"T1 same page: the tile never says WAITING FOR NIK for the leftover test code");
     assert.equal(await chipShown(daniel),null,"T1 same page: no Season chip for the leftover test code");
+    assert.equal(await contMetaShown(daniel),null,"T1 same page: the CONTINUE CAREER tile does not describe the leftover test code");
     await galleryShot(daniel,"home-leftover-test");
     for(let i=0;i<3;i++){
       const frames=await reloadHomeFrames(daniel);
@@ -308,11 +315,13 @@ async function main(){
       assert.ok(shownHome.length>0,"T1 reload: Home frames were recorded");
       const waiting=shownHome.filter(f=>/WAITING FOR NIK/i.test(f.tile));
       const chips=shownHome.filter(f=>f.chip!==null);
-      console.log(`PROBE T1-reload-${i} tiles=${JSON.stringify([...new Set(shownHome.map(f=>f.tile))])} chips=${JSON.stringify([...new Set(shownHome.map(f=>f.chip))])}`);
+      const described=shownHome.filter(f=>f.cont!==null&&/Daniel vs Nik|Season \d+ of/i.test(f.cont));
+      console.log(`PROBE T1-reload-${i} tiles=${JSON.stringify([...new Set(shownHome.map(f=>f.tile))])} chips=${JSON.stringify([...new Set(shownHome.map(f=>f.chip))])} cont=${JSON.stringify([...new Set(shownHome.map(f=>f.cont))])}`);
       assert.equal(waiting.length,0,`T1 reload ${i}: ${waiting.length} Home frame(s) showed WAITING FOR NIK before the mode resolved (first at ${waiting[0]?.t})`);
+      assert.equal(described.length,0,`T1 reload ${i}: ${described.length} Home frame(s) described the leftover on CONTINUE CAREER ("${described[0]?.cont}")`);
       assert.equal(chips.length,0,`T1 reload ${i}: ${chips.length} Home frame(s) showed the chip "${chips[0]?.chip}" for the leftover test code`);
     }
-    ok("T1","test mode: a leftover Settings code never shows WAITING FOR NIK or a Season chip on Home (same page and three reloads, every frame)");
+    ok("T1","test mode: a leftover Settings code never shows WAITING FOR NIK, a Season chip or a CONTINUE CAREER line describing it on Home (same page and three reloads, every frame)");
 
     // ---------- R1 the first real Showdown (3 seasons) ----------
     await daniel.page.locator("#newShowdown").click({timeout:30000});
@@ -361,12 +370,12 @@ async function main(){
       console.log(`PROBE G7a-reload ${m.user} landed=${reference}`);
       assert.equal(await m.page.locator("#productionSharedCareerStartOverlay").isVisible().catch(()=>false),false,`${m.user}: the reload does not stop on Career Start`);
       assert.equal(await m.page.locator("#productionSharedJourneyEntryOverlay").isVisible().catch(()=>false),false,`${m.user}: no GET READY after the reload`);
-      const taps=m.user==="nik"?["newShowdown","continueCareer"]:["newShowdown","newShowdown"];
+      const taps=m.user==="nik"?["newShowdown","continueCareer"]:["newShowdown","newShowdown","continueCareer"];
       for(const tile of taps)await homeTapResumes(m,tile,{expect:reference,session,screens:transferScreens,label:"G7a"});
     }
     await shot(daniel,"g7a-landed");
     await galleryShot(daniel,"transfer-after-home-start");
-    ok("G7a","both: Home START (twice on one page) and CONTINUE CAREER land where a reload lands (Transfer Challenge), same session, no GET READY / Career Start / Remote Joining frame");
+    ok("G7a","both: Home START (twice on one page) and CONTINUE CAREER land where a reload lands (Transfer Challenge), same session, no GET READY / Career Start / Remote Joining frame, and the START tile never reads START or JOIN on the way");
 
     // ---------- G7b the live transfer window ----------
     await settleOn(daniel,"#transferChallenge");

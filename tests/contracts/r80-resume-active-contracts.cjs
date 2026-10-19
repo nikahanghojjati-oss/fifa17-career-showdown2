@@ -14,6 +14,8 @@
 //   RA6 Home item 5: Daniel's open code shows WAITING FOR NIK only once the mode is known real (loading until this page has
 //       asked the mode; a test code shows START), and the tile follows the mode when it is learnt later.
 //   RA7 Home item 6: the season chip on Home shows only for a current Showdown (live, or Daniel's open real code).
+//   RA8 Home item 3: while a continue runs the START tile keeps the live wording (never START A SHOWDOWN or JOIN).
+//   RA9 Home item 2: the CONTINUE CAREER line never describes a saved Showdown that is not current (a leftover test code).
 // Run: node tests/contracts/r80-resume-active-contracts.cjs
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
@@ -183,6 +185,18 @@ async function main(){
     const css=read("css/homeV10.css");
     assert.ok(css.includes('#app:has(#mainMenu.v10Home:not(.hidden)) #topHeader #seasonIndicator:not([data-home-showdown="current"]) { display: none !important; }'),"hidden on Home unless marked (also before the pair is read: no frame of a stale chip)");
     assert.ok(!/data-home-showdown/.test(read("css/app.css"))&&!/homeShowdown/.test(read("js/menuExperience.js")),"nothing added to the startup bundle");
+  });
+  await check("RA8 Home item 3: a continue in flight keeps the live tile (never START or JOIN), and LOAD SHOWDOWN while retrying a rebuild",async()=>{
+    const src=read("js/onlinePlayerIdentity.js");
+    const tile=src.slice(src.indexOf("function liveHomeTile("),src.indexOf("\n",src.indexOf("function liveHomeTile(")));
+    assert.match(tile,/if\(p\.connectionState==="active"&&\(p\.status==="paired"\|\|p\.status==="continuing"\)\)\{lastLiveTile=\{rivalryId:p\.rivalryId,status:"paired"\};return\["LIVE","CONTINUE SHOWDOWN"/,"continuing reads CONTINUE SHOWDOWN (was: START A SHOWDOWN / JOIN until the continue ended)");
+    const keep=tile.indexOf('p.status==="continuing"&&lastLiveTile&&lastLiveTile.rivalryId===p.rivalryId&&lastLiveTile.status==="recovery-required")return["LIVE","LOAD SHOWDOWN"');
+    assert.ok(keep>0&&keep<tile.indexOf('return["LIVE","CONTINUE SHOWDOWN"'),"a retry of a Showdown this page could not load keeps LOAD SHOWDOWN (no CONTINUE flash)");
+  });
+  await check("RA9 Home item 2: the CONTINUE CAREER line describes a saved Showdown only while it is current",async()=>{
+    const css=read("css/homeV10.css");
+    assert.ok(css.includes('#app:has(#mainMenu.v10Home:not(.hidden)):has(#seasonIndicator:not([data-home-showdown="current"])) #mainMenu.v10Home #continueCareer:not(:disabled) .menuTileMeta { visibility: hidden !important; }'),"the line is hidden (in place) on Home unless the chip's marking says current");
+    assert.ok(!/data-home-showdown/.test(read("js/menuExperience.js")+read("css/app.css")),"no startup-bundle change");
   });
   console.log(`PASS r80 resume-active contracts: ${passed} checks`);
 }
