@@ -8,7 +8,7 @@
   const POLL_MS=15000;
   const ACTION_ID="sharedMultiSeasonContinueAction";
   const STATUS_ID="sharedMultiSeasonProgressionStatus";
-  let installed=false,busy=false,provider=null,setupApi=null,historyApi=null,view=null,contextKey="",refreshPromise=null,exposedRivalryId="",exposedSeason=0,dashboardObserver=null,wakePending=false,announcedKey="";
+  let installed=false,busy=false,provider=null,setupApi=null,historyApi=null,view=null,contextKey="",refreshPromise=null,exposedKey="",exposedSeason=0,dashboardObserver=null,wakePending=false,announcedKey="";
   let lastErrorCode="",lastErrorKey="",heldErrorKey="";
 
   function pmspFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
@@ -35,22 +35,28 @@
   function pmspSetupState(){try{return (setupApi||root.CareerModeProductionSharedShowdownSetup)?.getState?.()||null;}catch(_error){return null;}}
   function pmspConfirmedSetupRivalry(s){return s&&s.ready===true&&s.setup&&s.setup.phase==="SHOWDOWN_CONFIRMED"&&s.setup.revision===6&&s.rivalryId?String(s.rivalryId):"";}
   function pmspRivalryId(){const showdown=pmspShowdown(),setup=pmspSetupState();return String(showdown?.sharedJourney?.rivalryId||pmspConfirmedSetupRivalry(setup)||"").trim();}
+  function pmspContextKey(rivalryId){const showdown=pmspShowdown(),saveId=String(showdown?.id||showdown?.saveId||"").trim();return `${saveId||"shared"}|${rivalryId}|multi-season`;}
+  // r80: the season cursor and the provider view belong to one save shell AND one rivalry. Keyed by the rivalry alone, a new
+  // Showdown's shell (its marker has no rivalry id yet) read the rivalry of the Setup still held in memory: on the phone that
+  // tapped END SHOWDOWN that is the ended Showdown's confirmed Setup (nothing refreshes it), so the new Showdown got the ended
+  // one's cursor and view and read "Season 2 / 3" before its first season. A new shell now always starts at season 1.
   function pmspEnsureCursor(){
     if(!pmspSharedMarker())return null;
     const rivalryId=pmspRivalryId();if(!rivalryId)return null;
-    if(exposedRivalryId!==rivalryId){exposedRivalryId=rivalryId;exposedSeason=1;view=null;contextKey="";}
+    const key=pmspContextKey(rivalryId);
+    if(exposedKey!==key){exposedKey=key;exposedSeason=1;view=null;contextKey="";}
     if(!Number.isInteger(exposedSeason)||exposedSeason<1)exposedSeason=1;
     return exposedSeason;
   }
   function pmspFallbackSeason(value){const n=Number(value);return Number.isInteger(n)&&n>=1&&n<=10?n:null;}
   function pmspResolveSeason(fallback=null){
     const local=pmspFallbackSeason(fallback??pmspShowdown()?.currentRound);if(!pmspSharedMarker())return local;
-    const rivalryId=pmspRivalryId(),authoritative=Boolean(view&&view.ok===true&&view.authoritative===true&&view.state&&String(view.rivalryId||"")===rivalryId);
+    const rivalryId=pmspRivalryId();pmspEnsureCursor();const authoritative=Boolean(view&&view.ok===true&&view.authoritative===true&&view.state&&String(view.rivalryId||"")===rivalryId);
     return authoritative?(pmspEnsureCursor()||local):local;
   }
   function pmspRequest(){
-    const showdown=pmspShowdown(),rivalryId=pmspRivalryId(),saveId=String(showdown?.id||showdown?.saveId||"").trim();
-    if(!pmspSharedMarker()||!rivalryId)return null;pmspEnsureCursor();return Object.freeze({rivalryId,key:`${saveId||"shared"}|${rivalryId}|multi-season`});
+    const rivalryId=pmspRivalryId();
+    if(!pmspSharedMarker()||!rivalryId)return null;pmspEnsureCursor();return Object.freeze({rivalryId,key:pmspContextKey(rivalryId)});
   }
   function pmspContextMatches(request){const current=pmspRequest();return Boolean(request&&current&&request.key===current.key);}
   async function pmspProviderOptions(request){
@@ -73,7 +79,7 @@
     return dashboard;
   }
   function pmspDecorateDashboard(){
-    if(!pmspSharedMarker()||!view?.authoritative||!view?.state)return false;
+    if(!pmspSharedMarker()||!pmspEnsureCursor()||!view?.authoritative||!view?.state)return false;
     const setup=pmspSetupState()?.setup,dashboard=pmspDashboardProjection(),state=view.state,screen=pmspField("dashboard");if(!setup||setup.phase!=="SHOWDOWN_CONFIRMED"||!dashboard||!screen)return false;
     const total=Number(state.totalSeasons),accepted=Number(state.acceptedSeasons),cursor=pmspEnsureCursor(),n1=pmspManagerName("playerOne"),n2=pmspManagerName("playerTwo"),p1=dashboard.managerTotals.playerOne,p2=dashboard.managerTotals.playerTwo;
     screen.dataset.sharedDashboardAuthority="true";

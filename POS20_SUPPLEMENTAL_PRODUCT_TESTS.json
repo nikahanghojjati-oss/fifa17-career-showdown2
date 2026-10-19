@@ -1838,6 +1838,16 @@
         "^tests/contracts/r80\\-ce2pg\\-career\\-pages\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r80-season-stale-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^js/showdownUI\\.js$",
+        "^js/menuExperience\\.js$",
+        "^tests/contracts/r80\\-season\\-stale\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
