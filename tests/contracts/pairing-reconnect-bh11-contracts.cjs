@@ -319,7 +319,7 @@ async function r2ExplicitConfirm(){
   const entry=read("js/productionSharedJourneyEntry.js"),start=entry.slice(entry.indexOf("async function startShared"),entry.indexOf("async function openPersistentPairControls"));
   assert.ok(start.length>0&&!/async function prepareFreshStart/.test(entry),"R2 (r79) the START close-the-live-pair preflight is gone");
   assert.doesNotMatch(entry,/abandonCurrentShowdown|askShowdownConfirm/,"R2 (r79) START A SHOWDOWN never closes or offers to close a live pair");
-  assert.match(start,/const decision=await whichShowdownIsLive\(\);\s*if\(decision\.action!=="new"\)\{await followStartDecision\(decision\);return false;\}/,"R2 (r79) over a live pair START follows it (continue / WAITING / JOIN) and creates nothing");
+  assert.match(start,/const decision=await whichShowdownIsLive\(\),realStart=await unarmedTestStart\(decision\);\s*if\(decision\.action!=="new"&&!realStart\)\{await followStartDecision\(decision\);return false;\}/,"R2 (r79) over a live pair START follows it (continue / WAITING / JOIN) and creates nothing");
   assert.doesNotMatch(entry+pairSource,/confirmed===false/,"R2 no destructive path treats a missing confirm() as consent");
   assert.match(pairSource,/"DELETE OLD SHOWDOWN & START OVER"\),recover=pairCreateElement\("button","menuButton","RESTORE BACKUP"\)/,"R2 the recovery buttons and their order are unchanged (owner decision)");
   console.log("ok R2 destructive start-over paths need confirm()===true");

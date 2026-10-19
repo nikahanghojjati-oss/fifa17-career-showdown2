@@ -177,6 +177,18 @@ async function smBeforeSeasonsStart(){
   if(v.mode!=="test"){smSetSeasonsMessage("Your career could not be checked. Check your connection, then press START again.");return false;}
   const check=smDoc()?.getElementById(CHECK_ID);
   if(!check||check.checked!==true){smSetSeasonsMessage("Home START always starts your real career. Tick START REAL CAREER, or use Settings > START TEST RUN for a game that does not count.");return false;}
+  /* r80 (Codex #936): Home START, CONTINUE CAREER and the reload send a test account with a leftover code of Daniel's here
+     instead of reopening it, and the marker refuses while a code Nik could still join is open. That code is closed first, so
+     no joinable code is left when the marker names it: only once the server says the real career has not started (one read;
+     otherwise it may be another browser's real code) and only while nobody has joined it (read inside the close). A refusal
+     writes nothing; a marker write that fails after the close leaves the code closed and the next START makes a new one. */
+  const pending=smPair()?.getState?.();
+  if(pending&&pending.connectionState==="pending-pair"&&pending.managerRole==="playerOne"&&pending.rivalryId){
+    const fresh=await smReadMarker(id.accountId,{fresh:true});
+    if(fresh.status!=="none"){smRefresh();smSetSeasonsMessage(fresh.status==="ready"?"Your real career has started on another device. Press START again.":"Your career could not be checked. Check your connection, then press START again.");return false;}
+    try{const closed=await smPair().closeUnjoinedCode({expectedRivalryId:pending.rivalryId});if(!closed||closed.ok!==true)throw new Error("Your earlier code could not be closed.");}
+    catch(error){smSetSeasonsMessage(`Your real career could not be started. ${error&&error.message?error.message:"Try again."}`);smRefresh();return false;}
+  }
   try{
     const api=await smLoad("career-start-marker","js/careerStartMarker.js",()=>root.CareerModeCareerStartMarker);
     const marker=await api.startRealCareer();
