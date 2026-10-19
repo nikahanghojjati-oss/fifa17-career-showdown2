@@ -680,7 +680,10 @@ async function releaseSettingsCurrentShowdownConnection(showdown){
     }
 
     const rivalryId = expectedRivalryId || pairState.rivalryId;
-    const seasonsPlayed = await readSettingsSeasonsPlayed(rivalryId);
+    // Codex #933: a code Nik has not joined yet (pending-pair) has no season commits, and the Rules deny reading them before
+    // ACTIVE, so its count is 0 without a read (a denied read would record "-" seasons).
+    const waiting = pairState && pairState.rivalryId === rivalryId && pairState.connectionState === "pending-pair";
+    const seasonsPlayed = waiting ? 0 : await readSettingsSeasonsPlayed(rivalryId);
     // A rivalry already closed (the other phone ended it, or a retry after this one landed) answers "already-closed": success.
     const result = await pair.abandonCurrentShowdown({
         expectedRivalryId: rivalryId,
