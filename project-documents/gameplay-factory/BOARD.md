@@ -6,9 +6,9 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 19 Oct, 12:37 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 19 Oct, 12:41 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
-🌐 **Live: 1.9.4-r80** (main `f4481e1`, Mon 19 Oct 10:21 AM)
+🌐 **Live: 1.9.4-r80** (main `3b4b4ac`, Mon 19 Oct 12:40 PM)
 
 🐕 **Barking: Showdown Gate on #954 has waited 26 min for a machine.** · Gate #954: L1✓ L2… L3A… L3B✓ L4… L5✓ L6✓ · seal pending · POS20 #954 0/16
 
@@ -2118,12 +2118,6 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 ## Other Team G work
 
-**Fixing now**
-
-| Lane | Item | What | State |
-| --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #954](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/954) | Re-pin the Rules safety check to r80 main | ⏳ 5 passed, 3 running |
-
 **Up next**
 
 | Lane | Item | What | State |
@@ -2147,5 +2141,6 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 ## Shipped today
 
+- 12:40 PM · #954 Re-pin the Rules safety check to r80 main
 - 10:21 AM · #933 Release r80: career save online, END SHOWDOWN (1.9.4-r80)
 
