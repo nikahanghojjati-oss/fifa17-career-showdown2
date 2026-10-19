@@ -207,6 +207,11 @@ function initializeSeasonEngine(){
         ui.reviewEdit.addEventListener("click", editSeasonResults);
     }
 
+    if(!seasonContinentalBound && typeof document.addEventListener === "function"){
+        seasonContinentalBound = true;
+        document.addEventListener("change", keepContinentalExclusive, true);
+    }
+
     if(ui.nextButton && ui.nextButton.dataset.seasonEngineBound !== "true"){
         ui.nextButton.dataset.seasonEngineBound = "true";
         ui.nextButton.addEventListener("click", handleSeasonSummaryAction);
@@ -351,11 +356,48 @@ function resetSeasonEntryFields(){
             if(input && input.value !== ""){ input.value = ""; }
         });
 
-        ["DomesticCup", "ChampionsLeague", "TopScorer", "TopAssist"].forEach(field => {
+        ["DomesticCup", "ChampionsLeague", "EuropaLeague", "TopScorer", "TopAssist"].forEach(field => {
             const checkbox = document.getElementById(`${prefix}${field}`);
             if(checkbox && checkbox.checked){ checkbox.checked = false; }
         });
     });
+}
+
+// Review and summary breakdown lines. They live here (moved out of the startup js/scoring.js in r80), the only place they are shown.
+function buildPerformanceBonusLabel(scoring){
+    const triggers = scoring.triggers || {};
+    const achievements = [];
+
+    if(triggers.hundredLeaguePoints){ achievements.push("100 Points"); }
+    if(triggers.hundredLeagueGoals){ achievements.push("100 Goals"); }
+
+    return achievements.length
+        ? `Performance Bonus (${achievements.join(" + ")})`
+        : "Performance Bonus";
+}
+
+function buildAwardsBonusLabel(scoring){
+    const triggers = scoring.triggers || {};
+    const achievements = [];
+
+    if(triggers.topScorer){ achievements.push("Top Scorer"); }
+    if(triggers.topAssist){ achievements.push("Top Assist"); }
+
+    return achievements.length
+        ? `Awards Bonus (${achievements.join(" + ")})`
+        : "Awards Bonus";
+}
+
+function getScoringBreakdownLines(scoring){
+    // r80: the Europa League line shows only for a season that won it (+3), so every other season reads as before.
+    return [
+        ["Champions League", scoring.championsLeague || 0],
+        ...(scoring.europaLeague > 0 ? [["Europa League", scoring.europaLeague]] : []),
+        ["League Title", scoring.leagueTitle || 0],
+        ["Domestic Cup", scoring.domesticCup || 0],
+        [buildPerformanceBonusLabel(scoring), scoring.performanceBonus || 0],
+        [buildAwardsBonusLabel(scoring), scoring.individualAwardsBonus || scoring.awardsBonus || 0]
+    ];
 }
 
 function getSeasonInput(prefix, field){
@@ -370,12 +412,13 @@ function readSeasonResult(prefix){
     const championsLeague = getSeasonInput(prefix, "ChampionsLeague");
     const topScorer = getSeasonInput(prefix, "TopScorer");
     const topAssist = getSeasonInput(prefix, "TopAssist");
+    const europaLeague = getSeasonInput(prefix, "EuropaLeague");
 
     if(!position || !points || !goals || !domesticCup || !championsLeague || !topScorer || !topAssist){
         throw new Error(`Season form controls are missing for ${prefix}.`);
     }
 
-    return {
+    const result = {
         leaguePosition: Number(position.value),
         leaguePoints: Number(points.value),
         leagueGoals: Number(goals.value),
@@ -384,6 +427,19 @@ function readSeasonResult(prefix){
         topScorer: topScorer.checked,
         topAssist: topAssist.checked
     };
+    // r80: the stored result carries europaLeague only when that manager won it (never together with the Champions League).
+    if(europaLeague && europaLeague.checked && !result.championsLeague){ result.europaLeague = true; }
+    return result;
+}
+
+// r80: one manager's season is Champions League or Europa League, never both. Ticking one unticks the other for that manager
+// only; the two managers play different FIFA saves, so their boxes are never compared.
+let seasonContinentalBound = false;
+function keepContinentalExclusive(event){
+    const match = /^(p[12])(ChampionsLeague|EuropaLeague)$/.exec(String(event && event.target && event.target.id || ""));
+    if(!match || !event.target.checked){ return; }
+    const other = getSeasonInput(match[1], match[2] === "ChampionsLeague" ? "EuropaLeague" : "ChampionsLeague");
+    if(other && other.checked){ other.checked = false; }
 }
 
 function getCurrentLeagueTeamCount(){
@@ -429,6 +485,12 @@ function getSeasonEntryValidationMessage(prefix, managerLabel){
         return `${managerLabel}'s league goals must be a non-negative whole number.`;
     }
 
+    const championsLeague = getSeasonInput(prefix, "ChampionsLeague");
+    const europaLeague = getSeasonInput(prefix, "EuropaLeague");
+    if(championsLeague && championsLeague.checked && europaLeague && europaLeague.checked){
+        return `${managerLabel}: pick Champions League or Europa League, not both.`;
+    }
+
     return "";
 }
 
@@ -465,6 +527,7 @@ function getSeasonReviewFingerprint(roundRecord){
         leagueGoals: Number(player.leagueGoals),
         domesticCup: Boolean(player.domesticCup),
         championsLeague: Boolean(player.championsLeague),
+        europaLeague: player.europaLeague === true,
         topScorer: Boolean(player.topScorer),
         topAssist: Boolean(player.topAssist),
         scoring: calculatePlayerSeasonScore(player)
@@ -605,8 +668,9 @@ function renderSeasonReviewAchievements(container, playerRecord){
     group.className = "seasonReviewAchievements";
 
     [
-        ["Domestic Cup", playerRecord.domesticCup],
         ["Champions League", playerRecord.championsLeague],
+        ["Europa League", playerRecord.europaLeague === true],
+        ["Domestic Cup", playerRecord.domesticCup],
         ["Top Scorer", playerRecord.topScorer],
         ["Top Assist", playerRecord.topAssist]
     ].forEach(([label, active]) => {

@@ -1950,6 +1950,26 @@
         "^tests/contracts/r80\\-europa\\-career\\-pages\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/europa-league-season-screens-contracts.cjs",
+      "patterns": [
+        "^index\\.html$",
+        "^js/productionSharedSeasonResults\\.js$",
+        "^js/seasonEngine\\.js$",
+        "^js/scoring\\.js$",
+        "^js/seasonFinalV10\\.js$",
+        "^js/ruleBook\\.js$",
+        "^js/productionSharedCanonicalScoring\\.js$",
+        "^js/productionSharedHistoryConvergence\\.js$",
+        "^js/storage\\.js$",
+        "^visual\\-assets/v10_1/standings/",
+        "^visual\\-assets/v10_1/final\\-winner/",
+        "^visual\\-assets/v10_1/season\\-results/app\\-shell\\.html$",
+        "^visual\\-assets/v10_1/shared/trophies/TRO_EUROPA_V1_",
+        "^tests/contracts/europa\\-league\\-season\\-screens\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
