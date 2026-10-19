@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 18 Oct, 8:08 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 18 Oct, 8:12 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.3-r79** (main `d1888c3`, Sun 18 Oct 1:57 PM)
 
@@ -1600,7 +1600,17 @@ Type this in Codex cloud:
 Job 1807
 ```
 
-**#152 · 1810** `G` Phone Trophy Room: ranks and all-time records missing, CAREER DETAILS empty  
+**#152 · 1808** `G` Standings THIS SHOWDOWN stuck on "Loading standings." mid-Showdown  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1808'
+
+Type this in Codex cloud:
+
+```text
+Job 1808
+```
+
+**#153 · 1810** `G` Phone Trophy Room: ranks and all-time records missing, CAREER DETAILS empty  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1810'
 
@@ -1610,7 +1620,7 @@ Type this in Codex cloud:
 Job 1810
 ```
 
-**#153 · 1811** `G` Final reconciliation and FINAL SEASON cells sometimes empty right after the close  
+**#154 · 1811** `G` Final reconciliation and FINAL SEASON cells sometimes empty right after the close  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1811'
 
@@ -1620,7 +1630,7 @@ Type this in Codex cloud:
 Job 1811
 ```
 
-**#154 · 1812** `G` Free-limit message must show as soon as Home opens  
+**#155 · 1812** `G` Free-limit message must show as soon as Home opens  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1812'
 
@@ -1630,7 +1640,7 @@ Type this in Codex cloud:
 Job 1812
 ```
 
-**#155 · 1813** `G` GPT chat review of the r76 Codex and Work mode PRs  
+**#156 · 1813** `G` GPT chat review of the r76 Codex and Work mode PRs  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1813'
 
@@ -1640,7 +1650,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1813
 ```
 
-**#156 · 1814** `G` Sweep the older audit reports for bugs that are still open (GPT chat, repeatable)  
+**#157 · 1814** `G` Sweep the older audit reports for bugs that are still open (GPT chat, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1814'
 
@@ -1650,7 +1660,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1814
 ```
 
-**#157 · 1815** `G` Shared-journey guard: prove or fix the stale-marker block (U-01)  
+**#158 · 1815** `G` Shared-journey guard: prove or fix the stale-marker block (U-01)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1815'
 
@@ -1660,7 +1670,7 @@ Type this in Codex cloud:
 Job 1815
 ```
 
-**#158 · 1817** `G` Bug cards from the audit sweep (GPT chat, repeatable)  
+**#159 · 1817** `G` Bug cards from the audit sweep (GPT chat, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1817'
 
@@ -1670,7 +1680,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1817
 ```
 
-**#159 · 1818** `G` Failing tests for the bug cards (GPT Work mode, repeatable)  
+**#160 · 1818** `G` Failing tests for the bug cards (GPT Work mode, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1818'
 
@@ -1680,7 +1690,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1818
 ```
 
-**#160 · 1820** `G` Startup size room for r76 (report only, no app change)  
+**#161 · 1820** `G` Startup size room for r76 (report only, no app change)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1820'
 
@@ -1690,7 +1700,7 @@ Type this in Codex cloud:
 Job 1820
 ```
 
-**#161 · 1821** `G` Season chip fix that fits the startup size limit (redo of JOB-1805)  
+**#162 · 1821** `G` Season chip fix that fits the startup size limit (redo of JOB-1805)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1821'
 
@@ -1700,7 +1710,7 @@ Type this in Codex cloud:
 Job 1821
 ```
 
-**#162 · 1822** `G` Stats and history bug hunt, part A (GPT chat, repeatable)  
+**#163 · 1822** `G` Stats and history bug hunt, part A (GPT chat, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1822'
 
@@ -1710,7 +1720,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1822
 ```
 
-**#163 · 1823** `G` Stats and history bug hunt, part B (GPT chat, repeatable)  
+**#164 · 1823** `G` Stats and history bug hunt, part B (GPT chat, repeatable)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1823'
 
@@ -1720,7 +1730,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1823
 ```
 
-**#164 · 1826** `G` Cheaper waiting: no repeating online checks while the live listener is working  
+**#165 · 1826** `G` Cheaper waiting: no repeating online checks while the live listener is working  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1826'
 
@@ -1730,7 +1740,7 @@ Type this in Codex cloud:
 Job 1826
 ```
 
-**#165 · 1827** `G` 1826 follow-up: prove that partner changes outside the watched document still arrive while waiting  
+**#166 · 1827** `G` 1826 follow-up: prove that partner changes outside the watched document still arrive while waiting  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1827'
 
@@ -1740,7 +1750,7 @@ Type this in Codex cloud:
 Job 1827
 ```
 
-**#166 · 1828** `G` Phone free-limit notice covers the soundtrack controls and shows through under Connect Players  
+**#167 · 1828** `G` Phone free-limit notice covers the soundtrack controls and shows through under Connect Players  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1828'
 
@@ -1750,7 +1760,7 @@ Type this in Codex cloud:
 Job 1828
 ```
 
-**#167 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
+**#168 · 1829** `G` Transfer Challenge: stop re-reading documents that have not changed (r76 read cut)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1829'
 
@@ -1760,7 +1770,7 @@ Type this in Codex cloud:
 Job 1829
 ```
 
-**#168 · 1831** `G` Career Start panel can hang: add a time limit and a working retry  
+**#169 · 1831** `G` Career Start panel can hang: add a time limit and a working retry  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1831'
 
@@ -1770,7 +1780,7 @@ Type this in Codex cloud:
 Job 1831
 ```
 
-**#169 · 1832** `G` Waiting fixes on PR #861: clock expiry, poll window, first-snapshot reads  
+**#170 · 1832** `G` Waiting fixes on PR #861: clock expiry, poll window, first-snapshot reads  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1832'
 
@@ -1780,7 +1790,7 @@ Type this in Codex cloud:
 Job 1832
 ```
 
-**#170 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
+**#171 · 1833** `G` Transfer read fixes on PR #863: no raw listeners, no view wipes, fresh REFRESH  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1833'
 
@@ -1790,7 +1800,7 @@ Type this in Codex cloud:
 Job 1833
 ```
 
-**#171 · 1834** `G` Standings fix on PR #841: keep the progression fallback out of the career screens  
+**#172 · 1834** `G` Standings fix on PR #841: keep the progression fallback out of the career screens  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1834'
 
@@ -1800,7 +1810,7 @@ Type this in Codex cloud:
 Job 1834
 ```
 
-**#172 · 1835** `G` Free-limit notice fix on PR #862: landscape phone Home layout  
+**#173 · 1835** `G` Free-limit notice fix on PR #862: landscape phone Home layout  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1835'
 
@@ -1810,7 +1820,7 @@ Type this in Codex cloud:
 Job 1835
 ```
 
-**#173 · 1840** `G` Clean start: "real career starts here" marker  
+**#174 · 1840** `G` Clean start: "real career starts here" marker  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1840'
 
@@ -1820,7 +1830,7 @@ Type this in Codex cloud:
 Job 1840
 ```
 
-**#174 · 1841** `G` Old games still open: a release check for saved Showdowns  
+**#175 · 1841** `G` Old games still open: a release check for saved Showdowns  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1841'
 
@@ -1830,7 +1840,7 @@ Type this in Codex cloud:
 Job 1841
 ```
 
-**#175 · 1843** `G` Codex auto-start pilot: one CE2PG 1-season run on the r76b workbench  
+**#176 · 1843** `G` Codex auto-start pilot: one CE2PG 1-season run on the r76b workbench  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1843'
 
@@ -1840,7 +1850,7 @@ Type this in Codex cloud:
 Job 1843
 ```
 
-**#176 · 1844** `G` r78 small fixes: the Career tab goes to the game, and no DELETE copy on Showdown Home  
+**#177 · 1844** `G` r78 small fixes: the Career tab goes to the game, and no DELETE copy on Showdown Home  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1844'
 
@@ -1850,7 +1860,7 @@ Type this in Codex cloud:
 Job 1844
 ```
 
-**#177 · 1845** `G` No-dimming audit (HO-027), report only  
+**#178 · 1845** `G` No-dimming audit (HO-027), report only  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1845'
 
@@ -1955,8 +1965,8 @@ Job 1845
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`███░░░░░░░` **28.0936 %**  
-Numbered jobs: 56 done, 215 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`███░░░░░░░` **28.0000 %**  
+Numbered jobs: 56 done, 216 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████████░` **85.2941 %**  
@@ -2092,7 +2102,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #933](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/933) | Release r80: career save online, END SHOWDOWN (1.9.4-r80) | 🟢 8 passed |
+| 🟧 Team G lead | [PR #933](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/933) | Release r80: career save online, END SHOWDOWN (1.9.4-r80) | ⏳ 0 passed, 7 running |
 
 **Up next**
 
