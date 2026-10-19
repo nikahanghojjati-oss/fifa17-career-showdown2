@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-19T05:21:37Z", "by": "G", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-10-19T05:21:37Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-19T05:22:40Z", "by": "V", "status": "RECEIVED", "note": ""}]
 }
 ```
 

@@ -131,3 +131,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-17 22:21 | Team G | Team V | HO-033 RECEIVED | r79 visual fixes from Team V r78 check (scrims, see-through panels, Season Results no-scroll) | no |
 | 2026-10-18 00:24 | Team G | Team V | HO-033 DONE | r79 visual fixes from Team V r78 check (scrims, see-through panels, Season Results no-scroll) | no |
 | 2026-10-19 05:21 | Team G | Team V | HO-034 SENT | r80 Europa League trophy picture (TRO_EUROPA_V1) | yes (receive it) |
+| 2026-10-19 05:22 | Team V | Team G | HO-034 RECEIVED | r80 Europa League trophy picture (TRO_EUROPA_V1) | no |
