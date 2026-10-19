@@ -249,6 +249,17 @@ function assertKept(h,extra=[]){for(const key of Object.keys(KEPT))if(!extra.inc
     assert.equal(signedOut.played,null,"no connected services: null");assert.equal(signedOut.db.reads.length,0);
     const noRuntime=await fresh({season_1:commitDoc(RIVALRY,1,"ACKNOWLEDGED")},(db,h)=>{delete h.ctx.CareerModeProductionFirebaseRuntime;});
     assert.equal(noRuntime.played,null,"no runtime: null");
+    {
+      // Codex #933: END while Daniel's code is still waiting (pending-pair): 0 seasons with no read (the Rules deny it before ACTIVE).
+      const h=harness({initial:withAllDrafts({...KEPT})}),db=firestoreFake(RIVALRY,{});
+      h.ctx.CareerModeProductionFirebaseRuntime=db.runtime;h.ctx.CareerModeFirestoreBudget=db.budget;
+      vm.runInContext(`var __abandon=null;
+        ensureSettingsPersistentPairAuthority=async function(){return {getState:()=>({rivalryId:${JSON.stringify(RIVALRY)},connectionState:"pending-pair"}),abandonCurrentShowdown:async options=>{__abandon=options;return {ok:true,status:"closed"};}};};`,h.ctx);
+      const result=await h.ctx.releaseSettingsCurrentShowdownConnection({id:"s1",identity:{saveId:"save_1"},sharedJourney:{contractVersion:1,mode:"shared",setupPending:true}});
+      assert.equal(result.ok,true);
+      assert.equal(vm.runInContext("__abandon",h.ctx).seasonsPlayed,0,"a waiting code records 0 seasons, not a dash");
+      assert.equal(db.reads.length,0,"no season-commit read for a waiting code");
+    }
     ok("D2e a fresh browser that opens Settings before CONTINUE records the accepted seasons at END (1, not a dash) from the season commits, with no setup, progression or session on the page; 0 when none, null when unreadable");
   }
   // ---- D3 reset all ----
