@@ -150,6 +150,7 @@
     // Swept here through the generic js/storage.js remove helper (a Showdown has at most 10 seasons) so the startup budget stays put.
     if(state.phase==="CLOSED")ptcClearDrafts(state.rivalryId||request.rivalryId);
     if(state.phase==="DELETED")ptcClearDrafts(state.rivalryId||request.rivalryId);
+    if(state.phase==="CLOSED"||state.phase==="DELETED")ptcNoteEnded(state.rivalryId||request.rivalryId);
     try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-terminal-close-state-change",{detail:{phase:state.phase,rivalryId:state.rivalryId||request.rivalryId,terminal:state.phase==="CLOSED"}}));}catch(_error){}
     if(state.phase==="DELETED"&&previousPhase!=="DELETED")ptcLeaveEndedShowdown();
     return state;
@@ -174,9 +175,14 @@
   // r80: right after END SHOWDOWN on this phone, START (or Nik's JOIN) opens a new save shell before its rivalry is attached.
   // The shell's marker names no rivalry, so the request borrows the ended Showdown's Shared Setup still held in page memory,
   // and Connected Rivalry, now read for the new shell, has no rivalry attached at all. That ended rivalry is not this shell's
-  // Showdown, so there is nothing to close here and nothing to report. Only for a borrowed rivalry and only when Connected
-  // Rivalry answered for this exact save (connected, its pointer store read): an outage or another save still reports.
-  function ptcShellHasNoRivalry(request){try{const s=ptcRivalryApi()?.getState?.(),b=s?.binding;return request.fromSetup===true&&s?.connected===true&&s.attached!==true&&!s.rivalryId&&b?.saveId===request.saveId;}catch(_error){return false;}}
+  // Showdown, so there is nothing to close here and nothing to report. Quiet only when all of these hold: the rivalry was
+  // borrowed from that Setup, this page saw that exact rivalry end (it held it CLOSED or DELETED, or the pair let it go as
+  // closed: END on this phone or on the other one), and Connected Rivalry answered for this exact save with nothing attached.
+  // A live Showdown whose pointer is missing on this device (a new browser continuing) has not ended, so it still reports.
+  const endedRivalryIds=new Set();let unsubscribePair=null;
+  function ptcNoteEnded(rivalryId){const id=String(rivalryId||"").trim().toLowerCase();if(/^pair_[0-9a-f]{64}$/.test(id))endedRivalryIds.add(id);}
+  function ptcWatchPair(){try{const pair=root.CareerModePersistentNikDanielPair;if(!pair)return;if(!unsubscribePair&&typeof pair.subscribe==="function")unsubscribePair=pair.subscribe(next=>ptcNoteEnded(next?.closedRivalryId));ptcNoteEnded(pair.getState?.()?.closedRivalryId);}catch(_error){}}
+  function ptcShellHasNoRivalry(request){try{ptcWatchPair();const s=ptcRivalryApi()?.getState?.(),b=s?.binding;return request.fromSetup===true&&endedRivalryIds.has(request.rivalryId)&&s?.connected===true&&s.attached!==true&&!s.rivalryId&&b?.saveId===request.saveId;}catch(_error){return false;}}
   async function ptcRefreshNow(){
     const request=ptcRequest();if(!request)return ptcClear();
     // r79: a Showdown ended by the other manager (END SHOWDOWN) stays ended (a closed rivalry never reopens): no further read for it.
@@ -331,6 +337,7 @@
     return true;
   }
   function ptcWake(event){
+    ptcWatchPair();
     if(event?.type==="career-mode-save-library-authority-invalidated")return ptcClear();
     const request=ptcRequest();
     if(!request){
@@ -354,6 +361,7 @@
     if(ptcShowdown()?.sharedJourney?.mode==="shared")void ptcBootstrap().then(()=>ptcWake()).catch(error=>ptcReport("Shared Showdown Terminal Close bootstrap unavailable",error));
     for(const event of ["career-mode-shared-wait-context-change","career-mode-shared-final-reconciliation-state-change","career-mode-connected-account-state-change","career-mode-connected-rivalry-state-change","career-mode-active-save-changed","career-mode-save-library-authority-invalidated","career-mode-showdown-state-change"]){root.addEventListener?.(event,ptcWake);}
     root.document?.addEventListener?.("visibilitychange",ptcWake);
+    root.addEventListener?.("career-mode-permanent-pair-ended",event=>ptcNoteEnded(event?.detail?.closedRivalryId));
     if(typeof root.setInterval==="function")root.setInterval(()=>{if(!root.CareerModeProductionSharedSeasonCommit?.waitingListenerHealthy?.())ptcWake();},POLL_MS);
     if(typeof root.setTimeout==="function")root.setTimeout(ptcWake,0);
     return true;
