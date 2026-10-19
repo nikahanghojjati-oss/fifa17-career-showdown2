@@ -7,13 +7,12 @@
 // G: js/productionSharedJourneyEntry.js. On a test-mode account only Settings > START TEST RUN (armed) shows or makes a test
 //    code; Home START, CONTINUE CAREER and a reload go to the seasons screen, whose START makes the Showdown through the
 //    checkmark. Armed test runs, real accounts and an unknown mode keep their paths.
-// R: Nik chose Keep hidden (owner decision, 2026-10-19): the r79 test games, the leaked first real game too, stay hidden.
-//    js/careerStartMarker.js has no reveal: the career screens hide exactly hiddenRivalryIds(marker), whenever it was made.
-// C: js/rivalryLegacyV10.js hides exactly that list, with no rivalries/{id} read for it, so History, Legacy, Career Statistics
-//    and the Trophy Room show only the Showdowns the marker does not name.
+// R: js/careerStartMarker.js careerHiddenRivalryIds(). A marker made on r79 or later shows again the Showdowns it hides that
+//    were finished (closed with a Terminal Close) on r79 or later; bounded exact gets, fail closed, read-only.
+// C: js/rivalryLegacyV10.js uses it, so that game is back in History, Legacy, Career Statistics and the Trophy Room.
 // U (Codex #936): when the leftover is a code Nik could still join (unexpired), the seasons START closes it (only while nobody
 //    has joined it, and only once the server says the real career has not started) before the marker is written, because
-//    the marker refuses while such a code is open.
+//    the marker refuses while such a code is open. R7: markers made from r80 on (after the fixed cutoff) reveal nothing.
 // Plain node:assert, no Firebase. The browser sequence is tests/browser/r80-first-real-game-history-audit.cjs.
 const assert=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path"),vm=require("node:vm");
 const ROOT=path.resolve(__dirname,"../..");
@@ -86,11 +85,13 @@ const closes=g=>g.calls.filter(c=>Array.isArray(c)&&c[0]==="close");
 
 // ------------------------------------------------------------------ R: the marker module
 const Marker=require(path.join(ROOT,"js/careerStartMarker.js"));
-const R79_LIVE=Date.UTC(2026,9,18,17,17,45),CUTOFF=Date.UTC(2026,9,19,12,0,0),HOUR=3_600_000;
+const R79_LIVE=Date.UTC(2026,9,18,17,17,45),HOUR=3_600_000;
 const id=n=>"pair_1"+String(n).padStart(63,"0");
 const ts=ms=>({toMillis:()=>ms});
 const markerAt=(ids,startedAt)=>Marker.parseMarker({schemaVersion:1,objectType:"careerStart",objectId:"current",revision:0,parentRevision:null,lifecycleState:"live",contentHash:"sha256:"+String(startedAt%10).repeat(64),priorContentHash:null,updatedAt:ts(startedAt),updatedByAccountId:"acct_daniel",updatedByDeviceId:"device_"+"d".repeat(32),data:{hiddenRivalryIds:ids,active:true,startedAt:ts(startedAt)},tombstone:null});
 const rivalryDoc=(rid,{state="closed",terminal=true,at})=>({schemaVersion:1,objectType:"rivalry",objectId:rid,revision:4,lifecycleState:"live",updatedAt:ts(at),data:{connectionState:state,...(terminal?{terminalClose:{intent:"fixture"}}:{})}});
+function fakeSdk(docs,{fail=new Set()}={}){const log=[];return {log,sdk:{doc:(_db,...parts)=>({path:parts.join("/")}),getDoc:async ref=>{log.push(ref.path);if(fail.has(ref.path))throw Object.assign(new Error("unavailable"),{code:"unavailable"});const v=docs[ref.path];return {exists:()=>v!==undefined,data:()=>v};}}};}
+const reveal=(marker,docs,options)=>{Marker.clearCache();const f=fakeSdk(docs,options);return Marker.careerHiddenRivalryIds({marker,firestore:{},firebaseSdk:f.sdk,accountId:"acct_daniel"}).then(ids=>({ids,log:f.log,f}));};
 
 (async()=>{
 
@@ -195,41 +196,79 @@ await check("U6 the marker guard is unchanged: an open pending code, or an activ
   same(await attempt("closed",now+3600_000),["accounts/acct_daniel/careerStart/current"],"once closed, the marker is written");
   Marker.clearCache();
 });
-await check("R1 Keep hidden: the leaked first real game finished on r79 stays hidden with the older test games, whenever the marker was made",async()=>{
-  const old1=id(1),old2=id(2),leftover=id(3),game=id(4),hidden=[old1,old2,leftover,game];
-  for(const startedAt of [R79_LIVE-HOUR,R79_LIVE+3*HOUR,CUTOFF-1,CUTOFF,CUTOFF+4*HOUR]){
-    const marker=markerAt(hidden,startedAt);
-    same(Marker.hiddenRivalryIds(marker),hidden,`started ${new Date(startedAt).toISOString()}: every named Showdown stays hidden`);
-    same(Marker.hiddenRivalryIds(marker),hidden,"and the list is a copy (the marker is unchanged)");
-  }
-  same(Marker.hiddenRivalryIds({status:"none",hiddenRivalryIds:[]}),[],"no marker hides nothing");
+await check("R1 the r79 leak: the hidden game finished on r79 shows again; the older test games stay hidden",async()=>{
+  const old1=id(1),old2=id(2),leftover=id(3),game=id(4);
+  const marker=markerAt([old1,old2,leftover,game],R79_LIVE+3*HOUR);
+  const docs={[`rivalries/${game}`]:rivalryDoc(game,{at:R79_LIVE+2*HOUR}),[`rivalries/${leftover}`]:rivalryDoc(leftover,{state:"pending-pair",terminal:false,at:R79_LIVE-30*HOUR}),
+    [`rivalries/${old2}`]:rivalryDoc(old2,{at:R79_LIVE-40*HOUR}),[`rivalries/${old1}`]:rivalryDoc(old1,{at:R79_LIVE-50*HOUR})};
+  const {ids,log}=await reveal(marker,docs);
+  same(ids,[old1,old2,leftover],"only the game finished on r79 is shown again");
+  same(log,[`rivalries/${game}`,`rivalries/${leftover}`],"newest first, stopping at the first Showdown last written before r79");
+  same(Marker.hiddenRivalryIds(marker),[old1,old2,leftover,game],"the marker itself is unchanged (read-only)");
 });
-await check("R2 the reveal is gone: no reveal export, no r79 window, no rivalries/{id} scan in the marker module",async()=>{
-  for(const key of ["careerHiddenRivalryIds","revealSinceEpochMs","revealBeforeEpochMs"])assert.equal(Object.hasOwn(Marker,key),false,`${key} is not exported`);
+await check("R2 a marker made before r79 hides exactly as before, with no read",async()=>{
+  const ids=[id(1),id(2)],{ids:out,log}=await reveal(markerAt(ids,R79_LIVE-HOUR),{[`rivalries/${id(2)}`]:rivalryDoc(id(2),{at:R79_LIVE+HOUR})});
+  same(out,ids);same(log,[]);
+  same(await Marker.careerHiddenRivalryIds({marker:{status:"none",hiddenRivalryIds:[]},firestore:{},firebaseSdk:fakeSdk({}).sdk}),[],"no marker hides nothing");
+});
+await check("R3 only a Terminal Close counts: r79 codes never joined and Showdowns ended early stay hidden; the scan goes on past them",async()=>{
+  const game=id(1),abandoned=id(2),unused=id(3);
+  const {ids,log}=await reveal(markerAt([game,abandoned,unused],R79_LIVE+5*HOUR),{
+    [`rivalries/${unused}`]:rivalryDoc(unused,{state:"pending-pair",terminal:false,at:R79_LIVE+4*HOUR}),
+    [`rivalries/${abandoned}`]:rivalryDoc(abandoned,{terminal:false,at:R79_LIVE+3*HOUR}),
+    [`rivalries/${game}`]:rivalryDoc(game,{at:R79_LIVE+2*HOUR})});
+  same(ids,[abandoned,unused]);same(log,[unused,abandoned,game].map(x=>`rivalries/${x}`));
+});
+await check("R4 fail closed: a failed read, a missing or foreign document keeps it and everything older hidden",async()=>{
+  const a=id(1),b=id(2),marker=markerAt([a,b],R79_LIVE+5*HOUR),docA=rivalryDoc(a,{at:R79_LIVE+HOUR});
+  same((await reveal(marker,{[`rivalries/${a}`]:docA},{fail:new Set([`rivalries/${b}`])})).ids,[a,b],"read failed");
+  same((await reveal(marker,{[`rivalries/${a}`]:docA})).ids,[a,b],"missing");
+  same((await reveal(marker,{[`rivalries/${a}`]:docA,[`rivalries/${b}`]:{...rivalryDoc(b,{at:R79_LIVE+2*HOUR}),objectId:a}})).ids,[a,b],"not this rivalry");
+  same((await reveal(marker,{[`rivalries/${a}`]:docA,[`rivalries/${b}`]:{...rivalryDoc(b,{at:R79_LIVE+2*HOUR}),updatedAt:null}})).ids,[a,b],"no write time");
+});
+await check("R5 bounded and once per page: at most 10 gets, the second ask reads nothing",async()=>{
+  const ids=Array.from({length:14},(_,i)=>id(i+1)),docs=Object.fromEntries(ids.map((x,i)=>[`rivalries/${x}`,rivalryDoc(x,{at:R79_LIVE+(i+1)*60_000})]));
+  const marker=markerAt(ids,R79_LIVE+HOUR),first=await reveal(marker,docs);
+  assert.equal(first.log.length,10);same(first.ids,ids.slice(0,4),"the ten newest are shown, older ones stay hidden");
+  const again=await Marker.careerHiddenRivalryIds({marker,firestore:{},firebaseSdk:first.f.sdk,accountId:"acct_daniel"});
+  same(again,first.ids);assert.equal(first.log.length,10,"cached for the page");
+  Marker.clearCache();
+});
+await check("R6 the marker module writes nothing new and the r79 time and the r80 cutoff are pinned",async()=>{
   const source=read("js/careerStartMarker.js");
-  assert.doesNotMatch(source,/careerHiddenRivalryIds|R79_LIVE_MS|R80_PREVENTION_MS|REVEAL_SCAN_LIMIT|\breveals\b/,"no reveal code or constants");
-  assert.match(source,/\/\/ r80: Nik chose Keep hidden \(2026-10-19\): an r79 test game stays hidden, even the leaked first real game\./);
-  assert.match(source,/function hiddenRivalryIds\(marker\)\{return marker&&marker\.status==="ready"\?marker\.hiddenRivalryIds\.slice\(\):\[\];\}/,"the plain hidden list, unchanged");
+  assert.match(source,/const R79_LIVE_MS=Date\.UTC\(2026,9,18,17,17,45\),R80_PREVENTION_MS=Date\.UTC\(2026,9,19,12,0,0\),REVEAL_SCAN_LIMIT=10;/);
+  assert.equal(Marker.revealBeforeEpochMs,Date.UTC(2026,9,19,12,0,0),"2026-10-19 12:00 UTC");
   assert.equal((source.match(/transaction\.set\(/g)||[]).length,1,"the one marker write, unchanged");
   assert.doesNotMatch(source,/deleteDoc|setDoc|updateDoc|writeBatch|transaction\.delete\(/);
   const legacy=read("js/rivalryLegacyV10.js");
-  assert.doesNotMatch(legacy,/careerHiddenRivalryIds/,"the career screens never ask for a reveal");
-  /* r80 real vs test: with a marker the career screens hide exactly hiddenRivalryIds(marker); without one the account holds only test runs */
-  assert.match(legacy,/const value=await marker\.readMarker\(\{firestore:services\.firestore,firebaseSdk:\{\.\.\.services\.firestoreSdk,getDoc\},accountId:user\.uid,recheckNone:true\}\);\s*if\(value\?\.status==="ready"\)return \{testOnly:false,hidden:marker\.hiddenRivalryIds\(value\)\};/,"the career screens hide exactly hiddenRivalryIds(marker)");
+  /* r80 real vs test: with a marker the career screens hide careerHiddenRivalryIds (r79-onward games show again); without one the account holds only test runs */
+  assert.match(legacy,/if\(value\?\.status==="ready"\)return \{testOnly:false,hidden:typeof marker\.careerHiddenRivalryIds==="function"\?await marker\.careerHiddenRivalryIds\(\{marker:value,/,"the career screens ask for the r79 reveal");
+  assert.equal(Marker.revealSinceEpochMs,R79_LIVE);
 });
 
-// ------------------------------------------------------------------ C: the career screens keep it hidden
-await check("C1 History, Legacy, Career Statistics and the Trophy Room leave out the leaked r79 game and the old test game, with no read of either",async()=>{
+await check("R7 Codex #936: a marker made after the r80 cutoff keeps every id hidden (deliberate test runs stay test runs), with no read",async()=>{
+  const CUTOFF=Date.UTC(2026,9,19,12,0,0),ids=[id(1),id(2),id(3)];
+  const docs=Object.fromEntries(ids.map((x,i)=>[`rivalries/${x}`,rivalryDoc(x,{at:CUTOFF+(i+1)*HOUR})]));
+  for(const startedAt of [CUTOFF,CUTOFF+1,CUTOFF+4*HOUR,CUTOFF+400*24*HOUR]){
+    const {ids:out,log}=await reveal(markerAt(ids,startedAt),docs);
+    same(out,ids,`started ${new Date(startedAt).toISOString()}: every START TEST RUN game finished after r79 stays hidden`);same(log,[],"and nothing is read");
+  }
+  const inside=await reveal(markerAt(ids,CUTOFF-1),docs);
+  same(inside.ids,[],"a marker made just before the cutoff (on r79) still shows the games finished on r79");
+  Marker.clearCache();
+});
+
+// ------------------------------------------------------------------ C: the career screens see it
+await check("C1 History, Legacy, Career Statistics and the Trophy Room count the revealed game; older test games stay out",async()=>{
   const Adapter=require(path.join(ROOT,"js/sharedClosedShowdownAdapter.js")),Career=require(path.join(ROOT,"js/sharedCareerAnalytics.js")),Active=require(path.join(ROOT,"js/sharedActiveShowdownAdapter.js"));
   const History=require(path.join(ROOT,"js/sharedHistoryConvergence.js")),Terminal=require(path.join(ROOT,"js/sharedTerminalClose.js")),Final=require(path.join(ROOT,"js/sharedFinalReconciliation.js")),Seam=require(path.join(ROOT,"js/careerScreenSeam.js"));
   const F=require("../support/active-showdown-fixtures.cjs"),{result:R,projection:P}=F;void Adapter;
   const completedRead=p=>{const a=p.managerRecords.playerOne.totalPoints,b=p.managerRecords.playerTwo.totalPoints;return {status:"completed",code:null,rivalryId:p.rivalryId,managerRole:"playerOne",terminalWitness:F.closed(p).terminalWitness,projection:p,final:{totals:{playerOne:a,playerTwo:b},winner:a>b?"playerOne":b>a?"playerTwo":"draw",margin:Math.abs(a-b),seasonsPlayed:p.totalSeasons}};};
-  const test=P({seed:"1",totalSeasons:1,seasons:[[R({championsLeague:true}),R()]]}),game=P({seed:"2",totalSeasons:1,seasons:[[R(),R({leaguePosition:1,leaguePoints:101})]]}),real=P({seed:"3",totalSeasons:1,seasons:[[R({leaguePosition:1,leaguePoints:95}),R()]]});
-  const HIDDEN=[test.rivalryId,game.rivalryId],ALL=[...HIDDEN,real.rivalryId],reads={[test.rivalryId]:completedRead(test),[game.rivalryId]:completedRead(game),[real.rivalryId]:completedRead(real)};
-  const markerDoc=startedAt=>({schemaVersion:1,objectType:"careerStart",objectId:"current",revision:0,parentRevision:null,lifecycleState:"live",contentHash:"sha256:"+"a".repeat(64),priorContentHash:null,updatedAt:ts(startedAt),updatedByAccountId:"acct_daniel",updatedByDeviceId:"device_"+"d".repeat(32),data:{hiddenRivalryIds:HIDDEN,active:true,startedAt:ts(startedAt)},tombstone:null});
+  const test=P({seed:"1",totalSeasons:1,seasons:[[R({championsLeague:true}),R()]]}),game=P({seed:"2",totalSeasons:1,seasons:[[R(),R({leaguePosition:1,leaguePoints:101})]]});
+  const ALL=[test.rivalryId,game.rivalryId],reads={[test.rivalryId]:completedRead(test),[game.rivalryId]:completedRead(game)};
+  const markerDoc=startedAt=>({schemaVersion:1,objectType:"careerStart",objectId:"current",revision:0,parentRevision:null,lifecycleState:"live",contentHash:"sha256:"+"a".repeat(64),priorContentHash:null,updatedAt:ts(startedAt),updatedByAccountId:"acct_daniel",updatedByDeviceId:"device_"+"d".repeat(32),data:{hiddenRivalryIds:ALL,active:true,startedAt:ts(startedAt)},tombstone:null});
   async function career(startedAt){
     const log=[],definitions=new Map();
-    // the leaked game was finished on r79 (what the removed reveal looked for); the old test game before r79
     const docs={"accounts/acct_daniel/careerStart/current":markerDoc(startedAt),[`rivalries/${game.rivalryId}`]:rivalryDoc(game.rivalryId,{at:R79_LIVE+HOUR}),[`rivalries/${test.rivalryId}`]:rivalryDoc(test.rivalryId,{at:R79_LIVE-HOUR*30})};
     const sdk={doc:(_db,...parts)=>({path:parts.join("/")}),getDoc:async ref=>{log.push(ref.path);const v=docs[ref.path];return {exists:()=>v!==undefined,data:()=>v};}};
     const files={"career-closed-loader":"js/sparkClosedShowdownCareerLoader.js","career-closed-adapter":"js/sharedClosedShowdownAdapter.js","career-start-marker":"js/careerStartMarker.js"};
@@ -251,16 +290,15 @@ await check("C1 History, Legacy, Career Statistics and the Trophy Room leave out
     const model=await c.CareerModeRivalryLegacyV10.loadCareerModel();
     return {model,log,legacy:c.CareerModeRivalryLegacyV10.toV10Frame(model,"legacy"),cached:c.CareerModeRivalryLegacyV10.cachedCareerModel()};
   }
-  for(const [label,startedAt] of [["a marker made on r79 (Nik's and Daniel's)",R79_LIVE+2*HOUR],["a marker made before r79",R79_LIVE-HOUR],["a marker made on r80",CUTOFF+HOUR]]){
-    const v=await career(startedAt);
-    assert.equal(v.model.status,"ready",label);
-    same(v.model.history.showdowns.filter(row=>row.status==="completed").map(row=>row.rivalryId),[real.rivalryId],`${label}: History shows only the real game; the leaked r79 game and the old test game stay hidden`);
-    assert.equal(v.legacy.showdowns.length,1,`${label}: Legacy shows one`);assert.equal(v.cached,v.model,`${label}: Career Statistics and the Trophy Room read the same model`);
-    assert.equal(v.model.managers.nik.careerPoints,real.managerRecords.playerTwo.totalPoints,`${label}: the career counts only the real game`);
-    same(v.log.filter(p=>p.startsWith("reader:")),["reader:"+real.rivalryId],`${label}: neither hidden Showdown is read`);
-    same(v.log.filter(p=>p.startsWith("rivalries/")),[],`${label}: no rivalries/{id} read for the hidden list`);
-    same(v.log.filter(p=>!p.startsWith("reader:")),["accounts/acct_daniel/careerStart/current"],`${label}: the one marker get, nothing more`);
-  }
+  const after=await career(R79_LIVE+2*HOUR);
+  assert.equal(after.model.status,"ready");
+  same(after.model.history.showdowns.filter(row=>row.status==="completed").map(row=>row.rivalryId),[game.rivalryId],"History: the finished r79 game, the old test game still hidden");
+  assert.equal(after.legacy.showdowns.length,1,"Legacy shows it");assert.equal(after.cached,after.model,"Career Statistics and the Trophy Room read the same model");
+  assert.equal(after.model.managers.nik.careerPoints,game.managerRecords.playerTwo.totalPoints);
+  same(after.log.filter(p=>p.startsWith("reader:")),["reader:"+game.rivalryId],"the old test game is never read");
+  const before=await career(R79_LIVE-HOUR);
+  assert.equal(before.model.status,"empty","a marker from before r79 hides both, exactly as today");
+  same(before.log.filter(p=>p.startsWith("rivalries/")||p.startsWith("reader:")),[],"and reads nothing more");
 });
-console.log(`PASS r80 first real game history contracts: ${cases} checks (a test-mode Home START, CONTINUE CAREER or reload never reopens or makes a test code; the seasons START runs the checkmark first; Keep hidden: every Showdown the marker names, the leaked r79 game too, stays hidden with no extra read).`);
+console.log(`PASS r80 first real game history contracts: ${cases} checks (a test-mode Home START, CONTINUE CAREER or reload never reopens or makes a test code; the seasons START runs the checkmark first; a game finished on r79 that the checkmark hid shows again, bounded and fail closed; old test games stay hidden).`);
 })().catch(error=>{console.error(error);process.exitCode=1;});
