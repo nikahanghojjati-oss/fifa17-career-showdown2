@@ -12,7 +12,7 @@
 // are only read. Two emulator-side stand-ins: the finished test game stands in for the game r79's leak left behind (the data
 // is the same: a CMS17- Showdown of the two accounts, played to the end and closed with a Terminal Close before the first real
 // START), and both markers' startedAt is set to an r79 time (2026-10-18 20:00 UTC), as the markers r79 wrote for Nik and
-// Daniel have it (js/careerStartMarker.js shows the hidden game again only for markers made before r80's cutoff).
+// Daniel have it. Nik chose Keep hidden (2026-10-19): the game the marker names stays hidden whenever the marker was made.
 //   H1  the game r79 left behind: a 1-season test Showdown (CMS17-) played to the end and closed; History shows it.
 //   H2  Daniel's leftover code (CMS17-, never used, still OPEN: Codex #936, unexpired); Daniel reloads: nothing reopens it
 //       (no WAITING, no code; he is on Home); on r79 WAITING came back over the wheel with that test code.
@@ -22,9 +22,9 @@
 //   H3b Nik types the leftover code (Settings > JOIN TEST RUN): refused, it is closed; nothing of his changes.
 //   H4  Nik types the code once and joins; his marker is written before the join (it names the finished game).
 //   H5  the real 1-season Showdown is played to the end and closed by itself.
-//   H6  History (Legacy), Career Statistics and the Trophy Room show BOTH finished games on both phones (the one the marker
-//       names was finished on r79 or later, so js/careerStartMarker.js shows it again); the leftover never shows; the same
-//       after both reload.
+//   H6  History (Legacy), Career Statistics and the Trophy Room show ONLY the real game on both phones: the game the marker
+//       names stays hidden although it was finished on r79 (Keep hidden), the leftover never shows, and the career load
+//       reads neither hidden Showdown (no rivalries/{id} get); the same after both reload with the r79-dated markers.
 // Run (two browser contexts):
 //   CMS_CHROMIUM_MULTI_CONTEXT=1 npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json \
 //        --only auth,firestore --project demo-cms-browser-journey "node tests/browser/r80-first-real-game-history-audit.cjs"
@@ -465,7 +465,7 @@ async function playOneSeasonShowdown(daniel,nik,rivalryId,tokens){
   const closed=await adminUntil(`rivalries/${rivalryId}`,doc=>field(doc,"data","connectionState")?.stringValue==="closed","closed");
   assert.ok(field(closed,"data","terminalClose"),`${rivalryId} is closed with its Terminal Close`);
 }
-const TWO_COMPLETED=/(COMPLETED SHOWDOWNS\s*2(?!\d)|(?<![\d.])2\s*COMPLETED SHOWDOWNS)/i;
+const ONE_COMPLETED=/(COMPLETED SHOWDOWNS\s*1(?!\d)|(?<![\d.])1\s*COMPLETED SHOWDOWNS)/i;
 // What the career screens show, from the screens themselves (taps only) plus the model they drew (read).
 async function careerScreens(m){
   const read=async(hostId,ready)=>{const deadline=Date.now()+20000;let text="";while(Date.now()<deadline){text=await m.page.evaluate(i=>{const h=document.getElementById(i);return h&&!h.classList.contains("hidden")?(h.innerText||"").replace(/\s+/g," ").trim():"";},hostId);if(text&&ready(text))return text;await m.page.waitForTimeout(250);}return text;};
@@ -480,29 +480,32 @@ async function careerScreens(m){
   await backToShowdownHome(m);
   await m.page.locator("#careerStatisticsButton").click({timeout:20000});
   // The headline counts up from 0 to the tile's value, so the read waits for the value itself (bounded).
-  const stats=await read("careerStatistics",t=>loaded(t)&&TWO_COMPLETED.test(t));
+  const stats=await read("careerStatistics",t=>loaded(t)&&ONE_COMPLETED.test(t));
   await m.page.locator("#trophyRoomButton").click({timeout:20000});
   await read("trophyRoom",t=>loaded(t)&&/Showdown Champion/i.test(t));
   const champion=async()=>m.page.evaluate(()=>{const card=document.querySelector('#trophyRoom .trophyCard[data-trophy="showdown"]');const r=side=>{const el=card?.querySelector(`[data-side="${side}"] strong`);return el?(el.dataset.countValue||(el.textContent||"").trim()):null;};return {daniel:r("daniel"),nik:r("nik")};});
-  let trophies=await champion();const end=Date.now()+20000;while(trophies.daniel!=="2"&&Date.now()<end){await m.page.waitForTimeout(250);trophies=await champion();}
+  let trophies=await champion();const end=Date.now()+20000;while(trophies.daniel!=="1"&&Date.now()<end){await m.page.waitForTimeout(250);trophies=await champion();}
   await backToShowdownHome(m);
   return {legacy,model,stats,trophies};
 }
-async function assertBothGamesShown(managers,games,leftover,label){
+// Keep hidden: only the real game shows; the career load gets neither hidden Showdown (rivalries/{id} or below it), counted
+// from `since` (before a reload) or from opening the screens.
+async function assertOnlyRealGameShown(managers,real,hidden,label,since=null){
   for(const m of managers){
-    const v=await careerScreens(m);
+    const from=since??Date.now(),v=await careerScreens(m);
     const completed=v.legacy.filter(c=>c.status==="completed");
-    assert.equal(completed.length,2,`${label} ${m.user}: Legacy lists both finished games ${JSON.stringify(v.legacy).slice(0,600)}`);
-    assert.deepEqual(v.model&&v.model.rows.filter(r=>r.status==="completed").map(r=>r.rivalryId),games,`${label} ${m.user}: History holds the game r79 hid, then the real one`);
-    assert.ok(!v.model.rows.some(r=>r.rivalryId===leftover),`${label} ${m.user}: the leftover code never shows`);
-    assert.match(v.stats,TWO_COMPLETED,`${label} ${m.user}: Career Statistics counts both: ${v.stats.slice(0,300)}`);
-    assert.equal(v.trophies.daniel,"2",`${label} ${m.user}: the Trophy Room has both Showdown Champion trophies (Daniel won both) ${JSON.stringify(v.trophies)}`);
+    assert.equal(completed.length,1,`${label} ${m.user}: Legacy lists only the real game ${JSON.stringify(v.legacy).slice(0,600)}`);
+    assert.deepEqual(v.model&&v.model.rows.filter(r=>r.status==="completed").map(r=>r.rivalryId),[real],`${label} ${m.user}: History holds only the real game; the game r79 hid stays hidden`);
+    assert.ok(!v.model.rows.some(r=>hidden.includes(r.rivalryId)),`${label} ${m.user}: no hidden Showdown (the leaked game, the leftover) shows`);
+    assert.match(v.stats,ONE_COMPLETED,`${label} ${m.user}: Career Statistics counts only the real game: ${v.stats.slice(0,300)}`);
+    assert.equal(v.trophies.daniel,"1",`${label} ${m.user}: the Trophy Room has one Showdown Champion trophy (Daniel won the real game) ${JSON.stringify(v.trophies)}`);
     assert.ok(!/^[1-9]/.test(String(v.trophies.nik)),`${label} ${m.user}: and none for Nik ${JSON.stringify(v.trophies)}`);
+    const hiddenReads=meter.events.filter(e=>e.user===m.user&&e.t>=from&&e.k==="read"&&hidden.some(id=>e.path===`rivalries/${id}`||String(e.path).startsWith(`rivalries/${id}/`)));
+    assert.deepEqual(hiddenReads,[],`${label} ${m.user}: the career load reads no hidden Showdown`);
   }
 }
-// The markers r79 wrote for Nik and Daniel were made on 2026-10-18 after 17:17:45 UTC; r80 shows the leaked game again only for
-// markers made before its cutoff (js/careerStartMarker.js R80_PREVENTION_MS, 2026-10-19 12:00 UTC).
-const R79_MARKER_MS=Date.UTC(2026,9,18,20,0,0),R80_CUTOFF_MS=Date.UTC(2026,9,19,12,0,0);
+// The markers r79 wrote for Nik and Daniel were made on 2026-10-18 after 17:17:45 UTC; Keep hidden: they hide the leaked game.
+const R79_MARKER_MS=Date.UTC(2026,9,18,20,0,0);
 async function setMarkerStartedAt(uid,ms){
   const before=await admin(`accounts/${uid}/careerStart/current`);assert.ok(before,`${uid} has a marker`);
   const url=`${docUrl(`accounts/${uid}/careerStart/current`)}?updateMask.fieldPaths=data.startedAt`;
@@ -632,16 +635,15 @@ async function main(){
     ok("H5","the real 1-season Showdown was played to the end and closed by itself");
 
     // ---------- H6 History, Career Statistics, Trophy Room ----------
-    // Each page still holds the marker it wrote, with this run's own press time. Before r80's cutoff that is an r79-window
-    // marker, so the screens are checked right away; after it, the pages read the (r79-dated) markers again first.
-    const pressedAfterCutoff=Date.now()>=R80_CUTOFF_MS;
-    if(pressedAfterCutoff)for(const m of managers){await m.page.reload({waitUntil:"domcontentloaded"});await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});await m.page.waitForTimeout(2000);}
-    await assertBothGamesShown(managers,[G,R],L,"H6.1");
-    ok("H6.1",`History (Legacy), Career Statistics and the Trophy Room show both finished games on both phones; the leftover never shows${pressedAfterCutoff?" (after a reload: this run is past r80's cutoff)":""}`);
+    // Each page still holds the marker it wrote (this run's own press time): checked right away, then after a reload that
+    // reads the r79-dated markers. Keep hidden either way.
+    await assertOnlyRealGameShown(managers,R,[G,L],"H6.1");
+    ok("H6.1","History (Legacy), Career Statistics and the Trophy Room show only the real game on both phones; the game r79 hid and the leftover stay hidden, never read");
+    const reloadedAt=Date.now();
     for(const m of managers){await m.page.reload({waitUntil:"domcontentloaded"});await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});await m.page.waitForTimeout(2000);}
-    await assertBothGamesShown(managers,[G,R],L,"H6.2");
+    await assertOnlyRealGameShown(managers,R,[G,L],"H6.2",reloadedAt);
     for(const uid of [uidD,uidN])assert.deepEqual(ids(field(await admin(`accounts/${uid}/careerStart/current`),"data","hiddenRivalryIds")),uid===uidD?hiddenD:hiddenN,"the markers are unchanged (nothing rewritten)");
-    ok("H6.2","the same after both reload; both markers unchanged");
+    ok("H6.2","the same after both reload with the r79-dated markers (Keep hidden); both markers unchanged");
 
     for(const m of managers){
       assert.deepEqual(m.log.forbidden,[],`${m.user} never contacted a production Firebase host`);
