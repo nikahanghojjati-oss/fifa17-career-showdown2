@@ -26,7 +26,8 @@
 //        "1 season" on both phones; Career Statistics (1 completed), the Trophy Room (Showdown Champion: Daniel) and
 //        Legacy's completed Showdown #1 are unchanged (R2's committed season never counts).
 //   R80e END is double-tapped: one confirm, one closure write, no error notice.
-//   P9  after the END Daniel starts again (3 seasons) and Nik's next JOIN works (one tap). The new Showdown's header reads
+//   P9  after the END Daniel starts again (3 seasons) and Nik's next JOIN works (one tap), with no page error on either phone
+//       (the new shell must not report Terminal Close for the ended Showdown's Setup still in memory). The new Showdown's header reads
 //       "Season 1 / 3" on both phones at every change from Daniel's START to the Transfer Challenge: the phone that tapped END
 //       still holds the ended Showdown's confirmed Setup in memory, and its season 2 must never show on the new Showdown.
 //   R80g R3 (3 seasons): season 1 is played and committed, then Nik opens the game in a brand-new browser (same account, empty
@@ -813,7 +814,11 @@ async function main(){
     assert.equal(field(await admin(`accounts/${uidN}/pairLinks/current`),"data","rivalryId").stringValue,R3,"Nik is paired to R3");
     for(const m of [daniel,nik])await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:45000});
     await shot(daniel,"p9-new-game");await shot(nik,"p9-new-game");
-    ok("P9.2","after END SHOWDOWN Daniel started a new Showdown (3 seasons); Nik's next JOIN (one tap) joined it and both reached the league wheel");
+    // r80: the new shell borrowed the ended Showdown's in-memory Shared Setup for a moment, and Terminal Close put a red
+    // "Attach the exact completed Connected Rivalry" notice on the new league wheel (about 1 run in 9). Checked here, at the
+    // START it happened on, as well as at PZ.
+    for(const m of [daniel,nik])assert.deepEqual(m.log.errors,[],`${m.user}: no page error from END SHOWDOWN to the new Showdown's league wheel`);
+    ok("P9.2","after END SHOWDOWN Daniel started a new Showdown (3 seasons); Nik's next JOIN (one tap) joined it and both reached the league wheel with no page error");
 
     // ---------- R80g END SHOWDOWN from a brand-new browser, before CONTINUE ----------
     await playSetupToTransferChallenge(daniel,nik);
