@@ -1857,6 +1857,15 @@
         "^tests/contracts/r80\\-terminal\\-close\\-new\\-shell\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r80-nik-home-after-end-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedJourneyReconnect\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^tests/contracts/r80\\-nik\\-home\\-after\\-end\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
