@@ -52,7 +52,9 @@ function getSettingsPairState(){
     try{
         const pair = window.CareerModePersistentNikDanielPair;
         const pairState = pair && typeof pair.getState === "function" ? pair.getState() : null;
-        return pairState && pairState.initialized === true ? pairState : null;
+        // Codex #935: a transient "unavailable" (or idle/signed-out) pair state is unknown, as in js/whichShowdownIsLive.js, so
+        // the local save decides; only an authoritative pair state can hide the current Showdown and its END SHOWDOWN.
+        return pairState && pairState.initialized === true && !["idle", "unavailable", "signed-out"].includes(pairState.status) ? pairState : null;
     }catch(_error){
         return null;
     }
@@ -93,7 +95,9 @@ function getSettingsOnlineHistoryText(){
         const model = legacy && typeof legacy.cachedCareerModel === "function" ? legacy.cachedCareerModel() : null;
         if(model && ["ready", "partial", "empty"].includes(model.status)){
             const showdowns = model.history && Array.isArray(model.history.showdowns) ? model.history.showdowns : [];
-            return settingsCompletedCountText(showdowns.filter(row => row && row.status === "completed").length);
+            const completed = showdowns.filter(row => row && row.status === "completed").length;
+            // Codex #935: a partial career could not read every indexed Showdown, so its count is a floor, not the total.
+            return model.status === "partial" ? `At least ${settingsCompletedCountText(completed)}` : settingsCompletedCountText(completed);
         }
         return settingsHistoryLoad ? "Loading…" : "Unavailable right now";
     }catch(_error){
@@ -663,6 +667,11 @@ async function releaseSettingsCurrentShowdownConnection(showdown){
     );
 
     if(!expectedRivalryId && !hasCurrentPair){
+        // Codex #937: only a refresh that read the pair link ("paired" or "unpaired") may end locally; an outage or error
+        // state must not turn END for both players into a local-only delete.
+        if(!pairState || !["paired", "unpaired"].includes(pairState.status)){
+            throw new Error("The online Showdown could not be checked, so nothing was changed. Try again.");
+        }
         return { ok: true, status: "unpaired" };
     }
 
