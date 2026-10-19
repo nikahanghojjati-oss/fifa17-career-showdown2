@@ -1965,6 +1965,19 @@
         "^tests/contracts/r80\\-real\\-vs\\-test\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r80-season-ack-race-contracts.cjs",
+      "patterns": [
+        "^js/sparkPrivatePairing\\.js$",
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^js/sparkSharedSeasonCommit\\.js$",
+        "^tests/firebase/shared\\-season\\-commit\\-ack\\-race\\-emulator\\.cjs$",
+        "^\\.github/workflows/showdown\\-gate\\.yml$",
+        "^\\.github/workflows/validate\\-gameplay\\-fast\\.yml$",
+        "^tests/contracts/r80\\-season\\-ack\\-race\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
