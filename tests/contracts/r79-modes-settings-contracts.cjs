@@ -217,7 +217,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.ok(!unknown.calls.includes("startRealCareer"));assert.match(unknown.dom.doc.getElementById("cmsSeasonsStartMessage").textContent,/^Your career could not be checked\./);
     const real=page({partner:ACTIVE_NIK,side:"mutual"});assert.equal(await real.modes.beforeSeasonsStart(),true);assert.ok(!real.calls.includes("startRealCareer"));
     const entry=read("js/productionSharedJourneyEntry.js");
-    assert.match(entry,/if\(decision\.action!=="new"\)[^\n]*\n(?:\s*\/\/[^\n]*\n)*\s*if\(options&&typeof options\.beforeCreate==="function"&&await options\.beforeCreate\(\)!==true\)return false;\n\s*setPending\(true\);/,"the gate runs once START is really making a new Showdown, before the shell");
+    assert.match(entry,/if\(decision\.action!=="new"&&!realStart\)[^\n]*\n(?:\s*\/\/[^\n]*\n)*\s*if\(options&&typeof options\.beforeCreate==="function"&&await options\.beforeCreate\(\)!==true\)return false;\n\s*setPending\(true\);/,"the gate runs once START is really making a new Showdown, before the shell");
     assert.match(read("js/onlinePlayerIdentity.js"),/beforeCreate:[^\n]*modes[^\n]*beforeSeasonsStart\(\)/);
     assert.doesNotMatch(read("js/onlinePlayerIdentity.js"),/beforeSeasonsStart\(\):null/,"Codex #908: a mode gate that could not load never lets a Showdown be created without it");
     assert.match(read("js/onlinePlayerIdentity.js"),/beforeSeasonsStart\(\):\(\)=>\{root\.reportApplicationError\?\.\("Unable to start the Showdown"[^\n]*?return false;\}/);
