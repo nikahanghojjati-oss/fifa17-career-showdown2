@@ -11,7 +11,7 @@
   const fill = (tpl, values) => String(tpl).replace(/\{(\w+)\}/g, (m, k) => (values[k] == null ? m : values[k]));
   const crest = (club) => (window.getClubCrestSvg ? window.getClubCrestSvg(club || "") : "");
 
-  const SCOPE_ROWS = ["seasonWins", "seasonDraws", "seasonLosses", "championsLeagues", "leagueTitles", "domesticCups", "totalTrophies"];
+  const SCOPE_ROWS = ["seasonWins", "seasonDraws", "seasonLosses", "championsLeagues", "europaLeagues", "leagueTitles", "domesticCups", "totalTrophies"];
   const PLATE = {
     width: 1672, height: 941,
     src1x: "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PLATE_V1_1X.webp",

@@ -80,6 +80,8 @@
     const n = frame.trophies && frame.trophies.nik;
     setMetricValue("panelDanielContinental", d && d.championsLeague);
     setMetricValue("panelNikContinental", n && n.championsLeague);
+    setMetricValue("panelDanielEuropa", d && d.europaLeague);
+    setMetricValue("panelNikEuropa", n && n.europaLeague);
     setMetricValue("panelDanielLeague", d && d.leagueTitles);
     setMetricValue("panelNikLeague", n && n.leagueTitles);
     setMetricValue("panelDanielCup", d && d.domesticCups);

@@ -303,12 +303,16 @@ check("K8 required scenarios and every state are present",()=>{
   const tie=fixtures.find(f=>f.row.id==="tiebreak-finish").fx;assert.equal(tie.viewers.daniel.finalWinner.winner,"draw");assert.equal(tie.viewers.daniel.finalWinner.margin,0);
 });
 
-check("K8 one league table: distinct positions, consistent points, one winner per trophy (Team V PRODUCT_TRUTH)",()=>{
-  for(const {row,fx} of fixtures){if(row.id==="equal-position-tiebreaks")continue;
+// r80 (Nik, 2026-10-19 05:25 UTC): Daniel and Nik play DIFFERENT FIFA saves, so there is no one league table between them. Both may
+// win the same trophy (Champions League, Europa League, league, cup) and share a league position in the same season; nothing is ever
+// compared or refused across the two managers. The only refusal is one manager with the Champions League AND the Europa League.
+check("K8 different FIFA saves: each manager's season stands alone; the same trophy or league position for both is allowed; one manager never has CL and EL",()=>{
+  let sharedPosition=0;
+  for(const {row,fx} of fixtures){
     for(const sd of fx.checkSource)sd.seasons.forEach(({daniel:d,nik:n},i)=>{const w=row.id+" "+sd.ref+" S"+(i+1);
-      assert.notEqual(d.leaguePosition,n.leaguePosition,w+" equal positions");
-      if(d.leaguePoints!==n.leaguePoints)assert.equal(d.leaguePosition<n.leaguePosition,d.leaguePoints>n.leaguePoints,w+" higher position has fewer points");
-      for(const f of ["championsLeague","domesticCup","topScorer","topAssist"])assert.ok(!(d[f]&&n[f]),w+" both have "+f);});}
+      for(const r of [d,n]){assert.ok(!("europaLeague" in r)||r.europaLeague===true,w+" europaLeague is present only as true");assert.ok(!(r.championsLeague&&r.europaLeague===true),w+" one manager has both CL and EL");}
+      if(d.leaguePosition===n.leaguePosition)sharedPosition+=1;});}
+  assert.ok(sharedPosition>0,"the fixtures include a season where both managers share a league position");
   const eq=fixtures.find(f=>f.row.id==="equal-position-tiebreaks").fx;assert.deepEqual(eq.career.history.showdowns[0].seasons.map(s=>s.tiebreak),["league-points","draw","none"]);
 });
 

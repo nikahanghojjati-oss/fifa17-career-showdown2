@@ -70,40 +70,6 @@ function determineSeasonWinner(playerOne, playerTwo){
     return "draw";
 }
 
-function buildPerformanceBonusLabel(scoring){
-    const triggers = scoring.triggers || {};
-    const achievements = [];
-
-    if(triggers.hundredLeaguePoints){ achievements.push("100 Points"); }
-    if(triggers.hundredLeagueGoals){ achievements.push("100 Goals"); }
-
-    return achievements.length
-        ? `Performance Bonus (${achievements.join(" + ")})`
-        : "Performance Bonus";
-}
-
-function buildAwardsBonusLabel(scoring){
-    const triggers = scoring.triggers || {};
-    const achievements = [];
-
-    if(triggers.topScorer){ achievements.push("Top Scorer"); }
-    if(triggers.topAssist){ achievements.push("Top Assist"); }
-
-    return achievements.length
-        ? `Awards Bonus (${achievements.join(" + ")})`
-        : "Awards Bonus";
-}
-
-function getScoringBreakdownLines(scoring){
-    return [
-        ["Champions League", scoring.championsLeague || 0],
-        ["League Title", scoring.leagueTitle || 0],
-        ["Domestic Cup", scoring.domesticCup || 0],
-        [buildPerformanceBonusLabel(scoring), scoring.performanceBonus || 0],
-        [buildAwardsBonusLabel(scoring), scoring.individualAwardsBonus || scoring.awardsBonus || 0]
-    ];
-}
-
 function recalculateShowdownScores(showdown){
     if(!showdown || !Array.isArray(showdown.rounds)){
         return showdown;

@@ -7,7 +7,7 @@
   // Shell-cached Team V files live under the runtime ?v= URL, so fetch them the same way (offline first launch).
   const assetUrl=path=>typeof root.optionalAssetUrl==="function"?root.optionalAssetUrl(path):path;
   const BASE="visual-assets/v10_1/",ROLES={playerOne:"daniel",playerTwo:"nik",draw:"draw"};
-  const COUNT_FIELDS=["seasonWins","seasonDraws","seasonLosses","championsLeagues","leagueTitles","domesticCups","totalTrophies"];
+  const COUNT_FIELDS=["seasonWins","seasonDraws","seasonLosses","championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies"];
   const number=x=>typeof x==="number"&&Number.isFinite(x);
   const freeze=x=>{if(x&&typeof x==="object"){Object.values(x).forEach(freeze);Object.freeze(x);}return x;};
   // H1017-3: the terminal witness schema is frozen and carries no acceptedRevisionKey, so after close the history binding is
@@ -33,7 +33,7 @@
       const last=p.seasonHistory[p.seasonHistory.length-1],lp=last?.playerOne?.scoring?.total,ln=last?.playerTwo?.scoring?.total;
       if(last&&last.roundNumber===frame.seasonsPlayed&&number(lp)&&number(ln)&&lp>=0&&lp<=11&&ln>=0&&ln<=11&&ROLES[last.winner])frame.lastSeason={season:last.roundNumber,daniel:lp,nik:ln,winner:ROLES[last.winner]};
       const trophies={};
-      for(const [role,m] of [["playerOne","daniel"],["playerTwo","nik"]]){const rec=p.managerRecords[role];if(!["championsLeagues","leagueTitles","domesticCups","totalTrophies"].every(k=>number(rec[k])))return freeze(frame);trophies[m]={championsLeague:rec.championsLeagues,leagueTitles:rec.leagueTitles,domesticCups:rec.domesticCups,total:rec.totalTrophies};}
+      for(const [role,m] of [["playerOne","daniel"],["playerTwo","nik"]]){const rec=p.managerRecords[role];if(!["championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies"].every(k=>number(rec[k])))return freeze(frame);trophies[m]={championsLeague:rec.championsLeagues,europaLeague:rec.europaLeagues,leagueTitles:rec.leagueTitles,domesticCups:rec.domesticCups,total:rec.totalTrophies};}
       frame.trophies=trophies;frame.status="ready";frame.message="";
     }
     return freeze(frame);
@@ -50,10 +50,10 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
 #app #standings.standingsScreenV10 .sdg-toggle button:active{filter:brightness(.82)}
 #app #standings.standingsScreenV10 :is(.sdg-toggle button,.sdg-state):focus-visible{outline:2px solid #ffe36c;outline-offset:-3px}
 
-/* Phones and tablets upright: the heroes take what the title, board and bottom bar leave; all seven rows stay in view. */
+/* Phones and tablets upright: the heroes take what the title, board and bottom bar leave; all eight rows stay in view. */
 @media (max-width:900px) and (orientation:portrait){
   #app #standings.standingsScreenV10{
-    --sg-nav:calc(56px + env(safe-area-inset-bottom));--sg-row:clamp(18px,3svh,28px);--sg-title:clamp(62px,10svh,84px);--sg-board:calc(205px + 7 * var(--sg-row));
+    --sg-nav:calc(56px + env(safe-area-inset-bottom));--sg-row:clamp(18px,3svh,28px);--sg-title:clamp(62px,10svh,84px);--sg-board:calc(205px + 8 * var(--sg-row));
     --sg-hero:max(48px,calc(100svh - var(--sg-nav) - var(--sg-title) - var(--sg-board) - 32px));
   }
   #app #standings.standingsScreenV10 .sdg-stage{position:relative;width:100%;height:auto;min-height:100svh;overflow:visible}
@@ -94,7 +94,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
 
 /* Upright tablets (adopted 1259): broad board, tablet type, 56px scope controls. */
 @media (min-width:601px) and (max-width:900px) and (orientation:portrait){
-  #app #standings.standingsScreenV10{--sg-row:clamp(34px,4.4svh,48px);--sg-title:clamp(104px,13svh,150px);--sg-board:calc(296px + 7 * var(--sg-row))}
+  #app #standings.standingsScreenV10{--sg-row:clamp(34px,4.4svh,48px);--sg-title:clamp(104px,13svh,150px);--sg-board:calc(296px + 8 * var(--sg-row))}
   #app #standings.standingsScreenV10 .sdg-header .sd-eyebrow{font-size:15px;line-height:18px;letter-spacing:.29em}
   #app #standings.standingsScreenV10 .sdg-wordmark{width:min(78%,520px)}
   #app #standings.standingsScreenV10 .sdg-wordmark img{max-height:none;width:100%}
@@ -569,7 +569,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard .achievementChecks {
   grid-area:checks; min-width:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
-  grid-template-rows:repeat(2,minmax(68px,auto)); gap:7px; padding-left:9px; border-left:1px solid #ad873955;
+  grid-template-rows:repeat(3,minmax(68px,auto)); gap:7px; padding-left:9px; border-left:1px solid #ad873955;
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard .achievementChecks label {
   min-width:0; min-height:68px; display:flex; flex-direction:column;
@@ -678,7 +678,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .achievementChecks {
   grid-area:checks; min-width:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
-  grid-template-rows:repeat(2,minmax(68px,auto)); gap:7px;
+  grid-template-rows:repeat(3,minmax(68px,auto)); gap:7px;
   padding-left:9px; border-left:1px solid #ad873955;
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .achievementChecks label {
