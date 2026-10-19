@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-19T05:21:37Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-19T05:22:40Z", "by": "V", "status": "RECEIVED", "note": ""}, {"at": "2026-10-19T05:23:55Z", "by": "V", "status": "WORKING", "note": "picture ticket 1848 with Nik; original cup in the Europa silhouette (tall silver, wide flared bowl, no handles), same render recipe as the other four trophies"}]
+ "evidence": ["factory/v1-wtt5ye b6928ba4: visual-assets/v10_1/shared/trophies/TRO_EUROPA_V1_1536.webp + _512.webp (+ .png master, TRO_EUROPA_V1.md, evidence/TRO_EUROPA_IN_TROPHY_ROOM_1440x900.webp and _393x660.webp)"],
+ "log": [{"at": "2026-10-19T05:21:37Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-19T05:22:40Z", "by": "V", "status": "RECEIVED", "note": ""}, {"at": "2026-10-19T05:23:55Z", "by": "V", "status": "WORKING", "note": "picture ticket 1848 with Nik; original cup in the Europa silhouette (tall silver, wide flared bowl, no handles), same render recipe as the other four trophies"}, {"at": "2026-10-19T05:34:28Z", "by": "V", "status": "DONE", "note": "original cup in the Europa silhouette, no handles; same canvas, height 1486 and baseline y1497 as TRO_CONTINENTAL_V1"}]
 }
 ```
 
