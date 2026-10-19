@@ -1,12 +1,12 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-19T09:33:28.444Z",
+  "at": "2026-10-19T09:45:27.431Z",
   "state": "ALL_CLEAR",
   "checks": [],
   "helpers_paused": [],
   "gate": {
     "pr": 933,
-    "head_sha": "573e0ed2c15d9777377a2b62fd128f6219537fb2",
+    "head_sha": "e4be524d2e0b45366ab5b4ca89190fc79cb15865",
     "lanes": [
       {
         "name": "L1 core",
@@ -34,10 +34,10 @@
       },
       {
         "name": "L6 browser journey",
-        "state": "pass"
+        "state": "running"
       }
     ],
-    "seal": "PASS"
+    "seal": "PENDING"
   },
   "pos20": {
     "pr": 933,
