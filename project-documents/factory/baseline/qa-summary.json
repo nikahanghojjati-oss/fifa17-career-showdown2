@@ -1,0 +1,120 @@
+{
+  "sourceSha": "a485975c191e4cd6a0732d06e4f541184bd0098c",
+  "nativeQa": {
+    "home": {
+      "shots": 33,
+      "failures": 0,
+      "pass": true
+    },
+    "league": {
+      "shots": 41,
+      "failures": 0,
+      "pass": true
+    },
+    "club": {
+      "shots": 60,
+      "failures": 0,
+      "pass": true
+    },
+    "transfer": {
+      "shots": 84,
+      "failures": 0,
+      "pass": true
+    }
+  },
+  "mockupDiff": {
+    "home": {
+      "build": {
+        "ssim": 0.497,
+        "ssim_coarse": 0.45,
+        "dE_mean": 13.2,
+        "boxes": {
+          "face_daniel": 0.988,
+          "face_nik": 0.991,
+          "hand_daniel": 0.988,
+          "hand_nik": 0.987
+        }
+      },
+      "plate": {
+        "ssim": 0.583,
+        "ssim_coarse": 0.487,
+        "dE_mean": 11.4,
+        "boxes": {
+          "face_daniel": 0.995,
+          "face_nik": 0.995,
+          "hand_daniel": 0.996,
+          "hand_nik": 0.995
+        }
+      },
+      "gate": {
+        "faces_ge_0.90": true,
+        "other_boxes_ge_0.75": true,
+        "ssim": true,
+        "dE": true,
+        "PASS": true
+      }
+    },
+    "league": {
+      "build": {
+        "ssim": 0.679,
+        "ssim_coarse": 0.682,
+        "dE_mean": 8.6,
+        "boxes": {
+          "face_daniel": 0.992,
+          "face_nik": 0.994,
+          "hand_daniel": 0.809,
+          "hand_nik": 0.994
+        }
+      },
+      "plate": {
+        "ssim": 0.764,
+        "ssim_coarse": 0.704,
+        "dE_mean": 7.6,
+        "boxes": {
+          "face_daniel": 0.997,
+          "face_nik": 0.996,
+          "hand_daniel": 0.982,
+          "hand_nik": 0.996
+        }
+      },
+      "gate": {
+        "faces_ge_0.90": true,
+        "other_boxes_ge_0.75": true,
+        "ssim": true,
+        "dE": true,
+        "PASS": true
+      }
+    },
+    "club": {
+      "build": {
+        "ssim": 0.277,
+        "ssim_coarse": 0.335,
+        "dE_mean": 14.7,
+        "boxes": {
+          "face_daniel": 0.15,
+          "face_nik": 0.239,
+          "pack_daniel": 0.203,
+          "pack_nik": 0.225
+        }
+      },
+      "plate": {
+        "ssim": 0.716,
+        "ssim_coarse": 0.658,
+        "dE_mean": 8.8,
+        "boxes": {
+          "face_daniel": 0.997,
+          "face_nik": 0.985,
+          "pack_daniel": 0.996,
+          "pack_nik": 0.996
+        }
+      },
+      "gate": {
+        "faces_ge_0.90": false,
+        "other_boxes_ge_0.75": false,
+        "ssim": false,
+        "dE": true,
+        "PASS": false
+      }
+    }
+  }
+}

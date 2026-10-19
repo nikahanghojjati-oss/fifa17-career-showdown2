@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Showdown Motion Kit Demo</title>
+  <link rel="stylesheet" href="./showdown-tokens.css">
+  <link rel="stylesheet" href="./showdown-ui.css">
+  <link rel="stylesheet" href="./motion.css">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; background: #07080a; color: var(--sd-text-primary); overflow: hidden; }
+    body { font-family: var(--sd-font-body); }
+    button, input { font: inherit; }
+
+    .demo {
+      position: relative;
+      width: 100vw;
+      height: 100svh;
+      min-height: 560px;
+      overflow: hidden;
+      background: var(--sd-black);
+      isolation: isolate;
+    }
+
+    .demo__plate {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        linear-gradient(90deg, rgba(7,8,10,.70) 0%, rgba(7,8,10,.18) 47%, rgba(7,8,10,.36) 100%),
+        linear-gradient(0deg, rgba(7,8,10,.94) 0%, rgba(7,8,10,.06) 54%, rgba(7,8,10,.35) 100%),
+        url("../home/assets/ENV_HOME_PLATE_V1_1X.webp");
+      background-size: cover;
+      background-position: center;
+      transform-origin: center;
+    }
+
+    .demo__grain {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: .13;
+      background-image:
+        radial-gradient(circle at 16% 28%, rgba(255,211,77,.16) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 73% 16%, rgba(255,255,255,.12) 0 1px, transparent 1.4px);
+      background-size: 22px 22px, 31px 31px;
+      mix-blend-mode: screen;
+    }
+
+    .demo__topbar {
+      position: absolute;
+      z-index: 12;
+      inset: 20px 24px auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      pointer-events: none;
+    }
+
+    .demo__brand { min-width: 0; text-shadow: var(--sd-shadow-title); }
+    .demo__eyebrow {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--sd-gold-300);
+      font: 600 11px/1 var(--sd-font-condensed);
+      letter-spacing: .24em;
+    }
+    .demo__title {
+      display: inline-block;
+      margin: 0;
+      padding-right: 18px;
+      color: var(--sd-gold-300);
+      font: 700 clamp(28px, 3.2vw, 52px)/.95 var(--sd-font-condensed);
+      letter-spacing: .02em;
+      text-transform: uppercase;
+    }
+    .demo__subtitle {
+      display: block;
+      margin-top: 7px;
+      color: var(--sd-text-warm);
+      font: 600 12px/1 var(--sd-font-condensed);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .demo__controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      pointer-events: auto;
+    }
+
+    .demo__toggle {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 14px;
+      background: rgba(7,8,10,.88);
+      border: 1px solid var(--sd-edge);
+      color: var(--sd-text-primary);
+      clip-path: polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+      font: 600 12px/1 var(--sd-font-condensed);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .demo__toggle input { width: 18px; height: 18px; accent-color: var(--sd-gold-500); }
+
+    .demo__manager-tag {
+      position: absolute;
+      z-index: 7;
+      top: 22%;
+      min-width: 136px;
+      padding: 9px 12px 8px;
+      border-top: 1px solid rgba(255,211,77,.74);
+      border-bottom: 1px solid rgba(255,211,77,.25);
+      background: linear-gradient(90deg, rgba(7,8,10,.88), rgba(7,8,10,.34));
+      box-shadow: 0 12px 30px rgba(0,0,0,.28);
+      font: 700 12px/1 var(--sd-font-condensed);
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .demo__manager-tag small { display: block; margin-top: 5px; color: var(--sd-text-secondary); font-size: 9px; letter-spacing: .12em; }
+    .demo__manager-tag--left { left: 4.5%; }
+    .demo__manager-tag--right { right: 4.5%; text-align: right; background: linear-gradient(270deg, rgba(7,8,10,.88), rgba(7,8,10,.34)); }
+
+    .demo__layout {
+      position: absolute;
+      z-index: 6;
+      left: clamp(24px, 5vw, 72px);
+      right: clamp(24px, 5vw, 72px);
+      bottom: 38px;
+      display: grid;
+      grid-template-columns: minmax(300px, 1.25fr) minmax(260px, .8fr) minmax(260px, .85fr);
+      gap: 14px;
+      align-items: end;
+    }
+
+    .demo__hero { min-height: 206px; padding: 18px; }
+    .demo__hero .sd-panel__header { margin: -18px -18px 16px; }
+    .demo__hero-copy { margin: 0; max-width: 54ch; color: var(--sd-text-secondary); font-size: 14px; line-height: 1.42; }
+    .demo__stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+    .demo__stat {
+      min-height: 86px;
+      padding: 12px 14px;
+      background: rgba(7,8,10,.70);
+      border: 1px solid rgba(212,160,23,.38);
+    }
+    .demo__stat span { display: block; color: var(--sd-text-secondary); font: 600 10px/1 var(--sd-font-condensed); letter-spacing: .12em; text-transform: uppercase; }
+    .demo__stat strong { display: block; margin-top: 7px; color: var(--sd-gold-300); font: 700 36px/.9 var(--sd-font-condensed); }
+
+    .demo__reward { min-height: 176px; padding: 18px; overflow: visible; }
+    .demo__reward-grid { display: grid; grid-template-columns: 76px 1fr; gap: 14px; align-items: center; }
+    .demo__crown {
+      display: grid;
+      place-items: center;
+      width: 70px;
+      height: 70px;
+      border: 1px solid var(--sd-edge);
+      background: radial-gradient(circle, rgba(245,197,24,.18), rgba(7,8,10,.82) 68%);
+      color: var(--sd-gold-300);
+      font: 700 42px/1 var(--sd-font-condensed);
+      text-shadow: 0 0 18px rgba(245,197,24,.28);
+    }
+    .demo__reward h2 { margin: 0; font: 700 24px/1 var(--sd-font-condensed); letter-spacing: .04em; text-transform: uppercase; }
+    .demo__reward p { margin: 8px 0 0; color: var(--sd-text-secondary); font-size: 13px; line-height: 1.35; }
+
+    .demo__flip-wrap { min-height: 176px; display: grid; grid-template-rows: 1fr auto; gap: 10px; }
+    .demo__flip-card {
+      min-height: 120px;
+      padding: 16px;
+      display: grid;
+      place-content: center;
+      text-align: center;
+      border: 1px solid var(--sd-gold-700);
+      background:
+        linear-gradient(135deg, rgba(245,197,24,.13), transparent 46%),
+        linear-gradient(180deg, rgba(16,17,20,.97), rgba(6,7,9,.96));
+      clip-path: polygon(11px 0,100% 0,100% calc(100% - 11px),calc(100% - 11px) 100%,0 100%,0 11px);
+      box-shadow: inset 0 1px rgba(255,211,77,.14), 0 12px 26px rgba(0,0,0,.34);
+    }
+    .demo__flip-card strong { color: var(--sd-gold-300); font: 700 27px/1 var(--sd-font-condensed); letter-spacing: .08em; text-transform: uppercase; }
+    .demo__flip-card span { margin-top: 7px; color: var(--sd-text-secondary); font: 600 10px/1 var(--sd-font-condensed); letter-spacing: .12em; text-transform: uppercase; }
+
+    .demo__burst {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .demo__status {
+      position: absolute;
+      z-index: 13;
+      left: 24px;
+      bottom: 12px;
+      color: rgba(244,241,234,.62);
+      font: 600 10px/1 var(--sd-font-condensed);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 900px) {
+      .demo { min-height: 0; }
+      .demo__topbar { inset: 14px 14px auto; align-items: flex-start; }
+      .demo__title { font-size: 28px; }
+      .demo__subtitle { display: none; }
+      .demo__controls { flex-direction: column; align-items: stretch; }
+      .demo__controls .sd-btn, .demo__toggle { min-inline-size: 0; min-height: 44px; padding-inline: 12px; }
+      .demo__manager-tag { top: 21%; min-width: 112px; padding-inline: 9px; }
+      .demo__manager-tag--left { left: 12px; }
+      .demo__manager-tag--right { right: 12px; }
+      .demo__layout {
+        left: 14px;
+        right: 14px;
+        bottom: 14px;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .demo__hero { grid-column: 1 / -1; min-height: 154px; padding: 12px; }
+      .demo__hero .sd-panel__header { margin: -12px -12px 10px; padding-block: 9px; min-height: 38px; }
+      .demo__hero-copy { display: none; }
+      .demo__stats { margin-top: 8px; }
+      .demo__stat { min-height: 64px; padding: 8px 10px; }
+      .demo__stat strong { font-size: 28px; }
+      .demo__reward, .demo__flip-wrap { min-height: 112px; }
+      .demo__reward { padding: 10px; }
+      .demo__reward-grid { grid-template-columns: 48px 1fr; gap: 8px; }
+      .demo__crown { width: 46px; height: 46px; font-size: 30px; }
+      .demo__reward h2 { font-size: 17px; }
+      .demo__reward p { display: none; }
+      .demo__flip-card { min-height: 72px; padding: 8px; }
+      .demo__flip-card strong { font-size: 18px; }
+      .demo__status { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="demo" id="motionDemo" aria-label="Showdown shared motion kit demo">
+    <div class="demo__plate" data-sd-enter="scene" aria-hidden="true"></div>
+    <div class="demo__grain" aria-hidden="true"></div>
+
+    <header class="demo__topbar">
+      <div class="demo__brand">
+        <span class="demo__eyebrow">CAREER MODE SHOWDOWN 17</span>
+        <h1 class="demo__title sd-title-wipe sd-glint" data-sd-enter="title">MOTION KIT</h1>
+        <span class="demo__subtitle">PACK-RIP CHOREOGRAPHY · SHARED RUNTIME</span>
+      </div>
+      <div class="demo__controls">
+        <label class="demo__toggle">
+          <input id="reduceMotion" type="checkbox">
+          Reduced motion
+        </label>
+        <button class="sd-btn sd-btn--secondary" id="replayMotion" type="button">Replay</button>
+        <button class="sd-btn sd-btn--primary sd-button-pulse" id="runReveal" type="button" data-sd-enter="button">Pack reveal</button>
+      </div>
+    </header>
+
+    <div class="demo__manager-tag demo__manager-tag--left" data-sd-enter="character-left">
+      Daniel · Left
+      <small>character-in-left</small>
+    </div>
+    <div class="demo__manager-tag demo__manager-tag--right" data-sd-enter="character-right">
+      Nik · Right
+      <small>character-in-right</small>
+    </div>
+
+    <section class="demo__layout" aria-label="Motion kit examples">
+      <article class="sd-panel sd-panel--hero demo__hero" data-sd-enter="panel">
+        <h2 class="sd-panel__header">Entrance choreography</h2>
+        <p class="demo__hero-copy">Scene settle, manager-side entries, transform-only title wipe, staggered kit panels, count-up, one glint and a final primary-action pulse.</p>
+        <div class="demo__stats">
+          <div class="demo__stat">
+            <span>Motion count · Preview data</span>
+            <strong id="countValue" class="sd-count-up sd-count-leader" data-sd-count>0</strong>
+          </div>
+          <div class="demo__stat">
+            <span>Entrance budget</span>
+            <strong>1.2s</strong>
+          </div>
+        </div>
+      </article>
+
+      <article class="sd-panel demo__reward sd-reveal-target sd-glint" id="rewardPanel" data-sd-enter="panel">
+        <div class="demo__reward-grid">
+          <div class="demo__crown sd-crown-pop" id="crown" data-sd-enter="crown" aria-label="Crown pop demonstration">♛</div>
+          <div>
+            <h2>Reward pop</h2>
+            <p>Crown payoff plus the reusable anticipation → flash → settle reveal.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="demo__flip-wrap" data-sd-enter="panel">
+        <div class="demo__flip-card sd-card-flip" id="flipCard" data-sd-enter="card">
+          <strong>Reveal card</strong>
+          <span>card-flip primitive</span>
+        </div>
+        <span class="sd-preview-tag">Preview data</span>
+      </article>
+    </section>
+
+    <canvas class="demo__burst" id="burstCanvas" aria-hidden="true"></canvas>
+    <div class="demo__status" id="motionStatus" role="status" aria-live="polite">Ready</div>
+  </main>
+
+  <script src="./motion.js"></script>
+  <script>
+    (() => {
+      const root = document.querySelector("#motionDemo");
+      const toggle = document.querySelector("#reduceMotion");
+      const replay = document.querySelector("#replayMotion");
+      const reveal = document.querySelector("#runReveal");
+      const panel = document.querySelector("#rewardPanel");
+      const canvas = document.querySelector("#burstCanvas");
+      const count = document.querySelector("#countValue");
+      const status = document.querySelector("#motionStatus");
+      const params = new URLSearchParams(location.search);
+      const forcedReduced = params.get("reduced") === "1";
+      let demoReduced = forcedReduced;
+
+      function persistReduced(value) {
+        demoReduced = Boolean(value);
+        document.documentElement.dataset.motionReduced = demoReduced ? "true" : "false";
+        try {
+          const raw = localStorage.getItem("careerModeShowdown.preferences");
+          const parsed = raw ? JSON.parse(raw) : {};
+          localStorage.setItem("careerModeShowdown.preferences", JSON.stringify({
+            schemaVersion: Number(parsed.schemaVersion) || 2,
+            menuFeedback: parsed.menuFeedback !== false,
+            ...parsed,
+            reducedMotion: demoReduced
+          }));
+        } catch (_) {}
+      }
+
+      window.isReducedMotionPreferred = () => demoReduced
+        || (typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+      function resetVisuals() {
+        root.querySelectorAll(".sd-entered, .sd-is-animating, .sd-is-pulsing, .sd-is-popping, .sd-is-flipping, .sd-is-slamming, .sd-is-glinting, .sd-count-complete")
+          .forEach(el => el.classList.remove("sd-entered", "sd-is-animating", "sd-is-pulsing", "sd-is-popping", "sd-is-flipping", "sd-is-slamming", "sd-is-glinting", "sd-count-complete"));
+        count.textContent = "0";
+        canvas.getContext("2d")?.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      async function playEntrance() {
+        resetVisuals();
+        status.textContent = demoReduced ? "Reduced motion · 150 ms fades" : "Entrance running · usable by 0.6 s";
+        const run = sdEnter(root);
+        if (demoReduced) {
+          count.textContent = "88";
+        } else {
+          setTimeout(() => sdCountUp(count, 88, 500), 420);
+        }
+        setTimeout(() => { status.textContent = `Entrance complete · ${run.duration} ms`; }, run.duration + 20);
+      }
+
+      async function playReveal() {
+        status.textContent = demoReduced ? "Reduced reveal · fade only" : "Pack reveal running";
+        const rect = panel.getBoundingClientRect();
+        const canvasRect = canvas.getBoundingClientRect();
+        const x = rect.left - canvasRect.left + rect.width / 2;
+        const y = rect.top - canvasRect.top + rect.height / 2;
+        const jobs = [sdReveal(panel)];
+        if (!demoReduced) jobs.push(sdBurst(canvas, x, y, { count: 40, duration: 900 }));
+        await Promise.all(jobs);
+        status.textContent = demoReduced ? "Reduced reveal complete" : "Pack reveal complete";
+      }
+
+      toggle.checked = forcedReduced;
+      persistReduced(toggle.checked);
+      toggle.addEventListener("change", () => { persistReduced(toggle.checked); playEntrance(); });
+      replay.addEventListener("click", playEntrance);
+      reveal.addEventListener("click", playReveal);
+
+      window.__showdownMotionDemo = { playEntrance, playReveal, setReduced: persistReduced };
+
+      if (params.get("autoplay") !== "0") requestAnimationFrame(playEntrance);
+      window.__motionReady = true;
+    })();
+  </script>
+</body>
+</html>

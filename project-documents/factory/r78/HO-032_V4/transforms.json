@@ -1,0 +1,24 @@
+{
+ "LEAGUE": {
+  "managers": {
+   "daniel": {
+    "scale": 0.99,
+    "tx": -58.0,
+    "ty": -54.0
+   },
+   "nik": {
+    "scale": 0.9,
+    "tx": 129.9,
+    "ty": 12.0
+   }
+  },
+  "plinth_floor_scale": 1.28,
+  "plinth_scale_about": [
+   589.5,
+   2096
+  ],
+  "stadium_row_stretch_max": 2.42,
+  "stadium_row_stretch_median": 1.65,
+  "patchmatch_filled_px": 12468
+ }
+}

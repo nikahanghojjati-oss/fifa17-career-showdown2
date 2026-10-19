@@ -1,0 +1,18 @@
+{
+  "plate": [1672, 941],
+  "title_wordmark_source_crop": [515, 170, 1138, 235],
+  "headline_tiles": [405, 268, 1265, 387],
+  "career_table": [360, 390, 965, 585],
+  "manager_comparison": [975, 390, 1320, 610],
+  "career_leaders": [250, 615, 1410, 770],
+  "actions": [260, 777, 1410, 852],
+  "truth_changes": [
+    "EUROPEAN WINS -> CHAMPIONS LEAGUE WINS",
+    "CLEAN SHEETS dropped",
+    "single-match BIGGEST WIN dropped",
+    "player leader cards -> manager leader cards",
+    "mockup sub-navigation dropped",
+    "career-table win percentage dropped",
+    "headline manager-specific totals split Daniel then Nik"
+  ]
+}

@@ -16,25 +16,26 @@ async function openCase(browser,physical=true){
 }
 async function closeCase(entry){if(entry)await entry.context.close().catch(()=>{});}
 async function setCanonical(page,value){await page.evaluate(value=>{window.captureCareerModeRawBackupInputs=()=>({saveLibrary:JSON.stringify({fixture:value}),legacyShowdowns:"[]",preferences:'{"mode":"test"}'});},value);}
-async function expose(page,stage,{storage="gameplay",localPhase="PREVIEW_READY"}={}){
-  await page.evaluate(({raw,stage,storage,localPhase})=>{
+async function expose(page,stage,{storage="gameplay",localPhase="PREVIEW_READY",season=1,total=1,accepted=null}={}){
+  await page.evaluate(({raw,stage,storage,localPhase,season,total,accepted})=>{
     const remote={sessionState:"active",pendingAction:null,revision:1,role:"host",accountId:raw.account,deviceId:raw.device,rivalryId:raw.rivalry,sessionId:raw.session};
-    const setup={ready:true,managerRole:"playerOne",remoteRole:"host",accountId:raw.account,deviceId:raw.device,rivalryId:raw.rivalry,sessionId:raw.session,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,totalSeasons:1}};
-    const all={remote,setup,career:{state:{phase:"CAREER_START_READY",revision:2}},transfer:{state:{phase:"COMPLETED",revision:5,seasonNumber:1}},results:{phase:"RESULTS_READY",revision:2,seasonNumber:1},commit:{phase:"ACKNOWLEDGED",revision:3,seasonNumber:1},scoring:{phase:"SCORING_RECONCILED",revision:1,seasonNumber:1},history:{phase:"HISTORY_CONVERGED",revision:1,throughSeason:1},reconnect:{phase:"ACTIVE_RECOVERED",activeSeason:1},local:{phase:localPhase,canonicalStorageMutation:localPhase==="APPLIED",providerWriteRequired:localPhase==="APPLIED",automaticLocalApply:false,candidateCOnly:true},final:{phase:"FINAL_SEASON_RECONCILED",finalSeasonReconciled:true,completedSeason:1},terminal:{phase:"CLOSED",terminal:true,rivalryRevision:7}};
-    const enabled={history:["remote","setup","career","transfer","results","commit","scoring","history"],recovered:["remote","setup","career","transfer","results","commit","scoring","history","reconnect"],terminal:["remote","setup","career","transfer","results","commit","scoring","history","reconnect","local","final","terminal"]}[stage]||[];
+    const setup={ready:true,managerRole:"playerOne",remoteRole:"host",accountId:raw.account,deviceId:raw.device,rivalryId:raw.rivalry,sessionId:raw.session,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,totalSeasons:total}};
+    const done=accepted??season,terminalPlan=done===total;
+    const all={remote,setup,career:{state:{phase:"CAREER_START_READY",revision:2}},transfer:{state:{phase:"COMPLETED",revision:5},seasonNumber:season},results:{phase:"RESULTS_READY",revision:2,seasonNumber:season},commit:{phase:"ACKNOWLEDGED",revision:3,seasonNumber:season},scoring:{phase:"SCORING_RECONCILED",revision:1,seasonNumber:season},history:{phase:"HISTORY_CONVERGED",revision:1,throughSeason:season},multi:{phase:terminalPlan?"SHOWDOWN_COMPLETE":"SEASON_READY",revision:done,state:{phase:terminalPlan?"SHOWDOWN_COMPLETE":"SEASON_READY",totalSeasons:total,acceptedSeasons:done,activeSeason:terminalPlan?null:done+1,terminal:terminalPlan}},reconnect:{phase:"ACTIVE_RECOVERED",activeSeason:season},local:{phase:localPhase,canonicalStorageMutation:localPhase==="APPLIED",providerWriteRequired:localPhase==="APPLIED",automaticLocalApply:false,candidateCOnly:true},final:{phase:"FINAL_SEASON_RECONCILED",finalSeasonReconciled:true,completedSeason:season},terminal:{phase:"CLOSED",terminal:true,rivalryRevision:7}};
+    const enabled={history:["remote","setup","career","transfer","results","commit","scoring","history","multi"],recovered:["remote","setup","career","transfer","results","commit","scoring","history","multi","reconnect"],final:["remote","setup","career","transfer","results","commit","scoring","history","multi","reconnect","local","final"],terminal:["remote","setup","career","transfer","results","commit","scoring","history","multi","reconnect","local","final","terminal"]}[stage]||[];
     const bind=(key,name)=>{window[name]={getState:()=>enabled.includes(key)?all[key]:null};};
-    bind("remote","CareerModeSparkRemoteJoining");bind("setup","CareerModeProductionSharedShowdownSetup");bind("career","CareerModeProductionSharedCareerStart");bind("transfer","CareerModeProductionSharedTransferChallenge");bind("results","CareerModeProductionSharedSeasonResults");bind("commit","CareerModeProductionSharedSeasonCommit");bind("scoring","CareerModeProductionSharedCanonicalScoring");bind("history","CareerModeProductionSharedHistoryConvergence");bind("reconnect","CareerModeProductionSharedJourneyReconnect");bind("local","CareerModeProductionSharedLocalReconciliation");bind("final","CareerModeProductionSharedFinalReconciliation");bind("terminal","CareerModeProductionSharedTerminalClose");
+    bind("remote","CareerModeSparkRemoteJoining");bind("setup","CareerModeProductionSharedShowdownSetup");bind("career","CareerModeProductionSharedCareerStart");bind("transfer","CareerModeProductionSharedTransferChallenge");bind("results","CareerModeProductionSharedSeasonResults");bind("commit","CareerModeProductionSharedSeasonCommit");bind("scoring","CareerModeProductionSharedCanonicalScoring");bind("history","CareerModeProductionSharedHistoryConvergence");bind("multi","CareerModeProductionSharedMultiSeasonProgression");bind("reconnect","CareerModeProductionSharedJourneyReconnect");bind("local","CareerModeProductionSharedLocalReconciliation");bind("final","CareerModeProductionSharedFinalReconciliation");bind("terminal","CareerModeProductionSharedTerminalClose");
     window.CareerModeSparkConnectedAccount={getState:()=>({connected:true,accountId:raw.account})};window.CareerModeSparkPrivatePairing={getState:()=>({registered:true,deviceId:raw.device})};window.CareerModeSparkConnectedRivalry={getState:()=>({attached:true,rivalryId:raw.rivalry,accountId:raw.account,deviceId:raw.device,binding:{managerRole:"playerOne"}})};
     window.captureCareerModeRawBackupInputs=()=>({saveLibrary:JSON.stringify({fixture:storage}),legacyShowdowns:"[]",preferences:'{"mode":"test"}'});
-  },{raw,stage,storage,localPhase});
+  },{raw,stage,storage,localPhase,season,total,accepted});
 }
-async function reinstall(page,stage,storage){
-  await page.addScriptTag({url:new URL("js/ssjrPhysicalJourneyAcceptance.js",baseUrl).href});await expose(page,stage,{storage});
+async function reinstall(page,stage,storage,plan={}){
+  await page.addScriptTag({url:new URL("js/ssjrPhysicalJourneyAcceptance.js",baseUrl).href});await expose(page,stage,{storage,...plan});
   await page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.install());await page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());
 }
 
 (async()=>{
-  const runtime=await resolveChromiumRuntime();const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});let normal=null,scoped=null,mutated=null;
+  const runtime=await resolveChromiumRuntime();const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});let normal=null,scoped=null,mutated=null,multi=null;
   try{
     normal=await openCase(browser,false);await normal.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.install());assert.equal(await normal.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.enabled),false);assert.equal(await normal.page.locator("#ssjrPhysicalJourneyAcceptance").count(),0);await closeCase(normal);normal=null;
 
@@ -59,6 +60,39 @@ async function reinstall(page,stage,storage){
     mutated=await openCase(browser,true);await setCanonical(mutated.page,"preview-before");await mutated.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.install());await mutated.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.captureLocalReconciliationBaseline());await setCanonical(mutated.page,"preview-mutated");await mutated.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.verifyLocalReconciliationPreview());
     const bad=await mutated.page.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getEvidence());assert.equal(bad.canonicalStorageViolation,true);assert.notEqual(bad.canonicalStorageBeforeHash,bad.canonicalStorageAfterHash);assert.ok(bad.milestones.some(item=>item.stage==="local-reconciliation-storage-verified"&&item.phase==="CHANGED"));assert.equal(bad.completed,false);assert.deepEqual(mutated.errors,[]);
 
+    await closeCase(mutated);mutated=null;
+
+    // r51: one 3-season run records every season in order, the completed plan, and becomes exportable only then.
+    multi=await openCase(browser,true);const mp=multi.page;await setCanonical(mp,"three-season");await mp.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.install());
+    const observe=()=>mp.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.observe());
+    for(let season=1;season<=3;season+=1){
+      if(season===3){await multi.context.setOffline(true);await mp.waitForTimeout(120);await multi.context.setOffline(false);await mp.waitForTimeout(120);assert.equal((await mp.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getState())).offlineObserved,false,"a mid-game signal drop must not consume the one-time recovery proof");
+        await expose(mp,"history",{storage:"three-season",season:2,total:3,accepted:3});await observe();assert.equal((await mp.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getEvidence())).milestones.some(item=>item.stage==="showdown-complete"),false,"a terminal plan seen before this device records season 3 History must wait");}
+      await expose(mp,"history",{storage:"three-season",season,total:3,accepted:season});await observe();await observe();
+    }
+    await mp.waitForFunction(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getState().conflictGuardProven===true,null,{timeout:5000});
+    const plan={season:3,total:3,accepted:3};
+    await multi.context.setOffline(true);await mp.waitForTimeout(120);await expose(mp,"recovered",{storage:"three-season",...plan});await multi.context.setOffline(false);await mp.waitForTimeout(120);await observe();
+    await mp.waitForFunction(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getState().onlineRecovered===true,null,{timeout:3000});
+    await mp.reload({waitUntil:"domcontentloaded"});await mp.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await reinstall(mp,"recovered","three-season",plan);await mp.waitForFunction(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getState().reloadResumed===true,null,{timeout:3000});
+    await expose(mp,"final",{storage:"three-season",localPhase:"REMOTE_OBSERVED",...plan});await observe();
+    assert.equal((await mp.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getEvidence())).milestones.some(item=>item.stage==="final-season-reconciled"),false,"Final Reconciliation reachable from REMOTE_OBSERVED must not be recorded before the read-only preview");
+    await mp.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.captureLocalReconciliationBaseline());await mp.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.verifyLocalReconciliationPreview());
+    await expose(mp,"terminal",{storage:"three-season",...plan});await observe();
+    await mp.reload({waitUntil:"domcontentloaded"});await mp.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await reinstall(mp,"terminal","three-season",plan);await mp.waitForFunction(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getState().terminalReloadVerified===true,null,{timeout:3000});
+    const three=await mp.evaluate(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getEvidence());
+    for(const stage of ["transfer-completed","results-ready","season-acknowledged","scoring-reconciled","history-converged"])assert.deepEqual(three.milestones.filter(item=>item.stage===stage).map(item=>item.seasonNumber),[1,2,3],`${stage} must be recorded exactly once per season`);
+    assert.deepEqual(three.milestones.filter(item=>item.stage==="showdown-complete").map(item=>[item.seasonNumber,item.totalSeasons]),[[3,3]],"the completed plan is recorded once, only when all seasons are accepted");
+    assert.equal(three.milestones.find(item=>item.stage==="final-season-reconciled").seasonNumber,3);assert.equal(three.completed,true,"a complete 3-season run is exportable");
+    assert.match(await mp.locator("#ssjrPhysicalJourneyAcceptance").innerText(),/✓ SEASONS 3\/3/);
+    const {validatePhysicalJourneyPair}=await import(require("node:url").pathToFileURL(require("node:path").resolve(__dirname,"../../scripts/validate-ssjr-physical-journey-evidence.mjs")).href);
+    const rival=structuredClone(three);Object.assign(rival,{managerRole:"playerTwo",remoteRole:"peer",accountFingerprint:"sha256:"+"9".repeat(64),deviceFingerprint:"sha256:"+"8".repeat(64),deviceLabel:"iPhone peer",networkLabel:"Cellular",device:{...three.device,userAgent:"iPhone Safari",platform:"iPhone"}});
+    const labelled={...three,deviceLabel:"Chromebook host",networkLabel:"Home Wi-Fi"};
+    const verdict=validatePhysicalJourneyPair(labelled,rival,{expectedRuntimeRevision:three.runtimeRevision});
+    assert.equal(verdict.valid,true,`the real recorder's 3-season export must satisfy the validator: ${JSON.stringify(verdict.issues)}`);assert.equal(verdict.summary.totalSeasons,3);
+    assert.deepEqual(multi.errors,[]);
+
+    console.log("PASS r51 Physical Journey recorder records every season of a 3-season plan exactly once and in order, records the completed plan, and its export satisfies the validator");
     console.log("PASS r20 Physical Journey recorder ignores legitimate career mutations before reconciliation, proves unchanged canonical storage only around PREVIEW, persists ordered recovery/reload evidence, and rejects mutation inside the protected preview window");
-  }finally{await closeCase(mutated);await closeCase(scoped);await closeCase(normal);await browser.close().catch(()=>{});}
+  }finally{await closeCase(multi);await closeCase(mutated);await closeCase(scoped);await closeCase(normal);await browser.close().catch(()=>{});}
 })().catch(error=>{console.error("SSJR PHYSICAL JOURNEY R20 BROWSER AUDIT FAILED");console.error(error.stack||error);process.exit(1);});

@@ -5,10 +5,11 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  const commitModule=typeof require==="function"?require("./sharedSeasonCommit.js"):root.CareerModeSharedSeasonCommit;
-  const resultsModule=typeof require==="function"?require("./sharedSeasonResults.js"):root.CareerModeSharedSeasonResults;
-  const setupModule=typeof require==="function"?require("./sharedShowdownSetup.js"):root.CareerModeSharedShowdownSetup;
-  const catalogModule=typeof require==="function"?require("./sharedShowdownCatalog.js"):root.CareerModeSharedShowdownCatalog;
+  // r48: resolve protocol modules when they are used, not when this file loads. In the browser the
+  // bootstrap can load this provider before js/sharedSeasonResults.js, and a load-time capture then
+  // stays undefined for the whole page (SEASON_COMMIT_RESULTS_PROTOCOL_UNAVAILABLE on every read).
+  const scpModule=(file,key)=>typeof require==="function"?require(file):root[key];
+  const scpModules={get commitModule(){return scpModule("./sharedSeasonCommit.js","CareerModeSharedSeasonCommit");},get resultsModule(){return scpModule("./sharedSeasonResults.js","CareerModeSharedSeasonResults");},get setupModule(){return scpModule("./sharedShowdownSetup.js","CareerModeSharedShowdownSetup");},get catalogModule(){return scpModule("./sharedShowdownCatalog.js","CareerModeSharedShowdownCatalog");}};
   const RUNTIME_REVISION="1.9.1-r10";
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
   const OPERATION=/^season_commit_op_[0-9a-f]{32}$/;
@@ -36,7 +37,7 @@
   function scpBase(value){const n=Number(value);if(!Number.isInteger(n)||n<0||n>3)scpFail("SEASON_COMMIT_COMMAND_INVALID");return n;}
   function scpUid(user){const id=user&&typeof user.uid==="string"?user.uid.trim():"";if(!id)scpFail("SEASON_COMMIT_AUTH_REQUIRED");return id;}
   function scpNow(value){const n=Number(value===undefined?Date.now():value);if(!Number.isSafeInteger(n)||n<0)scpFail("SEASON_COMMIT_CLOCK_INVALID");return n;}
-  function scpTeamCount(setup){const clubs=catalogModule?.catalog?.[setup?.leagueId];if(!Array.isArray(clubs)||clubs.length<2||clubs.length>20)scpFail("SEASON_COMMIT_TEAM_COUNT_INVALID");return clubs.length;}
+  function scpTeamCount(setup){const clubs=scpModules.catalogModule?.catalog?.[setup?.leagueId];if(!Array.isArray(clubs)||clubs.length<2||clubs.length>20)scpFail("SEASON_COMMIT_TEAM_COUNT_INVALID");return clubs.length;}
   function scpResult(value,teamCount){scpExact(value,RESULT_KEYS,"SEASON_COMMIT_RESULTS_INVALID");const maxPoints=(teamCount-1)*2*3;if(!Number.isInteger(value.leaguePosition)||value.leaguePosition<1||value.leaguePosition>teamCount||!Number.isInteger(value.leaguePoints)||value.leaguePoints<0||value.leaguePoints>maxPoints||!Number.isInteger(value.leagueGoals)||value.leagueGoals<0||value.leagueGoals>300)scpFail("SEASON_COMMIT_RESULTS_INVALID");for(const key of ["domesticCup","championsLeague","topScorer","topAssist"]){if(typeof value[key]!=="boolean")scpFail("SEASON_COMMIT_RESULTS_INVALID");}return scpClone(value);}
   function scpSdk(options){if(!options.firestore)scpFail("SEASON_COMMIT_PROVIDER_UNAVAILABLE");for(const name of ["doc","runTransaction","serverTimestamp"]){if(!options.firebaseSdk||typeof options.firebaseSdk[name]!=="function")scpFail("SEASON_COMMIT_PROVIDER_UNAVAILABLE");}return options.firebaseSdk;}
   function scpPath(sdk,db,...parts){return sdk.doc(db,...parts);}
@@ -56,8 +57,8 @@
   function scpAssertSetup(value,rivalryId,seasonNumber){scpExact(value,SETUP_LEDGER_KEYS,"SEASON_COMMIT_SETUP_NOT_CONFIRMED");if(value.schemaVersion!==1||value.objectType!=="sharedSetupLedger"||value.rivalryId!==rivalryId||value.revision!==6||value.phase!=="SHOWDOWN_CONFIRMED"||!ROLES.includes(value.coordinatorRole)||![1,3,5,10].includes(value.totalSeasons)||seasonNumber>value.totalSeasons||!Array.isArray(value.confirmedRoles)||value.confirmedRoles.length!==2||!ROLES.every(role=>value.confirmedRoles.includes(role)))scpFail("SEASON_COMMIT_SETUP_NOT_CONFIRMED");for(const key of ["operationIds","operationTypes","baseRevisions","actorRoles"]){if(!Array.isArray(value[key])||value[key].length!==6)scpFail("SEASON_COMMIT_SETUP_NOT_CONFIRMED");}if(JSON.stringify(value.operationTypes)!==JSON.stringify(["open","commit-league","commit-clubs","commit-length","confirm","confirm"])||value.baseRevisions.some((base,index)=>base!==index)||value.actorRoles.slice(0,4).some(role=>role!==value.coordinatorRole))scpFail("SEASON_COMMIT_SETUP_NOT_CONFIRMED");return value;}
   function scpAuthority({rivalryId,rivalry,role,sessionId,deviceId,hostRole}){const slot=rivalry.slots.find(item=>item.slotId===role),host=rivalry.slots.find(item=>item.slotId===hostRole);if(!slot||!host)scpFail("SEASON_COMMIT_SETUP_NOT_CONFIRMED");return {rivalryId,connectionState:"active",managerSlots:rivalry.slots.map(item=>({slotId:item.slotId,accountId:item.accountId,profileId:item.profileId,saveId:item.saveId,accountState:"active",entitlementState:"active"})),actor:{accountId:slot.accountId,deviceId,deviceState:"active",managerRole:role,profileId:slot.profileId,saveId:slot.saveId},session:{sessionId,rivalryId,state:"active",hostAccountId:host.accountId,memberAccountIds:[...rivalry.authorized],expiresAtEpochMs:Number.MAX_SAFE_INTEGER},nowEpochMs:0};}
   async function scpRebuildSetup(ledger,rivalry,rivalryId,sessionId,deviceId,cryptoImpl){
-    if(!setupModule||typeof setupModule.createProtocol!=="function"||!catalogModule||!catalogModule.catalog)scpFail("SEASON_COMMIT_SETUP_PROTOCOL_UNAVAILABLE");
-    const protocol=await setupModule.createProtocol({catalog:catalogModule.catalog,cryptoImpl});let state=null;
+    if(!scpModules.setupModule||typeof scpModules.setupModule.createProtocol!=="function"||!scpModules.catalogModule||!scpModules.catalogModule.catalog)scpFail("SEASON_COMMIT_SETUP_PROTOCOL_UNAVAILABLE");
+    const protocol=await scpModules.setupModule.createProtocol({catalog:scpModules.catalogModule.catalog,cryptoImpl});let state=null;
     for(let index=0;index<ledger.revision;index+=1){const type=ledger.operationTypes[index],role=ledger.actorRoles[index],authority=scpAuthority({rivalryId,rivalry,role,sessionId,deviceId,hostRole:ledger.coordinatorRole});let command;if(type==="commit-league"||type==="commit-clubs")command=await protocol.prepareDraw({state,type,operationId:ledger.operationIds[index]});else if(type==="commit-length")command={type,operationId:ledger.operationIds[index],baseRevision:ledger.baseRevisions[index],totalSeasons:ledger.totalSeasons};else if(type==="confirm")command={type,operationId:ledger.operationIds[index],baseRevision:ledger.baseRevisions[index],setupHash:await protocol.confirmationHash(state)};else command={type,operationId:ledger.operationIds[index],baseRevision:ledger.baseRevisions[index]};const applied=await protocol.apply({state,authority,command});if(!applied.ok)scpFail("SEASON_COMMIT_SETUP_NOT_CONFIRMED");state=applied.state;}
     if(!state||state.phase!=="SHOWDOWN_CONFIRMED"||state.revision!==6)scpFail("SEASON_COMMIT_SETUP_NOT_CONFIRMED");return state;
   }
@@ -68,8 +69,8 @@
     const receipts=publicResult.actorRoles.map((role,index)=>{const own=privateResults[role];if(!own||own.operationId!==publicResult.operationIds[index]||publicResult.publishedRoles[index]!==role)scpFail("SEASON_COMMIT_RESULTS_NOT_READY");return {operationId:publicResult.operationIds[index],baseRevision:publicResult.baseRevisions[index],actorRole:role,type:"publish-result",commandHash:own.commandHash};});
     const core={schemaVersion:1,runtimeRevision:"1.9.1-r9",seasonNumber:publicResult.seasonNumber,phase:"RESULTS_READY",revision:2,publishedRoles:[...publicResult.publishedRoles],results:{playerOne:scpResult(privateResults.playerOne.result,teamCount),playerTwo:scpResult(privateResults.playerTwo.result,teamCount)},receipts};
     const contentHash=await scpHash(core,cryptoImpl),state={...core,contentHash};
-    if(!resultsModule||typeof resultsModule.createProtocol!=="function")scpFail("SEASON_COMMIT_RESULTS_PROTOCOL_UNAVAILABLE");
-    const protocol=await resultsModule.createProtocol({teamCount,cryptoImpl});
+    if(!scpModules.resultsModule||typeof scpModules.resultsModule.createProtocol!=="function")scpFail("SEASON_COMMIT_RESULTS_PROTOCOL_UNAVAILABLE");
+    const protocol=await scpModules.resultsModule.createProtocol({teamCount,cryptoImpl});
     try{await protocol.verifyState(state);}catch(_error){scpFail("SEASON_COMMIT_RESULTS_NOT_READY");}
     return scpFreeze(state);
   }
@@ -96,7 +97,7 @@
     try{
       const sdk=scpSdk(options),operationId=scpOperation(options.operationId),baseRevision=scpBase(options.baseRevision),cryptoImpl=options.cryptoImpl||root.crypto;
       return await sdk.runTransaction(options.firestore,async tx=>{
-        const ctx=await scpContext(tx,options),protocol=await commitModule.createProtocol({teamCount:ctx.teamCount,cryptoImpl,seasonResultsModule:resultsModule});
+        const ctx=await scpContext(tx,options),protocol=await scpModules.commitModule.createProtocol({teamCount:ctx.teamCount,cryptoImpl,seasonResultsModule:scpModules.resultsModule});
         let current=null;if(ctx.stored){current=await scpCoreFromStorage(ctx.stored,ctx.ready,ctx.teamCount,cryptoImpl);try{current=await protocol.verifyState(current);}catch(_error){scpFail("SEASON_COMMIT_PROVIDER_STATE_INVALID");}}
         const applied=await protocol.apply({state:current,setup:ctx.setup,seasonResults:ctx.ready,seasonNumber:ctx.seasonNumber,actorRole:ctx.actorRole,command:{type,operationId,baseRevision}});
         if(!applied.idempotent){tx.set(ctx.commitRef,scpStorageFromCore(applied.state,{rivalryId:ctx.rivalryId,sessionId:ctx.sessionId,deviceId:ctx.deviceId,serverTimestamp:sdk.serverTimestamp()}));}
@@ -107,7 +108,7 @@
   async function scpRead(options){
     try{
       const sdk=scpSdk(options),cryptoImpl=options.cryptoImpl||root.crypto;
-      return await sdk.runTransaction(options.firestore,async tx=>{const ctx=await scpContext(tx,options);if(!ctx.stored)return scpFreeze({ok:true,committed:false,ready:true,managerRole:ctx.actorRole,seasonNumber:ctx.seasonNumber,phase:"RESULTS_READY",revision:0,results:scpClone(ctx.ready.results),coordinatorRole:ctx.setup.coordinatorRole});const protocol=await commitModule.createProtocol({teamCount:ctx.teamCount,cryptoImpl,seasonResultsModule:resultsModule});let current=await scpCoreFromStorage(ctx.stored,ctx.ready,ctx.teamCount,cryptoImpl);current=await protocol.verifyState(current);return scpFreeze({ok:true,committed:true,ready:true,coordinatorRole:ctx.setup.coordinatorRole,...protocol.projectForRole(current,ctx.actorRole)});});
+      return await sdk.runTransaction(options.firestore,async tx=>{const ctx=await scpContext(tx,options);if(!ctx.stored)return scpFreeze({ok:true,committed:false,ready:true,managerRole:ctx.actorRole,seasonNumber:ctx.seasonNumber,phase:"RESULTS_READY",revision:0,results:scpClone(ctx.ready.results),coordinatorRole:ctx.setup.coordinatorRole});const protocol=await scpModules.commitModule.createProtocol({teamCount:ctx.teamCount,cryptoImpl,seasonResultsModule:scpModules.resultsModule});let current=await scpCoreFromStorage(ctx.stored,ctx.ready,ctx.teamCount,cryptoImpl);current=await protocol.verifyState(current);return scpFreeze({ok:true,committed:true,ready:true,coordinatorRole:ctx.setup.coordinatorRole,...protocol.projectForRole(current,ctx.actorRole)});});
     }catch(error){return scpResultError(error);}
   }
 

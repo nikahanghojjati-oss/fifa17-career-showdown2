@@ -1,0 +1,92 @@
+/* Showdown navigation bar · JOB-125/205. Shared top bar (> 900 px) and phone bottom bar (<= 900 px, hub screens only).
+   Kit tokens only (showdown-tokens.css). Contract: NAV_CONTRACT.md. */
+:root {
+  --sd-nav-top-h: 52px;
+  --sd-nav-bottom-h: 56px;
+  --sd-nav-bottom-space: calc(var(--sd-nav-bottom-h) + env(safe-area-inset-bottom));
+}
+
+/* ---------- desktop top bar ---------- */
+.sd-nav-top {
+  position: fixed; z-index: 40; inset: 0 0 auto 0; height: var(--sd-nav-top-h); box-sizing: border-box;
+  display: flex; align-items: stretch; gap: var(--sd-space-3); padding: 0 var(--sd-space-2) 0 var(--sd-space-3);
+  background: linear-gradient(180deg, var(--sd-glass-strong), var(--sd-glass));
+  border-bottom: var(--sd-edge-width) solid var(--sd-edge);
+  font-family: var(--sd-font-condensed);
+}
+.sd-nav-badge {
+  align-self: center; display: inline-grid; place-items: center; height: 30px; padding: 0 14px;
+  transform: skewX(-14deg); background: var(--sd-black); border: var(--sd-edge-width-strong) solid var(--sd-gold-700);
+  box-shadow: var(--sd-shadow-glow), inset 0 1px 0 var(--sd-edge-inner); color: var(--sd-gold-300);
+  font: 800 17px/1 var(--sd-font-condensed); letter-spacing: .06em; text-decoration: none; user-select: none;
+}
+.sd-nav-badge > span { transform: skewX(14deg); }
+.sd-nav-badge b { color: var(--sd-text-primary); font-weight: 800; }
+.sd-nav-tabs { display: flex; align-items: stretch; gap: 2px; min-width: 0; margin: 0; padding: 0; list-style: none; }
+.sd-nav-tab, .sd-nav-gear {
+  position: relative; min-width: 44px; min-height: 44px; margin: 0; border: 0; background: transparent;
+  color: var(--sd-text-warm); cursor: pointer; font: 600 13px/1 var(--sd-font-condensed); letter-spacing: .18em;
+  -webkit-tap-highlight-color: transparent; transition: color .14s linear, transform .14s ease-out, opacity .14s linear;
+}
+.sd-nav-top .sd-nav-tab { padding: 0 18px; }
+.sd-nav-top .sd-nav-tab::after {
+  content: ""; position: absolute; left: 16px; right: 16px; bottom: 0; height: 2px; background: var(--sd-gold-500);
+  opacity: 0; transition: opacity .14s linear;
+}
+.sd-nav-tab:hover, .sd-nav-tab[aria-current="page"], .sd-nav-gear:hover, .sd-nav-gear[aria-current="page"] { color: var(--sd-gold-500); }
+.sd-nav-top .sd-nav-tab[aria-current="page"]::after { opacity: 1; }
+.sd-nav-tab:focus-visible, .sd-nav-gear:focus-visible { outline: 2px solid var(--sd-gold-300); outline-offset: -4px; color: var(--sd-gold-500); }
+.sd-nav-tab:active, .sd-nav-gear:active { transform: translateY(1px); opacity: .88; }
+.sd-nav-capsule {
+  margin-left: auto; align-self: center; display: flex; align-items: center; height: 40px; padding: 0 6px;
+  transform: skewX(-14deg); background: rgba(7, 8, 10, .82); border: var(--sd-edge-width) solid var(--sd-edge);
+}
+.sd-nav-capsule .sd-nav-gear { transform: skewX(14deg); }
+.sd-nav-gear { width: 44px; height: 44px; display: inline-grid; place-items: center; padding: 0; }
+.sd-nav-gear svg, .sd-nav-tab svg { width: 20px; height: 20px; fill: currentColor; }
+
+/* locked: tabs stay visible and focusable; a tap only shows the toast */
+.sd-nav[data-locked="true"] .sd-nav-tab:not([aria-current="page"]),
+.sd-nav[data-locked="true"] .sd-nav-gear:not([aria-current="page"]) { color: var(--sd-text-secondary); opacity: .72; cursor: not-allowed; }
+.sd-nav[data-locked="true"] .sd-nav-tab:not([aria-current="page"])::before {
+  content: ""; position: absolute; top: 9px; right: 7px; width: 5px; height: 4px; border: 1.5px solid currentColor;
+  border-bottom: 0; border-radius: 3px 3px 0 0; box-shadow: 0 4px 0 -0.5px currentColor;
+}
+.sd-nav-toast {
+  position: fixed; z-index: 60; left: 50%; top: calc(var(--sd-nav-top-h) + 12px); transform: translate(-50%, -6px);
+  padding: 10px 18px; background: var(--sd-glass-strong); border: var(--sd-edge-width) solid var(--sd-edge);
+  color: var(--sd-gold-200); font: 700 14px/1.2 var(--sd-font-condensed); letter-spacing: .12em; text-transform: uppercase;
+  box-shadow: var(--sd-shadow-panel); pointer-events: none; visibility: hidden; transition: transform .18s ease-out, visibility 0s .18s;
+}
+.sd-nav-toast.is-on { visibility: visible; transform: translate(-50%, 0); transition: transform .18s ease-out; }
+
+/* ---------- phone (<= 900 px) ---------- */
+.sd-nav-bottom, .sd-nav-corner { display: none; }
+/* A host like .nav-reserve may set pointer-events: none (it is inherited); the bar itself always takes taps. */
+.sd-nav-bottom, .sd-nav-corner, .sd-nav-top { pointer-events: auto; }
+@media (max-width: 900px) {
+  .sd-nav-top, .sd-nav-adopted { display: none !important; }
+  [data-nav="hub"] .sd-nav-bottom {
+    position: fixed; z-index: 40; inset: auto 0 0 0; display: grid; grid-template-columns: repeat(5, 1fr);
+    height: var(--sd-nav-bottom-space); padding: 0 4px env(safe-area-inset-bottom); box-sizing: border-box; margin: 0; list-style: none;
+    background: linear-gradient(180deg, rgba(10, 11, 14, .96), var(--sd-black)); border-top: var(--sd-edge-width) solid var(--sd-edge);
+  }
+  .sd-nav-bottom .sd-nav-tab {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; width: 100%;
+    height: var(--sd-nav-bottom-h); padding: 0; font-size: 10.5px; letter-spacing: .1em;
+  }
+  .sd-nav-bottom .sd-nav-tab::after {
+    content: ""; position: absolute; top: 0; left: 28%; right: 28%; height: 2px; background: var(--sd-gold-500); opacity: 0;
+  }
+  .sd-nav-bottom .sd-nav-tab[aria-current="page"]::after { opacity: 1; }
+  [data-nav="hub"] .sd-nav-corner {
+    position: fixed; z-index: 41; top: max(6px, env(safe-area-inset-top)); right: 6px; display: block;
+    background: rgba(7, 8, 10, .72); border: var(--sd-edge-width) solid var(--sd-edge); border-radius: var(--sd-radius-round);
+  }
+  .sd-nav-toast { top: auto; bottom: calc(var(--sd-nav-bottom-space) + 12px); }
+  [data-nav="hidden"] .sd-nav-toast { bottom: 24px; }
+}
+[data-nav="none"] .sd-nav { display: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .sd-nav-tab, .sd-nav-gear, .sd-nav-toast, .sd-nav-top .sd-nav-tab::after { transition: none; }
+}

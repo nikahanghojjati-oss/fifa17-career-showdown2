@@ -1,0 +1,176 @@
+# Season Results · desktop build result
+
+## Run
+
+From the repository root:
+
+```sh
+python3 -m http.server 8765
+```
+
+Open `http://127.0.0.1:8765/visual-assets/v10_1/season-results/index.html?frame=SR1` and substitute any fixture id SR1 through SR10. Claude should run `tools/MAKE_ASSETS.md` first so the depth overlays and review preview exist.
+
+## Frames
+
+| Frame | State | Intended presentation |
+| --- | --- | --- |
+| SR1 | ready · entering · Daniel device | Daniel entry live; Nik sealed |
+| SR2 | ready · entering · Nik device | Nik entry live; Daniel sealed |
+| SR3 | ready · waiting-for-rival | own published result read-only; rival sealed |
+| SR4 | ready · results-ready | both published records visible; shared commit pending |
+| SR5 | ready · committed | both records plus authoritative canonical scoring |
+| SR6 | ready · entering + validation error | valid draft values with changed-after-review error |
+| SR7 | loading | designed loading shell; no result facts |
+| SR8 | empty | designed empty shell; no invented zero values |
+| SR9 | partial | designed partial shell with the contract interim label |
+| SR10 | unavailable | designed failed-read shell; no fake result facts |
+
+Every frame is labelled `Preview data`.
+
+## What changed from the mockup
+
+The mockup composition remains the visual authority: the 1536×864 plate is cover-centred at 16:9, the brush title stays in its measured location, the scoring panel remains centred, and Daniel is left while Nik is right. Product truth overrides the mockup where required: season score is computed rather than typed; league title derives from position 1; the performance and awards pairs each cap at one point; unpublished rival data is sealed; canonical totals/winner/tiebreak appear only after committed reconciliation; and the action row uses only the live shared Season Results controls.
+
+The emotional depth treatment is preserved with Daniel and Nik hand/forearm overlays over the panel edges. The runtime WebPs are generated from the locked plate using `assets/platemap.json`; no manager is mirrored or independently rescaled.
+
+## Scorecard
+
+| Criterion | Score | Evidence |
+| --- | ---: | --- |
+| 1. Mockup fidelity | 4.5 | Registered plate stays centred at 16:9; title and panel geometry are measured from the mockup. |
+| 2. Characters stand out | 4.5 | Dedicated hand/forearm and rim layers sit above the panels with contact shadows. |
+| 3. Hands and contact | 4.5 | Separate non-mirrored Daniel and Nik cutout recipes preserve the plate's own hands. |
+| 4. Lighting and grade | 4.5 | Shared atmosphere, gold accents, dark glass panels and directional rim treatment share one scene grade. |
+| 5. Typography/title | 4.5 | TITLE_SR_V1.webp supplies the brush title with hidden semantic text and shared type classes. |
+| 6. Panel craft | 4.5 | Scoring, manager and review panels follow the measured hierarchy with one phase-appropriate primary action. |
+| 7. Information clarity/honesty | 4.5 | Ten explicit frames cover workflow plus loading/empty/partial/unavailable without fake data. |
+| 10. Polish/finish | 4.0 | DPR-aware WebP references, shared kit, focus states and no PNG runtime masters; final rendered QA remains Claude intake work. |
+
+Required desktop-build average across criteria 1–7 and 10: 4.44 / 5.
+
+## Hard gates checked from code
+
+H1 PASS: Daniel is always first/left and Nik second/right; no mirroring transform is used.
+
+H2 PASS: runtime code uses only the cleaned Season Results plate, Showdown wordmark, original Showdown trophy art and generated manager cutouts; no real crests, league marks, players or EA/FIFA art are referenced.
+
+H3 PASS: manager names, clubs, inputs, scores, workflow state, winner and tiebreak are DOM/state values; none are baked into runtime images.
+
+H4 PASS: only documented controls and recorded season inputs exist; scoring is Champions League 5 + league title 3 + domestic cup 1 + performance max 1 + awards max 1, maximum 11.
+
+H5–H11 remain Claude intake measurements where browser/render evidence is required.
+
+## Estimated first-paint weight
+
+Known DPR2 plate is 593,726 bytes and TITLE_SR_V1.webp is 246,218 bytes, for a known core of 839,944 bytes before the shared trophy and generated hand/rim overlays. Exact H11 first-paint weight is therefore not claimed here; Claude must generate the overlays and measure the real network total. Runtime source code contains no PNG master reference.
+
+## Known gaps
+
+The OVL_SR_* WebPs and rim masks are recipes, not worker-generated binaries. Claude must run `tools/MAKE_ASSETS.md`, inspect seams/contact at render time, build `preview.html`, and perform browser QA, H10 mockup diff and H11 network measurement. Phone composition is outside this desktop build job.
+
+## Claude intake
+
+Run `tools/MAKE_ASSETS.md` from top to bottom. It generates Daniel/Nik hand overlays and rims and finishes by running `python3 tools/build_preview.py`. Then render SR1–SR10 from committed code, inspect privacy and phase actions, run the quality gates reserved for browser evidence, and file a fix round only for measured failures.
+
+## Phone
+
+The final phone composition uses the full 393 × 660 visible viewport because Season Results has no bottom navigation bar. The portrait stadium and manager cut-outs own the upper band; the manager/scoring toolbar, one bounded entry or review panel, and the safe-area-pinned action row own the lower band. Nothing is implemented as a scaled desktop canvas.
+
+| Desktop element | Final 393 × 660 phone treatment |
+| --- | --- |
+| `.season-topbar` including brand, nav tabs and settings | Hidden. Season Results has no phone bottom bar and no desktop top bar in the phone composition. |
+| `.season-title-block` | Recompose into the hero band. Eyebrow and tagline hide; the brush Season Results title stays as phone art. |
+| `.scoring-panel` and trophy/rules grid | Hidden on first paint. “HOW SCORING WORKS” opens it as an overlaid scoring sheet with a 44 px close target. |
+| Daniel `.entry-panel` | Daniel tab content. Before either radio is touched, the live Preview-data owner selects the own panel; Daniel is the safe fallback if owner metadata has not arrived yet. |
+| Nik `.entry-panel` | Nik tab content. Rival sealed/submitted state is surfaced on the inactive tab from the live panel state. |
+| `.season-review-panel` and canonical scoring | Reuses the same bounded bottom content region when review or contract state is active. |
+| `.season-preview-tag` | Lives at the top-right of the phone content region so fixture frames stay visibly labelled Preview data. |
+| `.season-action-row` | Pinned to the bottom safe edge. The primary REVIEW SEASON action remains visible without page scroll. |
+| Desktop hand/forearm and rim overlays | Hidden on phone; replaced by the approved full phone hero cut-outs. |
+| `.manager-area` desktop registration markers | Hidden on phone; phonemap positions are the authority. |
+| `.fixture-dump` | Hidden. |
+
+Phone hero geometry remains the part-1 authority from `assets/phonemap.json`: background cover at 50% 36%; Daniel left -6%, top 4%, height 49%; Nik left 47%, top 3%, height 50%; hero zone ends at 55%.
+
+### Phone interaction structure
+
+The phone controls stay in the same DOM and URL. Radio controls drive the Daniel / Nik view with CSS, so one manager entry panel is visible at a time. Before either radio is touched, CSS reads the live Preview-data owner and opens that manager's own panel; an explicit tab choice then wins. The inactive rival tab reports SEALED or SUBMITTED from the live panel class; an editable own panel reports YOUR ENTRY. The scoring checkbox opens the existing scoring panel as a modal-style sheet. No new startup script is added.
+
+The compact phone entry treatment keeps the computed score and all recorded inputs in DOM text. At heights at or below 600 px the decorative crown and club subline collapse before data does; number inputs remain 16 px text. Review and loading/empty/partial/unavailable shells use the same bounded region rather than creating a scrolling page.
+
+### Phone assets and intake
+
+Runtime phone art is limited to `assets/ENV_SR_PHONE_V1.webp`, `assets/OVL_SR_DANIEL_PHONE_V1.webp`, `assets/OVL_SR_NIK_PHONE_V1.webp` and `assets/TITLE_SR_PHONE_V1.webp`; `assets/phonemap.json` remains the registration authority. The scoring sheet reuses the original Showdown trophy WebP from the shared kit. The phone HTML/CSS load no PNG master, real crest, real league mark or player image, and all manager names, season values, scores and workflow states remain live DOM text.
+
+Claude intake must materialize any recipe-only phone WebPs that are still absent, then measure H5–H11 in the real browser. In particular, verify the 44 px toolbar/form/action targets, the 16 px number inputs, the safe-area action position, contrast/focus, network weight and the three required phone heights. Worker QA for this job is reading plus arithmetic only; no browser screenshots are generated here.
+
+### Height budget
+
+The stage is fixed to the visible viewport and overflow is hidden. The brush title is overlaid inside the hero band, so it consumes 0 additional vertical pixels. At normal phone heights the hero seam is 55%; at heights of 600 px or less it shifts to 54% to protect the 44 px form targets. The toolbar is 46 px. The bottom reserve is 66 px at the minimum safe inset: 54 px action row + 8 px safe offset + 4 px clear gap. If `env(safe-area-inset-bottom)` is larger than 8 px, both the action and content boundary move upward together.
+
+| Viewport | Hero band | Title extra | Tabs | Entry/review panel | Pinned action reserve | Sum | Remaining | Result |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| 393 × 660 | 363.00 px (55%) | 0 px | 46 px | 185.00 px | 66 px | 660.00 px | 0 px | PASS · no page scroll |
+| 360 × 640 | 352.00 px (55%) | 0 px | 46 px | 176.00 px | 66 px | 640.00 px | 0 px | PASS · no page scroll |
+| 375 × 553 | 298.62 px (54%) | 0 px | 46 px | 142.38 px | 66 px | 553.00 px | 0 px | PASS · primary action visible |
+
+The 54 px action row itself sits at `bottom: max(8px, env(safe-area-inset-bottom))`; its buttons are 44 px high. The panel bottom uses `calc(58px + max(8px, env(safe-area-inset-bottom)))`, so a larger iPhone safe area cannot make the panel overlap the pinned controls.
+
+A 300 px keyboard inset still leaves the primary action inside the reduced dynamic viewport. From the 393 × 660 target, an effective 360 px viewport uses the short-height 54% seam: 194.40 + 46 + 53.60 + 66 = 360 px, while the action row occupies y=298…352 at the minimum 8 px safe offset. The keyboard can compress the editable panel, but it does not cover the primary action.
+
+Larger phones grow the content region instead of leaving the composition floating: 390 × 844 gives 267.80 px for entry/review content, and 430 × 932 gives 307.40 px, with the same 46 px toolbar and 66 px minimum action reserve.
+
+The scoring sheet is an overlay from 44% of viewport height to 8 px above the bottom edge, so opening it does not alter document height. Phone scene art remains at most 342,974 bytes from part 1 before shared CSS/type resources.
+
+
+
+## Fix round
+
+Jobs 80, 177 and 178 apply the nine REVIEW.md items in order.
+
+| Item | Result | File / target |
+| --- | --- | --- |
+| 1 | Done (80) | fixtures.json SR4/SR5 Champions League flags: one winner per season |
+| 2 | Done (80) | season-results.js .season-score only at SCORING_RECONCILED |
+| 3 | Done (80) | fixtures.json SR2_REVIEW unpublished-review frame with Publish/Edit |
+| 4 | Done (177) | renderActions / renderWorkflowState: unpublished review uses draft copy and Publish/Edit, entry Review hidden |
+| 5 | Done (177) | sharedCommitPresentation: seven exact action/status states with proper disabled states |
+| 6 | Done (177) | numeric maxima use frame.teamCount and frame.maxPoints; old frames normalized from DATA_CONTRACT_V1 §0 |
+| 7 | Done (178) | fixture sealedWaitingTemplate, canonicalScoring.reconciled and scoreLabel replace renderer literals |
+| 8 | Done (178) | desktop #screen-title left 27.99%, top 16.78%, width 43.49% |
+| 9 | Done (178) | .entry-panel--daniel left 13.67%, top 52.66%, width 35.74% |
+
+Blocked items: none. Item 7 necessarily binds the new fixture keys in season-results.js; the renderer change is part of making fixtures the single source. The phone whole-screen UI-layer / 55% art-band correction is preserved.
+
+DEFAULT (177): original fixtures have no teamCount/maxPoints, so normalize their league bounds at the renderer boundary: Bundesliga 18, others 20, maxPoints (teams−1)×6. Commit variants are reachable in labelled previews via SR4&commitState=checking|retry|coordinator|peer|committed|own-acknowledged|acknowledged, without changing production state.
+
+Read checks pass for all changed targets and the seven commit mapping outputs; JS parses. H1–H3 source guardrails are retained. H5–H11 remain NOT MEASURED: Claude must measure phone fit/scroll and primary visibility at the three mandatory floors, input sizes/body contrast, both motion paths, keyboard/focus, console/requests, protected-art mockup diff and first-paint weight. Recheck title/tagline/scoring-panel spacing and Daniel fist contact against the restored review geometry. No browser, screenshots or runtime gate results were produced by this bundle worker.
+
+Carried fixture issue for motion intake: the old SR5 nested breakdown/winner was not recomputed by fix item 1 when its Champions League flag changed, and SR5 omits scoringState. The motion part that reads authoritative numeric targets must reconcile these labelled preview facts before animating them; until then the reconciliation gate keeps canonical output hidden.
+
+
+## Motion
+
+Season Results uses the shared `sdEnter(stage)` choreography plus screen-specific score feedback. Entrance animation never disables controls, so the rendered DOM remains operable throughout and is usable by 600 ms. Shared cleanup is 1200 ms.
+
+| Element | Delay | Duration | Easing |
+| --- | ---: | ---: | --- |
+| Stadium scene `[data-sd-enter="scene"]` | 0 ms | 400 ms | shared entrance easing |
+| Daniel / Nik hero cut-outs `[data-sd-enter="character-left/right"]` | 150 ms | 450 ms | shared entrance easing |
+| Brush title `[data-sd-enter="title"]` | 250 ms | 450 ms | shared entrance easing |
+| Title gold glint | 640 ms | 420 ms | shared glint |
+| Scoring panel `[data-sd-enter="panel"]` index 0 | 400 ms | 500 ms | shared panel easing |
+| Daniel entry panel index 1 | 460 ms | 500 ms | cubic-bezier(.22,1,.36,1) |
+| Nik entry panel index 2 | 520 ms | 500 ms | cubic-bezier(.22,1,.36,1) |
+| Review / canonical panel indexes 3–5 when visible | 580–700 ms | 500 ms | shared panel easing |
+| Visible primary action `[data-sd-enter="button"]` | 760 ms | 320 ms | shared pulse easing |
+| Canonical score count-up and bar fill, reconciled state only | 550 ms | 320 ms | cubic-bezier(.22,1,.36,1) |
+| Gold checkbox tick / MAX cap feedback | interaction | 120 ms | cubic-bezier(.22,1,.36,1) |
+| Hover / press / tab / toggle feedback | interaction | 100 ms | cubic-bezier(.2,.8,.2,1) |
+| Reduced motion, system or app preference | 0 ms | 150 ms entrance / 100 ms feedback | linear fade / opacity only |
+
+Longest possible panel completes at 1200 ms; primary action pulse completes at 1080 ms; score roll completes at 870 ms. No entrance path exceeds 1.2 seconds and no motion changes layout.
+
+Criterion 8 self-score: 5/5 from code. Evidence: the shared role sequence gives scene → characters → title → staggered panels → primary action; screen-specific gold tick, MAX and reconciled score motion use transform/opacity; all direct interaction feedback is 100–120 ms; both `prefers-reduced-motion` and `html[data-motion-reduced="true"]` reduce the experience to short fades. Rival unpublished data is never a motion input, and canonical score animation runs only after `SCORING_RECONCILED`.
+
+Claude intake records the requested motion evidence in `evidence/motion/`; this worker performed the required source read only, with no browser run or frame strip.
