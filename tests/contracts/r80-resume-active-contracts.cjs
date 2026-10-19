@@ -160,13 +160,15 @@ async function main(){
     await h.api.openPanel();await settle();
     assert.deepEqual([h.calls.transferOpen,h.calls.read,h.panel()],[3,1,false],"every later open does the same");
   });
-  await check("RA6 Home item 5: Daniel's open code says WAITING FOR NIK only once the mode is known real",async()=>{
+  await check("RA6 Home item 5: Daniel's open code says WAITING FOR NIK only once the mode is known (loading until then)",async()=>{
     const src=read("js/onlinePlayerIdentity.js");
     const tile=src.slice(src.indexOf("function liveHomeTile("),src.indexOf("\n",src.indexOf("function liveHomeTile(")));
-    assert.match(tile,/if\(mode==="test"\)return null;/,"a test-mode code: START (the tap opens the seasons screen)");
-    assert.match(tile,/if\(mode!=="real"&&homeModeAskedFor!==state\.accountId\)return\["NEW","CHECKING…","Checking…"\];return\["WAIT","WAITING FOR NIK","Tap to see your code"\];/,"loading until this page has asked the mode; never WAITING first");
-    const after=src.slice(src.indexOf("async function afterPersistentPairSync("),src.indexOf("\n",src.indexOf("async function afterPersistentPairSync(")));
-    assert.match(after,/finally\{[^}]*homeModeAskedFor=asking;configureOnlineProductSurface\(\);\}/,"asked (answered or not) on every exit, then the tile is drawn: never stuck loading");
+    const loading=tile.indexOf('p.managerRole==="playerOne"&&homeModeLoading())return["NEW","CHECKING…","Checking…"];');
+    assert.ok(loading>0,"Daniel's open code with the mode not asked yet: the tile is loading");
+    assert.ok(loading<tile.indexOf('return["WAIT","WAITING FOR NIK","Tap to see your code"]'),"loading is decided before WAITING (never a WAITING frame first)");
+    const ask=src.slice(src.indexOf("function homeModeLoading("),src.indexOf("\n",src.indexOf("function homeModeLoading(")));
+    assert.match(ask,/if\(mode==="test"\|\|mode==="real"\|\|homeModeAskedFor===state\.accountId\)return false;/,"a known mode, or a mode already asked on this page for this account, is never loading");
+    assert.match(ask,/await \(await loadShowdownModes\(\)\)\?\.resolve\?\.\(\);\}catch\(_\)\{\}\}\)\(\)\.finally\(\(\)=>\{[^}]*homeModeAskedFor=accountId;configureOnlineProductSurface\(\);\}\)/,"the question is asked (once per account) and, answered or not, the tile is drawn again: never stuck loading");
     assert.match(src,/refreshHome:configureOnlineProductSurface/,"the identity module lets the mode redraw Home");
     const modes=read("js/showdownModes.js");
     const refresh=modes.slice(modes.indexOf("function smRefresh("),modes.indexOf("function smInstall("));
