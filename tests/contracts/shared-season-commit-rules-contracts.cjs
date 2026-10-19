@@ -31,6 +31,8 @@ for(const required of [
   "root.results.keys().hasOnly(['playerOne','playerTwo'])",
   "let teamCount = public.teamCount;",
   "ssjrCommitResultShape(value, teamCount)",
+  "value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague'])",
+  "&& (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false));",
   "value.leaguePosition <= teamCount",
   "value.leaguePoints <= (teamCount - 1) * 6",
   'root.results.playerOne == p1.result',

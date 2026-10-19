@@ -180,7 +180,11 @@ for(const required of [
   "career.setupOperationIds == setup.operationIds",
   "transfer.phase == 'COMPLETED'",
   "transfer.revision == 6 || transfer.revision == 7",
-  "value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist'])",
+  "value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague'])",
+  "&& (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false));",
+  "+ (result.get('europaLeague', false) == true ? 3 : 0)",
+  'progress.managerTotals.playerOne <= progress.acceptedThroughSeason * 11',
+  'progress.managerTotals.playerTwo <= progress.acceptedThroughSeason * 11',
   'value.leaguePosition <= teamCount',
   'value.leaguePoints <= (teamCount - 1) * 6',
   'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)/roles/$(managerRole))',
@@ -206,6 +210,16 @@ if((generated.match(/match \/seasonCommits\/\{seasonId\}/g)||[]).length!==1)thro
 if((generated.match(/function ssjrTerminalValidRivalryUpdate\(rivalryId\)/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Terminal Close rivalry authority function.');
 if((generated.match(/function ssjrTerminalValidAtomicSessionClose\(rivalryId, sessionId\)/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Terminal Close session authority function.');
 if((generated.match(/match \/roles\/\{managerRole\}/g)||[]).length!==2)throw new Error('Generated production Rules must contain exactly two role-private matches: Transfer Challenge and Season Results.');
+// r80 Europa League: the sparse EL key and the one-manager CL-or-EL rule live in exactly the two result shapes (Season
+// Results private result, Season Commit result), and the EL +3 term in exactly the one Terminal Close score.
+for(const [needle,count,label] of [
+  ["value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague'])",2,'Europa League result key set'],
+  ["&& (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false));",2,'Europa League CL-or-EL result rule'],
+  ["+ (result.get('europaLeague', false) == true ? 3 : 0)",1,'Europa League +3 Terminal Close score term']
+]){
+  if(generated.split(needle).length-1!==count)throw new Error(`Generated production Rules must contain the ${label} exactly ${count} time(s).`);
+}
+if(generated.includes("'topAssist'])"))throw new Error('Generated production Rules must not keep a 7-key-only result shape next to the Europa League shape.');
 if(!generated.endsWith('\n'))generated+='\n';
 fs.writeFileSync(outputPath,generated,'utf8');
 if(process.argv.includes('--stdout'))process.stdout.write(generated);
