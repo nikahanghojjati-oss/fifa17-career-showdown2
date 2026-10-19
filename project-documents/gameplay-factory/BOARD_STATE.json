@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-19 7:16 PM Boston time (EDT)",
+ "generated": "2026-10-19 7:20 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1213,27 +1213,17 @@
  },
  "two": {
   "live": {
-   "sha": "012e8b8",
+   "sha": "9230e33",
    "revision": "1.9.5-r81",
-   "when": "2026-10-19T21:48:15Z",
-   "subject": "Release 1.9.5-r81: show the real r79 game the checkmark hid (#955)",
-   "fixes": [
+   "when": "2026-10-19T23:17:26Z",
+   "subject": "Test: let the loader's first frame run before SE-6/SE-7 load the hero (#956)",
+   "fixes": [],
+   "today": [
     {
      "pr": 956,
      "title": "Test: make the SE-6 loading check deterministic on fast runners",
-     "draft": false,
-     "branch": "gameplay/r82-se6-test-timing",
-     "sha": "473f220675fd400ed07526f96ea66caad6bf5122",
-     "updated": "2026-10-19T23:01:28Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    }
-   ],
-   "today": [
+     "merged": "2026-10-19T23:17:26Z"
+    },
     {
      "pr": 955,
      "title": "r81 (1.9.5-r81): show the real r79 game the checkmark hid",
@@ -1254,7 +1244,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #956: L1… L2… L3A… L3B✓ L4… L5… L6… · seal pending · POS20 #956 0/16",
+   "gate": "POS20 #304 6/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -1800,7 +1790,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 40,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3016,22 +3006,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 956,
-    "title": "Test: make the SE-6 loading check deterministic on fast runners",
-    "draft": false,
-    "branch": "gameplay/r82-se6-test-timing",
-    "sha": "473f220675fd400ed07526f96ea66caad6bf5122",
-    "updated": "2026-10-19T23:01:28Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {

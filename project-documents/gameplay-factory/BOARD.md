@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 19 Oct, 7:17 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 19 Oct, 7:21 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
-🌐 **Live: 1.9.5-r81** (main `012e8b8`, Mon 19 Oct 5:48 PM)
+🌐 **Live: 1.9.5-r81** (main `9230e33`, Mon 19 Oct 7:17 PM)
 
-🩺 **All clear: every check has a machine.** · Gate #956: L1… L2… L3A… L3B✓ L4… L5… L6… · seal pending · POS20 #956 0/16
+🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -22,7 +22,7 @@ Updated Mon 19 Oct, 7:17 PM Boston time. Bug hunting only, no new features until
 
 **#2 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 178 h ago
+🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 179 h ago
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -2118,12 +2118,6 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 ## Other Team G work
 
-**Fixing now**
-
-| Lane | Item | What | State |
-| --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #956](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/956) | Test: make the SE-6 loading check deterministic on fast runners | 🟢 8 passed |
-
 **Up next**
 
 | Lane | Item | What | State |
@@ -2147,6 +2141,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 ## Shipped today
 
+- 7:17 PM · #956 Test: make the SE-6 loading check deterministic on fast runners
 - 5:48 PM · #955 r81 (1.9.5-r81): show the real r79 game the checkmark hid
 - 12:40 PM · #954 Re-pin the Rules safety check to r80 main
 - 10:21 AM · #933 Release r80: career save online, END SHOWDOWN (1.9.4-r80)
