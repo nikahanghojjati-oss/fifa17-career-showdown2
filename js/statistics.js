@@ -441,6 +441,7 @@ function renderRivalryComparison(container, analytics){
         ["Season Draws", one.seasonDraws, two.seasonDraws],
         ["Total Trophies", one.totalTrophies, two.totalTrophies],
         ["Champions Leagues", one.championsLeagues, two.championsLeagues],
+        ["Europa Leagues", one.europaLeagues || 0, two.europaLeagues || 0],
         ["League Titles", one.leagueTitles, two.leagueTitles],
         ["Domestic Cups", one.domesticCups, two.domesticCups],
         ["Performance Bonuses", one.performanceBonuses, two.performanceBonuses],

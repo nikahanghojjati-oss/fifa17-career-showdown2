@@ -294,6 +294,14 @@ window.ShowdownLegacyBoot = function () {
         detail.style.cssText = "display:block;line-height:1.4;color:#b9b3a4";
         detail.textContent = copy(strings, "seasonDetail", { position: season.leaguePosition[manager], points: season.leaguePoints[manager], goals: season.leagueGoals[manager] });
         side.appendChild(detail);
+        // r80: a season row names a Europa League win (the career season row carries it only for such a season).
+        if (season.europaLeague && season.europaLeague[manager] === true) {
+          const europa = document.createElement("span");
+          europa.className = "legacyHistoryEuropa";
+          europa.style.cssText = "display:block;line-height:1.4;color:#f3ce6a;font-weight:700";
+          europa.textContent = strings.ui.europaLeague || "Europa League winner";
+          side.appendChild(europa);
+        }
         row.appendChild(side);
       });
       rows.appendChild(row);

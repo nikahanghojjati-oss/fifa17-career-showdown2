@@ -106,6 +106,7 @@ function getPlayerHonours(player){
     const scoring = getLegacyScoring(player);
 
     if(player.championsLeague){ honours.push("Champions League"); }
+    else if(player.europaLeague === true){ honours.push("Europa League"); }
     if(Number(player.leaguePosition) === 1){ honours.push("League"); }
     if(player.domesticCup){ honours.push("Domestic Cup"); }
     if(scoring.performanceBonus){ honours.push("Performance Bonus"); }
