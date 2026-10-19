@@ -14,7 +14,7 @@
 //   E5  Standings: the Europa Leagues row after Champions Leagues (8 rows, phone board budget 8 rows), frames need the counter.
 //   E6  Final Winner: the Europa League honours row (TRO_EUROPA art) and the trophies line; a record without the counter fails closed;
 //       the honours grids have five metric rows and the short-window plaque leaves room for them.
-//   E7  Rule Book: EL +3 row, CL or EL never both in the same season (both count across seasons), the season 1 setup note, the EL final may be played, best season 11 / EL 9.
+//   E7  Rule Book: EL +3 row, never both CL and EL wins in the same season (both count across seasons), the season 1 setup note, the EL final may be played, best season 11 / EL 9.
 //   E8  text lines: canonical breakdown and Shared History trophy line name the Europa League only when it was won; the scoring
 //       panel and the entry hint list EL +3 and keep the maximum 11; the entry form has an EL box right after each CL box.
 const assert=require("node:assert/strict");
@@ -262,7 +262,7 @@ function ruleBook(){
   assert.ok(items.includes("A Champions League or Europa League final may be played or simulated by the manager."),"the EL final may be played, like the CL final");
   assert.ok(items.includes("The main domestic cup final may be played or simulated by the manager."),"the cup final line is unchanged");
   const notes=flat(book.all().find(n=>n.className==="ruleScoreNotes")).map(n=>n.textContent).join(" ");
-  for(const pattern of [/Champions League or the Europa League in the same season, never both\. A manager can win the Champions League in one season and the Europa League in another, and both count\./,/Season 1: both clubs play in the Champions League/,/redrawing the Champions League groups twice/,/3rd in its Champions League group drops into the Europa League/,/qualify for the Europa League by its league position/,/Best possible season: 11, which needs the Champions League\. A Europa League season tops out at 9\./])assert.match(notes,pattern);
+  for(const pattern of [/A manager can never win both the Champions League and the Europa League in the same season\. A manager can win the Champions League in one season and the Europa League in another, and both count\./,/Season 1: both clubs play in the Champions League/,/redrawing the Champions League groups twice/,/3rd in its Champions League group drops into the Europa League/,/qualify for the Europa League by its league position/,/Best possible season: 11, which needs the Champions League\. A Europa League season tops out at 9\./])assert.match(notes,pattern);
   assert.equal(book.all().filter(n=>n.className==="ruleSection"||n.className==="ruleSection scoringRuleSection").length,6,"still six rule cards");
   ok("E7 Rule Book: EL +3 row, CL or EL never both, the season 1 Champions League setup note, the EL final may be played, best season 11 / EL 9, six cards");
 }
