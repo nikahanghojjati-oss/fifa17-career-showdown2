@@ -9,10 +9,10 @@
     "bytes": 152849
   },
   "candidate": {
-    "base": "main d1888c33 (r79, runtime 1.9.3-r79; Rules as main 9b8190f0). Candidate adds the r80 END SHOWDOWN ended-early mark (R80-END): the abandon write in cmsPersistentPairAbandonValid may also carry data.endedEarly = {seasonsPlayed: int 0..10 or null}, proven by tests/firebase/ended-early-emulator.cjs. Regenerated with --print-main-delta origin/main.",
-    "sha256": "70b1b83ecd02b681177fdedce67a6fe1e8f8045b6ba95b4f008cc2719df5c7ad",
-    "gitBlobSha1": "f6ab9b75d5d07b0e33caf826cbfa17c8a096ae15",
-    "bytes": 153488
+    "base": "main d1888c33 (r79, runtime 1.9.3-r79; Rules as main 9b8190f0). Candidate adds the r80 END SHOWDOWN ended-early mark (R80-END): the abandon write in cmsPersistentPairAbandonValid may also carry data.endedEarly = {seasonsPlayed: int 0..10 or null}, proven by tests/firebase/ended-early-emulator.cjs; and the r80 Europa League (R80-EL): the Season Results and Season Commit result shapes accept the sparse europaLeague key only as true with championsLeague false for that manager, and ssjrTerminalScore adds EL +3, proven by tests/firebase/europa-league-rules-emulator.cjs. Regenerated with --print-main-delta origin/main.",
+    "sha256": "75910f93e69781b82b230f15a6bc4e984873250a5ec60c54f9ec589fff1c900b",
+    "gitBlobSha1": "13cab80a76979299fcac195da925fa984c51d8a5",
+    "bytes": 154706
   },
   "allowedOwners": [
     "G-7",
@@ -27,12 +27,108 @@
     "G-7+CAREER-START",
     "TERMINAL-CLOSE-RACE",
     "R79-PARTNER",
-    "R80-END"
+    "R80-END",
+    "R80-EL"
   ],
   "hunks": [
     {
+      "mainLine": 1703,
+      "candidateLine": 1703,
+      "removed": [],
+      "added": [
+        "    // r80 Europa League: 'europaLeague' is present only when that manager won the EL, and then it is exactly true",
+        "    // (false is refused, so there is one encoding per fact and old 7-key results are unchanged). One manager's season",
+        "    // never has CL and EL both true. Nothing compares the two managers' results: both may win the same trophy."
+      ],
+      "owner": "R80-EL",
+      "why": "r80 Europa League (plan section 0/1): comment on the Season Results private result shape; no logic."
+    },
+    {
+      "mainLine": 1706,
+      "candidateLine": 1709,
+      "removed": [
+        "        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist'])"
+      ],
+      "added": [
+        "        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague'])"
+      ],
+      "owner": "R80-EL",
+      "why": "r80 Europa League: the Season Results private result may also carry the sparse key 'europaLeague'. hasOnly (not hasAll), so the old 7-key result still passes unchanged."
+    },
+    {
+      "mainLine": 1719,
+      "candidateLine": 1722,
+      "removed": [
+        "        && value.topAssist is bool;"
+      ],
+      "added": [
+        "        && value.topAssist is bool",
+        "        && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false));"
+      ],
+      "owner": "R80-EL",
+      "why": "r80 Europa League: the key, when present, must be exactly true and that manager's championsLeague must be false (one manager plays the CL or the EL in a season, never both). Nothing compares the two managers' results."
+    },
+    {
+      "mainLine": 1818,
+      "candidateLine": 1822,
+      "removed": [],
+      "added": [
+        "    // r80 Europa League: 'europaLeague' is present only when that manager won the EL, and then it is exactly true",
+        "    // (false is refused, so there is one encoding per fact and old 7-key results are unchanged). One manager's season",
+        "    // never has CL and EL both true. Nothing compares the two managers' results: both may win the same trophy."
+      ],
+      "owner": "R80-EL",
+      "why": "r80 Europa League: comment on the Season Commit result shape; no logic."
+    },
+    {
+      "mainLine": 1821,
+      "candidateLine": 1828,
+      "removed": [
+        "        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist'])"
+      ],
+      "added": [
+        "        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague'])"
+      ],
+      "owner": "R80-EL",
+      "why": "r80 Europa League: the Season Commit result may carry the same sparse key; root.results.playerX == pX.result still binds the commit to the exact private result, key included."
+    },
+    {
+      "mainLine": 1834,
+      "candidateLine": 1841,
+      "removed": [
+        "        && value.topAssist is bool;"
+      ],
+      "added": [
+        "        && value.topAssist is bool",
+        "        && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false));"
+      ],
+      "owner": "R80-EL",
+      "why": "r80 Europa League: the same CL-or-EL rule on the commit, so a private result forged outside the Rules still cannot be committed."
+    },
+    {
+      "mainLine": 2120,
+      "candidateLine": 2128,
+      "removed": [],
+      "added": [
+        "    // Canonical season score: CL +5, EL +3 (r80; the key exists only when won), league title +3, cup +1,",
+        "    // 100 points or 100 goals +1, top scorer or top assist +1. A season stays at most 11 (an EL season at most 9)."
+      ],
+      "owner": "R80-EL",
+      "why": "r80 Europa League: comment on ssjrTerminalScore; no logic."
+    },
+    {
+      "mainLine": 2122,
+      "candidateLine": 2132,
+      "removed": [],
+      "added": [
+        "        + (result.get('europaLeague', false) == true ? 3 : 0)"
+      ],
+      "owner": "R80-EL",
+      "why": "r80 Europa League: EL winner +3 in the Terminal Close score (Nik 2026-10-19). A 7-key result scores exactly as before; the 11-point season caps are unchanged (an EL season scores at most 9). Expression budget proven by tests/firebase/europa-league-rules-emulator.cjs."
+    },
+    {
       "mainLine": 2456,
-      "candidateLine": 2456,
+      "candidateLine": 2467,
       "removed": [
         "        && after.data.diff(before.data).affectedKeys().hasOnly(['connectionState']);"
       ],
