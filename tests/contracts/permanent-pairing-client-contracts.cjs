@@ -42,7 +42,9 @@ function linkDoc(id,role){return envelope("pairLink","current",{rivalryId:id,man
 function partnerDoc(partnerAccountId,myRole,rivalryId,active=true){return{schemaVersion:1,partnerAccountId,myRole,pairedViaRivalryId:rivalryId,pairedAt:ts(1000),active,updatedAt:ts(1000)};}
 function noteDoc(rivalryId,totalSeasons,fromAccountId,expiresAtMs){return{schemaVersion:1,rivalryId,totalSeasons,fromAccountId,createdAt:ts(Date.now()),expiresAt:ts(expiresAtMs)};}
 
-function harness({role="playerTwo",docs:seed={},saves=[],activeSaveId=null,marker="none",markerError=null,redeem,create}={}){
+// r80 real vs test: a test code (no marker, no partner record) is made only by Settings > START TEST RUN, so these pages are
+// armed by default (the Showdowns made here stand for test runs); armed:false is Home START / CONTINUE without it.
+function harness({role="playerTwo",docs:seed={},saves=[],activeSaveId=null,marker="none",markerError=null,redeem,create,armed=true}={}){
   const uid=UID[role],deviceId=role==="playerTwo"?"device_nik":"device_daniel";
   const docs=new Map(Object.entries(seed));
   const library={activeSaveId,saves:saves.map(entry=>JSON.parse(JSON.stringify(entry)))};
@@ -74,7 +76,7 @@ function harness({role="playerTwo",docs:seed={},saves=[],activeSaveId=null,marke
     startRealCareer:async()=>{log.push("marker write");if(markerError)throw markerError;h.markerStatus="ready";return{status:"ready",active:true};}
   };
   const sandbox={
-    console,TextEncoder,crypto:webcrypto,Promise,Date,
+    console,TextEncoder,crypto:webcrypto,Promise,Date,...(armed?{CareerModeShowdownModes:{isTestRunArmed:()=>true}}:{}),
     setTimeout:(fn,ms)=>{timers.push({fn,ms});return timers.length;},clearTimeout:()=>{},
     document:{get visibilityState(){return h.hidden?"hidden":"visible";},querySelector:()=>null,getElementById:()=>null},
     CustomEvent:class{constructor(type,init){this.type=type;this.detail=init&&init.detail;}},
@@ -225,9 +227,14 @@ await check("PC1h Codex #904 (10-season audit): real vs test fails closed. Nik w
     assert.equal(started.status,"error",label);assert.ok(!started.capability,`${label}: no code at all`);assert.match(started.message,/could not be checked/,label);
     assert.ok(!daniel.log.some(line=>line.startsWith("create ")),`${label}: no Showdown is made`);
   }
-  const testDaniel=harness({role:"playerOne",marker:"none",saves:[danielShell()],activeSaveId:DANIEL_SAVE,create:commitCreate(Date.now()+20*60000)});
+  const testDaniel=harness({role:"playerOne",marker:"none",saves:[danielShell()],activeSaveId:DANIEL_SAVE,create:commitCreate(Date.now()+20*60000),armed:false});
   await testDaniel.pair.initialize({force:true});
-  assert.match((await testDaniel.pair.startPairing({managerRole:"playerOne"})).capability,/^CMS17-pair_/,"a test account (no marker) still gets its test code");
+  /* r80 real vs test (Nik 2026-10-19): a test code is made only by Settings > START TEST RUN (armed); any other START refuses and writes nothing */
+  const unarmed=await testDaniel.pair.startPairing({managerRole:"playerOne"});
+  assert.equal(unarmed.status,"error");assert.ok(!unarmed.capability,"no test code outside START TEST RUN");assert.match(unarmed.message,/START TEST RUN/);
+  assert.ok(!testDaniel.log.some(line=>line.startsWith("create ")),"unarmed: no Showdown is made");
+  testDaniel.sandbox.CareerModeShowdownModes={isTestRunArmed:()=>true};
+  assert.match((await testDaniel.pair.startPairing({managerRole:"playerOne"})).capability,/^CMS17-pair_/,"a test account (no marker) still gets its test code from START TEST RUN");
   const reloaded=harness({role:"playerOne",marker:"unknown",saves:[danielShell()],activeSaveId:DANIEL_SAVE,docs:{"accounts/uid_daniel/pairLinks/current":linkDoc(R3,"playerOne"),...joinable(R3)}});
   const shown=await reloaded.pair.initialize({force:true});
   assert.equal(shown.connectionState,"pending-pair");assert.equal(shown.capability,null,"after a reload an unchecked first pairing shows no code (never a plain one)");assert.match(shown.message,/CHECK STATUS/);

@@ -19,6 +19,8 @@ async function mount(snapshot,input){
     CareerModeOnlinePlayerIdentity:{getState:()=>snapshot.identity},CareerModePersistentNikDanielPair:{getState:()=>snapshot.pair},CareerModeSparkConnectedAccount:{getState:()=>({connected:true,accountId:snapshot.identity.accountId})},
     CareerModeProductionSharedHistoryConvergence:{getState:()=>snapshot.history},CareerModeProductionSharedMultiSeasonProgression:{getState:()=>snapshot.multiSeason},CareerModeProductionSharedTerminalClose:{getState:()=>snapshot.terminalClose},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:snapshot.identity.accountId}},firestoreSdk:{getDoc(){}}})},
+    // r80 real vs test: a real account (its career-start marker, nothing hidden); career pages show nothing while it is unknown.
+    CareerModeCareerStartMarker:{readMarker:async()=>({status:"ready",hiddenRivalryIds:[]}),hiddenRivalryIds:m=>m.hiddenRivalryIds.slice(),epoch:()=>0},
     CareerModeSparkClosedShowdownCareerLoader:{loadClosedShowdownCareer:async()=>{providerReads++;return {careerInput:input,model:c.CareerModeSharedCareerAnalytics.buildCareerModel(input)};}},
     CareerModeV10Screens:{install(){return this;},register:(id,def)=>definitions.set(id,def),invalidate(){},isMounted:()=>true,async show(id){const def=definitions.get(id);await def.prepare();def.mount(def.frame(),host);frames.push(JSON.parse(JSON.stringify(c.RIVALRY_BOOT.fixtures.frames.LIVE)));return true;}},
     loadRuntimeScript:async()=>{},fetch:async url=>({ok:true,json:async()=>url.endsWith("strings.json")?JSON.parse(fs.readFileSync("visual-assets/v10_1/rivalry-statistics/strings.json","utf8")):{} }),reportApplicationError:(_message,error)=>errors.push(error)

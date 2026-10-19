@@ -1878,6 +1878,21 @@
         "^tests/contracts/r80\\-could\\-not\\-load\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r80-real-vs-test-contracts.cjs",
+      "patterns": [
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/showdownModes\\.js$",
+        "^js/careerStartMarker\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^js/sparkClosedShowdownCareerLoader\\.js$",
+        "^tests/support/active\\-showdown\\-fixtures\\.cjs$",
+        "^tests/contracts/r80\\-real\\-vs\\-test\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
