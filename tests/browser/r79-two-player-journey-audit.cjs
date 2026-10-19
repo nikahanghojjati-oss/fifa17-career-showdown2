@@ -26,7 +26,9 @@
 //        "1 season" on both phones; Career Statistics (1 completed), the Trophy Room (Showdown Champion: Daniel) and
 //        Legacy's completed Showdown #1 are unchanged (R2's committed season never counts).
 //   R80e END is double-tapped: one confirm, one closure write, no error notice.
-//   P9  after the END Daniel starts again (3 seasons) and Nik's next JOIN works (one tap).
+//   P9  after the END Daniel starts again (3 seasons) and Nik's next JOIN works (one tap). The new Showdown's header reads
+//       "Season 1 / 3" on both phones at every change from Daniel's START to the Transfer Challenge: the phone that tapped END
+//       still holds the ended Showdown's confirmed Setup in memory, and its season 2 must never show on the new Showdown.
 //   R80g R3 (3 seasons): season 1 is played and committed, then Nik opens the game in a brand-new browser (same account, empty
 //        storage) and, without tapping CONTINUE (no Shared Setup state, no private session on that page), goes straight to
 //        Settings and taps END SHOWDOWN: the closure still carries endedEarly {seasonsPlayed: 1} (read from R3's accepted
@@ -446,6 +448,9 @@ async function playSetupToTransferChallenge(daniel,nik){
   }
   return clubs;
 }
+// r80: every text the header's season indicator takes from now on (a MutationObserver; the page is only read).
+const watchSeasonHeader=m=>m.page.evaluate(()=>{const node=document.getElementById("seasonIndicator");window.__r80SeasonHeader=[node.textContent.trim()];window.__r80SeasonHeaderObserver?.disconnect();window.__r80SeasonHeaderObserver=new MutationObserver(()=>window.__r80SeasonHeader.push(node.textContent.trim()));window.__r80SeasonHeaderObserver.observe(node,{childList:true,characterData:true,subtree:true});});
+const seasonHeaderTexts=m=>m.page.evaluate(()=>{window.__r80SeasonHeaderObserver?.disconnect();return window.__r80SeasonHeader||null;});
 const noticeText=m=>m.page.evaluate(()=>{const n=document.getElementById("appRuntimeNotice");return n?{kind:n.className,text:(n.querySelector(".runtimeNoticeText")?.textContent||"").trim()}:null;});
 // History (Legacy) cards as drawn: the Ended early rows (status-only cards) and the completed ones. Opening History
 // keeps the last drawn frame while it reloads, so this waits for the reloaded frame with both kinds of row.
@@ -794,8 +799,10 @@ async function main(){
     await assertCareerScreensShowCompletedShowdown([daniel,nik],"R80d",{endedEarly:true});
     ok("R80d.3",`History on both phones: exactly one Ended early row (Showdown #2 · ${today} · 1 season), the test run never shows; Career Statistics (1 completed), the Trophy Room (Showdown Champion: Daniel) and Legacy's Showdown #1 are unchanged`);
 
+    for(const m of [daniel,nik])await watchSeasonHeader(m);
     const code3=await danielStartsShowdown(daniel,3);
     const R3=code3.replace(/^CMS17R?-/,"");
+    assert.equal((await daniel.page.locator("#seasonIndicator").textContent()).trim(),"Season 1 / 3","daniel: the new Showdown's header reads Season 1 / 3 while he waits for Nik, not the ended R2's season");
     assert.ok(R3!==R1&&R3!==R2,"a new rivalry");
     await backToShowdownHome(nik);
     await nik.page.waitForFunction(text=>(document.querySelector("#newShowdown .menuTileMeta")?.textContent||"").trim()===text,"Daniel started 3 seasons. Tap to join.",{timeout:45000});
@@ -811,6 +818,12 @@ async function main(){
     // ---------- R80g END SHOWDOWN from a brand-new browser, before CONTINUE ----------
     await playSetupToTransferChallenge(daniel,nik);
     for(const m of [daniel,nik])assert.equal((await m.page.locator("#seasonIndicator").textContent()).trim(),"Season 1 / 3",`${m.user}: R3 season 1 of 3`);
+    for(const m of [daniel,nik]){
+      const texts=await seasonHeaderTexts(m);
+      assert.ok(Array.isArray(texts),`${m.user}: the season header was watched from Daniel's START`);
+      assert.deepEqual(texts.filter(text=>/^Season \d+ \/ \d+$/.test(text)&&text!=="Season 1 / 3"),[],`${m.user}: from Daniel's START to R3's Transfer Challenge the header only read season 1 of 3: ${JSON.stringify(texts)}`);
+    }
+    ok("P9.3","R3's header read Season 1 / 3 on both phones at every change from Daniel's START to the Transfer Challenge (the ended R2's Season 2 / 3 never showed)");
     await playTransferSeason(daniel,nik,"QWG Daniel Signing","ZPG Nik Signing");
     await fillSeasonResult(daniel,"p1",{leaguePosition:1,leaguePoints:87,leagueGoals:93,domesticCup:false,championsLeague:true,topScorer:true,topAssist:false});
     await publishSeasonResult(daniel);
