@@ -227,7 +227,7 @@
         const operationId=randomOperationId(),baseRevision=current.revision||0;
         assertShellSave(context);const providerRequest={...providerOptions(context),type,operationId,baseRevision,...extra};
         let result;
-        try{result=await context.conflicts.execute({surface:"shared-setup",action:type,operationId,baseRevision,authority:{accountId:context.accountId,deviceId:context.deviceId,rivalryId:context.rivalryId,sessionId:context.sessionId,managerRole:context.managerRole},intent:type==="commit-length"?{totalSeasons:extra.totalSeasons}:{}},()=>context.adapter.mutate(providerRequest));}
+        try{result=await context.conflicts.execute({surface:"shared-setup",action:type,operationId,baseRevision,authority:{accountId:context.accountId,deviceId:context.deviceId,rivalryId:context.rivalryId,sessionId:context.sessionId,managerRole:context.managerRole},intent:type==="commit-length"?{totalSeasons:extra.totalSeasons}:{}},()=>{assertShellSave(context);return context.adapter.mutate(providerRequest);});}
         catch(error){if(attempt===0&&RACE_CODES.includes(safeError(error,""))){continue;}throw error;}
         assertStorageUnchanged(before);
         if(result&&result.ok!==true&&attempt===0&&RACE_CODES.includes(result.code))continue;
@@ -296,8 +296,9 @@
   // modules take the rivalry from it while the shell's marker names none (Multi Season, Season Results, Transfer Challenge,
   // Season Commit, History, Scoring, Final, Terminal Close), so the new Showdown ran on the ended one: Nik's new 3-season
   // Showdown resumed the ended one's season 2 and read "Season 2 / 3". Another save's Setup is not this Showdown's: once the shell
-  // changes it is dropped (the locked start state) before anything reads, renders or announces it, and a write refuses a
-  // context bound to another save, until a refresh reads this save's own Setup.
+  // changes it is dropped (the locked start state) before anything reads, renders or announces it, until a refresh reads this
+  // save's own Setup. A write refuses a context bound to another save, checked again right before the provider write (the
+  // conflict preflight before it awaits, and END or JOIN can switch the shell meanwhile).
   function shellSaveId(){try{const showdown=typeof currentShowdown!=="undefined"?currentShowdown:null;return String(showdown?.identity?.saveId||"").trim();}catch(_error){return "";}}
   function scopeToShell(){const saveId=shellSaveId();if(state.saveId&&saveId&&state.saveId!==saveId)state=freeze({...INITIAL_STATE,open:state.open});return state;}
   function assertShellSave(context){const saveId=shellSaveId();if(context.saveId&&saveId&&context.saveId!==saveId)fail("SHARED_SETUP_AUTHORITY_MISMATCH","This connection no longer matches this Showdown. Reconnect both players.");}

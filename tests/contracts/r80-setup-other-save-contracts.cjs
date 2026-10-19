@@ -15,7 +15,7 @@
 //      the same save in a new object or a shell without a save id still reads R2's (checked in N1).
 //   N4 (Codex P1 on #944) after the switch nothing announces, renders or writes save A's Setup: a refresh that still answers
 //      for save A notifies subscribers and renders the panel only with the locked start state, and a write bound to save A is
-//      refused before the provider is touched.
+//      refused before the provider is touched, including when END / JOIN switches the shell during the conflict preflight.
 //   N5 once save B's own Setup (R3) is confirmed it is read and used: Season 1 / 3 from R3's authority.
 //   N6 every shared module that borrows the Setup's rivalry reads it through getState() (so N2 covers all of them).
 const assert=require("node:assert/strict");
@@ -65,7 +65,8 @@ function boot(){
   sandbox.CareerModeSharedShowdownSetup={};sandbox.CareerModeSharedShowdownCatalog={catalog:{}};
   const writes=[];
   sandbox.CareerModeSparkSharedShowdownSetup={read:async options=>({ok:true,status:"ready",revision:6,state:{...confirmed,rivalryId:options.rivalryId}}),mutate:async options=>{writes.push(options.rivalryId);return {ok:false,code:"UNUSED"};}};
-  sandbox.CareerModeProductionSharedJourneyConflicts={execute:async(_intent,write)=>write()};
+  // The conflict guard awaits its own preflight (WebCrypto digests) before it calls the write; env.preflight runs in that gap.
+  sandbox.CareerModeProductionSharedJourneyConflicts={execute:async(_intent,write)=>{if(env.preflight)await env.preflight();return write();}};
   sandbox.CareerModeProductionSharedHistoryConvergence={refresh:async()=>null,getState:()=>null};
   sandbox.CareerModeSharedMultiSeasonProgression={};
   sandbox.CareerModeSparkSharedMultiSeasonProgression={read:async options=>{
@@ -137,6 +138,16 @@ function boot(){
   assert.equal(write.ok,false,"N4 a write bound to save A is refused on save B");
   assert.equal(write.code,"SHARED_SETUP_AUTHORITY_MISMATCH",`N4 the refusal names the authority mismatch (got ${write.code})`);
   assert.deepEqual(t.writes,[],"N4 the provider is never asked to write save A's Setup from save B");
+  // Codex P2 on #944: a write that starts on save A, where END (or JOIN) switches the shell to save B during the conflict
+  // guard's preflight, never reaches the provider.
+  t.sandbox.currentShowdown=shell(1700000000001,SAVE_A);
+  t.env.preflight=async()=>{t.sandbox.currentShowdown=shell(1700000000002,SAVE_B);};
+  const raced=await t.setup.mutate("confirm");
+  t.env.preflight=null;
+  assert.equal(t.sandbox.currentShowdown.identity.saveId,SAVE_B,"N4 precondition: the shell switched to save B during the preflight");
+  assert.equal(raced.ok,false,"N4 a write whose shell switched during the conflict preflight is refused");
+  assert.equal(raced.code,"SHARED_SETUP_AUTHORITY_MISMATCH",`N4 the late refusal names the authority mismatch (got ${raced.code})`);
+  assert.deepEqual(t.writes,[],`N4 the provider is never called for save A once the shell is save B: ${JSON.stringify(t.writes)}`);
   assert.deepEqual(seen.filter(next=>next.ready||next.rivalryId||next.setup),[],"N4 the refused write announced nothing of save A");
   unsubscribe();delete t.sandbox.document;
   console.log("ok N4 after the switch no subscriber, panel or write ever sees save A's Setup");
