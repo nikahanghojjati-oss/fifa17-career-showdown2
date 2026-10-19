@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-19 3:02 AM Boston time (EDT)",
+ "generated": "2026-10-19 3:06 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1226,8 +1226,8 @@
      "sha": "6c6cb00c0203363f60aedc39bee4c66ee31bc8fd",
      "updated": "2026-10-19T06:58:10Z",
      "gates": {
-      "passed": 1,
-      "running": 6,
+      "passed": 6,
+      "running": 1,
       "failed": 0,
       "cancelled": 0
      }
@@ -3009,8 +3009,8 @@
     "sha": "6c6cb00c0203363f60aedc39bee4c66ee31bc8fd",
     "updated": "2026-10-19T06:58:10Z",
     "gates": {
-     "passed": 1,
-     "running": 6,
+     "passed": 6,
+     "running": 1,
      "failed": 0,
      "cancelled": 0
     }
