@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 19 Oct, 6:59 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 19 Oct, 7:01 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.5-r81** (main `012e8b8`, Mon 19 Oct 5:48 PM)
 
@@ -2117,6 +2117,12 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 - Nothing else needs you right now.
 
 ## Other Team G work
+
+**Fixing now**
+
+| Lane | Item | What | State |
+| --- | --- | --- | --- |
+| 🟧 Team G lead | [PR #956](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/956) | Test: make the SE-6 loading check deterministic on fast runners | ⏳ 0 passed, 7 running |
 
 **Up next**
 

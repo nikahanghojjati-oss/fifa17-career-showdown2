@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-19 6:59 PM Boston time (EDT)",
+ "generated": "2026-10-19 7:00 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1217,7 +1217,22 @@
    "revision": "1.9.5-r81",
    "when": "2026-10-19T21:48:15Z",
    "subject": "Release 1.9.5-r81: show the real r79 game the checkmark hid (#955)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 956,
+     "title": "Test: make the SE-6 loading check deterministic on fast runners",
+     "draft": false,
+     "branch": "gameplay/r82-se6-test-timing",
+     "sha": "473f220675fd400ed07526f96ea66caad6bf5122",
+     "updated": "2026-10-19T22:59:59Z",
+     "gates": {
+      "passed": 0,
+      "running": 7,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": [
     {
      "pr": 955,
@@ -1785,7 +1800,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 40,
+  "moving": 41,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3001,7 +3016,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 956,
+    "title": "Test: make the SE-6 loading check deterministic on fast runners",
+    "draft": false,
+    "branch": "gameplay/r82-se6-test-timing",
+    "sha": "473f220675fd400ed07526f96ea66caad6bf5122",
+    "updated": "2026-10-19T22:59:59Z",
+    "gates": {
+     "passed": 0,
+     "running": 7,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
