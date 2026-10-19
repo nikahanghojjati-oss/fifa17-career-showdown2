@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="app-asset-revision" content="1.9.3-r79">
+<meta name="app-asset-revision" content="1.9.4-r80">
 <title>Career Mode Showdown</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="image" href="assets/LOADING_REUS_PHONE.webp?v=1.9.3-r79" media="(max-aspect-ratio: 7/5)" fetchpriority="high">
-<link rel="preload" as="image" href="assets/LOADING_REUS_DESKTOP.webp?v=1.9.3-r79" media="not all and (max-aspect-ratio: 7/5)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/LOADING_REUS_PHONE.webp?v=1.9.4-r80" media="(max-aspect-ratio: 7/5)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/LOADING_REUS_DESKTOP.webp?v=1.9.4-r80" media="not all and (max-aspect-ratio: 7/5)" fetchpriority="high">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&display=swap">
-<link rel="stylesheet" id="appStyles" href="css/app.css?v=1.9.3-r79">
+<link rel="stylesheet" id="appStyles" href="css/app.css?v=1.9.4-r80">
 </head>
 <body>
 <div id="background"></div>
@@ -20,8 +20,8 @@
 <div class="startupScene" aria-hidden="true">
 <div class="startupAthleteFrame">
 <picture>
-<source media="(max-aspect-ratio: 7/5)" srcset="assets/LOADING_REUS_PHONE.webp?v=1.9.3-r79" width="1179" height="2096">
-<img id="startupAthlete" src="assets/LOADING_REUS_DESKTOP.webp?v=1.9.3-r79" width="1920" height="1080" alt="" decoding="async" fetchpriority="high">
+<source media="(max-aspect-ratio: 7/5)" srcset="assets/LOADING_REUS_PHONE.webp?v=1.9.4-r80" width="1179" height="2096">
+<img id="startupAthlete" src="assets/LOADING_REUS_DESKTOP.webp?v=1.9.4-r80" width="1920" height="1080" alt="" decoding="async" fetchpriority="high">
 </picture>
 </div>
 </div>
@@ -343,7 +343,7 @@
 
 <section id="seasonEntry" class="screen hidden">
 <h2 id="seasonEntryTitle">SEASON RESULTS</h2>
-<p class="seasonEntryHint">Scoring: Champions League +5, league title +3, domestic cup +1. 100 league points and/or 100 league goals share one +1 performance bonus. Top Scorer and/or Top Assist share one +1 awards bonus. Maximum season score: 11.</p>
+<p class="seasonEntryHint">Scoring: Champions League +5 or Europa League +3 (never both in the same season), league title +3, domestic cup +1. 100 league points and/or 100 league goals share one +1 performance bonus. Top Scorer and/or Top Assist share one +1 awards bonus. Maximum season score: 11.</p>
 <div class="seasonEntryGrid">
 <div class="seasonResultCard">
 <div class="seasonManagerHeader"><h3 id="seasonManagerOne">DANIEL</h3><p id="seasonClubOne">Club</p></div>
@@ -351,8 +351,9 @@
 <label>LEAGUE POINTS<input id="p1LeaguePoints" type="number" inputmode="numeric" min="0" step="1" placeholder="86"></label>
 <label>LEAGUE GOALS<input id="p1LeagueGoals" type="number" inputmode="numeric" min="0" step="1" placeholder="92"></label>
 <div class="achievementChecks">
-<label><input id="p1DomesticCup" type="checkbox"> Domestic Cup Winner</label>
 <label><input id="p1ChampionsLeague" type="checkbox"> Champions League Winner</label>
+<label><input id="p1EuropaLeague" type="checkbox"> Europa League Winner</label>
+<label><input id="p1DomesticCup" type="checkbox"> Domestic Cup Winner</label>
 <label><input id="p1TopScorer" type="checkbox"> Top Scorer</label>
 <label><input id="p1TopAssist" type="checkbox"> Top Assist</label>
 </div>
@@ -364,8 +365,9 @@
 <label>LEAGUE POINTS<input id="p2LeaguePoints" type="number" inputmode="numeric" min="0" step="1" placeholder="82"></label>
 <label>LEAGUE GOALS<input id="p2LeagueGoals" type="number" inputmode="numeric" min="0" step="1" placeholder="85"></label>
 <div class="achievementChecks">
-<label><input id="p2DomesticCup" type="checkbox"> Domestic Cup Winner</label>
 <label><input id="p2ChampionsLeague" type="checkbox"> Champions League Winner</label>
+<label><input id="p2EuropaLeague" type="checkbox"> Europa League Winner</label>
+<label><input id="p2DomesticCup" type="checkbox"> Domestic Cup Winner</label>
 <label><input id="p2TopScorer" type="checkbox"> Top Scorer</label>
 <label><input id="p2TopAssist" type="checkbox"> Top Assist</label>
 </div>
@@ -401,15 +403,15 @@
 <button class="backButton" data-smart-back type="button">BACK TO MAIN MENU</button>
 </section>
 </main>
-<footer>Career Mode Showdown<br>v1.9.3</footer>
+<footer>Career Mode Showdown<br>v1.9.4</footer>
 </div>
 
-<script defer src="js/storage.js?v=1.9.3-r79"></script>
-<script defer src="js/showdown.js?v=1.9.3-r79"></script>
-<script defer src="js/scoring.js?v=1.9.3-r79"></script>
-<script defer src="js/screens.js?v=1.9.3-r79"></script>
-<script defer src="js/menuExperience.js?v=1.9.3-r79"></script>
-<script defer src="js/optionalModules.js?v=1.9.3-r79"></script>
-<script defer src="js/app.js?v=1.9.3-r79"></script>
+<script defer src="js/storage.js?v=1.9.4-r80"></script>
+<script defer src="js/showdown.js?v=1.9.4-r80"></script>
+<script defer src="js/scoring.js?v=1.9.4-r80"></script>
+<script defer src="js/screens.js?v=1.9.4-r80"></script>
+<script defer src="js/menuExperience.js?v=1.9.4-r80"></script>
+<script defer src="js/optionalModules.js?v=1.9.4-r80"></script>
+<script defer src="js/app.js?v=1.9.4-r80"></script>
 </body>
 </html>

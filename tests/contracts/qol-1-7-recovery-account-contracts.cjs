@@ -74,15 +74,15 @@ function recoveryDocs(){
   };
 }
 // A phone that lost its local copy: ACTIVE pair on the server, empty Save Library -> recovery-required.
-function recoveryHarness({confirm}={}){
+function recoveryHarness({confirm,adopt}={}){
   const {document}=createDom();
   const docs=new Map(Object.entries(recoveryDocs()));
-  const deleted=[],calls={navigate:[],openModule:[]};
+  const deleted=[],calls={navigate:[],openModule:[],adopt:[],reads:0,writes:0};
   const firestoreSdk={
     doc:(_db,...parts)=>({path:parts.join("/")}),
     Timestamp:{fromMillis:ms=>({toMillis:()=>ms})},
-    runTransaction:async(_db,fn)=>{const writes=[];const tx={get:async ref=>({exists:()=>docs.has(ref.path),data:()=>docs.get(ref.path)}),set:(ref,value)=>{writes.push([ref.path,value]);}};const result=await fn(tx);for(const [p,v] of writes)docs.set(p,v);return result;},
-    getDoc:async ref=>({exists:()=>docs.has(ref.path),data:()=>docs.get(ref.path)})
+    runTransaction:async(_db,fn)=>{const writes=[];const tx={get:async ref=>{calls.reads+=1;return{exists:()=>docs.has(ref.path),data:()=>docs.get(ref.path)};},set:(ref,value)=>{calls.writes+=1;writes.push([ref.path,value]);}};const result=await fn(tx);for(const [p,v] of writes)docs.set(p,v);return result;},
+    getDoc:async ref=>{calls.reads+=1;return{exists:()=>docs.has(ref.path),data:()=>docs.get(ref.path)};}
   };
   const library={activeSaveId:null,saves:[]};
   const sandbox={
@@ -91,7 +91,7 @@ function recoveryHarness({confirm}={}){
     CareerModeOnlinePlayerIdentity:{getState:()=>({managerId:"nik"})},
     CareerModeSparkConnectedAccount:{initialize:async()=>({}),getState:()=>({connected:true,accountId:"uid_nik"})},
     CareerModeSparkPrivatePairing:{initialize:async()=>({}),getState:()=>({registered:true,deviceId:"device_nik"}),localBindingOptions:()=>[],getOrCreateDeviceIdentity:async()=>({deviceId:"device_nik"}),pairingJoinErrorMessage:error=>error?.message||"The code could not be joined."},
-    CareerModeSaveLibraryRuntime:{isReady:()=>true,getLibrarySnapshot:()=>JSON.parse(JSON.stringify(library)),switchActiveSave:async()=>true,deleteSave:id=>{deleted.push(id);return{ok:true};}},
+    CareerModeSaveLibraryRuntime:{isReady:()=>true,getLibrarySnapshot:()=>JSON.parse(JSON.stringify(library)),switchActiveSave:async()=>true,deleteSave:id=>{deleted.push(id);return{ok:true};},...(adopt?{adoptOnlineEntry:async facts=>{calls.adopt.push({...facts});const result=await adopt(facts);if(result?.ok&&!library.saves.some(e=>e.saveId===facts.saveId)){library.saves.push({saveId:facts.saveId,showdown:{identity:{saveId:facts.saveId,managerProfileIds:{[facts.role]:facts.profileId}}}});library.activeSaveId=facts.saveId;}return result;}}:{})},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"uid_nik"}},firestore:{},firestoreSdk})},
     navigateTo:async screen=>{calls.navigate.push(screen);return true;},
     openOptionalModule:async key=>{calls.openModule.push(key);return true;}
@@ -120,7 +120,7 @@ async function q1RecoveryLeadsWithTheSafeButton(){
   assert.equal(classesOf(remove).includes("dangerButton"),true,"Q1 the delete keeps its danger styling");
   assert.equal(classesOf(remove).includes("pairRecoverySecondary"),true,"Q1 the delete carries the smaller-secondary hook");
   assert.equal(classesOf(restore).includes("pairRecoverySecondary"),false);
-  assert.match(panel.textContent,/NO LOCAL CAREER DATA ON THIS BROWSER/,"Q1 the explanatory note is still shown");
+  assert.match(panel.textContent,/THIS SHOWDOWN COULD NOT BE LOADED HERE/,"Q1 the explanatory note is still shown");
   const actions=restore.parent;
   assert.equal(actions.children[0],restore,"Q1 the first child of the action row is the safe button");
   assert.equal(actions.children.indexOf(remove),1);
@@ -203,11 +203,27 @@ function q4NothingElseMoved(){
   ok("Q4 the creator guard, two-manager rule and sign-in mechanics are untouched and no control was added");
 }
 
+// r80: the same phone (ACTIVE pair, empty Save Library) rebuilds the exact shell from the pair link before anything is published:
+// paired, not recovery-required, with the same reads and no write. recovery-required stays only for a rebuild that fails.
+async function r80RebuildBeforeRecovery(){
+  const plain=recoveryHarness();await plain.pair.initialize({force:true});
+  const h=recoveryHarness({adopt:async facts=>({ok:true,status:"rebuilt",saveId:facts.saveId})});
+  const state=await h.pair.initialize({force:true});
+  assert.equal(state.status,"paired","r80 the missing shell is rebuilt, so the live Showdown continues here");
+  assert.deepEqual(h.calls.adopt,[{saveId:SAVE_NEW,profileId:PROFILE_NEW,role:"playerTwo",totalRounds:3}],"r80 the rebuild uses the pair link's exact ids, the role and the seasons in the rivalry id");
+  assert.equal(h.calls.reads,plain.calls.reads,"r80 the rebuild adds no Firestore read");assert.equal(h.calls.writes,0,"r80 and no write");
+  await h.pair.initialize({force:true});assert.equal(h.calls.adopt.length,1,"r80 an exact shell is reused, never rebuilt twice");
+  const failed=recoveryHarness({adopt:async()=>{throw new Error("refused");}});
+  assert.equal((await failed.pair.initialize({force:true})).status,"recovery-required","r80 recovery-required stays only when the rebuild fails");
+  ok("R80 a fresh browser rebuilds the exact shell before recovery is published; a failed rebuild still shows recovery");
+}
+
 (async()=>{
   await q1RecoveryLeadsWithTheSafeButton();
   await q1HandlersAreUnchanged();
   q2StylingAndNoScroller();
   q3WrongAccountSaysWhatToDo();
   q4NothingElseMoved();
+  await r80RebuildBeforeRecovery();
   console.log(`PASS QoL 1+7 recovery leads with the safe button and a wrong Google account says what to do (${checks} checks).`);
 })().catch(error=>{console.error(error);process.exit(1);});

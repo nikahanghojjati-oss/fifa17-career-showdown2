@@ -19,7 +19,7 @@ const format=value=>value===null?"-":Number.isInteger(value)?String(value):value
 const careerFields=[["Career points","careerPoints"],["Seasons played","seasons"],["Season wins","seasonWins"],["Season draws","seasonDraws"],["Season losses","seasonLosses"]];
 const showdownFields=[["Showdowns completed","completed"],["Showdown wins","wins"],["Showdown draws","draws"],["Showdown losses","losses"]];
 const recordFields=[["Best season score","bestSeasonScore"],["Best league points","bestLeaguePoints"],["Best league goals","bestLeagueGoals"],["Best league position","bestLeaguePosition"],["Average season score","averageSeasonScore"],["Average league points","averageLeaguePoints"],["Average league goals","averageLeagueGoals"],["Perfect seasons","perfectSeasons"],["100-point seasons","hundredPointSeasons"],["100-goal seasons","hundredGoalSeasons"],["Top scorer seasons","topScorerSeasons"],["Top assist seasons","topAssistSeasons"],["Performance bonuses","performanceBonuses"],["Awards bonuses","awardsBonuses"]];
-const cabinetFields=[["Champions Leagues","championsLeagues"],["League titles","leagueTitles"],["Domestic cups","domesticCups"],["Total trophies","totalTrophies"]];
+const cabinetFields=[["Champions Leagues","championsLeagues"],["Europa Leagues","europaLeagues"],["League titles","leagueTitles"],["Domestic cups","domesticCups"],["Total trophies","totalTrophies"]];
 const rivalryFields=[["Season wins","seasonWins"],["Season draws","seasonDraws"],["Season losses","seasonLosses"],...cabinetFields,["Perfect seasons","perfectSeasons"],["Best season score","bestSeasonScore"]];
 function comparisonRows(fields,records){return fields.map(([label,key])=>({label,daniel:format(records.daniel[key]),nik:format(records.nik[key])}));}
 function frozenTree(value){if(value&&typeof value==="object"){assert.ok(Object.isFrozen(value));Object.values(value).forEach(frozenTree);}}
@@ -133,10 +133,17 @@ await check("6. Left and right with all row mappings",()=>{
     assert.equal(headers.length,view.sections.filter(s=>s.rows.some(r=>"daniel" in r)).length);
   }
 });
-await check("7. Abandoned and unavailable are status only",()=>{
+await check("7. Abandoned (Ended early) and unavailable are status only",()=>{
   for(const status of ["abandoned","unavailable"]){
-    const forged=clone(ready);forged.history.showdowns[0].status=status;
-    assert.deepEqual(Seam.careerScreenView("legacy",forged).sections[0].rows,[{label:"SHOWDOWN 1",value:status==="abandoned"?"Abandoned":"Unavailable"}]);
+    const forged=clone(ready);Object.assign(forged.history.showdowns[0],{status,seasonsPlayed:null});
+    assert.deepEqual(Seam.careerScreenView("legacy",forged).sections[0].rows,[{label:"SHOWDOWN 1",value:status==="abandoned"?"Ended early · - · - seasons":"Unavailable"}]);
+  }
+  // r80 END SHOWDOWN: the row names the close date and the seasons played; an old close without the mark shows a dash.
+  const endedAt=Date.UTC(2026,9,18,12);
+  for(const [played,text] of [[0,"0 seasons"],[1,"1 season"],[2,"2 seasons"],[null,"- seasons"]]){
+    const ended=clone(ready);Object.assign(ended.history.showdowns[0],{status:"abandoned",seasonsPlayed:played,endedAt});
+    assert.equal(Seam.careerScreenView("legacy",ended).sections[0].rows[0].value,"Ended early · 18 Oct 2026 · "+text);
+    assert.equal(Seam.endedEarlyText(ended.history.showdowns[0]),"Ended early · 18 Oct 2026 · "+text);
   }
   assert.deepEqual(Seam.careerScreenView("legacy",ready).sections[0].rows,[{label:"SHOWDOWN 1",value:"Completed · Daniel 1 - Nik 11 · Nik won"}]);
   for(const [status,text] of [["in-progress","In progress"],["completion-pending","Final result, completion pending"]]){

@@ -1,5 +1,7 @@
 "use strict";
-// r79: Daniel's DELETE CURRENT SHOWDOWN (Settings, unchanged) on a live Showdown, then Nik's next JOIN works with no extra taps.
+// r79: Daniel's DELETE CURRENT SHOWDOWN (Settings) on a live Showdown, then Nik's next JOIN works with no extra taps.
+// r80: the button is END SHOWDOWN (same place, same red look): the one closure write carries the ended-early mark (0 seasons on
+// the league wheel), Daniel's notice says it ended, and Nik's phone goes Home by itself with the Ended early notice.
 // Real app, two Chromium contexts, Auth + Firestore emulators with the composed production Rules (test project only).
 // Run: CMS_CHROMIUM_MULTI_CONTEXT=1 npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json \
 //        --only auth,firestore --project demo-cms-browser-journey "node tests/browser/r79-delete-rejoin-audit.cjs"
@@ -124,13 +126,19 @@ async function main(){
     for(const m of [daniel,nik])await m.page.waitForFunction(()=>window.CareerModePersistentNikDanielPair?.getPartnerState?.()?.record?.active===true,null,{timeout:30000});
     ok("D1","a live real Showdown R1: both paired ACTIVE with partner records, both on the league wheel");
 
-    // Daniel: Settings -> DELETE CURRENT SHOWDOWN (unchanged), answered OK.
+    // Daniel: Settings -> END SHOWDOWN (r80, was DELETE CURRENT SHOWDOWN), answered OK.
     await openSettings(daniel);
-    await daniel.page.locator(".settingsDeleteCurrentShowdown").click();
+    const endButton=daniel.page.locator(".settingsDeleteCurrentShowdown");
+    assert.equal((await endButton.textContent()).trim(),"END SHOWDOWN","the red button is END SHOWDOWN");
+    assert.equal(await daniel.page.getByText("DELETE CURRENT SHOWDOWN").count(),0,"no separate DELETE");
+    await endButton.click();
     await daniel.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.busy===false&&s.status==="unpaired");},null,{timeout:45000});
-    assert.equal(field(await admin(`rivalries/${R1}`),"data","connectionState").stringValue,"closed","R1 is closed");
+    const closedR1=await admin(`rivalries/${R1}`);
+    assert.equal(field(closedR1,"data","connectionState").stringValue,"closed","R1 is closed");
+    assert.equal(field(closedR1,"data","endedEarly","seasonsPlayed").integerValue,"0","the ended-early mark: 0 seasons (ended on the league wheel)");
+    await daniel.page.waitForFunction(()=>/^Ended the ".*" Showdown for both players\. History keeps it as Ended early\.$/.test(document.querySelector("#appRuntimeNotice .runtimeNoticeText")?.textContent?.trim()||""),null,{timeout:15000});
     await closeSettings(daniel);
-    ok("D2","Daniel's DELETE CURRENT SHOWDOWN closed R1");
+    ok("D2","Daniel's END SHOWDOWN closed R1 with the ended-early mark (0 seasons) and said it ended");
 
     // Nik's page notices on the reads it already makes (no reload, no tap): its Terminal Close read finds R1 closed by a delete.
     const nikTapsAtDelete=nik.log.taps.length;
@@ -141,7 +149,10 @@ async function main(){
     assert.equal(await nik.page.evaluate(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionId||null),null,"Nik's page forgot R1's session");
     assert.equal(nik.log.taps.length,nikTapsAtDelete,"Nik tapped nothing");
     assert.deepEqual(nik.log.errors.filter(e=>/TERMINAL_CLOSE/.test(e)),[],"no TERMINAL_CLOSE_INTENT_INVALID on Nik's page");
-    ok("D3","Nik's page, with no reload and no tap: Terminal Close says DELETED, the pair holds R1 as closed, the local save is kept, no TERMINAL_CLOSE error");
+    await nik.page.locator("#mainMenu").waitFor({state:"visible",timeout:15000});
+    assert.match(await nik.page.locator("#appRuntimeNotice .runtimeNoticeText").textContent(),/This Showdown was ended for both players\. History keeps it as Ended early\./,"Nik's notice says it ended early");
+    assert.equal(nik.log.taps.length,nikTapsAtDelete,"Nik tapped nothing to get Home");
+    ok("D3","Nik's page, with no reload and no tap: Terminal Close says DELETED, Nik is on Home with the Ended early notice, the pair holds R1 as closed, the local save is kept, no TERMINAL_CLOSE error");
 
     // Daniel starts the next Showdown with a different length (1 season); Nik goes Home and JOINs with one tap.
     if(!await daniel.page.locator("#mainMenu").isVisible().catch(()=>false))await goHome(daniel);
@@ -156,7 +167,7 @@ async function main(){
     const tapsBeforeJoin=nik.log.taps.length;
     await nik.page.locator("#newShowdown").click({timeout:30000});
     await bothActive([daniel,nik],R2);
-    assert.equal(nik.log.taps.length-tapsBeforeJoin,1,"one tap: JOIN on Home (no DELETE CURRENT SHOWDOWN, no code typed)");
+    assert.equal(nik.log.taps.length-tapsBeforeJoin,1,"one tap: JOIN on Home (no END SHOWDOWN, no code typed)");
     assert.equal(field(await admin(`accounts/${uidN}/pairLinks/current`),"data","rivalryId").stringValue,R2,"Nik is paired to R2");
     const nikLibraryAfterJoin=await library(nik);
     const kept=nikLibraryAfterJoin.saves.find(e=>e.saveId===nikLibraryBefore.activeSaveId);

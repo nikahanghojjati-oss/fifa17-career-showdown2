@@ -19,7 +19,7 @@
 //     account, never on an idle test Home (where START is real).
 // M10 Settings no longer has the START REAL CAREER row or the SHOW TEST SHOWDOWNS AGAIN switch; old test games stay stored
 //     and stay hidden, whatever the old switch left in the marker.
-// M11 DELETE CURRENT SHOWDOWN is exactly as it was (byte-identical function and button).
+// M11 END SHOWDOWN (r80; was DELETE CURRENT SHOWDOWN) is exactly as reviewed (byte-identical function and button).
 // M12 Lazy, cached, no timers: not in index.html, in the service-worker shell list (runtime version untouched), no polling.
 // M13 Gallery #5/#6: with a Showdown in play both managers read the same UNPAIR rule before any tap; a refusal lasts only
 //     while that Showdown is live (after DELETE the note is the plain one again and UNPAIR is offered).
@@ -148,13 +148,13 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
   await check("M4","UNPAIR is blocked while a Showdown is in progress (reason shown, nothing else); with none it asks once and unpairs once",async()=>{
     const blocked=page({partner:ACTIVE_NIK,side:"mutual",pairState:{rivalryId:"r1",connectionState:"active"}});await blocked.modes.resolve();
     blocked.settings().button("UNPAIR").click();await settle();
-    assert.equal(blocked.settings().note,"Finish or delete the current Showdown before you unpair. Nothing was changed.");
+    assert.equal(blocked.settings().note,"Finish or end the current Showdown before you unpair. Nothing was changed.");
     assert.ok(!blocked.calls.includes("unpair"),"unpair() is never called");assert.ok(!blocked.calls.some(c=>Array.isArray(c)&&c[0]==="confirm"),"no confirm box either");
     assert.deepEqual(blocked.settings().buttons,["UNPAIR"],"the pairing is unchanged");
     // A pending Showdown whose code is still open: the pair module's fail-closed unpair() refuses inside its transaction.
     const refused=page({partner:ACTIVE_NIK,side:"mutual",pairState:{rivalryId:"r1",connectionState:"pending-pair"},unpairError:Object.assign(new Error("in progress"),{code:"PERMANENT_PARTNER_UNPAIR_BLOCKED"})});await refused.modes.resolve();
     refused.settings().button("UNPAIR").click();await settle();
-    assert.equal(refused.settings().note,"Finish or delete the current Showdown before you unpair. Nothing was changed.");assert.deepEqual(refused.settings().buttons,["UNPAIR"]);
+    assert.equal(refused.settings().note,"Finish or end the current Showdown before you unpair. Nothing was changed.");assert.deepEqual(refused.settings().buttons,["UNPAIR"]);
     const cancelled=page({partner:ACTIVE_NIK,side:"mutual",confirm:false});await cancelled.modes.resolve();
     cancelled.settings().button("UNPAIR").click();await settle();assert.ok(!cancelled.calls.includes("unpair"),"cancel changes nothing");
     const ok=page({partner:ACTIVE_NIK,side:"mutual"});await ok.modes.resolve();
@@ -174,7 +174,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     }
     const blocked=page({partner:ACTIVE_NIK,side:"unpaired",pairState:{rivalryId:"r1",connectionState:"active"}});await blocked.modes.resolve();
     blocked.settings().button("PAIR AGAIN").click();await settle();
-    assert.ok(!blocked.calls.includes("unpair")&&!blocked.calls.includes("openStart"));assert.match(blocked.settings().note,/^Finish or delete the current Showdown/);
+    assert.ok(!blocked.calls.includes("unpair")&&!blocked.calls.includes("openStart"));assert.match(blocked.settings().note,/^Finish or end the current Showdown/);
     const which=require(path.join(ROOT,"js/whichShowdownIsLive.js"));
     const idlePair={initialized:true,status:"paired",rivalryId:null,connectionState:"none"};
     for(const role of ["playerOne","playerTwo"]){
@@ -185,7 +185,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.equal(which.decide({role:"playerOne",pair:live,partnerSide:"unpaired",nowEpochMs:1}).action,"resume-waiting","a Showdown already under way comes first");
     const identity=read("js/onlinePlayerIdentity.js");
     assert.match(identity,/function pairAgainTile\(\)\{[^\n]*side\.status!=="unpaired"[^\n]*return\["PAIR",`PAIR AGAIN WITH \$\{other\.toUpperCase\(\)\}`,`\$\{other\} is no longer paired with you\. Tap to pair again\.`\];\}/,"Home says it plainly");
-    assert.match(identity,/const nik=isNik\?nikHomeTile\(\):current\?\.status==="ready"\?pairAgainTile\(\):null;/,"Daniel's Home START tile too");
+    assert.match(identity,/const nik=isNik\?nikHomeTile\(\):current\?\.status==="ready"\?liveHomeTile\(\)\|\|pairAgainTile\(\):null;/,"Daniel's Home START tile too");
     assert.match(identity,/if\(decision\.action==="pair-again"\)\{await pairAgainFirst\(\);decision=await which\.read\(root\);\}/,"START: reset, then decide again");
     const pairSource=read("js/persistentNikDanielPair.js");
     assert.match(pairSource,/if\(!mine\|\|mine\.active!==true\)\{[^\n]*return partnerSideState;\}/,"the partner side is read only while this account's own record is active");
@@ -217,7 +217,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.ok(!unknown.calls.includes("startRealCareer"));assert.match(unknown.dom.doc.getElementById("cmsSeasonsStartMessage").textContent,/^Your career could not be checked\./);
     const real=page({partner:ACTIVE_NIK,side:"mutual"});assert.equal(await real.modes.beforeSeasonsStart(),true);assert.ok(!real.calls.includes("startRealCareer"));
     const entry=read("js/productionSharedJourneyEntry.js");
-    assert.match(entry,/if\(decision\.action!=="new"\)[^\n]*\n(?:\s*\/\/[^\n]*\n)*\s*if\(options&&typeof options\.beforeCreate==="function"&&await options\.beforeCreate\(\)!==true\)return false;\n\s*setPending\(true\);/,"the gate runs once START is really making a new Showdown, before the shell");
+    assert.match(entry,/if\(decision\.action!=="new"&&!realStart\)[^\n]*\n(?:\s*\/\/[^\n]*\n)*\s*if\(options&&typeof options\.beforeCreate==="function"&&await options\.beforeCreate\(\)!==true\)return false;\n\s*setPending\(true\);/,"the gate runs once START is really making a new Showdown, before the shell");
     assert.match(read("js/onlinePlayerIdentity.js"),/beforeCreate:[^\n]*modes[^\n]*beforeSeasonsStart\(\)/);
     assert.doesNotMatch(read("js/onlinePlayerIdentity.js"),/beforeSeasonsStart\(\):null/,"Codex #908: a mode gate that could not load never lets a Showdown be created without it");
     assert.match(read("js/onlinePlayerIdentity.js"),/beforeSeasonsStart\(\):\(\)=>\{root\.reportApplicationError\?\.\("Unable to start the Showdown"[^\n]*?return false;\}/);
@@ -308,26 +308,27 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.deepEqual(Marker.hiddenRivalryIds(null),[]);
     assert.doesNotMatch(read("js/careerStartMarker.js"),/deleteDoc|transaction\.delete\(|writeBatch/,"test games are never deleted");
   });
-  await check("M11","DELETE CURRENT SHOWDOWN is byte-identical to r79 PR3",async()=>{
+  await check("M11","END SHOWDOWN (r80, was DELETE CURRENT SHOWDOWN) is byte-identical to its reviewed r80 form",async()=>{
     const s=read("js/settings.js");
-    const i=s.indexOf("async function deleteSettingsCurrentShowdown(");assert.ok(i>=0);
-    assert.equal(sha(s.slice(i,s.indexOf("\n}\n",i)+3)),"9b130e490dff72b84aaa816800ecd075a9ad0216f00f736bc73b062f11f5c667");
-    const a=s.indexOf("    if(active){\n        const deleteCurrent"),end="actions.appendChild(deleteCurrent);\n    }\n",b=s.indexOf(end,a)+end.length;
-    assert.ok(a>=0);assert.equal(sha(s.slice(a,b)),"86e03e1e8b935443dce308c24695367e0b04f74158ea1c0d2d257ad20e284823");
-    assert.doesNotMatch(MODES_SOURCE,/DELETE CURRENT SHOWDOWN|deleteSettingsCurrentShowdown/);
+    assert.doesNotMatch(s,/DELETE CURRENT SHOWDOWN|deleteSettingsCurrentShowdown/,"no separate DELETE");
+    const i=s.indexOf("async function runSettingsEndShowdown(");assert.ok(i>=0);
+    assert.equal(sha(s.slice(i,s.indexOf("\n}\n",i)+3)),"3b073e5f40fb84023e74e442d395bf3d086fede5f2e773b21816b44602664231");// r80 wording sweep: "it could not be closed here"
+    const a=s.indexOf("    if(active){\n        const endCurrent"),end="actions.appendChild(endCurrent);\n    }\n",b=s.indexOf(end,a)+end.length;
+    assert.ok(a>=0);assert.equal(sha(s.slice(a,b)),"8a4f90656a5d2eec26a478bc84dff8dcf59e66b46f3c0b2eb36e501abbcc1820");
+    assert.doesNotMatch(MODES_SOURCE,/DELETE CURRENT SHOWDOWN|END SHOWDOWN|deleteSettingsCurrentShowdown|endSettingsCurrentShowdown/);
   });
   await check("M12","lazy (never at startup), cached by the service worker without a runtime bump, no timers or polling",async()=>{
     assert.doesNotMatch(read("index.html"),/showdownModes/);
     const sw=read("service-worker.js");
     const list=name=>{const i=sw.indexOf(`const ${name} = `);return sw.slice(i,sw.indexOf("]);",i));};
-    assert.match(list("SHELL_PATHS"),/"js\/showdownModes\.js"/);assert.match(list("SHELL_PATHS_ADDED_SINCE_PREVIOUS"),/"js\/showdownModes\.js"/);
-    assert.match(sw,/const RUNTIME_REVISION = "1\.9\.3-r79";/,"RUNTIME_REVISION is the r79 release (1.9.3-r79)");
+    assert.match(list("SHELL_PATHS"),/"js\/showdownModes\.js"/);assert.doesNotMatch(list("SHELL_PATHS_ADDED_SINCE_PREVIOUS"),/"js\/showdownModes\.js"/,"r80: the retained r79 shell already carries it");
+    assert.match(sw,/const RUNTIME_REVISION = "1\.9\.4-r80";/,"RUNTIME_REVISION is the r80 release (1.9.4-r80)");
     for(const banned of [/setTimeout|setInterval|requestAnimationFrame/,/onSnapshot|getDocs|collection\(|query\(/,/runTransaction|getDoc\(/,/localStorage|sessionStorage|indexedDB/])assert.doesNotMatch(MODES_SOURCE,banned,String(banned));
     assert.match(read("js/onlinePlayerIdentity.js"),/loadOnlineDependency\("showdown-modes","js\/showdownModes\.js"/);
     assert.ok(Buffer.byteLength(read("js/whichShowdownIsLive.js"))<7000);
   });
   await check("M13","gallery #5/#6: both managers read the same UNPAIR note for the same state, and a refusal goes away once the Showdown is deleted",async()=>{
-    const RULE="Finish or delete the current Showdown before you unpair.",IDLE="Every Showdown counts in your career.";
+    const RULE="Finish or end the current Showdown before you unpair.",IDLE="Every Showdown counts in your career.";
     const live={rivalryId:"r1",connectionState:"active"},gone={rivalryId:null,connectionState:"none"};
     for(const [managerId,record] of [["daniel",ACTIVE_NIK],["nik",ACTIVE_DANIEL]]){
       const p=page({managerId,partner:record,side:"mutual",pairState:live});await p.modes.resolve();
@@ -367,5 +368,5 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.match(connect,/@media \(min-width:901px\) and \(min-height:600px\) and \(max-height:820px\)\{[^@]*:has\(#cmsConnectTestRunNote:not\(\[hidden\]\)\) \.connectPlayersRole\{min-height:calc\(27\.3vh - 40px\);padding-top:14px;\}/,"short laptops keep the WAITING card in view");
     assert.match(connect,/#cmsConnectTestRunNote\[hidden\]\{display:none!important;\}/,"the strip still shows only in test mode");
   });
-  console.log(`PASS r79 modes and Settings contracts: ${results.length} checks (REAL = marker; Settings pairing rows; UNPAIR blocked while in progress; one-sided PAIR AGAIN; TEST RUN label, START TEST RUN, FORGET THIS DEVICE only in test; every Home START real; one-time checkmark; DELETE CURRENT SHOWDOWN unchanged; lazy, no timers).`);
+  console.log(`PASS r79 modes and Settings contracts: ${results.length} checks (REAL = marker; Settings pairing rows; UNPAIR blocked while in progress; one-sided PAIR AGAIN; TEST RUN label, START TEST RUN, FORGET THIS DEVICE only in test; every Home START real; one-time checkmark; END SHOWDOWN pinned; lazy, no timers).`);
 })().catch(error=>{console.error(error);process.exitCode=1;});

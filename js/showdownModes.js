@@ -36,12 +36,14 @@ function smView(){
   return Object.freeze({...decided,managerId:id.managerId,partnerLabel:smOther(id.managerId)});
 }
 function smLiveShowdown(){try{const p=smPair()?.getState?.();return Boolean(p&&p.rivalryId&&(p.connectionState==="active"||p.connectionState==="pending-pair"));}catch(_){return false;}}
+function smOwnCode(){try{const p=smPair()?.getState?.();return Boolean(p&&p.rivalryId&&p.connectionState==="pending-pair"&&p.managerRole==="playerOne");}catch(_){return false;}}
+const smOwnCodeShown=()=>smLayerOpen()&&smOwnCode();
 function smScreen(){try{return typeof root.getActiveScreenName==="function"?root.getActiveScreenName()||"mainMenu":"mainMenu";}catch(_){return "mainMenu";}}
 // The badge on the header chip (every screen) carries the label while a test run is on screen: the seasons screen opened by
 // START TEST RUN, a test Showdown that is live, or any later gameplay screen of a test account. Never on an idle test Home
 // or the seasons screen Home START opened, where START is real.
 function smLayerOpen(){const l=smDoc()?.getElementById("connectPlayersScreen");return Boolean(l&&!l.hidden&&!l.classList.contains("hidden"));}
-function smTestRunShown(view=smView()){if(view.mode!=="test")return false;/* Nik's JOIN TEST RUN counts while it opens and while its layer is up (the layer's close sends no event) */if(armed&&(view.managerId!=="nik"||joinArming||smLayerOpen()))return true;if(smLiveShowdown())return true;const screen=smScreen();return screen!=="createShowdown"&&GAMEPLAY.includes(screen);}
+function smTestRunShown(view=smView()){if(view.mode!=="test")return false;/* Nik's JOIN TEST RUN counts while it opens and while its layer is up (the layer's close sends no event) */if(armed&&(view.managerId!=="nik"||joinArming||smLayerOpen()))return true;/* r80 real vs test: unarmed, Daniel's old unjoined test code is never reopened from the main menu (START opens the seasons screen of the real career), so neither Home nor that seasons screen wears the label, never next to the START REAL CAREER checkmark */if(!armed){const screen=smScreen();if(screen==="createShowdown"||screen==="mainMenu"&&smOwnCode())return false;}if(smLiveShowdown())return true;const screen=smScreen();return screen!=="createShowdown"&&GAMEPLAY.includes(screen);}
 // Connect Players (Daniel's WAITING of a test run, Nik's JOIN TEST RUN code box) is a full layer over the header, so it
 // carries the label itself, above the pair panel, whenever this account is in test mode.
 function smRenderLayerLabel(){
@@ -103,7 +105,7 @@ function smDecorateSettingsPanel(panel){
 }
 function smSetSettingsMessage(text,tone="",whileLive=false){settingsMessage=text||"";settingsTone=tone;settingsMessageWhileLive=Boolean(text)&&whileLive;smRefresh();}
 function smAskConfirm(message,tone){return typeof root.askShowdownConfirm==="function"?root.askShowdownConfirm(message,{tone}):typeof root.loadRuntimeScript==="function"?root.loadRuntimeScript("showdown-confirm","js/showdownConfirm.js",()=>typeof root.askShowdownConfirm==="function").then(()=>root.askShowdownConfirm(message,{tone}),()=>false):Promise.resolve(undefined);}
-const RULE="Finish or delete the current Showdown before you unpair.",BLOCKED=`${RULE} Nothing was changed.`;
+const RULE="Finish or end the current Showdown before you unpair.",BLOCKED=`${RULE} Nothing was changed.`;
 function smPlain(error){return error&&error.code==="PERMANENT_PARTNER_UNPAIR_BLOCKED"?BLOCKED:`Nothing was changed. ${error&&error.message?error.message:"Try again."}`;}
 // UNPAIR: a Showdown that is being played is caught here without a read; the pair module's unpair() is the fail-closed check
 // (an ACTIVE rivalry, or a pending one whose code is still open, refuses inside its transaction).
@@ -142,7 +144,9 @@ async function smStartTestRun(){
   smRefresh();
   /* Codex #908: a launch that does not reach the seasons screen (refused, failed, or it continued a live Showdown) disarms,
      so the next Home START is real again and a real Showdown never wears the TEST RUN label. */
-  let opened=null;try{opened=await identity?.openStart?.();}finally{if(!opened||smScreen()!=="createShowdown"){armed=false;smRefresh();}}
+  /* r80 real vs test: START TEST RUN over Daniel's open test code reopens its WAITING; the run stays armed while that layer is
+     up, so its NEW CODE (js/persistentNikDanielPair.js refuses a test code unless armed) still works. Home disarms it. */
+  let opened=null;try{opened=await identity?.openStart?.();}finally{if(!opened||smScreen()!=="createShowdown"&&!smOwnCodeShown()){armed=false;smRefresh();}}
   return opened;
 }
 
@@ -177,6 +181,18 @@ async function smBeforeSeasonsStart(){
   if(v.mode!=="test"){smSetSeasonsMessage("Your career could not be checked. Check your connection, then press START again.");return false;}
   const check=smDoc()?.getElementById(CHECK_ID);
   if(!check||check.checked!==true){smSetSeasonsMessage("Home START always starts your real career. Tick START REAL CAREER, or use Settings > START TEST RUN for a game that does not count.");return false;}
+  /* r80 (Codex #936): Home START, CONTINUE CAREER and the reload send a test account with a leftover code of Daniel's here
+     instead of reopening it, and the marker refuses while a code Nik could still join is open. That code is closed first, so
+     no joinable code is left when the marker names it: only once the server says the real career has not started (one read;
+     otherwise it may be another browser's real code) and only while nobody has joined it (read inside the close). A refusal
+     writes nothing; a marker write that fails after the close leaves the code closed and the next START makes a new one. */
+  const pending=smPair()?.getState?.();
+  if(pending&&pending.connectionState==="pending-pair"&&pending.managerRole==="playerOne"&&pending.rivalryId){
+    const fresh=await smReadMarker(id.accountId,{fresh:true});
+    if(fresh.status!=="none"){smRefresh();smSetSeasonsMessage(fresh.status==="ready"?"Your real career has started on another device. Press START again.":"Your career could not be checked. Check your connection, then press START again.");return false;}
+    try{const closed=await smPair().closeUnjoinedCode({expectedRivalryId:pending.rivalryId});if(!closed||closed.ok!==true)throw new Error("Your earlier code could not be closed.");}
+    catch(error){smSetSeasonsMessage(`Your real career could not be started. ${error&&error.message?error.message:"Try again."}`);smRefresh();return false;}
+  }
   try{
     const api=await smLoad("career-start-marker","js/careerStartMarker.js",()=>root.CareerModeCareerStartMarker);
     const marker=await api.startRealCareer();
@@ -190,6 +206,8 @@ function smRefresh(){
   try{smRenderSeasons();}catch(_){}
   try{smRenderLayerLabel();}catch(_){}
   try{root.CareerModeOnlinePlayerIdentity?.refreshBadge?.();}catch(_){}
+  /* r80 resume (Home item 5): Home's START tile and season chip follow the mode, which can be learnt after Home was drawn */
+  try{root.CareerModeOnlinePlayerIdentity?.refreshHome?.();}catch(_){}
   try{root.CareerModeOnlinePlayerIdentity?.renderSettings?.();}catch(_){}
 }
 function smInstall(){

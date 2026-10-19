@@ -50,10 +50,10 @@ function getInstallGuidance(){
     const ua=navigator.userAgent||"";
     const isiOS=/iPad|iPhone|iPod/i.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
     if(isiOS){
-        return "In Safari, open Share and choose Add to Home Screen. Career Mode Showdown will launch like an app and can reopen its verified local shell offline.";
+        return "In Safari, open Share and choose Add to Home Screen. Career Mode Showdown will launch like an app.";
     }
     if(/Android|CrOS/i.test(ua)){
-        return "Use Install app from the browser address bar or menu when offered. Career Mode Showdown keeps tracker data local to this device.";
+        return "Use Install app from the browser address bar or menu when offered.";
     }
     return "Use your browser's Install app or Add to Home Screen command when available. Installation support and wording vary by browser.";
 }
@@ -587,7 +587,7 @@ function initializeOfflineApplication(){
         installedStandalone=true;
         dispatchOfflineState();
         window.showAppNotice?.(
-            "Career Mode Showdown is installed and ready for local offline use.",
+            "Career Mode Showdown is installed and opens like an app.",
             "success",
             5500
         );

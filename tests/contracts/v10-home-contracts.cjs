@@ -63,7 +63,7 @@ test("Daniel starts and Nik joins with the product's own copy (the binder never 
   // Daniel's stays START A SHOWDOWN. Still the product's own copy, never the binder's.
   const identity=read("js/onlinePlayerIdentity.js");
   // r79 PR4: Daniel's tile reads PAIR AGAIN WITH NIK only when Nik's own record no longer names him (nothing live).
-  assert.match(identity,/const nik=isNik\?nikHomeTile\(\):current\?\.status==="ready"\?pairAgainTile\(\):null;[^\n]*nik\?nik\[1\]:"START A SHOWDOWN"/);
+  assert.match(identity,/const nik=isNik\?nikHomeTile\(\):current\?\.status==="ready"\?liveHomeTile\(\)\|\|pairAgainTile\(\):null;[^\n]*nik\?nik\[1\]:"START A SHOWDOWN"/);
   assert.match(identity,/function nikHomeTile\(\)\{[^\n]*"JOIN DANIEL'S SHOWDOWN"[^\n]*"WAITING FOR DANIEL"[^\n]*"JOIN DANIEL'S SHOWDOWN"/);
   assert.doesNotMatch(binder,/JOIN DANIEL|START A SHOWDOWN|"(?:Daniel|Nik)"/);
 });

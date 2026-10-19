@@ -96,6 +96,8 @@ function pairHarness({role="playerTwo",saves=[],activeSaveId=null,docs:seed={},n
   };
   const sandbox={
     console,setTimeout:()=>0,clearTimeout:()=>{},TextEncoder,crypto:webcrypto,Promise,Date,document,
+    /* r80 real vs test: a test code (no marker, no partner record) is made only by an armed Settings > START TEST RUN; this page stands for one */
+    CareerModeShowdownModes:{isTestRunArmed:()=>true},
     addEventListener:(type,fn)=>{(listeners[type]||(listeners[type]=[])).push(fn);},
     CareerModeOnlinePlayerIdentity:{getState:()=>({managerId:role==="playerTwo"?"nik":"daniel"})},
     CareerModeSparkConnectedAccount:{initialize:async()=>({}),getState:()=>({connected:true,accountId:uid})},
@@ -210,10 +212,10 @@ async function r7FailedJoinCleanup(){
     const h=pairHarness({saves:[shell(SAVE_OLD,PROFILE_OLD,5)],activeSaveId:SAVE_OLD});
     await h.pair.initialize({force:true});
     const result=await h.pair.joinPairing(CODE,{managerRole:"playerTwo"});
-    assert.match(result.message,/Settings \(DELETE CURRENT SHOWDOWN\)/,"R7 the season mismatch says where to delete the old Showdown");
+    assert.match(result.message,/Settings \(END SHOWDOWN\)/,"R7 the season mismatch says where to delete the old Showdown");
     assert.equal(h.calls.redeem.length,0);assert.deepEqual(h.deleted,[]);
   }
-  assert.match(read("js/productionSharedJourneyEntry.js"),/Delete it in Settings \(DELETE CURRENT SHOWDOWN\), then paste Daniel's code again/,"R7 the joiner-shell refusal points to Settings too");
+  assert.match(read("js/productionSharedJourneyEntry.js"),/End it in Settings \(END SHOWDOWN\), then paste Daniel's code again/,"R7 the joiner-shell refusal points to Settings too");
   console.log("ok R7 a refused join removes only the empty copy it created; ambiguous or pre-existing copies are kept");
 }
 
@@ -319,7 +321,7 @@ async function r2ExplicitConfirm(){
   const entry=read("js/productionSharedJourneyEntry.js"),start=entry.slice(entry.indexOf("async function startShared"),entry.indexOf("async function openPersistentPairControls"));
   assert.ok(start.length>0&&!/async function prepareFreshStart/.test(entry),"R2 (r79) the START close-the-live-pair preflight is gone");
   assert.doesNotMatch(entry,/abandonCurrentShowdown|askShowdownConfirm/,"R2 (r79) START A SHOWDOWN never closes or offers to close a live pair");
-  assert.match(start,/const decision=await whichShowdownIsLive\(\);\s*if\(decision\.action!=="new"\)\{await followStartDecision\(decision\);return false;\}/,"R2 (r79) over a live pair START follows it (continue / WAITING / JOIN) and creates nothing");
+  assert.match(start,/const decision=await whichShowdownIsLive\(\),realStart=await unarmedTestStart\(decision\);\s*if\(decision\.action!=="new"&&!realStart\)\{await followStartDecision\(decision\);return false;\}/,"R2 (r79) over a live pair START follows it (continue / WAITING / JOIN) and creates nothing");
   assert.doesNotMatch(entry+pairSource,/confirmed===false/,"R2 no destructive path treats a missing confirm() as consent");
   assert.match(pairSource,/"DELETE OLD SHOWDOWN & START OVER"\),recover=pairCreateElement\("button","menuButton","RESTORE BACKUP"\)/,"R2 the recovery buttons and their order are unchanged (owner decision)");
   console.log("ok R2 destructive start-over paths need confirm()===true");

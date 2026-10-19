@@ -238,7 +238,7 @@ async function runCorruptStorageFixture(browser){
   }finally{await context.close();}
 }
 async function runQuotaFailureFixture(browser){
-  const context=await browser.newContext({viewport:{width:1366,height:768},locale:"en-US"});const page=await context.newPage(),monitors=createPageMonitors(page,[/Unable to write local save data/,/Unable to prepare local Save Library authority/,/Save Library/,/Unable to prepare Showdown/]);await installAuditRuntime(page);
+  const context=await browser.newContext({viewport:{width:1366,height:768},locale:"en-US"});const page=await context.newPage(),monitors=createPageMonitors(page,[/Unable to write saved data/,/Unable to prepare local Save Library authority/,/Save Library/,/Unable to prepare Showdown/]);await installAuditRuntime(page);
   try{
     await openApplication(page);await installAuthorizedOnlineIdentityFixture(page);await page.locator("#newShowdown").click();await expectSeasonsStraightFromHome(page);await waitForScreen(page,"createShowdown");
     await page.evaluate(key=>{window.__cmsQuotaOriginalSetItem=Storage.prototype.setItem;Storage.prototype.setItem=function(storageKey,value){if(storageKey===key)throw new DOMException("Simulated quota exhaustion","QuotaExceededError");return window.__cmsQuotaOriginalSetItem.call(this,storageKey,value);};},saveLibraryStorageKey);

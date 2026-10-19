@@ -45,6 +45,7 @@ const LABELS=Object.freeze({
   "tests/firebase/shared-terminal-close-production-provider-emulator.cjs":"Terminal Close matrix",
   "tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs":"Persistent Nik and Daniel pair matrix",
   "tests/firebase/permanent-partner-emulator.cjs":"Permanent partner and JOIN note matrix (r79)",
+  "tests/firebase/ended-early-emulator.cjs":"END SHOWDOWN ended-early mark on abandon (r80)",
   "tests/firebase/two-manager-journey-emulator.cjs":"Two-manager journey",
   "tests/firebase/career-index-emulator.cjs":"Career index matrix",
   "tests/firebase/completed-showdown-read-emulator.cjs":"Completed-only read matrix",
@@ -55,6 +56,7 @@ const LABELS=Object.freeze({
   [GAP_SUITE]:"G-12 gap suite (list/delete sweep, private scope, exact ACTIVE)",
   "tests/firebase/career-start-marker-emulator.cjs":"Career start marker matrix",
   "tests/firebase/terminal-close-stale-write-emulator.cjs":"Terminal Close stale-write race",
+  "tests/firebase/europa-league-rules-emulator.cjs":"Europa League result key, CL-or-EL rule and EL +3 Terminal Close score (r80)",
   "tests/firebase/saved-showdowns-still-open-emulator.cjs":"Saved Showdowns still open (JOB-1841)"
 });
 // Promise matrix: each promise passes only if every evidence item passed. Evidence: suite file (any run of it)
@@ -66,9 +68,9 @@ const PROMISES=Object.freeze([
   ["M4","no list, no delete",["T6",GAP_SUITE,"tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs","tests/firebase/permanent-partner-emulator.cjs","tests/firebase/career-index-emulator.cjs","tests/firebase/completed-showdown-read-emulator.cjs"]],
   ["M5","career index: Phase A shipped, Phase B ready",["T7","tests/firebase/career-index-emulator.cjs","B*"]],
   ["M6","completed-only reads",["T8","tests/firebase/completed-transfer-history-emulator.cjs","tests/firebase/completed-showdown-read-emulator.cjs","tests/firebase/two-manager-journey-emulator.cjs"]],
-  ["M7","abandoned, stranger and forged denials",["tests/firebase/completed-transfer-history-emulator.cjs","tests/firebase/completed-showdown-read-emulator.cjs","tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs","tests/firebase/permanent-partner-emulator.cjs","tests/firebase/shared-terminal-close-production-provider-emulator.cjs","tests/firebase/two-manager-journey-emulator.cjs",GAP_SUITE]],
-  ["M8","Terminal Close",["tests/firebase/shared-terminal-close-production-provider-emulator.cjs","tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs","tests/firebase/two-manager-journey-emulator.cjs"]],
-  ["M9","1,000-expression budget (qualified gate)",["E1","tests/firebase/shared-terminal-close-production-provider-emulator.cjs","tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs"]],
+  ["M7","abandoned, stranger and forged denials",["tests/firebase/completed-transfer-history-emulator.cjs","tests/firebase/completed-showdown-read-emulator.cjs","tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs","tests/firebase/permanent-partner-emulator.cjs","tests/firebase/ended-early-emulator.cjs","tests/firebase/shared-terminal-close-production-provider-emulator.cjs","tests/firebase/two-manager-journey-emulator.cjs",GAP_SUITE]],
+  ["M8","Terminal Close",["tests/firebase/shared-terminal-close-production-provider-emulator.cjs","tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs","tests/firebase/two-manager-journey-emulator.cjs","tests/firebase/europa-league-rules-emulator.cjs"]],
+  ["M9","1,000-expression budget (qualified gate)",["E1","tests/firebase/shared-terminal-close-production-provider-emulator.cjs","tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs","tests/firebase/europa-league-rules-emulator.cjs"]],
   ["M10","write abuse limits and idempotency",["tests/firebase/stage4-mutation-rate-limit-emulator.cjs","tests/firebase/shared-showdown-setup-production-provider-emulator.cjs","tests/firebase/shared-transfer-challenge-fresh-session-emulator.cjs"]],
   ["M11","zero billing, Spark-only deploy path",["T5"]],
   ["M12","exact deploy artifact, reviewed delta from production main",["T1","T2","T3","T4","T8","T9","T10"]]

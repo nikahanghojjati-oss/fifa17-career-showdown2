@@ -128,7 +128,8 @@ for(const required of [
   'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)/roles/$(managerRole))',
   "transfer.phase == 'COMPLETED'",
   "transfer.revision == 6 || transfer.revision == 7",
-  "value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist'])",
+  "value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague'])",
+  "&& (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false));",
   'match /seasonCommits/{seasonId}',
   'allow create: if ssjrCommitValidCreate(rivalryId, seasonId)',
   'allow update: if ssjrCommitValidUpdate(rivalryId, seasonId)',
@@ -231,7 +232,8 @@ for(const required of [
 for(const key of ['careerModeShowdown.saveLibrary','careerModeShowdown.legacyShowdowns','careerModeShowdown.preferences'])assert.ok(setup.includes(key));
 assert.match(setup,/storageSnapshot\(\)[\s\S]+assertStorageUnchanged/,'Production adapter surface must guard canonical saves on reads and writes.');
 assert.match(setup,/const operationId=randomOperationId\(\),baseRevision=current\.revision\|\|0;/,'Every Shared Setup mutation must create one fresh idempotency operation from the currently read CAS revision.');
-assert.match(setup,/context\.conflicts\.execute\(\{[\s\S]+operationId,baseRevision[\s\S]+\},\(\)=>context\.adapter\.mutate\(providerRequest\)\)/,'r15 conflict observation must wrap, not replace, the existing provider transaction adapter mutation.');
+// r80 (Codex P2 on #944): the wrapped write re-checks that the context still belongs to the current save right before the provider call.
+assert.match(setup,/context\.conflicts\.execute\(\{[\s\S]+operationId,baseRevision[\s\S]+\},\(\)=>\{assertShellSave\(context\);return context\.adapter\.mutate\(providerRequest\);\}\)/,'r15 conflict observation must wrap, not replace, the existing provider transaction adapter mutation.');
 assert.match(setup,/const providerRequest=\{\.\.\.providerOptions\(context\),type,operationId,baseRevision,\.\.\.extra\};/,'The provider transaction must receive the same fresh operation ID and CAS base revision.');
 assert.doesNotMatch(setup,/options\.catalog|caller.*catalog/i,'Production runtime must not expose caller-controlled draw catalog.');
 assert.match(adapter,/createProtocol\(\{catalog:catalogModule\.catalog,cryptoImpl\}\)/,'Production path must retain immutable repository-owned catalog authority.');

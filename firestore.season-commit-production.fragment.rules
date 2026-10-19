@@ -17,10 +17,13 @@
     function ssjrCommitPrivateResult(rivalryId, seasonId, managerRole) {
       return get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)/roles/$(managerRole)).data;
     }
+    // r80 Europa League: 'europaLeague' is present only when that manager won the EL, and then it is exactly true
+    // (false is refused, so there is one encoding per fact and old 7-key results are unchanged). One manager's season
+    // never has CL and EL both true. Nothing compares the two managers' results: both may win the same trophy.
     function ssjrCommitResultShape(value, teamCount) {
       return teamCount >= 2
         && value is map
-        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist'])
+        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague'])
         && value.leaguePosition is int
         && value.leaguePosition >= 1
         && value.leaguePosition <= teamCount
@@ -33,7 +36,8 @@
         && value.domesticCup is bool
         && value.championsLeague is bool
         && value.topScorer is bool
-        && value.topAssist is bool;
+        && value.topAssist is bool
+        && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false));
     }
     function ssjrCommitResultsReady(rivalryId, seasonId, seasonNumber) {
       let setup = ssjrCommitSetup(rivalryId);

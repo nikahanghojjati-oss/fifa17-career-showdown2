@@ -155,7 +155,7 @@ const rawSeed={
     await panel.getByRole("button",{name:/ATTACH CONNECTED RIVALRY/}).click();
     await assert.doesNotReject(()=>panel.getByText(/attached privately/i).waitFor({state:"visible",timeout:15000}));
     await panel.getByRole("button",{name:"REFRESH SHARED STATE"}).click();
-    await panel.getByText(/Shared game updated\. Your local save was not changed\./i).waitFor({state:"visible",timeout:15000});
+    await panel.getByText(/Shared game updated\. Your saved Showdown was not changed\./i).waitFor({state:"visible",timeout:15000});
     assert.match(await panel.locator(".settingsInfoRow").filter({hasText:"REMOTE OBSERVED"}).innerText(),/Revision 1/);
     assert.match(await panel.locator(".settingsInfoRow").filter({hasText:"LOCAL COMMIT"}).innerText(),/Not applied this session/);
 

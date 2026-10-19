@@ -370,13 +370,13 @@ async function r1CommitContracts(){
 // ------------------------------------------------------------------ R7 Season Commit: Daniel's COMMIT also records his own ACKNOWLEDGE (owner decision 2026-10-04)
 async function r7CommitContracts(){
   {
-    const clash={playerOne:{leaguePosition:2,domesticCup:true},playerTwo:{leaguePosition:4,domesticCup:true}};
-    const h=commitHarness({role:"playerOne",allResults:clash});h.api.install();await h.api.refresh();await settle();
+    const bothCup={playerOne:{leaguePosition:2,domesticCup:true},playerTwo:{leaguePosition:4,domesticCup:true}};
+    const h=commitHarness({role:"playerOne",allResults:bothCup});h.api.install();await h.api.refresh();await settle();
     assert.equal(h.api.coordinatorCommitAlsoAcknowledges,true);
     assert.equal(h.action().textContent,"COMMIT & ACKNOWLEDGE SHARED SEASON","Daniel's one button says it commits and acknowledges");
     assert.match(h.status(),/^BOTH RESULTS ARE READY · AS COORDINATOR, COMMIT THE IMMUTABLE SHARED SEASON SNAPSHOT/);
-    assert.match(h.status(),/CHECK RESULTS: Both managers ticked Domestic Cup\. You can still commit; scores use what was entered\./,"the CHECK RESULTS clash warning shows before Daniel taps");
-    assert.equal(h.action().disabled,false,"a clash never disables the combined button");
+    assert.ok(!/CHECK RESULTS/.test(h.status()),"r80: both managers winning the cup in their own saves never shows CHECK RESULTS before Daniel taps");
+    assert.equal(h.action().disabled,false,"both managers winning the cup never disables the combined button");
     assert.equal(h.calls.commit+h.calls.acknowledge,0,"nothing is written before Daniel taps");
     h.fast().fn();await settle();h.clock.now+=20000;h.fast().fn();await settle();
     assert.equal(h.calls.commit+h.calls.acknowledge,0,"no poll ever commits or acknowledges for Daniel");
@@ -389,7 +389,7 @@ async function r7CommitContracts(){
     assert.equal(h.api.isWaitingForRival(),true,"and his fast lane waits for Nik's ACKNOWLEDGE");
     assert.equal(h.server.phase,"COMMITTED","scoring still waits for Nik's own acknowledgement");
   }
-  ok("R7 Season Commit: Daniel's one COMMIT & ACKNOWLEDGE tap commits, then records his own acknowledgement (separate operationIds); the clash warning shows first");
+  ok("R7 Season Commit: Daniel's one COMMIT & ACKNOWLEDGE tap commits, then records his own acknowledgement (separate operationIds); both managers winning the cup shows no CHECK RESULTS");
   {
     const nik=commitHarness({role:"playerTwo",committed:true});nik.api.install();await nik.api.refresh();await settle();
     assert.equal(nik.action().textContent,"ACKNOWLEDGE SHARED SEASON","Nik still sees his own ACKNOWLEDGE button");

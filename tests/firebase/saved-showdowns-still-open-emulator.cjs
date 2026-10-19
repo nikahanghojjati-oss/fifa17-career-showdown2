@@ -2,7 +2,7 @@
 // JOB-1841 "old games still open": a release check for saved Showdowns.
 //
 // Every fixture in tests/fixtures/saved-showdowns/ is the real database content of ONE finished 1-season Showdown, played in the
-// browser on the Firebase emulator by an earlier release (r75, r76; see the README next to the fixtures). This test loads each fixture
+// browser on the Firebase emulator by an earlier release (r75, r76, r79; see the README next to the fixtures). This test loads each fixture
 // into a fresh emulator with the COMPOSED production Rules (firestore.spark.generated.rules, built by BOTH build scripts), signs in as each
 // manager, and runs the CURRENT code path that opens a saved Showdown:
 //   PersistentPair.readCareerIndex -> CompletedShowdownReader.readCompletedShowdown -> ClosedShowdownCareerLoader.loadClosedShowdownCareer
@@ -57,12 +57,21 @@ const DRAW_MANAGERS = {
   daniel: { seasons: 1, careerPoints: 8, seasonWins: 0, seasonDraws: 0, seasonLosses: 1, championsLeagues: 1, leagueTitles: 0, domesticCups: 1, totalTrophies: 2, showdowns: { completed: 1, wins: 0, draws: 1, losses: 0 } },
   nik: { seasons: 1, careerPoints: 8, seasonWins: 1, seasonDraws: 0, seasonLosses: 0, championsLeagues: 1, leagueTitles: 0, domesticCups: 1, totalTrophies: 2, showdowns: { completed: 1, wins: 0, draws: 1, losses: 0 } }
 };
+// r79 WIN game (Paris Saint-Germain v Metz, Ligue 1; typed by the CE2PG harness on live main 1.9.3-r79): Daniel wins 5-1. Daniel: league
+// title, 92 points, 108 goals, top scorer = 3 + 1 (100 goals) + 1 (top scorer) = 5. Nik: 12th, 24 points, 30 goals, domestic cup = 1.
+// r80 adds the Europa League counter; an r79 Showdown never has one (0), and its trophy totals are unchanged.
+const R79_WIN_SEASONS = [{ season: 1, score: { daniel: 5, nik: 1 }, winner: "daniel", tiebreak: "none", leaguePosition: { daniel: 1, nik: 12 }, leaguePoints: { daniel: 92, nik: 24 }, leagueGoals: { daniel: 108, nik: 30 } }];
+const R79_WIN_MANAGERS = {
+  daniel: { seasons: 1, careerPoints: 5, seasonWins: 1, seasonDraws: 0, seasonLosses: 0, championsLeagues: 0, europaLeagues: 0, leagueTitles: 1, domesticCups: 0, totalTrophies: 1, showdowns: { completed: 1, wins: 1, draws: 0, losses: 0 } },
+  nik: { seasons: 1, careerPoints: 1, seasonWins: 0, seasonDraws: 0, seasonLosses: 1, championsLeagues: 0, europaLeagues: 0, leagueTitles: 0, domesticCups: 1, totalTrophies: 1, showdowns: { completed: 1, wins: 0, draws: 0, losses: 1 } }
+};
 
 const EXPECTED = {
   "r75-1season-win": { release: "1.9.1-r75", leagueId: "bundesliga", clubs: { daniel: "Borussia Mönchengladbach", nik: "Hoffenheim" }, totalSeasons: 1, totals: { daniel: 6, nik: 5 }, winner: "daniel", seasons: WIN_SEASONS, managers: WIN_MANAGERS },
   "r75-1season-draw": { release: "1.9.1-r75", leagueId: "laliga", clubs: { daniel: "Leganés", nik: "Málaga" }, totalSeasons: 1, totals: { daniel: 8, nik: 8 }, winner: "draw", seasons: DRAW_SEASONS, managers: DRAW_MANAGERS },
   "r76-1season-win": { release: "1.9.1-r76", leagueId: "bundesliga", clubs: { daniel: "Eintracht Frankfurt", nik: "RB Leipzig" }, totalSeasons: 1, totals: { daniel: 6, nik: 5 }, winner: "daniel", seasons: WIN_SEASONS, managers: WIN_MANAGERS },
-  "r76-1season-draw": { release: "1.9.1-r76", leagueId: "premier_league", clubs: { daniel: "West Ham United", nik: "Watford" }, totalSeasons: 1, totals: { daniel: 8, nik: 8 }, winner: "draw", seasons: DRAW_SEASONS, managers: DRAW_MANAGERS }
+  "r76-1season-draw": { release: "1.9.1-r76", leagueId: "premier_league", clubs: { daniel: "West Ham United", nik: "Watford" }, totalSeasons: 1, totals: { daniel: 8, nik: 8 }, winner: "draw", seasons: DRAW_SEASONS, managers: DRAW_MANAGERS },
+  "r79-1season-win": { release: "1.9.3-r79", leagueId: "ligue_1", clubs: { daniel: "Paris Saint-Germain", nik: "Metz" }, totalSeasons: 1, totals: { daniel: 5, nik: 1 }, winner: "daniel", seasons: R79_WIN_SEASONS, managers: R79_WIN_MANAGERS }
 };
 
 // ---------------------------------------------------------------------------------------------------------------------------

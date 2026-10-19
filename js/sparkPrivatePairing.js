@@ -104,7 +104,7 @@
         read.onsuccess=()=>{
           const existing=read.result;
           if(existing!==undefined){
-            if(!validDeviceIdentity(existing)){try{transaction.abort();}catch(_error){}reject(errorWithCode("PRIVATE_DEVICE_IDENTITY_CONFLICT","Stored private device identity is invalid. Remote pairing is disabled without touching local saves."));return;}
+            if(!validDeviceIdentity(existing)){try{transaction.abort();}catch(_error){}reject(errorWithCode("PRIVATE_DEVICE_IDENTITY_CONFLICT","Stored private device identity is invalid. Remote pairing is disabled. Your Showdowns were not changed."));return;}
             resolvedIdentity=Object.freeze({...existing});
             return;
           }
@@ -159,7 +159,7 @@
     const profileId=typeof source.profileId==="string"?source.profileId.trim():"";
     const managerRole=typeof source.managerRole==="string"?source.managerRole.trim():"";
     const displayLabel=typeof source.displayLabel==="string"?source.displayLabel.trim().slice(0,80):"";
-    if(!/^save_[a-f0-9]{24}$/.test(saveId))throw errorWithCode("PRIVATE_SAVE_ID_REQUIRED","Choose a local Showdown with a stable Save Library identity.");
+    if(!/^save_[a-f0-9]{24}$/.test(saveId))throw errorWithCode("PRIVATE_SAVE_ID_REQUIRED","Choose a Showdown with a stable Save Library identity.");
     if(!/^profile_[a-f0-9]{24}$/.test(profileId))throw errorWithCode("PRIVATE_PROFILE_ID_REQUIRED","Choose a manager with a stable Local Profile identity.");
     if(!MANAGER_ROLES.includes(managerRole))throw errorWithCode("PRIVATE_MANAGER_ROLE_REQUIRED","Choose Player One or Player Two for this private rivalry.");
     return Object.freeze({saveId,profileId,managerRole,displayLabel:displayLabel||null});
@@ -206,7 +206,7 @@
     if(!isEnvelope(snapshot,"device",deviceId))throw errorWithCode("PRIVATE_DEVICE_NOT_REGISTERED","This browser is not registered to the signed-in private account.");
     const value=snapshot.data();
     if(!value.data||value.data.deviceId!==deviceId)throw errorWithCode("PRIVATE_DEVICE_CONFLICT","Registered device identity does not match this browser.");
-    if(value.data.state==="revoked")throw errorWithCode("PRIVATE_DEVICE_REVOKED","This registered device has been revoked. Local Career Mode remains available.");
+    if(value.data.state==="revoked")throw errorWithCode("PRIVATE_DEVICE_REVOKED","This registered device has been revoked.");
     if(value.data.state!=="active")throw errorWithCode("PRIVATE_DEVICE_CONFLICT","Registered device state is invalid.");
     return value;
   }
@@ -453,14 +453,14 @@ async function revokePairing(options={}){
         return setState(next,unchanged?{render:false}:{});
       }
       return setState({status:"ready",initialized:true,busy:false,connected:true,registered:true,accountId:context.accountState.accountId,deviceId:context.identity.deviceId,message:"This browser is privately registered. Pairing only links the two manager identities; gameplay synchronization is still locked."});
-    }catch(error){deviceVerified=null;return setState({status:error&&error.code==="PRIVATE_DEVICE_REVOKED"?"revoked":"device-error",initialized:true,busy:false,connected:true,registered:false,message:`${error&&error.message?error.message:"This browser could not be registered."} Local Career Mode remains unchanged.`});}
+    }catch(error){deviceVerified=null;return setState({status:error&&error.code==="PRIVATE_DEVICE_REVOKED"?"revoked":"device-error",initialized:true,busy:false,connected:true,registered:false,message:`${error&&error.message?error.message:"This browser could not be registered."}`});}
   }
 
   async function initialize(){
     if(pairingInitializePromise)return pairingInitializePromise;
     pairingInitializePromise=(async()=>{
       const account=root.CareerModeSparkConnectedAccount;
-      if(!account||typeof account.getState!=="function")return setState({status:"account-unavailable",initialized:true,busy:false,connected:false,registered:false,message:"Private pairing is unavailable, but local Career Mode remains available."});
+      if(!account||typeof account.getState!=="function")return setState({status:"account-unavailable",initialized:true,busy:false,connected:false,registered:false,message:"Private pairing is unavailable right now."});
       if(!pairingAccountUnsubscribe&&typeof account.subscribe==="function"){
         pairingAccountUnsubscribe=account.subscribe(next=>{
           if(!next||next.connected!==true){pairingServices=null;pairingJoinDraft="";setState({status:"signed-out",initialized:true,busy:false,connected:false,registered:false,accountId:null,selectedBindingKey:null,capability:null,expiresAtEpochMs:null,message:"Sign in above to register this browser and use private pairing."});}
@@ -551,15 +551,15 @@ async function revokePairing(options={}){
       createButton.addEventListener("click",async()=>{
         const binding=selectedBinding();if(!binding)return;
         setState({status:"creating-pair",busy:true,selectedBindingKey:bindingKey(binding),capability:null,expiresAtEpochMs:null,message:"Creating a private one-use pairing code…"});
-        try{const context=await resolveConnectedContext();const result=await createPairing({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,binding,cryptoImpl:root.crypto});if(!result.ok)throw errorWithCode(result.code,result.message);setState({status:"pair-open",busy:false,capability:result.capability,expiresAtEpochMs:result.expiresAtEpochMs,message:"Pairing code created. Share it directly with your friend. Connected Rivalry below is prefilled automatically on this browser. After the second manager joins, do not manually attach in the normal flow: return to Save Library or open Private Remote Joining and the same rivalry will verify and attach automatically. The pairing code still expires in 15 minutes and can be used once."});}
-        catch(error){setState({status:"pair-error",busy:false,message:`${error&&error.message?error.message:"Private pairing could not be created."} Local saves were not changed.`});}
+        try{const context=await resolveConnectedContext();const result=await createPairing({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,binding,cryptoImpl:root.crypto});if(!result.ok)throw errorWithCode(result.code,result.message);setState({status:"pair-open",busy:false,capability:result.capability,expiresAtEpochMs:result.expiresAtEpochMs,message:"Pairing code created. Share it directly with your friend. Connected Rivalry below is prefilled automatically. After the second manager joins, do not manually attach in the normal flow: return to Save Library or open Private Remote Joining and the same rivalry will verify and attach automatically. The pairing code still expires in 15 minutes and can be used once."});}
+        catch(error){setState({status:"pair-error",busy:false,message:`${error&&error.message?error.message:"Private pairing could not be created."} Your Showdowns were not changed.`});}
       });
       joinButton.addEventListener("click",async()=>{
         const binding=selectedBinding();if(!binding)return;
         pairingJoinDraft=codeInput.value;
         setState({status:"joining-pair",busy:true,selectedBindingKey:bindingKey(binding),message:"Redeeming the private one-use pairing code…"});
         try{const context=await resolveConnectedContext();const result=await redeemPairing({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,binding,capability:pairingJoinDraft,cryptoImpl:root.crypto});if(!result.ok)throw errorWithCode(result.code,result.message);pairingJoinDraft="";setState({status:"paired",busy:false,capability:result.capability,expiresAtEpochMs:null,message:"Private managers are paired. The one code pasted above is retained as the exact Connected Rivalry ID, and Connected Rivalry below uses that same value automatically; no second copy, paste, or manual Attach is required in the normal flow."});}
-        catch(error){setState({status:"pair-error",busy:false,message:`${pairingJoinErrorMessage(error)} Local saves were not changed.`});}
+        catch(error){setState({status:"pair-error",busy:false,message:`${pairingJoinErrorMessage(error)} Your Showdowns were not changed.`});}
       });
       form.append(select,createButton,codeInput,joinButton);panel.appendChild(form);
       if(pairingState.capability){
@@ -782,7 +782,9 @@ async function revokePairing(options={}){
   // Returns {snapshot,old} or null. old: the copy is older than the 2 s burst window (see fsbProbe's fresh re-run).
   function fsbReusable(path){
     const at=fsbNow(),fast=path?fsbNoteAsk(path,at):false;
-    if(fsbWait&&path===fsbWait.path&&fsbWaitLive()){if(!fsbWaitHealthy())return null;fsbStats.listenerServed+=1;return {snapshot:fsbWait.snapshot,old:false};}
+    // r80: a listener known to be behind a server read this page already made (lagUntil) never answers: the newer
+    // server copy does (or the server). Otherwise a write's bounded stale retry re-read the older copy and failed again.
+    if(fsbWait&&path===fsbWait.path&&fsbWaitLive()&&!fsbWait.lagUntil){if(!fsbWaitHealthy())return null;fsbStats.listenerServed+=1;return {snapshot:fsbWait.snapshot,old:false};}
     const entry=fsbEntries.get(path);
     if(entry&&entry.immutable&&!entry.dirty){fsbStats.immutableReuses+=1;return {snapshot:entry.snapshot,old:false};}
     if(!entry||entry.dirty||entry.forgotten)return null;
@@ -972,7 +974,9 @@ async function revokePairing(options={}){
       return value;
     }catch(error){
       if(error===done){fsbStats.readOnlyWithoutCommit+=1;return done.value;}
-      if(wrote)fsbMarkWritten(db,written);
+      // r80: a write that failed (a rival's write may have landed first) is followed by a check of what is stored now:
+      // the next read of each document it wrote goes to the server, even if the listener delivers an older copy meanwhile.
+      if(wrote){fsbMarkWritten(db,written);for(const path of written)if(path){fsbServerNext.set(path,fsbNow()+FSB_ASK_MS);if(fsbServerNext.size>FSB_MAX_ENTRIES)fsbServerNext.delete(fsbServerNext.keys().next().value);}}
       if(fsbIsQuotaError(error))fsbTrip();
       fsbAuthorityDenied(error);
       throw error;

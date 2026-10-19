@@ -63,7 +63,9 @@
     // Shared Setup stops being ready once the session closes, so fall back to the durable Connected Rivalry binding of this exact save and manager (it survives reloads).
     const rivalryId=String(showdown.sharedJourney?.rivalryId||ptcConfirmedSetupRivalry()||ptcAttachedRivalry(saveId,playerOneProfileId,playerTwoProfileId)||"").trim().toLowerCase();
     if(!/^pair_[0-9a-f]{64}$/.test(rivalryId)||!/^save_[0-9a-f]{24}$/.test(saveId)||!/^profile_[0-9a-f]{24}$/.test(playerOneProfileId)||!/^profile_[0-9a-f]{24}$/.test(playerTwoProfileId))return null;
-    return Object.freeze({rivalryId,saveId,playerOneProfileId,playerTwoProfileId,key:`${saveId}|${rivalryId}|${playerOneProfileId}|${playerTwoProfileId}|terminal-close`});
+    // r80: fromSetup marks a rivalry borrowed from the Shared Setup held in page memory (the shell's marker names none).
+    const fromSetup=!showdown.sharedJourney?.rivalryId&&Boolean(ptcConfirmedSetupRivalry());
+    return Object.freeze({rivalryId,saveId,playerOneProfileId,playerTwoProfileId,fromSetup,key:`${saveId}|${rivalryId}|${playerOneProfileId}|${playerTwoProfileId}|terminal-close`});
   }
   function ptcCurrentState(){const request=ptcRequest();return request&&state&&stateContextKey===request.key?state:null;}
   function ptcReport(context,error){if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else root.console?.error?.(context,error);}
@@ -142,28 +144,54 @@
   function ptcPublish(request,next){
     if(!request||!next){stateGeneration+=1;state=null;stateContextKey="";ptcRender();return null;}
     const current=ptcRequest();if(!current||current.key!==request.key)return null;
+    const previousPhase=stateContextKey===request.key?state?.phase:null;
     state=ptcFreeze(next);stateContextKey=request.key;ptcRender();
     // QoL 3+6: the Showdown has ended, so no unsent season result or guess draft for this rivalry stays on this device.
     // Swept here through the generic js/storage.js remove helper (a Showdown has at most 10 seasons) so the startup budget stays put.
     if(state.phase==="CLOSED")ptcClearDrafts(state.rivalryId||request.rivalryId);
     if(state.phase==="DELETED")ptcClearDrafts(state.rivalryId||request.rivalryId);
+    if(state.phase==="CLOSED"||state.phase==="DELETED")ptcNoteEnded(state.rivalryId||request.rivalryId);
     try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-terminal-close-state-change",{detail:{phase:state.phase,rivalryId:state.rivalryId||request.rivalryId,terminal:state.phase==="CLOSED"}}));}catch(_error){}
+    if(state.phase==="DELETED"&&previousPhase!=="DELETED")ptcLeaveEndedShowdown();
     return state;
+  }
+  // r80 END SHOWDOWN: the Showdown was ended (this page's own terminal read saw it closed with no finish witness). This phone
+  // leaves it for Home once and says so; History keeps it as Ended early. Phase names stay (DELETED).
+  function ptcLeaveEndedShowdown(){
+    try{
+      const home=root.document?.getElementById("mainMenu");
+      if(home&&!home.classList.contains("hidden"))return;
+      root.stopTransferTimerLoop?.();root.resetTransientSelectionOperations?.();root.resetNavigationState?.();
+      if(typeof root.showScreen==="function")root.showScreen("mainMenu",false);else void root.navigateTo?.("mainMenu",{addToHistory:false});
+      root.refreshMainMenuExperience?.();
+      root.showAppNotice?.("This Showdown was ended for both players. History keeps it as Ended early.","info",8000);
+    }catch(_error){}
   }
   function ptcClear(){stateGeneration+=1;state=null;stateContextKey="";ptcRender();return null;}
   function ptcStillCurrent(request,generation){return ptcRequest()?.key===request.key&&stateGeneration===generation;}
   function ptcClosedState(request,terminalRead){const witness=protocol.verifyIntent(terminalRead.terminalWitness);return {phase:"CLOSED",rivalryId:request.rivalryId,sessionId:witness.sessionId,rivalryRevision:terminalRead.rivalryRevision,terminal:true,terminalWitness:ptcClone(witness),canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false};}
   function ptcBootstrap(){return ptcEnsureDependencies().then(()=>{if(!unsubscribeRemote&&typeof remoteApi?.subscribe==="function")unsubscribeRemote=remoteApi.subscribe(()=>ptcWake());});}
   function ptcOnOtherRivalry(request){try{const s=ptcRivalryApi()?.getState?.(),id=String(s?.rivalryId||"").trim().toLowerCase();return s?.attached===true&&/^pair_[0-9a-f]{64}$/.test(id)&&id!==request.rivalryId;}catch(_error){return false;}}
+  // r80: right after END SHOWDOWN on this phone, START (or Nik's JOIN) opens a new save shell before its rivalry is attached.
+  // The shell's marker names no rivalry, so the request borrows the ended Showdown's Shared Setup still held in page memory,
+  // and Connected Rivalry, now read for the new shell, has no rivalry attached at all. That ended rivalry is not this shell's
+  // Showdown, so there is nothing to close here and nothing to report. Quiet only when all of these hold: the rivalry was
+  // borrowed from that Setup, this page saw that exact rivalry end (it held it CLOSED or DELETED, or the pair let it go as
+  // closed: END on this phone or on the other one), and Connected Rivalry answered for this exact save with nothing attached.
+  // A live Showdown whose pointer is missing on this device (a new browser continuing) has not ended, so it still reports.
+  const endedRivalryIds=new Set();let unsubscribePair=null;
+  function ptcNoteEnded(rivalryId){const id=String(rivalryId||"").trim().toLowerCase();if(/^pair_[0-9a-f]{64}$/.test(id))endedRivalryIds.add(id);}
+  function ptcWatchPair(){try{const pair=root.CareerModePersistentNikDanielPair;if(!pair)return;if(!unsubscribePair&&typeof pair.subscribe==="function")unsubscribePair=pair.subscribe(next=>ptcNoteEnded(next?.closedRivalryId));ptcNoteEnded(pair.getState?.()?.closedRivalryId);}catch(_error){}}
+  function ptcShellHasNoRivalry(request){try{ptcWatchPair();const s=ptcRivalryApi()?.getState?.(),b=s?.binding;return request.fromSetup===true&&endedRivalryIds.has(request.rivalryId)&&s?.connected===true&&s.attached!==true&&!s.rivalryId&&b?.saveId===request.saveId;}catch(_error){return false;}}
   async function ptcRefreshNow(){
     const request=ptcRequest();if(!request)return ptcClear();
-    // r79: a Showdown deleted by the other manager stays deleted (a closed rivalry never reopens): no further read for it.
+    // r79: a Showdown ended by the other manager (END SHOWDOWN) stays ended (a closed rivalry never reopens): no further read for it.
     const deleted=ptcCurrentState();if(deleted?.phase==="DELETED")return deleted;
     await ptcBootstrap();
     // r79: right after a delete and a new JOIN, the page's rivalry can already be the new Showdown while this Showdown's request
     // (the old one) is still on screen for a moment. That is not a failure to report: this page has moved on, and the next wake
     // (the save or rivalry change) refreshes the new one. A held RECOVERY_PENDING close keeps its witness.
-    let context;try{context=await ptcResolveContext(request);}catch(error){if(error?.code==="TERMINAL_CLOSE_RIVALRY_REQUIRED"&&ptcOnOtherRivalry(request)){const held=ptcCurrentState();return held?.phase==="RECOVERY_PENDING"?held:ptcClear();}throw error;}
+    let context;try{context=await ptcResolveContext(request);}catch(error){if(error?.code==="TERMINAL_CLOSE_RIVALRY_REQUIRED"&&(ptcOnOtherRivalry(request)||ptcShellHasNoRivalry(request))){const held=ptcCurrentState();return held?.phase==="RECOVERY_PENDING"?held:ptcClear();}throw error;}
     if(ptcRequest()?.key!==request.key)return null;
     const terminalRead=await provider.read({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:request.rivalryId,deviceId:context.deviceId,cryptoImpl:root.crypto});
     if(ptcRequest()?.key!==request.key)return null;
@@ -256,7 +284,7 @@
         const result=await provider.close(ptcCloseOptions(context,intent));
         if(!ptcStillCurrent(request,generation))return {ok:false,code:"TERMINAL_CLOSE_CONTEXT_CHANGED"};
         if(result?.ok===true){ptcAccepted(request,intent,result);return result;}
-        if(ptcAmbiguous(result)){ptcPublish(request,{phase:"RECOVERY_PENDING",rivalryId:request.rivalryId,sessionId:intent.sessionId,terminal:false,intent:ptcClone(intent),automaticSaving:false,automaticCloseFailed:true,message:"Terminal Close acknowledgement was not received. The exact same terminal witness is retained in page memory for deterministic retry; no replacement session or local-save mutation will be generated.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});return {...result,recoverable:true};}
+        if(ptcAmbiguous(result)){ptcPublish(request,{phase:"RECOVERY_PENDING",rivalryId:request.rivalryId,sessionId:intent.sessionId,terminal:false,intent:ptcClone(intent),automaticSaving:false,automaticCloseFailed:true,message:"The close was not confirmed yet. Tap RETRY SAME TERMINAL CLOSE to send the same close again; a retry never starts a new session.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});return {...result,recoverable:true};}
         const rivalClosed=await ptcClosedByRival(request,context,intent,result,generation);if(rivalClosed)return rivalClosed;
         ptcPublish(request,{...current,automaticSaving:false,automaticCloseFailed:true,message:result?.message||"Terminal Close was rejected without changing the completed Showdown."});return result||{ok:false,code:"TERMINAL_CLOSE_FAILED"};
       }catch(error){
@@ -309,6 +337,7 @@
     return true;
   }
   function ptcWake(event){
+    ptcWatchPair();
     if(event?.type==="career-mode-save-library-authority-invalidated")return ptcClear();
     const request=ptcRequest();
     if(!request){
@@ -332,6 +361,7 @@
     if(ptcShowdown()?.sharedJourney?.mode==="shared")void ptcBootstrap().then(()=>ptcWake()).catch(error=>ptcReport("Shared Showdown Terminal Close bootstrap unavailable",error));
     for(const event of ["career-mode-shared-wait-context-change","career-mode-shared-final-reconciliation-state-change","career-mode-connected-account-state-change","career-mode-connected-rivalry-state-change","career-mode-active-save-changed","career-mode-save-library-authority-invalidated","career-mode-showdown-state-change"]){root.addEventListener?.(event,ptcWake);}
     root.document?.addEventListener?.("visibilitychange",ptcWake);
+    root.addEventListener?.("career-mode-permanent-pair-ended",event=>ptcNoteEnded(event?.detail?.closedRivalryId));
     if(typeof root.setInterval==="function")root.setInterval(()=>{if(!root.CareerModeProductionSharedSeasonCommit?.waitingListenerHealthy?.())ptcWake();},POLL_MS);
     if(typeof root.setTimeout==="function")root.setTimeout(ptcWake,0);
     return true;

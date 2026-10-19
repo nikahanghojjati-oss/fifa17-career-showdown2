@@ -81,8 +81,8 @@
       const card=document.createElement("article"); card.className="headlineTile"; card.setAttribute("data-sd-enter","panel");
       const val=vals[i];
       const valueHtml = val ? (val.pair
-        ? `<div class="headlinePair"><small>D</small><b>${fmt(val.pair[0])}</b><span class="slash">/</span><small>N</small><b>${fmt(val.pair[1])}</b></div>`
-        : `<div class="headlineNumber">${fmt(val.combined)}</div><div class="headlineTogether">Together</div>`)
+        ? `<div class="headlinePair"><small>D</small><b data-count-value="${fmt(val.pair[0])}">${fmt(val.pair[0])}</b><span class="slash">/</span><small>N</small><b data-count-value="${fmt(val.pair[1])}">${fmt(val.pair[1])}</b></div>`
+        : `<div class="headlineNumber" data-count-value="${fmt(val.combined)}">${fmt(val.combined)}</div><div class="headlineTogether">Together</div>`)
         : '<div class="headlinePair"><b aria-hidden="true">—</b></div>';
       card.innerHTML=`<div class="headlineIcon">${iconSvgs[i]}</div><div class="headlineCopy"><div class="headlineLabel">${label}</div>${valueHtml}</div>`;
       host.appendChild(card);
@@ -106,8 +106,8 @@
     const h=document.createElement("h2"); h.id="comparisonHeading"; h.className="panelTitle"; h.textContent=fx.strings.sections.managerComparison; panel.appendChild(h);
     const body=document.createElement("div"); body.className="comparisonBody";
     const rows=[
-      [fx.strings.comparisonRows[0],"leagueTitles"],[fx.strings.comparisonRows[1],"domesticCups"],[fx.strings.comparisonRows[2],"championsLeagues"],
-      [fx.strings.comparisonRows[3],"seasonWins"],[fx.strings.comparisonRows[4],"averageLeaguePoints"],[fx.strings.comparisonRows[5],"averageLeagueGoals"]
+      [fx.strings.comparisonRows[0],"leagueTitles"],[fx.strings.comparisonRows[1],"domesticCups"],[fx.strings.comparisonRows[2],"championsLeagues"],[fx.strings.comparisonRows[3],"europaLeagues"],
+      [fx.strings.comparisonRows[4],"seasonWins"],[fx.strings.comparisonRows[5],"averageLeaguePoints"],[fx.strings.comparisonRows[6],"averageLeagueGoals"]
     ];
     rows.forEach(([label,key])=>{
       const d=frame.managers.daniel[key], n=frame.managers.nik[key], max=Math.max(Number(d),Number(n),1);
@@ -153,12 +153,17 @@
     state.innerHTML=`<div class="stateIcon" aria-hidden="true">${icon}</div><h2>${heading}</h2><p>${body}</p>`;
   }
   // JOB-152 signature moment: headline numbers count up once with the tiles (kit sdCountUp).
+  // r80: the app can mount this screen twice in a row (first visit after a reload), and both boots reach this
+  // function for the same tiles. The target comes from data-count-value (written by renderHeadline), never from
+  // the text a running count-up has already set to 0, and each tile counts up once, so the headline always lands
+  // on the right number whatever order the mounts finish in.
   const COUNT_UP = { delayMs: 450, durationMs: 500 };
   function countUpHeadline() {
     if (typeof window.sdCountUp !== "function" || window.ShowdownMotion?.isReducedMotion?.()) return;
-    document.querySelectorAll(".headlineNumber, .headlinePair b").forEach((el) => {
-      const to = Number(el.textContent);
-      if (!Number.isFinite(to)) return;
+    document.querySelectorAll(".headlineNumber[data-count-value], .headlinePair b[data-count-value]").forEach((el) => {
+      const to = Number(el.dataset.countValue);
+      if (!Number.isFinite(to) || el.dataset.countUp === "1") return;
+      el.dataset.countUp = "1";
       el.textContent = "0";
       window.setTimeout(() => window.sdCountUp(el, to, COUNT_UP.durationMs), COUNT_UP.delayMs);
     });

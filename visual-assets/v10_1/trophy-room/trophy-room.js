@@ -8,7 +8,8 @@
     { key: "showdown", category: "SHOWDOWN", asset: BASE + "../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp", value: f => f.showdowns },
     { key: "leagueTitles", category: "LEAGUE TITLES", asset: BASE + "../shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.leagueTitles, nik:f.managers.nik.leagueTitles}) },
     { key: "domesticCups", category: "DOMESTIC CUPS", asset: BASE + "../shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.domesticCups, nik:f.managers.nik.domesticCups}) },
-    { key: "championsLeague", category: "CHAMPIONS LEAGUE", asset: BASE + "../shared/trophies/TRO_CONTINENTAL_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.championsLeagues, nik:f.managers.nik.championsLeagues}) }
+    { key: "championsLeague", category: "CHAMPIONS LEAGUE", asset: BASE + "../shared/trophies/TRO_CONTINENTAL_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.championsLeagues, nik:f.managers.nik.championsLeagues}) },
+    { key: "europaLeague", category: "EUROPA LEAGUE", asset: BASE + "../shared/trophies/TRO_EUROPA_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.europaLeagues, nik:f.managers.nik.europaLeagues}) }
   ];
 
   const state = { fixtures:null, frame:null, frameKey:"TR1", map:null, activeCategory:"ALL", stage:null, spotlightLit:false, heroSettled:false, heroGlintPlayed:false, shelfRevealed:false, countsRevealed:false, shimmeredTrophies:new Set(), tabTransitioning:false };
@@ -80,7 +81,9 @@
   function hero(strings, frame) {
     const active = TROPHIES[0];
     const dim = frame.status === "loading" || frame.status === "unavailable";
-    return `<div class="heroCeremony ${dim ? "is-muted" : ""}" data-sd-enter="panel" aria-hidden="${dim ? "true" : "false"}"><div class="heroSpotlight"></div>${picture(active.asset, strings.trophyTypes.showdown, "heroTrophyPicture")}<div class="heroReflection"></div><div class="heroPlinth"><span>${esc(strings.trophyTypes.showdown.toUpperCase())}</span><small>CAREER MODE SHOWDOWN</small></div></div>`;
+    // r80: a tab switch draws the hero again; keep the trophy risen and the spotlight on (they used to drop back onto the plinth).
+    const settled = `${state.spotlightLit ? " tr-spotlight-lit" : ""}${state.heroSettled ? " tr-trophy-settled" : ""}`;
+    return `<div class="heroCeremony ${dim ? "is-muted" : ""}${settled}" data-sd-enter="panel" aria-hidden="${dim ? "true" : "false"}"><div class="heroSpotlight"></div>${picture(active.asset, strings.trophyTypes.showdown, "heroTrophyPicture")}<div class="heroReflection"></div><div class="heroPlinth"><span>${esc(strings.trophyTypes.showdown.toUpperCase())}</span><small>CAREER MODE SHOWDOWN</small></div></div>`;
   }
 
   function tabs(strings, frame) {

@@ -25,12 +25,14 @@
     "trophySummary": {
       "order": [
         "championsLeague",
+        "europaLeague",
         "leagueTitles",
         "domesticCups",
         "total"
       ],
       "labels": {
         "championsLeague": "Continental",
+        "europaLeague": "Europa League",
         "leagueTitles": "League",
         "domesticCups": "Domestic cup",
         "total": "Total"

@@ -15,9 +15,9 @@
     "Season Wins",
     "Total Trophies",
     "Champions Leagues",
+    "Europa Leagues",
     "League Titles",
-    "Domestic Cups",
-    "Transfer Signings"
+    "Domestic Cups"
   ],
   "seasonLabelTemplate": "SEASON {SEASON}",
   "draw": "Draw",
@@ -87,6 +87,10 @@
     "championsLeague": {
       "text": "Champions League",
       "source": "new"
+    },
+    "europaLeague": {
+      "text": "Europa League",
+      "source": "new"
     }
   },
   "stateCopy": {
@@ -104,10 +108,6 @@
     },
     "coverage": {
       "text": "{readable} of {indexed} Showdowns readable.",
-      "source": "new"
-    },
-    "transferUnavailable": {
-      "text": "Transfer history is unavailable.",
       "source": "new"
     }
   }

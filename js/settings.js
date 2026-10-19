@@ -44,6 +44,82 @@ function getSettingsLegacyHistory(){
     }
 }
 
+/* CE2PG (r80): online, the local save outlives its Showdown (it still reads "Created" after the Final Winner, or after the
+   other phone ended it) and the local history list is never written. Home's LIVE tile reads the pair state, so Settings
+   reads it too: CURRENT SHOWDOWN and END SHOWDOWN only while the pair holds a live (active or waiting) Showdown. With no
+   pair state yet (module not loaded or not initialized) the local save decides, as before. */
+function getSettingsPairState(){
+    try{
+        const pair = window.CareerModePersistentNikDanielPair;
+        const pairState = pair && typeof pair.getState === "function" ? pair.getState() : null;
+        // Codex #935: a transient "unavailable" (or idle/signed-out) pair state is unknown, as in js/whichShowdownIsLive.js, so
+        // the local save decides; only an authoritative pair state can hide the current Showdown and its END SHOWDOWN.
+        return pairState && pairState.initialized === true && !["idle", "unavailable", "signed-out"].includes(pairState.status) ? pairState : null;
+    }catch(_error){
+        return null;
+    }
+}
+
+function getSettingsLiveShowdown(){
+    const active = getSettingsActiveShowdown();
+    if(!active){ return null; }
+    const pairState = getSettingsPairState();
+    if(!pairState){ return { showdown: active, status: active.status || "Saved" }; }
+    if(!pairState.rivalryId){ return null; }
+    if(pairState.connectionState === "active"){ return { showdown: active, status: "Live" }; }
+    if(pairState.connectionState === "pending-pair"){ return { showdown: active, status: "Waiting to join" }; }
+    return null;
+}
+
+/* CE2PG (r80): online, HISTORY counts the completed Showdowns of the shared career model that History, Career Statistics
+   and Trophy Room show (the same exact gets Career Statistics makes when it opens, once per Settings open). The local list
+   is still used when this browser is not a registered Daniel or Nik. */
+function isSettingsOnlineCareer(){
+    try{
+        const identity = window.CareerModeOnlinePlayerIdentity && typeof window.CareerModeOnlinePlayerIdentity.getState === "function"
+            ? window.CareerModeOnlinePlayerIdentity.getState()
+            : null;
+        return Boolean(identity && identity.registered === true && (identity.managerId === "daniel" || identity.managerId === "nik"));
+    }catch(_error){
+        return false;
+    }
+}
+
+function settingsCompletedCountText(count){
+    return `${count} completed showdown${count === 1 ? "" : "s"}`;
+}
+
+function getSettingsOnlineHistoryText(){
+    try{
+        const legacy = window.CareerModeRivalryLegacyV10;
+        const model = legacy && typeof legacy.cachedCareerModel === "function" ? legacy.cachedCareerModel() : null;
+        if(model && ["ready", "partial", "empty"].includes(model.status)){
+            const showdowns = model.history && Array.isArray(model.history.showdowns) ? model.history.showdowns : [];
+            const completed = showdowns.filter(row => row && row.status === "completed").length;
+            // Codex #935: a partial career could not read every indexed Showdown, so its count is a floor, not the total.
+            return model.status === "partial" ? `At least ${settingsCompletedCountText(completed)}` : settingsCompletedCountText(completed);
+        }
+        return settingsHistoryLoad ? "Loading…" : "Unavailable right now";
+    }catch(_error){
+        return "Unavailable right now";
+    }
+}
+
+let settingsHistoryLoad = null;
+function refreshSettingsOnlineHistory(){
+    if(settingsHistoryLoad || typeof window.loadRuntimeScript !== "function"){ return; }
+    const load = settingsHistoryLoad = Promise.resolve().then(async () => {
+        if(!window.CareerModeRivalryLegacyV10){
+            await window.loadRuntimeScript("rivalry-legacy-v10", "js/rivalryLegacyV10.js", () => Boolean(window.CareerModeRivalryLegacyV10));
+        }
+        await window.CareerModeRivalryLegacyV10.loadCareerModel();
+    }).catch(() => {}).then(() => {
+        if(settingsHistoryLoad === load){ settingsHistoryLoad = null; }
+        const value = settingsContent ? settingsContent.querySelector(".settingsHistoryCount") : null;
+        if(value){ value.textContent = getSettingsOnlineHistoryText(); }
+    });
+}
+
 function createSettingsElement(tagName, className = "", text = ""){
     const element = document.createElement(tagName);
     if(className){ element.className = className; }
@@ -51,10 +127,10 @@ function createSettingsElement(tagName, className = "", text = ""){
     return element;
 }
 
-function createSettingsInfoRow(label, value){
+function createSettingsInfoRow(label, value, valueClass = ""){
     const row = createSettingsElement("div", "settingsInfoRow");
     const labelElement = createSettingsElement("span", "", label);
-    const valueElement = createSettingsElement("strong", "", value);
+    const valueElement = createSettingsElement("strong", valueClass, value);
     row.append(labelElement, valueElement);
     return row;
 }
@@ -106,7 +182,7 @@ function focusSelectedSettingsMotionChoice(){
 function setSettingsMotionPreference(choice){
     if(typeof window.setApplicationMotionPreference !== "function"){
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("Motion preferences are unavailable in this browser session.", "error");
+            window.showAppNotice("Motion preferences are unavailable right now.", "error");
         }
         return;
     }
@@ -129,7 +205,7 @@ function setSettingsMotionPreference(choice){
 function setSettingsMenuFeedbackPreference(enabled){
     if(typeof window.setApplicationMenuFeedbackPreference !== "function"){
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("Menu feedback preferences are unavailable in this browser session.", "error");
+            window.showAppNotice("Menu feedback preferences are unavailable right now.", "error");
         }
         return;
     }
@@ -423,7 +499,7 @@ function createOfflinePanel(){
         "settingsOfflineNote",
         settingsOfflineGuidance || (
             state.standalone
-                ? "Installed mode is active. The verified local application is kept separate from your saved Showdown data."
+                ? "Installed mode is active. The installed app is kept separate from your Showdown save."
                 : "Choose the install action for device-specific instructions or your browser's native install prompt when available."
         )
     );
@@ -519,6 +595,61 @@ async function ensureSettingsPersistentPairAuthority(){
     return pair;
 }
 
+/* r80 END SHOWDOWN: the seasons count is read at END time from the accepted Shared Season Commits of this exact rivalry
+   (rivalries/{id}/seasonCommits/season_N, ACKNOWLEDGED revision 3): the same documents and the same accepted-prefix rule
+   the multi-season progression counts from. Both paired players may read them without the private session, so the count
+   is the same on a fresh browser that opened Settings before CONTINUE (no Shared Setup state, no session) as in the game.
+   One read-only transaction (no write; the budget layer ends it without a commit), straight from the server, stopping at
+   the first season not yet accepted: accepted + 1 document reads at most (11). No season commit at all is 0 seasons (the
+   league wheel or a test run). resumeFromAuthority() is not used: it also moves the season cursor. Unknown (offline, the
+   read denied or a malformed commit) is null: END still closes and History shows a dash. */
+const SETTINGS_SEASONS_READ_MS = 10000;
+const SETTINGS_SEASONS_MAX = 10;
+async function readSettingsAcceptedSeasonCount(rivalryId){
+    const runtime = window.CareerModeProductionFirebaseRuntime;
+    if(!runtime || typeof runtime.ensureAccountServices !== "function"){ return null; }
+    const budget = window.CareerModeFirestoreBudget;
+    const services = (budget && typeof budget.services === "function" ? budget.services : value => value)(await runtime.ensureAccountServices());
+    const sdk = services && services.ok === true ? services.firestoreSdk : null;
+    if(!sdk || !services.firestore || !services.auth || !services.auth.currentUser
+        || typeof sdk.doc !== "function" || typeof sdk.runTransaction !== "function"){
+        return null;
+    }
+    return sdk.runTransaction(services.firestore, async transaction => {
+        let accepted = 0;
+        for(let seasonNumber = 1; seasonNumber <= SETTINGS_SEASONS_MAX; seasonNumber += 1){
+            const ref = sdk.doc(services.firestore, "rivalries", rivalryId, "seasonCommits", `season_${seasonNumber}`);
+            if(budget && typeof budget.readServerNext === "function" && ref && typeof ref.path === "string"){ budget.readServerNext(ref.path); }
+            const snapshot = await transaction.get(ref);
+            const commit = snapshot && typeof snapshot.exists === "function" && snapshot.exists() ? snapshot.data() : null;
+            if(!commit){ break; }
+            if(commit.schemaVersion !== 1 || commit.objectType !== "sharedSeasonCommit" || commit.rivalryId !== rivalryId
+                || commit.seasonNumber !== seasonNumber || !["COMMITTED", "ACKNOWLEDGED"].includes(commit.phase)
+                || (commit.phase === "ACKNOWLEDGED") !== (commit.revision === 3)){
+                return null;
+            }
+            if(commit.phase !== "ACKNOWLEDGED"){ break; }
+            accepted = seasonNumber;
+        }
+        return accepted;
+    });
+}
+async function readSettingsSeasonsPlayed(rivalryId){
+    if(typeof rivalryId !== "string" || !/^pair_[0-9a-f]{64}$/.test(rivalryId)){ return null; }
+    let timer = null;
+    try{
+        const accepted = await Promise.race([
+            readSettingsAcceptedSeasonCount(rivalryId),
+            new Promise(resolve => { timer = setTimeout(() => resolve(null), SETTINGS_SEASONS_READ_MS); })
+        ]);
+        return Number.isInteger(accepted) && accepted >= 0 && accepted <= SETTINGS_SEASONS_MAX ? accepted : null;
+    }catch(_error){
+        return null;
+    }finally{
+        clearTimeout(timer);
+    }
+}
+
 async function releaseSettingsCurrentShowdownConnection(showdown){
     const expectedRivalryId = showdown && showdown.sharedJourney && showdown.sharedJourney.rivalryId
         ? showdown.sharedJourney.rivalryId
@@ -536,6 +667,11 @@ async function releaseSettingsCurrentShowdownConnection(showdown){
     );
 
     if(!expectedRivalryId && !hasCurrentPair){
+        // Codex #937: only a refresh that read the pair link ("paired" or "unpaired") may end locally; an outage or error
+        // state must not turn END for both players into a local-only delete.
+        if(!pairState || !["paired", "unpaired"].includes(pairState.status)){
+            throw new Error("The online Showdown could not be checked, so nothing was changed. Try again.");
+        }
         return { ok: true, status: "unpaired" };
     }
 
@@ -543,14 +679,31 @@ async function releaseSettingsCurrentShowdownConnection(showdown){
         throw new Error("Safe Showdown restart is unavailable in this build.");
     }
 
+    const rivalryId = expectedRivalryId || pairState.rivalryId;
+    // Codex #933: a code Nik has not joined yet (pending-pair) has no season commits, and the Rules deny reading them before
+    // ACTIVE, so its count is 0 without a read (a denied read would record "-" seasons).
+    const waiting = pairState && pairState.rivalryId === rivalryId && pairState.connectionState === "pending-pair";
+    const seasonsPlayed = waiting ? 0 : await readSettingsSeasonsPlayed(rivalryId);
+    // A rivalry already closed (the other phone ended it, or a retry after this one landed) answers "already-closed": success.
     const result = await pair.abandonCurrentShowdown({
-        expectedRivalryId: expectedRivalryId || pairState.rivalryId,
-        expectedSaveId
+        expectedRivalryId: rivalryId,
+        expectedSaveId,
+        seasonsPlayed
     });
     if(!result || result.ok !== true){
-        throw new Error("The online Showdown connection was not closed, so the local copy was kept.");
+        throw new Error("The online Showdown was not ended, so nothing was changed.");
     }
-    return result;
+    return { ...result, endedRivalryId: rivalryId };
+}
+
+// After END has closed the Showdown here too, its private session leaves page memory, as it does on the other phone
+// (Terminal Close). Only that rivalry's session; a later Showdown's session is never touched.
+function forgetSettingsEndedSession(rivalryId){
+    const remote = window.CareerModeSparkRemoteJoining;
+    try{
+        const session = rivalryId && remote && typeof remote.getState === "function" ? remote.getState() : null;
+        if(session && session.rivalryId === rivalryId && typeof remote.forgetSession === "function"){ remote.forgetSession(); }
+    }catch(_error){}
 }
 
 function finishSettingsCurrentShowdownDeletion(){
@@ -580,7 +733,7 @@ function finishSettingsCurrentShowdownDeletion(){
     return navigated;
 }
 
-/* Deleting the Showdown also removes every unsent private draft on this device (Season Results, Transfer Challenge, signing), for every rivalry, including orphans.
+/* Ending the Showdown also removes every unsent private draft on this device (Season Results, Transfer Challenge, signing), for every rivalry, including orphans.
    The sweep lives in diagnostics.js (the only non-startup file allowed to touch browser storage directly) and loads on demand; it needs no rivalry id, so it also works offline or before the pair module loads. */
 function sweepSettingsShowdownDrafts(){
     try{
@@ -590,7 +743,16 @@ function sweepSettingsShowdownDrafts(){
     }
 }
 
-async function deleteSettingsCurrentShowdown(button){
+/* r80: a double tap (or a second tap while the first END is still running) joins the END already in flight. */
+let settingsEndShowdownInFlight = null;
+function endSettingsCurrentShowdown(button){
+    if(!settingsEndShowdownInFlight){
+        settingsEndShowdownInFlight = runSettingsEndShowdown(button).finally(() => { settingsEndShowdownInFlight = null; });
+    }
+    return settingsEndShowdownInFlight;
+}
+
+async function runSettingsEndShowdown(button){
     const active = getSettingsActiveShowdown();
     if(!active){
         renderSettings();
@@ -601,7 +763,7 @@ async function deleteSettingsCurrentShowdown(button){
     const confirmedSaveId = active && active.identity && active.identity.saveId ? String(active.identity.saveId) : null;
     const confirmedLocalId = active && active.id !== undefined && active.id !== null ? String(active.id) : null;
     const confirmed = await settingsAskConfirm(
-        `Delete the current "${name}" Showdown and start over? This closes the current Showdown connection for both players, removes this device's current local Showdown, and keeps your player identity, registered device, Legacy history and app settings. This cannot be undone.`,
+        `End the "${name}" Showdown? Ends this Showdown for both players. History keeps it as Ended early. This cannot be undone.`,
         "danger"
     );
     if(confirmed !== true){ return false; }
@@ -630,20 +792,21 @@ async function deleteSettingsCurrentShowdown(button){
             (confirmedSaveId && authoritativeSaveId !== confirmedSaveId)
             || (!confirmedSaveId && confirmedLocalId !== authoritativeLocalId)
         ){
-            throw new Error("The active Showdown changed after you confirmed deletion. Nothing was deleted. Review the current Showdown and confirm again.");
+            throw new Error("The active Showdown changed after you confirmed. Nothing was ended. Review the current Showdown and confirm again.");
         }
 
-        await releaseSettingsCurrentShowdownConnection(authoritative);
+        const released = await releaseSettingsCurrentShowdownConnection(authoritative);
 
         if(!runtime.clearActiveShowdown()){
-            throw new Error("The online Showdown was closed, but this device could not remove its local copy. Retry Delete Current Showdown; no new connection will be created.");
+            throw new Error("The Showdown was ended, but it could not be closed here. Tap END SHOWDOWN again; nothing new will be created.");
         }
 
         await sweepSettingsShowdownDrafts();
         finishSettingsCurrentShowdownDeletion();
+        forgetSettingsEndedSession(released && released.endedRivalryId);
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice(
-                `Deleted the current "${name}" Showdown and closed its connection. Your player identity, registered device, Legacy history and app settings were kept.`,
+                `Ended the "${name}" Showdown for both players. History keeps it as Ended early.`,
                 "success",
                 6200
             );
@@ -652,7 +815,7 @@ async function deleteSettingsCurrentShowdown(button){
     }catch(error){
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice(
-                `The current Showdown was not deleted. ${error && error.message ? error.message : "No saved data was changed."}`,
+                `The Showdown was not ended. ${error && error.message ? error.message : "No saved data was changed."}`,
                 "error",
                 10000
             );
@@ -672,37 +835,37 @@ async function deleteSettingsCurrentShowdown(button){
    are js/showdownModes.js. */
 
 function createDataPanel(){
-    const active = getSettingsActiveShowdown();
-    const history = getSettingsLegacyHistory();
+    const live = getSettingsLiveShowdown();
+    const active = live ? live.showdown : null;
+    const online = isSettingsOnlineCareer();
+    const historyText = online ? getSettingsOnlineHistoryText() : settingsCompletedCountText(getSettingsLegacyHistory().length);
     const panel = createSettingsPanel(
         "CAREER DATA",
         "SHOWDOWN DATA",
-        "Delete a broken current Showdown safely or open History & Backup. Starting over closes only the current Showdown connection; your player identity and registered device stay ready."
+        "End the current Showdown or open History & Backup. Your player identity and registered device stay ready."
     );
     panel.classList.add("settingsDataPanel");
 
     const info = createSettingsElement("div", "settingsInfoGrid");
+    const historyRow = createSettingsInfoRow("HISTORY", historyText, "settingsHistoryCount");
     info.append(
         createSettingsInfoRow(
             "CURRENT SHOWDOWN",
-            active ? `${active.name || "Unnamed Showdown"} · ${active.status || "Saved"}` : "None"
+            active ? `${active.name || "Unnamed Showdown"} · ${live.status}` : "None"
         ),
-        createSettingsInfoRow(
-            "HISTORY",
-            `${history.length} completed showdown${history.length === 1 ? "" : "s"}`
-        )
+        historyRow
     );
 
     const actions = createSettingsElement("div", "settingsOfflineActions settingsDataActions");
     if(active){
-        const deleteCurrent = createSettingsElement(
+        const endCurrent = createSettingsElement(
             "button",
             "menuButton dangerButton settingsDeleteCurrentShowdown",
-            "DELETE CURRENT SHOWDOWN"
+            "END SHOWDOWN"
         );
-        deleteCurrent.type = "button";
-        deleteCurrent.addEventListener("click", () => void deleteSettingsCurrentShowdown(deleteCurrent));
-        actions.appendChild(deleteCurrent);
+        endCurrent.type = "button";
+        endCurrent.addEventListener("click", () => void endSettingsCurrentShowdown(endCurrent));
+        actions.appendChild(endCurrent);
     }
 
     const historyAction = createSettingsElement(
@@ -718,8 +881,8 @@ function createDataPanel(){
         "p",
         "settingsDataNote",
         active
-            ? "Delete Current Showdown closes this Showdown connection for both players before removing this device's current local copy. Player identity, registered device, completed history and app settings are kept."
-            : "No current Showdown is stored on this device. Completed history, backup export and full reset remain available under History & Backup."
+            ? "End Showdown ends this Showdown for both players. History keeps it as Ended early. Player identity, registered device, completed history and app settings are kept."
+            : "No Showdown is in progress. Completed history, backup export and full reset remain available under History & Backup."
     );
 
     panel.append(info, actions, note);
@@ -873,6 +1036,7 @@ function setSettingsBackgroundInert(inert){
 function openSettings(){
     ensureSettingsDialog();
     settingsOfflineGuidance = "";
+    if(isSettingsOnlineCareer()){ refreshSettingsOnlineHistory(); }
     renderSettings();
 
     settingsPreviousFocus = document.activeElement instanceof HTMLElement

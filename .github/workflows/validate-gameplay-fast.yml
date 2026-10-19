@@ -62,9 +62,9 @@ jobs:
       - name: Gameplay lifecycle (1 and 3 seasons)
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-lifecycle "CMS_SHOWDOWN_LENGTH=1 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs && CMS_SHOWDOWN_LENGTH=3 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs"
       - name: Terminal Close matrix
-        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-terminal "node tests/firebase/shared-terminal-close-production-provider-emulator.cjs && node tests/firebase/terminal-close-stale-write-emulator.cjs"
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-terminal "node tests/firebase/shared-terminal-close-production-provider-emulator.cjs && node tests/firebase/terminal-close-stale-write-emulator.cjs && node tests/firebase/europa-league-rules-emulator.cjs && node tests/firebase/r79-showdown-continues-emulator.cjs"
       - name: Persistent Nik and Daniel pair matrix
-        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-pair "node tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs && node tests/firebase/permanent-partner-emulator.cjs"
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-pair "node tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs && node tests/firebase/permanent-partner-emulator.cjs && node tests/firebase/ended-early-emulator.cjs"
       - name: Two-manager journey (3 and 10 seasons, session expires and is re-joined mid-game)
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-journey "CMS_SHOWDOWN_LENGTH=3 node tests/firebase/two-manager-journey-emulator.cjs && CMS_SHOWDOWN_LENGTH=10 node tests/firebase/two-manager-journey-emulator.cjs"
       - name: Career index matrix
@@ -76,7 +76,7 @@ jobs:
       - name: Completed transfer history matrix
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-completed-transfer "node tests/firebase/completed-transfer-history-emulator.cjs"
       - name: Season commit concurrent acknowledge
-        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-season-ack "node tests/firebase/shared-season-commit-concurrent-acknowledge-emulator.cjs"
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-season-ack "node tests/firebase/shared-season-commit-concurrent-acknowledge-emulator.cjs && node tests/firebase/shared-season-commit-ack-race-emulator.cjs"
 
   browser-journey:
     name: Two-manager browser journey

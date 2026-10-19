@@ -209,7 +209,9 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
 
     // Codex #904: real vs test now fails closed, so this audit's Daniel says what he is: a test account (no career
     // start marker). The fake provider here cannot answer the marker read, which would rightly refuse CREATE CODE.
-    await page.evaluate(()=>{const real=window.CareerModeCareerStartMarker;window.CareerModeCareerStartMarker=Object.freeze({...(real||{}),readCurrentMarker:async()=>({status:"none"})});});
+    // r80 real vs test (Nik, 2026-10-19): on a test account only an armed Settings START TEST RUN makes a plain code, so this
+    // Daniel's CREATE CODE is that test run's (Home START would make his real CMS17R- code instead).
+    await page.evaluate(()=>{const real=window.CareerModeCareerStartMarker;window.CareerModeCareerStartMarker=Object.freeze({...(real||{}),readCurrentMarker:async()=>({status:"none"})});const modes=window.CareerModeShowdownModes;window.CareerModeShowdownModes=Object.freeze({...(modes||{}),isTestRunArmed:()=>true});});
     // Daniel CREATE CODE must transition the real panel into a complete waiting state with all recovery controls.
     await page.locator("#persistentNikDanielPairPanel button",{hasText:"CREATE CODE FOR NIK"}).click();
     await page.locator("#persistentNikDanielPairPanel",{hasText:"WAITING FOR THE OTHER PLAYER"}).waitFor({state:"visible",timeout:5000});
@@ -333,7 +335,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await recovery.waitFor({state:"visible"});
     const startOver=page.locator("#persistentNikDanielPairPanel button",{hasText:"DELETE OLD SHOWDOWN & START OVER"});
     await startOver.waitFor({state:"visible"});
-    assert.match(await panel.innerText(),/old online Showdown is still connected, but this browser no longer has its local career data/i,"Fresh-browser recovery must explain the real local/server split.");
+    assert.match(await panel.innerText(),/The online Showdown is still live, but it could not be loaded here\./i,"r80: a live Showdown that could not be rebuilt here says so plainly.");
     await recovery.click();
     await page.waitForFunction(()=>window.__recoveryOpened===1,null,{timeout:3000});
     await page.locator("#careerModeRestorePanel input[type=file]").waitFor({state:"attached",timeout:3000});

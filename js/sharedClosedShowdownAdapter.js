@@ -20,6 +20,8 @@
   function cadWinner(a,b){return a>b?"playerOne":b>a?"playerTwo":"draw";}
   function cadEntry(rivalryId,classification,projection=null,final=null){return {rivalryId,classification,projection,final};}
   function cadNote(rivalryId,source,classification,code=null){return {rivalryId,source,classification,code};}
+  // r80 Ended early: the reader's close time and seasons played (null when unknown, as on closes before the mark).
+  function cadEnded(ended){const at=ended?.endedAt,played=ended?.seasonsPlayed;return {endedAt:Number.isFinite(at)&&at>0?at:null,seasonsPlayed:Number.isInteger(played)&&played>=0&&played<=10?played:null};}
 
   function cadIndex(index){
     if(!cadPlain(index)||!INDEX_STATUSES.includes(index.status))return {status:"unavailable",ids:[],code:"CLOSED_INDEX_INVALID"};
@@ -68,7 +70,8 @@
     if(read.status==="abandoned"){
       if(live&&live.classification==="completed")return [cadEntry(rivalryId,"unavailable"),cadNote(rivalryId,"reader","unavailable","CLOSED_STATE_CONFLICT")];
       // Abandoned: status row only; any seasons shown before are dropped (rebuild, never subtract).
-      return [cadEntry(rivalryId,"abandoned"),cadNote(rivalryId,"reader","abandoned")];
+      const entry=cadEntry(rivalryId,"abandoned");if(cadPlain(read.ended))entry.ended=cadEnded(read.ended);
+      return [entry,cadNote(rivalryId,"reader","abandoned")];
     }
     // not-closed: the root is active or pending-pair. Only the live Showdown can say which, and what it holds.
     if(current.status!=="known"&&current.rivalryId===rivalryId){

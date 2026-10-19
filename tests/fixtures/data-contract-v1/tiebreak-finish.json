@@ -89,6 +89,7 @@
         "seasonDraws": 0,
         "seasonLosses": 1,
         "championsLeagues": 0,
+        "europaLeagues": 0,
         "leagueTitles": 1,
         "domesticCups": 2,
         "totalTrophies": 3,
@@ -120,6 +121,7 @@
         "seasonDraws": 0,
         "seasonLosses": 2,
         "championsLeagues": 0,
+        "europaLeagues": 0,
         "leagueTitles": 1,
         "domesticCups": 1,
         "totalTrophies": 2,
@@ -150,12 +152,14 @@
       "cabinet": {
         "daniel": {
           "championsLeagues": 0,
+          "europaLeagues": 0,
           "leagueTitles": 1,
           "domesticCups": 2,
           "totalTrophies": 3
         },
         "nik": {
           "championsLeagues": 0,
+          "europaLeagues": 0,
           "leagueTitles": 1,
           "domesticCups": 1,
           "totalTrophies": 2
@@ -314,6 +318,7 @@
         "seasonDraws": 0,
         "seasonLosses": 1,
         "championsLeagues": 0,
+        "europaLeagues": 0,
         "leagueTitles": 1,
         "domesticCups": 2,
         "totalTrophies": 3,
@@ -345,6 +350,7 @@
         "seasonDraws": 0,
         "seasonLosses": 2,
         "championsLeagues": 0,
+        "europaLeagues": 0,
         "leagueTitles": 1,
         "domesticCups": 1,
         "totalTrophies": 2,
@@ -375,12 +381,14 @@
       "cabinet": {
         "daniel": {
           "championsLeagues": 0,
+          "europaLeagues": 0,
           "leagueTitles": 1,
           "domesticCups": 2,
           "totalTrophies": 3
         },
         "nik": {
           "championsLeagues": 0,
+          "europaLeagues": 0,
           "leagueTitles": 1,
           "domesticCups": 1,
           "totalTrophies": 2
@@ -703,7 +711,8 @@
               "domesticCup": true,
               "championsLeague": false,
               "topScorer": false,
-              "topAssist": false
+              "topAssist": false,
+              "europaLeague": false
             },
             "nik": {
               "leaguePosition": 3,
@@ -712,12 +721,14 @@
               "domesticCup": false,
               "championsLeague": false,
               "topScorer": true,
-              "topAssist": false
+              "topAssist": false,
+              "europaLeague": false
             }
           },
           "breakdown": {
             "daniel": {
               "championsLeague": 0,
+              "europaLeague": 0,
               "leagueTitle": 0,
               "domesticCup": 1,
               "performanceBonus": 0,
@@ -726,6 +737,7 @@
             },
             "nik": {
               "championsLeague": 0,
+              "europaLeague": 0,
               "leagueTitle": 0,
               "domesticCup": 0,
               "performanceBonus": 0,
@@ -749,7 +761,8 @@
               "domesticCup": true,
               "championsLeague": false,
               "topScorer": true,
-              "topAssist": false
+              "topAssist": false,
+              "europaLeague": false
             },
             "nik": {
               "leaguePosition": 1,
@@ -758,12 +771,14 @@
               "domesticCup": false,
               "championsLeague": false,
               "topScorer": false,
-              "topAssist": false
+              "topAssist": false,
+              "europaLeague": false
             }
           },
           "breakdown": {
             "daniel": {
               "championsLeague": 0,
+              "europaLeague": 0,
               "leagueTitle": 0,
               "domesticCup": 1,
               "performanceBonus": 1,
@@ -772,6 +787,7 @@
             },
             "nik": {
               "championsLeague": 0,
+              "europaLeague": 0,
               "leagueTitle": 3,
               "domesticCup": 0,
               "performanceBonus": 0,
@@ -795,7 +811,8 @@
               "domesticCup": false,
               "championsLeague": false,
               "topScorer": false,
-              "topAssist": false
+              "topAssist": false,
+              "europaLeague": false
             },
             "nik": {
               "leaguePosition": 2,
@@ -804,12 +821,14 @@
               "domesticCup": true,
               "championsLeague": false,
               "topScorer": false,
-              "topAssist": true
+              "topAssist": true,
+              "europaLeague": false
             }
           },
           "breakdown": {
             "daniel": {
               "championsLeague": 0,
+              "europaLeague": 0,
               "leagueTitle": 3,
               "domesticCup": 0,
               "performanceBonus": 0,
@@ -818,6 +837,7 @@
             },
             "nik": {
               "championsLeague": 0,
+              "europaLeague": 0,
               "leagueTitle": 0,
               "domesticCup": 1,
               "performanceBonus": 1,
@@ -842,12 +862,14 @@
         "trophies": {
           "daniel": {
             "championsLeague": 0,
+            "europaLeague": 0,
             "leagueTitles": 1,
             "domesticCups": 2,
             "total": 3
           },
           "nik": {
             "championsLeague": 0,
+            "europaLeague": 0,
             "leagueTitles": 1,
             "domesticCups": 1,
             "total": 2
@@ -873,6 +895,7 @@
             "seasonDraws": 0,
             "seasonLosses": 1,
             "championsLeagues": 0,
+            "europaLeagues": 0,
             "leagueTitles": 1,
             "domesticCups": 2,
             "totalTrophies": 3,
@@ -888,6 +911,7 @@
             "seasonDraws": 0,
             "seasonLosses": 2,
             "championsLeagues": 0,
+            "europaLeagues": 0,
             "leagueTitles": 1,
             "domesticCups": 1,
             "totalTrophies": 2,
@@ -1144,7 +1168,8 @@
               "domesticCup": true,
               "championsLeague": false,
               "topScorer": false,
-              "topAssist": false
+              "topAssist": false,
+              "europaLeague": false
             },
             "nik": {
               "leaguePosition": 3,
@@ -1153,12 +1178,14 @@
               "domesticCup": false,
               "championsLeague": false,
               "topScorer": true,
-              "topAssist": false
+              "topAssist": false,
+              "europaLeague": false
             }
           },
           "breakdown": {
             "daniel": {
               "championsLeague": 0,
+              "europaLeague": 0,
               "leagueTitle": 0,
               "domesticCup": 1,
               "performanceBonus": 0,
@@ -1167,6 +1194,7 @@
             },
             "nik": {
               "championsLeague": 0,
+              "europaLeague": 0,
               "leagueTitle": 0,
               "domesticCup": 0,
               "performanceBonus": 0,
@@ -1190,7 +1218,8 @@
               "domesticCup": true,
               "championsLeague": false,
               "topScorer": true,
-              "topAssist": false
+              "topAssist": false,
+              "europaLeague": false
             },
             "nik": {
               "leaguePosition": 1,
@@ -1199,12 +1228,14 @@
               "domesticCup": false,
               "championsLeague": false,
               "topScorer": false,
-              "topAssist": false
+              "topAssist": false,
+              "europaLeague": false
             }
           },
           "breakdown": {
             "daniel": {
               "championsLeague": 0,
+              "europaLeague": 0,
               "leagueTitle": 0,
               "domesticCup": 1,
               "performanceBonus": 1,
@@ -1213,6 +1244,7 @@
             },
             "nik": {
               "championsLeague": 0,
+              "europaLeague": 0,
               "leagueTitle": 3,
               "domesticCup": 0,
               "performanceBonus": 0,
@@ -1236,7 +1268,8 @@
               "domesticCup": false,
               "championsLeague": false,
               "topScorer": false,
-              "topAssist": false
+              "topAssist": false,
+              "europaLeague": false
             },
             "nik": {
               "leaguePosition": 2,
@@ -1245,12 +1278,14 @@
               "domesticCup": true,
               "championsLeague": false,
               "topScorer": false,
-              "topAssist": true
+              "topAssist": true,
+              "europaLeague": false
             }
           },
           "breakdown": {
             "daniel": {
               "championsLeague": 0,
+              "europaLeague": 0,
               "leagueTitle": 3,
               "domesticCup": 0,
               "performanceBonus": 0,
@@ -1259,6 +1294,7 @@
             },
             "nik": {
               "championsLeague": 0,
+              "europaLeague": 0,
               "leagueTitle": 0,
               "domesticCup": 1,
               "performanceBonus": 1,
@@ -1283,12 +1319,14 @@
         "trophies": {
           "daniel": {
             "championsLeague": 0,
+            "europaLeague": 0,
             "leagueTitles": 1,
             "domesticCups": 2,
             "total": 3
           },
           "nik": {
             "championsLeague": 0,
+            "europaLeague": 0,
             "leagueTitles": 1,
             "domesticCups": 1,
             "total": 2
@@ -1314,6 +1352,7 @@
             "seasonDraws": 0,
             "seasonLosses": 1,
             "championsLeagues": 0,
+            "europaLeagues": 0,
             "leagueTitles": 1,
             "domesticCups": 2,
             "totalTrophies": 3,
@@ -1329,6 +1368,7 @@
             "seasonDraws": 0,
             "seasonLosses": 2,
             "championsLeagues": 0,
+            "europaLeagues": 0,
             "leagueTitles": 1,
             "domesticCups": 1,
             "totalTrophies": 2,

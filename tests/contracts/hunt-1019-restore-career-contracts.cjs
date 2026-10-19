@@ -154,6 +154,8 @@ test("H1019-4 an older overlapping career load never overwrites the newer career
     CareerModePersistentNikDanielPair:{getState:()=>({rivalryId:rid})},
     CareerModeSharedActiveShowdownAdapter:{buildActiveShowdownViews:()=>({careerInput:{}})},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"Daniel"}},firestoreSdk:{getDoc(){}}})},
+    // r80 real vs test: a real account (its career-start marker, nothing hidden); career pages show nothing while it is unknown.
+    CareerModeCareerStartMarker:{readMarker:async()=>({status:"ready",hiddenRivalryIds:[]}),hiddenRivalryIds:m=>m.hiddenRivalryIds.slice(),epoch:()=>0},
     CareerModeSparkClosedShowdownCareerLoader:{loadClosedShowdownCareer(){const d=deferred();pending.push(d);return d.promise;}},
     loadRuntimeScript:async()=>{}});
   vm.runInContext(read("js/rivalryLegacyV10.js"),c,{filename:"js/rivalryLegacyV10.js"});

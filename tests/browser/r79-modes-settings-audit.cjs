@@ -10,7 +10,7 @@
 //       CMS17- code, the WAITING layer and the badge carry the label; FORGET THIS DEVICE revokes the device.
 // REAL  Daniel's Home START shows the one-time START REAL CAREER checkmark (ticked) and writes the marker before the
 //       CMS17R- code; Nik joins. Settings: "Paired with Nik/Daniel" + UNPAIR, no FORGET THIS DEVICE, no CONNECT PLAYERS.
-//       UNPAIR during the Showdown: the reason, nothing changed. DELETE CURRENT SHOWDOWN, then UNPAIR: unpaired,
+//       UNPAIR during the Showdown: the reason, nothing changed. END SHOWDOWN, then UNPAIR: unpaired,
 //       PAIR WITH NIK. Nik (reload): Home and Settings say Daniel unpaired, PAIR AGAIN -> both pair again (CMS17R-).
 const assert=require("node:assert/strict");
 const {installMarbleConfirmAnswers}=require("./support/marble-confirm.cjs");
@@ -32,7 +32,7 @@ const SHOTS=process.env.CMS_MODES_SHOTS||path.join(os.tmpdir(),"cms-r79-modes");
 const FORBIDDEN_HOSTS=/(^|\.)(firestore|identitytoolkit|securetoken|firebaseinstallations|firebaseappcheck|content-firebaseappcheck)\.googleapis\.com$/;
 const SIZES=[{width:1280,height:800},{width:390,height:844}];
 const TEST_LABEL="TEST RUN · nothing counts",BADGE_SUFFIX=" · TEST RUN · NOTHING COUNTS";
-const BLOCKED="Finish or delete the current Showdown before you unpair. Nothing was changed.";
+const BLOCKED="Finish or end the current Showdown before you unpair. Nothing was changed.";
 let checks=0;
 const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${label}`);};
 const urlFor=user=>`${BASE}?cmsEmulator=1&cmsEmulatorUser=${user}&cmsAuthPort=${AUTH_PORT}&cmsFirestorePort=${FIRESTORE_PORT}`;
@@ -237,11 +237,11 @@ async function main(){
     await waitNote(daniel,BLOCKED);
     assert.equal(field(await admin(`accounts/${uidD}/partner/current`),"active").booleanValue,true,"the pairing is unchanged");
     assert.equal(await daniel.page.evaluate(()=>window.CareerModePersistentNikDanielPair.getState().connectionState),"active","the Showdown is unchanged");
-    v=await settingsView(daniel);assert.equal(v.rows.partner,"Paired with Nik");assert.ok(v.deleteCurrent,"DELETE CURRENT SHOWDOWN is still there");
+    v=await settingsView(daniel);assert.equal(v.rows.partner,"Paired with Nik");assert.ok(v.deleteCurrent,"END SHOWDOWN is still there");
     await both(daniel,"real-unpair-blocked",SETTINGS_PARTS,"#cmsModeSettings");
     ok("R4","UNPAIR during a Showdown: blocked with the reason, nothing changed");
 
-    // DELETE CURRENT SHOWDOWN (unchanged), then UNPAIR works.
+    // END SHOWDOWN, then UNPAIR works.
     await daniel.page.locator(".settingsDeleteCurrentShowdown").click();
     await daniel.page.waitForFunction(()=>!window.CareerModePersistentNikDanielPair?.getState?.()?.rivalryId||!["active","pending-pair"].includes(window.CareerModePersistentNikDanielPair.getState().connectionState),null,{timeout:45000});
     if(!await daniel.page.locator("#settingsOverlay").isVisible())await openSettings(daniel);
@@ -254,10 +254,10 @@ async function main(){
     assert.equal(field(await admin(`accounts/${uidN}/partner/current`),"active").booleanValue,true,"Nik's side is his own");
     await both(daniel,"real-unpaired-daniel",SETTINGS_PARTS,"#onlinePlayerIdentitySettingsPanel");
     await closeSettings(daniel);
-    ok("R5","after DELETE CURRENT SHOWDOWN, UNPAIR succeeds: Not paired, PAIR WITH NIK");
+    ok("R5","after END SHOWDOWN, UNPAIR succeeds: Not paired, PAIR WITH NIK");
 
     // Nik: one-sided UNPAIR, found by the one partner-side read of this page load. Before the reload, Nik's page was still in
-    // the Showdown Daniel deleted; its terminal-close refresh reports that (DELETE CURRENT SHOWDOWN's existing behaviour, not
+    // the Showdown Daniel ended; its terminal-close refresh reports that (END SHOWDOWN's partner behaviour, not
     // part of this PR), so only errors after the reload count for Nik.
     nik.log.deletedShowdownErrors=nik.log.errors.splice(0);
     await nik.page.reload({waitUntil:"domcontentloaded"});
@@ -272,8 +272,8 @@ async function main(){
     ok("R6","Nik after Daniel's UNPAIR: Home and Settings say so plainly and offer PAIR AGAIN");
 
     // PAIR AGAIN: Nik resets his side and gets the code box; Daniel's PAIR WITH NIK starts the first real pairing again.
-    // Nik's phone still holds its local copy of the Showdown Daniel deleted; the join refuses until Nik deletes it too
-    // (DELETE CURRENT SHOWDOWN, unchanged), as it did before this PR.
+    // Nik's phone still holds its local copy of the Showdown Daniel ended; the join refuses until Nik ends it too
+    // (END SHOWDOWN), as it did before this PR.
     if(v.deleteCurrent){
       await nik.page.locator(".settingsDeleteCurrentShowdown").click();
       await nik.page.waitForFunction(()=>!document.querySelector(".settingsDeleteCurrentShowdown"),null,{timeout:45000}).catch(()=>{});

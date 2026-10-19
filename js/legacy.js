@@ -52,7 +52,8 @@ function countPlayerTrophies(player){
     if(!player){ return 0; }
     return (Number(player.leaguePosition) === 1 ? 1 : 0)
         + (player.domesticCup ? 1 : 0)
-        + (player.championsLeague ? 1 : 0);
+        + (player.championsLeague ? 1 : 0)
+        + (player.europaLeague === true && !player.championsLeague ? 1 : 0);
 }
 
 function countShowdownTrophies(showdown){
@@ -105,6 +106,7 @@ function getPlayerHonours(player){
     const scoring = getLegacyScoring(player);
 
     if(player.championsLeague){ honours.push("Champions League"); }
+    else if(player.europaLeague === true){ honours.push("Europa League"); }
     if(Number(player.leaguePosition) === 1){ honours.push("League"); }
     if(player.domesticCup){ honours.push("Domestic Cup"); }
     if(scoring.performanceBonus){ honours.push("Performance Bonus"); }
@@ -226,7 +228,7 @@ function deleteLegacyShowdownTransaction(showdown){
 
     if(!deleteLegacyShowdown(showdown.id)){
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("The Legacy showdown could not be deleted from browser storage.", "error", 9000);
+            window.showAppNotice("The Legacy showdown could not be deleted.", "error", 9000);
         }
         return false;
     }
@@ -311,7 +313,7 @@ function createLegacyShowdownCard(showdown){
         if(await legacyAskConfirm(warning, "danger") !== true){ return; }
         if(deleteLegacyShowdownTransaction(showdown)){
             if(typeof window.showAppNotice === "function"){
-                window.showAppNotice(`Deleted "${showdown.name}" from local Legacy history.`, "success", 4200);
+                window.showAppNotice(`Deleted "${showdown.name}" from Legacy history.`, "success", 4200);
             }
             lastLegacyRenderedRevision = null;
             renderLegacy();
@@ -331,7 +333,7 @@ function deleteAllLegacyHistoryTransaction(history){
 
     if(!clearLegacyHistory()){
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("Legacy history could not be cleared from browser storage.", "error", 9000);
+            window.showAppNotice("Legacy history could not be cleared.", "error", 9000);
         }
         return false;
     }
@@ -359,12 +361,12 @@ function createLegacyDataControls(history){
     const heading = document.createElement("h3");
     heading.textContent = "DATA MANAGEMENT";
     const description = document.createElement("p");
-    description.textContent = "Download a checksum-protected local backup before destructive maintenance. Export is read-only: it does not change your active Showdown, Legacy history or application preferences.";
+    description.textContent = "Download a checksum-protected backup file before destructive maintenance. Export is read-only: it does not change your active Showdown, Legacy history or application preferences.";
 
     const backupSummary = document.createElement("div");
     backupSummary.className = "legacyBackupSummary";
     const backupTitle = document.createElement("strong");
-    backupTitle.textContent = "LOCAL BACKUP";
+    backupTitle.textContent = "BACKUP FILE";
     const backupText = document.createElement("span");
     backupText.textContent = "Human-readable JSON · format v1 · SHA-256 corruption check · malformed current bytes preserved in recovery data";
     backupSummary.append(backupTitle, backupText);
@@ -385,7 +387,7 @@ function createLegacyDataControls(history){
     exportBackup.addEventListener("click", async () => {
         if(backupExportInProgress){ return; }
         if(typeof window.exportCareerModeBackup !== "function"){
-            status.textContent = "Backup export is unavailable in this browser session.";
+            status.textContent = "Backup export is unavailable right now.";
             if(typeof window.showAppNotice === "function"){
                 window.showAppNotice(status.textContent, "error", 9000);
             }

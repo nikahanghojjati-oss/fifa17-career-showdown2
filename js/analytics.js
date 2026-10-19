@@ -159,6 +159,7 @@ function createManagerCareerStats(name, key = analyticsNormalizeName(name), prof
         leagueTitles: 0,
         domesticCups: 0,
         championsLeagues: 0,
+        europaLeagues: 0,
         performanceBonuses: 0,
         awardsBonuses: 0,
         hundredPointSeasons: 0,
@@ -246,6 +247,7 @@ function accumulateRoundStats(stats, showdown, round, playerKey){
     if(leaguePosition === 1){ stats.leagueTitles += 1; }
     if(player.domesticCup){ stats.domesticCups += 1; }
     if(player.championsLeague){ stats.championsLeagues += 1; }
+    if(player.europaLeague === true && !player.championsLeague){ stats.europaLeagues += 1; }
     if(scoring.performanceBonus){ stats.performanceBonuses += 1; }
     if(scoring.individualAwardsBonus || scoring.awardsBonus){ stats.awardsBonuses += 1; }
     if(leaguePoints >= 100){ stats.hundredPointSeasons += 1; }
@@ -272,7 +274,7 @@ function accumulateRoundStats(stats, showdown, round, playerKey){
 }
 
 function finalizeManagerCareerStats(stats){
-    stats.totalTrophies = stats.leagueTitles + stats.domesticCups + stats.championsLeagues;
+    stats.totalTrophies = stats.leagueTitles + stats.domesticCups + stats.championsLeagues + stats.europaLeagues;
     stats.averageSeasonScore = stats.seasons ? stats.totalPoints / stats.seasons : 0;
     stats.averageLeaguePoints = stats.seasons ? stats.totalLeaguePoints / stats.seasons : 0;
     stats.averageLeagueGoals = stats.seasons ? stats.totalLeagueGoals / stats.seasons : 0;
@@ -335,6 +337,7 @@ function calculateCareerAnalytics(history, profileNames = new Map()){
                 if(Number(player.leaguePosition) === 1){ totalTrophies += 1; }
                 if(player.domesticCup){ totalTrophies += 1; }
                 if(player.championsLeague){ totalTrophies += 1; }
+                if(player.europaLeague === true && !player.championsLeague){ totalTrophies += 1; }
             });
         });
     });

@@ -1,5 +1,5 @@
 "use strict";
-// r79: Daniel's DELETE CURRENT SHOWDOWN (Settings, unchanged) on a live Showdown must not leave Nik's phone stuck on it.
+// r79: Daniel's DELETE CURRENT SHOWDOWN (Settings; r80: END SHOWDOWN) on a live Showdown must not leave Nik's phone stuck on it.
 // Before: the delete closes the rivalry with no terminal witness; Nik's Terminal Close read then failed with
 // TERMINAL_CLOSE_INTENT_INVALID, his pair kept the dead Showdown ACTIVE, and his next JOIN refused ("This phone still has a
 // different unfinished Showdown ...") until he ran DELETE CURRENT SHOWDOWN himself.
@@ -75,6 +75,7 @@ function terminalSandbox(){
     addEventListener:(type,handler)=>{if(!listeners.has(type))listeners.set(type,[]);listeners.get(type).push(handler);},
     reportApplicationError:(context,error)=>reports.push({context,error}),
     removeStorageValue:key=>removed.push(key),
+    screens:[],notices:[],showScreen:id=>{sandbox.screens.push(id);return true;},showAppNotice:(text,kind)=>{sandbox.notices.push({text,kind});},
     document:{visibilityState:"visible",getElementById:()=>null,addEventListener:()=>{},querySelector:()=>null},
     currentShowdown:{sharedJourney:{mode:"shared",rivalryId:R},identity:{saveId:SAVE,managerProfileIds:{playerOne:P1,playerTwo:P2}},managers:{playerOne:"Daniel",playerTwo:"Nik"}}};
   sandbox.globalThis=sandbox;
@@ -92,7 +93,7 @@ function terminalSandbox(){
 }
 async function terminalContracts(){
   {
-    const {api,env,reports,events,removed}=terminalSandbox();
+    const t1=terminalSandbox(),{api,env,reports,events,removed}=t1;
     const state=await api.refresh();
     assert.equal(state&&state.phase,"DELETED","the deleted Showdown is announced (was an error)");
     assert.equal(state.rivalryId,R);assert.equal(state.terminal,false);assert.equal(state.deleted,true);
@@ -104,12 +105,17 @@ async function terminalContracts(){
     const announced=events.filter(e=>e.type==="career-mode-shared-terminal-close-state-change").map(e=>e.detail);
     assert.deepEqual(JSON.parse(JSON.stringify(announced)),[{phase:"DELETED",rivalryId:R,terminal:false}]);
     ok("T1 the same Terminal Close read turns a deleted rivalry into DELETED: session forgotten, drafts swept, one event, nothing reported");
+    // r80 END SHOWDOWN: this phone leaves the ended Showdown for Home once and says so (ended-early wording, no "deleted").
+    const sb=t1.sandbox;
+    assert.deepEqual([...sb.screens],["mainMenu"],"the partner phone goes Home");
+    assert.equal(sb.notices.length,1);assert.match(sb.notices[0].text,/ended for both players\. History keeps it as Ended early\./);assert.doesNotMatch(sb.notices[0].text,/delet/i);
     await api.refresh();await api.refresh();
     assert.equal(env.readCalls,1,"a DELETED Showdown is never read again (reads do not go up)");
+    assert.equal(sb.screens.length,1,"Home once");assert.equal(sb.notices.length,1,"one notice");
     const reported=await api.reportUnlessClosed("Unable to refresh Shared Season Results",new Error("Missing or insufficient permissions."));
     assert.equal(reported,false);assert.equal(reports.length,0,"a refresher's failure on the deleted Showdown is not reported");
     assert.equal(env.readCalls,1);
-    ok("T2 no further read for a DELETED Showdown, and refreshers' failures on it are not reported");
+    ok("T2 no further read for a DELETED Showdown, and refreshers' failures on it are not reported; the partner phone went Home once with the Ended early notice");
   }
   {
     const {api,env,reports}=terminalSandbox();
@@ -341,7 +347,7 @@ async function pairContracts(){
     await h.pair.initialize({force:true});
     const joined=await h.pair.joinPairing(`CMS17-${R2}`,{managerRole:"playerTwo",autoContinue:false});
     assert.notEqual(joined.status,"paired");
-    assert.match(joined.message,/This phone still has a different unfinished Showdown\. Delete it in Settings \(DELETE CURRENT SHOWDOWN\)/);
+    assert.match(joined.message,/You still have a different unfinished Showdown\. End it in Settings \(END SHOWDOWN\)/);
     assert.equal(h.calls.redeem.length,0);assert.equal(h.calls.provision,0);
     ok("J5 a local Showdown not known closed still refuses with the Settings message (not weakened)");
   }
@@ -376,7 +382,7 @@ async function entryContracts(){
   }
   {
     const {api,library,calls}=entrySandbox({closed:false});
-    await assert.rejects(api.provisionJoinerShell(1),/This phone already has a different current Showdown\. Delete it in Settings \(DELETE CURRENT SHOWDOWN\)/);
+    await assert.rejects(api.provisionJoinerShell(1),/You already have a different current Showdown\. End it in Settings \(END SHOWDOWN\)/);
     assert.equal(calls.create,0);assert.equal(library.saves.length,1);
     ok("E2 any other current Showdown still refuses with the Settings message");
   }

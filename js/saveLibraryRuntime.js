@@ -379,7 +379,7 @@
         const migrated=await runtimeGetFoundation().migrateShowdownIdentity(sourceRecord,runtimeManagerProfileRefs(sourceRecord));
         const saveId=migrated.identity&&migrated.identity.saveId;
         if(!saveId)throw new Error("Historical Showdown could not receive stable Save identity.");
-        if(library.saves.some(entry=>entry&&entry.saveId===saveId))throw new Error("This historical record still has a local Save. Link the Save manager so its matching Legacy copy stays consistent.");
+        if(library.saves.some(entry=>entry&&entry.saveId===saveId))throw new Error("This historical record still has a saved Showdown. Link the Save manager so its matching Legacy copy stays consistent.");
         const refs=runtimeManagerProfileRefs(migrated);
         const otherRole=role==="playerOne"?"playerTwo":"playerOne";
         if(profileId!==null&&refs[otherRole]===profileId)throw new Error("One Local Profile cannot represent both manager roles inside the same historical Showdown.");
@@ -486,6 +486,40 @@
         runtimeAuthorityRawSnapshot();
         try{runtimeCommitLibrary(nextLibrary);}catch(error){seasonIdentityByRound=new Map();throw error;}
         return runtimeCloneValue(prepared);
+    }
+
+    // r80: rebuild a live two-player Showdown's shell on a browser that lacks it, from what Firebase knows (the pair link's exact
+    // saveId and this player's profileId, the role, the seasons in the rivalry id). The shell is the one START / JOIN made: the
+    // same candidate as createShowdown (js/showdown.js), the same identity and profiles (both derived from the saveId), and the
+    // shared marker (js/productionSharedJourneyEntry.js). Only id/createdAt/updatedAt are this rebuild's own (local-only fields).
+    // Idempotent: an exact shell already here is reused; any other save with that saveId is refused, never overwritten.
+    function runtimeFindOnlineEntry(library,saveId,role,profileId){
+        const entry=library.saves.find(item=>item&&item.saveId===saveId);
+        if(!entry)return null;
+        if(runtimeManagerProfileRefs(entry.showdown)[role]!==profileId)throw new Error(`Save identity ${saveId} already holds a different Showdown. It was not changed.`);
+        return entry;
+    }
+    async function runtimeAdoptOnlineEntry(facts){
+        const saveId=facts&&facts.saveId,profileId=facts&&facts.profileId,role=runtimeAssertManagerRole(facts&&facts.role),totalRounds=Number(facts&&facts.totalRounds);
+        if(typeof saveId!=="string"||!/^save_[a-f0-9]{24}$/.test(saveId)||typeof profileId!=="string"||!/^profile_[a-f0-9]{24}$/.test(profileId)||![1,3,5,10].includes(totalRounds))throw new Error("The online Showdown identity is invalid.");
+        if(runtimeFindOnlineEntry(runtimeParseLibrary(runtimeAuthorityRawSnapshot().saveLibrary),saveId,role,profileId))return {ok:true,status:"present",saveId};
+        runtimeFlushBeforeIdentityMutation();
+        const now=new Date().toISOString();
+        const candidate={schemaVersion:2,id:Date.now(),name:"Daniel vs Nik",managers:{playerOne:"Daniel",playerTwo:"Nik"},totalRounds,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],integrityWarnings:[],createdAt:now,updatedAt:now,completedAt:null,archivedAt:null,identity:{schemaVersion:1,saveId}};
+        const planned=await runtimeGetFoundation().buildSingletonMigrationPlan({activeShowdown:candidate,legacyShowdowns:[]});
+        const prepared=planned&&planned.ok===true&&planned.library&&planned.library.activeSaveId===saveId&&planned.library.saves.length===1?planned.library.saves[0].showdown:null;
+        if(!prepared||runtimeManagerProfileRefs(prepared)[role]!==profileId)throw new Error("The online Showdown identity does not match a Showdown this app made.");
+        prepared.sharedJourney={contractVersion:1,mode:"shared",setupPending:true};
+        const previousSeasons=seasonIdentityByRound;
+        await runtimePrimeSeasonIdentities(prepared);
+        try{
+            const library=runtimeParseLibrary(runtimeAuthorityRawSnapshot().saveLibrary);
+            if(runtimeFindOnlineEntry(library,saveId,role,profileId)){seasonIdentityByRound=previousSeasons;return {ok:true,status:"present",saveId};}
+            const known=new Set(library.profiles.map(profile=>profile&&profile.profileId));
+            runtimeCommitLibrary(runtimeAppendSaveEntry(library,{saveId,showdown:prepared},planned.library.profiles.filter(profile=>!known.has(profile.profileId)),saveId));
+        }catch(error){seasonIdentityByRound=previousSeasons;throw error;}
+        runtimeSetCurrentShowdownReference(runtimeCloneValue(prepared));
+        return {ok:true,status:"rebuilt",saveId};
     }
 
     function runtimeArchiveShowdown(showdown){
@@ -650,6 +684,7 @@
         isReady:()=>authorityReady,
         invalidateAuthority:runtimeInvalidateAuthority,
         createShowdown:runtimeCreateShowdown,
+        adoptOnlineEntry:runtimeAdoptOnlineEntry,
         saveCurrentShowdown:runtimeSaveCurrent,
         loadActiveShowdown:runtimeLoadActive,
         getLibrarySnapshot:runtimeGetLibrarySnapshot,

@@ -7,7 +7,7 @@
   // Shell-cached Team V files live under the runtime ?v= URL, so fetch them the same way (offline first launch).
   const assetUrl=path=>typeof root.optionalAssetUrl==="function"?root.optionalAssetUrl(path):path;
   const BASE="visual-assets/v10_1/",ROLES={playerOne:"daniel",playerTwo:"nik",draw:"draw"};
-  const COUNT_FIELDS=["seasonWins","seasonDraws","seasonLosses","championsLeagues","leagueTitles","domesticCups","totalTrophies"];
+  const COUNT_FIELDS=["seasonWins","seasonDraws","seasonLosses","championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies"];
   const number=x=>typeof x==="number"&&Number.isFinite(x);
   const freeze=x=>{if(x&&typeof x==="object"){Object.values(x).forEach(freeze);Object.freeze(x);}return x;};
   // H1017-3: the terminal witness schema is frozen and carries no acceptedRevisionKey, so after close the history binding is
@@ -33,7 +33,7 @@
       const last=p.seasonHistory[p.seasonHistory.length-1],lp=last?.playerOne?.scoring?.total,ln=last?.playerTwo?.scoring?.total;
       if(last&&last.roundNumber===frame.seasonsPlayed&&number(lp)&&number(ln)&&lp>=0&&lp<=11&&ln>=0&&ln<=11&&ROLES[last.winner])frame.lastSeason={season:last.roundNumber,daniel:lp,nik:ln,winner:ROLES[last.winner]};
       const trophies={};
-      for(const [role,m] of [["playerOne","daniel"],["playerTwo","nik"]]){const rec=p.managerRecords[role];if(!["championsLeagues","leagueTitles","domesticCups","totalTrophies"].every(k=>number(rec[k])))return freeze(frame);trophies[m]={championsLeague:rec.championsLeagues,leagueTitles:rec.leagueTitles,domesticCups:rec.domesticCups,total:rec.totalTrophies};}
+      for(const [role,m] of [["playerOne","daniel"],["playerTwo","nik"]]){const rec=p.managerRecords[role];if(!["championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies"].every(k=>number(rec[k])))return freeze(frame);trophies[m]={championsLeague:rec.championsLeagues,europaLeague:rec.europaLeagues,leagueTitles:rec.leagueTitles,domesticCups:rec.domesticCups,total:rec.totalTrophies};}
       frame.trophies=trophies;frame.status="ready";frame.message="";
     }
     return freeze(frame);
@@ -50,10 +50,10 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
 #app #standings.standingsScreenV10 .sdg-toggle button:active{filter:brightness(.82)}
 #app #standings.standingsScreenV10 :is(.sdg-toggle button,.sdg-state):focus-visible{outline:2px solid #ffe36c;outline-offset:-3px}
 
-/* Phones and tablets upright: the heroes take what the title, board and bottom bar leave; all seven rows stay in view. */
+/* Phones and tablets upright: the heroes take what the title, board and bottom bar leave; all eight rows stay in view. */
 @media (max-width:900px) and (orientation:portrait){
   #app #standings.standingsScreenV10{
-    --sg-nav:calc(56px + env(safe-area-inset-bottom));--sg-row:clamp(18px,3svh,28px);--sg-title:clamp(62px,10svh,84px);--sg-board:calc(205px + 7 * var(--sg-row));
+    --sg-nav:calc(56px + env(safe-area-inset-bottom));--sg-row:clamp(18px,3svh,28px);--sg-title:clamp(62px,10svh,84px);--sg-board:calc(205px + 8 * var(--sg-row));
     --sg-hero:max(48px,calc(100svh - var(--sg-nav) - var(--sg-title) - var(--sg-board) - 32px));
   }
   #app #standings.standingsScreenV10 .sdg-stage{position:relative;width:100%;height:auto;min-height:100svh;overflow:visible}
@@ -94,7 +94,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
 
 /* Upright tablets (adopted 1259): broad board, tablet type, 56px scope controls. */
 @media (min-width:601px) and (max-width:900px) and (orientation:portrait){
-  #app #standings.standingsScreenV10{--sg-row:clamp(34px,4.4svh,48px);--sg-title:clamp(104px,13svh,150px);--sg-board:calc(296px + 7 * var(--sg-row))}
+  #app #standings.standingsScreenV10{--sg-row:clamp(34px,4.4svh,48px);--sg-title:clamp(104px,13svh,150px);--sg-board:calc(296px + 8 * var(--sg-row))}
   #app #standings.standingsScreenV10 .sdg-header .sd-eyebrow{font-size:15px;line-height:18px;letter-spacing:.29em}
   #app #standings.standingsScreenV10 .sdg-wordmark{width:min(78%,520px)}
   #app #standings.standingsScreenV10 .sdg-wordmark img{max-height:none;width:100%}
@@ -158,6 +158,12 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   #app #standings.standingsScreenV10 .sdg-row{border-top-color:rgba(214,176,70,.55)}
   #app #standings.standingsScreenV10 .sdg-label{font-size:clamp(13px,1.05vw,17px);color:#d9d4c6}
   #app #standings.standingsScreenV10 .sdg-rows{margin-bottom:14px}
+}
+/* r80 short screens: with the Europa League the board holds eight rows; at 1536x864 they no longer fit Team V's 52% board,
+   so the board scrolled inside itself and TOTAL TROPHIES sat out of sight. On taller windows the board keeps 52% as its
+   least height and grows down to fit every row (main stays the only scroller). */
+@media (min-width:901px) and (min-height:861px){
+  #app #standings.standingsScreenV10 .sdg-board{height:auto;min-height:52%}
 }
 /* 1366x768 and similar: the crest block, score and toggle pushed the last row onto the board edge. */
 @media (min-width:901px) and (max-height:860px){
@@ -261,10 +267,28 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   const templates={},strings={};let installed=false,scheduled=false,signature="",finalSeasonReview=false;
   const state=name=>{try{return root[name]?.getState?.()||null;}catch(_){return null;}};
   function sfSnapshot(){return {identity:state("CareerModeOnlinePlayerIdentity"),pair:state("CareerModePersistentNikDanielPair"),multiSeason:state("CareerModeProductionSharedMultiSeasonProgression"),history:state("CareerModeProductionSharedHistoryConvergence"),finalReconciliation:state("CareerModeProductionSharedFinalReconciliation"),terminalClose:state("CareerModeProductionSharedTerminalClose")};}
-  function currentRivalry(){return root.CareerModeSharedActiveShowdownAdapter?.rivalryView(sfSnapshot())||{status:"unavailable"};}
-  // A supplied model first, then the provider-backed career model Stats, Trophy Room or History last read
-  // for this account and pair. Standings itself adds no provider read.
-  function currentCareer(){try{const supplied=typeof careerStatisticsModel!=="undefined"?careerStatisticsModel:null;return supplied??root.CareerModeRivalryLegacyV10?.cachedCareerModel?.()??null;}catch(_){return null;}}
+  // CE2PG: once the pair has let a finished Showdown go (Home was shown), it is no longer "this Showdown": the closed Terminal
+  // Close kept in memory for the Final Winner screen made THIS SHOWDOWN show it until a reload, while every reloaded or new
+  // browser said "No active showdown". Rivalry Statistics keeps showing the newest finished Showdown on every browser.
+  function currentRivalry(){
+    const snapshot=sfSnapshot(),pair=snapshot.pair;
+    if(pair?.initialized===true&&pair.status==="unpaired"&&!pair.rivalryId&&snapshot.terminalClose?.phase==="CLOSED")snapshot.terminalClose=null;
+    return root.CareerModeSharedActiveShowdownAdapter?.rivalryView(snapshot)||{status:"unavailable"};
+  }
+  // A supplied model first, then the provider-backed career model shared with Stats, Trophy Room and History.
+  // CE2PG: Standings only reused the model another screen last read, so opened first it said "unavailable" and
+  // after a newer Showdown closed it kept the older career. Each Standings open now refreshes that model once
+  // (the same exact gets Career Statistics makes when it opens); Career says Loading until it lands.
+  let standingsCareerLoad=null;
+  function sfOnlineCareer(){const id=state("CareerModeOnlinePlayerIdentity");return id?.registered===true&&["daniel","nik"].includes(id.managerId);}
+  function refreshStandingsCareer(){
+    if(standingsCareerLoad||!sfOnlineCareer()||typeof root.loadRuntimeScript!=="function")return;
+    const load=standingsCareerLoad=Promise.resolve().then(async()=>{
+      if(!root.CareerModeRivalryLegacyV10)await root.loadRuntimeScript("rivalry-legacy-v10","js/rivalryLegacyV10.js",()=>Boolean(root.CareerModeRivalryLegacyV10));
+      await root.CareerModeRivalryLegacyV10.loadCareerModel();
+    }).catch(()=>{}).then(()=>{if(standingsCareerLoad===load)standingsCareerLoad=null;signature="";wake();});
+  }
+  function currentCareer(){try{const supplied=typeof careerStatisticsModel!=="undefined"?careerStatisticsModel:null;return supplied??(standingsCareerLoad?{status:"loading"}:root.CareerModeRivalryLegacyV10?.cachedCareerModel?.())??null;}catch(_){return null;}}
   function stageElement(folder){const holder=root.document.createElement("div");holder.innerHTML=templates[folder];return holder.firstElementChild;}
   const fail=error=>root.console?.warn?.("[Career Mode Showdown] Season visual unavailable",error);
   async function prepare(folder){
@@ -382,7 +406,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
  #app #seasonEntry.seasonScreenV10 .season-review-panel>.seasonReviewWarning:not(.hidden)~.seasonReviewWarning{margin-top:-6px;border-top:1px solid rgb(242 196 91 / .16)}
  #app #seasonEntry.seasonScreenV10 .season-review-panel>.seasonReviewActions{order:9}
  #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions{position:static;width:auto;margin:0;padding:0;background:none}
- /* 6. Local Reconciliation in the black-and-gold kit, readable size. */
+ /* 6. Shared result check in the black-and-gold kit, readable size. */
  #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel h3{margin:0;color:#f2c45b;font:800 13px/1.2 var(--f17-display,inherit);letter-spacing:1.2px}
  #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel p{margin:4px 0;font-size:12px;line-height:1.4;color:#c9c2b0}
  #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel .stateNote{width:auto;color:#efe7d2;background:rgb(5 7 9 / .82);border-left:3px solid #f2c45b}
@@ -551,7 +575,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard .achievementChecks {
   grid-area:checks; min-width:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
-  grid-template-rows:repeat(2,minmax(68px,auto)); gap:7px; padding-left:9px; border-left:1px solid #ad873955;
+  grid-template-rows:repeat(3,minmax(68px,auto)); gap:7px; padding-left:9px; border-left:1px solid #ad873955;
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard .achievementChecks label {
   min-width:0; min-height:68px; display:flex; flex-direction:column;
@@ -660,7 +684,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .achievementChecks {
   grid-area:checks; min-width:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
-  grid-template-rows:repeat(2,minmax(68px,auto)); gap:7px;
+  grid-template-rows:repeat(3,minmax(68px,auto)); gap:7px;
   padding-left:9px; border-left:1px solid #ad873955;
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .achievementChecks label {
@@ -1315,6 +1339,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 /* Approved NEXT_SEASON_RESULTS: central scoring/card/actions, responsive to
    the viewport height. Retain the registered Team V plate, trophy and badge. */
 @media (min-width:1240px) and (max-width:1400px) and (min-height:620px) and (max-height:800px),
+       (min-width:901px) and (max-width:1239px) and (min-height:501px) and (max-height:800px) and (orientation:landscape),
+       (min-width:1401px) and (max-width:1879px) and (min-height:620px) and (max-height:1039px) and (orientation:landscape),
        (min-width:1880px) and (max-width:2620px) and (min-height:1040px) and (max-height:1120px) {
  html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) {
   position:fixed;inset:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto;
@@ -1390,6 +1416,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
        (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait),
        (min-width:1240px) and (max-width:1400px) and (min-height:620px) and (max-height:800px),
+       (min-width:901px) and (max-width:1239px) and (min-height:501px) and (max-height:800px) and (orientation:landscape),
+       (min-width:1401px) and (max-width:1879px) and (min-height:620px) and (max-height:1039px) and (orientation:landscape),
        (min-width:1880px) and (max-width:2620px) and (min-height:1040px) and (max-height:1120px) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(button,.season-phone-tab,.season-phone-scoring-open,.season-phone-sheet-close):active {
   filter:brightness(.88);box-shadow:inset 0 2px 4px #0008;
@@ -1418,13 +1446,14 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry .v10FinalStage .finalWinnerManager .sd-number { font-size:max(30px,calc(var(--fwu)*4.1)); line-height:1.05; }
  #app #seasonEntry .v10FinalStage .finalWinnerScoreDash { padding:0; }
  #app #seasonEntry .v10FinalStage .winnerTrophySlot { left:50%; top:32.5%; width:calc(var(--fwu)*16); height:44%; transform:translateX(-50%); translate:none; scale:none; overflow:visible; }
- #app #seasonEntry .v10FinalStage .finalWinnerResultsPanel { left:20.4%; width:59.3%; top:72.4%; bottom:auto; height:max(16.8%,112px); grid-template-columns:34% 1fr; border:2px solid #e8c465; background:linear-gradient(115deg,#111110f2,#060706ed); box-shadow:inset 0 0 0 3px #574119,inset 0 0 0 5px #e4c56a50; clip-path:polygon(1.2% 0,98.8% 0,100% 8%,100% 92%,98.8% 100%,1.2% 100%,0 92%,0 8%); }
+ /* r80: five honours rows with the Europa League. The panel keeps its old bottom edge (89.2%) and grows upward to at least 124px, so TOTAL TROPHIES clears the border at 1366x640. */
+ #app #seasonEntry .v10FinalStage .finalWinnerResultsPanel { left:20.4%; width:59.3%; top:auto; bottom:10.8%; height:max(16.8%,124px); grid-template-columns:34% 1fr; border:2px solid #e8c465; background:linear-gradient(115deg,#111110f2,#060706ed); box-shadow:inset 0 0 0 3px #574119,inset 0 0 0 5px #e4c56a50; clip-path:polygon(1.2% 0,98.8% 0,100% 8%,100% 92%,98.8% 100%,1.2% 100%,0 92%,0 8%); }
  #app #seasonEntry .v10FinalStage .finalWinnerMetaStrip { grid-template-columns:1.5fr 1fr 1fr; background:none; border-right:1px solid #b38d414d; }
  #app #seasonEntry .v10FinalStage .finalWinnerMetaCell { padding:calc(var(--fwu)*.25); }
  #app #seasonEntry .v10FinalStage .finalWinnerMetaCell span,
  #app #seasonEntry .v10FinalStage .finalWinnerMetaCell small { font-size:max(8.5px,calc(var(--fwu)*.66)); letter-spacing:.06em; color:#eee7d4; }
  #app #seasonEntry .v10FinalStage .finalWinnerMetaCell strong { font-size:max(24px,calc(var(--fwu)*2.3)); line-height:1.1; }
- #app #seasonEntry .v10FinalStage .finalWinnerHonours { padding:calc(var(--fwu)*.5) calc(var(--fwu)*.65) calc(var(--fwu)*.25); grid-template-rows:auto repeat(4,1fr); }
+ #app #seasonEntry .v10FinalStage .finalWinnerHonours { padding:calc(var(--fwu)*.5) calc(var(--fwu)*.65) calc(var(--fwu)*.25); grid-template-rows:auto repeat(5,1fr); }
  #app #seasonEntry .v10FinalStage .finalWinnerHonoursHead { padding-bottom:calc(var(--fwu)*.25); font-size:max(8.5px,calc(var(--fwu)*.73)); letter-spacing:.09em; }
  #app #seasonEntry .v10FinalStage .finalWinnerTrophyMetric { font-size:max(8.5px,calc(var(--fwu)*.75)); letter-spacing:.075em; border-bottom:0; border-top:1px solid #c49d4944; }
  #app #seasonEntry .v10FinalStage .finalWinnerTrophyMetric--total { border-top-color:#e1b65077; }
@@ -1526,7 +1555,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaCell--lastSeason { grid-column:1/-1;border-bottom:1px solid #d9b64e66; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaCell--lastSeason~.finalWinnerMetaCell~.finalWinnerMetaCell { border-left:1px solid #d9b64e66; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaCell :is(span,small) { white-space:nowrap; }
- #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHonours { display:grid;grid-template-rows:auto repeat(4,minmax(0,1fr));align-content:stretch; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHonours { display:grid;grid-template-rows:auto repeat(5,minmax(0,1fr));align-content:stretch; }
  #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerHonoursHead,.finalWinnerTrophyMetric) {
   display:grid;grid-template-columns:40px 22px minmax(0,1fr) 22px 40px;align-items:center;gap:4px;min-height:0;text-align:center;
  }
@@ -1705,9 +1734,10 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry .v10FinalStage .finalWinnerHeroCopySlot { top:calc(238 * var(--fw-k) - var(--fw-top)); width:calc(418 * var(--fw-k)); }
  /* the champion trophy stands on the pedestal's flat top (plate y 575 to 600) */
  #app #seasonEntry .v10FinalStage .winnerTrophySlot { top:calc(291 * var(--fw-k) - var(--fw-top)); width:calc(210 * var(--fw-k)); height:calc(306 * var(--fw-k)); }
- /* the summary plaque and the two buttons sit where the picture has them */
+ /* the summary plaque and the two buttons sit where the picture has them (r80: at least 124px for the five honours rows with the Europa League;
+    r80 short screens: 148 picture px, not 138, as TOTAL TROPHIES ran into the plaque's bottom border at 1920x1080, 1536x864 and 1366x768) */
  #app #seasonEntry .v10FinalStage .finalWinnerResultsPanel {
-  left:50%; translate:-50% 0; width:max(calc(913 * var(--fw-k)),59.3%); top:calc(640 * var(--fw-k) - var(--fw-top)); height:max(calc(138 * var(--fw-k)),112px);
+  left:50%; translate:-50% 0; width:max(calc(913 * var(--fw-k)),59.3%); top:calc(640 * var(--fw-k) - var(--fw-top)); height:max(calc(148 * var(--fw-k)),124px);
   border:3px solid transparent;
   background:linear-gradient(115deg,#111110f2,#060706f0) padding-box,linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%) border-box;
   box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #e4c56a70;
@@ -1784,7 +1814,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    buttons; then it rides up just enough. The buttons always sit 6px under the plaque, never on it. */
 @media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
  #app #seasonEntry .v10FinalStage {
-  --fw-r0:calc(640 * var(--fw-k) - var(--fw-top)); --fw-rh:max(calc(138 * var(--fw-k)),112px); --fw-bh:calc(max(44px,var(--fwu) * 2.9) + 12px);
+  --fw-r0:calc(640 * var(--fw-k) - var(--fw-top)); --fw-rh:max(calc(148 * var(--fw-k)),124px); --fw-bh:calc(max(44px,var(--fwu) * 2.9) + 12px);
   --fw-rt:min(var(--fw-r0),calc(100% - var(--fw-rh) - var(--fw-bh) - var(--fw-th) - 6px));
  }
  #app #seasonEntry .v10FinalStage .finalWinnerResultsPanel { top:var(--fw-rt); }
@@ -1927,6 +1957,28 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel>.seasonReviewActions>button { flex:1 1 300px;width:auto;max-width:520px;margin:0; }
 }
+/* r80 gallery: the line that explains CONTINUE TO SEASON N ("SEASON 1 HISTORY IS READY · CONTINUE ONCE TO SEASON 2") is the
+   first, full-width line of the action row, so it travels with the docked band on phones and at 1920x1080 and is never
+   under it; on the other sizes it stays right above the buttons. */
+#app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions>.sharedMultiSeasonProgressionStatus:not(.hidden) {
+ order:-1;flex:0 0 auto;width:100%;max-width:none;margin:0;box-sizing:border-box;
+}
+/* r80 short screens: Season Results at 901-1239px wide and up to 800px tall (1024x768, 1100x600, 1024x600) and at 1401-1879px
+   wide (1536x864) used the fixed one-window stage, where the two forms ran under the scoring card and the action row (TOP
+   SCORER and TOP ASSIST were cut, 1024x600 and 1100x600) and the review scrolled inside its own box, hiding CONFIRMATION IS
+   FINAL (1024x768, 1536x864). Those windows now use the page-scroll layout 1366x768 and 1920x1080 already use (same cards,
+   same order; main is the only scroller). Below 1240px the forms are wider than the gap between the two
+   managers, so the cards stay in front of the cut-out and rim-light layers, as on the fixed stage. */
+@media (min-width:901px) and (max-width:1239px) and (min-height:501px) and (max-height:800px) and (orientation:landscape) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__layer--ui { z-index:5; }
+ /* the stadium plate fills the window from its top, as on the fixed stage (no black bands on 4:3 and 16:10 windows) */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__registered {
+  top:0!important;width:max(100vw,177.77778svh)!important;height:max(56.25vw,100svh)!important;
+ }
+}
+/* r80 short screens: the final season's result line ("DANIEL TAKES THE SEASON") wraps inside its own cell of the summary
+   strip; it was kept on one line and ran into SEASONS PLAYED in the next cell (1024x768). */
+#app #seasonEntry #finalWinnerLastSeason #panelLastSeasonResult { max-width:100%;white-space:normal;overflow-wrap:normal;text-align:center; }
 `;
     parent.appendChild(style);
   }
@@ -2021,7 +2073,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     if(typeof loader.show==="function")Promise.resolve(loader.show("seasonEntry")).catch(fail);
     for(const e of ["career-mode-shared-final-reconciliation-state-change","career-mode-shared-terminal-close-state-change","career-mode-shared-history-convergence-state-change","career-mode-shared-multi-season-state-change","career-mode-online-identity-change","career-mode-active-save-changed","career-mode-showdown-state-change","career-mode-online-career-model-change"])root.addEventListener?.(e,wake);
     root.addEventListener?.("career-mode-shared-history-convergence-state-change",()=>sfRetainHistory(state("CareerModeProductionSharedHistoryConvergence")));
-    root.document.addEventListener("career-mode-screen-shown",()=>{signature="";followPair();wake();});
+    root.document.addEventListener("career-mode-screen-shown",()=>{signature="";followPair();if(root.getActiveScreenName?.()==="standings")refreshStandingsCareer();wake();});
     followPair();
     wake();return true;
   }

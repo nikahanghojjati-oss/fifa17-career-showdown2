@@ -38,8 +38,11 @@
         && intent.listPermissionRequired == false
         && intent.billingRequired == false;
     }
+    // Canonical season score: CL +5, EL +3 (r80; the key exists only when won), league title +3, cup +1,
+    // 100 points or 100 goals +1, top scorer or top assist +1. A season stays at most 11 (an EL season at most 9).
     function ssjrTerminalScore(result) {
       return (result.championsLeague == true ? 5 : 0)
+        + (result.get('europaLeague', false) == true ? 3 : 0)
         + (result.leaguePosition == 1 ? 3 : 0)
         + (result.domesticCup == true ? 1 : 0)
         + ((result.leaguePoints >= 100 || result.leagueGoals >= 100) ? 1 : 0)

@@ -162,6 +162,12 @@ function sweepDashboardShowdownDrafts(){
 async function deleteCurrentShowdownFromDashboard(){
     if(!currentShowdown && !hasSavedShowdown()){ return; }
     const saved = currentShowdown || loadSavedShowdown();
+    // r80: a two-player Showdown is never removed from this browser alone; it ends for both players through END SHOWDOWN.
+    if(saved && saved.sharedJourney && saved.sharedJourney.mode === "shared"){
+        if(typeof window.endSettingsCurrentShowdown === "function"){ return window.endSettingsCurrentShowdown(null); }
+        if(typeof window.openSettings === "function"){ window.openSettings(); }
+        return;
+    }
     const name = saved && saved.name ? saved.name : "the current showdown";
     const isCompleted = saved && saved.status === "Completed";
     const message = isCompleted
@@ -171,7 +177,7 @@ async function deleteCurrentShowdownFromDashboard(){
     if(await dashboardAskConfirm(message, "danger") !== true){ return; }
     if(!clearSavedShowdown()){
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("The active showdown could not be deleted from browser storage.", "error");
+            window.showAppNotice("The active showdown could not be deleted.", "error");
         }
         return;
     }

@@ -164,11 +164,24 @@ window.ShowdownLegacyBoot = function () {
     if (statusOnly) {
       const status = document.createElement("span");
       status.className = "legacyStatusOnly";
-      status.textContent = showdown.status === "abandoned"
-        ? strings.states.abandoned
-        : strings.states.unavailable;
+      // r80 Ended early: the seam's "Ended early · 19 Oct 2026 · 1 season" reads as the status line, then the date and
+      // seasons played on one footer line (as the completed card's season count). The separator between the two lines is
+      // not drawn, so no line starts with "·", and the row's text stays the seam's label.
+      const [label, ...details] = showdown.status === "abandoned"
+        ? String(showdown.endedLabel || strings.states.abandoned).split(" · ")
+        : [strings.states.unavailable];
+      status.textContent = label;
       body.appendChild(status);
       card.append(title, body);
+      if (details.length) {
+        const meta = document.createElement("span");
+        meta.className = "legacyEndedMeta";
+        const separator = document.createElement("span");
+        separator.className = "legacyEndedSeparator";
+        separator.textContent = " · ";
+        meta.append(separator, document.createTextNode(details.join(" · ")));
+        card.appendChild(meta);
+      }
       return card;
     }
 
@@ -281,6 +294,14 @@ window.ShowdownLegacyBoot = function () {
         detail.style.cssText = "display:block;line-height:1.4;color:#b9b3a4";
         detail.textContent = copy(strings, "seasonDetail", { position: season.leaguePosition[manager], points: season.leaguePoints[manager], goals: season.leagueGoals[manager] });
         side.appendChild(detail);
+        // r80: a season row names a Europa League win (the career season row carries it only for such a season).
+        if (season.europaLeague && season.europaLeague[manager] === true) {
+          const europa = document.createElement("span");
+          europa.className = "legacyHistoryEuropa";
+          europa.style.cssText = "display:block;line-height:1.4;color:#f3ce6a;font-weight:700";
+          europa.textContent = strings.ui.europaLeague || "Europa League winner";
+          side.appendChild(europa);
+        }
         row.appendChild(side);
       });
       rows.appendChild(row);

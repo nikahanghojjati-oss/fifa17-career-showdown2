@@ -12,7 +12,7 @@
   const SPARK_CONNECTED_SETTINGS_CONTENT_ID="settingsContent";
   const SPARK_CONNECTED_SETTINGS_OVERLAY_ID="settingsOverlay";
 
-  let sparkConnectedState=Object.freeze({status:"idle",initialized:false,signedIn:false,connected:false,busy:false,accountId:null,displayName:null,email:null,accountStatus:null,message:"Connected account is optional. Local Career Mode remains available without signing in."});
+  let sparkConnectedState=Object.freeze({status:"idle",initialized:false,signedIn:false,connected:false,busy:false,accountId:null,displayName:null,email:null,accountStatus:null,message:"Connected account is optional."});
   let sparkConnectedServices=null;
   let sparkConnectedInitializePromise=null;
   let sparkConnectedBootstrapScriptPromise=null;
@@ -56,7 +56,7 @@
   }
 
   function sparkConnectedLocalModeMessage(prefix){
-    return `${prefix} Local Career Mode and local saves remain available.`;
+    return String(prefix);
   }
 
   function sparkConnectedLoadBootstrapScript(){
@@ -137,7 +137,7 @@
   async function sparkConnectedActivateUser(user){
     const identity=sparkConnectedPublicIdentity(user);
     if(!identity){
-      return sparkConnectedSetState({status:"signed-out",initialized:true,signedIn:false,connected:false,busy:false,accountId:null,displayName:null,email:null,accountStatus:null,message:"Signed out. Local Career Mode continues normally."});
+      return sparkConnectedSetState({status:"signed-out",initialized:true,signedIn:false,connected:false,busy:false,accountId:null,displayName:null,email:null,accountStatus:null,message:"Signed out."});
     }
     sparkConnectedSetState({status:"bootstrapping",initialized:true,signedIn:true,connected:false,busy:true,accountId:identity.accountId,displayName:identity.displayName,email:identity.email,accountStatus:null,message:"Finishing private account setup…"});
     const result=await sparkConnectedBootstrapUser(user);
@@ -186,7 +186,7 @@
     }catch(error){
       const code=error&&typeof error.code==="string"?error.code:"auth/unknown";
       const cancelled=code==="auth/popup-closed-by-user"||code==="auth/cancelled-popup-request";
-      return sparkConnectedSetState({status:cancelled?"sign-in-cancelled":"sign-in-failed",busy:false,connected:false,message:cancelled?"Google sign-in was cancelled. Local Career Mode is unchanged.":sparkConnectedLocalModeMessage("Google sign-in could not be completed.")});
+      return sparkConnectedSetState({status:cancelled?"sign-in-cancelled":"sign-in-failed",busy:false,connected:false,message:cancelled?"Google sign-in was cancelled.":sparkConnectedLocalModeMessage("Google sign-in could not be completed.")});
     }
   }
 
@@ -196,7 +196,7 @@
     sparkConnectedSetState({status:"signing-out",busy:true,message:"Signing out…"});
     try{
       await sparkConnectedServices.authSdk.signOut(sparkConnectedServices.auth);
-      return sparkConnectedSetState({status:"signed-out",initialized:true,signedIn:false,connected:false,busy:false,accountId:null,displayName:null,email:null,accountStatus:null,message:"Signed out. Local Career Mode and local saves remain available."});
+      return sparkConnectedSetState({status:"signed-out",initialized:true,signedIn:false,connected:false,busy:false,accountId:null,displayName:null,email:null,accountStatus:null,message:"Signed out. Your Showdowns are not deleted."});
     }catch(_error){
       return sparkConnectedSetState({status:"sign-out-failed",busy:false,message:sparkConnectedLocalModeMessage("Sign-out could not be completed.")});
     }
@@ -231,7 +231,7 @@
     if(!panel){panel=sparkConnectedCreateElement("section","settingsPanel settingsConnectedAccountPanel");panel.id=SPARK_CONNECTED_SETTINGS_PANEL_ID;content.insertBefore(panel,content.firstChild||null);}
     panel.replaceChildren();
     const heading=sparkConnectedCreateElement("div","settingsPanelHeading");
-    heading.append(sparkConnectedCreateElement("span","settingsPanelEyebrow","PRIVATE CONNECTION"),sparkConnectedCreateElement("h3","","CONNECTED ACCOUNT"),sparkConnectedCreateElement("p","","Optional Google sign-in for private pairing and Connected Rivalry. Your current saves remain local to this device."));
+    heading.append(sparkConnectedCreateElement("span","settingsPanelEyebrow","PRIVATE CONNECTION"),sparkConnectedCreateElement("h3","","CONNECTED ACCOUNT"),sparkConnectedCreateElement("p","","Optional Google sign-in for private pairing and Connected Rivalry."));
     const info=sparkConnectedCreateElement("div","settingsInfoGrid");
     for(const [label,value] of [["STATUS",sparkConnectedState.connected?"Private account ready":sparkConnectedState.signedIn?"Signed in · setup incomplete":"Local only"],["ACCOUNT",sparkConnectedAccountLabel()],["ACCOUNT ID",sparkConnectedShortAccountId()],["REMOTE JOINING","Available from Showdown Home · private requirements apply"],["INFRASTRUCTURE","Firebase Spark · no billing"]]){
       const row=sparkConnectedCreateElement("div","settingsInfoRow");

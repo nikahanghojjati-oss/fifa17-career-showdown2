@@ -26,6 +26,8 @@ function harness(){
     CareerModeSparkConnectedAccount:{getState:()=>({connected:true,accountId})},
     CareerModePersistentNikDanielPair:{getState:()=>({rivalryId:"r1"})},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:accountId}},firestore:{},firestoreSdk:{doc(){},getDoc(){}}})},
+    // r80 real vs test: a real account (its career-start marker, nothing hidden); career pages show nothing while it is unknown.
+    CareerModeCareerStartMarker:{readMarker:async()=>({status:"ready",hiddenRivalryIds:[]}),hiddenRivalryIds:m=>m.hiddenRivalryIds.slice(),epoch:()=>0},
     CareerModeSharedActiveShowdownAdapter:{buildActiveShowdownViews:()=>({careerInput:null})},
     CareerModeSparkClosedShowdownCareerLoader:{loadClosedShowdownCareer:async options=>{
       calls.loads+=1;assert.ok(calls.loads<8,"cache events must not cause a provider reload loop");

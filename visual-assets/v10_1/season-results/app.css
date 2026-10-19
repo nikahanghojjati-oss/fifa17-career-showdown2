@@ -83,7 +83,9 @@ html #app #topHeader{color:var(--f17-ink);font-family:var(--f17-ui)}
 #app #seasonEntry.seasonScreenV10 .seasonResultCard>label{flex-direction:row;align-items:center;justify-content:space-between;gap:8px;margin:0;color:#e6dcc4;font:700 11px/1.1 var(--f17-display,inherit);letter-spacing:.8px;text-align:left}
 #app #seasonEntry.seasonScreenV10 .seasonResultCard input[type=number]{flex:0 0 84px;width:84px;height:36px;padding:0 10px;color:#fff;background:#0b0d10;border:1px solid rgb(242 196 91 / .45);border-radius:3px}
 #app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks{grid-area:checks;display:flex;flex-direction:column;gap:2px;margin:0}
-#app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks label,#app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks label:has(input:checked){flex-direction:row-reverse;justify-content:space-between;min-height:34px;margin:0;padding:2px 0;color:#efe7d2;background:none;border-left:0;font:700 11px/1.15 var(--f17-display,inherit)}
+/* r80: the direction is set on the label alone, so a ticked box never moves (a :has(input:checked) copy outranked the phone grid's column direction). */
+#app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks label{flex-direction:row-reverse;justify-content:space-between}
+#app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks label,#app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks label:has(input:checked){min-height:34px;margin:0;padding:2px 0;color:#efe7d2;background:none;border-left:0;font:700 11px/1.15 var(--f17-display,inherit)}
 /* Team V's checkbox (season-results.css .achievement-row input): gold frame, dark well, solid gold when ticked. */
 #app #seasonEntry.seasonScreenV10 .seasonResultCard input[type=checkbox]{-webkit-appearance:none;appearance:none;width:24px;height:24px;flex:0 0 24px;margin:0;border:0;border-radius:0;background:linear-gradient(#06080a 0 0) center/16px 16px no-repeat,linear-gradient(#f2c45b 0 0) center/20px 20px no-repeat;cursor:pointer;touch-action:manipulation}
 #app #seasonEntry.seasonScreenV10 .seasonResultCard input[type=checkbox]:checked{background:linear-gradient(#f2c45b 0 0) center/20px 20px no-repeat}
@@ -268,7 +270,7 @@ html #app #topHeader{color:var(--f17-ink);font-family:var(--f17-ui)}
  #app #seasonEntry.seasonScreenV10 .season-review-panel>.seasonReviewActions{position:sticky;bottom:0;z-index:3;margin:4px 0 0;padding:6px 0 8px;background:#0a0c0f;gap:10px}
  #app #seasonEntry.seasonScreenV10 .season-review-panel>.seasonReviewActions:not(:has(>button:not(.hidden):not([hidden]))){display:none}
  #app #seasonEntry.seasonScreenV10 .season-review-panel>.seasonReviewActions button{flex:1 1 clamp(150px,13vw,260px)}
- /* Local reconciliation: text on the left, its preview button on the right, so the whole panel needs about 100 px. */
+ /* Shared result check: text on the left, its preview button on the right, so the whole panel needs about 100 px. */
  #app #seasonEntry.seasonScreenV10 .season-review-panel .sharedLocalReconciliationPanel:not(.hidden):not([hidden]){display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:14px;align-items:center;margin:4px 0;padding:8px 10px}
  #app #seasonEntry.seasonScreenV10 .season-review-panel .sharedLocalReconciliationPanel>:not(.seasonReviewActions){grid-column:1}
  #app #seasonEntry.seasonScreenV10 .season-review-panel .sharedLocalReconciliationPanel>.stateNote{grid-column:1/-1;grid-row:3;padding:4px 10px}
@@ -325,7 +327,7 @@ html #app #topHeader{color:var(--f17-ink);font-family:var(--f17-ui)}
  #app #seasonEntry.seasonScreenV10 .season-review-panel>.seasonReviewWarning:not(.hidden)~.seasonReviewWarning{margin-top:-6px;border-top:1px solid rgb(242 196 91 / .16)}
  #app #seasonEntry.seasonScreenV10 .season-review-panel>.seasonReviewActions{order:9}
  #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions{position:static;width:auto;margin:0;padding:0;background:none}
- /* 6. Local Reconciliation in the black-and-gold kit, readable size. */
+ /* 6. Shared result check in the black-and-gold kit, readable size. */
  #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel h3{margin:0;color:#f2c45b;font:800 13px/1.2 var(--f17-display,inherit);letter-spacing:1.2px}
  #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel p{margin:4px 0;font-size:12px;line-height:1.4;color:#c9c2b0}
  #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel .stateNote{width:auto;color:#efe7d2;background:rgb(5 7 9 / .82);border-left:3px solid #f2c45b}

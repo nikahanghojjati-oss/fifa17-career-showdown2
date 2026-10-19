@@ -275,6 +275,7 @@ body {
 }
 
 .scoring-rule--max {
+  grid-column: 1 / -1;
   padding-top: 5px;
   border-top: 1px solid rgb(242 196 91 / .42);
   color: var(--sd-gold, #f2c45b);

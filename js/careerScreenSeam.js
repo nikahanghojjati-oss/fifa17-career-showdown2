@@ -16,14 +16,14 @@
       legacy:"No completed showdowns yet. Finish a rivalry and it will be archived here automatically.",
       rivalryStatistics:"No season has been completed yet. Statistics will build automatically as seasons are finished."
     },
-    historyStatus:{completed:"Completed","in-progress":"In progress","completion-pending":"Final result, completion pending",abandoned:"Abandoned",unavailable:"Unavailable"},
+    historyStatus:{completed:"Completed","in-progress":"In progress","completion-pending":"Final result, completion pending",abandoned:"Ended early",unavailable:"Unavailable"},
     winner:{daniel:"Daniel won",nik:"Nik won",draw:"Draw"}
   };
   const csNames={daniel:"Daniel",nik:"Nik",shared:"Shared"};
   const csCareerFields=[["Career points","careerPoints"],["Seasons played","seasons"],["Season wins","seasonWins"],["Season draws","seasonDraws"],["Season losses","seasonLosses"]];
   const csShowdownFields=[["Showdowns completed","completed"],["Showdown wins","wins"],["Showdown draws","draws"],["Showdown losses","losses"]];
   const csRecordFields=[["Best season score","bestSeasonScore"],["Best league points","bestLeaguePoints"],["Best league goals","bestLeagueGoals"],["Best league position","bestLeaguePosition"],["Average season score","averageSeasonScore"],["Average league points","averageLeaguePoints"],["Average league goals","averageLeagueGoals"],["Perfect seasons","perfectSeasons"],["100-point seasons","hundredPointSeasons"],["100-goal seasons","hundredGoalSeasons"],["Top scorer seasons","topScorerSeasons"],["Top assist seasons","topAssistSeasons"],["Performance bonuses","performanceBonuses"],["Awards bonuses","awardsBonuses"]];
-  const csCabinetFields=[["Champions Leagues","championsLeagues"],["League titles","leagueTitles"],["Domestic cups","domesticCups"],["Total trophies","totalTrophies"]];
+  const csCabinetFields=[["Champions Leagues","championsLeagues"],["Europa Leagues","europaLeagues"],["League titles","leagueTitles"],["Domestic cups","domesticCups"],["Total trophies","totalTrophies"]];
   const csRivalryFields=[["Season wins","seasonWins"],["Season draws","seasonDraws"],["Season losses","seasonLosses"],...csCabinetFields,["Perfect seasons","perfectSeasons"],["Best season score","bestSeasonScore"]];
 
   function csFreeze(value){
@@ -48,6 +48,12 @@
   function selectCareerScreenSource({identityState,model,dataTools=false}){
     if(model!==undefined&&model!==null)return model&&STATUSES.includes(model.status)?"model":"unavailable";
     return dataTools===true?"local":"unavailable";
+  }
+  // r80 Ended early row: "Ended early · 18 Oct 2026 · 1 season"; an unknown date or count (closes before the mark) is a dash.
+  function endedEarlyText(row){
+    const at=row&&Number.isFinite(row.endedAt)&&row.endedAt>0?new Date(row.endedAt):null,played=row&&Number.isInteger(row.seasonsPlayed)?row.seasonsPlayed:null;
+    let date="-";if(at){try{date=new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric"}).format(at);}catch(_error){date="-";}}
+    return TEXT.historyStatus.abandoned+" · "+date+" · "+(played===null?"- seasons":played+(played===1?" season":" seasons"));
   }
   function csNumber(value){return value===null?"-":Number.isInteger(value)?String(value):value.toFixed(1);}
   function csNumeric(value){return value===null||typeof value==="number"&&Number.isFinite(value);}
@@ -88,7 +94,7 @@
   }
   function csLegacySections(model){
     return [{heading:"SHOWDOWNS",rows:model.history.showdowns.map(row=>{
-      let value=TEXT.historyStatus[row.status];
+      let value=row.status==="abandoned"?endedEarlyText(row):TEXT.historyStatus[row.status];
       if(row.status!=="abandoned"&&row.status!=="unavailable"){
         if(row.totals)value+=" · Daniel "+csNumber(row.totals.daniel)+" - Nik "+csNumber(row.totals.nik);
         if(Object.prototype.hasOwnProperty.call(TEXT.winner,row.winner))value+=" · "+TEXT.winner[row.winner];
@@ -151,5 +157,5 @@
     }
     fragment.appendChild(root);return fragment;
   }
-  return csFreeze({contractVersion:1,SCREENS,STATUSES,TEXT,normalizeRenderRequest,isOnlineCareerRoute,selectCareerScreenSource,careerScreenView,paintCareerScreenView});
+  return csFreeze({contractVersion:1,SCREENS,STATUSES,TEXT,endedEarlyText,normalizeRenderRequest,isOnlineCareerRoute,selectCareerScreenSource,careerScreenView,paintCareerScreenView});
 });

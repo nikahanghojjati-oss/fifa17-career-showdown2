@@ -68,6 +68,30 @@ All four fixtures: status `completed`, 1 season, both managers see the same resu
 | `r75-1season-draw` | 1.9.1-r75 | `pair_1504f42b6ee8ba9beed8c7c0a740bea2e55dea5113c3b60a9b66a6119046837c` | La Liga | Leganés v Málaga |
 | `r76-1season-draw` | 1.9.1-r76 | `pair_1b53464a1b6de121ab27d6d3e165f50ced72523dda5652faf4b1652fa91c9462` | Premier League | West Ham United v Watford |
 
+### r79 (`r79-1season-win`, r80 Europa League PR 2)
+
+Made the same way on **live main** (`d1888c339a62742bac66607e4c8004b0af64d74e`, `RUNTIME_REVISION = "1.9.3-r79"`, served from that
+tree with that tree's composed Rules), driven by the r80 CE2PG harness (`tests/browser/ce2pg-journey.cjs` from `gameplay/r80` @ 854c797,
+copied into the r79 tree with a local, uncommitted export patch): `CE2PG_PLAN=single CE2PG_SEASONS=1 CE2PG_RUN=1`. The game played
+to the end and closed by itself; the harness's r80-only page checks (Standings opened first, Settings CURRENT SHOWDOWN/HISTORY)
+fail on r79, which is the r79 behaviour r80 fixed, and is unrelated to the saved data.
+
+| | Daniel | Nik |
+| --- | --- | --- |
+| League position / points / goals | 1st / 92 / 108 | 12th / 24 / 30 |
+| Season score | 5 (title 3 + 100 goals 1 + top scorer 1) | 1 (cup 1) |
+| Season result | win (no tie-break) | loss |
+| Trophies (Champions League / Europa League / league title / domestic cup / total) | 0 / 0 / 1 / 0 / 1 | 0 / 0 / 0 / 1 / 1 |
+| Showdown totals | 5 | 1 |
+| Showdown | winner **Daniel**, margin 4 | loss |
+
+| Fixture | Release | Rivalry id | League | Clubs (Daniel v Nik) |
+| --- | --- | --- | --- | --- |
+| `r79-1season-win` | 1.9.3-r79 | `pair_1191eebf4c20afaf3e82c25e4e543cf63aaacf844112f78cc665bead1288cbe2` | Ligue 1 | Paris Saint-Germain v Metz |
+
+The r79 in-progress Showdown (`r79-3season-inprogress`, season 1 of 3 committed) lives in `../saved-showdowns-in-progress/`, because
+this folder holds finished Showdowns only; `tests/firebase/r79-showdown-continues-emulator.cjs` continues it on the current code.
+
 ## Adding a fixture for a new release
 
 Play the same two games (win, draw) on the new release with the CE2PG harness, export them as above into

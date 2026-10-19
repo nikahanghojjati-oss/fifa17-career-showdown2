@@ -84,14 +84,14 @@ check("V29.5 mount preserves every live field, action, status, draft and listene
   const doc=documentOf(entry),host=doc.getElementById("seasonEntry");
   // Exercise the real review-shell constructor before adoption.
   const env={document:doc,console};env.window=env;vm.runInNewContext(read("js/seasonEngine.js")+"\nensureSeasonReviewUI();",env);
-  const review=doc.getElementById("seasonReviewPanel"),status=doc.createElement("p"),commit=doc.createElement("button");status.id="sharedSeasonCommitStatus";status.className="seasonReviewWarning";status.textContent="CHECK RESULTS: Both managers ticked Domestic Cup.";commit.id="sharedSeasonCommitAction";commit.textContent="ACKNOWLEDGE SHARED SEASON";review.append(status);review.querySelector(".seasonReviewActions").append(commit);
+  const review=doc.getElementById("seasonReviewPanel"),status=doc.createElement("p"),commit=doc.createElement("button");status.id="sharedSeasonCommitStatus";status.className="seasonReviewWarning";status.textContent="BOTH RESULTS ARE READY · AS COORDINATOR, COMMIT THE IMMUTABLE SHARED SEASON SNAPSHOT";commit.id="sharedSeasonCommitAction";commit.textContent="ACKNOWLEDGE SHARED SEASON";review.append(status);review.querySelector(".seasonReviewActions").append(commit);
   const nodes=Object.fromEntries(host.all().filter(n=>n.id).map(n=>[n.id,n]));nodes.p1LeagueGoals.value="131";nodes.p1LeagueGoals.dataset.draft="retained";nodes.p2LeaguePosition.closest(".seasonResultCard").classList.add("hidden");
   let taps=0;nodes.completeSeason.addEventListener("click",()=>taps++);
   const stage=doc.createElement("div");stage.innerHTML=read("visual-assets/v10_1/season-results/app-shell.html");
   api.skinSeason(host,stage.firstElementChild);
   for(const [id,node] of Object.entries(nodes))assert.equal(doc.getElementById(id),node,id);
   assert.equal(nodes.p1LeagueGoals.value,"131");assert.equal(nodes.p1LeagueGoals.dataset.draft,"retained");nodes.completeSeason.click();assert.equal(taps,1);
-  assert.ok(nodes.p2LeaguePosition.closest(".seasonResultCard").classList.contains("hidden"));assert.match(doc.getElementById("sharedSeasonCommitStatus").textContent,/CHECK RESULTS/);
+  assert.ok(nodes.p2LeaguePosition.closest(".seasonResultCard").classList.contains("hidden"));assert.match(doc.getElementById("sharedSeasonCommitStatus").textContent,/^BOTH RESULTS ARE READY · AS COORDINATOR, COMMIT THE IMMUTABLE SHARED SEASON SNAPSHOT$/);
   assert.equal(doc.getElementById("sharedSeasonCommitAction").textContent,"ACKNOWLEDGE SHARED SEASON");
   assert.ok(review.querySelector(".seasonReviewActions"));assert.ok(nodes.completeSeason.closest(".seasonEntryActions"));
 });
@@ -121,7 +121,7 @@ check("V29.8 registry mount keeps the native final proof, close and Back nodes r
   assert.ok(doc.getElementById("sharedTerminalCloseAction")===close,"same close action");assert.ok(back.closest(".v10FinalStage")===final,"Back in final stage");close.click();assert.equal(closes,1);assert.equal(close.textContent,"CLOSE SHARED SHOWDOWN");
   defs.seasonEntry.unmount(host);assert.ok(proof.parentNode===review,"proof restored");assert.ok(terminal.parentNode===review,"terminal restored");assert.ok(back.closest(".v10SeasonStage")===host.querySelector(".v10SeasonStage"),"Back restored");
 });
-check("V29.9 the real clash contract keeps CHECK RESULTS and enabled commit/acknowledge",()=>{const r=spawnSync(process.execPath,["tests/contracts/season-result-clash-contracts.cjs"],{cwd:ROOT,encoding:"utf8"});assert.equal(r.status,0,r.stdout+r.stderr);});
+check("V29.9 the real clash contract keeps commit/acknowledge enabled with no CHECK RESULTS when both managers win the same trophy",()=>{const r=spawnSync(process.execPath,["tests/contracts/season-result-clash-contracts.cjs"],{cwd:ROOT,encoding:"utf8"});assert.equal(r.status,0,r.stdout+r.stderr);});
 // JOB-1658: the JOB-1213 1366x768 block was left unclosed, which nested the JOB-1214 1920x1080 block inside it so it could never match.
 check("JOB-1658 the injected Season CSS keeps every @media block closed and top-level, so each viewport block can match",()=>{
   const m=read("js/seasonFinalV10.js").match(/style\.textContent="[^"]*"\s*\+\s*`([\s\S]*?)`;\s*parent\.appendChild\(style\)/);
@@ -137,6 +137,12 @@ check("JOB-1658 the injected Season CSS keeps every @media block closed and top-
   for(const w of ["min-width:1340px) and (max-width:1390px","min-width:1880px) and (max-width:1960px","min-width:2500px) and (max-width:2620px"])assert.ok(medias.some(q=>q.includes(w)),`top-level @media for ${w}`);
 });
 // JOB-1038: keep the winner frame visible while career saving runs, then retain the existing closed state.
+check("r80 gallery: SEASON N HISTORY IS READY is the first line of the action row (the docked band), never under it",()=>{
+  const pmsp=read("js/productionSharedMultiSeasonProgression.js"),css=read("js/seasonFinalV10.js");
+  assert.doesNotMatch(pmsp,/actions\.parentNode\.insertBefore\(status,actions\)/,"the status line no longer sits outside the band, where the docked band covered it at 393x852");
+  assert.match(pmsp,/if\(status\.parentNode!==actions\)actions\.prepend\(status\);/,"the status line is moved into the action row once");
+  assert.match(css,/#app #seasonEntry\.seasonScreenV10 \.season-review-panel \.seasonReviewActions>\.sharedMultiSeasonProgressionStatus:not\(\.hidden\) \{\s*order:-1;flex:0 0 auto;width:100%;max-width:none;margin:0;box-sizing:border-box;\s*\}/,"first, full width, in the row's own flow (a column band on phones, a wrapping row at 1920x1080)");
+});
 check("JOB-1038 Final Winner stays visible while saving and after success",()=>{
   const r={phase:"FINAL_SEASON_RECONCILED",finalSeasonReconciled:true,rivalryId:"job1038",winner:"draw",managerTotals:{playerOne:10,playerTwo:10},totalSeasons:3};
   const saving=api.finalFrame(r,{phase:"READY",automaticSaving:true});

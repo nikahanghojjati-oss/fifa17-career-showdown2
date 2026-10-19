@@ -25,7 +25,9 @@
     if(!Array.isArray(rows))return bare("unavailable");
     const completed=rows.filter(r=>r.status==="completed");
     if(!completed.every(validRow))return bare("unavailable");
-    const frame={...bare(status==="ready"&&!completed.length?"empty":status),showdowns:completed.map(r=>({number:r.number,status:"completed",leagueId:r.leagueId,clubs:copy(r.clubs),seasonsPlayed:r.seasonsPlayed,totalSeasons:r.totalSeasons,totals:copy(r.totals),winner:r.winner,seasons:copy(r.seasons)})),ui:{page:1,pageSize:4,selectedShowdown:completed[0]?.number??null}};
+    // r80: an Ended early Showdown is listed as one status-only row (date, seasons played); it never counts anywhere.
+    const listed=rows.filter(r=>r.status==="completed"||(r.status==="abandoned"&&Number.isInteger(r.number)));
+    const frame={...bare(status==="ready"&&!listed.length?"empty":status),showdowns:listed.map(r=>r.status==="abandoned"?{number:r.number,status:"abandoned",endedAt:r.endedAt??null,seasonsPlayed:r.seasonsPlayed??null,endedLabel:seam().endedEarlyText(r)}:{number:r.number,status:"completed",leagueId:r.leagueId,clubs:copy(r.clubs),seasonsPlayed:r.seasonsPlayed,totalSeasons:r.totalSeasons,totals:copy(r.totals),winner:r.winner,seasons:copy(r.seasons)}),ui:{page:1,pageSize:4,selectedShowdown:completed[0]?.number??null}};
     if(status==="partial")frame.coverage=copy(model.coverage);
     // Current-only projections are never offered as an archive or backfilled.
     if(model.interimLabel){frame.status="unavailable";return bare("unavailable");}
@@ -45,7 +47,7 @@
     if(!source.managers||!ORDER.every(k=>source.managers[k]&&FIELDS.every(f=>finite(source.managers[k][f])||(f==="bestSeasonScore"&&source.managers[k][f]===null))))return bare("unavailable");
     if(!Array.isArray(source.seasons)||!source.seasons.every(validSeason))return bare("unavailable");
     if(status!=="empty"&&(!pair(source.score)||!finite(source.totalSeasons)||!source.clubs||!ORDER.every(k=>typeof source.clubs[k]==="string")))return bare("unavailable");
-    const frame={...bare(status),leagueId:source.leagueId??null,clubs:source.clubs?{daniel:source.clubs.daniel,nik:source.clubs.nik}:null,totalSeasons:source.totalSeasons??null,score:source.score?{daniel:source.score.daniel,nik:source.score.nik}:null,managerRecords:Object.fromEntries(ORDER.map(k=>[k,Object.fromEntries(FIELDS.map(f=>[f,source.managers[k][f]]))])),seasons:copy(source.seasons),transfers:{status:"unavailable"},ui:{lifecycle}};
+    const frame={...bare(status),leagueId:source.leagueId??null,clubs:source.clubs?{daniel:source.clubs.daniel,nik:source.clubs.nik}:null,totalSeasons:source.totalSeasons??null,score:source.score?{daniel:source.score.daniel,nik:source.score.nik}:null,managerRecords:Object.fromEntries(ORDER.map(k=>[k,Object.fromEntries([...FIELDS,...(finite(source.managers[k].europaLeagues)?["europaLeagues"]:[])].map(f=>[f,source.managers[k][f]]))])),seasons:copy(source.seasons),transfers:{status:"unavailable"},ui:{lifecycle}};
     if(status==="partial"){
       if(!source.coverage||!Number.isInteger(source.coverage.readable)||!Number.isInteger(source.coverage.indexed))return bare("unavailable");
       frame.coverage=copy(source.coverage);
@@ -69,7 +71,9 @@
   const identity=()=>state("CareerModeOnlinePlayerIdentity");
   // The career start marker's epoch changes only when the marker changes, so a switch drops the cached career.
   const markerEpoch=()=>{try{return root.CareerModeCareerStartMarker?.epoch?.()??0;}catch(_){return 0;}};
-  const context=()=>JSON.stringify([state("CareerModeSparkConnectedAccount")?.accountId??null,identity()?.managerId??null,state("CareerModePersistentNikDanielPair")?.rivalryId??null,markerEpoch()]);
+  // CE2PG: after a Showdown closes the pair holds no rivalry id but names the closed one, so a career read after Showdown A
+  // and one after Showdown B no longer share a key (Standings and Settings showed A's career after B had finished).
+  const context=()=>{const pair=state("CareerModePersistentNikDanielPair");return JSON.stringify([state("CareerModeSparkConnectedAccount")?.accountId??null,identity()?.managerId??null,pair?.rivalryId??null,pair?.closedRivalryId??null,markerEpoch()]);};
   const report=error=>root.reportApplicationError?.("History and rivalry screens could not load",error);
   const load=(key,file,global)=>root.loadRuntimeScript(key,file,()=>Boolean(root[global]));
   async function modelDependencies(){
@@ -207,17 +211,24 @@
   // before; the last result is kept in memory for the current account, manager and pair only.
   // careerLoadSequence orders overlapping loads: only the newest started load may publish the shared cache.
   let careerCache=null,careerLoadSequence=0;
-  // Career start marker: one exact get per account per page load (cached by js/careerStartMarker.js, lazily loaded).
-  // Only an active marker hides anything; a missing module, document or read leaves the career as it was.
-  async function rlHiddenRivalryIds(services,getDoc,user){
-    try{
-      await load("career-start-marker","js/careerStartMarker.js","CareerModeCareerStartMarker");
-      const marker=root.CareerModeCareerStartMarker;
-      if(typeof marker?.readMarker!=="function")return [];
-      return marker.hiddenRivalryIds(await marker.readMarker({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc},accountId:user.uid}));
-    }catch(_){return [];}
+  // Career start marker (js/careerStartMarker.js, lazily loaded; one exact get per account per page load once it exists).
+  // r80 (Nik 2026-10-19: test runs never count anywhere, a real game is never hidden): with a marker, the Showdowns it
+  // names are hidden (Keep hidden, #941: an r79 test game stays hidden, even the leaked first real game); every later one is
+  // real (both START paths write the marker before the Showdown enters the index). Without a marker every Showdown in the
+  // index is a test run (a real one cannot exist yet), so nothing is shown; "no marker" is asked again at each load, so a
+  // real career started on another browser shows here. A marker that cannot be read hides everything (fail-closed); the
+  // screens reload once a read answers (career-mode-career-start-change).
+  async function rlCareerScope(services,getDoc,user){
+    await load("career-start-marker","js/careerStartMarker.js","CareerModeCareerStartMarker");
+    const marker=root.CareerModeCareerStartMarker;
+    if(typeof marker?.readMarker!=="function")throw new Error("CAREER_START_UNAVAILABLE");
+    const value=await marker.readMarker({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc},accountId:user.uid,recheckNone:true});
+    if(value?.status==="ready")return {testOnly:false,hidden:marker.hiddenRivalryIds(value)};
+    if(value?.status==="none")return {testOnly:true,hidden:[]};
+    throw new Error("CAREER_START_UNKNOWN");
   }
-  // Rivalry Statistics shows a just-finished Showdown from live state. A hidden one must not show.
+  // Rivalry Statistics shows a just-finished Showdown from live state. A hidden or test one (or one whose account cannot be
+  // checked) must not show; the career model below then decides.
   async function rlCurrentHidden(rivalryId){
     try{
       const account=state("CareerModeSparkConnectedAccount"),runtime=root.CareerModeProductionFirebaseRuntime;
@@ -225,8 +236,9 @@
       const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices()),user=services?.auth?.currentUser;
       if(!services?.ok||!user||user.uid!==account.accountId)return false;
       const sdk=services.firestoreSdk?.getDoc?services.firestoreSdk:await import(runtime.firebaseFirestoreModule);
-      return (await rlHiddenRivalryIds(services,sdk.getDoc,user)).includes(rivalryId);
-    }catch(_){return false;}
+      const scope=await rlCareerScope(services,sdk.getDoc,user);
+      return scope.testOnly||scope.hidden.includes(rivalryId);
+    }catch(_){return true;}
   }
   async function rlLoadCareerModel(canPublish=()=>true,rivalry=false){
     const key=context(),sequence=++careerLoadSequence;
@@ -242,14 +254,18 @@
         // Reuse the configured SDK host and memory-only services. This only adds an exact-get
         // function to the reader argument; it changes no auth scope, provider setting or Rules.
         const sdk=services.firestoreSdk?.getDoc?services.firestoreSdk:await import(runtime.firebaseFirestoreModule);
-        const hidden=await rlHiddenRivalryIds(services,sdk.getDoc,user);
-        const result=await root.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc},user,current:active.careerInput,...(hidden.length?{hiddenRivalryIds:hidden}:{})});
-        model=result.model??UNAVAILABLE;
-        if(rivalry){
-          // Career order is oldest first. Rebuild the latest verified completed entry,
-          // never mix whole-career manager counters into one rivalry's figures.
-          const input=result.careerInput,entry=input?.showdowns?.at(-1);
-          rivalryModel=input?.indexStatus==="ready"?(entry?.classification==="completed"?root.CareerModeSharedCareerAnalytics.buildCareerModel({indexStatus:"ready",showdowns:[entry]}):entry?.classification==="unavailable"?UNAVAILABLE:{status:"empty"}):UNAVAILABLE;
+        let scope=null;try{scope=await rlCareerScope(services,sdk.getDoc,user);}catch(_){scope=null;}
+        if(!scope){model=UNAVAILABLE;rivalryModel=UNAVAILABLE;}
+        else{
+          const hidden=scope.hidden;
+          const result=await root.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc},user,current:active.careerInput,...(scope.testOnly?{testRunsOnly:true}:hidden.length?{hiddenRivalryIds:hidden}:{})});
+          model=result.model??UNAVAILABLE;
+          if(rivalry){
+            // Career order is oldest first. Rebuild the latest verified completed entry,
+            // never mix whole-career manager counters into one rivalry's figures.
+            const input=result.careerInput,entry=input?.showdowns?.filter(item=>item.classification!=="abandoned").at(-1);
+            rivalryModel=input?.indexStatus==="ready"?(entry?.classification==="completed"?root.CareerModeSharedCareerAnalytics.buildCareerModel({indexStatus:"ready",showdowns:[entry]}):entry?.classification==="unavailable"?UNAVAILABLE:{status:"empty"}):UNAVAILABLE;
+          }
         }
       }
     }

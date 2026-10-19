@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "1.9.3-r79";
-const PREVIOUS_RUNTIME_REVISION = "1.9.2-r78";
+const RUNTIME_REVISION = "1.9.4-r80";
+const PREVIOUS_RUNTIME_REVISION = "1.9.3-r79";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -255,13 +255,8 @@ const SHELL_PATH_SET = new Set(SHELL_PATHS);
 // The retained previous shell was installed by its own worker with its own list, so it is verified against that list, not
 // this one: checked against SHELL_PATHS it would lack this release's new files, fail, and be deleted on activation, leaving
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION (and empties
-// the set when it changes PREVIOUS_RUNTIME_REVISION again). r79 added these two to r78's 219 paths and removed none:
-// js/whichShowdownIsLive.js (the one START decision, loaded lazily on the first START) and js/showdownModes.js
-// (real and test modes, loaded lazily after the pair read).
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([
-    "js/whichShowdownIsLive.js",
-    "js/showdownModes.js"
-]);
+// the set when it changes PREVIOUS_RUNTIME_REVISION again). r80 adds no shell path to r79's 221 paths and removes none.
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([]);
 const PREVIOUS_SHELL_PATHS = Object.freeze(SHELL_PATHS.filter(path=>!SHELL_PATHS_ADDED_SINCE_PREVIOUS.has(path)));
 function shellPathsForRevision(revision){ return revision&&revision!==RUNTIME_REVISION&&revision===PREVIOUS_RUNTIME_REVISION?PREVIOUS_SHELL_PATHS:SHELL_PATHS; }
 

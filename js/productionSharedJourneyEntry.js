@@ -108,7 +108,7 @@
     // r79: the save of a Showdown that is already closed (the pair names it: finished, or deleted on Daniel's phone) never blocks
     // Nik's next JOIN. The new shell is made beside it, exactly as Daniel's next START does; that save is kept, never rewritten.
     if(existing&&!activeSaveIsClosedShowdown(runtime)){
-      throw new Error("This phone already has a different current Showdown. Delete it in Settings (DELETE CURRENT SHOWDOWN), then paste Daniel's code again.");
+      throw new Error("You already have a different current Showdown. End it in Settings (END SHOWDOWN), then paste Daniel's code again.");
     }
 
     const round=root.document?.getElementById("roundAmount");
@@ -120,7 +120,7 @@
       setPending(true);
       if(typeof root.createShowdown!=="function")throw new Error("Showdown preparation is unavailable.");
       created=Boolean(await root.createShowdown());
-      if(!created)throw new Error("Nik's local career copy could not be prepared.");
+      if(!created)throw new Error("Nik's career could not be prepared.");
       normalizeCanonicalPlayers();
       persistPendingMarker();
       marked=true;
@@ -175,8 +175,12 @@
       const pair=await loadScript("persistent-pair","js/persistentNikDanielPair.js",()=>root.CareerModePersistentNikDanielPair);
       const layer=await loadScript("connect-players-screen","js/connectPlayersScreenV10.js",()=>root.CareerModeConnectPlayersScreenV10);
       if(!pair||typeof pair.startPairing!=="function"||!layer||typeof layer.open!=="function")throw new Error("Player connection is unavailable.");
-      await layer.open({sync:false,stayOnScreen:true});
+      // r80: a new code that replaces an older open one (a test-mode START over its leftover code) is begun while the layer
+      // opens, so WAITING shows "Preparing your Showdown…" and then the new code, never the old code in between.
+      const opening=layer.open({sync:false,stayOnScreen:true});Promise.resolve(opening).catch(()=>{});
+      if(!(options.createCode===true&&pair.getState?.()?.connectionState==="pending-pair"))await opening;
       if(options.createCode===true)await pair.startPairing({managerRole:"playerOne"});
+      await opening;
       pair.render?.();
       return true;
     }catch(error){report("Unable to open the waiting screen",error);await openPanel({routeToRemote:false});return false;}
@@ -227,8 +231,30 @@
     })().finally(()=>{closeEndedPromise=null;});
     return closeEndedPromise;
   }
+  // r80 (Nik's missing first real game): r79 reopened Daniel's open code, or made one for a code-less shell, from Home START,
+  // CONTINUE CAREER and the reload recovery without the one-time START REAL CAREER checkmark. On an account whose real career
+  // had not started that code was a test code: the game was played as a test Showdown, and the checkmark at the next START
+  // then named it in the marker's hidden list (immutable), so a finished game left History, Legacy, Stats and the Trophy Room.
+  // On such an account (test mode) only Settings > START TEST RUN (armed) shows or makes a test code; everything else goes
+  // to the seasons screen, whose START makes a new Showdown through the checkmark. Memoised answers only (js/showdownModes.js
+  // reads nothing new); an unknown mode keeps the path as it was (a code is made only once the mode is known anyway).
+  async function unarmedTestStart(decision){
+    if(!decision||decision.action!=="resume-waiting"||entryIdentityState()?.managerId!=="daniel")return false;
+    try{
+      const modes=await loadScript("showdown-modes","js/showdownModes.js",()=>root.CareerModeShowdownModes);
+      if(!modes||typeof modes.resolve!=="function"||modes.isTestRunArmed?.()===true)return false;
+      modes.install?.();
+      return (await modes.resolve())?.mode==="test"&&modes.isTestRunArmed?.()!==true;
+    }catch(_error){return false;}
+  }
+  async function openSeasonsForRealStart(){
+    closePanel();
+    const opened=typeof root.navigateTo==="function"?await root.navigateTo("createShowdown"):root.showScreen?.("createShowdown");
+    return opened!==false;
+  }
   async function followStartDecision(decision){
     if(!decision)return false;
+    if(decision.action==="resume-waiting"&&await unarmedTestStart(decision))return openSeasonsForRealStart();
     if(decision.action==="close-then-new")return closeEndedThenNew();
     if(decision.action==="continue"){
       const pair=await loadScript("persistent-pair","js/persistentNikDanielPair.js",()=>root.CareerModePersistentNikDanielPair);
@@ -261,8 +287,8 @@
     const round=root.document.getElementById("roundAmount"),priorRound=round?round.value:null;let shellCreated=false,markerPersisted=false;
     try{
       const waitingReady=prepareWaiting();await ensureSaveAuthority();
-      const decision=await whichShowdownIsLive();
-      if(decision.action!=="new"){await followStartDecision(decision);return false;}
+      const decision=await whichShowdownIsLive(),realStart=await unarmedTestStart(decision);
+      if(decision.action!=="new"&&!realStart){await followStartDecision(decision);return false;}
       // r79 PR4: the real/test mode gate (js/showdownModes.js) runs only now that a new Showdown is really being made: the
       // one-time START REAL CAREER checkmark writes the career start marker first; a refusal creates nothing.
       if(options&&typeof options.beforeCreate==="function"&&await options.beforeCreate()!==true)return false;
@@ -400,6 +426,11 @@
     await loadStyle();applyLocalDrawLock();
     const status=options.routeToRemote===false?null:await statusSnapshot();
     if(routesToRemote(status,options)){await openRemote();return true;}
+    // r80 resume (G7): continuing a Showdown whose private session this page already holds ACTIVE (Home START / CONTINUE CAREER
+    // after going Home from the game) enters the game exactly as a reload does once Remote Joining is ACTIVE again
+    // (armRemoteReturn: openSharedExperience), instead of GET READY, whose START CAREER replayed Career Start. GET READY stays
+    // the fallback when that entry fails (routeToRemote:false) and for every other caller.
+    if(options.resumeActive===true&&status&&status.active){closePanel();await openSharedExperience();return true;}
     let overlay=root.document.getElementById(PANEL_ID);
     if(!overlay){overlay=create("div","remoteJoiningOverlay");overlay.id=PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","Career Mode Showdown entry");const shell=create("div","remoteJoiningShell"),header=create("div","remoteJoiningHeader");header.append(create("strong","","CAREER MODE SHOWDOWN // 17"));const dismiss=create("button","remoteJoiningDismiss","×");dismiss.type="button";dismiss.setAttribute("aria-label","Close career entry");dismiss.addEventListener("click",closePanel);header.append(dismiss);const body=create("div","remoteJoiningBody");shell.append(header,body);overlay.append(shell);root.document.body.append(overlay);}
     // JOB-1015: the entry card replaces an open Connect Players layer instead of opening underneath it.
@@ -407,12 +438,23 @@
     overlay.classList.remove("hidden");await renderPanel({...options,status});return true;
   }
   function closePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay)overlay.classList.add("hidden");return true;}
+  async function seasonsStartGate(){
+    try{
+      const modes=await loadScript("showdown-modes","js/showdownModes.js",()=>root.CareerModeShowdownModes);
+      if(modes&&typeof modes.beforeSeasonsStart==="function"){modes.install?.();return await modes.beforeSeasonsStart()===true;}
+    }catch(_error){}
+    report("Unable to start the Showdown",new Error("Your career could not be checked, so nothing was started. Check your internet, then press START again."));
+    return false;
+  }
   function installStartButton(){
     const start=root.document.getElementById("startShowdown");if(!start)return false;
     syncStartButtonIdentity();
     if(start.dataset.canonicalShowdownStart==="true")return true;
     start.dataset.canonicalShowdownStart="true";
-    start.addEventListener("click",event=>{event.preventDefault();event.stopImmediatePropagation();void startShared();},true);
+    /* r80 real vs test: this listener is the fallback for a START the identity module did not take; it runs the same
+       real/test gate (js/showdownModes.js: the START REAL CAREER checkmark, or an armed Settings test run), so no START makes
+       a Showdown without it. A gate that cannot load refuses and creates nothing. */
+    start.addEventListener("click",event=>{event.preventDefault();event.stopImmediatePropagation();void startShared({beforeCreate:seasonsStartGate});},true);
     const duplicate=root.document.getElementById(SHARED_START_ID);if(duplicate)duplicate.remove();
     const note=root.document.getElementById("sharedShowdownOrderingNote");if(note)note.remove();
     return true;
@@ -447,6 +489,8 @@
     if(/^pair_[0-9a-f]{64}$/.test(String(pairState.closedRivalryId||""))&&!pairState.rivalryId&&!(decision&&decision.action==="resume-waiting"))return false;
     // PR #901: reload recovery puts Daniel's WAITING back over the locked league wheel (startup leaves Home active), so closing it
     // shows the wheel and its CONTINUE CAREER, not Home. The loading screen is held until this settles (js/ssjr.js, Reus Gate).
+    // r80: a test-mode account's code is never reopened by itself (the next Home START goes through the checkmark).
+    if(decision&&decision.action==="resume-waiting"&&await unarmedTestStart(decision))return false;
     if(decision&&decision.action==="resume-waiting")await showLockedWheel();
     if(decision&&["resume-waiting","join","wait-for-daniel"].includes(decision.action))return followStartDecision(decision);
     return openPanel();

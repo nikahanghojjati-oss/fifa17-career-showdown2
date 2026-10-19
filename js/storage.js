@@ -13,9 +13,9 @@ let motionPreferenceMediaQuery=null;
 let motionPreferenceMediaBound=false;
 let criticalRecoveryStorageState=false;
 function reportStorageError(context,error){console.error(`[Career Mode Showdown] ${context}:`,error);if(typeof window.showAppNotice==="function")window.showAppNotice(`${context}. Your browser may not have saved the latest change.`,"error",10000);}
-function readStorageValue(key){try{return localStorage.getItem(key);}catch(error){reportStorageError("Unable to read local save data",error);return null;}}
-function writeStorageValue(key,value){try{localStorage.setItem(key,value);return true;}catch(error){reportStorageError("Unable to write local save data",error);return false;}}
-function removeStorageValue(key){try{localStorage.removeItem(key);return true;}catch(error){reportStorageError("Unable to remove local save data",error);return false;}}
+function readStorageValue(key){try{return localStorage.getItem(key);}catch(error){reportStorageError("Unable to read saved data",error);return null;}}
+function writeStorageValue(key,value){try{localStorage.setItem(key,value);return true;}catch(error){reportStorageError("Unable to write saved data",error);return false;}}
+function removeStorageValue(key){try{localStorage.removeItem(key);return true;}catch(error){reportStorageError("Unable to remove saved data",error);return false;}}
 function captureCareerModeRawBackupInputs(){return {saveLibrary:readStorageValue(SAVE_KEY),activeShowdown:readStorageValue(STORAGE_KEY),legacyShowdowns:readStorageValue(LEGACY_STORAGE_KEY),preferences:readStorageValue(APPLICATION_PREFERENCES_KEY)};}
 function captureStorageSnapshot(keys){const raw={},failedKeys=[];for(const [name,key] of Object.entries(keys))try{raw[name]=localStorage.getItem(key);}catch(error){failedKeys.push(name);reportStorageError(`Unable to read ${name} for an exact raw snapshot`,error);}return failedKeys.length?{ok:false,raw:null,failedKeys}:{ok:true,raw,failedKeys:[]};}
 function captureCareerModeRawRestoreSnapshot(){return captureStorageSnapshot({activeShowdown:STORAGE_KEY,legacyShowdowns:LEGACY_STORAGE_KEY,preferences:APPLICATION_PREFERENCES_KEY});}
