@@ -79,13 +79,11 @@
     if(!value){if(node&&errorMessage&&node.textContent===errorMessage)node.textContent="";errorMessage="";return;}
     if(node){node.textContent=value;errorMessage=value;}
   }
-  function psscSeasonResultClash(results){
-    const one=results&&results.playerOne,two=results&&results.playerTwo,lines=[];
-    if(!one||!two||typeof one!=="object"||typeof two!=="object")return lines;
-    const positionOne=Number(one.leaguePosition),positionTwo=Number(two.leaguePosition);
-    if(one.leaguePosition!=null&&Number.isFinite(positionOne)&&positionOne===positionTwo)lines.push(`Both managers entered league position ${positionOne}.`);
-    if(one.championsLeague===true&&two.championsLeague===true)lines.push("Both managers ticked Champions League.");
-    if(one.domesticCup===true&&two.domesticCup===true)lines.push("Both managers ticked Domestic Cup.");
+  // r80 (Nik, 2026-10-19): the two managers play different FIFA saves, so both winning the league (same position), the
+  // Champions League or the domestic cup in the same season is normal and is never a clash. Only a same-manager
+  // impossibility (one save winning both the Champions League and the Europa League) may ever be listed here; none is yet.
+  function psscSeasonResultClash(_results){
+    const lines=[];
     return lines;
   }
   function psscClashWarning(who){
