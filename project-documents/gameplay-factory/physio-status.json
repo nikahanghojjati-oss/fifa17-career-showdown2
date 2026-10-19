@@ -1,6 +1,6 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-19T10:23:25.298Z",
+  "at": "2026-10-19T10:24:46.003Z",
   "state": "ALL_CLEAR",
   "checks": [],
   "helpers_paused": [],
@@ -22,7 +22,7 @@
       },
       {
         "name": "L3B visual",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L4 remote",
