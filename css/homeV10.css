@@ -1434,3 +1434,32 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
   #app #mainMenu.v10Home .plateView { height: 100%; }
   #app #mainMenu.v10Home > .fifaMenuShell { background: transparent; }
 }
+
+/* r80 short screens: between the sideways phones and the desktop picture range (1024x768, 1100x600, 1024x600) and on
+   short windows wider than 21:10 (1366x640), which fall between Team V's slim-strip and ultrawide placements, the
+   soundtrack card's artist credit wrapped to two or three lines and ran into BUSINESS · AUDIUS · READY and PLAY TRACK, and
+   the card (17vh, at least 116px) was shorter than its own content, so AUDIUS SOUNDTRACK was cut at its top edge; at
+   600px tall the card also ran 8px over STATISTICS to SETTINGS. There the credit keeps one line, ending in "…" as on the
+   short desktop windows (1280x650, 1366x768), and the card keeps Team V's bottom edge (53.3vh + 17vh, or 116px), never
+   lower than 8px above the tile row (which starts 172px above the window's bottom), growing upward just enough to fit. */
+@media (min-width: 901px) and (max-width: 1199px) and (min-height: 501px) and (max-height: 775px) and (orientation: landscape),
+       (min-width: 1200px) and (min-height: 600px) and (max-height: 800px) and (min-aspect-ratio: 2101/1000) and (orientation: landscape) {
+  #app #mainMenu.v10Home .menuMusicArtist { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #app #mainMenu.v10Home .menuMusicTile,
+  #app #mainMenu.v10Home .menuMusicTile.side {
+    top: auto !important; bottom: max(180px, calc(46.7vh - max(17vh, 116px))) !important;
+    height: auto !important; min-height: max(17vh, 116px);
+  }
+}
+/* r80 short screens: at 1024x600 RIVALRY HEADQUARTERS wrapped to two lines in its 36vw column, which lifted HOME into TWO
+   MANAGERS · ONE LEGACY under the wordmark. On these short windows the headline keeps one line (4vw is just under the
+   column; at 1100px wide and over it stays 44px), so the heading starts below the lockup as it does at 1100x600. */
+@media (min-width: 901px) and (max-width: 1199px) and (min-height: 501px) and (max-height: 640px) and (orientation: landscape) {
+  #app #mainMenu.v10Home .fifaMenuHeadingMeta .sd-label { font-size: min(44px, 4vw); }
+}
+/* r80 short screens: from 1001px to 1099px wide Team V's 20px tile names are wider than their tiles' text column, so
+   SHOWDOWN and STATISTICS ran into the tiles' right padding (1024x768, 1024x600). There the names follow the window
+   (1.68vw, 18.5px at 1099px), so the longest word fits its column as it does at 1100px. */
+@media (min-width: 1001px) and (max-width: 1099px) and (min-height: 501px) and (orientation: landscape) {
+  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel { font-size: min(20px, 1.68vw); }
+}

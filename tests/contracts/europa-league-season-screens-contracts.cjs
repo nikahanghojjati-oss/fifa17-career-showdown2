@@ -240,7 +240,8 @@ function standingsAndFinal(){
   const fwcss=read("visual-assets/v10_1/final-winner/final-winner.css");
   assert.ok(fwcss.includes("grid-template-rows: 20% repeat(5, 1fr);")&&fwcss.includes("grid-template-rows: 26px repeat(5, 1fr);")&&fwcss.includes("height: max(12.5%, 132px);")&&!/repeat\(4, 1fr\)/.test(fwcss),"final-winner.css: five honours rows, a 132px short-desktop panel");
   assert.ok(sf.includes("grid-template-rows:auto repeat(5,1fr);")&&sf.includes("grid-template-rows:auto repeat(5,minmax(0,1fr));")&&!/grid-template-rows:auto repeat\(4,/.test(sf),"seasonFinalV10: five honours rows on every layout");
-  assert.ok(sf.includes("height:max(calc(138 * var(--fw-k)),124px);")&&sf.includes("--fw-rh:max(calc(138 * var(--fw-k)),124px);")&&sf.includes("height:max(16.8%,124px);")&&!sf.includes("138 * var(--fw-k)),112px)"),"seasonFinalV10: the plaque and the button placement both use the 124px minimum");
+  // r80 short screens: the plaque is 148 picture px (138 let TOTAL TROPHIES run into its bottom border at 1920x1080, 1536x864, 1366x768).
+  assert.ok(sf.includes("height:max(calc(148 * var(--fw-k)),124px);")&&sf.includes("--fw-rh:max(calc(148 * var(--fw-k)),124px);")&&sf.includes("height:max(16.8%,124px);")&&!sf.includes("138 * var(--fw-k)),112px)")&&!sf.includes("148 * var(--fw-k)),112px)"),"seasonFinalV10: the plaque and the button placement both use the 124px minimum");
   ok("E6 Final Winner: Europa League honours row with the TRO_EUROPA art after Champions League, trophies line order, both may win it, a record without the counter fails closed, five-row honours grids with room at 1366x640");
 }
 
