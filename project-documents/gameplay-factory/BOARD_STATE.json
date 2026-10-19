@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-19 1:32 AM Boston time (EDT)",
+ "generated": "2026-10-19 1:35 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 128,
+  "count": 129,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1155,6 +1155,15 @@
     "subject": "r80 Europa League trophy picture (TRO_EUROPA_V1)",
     "reply": "no",
     "boston": "Mon 19 Oct 1:22 AM"
+   },
+   {
+    "time": "2026-10-19 05:34",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-034 DONE",
+    "subject": "r80 Europa League trophy picture (TRO_EUROPA_V1)",
+    "reply": "no",
+    "boston": "Mon 19 Oct 1:34 AM"
    }
   ],
   "g2v": {
@@ -1175,8 +1184,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "649aba7",
-  "head_boston": "Mon 19 Oct 1:23 AM",
+  "head": "dab4bc4",
+  "head_boston": "Mon 19 Oct 1:34 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1697,8 +1706,8 @@
     "from": "G",
     "to": "V",
     "title": "r80 Europa League trophy picture (TRO_EUROPA_V1)",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-034_r80-europa-league-trophy-picture-tro-eur.md",
     "worker": "images",
@@ -1775,7 +1784,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 41,
   "next": 42,
   "nik": 2,
   "later": 21,
