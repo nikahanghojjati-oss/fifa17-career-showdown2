@@ -106,8 +106,8 @@
     const h=document.createElement("h2"); h.id="comparisonHeading"; h.className="panelTitle"; h.textContent=fx.strings.sections.managerComparison; panel.appendChild(h);
     const body=document.createElement("div"); body.className="comparisonBody";
     const rows=[
-      [fx.strings.comparisonRows[0],"leagueTitles"],[fx.strings.comparisonRows[1],"domesticCups"],[fx.strings.comparisonRows[2],"championsLeagues"],
-      [fx.strings.comparisonRows[3],"seasonWins"],[fx.strings.comparisonRows[4],"averageLeaguePoints"],[fx.strings.comparisonRows[5],"averageLeagueGoals"]
+      [fx.strings.comparisonRows[0],"leagueTitles"],[fx.strings.comparisonRows[1],"domesticCups"],[fx.strings.comparisonRows[2],"championsLeagues"],[fx.strings.comparisonRows[3],"europaLeagues"],
+      [fx.strings.comparisonRows[4],"seasonWins"],[fx.strings.comparisonRows[5],"averageLeaguePoints"],[fx.strings.comparisonRows[6],"averageLeagueGoals"]
     ];
     rows.forEach(([label,key])=>{
       const d=frame.managers.daniel[key], n=frame.managers.nik[key], max=Math.max(Number(d),Number(n),1);

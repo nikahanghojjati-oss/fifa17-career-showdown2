@@ -16,7 +16,8 @@
     "</div>",
     "<header class=\"connectPlayersHeader\">",
     "<p class=\"connectPlayersKicker\">CAREER MODE SHOWDOWN // 17</p>",
-    "<h2 id=\"connectPlayersTitle\">CONNECT PLAYERS</h2>",
+    // r80 (Team V HO-033): the title is the TITLE_CONNECT_PLAYERS_V1 picture; the words stay as visually hidden text.
+    "<h2 id=\"connectPlayersTitle\"><img class=\"connectPlayersWordmark\" src=\"visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V1.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><span class=\"connectPlayersTitleText\">CONNECT PLAYERS</span></h2>",
     "<p class=\"connectPlayersTagline\">Daniel and Nik must both be connected before the career begins.</p>",
     "</header>",
     "<div class=\"connectPlayersWorkspace\">",

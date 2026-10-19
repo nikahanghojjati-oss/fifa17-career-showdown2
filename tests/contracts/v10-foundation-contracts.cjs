@@ -538,6 +538,10 @@ const V10_IMAGES={
     "visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_512.webp":"15f47694e512f5f1555f3f1b919b0ab0203edd8544cd65b249c98277a28c2175",
     "visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_1536.webp":"ab2cebbb5913bbe4ac39c4117c86a8f2261a8c23dfbaa5a5a79c886e0f5e760a",
     "visual-assets/v10_1/shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp":"78280e1c2ef82e1945d029f5bccb537c28670fbb92ae19a662fd3611af377d08",
+    // r80 Europa League trophy (Team V HO-034, factory/v1-wtt5ye b6928ba4) and the CONNECT PLAYERS title (HO-033).
+    "visual-assets/v10_1/shared/trophies/TRO_EUROPA_V1_512.webp":"8dd3147c1100ece7289ab7569a1cbbd20d823193c8ee255eb63cf91fb73d2030",
+    "visual-assets/v10_1/shared/trophies/TRO_EUROPA_V1_1536.webp":"9bdfbee3a11c2d725ec477601e58050da5e955d4805eadeff14a1cdf408069c7",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V1.webp":"38213f962b9db6ae748eb3becce92f0dc08da7f76a3da2ae886c358d1cbaaf99",
     "visual-assets/v10_1/shared/trophies/TRO_DOMESTIC_CUP_V1_1536.webp":"7c34ab65edc761bdea2f34a0b562c5c6296bf224be46ab82dad3ba58d49f1c34",
     "visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp":"39c65012fa627c67371fa5676a6d696a81dbb54b80621730d83b2b15ae5b6796",
     "visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_1536.webp":"863b4a6352de12bfa8e5e3965331b179e5f1890d5f242451088e152ef6f8ac57",

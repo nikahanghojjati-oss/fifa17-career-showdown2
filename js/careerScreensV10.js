@@ -16,12 +16,12 @@
   const SCREEN_IDS=Object.freeze({careerStatistics:"careerStatistics",trophyRoom:"trophyRoom"});
   // Team V copy for the same states (their screen strings at f4da9a3f), without the preview chip label.
   const STRINGS=Object.freeze({
-    careerStatistics:{heading:"CAREER STATISTICS",previewLabel:"",buttons:{rivalry:"CURRENT RIVALRY STATISTICS",trophyRoom:"OPEN TROPHY ROOM",back:"BACK TO MAIN MENU"},sections:{careerTable:"CAREER TABLE",managerComparison:"MANAGER COMPARISON",careerLeaders:"CAREER LEADERS"},headlineLabels:["COMPLETED SHOWDOWNS","SEASONS PLAYED","CAREER POINTS","TROPHIES WON"],comparisonRows:["LEAGUE TITLES","DOMESTIC CUPS","CHAMPIONS LEAGUE WINS","Season Wins","Average League Points","Average League Goals"],leaderLabels:["MOST SEASON WINS","MOST TROPHIES","MOST CAREER POINTS","BEST SEASON SCORE"],careerTableHeaders:["#","Manager","Showdowns","Season W-D-L","Points","Trophies"],noCompletedRecord:"No completed record yet",coverageTemplate:"{READABLE} of {INDEXED} Showdowns readable",stateCopy:{loading:{heading:"LOADING CAREER HISTORY",body:"Loading career history…"},partial:{heading:"PARTIAL CAREER HISTORY",body:"Some Showdowns could not be read. Statistics below use readable Showdowns only."},unavailable:{heading:"CAREER HISTORY UNAVAILABLE",body:"Career history could not be loaded. No statistics are being shown."}}},
-    trophyRoom:{heading:"TROPHY ROOM",back:"BACK",previewLabel:"",managerCabinetsHeading:"MANAGER CABINETS",careerTableHeading:"CAREER TABLE",recordsReadyHeading:"ALL-TIME RECORDS",categories:["ALL","SHOWDOWN","LEAGUE TITLES","DOMESTIC CUPS","CHAMPIONS LEAGUE"],trophyTypes:{showdown:"Showdown Champion",leagueTitles:"League Title",domesticCups:"Domestic Cup",championsLeague:"Champions League"},notWonYet:"Not won yet",stateCopy:{loading:{text:"Loading career history…"},partial:{text:"Some Showdowns could not be read. Showing {READABLE} of {INDEXED} Showdowns."},partialRecordsHeading:{text:"AVAILABLE RECORDS"},unavailable:{text:"Career history is unavailable right now."}}}
+    careerStatistics:{heading:"CAREER STATISTICS",previewLabel:"",buttons:{rivalry:"CURRENT RIVALRY STATISTICS",trophyRoom:"OPEN TROPHY ROOM",back:"BACK TO MAIN MENU"},sections:{careerTable:"CAREER TABLE",managerComparison:"MANAGER COMPARISON",careerLeaders:"CAREER LEADERS"},headlineLabels:["COMPLETED SHOWDOWNS","SEASONS PLAYED","CAREER POINTS","TROPHIES WON"],comparisonRows:["LEAGUE TITLES","DOMESTIC CUPS","CHAMPIONS LEAGUE WINS","EUROPA LEAGUE WINS","Season Wins","Average League Points","Average League Goals"],leaderLabels:["MOST SEASON WINS","MOST TROPHIES","MOST CAREER POINTS","BEST SEASON SCORE"],careerTableHeaders:["#","Manager","Showdowns","Season W-D-L","Points","Trophies"],noCompletedRecord:"No completed record yet",coverageTemplate:"{READABLE} of {INDEXED} Showdowns readable",stateCopy:{loading:{heading:"LOADING CAREER HISTORY",body:"Loading career history…"},partial:{heading:"PARTIAL CAREER HISTORY",body:"Some Showdowns could not be read. Statistics below use readable Showdowns only."},unavailable:{heading:"CAREER HISTORY UNAVAILABLE",body:"Career history could not be loaded. No statistics are being shown."}}},
+    trophyRoom:{heading:"TROPHY ROOM",back:"BACK",previewLabel:"",managerCabinetsHeading:"MANAGER CABINETS",careerTableHeading:"CAREER TABLE",recordsReadyHeading:"ALL-TIME RECORDS",categories:["ALL","SHOWDOWN","LEAGUE TITLES","DOMESTIC CUPS","CHAMPIONS LEAGUE","EUROPA LEAGUE"],trophyTypes:{showdown:"Showdown Champion",leagueTitles:"League Title",domesticCups:"Domestic Cup",championsLeague:"Champions League",europaLeague:"Europa League"},notWonYet:"Not won yet",stateCopy:{loading:{text:"Loading career history…"},partial:{text:"Some Showdowns could not be read. Showing {READABLE} of {INDEXED} Showdowns."},partialRecordsHeading:{text:"AVAILABLE RECORDS"},unavailable:{text:"Career history is unavailable right now."}}}
   });
-  const CS_FIELDS=["careerPoints","seasons","seasonWins","seasonDraws","seasonLosses","championsLeagues","leagueTitles","domesticCups","totalTrophies","bestSeasonScore","averageLeaguePoints","averageLeagueGoals"];
+  const CS_FIELDS=["careerPoints","seasons","seasonWins","seasonDraws","seasonLosses","championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies","bestSeasonScore","averageLeaguePoints","averageLeagueGoals"];
   const SHOWDOWN_FIELDS=["completed","wins","draws","losses"];
-  const CABINET_FIELDS=["championsLeagues","leagueTitles","domesticCups","totalTrophies"];
+  const CABINET_FIELDS=["championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies"];
 
   function v10Freeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(v10Freeze);Object.freeze(value);}return value;}
   const v10Finite=value=>typeof value==="number"&&Number.isFinite(value);
@@ -558,7 +558,7 @@
   }
   #trophyRoom .trophyTabs {
     position:relative; inset:auto; width:100%; height:auto;
-    display:grid; grid-template-columns:repeat(5,minmax(0,1fr));
+    display:grid; grid-template-columns:repeat(6,minmax(0,1fr));
     gap:4px; margin-bottom:8px; overflow:visible;
   }
   #trophyRoom .trophyTab {
@@ -571,7 +571,7 @@
   #trophyRoom .trophyGrid,
   #trophyRoom .trophyShelf.is-filtered .trophyGrid {
     position:relative; inset:auto; display:grid; overflow:visible;
-    grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px;
+    grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px;
   }
   #trophyRoom .trophyShelf.is-filtered .trophyGrid {
     grid-template-columns:minmax(0,260px); justify-content:center;
@@ -743,10 +743,14 @@
   #app #trophyRoom .trophyShelf {position:relative;inset:auto;display:block;width:100%;height:auto;min-height:0;margin:0;padding:4px;border:1px solid #d5ac52;background:#050607d9;border-radius:0}
   #app #trophyRoom .trophyTabs {position:relative;inset:auto;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:2px;width:100%;height:auto;min-height:94px;margin:0 0 5px;padding:2px;border:1px solid #967734;background:#080908;overflow:visible;scroll-snap-type:none}
   #app #trophyRoom .trophyTab {grid-column:span 2;width:auto;min-width:0;min-height:44px;height:auto;padding:3px 2px;border:1px solid #836a36;border-radius:0;font-size:9px;line-height:1.2;letter-spacing:.025em;white-space:normal;overflow-wrap:normal}
-  #app #trophyRoom .trophyTab:nth-child(n+4) {grid-column:span 3}
+  #app #trophyRoom .trophyTab:nth-child(n+4) {grid-column:span 2}
   #app #trophyRoom .shelfGlass {position:relative;inset:auto;display:block;min-height:0;padding:0;border:0;clip-path:none;overflow:visible;background:none}
   #app #trophyRoom .trophyGrid,
   #app #trophyRoom .trophyShelf.is-filtered .trophyGrid {position:relative;inset:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:minmax(var(--tr-row),auto);gap:5px;padding:0;overflow:visible;scroll-snap-type:none}
+  /* r80 Europa League: five cases, three across and the last two centred under them (two rows, as with four cases). */
+  #app #trophyRoom .trophyShelf:not(.is-filtered) .trophyGrid {grid-template-columns:repeat(6,minmax(0,1fr))}
+  #app #trophyRoom .trophyShelf:not(.is-filtered) .trophyCard {grid-column:span 2}
+  #app #trophyRoom .trophyShelf:not(.is-filtered) .trophyCard:nth-child(4) {grid-column:2 / span 2}
   #app #trophyRoom .trophyShelf.is-filtered .trophyGrid {grid-template-columns:minmax(0,1fr);grid-auto-rows:minmax(calc(2 * var(--tr-row) + 5px),auto)}
   #app #trophyRoom .trophyShelf.is-filtered .trophyCardPicture {height:max(18px,calc(2 * var(--tr-row) - 64px))}
   #app #trophyRoom .trophyCard {display:grid;grid-template-rows:minmax(18px,1fr) auto auto auto;flex:none;width:auto;min-width:0;min-height:0;height:auto;padding:3px 4px;border:1px solid #b4903d;background:radial-gradient(ellipse at 50% 10%,#9c743b4d,transparent 60%),linear-gradient(135deg,#31281a,#080908 45%);overflow:visible}
@@ -805,10 +809,12 @@
   }
   #app #trophyRoom .trophyTitleBlock {inset:6px auto auto 0;width:var(--tr-lcol)}
   #app #trophyRoom .heroCeremony {inset:calc(var(--tr-hero) * .42) auto auto calc(var(--tr-lcol) * .29);width:calc(var(--tr-lcol) * .42);height:calc(var(--tr-hero) * .54)}
-  #app #trophyRoom .trophyTabs {grid-template-columns:repeat(5,minmax(0,1fr));min-height:48px;margin-bottom:4px}
+  #app #trophyRoom .trophyTabs {grid-template-columns:repeat(6,minmax(0,1fr));min-height:48px;margin-bottom:4px}
   #app #trophyRoom .trophyTab,
   #app #trophyRoom .trophyTab:nth-child(n+4) {grid-column:auto;font-size:9px;padding:2px 3px}
-  #app #trophyRoom .trophyGrid {grid-template-columns:repeat(4,minmax(0,1fr))}
+  #app #trophyRoom .trophyShelf:not(.is-filtered) .trophyGrid {grid-template-columns:repeat(5,minmax(0,1fr))}
+  #app #trophyRoom .trophyShelf:not(.is-filtered) .trophyCard,
+  #app #trophyRoom .trophyShelf:not(.is-filtered) .trophyCard:nth-child(4) {grid-column:auto}
   #app #trophyRoom .trophyShelf.is-filtered .trophyGrid {grid-template-columns:minmax(0,1fr);grid-auto-rows:minmax(var(--tr-row),auto)}
   #app #trophyRoom .trophyCardPicture,
   #app #trophyRoom .trophyShelf.is-filtered .trophyCardPicture {height:max(18px,calc(var(--tr-row) - 76px))}
@@ -868,14 +874,16 @@
   #app #trophyRoom .trophyTitleBlock {position:absolute;top:9svh;left:34%;width:32%;height:16svh;margin:0}
   #app #trophyRoom .heroCeremony {position:absolute;top:26svh;left:36.3%;width:27.4%;height:calc(36svh - 62px);margin:0}
   #app #trophyRoom .heroPlinth {clip-path:none;border-color:#d5ac52}
-  #app #trophyRoom .careerRanks {position:absolute;inset:auto 12% auto;top:calc(62svh - 86px);height:66px;display:block}
-  #app #trophyRoom .careerRank {top:0;bottom:auto;min-width:0;width:18%;min-height:66px}
+  /* r80: the rank cards stand on a line 6px above the tab row and grow upward when their line wraps; they used to hang from
+     the top and slid 5-6px under the tabs on short windows (1280x650, 1024x768). */
+  #app #trophyRoom .careerRanks {position:absolute;inset:auto 12% auto;top:calc(62svh - 92px);height:66px;display:block}
+  #app #trophyRoom .careerRank {top:auto;bottom:0;min-width:0;width:18%;min-height:66px}
   #app #trophyRoom .careerRank small {font-size:clamp(8px,.52vw,11px);line-height:1.25;white-space:normal;overflow-wrap:normal}
   #app #trophyRoom .trophyShelf {position:relative;inset:auto;display:block;width:100%;height:auto;min-height:0;margin:0;padding:0;background:none;border:0;border-radius:0}
-  #app #trophyRoom .trophyTabs {position:relative;inset:auto;width:100%;height:auto;min-height:44px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;overflow:visible}
+  #app #trophyRoom .trophyTabs {position:relative;inset:auto;width:100%;height:auto;min-height:44px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;overflow:visible}
   #app #trophyRoom .trophyTab {height:auto;min-height:44px;padding:6px 8px;font-size:clamp(10px,.66vw,14px);line-height:1.2;white-space:normal;overflow-wrap:normal}
   #app #trophyRoom .shelfGlass {position:relative;inset:auto;padding:5px;clip-path:none;overflow:visible;border-color:#d5ac52;box-shadow:inset 0 0 0 2px #080909,0 10px 30px #0008}
-  #app #trophyRoom .trophyGrid {position:relative;inset:auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:minmax(clamp(90px,14svh,160px),auto);gap:8px;overflow:visible}
+  #app #trophyRoom .trophyGrid {position:relative;inset:auto;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));grid-auto-rows:minmax(clamp(90px,14svh,160px),auto);gap:8px;overflow:visible}
   #app #trophyRoom .trophyCard {display:grid;grid-template-rows:minmax(24px,1fr) auto auto auto;min-height:0;height:auto;padding:4px 8px;border:1px solid #a9873b;overflow:visible;background:radial-gradient(ellipse at 50% 10%,#96743944,transparent 65%),linear-gradient(#28221988,#080909)}
   #app #trophyRoom .trophyCardPicture {width:100%;height:max(24px,calc(clamp(90px,14svh,160px) - 60px));min-height:24px}
   #app #trophyRoom .trophyCard h3 {margin:2px 0 4px;min-height:14px;font-size:clamp(11px,.72vw,16px);line-height:1.2;white-space:normal;overflow-wrap:normal;letter-spacing:.06em}
@@ -900,6 +908,7 @@
   #app #trophyRoom .trophyShelf.is-filtered [data-trophy="leagueTitles"] .trophyCardPicture {background-image:url("visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_1536.webp")}
   #app #trophyRoom .trophyShelf.is-filtered [data-trophy="domesticCups"] .trophyCardPicture {background-image:url("visual-assets/v10_1/shared/trophies/TRO_DOMESTIC_CUP_V1_1536.webp")}
   #app #trophyRoom .trophyShelf.is-filtered [data-trophy="championsLeague"] .trophyCardPicture {background-image:url("visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_1536.webp")}
+  #app #trophyRoom .trophyShelf.is-filtered [data-trophy="europaLeague"] .trophyCardPicture {background-image:url("visual-assets/v10_1/shared/trophies/TRO_EUROPA_V1_1536.webp")}
   #app #trophyRoom .trophyShelf.is-filtered .trophyCard h3 {grid-area:name;margin:0;padding:12px 0;border-block:1px solid #a9873b;font-size:clamp(18px,1.5vw,34px);text-align:center}
   #app #trophyRoom .trophyShelf.is-filtered .managerCounts {grid-area:counts;gap:12px;width:100%}
   #app #trophyRoom .trophyShelf.is-filtered .managerCounts > div {text-align:center}
@@ -1223,6 +1232,37 @@
   #app #careerStatistics.careerScreenV10 .actionRow { grid-template-columns:1.2fr 1.05fr 1.05fr;gap:5px; }
   #app #careerStatistics.careerScreenV10 .actionRow .actionButton { padding:0 5px;gap:4px;font-size:12px;letter-spacing:.02em; }
 }
+/* r80 Europa League: Manager Comparison has seven rows (EUROPA LEAGUE WINS). Below the 1200x700 desktop (css/v10Shell.css already
+   spreads the rows over its fixed panel) Team V's panel is a fixed height with 3px-padded rows, and the seventh row hung out of
+   it. Here the rows share the panel's height the same way, and on short windows the panel takes the free band above the
+   leaders (it ends at 72.45%, the leaders start at 73.5%). */
+@media (min-width:901px) and (min-height:481px) and (max-height:699px), (min-width:901px) and (max-width:1199px) and (min-height:481px) {
+  #app #careerStatistics.careerScreenV10 .comparisonPanel:not([hidden]) { display:flex;flex-direction:column; }
+  #app #careerStatistics.careerScreenV10 .comparisonBody { flex:1 1 auto;min-height:0;display:flex;flex-direction:column;justify-content:space-between;padding:3px 12px 5px; }
+  #app #careerStatistics.careerScreenV10 .compareRow { padding:0; }
+  #app #careerStatistics.careerScreenV10 .compareTrack { margin-top:2px;height:4px; }
+}
+/* Short upright phones: the seven rows fit the Compare panel (no inner scroll, nothing cut) with the HO-028 type kept; the bar
+   sits right under its numbers. */
+@media (max-width:760px) and (orientation:portrait) and (max-height:700px) {
+  #app #careerStatistics.careerScreenV10 .comparisonPanel .panelTitle { padding:4px 8px 3px; }
+  #app #careerStatistics.careerScreenV10 .compareRow { padding:0; }
+  #app #careerStatistics.careerScreenV10 .compareTrack { margin-top:0; }
+}
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+  #app #careerStatistics.careerScreenV10 .compareRow { padding:0; }
+  #app #careerStatistics.careerScreenV10 .compareTrack { margin-top:0; }
+}
+/* Shorter sideways phones (740x360): the Compare tab already names the panel, so its heading is kept for screen readers only
+   and the seven rows take its place. */
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:375px) and (orientation:landscape) {
+  #app #careerStatistics.careerScreenV10 .comparisonPanel .panelTitle { position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0; }
+  #app #careerStatistics.careerScreenV10 .comparisonBody { padding:2px 9px 1px; }
+}
+@media (min-width:901px) and (min-height:481px) and (max-height:699px) {
+  #app #careerStatistics.careerScreenV10 .comparisonPanel { height:31%; }
+  #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] .comparisonPanel { height:28.6%; }
+}
 `;
 
   // TROPHY-PLATE-V2 (ticket 1610P): desktop Trophy Room on Team V's black-marble trophy-hall plate
@@ -1308,6 +1348,7 @@
 @media (min-width:1200px) and (min-height:821px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
   #app #trophyRoom .trophyRoomContent.sd-stage__ui-content {padding-top:calc(540 * var(--tr-k))}
   #app #trophyRoom .careerRanks {top:calc(465 * var(--tr-k))}
+  #app #trophyRoom .careerRank {top:0;bottom:auto}
 }
 @media (min-width:1200px) and (min-height:600px) and (max-height:820px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
   #app #trophyRoom .heroPlinth {top:calc(229 * var(--tr-k))}
@@ -1316,7 +1357,7 @@
 
   const TROPHY_SIDEWAYS_1730_CSS=String.raw`
   /* JOB-1730: adopted study 1730 (sideways phones, 844x390 and 740x360). Left stage: title, Daniel LEFT, Nik RIGHT and the
-     champion trophy between them. Right cabinet: five tabs in one row, then the four trophy cases in one row. BACK (wide)
+     champion trophy between them. Right cabinet: six tabs in one row, then the five trophy cases in one row (r80 Europa League). BACK (wide)
      and MORE sit in their own full-width row above a slimmer hub bar, clear of every tab and card. main is the only scroller. */
   @media (max-height:480px) and (orientation:landscape) {
     html[data-v10-screen="trophyRoom"] { --sd-nav-bottom-h:48px; }
@@ -1371,7 +1412,7 @@
       height:var(--tr-areah); min-height:0; padding:0; border:0; background:none;
     }
     #app #trophyRoom .trophyTabs {
-      display:grid; grid-template-columns:repeat(5,auto); gap:3px; min-height:44px; height:44px;
+      display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:3px; min-height:44px; height:44px;
       width:auto; margin:0 50px 0 0; padding:0; border:0; background:none;
     }
     #app #trophyRoom .trophyTab,
@@ -1384,7 +1425,7 @@
       background:linear-gradient(180deg,#0f0e0cd6,#050607f0);
     }
     #app #trophyRoom .trophyGrid {
-      flex:1 1 0; height:auto; min-height:0; grid-template-columns:repeat(4,minmax(0,1fr)); grid-template-rows:minmax(0,1fr);
+      flex:1 1 0; height:auto; min-height:0; grid-template-columns:repeat(5,minmax(0,1fr)); grid-template-rows:minmax(0,1fr);
       grid-auto-rows:auto; gap:5px; overflow:hidden;
     }
     #app #trophyRoom .trophyShelf.is-filtered .trophyGrid {
