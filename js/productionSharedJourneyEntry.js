@@ -433,12 +433,23 @@
     overlay.classList.remove("hidden");await renderPanel({...options,status});return true;
   }
   function closePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay)overlay.classList.add("hidden");return true;}
+  async function seasonsStartGate(){
+    try{
+      const modes=await loadScript("showdown-modes","js/showdownModes.js",()=>root.CareerModeShowdownModes);
+      if(modes&&typeof modes.beforeSeasonsStart==="function"){modes.install?.();return await modes.beforeSeasonsStart()===true;}
+    }catch(_error){}
+    report("Unable to start the Showdown",new Error("Your career could not be checked, so nothing was started. Check your internet, then press START again."));
+    return false;
+  }
   function installStartButton(){
     const start=root.document.getElementById("startShowdown");if(!start)return false;
     syncStartButtonIdentity();
     if(start.dataset.canonicalShowdownStart==="true")return true;
     start.dataset.canonicalShowdownStart="true";
-    start.addEventListener("click",event=>{event.preventDefault();event.stopImmediatePropagation();void startShared();},true);
+    /* r80 real vs test: this listener is the fallback for a START the identity module did not take; it runs the same
+       real/test gate (js/showdownModes.js: the START REAL CAREER checkmark, or an armed Settings test run), so no START makes
+       a Showdown without it. A gate that cannot load refuses and creates nothing. */
+    start.addEventListener("click",event=>{event.preventDefault();event.stopImmediatePropagation();void startShared({beforeCreate:seasonsStartGate});},true);
     const duplicate=root.document.getElementById(SHARED_START_ID);if(duplicate)duplicate.remove();
     const note=root.document.getElementById("sharedShowdownOrderingNote");if(note)note.remove();
     return true;

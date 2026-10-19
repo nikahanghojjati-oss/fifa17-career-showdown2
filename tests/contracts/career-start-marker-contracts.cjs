@@ -151,13 +151,14 @@ await check("C2 a marker left switched off by the old SHOW TEST SHOWDOWNS AGAIN 
   const model=await h.model();
   assert.equal(completedRows(model).length,1);same(h.loaderOptions,["current,firebaseSdk,firestore,hiddenRivalryIds,user"],"an inactive marker still passes the hidden ids");
 });
-await check("C3 no marker document: identical to today (and to a build without the marker module)",async()=>{
+await check("C3 r80 (Nik 2026-10-19, test runs never count): no marker document means every indexed Showdown is a test run, so the career is empty and nothing else is read; a build without the marker module shows nothing (fail-closed)",async()=>{
   const none=callerWith({snapshot:offline}),without=callerWith({snapshot:offline,markerModule:false});
   const a=await none.model(),b=await without.model();
-  assert.equal(completedRows(a).length,3);same(clone(a),clone(b));
-  same(none.loaderOptions,without.loaderOptions);same(none.loaderOptions,["current,firebaseSdk,firestore,user"]);
-  same(none.log.filter(p=>p.startsWith("rivalries/")),without.log.filter(p=>p.startsWith("rivalries/")));
-  same(none.log.filter(p=>!p.startsWith("rivalries/")),[MARKER_PATH],"the only new read is the marker itself");
+  assert.equal(a.status,"empty","an account whose real career has not started shows no Showdown");
+  same(none.loaderOptions,["current,firebaseSdk,firestore,testRunsOnly,user"]);
+  same(none.log,[MARKER_PATH],"no index and no Showdown read: only the marker itself");
+  assert.equal(b.status,"unavailable","no marker module: the career is unknown, never shown");same(without.loaderOptions,[],"and the loader is not asked");
+  await none.model();same(none.log,[MARKER_PATH,MARKER_PATH],"'no marker' is asked again at the next load (a real career started on another browser shows)");
 });
 await check("C4 the marker is read once per account per page load",async()=>{
   const h=callerWith({docs:{[MARKER_PATH]:markerDoc([p1.rivalryId,p2.rivalryId],true)},snapshot:offline});
@@ -165,7 +166,8 @@ await check("C4 the marker is read once per account per page load",async()=>{
   assert.equal(h.log.filter(p=>p===MARKER_PATH).length,1);
 });
 await check("C5 Rivalry Statistics never shows a hidden newest Showdown",async()=>{
-  const today=await callerWith({snapshot:justClosed}).rivalry();
+  const today=await callerWith({docs:{[MARKER_PATH]:markerDoc([],true)},snapshot:justClosed}).rivalry();
+  assert.equal((await callerWith({snapshot:justClosed}).rivalry()).status,"empty","r80: without a marker the just-closed Showdown is a test run and never shows");
   assert.equal(today.status,"ready");assert.equal(today.lifecycle,"completed");same(clone(today.score),{daniel:p3.managerRecords.playerOne.totalPoints,nik:p3.managerRecords.playerTwo.totalPoints});
   const hidden=callerWith({docs:{[MARKER_PATH]:markerDoc(ALL,true)},snapshot:justClosed});
   const model=await hidden.rivalry();
@@ -184,7 +186,7 @@ await check("C6 Rivalry Statistics after a reload (no live state) picks the newe
 });
 await check("C7 a marker change clears the cached career and the next load uses the new marker",async()=>{
   const h=callerWith({docs:{"accounts/acct_daniel/careerIndex/current":{schemaVersion:1,objectType:"careerIndex",objectId:"current",revision:2,lifecycleState:"live",contentHash:"sha256:"+"0".repeat(64),data:{rivalryIds:ALL,sealedPageCount:0}}},snapshot:offline});
-  assert.equal(completedRows(await h.model()).length,3);
+  assert.equal((await h.model()).status,"empty","r80: before the real career starts every Showdown is a test run and none shows");
   const Marker=h.c.CareerModeCareerStartMarker,options={firestore:{},firebaseSdk:h.sdk,accountId:"acct_daniel",deviceId:"device_"+"d".repeat(32),cryptoImpl:require("node:crypto").webcrypto};
   const started=await Marker.startRealCareer(options);
   same([...started.hiddenRivalryIds],ALL);assert.equal(h.docs[MARKER_PATH].revision,0);same({hiddenRivalryIds:h.docs[MARKER_PATH].data.hiddenRivalryIds,active:h.docs[MARKER_PATH].data.active},{hiddenRivalryIds:ALL,active:true});
@@ -197,7 +199,7 @@ await check("C7 a marker change clears the cached career and the next load uses 
   assert.equal((await h.model()).status,"empty","r79 PR4: an old inactive marker still hides every test Showdown");
   assert.equal(h.log.filter(p=>p===MARKER_PATH).length,1,"writes refresh the per-account cache; no extra read");
 });
-await check("C9 a read that recovers after a failed one finds an active marker: mounted Career Statistics and Trophy Room reload without the hidden Showdowns",async()=>{
+await check("C9 r80 fail-closed: a failed marker read shows no career (not the test games); a read that recovers finds an active marker and mounted Career Statistics and Trophy Room reload without the hidden Showdowns",async()=>{
   const fixture=JSON.parse(read("tests/fixtures/data-contract-v1/multi-showdown-career.json")).career;
   const all={...fixture,label:"all"},real={...fixture,label:"real"};
   const events=[],registrations=new Map(),drawn=new Map(),listeners=new Map();let markerReads=0,loads=0;
@@ -224,7 +226,7 @@ await check("C9 a read that recovers after a failed one finds an active marker: 
     if(screen==="careerStatistics"){await ctx.CareerModeCareerScreensV10.mount(screen,()=>null);await settle();}
     else{await ctx.CareerModeCareerScreensV10.mount(screen,()=>null);await settle();drawn.set(screen,all);}
     if(screen==="careerStatistics"){
-      assert.equal(markerReads,1);assert.equal(drawn.get(screen),all,"the failed marker read shows the whole career (fail-open)");
+      assert.equal(markerReads,1);assert.equal(loads,0,"the career is not loaded while the marker is unknown");assert.notEqual(drawn.get(screen),all,"the failed marker read never shows the hidden Showdowns (fail-closed)");
       const Marker=ctx.CareerModeCareerStartMarker,epoch=Marker.epoch();
       // A later read (Settings, or another screen) succeeds and the marker is active.
       const marker=await Marker.readMarker({firestore:{},firebaseSdk:sdk,accountId:"acct_daniel"});
@@ -257,5 +259,5 @@ await check("C8 the loader source makes no new reads and stays exact-get only",(
   for(const banned of [/getDocs\(/,/collection\(/,/query\(/,/onSnapshot/,/deleteDoc|updateDoc|writeBatch/,/localStorage|sessionStorage|indexedDB/])assert.doesNotMatch(marker,banned,String(banned));
   const html=read("index.html");assert.doesNotMatch(html,/careerStartMarker/,"the marker module is lazily loaded, never in the startup shell");
 });
-console.log(`PASS career start marker contracts: ${cases} cases (loader skips hidden Showdowns without reads; absent marker is today's behaviour; History, Career Statistics, Trophy Room, Legacy and Rivalry Statistics honour the marker, active or not).`);
+console.log(`PASS career start marker contracts: ${cases} cases (loader skips hidden Showdowns without reads; no marker shows no Showdown and an unknown one shows nothing; History, Career Statistics, Trophy Room, Legacy and Rivalry Statistics honour the marker, active or not).`);
 })().catch(error=>{console.error(error);process.exitCode=1;});
