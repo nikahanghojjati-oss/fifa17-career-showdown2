@@ -30,6 +30,7 @@
     rivalryId:null,sessionId:null,accountId:null,deviceId:null,managerRole:null,remoteRole:null,
     setup:null,message:"Shared Setup is locked until the exact paired rivalry has an ACTIVE private session."
   });
+  const INITIAL_STATE=state;
 
   function freeze(value){
     if(!value||typeof value!=="object"||Object.isFrozen(value))return value;
@@ -138,14 +139,14 @@
     if(!user||user.uid!==accountState.accountId)fail("SHARED_SETUP_AUTH_MISMATCH","The current Google account no longer matches Connected Account authority.");
     if(!adapter||typeof adapter.read!=="function"||typeof adapter.mutate!=="function")fail("SHARED_SETUP_PROVIDER_UNAVAILABLE","Shared Setup transaction authority is unavailable.");
     if(!conflicts||typeof conflicts.execute!=="function")fail("JOURNEY_CONFLICT_GUARD_UNAVAILABLE","Shared Journey conflict guard is unavailable.");
-    return Object.freeze({adapter,conflicts,services,user,rivalryId:rivalryState.rivalryId,sessionId:remoteState.sessionId,accountId:user.uid,deviceId:pairingState.deviceId,managerRole,remoteRole});
+    return Object.freeze({adapter,conflicts,services,user,rivalryId:rivalryState.rivalryId,saveId:rivalryState.binding.saveId||null,sessionId:remoteState.sessionId,accountId:user.uid,deviceId:pairingState.deviceId,managerRole,remoteRole});
   }
   function providerOptions(context){
     return {firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,user:context.user,rivalryId:context.rivalryId,sessionId:context.sessionId,deviceId:context.deviceId,nowEpochMs:Date.now(),cryptoImpl:root.crypto};
   }
   function accept(result,context,message){
     if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_PROVIDER_FAILED");
-    return setState({status:"ready",busy:false,ready:true,revision:result.revision||0,phase:result.state&&result.state.phase||null,rivalryId:context.rivalryId,sessionId:context.sessionId,accountId:context.accountId,deviceId:context.deviceId,managerRole:context.managerRole,remoteRole:context.remoteRole,setup:result.state||null,message});
+    return setState({status:"ready",busy:false,ready:true,revision:result.revision||0,phase:result.state&&result.state.phase||null,rivalryId:context.rivalryId,saveId:context.saveId||null,sessionId:context.sessionId,accountId:context.accountId,deviceId:context.deviceId,managerRole:context.managerRole,remoteRole:context.remoteRole,setup:result.state||null,message});
   }
   // r49: taps used to be dropped with SHARED_SETUP_BUSY whenever any module's background refresh was
   // in flight (every 2.5-15s), so the wheel/packs/confirm needed a second tap. Refreshes now coalesce,
@@ -290,6 +291,14 @@
   }
   function closePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay)overlay.classList.add("hidden");state=freeze({...state,open:false});return true;}
   function subscribe(listener){if(typeof listener!=="function")return()=>{};listeners.add(listener);return()=>listeners.delete(listener);}
+  // r80: the Setup held in page memory belongs to the save it was read for. After END SHOWDOWN, START (or Nik's JOIN) opens
+  // a new save shell before anything re-reads this Setup, so it still holds the ended Showdown's confirmed Setup. The shared
+  // modules take the rivalry from it while the shell's marker names none (Multi Season, Season Results, Transfer Challenge,
+  // Season Commit, History, Scoring, Final, Terminal Close), so the new Showdown ran on the ended one: Nik's new 3-season
+  // Showdown resumed the ended one's season 2 and read "Season 2 / 3". Another save's Setup is not this Showdown's: it reads as
+  // the locked start state until a refresh reads this save's own Setup.
+  function shellSaveId(){try{const showdown=typeof currentShowdown!=="undefined"?currentShowdown:null;return String(showdown?.identity?.saveId||"").trim();}catch(_error){return "";}}
+  function currentState(){const saveId=shellSaveId();return state.saveId&&saveId&&state.saveId!==saveId?INITIAL_STATE:state;}
 
   return freeze({
     contractVersion:1,
@@ -305,6 +314,6 @@
     canonicalStorageMutation:false,
     canonicalStorageKeys:CANONICAL_KEYS,
     billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,appCheckEnforcementRequired:false,persistentFirestoreCache:false,
-    refresh,mutate,openPanel,closePanel,subscribe,describeFailure,getState:()=>state
+    refresh,mutate,openPanel,closePanel,subscribe,describeFailure,getState:currentState
   });
 });
