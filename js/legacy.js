@@ -52,7 +52,8 @@ function countPlayerTrophies(player){
     if(!player){ return 0; }
     return (Number(player.leaguePosition) === 1 ? 1 : 0)
         + (player.domesticCup ? 1 : 0)
-        + (player.championsLeague ? 1 : 0);
+        + (player.championsLeague ? 1 : 0)
+        + (player.europaLeague === true && !player.championsLeague ? 1 : 0);
 }
 
 function countShowdownTrophies(showdown){
@@ -105,6 +106,7 @@ function getPlayerHonours(player){
     const scoring = getLegacyScoring(player);
 
     if(player.championsLeague){ honours.push("Champions League"); }
+    else if(player.europaLeague === true){ honours.push("Europa League"); }
     if(Number(player.leaguePosition) === 1){ honours.push("League"); }
     if(player.domesticCup){ honours.push("Domestic Cup"); }
     if(scoring.performanceBonus){ honours.push("Performance Bonus"); }

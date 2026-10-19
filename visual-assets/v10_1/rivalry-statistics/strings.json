@@ -15,6 +15,7 @@
     "Season Wins",
     "Total Trophies",
     "Champions Leagues",
+    "Europa Leagues",
     "League Titles",
     "Domestic Cups"
   ],
@@ -85,6 +86,10 @@
     },
     "championsLeague": {
       "text": "Champions League",
+      "source": "new"
+    },
+    "europaLeague": {
+      "text": "Europa League",
       "source": "new"
     }
   },

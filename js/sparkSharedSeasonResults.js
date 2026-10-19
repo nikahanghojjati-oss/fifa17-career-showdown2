@@ -10,6 +10,8 @@
   const catalogModule=typeof require==="function"?require("./sharedShowdownCatalog.js"):root.CareerModeSharedShowdownCatalog;
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
   const RESULT_KEYS=Object.freeze(["leaguePosition","leaguePoints","leagueGoals","domesticCup","championsLeague","topScorer","topAssist"]);
+  // r80 Europa League: optional 8th key, present only as exactly true for a manager who won it, never with championsLeague true
+  // (checked per manager only). A result without it keeps the r79 7-key shape, and the key is copied only when present, so old hashes never change.
   const OPERATION=/^season_result_op_[0-9a-f]{32}$/;
   const HASH=/^sha256:[0-9a-f]{64}$/;
   const PUBLIC_KEYS=Object.freeze(["schemaVersion","objectType","rivalryId","seasonNumber","runtimeRevision","phase","revision","teamCount","publishedRoles","operationIds","operationHashes","baseRevisions","actorRoles","activeSessionId","updatedAt","updatedByDeviceId"]);
@@ -24,6 +26,7 @@
   function ssrpSnapshot(value){return value&&typeof value.exists==="function"&&value.exists()?value.data():null;}
   function ssrpPlain(value){return !!value&&typeof value==="object"&&!Array.isArray(value);}
   function ssrpExact(value,keys,code="SEASON_RESULTS_PROVIDER_STATE_INVALID"){if(!ssrpPlain(value)||Object.keys(value).length!==keys.length||keys.some(key=>!Object.hasOwn(value,key)))ssrpFail(code);return value;}
+  function ssrpEuropaLeague(value,code){if(!ssrpPlain(value))ssrpFail(code);const won=Object.hasOwn(value,"europaLeague");ssrpExact(value,won?[...RESULT_KEYS,"europaLeague"]:RESULT_KEYS,code);if(won&&(value.europaLeague!==true||value.championsLeague!==false))ssrpFail(code);return won;}
   function ssrpClone(value){return JSON.parse(JSON.stringify(value));}
   function ssrpFreeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(ssrpFreeze);Object.freeze(value);}return value;}
   function ssrpCanonical(value){if(Array.isArray(value))return `[${value.map(ssrpCanonical).join(",")}]`;if(value&&typeof value==="object"&&Object.getPrototypeOf(value)===Object.prototype)return `{${Object.keys(value).sort().map(key=>`${JSON.stringify(key)}:${ssrpCanonical(value[key])}`).join(",")}}`;return JSON.stringify(value);}
@@ -41,11 +44,11 @@
   // A stored stat that is absent (null, "", blank, boolean, array) is not a hash-valid 0.
   function ssrpNumber(value){return typeof value==="number"||(typeof value==="string"&&value.trim()!=="")?Number(value):Number.NaN;}
   function ssrpResultShape(value,teamCount){
-    ssrpExact(value,RESULT_KEYS,"SEASON_RESULTS_PRIVATE_STATE_INVALID");
+    const europaLeague=ssrpEuropaLeague(value,"SEASON_RESULTS_PRIVATE_STATE_INVALID");
     const position=ssrpNumber(value.leaguePosition),points=ssrpNumber(value.leaguePoints),goals=ssrpNumber(value.leagueGoals),maxPoints=(teamCount-1)*2*3;
     if(!Number.isInteger(position)||position<1||position>teamCount||!Number.isInteger(points)||points<0||points>maxPoints||!Number.isInteger(goals)||goals<0||goals>300)ssrpFail("SEASON_RESULTS_PRIVATE_STATE_INVALID");
     for(const key of ["domesticCup","championsLeague","topScorer","topAssist"]){if(typeof value[key]!=="boolean")ssrpFail("SEASON_RESULTS_PRIVATE_STATE_INVALID");}
-    return {leaguePosition:position,leaguePoints:points,leagueGoals:goals,domesticCup:value.domesticCup,championsLeague:value.championsLeague,topScorer:value.topScorer,topAssist:value.topAssist};
+    return {leaguePosition:position,leaguePoints:points,leagueGoals:goals,domesticCup:value.domesticCup,championsLeague:value.championsLeague,topScorer:value.topScorer,topAssist:value.topAssist,...(europaLeague?{europaLeague:true}:{})};
   }
 
   function ssrpAssertAccount(value,uid){if(!value||value.objectType!=="account"||value.objectId!==uid||value.lifecycleState!=="live"||!value.data||value.data.status!=="active")ssrpFail("SEASON_RESULTS_MANAGER_INACTIVE");}

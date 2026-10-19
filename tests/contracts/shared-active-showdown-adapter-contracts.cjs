@@ -5,7 +5,7 @@ const History=require("../../js/sharedHistoryConvergence.js"),Terminal=require("
 const F=require("../support/active-showdown-fixtures.cjs");
 const {result:R,projection:P}=F;
 const clone=x=>JSON.parse(JSON.stringify(x));
-const fields=["seasonWins","seasonDraws","seasonLosses","championsLeagues","leagueTitles","domesticCups","totalTrophies","hundredPointSeasons","hundredGoalSeasons","topScorerSeasons","topAssistSeasons","perfectSeasons","bestSeasonScore"];
+const fields=["seasonWins","seasonDraws","seasonLosses","championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies","hundredPointSeasons","hundredGoalSeasons","topScorerSeasons","topAssistSeasons","perfectSeasons","bestSeasonScore"];
 const perfect=R({leaguePosition:1,leaguePoints:101,leagueGoals:101,domesticCup:true,championsLeague:true,topScorer:true,topAssist:true});
 const snap=(p,extra={})=>({identity:F.identity(),pair:F.pair(p.rivalryId),multiSeason:F.multiFor(p),history:F.history(p),finalReconciliation:null,terminalClose:null,seasonResults:F.seasonResults({rivalryId:p.rivalryId,seasonNumber:p.acceptedSeasons}),...extra});
 const cp=()=>P({seasons:[[R({championsLeague:true}),R()],[R({domesticCup:true}),R()],[R(),R({leaguePosition:1})]]});
@@ -53,8 +53,8 @@ check("6. Season Results phases",()=>{
  const p=P({seasons:[[R({domesticCup:true}),R()]]}),base=snap(p),own=R({leagueGoals:99}),opponent=R({leaguePoints:77});
  const sr=o=>F.seasonResults({rivalryId:p.rivalryId,seasonNumber:2,...o}),view=o=>A.seasonResultsView({...base,seasonResults:sr(o)});
  let v=view({});assert.equal(v.phase,"entering");assert.deepEqual(v.inputs,{daniel:null,nik:null});
- v=view({phase:"COLLECTING",published:["playerOne"],own});assert.equal(v.phase,"waiting-for-rival");assert.deepEqual(v.inputs,{daniel:own,nik:null});
- v=view({phase:"RESULTS_READY",published:["playerOne","playerTwo"],own,opponent});assert.equal(v.phase,"results-ready");assert.deepEqual(v.inputs,{daniel:own,nik:opponent});assert.equal(v.breakdown,null);assert.equal(v.winner,null);assert.equal(v.tiebreak,null);
+ v=view({phase:"COLLECTING",published:["playerOne"],own});assert.equal(v.phase,"waiting-for-rival");assert.deepEqual(v.inputs,{daniel:{...own,europaLeague:false},nik:null});
+ v=view({phase:"RESULTS_READY",published:["playerOne","playerTwo"],own,opponent});assert.equal(v.phase,"results-ready");assert.deepEqual(v.inputs,{daniel:{...own,europaLeague:false},nik:{...opponent,europaLeague:false}});assert.equal(v.breakdown,null);assert.equal(v.winner,null);assert.equal(v.tiebreak,null);
  v=A.seasonResultsView(base,{season:1});assert.equal(v.phase,"committed");assert.equal(v.breakdown.daniel.total,1);assert.equal(v.breakdown.nik.total,0);assert.equal(v.breakdown.daniel.awardsBonus,0);assert.ok(!Object.hasOwn(v.breakdown.daniel,"individualAwardsBonus"));
  assert.equal(view({managerRole:"playerTwo"}).status,"unavailable");
 });
@@ -70,7 +70,7 @@ check("8. No rival leak",()=>{
  }
 });
 check("9. Completion pending",()=>{
- const p=cp(),base=snap(p),expected={status:"ready",state:"completion-pending",totals:{daniel:6,nik:3},winner:"daniel",margin:3,seasonsPlayed:3,trophies:{daniel:{championsLeague:1,leagueTitles:0,domesticCups:1,total:2},nik:{championsLeague:0,leagueTitles:1,domesticCups:0,total:1}}};
+ const p=cp(),base=snap(p),expected={status:"ready",state:"completion-pending",totals:{daniel:6,nik:3},winner:"daniel",margin:3,seasonsPlayed:3,trophies:{daniel:{championsLeague:1,europaLeague:0,leagueTitles:0,domesticCups:1,total:2},nik:{championsLeague:0,europaLeague:0,leagueTitles:1,domesticCups:0,total:1}}};
  for(const extra of [{},{finalReconciliation:F.finalReconciliation(p)},... ["READY","BLOCKED","RECOVERY_PENDING"].map(phase=>({terminalClose:{phase,rivalryId:p.rivalryId}}))]){const s={...base,...extra};assert.equal(A.classifyCurrentShowdown(s),"completion-pending");assert.deepEqual(A.finalWinnerView(s),expected);assert.equal(career(s).managers.daniel.showdowns.completed,0);assert.equal(career(s).history.showdowns[0].status,"completion-pending");}
  assert.equal(A.classifyCurrentShowdown({...base,finalReconciliation:F.finalReconciliation(p,{playerOne:1,playerTwo:0})}),"unavailable");
 });
@@ -89,7 +89,7 @@ check("12. Witness only",()=>{
  const p=cp(),s=snap(p,{history:null,terminalClose:F.closed(p)}),v=A.finalWinnerView(s);assert.equal(v.status,"partial");assert.equal(v.state,"completed");assert.deepEqual(v.totals,{daniel:6,nik:3});assert.equal(v.winner,"daniel");assert.equal(v.margin,3);assert.equal(v.seasonsPlayed,3);assert.equal(v.trophies,null);assert.equal(A.rivalryView(s).status,"unavailable");assert.deepEqual(A.careerInput(s).showdowns,[{rivalryId:p.rivalryId,classification:"unavailable",projection:null,final:null}]);
 });
 check("13. Trophies",()=>{
- const p=P({seasons:[[R(),R({championsLeague:true})],[R(),R({leaguePosition:1})],[R(),R()]]}),s=snap(p);assert.deepEqual(A.finalWinnerView(s).trophies.nik,{championsLeague:1,leagueTitles:1,domesticCups:0,total:2});assert.equal(A.rivalryView(s).score.nik,8);
+ const p=P({seasons:[[R(),R({championsLeague:true})],[R(),R({leaguePosition:1})],[R(),R()]]}),s=snap(p);assert.deepEqual(A.finalWinnerView(s).trophies.nik,{championsLeague:1,europaLeague:0,leagueTitles:1,domesticCups:0,total:2});assert.equal(A.rivalryView(s).score.nik,8);
 });
 check("14. Abandoned",()=>{
  const p=P({seasons:[[R(),perfect]]}),s=snap(p,{pair:F.pair(p.rivalryId,{connectionState:"closed"})});assert.equal(A.classifyCurrentShowdown(s),"abandoned");assert.deepEqual(A.careerInput(s).showdowns,[{rivalryId:p.rivalryId,classification:"abandoned",projection:null,final:null}]);assert.equal(A.rivalryView(s).status,"empty");assert.equal(A.finalWinnerView(s).status,"empty");assert.equal(career(s).managers.nik.bestSeasonScore,null);
@@ -101,7 +101,7 @@ check("15. Career input",()=>{
  for(const [x,indexStatus,showdowns] of [[{},"loading",[]],[{...s,pair:F.pair(p.rivalryId,{status:"error"})},"unavailable",[]],[{...s,pair:F.pair(null,{status:"unpaired"})},"ready",[]],[pending,"ready",[{rivalryId:p.rivalryId,classification:"pending",projection:null,final:null}]],[{...s,history:null,multiSeason:F.multi({rivalryId:p.rivalryId})},"ready",[]],[s,"ready",[{rivalryId:p.rivalryId,classification:"active",projection:p,final:null}]],[snap(end),"ready",[{rivalryId:end.rivalryId,classification:"completion-pending",projection:end,final:F.finalFor(end)}]],[snap(end,{terminalClose:F.closed(end)}),"ready",[{rivalryId:end.rivalryId,classification:"completed",projection:end,final:F.finalFor(end)}]]]){assert.deepEqual(A.careerInput(x),{indexStatus,showdowns,currentShowdownOnly:true,...(indexStatus!=="ready"&&x.pair?.rivalryId?{currentRivalryId:x.pair.rivalryId}:{})});assert.equal(career(x).interimLabel,"Current Showdown only. Career history is not yet available.");if(showdowns[0]?.projection)assert.equal(A.careerInput(x).showdowns[0].projection,showdowns[0].projection);}
 });
 check("16. Scoring unchanged",()=>{
- const p=P({totalSeasons:1,seasons:[[perfect,R()]]});assert.deepEqual(A.seasonResultsView(snap(p)).breakdown.daniel,{championsLeague:5,leagueTitle:3,domesticCup:1,performanceBonus:1,awardsBonus:1,total:11});
+ const p=P({totalSeasons:1,seasons:[[perfect,R()]]});assert.deepEqual(A.seasonResultsView(snap(p)).breakdown.daniel,{championsLeague:5,europaLeague:0,leagueTitle:3,domesticCup:1,performanceBonus:1,awardsBonus:1,total:11});
 });
 check("17. Never throws",()=>{
  for(const s of [undefined,{}, {pair:"x"},{pair:{initialized:true,status:"paired",rivalryId:7}},snap(cp(),{history:{...F.history(cp()),projection:{}}})]){const v=A.buildActiveShowdownViews(s);frozen(v);assert.ok(["loading","unavailable"].includes(v.home.status),"malformed snapshot is not ready");}
@@ -116,5 +116,19 @@ check("19. Agreement with job 3",()=>{
  const p=P({totalSeasons:5,seasons:[[perfect,R({championsLeague:true})],[R({leaguePosition:2}),R({leaguePosition:3})],[R({leaguePoints:80}),R({leaguePoints:80})]]}),s=snap(p),r=A.rivalryView(s),m=career(s);
  assert.equal(A.classifyCurrentShowdown(s),"active");assert.equal(p.acceptedSeasons,3);
  for(const id of ["daniel","nik"]){for(const key of fields)assert.equal(r.managers[id][key],m.managers[id][key],id+" "+key+" agrees with career");assert.equal(r.score[id],m.managers[id].careerPoints,id+" points agree");}
+});
+check("20. r80 Europa League: inputs, breakdown, counters and trophies",()=>{
+ // Both managers win the Europa League in season 1 (different FIFA saves: never a clash); Daniel wins the CL in season 2.
+ const el=R({europaLeague:true,domesticCup:true}),p=P({totalSeasons:3,seasons:[[el,R({europaLeague:true})],[R({championsLeague:true}),R()],[R(),R()]]}),s=snap(p);
+ let v=A.seasonResultsView(s,{season:1});assert.equal(v.phase,"committed");
+ assert.equal(v.inputs.daniel.europaLeague,true);assert.equal(v.inputs.nik.europaLeague,true);
+ assert.deepEqual(v.breakdown.daniel,{championsLeague:0,europaLeague:3,leagueTitle:0,domesticCup:1,performanceBonus:0,awardsBonus:0,total:4});
+ assert.equal(v.breakdown.nik.europaLeague,3);assert.equal(v.breakdown.nik.total,3);
+ v=A.seasonResultsView(s,{season:2});assert.equal(v.inputs.daniel.europaLeague,false);assert.equal(v.breakdown.daniel.europaLeague,0);assert.equal(v.breakdown.daniel.championsLeague,5);
+ const r=A.rivalryView(s);assert.equal(r.managers.daniel.europaLeagues,1);assert.equal(r.managers.nik.europaLeagues,1);assert.equal(r.managers.daniel.totalTrophies,3);assert.equal(r.managers.nik.totalTrophies,1);
+ const w=A.finalWinnerView({...s,terminalClose:F.closed(p)});assert.deepEqual(w.trophies.daniel,{championsLeague:1,europaLeague:1,leagueTitles:0,domesticCups:1,total:3});assert.deepEqual(w.trophies.nik,{championsLeague:0,europaLeague:1,leagueTitles:0,domesticCups:0,total:1});
+ // A results-ready view of an EL winner shows the key; the rival's private inputs still stay hidden until both publish.
+ const p2=P({seasons:[[R(),R()],[R(),R()]]}),ready=A.seasonResultsView({...snap(p2),seasonResults:F.seasonResults({rivalryId:p2.rivalryId,seasonNumber:3,phase:"RESULTS_READY",published:["playerOne","playerTwo"],own:R({europaLeague:true}),opponent:R()})});
+ assert.equal(ready.phase,"results-ready");assert.equal(ready.inputs.daniel.europaLeague,true);assert.equal(ready.inputs.nik.europaLeague,false);
 });
 console.log("PASS Shared Active Showdown Adapter contracts ("+cases+"/"+cases+" cases): provider authority, fixed manager roles, private inputs, lifecycle, capped scoring, tiebreaks and pure frozen views.");
