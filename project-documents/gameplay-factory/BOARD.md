@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 18 Oct, 9:01 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 18 Oct, 9:05 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.3-r79** (main `d1888c3`, Sun 18 Oct 1:57 PM)
 
-🩺 **All clear: every check has a machine.** · Gate #933: L1· L2· L3A… L3B· L4… L5… L6… · seal pending · POS20 #933 0/16
+🩺 **All clear: every check has a machine.** · Gate #933: L1… L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #933 0/16
 
 ## Jobs
 
@@ -70,7 +70,7 @@ Updated Sun 18 Oct, 9:01 PM Boston time. Bug hunting only, no new features until
 
 **#14 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 53 h ago
+⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 54 h ago
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
@@ -2112,7 +2112,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #933](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/933) | Release r80: career save online, END SHOWDOWN (1.9.4-r80) | ⏳ 0 passed, 7 running |
+| 🟧 Team G lead | [PR #933](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/933) | Release r80: career save online, END SHOWDOWN (1.9.4-r80) | ⏳ 2 passed, 5 running |
 
 **Up next**
 
