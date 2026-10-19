@@ -322,7 +322,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     const sw=read("service-worker.js");
     const list=name=>{const i=sw.indexOf(`const ${name} = `);return sw.slice(i,sw.indexOf("]);",i));};
     assert.match(list("SHELL_PATHS"),/"js\/showdownModes\.js"/);assert.doesNotMatch(list("SHELL_PATHS_ADDED_SINCE_PREVIOUS"),/"js\/showdownModes\.js"/,"r80: the retained r79 shell already carries it");
-    assert.match(sw,/const RUNTIME_REVISION = "1\.9\.4-r80";/,"RUNTIME_REVISION is the r80 release (1.9.4-r80)");
+    assert.match(sw,/const RUNTIME_REVISION = "1\.9\.5-r81";/,"RUNTIME_REVISION is the r81 release (1.9.5-r81)");
     for(const banned of [/setTimeout|setInterval|requestAnimationFrame/,/onSnapshot|getDocs|collection\(|query\(/,/runTransaction|getDoc\(/,/localStorage|sessionStorage|indexedDB/])assert.doesNotMatch(MODES_SOURCE,banned,String(banned));
     assert.match(read("js/onlinePlayerIdentity.js"),/loadOnlineDependency\("showdown-modes","js\/showdownModes\.js"/);
     assert.ok(Buffer.byteLength(read("js/whichShowdownIsLive.js"))<7000);

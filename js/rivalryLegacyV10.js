@@ -213,7 +213,8 @@
   let careerCache=null,careerLoadSequence=0;
   // Career start marker (js/careerStartMarker.js, lazily loaded; one exact get per account per page load once it exists).
   // r80 (Nik 2026-10-19: test runs never count anywhere, a real game is never hidden): with a marker, the Showdowns it
-  // names are hidden (Keep hidden, #941: an r79 test game stays hidden, even the leaked first real game); every later one is
+  // names are hidden, except a Showdown finished on r79 or later (Nik 2026-10-19 20:35 UTC: show r79 onward, #941 reverted;
+  // careerHiddenRivalryIds in js/careerStartMarker.js, fail-closed); every later one is
   // real (both START paths write the marker before the Showdown enters the index). Without a marker every Showdown in the
   // index is a test run (a real one cannot exist yet), so nothing is shown; "no marker" is asked again at each load, so a
   // real career started on another browser shows here. A marker that cannot be read hides everything (fail-closed); the
@@ -223,7 +224,7 @@
     const marker=root.CareerModeCareerStartMarker;
     if(typeof marker?.readMarker!=="function")throw new Error("CAREER_START_UNAVAILABLE");
     const value=await marker.readMarker({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc},accountId:user.uid,recheckNone:true});
-    if(value?.status==="ready")return {testOnly:false,hidden:marker.hiddenRivalryIds(value)};
+    if(value?.status==="ready")return {testOnly:false,hidden:typeof marker.careerHiddenRivalryIds==="function"?await marker.careerHiddenRivalryIds({marker:value,firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc},accountId:user.uid}):marker.hiddenRivalryIds(value)};
     if(value?.status==="none")return {testOnly:true,hidden:[]};
     throw new Error("CAREER_START_UNKNOWN");
   }
