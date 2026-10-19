@@ -43,7 +43,7 @@ function createRuleBookScreen(){
         ]),
         createRuleSection("02", "MATCH PLAY", [
             "Career Mode matches are simulated.",
-            "A Champions League final may be played or simulated by the manager.",
+            "A Champions League or Europa League final may be played or simulated by the manager.",
             "The main domestic cup final may be played or simulated by the manager.",
             "No other match-play exceptions are part of the current rules."
         ]),
@@ -134,6 +134,7 @@ function createScoringRuleSection(){
 
     [
         ["Champions League winner", "+5"],
+        ["Europa League winner", "+3"],
         ["Domestic league winner", "+3"],
         ["Main domestic cup winner", "+1"],
         ["100 league points and/or 100 league goals", "+1 MAX"],
@@ -153,7 +154,23 @@ function createScoringRuleSection(){
     maximum.className = "ruleScoreMaximum";
     maximum.innerHTML = "<span>MAXIMUM PER MANAGER / SEASON</span><strong>11</strong>";
 
-    article.append(header, scoring, maximum);
+    // r80 Europa League (owner rules, 2026-10-19).
+    const notes = document.createElement("ul");
+    notes.className = "ruleScoreNotes";
+    [
+        "A manager can never win both the Champions League and the Europa League in the same season. A manager can win the Champions League in one season and the Europa League in another, and both count.",
+        "Season 1: both clubs play in the Champions League. This is set up in the FIFA save, after redrawing the Champions League groups twice.",
+        "A club that finishes 3rd in its Champions League group drops into the Europa League and can still win it that season.",
+        "A club can also qualify for the Europa League by its league position.",
+        "Only winning scores; qualifying or taking part scores nothing.",
+        "Best possible season: 11, which needs the Champions League. A Europa League season tops out at 9."
+    ].forEach(rule => {
+        const item = document.createElement("li");
+        item.textContent = rule;
+        notes.appendChild(item);
+    });
+
+    article.append(header, scoring, maximum, notes);
     return article;
 }
 

@@ -1206,3 +1206,6 @@
     background-color:#070707;
   }
 }
+
+/* r80 Europa League: the scoring card's notes (CL or EL, season 1, best season) sit below the maximum line with clear space. */
+#app #ruleBook.v10RuleBook .scoringRuleSection .ruleScoreNotes { margin-top:.9em; padding-top:.7em; border-top:1px solid rgba(214,176,70,.35); }

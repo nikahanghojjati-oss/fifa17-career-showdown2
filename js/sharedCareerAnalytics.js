@@ -7,10 +7,10 @@
 
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
   const MANAGERS=Object.freeze(["daniel","nik"]);
-  const COUNTERS=Object.freeze(["careerPoints","seasons","seasonWins","seasonDraws","seasonLosses","championsLeagues","leagueTitles","domesticCups","totalTrophies","hundredPointSeasons","hundredGoalSeasons","topScorerSeasons","topAssistSeasons","perfectSeasons","performanceBonuses","awardsBonuses"]);
+  const COUNTERS=Object.freeze(["careerPoints","seasons","seasonWins","seasonDraws","seasonLosses","championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies","hundredPointSeasons","hundredGoalSeasons","topScorerSeasons","topAssistSeasons","perfectSeasons","performanceBonuses","awardsBonuses"]);
   const BESTS=Object.freeze(["bestSeasonScore","bestLeaguePoints","bestLeagueGoals","bestLeaguePosition"]);
   const AVERAGES=Object.freeze(["averageSeasonScore","averageLeaguePoints","averageLeagueGoals"]);
-  const CABINET=Object.freeze(["championsLeagues","leagueTitles","domesticCups","totalTrophies"]);
+  const CABINET=Object.freeze(["championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies"]);
   const LABELS=Object.freeze(["Highest season score","Highest league points","Highest league goals","Biggest Showdown win","Most perfect seasons"]);
 
   function caFreeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(caFreeze);Object.freeze(value);}return value;}
@@ -76,6 +76,7 @@
     sums.points+=r.leaguePoints;sums.goals+=r.leagueGoals;
     if(season.winner===role)record.seasonWins+=1;else if(season.winner==="draw")record.seasonDraws+=1;else record.seasonLosses+=1;
     if(r.championsLeague)record.championsLeagues+=1;
+    if(r.europaLeague===true)record.europaLeagues+=1;
     if(r.leaguePosition===1)record.leagueTitles+=1;
     if(r.domesticCup)record.domesticCups+=1;
     if(r.leaguePoints>=100)record.hundredPointSeasons+=1;
@@ -146,7 +147,7 @@
       }
     }
     for(const manager of MANAGERS){
-      const record=managers[manager];record.totalTrophies=record.championsLeagues+record.leagueTitles+record.domesticCups;
+      const record=managers[manager];record.totalTrophies=record.championsLeagues+record.europaLeagues+record.leagueTitles+record.domesticCups;
       if(record.seasons){
         record.averageSeasonScore=record.careerPoints/record.seasons;
         record.averageLeaguePoints=sums[manager].points/record.seasons;

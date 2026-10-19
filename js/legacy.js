@@ -52,7 +52,8 @@ function countPlayerTrophies(player){
     if(!player){ return 0; }
     return (Number(player.leaguePosition) === 1 ? 1 : 0)
         + (player.domesticCup ? 1 : 0)
-        + (player.championsLeague ? 1 : 0);
+        + (player.championsLeague ? 1 : 0)
+        + (player.europaLeague === true && !player.championsLeague ? 1 : 0);
 }
 
 function countShowdownTrophies(showdown){

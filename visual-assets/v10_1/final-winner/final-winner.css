@@ -400,7 +400,8 @@ body {
 .finalWinnerHonours {
   min-width: 0;
   display: grid;
-  grid-template-rows: 20% repeat(4, 1fr);
+  /* r80: five metric rows (Champions League, Europa League, League Titles, Domestic Cups, Total Trophies). */
+  grid-template-rows: 20% repeat(5, 1fr);
   padding: .45vh .8vw .35vh;
   box-sizing: border-box;
 }
@@ -1338,7 +1339,7 @@ body {
 
   .finalWinnerHonours {
     height: calc(100% - 44px);
-    grid-template-rows: 26px repeat(4, 1fr);
+    grid-template-rows: 26px repeat(5, 1fr);
     padding: 3px 7px 5px;
   }
 
@@ -1857,7 +1858,8 @@ body {
   .finalWinnerResultsPanel {
     top: auto;
     bottom: 12.24%;
-    height: max(12.5%, 100px);
+    /* r80: the Europa League row makes five metric rows; 132 px keeps every row, TOTAL TROPHIES included, at full height inside the border. */
+    height: max(12.5%, 132px);
   }
 }
 /* Phone: the manager labels over the score can land on Daniel's white cuff, so they get a tight dark halo;

@@ -71,7 +71,9 @@
 
   function scoreResult(result) {
     if (!result) return null;
+    // r80: a Europa League winner (europaLeague exactly true, never with a Champions League win) scores +3.
     return (result.championsLeague ? 5 : 0)
+      + (result.europaLeague === true && !result.championsLeague ? 3 : 0)
       + (result.leaguePosition === 1 ? 3 : 0)
       + (result.domesticCup ? 1 : 0)
       + ((result.leaguePoints >= 100 || result.leagueGoals >= 100) ? 1 : 0)
@@ -410,6 +412,7 @@
       const r = frame.managers[key];
       frame.breakdown[key] = {
         championsLeague: r.championsLeague ? 5 : 0,
+        ...(r.europaLeague === true && !r.championsLeague ? { europaLeague: 3 } : {}),
         leagueTitle: r.leaguePosition === 1 ? 3 : 0,
         domesticCup: r.domesticCup ? 1 : 0,
         performanceBonus: r.leaguePoints >= 100 || r.leagueGoals >= 100 ? 1 : 0,

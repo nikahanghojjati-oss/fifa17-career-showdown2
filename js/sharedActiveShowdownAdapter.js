@@ -5,7 +5,7 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(History,Career,Terminal,Final){
   "use strict";
   const ROLES=Object.freeze(["playerOne","playerTwo"]),MANAGERS=Object.freeze(["daniel","nik"]);
-  const COUNTERS=Object.freeze(["seasonWins","seasonDraws","seasonLosses","championsLeagues","leagueTitles","domesticCups","totalTrophies","hundredPointSeasons","hundredGoalSeasons","topScorerSeasons","topAssistSeasons","perfectSeasons","bestSeasonScore"]);
+  const COUNTERS=Object.freeze(["seasonWins","seasonDraws","seasonLosses","championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies","hundredPointSeasons","hundredGoalSeasons","topScorerSeasons","topAssistSeasons","perfectSeasons","bestSeasonScore"]);
   const INPUTS=Object.freeze(["leaguePosition","leaguePoints","leagueGoals","domesticCup","championsLeague","topScorer","topAssist"]);
   const TRANSIENT=Object.freeze(["idle","starting","joining","continuing","retrying-link","abandoning","pair-link-retry"]);
   const FAILED=Object.freeze(["signed-out","unavailable","error","save-required"]);
@@ -105,9 +105,10 @@
   function inputs(result){
     if(!asdPlain(result))return null;
     if(INPUTS.slice(0,3).some(key=>!Number.isInteger(result[key]))||INPUTS.slice(3).some(key=>typeof result[key]!=="boolean"))return null;
-    return Object.fromEntries(INPUTS.map(key=>[key,result[key]]));
+    // r80 Europa League: the stored result carries europaLeague only when that manager won it; this view (never hashed) always shows it.
+    return {...Object.fromEntries(INPUTS.map(key=>[key,result[key]])),europaLeague:result.europaLeague===true};
   }
-  function breakdown(result){const s=result.scoring;return {championsLeague:s.championsLeague,leagueTitle:s.leagueTitle,domesticCup:s.domesticCup,performanceBonus:s.performanceBonus,awardsBonus:s.individualAwardsBonus,total:s.total};}
+  function breakdown(result){const s=result.scoring;return {championsLeague:s.championsLeague,europaLeague:s.europaLeague||0,leagueTitle:s.leagueTitle,domesticCup:s.domesticCup,performanceBonus:s.performanceBonus,awardsBonus:s.individualAwardsBonus,total:s.total};}
   function results(c,options){
     const source=asdPlain(c.s.seasonResults)&&c.s.seasonResults.rivalryId===c.rid?c.s.seasonResults:null;
     const requested=asdPlain(options)?options.season:null;
@@ -136,7 +137,7 @@
     if(!["completion-pending","completed"].includes(classification))return v;
     const totals=classification==="completed"?witness.managerTotals:finalFor(p).totals;
     v.status=p?"ready":"partial";v.state=classification;v.totals=pairValues(totals.playerOne,totals.playerTwo);v.winner=totals.playerOne>totals.playerTwo?"daniel":totals.playerTwo>totals.playerOne?"nik":"draw";v.margin=Math.abs(totals.playerOne-totals.playerTwo);v.seasonsPlayed=p?p.acceptedSeasons:witness.totalSeasons;
-    if(p)v.trophies=Object.fromEntries(ROLES.map((role,i)=>{const r=p.managerRecords[role];return [MANAGERS[i],{championsLeague:r.championsLeagues,leagueTitles:r.leagueTitles,domesticCups:r.domesticCups,total:r.totalTrophies}];}));
+    if(p)v.trophies=Object.fromEntries(ROLES.map((role,i)=>{const r=p.managerRecords[role];return [MANAGERS[i],{championsLeague:r.championsLeagues,europaLeague:r.europaLeagues,leagueTitles:r.leagueTitles,domesticCups:r.domesticCups,total:r.totalTrophies}];}));
     return v;
   }
   function career(c){

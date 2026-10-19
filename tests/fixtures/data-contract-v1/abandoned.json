@@ -69,6 +69,7 @@
         "seasonDraws": 0,
         "seasonLosses": 0,
         "championsLeagues": 0,
+        "europaLeagues": 0,
         "leagueTitles": 0,
         "domesticCups": 0,
         "totalTrophies": 0,
@@ -100,6 +101,7 @@
         "seasonDraws": 0,
         "seasonLosses": 0,
         "championsLeagues": 0,
+        "europaLeagues": 0,
         "leagueTitles": 0,
         "domesticCups": 0,
         "totalTrophies": 0,
@@ -130,12 +132,14 @@
       "cabinet": {
         "daniel": {
           "championsLeagues": 0,
+          "europaLeagues": 0,
           "leagueTitles": 0,
           "domesticCups": 0,
           "totalTrophies": 0
         },
         "nik": {
           "championsLeagues": 0,
+          "europaLeagues": 0,
           "leagueTitles": 0,
           "domesticCups": 0,
           "totalTrophies": 0
@@ -220,6 +224,7 @@
         "seasonDraws": 0,
         "seasonLosses": 0,
         "championsLeagues": 0,
+        "europaLeagues": 0,
         "leagueTitles": 0,
         "domesticCups": 0,
         "totalTrophies": 0,
@@ -251,6 +256,7 @@
         "seasonDraws": 0,
         "seasonLosses": 0,
         "championsLeagues": 0,
+        "europaLeagues": 0,
         "leagueTitles": 0,
         "domesticCups": 0,
         "totalTrophies": 0,
@@ -281,12 +287,14 @@
       "cabinet": {
         "daniel": {
           "championsLeagues": 0,
+          "europaLeagues": 0,
           "leagueTitles": 0,
           "domesticCups": 0,
           "totalTrophies": 0
         },
         "nik": {
           "championsLeagues": 0,
+          "europaLeagues": 0,
           "leagueTitles": 0,
           "domesticCups": 0,
           "totalTrophies": 0
@@ -541,6 +549,7 @@
             "seasonDraws": 0,
             "seasonLosses": 0,
             "championsLeagues": 0,
+            "europaLeagues": 0,
             "leagueTitles": 0,
             "domesticCups": 0,
             "totalTrophies": 0,
@@ -556,6 +565,7 @@
             "seasonDraws": 0,
             "seasonLosses": 0,
             "championsLeagues": 0,
+            "europaLeagues": 0,
             "leagueTitles": 0,
             "domesticCups": 0,
             "totalTrophies": 0,
@@ -757,6 +767,7 @@
             "seasonDraws": 0,
             "seasonLosses": 0,
             "championsLeagues": 0,
+            "europaLeagues": 0,
             "leagueTitles": 0,
             "domesticCups": 0,
             "totalTrophies": 0,
@@ -772,6 +783,7 @@
             "seasonDraws": 0,
             "seasonLosses": 0,
             "championsLeagues": 0,
+            "europaLeagues": 0,
             "leagueTitles": 0,
             "domesticCups": 0,
             "totalTrophies": 0,

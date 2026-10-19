@@ -77,7 +77,9 @@ function render(snapshot){
       const {document:doc,frames}=render({...snapshot,history,identity:F.identity(managerId),pair:F.pair(p.rivalryId,{managerId})});
       const rows=doc.getElementById("sdgRows");
       console.log(`THIS SHOWDOWN ${managerId}, History ${history?"lagging":"missing"}: status=${frames.SHOWDOWN.model.status}, rows=${rows.children.length}, state=${doc.getElementById("sdgState").textContent||"(none)"}`);
-      assert.equal(rows.children.length,7,"2 committed seasons of a 5-season Showdown must render standings rows instead of Loading standings.");
+      // r80: the Europa Leagues row joins the board (8 rows, after Champions Leagues).
+      assert.equal(rows.children.length,8,"2 committed seasons of a 5-season Showdown must render standings rows instead of Loading standings.");
+      assert.deepEqual([...rows.children].map(row=>row.dataset.field),["seasonWins","seasonDraws","seasonLosses","championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies"]);
       assert.equal(doc.getElementById("sdgState").hidden,true);assert.equal(rows.hidden,false);
       assert.equal(doc.getElementById("sdgScoreDaniel").textContent,"6");assert.equal(doc.getElementById("sdgScoreNik").textContent,"8");
       assert.equal(doc.getElementById("sdgProgress").textContent,"Season 3 of 5");
@@ -87,7 +89,7 @@ function render(snapshot){
       assert.equal(section.textContent,"HEAD-TO-HEAD");assert.equal(section.hidden,false);
       assert.equal(tab.getAttribute("role"),"tab");assert.equal(tab.disabled,false);assert.equal(tab.hidden,false);
       doc.getElementById("sdgViewCareer").click();assert.equal(doc.getElementById("stage-root").dataset.view,"career");
-      tab.click();assert.equal(doc.getElementById("stage-root").dataset.view,"this-showdown");assert.equal(rows.children.length,7,"enabled tab returns to HEAD-TO-HEAD rows");
+      tab.click();assert.equal(doc.getElementById("stage-root").dataset.view,"this-showdown");assert.equal(rows.children.length,8,"enabled tab returns to HEAD-TO-HEAD rows");
     }
   }
   assert.equal(multi.projection,p,"retain the history already verified by progression, without a second provider read");
