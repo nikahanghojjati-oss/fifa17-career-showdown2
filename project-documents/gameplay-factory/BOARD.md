@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 20 Oct, 6:11 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 20 Oct, 6:16 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.5-r81** (main `9230e33`, Mon 19 Oct 7:17 PM)
 
@@ -2122,6 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
+| 🟧 Team G lead | [PR #959](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/959) | JOB-A: investigate zero career totals after real Showdowns | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #958](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/958) | JOB-B audit: career screen double loads and readiness gaps | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #957](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/957) | Career screens: read finished Showdowns whatever field order live Firestore returns | 🔴 7 passed, 1 failed (draft) |
 
