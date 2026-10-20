@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-20 7:14 PM Boston time (EDT)",
+ "generated": "2026-10-20 7:18 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1219,6 +1219,20 @@
    "subject": "Test: let the loader's first frame run before SE-6/SE-7 load the hero (#956)",
    "fixes": [
     {
+     "pr": 962,
+     "title": "JOB-8 audit: Firebase usage, hidden expiry retries and career scaling",
+     "draft": true,
+     "branch": "codex/job-8-firebase-usage-2026-10-20",
+     "sha": "b364d07a38f0886396351702e90980747e625369",
+     "updated": "2026-10-20T23:18:44Z",
+     "gates": {
+      "passed": 0,
+      "running": 0,
+      "failed": 0,
+      "cancelled": 0
+     }
+    },
+    {
      "pr": 961,
      "title": "JOB-2 audit: sign-in, sign-out and permanent pairing",
      "draft": true,
@@ -1840,7 +1854,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 45,
+  "moving": 46,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3057,6 +3071,20 @@
    }
   },
   "fixes": [
+   {
+    "pr": 962,
+    "title": "JOB-8 audit: Firebase usage, hidden expiry retries and career scaling",
+    "draft": true,
+    "branch": "codex/job-8-firebase-usage-2026-10-20",
+    "sha": "b364d07a38f0886396351702e90980747e625369",
+    "updated": "2026-10-20T23:18:44Z",
+    "gates": {
+     "passed": 0,
+     "running": 0,
+     "failed": 0,
+     "cancelled": 0
+    }
+   },
    {
     "pr": 961,
     "title": "JOB-2 audit: sign-in, sign-out and permanent pairing",
