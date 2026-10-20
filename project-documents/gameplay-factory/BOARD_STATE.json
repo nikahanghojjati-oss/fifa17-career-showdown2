@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-19 8:23 PM Boston time (EDT)",
+ "generated": "2026-10-19 8:27 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1217,7 +1217,22 @@
    "revision": "1.9.5-r81",
    "when": "2026-10-19T23:17:26Z",
    "subject": "Test: let the loader's first frame run before SE-6/SE-7 load the hero (#956)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 957,
+     "title": "Career screens: read finished Showdowns whatever field order live Firestore returns",
+     "draft": true,
+     "branch": "claude-gameplay/r82-career-reader-order",
+     "sha": "3321f234103d37e4b5235507559c49a54a23f6fd",
+     "updated": "2026-10-20T00:27:46Z",
+     "gates": {
+      "passed": 7,
+      "running": 1,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": [
     {
      "pr": 956,
@@ -1790,7 +1805,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 40,
+  "moving": 41,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3006,7 +3021,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 957,
+    "title": "Career screens: read finished Showdowns whatever field order live Firestore returns",
+    "draft": true,
+    "branch": "claude-gameplay/r82-career-reader-order",
+    "sha": "3321f234103d37e4b5235507559c49a54a23f6fd",
+    "updated": "2026-10-20T00:27:46Z",
+    "gates": {
+     "passed": 7,
+     "running": 1,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
