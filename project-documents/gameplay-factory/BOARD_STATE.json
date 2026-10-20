@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-20 7:01 PM Boston time (EDT)",
+ "generated": "2026-10-20 7:09 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1219,6 +1219,20 @@
    "subject": "Test: let the loader's first frame run before SE-6/SE-7 load the hero (#956)",
    "fixes": [
     {
+     "pr": 961,
+     "title": "JOB-2 audit: sign-in, sign-out and permanent pairing",
+     "draft": true,
+     "branch": "codex/job-2-sign-in-pairing-2026-10-20",
+     "sha": "3977f2b2fd82886e7def7fee72257e41e2eee928",
+     "updated": "2026-10-20T23:05:08Z",
+     "gates": {
+      "passed": 7,
+      "running": 0,
+      "failed": 1,
+      "cancelled": 0
+     }
+    },
+    {
      "pr": 960,
      "title": "JOB-1 audit: continuing Showdowns after reload and reconnect",
      "draft": true,
@@ -1826,7 +1840,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 44,
+  "moving": 45,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3043,6 +3057,20 @@
    }
   },
   "fixes": [
+   {
+    "pr": 961,
+    "title": "JOB-2 audit: sign-in, sign-out and permanent pairing",
+    "draft": true,
+    "branch": "codex/job-2-sign-in-pairing-2026-10-20",
+    "sha": "3977f2b2fd82886e7def7fee72257e41e2eee928",
+    "updated": "2026-10-20T23:05:08Z",
+    "gates": {
+     "passed": 7,
+     "running": 0,
+     "failed": 1,
+     "cancelled": 0
+    }
+   },
    {
     "pr": 960,
     "title": "JOB-1 audit: continuing Showdowns after reload and reconnect",

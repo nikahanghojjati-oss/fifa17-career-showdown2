@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 20 Oct, 7:01 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 20 Oct, 7:09 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.5-r81** (main `9230e33`, Mon 19 Oct 7:17 PM)
 
@@ -70,7 +70,7 @@ Updated Tue 20 Oct, 7:01 PM Boston time. Bug hunting only, no new features until
 
 **#14 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 99 h ago
+⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 100 h ago
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
@@ -2122,6 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
+| 🟧 Team G lead | [PR #961](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/961) | JOB-2 audit: sign-in, sign-out and permanent pairing | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #960](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/960) | JOB-1 audit: continuing Showdowns after reload and reconnect | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #959](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/959) | JOB-A: investigate zero career totals after real Showdowns | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #958](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/958) | JOB-B audit: career screen double loads and readiness gaps | 🔴 7 passed, 1 failed (draft) |
