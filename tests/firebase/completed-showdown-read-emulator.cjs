@@ -239,6 +239,14 @@ async function run(env){
   await check("P2","Nik's reader returns the identical projection and final result",async()=>{const nikX=await read(dbB,B,X);assert.equal(nikX.status,"completed");assert.equal(nikX.managerRole,"playerTwo");assert.deepEqual(nikX.projection,danielX.projection);assert.deepEqual(nikX.final,danielX.final);});
   await check("P3","fresh authenticated client, no session or device input: same projection",async()=>{const fresh=env.authenticatedContext(A).firestore();const again=await read(fresh,A,X);assert.equal(again.status,"completed");assert.deepEqual(again.projection,danielX.projection);});
   await check("P4","session-free projection equals the session-bound history projection taken before close",async()=>{assert.deepEqual(danielX.projection,sessionHistory);});
+  // r82 (Nik's live Trophy Room: "0 of 2 Showdowns readable", COMPLETED_SEASON_INVALID): live Firestore returns map fields in
+  // its own order, the emulator in the written order. Serve every document with its map keys reversed: still completed, same projection.
+  await check("P4b","map fields in another order (as live Firestore returns them): still completed, same projection",async()=>{
+    const flip=value=>Array.isArray(value)?value.map(flip):value&&typeof value==="object"&&Object.getPrototypeOf(value)===Object.prototype?Object.fromEntries(Object.keys(value).reverse().map(key=>[key,flip(value[key])])):value;
+    const sdk={doc,getDoc:async(...args)=>{const snapshot=await getDoc(...args);return {exists:()=>snapshot.exists(),data:()=>flip(snapshot.data())};}};
+    const flipped=await Reader.readCompletedShowdown({firestore:dbA,firebaseSdk:sdk,user:{uid:A},rivalryId:X,cryptoImpl:crypto.webcrypto});
+    assert.equal(flipped.status,"completed",JSON.stringify(flipped));assert.deepEqual(flipped.projection,danielX.projection);assert.deepEqual(flipped.final,danielX.final);
+  });
   let nikY;
   await check("P5","abandoned Y: status only, exactly one read (the root); no ended-early mark, so seasons played is unknown",async()=>{const counter={reads:0};const y=await read(dbB,B,Y,counter);assert.equal(y.status,"abandoned");assert.equal(y.projection,null);assert.equal(y.final,null);assert.equal(counter.reads,1);
     const root=(await getDoc(doc(dbB,"rivalries",Y))).data();assert.deepEqual(y.ended,{endedAt:root.updatedAt.toMillis(),seasonsPlayed:null});nikY=y;});
@@ -301,4 +309,4 @@ async function run(env){
   });
 }
 
-(async()=>{const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});try{await env.clearFirestore();await run(env);assert.equal(checks,64);process.stdout.write(`PASS completed-only read emulator: ${checks} numbered checks (I0, A completed reads, B denials, C closed writes, D abandoned, E forged witnesses, F active regressions, P session-free reader, Q never-joined codes and current-row isolation).\n`);}finally{await env.cleanup();}})().catch(error=>{console.error(error.stack||error);process.exit(1);});
+(async()=>{const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});try{await env.clearFirestore();await run(env);assert.equal(checks,65);process.stdout.write(`PASS completed-only read emulator: ${checks} numbered checks (I0, A completed reads, B denials, C closed writes, D abandoned, E forged witnesses, F active regressions, P session-free reader, Q never-joined codes and current-row isolation).\n`);}finally{await env.cleanup();}})().catch(error=>{console.error(error.stack||error);process.exit(1);});

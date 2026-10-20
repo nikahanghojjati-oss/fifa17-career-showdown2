@@ -40,7 +40,10 @@
   async function csrDigest(text,cryptoImpl){if(!cryptoImpl?.subtle||typeof TextEncoder==="undefined")csrFail("COMPLETED_CRYPTO_UNAVAILABLE");const digest=await cryptoImpl.subtle.digest("SHA-256",new TextEncoder().encode(text));return `sha256:${Array.from(new Uint8Array(digest),byte=>byte.toString(16).padStart(2,"0")).join("")}`;}
   function csrSnapshot(snapshot){return snapshot&&typeof snapshot.exists==="function"&&snapshot.exists()?snapshot.data():null;}
   function csrEuropaLeague(value,code){if(!csrPlain(value))csrFail(code);const won=Object.hasOwn(value,"europaLeague");csrExact(value,won?[...RESULT_KEYS,"europaLeague"]:RESULT_KEYS,code);if(won&&(value.europaLeague!==true||value.championsLeague!==false))csrFail(code);return won;}
-  function csrResult(value,teamCount){csrEuropaLeague(value,"COMPLETED_SEASON_INVALID");const maxPoints=(teamCount-1)*2*3;if(!Number.isInteger(value.leaguePosition)||value.leaguePosition<1||value.leaguePosition>teamCount||!Number.isInteger(value.leaguePoints)||value.leaguePoints<0||value.leaguePoints>maxPoints||!Number.isInteger(value.leagueGoals)||value.leagueGoals<0||value.leagueGoals>300)csrFail("COMPLETED_SEASON_INVALID");for(const key of ["domesticCup","championsLeague","topScorer","topAssist"]){if(typeof value[key]!=="boolean")csrFail("COMPLETED_SEASON_INVALID");}return csrClone(value);}
+  // r82: live Firestore returns map fields in its own order (the emulator keeps the written order), so every result is
+  // rebuilt in one fixed key order before any comparison, projection or replay. Order never changes a hash (sorted canonical).
+  function csrOrdered(value){const out={};for(const key of RESULT_KEYS)out[key]=value[key];if(Object.hasOwn(value,"europaLeague"))out.europaLeague=value.europaLeague;return out;}
+  function csrResult(value,teamCount){csrEuropaLeague(value,"COMPLETED_SEASON_INVALID");const maxPoints=(teamCount-1)*2*3;if(!Number.isInteger(value.leaguePosition)||value.leaguePosition<1||value.leaguePosition>teamCount||!Number.isInteger(value.leaguePoints)||value.leaguePoints<0||value.leaguePoints>maxPoints||!Number.isInteger(value.leagueGoals)||value.leagueGoals<0||value.leagueGoals>300)csrFail("COMPLETED_SEASON_INVALID");for(const key of ["domesticCup","championsLeague","topScorer","topAssist"]){if(typeof value[key]!=="boolean")csrFail("COMPLETED_SEASON_INVALID");}return csrOrdered(value);}
 
   function csrState(status,fields={}){
     return csrFreeze({status,code:fields.code||null,rivalryId:fields.rivalryId||null,managerRole:fields.managerRole||null,terminalWitness:fields.terminalWitness||null,projection:fields.projection||null,final:fields.final||null,ended:fields.ended||null});
@@ -134,12 +137,12 @@
   async function csrAcknowledgedCommit(value,ready,teamCount,cryptoImpl){
     csrExact(value,COMMIT_KEYS,"COMPLETED_SEASON_INVALID");
     if(value.schemaVersion!==1||value.objectType!=="sharedSeasonCommit"||value.runtimeRevision!=="1.9.1-r10"||value.seasonNumber!==ready.seasonNumber||value.phase!=="ACKNOWLEDGED"||value.revision!==3||value.resultsRevision!==2)csrFail("COMPLETED_SEASON_INVALID");
-    csrExact(value.results,ROLES,"COMPLETED_SEASON_INVALID");for(const role of ROLES)csrResult(value.results[role],teamCount);
-    if(JSON.stringify(value.results)!==JSON.stringify(ready.results))csrFail("COMPLETED_SEASON_INVALID");
+    csrExact(value.results,ROLES,"COMPLETED_SEASON_INVALID");const results={playerOne:csrResult(value.results.playerOne,teamCount),playerTwo:csrResult(value.results.playerTwo,teamCount)};
+    if(csrSortedCanonical(results)!==csrSortedCanonical(ready.results))csrFail("COMPLETED_SEASON_INVALID");
     for(const key of ["operationIds","operationHashes","baseRevisions","actorRoles"]){if(!Array.isArray(value[key])||value[key].length!==3)csrFail("COMPLETED_SEASON_INVALID");}
     if(!Array.isArray(value.acknowledgedRoles)||value.acknowledgedRoles.length!==2)csrFail("COMPLETED_SEASON_INVALID");
     const receipts=value.operationIds.map((operationId,index)=>({operationId,baseRevision:value.baseRevisions[index],actorRole:value.actorRoles[index],type:index===0?"commit-season":"acknowledge-season",commandHash:value.operationHashes[index]}));
-    const core={schemaVersion:1,runtimeRevision:"1.9.1-r10",seasonNumber:value.seasonNumber,phase:value.phase,revision:value.revision,resultsRevision:2,resultsContentHash:ready.contentHash,results:csrClone(value.results),acknowledgedRoles:[...value.acknowledgedRoles],receipts};
+    const core={schemaVersion:1,runtimeRevision:"1.9.1-r10",seasonNumber:value.seasonNumber,phase:value.phase,revision:value.revision,resultsRevision:2,resultsContentHash:ready.contentHash,results,acknowledgedRoles:[...value.acknowledgedRoles],receipts};
     const state={...core,contentHash:await csrDigest(csrSortedCanonical(core),cryptoImpl)};
     if(!csrModules.commit||typeof csrModules.commit.createProtocol!=="function")csrFail("COMPLETED_PROTOCOL_UNAVAILABLE");
     const protocol=await csrModules.commit.createProtocol({teamCount,cryptoImpl,seasonResultsModule:csrModules.results});
