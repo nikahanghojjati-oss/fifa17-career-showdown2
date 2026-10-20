@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 20 Oct, 5:59 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 20 Oct, 6:03 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.5-r81** (main `9230e33`, Mon 19 Oct 7:17 PM)
 
@@ -70,7 +70,7 @@ Updated Tue 20 Oct, 5:59 AM Boston time. Bug hunting only, no new features until
 
 **#14 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 86 h ago
+⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 87 h ago
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
