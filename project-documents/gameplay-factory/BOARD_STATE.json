@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-19 11:59 PM Boston time (EDT)",
+ "generated": "2026-10-20 12:03 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1233,28 +1233,7 @@
      }
     }
    ],
-   "today": [
-    {
-     "pr": 956,
-     "title": "Test: make the SE-6 loading check deterministic on fast runners",
-     "merged": "2026-10-19T23:17:26Z"
-    },
-    {
-     "pr": 955,
-     "title": "r81 (1.9.5-r81): show the real r79 game the checkmark hid",
-     "merged": "2026-10-19T21:48:16Z"
-    },
-    {
-     "pr": 954,
-     "title": "Re-pin the Rules safety check to r80 main",
-     "merged": "2026-10-19T16:40:32Z"
-    },
-    {
-     "pr": 933,
-     "title": "Release r80: career save online, END SHOWDOWN (1.9.4-r80)",
-     "merged": "2026-10-19T14:21:52Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",
