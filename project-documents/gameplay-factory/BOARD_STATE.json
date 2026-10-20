@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-19 8:27 PM Boston time (EDT)",
+ "generated": "2026-10-19 8:29 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1224,11 +1224,11 @@
      "draft": true,
      "branch": "claude-gameplay/r82-career-reader-order",
      "sha": "3321f234103d37e4b5235507559c49a54a23f6fd",
-     "updated": "2026-10-20T00:27:46Z",
+     "updated": "2026-10-20T00:27:59Z",
      "gates": {
       "passed": 7,
-      "running": 1,
-      "failed": 0,
+      "running": 0,
+      "failed": 1,
       "cancelled": 0
      }
     }
@@ -3028,11 +3028,11 @@
     "draft": true,
     "branch": "claude-gameplay/r82-career-reader-order",
     "sha": "3321f234103d37e4b5235507559c49a54a23f6fd",
-    "updated": "2026-10-20T00:27:46Z",
+    "updated": "2026-10-20T00:27:59Z",
     "gates": {
      "passed": 7,
-     "running": 1,
-     "failed": 0,
+     "running": 0,
+     "failed": 1,
      "cancelled": 0
     }
    }

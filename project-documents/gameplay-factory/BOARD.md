@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 19 Oct, 8:28 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 19 Oct, 8:29 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.5-r81** (main `9230e33`, Mon 19 Oct 7:17 PM)
 
@@ -74,7 +74,7 @@ Updated Mon 19 Oct, 8:28 PM Boston time. Bug hunting only, no new features until
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 74 h ago
+⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 75 h ago
 
 **#16 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #957](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/957) | Career screens: read finished Showdowns whatever field order live Firestore returns | ⏳ 7 passed, 1 running (draft) |
+| 🟧 Team G lead | [PR #957](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/957) | Career screens: read finished Showdowns whatever field order live Firestore returns | 🔴 7 passed, 1 failed (draft) |
 
 **Up next**
 
