@@ -260,6 +260,22 @@ async function run(env){
     const rows=Seam.careerScreenView("legacy",m).sections[0].rows.map(row=>row.value);
     assert.match(rows[1],/^Ended early · \d{1,2} [A-Z][a-z]{2} \d{4} · - seasons$/);assert.equal(rows[2],"Ended early · 18 Oct 2026 · 1 season");
   });
+  // r82: with reads that now succeed on live Firestore, the start marker's hidden list (pre-r79 test games) and the ended-early
+  // rule still decide: the loader drops hidden ids before any read, and an ended-early Showdown counts nowhere.
+  await check("P5c","career loader, live field order: a hidden completed Showdown stays out; ended-early ones never count",async()=>{
+    await env.withSecurityRulesDisabled(async context=>{await setDoc(doc(context.firestore(),"accounts",B,"careerIndex","current"),{schemaVersion:1,objectType:"careerIndex",objectId:"current",revision:0,parentRevision:null,lifecycleState:"live",contentHash:`sha256:${"0".repeat(64)}`,priorContentHash:null,updatedAt:Timestamp.fromMillis(Date.now()),updatedByAccountId:B,updatedByDeviceId:DB,data:{rivalryIds:[X,Y,V],sealedPageCount:0},tombstone:null});});
+    const flip=value=>Array.isArray(value)?value.map(flip):value&&typeof value==="object"&&Object.getPrototypeOf(value)===Object.prototype?Object.fromEntries(Object.keys(value).reverse().map(key=>[key,flip(value[key])])):value;
+    const reads=[],sdk={doc,getDoc:async(...args)=>{reads.push(args.slice(1).join("/"));const snapshot=await getDoc(...args);return {exists:()=>snapshot.exists(),data:()=>flip(snapshot.data())};}};
+    const Loader=require("../../js/sparkClosedShowdownCareerLoader.js"),current=Active.careerInput({pair:{initialized:true,status:"unpaired"}});
+    Loader.clearClosedShowdownCache();
+    const shown=await Loader.loadClosedShowdownCareer({firestore:dbB,firebaseSdk:sdk,user:{uid:B},current,cryptoImpl:crypto.webcrypto});
+    assert.equal(shown.model.status,"ready",JSON.stringify(shown.entries));assert.equal(shown.model.managers.nik.showdowns.completed,1);assert.equal(shown.model.managers.nik.seasons,1,"only X's season counts");
+    Loader.clearClosedShowdownCache();reads.length=0;
+    const hidden=await Loader.loadClosedShowdownCareer({firestore:dbB,firebaseSdk:sdk,user:{uid:B},current,hiddenRivalryIds:[X],cryptoImpl:crypto.webcrypto});
+    assert.equal(hidden.model.managers.nik.showdowns.completed,0,"a hidden (pre-r79 test) Showdown never counts");assert.equal(hidden.model.managers.nik.careerPoints,0);
+    assert.equal(reads.some(path=>path.includes(X)),false,"the hidden Showdown is never read");
+    assert.deepEqual(hidden.model.history.showdowns.map(row=>row.status),["abandoned","abandoned"]);
+  });
   await check("P6","active Z: not-closed, exactly one read",async()=>{const counter={reads:0};const z=await read(dbA,A,Z,counter);assert.equal(z.status,"not-closed");assert.equal(counter.reads,1);});
   await check("P7","stranger: unavailable with the Firestore denial code, never empty",async()=>{const s=await read(dbC,C,X);assert.equal(s.status,"unavailable");assert.equal(s.code,"permission-denied");assert.equal(s.projection,null);});
   await check("P8","forged winner witness: unavailable before any child read",async()=>{const counter={reads:0};const f=await read(dbA,A,forgedId(2),counter);assert.equal(f.status,"unavailable");assert.equal(f.code,"COMPLETED_TERMINAL_WITNESS_INVALID");assert.equal(counter.reads,1);});
@@ -309,4 +325,4 @@ async function run(env){
   });
 }
 
-(async()=>{const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});try{await env.clearFirestore();await run(env);assert.equal(checks,65);process.stdout.write(`PASS completed-only read emulator: ${checks} numbered checks (I0, A completed reads, B denials, C closed writes, D abandoned, E forged witnesses, F active regressions, P session-free reader, Q never-joined codes and current-row isolation).\n`);}finally{await env.cleanup();}})().catch(error=>{console.error(error.stack||error);process.exit(1);});
+(async()=>{const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});try{await env.clearFirestore();await run(env);assert.equal(checks,66);process.stdout.write(`PASS completed-only read emulator: ${checks} numbered checks (I0, A completed reads, B denials, C closed writes, D abandoned, E forged witnesses, F active regressions, P session-free reader, Q never-joined codes and current-row isolation).\n`);}finally{await env.cleanup();}})().catch(error=>{console.error(error.stack||error);process.exit(1);});
