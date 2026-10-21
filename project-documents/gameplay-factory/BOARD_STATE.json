@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-20 7:59 PM Boston time (EDT)",
+ "generated": "2026-10-20 8:03 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1219,6 +1219,20 @@
    "subject": "Test: let the loader's first frame run before SE-6/SE-7 load the hero (#956)",
    "fixes": [
     {
+     "pr": 963,
+     "title": "JOB-6 audit: normal-play Firestore Rules and expression headroom",
+     "draft": true,
+     "branch": "codex/job-6-rules-normal-play-2026-10-20",
+     "sha": "0e3509943368df8148a1fbe42b9fd3f42f950ca4",
+     "updated": "2026-10-21T00:01:48Z",
+     "gates": {
+      "passed": 7,
+      "running": 0,
+      "failed": 1,
+      "cancelled": 0
+     }
+    },
+    {
      "pr": 962,
      "title": "JOB-8 audit: Firebase usage, hidden expiry retries and career scaling",
      "draft": true,
@@ -1854,7 +1868,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 46,
+  "moving": 47,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3071,6 +3085,20 @@
    }
   },
   "fixes": [
+   {
+    "pr": 963,
+    "title": "JOB-6 audit: normal-play Firestore Rules and expression headroom",
+    "draft": true,
+    "branch": "codex/job-6-rules-normal-play-2026-10-20",
+    "sha": "0e3509943368df8148a1fbe42b9fd3f42f950ca4",
+    "updated": "2026-10-21T00:01:48Z",
+    "gates": {
+     "passed": 7,
+     "running": 0,
+     "failed": 1,
+     "cancelled": 0
+    }
+   },
    {
     "pr": 962,
     "title": "JOB-8 audit: Firebase usage, hidden expiry retries and career scaling",
