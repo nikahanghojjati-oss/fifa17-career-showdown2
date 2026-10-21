@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 21 Oct, 12:22 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 21 Oct, 12:26 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.5-r81** (main `9230e33`, Mon 19 Oct 7:17 PM)
 
@@ -34,11 +34,11 @@ Updated Wed 21 Oct, 12:22 AM Boston time. Bug hunting only, no new features unti
 
 **#5 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #775 · CI 6 of 7 passed · last move 207 h ago
+🟢 Team green · model not set · worker working, draft PR #775 · CI 6 of 7 passed · last move 208 h ago
 
 **#6 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 207 h ago
+🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 208 h ago
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -78,11 +78,11 @@ Updated Wed 21 Oct, 12:22 AM Boston time. Bug hunting only, no new features unti
 
 **#16 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 101 h ago
+⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 102 h ago
 
 **#17 · 1839** `G` r76 gallery refresh: every screen from the final workbench, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 101 h ago
+⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 102 h ago
 
 ### 👉 Next for you, in this order
 
