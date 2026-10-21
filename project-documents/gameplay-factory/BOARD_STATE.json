@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-21 2:35 PM Boston time (EDT)",
+ "generated": "2026-10-21 2:39 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1276,11 +1276,11 @@
     },
     {
      "pr": 961,
-     "title": "JOB-2 audit: sign-in, sign-out and permanent pairing",
+     "title": "JOB-2 audit: sign-in, pairing and real/test labels",
      "draft": true,
      "branch": "codex/job-2-sign-in-pairing-2026-10-20",
-     "sha": "3977f2b2fd82886e7def7fee72257e41e2eee928",
-     "updated": "2026-10-20T23:05:08Z",
+     "sha": "000e1d49df372adb3fb4bc4b3746c0314ee0f272",
+     "updated": "2026-10-21T18:36:40Z",
      "gates": {
       "passed": 7,
       "running": 0,
@@ -3171,11 +3171,11 @@
    },
    {
     "pr": 961,
-    "title": "JOB-2 audit: sign-in, sign-out and permanent pairing",
+    "title": "JOB-2 audit: sign-in, pairing and real/test labels",
     "draft": true,
     "branch": "codex/job-2-sign-in-pairing-2026-10-20",
-    "sha": "3977f2b2fd82886e7def7fee72257e41e2eee928",
-    "updated": "2026-10-20T23:05:08Z",
+    "sha": "000e1d49df372adb3fb4bc4b3746c0314ee0f272",
+    "updated": "2026-10-21T18:36:40Z",
     "gates": {
      "passed": 7,
      "running": 0,
