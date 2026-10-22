@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 22 Oct, 8:13 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 22 Oct, 8:17 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.5-r81** (main `9230e33`, Mon 19 Oct 7:17 PM)
 
@@ -22,7 +22,7 @@ Updated Thu 22 Oct, 8:13 AM Boston time. Bug hunting only, no new features until
 
 **#2 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 239 h ago
+🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 240 h ago
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -58,7 +58,7 @@ Updated Thu 22 Oct, 8:13 AM Boston time. Bug hunting only, no new features until
 
 **#11 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 178 h ago
+⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 179 h ago
 
 **#12 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
@@ -2122,6 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
+| 🟧 Team G lead | [PR #969](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/969) | JOB-2 audit: permanent-pair recovery and real/test JOIN mistakes | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #968](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/968) | JOB-1 audit: healthy session resume fails during its final minute | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #967](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/967) | JOB-A follow-up: verify career-zero failure against current writers | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #966](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/966) | JOB-1 audit: replacement-session final saves and slow reload flashes | 🔴 7 passed, 1 failed (draft) |

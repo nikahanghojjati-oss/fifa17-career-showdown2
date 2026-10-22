@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-22 8:12 AM Boston time (EDT)",
+ "generated": "2026-10-22 8:17 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1219,6 +1219,20 @@
    "subject": "Test: let the loader's first frame run before SE-6/SE-7 load the hero (#956)",
    "fixes": [
     {
+     "pr": 969,
+     "title": "JOB-2 audit: permanent-pair recovery and real/test JOIN mistakes",
+     "draft": true,
+     "branch": "codex/job-2-sign-in-pairing-2026-10-22",
+     "sha": "2ca0dd565b23c7c84d1ef1085962f068b561e06d",
+     "updated": "2026-10-22T12:15:08Z",
+     "gates": {
+      "passed": 7,
+      "running": 0,
+      "failed": 1,
+      "cancelled": 0
+     }
+    },
+    {
      "pr": 968,
      "title": "JOB-1 audit: healthy session resume fails during its final minute",
      "draft": true,
@@ -1938,7 +1952,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 52,
+  "moving": 53,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3155,6 +3169,20 @@
    }
   },
   "fixes": [
+   {
+    "pr": 969,
+    "title": "JOB-2 audit: permanent-pair recovery and real/test JOIN mistakes",
+    "draft": true,
+    "branch": "codex/job-2-sign-in-pairing-2026-10-22",
+    "sha": "2ca0dd565b23c7c84d1ef1085962f068b561e06d",
+    "updated": "2026-10-22T12:15:08Z",
+    "gates": {
+     "passed": 7,
+     "running": 0,
+     "failed": 1,
+     "cancelled": 0
+    }
+   },
    {
     "pr": 968,
     "title": "JOB-1 audit: healthy session resume fails during its final minute",
