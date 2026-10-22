@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-22 8:30 AM Boston time (EDT)",
+ "generated": "2026-10-22 8:34 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1219,6 +1219,20 @@
    "subject": "Test: let the loader's first frame run before SE-6/SE-7 load the hero (#956)",
    "fixes": [
     {
+     "pr": 970,
+     "title": "JOB-4 audit: unfinished seasons change career stats and trophy totals",
+     "draft": true,
+     "branch": "codex/job-4-stats-trophies-2026-10-22",
+     "sha": "378bb8c2a2999f19342fffae5f05affc89039069",
+     "updated": "2026-10-22T12:31:15Z",
+     "gates": {
+      "passed": 7,
+      "running": 0,
+      "failed": 1,
+      "cancelled": 0
+     }
+    },
+    {
      "pr": 969,
      "title": "JOB-2 audit: permanent-pair recovery and real/test JOIN mistakes",
      "draft": true,
@@ -1952,7 +1966,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 53,
+  "moving": 54,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3169,6 +3183,20 @@
    }
   },
   "fixes": [
+   {
+    "pr": 970,
+    "title": "JOB-4 audit: unfinished seasons change career stats and trophy totals",
+    "draft": true,
+    "branch": "codex/job-4-stats-trophies-2026-10-22",
+    "sha": "378bb8c2a2999f19342fffae5f05affc89039069",
+    "updated": "2026-10-22T12:31:15Z",
+    "gates": {
+     "passed": 7,
+     "running": 0,
+     "failed": 1,
+     "cancelled": 0
+    }
+   },
    {
     "pr": 969,
     "title": "JOB-2 audit: permanent-pair recovery and real/test JOIN mistakes",
