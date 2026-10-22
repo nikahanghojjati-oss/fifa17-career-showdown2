@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-22 12:03 AM Boston time (EDT)",
+ "generated": "2026-10-22 12:07 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1219,6 +1219,20 @@
    "subject": "Test: let the loader's first frame run before SE-6/SE-7 load the hero (#956)",
    "fixes": [
     {
+     "pr": 967,
+     "title": "JOB-A follow-up: verify career-zero failure against current writers",
+     "draft": true,
+     "branch": "codex/job-a-career-zero-2026-10-22",
+     "sha": "44acfeef6c2d283527ecadea0ec24b70733ae979",
+     "updated": "2026-10-22T04:04:46Z",
+     "gates": {
+      "passed": 7,
+      "running": 0,
+      "failed": 1,
+      "cancelled": 0
+     }
+    },
+    {
      "pr": 966,
      "title": "JOB-1 audit: replacement-session final saves and slow reload flashes",
      "draft": true,
@@ -1910,7 +1924,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 50,
+  "moving": 51,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3127,6 +3141,20 @@
    }
   },
   "fixes": [
+   {
+    "pr": 967,
+    "title": "JOB-A follow-up: verify career-zero failure against current writers",
+    "draft": true,
+    "branch": "codex/job-a-career-zero-2026-10-22",
+    "sha": "44acfeef6c2d283527ecadea0ec24b70733ae979",
+    "updated": "2026-10-22T04:04:46Z",
+    "gates": {
+     "passed": 7,
+     "running": 0,
+     "failed": 1,
+     "cancelled": 0
+    }
+   },
    {
     "pr": 966,
     "title": "JOB-1 audit: replacement-session final saves and slow reload flashes",
