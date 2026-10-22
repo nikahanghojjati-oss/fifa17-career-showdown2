@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-22 7:07 PM Boston time (EDT)",
+ "generated": "2026-10-22 7:08 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1309,7 +1309,12 @@
      "branch": "codex/job-3-history-legacy-2026-10-20",
      "sha": "741b1a7dee71213b71e1da1f0e3c6a9b7e85c0f1",
      "updated": "2026-10-21T00:15:29Z",
-     "gates": null
+     "gates": {
+      "passed": 7,
+      "running": 0,
+      "failed": 1,
+      "cancelled": 0
+     }
     },
     {
      "pr": 963,
@@ -3269,7 +3274,12 @@
     "branch": "codex/job-3-history-legacy-2026-10-20",
     "sha": "741b1a7dee71213b71e1da1f0e3c6a9b7e85c0f1",
     "updated": "2026-10-21T00:15:29Z",
-    "gates": null
+    "gates": {
+     "passed": 7,
+     "running": 0,
+     "failed": 1,
+     "cancelled": 0
+    }
    },
    {
     "pr": 963,
