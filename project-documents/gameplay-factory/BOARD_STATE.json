@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-22 12:09 PM Boston time (EDT)",
+ "generated": "2026-10-22 12:14 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1420,7 +1420,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "POS20 #304 6/16",
+   "gate": "POS20 #304 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
