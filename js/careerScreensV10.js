@@ -1637,11 +1637,12 @@
   async function v10LoadOnline(){
     // r82 (Codex JOB-B B3): a warm visit draws its cached career at once; when the fresh read returns the same career, that
     // frame stays (no second boot). Only a changed career is drawn again.
+    // An "unavailable" career is drawn as loading while the read runs, so it is always drawn again when the read ends.
     const token=++onlineToken,before=v10ModelText(v10OnlineModel());onlineLoading=true;v10Redraw();
     try{
       await root.loadRuntimeScript("rivalry-legacy-v10","js/rivalryLegacyV10.js",()=>Boolean(root.CareerModeRivalryLegacyV10));
       await root.CareerModeRivalryLegacyV10.loadCareerModel();
-    }finally{if(token===onlineToken){onlineLoading=false;if(before===null||before!==v10ModelText(v10OnlineModel()))v10Redraw();}}
+    }finally{if(token===onlineToken){onlineLoading=false;const after=v10OnlineModel();if(before===null||after?.status==="unavailable"||before!==v10ModelText(after))v10Redraw();}}
   }
   // Called by statistics.js / trophyRoom.js after the old open path; getModel returns the screen's current model.
   async function mount(screen,getModel){
