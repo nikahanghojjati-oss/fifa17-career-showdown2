@@ -2138,6 +2138,17 @@
       ]
     },
     {
+      "path": "tests/contracts/r83-home-join-window-contracts.cjs",
+      "patterns": [
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/whichShowdownIsLive\\.js$",
+        "^tests/contracts/r83-home-join-window-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r83-interrupted-first-pairing-contracts.cjs",
       "patterns": [
         "^js/persistentNikDanielPair\\.js$",
