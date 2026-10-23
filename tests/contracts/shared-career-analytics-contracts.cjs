@@ -105,7 +105,8 @@ check("7. Abandoned removal",()=>{
 });
 check("8. Completion pending",()=>{
   const p=projection({totalSeasons:1,seasons:[[perfect,result()]]}),m=model([entry(p,"completion-pending")]);
-  assert.equal(m.managers.daniel.seasons,1);
+  // r83 (JOB-4 F1): career totals count finished Showdowns only; the pending row still shows its totals.
+  assert.equal(m.managers.daniel.seasons,0);
   assert.equal(m.managers.daniel.showdowns.completed,0);
   assert.equal(m.history.showdowns[0].status,"completion-pending");
   assert.deepEqual(m.history.showdowns[0].totals,{daniel:11,nik:0});
@@ -114,7 +115,7 @@ check("8. Completion pending",()=>{
 });
 check("9. Active",()=>{
   const p=projection({seasons:[[result(),perfect]]}),m=model([entry(p,"active",null)]),row=m.history.showdowns[0];
-  assert.equal(m.managers.nik.careerPoints,11);
+  assert.equal(m.managers.nik.careerPoints,0,"r83: an unfinished Showdown adds nothing to career totals");
   assert.equal(m.managers.nik.showdowns.completed,0);
   assert.equal(row.winner,null);
   assert.equal(row.status,"in-progress");

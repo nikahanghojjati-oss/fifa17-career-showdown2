@@ -239,9 +239,9 @@ check("K5 every season score, winner, tiebreak and total re-derives from the sea
   }
   const perfect=score({leaguePosition:1,leaguePoints:101,leagueGoals:104,championsLeague:true,domesticCup:true,topScorer:true,topAssist:true});assert.equal(perfect.total,11);assert.equal(perfect.performanceBonus,1);assert.equal(perfect.awardsBonus,1);
 });
-check("K5 career totals are sums of counted seasons; abandoned counts for nothing",()=>{
+check("K5 career totals are sums of finished Showdowns' seasons; abandoned and unfinished count for nothing",()=>{
   for(const {row,fx} of fixtures){if(!["ready","partial"].includes(fx.career.status))continue;
-    for(const m of MANAGERS){const rows=fx.career.history.showdowns.filter(r=>r.status!=="abandoned"&&r.status!=="unavailable");
+    for(const m of MANAGERS){const rows=fx.career.history.showdowns.filter(r=>r.status==="completed");// r83 (JOB-4 F1)
       assert.equal(fx.career.managers[m].careerPoints,rows.reduce((t,r)=>t+r.totals[m],0),row.id+" careerPoints "+m);
       assert.equal(fx.career.managers[m].seasons,rows.reduce((t,r)=>t+r.seasons.length,0),row.id+" seasons "+m);
       const completed=rows.filter(r=>r.status==="completed");assert.equal(fx.career.managers[m].showdowns.completed,completed.length,row.id);
@@ -274,7 +274,9 @@ check("K6 Daniel and Nik see identical shared numbers; only their own role diffe
 });
 check("K6 one-Showdown career equals the adapter path (interim label aside)",()=>{
   for(const {row,fx} of fixtures){
-    const single=fx.career.history.showdowns.length<=1&&fx.checkSource.length<=1&&row.id!=="partial-career"&&row.id!=="pairing-code-created";
+    // r83 (JOB-4 F1): an unfinished current Showdown counts in the labelled current-only view but not in career totals.
+    const unfinished=fx.career.history.showdowns.some(r=>r.status==="in-progress"||r.status==="completion-pending");
+    const single=!unfinished&&fx.career.history.showdowns.length<=1&&fx.checkSource.length<=1&&row.id!=="partial-career"&&row.id!=="pairing-code-created";
     if(!single)continue;const {interimLabel:a,...career}=fx.career,{interimLabel:b,...interim}=fx.careerInterim;
     assert.deepEqual(career,interim,row.id);
   }
