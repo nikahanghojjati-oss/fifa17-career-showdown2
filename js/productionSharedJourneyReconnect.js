@@ -80,13 +80,16 @@
     node=root.document.createElement("div");node.id=STATUS_ID;node.className="stateNote hidden";node.setAttribute("role","status");node.setAttribute("aria-live","polite");node.dataset.sharedJourneyReconnect="true";
     const header=root.document.getElementById("topHeader");if(header?.parentNode===app)header.insertAdjacentElement("afterend",node);else app.prepend(node);return node;
   }
-  // Job 31: say who does what, in the order Daniel and Nik actually reconnect (the first manager hosts, the second joins).
+  // Permanent pairs reuse the same automatic connection as Home > CONTINUE CAREER.
+  function pjrPermanentlyPaired(){try{const partner=root.CareerModePersistentNikDanielPair?.getPartnerState?.(),account=accountApi?.getState?.();return Boolean(partner?.status==="ready"&&partner.record?.active===true&&account&&partner.accountId===account.accountId);}catch(_error){return false;}}
+  function pjrAutomaticStep(){return "Tap RECONNECT SESSION. Connecting Daniel and Nik to the same game.";}
+  // Accounts without a permanent partner retain the existing manual recovery instructions.
   function pjrManagerName(role){const name=pjrShowdown()?.managers?.[role];return String(name||(role==="playerOne"?"Manager 1":"Manager 2"));}
-  function pjrReconnectStep(role){return role==="playerTwo"?`Tap RECONNECT SESSION, paste the new code from ${pjrManagerName("playerOne")} and tap JOIN PRIVATE SESSION.`:`Tap RECONNECT SESSION, then HOST PRIVATE SESSION and send the new code to ${pjrManagerName("playerTwo")}.`;}
+  function pjrReconnectStep(role){if(pjrPermanentlyPaired())return pjrAutomaticStep();return role==="playerTwo"?`Tap RECONNECT SESSION, paste the new code from ${pjrManagerName("playerOne")} and tap JOIN PRIVATE SESSION.`:`Tap RECONNECT SESSION, then HOST PRIVATE SESSION and send the new code to ${pjrManagerName("playerTwo")}.`;}
   // BH-11 (#1): a reload drops the page-memory session code, so this phone simply has no session. That is not an ended
   // session; say so plainly. Kept about as short as the ended-session line so the banner does not reflow the game screens;
   // where the other phone takes the new code is said in the Remote Joining panel.
-  function pjrNotConnectedStep(role){const other=pjrManagerName(role==="playerTwo"?"playerOne":"playerTwo");return `Tap RECONNECT SESSION, then HOST and send the code to ${other}, or JOIN ${other}'s new code.`;}
+  function pjrNotConnectedStep(role){if(pjrPermanentlyPaired())return pjrAutomaticStep();const other=pjrManagerName(role==="playerTwo"?"playerOne":"playerTwo");return `Tap RECONNECT SESSION, then HOST and send the code to ${other}, or JOIN ${other}'s new code.`;}
   function pjrShowdownClosed(){try{const t=root.CareerModeProductionSharedTerminalClose?.getState?.();return Boolean(t&&t.phase==="CLOSED"&&t.terminal===true);}catch(_){return false;}}
   // r80 END SHOWDOWN: the other phone ended this Showdown (Terminal Close holds it DELETED: closed, no finish witness). This
   // page has already left it for Home with the ended-early notice, and a closed rivalry never reopens, so there is no session
@@ -107,27 +110,39 @@
   // It now closes itself as soon as this page holds an exact unexpired ACTIVE session, and the banner re-checks at once.
   let recoveryReturnUnsubscribe=null;
   function pjrRemoteExactActive(remote){const expiry=Number(remote?.expiresAtEpochMs);return Boolean(remote&&remote.sessionState==="active"&&remote.sessionId&&remote.pendingAction==null&&Number.isFinite(expiry)&&Date.now()<expiry);}
-  function pjrArmRecoveryReturn(exceptSessionId=null){
+  function pjrArmRecoveryReturn(exceptSessionId=null,authority=pjrCurrentIdentity()){
     if(typeof recoveryReturnUnsubscribe==="function")recoveryReturnUnsubscribe();recoveryReturnUnsubscribe=null;
     if(typeof remoteApi?.subscribe!=="function")return false;
-    recoveryReturnUnsubscribe=remoteApi.subscribe(next=>{
-      if(!pjrRemoteExactActive(next)||(exceptSessionId&&next.sessionId===exceptSessionId))return;
+    const onState=next=>{
+      if(!pjrSharedMarker()||pjrShowdownEnded()||!pjrExactActive(next,authority,Date.now())||(exceptSessionId&&next.sessionId===exceptSessionId))return;
+      try{if(!pjrSameAuthority(pjrCurrentIdentity(),authority))return;}catch(_error){return;}
       const stop=recoveryReturnUnsubscribe;recoveryReturnUnsubscribe=null;if(typeof stop==="function")stop();
       try{remoteApi.closePanel?.();}catch(_error){}
       void pjrRefresh();
-    });
+    };
+    recoveryReturnUnsubscribe=remoteApi.subscribe(onState);
+    // Adoption can finish while openPanel awaits; include that already-delivered ACTIVE result.
+    onState(pjrRemoteSnapshot());
     return true;
   }
-  async function pjrOpenSessionRecovery(){
-    try{await pjrEnsureDependencies();if(typeof remoteApi?.openPanel!=="function")pjrFail("JOURNEY_RECONNECT_SESSION_UI_UNAVAILABLE","Private session recovery is unavailable.");if(!pjrRemoteExactActive(pjrRemoteSnapshot()))pjrArmRecoveryReturn();await remoteApi.openPanel();return true;}catch(error){pjrReport("Unable to open private session recovery",error);return false;}
+  async function pjrOpenRecovery(fresh=false){
+    try{
+      await pjrEnsureDependencies();
+      if(typeof remoteApi?.openPanel!=="function")pjrFail("JOURNEY_RECONNECT_SESSION_UI_UNAVAILABLE","Private session recovery is unavailable.");
+      const authority=pjrCurrentIdentity(),held=pjrRemoteSnapshot(),automatic=pjrPermanentlyPaired();
+      if(automatic&&typeof remoteApi.autoConnect!=="function")pjrFail("JOURNEY_RECONNECT_SESSION_UI_UNAVAILABLE","Private session recovery is unavailable.");
+      const auto=automatic?remoteApi.autoConnect():null;
+      await remoteApi.openPanel();
+      if(automatic||fresh||!pjrRemoteExactActive(held))pjrArmRecoveryReturn(!automatic&&fresh&&pjrRemoteExactActive(held)?held.sessionId:null,authority);
+      if(auto)void auto;
+      return true;
+    }catch(error){pjrReport("Unable to open private session recovery",error);return false;}
   }
-  // BH-11 (#1): open Remote Joining from a phone that still holds an ACTIVE session; the panel closes once a different
-  // (fresh) session is ACTIVE, never because the old one still is.
-  async function pjrOpenFreshSessionCode(){
-    try{await pjrEnsureDependencies();if(typeof remoteApi?.openPanel!=="function")pjrFail("JOURNEY_RECONNECT_SESSION_UI_UNAVAILABLE","Private session recovery is unavailable.");const held=pjrRemoteSnapshot();pjrArmRecoveryReturn(pjrRemoteExactActive(held)?held.sessionId:null);await remoteApi.openPanel();return true;}catch(error){pjrReport("Unable to open private session recovery",error);return false;}
-  }
+  async function pjrOpenSessionRecovery(){return pjrOpenRecovery();}
+  // A paired phone reuses its exact ACTIVE session; manual recovery waits for a different session.
+  async function pjrOpenFreshSessionCode(){return pjrOpenRecovery(true);}
   function pjrRender(){
-    const node=pjrStatusElement();if(!node)return false;const visible=pjrSharedMarker()&&Boolean(state)&&!pjrShowdownEnded();node.classList.toggle("hidden",!visible);if(!visible){node.replaceChildren();return false;}const text=pjrMessage(state);node.replaceChildren(root.document.createTextNode(text));if((state.phase==="FRESH_SESSION_REQUIRED"&&!pjrShowdownClosed())||state.phase==="RECOVERY_PENDING"){const action=root.document.createElement("button");action.id=ACTION_ID;action.type="button";action.className="compactButton";action.textContent=state.phase==="FRESH_SESSION_REQUIRED"?"RECONNECT SESSION":"RESOLVE SESSION";action.disabled=busy;action.addEventListener("click",()=>{void pjrOpenSessionRecovery();});node.append(root.document.createTextNode(" "),action);}else if(state.phase==="ACTIVE_RECOVERED"){/* BH-11 (#1): this phone may still hold the session the other phone lost; let it take the other phone's new code. */const fresh=root.document.createElement("button");fresh.id=NEW_CODE_ACTION_ID;fresh.type="button";fresh.className="compactButton";fresh.textContent="NEW SESSION CODE";fresh.disabled=busy;fresh.addEventListener("click",()=>{void pjrOpenFreshSessionCode();});node.append(root.document.createTextNode(" "),fresh);}node.dataset.recoveryPhase=state.phase;node.dataset.authoritative=state.activeAuthorization?"true":"false";return true;
+    const node=pjrStatusElement();if(!node)return false;const visible=pjrSharedMarker()&&Boolean(state)&&!pjrShowdownEnded();node.classList.toggle("hidden",!visible);if(!visible){node.replaceChildren();return false;}const text=pjrMessage(state);node.replaceChildren(root.document.createTextNode(text));if((state.phase==="FRESH_SESSION_REQUIRED"&&!pjrShowdownClosed())||state.phase==="RECOVERY_PENDING"){const action=root.document.createElement("button");action.id=ACTION_ID;action.type="button";action.className="compactButton";action.textContent=state.phase==="FRESH_SESSION_REQUIRED"?"RECONNECT SESSION":"RESOLVE SESSION";action.disabled=busy;action.addEventListener("click",()=>{void pjrOpenSessionRecovery();});node.append(root.document.createTextNode(" "),action);}else if(state.phase==="ACTIVE_RECOVERED"){/* BH-11 (#1): this phone may still hold the session the other phone lost; let it take the other phone's new code. */const fresh=root.document.createElement("button");fresh.id=NEW_CODE_ACTION_ID;fresh.type="button";fresh.className="compactButton";fresh.textContent=pjrPermanentlyPaired()?"RECONNECT SESSION":"NEW SESSION CODE";fresh.disabled=busy;fresh.addEventListener("click",()=>{void pjrOpenFreshSessionCode();});node.append(root.document.createTextNode(" "),fresh);}node.dataset.recoveryPhase=state.phase;node.dataset.authoritative=state.activeAuthorization?"true":"false";return true;
   }
   function pjrPublish(next){
     state=next||null;contextKey=state?`${state.accountId}|${state.deviceId}|${state.rivalryId}`:"";pjrRender();

@@ -2116,6 +2116,16 @@
       ]
     },
     {
+      "path": "tests/contracts/r83-session-expiry-reconnect-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedJourneyReconnect\\.js$",
+        "^js/sharedJourneyReconnect\\.js$",
+        "^js/sparkRemoteJoining\\.js$",
+        "^tests/contracts/r83-session-expiry-reconnect-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r83-terminal-close-replacement-contracts.cjs",
       "patterns": [
         "^js/productionSharedTerminalClose\\.js$",
