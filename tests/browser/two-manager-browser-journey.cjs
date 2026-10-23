@@ -768,8 +768,8 @@ async function main(){
         assert.equal(await nik.page.locator("#seasonReviewOne").isVisible(),false,"season 3 Daniel result stays private until Nik publishes");
         await fillSeasonResult(nik,"p2",season3Nik);await publishSeasonResult(nik);
         for(const m of [daniel,nik])await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS PUBLISHED",null,{timeout:45000});
-        await commitSeasonViaUi(daniel,nik,1,1,"Daniel",{finalSeason:true,seasonNumber:3});
-        ok("J8.5","season 3 repeated privacy and scoring; 1-1 tie is won by Daniel on league position");
+        await commitSeasonViaUi(daniel,nik,1,1,"draw",{finalSeason:true,seasonNumber:3});
+        ok("J8.5","season 3 repeated privacy and scoring; 1-1 season is a draw (no tiebreak)");
       }
     }
 

@@ -156,8 +156,8 @@ const norm=s=>String(s||"").replace(/\s+/g," ").trim();
 
 // ---------------------------------------------------------------------------------------------------------------------------
 // Scoring model (the game's rules, recomputed from the inputs: Champions League 5, league title 3, domestic cup 1, performance
-// bonus 1 for 100+ league points or 100+ league goals, individual awards bonus 1 for top scorer or top assist; season tie:
-// better league position, then more league points, else draw).
+// bonus 1 for 100+ league points or 100+ league goals, individual awards bonus 1 for top scorer or top assist; equal
+// season points is a draw, no tiebreak).
 // ---------------------------------------------------------------------------------------------------------------------------
 function scoreSeason(r){
   const cl=r.championsLeague?5:0,title=r.leaguePosition===1?3:0,cup=r.domesticCup?1:0,perf=(r.leaguePoints>=100||r.leagueGoals>=100)?1:0,indiv=(r.topScorer||r.topAssist)?1:0;
@@ -165,10 +165,9 @@ function scoreSeason(r){
 }
 function seasonWinner(d,n){
   const sd=scoreSeason(d).total,sn=scoreSeason(n).total;
+  // r83 (Nik 2026-10-23): no tiebreak. Equal Showdown points is a draw.
   if(sd!==sn)return {side:sd>sn?"daniel":"nik",byTiebreak:false};
-  if(d.leaguePosition!==n.leaguePosition)return {side:d.leaguePosition<n.leaguePosition?"daniel":"nik",byTiebreak:true};
-  if(d.leaguePoints!==n.leaguePoints)return {side:d.leaguePoints>n.leaguePoints?"daniel":"nik",byTiebreak:true};
-  return {side:"draw",byTiebreak:true};
+  return {side:"draw",byTiebreak:false};
 }
 function tally(seasons){
   const t={};

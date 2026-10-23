@@ -52,14 +52,17 @@ check("2b. r80 Europa League: +3, a trophy, never a perfect season; both manager
 check("3. Season tiebreaks",()=>{
   const seasons=[[result({domesticCup:true}),result()],[result({leaguePosition:2}),result({leaguePosition:3})],[result({leaguePoints:61}),result()],[result(),result()]];
   const p=projection({totalSeasons:5,seasons}),m=model([entry(p,"active",null)]);
-  assert.deepEqual(p.seasonHistory.map(Analytics.seasonTiebreak),["none","league-position","league-points","draw"]);
-  assert.deepEqual(m.history.showdowns[0].seasons.map(s=>s.tiebreak),["none","league-position","league-points","draw"]);
-  assert.deepEqual(m.history.showdowns[0].seasons.map(s=>s.winner),["daniel","daniel","daniel","draw"]);
+  // r83 (Nik 2026-10-23): no tiebreak. Equal Showdown points is a draw whatever the league table says.
+  assert.deepEqual(p.seasonHistory.map(Analytics.seasonTiebreak),["none","draw","draw","draw"]);
+  assert.deepEqual(m.history.showdowns[0].seasons.map(s=>s.tiebreak),["none","draw","draw","draw"]);
+  assert.deepEqual(m.history.showdowns[0].seasons.map(s=>s.winner),["daniel","draw","draw","draw"]);
 });
 check("4. Final is totals only",()=>{
   const p=projection({seasons:[[result({domesticCup:true}),result()],[result(),result({domesticCup:true})],[result({leaguePosition:2}),result({leaguePosition:3})]]}),m=model([entry(p)]);
-  assert.equal(m.managers.daniel.seasonWins,2);
+  // r83: season 3 (equal points, better league position) is now a draw, not a Daniel win.
+  assert.equal(m.managers.daniel.seasonWins,1);
   assert.equal(m.managers.nik.seasonWins,1);
+  assert.equal(m.managers.daniel.seasonDraws,1);
   assert.equal(m.history.showdowns[0].winner,"draw");
   for(const manager of Object.values(m.managers))assert.deepEqual(manager.showdowns,{completed:1,wins:0,draws:1,losses:0});
   const invalid=entry(p,"completed",{...finalFor(p),winner:"playerOne"});
@@ -198,8 +201,9 @@ check("14. Records and standings",()=>{
   assert.equal(m.status,"partial","contradictory duplicate lifecycle states are fail-closed");
   const equalTotals=projection({seed:"6",seasons:[[result({domesticCup:true}),result()],[result(),result({domesticCup:true})],[result({leaguePosition:3}),result({leaguePosition:2})]]});
   const ranked=model([entry(equalTotals)]);
-  assert.deepEqual(ranked.trophyRoom.standings.map(r=>r.manager),["nik","daniel"],"season wins break career points ties");
-  assert.ok(ranked.trophyRoom.standings.every(r=>r.level!==true));
+  // r83 (Nik 2026-10-23): season wins no longer break a career points tie; equal points are level, like a drawn Showdown.
+  assert.equal(ranked.managers.nik.seasonDraws,1,"the league-position season is a draw (no tiebreak)");
+  assert.ok(ranked.trophyRoom.standings.every(r=>r.level===true),"equal career points are level whatever the season wins");
   const sameMargin=projection({seed:"7",totalSeasons:1,seasons:[[result({domesticCup:true}),result()]]});
   assert.deepEqual(record(model([entry(c),entry(sameMargin)]),"Biggest Showdown win"),{label:labels[3],manager:"shared",value:1,ref:null});
 });
