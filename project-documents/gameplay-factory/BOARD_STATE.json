@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-22 8:42 PM Boston time (EDT)",
+ "generated": "2026-10-22 8:46 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1213,10 +1213,10 @@
  },
  "two": {
   "live": {
-   "sha": "9230e33",
-   "revision": "1.9.5-r81",
-   "when": "2026-10-19T23:17:26Z",
-   "subject": "Test: let the loader's first frame run before SE-6/SE-7 load the hero (#956)",
+   "sha": "d956bf4",
+   "revision": "1.9.6-r82",
+   "when": "2026-10-23T00:43:00Z",
+   "subject": "Release 1.9.6-r82: career screens count real finished Showdowns (#957)",
    "fixes": [
     {
      "pr": 970,
@@ -1399,23 +1399,15 @@
       "failed": 1,
       "cancelled": 0
      }
-    },
+    }
+   ],
+   "today": [
     {
      "pr": 957,
      "title": "Release 1.9.6-r82: career screens count real finished Showdowns",
-     "draft": false,
-     "branch": "claude-gameplay/r82-career-reader-order",
-     "sha": "931725c3990065b55be30959169aa4307a4563d8",
-     "updated": "2026-10-23T00:33:09Z",
-     "gates": {
-      "passed": 15,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 1
-     }
+     "merged": "2026-10-23T00:43:00Z"
     }
-   ],
-   "today": []
+   ]
   },
   "physio": {
    "state": "clear",
@@ -1966,7 +1958,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 54,
+  "moving": 53,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3363,20 +3355,6 @@
      "running": 0,
      "failed": 1,
      "cancelled": 0
-    }
-   },
-   {
-    "pr": 957,
-    "title": "Release 1.9.6-r82: career screens count real finished Showdowns",
-    "draft": false,
-    "branch": "claude-gameplay/r82-career-reader-order",
-    "sha": "931725c3990065b55be30959169aa4307a4563d8",
-    "updated": "2026-10-23T00:33:09Z",
-    "gates": {
-     "passed": 15,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 1
     }
    }
   ]
