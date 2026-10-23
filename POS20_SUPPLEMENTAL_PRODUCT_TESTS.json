@@ -2042,6 +2042,16 @@
         "^tests/contracts/r83-transfer-expiry-budget-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r83-results-reload-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/productionSharedSeasonResultsRoute\\.js$",
+        "^tests/contracts/r83-results-reload-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

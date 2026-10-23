@@ -363,13 +363,29 @@
   }
   // Job 19: a fresh runtime (reload) re-establishes the exact ACTIVE session and then resumes at the
   // provider-authoritative active season instead of replaying Career Start and season 1.
+  async function resumeSeasonResults(resumed){
+    const confirmed=root.CareerModeProductionSharedShowdownSetup?.getState?.();if(!confirmed||confirmed.ready!==true)return false;
+    const season=Number(resumed.season),role=confirmed.managerRole,rivalryId=confirmed.rivalryId;
+    if(resumed.terminal===true||!rivalryId||!role||!Number.isInteger(season)||season<1)return false;
+    // A hint selects a possible route, never gameplay authority. Missing/unavailable storage keeps the full-screen fallback.
+    let hint=null;try{hint=root.readStorageValue?.(`cms.transferViews.v1:${rivalryId}:${season}:${role}`);}catch(_error){}
+    if(!hint)return false;
+    await loadScript("ssjr-production-transfer-challenge","js/productionSharedTransferChallenge.js",()=>root.CareerModeProductionSharedTransferChallenge);
+    const transfer=root.CareerModeProductionSharedTransferChallenge;await transfer.refresh();
+    if(!transfer.canResumeResults())return false;
+    transfer.install();
+    await loadScript("ssjr-production-season-results-route","js/productionSharedSeasonResultsRoute.js",()=>root.CareerModeProductionSharedSeasonResultsRoute);
+    const route=root.CareerModeProductionSharedSeasonResultsRoute;route.install();return route.open();
+  }
   async function resumeAcceptedSeason(){
     await loadScript("ssjr-production-multi-season","js/productionSharedMultiSeasonProgression.js",()=>root.CareerModeProductionSharedMultiSeasonProgression);
     const progression=root.CareerModeProductionSharedMultiSeasonProgression;
     if(!progression||typeof progression.resumeFromAuthority!=="function")return false;
     progression.install?.();
     const resumed=await progression.resumeFromAuthority();
-    if(!resumed||!Number.isInteger(resumed.acceptedSeasons)||resumed.acceptedSeasons<1)return false;
+    if(!resumed||!Number.isInteger(resumed.acceptedSeasons)||resumed.acceptedSeasons<0)return false;
+    if(await resumeSeasonResults(resumed))return true;
+    if(resumed.acceptedSeasons<1)return false;
     if(typeof root.navigateTo==="function")await root.navigateTo("dashboard",{addToHistory:false,allowCanonicalFallback:true});else if(typeof root.showScreen==="function")await root.showScreen("dashboard",false);
     progression.decorateDashboard?.();
     return true;
