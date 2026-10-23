@@ -130,7 +130,7 @@ function validateSeasonResults(r,where,leagueId){
   oneOf(r.phase,["entering","waiting-for-rival","results-ready","committed",null],where+".phase");oneOf(r.viewerRole,[...MANAGERS,null],where+".viewerRole");
   if(r.inputs!==null)pairOf(r.inputs,where+".inputs",(v,w)=>input(v,w,leagueId));
   if(r.breakdown!==null)pairOf(r.breakdown,where+".breakdown",(b,w)=>{exact(b,SPEC.breakdown,w);oneOf(b.championsLeague,[0,5],w);oneOf(b.europaLeague,[0,3],w);assert.ok(!(b.championsLeague&&b.europaLeague),w+" one manager's season is CL or EL");oneOf(b.leagueTitle,[0,3],w);oneOf(b.domesticCup,[0,1],w);oneOf(b.performanceBonus,[0,1],w);oneOf(b.awardsBonus,[0,1],w);assert.equal(b.total,b.championsLeague+b.europaLeague+b.leagueTitle+b.domesticCup+b.performanceBonus+b.awardsBonus,w+".total");assert.ok(b.total<=11);});
-  oneOf(r.winner,[...MANAGERS,"draw",null],where+".winner");oneOf(r.tiebreak,["none","league-position","league-points","draw",null],where+".tiebreak");
+  oneOf(r.winner,[...MANAGERS,"draw",null],where+".winner");oneOf(r.tiebreak,["none","draw",null],where+".tiebreak");
   if(r.phase!=="committed")assert.ok(r.breakdown===null&&r.winner===null&&r.tiebreak===null,where+" breakdown/winner/tiebreak only once committed");
 }
 function validateFinal(f,where){
@@ -160,7 +160,7 @@ function validateCareer(c,where){
   c.history.showdowns.forEach((row,i)=>{const w=where+".history["+i+"]";exact(row,SPEC.historyRow,w);assert.equal(row.number,i+1,w+".number");oneOf(row.status,["completed","in-progress","completion-pending","abandoned","unavailable"],w+".status");
     if(row.status==="abandoned"||row.status==="unavailable"){assert.deepEqual([row.leagueId,row.clubs,row.seasonsPlayed,row.totalSeasons,row.totals,row.winner,row.seasons],[null,null,null,null,null,null,[]],w+" status-only row");return;}
     league(row.leagueId,w,false);seasonsTotal(row.totalSeasons,w);pairOf(row.totals,w+".totals",(x,ww)=>assert.ok(isInt(x),ww));oneOf(row.winner,row.status==="in-progress"?[null]:[...MANAGERS,"draw"],w+".winner");
-    row.seasons.forEach((s,j)=>{exact(s,SPEC.historySeason,w+".seasons["+j+"]");oneOf(s.tiebreak,["none","league-position","league-points","draw"],w);});
+    row.seasons.forEach((s,j)=>{exact(s,SPEC.historySeason,w+".seasons["+j+"]");oneOf(s.tiebreak,["none","draw"],w);});
   });
 }
 check("K3 nav fixture matches V1 §10",()=>{
@@ -228,7 +228,7 @@ check("K4 checkSource holds only accepted seasons (both managers already saw the
 
 // ---------- K5. Scoring never changes (independent re-derivation from checkSource) ----------
 function score(r){const b={championsLeague:r.championsLeague?5:0,europaLeague:r.europaLeague===true?3:0,leagueTitle:r.leaguePosition===1?3:0,domesticCup:r.domesticCup?1:0,performanceBonus:(r.leaguePoints>=100||r.leagueGoals>=100)?1:0,awardsBonus:(r.topScorer||r.topAssist)?1:0};b.total=b.championsLeague+b.europaLeague+b.leagueTitle+b.domesticCup+b.performanceBonus+b.awardsBonus;return b;}
-function seasonWinner(d,n){const a=score(d).total,b=score(n).total;if(a!==b)return [a>b?"daniel":"nik","none"];if(d.leaguePosition!==n.leaguePosition)return [d.leaguePosition<n.leaguePosition?"daniel":"nik","league-position"];if(d.leaguePoints!==n.leaguePoints)return [d.leaguePoints>n.leaguePoints?"daniel":"nik","league-points"];return ["draw","draw"];}
+function seasonWinner(d,n){const a=score(d).total,b=score(n).total;if(a!==b)return [a>b?"daniel":"nik","none"];return ["draw","draw"];}// r83: no tiebreak
 check("K5 every season score, winner, tiebreak and total re-derives from the season facts",()=>{
   for(const {row,fx} of fixtures){
     const rows=fx.career.history.showdowns.filter(r=>r.seasons.length),srcs=fx.checkSource.filter(s=>s.state!=="abandoned");
@@ -239,9 +239,9 @@ check("K5 every season score, winner, tiebreak and total re-derives from the sea
   }
   const perfect=score({leaguePosition:1,leaguePoints:101,leagueGoals:104,championsLeague:true,domesticCup:true,topScorer:true,topAssist:true});assert.equal(perfect.total,11);assert.equal(perfect.performanceBonus,1);assert.equal(perfect.awardsBonus,1);
 });
-check("K5 career totals are sums of counted seasons; abandoned counts for nothing",()=>{
+check("K5 career totals are sums of finished Showdowns' seasons; abandoned and unfinished count for nothing",()=>{
   for(const {row,fx} of fixtures){if(!["ready","partial"].includes(fx.career.status))continue;
-    for(const m of MANAGERS){const rows=fx.career.history.showdowns.filter(r=>r.status!=="abandoned"&&r.status!=="unavailable");
+    for(const m of MANAGERS){const rows=fx.career.history.showdowns.filter(r=>r.status==="completed");// r83 (JOB-4 F1)
       assert.equal(fx.career.managers[m].careerPoints,rows.reduce((t,r)=>t+r.totals[m],0),row.id+" careerPoints "+m);
       assert.equal(fx.career.managers[m].seasons,rows.reduce((t,r)=>t+r.seasons.length,0),row.id+" seasons "+m);
       const completed=rows.filter(r=>r.status==="completed");assert.equal(fx.career.managers[m].showdowns.completed,completed.length,row.id);
@@ -274,7 +274,9 @@ check("K6 Daniel and Nik see identical shared numbers; only their own role diffe
 });
 check("K6 one-Showdown career equals the adapter path (interim label aside)",()=>{
   for(const {row,fx} of fixtures){
-    const single=fx.career.history.showdowns.length<=1&&fx.checkSource.length<=1&&row.id!=="partial-career"&&row.id!=="pairing-code-created";
+    // r83 (JOB-4 F1): an unfinished current Showdown counts in the labelled current-only view but not in career totals.
+    const unfinished=fx.career.history.showdowns.some(r=>r.status==="in-progress"||r.status==="completion-pending");
+    const single=!unfinished&&fx.career.history.showdowns.length<=1&&fx.checkSource.length<=1&&row.id!=="partial-career"&&row.id!=="pairing-code-created";
     if(!single)continue;const {interimLabel:a,...career}=fx.career,{interimLabel:b,...interim}=fx.careerInterim;
     assert.deepEqual(career,interim,row.id);
   }
@@ -295,7 +297,7 @@ check("K8 required scenarios and every state are present",()=>{
   const careerStatuses=seen(f=>[f.fx.career.status]);for(const s of STATUS5)assert.ok(careerStatuses.has(s),"career status "+s);
   const phases=seen(f=>MANAGERS.flatMap(m=>[f.fx.viewers[m].seasonResults.phase,...f.fx.viewers[m].seasonResultsBySeason.map(r=>r.phase)]));for(const p of ["entering","waiting-for-rival","results-ready","committed"])assert.ok(phases.has(p),"phase "+p);
   const states=seen(f=>[f.fx.viewers.daniel.finalWinner.state]);for(const s of ["completion-pending","completed"])assert.ok(states.has(s),"final "+s);
-  const tiebreaks=seen(f=>f.fx.career.history.showdowns.flatMap(r=>r.seasons.map(s=>s.tiebreak)));for(const t of ["none","league-position","league-points","draw"])assert.ok(tiebreaks.has(t),"tiebreak "+t);
+  const tiebreaks=seen(f=>f.fx.career.history.showdowns.flatMap(r=>r.seasons.map(s=>s.tiebreak)));for(const t of ["none","draw"])assert.ok(tiebreaks.has(t),"tiebreak "+t);// r83: no league-position or league-points tiebreak
   const rows=seen(f=>[...f.fx.career.history.showdowns,...f.fx.careerInterim.history.showdowns].map(r=>r.status));for(const s of ["completed","in-progress","completion-pending","abandoned","unavailable"])assert.ok(rows.has(s),"history "+s);
   const winners=seen(f=>[f.fx.viewers.daniel.finalWinner.winner]);for(const w of ["daniel","draw"])assert.ok(winners.has(w),"final winner "+w);
   const multi=fixtures.find(f=>f.row.id==="multi-showdown-career").fx;assert.ok(multi.career.managers.daniel.showdowns.wins>=1&&multi.career.managers.nik.showdowns.wins>=1,"both managers win a Showdown");
@@ -313,7 +315,7 @@ check("K8 different FIFA saves: each manager's season stands alone; the same tro
       for(const r of [d,n]){assert.ok(!("europaLeague" in r)||r.europaLeague===true,w+" europaLeague is present only as true");assert.ok(!(r.championsLeague&&r.europaLeague===true),w+" one manager has both CL and EL");}
       if(d.leaguePosition===n.leaguePosition)sharedPosition+=1;});}
   assert.ok(sharedPosition>0,"the fixtures include a season where both managers share a league position");
-  const eq=fixtures.find(f=>f.row.id==="equal-position-tiebreaks").fx;assert.deepEqual(eq.career.history.showdowns[0].seasons.map(s=>s.tiebreak),["league-points","draw","none"]);
+  const eq=fixtures.find(f=>f.row.id==="equal-position-tiebreaks").fx;assert.deepEqual(eq.career.history.showdowns[0].seasons.map(s=>s.tiebreak),["draw","draw","none"]);// r83: equal points is a draw
 });
 
 console.log("PASS data contract v1 fixtures contracts ("+checks+" checks, "+fixtures.length+" scenarios + nav): real provider shapes, generated from the model, V1 fields, privacy, scoring, cross-screen agreement, seam binding, state coverage.");

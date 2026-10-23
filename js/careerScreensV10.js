@@ -1521,7 +1521,12 @@
     const identity=v10Identity();
     let model=getModel();
     // Online with no supplied model: the provider-backed completed-Showdown model (shared with History).
-    if(model==null&&v10Seam().isOnlineCareerRoute(identity))model=v10OnlineModel()??(onlineLoading?LOADING:null);
+    if(model==null&&v10Seam().isOnlineCareerRoute(identity)){
+      model=v10OnlineModel()??(onlineLoading?LOADING:null);
+      // r83 (Nik: panels show, vanish, then load again): an "unavailable" career kept from an earlier read is not drawn
+      // while a fresh read is running; the screen shows loading once, then the fresh career.
+      if(onlineLoading&&model?.status==="unavailable")model=LOADING;
+    }
     const source=v10Seam().selectCareerScreenSource({identityState:identity,model});
     if(source==="local")return null;
     return source==="model"?model:UNAVAILABLE;
@@ -1611,7 +1616,9 @@
         if(v10Seam().isOnlineCareerRoute(v10Identity()))v10LoadOnline().catch(v10Fail);
       });
       root.addEventListener?.("career-mode-online-career-model-change",()=>{
-        if(!v10Seam().isOnlineCareerRoute(v10Identity())||v10OnlineModel()==null)return;
+        // r82 (Nik: panels show, vanish, then load again): this screen's own load redraws once when it ends, so a model
+        // published during that load must not draw the same frame a second time.
+        if(onlineLoading||!v10Seam().isOnlineCareerRoute(v10Identity())||v10OnlineModel()==null)return;
         for(const screen of Object.keys(SCREEN_IDS))if(screens.isMounted(screen)&&getters[screen]?.()==null){
           screens.invalidate(screen);screens.show(screen).catch(v10Fail);
         }
@@ -1620,6 +1627,7 @@
     }).catch(error=>{registered=null;throw error;});
     return registered;
   }
+  function v10ModelText(model){try{return model==null?null:JSON.stringify(model);}catch(_){return null;}}
   function v10OnlineModel(){try{return root.CareerModeRivalryLegacyV10?.cachedCareerModel?.()??null;}catch(_){return null;}}
   function v10Redraw(){
     const screens=v10Screens();
@@ -1627,11 +1635,14 @@
   }
   // Reads the closed-Showdown career through the same lazy loader History uses (exact gets only, no writes).
   async function v10LoadOnline(){
-    const token=++onlineToken;onlineLoading=true;v10Redraw();
+    // r82 (Codex JOB-B B3): a warm visit draws its cached career at once; when the fresh read returns the same career, that
+    // frame stays (no second boot). Only a changed career is drawn again.
+    // An "unavailable" career is drawn as loading while the read runs, so it is always drawn again when the read ends.
+    const token=++onlineToken,before=v10ModelText(v10OnlineModel());onlineLoading=true;v10Redraw();
     try{
       await root.loadRuntimeScript("rivalry-legacy-v10","js/rivalryLegacyV10.js",()=>Boolean(root.CareerModeRivalryLegacyV10));
       await root.CareerModeRivalryLegacyV10.loadCareerModel();
-    }finally{if(token===onlineToken){onlineLoading=false;v10Redraw();}}
+    }finally{if(token===onlineToken){onlineLoading=false;const after=v10OnlineModel();if(before===null||after?.status==="unavailable"||before!==v10ModelText(after))v10Redraw();}}
   }
   // Called by statistics.js / trophyRoom.js after the old open path; getModel returns the screen's current model.
   async function mount(screen,getModel){

@@ -59,7 +59,8 @@ function expectedScore(role,season){
   if(role==="playerOne"){if(season===1)return 5;if(season===2)return 1;if(season===3)return 5;if(season===10)return 1;return 0;}
   if(season===2)return 3;if(season===3)return 1;return 0;
 }
-function expectedWinner(season){return season===2?"playerTwo":"playerOne";}
+// r83 (Nik 2026-10-23): no tiebreak, so the 0-0 seasons (4 to 9) are draws whatever the league position.
+function expectedWinner(season){const a=expectedScore("playerOne",season),b=expectedScore("playerTwo",season);return a>b?"playerOne":b>a?"playerTwo":"draw";}
 
 async function assertImpossibleBundesligaResultDenied(db,season){
   const operationId=op("season_result_op_",900+season),seasonId=`season_${season}`,hash=`sha256:${"9".repeat(64)}`,commandHash=`sha256:${"8".repeat(64)}`;
@@ -239,10 +240,11 @@ async function assertImpossibleBundesligaCommitDenied(env,db,season){
       assert.equal(lastHistory.projection.seasonHistory[season-1].winner,expectedWinner(season),`S${season} stored season winner must match canonical scoring`);
       assert.equal(lastHistory.projection.managerRecords.playerOne.totalPoints,expectedTotals.playerOne,`S${season} Daniel accumulated Showdown score must be exact`);
       assert.equal(lastHistory.projection.managerRecords.playerTwo.totalPoints,expectedTotals.playerTwo,`S${season} Nik accumulated Showdown score must be exact`);
-      assert.equal(lastHistory.projection.managerRecords.playerOne.seasonWins,season-(season>=2?1:0),`S${season} Daniel season-win history must accumulate exactly`);
-      assert.equal(lastHistory.projection.managerRecords.playerTwo.seasonWins,season>=2?1:0,`S${season} Nik season-win history must accumulate exactly`);
-      assert.equal(lastHistory.projection.managerRecords.playerOne.seasonDraws,0);
-      assert.equal(lastHistory.projection.managerRecords.playerTwo.seasonDraws,0);
+      const upTo=Array.from({length:season},(_,i)=>expectedWinner(i+1)),count=w=>upTo.filter(x=>x===w).length;
+      assert.equal(lastHistory.projection.managerRecords.playerOne.seasonWins,count("playerOne"),`S${season} Daniel season-win history must accumulate exactly`);
+      assert.equal(lastHistory.projection.managerRecords.playerTwo.seasonWins,count("playerTwo"),`S${season} Nik season-win history must accumulate exactly`);
+      assert.equal(lastHistory.projection.managerRecords.playerOne.seasonDraws,count("draw"));
+      assert.equal(lastHistory.projection.managerRecords.playerTwo.seasonDraws,count("draw"));
       assert.equal(lastHistory.projection.trophyAttribution.playerOne.leagueTitles,1,`S${season} Daniel league-title history must persist`);
       assert.equal(lastHistory.projection.trophyAttribution.playerOne.domesticCups,season>=2?1:0,`S${season} Daniel domestic-cup history must accumulate`);
       assert.equal(lastHistory.projection.trophyAttribution.playerOne.championsLeagues,season>=3?1:0,`S${season} Daniel Champions League history must accumulate`);

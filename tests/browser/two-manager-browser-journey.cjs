@@ -320,6 +320,17 @@ async function backToShowdownHome(m){
   const diag=await m.page.evaluate(()=>({screens:[...document.querySelectorAll(".screen:not(.hidden)")].map(s=>s.id),buttons:[...document.querySelectorAll("button")].filter(b=>b.offsetParent!==null).map(b=>(b.innerText||b.id||"").replace(/\s+/g," ").trim()).slice(0,30)}));
   throw new Error(`${m.user}: could not reach Showdown Home from the finished Showdown within 20 s ${JSON.stringify(diag)}`);
 }
+// r82 (Nik: career panels show, vanish, then load again): after a career screen first shows its content, it must never go
+// blank or back to loading while it settles. Sampled every frame from before the tap until 3 s after the content appeared.
+async function watchCareerScreen(m,screenId){
+  await m.page.evaluate(id=>{const w=window.__careerVanish={id,seen:false,vanish:0};const tick=()=>{if(window.__careerVanish!==w)return;const el=document.getElementById(id);// A host still held by the loader ([data-v10-pending], opacity 0) is not on screen yet.
+const t=(el&&el.getClientRects().length&&!el.closest("[data-v10-pending]")?el.innerText:"")||"";if(t.trim().length>80&&!/loading/i.test(t)){if(!w.seen)(w.log=w.log||[]).push(performance.now().toFixed(0)+" ON "+t.slice(0,160).replace(/\s+/g," "));w.seen=true;}else if(w.seen){w.vanish+=1;w.seen=false;(w.log=w.log||[]).push(performance.now().toFixed(0)+" OFF "+t.slice(0,160).replace(/\s+/g," "));}requestAnimationFrame(tick);};requestAnimationFrame(tick);},screenId);
+}
+async function assertCareerScreenSteady(m,screenId,who){
+  await m.page.waitForTimeout(3000);
+  const vanish=await m.page.evaluate(()=>{const w=window.__careerVanish;window.__careerVanish=null;return w?w.vanish+"|"+JSON.stringify(w.log||[]):"-1";});
+  if(!String(vanish).startsWith("0|"))throw new Error(`${who}: ${screenId} showed its content, then went blank or back to loading ${vanish} time(s) (panels loaded twice)`);
+}
 async function assertCareerScreensShowCompletedShowdown(managers,id){
   for(const m of managers){
     const who=`${id} ${m.user}`;
@@ -327,13 +338,16 @@ async function assertCareerScreensShowCompletedShowdown(managers,id){
     const bad=/unavailable|could not be read|could not be loaded|failed to|loading your showdown history|loading career history/i;
     // Career Statistics
     await backToShowdownHome(m);
+    await watchCareerScreen(m,"careerStatistics");
     await m.page.locator("#careerStatisticsButton").click({timeout:20000});
     const oneCompleted=t=>/(COMPLETED SHOWDOWNS\s*1(?!\d)|(?<![\d.])1\s*COMPLETED SHOWDOWNS)/i.test(t);
     let text=await readCareerScreenText(m,"careerStatistics",t=>!bad.test(t)&&oneCompleted(t));
     if(bad.test(text)||!/COMPLETED SHOWDOWNS/i.test(text))throw fail("Career Statistics",text,"did not load career history");
     if(!oneCompleted(text))throw fail("Career Statistics",text,"does not show COMPLETED SHOWDOWNS 1");
+    await assertCareerScreenSteady(m,"careerStatistics",who);
     await shot(m,`j10-career-statistics-${id}`);
     // Trophy Room (opened from Career Statistics with the screen's own button)
+    await watchCareerScreen(m,"trophyRoom");
     await m.page.locator("#trophyRoomButton").click({timeout:20000});
     text=await readCareerScreenText(m,"trophyRoom",t=>!bad.test(t)&&/Showdown Champion/i.test(t));
     if(bad.test(text))throw fail("Trophy Room",text,"reports the career history as unavailable or unreadable");
@@ -348,14 +362,17 @@ async function assertCareerScreensShowCompletedShowdown(managers,id){
     let seen=await champions();const champDeadline=Date.now()+20000;
     while(seen.winner!=="1"&&Date.now()<champDeadline){await m.page.waitForTimeout(250);seen=await champions();}
     if(seen.winner!=="1"||seen.loser==="1")throw fail("Trophy Room",text,`does not award the Showdown Champion trophy to ${FINAL_EXPECTED.winnerName} only (cabinet counts ${JSON.stringify(seen)})`);
+    await assertCareerScreenSteady(m,"trophyRoom",who);
     await shot(m,`j10-trophy-room-${id}`);
     // Legacy
     await backToShowdownHome(m);
+    await watchCareerScreen(m,"legacy");
     await m.page.locator("#legacyButton").click({timeout:20000});
     text=await readCareerScreenText(m,"legacy",t=>!bad.test(t)&&/Showdown #1\b/i.test(t));
     if(bad.test(text)||!text)throw fail("Legacy",text,"is unavailable or still loading");
     if(!/Showdown #1\b/i.test(text)||/Showdown #2\b/i.test(text))throw fail("Legacy",text,"does not list exactly one completed Showdown card (#1)");
     if(!new RegExp(`${FINAL_EXPECTED.winnerName} WINS`,"i").test(text))throw fail("Legacy",text,`does not show ${FINAL_EXPECTED.winnerName} as the Showdown winner`);
+    await assertCareerScreenSteady(m,"legacy",who);
     await shot(m,`j10-legacy-${id}`);
   }
 }
@@ -751,8 +768,8 @@ async function main(){
         assert.equal(await nik.page.locator("#seasonReviewOne").isVisible(),false,"season 3 Daniel result stays private until Nik publishes");
         await fillSeasonResult(nik,"p2",season3Nik);await publishSeasonResult(nik);
         for(const m of [daniel,nik])await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS PUBLISHED",null,{timeout:45000});
-        await commitSeasonViaUi(daniel,nik,1,1,"Daniel",{finalSeason:true,seasonNumber:3});
-        ok("J8.5","season 3 repeated privacy and scoring; 1-1 tie is won by Daniel on league position");
+        await commitSeasonViaUi(daniel,nik,1,1,"draw",{finalSeason:true,seasonNumber:3});
+        ok("J8.5","season 3 repeated privacy and scoring; 1-1 season is a draw (no tiebreak)");
       }
     }
 

@@ -2036,6 +2036,26 @@
       ]
     },
     {
+      "path": "tests/contracts/r83-transfer-expiry-budget-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^tests/contracts/r83-transfer-expiry-budget-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r83-career-reveal-retry-contracts.cjs",
+      "patterns": [
+        "^js/careerStartMarker\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^js/sparkClosedShowdownCareerLoader\\.js$",
+        "^js/sparkCompletedShowdownReader\\.js$",
+        "^tests/fixtures/saved-showdowns/r79-1season-win\\.json$",
+        "^tests/contracts/r83-career-reveal-retry-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r83-continue-read-retry-contracts.cjs",
       "patterns": [
         "^js/sparkRemoteJoining\\.js$",

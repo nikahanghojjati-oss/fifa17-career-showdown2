@@ -56,12 +56,11 @@ function createRuleBookScreen(){
             "If a signing matches a correct guess, that signing must be released before the season begins."
         ]),
         createScoringRuleSection(),
-        createRuleSection("05", "TIEBREAK", [
-            "If both managers finish a season with the same Showdown points, use the approved fallback.",
-            "The manager with the better league finishing position wins the season.",
-            "If both managers finish in the same league position, the manager with more league points wins.",
-            "If both managers also have the same league points, the season is a draw.",
-            "No goal-difference, goals-scored, or head-to-head tiebreak is used."
+        createRuleSection("05", "DRAWS", [
+            "The manager with more Showdown points in a season wins that season.",
+            "If both managers finish a season with the same Showdown points, including 0-0, the season is a draw.",
+            "There is no tiebreak: league position, league points and goals never decide a season or a Showdown.",
+            "If both managers finish the Showdown with the same total, the Showdown is a draw."
         ]),
         createRuleSection("06", "CONNECTION & RECOVERY", [
             "Daniel and Nik connect once before the first Showdown and can then continue the same career from a remembered account and browser.",
