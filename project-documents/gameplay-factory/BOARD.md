@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 22 Oct, 8:13 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 22 Oct, 8:17 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.5-r81** (main `9230e33`, Mon 19 Oct 7:17 PM)
 
@@ -58,7 +58,7 @@ Updated Thu 22 Oct, 8:13 PM Boston time. Bug hunting only, no new features until
 
 **#11 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 190 h ago
+⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 191 h ago
 
 **#12 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
@@ -2135,7 +2135,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 | 🟧 Team G lead | [PR #960](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/960) | JOB-1 audit: continuing Showdowns after reload and reconnect | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #959](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/959) | JOB-A: investigate zero career totals after real Showdowns | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #958](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/958) | JOB-B audit: career screen double loads and readiness gaps | 🔴 7 passed, 1 failed (draft) |
-| 🟧 Team G lead | [PR #957](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/957) | Release 1.9.6-r82: career screens count real finished Showdowns | 🟠 7 passed, 7 running, 1 cancelled |
+| 🟧 Team G lead | [PR #957](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/957) | Release 1.9.6-r82: career screens count real finished Showdowns | 🟠 9 passed, 5 running, 1 cancelled |
 
 **Up next**
 
