@@ -30,7 +30,7 @@
   let srjReplaceAction=null;
   const srjScriptPromises=new Map();
   const srjListeners=new Set();
-  let srjState=srjFreeze({status:"idle",open:false,busy:false,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,auto:null,message:"Remote Joining is private and action-only. No session request has been sent."});
+  let srjState=srjFreeze({status:"idle",open:false,busy:false,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,auto:null,waitRetry:false,message:"Remote Joining is private and action-only. No session request has been sent."});
 
   function srjFreeze(value){
     if(!value||typeof value!=="object"||Object.isFrozen(value))return value;
@@ -186,26 +186,31 @@
     }
   }
   function srjHostWaitingForJoin(sessionId){return Boolean(sessionId&&srjState.sessionId===sessionId&&srjState.role==="host"&&srjState.sessionState==="open"&&!srjState.pendingAction&&!srjExpiredByClock());}
-  function srjWatchForJoin(sessionId,startedAt=Date.now()){
+  function srjWatchForJoin(sessionId,startedAt=Date.now(),generation=srjWaitGeneration){
     if(!root.document||typeof root.setTimeout!=="function"||!srjHostWaitingForJoin(sessionId))return false;
     if(srjJoinWatchTimer!==null){if(srjJoinWatchSessionId===sessionId)return false;if(typeof root.clearTimeout==="function")root.clearTimeout(srjJoinWatchTimer);}
     srjJoinWatchSessionId=sessionId;
     const timer=root.setTimeout(async()=>{
       if(srjJoinWatchTimer!==timer)return;
       srjJoinWatchTimer=null;srjJoinWatchSessionId=null;
-      if(!srjHostWaitingForJoin(sessionId)||Date.now()-startedAt>SRJ_JOIN_WATCH_LIMIT_MS)return;
+      if(generation!==srjWaitGeneration||!srjHostWaitingForJoin(sessionId))return;
+      if(Date.now()-startedAt>SRJ_JOIN_WATCH_LIMIT_MS){srjPauseWait();return;}
       if(!srjState.busy&&root.document.visibilityState!=="hidden"){
-        try{
-          root.CareerModeFirestoreBudget?.wantFresh?.();
-          const context=await srjResolveContext();
-          const result=await context.protocol.readSession(srjOperationOptions(context,sessionId));
-          if(srjHostWaitingForJoin(sessionId)&&!srjState.busy&&result&&result.ok===true&&result.state!=="open")srjAcceptResult(result,context,"host",result.state==="active"?"The other manager joined. Private session is active with exactly the two paired rivalry accounts.":`Private session refreshed at revision ${result.revision}.`);
-        }catch(_error){}
+        await srjCheckForJoin(sessionId,generation);
       }
-      srjWatchForJoin(sessionId,startedAt);
+      if(generation===srjWaitGeneration)srjWatchForJoin(sessionId,startedAt,generation);
     },SRJ_JOIN_WATCH_MS);
     srjJoinWatchTimer=timer;
     return true;
+  }
+  async function srjCheckForJoin(sessionId,generation){
+    try{
+      root.CareerModeFirestoreBudget?.wantFresh?.();
+      const context=await srjResolveContext();
+      if(generation!==srjWaitGeneration||!srjPendingContextMatches(context)||!srjHostWaitingForJoin(sessionId))return;
+      const result=await context.protocol.readSession(srjOperationOptions(context,sessionId));
+      if(generation===srjWaitGeneration&&srjHostWaitingForJoin(sessionId)&&!srjState.busy&&result&&result.ok===true&&result.state!=="open")srjAcceptResult(result,context,"host",result.state==="active"?"The other manager joined. Private session is active with exactly the two paired rivalry accounts.":`Private session refreshed at revision ${result.revision}.`);
+    }catch(_error){}
   }
   async function srjRetryPendingOperation(){
     if(srjRetireEnded())return {ok:false,code:"REMOTE_JOINING_SHOWDOWN_ENDED",message:srjState.message};
@@ -335,6 +340,7 @@
   // for accounts that are not permanently paired (r79 PR3: a paired account has no USE A SESSION CODE path).
   const SRJ_OFFER_POLL_MS=3000,SRJ_OFFER_POLL_LIMIT_MS=10*60*1000,SRJ_OFFER_MIN_LIFE_MS=60*1000;
   let srjAutoPromise=null,srjOfferTimer=null,srjPublishTimer=null,srjPublishRetry=null;
+  let srjWaitGeneration=0,srjResumePromise=null;
   function srjOfferRef(context){return context.services.firestoreSdk.doc(context.services.firestore,"rivalries",context.rivalryId,"sessionOffers","current");}
   // r79 gallery (Nik's JOIN after a deleted Showdown): the pointer is what a waiting phone polls for, so the budget layer must
   // not answer it from a copy. With any healthy wait-point listener on the page (the previous Showdown's shared setup kept one)
@@ -359,10 +365,10 @@
   }
   function srjHostsByDefault(){const identity=root.CareerModeOnlinePlayerIdentity&&typeof root.CareerModeOnlinePlayerIdentity.getState==="function"?root.CareerModeOnlinePlayerIdentity.getState():null;return Boolean(identity&&identity.managerId==="daniel");}
   function srjRivalName(){return srjHostsByDefault()?"NIK":"DANIEL";}
-  async function srjAdopt(context,sessionId,role,joinOpen){
+  async function srjAdopt(context,sessionId,role,joinOpen,generation=srjWaitGeneration){
     let result;
     try{result=await context.protocol.readSession(srjOperationOptions(context,sessionId));}catch(_error){return null;}
-    if(!result||result.ok!==true||result.expiredByClock||!Number.isFinite(result.expiresAtEpochMs)||result.expiresAtEpochMs<=Date.now())return null;
+    if(generation!==srjWaitGeneration||!result||result.ok!==true||result.expiredByClock||!Number.isFinite(result.expiresAtEpochMs)||result.expiresAtEpochMs<=Date.now())return null;
     if(result.state==="active"){srjAcceptResult(result,context,role,"Connected to your Showdown again.");return {ok:true,kind:"resumed"};}
     if(result.state!=="open")return null;
     if(role==="host"){srjOfferConfirmed=sessionId;srjAcceptResult(result,context,"host",`Waiting for ${srjRivalName()==="NIK"?"Nik":"Daniel"} to open the game.`);srjSetState({auto:"waiting"});srjWatchForJoin(sessionId);return {ok:true,kind:"hosting"};}
@@ -371,23 +377,54 @@
     return joined&&joined.ok===true?{ok:true,kind:"joined"}:null;
   }
   function srjStopOfferWait(){if(srjOfferTimer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(srjOfferTimer);srjOfferTimer=null;}
-  function srjWaitForOffer(startedAt=Date.now()){
+  function srjPauseWait(){
+    srjSetState({auto:"waiting",waitRetry:true});
+  }
+  async function srjCheckForOffer(generation){
+    try{
+      const context=await srjResolveContext(),offer=await srjReadOffer(context);
+      if(generation===srjWaitGeneration&&offer&&offer.hostAccountId!==context.accountId&&offer.expiresAtEpochMs>Date.now()+SRJ_OFFER_MIN_LIFE_MS&&srjState.auto==="waiting"&&!srjState.busy&&!srjHasNonterminalSession()){
+        const adopted=await srjAdopt(context,offer.sessionId,"peer",true,generation);
+        if(adopted){srjSetState({auto:null,waitRetry:false});return;}
+      }
+    }catch(_error){}
+  }
+  function srjWaitForOffer(startedAt=Date.now(),generation=srjWaitGeneration){
     srjStopOfferWait();
     if(typeof root.setTimeout!=="function")return;
-    srjOfferTimer=root.setTimeout(async()=>{
+    const timer=root.setTimeout(async()=>{
+      if(srjOfferTimer!==timer)return;
       srjOfferTimer=null;
-      if(srjHasNonterminalSession()||srjState.auto!=="waiting"||Date.now()-startedAt>SRJ_OFFER_POLL_LIMIT_MS)return;
-      if(!srjState.busy&&(!root.document||root.document.visibilityState!=="hidden")){
-        try{
-          const context=await srjResolveContext(),offer=await srjReadOffer(context);
-          if(offer&&offer.hostAccountId!==context.accountId&&offer.expiresAtEpochMs>Date.now()+SRJ_OFFER_MIN_LIFE_MS&&srjState.auto==="waiting"&&!srjHasNonterminalSession()){
-            const adopted=await srjAdopt(context,offer.sessionId,"peer",true);
-            if(adopted){srjSetState({auto:null});return;}
-          }
-        }catch(_error){}
-      }
-      srjWaitForOffer(startedAt);
+      if(generation!==srjWaitGeneration||srjHasNonterminalSession()||srjState.auto!=="waiting")return;
+      if(Date.now()-startedAt>SRJ_OFFER_POLL_LIMIT_MS){srjPauseWait();return;}
+      if(!srjState.busy&&(!root.document||root.document.visibilityState!=="hidden"))await srjCheckForOffer(generation);
+      if(generation===srjWaitGeneration&&!srjHasNonterminalSession()&&srjState.auto==="waiting")srjWaitForOffer(startedAt,generation);
     },SRJ_OFFER_POLL_MS);
+    srjOfferTimer=timer;
+  }
+  // JOB-1 F2: a wake or retry owns one immediate read and a new ten-minute window. Retired callbacks cannot re-arm it.
+  // Codex #974: an offer publish retry whose own window ran out while asleep gets a fresh window too.
+  function srjResumeWait(){
+    if(srjResumePromise)return srjResumePromise;
+    if(root.document?.visibilityState==="hidden"||srjState.busy||srjState.pendingAction||srjAutoPromise)return Promise.resolve(false);
+    const sessionId=srjHostWaitingForJoin(srjState.sessionId)?srjState.sessionId:null;
+    if(!sessionId&&(srjState.auto!=="waiting"||srjHasNonterminalSession()))return Promise.resolve(false);
+    const generation=++srjWaitGeneration,startedAt=Date.now();
+    srjStopOfferWait();
+    if(srjJoinWatchTimer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(srjJoinWatchTimer);
+    srjJoinWatchTimer=null;srjJoinWatchSessionId=null;
+    srjSetState({waitRetry:false});
+    srjResumePromise=(async()=>{
+      if(sessionId){
+        await srjCheckForJoin(sessionId,generation);
+        if(generation===srjWaitGeneration){srjWatchForJoin(sessionId,startedAt,generation);if(srjHostWaitingForJoin(sessionId)&&srjOfferConfirmed!==sessionId&&(!srjPublishRetry||Date.now()-srjPublishRetry.startedAt>SRJ_OFFER_POLL_LIMIT_MS)&&srjPermanentlyPaired())srjRetryOfferPublish(sessionId);}
+      }else{
+        await srjCheckForOffer(generation);
+        if(generation===srjWaitGeneration&&srjState.auto==="waiting"&&!srjHasNonterminalSession())srjWaitForOffer(startedAt,generation);
+      }
+      return true;
+    })().finally(()=>{srjResumePromise=null;});
+    return srjResumePromise;
   }
   // Codex #904 (release review): a permanently paired account has no USE A SESSION CODE path, so when Daniel's session is
   // open but the pointer write fails, "send Nik this session code" was a dead end: Nik's phone only ever reads the pointer.
@@ -401,7 +438,7 @@
   let srjOfferConfirmed=null;
   // Codex #920: the host's join watch has its own 10 min limit, so it starts afresh whenever the pointer lands or publishing
   // restarts; otherwise Nik could join after it ended and Daniel's screen would stay on WAITING until a reload.
-  function srjRewatchForJoin(sessionId){if(srjJoinWatchTimer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(srjJoinWatchTimer);srjJoinWatchTimer=null;srjJoinWatchSessionId=null;return srjWatchForJoin(sessionId);}
+  function srjRewatchForJoin(sessionId){if(srjJoinWatchTimer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(srjJoinWatchTimer);srjJoinWatchTimer=null;srjJoinWatchSessionId=null;const watching=srjWatchForJoin(sessionId);if(watching)srjSetState({waitRetry:false});return watching;}
   function srjStopPublishRetry(){if(srjPublishTimer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(srjPublishTimer);srjPublishTimer=null;srjPublishRetry=null;}
   async function srjPublishIfStillOurs(context,sessionId){
     const path=`rivalries/${context.rivalryId}/sessionOffers/current`,sdk=context.services.firestoreSdk;
@@ -463,9 +500,10 @@
     if(srjHasNonterminalSession()&&srjPendingContextMatches(context)){
       if(srjState.sessionState==="active")srjSetState({auto:null});
       else if(srjHostWaitingForJoin(srjState.sessionId)&&srjOfferConfirmed!==srjState.sessionId&&!srjPublishRetry&&srjPermanentlyPaired()){srjSetState({auto:"waiting",message:"Waiting for Nik to open the game."});srjRewatchForJoin(srjState.sessionId);srjRetryOfferPublish(srjState.sessionId);return {ok:true,kind:"held-publishing"};}
+      if(srjHostWaitingForJoin(srjState.sessionId))srjRewatchForJoin(srjState.sessionId);
       return {ok:true,kind:"held"};
     }
-    srjSetState({auto:"connecting",message:"Connecting to your Showdown…"});
+    srjSetState({auto:"connecting",waitRetry:false,message:"Connecting to your Showdown…"});
     const offer=await srjReadOffer(context);
     if(offer&&offer.expiresAtEpochMs>Date.now()+SRJ_OFFER_MIN_LIFE_MS){
       const mine=offer.hostAccountId===context.accountId;
@@ -496,10 +534,11 @@
   function srjPermanentlyPaired(){try{const partner=root.CareerModePersistentNikDanielPair?.getPartnerState?.(),account=root.CareerModeSparkConnectedAccount?.getState?.();return Boolean(partner&&partner.status==="ready"&&partner.record&&partner.record.active===true&&account&&partner.accountId===account.accountId);}catch(_error){return false;}}
   function srjUseManualCode(){if(srjPermanentlyPaired())return srjState;srjStopOfferWait();return srjSetState({auto:null});}
   function srjRenderAuto(body){
-    const waiting=srjState.auto==="waiting";
+    const waiting=srjState.auto==="waiting",retry=waiting&&srjState.waitRetry;
     const intro=srjCreate("div","remoteJoiningIntro");
-    intro.append(srjCreate("span","remoteJoiningEyebrow","CAREER MODE SHOWDOWN"),srjCreate("h2","",waiting?`WAITING FOR ${srjRivalName()}`:"CONNECTING"),srjCreate("p","",waiting?`Your game is ready. It continues by itself as soon as ${srjRivalName()==="NIK"?"Nik":"Daniel"} opens Career Mode Showdown and taps CONTINUE CAREER.`:"Connecting Daniel and Nik to the same game. This takes a moment."));
+    intro.append(srjCreate("span","remoteJoiningEyebrow","CAREER MODE SHOWDOWN"),srjCreate("h2","",waiting?`WAITING FOR ${srjRivalName()}`:"CONNECTING"),srjCreate("p","",retry?srjState.message:waiting?`Your game is ready. It continues by itself as soon as ${srjRivalName()==="NIK"?"Nik":"Daniel"} opens Career Mode Showdown and taps CONTINUE CAREER.`:"Connecting Daniel and Nik to the same game. This takes a moment."));
     body.appendChild(intro);
+    if(retry){const actions=srjCreate("div","remoteJoiningActions"),button=srjCreate("button","compactButton","TRY AGAIN");button.type="button";button.disabled=srjState.busy;button.addEventListener("click",()=>{void srjResumeWait();});actions.appendChild(button);body.appendChild(actions);}
     // r79 PR3: a permanently paired account connects through the pair's session pointer only, so the manual USE A SESSION CODE
     // path is gone for it. An account that is not (yet) permanently paired keeps it as the fallback.
     if(!srjPermanentlyPaired()){
@@ -572,8 +611,9 @@
   function srjRetireEnded(){if(srjState.busy||!srjState.rivalryId||!srjEndedRivalryIds.has(srjState.rivalryId)||!(srjState.pendingAction||srjState.sessionState==="unresolved"))return false;srjStopPublishRetry();srjSetState({status:"idle",busy:false,auto:null,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,message:"That Showdown has ended, so its unfinished connection was let go. Your Showdown was not changed."});return true;}
   function srjOnPairEnded(event){const rivalryId=String(event&&event.detail&&event.detail.closedRivalryId||"");if(!/^pair_[0-9a-f]{64}$/.test(rivalryId))return;srjEndedRivalryIds.add(rivalryId);if(srjRetireEnded())try{srjRenderPanel();}catch(_error){}}
   if(root&&typeof root.addEventListener==="function")root.addEventListener("career-mode-permanent-pair-ended",srjOnPairEnded);
-  function srjOnOnline(){if(srjState.pendingAction&&!srjState.busy)void srjRetryPendingOperation();if(srjPublishRetry)srjRetryOfferPublish(srjPublishRetry.sessionId,srjPublishRetry.startedAt);}
+  function srjOnOnline(){if(srjState.pendingAction&&!srjState.busy)void srjRetryPendingOperation();if(srjPublishRetry)srjRetryOfferPublish(srjPublishRetry.sessionId,srjPublishRetry.startedAt);void srjResumeWait();}
   if(root&&typeof root.addEventListener==="function")root.addEventListener("online",srjOnOnline);
+  if(root.document&&typeof root.document.addEventListener==="function")root.document.addEventListener("visibilitychange",()=>{if(root.document.visibilityState!=="hidden")void srjResumeWait();});
   // r79 PR3: the partner record can land while this panel is open (Daniel records his first real pairing alongside his
   // auto-continue), so the open panel re-renders and USE A SESSION CODE goes away. No read: render only.
   if(root&&typeof root.addEventListener==="function")root.addEventListener("career-mode-permanent-pair-change",()=>{try{srjRenderPanel();}catch(_error){}});
