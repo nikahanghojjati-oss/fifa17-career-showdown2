@@ -360,10 +360,11 @@
     const sdk=context.services.firestoreSdk;
     return sdk.runTransaction(context.services.firestore,async transaction=>srjOfferFromSnapshot(await transaction.get(srjOfferRef(context))));
   }
-  // Absence and terminal/expired sessions are positive answers. All other failures keep the pointer unresolved.
+  // Absence, a session this account is not a member of (an older pairing's account), and terminal/expired sessions are
+  // positive answers. All other failures keep the pointer unresolved.
   async function srjReadSession(context,sessionId){
     const result=await context.protocol.readSession(srjOperationOptions(context,sessionId));
-    if(result?.ok===false&&result.code==="PRIVATE_SESSION_NOT_FOUND")return null;
+    if(result?.ok===false&&["PRIVATE_SESSION_NOT_FOUND","PRIVATE_SESSION_MEMBER_REQUIRED"].includes(result.code))return null;
     if(!result||result.ok!==true||result.sessionId!==sessionId||!["open","active","closed","revoked","expired"].includes(result.state))throw srjError("REMOTE_JOINING_SESSION_UNREADABLE");
     if(["closed","revoked","expired"].includes(result.state))return null;
     if(!Number.isFinite(result.expiresAtEpochMs))throw srjError("REMOTE_JOINING_SESSION_UNREADABLE");

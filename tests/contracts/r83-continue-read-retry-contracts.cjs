@@ -38,7 +38,7 @@ function harness({offerFailure=null,sessionFailure=null,missing=false,publishRac
     CareerModeOnlinePlayerIdentity:{getState:()=>({managerId:uid})},
     CareerModePersistentNikDanielPair:{getPartnerState:()=>({status:"ready",accountId:uid,record:{active:true}})},
     CareerModeSparkPrivateSession:{},CareerModeSparkStandardAuthPrivateSession:{generateSessionId:()=>NEW_SESSION,normalizeSessionId:v=>v,
-      openSession:async()=>{calls.hosts++;if(publishRace)offer=publishRace();return result("open",NEW_SESSION);},readSession:async options=>{calls.reads++;if(sessionFailure&&options.sessionId===SESSION){const value=sessionFailure;sessionFailure=null;return fail(value);}return result(options.sessionId===NEW_SESSION?"open":sessionState,options.sessionId);},joinSession:async()=>{calls.joins++;return result("active");}}};
+      openSession:async()=>{calls.hosts++;if(publishRace)offer=publishRace();return result("open",NEW_SESSION);},readSession:async options=>{calls.reads++;if(sessionFailure&&options.sessionId===SESSION){const value=sessionFailure;sessionFailure=null;return fail(value);}if(options.sessionId!==NEW_SESSION&&typeof sessionState==="object")return sessionState;return result(options.sessionId===NEW_SESSION?"open":sessionState,options.sessionId);},joinSession:async()=>{calls.joins++;return result("active");}}};
   s.globalThis=s;vm.createContext(s);vm.runInContext(source,s);
   return {api:s.CareerModeSparkRemoteJoining,calls,timers,document,body,
     now:()=>now, pointer:()=>offer,
@@ -112,4 +112,9 @@ for(const state of ["closed","revoked","expired"])test(`positive ${state} read p
 test("a pointer that changes inside the final write transaction is preserved",async()=>{
   const h=harness({missing:true,commitRace:()=>({schemaVersion:1,sessionId:SESSION,hostAccountId:"daniel",expiresAt:{toMillis:()=>h.now()+4*60*60*1000}})});
   await connect(h);assert.equal(h.calls.hosts,1);assert.equal(h.calls.writes,0);assert.equal(h.pointer().sessionId,SESSION);
+});
+test("a session this account is not a member of is a positive answer, not an endless retry",async()=>{
+  const h=harness();h.setSession({ok:false,code:"PRIVATE_SESSION_MEMBER_REQUIRED"});await connect(h);
+  assert.equal(h.calls.hosts,1,"Daniel hosts a fresh session");assert.equal(h.calls.writes,1,"and publishes it");
+  assert.equal(h.api.getState().waitRetry,false,"no TRY AGAIN dead end");
 });
