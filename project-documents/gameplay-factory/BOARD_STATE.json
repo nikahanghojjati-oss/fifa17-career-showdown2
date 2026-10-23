@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-22 9:08 PM Boston time (EDT)",
+ "generated": "2026-10-22 9:12 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1219,6 +1219,20 @@
    "subject": "Release 1.9.6-r82: career screens count real finished Showdowns (#957)",
    "fixes": [
     {
+     "pr": 971,
+     "title": "r83: career screens draw once (no show, vanish, reload)",
+     "draft": false,
+     "branch": "claude-gameplay/r83-career-single-load",
+     "sha": "3d3bf94c35485f9d9c6430654860229341d13fd0",
+     "updated": "2026-10-23T01:12:03Z",
+     "gates": {
+      "passed": 7,
+      "running": 7,
+      "failed": 1,
+      "cancelled": 0
+     }
+    },
+    {
      "pr": 970,
      "title": "JOB-4 audit: unfinished seasons change career stats and trophy totals",
      "draft": true,
@@ -1958,7 +1972,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 53,
+  "moving": 54,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3175,6 +3189,20 @@
    }
   },
   "fixes": [
+   {
+    "pr": 971,
+    "title": "r83: career screens draw once (no show, vanish, reload)",
+    "draft": false,
+    "branch": "claude-gameplay/r83-career-single-load",
+    "sha": "3d3bf94c35485f9d9c6430654860229341d13fd0",
+    "updated": "2026-10-23T01:12:03Z",
+    "gates": {
+     "passed": 7,
+     "running": 7,
+     "failed": 1,
+     "cancelled": 0
+    }
+   },
    {
     "pr": 970,
     "title": "JOB-4 audit: unfinished seasons change career stats and trophy totals",
