@@ -125,16 +125,17 @@ await check("C7 the live Showdown joins career history from the JOB-05 adapter",
   const m=Career.buildCareerModel(input);
   assert.equal(m.status,"ready");assert.deepEqual(m.coverage,{readable:3,indexed:3});
   assert.deepEqual(m.history.showdowns.map(row=>row.status),["completed","abandoned","in-progress"]);
-  assert.equal(m.managers.daniel.careerPoints,6+3);assert.equal(m.managers.nik.careerPoints,3);
-  assert.equal(m.managers.daniel.showdowns.completed,1);assert.equal(m.managers.daniel.seasons,4);
+  // r83 (JOB-4 F1): the live Showdown keeps its in-progress row but adds nothing to career totals until it is finished.
+  assert.equal(m.managers.daniel.careerPoints,6);assert.equal(m.managers.nik.careerPoints,3);
+  assert.equal(m.managers.daniel.showdowns.completed,1);assert.equal(m.managers.daniel.seasons,3);
 });
 
-await check("C8 completion pending counts seasons but not the outcome",()=>{
+await check("C8 completion pending keeps its row but counts nothing until finished",()=>{
   const p=s1(),live=P({seed:"3",seasons:[[R({leaguePosition:1}),R()],[R(),R()],[R(),R({championsLeague:true})]]}),current=Active.careerInput(liveSnap(live));
   assert.equal(current.showdowns[0].classification,"completion-pending");
   const m=model({index:index([p.rivalryId,live.rivalryId]),reads:readsOf([completedRead(p),statusRead("not-closed",live.rivalryId,{role:"playerTwo"})]),current});
   assert.deepEqual(m.history.showdowns.map(row=>row.status),["completed","completion-pending"]);
-  assert.equal(m.managers.daniel.showdowns.completed,1);assert.equal(m.managers.nik.careerPoints,3+5);
+  assert.equal(m.managers.daniel.showdowns.completed,1);assert.equal(m.managers.nik.careerPoints,3);
 });
 
 await check("C9 a stale pending rivalry in one index is excluded, so both managers agree",()=>{
@@ -207,7 +208,8 @@ await check("C14 exactly two managers; both views identical; no ids in the model
 await check("C15 abandoning later rebuilds the career without those seasons",()=>{
   const p=s1(),q=P({seed:"2",seasons:[[R(),perfect],[R(),perfect]]});
   const before=model({index:index([p.rivalryId,q.rivalryId]),reads:readsOf([completedRead(p),statusRead("not-closed",q.rivalryId)]),current:Active.careerInput(liveSnap(q))});
-  assert.equal(before.managers.nik.careerPoints,3+22);assert.equal(before.managers.nik.perfectSeasons,2);
+  // r83 (JOB-4 F1): an unfinished Showdown never adds to career totals, so abandoning it removes nothing that was shown.
+  assert.equal(before.managers.nik.careerPoints,3);assert.equal(before.managers.nik.perfectSeasons,0);
   const after=model({index:index([p.rivalryId,q.rivalryId]),reads:readsOf([completedRead(p),statusRead("abandoned",q.rivalryId)]),current:noCurrent()});
   assert.equal(after.managers.nik.careerPoints,3);assert.equal(after.managers.nik.perfectSeasons,0);assert.equal(after.managers.nik.bestSeasonScore,3);
   assert.equal(after.trophyRoom.records.find(r=>r.label==="Highest season score").value,5);

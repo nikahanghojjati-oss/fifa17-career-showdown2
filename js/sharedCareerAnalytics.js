@@ -123,7 +123,11 @@
         rows.push(statusRow(entry,rows.length+1));continue;
       }
       readable+=1;
-      for(const season of p.seasonHistory){
+      // r83 (JOB-4 F1): career totals, cabinets, ranks and records count finished Showdowns only, so every career screen
+      // agrees with History/Legacy and never depends on whether this page holds the live History. An unfinished Showdown
+      // keeps its row and shows on THIS SHOWDOWN / Rivalry Statistics. The labelled current-only view (interimLabel) is that
+      // live Showdown on its own, so it still counts it.
+      if(classification==="completed"||interimLabel!==null)for(const season of p.seasonHistory){
         for(let i=0;i<ROLES.length;i+=1){
           const role=ROLES[i],manager=MANAGERS[i],r=season[role];
           accumulate(managers[manager],season,role,sums[manager]);

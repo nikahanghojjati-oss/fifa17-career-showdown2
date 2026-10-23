@@ -81,7 +81,7 @@
         "daniel": "active",
         "nik": "active"
       },
-      "sha256": "sha256:db2906ce80894c976dc8ca5342064281f29cb8211600cba202b2f920be08832a"
+      "sha256": "sha256:7ce48411b4d7c87af4ef1fe02d5923f4cd495a0ac0ceacf03ce7bc5ac7484902"
     },
     {
       "id": "active-results-ready",
@@ -92,7 +92,7 @@
         "daniel": "active",
         "nik": "active"
       },
-      "sha256": "sha256:aaabbc434f7cbc5e10284170e7e7129e38d779d0186d972e22d172e53e3cc71a"
+      "sha256": "sha256:dd34bb0ecfefd6814ffe4b7a50c56c875993e794e80eaea7b799657b3d215457"
     },
     {
       "id": "completion-pending",
@@ -103,7 +103,7 @@
         "daniel": "completion-pending",
         "nik": "completion-pending"
       },
-      "sha256": "sha256:ca33e4de245d64f3864abe8e576160328a20841b804167702a492646c4e3a8f8"
+      "sha256": "sha256:3dff99138f62d798248a76912e04f3cb5329e505bb1c57447a8e5913fab273a7"
     },
     {
       "id": "finished-three-seasons",
@@ -169,7 +169,7 @@
         "daniel": "active",
         "nik": "active"
       },
-      "sha256": "sha256:c136232484d662ad5f7d9900fc0119d776c05479fb4ed7bf66fed8669287b882"
+      "sha256": "sha256:a35aec241909e880f944e2e275b70a68f4f33f89edfb600b9855502c43bda926"
     }
   ],
   "nav": {
