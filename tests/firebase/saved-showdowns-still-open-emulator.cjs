@@ -50,8 +50,7 @@ const WIN_MANAGERS = {
   nik: { seasons: 1, careerPoints: 5, seasonWins: 0, seasonDraws: 0, seasonLosses: 1, championsLeagues: 0, leagueTitles: 1, domesticCups: 1, totalTrophies: 2, showdowns: { completed: 1, wins: 0, draws: 0, losses: 1 } }
 };
 // DRAW game (both releases, same typed inputs): 8-8. Both: Champions League + domestic cup + 100 points/goals + an individual award
-// = 5 + 1 + 1 + 1 = 8. The season is level, so the game's own tie-break (better league position: Nik 8th v Daniel 9th) names Nik the
-// season winner, while the Showdown itself is a draw (equal totals).
+// = 5 + 1 + 1 + 1 = 8. r83 (Nik 2026-10-23): no tiebreak, so the level season and the Showdown are both draws.
 const DRAW_SEASONS = [{ season: 1, score: { daniel: 8, nik: 8 }, winner: "draw", tiebreak: "draw", leaguePosition: { daniel: 9, nik: 8 }, leaguePoints: { daniel: 53, nik: 102 }, leagueGoals: { daniel: 135, nik: 45 } }];
 const DRAW_MANAGERS = {
   daniel: { seasons: 1, careerPoints: 8, seasonWins: 0, seasonDraws: 1, seasonLosses: 0, championsLeagues: 1, leagueTitles: 0, domesticCups: 1, totalTrophies: 2, showdowns: { completed: 1, wins: 0, draws: 1, losses: 0 } },
