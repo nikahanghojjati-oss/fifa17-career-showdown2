@@ -72,16 +72,16 @@ function world(){
   };
 }
 
-for(const minute of [16,29])test(`F2: Nik opens Home at minute ${minute} and joins the actual START invite`,async()=>{
+for(const minute of [16,28])test(`F2: Nik opens Home at minute ${minute} and joins the actual START invite`,async()=>{
   const w=world(),start=w.now(),rid=await w.start();await w.advance(minute*MINUTE);
   const nik=w.page("nik");await nik.init();
   assert.equal(nik.label(),"JOIN DANIEL'S SHOWDOWN");assert.equal(nik.pair.getJoinNoteState().note?.rivalryId,rid,"the Home JOIN must still be usable");
-  assert.equal(w.docs.get(INBOX).expiresAt.toMillis(),start+30*MINUTE);
-  assert.equal(w.docs.get(`rivalries/${rid}/invites/${rid}`).data.expiresAt.toMillis(),start+30*MINUTE,"invite and note share the full window");
+  assert.equal(w.docs.get(INBOX).expiresAt.toMillis(),start+29*MINUTE);
+  assert.equal(w.docs.get(`rivalries/${rid}/invites/${rid}`).data.expiresAt.toMillis(),start+29*MINUTE,"invite and note share the full window");
   await nik.tap();assert.equal(nik.redeems,1);assert.equal(nik.entered,1);assert.equal(nik.pair.getState().connectionState,"active");
 });
 test("F2: after 30 minutes Home hides JOIN and the real provider refuses the expired code",async()=>{
-  const w=world(),rid=await w.start();await w.advance(30*MINUTE+100);
+  const w=world(),rid=await w.start();await w.advance(29*MINUTE+100);
   const nik=w.page("nik");await nik.init();assert.equal(nik.pair.getJoinNoteState().note,null);
   const result=await nik.provider.redeemPairing({user:{uid:"nik"},identity:nik.device,binding:nik.binding,capability:rid,firestore:{},firebaseSdk:w.sdk,cryptoImpl:webcrypto});
   assert.equal(result.code,"PAIRING_CAPABILITY_EXPIRED");assert.equal(nik.entered,0);
@@ -96,7 +96,7 @@ test("F3: an eleven-minute visible Home wait visibly pauses; its CHECK STATUS ta
 test("F3: an untapped JOIN expires into CHECK STATUS, which finds and joins the replacement",async()=>{
   const w=world(),rid=await w.start(),nik=w.page("nik");await nik.init();assert.equal(nik.pair.getJoinNoteState().note?.rivalryId,rid);
   assert.equal(w.listeners.size,0,"JOIN detaches the listener");const reads=w.reads.length;
-  await w.advance(30*MINUTE+100);assert.equal(w.reads.length,reads,"expiry performs no reads");
+  await w.advance(29*MINUTE+100);assert.equal(w.reads.length,reads,"expiry performs no reads");
   assert.equal(nik.label(),"CHECK STATUS","expiry must provide an honest, visible recovery action");
   const replacement=await w.start();assert.notEqual(replacement,rid);await nik.tap();
   assert.equal(nik.pair.getState().rivalryId,replacement);assert.equal(nik.redeems,1);assert.equal(nik.entered,1);

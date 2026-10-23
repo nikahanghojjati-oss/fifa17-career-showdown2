@@ -289,7 +289,8 @@ function pairContextualJoinMessage(error){const pairing=root.CareerModeSparkPriv
   // Codex #908: a device clock can run ahead of the server; a code counts as expired here only 10 minutes after its expiry.
   const PAIR_CLOCK_MARGIN_MS=10*60*1000;
   // Job 12: only a permanent pair's Home START requests the full agreed JOIN window; the note keeps the invite's exact expiry.
-  const JOIN_INVITE_TTL_MS=30*60*1000;
+  // One minute under the Rules cap (expiresAt <= request.time + 30 min), so a device clock running slightly fast never refuses START.
+  const JOIN_INVITE_TTL_MS=29*60*1000;
   const PARTNER_DOC_ID="current",JOIN_NOTE_MEMO_MS=30000,JOIN_NOTE_WATCH_WINDOW_MS=600000,PARTNER_RETRY_MS=30000,REAL_CODE_PREFIX="CMS17R-",CODE_PREFIX="CMS17-",PARTNER_EVENT="career-mode-permanent-pair-change";
   const PARTNER_KEYS="active,myRole,pairedAt,pairedViaRivalryId,partnerAccountId,schemaVersion,updatedAt",NOTE_KEYS="createdAt,expiresAt,fromAccountId,rivalryId,schemaVersion,totalSeasons";
   let partnerState=pairFreezeDeep({status:"unknown",accountId:null,record:null,code:null,checkedAt:0}),partnerReadPromise=null;
