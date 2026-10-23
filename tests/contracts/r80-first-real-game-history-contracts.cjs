@@ -219,9 +219,9 @@ await check("R3 only a Terminal Close counts: r79 codes never joined and Showdow
     [`rivalries/${game}`]:rivalryDoc(game,{at:R79_LIVE+2*HOUR})});
   same(ids,[abandoned,unused]);same(log,[unused,abandoned,game].map(x=>`rivalries/${x}`));
 });
-await check("R4 fail closed: a failed read, a missing or foreign document keeps it and everything older hidden",async()=>{
+await check("R4 fail closed: a failed read rejects the scope; a missing or foreign document keeps it and everything older hidden",async()=>{
   const a=id(1),b=id(2),marker=markerAt([a,b],R79_LIVE+5*HOUR),docA=rivalryDoc(a,{at:R79_LIVE+HOUR});
-  same((await reveal(marker,{[`rivalries/${a}`]:docA},{fail:new Set([`rivalries/${b}`])})).ids,[a,b],"read failed");
+  await assert.rejects(reveal(marker,{[`rivalries/${a}`]:docA},{fail:new Set([`rivalries/${b}`])}),error=>error.code==="unavailable","a failed read cannot resolve as a finished scope");
   same((await reveal(marker,{[`rivalries/${a}`]:docA})).ids,[a,b],"missing");
   same((await reveal(marker,{[`rivalries/${a}`]:docA,[`rivalries/${b}`]:{...rivalryDoc(b,{at:R79_LIVE+2*HOUR}),objectId:a}})).ids,[a,b],"not this rivalry");
   same((await reveal(marker,{[`rivalries/${a}`]:docA,[`rivalries/${b}`]:{...rivalryDoc(b,{at:R79_LIVE+2*HOUR}),updatedAt:null}})).ids,[a,b],"no write time");
