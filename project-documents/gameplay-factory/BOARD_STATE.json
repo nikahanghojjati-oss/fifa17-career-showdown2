@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-22 8:09 PM Boston time (EDT)",
+ "generated": "2026-10-22 8:13 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1402,16 +1402,16 @@
     },
     {
      "pr": 957,
-     "title": "Career screens: read finished Showdowns whatever field order live Firestore returns",
-     "draft": true,
+     "title": "Release 1.9.6-r82: career screens count real finished Showdowns",
+     "draft": false,
      "branch": "claude-gameplay/r82-career-reader-order",
-     "sha": "3321f234103d37e4b5235507559c49a54a23f6fd",
-     "updated": "2026-10-20T00:27:59Z",
+     "sha": "931725c3990065b55be30959169aa4307a4563d8",
+     "updated": "2026-10-23T00:10:47Z",
      "gates": {
       "passed": 7,
-      "running": 0,
-      "failed": 1,
-      "cancelled": 0
+      "running": 7,
+      "failed": 0,
+      "cancelled": 1
      }
     }
    ],
@@ -1420,7 +1420,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "POS20 #304 6/16",
+   "gate": "Gate #957: L1… L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #957 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -3367,16 +3367,16 @@
    },
    {
     "pr": 957,
-    "title": "Career screens: read finished Showdowns whatever field order live Firestore returns",
-    "draft": true,
+    "title": "Release 1.9.6-r82: career screens count real finished Showdowns",
+    "draft": false,
     "branch": "claude-gameplay/r82-career-reader-order",
-    "sha": "3321f234103d37e4b5235507559c49a54a23f6fd",
-    "updated": "2026-10-20T00:27:59Z",
+    "sha": "931725c3990065b55be30959169aa4307a4563d8",
+    "updated": "2026-10-23T00:10:47Z",
     "gates": {
      "passed": 7,
-     "running": 0,
-     "failed": 1,
-     "cancelled": 0
+     "running": 7,
+     "failed": 0,
+     "cancelled": 1
     }
    }
   ]
