@@ -403,6 +403,7 @@
     srjOfferTimer=timer;
   }
   // JOB-1 F2: a wake or retry owns one immediate read and a new ten-minute window. Retired callbacks cannot re-arm it.
+  // Codex #974: an offer publish retry whose own window ran out while asleep gets a fresh window too.
   function srjResumeWait(){
     if(srjResumePromise)return srjResumePromise;
     if(root.document?.visibilityState==="hidden"||srjState.busy||srjState.pendingAction||srjAutoPromise)return Promise.resolve(false);
@@ -416,7 +417,7 @@
     srjResumePromise=(async()=>{
       if(sessionId){
         await srjCheckForJoin(sessionId,generation);
-        if(generation===srjWaitGeneration){srjWatchForJoin(sessionId,startedAt,generation);if(srjHostWaitingForJoin(sessionId)&&srjOfferConfirmed!==sessionId&&!srjPublishRetry&&srjPermanentlyPaired())srjRetryOfferPublish(sessionId);}
+        if(generation===srjWaitGeneration){srjWatchForJoin(sessionId,startedAt,generation);if(srjHostWaitingForJoin(sessionId)&&srjOfferConfirmed!==sessionId&&(!srjPublishRetry||Date.now()-srjPublishRetry.startedAt>SRJ_OFFER_POLL_LIMIT_MS)&&srjPermanentlyPaired())srjRetryOfferPublish(sessionId);}
       }else{
         await srjCheckForOffer(generation);
         if(generation===srjWaitGeneration&&srjState.auto==="waiting"&&!srjHasNonterminalSession())srjWaitForOffer(startedAt,generation);

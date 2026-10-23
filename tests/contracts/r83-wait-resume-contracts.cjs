@@ -95,3 +95,13 @@ test("reopening a host whose offer publish timed out renews the waiting card and
   h.failPublish(false);await h.tick();await h.tick();h.joined();await h.tick();
   assert.equal(h.api.getState().sessionState,"active");
 });
+
+test("a host waking after ten minutes renews an expired offer publish retry (Codex #974)",async()=>{
+  const h=harness(true);h.failPublish(true);await h.api.autoConnect();h.document.visibilityState="hidden";
+  h.elapse(LIMIT+1);h.failPublish(false);const writes=h.calls.writes;
+  h.document.visibilityState="visible";await h.fire("online");
+  for(let i=0;i<4&&h.timers.size&&h.calls.writes===writes;i++)await h.tick();
+  assert.ok(h.calls.writes>writes,"the pointer is published again in a fresh window");
+  h.joined();while(h.timers.size&&h.api.getState().sessionState!=="active")await h.tick();
+  assert.equal(h.api.getState().sessionState,"active");
+});
