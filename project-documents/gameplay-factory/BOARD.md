@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 22 Oct, 9:13 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 22 Oct, 9:21 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.6-r82** (main `d956bf4`, Thu 22 Oct 8:43 PM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🩺 **All clear: every check has a machine.** · Gate #971: L1… L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #971 0/16
 
 ## Jobs
 
@@ -22,7 +22,7 @@ Updated Thu 22 Oct, 9:13 PM Boston time. Bug hunting only, no new features until
 
 **#2 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 252 h ago
+🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 253 h ago
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -58,11 +58,11 @@ Updated Thu 22 Oct, 9:13 PM Boston time. Bug hunting only, no new features until
 
 **#11 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 191 h ago
+⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 192 h ago
 
 **#12 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 188 h ago
+⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 189 h ago
 
 **#13 · 1830** `G` r76 integration round 2: every r76 fix together, then the meter and CE2PG on the combined head  
 `████░░░░░░` **40.0000 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #971](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/971) | r83: career screens draw once (no show, vanish, reload) | 🔴 7 passed, 7 running, 1 failed |
+| 🟧 Team G lead | [PR #971](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/971) | r83: career screens draw once (no show, vanish, reload) | ⏳ 0 passed, 7 running |
 | 🟧 Team G lead | [PR #970](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/970) | JOB-4 audit: unfinished seasons change career stats and trophy totals | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #969](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/969) | JOB-2 audit: permanent-pair recovery and real/test JOIN mistakes | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #968](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/968) | JOB-1 audit: healthy session resume fails during its final minute | 🔴 7 passed, 1 failed (draft) |

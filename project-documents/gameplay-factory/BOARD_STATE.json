@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-22 9:12 PM Boston time (EDT)",
+ "generated": "2026-10-22 9:21 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1223,12 +1223,12 @@
      "title": "r83: career screens draw once (no show, vanish, reload)",
      "draft": false,
      "branch": "claude-gameplay/r83-career-single-load",
-     "sha": "3d3bf94c35485f9d9c6430654860229341d13fd0",
-     "updated": "2026-10-23T01:12:03Z",
+     "sha": "dc63593dc7cfb8adeab45bf4f5348766a0c1386a",
+     "updated": "2026-10-23T01:19:00Z",
      "gates": {
-      "passed": 7,
+      "passed": 0,
       "running": 7,
-      "failed": 1,
+      "failed": 0,
       "cancelled": 0
      }
     },
@@ -1426,7 +1426,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "POS20 #304 6/16",
+   "gate": "Gate #971: L1… L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #971 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -3194,12 +3194,12 @@
     "title": "r83: career screens draw once (no show, vanish, reload)",
     "draft": false,
     "branch": "claude-gameplay/r83-career-single-load",
-    "sha": "3d3bf94c35485f9d9c6430654860229341d13fd0",
-    "updated": "2026-10-23T01:12:03Z",
+    "sha": "dc63593dc7cfb8adeab45bf4f5348766a0c1386a",
+    "updated": "2026-10-23T01:19:00Z",
     "gates": {
-     "passed": 7,
+     "passed": 0,
      "running": 7,
-     "failed": 1,
+     "failed": 0,
      "cancelled": 0
     }
    },
