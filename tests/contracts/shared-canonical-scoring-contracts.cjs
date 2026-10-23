@@ -45,15 +45,15 @@ function op(prefix){serial+=1;return prefix+serial.toString(16).padStart(32,"0")
   const onePointA={leaguePosition:2,leaguePoints:70,leagueGoals:70,domesticCup:true,championsLeague:false,topScorer:false,topAssist:false};
   const onePointB={leaguePosition:15,leaguePoints:25,leagueGoals:25,domesticCup:false,championsLeague:false,topScorer:true,topAssist:false};
   const exactNonZeroTie=await scoringProtocol.reconcile({seasonCommit:await buildCommit(onePointA,onePointB)});
-  assert.equal(exactNonZeroTie.scoring.playerOne.total,1);assert.equal(exactNonZeroTie.scoring.playerTwo.total,1);assert.equal(exactNonZeroTie.winner,"playerOne","every tied Showdown score must use league position before league points");
+  assert.equal(exactNonZeroTie.scoring.playerOne.total,1);assert.equal(exactNonZeroTie.scoring.playerTwo.total,1);assert.equal(exactNonZeroTie.winner,"draw","r83: no tiebreak, equal Showdown points is a draw whatever the league position or points");
 
   const zeroA={leaguePosition:4,leaguePoints:60,leagueGoals:55,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false};
   const zeroB={leaguePosition:6,leaguePoints:75,leagueGoals:70,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false};
   const positionTieBreak=await scoringProtocol.reconcile({seasonCommit:await buildCommit(zeroA,zeroB)});
-  assert.equal(positionTieBreak.scoring.playerOne.total,0);assert.equal(positionTieBreak.scoring.playerTwo.total,0);assert.equal(positionTieBreak.winner,"playerOne","league position is the first tiebreaker after any tied Showdown score");
+  assert.equal(positionTieBreak.scoring.playerOne.total,0);assert.equal(positionTieBreak.scoring.playerTwo.total,0);assert.equal(positionTieBreak.winner,"draw","r83: no tiebreak, 0-0 is a draw whatever the league position");
   const pointsA={...zeroA,leaguePosition:5,leaguePoints:72},pointsB={...zeroB,leaguePosition:5,leaguePoints:71};
   const pointsTieBreak=await scoringProtocol.reconcile({seasonCommit:await buildCommit(pointsA,pointsB)});
-  assert.equal(pointsTieBreak.winner,"playerOne","league points are the second tiebreaker after any tied Showdown score");
+  assert.equal(pointsTieBreak.winner,"draw","r83: no tiebreak, league points never decide a season");
   const zeroDraw=await scoringProtocol.reconcile({seasonCommit:await buildCommit(pointsA,{...pointsB,leaguePoints:72})});assert.equal(zeroDraw.winner,"draw");
 
   const bundesligaScoring=await scoringModule.createProtocol({teamCount:18,cryptoImpl:webcrypto,seasonCommitModule:commitModule});

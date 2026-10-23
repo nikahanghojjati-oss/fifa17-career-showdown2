@@ -107,7 +107,7 @@ const label=c=>JSON.stringify(c.result);
   const clWinner={leaguePosition:1,leaguePoints:90,leagueGoals:80,domesticCup:true,championsLeague:true,topScorer:false,topAssist:false};
   check("both managers may win the EL, the CL, the league and the cup in one season",()=>{
     let s=scoring.scoreAuthoritativeResults({playerOne:elWinner,playerTwo:{...elWinner,leaguePoints:89}});
-    assert.equal(s.scoring.playerOne.total,7);assert.equal(s.scoring.playerTwo.total,7);assert.equal(s.winner,"playerOne","the tie-break (league points) is unchanged");
+    assert.equal(s.scoring.playerOne.total,7);assert.equal(s.scoring.playerTwo.total,7);assert.equal(s.winner,"draw","r83: no tiebreak, equal points is a draw");
     s=scoring.scoreAuthoritativeResults({playerOne:clWinner,playerTwo:clWinner});assert.equal(s.scoring.playerOne.total,9);assert.equal(s.winner,"draw");
     s=scoring.scoreAuthoritativeResults({playerOne:clWinner,playerTwo:elWinner});assert.equal(s.scoring.playerOne.total-s.scoring.playerTwo.total,2);assert.equal(s.winner,"playerOne");
     assert.equal(terminalScore(elWinner),7);assert.equal(terminalScore(clWinner),9);

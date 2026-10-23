@@ -42,28 +42,14 @@ function calculatePlayerSeasonScore(result){
     return breakdown;
 }
 
+// r83 (Nik 2026-10-23): no tiebreak. More Showdown points wins the season; equal points (0-0 included) is a draw.
+// League position, league points and goals never decide a season.
 function determineSeasonWinner(playerOne, playerTwo){
     if(playerOne.scoring.total > playerTwo.scoring.total){
         return "playerOne";
     }
 
     if(playerTwo.scoring.total > playerOne.scoring.total){
-        return "playerTwo";
-    }
-
-    if(Number(playerOne.leaguePosition) < Number(playerTwo.leaguePosition)){
-        return "playerOne";
-    }
-
-    if(Number(playerTwo.leaguePosition) < Number(playerOne.leaguePosition)){
-        return "playerTwo";
-    }
-
-    if(Number(playerOne.leaguePoints) > Number(playerTwo.leaguePoints)){
-        return "playerOne";
-    }
-
-    if(Number(playerTwo.leaguePoints) > Number(playerOne.leaguePoints)){
         return "playerTwo";
     }
 

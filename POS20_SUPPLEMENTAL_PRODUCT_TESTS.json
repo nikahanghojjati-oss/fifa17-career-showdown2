@@ -2028,6 +2028,14 @@
       ]
     },
     {
+      "path": "tests/contracts/r83-wait-resume-contracts.cjs",
+      "patterns": [
+        "^js/sparkRemoteJoining\\.js$",
+        "^tests/contracts/r83-wait-resume-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r83-transfer-expiry-budget-contracts.cjs",
       "patterns": [
         "^js/productionSharedTransferChallenge\\.js$",
