@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-23 7:18 PM Boston time (EDT)",
+ "generated": "2026-10-23 7:22 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1331,20 +1331,6 @@
      }
     },
     {
-     "pr": 962,
-     "title": "JOB-8 audit: Firebase usage, hidden expiry retries and career scaling",
-     "draft": true,
-     "branch": "codex/job-8-firebase-usage-2026-10-20",
-     "sha": "b364d07a38f0886396351702e90980747e625369",
-     "updated": "2026-10-20T23:18:44Z",
-     "gates": {
-      "passed": 7,
-      "running": 0,
-      "failed": 1,
-      "cancelled": 0
-     }
-    },
-    {
      "pr": 961,
      "title": "JOB-2 audit: sign-in, pairing and real/test labels",
      "draft": true,
@@ -1910,7 +1896,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 50,
+  "moving": 49,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3232,20 +3218,6 @@
     "branch": "codex/job-6-rules-normal-play-2026-10-20",
     "sha": "0e3509943368df8148a1fbe42b9fd3f42f950ca4",
     "updated": "2026-10-21T00:01:48Z",
-    "gates": {
-     "passed": 7,
-     "running": 0,
-     "failed": 1,
-     "cancelled": 0
-    }
-   },
-   {
-    "pr": 962,
-    "title": "JOB-8 audit: Firebase usage, hidden expiry retries and career scaling",
-    "draft": true,
-    "branch": "codex/job-8-firebase-usage-2026-10-20",
-    "sha": "b364d07a38f0886396351702e90980747e625369",
-    "updated": "2026-10-20T23:18:44Z",
     "gates": {
      "passed": 7,
      "running": 0,
