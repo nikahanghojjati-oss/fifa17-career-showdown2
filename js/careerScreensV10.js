@@ -103,6 +103,7 @@
   const UNAVAILABLE=Object.freeze({careerScreenV10:"unavailable"});
   const LOADING=Object.freeze({status:"loading"});
   let registered=null,onlineLoading=false,onlineToken=0;
+  const onlineLifetimes={careerStatistics:0,trophyRoom:0};
   const v10Screens=()=>root.CareerModeV10Screens;
   function v10Fail(error){if(typeof root.reportApplicationError==="function")root.reportApplicationError("Career screens could not load",error);}
 
@@ -1599,7 +1600,7 @@
           frame:()=>v10Source(screen),
           mount:frame=>{v10Render(screen,frame===UNAVAILABLE?null:frame);},
           // Job 13 leaves its markup in the hidden section; the loader switches its styles off.
-          unmount(){}
+          unmount(){onlineLifetimes[screen]++;}
         });
       }
       // Signing in (or out) while a career screen shows reloads its online model: since r61 a signed-out device sees
@@ -1634,14 +1635,14 @@
     for(const screen of Object.keys(SCREEN_IDS))if(screens.isMounted(screen)){screens.invalidate(screen);screens.show(screen).catch(v10Fail);}
   }
   // Reads the closed-Showdown career through the same lazy loader History uses (exact gets only, no writes).
-  async function v10LoadOnline(){
+  async function v10LoadOnline(screen=Object.keys(SCREEN_IDS).find(id=>v10Screens().isMounted(id))){
     // r82 (Codex JOB-B B3): a warm visit draws its cached career at once; when the fresh read returns the same career, that
     // frame stays (no second boot). Only a changed career is drawn again.
     // An "unavailable" career is drawn as loading while the read runs, so it is always drawn again when the read ends.
-    const token=++onlineToken,before=v10ModelText(v10OnlineModel());onlineLoading=true;v10Redraw();
+    const token=++onlineToken,lifetime=onlineLifetimes[screen],before=v10ModelText(v10OnlineModel());onlineLoading=true;v10Redraw();
     try{
       await root.loadRuntimeScript("rivalry-legacy-v10","js/rivalryLegacyV10.js",()=>Boolean(root.CareerModeRivalryLegacyV10));
-      await root.CareerModeRivalryLegacyV10.loadCareerModel();
+      await root.CareerModeRivalryLegacyV10.loadCareerModel(()=>token===onlineToken&&onlineLifetimes[screen]===lifetime&&root.document?.getElementById?.(screen)?.classList?.contains("hidden")!==true);
     }finally{if(token===onlineToken){onlineLoading=false;const after=v10OnlineModel();if(before===null||after?.status==="unavailable"||before!==v10ModelText(after))v10Redraw();}}
   }
   // Called by statistics.js / trophyRoom.js after the old open path; getModel returns the screen's current model.
@@ -1650,7 +1651,7 @@
     const screens=await v10Register();
     getters[screen]=getModel;
     v10WrapRender(screen);
-    if(getModel()==null&&v10Seam().isOnlineCareerRoute(v10Identity()))v10LoadOnline().catch(v10Fail);
+    if(getModel()==null&&v10Seam().isOnlineCareerRoute(v10Identity()))v10LoadOnline(screen).catch(v10Fail);
     return screens.show(screen);
   }
   const openCareerStatistics=getModel=>mount("careerStatistics",getModel);

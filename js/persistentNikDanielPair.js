@@ -129,7 +129,28 @@
   function pairParseCareerIndexPage(value,pageNumber){const pageId=`page_${pageNumber}`;if(!pairIsEnvelopeValue(value,"careerIndexPage",pageId)||value.revision!==0)throw pairErrorWithCode("CAREER_INDEX_INVALID","The career index is invalid.");const data=value.data||{},keys=Object.keys(data).sort().join(",");if(keys!=="pageNumber,rivalryIds"||data.pageNumber!==pageNumber||!pairCareerIndexIdsValid(data.rivalryIds,CAREER_INDEX_PAGE_CAPACITY,CAREER_INDEX_PAGE_CAPACITY))throw pairErrorWithCode("CAREER_INDEX_INVALID","The career index is invalid.");return[...data.rivalryIds];}
   // Pure: the exact career index writes that record rivalryId for this account in the pairing commit.
   async function pairPlanCareerIndexAppend({headValue,rivalryId,accountId,deviceId,now,cryptoImpl=root.crypto}){const id=pairNormalizeRivalryId(rivalryId),head=headValue?pairParseCareerIndexHead(headValue):null;if(head&&head.rivalryIds.includes(id))return[];const writes=[];let revision=0,parentRevision=null,priorContentHash=null,data={rivalryIds:[id],sealedPageCount:0};if(head){revision=head.revision+1;parentRevision=head.revision;priorContentHash=head.contentHash;if(head.rivalryIds.length<CAREER_INDEX_PAGE_CAPACITY)data={rivalryIds:[...head.rivalryIds,id],sealedPageCount:head.sealedPageCount};else{const pageNumber=head.sealedPageCount+1,pageId=`page_${pageNumber}`,pageData={pageNumber,rivalryIds:[...head.rivalryIds]};writes.push({indexId:pageId,value:{schemaVersion:1,objectType:"careerIndexPage",objectId:pageId,revision:0,parentRevision:null,lifecycleState:"live",contentHash:await pairSha256({objectType:"careerIndexPage",objectId:pageId,revision:0,data:pageData},cryptoImpl),priorContentHash:null,updatedAt:now,updatedByAccountId:accountId,updatedByDeviceId:deviceId,data:pageData,tombstone:null}});data={rivalryIds:[id],sealedPageCount:pageNumber};}}writes.push({indexId:CAREER_INDEX_HEAD_ID,value:{schemaVersion:1,objectType:"careerIndex",objectId:CAREER_INDEX_HEAD_ID,revision,parentRevision,lifecycleState:"live",contentHash:await pairSha256({objectType:"careerIndex",objectId:CAREER_INDEX_HEAD_ID,revision,data},cryptoImpl),priorContentHash,updatedAt:now,updatedByAccountId:accountId,updatedByDeviceId:deviceId,data,tombstone:null}});return writes;}
-  async function pairReadCareerIndexWith({firestore,firebaseSdk,accountId}){const head=await firebaseSdk.getDoc(firebaseSdk.doc(firestore,"accounts",accountId,"careerIndex",CAREER_INDEX_HEAD_ID));if(!head.exists())return{rivalryIds:[],sealedPageCount:0};const parsed=pairParseCareerIndexHead(head.data()),ordered=[];for(let pageNumber=1;pageNumber<=parsed.sealedPageCount;pageNumber+=1){const page=await firebaseSdk.getDoc(firebaseSdk.doc(firestore,"accounts",accountId,"careerIndex",`page_${pageNumber}`));if(!page.exists())throw pairErrorWithCode("CAREER_INDEX_PAGE_MISSING","Part of the career index is missing.");ordered.push(...pairParseCareerIndexPage(page.data(),pageNumber));}ordered.push(...parsed.rivalryIds);if(new Set(ordered).size!==ordered.length)throw pairErrorWithCode("CAREER_INDEX_INVALID","The career index is invalid.");return{rivalryIds:ordered,sealedPageCount:parsed.sealedPageCount};}
+  // Sealed pages are immutable. Keep only the current account/provider's pages in this runtime;
+  // always read the mutable head so finishes and rollover on the other device remain discoverable.
+  let careerIndexPages=null;
+  async function pairReadCareerIndexWith({firestore,firebaseSdk,accountId}){
+    if(!careerIndexPages||careerIndexPages.db!==firestore||careerIndexPages.accountId!==accountId)careerIndexPages={db:firestore,accountId,pages:new Map()};
+    const cache=careerIndexPages.pages;
+    const head=await firebaseSdk.getDoc(firebaseSdk.doc(firestore,"accounts",accountId,"careerIndex",CAREER_INDEX_HEAD_ID));
+    if(!head.exists())return{rivalryIds:[],sealedPageCount:0};
+    const parsed=pairParseCareerIndexHead(head.data()),ordered=[];
+    for(let pageNumber=1;pageNumber<=parsed.sealedPageCount;pageNumber+=1){
+      let ids=cache.get(pageNumber);
+      if(!ids){
+        const page=await firebaseSdk.getDoc(firebaseSdk.doc(firestore,"accounts",accountId,"careerIndex",`page_${pageNumber}`));
+        if(!page.exists())throw pairErrorWithCode("CAREER_INDEX_PAGE_MISSING","Part of the career index is missing.");
+        ids=Object.freeze(pairParseCareerIndexPage(page.data(),pageNumber));cache.set(pageNumber,ids);
+      }
+      ordered.push(...ids);
+    }
+    ordered.push(...parsed.rivalryIds);
+    if(new Set(ordered).size!==ordered.length)throw pairErrorWithCode("CAREER_INDEX_INVALID","The career index is invalid.");
+    return{rivalryIds:ordered,sealedPageCount:parsed.sealedPageCount};
+  }
   // Read-only: ordered rivalry ids (oldest first) for the signed-in account. Never throws; memory-only state.
   async function pairReadCareerIndex(options={}){let accountId=null;try{let firestore=options.firestore,firebaseSdk=options.firebaseSdk;accountId=options.accountId||null;if(!firestore||!firebaseSdk||!accountId){const context=await pairResolveContext();firestore=context.services.firestore;firebaseSdk=context.services.firestoreSdk;accountId=context.accountId;}careerIndexState=pairFreezeDeep({status:"loading",accountId,rivalryIds:[],sealedPageCount:0,code:null});const result=await pairReadCareerIndexWith({firestore,firebaseSdk,accountId});careerIndexState=pairFreezeDeep({status:"ready",accountId,rivalryIds:result.rivalryIds,sealedPageCount:result.sealedPageCount,code:null});}catch(error){careerIndexState=pairFreezeDeep({status:"unavailable",accountId,rivalryIds:[],sealedPageCount:0,code:error?.code||"CAREER_INDEX_UNAVAILABLE"});}return careerIndexState;}
   function pairIsEnvelopeValue(value,objectType,objectId){return Boolean(value&&value.schemaVersion===1&&value.objectType===objectType&&value.objectId===objectId&&value.lifecycleState==="live"&&Number.isInteger(value.revision)&&value.revision>=0&&typeof value.contentHash==="string");}

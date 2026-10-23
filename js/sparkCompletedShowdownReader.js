@@ -167,7 +167,7 @@
       const state=value.data.connectionState;
       if(!["pending-pair","active","closed"].includes(state))csrFail("COMPLETED_RIVALRY_INVALID");
       const neverStartedRole=csrNeverStarted(value.data,uid);
-      if(neverStartedRole)return csrState("never-started",{rivalryId,managerRole:neverStartedRole});
+      if(neverStartedRole)return csrState("never-started",{rivalryId,managerRole:neverStartedRole,ended:state==="closed"?csrEnded(value):null});
       const rivalry=csrVerifyManagers(value.data,uid);managerRole=rivalry.managerRole;
       if(state==="pending-pair"||state==="active")return csrState("not-closed",{rivalryId,managerRole});
       if(state!=="closed")csrFail("COMPLETED_RIVALRY_INVALID");
@@ -181,10 +181,16 @@
       const seasons=[];
       for(let seasonNumber=1;seasonNumber<=total;seasonNumber+=1){
         const seasonId=`season_${seasonNumber}`;
-        const publicValue=await csrGet(sdk,db,["rivalries",rivalryId,"seasonResults",seasonId]);
-        const p1=await csrGet(sdk,db,["rivalries",rivalryId,"seasonResults",seasonId,"roles","playerOne"]);
-        const p2=await csrGet(sdk,db,["rivalries",rivalryId,"seasonResults",seasonId,"roles","playerTwo"]);
-        const stored=await csrGet(sdk,db,["rivalries",rivalryId,"seasonCommits",seasonId]);
+        // Four independent immutable documents; verification below still requires every one.
+        const documents=await Promise.allSettled([
+          csrGet(sdk,db,["rivalries",rivalryId,"seasonResults",seasonId]),
+          csrGet(sdk,db,["rivalries",rivalryId,"seasonResults",seasonId,"roles","playerOne"]),
+          csrGet(sdk,db,["rivalries",rivalryId,"seasonResults",seasonId,"roles","playerTwo"]),
+          csrGet(sdk,db,["rivalries",rivalryId,"seasonCommits",seasonId])
+        ]);
+        // Drain the whole batch on failure too, so retries cannot exceed the concurrent-read bound.
+        const failed=documents.find(item=>item.status==="rejected");if(failed)throw failed.reason;
+        const [publicValue,p1,p2,stored]=documents.map(item=>item.value);
         // A gap is never a shorter history: any missing season makes the whole Showdown unavailable.
         if(!publicValue||!p1||!p2||!stored)csrFail("COMPLETED_SEASON_MISSING");
         const ready=await csrReadyState(csrAssertPublicResults(publicValue,rivalryId,seasonNumber),{playerOne:csrAssertRoleResult(p1,rivalryId,seasonNumber,"playerOne",teamCount),playerTwo:csrAssertRoleResult(p2,rivalryId,seasonNumber,"playerTwo",teamCount)},teamCount,cryptoImpl);
