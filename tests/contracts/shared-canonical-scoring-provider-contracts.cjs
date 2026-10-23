@@ -19,7 +19,7 @@ const providerModule=require("../../js/sparkSharedCanonicalScoring.js");
 
   const tiedCommit={...committed,results:{playerOne:{leaguePosition:2,leaguePoints:70,leagueGoals:70,domesticCup:true,championsLeague:false,topScorer:false,topAssist:false},playerTwo:{leaguePosition:15,leaguePoints:90,leagueGoals:80,domesticCup:false,championsLeague:false,topScorer:true,topAssist:false}}};
   const tiedProvider=providerModule.createProvider({seasonCommitProvider:{read:async()=>tiedCommit},scoringModule,seasonCommitModule:commitModule});
-  const tied=await tiedProvider.read(options);assert.equal(tied.ok,true);assert.equal(tied.scoring.playerOne.total,1);assert.equal(tied.scoring.playerTwo.total,1);assert.equal(tied.winner,"playerOne","provider scoring must apply league position, then league points, after any tied Showdown score");
+  const tied=await tiedProvider.read(options);assert.equal(tied.ok,true);assert.equal(tied.scoring.playerOne.total,1);assert.equal(tied.scoring.playerTwo.total,1);assert.equal(tied.winner,"draw","r83: no tiebreak, provider scoring calls equal Showdown points a draw");
 
   for(const bad of [
     {...committed,phase:"COMMITTED",revision:2},

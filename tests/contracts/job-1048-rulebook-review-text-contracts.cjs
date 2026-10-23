@@ -44,8 +44,10 @@ assert.match(transfer, /one manager.*cannot.*alone/i,
   "One manager cannot end the shared transfer window alone");
 
 const tiebreak = section("05");
-assert.match(tiebreak, /same league points.*season is a draw/i,
-  "After tied Showdown points, league position, and league points the season is a draw");
+assert.match(tiebreak, /same Showdown points.*0-0.*season is a draw/i,
+  "r83: equal Showdown points (0-0 included) make the season a draw");
+assert.match(tiebreak, /no tiebreak/i, "r83: the Rule Book says there is no tiebreak");
+assert.doesNotMatch(tiebreak, /better league|more league points wins/i, "r83: no league-position or league-points tiebreak");
 
 const seasonSource = read("js/seasonEngine.js");
 const initialIntro = seasonSource.match(
