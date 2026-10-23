@@ -2054,6 +2054,18 @@
         "^tests/contracts/r83-career-reveal-retry-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r83-failed-continue-home-contracts.cjs",
+      "patterns": [
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sparkConnectedRivalry\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/whichShowdownIsLive\\.js$",
+        "^tests/contracts/r83-failed-continue-home-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
