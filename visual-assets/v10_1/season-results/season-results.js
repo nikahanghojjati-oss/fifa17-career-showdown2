@@ -421,12 +421,9 @@
       };
     });
     const d = frame.breakdown.daniel.total, n = frame.breakdown.nik.total;
-    const dr = frame.managers.daniel, nr = frame.managers.nik;
-    frame.winner = d !== n ? (d > n ? "daniel" : "nik")
-      : dr.leaguePosition !== nr.leaguePosition ? (dr.leaguePosition < nr.leaguePosition ? "daniel" : "nik")
-      : dr.leaguePoints !== nr.leaguePoints ? (dr.leaguePoints > nr.leaguePoints ? "daniel" : "nik") : null;
-    frame.tiebreak = d !== n ? "none" : dr.leaguePosition !== nr.leaguePosition ? "league-position"
-      : dr.leaguePoints !== nr.leaguePoints ? "league-points" : "draw";
+    // r83: no tiebreak. Equal Showdown points is a draw.
+    frame.winner = d !== n ? (d > n ? "daniel" : "nik") : null;
+    frame.tiebreak = d !== n ? "none" : "draw";
     frame.scoringState = "SCORING_RECONCILED";
   }
 

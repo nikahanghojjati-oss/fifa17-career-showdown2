@@ -25,18 +25,18 @@ function scored(fields = {}){
     return player;
 }
 
-// Restored Season records can retain numeric text; position 2 must beat position 10.
+// r83 (Nik 2026-10-23): no tiebreak. Equal Showdown points is a draw, whatever the league position.
 const positionOne = scored({ leaguePosition: "10" });
 const positionTwo = scored({ leaguePosition: "2" });
 assert.equal(positionOne.scoring.total, positionTwo.scoring.total);
-assert.equal(determineSeasonWinner(positionOne, positionTwo), "playerTwo");
+assert.equal(determineSeasonWinner(positionOne, positionTwo), "draw");
 
-// Both managers score one Showdown point, but 100 league points beats 99.
+// Both managers score one Showdown point; 100 league points against 99 changes nothing.
 const pointsOne = scored({ leaguePoints: "99", domesticCup: true });
 const pointsTwo = scored({ leaguePoints: "100" });
 assert.equal(pointsOne.scoring.total, 1);
 assert.equal(pointsTwo.scoring.total, 1);
-assert.equal(determineSeasonWinner(pointsOne, pointsTwo), "playerTwo");
+assert.equal(determineSeasonWinner(pointsOne, pointsTwo), "draw");
 
 // Equal scores, league positions and league points must remain a draw.
 assert.equal(determineSeasonWinner(scored({ leaguePoints: "72" }), scored({ leaguePoints: "72" })), "draw");

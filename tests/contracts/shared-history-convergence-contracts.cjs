@@ -21,7 +21,7 @@ const source=(seasonNumber,results,winner,hashValue)=>({
 const season1={playerOne:{leaguePosition:1,leaguePoints:100,leagueGoals:100,domesticCup:true,championsLeague:true,topScorer:true,topAssist:true},playerTwo:{leaguePosition:2,leaguePoints:80,leagueGoals:90,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false}};
 const season2={playerOne:{leaguePosition:4,leaguePoints:76,leagueGoals:75,domesticCup:true,championsLeague:false,topScorer:false,topAssist:false},playerTwo:{leaguePosition:3,leaguePoints:78,leagueGoals:79,domesticCup:false,championsLeague:false,topScorer:true,topAssist:false}};
 const season3={playerOne:{leaguePosition:5,leaguePoints:70,leagueGoals:72,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false},playerTwo:{leaguePosition:2,leaguePoints:88,leagueGoals:95,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false}};
-const sources=[source(1,season1,"playerOne",hash("a")),source(2,season2,"playerTwo",hash("b")),source(3,season3,"playerTwo",hash("c"))];
+const sources=[source(1,season1,"playerOne",hash("a")),source(2,season2,"draw",hash("b")),source(3,season3,"draw",hash("c"))];
 
 (async()=>{
   assert.equal(history.feature,"ssjr-shared-history-convergence");
@@ -46,16 +46,16 @@ const sources=[source(1,season1,"playerOne",hash("a")),source(2,season2,"playerT
   assert.equal(projection.seasonHistory.length,3);
   assert.match(projection.acceptedRevisionKey,/^1:2:sha256:a{64}\|2:2:sha256:b{64}\|3:2:sha256:c{64}$/);
   assert.equal(projection.seasonHistory[0].playerOne.scoring.total,11,"the shared history must preserve canonical r11 scoring rather than recomputing a different policy");
-  assert.equal(projection.seasonHistory[1].winner,"playerTwo","a tied canonical score uses league position as the first tiebreaker");
-  assert.equal(projection.seasonHistory[2].winner,"playerTwo","zero-score ties use the same league-position then league-points tiebreak order");
+  assert.equal(projection.seasonHistory[1].winner,"draw","r83: a tied canonical score is a draw (no league-position tiebreak)");
+  assert.equal(projection.seasonHistory[2].winner,"draw","r83: a 0-0 season is a draw (no tiebreak)");
   assert.equal(projection.managerRecords.playerOne.profileId,managerSlots[0].profileId);
   assert.equal(projection.managerRecords.playerTwo.profileId,managerSlots[1].profileId);
   assert.equal(projection.managerRecords.playerOne.saveId,managerSlots[0].saveId);
   assert.equal(projection.managerRecords.playerTwo.saveId,managerSlots[1].saveId);
   assert.equal(projection.managerRecords.playerOne.seasons,3);
   assert.equal(projection.managerRecords.playerOne.seasonWins,1);
-  assert.equal(projection.managerRecords.playerOne.seasonDraws,0);
-  assert.equal(projection.managerRecords.playerOne.seasonLosses,2);
+  assert.equal(projection.managerRecords.playerOne.seasonDraws,2);
+  assert.equal(projection.managerRecords.playerOne.seasonLosses,0);
   assert.equal(projection.managerRecords.playerOne.totalPoints,12);
   assert.equal(projection.managerRecords.playerTwo.totalPoints,1);
   assert.equal(projection.managerRecords.playerOne.leagueTitles,1);

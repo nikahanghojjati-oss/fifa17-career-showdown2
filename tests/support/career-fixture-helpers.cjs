@@ -3,7 +3,7 @@ const path=require("node:path");
 const History=require(path.join(__dirname,"../../js/sharedHistoryConvergence.js"));
 // r80: europaLeague:3 appears only for a result that carries europaLeague:true (the canonical breakdown shape).
 function score(r){const championsLeague=r.championsLeague?5:0,europaLeague=r.europaLeague===true?3:0,leagueTitle=r.leaguePosition===1?3:0,domesticCup=r.domesticCup?1:0,performanceBonus=(r.leaguePoints>=100||r.leagueGoals>=100)?1:0,individualAwardsBonus=(r.topScorer||r.topAssist)?1:0;return {championsLeague,...(europaLeague?{europaLeague}:{}),leagueTitle,domesticCup,performanceBonus,individualAwardsBonus,total:championsLeague+europaLeague+leagueTitle+domesticCup+performanceBonus+individualAwardsBonus};}
-function winner(a,b){const x=score(a).total,y=score(b).total;if(x>y)return"playerOne";if(y>x)return"playerTwo";if(a.leaguePosition<b.leaguePosition)return"playerOne";if(b.leaguePosition<a.leaguePosition)return"playerTwo";if(a.leaguePoints>b.leaguePoints)return"playerOne";if(b.leaguePoints>a.leaguePoints)return"playerTwo";return"draw";}
+function winner(a,b){const x=score(a).total,y=score(b).total;if(x>y)return"playerOne";if(y>x)return"playerTwo";return"draw";}// r83: no tiebreak
 function result(o={}){return {leaguePosition:5,leaguePoints:60,leagueGoals:55,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false,...o};}
 // seasons: array of [danielResult, nikResult]; seed: one hex char making a distinct rivalry id
 function projection({seed="1",leagueId="premier_league",totalSeasons=3,seasons}){

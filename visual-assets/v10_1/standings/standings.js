@@ -31,7 +31,8 @@
     });
   }
 
-  // Leader rules (TRUTH.md): This Showdown = higher score only; Career = careerPoints, then seasonWins; otherwise Level.
+  // Leader rules (TRUTH.md): This Showdown = higher score only; Career = careerPoints only; otherwise Level
+  // (r83, Nik 2026-10-23: season wins never break a tie, so a drawn Showdown never shows a leader).
   function leaderText(S, view, m, interim) {
     if (m.status === "loading" || m.status === "unavailable" || m.status === "partial") return "";
     const nameOf = (side) => S.managers[side];
@@ -44,22 +45,20 @@
     const d = m.standings && m.standings.daniel, n = m.standings && m.standings.nik;
     if (!d || !n) return "";
     if (d.careerPoints !== n.careerPoints) return fill(S.leaderTemplate, { manager: nameOf(d.careerPoints > n.careerPoints ? "daniel" : "nik") });
-    if (d.seasonWins !== n.seasonWins) return fill(S.leaderSeasonWinsTemplate, { manager: nameOf(d.seasonWins > n.seasonWins ? "daniel" : "nik") });
     return S.level;
   }
 
   function leaderSide(m, view, interim) {
     if (m.status !== "ready" && m.status !== "empty") return null;
-    let a, b, a2, b2;
+    let a, b;
     if (view === "this-showdown" || interim) { a = m.score && m.score.daniel; b = m.score && m.score.nik; }
     else {
       const d = m.standings && m.standings.daniel, n = m.standings && m.standings.nik;
       if (!d || !n) return null;
-      a = d.careerPoints; b = n.careerPoints; a2 = d.seasonWins; b2 = n.seasonWins;
+      a = d.careerPoints; b = n.careerPoints;
     }
     if (typeof a !== "number" || typeof b !== "number") return null;
     if (a !== b) return a > b ? "daniel" : "nik";
-    if (a2 !== b2 && typeof a2 === "number") return a2 > b2 ? "daniel" : "nik";
     return null;
   }
 

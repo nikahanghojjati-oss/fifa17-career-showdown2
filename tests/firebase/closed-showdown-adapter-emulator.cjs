@@ -155,7 +155,7 @@ async function main(env){
     for(const uid of [A,B]){
       const {value}=await load(env,uid,await liveCareerInput(env,uid,{history:one.history,multi:one.multi}));
       assert.equal(value.status,"ready");assert.deepEqual(classes(value),["completion-pending"]);assert.equal(value.entries[0].source,"current");
-      assert.equal(value.model.managers.daniel.showdowns.completed,0,"the outcome waits for Terminal Close");assert.equal(value.model.managers.daniel.careerPoints,11);
+      assert.equal(value.model.managers.daniel.showdowns.completed,0,"the outcome waits for Terminal Close");assert.equal(value.model.managers.daniel.careerPoints,0,"r83 (JOB-4 F1): career totals wait for Terminal Close too");assert.deepEqual(value.model.history.showdowns[0].totals,{daniel:11,nik:4});
     }
   });
   const final1=Final.reconcile({sharedActive:true,multiSeason:one.multi,history:one.history,localReconciliation:localAuthority("playerOne")});
@@ -176,9 +176,9 @@ async function main(env){
   const now2=Date.now();
   await pairThroughProvider(env,{rivalryId:R2,sessionId:S2,nowMs:now2});
   const two=await playShowdown(env,{rivalryId:R2,sessionId:S2,nowMs:now2+5000,totalSeasons:3,play:1,results:role=>role==="playerTwo"?perfect:neutral,opBase:200});
-  await ok("B1","while Showdown 2 is live its 11-point Nik season counts",async()=>{
+  await ok("B1","while Showdown 2 is live its row shows, but its 11-point Nik season waits for the finish (r83 JOB-4 F1)",async()=>{
     const {value}=await load(env,B,await liveCareerInput(env,B,{history:two.history,multi:two.multi}));
-    assert.deepEqual(classes(value),["completed","active"]);assert.equal(value.model.managers.nik.careerPoints,4+11);assert.equal(value.model.managers.nik.perfectSeasons,1);
+    assert.deepEqual(classes(value),["completed","active"]);assert.equal(value.model.managers.nik.careerPoints,4);assert.equal(value.model.managers.nik.perfectSeasons,0);
   });
   globalThis.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:A}},firestore:two.dbA,firestoreSdk:sdk()})};
   globalThis.CareerModeSparkConnectedAccount={initialize:async()=>{},getState:()=>({connected:true,accountId:A})};
@@ -233,11 +233,11 @@ async function main(env){
     assert.equal(gets,17,"account change clears the cache");assert.deepEqual(plain(value.model),plain(views.daniel.model));
     views.nik=value;
   });
-  await ok("C5","career numbers: totals equal the witness, abandoned counts nothing, live season counts, no ids",async()=>{
+  await ok("C5","career numbers: totals equal the witness, abandoned counts nothing, live season waits for the finish (r83), no ids",async()=>{
     const m=views.daniel.model;
     assert.deepEqual(m.coverage,{readable:3,indexed:3});
-    assert.equal(m.managers.daniel.careerPoints,witness1.managerTotals.playerOne+3);assert.equal(m.managers.nik.careerPoints,witness1.managerTotals.playerTwo);
-    assert.equal(m.managers.daniel.seasons,4);assert.equal(m.managers.nik.perfectSeasons,0);
+    assert.equal(m.managers.daniel.careerPoints,witness1.managerTotals.playerOne);assert.equal(m.managers.nik.careerPoints,witness1.managerTotals.playerTwo);
+    assert.equal(m.managers.daniel.seasons,3);assert.equal(m.managers.nik.perfectSeasons,0);
     assert.deepEqual(m.managers.daniel.showdowns,{completed:1,wins:1,draws:0,losses:0});assert.deepEqual(m.managers.nik.showdowns,{completed:1,wins:0,draws:0,losses:1});
     assert.deepEqual(m.biggestShowdownWin,{manager:"daniel",margin:7,showdownRef:R1});assert.equal(m.interimLabel,null);
     noIds(m);

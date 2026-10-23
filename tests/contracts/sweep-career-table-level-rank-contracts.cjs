@@ -19,6 +19,10 @@ const five=result({championsLeague:true});
 const tied=model([[seven,five],[five,seven],[result(),result()]]);
 const danielLeads=model([[seven,five]]);
 const nikLeads=model([[five,seven]]);
+// r83 (Nik 2026-10-23, live Liverpool vs Hull City): a 0-0 Showdown is a DRAW even when one manager won the Season on
+// league position. Equal career points stay level; the Season win is a stat, never a crown or #1.
+// Equal Showdown totals (3-3, a DRAW) where Nik won more Seasons: still level, no crown.
+const drawnOnPosition=model([[result({leaguePosition:1}),result({leaguePosition:8})],[result(),result({domesticCup:true})],[result(),result({domesticCup:true,topScorer:true})]]);
 const browser={};
 vm.createContext(browser);
 for(const file of ["careerScreenSeam.js","careerScreensV10.js"]){
@@ -39,6 +43,14 @@ check("the completed fixture has exactly 12 points and one Season win per manage
     assert.equal(tied.managers[manager].careerPoints,12);
     assert.equal(tied.managers[manager].seasonWins,1);
   }
+});
+check("r83: equal points with different Season wins stay level (a drawn Showdown crowns nobody)",()=>{
+  assert.equal(drawnOnPosition.managers.daniel.careerPoints,drawnOnPosition.managers.nik.careerPoints);
+  assert.equal(drawnOnPosition.managers.nik.seasonWins,2);
+  assert.equal(drawnOnPosition.managers.daniel.seasonWins,1);
+  assert.equal(drawnOnPosition.managers.nik.showdowns.draws,1);
+  assert.ok(drawnOnPosition.trophyRoom.standings.every(row=>row.level===true));
+  assert.deepEqual(clone(V10.toV10Frame(drawnOnPosition,"trophyRoom").standings.map(row=>[row.manager,row.rank])),[["daniel","#1"],["nik","#1"]]);
 });
 for(const [runtime,seam,v10] of [["Node",Seam,V10],["browser VM",browser.CareerModeCareerScreenSeam,browser.CareerModeCareerScreensV10]]){
   const table=m=>clone(seam.careerScreenView("trophyRoom",m).sections.find(section=>section.heading==="CAREER TABLE").rows);
@@ -65,4 +77,4 @@ for(const [runtime,seam,v10] of [["Node",Seam,V10],["browser VM",browser.CareerM
   });
 }
 if(errors.length)throw new AggregateError(errors,"Career Table level-rank contracts: "+errors.length+" failed; "+cases+" passed.");
-console.log("PASS Career Table level-rank contracts (7/7): exact tie totals, unique leaders, fallback shared rank and Team V parity in Node/browser VM.");
+console.log("PASS Career Table level-rank contracts (8/8): exact tie totals, unique leaders, fallback shared rank and Team V parity in Node/browser VM.");

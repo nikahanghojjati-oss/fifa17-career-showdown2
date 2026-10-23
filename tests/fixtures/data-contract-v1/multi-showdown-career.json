@@ -187,16 +187,16 @@
     },
     "managers": {
       "daniel": {
-        "careerPoints": 17,
-        "seasons": 6,
-        "seasonWins": 3,
+        "careerPoints": 13,
+        "seasons": 4,
+        "seasonWins": 2,
         "seasonDraws": 0,
-        "seasonLosses": 3,
+        "seasonLosses": 2,
         "championsLeagues": 1,
         "europaLeagues": 0,
-        "leagueTitles": 3,
-        "domesticCups": 1,
-        "totalTrophies": 5,
+        "leagueTitles": 2,
+        "domesticCups": 0,
+        "totalTrophies": 3,
         "hundredPointSeasons": 0,
         "hundredGoalSeasons": 1,
         "topScorerSeasons": 1,
@@ -208,9 +208,9 @@
         "bestLeaguePoints": 95,
         "bestLeagueGoals": 102,
         "bestLeaguePosition": 1,
-        "averageSeasonScore": 2.8333333333333335,
-        "averageLeaguePoints": 82.33333333333333,
-        "averageLeagueGoals": 82.66666666666667,
+        "averageSeasonScore": 3.25,
+        "averageLeaguePoints": 89,
+        "averageLeagueGoals": 88.25,
         "showdowns": {
           "completed": 2,
           "wins": 1,
@@ -219,30 +219,30 @@
         }
       },
       "nik": {
-        "careerPoints": 19,
-        "seasons": 6,
-        "seasonWins": 3,
+        "careerPoints": 15,
+        "seasons": 4,
+        "seasonWins": 2,
         "seasonDraws": 0,
-        "seasonLosses": 3,
+        "seasonLosses": 2,
         "championsLeagues": 1,
         "europaLeagues": 0,
-        "leagueTitles": 3,
+        "leagueTitles": 2,
         "domesticCups": 2,
-        "totalTrophies": 6,
+        "totalTrophies": 5,
         "hundredPointSeasons": 1,
         "hundredGoalSeasons": 1,
         "topScorerSeasons": 1,
-        "topAssistSeasons": 2,
+        "topAssistSeasons": 1,
         "perfectSeasons": 1,
         "performanceBonuses": 1,
-        "awardsBonuses": 2,
+        "awardsBonuses": 1,
         "bestSeasonScore": 11,
         "bestLeaguePoints": 101,
         "bestLeagueGoals": 104,
         "bestLeaguePosition": 1,
-        "averageSeasonScore": 3.1666666666666665,
-        "averageLeaguePoints": 86.83333333333333,
-        "averageLeagueGoals": 87.33333333333333,
+        "averageSeasonScore": 3.75,
+        "averageLeaguePoints": 89,
+        "averageLeagueGoals": 88,
         "showdowns": {
           "completed": 2,
           "wins": 1,
@@ -261,28 +261,28 @@
         "daniel": {
           "championsLeagues": 1,
           "europaLeagues": 0,
-          "leagueTitles": 3,
-          "domesticCups": 1,
-          "totalTrophies": 5
+          "leagueTitles": 2,
+          "domesticCups": 0,
+          "totalTrophies": 3
         },
         "nik": {
           "championsLeagues": 1,
           "europaLeagues": 0,
-          "leagueTitles": 3,
+          "leagueTitles": 2,
           "domesticCups": 2,
-          "totalTrophies": 6
+          "totalTrophies": 5
         }
       },
       "standings": [
         {
           "manager": "nik",
-          "careerPoints": 19,
-          "seasonWins": 3
+          "careerPoints": 15,
+          "seasonWins": 2
         },
         {
           "manager": "daniel",
-          "careerPoints": 17,
-          "seasonWins": 3
+          "careerPoints": 13,
+          "seasonWins": 2
         }
       ],
       "records": [
