@@ -98,6 +98,16 @@ async function scenario(base,manager,runtime){
     assert.ok(exposed.every(f=>!["START A SHOWDOWN","JOIN DANIEL'S SHOWDOWN"].includes(f.label)),"no exposed Home frame advertises a new game");
     assert.ok(exposed.some(f=>f.label==="CONTINUE SHOWDOWN"),"resolved ACTIVE pair restores the normal continue tile");
     assert.equal(result.session,SESSION);assert.equal(result.calls,1);assert.equal(result.screen,"transferChallenge");
+    // A settled pair failure (offline or signed out after the reload) never leaves Home stuck on CHECKING.
+    for(const status of ["unavailable","signed-out"]){
+      await page.evaluate(status=>{
+        sessionStorage.setItem("careerModeShowdown.liveGame.v1","1");
+        window.__fixturePair({status,initialized:true,busy:false,rivalryId:null,connectionState:null});
+        window.CareerModeOnlinePlayerIdentity.refreshHome();
+      },status);
+      assert.notEqual(await page.locator("#newShowdown .menuTileLabel").textContent(),"CHECKING…",`${manager}: settled ${status} pair leaves CHECKING`);
+      assert.equal(await page.locator("#newShowdown").getAttribute("aria-busy"),null);
+    }
     // A current positive no-live answer permits the existing START/JOIN presentation.
     await page.evaluate(()=>{
       window.__fixturePair({status:"unpaired",initialized:true,busy:false,rivalryId:null,connectionState:null});
