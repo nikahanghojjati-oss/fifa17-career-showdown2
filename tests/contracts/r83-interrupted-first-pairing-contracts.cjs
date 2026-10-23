@@ -14,7 +14,7 @@ const clone=value=>value===undefined?undefined:JSON.parse(JSON.stringify(value,(
 const partnerPath=role=>`accounts/${UID[role]}/partner/current`;
 function game(){
   const docs=new Map(),transactions=[];
-  let now=1800000000000,failPartnerWrites=0,failRecovery=false;
+  let now=1800000000000,failPartnerWrites=0,failMarkerRead=false;
   const libraries={};
   const save=role=>"save_"+(role==="playerOne"?"1":"2").repeat(24),profile=role=>"profile_"+(role==="playerOne"?"3":"4").repeat(24);
   function prepare(role){const entry={saveId:save(role),showdown:{totalRounds:3,status:"Created",sharedJourney:{mode:"shared",setupPending:true},managers:{playerOne:"Daniel",playerTwo:"Nik"},selectedLeague:null,clubs:{},rounds:[],identity:{managerProfileIds:{[role]:profile(role)}}}};libraries[role]={activeSaveId:entry.saveId,saves:[entry]};}
@@ -29,7 +29,7 @@ function game(){
       runTransaction:async(_db,fn)=>{
         const record={uid,reads:[],writes:[]};transactions.push(record);const pending=[];
         const tx={get:async ref=>{assert.equal(pending.length,0,"all reads precede writes");record.reads.push(ref.path);
-          if(failRecovery&&ref.path.includes("/partner/"))throw Object.assign(new Error("offline"),{code:"unavailable"});
+          if(failMarkerRead&&ref.path.includes("/careerStart/"))throw Object.assign(new Error("offline"),{code:"unavailable"});
           // Existing Rules permit a foreign partner read only when its record names this account.
           if(ref.path.endsWith("/partner/current")&&!ref.path.startsWith(`accounts/${uid}/`)&&docs.get(ref.path)?.partnerAccountId!==uid)throw Object.assign(new Error("denied"),{code:"permission-denied"});
           return snapshot(ref);},set:(ref,value)=>pending.push([ref.path,value])};
@@ -37,7 +37,7 @@ function game(){
         if(pending.some(([p])=>p.endsWith("/partner/current"))&&failPartnerWrites>0){failPartnerWrites--;throw Object.assign(new Error("connection interrupted"),{code:"unavailable"});}
         for(const [p,v] of pending){docs.set(p,resolveTimes(v));record.writes.push(p);}return result;
       }};
-    function snapshot(ref){return{exists:()=>docs.has(ref.path),data:()=>clone(docs.get(ref.path))};}
+    function snapshot(ref){if(failMarkerRead&&ref.path.includes("/careerStart/"))throw Object.assign(new Error("offline"),{code:"unavailable"});return{exists:()=>docs.has(ref.path),data:()=>clone(docs.get(ref.path))};}
     function resolveTimes(v){if(v&&v.__server)return ts(now);if(v&&typeof v.toMillis==="function")return ts(v.toMillis());if(Array.isArray(v))return v.map(resolveTimes);if(v&&typeof v==="object")return Object.fromEntries(Object.entries(v).map(([k,x])=>[k,resolveTimes(x)]));return v;}
     const pairing={...Provider,createPairing:o=>Provider.createPairing({...o,nowEpochMs:now}),redeemPairing:o=>Provider.redeemPairing({...o,nowEpochMs:now}),initialize:async()=>{},getState:()=>({registered:true,deviceId}),getOrCreateDeviceIdentity:async()=>identity,
       localBindingOptions:()=>library.saves.length?[{managerRole:role,saveId:save(role),profileId:profile(role)}]:[]};
@@ -67,7 +67,7 @@ function game(){
     for(const role of ["playerOne","playerTwo"]){assert.ok(docs.has(`accounts/${UID[role]}/pairLinks/current`));assert.ok(docs.has(`accounts/${UID[role]}/careerIndex/current`));assert.ok(docs.has(`accounts/${UID[role]}/careerStart/current`));}
     return waiting.rivalryId;
   }
-  return{docs,transactions,page,prepare,interrupted,advance:ms=>{now+=ms;},setOffline:v=>{failRecovery=v;},failWrites:n=>{failPartnerWrites=n;}};
+  return{docs,transactions,page,prepare,interrupted,advance:ms=>{now+=ms;},setMarkerUnavailable:v=>{failMarkerRead=v;},failWrites:n=>{failPartnerWrites=n;}};
 }
 
 for(const first of ["playerOne","playerTwo"])test(`${first} reopens first: interrupted first real pairing recovers both records and next START supplies Home JOIN`,async()=>{
@@ -90,7 +90,8 @@ for(const first of ["playerOne","playerTwo"])test(`${first} reopens first: inter
 
 test("a failed fresh-page repair stays retriable on the same page once the connection returns",async()=>{
   const g=game();await g.interrupted();const n=g.page("playerTwo");await n.pair.initialize({force:true});await n.pair.readPartnerRecord();
-  g.failWrites(2);await n.pair.ensurePartnerRecord();assert.equal(g.docs.has(partnerPath("playerTwo")),false);
+  g.failWrites(2);const first=n.pair.ensurePartnerRecord();assert.equal(n.pair.ensurePartnerRecord(),first,"recovery has one flight");await first;assert.equal(g.docs.has(partnerPath("playerTwo")),false);
+  const attempts=g.transactions.length;await n.pair.ensurePartnerRecord();assert.equal(g.transactions.length,attempts,"no retry within 30 seconds");
   g.failWrites(0);g.advance(31000);await n.pair.ensurePartnerRecord();assert.equal(g.docs.get(partnerPath("playerTwo"))?.active,true);
   const count=g.transactions.filter(t=>t.writes.includes(partnerPath("playerTwo"))).length;
   await n.pair.ensurePartnerRecord();assert.equal(g.transactions.filter(t=>t.writes.includes(partnerPath("playerTwo"))).length,count,"settled repair never rewrites the record");
@@ -98,7 +99,8 @@ test("a failed fresh-page repair stays retriable on the same page once the conne
 
 for(const change of ["test-no-marker","hidden-test","pre-career-test","own-unpair","other-unpair","foreign-membership","wrong-role","closed","unreadable-marker"])test(`recovery guard: ${change}`,async()=>{
   const g=game(),id=await g.interrupted(),role="playerTwo",marker=`accounts/${UID[role]}/careerStart/current`,r=g.docs.get(`rivalries/${id}`);
-  if(change==="test-no-marker"||change==="unreadable-marker")g.docs.delete(marker);
+  if(change==="test-no-marker")g.docs.delete(marker);
+  if(change==="unreadable-marker")g.setMarkerUnavailable(true);
   if(change==="hidden-test")g.docs.get(marker).data.hiddenRivalryIds=[id];
   if(change==="pre-career-test")g.docs.get(marker).data.startedAt=ts(r.data.createdAt.toMillis()+36*60000);
   if(change==="own-unpair"||change==="other-unpair"){
