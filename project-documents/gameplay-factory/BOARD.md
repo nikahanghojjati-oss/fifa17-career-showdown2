@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 23 Oct, 6:12 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 23 Oct, 6:16 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.6-r82** (main `d956bf4`, Thu 22 Oct 8:43 PM)
 
@@ -2133,7 +2133,6 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 | 🟧 Team G lead | [PR #962](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/962) | JOB-8 audit: Firebase usage, hidden expiry retries and career scaling | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #961](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/961) | JOB-2 audit: sign-in, pairing and real/test labels | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #960](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/960) | JOB-1 audit: continuing Showdowns after reload and reconnect | 🔴 7 passed, 1 failed (draft) |
-| 🟧 Team G lead | [PR #959](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/959) | JOB-A: investigate zero career totals after real Showdowns | 🔴 7 passed, 1 failed (draft) |
 
 **Up next**
 

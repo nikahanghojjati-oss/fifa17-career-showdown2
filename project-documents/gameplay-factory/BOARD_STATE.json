@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-23 6:12 PM Boston time (EDT)",
+ "generated": "2026-10-23 6:16 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1371,20 +1371,6 @@
       "failed": 1,
       "cancelled": 0
      }
-    },
-    {
-     "pr": 959,
-     "title": "JOB-A: investigate zero career totals after real Showdowns",
-     "draft": true,
-     "branch": "codex/job-a-career-zero-2026-10-20",
-     "sha": "ad8723e91cca256e8a81249265d0c31e9e84ced8",
-     "updated": "2026-10-20T22:14:34Z",
-     "gates": {
-      "passed": 7,
-      "running": 0,
-      "failed": 1,
-      "cancelled": 0
-     }
     }
    ],
    "today": []
@@ -1938,7 +1924,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 52,
+  "moving": 51,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3302,20 +3288,6 @@
     "branch": "codex/job-1-continue-reload-2026-10-20",
     "sha": "5b4d7c0f8db7d2646cbaa33763b5876b35b27754",
     "updated": "2026-10-20T22:28:08Z",
-    "gates": {
-     "passed": 7,
-     "running": 0,
-     "failed": 1,
-     "cancelled": 0
-    }
-   },
-   {
-    "pr": 959,
-    "title": "JOB-A: investigate zero career totals after real Showdowns",
-    "draft": true,
-    "branch": "codex/job-a-career-zero-2026-10-20",
-    "sha": "ad8723e91cca256e8a81249265d0c31e9e84ced8",
-    "updated": "2026-10-20T22:14:34Z",
     "gates": {
      "passed": 7,
      "running": 0,
