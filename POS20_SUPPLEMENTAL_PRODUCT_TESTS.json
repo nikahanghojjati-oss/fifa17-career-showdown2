@@ -2136,6 +2136,16 @@
         "^tests/contracts/r83-terminal-close-replacement-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r83-interrupted-first-pairing-contracts.cjs",
+      "patterns": [
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/careerStartMarker\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^tests/contracts/r83-interrupted-first-pairing-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
