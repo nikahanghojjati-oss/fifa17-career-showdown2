@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 22 Oct, 9:21 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 22 Oct, 9:25 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.6-r82** (main `d956bf4`, Thu 22 Oct 8:43 PM)
 
@@ -34,7 +34,7 @@ Updated Thu 22 Oct, 9:21 PM Boston time. Bug hunting only, no new features until
 
 **#5 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #775 · CI 6 of 7 passed · last move 252 h ago
+🟢 Team green · model not set · worker working, draft PR #775 · CI 6 of 7 passed · last move 253 h ago
 
 **#6 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -78,11 +78,11 @@ Updated Thu 22 Oct, 9:21 PM Boston time. Bug hunting only, no new features until
 
 **#16 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 146 h ago
+⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 147 h ago
 
 **#17 · 1839** `G` r76 gallery refresh: every screen from the final workbench, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 146 h ago
+⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 147 h ago
 
 ### 👉 Next for you, in this order
 
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #971](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/971) | r83: career screens draw once (no show, vanish, reload) | ⏳ 0 passed, 7 running |
+| 🟧 Team G lead | [PR #971](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/971) | r83: career screens draw once (no show, vanish, reload) | ⏳ 4 passed, 3 running |
 | 🟧 Team G lead | [PR #970](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/970) | JOB-4 audit: unfinished seasons change career stats and trophy totals | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #969](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/969) | JOB-2 audit: permanent-pair recovery and real/test JOIN mistakes | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #968](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/968) | JOB-1 audit: healthy session resume fails during its final minute | 🔴 7 passed, 1 failed (draft) |
