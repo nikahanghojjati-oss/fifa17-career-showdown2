@@ -2095,6 +2095,17 @@
         "^tests/contracts/r83-results-reload-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r83-slow-reload-home-contracts.cjs",
+      "patterns": [
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/ssjr\\.js$",
+        "^js/app\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^tests/contracts/r83-slow-reload-home-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
