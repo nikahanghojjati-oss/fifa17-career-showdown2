@@ -2108,6 +2108,14 @@
       ]
     },
     {
+      "path": "tests/contracts/r83-final-history-reconnect-contracts.cjs",
+      "patterns": [
+        "^js/seasonFinalV10\\.js$",
+        "^tests/contracts/r83\\-final\\-history\\-reconnect\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r83-terminal-close-replacement-contracts.cjs",
       "patterns": [
         "^js/productionSharedTerminalClose\\.js$",
