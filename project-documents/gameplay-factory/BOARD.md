@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 23 Oct, 5:26 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 23 Oct, 5:30 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.6-r82** (main `d956bf4`, Thu 22 Oct 8:43 PM)
 
@@ -26,11 +26,11 @@ Updated Fri 23 Oct, 5:26 PM Boston time. Bug hunting only, no new features until
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 272 h ago
+🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 273 h ago
 
 **#4 · 1729** `G` Standings: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 272 h ago
+🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 273 h ago
 
 **#5 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -74,7 +74,7 @@ Updated Fri 23 Oct, 5:26 PM Boston time. Bug hunting only, no new features until
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 167 h ago
+⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 168 h ago
 
 **#16 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
@@ -2134,7 +2134,6 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 | 🟧 Team G lead | [PR #961](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/961) | JOB-2 audit: sign-in, pairing and real/test labels | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #960](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/960) | JOB-1 audit: continuing Showdowns after reload and reconnect | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #959](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/959) | JOB-A: investigate zero career totals after real Showdowns | 🔴 7 passed, 1 failed (draft) |
-| 🟧 Team G lead | [PR #958](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/958) | JOB-B audit: career screen double loads and readiness gaps | 🔴 7 passed, 1 failed (draft) |
 
 **Up next**
 

@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-23 5:26 PM Boston time (EDT)",
+ "generated": "2026-10-23 5:30 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1385,20 +1385,6 @@
       "failed": 1,
       "cancelled": 0
      }
-    },
-    {
-     "pr": 958,
-     "title": "JOB-B audit: career screen double loads and readiness gaps",
-     "draft": true,
-     "branch": "codex/job-b-career-double-load-2026-10-20",
-     "sha": "f16ca9cbc93af7bf971044d2f2a1456965f0b657",
-     "updated": "2026-10-20T21:29:56Z",
-     "gates": {
-      "passed": 7,
-      "running": 0,
-      "failed": 1,
-      "cancelled": 0
-     }
     }
    ],
    "today": []
@@ -1952,7 +1938,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 53,
+  "moving": 52,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3330,20 +3316,6 @@
     "branch": "codex/job-a-career-zero-2026-10-20",
     "sha": "ad8723e91cca256e8a81249265d0c31e9e84ced8",
     "updated": "2026-10-20T22:14:34Z",
-    "gates": {
-     "passed": 7,
-     "running": 0,
-     "failed": 1,
-     "cancelled": 0
-    }
-   },
-   {
-    "pr": 958,
-    "title": "JOB-B audit: career screen double loads and readiness gaps",
-    "draft": true,
-    "branch": "codex/job-b-career-double-load-2026-10-20",
-    "sha": "f16ca9cbc93af7bf971044d2f2a1456965f0b657",
-    "updated": "2026-10-20T21:29:56Z",
     "gates": {
      "passed": 7,
      "running": 0,
