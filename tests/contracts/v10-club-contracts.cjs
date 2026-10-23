@@ -135,7 +135,7 @@ check("4 lazy loading: index.html, the startup line and RUNTIME_REVISION unchang
     if(/\.webp$/.test(full)){assert.ok(imageRule.test(full),full);assert.ok(!shell.has(full),`${full} not precached`);}
     else if(/\.woff2$/.test(full))assert.ok(shell.has(full),`${full} shell cached`);
   }
-  assert.match(sw,/const RUNTIME_REVISION = "1\.9\.5-r81";/,"RUNTIME_REVISION is the current release (r81, 1.9.5-r81)");
+  assert.match(sw,/const RUNTIME_REVISION = "1\.9\.6-r82";/,"RUNTIME_REVISION is the current release (r82, 1.9.6-r82)");
   // The glue loads before club.css, so club.css wins every tie with it while the glue's resets still beat the app.
   assert.deepEqual([...CL.FILES.css],["../../css/v10Club.css","club/club.css"]);
   assert.deepEqual(CL.FILES.script.slice(0,2),["v10-club-plate","club/club.js"]);
