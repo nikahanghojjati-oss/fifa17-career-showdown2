@@ -45,9 +45,10 @@
   // shell, without the checkmark (js/productionSharedJourneyEntry.js, fixed there), so the pair's first r79 game was played
   // as a test Showdown and the checkmark at the next START named it here. A marker made on r79 (see below) shows again the
   // Showdowns it hides that were FINISHED (closed with a Terminal Close) on r79 or later: newest first, at most
-  // REVEAL_SCAN_LIMIT exact gets of rivalries/{id}, once per account and marker per page, stopping at the first one last
-  // written before r79 went live. A read that fails, or a document that is missing or not a rivalry, keeps it and every
-  // older one hidden (fail closed). Read-only: the marker, the index and every Showdown stay exactly as they are.
+  // REVEAL_SCAN_LIMIT exact gets of rivalries/{id}, caching successful scans per account and marker per page, stopping at
+  // the first one last written before r79 went live. A failed read rejects the scope (fail closed) and is not cached, so
+  // the career screens show unavailable and retry on the next open. A missing or foreign document keeps it and every
+  // older one hidden. Read-only: the marker, the index and every Showdown stay exactly as they are.
   // Codex #936: only markers made BEFORE R80_PREVENTION_MS (2026-10-19 12:00 UTC). From r80 on a test-mode account cannot
   // play a test code by accident (Home START, CONTINUE CAREER and the reload go through the checkmark), so a later marker
   // hides only deliberate Settings > START TEST RUN games, and those stay hidden. Nik's and Daniel's markers were both
@@ -63,8 +64,7 @@
     const promise=(async()=>{
       const shown=new Set();
       for(const id of hidden.slice(-REVEAL_SCAN_LIMIT).reverse()){
-        let value=null;
-        try{const snapshot=await firebaseSdk.getDoc(firebaseSdk.doc(firestore,"rivalries",id));value=snapshot.exists()?snapshot.data():null;}catch(_error){break;}
+        const snapshot=await firebaseSdk.getDoc(firebaseSdk.doc(firestore,"rivalries",id)),value=snapshot.exists()?snapshot.data():null;
         const written=csmMillis(value?.updatedAt);
         if(!value||value.objectType!=="rivalry"||value.objectId!==id||written===null||written<R79_LIVE_MS)break;
         if(value.data?.connectionState==="closed"&&Object.hasOwn(value.data,"terminalClose"))shown.add(id);
@@ -72,6 +72,7 @@
       return hidden.filter(id=>!shown.has(id));
     })();
     reveals.set(key,promise);
+    promise.catch(()=>{if(reveals.get(key)===promise)reveals.delete(key);});
     return promise;
   }
   function parseIndexHead(value){
