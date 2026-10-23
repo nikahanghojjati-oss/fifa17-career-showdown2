@@ -2056,6 +2056,25 @@
       ]
     },
     {
+      "path": "tests/contracts/r83-continue-read-retry-contracts.cjs",
+      "patterns": [
+        "^js/sparkRemoteJoining\\.js$",
+        "^tests/contracts/r83-continue-read-retry-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r83-signing-paste-reload-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/transferSelector\\.js$",
+        "^data/transferOptions\\.js$",
+        "^js/storage\\.js$",
+        "^tests/contracts/r83-signing-paste-reload-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r83-failed-continue-home-contracts.cjs",
       "patterns": [
         "^js/onlinePlayerIdentity\\.js$",
