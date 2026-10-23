@@ -2136,6 +2136,17 @@
         "^tests/contracts/r83-terminal-close-replacement-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r83-home-join-window-contracts.cjs",
+      "patterns": [
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/whichShowdownIsLive\\.js$",
+        "^tests/contracts/r83-home-join-window-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
