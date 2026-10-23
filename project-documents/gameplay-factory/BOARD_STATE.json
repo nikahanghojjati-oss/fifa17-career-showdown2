@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-22 11:56 PM Boston time (EDT)",
+ "generated": "2026-10-23 12:00 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1401,17 +1401,11 @@
      }
     }
    ],
-   "today": [
-    {
-     "pr": 957,
-     "title": "Release 1.9.6-r82: career screens count real finished Showdowns",
-     "merged": "2026-10-23T00:43:00Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: Showdown Gate on #973 has waited 2 min for a machine.",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
