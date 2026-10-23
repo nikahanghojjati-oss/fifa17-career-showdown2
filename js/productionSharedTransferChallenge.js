@@ -122,7 +122,8 @@
     const result=pstcResultError(await provider.read(ctx.options),"The shared Transfer Challenge could not be read.");if(!pstcRequestMatches(request,ctx))return null;
     if(!pstcBindView(result,ctx,request))return null;if(pstcTransferScreenVisible())pstcPrepareReplay();pstcSetError("");pstcRender();pstcDecorateDashboard();return view;
   }
-  // Routine polls and concurrent-expiry reconciliation must not replenish the automatic retry budget.
+  // Routine polls and concurrent-expiry reconciliation must not replenish the automatic retry budget. A poll that lands while
+  // a wake refresh failed still counts as the fresh authority that wake was waiting for, so expiry cannot stay paused forever.
   function pstcRefresh(light=false,rearmExpiry=true){
     const request=pstcRequestContext();if(!request)return Promise.resolve(null);
     if(viewContextKey&&viewContextKey!==request.key)pstcClearCachedContext();
@@ -131,7 +132,7 @@
     const expiryRefresh={rearm:rearmExpiry};refreshExpiryRequest=expiryRefresh;
     const current=pstcQueueProvider(async()=>{
       const fresh=await pstcRefreshNow(request,light===true);
-      if(fresh&&pstcRequestMatches(request)&&expiryRefresh.rearm){pstcResetExpiryAttempts();expiryNeedsAuthority=false;pstcRender();}
+      if(fresh&&pstcRequestMatches(request)&&(expiryRefresh.rearm||expiryNeedsAuthority)){pstcResetExpiryAttempts();expiryNeedsAuthority=false;pstcRender();}
       return fresh;
     });
     refreshPromise=current;refreshContextKey=request.key;

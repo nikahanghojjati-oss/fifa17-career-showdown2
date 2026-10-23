@@ -12,7 +12,7 @@ const deferred=()=>{let resolve;const promise=new Promise(done=>{resolve=done;})
 // Run the installed production adapter, including its real render, poll, clock,
 // mutation and concurrent-expiry reconciliation. Only browser/provider IO is fake.
 function harness(role="playerOne"){
-  let now=0,mode="unavailable",readGate=null,setupGate=null;
+  let now=0,mode="unavailable",readGate=null,setupGate=null,readFail=false;
   const epoch=Date.UTC(2026,9,22,12),nodes=new Map(),handlers={},intervals=[],calls={reads:0,mutations:0,advances:0,setup:0,career:0,events:[]};
   const state={seasonNumber:1,coordinatorRole:"playerOne",phase:"WINDOW_OPEN",revision:2,startedAtEpochMs:epoch,endRequestedRoles:[],guessLockedRoles:[],signingLockedRoles:[]};
   function node(id){
@@ -24,7 +24,7 @@ function harness(role="playerOne"){
   }
   const document={visibilityState:"visible",getElementById:node,querySelector:node,querySelectorAll:()=>[],createElement:()=>node(`new:${nodes.size}`),addEventListener(type,fn){handlers[type]=fn;}};
   const projection=()=>({ok:true,revision:state.revision,state:clone(state),managerRole:role,seasonNumber:1});
-  const provider={async read(){calls.reads++;calls.events.push("read");if(readGate){const gate=readGate;readGate=null;await gate.promise;}return projection();},async advanceExpiredWindow(){
+  const provider={async read(){calls.reads++;calls.events.push("read");if(readFail){readFail=false;throw Object.assign(new Error("offline"),{code:"unavailable"});}if(readGate){const gate=readGate;readGate=null;await gate.promise;}return projection();},async advanceExpiredWindow(){
     calls.mutations++;calls.events.push("mutate");
     if(mode==="race"){state.phase="GUESS_ENTRY";state.revision++;return {ok:false,code:"permission-denied"};}
     if(mode!=="success")return {ok:false,code:mode};
@@ -39,7 +39,7 @@ function harness(role="playerOne"){
   const api=sandbox.CareerModeProductionSharedTransferChallenge;
   async function advance(ms){const end=now+ms;while(true){const next=Math.min(...intervals.map(i=>i.next));if(next>end)break;now=next;for(const interval of intervals){if(interval.next===now){interval.next+=interval.ms;interval.fn();}}await settle();}now=end;await settle();}
   async function visibility(value){document.visibilityState=value;handlers.visibilitychange();await settle();}
-  return {api,calls,state,document,advance,visibility,gateSetup:()=>{setupGate=deferred();return setupGate;},mode:value=>{mode=value;},gateRead:()=>{readGate=deferred();return readGate;},online:async()=>{handlers.online?.();await settle();}};
+  return {api,calls,state,document,advance,visibility,gateSetup:()=>{setupGate=deferred();return setupGate;},mode:value=>{mode=value;},gateRead:()=>{readGate=deferred();return readGate;},failRead:()=>{readFail=true;},online:async()=>{handlers.online?.();await settle();}};
 }
 
 (async()=>{
@@ -81,6 +81,13 @@ function harness(role="playerOne"){
     assert.equal(h.calls.reads,before.reads);assert.equal(h.calls.mutations,0);
     h.mode("success");await h.visibility("visible");await h.advance(60_000);
     assert.equal(h.calls.advances,1,"return refresh recovers an expiry interrupted by hiding");
+  }
+  {
+    // A failed wake refresh must not leave expiry paused: the next ordinary poll is the fresh authority it waited for.
+    const h=harness();h.api.install();await settle();
+    await h.advance(14*60*1000);await h.visibility("hidden");await h.advance(2*60*1000);
+    h.failRead();h.mode("success");await h.visibility("visible");await h.advance(120_000);
+    assert.equal(h.calls.advances,1,"a poll after a failed wake refresh lets the expired window advance");
   }
   for(const code of ["permission-denied","firestore/permission-denied","permission_denied"]){
     const h=harness();h.api.install();await settle();h.mode(code);await h.advance(16*60*1000);
