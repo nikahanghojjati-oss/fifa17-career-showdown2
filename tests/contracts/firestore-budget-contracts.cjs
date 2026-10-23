@@ -909,12 +909,13 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
       await world.advance(20*60000);
       assert.equal(world.server.get(OFFER).data.sessionId,B);assert.equal(offerWrites.length,1);}
 
-    // N (Codex #920): a competing pointer with a minute or less left is stale here as it is for Nik's poll: it is replaced.
+    // N (JOB-1 F1): even a pointer with a minute or less left must preserve its still-live session.
     {const {world,remote,offerWrites,sessions}=daniel({paired:true,fail:1});
       const SHORT="session_"+"7".repeat(64);sessions[SHORT]="open";
       world.serverWrite(OFFER,{schemaVersion:1,sessionId:SHORT,hostAccountId:"daniel",expiresAt:{epochMs:world.clock.now+30000}});
       await remote.autoConnect();await world.advance(3000);
-      assert.equal(offerWrites.length,2);assert.equal(published(world),true,"the nearly expired pointer is replaced");
+      assert.equal(offerWrites.length,0,"a live session is resumed without rewriting its short-lived pointer");
+      assert.equal(world.server.get(OFFER).data.sessionId,SHORT);assert.equal(remote.getState().sessionId,SHORT);
       assert.doesNotMatch(remote.getState().message,/another screen/);}
 
     // L: a pointer to a session the server reports as not found is replaced.
