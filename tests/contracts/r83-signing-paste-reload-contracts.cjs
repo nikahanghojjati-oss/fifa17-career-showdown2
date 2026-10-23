@@ -54,10 +54,14 @@ async function page(device,role,{season=1,rivalry="pair_1",locked=false}={}){
   sandbox.window=sandbox;sandbox.globalThis=sandbox;
   vm.createContext(sandbox);
   for(const file of ["data/transferOptions.js","js/storage.js","js/transferSelector.js","js/productionSharedTransferChallenge.js"])vm.runInContext(read(file),sandbox,{filename:file});
+  // Phases this device already witnessed are stored (r83 Job 5) and are not replayed after a reload.
+  const witnessed=[...device.keys()].some(key=>key.includes(`cms.transferViews.v1:${rivalry}:${season}:${role}`));
   const api=sandbox.CareerModeProductionSharedTransferChallenge;api.install();await api.open();
-  // Return through the existing historical transfer window and guess replay.
-  assert.equal(screen.dataset.sharedTransferReplay,"WINDOW_OPEN");
-  for(const phase of ["GUESS_ENTRY",undefined]){node("continueFromTransfers").dispatchEvent(new Event("click",{bubbles:true}));await settle();assert.equal(screen.dataset.sharedTransferReplay,phase);}
+  if(!witnessed){
+    // First visit: return through the historical transfer window and guess replay.
+    assert.equal(screen.dataset.sharedTransferReplay,"WINDOW_OPEN");
+    for(const phase of ["GUESS_ENTRY",undefined]){node("continueFromTransfers").dispatchEvent(new Event("click",{bubbles:true}));await settle();assert.equal(screen.dataset.sharedTransferReplay,phase);}
+  }else assert.equal(screen.dataset.sharedTransferReplay,undefined);
   assert.equal(api.getState().state.phase,"SIGNING_ENTRY");
   const prefix=role==="playerOne"?"p1":"p2";
   return {api,calls,sandbox,field:suffix=>node(`${prefix}Signing1${suffix}`),
@@ -100,7 +104,7 @@ async function page(device,role,{season=1,rivalry="pair_1",locked=false}={}){
     for(const options of [{season:2},{rivalry:"pair_2"}]){const scoped=await page(device,role,options);assert.equal(scoped.field("Name").value,"");assert.equal(scoped.field("Nationality").value,"");}
     const opposite=await page(device,role==="playerOne"?"playerTwo":"playerOne");assert.equal(opposite.field("Name").value,"");
     const reloaded=await page(device,role);assert.equal(reloaded.field("Nationality").dataset.canonicalId,"england","suggestion change survives reload too");
-    const locked=await page(device,role,{locked:true});assert.equal(locked.field("Name").value,"");assert.equal(device.size,0,"authoritative lock clears the draft");
+    const locked=await page(device,role,{locked:true});assert.equal(locked.field("Name").value,"");assert.equal([...device.keys()].filter(key=>key.includes("cms.signingDraft.v1:")).length,0,"authoritative lock clears every signing draft");
     checks++;
   }
   console.log(`PASS r83 signing paste/reload: ${checks} behavioral cases for Daniel/playerOne and Nik/playerTwo.`);
