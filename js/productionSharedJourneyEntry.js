@@ -384,7 +384,9 @@
     progression.install?.();
     const resumed=await progression.resumeFromAuthority();
     if(!resumed||!Number.isInteger(resumed.acceptedSeasons)||resumed.acceptedSeasons<0)return false;
-    if(await resumeSeasonResults(resumed))return true;
+    // The Results route is a nicer landing, never a new way to fail: any error here keeps the existing fallback.
+    let routed=false;try{routed=await resumeSeasonResults(resumed);}catch(_error){}
+    if(routed)return true;
     if(resumed.acceptedSeasons<1)return false;
     if(typeof root.navigateTo==="function")await root.navigateTo("dashboard",{addToHistory:false,allowCanonicalFallback:true});else if(typeof root.showScreen==="function")await root.showScreen("dashboard",false);
     progression.decorateDashboard?.();
