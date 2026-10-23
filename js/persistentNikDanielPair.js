@@ -339,24 +339,57 @@ function pairContextualJoinMessage(error){const pairing=root.CareerModeSparkPriv
     if(!pairIsEnvelopeValue(rivalry,"rivalry",rivalryId)||rivalry.data.connectionState!=="active"||!Array.isArray(slots)||slots.length!==2||slots[0]?.slotId!=="playerOne"||slots[1]?.slotId!=="playerTwo"||slots[0].entitlementState!=="active"||slots[1].entitlementState!=="active"||!Array.isArray(rivalry.data.authorizedAccountIds)||rivalry.data.authorizedAccountIds.length!==2)throw pairErrorWithCode("PERMANENT_PARTNER_PAIRING_INACTIVE","Daniel and Nik are not connected in this Showdown yet.");
     const mine=role==="playerOne"?slots[0]:slots[1],theirs=role==="playerOne"?slots[1]:slots[0];
     if(mine.accountId!==context.accountId||typeof theirs.accountId!=="string"||!theirs.accountId||theirs.accountId===context.accountId)throw pairErrorWithCode("PERMANENT_PARTNER_MEMBERSHIP_MISSING","This account is not part of this Showdown.");
-    if(options.requirePartnerRecord===true){const other=await transaction.get(pairPartnerReference(context,theirs.accountId)),value=other.exists()?pairParsePartnerRecord(other.data(),theirs.accountId):null;if(!value||value.active!==true||value.partnerAccountId!==context.accountId||value.myRole===role)throw pairErrorWithCode("PERMANENT_PARTNER_NOT_CONFIRMED","The other manager has not confirmed this pairing.");}
+    if(options.requirePartnerRecord===true){const other=await transaction.get(pairPartnerReference(context,theirs.accountId)),value=other.exists()?pairParsePartnerRecord(other.data(),theirs.accountId):null;if(!value)throw pairErrorWithCode("PERMANENT_PARTNER_NOT_FOUND","The other manager has no saved partner record yet.");if(value.active!==true||value.partnerAccountId!==context.accountId||value.myRole===role)throw pairErrorWithCode("PERMANENT_PARTNER_NOT_CONFIRMED","The other manager has not confirmed this pairing.");}
     const ref=pairPartnerReference(context),snapshot=await transaction.get(ref),existing=snapshot.exists()?pairParsePartnerRecord(snapshot.data(),context.accountId):null;
+    // Job 14: both post-JOIN writes may have dropped. The existing marker and rivalry are durable proof of a real
+    // pairing (the same hidden-id and time boundaries as cmsPartnerPairingValid), so no foreign missing-document read
+    // is needed. Re-read own absence and the exact current link in this transaction; UNPAIR is never absence.
+    if(options.recoverMissing===true){
+      if(existing)throw pairErrorWithCode("PERMANENT_PARTNER_NOT_CONFIRMED","This account already has a saved partner decision.");
+      const linkSnapshot=await transaction.get(pairLinkReference(context)),link=linkSnapshot.exists()?pairParsePairLink(linkSnapshot.data(),context.accountId):null;
+      const markerSnapshot=await transaction.get(sdk.doc(context.services.firestore,"accounts",context.accountId,"careerStart",PARTNER_DOC_ID));
+      const markerApi=await pairLoadCareerStartMarker(),marker=markerSnapshot.exists()?markerApi?.parseMarker?.(markerSnapshot.data()):null;
+      const createdAt=pairTimestampMillis(rivalry.data.createdAt),marginMs=(role==="playerOne"?5:35)*60*1000;
+      if(!link||link.rivalryId!==rivalryId||link.managerRole!==role||!marker||marker.status!=="ready"||marker.hiddenRivalryIds.includes(rivalryId)||!Number.isFinite(createdAt)||createdAt<marker.startedAt-marginMs||!rivalry.data.authorizedAccountIds.includes(mine.accountId)||!rivalry.data.authorizedAccountIds.includes(theirs.accountId))throw pairErrorWithCode("PERMANENT_PARTNER_NOT_CONFIRMED","This Showdown has not confirmed a real pairing.");
+    }
     if(existing&&existing.active===true){if(existing.partnerAccountId===theirs.accountId&&existing.myRole===role)return{ok:true,status:"already-paired",record:existing};throw pairErrorWithCode("PERMANENT_PARTNER_CONFLICT","This account is paired with another account. Unpair it in Settings first.");}
     // WRITE PHASE (create, or re-pair after UNPAIR)
     transaction.set(ref,{schemaVersion:1,partnerAccountId:theirs.accountId,myRole:role,pairedViaRivalryId:rivalryId,pairedAt:pairServerTime(sdk),active:true,updatedAt:pairServerTime(sdk)});
     return{ok:true,status:existing?"re-paired":"paired",record:pairFreezeDeep({partnerAccountId:theirs.accountId,myRole:role,pairedViaRivalryId:rivalryId,pairedAtEpochMs:Date.now(),active:true})};});
     partnerState=pairFreezeDeep({status:"ready",accountId:context.accountId,record:result.record,code:null,checkedAt:Date.now()});joinNoteState=pairFreezeDeep({status:"unknown",accountId:null,note:null,code:null,checkedAt:0});/* r79 PR4: this page just (re)paired through a real pairing both managers write: no partner-side read for it. */pairSetPartnerSide("mutual",context.accountId,result.record.partnerAccountId);pairNotifyPartner();return result;}
-  // Never throws: a partner record that cannot be written is tried once more, then left for the next real pairing.
+  // Never throws: a partner record that cannot be written is tried once more, then left for retriable reload recovery.
   let pairRealRecording=null;
   // Single-flight per rivalry: the waiting poll and any other path that ends Daniel's wait (#901 pairContinueAfterWaitEnded) share one write; a write that ended without a record may be tried again later.
   function pairRecordRealPairing(rivalryId,role,context=null){let id;try{id=pairNormalizeRivalryId(rivalryId);}catch(_error){return Promise.resolve(null);}if(pairRealRivalryId!==id)return Promise.resolve(null);if(pairRealRecording&&pairRealRecording.id===id&&pairRealRecording.role===role)return pairRealRecording.promise;const promise=(async()=>{for(let attempt=0;attempt<2;attempt+=1){try{return await pairWritePartnerRecord({context:context||undefined,rivalryId:id,managerRole:role});}catch(error){if(!error||!PAIR_AMBIGUOUS_PROVIDER_CODES.has(pairProviderCode(error)))return null;}}return null;})().then(result=>{if(!result&&pairRealRecording?.promise===promise)pairRealRecording=null;return result;});pairRealRecording={id,role,promise};return promise;}
-  // Reload recovery (Daniel was away when Nik joined his first real pairing): Daniel is real, has no active record, and the
-  // live pair is ACTIVE; he writes his record only once Nik's own record already names him. At most once per page.
-  let pairPartnerRecoveryTried=false;
-  async function pairEnsurePartnerRecord(){if(pairPartnerRecoveryTried||state.status!=="paired"||state.connectionState!=="active"||!state.rivalryId||(state.managerRole!=="playerOne"&&state.managerRole!=="playerTwo"))return null;try{const context=await pairResolveContext(),partner=await pairReadPartnerRecord({context});
-    if(state.managerRole==="playerOne"){if(partner.status!=="none"&&!(partner.status==="ready"&&partner.record.active===false))return null;pairPartnerRecoveryTried=true;if(!await pairDanielNeedsRealPairing(context))return null;return await pairWritePartnerRecord({context,rivalryId:state.rivalryId,managerRole:"playerOne",requirePartnerRecord:true});}
-    /* Codex #903 (mirror for Nik): his redeem committed but both record writes dropped while Daniel's landed. Only when Nik has no record at all (an UNPAIR leaves active:false and is never undone here), his real career has started (Rules need his marker), and Daniel's record already names him: the write re-reads the ACTIVE rivalry with Nik in playerTwo and Daniel's record. Once per page. */
-    if(partner.status!=="none")return null;pairPartnerRecoveryTried=true;const api=await pairLoadCareerStartMarker(),marker=api&&typeof api.readCurrentMarker==="function"?await api.readCurrentMarker():null;if(marker?.status!=="ready")return null;return await pairWritePartnerRecord({context,rivalryId:state.rivalryId,managerRole:"playerTwo",requirePartnerRecord:true});}catch(_error){return null;}}
+  // Reload recovery first uses the other manager's confirmation as before. If that record is also missing (a
+  // foreign missing get is permission-denied under the existing Rules), recover ONLY an absent own record from
+  // the durable real-career proof. Failures stay pending, bounded to one attempt per 30 s, with one flight per page.
+  let pairPartnerRecoveryTried=false,pairPartnerRecoveryPromise=null,pairPartnerRecoveryRetryAt=0;
+  function pairEnsurePartnerRecord(){
+    if(pairPartnerRecoveryPromise)return pairPartnerRecoveryPromise;
+    if(pairPartnerRecoveryTried||Date.now()<pairPartnerRecoveryRetryAt||state.status!=="paired"||state.connectionState!=="active"||!state.rivalryId||(state.managerRole!=="playerOne"&&state.managerRole!=="playerTwo"))return Promise.resolve(null);
+    const rivalryId=state.rivalryId,role=state.managerRole;
+    pairPartnerRecoveryRetryAt=Date.now()+PARTNER_RETRY_MS;
+    pairPartnerRecoveryPromise=(async()=>{try{
+      const context=await pairResolveContext(),partner=await pairReadPartnerRecord({context});
+      if(role==="playerOne"){
+        if(partner.status!=="none"&&!(partner.status==="ready"&&partner.record.active===false))return null;
+        if(!await pairDanielNeedsRealPairing(context))return null;
+      }else{
+        if(partner.status!=="none")return null;
+        const api=await pairLoadCareerStartMarker(),marker=api&&typeof api.readCurrentMarker==="function"?await api.readCurrentMarker():null;
+        if(marker?.status!=="ready")return null;
+      }
+      let result;
+      try{result=await pairWritePartnerRecord({context,rivalryId,managerRole:role,requirePartnerRecord:true});}
+      catch(error){
+        if(partner.status!=="none"||(error?.code!=="PERMANENT_PARTNER_NOT_FOUND"&&pairProviderCode(error)!=="permission-denied"))throw error;
+        result=await pairWritePartnerRecord({context,rivalryId,managerRole:role,recoverMissing:true});
+      }
+      pairPartnerRecoveryTried=true;return result;
+    }catch(_error){return null;}})().finally(()=>{pairPartnerRecoveryPromise=null;});
+    return pairPartnerRecoveryPromise;
+  }
   async function pairLoadCareerStartMarker(){if(root.CareerModeCareerStartMarker)return root.CareerModeCareerStartMarker;if(typeof root.loadRuntimeScript!=="function")return null;try{await root.loadRuntimeScript("career-start-marker","js/careerStartMarker.js",()=>Boolean(root.CareerModeCareerStartMarker));}catch(_error){return null;}return root.CareerModeCareerStartMarker||null;}
   // Daniel's first real pairing: his account is real (careerStart/current exists) and has no active partner record yet.
   // Codex #904 (10-season audit): fails closed. A partner or marker read that cannot answer throws, so a real account never gets a
