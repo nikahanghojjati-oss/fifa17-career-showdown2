@@ -2136,6 +2136,19 @@
         "^tests/contracts/r83-terminal-close-replacement-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r83-cold-career-reads-contracts.cjs",
+      "patterns": [
+        "^js/sparkClosedShowdownCareerLoader\\.js$",
+        "^js/sparkCompletedShowdownReader\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^tests/contracts/r83-cold-career-reads-contracts\\.cjs$",
+        "^tests/fixtures/saved-showdowns/r79-1season-win\\.json$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
