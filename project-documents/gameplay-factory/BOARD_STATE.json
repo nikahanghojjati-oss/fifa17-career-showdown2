@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-23 6:26 PM Boston time (EDT)",
+ "generated": "2026-10-23 6:30 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1357,20 +1357,6 @@
       "failed": 1,
       "cancelled": 0
      }
-    },
-    {
-     "pr": 960,
-     "title": "JOB-1 audit: continuing Showdowns after reload and reconnect",
-     "draft": true,
-     "branch": "codex/job-1-continue-reload-2026-10-20",
-     "sha": "5b4d7c0f8db7d2646cbaa33763b5876b35b27754",
-     "updated": "2026-10-20T22:28:08Z",
-     "gates": {
-      "passed": 7,
-      "running": 0,
-      "failed": 1,
-      "cancelled": 0
-     }
     }
    ],
    "today": []
@@ -1924,7 +1910,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 51,
+  "moving": 50,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3274,20 +3260,6 @@
     "branch": "codex/job-2-sign-in-pairing-2026-10-20",
     "sha": "000e1d49df372adb3fb4bc4b3746c0314ee0f272",
     "updated": "2026-10-21T18:36:40Z",
-    "gates": {
-     "passed": 7,
-     "running": 0,
-     "failed": 1,
-     "cancelled": 0
-    }
-   },
-   {
-    "pr": 960,
-    "title": "JOB-1 audit: continuing Showdowns after reload and reconnect",
-    "draft": true,
-    "branch": "codex/job-1-continue-reload-2026-10-20",
-    "sha": "5b4d7c0f8db7d2646cbaa33763b5876b35b27754",
-    "updated": "2026-10-20T22:28:08Z",
     "gates": {
      "passed": 7,
      "running": 0,
