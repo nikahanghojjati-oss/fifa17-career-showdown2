@@ -209,6 +209,33 @@ async function screenLifetime(){
   assert.equal(shows,before,'an abandoned request cannot reopen History after navigation');
   assert.equal(c.CareerModeRivalryLegacyV10.cachedCareerModel(),null,'cancelled history is never published to Stats or Trophy Room');
 }
+async function reopenAfterLeaving(){
+  // Codex #985: leaving History mid-load and opening it again before the old reads settle must still load History.
+  let mounted=true,loads=0;const finishes=[];
+  const definitions=new Map(),host={dataset:{},innerHTML:'',querySelector:()=>null};
+  const c=vm.createContext({console,TextEncoder,setTimeout,clearTimeout,
+    document:{getElementById:id=>id==='legacy'?host:null},
+    CareerModeCareerScreenSeam:require('../../js/careerScreenSeam.js'),
+    CareerModeOnlinePlayerIdentity:{getState:()=>({status:'ready',registered:true,managerId:'daniel'})},
+    CareerModeSparkConnectedAccount:{getState:()=>({connected:true,accountId:accounts[0]})},
+    CareerModePersistentNikDanielPair:{getState:()=>({rivalryId:null})},
+    CareerModeSharedActiveShowdownAdapter:{buildActiveShowdownViews:()=>({careerInput:{}})},
+    CareerModeCareerStartMarker:{readMarker:async()=>({status:'ready',hiddenRivalryIds:[]}),hiddenRivalryIds:()=>[],epoch:()=>0},
+    CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:accounts[0]}},firestore:{},firestoreSdk:{getDoc(){}}})},
+    CareerModeSparkClosedShowdownCareerLoader:{loadClosedShowdownCareer:()=>{loads++;return new Promise(resolve=>finishes.push(resolve));}},
+    CareerModeV10Screens:{install(){return this;},register:(id,def)=>definitions.set(id,def),isMounted:()=>mounted,invalidate(){},show:async()=>true},
+    loadRuntimeScript:async()=>{},fetch:async()=>({ok:true,json:async()=>({})})
+  });
+  vm.runInContext(read('js/rivalryLegacyV10.js'),c);
+  const opening=c.CareerModeRivalryLegacyV10.mount('legacy');
+  while(!finishes.length)await new Promise(resolve=>setImmediate(resolve));
+  mounted=false;definitions.get('legacy').unmount(host);
+  mounted=true;const reopening=c.CareerModeRivalryLegacyV10.mount('legacy');
+  finishes[0]({model:{status:'partial'}});await opening;await reopening;
+  const deadline=Date.now()+5000;
+  while(loads<2&&Date.now()<deadline)await new Promise(resolve=>setTimeout(resolve,50));
+  assert.equal(loads,2,'reopened History starts a fresh load once the departed one drains');
+}
 async function statsAndTrophyLifetime(){
   for(const screen of ['careerStatistics','trophyRoom']){
     const definitions=new Map();let interested,finish,hidden=false;
@@ -229,6 +256,6 @@ async function statsAndTrophyLifetime(){
   }
 }
 (async()=>{
-  await archives();await sealedPages();await navigation();await integrityAndInvitations();await concurrentConsumers();await reopenDuringCancellation();await screenLifetime();await statsAndTrophyLifetime();
+  await archives();await sealedPages();await navigation();await integrityAndInvitations();await concurrentConsumers();await reopenDuringCancellation();await screenLifetime();await reopenAfterLeaving();await statsAndTrophyLifetime();
   console.log('PASS r83 cold career: 1/10/100 Showdowns; 1/3/5/10 seasons; both managers; reload/warm/new finish; missing-season retry; unused invitation; sealed-page reuse; concurrent consumers; navigation cancellation.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

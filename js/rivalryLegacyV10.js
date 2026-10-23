@@ -289,7 +289,7 @@
         if(reload.flight||event&&Date.now()-reload.lastStarted<RELOAD_INTERVAL)void screens().show(APP[screen]).catch(report);
       }
     }
-    if(reload.flight){if(event||reload.flight.key!==key)reload.dirty=true;return reload.flight.promise;}
+    if(reload.flight){/* a flight the screen left cannot publish; reopening schedules a fresh load after it drains */if(event||reload.flight.key!==key||reload.flight.left)reload.dirty=true;return reload.flight.promise;}
     const delay=RELOAD_INTERVAL-(Date.now()-reload.lastStarted);
     if(event&&delay>0){reload.dirty=true;scheduleReload(screen,reload,delay);return Promise.resolve(false);}
     if(reload.timer!==null){root.clearTimeout(reload.timer);reload.timer=null;}
