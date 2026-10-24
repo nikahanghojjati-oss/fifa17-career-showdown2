@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 24 Oct, 6:42 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 24 Oct, 6:46 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.6-r82** (main `d956bf4`, Thu 22 Oct 8:43 PM)
 
@@ -46,11 +46,11 @@ Updated Sat 24 Oct, 6:42 AM Boston time. Bug hunting only, no new features until
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 256 h ago
+⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 257 h ago
 
 **#9 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 213 h ago
+⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 214 h ago
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #991](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/991) | Release 1.9.7-r83: bug fixes, draws without tiebreaks, real-only play | ⏳ 6 passed, 1 running |
+| 🟧 Team G lead | [PR #991](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/991) | Release 1.9.7-r83: bug fixes, draws without tiebreaks, real-only play | 🟢 8 passed |
 | 🟧 Team G lead | [PR #970](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/970) | JOB-4 audit: unfinished seasons change career stats and trophy totals | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #969](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/969) | JOB-2 audit: permanent-pair recovery and real/test JOIN mistakes | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #968](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/968) | JOB-1 audit: healthy session resume fails during its final minute | 🔴 7 passed, 1 failed (draft) |
