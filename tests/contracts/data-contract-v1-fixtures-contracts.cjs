@@ -77,7 +77,7 @@ const SPEC={
   viewer:["classification","home","startJoin","seasonResults","seasonResultsBySeason","finalWinner","rivalry"], // classification: fixture metadata (G-5 enum)
   home:["status","viewerRole","continue"], // V1 §1; tiles.* not yet produced (G-13)
   continue:["state","leagueId","clubs","season","totalSeasons","score"],
-  startJoin:["status","viewerRole","busy","pairing","session","abandonShowdown","forgetThisDevice","primaryActions","moreActions"], // V1 §2 + G2V-005 item 2
+  startJoin:["status","viewerRole","busy","pairing","session","abandonShowdown","primaryActions","moreActions"], // V1 §2 + G2V-005 item 2
   action:["available","enabled","provider","args","confirm","confirmedByProvider"], // G2V-005 item 2
   pairingActions:["createCode","join","copyCode","newCode","checkStatus","retry"],
   sessionActions:["host","join","refresh","revoke","close","forget"],
@@ -121,8 +121,8 @@ function validateStartJoin(s,where){
   assert.ok(s.pairing.code===null||typeof s.pairing.code==="string");exact(s.pairing.actions,SPEC.pairingActions,where+".pairing.actions");for(const k of SPEC.pairingActions)action(s.pairing.actions[k],where+".pairing."+k);
   exact(s.session,["state","actions"],where+".session");oneOf(s.session.state,["open","active","revoked","closed","expired",null],where+".session.state");
   exact(s.session.actions,SPEC.sessionActions,where+".session.actions");for(const k of SPEC.sessionActions)action(s.session.actions[k],where+".session."+k);
-  action(s.abandonShowdown,where+".abandonShowdown");action(s.forgetThisDevice,where+".forgetThisDevice");
-  const ids=[...SPEC.pairingActions.map(k=>"pairing."+k),...SPEC.sessionActions.map(k=>"session."+k),"abandonShowdown","forgetThisDevice"];
+  action(s.abandonShowdown,where+".abandonShowdown");assert.equal(s.forgetThisDevice,undefined);
+  const ids=[...SPEC.pairingActions.map(k=>"pairing."+k),...SPEC.sessionActions.map(k=>"session."+k),"abandonShowdown"];
   for(const id of [...s.primaryActions,...s.moreActions])oneOf(id,ids,where+" action id");
 }
 function validateSeasonResults(r,where,leagueId){

@@ -39,7 +39,7 @@ const SITES=[
   // C10 (Settings START REAL CAREER) is retired in r79 PR4 (Nik 2026-10-17): the row is gone; the one-time checkmark on the
   // seasons screen needs no box. C13 is r79 PR4's UNPAIR in Settings (js/showdownModes.js).
   ["C13","js/showdownModes.js","smAskConfirm(`Unpair from ${v.partnerLabel}? Your Showdowns stay saved. To play again you pair again with a new code.`,\"danger\")",[]],
-  ["C11a","js/persistentNikDanielPair.js","pairAskConfirm(\"Delete this old connection and start fresh? This closes the stale online test connection and clears only its unfinished Showdown so Nik can join the new code Daniel creates.\",\"danger\")",[]],
+  ["C11a","js/persistentNikDanielPair.js","pairAskConfirm(\"Delete this old connection and start fresh? This closes the stale online connection and clears only its unfinished Showdown so Nik can join the new code Daniel creates.\",\"danger\")",[]],
   ["C11b","js/persistentNikDanielPair.js","pairAskConfirm(\"Delete the old Showdown and start over? This closes the old online Showdown for both players. Your player identity, registered device, Legacy history and app settings are kept.\",\"danger\")",[]]
   // C12 (START A SHOWDOWN "Start a new Showdown? This will close the current ...") is retired in r79: START never offers to close
   // a live Showdown (owner rule); closing stays in Settings (C9). R2 checks the entry module has no confirm box left.

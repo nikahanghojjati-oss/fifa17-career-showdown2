@@ -2170,6 +2170,14 @@
         "^tests/contracts/r83-interrupted-first-pairing-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r83-remove-test-mode-contracts.cjs",
+      "patterns": [
+        "^js/(showdownModes|onlinePlayerIdentity|productionSharedJourneyEntry|persistentNikDanielPair|careerStartMarker|sparkClosedShowdownCareerLoader|sparkCompletedShowdownReader|sharedClosedShowdownAdapter|rivalryLegacyV10)\\.js$",
+        "^tests/(contracts/r83-remove-test-mode-contracts|support/real-pair-fixture|support/showdown-settings-fixture)\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

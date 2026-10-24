@@ -520,14 +520,6 @@
           "confirm": null,
           "confirmedByProvider": false
         },
-        "forgetThisDevice": {
-          "available": true,
-          "enabled": true,
-          "provider": "identity.forgetThisDevice",
-          "args": null,
-          "confirm": "Forget this device? This browser is signed out and must be set up again before it can play. Your Showdowns are not deleted.",
-          "confirmedByProvider": false
-        },
         "primaryActions": [
           "pairing.createCode"
         ],
@@ -736,14 +728,6 @@
           "provider": null,
           "args": null,
           "confirm": null,
-          "confirmedByProvider": false
-        },
-        "forgetThisDevice": {
-          "available": true,
-          "enabled": true,
-          "provider": "identity.forgetThisDevice",
-          "args": null,
-          "confirm": "Forget this device? This browser is signed out and must be set up again before it can play. Your Showdowns are not deleted.",
           "confirmedByProvider": false
         },
         "primaryActions": [

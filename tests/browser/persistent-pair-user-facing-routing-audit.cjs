@@ -61,6 +61,11 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
               if(key.endsWith("pairLinks/current"))return snapshot(pairEnvelope());
               if(key===`rivalries/${rivalryId}`)return snapshot(rivalryEnvelope("pending-pair"));
             }
+            // The first real code is checked for joinability before Nik's marker or local shell is touched.
+            if(window.__pairProviderMode==="unpaired"&&window.__routeManagerId==="nik"){
+              if(key===`rivalries/${rivalryId}`)return snapshot(envelope("rivalry",rivalryId,{connectionState:"pending-pair",managerSlots:[{slotId:"playerOne",accountId:"account_daniel_fixture",saveId,profileId:playerOneProfileId},{slotId:"playerTwo",accountId:null,entitlementState:"open"}]}));
+              if(key===`rivalries/${rivalryId}/invites/${rivalryId}`)return snapshot(envelope("invite",rivalryId,{purpose:"rivalry-pairing",createdByAccountId:"account_daniel_fixture",state:"open",slotId:"playerTwo",expiresAt:{toMillis:()=>Date.now()+3600000}}));
+            }
             return snapshot(null);
           },
           set:(ref,value)=>{
@@ -207,17 +212,14 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     assert.equal(await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER RECOVERY NEEDED"}).count(),0,"Successful stale-role reconciliation must not dead-end into recovery or unavailable controls.");
     await page.evaluate(async()=>{window.__pairProviderMode="unpaired";window.__routeManagerId="daniel";window.__identitySyncTransientFailures=0;await window.CareerModePersistentNikDanielPair.initialize({force:true});});
 
-    // Codex #904: real vs test now fails closed, so this audit's Daniel says what he is: a test account (no career
-    // start marker). The fake provider here cannot answer the marker read, which would rightly refuse CREATE CODE.
-    // r80 real vs test (Nik, 2026-10-19): on a test account only an armed Settings START TEST RUN makes a plain code, so this
-    // Daniel's CREATE CODE is that test run's (Home START would make his real CMS17R- code instead).
-    await page.evaluate(()=>{const real=window.CareerModeCareerStartMarker;window.CareerModeCareerStartMarker=Object.freeze({...(real||{}),readCurrentMarker:async()=>({status:"none"})});const modes=window.CareerModeShowdownModes;window.CareerModeShowdownModes=Object.freeze({...(modes||{}),isTestRunArmed:()=>true});});
+    // CREATE CODE requires a real career marker. The provider fixture represents Daniel's first real pairing.
+    await page.evaluate(async()=>{await window.loadRuntimeScript("career-start-marker","js/careerStartMarker.js",()=>Boolean(window.CareerModeCareerStartMarker));const real=window.CareerModeCareerStartMarker;window.CareerModeCareerStartMarker=Object.freeze({...real,readCurrentMarker:async()=>({status:"ready",active:true,hiddenRivalryIds:[],startedAt:Date.now(),revision:0})});});
     // Daniel CREATE CODE must transition the real panel into a complete waiting state with all recovery controls.
     await page.locator("#persistentNikDanielPairPanel button",{hasText:"CREATE CODE FOR NIK"}).click();
     await page.locator("#persistentNikDanielPairPanel",{hasText:"WAITING FOR THE OTHER PLAYER"}).waitFor({state:"visible",timeout:5000});
     assert.match(await panel.innerText(),new RegExp(rivalryId));
     const playerJoinCode=(await panel.locator("code").textContent()).trim();
-    assert.equal(playerJoinCode,`CMS17-${rivalryId}`,"Daniel's one-use code must wrap the exact season-bound provider rivalry id.");
+    assert.equal(playerJoinCode,`CMS17R-${rivalryId}`,"Daniel's one-use code must wrap the exact season-bound provider rivalry id.");
     for(const label of ["COPY CODE","CHECK STATUS","NEW CODE"])await page.locator("#persistentNikDanielPairPanel button",{hasText:label}).waitFor({state:"visible"});
 
     // Simulate Nik on a fresh browser with no local Showdown: JOIN must provision the local shell invisibly from Daniel's code.
@@ -243,7 +245,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     // r79: Nik's own successful JOIN continues into the Showdown by itself (no START CAREER tap) and the Connect layer closes.
     await page.waitForFunction(()=>window.__continueOpened===1,null,{timeout:5000});
     await page.locator("#connectPlayersScreen").waitFor({state:"hidden",timeout:5000});
-    assert.match(playerJoinCode,/^CMS17-pair_5[0-9a-f]{63}$/i,"The five-season plan must be bound into the exact provider capability itself.");
+    assert.match(playerJoinCode,/^CMS17R-pair_5[0-9a-f]{63}$/i,"The five-season plan must be bound into the exact provider capability itself.");
     assert.equal(await page.evaluate(()=>window.__joinerProvisionRounds),5,"Nik Join must automatically provision the same season length Daniel selected.");
     const joinedState=await page.evaluate(()=>window.CareerModePersistentNikDanielPair.getState());
     assert.deepEqual([joinedState.status,joinedState.connectionState,joinedState.message],["paired","active","Career ready."],"Nik's JOIN ends in the Showdown, not another Start Showdown instruction.");

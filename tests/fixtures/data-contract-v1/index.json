@@ -26,7 +26,7 @@
         "daniel": "none",
         "nik": "none"
       },
-      "sha256": "sha256:48a57d584f54ed4ab9fb14a1b9330e3f4e09e7742babef47089c291205a25be4"
+      "sha256": "sha256:870bb48b2dd670105a637da43c88f2fe80ac7ce26d2e304eb6a289ded6fc51c2"
     },
     {
       "id": "loading",
@@ -37,7 +37,7 @@
         "daniel": "loading",
         "nik": "loading"
       },
-      "sha256": "sha256:f2cde92f6076c6026d8ef4c43c3cb84eab2140e34f2a7ea9b1f066c3db9f6c8f"
+      "sha256": "sha256:bbe37901b2c8f63875c9852eda9851c50c0cc28cbafad3173568f1eb57176cbf"
     },
     {
       "id": "unavailable",
@@ -48,7 +48,7 @@
         "daniel": "unavailable",
         "nik": "unavailable"
       },
-      "sha256": "sha256:13bb4ed732c326651ae093c47ffeacaeeeb62d2d2da8752297a50ac53882ccd9"
+      "sha256": "sha256:031df41ffdca2338a6e12663ae1d6285d4b8af57ad608ab9205faa8741b55dec"
     },
     {
       "id": "pairing-code-created",
@@ -59,7 +59,7 @@
         "daniel": "pending",
         "nik": "none"
       },
-      "sha256": "sha256:359dc13ef21fd722dbfb904c379d5870263492eedc65f3ee44032cd01f486a02"
+      "sha256": "sha256:5a1635e2bfbd0baaae2bf9ab9515650af0b483948cfd7a62de236ac4c2745853"
     },
     {
       "id": "active-first-season",
@@ -70,7 +70,7 @@
         "daniel": "active",
         "nik": "active"
       },
-      "sha256": "sha256:c5ca19fef3e447adfbc978a05c0b5813a995e9f4283792c632a8c9e3c138bda9"
+      "sha256": "sha256:e2b52dfaa9b3b2ac6ce9bcd89e0e8b9ce9b53efff1ff19c8db3fd032fb82a45e"
     },
     {
       "id": "active-mid-season",
@@ -81,7 +81,7 @@
         "daniel": "active",
         "nik": "active"
       },
-      "sha256": "sha256:7ce48411b4d7c87af4ef1fe02d5923f4cd495a0ac0ceacf03ce7bc5ac7484902"
+      "sha256": "sha256:134cb80a58712cf63854a1b1bac3a37200debdb7a377e574eef7d809c3d22df2"
     },
     {
       "id": "active-results-ready",
@@ -92,7 +92,7 @@
         "daniel": "active",
         "nik": "active"
       },
-      "sha256": "sha256:dd34bb0ecfefd6814ffe4b7a50c56c875993e794e80eaea7b799657b3d215457"
+      "sha256": "sha256:969b8e713dbc73db892cf03ea0cd881fd08c24ec3ba4b0806d686072c612a72f"
     },
     {
       "id": "completion-pending",
@@ -103,7 +103,7 @@
         "daniel": "completion-pending",
         "nik": "completion-pending"
       },
-      "sha256": "sha256:3dff99138f62d798248a76912e04f3cb5329e505bb1c57447a8e5913fab273a7"
+      "sha256": "sha256:49d9261254f78786fb736e7459d00a031d9247b8a4ebe23ad62df5fb24e5ae67"
     },
     {
       "id": "finished-three-seasons",
@@ -114,7 +114,7 @@
         "daniel": "completed",
         "nik": "completed"
       },
-      "sha256": "sha256:f639c9017bc6e48b11b8d50552f7cbbd24a40adfdb4ee86a090b01cce4bf1955"
+      "sha256": "sha256:eeaf6c0eb563c78fa1d7a4ddc5325f3604d14cd8af3b45d385461952018096f6"
     },
     {
       "id": "tiebreak-finish",
@@ -125,7 +125,7 @@
         "daniel": "completed",
         "nik": "completed"
       },
-      "sha256": "sha256:b8c1abaa7fd1f1ca8ab8da66ccb5b894f151dc94a9e48dd393a12cb1c44b67d5"
+      "sha256": "sha256:be8ec1392634110f57f9b0a7e63ac48cf61f4d9fb3bbd0ddd6e10dbec31b5140"
     },
     {
       "id": "equal-position-tiebreaks",
@@ -136,7 +136,7 @@
         "daniel": "completed",
         "nik": "completed"
       },
-      "sha256": "sha256:e7b56f0b1a24781cb077374d9c56ced659023dc942a231d8743327bfc0244981"
+      "sha256": "sha256:d3cb69d3862f6b812dfc7733be7aa7eecb61aff3db0ef51a5c4e4854ddf0baf7"
     },
     {
       "id": "abandoned",
@@ -147,7 +147,7 @@
         "daniel": "abandoned",
         "nik": "abandoned"
       },
-      "sha256": "sha256:80a5169e07ec829fb0f96d5aa9e0af556aa81806d22b13bc64c8ddf7a7f2d35c"
+      "sha256": "sha256:63600473e78a44ce28f69eaecc20839e071616d8edc438caf5e4db8447f71da6"
     },
     {
       "id": "partial-career",
@@ -158,7 +158,7 @@
         "daniel": "none",
         "nik": "none"
       },
-      "sha256": "sha256:b0ff2dda1e4c6708fc93a79a58eefa21825c9ed15247fe537b23fc3af7e36a59"
+      "sha256": "sha256:67c205aca9fe50ecce741d464877c428e46abaf15060b024d158268f1fce9f56"
     },
     {
       "id": "multi-showdown-career",
@@ -169,7 +169,7 @@
         "daniel": "active",
         "nik": "active"
       },
-      "sha256": "sha256:a35aec241909e880f944e2e275b70a68f4f33f89edfb600b9855502c43bda926"
+      "sha256": "sha256:509d23303b5164b303755ba65639f41d614c62d5b4c122e32ccde87e41b45180"
     }
   ],
   "nav": {

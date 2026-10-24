@@ -67,7 +67,7 @@
         const snapshot=await firebaseSdk.getDoc(firebaseSdk.doc(firestore,"rivalries",id)),value=snapshot.exists()?snapshot.data():null;
         const written=csmMillis(value?.updatedAt);
         if(!value||value.objectType!=="rivalry"||value.objectId!==id||written===null||written<R79_LIVE_MS)break;
-        if(value.data?.connectionState==="closed"&&Object.hasOwn(value.data,"terminalClose"))shown.add(id);
+        if(value.data?.mode!=="test"&&value.data?.connectionState==="closed"&&Object.hasOwn(value.data,"terminalClose"))shown.add(id);
       }
       return hidden.filter(id=>!shown.has(id));
     })();

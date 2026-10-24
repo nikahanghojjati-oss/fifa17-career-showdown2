@@ -17,7 +17,7 @@
     get adapter(){return cclModule("./sharedClosedShowdownAdapter.js","CareerModeSharedClosedShowdownAdapter");},
     get career(){return cclModule("./sharedCareerAnalytics.js","CareerModeSharedCareerAnalytics");}
   };
-  const TERMINAL=Object.freeze(["completed","abandoned"]);
+  const TERMINAL=Object.freeze(["completed","abandoned","hidden"]);
   const COLD_READ_LIMIT=3;
   let cclScope=null;
   function cclNewScope(uid){return {uid,cache:new Map(),pending:new Map(),queue:[],active:0};}

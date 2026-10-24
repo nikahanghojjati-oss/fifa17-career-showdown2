@@ -169,7 +169,7 @@ async function main(){
     assert.ok(loading>0,"Daniel's open code with the mode not asked yet: the tile is loading");
     assert.ok(loading<tile.indexOf('return["WAIT","WAITING FOR NIK","Tap to see your code"]'),"loading is decided before WAITING (never a WAITING frame first)");
     const ask=src.slice(src.indexOf("function homeModeLoading("),src.indexOf("\n",src.indexOf("function homeModeLoading(")));
-    assert.match(ask,/if\(mode==="test"\|\|mode==="real"\|\|homeModeAskedFor===state\.accountId\)return false;/,"a known mode, or a mode already asked on this page for this account, is never loading");
+    assert.match(ask,/if\(mode==="real"\|\|homeModeAskedFor===state\.accountId\)return false;/,"a known mode, or a mode already asked on this page for this account, is never loading");
     assert.match(ask,/await \(await loadShowdownModes\(\)\)\?\.resolve\?\.\(\);\}catch\(_\)\{\}\}\)\(\)\.finally\(\(\)=>\{[^}]*homeModeAskedFor=accountId;configureOnlineProductSurface\(\);\}\)/,"the question is asked (once per account) and, answered or not, the tile is drawn again: never stuck loading");
     assert.match(src,/refreshHome:configureOnlineProductSurface/,"the identity module lets the mode redraw Home");
     const modes=read("js/showdownModes.js");
@@ -180,7 +180,7 @@ async function main(){
     const src=read("js/onlinePlayerIdentity.js");
     const current=src.slice(src.indexOf("function homeShowdownCurrent("),src.indexOf("\n",src.indexOf("function homeShowdownCurrent(")));
     assert.match(current,/if\(p\.connectionState==="active"\)return true;/,"a live Showdown");
-    assert.match(current,/p\.connectionState==="pending-pair"&&p\.managerRole==="playerOne"&&root\.CareerModeShowdownModes\?\.getView\?\.\(\)\?\.mode==="real"/,"Daniel's open code only when the mode is real");
+    assert.match(current,/p\.connectionState==="pending-pair"&&p\.managerRole==="playerOne"&&root\.CareerModeShowdownModes\?\.getView\?\.\(\)\?\.careerStarted===true/,"Daniel's open code only when the mode is real");
     assert.match(src,/const chip=d\.getElementById\("seasonIndicator"\);if\(chip\)\{if\(homeShowdownCurrent\(\)\)\{if\(chip\.dataset\.homeShowdown!=="current"\)chip\.dataset\.homeShowdown="current";\}else if\(chip\.dataset\.homeShowdown\)delete chip\.dataset\.homeShowdown;\}/,"drawn with the START tile");
     const css=read("css/homeV10.css");
     assert.ok(css.includes('#app:has(#mainMenu.v10Home:not(.hidden)) #topHeader #seasonIndicator:not([data-home-showdown="current"]) { display: none !important; }'),"hidden on Home unless marked (also before the pair is read: no frame of a stale chip)");

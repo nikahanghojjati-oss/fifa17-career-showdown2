@@ -5,13 +5,8 @@
 // Run (several browser contexts, so CMS_CHROMIUM_MULTI_CONTEXT=1 as for the two-manager journey):
 //   CMS_CHROMIUM_MULTI_CONTEXT=1 npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json \
 //        --only auth,firestore --project demo-cms-browser-journey "node tests/browser/r79-modes-settings-audit.cjs"
-// TEST  Daniel's account before any marker: Settings MODE "TEST RUN · nothing counts", START TEST RUN, FORGET THIS DEVICE.
-//       A third Google account: START TEST RUN -> the seasons screen with the label and no checkmark -> START makes a
-//       CMS17- code, the WAITING layer and the badge carry the label; FORGET THIS DEVICE revokes the device.
-// REAL  Daniel's Home START shows the one-time START REAL CAREER checkmark (ticked) and writes the marker before the
-//       CMS17R- code; Nik joins. Settings: "Paired with Nik/Daniel" + UNPAIR, no FORGET THIS DEVICE, no CONNECT PLAYERS.
-//       UNPAIR during the Showdown: the reason, nothing changed. END SHOWDOWN, then UNPAIR: unpaired,
-//       PAIR WITH NIK. Nik (reload): Home and Settings say Daniel unpaired, PAIR AGAIN -> both pair again (CMS17R-).
+// All accounts play real Showdowns. Both sizes verify initial Settings, seasons, WAITING, permanent pairing,
+// blocked UNPAIR, END, one-sided UNPAIR and PAIR AGAIN. The retired test entries and labels are absent.
 const assert=require("node:assert/strict");
 const {installMarbleConfirmAnswers}=require("./support/marble-confirm.cjs");
 const fs=require("node:fs");
@@ -31,7 +26,6 @@ const SDK_DIR=path.join(ROOT,"node_modules/firebase");
 const SHOTS=process.env.CMS_MODES_SHOTS||path.join(os.tmpdir(),"cms-r79-modes");
 const FORBIDDEN_HOSTS=/(^|\.)(firestore|identitytoolkit|securetoken|firebaseinstallations|firebaseappcheck|content-firebaseappcheck)\.googleapis\.com$/;
 const SIZES=[{width:1280,height:800},{width:390,height:844}];
-const TEST_LABEL="TEST RUN · nothing counts",BADGE_SUFFIX=" · TEST RUN · NOTHING COUNTS";
 const BLOCKED="Finish or end the current Showdown before you unpair. Nothing was changed.";
 let checks=0;
 const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${label}`);};
@@ -127,7 +121,7 @@ async function both(m,name,selectors,scrollTo){
 }
 const SETTINGS_PARTS=["#onlinePlayerIdentitySettingsPanel .settingsInfoRow","#onlinePlayerIdentitySettingsPanel button","#cmsModeSettings"];
 const HEADER_PARTS=["#topHeader .brand h1","#topHeader .brand p","#onlinePlayerIdentityBadge","#seasonIndicator"];
-const SEASONS_PARTS=[...HEADER_PARTS,"#cmsRealCareerRow","#cmsTestRunNote","#cmsSeasonsStartMessage","#startShowdown","#roundAmount","#createShowdown .backButton"];
+const SEASONS_PARTS=[...HEADER_PARTS,"#cmsSeasonsStartMessage","#startShowdown","#roundAmount","#createShowdown .backButton"];
 
 async function main(){
   assert.equal(JSON.parse(fs.readFileSync(path.join(SDK_DIR,"package.json"),"utf8")).version,require(SWITCH).sdkVersion,"SDK pin matches the switch");
@@ -144,66 +138,24 @@ async function main(){
     const uidD=await accountId(daniel),uidN=await accountId(nik);
     ok("M0.2","Daniel and Nik signed in on the emulators");
 
-    // ---------- TEST mode: Daniel before any marker ----------
-    await openSettings(daniel);
-    let v=await settingsView(daniel);
-    assert.equal(v.rows.mode,TEST_LABEL);assert.equal(v.rows.partner,undefined);
-    assert.ok(v.buttons.includes("START TEST RUN")&&v.buttons.includes("FORGET THIS DEVICE"),JSON.stringify(v.buttons));
-    assert.ok(!v.buttons.includes("UNPAIR")&&!v.connect,"no UNPAIR, no CONNECT PLAYERS in test mode");
-    await both(daniel,"test-settings-daniel",SETTINGS_PARTS,"#onlinePlayerIdentitySettingsPanel");
-    await closeSettings(daniel);
-    await openSettings(nik);v=await settingsView(nik);
-    assert.equal(v.rows.mode,TEST_LABEL);assert.ok(v.buttons.includes("JOIN TEST RUN")&&!v.buttons.includes("START TEST RUN"),"only Daniel starts Showdowns");
-    await both(nik,"test-settings-nik",SETTINGS_PARTS,"#onlinePlayerIdentitySettingsPanel");
-    await closeSettings(nik);
-    ok("T1","test mode Settings: the TEST RUN label, START TEST RUN (Daniel) / JOIN TEST RUN (Nik), FORGET THIS DEVICE; at both sizes");
-
-    // A third Google account in test mode: START TEST RUN, its seasons screen, its code, the label everywhere it plays.
-    const stranger=await openManager(browser,"stranger","stranger-run");managers.push(stranger);
-    await signIn(stranger,"Daniel");
-    await openSettings(stranger);
-    await stranger.page.locator("#onlinePlayerIdentitySettingsPanel button",{hasText:"START TEST RUN"}).click();
-    await stranger.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
-    await stranger.page.locator("#cmsTestRunNote").waitFor({state:"visible",timeout:15000});
-    assert.equal(await stranger.page.locator("#cmsTestRunNote").innerText(),TEST_LABEL);
-    assert.equal(await stranger.page.locator("#cmsRealCareerRow").isVisible(),false,"a test run has no START REAL CAREER checkmark");
-    assert.ok((await badge(stranger)).endsWith(BADGE_SUFFIX),"the header badge says TEST RUN");
-    await both(stranger,"test-run-seasons",SEASONS_PARTS);
-    await stranger.page.locator("#startShowdown").click({timeout:30000});
-    await pairPanel(stranger).locator("code").waitFor({timeout:30000});
-    const testCode=(await pairPanel(stranger).locator("code").innerText()).trim();
-    assert.match(testCode,/^CMS17-pair_/,"a test run makes a temporary CMS17- code");
-    assert.equal(await stranger.page.locator("#cmsConnectTestRunNote").isVisible(),true,"WAITING says TEST RUN");
-    assert.equal(await admin(`accounts/${await accountId(stranger)}/careerStart/current`),null,"a test run never writes the marker");
-    await both(stranger,"test-run-waiting",[...HEADER_PARTS,"#cmsConnectTestRunNote","#connectPlayersScreen #persistentNikDanielPairPanel code"]);
-    ok("T2","START TEST RUN: the seasons screen and WAITING say TEST RUN · nothing counts, no checkmark, CMS17- code, no marker");
-
-    const forget=await openManager(browser,"stranger","stranger-forget");managers.push(forget);
-    await signIn(forget,"Daniel");
-    const forgetUid=await accountId(forget),forgetDevice=await forget.page.evaluate(()=>window.CareerModeOnlinePlayerIdentity.getState().deviceId);
-    await openSettings(forget);
-    await forget.page.locator("#onlinePlayerIdentitySettingsPanel button",{hasText:"FORGET THIS DEVICE"}).click();
-    await forget.page.waitForFunction(()=>window.CareerModeOnlinePlayerIdentity?.getState?.()?.registered===false,null,{timeout:30000});
-    const device=await admin(`accounts/${forgetUid}/devices/${forgetDevice}`);
-    assert.ok(device&&JSON.stringify(device).includes("revoked"),"the device is revoked");
-    ok("T3","FORGET THIS DEVICE (test mode) revokes this device and signs the player out of it");
+    let v;
+    for(const m of [daniel,nik]){
+      await openSettings(m);v=await settingsView(m);
+      assert.equal(v.rows.mode,"REAL CAREER · every Showdown counts");assert.equal(v.rows.partner,"Not paired");
+      assert.equal(v.buttons.some(text=>/TEST RUN|FORGET THIS DEVICE/.test(text)),false);
+      assert.equal(v.connect,false);
+      await both(m,`initial-settings-${m.name}`,SETTINGS_PARTS,"#onlinePlayerIdentitySettingsPanel");
+      await closeSettings(m);
+      assert.doesNotMatch(await m.page.locator("#mainMenu").innerText(),/TEST RUN/);
+    }
+    ok("T1","new accounts expose real-only Settings/Home, with no test controls or Forget Device, at both sizes");
 
     // ---------- REAL: Daniel's first Home START is real ----------
     await daniel.page.locator("#newShowdown").click({timeout:30000});
     await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
-    await daniel.page.locator("#cmsRealCareerRow").waitFor({state:"visible",timeout:15000});
-    assert.equal(await daniel.page.locator("#cmsRealCareerCheck").isChecked(),true,"ticked by default");
-    assert.equal(await daniel.page.locator("#cmsTestRunNote").isVisible(),false);
-    assert.ok(!(await badge(daniel)).includes("TEST RUN"),"Home START is never labelled a test run");
-    await both(daniel,"real-checkmark-seasons",SEASONS_PARTS);
-    // Unticked: START refuses and says why; nothing is written.
-    await daniel.page.locator("#cmsRealCareerCheck").uncheck();
-    await daniel.page.locator("#startShowdown").click();
-    await daniel.page.locator("#cmsSeasonsStartMessage").waitFor({state:"visible",timeout:15000});
-    assert.match(await daniel.page.locator("#cmsSeasonsStartMessage").innerText(),/^Home START always starts your real career\./);
-    assert.equal(await admin(`accounts/${uidD}/careerStart/current`),null);
-    await both(daniel,"real-checkmark-unticked",SEASONS_PARTS);
-    await daniel.page.locator("#cmsRealCareerCheck").check();
+    assert.equal(await daniel.page.locator("#cmsRealCareerRow,#cmsTestRunNote").count(),0);
+    assert.ok(!(await badge(daniel)).includes("TEST RUN"));
+    await both(daniel,"real-seasons",SEASONS_PARTS);
     await daniel.page.locator("#roundAmount").selectOption("3");
     await daniel.page.locator("#startShowdown").click({timeout:30000});
     await pairPanel(daniel).locator("code").waitFor({timeout:30000});
@@ -211,7 +163,7 @@ async function main(){
     assert.ok(await admin(`accounts/${uidD}/careerStart/current`),"the marker is written by START");
     assert.match(code,/^CMS17R-pair_[0-9a-f]{64}$/,"the first real pairing code (only issued once the marker exists)");
     assert.equal(await daniel.page.locator("#cmsConnectTestRunNote").isVisible().catch(()=>false),false,"a real WAITING has no test label");
-    ok("R1","Daniel's Home START: ticked START REAL CAREER checkmark (unticked refuses), the marker before the CMS17R- code");
+    ok("R1","Daniel's Home START automatically writes the marker before the CMS17R- code");
     await nik.page.locator("#newShowdown").click();
     await nik.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.busy===false&&s.status==="unpaired");},null,{timeout:30000});
     await nik.page.waitForTimeout(500);
@@ -286,7 +238,7 @@ async function main(){
     await daniel.page.locator("#onlinePlayerIdentitySettingsPanel button",{hasText:"PAIR WITH NIK"}).click();
     await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
     await daniel.page.waitForTimeout(400);
-    assert.equal(await daniel.page.locator("#cmsRealCareerRow").isVisible(),false,"the checkmark is one-time");
+    assert.equal(await daniel.page.locator("#cmsRealCareerRow").isVisible(),false,"real START never shows a checkmark");
     await daniel.page.locator("#roundAmount").selectOption("1");
     await daniel.page.locator("#startShowdown").click({timeout:30000});
     await pairPanel(daniel).locator("code").waitFor({timeout:30000});

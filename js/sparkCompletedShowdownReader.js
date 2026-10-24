@@ -28,7 +28,7 @@
   const PROGRESS_KEYS=Object.freeze(["schemaVersion","runtimeRevision","totalSeasons","acceptedThroughSeason","managerTotals","closedSessionRevision"]);
   const SETUP_LEDGER_KEYS=Object.freeze(["schemaVersion","objectType","rivalryId","revision","phase","coordinatorRole","operationIds","operationTypes","baseRevisions","actorRoles","totalSeasons","confirmedRoles","activeSessionId","updatedAt","updatedByDeviceId"]);
   const COMMIT_KEYS=Object.freeze(["schemaVersion","objectType","rivalryId","seasonNumber","runtimeRevision","phase","revision","resultsRevision","results","acknowledgedRoles","operationIds","operationHashes","baseRevisions","actorRoles","activeSessionId","updatedAt","updatedByDeviceId"]);
-  const STATUSES=Object.freeze(["completed","abandoned","not-closed","unavailable","never-started"]);
+  const STATUSES=Object.freeze(["completed","abandoned","not-closed","unavailable","never-started","hidden"]);
 
   function csrFail(code){const error=new Error(code);error.code=code;throw error;}
   function csrFreeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(csrFreeze);Object.freeze(value);}return value;}
@@ -167,8 +167,10 @@
       const state=value.data.connectionState;
       if(!["pending-pair","active","closed"].includes(state))csrFail("COMPLETED_RIVALRY_INVALID");
       const neverStartedRole=csrNeverStarted(value.data,uid);
-      if(neverStartedRole)return csrState("never-started",{rivalryId,managerRole:neverStartedRole,ended:state==="closed"?csrEnded(value):null});
+      if(neverStartedRole)return csrState(value.data.mode==="test"?"hidden":"never-started",{rivalryId,managerRole:neverStartedRole,ended:state==="closed"?csrEnded(value):null});
       const rivalry=csrVerifyManagers(value.data,uid);managerRole=rivalry.managerRole;
+      // Retain read compatibility with old stored mode metadata. New writers use the career boundary only.
+      if(value.data.mode==="test")return csrState("hidden",{rivalryId,managerRole});
       if(state==="pending-pair"||state==="active")return csrState("not-closed",{rivalryId,managerRole});
       if(state!=="closed")csrFail("COMPLETED_RIVALRY_INVALID");
       // Abandoned (closed without a Terminal Close witness): status only, nothing else is read or counted.

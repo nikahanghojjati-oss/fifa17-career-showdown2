@@ -162,6 +162,7 @@ function pairLink(rivalryId){return{schemaVersion:1,objectType:"pairLink",object
 function deviceDoc(){return{schemaVersion:1,objectType:"device",objectId:"device_nik",revision:0,lifecycleState:"live",contentHash:`sha256:${"7".repeat(64)}`,data:{deviceId:"device_nik",state:"active"}};}
 function pairHarness({rivalryState="active",linked=true,rounds=3}={}){
   const docs=new Map();
+  for(const id of [R2,R2SAME])require("../support/permanent-join-fixture.cjs")(docs,id,R1);
   if(linked){docs.set("accounts/uid_nik/pairLinks/current",pairLink(R1));docs.set(`rivalries/${R1}`,pairRivalry(R1,rivalryState,{saveId:SAVE_OLD,profileId:PROFILE_OLD}));}
   docs.set("accounts/uid_nik/devices/device_nik",deviceDoc());
   const library={activeSaveId:SAVE_OLD,saves:[shell(SAVE_OLD,PROFILE_OLD,rounds)]};

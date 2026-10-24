@@ -43,7 +43,7 @@ async function check(name,fn){try{await fn();cases+=1;}catch(error){error.messag
 (async()=>{
 await check("C1 API surface",()=>{
   assert.equal(typeof Adapter.buildClosedCareerInput,"function");assert.equal(typeof Adapter.describeClosedCareer,"function");
-  assert.deepEqual([...Adapter.readStatuses],["completed","abandoned","not-closed","unavailable","never-started"]);
+  assert.deepEqual([...Adapter.readStatuses],["completed","abandoned","not-closed","unavailable","never-started","hidden"]);
   for(const k of ["sessionRequired","providerWriteRequired","listPermissionRequired","canonicalStorageMutation","billingRequired"])assert.equal(Adapter[k],false,k);
   assert.equal(Adapter.contractVersion,1);assert.ok(Object.isFrozen(Adapter));
 });

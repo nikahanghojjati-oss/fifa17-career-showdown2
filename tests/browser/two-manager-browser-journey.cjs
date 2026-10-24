@@ -121,25 +121,19 @@ async function hostSeesJoin(m){await m.page.waitForFunction(()=>window.CareerMod
 const pairPanel=m=>m.page.locator("#connectPlayersScreen #persistentNikDanielPairPanel");
 // r79 one start flow: Home START goes straight to NEW SHOWDOWN (seasons), START opens WAITING over the locked league wheel and
 // makes the code by itself; no Connect Players hop, no GET READY, no CREATE CODE FOR NIK tap.
-// r79 PR4 (Nik): every Home START is real. On Daniel's first one (no career start marker yet) the seasons screen shows the
-// one-time START REAL CAREER checkmark, already ticked, and that START writes the marker before the code; once real it never
-// shows again. (This journey used to press START REAL CAREER in Settings first; that row is gone.)
+// Home START has no mode choice. The seasons START writes the first career marker before creating the code.
 async function danielStartsShowdown(m,length,{firstRealStart=false}={}){
   await m.page.locator("#newShowdown").click({timeout:30000});
   await m.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
   assert.equal(await m.page.locator("#connectPlayersScreen").isVisible().catch(()=>false),false,"Home START goes straight to the seasons screen");
-  if(firstRealStart){
-    await m.page.locator("#cmsRealCareerRow").waitFor({state:"visible",timeout:30000});
-    assert.equal(await m.page.locator("#cmsRealCareerCheck").isChecked(),true,"the START REAL CAREER checkmark is ticked");
-    assert.match(await m.page.locator("#cmsRealCareerRow").innerText(),/START REAL CAREER/);
-  }else{
-    await m.page.waitForTimeout(300);
-    assert.equal(await m.page.locator("#cmsRealCareerRow").isVisible().catch(()=>false),false,"the checkmark is one-time: a real account never sees it");
-  }
-  assert.equal(await m.page.locator("#cmsTestRunNote").isVisible().catch(()=>false),false,"Home START is never a test run");
+  assert.equal(await m.page.locator("#cmsRealCareerRow,#cmsRealCareerCheck,#cmsTestRunNote").count(),0,"START has no checkmark, mode choice or test label");
+  if(firstRealStart)assert.equal(await m.page.evaluate(async()=>{await window.loadRuntimeScript("career-start-marker","js/careerStartMarker.js",()=>Boolean(window.CareerModeCareerStartMarker));return (await window.CareerModeCareerStartMarker.readCurrentMarker()).status;}),"none","the first START begins without a career marker");
   await m.page.locator("#roundAmount").selectOption(String(length));
   await m.page.locator("#startShowdown").click({timeout:30000});
   await pairPanel(m).locator("code").waitFor({timeout:30000});
+  const marker=await m.page.evaluate(async()=>{await window.loadRuntimeScript("career-start-marker","js/careerStartMarker.js",()=>Boolean(window.CareerModeCareerStartMarker));return window.CareerModeCareerStartMarker.readCurrentMarker();});
+  assert.equal(marker.status,"ready","START automatically wrote the career-start marker before showing the code");
+  assert.equal(marker.active,true,"this Showdown counts toward the real career");
   const waiting=await m.page.evaluate(()=>({screen:window.getActiveScreenName?.(),stay:document.getElementById("connectPlayersScreen")?.dataset.stayOnScreen,getReady:Boolean(document.getElementById("productionSharedJourneyEntryOverlay")&&!document.getElementById("productionSharedJourneyEntryOverlay").classList.contains("hidden"))}));
   assert.deepEqual(waiting,{screen:"leagueWheelScreen",stay:"true",getReady:false},"WAITING over the locked league wheel, no GET READY");
   assert.equal(await m.page.locator("#mainMenu #persistentNikDanielPairPanel").count(),0,"Home must never contain the pair panel.");

@@ -609,14 +609,6 @@
           "confirm": "Abandon this Showdown? It closes the current Daniel vs Nik Showdown for both players. Abandoned Showdowns do not count toward career records.",
           "confirmedByProvider": false
         },
-        "forgetThisDevice": {
-          "available": true,
-          "enabled": true,
-          "provider": "identity.forgetThisDevice",
-          "args": null,
-          "confirm": "Forget this device? This browser is signed out and must be set up again before it can play. Your Showdowns are not deleted.",
-          "confirmedByProvider": false
-        },
         "primaryActions": [
           "session.refresh"
         ],
@@ -1030,14 +1022,6 @@
           "provider": "pair.abandonCurrentShowdown",
           "args": null,
           "confirm": "Abandon this Showdown? It closes the current Daniel vs Nik Showdown for both players. Abandoned Showdowns do not count toward career records.",
-          "confirmedByProvider": false
-        },
-        "forgetThisDevice": {
-          "available": true,
-          "enabled": true,
-          "provider": "identity.forgetThisDevice",
-          "args": null,
-          "confirm": "Forget this device? This browser is signed out and must be set up again before it can play. Your Showdowns are not deleted.",
           "confirmedByProvider": false
         },
         "primaryActions": [
