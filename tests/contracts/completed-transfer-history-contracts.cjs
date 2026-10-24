@@ -225,7 +225,7 @@ function structuredCloneWithTs(value){if(value&&typeof value.toMillis==='functio
   }
 
   // K11. JOB-08's reader keeps its API, adds JOB-1037's never-started status and never reads transfers
-  assert.equal(typeof CompletedReader.readCompletedShowdown,'function');assert.deepEqual([...CompletedReader.statuses],['completed','abandoned','not-closed','unavailable','never-started']);assert.equal(CompletedReader.contractVersion,1);
+  assert.equal(typeof CompletedReader.readCompletedShowdown,'function');assert.deepEqual([...CompletedReader.statuses],['completed','abandoned','not-closed','unavailable','never-started','hidden']);assert.equal(CompletedReader.contractVersion,1);
   assert.doesNotMatch(read('js/sparkCompletedShowdownReader.js'),/transferChallenges/);
   console.log('PASS completed-only transfer history contracts: reader API, exact-get source, classification, witness checks, unavailable states, protocol-equal verdicts, provenance, Rules text, composed artifact, JOB-08 API intact.');
 })().catch(e=>{console.error(e);process.exit(1);});

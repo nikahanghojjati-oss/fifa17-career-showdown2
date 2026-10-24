@@ -8,8 +8,7 @@
   const CONFIRM=Object.freeze({
     abandon:"Abandon this Showdown? It closes the current Daniel vs Nik Showdown for both players. Abandoned Showdowns do not count toward career records.",
     startOver:"Delete the old Showdown and start over? This closes the old online Showdown for both players. Your player identity, registered device, Legacy history and app settings are kept.",
-    discardStale:"Delete this old connection and start fresh? This closes the stale online test connection and clears only its unfinished Showdown so Nik can join the new code Daniel creates.",
-    forgetThisDevice:"Forget this device? This browser is signed out and must be set up again before it can play. Your Showdowns are not deleted.",
+    discardStale:"Delete this old connection and start fresh? This closes the stale online connection and clears only its unfinished Showdown so Nik can join the new code Daniel creates.",
     revoke:"Revoke this open session code? The other player can no longer use it.",
     close:"Close this private session? Both players leave the session. Your Showdown is kept.",
     forget:"Forget this session code on this browser? Nothing online is changed."
@@ -122,7 +121,6 @@
     const recoveryRequired=ready&&pair.status==="recovery-required"&&pair.connectionState==="active";
     const staleNik=ready&&pair.connectionState==="pending-pair"&&pair.managerRole==="playerTwo"&&viewerRole==="nik";
     const abandonShowdown=sjAbandonAction({ready,pair,viewerRole,busy});
-    const forgetThisDevice=sjAction(identity.registered===true&&viewerRole!==null,busy,"identity.forgetThisDevice",null,CONFIRM.forgetThisDevice,false);
     const primaryActions=ready?sjPrimaryActions({retryMode,recoveryRequired,staleNik,pairingState,sessionLayer,facts,freshStart,viewerRole}):[];
     const moreActions=ready&&sessionLayer&&facts.hasId?["session.revoke","session.close","session.forget"]:[];
     return sjFreeze({
@@ -132,7 +130,6 @@
       pairing:{state:pairingState,code:pairingCode,actions:pairingActions},
       session:{state:ready&&sessionLayer?facts.state:null,actions:sessionActions},
       abandonShowdown,
-      forgetThisDevice,
       primaryActions,
       moreActions
     });

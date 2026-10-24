@@ -1,7 +1,7 @@
 "use strict";
 const assert=require("node:assert/strict");
 const {test}=require("node:test");
-const {game,UID,partnerPath}=require("../support/real-pair-fixture.cjs");
+const {game,UID,partnerPath,ts}=require("../support/real-pair-fixture.cjs");
 
 for(const first of ["playerOne","playerTwo"])test(`${first} reopens first: interrupted first real pairing recovers both records and next START supplies Home JOIN`,async()=>{
   const g=game(),id=await g.interrupted();

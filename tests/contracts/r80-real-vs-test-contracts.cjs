@@ -1,11 +1,5 @@
 "use strict";
-// r80 real-vs-test audit (2026-10-19): every Showdown reached from the main menu is real; a CMS17- test code is shown or made
-// only by Settings > START TEST RUN. Failing first on gameplay/r80 854c797 (emulator proof: Daniel's Home CONTINUE CAREER on a
-// test-mode account reopened WAITING with his leftover CMS17- code, same page and after a reload, and Nik's Home JOIN joined
-// it as a test game; neither marker was written).
-// r80 real-vs-test PR: G2 (a test account's career pages show no Showdown; a real game is never hidden), G3 (fail-closed while
-// the marker is unknown), G4 (fresh marker read before a plain-code join), G5 (wording) and G6 (gated START fallback).
-// Run: node tests/contracts/r80-real-vs-test-contracts.cjs
+// Historic test-data exclusion and real-only creation/JOIN. Failed marker reads still hide every old game.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -18,20 +12,17 @@ function check(name,f){f();passed+=1;console.log(`ok ${passed} ${name}`);}
 check("RVT1 Home CONTINUE CAREER: Daniel with nothing live asks the START question (never opens his leftover code directly)",()=>{
   const body=fn(read("js/onlinePlayerIdentity.js"),"openCanonicalCareerContinue");
   assert.match(body,/connectionState==="active"&&next\.rivalryId\)return pair\.continuePair\(\);/,"a live game still continues");
-  assert.match(body,/if\(state\.managerId==="daniel"\)return openCanonicalStart\(\);\s*await openCanonicalShowdownJoin\(\);/,"Daniel goes through openCanonicalStart (whichShowdownIsLive + unarmedTestStart), Nik keeps JOIN");
+  assert.match(body,/if\(state\.managerId==="daniel"\)return openCanonicalStart\(\);\s*await openCanonicalShowdownJoin\(\);/,"Daniel goes through openCanonicalStart (whichShowdownIsLive + needsCareerStart), Nik keeps JOIN");
 });
-check("RVT2 a plain code without an active partner record (a TEST code) is made only while START TEST RUN is armed",()=>{
-  const src=read("js/persistentNikDanielPair.js");
-  const start=src.slice(src.indexOf("async function pairStartPairing("),src.indexOf("async function pairKnownSaveIds("));
-  const gate=start.indexOf('isTestRunArmed?.()!==true)throw pairErrorWithCode("TEST_CODE_NOT_ARMED"');
-  assert.ok(gate>0,"pairStartPairing refuses an unarmed test code");
-  assert.match(start,/if\(role==="playerOne"&&!real&&!pairPartnerActiveFor\("playerOne"\)&&root\.CareerModeShowdownModes\?\.isTestRunArmed\?\.\(\)!==true\)/,"only playerOne, only a non-real code, never the permanent pair's plain code");
-  assert.ok(gate<start.indexOf("context.pairing.createPairing("),"refused before createPairing (nothing written)");
+check("RVT2 a markerless account cannot create a non-real code",()=>{
+  const src=read("js/persistentNikDanielPair.js"),start=src.slice(src.indexOf("async function pairStartPairing("),src.indexOf("async function pairKnownSaveIds("));
+  const gate=start.indexOf('throw pairErrorWithCode("CAREER_START_REQUIRED"');assert.ok(gate>0);assert.ok(gate<start.indexOf("context.pairing.createPairing("));
+  assert.match(start,/if\(role==="playerOne"&&!real&&!pairPartnerActiveFor\("playerOne"\)\)/);
 });
 check("RVT3 every other main-menu entry still goes through the START gate (r80 #936 kept)",()=>{
   const entry=read("js/productionSharedJourneyEntry.js");
-  assert.match(entry,/if\(decision\.action==="resume-waiting"&&await unarmedTestStart\(decision\)\)return openSeasonsForRealStart\(\);/,"Home START / locked-wheel CONTINUE");
-  assert.match(entry,/if\(decision&&decision\.action==="resume-waiting"&&await unarmedTestStart\(decision\)\)return false;/,"reload recovery");
+  assert.match(entry,/if\(decision\.action==="resume-waiting"&&await needsCareerStart\(decision\)\)return openSeasonsForRealStart\(\);/,"Home START / locked-wheel CONTINUE");
+  assert.match(entry,/if\(decision&&decision\.action==="resume-waiting"&&await needsCareerStart\(decision\)\)return false;/,"reload recovery");
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -121,40 +112,14 @@ await acheck("RVT6 G3 fail-closed: while the marker cannot be read no career pag
   const live=careerPage({indexIds:[T.rivalryId],docs:{[MARKER]:markerDoc([T.rivalryId])},snapshot:justClosed(T),failMarkerReads:2});
   assert.notEqual((await live.rivalry()).status,"ready","Rivalry Statistics never shows a just-finished Showdown it cannot check");
 });
-check("RVT7 G4 Nik's plain-code join asks the server for his marker (fresh), never the page memo",()=>{
-  const src=read("js/persistentNikDanielPair.js");
-  assert.match(src,/async function pairReadOwnMarkerStatus\(options=\{\}\)\{[^\n]*if\(options\.fresh===true\)api\.clearCache\?\.\(\);marker=await api\.readCurrentMarker\(\);/);
-  assert.match(src,/if\(parsed\.real\)return;if\(await pairReadOwnMarkerStatus\(\{fresh:true\}\)==="ready"\)throw pairErrorWithCode\("TEST_CODE_REAL_ACCOUNT"/);
+check("RVT7 a plain code without an active partner always refuses before redemption",()=>{
+  const src=read("js/persistentNikDanielPair.js");assert.match(src,/if\(parsed\.real\)return;throw pairErrorWithCode\("REAL_PAIRING_CODE_REQUIRED"/);
+  assert.doesNotMatch(src,/TEST_CODE_NOT_ARMED|isTestRunArmed/);
 });
-check("RVT8 G5 wording: Daniel's Home tile on a test account's open code says START (the tap opens the seasons screen); the TEST RUN label never sits next to the START REAL CAREER checkmark (nor on that Home)",()=>{
-  const identity=read("js/onlinePlayerIdentity.js");
-  assert.match(identity,/p\.connectionState==="pending-pair"&&p\.managerRole==="playerOne"&&root\.CareerModeShowdownModes\?\.getView\?\.\(\)\?\.mode!=="test"\)return\["WAIT","WAITING FOR NIK","Tap to see your code"\]/);
-  const MODES=read("js/showdownModes.js");
-  const page=(screen,armed=false)=>{const sandbox={console,document:{getElementById:()=>null,querySelector:()=>null,addEventListener:()=>{}},addEventListener:()=>{},
-    CareerModeOnlinePlayerIdentity:{getState:()=>({status:"ready",registered:true,accountId:"acct_daniel",managerId:"daniel"})},
-    CareerModePersistentNikDanielPair:{getState:()=>({rivalryId:"pair_"+"1".repeat(64),connectionState:"pending-pair",managerRole:"playerOne"}),getPartnerState:()=>({accountId:"acct_daniel",status:"none",record:null}),getPartnerSideState:()=>null},
-    getActiveScreenName:()=>screen};sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(MODES,sandbox);const m=sandbox.CareerModeShowdownModes;
-    /* the marker module's change event is how the modes memo learns "no marker" */let handler=null;sandbox.addEventListener=(type,fn)=>{if(type==="career-mode-career-start-change")handler=fn;};m.install();handler({detail:{accountId:"acct_daniel",status:"none"}});return m;};
-  const home=page("createShowdown");assert.equal(home.getView().mode,"test");
-  assert.equal(home.isTestRunShown(),false,"the seasons screen Home START opened (checkmark) never wears TEST RUN, even with an old code open");
-  assert.equal(page("mainMenu").isTestRunShown(),false,"nor does Home, whose START is real (the tile says START A SHOWDOWN)");
-  assert.equal(page("leagueWheelScreen").isTestRunShown(),true,"a test account's open code still wears it in the game");
+check("RVT8 Home waits only for a known career boundary; identity badges have no test label",()=>{
+  const identity=read("js/onlinePlayerIdentity.js");assert.match(identity,/getView\?\.\(\)\?\.careerStarted!==false/);assert.doesNotMatch(identity,/TEST RUN|badgeSuffix|dataset\.testRun/);
 });
-await acheck("RVT11 G1 never blocks Settings START TEST RUN: over Daniel's open test code it reopens WAITING and stays armed while that layer is up (NEW CODE works); Home disarms it; a launch that opened nothing disarms",async()=>{
-  const MODES=read("js/showdownModes.js");
-  const run=async({layerUp,opened})=>{const listeners={},layer={hidden:!layerUp,classList:{contains:()=>false}};
-    const sandbox={console,document:{getElementById:id=>id==="connectPlayersScreen"?layer:null,querySelector:()=>null,addEventListener:(t,f)=>{(listeners[t]=listeners[t]||[]).push(f);}},
-      CareerModeOnlinePlayerIdentity:{getState:()=>({status:"ready",registered:true,accountId:"acct_daniel",managerId:"daniel"}),openStart:async()=>opened,refreshBadge:()=>null,renderSettings:()=>null},
-      CareerModePersistentNikDanielPair:{getState:()=>({rivalryId:"pair_"+"2".repeat(64),connectionState:"pending-pair",managerRole:"playerOne"}),getPartnerState:()=>({accountId:"acct_daniel",status:"none",record:null}),getPartnerSideState:()=>null,subscribe:()=>()=>{}},
-      getActiveScreenName:()=>"leagueWheelScreen",closeSettings:()=>{}};
-    let handler=null;sandbox.addEventListener=(type,fn)=>{if(type==="career-mode-career-start-change")handler=fn;};
-    sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(MODES,sandbox);const m=sandbox.CareerModeShowdownModes;m.install();handler({detail:{accountId:"acct_daniel",status:"none"}});
-    await m.startTestRun();const armed=m.isTestRunArmed();layer.hidden=true;for(const f of listeners["career-mode-screen-shown"]||[])f({detail:{screen:"mainMenu"}});return {armed,afterHome:m.isTestRunArmed()};};
-  assert.deepEqual(await run({layerUp:true,opened:true}),{armed:true,afterHome:false},"WAITING of the Settings test run: armed until Home");
-  assert.deepEqual(await run({layerUp:false,opened:true}),{armed:false,afterHome:false},"nothing of the test run on screen: disarmed (Codex #908)");
-  assert.deepEqual(await run({layerUp:true,opened:null}),{armed:false,afterHome:false},"a launch that failed: disarmed");
-});
-check("RVT9 G6 the seasons START fallback listener runs the real/test gate too (a gate that cannot load refuses)",()=>{
+check("RVT9 G6 the seasons START fallback listener runs the real-career gate too (a gate that cannot load refuses)",()=>{
   const entry=read("js/productionSharedJourneyEntry.js");
   assert.match(entry,/start\.addEventListener\("click",event=>\{event\.preventDefault\(\);event\.stopImmediatePropagation\(\);void startShared\(\{beforeCreate:seasonsStartGate\}\);\},true\);/);
   const gate=entry.slice(entry.indexOf("async function seasonsStartGate("),entry.indexOf("function installStartButton("));

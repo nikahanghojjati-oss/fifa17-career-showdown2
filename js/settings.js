@@ -601,7 +601,7 @@ async function ensureSettingsPersistentPairAuthority(){
    is the same on a fresh browser that opened Settings before CONTINUE (no Shared Setup state, no session) as in the game.
    One read-only transaction (no write; the budget layer ends it without a commit), straight from the server, stopping at
    the first season not yet accepted: accepted + 1 document reads at most (11). No season commit at all is 0 seasons (the
-   league wheel or a test run). resumeFromAuthority() is not used: it also moves the season cursor. Unknown (offline, the
+   league wheel). resumeFromAuthority() is not used: it also moves the season cursor. Unknown (offline, the
    read denied or a malformed commit) is null: END still closes and History shows a dash. */
 const SETTINGS_SEASONS_READ_MS = 10000;
 const SETTINGS_SEASONS_MAX = 10;
@@ -831,7 +831,7 @@ async function runSettingsEndShowdown(button){
 
 /* r79 PR4 (Nik, 2026-10-17): the START REAL CAREER row and the SHOW TEST SHOWDOWNS AGAIN switch are gone from Settings.
    The first real START (the one-time checkmark on the seasons screen) writes the career start marker; old test games stay
-   stored and are never shown. The ACCOUNT panel's mode rows (Paired with ..., UNPAIR, START TEST RUN, FORGET THIS DEVICE)
+   stored and are never shown. The ACCOUNT panel's pairing rows (Paired with ..., UNPAIR)
    are js/showdownModes.js. */
 
 function createDataPanel(){

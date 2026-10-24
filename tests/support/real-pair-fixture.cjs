@@ -70,4 +70,4 @@ function game(){
   return{docs,transactions,page,prepare,interrupted,advance:ms=>{now+=ms;},setMarkerUnavailable:v=>{failMarkerRead=v;},failWrites:n=>{failPartnerWrites=n;}};
 }
 
-module.exports={game,UID,partnerPath};
+module.exports={game,UID,partnerPath,ts};
