@@ -1,0 +1,61 @@
+name: Mega tracker tick
+
+# Keeps project-documents/gameplay-factory/mega/MEGA_TRACKER.json (and .md, CUSTOM_VIEW_MEGA.html) live for the mega factory page.
+# One run loops for about 25 minutes, one round a minute, so a started number shows within about a minute. Each round asks GitHub with
+# ETags (a 304 is free) and commits only when something changed. It yields its machine to a starved check and always queues its successor.
+# Zero Claude usage. Free public-repo minutes. It never touches main. (A push that changes this file starts it; the commits it makes carry [skip ci].)
+on:
+  push:
+    branches: [factory/gameplay-v1]
+    paths:
+      - .github/workflows/mega-tracker-tick.yml
+      - project-documents/gameplay-factory/tools/mega_tracker.py
+      - project-documents/gameplay-factory/mega/commit_round.sh
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+  pull-requests: read
+  checks: read
+  issues: read
+
+concurrency:
+  group: mega-tracker-tick
+  cancel-in-progress: false
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: factory/gameplay-v1
+          fetch-depth: 30
+      - name: Loop, commit when something moved
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          B=project-documents/gameplay-factory
+          START=$(date +%s)
+          CODE=0
+          python3 $B/tools/mega_tracker.py --loop-minutes 25 --interval 45 \
+            --after-write "bash $B/mega/commit_round.sh" --yield-cmd "bash $B/mega/starved.sh" || CODE=$?
+          echo "loop ended (code $CODE) after $(( $(date +%s) - START )) s"
+          # Never restart faster than every 20 minutes (a normal run lasts 25), and back off longer after repeated failures
+          ELAPSED=$(( $(date +%s) - START ))
+          [ "$ELAPSED" -lt 1200 ] && sleep $(( 1200 - ELAPSED ))
+          [ "$CODE" = "4" ] && sleep 600
+          # Safety valve: if this workflow already started 4+ runs in the last 10 minutes, wait before queueing another
+          RECENT=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/mega-tracker-tick.yml/runs?per_page=10" --jq '[.workflow_runs[]|select(now-(.created_at|fromdateiso8601)<600)]|length' 2>/dev/null || echo 0)
+          [ "${RECENT:-0}" -ge 4 ] && sleep 600
+          gh workflow run mega-tracker-tick.yml --ref factory/gameplay-v1 || true
+      # A cancelled run would end the chain for good (scheduled triggers never fire in this repo), so it queues its successor first.
+      - name: Resume the chain after a cancel or a failure
+        if: cancelled() || failure()
+        run: |
+          sleep 120
+          gh workflow run mega-tracker-tick.yml --ref factory/gameplay-v1

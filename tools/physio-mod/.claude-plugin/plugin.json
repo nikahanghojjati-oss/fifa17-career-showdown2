@@ -1,0 +1,1 @@
+{ "name": "physio", "version": "0.1.0", "description": "Shows the Physio watchdog and the Showdown Gate checks for Career Mode Showdown in the bottom bar.", "types": "./types/index.d.ts" }

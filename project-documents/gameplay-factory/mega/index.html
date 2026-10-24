@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mega factory tracker</title>
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--ink:#14213d;--mut:#5b6b82;--line:#dde3ec;
+--waiting:#c4ccd8;--started:#3b82f6;--on_train:#38bdf8;--ci_running:#f5a524;--draft:#94a3b8;--queued:#eab308;--ci_failed:#e5484d;--ready:#14b8a6;--reviewed:#8b5cf6;--merged:#22a559;--no_pr:#5eead4;--live:#0f7a3d;--blocked:#f97316;--closed:#6b7280}
+@media (prefers-color-scheme:dark){:root{--bg:#0b1220;--card:#131c2e;--ink:#e8eef9;--mut:#8fa1bd;--line:#26334d;--waiting:#344159}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 -apple-system,system-ui,Segoe UI,Roboto,sans-serif;padding:12px 16px 40px;max-width:1100px;margin:auto}
+h1{font-size:20px;margin:6px 0 2px}
+h2{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:0 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--merged);margin-right:6px;animation:pulse 2s infinite}
+.dot.stale{background:var(--ci_failed);animation:none}
+@keyframes pulse{50%{opacity:.35}}
+.age{color:var(--mut);font-size:13px}
+.banner{background:var(--ci_failed);color:#fff;border-radius:10px;padding:10px 12px;margin:10px 0;display:none}
+.next{border:2px solid var(--ready)}
+.nextbig{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.nextbig .num{font-size:52px;font-weight:800;line-height:1;background:var(--ready);color:#fff;border:0;border-radius:14px;padding:8px 20px;cursor:pointer}
+.nextbig .num.copied{background:var(--merged)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){.cols{grid-template-columns:1fr}}
+.col h3{font-size:13px;margin:0 0 6px;color:var(--mut);font-weight:600}
+.wkc{display:inline-flex;flex-direction:column;align-items:center;gap:2px}.wkm{font-size:11px;color:var(--muted,#667)}
+.wbox{display:inline-flex;flex-direction:column;align-items:center;min-width:104px;padding:8px 10px;border-radius:12px;background:var(--ready);color:#fff;border:0;cursor:pointer;font-weight:700;font-size:22px;line-height:1.15}.wbox small{font-size:12px;font-weight:600;opacity:.92}.wbox.copied{background:var(--merged)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:17px;font-weight:700;min-width:50px;text-align:center;padding:6px 8px;border-radius:9px;background:var(--ready);color:#fff;border:0;cursor:pointer;font-variant-numeric:tabular-nums}
+.chip.copied{background:var(--merged)}
+.big{font-size:34px;font-weight:800}
+.row{display:flex;gap:16px;flex-wrap:wrap}
+.row>div{flex:1;min-width:140px}
+.lbl{color:var(--mut);font-size:12px}
+.bar{display:flex;height:26px;border-radius:8px;overflow:hidden;background:var(--waiting)}
+.bar span{display:block;height:100%}
+.bar.thin{height:12px}
+.leg{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:13px}
+.leg b{font-variant-numeric:tabular-nums}
+.sw{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.leg label{cursor:pointer;opacity:.95}
+.leg label.off{opacity:.35}
+.stage{margin:10px 0}
+.stage .h{display:flex;justify-content:space-between;font-size:14px;margin-bottom:4px;gap:8px}
+.stage .h span:last-child{color:var(--mut);font-size:12px;text-align:right}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(15px,1fr));gap:3px}
+.grid i{aspect-ratio:1;border-radius:3px;display:block;cursor:pointer;position:relative}
+.grid i.next{outline:2px solid var(--ink);outline-offset:1px;z-index:1}
+.grid i.dim{opacity:.12}
+.item{display:flex;gap:8px;align-items:baseline;padding:7px 0;border-top:1px solid var(--line);font-size:14px}
+.item:first-child{border-top:0}
+.item .n{font-weight:700;min-width:38px}
+.item .t{flex:1}
+.item small{color:var(--mut)}
+.job{padding:9px 0;border-top:1px solid var(--line)}
+.job:first-child{border-top:0}
+.job .l1{display:flex;gap:8px;align-items:baseline}
+.job .n{font-weight:800;font-size:17px;min-width:44px}
+.job .t{flex:1;font-size:14px}
+.job .pbar{position:relative;height:10px;border-radius:5px;background:var(--waiting);margin:6px 0 3px;overflow:hidden}
+.job .pbar i{display:block;height:100%;border-radius:5px;transition:width .4s}
+.job .pbar b{position:absolute;top:0;bottom:0;width:2px;background:var(--card);opacity:.9}
+.job .l3{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);gap:8px}
+.job .steps{display:flex;justify-content:space-between;font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+a{color:inherit}
+.pill{font-size:11px;padding:2px 7px;border-radius:99px;color:#fff;white-space:nowrap}
+#det{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:2px solid var(--line);padding:12px 16px;display:none;box-shadow:0 -6px 20px rgba(0,0,0,.2);z-index:9}
+.mut{color:var(--mut)}
+.none{color:var(--mut);font-size:14px}
+.more{background:none;border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:8px 14px;margin-top:8px;cursor:pointer;font-size:14px}
+.twobox{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:700px){.twobox{grid-template-columns:1fr}}.tbox{border:1px solid var(--line);border-radius:14px;padding:12px}.tbox h3{margin:0 0 8px;font-size:15px}.tbox .num{font-size:52px;font-weight:800;line-height:1;background:var(--ready);color:#fff;border:0;border-radius:14px;padding:8px 20px;cursor:pointer;display:block;margin-bottom:8px}.tbox .num.copied{background:var(--merged)}.chips.small .wbox,.chips.small .chip{font-size:16px;min-width:70px}
+</style>
+</head>
+<body>
+<div class="top"><h1>Mega factory tracker</h1><div class="age"><span class="dot" id="dot"></span><span id="age">loading…</span></div></div>
+<div class="banner" id="ban"></div>
+
+<div class="card next"><h2>TYPE NEXT <span class="mut" style="text-transform:none;letter-spacing:0">one number per message</span></h2>
+<div class="twobox">
+<div class="tbox"><h3>ChatGPT chat · TYPE NEXT <span class="mut" style="text-transform:none">(GPT-6 Sol)</span></h3><button class="num" id="cfirst">-</button><div class="lbl">Then, in this order:</div><div class="chips small" id="cnext"></div><div class="lbl" id="ctit" style="margin-top:6px"></div></div>
+<div class="tbox"><h3>Work mode · TYPE NEXT <span class="mut" style="text-transform:none">(Sol 6.1 · High)</span></h3><button class="num" id="first">-</button><div class="lbl">Then, in this order:</div><div class="chips small" id="wk"></div></div>
+</div>
+<div class="col" id="cdcol" style="margin-top:14px"><h3>Claude is doing · nothing to type</h3><div id="cdo"></div></div>
+<div style="display:none"><div class="chips" id="tb"></div><div id="tbcol"></div></div>
+<div class="lbl" style="margin-top:8px" id="bstamp"></div><div class="lbl" style="margin-top:8px" id="sentbox"></div><div class="lbl" style="margin-top:8px" id="nxtnote"></div>
+<details style="margin-top:10px"><summary class="lbl" style="cursor:pointer">More: whole Work mode list, optional batches, next release</summary>
+<div class="lbl" id="topnote" style="margin-top:6px"><b>Top = most important.</b> Boxes are in the lead's order. <span id="nextrel"></span></div>
+<div class="col" style="margin-top:10px"><h3>All Work mode studies, in order</h3><div class="chips" id="wkall"></div></div>
+<div class="col" id="wbcol" style="margin-top:10px;display:none"><h3>Work mode batches (optional) · 3 numbers in one message · tap to copy</h3><div class="chips" id="wkb"></div><div class="lbl" id="wkbl"></div></div>
+<div class="col" style="margin-top:10px"><h3>Not free yet (waiting for a PR to merge)</h3><div class="lbl" id="wkw" style="margin-top:6px"></div></div><div id="tbe" class="lbl"></div></details>
+<div style="display:none"><b id="rt"></b><span id="held"></span><b id="bsz"></b><span id="bst"></span><span id="bmx"></span><div class="cols"><div class="chips" id="odd"></div><div class="chips" id="even"></div></div></div></div>
+
+<details class="more"><summary style="cursor:pointer;font-weight:700;padding:10px 4px">All the detail (boards, quality, gates, every number)</summary>
+<div class="card"><h2>Where you come in</h2><div class="lbl" id="rule" style="font-size:15px;margin-bottom:8px;color:inherit"></div><div id="role"></div><div class="lbl" id="rolesrc" style="margin-top:6px"></div></div>
+<div class="card"><h2>Who does what</h2><div id="lanes"></div>
+<div class="lbl" style="margin-top:8px">Bars: green = merged or live, blue = worker finished, waiting for the lead or Team V, grey = not picked up yet. Real ChatGPT, Codex and Claude usage is not visible from GitHub, so these are job counts, not allowance.</div></div>
+<div class="card"><h2>Quality and trend</h2><div id="qual"></div><div class="lbl" style="margin-top:6px">"First time OK" = worker jobs that came through without being thrown back. Trend compares with an hour ago; the lead's good and bad calls on single jobs show below when it posts them.</div><div id="verd"></div></div>
+<div class="card" id="wcard"><h2>Work mode wiring chains <span class="mut" style="text-transform:none;letter-spacing:0">(one number per message, in order within each chain)</span></h2><div id="wch"></div><div class="lbl" id="wnote" style="margin-top:6px"></div></div>
+<div class="card" id="cxcard"><h2>Type next in Codex (model: Codex) <span class="mut" style="text-transform:none;letter-spacing:0" id="cxn"></span></h2><div class="chips" id="cx"></div><div class="lbl" id="cxw" style="margin-top:6px"></div></div>
+
+<div class="card"><div class="row">
+<div><div class="lbl">Finished (merged, live or no PR needed)</div><div class="big" id="fin">-</div></div>
+<div><div class="lbl">In flight</div><div class="big" id="fly">-</div></div>
+<div><div class="lbl">Claimed last hour</div><div class="big" id="r1">-</div><div class="lbl" id="r10"></div></div>
+<div><div class="lbl">Merged last hour</div><div class="big" id="rm">-</div></div>
+</div></div>
+
+<div class="card"><h2>Numbers you started <span class="mut" style="text-transform:none;letter-spacing:0" id="flc"></span></h2><div class="steps lbl" style="display:flex;justify-content:space-between;margin-bottom:2px"><span>started</span><span>done, PR open</span><span>checks</span><span>review</span><span>merged</span></div><div id="fl"></div><div id="flmore"></div></div>
+
+<div class="card"><h2>Needs attention</h2><div id="attn"></div></div>
+
+<div class="card"><h2>All <span id="tot">518</span> numbers</h2><div class="bar" id="all"></div><div class="leg" id="leg"></div></div>
+
+<div class="card"><h2>Gates</h2>
+<div class="stage"><div class="h"><span>Train PRs marked ready (5 code jobs each, not drafts)</span><span id="capn"></span></div><div class="bar thin" id="cap"></div></div>
+<div class="lbl" id="locks"></div></div>
+
+<div class="card"><h2>By stage</h2><div id="stages"></div></div>
+
+<div class="card"><h2>Every number <span class="mut" style="text-transform:none;letter-spacing:0">(tap a square; tap a legend colour to filter)</span></h2><div class="grid" id="grid"></div></div>
+
+<div class="card"><h2>Latest changes</h2><div id="ev"></div></div>
+
+</details>
+<div id="det"></div>
+
+<script>
+const BUILD=3;let vlast=Date.now();
+const REPO="nikahanghojjati-oss/fifa17-career-showdown2",BR="factory/gameplay-v1",PATH="project-documents/gameplay-factory/mega/MEGA_TRACKER.json";
+const ST=["live","merged","no_pr","on_train","reviewed","ready","queued","ci_running","draft","ci_failed","blocked","started","closed","waiting"];
+const LB={waiting:"Waiting",started:"Started, no PR yet",on_train:"Done, on the train branch",draft:"Draft PR, not checked yet (grey, not a failure)",queued:"Ready for checks",ci_running:"Checks running",ci_failed:"Checks FAILED",ready:"Checks green",reviewed:"Reviewed, waiting for lead",merged:"Merged",no_pr:"Done, no PR (no change / needs Team V)",live:"Live in a release",blocked:"Blocked",closed:"Closed"};
+// how far along the pipeline each state is (started > PR open > checks > review > merged)
+const PCT={started:12,on_train:30,draft:42,queued:52,ci_running:62,ci_failed:62,ready:76,reviewed:88,merged:100,live:100,no_pr:100,blocked:12};
+const FLY=["started","on_train","draft","queued","ci_running","ci_failed","ready","reviewed","blocked"];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const col=s=>`var(--${s})`;
+let D=null,N=null,B={size:3,clean_streak:0,goal:10,max:5},nlast=0,hidden=new Set(),lastOk=0,showAll=false;
+function ago(t){const s=Math.max(0,(Date.now()-new Date(t))/1000);if(s<90)return Math.round(s)+" s ago";if(s<5400)return Math.round(s/60)+" min ago";return (s/3600).toFixed(1)+" h ago"}
+// GitHub allows a browser only 60 API calls an hour, so the page asks the API for one thing: the branch's
+// newest commit, at most every 90 s. Every file is then read from raw.githubusercontent.com at that exact
+// commit, which has no hourly cap and is never stale. If the API is unavailable it reads the branch URL.
+let SHA=null,shaAt=0;
+async function headSha(){if(SHA&&Date.now()-shaAt<90000)return SHA;try{const r=await fetch(`https://api.github.com/repos/${REPO}/commits/${BR}`,{headers:{Accept:"application/vnd.github.sha"},cache:"no-store"});if(r.ok){const t=(await r.text()).trim();if(/^[0-9a-f]{40}$/.test(t)){SHA=t;shaAt=Date.now()}}}catch(e){}return SHA}
+function rawGet(ref,p){return fetch(`https://raw.githubusercontent.com/${REPO}/${ref}/${p}`+(ref===BR?`?t=${Math.floor(Date.now()/20000)}`:""),{cache:ref===BR?"no-store":"default"})}
+async function load(){
+  const ref=(await headSha())||BR,M="project-documents/gameplay-factory/mega/";
+  try{const r=await rawGet(ref,PATH);if(!r.ok)throw 0;D=await r.json()}catch(e){paint(true,true);return}
+  try{const q=await rawGet(ref,M+"BATCH.json");if(q.ok)B=await q.json()}catch(e){}
+  if(Date.now()-nlast>240000){nlast=Date.now();try{const q=await rawGet(ref,M+"LEAD_NOTES.json");if(q.ok)N=await q.json()}catch(e){}}
+  if(Date.now()-vlast>60000){vlast=Date.now();try{const q=await rawGet(ref,M+"index.html");if(q.ok){const h=await q.text(),m=h.match(/const BUILD=(\d+)/);if(m&&+m[1]>BUILD){location.replace(location.pathname+"?v="+m[1]);return}}}catch(e){}}
+  lastOk=Date.now();paint();
+}
+const SK="megaSent",SENT_MS=45*60000;
+function getSent(){try{const o=JSON.parse(localStorage.getItem(SK)||"{}"),n=Date.now(),r={};for(const k in o)if(n-o[k]<SENT_MS)r[k]=o[k];return r}catch(e){return {}}}
+function setSent(o){try{localStorage.setItem(SK,JSON.stringify(o))}catch(e){}}
+function copyBtn(b){const n=b.dataset.n;try{navigator.clipboard.writeText(n).catch(()=>{})}catch(e){}b.classList.add("copied");
+  if(b.dataset.nosent!=="1"){const o=getSent(),now=Date.now();String(n).split(/\s+/).forEach(x=>{if(/^\d+$/.test(x))o[x]=now});setSent(o);setTimeout(()=>{if(D){D._painted=0;paint()}},1100)}
+  setTimeout(()=>b.classList.remove("copied"),900)}
+function paint(only,fail){
+  if(!D){$("age").textContent=fail?"cannot reach GitHub":"loading…";return}
+  const okT=typeof D.updated==="string"&&D.updated.length>8;const age=okT?(Date.now()-new Date(D.updated))/1000:1e9;
+  const old=age>600,off=fail||Date.now()-lastOk>180000;
+  $("dot").className="dot"+(old||off?" stale":"");
+  $("age").textContent=(okT?"live · data "+ago(D.updated):"data time unknown")+(off?" · connection lost":"");
+  const b=$("ban");
+  if(old||off){b.style.display="block";b.textContent=off?"Cannot reach GitHub right now; showing the last data. Numbers may be behind.":(okT?"The GitHub updater has not written new data for "+Math.round(age/60)+" min. Numbers may be behind.":"The data has no valid time. The updater may be restarting; numbers may be behind.")}else b.style.display="none";
+  if(only&&!fail&&D._painted===D.updated)return;
+  D._painted=D.updated;
+  const c=D.counts,n=D.total,g=D.gates,fin=(c.merged||0)+(c.live||0)+(c.no_pr||0);
+  const fly=FLY.reduce((a,s)=>a+(c[s]||0),0);
+  $("tot").textContent=n;$("fin").textContent=fin+" / "+n;$("fly").textContent=fly;
+  $("r1").textContent=D.rate.claimed_last_hour;$("r10").textContent=D.rate.claimed_last_10min+" in the last 10 min";$("rm").textContent=D.rate.merged_last_hour;
+  const chip=x=>`<button class="chip" data-n="${x}">${x}</button>`;
+  // LANES
+  if(D.lanes){const who={gpt1:"You type in ChatGPT account 1",gpt2:"You type in ChatGPT account 2",chat_jobs:"You type in ChatGPT chat (job files)",codex:"You type in Codex",work:"You type in Work mode (currently off)",claude:"Claude does these; you type nothing",other:"Other"};
+   $("lanes").innerHTML=Object.entries(D.lanes).filter(([k,L])=>L.total).map(([k,L])=>{const t=L.total,f=L.finished,w=L.worker_done-L.finished,pct=Math.round(100*f/t),q=[];
+    if(L.trouble)q.push(L.trouble+" failing");if(L.closed)q.push(L.closed+" redone");if(L.reviews_total)q.push(L.reviews.ok+L.reviews.ok_notes+" of "+L.reviews_total+" reviews OK");
+    return `<div class="stage"><div class="h"><span><b>${L.name}</b><br><span class="mut">${who[k]}</span></span><span><b>${pct}%</b> finished (${f}/${t})</span></div><div class="bar thin"><span style="width:${100*f/t}%;background:#2e9e5b"></span><span style="width:${100*w/t}%;background:#3b82f6"></span></div><div class="lbl">${L.picked_up} picked up · ${L.pending_lead} waiting for the lead${L.audit_batch?" · "+L.audit_batch+" audit reports being batch-merged":""}${L.wait_v?" · "+L.wait_v+" waiting on Team V":""} · ${t-L.picked_up} not started${q.length?" · "+q.join(" · "):""}</div></div>`}).join("");
+   const cx=(D.codex_next||[]).filter(x=>!getSent()[x.job]);$("cx").innerHTML=cx.map(x=>chip(x.job)).join("");$("cxn").textContent=cx.length?"("+cx.length+" free)":"(none free)";
+   $("cxw").textContent=(D.codex_waiting_on_deps||[]).length?"Waiting for an earlier job: "+D.codex_waiting_on_deps.map(x=>x.job+" (after "+x.deps.join(", ")+")").join("; "):"";}
+  if(N){$("rule").textContent=N.rule||"";$("role").innerHTML=(N.you_come_in||[]).map(x=>`<div class="stage"><div class="h"><span><b>${esc(x.when)}</b></span><span class="pill" style="white-space:nowrap;align-self:flex-start;background:${x.auto?"#2e9e5b":"#e8590c"}">${x.auto?"automatic":"you"}</span></div><div class="lbl">${esc(x.what)}</div></div>`).join("");$("rolesrc").textContent="From: "+(N.from||"lead")+" · "+ago(N.updated);
+   $("verd").innerHTML=(N.verdicts||[]).map(v=>`<div class="stage"><div class="h"><span><b>Job ${esc(v.job)}</b> ${esc(v.title||"")}</span><span class="pill" style="background:${v.verdict==="good"?"#2e9e5b":"#d64545"}">${v.verdict==="good"?"good job":"not good"}</span></div><div class="lbl">${esc(v.why||"")}</div></div>`).join("")+((N.lessons||[]).length?`<div class="lbl" style="margin-top:6px"><b>Lessons the lead took:</b> ${(N.lessons||[]).map(esc).join(" · ")}</div>`:"")}
+  if(D.lanes){const h=D.history||[],prevH=h.length>1?h[h.length-2]:null;
+   $("qual").innerHTML=Object.entries(D.lanes).filter(([k,L])=>L.total&&L.worker_done+L.closed).map(([k,L])=>{let tr="no trend yet";if(prevH&&prevH.lanes[k]){const o=prevH.lanes[k],dn=L.worker_done-o.done,dr=L.closed-o.redone;tr=(dn>=0?"+":"")+dn+" finished, "+(dr?"+":"")+dr+" redone since "+ago(prevH.at)}
+    return `<div class="stage"><div class="h"><span><b>${esc(L.name)}</b></span><span><b>${L.first_time_ok==null?"-":L.first_time_ok+"%"}</b> first time OK</span></div><div class="lbl">${L.closed} thrown back · ${L.failing_now} failing checks now · ${tr}</div></div>`}).join("")}
+  // TYPE NEXT
+  const SENT0=getSent(),CL=Object.fromEntries(Object.entries(g.claimed||{}).filter(([j,v])=>!v.closed).map(([j])=>[j,1])),SENT=Object.assign({},SENT0,CL),all=(g.ready_all&&g.ready_all.length?g.ready_all:g.ready||[]).slice(0,150).filter(x=>!SENT[x]);
+  $("rt").textContent=all.length+(g.ready_total>(g.ready_all||[]).length?g.ready_total-(g.ready_all||[]).length:0);
+  {const hb=Object.entries(g.held_by_picture||{}),ph=hb.filter(([k])=>k.startsWith("phone")),dk=hb.filter(([k])=>k.startsWith("desktop"));
+  const nm=k=>k.replace(/^\w+ /,"").toLowerCase().replace(/_/g," ");
+  const parts=[];if(dk.length)parts.push(dk.reduce((a,[k,v])=>a+v,0)+" desktop studies wait for approved desktop pictures");if(ph.length)parts.push(ph.reduce((a,[k,v])=>a+v,0)+" phone studies wait for pictures ("+ph.map(([k])=>nm(k)).join(", ")+")");
+  $("held").textContent=g.held_until_picture?`Held: ${parts.join("; ")}.`:"";}
+  {const W=B.wiring_chains;$("wcard").style.display=W?"":"none";if(W){const m=esc(W.model||"Sol 6.1 · High"),c=x=>`<button class="wbox" data-nosent="1" data-n="${x}">${x}<small>${m}</small></button>`;
+   $("wch").innerHTML=(W.chains||[]).map((ch,i)=>`<div class="stage"><div class="lbl">Chain ${i+1}</div><div class="chips" style="align-items:flex-start">${ch.map(c).join('<span style="align-self:center">→</span>')}</div></div>`).join("")+((W.after_home_merge||[]).length?`<div class="stage"><div class="lbl">After the Home PR merges</div><div class="chips">${W.after_home_merge.map(c).join("")}</div></div>`:"");
+   $("wnote").textContent=W.note||""}}
+  const none='<span class="none">None free right now.</span>';
+  const bl=a=>{const z=[],k=B.size||3;for(let i=0;i<a.length;i+=k)z.push(a.slice(i,i+k));return z.map(g=>`<button class="chip batch" data-n="${g.join(" ")}">${g.join(" ")}</button>`).join("")||none};
+  const WE=B.work_extra||{},wkAll=[...new Set((B.work_free_jobs||[]).concat(WE.numbers||[]))],weN=wkAll,wkFree=wkAll.filter(x=>!SENT[x]),rw=[],wkList=wkFree,TB=[],tbSet=new Set(),wkset=new Set(wkList),chat=(B.jobs_free||[]).filter(x=>!SENT[x]);
+  const CB=g.chat_batches;document.querySelector("#odd").closest(".cols").style.display=CB?"none":"";if(CB){const jf=(B.jobs_free||[]).filter(x=>!SENT[x]),jb=[];for(let i=0;i<jf.length;i+=(B.size||3))jb.push(jf.slice(i,i+(B.size||3)));$("tb").innerHTML=CB.filter(b=>b.every(x=>!SENT[x])).concat(jb).map(b=>`<button class="chip batch" data-n="${b.join(" ")}">${b.join(" ")}</button>`).join("")||none}else $("tb").innerHTML=TB.map(b=>`<button class="chip batch" data-n="${b.join(" ")}">${b.join(" ")}</button>`).join("")||none;
+  $("odd").innerHTML=bl(chat.filter(x=>x%2));
+  $("even").innerHTML=bl(chat.filter(x=>x%2===0));
+  {const WB=B.work_batch||{},wb=(g.work_batches||[]).filter(b=>b.every(x=>!SENT[x])).slice(0,6);$("wbcol").style.display=wb.length?"":"none";$("wkb").innerHTML=wb.map(b=>`<button class="wbox" data-n="${b.join(" ")}">${b.join(" ")}<small>${esc(WB.model||"Sol 6.1 · High")}</small></button>`).join("");$("wkbl").textContent=WB.rule||""}
+  {const CD=B.claude_doing||{},PR=Array.isArray(CD)?CD.map(x=>({screen:x.screen,pr:x.pr})):(CD.open_prs||[]);$("cdo").innerHTML=(Array.isArray(CD)?"":`<div class="lbl" style="font-size:14px;color:inherit">${esc(CD.note||"")}</div>`)+(CD.desktop_studies&&CD.desktop_studies.length?`<div class="lbl" style="font-size:14px;color:inherit;margin-top:4px"><b>Desktop studies</b>: ${CD.desktop_studies.map(x=>esc(x.screen)+" "+esc(String(x.study))).join(" · ")}${CD.desktop_note?" · "+esc(CD.desktop_note):""}</div>`:"")+(CD.release?`<div class="lbl" style="font-size:14px;color:inherit;margin-top:4px"><b>Next release ${esc(CD.release.name||"")}</b> ${esc(CD.release.when||"")}${CD.release.pr?` (<a href="https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/${esc(String(CD.release.pr))}" target="_blank" rel="noopener">#${esc(String(CD.release.pr))}</a>)`:""}${CD.release.carries?": "+esc(CD.release.carries):""}</div>`:"")+((CD.qol_claude||[]).map(q=>`<div class="lbl" style="font-size:14px;color:inherit;margin-top:4px"><b>${esc(q.label)}</b> · ${esc(q.note||"")}</div>`).join(""))+(PR.length?`<div class="lbl" style="font-size:14px;color:inherit;margin-top:4px">Open screen PRs: `+PR.map(x=>`<b>${esc(x.screen)}</b>${x.pr?` (<a href="https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/${esc(String(x.pr))}" target="_blank" rel="noopener">#${esc(String(x.pr))}</a>)`:""}`).join(" · ")+"</div>":'<div class="lbl">No open screen PRs.</div>');
+  $("bstamp").textContent="Lists come from the lead's file BATCH.json"+(B.updated?", updated "+ago(B.updated):"")+". Numbers that already have a PR are removed automatically.";
+  const cq=chat.filter(x=>!SENT[x]);$("cfirst").textContent=cq[0]||"nothing right now";$("cfirst").dataset.n=cq[0]||"";$("cfirst").onclick=()=>cq.length&&copyBtn($("cfirst"));const QT={};(B.qol_jobs||[]).forEach(q=>QT[q.job]=q.title);$("ctit").innerHTML=cq.slice(0,4).filter(x=>QT[x]).map(x=>`<b>${x}</b> ${esc(QT[x])}`).join("<br>");$("cnext").innerHTML=cq.slice(1,4).map(x=>`<button class="wbox" data-n="${x}">${x}</button>`).join("");
+  const wl=wkList.length,cl=cq.length;
+  const fb2=$("first");fb2.textContent=wkList[0]||"none";fb2.dataset.n=wkList[0]||"";fb2.onclick=()=>wkList.length&&copyBtn(fb2);$("rt").textContent=wl+" Work mode + "+cl+" chat"}
+  {const NR=B.next_releases||[{n:"r72",when:"Mon about 6 p.m. Boston"},{n:"r73",when:"Tue evening"}];$("nextrel").innerHTML="Next release: "+NR.map(r=>"<b>"+esc(r.name||r.n)+"</b> "+esc(r.when)).join(" · ")}
+  $("wkw").textContent=(B.work_waiting||[]).concat(B.chat_waiting||[]).map(x=>"Not free yet: "+x.job+" ("+x.note+")").join("; ");const wm=g.work_models||{};$("wkall").innerHTML=wkList.map(x=>`<button class="wbox" data-n="${x}">${x}</button>`).join("");$("wk").innerHTML=wkList.slice(1,4).map(x=>`<button class="wbox" data-n="${x}">${x}<small>${esc(wm[x]||(weN.includes(x)||wkFree.includes(x)?(WE.model||"Sol 6.1 · High"):"")||"")}</small></button>`).join("")||none;
+  $("bmx").textContent=B.size||3;$("bsz").textContent=(B.size||3)+" numbers per chat";$("bst").textContent=(B.clean_streak||0)+" of "+(B.goal||10)+" clean batches in a row"+(B.size<B.max?" (then "+B.max+" per chat)":"");
+  {const sn=Object.keys(SENT0);$("sentbox").innerHTML=sn.length?`You already copied: <b>${sn.join(" ")}</b> (hidden for 45 min so you cannot paste them twice). <button class="more" id="unsent">Show them again</button>`:"";const ub=$("unsent");if(ub)ub.onclick=()=>{setSent({});D._painted=0;paint()}}
+  $("nxtnote").textContent=((B.jobs_after_wiring||[]).length?"Polish jobs after wiring (not free yet): "+B.jobs_after_wiring.join(", ")+". ":"")+(g.ready_total>all.length?`Showing the first ${all.length} of ${g.ready_total}. `:"")+"A number leaves this list the minute its chat claims it. Numbers not listed have to wait.";
+  document.querySelectorAll(".chip,.wbox").forEach(b=>b.onclick=()=>copyBtn(b));
+  // all numbers bar
+  $("all").innerHTML=ST.slice(0,-1).concat("waiting").map(s=>c[s]?`<span style="width:${c[s]/n*100}%;background:${col(s)}" title="${LB[s]}: ${c[s]}"></span>`:"").join("");
+  $("leg").innerHTML=ST.map(s=>`<label data-s="${s}" class="${hidden.has(s)?"off":""}"><span class="sw" style="background:${col(s)}"></span>${LB[s]} <b>${c[s]||0}</b></label>`).join("");
+  document.querySelectorAll("#leg label").forEach(l=>l.onclick=()=>{const s=l.dataset.s;hidden.has(s)?hidden.delete(s):hidden.add(s);D._painted=0;paint()});
+  $("capn").textContent=g.open_code_prs+" of "+g.cap;
+  $("cap").innerHTML=`<span style="width:${g.open_code_prs/g.cap*100}%;background:${col(g.open_code_prs>=g.cap?"ci_failed":"started")}"></span>`;
+  const lk=Object.entries(g.area_locks);
+  $("locks").innerHTML="Screen areas locked by an open train PR: "+(lk.length?lk.map(([a,k])=>`<b>${esc(a)}</b> (PR #${k})`).join(", "):"none")+(g.draft_code_prs?`<br>${g.draft_code_prs} train PR(s) still drafts`:"")+(g.on_train_no_pr&&g.on_train_no_pr.length?`<br>Code jobs done on a train, PR not open yet: ${g.on_train_no_pr.join(", ")}`:"");
+  $("stages").innerHTML=Object.keys(D.stages).sort().map(k=>{const s=D.stages[k],v=s.states,f=(v.merged||0)+(v.live||0)+(v.no_pr||0);
+    return `<div class="stage"><div class="h"><span><b>Stage ${k}</b> ${esc(s.name)}</span><span>${f} finished of ${s.total} · ${s.total-f-(v.waiting||0)-(v.closed||0)} in flight · ${v.waiting||0} waiting</span></div><div class="bar thin">${ST.slice(0,-1).concat("waiting").map(x=>v[x]?`<span style="width:${v[x]/s.total*100}%;background:${col(x)}" title="${LB[x]}: ${v[x]}"></span>`:"").join("")}</div></div>`}).join("");
+  const items=Object.entries(D.items).sort((a,b)=>a[0]-b[0]);
+  const link=(k,v)=>v.pr?` <a href="${v.pr_url}" target="_blank" rel="noopener">PR #${v.pr}</a>`:"";
+  const row=(k,v,extra)=>`<div class="item"><span class="n">${k}</span><span class="t">${esc(v.title)} <small>Job ${v.job}${link(k,v)}</small>${extra||""}</span><span class="pill" style="background:${col(v.state)}">${LB[v.state]}</span></div>`;
+  const bad=items.filter(([k,v])=>v.state==="ci_failed"||v.state==="blocked");
+  const stale=(D.stale_started||[]).map(String);
+  const att=bad.map(([k,v])=>row(k,v)).concat(items.filter(([k])=>stale.includes(k)).map(([k,v])=>row(k,v,` <small>(claimed ${ago(v.since)}, still no PR)</small>`)));
+  $("attn").innerHTML=att.length?att.join(""):'<span class="none">Nothing failed, blocked or stuck.</span>';
+  $("grid").innerHTML=items.map(([k,v])=>`<i data-k="${k}" class="${+k===all[0]?"next":""}${hidden.has(v.state)?" dim":""}" style="background:${col(v.state)}" title="${k}"></i>`).join("");
+  document.querySelectorAll(".grid i").forEach(i=>i.onclick=()=>{const k=i.dataset.k,v=D.items[k],d=$("det");
+    d.style.display="block";d.innerHTML=`<b>Number ${k}</b> · Job ${v.job} · stage ${v.stage} · ${v.mode||""}${v.group?" · "+esc(v.group):""}<br>${esc(v.title)}<br><span class="pill" style="background:${col(v.state)}">${LB[v.state]}</span> <span class="mut">${v.since?"since "+ago(v.since):""}${v.ci?" · checks "+v.ci+(v.ci_total?" ("+v.ci_total+")":""):""}${v.live_in?" · "+esc(v.live_in):""}</span>${link(k,v)}${v.branch?`<br><small class="mut">${esc(v.branch)}</small>`:""}<br><a href="#" onclick="document.getElementById('det').style.display='none';return false">close</a>`});
+  // numbers you started: one progress bar each, newest first, trouble on top
+  const fl=items.filter(([k,v])=>FLY.includes(v.state)).sort((a,b)=>{const pa=(a[1].state==="ci_failed"||a[1].state==="blocked")?0:1,pb=(b[1].state==="ci_failed"||b[1].state==="blocked")?0:1;return pa-pb||String(b[1].since).localeCompare(String(a[1].since))});
+  $("flc").textContent=`(${fl.length} in flight, ${fin} finished)`;
+  const jobRow=([k,v])=>{const p=PCT[v.state]||0,bad=v.state==="ci_failed"||v.state==="blocked";
+    return `<div class="job"><div class="l1"><span class="n">${k}</span><span class="t">${esc(v.title)}</span><span class="pill" style="background:${col(v.state)}">${LB[v.state]}</span></div><div class="pbar"><i style="width:${p}%;background:${bad?col("ci_failed"):col(v.state)}"></i><b style="left:20%"></b><b style="left:40%"></b><b style="left:60%"></b><b style="left:80%"></b></div><div class="l3"><span>${p}% · Job ${v.job}${link(k,v)}${v.draft?" (train, draft)":""}</span><span>${v.since?ago(v.since):""}</span></div></div>`};
+  const cap=showAll?fl.length:30;
+  $("fl").innerHTML=fl.length?fl.slice(0,cap).map(jobRow).join(""):'<span class="none">Nothing in flight.</span>';
+  $("flmore").innerHTML=fl.length>30?`<button class="more" id="mb">${showAll?"Show fewer":"Show all "+fl.length}</button>`:"";
+  if($("mb"))$("mb").onclick=()=>{showAll=!showAll;D._painted=0;paint()};
+  $("ev").innerHTML=D.events.length?D.events.slice(-25).reverse().map(e=>`<div class="item"><span class="n">${e.item}</span><span class="t">${esc((D.items[e.item]||{}).title||"")} <small>Job ${e.job} · ${ago(e.at)}</small></span><span class="pill" style="background:${col(e.to)}">${LB[e.to]}</span></div>`).join(""):'<span class="none">No changes recorded yet.</span>';
+}
+load();setInterval(load,20000);setInterval(()=>paint(true),15000);
+</script>
+</body>
+</html>
