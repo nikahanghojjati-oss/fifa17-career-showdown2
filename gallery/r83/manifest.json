@@ -1,0 +1,343 @@
+{
+  "release": "r83",
+  "head": "21e74be78eb4c6ba8332e08b70ab5cc3c0f5f902",
+  "count": 42,
+  "images": [
+    {
+      "file": "images/season-results-daniel-1920x1080.webp",
+      "screen": "season-results",
+      "who": "daniel",
+      "size": "1920x1080",
+      "changed": "Drawn season: Daniel 1 \u00b7 Nik 1, Season result: Draw; different league positions never break the tie (scrolled to canonical score)",
+      "shows": "Drawn season with equal 1\u20131 scores; closest desktop view: canonical score panel clips its total and Draw text below the heading. Phone companion exposes the actual Draw result."
+    },
+    {
+      "file": "images/season-results-daniel-393x852.webp",
+      "screen": "season-results",
+      "who": "daniel",
+      "size": "393x852",
+      "changed": "Drawn season: Daniel 1 \u00b7 Nik 1, Season result: Draw; different league positions never break the tie (scrolled to canonical score)",
+      "shows": "Drawn season: Daniel 1 \u00b7 Nik 1, Season result: Draw; different league positions never break the tie (scrolled to canonical score)"
+    },
+    {
+      "file": "images/final-winner-daniel-1920x1080.webp",
+      "screen": "final-winner",
+      "who": "daniel",
+      "size": "1920x1080",
+      "changed": "Finished three-season Showdown: equal 3\u20133 totals, DRAW, no tiebreak",
+      "shows": "Finished three-season Showdown: equal 3\u20133 totals, DRAW, no tiebreak"
+    },
+    {
+      "file": "images/final-winner-daniel-393x852.webp",
+      "screen": "final-winner",
+      "who": "daniel",
+      "size": "393x852",
+      "changed": "Finished three-season Showdown: equal 3\u20133 totals, DRAW, no tiebreak",
+      "shows": "Finished three-season Showdown: equal 3\u20133 totals, DRAW, no tiebreak"
+    },
+    {
+      "file": "images/standings-daniel-1920x1080.webp",
+      "screen": "standings",
+      "who": "daniel",
+      "size": "1920x1080",
+      "changed": "Two managers level at 1\u20131; no tiebreak crown",
+      "shows": "Two managers level at 1\u20131; no tiebreak crown"
+    },
+    {
+      "file": "images/standings-daniel-393x852.webp",
+      "screen": "standings",
+      "who": "daniel",
+      "size": "393x852",
+      "changed": "Two managers level at 1\u20131; no tiebreak crown",
+      "shows": "Two managers level at 1\u20131; no tiebreak crown"
+    },
+    {
+      "file": "images/career-statistics-live-daniel-1920x1080.webp",
+      "screen": "career-statistics-live",
+      "who": "daniel",
+      "size": "1920x1080",
+      "changed": "Live Showdown has a committed season but completed-career totals remain zero",
+      "shows": "Live Showdown has a committed season but completed-career totals remain zero"
+    },
+    {
+      "file": "images/career-statistics-live-daniel-393x852.webp",
+      "screen": "career-statistics-live",
+      "who": "daniel",
+      "size": "393x852",
+      "changed": "Live Showdown has a committed season but completed-career totals remain zero",
+      "shows": "Live Showdown has a committed season but completed-career totals remain zero"
+    },
+    {
+      "file": "images/career-statistics-daniel-1920x1080.webp",
+      "screen": "career-statistics",
+      "who": "daniel",
+      "size": "1920x1080",
+      "changed": "Completed drawn Showdown: career contains one finished Showdown, three seasons and three points per manager",
+      "shows": "Completed drawn Showdown: career contains one finished Showdown, three seasons and three points per manager"
+    },
+    {
+      "file": "images/career-statistics-daniel-393x852.webp",
+      "screen": "career-statistics",
+      "who": "daniel",
+      "size": "393x852",
+      "changed": "Completed drawn Showdown: career contains one finished Showdown, three seasons and three points per manager",
+      "shows": "Completed drawn Showdown: career contains one finished Showdown, three seasons and three points per manager"
+    },
+    {
+      "file": "images/rivalry-daniel-1920x1080.webp",
+      "screen": "rivalry",
+      "who": "daniel",
+      "size": "1920x1080",
+      "changed": "Completed drawn Showdown: career contains one finished Showdown, three seasons and three points per manager",
+      "shows": "Completed drawn Showdown: career contains one finished Showdown, three seasons and three points per manager"
+    },
+    {
+      "file": "images/rivalry-daniel-393x852.webp",
+      "screen": "rivalry",
+      "who": "daniel",
+      "size": "393x852",
+      "changed": "Completed drawn Showdown: career contains one finished Showdown, three seasons and three points per manager",
+      "shows": "Completed drawn Showdown: career contains one finished Showdown, three seasons and three points per manager"
+    },
+    {
+      "file": "images/legacy-daniel-1920x1080.webp",
+      "screen": "legacy",
+      "who": "daniel",
+      "size": "1920x1080",
+      "changed": "Completed drawn Showdown: career contains one finished Showdown, three seasons and three points per manager",
+      "shows": "Completed drawn Showdown: career contains one finished Showdown, three seasons and three points per manager"
+    },
+    {
+      "file": "images/legacy-daniel-393x852.webp",
+      "screen": "legacy",
+      "who": "daniel",
+      "size": "393x852",
+      "changed": "Completed drawn Showdown: career contains one finished Showdown, three seasons and three points per manager",
+      "shows": "Completed drawn Showdown: career contains one finished Showdown, three seasons and three points per manager"
+    },
+    {
+      "file": "images/trophy-room-daniel-1920x1080.webp",
+      "screen": "trophy-room",
+      "who": "daniel",
+      "size": "1920x1080",
+      "changed": "Three domestic cups each from the finished Showdown; a drawn Showdown awards no Showdown champion",
+      "shows": "Three domestic cups each from the finished Showdown; a drawn Showdown awards no Showdown champion"
+    },
+    {
+      "file": "images/trophy-room-daniel-393x852.webp",
+      "screen": "trophy-room",
+      "who": "daniel",
+      "size": "393x852",
+      "changed": "Three domestic cups each from the finished Showdown; a drawn Showdown awards no Showdown champion",
+      "shows": "Three domestic cups each from the finished Showdown; a drawn Showdown awards no Showdown champion; problem: bottom-left BACK control has a blank-looking label."
+    },
+    {
+      "file": "images/rules-daniel-1920x1080.webp",
+      "screen": "rules",
+      "who": "daniel",
+      "size": "1920x1080",
+      "changed": "Expanded DRAWS section: equal scores draw; league position, league points and goals never decide a tied season or Showdown",
+      "shows": "Expanded DRAWS section: equal scores draw; league position, league points and goals never decide a tied season or Showdown"
+    },
+    {
+      "file": "images/rules-daniel-393x852.webp",
+      "screen": "rules",
+      "who": "daniel",
+      "size": "393x852",
+      "changed": "Expanded DRAWS section: equal scores draw; league position, league points and goals never decide a tied season or Showdown",
+      "shows": "Expanded DRAWS section: equal scores draw; league position, league points and goals never decide a tied season or Showdown"
+    },
+    {
+      "file": "images/home-idle-daniel-1920x1080.webp",
+      "screen": "home-idle",
+      "who": "daniel",
+      "size": "1920x1080",
+      "changed": "Normal signed-in idle Home",
+      "shows": "Normal signed-in idle Home"
+    },
+    {
+      "file": "images/home-idle-daniel-393x852.webp",
+      "screen": "home-idle",
+      "who": "daniel",
+      "size": "393x852",
+      "changed": "Normal signed-in idle Home",
+      "shows": "Normal signed-in idle Home"
+    },
+    {
+      "file": "images/home-idle-nik-1920x1080.webp",
+      "screen": "home-idle",
+      "who": "nik",
+      "size": "1920x1080",
+      "changed": "Normal signed-in idle Home",
+      "shows": "Normal signed-in idle Home"
+    },
+    {
+      "file": "images/home-idle-nik-393x852.webp",
+      "screen": "home-idle",
+      "who": "nik",
+      "size": "393x852",
+      "changed": "Normal signed-in idle Home",
+      "shows": "Normal signed-in idle Home"
+    },
+    {
+      "file": "images/home-live-daniel-1920x1080.webp",
+      "screen": "home-live",
+      "who": "daniel",
+      "size": "1920x1080",
+      "changed": "Live Showdown Home before CONTINUE",
+      "shows": "Live Showdown Home before CONTINUE"
+    },
+    {
+      "file": "images/home-live-daniel-393x852.webp",
+      "screen": "home-live",
+      "who": "daniel",
+      "size": "393x852",
+      "changed": "Live Showdown Home before CONTINUE",
+      "shows": "Live Showdown Home before CONTINUE"
+    },
+    {
+      "file": "images/home-restoring-daniel-1920x1080.webp",
+      "screen": "home-restoring",
+      "who": "daniel",
+      "size": "1920x1080",
+      "changed": "Slow real emulator reload: Firestore responses held beyond the startup cover; live-game session hint keeps Home on CHECKING\u2026",
+      "shows": "Slow real emulator reload: Firestore responses held beyond the startup cover; live-game session hint keeps Home on CHECKING\u2026"
+    },
+    {
+      "file": "images/home-restoring-daniel-393x852.webp",
+      "screen": "home-restoring",
+      "who": "daniel",
+      "size": "393x852",
+      "changed": "Slow real emulator reload: Firestore responses held beyond the startup cover; live-game session hint keeps Home on CHECKING\u2026",
+      "shows": "Slow real emulator reload: Firestore responses held beyond the startup cover; live-game session hint keeps Home on CHECKING\u2026"
+    },
+    {
+      "file": "images/home-continue-failed-daniel-1920x1080.webp",
+      "screen": "home-continue-failed",
+      "who": "daniel",
+      "size": "1920x1080",
+      "changed": "Failed CONTINUE on a live Showdown, then BACK: live tile persists; retry reason is retained in tile metadata but hidden visually by Home styling",
+      "shows": "Failed CONTINUE on a live Showdown, then BACK: live tile persists; retry reason is retained in tile metadata but hidden visually by Home styling; an error toast is also visible at the bottom right."
+    },
+    {
+      "file": "images/home-continue-failed-daniel-393x852.webp",
+      "screen": "home-continue-failed",
+      "who": "daniel",
+      "size": "393x852",
+      "changed": "Failed CONTINUE on a live Showdown, then BACK: live tile persists; retry reason is retained in tile metadata but hidden visually by Home styling",
+      "shows": "Failed CONTINUE on a live Showdown, then BACK: live tile persists; retry reason is retained in tile metadata but hidden visually by Home styling"
+    },
+    {
+      "file": "images/home-join-note-nik-1920x1080.webp",
+      "screen": "home-join-note",
+      "who": "nik",
+      "size": "1920x1080",
+      "changed": "Nik's Home with Daniel's real next-Showdown JOIN note",
+      "shows": "Nik's Home with Daniel's real next-Showdown JOIN note"
+    },
+    {
+      "file": "images/home-join-note-nik-393x852.webp",
+      "screen": "home-join-note",
+      "who": "nik",
+      "size": "393x852",
+      "changed": "Nik's Home with Daniel's real next-Showdown JOIN note",
+      "shows": "Nik's Home with Daniel's real next-Showdown JOIN note"
+    },
+    {
+      "file": "images/home-check-status-nik-1920x1080.webp",
+      "screen": "home-check-status",
+      "who": "nik",
+      "size": "1920x1080",
+      "changed": "Nik after discovery stops and the JOIN note expires: clock advanced past the actual expiry, watcher stopped, Home re-rendered through its existing refreshHome method; CHECK STATUS",
+      "shows": "Nik after discovery stops and the JOIN note expires: clock advanced past the actual expiry, watcher stopped, Home re-rendered through its existing refreshHome method; CHECK STATUS"
+    },
+    {
+      "file": "images/home-check-status-nik-393x852.webp",
+      "screen": "home-check-status",
+      "who": "nik",
+      "size": "393x852",
+      "changed": "Nik after discovery stops and the JOIN note expires: clock advanced past the actual expiry, watcher stopped, Home re-rendered through its existing refreshHome method; CHECK STATUS",
+      "shows": "Nik after discovery stops and the JOIN note expires: clock advanced past the actual expiry, watcher stopped, Home re-rendered through its existing refreshHome method; CHECK STATUS"
+    },
+    {
+      "file": "images/settings-daniel-1920x1080.webp",
+      "screen": "settings",
+      "who": "daniel",
+      "size": "1920x1080",
+      "changed": "Real career Settings for the paired manager; no test-run or forget-device actions. Build label reads 1.9.6-r82.",
+      "shows": "Real career Settings for the paired manager; no test-run or forget-device actions. Build label reads 1.9.6-r82."
+    },
+    {
+      "file": "images/settings-daniel-393x852.webp",
+      "screen": "settings",
+      "who": "daniel",
+      "size": "393x852",
+      "changed": "Real career Settings for the paired manager; no test-run or forget-device actions. Build label reads 1.9.6-r82.",
+      "shows": "Real career Settings for the paired manager; no test-run or forget-device actions. Build label reads 1.9.6-r82."
+    },
+    {
+      "file": "images/settings-nik-1920x1080.webp",
+      "screen": "settings",
+      "who": "nik",
+      "size": "1920x1080",
+      "changed": "Real career Settings for the paired manager; no test-run or forget-device actions. Build label reads 1.9.6-r82.",
+      "shows": "Real career Settings for the paired manager; no test-run or forget-device actions. Build label reads 1.9.6-r82."
+    },
+    {
+      "file": "images/settings-nik-393x852.webp",
+      "screen": "settings",
+      "who": "nik",
+      "size": "393x852",
+      "changed": "Real career Settings for the paired manager; no test-run or forget-device actions. Build label reads 1.9.6-r82.",
+      "shows": "Real career Settings for the paired manager; no test-run or forget-device actions. Build label reads 1.9.6-r82."
+    },
+    {
+      "file": "images/seasons-daniel-1920x1080.webp",
+      "screen": "seasons",
+      "who": "daniel",
+      "size": "1920x1080",
+      "changed": "No START REAL CAREER checkmark",
+      "shows": "No START REAL CAREER checkmark"
+    },
+    {
+      "file": "images/seasons-daniel-393x852.webp",
+      "screen": "seasons",
+      "who": "daniel",
+      "size": "393x852",
+      "changed": "No START REAL CAREER checkmark",
+      "shows": "No START REAL CAREER checkmark"
+    },
+    {
+      "file": "images/connect-waiting-daniel-1920x1080.webp",
+      "screen": "connect-waiting",
+      "who": "daniel",
+      "size": "1920x1080",
+      "changed": "Daniel WAITING; no TEST RUN strip",
+      "shows": "Daniel WAITING; no TEST RUN strip"
+    },
+    {
+      "file": "images/connect-waiting-daniel-393x852.webp",
+      "screen": "connect-waiting",
+      "who": "daniel",
+      "size": "393x852",
+      "changed": "Daniel WAITING; no TEST RUN strip",
+      "shows": "Daniel WAITING; no TEST RUN strip"
+    },
+    {
+      "file": "images/connect-join-nik-1920x1080.webp",
+      "screen": "connect-join",
+      "who": "nik",
+      "size": "1920x1080",
+      "changed": "Nik JOIN; no TEST RUN strip",
+      "shows": "Nik JOIN; no TEST RUN strip"
+    },
+    {
+      "file": "images/connect-join-nik-393x852.webp",
+      "screen": "connect-join",
+      "who": "nik",
+      "size": "393x852",
+      "changed": "Nik JOIN; no TEST RUN strip",
+      "shows": "Nik JOIN; no TEST RUN strip"
+    }
+  ]
+}
