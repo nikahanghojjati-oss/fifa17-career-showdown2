@@ -765,7 +765,7 @@
   #app #trophyRoom .notWonYet {position:relative;inset:auto;min-height:10px;margin:2px 0 0;font-size:7px;line-height:1.2;letter-spacing:.04em}
   #app #trophyRoom .careerRanks,
   #app #trophyRoom .recordRibbon {display:none;position:relative;inset:auto;width:auto;height:auto;visibility:visible}
-  #app #trophyRoom .trophyBack {position:fixed;left:10px;right:96px;bottom:calc(var(--tr-hub) + 8px);width:auto;height:44px;min-height:44px;margin:0;border:1px solid #d6b054;font-size:14px;background:linear-gradient(#171710,#050607)}
+  #app #trophyRoom .trophyBack {display:flex;align-items:center;justify-content:center;color:#f4d485;font:700 11px/1 var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);letter-spacing:.12em;position:fixed;left:10px;right:96px;bottom:calc(var(--tr-hub) + 8px);width:auto;height:44px;min-height:44px;margin:0;border:1px solid #d6b054;background:linear-gradient(#171710,#050607)}
   #app #trophyRoom .trophyPhoneMoreButton {display:flex;position:fixed;right:10px;bottom:calc(var(--tr-hub) + 8px);width:78px;height:44px;align-items:center;justify-content:center;border:1px solid #d6b054;background:linear-gradient(#171710,#050607);color:#f4d485;font:700 11px/1 var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);letter-spacing:.12em;text-transform:uppercase;pointer-events:auto;z-index:43}
   #app #trophyRoom .phoneMoreToggle {display:block;position:fixed!important;right:10px!important;bottom:calc(var(--tr-hub) + 8px)!important;width:78px!important;height:44px!important;margin:0!important;opacity:0!important;clip:auto!important;clip-path:none!important;pointer-events:auto!important;z-index:42!important}
   #app #trophyRoom .trophyPhoneSheet.sd-sheet {display:none!important}

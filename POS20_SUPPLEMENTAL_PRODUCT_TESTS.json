@@ -2145,7 +2145,8 @@
         "^js/onlinePlayerIdentity\\.js$",
         "^js/whichShowdownIsLive\\.js$",
         "^tests/contracts/r83-home-join-window-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$",
+        "^tests/support/home-join-window-fixture\\.cjs$"
       ]
     },
     {
@@ -2176,6 +2177,14 @@
       "patterns": [
         "^js/(showdownModes|onlinePlayerIdentity|productionSharedJourneyEntry|persistentNikDanielPair|careerStartMarker|sparkClosedShowdownCareerLoader|sparkCompletedShowdownReader|sharedClosedShowdownAdapter|rivalryLegacyV10)\\.js$",
         "^tests/(contracts/r83-remove-test-mode-contracts|support/real-pair-fixture|support/showdown-settings-fixture)\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r83-home-join-expiry-contracts.cjs",
+      "patterns": [
+        "^js/(persistentNikDanielPair|onlinePlayerIdentity)\\.js$",
+        "^tests/(contracts/r83-home-join-expiry-contracts|support/home-join-window-fixture)\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }
