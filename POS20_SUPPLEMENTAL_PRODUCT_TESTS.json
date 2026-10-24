@@ -2026,6 +2026,167 @@
         "^package\\.json$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r83-wait-resume-contracts.cjs",
+      "patterns": [
+        "^js/sparkRemoteJoining\\.js$",
+        "^tests/contracts/r83-wait-resume-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r83-transfer-expiry-budget-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^tests/contracts/r83-transfer-expiry-budget-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r83-career-reveal-retry-contracts.cjs",
+      "patterns": [
+        "^js/careerStartMarker\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^js/sparkClosedShowdownCareerLoader\\.js$",
+        "^js/sparkCompletedShowdownReader\\.js$",
+        "^tests/fixtures/saved-showdowns/r79-1season-win\\.json$",
+        "^tests/contracts/r83-career-reveal-retry-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r83-continue-read-retry-contracts.cjs",
+      "patterns": [
+        "^js/sparkRemoteJoining\\.js$",
+        "^tests/contracts/r83-continue-read-retry-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r83-signing-paste-reload-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/transferSelector\\.js$",
+        "^data/transferOptions\\.js$",
+        "^js/storage\\.js$",
+        "^tests/contracts/r83-signing-paste-reload-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r83-failed-continue-home-contracts.cjs",
+      "patterns": [
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sparkConnectedRivalry\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/whichShowdownIsLive\\.js$",
+        "^tests/contracts/r83-failed-continue-home-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r83-results-reload-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/productionSharedSeasonResultsRoute\\.js$",
+        "^tests/contracts/r83-results-reload-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r83-slow-reload-home-contracts.cjs",
+      "patterns": [
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/ssjr\\.js$",
+        "^js/app\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^tests/contracts/r83-slow-reload-home-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r83-final-history-reconnect-contracts.cjs",
+      "patterns": [
+        "^js/seasonFinalV10\\.js$",
+        "^tests/contracts/r83\\-final\\-history\\-reconnect\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r83-session-expiry-reconnect-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedJourneyReconnect\\.js$",
+        "^js/sharedJourneyReconnect\\.js$",
+        "^js/sparkRemoteJoining\\.js$",
+        "^tests/contracts/r83-session-expiry-reconnect-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r83-terminal-close-replacement-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^js/sparkTerminalClose\\.js$",
+        "^js/sparkPrivateSession\\.js$",
+        "^js/sparkStandardAuthPrivateSession\\.js$",
+        "^tests/contracts/r83-terminal-close-replacement-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r83-home-join-window-contracts.cjs",
+      "patterns": [
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/whichShowdownIsLive\\.js$",
+        "^tests/contracts/r83-home-join-window-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$",
+        "^tests/support/home-join-window-fixture\\.cjs$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r83-cold-career-reads-contracts.cjs",
+      "patterns": [
+        "^js/sparkClosedShowdownCareerLoader\\.js$",
+        "^js/sparkCompletedShowdownReader\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^tests/contracts/r83-cold-career-reads-contracts\\.cjs$",
+        "^tests/fixtures/saved-showdowns/r79-1season-win\\.json$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r83-interrupted-first-pairing-contracts.cjs",
+      "patterns": [
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/careerStartMarker\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^tests/contracts/r83-interrupted-first-pairing-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r83-remove-test-mode-contracts.cjs",
+      "patterns": [
+        "^js/(showdownModes|onlinePlayerIdentity|productionSharedJourneyEntry|persistentNikDanielPair|careerStartMarker|sparkClosedShowdownCareerLoader|sparkCompletedShowdownReader|sharedClosedShowdownAdapter|rivalryLegacyV10)\\.js$",
+        "^tests/(contracts/r83-remove-test-mode-contracts|support/real-pair-fixture|support/showdown-settings-fixture)\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r83-home-join-expiry-contracts.cjs",
+      "patterns": [
+        "^js/(persistentNikDanielPair|onlinePlayerIdentity)\\.js$",
+        "^tests/(contracts/r83-home-join-expiry-contracts|support/home-join-window-fixture)\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

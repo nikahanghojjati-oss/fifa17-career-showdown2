@@ -31,7 +31,7 @@ const readWith=(docs,opts={},uid=A)=>{const f=fakeSdk(docs,opts);return Reader.r
 (async()=>{
   // K1. API surface and safety flags
   assert.equal(typeof Reader.readCompletedShowdown,'function');
-  assert.deepEqual([...Reader.statuses],['completed','abandoned','not-closed','unavailable','never-started']);
+  assert.deepEqual([...Reader.statuses],['completed','abandoned','not-closed','unavailable','never-started','hidden']);
   for(const [k,v] of Object.entries({sessionRequired:false,deviceRequired:false,providerWriteRequired:false,listPermissionRequired:false,canonicalStorageMutation:false,billingRequired:false}))assert.equal(Reader[k],v,k);
   assert.equal(Object.isFrozen(Reader),true);
 

@@ -174,7 +174,7 @@
       tabs.forEach((t,i)=>{t.addEventListener("click",()=>pick(t.dataset.rvTab));t.addEventListener("keydown",e=>{const d=e.key==="ArrowRight"?1:e.key==="ArrowLeft"?-1:0;if(d){e.preventDefault();pick(tabs[(i+d+tabs.length)%tabs.length].dataset.rvTab,true);}});});
     }
   }
-  function undraw(screen,host){clean(screen);host.innerHTML=originalMarkup[screen]??"";delete host.dataset.rivalryLegacyV10;}
+  function undraw(screen,host){if(reloads[screen]?.flight)reloads[screen].flight.left=true;clean(screen);host.innerHTML=originalMarkup[screen]??"";delete host.dataset.rivalryLegacyV10;}
   async function registerRivalryLegacy(){
     if(!registration)registration=(async()=>{
       await load("v10-screens","js/v10Screens.js","CareerModeV10Screens");
@@ -259,7 +259,7 @@
         if(!scope){model=UNAVAILABLE;rivalryModel=UNAVAILABLE;}
         else{
           const hidden=scope.hidden;
-          const result=await root.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc},user,current:active.careerInput,...(scope.testOnly?{testRunsOnly:true}:hidden.length?{hiddenRivalryIds:hidden}:{})});
+          const result=await root.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc},user,current:active.careerInput,...(scope.testOnly?{testRunsOnly:true}:hidden.length?{hiddenRivalryIds:hidden}:{})},()=>canPublish()&&context()===key);
           model=result.model??UNAVAILABLE;
           if(rivalry){
             // Career order is oldest first. Rebuild the latest verified completed entry,
@@ -274,20 +274,28 @@
     return rivalry?rivalryModel??UNAVAILABLE:model;
   }
   const rlCachedCareerModel=()=>careerCache&&careerCache.key===context()?careerCache.model:null;
+  const rlOwner=key=>{try{return JSON.stringify(JSON.parse(key).slice(0,2));}catch(_){return null;}};
   function refresh(screen,event=false){
     const key=context(),reload=reloads[screen]??(reloads[screen]={flight:null,timer:null,dirty:false,lastStarted:-Infinity});
     const supplied=getters[screen]?.();
     if(supplied!=null){screens().invalidate(APP[screen]);return screens().show(APP[screen]);}
-    // Never retain another account's frame while its old request finishes.
+    // Never retain another account's frame while its old request finishes. r82 (Nik: Legacy panels show, vanish, then
+    // load again): the same account and manager keep their frame while the pair or marker settles; the reload replaces it.
     if(sourceKeys[screen]!==key){
-      sourceKeys[screen]=key;sources[screen]=LOADING;
-      if(reload.flight||event&&Date.now()-reload.lastStarted<RELOAD_INTERVAL)void screens().show(APP[screen]).catch(report);
+      const sameOwner=sourceKeys[screen]!=null&&rlOwner(sourceKeys[screen])===rlOwner(key);
+      sourceKeys[screen]=key;
+      if(!sameOwner){
+        sources[screen]=LOADING;
+        if(reload.flight||event&&Date.now()-reload.lastStarted<RELOAD_INTERVAL)void screens().show(APP[screen]).catch(report);
+      }
     }
-    if(reload.flight){if(event||reload.flight.key!==key)reload.dirty=true;return reload.flight.promise;}
+    if(reload.flight){/* a flight the screen left cannot publish; reopening schedules a fresh load after it drains */if(event||reload.flight.key!==key||reload.flight.left)reload.dirty=true;return reload.flight.promise;}
     const delay=RELOAD_INTERVAL-(Date.now()-reload.lastStarted);
     if(event&&delay>0){reload.dirty=true;scheduleReload(screen,reload,delay);return Promise.resolve(false);}
     if(reload.timer!==null){root.clearTimeout(reload.timer);reload.timer=null;}
     reload.dirty=false;reload.lastStarted=Date.now();
+    // r83: opening the screen again retries an earlier "unavailable" read, so it shows loading, not the old card first.
+    if(!event&&sources[screen]===UNAVAILABLE)sources[screen]=LOADING;
     const flight={key,alive:true,promise:null};reload.flight=flight;
     flight.promise=(async()=>{
       let timeout;
@@ -299,15 +307,17 @@
           if(screen==="rivalryStatistics"){
             await modelDependencies();
             const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
-            if(["none","abandoned","completed"].includes(active.classification)&&(active.rivalry.status!=="ready"||await rlCurrentHidden(active.careerInput?.showdowns?.[0]?.rivalryId)))return rlLoadCareerModel(()=>flight.alive,true);
+            if(["none","abandoned","completed"].includes(active.classification)&&(active.rivalry.status!=="ready"||await rlCurrentHidden(active.careerInput?.showdowns?.[0]?.rivalryId)))return rlLoadCareerModel(()=>flight.alive&&!flight.left,true);
             return {...active.rivalry,lifecycle:active.classification};
           }
-          return rlLoadCareerModel(()=>flight.alive);
+          return rlLoadCareerModel(()=>flight.alive&&!flight.left);
         })();
         const model=await Promise.race([loading,deadline]);
-        if(context()!==key)return false;
+        if(context()!==key||flight.left)return false;
+        // r82 (Codex JOB-B B3/B6): a reload that returns the same career keeps the frame already shown (no second boot).
+        const shown=sources[screen];if(shown&&shown!==LOADING&&shown!==UNAVAILABLE&&model&&JSON.stringify(shown)===JSON.stringify(model))return true;
         sources[screen]=model;return await screens().show(APP[screen]);
-      }catch(error){if(context()!==key)return false;sources[screen]=UNAVAILABLE;await screens().show(APP[screen]);report(error);return false;}
+      }catch(error){if(context()!==key||flight.left)return false;sources[screen]=UNAVAILABLE;await screens().show(APP[screen]);report(error);return false;}
       finally{
         flight.alive=false;root.clearTimeout(timeout);reload.flight=null;
         if(reload.dirty)scheduleReload(screen,reload,Math.max(0,RELOAD_INTERVAL-(Date.now()-reload.lastStarted)));

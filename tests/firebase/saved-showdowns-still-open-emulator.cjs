@@ -50,12 +50,11 @@ const WIN_MANAGERS = {
   nik: { seasons: 1, careerPoints: 5, seasonWins: 0, seasonDraws: 0, seasonLosses: 1, championsLeagues: 0, leagueTitles: 1, domesticCups: 1, totalTrophies: 2, showdowns: { completed: 1, wins: 0, draws: 0, losses: 1 } }
 };
 // DRAW game (both releases, same typed inputs): 8-8. Both: Champions League + domestic cup + 100 points/goals + an individual award
-// = 5 + 1 + 1 + 1 = 8. The season is level, so the game's own tie-break (better league position: Nik 8th v Daniel 9th) names Nik the
-// season winner, while the Showdown itself is a draw (equal totals).
-const DRAW_SEASONS = [{ season: 1, score: { daniel: 8, nik: 8 }, winner: "nik", tiebreak: "league-position", leaguePosition: { daniel: 9, nik: 8 }, leaguePoints: { daniel: 53, nik: 102 }, leagueGoals: { daniel: 135, nik: 45 } }];
+// = 5 + 1 + 1 + 1 = 8. r83 (Nik 2026-10-23): no tiebreak, so the level season and the Showdown are both draws.
+const DRAW_SEASONS = [{ season: 1, score: { daniel: 8, nik: 8 }, winner: "draw", tiebreak: "draw", leaguePosition: { daniel: 9, nik: 8 }, leaguePoints: { daniel: 53, nik: 102 }, leagueGoals: { daniel: 135, nik: 45 } }];
 const DRAW_MANAGERS = {
-  daniel: { seasons: 1, careerPoints: 8, seasonWins: 0, seasonDraws: 0, seasonLosses: 1, championsLeagues: 1, leagueTitles: 0, domesticCups: 1, totalTrophies: 2, showdowns: { completed: 1, wins: 0, draws: 1, losses: 0 } },
-  nik: { seasons: 1, careerPoints: 8, seasonWins: 1, seasonDraws: 0, seasonLosses: 0, championsLeagues: 1, leagueTitles: 0, domesticCups: 1, totalTrophies: 2, showdowns: { completed: 1, wins: 0, draws: 1, losses: 0 } }
+  daniel: { seasons: 1, careerPoints: 8, seasonWins: 0, seasonDraws: 1, seasonLosses: 0, championsLeagues: 1, leagueTitles: 0, domesticCups: 1, totalTrophies: 2, showdowns: { completed: 1, wins: 0, draws: 1, losses: 0 } },
+  nik: { seasons: 1, careerPoints: 8, seasonWins: 0, seasonDraws: 1, seasonLosses: 0, championsLeagues: 1, leagueTitles: 0, domesticCups: 1, totalTrophies: 2, showdowns: { completed: 1, wins: 0, draws: 1, losses: 0 } }
 };
 // r79 WIN game (Paris Saint-Germain v Metz, Ligue 1; typed by the CE2PG harness on live main 1.9.3-r79): Daniel wins 5-1. Daniel: league
 // title, 92 points, 108 goals, top scorer = 3 + 1 (100 goals) + 1 (top scorer) = 5. Nik: 12th, 24 points, 30 goals, domestic cup = 1.

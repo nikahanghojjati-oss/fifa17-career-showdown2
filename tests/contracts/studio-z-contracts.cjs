@@ -98,9 +98,9 @@ check("Z8","a league name two countries share waits for an explicit choice",()=>
 
 
 const pendingAsync=[];
-check("Z10","Forget device never locks the account out, and a device revoked elsewhere stays revoked",()=>{
+check("Z10","test-only Forget Device is absent; provider revocation and fresh registration remain safe",()=>{
   const identity=read("js/onlinePlayerIdentity.js"),pairing=read("js/sparkPrivatePairing.js");
-  assert.match(identity,/clearPrivateDeviceIdentity\(\);\}catch\(_\)\{cleanupFailed=true;\}try\{root\.CareerModeSparkPrivatePairing\?\.resetDeviceIdentityCache\?\.\(\)/,"Forget clears the pairing cache after the local delete");
+  assert.doesNotMatch(identity,/forgetOnlineDevice|forgetThisDevice:|clearPrivateDeviceIdentity/,"the test-only Forget Device path is removed");
   assert.match(pairing,/function resetDeviceIdentityCache\(\)\{pairingIdentity=null;/);
   assert.doesNotMatch(pairing,/discardLocalDeviceIdentity|healed/,"no automatic re-registration of a revoked device");
   // Behaviour: run the real pairing module against an in-memory IndexedDB and Firestore.

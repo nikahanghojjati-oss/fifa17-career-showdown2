@@ -46,8 +46,9 @@ async function recoveryHeldAcrossRefresh(){
   const {api,env}=await pending();const held=JSON.parse(JSON.stringify(api.getState().intent));
   for(let i=0;i<3;i+=1){await api.refresh();assert.equal(api.getState().phase,"RECOVERY_PENDING","an open read keeps RECOVERY_PENDING");assert.deepEqual(JSON.parse(JSON.stringify(api.getState().intent)),held,"the exact witness is kept");}
   env.readImpl=async()=>({ok:false,code:"unavailable"});await api.refresh();assert.equal(api.getState().phase,"RECOVERY_PENDING","a failed read keeps RECOVERY_PENDING");
-  const other=protocol.prepare(FINAL,{sessionId:"session_"+"9".repeat(64)});
-  env.readImpl=async()=>closedRead(other);await api.refresh();assert.equal(api.getState().phase,"RECOVERY_PENDING","a closed read of another witness does not resolve the held close");
+  // r83: replacement-session completion is valid; conflicting final facts must still hold the pending close.
+  const other=protocol.prepare({...FINAL,managerTotals:{playerOne:11,playerTwo:5}},{sessionId:"session_"+"9".repeat(64)});
+  env.readImpl=async()=>closedRead(other);await api.refresh();assert.equal(api.getState().phase,"RECOVERY_PENDING","a closed read with conflicting final totals does not resolve the held close");
   env.readImpl=async()=>closedRead(held);await api.refresh();assert.equal(api.getState().phase,"CLOSED","a verified closed read of the same witness resolves it");assert.equal(env.forgets,1);
   assert.equal(env.closeCalls.length,1,"refresh never re-sends the close");
   // The advertised same-witness retry still works after polls.

@@ -9,12 +9,13 @@
   // Job 33 (R1): while this manager waits on the rival, read every 3 s for at most 3 minutes, then the normal 15 s.
   const FAST_POLL_MS=3000,FAST_POLL_WINDOW_MS=180000;
   const TIMER_MS=1000;
-  const EXPIRY_RETRY_MS=30000;
+  const EXPIRY_RETRY_MS=30000,EXPIRY_MAX_ATTEMPTS=3;
   const CLOCK_REFRESH_MS=5*60*1000;
   const CONTROL_IDS=Object.freeze(["seasonPrimaryAction","startTransferTimer","endTransferTimer","completeTransferChallenge","continueFromTransfers"]);
   const PHASE_PROGRESS=Object.freeze({NOT_STARTED:"window",WINDOW_OPEN:"window",GUESS_ENTRY:"guess_entry",SIGNING_ENTRY:"signing_entry",COMPLETED:"completed"});
   const REPLAY_PHASES=Object.freeze(["WINDOW_OPEN","GUESS_ENTRY","SIGNING_ENTRY","COMPLETED"]);
   let installed=false,busy=false,provider=null,setupApi=null,careerApi=null,view=null,pollTimer=null,timerLoop=null,openedKey="",expiryAttemptRevision=-1,expiryAttemptAt=0,providerChain=Promise.resolve(),refreshPromise=null,refreshContextKey="",viewContextKey="",replayContextKey="",replayQueue=[],openPromise=null;
+  let expiryAttemptContextKey="",expiryAttemptCount=0,expiryPermissionDenied=false,expiryNeedsAuthority=false,refreshExpiryRequest=null;
   let clockContextKey="",clockServerEpochMs=0,clockPerformanceMs=0,clockRefreshPerformanceMs=0;
   const witnessedByContext=new Map();
   let fastWaitKey="",fastWaitSince=0;
@@ -40,7 +41,9 @@
     if(!careerApi||typeof careerApi.refresh!=="function"||typeof careerApi.getState!=="function")pstcFail("TRANSFER_CAREER_START_UNAVAILABLE");
     if(!provider||typeof provider.read!=="function"||typeof provider.startWindow!=="function"||typeof provider.requestEndWindow!=="function"||typeof provider.advanceExpiredWindow!=="function"||typeof provider.lockGuesses!=="function"||typeof provider.lockSignings!=="function")pstcFail("TRANSFER_PROVIDER_UNAVAILABLE");
   }
-  function pstcSetupState(){try{return setupApi?.getState?.()||null;}catch(_error){return null;}}
+  // A restored local shell may have no rivalry id. Shared Setup has already verified it before entry resumes;
+  // use that snapshot while this module's dependencies are still cold so the first refresh can bind its request.
+  function pstcSetupState(){try{return setupApi?.getState?.()||root.CareerModeProductionSharedShowdownSetup?.getState?.()||null;}catch(_error){return null;}}
   function pstcCareerReady(){try{const career=careerApi?.getState?.();return Boolean(career&&career.state&&career.state.phase==="CAREER_START_READY"&&career.state.revision===2);}catch(_error){return false;}}
   function pstcConfirmedShared(){const state=pstcSetupState();return Boolean(pstcSharedMarker()&&state&&state.ready===true&&state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"&&state.setup.revision===6&&state.managerRole&&state.rivalryId&&state.sessionId&&state.deviceId);}
   function pstcSeason(){const progression=root.CareerModeProductionSharedMultiSeasonProgression,fallback=pstcShowdown()?.currentRound,season=Number(pstcSharedMarker()&&progression&&typeof progression.resolveSeason==="function"?progression.resolveSeason(fallback):fallback);if(!Number.isInteger(season)||season<1)pstcFail("TRANSFER_SEASON_INVALID");return season;}
@@ -50,8 +53,11 @@
   function pstcRequestContext(){const showdown=pstcShowdown(),localKey=pstcLocalContextKey(),rivalryId=String(showdown?.sharedJourney?.rivalryId||pstcSetupState()?.rivalryId||"").trim();let seasonNumber;try{seasonNumber=pstcSeason();}catch(_error){return null;}const key=pstcBoundContextKey(rivalryId,seasonNumber,localKey);return key?Object.freeze({key,localKey,rivalryId,seasonNumber}):null;}
   function pstcRequestMatches(request,ctx=null){if(!request||pstcCurrentContextKey()!==request.key)return false;if(!ctx)return true;return String(ctx.state?.rivalryId||"").trim()===request.rivalryId&&Number(ctx.options?.seasonNumber)===request.seasonNumber;}
   function pstcBindView(result,ctx,request){if(!pstcRequestMatches(request,ctx))return false;view={...result,setup:ctx.state.setup,rivalryId:ctx.state.rivalryId};viewContextKey=request.key;return true;}
+  function pstcResetExpiryAttempts(){expiryAttemptContextKey="";expiryAttemptRevision=-1;expiryAttemptAt=0;expiryAttemptCount=0;expiryPermissionDenied=false;}
+  function pstcExpiryPaused(){return root.document?.visibilityState==="hidden"||expiryNeedsAuthority;}
+  function pstcExpiryPermissionRefused(error,request){if(["permission-denied","firestore/permission-denied","permission_denied"].includes(error?.code)&&pstcRequestMatches(request)&&view?.state?.phase==="WINDOW_OPEN"){expiryAttemptContextKey=request.key;expiryAttemptRevision=Number(view.revision);expiryPermissionDenied=true;}}
   function pstcClearClock(){clockContextKey="";clockServerEpochMs=0;clockPerformanceMs=0;clockRefreshPerformanceMs=0;}
-  function pstcClearCachedContext(){view=null;viewContextKey="";openedKey="";replayContextKey="";replayQueue=[];expiryAttemptRevision=-1;expiryAttemptAt=0;pstcClearClock();}
+  function pstcClearCachedContext(){view=null;viewContextKey="";openedKey="";replayContextKey="";replayQueue=[];pstcResetExpiryAttempts();expiryNeedsAuthority=false;pstcClearClock();}
   function pstcMonotonicNow(){const value=Number(root.performance&&typeof root.performance.now==="function"?root.performance.now():Number.NaN);if(!Number.isFinite(value)||value<0)pstcFail("TRANSFER_CLOCK_UNAVAILABLE","A monotonic browser clock is required for the shared Transfer Challenge.");return value;}
   function pstcClockReady(request){return Boolean(request&&clockContextKey===request.key&&Number.isFinite(clockServerEpochMs)&&clockServerEpochMs>0&&Number.isFinite(clockPerformanceMs));}
   function pstcAuthoritativeNow(request=pstcRequestContext()){if(!pstcClockReady(request))pstcFail("TRANSFER_CLOCK_UNAVAILABLE","Server time has not been established for this shared Transfer Challenge.");return Math.floor(clockServerEpochMs+Math.max(0,pstcMonotonicNow()-clockPerformanceMs));}
@@ -73,7 +79,26 @@
     return true;
   }
   function pstcCanRoute(){const request=pstcRequestContext();return Boolean(request&&view&&viewContextKey===request.key&&pstcRequestMatches(request)&&pstcConfirmedShared()&&pstcCareerReady()&&String(view.rivalryId||"")===request.rivalryId&&Number(view.seasonNumber)===request.seasonNumber);}
-  function pstcWitnessSet(key){if(!witnessedByContext.has(key))witnessedByContext.set(key,new Set());return witnessedByContext.get(key);}
+  // Browser-only viewing hints. Provider state still owns the phase, private inputs and every action.
+  function pstcViewingStorageKey(){const request=pstcRequestContext(),role=view?.managerRole;return request&&viewContextKey===request.key&&role?`cms.transferViews.v1:${request.rivalryId}:${request.seasonNumber}:${role}`:"";}
+  function pstcWitnessSet(key){
+    const scope=`${key}|${view?.managerRole||""}`;
+    if(!witnessedByContext.has(scope)){
+      let saved=null;try{const storageKey=pstcViewingStorageKey();if(storageKey)saved=JSON.parse(root.readStorageValue?.(storageKey)||"null");}catch(_error){}
+      witnessedByContext.set(scope,new Set(Array.isArray(saved)?saved.filter(phase=>REPLAY_PHASES.includes(phase)||phase==="RESULTS_VIEWED"):[]));
+    }
+    return witnessedByContext.get(scope);
+  }
+  function pstcCanResumeResults(){return Boolean(pstcCanRoute()&&view.state?.phase==="COMPLETED"&&!pstcReplayPhase()&&REPLAY_PHASES.every(phase=>pstcWitnessSet(viewContextKey).has(phase))&&pstcWitnessSet(viewContextKey).has("RESULTS_VIEWED"));}
+  // Seeing completed verdicts does not mean Results was opened. Keep that navigation hint separate so a
+  // reload before the Results tap still follows the normal season dashboard / transfer recovery route.
+  function pstcRememberResultsView(){
+    if(!pstcCanRoute()||view.state?.phase!=="COMPLETED"||pstcReplayPhase())return false;
+    const witnessed=pstcWitnessSet(viewContextKey);if(!REPLAY_PHASES.every(phase=>witnessed.has(phase)))return false;
+    if(witnessed.has("RESULTS_VIEWED"))return true;witnessed.add("RESULTS_VIEWED");
+    try{const key=pstcViewingStorageKey();if(key)root.writeStorageValue?.(key,JSON.stringify([...witnessed]));}catch(_error){}
+    return true;
+  }
   function pstcTransferScreenVisible(){const screen=root.document&&root.document.getElementById("transferChallenge");return Boolean(screen&&!screen.classList.contains("hidden"));}
   function pstcReplayPhase(key=viewContextKey){return replayContextKey===key&&replayQueue.length?replayQueue[0]:null;}
   function pstcPrepareReplay(){
@@ -83,24 +108,32 @@
     const actualIndex=REPLAY_PHASES.indexOf(actual),witnessed=pstcWitnessSet(key),missing=REPLAY_PHASES.slice(0,actualIndex).filter(phase=>!witnessed.has(phase));
     replayContextKey=missing.length?key:"";replayQueue=missing;return missing.length>0;
   }
-  function pstcMarkWitness(key,phase){if(key&&REPLAY_PHASES.includes(phase)&&pstcTransferScreenVisible())pstcWitnessSet(key).add(phase);}
+  function pstcMarkWitness(key,phase){
+    if(!key||!REPLAY_PHASES.includes(phase)||!pstcTransferScreenVisible())return;
+    const witnessed=pstcWitnessSet(key);if(witnessed.has(phase))return;witnessed.add(phase);
+    try{const storageKey=pstcViewingStorageKey();if(storageKey)root.writeStorageValue?.(storageKey,JSON.stringify([...witnessed]));}catch(_error){}
+  }
   function pstcAdvanceReplay(){if(!pstcReplayPhase())return false;replayQueue.shift();if(!replayQueue.length){replayContextKey="";pstcPrepareReplay();}pstcRender();return true;}
   function pstcRandomOperationId(){if(!root.crypto||typeof root.crypto.getRandomValues!=="function")pstcFail("TRANSFER_CRYPTO_UNAVAILABLE");const bytes=new Uint8Array(16);root.crypto.getRandomValues(bytes);return `transfer_op_${Array.from(bytes,b=>b.toString(16).padStart(2,"0")).join("")}`;}
   // Job 33 (R1): a fast waiting read (light) reuses the already-confirmed Setup and Career Start instead of re-reading them.
-  async function pstcProviderOptions(request=pstcRequestContext(),light=false){
+  async function pstcProviderOptions(request=pstcRequestContext(),light=false,expiryOnly=false){
     if(!pstcSharedMarker())pstcFail("TRANSFER_SHARED_MODE_REQUIRED");
     if(!request||!pstcRequestMatches(request))pstcFail("TRANSFER_CONTEXT_STALE");
     await pstcEnsureDependencies();
+    if(expiryOnly&&pstcExpiryPaused())return null;
     const reuse=light===true&&pstcConfirmedShared()&&pstcCareerReady();
     if(!reuse)await setupApi.refresh();
+    if(expiryOnly&&pstcExpiryPaused())return null;
     if(!pstcRequestMatches(request))pstcFail("TRANSFER_CONTEXT_STALE");
     const state=setupApi.getState();
     if(!state||state.ready!==true||!state.setup||state.setup.phase!=="SHOWDOWN_CONFIRMED"||state.setup.revision!==6)pstcFail("TRANSFER_SETUP_NOT_CONFIRMED","Both managers must finish Shared Setup before the Transfer Challenge.");
     if(!reuse)await careerApi.refresh();
+    if(expiryOnly&&pstcExpiryPaused())return null;
     if(!pstcRequestMatches(request))pstcFail("TRANSFER_CONTEXT_STALE");
     const career=careerApi.getState();
     if(!career||!career.state||career.state.phase!=="CAREER_START_READY"||career.state.revision!==2)pstcFail("TRANSFER_CAREER_START_NOT_READY","Both managers must finish Career Start before the Transfer Challenge.");
     const runtime=root.CareerModeProductionFirebaseRuntime,services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
+    if(expiryOnly&&pstcExpiryPaused())return null;
     if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)pstcFail("TRANSFER_PROVIDER_UNAVAILABLE","Connected account services are unavailable.");
     if(!await pstcEnsureServerClock(services.auth.currentUser,request))pstcFail("TRANSFER_CONTEXT_STALE");
     if(!pstcRequestMatches(request))pstcFail("TRANSFER_CONTEXT_STALE");
@@ -108,13 +141,29 @@
   }
   function pstcResultError(result,message){if(result&&result.ok===true)return result;const error=new Error(message||"The shared Transfer Challenge request was rejected.");error.code=result&&result.code||"TRANSFER_PROVIDER_FAILED";error.providerResult=true;throw error;}
   function pstcQueueProvider(task){const queued=providerChain.then(task,task);providerChain=queued.catch(()=>{});return queued;}
-  async function pstcRefreshNow(request=pstcRequestContext(),light=false){
+  async function pstcRefreshNow(request=pstcRequestContext(),light=false,expiryOnly=false){
     if(!request)return null;
-    const ctx=await pstcProviderOptions(request,light);if(!pstcRequestMatches(request,ctx))return null;
+    const ctx=await pstcProviderOptions(request,light,expiryOnly);if(!ctx||!pstcRequestMatches(request,ctx)||(expiryOnly&&pstcExpiryPaused()))return null;
     const result=pstcResultError(await provider.read(ctx.options),"The shared Transfer Challenge could not be read.");if(!pstcRequestMatches(request,ctx))return null;
     if(!pstcBindView(result,ctx,request))return null;if(pstcTransferScreenVisible())pstcPrepareReplay();pstcSetError("");pstcRender();pstcDecorateDashboard();return view;
   }
-  function pstcRefresh(light=false){const request=pstcRequestContext();if(!request)return Promise.resolve(null);if(viewContextKey&&viewContextKey!==request.key)pstcClearCachedContext();if(refreshPromise&&refreshContextKey===request.key)return refreshPromise;const current=pstcQueueProvider(()=>pstcRefreshNow(request,light===true));refreshPromise=current;refreshContextKey=request.key;current.then(()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";}},()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";}});return current;}
+  // Routine polls and concurrent-expiry reconciliation must not replenish the automatic retry budget. A poll that lands while
+  // a wake refresh failed still counts as the fresh authority that wake was waiting for, so expiry cannot stay paused forever.
+  function pstcRefresh(light=false,rearmExpiry=true){
+    const request=pstcRequestContext();if(!request)return Promise.resolve(null);
+    if(viewContextKey&&viewContextKey!==request.key)pstcClearCachedContext();
+    if(rearmExpiry)expiryNeedsAuthority=true;
+    if(refreshPromise&&refreshContextKey===request.key){refreshExpiryRequest.rearm=refreshExpiryRequest.rearm||rearmExpiry;return refreshPromise;}
+    const expiryRefresh={rearm:rearmExpiry};refreshExpiryRequest=expiryRefresh;
+    const current=pstcQueueProvider(async()=>{
+      const fresh=await pstcRefreshNow(request,light===true);
+      if(fresh&&pstcRequestMatches(request)&&(expiryRefresh.rearm||expiryNeedsAuthority)){pstcResetExpiryAttempts();expiryNeedsAuthority=false;pstcRender();}
+      return fresh;
+    });
+    refreshPromise=current;refreshContextKey=request.key;
+    const clear=()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";refreshExpiryRequest=null;}};
+    current.then(clear,clear);return current;
+  }
   // Job 21: when both managers tap at once the loser's write is rejected by the Rules (permission-denied) or by the provider
   // (stale revision / phase already moved). Re-read once; if the refreshed state already shows the outcome, finish silently,
   // otherwise retry the same method once with a fresh revision and operation id. A real denial surfaces after that one retry.
@@ -134,20 +183,21 @@
   function pstcCapSigningNames(){if(!root.document)return;for(const prefix of ["p1","p2"])for(let i=1;i<=3;i+=1){const input=pstcField(`${prefix}Signing${i}Name`);if(input&&typeof input.setAttribute==="function")input.setAttribute("maxlength",String(SIGNING_NAME_MAX));}}
   function pstcErrorText(error,fallback){const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(error);if(quota)return quota;const code=String(error?.code||""),message=String(error?.message||"");if(error&&error.providerResult!==true&&message&&message!==code)return message;if(PLAIN_PROVIDER_CODES[code])return PLAIN_PROVIDER_CODES[code];return code||message||fallback;}
   async function pstcMutate(method,payload={}){
-    const request=pstcRequestContext();if(!request||busy||pstcReplayPhase())return false;busy=true;pstcSetError("");pstcRender();
+    const request=pstcRequestContext();if(!request||busy||pstcReplayPhase()||(method==="advanceExpiredWindow"&&pstcExpiryPaused()))return false;busy=true;pstcSetError("");pstcRender();
     try{
       return await pstcQueueProvider(async()=>{
         for(let attempt=0;;attempt+=1){
-          if(!pstcRequestMatches(request))return false;
-          const ctx=await pstcProviderOptions(request);if(!pstcRequestMatches(request,ctx))return false;
+          if(!pstcRequestMatches(request)||(method==="advanceExpiredWindow"&&pstcExpiryPaused()))return false;
+          const ctx=await pstcProviderOptions(request,false,method==="advanceExpiredWindow");if(!ctx||!pstcRequestMatches(request,ctx)||(method==="advanceExpiredWindow"&&pstcExpiryPaused()))return false;
           const current=pstcResultError(await provider.read(ctx.options),"The shared Transfer Challenge could not be refreshed.");if(!pstcRequestMatches(request,ctx))return false;
+          if(method==="advanceExpiredWindow"&&pstcExpiryPaused())return false;
           if(attempt>0&&pstcOutcomeShown(method,current)){if(pstcBindView(current,ctx,request)){pstcSetError("");if(pstcTransferScreenVisible())pstcPrepareReplay();pstcRender();pstcDecorateDashboard();}return true;}
           const options={...ctx.options,nowEpochMs:pstcAuthoritativeNow(request),operationId:pstcRandomOperationId(),baseRevision:Number(current.revision||0),...payload};
           let result;
           try{result=pstcResultError(await provider[method](options),"The shared Transfer Challenge update was rejected.");}
           catch(error){
             if(!PSTC_RACE_CODES.includes(error&&error.code)||attempt>0)throw error;
-            if(method==="advanceExpiredWindow"){try{await pstcRefreshNow(request);}catch(_refreshError){}return true;}
+            if(method==="advanceExpiredWindow"){try{if(!pstcExpiryPaused())await pstcRefreshNow(request,false,true);}catch(_refreshError){}pstcExpiryPermissionRefused(error,request);return true;}
             continue;
           }
           if(!pstcRequestMatches(request,ctx))return true;
@@ -156,7 +206,7 @@
           return true;
         }
       });
-    }catch(error){if(pstcRequestMatches(request)){pstcSetError(pstcErrorText(error,"The shared Transfer Challenge update failed."));pstcReport("Unable to update Shared Transfer Challenge",error);}return false;}
+    }catch(error){if(method==="advanceExpiredWindow")pstcExpiryPermissionRefused(error,request);if(pstcRequestMatches(request)){pstcSetError(pstcErrorText(error,"The shared Transfer Challenge update failed."));pstcReport("Unable to update Shared Transfer Challenge",error);}return false;}
     finally{busy=false;if(pstcRequestMatches(request))pstcRender();}
   }
   function pstcSetError(message=""){const node=root.document&&root.document.getElementById("transferChallengeError");if(node)node.textContent=String(message||"");}
@@ -179,7 +229,7 @@
       if(name)name.value="";pstcSetSelector(league,"league","");pstcSetSelector(nationality,"nationality","");if(type)type.value="";if(value){value.value="";delete value.dataset.canonicalId;delete value.dataset.canonicalLabel;value.disabled=true;}
     }
   }
-  function pstcResetForContext(key,role){const guessRef=pstcGuessDraftRef(role);if(guessDraftRef&&guessRef&&!pstcSameGuessDraftRef(guessDraftRef,guessRef))pstcRemoveGuessDraft(guessDraftRef);if(guessRef)guessDraftRef=guessRef;const draftKey=pstcSigningDraftKey(role);if(signingDraftKey&&draftKey&&signingDraftKey!==draftKey)pstcRemoveSigningDraft(signingDraftKey);if(draftKey)signingDraftKey=draftKey;if(openedKey===key)return;openedKey=key;for(const prefix of ["p1","p2"])for(let i=1;i<=3;i+=1){const name=pstcField(`${prefix}Signing${i}Name`);if(name&&typeof name.setAttribute==="function")name.setAttribute("maxlength","80");}expiryAttemptRevision=-1;expiryAttemptAt=0;pstcClearRole("playerOne");pstcClearRole("playerTwo");pstcSetError("");}
+  function pstcResetForContext(key,role){const guessRef=pstcGuessDraftRef(role);if(guessDraftRef&&guessRef&&!pstcSameGuessDraftRef(guessDraftRef,guessRef))pstcRemoveGuessDraft(guessDraftRef);if(guessRef)guessDraftRef=guessRef;const draftKey=pstcSigningDraftKey(role);if(signingDraftKey&&draftKey&&signingDraftKey!==draftKey)pstcRemoveSigningDraft(signingDraftKey);if(draftKey)signingDraftKey=draftKey;if(openedKey===key)return;openedKey=key;for(const prefix of ["p1","p2"])for(let i=1;i<=3;i+=1){const name=pstcField(`${prefix}Signing${i}Name`);if(name&&typeof name.setAttribute==="function")name.setAttribute("maxlength","80");}pstcResetExpiryAttempts();pstcClearRole("playerOne");pstcClearRole("playerTwo");pstcSetError("");}
   const PSTC_MAX_ROWS=3;
   // r78 (HO-029): the shared marble confirm box (js/showdownConfirm.js, loaded on first use) replaces the native confirm().
   // It resolves true only for OK; Cancel, Esc or a box that cannot load resolve false (undefined when no loader exists).
@@ -286,14 +336,17 @@
     pstcText("transferPhaseIntro",copy[phase]||copy.NOT_STARTED);
   }
   function pstcRenderTimer(){
+    if(pstcExpiryPaused())return;
     const timer=pstcField("transferTimerDisplay"),state=view?.state;if(!timer)return;
     if(pstcReplayPhase()){timer.textContent="REPLAY";return;}
     if(!state||state.phase!=="WINDOW_OPEN"){timer.textContent=state?"00:00":"15:00";return;}
     const request=pstcRequestContext();
     if(!request||!pstcClockReady(request)){timer.textContent="SYNC";return;}
     const now=pstcAuthoritativeNow(request),deadline=Number(state.startedAtEpochMs)+15*60*1000,remaining=Math.max(0,Math.ceil((deadline-now)/1000)),minutes=Math.floor(remaining/60),seconds=remaining%60;timer.textContent=`${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
-    const revision=Number(view.revision),retryAllowed=revision!==expiryAttemptRevision||now-expiryAttemptAt>=EXPIRY_RETRY_MS;
-    if(remaining===0&&!busy&&retryAllowed){expiryAttemptRevision=revision;expiryAttemptAt=now;void pstcMutate("advanceExpiredWindow");}
+    const revision=Number(view.revision);
+    if(expiryAttemptContextKey!==request.key||expiryAttemptRevision!==revision){pstcResetExpiryAttempts();expiryAttemptContextKey=request.key;expiryAttemptRevision=revision;}
+    const retryAllowed=!expiryPermissionDenied&&expiryAttemptCount<EXPIRY_MAX_ATTEMPTS&&(expiryAttemptCount===0||now-expiryAttemptAt>=EXPIRY_RETRY_MS);
+    if(remaining===0&&!busy&&retryAllowed){expiryAttemptCount+=1;expiryAttemptAt=now;void pstcMutate("advanceExpiredWindow");}
   }
   // r75: a screen that starts or stops waiting on the partner registers its live listener at once (on the render that
   // shows the new state) instead of on the next 3 s check, so the partner's move is seen as soon as it lands.
@@ -352,7 +405,7 @@
     if(!pstcSharedMarker()||root.document?.visibilityState==="hidden")return;
     const currentKey=pstcCurrentContextKey();if(viewContextKey&&(!currentKey||viewContextKey!==currentKey))pstcClearCachedContext();
     if(view?.state?.phase==="COMPLETED"&&viewContextKey&&currentKey&&viewContextKey===currentKey){pstcDecorateDashboard();return;}
-    try{if(!pstcConfirmedShared()||!pstcCareerReady()){await pstcEnsureDependencies();await setupApi.refresh();await careerApi.refresh();}if(pstcConfirmedShared()&&pstcCareerReady()&&!busy){const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden")){if(light!==true)pstcScreenFresh();await pstcRefresh(light===true);}else if(!view)await pstcRefresh();else pstcDecorateDashboard();}}catch(_error){}
+    try{if(!pstcConfirmedShared()||!pstcCareerReady()){await pstcEnsureDependencies();await setupApi.refresh();await careerApi.refresh();}if(pstcConfirmedShared()&&pstcCareerReady()&&!busy){const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden")){if(light!==true)pstcScreenFresh();await pstcRefresh(light===true,false);}else if(!view)await pstcRefresh(false,false);else pstcDecorateDashboard();}}catch(_error){}
   }
   // Read-only: the fast lane only calls pstcTick (the same provider read as REFRESH SHARED CHALLENGE), never a write.
   function pstcWaitingKey(){
@@ -373,10 +426,17 @@
   function pstcScreenFresh(){try{const request=pstcRequestContext();if(request&&request.rivalryId&&Number.isInteger(request.seasonNumber))root.CareerModeFirestoreBudget?.wantFresh?.(`rivalries/${request.rivalryId}/transferChallenges/season_${request.seasonNumber}`);}catch(_error){}}
   function pstcWaitWake(){if(!busy){void pstcTick(true);return;}if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(!busy)void pstcTick(true);},400);}
   function pstcFastTick(){pstcWatchWait();if(root.document?.visibilityState==="hidden"||busy||!pstcFastPollDue())return;void pstcTick(true);}
+  // Listen during bubbling so selector target handlers normalize the ID before the synchronous draft save.
   function pstcSigningDraftChange(event){const target=event?.target,role=view?.managerRole;if(!target?.id||!role||!target.id.startsWith(`${pstcRolePrefix(role)}Signing`))return;if(view?.state?.phase==="SIGNING_ENTRY"&&!view.state.signingLockedRoles?.includes(role))pstcSaveSigningDraft(role);}
-  function pstcTimerTick(){if(!pstcSharedMarker()||pstcReplayPhase())return;const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden"))pstcRenderTimer();}
-  function pstcVisibilityChange(){if(root.document?.visibilityState==="hidden")return;if(view?.state?.phase==="WINDOW_OPEN"&&!pstcReplayPhase())pstcClearClock();void pstcTick();}
-  function pstcInstall(){if(installed)return true;installed=true;if(root.document){root.document.addEventListener("click",pstcCapture,true);root.document.addEventListener("change",pstcGuessTypeChange,true);root.document.addEventListener("input",pstcSigningDraftChange,true);root.document.addEventListener("change",pstcSigningDraftChange,true);root.document.addEventListener("input",pstcGuessDraftChange,true);root.document.addEventListener("change",pstcGuessDraftChange,true);root.document.addEventListener("visibilitychange",pstcVisibilityChange);}root.addEventListener?.("career-mode-shared-season-cursor-change",()=>{pstcClearCachedContext();void pstcTick();});if(typeof root.setInterval==="function"){pollTimer=root.setInterval(()=>void pstcTick(),POLL_MS);timerLoop=root.setInterval(pstcTimerTick,TIMER_MS);root.setInterval(pstcFastTick,FAST_POLL_MS);}if(pstcSharedMarker())void pstcTick();return true;}
+  function pstcTimerTick(){if(!pstcSharedMarker()||pstcReplayPhase()||pstcExpiryPaused())return;const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden"))pstcRenderTimer();}
+  function pstcVisibilityChange(){
+    if(!pstcSharedMarker())return;
+    if(root.document?.visibilityState==="hidden"){if(view?.state?.phase==="WINDOW_OPEN")expiryNeedsAuthority=true;return;}
+    if(view?.state?.phase!=="WINDOW_OPEN"||pstcReplayPhase()){expiryNeedsAuthority=false;void pstcTick();return;}
+    // Keep the shared deadline; refresh its clock and authority before expiry may act again.
+    pstcClearClock();expiryNeedsAuthority=true;pstcScreenFresh();void pstcRefresh().catch(()=>{});
+  }
+  function pstcInstall(){if(installed)return true;installed=true;if(root.document){root.document.addEventListener("click",pstcCapture,true);root.document.addEventListener("change",pstcGuessTypeChange,true);root.document.addEventListener("input",pstcSigningDraftChange);root.document.addEventListener("change",pstcSigningDraftChange);root.document.addEventListener("input",pstcGuessDraftChange,true);root.document.addEventListener("change",pstcGuessDraftChange,true);root.document.addEventListener("visibilitychange",pstcVisibilityChange);}root.addEventListener?.("online",pstcVisibilityChange);root.addEventListener?.("career-mode-shared-season-cursor-change",()=>{pstcClearCachedContext();void pstcTick();});if(typeof root.setInterval==="function"){pollTimer=root.setInterval(()=>void pstcTick(),POLL_MS);timerLoop=root.setInterval(pstcTimerTick,TIMER_MS);root.setInterval(pstcFastTick,FAST_POLL_MS);}if(pstcSharedMarker())void pstcTick();return true;}
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-transfer-challenge",productionEnabled:true,requiresCareerStartReady:true,requiresExactActiveSession:true,privateUntilCompleted:true,serverClockAuthoritative:true,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,orderedFullScreenReplay:true,inMemoryWitnessOnly:true,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pstcWaitingKey()),install:pstcInstall,open:pstcOpen,refresh:pstcRefresh,getState:()=>view,isActive:pstcSharedMarker,canRoute:pstcCanRoute});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-transfer-challenge",productionEnabled:true,requiresCareerStartReady:true,requiresExactActiveSession:true,privateUntilCompleted:true,serverClockAuthoritative:true,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,orderedFullScreenReplay:true,inMemoryWitnessOnly:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pstcWaitingKey()),install:pstcInstall,open:pstcOpen,refresh:pstcRefresh,getState:()=>view,isActive:pstcSharedMarker,canRoute:pstcCanRoute,canResumeResults:pstcCanResumeResults,rememberResultsView:pstcRememberResultsView});
 });

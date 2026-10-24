@@ -27,7 +27,7 @@ const build=(managerId="daniel",pairState=pair(managerId==="daniel"?"playerOne":
   return model;
 };
 const actionById=(model,id)=>{
-  if(id==="abandonShowdown"||id==="forgetThisDevice")return model[id];
+  if(id==="abandonShowdown")return model[id];
   const [group,name]=id.split(".");
   return model[group].actions[name];
 };
@@ -35,7 +35,6 @@ const allActions=model=>[
   ...pairingNames.map(name=>model.pairing.actions[name]),
   ...sessionNames.map(name=>model.session.actions[name]),
   model.abandonShowdown,
-  model.forgetThisDevice
 ];
 const unavailable=action=>assert.deepEqual(action,{available:false,enabled:false,provider:null,args:null,confirm:null,confirmedByProvider:false});
 let cases=0;
@@ -186,7 +185,7 @@ check("15. Busy",()=>{
     }
     for(const name of sessionNames)if(model.session.actions[name].available)assert.equal(model.session.actions[name].enabled,false);
     if(model.abandonShowdown.available)assert.equal(model.abandonShowdown.enabled,false);
-    if(model.forgetThisDevice.available)assert.equal(model.forgetThisDevice.enabled,false);
+    assert.equal(model.forgetThisDevice,undefined);
   }
 });
 check("16. Abandon variants",()=>{
@@ -207,13 +206,12 @@ check("16. Abandon variants",()=>{
   assert.deepEqual(stale.primaryActions,["abandonShowdown","pairing.checkStatus"]);
   unavailable(build("daniel",pair("playerOne")).abandonShowdown);
 });
-check("17. Forget this device",()=>{
+check("17. Removed test-only Forget device action",()=>{
   for(const status of ["ready","offline"]){
     const model=StartJoin.buildStartJoinViewModel({identity:identity("daniel",{status}),pair:pair("playerOne"),session:null,nowEpochMs:500});
     models.push(model);
-    assert.equal(model.forgetThisDevice.available,true);
-    assert.ok(model.forgetThisDevice.confirm);
-    assert.equal(model.forgetThisDevice.confirmedByProvider,false);
+    assert.equal(model.forgetThisDevice,undefined);
+    assert.equal(Identity.forgetThisDevice,undefined);
   }
 });
 check("18. Providers exist and destructive actions confirm",()=>{
@@ -226,7 +224,7 @@ check("18. Providers exist and destructive actions confirm",()=>{
         assert.equal(typeof exportsByPrefix[prefix]?.[name],"function",action.provider+" must exist");
       }
     }
-    for(const action of [model.abandonShowdown,model.forgetThisDevice,model.session.actions.revoke,model.session.actions.close,model.session.actions.forget]){
+    for(const action of [model.abandonShowdown,model.session.actions.revoke,model.session.actions.close,model.session.actions.forget]){
       if(action.available)assert.equal(typeof action.confirm==="string"&&action.confirm.length>0,true);
     }
     for(const id of [...model.primaryActions,...model.moreActions])assert.equal(actionById(model,id).available,true,id+" must name an available action");

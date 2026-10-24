@@ -82,11 +82,13 @@ async function t2HostSeesJoin(){
   if(h.timers.length){await h.tick();}
   assert.equal(h.timers.length,0,"T2 the watch stops once the session is ACTIVE");
   assert.equal(h.calls.read.length,2,"T2 no read after the join was seen");
-  // Bounded: a join that never comes stops the watch after ten minutes.
+  // Bounded: this window pauses after ten minutes; JOB-1 F2 covers waking and retrying it.
   const late=remoteJoiningHarness({withDocument:true});await late.api.hostSession();
   const realNow=Date.now;try{Date.now=()=>realNow()+11*60*1000;await late.tick();}finally{Date.now=realNow;}
   assert.equal(late.calls.read.length,0,"T2 no read after the ten-minute bound");
-  assert.equal(late.timers.length,0,"T2 the watch ends after ten minutes");
+  assert.equal(late.timers.length,0,"T2 the current watch window ends after ten minutes");
+  assert.equal(late.api.getState().auto,"waiting","T2 the waiting card stays available");
+  assert.equal(late.api.getState().waitRetry,true,"T2 the paused watch offers retry instead of promising automatic connection");
   console.log("ok T2 the host page sees the other manager's JOIN by itself, quietly and bounded");
 }
 

@@ -5,11 +5,11 @@
 // START CAREER reopened Career Start for a game still in season 1, whose automatic move to the Transfer Challenge had already
 // fired once on that page, so the player was stuck on Career Start; a reload fixed it.
 // Real app, two Chromium contexts, Auth + Firestore emulators with the composed production Rules (demo project only; a
-// production Firebase host fails the run). Taps and typing only; page globals are only read.
-//   T1  test mode (no marker yet): Daniel's Settings START TEST RUN leaves an unjoined test code; on Home (same page and after a
+// production Firebase host fails the run). Current gameplay uses taps and typing; emulator admin restores historical markerless metadata.
+//   T1  test mode (no marker yet): an emulator fixture restores an old unjoined markerless code; on Home (same page and after a
 //       reload) the START tile never shows WAITING FOR NIK, not even for one frame, and the header chip never shows
 //       "Season 1 / 1" for that leftover, and the CONTINUE CAREER tile's line never describes it (items 5, 6, 2).
-//   R1  Daniel's first real Home START (checkmark) makes the CMS17R- code; Home shows WAITING FOR NIK and the chip describes
+//   R1  Daniel's first real Home START (automatic marker) makes the CMS17R- code; Home shows WAITING FOR NIK and the chip describes
 //       that real Showdown (Season 1 / 3); Nik pastes the code; both reach the league wheel ACTIVE.
 //   G7w both go Home from the league wheel and tap START: back on the league wheel.
 //   G7a both reach the Transfer Challenge (season 1, Career Start done). Each reloads first (the reference landing), then goes
@@ -24,6 +24,7 @@
 // Optional: CMS_TEST_PORT (app, default 4178), CMS_AUTH_PORT / CMS_FIRESTORE_PORT (emulators, default 9199 / 8181),
 // CMS_R79_JOURNEY_SHOTS (screenshots), CMS_RESUME_GALLERY=<dir> (desktop 1440x900 and phone 390x844 PNGs of the Home states).
 const assert=require("node:assert/strict");
+const {restoreHistoricalMarkerlessAccounts}=require("./support/historical-markerless-account.cjs");
 const {installMarbleConfirmAnswers}=require("./support/marble-confirm.cjs");
 const {installFirestoreMeter,createMeter}=require("./support/firestore-meter.cjs");
 const fs=require("node:fs");
@@ -291,18 +292,19 @@ async function main(){
     for(const m of managers)assert.equal(await m.page.evaluate(()=>window.__cmsEmulatorSwitch?.active===true),true,`${m.user} emulator switch active`);
     await signIn(daniel,"Daniel");await signIn(nik,"Nik");
     const uidD=await accountId(daniel);
-    assert.equal(await admin(`accounts/${uidD}/careerStart/current`),null,"Daniel starts in test mode (no marker)");
-    ok("R0.2","both signed in on the emulators, test mode (no marker)");
+    assert.equal(await admin(`accounts/${uidD}/careerStart/current`),null,"Daniel has not started a career yet (no marker)");
+    ok("R0.2","both signed in on the emulators, no career marker yet");
 
-    // ---------- T1 a leftover Settings test code on a test-mode account ----------
-    await openSettings(daniel);
-    await daniel.page.locator("#onlinePlayerIdentitySettingsPanel button",{hasText:"START TEST RUN"}).click({timeout:30000});
+    // ---------- T1 a historical markerless unused code ----------
+    await daniel.page.locator("#newShowdown").click({timeout:30000});
     await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
     await daniel.page.locator("#roundAmount").selectOption("1");
     await daniel.page.locator("#startShowdown").click({timeout:30000});
     await pairPanel(daniel).locator("code").waitFor({timeout:30000});
     const testCode=(await pairPanel(daniel).locator("code").innerText()).trim();
-    assert.match(testCode,/^CMS17-pair_[0-9a-f]{64}$/,"a Settings test run makes a temporary CMS17- code");
+    assert.match(testCode,/^CMS17R-pair_[0-9a-f]{64}$/,"Home START creates a real first-pairing code");
+    // An old unused markerless code is a migration fixture, never a current UI path.
+    await restoreHistoricalMarkerlessAccounts([daniel],{firestorePort:FIRESTORE_PORT});
     await backToShowdownHome(daniel);
     await daniel.page.waitForTimeout(1500);
     assert.doesNotMatch(await tileLabel(daniel),/WAITING FOR NIK/i,"T1 same page: the tile never says WAITING FOR NIK for the leftover test code");
@@ -321,15 +323,16 @@ async function main(){
       assert.equal(described.length,0,`T1 reload ${i}: ${described.length} Home frame(s) described the leftover on CONTINUE CAREER ("${described[0]?.cont}")`);
       assert.equal(chips.length,0,`T1 reload ${i}: ${chips.length} Home frame(s) showed the chip "${chips[0]?.chip}" for the leftover test code`);
     }
-    ok("T1","test mode: a leftover Settings code never shows WAITING FOR NIK, a Season chip or a CONTINUE CAREER line describing it on Home (same page and three reloads, every frame)");
+    ok("T1","historical markerless code never shows WAITING FOR NIK, a Season chip or a CONTINUE CAREER line describing it on Home (same page and three reloads, every frame)");
 
     // ---------- R1 the first real Showdown (3 seasons) ----------
     await daniel.page.locator("#newShowdown").click({timeout:30000});
     await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
-    await daniel.page.locator("#cmsRealCareerRow").waitFor({state:"visible",timeout:30000});
+    assert.equal(await daniel.page.locator("#cmsRealCareerRow,#cmsRealCareerCheck,#cmsTestRunNote").count(),0,"real START has no mode UI");
     await daniel.page.locator("#roundAmount").selectOption("3");
     await daniel.page.locator("#startShowdown").click({timeout:30000});
     await daniel.page.waitForFunction(()=>/^CMS17R-/.test((document.querySelector("#connectPlayersScreen #persistentNikDanielPairPanel code")?.textContent||"").trim()),null,{timeout:30000});
+    assert.ok(await admin(`accounts/${uidD}/careerStart/current`),"START automatically writes the career marker before the code");
     const code1=(await pairPanel(daniel).locator("code").innerText()).trim();
     const R1=code1.slice(7);
     await backToShowdownHome(daniel);

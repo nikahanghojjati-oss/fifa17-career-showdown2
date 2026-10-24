@@ -86,7 +86,8 @@
     if(value.rivalryId!==undefined&&String(value.rivalryId)!==rivalryId)hcFail("HISTORY_CONVERGENCE_RIVALRY_MISMATCH");
     const scoring={playerOne:hcScore(value.scoring.playerOne,commit.results.playerOne),playerTwo:hcScore(value.scoring.playerTwo,commit.results.playerTwo)};
     const a=scoring.playerOne.total,b=scoring.playerTwo.total;
-    const expected=a>b?"playerOne":b>a?"playerTwo":commit.results.playerOne.leaguePosition<commit.results.playerTwo.leaguePosition?"playerOne":commit.results.playerTwo.leaguePosition<commit.results.playerOne.leaguePosition?"playerTwo":commit.results.playerOne.leaguePoints>commit.results.playerTwo.leaguePoints?"playerOne":commit.results.playerTwo.leaguePoints>commit.results.playerOne.leaguePoints?"playerTwo":"draw";
+    // r83: no tiebreak. Equal Showdown points is a draw.
+    const expected=a>b?"playerOne":b>a?"playerTwo":"draw";
     if(value.winner!==expected)hcFail("HISTORY_CONVERGENCE_WINNER_MISMATCH");
     return {scoring,winner:value.winner};
   }
