@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 24 Oct, 6:28 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 24 Oct, 6:32 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.6-r82** (main `d956bf4`, Thu 22 Oct 8:43 PM)
 
@@ -42,7 +42,7 @@ Updated Sat 24 Oct, 6:28 AM Boston time. Bug hunting only, no new features until
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 285 h ago
+🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 286 h ago
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
@@ -74,7 +74,7 @@ Updated Sat 24 Oct, 6:28 AM Boston time. Bug hunting only, no new features until
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 180 h ago
+⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 181 h ago
 
 **#16 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
@@ -2122,6 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
+| 🟧 Team G lead | [PR #991](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/991) | Release 1.9.7-r83: bug fixes, draws without tiebreaks, real-only play | ⏳ 0 passed, 7 running |
 | 🟧 Team G lead | [PR #970](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/970) | JOB-4 audit: unfinished seasons change career stats and trophy totals | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #969](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/969) | JOB-2 audit: permanent-pair recovery and real/test JOIN mistakes | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #968](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/968) | JOB-1 audit: healthy session resume fails during its final minute | 🔴 7 passed, 1 failed (draft) |

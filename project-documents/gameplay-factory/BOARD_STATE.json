@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-24 6:28 AM Boston time (EDT)",
+ "generated": "2026-10-24 6:31 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1219,6 +1219,20 @@
    "subject": "Release 1.9.6-r82: career screens count real finished Showdowns (#957)",
    "fixes": [
     {
+     "pr": 991,
+     "title": "Release 1.9.7-r83: bug fixes, draws without tiebreaks, real-only play",
+     "draft": false,
+     "branch": "gameplay/r83",
+     "sha": "2330ec0750a9894c57c163ba714bca86a0547071",
+     "updated": "2026-10-24T10:29:21Z",
+     "gates": {
+      "passed": 0,
+      "running": 7,
+      "failed": 0,
+      "cancelled": 0
+     }
+    },
+    {
      "pr": 970,
      "title": "JOB-4 audit: unfinished seasons change career stats and trophy totals",
      "draft": true,
@@ -1868,7 +1882,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 47,
+  "moving": 48,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3085,6 +3099,20 @@
    }
   },
   "fixes": [
+   {
+    "pr": 991,
+    "title": "Release 1.9.7-r83: bug fixes, draws without tiebreaks, real-only play",
+    "draft": false,
+    "branch": "gameplay/r83",
+    "sha": "2330ec0750a9894c57c163ba714bca86a0547071",
+    "updated": "2026-10-24T10:29:21Z",
+    "gates": {
+     "passed": 0,
+     "running": 7,
+     "failed": 0,
+     "cancelled": 0
+    }
+   },
    {
     "pr": 970,
     "title": "JOB-4 audit: unfinished seasons change career stats and trophy totals",
