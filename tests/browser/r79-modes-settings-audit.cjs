@@ -238,7 +238,7 @@ async function main(){
     await daniel.page.locator("#onlinePlayerIdentitySettingsPanel button",{hasText:"PAIR WITH NIK"}).click();
     await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
     await daniel.page.waitForTimeout(400);
-    assert.equal(await daniel.page.locator("#cmsRealCareerRow").isVisible(),false,"the checkmark is one-time");
+    assert.equal(await daniel.page.locator("#cmsRealCareerRow").isVisible(),false,"real START never shows a checkmark");
     await daniel.page.locator("#roundAmount").selectOption("1");
     await daniel.page.locator("#startShowdown").click({timeout:30000});
     await pairPanel(daniel).locator("code").waitFor({timeout:30000});

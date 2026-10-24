@@ -7,12 +7,11 @@
 //
 // Plans (CE2PG_PLAN):
 //   main (default)  one real career on the same two accounts:
-//     T  a test run before the real career (Settings > START TEST RUN / JOIN TEST RUN, 1 season, played to the end). Test runs
-//        exist only before the real career (Settings offers START TEST RUN in test mode only); it must never show on a real page.
-//     A  3 seasons, played to the end (Daniel's first Home START with the one-time START REAL CAREER checkmark, Nik pastes the code).
+//     T  the first real 1-season Showdown, played to the end and counted in every career page.
+//     A  3 seasons, played to the end (Daniel's Home START, Nik's Home JOIN).
 //     B  1 season, played to the end (Daniel's Home START, Nik's Home JOIN, no code).
 //     C  3 seasons; season 1 is committed, then Daniel taps END SHOWDOWN in Settings: History shows one "Ended early · 1 season"
-//        row and every other page shows exactly A + B.
+//        row and every other page shows exactly T + A + B.
 //     After every season and every Showdown, on BOTH players: Shared History (in the game), Standings (This Showdown and Career,
 //     opened first, before any other career page), Career Statistics (table, comparison, leaders, summary tiles), Trophy Room
 //     (cabinet, ranking, all-time records), Legacy (cards and season history), Rivalry Statistics and Settings (mode, partner,
@@ -107,7 +106,7 @@ const report={
   checkpoints:[],meter:[],console:{daniel:[],nik:[]},network:{daniel:[],nik:[]},raw:{},observations:[],
   realUiSteps:[
     "SIGN IN WITH GOOGLE and the player choice (the emulator switch answers the Google popup with an Auth-emulator account)",
-    "Settings > START TEST RUN (Daniel) and JOIN TEST RUN with the code (Nik); Home START with the one-time START REAL CAREER checkmark; Nik pastes the first real code once; later Showdowns: Daniel's Home START, Nik's Home JOIN tile",
+    "Home START automatically writes the career marker; Nik pastes the first real code once; later Showdowns: Daniel's Home START, Nik's Home JOIN tile",
     "league wheel SPIN, club pack OPEN, CONFIRM SHARED SHOWDOWN, I STARTED AT <club> (both)",
     "Shared Transfer Challenge every season: START, early end (both), guesses, LOCK MY GUESSES, signings, LOCK MY SIGNINGS, CONTINUE TO SHARED SEASON RESULTS",
     "season results typed and published (Daniel first, Nik first, or at the same time), COMMIT & ACKNOWLEDGE (Daniel), ACKNOWLEDGE (Nik), CONTINUE TO SEASON n",
@@ -420,39 +419,25 @@ async function privateTokenAbsent(m,token,id,label){
 // ---------------------------------------------------------------------------------------------------------------------------
 // Starting a Showdown (r79/r80 flow: one start flow, only Daniel starts; first real pairing by a one-time code; later JOIN)
 // ---------------------------------------------------------------------------------------------------------------------------
-async function danielStartsShowdown(m,length,{firstRealStart=false,testRun=false}={}){
-  if(testRun){
-    await openSettings(m);
-    await m.page.locator("#onlinePlayerIdentitySettingsPanel button",{hasText:"START TEST RUN"}).click({timeout:30000});
-    await m.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
-    await m.page.locator("#cmsTestRunNote").waitFor({state:"visible",timeout:15000});
-  }else{
-    await backToShowdownHome(m);
-    await m.page.locator("#newShowdown").click({timeout:30000});
-    await m.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
-    if(firstRealStart){
-      await m.page.locator("#cmsRealCareerRow").waitFor({state:"visible",timeout:30000});
-      await check(m,"start.checkmark","the first real START shows the ticked START REAL CAREER checkmark",await m.page.locator("#cmsRealCareerCheck").isChecked(),"not ticked",{screen:"Seasons"});
-    }
-    await check(m,`start.${showdownNow}.notTest`,"Home START is never a test run",!(await m.page.locator("#cmsTestRunNote").isVisible().catch(()=>false)),"test note shown",{screen:"Seasons"});
-  }
+async function danielStartsShowdown(m,length,{firstRealStart=false}={}){
+  await backToShowdownHome(m);
+  await m.page.locator("#newShowdown").click({timeout:30000});
+  await m.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
+  await check(m,`start.${showdownNow}.realPath`,"START has no checkmark or test label",await m.page.locator("#cmsRealCareerRow,#cmsRealCareerCheck,#cmsTestRunNote").count()===0,"mode UI shown",{screen:"Seasons"});
   await m.page.locator("#roundAmount").selectOption(String(length));
   await m.page.locator("#startShowdown").click({timeout:30000});
   await pairPanel(m).locator("code").waitFor({timeout:30000});
+  const marker=await m.page.evaluate(async()=>{await window.loadRuntimeScript("career-start-marker","js/careerStartMarker.js",()=>Boolean(window.CareerModeCareerStartMarker));return window.CareerModeCareerStartMarker.readCurrentMarker();});
+  await check(m,`start.${showdownNow}.marker`,"START automatically writes the real career marker before the code",marker.status==="ready"&&marker.active===true,marker,{screen:"Seasons"});
   return (await pairPanel(m).locator("code").innerText()).trim();
 }
-async function nikJoins(daniel,nik,code,{typed,testRun=false,length}){
+async function nikJoins(daniel,nik,code,{typed,length}){
   const rivalryId=code.replace(/^CMS17R?-/,"");
   if(typed){
-    if(testRun){
-      await openSettings(nik);
-      await nik.page.locator("#onlinePlayerIdentitySettingsPanel button",{hasText:"JOIN TEST RUN"}).click({timeout:30000});
-    }else{
-      await backToShowdownHome(nik);
-      await nik.page.locator("#newShowdown").click();
-      await nik.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.busy===false&&s.status==="unpaired");},null,{timeout:30000});
-      await nik.page.waitForTimeout(500);
-    }
+    await backToShowdownHome(nik);
+    await nik.page.locator("#newShowdown").click();
+    await nik.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.busy===false&&s.status==="unpaired");},null,{timeout:30000});
+    await nik.page.waitForTimeout(500);
     await pairPanel(nik).locator("#persistentNikDanielPairCode").waitFor({state:"visible",timeout:30000});
     await pairPanel(nik).locator("#persistentNikDanielPairCode").fill(code);
     await pairPanel(nik).getByRole("button",{name:"JOIN DANIEL'S SHOWDOWN",exact:true}).click();
@@ -937,13 +922,12 @@ async function careerCheckpoint(ctx,label,{live=null,settingsLive=false}={}){
 async function playShowdown(ctx,spec){
   const {daniel,nik,career}=ctx;
   showdownNow=spec.name;seasonNow=0;
-  const entry={name:spec.name,state:"live",seasons:[],totalSeasons:spec.length,clubs:null,league:null,rivalryId:null,test:Boolean(spec.testRun)};
+  const entry={name:spec.name,state:"live",seasons:[],totalSeasons:spec.length,clubs:null,league:null,rivalryId:null,test:false};
   const startMark=mark(`${spec.name}:start`);
-  const code=await phase(`${spec.name}-start`,()=>danielStartsShowdown(daniel,spec.length,{firstRealStart:spec.firstRealStart,testRun:spec.testRun}));
-  if(spec.testRun)await check(daniel,`${spec.name}.code`,"a test run makes a temporary CMS17- code",/^CMS17-pair_[0-9a-f]{64}$/.test(code),code,{screen:"Connect Players"});
-  else if(spec.firstRealStart)await check(daniel,`${spec.name}.code`,"the first real START makes the one-time CMS17R- code",/^CMS17R-pair_[0-9a-f]{64}$/.test(code),code,{screen:"Connect Players"});
+  const code=await phase(`${spec.name}-start`,()=>danielStartsShowdown(daniel,spec.length,{firstRealStart:spec.firstRealStart}));
+  if(spec.firstRealStart)await check(daniel,`${spec.name}.code`,"the first real START makes the one-time CMS17R- code",/^CMS17R-pair_[0-9a-f]{64}$/.test(code),code,{screen:"Connect Players"});
   else await check(daniel,`${spec.name}.code`,"already paired: no code for Nik to type",/^CMS17-pair_[0-9a-f]{64}$/.test(code),code,{screen:"Connect Players"});
-  entry.rivalryId=await phase(`${spec.name}-join`,()=>nikJoins(daniel,nik,code,{typed:spec.testRun||spec.firstRealStart,testRun:spec.testRun,length:spec.length}));
+  entry.rivalryId=await phase(`${spec.name}-join`,()=>nikJoins(daniel,nik,code,{typed:spec.firstRealStart,length:spec.length}));
   const sessionCode=await sessionOf(daniel);
   await check(null,`${spec.name}.session`,"Nik is in Daniel's private session",/^session_[0-9a-f]{64}$/.test(String(sessionCode))&&(await sessionOf(nik))===sessionCode,{daniel:sessionCode,nik:await sessionOf(nik)},{screen:"Remote Joining"});
   const setup=await phase(`${spec.name}-setup`,()=>playSetup(daniel,nik));
@@ -951,7 +935,7 @@ async function playShowdown(ctx,spec){
   const target=spec.target;
   const plan=buildPlan(spec.length,setup.teamCount,target,spec.seed);
   entry.plan=plan;
-  if(!spec.testRun)career.push(entry);
+  career.push(entry);
   report.showdowns.push({name:spec.name,rivalryId:entry.rivalryId,league:setup.league,teamCount:setup.teamCount,clubs:setup.clubs,length:spec.length,stopAfter:spec.endAfter||null,target,plan:plan.map((s,i)=>({season:i+1,daniel:s.daniel,nik:s.nik,score:{daniel:scoreSeason(s.daniel).total,nik:scoreSeason(s.nik).total},winner:seasonWinner(s.daniel,s.nik)}))});
   console.log(`PLAN ${spec.name}: ${setup.league} (${setup.teamCount} teams), ${setup.clubs.join(" v ")}, ${spec.length} season(s), target ${target}${spec.endAfter?`, END after season ${spec.endAfter}`:""}`);
   let seasonStart=startMark;
@@ -966,7 +950,7 @@ async function playShowdown(ctx,spec){
       for(const m of [daniel,nik])await checkSharedHistory(m,k,spec.length,plan);
       await phase(`${spec.name}-S${k}-continue`,()=>continueToSeason(daniel,nik,k+1,spec.length));
       const playEnd=mark(`${spec.name}:S${k}:play`);
-      const pagesDue=!spec.testRun&&(k%PAGES_EVERY===0||k===1||k===playedTo);
+      const pagesDue=(k%PAGES_EVERY===0||k===1||k===playedTo);
       if(pagesDue){
         if(RELOAD_EVERY&&k%RELOAD_EVERY===0)await phase(`${spec.name}-S${k}-reload`,()=>reloadBoth(daniel,nik,sessionCode));
         await careerCheckpoint(ctx,`${spec.name}.S${k}`,{live:entry,settingsLive:true});
@@ -996,9 +980,9 @@ async function playShowdown(ctx,spec){
         let landed=false;try{await m.page.locator("#v10ExitSlot [data-smart-back]").first().click({timeout:8000});landed=await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:15000}).then(()=>true).catch(()=>false);}catch(_e){}
         await check(m,`${spec.name}.backHome`,"BACK TO SHOWDOWN HOME on the Showdown Champion screen opens Showdown Home",landed,await describe(m),{screen:"Showdown Champion"});
       }
-      if(!spec.testRun)await careerCheckpoint(ctx,`${spec.name}.end`,{settingsLive:false});
+      await careerCheckpoint(ctx,`${spec.name}.end`,{settingsLive:false});
       const end=mark(`${spec.name}:S${k}:end`);
-      meterEntry(`${spec.name} season ${k} (final${k===1?", incl. START, pairing, setup":""}${spec.testRun?"":", + both players' page checks"})`,seasonStart,end,{play:[seasonStart,playEnd]});
+      meterEntry(`${spec.name} season ${k} (final${k===1?", incl. START, pairing, setup":""}, + both players' page checks)`,seasonStart,end,{play:[seasonStart,playEnd]});
     }
   }
   if(spec.endAfter){
@@ -1024,11 +1008,6 @@ async function playShowdown(ctx,spec){
     const after=mark(`${spec.name}:ended:pages`);
     meterEntry(`${spec.name} END SHOWDOWN + both players' page checks`,seasonStart,after,{play:[seasonStart,end]});
   }
-  if(spec.testRun){
-    // Test runs end on Home for both; they are dropped from career history by the first real START.
-    for(const m of [daniel,nik])await backToShowdownHome(m);
-    entry.state="completed";
-  }
   return entry;
 }
 
@@ -1053,25 +1032,21 @@ async function main(){
     await check(null,"boot.accounts","Daniel and Nik signed in as two distinct accounts",Boolean(daniel.uid&&nik.uid&&daniel.uid!==nik.uid),{daniel:daniel.uid,nik:nik.uid},{screen:"Sign in"});
     const ctx={daniel,nik,career:[]};
     const specs=PLAN_NAME==="main"?[
-      {name:"T",length:1,testRun:true,target:"nik",seed:91},
-      {name:"A",length:3,firstRealStart:true,target:RUN===2?"nik":"daniel",seed:11},
+      {name:"T",length:1,firstRealStart:true,target:"nik",seed:91},
+      {name:"A",length:3,target:RUN===2?"nik":"daniel",seed:11},
       {name:"B",length:1,target:RUN===2?"daniel":"nik",seed:23},
       {name:"C",length:3,endAfter:1,target:null,seed:37}
     ]:[{name:"S",length:SEASONS,firstRealStart:true,target:SCENARIO==="draw"?"draw":RUN===2?"nik":"daniel",seed:SEASONS}];
     for(const spec of specs){
       await playShowdown(ctx,spec);
-      if(spec.testRun){
-        const marker=await admin(`accounts/${daniel.uid}/careerStart/current`);
-        await check(null,"T.noMarker","a test run writes no career start marker (the account stays in test mode)",!marker,"marker exists",{screen:"Database"});
-      }
     }
     showdownNow="end";seasonNow=0;
-    // Test run hidden for good by the first real START
+    // Every completed real Showdown remains in the career, including the first one.
     if(PLAN_NAME==="main"){
       const marker=await admin(`accounts/${daniel.uid}/careerStart/current`);
       const hidden=(field(marker,"data","hiddenRivalryIds")?.arrayValue?.values||[]).map(v=>v.stringValue);
       const T=report.showdowns.find(s=>s.name==="T")?.rivalryId;
-      await check(null,"T.hidden","the first real START hid the finished test run for good",Boolean(T&&hidden.includes(T)),{T,hidden},{screen:"Database"});
+      await check(null,"T.counted","the first real Showdown is counted in the career",Boolean(T&&!hidden.includes(T)&&ctx.career.some(s=>s.rivalryId===T&&s.state==="completed")),{T,hidden},{screen:"Database"});
     }
     // The end state again on both pages as they are (the last checkpoint), then after a storage wipe and in a brand-new browser.
     const raws={daniel:report.raw[report.checkpoints.at(-1).label].daniel,nik:report.raw[report.checkpoints.at(-1).label].nik};

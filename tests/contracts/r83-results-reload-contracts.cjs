@@ -12,7 +12,7 @@ const RID="pair_"+"a".repeat(64),SID="session_"+"b".repeat(64),DEVICE="device_"+
 const PHASES=["WINDOW_OPEN","GUESS_ENTRY","SIGNING_ENTRY","COMPLETED"];
 const FACTS={leaguePosition:2,leaguePoints:80,leagueGoals:65,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false};
 const settle=async()=>{for(let i=0;i<60;i++)await new Promise(resolve=>setImmediate(resolve));};
-function page({storage,role,season=1,rivalry=RID,stage="entry",phase="COMPLETED",deny=false,storageFails=false}){
+function page({storage,role,season=1,rivalry=RID,stage="entry",phase="COMPLETED",deny=false,storageFails=false,shellRivalry=true}){
   const nodes=new Map(),listeners=new Map(),navigation=[],errors=[],writes=[];
   let currentPhase=phase,currentStage=stage;
   function node(id){
@@ -37,7 +37,7 @@ function page({storage,role,season=1,rivalry=RID,stage="entry",phase="COMPLETED"
   const forbidden=async()=>{writes.push("unexpected mutation");throw Error("resume must be read-only");};
   const s={console,Date,Promise,crypto:webcrypto,performance:{now:()=>1000},setTimeout,clearTimeout,
     document:doc,MutationObserver:class{observe(){}disconnect(){}},
-    currentShowdown:{id:"local-save",currentRound:season,totalRounds:3,managers:{playerOne:"Daniel",playerTwo:"Nik"},sharedJourney:{mode:"shared",rivalryId:rivalry}},
+    currentShowdown:{id:"local-save",currentRound:season,totalRounds:3,managers:{playerOne:"Daniel",playerTwo:"Nik"},sharedJourney:{mode:"shared",...(shellRivalry?{rivalryId:rivalry}:{})}},
     readStorageValue:key=>{if(storageFails)throw Error("storage unavailable");return storage.get(key)||null;},
     writeStorageValue:(key,value)=>{if(storageFails)throw Error("storage unavailable");storage.set(key,value);return true;},removeStorageValue:key=>storage.delete(key),
     ensureSaveLibraryRuntimeAuthority:async()=>true,ensureGameplayModules:async()=>true,loadRuntimeStyle:async()=>true,
@@ -87,8 +87,9 @@ async function finishTransfer(options){
   for(const role of ["playerOne","playerTwo"])for(const season of [1,2])for(const stage of ["entry","published","ready","acknowledge","acknowledged"]){
     const storage=new Map(),options={storage,role,season,stage};
     await finishTransfer(options);
-    for(const reopen of ["reload","close/reopen"]){
-      const p=page(options);await settle();await p.continue();
+    for(const reopen of ["reload","close/reopen","cold-shell reload"]){
+      // Cold saved shells rely on the confirmed Setup snapshot for their rivalry; keep the bound-shell case too.
+      const p=page({...options,shellRivalry:reopen!=="cold-shell reload"});await settle();await p.continue();
       assert.equal(p.location(),"seasonEntry",`${role} season ${season} ${stage} ${reopen}: continue must restore Results directly`);
       assert.ok(!p.navigation.includes("transferChallenge"),"no completed-window replay frame");
       assert.deepEqual(p.errors,[]);assert.deepEqual(p.writes,[],"resume never republishes or acknowledges");
@@ -99,6 +100,16 @@ async function finishTransfer(options){
       if(stage==="acknowledged"){assert.equal(p.node("sharedSeasonCommitAction").textContent,"ACKNOWLEDGED ✓ · WAITING FOR RIVAL");assert.equal(p.node("sharedSeasonCommitAction").disabled,true);}
       checks++;
     }
+  }
+  // Completed verdicts without a Results tap retain the original recovery landing (L6's season-2 dashboard).
+  for(const role of ["playerOne","playerTwo"])for(const season of [1,2]){
+    const storage=new Map(),p=page({storage,role,season,phase:"WINDOW_OPEN"});
+    p.s.CareerModeProductionSharedTransferChallenge.install();await settle();await p.s.CareerModeProductionSharedTransferChallenge.open();
+    for(const phase of PHASES.slice(1)){p.phase(phase);await p.s.CareerModeProductionSharedTransferChallenge.refresh();}
+    assert.equal(p.s.CareerModeProductionSharedTransferChallenge.canResumeResults(),false,"verdicts alone do not mark Results as viewed");
+    const fresh=page({storage,role,season,shellRivalry:false});await fresh.continue();
+    assert.equal(fresh.location(),season===1?"transferChallenge":"dashboard","reload before opening Results keeps its existing landing");
+    assert.deepEqual(fresh.writes,[]);assert.deepEqual(fresh.errors,[]);checks++;
   }
   // Hints belong only to this browser, manager, rivalry and season; unseen full-screen steps stay required.
   const storage=new Map();await finishTransfer({storage,role:"playerOne"});

@@ -1,36 +1,18 @@
 "use strict";
-// r80: Nik's first real game on r79 never showed in History, Legacy, Career Statistics or the Trophy Room.
-// The sequence, on two accounts whose real career had not started (test mode), as the r79 emulator reproduction found it:
-//   1. an older code of Daniel's (an r78 CREATE CODE FOR NIK, or a shell with seasons chosen and no code yet) is still open;
-//   2. r79's reload recovery / Home START / CONTINUE CAREER reopened WAITING with it (or made a code for the code-less shell)
-//      WITHOUT the one-time START REAL CAREER checkmark: a CMS17- test code; Nik typed it in and both played to the end
-//      (badges "TEST RUN · NOTHING COUNTS"); the game showed in History right after it finished;
-//   3. Daniel's next Home START ticked the checkmark: his marker named every Showdown in his career index, that game too, and
-//      Nik's first CMS17R- join wrote his own marker the same way. The list never changes, so the game was gone for good.
-// This audit runs the r80 code through that sequence. Real app, two Chromium contexts, Auth + Firestore emulators with the
-// composed production Rules (demo project only; production Firebase hosts fail the run). Taps and typing only; page globals
-// are only read. Two emulator-side stand-ins: the finished test game stands in for the game r79's leak left behind (the data
-// is the same: a CMS17- Showdown of the two accounts, played to the end and closed with a Terminal Close before the first real
-// START), and both markers' startedAt is set to an r79 time (2026-10-18 20:00 UTC), as the markers r79 wrote for Nik and
-// Daniel have it. Nik chose Keep hidden (2026-10-19): the game the marker names stays hidden whenever the marker was made.
-//   H1  the game r79 left behind: a 1-season test Showdown (CMS17-) played to the end and closed; History shows it.
-//   H2  Daniel's leftover code (CMS17-, never used, still OPEN: Codex #936, unexpired); Daniel reloads: nothing reopens it
-//       (no WAITING, no code; he is on Home); on r79 WAITING came back over the wheel with that test code.
-//   H3  Daniel's Home START opens the seasons screen with the START REAL CAREER checkmark ticked; its START closes the
-//       leftover (nobody joined it), writes the marker (it names the finished game and the leftover), then makes a NEW real
-//       code (CMS17R-), never the leftover. Before Codex #936 the marker refused here ("Finish or end the current Showdown").
-//   H3b Nik types the leftover code (Settings > JOIN TEST RUN): refused, it is closed; nothing of his changes.
-//   H4  Nik types the code once and joins; his marker is written before the join (it names the finished game).
-//   H5  the real 1-season Showdown is played to the end and closed by itself.
-//   H6  History (Legacy), Career Statistics and the Trophy Room show ONLY the real game on both phones: the game the marker
-//       names stays hidden although it was finished on r79 (Keep hidden), the leftover never shows, and the career load
-//       reads neither hidden Showdown (no rivalries/{id} get); the same after both reload with the r79-dated markers.
+// Real-only entry and historical markerless recovery audit. Current gameplay uses Home START / JOIN and writes
+// career markers automatically. Emulator admin restores old markerless metadata and explicit test-mode data only
+// to verify that existing historical games remain hidden and unused old codes cannot reopen through Home.
+// A: play/resume/end a real game, then restore it as historical test data and check career filtering.
+// B: restore an old unjoined markerless code; Home CONTINUE goes to seasons without a mode choice.
+// C: START closes that old code, writes the marker, creates a real code, and both managers finish the new game.
+// D: a later real Showdown uses the permanent pair's JOIN note; its ended-early history survives a fresh browser.
 // Run (two browser contexts):
 //   CMS_CHROMIUM_MULTI_CONTEXT=1 npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json \
-//        --only auth,firestore --project demo-cms-browser-journey "node tests/browser/r80-first-real-game-history-audit.cjs"
+//        --only auth,firestore --project demo-cms-browser-journey "node tests/browser/r80-real-vs-test-audit.cjs"
 // Optional: CMS_TEST_PORT (app, default 4178), CMS_AUTH_PORT / CMS_FIRESTORE_PORT (emulators, default 9199 / 8181),
 // CMS_R79_JOURNEY_SHOTS (screenshots).
 const assert=require("node:assert/strict");
+const {restoreHistoricalMarkerlessAccounts}=require("./support/historical-markerless-account.cjs");
 const {installMarbleConfirmAnswers,marbleConfirmMessages}=require("./support/marble-confirm.cjs");
 const {installFirestoreMeter,createMeter}=require("./support/firestore-meter.cjs");
 const fs=require("node:fs");
@@ -143,17 +125,14 @@ async function signIn(m,label){
 async function danielStartsShowdown(m,length,{firstRealStart=false}={}){
   await m.page.locator("#newShowdown").click({timeout:30000});
   await m.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
-  if(firstRealStart){
-    await m.page.locator("#cmsRealCareerRow").waitFor({state:"visible",timeout:30000});
-    assert.equal(await m.page.locator("#cmsRealCareerCheck").isChecked(),true,"the START REAL CAREER checkmark is ticked");
-  }else{
-    await m.page.waitForTimeout(300);
-    assert.equal(await m.page.locator("#cmsRealCareerRow").isVisible().catch(()=>false),false,"the checkmark is one-time");
-  }
-  assert.equal(await m.page.locator("#cmsTestRunNote").isVisible().catch(()=>false),false,"Home START is never a test run");
+  assert.equal(await m.page.locator("#cmsRealCareerRow,#cmsRealCareerCheck,#cmsTestRunNote").count(),0,"START has no checkmark, mode choice or test label");
+  if(firstRealStart)assert.equal(await m.page.evaluate(async()=>{await window.loadRuntimeScript("career-start-marker","js/careerStartMarker.js",()=>Boolean(window.CareerModeCareerStartMarker));return (await window.CareerModeCareerStartMarker.readCurrentMarker()).status;}),"none","the first START begins without a career marker");
   await m.page.locator("#roundAmount").selectOption(String(length));
   await m.page.locator("#startShowdown").click({timeout:30000});
   await pairPanel(m).locator("code").waitFor({timeout:30000});
+  const marker=await m.page.evaluate(async()=>{await window.loadRuntimeScript("career-start-marker","js/careerStartMarker.js",()=>Boolean(window.CareerModeCareerStartMarker));return window.CareerModeCareerStartMarker.readCurrentMarker();});
+  assert.equal(marker.status,"ready","START automatically wrote the career-start marker before showing the code");
+  assert.equal(marker.active,true,"this Showdown counts toward the real career");
   return (await pairPanel(m).locator("code").innerText()).trim();
 }
 async function bothActive(managers,rivalryId){
@@ -472,7 +451,7 @@ async function careerScreens(m){
   const loaded=t=>!/loading/i.test(t);
   await backToShowdownHome(m);
   await m.page.locator("#legacyButton").click({timeout:20000});
-  await read("legacy",t=>loaded(t)&&/Showdown #\d/i.test(t));
+  await read("legacy",t=>loaded(t)&&(/Showdown #\d/i.test(t)||(expect===null&&/No completed showdowns yet/i.test(t))));
   await m.page.waitForTimeout(1200);
   const legacy=await m.page.evaluate(()=>[...document.querySelectorAll("#legacy .legacyCard")].map(c=>({status:c.dataset.status,text:(c.textContent||"").replace(/\s+/g," ").trim()})));
   const model=await m.page.evaluate(()=>{const v=window.CareerModeRivalryLegacyV10?.cachedCareerModel?.();return v?{status:v.status,rows:(v.history?.showdowns||[]).map(r=>({rivalryId:r.rivalryId,status:r.status,number:r.number}))}:null;});
@@ -482,7 +461,7 @@ async function careerScreens(m){
   // The headline counts up from 0 to the tile's value, so the read waits for the value itself (bounded).
   const stats=await read("careerStatistics",t=>loaded(t)&&ONE_COMPLETED.test(t));
   await m.page.locator("#trophyRoomButton").click({timeout:20000});
-  await read("trophyRoom",t=>loaded(t)&&/Showdown Champion/i.test(t));
+  await read("trophyRoom",t=>loaded(t)&&(/Showdown Champion/i.test(t)||(expect===null&&/The Trophy Room is empty/i.test(t))));
   const champion=async()=>m.page.evaluate(()=>{const card=document.querySelector('#trophyRoom .trophyCard[data-trophy="showdown"]');const r=side=>{const el=card?.querySelector(`[data-side="${side}"] strong`);return el?(el.dataset.countValue||(el.textContent||"").trim()):null;};return {daniel:r("daniel"),nik:r("nik")};});
   let trophies=await champion();const end=Date.now()+20000;while(trophies.daniel!=="1"&&Date.now()<end){await m.page.waitForTimeout(250);trophies=await champion();}
   await backToShowdownHome(m);
@@ -515,8 +494,8 @@ async function setMarkerStartedAt(uid,ms){
 }
 
 // =====================================================================================================================
-// r80 REAL vs TEST audit (Team G audit helper, 2026-10-19). Probes every main-menu path on test-mode accounts, then a full
-// main-menu real game after a Settings test run left mid-way and a leftover unjoined code, then a second real game through
+// Real-only audit: probes every main-menu path, historical markerless recovery, then a full
+// main-menu real game after historical test data and an unused old code, then a second real game through
 // the JOIN note that Daniel ends early. Findings are recorded as PROBE lines; requirement checks are hard asserts.
 // =====================================================================================================================
 const findings=[];
@@ -532,7 +511,7 @@ async function look(m){
       start:tile("newShowdown"),cont:tile("continueCareer"),layer:vis(layer),panel:panel&&vis(layer)?(panel.innerText||"").replace(/\s+/g," ").trim().slice(0,260):null,
       code:panel&&vis(layer)?(panel.querySelector("code")?.textContent||"").trim():null,strip:vis(document.getElementById("cmsConnectTestRunNote")),
       pair:p?{status:p.status,cs:p.connectionState,rid:(p.rivalryId||"").slice(0,13),role:p.managerRole}:null,
-      mode:window.CareerModeShowdownModes?.getView?.()?.mode||null,armed:window.CareerModeShowdownModes?.isTestRunArmed?.()??null,
+      mode:window.CareerModeShowdownModes?.getView?.()?.mode||null,careerStarted:window.CareerModeShowdownModes?.getView?.()?.careerStarted??null,
       check:vis(document.getElementById("cmsRealCareerRow")),testNote:vis(document.getElementById("cmsTestRunNote")),
       overlays:[...document.querySelectorAll("[id$='Overlay']")].filter(vis).map(o=>`${o.id}: ${(o.innerText||"").replace(/\s+/g," ").slice(0,220)}`),
       notice:(document.querySelector("#appRuntimeNotice .runtimeNoticeText")?.textContent||"").trim().slice(0,200)};
@@ -555,29 +534,20 @@ async function reloadHome(m){
   await m.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.initialized===true&&s.busy===false);},null,{timeout:30000});
   await m.page.waitForTimeout(4000);
 }
-async function settingsTestRun(m,label){
-  await openSettings(m);
-  try{await m.page.locator("#onlinePlayerIdentitySettingsPanel button",{hasText:label}).click({timeout:15000});}
-  catch(error){
-    probeLog(`W-${m.user}-settings-without-${label.replace(/ /g,"_")}`,await look(m));
-    await closeSettings(m).catch(()=>{});await reloadHome(m);await openSettings(m);
-    await m.page.locator("#onlinePlayerIdentitySettingsPanel button",{hasText:label}).click({timeout:30000});
-  }
+async function danielRealCode(daniel){
+  await home(daniel);
+  return danielStartsShowdown(daniel,1);
 }
-async function danielTestCode(daniel){
-  await settingsTestRun(daniel,"START TEST RUN");
-  await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
-  assert.equal(await daniel.page.locator("#cmsTestRunNote").isVisible(),true,"the Settings test run wears the TEST RUN label on the seasons screen");
-  await daniel.page.locator("#roundAmount").selectOption("1");
-  await daniel.page.locator("#startShowdown").click({timeout:30000});
-  await pairPanel(daniel).locator("code").waitFor({timeout:30000});
-  const code=(await pairPanel(daniel).locator("code").innerText()).trim();
-  assert.match(code,/^CMS17-pair_[0-9a-f]{64}$/,"a Settings test run makes a CMS17- test code");
-  return code;
+async function danielHistoricalCode(daniel){
+  const code=await danielRealCode(daniel);
+  assert.match(code,/^CMS17R-pair_[0-9a-f]{64}$/, "the current UI only creates real first-pairing codes");
+  await restoreHistoricalMarkerlessAccounts([daniel],{firestorePort:FIRESTORE_PORT});
+  await reloadHome(daniel);
+  return code.replace("CMS17R-","CMS17-");
 }
-async function nikPastes(nik,code,{viaSettings=false}={}){
-  if(viaSettings)await settingsTestRun(nik,"JOIN TEST RUN");
-  else await nik.page.locator("#newShowdown").click({timeout:30000});
+async function nikPastes(nik,code){
+  await home(nik);
+  await nik.page.locator("#newShowdown").click({timeout:30000});
   await pairPanel(nik).locator("#persistentNikDanielPairCode").waitFor({state:"visible",timeout:30000});
   await pairPanel(nik).locator("#persistentNikDanielPairCode").fill(code);
   await pairPanel(nik).getByRole("button",{name:"JOIN DANIEL'S SHOWDOWN",exact:true}).click();
@@ -600,7 +570,7 @@ async function careerAll(m,expect=null){
   for(let attempt=0;attempt<3&&!model;attempt++){
     await home(m);if(attempt)await m.page.waitForTimeout(3000);
     await m.page.locator("#legacyButton").click({timeout:20000});
-    await read("legacy",t=>loaded(t)&&/Showdown #\d/i.test(t));
+    await read("legacy",t=>loaded(t)&&(/Showdown #\d/i.test(t)||(expect===null&&/No completed showdowns yet/i.test(t))));
     await m.page.waitForFunction(()=>{const v=window.CareerModeRivalryLegacyV10?.cachedCareerModel?.();return Boolean(v&&(v.status==="ready"||v.status==="empty"));},null,{timeout:20000}).catch(()=>{});
     await m.page.waitForTimeout(1500);
     legacy=await m.page.evaluate(()=>[...document.querySelectorAll("#legacy .legacyCard")].map(c=>({status:c.dataset.status,text:(c.textContent||"").replace(/\s+/g," ").trim().slice(0,80)})));
@@ -610,22 +580,24 @@ async function careerAll(m,expect=null){
   await home(m);
   await m.page.locator("#careerStatisticsButton").click({timeout:20000});
   const nRe=n=>new RegExp(`(COMPLETED SHOWDOWNS\\s*${n}(?!\\d)|(?<![\\d.])${n}\\s*COMPLETED SHOWDOWNS)`,"i");
-  const stats=(await read("careerStatistics",t=>loaded(t)&&/COMPLETED SHOWDOWNS/i.test(t)&&(expect===null||nRe(expect).test(t)))).slice(0,400);
+  const stats=(await read("careerStatistics",t=>loaded(t)&&/COMPLETED SHOWDOWNS|No completed record yet|Career Statistics will build automatically after the first completed showdown/i.test(t)&&(expect===null||nRe(expect).test(t)))).slice(0,400);
   await m.page.locator("#trophyRoomButton").click({timeout:20000});
-  await read("trophyRoom",t=>loaded(t)&&/Showdown Champion/i.test(t));
+  await read("trophyRoom",t=>loaded(t)&&(/Showdown Champion/i.test(t)||(expect===null&&/The Trophy Room is empty/i.test(t))));
   await m.page.waitForTimeout(1500);
   const trophies=await m.page.evaluate(()=>{const card=document.querySelector('#trophyRoom .trophyCard[data-trophy="showdown"]');const r=side=>{const el=card?.querySelector(`[data-side="${side}"] strong`);return el?(el.dataset.countValue||(el.textContent||"").trim()):null;};return {daniel:r("daniel"),nik:r("nik")};});
   await home(m);
+  // Empty is a settled, asserted state; waiting for Career Points there can only time out.
+  const standingsReady=t=>/CAREER POINTS/i.test(t)||(expect===null&&/Career standings will appear after the first recorded season\./i.test(t));
   let standings="";
-  for(let attempt=0;attempt<3&&!/CAREER POINTS/i.test(standings);attempt++)try{
+  for(let attempt=0;attempt<3&&!standingsReady(standings);attempt++)try{
     if(attempt>0){await home(m);await m.page.waitForTimeout(2000);}
     await m.page.locator("button.sd-nav-tab[data-nav-key=standings]:visible").first().click({timeout:8000});
     await m.page.locator("#standings").waitFor({state:"visible",timeout:15000});
-    for(let i=0;i<6&&!/CAREER POINTS/i.test(standings);i++){
+    for(let i=0;i<6&&!standingsReady(standings);i++){
       await m.page.waitForTimeout(1500);
       const tab=m.page.locator("#standings button:visible, #standings [role=tab]:visible, #standings label:visible").filter({hasText:/^\s*CAREER\s*$/i}).first();
       if(await tab.count())await tab.click({timeout:5000}).catch(()=>{});
-      standings=await read("standings",t=>loaded(t)&&/CAREER POINTS/i.test(t));
+      standings=await read("standings",t=>loaded(t)&&standingsReady(t));
     }
   }catch(error){standings=`(standings not opened: ${error.message.split("\n")[0]})`;}
   await home(m);
@@ -680,29 +652,29 @@ async function main(){
     for(const m of managers)assert.equal(await m.page.evaluate(()=>window.__cmsEmulatorSwitch?.active===true),true,`${m.user} emulator switch active`);
     await signIn(daniel,"Daniel");await signIn(nik,"Nik");
     const uidD=await accountId(daniel),uidN=await accountId(nik);
-    ok("A0.2","both signed in, test mode (no marker)");
+    ok("A0.2","both signed in, no career marker yet");
     const testIds=[];
     if(ONLY==="B"){
-      // Patched-tree check: Home CONTINUE CAREER with a leftover Settings code opens the seasons screen (checkmark), never the code.
-      const lc=await danielTestCode(daniel);
+      // Patched-tree check: Home CONTINUE CAREER with a leftover Settings code opens the seasons screen (automatic marker), never the code.
+      const lc=await danielHistoricalCode(daniel);
       for(const step of ["same-page","after-reload"]){
         if(step==="after-reload")await reloadHome(daniel);else await home(daniel);
         await daniel.page.locator("#continueCareer").click({timeout:10000});
         await daniel.page.waitForTimeout(5000);
         const v=await look(daniel);probeLog(`PB-${step}`,v);
         assert.notEqual(v.code,lc,`${step}: Home CONTINUE never shows the leftover test code`);
-        assert.equal(v.screens.includes("createShowdown")&&v.check,true,`${step}: Home CONTINUE opens the seasons screen with the START REAL CAREER checkmark`);
+        assert.equal(v.screens.includes("createShowdown")&&!v.check&&!v.testNote,true,`${step}: Home CONTINUE opens the seasons screen with no checkmark and an automatic career marker`);
         await home(daniel);
       }
       const real=await danielStartsShowdown(daniel,1,{firstRealStart:true});
       await daniel.page.waitForFunction(()=>/^CMS17R-/.test((document.querySelector("#connectPlayersScreen #persistentNikDanielPairPanel code")?.textContent||"").trim()),null,{timeout:30000});
-      ok("PB","patched: Home CONTINUE with a leftover test code leads to the real START (checkmark), then a CMS17R- code");
+      ok("PB","patched: Home CONTINUE with a leftover test code leads to the real START (automatic marker), then a CMS17R- code");
       console.log(`PASS patched B: ${checks} checks`);return;
     }
 
-    // ---------- A: a Settings test run left mid-way (ACTIVE) ----------
-    const t1Code=await danielTestCode(daniel);const T1=t1Code.slice(6);testIds.push(T1);
-    await nikPastes(nik,t1Code,{viaSettings:true});
+    // ---------- A: a real Showdown left mid-way (ACTIVE), then historical filtering ----------
+    const t1Code=await danielRealCode(daniel);const T1=t1Code.replace(/^CMS17R?-/,"");testIds.push(T1);
+    await nikPastes(nik,t1Code);
     await bothActive([daniel,nik],T1);
     await playSetupToTransferChallenge(daniel,nik);
     probeLog("A1-test-run-live",{daniel:await look(daniel),nik:await look(nik)});
@@ -720,14 +692,21 @@ async function main(){
     await reloadHome(daniel);probeLog("A3-daniel-reload-live-test",await look(daniel));
     await home(daniel);
     const a4=await careerAll(daniel);probeLog("A4-test-mode-career-during-live-test",{model:a4.model,legacy:a4.legacy,completed:a4.completed,standings:a4.standingsPoints});
-    assertNoCareer(a4,daniel,"A4");
+    assertNoCareer(a4,daniel,"A4 real career before its first recorded season");
     await endShowdown(daniel,nik,T1);
+    // Keep the old deliberate-test filtering assertions using historical data, never a removed client entry.
+    const historical=await admin(`rivalries/${T1}`);
+    historical.fields.data.mapValue.fields.mode={stringValue:"test"};
+    const restored=await fetch(docUrl(`rivalries/${T1}`),{method:"PATCH",headers:{Authorization:"Bearer owner","Content-Type":"application/json"},body:JSON.stringify({fields:historical.fields})});
+    assert.equal(restored.status,200,"restore a stored historical test Showdown");
+    await restoreHistoricalMarkerlessAccounts(managers,{firestorePort:FIRESTORE_PORT});
+    for(const m of managers)await reloadHome(m);
     for(const m of managers)await home(m);
     for(const m of managers){const v=await careerAll(m);probeLog(`A5-test-mode-career-after-END-${m.user}`,{model:v.model,legacy:v.legacy,completed:v.completed,standings:v.standingsPoints});assertNoCareer(v,m,"A5");}
-    ok("A","Settings test run left mid-way (ACTIVE), probed Home START/CONTINUE/reload, then ended in Settings");
+    ok("A","real Showdown left mid-way (ACTIVE), resumed from Home START/CONTINUE/reload, ended in Settings, then restored as historical test data");
 
     // ---------- B: leftover unjoined Settings code, then Home CONTINUE ----------
-    const l1Code=await danielTestCode(daniel);const L1=l1Code.slice(6);testIds.push(L1);
+    const l1Code=await danielHistoricalCode(daniel);const L1=l1Code.slice(6);testIds.push(L1);
     await home(daniel);
     const b1=await look(daniel);probeLog("B1-home-with-leftover",b1);
     // r80 real-vs-test PR (G5): the tile says what the tap does (the seasons screen of the real career), not WAITING FOR NIK.
@@ -737,7 +716,7 @@ async function main(){
     if((await look(daniel)).cont?.visible){
       await daniel.page.locator("#continueCareer").click({timeout:10000});await daniel.page.waitForTimeout(5000);
       const b2=await look(daniel);probeLog("B2-home-CONTINUE-with-leftover",b2);
-      assert.ok(b2.screens.includes("createShowdown")&&b2.check&&!/TEST RUN/i.test(b2.badge),`B2 Home CONTINUE: the seasons screen with the checkmark and no TEST RUN label: ${JSON.stringify(b2)}`);
+      assert.ok(b2.screens.includes("createShowdown")&&!b2.check&&!b2.testNote&&!/TEST RUN/i.test(b2.badge),`B2 Home CONTINUE: the seasons screen with no checkmark or TEST RUN label: ${JSON.stringify(b2)}`);
       await galleryShot(daniel,"seasons");
       if(b2.code===l1Code)leaked="continue-same-page";
       await home(daniel);
@@ -761,8 +740,8 @@ async function main(){
     ok("B",`leftover unjoined code + Home CONTINUE probed (Home CONTINUE reopened the test code: ${leaked||"no"})`);
 
     // ---------- C: leftover again + reload, then the full main-menu real game ----------
-    // r80 real-vs-test PR: B no longer leaks, so its unjoined L1 is still the leftover (START TEST RUN would reopen it).
-    const l2Code=leaked?await danielTestCode(daniel):l1Code;const L2=l2Code.slice(6);if(leaked)testIds.push(L2);
+    // r80 real-vs-test PR: B no longer leaks, so its unjoined L1 is still the leftover (it is a historical emulator fixture).
+    const l2Code=leaked?await danielHistoricalCode(daniel):l1Code;const L2=l2Code.slice(6);if(leaked)testIds.push(L2);
     await reloadHome(daniel);
     const c0=await look(daniel);probeLog("C0-reload-with-leftover",c0);
     assert.equal(c0.code,null,"the leftover test code is not reopened by the reload");
@@ -775,7 +754,7 @@ async function main(){
     const hiddenD=ids(field(markerD,"data","hiddenRivalryIds"));
     assert.ok(testIds.every(id=>hiddenD.includes(id))&&!hiddenD.includes(R),`Daniel's marker hides every test game, not the real one: ${JSON.stringify(hiddenD)} vs ${JSON.stringify(testIds)}`);
     assert.equal(field(await admin(`rivalries/${L2}`),"data","connectionState").stringValue,"closed","the leftover was closed");
-    ok("C1","Home START after a test run left mid-way and a leftover unjoined code: checkmark, leftover closed, marker hides all test games, CMS17R- code");
+    ok("C1","Home START after a test run left mid-way and a leftover unjoined code: automatic marker, leftover closed, marker hides all test games, CMS17R- code");
     await reloadHome(nik);
     await nikPastes(nik,code1);
     await bothActive([daniel,nik],R);
