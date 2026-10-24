@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-23 8:14 PM Boston time (EDT)",
+ "generated": "2026-10-23 8:20 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1303,20 +1303,6 @@
      }
     },
     {
-     "pr": 964,
-     "title": "JOB-3 audit: History and Legacy recovery correctness",
-     "draft": true,
-     "branch": "codex/job-3-history-legacy-2026-10-20",
-     "sha": "741b1a7dee71213b71e1da1f0e3c6a9b7e85c0f1",
-     "updated": "2026-10-21T00:15:29Z",
-     "gates": {
-      "passed": 7,
-      "running": 0,
-      "failed": 1,
-      "cancelled": 0
-     }
-    },
-    {
      "pr": 961,
      "title": "JOB-2 audit: sign-in, pairing and real/test labels",
      "draft": true,
@@ -1882,7 +1868,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 48,
+  "moving": 47,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3176,20 +3162,6 @@
     "branch": "codex/job-1-continue-reload-2026-10-21",
     "sha": "0906727467c86965388a77b5734f981102e09769",
     "updated": "2026-10-21T16:38:36Z",
-    "gates": {
-     "passed": 7,
-     "running": 0,
-     "failed": 1,
-     "cancelled": 0
-    }
-   },
-   {
-    "pr": 964,
-    "title": "JOB-3 audit: History and Legacy recovery correctness",
-    "draft": true,
-    "branch": "codex/job-3-history-legacy-2026-10-20",
-    "sha": "741b1a7dee71213b71e1da1f0e3c6a9b7e85c0f1",
-    "updated": "2026-10-21T00:15:29Z",
     "gates": {
      "passed": 7,
      "running": 0,
