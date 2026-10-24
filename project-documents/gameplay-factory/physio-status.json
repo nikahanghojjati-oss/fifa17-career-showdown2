@@ -1,6 +1,6 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-24T10:33:09.363Z",
+  "at": "2026-10-24T10:34:52.316Z",
   "state": "ALL_CLEAR",
   "checks": [],
   "helpers_paused": [],
@@ -10,7 +10,7 @@
     "lanes": [
       {
         "name": "L1 core",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L2 browser full",
@@ -22,7 +22,7 @@
       },
       {
         "name": "L3B visual",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L4 remote",
