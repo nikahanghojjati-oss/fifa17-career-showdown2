@@ -63,16 +63,16 @@
     },
     "managers": {
       "daniel": {
-        "careerPoints": 4,
-        "seasons": 2,
-        "seasonWins": 1,
+        "careerPoints": 0,
+        "seasons": 0,
+        "seasonWins": 0,
         "seasonDraws": 0,
-        "seasonLosses": 1,
+        "seasonLosses": 0,
         "championsLeagues": 0,
         "europaLeagues": 0,
-        "leagueTitles": 1,
-        "domesticCups": 1,
-        "totalTrophies": 2,
+        "leagueTitles": 0,
+        "domesticCups": 0,
+        "totalTrophies": 0,
         "hundredPointSeasons": 0,
         "hundredGoalSeasons": 0,
         "topScorerSeasons": 0,
@@ -80,13 +80,13 @@
         "perfectSeasons": 0,
         "performanceBonuses": 0,
         "awardsBonuses": 0,
-        "bestSeasonScore": 4,
-        "bestLeaguePoints": 89,
-        "bestLeagueGoals": 85,
-        "bestLeaguePosition": 1,
-        "averageSeasonScore": 2,
-        "averageLeaguePoints": 81.5,
-        "averageLeagueGoals": 77.5,
+        "bestSeasonScore": null,
+        "bestLeaguePoints": null,
+        "bestLeagueGoals": null,
+        "bestLeaguePosition": null,
+        "averageSeasonScore": null,
+        "averageLeaguePoints": null,
+        "averageLeagueGoals": null,
         "showdowns": {
           "completed": 0,
           "wins": 0,
@@ -95,30 +95,30 @@
         }
       },
       "nik": {
-        "careerPoints": 9,
-        "seasons": 2,
-        "seasonWins": 1,
+        "careerPoints": 0,
+        "seasons": 0,
+        "seasonWins": 0,
         "seasonDraws": 0,
-        "seasonLosses": 1,
-        "championsLeagues": 1,
+        "seasonLosses": 0,
+        "championsLeagues": 0,
         "europaLeagues": 0,
-        "leagueTitles": 1,
+        "leagueTitles": 0,
         "domesticCups": 0,
-        "totalTrophies": 2,
+        "totalTrophies": 0,
         "hundredPointSeasons": 0,
         "hundredGoalSeasons": 0,
-        "topScorerSeasons": 1,
+        "topScorerSeasons": 0,
         "topAssistSeasons": 0,
         "perfectSeasons": 0,
         "performanceBonuses": 0,
-        "awardsBonuses": 1,
-        "bestSeasonScore": 8,
-        "bestLeaguePoints": 91,
-        "bestLeagueGoals": 88,
-        "bestLeaguePosition": 1,
-        "averageSeasonScore": 4.5,
-        "averageLeaguePoints": 87.5,
-        "averageLeagueGoals": 83,
+        "awardsBonuses": 0,
+        "bestSeasonScore": null,
+        "bestLeaguePoints": null,
+        "bestLeagueGoals": null,
+        "bestLeaguePosition": null,
+        "averageSeasonScore": null,
+        "averageLeaguePoints": null,
+        "averageLeagueGoals": null,
         "showdowns": {
           "completed": 0,
           "wins": 0,
@@ -133,57 +133,50 @@
         "daniel": {
           "championsLeagues": 0,
           "europaLeagues": 0,
-          "leagueTitles": 1,
-          "domesticCups": 1,
-          "totalTrophies": 2
+          "leagueTitles": 0,
+          "domesticCups": 0,
+          "totalTrophies": 0
         },
         "nik": {
-          "championsLeagues": 1,
+          "championsLeagues": 0,
           "europaLeagues": 0,
-          "leagueTitles": 1,
+          "leagueTitles": 0,
           "domesticCups": 0,
-          "totalTrophies": 2
+          "totalTrophies": 0
         }
       },
       "standings": [
         {
-          "manager": "nik",
-          "careerPoints": 9,
-          "seasonWins": 1
+          "manager": "daniel",
+          "careerPoints": 0,
+          "seasonWins": 0,
+          "level": true
         },
         {
-          "manager": "daniel",
-          "careerPoints": 4,
-          "seasonWins": 1
+          "manager": "nik",
+          "careerPoints": 0,
+          "seasonWins": 0,
+          "level": true
         }
       ],
       "records": [
         {
           "label": "Highest season score",
-          "manager": "nik",
-          "value": 8,
-          "ref": {
-            "rivalryId": "pair_6666666666666666666666666666666666666666666666666666666666666666",
-            "season": 2
-          }
+          "manager": "shared",
+          "value": null,
+          "ref": null
         },
         {
           "label": "Highest league points",
-          "manager": "nik",
-          "value": 91,
-          "ref": {
-            "rivalryId": "pair_6666666666666666666666666666666666666666666666666666666666666666",
-            "season": 2
-          }
+          "manager": "shared",
+          "value": null,
+          "ref": null
         },
         {
           "label": "Highest league goals",
-          "manager": "nik",
-          "value": 88,
-          "ref": {
-            "rivalryId": "pair_6666666666666666666666666666666666666666666666666666666666666666",
-            "season": 2
-          }
+          "manager": "shared",
+          "value": null,
+          "ref": null
         },
         {
           "label": "Biggest Showdown win",
@@ -194,7 +187,7 @@
         {
           "label": "Most perfect seasons",
           "manager": "shared",
-          "value": 0,
+          "value": null,
           "ref": null
         }
       ]
@@ -616,14 +609,6 @@
           "confirm": "Abandon this Showdown? It closes the current Daniel vs Nik Showdown for both players. Abandoned Showdowns do not count toward career records.",
           "confirmedByProvider": false
         },
-        "forgetThisDevice": {
-          "available": true,
-          "enabled": true,
-          "provider": "identity.forgetThisDevice",
-          "args": null,
-          "confirm": "Forget this device? This browser is signed out and must be set up again before it can play. Your Showdowns are not deleted.",
-          "confirmedByProvider": false
-        },
         "primaryActions": [
           "session.refresh"
         ],
@@ -1037,14 +1022,6 @@
           "provider": "pair.abandonCurrentShowdown",
           "args": null,
           "confirm": "Abandon this Showdown? It closes the current Daniel vs Nik Showdown for both players. Abandoned Showdowns do not count toward career records.",
-          "confirmedByProvider": false
-        },
-        "forgetThisDevice": {
-          "available": true,
-          "enabled": true,
-          "provider": "identity.forgetThisDevice",
-          "args": null,
-          "confirm": "Forget this device? This browser is signed out and must be set up again before it can play. Your Showdowns are not deleted.",
           "confirmedByProvider": false
         },
         "primaryActions": [

@@ -10,7 +10,7 @@
   // No reads, no writes, no storage, no globals: everything arrives as one argument.
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
   const RIVALRY_ID=/^pair_[0-9a-f]{64}$/;
-  const READ_STATUSES=Object.freeze(["completed","abandoned","not-closed","unavailable","never-started"]);
+  const READ_STATUSES=Object.freeze(["completed","abandoned","not-closed","unavailable","never-started","hidden"]);
   const CURRENT_CLASSES=Object.freeze(["pending","active","completion-pending","completed","abandoned","unavailable"]);
   const INDEX_STATUSES=Object.freeze(["loading","unavailable","ready"]);
 
@@ -56,6 +56,7 @@
     if(!READ_STATUSES.includes(read.status)||read.rivalryId!==rivalryId)return [cadEntry(rivalryId,"unavailable"),cadNote(rivalryId,"reader","unavailable","CLOSED_READ_INVALID")];
     if(read.status==="unavailable")return [cadEntry(rivalryId,"unavailable"),cadNote(rivalryId,"reader","unavailable",typeof read.code==="string"&&read.code?read.code:"CLOSED_READ_UNAVAILABLE")];
     if(!ROLES.includes(read.managerRole))return [cadEntry(rivalryId,"unavailable"),cadNote(rivalryId,"reader","unavailable","CLOSED_READ_INVALID")];
+    if(read.status==="hidden")return [null,cadNote(rivalryId,"excluded","hidden")];
     if(read.status==="never-started")return [null,cadNote(rivalryId,"excluded","never-started")];
     const live=current.entry&&current.entry.rivalryId===rivalryId?current.entry:null;
     if(read.status==="completed"){

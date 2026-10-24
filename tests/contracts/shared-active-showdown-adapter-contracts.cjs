@@ -59,7 +59,7 @@ check("6. Season Results phases",()=>{
  assert.equal(view({managerRole:"playerTwo"}).status,"unavailable");
 });
 check("7. Tiebreak",()=>{
- const p=P({totalSeasons:5,seasons:[[R({domesticCup:true}),R()],[R({leaguePosition:2}),R({leaguePosition:3})],[R({leaguePoints:80}),R({leaguePoints:78})],[R(),R()]]}),s=snap(p),expected=["none","league-position","league-points","draw"];
+ const p=P({totalSeasons:5,seasons:[[R({domesticCup:true}),R()],[R({leaguePosition:2}),R({leaguePosition:3})],[R({leaguePoints:80}),R({leaguePoints:78})],[R(),R()]]}),s=snap(p),expected=["none","draw","draw","draw"];
  for(let i=0;i<4;i++){const v=A.seasonResultsView(s,{season:i+1});assert.equal(v.tiebreak,expected[i]);assert.equal(v.tiebreak,Career.seasonTiebreak(p.seasonHistory[i]));assert.equal(v.winner,mapRole(p.seasonHistory[i].winner));}
 });
 check("8. No rival leak",()=>{

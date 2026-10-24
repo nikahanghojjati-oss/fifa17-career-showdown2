@@ -85,9 +85,9 @@
       "daniel": {
         "careerPoints": 7,
         "seasons": 3,
-        "seasonWins": 2,
-        "seasonDraws": 0,
-        "seasonLosses": 1,
+        "seasonWins": 0,
+        "seasonDraws": 3,
+        "seasonLosses": 0,
         "championsLeagues": 0,
         "europaLeagues": 0,
         "leagueTitles": 1,
@@ -117,9 +117,9 @@
       "nik": {
         "careerPoints": 7,
         "seasons": 3,
-        "seasonWins": 1,
-        "seasonDraws": 0,
-        "seasonLosses": 2,
+        "seasonWins": 0,
+        "seasonDraws": 3,
+        "seasonLosses": 0,
         "championsLeagues": 0,
         "europaLeagues": 0,
         "leagueTitles": 1,
@@ -169,12 +169,14 @@
         {
           "manager": "daniel",
           "careerPoints": 7,
-          "seasonWins": 2
+          "seasonWins": 0,
+          "level": true
         },
         {
           "manager": "nik",
           "careerPoints": 7,
-          "seasonWins": 1
+          "seasonWins": 0,
+          "level": true
         }
       ],
       "records": [
@@ -241,8 +243,8 @@
                 "daniel": 1,
                 "nik": 1
               },
-              "winner": "daniel",
-              "tiebreak": "league-position",
+              "winner": "draw",
+              "tiebreak": "draw",
               "leaguePosition": {
                 "daniel": 2,
                 "nik": 3
@@ -262,8 +264,8 @@
                 "daniel": 3,
                 "nik": 3
               },
-              "winner": "nik",
-              "tiebreak": "league-position",
+              "winner": "draw",
+              "tiebreak": "draw",
               "leaguePosition": {
                 "daniel": 2,
                 "nik": 1
@@ -283,8 +285,8 @@
                 "daniel": 3,
                 "nik": 3
               },
-              "winner": "daniel",
-              "tiebreak": "league-position",
+              "winner": "draw",
+              "tiebreak": "draw",
               "leaguePosition": {
                 "daniel": 1,
                 "nik": 2
@@ -314,9 +316,9 @@
       "daniel": {
         "careerPoints": 7,
         "seasons": 3,
-        "seasonWins": 2,
-        "seasonDraws": 0,
-        "seasonLosses": 1,
+        "seasonWins": 0,
+        "seasonDraws": 3,
+        "seasonLosses": 0,
         "championsLeagues": 0,
         "europaLeagues": 0,
         "leagueTitles": 1,
@@ -346,9 +348,9 @@
       "nik": {
         "careerPoints": 7,
         "seasons": 3,
-        "seasonWins": 1,
-        "seasonDraws": 0,
-        "seasonLosses": 2,
+        "seasonWins": 0,
+        "seasonDraws": 3,
+        "seasonLosses": 0,
         "championsLeagues": 0,
         "europaLeagues": 0,
         "leagueTitles": 1,
@@ -398,12 +400,14 @@
         {
           "manager": "daniel",
           "careerPoints": 7,
-          "seasonWins": 2
+          "seasonWins": 0,
+          "level": true
         },
         {
           "manager": "nik",
           "careerPoints": 7,
-          "seasonWins": 1
+          "seasonWins": 0,
+          "level": true
         }
       ],
       "records": [
@@ -470,8 +474,8 @@
                 "daniel": 1,
                 "nik": 1
               },
-              "winner": "daniel",
-              "tiebreak": "league-position",
+              "winner": "draw",
+              "tiebreak": "draw",
               "leaguePosition": {
                 "daniel": 2,
                 "nik": 3
@@ -491,8 +495,8 @@
                 "daniel": 3,
                 "nik": 3
               },
-              "winner": "nik",
-              "tiebreak": "league-position",
+              "winner": "draw",
+              "tiebreak": "draw",
               "leaguePosition": {
                 "daniel": 2,
                 "nik": 1
@@ -512,8 +516,8 @@
                 "daniel": 3,
                 "nik": 3
               },
-              "winner": "daniel",
-              "tiebreak": "league-position",
+              "winner": "draw",
+              "tiebreak": "draw",
               "leaguePosition": {
                 "daniel": 1,
                 "nik": 2
@@ -671,14 +675,6 @@
           "confirm": null,
           "confirmedByProvider": false
         },
-        "forgetThisDevice": {
-          "available": true,
-          "enabled": true,
-          "provider": "identity.forgetThisDevice",
-          "args": null,
-          "confirm": "Forget this device? This browser is signed out and must be set up again before it can play. Your Showdowns are not deleted.",
-          "confirmedByProvider": false
-        },
         "primaryActions": [
           "pairing.createCode"
         ],
@@ -745,8 +741,8 @@
               "total": 1
             }
           },
-          "winner": "daniel",
-          "tiebreak": "league-position"
+          "winner": "draw",
+          "tiebreak": "draw"
         },
         {
           "status": "ready",
@@ -795,8 +791,8 @@
               "total": 3
             }
           },
-          "winner": "nik",
-          "tiebreak": "league-position"
+          "winner": "draw",
+          "tiebreak": "draw"
         },
         {
           "status": "ready",
@@ -845,8 +841,8 @@
               "total": 3
             }
           },
-          "winner": "daniel",
-          "tiebreak": "league-position"
+          "winner": "draw",
+          "tiebreak": "draw"
         }
       ],
       "finalWinner": {
@@ -891,9 +887,9 @@
         },
         "managers": {
           "daniel": {
-            "seasonWins": 2,
-            "seasonDraws": 0,
-            "seasonLosses": 1,
+            "seasonWins": 0,
+            "seasonDraws": 3,
+            "seasonLosses": 0,
             "championsLeagues": 0,
             "europaLeagues": 0,
             "leagueTitles": 1,
@@ -907,9 +903,9 @@
             "bestSeasonScore": 3
           },
           "nik": {
-            "seasonWins": 1,
-            "seasonDraws": 0,
-            "seasonLosses": 2,
+            "seasonWins": 0,
+            "seasonDraws": 3,
+            "seasonLosses": 0,
             "championsLeagues": 0,
             "europaLeagues": 0,
             "leagueTitles": 1,
@@ -930,7 +926,7 @@
               "daniel": 1,
               "nik": 1
             },
-            "winner": "daniel",
+            "winner": "draw",
             "leaguePosition": {
               "daniel": 2,
               "nik": 3
@@ -950,7 +946,7 @@
               "daniel": 3,
               "nik": 3
             },
-            "winner": "nik",
+            "winner": "draw",
             "leaguePosition": {
               "daniel": 2,
               "nik": 1
@@ -970,7 +966,7 @@
               "daniel": 3,
               "nik": 3
             },
-            "winner": "daniel",
+            "winner": "draw",
             "leaguePosition": {
               "daniel": 1,
               "nik": 2
@@ -1128,14 +1124,6 @@
           "confirm": null,
           "confirmedByProvider": false
         },
-        "forgetThisDevice": {
-          "available": true,
-          "enabled": true,
-          "provider": "identity.forgetThisDevice",
-          "args": null,
-          "confirm": "Forget this device? This browser is signed out and must be set up again before it can play. Your Showdowns are not deleted.",
-          "confirmedByProvider": false
-        },
         "primaryActions": [
           "pairing.join"
         ],
@@ -1202,8 +1190,8 @@
               "total": 1
             }
           },
-          "winner": "daniel",
-          "tiebreak": "league-position"
+          "winner": "draw",
+          "tiebreak": "draw"
         },
         {
           "status": "ready",
@@ -1252,8 +1240,8 @@
               "total": 3
             }
           },
-          "winner": "nik",
-          "tiebreak": "league-position"
+          "winner": "draw",
+          "tiebreak": "draw"
         },
         {
           "status": "ready",
@@ -1302,8 +1290,8 @@
               "total": 3
             }
           },
-          "winner": "daniel",
-          "tiebreak": "league-position"
+          "winner": "draw",
+          "tiebreak": "draw"
         }
       ],
       "finalWinner": {
@@ -1348,9 +1336,9 @@
         },
         "managers": {
           "daniel": {
-            "seasonWins": 2,
-            "seasonDraws": 0,
-            "seasonLosses": 1,
+            "seasonWins": 0,
+            "seasonDraws": 3,
+            "seasonLosses": 0,
             "championsLeagues": 0,
             "europaLeagues": 0,
             "leagueTitles": 1,
@@ -1364,9 +1352,9 @@
             "bestSeasonScore": 3
           },
           "nik": {
-            "seasonWins": 1,
-            "seasonDraws": 0,
-            "seasonLosses": 2,
+            "seasonWins": 0,
+            "seasonDraws": 3,
+            "seasonLosses": 0,
             "championsLeagues": 0,
             "europaLeagues": 0,
             "leagueTitles": 1,
@@ -1387,7 +1375,7 @@
               "daniel": 1,
               "nik": 1
             },
-            "winner": "daniel",
+            "winner": "draw",
             "leaguePosition": {
               "daniel": 2,
               "nik": 3
@@ -1407,7 +1395,7 @@
               "daniel": 3,
               "nik": 3
             },
-            "winner": "nik",
+            "winner": "draw",
             "leaguePosition": {
               "daniel": 2,
               "nik": 1
@@ -1427,7 +1415,7 @@
               "daniel": 3,
               "nik": 3
             },
-            "winner": "daniel",
+            "winner": "draw",
             "leaguePosition": {
               "daniel": 1,
               "nik": 2

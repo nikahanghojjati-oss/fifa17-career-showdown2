@@ -512,11 +512,12 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
   });
 
   await check("FB10","every connected module goes through the budget layer; wait points ask for the listener; device re-checks are capped",async()=>{
-    const wrapped=["onlinePlayerIdentity","persistentNikDanielPair","productionSharedCanonicalScoring","productionSharedCareerStart","productionSharedHistoryConvergence","productionSharedMultiSeasonProgression","productionSharedSeasonCommit","productionSharedSeasonResults","productionSharedShowdownSetup","productionSharedTerminalClose","productionSharedTransferChallenge","seasonFinalV10","rivalryLegacyV10","sparkConnectedAccount","sparkConnectedRivalry","sparkPrivatePairing","sparkRemoteJoining"];
+    const wrapped=["persistentNikDanielPair","productionSharedCanonicalScoring","productionSharedCareerStart","productionSharedHistoryConvergence","productionSharedMultiSeasonProgression","productionSharedSeasonCommit","productionSharedSeasonResults","productionSharedShowdownSetup","productionSharedTerminalClose","productionSharedTransferChallenge","seasonFinalV10","rivalryLegacyV10","sparkConnectedAccount","sparkConnectedRivalry","sparkPrivatePairing","sparkRemoteJoining"];
     for(const name of wrapped){
       const text=fs.readFileSync(path.join(ROOT,"js",`${name}.js`),"utf8");
       assert.match(text,/CareerModeFirestoreBudget\?\.services\|\|\(s=>s\)\)\(await /,`${name}.js wraps its Firestore services`);
     }
+    assert.doesNotMatch(fs.readFileSync(path.join(ROOT,"js/onlinePlayerIdentity.js"),"utf8"),/revokeDevice|firebaseSdk\.|runTransaction|getDoc\(/,"identity no longer performs Firestore IO after removal of test-only Forget Device");
     const waitPoints={productionSharedTransferChallenge:"pstc",productionSharedSeasonResults:"pssr",productionSharedSeasonCommit:"pssc",productionSharedCanonicalScoring:"pcsc",productionSharedCareerStart:"pcst"};
     for(const [name,prefix] of Object.entries(waitPoints)){
       const text=fs.readFileSync(path.join(ROOT,"js",`${name}.js`),"utf8");
@@ -728,7 +729,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.equal(unpaired.view.mode,"real");assert.equal(unpaired.view.pairing,"unpaired");
     const test=await page({mine:null,theirs:null});
     assert.equal(test.reads[THEIRS]||0,0,"no record: the partner side is never read");assert.equal(test.reads[MARKER],1,"the marker: one get per page, memoised across five asks");
-    assert.equal(test.view.mode,"test");
+    assert.equal(test.view.mode,"real");assert.equal(test.view.careerStarted,false);
   });
 
   await check("FB13","Codex #918: readServerNext(path) sends the next read of that document to the server, inside the 2 s window and past a read already in flight; once only, and other documents keep their copies",async()=>{
@@ -909,12 +910,13 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
       await world.advance(20*60000);
       assert.equal(world.server.get(OFFER).data.sessionId,B);assert.equal(offerWrites.length,1);}
 
-    // N (Codex #920): a competing pointer with a minute or less left is stale here as it is for Nik's poll: it is replaced.
+    // N (JOB-1 F1): even a pointer with a minute or less left must preserve its still-live session.
     {const {world,remote,offerWrites,sessions}=daniel({paired:true,fail:1});
       const SHORT="session_"+"7".repeat(64);sessions[SHORT]="open";
       world.serverWrite(OFFER,{schemaVersion:1,sessionId:SHORT,hostAccountId:"daniel",expiresAt:{epochMs:world.clock.now+30000}});
       await remote.autoConnect();await world.advance(3000);
-      assert.equal(offerWrites.length,2);assert.equal(published(world),true,"the nearly expired pointer is replaced");
+      assert.equal(offerWrites.length,0,"a live session is resumed without rewriting its short-lived pointer");
+      assert.equal(world.server.get(OFFER).data.sessionId,SHORT);assert.equal(remote.getState().sessionId,SHORT);
       assert.doesNotMatch(remote.getState().message,/another screen/);}
 
     // L: a pointer to a session the server reports as not found is replaced.

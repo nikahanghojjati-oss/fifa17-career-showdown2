@@ -94,7 +94,7 @@
     if(!layer)return false;
     layer.classList.add("hidden");layer.setAttribute("aria-hidden","true");
     setBackgroundInert(false);
-    // r79: js/showdownModes.js ends Nik's JOIN TEST RUN here (reopening from Home is no screen change).
+    // Announce the layer closing to its subscribers.
     try{root.document.dispatchEvent(new root.CustomEvent("career-mode-connect-players-closed"));}catch(_error){}
     if(options.restoreFocus!==false){
       const target=opener?.isConnected&&opener.getClientRects().length?opener:byId("newShowdown");

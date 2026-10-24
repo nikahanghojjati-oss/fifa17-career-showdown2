@@ -8,18 +8,17 @@
 //   3. Daniel's next Home START ticked the checkmark: his marker named every Showdown in his career index, that game too, and
 //      Nik's first CMS17R- join wrote his own marker the same way. The list never changes, so the game was gone for good.
 // This audit runs the r80 code through that sequence. Real app, two Chromium contexts, Auth + Firestore emulators with the
-// composed production Rules (demo project only; production Firebase hosts fail the run). Taps and typing only; page globals
-// are only read. Two emulator-side stand-ins: the finished test game stands in for the game r79's leak left behind (the data
-// is the same: a CMS17- Showdown of the two accounts, played to the end and closed with a Terminal Close before the first real
-// START), and both markers' startedAt is set to an r79 time (2026-10-18 20:00 UTC), as the markers r79 wrote for Nik and
-// Daniel have it (js/careerStartMarker.js shows the hidden game again only for markers made before r80's cutoff).
-//   H1  the game r79 left behind: a 1-season test Showdown (CMS17-) played to the end and closed; History shows it.
+// composed production Rules (demo project only; production Firebase hosts fail the run). Current UI gameplay is real.
+// Emulator admin restores historical markerless metadata after the first finished game and unused code, the stored
+// shape of r79's leaked game. Both markers' startedAt is set to an r79 time (2026-10-18 20:00 UTC), as Nik and
+// Daniel had it (js/careerStartMarker.js reveals the hidden game only for markers made before r80's cutoff).
+//   H1  a 1-season real Showdown is played to the end, then restored as a historical markerless fixture.
 //   H2  Daniel's leftover code (CMS17-, never used, still OPEN: Codex #936, unexpired); Daniel reloads: nothing reopens it
 //       (no WAITING, no code; he is on Home); on r79 WAITING came back over the wheel with that test code.
-//   H3  Daniel's Home START opens the seasons screen with the START REAL CAREER checkmark ticked; its START closes the
+//   H3  Daniel's Home START opens the seasons screen with no checkmark; its START closes the
 //       leftover (nobody joined it), writes the marker (it names the finished game and the leftover), then makes a NEW real
 //       code (CMS17R-), never the leftover. Before Codex #936 the marker refused here ("Finish or end the current Showdown").
-//   H3b Nik types the leftover code (Settings > JOIN TEST RUN): refused, it is closed; nothing of his changes.
+//   H3b Nik types the leftover code (Home > JOIN): refused, it is closed; nothing of his changes.
 //   H4  Nik types the code once and joins; his marker is written before the join (it names the finished game).
 //   H5  the real 1-season Showdown is played to the end and closed by itself.
 //   H6  History (Legacy), Career Statistics and the Trophy Room show BOTH finished games on both phones (the one the marker
@@ -31,6 +30,7 @@
 // Optional: CMS_TEST_PORT (app, default 4178), CMS_AUTH_PORT / CMS_FIRESTORE_PORT (emulators, default 9199 / 8181),
 // CMS_R79_JOURNEY_SHOTS (screenshots).
 const assert=require("node:assert/strict");
+const {restoreHistoricalMarkerlessAccounts}=require("./support/historical-markerless-account.cjs");
 const {installMarbleConfirmAnswers,marbleConfirmMessages}=require("./support/marble-confirm.cjs");
 const {installFirestoreMeter,createMeter}=require("./support/firestore-meter.cjs");
 const fs=require("node:fs");
@@ -143,17 +143,14 @@ async function signIn(m,label){
 async function danielStartsShowdown(m,length,{firstRealStart=false}={}){
   await m.page.locator("#newShowdown").click({timeout:30000});
   await m.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
-  if(firstRealStart){
-    await m.page.locator("#cmsRealCareerRow").waitFor({state:"visible",timeout:30000});
-    assert.equal(await m.page.locator("#cmsRealCareerCheck").isChecked(),true,"the START REAL CAREER checkmark is ticked");
-  }else{
-    await m.page.waitForTimeout(300);
-    assert.equal(await m.page.locator("#cmsRealCareerRow").isVisible().catch(()=>false),false,"the checkmark is one-time");
-  }
-  assert.equal(await m.page.locator("#cmsTestRunNote").isVisible().catch(()=>false),false,"Home START is never a test run");
+  assert.equal(await m.page.locator("#cmsRealCareerRow,#cmsRealCareerCheck,#cmsTestRunNote").count(),0,"START has no checkmark, mode choice or test label");
+  if(firstRealStart)assert.equal(await m.page.evaluate(async()=>{await window.loadRuntimeScript("career-start-marker","js/careerStartMarker.js",()=>Boolean(window.CareerModeCareerStartMarker));return (await window.CareerModeCareerStartMarker.readCurrentMarker()).status;}),"none","the first START begins without a career marker");
   await m.page.locator("#roundAmount").selectOption(String(length));
   await m.page.locator("#startShowdown").click({timeout:30000});
   await pairPanel(m).locator("code").waitFor({timeout:30000});
+  const marker=await m.page.evaluate(async()=>{await window.loadRuntimeScript("career-start-marker","js/careerStartMarker.js",()=>Boolean(window.CareerModeCareerStartMarker));return window.CareerModeCareerStartMarker.readCurrentMarker();});
+  assert.equal(marker.status,"ready","START automatically wrote the career-start marker before showing the code");
+  assert.equal(marker.active,true,"this Showdown counts toward the real career");
   return (await pairPanel(m).locator("code").innerText()).trim();
 }
 async function bothActive(managers,rivalryId){
@@ -529,35 +526,40 @@ async function main(){
     ok("H0.2","Daniel and Nik signed in on the emulators; neither has started the real career");
 
     // ---------- H1 the game r79 left behind ----------
-    await openSettings(daniel);
-    await daniel.page.locator("#onlinePlayerIdentitySettingsPanel button",{hasText:"START TEST RUN"}).click({timeout:30000});
+    await daniel.page.locator("#newShowdown").click({timeout:30000});
     await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
     await daniel.page.locator("#roundAmount").selectOption("1");
     await daniel.page.locator("#startShowdown").click({timeout:30000});
     await pairPanel(daniel).locator("code").waitFor({timeout:30000});
     const gameCode=(await pairPanel(daniel).locator("code").innerText()).trim();
-    assert.match(gameCode,/^CMS17-pair_[0-9a-f]{64}$/,"the game's code is a CMS17- test code, as r79's leak made it");
-    const G=gameCode.slice("CMS17-".length);
-    await openSettings(nik);
-    await nik.page.locator("#onlinePlayerIdentitySettingsPanel button",{hasText:"JOIN TEST RUN"}).click({timeout:30000});
+    assert.match(gameCode,/^CMS17R-pair_[0-9a-f]{64}$/,"the current UI creates a real first-pairing code");
+    const G=gameCode.slice("CMS17R-".length);
+    await backToShowdownHome(nik);
+    await nik.page.locator("#newShowdown").click({timeout:30000});
     await pairPanel(nik).locator("#persistentNikDanielPairCode").waitFor({state:"visible",timeout:30000});
     await pairPanel(nik).locator("#persistentNikDanielPairCode").fill(gameCode);
     await pairPanel(nik).getByRole("button",{name:"JOIN DANIEL'S SHOWDOWN",exact:true}).click();
     await bothActive([daniel,nik],G);
     await playOneSeasonShowdown(daniel,nik,G,["QWX Daniel Signing","ZPV Nik Signing"]);
     for(const m of managers)await backToShowdownHome(m);
+    // The completed real gameplay supplies the same stored shape as r79's leaked game. Restore only historical
+    // account metadata, through emulator admin, so the migration assertions below still exercise both old markers.
+    await restoreHistoricalMarkerlessAccounts(managers,{firestorePort:FIRESTORE_PORT});
+    for(const m of managers){await m.page.reload({waitUntil:"domcontentloaded"});await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});}
     for(const uid of [uidD,uidN])assert.equal(await admin(`accounts/${uid}/careerStart/current`),null,"no marker yet");
-    ok("H1",`the game r79's leak left behind: ${G.slice(0,14)}… (CMS17-) played to the end by both and closed with its Terminal Close; no marker yet`);
+    ok("H1",`the game r79's leak left behind: ${G.slice(0,14)}… played to the end by both, then restored as historical markerless data`);
 
     // ---------- H2 Daniel's leftover code, then a reload ----------
-    await openSettings(daniel);
-    await daniel.page.locator("#onlinePlayerIdentitySettingsPanel button",{hasText:"START TEST RUN"}).click({timeout:30000});
+    await daniel.page.locator("#newShowdown").click({timeout:30000});
     await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
     await daniel.page.locator("#roundAmount").selectOption("1");
     await daniel.page.locator("#startShowdown").click({timeout:30000});
     await pairPanel(daniel).locator("code").waitFor({timeout:30000});
-    const leftoverCode=(await pairPanel(daniel).locator("code").innerText()).trim();
-    assert.match(leftoverCode,/^CMS17-pair_[0-9a-f]{64}$/);
+    const currentCode=(await pairPanel(daniel).locator("code").innerText()).trim();
+    assert.match(currentCode,/^CMS17R-pair_[0-9a-f]{64}$/);
+    // Restore an unused markerless code left by an old release; the current UI cannot create one.
+    await restoreHistoricalMarkerlessAccounts([daniel],{firestorePort:FIRESTORE_PORT});
+    const leftoverCode=currentCode.replace("CMS17R-","CMS17-");
     const L=leftoverCode.slice("CMS17-".length);
     const leftoverInvite=await admin(`rivalries/${L}/invites/${L}`);
     const leftoverExpires=Date.parse(field(leftoverInvite,"data","expiresAt").timestampValue);
@@ -572,7 +574,7 @@ async function main(){
     const tile=await homeTile(daniel);
     ok("H2",`the leftover CMS17- code (unexpired, never used) is not reopened after the reload (Home tile ${JSON.stringify(tile)})`);
 
-    // ---------- H3 Daniel's Home START: the checkmark first, then a new real code ----------
+    // ---------- H3 Daniel's Home START: automatic marker, then a new real code ----------
     // Every code the pair panel ever shows on screen from here on is recorded (no flash of the leftover code while the new one is made).
     await daniel.page.evaluate(()=>{window.__h3Codes=[];const seen=()=>{for(const c of document.querySelectorAll("#connectPlayersScreen #persistentNikDanielPairPanel code")){const t=(c.textContent||"").trim(),shown=c.getClientRects().length>0&&getComputedStyle(c).visibility!=="hidden";if(t&&shown&&!window.__h3Codes.includes(t))window.__h3Codes.push(t);}};new MutationObserver(seen).observe(document.body,{subtree:true,childList:true,characterData:true});seen();});
     assert.ok(leftoverExpires>Date.now()+60_000,"the leftover is still unexpired when START is pressed (Nik could still join it)");
@@ -591,13 +593,14 @@ async function main(){
     const leftoverAfter=await admin(`rivalries/${L}`);
     assert.equal(field(leftoverAfter,"data","connectionState").stringValue,"closed","the leftover code was closed before the marker (nobody can join it any more)");
     assert.equal(field(leftoverAfter,"data","terminalClose"),undefined,"closed without a Terminal Close (an unused code, never a finished game)");
-    ok("H3","Home START opened the seasons screen (checkmark ticked); its START closed the unexpired leftover, wrote the marker, then made a new CMS17R- code");
+    ok("H3","Home START opened the seasons screen (no checkmark); its START closed the unexpired leftover, wrote the marker, then made a new CMS17R- code");
 
     // ---------- H3b Nik types the leftover code ----------
-    await openSettings(nik);
-    await nik.page.locator("#onlinePlayerIdentitySettingsPanel button",{hasText:"JOIN TEST RUN"}).click({timeout:30000});
+    await backToShowdownHome(nik);
+    await nik.page.locator("#newShowdown").click({timeout:30000});
     await pairPanel(nik).locator("#persistentNikDanielPairCode").waitFor({state:"visible",timeout:30000});
-    await pairPanel(nik).locator("#persistentNikDanielPairCode").fill(leftoverCode);
+    // The real prefix reaches the closed-capability check; plain legacy codes are refused even before that check.
+    await pairPanel(nik).locator("#persistentNikDanielPairCode").fill(leftoverCode.replace("CMS17-","CMS17R-"));
     await pairPanel(nik).getByRole("button",{name:"JOIN DANIEL'S SHOWDOWN",exact:true}).click();
     await nik.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.busy===false&&s.status!=="joining");},null,{timeout:30000});
     await nik.page.waitForTimeout(1500);

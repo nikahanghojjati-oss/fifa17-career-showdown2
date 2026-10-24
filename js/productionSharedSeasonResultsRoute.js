@@ -73,7 +73,7 @@
     await root.loadRuntimeScript("ssjr-production-season-results","js/productionSharedSeasonResults.js",()=>root.CareerModeProductionSharedSeasonResults);
     if(navigationAtTap!==null&&root.getNavigationRevision()!==navigationAtTap)return false;
     const api=root.CareerModeProductionSharedSeasonResults;if(!api||typeof api.install!=="function"||typeof api.open!=="function")throw new Error("Shared Season Results production adapter is unavailable.");
-    api.install();const opened=await api.open();if(!opened)return false;await routeBootstrapPostResults();
+    api.install();const opened=await api.open();if(!opened)return false;routeTransfer()?.rememberResultsView?.();await routeBootstrapPostResults();
     if(api.getState?.()?.state?.phase==="RESULTS_READY"){
       const commit=root.CareerModeProductionSharedSeasonCommit;
       if(!commit||typeof commit.refresh!=="function")throw new Error("Shared Season Commit refresh API is unavailable.");

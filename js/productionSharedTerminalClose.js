@@ -169,6 +169,12 @@
   }
   function ptcClear(){stateGeneration+=1;state=null;stateContextKey="";ptcRender();return null;}
   function ptcStillCurrent(request,generation){return ptcRequest()?.key===request.key&&stateGeneration===generation;}
+  // A verified stored closure can finish the same gameplay through a replacement session. This comparison is read-only;
+  // unresolved writes still resend the original intent, and the protocol/provider keep exact session-bound idempotency.
+  function ptcSameFinalResult(terminalRead,intent){
+    if(protocol.sameWitness(terminalRead.terminalWitness,intent))return true;
+    try{const witness=protocol.verifyIntent(terminalRead.terminalWitness),held=protocol.verifyIntent(intent);return protocol.sameWitness({...witness,sessionId:held.sessionId},held);}catch(_error){return false;}
+  }
   function ptcClosedState(request,terminalRead){const witness=protocol.verifyIntent(terminalRead.terminalWitness);return {phase:"CLOSED",rivalryId:request.rivalryId,sessionId:witness.sessionId,rivalryRevision:terminalRead.rivalryRevision,terminal:true,terminalWitness:ptcClone(witness),canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false};}
   function ptcBootstrap(){return ptcEnsureDependencies().then(()=>{if(!unsubscribeRemote&&typeof remoteApi?.subscribe==="function")unsubscribeRemote=remoteApi.subscribe(()=>ptcWake());});}
   function ptcOnOtherRivalry(request){try{const s=ptcRivalryApi()?.getState?.(),id=String(s?.rivalryId||"").trim().toLowerCase();return s?.attached===true&&/^pair_[0-9a-f]{64}$/.test(id)&&id!==request.rivalryId;}catch(_error){return false;}}
@@ -195,7 +201,7 @@
     if(ptcRequest()?.key!==request.key)return null;
     const terminalRead=await provider.read({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:request.rivalryId,deviceId:context.deviceId,cryptoImpl:root.crypto});
     if(ptcRequest()?.key!==request.key)return null;
-    // H1017-1: an unresolved close holds its exact witness. Only a verified closed read of that same witness resolves it here;
+    // H1017-1: an unresolved close holds its exact witness. A verified closed read of the same final facts resolves it here;
     // an open, mismatched or failed read keeps RECOVERY_PENDING so RETRY SAME TERMINAL CLOSE stays bound to that witness.
     const held=ptcCurrentState();
     const deletedRead=terminalRead?.ok===true&&terminalRead.deleted===true&&terminalRead.rivalryState==="closed";
@@ -204,7 +210,7 @@
       // Codex #910: a pending close whose rivalry the other phone has since deleted (closed, no witness, so this close never
       // landed) is resolved as DELETED instead of being held and retried against a closed rivalry.
       if(deletedRead)return publishDeleted();
-      if(terminalRead?.ok===true&&terminalRead.terminal===true&&protocol.sameWitness(terminalRead.terminalWitness,held.intent)){try{remoteApi?.forgetSession?.();}catch(_error){}return ptcPublish(request,ptcClosedState(request,terminalRead));}
+      if(terminalRead?.ok===true&&terminalRead.terminal===true&&ptcSameFinalResult(terminalRead,held.intent)){try{remoteApi?.forgetSession?.();}catch(_error){}return ptcPublish(request,ptcClosedState(request,terminalRead));}
       return held;
     }
     if(terminalRead?.ok===true&&terminalRead.terminal===true){try{remoteApi?.forgetSession?.();}catch(_error){}return ptcPublish(request,ptcClosedState(request,terminalRead));}
@@ -257,7 +263,7 @@
     return ptcPublish(request,{phase:"CLOSED",rivalryId:request.rivalryId,sessionId:intent.sessionId,rivalryRevision:closed.rivalryRevision,sessionRevision:closed.sessionRevision,terminal:true,terminalWitness:ptcClone(intent),replayed:closed.replayed,canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});
   }
   // BH-7: when both managers tap CLOSE together the loser's write is refused (permission-denied once the winner closed the
-  // session/rivalry). Re-read once, like Season Results does; if the rivalry is already CLOSED with this exact witness, show
+  // session/rivalry). Re-read once, like Season Results does; if the rivalry is already CLOSED with these final facts, show
   // CLOSED quietly. Anything else keeps the existing rejection path.
   // Codex #910: a rivalry the other phone deleted after READY rejects the close as a replay conflict (closed, no matching
   // witness); the same one re-read then shows DELETED instead of a rejected close.
@@ -267,10 +273,10 @@
     try{
       const terminalRead=await provider.read({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:request.rivalryId,deviceId:context.deviceId,cryptoImpl:root.crypto});
       if(ptcStillCurrent(request,generation)&&terminalRead?.ok===true&&terminalRead.deleted===true&&terminalRead.rivalryState==="closed"){try{remoteApi?.forgetSession?.();}catch(_error){}ptcPublish(request,ptcDeletedState(request,terminalRead));return {ok:true,status:"deleted",rivalryId:request.rivalryId};}
-      if(!ptcStillCurrent(request,generation)||terminalRead?.ok!==true||terminalRead.terminal!==true||!protocol.sameWitness(terminalRead.terminalWitness,intent))return null;
+      if(!ptcStillCurrent(request,generation)||terminalRead?.ok!==true||terminalRead.terminal!==true||!ptcSameFinalResult(terminalRead,intent))return null;
       try{remoteApi?.forgetSession?.();}catch(_error){}
       ptcPublish(request,ptcClosedState(request,terminalRead));
-      return {ok:true,status:"replayed",replayed:true,closedByRival:true,rivalryId:request.rivalryId,sessionId:intent.sessionId,rivalryState:"closed",sessionState:"closed",rivalryRevision:terminalRead.rivalryRevision};
+      return {ok:true,status:"replayed",replayed:true,closedByRival:true,rivalryId:request.rivalryId,sessionId:terminalRead.terminalWitness.sessionId,rivalryState:"closed",sessionState:"closed",rivalryRevision:terminalRead.rivalryRevision};
     }catch(_error){return null;}
   }
   async function ptcClose(automaticKey=null){
@@ -309,7 +315,7 @@
         if(!ptcStillCurrent(request,generation))return changed;
         // Codex #910: the other phone deleted the rivalry before this RETRY: DELETED at once, no close sent against it.
         if(terminalRead?.ok===true&&terminalRead.deleted===true&&terminalRead.rivalryState==="closed"){try{remoteApi?.forgetSession?.();}catch(_error){}ptcPublish(request,ptcDeletedState(request,terminalRead));return {ok:true,status:"deleted",rivalryId:request.rivalryId};}
-        if(terminalRead?.ok===true&&terminalRead.terminal===true){if(!protocol.sameWitness(terminalRead.terminalWitness,intent))ptcFail("TERMINAL_CLOSE_REPLAY_CONFLICT");try{remoteApi?.forgetSession?.();}catch(_error){}ptcPublish(request,ptcClosedState(request,terminalRead));return {ok:true,status:"replayed",replayed:true,rivalryId:request.rivalryId,sessionId:intent.sessionId,rivalryState:"closed",sessionState:"closed",rivalryRevision:terminalRead.rivalryRevision};}
+        if(terminalRead?.ok===true&&terminalRead.terminal===true){if(!ptcSameFinalResult(terminalRead,intent))ptcFail("TERMINAL_CLOSE_REPLAY_CONFLICT");try{remoteApi?.forgetSession?.();}catch(_error){}ptcPublish(request,ptcClosedState(request,terminalRead));return {ok:true,status:"replayed",replayed:true,rivalryId:request.rivalryId,sessionId:terminalRead.terminalWitness.sessionId,rivalryState:"closed",sessionState:"closed",rivalryRevision:terminalRead.rivalryRevision};}
         const result=await provider.close(ptcCloseOptions(context,intent));
         if(!ptcStillCurrent(request,generation))return changed;
         if(result?.ok===true){ptcAccepted(request,intent,result);return result;}

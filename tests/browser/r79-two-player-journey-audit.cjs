@@ -3,7 +3,7 @@
 // Real app, two Chromium contexts (Daniel = playerOne, Nik = playerTwo), Auth + Firestore emulators with the composed
 // production Rules (test project demo-cms-browser-journey only; production Firebase hosts are recorded and fail the run).
 // Every step is a player's tap or typing; page globals are only read.
-//   P1  Daniel's first Home START (ticked START REAL CAREER checkmark) makes the first real pairing (CMS17R-); Nik pastes it once.
+//   P1  Daniel's first Home START (automatic career boundary) makes the first real pairing (CMS17R-); Nik pastes it once.
 //   P2  both continue by themselves into the private session and reach the league wheel; Daniel draws league and clubs.
 //   P3  Daniel reloads mid-Showdown (Transfer Challenge, window live): back in the same Showdown and session, Home never shows.
 //   P4  Nik goes offline during guess entry (Daniel locks his guesses meanwhile), comes back online and continues.
@@ -15,9 +15,8 @@
 //   R80c Nik opens the game in a fresh browser mid-season (Daniel already published) and continues the same season.
 //   P6  the 1-season Showdown finishes: canonical 9-3, the Final Winner screen, automatic close (no CLOSE tap), R1 closed.
 //   P7  history: Career Statistics, Trophy Room and Legacy show the finished Showdown on both devices.
-//   R80f before the real career: Daniel's START TEST RUN, Nik's JOIN TEST RUN, then Daniel's END SHOWDOWN on the league wheel
-//        (one closure write with the ended-early mark, 0 seasons); Nik's phone goes Home by itself. The test run never counts:
-//        the first real START hides it, and real History never shows it (checked at R80d).
+//   R80f before the real career: verify removed actions on both players and seed a historical pre-r79 fixture through
+//        emulator admin. The first real START hides it and real History never shows it (checked at R80d).
 //   P8  Daniel's next START (3 seasons) has no code for Nik to type: Nik's Home shows JOIN DANIEL'S SHOWDOWN; one JOIN tap joins R2.
 //   R80d R2 (3 seasons), played on the same pages that finished R1 (no reload; Shared History must not reuse R1's accepted
 //        season): season 1 is played and committed, both continue to season 2, and mid-season 2 (transfer window open)
@@ -158,14 +157,7 @@ async function signIn(m,label){
 async function danielStartsShowdown(m,length,{firstRealStart=false}={}){
   await m.page.locator("#newShowdown").click({timeout:30000});
   await m.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
-  if(firstRealStart){
-    await m.page.locator("#cmsRealCareerRow").waitFor({state:"visible",timeout:30000});
-    assert.equal(await m.page.locator("#cmsRealCareerCheck").isChecked(),true,"the START REAL CAREER checkmark is ticked");
-  }else{
-    await m.page.waitForTimeout(300);
-    assert.equal(await m.page.locator("#cmsRealCareerRow").isVisible().catch(()=>false),false,"the checkmark is one-time");
-  }
-  assert.equal(await m.page.locator("#cmsTestRunNote").isVisible().catch(()=>false),false,"Home START is never a test run");
+  assert.equal(await m.page.locator("#cmsRealCareerRow,#cmsTestRunNote").count(),0,"START has no mode choice or test label");
   await m.page.locator("#roundAmount").selectOption(String(length));
   await m.page.locator("#startShowdown").click({timeout:30000});
   await pairPanel(m).locator("code").waitFor({timeout:30000});
@@ -494,33 +486,26 @@ async function main(){
     assert.ok(metered>0,"the Firestore meter sees the app's reads (the wrapper is in place)");
     ok("P0.2","Daniel and Nik signed in on the emulators; the Firestore meter is in place in both contexts");
 
-    // ---------- R80f a test run, ended early, never counts ----------
-    await openSettings(daniel);
-    await daniel.page.locator("#onlinePlayerIdentitySettingsPanel button",{hasText:"START TEST RUN"}).click({timeout:30000});
-    await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
-    await daniel.page.locator("#cmsTestRunNote").waitFor({state:"visible",timeout:15000});
-    await daniel.page.locator("#roundAmount").selectOption("1");
-    await daniel.page.locator("#startShowdown").click({timeout:30000});
-    await pairPanel(daniel).locator("code").waitFor({timeout:30000});
-    const testCode=(await pairPanel(daniel).locator("code").innerText()).trim();
-    assert.match(testCode,/^CMS17-pair_[0-9a-f]{64}$/,"a test run makes a temporary CMS17- code");
-    const T=testCode.slice("CMS17-".length);
-    await openSettings(nik);
-    await nik.page.locator("#onlinePlayerIdentitySettingsPanel button",{hasText:"JOIN TEST RUN"}).click({timeout:30000});
-    await pairPanel(nik).locator("#persistentNikDanielPairCode").waitFor({state:"visible",timeout:30000});
-    await pairPanel(nik).locator("#persistentNikDanielPairCode").fill(testCode);
-    await pairPanel(nik).getByRole("button",{name:"JOIN DANIEL'S SHOWDOWN",exact:true}).click();
-    await bothActive([daniel,nik],T);
-    for(const m of [daniel,nik])await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:45000});
-    await openSettings(daniel);
-    await daniel.page.locator(".settingsDeleteCurrentShowdown").click();
-    await daniel.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.busy===false&&s.status==="unpaired");},null,{timeout:45000});
-    const closedT=await adminUntil(`rivalries/${T}`,doc=>field(doc,"data","connectionState")?.stringValue==="closed","the test run is closed");
-    assert.equal(field(closedT,"data","endedEarly","seasonsPlayed")?.integerValue,"0","the test run's closure carries the ended-early mark (0 seasons, league wheel)");
-    await closeSettings(daniel);
-    await nik.page.waitForFunction(id=>window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="DELETED"&&window.CareerModeProductionSharedTerminalClose.getState().rivalryId===id,T,{timeout:60000});
-    for(const m of [daniel,nik])await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
-    ok("R80f.1","a test run (START TEST RUN / JOIN TEST RUN) ended early from Settings: one closure with the 0-season mark; both phones are on Home");
+    // Historical data is seeded through emulator admin: the removed client must never create a test game.
+    for(const m of managers){
+      await openSettings(m);
+      assert.equal(await m.page.getByRole("button",{name:/START TEST RUN|JOIN TEST RUN|FORGET THIS DEVICE/}).count(),0,"no test entry or test-only Forget Device");
+      assert.doesNotMatch(await m.page.locator("#onlinePlayerIdentitySettingsPanel").innerText(),/TEST RUN|nothing counts/i);
+      await closeSettings(m);
+      assert.doesNotMatch(await m.page.locator("#mainMenu").innerText(),/TEST RUN/i);
+    }
+    const historical=JSON.parse(fs.readFileSync(path.join(ROOT,"tests/fixtures/saved-showdowns/r75-1season-win.json"),"utf8"));
+    const T=historical.rivalryId;
+    const root=historical.documents.find(d=>d.path===`rivalries/${T}`);
+    assert.ok(root);
+    const put=async(p,fields)=>{const response=await fetch(docUrl(p),{method:"PATCH",headers:{Authorization:"Bearer owner","Content-Type":"application/json"},body:JSON.stringify({fields})});assert.equal(response.status,200,await response.text());};
+    await put(root.path,root.fields);
+    for(const uid of [uidD,uidN])await put(`accounts/${uid}/careerIndex/current`,{
+      schemaVersion:{integerValue:"1"},objectType:{stringValue:"careerIndex"},objectId:{stringValue:"current"},revision:{integerValue:"0"},
+      lifecycleState:{stringValue:"live"},contentHash:{stringValue:"sha256:"+"a".repeat(64)},
+      data:{mapValue:{fields:{rivalryIds:{arrayValue:{values:[{stringValue:T}]}},sealedPageCount:{integerValue:"0"}}}}
+    });
+    ok("R80f.1","both Settings/Home surfaces have no test entry; a stored pre-r79 game remains available for the hidden-history checks");
 
     // ---------- P1 first real pairing ----------
     assert.equal(await admin(`accounts/${uidD}/careerStart/current`),null,"Daniel has no marker before his first START");

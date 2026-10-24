@@ -4,9 +4,7 @@
 // without the one-time START REAL CAREER checkmark. On accounts whose real career had not started that was a TEST code, so the
 // game was played as a test Showdown; the checkmark at the next START then named it in the marker's hidden list, which never
 // changes, and the finished game left History, Legacy, Career Statistics and the Trophy Room for good.
-// G: js/productionSharedJourneyEntry.js. On a test-mode account only Settings > START TEST RUN (armed) shows or makes a test
-//    code; Home START, CONTINUE CAREER and a reload go to the seasons screen, whose START makes the Showdown through the
-//    checkmark. Armed test runs, real accounts and an unknown mode keep their paths.
+// G: markerless old waiting codes route to real START; real and unknown accounts retain their resume path.
 // R: js/careerStartMarker.js careerHiddenRivalryIds(). A marker made on r79 or later shows again the Showdowns it hides that
 //    were finished (closed with a Terminal Close) on r79 or later; bounded exact gets, fail closed, read-only.
 // C: js/rivalryLegacyV10.js uses it, so that game is back in History, Legacy, Career Statistics and the Trophy Room.
@@ -27,7 +25,7 @@ async function settle(){for(let pass=0;pass<3;pass+=1){await new Promise(resolve
 const LEFTOVER="pair_3"+"7".repeat(63),SAVE="save_"+"a".repeat(24),PENDING_KEY="careerModeShowdown.sharedJourneyPending.v1";
 function el(id){const node={id,dataset:{},attributes:{},style:{},disabled:false,value:"",textContent:"",classList:{add(){},remove(){},contains:()=>false},
   setAttribute(k,v){this.attributes[k]=v;},removeAttribute(k){delete this.attributes[k];},addEventListener(){},remove(){},querySelector:()=>null,focus(){},scrollIntoView(){}};return node;}
-function entryHarness({mode="test",armed=false,pair="leftover",manager="daniel",resolveThrows=false}={}){
+function entryHarness({mode="unstarted",pair="leftover",manager="daniel",resolveThrows=false}={}){
   const calls={navigate:[],layerOpen:[],startPairing:0,create:0,beforeCreate:0,resolve:0,resume:0,order:[]};
   const nodes=new Map(["startShowdown","roundAmount","connectPlayersScreen"].map(id=>[id,el(id)]));nodes.get("roundAmount").value="1";
   // the leftover: Daniel's open code, or the shell whose seasons he chose with no code yet (both from before r79)
@@ -49,7 +47,7 @@ function entryHarness({mode="test",armed=false,pair="leftover",manager="daniel",
     CareerModeConnectPlayersScreenV10:{open:async options=>{calls.layerOpen.push(options);calls.order.push("layer-opening");await new Promise(resolve=>setTimeout(resolve,5));calls.order.push("layer-open");return true;},close:()=>true},
     CareerModePersistentNikDanielPair:{getState:()=>pairState,render(){},startPairing:async()=>{calls.startPairing+=1;calls.order.push("code-started");}},
     // js/showdownModes.js as the page has it: memoised mode (marker / partner record) and the START TEST RUN arming
-    CareerModeShowdownModes:{install(){},isTestRunArmed:()=>armed,resolve:async()=>{calls.resolve+=1;if(resolveThrows)throw new Error("offline");return {mode,managerId:manager};}},
+    CareerModeShowdownModes:{install(){},resolve:async()=>{calls.resolve+=1;if(resolveThrows)throw new Error("offline");return {mode:"real",careerStarted:mode==="unstarted"?false:mode==="real"?true:null,managerId:manager};}},
     reportApplicationError(){}};
   sandbox.currentShowdown=null;
   vm.createContext(sandbox);
@@ -95,13 +93,13 @@ const reveal=(marker,docs,options)=>{Marker.clearCache();const f=fakeSdk(docs,op
 
 (async()=>{
 
-await check("G1 a test-mode Daniel's Home START over an old open code goes to the seasons screen, not into that test code",async()=>{
+await check("G1 a markerless Daniel's Home START over an old open code goes to the seasons screen, not into that test code",async()=>{
   const h=entryHarness();h.api.install();await settle();
   await h.api.followStartDecision(decisionFor(h));
   same(h.calls.navigate,["createShowdown"],"the seasons screen, where the START REAL CAREER checkmark is");
   same([h.calls.layerOpen.length,h.calls.startPairing,h.calls.create],[0,0,0],"no WAITING, no code, no shell");
 });
-await check("G2 a test-mode Daniel's code-less shell never gets a test code made for it",async()=>{
+await check("G2 a markerless Daniel's code-less shell never gets a test code made for it",async()=>{
   const h=entryHarness({pair:"shell"});h.api.install();await settle();
   await h.api.followStartDecision(decisionFor(h));
   same(h.calls.navigate,["createShowdown"]);same([h.calls.layerOpen.length,h.calls.startPairing],[0,0],"no code is made without the checkmark");
@@ -117,14 +115,14 @@ await check("G3 the seasons START over that leftover runs the checkmark first, t
     same([refused.calls.beforeCreate,refused.calls.create,refused.calls.startPairing,refused.calls.layerOpen.length],[1,0,0,0],`${pair}: creates nothing`);
   }
 });
-await check("G4 after a reload a test-mode account's leftover is not reopened by itself (no wheel, no WAITING, no code)",async()=>{
+await check("G4 after a reload a markerless account's leftover is not reopened by itself (no wheel, no WAITING, no code)",async()=>{
   for(const pair of ["leftover","shell"]){
     const h=entryHarness({pair});h.api.install();await h.api.startupResume();await settle();
     same([h.calls.navigate.length,h.calls.resume,h.calls.layerOpen.length,h.calls.startPairing],[0,0,0,0],pair);
   }
 });
-await check("G5 unchanged: an armed START TEST RUN, a real account and an unknown mode reopen WAITING as before",async()=>{
-  for(const options of [{armed:true},{mode:"real"},{mode:"unknown"},{resolveThrows:true}]){
+await check("G5 real and unknown accounts keep the existing WAITING and recovery path",async()=>{
+  for(const options of [{mode:"real"},{mode:"unknown"},{resolveThrows:true}]){
     // (not installed here: the reload recovery is checked on its own below)
     const h=entryHarness(options);
     await h.api.followStartDecision(decisionFor(h));
@@ -153,8 +151,8 @@ await check("U1 an unexpired leftover code: the seasons START closes it, then wr
   assert.equal(await g.modes.beforeSeasonsStart(),true,"the real career starts");
   same(g.calls.filter(c=>c!=="clearCache"),["readMarker","readMarker",["close",LEFTOVER],"startRealCareer"],"fresh marker check, the close of exactly that code, then the marker");
 });
-await check("U2 nothing is closed when START refuses before the marker: unticked, a real career started elsewhere, or no answer",async()=>{
-  for(const [label,options] of [["unticked",{ticked:false}],["started on another browser",{fresh:"ready"}],["offline",{fresh:"unavailable"}]]){
+await check("U2 nothing is closed if a real career started elsewhere or the marker cannot be checked",async()=>{
+  for(const [label,options] of [["started on another browser",{fresh:"ready"}],["offline",{fresh:"unavailable"}]]){
     const g=modesGate(options);
     assert.equal(await g.modes.beforeSeasonsStart(),false,label);
     same([closes(g).length,g.calls.includes("startRealCareer")],[0,false],`${label}: no close, no marker`);
@@ -219,9 +217,9 @@ await check("R3 only a Terminal Close counts: r79 codes never joined and Showdow
     [`rivalries/${game}`]:rivalryDoc(game,{at:R79_LIVE+2*HOUR})});
   same(ids,[abandoned,unused]);same(log,[unused,abandoned,game].map(x=>`rivalries/${x}`));
 });
-await check("R4 fail closed: a failed read, a missing or foreign document keeps it and everything older hidden",async()=>{
+await check("R4 fail closed: a failed read rejects the scope; a missing or foreign document keeps it and everything older hidden",async()=>{
   const a=id(1),b=id(2),marker=markerAt([a,b],R79_LIVE+5*HOUR),docA=rivalryDoc(a,{at:R79_LIVE+HOUR});
-  same((await reveal(marker,{[`rivalries/${a}`]:docA},{fail:new Set([`rivalries/${b}`])})).ids,[a,b],"read failed");
+  await assert.rejects(reveal(marker,{[`rivalries/${a}`]:docA},{fail:new Set([`rivalries/${b}`])}),error=>error.code==="unavailable","a failed read cannot resolve as a finished scope");
   same((await reveal(marker,{[`rivalries/${a}`]:docA})).ids,[a,b],"missing");
   same((await reveal(marker,{[`rivalries/${a}`]:docA,[`rivalries/${b}`]:{...rivalryDoc(b,{at:R79_LIVE+2*HOUR}),objectId:a}})).ids,[a,b],"not this rivalry");
   same((await reveal(marker,{[`rivalries/${a}`]:docA,[`rivalries/${b}`]:{...rivalryDoc(b,{at:R79_LIVE+2*HOUR}),updatedAt:null}})).ids,[a,b],"no write time");
@@ -300,5 +298,5 @@ await check("C1 History, Legacy, Career Statistics and the Trophy Room count the
   assert.equal(before.model.status,"empty","a marker from before r79 hides both, exactly as today");
   same(before.log.filter(p=>p.startsWith("rivalries/")||p.startsWith("reader:")),[],"and reads nothing more");
 });
-console.log(`PASS r80 first real game history contracts: ${cases} checks (a test-mode Home START, CONTINUE CAREER or reload never reopens or makes a test code; the seasons START runs the checkmark first; a game finished on r79 that the checkmark hid shows again, bounded and fail closed; old test games stay hidden).`);
+console.log(`PASS r80 first real game history contracts: ${cases} checks (marker before creation, safe leftover-code closure, r79 recovery and permanent older-game exclusion).`);
 })().catch(error=>{console.error(error);process.exitCode=1;});

@@ -20,10 +20,8 @@
   function managerFor(role){return role==="playerOne"?"daniel":role==="playerTwo"?"nik":role==="draw"?"draw":null;}
   function seasonTiebreak(season){
     const a=season.playerOne,b=season.playerTwo;
-    if(a.scoring.total!==b.scoring.total)return "none";
-    if(a.leaguePosition!==b.leaguePosition)return "league-position";
-    if(a.leaguePoints!==b.leaguePoints)return "league-points";
-    return "draw";
+    // r83: no tiebreak. Equal Showdown points is a draw, whatever the league table says.
+    return a.scoring.total!==b.scoring.total?"none":"draw";
   }
   function caCanonical(value){
     if(Array.isArray(value))return "["+value.map(caCanonical).join(",")+"]";
@@ -103,8 +101,10 @@
   function trophyRoom(managers,records,unknown){
     const cabinet=Object.fromEntries(MANAGERS.map(manager=>[manager,Object.fromEntries(CABINET.map(key=>[key,managers[manager][key]]))]));
     const standings=unknown?[]:MANAGERS.map(manager=>({manager,careerPoints:managers[manager].careerPoints,seasonWins:managers[manager].seasonWins}));
-    standings.sort((a,b)=>b.careerPoints-a.careerPoints||b.seasonWins-a.seasonWins);
-    if(standings.length&&standings[0].careerPoints===standings[1].careerPoints&&standings[0].seasonWins===standings[1].seasonWins)standings.forEach(row=>{row.level=true;});
+    // r83 (Nik 2026-10-23): equal career points are level, as a tied Showdown total is a DRAW. Season wins are a stat, never
+    // a tiebreak for the crown or #1, so Legacy's DRAW and the career ranks always tell the same story.
+    standings.sort((a,b)=>b.careerPoints-a.careerPoints);
+    if(standings.length&&standings[0].careerPoints===standings[1].careerPoints)standings.forEach(row=>{row.level=true;});
     return {cabinet,standings,records};
   }
   function buildCareerModel({indexStatus,showdowns=[],...options}={}){
@@ -123,7 +123,11 @@
         rows.push(statusRow(entry,rows.length+1));continue;
       }
       readable+=1;
-      for(const season of p.seasonHistory){
+      // r83 (JOB-4 F1): career totals, cabinets, ranks and records count finished Showdowns only, so every career screen
+      // agrees with History/Legacy and never depends on whether this page holds the live History. An unfinished Showdown
+      // keeps its row and shows on THIS SHOWDOWN / Rivalry Statistics. The labelled current-only view (interimLabel) is that
+      // live Showdown on its own, so it still counts it.
+      if(classification==="completed"||interimLabel!==null)for(const season of p.seasonHistory){
         for(let i=0;i<ROLES.length;i+=1){
           const role=ROLES[i],manager=MANAGERS[i],r=season[role];
           accumulate(managers[manager],season,role,sums[manager]);

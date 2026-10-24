@@ -2019,13 +2019,15 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   let retainedHistory=null;
   function sfRetainHistory(history){if(history?.authoritative===true&&history.phase==="HISTORY_CONVERGED"&&history.projection)retainedHistory=history;return history;}
   // JOB-1042: the rival can close before this phone's live history converges. Reuse the session-free,
-  // completed-only reader once per closed rivalry; the partial Final Winner stays visible during the read.
+  // completed-only reader per closed rivalry; the partial Final Winner stays visible during the read.
   const closedHistoryReads=new Map();
   // JOB-1811: previous-season convergence must not suppress the completed read after the rival closes.
   const sfConverged=(history,closed)=>history?.authoritative===true&&history.phase==="HISTORY_CONVERGED"&&history.rivalryId===closed.rivalryId&&history.projection&&closed.terminalWitness&&closedHistoryBound(history.projection,closed.terminalWitness);
   function sfClosedHistory(rivalryId){
-    if(!closedHistoryReads.has(rivalryId)){
-      const entry={history:null,promise:null};closedHistoryReads.set(rivalryId,entry);
+    if(!closedHistoryReads.has(rivalryId))closedHistoryReads.set(rivalryId,{history:null,promise:null,retryAt:0,attempts:0,retryTimer:null});
+    const entry=closedHistoryReads.get(rivalryId);
+    if(!entry.history&&!entry.promise&&Date.now()>=entry.retryAt&&(!entry.attempts||sfDetailsVisible())){
+      entry.attempts++;
       entry.promise=Promise.resolve().then(async()=>{
         if(!root.CareerModeSparkCompletedShowdownReader)await root.loadRuntimeScript("career-completed-reader","js/sparkCompletedShowdownReader.js",()=>Boolean(root.CareerModeSparkCompletedShowdownReader));
         const runtime=root.CareerModeProductionFirebaseRuntime,account=state("CareerModeSparkConnectedAccount");
@@ -2035,9 +2037,20 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
         const sdk=services.firestoreSdk?.getDoc?services.firestoreSdk:await import(runtime.firebaseFirestoreModule);
         const result=await root.CareerModeSparkCompletedShowdownReader.readCompletedShowdown({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc},user,rivalryId});
         if(result?.status==="completed"&&result.rivalryId===rivalryId&&result.projection)entry.history={authoritative:true,phase:"HISTORY_CONVERGED",rivalryId,projection:result.projection};
-      }).catch(()=>{}).then(()=>wake());
+      }).catch(()=>{}).then(()=>{entry.promise=null;entry.retryAt=Date.now()+Math.min(30000,1000*2**Math.min(entry.attempts-1,5));wake();});
     }
     return closedHistoryReads.get(rivalryId).history;
+  }
+  // A failed detail read is retryable. Coalesce reconnect/visible events, respect backoff even
+  // when recovery arrives during the read, and keep successful immutable history for this page.
+  const sfDetailsVisible=()=>root.document?.visibilityState!=="hidden"&&root.navigator?.onLine!==false&&root.getActiveScreenName?.()==="seasonEntry";
+  async function sfRetryClosedHistory(){
+    if(!sfDetailsVisible())return;
+    const closed=state("CareerModeProductionSharedTerminalClose"),entry=closedHistoryReads.get(closed?.rivalryId);
+    if(closed?.phase!=="CLOSED"||!entry)return;
+    await entry.promise;
+    if(entry.history||entry.retryTimer!==null||!sfDetailsVisible())return;
+    entry.retryTimer=root.setTimeout(()=>{entry.retryTimer=null;if(sfDetailsVisible()&&state("CareerModeProductionSharedTerminalClose")?.rivalryId===closed.rivalryId)wake();},Math.max(0,entry.retryAt-Date.now()));
   }
   function seasonSource(){
     const s=sfSnapshot(),live=sfRetainHistory(s.history),closed=s.terminalClose?.phase==="CLOSED"?s.terminalClose:null;
@@ -2073,6 +2086,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     if(typeof loader.show==="function")Promise.resolve(loader.show("seasonEntry")).catch(fail);
     for(const e of ["career-mode-shared-final-reconciliation-state-change","career-mode-shared-terminal-close-state-change","career-mode-shared-history-convergence-state-change","career-mode-shared-multi-season-state-change","career-mode-online-identity-change","career-mode-active-save-changed","career-mode-showdown-state-change","career-mode-online-career-model-change"])root.addEventListener?.(e,wake);
     root.addEventListener?.("career-mode-shared-history-convergence-state-change",()=>sfRetainHistory(state("CareerModeProductionSharedHistoryConvergence")));
+    root.addEventListener?.("online",sfRetryClosedHistory);
+    root.document.addEventListener("visibilitychange",sfRetryClosedHistory);
     root.document.addEventListener("career-mode-screen-shown",()=>{signature="";followPair();if(root.getActiveScreenName?.()==="standings")refreshStandingsCareer();wake();});
     followPair();
     wake();return true;
