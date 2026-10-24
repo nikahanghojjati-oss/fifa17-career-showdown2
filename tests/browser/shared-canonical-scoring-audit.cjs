@@ -11,11 +11,17 @@ const resultTwo={leaguePosition:4,leaguePoints:83,leagueGoals:74,domesticCup:fal
 const scoreOne={championsLeague:5,leagueTitle:3,domesticCup:1,performanceBonus:1,individualAwardsBonus:1,total:11,triggers:{hundredLeaguePoints:true,hundredLeagueGoals:true,topScorer:true,topAssist:true}};
 const scoreTwo={championsLeague:0,leagueTitle:0,domesticCup:0,performanceBonus:0,individualAwardsBonus:0,total:0,triggers:{hundredLeaguePoints:false,hundredLeagueGoals:false,topScorer:false,topAssist:false}};
 
-async function prepare(page,{role,saveId}){
+async function prepare(page,{role,saveId,draw=false}){
   await page.goto(baseUrl.href,{waitUntil:'domcontentloaded'});
   await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});
   await page.waitForFunction(()=>typeof window.ensureGameplayModules==='function'&&typeof window.loadRuntimeScript==='function'&&typeof window.navigateTo==='function',null,{timeout:12000});
-  await page.evaluate(async({role,saveId,rivalryId,sessionId,canonicalKeys,resultOne,resultTwo,scoreOne,scoreTwo})=>{
+  await page.evaluate(async({role,saveId,rivalryId,sessionId,canonicalKeys,resultOne,resultTwo,scoreOne,scoreTwo,draw})=>{
+    if(draw){
+      resultOne={leaguePosition:2,leaguePoints:80,leagueGoals:70,domesticCup:true,championsLeague:false,topScorer:false,topAssist:false};
+      resultTwo={...resultOne,leaguePosition:4,leaguePoints:65};
+      scoreOne={championsLeague:0,leagueTitle:0,domesticCup:1,performanceBonus:0,individualAwardsBonus:0,total:1,triggers:{hundredLeaguePoints:false,hundredLeagueGoals:false,topScorer:false,topAssist:false}};
+      scoreTwo=scoreOne;
+    }
     await ensureGameplayModules();
     currentShowdown={id:saveId,currentRound:1,totalRounds:3,status:'Ready',sharedJourney:{mode:'shared',rivalryId},managers:{playerOne:'Daniel',playerTwo:'Nik'},selectedLeague:null,clubs:{playerOne:null,playerTwo:null},transferChallenges:[],rounds:[],score:{playerOne:0,playerTwo:0}};
     const setup={status:'ready',ready:true,revision:6,phase:'SHOWDOWN_CONFIRMED',rivalryId,sessionId,deviceId:'device_'+(role==='playerOne'?'1':'2').repeat(32),managerRole:role,setup:{phase:'SHOWDOWN_CONFIRMED',revision:6,coordinatorRole:'playerOne',leagueId:'premier_league',clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},totalSeasons:3,confirmedRoles:['playerOne','playerTwo']}};
@@ -28,7 +34,7 @@ async function prepare(page,{role,saveId}){
     window.CareerModeSparkSharedSeasonCommit={read:async()=>acknowledgedCommit,commitSeason:async()=>({ok:false,code:'AUDIT_COMMIT_ALREADY_ACKNOWLEDGED'}),acknowledgeSeason:async()=>({ok:false,code:'AUDIT_COMMIT_ALREADY_ACKNOWLEDGED'})};
     window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:role==='playerOne'?'account_one':'account_two'}},firestore:{},firestoreSdk:{}})};
     window.__ssjrScoringProviderCalls=[];
-    window.CareerModeSparkSharedCanonicalScoring={read:async options=>{window.__ssjrScoringProviderCalls.push({uid:options.user?.uid,rivalryId:options.rivalryId,sessionId:options.sessionId,deviceId:options.deviceId,seasonNumber:options.seasonNumber,teamCount:options.teamCount});return {ok:true,authoritative:true,runtimeRevision:'1.9.1-r11',phase:'SCORING_RECONCILED',revision:1,seasonNumber:1,managerRole:role,seasonCommitRevision:3,resultsRevision:2,resultsContentHash:'sha256:'+('a'.repeat(64)),scoring:{playerOne:scoreOne,playerTwo:scoreTwo},winner:'playerOne'};}};
+    window.CareerModeSparkSharedCanonicalScoring={read:async options=>{window.__ssjrScoringProviderCalls.push({uid:options.user?.uid,rivalryId:options.rivalryId,sessionId:options.sessionId,deviceId:options.deviceId,seasonNumber:options.seasonNumber,teamCount:options.teamCount});return {ok:true,authoritative:true,runtimeRevision:'1.9.1-r11',phase:'SCORING_RECONCILED',revision:1,seasonNumber:1,managerRole:role,seasonCommitRevision:3,resultsRevision:2,resultsContentHash:'sha256:'+('a'.repeat(64)),scoring:{playerOne:scoreOne,playerTwo:scoreTwo},winner:draw?'draw':'playerOne'};}};
     await loadRuntimeScript('ssjr-r11-audit-results','js/productionSharedSeasonResults.js',()=>window.CareerModeProductionSharedSeasonResults);
     CareerModeProductionSharedSeasonResults.install();
     const opened=await CareerModeProductionSharedSeasonResults.open();
@@ -42,7 +48,7 @@ async function prepare(page,{role,saveId}){
       storageAfter:()=>Object.fromEntries(canonicalKeys.map(key=>[key,localStorage.getItem(key)])),
       localState:()=>({selectedLeague:currentShowdown.selectedLeague,clubs:structuredClone(currentShowdown.clubs),transferChallenges:structuredClone(currentShowdown.transferChallenges),rounds:structuredClone(currentShowdown.rounds),score:structuredClone(currentShowdown.score)})
     };
-  },{role,saveId,rivalryId,sessionId,canonicalKeys,resultOne,resultTwo,scoreOne,scoreTwo});
+  },{role,saveId,rivalryId,sessionId,canonicalKeys,resultOne,resultTwo,scoreOne,scoreTwo,draw});
 
   await page.locator('#seasonEntry').waitFor({state:'visible',timeout:8000});
   await page.locator('#seasonReviewPanel').waitFor({state:'visible',timeout:5000});
@@ -70,7 +76,8 @@ async function prepare(page,{role,saveId}){
   await page.locator('#sharedCanonicalScoringPanel').waitFor({state:'visible',timeout:5000});
 }
 
-(async()=>{
+module.exports={prepare};
+if(require.main===module)(async()=>{
   const runtime=await resolveChromiumRuntime();const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
   const hostContext=await browser.newContext({viewport:{width:1280,height:800}}),peerContext=await browser.newContext({viewport:{width:390,height:844},isMobile:true});const host=await hostContext.newPage(),peer=await peerContext.newPage(),errors=[];host.on('pageerror',error=>errors.push(`host: ${error.message}`));peer.on('pageerror',error=>errors.push(`peer: ${error.message}`));
   try{

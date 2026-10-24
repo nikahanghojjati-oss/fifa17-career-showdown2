@@ -1957,6 +1957,21 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel>.seasonReviewActions>button { flex:1 1 300px;width:auto;max-width:520px;margin:0; }
 }
+/* r83 gallery: keep the canonical score and both exits in flow. The docked row
+   otherwise paints over the totals/result while the review is still at its top. */
+#app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel:has(#sharedCanonicalScoringPanel:not(.hidden))>.seasonReviewActions {
+ position:static;
+}
+/* Reclaim the card's generous row spacing at Full HD so the score and exits fit
+   together on the first view. Other desktop sizes can grow in main's flow. */
+@media (min-width:1880px) and (max-width:1960px) and (min-height:1040px) and (max-height:1120px) {
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel:has(#sharedCanonicalScoringPanel:not(.hidden))>.seasonReviewActions { gap:4px;padding-block:4px; }
+ #app #seasonEntry.seasonScreenV10 #sharedCanonicalScoringPanel { padding:6px 14px; }
+ #app #seasonEntry.seasonScreenV10 #sharedCanonicalScoringPanel p { margin:2px 0; }
+ #app #seasonEntry.seasonScreenV10 .season-review-panel:has(.sharedCanonicalScoringPanel:not(.hidden)) .seasonSummaryCard { padding:4px 14px; }
+ #app #seasonEntry.seasonScreenV10 .season-review-panel:has(.sharedCanonicalScoringPanel:not(.hidden)) .summaryLine { padding-block:1px; }
+ #app #seasonEntry.seasonScreenV10 .season-review-panel:has(.sharedCanonicalScoringPanel:not(.hidden)) .seasonReviewAchievements { margin-block:2px;gap:3px; }
+}
 /* r80 gallery: the line that explains CONTINUE TO SEASON N ("SEASON 1 HISTORY IS READY · CONTINUE ONCE TO SEASON 2") is the
    first, full-width line of the action row, so it travels with the docked band on phones and at 1920x1080 and is never
    under it; on the other sizes it stays right above the buttons. */
