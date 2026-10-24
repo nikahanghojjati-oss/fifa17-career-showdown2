@@ -198,7 +198,7 @@ let previousShellChecks=Promise.reject(new Error("R4c did not run"));previousShe
 check("R4c an r79-only shell cache survives r80 activation and stays the rollback target",()=>{
   const crypto=require("node:crypto");
   const probe=swWorld(),diag=probe.diag;
-  assert.equal(diag.previousRevision,"1.9.5-r81");
+  assert.equal(diag.previousRevision,"1.9.6-r82");
   assert.equal(diag.previousShellPaths.length,221,"r79 shipped 221 shell paths");
   assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly r79's");
   assert.ok(diag.previousShellPaths.every(p=>diag.shellPaths.includes(p)),"r80 removed no shell path");
