@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-24 7:20 AM Boston time (EDT)",
+ "generated": "2026-10-24 7:24 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1213,25 +1213,11 @@
  },
  "two": {
   "live": {
-   "sha": "d956bf4",
-   "revision": "1.9.6-r82",
-   "when": "2026-10-23T00:43:00Z",
-   "subject": "Release 1.9.6-r82: career screens count real finished Showdowns (#957)",
+   "sha": "186af26",
+   "revision": "1.9.7-r83",
+   "when": "2026-10-24T11:21:02Z",
+   "subject": "Release 1.9.7-r83: bug fixes, draws without tiebreaks, real-only play (#991)",
    "fixes": [
-    {
-     "pr": 991,
-     "title": "Release 1.9.7-r83: bug fixes, draws without tiebreaks, real-only play",
-     "draft": false,
-     "branch": "gameplay/r83",
-     "sha": "2330ec0750a9894c57c163ba714bca86a0547071",
-     "updated": "2026-10-24T11:08:02Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    },
     {
      "pr": 970,
      "title": "JOB-4 audit: unfinished seasons change career stats and trophy totals",
@@ -1331,7 +1317,13 @@
      }
     }
    ],
-   "today": []
+   "today": [
+    {
+     "pr": 991,
+     "title": "Release 1.9.7-r83: bug fixes, draws without tiebreaks, real-only play",
+     "merged": "2026-10-24T11:21:02Z"
+    }
+   ]
   },
   "physio": {
    "state": "clear",
@@ -1882,7 +1874,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 48,
+  "moving": 47,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3099,20 +3091,6 @@
    }
   },
   "fixes": [
-   {
-    "pr": 991,
-    "title": "Release 1.9.7-r83: bug fixes, draws without tiebreaks, real-only play",
-    "draft": false,
-    "branch": "gameplay/r83",
-    "sha": "2330ec0750a9894c57c163ba714bca86a0547071",
-    "updated": "2026-10-24T11:08:02Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   },
    {
     "pr": 970,
     "title": "JOB-4 audit: unfinished seasons change career stats and trophy totals",
