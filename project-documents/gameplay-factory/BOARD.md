@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 23 Oct, 7:58 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 23 Oct, 8:02 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.6-r82** (main `d956bf4`, Thu 22 Oct 8:43 PM)
 
@@ -2129,7 +2129,6 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 | 🟧 Team G lead | [PR #966](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/966) | JOB-1 audit: replacement-session final saves and slow reload flashes | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #965](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/965) | JOB-1 audit: two new Showdown continuation recovery defects | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #964](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/964) | JOB-3 audit: History and Legacy recovery correctness | 🔴 7 passed, 1 failed (draft) |
-| 🟧 Team G lead | [PR #963](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/963) | JOB-6 audit: normal-play Firestore Rules and expression headroom | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #961](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/961) | JOB-2 audit: sign-in, pairing and real/test labels | 🔴 7 passed, 1 failed (draft) |
 
 **Up next**

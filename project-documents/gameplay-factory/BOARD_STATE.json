@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-23 7:58 PM Boston time (EDT)",
+ "generated": "2026-10-23 8:02 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1317,20 +1317,6 @@
      }
     },
     {
-     "pr": 963,
-     "title": "JOB-6 audit: normal-play Firestore Rules and expression headroom",
-     "draft": true,
-     "branch": "codex/job-6-rules-normal-play-2026-10-20",
-     "sha": "0e3509943368df8148a1fbe42b9fd3f42f950ca4",
-     "updated": "2026-10-21T00:01:48Z",
-     "gates": {
-      "passed": 7,
-      "running": 0,
-      "failed": 1,
-      "cancelled": 0
-     }
-    },
-    {
      "pr": 961,
      "title": "JOB-2 audit: sign-in, pairing and real/test labels",
      "draft": true,
@@ -1896,7 +1882,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 49,
+  "moving": 48,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3204,20 +3190,6 @@
     "branch": "codex/job-3-history-legacy-2026-10-20",
     "sha": "741b1a7dee71213b71e1da1f0e3c6a9b7e85c0f1",
     "updated": "2026-10-21T00:15:29Z",
-    "gates": {
-     "passed": 7,
-     "running": 0,
-     "failed": 1,
-     "cancelled": 0
-    }
-   },
-   {
-    "pr": 963,
-    "title": "JOB-6 audit: normal-play Firestore Rules and expression headroom",
-    "draft": true,
-    "branch": "codex/job-6-rules-normal-play-2026-10-20",
-    "sha": "0e3509943368df8148a1fbe42b9fd3f42f950ca4",
-    "updated": "2026-10-21T00:01:48Z",
     "gates": {
      "passed": 7,
      "running": 0,
