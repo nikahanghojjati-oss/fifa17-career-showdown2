@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-24 11:59 PM Boston time (EDT)",
+ "generated": "2026-10-25 12:03 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1275,13 +1275,7 @@
      }
     }
    ],
-   "today": [
-    {
-     "pr": 991,
-     "title": "Release 1.9.7-r83: bug fixes, draws without tiebreaks, real-only play",
-     "merged": "2026-10-24T11:21:02Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",
