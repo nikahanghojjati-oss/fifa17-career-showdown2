@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-25 8:12 AM Boston time (EDT)",
+ "generated": "2026-10-25 8:16 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1231,20 +1231,6 @@
       "failed": 1,
       "cancelled": 0
      }
-    },
-    {
-     "pr": 969,
-     "title": "JOB-2 audit: permanent-pair recovery and real/test JOIN mistakes",
-     "draft": true,
-     "branch": "codex/job-2-sign-in-pairing-2026-10-22",
-     "sha": "2ca0dd565b23c7c84d1ef1085962f068b561e06d",
-     "updated": "2026-10-22T12:15:08Z",
-     "gates": {
-      "passed": 7,
-      "running": 0,
-      "failed": 1,
-      "cancelled": 0
-     }
     }
    ],
    "today": []
@@ -1798,7 +1784,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 41,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3022,20 +3008,6 @@
     "branch": "codex/job-4-stats-trophies-2026-10-22",
     "sha": "378bb8c2a2999f19342fffae5f05affc89039069",
     "updated": "2026-10-22T12:31:15Z",
-    "gates": {
-     "passed": 7,
-     "running": 0,
-     "failed": 1,
-     "cancelled": 0
-    }
-   },
-   {
-    "pr": 969,
-    "title": "JOB-2 audit: permanent-pair recovery and real/test JOIN mistakes",
-    "draft": true,
-    "branch": "codex/job-2-sign-in-pairing-2026-10-22",
-    "sha": "2ca0dd565b23c7c84d1ef1085962f068b561e06d",
-    "updated": "2026-10-22T12:15:08Z",
     "gates": {
      "passed": 7,
      "running": 0,
