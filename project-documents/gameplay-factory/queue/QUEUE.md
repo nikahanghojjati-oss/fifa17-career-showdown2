@@ -1,4 +1,4 @@
-# Mega factory queue · updated 2026-10-25T12:22:03Z
+# Mega factory queue · updated 2026-10-25T12:25:58Z
 
 Stage | tickets | picked up | merged
 --- | --- | --- | ---
