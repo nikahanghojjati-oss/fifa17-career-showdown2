@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-24 11:55 PM Boston time (EDT)",
+ "generated": "2026-10-24 11:59 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1273,20 +1273,6 @@
       "failed": 1,
       "cancelled": 0
      }
-    },
-    {
-     "pr": 966,
-     "title": "JOB-1 audit: replacement-session final saves and slow reload flashes",
-     "draft": true,
-     "branch": "codex/job-1-continue-reload-2026-10-21-terminal-startup",
-     "sha": "f619403f8fd125288fd9195c6a8d5fcf2b5477d0",
-     "updated": "2026-10-22T03:57:18Z",
-     "gates": {
-      "passed": 7,
-      "running": 0,
-      "failed": 1,
-      "cancelled": 0
-     }
     }
    ],
    "today": [
@@ -1846,7 +1832,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 45,
+  "moving": 44,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3112,20 +3098,6 @@
     "branch": "codex/job-a-career-zero-2026-10-22",
     "sha": "44acfeef6c2d283527ecadea0ec24b70733ae979",
     "updated": "2026-10-22T04:04:46Z",
-    "gates": {
-     "passed": 7,
-     "running": 0,
-     "failed": 1,
-     "cancelled": 0
-    }
-   },
-   {
-    "pr": 966,
-    "title": "JOB-1 audit: replacement-session final saves and slow reload flashes",
-    "draft": true,
-    "branch": "codex/job-1-continue-reload-2026-10-21-terminal-startup",
-    "sha": "f619403f8fd125288fd9195c6a8d5fcf2b5477d0",
-    "updated": "2026-10-22T03:57:18Z",
     "gates": {
      "passed": 7,
      "running": 0,
