@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-25 12:03 AM Boston time (EDT)",
+ "generated": "2026-10-25 12:08 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1259,20 +1259,6 @@
       "failed": 1,
       "cancelled": 0
      }
-    },
-    {
-     "pr": 967,
-     "title": "JOB-A follow-up: verify career-zero failure against current writers",
-     "draft": true,
-     "branch": "codex/job-a-career-zero-2026-10-22",
-     "sha": "44acfeef6c2d283527ecadea0ec24b70733ae979",
-     "updated": "2026-10-22T04:04:46Z",
-     "gates": {
-      "passed": 7,
-      "running": 0,
-      "failed": 1,
-      "cancelled": 0
-     }
     }
    ],
    "today": []
@@ -1826,7 +1812,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 44,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3078,20 +3064,6 @@
     "branch": "codex/job-1-continue-reload-2026-10-22",
     "sha": "7989b8d1665e651e362a3837999d36d3492d2cd0",
     "updated": "2026-10-22T12:11:16Z",
-    "gates": {
-     "passed": 7,
-     "running": 0,
-     "failed": 1,
-     "cancelled": 0
-    }
-   },
-   {
-    "pr": 967,
-    "title": "JOB-A follow-up: verify career-zero failure against current writers",
-    "draft": true,
-    "branch": "codex/job-a-career-zero-2026-10-22",
-    "sha": "44acfeef6c2d283527ecadea0ec24b70733ae979",
-    "updated": "2026-10-22T04:04:46Z",
     "gates": {
      "passed": 7,
      "running": 0,
