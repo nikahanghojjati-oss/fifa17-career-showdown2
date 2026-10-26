@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-26 2:38 AM Boston time (EDT)",
+ "generated": "2026-10-26 9:31 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1217,14 +1217,29 @@
    "revision": "1.9.7-r83",
    "when": "2026-10-24T11:21:02Z",
    "subject": "Release 1.9.7-r83: bug fixes, draws without tiebreaks, real-only play (#991)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 1002,
+     "title": "Release 1.9.8-r84: plain wording, Golden Showdown, far fewer Firebase reads",
+     "draft": false,
+     "branch": "gameplay/r84",
+     "sha": "02c346777a12f35d8195501b0c910a600670cd15",
+     "updated": "2026-10-26T12:44:57Z",
+     "gates": {
+      "passed": 6,
+      "running": 0,
+      "failed": 2,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": []
   },
   "physio": {
    "state": "clear",
-   "line": "All clear: every check has a machine.",
-   "gate": "POS20 #304 6/16",
-   "source": "physio"
+   "line": "All clear (from GitHub).",
+   "gate": "Gate #1002: L1✓ L2✗ L4✓ L5✓ L6✓ · POS20 #1002 6/8",
+   "source": "github"
   },
   "v_headline": "Queued next",
   "v_jobs": [
@@ -1769,7 +1784,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 40,
+  "moving": 41,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -2985,7 +3000,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 1002,
+    "title": "Release 1.9.8-r84: plain wording, Golden Showdown, far fewer Firebase reads",
+    "draft": false,
+    "branch": "gameplay/r84",
+    "sha": "02c346777a12f35d8195501b0c910a600670cd15",
+    "updated": "2026-10-26T12:44:57Z",
+    "gates": {
+     "passed": 6,
+     "running": 0,
+     "failed": 2,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
