@@ -238,6 +238,7 @@
         const stop=sdk.onSnapshot(sdk.doc(services.firestore,path),{includeMetadataChanges:true},snapshot=>{
           if(waitContext!==held||held.failed)return;
           if(snapshot.metadata?.fromCache||snapshot.metadata?.hasPendingWrites){if(serial===undefined)budget?.listened?.(path,null);held.ready=false;pending.add(path);return;}
+          budget?.countListenerRead?.();
           const value=snapshot.exists()?snapshot.data():null,next=JSON.stringify(value),changed=serial!==undefined&&serial!==next;
           if(serial===undefined)budget?.listened?.(path,snapshot);
           if(/\/seasonCommits\/season_\d+$/.test(path)&&value?.phase==="ACKNOWLEDGED"&&value.revision===3)waitSettled.add(path);

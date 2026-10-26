@@ -484,9 +484,13 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.equal(world.meter.reads-tapped,1,"right after a tap the check reads the server even while the loop history is heavy");
     assert.equal(world.budget.braking(),false,"no brake within a minute of a tap");
     // The day count: every server read is counted and saved; a reload on the same Google day keeps it; a new day starts at 0.
-    const today=world.budget.readsToday();
+    let today=world.budget.readsToday();
     assert.ok(today.reads>=world.budget.stats().serverReads,"every server read counts toward today");
     assert.equal(today.freeReadsPerDay,50000);
+    // Codex #994: listeners outside this layer (season-commit wait context, Home JOIN note) report their server deliveries.
+    world.budget.countListenerRead();world.budget.countListenerRead();
+    assert.equal(world.budget.readsToday().reads,today.reads+2,"outside listener deliveries count toward today");
+    today=world.budget.readsToday();
     world.setVisible(false);
     const saved=JSON.parse(storage.get("careerModeFirestoreReadsDay"));
     assert.equal(saved.reads,today.reads,"hiding the page saves today's count");

@@ -1070,6 +1070,9 @@ async function revokePairing(options={}){
     forgetContext:fsbForgetContext,
     returnListen:fsbReturnListen,
     listened:fsbListened,
+    // countListenerRead(): a server delivery of a listener this layer does not own (season-commit wait context, Home JOIN note)
+    // still counts toward today's reads and the brake window.
+    countListenerRead:()=>fsbCountRead(),
     quietReuseMs:FSB_QUIET_MS,
     inputFreshMs:FSB_INPUT_FRESH_MS,
     // wantFresh(): every read of this page is fresh for the next 7 s; wantFresh(path): only that document.
