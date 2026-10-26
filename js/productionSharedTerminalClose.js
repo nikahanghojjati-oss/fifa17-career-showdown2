@@ -43,6 +43,7 @@
   // BH-7: throttled, single-flight re-ask of Connected Rivalry (see ptcRetryUnavailableRivalry).
   const RIVALRY_RETRY_MS=30000;
   let rivalryRetryAt=0,rivalryRetryInFlight=false;
+  const POLL_FRESH_MS=45000;let pollFreshAt=Date.now();
   let protocol=null,provider=null,finalApi=null,runtimeApi=null,accountApi=null,pairingApi=null,rivalryApi=null,remoteApi=null;
 
   function ptcFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
@@ -87,15 +88,15 @@
     return true;
   }
   async function ptcResolveContext(request=ptcRequest()){
-    if(!request)ptcFail("TERMINAL_CLOSE_SHARED_CONTEXT_REQUIRED","An exact active Shared Showdown is required.");
+    if(!request)ptcFail("TERMINAL_CLOSE_SHARED_CONTEXT_REQUIRED","No Showdown is open.");
     if(typeof accountApi?.initialize==="function")await accountApi.initialize();
     if(typeof pairingApi?.initialize==="function")await pairingApi.initialize();
     if(typeof rivalryApi?.initialize==="function")await rivalryApi.initialize();
     const account=accountApi?.getState?.(),device=pairingApi?.getState?.(),rivalry=rivalryApi?.getState?.();
     const accountId=String(account?.accountId||"").trim(),deviceId=String(device?.deviceId||"").trim(),attachedRivalry=String(rivalry?.rivalryId||"").trim().toLowerCase();
-    if(account?.connected!==true||!accountId)ptcFail("TERMINAL_CLOSE_AUTH_REQUIRED","Reconnect the exact private account before closing this Shared Showdown.");
+    if(account?.connected!==true||!accountId)ptcFail("TERMINAL_CLOSE_AUTH_REQUIRED","Sign in with the same account before closing this Showdown.");
     if(device?.registered!==true||!/^device_[0-9a-f]{32}$/.test(deviceId))ptcFail("TERMINAL_CLOSE_DEVICE_REQUIRED","This browser must remain an active registered device.");
-    if(rivalry?.attached!==true||attachedRivalry!==request.rivalryId)ptcFail("TERMINAL_CLOSE_RIVALRY_REQUIRED","Attach the exact completed Connected Rivalry before Terminal Close.");
+    if(rivalry?.attached!==true||attachedRivalry!==request.rivalryId)ptcFail("TERMINAL_CLOSE_RIVALRY_REQUIRED","Reconnect this Showdown before closing it.");
     if(rivalry.accountId&&rivalry.accountId!==accountId)ptcFail("TERMINAL_CLOSE_RIVALRY_ACCOUNT_MISMATCH");
     if(rivalry.deviceId&&rivalry.deviceId!==deviceId)ptcFail("TERMINAL_CLOSE_RIVALRY_DEVICE_MISMATCH");
     const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtimeApi.ensureAccountServices());
@@ -130,16 +131,16 @@
     const visible=Boolean(current&&["READY","RECOVERY_PENDING","CLOSED","BLOCKED"].includes(current.phase));ptcHidden(ui.panel,!visible);if(!visible)return false;
     const witness=current.terminalWitness||current.intent||current.finalReconciliation||null;
     if(current.phase==="CLOSED"){
-      ptcText(ui.heading,"SHARED SHOWDOWN CLOSED");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,"CLOSED · NO NEW SESSION · NO NEW SEASON · FINAL RESULTS STAY READ-ONLY");ptcHidden(ui.close,true);ptcHidden(ui.retry,true);ui.panel.dataset.terminal="true";return true;
+      ptcText(ui.heading,"SHOWDOWN CLOSED");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,"CLOSED · FINAL RESULTS ARE LOCKED");ptcHidden(ui.close,true);ptcHidden(ui.retry,true);ui.panel.dataset.terminal="true";return true;
     }
     ui.panel.dataset.terminal="false";
     if(current.phase==="RECOVERY_PENDING"){
-      ptcText(ui.heading,"SHOWDOWN CLOSE STILL PENDING");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.automaticSaving?"Saving this Showdown to your career…":current.message||"The close may have finished online. Retry checks the same close request.");ptcHidden(ui.close,!current.automaticCloseFailed);ui.close.disabled=busy;ptcText(ui.close,"CLOSE SHARED SHOWDOWN");ptcHidden(ui.retry,false);ui.retry.disabled=busy;ptcText(ui.retry,"RETRY SAME TERMINAL CLOSE");return true;
+      ptcText(ui.heading,"SHOWDOWN NOT CLOSED YET");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.automaticSaving?"Saving this Showdown to your career…":current.message||"It may have closed already. TRY CLOSING AGAIN checks.");ptcHidden(ui.close,!current.automaticCloseFailed);ui.close.disabled=busy;ptcText(ui.close,"CLOSE SHOWDOWN");ptcHidden(ui.retry,false);ui.retry.disabled=busy;ptcText(ui.retry,"TRY CLOSING AGAIN");return true;
     }
     if(current.phase==="BLOCKED"){
       ptcText(ui.heading,"SHOWDOWN CAN CLOSE WHEN BOTH PLAYERS RECONNECT");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.message||"Final results are safe. Reconnect both players to this Showdown, then refresh.");ptcHidden(ui.close,true);ptcHidden(ui.retry,true);return true;
     }
-    ptcText(ui.heading,"FINAL RESULT READY TO CLOSE");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.automaticCloseFailed?"This Showdown could not be saved. Tap CLOSE SHARED SHOWDOWN to try again.":"Saving this Showdown to your career…");ptcHidden(ui.close,!current.automaticCloseFailed);ui.close.disabled=busy;ptcText(ui.close,"CLOSE SHARED SHOWDOWN");ptcHidden(ui.retry,true);return true;
+    ptcText(ui.heading,"FINAL RESULT READY TO CLOSE");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.automaticCloseFailed?"This Showdown could not be saved. Tap CLOSE SHOWDOWN to try again.":"Saving this Showdown to your career…");ptcHidden(ui.close,!current.automaticCloseFailed);ui.close.disabled=busy;ptcText(ui.close,"CLOSE SHOWDOWN");ptcHidden(ui.retry,true);return true;
   }
   function ptcPublish(request,next){
     if(!request||!next){stateGeneration+=1;state=null;stateContextKey="";ptcRender();return null;}
@@ -202,7 +203,7 @@
     const terminalRead=await provider.read({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:request.rivalryId,deviceId:context.deviceId,cryptoImpl:root.crypto});
     if(ptcRequest()?.key!==request.key)return null;
     // H1017-1: an unresolved close holds its exact witness. A verified closed read of the same final facts resolves it here;
-    // an open, mismatched or failed read keeps RECOVERY_PENDING so RETRY SAME TERMINAL CLOSE stays bound to that witness.
+    // an open, mismatched or failed read keeps RECOVERY_PENDING so TRY CLOSING AGAIN stays bound to that witness.
     const held=ptcCurrentState();
     const deletedRead=terminalRead?.ok===true&&terminalRead.deleted===true&&terminalRead.rivalryState==="closed";
     const publishDeleted=()=>{try{remoteApi?.forgetSession?.();}catch(_error){}return ptcPublish(request,ptcDeletedState(request,terminalRead));};
@@ -218,12 +219,12 @@
     // says so; this page then lets the dead Showdown go like the CLOSE path does (session forgotten, drafts swept) and announces
     // DELETED, so the pair holds the rivalry as closed and the next JOIN is not blocked by the deleted Showdown.
     if(deletedRead)return publishDeleted();
-    if(!terminalRead||terminalRead.ok!==true)ptcFail(terminalRead?.code||"TERMINAL_CLOSE_READ_FAILED",terminalRead?.message||"Terminal state could not be verified.");
+    if(!terminalRead||terminalRead.ok!==true)ptcFail(terminalRead?.code||"TERMINAL_CLOSE_READ_FAILED",terminalRead?.message||"Could not check whether the Showdown is closed.");
     let final=finalApi.getState();if(!final||final.phase!=="FINAL_SEASON_RECONCILED"||final.rivalryId!==request.rivalryId)final=await finalApi.refresh();
     if(ptcRequest()?.key!==request.key)return null;
     if(!final||final.phase!=="FINAL_SEASON_RECONCILED"||final.finalSeasonReconciled!==true||final.rivalryId!==request.rivalryId)return ptcClear();
     const remote=ptcRemoteActive(context);
-    if(!remote)return ptcPublish(request,{phase:"BLOCKED",rivalryId:request.rivalryId,terminal:false,finalReconciliation:ptcClone(final),message:"Final results are preserved, but Terminal Close requires one exact ACTIVE private session for this rivalry.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});
+    if(!remote)return ptcPublish(request,{phase:"BLOCKED",rivalryId:request.rivalryId,terminal:false,finalReconciliation:ptcClone(final),message:"Final results are safe. Reconnect both players to close the Showdown.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});
     const intent=protocol.prepare(final,{sessionId:remote.sessionId});
     const failed=automaticAttempts.get(ptcAutomaticKey(context))?.failed===true;
     const ready=ptcPublish(request,{phase:"READY",rivalryId:request.rivalryId,sessionId:remote.sessionId,terminal:false,intent:ptcClone(intent),automaticSaving:!failed,automaticCloseFailed:failed,canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});
@@ -281,21 +282,21 @@
   }
   async function ptcClose(automaticKey=null){
     if(closePromise)return closePromise;
-    const current=ptcCurrentState();if(!current||current.phase!=="READY"||!current.intent)return {ok:false,code:"TERMINAL_CLOSE_NOT_READY",message:"Terminal Close is not ready for this exact Shared Showdown."};
+    const current=ptcCurrentState();if(!current||current.phase!=="READY"||!current.intent)return {ok:false,code:"TERMINAL_CLOSE_NOT_READY",message:"This Showdown is not ready to close yet."};
     const request=ptcRequest(),intent=protocol.verifyIntent(current.intent),generation=stateGeneration;busy=true;ptcPublish(request,{...current,automaticSaving:true,automaticCloseFailed:false});
     const run=(async()=>{
       try{
         const context=await ptcResolveContext(request);if(!ptcStillCurrent(request,generation)||(automaticKey&&ptcAutomaticKey(context)!==automaticKey))ptcFail("TERMINAL_CLOSE_CONTEXT_CHANGED");
-        if(!ptcRemoteActive(context,intent.sessionId))ptcFail("TERMINAL_CLOSE_ACTIVE_SESSION_REQUIRED","The exact private session used by this terminal witness is no longer ACTIVE.");
+        if(!ptcRemoteActive(context,intent.sessionId))ptcFail("TERMINAL_CLOSE_ACTIVE_SESSION_REQUIRED","The connection ended. Reconnect both players, then close the Showdown.");
         const result=await provider.close(ptcCloseOptions(context,intent));
         if(!ptcStillCurrent(request,generation))return {ok:false,code:"TERMINAL_CLOSE_CONTEXT_CHANGED"};
         if(result?.ok===true){ptcAccepted(request,intent,result);return result;}
-        if(ptcAmbiguous(result)){ptcPublish(request,{phase:"RECOVERY_PENDING",rivalryId:request.rivalryId,sessionId:intent.sessionId,terminal:false,intent:ptcClone(intent),automaticSaving:false,automaticCloseFailed:true,message:"The close was not confirmed yet. Tap RETRY SAME TERMINAL CLOSE to send the same close again; a retry never starts a new session.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});return {...result,recoverable:true};}
+        if(ptcAmbiguous(result)){ptcPublish(request,{phase:"RECOVERY_PENDING",rivalryId:request.rivalryId,sessionId:intent.sessionId,terminal:false,intent:ptcClone(intent),automaticSaving:false,automaticCloseFailed:true,message:"The close is not confirmed yet. Tap TRY CLOSING AGAIN. Nothing new is started.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});return {...result,recoverable:true};}
         const rivalClosed=await ptcClosedByRival(request,context,intent,result,generation);if(rivalClosed)return rivalClosed;
-        ptcPublish(request,{...current,automaticSaving:false,automaticCloseFailed:true,message:result?.message||"Terminal Close was rejected without changing the completed Showdown."});return result||{ok:false,code:"TERMINAL_CLOSE_FAILED"};
+        ptcPublish(request,{...current,automaticSaving:false,automaticCloseFailed:true,message:result?.message||"The Showdown could not be closed. Nothing was changed."});return result||{ok:false,code:"TERMINAL_CLOSE_FAILED"};
       }catch(error){
         if(!ptcStillCurrent(request,generation))return {ok:false,code:"TERMINAL_CLOSE_CONTEXT_CHANGED"};
-        if(ptcAmbiguous(error)){ptcPublish(request,{phase:"RECOVERY_PENDING",rivalryId:request.rivalryId,sessionId:intent.sessionId,terminal:false,intent:ptcClone(intent),automaticSaving:false,automaticCloseFailed:true,message:"Terminal Close acknowledgement was not received. Retry is bound to the exact same witness and session capability.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});return {ok:false,code:error.code||"TERMINAL_CLOSE_RECOVERY_PENDING",message:error.message,recoverable:true};}
+        if(ptcAmbiguous(error)){ptcPublish(request,{phase:"RECOVERY_PENDING",rivalryId:request.rivalryId,sessionId:intent.sessionId,terminal:false,intent:ptcClone(intent),automaticSaving:false,automaticCloseFailed:true,message:"The close was not confirmed. Tap TRY CLOSING AGAIN.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});return {ok:false,code:error.code||"TERMINAL_CLOSE_RECOVERY_PENDING",message:error.message,recoverable:true};}
         ptcPublish(request,{...current,automaticSaving:false,automaticCloseFailed:true,message:error.message});
         ptcReport("Shared Showdown Terminal Close failed",error);return {ok:false,code:error.code||"TERMINAL_CLOSE_FAILED",message:error.message};
       }
@@ -304,7 +305,7 @@
   function ptcDeletedState(request,terminalRead){return {phase:"DELETED",rivalryId:request.rivalryId,rivalryRevision:terminalRead.rivalryRevision,terminal:false,deleted:true,canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false};}
   async function ptcRetry(){
     if(closePromise)return closePromise;
-    const current=ptcCurrentState();if(!current||current.phase!=="RECOVERY_PENDING"||!current.intent)return {ok:false,code:"TERMINAL_CLOSE_RECOVERY_REQUIRED",message:"No unresolved Terminal Close is waiting for retry."};
+    const current=ptcCurrentState();if(!current||current.phase!=="RECOVERY_PENDING"||!current.intent)return {ok:false,code:"TERMINAL_CLOSE_RECOVERY_REQUIRED",message:"There is nothing to retry."};
     const request=ptcRequest(),intent=protocol.verifyIntent(current.intent),generation=stateGeneration;busy=true;ptcPublish(request,{...current,automaticSaving:true});
     // H1017-2: the request and state generation are re-checked after every await, before any close call or session cleanup.
     const changed={ok:false,code:"TERMINAL_CLOSE_CONTEXT_CHANGED"};
@@ -321,7 +322,7 @@
         if(result?.ok===true){ptcAccepted(request,intent,result);return result;}
         if(ptcAmbiguous(result)){ptcPublish(request,current);return {...result,recoverable:true};}
         const rivalClosed=await ptcClosedByRival(request,context,intent,result,generation);if(rivalClosed)return rivalClosed;
-        ptcPublish(request,{...current,message:result?.message||"The same Terminal Close retry was rejected; the exact witness remains held for inspection."});return result||{ok:false,code:"TERMINAL_CLOSE_FAILED"};
+        ptcPublish(request,{...current,message:result?.message||"Closing again did not work. Your final results are kept."});return result||{ok:false,code:"TERMINAL_CLOSE_FAILED"};
       }catch(error){if(ptcAmbiguous(error)){ptcPublish(request,current);return {ok:false,code:error.code||"TERMINAL_CLOSE_RECOVERY_PENDING",message:error.message,recoverable:true};}if(ptcStillCurrent(request,generation))ptcPublish(request,current);ptcReport("Shared Showdown Terminal Close retry failed",error);return {ok:false,code:error.code||"TERMINAL_CLOSE_FAILED",message:error.message};}
     })().finally(()=>{if(closePromise===run)closePromise=null;busy=false;ptcRender();if(wakePending){wakePending=false;ptcWake();}});closePromise=run;return run;
   }
@@ -342,10 +343,21 @@
     void Promise.resolve().then(()=>{const s=api.getState?.();if(s&&s.attached!==true&&s.status==="unavailable"&&!ptcRequest())return api.initialize();return null;}).catch(()=>{}).finally(()=>{rivalryRetryInFlight=false;});
     return true;
   }
+  // r84 trim: while a shared Showdown is open, the budget layer keeps one listener on the rivalry root and one on the Session
+  // (see CareerModeFirestoreBudget.watchContext); a change to either wakes this module at once.
+  let contextWatchKey="";
+  function ptcContextWake(){ptcWake({type:"career-mode-shared-wait-context-change"});}
+  function ptcWatchContext(request){
+    const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchContext!=="function")return;
+    const id=request&&root.document?.visibilityState!=="hidden"?request.rivalryId:"";
+    if(id===contextWatchKey&&!id)return;
+    contextWatchKey=id;try{budget.watchContext(id||null,ptcContextWake);}catch(_error){}
+  }
   function ptcWake(event){
     ptcWatchPair();
     if(event?.type==="career-mode-save-library-authority-invalidated")return ptcClear();
     const request=ptcRequest();
+    ptcWatchContext(request);
     if(!request){
       ptcClear();
       // After a reload the durable rivalry binding is only known once Connected Rivalry initializes; its state-change event wakes this module again.
@@ -357,7 +369,14 @@
     if(root.document?.visibilityState==="hidden")return;if(busy){if(event?.type==="career-mode-shared-wait-context-change")wakePending=true;return;}
     // r75: while the close is pending (FINAL RESULT READY TO CLOSE and the pending/blocked states) the partner may close at
     // any moment, so this check reads the rivalry root fresh instead of from the budget layer's quiet reuse.
-    if(["READY","RECOVERY_PENDING","BLOCKED"].includes(ptcCurrentState()?.phase))root.CareerModeFirestoreBudget?.wantFresh?.(`rivalries/${request.rivalryId}`);
+    // r84 trim: a healthy context listener on the rivalry root (ptcWatchContext) delivers the partner's close at once, so the
+    // fresh reads below run only while it is not confirmed (no listener, hidden page, dropped connection).
+    const rootPath=`rivalries/${request.rivalryId}`,watched=Boolean(root.CareerModeFirestoreBudget?.contextHealthy?.(rootPath));
+    if(["READY","RECOVERY_PENDING","BLOCKED"].includes(ptcCurrentState()?.phase)){if(!watched)root.CareerModeFirestoreBudget?.wantFresh?.(rootPath);}
+    // r84: between seasons nothing else re-reads the rivalry now that Final Reconciliation no longer loops, so the 60 s quiet reuse
+    // could hold a partner's END SHOWDOWN for up to 75 s. A timer wake (no event) reads the rivalry root fresh at most every 45 s:
+    // one extra read per 3 min per device, and the idle phone goes Home within ~45 s.
+    else if(!event&&Date.now()-pollFreshAt>=POLL_FRESH_MS){pollFreshAt=Date.now();if(!watched)root.CareerModeFirestoreBudget?.wantFresh?.(rootPath);}
     void ptcRefresh();
   }
   function ptcInstall(){

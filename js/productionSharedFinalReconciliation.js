@@ -54,7 +54,7 @@
     const witness=closed?.phase==="CLOSED"?closed.terminalWitness:null,totals=witness?.managerTotals;
     if(!pfrShared()||!witness||!closed.rivalryId||String(witness.rivalryId||"")!==String(closed.rivalryId)||!totals||!Number.isInteger(totals.playerOne)||!Number.isInteger(totals.playerTwo)||!["playerOne","playerTwo","draw"].includes(witness.winner))return false;
     pfrText(ui.heading,"SHOWDOWN FINAL RESULT");
-    if(Number.isInteger(witness.totalSeasons))pfrText(ui.summary,`${witness.totalSeasons} OF ${witness.totalSeasons} SEASONS ACCEPTED · NO ADDITIONAL SEASON`);
+    if(Number.isInteger(witness.totalSeasons))pfrText(ui.summary,`${witness.totalSeasons} OF ${witness.totalSeasons} SEASONS PLAYED`);
     pfrText(ui.winner,`${pfrManagerName("playerOne")} ${totals.playerOne} · ${pfrManagerName("playerTwo")} ${totals.playerTwo} · ${witness.winner==="draw"?"DRAW":`${pfrManagerName(witness.winner)} WINS`}`);
     return true;
   }
@@ -62,7 +62,7 @@
     const ui=pfrEnsureUi();if(!ui)return false;const current=pfrCurrentView(),active=Boolean(current&&current.phase==="FINAL_SEASON_RECONCILED"&&current.finalSeasonReconciled===true);
     pfrHidden(ui.panel,!active);if(!active){pfrClosedText(ui);return false;}
     pfrText(ui.heading,"SHOWDOWN FINAL RESULT");
-    pfrText(ui.summary,`${current.acceptedSeasons} OF ${current.totalSeasons} SEASONS ACCEPTED · NO ADDITIONAL SEASON`);
+    pfrText(ui.summary,`${current.acceptedSeasons} OF ${current.totalSeasons} SEASONS PLAYED`);
     const winner=current.winner==="draw"?"DRAW":`${pfrManagerName(current.winner)} WINS`;
     pfrText(ui.winner,`${pfrManagerName("playerOne")} ${current.managerTotals.playerOne} · ${pfrManagerName("playerTwo")} ${current.managerTotals.playerTwo} · ${winner}`);
     pfrText(ui.close,"FINAL RESULTS ARE LOCKED · CLOSE THE SHOWDOWN WHEN READY");
@@ -90,8 +90,9 @@
   }
   // r75: Terminal Close, Shared History and Local Reconciliation announce every refresh, even when nothing changed, and this
   // module's own refresh refreshes them. Reacting to an unchanged announcement re-ran the whole chain several times a second.
-  // Once this module holds a reconciled view for the current context, only a changed Terminal Close phase, history witness or
-  // local state wakes the refresh; until then every announcement still retries at once. Every invalidation check (close,
+  // Only a changed Terminal Close phase, history witness or local state wakes the refresh. r84: this now holds while no view
+  // exists too. Mid-Showdown the local state stays WAITING_REMOTE, so every refresh is discarded and its own unchanged
+  // announcements used to wake the next one at once: ~145 reads/min per device between seasons (live 2026-10-25 quota hit). Every invalidation check (close,
   // lost local authority, Save Library) still runs first for every event, repeated or not. A wake that arrives while a refresh
   // runs is no longer dropped: one more refresh follows it. The 15 s poll and every other event stay as they were.
   function pfrRepeatedPeerEvent(event){
@@ -105,7 +106,7 @@
     if(lastPeerEventKeys[type]===`${context}|${key}`)return true;
     lastPeerEventKeys[type]=`${context}|${key}`;return false;
   }
-  function pfrWake(event){const repeated=pfrRepeatedPeerEvent(event);const request=pfrRequest(),contextChanged=pfrTrackRequest(request);if(contextChanged)pfrClearView();if((event?.type==="career-mode-shared-terminal-close-state-change"&&(event.detail?.phase==="CLOSED"||event.detail?.phase==="DELETED"))||pfrTerminalClosed())return pfrClearView({bump:true});if(event?.type==="career-mode-save-library-authority-invalidated")return pfrClearView({bump:true});if(event?.type==="career-mode-shared-local-reconciliation-state-change"){let localState=event.detail||null;if(!localState){try{localState=localApi?.getState?.()||null;}catch(_error){}}if(!pfrLocalAuthorityMatches(request,localState))return pfrClearView({bump:true});}if(root.document?.visibilityState==="hidden")return;if(!request||!pfrSaveAuthorityReady())return pfrClearView({bump:!pfrSaveAuthorityReady()});if(viewContextKey&&(viewContextKey!==request.key||viewGeneration!==authorityGeneration))pfrClearView();if(repeated&&view&&viewContextKey===request.key&&viewGeneration===authorityGeneration)return;if(busy&&refreshPromise&&refreshContextKey===request.key&&refreshGeneration===authorityGeneration){wakePending=true;return;}void pfrRefresh();}
+  function pfrWake(event){const repeated=pfrRepeatedPeerEvent(event);const request=pfrRequest(),contextChanged=pfrTrackRequest(request);if(contextChanged)pfrClearView();if((event?.type==="career-mode-shared-terminal-close-state-change"&&(event.detail?.phase==="CLOSED"||event.detail?.phase==="DELETED"))||pfrTerminalClosed())return pfrClearView({bump:true});if(event?.type==="career-mode-save-library-authority-invalidated")return pfrClearView({bump:true});if(event?.type==="career-mode-shared-local-reconciliation-state-change"){let localState=event.detail||null;if(!localState){try{localState=localApi?.getState?.()||null;}catch(_error){}}if(!pfrLocalAuthorityMatches(request,localState))return pfrClearView({bump:true});}if(root.document?.visibilityState==="hidden")return;if(!request||!pfrSaveAuthorityReady())return pfrClearView({bump:!pfrSaveAuthorityReady()});if(viewContextKey&&(viewContextKey!==request.key||viewGeneration!==authorityGeneration))pfrClearView();if(repeated&&(!view||(viewContextKey===request.key&&viewGeneration===authorityGeneration)))return;if(busy&&refreshPromise&&refreshContextKey===request.key&&refreshGeneration===authorityGeneration){wakePending=true;return;}void pfrRefresh();}
   function pfrInstall(){if(installed)return true;installed=true;for(const event of ["career-mode-shared-wait-context-change","career-mode-shared-multi-season-state-change","career-mode-shared-history-convergence-state-change","career-mode-shared-local-reconciliation-state-change","career-mode-connected-account-state-change","career-mode-showdown-state-change","career-mode-active-save-changed","career-mode-save-library-authority-invalidated","career-mode-shared-terminal-close-state-change"]){root.addEventListener?.(event,pfrWake);}root.document?.addEventListener?.("visibilitychange",pfrWake);if(typeof root.setInterval==="function")root.setInterval(()=>{if(!root.CareerModeProductionSharedSeasonCommit?.waitingListenerHealthy?.())pfrWake();},POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(pfrWake,0);return true;}
   return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-final-reconciliation",productionEnabled:true,runtimeRevision:"1.9.1-r17",pollIntervalMs:POLL_MS,install:pfrInstall,refresh:pfrRefresh,getState:pfrCurrentView,isActive:pfrShared,usesAccumulatedCanonicalPoints:true,createsAdditionalSeason:false,terminalCloseSeparate:true,saveLibraryAuthorityRequired:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false});
 });

@@ -232,7 +232,7 @@ function renderReadyAssignmentState(){
     if(ui.confirmation){ ui.confirmation.classList.add("hidden"); }
     setClubText(ui.status, "LEAGUE CONFIRMED · TWO SEALED CLUB PACKS READY");
     setClubText(ui.revealButton, "OPEN SHOWDOWN PACKS");
-    setClubText(ui.continueButton, "CONFIRM RIVALRY & START SHOWDOWN");
+    setClubText(ui.continueButton, "CONFIRM & START SHOWDOWN");
     setRevealControls({
         showOpen: true,
         openDisabled: false,
@@ -281,7 +281,7 @@ function renderClubRevealStage(stage){
         applyClubRevealCard(ui.cardTwo, ui.clubTwo, ui.cardStateTwo, currentShowdown.clubs.playerTwo);
         populateClubConfirmation();
         if(ui.confirmation){ ui.confirmation.classList.remove("hidden"); }
-        setClubText(ui.status, "BOTH CLUBS REVEALED · BUILDING RIVALRY");
+        setClubText(ui.status, "BOTH CLUBS REVEALED · LOCKING CLUBS");
         setRevealControls({
             showOpen: false,
             openDisabled: true,
@@ -305,8 +305,8 @@ function renderClubConfirmationState(){
     populateClubConfirmation();
 
     if(ui.confirmation){ ui.confirmation.classList.remove("hidden"); }
-    setClubText(ui.status, "RIVALRY READY · CONFIRM TO BEGIN");
-    setClubText(ui.continueButton, "CONFIRM RIVALRY & START SHOWDOWN");
+    setClubText(ui.status, "CLUBS READY · CONFIRM TO BEGIN");
+    setClubText(ui.continueButton, "CONFIRM & START SHOWDOWN");
     setRevealControls({
         showOpen: false,
         openDisabled: true,
@@ -444,7 +444,7 @@ function continueToShowdownHome(){
 
     if(!integrity.valid){
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("Assign two valid clubs before confirming the rivalry.", "error");
+            window.showAppNotice("Assign two clubs before you confirm.", "error");
         }
         renderClubAssignmentState();
         return;
@@ -459,7 +459,7 @@ function continueToShowdownHome(){
         currentShowdown.status = previousStatus;
         renderClubConfirmationState();
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("The showdown could not be saved before starting the rivalry.", "error");
+            window.showAppNotice("The Showdown could not be saved, so it did not start.", "error");
         }
         return;
     }

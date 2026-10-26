@@ -68,7 +68,7 @@
     return frag;
   }
   function hmLockup(){
-    return hmEl("div","homeLockup",'<p class="lockupKicker sd-label" aria-hidden="true">THE RIVALRY STARTS HERE</p><div class="lockupWordmarkWrap sd-title sd-title--wordmark"><span class="sd-visually-hidden">CAREER MODE SHOWDOWN 17</span><img class="lockupWordmark" src="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V1.webp" alt="" aria-hidden="true" width="1040" height="378" decoding="async"></div><p class="lockupLegacy sd-tagline" aria-hidden="true">TWO MANAGERS · ONE LEGACY</p>');
+    return hmEl("div","homeLockup",'<p class="lockupKicker sd-label" aria-hidden="true">THE SHOWDOWN STARTS HERE</p><div class="lockupWordmarkWrap sd-title sd-title--wordmark"><span class="sd-visually-hidden">CAREER MODE SHOWDOWN 17</span><img class="lockupWordmark" src="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V1.webp" alt="" aria-hidden="true" width="1040" height="378" decoding="async"></div><p class="lockupLegacy sd-tagline" aria-hidden="true">TWO MANAGERS · ONE LEGACY</p>');
   }
   function hmTile(id,file,path){
     const button=hmDoc().getElementById(id);
@@ -121,8 +121,12 @@
     const controls=hmEl("div","menuMusicControls");controls.append(nextToggle,nextMute);
     card.replaceChildren(header,sheet,label("phoneTrackSheetOpen","TRACKS",true),selector,label("phoneTrackSheetBackdrop","",true),label("phoneTrackSheetClose","CLOSE",false),deck,status,controls);
     card.dataset.mediaKind="music";card.dataset.v10Media="audius";
+    // r84: the desktop strip hides the status line until playback fails or goes offline (the line stays a live region).
+    const syncMusicAlert=()=>{const text=status.textContent||"";card.dataset.failed=String(text===MEDIA.statusError||/OFFLINE/i.test(text));};
+    if(typeof root.MutationObserver==="function")new root.MutationObserver(syncMusicAlert).observe(status,{childList:true,characterData:true,subtree:true});
     root.HomeSoundtrack.init(MEDIA);
     if(offlineText){nextToggle.disabled=true;nextToggle.setAttribute("aria-disabled","true");status.textContent=offlineText;}
+    syncMusicAlert();
   }
   // js/offlineApp.js disables the toggle and writes its offline line; when it comes back online it restores the
   // line it saved (the YouTube one), so the Audius player redraws its own status.

@@ -93,7 +93,7 @@ async function assertReplay(page,roleLabel){
   const baseline=await page.evaluate(()=>window.__transferAudit.counts());
   assert.equal(await page.locator('#transferChallenge').getAttribute('data-shared-transfer-replay'),'WINDOW_OPEN',`${roleLabel} must replay the missed transfer window first.`);
   assert.equal(await page.locator('#transferChallenge').getAttribute('data-transfer-phase'),'window');
-  assert.match(await page.locator('#transferPhaseStatus').textContent(),/HISTORICAL REPLAY/);
+  assert.match(await page.locator('#transferPhaseStatus').textContent(),/REPLAY ·/);
   assert.equal(await page.locator('#transferTimerDisplay').textContent(),'REPLAY','historical window must never look like a live timer');
   assert.equal(await page.evaluate(()=>[...document.querySelectorAll('#transferChallenge input,#transferChallenge select')].every(node=>node.disabled)),true,'historical replay inputs must remain read-only');
 
@@ -113,8 +113,8 @@ async function assertReplay(page,roleLabel){
   await page.locator('#continueFromTransfers').click();
   assert.equal(await page.locator('#transferChallenge').getAttribute('data-shared-transfer-replay'),null,`${roleLabel} must leave replay only after every earlier canonical phase was witnessed.`);
   assert.equal(await page.locator('#transferChallenge').getAttribute('data-transfer-phase'),'completed');
-  await page.waitForFunction(()=>document.getElementById('continueFromTransfers')?.textContent==='CONTINUE TO SHARED SEASON RESULTS',null,{timeout:3000});
-  assert.equal(await page.locator('#continueFromTransfers').textContent(),'CONTINUE TO SHARED SEASON RESULTS');
+  await page.waitForFunction(()=>document.getElementById('continueFromTransfers')?.textContent==='CONTINUE TO SEASON RESULTS',null,{timeout:3000});
+  assert.equal(await page.locator('#continueFromTransfers').textContent(),'CONTINUE TO SEASON RESULTS');
   assert.equal(await page.locator('#continueFromTransfers').isDisabled(),false,'live r9 route must become available only after historical replay is fully witnessed');
   assert.equal(await page.locator('#continueFromTransfers').getAttribute('data-shared-season-results-route'),'true','r9 route ownership must be explicit after replay completion');
   const after=await page.evaluate(()=>window.__transferAudit.counts());

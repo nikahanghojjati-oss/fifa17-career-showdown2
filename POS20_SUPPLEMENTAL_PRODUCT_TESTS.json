@@ -2187,6 +2187,25 @@
         "^tests/(contracts/r83-home-join-expiry-contracts|support/home-join-window-fixture)\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r84-final-reconciliation-loop-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedFinalReconciliation\\.js$",
+        "^tests/contracts/r84\\-final\\-reconciliation\\-loop\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r84-golden-showdown-contracts.cjs",
+      "patterns": [
+        "^js/(careerScreenSeam|careerScreensV10|rivalryLegacyV10|sharedCareerAnalytics|ruleBook)\\.js$",
+        "^visual-assets/v10_1/(trophy-room/trophy-room|career-statistics/career-statistics|rivalry-statistics/rivalry-statistics|legacy/legacy)\\.js$",
+        "^visual-assets/v10_1/legacy/strings\\.json$",
+        "^css/rivalryLegacyV10\\.css$",
+        "^tests/(contracts/r84\\-golden\\-showdown\\-contracts|support/career\\-fixture\\-helpers)\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

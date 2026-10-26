@@ -252,7 +252,7 @@ function renderTrophyRoom(request = false){
     }else if(!identityNotice){
         const empty = document.createElement("div");
         empty.className = "analyticsEmpty";
-        empty.textContent = "The Trophy Room is empty. Complete a showdown and its managers, trophies, records, and career statistics will appear here automatically.";
+        empty.textContent = "The Trophy Room is empty. Finish a Showdown and its trophies and records appear here.";
         fragment.appendChild(empty);
     }
 

@@ -81,7 +81,7 @@
       const card=document.createElement("article"); card.className="headlineTile"; card.setAttribute("data-sd-enter","panel");
       const val=vals[i];
       const valueHtml = val ? (val.pair
-        ? `<div class="headlinePair"><small>D</small><b data-count-value="${fmt(val.pair[0])}">${fmt(val.pair[0])}</b><span class="slash">/</span><small>N</small><b data-count-value="${fmt(val.pair[1])}">${fmt(val.pair[1])}</b></div>`
+        ? `<div class="headlinePair" data-digits="${Math.min(6,(fmt(val.pair[0])+fmt(val.pair[1])).length)}"><small>D</small><b data-count-value="${fmt(val.pair[0])}">${fmt(val.pair[0])}</b><span class="slash">/</span><small>N</small><b data-count-value="${fmt(val.pair[1])}">${fmt(val.pair[1])}</b></div>`
         : `<div class="headlineNumber" data-count-value="${fmt(val.combined)}">${fmt(val.combined)}</div><div class="headlineTogether">Together</div>`)
         : '<div class="headlinePair"><b aria-hidden="true">—</b></div>';
       card.innerHTML=`<div class="headlineIcon">${iconSvgs[i]}</div><div class="headlineCopy"><div class="headlineLabel">${label}</div>${valueHtml}</div>`;
@@ -100,6 +100,14 @@
       tr.innerHTML=`<td>${rr.rank}</td><td><span class="managerName">${rr.rank===1?'<span class="rankCrown" aria-label="Career leader">♛</span>':''}${NAMES[role]}</span></td><td>${s.completed}</td><td>${m.seasonWins}-${m.seasonDraws}-${m.seasonLosses}</td><td>${m.careerPoints}</td><td>${m.totalTrophies}</td>`;
       body.appendChild(tr);
     }); t.appendChild(body); panel.appendChild(t);
+    // r84 Golden Showdown: a gold line names each manager who closed a 10-season Showdown on 110 points.
+    const golden=frame.goldenShowdowns;
+    if (golden && (golden.daniel>0 || golden.nik>0)) {
+      const note=document.createElement("p"); note.className="goldenShowdownNote"; note.dataset.goldenShowdown="true";
+      const who=["daniel","nik"].filter(role=>golden[role]>0).map(role=>`${NAMES[role]} ×${golden[role]}`).join(" · ");
+      note.innerHTML=`<img src="${window.CAREER_STATISTICS_BASE || ""}../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="" aria-hidden="true"><strong>${fx.strings.goldenShowdown || "GOLDEN SHOWDOWN"}</strong><span>${who}</span>`;
+      panel.appendChild(note);
+    }
   }
   function renderComparison(frame, fx) {
     const panel=document.getElementById("comparisonPanel"); panel.replaceChildren();

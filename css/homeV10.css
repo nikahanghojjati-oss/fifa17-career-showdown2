@@ -1469,3 +1469,33 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
 @media (min-width: 1001px) and (max-width: 1099px) and (min-height: 501px) and (orientation: landscape) {
   #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel { font-size: min(20px, 1.68vw); }
 }
+
+/* r84 look fix (Nik 2026-10-26: keep the card on the right): on desktop the soundtrack is one slim strip in the bottom-right
+   corner, just above the photo credit and the tile row, so it only crosses the lower part of Nik's jacket. It stays clear
+   of the faces, Daniel's hand, the banner, the title, the credit and the tiles at every desktop size. Same nodes, words and
+   tap order. */
+@media (min-width: 1200px) and (min-height: 600px) and (orientation: landscape) {
+  #app #mainMenu.v10Home .menuMusicTile,
+  #app #mainMenu.v10Home .menuMusicTile.side {
+    left: auto !important; right: var(--gutter, 32px) !important; width: min(540px, 40vw) !important;
+    top: auto !important; bottom: calc(100vh - var(--tile-top) + 28px) !important;
+    height: 46px !important; min-height: 0 !important; max-height: none !important;
+    padding: 4px 10px; column-gap: 10px; row-gap: 0; align-items: center;
+    grid-template-columns: 32px minmax(0, 1fr) auto auto; grid-template-rows: auto;
+    grid-template-areas: "player head ctrl tracks";
+  }
+  #app #mainMenu.v10Home .menuMusicHeader { grid-area: head; min-width: 0; }
+  #app #mainMenu.v10Home .menuMusicHeader span, #app #mainMenu.v10Home .menuMusicSource { display: none; }
+  /* the status line stays a live region for screen readers; it is shown in place of the title only when playback fails */
+  #app #mainMenu.v10Home .menuMusicStatus { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; margin: 0; }
+  #app #mainMenu.v10Home .menuMusicTile[data-failed="true"] { grid-template-areas: "player status ctrl tracks"; }
+  #app #mainMenu.v10Home .menuMusicTile[data-failed="true"] .menuMusicHeader { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  #app #mainMenu.v10Home .menuMusicTile[data-failed="true"] .menuMusicStatus { grid-area: status; position: static; width: auto; height: auto; clip-path: none; min-width: 0; overflow: hidden; white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; font-size: 11px; line-height: 1.25; color: var(--cream); }
+  #app #mainMenu.v10Home .menuMusicHeader strong { font-size: 15px; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #app #mainMenu.v10Home .menuMusicArtist { font-size: 11px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #app #mainMenu.v10Home .menuMusicPlayer { grid-area: player; align-self: center; --vinyl: 28px; }
+  #app #mainMenu.v10Home .menuMusicPlayer .eq { display: none; }
+  #app #mainMenu.v10Home .menuMusicControls { grid-area: ctrl; align-self: center; gap: 6px; }
+  #app #mainMenu.v10Home .menuMusicControls .menuMusicControl, #app #mainMenu.v10Home .phoneTrackSheetOpen { min-height: 34px; height: 34px; }
+  #app #mainMenu.v10Home .phoneTrackSheetOpen { grid-area: tracks; align-self: center; }
+}

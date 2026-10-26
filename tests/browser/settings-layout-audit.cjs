@@ -8,7 +8,7 @@ const { resolveChromiumRuntime } = require("../support/chromium-runtime.cjs");
 // measurement catches this. Every Settings card must show its whole content, and the update result must land in
 // the status box under the button.
 const baseUrl = new URL(process.env.CMS_BASE_URL || "http://127.0.0.1:4173/");
-const DEFAULT_STATUS = "Updates keep your current Showdown and player identity.";
+const DEFAULT_STATUS = "Updating keeps your Showdown and player.";
 const cases = [
     { name: "desktop-1920x910", viewport: { width: 1920, height: 910 } },
     { name: "desktop-1920x1080", viewport: { width: 1920, height: 1080 } },

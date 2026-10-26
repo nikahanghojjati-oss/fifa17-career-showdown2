@@ -57,7 +57,7 @@ const SA=`save_${"7".repeat(24)}`,SB=`save_${"8".repeat(24)}`;
 const COMMIT_PATH=`rivalries/${R}/seasonCommits/season_1`;
 // CMS_ACK_RACE_ROUNDS repeats the timing scenarios more often for a local soak (default 3).
 const ROUNDS=Math.max(1,Number(process.env.CMS_ACK_RACE_ROUNDS)||3);
-const ACK_LABEL="ACKNOWLEDGE SHARED SEASON",FAILED="Your shared season acknowledgement could not be recorded.";
+const ACK_LABEL="CONFIRM SEASON",FAILED="Your season confirmation could not be saved.";
 
 function sdk(){return {Timestamp,doc,runTransaction:firestoreSdk.runTransaction,serverTimestamp};}
 function account(id){return {objectType:"account",objectId:id,lifecycleState:"live",data:{status:"active"}};}
@@ -220,7 +220,7 @@ async function assertConverged(env,pages){
   assert.equal(stored.actorRoles[0],"playerOne");assert.equal(new Set(stored.operationIds).size,3);
   for(const page of pages)page.release();
   for(const page of pages)await waitFor(async()=>{const view=page.view();if(view&&view.phase==="ACKNOWLEDGED")return true;await page.api.refresh();return page.view()?.phase==="ACKNOWLEDGED";},`${page.name}: ACKNOWLEDGED on screen`);
-  for(const page of pages)assert.equal(page.button().textContent,"SEASON COMMIT ACKNOWLEDGED ✓");
+  for(const page of pages)assert.equal(page.button().textContent,"SEASON CONFIRMED ✓");
   return stored;
 }
 async function openPages(env){

@@ -16,8 +16,8 @@
   const SCREEN_IDS=Object.freeze({careerStatistics:"careerStatistics",trophyRoom:"trophyRoom"});
   // Team V copy for the same states (their screen strings at f4da9a3f), without the preview chip label.
   const STRINGS=Object.freeze({
-    careerStatistics:{heading:"CAREER STATISTICS",previewLabel:"",buttons:{rivalry:"CURRENT RIVALRY STATISTICS",trophyRoom:"OPEN TROPHY ROOM",back:"BACK TO MAIN MENU"},sections:{careerTable:"CAREER TABLE",managerComparison:"MANAGER COMPARISON",careerLeaders:"CAREER LEADERS"},headlineLabels:["COMPLETED SHOWDOWNS","SEASONS PLAYED","CAREER POINTS","TROPHIES WON"],comparisonRows:["LEAGUE TITLES","DOMESTIC CUPS","CHAMPIONS LEAGUE WINS","EUROPA LEAGUE WINS","Season Wins","Average League Points","Average League Goals"],leaderLabels:["MOST SEASON WINS","MOST TROPHIES","MOST CAREER POINTS","BEST SEASON SCORE"],careerTableHeaders:["#","Manager","Showdowns","Season W-D-L","Points","Trophies"],noCompletedRecord:"No completed record yet",coverageTemplate:"{READABLE} of {INDEXED} Showdowns readable",stateCopy:{loading:{heading:"LOADING CAREER HISTORY",body:"Loading career history…"},partial:{heading:"PARTIAL CAREER HISTORY",body:"Some Showdowns could not be read. Statistics below use readable Showdowns only."},unavailable:{heading:"CAREER HISTORY UNAVAILABLE",body:"Career history could not be loaded. No statistics are being shown."}}},
-    trophyRoom:{heading:"TROPHY ROOM",back:"BACK",previewLabel:"",managerCabinetsHeading:"MANAGER CABINETS",careerTableHeading:"CAREER TABLE",recordsReadyHeading:"ALL-TIME RECORDS",categories:["ALL","SHOWDOWN","LEAGUE TITLES","DOMESTIC CUPS","CHAMPIONS LEAGUE","EUROPA LEAGUE"],trophyTypes:{showdown:"Showdown Champion",leagueTitles:"League Title",domesticCups:"Domestic Cup",championsLeague:"Champions League",europaLeague:"Europa League"},notWonYet:"Not won yet",stateCopy:{loading:{text:"Loading career history…"},partial:{text:"Some Showdowns could not be read. Showing {READABLE} of {INDEXED} Showdowns."},partialRecordsHeading:{text:"AVAILABLE RECORDS"},unavailable:{text:"Career history is unavailable right now."}}}
+    careerStatistics:{heading:"CAREER STATISTICS",previewLabel:"",buttons:{rivalry:"CURRENT RIVALRY STATISTICS",trophyRoom:"OPEN TROPHY ROOM",back:"BACK TO MAIN MENU"},sections:{careerTable:"CAREER TABLE",managerComparison:"MANAGER COMPARISON",careerLeaders:"CAREER LEADERS"},headlineLabels:["COMPLETED SHOWDOWNS","SEASONS PLAYED","CAREER POINTS","TROPHIES WON"],comparisonRows:["LEAGUE TITLES","DOMESTIC CUPS","CHAMPIONS LEAGUE WINS","EUROPA LEAGUE WINS","Season Wins","Average League Points","Average League Goals"],leaderLabels:["MOST SEASON WINS","MOST TROPHIES","MOST CAREER POINTS","BEST SEASON SCORE"],careerTableHeaders:["#","Manager","Showdowns","Season W-D-L","Points","Trophies"],goldenShowdown:"GOLDEN SHOWDOWN",noCompletedRecord:"No completed record yet",coverageTemplate:"{READABLE} of {INDEXED} Showdowns readable",stateCopy:{loading:{heading:"LOADING CAREER HISTORY",body:"Loading career history…"},partial:{heading:"PARTIAL CAREER HISTORY",body:"Some Showdowns could not be read. Statistics below use readable Showdowns only."},unavailable:{heading:"CAREER HISTORY UNAVAILABLE",body:"Career history could not be loaded. No statistics are being shown."}}},
+    trophyRoom:{heading:"TROPHY ROOM",back:"BACK",previewLabel:"",managerCabinetsHeading:"MANAGER CABINETS",careerTableHeading:"CAREER TABLE",recordsReadyHeading:"ALL-TIME RECORDS",categories:["ALL","SHOWDOWN","LEAGUE TITLES","DOMESTIC CUPS","CHAMPIONS LEAGUE","EUROPA LEAGUE"],trophyTypes:{showdown:"Showdown Champion",goldenShowdown:"Golden Showdown",leagueTitles:"League Title",domesticCups:"Domestic Cup",championsLeague:"Champions League",europaLeague:"Europa League"},notWonYet:"Not won yet",stateCopy:{loading:{text:"Loading career history…"},partial:{text:"Some Showdowns could not be read. Showing {READABLE} of {INDEXED} Showdowns."},partialRecordsHeading:{text:"AVAILABLE RECORDS"},unavailable:{text:"Career history is unavailable right now."}}}
   });
   const CS_FIELDS=["careerPoints","seasons","seasonWins","seasonDraws","seasonLosses","championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies","bestSeasonScore","averageLeaguePoints","averageLeagueGoals"];
   const SHOWDOWN_FIELDS=["completed","wins","draws","losses"];
@@ -38,6 +38,12 @@
       return {manager,rank:index<0?null:standings[index].level===true?1:index+1};
     });
   }
+  // r84 Golden Showdown: how many finished 10-season Showdowns each manager closed on 110 points, counted from the completed
+  // rows this model already holds (the seam owns the rule). Only a career with one carries the field.
+  function v10GoldenShowdowns(model,frame){
+    const counts=v10Seam().goldenShowdownCounts(model.history&&model.history.showdowns);
+    if(counts.daniel>0||counts.nik>0)frame.goldenShowdowns=counts;
+  }
   function v10CareerStatistics(model,status){
     const managers={},showdowns={};
     for(const manager of MANAGERS){
@@ -52,6 +58,7 @@
     if(ranks.some(row=>row.rank===null))return null;
     const frame={status,managerOrder:MANAGERS.slice(),managers,showdowns,expectedCareerTableRows:ranks};
     if(status==="partial")frame.coverage={readable:model.coverage.readable,indexed:model.coverage.indexed};
+    v10GoldenShowdowns(model,frame);
     return frame;
   }
   function v10TrophyRoom(model,status){
@@ -68,6 +75,7 @@
     const records=room.records.filter(row=>v10Finite(row.value)).map(row=>({label:String(row.label).toUpperCase(),manager:row.manager,value:row.value}));
     const frame={status,activeCategory:"ALL",managerOrder:MANAGERS.slice(),managers,standings,records,showdowns};
     if(status==="partial")frame.coverage={readable:model.coverage.readable,indexed:model.coverage.indexed};
+    v10GoldenShowdowns(model,frame);
     return frame;
   }
   // Pure: model + screen -> the frame Team V's renderer reads. loading and unavailable carry no numbers.
@@ -711,7 +719,7 @@
 @media (max-width:900px) and (orientation:portrait), (max-height:480px) and (orientation:landscape) {
   #app #trophyRoom {
     --tr-hub:var(--sd-nav-bottom-space,56px);
-    --tr-hero:clamp(128px,calc(36svh - 60px),224px);
+    --tr-hero:clamp(128px,calc(36svh - 44px),240px);
     --tr-row:clamp(86px,calc((100svh - var(--tr-hero) - var(--tr-hub) - 190px)/2),170px);
   }
   #app #trophyRoom :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,
@@ -736,7 +744,7 @@
   #app #trophyRoom .trophyBrushTitle {width:100%;height:clamp(28px,5.6svh,42px);margin:2px 0;object-fit:contain}
   #app #trophyRoom .trophyEyebrow {font-size:8px;line-height:1.2;letter-spacing:.14em}
   #app #trophyRoom .trophyTagline {font-size:7px;line-height:1.2;letter-spacing:.12em}
-  #app #trophyRoom .heroCeremony {position:absolute;inset:68px 33% auto;width:34%;height:calc(var(--tr-hero) - 68px);margin:0;display:block}
+  #app #trophyRoom .heroCeremony {position:absolute;inset:106px 33% auto;width:34%;height:calc(var(--tr-hero) - 106px);margin:0;display:block}
   #app #trophyRoom .heroTrophyPicture {left:15%;top:0;width:70%;height:calc(100% - 28px)}
   #app #trophyRoom .heroPlinth {left:0;right:0;bottom:0;height:28px;min-height:28px;clip-path:none;padding:3px 1px}
   #app #trophyRoom .heroPlinth span {font-size:9px;line-height:1.1;white-space:normal;overflow:visible;letter-spacing:.03em}
@@ -1491,6 +1499,34 @@
   }
   `;
   
+  // r84 Golden Showdown looks: the shared gold tokens and the r78 black-and-gold marble tile. Nothing here dims, overlays or moves
+  // another element. Trophy Room: the gold case is a sixth case on the ALL shelf, so rows that held five cases hold six; portrait
+  // phones and tablets (three across, the last two centred) show two full rows of three. Career Statistics: one gold line under the
+  // Career Table.
+  const GOLDEN_SHOWDOWN_CSS=String.raw`
+#app #trophyRoom .trophyShelf.has-golden:not(.is-filtered) .trophyGrid {grid-template-columns:repeat(6,minmax(0,1fr))}
+@media (max-width:900px) and (orientation:portrait) {
+  #app #trophyRoom .trophyShelf.has-golden:not(.is-filtered) .trophyCard:nth-child(4) {grid-column:span 2}
+}
+#app #trophyRoom .trophyCard.trophyCard--golden {
+  border:1px solid var(--sd-gold-500,#f5c518);
+  background:radial-gradient(ellipse at 50% 30%,rgba(255,211,77,.30),rgba(255,211,77,0) 62%),linear-gradient(180deg,rgba(73,55,8,.55),rgba(7,8,10,.35)),#0d0c0a url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;
+  box-shadow:inset 0 0 0 2px rgba(17,15,12,.9),inset 0 0 0 3px rgba(255,211,77,.55),inset 0 0 22px rgba(242,196,91,.28);
+}
+#app #trophyRoom .trophyCard--golden .trophyCardPicture img {filter:drop-shadow(0 0 10px rgba(255,211,77,.65)) drop-shadow(0 5px 8px rgba(0,0,0,.72)) saturate(1.2) brightness(1.08)}
+#app #trophyRoom .trophyCard--golden h3 {color:var(--sd-gold-300,#ffd34d);text-shadow:0 1px 2px #000}
+#app #trophyRoom .trophyCard--golden .managerCounts strong {color:var(--sd-gold-200,#fff1b8)}
+#app #careerStatistics .goldenShowdownNote {
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px 10px;margin:8px 0 0;padding:6px 10px;
+  color:var(--sd-gold-200,#fff1b8);font-family:var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);font-weight:600;
+  font-size:12px;line-height:1.2;letter-spacing:.06em;text-align:center;
+  border:1px solid var(--sd-gold-600,#e0ae3a);border-radius:var(--sd-radius,3px);
+  background:linear-gradient(180deg,rgba(73,55,8,.6),rgba(13,12,10,.75)),#0d0c0a url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;
+  box-shadow:inset 0 0 0 2px rgba(17,15,12,.9),inset 0 0 0 3px rgba(255,211,77,.4);
+}
+#app #careerStatistics .goldenShowdownNote img {width:20px;height:20px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(255,211,77,.6))}
+#app #careerStatistics .goldenShowdownNote strong {color:var(--sd-gold-300,#ffd34d);letter-spacing:.1em}
+`;
   function v10Markup(screen){
     const cs=BASE+"career-statistics/",tr=BASE+"trophy-room/";
     if(screen==="careerStatistics")return `<div id="stage-root" class="careerStage" data-primary="trophyRoomButton"><div class="scene sd-stage" id="careerScene" data-plate-width="1672" data-plate-height="941"><div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true"><div class="sd-stage__registered"><div class="sd-stage__plate"></div><span class="managerMarker managerDaniel" data-manager="daniel" role="presentation"></span><span class="managerMarker managerNik" data-manager="nik" role="presentation"></span></div></div><div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div><div class="phoneSceneArt" aria-hidden="true"><picture class="phoneBackground"><source media="${CS_PHONE_ART_MEDIA}" srcset="${BASE}plates-v2/ENV_STATISTICS_PHONE_V2.webp"><img alt="" decoding="async"></picture></div><div class="sd-stage__layer sd-stage__layer--ui"><div class="stateBackdrop" aria-hidden="true"></div><div class="careerScreen" aria-labelledby="careerStatisticsScreenTitle"><section class="phoneFaceBand" aria-label="Career Statistics presentation"><header class="titleBlock"><p class="sd-eyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="careerStatisticsScreenTitle" class="titleWordmark" data-sd-enter="title" tabindex="-1" data-route-focus-target="true"><span class="sd-visually-hidden">CAREER STATISTICS</span><img src="${cs}assets/TITLE_CS_V1.webp" alt="" aria-hidden="true" width="1216" height="126" decoding="async"></h2><p class="sd-tagline">TWO MANAGERS. ONE LEGACY.</p></header></section><div id="previewChip" class="previewChip" hidden></div><section class="phoneHub" aria-label="Career Statistics data"><section id="headlineTiles" class="headlineTiles" aria-label="Career headline totals"></section><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneTable" aria-label="Career Table" aria-controls="careerTablePanel" checked><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneCompare" aria-label="Manager Comparison" aria-controls="comparisonPanel"><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneLeaders" aria-label="Career Leaders" aria-controls="leadersPanel"><div class="phoneTabs" aria-label="Career Statistics sections"><label for="careerPhoneTable">TABLE</label><label for="careerPhoneCompare">COMPARE</label><label for="careerPhoneLeaders">LEADERS</label></div><section id="careerStatisticsContent" class="contentGrid" aria-live="polite"><section id="careerTablePanel" data-sd-enter="panel" class="glassPanel careerTablePanel" aria-labelledby="careerTableHeading"></section><section id="comparisonPanel" data-sd-enter="panel" class="glassPanel comparisonPanel" aria-labelledby="comparisonHeading"></section><section id="leadersPanel" data-sd-enter="panel" class="glassPanel leadersPanel" aria-labelledby="leadersHeading"></section><section id="statePanel" class="glassPanel statePanel" hidden></section></section></section><nav class="actionRow" aria-label="Career Statistics actions" data-phone-primary="trophyRoomButton"><button id="careerStatisticsRivalryButton" class="actionButton secondary" type="button"><span class="buttonIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19h3V9H4v10Zm6 0h3V5h-3v14Zm6 0h3V12h-3v7Z"/></svg></span><span class="actionLabel">CURRENT RIVALRY STATISTICS</span><span aria-hidden="true">›</span></button><button id="trophyRoomButton" data-sd-enter="button" class="actionButton primary" type="button"><img src="${BASE}shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="" aria-hidden="true"><span class="actionLabel">OPEN TROPHY ROOM</span><span aria-hidden="true">›</span></button><button class="actionButton secondary backButton" type="button"><span class="buttonIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3V11Z"/></svg></span><span class="actionLabel">BACK TO MAIN MENU</span><span aria-hidden="true">›</span></button></nav></div><div class="gridOverlay" aria-hidden="true"></div></div><div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true"><div class="sd-stage__registered"><span class="contactShadow"></span><div class="sd-stage__cutout armCutout" data-src1x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_1X.webp" data-src2x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_2X.webp"></div></div></div><div class="sd-stage__layer sd-stage__layer--light" aria-hidden="true"><div class="sd-stage__registered"><span class="sd-stage__rim armRim" data-src1x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_1X.webp" data-src2x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_2X.webp"></span></div></div></div></div>`;
@@ -1543,11 +1579,11 @@
     host.innerHTML=v10Markup(screen);
     if(screen==="trophyRoom"){
       const smallPhoneStyle=doc.createElement("style");
-      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS+TROPHY_1920_DESKTOP_CSS+TROPHY_2560_ULTRAWIDE_CSS+TROPHY_SCREEN_1705_CSS+TROPHY_SIDEWAYS_1730_CSS+TROPHY_PLATE_V2_CSS;
+      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS+TROPHY_1920_DESKTOP_CSS+TROPHY_2560_ULTRAWIDE_CSS+TROPHY_SCREEN_1705_CSS+TROPHY_SIDEWAYS_1730_CSS+TROPHY_PLATE_V2_CSS+GOLDEN_SHOWDOWN_CSS;
       host.appendChild(smallPhoneStyle);
     }else{
       const careerStatsStyle=doc.createElement("style");
-      careerStatsStyle.textContent=CAREER_STATS_1706_CSS;
+      careerStatsStyle.textContent=CAREER_STATS_1706_CSS+GOLDEN_SHOWDOWN_CSS;
       host.appendChild(careerStatsStyle);
     }
     v10Wire(screen,host);

@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="app-asset-revision" content="1.9.7-r83">
+<meta name="app-asset-revision" content="1.9.8-r84">
 <title>Career Mode Showdown</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="image" href="assets/LOADING_REUS_PHONE.webp?v=1.9.7-r83" media="(max-aspect-ratio: 7/5)" fetchpriority="high">
-<link rel="preload" as="image" href="assets/LOADING_REUS_DESKTOP.webp?v=1.9.7-r83" media="not all and (max-aspect-ratio: 7/5)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/LOADING_REUS_PHONE.webp?v=1.9.8-r84" media="(max-aspect-ratio: 7/5)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/LOADING_REUS_DESKTOP.webp?v=1.9.8-r84" media="not all and (max-aspect-ratio: 7/5)" fetchpriority="high">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&display=swap">
-<link rel="stylesheet" id="appStyles" href="css/app.css?v=1.9.7-r83">
+<link rel="stylesheet" id="appStyles" href="css/app.css?v=1.9.8-r84">
 </head>
 <body>
 <div id="background"></div>
@@ -20,8 +20,8 @@
 <div class="startupScene" aria-hidden="true">
 <div class="startupAthleteFrame">
 <picture>
-<source media="(max-aspect-ratio: 7/5)" srcset="assets/LOADING_REUS_PHONE.webp?v=1.9.7-r83" width="1179" height="2096">
-<img id="startupAthlete" src="assets/LOADING_REUS_DESKTOP.webp?v=1.9.7-r83" width="1920" height="1080" alt="" decoding="async" fetchpriority="high">
+<source media="(max-aspect-ratio: 7/5)" srcset="assets/LOADING_REUS_PHONE.webp?v=1.9.8-r84" width="1179" height="2096">
+<img id="startupAthlete" src="assets/LOADING_REUS_DESKTOP.webp?v=1.9.8-r84" width="1920" height="1080" alt="" decoding="async" fetchpriority="high">
 </picture>
 </div>
 </div>
@@ -48,18 +48,18 @@
 <span class="fifaMenuEyebrow">CAREER MODE // SHOWDOWN 17</span>
 <h2>HOME</h2>
 </div>
-<p class="fifaMenuHeadingMeta"><span>RIVALRY HEADQUARTERS</span>Build the rivalry, play every season, and carry each trophy into your Legacy.</p>
+<p class="fifaMenuHeadingMeta"><span>SHOWDOWN HQ</span>Play every season and carry each trophy into your Legacy.</p>
 </div>
 
 <div class="fifaMenuGrid">
 <button class="menuTile menuTilePrimary" id="continueCareer" type="button">
-<span class="menuTileCode">CAREER</span><span class="menuTileLabel">CONTINUE CAREER</span><span class="menuTileMeta">Loading active showdown...</span>
+<span class="menuTileCode">CAREER</span><span class="menuTileLabel">CONTINUE CAREER</span><span class="menuTileMeta">Loading your Showdown…</span>
 </button>
 <button class="menuTile menuTileNew" id="newShowdown" type="button">
-<span class="menuTileCode">NEW</span><span class="menuTileLabel">START A SHOWDOWN</span><span class="menuTileMeta">Begin a new rivalry</span>
+<span class="menuTileCode">NEW</span><span class="menuTileLabel">START A SHOWDOWN</span><span class="menuTileMeta">Start a new Showdown</span>
 </button>
 <button class="menuTile menuTileLegacy" id="legacyButton" type="button">
-<span class="menuTileCode">HISTORY</span><span class="menuTileLabel">LEGACY</span><span class="menuTileMeta">Completed rivalries and season history</span>
+<span class="menuTileCode">HISTORY</span><span class="menuTileLabel">LEGACY</span><span class="menuTileMeta">Past Showdowns and season history</span>
 </button>
 <button class="menuTile menuTileTrophy" id="careerStatisticsButton" type="button">
 <span class="menuTileCode">DATA</span><span class="menuTileLabel">STATISTICS</span><span class="menuTileMeta">Career totals, manager comparison and honours</span>
@@ -68,7 +68,7 @@
 <span class="menuTileCode">RULES</span><span class="menuTileLabel">RULE BOOK</span><span class="menuTileMeta">Scoring and competition rules</span>
 </button>
 <button class="menuTile menuTileSettings" id="settingsButton" type="button">
-<span class="menuTileCode">SETTINGS</span><span class="menuTileLabel">SETTINGS</span><span class="menuTileMeta">Account, device and preferences</span>
+<span class="menuTileCode">SETTINGS</span><span class="menuTileLabel">SETTINGS</span><span class="menuTileMeta">Account and preferences</span>
 </button>
 
 <section class="menuMusicTile" aria-label="Menu media">
@@ -215,11 +215,11 @@
 <strong id="clubConfirmationClubTwo">Club</strong>
 </div>
 </div>
-<p class="clubRivalryLockNote">These clubs are permanent for the full showdown. Confirmation starts the rivalry and never rerolls either club.</p>
+<p class="clubRivalryLockNote">These clubs stay for the whole Showdown. Confirming starts it; neither club is rerolled.</p>
 </div>
 
 <button class="menuButton" id="openClubPack" type="button">OPEN SHOWDOWN PACKS</button>
-<button class="menuButton hidden" id="continueClubAssignment" type="button" disabled>CONFIRM RIVALRY & START SHOWDOWN</button>
+<button class="menuButton hidden" id="continueClubAssignment" type="button" disabled>CONFIRM & START SHOWDOWN</button>
 <button class="backButton" id="clubAssignmentBack" data-smart-back type="button">BACK</button>
 </div>
 </section>
@@ -403,15 +403,15 @@
 <button class="backButton" data-smart-back type="button">BACK TO MAIN MENU</button>
 </section>
 </main>
-<footer>Career Mode Showdown<br>v1.9.7</footer>
+<footer>Career Mode Showdown<br>v1.9.8</footer>
 </div>
 
-<script defer src="js/storage.js?v=1.9.7-r83"></script>
-<script defer src="js/showdown.js?v=1.9.7-r83"></script>
-<script defer src="js/scoring.js?v=1.9.7-r83"></script>
-<script defer src="js/screens.js?v=1.9.7-r83"></script>
-<script defer src="js/menuExperience.js?v=1.9.7-r83"></script>
-<script defer src="js/optionalModules.js?v=1.9.7-r83"></script>
-<script defer src="js/app.js?v=1.9.7-r83"></script>
+<script defer src="js/storage.js?v=1.9.8-r84"></script>
+<script defer src="js/showdown.js?v=1.9.8-r84"></script>
+<script defer src="js/scoring.js?v=1.9.8-r84"></script>
+<script defer src="js/screens.js?v=1.9.8-r84"></script>
+<script defer src="js/menuExperience.js?v=1.9.8-r84"></script>
+<script defer src="js/optionalModules.js?v=1.9.8-r84"></script>
+<script defer src="js/app.js?v=1.9.8-r84"></script>
 </body>
 </html>

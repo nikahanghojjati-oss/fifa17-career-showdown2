@@ -79,7 +79,7 @@ const MENU_MEDIA_SOURCES = Object.freeze({
 });
 
 const MARCO_REUS_IMAGE = Object.freeze({
-    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.9.7-r83",
+    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.9.8-r84",
     source: "https://commons.wikimedia.org/wiki/File:Marco_Reus_(16204330530)_(cropped).jpg",
     license: "https://creativecommons.org/licenses/by/2.0/"
 });
@@ -177,7 +177,7 @@ function getSavedShowdownMenuMeta(){
         return {
             hasSave: false,
             label: "CONTINUE CAREER",
-            meta: "No active showdown saved",
+            meta: "No Showdown in progress",
             indicator: "No Active Showdown"
         };
     }
@@ -618,13 +618,13 @@ function decorateMainMenuTiles(){
         document.getElementById("newShowdown"),
         "NEW",
         "NEW SHOWDOWN",
-        "Create a new rivalry and draw your league"
+        "Pick seasons and draw your league"
     );
     createTileContent(
         document.getElementById("legacyButton"),
         "HISTORY",
         "LEGACY",
-        "Completed rivalries and season history"
+        "Past Showdowns and season history"
     );
     createTileContent(
         document.getElementById("careerStatisticsButton"),
@@ -636,7 +636,7 @@ function decorateMainMenuTiles(){
         document.getElementById("ruleBookButton"),
         "RULES",
         "RULE BOOK",
-        "Competition rules, scoring and transfer challenge"
+        "Rules, scoring and transfers"
     );
 }
 

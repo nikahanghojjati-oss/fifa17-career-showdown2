@@ -306,6 +306,9 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
   #app #careerStatistics.careerScreenV10 .headlineNumber { font-size: max(46px, calc(var(--cs-u) * 3.8)); line-height: .95; letter-spacing: 0; }
   #app #careerStatistics.careerScreenV10 .headlinePair { gap: calc(var(--cs-u) * .28); margin-top: calc(var(--cs-u) * .4); }
   #app #careerStatistics.careerScreenV10 .headlinePair b { font-size: max(30px, calc(var(--cs-u) * 2.55)); line-height: 1; }
+  /* r84: three-digit totals (career points past 99, e.g. after a Golden Showdown) shrink to stay inside the tile. */
+  #app #careerStatistics.careerScreenV10 .headlinePair[data-digits="5"] b { font-size: max(26px, calc(var(--cs-u) * 2.05)); }
+  #app #careerStatistics.careerScreenV10 .headlinePair[data-digits="6"] b { font-size: max(22px, calc(var(--cs-u) * 1.7)); }
   #app #careerStatistics.careerScreenV10 .headlinePair small { font-size: max(9px, calc(var(--cs-u) * .6)); }
   #app #careerStatistics.careerScreenV10 .headlinePair .slash { opacity: 1; color: #a3997b; font-size: max(16px, calc(var(--cs-u) * 1.3)); }
 

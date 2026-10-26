@@ -49,7 +49,7 @@ const path=require("node:path");
   assert.match(entry,/ready\?"START A SHOWDOWN"/,'Physical journey must expose canonical Start a Showdown only after player identity is ready.');
   assert.match(entry,/"SIGN IN TO START"/,'Physical journey must explicitly route unsigned users through sign-in first.');
   assert.match(entry,/identity&&typeof identity\.openGate==="function"/,'Unsigned Start must open the player identity gate without creating a Showdown shell.');
-  assert.match(entry,/Daniel and Nik must both be connected before the career begins\./);
+  assert.match(entry,/Connect Daniel and Nik before the career starts\./);
   assert.doesNotMatch(entry,/START SHARED SHOWDOWN|BOTH manager devices before pairing/i,'Physical acceptance must not force retired engineering copy back into the player surface.');
 
   const validator=await import("../../scripts/validate-ssjr-physical-journey-evidence.mjs");
@@ -87,7 +87,7 @@ const path=require("node:path");
     return resequence(e);
   };
   const evidence=({managerRole,remoteRole,account,device,rivalry="c",session="d",deviceLabel,networkLabel,userAgent,platform})=>({
-    schema:validator.EVIDENCE_SCHEMA,generatedAt:"2026-09-13T06:30:00.000Z",appVersion:"1.9.7",runtimeRevision:"1.9.7-r83",acceptanceMode:true,physicalJourneyMode:true,sanitizedSessionStorageOnly:true,recorderNetworkRequests:false,rawAuthorityIncluded:false,canonicalRawIncluded:false,
+    schema:validator.EVIDENCE_SCHEMA,generatedAt:"2026-09-13T06:30:00.000Z",appVersion:"1.9.8",runtimeRevision:"1.9.8-r84",acceptanceMode:true,physicalJourneyMode:true,sanitizedSessionStorageOnly:true,recorderNetworkRequests:false,rawAuthorityIncluded:false,canonicalRawIncluded:false,
     device:{userAgent,platform,maxTouchPoints:managerRole==="playerOne"?0:5,screenWidth:managerRole==="playerOne"?1366:430,screenHeight:managerRole==="playerOne"?768:932},deviceLabel,networkLabel,managerRole,remoteRole,accountFingerprint:fp(account),deviceFingerprint:fp(device),rivalryFingerprint:fp(rivalry),sessionFingerprints:[fp(session)],authorityViolation:false,canonicalStorageProofScope:"local-reconciliation-preview",canonicalStorageBeforeHash:fp("e"),canonicalStorageAfterHash:fp("e"),canonicalStorageViolation:false,candidateCApplied:false,offlineObserved:true,onlineRecovered:true,reloadResumed:true,terminalReloadVerified:true,conflictGuardProven:true,startupCount:3,
     milestones:makeMilestones(),completed:true
   });

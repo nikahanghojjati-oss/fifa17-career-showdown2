@@ -32,8 +32,8 @@ const BUDGET=Object.freeze({
 function flush(){return new Promise(resolve=>setImmediate(resolve));}
 async function settle(){for(let index=0;index<8;index+=1)await flush();}
 
-function createWorld(){
-  const clock={now:1_800_000_000_000};
+function createWorld({storage=null,now=1_800_000_000_000}={}){
+  const clock={now};
   const timers=[];let timerSeq=0;
   const events=[];
   const docListeners=[];
@@ -46,7 +46,8 @@ function createWorld(){
     dispatchEvent(event){events.push(event);return true;},
     CustomEvent:class{constructor(type,init){this.type=type;this.detail=init&&init.detail;}},
     setTimeout(fn,ms){const id=++timerSeq;timers.push({id,at:clock.now+Math.max(0,Number(ms)||0),fn});return id;},
-    clearTimeout(id){const index=timers.findIndex(timer=>timer.id===id);if(index>=0)timers.splice(index,1);}
+    clearTimeout(id){const index=timers.findIndex(timer=>timer.id===id);if(index>=0)timers.splice(index,1);},
+    ...(storage?{readStorageValue:key=>storage.has(key)?storage.get(key):null,writeStorageValue:(key,value)=>{storage.set(key,String(value));return true;}}:{})
   };
   sandbox.globalThis=sandbox;
   vm.createContext(sandbox);
@@ -439,6 +440,117 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     await world.advance(3100);
     assert.equal(screen.seen.phase,"window");
     screen.stop();
+  });
+
+  await check("FB6b","r84: listener down, 15 s checks of a waiting screen re-read only the waited document; the partner's move still refreshes the rest",async()=>{
+    const world=createWorld();seed(world);
+    const screen=createScreen(world,{owner:"results",watched:TRANSFER,context:[RIVALRY,SESSION],fast:false,slow:false});
+    const ask=()=>world.budget.watchWaitPoint("results",TRANSFER,()=>{});
+    await screen.tick();
+    for(let index=0;index<4;index+=1){ask();await world.advance(2500);}
+    world.failListeners();
+    assert.equal(world.budget.stats().listenerFallbacks,1,"the wait listener was attached and dropped");
+    await screen.tick();
+    // The waiting module asks every 3 s but (past its fast window) reads only on its 15 s poll.
+    const before=world.meter.reads;
+    for(let second=3;second<=45;second+=3){await world.advance(3000);ask();if(second%15===0)await screen.tick();}
+    assert.ok(world.meter.reads-before>=3,"the waited document is read fresh on every 15 s check");
+    assert.ok(world.meter.reads-before<=4,`the other documents keep their quiet copies (${world.meter.reads-before} reads for 3 checks; was 9)`);
+    // The partner's move changes the waited document and another one. The waiting check reads only its document; another
+    // screen that reads only the other document must not get its old quiet copy afterwards.
+    world.serverWrite(TRANSFER,{phase:"completed",requests:{}});world.serverWrite(SESSION,{status:"CLOSING"});
+    await world.advance(3000);ask();
+    const phase=await world.services.firestoreSdk.runTransaction(world.db,async tx=>(await tx.get({path:TRANSFER})).data().phase);
+    assert.equal(phase,"completed");
+    const session=await world.services.firestoreSdk.runTransaction(world.db,async tx=>(await tx.get({path:SESSION})).data().status);
+    assert.equal(session,"CLOSING","no screen acts on a copy older than the partner's move");
+    screen.stop();
+  });
+
+  await check("FB16","r84 read brake: an idle page whose checks loop is slowed to one read per document per 15 s; a tap, writes and the listener stay instant; the day count persists and resets at the Google day",async()=>{
+    const storage=new Map();
+    const world=createWorld({storage});seed(world);
+    // An unknown loop: one background check re-reads the same documents every 500 ms, nobody taps.
+    const loopFor=async ms=>{for(const end=world.clock.now+ms;world.clock.now<end;){world.budget.wantFresh();await world.services.firestoreSdk.runTransaction(world.db,async tx=>{await tx.get({path:RIVALRY});await tx.get({path:SESSION});});await world.advance(500);}};
+    await loopFor(5*60000);
+    assert.ok(world.budget.braking(),"the brake is on after the loop has read far above normal with nobody tapping");
+    const braked=world.meter.reads;
+    await loopFor(60000);
+    assert.ok(world.meter.reads-braked<=10,`braked loop reads ${world.meter.reads-braked}/min (two documents, one read each per 15 s at most)`);
+    assert.ok(world.budget.stats().brakeTrips>=1);
+    // A tap releases the brake at once: the next check reads fresh.
+    world.input();const tapped=world.meter.reads;
+    await world.services.firestoreSdk.runTransaction(world.db,async tx=>{await tx.get({path:SESSION});});
+    assert.equal(world.meter.reads-tapped,1,"right after a tap the check reads the server even while the loop history is heavy");
+    assert.equal(world.budget.braking(),false,"no brake within a minute of a tap");
+    // The day count: every server read is counted and saved; a reload on the same Google day keeps it; a new day starts at 0.
+    let today=world.budget.readsToday();
+    assert.ok(today.reads>=world.budget.stats().serverReads,"every server read counts toward today");
+    assert.equal(today.freeReadsPerDay,50000);
+    // Codex #994: listeners outside this layer (season-commit wait context, Home JOIN note) report their server deliveries.
+    world.budget.countListenerRead();world.budget.countListenerRead();
+    assert.equal(world.budget.readsToday().reads,today.reads+2,"outside listener deliveries count toward today");
+    today=world.budget.readsToday();
+    world.setVisible(false);
+    const saved=JSON.parse(storage.get("careerModeFirestoreReadsDay"));
+    assert.equal(saved.reads,today.reads,"hiding the page saves today's count");
+    const reloaded=createWorld({storage,now:world.clock.now});
+    assert.equal(reloaded.budget.readsToday().reads,today.reads,"a reload on the same day keeps the count");
+    const tomorrow=createWorld({storage,now:world.clock.now+24*3600000});
+    assert.equal(tomorrow.budget.readsToday().reads,0,"the next Google day starts at 0");
+  });
+
+  await check("FB16b","r84 read brake never slows a partner move seen by a healthy wait listener",async()=>{
+    const world=createWorld();seed(world);
+    const screen=createScreen(world,{owner:"transfer",watched:TRANSFER,context:[RIVALRY,SESSION]});
+    screen.start();
+    // Heavy unrelated reading with nobody tapping trips the brake while the listener is healthy.
+    for(let index=0;index<200;index+=1){world.budget.wantFresh();await world.services.firestoreSdk.runTransaction(world.db,async tx=>{await tx.get({path:`${RIVALRY}/noise/n${index}`});});}
+    await world.advance(61000);
+    assert.ok(world.budget.braking(),"brake on");
+    world.serverWrite(TRANSFER,{phase:"completed",requests:{}});
+    const at=world.clock.now;let seenAt=null;
+    for(let step=0;step<40&&seenAt===null;step+=1){await world.advance(50);if(screen.seen&&screen.seen.phase==="completed")seenAt=world.clock.now;}
+    assert.ok(seenAt!==null&&seenAt-at<=1000,`the listener still delivers the partner's move at once (${seenAt===null?"never":seenAt-at+" ms"})`);
+    screen.stop();
+  });
+  await check("FB16c","r84 seasons left today: each season seen ACKNOWLEDGED records its reads, the estimate follows that cost for both devices, a reload or an old season never counts twice, and the next day starts from the last day's cost",async()=>{
+    const storage=new Map();
+    const world=createWorld({storage});seed(world);
+    const before=world.budget.seasonsLeftToday();
+    assert.equal(before.basis,"estimate","before any season is played the r84 measured cost is used");
+    assert.ok(before.seasons>0);
+    for(let i=0;i<100;i++)world.budget.countListenerRead();
+    assert.equal(world.budget.noteSeasonDone("pair_x|1",true),true);
+    let left=world.budget.seasonsLeftToday();
+    assert.equal(left.basis,"today");
+    assert.equal(left.billedPerSeason,Math.round(100*2.8*2),"one season's reads on this device, billed, for both devices");
+    assert.equal(left.seasons,Math.floor((50000-100*2.8*2)/(100*2.8*2)));
+    assert.equal(world.budget.noteSeasonDone("pair_x|1",true),false,"the same season never counts twice");
+    for(let i=0;i<300;i++)world.budget.countListenerRead();
+    assert.equal(world.budget.noteSeasonDone("pair_x|0",false),true,"a commit first seen already ACKNOWLEDGED only moves the mark");
+    assert.equal(world.budget.seasonsLeftToday().billedPerSeason,Math.round(100*2.8*2),"its unknown cost is not recorded");
+    for(let i=0;i<200;i++)world.budget.countListenerRead();
+    world.budget.noteSeasonDone("pair_x|2",true);
+    left=world.budget.seasonsLeftToday();
+    assert.equal(left.billedPerSeason,Math.round(150*2.8*2),"the cost is the average of the seasons played (100 and 200 reads)");
+    const reloaded=createWorld({storage,now:world.clock.now});
+    assert.equal(reloaded.budget.noteSeasonDone("pair_x|2",true),false,"a reload remembers the seasons already counted");
+    assert.equal(reloaded.budget.seasonsLeftToday().billedPerSeason,left.billedPerSeason);
+    const tomorrow=createWorld({storage,now:world.clock.now+24*3600000});
+    const next=tomorrow.budget.seasonsLeftToday();
+    assert.equal(next.basis,"earlier","the next day starts from the last day's cost");
+    assert.equal(next.billedPerSeason,left.billedPerSeason);
+    assert.equal(next.seasons,Math.floor(50000/left.billedPerSeason));
+    // Codex #999: a season that runs past the Google day keeps its reads from before the reset.
+    const split=new Map();const lateDay=createWorld({storage:split});seed(lateDay);
+    lateDay.budget.noteSeasonDone("pair_y|1",false);
+    for(let i=0;i<699;i++)lateDay.budget.countListenerRead();
+    lateDay.setVisible(false);
+    const after=createWorld({storage:split,now:lateDay.clock.now+24*3600000});
+    after.budget.countListenerRead();
+    after.budget.noteSeasonDone("pair_y|2",true);
+    assert.equal(after.budget.seasonsLeftToday().billedPerSeason,Math.round(700*2.8*2),"the whole season's reads count, before and after the reset");
   });
 
   await check("FB7","a listener that falls behind the server is dropped within 5 s and the screen reads the server",async()=>{
@@ -961,6 +1073,23 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
       assert.equal(remote.getState().sessionId,null);
       const next=await remote.autoConnect();
       assert.equal(next.kind,"hosted",JSON.stringify(next));assert.equal(remote.getState().auto,"waiting");assert.equal(published(world),true);}
+  });
+
+  await check("FB-CTX1","context listeners watch the rivalry root and only the current Session; repeated wakes attach nothing new (Codex #1006 P2)",async()=>{
+    const world=createWorld();
+    const ID="pair_"+"f".repeat(64),ROOT=`rivalries/${ID}`,OLD=`${ROOT}/sessions/session_${"1".repeat(64)}`,NEW=`${ROOT}/sessions/session_${"2".repeat(64)}`;
+    world.serverWrite(ROOT,{status:"ACTIVE"});world.serverWrite(OLD,{state:"closed"});world.serverWrite(NEW,{state:"active"});
+    const sdk=world.services.firestoreSdk,read=async paths=>sdk.runTransaction(world.db,async tx=>{for(const path of paths)await tx.get({path});});
+    await read([ROOT,OLD]);await world.advance(1000);
+    await read([NEW]);  // a new Session opened without a reload: both Session copies are kept
+    world.budget.watchContext(ID,()=>{});await world.advance(1000);
+    const attached=world.budget.stats().listenersAttached;
+    const watched=()=>world.activeListeners().map(listener=>listener.path).sort();
+    assert.deepEqual(watched(),[ROOT,NEW].sort(),"the rivalry root and the newest Session are watched, never the older Session");
+    for(let wake=0;wake<6;wake+=1){world.budget.watchContext(ID,()=>{});await world.advance(15000);}
+    assert.equal(world.budget.stats().listenersAttached,attached,"six unchanged wakes attach no new listener");
+    assert.deepEqual(watched(),[ROOT,NEW].sort(),"the current Session listener stays attached");
+    assert.equal(world.budget.contextHealthy(NEW),true,"the current Session is served by its listener");
   });
 
   console.log(`PASS Firestore budget contracts: ${results.length} checks, measured reads/min ${measured.join(" / ")} (waiting <= ${BUDGET.waitingVisibleReadsPerMinute} reads/min, hidden ${BUDGET.hiddenReadsPerMinute}, idle writes 0, partner update <= ${BUDGET.partnerUpdateMs} ms).`);

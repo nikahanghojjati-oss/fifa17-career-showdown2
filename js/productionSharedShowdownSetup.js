@@ -116,7 +116,7 @@
     if(!runtime||typeof runtime.ensureAccountServices!=="function")fail("SHARED_SETUP_RUNTIME_UNAVAILABLE","Private Firebase runtime is unavailable.");
     if(!account||typeof account.initialize!=="function"||typeof account.getState!=="function")fail("SHARED_SETUP_ACCOUNT_UNAVAILABLE","Connected Account is unavailable.");
     await account.initialize();const accountState=account.getState();
-    if(!accountState||accountState.connected!==true||!accountState.accountId)fail("SHARED_SETUP_AUTH_REQUIRED","Sign in with Google before Shared Setup.");
+    if(!accountState||accountState.connected!==true||!accountState.accountId)fail("SHARED_SETUP_AUTH_REQUIRED","Sign in with Google before setup.");
     if(!pairing||typeof pairing.initialize!=="function"||typeof pairing.getState!=="function")fail("SHARED_SETUP_DEVICE_UNAVAILABLE","Registered browser authority is unavailable.");
     await pairing.initialize();const pairingState=pairing.getState();
     if(!pairingState||pairingState.registered!==true||!pairingState.deviceId)fail("SHARED_SETUP_DEVICE_REQUIRED","Register this browser before Shared Setup.");
@@ -125,7 +125,7 @@
     if(!rivalryState||rivalryState.attached!==true||!rivalryState.rivalryId||!rivalryState.binding)fail("SHARED_SETUP_RIVALRY_REQUIRED","Attach the exact paired Connected Rivalry before Shared Setup.");
     const remoteState=remote&&typeof remote.getState==="function"?remote.getState():null;
     if(!remoteState||remoteState.sessionState!=="active"||!remoteState.sessionId||remoteState.pendingAction)fail("SHARED_SETUP_ACTIVE_SESSION_REQUIRED","Both players must be connected before league or club selection.");
-    if(Number.isFinite(remoteState.expiresAtEpochMs)&&Date.now()>=remoteState.expiresAtEpochMs)fail("SHARED_SETUP_ACTIVE_SESSION_REQUIRED","The connection ended. Reconnect both players to resume the shared setup.");
+    if(Number.isFinite(remoteState.expiresAtEpochMs)&&Date.now()>=remoteState.expiresAtEpochMs)fail("SHARED_SETUP_ACTIVE_SESSION_REQUIRED","The connection ended. Reconnect both players to carry on with setup.");
     if(remoteState.rivalryId!==rivalryState.rivalryId||remoteState.accountId!==accountState.accountId||remoteState.deviceId!==pairingState.deviceId)fail("SHARED_SETUP_AUTHORITY_MISMATCH","This connection no longer matches this Showdown. Reconnect both players.");
     if(rivalryState.accountId&&rivalryState.accountId!==accountState.accountId)fail("SHARED_SETUP_AUTHORITY_MISMATCH");
     if(rivalryState.deviceId&&rivalryState.deviceId!==pairingState.deviceId)fail("SHARED_SETUP_AUTHORITY_MISMATCH");
@@ -171,15 +171,15 @@
     const run=Promise.resolve().then(()=>refreshNow(generation)).finally(()=>{if(refreshInFlight===run)refreshInFlight=null;});refreshInFlight=run;return run;
   }
   async function refreshNow(generation=setupGeneration){
-    const before=storageSnapshot();setState({status:"reading",busy:false,message:"Checking the shared setup for this Showdown…"});
+    const before=storageSnapshot();setState({status:"reading",busy:false,message:"Checking this Showdown's setup…"});
     let readReached=false;
     try{
       const context=await resolveContext();readReached=true;const result=await context.adapter.read(providerOptions(context));assertStorageUnchanged(before);
       if(generation!==setupGeneration)return currentState();
       if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_READ_FAILED");
       const message=result.status==="empty"
-        ? context.remoteRole==="host"?"The paired managers have reached an empty Shared Setup. Open it once for both managers.":"The paired managers have reached an empty Shared Setup. Waiting for the session host to open it."
-        : "Shared setup restored without a reset or redraw.";
+        ? context.remoteRole==="host"?"Both players are here. Open the setup once for both.":"Both players are here. Waiting for the host to open the setup."
+        : "Setup restored. Nothing was reset or redrawn.";
       heldReadFailure=false;return accept(result,context,message);
     }catch(error){
       try{assertStorageUnchanged(before);}catch(storageError){error=storageError;}
@@ -216,14 +216,14 @@
     return false;
   }
   async function mutateNow(type,extra={}){
-    const before=storageSnapshot();setState({status:`writing-${type}`,busy:true,message:"Saving this shared setup step…"});
+    const before=storageSnapshot();setState({status:`writing-${type}`,busy:true,message:"Saving this step…"});
     try{
       const context=await resolveContext();assertShellSave(context);
-      if(type==="open"&&context.remoteRole!=="host")fail("SHARED_SETUP_HOST_REQUIRED","Only the ACTIVE session host may open an empty Shared Setup.");
+      if(type==="open"&&context.remoteRole!=="host")fail("SHARED_SETUP_HOST_REQUIRED","Only the host can open the setup.");
       for(let attempt=0;;attempt+=1){
         const current=await context.adapter.read(providerOptions(context));
         if(!current||current.ok!==true)fail(current&&current.code||"SHARED_SETUP_READ_FAILED");
-        if(attempt>0&&stepAlreadyShown(type,current,context.managerRole,extra)){assertStorageUnchanged(before);return accept(current,context,"Both managers now have the same shared setup.");}
+        if(attempt>0&&stepAlreadyShown(type,current,context.managerRole,extra)){assertStorageUnchanged(before);return accept(current,context,"Both managers now have the same setup.");}
         const operationId=randomOperationId(),baseRevision=current.revision||0;
         assertShellSave(context);const providerRequest={...providerOptions(context),type,operationId,baseRevision,...extra};
         let result;
@@ -232,7 +232,7 @@
         assertStorageUnchanged(before);
         if(result&&result.ok!==true&&attempt===0&&RACE_CODES.includes(result.code))continue;
         if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_MUTATION_FAILED");
-        return accept(result,context,result.replayed?"The original Shared Setup operation was recovered without a duplicate draw.":"Both managers now have the same shared setup.");
+        return accept(result,context,result.replayed?"Your last step was recovered. Nothing was drawn twice.":"Both managers now have the same setup.");
       }
     }catch(error){
       try{assertStorageUnchanged(before);}catch(storageError){error=storageError;}
@@ -250,8 +250,8 @@
     if(!setup){
       summary.append(create("strong","remoteJoiningState","EMPTY · REV 0"),create("p","remoteJoiningMeta","Both players are connected. No league or club has been drawn yet."));
       const actions=create("div","remoteJoiningActions");
-      if(state.ready&&state.remoteRole==="host")actions.append(action("OPEN SHARED SETUP",()=>void mutate("open"),state.busy,true));
-      else if(state.ready)summary.append(create("p","remoteJoiningMeta","Waiting for the host to open the shared setup."));
+      if(state.ready&&state.remoteRole==="host")actions.append(action("OPEN SETUP",()=>void mutate("open"),state.busy,true));
+      else if(state.ready)summary.append(create("p","remoteJoiningMeta","Waiting for the host to open the setup."));
       actions.append(action("REFRESH",()=>void refresh(),state.busy));summary.append(actions);body.append(summary);return;
     }
     summary.append(create("strong","remoteJoiningState",`${setup.phase} · REV ${setup.revision}`));
@@ -267,26 +267,26 @@
     for(const [label,value] of rows){const row=create("div","settingsInfoRow");row.append(create("span","",label),create("strong","",value));facts.append(row);}summary.append(facts);
     const actions=create("div","remoteJoiningActions");
     const coordinator=state.managerRole===setup.coordinatorRole;
-    if(setup.phase==="SHARED_SETUP_OPEN"&&coordinator)actions.append(action("DRAW SHARED LEAGUE",()=>void mutate("commit-league"),state.busy,true));
-    if(setup.phase==="LEAGUE_WHEEL_COMMITTED"&&coordinator)actions.append(action("DRAW DISTINCT CLUBS",()=>void mutate("commit-clubs"),state.busy,true));
+    if(setup.phase==="SHARED_SETUP_OPEN"&&coordinator)actions.append(action("DRAW LEAGUE",()=>void mutate("commit-league"),state.busy,true));
+    if(setup.phase==="LEAGUE_WHEEL_COMMITTED"&&coordinator)actions.append(action("DRAW CLUBS",()=>void mutate("commit-clubs"),state.busy,true));
     if(setup.phase==="CLUB_ASSIGNMENTS_COMMITTED"&&coordinator){
       for(const seasons of LENGTHS)actions.append(action(`${seasons} SEASON${seasons===1?"":"S"}`,()=>void mutate("commit-length",{totalSeasons:seasons}),state.busy));
     }
-    if(setup.phase==="SEASON_LENGTH_COMMITTED"&&state.managerRole&&!setup.confirmedRoles.includes(state.managerRole))actions.append(action("CONFIRM IDENTICAL SETUP",()=>void mutate("confirm"),state.busy,true));
+    if(setup.phase==="SEASON_LENGTH_COMMITTED"&&state.managerRole&&!setup.confirmedRoles.includes(state.managerRole))actions.append(action("CONFIRM SETUP",()=>void mutate("confirm"),state.busy,true));
     actions.append(action("REFRESH",()=>void refresh(),state.busy));summary.append(actions);body.append(summary);
   }
   function render(){
     if(!root.document)return null;const view=currentState();const overlay=root.document.getElementById(PANEL_ID);if(!overlay)return null;
     const body=overlay.querySelector(".remoteJoiningBody");if(!body)return overlay;body.replaceChildren();
-    body.append(create("span","remoteJoiningEyebrow","BOTH PLAYERS CONNECTED"),create("h2","","SHARED SHOWDOWN SETUP"),create("p","","One shared league, two different permanent clubs from that league, and a 1 / 3 / 5 / 10 season length. Reconnecting resumes the same setup without a redraw."));
+    body.append(create("span","remoteJoiningEyebrow","BOTH PLAYERS CONNECTED"),create("h2","","SHOWDOWN SETUP"),create("p","","One league, two different clubs from it, and 1, 3, 5 or 10 seasons. Reconnecting picks up where you left off."));
     if(view.ready)renderSetup(body);else{
-      const locked=create("section","remoteJoiningCurrent");locked.append(create("strong","remoteJoiningState","LOCKED"),create("p","remoteJoiningMeta",view.message));locked.append(action("CHECK ACTIVE SESSION",()=>void refresh(),state.busy));body.append(locked);
+      const locked=create("section","remoteJoiningCurrent");locked.append(create("strong","remoteJoiningState","LOCKED"),create("p","remoteJoiningMeta",view.message));locked.append(action("CHECK CONNECTION",()=>void refresh(),state.busy));body.append(locked);
     }
     const note=create("p","remoteJoiningStatus",view.message);if(view.errorCode&&(view.status==="error"||view.status==="locked"))note.setAttribute("data-error-code",view.errorCode);note.setAttribute("role","status");note.setAttribute("aria-live","polite");body.append(note);return overlay;
   }
   async function openPanel(){
     if(!root.document)return false;let overlay=root.document.getElementById(PANEL_ID);
-    if(!overlay){overlay=create("div","remoteJoiningOverlay");overlay.id=PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","Shared Showdown Setup");const shell=create("div","remoteJoiningShell");const header=create("div","remoteJoiningHeader");header.append(create("strong","","CAREER MODE SHOWDOWN // 17"));const dismiss=create("button","remoteJoiningDismiss","×");dismiss.type="button";dismiss.setAttribute("aria-label","Close Shared Showdown Setup");dismiss.addEventListener("click",closePanel);header.append(dismiss);const body=create("div","remoteJoiningBody");shell.append(header,body);overlay.append(shell);root.document.body.append(overlay);}
+    if(!overlay){overlay=create("div","remoteJoiningOverlay");overlay.id=PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","Shared Showdown Setup");const shell=create("div","remoteJoiningShell");const header=create("div","remoteJoiningHeader");header.append(create("strong","","CAREER MODE SHOWDOWN // 17"));const dismiss=create("button","remoteJoiningDismiss","×");dismiss.type="button";dismiss.setAttribute("aria-label","Close Showdown Setup");dismiss.addEventListener("click",closePanel);header.append(dismiss);const body=create("div","remoteJoiningBody");shell.append(header,body);overlay.append(shell);root.document.body.append(overlay);}
     overlay.classList.remove("hidden");setState({open:true});await refresh();const focusTarget=overlay.querySelector("button");if(focusTarget&&typeof focusTarget.focus==="function")focusTarget.focus();return true;
   }
   function closePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay)overlay.classList.add("hidden");state=freeze({...state,open:false});return true;}

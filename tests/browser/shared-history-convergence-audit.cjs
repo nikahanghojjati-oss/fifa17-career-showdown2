@@ -73,7 +73,7 @@ async function prepare(page,{role,saveId}){
     await prepare(host,{role:'playerOne',saveId:'shared_history_host'});await prepare(peer,{role:'playerTwo',saveId:'shared_history_peer'});
     const rendered=[];
     for(const page of [host,peer]){
-      assert.equal(await page.locator('#sharedHistoryConvergenceHeading').textContent(),'SHARED HISTORY CONVERGED');
+      assert.equal(await page.locator('#sharedHistoryConvergenceHeading').textContent(),'HISTORY UP TO DATE');
       assert.equal(await page.locator('#sharedHistoryConvergenceSummary').textContent(),'2 of 3 seasons accepted · PREMIER LEAGUE · Overall: Daniel 11 · Nik 5 · Lead: Daniel +6');
       const records=await page.locator('#sharedHistoryConvergenceRecords').textContent();assert.match(records,/Daniel · Arsenal · 1W 0D 1L · 11 showdown pts/);assert.match(records,/Nik · Liverpool · 1W 0D 1L · 5 showdown pts/);
       const trophies=await page.locator('#sharedHistoryConvergenceTrophies').textContent();assert.match(trophies,/Daniel 3 trophies \(1 league, 1 cup, 1 Champions League\)/);assert.match(trophies,/Nik 1 trophies \(1 league, 0 cup, 0 Champions League\)/);

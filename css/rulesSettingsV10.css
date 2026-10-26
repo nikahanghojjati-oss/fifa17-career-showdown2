@@ -90,7 +90,7 @@
   #settingsOverlay.v10Settings .settingsEyebrow.sd-eyebrow { font-size:clamp(11px,1vw,16px); padding-inline-start:.5em; }
   #settingsOverlay.v10Settings .settingsFooter { height:auto; line-height:normal; }
 }
-#settingsOverlay.v10Settings .menuButton.settingsApplicationUpdateButton { width:auto; clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); }
+#settingsOverlay.v10Settings .menuButton.settingsApplicationUpdateButton { width:auto; margin-top:10px; clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); }
 #settingsOverlay.v10Settings .menuButton.sd-btn { width:auto; min-height:44px; margin-top:0; padding:0 20px; font:700 14px/1 var(--sd-font-condensed); letter-spacing:.12em; transform:none; }
 #settingsOverlay.v10Settings .menuButton.sd-btn--secondary { color:var(--sd-gold-300); background:rgba(8,9,12,.9); border:1px solid var(--sd-edge); }
 #settingsOverlay.v10Settings .menuButton.sd-btn--primary { min-width:142px; color:var(--sd-text-on-gold); background:var(--sd-gold-500); border:0; box-shadow:0 4px 18px rgba(245,197,24,.2); }
@@ -1209,3 +1209,9 @@
 
 /* r80 Europa League: the scoring card's notes (CL or EL, season 1, best season) sit below the maximum line with clear space. */
 #app #ruleBook.v10RuleBook .scoringRuleSection .ruleScoreNotes { margin-top:.9em; padding-top:.7em; border-top:1px solid rgba(214,176,70,.35); }
+/* r84: keep the update button clear of the SEASONS LEFT TODAY row at every size. */
+body #settingsOverlay.v10Settings #settingsContent .menuButton.settingsApplicationUpdateButton { margin-top: 6px; }
+/* r84 Golden Showdown: its own gold line in the Scoring card. Solid dark ground, gold border, ivory text for readability. */
+#app #ruleBook.v10RuleBook .scoringRuleSection .ruleGoldenShowdown { display:flex; flex-wrap:wrap; align-items:baseline; gap:.25em .7em; margin:.8em 0 0; padding:.6em .8em; background:#0b0a07; border:1px solid #e3b84a; border-left-width:4px; border-radius:2px; color:#f6eedb; font-size:1em; line-height:1.4; }
+#app #ruleBook.v10RuleBook .scoringRuleSection .ruleGoldenShowdown strong { color:#f7c93e; font-weight:700; letter-spacing:.08em; white-space:nowrap; }
+#app #ruleBook.v10RuleBook .scoringRuleSection .ruleGoldenShowdown span { min-width:0; }

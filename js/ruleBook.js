@@ -25,8 +25,8 @@ function createRuleBookScreen(){
     intro.className = "ruleBookHero";
     intro.innerHTML = `
         <span>CAREER MODE SHOWDOWN</span>
-        <strong>THE LOCKED COMPETITION RULES</strong>
-        <p>Daniel and Nik. One league. Permanent clubs. One rivalry.</p>
+        <strong>THE RULES</strong>
+        <p>Daniel and Nik. One league. Fixed clubs. One Showdown.</p>
     `;
 
     const grid = document.createElement("div");
@@ -34,39 +34,38 @@ function createRuleBookScreen(){
 
     grid.append(
         createRuleSection("01", "SHOWDOWN FORMAT", [
-            "Career Mode Showdown is a two-player rivalry for Daniel and Nik.",
+            "Career Mode Showdown is a two-player game for Daniel and Nik.",
             "Daniel is Player One. Nik is Player Two.",
-            "Both managers compete in the same selected league.",
-            "The assigned clubs remain fixed for the entire Showdown, across every season.",
-            "A Showdown may contain 1, 3, 5, or 10 seasons.",
-            "The manager with the most Showdown points across all seasons wins; equal totals are a draw."
+            "You both play in the same league, and each of you keeps one club for the whole Showdown.",
+            "A Showdown is 1, 3, 5 or 10 seasons.",
+            "Most Showdown points across all seasons wins. Equal totals are a draw."
         ]),
         createRuleSection("02", "MATCH PLAY", [
-            "Career Mode matches are simulated.",
-            "A Champions League or Europa League final may be played or simulated by the manager.",
-            "The main domestic cup final may be played or simulated by the manager.",
-            "No other match-play exceptions are part of the current rules."
+            "Simulate every match.",
+            "You may play or simulate a Champions League or Europa League final.",
+            "You may play or simulate the main domestic cup final.",
+            "Player training is allowed only in 5- and 10-season Showdowns."
         ]),
         createRuleSection("03", "TRANSFER CHALLENGE", [
-            "Each manager may sign a maximum of three players per season.",
-            "The transfer window challenge lasts 15 minutes.",
-            "Both managers may agree to end the transfer window early; one manager cannot end it alone.",
-            "The opponent receives three guesses.",
-            "Each guess must be either a league or a nationality.",
-            "If a signing matches a correct guess, that signing must be released before the season begins."
+            "Each of you may sign up to three players a season.",
+            "The transfer window lasts 15 minutes.",
+            "In FIFA 17, you can sign players up to the transfer deadline.",
+            "Both managers can agree to end the transfer window early. One manager cannot end it alone.",
+            "Your opponent gets three guesses. Each guess is a league or a nationality.",
+            "If a guess matches one of your signings, release that player before the season starts."
         ]),
         createScoringRuleSection(),
         createRuleSection("05", "DRAWS", [
-            "The manager with more Showdown points in a season wins that season.",
-            "If both managers finish a season with the same Showdown points, including 0-0, the season is a draw.",
-            "There is no tiebreak: league position, league points and goals never decide a season or a Showdown.",
-            "If both managers finish the Showdown with the same total, the Showdown is a draw."
+            "More Showdown points in a season wins that season.",
+            "Same Showdown points in a season, even 0-0, means the season is a draw.",
+            "There is no tiebreak. League position, points and goals never decide a winner.",
+            "Equal Showdown totals mean the Showdown is a draw."
         ]),
         createRuleSection("06", "CONNECTION & RECOVERY", [
-            "Daniel and Nik connect once before the first Showdown and can then continue the same career from a remembered account and browser.",
-            "A new or forgotten browser may need to be connected again before play continues.",
-            "Device storage may be used internally for recovery and rollback, but it does not create a separate gameplay mode.",
-            "Results are entered manually from FIFA 17; screenshots and match notes are not required."
+            "Connect once before your first Showdown. After that, the same account and browser stay connected.",
+            "A new browser may need to connect again.",
+            "The browser keeps a backup copy for recovery. You can't play from it.",
+            "Type in results by hand from FIFA 17. No screenshots or notes needed."
         ])
     );
 
@@ -136,8 +135,8 @@ function createScoringRuleSection(){
         ["Europa League winner", "+3"],
         ["Domestic league winner", "+3"],
         ["Main domestic cup winner", "+1"],
-        ["100 league points and/or 100 league goals", "+1 MAX"],
-        ["League Top Scorer and/or Top Assist", "+1 MAX"]
+        ["100 league points or 100 league goals", "+1 MAX"],
+        ["League top scorer or top assist", "+1 MAX"]
     ].forEach(([label, value]) => {
         const row = document.createElement("div");
         const labelElement = document.createElement("span");
@@ -157,11 +156,11 @@ function createScoringRuleSection(){
     const notes = document.createElement("ul");
     notes.className = "ruleScoreNotes";
     [
-        "A manager can never win both the Champions League and the Europa League in the same season. A manager can win the Champions League in one season and the Europa League in another, and both count.",
-        "Season 1: both clubs play in the Champions League. This is set up in the FIFA save, after redrawing the Champions League groups twice.",
-        "A club that finishes 3rd in its Champions League group drops into the Europa League and can still win it that season.",
+        "You can't win the Champions League and the Europa League in the same season. Winning each in different seasons counts both.",
+        "Season 1: both clubs play in the Champions League. Set this up in FIFA by redrawing the Champions League groups twice.",
+        "A club that finishes 3rd in its Champions League group drops into the Europa League and can still win it.",
         "A club can also qualify for the Europa League by its league position.",
-        "Only winning scores; qualifying or taking part scores nothing.",
+        "Only winning scores. Qualifying or taking part scores nothing.",
         "Best possible season: 11, which needs the Champions League. A Europa League season tops out at 9."
     ].forEach(rule => {
         const item = document.createElement("li");
@@ -169,7 +168,16 @@ function createScoringRuleSection(){
         notes.appendChild(item);
     });
 
-    article.append(header, scoring, maximum, notes);
+    // r84 Golden Showdown: its own gold line under the season maximum (Nik 2026-10-26).
+    const golden = document.createElement("p");
+    golden.className = "ruleGoldenShowdown";
+    const goldenLabel = document.createElement("strong");
+    goldenLabel.textContent = "GOLDEN SHOWDOWN";
+    const goldenText = document.createElement("span");
+    goldenText.textContent = "Score 110 points in a 10-season Showdown (11 in every season) to win the gold trophy.";
+    golden.append(goldenLabel, goldenText);
+
+    article.append(header, scoring, maximum, golden, notes);
     return article;
 }
 

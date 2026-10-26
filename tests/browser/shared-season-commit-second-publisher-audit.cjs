@@ -68,17 +68,17 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
     await page.waitForFunction(()=>window.__secondPublisherAudit.publishCalls===1&&window.__secondPublisherAudit.resultsReads>=2,null,{timeout:8000});
     assert.equal(await page.evaluate(()=>CareerModeProductionSharedSeasonResults.getState()?.allResults),null,'fixture must reproduce the incomplete second-publisher projection');
     // The physical failure: published heading, but the Commit control must not disappear.
-    await page.waitForFunction(()=>{const node=document.getElementById('sharedSeasonCommitAction');return Boolean(node&&!node.classList.contains('hidden')&&/COMMIT CHECK|CHECK SHARED SEASON COMMIT/.test(node.textContent||''));},null,{timeout:8000});
+    await page.waitForFunction(()=>{const node=document.getElementById('sharedSeasonCommitAction');return Boolean(node&&!node.classList.contains('hidden')&&/CHECK AGAIN|CHECK SEASON/.test(node.textContent||''));},null,{timeout:8000});
     assert.equal(await page.locator('#sharedSeasonCommitAction').isVisible(),true,'published Results must never leave the Commit area without a visible action');
-    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='RETRY COMMIT CHECK',null,{timeout:8000});
+    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='CHECK AGAIN',null,{timeout:8000});
     assert.match(await page.locator('#sharedSeasonCommitStatus').textContent(),/CHECK FAILED · SEASON_COMMIT_CHECK_FAILED/,'a failed lazy Commit dependency must expose recovery instead of hiding the Commit area');
     await page.evaluate(()=>{const audit=window.__secondPublisherAudit;audit.failDependency=false;window.CareerModeProductionSharedJourneyConflicts=audit.stashedConflicts;});
-    assert.match(await page.locator('#sharedSeasonCommitStatus').textContent(),/YOUR PUBLISHED RESULTS ARE SAVED/);
+    assert.match(await page.locator('#sharedSeasonCommitStatus').textContent(),/YOUR RESULTS ARE SAVED/);
     assert.equal(await page.evaluate(()=>window.__secondPublisherAudit.commitWrites),0,'recovery must never write Commit state');
     // While the authoritative Results read keeps failing, a check must fail visibly and stay read-only.
     await page.waitForFunction(()=>!document.getElementById('sharedSeasonCommitAction')?.disabled,null,{timeout:8000});
     await page.locator('#sharedSeasonCommitAction').click();
-    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='RETRY COMMIT CHECK',null,{timeout:8000});
+    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='CHECK AGAIN',null,{timeout:8000});
     assert.match(await page.locator('#sharedSeasonCommitStatus').textContent(),/CHECK FAILED · unavailable/,'the failing Results dependency code must be visible');
     assert.equal(await page.evaluate(()=>window.__secondPublisherAudit.publishCalls),1,'recovery must never republish results');
     assert.equal(await page.evaluate(()=>window.__secondPublisherAudit.commitWrites),0);
@@ -90,21 +90,21 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
     await page.evaluate(()=>{window.__secondPublisherAudit.failResultsRead=false;});
     await page.waitForFunction(()=>!document.getElementById('sharedSeasonCommitAction')?.disabled,null,{timeout:8000});
     await page.locator('#sharedSeasonCommitAction').click();
-    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR COORDINATOR',null,{timeout:8000});
+    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR HOST',null,{timeout:8000});
     assert.equal(await page.locator('#sharedSeasonCommitAction').isDisabled(),true,'the non-coordinator must never receive commit authority');
     assert.equal(await page.locator('#seasonReviewOne').isVisible(),true,'the healed Results read must reveal the rival result');
     assert.equal(await page.locator('#seasonReviewTwo').isVisible(),true);
     assert.equal(await page.locator('#seasonReviewError').textContent(),'','a healed authoritative Results read must clear the stale publish-refresh error');
     // Multi-season: a season-1 ACKNOWLEDGED view must not freeze the automatic Commit check for season 2.
     await page.evaluate(async()=>{window.__secondPublisherAudit.acknowledgedSeasons.push(1);await CareerModeProductionSharedSeasonCommit.refresh();});
-    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='SEASON COMMIT ACKNOWLEDGED ✓',null,{timeout:8000});
+    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='SEASON CONFIRMED ✓',null,{timeout:8000});
     await page.evaluate(()=>{currentShowdown.currentRound=2;window.dispatchEvent(new Event('career-mode-shared-season-cursor-change'));});
     await page.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='YOUR RESULT IS PUBLISHED'||document.getElementById('seasonReviewHeading')?.textContent==='REVIEW YOUR SEASON RESULT'||document.getElementById('seasonEntry')?.dataset.sharedSeasonResults==='entry',null,{timeout:20000});
     const commitReadsBeforeSeason2=await page.evaluate(()=>window.__secondPublisherAudit.commitReads);
     // Rival publishes season 2 while this manager's Results screen is already open; no tap, no reload.
     await page.evaluate(()=>{window.__secondPublisherAudit.season2Published=true;window.dispatchEvent(new Event('career-mode-shared-season-cursor-change'));});
-    await page.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS PUBLISHED'&&document.getElementById('seasonEntryTitle')?.textContent==='SEASON 2 SHARED RESULTS',null,{timeout:20000});
-    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR COORDINATOR',null,{timeout:35000});
+    await page.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS PUBLISHED'&&document.getElementById('seasonEntryTitle')?.textContent==='SEASON 2 RESULTS',null,{timeout:20000});
+    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR HOST',null,{timeout:35000});
     assert.ok(await page.evaluate(()=>window.__secondPublisherAudit.commitReads)>commitReadsBeforeSeason2,'season 2 must perform its own automatic authoritative Commit read');
     assert.equal(await page.evaluate(()=>CareerModeProductionSharedSeasonCommit.getState()?.seasonNumber),2,'season 2 must bind only season-2 Commit authority');
     // r48: a Commit check that hangs must time out visibly, and when it finally resolves it must not
@@ -119,13 +119,13 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
     await page.evaluate(()=>{CareerModeProductionSharedSeasonCommit.refresh().catch(()=>{});});
     await page.waitForTimeout(2200);
     assert.match(await page.locator('#sharedSeasonCommitStatus').textContent(),/SEASON_COMMIT_CHECK_TIMEOUT/,'the repeated timeout must stay visible');
-    await page.waitForFunction(()=>['RETRY COMMIT CHECK','ACKNOWLEDGE SHARED SEASON'].includes(document.getElementById('sharedSeasonCommitAction')?.textContent)&&!document.getElementById('sharedSeasonCommitAction')?.disabled,null,{timeout:20000});
-    if(await page.locator('#sharedSeasonCommitAction').textContent()==='RETRY COMMIT CHECK')await page.locator('#sharedSeasonCommitAction').click();
-    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='ACKNOWLEDGE SHARED SEASON',null,{timeout:20000});
+    await page.waitForFunction(()=>['CHECK AGAIN','CONFIRM SEASON'].includes(document.getElementById('sharedSeasonCommitAction')?.textContent)&&!document.getElementById('sharedSeasonCommitAction')?.disabled,null,{timeout:20000});
+    if(await page.locator('#sharedSeasonCommitAction').textContent()==='CHECK AGAIN')await page.locator('#sharedSeasonCommitAction').click();
+    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='CONFIRM SEASON',null,{timeout:20000});
     assert.equal(await page.evaluate(()=>typeof window.__secondPublisherAudit.releaseHungRead),'function','the hung read must still be pending when the newer view binds');
     await page.evaluate(()=>window.__secondPublisherAudit.releaseHungRead());
     await page.waitForTimeout(800);
-    assert.equal(await page.locator('#sharedSeasonCommitAction').textContent(),'ACKNOWLEDGE SHARED SEASON','a late timed-out read must never rebind an older view over a newer result');
+    assert.equal(await page.locator('#sharedSeasonCommitAction').textContent(),'CONFIRM SEASON','a late timed-out read must never rebind an older view over a newer result');
     assert.equal(await page.evaluate(()=>CareerModeProductionSharedSeasonCommit.getState()?.committed),true);
     assert.equal(await page.evaluate(()=>window.__secondPublisherAudit.commitWrites),0,'timeouts and late reads must never write Commit state');
     const audit=await page.evaluate(()=>({publishCalls:window.__secondPublisherAudit.publishCalls,commitWrites:window.__secondPublisherAudit.commitWrites,commitReads:window.__secondPublisherAudit.commitReads}));
