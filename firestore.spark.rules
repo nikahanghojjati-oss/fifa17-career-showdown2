@@ -438,8 +438,8 @@ service cloud.firestore {
     }
 
     // r84 trim: reads check membership only (one lookup: the rivalry). The signed-in account document is not looked up on
-    // every read: no client can change it (account update is denied) and the trusted account deletion revokes the
-    // rivalry authority first. Account and device liveness are still checked when a Session starts.
+    // every read: no client can change its status (account update is denied) and the Spark app ships no account deletion
+    // flow, so it stays active in normal play. Account and device liveness are still checked when a Session starts.
     function currentlyEntitled(rivalryId) {
       let rivalry = get(/databases/$(database)/documents/rivalries/$(rivalryId));
       return signedIn()

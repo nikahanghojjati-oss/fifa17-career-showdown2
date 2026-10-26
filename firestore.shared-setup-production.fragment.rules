@@ -31,8 +31,8 @@
         && activeAccount(data.managerSlots[1].accountId);
     }
     // r84 trim: a shared read needs only the live paired rivalry that lists the signed-in account (one lookup). The two
-    // account documents are not looked up again: no client can change them (account update is denied), and the trusted
-    // account deletion first revokes the rivalry authority checked here; Session start still checks both (lazy enforcement).
+    // account documents are not looked up again: no client can change their status (account update is denied) and the Spark
+    // app ships no account deletion flow; Session start and Shared Setup open still check both (lazy enforcement).
     function ssjrEntitled(rivalryId) {
       return ssjrValidRivalryId(rivalryId) && livePairedRivalryMember(rivalryId);
     }
@@ -44,8 +44,8 @@
     // rivalry/session facts required by this namespaced ledger are rechecked so the
     // production Rules remain under Firestore's expression ceiling.
     // r84 trim: two lookups per write (rivalry + session). The two account documents and this device's document are no longer
-    // looked up on every save: no client can change an account (update denied), and the trusted account deletion closes the
-    // account's Sessions. Both are checked when a Session starts (validOpenSessionCreate / validSessionJoin), which this write
+    // looked up on every save: no client can change an account's status (update denied) and the Spark app ships no account
+    // deletion flow. Both are checked when a Session starts (validOpenSessionCreate / validSessionJoin), which this write
     // requires to be active, and both accounts again when a Shared Setup opens.
     function ssjrWriteAuthorityValid(rivalryId, deviceId, sessionId) {
       let actor = request.auth.uid;
