@@ -661,11 +661,11 @@ async function revokePairing(options={}){
   const FSB_QUOTA_MESSAGE="Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.";
   const FSB_PAUSE_STEPS_MS=Object.freeze([10,20,40,60].map(minutes=>minutes*60000));
   const FSB_COALESCE_MS=2000,FSB_OWN_ACCOUNT_MS=5*60000,FSB_MAX_ENTRIES=200;
-  const FSB_LIVE_QUIET_MS=120000;
+  const FSB_LIVE_QUIET_MS=300000;
   // r84: while the only screens watching are open on their own turn (Transfer window/guesses/signings, Season Results entry),
-  // and not waiting on the partner, their listener is trusted for 2 min between server checks and other copies are kept 5 min.
+  // and not waiting on the partner, their listener is trusted for 2 min between server checks (30 s while waiting on the partner).
   // A partner's move still arrives at once through the listener, whose delivery forgets every other copy; a tap still reads fresh.
-  const FSB_RELAXED_CONFIRM_MS=120000,FSB_RELAXED_QUIET_MS=300000;
+  const FSB_RELAXED_CONFIRM_MS=120000;
   const FSB_QUIET_MS=60000,FSB_INPUT_FRESH_MS=5000,FSB_ASK_MS=7000,FSB_FAST_GAP_MS=6000,FSB_FAST_HOLD_MS=10000;
   // fsbServerNext: documents whose next read must reach the server (no copy, no read already in flight), set by readServerNext.
   const fsbServerNext=new Map();
@@ -851,8 +851,9 @@ async function revokePairing(options={}){
       if(ask.path===path&&!(live&&fsbWait&&ask.path===fsbWait.path))return FSB_COALESCE_MS;
     }
     // r84: while a healthy listener watches the screen's document, a partner's move reaches this page through it and its
-    // delivery forgets every other copy (fsbRemember), so those copies are kept for 2 min instead of 1.
-    if(live)return fsbWaitRelaxed()?FSB_RELAXED_QUIET_MS:FSB_LIVE_QUIET_MS;
+    // delivery forgets every other copy (fsbRemember), so those copies are kept for 5 min instead of 1. Measured on the
+    // Transfer screen waiting on the partner, a 2 min reuse re-read the whole context every 2 min: ~40 billed reads/min.
+    if(live)return FSB_LIVE_QUIET_MS;
     return fast?FSB_COALESCE_MS:FSB_QUIET_MS;
   }
   // Returns {snapshot,old} or null. old: the copy is older than the 2 s burst window (see fsbProbe's fresh re-run).
