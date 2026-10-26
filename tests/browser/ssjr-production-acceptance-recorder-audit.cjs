@@ -140,11 +140,11 @@ async function openCase(browser,acceptance,mode="ready"){
     assert.deepEqual(contract,{enabled:true,productionEnabled:true,rawPersistence:false,sanitizedOnly:true,canonicalMutation:false,billing:false,blaze:false,appCheck:false});
 
     await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[0].passed===true,null,{timeout:5000});
-    assert.match(await acceptance.page.locator(".ssjrPrimary").textContent(),/OPEN SETUP/,"simple mode should advance the one primary control after ACTIVE is captured");
+    assert.match(await acceptance.page.locator(".ssjrPrimary").textContent(),/OPEN SHARED SETUP/,"simple mode should advance the one primary control after ACTIVE is captured");
     await acceptance.page.locator(".ssjrPrimary").click();
     await acceptance.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:5000});
-    assert.equal(await acceptance.page.evaluate(()=>window.CareerModeProductionSharedShowdownPresentation?.isPresentationActive()===true),true,"OPEN SETUP must finish activation before the League Wheel is accepted");
-    assert.equal(await acceptance.page.evaluate(()=>window.__ssjrSetupPanelOpens),0,"OPEN SETUP must keep the engineering panel hidden");
+    assert.equal(await acceptance.page.evaluate(()=>window.CareerModeProductionSharedShowdownPresentation?.isPresentationActive()===true),true,"OPEN SHARED SETUP must finish activation before the League Wheel is accepted");
+    assert.equal(await acceptance.page.evaluate(()=>window.__ssjrSetupPanelOpens),0,"OPEN SHARED SETUP must keep the engineering panel hidden");
     await acceptance.page.evaluate(()=>window.__ssjrRecorderSetSeed());
     await acceptance.page.waitForFunction(()=>window.CareerModeSSJRProductionAcceptanceRecorder.getState().statusRows[1].passed===true,null,{timeout:5000});
 

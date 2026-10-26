@@ -843,7 +843,7 @@ async function main(){
     }
     for(const m of [daniel,nik]){
       await m.page.waitForFunction(()=>document.getElementById("sharedTerminalCloseHeading")?.textContent==="SHOWDOWN CLOSED",null,{timeout:60000});
-      assert.match((await m.page.locator("#sharedTerminalCloseStatus").textContent()).trim(),/CLOSED · NO NEW SESSION · NO NEW SEASON/);
+      assert.match((await m.page.locator("#sharedTerminalCloseStatus").textContent()).trim(),/CLOSED · FINAL RESULTS ARE LOCKED/);
     }
     const closedR1=await admin(`rivalries/${R1}`);
     assert.ok(closedR1,"closed R1 rivalry root exists");
