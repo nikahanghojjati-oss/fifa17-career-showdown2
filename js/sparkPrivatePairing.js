@@ -662,6 +662,10 @@ async function revokePairing(options={}){
   const FSB_PAUSE_STEPS_MS=Object.freeze([10,20,40,60].map(minutes=>minutes*60000));
   const FSB_COALESCE_MS=2000,FSB_OWN_ACCOUNT_MS=5*60000,FSB_MAX_ENTRIES=200;
   const FSB_LIVE_QUIET_MS=120000;
+  // r84: while the only screens watching are open on their own turn (Transfer window/guesses/signings, Season Results entry),
+  // and not waiting on the partner, their listener is trusted for 2 min between server checks and other copies are kept 5 min.
+  // A partner's move still arrives at once through the listener, whose delivery forgets every other copy; a tap still reads fresh.
+  const FSB_RELAXED_CONFIRM_MS=120000,FSB_RELAXED_QUIET_MS=300000;
   const FSB_QUIET_MS=60000,FSB_INPUT_FRESH_MS=5000,FSB_ASK_MS=7000,FSB_FAST_GAP_MS=6000,FSB_FAST_HOLD_MS=10000;
   // fsbServerNext: documents whose next read must reach the server (no copy, no read already in flight), set by readServerNext.
   const fsbServerNext=new Map();
@@ -765,6 +769,9 @@ async function revokePairing(options={}){
       const value=snapshot.data();
       if(/^rivalries\/[^/]+\/seasonResults\/[^/]+$/.test(path))return Boolean(value&&value.revision===2);
       if(/^rivalries\/[^/]+\/seasonCommits\/[^/]+$/.test(path))return Boolean(value&&value.phase==="ACKNOWLEDGED"&&value.revision===3);
+      // r84: a confirmed setup (revision 6 is the last) and a ready Career Start (revision 2 is the last) never change again.
+      if(/^rivalries\/[^/]+\/sharedSetup\/authoritative$/.test(path))return Boolean(value&&value.schemaVersion===1&&value.objectType==="sharedSetupLedger"&&value.revision===6&&value.phase==="SHOWDOWN_CONFIRMED");
+      if(/^rivalries\/[^/]+\/careerStart\/authoritative$/.test(path))return Boolean(value&&value.schemaVersion===1&&value.objectType==="sharedCareerStart"&&value.revision===2&&value.phase==="CAREER_START_READY");
     }catch(_error){}
     return false;
   }
@@ -823,7 +830,7 @@ async function revokePairing(options={}){
     }
     // r84: while a healthy listener watches the screen's document, a partner's move reaches this page through it and its
     // delivery forgets every other copy (fsbRemember), so those copies are kept for 2 min instead of 1.
-    if(live)return FSB_LIVE_QUIET_MS;
+    if(live)return fsbWaitRelaxed()?FSB_RELAXED_QUIET_MS:FSB_LIVE_QUIET_MS;
     return fast?FSB_COALESCE_MS:FSB_QUIET_MS;
   }
   // Returns {snapshot,old} or null. old: the copy is older than the 2 s burst window (see fsbProbe's fresh re-run).
@@ -892,7 +899,8 @@ async function revokePairing(options={}){
     return true;
   }
   // The watched document itself is served from the listener only if the server confirmed it in the last 30 s.
-  function fsbWaitHealthy(){return fsbWaitLive()&&fsbNow()-fsbWait.confirmedAt<=FSB_WAIT_CONFIRM_MS;}
+  function fsbWaitHealthy(){return fsbWaitLive()&&fsbNow()-fsbWait.confirmedAt<=(fsbWaitRelaxed()?FSB_RELAXED_CONFIRM_MS:FSB_WAIT_CONFIRM_MS);}
+  function fsbWaitRelaxed(){return Boolean(fsbWait&&fsbWait.owners.size&&[...fsbWait.owners.values()].every(info=>info.relaxed===true));}
   function fsbWaitServerRead(snapshot){
     const wait=fsbWait;
     if(!wait||!wait.healthy)return;
@@ -928,19 +936,19 @@ async function revokePairing(options={}){
     fsbStats.listenerDeliveries+=1;fsbCountRead();
     if(changed){fsbForgetContext();fsbChainAt=fsbNow();fsbWakeOwners(wait);}
   }
-  function fsbWatchWaitPoint(owner,path,wake){
-    const at=fsbNow();
+  function fsbWatchWaitPoint(owner,path,wake,options){
+    const at=fsbNow(),relaxed=Boolean(options&&options.relaxed===true);
     if(fsbWait){for(const [key,info] of [...fsbWait.owners])if(key!==owner&&at-info.seen>FSB_WAIT_OWNER_MS)fsbWait.owners.delete(key);if(!fsbWait.owners.size)fsbDetachWait();}
     const release=()=>{if(fsbWait&&fsbWait.owners.delete(owner)&&!fsbWait.owners.size)fsbDetachWait();return false;};
     if(typeof path!=="string"||!/^rivalries\/[^/]+(?:\/[^/]+\/[^/]+)+$/.test(path)){fsbWaitAsks.delete(owner);if(!fsbHidden())fsbReturnWakes.delete(owner);return release();}
     fsbWaitAsks.set(owner,{path,at});if(typeof wake==="function")fsbReturnWakes.set(owner,wake);
     if(fsbPaused()||fsbHidden()||!fsbFirestore||(fsbWaitFailed.get(path)||0)>at)return release();
-    if(fsbWait&&fsbWait.path===path){fsbWait.owners.set(owner,{wake,seen:at});return fsbWaitLive();}
+    if(fsbWait&&fsbWait.path===path){fsbWait.owners.set(owner,{wake,seen:at,relaxed});return fsbWaitLive();}
     if(fsbWait&&!(fsbWait.owners.size===1&&fsbWait.owners.has(owner)))return false;
     const api=fsbSnapshotApi;
     if(!api){fsbLoadSnapshotApi();return release();}
     fsbDetachWait();
-    const wait={path,owners:new Map([[owner,{wake,seen:at}]]),snapshot:null,serial:null,version:null,healthy:false,dirty:false,confirmedAt:0,lagUntil:0,lagVersion:null,lagSerial:null,unsubscribe:null};
+    const wait={path,owners:new Map([[owner,{wake,seen:at,relaxed}]]),snapshot:null,serial:null,version:null,healthy:false,dirty:false,confirmedAt:0,lagUntil:0,lagVersion:null,lagSerial:null,unsubscribe:null};
     fsbWait=wait;fsbStats.listenersAttached+=1;
     try{
       wait.unsubscribe=api.onSnapshot(api.doc(fsbFirestore,path),{includeMetadataChanges:true},snapshot=>fsbWaitDelivery(wait,snapshot),error=>{if(fsbWait!==wait)return;fsbWaitFail(path);if(fsbIsQuotaError(error))fsbTrip();fsbAuthorityDenied(error);});
