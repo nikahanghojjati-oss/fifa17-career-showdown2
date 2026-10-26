@@ -437,11 +437,32 @@ service cloud.firestore {
         && after.data.revokedAt is timestamp;
     }
 
+    // r84 trim: reads check membership only (one lookup: the rivalry). The signed-in account document is not looked up on
+    // every read: no client can change it (account update is denied) and the trusted account deletion revokes the
+    // rivalry authority first. Account and device liveness are still checked when a Session starts.
     function currentlyEntitled(rivalryId) {
       let rivalry = get(/databases/$(database)/documents/rivalries/$(rivalryId));
-      return activeActor()
+      return signedIn()
         && rivalry.data.data.authorizedAccountIds is list
         && request.auth.uid in rivalry.data.data.authorizedAccountIds;
+    }
+
+    // r84 trim: activePairedRivalry without the two account lookups, for reads (one lookup: the rivalry).
+    function livePairedRivalryMember(rivalryId) {
+      let rivalry = get(/databases/$(database)/documents/rivalries/$(rivalryId));
+      let data = rivalry.data.data;
+      let ids = data.authorizedAccountIds;
+      return signedIn()
+        && rivalry.data.objectType == "rivalry"
+        && rivalry.data.objectId == rivalryId
+        && rivalry.data.lifecycleState == "live"
+        && data.connectionState == "active"
+        && ids is list
+        && ids.size() == 2
+        && ids[0] is string
+        && ids[1] is string
+        && ids[0] != ids[1]
+        && request.auth.uid in ids;
     }
 
     function activePairedRivalry(rivalryId) {
@@ -826,14 +847,16 @@ service cloud.firestore {
         );
     }
 
+    // r84 trim: two lookups (the rivalry and the reader's own account, so a disabled or deletion-pending account loses its
+    // Session at once). The rival's account is checked when the Session starts; the session itself is resource (a missing
+    // one is null), not a second exists().
     function sessionCanRead(rivalryId, sessionId) {
-      let sessionPath = /databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(sessionId);
       let session = resource.data;
       return validSessionId(sessionId)
         && activeActor()
-        && activePairedRivalry(rivalryId)
+        && livePairedRivalryMember(rivalryId)
         && (
-          !exists(sessionPath)
+          resource == null
           || (
             validEnvelopeShape(session, "session", sessionId)
             && validSessionData(rivalryId, session.data)
@@ -972,7 +995,7 @@ service cloud.firestore {
       // STAGE5C_CANDIDATE_SESSION_MATCH_END
 
       match /sessionOffers/{offerId} {
-        allow get: if offerId == "current" && activeActor() && activePairedRivalry(rivalryId) && currentlyEntitled(rivalryId);
+        allow get: if offerId == "current" && livePairedRivalryMember(rivalryId);
         allow create, update: if validSessionOfferWrite(rivalryId, offerId);
         allow list, delete: if false;
       }

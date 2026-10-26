@@ -670,7 +670,7 @@ async function revokePairing(options={}){
   // fsbServerNext: documents whose next read must reach the server (no copy, no read already in flight), set by readServerNext.
   const fsbServerNext=new Map();
   const fsbWrapped=new WeakMap(),fsbEntries=new Map(),fsbInflight=new Map(),fsbCadence=new Map(),fsbWaitAsks=new Map(),fsbFreshPaths=new Map();
-  const fsbStats={immutableReuses:0,reusedReads:0,quietReuses:0,freshReruns:0,serverReads:0,serverTransactions:0,readOnlyWithoutCommit:0,quotaTrips:0,pausedRefusals:0,brakeTrips:0,brakeSince:0,listenersAttached:0,listenerDeliveries:0,listenerServed:0,listenerFallbacks:0};
+  const fsbStats={immutableReuses:0,reusedReads:0,quietReuses:0,freshReruns:0,serverReads:0,serverTransactions:0,readOnlyWithoutCommit:0,quotaTrips:0,pausedRefusals:0,brakeTrips:0,brakeSince:0,listenersAttached:0,listenerDeliveries:0,listenerServed:0,listenerFallbacks:0,peekWrites:0,transactionKept:0,contextServed:0};
   let fsbPause=null,fsbResumeTimer=null,fsbAccountId=null,fsbFirestore=null,fsbInputAt=0,fsbFreshAskAt=0,fsbChainAt=0;
   // After the listener sees the partner's move (or the page comes back from hidden) every screen re-checks in a short chain
   // (commit -> scoring -> history -> final result). A document read after that moment already reflects it, so for the next
@@ -755,7 +755,7 @@ async function revokePairing(options={}){
   // kept is reused after it, and the pairing check re-verifies the device on its next run instead of trusting its 10 minutes.
   function fsbAuthorityDenied(error){
     if(!fsbIsDeniedError(error))return;
-    fsbEntries.clear();fsbInflight.clear();
+    fsbEntries.clear();fsbInflight.clear();fsbCtxDetach();
     try{if(typeof root.dispatchEvent==="function"&&typeof root.CustomEvent==="function")root.dispatchEvent(new root.CustomEvent("career-mode-firestore-authority-denied"));}catch(_error){}
   }
   function fsbPaused(){return Boolean(fsbPause&&fsbNow()<fsbPause.until);}
@@ -774,7 +774,7 @@ async function revokePairing(options={}){
     fsbPause=Object.freeze({step,since:at,until:at+FSB_PAUSE_STEPS_MS[step]});
     fsbStats.quotaTrips+=1;
     fsbEntries.clear();
-    fsbDetachWait();
+    fsbDetachWait();fsbCtxDetach();
     if(fsbResumeTimer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(fsbResumeTimer);
     // One timer per pause, only to tell the screens that online play may resume; it reads nothing itself.
     fsbResumeTimer=typeof root.setTimeout==="function"?root.setTimeout(()=>{fsbResumeTimer=null;fsbPublish();},FSB_PAUSE_STEPS_MS[step]+50):null;
@@ -805,7 +805,7 @@ async function revokePairing(options={}){
       if(root.document&&typeof root.document.addEventListener==="function"){
         // Back from hidden: forget what this page had and wake once every screen that was waiting on the partner when it
         // was hidden, so it catches up with one check now instead of on its next timer (no new timer, no repeated reads).
-        root.document.addEventListener("visibilitychange",()=>{if(fsbHidden()){fsbDetachWait();fsbWasHidden=true;return;}fsbForgetAll();fsbChainAt=fsbNow();if(fsbWasHidden)fsbListenReturning();fsbWasHidden=false;fsbWakeReturning();});
+        root.document.addEventListener("visibilitychange",()=>{if(fsbHidden()){fsbDetachWait();fsbCtxDetach();fsbWasHidden=true;return;}fsbForgetAll();fsbChainAt=fsbNow();if(fsbWasHidden)fsbListenReturning();fsbWasHidden=false;fsbWakeReturning();});
         // A tap or key press means someone is acting now: for the next 5 s every check reads fresh (2 s coalescing only).
         for(const type of ["pointerdown","touchstart","keydown"])root.document.addEventListener(type,()=>{fsbInputAt=fsbNow();},{capture:true,passive:true});
         root.document.addEventListener("visibilitychange",()=>{if(root.document.visibilityState==="hidden")fsbSaveDay();});root.addEventListener?.("pagehide",fsbSaveDay);
@@ -863,6 +863,7 @@ async function revokePairing(options={}){
     // r80: a listener known to be behind a server read this page already made (lagUntil) never answers: the newer
     // server copy does (or the server). Otherwise a write's bounded stale retry re-read the older copy and failed again.
     if(fsbWait&&path===fsbWait.path&&fsbWaitLive()&&!fsbWait.lagUntil){if(!fsbWaitHealthy())return null;fsbStats.listenerServed+=1;return {snapshot:fsbWait.snapshot,old:false};}
+    const watched=fsbCtxServe(path);if(watched){fsbStats.contextServed+=1;return {snapshot:watched,old:false};}
     const entry=fsbEntries.get(path);
     if(entry&&entry.immutable&&!entry.dirty){fsbStats.immutableReuses+=1;return {snapshot:entry.snapshot,old:false};}
     if(!entry||entry.dirty||entry.forgotten)return null;
@@ -885,12 +886,73 @@ async function revokePairing(options={}){
     const entry={snapshot,at:fsbNow(),dirty:false,immutable:fsbImmutable(path,snapshot)};
     fsbEntries.set(path,entry);
     if(fsbWait&&path===fsbWait.path)fsbWaitServerRead(snapshot);
+    fsbCtxServerRead(path,snapshot);
     // r84: a waited document read fresh (no healthy listener on it) that changed is the partner's move: forget the other
     // copies and start the chain, exactly like fsbWaitDelivery, so no screen acts on a copy older than that move.
     if(before&&!before.dirty&&!(fsbWait&&path===fsbWait.path&&fsbWaitLive())&&fsbWaitAskedPath(path,entry.at)&&fsbSerial(before.snapshot)!==fsbSerial(snapshot)){fsbForgetContext();entry.forgotten=false;fsbChainAt=entry.at;}
     if(fsbEntries.size>FSB_MAX_ENTRIES)fsbEntries.delete(fsbEntries.keys().next().value);
   }
-  function fsbMarkWritten(db,paths){if(db!==fsbFirestore)return;for(const path of paths){const entry=fsbEntries.get(path);if(entry)entry.dirty=true;if(fsbWait&&fsbWait.path===path)fsbWait.dirty=true;}}
+  function fsbMarkWritten(db,paths){if(db!==fsbFirestore)return;for(const path of paths){const entry=fsbEntries.get(path);if(entry)entry.dirty=true;if(fsbWait&&fsbWait.path===path)fsbWait.dirty=true;const watch=fsbCtxWatches.get(path);if(watch)watch.dirty=true;}}
+
+  // r84 trim: context listeners. While a shared Showdown is open (watchContext(rivalryId), asked by Terminal Close), the rivalry
+  // root and the Session document this page reads are each watched by one listener instead of being re-read by every check
+  // and by the 45 s END SHOWDOWN poll. Both change only a few times per season (a season accepted, a close, a join or expiry),
+  // so a change reaches this page at once and costs one read; a check reads them from the listener while the server confirmed
+  // the copy in the last 3 min (a delivery or a server read with the same content confirms it), otherwise from the server as before.
+  // Hidden page, quota pause, denied read, account or database change: the listeners stop and every read goes to the server.
+  const FSB_CTX_CONFIRM_MS=180000,FSB_CTX_RETRY_MS=60000;
+  const fsbCtxWatches=new Map(),fsbCtxFailed=new Map();
+  let fsbCtxRivalry=null;
+  function fsbCtxDrop(path,failed){const watch=fsbCtxWatches.get(path);fsbCtxWatches.delete(path);if(watch&&typeof watch.unsubscribe==="function"){try{watch.unsubscribe();}catch(_error){}}if(failed){fsbStats.listenerFallbacks+=1;fsbCtxFailed.set(path,fsbNow()+FSB_CTX_RETRY_MS);}}
+  function fsbCtxDetach(){for(const path of [...fsbCtxWatches.keys()])fsbCtxDrop(path,false);}
+  function fsbCtxWanted(path){
+    const rivalryId=fsbCtxRivalry&&fsbCtxRivalry.rivalryId;
+    if(!rivalryId||typeof path!=="string")return false;
+    const parts=path.split("/");
+    return path===`rivalries/${rivalryId}`||(parts.length===4&&parts[0]==="rivalries"&&parts[1]===rivalryId&&parts[2]==="sessions"&&Boolean(parts[3]));
+  }
+  function fsbCtxServe(path){
+    const watch=fsbCtxWatches.get(path);
+    if(!watch||!watch.healthy||watch.dirty||!watch.snapshot)return null;
+    return fsbNow()-watch.confirmedAt<=FSB_CTX_CONFIRM_MS?watch.snapshot:null;
+  }
+  function fsbCtxServerRead(path,snapshot){
+    const watch=fsbCtxWatches.get(path);
+    if(watch){if(watch.healthy&&fsbSerial(snapshot)===watch.serial)watch.confirmedAt=fsbNow();else if(watch.healthy&&!watch.dirty)watch.healthy=false;return;}
+    fsbCtxAttach(path);
+  }
+  function fsbCtxDelivery(watch,snapshot){
+    if(fsbCtxWatches.get(watch.path)!==watch)return;
+    if(!snapshot||!snapshot.metadata||snapshot.metadata.fromCache||snapshot.metadata.hasPendingWrites){watch.healthy=false;return;}
+    const serial=fsbSerial(snapshot),known=fsbEntries.get(watch.path);
+    const before=watch.serial!==null?watch.serial:(known?fsbSerial(known.snapshot):null);
+    watch.snapshot=snapshot;watch.serial=serial;watch.healthy=true;watch.dirty=false;watch.confirmedAt=fsbNow();
+    fsbStats.listenerDeliveries+=1;fsbCountRead();
+    fsbEntries.delete(watch.path);fsbEntries.set(watch.path,{snapshot,at:fsbNow(),dirty:false,immutable:false});
+    if(before!==null&&before!==serial){fsbChainAt=fsbNow();const wake=fsbCtxRivalry&&fsbCtxRivalry.wake;if(typeof wake==="function"&&typeof root.setTimeout==="function")root.setTimeout(()=>{try{wake(watch.path);}catch(_error){}},0);}
+  }
+  function fsbCtxAttach(path){
+    if(!fsbCtxWanted(path)||fsbCtxWatches.has(path))return;
+    const at=fsbNow();
+    if(fsbPaused()||fsbHidden()||!fsbFirestore||(fsbCtxFailed.get(path)||0)>at)return;
+    const api=fsbSnapshotApi;
+    if(!api){fsbLoadSnapshotApi();return;}
+    // One Session listener: a newer Session replaces the older one.
+    if(path.split("/").length===4)for(const other of [...fsbCtxWatches.keys()])if(other.split("/").length===4)fsbCtxDrop(other,false);
+    const watch={path,snapshot:null,serial:null,healthy:false,dirty:false,confirmedAt:0,unsubscribe:null};
+    fsbCtxWatches.set(path,watch);fsbStats.listenersAttached+=1;
+    try{
+      watch.unsubscribe=api.onSnapshot(api.doc(fsbFirestore,path),{includeMetadataChanges:true},snapshot=>fsbCtxDelivery(watch,snapshot),error=>{if(fsbCtxWatches.get(path)!==watch)return;fsbCtxDrop(path,true);if(fsbIsQuotaError(error))fsbTrip();});
+    }catch(_error){fsbCtxDrop(path,true);}
+  }
+  function fsbWatchContext(rivalryId,wake){
+    const id=typeof rivalryId==="string"&&/^pair_[0-9a-f]{64}$/.test(rivalryId)?rivalryId:null;
+    if(!id){fsbCtxRivalry=null;fsbCtxDetach();return false;}
+    if(!fsbCtxRivalry||fsbCtxRivalry.rivalryId!==id){fsbCtxDetach();fsbCtxRivalry={rivalryId:id,wake};}
+    else fsbCtxRivalry.wake=wake;
+    for(const path of fsbEntries.keys())if(fsbCtxWanted(path))fsbCtxAttach(path);
+    return Boolean(fsbCtxServe(`rivalries/${id}`));
+  }
 
   // Wait-point listener (r75). While a screen waits on the partner it may watch the one shared document the partner's
   // move changes. One listener per page at most. It is dropped when the page is hidden, the screen stops waiting, online
@@ -957,6 +1019,10 @@ async function revokePairing(options={}){
     wait.snapshot=snapshot;wait.serial=serial;wait.version=version;wait.healthy=true;wait.dirty=false;wait.confirmedAt=fsbNow();
     if(wait.lagUntil&&(fsbVersionCompare(version,wait.lagVersion)>=0&&version!==null||serial===wait.lagSerial)){wait.lagUntil=0;wait.lagVersion=null;wait.lagSerial=null;}
     fsbStats.listenerDeliveries+=1;fsbCountRead();
+    // r84 trim: the delivered server copy also becomes this page's copy. Before, a copy marked dirty by this page's own save
+    // stayed behind the listener, so the next 30 s server check of the waited document always looked "changed" and re-ran
+    // the whole check on fresh reads (about 9 documents) after every lock.
+    fsbEntries.delete(wait.path);fsbEntries.set(wait.path,{snapshot,at:fsbNow(),dirty:false,immutable:fsbImmutable(wait.path,snapshot)});
     if(changed){fsbForgetContext();fsbChainAt=fsbNow();fsbWakeOwners(wait);}
   }
   function fsbWatchWaitPoint(owner,path,wake,options){
@@ -1036,6 +1102,40 @@ async function revokePairing(options={}){
     }
   }
 
+  // r84 trim: a save made right after a tap first runs its function once on the copies this page already has (no read at all). When it wants to write,
+  // it goes straight to the server transaction, so a save no longer pays every document twice (once in the read-only probe,
+  // once in the transaction). When it only reads, or a document has no copy yet, the probe below runs exactly as before.
+  const FSB_PEEK_STOP={fsbPeek:"stop"};
+  async function fsbPeekWrites(updateFunction){
+    let write=false,miss=false;
+    const stop=()=>Promise.reject(FSB_PEEK_STOP);
+    const wants=()=>{write=true;throw FSB_PEEK_STOP;};
+    const transaction={
+      get:ref=>{
+        if(write||miss)return stop();
+        const path=fsbPathOf(ref),entry=path?fsbEntries.get(path):null;
+        if(path&&fsbWait&&fsbWait.path===path&&fsbWaitLive()&&fsbWait.snapshot&&!fsbWait.dirty)return Promise.resolve(fsbWait.snapshot);
+        if(!entry||entry.dirty){miss=true;return stop();}
+        return Promise.resolve(entry.snapshot);
+      },
+      set:wants,update:wants,delete:wants
+    };
+    try{await updateFunction(transaction);}catch(_error){}
+    if(write)fsbStats.peekWrites+=1;
+    return write;
+  }
+  // r84 trim: inside a writing transaction, a document the Rules never let change again (fsbImmutable: a confirmed setup, a
+  // ready Career Start, published results, an acknowledged commit) and this account's own account/device documents (no
+  // client can change an account; only this account can change its devices) are taken from this page's copy instead of
+  // being read again. Every other document (rivalry, session, the document being saved) is still read in the transaction.
+  function fsbTransactionKept(db,path){
+    if(db!==fsbFirestore||!path)return null;
+    const entry=fsbEntries.get(path);
+    if(!entry||entry.dirty)return null;
+    if(entry.immutable)return entry.snapshot;
+    if(fsbOwnAccountPath(path)&&fsbNow()-entry.at<=FSB_OWN_ACCOUNT_MS)return entry.snapshot;
+    return null;
+  }
   async function fsbServerTransaction(sdk,db,updateFunction,rest){
     if(fsbPaused())throw fsbQuotaError();
     fsbStats.serverTransactions+=1;
@@ -1045,7 +1145,7 @@ async function revokePairing(options={}){
       const value=await sdk.runTransaction(db,async transaction=>{
         wrote=false;written=[];
         const proxy={
-          get:ref=>Promise.resolve(transaction.get(ref)).then(snapshot=>{fsbStats.serverReads+=1;fsbCountRead();fsbRemember(db,ref,snapshot);return snapshot;}),
+          get:ref=>{const kept=fsbTransactionKept(db,fsbPathOf(ref));if(kept){fsbStats.transactionKept+=1;return Promise.resolve(kept);}return Promise.resolve(transaction.get(ref)).then(snapshot=>{fsbStats.serverReads+=1;fsbCountRead();fsbRemember(db,ref,snapshot);return snapshot;});},
           set:(ref,...args)=>{wrote=true;written.push(fsbPathOf(ref));transaction.set(ref,...args);return proxy;},
           update:(ref,...args)=>{wrote=true;written.push(fsbPathOf(ref));transaction.update(ref,...args);return proxy;},
           delete:ref=>{wrote=true;written.push(fsbPathOf(ref));transaction.delete(ref);return proxy;}
@@ -1071,9 +1171,12 @@ async function revokePairing(options={}){
     if(fsbPaused())throw fsbQuotaError();
     const sdk=services.firestoreSdk;
     if(typeof updateFunction!=="function")return sdk.runTransaction(db,updateFunction,...rest);
-    if(db!==fsbFirestore){fsbEntries.clear();fsbFirestore=db;}
+    if(db!==fsbFirestore){fsbEntries.clear();fsbCtxDetach();fsbFirestore=db;}
     const uid=services.auth&&services.auth.currentUser&&services.auth.currentUser.uid||null;
-    if(uid!==fsbAccountId){fsbEntries.clear();fsbInflight.clear();fsbReturnListen([]);fsbAccountId=uid;}
+    if(uid!==fsbAccountId){fsbEntries.clear();fsbInflight.clear();fsbReturnListen([]);fsbCtxDetach();fsbAccountId=uid;}
+    // Only within a few seconds of a tap, when a save is likely; a background check, or a later automatic save, keeps the probe
+    // path and timing exactly as before (the server transaction still decides every write).
+    if(fsbNow()-fsbInputAt<FSB_INPUT_FRESH_MS&&await fsbPeekWrites(updateFunction))return fsbServerTransaction(sdk,db,updateFunction,rest);
     const answer=await fsbProbe(sdk,db,updateFunction);
     if(answer)return answer.value;
     return fsbServerTransaction(sdk,db,updateFunction,rest);
@@ -1104,6 +1207,10 @@ async function revokePairing(options={}){
     forgetContext:fsbForgetContext,
     returnListen:fsbReturnListen,
     listened:fsbListened,
+    // watchContext(rivalryId, wake): watch this rivalry's root and current Session while a shared Showdown is open (null stops);
+    // wake(path) runs when either changes. contextHealthy(path): a confirmed context listener serves this document now.
+    watchContext:fsbWatchContext,
+    contextHealthy:path=>Boolean(fsbCtxServe(path)),
     // watchesHealthy(path): a healthy wait listener watches exactly this document, so a 15 s screen check need not re-read it.
     watchesHealthy:path=>Boolean(typeof path==="string"&&fsbWait&&fsbWait.path===path&&fsbWaitHealthy()),
     // countListenerRead(): a server delivery of a listener this layer does not own (season-commit wait context, Home JOIN note)
@@ -1125,6 +1232,6 @@ async function revokePairing(options={}){
     seasonsLeftToday:fsbSeasonsLeftToday,
     braking:()=>fsbBraking(),
     stats:()=>Object.freeze({...fsbStats,remembered:fsbEntries.size,watching:fsbWait?fsbWait.path:null,watchHealthy:fsbWaitLive()}),
-    reset(){fsbDetachWait();fsbReturnListen([]);fsbWaitFailed.clear();fsbReturnWakes.clear();fsbEntries.clear();fsbInflight.clear();fsbCadence.clear();fsbWaitAsks.clear();fsbFreshPaths.clear();fsbServerNext.clear();fsbPause=null;fsbInputAt=0;fsbFreshAskAt=0;fsbChainAt=0;fsbPublish();}
+    reset(){fsbDetachWait();fsbCtxRivalry=null;fsbCtxDetach();fsbCtxFailed.clear();fsbReturnListen([]);fsbWaitFailed.clear();fsbReturnWakes.clear();fsbEntries.clear();fsbInflight.clear();fsbCadence.clear();fsbWaitAsks.clear();fsbFreshPaths.clear();fsbServerNext.clear();fsbPause=null;fsbInputAt=0;fsbFreshAskAt=0;fsbChainAt=0;fsbPublish();}
   });
 })(typeof globalThis!=="undefined"?globalThis:this);

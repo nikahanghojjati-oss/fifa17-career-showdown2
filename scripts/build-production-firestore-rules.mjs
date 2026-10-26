@@ -192,7 +192,8 @@ for(const required of [
   'allow list, delete: if false',
   "sessionData.state == 'active'",
   'sessionData.expiresAt is timestamp',
-  "device.data.data.state == 'active'",
+  // r84 trim: this device's document is checked at Session start (validOpenSessionCreate / validSessionJoin), not on every save.
+  'ssjrValidDeviceId(deviceId)',
   "after.totalSeasons in [1,3,5,10]",
   "setup.phase == 'SHOWDOWN_CONFIRMED'",
   "after.phase == 'CAREER_START_READY'",

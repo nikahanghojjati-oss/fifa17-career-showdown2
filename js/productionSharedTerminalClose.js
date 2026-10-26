@@ -343,10 +343,21 @@
     void Promise.resolve().then(()=>{const s=api.getState?.();if(s&&s.attached!==true&&s.status==="unavailable"&&!ptcRequest())return api.initialize();return null;}).catch(()=>{}).finally(()=>{rivalryRetryInFlight=false;});
     return true;
   }
+  // r84 trim: while a shared Showdown is open, the budget layer keeps one listener on the rivalry root and one on the Session
+  // (see CareerModeFirestoreBudget.watchContext); a change to either wakes this module at once.
+  let contextWatchKey="";
+  function ptcContextWake(){ptcWake({type:"career-mode-shared-wait-context-change"});}
+  function ptcWatchContext(request){
+    const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchContext!=="function")return;
+    const id=request&&root.document?.visibilityState!=="hidden"?request.rivalryId:"";
+    if(id===contextWatchKey&&!id)return;
+    contextWatchKey=id;try{budget.watchContext(id||null,ptcContextWake);}catch(_error){}
+  }
   function ptcWake(event){
     ptcWatchPair();
     if(event?.type==="career-mode-save-library-authority-invalidated")return ptcClear();
     const request=ptcRequest();
+    ptcWatchContext(request);
     if(!request){
       ptcClear();
       // After a reload the durable rivalry binding is only known once Connected Rivalry initializes; its state-change event wakes this module again.
@@ -358,11 +369,14 @@
     if(root.document?.visibilityState==="hidden")return;if(busy){if(event?.type==="career-mode-shared-wait-context-change")wakePending=true;return;}
     // r75: while the close is pending (FINAL RESULT READY TO CLOSE and the pending/blocked states) the partner may close at
     // any moment, so this check reads the rivalry root fresh instead of from the budget layer's quiet reuse.
-    if(["READY","RECOVERY_PENDING","BLOCKED"].includes(ptcCurrentState()?.phase))root.CareerModeFirestoreBudget?.wantFresh?.(`rivalries/${request.rivalryId}`);
+    // r84 trim: a healthy context listener on the rivalry root (ptcWatchContext) delivers the partner's close at once, so the
+    // fresh reads below run only while it is not confirmed (no listener, hidden page, dropped connection).
+    const rootPath=`rivalries/${request.rivalryId}`,watched=Boolean(root.CareerModeFirestoreBudget?.contextHealthy?.(rootPath));
+    if(["READY","RECOVERY_PENDING","BLOCKED"].includes(ptcCurrentState()?.phase)){if(!watched)root.CareerModeFirestoreBudget?.wantFresh?.(rootPath);}
     // r84: between seasons nothing else re-reads the rivalry now that Final Reconciliation no longer loops, so the 60 s quiet reuse
     // could hold a partner's END SHOWDOWN for up to 75 s. A timer wake (no event) reads the rivalry root fresh at most every 45 s:
     // one extra read per 3 min per device, and the idle phone goes Home within ~45 s.
-    else if(!event&&Date.now()-pollFreshAt>=POLL_FRESH_MS){pollFreshAt=Date.now();root.CareerModeFirestoreBudget?.wantFresh?.(`rivalries/${request.rivalryId}`);}
+    else if(!event&&Date.now()-pollFreshAt>=POLL_FRESH_MS){pollFreshAt=Date.now();if(!watched)root.CareerModeFirestoreBudget?.wantFresh?.(rootPath);}
     void ptcRefresh();
   }
   function ptcInstall(){
