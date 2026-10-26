@@ -35,7 +35,11 @@ check("Z3","a refresh rejoins through the pair pointer; Remote Joining never sto
 check("Z4","the session pointer is host-written, pair-read, never listed or deleted",()=>{
   const rules=read("firestore.spark.rules");
   const match=rules.slice(rules.indexOf("match /sessionOffers/{offerId}"));
-  assert.match(match,/allow get: if offerId == "current" && activeActor\(\) && activePairedRivalry\(rivalryId\) && currentlyEntitled\(rivalryId\);/);
+  // r84 trim: the pointer read keeps the pair-only boundary (the live two-account rivalry must list the reader) with one
+  // lookup; the two account-document lookups are checked when the Session starts, not on every pointer read.
+  assert.match(match,/allow get: if offerId == "current" && livePairedRivalryMember\(rivalryId\);/);
+  const member=rules.slice(rules.indexOf("function livePairedRivalryMember(rivalryId)"));
+  assert.match(member.slice(0,member.indexOf("\n    }")),/&& ids\.size\(\) == 2[\s\S]*&& request\.auth\.uid in ids;/,"the pointer read stays pair-only");
   assert.match(match,/allow create, update: if validSessionOfferWrite\(rivalryId, offerId\);/);
   assert.match(match,/allow list, delete: if false;/);
   assert.match(rules,/offer\.hostAccountId == request\.auth\.uid/);

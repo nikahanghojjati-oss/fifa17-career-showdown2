@@ -30,25 +30,29 @@
         && activeAccount(data.managerSlots[0].accountId)
         && activeAccount(data.managerSlots[1].accountId);
     }
+    // r84 trim: a shared read needs only the live paired rivalry that lists the signed-in account (one lookup). The two
+    // account documents are not looked up again: no client can change their status (account update is denied) and the Spark
+    // app ships no account deletion flow; Session start and Shared Setup open still check both (lazy enforcement).
     function ssjrEntitled(rivalryId) {
-      return ssjrValidRivalryId(rivalryId) && activePairedRivalry(rivalryId);
+      return ssjrValidRivalryId(rivalryId) && livePairedRivalryMember(rivalryId);
     }
     function ssjrActorRole(rivalryId) {
       return ssjrRivalryData(rivalryId).managerSlots[0].accountId == request.auth.uid ? 'playerOne' : 'playerTwo';
     }
 
     // Shared Setup write authority is evaluated once per write. Only the exact
-    // account/device/rivalry/session facts required by this namespaced ledger
-    // are rechecked so the production Rules remain under Firestore's expression ceiling.
+    // rivalry/session facts required by this namespaced ledger are rechecked so the
+    // production Rules remain under Firestore's expression ceiling.
+    // r84 trim: two lookups per write (rivalry + session). The two account documents and this device's document are no longer
+    // looked up on every save: no client can change an account's status (update denied) and the Spark app ships no account
+    // deletion flow. Both are checked when a Session starts (validOpenSessionCreate / validSessionJoin), which this write
+    // requires to be active, and both accounts again when a Shared Setup opens.
     function ssjrWriteAuthorityValid(rivalryId, deviceId, sessionId) {
       let actor = request.auth.uid;
       let rivalryRoot = get(/databases/$(database)/documents/rivalries/$(rivalryId));
       let rivalry = rivalryRoot.data.data;
       let slot0AccountId = rivalry.managerSlots[0].accountId;
       let slot1AccountId = rivalry.managerSlots[1].accountId;
-      let slot0Account = get(/databases/$(database)/documents/accounts/$(slot0AccountId));
-      let slot1Account = get(/databases/$(database)/documents/accounts/$(slot1AccountId));
-      let device = get(/databases/$(database)/documents/accounts/$(actor)/devices/$(deviceId));
       let session = get(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(sessionId));
       let sessionData = session.data.data;
       return signedIn()
@@ -70,10 +74,6 @@
         && slot0AccountId in rivalry.authorizedAccountIds
         && slot1AccountId in rivalry.authorizedAccountIds
         && actor in rivalry.authorizedAccountIds
-        && slot0Account.data.data.status == 'active'
-        && slot1Account.data.data.status == 'active'
-        && device.data.objectId == deviceId
-        && device.data.data.state == 'active'
         && session.data.objectId == sessionId
         && sessionData.rivalryId == rivalryId
         && sessionData.state == 'active'
@@ -82,6 +82,13 @@
         && rivalry.authorizedAccountIds[0] in sessionData.memberAccountIds
         && rivalry.authorizedAccountIds[1] in sessionData.memberAccountIds
         && sessionData.expiresAt is timestamp;
+    }
+    // r84 trim: both manager accounts are checked once per Showdown, when the Shared Setup is opened (plus at every Session
+    // start), instead of on every save: a deleted or deletion-pending account cannot start a new Showdown.
+    function ssjrBothAccountsActive(rivalryId) {
+      let slots = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data.managerSlots;
+      return get(/databases/$(database)/documents/accounts/$(slots[0].accountId)).data.data.status == 'active'
+        && get(/databases/$(database)/documents/accounts/$(slots[1].accountId)).data.data.status == 'active';
     }
     function ssjrSessionHostIsActor(rivalryId, sessionId) {
       return get(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(sessionId)).data.data.hostAccountId == request.auth.uid;
@@ -196,7 +203,8 @@
         && after.actorRoles[0] == after.coordinatorRole
         && after.totalSeasons == null
         && after.confirmedRoles.size() == 0
-        && ssjrSessionHostIsActor(rivalryId, after.activeSessionId);
+        && ssjrSessionHostIsActor(rivalryId, after.activeSessionId)
+        && ssjrBothAccountsActive(rivalryId);
     }
     function ssjrPrefixPreserved(before, after) {
       let n = before.revision;

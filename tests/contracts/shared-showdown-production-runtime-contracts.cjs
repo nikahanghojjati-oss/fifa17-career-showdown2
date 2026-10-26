@@ -100,7 +100,11 @@ for(const required of [
   'function ssjrWriteAuthorityValid(rivalryId, deviceId, sessionId)',
   "sessionData.state == 'active'",
   'sessionData.expiresAt is timestamp',
-  "device.data.data.state == 'active'",
+  // r84 trim (tamper-only): the per-save device-document lookup is gone. The device is checked when the Session starts
+  // (validOpenSessionCreate / validSessionJoin) and every save still requires that ACTIVE Session; only a well-formed id is kept.
+  'ssjrValidDeviceId(deviceId)',
+  "rivalry.managerSlots[0].entitlementState == 'active'",
+  "actor in rivalry.authorizedAccountIds",
   'allow get: if ssjrEntitled(rivalryId)',
   'allow create: if ssjrValidCreateLedger(rivalryId)',
   'allow update: if ssjrValidUpdateLedger(rivalryId)',
