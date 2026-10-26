@@ -1477,7 +1477,7 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
 @media (min-width: 1200px) and (min-height: 600px) and (orientation: landscape) {
   #app #mainMenu.v10Home .menuMusicTile,
   #app #mainMenu.v10Home .menuMusicTile.side {
-    left: auto !important; right: var(--gutter, 32px) !important; width: min(520px, 34vw) !important;
+    left: auto !important; right: var(--gutter, 32px) !important; width: min(540px, 40vw) !important;
     top: auto !important; bottom: calc(100vh - var(--tile-top) + 28px) !important;
     height: 46px !important; min-height: 0 !important; max-height: none !important;
     padding: 4px 10px; column-gap: 10px; row-gap: 0; align-items: center;
@@ -1485,7 +1485,12 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
     grid-template-areas: "player head ctrl tracks";
   }
   #app #mainMenu.v10Home .menuMusicHeader { grid-area: head; min-width: 0; }
-  #app #mainMenu.v10Home .menuMusicHeader span, #app #mainMenu.v10Home .menuMusicStatus, #app #mainMenu.v10Home .menuMusicSource { display: none; }
+  #app #mainMenu.v10Home .menuMusicHeader span, #app #mainMenu.v10Home .menuMusicSource { display: none; }
+  /* the status line stays a live region for screen readers; it is shown in place of the title only when playback fails */
+  #app #mainMenu.v10Home .menuMusicStatus { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; margin: 0; }
+  #app #mainMenu.v10Home .menuMusicTile[data-failed="true"] { grid-template-areas: "player status ctrl tracks"; }
+  #app #mainMenu.v10Home .menuMusicTile[data-failed="true"] .menuMusicHeader { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  #app #mainMenu.v10Home .menuMusicTile[data-failed="true"] .menuMusicStatus { grid-area: status; position: static; width: auto; height: auto; clip-path: none; min-width: 0; overflow: hidden; white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; font-size: 11px; line-height: 1.25; color: var(--cream); }
   #app #mainMenu.v10Home .menuMusicHeader strong { font-size: 15px; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   #app #mainMenu.v10Home .menuMusicArtist { font-size: 11px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   #app #mainMenu.v10Home .menuMusicPlayer { grid-area: player; align-self: center; --vinyl: 28px; }
