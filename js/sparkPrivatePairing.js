@@ -661,6 +661,7 @@ async function revokePairing(options={}){
   const FSB_QUOTA_MESSAGE="Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.";
   const FSB_PAUSE_STEPS_MS=Object.freeze([10,20,40,60].map(minutes=>minutes*60000));
   const FSB_COALESCE_MS=2000,FSB_OWN_ACCOUNT_MS=5*60000,FSB_MAX_ENTRIES=200;
+  const FSB_LIVE_QUIET_MS=120000;
   const FSB_QUIET_MS=60000,FSB_INPUT_FRESH_MS=5000,FSB_ASK_MS=7000,FSB_FAST_GAP_MS=6000,FSB_FAST_HOLD_MS=10000;
   // fsbServerNext: documents whose next read must reach the server (no copy, no read already in flight), set by readServerNext.
   const fsbServerNext=new Map();
@@ -820,7 +821,9 @@ async function revokePairing(options={}){
       if(at-ask.at>=FSB_ASK_MS){fsbWaitAsks.delete(owner);continue;}
       if(ask.path===path&&!(live&&fsbWait&&ask.path===fsbWait.path))return FSB_COALESCE_MS;
     }
-    if(live)return FSB_QUIET_MS;
+    // r84: while a healthy listener watches the screen's document, a partner's move reaches this page through it and its
+    // delivery forgets every other copy (fsbRemember), so those copies are kept for 2 min instead of 1.
+    if(live)return FSB_LIVE_QUIET_MS;
     return fast?FSB_COALESCE_MS:FSB_QUIET_MS;
   }
   // Returns {snapshot,old} or null. old: the copy is older than the 2 s burst window (see fsbProbe's fresh re-run).
@@ -1070,6 +1073,8 @@ async function revokePairing(options={}){
     forgetContext:fsbForgetContext,
     returnListen:fsbReturnListen,
     listened:fsbListened,
+    // watchesHealthy(path): a healthy wait listener watches exactly this document, so a 15 s screen check need not re-read it.
+    watchesHealthy:path=>Boolean(typeof path==="string"&&fsbWait&&fsbWait.path===path&&fsbWaitHealthy()),
     // countListenerRead(): a server delivery of a listener this layer does not own (season-commit wait context, Home JOIN note)
     // still counts toward today's reads and the brake window.
     countListenerRead:()=>fsbCountRead(),
