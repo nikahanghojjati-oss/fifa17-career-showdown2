@@ -442,6 +442,31 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     screen.stop();
   });
 
+  await check("FB6b","r84: listener down, 15 s checks of a waiting screen re-read only the waited document; the partner's move still refreshes the rest",async()=>{
+    const world=createWorld();seed(world);
+    const screen=createScreen(world,{owner:"results",watched:TRANSFER,context:[RIVALRY,SESSION],fast:false,slow:false});
+    const ask=()=>world.budget.watchWaitPoint("results",TRANSFER,()=>{});
+    await screen.tick();
+    for(let index=0;index<4;index+=1){ask();await world.advance(2500);}
+    world.failListeners();
+    assert.equal(world.budget.stats().listenerFallbacks,1,"the wait listener was attached and dropped");
+    await screen.tick();
+    // The waiting module asks every 3 s but (past its fast window) reads only on its 15 s poll.
+    const before=world.meter.reads;
+    for(let second=3;second<=45;second+=3){await world.advance(3000);ask();if(second%15===0)await screen.tick();}
+    assert.ok(world.meter.reads-before>=3,"the waited document is read fresh on every 15 s check");
+    assert.ok(world.meter.reads-before<=4,`the other documents keep their quiet copies (${world.meter.reads-before} reads for 3 checks; was 9)`);
+    // The partner's move changes the waited document and another one. The waiting check reads only its document; another
+    // screen that reads only the other document must not get its old quiet copy afterwards.
+    world.serverWrite(TRANSFER,{phase:"completed",requests:{}});world.serverWrite(SESSION,{status:"CLOSING"});
+    await world.advance(3000);ask();
+    const phase=await world.services.firestoreSdk.runTransaction(world.db,async tx=>(await tx.get({path:TRANSFER})).data().phase);
+    assert.equal(phase,"completed");
+    const session=await world.services.firestoreSdk.runTransaction(world.db,async tx=>(await tx.get({path:SESSION})).data().status);
+    assert.equal(session,"CLOSING","no screen acts on a copy older than the partner's move");
+    screen.stop();
+  });
+
   await check("FB16","r84 read brake: an idle page whose checks loop is slowed to one read per document per 15 s; a tap, writes and the listener stay instant; the day count persists and resets at the Google day",async()=>{
     const storage=new Map();
     const world=createWorld({storage});seed(world);

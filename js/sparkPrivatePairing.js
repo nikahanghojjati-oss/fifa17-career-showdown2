@@ -811,16 +811,20 @@ async function revokePairing(options={}){
   function fsbReuseLimitNormal(path,at,fast,snapshot){
     if(fsbOwnAccountPath(path))return FSB_OWN_ACCOUNT_MS;
     if(at-fsbInputAt<FSB_INPUT_FRESH_MS||at-fsbFreshAskAt<FSB_ASK_MS||(fsbFreshPaths.get(path)||0)>at||!fsbSettled(path,snapshot))return FSB_COALESCE_MS;
-    // A screen waiting on the partner reads fresh unless the healthy listener watches exactly its document.
+    // A screen waiting on the partner reads its waited document fresh unless the healthy listener watches exactly it.
+    // r84: only that document. Every other document keeps the quiet reuse below; a fresh read that shows the waited
+    // document changed forgets them all (fsbRemember), as a listener delivery does. Before, a dead listener made every
+    // background check read fresh: ~60 reads/min per device for as long as the wait lasted.
     const live=fsbWaitLive();
     for(const [owner,ask] of fsbWaitAsks){
       if(at-ask.at>=FSB_ASK_MS){fsbWaitAsks.delete(owner);continue;}
-      if(!(live&&fsbWait&&ask.path===fsbWait.path))return FSB_COALESCE_MS;
+      if(ask.path===path&&!(live&&fsbWait&&ask.path===fsbWait.path))return FSB_COALESCE_MS;
     }
     if(live)return FSB_QUIET_MS;
     return fast?FSB_COALESCE_MS:FSB_QUIET_MS;
   }
   // Returns {snapshot,old} or null. old: the copy is older than the 2 s burst window (see fsbProbe's fresh re-run).
+  function fsbWaitAskedPath(path,at){for(const ask of fsbWaitAsks.values())if(ask.path===path&&at-ask.at<FSB_ASK_MS)return true;return false;}
   function fsbReusable(path){
     const at=fsbNow(),fast=path?fsbNoteAsk(path,at):false;
     // r80: a listener known to be behind a server read this page already made (lagUntil) never answers: the newer
@@ -843,9 +847,14 @@ async function revokePairing(options={}){
     if(db!==fsbFirestore)return;
     const path=fsbPathOf(ref);
     if(!path)return;
+    const before=fsbEntries.get(path);
     fsbEntries.delete(path);
-    fsbEntries.set(path,{snapshot,at:fsbNow(),dirty:false,immutable:fsbImmutable(path,snapshot)});
+    const entry={snapshot,at:fsbNow(),dirty:false,immutable:fsbImmutable(path,snapshot)};
+    fsbEntries.set(path,entry);
     if(fsbWait&&path===fsbWait.path)fsbWaitServerRead(snapshot);
+    // r84: a waited document read fresh (no healthy listener on it) that changed is the partner's move: forget the other
+    // copies and start the chain, exactly like fsbWaitDelivery, so no screen acts on a copy older than that move.
+    if(before&&!before.dirty&&!(fsbWait&&path===fsbWait.path&&fsbWaitLive())&&fsbWaitAskedPath(path,entry.at)&&fsbSerial(before.snapshot)!==fsbSerial(snapshot)){fsbForgetContext();entry.forgotten=false;fsbChainAt=entry.at;}
     if(fsbEntries.size>FSB_MAX_ENTRIES)fsbEntries.delete(fsbEntries.keys().next().value);
   }
   function fsbMarkWritten(db,paths){if(db!==fsbFirestore)return;for(const path of paths){const entry=fsbEntries.get(path);if(entry)entry.dirty=true;if(fsbWait&&fsbWait.path===path)fsbWait.dirty=true;}}
