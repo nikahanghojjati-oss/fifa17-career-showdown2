@@ -300,6 +300,19 @@ function createMenuFeedbackControl(){
     return row;
 }
 
+// r84: this device's share of today's free Firebase reads (Google bills security-check lookups too, so it is an estimate).
+// Both devices share the 50,000; the count resets at 3 am Boston.
+function getSettingsReadsTodayText(){
+    try{
+        const today = window.CareerModeFirestoreBudget?.readsToday?.();
+        if(!today || !Number.isFinite(today.billedEstimate)){ return ""; }
+        const rounded = Math.round(today.billedEstimate / 100) * 100;
+        return `About ${rounded.toLocaleString("en-US")} of ${today.freeReadsPerDay.toLocaleString("en-US")} · counted here`;
+    }catch(_error){
+        return "";
+    }
+}
+
 function createApplicationPanel(){
     const panel = createSettingsPanel(
         "APPLICATION",
@@ -313,6 +326,8 @@ function createApplicationPanel(){
         createSettingsInfoRow("CAREER DATA", "Automatic Showdown storage"),
         createSettingsInfoRow("PLAY MODE", "Daniel vs Nik · two devices")
     );
+    const readsToday = getSettingsReadsTodayText();
+    if(readsToday){ info.appendChild(createSettingsInfoRow("FREE ONLINE USE TODAY", readsToday)); }
     panel.appendChild(info);
     const updateState = getSettingsOfflineState();
     const update = createSettingsElement("button", "menuButton settingsApplicationUpdateButton", updateState.updateActionLabel || "UPDATE TO LATEST VERSION");

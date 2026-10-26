@@ -32,8 +32,8 @@ const BUDGET=Object.freeze({
 function flush(){return new Promise(resolve=>setImmediate(resolve));}
 async function settle(){for(let index=0;index<8;index+=1)await flush();}
 
-function createWorld(){
-  const clock={now:1_800_000_000_000};
+function createWorld({storage=null,now=1_800_000_000_000}={}){
+  const clock={now};
   const timers=[];let timerSeq=0;
   const events=[];
   const docListeners=[];
@@ -46,7 +46,8 @@ function createWorld(){
     dispatchEvent(event){events.push(event);return true;},
     CustomEvent:class{constructor(type,init){this.type=type;this.detail=init&&init.detail;}},
     setTimeout(fn,ms){const id=++timerSeq;timers.push({id,at:clock.now+Math.max(0,Number(ms)||0),fn});return id;},
-    clearTimeout(id){const index=timers.findIndex(timer=>timer.id===id);if(index>=0)timers.splice(index,1);}
+    clearTimeout(id){const index=timers.findIndex(timer=>timer.id===id);if(index>=0)timers.splice(index,1);},
+    ...(storage?{readStorageValue:key=>storage.has(key)?storage.get(key):null,writeStorageValue:(key,value)=>{storage.set(key,String(value));return true;}}:{})
   };
   sandbox.globalThis=sandbox;
   vm.createContext(sandbox);
@@ -463,6 +464,54 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.equal(phase,"completed");
     const session=await world.services.firestoreSdk.runTransaction(world.db,async tx=>(await tx.get({path:SESSION})).data().status);
     assert.equal(session,"CLOSING","no screen acts on a copy older than the partner's move");
+    screen.stop();
+  });
+
+  await check("FB16","r84 read brake: an idle page whose checks loop is slowed to one read per document per 15 s; a tap, writes and the listener stay instant; the day count persists and resets at the Google day",async()=>{
+    const storage=new Map();
+    const world=createWorld({storage});seed(world);
+    // An unknown loop: one background check re-reads the same documents every 500 ms, nobody taps.
+    const loopFor=async ms=>{for(const end=world.clock.now+ms;world.clock.now<end;){world.budget.wantFresh();await world.services.firestoreSdk.runTransaction(world.db,async tx=>{await tx.get({path:RIVALRY});await tx.get({path:SESSION});});await world.advance(500);}};
+    await loopFor(5*60000);
+    assert.ok(world.budget.braking(),"the brake is on after the loop has read far above normal with nobody tapping");
+    const braked=world.meter.reads;
+    await loopFor(60000);
+    assert.ok(world.meter.reads-braked<=10,`braked loop reads ${world.meter.reads-braked}/min (two documents, one read each per 15 s at most)`);
+    assert.ok(world.budget.stats().brakeTrips>=1);
+    // A tap releases the brake at once: the next check reads fresh.
+    world.input();const tapped=world.meter.reads;
+    await world.services.firestoreSdk.runTransaction(world.db,async tx=>{await tx.get({path:SESSION});});
+    assert.equal(world.meter.reads-tapped,1,"right after a tap the check reads the server even while the loop history is heavy");
+    assert.equal(world.budget.braking(),false,"no brake within a minute of a tap");
+    // The day count: every server read is counted and saved; a reload on the same Google day keeps it; a new day starts at 0.
+    let today=world.budget.readsToday();
+    assert.ok(today.reads>=world.budget.stats().serverReads,"every server read counts toward today");
+    assert.equal(today.freeReadsPerDay,50000);
+    // Codex #994: listeners outside this layer (season-commit wait context, Home JOIN note) report their server deliveries.
+    world.budget.countListenerRead();world.budget.countListenerRead();
+    assert.equal(world.budget.readsToday().reads,today.reads+2,"outside listener deliveries count toward today");
+    today=world.budget.readsToday();
+    world.setVisible(false);
+    const saved=JSON.parse(storage.get("careerModeFirestoreReadsDay"));
+    assert.equal(saved.reads,today.reads,"hiding the page saves today's count");
+    const reloaded=createWorld({storage,now:world.clock.now});
+    assert.equal(reloaded.budget.readsToday().reads,today.reads,"a reload on the same day keeps the count");
+    const tomorrow=createWorld({storage,now:world.clock.now+24*3600000});
+    assert.equal(tomorrow.budget.readsToday().reads,0,"the next Google day starts at 0");
+  });
+
+  await check("FB16b","r84 read brake never slows a partner move seen by a healthy wait listener",async()=>{
+    const world=createWorld();seed(world);
+    const screen=createScreen(world,{owner:"transfer",watched:TRANSFER,context:[RIVALRY,SESSION]});
+    screen.start();
+    // Heavy unrelated reading with nobody tapping trips the brake while the listener is healthy.
+    for(let index=0;index<200;index+=1){world.budget.wantFresh();await world.services.firestoreSdk.runTransaction(world.db,async tx=>{await tx.get({path:`${RIVALRY}/noise/n${index}`});});}
+    await world.advance(61000);
+    assert.ok(world.budget.braking(),"brake on");
+    world.serverWrite(TRANSFER,{phase:"completed",requests:{}});
+    const at=world.clock.now;let seenAt=null;
+    for(let step=0;step<40&&seenAt===null;step+=1){await world.advance(50);if(screen.seen&&screen.seen.phase==="completed")seenAt=world.clock.now;}
+    assert.ok(seenAt!==null&&seenAt-at<=1000,`the listener still delivers the partner's move at once (${seenAt===null?"never":seenAt-at+" ms"})`);
     screen.stop();
   });
 
