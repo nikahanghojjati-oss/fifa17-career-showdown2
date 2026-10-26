@@ -36,38 +36,36 @@ function createRuleBookScreen(){
         createRuleSection("01", "SHOWDOWN FORMAT", [
             "Career Mode Showdown is a two-player game for Daniel and Nik.",
             "Daniel is Player One. Nik is Player Two.",
-            "Both managers play in the same league.",
-            "Each manager keeps the same club for the whole Showdown.",
-            "A Showdown lasts 1, 3, 5 or 10 seasons.",
-            "The most Showdown points across all seasons wins. Equal totals are a draw."
+            "You both play in the same league, and each of you keeps one club for the whole Showdown.",
+            "A Showdown is 1, 3, 5 or 10 seasons.",
+            "Most Showdown points across all seasons wins. Equal totals are a draw."
         ]),
         createRuleSection("02", "MATCH PLAY", [
-            "Career Mode matches are simulated.",
+            "Simulate every match.",
             "You may play or simulate a Champions League or Europa League final.",
             "You may play or simulate the main domestic cup final.",
-            "Training (FIFA 17's player training) is allowed in 5- and 10-season Showdowns; not in 1- or 3-season Showdowns."
+            "Player training is allowed only in 5- and 10-season Showdowns."
         ]),
         createRuleSection("03", "TRANSFER CHALLENGE", [
-            "Each manager may sign up to three players per season.",
-            "The Transfer Challenge window lasts 15 minutes.",
+            "Each of you may sign up to three players a season.",
+            "The transfer window lasts 15 minutes.",
             "In FIFA 17, you can sign players up to the transfer deadline.",
             "Both managers can agree to end the transfer window early. One manager cannot end it alone.",
-            "Your opponent gets three guesses.",
-            "Each guess is a league or a nationality.",
-            "A signing that matches a guess must be released before the season starts."
+            "Your opponent gets three guesses. Each guess is a league or a nationality.",
+            "If a guess matches one of your signings, release that player before the season starts."
         ]),
         createScoringRuleSection(),
         createRuleSection("05", "DRAWS", [
             "More Showdown points in a season wins that season.",
-            "Same Showdown points in a season, including 0-0, means the season is a draw.",
-            "There is no tiebreak: league position, league points and goals never decide a season or a Showdown.",
-            "Equal Showdown totals make the Showdown a draw."
+            "Same Showdown points in a season, even 0-0, means the season is a draw.",
+            "There is no tiebreak. League position, points and goals never decide a winner.",
+            "Equal Showdown totals mean the Showdown is a draw."
         ]),
         createRuleSection("06", "CONNECTION & RECOVERY", [
-            "Daniel and Nik connect once before their first Showdown. After that, the same account and browser carry on.",
-            "A new browser may need to connect again before you play.",
-            "The browser keeps a copy for recovery only. It is not a separate way to play.",
-            "Enter results by hand from FIFA 17. No screenshots or match notes needed."
+            "Connect once before your first Showdown. After that, the same account and browser stay connected.",
+            "A new browser may need to connect again.",
+            "The browser keeps a backup copy for recovery. You can't play from it.",
+            "Type in results by hand from FIFA 17. No screenshots or notes needed."
         ])
     );
 
@@ -137,8 +135,8 @@ function createScoringRuleSection(){
         ["Europa League winner", "+3"],
         ["Domestic league winner", "+3"],
         ["Main domestic cup winner", "+1"],
-        ["100 league points and/or 100 league goals", "+1 MAX"],
-        ["League Top Scorer and/or Top Assist", "+1 MAX"]
+        ["100 league points or 100 league goals", "+1 MAX"],
+        ["League top scorer or top assist", "+1 MAX"]
     ].forEach(([label, value]) => {
         const row = document.createElement("div");
         const labelElement = document.createElement("span");
