@@ -313,6 +313,19 @@ function getSettingsReadsTodayText(){
     }
 }
 
+// r84: how many more seasons today's free reads allow at the pace played (both devices, cost per season measured here).
+function getSettingsSeasonsLeftText(){
+    try{
+        const left = window.CareerModeFirestoreBudget?.seasonsLeftToday?.();
+        if(!left || !Number.isFinite(left.seasons)){ return ""; }
+        const count = `${left.seasons} ${left.seasons === 1 ? "season" : "seasons"}`;
+        if(left.basis === "today"){ return `About ${count} · at today's pace`; }
+        return `About ${count} · estimate until a season is played today`;
+    }catch(_error){
+        return "";
+    }
+}
+
 function createApplicationPanel(){
     const panel = createSettingsPanel(
         "APPLICATION",
@@ -328,6 +341,8 @@ function createApplicationPanel(){
     );
     const readsToday = getSettingsReadsTodayText();
     if(readsToday){ info.appendChild(createSettingsInfoRow("FREE ONLINE USE TODAY", readsToday)); }
+    const seasonsLeft = getSettingsSeasonsLeftText();
+    if(seasonsLeft){ info.appendChild(createSettingsInfoRow("SEASONS LEFT TODAY", seasonsLeft)); }
     panel.appendChild(info);
     const updateState = getSettingsOfflineState();
     const update = createSettingsElement("button", "menuButton settingsApplicationUpdateButton", updateState.updateActionLabel || "UPDATE TO LATEST VERSION");
