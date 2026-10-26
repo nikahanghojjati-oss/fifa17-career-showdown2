@@ -1477,7 +1477,7 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
   #app #mainMenu.v10Home .menuMusicTile,
   #app #mainMenu.v10Home .menuMusicTile.side {
     --plate-s: max(100vw / 1536, 100vh / 864);
-    left: calc(160 * var(--plate-s) + 16px) !important; right: auto !important; width: calc(360 * var(--plate-s)) !important;
+    left: calc(140 * var(--plate-s) + 12px) !important; right: auto !important; width: calc(310 * var(--plate-s)) !important;
     top: auto !important; bottom: calc(100vh - var(--tile-top) + 142px) !important;
     height: auto !important; min-height: 0 !important; max-height: none !important;
     padding: 6px 10px; column-gap: 8px; row-gap: 2px; align-items: center;
