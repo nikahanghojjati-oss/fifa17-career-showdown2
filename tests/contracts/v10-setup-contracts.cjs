@@ -175,7 +175,7 @@ function buildSetupMarkup(doc,main){
   }
   el(doc,shell,"section",{id:"clubRivalryConfirmation",cls:"clubRivalryConfirmation hidden"});
   el(doc,shell,"button",{id:"openClubPack",cls:"menuButton",text:"OPEN SHOWDOWN PACKS",attrs:{type:"button"}});
-  const cont=el(doc,shell,"button",{id:"continueClubAssignment",cls:"menuButton hidden",text:"CONFIRM RIVALRY & START SHOWDOWN",attrs:{type:"button"}});cont.disabled=true;
+  const cont=el(doc,shell,"button",{id:"continueClubAssignment",cls:"menuButton hidden",text:"CONFIRM & START SHOWDOWN",attrs:{type:"button"}});cont.disabled=true;
   el(doc,shell,"button",{id:"clubAssignmentBack",cls:"backButton",text:"BACK",attrs:{type:"button","data-smart-back":""}});
 
   const menu=doc.getElementById("mainMenu");
@@ -320,7 +320,7 @@ check("S1 the skin API is small, frozen and points at Team V's copied files",()=
 
 check("S2 pure helpers: league from shown text, pointer index, pack result",()=>{
   for(const [id,name] of LEAGUES){assert.equal(Setup.leagueFromText(name),id);assert.equal(Setup.leagueFromText(` ${name.toUpperCase()} `),id);}
-  for(const text of ["","Spin to select league","SPINNING...","Shared league wheel ready","LaLiga has been selected",null,undefined])assert.equal(Setup.leagueFromText(text),null,String(text));
+  for(const text of ["","Spin to select league","SPINNING...","League wheel ready","LaLiga has been selected",null,undefined])assert.equal(Setup.leagueFromText(text),null,String(text));
   LEAGUES.forEach((_league,index)=>{
     assert.equal(Setup.topIndex(`rotate(${-index*72}deg)`),index);
     assert.equal(Setup.topIndex(`rotate(${-(1800+index*72)}deg)`),index,"after full turns");

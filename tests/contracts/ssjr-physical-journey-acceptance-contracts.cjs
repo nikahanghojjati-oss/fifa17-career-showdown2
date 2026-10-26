@@ -49,7 +49,7 @@ const path=require("node:path");
   assert.match(entry,/ready\?"START A SHOWDOWN"/,'Physical journey must expose canonical Start a Showdown only after player identity is ready.');
   assert.match(entry,/"SIGN IN TO START"/,'Physical journey must explicitly route unsigned users through sign-in first.');
   assert.match(entry,/identity&&typeof identity\.openGate==="function"/,'Unsigned Start must open the player identity gate without creating a Showdown shell.');
-  assert.match(entry,/Daniel and Nik must both be connected before the career begins\./);
+  assert.match(entry,/Connect Daniel and Nik before the career starts\./);
   assert.doesNotMatch(entry,/START SHARED SHOWDOWN|BOTH manager devices before pairing/i,'Physical acceptance must not force retired engineering copy back into the player surface.');
 
   const validator=await import("../../scripts/validate-ssjr-physical-journey-evidence.mjs");

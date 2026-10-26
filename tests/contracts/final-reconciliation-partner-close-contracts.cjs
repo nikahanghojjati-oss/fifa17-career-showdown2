@@ -54,7 +54,7 @@ function run({winner,totals,witnessRivalry}){
   const nikWins=run({winner:"playerTwo",totals:{playerOne:9,playerTwo:14}});
   assert.equal(nikWins.text("sharedFinalReconciliationHeading"),"SHOWDOWN FINAL RESULT","the partner's close must not leave the final result heading empty");
   assert.equal(nikWins.text("sharedFinalReconciliationWinner"),"Daniel 9 · Nik 14 · Nik WINS","the final result line must carry the verified close witness");
-  assert.equal(nikWins.text("sharedFinalReconciliationSummary"),"3 OF 3 SEASONS ACCEPTED · NO ADDITIONAL SEASON");
+  assert.equal(nikWins.text("sharedFinalReconciliationSummary"),"3 OF 3 SEASONS PLAYED");
   assert.equal(nikWins.text("sharedFinalReconciliationClose"),"","no pre-close prompt is written after CLOSED");
   assert.equal(nikWins.panelHidden(),true,"the pre-close panel stays hidden beside CLOSED");
   assert.equal(nikWins.api.getState(),null);

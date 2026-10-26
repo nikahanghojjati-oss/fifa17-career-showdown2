@@ -117,7 +117,7 @@ for(const required of [
   'root.navigateTo("transferChallenge")',
   'view?.opponentInputs||null',
   'phase==="COMPLETED"',
-  'SHARED SEASON RESULTS COMING NEXT',
+  'SEASON RESULTS NEXT',
   'if(id==="continueFromTransfers"){pstcSetError("Season results are not open yet. Tap REFRESH, then try again.");return false;}',
   'POLL_MS=15000',
   'providerChain=Promise.resolve()',

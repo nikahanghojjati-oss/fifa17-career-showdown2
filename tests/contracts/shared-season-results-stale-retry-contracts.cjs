@@ -132,7 +132,7 @@ async function scenario(publishScript){
   assert.equal(run.reports.length,1);
   assert.equal(run.reports[0].code,"SEASON_RESULTS_STALE_BASE_REVISION");
   assert.equal(run.api.getState().ownResult,null);
-  assert.equal(run.document.getElementById("seasonReviewError").textContent||run.document.getElementById("seasonEntryError").textContent,"Your shared Season Result could not be published.");
+  assert.equal(run.document.getElementById("seasonReviewError").textContent||run.document.getElementById("seasonEntryError").textContent,"Your Season Result could not be published.");
   ok("second stale publish surfaces SEASON_RESULTS_STALE_BASE_REVISION after exactly two attempts");
 
   // (4) a non-stale rejection is never retried.

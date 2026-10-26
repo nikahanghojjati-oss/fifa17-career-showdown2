@@ -33,10 +33,10 @@ assert.match(adapter,/try\{await transferApi\.refresh\(\);\}catch\(error\)\{if\(
 assert.match(adapter,/pssrFingerprint\(currentResult\)!==draft\.fingerprint/,'reviewed payload must be revalidated immediately before publication');
 assert.match(adapter,/draft&&draft\.contextKey===contextKey[\s\S]*pssrRenderReview\(draft\.result\)/,'ordinary provider refresh must preserve an unpublished local Review draft');
 assert.doesNotMatch(adapter,/current\.finally\(/,'refresh cleanup must not create an ignored rejecting finally child promise');
-assert.match(adapter,/Your rival cannot see this result until they publish their own/);
+assert.match(adapter,/Your rival sees this only after publishing theirs/);
 // Job 33 (R8): the duplicate RESULTS_READY banners are gone; the Shared Season Commit status is the one line that directs the player onward.
 assert.match(adapter,/if\(warning\)\{pssrHidden\(warning,ready\);/,'RESULTS_READY must hand the next-step banner to Shared Season Commit instead of repeating it');
-assert.match(read('js/productionSharedSeasonCommit.js'),/BOTH RESULTS ARE READY · AS COORDINATOR, COMMIT THE IMMUTABLE SHARED SEASON SNAPSHOT[\s\S]*BOTH RESULTS ARE READY · WAITING FOR \$\{psscManagerName\(coordinator\)\} TO COMMIT/,'RESULTS_READY must direct the real player into the next authoritative capability (Shared Season Commit) instead of presenting r9 as a terminal step');
+assert.match(read('js/productionSharedSeasonCommit.js'),/BOTH RESULTS ARE IN · LOCK THE SEASON[\s\S]*BOTH RESULTS ARE IN · WAITING FOR \$\{psscManagerName\(coordinator\)\} TO LOCK/,'RESULTS_READY must direct the real player into the next authoritative capability (Shared Season Commit) instead of presenting r9 as a terminal step');
 for(const field of ['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist'])assert.match(adapter,new RegExp(`${field}:`),`production adapter must use canonical field ${field}`);
 assert.doesNotMatch(adapter,/persistCompletedSeason\s*\(/,'shared publication adapter must not call local season persistence');
 assert.doesNotMatch(adapter,/saveCurrentShowdown\s*\(/,'shared publication adapter must not write canonical local save authority');
@@ -58,8 +58,8 @@ assert.match(route,/coreNavigationAuthority:true/,'the route bridge must declare
 assert.doesNotMatch(route,/root\.isRouteStateValid\s*=/,'r9 must not monkeypatch a non-exported router binding');
 assert.doesNotMatch(route,/routeInstallNavigationGate|ROUTE_GATE|ssjrOriginal/,'obsolete route monkeypatch machinery must remain retired');
 assert.match(route,/!screen\.dataset\.sharedTransferReplay/,'historical full-screen replay must not fall through into live Season Results');
-assert.match(route,/CONTINUE TO SHARED SEASON RESULTS/);
-assert.match(route,/ENTER SHARED SEASON RESULTS/);
+assert.match(route,/CONTINUE TO SEASON RESULTS/);
+assert.match(route,/ENTER SEASON RESULTS/);
 assert.match(route,/seasonPrimaryAction/,'completed shared Transfer Challenge must route directly from Showdown Home');
 assert.match(route,/sharedSeasonResultsRouteStyle/,'shared review must preserve a visible escape to Showdown Home while local complete action stays hidden');
 assert.match(route,/productionSharedSeasonResults\.js/);
@@ -81,7 +81,7 @@ assert.doesNotMatch(bootstrap,/await install\("ssjr-production-season-results-ro
 assert.match(bootstrap,/const seasonResultsRoute=install\("ssjr-production-season-results-route"[\s\S]*await Promise\.all\(\[[\s\S]*ssjr-production-entry[\s\S]*ssjr-production-guard[\s\S]*async\(\)=>\{await seasonResultsRoute;return install\("ssjr-production-transfer-challenge"/,'paired-first entry and guard must start in parallel while only Transfer Challenge waits for r9 capture ordering');
 assert.match(bootstrap,/CareerModeProductionSharedSeasonResults/);
 assert.match(seasonEngine,/function confirmCurrentSeason\(\)[\s\S]*persistCompletedSeason\(roundRecord, seasonNumber\)/,'ordinary local Season Results persistence must remain intact behind the shared capture boundary');
-assert.match(transfer,/SHARED SEASON RESULTS COMING NEXT/,'r8 remains fail-closed when the r9 route is unavailable');
+assert.match(transfer,/SEASON RESULTS NEXT/,'r8 remains fail-closed when the r9 route is unavailable');
 
 console.log('PASS Shared Season Results production contracts: core navigation grants seasonEntry only from refreshed shared authority; the real Results route bootstraps the bounded post-results production chain; completed Shared Transfer Challenge routes from verdicts and Showdown Home into the existing Season Results shell; paired-first startup remains nonblocking; each manager reviews and immutably publishes only their own canonical payload; opponent data stays private until both publish; Results now hands off to Shared Season Commit instead of presenting stale r9 dead-end copy; local persistence/scoring authority remains unchanged; and the r8 fallback stays fail-closed.');
 

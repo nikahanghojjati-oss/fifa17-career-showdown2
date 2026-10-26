@@ -24,7 +24,7 @@ assert.ok(cachedGate>=0&&commitRefresh>cachedGate&&scoringRefresh>commitRefresh&
 assert.match(source,/commit\.phase==="ACKNOWLEDGED"/);assert.match(source,/commit\.revision===3/);assert.match(source,/scoring\.phase==="SCORING_RECONCILED"/);assert.match(source,/scoring\.revision===1/);
 assert.match(source,/resultsContentHash/);assert.match(source,/resultsRevision/);assert.match(source,/throughSeason:request\.throughSeason/);
 assert.match(source,/ensureAccountServices\(\)/);assert.match(source,/setup\.sessionId/);assert.match(source,/setup\.deviceId/);assert.match(source,/setup\.accountId/);
-assert.match(source,/sharedHistoryConvergencePanel/);assert.match(source,/SHARED HISTORY CONVERGED/);assert.match(source,/managerRecords/);assert.match(source,/trophyAttribution/);
+assert.match(source,/sharedHistoryConvergencePanel/);assert.match(source,/HISTORY UP TO DATE/);assert.match(source,/managerRecords/);assert.match(source,/trophyAttribution/);
 assert.match(source,/Overall:/);assert.match(source,/Lead:/);assert.match(source,/p1Total-p2Total|p2Total-p1Total/,'Accepted history must show the cumulative Showdown score and current point gap after every season.');
 assert.doesNotMatch(source,/saveCurrentShowdown|persistCompletedSeason|localStorage\.setItem|sessionStorage\.setItem/);
 assert.doesNotMatch(source,/runTransaction|\.set\(|\.update\(|\.delete\(/);

@@ -34,7 +34,7 @@ function ensureSeasonReviewUI(){
     statusLabel.textContent = "FINAL CHECK";
     const statusMeta = document.createElement("strong");
     statusMeta.id = "seasonReviewStatusMeta";
-    statusMeta.textContent = "NO DATA SAVED YET";
+    statusMeta.textContent = "NOT SAVED YET";
     status.append(statusLabel, statusMeta);
 
     const heading = document.createElement("h3");
@@ -44,7 +44,7 @@ function ensureSeasonReviewUI(){
 
     const intro = document.createElement("p");
     intro.className = "seasonReviewIntro";
-    intro.textContent = "Review both managers and their results alongside the calculated scores.";
+    intro.textContent = "Check both managers: results and calculated scores.";
 
     const result = document.createElement("p");
     result.id = "seasonReviewResult";
@@ -66,7 +66,7 @@ function ensureSeasonReviewUI(){
     const overall = document.createElement("div");
     overall.className = "overallScoreBox seasonReviewOverall";
     const overallLabel = document.createElement("span");
-    overallLabel.textContent = "PROJECTED OVERALL SHOWDOWN SCORE";
+    overallLabel.textContent = "SHOWDOWN SCORE AFTER THIS SEASON";
     const overallValue = document.createElement("strong");
     overallValue.id = "seasonReviewOverallScore";
     overallValue.textContent = "0 • 0";
@@ -74,7 +74,7 @@ function ensureSeasonReviewUI(){
 
     const warning = document.createElement("p");
     warning.className = "seasonReviewWarning";
-    warning.textContent = "CONFIRMATION IS FINAL · THIS COMPLETED SEASON BECOMES READ-ONLY";
+    warning.textContent = "CONFIRMING IS FINAL · THE SEASON CAN'T BE EDITED AFTER";
 
     const error = document.createElement("p");
     error.id = "seasonReviewError";
@@ -726,14 +726,14 @@ function renderSeasonReview(draft){
 
     setSeasonText(ui.entryTitle, `SEASON ${seasonNumber} REVIEW`);
     setSeasonText(ui.reviewHeading, `REVIEW SEASON ${seasonNumber} BEFORE SAVING`);
-    setSeasonText(ui.reviewStatusMeta, `SEASON ${seasonNumber} · NO DATA SAVED YET`);
+    setSeasonText(ui.reviewStatusMeta, `SEASON ${seasonNumber} · NOT SAVED YET`);
 
     if(roundRecord.winner === "playerOne"){
         setSeasonText(ui.reviewResult, `${currentShowdown.managers.playerOne} is projected to win Season ${seasonNumber}`);
     }else if(roundRecord.winner === "playerTwo"){
         setSeasonText(ui.reviewResult, `${currentShowdown.managers.playerTwo} is projected to win Season ${seasonNumber}`);
     }else{
-        setSeasonText(ui.reviewResult, `Season ${seasonNumber} is projected to finish level`);
+        setSeasonText(ui.reviewResult, `Season ${seasonNumber} is heading for a draw`);
     }
 
     renderManagerSeasonReview(
@@ -913,7 +913,7 @@ function renderSeasonSummary(roundRecord){
     }else if(roundRecord.winner === "playerTwo"){
         setSeasonText(ui.summaryResult, `${currentShowdown.managers.playerTwo} wins the season`);
     }else{
-        setSeasonText(ui.summaryResult, "Season finishes level");
+        setSeasonText(ui.summaryResult, "Season is a draw");
     }
 
     renderManagerSeasonSummary(

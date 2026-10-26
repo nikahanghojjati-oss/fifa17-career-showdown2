@@ -54,7 +54,7 @@ async function prepare(page,{role,saveId,draw=false}){
   await page.locator('#seasonReviewPanel').waitFor({state:'visible',timeout:5000});
   await page.locator('#sharedSeasonCommitAction').waitFor({state:'visible',timeout:5000});
   assert.equal(await page.locator('#seasonReviewHeading').textContent(),'BOTH MANAGERS PUBLISHED','r11 scoring must attach only after the complete r9 shared Season Review is rendered.');
-  assert.equal(await page.locator('#sharedSeasonCommitAction').textContent(),'SEASON COMMIT ACKNOWLEDGED ✓','r11 scoring must attach only after the real r10 production adapter verifies terminal acknowledgement.');
+  assert.equal(await page.locator('#sharedSeasonCommitAction').textContent(),'SEASON CONFIRMED ✓','r11 scoring must attach only after the real r10 production adapter verifies terminal acknowledgement.');
 
   await page.evaluate(async()=>{
     const bounded=(promise,label,timeoutMs=8000)=>Promise.race([Promise.resolve(promise),new Promise((_,reject)=>setTimeout(()=>reject(new Error(`r11 scoring audit timed out during ${label}`)),timeoutMs))]);
@@ -83,7 +83,7 @@ if(require.main===module)(async()=>{
   try{
     await prepare(host,{role:'playerOne',saveId:'shared_scoring_host'});await prepare(peer,{role:'playerTwo',saveId:'shared_scoring_peer'});
     for(const page of [host,peer]){
-      assert.equal(await page.locator('#sharedCanonicalScoringHeading').textContent(),'SHARED CANONICAL SCORE');assert.equal(await page.locator('#sharedCanonicalScoringTotals').textContent(),'Daniel: 11 · Nik: 0');
+      assert.equal(await page.locator('#sharedCanonicalScoringHeading').textContent(),'SEASON SCORE');assert.equal(await page.locator('#sharedCanonicalScoringTotals').textContent(),'Daniel: 11 · Nik: 0');
       const breakdown=await page.locator('#sharedCanonicalScoringBreakdown').textContent();for(const expected of ['Champions League 5–0','League Title 3–0','Domestic Cup 1–0','Performance Bonus 1–0','Awards Bonus 1–0'])assert.match(breakdown,new RegExp(expected));
       assert.equal(await page.locator('#sharedCanonicalScoringWinner').textContent(),'Season winner: Daniel');
       const state=await page.evaluate(()=>window.__ssjrScoringAudit.state());assert.equal(state.authoritative,true);assert.equal(state.phase,'SCORING_RECONCILED');assert.equal(state.seasonCommitRevision,3);assert.equal(state.scoring.playerOne.total,11);assert.equal(state.scoring.playerTwo.total,0);assert.equal(state.winner,'playerOne');

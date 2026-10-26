@@ -86,17 +86,17 @@ function pureContracts(){
 }
 
 async function renderContracts(){
-  const coordinatorStatus="BOTH RESULTS ARE READY · AS COORDINATOR, COMMIT THE IMMUTABLE SHARED SEASON SNAPSHOT";
+  const coordinatorStatus="BOTH RESULTS ARE IN · LOCK THE SEASON";
   // B1. Both 1st: the coordinator sees the plain status, no CHECK RESULTS.
   let h=harness(result({leaguePosition:1}),result({leaguePosition:1}),{role:"playerOne"});h.api.install();await h.api.refresh();await settle();
   assert.equal(h.status(),coordinatorStatus,"both managers 1st shows the unchanged status text");
   assert.ok(!/CHECK RESULTS/.test(h.status()),"both managers 1st never shows CHECK RESULTS");
-  assert.equal(h.action().textContent,"COMMIT & ACKNOWLEDGE SHARED SEASON");
+  assert.equal(h.action().textContent,"LOCK & CONFIRM SEASON");
   // C. The commit action stays enabled and a tap still commits.
-  assert.equal(h.action().disabled,false,"both managers 1st must never disable COMMIT & ACKNOWLEDGE SHARED SEASON");assert.notEqual(h.action().attributes["aria-disabled"],"true");
+  assert.equal(h.action().disabled,false,"both managers 1st must never disable LOCK & CONFIRM SEASON");assert.notEqual(h.action().attributes["aria-disabled"],"true");
   await h.tap();assert.equal(h.calls.commit,1,"a tap on a season where both managers finished 1st reaches commitSeason");
-  assert.match(h.status(),/THE SHARED SEASON RESULT IS LOCKED/,"after commit the normal acknowledge state shows");
-  assert.equal(h.action().textContent,"ACKNOWLEDGE SHARED SEASON");assert.equal(h.action().disabled,false,"acknowledge stays enabled");
+  assert.match(h.status(),/SEASON RESULT LOCKED · BOTH MANAGERS CONFIRM TO SCORE IT/,"after commit the normal acknowledge state shows");
+  assert.equal(h.action().textContent,"CONFIRM SEASON");assert.equal(h.action().disabled,false,"acknowledge stays enabled");
   assert.ok(!/CHECK RESULTS/.test(h.status()),"no CHECK RESULTS after commit either");
   assert.equal(h.calls.acknowledge,1,"the coordinator's one tap also records his acknowledgement (R7)");
   await h.tap();assert.equal(h.calls.acknowledge,2,"the ACKNOWLEDGE fallback still works");
@@ -114,9 +114,9 @@ async function renderContracts(){
   }
   // B3. The waiting manager never sees it either; the button is the existing waiting state (disabled by role only).
   h=harness(result({domesticCup:true,championsLeague:true,leaguePosition:1}),result({domesticCup:true,championsLeague:true,leaguePosition:1}),{role:"playerTwo"});h.api.install();await h.api.refresh();await settle();
-  assert.equal(h.status(),"BOTH RESULTS ARE READY · WAITING FOR Daniel TO COMMIT THE SHARED SEASON","the waiting manager sees the unchanged waiting text");
+  assert.equal(h.status(),"BOTH RESULTS ARE IN · WAITING FOR Daniel TO LOCK THE SEASON","the waiting manager sees the unchanged waiting text");
   assert.ok(!/CHECK RESULTS/.test(h.status()),"the waiting manager never sees CHECK RESULTS for both managers winning");
-  assert.equal(h.action().textContent,"WAITING FOR COORDINATOR");
+  assert.equal(h.action().textContent,"WAITING FOR HOST");
   // B4. Different results: nothing extra, and top scorer on both sides is not a clash.
   h=harness(result({leaguePosition:1,topScorer:true,championsLeague:true}),result({leaguePosition:3,topScorer:true,domesticCup:true}));h.api.install();await h.api.refresh();await settle();
   assert.equal(h.status(),coordinatorStatus,"different results leave the status text unchanged");

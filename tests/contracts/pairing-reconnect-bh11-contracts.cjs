@@ -3,7 +3,7 @@
 //   R1  (#1)  a phone that still holds its own confirmed session can replace it: HOST closes an ACTIVE / revokes an OPEN
 //             session first, JOIN closes an ACTIVE one first. Unresolved, pending, other-account and OPEN-join cases keep
 //             the old guard. The reloaded phone's banner says it is not connected (not "the session has ended"), and a
-//             recovered phone gets a NEW SESSION CODE action that waits for a different ACTIVE session.
+//             recovered phone gets a NEW CODE action that waits for a different ACTIVE session.
 //   R2  (#2)  navigator.storage.persist() is asked once per page, never when storage is already persisted, never throws;
 //             START OVER / DELETE OLD CONNECTION proceed only on an explicit confirm()===true.
 //   R3  (#3)  a join whose acknowledgement was lost (or whose retry reads "already used") is recognised from the pair link
@@ -432,7 +432,7 @@ async function r1PanelPrompt(){
   h.api.openPanel();
   let body=h.dom.document.getElementById("sparkRemoteJoiningOverlay");
   assert.equal(buttons(body,"HOST PRIVATE SESSION").length,1);
-  assert.match(body.textContent,/takes your new code from NEW SESSION CODE on its game banner, or from Home > CONTINUE CAREER > CONNECTED/,"R1 a phone with no session is told where the other phone takes the new code");
+  assert.match(body.textContent,/takes your new code from NEW CODE on its game banner, or from Home > CONTINUE CAREER > CONNECTED/,"R1 a phone with no session is told where the other phone takes the new code");
   await h.api.joinSession(S1);
   body=h.dom.document.getElementById("sparkRemoteJoiningOverlay");
   const host=buttons(body,"HOST NEW SESSION (REPLACES CURRENT)"),join=buttons(body,"JOIN NEW SESSION (ENDS CURRENT)");
@@ -501,14 +501,14 @@ async function r1ReconnectBanner(){
     assert.equal(reloaded.api.getState().phase,"FRESH_SESSION_REQUIRED");
     assert.match(reloaded.status.text,/^NOT CONNECTED ON THIS PHONE · /,"R1 a phone with no session in memory says it is not connected");
     assert.doesNotMatch(reloaded.status.text,/has ended/,"R1 a reload is not reported as an ended session");
-    assert.match(reloaded.status.text,new RegExp(`Tap RECONNECT SESSION, then HOST and send the code to ${other}, or JOIN ${other}'s new code\\.`),"R1 the banner says to host or join a fresh session");
+    assert.match(reloaded.status.text,new RegExp(`Tap RECONNECT, then HOST and send the code to ${other}, or JOIN ${other}'s new code\\.`),"R1 the banner says to host or join a fresh session");
     const ended=reconnectHarness(role,activeRemote(S1,{expiresAtEpochMs:Date.now()-1000}));await ended.api.refresh();
     assert.ok(reloaded.status.text.length<=ended.status.text.length,"R1 the banner is no longer than the ended-session line (the two-manager journey showed a longer one reflows the game screens)");
     assert.ok(reloaded.button("sharedJourneyReconnectAction"),"R1 RECONNECT SESSION is still offered");
   }
   const expired=reconnectHarness("playerTwo",activeRemote(S1,{expiresAtEpochMs:Date.now()-1000}));
   await expired.api.refresh();
-  assert.match(expired.status.text,/NEW CONNECTION NEEDED · The connection ended \(sessions last up to 4 hours\)/,"R1 a truly expired session keeps its wording");
+  assert.match(expired.status.text,/NEW CONNECTION NEEDED · The connection ended \(a connection lasts up to 4 hours\)/,"R1 a truly expired session keeps its wording");
   console.log("ok R1 the reloaded phone is told it is not connected and how both phones reconnect");
 }
 
@@ -518,18 +518,18 @@ async function r1OtherPhonePrompt(){
   h.setRemote(activeRemote(S1));await settle();await h.api.refresh();
   assert.equal(h.api.getState().phase,"ACTIVE_RECOVERED");
   const fresh=h.button("sharedJourneyReconnectNewCode");
-  assert.ok(fresh,"R1 a phone that still holds its session gets a NEW SESSION CODE action");
-  assert.equal(fresh.textContent,"NEW SESSION CODE");
+  assert.ok(fresh,"R1 a phone that still holds its session gets a NEW CODE action");
+  assert.equal(fresh.textContent,"NEW CODE");
   assert.equal(h.button("sharedJourneyReconnectAction"),null,"R1 the RECONNECT SESSION action stays for ended sessions only");
   fresh.click();await settle();
-  assert.equal(h.panel.opens,1,"R1 NEW SESSION CODE opens Remote Joining");
+  assert.equal(h.panel.opens,1,"R1 NEW CODE opens Remote Joining");
   h.setRemote(activeRemote(S1,{revision:2}));await settle();
   assert.equal(h.panel.closes,0,"R1 the panel stays open while only the old session is ACTIVE");
   h.setRemote({...activeRemote(S1),sessionState:"closed"});await settle();
   assert.equal(h.panel.closes,0);
   h.setRemote(activeRemote(S2));await settle();
   assert.equal(h.panel.closes,1,"R1 the panel closes once the fresh session is ACTIVE");
-  console.log("ok R1 the phone that still holds the old session gets a usable NEW SESSION CODE prompt");
+  console.log("ok R1 the phone that still holds the old session gets a usable NEW CODE prompt");
 }
 
 (async()=>{

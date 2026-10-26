@@ -1,7 +1,7 @@
 "use strict";
 // r80: right after Daniel's END SHOWDOWN, Nik's Home (and History) must be the normal Home with no active Showdown and the
 // ended-early notice, never the reconnect banner. The r80 release gallery (home-after-end-showdown-nik, history-ended-early-nik)
-// showed "NOT CONNECTED ON THIS PHONE · A reload ends the session. Tap RECONNECT SESSION ... or JOIN Daniel's new code" with
+// showed "NOT CONNECTED ON THIS PHONE · Reloading drops the connection. Tap RECONNECT SESSION ... or JOIN Daniel's new code" with
 // a RECONNECT SESSION button over Nik's Home, on a Showdown that had ended (on the phone it overlapped the NIK / NO ACTIVE
 // SHOWDOWN badges and pushed Home down; on desktop the plate layer covered it). The emulator replay showed it stays for good.
 // Cause: Nik's page learns of the END from its own Terminal Close read (phase DELETED: closed, no finish witness), forgets the
@@ -65,7 +65,7 @@ const deleted=()=>({phase:"DELETED",rivalryId:RIVALRY,terminal:false});
 const assertNoBanner=(h,label)=>{
   assert.equal(h.api.getState(),null,`${label}: no reconnect state is held for an ended Showdown`);
   assert.equal(h.status.hidden,true,`${label}: the banner is hidden`);
-  assert.doesNotMatch(h.status.text,/NOT CONNECTED|RECONNECT SESSION/,`${label}: no NOT CONNECTED / RECONNECT SESSION text`);
+  assert.doesNotMatch(h.status.text,/NOT CONNECTED|RECONNECT/,`${label}: no NOT CONNECTED / RECONNECT SESSION text`);
   assert.equal(h.button(),null,`${label}: no RECONNECT SESSION button`);
   assert.deepEqual(h.reports,[],`${label}: nothing is reported`);
 };

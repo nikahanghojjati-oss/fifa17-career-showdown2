@@ -10,7 +10,7 @@
 //   S5 Final Winner: the last-season result line wraps in its own cell (1024x768); the plaque is 148 picture px tall.
 //   S6 Career Statistics 360x740: the Compare panel fits its seven rows above the action buttons.
 //   S7 Home 1024x768, 1100x600, 1024x600 and 1366x640: the soundtrack credit keeps one line and the card fits its content
-//      (AUDIUS SOUNDTRACK is not cut) and ends above the tile row; at 1024x600 RIVALRY HEADQUARTERS keeps one line, so HOME
+//      (AUDIUS SOUNDTRACK is not cut) and ends above the tile row; at 1024x600 SHOWDOWN HQ keeps one line, so HOME
 //      no longer runs into TWO MANAGERS · ONE LEGACY; from 1001px to 1099px the tile names fit their text column.
 //   S8 the browser audit covers every screen and window size above and fails on any finding outside its listed design items;
 //      test:browser (the Gate's full browser bundle) runs every screen at 1366x768, 1100x600, 1024x768, 844x390 and 393x660.
@@ -99,7 +99,7 @@ const homeCss=read("css/homeV10.css");
   assert.match(body,/top: auto !important; bottom: max\(180px, calc\(46\.7vh - max\(17vh, 116px\)\)\) !important;/,"the card keeps Team V's bottom edge, at least 8px above the tile row");
   assert.match(body,/height: auto !important; min-height: max\(17vh, 116px\);/,"the card grows upward to fit its content");
   const head=mediaBlock(homeCss,"(min-width: 901px) and (max-width: 1199px) and (min-height: 501px) and (max-height: 640px) and (orientation: landscape)");
-  assert.match(head,/#app #mainMenu\.v10Home \.fifaMenuHeadingMeta \.sd-label \{ font-size: min\(44px, 4vw\); \}/,"RIVALRY HEADQUARTERS keeps one line, so HOME stays under the lockup");
+  assert.match(head,/#app #mainMenu\.v10Home \.fifaMenuHeadingMeta \.sd-label \{ font-size: min\(44px, 4vw\); \}/,"SHOWDOWN HQ keeps one line, so HOME stays under the lockup");
   const names=mediaBlock(homeCss,"(min-width: 1001px) and (max-width: 1099px) and (min-height: 501px) and (orientation: landscape)");
   assert.match(names,/\.menuTile:not\(#continueCareer\) \.menuTileLabel \{ font-size: min\(20px, 1\.68vw\); \}/,"tile names fit their column at 1001-1099px");
   ok("S7 Home 1024x768, 1100x600, 1024x600, 1366x640: one-line soundtrack credit; the card fits its content above the tiles");

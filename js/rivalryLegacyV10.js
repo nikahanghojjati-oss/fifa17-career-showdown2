@@ -74,7 +74,7 @@
   // CE2PG: after a Showdown closes the pair holds no rivalry id but names the closed one, so a career read after Showdown A
   // and one after Showdown B no longer share a key (Standings and Settings showed A's career after B had finished).
   const context=()=>{const pair=state("CareerModePersistentNikDanielPair");return JSON.stringify([state("CareerModeSparkConnectedAccount")?.accountId??null,identity()?.managerId??null,pair?.rivalryId??null,pair?.closedRivalryId??null,markerEpoch()]);};
-  const report=error=>root.reportApplicationError?.("History and rivalry screens could not load",error);
+  const report=error=>root.reportApplicationError?.("History and stats screens could not load",error);
   const load=(key,file,global)=>root.loadRuntimeScript(key,file,()=>Boolean(root[global]));
   async function modelDependencies(){
     for(const [key,file,global] of [

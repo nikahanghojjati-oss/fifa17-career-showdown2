@@ -144,7 +144,7 @@ async function terminalRaceContracts(){
     assert.equal(result.ok,true,"the lost race resolves as the rival's identical close");
     assert.equal(result.closedByRival,true);assert.equal(result.replayed,true);
     assert.equal(env.closeCalls,1,"no second write");assert.equal(env.readCalls,2,"exactly one re-read");
-    state=api.getState();assert.equal(state.phase,"CLOSED","this phone now shows SHARED SHOWDOWN CLOSED");assert.equal(state.terminal,true);assert.equal(state.rivalryRevision,41);
+    state=api.getState();assert.equal(state.phase,"CLOSED","this phone now shows SHOWDOWN CLOSED");assert.equal(state.terminal,true);assert.equal(state.rivalryRevision,41);
     assert.equal(env.forgot,1,"the closed session is forgotten exactly as on the winning phone");
     assert.equal(reports.length,0,"nothing is reported to the player");
   }

@@ -35,7 +35,7 @@
     signingPrimary:"LOCK MY SIGNINGS",signingInvalid:"Complete signing {n} with player name, previous league and nationality.",
     signingPlaceholderName:"Player name",signingPlaceholderLeague:"Previous league",signingPlaceholderNationality:"Nationality",
     verdictHeading:"{MANAGER} · {CLUB}",verdictEmpty:"No signings were entered.",verdictRelease:"RELEASE · MATCHED BY RIVAL GUESS",verdictKeep:"KEEP · NO RIVAL GUESS MATCH",
-    continueLabel:"SHARED SEASON RESULTS COMING NEXT",guessRevealHeading:"{GUESSER} guesses {OWNER}'s signings"
+    continueLabel:"SEASON RESULTS NEXT",guessRevealHeading:"{GUESSER} guesses {OWNER}'s signings"
   });
   const tfNode=typeof module!=="undefined"&&module.exports;
 

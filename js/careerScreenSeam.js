@@ -11,10 +11,10 @@
     unavailable:"Career history is unavailable right now. Nothing is lost. Try again when you are reconnected.",
     partial:"Showing {readable} of {indexed} Showdowns. Some Showdowns could not be read, so these are not complete career totals.",
     empty:{
-      careerStatistics:"Career Statistics will build automatically after the first completed showdown. Current-showdown statistics remain available from Showdown Home.",
-      trophyRoom:"The Trophy Room is empty. Complete a showdown and its managers, trophies, records, and career statistics will appear here automatically.",
-      legacy:"No completed showdowns yet. Finish a rivalry and it will be archived here automatically.",
-      rivalryStatistics:"No season has been completed yet. Statistics will build automatically as seasons are finished."
+      careerStatistics:"Career Statistics appear after your first completed Showdown. Stats for the current Showdown are on Showdown Home.",
+      trophyRoom:"The Trophy Room is empty. Finish a Showdown and its trophies and records appear here.",
+      legacy:"No completed Showdowns yet. Finish one and it appears here.",
+      rivalryStatistics:"No season completed yet. Stats appear as seasons finish."
     },
     historyStatus:{completed:"Completed","in-progress":"In progress","completion-pending":"Final result, completion pending",abandoned:"Ended early",unavailable:"Unavailable"},
     winner:{daniel:"Daniel won",nik:"Nik won",draw:"Draw"}

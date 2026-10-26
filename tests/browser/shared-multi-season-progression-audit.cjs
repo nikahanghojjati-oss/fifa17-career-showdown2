@@ -102,14 +102,14 @@ async function runPlan(page,{role,saveId,totalSeasons,rivalrySeed}){
       assert.equal(await page.locator('#dashboardScoreTwo').textContent(),String(season),'Home must show Nik\'s accumulated shared points.');
       assert.equal(await page.locator('#dashboardRound').textContent(),`Season ${season+1} of ${totalSeasons}`,'Home must show the shared season cursor, not local currentRound.');
       assert.equal(await page.locator('#seasonIndicator').textContent(),`Season ${season+1} / ${totalSeasons}`);
-      assert.equal(await page.locator('#dashboardStatus').textContent(),`SHARED · ${season} OF ${totalSeasons} SEASONS ACCEPTED`);
+      assert.equal(await page.locator('#dashboardStatus').textContent(),`${season} OF ${totalSeasons} SEASONS PLAYED`);
       assert.match(await page.locator('#dashboardLastSeasonResult').textContent(),new RegExp(`Season ${season} · Daniel 3 - Nik 1 · DANIEL WON`));
       assert.equal(await page.locator('#dashboardPositionOne').textContent(),'Last league finish: 1');
       assert.equal(await page.locator('#dashboardPositionTwo').textContent(),'Last league finish: 3');
       assert.equal(await page.evaluate(()=>CareerModeProductionSharedMultiSeasonProgression.continueToNextSeason()),false,'duplicate advance without the next visible accepted history must fail closed.');
     }else{
       assert.equal(await action.isDisabled(),true,'terminal plan must not expose another season.');
-      assert.equal(await action.textContent(),'SEASON PLAN COMPLETE ✓');
+      assert.equal(await action.textContent(),'ALL SEASONS PLAYED ✓');
     }
   }
   return page.evaluate(({canonicalKeys,totalSeasons})=>({

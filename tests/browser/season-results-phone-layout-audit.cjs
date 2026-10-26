@@ -61,7 +61,7 @@ async function prepare(page,{role,saveId,failInitialRead=false}){
         await page.waitForFunction(()=>document.querySelector('.v10SeasonStage')&&document.querySelector('.season-title-wordmark').complete);
         await page.waitForFunction(()=>!document.querySelector('.v10SeasonStage').classList.contains('sd-motion-ready')||document.querySelector('.v10SeasonStage #screen-title').classList.contains('sd-entered'));
         const action=page.locator('#sharedSeasonCommitAction');
-        assert.equal(await action.textContent(),committed?'ACKNOWLEDGE SHARED SEASON':'COMMIT & ACKNOWLEDGE SHARED SEASON');
+        assert.equal(await action.textContent(),committed?'CONFIRM SEASON':'LOCK & CONFIRM SEASON');
         const before=await page.evaluate(()=>{
           const main=document.querySelector('#app main'),stage=document.querySelector('.v10SeasonStage'),panel=document.querySelector('#seasonReviewPanel');
           const title=document.querySelector('.season-title-wordmark').getBoundingClientRect(),tabs=document.querySelector('.season-phone-toolbar').getBoundingClientRect();

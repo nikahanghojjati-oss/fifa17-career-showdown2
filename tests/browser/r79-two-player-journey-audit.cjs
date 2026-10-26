@@ -220,21 +220,21 @@ async function publishSeasonResult(m){
 }
 // The final season's commit: Daniel's COMMIT & ACKNOWLEDGE, Nik's ACKNOWLEDGE; the close is automatic (no CLOSE tap).
 async function commitFinalSeasonViaUi(daniel,nik,p1,p2,seasonNumber){
-  await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="COMMIT & ACKNOWLEDGE SHARED SEASON",null,{timeout:45000});
-  await nik.page.waitForFunction(()=>/^(WAITING FOR COORDINATOR|ACKNOWLEDGE SHARED SEASON)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:45000});
-  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()==="WAITING FOR COORDINATOR")assert.equal(await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),true,"Nik cannot commit");
+  await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="LOCK & CONFIRM SEASON",null,{timeout:45000});
+  await nik.page.waitForFunction(()=>/^(WAITING FOR HOST|CONFIRM SEASON)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:45000});
+  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()==="WAITING FOR HOST")assert.equal(await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),true,"Nik cannot commit");
   await daniel.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
-  await daniel.page.waitForFunction(()=>/^(ACKNOWLEDGED ✓ · WAITING FOR RIVAL|SEASON COMMIT ACKNOWLEDGED ✓)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000});
-  await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="ACKNOWLEDGE SHARED SEASON",null,{timeout:45000});
+  await daniel.page.waitForFunction(()=>/^(CONFIRMED ✓ · WAITING FOR RIVAL|SEASON CONFIRMED ✓)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000});
+  await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="CONFIRM SEASON",null,{timeout:45000});
   await nik.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
   for(const m of [daniel,nik]){
-    await m.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="SEASON COMMIT ACKNOWLEDGED ✓"||window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="CLOSED",null,{timeout:45000});
+    await m.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="SEASON CONFIRMED ✓"||window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="CLOSED",null,{timeout:45000});
     await m.page.waitForFunction(()=>{const shown=id=>{const el=document.getElementById(id);return Boolean(el&&el.getClientRects().length&&getComputedStyle(el).visibility!=="hidden");};return shown("sharedCanonicalScoringPanel")||shown("finalWinnerScreen");},null,{timeout:45000});
     await m.page.waitForFunction(({n,s1,s2})=>{const t=id=>document.getElementById(id)?.textContent?.trim();return t("panelLastSeasonLabel")===`FINAL SEASON ${n}`&&t("panelLastSeasonDaniel")===String(s1)&&t("panelLastSeasonNik")===String(s2);},{n:seasonNumber,s1:p1,s2:p2},{timeout:60000});
   }
 }
 // After a reload the manager is back in the Showdown; if the app parks on the season dashboard, the player taps its primary
-// action (OPEN SHARED ... / VIEW SHARED TRANSFER VERDICTS) as in two-manager-browser-journey.cjs J9.3.
+// action (OPEN SHARED ... / VIEW TRANSFER VERDICTS) as in two-manager-browser-journey.cjs J9.3.
 // r79 gallery (fix 4): the reload runs with reduced motion, whose 220 ms splash minimum (js/app.js) cannot hide a Home frame the
 // way the 2.7 s one did: only the startup hold (js/ssjr.js, live-game resume) keeps Home off screen.
 async function reloadMidShowdown(m,{expectSession,expectShowdown,landing,button,screens="#dashboard, #transferChallenge, #seasonEntry"}){
@@ -270,11 +270,11 @@ async function reloadMidShowdown(m,{expectSession,expectShowdown,landing,button,
 }
 
 // r80: the Transfer Challenge's historical replay after a reload is tapped through (CONTINUE REPLAY, as in the two-manager journey
-// J9.3) until CONTINUE TO SHARED SEASON RESULTS shows; returns the taps.
+// J9.3) until CONTINUE TO SEASON RESULTS shows; returns the taps.
 async function tapThroughReplayToSeasonResults(m){
   let replayTaps=0;
   if(await m.page.locator("#transferChallenge").isVisible().catch(()=>false)){
-    const cont=m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true});
+    const cont=m.page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true});
     for(let i=0;i<12&&!(await cont.isVisible().catch(()=>false));i++){
       const replay=m.page.locator("#continueFromTransfers");
       if(await replay.isVisible().catch(()=>false)&&await replay.isEnabled().catch(()=>false)&&!/SEASON RESULTS/.test(await replay.textContent())){await replay.click({timeout:10000}).catch(()=>{});replayTaps+=1;}
@@ -371,14 +371,14 @@ async function assertCareerScreensShowCompletedShowdown(managers,id,{endedEarly=
 // A season that is not the last: Daniel's COMMIT & ACKNOWLEDGE, Nik's ACKNOWLEDGE, then both see the season's canonical score
 // and Shared History; CONTINUE TO SEASON N then opens the next season's Transfer Challenge (as two-manager-browser-journey.cjs).
 async function commitSeasonViaUi(daniel,nik,p1,p2,seasonNumber){
-  await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="COMMIT & ACKNOWLEDGE SHARED SEASON",null,{timeout:45000});
-  await nik.page.waitForFunction(()=>/^(WAITING FOR COORDINATOR|ACKNOWLEDGE SHARED SEASON)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:45000});
+  await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="LOCK & CONFIRM SEASON",null,{timeout:45000});
+  await nik.page.waitForFunction(()=>/^(WAITING FOR HOST|CONFIRM SEASON)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:45000});
   await daniel.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
-  await daniel.page.waitForFunction(()=>/^(ACKNOWLEDGED ✓ · WAITING FOR RIVAL|SEASON COMMIT ACKNOWLEDGED ✓)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000});
-  await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="ACKNOWLEDGE SHARED SEASON",null,{timeout:45000});
+  await daniel.page.waitForFunction(()=>/^(CONFIRMED ✓ · WAITING FOR RIVAL|SEASON CONFIRMED ✓)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000});
+  await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="CONFIRM SEASON",null,{timeout:45000});
   await nik.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
   for(const m of [daniel,nik]){
-    await m.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="SEASON COMMIT ACKNOWLEDGED ✓",null,{timeout:45000});
+    await m.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="SEASON CONFIRMED ✓",null,{timeout:45000});
     await m.page.waitForFunction(n=>{const s=window.CareerModeProductionSharedCanonicalScoring?.getState?.();return s?.phase==="SCORING_RECONCILED"&&s.seasonNumber===n;},seasonNumber,{timeout:60000});
     assert.equal((await m.page.locator("#sharedCanonicalScoringTotals").textContent()).trim(),`Daniel: ${p1} · Nik: ${p2}`,`${m.user}: season ${seasonNumber} canonical score`);
     await m.page.locator("#sharedHistoryConvergencePanel").waitFor({state:"visible",timeout:45000});
@@ -415,7 +415,7 @@ async function playTransferSeason(daniel,nik,tokenD,tokenN){
   await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
   for(const m of [daniel,nik]){
-    await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).click({timeout:30000});
+    await m.page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true}).click({timeout:30000});
     await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
   }
 }
@@ -429,9 +429,9 @@ async function playSetupToTransferChallenge(daniel,nik){
   await daniel.page.waitForFunction(()=>document.getElementById("clubCardTwo")?.classList.contains("is-revealed")&&document.getElementById("clubNameOne")?.textContent!=="?"&&document.getElementById("clubNameTwo")?.textContent!=="?",null,{timeout:30000});
   const clubs=await daniel.page.evaluate(()=>[document.getElementById("clubNameOne")?.textContent?.trim(),document.getElementById("clubNameTwo")?.textContent?.trim()]);
   await nik.page.waitForFunction(c=>document.getElementById("clubNameOne")?.textContent?.trim()===c[0]&&document.getElementById("clubNameTwo")?.textContent?.trim()===c[1],clubs,{timeout:30000});
-  for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).waitFor({state:"visible",timeout:30000});
-  await daniel.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).click({timeout:30000});
-  await nik.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).click({timeout:30000});
+  for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).waitFor({state:"visible",timeout:30000});
+  await daniel.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).click({timeout:30000});
+  await nik.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).click({timeout:30000});
   for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
@@ -551,9 +551,9 @@ async function main(){
     await daniel.page.waitForFunction(()=>document.getElementById("clubCardTwo")?.classList.contains("is-revealed")&&document.getElementById("clubNameOne")?.textContent!=="?"&&document.getElementById("clubNameTwo")?.textContent!=="?",null,{timeout:30000});
     const clubs=await daniel.page.evaluate(()=>[document.getElementById("clubNameOne")?.textContent?.trim(),document.getElementById("clubNameTwo")?.textContent?.trim()]);
     await nik.page.waitForFunction(c=>document.getElementById("clubNameOne")?.textContent?.trim()===c[0]&&document.getElementById("clubNameTwo")?.textContent?.trim()===c[1],clubs,{timeout:30000});
-    for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).waitFor({state:"visible",timeout:30000});
-    await daniel.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).click({timeout:30000});
-    await nik.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).click({timeout:30000});
+    for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).waitFor({state:"visible",timeout:30000});
+    await daniel.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).click({timeout:30000});
+    await nik.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).click({timeout:30000});
     for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
     await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
     await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
@@ -572,12 +572,12 @@ async function main(){
     await waitTransferPhase(daniel,"window");await waitTransferPhase(nik,"window");
     // Reload only once the shared window is open on the server (both pages read WINDOW_OPEN), so the reload tests the resume.
     await waitSharedTransferPhase(daniel,"WINDOW_OPEN");await waitSharedTransferPhase(nik,"WINDOW_OPEN");
-    const reloadD=await reloadMidShowdown(daniel,{expectSession:session1,expectShowdown:showdownD,landing:"#transferChallenge",button:"^OPEN SHARED TRANSFER WINDOW$"});
+    const reloadD=await reloadMidShowdown(daniel,{expectSession:session1,expectShowdown:showdownD,landing:"#transferChallenge",button:"^OPEN TRANSFER WINDOW$"});
     await waitSharedTransferPhase(daniel,"WINDOW_OPEN");await waitTransferPhase(daniel,"window");
     await daniel.page.locator("#endTransferTimer").waitFor({state:"visible",timeout:30000});
     ok("P3",`Daniel's reload mid-Showdown: same Showdown and session, back on the live transfer window, no Home frame (${reloadD.frames} frames, first: ${reloadD.firstScreens})`);
     // ---------- R80a Daniel continues the same season in a fresh browser ----------
-    daniel=await moveToFreshBrowser(browser,managers,retired,daniel,"Daniel",{width:393,height:660},{expectSession:session1,expectSaveId:showdownD.saveId,screens:"#dashboard, #transferChallenge",button:"^OPEN SHARED TRANSFER WINDOW$",landing:"#transferChallenge"});
+    daniel=await moveToFreshBrowser(browser,managers,retired,daniel,"Daniel",{width:393,height:660},{expectSession:session1,expectSaveId:showdownD.saveId,screens:"#dashboard, #transferChallenge",button:"^OPEN TRANSFER WINDOW$",landing:"#transferChallenge"});
     await waitSharedTransferPhase(daniel,"WINDOW_OPEN");await waitTransferPhase(daniel,"window");
     await daniel.page.locator("#endTransferTimer").waitFor({state:"visible",timeout:30000});
     assert.equal(await nik.page.locator("#transferChallenge").isVisible(),true,"Nik stayed on the live transfer window meanwhile");
@@ -617,12 +617,12 @@ async function main(){
     await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
     await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
     for(const m of [daniel,nik]){
-      await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).click({timeout:30000});
+      await m.page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true}).click({timeout:30000});
       await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
     }
     ok("P4.2","signings locked privately on both sides; the Transfer Challenge completed and both opened Season Results");
     // ---------- R80b both reload at the same time mid-season ----------
-    const reloadBoth=await Promise.all([daniel,nik].map(m=>reloadMidShowdown(m,{expectSession:session1,expectShowdown:m===daniel?showdownD:showdownN,landing:"#seasonEntry",button:"^(ENTER SHARED SEASON RESULTS|VIEW MY PUBLISHED RESULT|VIEW SHARED SEASON RESULTS)$"})));
+    const reloadBoth=await Promise.all([daniel,nik].map(m=>reloadMidShowdown(m,{expectSession:session1,expectShowdown:m===daniel?showdownD:showdownN,landing:"#seasonEntry",button:"^(ENTER SEASON RESULTS|VIEW MY PUBLISHED RESULT|VIEW SEASON RESULTS)$"})));
     const bothReplayTaps=[];for(const m of [daniel,nik])bothReplayTaps.push(await tapThroughReplayToSeasonResults(m));
     for(const m of [daniel,nik])await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
     ok("R80b",`both reloaded at the same time mid-season: same Showdown and session each, both back on Season Results, no Home frame (${reloadBoth.map(r=>r.frames).join("/")} frames; replay taps ${bothReplayTaps.join("/")})`);
@@ -632,15 +632,15 @@ async function main(){
     await publishSeasonResult(daniel);
     // A waiting spell (Daniel published, Nik not yet): both pages sit still for PARK_MS; its reads/min is the cost of waiting.
     meter.mark("park:start");await daniel.page.waitForTimeout(PARK_MS);meter.mark("park:end");
-    const reloadN=await reloadMidShowdown(nik,{expectSession:session1,expectShowdown:showdownN,landing:"#seasonEntry",button:"^(ENTER SHARED SEASON RESULTS|VIEW MY PUBLISHED RESULT|VIEW SHARED SEASON RESULTS)$"});
+    const reloadN=await reloadMidShowdown(nik,{expectSession:session1,expectShowdown:showdownN,landing:"#seasonEntry",button:"^(ENTER SEASON RESULTS|VIEW MY PUBLISHED RESULT|VIEW SEASON RESULTS)$"});
     // If the reload lands on the Transfer Challenge's historical replay, the player taps through it (CONTINUE REPLAY, as in
-    // two-manager-browser-journey.cjs J9.3) until CONTINUE TO SHARED SEASON RESULTS shows; the taps are counted and reported.
+    // two-manager-browser-journey.cjs J9.3) until CONTINUE TO SEASON RESULTS shows; the taps are counted and reported.
     const replayTaps=await tapThroughReplayToSeasonResults(nik);
     console.log(`P5 landing after Nik's reload: ${JSON.stringify(reloadN.landed)}; replay taps to get back to Season Results: ${replayTaps}`);
     assert.equal(await nik.page.locator("#seasonReviewOne").isVisible(),false,"Daniel's published result stays private from Nik after the reload");
     ok("P5",`Nik's reload mid-Showdown (Season Results): same Showdown and session, Daniel's result still private, no Home frame (${reloadN.frames} frames, first: ${reloadN.firstScreens})`);
     // ---------- R80c Nik continues the same season in a fresh browser ----------
-    nik=await moveToFreshBrowser(browser,managers,retired,nik,"Nik",{width:390,height:844},{expectSession:session1,expectSaveId:showdownN.saveId,screens:"#dashboard, #transferChallenge, #seasonEntry",button:"^(ENTER SHARED SEASON RESULTS|VIEW MY PUBLISHED RESULT|VIEW SHARED SEASON RESULTS)$",landing:"#seasonEntry"});
+    nik=await moveToFreshBrowser(browser,managers,retired,nik,"Nik",{width:390,height:844},{expectSession:session1,expectSaveId:showdownN.saveId,screens:"#dashboard, #transferChallenge, #seasonEntry",button:"^(ENTER SEASON RESULTS|VIEW MY PUBLISHED RESULT|VIEW SEASON RESULTS)$",landing:"#seasonEntry"});
     const freshReplayTaps=await tapThroughReplayToSeasonResults(nik);
     await nik.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
     assert.equal(await nik.page.locator("#seasonReviewOne").isVisible(),false,"Daniel's published result stays private from Nik in the fresh browser");
