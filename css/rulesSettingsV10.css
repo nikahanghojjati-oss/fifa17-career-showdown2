@@ -1211,3 +1211,7 @@
 #app #ruleBook.v10RuleBook .scoringRuleSection .ruleScoreNotes { margin-top:.9em; padding-top:.7em; border-top:1px solid rgba(214,176,70,.35); }
 /* r84: keep the update button clear of the SEASONS LEFT TODAY row at every size. */
 body #settingsOverlay.v10Settings #settingsContent .menuButton.settingsApplicationUpdateButton { margin-top: 10px; }
+/* r84 Golden Showdown: its own gold line in the Scoring card. Solid dark ground, gold border, ivory text for readability. */
+#app #ruleBook.v10RuleBook .scoringRuleSection .ruleGoldenShowdown { display:flex; flex-wrap:wrap; align-items:baseline; gap:.25em .7em; margin:.8em 0 0; padding:.6em .8em; background:#0b0a07; border:1px solid #e3b84a; border-left-width:4px; border-radius:2px; color:#f6eedb; font-size:1em; line-height:1.4; }
+#app #ruleBook.v10RuleBook .scoringRuleSection .ruleGoldenShowdown strong { color:#f7c93e; font-weight:700; letter-spacing:.08em; white-space:nowrap; }
+#app #ruleBook.v10RuleBook .scoringRuleSection .ruleGoldenShowdown span { min-width:0; }

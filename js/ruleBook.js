@@ -161,7 +161,6 @@ function createScoringRuleSection(){
         "A club that finishes 3rd in its Champions League group drops into the Europa League and can still win it.",
         "A club can also qualify for the Europa League by its league position.",
         "Only winning scores. Qualifying or taking part scores nothing.",
-        "Golden Showdown: score 110 points in a 10-season Showdown (11 in every season) to earn a gold trophy.",
         "Best possible season: 11, which needs the Champions League. A Europa League season tops out at 9."
     ].forEach(rule => {
         const item = document.createElement("li");
@@ -169,7 +168,16 @@ function createScoringRuleSection(){
         notes.appendChild(item);
     });
 
-    article.append(header, scoring, maximum, notes);
+    // r84 Golden Showdown: its own gold line under the season maximum (Nik 2026-10-26).
+    const golden = document.createElement("p");
+    golden.className = "ruleGoldenShowdown";
+    const goldenLabel = document.createElement("strong");
+    goldenLabel.textContent = "GOLDEN SHOWDOWN";
+    const goldenText = document.createElement("span");
+    goldenText.textContent = "Score 110 points in a 10-season Showdown (11 in every season) to win the gold trophy.";
+    golden.append(goldenLabel, goldenText);
+
+    article.append(header, scoring, maximum, golden, notes);
     return article;
 }
 
