@@ -90,7 +90,7 @@
   #settingsOverlay.v10Settings .settingsEyebrow.sd-eyebrow { font-size:clamp(11px,1vw,16px); padding-inline-start:.5em; }
   #settingsOverlay.v10Settings .settingsFooter { height:auto; line-height:normal; }
 }
-#settingsOverlay.v10Settings .menuButton.settingsApplicationUpdateButton { width:auto; clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); }
+#settingsOverlay.v10Settings .menuButton.settingsApplicationUpdateButton { width:auto; margin-top:10px; clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); }
 #settingsOverlay.v10Settings .menuButton.sd-btn { width:auto; min-height:44px; margin-top:0; padding:0 20px; font:700 14px/1 var(--sd-font-condensed); letter-spacing:.12em; transform:none; }
 #settingsOverlay.v10Settings .menuButton.sd-btn--secondary { color:var(--sd-gold-300); background:rgba(8,9,12,.9); border:1px solid var(--sd-edge); }
 #settingsOverlay.v10Settings .menuButton.sd-btn--primary { min-width:142px; color:var(--sd-text-on-gold); background:var(--sd-gold-500); border:0; box-shadow:0 4px 18px rgba(245,197,24,.2); }
