@@ -243,6 +243,8 @@
 @media (max-width: 699px) and (orientation: portrait) {
   :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { gap: 8px; }
   :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleBookDisclosureHeader { min-height: 52px; margin: 0; padding: 6px 12px; }
+  /* r84 look fix: the fixed settings gear sat over a header's chevron when a section was scrolled to the top; keep room on the right. */
+  :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleBookDisclosureHeader { padding-right: 56px; }
   :root #app #ruleBook.v10RuleBook .ruleBookDisclosure > :not(summary) { margin: 0 14px; padding: 12px 0 14px; }
   :root #app #ruleBook.v10RuleBook .ruleSectionHeader h3 { font-size: 17px; }
   :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection li { padding-left: 16px; }

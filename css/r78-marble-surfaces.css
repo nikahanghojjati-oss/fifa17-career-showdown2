@@ -649,3 +649,18 @@
   right: 6px !important;
   color: var(--r78-gold) !important;
 }
+
+/* r84 look fix: on a phone the Career Start card was a short box over the busy Club Assignment screen. It now fills the
+   screen as one clean marble panel (no scrim, no blur): one column of rows, larger copy, the buttons stacked at the foot. */
+@media (max-width: 600px) and (orientation: portrait) {
+  :root:not(#r78):not(#r78) #productionSharedCareerStartOverlay { align-items: stretch; padding: 12px; }
+  :root:not(#r78):not(#r78) #productionSharedCareerStartOverlay .remoteJoiningShell { display: flex; flex-direction: column; width: 100%; max-height: none; min-height: calc(100svh - 24px); }
+  :root:not(#r78):not(#r78) #productionSharedCareerStartOverlay .remoteJoiningBody { flex: 1 1 auto; display: flex; flex-direction: column; gap: 14px; padding: 22px 18px 20px; }
+  :root:not(#r78):not(#r78) #productionSharedCareerStartOverlay .remoteJoiningBody h2 { margin: 0; font-size: 28px; line-height: 1.1; }
+  :root:not(#r78):not(#r78) #productionSharedCareerStartOverlay .remoteJoiningBody > p:not(.remoteJoiningStatus) { margin: 0; font-size: 17px; line-height: 1.5; }
+  :root:not(#r78):not(#r78) #productionSharedCareerStartOverlay .settingsInfoGrid { grid-template-columns: minmax(0, 1fr); gap: 10px; margin: 6px 0 0; }
+  :root:not(#r78):not(#r78) #productionSharedCareerStartOverlay .settingsInfoRow { padding: 12px 14px; gap: 6px; }
+  :root:not(#r78):not(#r78) #productionSharedCareerStartOverlay .remoteJoiningStatus { margin: 0; padding: 14px; font-size: 16px; line-height: 1.45; }
+  :root:not(#r78):not(#r78) #productionSharedCareerStartOverlay .remoteJoiningActions { grid-template-columns: minmax(0, 1fr); gap: 10px; margin-top: auto; padding-top: 8px; }
+  :root:not(#r78):not(#r78) #productionSharedCareerStartOverlay .remoteJoiningActions .compactButton { min-height: 54px; font-size: 16px; }
+}
