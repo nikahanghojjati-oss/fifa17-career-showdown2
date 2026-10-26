@@ -542,6 +542,15 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.equal(next.basis,"earlier","the next day starts from the last day's cost");
     assert.equal(next.billedPerSeason,left.billedPerSeason);
     assert.equal(next.seasons,Math.floor(50000/left.billedPerSeason));
+    // Codex #999: a season that runs past the Google day keeps its reads from before the reset.
+    const split=new Map();const lateDay=createWorld({storage:split});seed(lateDay);
+    lateDay.budget.noteSeasonDone("pair_y|1",false);
+    for(let i=0;i<699;i++)lateDay.budget.countListenerRead();
+    lateDay.setVisible(false);
+    const after=createWorld({storage:split,now:lateDay.clock.now+24*3600000});
+    after.budget.countListenerRead();
+    after.budget.noteSeasonDone("pair_y|2",true);
+    assert.equal(after.budget.seasonsLeftToday().billedPerSeason,Math.round(700*2.8*2),"the whole season's reads count, before and after the reset");
   });
 
   await check("FB7","a listener that falls behind the server is dropped within 5 s and the screen reads the server",async()=>{
