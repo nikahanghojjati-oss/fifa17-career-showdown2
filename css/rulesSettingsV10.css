@@ -1209,3 +1209,5 @@
 
 /* r80 Europa League: the scoring card's notes (CL or EL, season 1, best season) sit below the maximum line with clear space. */
 #app #ruleBook.v10RuleBook .scoringRuleSection .ruleScoreNotes { margin-top:.9em; padding-top:.7em; border-top:1px solid rgba(214,176,70,.35); }
+/* r84: keep the update button clear of the SEASONS LEFT TODAY row at every size. */
+body #settingsOverlay.v10Settings #settingsContent .menuButton.settingsApplicationUpdateButton { margin-top: 10px; }
