@@ -2187,6 +2187,14 @@
         "^tests/(contracts/r83-home-join-expiry-contracts|support/home-join-window-fixture)\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r84-final-reconciliation-loop-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedFinalReconciliation\\.js$",
+        "^tests/contracts/r84\\-final\\-reconciliation\\-loop\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
