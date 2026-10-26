@@ -12,7 +12,7 @@
 //           counted listener attaches only, so this is the stricter number.)
 //   writes  each document a committed setDoc / updateDoc / deleteDoc / addDoc / writeBatch / transaction writes (1 per
 //           document); failed transactions write nothing.
-// This is a client-side count of what the app asks Firestore for. It is not the billed count: Security Rules get()/exists()
+// This is a client-side count of what the app asks Firestore for. It is not the billed count (billed-meter.cjs adds that): Security Rules get()/exists()
 // lookups are billed on top on the real service and are not visible here (see gameplay/r76 JOB-1825 for that model).
 const fs=require("node:fs");
 const path=require("node:path");
@@ -21,11 +21,16 @@ const REAL_MODULE="__cms-real-firebase-firestore.js";
 const WRAPPER_SOURCE=`// Firestore meter wrapper (tests/browser/support/firestore-meter.cjs). Test-only.
 import * as R from "./${REAL_MODULE}";
 export * from "./${REAL_MODULE}";
-const emit=e=>{try{if(typeof globalThis.__cmsMeterEvent==="function")globalThis.__cmsMeterEvent({t:Date.now(),...e});}catch(_){}};
+try{Error.stackTraceLimit=60;}catch(_){}
+// st: the calling js/ frames (module:line), so a read can be attributed to the game module that asked for it. req: one id per commit
+// (a batch or a transaction), so the Rules lookups of its writes are billed once per distinct document per request.
+const stk=()=>{try{return String(new Error().stack).split("\\n").filter(l=>/\\/js\\//.test(l)).map(l=>{const m=/(async )?(?:at )?([^\\s(]*)\\s*\\(?[^()]*\\/js\\/([^:/?]+\\.js)[^:]*:(\\d+):(\\d+)/.exec(l);return m?(m[3]+":"+m[4]+":"+m[5]+(m[2]?"("+m[2]+")":"")):l.trim();}).slice(0,10).join(" < ");}catch(_){return "";}};
+let reqSeq=0;
+const emit=e=>{try{if(typeof globalThis.__cmsMeterEvent==="function")globalThis.__cmsMeterEvent({t:Date.now(),st:e.st!==undefined?e.st:stk(),...e});}catch(_){}};
 const pathOf=ref=>{try{return ref&&ref.path?ref.path:(ref&&ref._query&&ref._query.path?"QUERY:"+ref._query.path.canonicalString():"?");}catch(_){return "?";}};
 export async function getDoc(ref){emit({k:"read",op:"getDoc",path:pathOf(ref),n:1});return R.getDoc(ref);}
 export async function getDocFromServer(ref){emit({k:"read",op:"getDocFromServer",path:pathOf(ref),n:1});return R.getDocFromServer(ref);}
-export async function getDocs(q){const snap=await R.getDocs(q);emit({k:"read",op:"getDocs",path:pathOf(q),n:Math.max(1,snap.size)});return snap;}
+export async function getDocs(q){const st=stk();const snap=await R.getDocs(q);emit({k:"read",op:"getDocs",path:pathOf(q),n:Math.max(1,snap.size),st});return snap;}
 export function onSnapshot(...args){
   const target=pathOf(args[0]);
   emit({k:"listener",op:"onSnapshot",path:target,n:0});
@@ -54,23 +59,23 @@ export function writeBatch(db){
   const b=R.writeBatch(db),paths=[];
   const proxy=new Proxy(b,{get(t,p){
     if(p==="set"||p==="update"||p==="delete")return (ref,...a)=>{paths.push(pathOf(ref));t[p](ref,...a);return proxy;};
-    if(p==="commit")return async()=>{const r=await t.commit();for(const x of paths)emit({k:"write",op:"batch",path:x,n:1});return r;};
+    if(p==="commit")return async()=>{const st=stk();const r=await t.commit();const req=++reqSeq;for(const x of paths)emit({k:"write",op:"batch",path:x,n:1,req,st});return r;};
     const v=t[p];return typeof v==="function"?v.bind(t):v;
   }});
   return proxy;
 }
 export function runTransaction(db,updateFn,options){
-  let pending=[];
+  let pending=[];const txst=stk();
   return R.runTransaction(db,async transaction=>{
     pending=[];
     const proxy={
-      get:ref=>{emit({k:"read",op:"tx.get",path:pathOf(ref),n:1});return transaction.get(ref);},
+      get:ref=>{emit({k:"read",op:"tx.get",path:pathOf(ref),n:1,st:txst});return transaction.get(ref);},
       set:(ref,...a)=>{pending.push({op:"tx.set",path:pathOf(ref)});transaction.set(ref,...a);return proxy;},
       update:(ref,...a)=>{pending.push({op:"tx.update",path:pathOf(ref)});transaction.update(ref,...a);return proxy;},
       delete:ref=>{pending.push({op:"tx.delete",path:pathOf(ref)});transaction.delete(ref);return proxy;}
     };
     return updateFn(proxy);
-  },options).then(res=>{for(const w of pending)emit({k:"write",op:w.op,path:w.path,n:1});emit({k:"tx",ok:true});return res;},
+  },options).then(res=>{const req=++reqSeq;for(const w of pending)emit({k:"write",op:w.op,path:w.path,n:1,req,st:txst});emit({k:"tx",ok:true});return res;},
     err=>{emit({k:"tx",ok:false,code:err&&err.code||null,msg:String(err&&err.message||err).slice(0,120)});throw err;});
 }
 `;
