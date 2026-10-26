@@ -121,8 +121,12 @@
     const controls=hmEl("div","menuMusicControls");controls.append(nextToggle,nextMute);
     card.replaceChildren(header,sheet,label("phoneTrackSheetOpen","TRACKS",true),selector,label("phoneTrackSheetBackdrop","",true),label("phoneTrackSheetClose","CLOSE",false),deck,status,controls);
     card.dataset.mediaKind="music";card.dataset.v10Media="audius";
+    // r84: the desktop strip hides the status line until playback fails or goes offline (the line stays a live region).
+    const syncMusicAlert=()=>{const text=status.textContent||"";card.dataset.failed=String(text===MEDIA.statusError||/OFFLINE/i.test(text));};
+    if(typeof root.MutationObserver==="function")new root.MutationObserver(syncMusicAlert).observe(status,{childList:true,characterData:true,subtree:true});
     root.HomeSoundtrack.init(MEDIA);
     if(offlineText){nextToggle.disabled=true;nextToggle.setAttribute("aria-disabled","true");status.textContent=offlineText;}
+    syncMusicAlert();
   }
   // js/offlineApp.js disables the toggle and writes its offline line; when it comes back online it restores the
   // line it saved (the YouTube one), so the Audius player redraws its own status.

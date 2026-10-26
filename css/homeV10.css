@@ -1470,57 +1470,32 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
   #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel { font-size: min(20px, 1.68vw); }
 }
 
-/* r84 look fix: on desktop the soundtrack card sat over Nik. It now takes the open lounge area on the left, under the
-   TWO MANAGERS line and above the HOME / SHOWDOWN HQ block, clear of the sofa banner, Daniel's hand and both managers.
-   Same nodes, words and tap order; short windows use a two-row card so nothing overlaps. */
+/* r84 look fix (Nik 2026-10-26: keep the card on the right): on desktop the soundtrack is one slim strip in the bottom-right
+   corner, just above the photo credit and the tile row, so it only crosses the lower part of Nik's jacket. It stays clear
+   of the faces, Daniel's hand, the banner, the title, the credit and the tiles at every desktop size. Same nodes, words and
+   tap order. */
 @media (min-width: 1200px) and (min-height: 600px) and (orientation: landscape) {
   #app #mainMenu.v10Home .menuMusicTile,
   #app #mainMenu.v10Home .menuMusicTile.side {
-    --plate-s: max(100vw / 1536, 100vh / 864);
-    left: calc(140 * var(--plate-s) + 12px) !important; right: auto !important; width: calc(310 * var(--plate-s)) !important;
-    top: auto !important; bottom: calc(100vh - var(--tile-top) + 142px) !important;
-    height: auto !important; min-height: 0 !important; max-height: none !important;
-    padding: 6px 10px; column-gap: 8px; row-gap: 2px; align-items: center;
-    grid-template-columns: 40px minmax(0, 1fr) auto; grid-template-rows: auto auto auto;
-    grid-template-areas: "player head tracks" "status status status" "ctrl ctrl ctrl";
-  }
-  #app #mainMenu.v10Home .menuMusicHeader { grid-area: head; min-width: 0; }
-  #app #mainMenu.v10Home .menuMusicHeader span { font-size: 9px; letter-spacing: .14em; }
-  #app #mainMenu.v10Home .menuMusicHeader strong { font-size: 17px; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  #app #mainMenu.v10Home .menuMusicArtist { font-size: 11px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  #app #mainMenu.v10Home .menuMusicSource { display: none; }
-  #app #mainMenu.v10Home .menuMusicPlayer { grid-area: player; align-self: center; }
-  #app #mainMenu.v10Home .phoneTrackSheetOpen { grid-area: tracks; align-self: start; }
-  #app #mainMenu.v10Home .menuMusicStatus { grid-area: status; font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0; }
-  #app #mainMenu.v10Home .menuMusicControls { grid-area: ctrl; justify-self: end; align-self: center; }
-}
-@media (min-aspect-ratio: 2/1) and (min-width: 1200px) and (min-height: 700px) and (orientation: landscape) {
-  /* ultrawide: the sofa text sits further right, keep the card clear of it */
-  #app #mainMenu.v10Home .menuMusicTile,
-  #app #mainMenu.v10Home .menuMusicTile.side { left: calc(160 * var(--plate-s) + 20px) !important; }
-}
-@media (min-width: 1800px) and (min-height: 800px) and (orientation: landscape) {
-  #app #mainMenu.v10Home .menuMusicArtist { white-space: normal; overflow: visible; text-overflow: clip; }
-}
-@media (min-width: 1200px) and (min-height: 600px) and (max-height: 820px) and (orientation: landscape) {
-  #app #mainMenu.v10Home .menuMusicControls .menuMusicControl { min-height: 34px; height: 34px; }
-  #app #mainMenu.v10Home .menuMusicHeader strong { font-size: 15px; }
-}
-/* Windows under 700px tall: no lounge room between the title and the HOME block, so the card becomes one slim strip in the
-   free band under the nav bar, over the left column. */
-@media (min-width: 1200px) and (min-height: 600px) and (max-height: 699px) and (orientation: landscape) {
-  #app #mainMenu.v10Home .menuMusicTile,
-  #app #mainMenu.v10Home .menuMusicTile.side {
-    left: var(--gutter, 32px) !important; top: calc(var(--sd-nav-top-h, 52px) + 3px) !important; bottom: auto !important;
-    width: min(480px, calc(48vw - 40px)) !important; height: 38px !important; padding: 2px 8px; column-gap: 8px; row-gap: 0;
-    grid-template-columns: 30px minmax(0, 1fr) auto auto; grid-template-rows: auto;
+    left: auto !important; right: var(--gutter, 32px) !important; width: min(540px, 40vw) !important;
+    top: auto !important; bottom: calc(100vh - var(--tile-top) + 28px) !important;
+    height: 46px !important; min-height: 0 !important; max-height: none !important;
+    padding: 4px 10px; column-gap: 10px; row-gap: 0; align-items: center;
+    grid-template-columns: 32px minmax(0, 1fr) auto auto; grid-template-rows: auto;
     grid-template-areas: "player head ctrl tracks";
   }
-  #app #mainMenu.v10Home .menuMusicHeader span, #app #mainMenu.v10Home .menuMusicStatus { display: none; }
-  #app #mainMenu.v10Home .menuMusicHeader strong { font-size: 14px; }
-  #app #mainMenu.v10Home .menuMusicArtist { font-size: 10px; }
-  #app #mainMenu.v10Home .menuMusicControls .menuMusicControl, #app #mainMenu.v10Home .phoneTrackSheetOpen { min-height: 30px; height: 30px; }
-  #app #mainMenu.v10Home .phoneTrackSheetOpen { align-self: center; }
-  #app #mainMenu.v10Home .menuMusicPlayer { --vinyl: 24px; }
+  #app #mainMenu.v10Home .menuMusicHeader { grid-area: head; min-width: 0; }
+  #app #mainMenu.v10Home .menuMusicHeader span, #app #mainMenu.v10Home .menuMusicSource { display: none; }
+  /* the status line stays a live region for screen readers; it is shown in place of the title only when playback fails */
+  #app #mainMenu.v10Home .menuMusicStatus { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; margin: 0; }
+  #app #mainMenu.v10Home .menuMusicTile[data-failed="true"] { grid-template-areas: "player status ctrl tracks"; }
+  #app #mainMenu.v10Home .menuMusicTile[data-failed="true"] .menuMusicHeader { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  #app #mainMenu.v10Home .menuMusicTile[data-failed="true"] .menuMusicStatus { grid-area: status; position: static; width: auto; height: auto; clip-path: none; min-width: 0; overflow: hidden; white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; font-size: 11px; line-height: 1.25; color: var(--cream); }
+  #app #mainMenu.v10Home .menuMusicHeader strong { font-size: 15px; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #app #mainMenu.v10Home .menuMusicArtist { font-size: 11px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #app #mainMenu.v10Home .menuMusicPlayer { grid-area: player; align-self: center; --vinyl: 28px; }
   #app #mainMenu.v10Home .menuMusicPlayer .eq { display: none; }
+  #app #mainMenu.v10Home .menuMusicControls { grid-area: ctrl; align-self: center; gap: 6px; }
+  #app #mainMenu.v10Home .menuMusicControls .menuMusicControl, #app #mainMenu.v10Home .phoneTrackSheetOpen { min-height: 34px; height: 34px; }
+  #app #mainMenu.v10Home .phoneTrackSheetOpen { grid-area: tracks; align-self: center; }
 }
