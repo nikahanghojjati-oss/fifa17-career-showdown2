@@ -964,3 +964,16 @@
   #app #transferChallenge .tw-host .phone-hero-bg { -webkit-mask-image: none; mask-image: none; }
   #app #transferChallenge .tw-host :is(.phone-hero-art, .phone-hero-bg)::after { content: none; }
 }
+
+/* r84 look fix: on a phone the stats line and the rule note sat straight on the marble, and the end-early button was a
+   see-through gradient, so their small text was low contrast. Same solid near-black base the other phone panels use
+   (no scrim, no blur); the footer step labels and title get a little more ink. */
+@media (max-width: 760px) and (orientation: portrait) {
+  #app #transferChallenge .tw-host .rules-card.with-line { background-color: #070707; background-image: none; border: 1px solid rgba(214, 176, 70, .4); box-shadow: none; }
+  #app #transferChallenge .tw-host .rules-card.with-line .rules-inner { padding: 8px 6px; }
+  #app #transferChallenge .tw-host .rules-card.with-line .rule-note { color: #f4f1ea; }
+  #app #transferChallenge .tw-host .sign-status { background-color: #07080a; }
+  #app #transferChallenge .tw-host .btn-end:not(:disabled) { background-color: #0a0805; }
+  #app #transferChallenge .tw-host .hud-footer .hud-title { color: #ffe08a; }
+  #app #transferChallenge .tw-host .hud-footer .num { color: rgba(244, 231, 200, .75); }
+}
