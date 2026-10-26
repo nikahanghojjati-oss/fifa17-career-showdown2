@@ -260,10 +260,10 @@ function ruleBook(){
   const score=flat(book.all().find(n=>n.className==="ruleScoreTable")).map(r=>r.children.map(c=>c.textContent));
   assert.deepEqual(score.slice(0,2),[["Champions League winner","+5"],["Europa League winner","+3"]]);
   assert.equal(book.all().find(n=>n.className==="ruleScoreMaximum").textContent,"MAXIMUM PER MANAGER / SEASON11","the season maximum stays 11");
-  assert.ok(items.includes("A Champions League or Europa League final may be played or simulated by the manager."),"the EL final may be played, like the CL final");
-  assert.ok(items.includes("The main domestic cup final may be played or simulated by the manager."),"the cup final line is unchanged");
+  assert.ok(items.includes("You may play or simulate a Champions League or Europa League final."),"the EL final may be played, like the CL final");
+  assert.ok(items.includes("You may play or simulate the main domestic cup final."),"the cup final line is unchanged");
   const notes=flat(book.all().find(n=>n.className==="ruleScoreNotes")).map(n=>n.textContent).join(" ");
-  for(const pattern of [/A manager can never win both the Champions League and the Europa League in the same season\. A manager can win the Champions League in one season and the Europa League in another, and both count\./,/Season 1: both clubs play in the Champions League/,/redrawing the Champions League groups twice/,/3rd in its Champions League group drops into the Europa League/,/qualify for the Europa League by its league position/,/Best possible season: 11, which needs the Champions League\. A Europa League season tops out at 9\./])assert.match(notes,pattern);
+  for(const pattern of [/You can't win the Champions League and the Europa League in the same season\. Winning each in different seasons counts both\./,/Season 1: both clubs play in the Champions League/,/redrawing the Champions League groups twice/,/3rd in its Champions League group drops into the Europa League/,/qualify for the Europa League by its league position/,/Best possible season: 11, which needs the Champions League\. A Europa League season tops out at 9\./])assert.match(notes,pattern);
   assert.equal(book.all().filter(n=>n.className==="ruleSection"||n.className==="ruleSection scoringRuleSection").length,6,"still six rule cards");
   ok("E7 Rule Book: EL +3 row, CL or EL never both, the season 1 Champions League setup note, the EL final may be played, best season 11 / EL 9, six cards");
 }

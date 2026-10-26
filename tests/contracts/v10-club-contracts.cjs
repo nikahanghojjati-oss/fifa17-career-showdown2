@@ -254,7 +254,7 @@ async function browserChecks(){
       // Team V's decoration is aria-hidden; the product text (title, VS, button labels) is still the product's.
       const a11y=await page.evaluate(()=>{const s=document.getElementById("clubWheelScreen");return {decor:[...s.querySelectorAll("[data-cl-decor]")].filter(n=>n.dataset.clDecor!=="wrap").every(n=>n.getAttribute("aria-hidden")==="true"),
         title:s.querySelector(":scope > h2 .sd-visually-hidden").textContent,confirm:document.getElementById("continueClubAssignment").textContent.trim()};});
-      assert.deepEqual(a11y,{decor:true,title:"CLUB ASSIGNMENT",confirm:"CONFIRM RIVALRY & START SHOWDOWN"});
+      assert.deepEqual(a11y,{decor:true,title:"CLUB ASSIGNMENT",confirm:"CONFIRM & START SHOWDOWN"});
       await page.setViewportSize({width:1920,height:1080});
       await page.evaluate(()=>{window.navigateBackSmart=window.__clBack;});
     });
@@ -282,7 +282,7 @@ async function browserChecks(){
         const s=document.getElementById("clubWheelScreen");
         const status=document.createElement("p");status.id="sharedShowdownPresentationStatus";status.className="stateNote";status.setAttribute("role","status");status.textContent="FINAL CONFIRMATION · Each manager confirms on their own device.";s.insertBefore(status,s.firstChild);
         const panel=document.createElement("section");panel.id="sharedShowdownSeasonChoice";panel.className="clubRivalryConfirmation sharedShowdownSeasonPanel";
-        panel.innerHTML='<span class="screenEyebrow">SHARED SHOWDOWN · FINAL SETUP</span><h3>5 SEASONS LOCKED</h3><p class="stateNote" data-shared-season-copy="true">Daniel\'s original season choice is authoritative and identical on this device.</p><div class="sharedSeasonChoices"><button type="button" class="compactButton hidden" data-shared-season="1">1 SEASON</button></div>';
+        panel.innerHTML='<span class="screenEyebrow">FINAL SETUP</span><h3>5 SEASONS LOCKED</h3><p class="stateNote" data-shared-season-copy="true">Daniel\'s original season choice is authoritative and identical on this device.</p><div class="sharedSeasonChoices"><button type="button" class="compactButton hidden" data-shared-season="1">1 SEASON</button></div>';
         document.getElementById("clubRivalryConfirmation").insertAdjacentElement("afterend",panel);
       });
       for(const size of [{width:390,height:844},{width:1920,height:1080},{width:1920,height:910}]){

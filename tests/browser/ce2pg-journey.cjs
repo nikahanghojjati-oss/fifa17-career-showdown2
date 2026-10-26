@@ -107,8 +107,8 @@ const report={
   realUiSteps:[
     "SIGN IN WITH GOOGLE and the player choice (the emulator switch answers the Google popup with an Auth-emulator account)",
     "Home START automatically writes the career marker; Nik pastes the first real code once; later Showdowns: Daniel's Home START, Nik's Home JOIN tile",
-    "league wheel SPIN, club pack OPEN, CONFIRM SHARED SHOWDOWN, I STARTED AT <club> (both)",
-    "Shared Transfer Challenge every season: START, early end (both), guesses, LOCK MY GUESSES, signings, LOCK MY SIGNINGS, CONTINUE TO SHARED SEASON RESULTS",
+    "league wheel SPIN, club pack OPEN, CONFIRM SHOWDOWN, I STARTED AT <club> (both)",
+    "Shared Transfer Challenge every season: START, early end (both), guesses, LOCK MY GUESSES, signings, LOCK MY SIGNINGS, CONTINUE TO SEASON RESULTS",
     "season results typed and published (Daniel first, Nik first, or at the same time), COMMIT & ACKNOWLEDGE (Daniel), ACKNOWLEDGE (Nik), CONTINUE TO SEASON n",
     "after every season: SHOWDOWN HOME, Standings (bottom bar: THIS SHOWDOWN, CAREER), Career Statistics (TABLE, COMPARE, LEADERS), Trophy Room (MORE on a phone), Legacy (VIEW SEASON HISTORY), Rivalry Statistics, Settings; then CONTINUE SHOWDOWN back into the game",
     "Showdown Champion screen, HONOURS tab, BACK TO SHOWDOWN HOME; Settings > END SHOWDOWN (Showdown C)",
@@ -466,9 +466,9 @@ async function playSetup(daniel,nik){
   const read=m=>m.page.evaluate(()=>[document.getElementById("clubNameOne")?.textContent?.trim(),document.getElementById("clubNameTwo")?.textContent?.trim()]);
   const clubs=await read(daniel);
   await nik.page.waitForFunction(c=>document.getElementById("clubNameOne")?.textContent?.trim()===c[0]&&document.getElementById("clubNameTwo")?.textContent?.trim()===c[1],clubs,{timeout:30000});
-  for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).waitFor({state:"visible",timeout:30000});
-  await daniel.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).click({timeout:30000});
-  await nik.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).click({timeout:30000});
+  for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).waitFor({state:"visible",timeout:30000});
+  await daniel.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).click({timeout:30000});
+  await nik.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).click({timeout:30000});
   for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
@@ -526,7 +526,7 @@ async function publish(m){
 }
 async function playSeasonResults(daniel,nik,k,planSeason){
   for(const m of [daniel,nik]){
-    await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).click({timeout:30000});
+    await m.page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true}).click({timeout:30000});
     await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
   }
   const mode=k%3===0?"simultaneous":k%2===1?"daniel-first":"nik-first";
@@ -546,17 +546,17 @@ async function playSeasonResults(daniel,nik,k,planSeason){
   return mode;
 }
 async function commitSeason(daniel,nik,k,planSeason,final){
-  await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="COMMIT & ACKNOWLEDGE SHARED SEASON",null,{timeout:45000});
-  await nik.page.waitForFunction(()=>["WAITING FOR COORDINATOR","ACKNOWLEDGE SHARED SEASON"].includes(document.getElementById("sharedSeasonCommitAction")?.textContent),null,{timeout:45000});
-  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()==="WAITING FOR COORDINATOR")await check(nik,`${showdownNow}.S${k}.commit.coordinator`,"Nik cannot commit the season",await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),"button enabled",{screen:"Shared Season Commit"});
+  await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="LOCK & CONFIRM SEASON",null,{timeout:45000});
+  await nik.page.waitForFunction(()=>["WAITING FOR HOST","CONFIRM SEASON"].includes(document.getElementById("sharedSeasonCommitAction")?.textContent),null,{timeout:45000});
+  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()==="WAITING FOR HOST")await check(nik,`${showdownNow}.S${k}.commit.coordinator`,"Nik cannot commit the season",await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),"button enabled",{screen:"Shared Season Commit"});
   await daniel.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
-  await daniel.page.waitForFunction(()=>/^(ACKNOWLEDGED ✓ · WAITING FOR RIVAL|SEASON COMMIT ACKNOWLEDGED ✓)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000});
-  await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="ACKNOWLEDGE SHARED SEASON",null,{timeout:45000});
+  await daniel.page.waitForFunction(()=>/^(CONFIRMED ✓ · WAITING FOR RIVAL|SEASON CONFIRMED ✓)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000});
+  await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="CONFIRM SEASON",null,{timeout:45000});
   await nik.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
   const exp={d:scoreSeason(planSeason.daniel),n:scoreSeason(planSeason.nik),w:seasonWinner(planSeason.daniel,planSeason.nik)};
   const winnerText=exp.w.side==="draw"?"Season result: Draw":`Season winner: ${NAMES[exp.w.side]}`;
   for(const m of [daniel,nik]){
-    await m.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="SEASON COMMIT ACKNOWLEDGED ✓"||window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="CLOSED"||document.getElementById("finalWinnerScreen")&&getComputedStyle(document.getElementById("finalWinnerScreen")).visibility!=="hidden"&&document.getElementById("finalWinnerScreen").getClientRects().length>0,null,{timeout:45000});
+    await m.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="SEASON CONFIRMED ✓"||window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="CLOSED"||document.getElementById("finalWinnerScreen")&&getComputedStyle(document.getElementById("finalWinnerScreen")).visibility!=="hidden"&&document.getElementById("finalWinnerScreen").getClientRects().length>0,null,{timeout:45000});
     if(!final){
       await m.page.waitForFunction(n=>{const s=window.CareerModeProductionSharedCanonicalScoring?.getState?.();return s?.phase==="SCORING_RECONCILED"&&s.seasonNumber===n;},k,{timeout:60000});
       await m.page.locator("#sharedCanonicalScoringPanel").waitFor({state:"visible",timeout:15000});
@@ -578,7 +578,7 @@ async function checkSharedHistory(m,k,total,seasons){
   const heading=await textOf(m,"#sharedHistoryConvergenceHeading"),summary=await textOf(m,"#sharedHistoryConvergenceSummary"),records=await textOf(m,"#sharedHistoryConvergenceRecords"),trophies=await textOf(m,"#sharedHistoryConvergenceTrophies");
   debug(`${showdownNow} S${k} history ${m.user}`,`${heading} | ${summary} | ${records} | ${trophies}`);
   const lead=t.daniel.total===t.nik.total?"TIED":t.daniel.total>t.nik.total?`Daniel +${t.daniel.total-t.nik.total}`:`Nik +${t.nik.total-t.daniel.total}`;
-  await eq(m,`${showdownNow}.S${k}.history.heading`,"Shared History heading",heading,"SHARED HISTORY CONVERGED",{screen:"Shared History"});
+  await eq(m,`${showdownNow}.S${k}.history.heading`,"Shared History heading",heading,"HISTORY UP TO DATE",{screen:"Shared History"});
   const wantSummary=new RegExp(`^${k} of ${total} seasons? accepted · [A-Z0-9 ]+ · Overall: Daniel ${t.daniel.total} · Nik ${t.nik.total} · Lead: ${lead.replace("+","\\+")}$`);
   await check(m,`${showdownNow}.S${k}.history.summary`,"Shared History overall totals and lead",wantSummary.test(summary),`expected "${k} of ${total} seasons accepted ... Overall: Daniel ${t.daniel.total} · Nik ${t.nik.total} · Lead: ${lead}" but saw "${summary}"`,{screen:"Shared History"});
   const wantRec=u=>new RegExp(`${NAMES[u]} · .+ · ${t[u].W}W ${t[u].D}D ${t[u].L}L · ${t[u].total} showdown pts`);

@@ -46,7 +46,7 @@ A.ok(showdown.includes('showdown.name="Daniel vs Nik"'));
 A.ok(showdown.includes('showdown.managers={playerOne:"Daniel",playerTwo:"Nik"}'));
 A.ok(showdown.includes('navigator.onLine===false'));
 A.ok(showdown.includes('identity.status!=="ready"'));
-A.ok(ruleBook.includes('Career Mode Showdown is a two-player rivalry for Daniel and Nik.'));
+A.ok(ruleBook.includes('Career Mode Showdown is a two-player game for Daniel and Nik.'));
 A.ok(ruleBook.includes('Daniel is Player One. Nik is Player Two.'));
 A.ok(!ruleBook.includes('for new Showdowns'));
 A.ok(!ruleBook.includes('QR joining and multi-device real-time play are future ideas'));

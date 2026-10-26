@@ -16,7 +16,7 @@ assert.match(previous,new RegExp(`^\\d+\\.\\d+\\.\\d+-r${generation-1}$`),"A pro
 assert.match(app,new RegExp(`const APP_VERSION = "${version.replace(/\./g,"\\.")}";`));
 assert.match(worker,new RegExp(`const RUNTIME_REVISION = "${runtime.replace(/\./g,"\\.")}";`));
 assert.match(html,new RegExp(`<footer>Career Mode Showdown<br>v${version.replace(/\./g,"\\.")}<\\/footer>`));
-assert.match(html,/<span class="menuTileCode">SETTINGS<\/span><span class="menuTileLabel">SETTINGS<\/span><span class="menuTileMeta">Account, device and preferences<\/span>/);
+assert.match(html,/<span class="menuTileCode">SETTINGS<\/span><span class="menuTileLabel">SETTINGS<\/span><span class="menuTileMeta">Account and preferences<\/span>/);
 assert.match(html,/<span class="menuTileCode">NEW<\/span><span class="menuTileLabel">START A SHOWDOWN<\/span>/);
 assert.match(html,/<span class="menuTileCode">CAREER<\/span><span class="menuTileLabel">CONTINUE CAREER<\/span>/);
 assert.doesNotMatch(html,/LOCAL SAVE SYSTEM|LOCAL SAVE READY|Private Remote Joining|SAVE LIBRARY|NEW ONLINE SHOWDOWN|ONLINE SHOWDOWN/i);

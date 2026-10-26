@@ -119,7 +119,7 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
     });
     const careerStartButton=host.locator("#continueClubAssignment");
     await careerStartButton.waitFor({state:"visible",timeout:3000});
-    assert.equal(await careerStartButton.textContent(),"CONFIRM SHARED SHOWDOWN");
+    assert.equal(await careerStartButton.textContent(),"CONFIRM SHOWDOWN");
     await careerStartButton.click();
     await host.waitForFunction(()=>window.__careerStartOpenCount===1,null,{timeout:5000});
     assert.equal((await host.evaluate(()=>window.__getSharedMutationCounts())).confirm,1,"The final manager confirmation must be written exactly once.");

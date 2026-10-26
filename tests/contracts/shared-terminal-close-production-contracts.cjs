@@ -33,7 +33,7 @@ for(const required of [
   'protocol.closeResult(intent,result)',
   'TERMINAL_CLOSE_ACTIVE_SESSION_REQUIRED',
   'RECOVERY_PENDING',
-  'RETRY SAME TERMINAL CLOSE',
+  'TRY CLOSING AGAIN',
   'remoteApi?.forgetSession?.()',
   'career-mode-shared-terminal-close-state-change'
 ])assert.ok(runtime.includes(required),required);

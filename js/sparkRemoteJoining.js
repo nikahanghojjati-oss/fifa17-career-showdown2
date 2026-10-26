@@ -630,7 +630,7 @@
     }else{
       current.append(srjCreate("p","remoteJoiningEmpty","No session capability is held in page memory."));
       // BH-11 (#1): after a reload the other phone may still show the game with the old session; say where it takes the new code.
-      current.append(srjCreate("p","remoteJoiningMeta","If the other phone still shows the game, it takes your new code from NEW SESSION CODE on its game banner, or from Home > CONTINUE CAREER > CONNECTED."));
+      current.append(srjCreate("p","remoteJoiningMeta","If the other phone still shows the game, it takes your new code from NEW CODE on its game banner, or from Home > CONTINUE CAREER > CONNECTED."));
     }
     body.appendChild(current);
     const note=srjCreate("p","remoteJoiningStatus",srjState.message);note.setAttribute("role","status");note.setAttribute("aria-live","polite");body.appendChild(note);

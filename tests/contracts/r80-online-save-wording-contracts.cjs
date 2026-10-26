@@ -50,7 +50,7 @@ const SIGN_IN_AND_DEVICE=Object.freeze({
   "js/onlinePlayerIdentity.js":["Your player identity and this browser.","This browser could not be prepared."],
   "js/persistentNikDanielPair.js":["This browser is not ready yet."," for this phone on Home, then join again.","CHOOSE DANIEL OR NIK FOR THIS DEVICE FIRST"],
   "js/productionSharedJourneyEntry.js":["THIS BROWSER"],
-  "js/productionSharedJourneyReconnect.js":["NOT CONNECTED ON THIS PHONE · A reload ends the session. "],
+  "js/productionSharedJourneyReconnect.js":["NOT CONNECTED ON THIS PHONE · Reloading drops the connection. "],
   "js/productionSharedShowdownSetup.js":["Register this browser before Shared Setup."],
   "js/productionSharedTerminalClose.js":["This browser must remain an active registered device."],
   "js/sparkConnectedRivalry.js":["Private connected-rivalry pointer storage is unavailable in this browser.","This browser is not a registered private device.","Registered device identity does not match this browser.","Register this browser privately before using Connected Rivalry."],
@@ -158,9 +158,9 @@ const REMOVED=Object.freeze([
 ]);
 check("W7 r80 Season Results: the result check speaks of the shared result, and no removed local-era string comes back",()=>{
   const lr=read("js/productionSharedLocalReconciliation.js");
-  assert.match(lr,/lrText\(ui\.heading,"SHARED RESULT CHECK"\);/);
-  assert.match(lr,/lrText\(ui\.summary,"Compare the shared result with your Showdown without changing it\. Apply is available only in advanced recovery\."\);/);
-  assert.match(lr,/"CHECKING YOUR SAVE…":"PREVIEW SHARED RESULT"/);
+  assert.match(lr,/lrText\(ui\.heading,"RESULT CHECK"\);/);
+  assert.match(lr,/lrText\(ui\.summary,"Compare the online result with your saved Showdown\. Nothing changes; Apply is only in advanced recovery\."\);/);
+  assert.match(lr,/"CHECKING YOUR SAVE…":"PREVIEW RESULT"/);
   const legacy=read("js/legacy.js");
   assert.match(legacy,/backupTitle\.textContent = "BACKUP FILE";/);
   assert.match(legacy,/"Download a checksum-protected backup file before destructive maintenance\./);

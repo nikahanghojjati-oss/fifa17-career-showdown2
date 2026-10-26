@@ -40,7 +40,7 @@ async function visibleInk(page,selector){
           const actions=document.querySelector("#seasonReviewPanel .seasonReviewActions");
           const status=document.createElement("p");status.id="sharedMultiSeasonProgressionStatus";
           status.className="seasonReviewWarning sharedMultiSeasonProgressionStatus";
-          status.textContent="SEASON 1 HISTORY IS READY · CONTINUE ONCE TO SEASON 2";
+          status.textContent="SEASON 1 SAVED · CONTINUE TO SEASON 2";
           const button=document.createElement("button");button.id="sharedMultiSeasonProgressionAction";
           button.className="menuButton";button.textContent="CONTINUE TO SEASON 2";
           actions.prepend(status,button);

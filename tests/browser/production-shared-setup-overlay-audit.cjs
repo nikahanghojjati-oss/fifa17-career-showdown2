@@ -52,7 +52,7 @@ const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
     assert.equal(opened,true,"Shared Setup openPanel must resolve successfully for an already ACTIVE host session");
     assert.equal(await page.locator("#productionSharedSetupOverlay .remoteJoiningState").textContent(),"EMPTY · REV 0");
     assert.equal(await page.evaluate(()=>document.activeElement&&document.activeElement.classList.contains("remoteJoiningDismiss")),true,"Shared Setup must focus the dismiss button without calling an element as a function");
-    await page.getByRole("button",{name:"OPEN SHARED SETUP"}).click();
+    await page.getByRole("button",{name:"OPEN SETUP"}).click();
     await page.waitForFunction(()=>CareerModeProductionSharedShowdownSetup.getState().revision===1);
     const state=await page.evaluate(()=>CareerModeProductionSharedShowdownSetup.getState());
     assert.equal(state.ready,true);

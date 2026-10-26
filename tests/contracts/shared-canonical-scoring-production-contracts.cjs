@@ -20,7 +20,7 @@ const commitRefresh=source.indexOf('await commitApi.refresh()');
 assert.ok(firstReadyGate>=0&&commitRefresh>firstReadyGate,"r11 must remain dormant until cached r10 ACKNOWLEDGED authority exists before refreshing the Season Commit provider.");
 assert.match(source,/commitApi\.refresh\(\)/);assert.match(source,/state\.phase==="ACKNOWLEDGED"/);assert.match(source,/state\.revision===3/);assert.match(source,/provider\.read\(await pcscProviderOptions\(request\)\)/);
 assert.match(source,/ensureAccountServices\(\)/);assert.match(source,/setup\.sessionId/);assert.match(source,/setup\.deviceId/);assert.match(source,/nowEpochMs:Date\.now\(\)/);
-assert.match(source,/sharedCanonicalScoringPanel/);assert.match(source,/SHARED CANONICAL SCORE/);assert.match(source,/Champions League/);assert.match(source,/League Title/);assert.match(source,/Domestic Cup/);assert.match(source,/Performance Bonus/);assert.match(source,/Awards Bonus/);assert.match(source,/Season winner:/);
+assert.match(source,/sharedCanonicalScoringPanel/);assert.match(source,/SEASON SCORE/);assert.match(source,/Champions League/);assert.match(source,/League Title/);assert.match(source,/Domestic Cup/);assert.match(source,/Performance Bonus/);assert.match(source,/Awards Bonus/);assert.match(source,/Season winner:/);
 
 const seasonCommitInstall=bootstrap.indexOf('const seasonCommit=install("ssjr-production-season-commit"');
 const seasonProtocolPrepare=bootstrap.indexOf('["ssjr-season-commit-protocol","js/sharedSeasonCommit.js","CareerModeSharedSeasonCommit"]');

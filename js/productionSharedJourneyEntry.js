@@ -65,7 +65,7 @@
       if(locked&&!presentationOwns&&!resume){resume=create("button","menuButton","CONTINUE CAREER");resume.id=SHARED_CONTINUE_ID;resume.type="button";resume.addEventListener("click",()=>void continueFromLockedWheel());wheel.insertBefore(resume,wheel.querySelector(".backButton")||null);}
       if((!locked||presentationOwns)&&resume)resume.remove();
       let note=root.document.getElementById("sharedJourneyLeagueLockNote");
-      if(locked&&!presentationOwns&&!note){note=create("p","stateNote","Daniel and Nik must both be connected before league selection.");note.id="sharedJourneyLeagueLockNote";wheel.insertBefore(note,wheel.firstChild);}
+      if(locked&&!presentationOwns&&!note){note=create("p","stateNote","Connect Daniel and Nik to pick the league.");note.id="sharedJourneyLeagueLockNote";wheel.insertBefore(note,wheel.firstChild);}
       if((!locked||presentationOwns)&&note)note.remove();
     }
   }
@@ -417,7 +417,7 @@
     const status=options.status||await statusSnapshot();if(generation!==renderGeneration)return false;
     if(routesToRemote(status,options)){await openRemote();return false;}
     const confirmed=status.active?await confirmedSetupSnapshot():null;if(generation!==renderGeneration)return false;
-    body.replaceChildren();body.append(create("span","remoteJoiningEyebrow","CAREER MODE SHOWDOWN"),create("h2","","GET READY"),create("p","","Daniel and Nik must both be connected before the career begins."));
+    body.replaceChildren();body.append(create("span","remoteJoiningEyebrow","CAREER MODE SHOWDOWN"),create("h2","","GET READY"),create("p","","Connect Daniel and Nik before the career starts."));
     const grid=create("div","settingsInfoGrid");
     grid.append(row("ACCOUNT",status.accountReady?"READY":"REQUIRED"),row("THIS BROWSER",status.deviceReady?"READY":"REQUIRED"),row("DANIEL + NIK",status.rivalryReady?"CONNECTED":"CONNECT"),row("CAREER",status.active?"READY":"WAITING"));body.append(grid);
     const actions=create("div","remoteJoiningActions");
