@@ -1494,6 +1494,11 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
   #app #mainMenu.v10Home .menuMusicStatus { grid-area: status; font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0; }
   #app #mainMenu.v10Home .menuMusicControls { grid-area: ctrl; justify-self: end; align-self: center; }
 }
+@media (min-aspect-ratio: 2/1) and (min-width: 1200px) and (min-height: 700px) and (orientation: landscape) {
+  /* ultrawide: the sofa text sits further right, keep the card clear of it */
+  #app #mainMenu.v10Home .menuMusicTile,
+  #app #mainMenu.v10Home .menuMusicTile.side { left: calc(160 * var(--plate-s) + 20px) !important; }
+}
 @media (min-width: 1800px) and (min-height: 800px) and (orientation: landscape) {
   #app #mainMenu.v10Home .menuMusicArtist { white-space: normal; overflow: visible; text-overflow: clip; }
 }
