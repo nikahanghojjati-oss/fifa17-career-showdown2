@@ -719,7 +719,7 @@
 @media (max-width:900px) and (orientation:portrait), (max-height:480px) and (orientation:landscape) {
   #app #trophyRoom {
     --tr-hub:var(--sd-nav-bottom-space,56px);
-    --tr-hero:clamp(128px,calc(36svh - 60px),224px);
+    --tr-hero:clamp(128px,calc(36svh - 44px),240px);
     --tr-row:clamp(86px,calc((100svh - var(--tr-hero) - var(--tr-hub) - 190px)/2),170px);
   }
   #app #trophyRoom :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,
@@ -744,7 +744,7 @@
   #app #trophyRoom .trophyBrushTitle {width:100%;height:clamp(28px,5.6svh,42px);margin:2px 0;object-fit:contain}
   #app #trophyRoom .trophyEyebrow {font-size:8px;line-height:1.2;letter-spacing:.14em}
   #app #trophyRoom .trophyTagline {font-size:7px;line-height:1.2;letter-spacing:.12em}
-  #app #trophyRoom .heroCeremony {position:absolute;inset:68px 33% auto;width:34%;height:calc(var(--tr-hero) - 68px);margin:0;display:block}
+  #app #trophyRoom .heroCeremony {position:absolute;inset:106px 33% auto;width:34%;height:calc(var(--tr-hero) - 106px);margin:0;display:block}
   #app #trophyRoom .heroTrophyPicture {left:15%;top:0;width:70%;height:calc(100% - 28px)}
   #app #trophyRoom .heroPlinth {left:0;right:0;bottom:0;height:28px;min-height:28px;clip-path:none;padding:3px 1px}
   #app #trophyRoom .heroPlinth span {font-size:9px;line-height:1.1;white-space:normal;overflow:visible;letter-spacing:.03em}
