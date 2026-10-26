@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-26 9:31 AM Boston time (EDT)",
+ "generated": "2026-10-26 3:31 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1223,12 +1223,12 @@
      "title": "Release 1.9.8-r84: plain wording, Golden Showdown, far fewer Firebase reads",
      "draft": false,
      "branch": "gameplay/r84",
-     "sha": "02c346777a12f35d8195501b0c910a600670cd15",
-     "updated": "2026-10-26T12:44:57Z",
+     "sha": "378015a4dc0ccd2b01dce431b4ee11096b373c2e",
+     "updated": "2026-10-26T19:13:03Z",
      "gates": {
-      "passed": 6,
+      "passed": 8,
       "running": 0,
-      "failed": 2,
+      "failed": 0,
       "cancelled": 0
      }
     }
@@ -1238,7 +1238,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear (from GitHub).",
-   "gate": "Gate #1002: L1✓ L2✗ L4✓ L5✓ L6✓ · POS20 #1002 6/8",
+   "gate": "Gate #1002: L1✓ L2✓ L4✓ L5✓ L6✓ · POS20 #1002 8/8",
    "source": "github"
   },
   "v_headline": "Queued next",
@@ -3006,12 +3006,12 @@
     "title": "Release 1.9.8-r84: plain wording, Golden Showdown, far fewer Firebase reads",
     "draft": false,
     "branch": "gameplay/r84",
-    "sha": "02c346777a12f35d8195501b0c910a600670cd15",
-    "updated": "2026-10-26T12:44:57Z",
+    "sha": "378015a4dc0ccd2b01dce431b4ee11096b373c2e",
+    "updated": "2026-10-26T19:13:03Z",
     "gates": {
-     "passed": 6,
+     "passed": 8,
      "running": 0,
-     "failed": 2,
+     "failed": 0,
      "cancelled": 0
     }
    }
