@@ -43,6 +43,7 @@
   // BH-7: throttled, single-flight re-ask of Connected Rivalry (see ptcRetryUnavailableRivalry).
   const RIVALRY_RETRY_MS=30000;
   let rivalryRetryAt=0,rivalryRetryInFlight=false;
+  const POLL_FRESH_MS=45000;let pollFreshAt=Date.now();
   let protocol=null,provider=null,finalApi=null,runtimeApi=null,accountApi=null,pairingApi=null,rivalryApi=null,remoteApi=null;
 
   function ptcFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
@@ -358,6 +359,10 @@
     // r75: while the close is pending (FINAL RESULT READY TO CLOSE and the pending/blocked states) the partner may close at
     // any moment, so this check reads the rivalry root fresh instead of from the budget layer's quiet reuse.
     if(["READY","RECOVERY_PENDING","BLOCKED"].includes(ptcCurrentState()?.phase))root.CareerModeFirestoreBudget?.wantFresh?.(`rivalries/${request.rivalryId}`);
+    // r84: between seasons nothing else re-reads the rivalry now that Final Reconciliation no longer loops, so the 60 s quiet reuse
+    // could hold a partner's END SHOWDOWN for up to 75 s. A timer wake (no event) reads the rivalry root fresh at most every 45 s:
+    // one extra read per 3 min per device, and the idle phone goes Home within ~45 s.
+    else if(!event&&Date.now()-pollFreshAt>=POLL_FRESH_MS){pollFreshAt=Date.now();root.CareerModeFirestoreBudget?.wantFresh?.(`rivalries/${request.rivalryId}`);}
     void ptcRefresh();
   }
   function ptcInstall(){
@@ -368,11 +373,7 @@
     for(const event of ["career-mode-shared-wait-context-change","career-mode-shared-final-reconciliation-state-change","career-mode-connected-account-state-change","career-mode-connected-rivalry-state-change","career-mode-active-save-changed","career-mode-save-library-authority-invalidated","career-mode-showdown-state-change"]){root.addEventListener?.(event,ptcWake);}
     root.document?.addEventListener?.("visibilitychange",ptcWake);
     root.addEventListener?.("career-mode-permanent-pair-ended",event=>ptcNoteEnded(event?.detail?.closedRivalryId));
-    // r84: between seasons nothing else re-reads the rivalry now that Final Reconciliation no longer loops, so the 60 s quiet reuse
-    // could hold a partner's END SHOWDOWN for up to 75 s. Every third poll (45 s) reads the rivalry root fresh: one extra read per
-    // 3 min per device, and the idle phone goes Home within ~45 s.
-    let pollCount=0;
-    if(typeof root.setInterval==="function")root.setInterval(()=>{if(root.CareerModeProductionSharedSeasonCommit?.waitingListenerHealthy?.())return;pollCount+=1;const request=pollCount%3===0?ptcRequest():null;if(request&&root.document?.visibilityState!=="hidden")root.CareerModeFirestoreBudget?.wantFresh?.(`rivalries/${request.rivalryId}`);ptcWake();},POLL_MS);
+    if(typeof root.setInterval==="function")root.setInterval(()=>{if(!root.CareerModeProductionSharedSeasonCommit?.waitingListenerHealthy?.())ptcWake();},POLL_MS);
     if(typeof root.setTimeout==="function")root.setTimeout(ptcWake,0);
     return true;
   }
