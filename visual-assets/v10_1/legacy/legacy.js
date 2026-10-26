@@ -232,6 +232,20 @@ window.ShowdownLegacyBoot = function () {
     footer.className = "legacyCardFooter";
     footer.textContent = copy(strings, "seasons", { played: showdown.seasonsPlayed, total: showdown.totalSeasons });
     card.append(title, body, footer);
+    // r84 Golden Showdown: a gold line names each manager who closed this 10-season Showdown on 110 points.
+    const golden = Array.isArray(showdown.goldenShowdown) ? showdown.goldenShowdown.filter((manager) => manager === "daniel" || manager === "nik") : [];
+    if (golden.length) {
+      card.dataset.golden = "true";
+      const mark = document.createElement("span");
+      mark.className = "legacyGoldenShowdown";
+      mark.dataset.goldenShowdown = "true";
+      const star = document.createElement("span");
+      star.className = "legacyGoldenShowdownStar";
+      star.textContent = "★";
+      star.setAttribute("aria-hidden", "true");
+      mark.append(star, document.createTextNode(" " + (strings.ui.goldenShowdown || "Golden Showdown") + " · " + golden.map((manager) => strings.ui.managers[manager]).join(" & ")));
+      card.appendChild(mark);
+    }
     if (showdown.status === "completion-pending" || showdown.status === "in-progress") {
       const state = document.createElement("span");
       state.className = "legacyCardState";

@@ -100,6 +100,14 @@
       tr.innerHTML=`<td>${rr.rank}</td><td><span class="managerName">${rr.rank===1?'<span class="rankCrown" aria-label="Career leader">♛</span>':''}${NAMES[role]}</span></td><td>${s.completed}</td><td>${m.seasonWins}-${m.seasonDraws}-${m.seasonLosses}</td><td>${m.careerPoints}</td><td>${m.totalTrophies}</td>`;
       body.appendChild(tr);
     }); t.appendChild(body); panel.appendChild(t);
+    // r84 Golden Showdown: a gold line names each manager who closed a 10-season Showdown on 110 points.
+    const golden=frame.goldenShowdowns;
+    if (golden && (golden.daniel>0 || golden.nik>0)) {
+      const note=document.createElement("p"); note.className="goldenShowdownNote"; note.dataset.goldenShowdown="true";
+      const who=["daniel","nik"].filter(role=>golden[role]>0).map(role=>`${NAMES[role]} ×${golden[role]}`).join(" · ");
+      note.innerHTML=`<img src="${window.CAREER_STATISTICS_BASE || ""}../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="" aria-hidden="true"><strong>${fx.strings.goldenShowdown || "GOLDEN SHOWDOWN"}</strong><span>${who}</span>`;
+      panel.appendChild(note);
+    }
   }
   function renderComparison(frame, fx) {
     const panel=document.getElementById("comparisonPanel"); panel.replaceChildren();

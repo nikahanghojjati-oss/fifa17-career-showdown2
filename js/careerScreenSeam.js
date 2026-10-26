@@ -55,6 +55,19 @@
     let date="-";if(at){try{date=new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric"}).format(at);}catch(_error){date="-";}}
     return TEXT.historyStatus.abandoned+" · "+date+" · "+(played===null?"- seasons":played+(played===1?" season":" seasons"));
   }
+  // r84 Golden Showdown (Nik): a manager who scores 110 Showdown points (11, the most a season can score, in every season)
+  // in a finished 10-season Showdown. Each manager is judged on their own total, so both can earn it in one Showdown. An
+  // ended-early, unfinished or shorter Showdown never earns it. Read from the completed rows already loaded; nothing is stored.
+  const GOLDEN_SHOWDOWN=Object.freeze({seasons:10,points:110});
+  function goldenShowdownManagers(row){
+    if(!row||row.status!=="completed"||row.totalSeasons!==GOLDEN_SHOWDOWN.seasons||row.seasonsPlayed!==GOLDEN_SHOWDOWN.seasons||!row.totals)return [];
+    return ["daniel","nik"].filter(manager=>Number.isInteger(row.totals[manager])&&row.totals[manager]>=GOLDEN_SHOWDOWN.points);
+  }
+  function goldenShowdownCounts(rows){
+    const counts={daniel:0,nik:0};
+    for(const row of Array.isArray(rows)?rows:[])for(const manager of goldenShowdownManagers(row))counts[manager]+=1;
+    return counts;
+  }
   function csNumber(value){return value===null?"-":Number.isInteger(value)?String(value):value.toFixed(1);}
   function csNumeric(value){return value===null||typeof value==="number"&&Number.isFinite(value);}
   function csFieldsValid(fields,record){return Boolean(record&&fields.every(([,key])=>csNumeric(record[key])));}
@@ -157,5 +170,5 @@
     }
     fragment.appendChild(root);return fragment;
   }
-  return csFreeze({contractVersion:1,SCREENS,STATUSES,TEXT,endedEarlyText,normalizeRenderRequest,isOnlineCareerRoute,selectCareerScreenSource,careerScreenView,paintCareerScreenView});
+  return csFreeze({contractVersion:1,SCREENS,STATUSES,TEXT,GOLDEN_SHOWDOWN,endedEarlyText,goldenShowdownManagers,goldenShowdownCounts,normalizeRenderRequest,isOnlineCareerRoute,selectCareerScreenSource,careerScreenView,paintCareerScreenView});
 });
