@@ -162,7 +162,7 @@ async function assertPrivateEntry(page,role){
   const ownPrefix=role==='playerOne'?'p1':'p2',otherPrefix=role==='playerOne'?'p2':'p1';
   assert.equal(await page.locator(`#${ownPrefix}LeaguePosition`).isVisible(),true,'signed-in manager must receive their own seven-field form');
   assert.equal(await page.locator(`#${otherPrefix}LeaguePosition`).isVisible(),false,'opponent form must stay hidden before both publish');
-  assert.match(await page.locator('#seasonEntry .seasonEntryHint').textContent(),/Enter only/);
+  assert.match(await page.locator('#seasonEntry .seasonEntryHint').textContent(),/Enter .*'s FIFA 17 season result/);
   assert.deepEqual(await page.evaluate(()=>window.__ssjrResultsAudit.localState()),{selectedLeague:null,clubs:{playerOne:null,playerTwo:null},transferChallenges:[],rounds:[],score:{playerOne:0,playerTwo:0}},'opening shared results must not fabricate local setup, transfer, rounds or scoring authority');
 }
 
@@ -225,7 +225,7 @@ async function reviewTamperAndPublish(page,role,result,{lostAcknowledgement=fals
     assert.equal(await peer.locator('#seasonReviewOne').isVisible(),true,'second publisher may see opponent only after RESULTS_READY');
     assert.equal(await peer.locator('#seasonReviewTwo').isVisible(),true);
     await peer.locator('#sharedSeasonCommitAction').waitFor({state:'visible',timeout:5000});
-    assert.equal(await peer.locator('#sharedSeasonCommitAction').textContent(),'WAITING FOR COORDINATOR','real routed Season Commit adapter must render the peer wait state after RESULTS_READY');
+    assert.equal(await peer.locator('#sharedSeasonCommitAction').textContent(),'WAITING FOR HOST','real routed Season Commit adapter must render the peer wait state after RESULTS_READY');
 
     assert.equal(await host.evaluate(()=>CareerModeProductionSharedSeasonCommit.getState()),null,'installed Commit must still be asleep before reopening ready Results');
     await host.evaluate(()=>{window.__commitRouteRefreshes=0;const api=window.CareerModeProductionSharedSeasonCommit;window.CareerModeProductionSharedSeasonCommit={...api,refresh:(...args)=>{window.__commitRouteRefreshes++;return api.refresh(...args);}};});
@@ -234,7 +234,7 @@ async function reviewTamperAndPublish(page,role,result,{lostAcknowledgement=fals
     assert.equal(await host.locator('#seasonReviewOne').isVisible(),true);assert.equal(await host.locator('#seasonReviewTwo').isVisible(),true,'first publisher must reveal opponent only after refreshing the completed two-role state');
     await host.locator('#sharedSeasonCommitAction').waitFor({state:'visible',timeout:5000});
     assert.ok(await host.evaluate(()=>window.__commitRouteRefreshes)>0,'opening already-ready Results must explicitly refresh installed Commit, without waiting for incidental DOM or polling wakes');
-    assert.equal(await host.locator('#sharedSeasonCommitAction').textContent(),'COMMIT & ACKNOWLEDGE SHARED SEASON','real Results route must hand the coordinator directly into Shared Season Commit instead of dead-ending at r9');
+    assert.equal(await host.locator('#sharedSeasonCommitAction').textContent(),'LOCK & CONFIRM SEASON','real Results route must hand the coordinator directly into Shared Season Commit instead of dead-ending at r9');
 
     for(const page of [host,peer]){
       assert.deepEqual(await page.evaluate(()=>window.__ssjrResultsAudit.storageAfter()),await page.evaluate(()=>window.__ssjrResultsAudit.storageBefore),'shared publication must not mutate canonical local storage');

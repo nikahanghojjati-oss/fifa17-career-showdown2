@@ -88,7 +88,7 @@ function getWinnerLabel(showdown){
     const winner = getArchivedShowdownWinner(showdown);
     if(winner === "playerOne"){ return `${showdown.managers.playerOne} wins the showdown`; }
     if(winner === "playerTwo"){ return `${showdown.managers.playerTwo} wins the showdown`; }
-    return "Showdown finishes level";
+    return "Showdown is a draw";
 }
 
 function getLegacyScoring(player){
@@ -577,13 +577,13 @@ function renderLegacy(request = false){
 
     const heading = document.createElement("h3");
     heading.className = "legacySectionHeading";
-    heading.textContent = "COMPLETED RIVALRIES";
+    heading.textContent = "COMPLETED SHOWDOWNS";
     fragment.appendChild(heading);
 
     if(history.length === 0){
         const empty = document.createElement("div");
         empty.className = "legacyEmpty";
-        empty.textContent = "No completed showdowns yet. Finish a rivalry and it will be archived here automatically.";
+        empty.textContent = "No completed Showdowns yet. Finish one and it appears here.";
         fragment.appendChild(empty);
     }else{
         const list = document.createElement("div");

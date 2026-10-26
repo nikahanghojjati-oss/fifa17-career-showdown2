@@ -1,7 +1,7 @@
 "use strict";
 // r80: a new Showdown started right after END SHOWDOWN on the same phone must not show a Terminal Close error. The r79
 // two-player journey saw, in about 1 run in 9, Daniel's new league wheel (R3) carry the red notice "Unable to refresh Shared
-// Showdown Terminal Close. Attach the exact completed Connected Rivalry before Terminal Close." Cause: Daniel's START opens a
+// Showdown Terminal Close. Reconnect this Showdown before closing it." Cause: Daniel's START opens a
 // new save shell before R3 is attached. The shell's marker names no rivalry, so the Terminal Close request borrowed the
 // rivalry of the Shared Setup still held in page memory: the ended R2's confirmed Setup. The refresh then re-read Connected
 // Rivalry for the new shell, which has nothing attached yet, and reported "Attach the exact completed Connected Rivalry".
@@ -32,7 +32,7 @@ const DEVICE=`device_${"ef".repeat(16)}`;
 const SAVE_R2=`save_${"a".repeat(24)}`;
 const SAVE_R3=`save_${"b".repeat(24)}`;
 const P1=`profile_${"1".repeat(24)}`,P2=`profile_${"2".repeat(24)}`;
-const REPORT=/Attach the exact completed Connected Rivalry/;
+const REPORT=/Reconnect this Showdown before closing it/;
 
 function finalFor(rivalryId){
   return {schemaVersion:1,runtimeRevision:"1.9.1-r17",phase:"FINAL_SEASON_RECONCILED",rivalryId,leagueId:"premier_league",totalSeasons:1,acceptedSeasons:1,completedSeason:1,acceptedRevisionKey:"accepted",fixedClubs:{playerOne:"A",playerTwo:"B"},managerTotals:{playerOne:9,playerTwo:3},winner:"playerOne",terminal:true,finalSeasonReconciled:true,nextSeason:null,extraSeasonAllowed:false,terminalCloseRequired:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false};

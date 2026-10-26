@@ -49,7 +49,7 @@ function openRivalryLegacyV10(screen, getModel){
     window.CareerModeV10Screens?.expect?.(host);
     window.loadRuntimeScript("rivalry-legacy-v10", "js/rivalryLegacyV10.js", () => Boolean(window.CareerModeRivalryLegacyV10))
         .then(() => window.CareerModeRivalryLegacyV10.mount(screen, getModel))
-        .catch(error => { window.CareerModeV10Screens?.settle?.(host); window.reportApplicationError?.("History and rivalry screens could not load", error); });
+        .catch(error => { window.CareerModeV10Screens?.settle?.(host); window.reportApplicationError?.("History and stats screens could not load", error); });
 }
 window.openRivalryLegacyV10 = openRivalryLegacyV10;
 
@@ -405,7 +405,7 @@ function renderCareerStatistics(request = false){
         if(!identityNotice){
             const empty = document.createElement("div");
             empty.className = "analyticsEmpty";
-            empty.textContent = "Career Statistics will build automatically after the first completed showdown. Current-showdown statistics remain available from Showdown Home.";
+            empty.textContent = "Career Statistics appear after your first completed Showdown. Stats for the current Showdown are on Showdown Home.";
             fragment.appendChild(empty);
         }
     }else{
@@ -501,7 +501,7 @@ function renderSeasonProgression(container, analytics){
     if(!analytics.seasonRows.length){
         const empty = document.createElement("div");
         empty.className = "analyticsEmpty";
-        empty.textContent = "No season has been completed yet. Statistics will build automatically as seasons are finished.";
+        empty.textContent = "No season completed yet. Stats appear as seasons finish.";
         container.appendChild(empty);
         return;
     }

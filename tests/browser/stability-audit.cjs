@@ -79,7 +79,7 @@ async function assertStableProductSurface(page,label){
   const footer=normalizeText(await page.locator("#app > footer").innerText());
   assert.equal(footer,`Career Mode Showdown v${expectedAppVersion}`,`${label} clean product footer changed.`);
   const tile=await page.locator("#settingsButton").evaluate(button=>({code:button.querySelector(".menuTileCode")?.textContent?.trim()||"",label:button.querySelector(".menuTileLabel")?.textContent?.trim()||"",meta:button.querySelector(".menuTileMeta")?.textContent?.trim()||""}));
-  assert.deepEqual(tile,{code:"SETTINGS",label:"SETTINGS",meta:"Account, device and preferences"},`${label} Settings tile regressed to architecture language.`);
+  assert.deepEqual(tile,{code:"SETTINGS",label:"SETTINGS",meta:"Account and preferences"},`${label} Settings tile regressed to architecture language.`);
   const homeText=await page.locator("#mainMenu").innerText();
   assert.doesNotMatch(homeText,/online-only|local-only|Shared Showdown|Private Remote Joining|Save Library/i);
   checkpoint(`${label} clean product identity`,`v${expectedAppVersion} · Settings`);

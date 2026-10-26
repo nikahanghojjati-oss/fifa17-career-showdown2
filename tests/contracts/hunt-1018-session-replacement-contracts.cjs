@@ -1,5 +1,5 @@
 "use strict";
-// Hunt 1018 (JOB-1023): NEW SESSION CODE replacement races in js/sparkRemoteJoining.js.
+// Hunt 1018 (JOB-1023): NEW CODE replacement races in js/sparkRemoteJoining.js.
 //   H1018-1  a second HOST NEW SESSION (REPLACES CURRENT) tap while the first replacement is still resolving is refused, so
 //            exactly one fresh OPEN session exists and it is the one held in page memory.
 //   H1018-2  hosting a replacement while the old OPEN session's join watcher is armed cancels that timer and watches the new

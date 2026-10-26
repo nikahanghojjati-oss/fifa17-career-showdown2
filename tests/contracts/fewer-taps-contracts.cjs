@@ -10,7 +10,7 @@
 //      GET READY over the locked canonical league screen, which the POS10 stability audit requires.
 //   R6 An ACTIVE private session continues into the Showdown by itself (no START CAREER tap); expired sessions never do.
 //   R7 Daniel's COMMIT & ACKNOWLEDGE tap commits, then records his own acknowledgement; Nik still acknowledges himself;
-//      if the second half fails Daniel gets the existing ACKNOWLEDGE SHARED SEASON button.
+//      if the second half fails Daniel gets the existing CONFIRM SEASON button.
 //   R8 The duplicate "results are ready" banners are gone; the Shared Season Commit status is the one next-step line.
 //   S  Manual taps that must stay manual are still manual (locks, REVIEW + PUBLISH, COMMIT, Nik's ACKNOWLEDGE, CLOSE, pair code, hosting).
 const assert=require("node:assert/strict");
@@ -163,7 +163,7 @@ async function r1TransferContracts(){
     assert.equal(h.api.isWaitingForRival(),false,`${label}: the new phase is this manager's turn again`);
     assert.deepEqual(h.calls.mutations,[],`${label}: no write`);
   }
-  ok("R1 Transfer: after early-end / guess lock / signing lock the rival's step arrives by the 3 s read, no REFRESH SHARED CHALLENGE tap");
+  ok("R1 Transfer: after early-end / guess lock / signing lock the rival's step arrives by the 3 s read, no REFRESH CHALLENGE tap");
   {
     const h=transferHarness(transferState("WINDOW_OPEN"),{role:"playerOne"});await walkTo(h,"GUESS_ENTRY",{guessLockedRoles:["playerOne"]});h.api.install();await settle();
     assert.equal(await fastReads(h),1);
@@ -277,7 +277,7 @@ async function r1r8ResultsContracts(){
     assert.equal(visible(h.node("seasonReviewWarningNode")),false,"R8: the pink RESULT PUBLICATION COMPLETE banner is hidden");
     assert.doesNotMatch(h.node("seasonReviewWarningNode").textContent,/RESULT PUBLICATION COMPLETE/,"R8: the duplicate banner text is gone");
     assert.equal(visible(h.node("seasonReviewStatusRow")),false,"R8: the RESULTS READY · BOTH PRIVATE SIDES REVEALED meta line is gone");
-    assert.equal(h.node("seasonReviewResult").textContent,"Both managers published their reviewed FIFA 17 season results.","R8: the 'Continue with the Shared Season Commit below.' sentence is gone");
+    assert.equal(h.node("seasonReviewResult").textContent,"Both managers published their FIFA 17 season results.","R8: the 'Continue with the Shared Season Commit below.' sentence is gone");
     assert.equal(visible(h.node("seasonReviewOne")),true);assert.equal(visible(h.node("seasonReviewTwo")),true,"both results are still revealed");
   }
   ok("R8 Season Results: once both published, the duplicate banner, meta line and sentence are gone; heading and both cards stay");
@@ -343,7 +343,7 @@ async function r1CommitContracts(){
   {
     const h=commitHarness({role:"playerTwo",committed:false});h.api.install();await h.api.refresh();await settle();
     h.server.committed=true;h.server.phase="COMMITTED";h.fast().fn();await settle();
-    assert.equal(h.action().textContent,"ACKNOWLEDGE SHARED SEASON","Nik's ACKNOWLEDGE appears without a CHECK tap");
+    assert.equal(h.action().textContent,"CONFIRM SEASON","Nik's ACKNOWLEDGE appears without a CHECK tap");
     assert.equal(h.calls.acknowledge,0,"and is still Nik's own tap");
     h.clock.now+=WINDOW+1;const k=commitHarness({role:"playerTwo",committed:false});k.api.install();await k.api.refresh();await settle();
     k.fast().fn();await settle();const r0=k.calls.reads;k.clock.now+=WINDOW+1;k.fast().fn();await settle();
@@ -354,14 +354,14 @@ async function r1CommitContracts(){
     h.server.failRead=true;
     h.fast().fn();await settle();
     assert.deepEqual(h.calls.reports,[],"a failed fast read is retried by the next poll, not reported");
-    assert.equal(h.action().textContent,"WAITING FOR COORDINATOR","and keeps the current waiting view");
+    assert.equal(h.action().textContent,"WAITING FOR HOST","and keeps the current waiting view");
     h.intervals.find(item=>item.ms===15000).fn();await settle();
-    assert.equal(h.action().textContent,"RETRY COMMIT CHECK","a failed normal poll still shows the failure at once");
+    assert.equal(h.action().textContent,"CHECK AGAIN","a failed normal poll still shows the failure at once");
     assert.equal(h.calls.reports.length,0,"a single failed read is not yet reported");
     h.intervals.find(item=>item.ms===15000).fn();await settle();
     assert.equal(h.calls.reports.length,1,"the same failure on the next poll is reported");
     h.server.failRead=false;h.intervals.find(item=>item.ms===15000).fn();await settle();
-    assert.equal(h.action().textContent,"WAITING FOR COORDINATOR","a later successful read recovers the waiting view");
+    assert.equal(h.action().textContent,"WAITING FOR HOST","a later successful read recovers the waiting view");
   }
   ok("R1 Season Commit: fast reads only while waiting for the coordinator's COMMIT or the rival's ACKNOWLEDGE; COMMIT and each ACKNOWLEDGE stay manual taps");
 }
@@ -373,8 +373,8 @@ async function r7CommitContracts(){
     const bothCup={playerOne:{leaguePosition:2,domesticCup:true},playerTwo:{leaguePosition:4,domesticCup:true}};
     const h=commitHarness({role:"playerOne",allResults:bothCup});h.api.install();await h.api.refresh();await settle();
     assert.equal(h.api.coordinatorCommitAlsoAcknowledges,true);
-    assert.equal(h.action().textContent,"COMMIT & ACKNOWLEDGE SHARED SEASON","Daniel's one button says it commits and acknowledges");
-    assert.match(h.status(),/^BOTH RESULTS ARE READY · AS COORDINATOR, COMMIT THE IMMUTABLE SHARED SEASON SNAPSHOT/);
+    assert.equal(h.action().textContent,"LOCK & CONFIRM SEASON","Daniel's one button says it commits and acknowledges");
+    assert.match(h.status(),/^BOTH RESULTS ARE IN · LOCK THE SEASON/);
     assert.ok(!/CHECK RESULTS/.test(h.status()),"r80: both managers winning the cup in their own saves never shows CHECK RESULTS before Daniel taps");
     assert.equal(h.action().disabled,false,"both managers winning the cup never disables the combined button");
     assert.equal(h.calls.commit+h.calls.acknowledge,0,"nothing is written before Daniel taps");
@@ -385,18 +385,18 @@ async function r7CommitContracts(){
     assert.deepEqual(h.calls.guard.map(g=>g.action),["commit-season","acknowledge-season"],"commit first, then acknowledge, each through the conflict guard");
     assert.notEqual(h.calls.guard[0].operationId,h.calls.guard[1].operationId,"each write keeps its own operationId");
     assert.equal(h.calls.guard[1].baseRevision,h.calls.guard[0].baseRevision+1,"the acknowledge is based on the committed revision");
-    assert.equal(h.action().textContent,"ACKNOWLEDGED ✓ · WAITING FOR RIVAL","Daniel lands on the waiting state after his one tap");
+    assert.equal(h.action().textContent,"CONFIRMED ✓ · WAITING FOR RIVAL","Daniel lands on the waiting state after his one tap");
     assert.equal(h.api.isWaitingForRival(),true,"and his fast lane waits for Nik's ACKNOWLEDGE");
     assert.equal(h.server.phase,"COMMITTED","scoring still waits for Nik's own acknowledgement");
   }
   ok("R7 Season Commit: Daniel's one COMMIT & ACKNOWLEDGE tap commits, then records his own acknowledgement (separate operationIds); both managers winning the cup shows no CHECK RESULTS");
   {
     const nik=commitHarness({role:"playerTwo",committed:true});nik.api.install();await nik.api.refresh();await settle();
-    assert.equal(nik.action().textContent,"ACKNOWLEDGE SHARED SEASON","Nik still sees his own ACKNOWLEDGE button");
+    assert.equal(nik.action().textContent,"CONFIRM SEASON","Nik still sees his own ACKNOWLEDGE button");
     assert.equal(nik.calls.acknowledge,0,"Nik is never acknowledged for");
     await nik.tap();assert.equal(nik.calls.acknowledge,1,"Nik's own tap acknowledges");assert.equal(nik.calls.commit,0,"Nik never commits");
     const waiting=commitHarness({role:"playerTwo"});waiting.api.install();await waiting.api.refresh();await settle();
-    assert.equal(waiting.action().textContent,"WAITING FOR COORDINATOR");assert.equal(waiting.action().disabled,true,"Nik cannot commit");
+    assert.equal(waiting.action().textContent,"WAITING FOR HOST");assert.equal(waiting.action().disabled,true,"Nik cannot commit");
     // Only the coordinator's commit-then-acknowledge failure re-reads at once; Nik's own ACKNOWLEDGE failure keeps its error until
     // the next read, exactly as before (an immediate re-read would wipe "could not be recorded" before Nik sees it).
     assert.match(read("js/productionSharedSeasonCommit.js"),/if\(kind==="commit"&&stage==="acknowledge"\)void psscRefresh\(\)/,"only the R7 second half re-reads after a failure");
@@ -407,27 +407,27 @@ async function r7CommitContracts(){
     await h.tap();
     assert.equal(h.calls.commit,1);assert.equal(h.calls.acknowledge,2,"a stale acknowledge is retried once on the fresh revision");
     assert.equal(h.calls.guard[1].operationId,h.calls.guard[2].operationId,"the retry keeps the acknowledge operationId");
-    assert.equal(h.action().textContent,"ACKNOWLEDGED ✓ · WAITING FOR RIVAL");assert.equal(h.error(),"");
+    assert.equal(h.action().textContent,"CONFIRMED ✓ · WAITING FOR RIVAL");assert.equal(h.error(),"");
   }
   ok("R7 Season Commit: the acknowledge half keeps the existing stale/race retry");
   {
     const h=commitHarness({role:"playerOne",ackFailures:["permission-denied"]});h.api.install();await h.api.refresh();await settle();
     await h.tap();await settle();
     assert.equal(h.calls.commit,1,"the commit landed");assert.equal(h.server.committed,true);assert.equal(h.server.ownAcknowledged,false,"the acknowledge half failed");
-    assert.equal(h.action().textContent,"ACKNOWLEDGE SHARED SEASON","a failed acknowledge half falls back to the ACKNOWLEDGE SHARED SEASON button");
+    assert.equal(h.action().textContent,"CONFIRM SEASON","a failed acknowledge half falls back to the CONFIRM SEASON button");
     assert.equal(h.action().disabled,false,"never a stuck state: the button is enabled");
-    assert.match(h.error(),/acknowledgement could not be recorded/,"the failure is explained");
+    assert.match(h.error(),/confirmation could not be saved/,"the failure is explained");
     assert.equal(h.api.isWaitingForRival(),false,"Daniel is not shown as waiting");
     await h.tap();
     assert.equal(h.calls.commit,1,"the fallback tap never commits again");assert.equal(h.calls.acknowledge,2,"it acknowledges");
-    assert.equal(h.action().textContent,"ACKNOWLEDGED ✓ · WAITING FOR RIVAL");
+    assert.equal(h.action().textContent,"CONFIRMED ✓ · WAITING FOR RIVAL");
   }
   {
     const h=commitHarness({role:"playerOne",committed:true});h.api.install();await h.api.refresh();await settle();
-    assert.equal(h.action().textContent,"ACKNOWLEDGE SHARED SEASON","after a reload with the commit already made, Daniel sees ACKNOWLEDGE");
+    assert.equal(h.action().textContent,"CONFIRM SEASON","after a reload with the commit already made, Daniel sees ACKNOWLEDGE");
     await h.tap();assert.equal(h.calls.commit,0);assert.equal(h.calls.acknowledge,1);
   }
-  ok("R7 Season Commit: if the acknowledge half fails after the commit, Daniel gets the existing ACKNOWLEDGE SHARED SEASON button (never stuck, never a second commit)");
+  ok("R7 Season Commit: if the acknowledge half fails after the commit, Daniel gets the existing CONFIRM SEASON button (never stuck, never a second commit)");
 }
 
 // ------------------------------------------------------------------ R1 Canonical Scoring + Shared History
@@ -606,9 +606,9 @@ const leagueSetup={phase:"LEAGUE_WHEEL_COMMITTED",revision:2,coordinatorRole:"pl
 const lengthSetup=(roles)=>({phase:"SEASON_LENGTH_COMMITTED",revision:roles.length?5:4,coordinatorRole:"playerOne",leagueId:"premier_league",clubs:{playerOne:"Arsenal",playerTwo:"Chelsea"},totalSeasons:3,confirmedRoles:roles});
 // r79 gallery (fix 1): js/productionSharedShowdownSetup.js answers a write that landed with its own ready state (status "ready",
 // errorCode "", no "ok"), exactly as the emulator run showed. One SPIN tap by Daniel (open + commit-league) must not leave
-// "THAT TAP DID NOT GO THROUGH · Both managers now have the same shared setup." on his club packs; a refused write still does.
+// "THAT TAP DID NOT GO THROUGH · Both managers now have the same setup." on his club packs; a refused write still does.
 async function galleryFix1SpinContracts(){
-  const landed=(type,_extra,store)=>{const cur=store.get();const setup=type==="open"?{phase:"SHARED_SETUP_OPEN",revision:1,coordinatorRole:"playerOne",confirmedRoles:[]}:type==="commit-league"?{...cur.setup,phase:"LEAGUE_WHEEL_COMMITTED",revision:2,leagueId:"premier_league"}:cur.setup;const next={...cur,setup,status:"ready",busy:false,errorCode:"",message:"Both managers now have the same shared setup."};store.set(next);return next;};
+  const landed=(type,_extra,store)=>{const cur=store.get();const setup=type==="open"?{phase:"SHARED_SETUP_OPEN",revision:1,coordinatorRole:"playerOne",confirmedRoles:[]}:type==="commit-league"?{...cur.setup,phase:"LEAGUE_WHEEL_COMMITTED",revision:2,leagueId:"premier_league"}:cur.setup;const next={...cur,setup,status:"ready",busy:false,errorCode:"",message:"Both managers now have the same setup."};store.set(next);return next;};
   {
     const h=presentationHarness({role:"playerOne",setup:null,mutate:landed});await h.api.activate();await settle();
     await h.api.handleControlClick("spinLeague");await settle();
@@ -688,10 +688,10 @@ async function r3r4aPresentationContracts(){
     const h=presentationHarness({role:"playerTwo",setup:lengthSetup([])});await h.api.activate();await settle();
     const forward=h.timers.pending().find(t=>t.ms===4200);if(forward)await h.timers.fire(forward);
     await h.push(lengthSetup(["playerOne"]));
-    assert.equal(h.node("continueClubAssignment").textContent,"CONFIRM SHARED SHOWDOWN","Nik's own CONFIRM SHARED SHOWDOWN tap is still required");
+    assert.equal(h.node("continueClubAssignment").textContent,"CONFIRM SHOWDOWN","Nik's own CONFIRM SHOWDOWN tap is still required");
     assert.equal(h.calls.careerStart,0,"a manager who has not confirmed is never moved on");
   }
-  ok("R4a Presentation: the first confirmer opens Career Start by itself once both confirmed; CONFIRM SHARED SHOWDOWN stays each manager's tap");
+  ok("R4a Presentation: the first confirmer opens Career Start by itself once both confirmed; CONFIRM SHOWDOWN stays each manager's tap");
 }
 
 // ------------------------------------------------------------------ R5 + R6 career entry
@@ -716,7 +716,7 @@ function entryHarness({rivalryReady=false,active=false,pairState={status:"unpair
   // r79 (Nik, 2026-10-17): the final-screen terminal close, as START reaches it for an ended-but-not-closed Showdown.
   let closeState=terminalClose?{phase:String(terminalClose).replace(/-FAIL$/,""),rivalryId:RIVALRY}:null;
   const closeApi=terminalClose?{install(){},getState:()=>closeState,refresh:async()=>{calls.closeRefresh+=1;return closeState;},
-    close:async()=>{calls.close+=1;await new Promise(resolve=>setTimeout(resolve,2));if(terminalClose==="READY"){closeState={phase:"CLOSED",rivalryId:RIVALRY};return{ok:true};}return{ok:false,code:"TERMINAL_CLOSE_FAILED",message:"Terminal Close was rejected without changing the completed Showdown."};},
+    close:async()=>{calls.close+=1;await new Promise(resolve=>setTimeout(resolve,2));if(terminalClose==="READY"){closeState={phase:"CLOSED",rivalryId:RIVALRY};return{ok:true};}return{ok:false,code:"TERMINAL_CLOSE_FAILED",message:"The Showdown could not be closed. Nothing was changed."};},
     retry:async()=>{calls.closeRetry+=1;closeState={phase:"CLOSED",rivalryId:RIVALRY};return{ok:true};}}:undefined;
   const sandbox={CareerModeProductionSharedTerminalClose:closeApi,console,setTimeout,clearTimeout,Promise,Date,document:dom.document,MutationObserver:class{observe(){}disconnect(){}},
     sessionStorage:{getItem:k=>storage.has(k)?storage.get(k):null,setItem:(k,v)=>storage.set(k,String(v)),removeItem:k=>storage.delete(k)},
@@ -1009,8 +1009,8 @@ async function r5r6EntryContracts(){
 // ------------------------------------------------------------------ S. manual taps stay manual; R7 is not built
 function safetyContracts(){
   const commit=read("js/productionSharedSeasonCommit.js");
-  assert.match(commit,/if\(role===coordinator\)\{[^\n]*psscText\(ui\.action,"COMMIT & ACKNOWLEDGE SHARED SEASON"\)/,"COMMIT & ACKNOWLEDGE is the coordinator's own tap (R7)");
-  assert.match(commit,/psscText\(ui\.action,"ACKNOWLEDGE SHARED SEASON"\)/,"ACKNOWLEDGE SHARED SEASON stays the rival's own tap and Daniel's fallback");
+  assert.match(commit,/if\(role===coordinator\)\{[^\n]*psscText\(ui\.action,"LOCK & CONFIRM SEASON"\)/,"COMMIT & ACKNOWLEDGE is the coordinator's own tap (R7)");
+  assert.match(commit,/psscText\(ui\.action,"CONFIRM SEASON"\)/,"CONFIRM SEASON stays the rival's own tap and Daniel's fallback");
   assert.match(commit,/if\(kind!=="commit"\|\|current\.managerRole!==current\.coordinatorRole\|\|psscSatisfied\("acknowledge",current\)\)return true;/,"only the coordinator's commit tap also acknowledges, and only his own side");
   assert.match(commit,/void psscMutate\(view\.committed\?"acknowledge":"commit"\);/,"commit/acknowledge are still only reached from the manager's click");
   const results=read("js/productionSharedSeasonResults.js");

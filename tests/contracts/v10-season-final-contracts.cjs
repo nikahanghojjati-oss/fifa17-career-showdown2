@@ -84,15 +84,15 @@ check("V29.5 mount preserves every live field, action, status, draft and listene
   const doc=documentOf(entry),host=doc.getElementById("seasonEntry");
   // Exercise the real review-shell constructor before adoption.
   const env={document:doc,console};env.window=env;vm.runInNewContext(read("js/seasonEngine.js")+"\nensureSeasonReviewUI();",env);
-  const review=doc.getElementById("seasonReviewPanel"),status=doc.createElement("p"),commit=doc.createElement("button");status.id="sharedSeasonCommitStatus";status.className="seasonReviewWarning";status.textContent="BOTH RESULTS ARE READY · AS COORDINATOR, COMMIT THE IMMUTABLE SHARED SEASON SNAPSHOT";commit.id="sharedSeasonCommitAction";commit.textContent="ACKNOWLEDGE SHARED SEASON";review.append(status);review.querySelector(".seasonReviewActions").append(commit);
+  const review=doc.getElementById("seasonReviewPanel"),status=doc.createElement("p"),commit=doc.createElement("button");status.id="sharedSeasonCommitStatus";status.className="seasonReviewWarning";status.textContent="BOTH RESULTS ARE IN · LOCK THE SEASON";commit.id="sharedSeasonCommitAction";commit.textContent="CONFIRM SEASON";review.append(status);review.querySelector(".seasonReviewActions").append(commit);
   const nodes=Object.fromEntries(host.all().filter(n=>n.id).map(n=>[n.id,n]));nodes.p1LeagueGoals.value="131";nodes.p1LeagueGoals.dataset.draft="retained";nodes.p2LeaguePosition.closest(".seasonResultCard").classList.add("hidden");
   let taps=0;nodes.completeSeason.addEventListener("click",()=>taps++);
   const stage=doc.createElement("div");stage.innerHTML=read("visual-assets/v10_1/season-results/app-shell.html");
   api.skinSeason(host,stage.firstElementChild);
   for(const [id,node] of Object.entries(nodes))assert.equal(doc.getElementById(id),node,id);
   assert.equal(nodes.p1LeagueGoals.value,"131");assert.equal(nodes.p1LeagueGoals.dataset.draft,"retained");nodes.completeSeason.click();assert.equal(taps,1);
-  assert.ok(nodes.p2LeaguePosition.closest(".seasonResultCard").classList.contains("hidden"));assert.match(doc.getElementById("sharedSeasonCommitStatus").textContent,/^BOTH RESULTS ARE READY · AS COORDINATOR, COMMIT THE IMMUTABLE SHARED SEASON SNAPSHOT$/);
-  assert.equal(doc.getElementById("sharedSeasonCommitAction").textContent,"ACKNOWLEDGE SHARED SEASON");
+  assert.ok(nodes.p2LeaguePosition.closest(".seasonResultCard").classList.contains("hidden"));assert.match(doc.getElementById("sharedSeasonCommitStatus").textContent,/^BOTH RESULTS ARE IN · LOCK THE SEASON$/);
+  assert.equal(doc.getElementById("sharedSeasonCommitAction").textContent,"CONFIRM SEASON");
   assert.ok(review.querySelector(".seasonReviewActions"));assert.ok(nodes.completeSeason.closest(".seasonEntryActions"));
 });
 check("V29.6 the lazy registry and shell cache include every binder resource",()=>{
@@ -110,7 +110,7 @@ check("V29.8 registry mount keeps the native final proof, close and Back nodes r
   env.loadRuntimeScript=async()=>true;
   vm.createContext(env);vm.runInContext(read("js/seasonEngine.js")+"\nensureSeasonReviewUI();",env);
   const review=doc.getElementById("seasonReviewPanel"),proof=doc.createElement("section"),terminal=doc.createElement("section"),close=doc.createElement("button");
-  proof.id="sharedFinalReconciliationPanel";terminal.id="sharedTerminalClosePanel";close.id="sharedTerminalCloseAction";close.textContent="CLOSE SHARED SHOWDOWN";terminal.append(close);review.append(proof,terminal);
+  proof.id="sharedFinalReconciliationPanel";terminal.id="sharedTerminalClosePanel";close.id="sharedTerminalCloseAction";close.textContent="CLOSE SHOWDOWN";terminal.append(close);review.append(proof,terminal);
   const actions=doc.getElementById("completeSeason").closest(".seasonEntryActions"),back=actions.querySelector(".backButton");
   let closes=0;close.addEventListener("click",()=>closes++);
   vm.runInContext(read("js/seasonFinalV10.js"),env);await env.CareerModeSeasonFinalV10.install();
@@ -118,7 +118,7 @@ check("V29.8 registry mount keeps the native final proof, close and Back nodes r
   await defs.seasonEntry.prepare();
   defs.seasonEntry.mount({final:api.finalFrame({phase:"FINAL_SEASON_RECONCILED",finalSeasonReconciled:true,winner:"draw",managerTotals:{playerOne:7,playerTwo:7}})},host);
   const final=host.querySelector(".v10FinalStage");assert.ok(final,"final stage exists");assert.ok(proof.closest(".v10FinalStage")===final,"proof in final stage");assert.match(read("visual-assets/v10_1/final-winner/app-shell.html"),/<details class="v10FinalProof" open>/);
-  assert.ok(doc.getElementById("sharedTerminalCloseAction")===close,"same close action");assert.ok(back.closest(".v10FinalStage")===final,"Back in final stage");close.click();assert.equal(closes,1);assert.equal(close.textContent,"CLOSE SHARED SHOWDOWN");
+  assert.ok(doc.getElementById("sharedTerminalCloseAction")===close,"same close action");assert.ok(back.closest(".v10FinalStage")===final,"Back in final stage");close.click();assert.equal(closes,1);assert.equal(close.textContent,"CLOSE SHOWDOWN");
   defs.seasonEntry.unmount(host);assert.ok(proof.parentNode===review,"proof restored");assert.ok(terminal.parentNode===review,"terminal restored");assert.ok(back.closest(".v10SeasonStage")===host.querySelector(".v10SeasonStage"),"Back restored");
 });
 check("V29.9 the real clash contract keeps commit/acknowledge enabled with no CHECK RESULTS when both managers win the same trophy",()=>{const r=spawnSync(process.execPath,["tests/contracts/season-result-clash-contracts.cjs"],{cwd:ROOT,encoding:"utf8"});assert.equal(r.status,0,r.stdout+r.stderr);});
@@ -148,8 +148,8 @@ check("JOB-1038 Final Winner stays visible while saving and after success",()=>{
   const saving=api.finalFrame(r,{phase:"READY",automaticSaving:true});
   assert.equal(saving.winner,"draw");
   assert.equal(saving.completionMark,"Saving this Showdown to your career…");
-  assert.equal(api.finalFrame(r,{phase:"READY",automaticCloseFailed:true}).completionMark,"Saving failed. Try CLOSE SHARED SHOWDOWN again.");
+  assert.equal(api.finalFrame(r,{phase:"READY",automaticCloseFailed:true}).completionMark,"Saving failed. Tap CLOSE SHOWDOWN again.");
   const closed=api.finalFrame(r,{phase:"CLOSED",terminal:true,rivalryId:r.rivalryId,terminalWitness:r});
-  assert.equal(closed.state,"completed");assert.equal(closed.heading,"SHARED SHOWDOWN CLOSED");assert.equal(closed.completionMark,"");
+  assert.equal(closed.state,"completed");assert.equal(closed.heading,"SHOWDOWN CLOSED");assert.equal(closed.completionMark,"");
 });
 (async()=>{for(let i=0;i<checks.length;i++){await checks[i][1]();process.stdout.write(`ok ${i+1} ${checks[i][0]}\n`);}process.stdout.write(`PASS ${checks.length} V10 season/final/standings contracts\n`);})().catch(e=>{console.error(e);process.exitCode=1;});

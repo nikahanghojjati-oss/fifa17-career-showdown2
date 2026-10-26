@@ -120,7 +120,7 @@ function assertActive(result,label,{sessionChanged}={}){
   assert.equal(result.statusPhase,'ACTIVE_RECOVERED');
   assert.equal(result.statusAuthoritative,'true');
   assert.equal(result.statusHidden,false);
-  assert.match(result.statusText,/SHARED JOURNEY RECOVERED/);
+  assert.match(result.statusText,/RECONNECTED ·/);
   if(sessionChanged!==undefined)assert.equal(result.state.sessionChanged,sessionChanged);
 }
 
@@ -204,7 +204,7 @@ function assertActive(result,label,{sessionChanged}={}){
       assert.equal(result.state.acceptedSeasons,totalSeasons);
       assert.equal(result.state.activeSeason,null);
       assert.equal(result.state.activeAuthorization,true);
-      assert.match(result.statusText,/ALL 3 SEASONS STAY COMPLETE/);
+      assert.match(result.statusText,/ALL 3 SEASONS COMPLETE/);
     }
     const terminalDurable=hostState.state.durableKey;
     await Promise.all([loseSession(host),loseSession(peer)]);

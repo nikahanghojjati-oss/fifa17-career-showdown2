@@ -95,7 +95,7 @@ test("the recovered paired player's second recovery action also uses automatic c
   const g=game(),p=g.player("playerOne");await g.playing(p);
   await p.tap("sharedJourneyReconnectNewCode");assertAutomatic(p);
   assert.equal(p.calls.hosts,0,"a healthy exact session is reused");assert.equal(p.remote.getState().open,false,"an already ACTIVE result cannot leave the panel stranded");
-  assert.doesNotMatch(p.status().textContent,/NEW SESSION CODE/);
+  assert.doesNotMatch(p.status().textContent,/NEW CODE/);
 });
 test("unpaired recovery keeps the existing manual host/join fallback",async()=>{
   const g=game(),p=g.player("playerTwo",false);await g.playing(p);g.advance(5*HOUR);await p.reconnect.refresh();await p.tap();

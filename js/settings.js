@@ -282,7 +282,7 @@ function createMenuFeedbackControl(){
         createSettingsElement(
             "small",
             "",
-            "A short original confirmation cue. It stays silent while Home media is playing and never blocks navigation."
+            "A short click on menu taps. Silent while Home music plays."
         )
     );
 
@@ -330,7 +330,7 @@ function createApplicationPanel(){
     const panel = createSettingsPanel(
         "APPLICATION",
         "CAREER MODE SHOWDOWN",
-        "Daniel and Nik's two-manager FIFA 17 Career Mode rivalry companion, built for the connected Showdown experience."
+        "Daniel and Nik's FIFA 17 Career Mode companion for two managers."
     );
     const info = createSettingsElement("div", "settingsInfoGrid");
     info.append(
@@ -349,7 +349,7 @@ function createApplicationPanel(){
     update.type = "button";
     update.disabled = settingsUpdatePending || Boolean(updateState.updateActionDisabled);
     update.addEventListener("click", handleSettingsOfflineUpdate);
-    const status = createSettingsElement("p", "settingsOfflineNote settingsApplicationUpdateStatus", settingsOfflineGuidance || "Updates keep your current Showdown and player identity.");
+    const status = createSettingsElement("p", "settingsOfflineNote settingsApplicationUpdateStatus", settingsOfflineGuidance || "Updating keeps your Showdown and player.");
     status.setAttribute("role", "status");
     status.setAttribute("aria-live", "polite");
     panel.append(update, status);
@@ -361,7 +361,7 @@ function createMotionPanel(){
     const panel = createSettingsPanel(
         "ACCESSIBILITY",
         "MOTION & FEEDBACK",
-        "Follow the device by default, force non-essential motion to be minimized, and control the optional menu confirmation cue."
+        "Follow your device, cut motion, or turn the menu click on or off."
     );
 
     const summary = createSettingsElement("div", "settingsMotionSummary");
@@ -382,19 +382,19 @@ function createMotionPanel(){
     choices.append(
         createMotionChoice(
             "FOLLOW DEVICE",
-            "Use the browser or operating-system accessibility preference.",
+            "Match your device's accessibility setting.",
             state.motionPreference === "follow",
             "follow"
         ),
         createMotionChoice(
             "FULL MOTION",
-            "Always use standard transitions and reveal animations.",
+            "Always play transitions and reveals.",
             state.motionPreference === "full",
             "full"
         ),
         createMotionChoice(
             "REDUCE MOTION",
-            "Always minimize menu transitions, League Wheel delay and Club Reveal theatrics.",
+            "Cut menu transitions, the wheel delay and club reveal effects.",
             state.motionPreference === "reduce",
             "reduce"
         )
@@ -453,7 +453,7 @@ async function handleSettingsOfflineUpdate(event){
 
     if(typeof action !== "function"){
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("Offline update support is unavailable in this session.", "error", 6000);
+            window.showAppNotice("Updates are not available offline right now.", "error", 6000);
         }
         return;
     }
@@ -489,7 +489,7 @@ function createOfflinePanel(){
     const panel = createSettingsPanel(
         "DEVICE",
         "OFFLINE APP",
-        "Install Career Mode Showdown for app-style launch and offline use. Installation controls stay here in Settings and never cover gameplay or navigation."
+        "Install Career Mode Showdown to open it like an app and play offline."
     );
     panel.classList.add("settingsOfflinePanel");
 
@@ -529,8 +529,8 @@ function createOfflinePanel(){
         "settingsOfflineNote",
         settingsOfflineGuidance || (
             state.standalone
-                ? "Installed mode is active. The installed app is kept separate from your Showdown save."
-                : "Choose the install action for device-specific instructions or your browser's native install prompt when available."
+                ? "Installed. Your Showdown save is not affected."
+                : "Tap install for your browser's install steps."
         )
     );
     note.setAttribute("role", "status");
@@ -872,7 +872,7 @@ function createDataPanel(){
     const panel = createSettingsPanel(
         "CAREER DATA",
         "SHOWDOWN DATA",
-        "End the current Showdown or open History & Backup. Your player identity and registered device stay ready."
+        "End the current Showdown or open History & Backup. Your player and device stay set up."
     );
     panel.classList.add("settingsDataPanel");
 
@@ -911,8 +911,8 @@ function createDataPanel(){
         "p",
         "settingsDataNote",
         active
-            ? "End Showdown ends this Showdown for both players. History keeps it as Ended early. Player identity, registered device, completed history and app settings are kept."
-            : "No Showdown is in progress. Completed history, backup export and full reset remain available under History & Backup."
+            ? "END SHOWDOWN ends it for both players. History keeps it as Ended early. Your player, device, history and settings stay."
+            : "No Showdown in progress. History, backup and reset are under History & Backup."
     );
 
     panel.append(info, actions, note);

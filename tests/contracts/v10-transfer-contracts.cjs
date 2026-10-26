@@ -189,10 +189,10 @@ async function stage(page,phase,role,extra={}){
     $("transferManagerOne").textContent="Daniel";$("transferManagerTwo").textContent="Nik";$("transferClubOne").textContent="Sampdoria";$("transferClubTwo").textContent="Chievo";
     $("transferPhaseStatus").textContent=extra.status||"TRANSFER WINDOW LIVE · BUILD YOUR FIFA 17 SQUAD";
     for(const id of ["startTransferTimer","endTransferTimer","completeTransferChallenge","continueFromTransfers"])$(id).classList.add("hidden");
-    if(!$("refreshSharedTransferChallenge")){const b=document.createElement("button");b.id="refreshSharedTransferChallenge";b.className="menuButton";b.type="button";b.textContent="REFRESH SHARED CHALLENGE";section.querySelector(".transferTimerActions").appendChild(b);}
+    if(!$("refreshSharedTransferChallenge")){const b=document.createElement("button");b.id="refreshSharedTransferChallenge";b.className="menuButton";b.type="button";b.textContent="REFRESH CHALLENGE";section.querySelector(".transferTimerActions").appendChild(b);}
     if(phase==="WINDOW_OPEN"){$("endTransferTimer").classList.remove("hidden");$("endTransferTimer").textContent="REQUEST EARLY END";$("transferTimerDisplay").textContent="14:59";}
     if(phase==="GUESS_ENTRY"||phase==="SIGNING_ENTRY"){$("completeTransferChallenge").classList.remove("hidden");$("completeTransferChallenge").textContent=phase==="GUESS_ENTRY"?"LOCK MY GUESSES":"LOCK MY SIGNINGS";}
-    if(phase==="COMPLETED"){$("continueFromTransfers").classList.remove("hidden");$("continueFromTransfers").textContent="CONTINUE TO SHARED SEASON RESULTS";}
+    if(phase==="COMPLETED"){$("continueFromTransfers").classList.remove("hidden");$("continueFromTransfers").textContent="CONTINUE TO SEASON RESULTS";}
     if(phase==="SIGNING_ENTRY"&&!$("transferPhaseLockSummary")){const s=document.createElement("div");s.id="transferPhaseLockSummary";s.className="transferPhaseLockSummary";s.textContent="Both managers locked their private guesses.";section.insertBefore(s,section.querySelector(".transferManagersGrid"));}
     // The rival's private fields keep values on this device only in the hidden production cards.
     for(let i=1;i<=3;i+=1){$(`${own}Guess${i}Value`).value=SENTINEL;$(`${rival}Signing${i}Name`).value=SENTINEL;}

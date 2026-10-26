@@ -239,7 +239,7 @@ function getCompletedShowdownResultText(){
     const winner = typeof getShowdownWinner === "function" ? getShowdownWinner(currentShowdown) : "draw";
     if(winner === "playerOne"){ return `${currentShowdown.managers.playerOne} wins the showdown`; }
     if(winner === "playerTwo"){ return `${currentShowdown.managers.playerTwo} wins the showdown`; }
-    return "The showdown finishes level";
+    return "The Showdown is a draw";
 }
 
 function isCurrentShowdownArchived(){

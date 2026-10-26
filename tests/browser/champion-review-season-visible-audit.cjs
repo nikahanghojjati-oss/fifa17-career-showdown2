@@ -90,7 +90,7 @@ async function prepare(page) {
                 await page.locator("#completeSeason").click();
                 await page.locator(".v10SeasonStage:not([hidden]) #seasonReviewPanel").waitFor({state:"visible",timeout:5000});
                 assert.equal(await page.locator("#finalWinnerScreen").count(),0,"Review must leave the Champion presentation");
-                assert.match(await page.locator("#seasonEntryTitle").textContent(),/SEASON 1 SHARED RESULTS/);
+                assert.match(await page.locator("#seasonEntryTitle").textContent(),/SEASON 1 RESULTS/);
                 for (const [id,result] of [["seasonReviewOne",fixture.ready.seasonResults.ownResult],["seasonReviewTwo",fixture.ready.seasonResults.opponentResult]]) {
                     const text=await page.locator(`#${id}`).innerText();
                     assert.ok(text.includes(String(result.leaguePoints))&&text.includes(String(result.leagueGoals)),"Review must show the final season's published facts");

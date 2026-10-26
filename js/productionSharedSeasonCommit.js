@@ -47,7 +47,7 @@
   function psscContextMatches(request){const current=psscRequestContext();return Boolean(request&&current&&request.key===current.key);}
   function psscResultsPublished(request=psscRequestContext()){const results=psscResultsState();return Boolean(request&&results&&results.state?.phase==="RESULTS_READY"&&results.state?.revision===2&&Number(results.seasonNumber)===request.seasonNumber&&String(results.rivalryId||"")===request.rivalryId);}
   function psscResultsReady(request=psscRequestContext()){const results=psscResultsState();return Boolean(psscResultsPublished(request)&&results.allResults?.playerOne&&results.allResults?.playerTwo);}
-  function psscResultError(result,message){if(result&&result.ok===true)return result;const error=new Error(message||"Shared Season Commit request was rejected.");error.code=result&&result.code||"SEASON_COMMIT_PROVIDER_FAILED";throw error;}
+  function psscResultError(result,message){if(result&&result.ok===true)return result;const error=new Error(message||"The season request was rejected.");error.code=result&&result.code||"SEASON_COMMIT_PROVIDER_FAILED";throw error;}
   function psscWithTimeout(promise,ms,code){let timer=null;const timeout=new Promise((_,reject)=>{timer=root.setTimeout?.(()=>{const error=new Error("The Shared Season Commit check took too long. Check your connection and retry.");error.code=code;reject(error);},ms);});return Promise.race([promise,timeout]).finally(()=>{if(timer!==null)root.clearTimeout?.(timer);});}
   function psscQueue(task){const run=providerChain.then(task,task);providerChain=run.catch(()=>{});return run;}
   function psscRandomOperationId(){if(!root.crypto||typeof root.crypto.getRandomValues!=="function")psscFail("SEASON_COMMIT_CRYPTO_UNAVAILABLE");const bytes=new Uint8Array(16);root.crypto.getRandomValues(bytes);return `season_commit_op_${Array.from(bytes,b=>b.toString(16).padStart(2,"0")).join("")}`;}
@@ -56,12 +56,12 @@
     if(!psscSharedMarker())psscFail("SEASON_COMMIT_SHARED_MODE_REQUIRED");
     if(!request||!psscContextMatches(request))psscFail("SEASON_COMMIT_CONTEXT_STALE");
     await psscEnsureDependencies();
-    if(!psscResultsPublished(request))psscFail("SEASON_COMMIT_RESULTS_NOT_READY","Both managers must publish Shared Season Results before the shared season can be committed.");
+    if(!psscResultsPublished(request))psscFail("SEASON_COMMIT_RESULTS_NOT_READY","Both managers must publish their Season Results first.");
     if(!(light===true&&psscSetupState()?.ready===true&&psscResultsReady(request))){
       await setupApi.refresh();if(!psscContextMatches(request))psscFail("SEASON_COMMIT_CONTEXT_STALE");
       await resultsApi.refresh();if(!psscContextMatches(request))psscFail("SEASON_COMMIT_CONTEXT_STALE");
     }
-    if(!psscResultsReady(request))psscFail("SEASON_COMMIT_RESULTS_NOT_READY","Both managers must publish Shared Season Results before the shared season can be committed.");
+    if(!psscResultsReady(request))psscFail("SEASON_COMMIT_RESULTS_NOT_READY","Both managers must publish their Season Results first.");
     const setup=psscSetupState();
     if(!setup||setup.ready!==true||!setup.setup||setup.setup.phase!=="SHOWDOWN_CONFIRMED"||setup.setup.revision!==6||!setup.managerRole||!setup.rivalryId||!setup.sessionId||!setup.deviceId)psscFail("SEASON_COMMIT_SETUP_NOT_CONFIRMED");
     const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await root.CareerModeProductionFirebaseRuntime.ensureAccountServices());
@@ -88,7 +88,7 @@
   }
   function psscClashWarning(who){
     const lines=psscSeasonResultClash(psscResultsState()?.allResults);
-    return lines.length?` · CHECK RESULTS: ${lines.join(" ")} ${who} can still commit; scores use what was entered.`:"";
+    return lines.length?` · CHECK RESULTS: ${lines.join(" ")} ${who} can still lock the season; scores use what was entered.`:"";
   }
   function psscManagerName(role){return psscShowdown()?.managers?.[role]||(role==="playerOne"?"Manager 1":"Manager 2");}
   // r75: a screen that starts or stops waiting on the partner registers its live listener at once (on the render that
@@ -100,20 +100,20 @@
     const request=psscRequestContext(),ready=Boolean(psscSharedMarker()&&request&&psscResultsPublished(request)),eligible=Boolean(ready&&psscResultsReady(request)&&contextKey===request.key&&view);
     psscHidden(ui.status,!ready);psscHidden(ui.action,!ready);if(!ready)return false;
     if(!eligible){
-      psscText(ui.status,readError?`SHARED SEASON COMMIT CHECK FAILED · ${readError} · YOUR PUBLISHED RESULTS ARE SAVED`:'CHECKING SHARED SEASON COMMIT · YOUR PUBLISHED RESULTS ARE SAVED');
-      psscText(ui.action,readError?'RETRY COMMIT CHECK':'CHECK SHARED SEASON COMMIT');psscDisable(ui.action,busy||Boolean(refreshPromise));return false;
+      psscText(ui.status,readError?`SEASON CHECK FAILED · ${readError} · YOUR RESULTS ARE SAVED`:'CHECKING THE SEASON · YOUR RESULTS ARE SAVED');
+      psscText(ui.action,readError?'CHECK AGAIN':'CHECK SEASON');psscDisable(ui.action,busy||Boolean(refreshPromise));return false;
     }
     const role=view.managerRole,coordinator=view.coordinatorRole,phase=view.phase||"RESULTS_READY";
     if(phase==="ACKNOWLEDGED"){
-      psscText(ui.status,"SEASON COMMITTED · SCORE BELOW");psscText(ui.action,"SEASON COMMIT ACKNOWLEDGED ✓");psscDisable(ui.action,true);return true;
+      psscText(ui.status,"SEASON COMMITTED · SCORE BELOW");psscText(ui.action,"SEASON CONFIRMED ✓");psscDisable(ui.action,true);return true;
     }
     if(view.committed){
-      if(view.ownAcknowledged){psscText(ui.status,"YOU ACKNOWLEDGED THIS SHARED SEASON · WAITING FOR YOUR RIVAL");psscText(ui.action,"ACKNOWLEDGED ✓ · WAITING FOR RIVAL");psscDisable(ui.action,true);}
-      else{psscText(ui.status,"THE SHARED SEASON RESULT IS LOCKED · BOTH MANAGERS MUST CONFIRM BEFORE SCORING CAN BEGIN");psscText(ui.action,"ACKNOWLEDGE SHARED SEASON");psscDisable(ui.action,busy);}
+      if(view.ownAcknowledged){psscText(ui.status,"YOU CONFIRMED THIS SEASON · WAITING FOR YOUR RIVAL");psscText(ui.action,"CONFIRMED ✓ · WAITING FOR RIVAL");psscDisable(ui.action,true);}
+      else{psscText(ui.status,"SEASON RESULT LOCKED · BOTH MANAGERS CONFIRM TO SCORE IT");psscText(ui.action,"CONFIRM SEASON");psscDisable(ui.action,busy);}
       return true;
     }
-    if(role===coordinator){psscText(ui.status,`BOTH RESULTS ARE READY · AS COORDINATOR, COMMIT THE IMMUTABLE SHARED SEASON SNAPSHOT${psscClashWarning("You")}`);psscText(ui.action,"COMMIT & ACKNOWLEDGE SHARED SEASON");psscDisable(ui.action,busy);}
-    else{psscText(ui.status,`BOTH RESULTS ARE READY · WAITING FOR ${psscManagerName(coordinator)} TO COMMIT THE SHARED SEASON${psscClashWarning("The coordinator")}`);psscText(ui.action,"WAITING FOR COORDINATOR");psscDisable(ui.action,true);}
+    if(role===coordinator){psscText(ui.status,`BOTH RESULTS ARE IN · LOCK THE SEASON${psscClashWarning("You")}`);psscText(ui.action,"LOCK & CONFIRM SEASON");psscDisable(ui.action,busy);}
+    else{psscText(ui.status,`BOTH RESULTS ARE IN · WAITING FOR ${psscManagerName(coordinator)} TO LOCK THE SEASON${psscClashWarning("The host")}`);psscText(ui.action,"WAITING FOR HOST");psscDisable(ui.action,true);}
     return true;
   }
   function psscBind(result,ctx,request){if(!psscContextMatches(request))return false;const before=view&&contextKey===request.key?view.phase:null;view={...result,rivalryId:ctx.setup.rivalryId,coordinatorRole:result.coordinatorRole||ctx.setup.setup.coordinatorRole};contextKey=request.key;readError="";readErrorKey="";psscRender();if(before&&before!=="ACKNOWLEDGED"&&view.phase==="ACKNOWLEDGED")psscNudgeHistory();if(view.phase==="ACKNOWLEDGED"){try{root.CareerModeFirestoreBudget?.noteSeasonDone?.(`${view.rivalryId}|${request.seasonNumber}`,Boolean(before&&before!=="ACKNOWLEDGED"));}catch(_error){}}return true;}
@@ -128,7 +128,7 @@
   async function psscRefreshNow(request=psscRequestContext(),generation=0,light=false){
     if(!request)return null;
     if(contextKey&&contextKey!==request.key){psscSetError("");pendingErrorKind="";}
-    const ctx=await psscProviderContext(request,light);if(!psscContextMatches(request))return null;const result=psscResultError(await provider.read(ctx.options),"Shared Season Commit could not be read.");if(!psscContextMatches(request))return null;
+    const ctx=await psscProviderContext(request,light);if(!psscContextMatches(request))return null;const result=psscResultError(await provider.read(ctx.options),"The season could not be checked.");if(!psscContextMatches(request))return null;
     if(generation&&generation!==readGeneration)return null;
     if(pendingErrorKind&&psscSatisfied(pendingErrorKind,result)){psscSetError("");pendingErrorKind="";}
     psscBind(result,ctx,request);return view;
@@ -142,7 +142,7 @@
     refreshRequestKey=request.key;
     const generation=++readGeneration;
     const current=psscQueue(()=>psscWithTimeout(psscRefreshNow(request,generation,light===true),psscReadTimeoutMs(),"SEASON_COMMIT_CHECK_TIMEOUT"));refreshPromise=current;psscRender();
-    // Job 33: the check failure shows at once (RETRY COMMIT CHECK), but it is reported only when the same failure repeats on the
+    // Job 33: the check failure shows at once (CHECK AGAIN), but it is reported only when the same failure repeats on the
     // next poll, like Shared History and Multi Season; a single aborted read under contention is not an application error.
     current.then(()=>{heldReportKey="";if(refreshPromise===current){refreshPromise=null;psscRender();}},error=>{
       if(error?.code==="SEASON_COMMIT_CHECK_TIMEOUT"&&readGeneration===generation)readGeneration+=1;
@@ -155,14 +155,14 @@
   function psscSatisfied(kind,current){if(kind==="commit")return Boolean(current.committed);return Boolean(current.ownAcknowledged||current.phase==="ACKNOWLEDGED");}
   async function psscWrite(kind,ctx,request,current){
     const operationId=psscRandomOperationId(),method=kind==="commit"?"commitSeason":"acknowledgeSeason";
-    if(kind==="commit"&&current.managerRole!==current.coordinatorRole)psscFail("SEASON_COMMIT_COORDINATOR_REQUIRED","Only the confirmed coordinator can create the shared season commit.");
+    if(kind==="commit"&&current.managerRole!==current.coordinatorRole)psscFail("SEASON_COMMIT_COORDINATOR_REQUIRED","Only the host can lock the season.");
     for(let attempt=0;attempt<2;attempt+=1){
       const baseRevision=Number(current.revision||0);
       const providerRequest={...ctx.options,operationId,baseRevision};
       const result=await conflictGuard.execute({surface:"season-commit",action:kind==="commit"?"commit-season":"acknowledge-season",operationId,baseRevision,authority:{accountId:ctx.options.user.uid,deviceId:ctx.setup.deviceId,rivalryId:ctx.setup.rivalryId,sessionId:ctx.setup.sessionId,managerRole:ctx.setup.managerRole},intent:{seasonNumber:request.seasonNumber}},()=>provider[method](providerRequest));
       if(result&&result.ok===true)return true;
       if(result?.code==="SEASON_COMMIT_STALE_BASE_REVISION"&&attempt===0){current=psscResultError(await provider.read(ctx.options));if(psscSatisfied(kind,current))return true;continue;}
-      psscResultError(result,kind==="commit"?"The shared season could not be committed.":"Your shared season acknowledgement could not be recorded.");
+      psscResultError(result,kind==="commit"?"The season could not be locked.":"Your season confirmation could not be saved.");
     }
     return false;
   }
@@ -176,7 +176,7 @@
         if(!psscSatisfied(kind,current)){if(!await psscWrite(kind,ctx,request,current))return false;if(kind==="commit")stage="acknowledge";current=psscResultError(await provider.read(ctx.options));if(!psscContextMatches(request))return false;}
         psscBind(current,ctx,request);
         // One tap for the coordinator: COMMIT & ACKNOWLEDGE records his own acknowledgement right after the commit (each write keeps its own operationId and stale retry).
-        // If this second half fails, the committed view shows the existing ACKNOWLEDGE SHARED SEASON button (only this R7 case re-reads
+        // If this second half fails, the committed view shows the existing CONFIRM SEASON button (only this R7 case re-reads
         // at once; a manager's own ACKNOWLEDGE failure keeps its error until the next read, exactly as before).
         if(kind!=="commit"||current.managerRole!==current.coordinatorRole||psscSatisfied("acknowledge",current))return true;
         stage="acknowledge";
