@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-26 3:31 PM Boston time (EDT)",
+ "generated": "2026-10-26 7:16 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1213,32 +1213,28 @@
  },
  "two": {
   "live": {
-   "sha": "186af26",
-   "revision": "1.9.7-r83",
-   "when": "2026-10-24T11:21:02Z",
-   "subject": "Release 1.9.7-r83: bug fixes, draws without tiebreaks, real-only play (#991)",
-   "fixes": [
+   "sha": "cd7df26",
+   "revision": "1.9.8-r84",
+   "when": "2026-10-26T22:02:26Z",
+   "subject": "Re-pin the L5 Rules check to r84 on main (#1008)",
+   "fixes": [],
+   "today": [
+    {
+     "pr": 1008,
+     "title": "Re-pin the L5 Rules check to r84 on main",
+     "merged": "2026-10-26T22:02:27Z"
+    },
     {
      "pr": 1002,
      "title": "Release 1.9.8-r84: plain wording, Golden Showdown, far fewer Firebase reads",
-     "draft": false,
-     "branch": "gameplay/r84",
-     "sha": "378015a4dc0ccd2b01dce431b4ee11096b373c2e",
-     "updated": "2026-10-26T19:13:03Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
+     "merged": "2026-10-26T20:57:59Z"
     }
-   ],
-   "today": []
+   ]
   },
   "physio": {
    "state": "clear",
    "line": "All clear (from GitHub).",
-   "gate": "Gate #1002: L1✓ L2✓ L4✓ L5✓ L6✓ · POS20 #1002 8/8",
+   "gate": "POS20 #304 7/7",
    "source": "github"
   },
   "v_headline": "Queued next",
@@ -1784,7 +1780,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 40,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3000,22 +2996,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 1002,
-    "title": "Release 1.9.8-r84: plain wording, Golden Showdown, far fewer Firebase reads",
-    "draft": false,
-    "branch": "gameplay/r84",
-    "sha": "378015a4dc0ccd2b01dce431b4ee11096b373c2e",
-    "updated": "2026-10-26T19:13:03Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
