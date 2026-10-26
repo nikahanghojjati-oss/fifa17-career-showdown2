@@ -45,6 +45,7 @@
     "managerScore": "{manager}: {score}",
     "seasonDetail": "#{position} · {points} league pts · {goals} goals",
     "europaLeague": "Europa League winner",
+    "goldenShowdown": "Golden Showdown",
     "historyHeading": "{showdown} · {action}",
     "inProgress": "In progress",
     "close": "Close season history",

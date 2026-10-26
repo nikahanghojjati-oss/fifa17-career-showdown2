@@ -11,6 +11,9 @@
     { key: "championsLeague", category: "CHAMPIONS LEAGUE", asset: BASE + "../shared/trophies/TRO_CONTINENTAL_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.championsLeagues, nik:f.managers.nik.championsLeagues}) },
     { key: "europaLeague", category: "EUROPA LEAGUE", asset: BASE + "../shared/trophies/TRO_EUROPA_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.europaLeagues, nik:f.managers.nik.europaLeagues}) }
   ];
+  // r84 Golden Showdown: 110 points in a finished 10-season Showdown. Its gold case joins the ALL shelf only once a manager
+  // has earned it (frame.goldenShowdowns is present only then).
+  const GOLDEN = { key: "goldenShowdown", category: "ALL", asset: BASE + "../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp", value: f => f.goldenShowdowns };
 
   const state = { fixtures:null, frame:null, frameKey:"TR1", map:null, activeCategory:"ALL", stage:null, spotlightLit:false, heroSettled:false, heroGlintPlayed:false, shelfRevealed:false, countsRevealed:false, shimmeredTrophies:new Set(), tabTransitioning:false };
   const qs = new URLSearchParams(location.search);
@@ -105,7 +108,8 @@
     const hasWin = (leftCount || 0) > 0 || (rightCount || 0) > 0;
     const shimmerClass = hasWin ? "sd-glint" : "";
     const shimmerAttr = hasWin ? ` data-winning-card="true"` : "";
-    return `<article class="trophyCard ${empty ? "is-unwon" : ""} ${state.shelfRevealed ? "tr-card-revealed" : ""} ${shimmerClass}" data-trophy="${trophy.key}"${shimmerAttr}><div class="trophyCardGlow"></div>${picture(trophy.asset, strings.trophyTypes[trophy.key], "trophyCardPicture")}<h3>${esc(strings.trophyTypes[trophy.key])}</h3><div class="managerCounts"><div data-side="daniel"><span>${esc(dName)}</span><strong${leftAttr}>${esc(left)}</strong></div><div data-side="nik"><span>${esc(nName)}</span><strong${rightAttr}>${esc(right)}</strong></div></div>${empty ? `<p class="notWonYet">${esc(strings.notWonYet)}</p>` : ""}</article>`;
+    const golden = trophy.key === GOLDEN.key ? ` data-golden-showdown="true"` : "";
+    return `<article class="trophyCard ${golden ? "trophyCard--golden" : ""} ${empty ? "is-unwon" : ""} ${state.shelfRevealed ? "tr-card-revealed" : ""} ${shimmerClass}" data-trophy="${trophy.key}"${shimmerAttr}${golden}><div class="trophyCardGlow"></div>${picture(trophy.asset, strings.trophyTypes[trophy.key], "trophyCardPicture")}<h3>${esc(strings.trophyTypes[trophy.key])}</h3><div class="managerCounts"><div data-side="daniel"><span>${esc(dName)}</span><strong${leftAttr}>${esc(left)}</strong></div><div data-side="nik"><span>${esc(nName)}</span><strong${rightAttr}>${esc(right)}</strong></div></div>${empty ? `<p class="notWonYet">${esc(strings.notWonYet)}</p>` : ""}</article>`;
   }
 
   function recordRibbon(strings, frame) {
@@ -126,8 +130,9 @@
 
   function shelf(strings, frame) {
     const noData = frame.status === "loading" || frame.status === "unavailable";
-    const chosen = state.activeCategory === "ALL" ? TROPHIES : TROPHIES.filter(t => t.category === state.activeCategory);
-    return `<section class="trophyShelf ${chosen.length === 1 ? "is-filtered" : ""}" data-sd-enter="panel" aria-label="${esc(strings.managerCabinetsHeading)}">${tabs(strings, frame)}<div class="shelfGlass"><div class="shelfTopEdge"></div>${statePanel(strings, frame)}${noData ? "" : `<div class="trophyGrid">${chosen.map(t => trophyCard(t, strings, frame)).join("")}</div>${recordRibbon(strings, frame)}`}</div></section>`;
+    const golden = state.activeCategory === "ALL" && frame.goldenShowdowns ? [GOLDEN] : [];
+    const chosen = state.activeCategory === "ALL" ? TROPHIES.concat(golden) : TROPHIES.filter(t => t.category === state.activeCategory);
+    return `<section class="trophyShelf ${chosen.length === 1 ? "is-filtered" : ""} ${golden.length ? "has-golden" : ""}" data-sd-enter="panel" aria-label="${esc(strings.managerCabinetsHeading)}">${tabs(strings, frame)}<div class="shelfGlass"><div class="shelfTopEdge"></div>${statePanel(strings, frame)}${noData ? "" : `<div class="trophyGrid">${chosen.map(t => trophyCard(t, strings, frame)).join("")}</div>${recordRibbon(strings, frame)}`}</div></section>`;
   }
 
   function back(strings) {
