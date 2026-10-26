@@ -514,6 +514,35 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.ok(seenAt!==null&&seenAt-at<=1000,`the listener still delivers the partner's move at once (${seenAt===null?"never":seenAt-at+" ms"})`);
     screen.stop();
   });
+  await check("FB16c","r84 seasons left today: each season seen ACKNOWLEDGED records its reads, the estimate follows that cost for both devices, a reload or an old season never counts twice, and the next day starts from the last day's cost",async()=>{
+    const storage=new Map();
+    const world=createWorld({storage});seed(world);
+    const before=world.budget.seasonsLeftToday();
+    assert.equal(before.basis,"estimate","before any season is played the r84 measured cost is used");
+    assert.ok(before.seasons>0);
+    for(let i=0;i<100;i++)world.budget.countListenerRead();
+    assert.equal(world.budget.noteSeasonDone("pair_x|1",true),true);
+    let left=world.budget.seasonsLeftToday();
+    assert.equal(left.basis,"today");
+    assert.equal(left.billedPerSeason,Math.round(100*2.8*2),"one season's reads on this device, billed, for both devices");
+    assert.equal(left.seasons,Math.floor((50000-100*2.8*2)/(100*2.8*2)));
+    assert.equal(world.budget.noteSeasonDone("pair_x|1",true),false,"the same season never counts twice");
+    for(let i=0;i<300;i++)world.budget.countListenerRead();
+    assert.equal(world.budget.noteSeasonDone("pair_x|0",false),true,"a commit first seen already ACKNOWLEDGED only moves the mark");
+    assert.equal(world.budget.seasonsLeftToday().billedPerSeason,Math.round(100*2.8*2),"its unknown cost is not recorded");
+    for(let i=0;i<200;i++)world.budget.countListenerRead();
+    world.budget.noteSeasonDone("pair_x|2",true);
+    left=world.budget.seasonsLeftToday();
+    assert.equal(left.billedPerSeason,Math.round(150*2.8*2),"the cost is the average of the seasons played (100 and 200 reads)");
+    const reloaded=createWorld({storage,now:world.clock.now});
+    assert.equal(reloaded.budget.noteSeasonDone("pair_x|2",true),false,"a reload remembers the seasons already counted");
+    assert.equal(reloaded.budget.seasonsLeftToday().billedPerSeason,left.billedPerSeason);
+    const tomorrow=createWorld({storage,now:world.clock.now+24*3600000});
+    const next=tomorrow.budget.seasonsLeftToday();
+    assert.equal(next.basis,"earlier","the next day starts from the last day's cost");
+    assert.equal(next.billedPerSeason,left.billedPerSeason);
+    assert.equal(next.seasons,Math.floor(50000/left.billedPerSeason));
+  });
 
   await check("FB7","a listener that falls behind the server is dropped within 5 s and the screen reads the server",async()=>{
     const world=createWorld();seed(world);

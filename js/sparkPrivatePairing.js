@@ -682,13 +682,13 @@ async function revokePairing(options={}){
   // reuse every copy for at least 15 s until the next tap: an unknown loop costs at most a few reads a minute instead of the day's allowance.
   // Taps, writes, readServerNext and a healthy listener are untouched, so play stays instant; the brake lets go by itself.
   const FSB_BRAKE_WINDOW_MS=5*60000,FSB_BRAKE_READS=150,FSB_BRAKE_IDLE_MS=60000,FSB_BRAKE_REUSE_MS=15000;
-  const FSB_DAY_KEY="careerModeFirestoreReadsDay",FSB_DAY_SAVE_EVERY=20,FSB_BILLED_PER_READ=2.8,FSB_FREE_READS_PER_DAY=50000;
+  const FSB_DAY_KEY="careerModeFirestoreReadsDay",FSB_DAY_SAVE_EVERY=20,FSB_BILLED_PER_READ=2.8,FSB_FREE_READS_PER_DAY=50000,FSB_DAY_SEASONS=20,FSB_DEFAULT_SEASON_READS=700;
   const fsbReadTimes=[];let fsbDay=null,fsbDayUnsaved=0,fsbDayStoreBroken=false;
   function fsbPacificDay(at){try{return new Intl.DateTimeFormat("en-CA",{timeZone:"America/Los_Angeles",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date(at));}catch(_error){return new Date(at-8*3600000).toISOString().slice(0,10);}}
   function fsbDayState(at=fsbNow()){
     const day=fsbPacificDay(at);
-    if(!fsbDay){fsbDay={day,reads:0};try{const saved=JSON.parse((typeof root.readStorageValue==="function"&&root.readStorageValue(FSB_DAY_KEY))||"null");if(saved&&saved.day===day&&Number.isFinite(saved.reads)&&saved.reads>=0)fsbDay.reads=Math.floor(saved.reads);}catch(_error){}}
-    if(fsbDay.day!==day){fsbDay={day,reads:0};fsbDayUnsaved=1;}
+    if(!fsbDay){fsbDay={day,reads:0,markReads:0,seasons:[],costs:[],lastCost:0};try{const saved=JSON.parse((typeof root.readStorageValue==="function"&&root.readStorageValue(FSB_DAY_KEY))||"null");if(saved&&Number.isFinite(saved.lastCost)&&saved.lastCost>0)fsbDay.lastCost=Math.floor(saved.lastCost);if(saved&&saved.day!==day&&fsbSeasonCost(saved))fsbDay.lastCost=fsbSeasonCost(saved);if(saved&&saved.day===day&&Number.isFinite(saved.reads)&&saved.reads>=0){fsbDay.reads=Math.floor(saved.reads);if(Number.isFinite(saved.markReads)&&saved.markReads>=0&&saved.markReads<=fsbDay.reads)fsbDay.markReads=Math.floor(saved.markReads);if(Array.isArray(saved.seasons))fsbDay.seasons=saved.seasons.filter(key=>typeof key==="string").slice(-FSB_DAY_SEASONS);if(Array.isArray(saved.costs))fsbDay.costs=saved.costs.filter(cost=>Number.isFinite(cost)&&cost>0).slice(-FSB_DAY_SEASONS);}}catch(_error){}}
+    if(fsbDay.day!==day){fsbDay={day,reads:0,markReads:0,seasons:[],costs:[],lastCost:fsbSeasonCost(fsbDay)||fsbDay.lastCost||0};fsbDayUnsaved=1;}
     return fsbDay;
   }
   // Saved through storage.js (the only module that touches browser storage); a failed write stops further saves so a
@@ -712,6 +712,26 @@ async function revokePairing(options={}){
     return on;
   }
   function fsbReadsToday(){const day=fsbDayState();return Object.freeze({day:day.day,reads:day.reads,billedEstimate:Math.round(day.reads*FSB_BILLED_PER_READ),freeReadsPerDay:FSB_FREE_READS_PER_DAY});}
+  // r84: seasons left today. Each season this page sees ACKNOWLEDGED records the reads it made since the previous one, so
+  // the cost per season follows the pace actually played (a slow season waits longer and costs more). The partner's device
+  // is assumed to cost the same. Until a season is finished today, the last day's average (or the r84 measured cost) is used.
+  function fsbSeasonCost(day){const costs=day&&Array.isArray(day.costs)?day.costs.filter(cost=>Number.isFinite(cost)&&cost>0).slice(-3):[];return costs.length?Math.round(costs.reduce((sum,cost)=>sum+cost,0)/costs.length):0;}
+  function fsbNoteSeasonDone(key,live){
+    if(typeof key!=="string"||!key)return false;
+    const day=fsbDayState();
+    if(day.seasons.includes(key))return false;
+    const cost=day.reads-day.markReads;
+    day.seasons.push(key);if(day.seasons.length>FSB_DAY_SEASONS)day.seasons.shift();
+    // A commit first seen already ACKNOWLEDGED (a reload, an older season) only moves the mark: its cost is unknown.
+    if(live===true&&cost>0){day.costs.push(cost);if(day.costs.length>FSB_DAY_SEASONS)day.costs.shift();}
+    day.markReads=day.reads;fsbDayUnsaved+=1;fsbSaveDay();
+    return true;
+  }
+  function fsbSeasonsLeftToday(){
+    const day=fsbDayState(),measured=fsbSeasonCost(day),reads=measured||day.lastCost||FSB_DEFAULT_SEASON_READS;
+    const perSeason=reads*FSB_BILLED_PER_READ*2,left=Math.max(0,FSB_FREE_READS_PER_DAY-day.reads*FSB_BILLED_PER_READ*2);
+    return Object.freeze({seasons:fsbPaused()?0:Math.floor(left/perSeason),basis:measured?"today":day.lastCost?"earlier":"estimate",billedPerSeason:Math.round(perSeason),billedLeft:Math.round(left)});
+  }
 
   function fsbNow(){return Date.now();}
   function fsbPathOf(ref){return ref&&typeof ref.path==="string"?ref.path:"";}
@@ -1098,6 +1118,8 @@ async function revokePairing(options={}){
     noteError(error){if(fsbIsQuotaError(error))fsbTrip();return fsbQuotaMessage(error);},
     state:fsbState,
     readsToday:fsbReadsToday,
+    noteSeasonDone:fsbNoteSeasonDone,
+    seasonsLeftToday:fsbSeasonsLeftToday,
     braking:()=>fsbBraking(),
     stats:()=>Object.freeze({...fsbStats,remembered:fsbEntries.size,watching:fsbWait?fsbWait.path:null,watchHealthy:fsbWaitLive()}),
     reset(){fsbDetachWait();fsbReturnListen([]);fsbWaitFailed.clear();fsbReturnWakes.clear();fsbEntries.clear();fsbInflight.clear();fsbCadence.clear();fsbWaitAsks.clear();fsbFreshPaths.clear();fsbServerNext.clear();fsbPause=null;fsbInputAt=0;fsbFreshAskAt=0;fsbChainAt=0;fsbPublish();}
