@@ -919,7 +919,16 @@ async function revokePairing(options={}){
   function fsbCtxServerRead(path,snapshot){
     const watch=fsbCtxWatches.get(path);
     if(watch){if(watch.healthy&&fsbSerial(snapshot)===watch.serial)watch.confirmedAt=fsbNow();else if(watch.healthy&&!watch.dirty)watch.healthy=false;return;}
+    if(fsbCtxSessionPath(path)&&path!==fsbCtxCurrentSession())return;
     fsbCtxAttach(path);
+  }
+  // The Session to watch is the one this page read most recently: an older Session still in the copies (a new Session was
+  // opened without a reload) is never re-attached, so the current Session listener is not dropped and re-made on each wake.
+  function fsbCtxSessionPath(path){return typeof path==="string"&&path.split("/").length===4;}
+  function fsbCtxCurrentSession(){
+    let best=null,at=-1;
+    for(const [path,entry] of fsbEntries)if(fsbCtxWanted(path)&&fsbCtxSessionPath(path)&&entry.at>at){best=path;at=entry.at;}
+    return best;
   }
   function fsbCtxDelivery(watch,snapshot){
     if(fsbCtxWatches.get(watch.path)!==watch)return;
@@ -950,7 +959,8 @@ async function revokePairing(options={}){
     if(!id){fsbCtxRivalry=null;fsbCtxDetach();return false;}
     if(!fsbCtxRivalry||fsbCtxRivalry.rivalryId!==id){fsbCtxDetach();fsbCtxRivalry={rivalryId:id,wake};}
     else fsbCtxRivalry.wake=wake;
-    for(const path of fsbEntries.keys())if(fsbCtxWanted(path))fsbCtxAttach(path);
+    const rootPath=`rivalries/${id}`;if(fsbEntries.has(rootPath))fsbCtxAttach(rootPath);
+    const session=fsbCtxCurrentSession();if(session)fsbCtxAttach(session);
     return Boolean(fsbCtxServe(`rivalries/${id}`));
   }
 

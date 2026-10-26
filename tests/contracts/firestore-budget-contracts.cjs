@@ -1075,5 +1075,22 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
       assert.equal(next.kind,"hosted",JSON.stringify(next));assert.equal(remote.getState().auto,"waiting");assert.equal(published(world),true);}
   });
 
+  await check("FB-CTX1","context listeners watch the rivalry root and only the current Session; repeated wakes attach nothing new (Codex #1006 P2)",async()=>{
+    const world=createWorld();
+    const ID="pair_"+"f".repeat(64),ROOT=`rivalries/${ID}`,OLD=`${ROOT}/sessions/session_${"1".repeat(64)}`,NEW=`${ROOT}/sessions/session_${"2".repeat(64)}`;
+    world.serverWrite(ROOT,{status:"ACTIVE"});world.serverWrite(OLD,{state:"closed"});world.serverWrite(NEW,{state:"active"});
+    const sdk=world.services.firestoreSdk,read=async paths=>sdk.runTransaction(world.db,async tx=>{for(const path of paths)await tx.get({path});});
+    await read([ROOT,OLD]);await world.advance(1000);
+    await read([NEW]);  // a new Session opened without a reload: both Session copies are kept
+    world.budget.watchContext(ID,()=>{});await world.advance(1000);
+    const attached=world.budget.stats().listenersAttached;
+    const watched=()=>world.activeListeners().map(listener=>listener.path).sort();
+    assert.deepEqual(watched(),[ROOT,NEW].sort(),"the rivalry root and the newest Session are watched, never the older Session");
+    for(let wake=0;wake<6;wake+=1){world.budget.watchContext(ID,()=>{});await world.advance(15000);}
+    assert.equal(world.budget.stats().listenersAttached,attached,"six unchanged wakes attach no new listener");
+    assert.deepEqual(watched(),[ROOT,NEW].sort(),"the current Session listener stays attached");
+    assert.equal(world.budget.contextHealthy(NEW),true,"the current Session is served by its listener");
+  });
+
   console.log(`PASS Firestore budget contracts: ${results.length} checks, measured reads/min ${measured.join(" / ")} (waiting <= ${BUDGET.waitingVisibleReadsPerMinute} reads/min, hidden ${BUDGET.hiddenReadsPerMinute}, idle writes 0, partner update <= ${BUDGET.partnerUpdateMs} ms).`);
 })().catch(error=>{console.error(error);process.exitCode=1;});
