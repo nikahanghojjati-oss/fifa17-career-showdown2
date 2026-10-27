@@ -159,7 +159,9 @@ test("the adapter keeps the product's protected Home facts (desktop tile placeme
 test("Team V files are the 5e05a1f copies with only the listed edits (HO-005: phone overlays V2; HO-027 r78: no state dimming)",()=>{
   assert.equal(sha("visual-assets/v10_1/home/home.css"),"ba72603790119c404a32711ddc36cbb6ad4190c108d496a1193eef8bbc3dbc53");
   assert.doesNotMatch(homeCss,/OVL_HOME_(?:DANIEL|NIK)_PHONE_V1/,"HO-005: phone overlays without the ghost coat (V2)");
-  assert.equal(sha("visual-assets/v10_1/home/soundtrack.js"),"8c00f6cf547119848733082af9c6eb0c2baedb24a46b92195b6768a268fa4c72");
+  // r85 (app, Nik 2026-10-27): a small API (toggle, choose, tracks, current, subscribe) for the docked player in js/musicDockV10.js.
+  assert.equal(sha("visual-assets/v10_1/home/soundtrack.js"),"0184171960cda74de475c9e64b29c68cf6578ada964a92482c2dd24bec3f7fc7");
+  assert.equal((soundtrack.match(/r85 \(app\)/g)||[]).length,2);
   assert.equal((soundtrack.match(/JOB-25 \(app\)/g)||[]).length,2);
 });
 

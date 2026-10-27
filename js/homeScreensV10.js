@@ -136,6 +136,8 @@
     const syncMusicAlert=()=>{const text=status.textContent||"";card.dataset.failed=String(text===MEDIA.statusError||/OFFLINE/i.test(text));};
     if(typeof root.MutationObserver==="function")new root.MutationObserver(syncMusicAlert).observe(status,{childList:true,characterData:true,subtree:true});
     root.HomeSoundtrack.init(MEDIA);
+    // r85: the same player docked in the bars of every other screen (js/musicDockV10.js); loaded after Home is up.
+    if(typeof root.loadRuntimeScript==="function")Promise.resolve(root.loadRuntimeScript("v10-music-dock","js/musicDockV10.js",()=>Boolean(root.CareerModeMusicDockV10))).then(()=>root.CareerModeMusicDockV10?.start()).catch(()=>{});
     if(offlineText){nextToggle.disabled=true;nextToggle.setAttribute("aria-disabled","true");status.textContent=offlineText;}
     syncMusicAlert();
   }
