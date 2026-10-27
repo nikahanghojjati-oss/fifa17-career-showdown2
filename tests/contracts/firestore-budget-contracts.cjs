@@ -520,6 +520,8 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     const before=world.budget.seasonsLeftToday();
     assert.equal(before.basis,"estimate","before any season is played the r84 measured cost is used");
     assert.ok(before.seasons>0);
+    assert.equal(before.billedPerSeason,Math.round(135*2.8*2),"r85: the fallback is the r84 trimmed cost (about 750 billed per season for both phones), not the pre-trim 450 reads");
+    assert.equal(before.seasons,66,"so a fresh day with no season played shows about 66 seasons, not 19");
     for(let i=0;i<100;i++)world.budget.countListenerRead();
     assert.equal(world.budget.noteSeasonDone("pair_x|1",true),true);
     let left=world.budget.seasonsLeftToday();
