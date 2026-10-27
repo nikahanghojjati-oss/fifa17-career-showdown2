@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-27 7:53 PM Boston time (EDT)",
+ "generated": "2026-10-27 7:55 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 131,
@@ -1202,8 +1202,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "af261e6",
-  "head_boston": "Tue 27 Oct 7:52 PM",
+  "head": "e9cdeb5",
+  "head_boston": "Tue 27 Oct 7:54 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1738,7 +1738,7 @@
     "from": "G",
     "to": "V",
     "title": "r86 Marquee Player reveal screen and MP chip",
-    "stage": "RECEIVED",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-035_r86-marquee-player-reveal-screen-and-mp-.md",

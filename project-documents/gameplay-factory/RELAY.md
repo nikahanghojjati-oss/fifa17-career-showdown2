@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-27 7:53 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-27 7:55 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `af261e6` (Tue 27 Oct 7:52 PM Boston time) · 131 messages · 36 hand-offs · 242 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `e9cdeb5` (Tue 27 Oct 7:54 PM Boston time) · 131 messages · 36 hand-offs · 243 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-035 · G → V · r86 Marquee Player reveal screen and MP chip
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 39 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 39 min after delivery
 
+- Tue 27 Oct 7:54 PM · Team V · In progress · Building visual-assets/v10_1/marquee on branch claude/project-thread-3ux89z: club plate scene reused, code-drawn original shirts, gold faceless silhouette for the player step, tier badge, MP chip
 - Tue 27 Oct 7:52 PM · Team V · Received · Team V lead started it in this thread 27 Oct 7:5x p.m. Eastern
 - Tue 27 Oct 7:12 PM · Team G · Sent
 - Tue 27 Oct 7:13 PM · relay Action · Delivered in full as a wake comment on PR #312
