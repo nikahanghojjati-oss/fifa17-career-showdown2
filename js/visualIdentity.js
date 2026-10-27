@@ -203,6 +203,8 @@ const CREST_PATTERNS = Object.freeze({
     wide: c => `<rect x="24" y="0" width="24" height="144" fill="${c}"/><rect x="72" y="0" width="24" height="144" fill="${c}"/>`,
     pins: c => Array.from({ length: 9 }, (_, i) => `<rect x="${9 + i * 12}" y="0" width="5" height="144" fill="${c}"/>`).join(""),
     hoops: c => [0, 1, 2, 3].map(i => `<rect x="0" y="${30 + i * 26}" width="120" height="13" fill="${c}"/>`).join(""),
+    stripesL: c => [0, 1, 2].map(i => `<rect x="${i * 20}" y="0" width="10" height="144" fill="${c}"/>`).join(""),
+    stripesLp: c => [0, 1, 2].map(i => `<rect x="${10 + i * 20}" y="0" width="10" height="144" fill="${c}"/>`).join(""),
     halves: c => `<rect x="60" y="0" width="60" height="144" fill="${c}"/>`,
     halvesL: c => `<rect x="0" y="0" width="60" height="144" fill="${c}"/>`,
     sash: c => `<path d="M-10 118L130 34V56L-10 140Z" fill="${c}"/>`,
@@ -313,7 +315,8 @@ const CREST_MOTIF_PLACES = Object.freeze({
     lo: "translate(30 50) scale(.5)",
     peak: "translate(42 11) scale(.3)",
     tilt: "rotate(-16 60 72)",
-    left: "translate(120 0) scale(-1 1)"
+    left: "translate(120 0) scale(-1 1)",
+    right: "translate(48 28) scale(.6)"
 });
 
 function buildCrestMotifs(tokens){
@@ -330,6 +333,21 @@ function buildCrestMotifs(tokens){
     return { inside: inside.join(""), above: above.join("") };
 }
 
+/* CREST-V2 premium finish: bevelled gold rim, enamel sheen, gold-edged
+   emblems and an optional ring band (gold marks, never lettering). */
+const CREST_RING_MARKS = Object.freeze({
+    dots: n => Array.from({ length: n }, (_, i) => { const a = -Math.PI / 2 + i * 2 * Math.PI / n; return `<circle cx="${(60 + 48 * Math.cos(a)).toFixed(1)}" cy="${(70 + 48 * Math.sin(a)).toFixed(1)}" r="1.9"/>`; }).join(""),
+    stars: n => Array.from({ length: n }, (_, i) => { const a = -Math.PI / 2 + i * 2 * Math.PI / n; return crestStar(60 + 48 * Math.cos(a), 70 + 48 * Math.sin(a), 3.6, "inherit"); }).join("")
+});
+
+function buildCrestRing(ring, palette, gold){
+    const band = resolveCrestColour(ring.colour, palette, palette.secondary);
+    const marks = (CREST_RING_MARKS[ring.marks] || CREST_RING_MARKS.dots)(ring.count || 16).replace(/fill="inherit"/g, "");
+    return `<path d="M60 15A55 55 0 1 1 59.99 15ZM60 29A41 41 0 1 0 60.01 29Z" fill="${band}" fill-rule="evenodd"/>`
+        + `<g fill="none" stroke="url(#${gold})"><circle cx="60" cy="70" r="41" stroke-width="2.2"/><circle cx="60" cy="70" r="53.6" stroke-width="1.2"/></g>`
+        + `<g fill="${ring.markColour ? resolveCrestColour(ring.markColour, palette, "#f5f5f3") : `url(#${gold})`}">${marks}</g>`;
+}
+
 function buildCrestSvgMarkup(recipe, palette, idPrefix){
     const shape = CREST_SHAPES[recipe.shape] || CREST_SHAPES.heater;
     const layers = parseCrestTokens(recipe.pattern, palette);
@@ -342,35 +360,53 @@ function buildCrestSvgMarkup(recipe, palette, idPrefix){
         return draw ? draw(layer.c1, layer.c2, idPrefix) : "";
     }).join("");
     const motifs = buildCrestMotifs(parseCrestTokens(recipe.motif, palette));
-    const r = `${idPrefix}r`, g = `${idPrefix}g`, c = `${idPrefix}c`;
+    const r = `${idPrefix}r`, b = `${idPrefix}b`, s = `${idPrefix}s`, v = `${idPrefix}v`, c = `${idPrefix}c`, e = `${idPrefix}e`, ic = `${idPrefix}i`;
+    const ring = recipe.ring && recipe.shape === "roundel" ? recipe.ring : null;
+    const around = (k, inner) => `<path d="${shape}" ${inner} transform="translate(60 70) scale(${k}) translate(-60 -70)"/>`;
+    const emblem = motifs.inside ? `<g filter="url(#${e})">${motifs.inside}</g>` : "";
+    const inside = ring
+        ? `<clipPath id="${ic}"><circle cx="60" cy="70" r="41"/></clipPath><g clip-path="url(#${ic})">${pattern}<g transform="translate(60 70) scale(.72) translate(-60 -70)">${emblem}</g></g>${buildCrestRing(ring, palette, r)}`
+        : `${pattern}${emblem}`;
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 144" aria-hidden="true" focusable="false"><defs>`
-        + `<linearGradient id="${r}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbeaa0"/><stop offset=".45" stop-color="#c69a34"/><stop offset=".7" stop-color="#f3d470"/><stop offset="1" stop-color="#8e6a1f"/></linearGradient>`
-        + `<linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient>`
+        + `<linearGradient id="${r}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2b8"/><stop offset=".28" stop-color="#e2b84a"/><stop offset=".52" stop-color="#9a7022"/><stop offset=".74" stop-color="#f6dc84"/><stop offset="1" stop-color="#7d5a17"/></linearGradient>`
+        + `<linearGradient id="${b}" x1="1" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fbe7a1"/><stop offset=".5" stop-color="#b8892c"/><stop offset="1" stop-color="#5e4210"/></linearGradient>`
+        + `<linearGradient id="${s}" x1=".2" y1="0" x2=".55" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".26"/><stop offset=".42" stop-color="#fff" stop-opacity=".06"/><stop offset=".43" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".14"/></linearGradient>`
+        + `<radialGradient id="${v}" cx=".5" cy=".46" r=".62"><stop offset=".7" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".3"/></radialGradient>`
+        + `<filter id="${e}" x="-25%" y="-25%" width="150%" height="150%"><feMorphology in="SourceAlpha" operator="dilate" radius="2.6" result="o"/><feMorphology in="SourceAlpha" operator="dilate" radius="1.2" result="i"/>`
+        + `<feOffset in="o" dy="1.8" result="d"/><feGaussianBlur in="d" stdDeviation="1.2" result="d"/><feFlood flood-color="#000" flood-opacity=".5"/><feComposite in2="d" operator="in" result="sh"/>`
+        + `<feFlood flood-color="#e8c25c"/><feComposite in2="o" operator="in" result="go"/><feFlood flood-color="#1c1407"/><feComposite in2="i" operator="in" result="dk"/>`
+        + `<feMerge><feMergeNode in="sh"/><feMergeNode in="go"/><feMergeNode in="dk"/><feMergeNode in="SourceGraphic"/></feMerge></filter>`
         + `<clipPath id="${c}"><path d="${shape}"/></clipPath></defs>`
-        + `<g transform="translate(0 4)"><path d="${shape}" fill="url(#${r})" transform="translate(60 70) scale(1.07) translate(-60 -70)"/>`
-        + `<path d="${shape}" fill="${field}"/><g clip-path="url(#${c})">${pattern}${motifs.inside}<path d="${shape}" fill="url(#${g})"/></g>`
-        + `<path d="${shape}" fill="none" stroke="#1a1206" stroke-opacity=".35" stroke-width="1.2"/></g>${motifs.above}</svg>`;
+        + `<g transform="translate(0 4)">`
+        + `<path d="${shape}" fill="#000" fill-opacity=".4" transform="translate(60 72.5) scale(1.1) translate(-60 -70)"/>`
+        + around(1.1, `fill="url(#${r})"`)
+        + around(1.05, `fill="#1c1407"`)
+        + around(1.035, `fill="url(#${b})"`)
+        + `<path d="${shape}" fill="${field}"/><g clip-path="url(#${c})">${inside}`
+        + `<path d="${shape}" fill="url(#${v})"/><path d="${shape}" fill="url(#${s})"/>`
+        + `<path d="${shape}" fill="none" stroke="#1c1407" stroke-opacity=".55" stroke-width="2.4"/></g>`
+        + `</g>${motifs.above ? `<g filter="url(#${e})">${motifs.above}</g>` : ""}</svg>`;
 }
 
 function toSvgDataUri(svg){
     return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
 }
 
-function crestRecipe(shape, pattern, motif, keep, change){
-    return Object.freeze({ shape, pattern, motif, keep, change });
+function crestRecipe(shape, pattern, motif, keep, change, ring){
+    return Object.freeze({ shape, pattern, motif, keep, change, ring: ring ? Object.freeze(ring) : null });
 }
 
 const CLUB_CREST_RECIPES = Object.freeze({
     /* Premier League 2016-17 */
-    "Arsenal": crestRecipe("roundel", "foot:a rule:s", "cannon:s star@peak:g", "red, white, navy; cannon", "roundel not shield, cannon faces left, no top text band"),
+    "Arsenal": crestRecipe("heater", "cap:a", "cannon:g", "red, white, navy; cannon on a red shield", "own cannon drawing, navy cap not a text band, no lettering"),
     "Bournemouth": crestRecipe("hex", "field:s stripes:p", "cherries:a:w", "red and black stripes; cherries (club nickname)", "hex not badge block, no player-head silhouette, no lettering"),
     "Burnley": crestRecipe("roundel", "foot:s rule:a", "bee:a:k", "claret, sky blue, gold; a bee", "roundel not shield, single bee, no lion, no hand, no motto"),
-    "Chelsea": crestRecipe("heater", "cap:s", "lion:a:p", "royal blue, white, gold; a lion", "shield not roundel, lion head in profile, no staff, roses or balls"),
+    "Chelsea": crestRecipe("roundel", "", "lion:a:p", "royal blue, white, gold; a lion in a ringed roundel", "lion head in profile, gold marks in the ring not text, no staff, roses or balls", { colour: "w", marks: "dots", count: 18 }),
     "Crystal Palace": crestRecipe("hex", "halves:s", "eagleR:w", "blue and red halves; an eagle", "hex not arched shield, spread eagle faces right, no ball, no palace, no text"),
     "Everton": crestRecipe("roundel", "base:s", "tower:s:p", "royal blue, white; a round tower", "roundel not shield, plain tower, no wreaths, no motto scroll"),
     "Hull City": crestRecipe("hex", "claws:s", "", "amber and black; tiger stripes", "stripes only, no tiger head, hex not shield, no text"),
     "Leicester City": crestRecipe("heater", "base:a", "fox@tilt:#e07a24:k", "royal blue, white, gold; a fox", "shield not roundel, tilted fox mask, no petal ring, no text"),
-    "Liverpool": crestRecipe("point", "base:a", "bird:s", "red, white, teal; a bird", "bird in flight, not the standing liver bird; no flames, gates or motto"),
+    "Liverpool": crestRecipe("heater", "base:a", "bird:w star@peak:g", "red, white, teal; a bird on a red shield", "bird in flight, not the standing liver bird; no flames, gates or motto"),
     "Manchester City": crestRecipe("tall", "cap:a", "ship:w:a", "sky blue, white, maroon; a ship", "tall shield not roundel, sailing ship alone, no rose, no rivers, no text ring"),
     "Manchester United": crestRecipe("hex", "halves:s", "trident:a", "red, black, gold; devil's fork", "trident only, no devil figure, no ship, no scroll"),
     "Middlesbrough": crestRecipe("roundel", "foot:s", "lion:s:p", "red, white; a lion", "roundel not shield, lion head in profile not full lion, no text"),
@@ -398,7 +434,7 @@ const CLUB_CREST_RECIPES = Object.freeze({
     "Málaga": crestRecipe("roundel", "field:s wide:p", "tower:a:s", "sky blue and white stripes, navy; a tower", "roundel not shield, single tower not castle, no crown"),
     "Osasuna": crestRecipe("roundel", "foot:s", "chain:a", "red, navy, gold; chain links", "roundel not shield, loose links, no tree, no text"),
     "Real Betis": crestRecipe("roundel", "stripes:s", "olive:#1f5c33:#f3d470", "green and white stripes; an olive branch", "roundel not shield, no crown, no monogram"),
-    "Real Madrid": crestRecipe("heater", "field:w sash:s", "star:a crown@top:a:s", "white, purple, gold; crown on top", "shield not circle, sash runs the other way, star not monogram"),
+    "Real Madrid": crestRecipe("roundel", "field:w sash:s", "star:a crown@top:a:s", "white, purple, gold; crowned roundel", "sash runs the other way, star not monogram, gold marks in the ring", { colour: "a", marks: "stars", count: 10, markColour: "w" }),
     "Real Sociedad": crestRecipe("heater", "wide:s", "crown:a:p", "blue and white stripes, gold; a crown", "shield not roundel, crown inside not on top, no ball, no text"),
     "Sevilla": crestRecipe("roundel", "field:w foot:s", "tower:s:w", "white, red; a bell tower", "roundel not shield, city tower not saints, no NO8DO text, no ball"),
     "Sporting Gijón": crestRecipe("roundel", "foot:s", "waves:s", "red and white; sea waves", "roundel not shield, waves not cross, no text"),
@@ -407,7 +443,7 @@ const CLUB_CREST_RECIPES = Object.freeze({
 
     /* Bundesliga 2016-17 */
     "Bayern Munich": crestRecipe("heater", "lozenge:s:w", "", "red, blue, white; lozenge field", "shield not roundel, red frame not a text ring, no lettering"),
-    "Borussia Dortmund": crestRecipe("heater", "top:s", "cog:s:p", "yellow and black; a pit wheel", "shield not roundel, no letters or year"),
+    "Borussia Dortmund": crestRecipe("roundel", "", "cog:s:p", "yellow and black; ringed roundel with a pit wheel", "pit wheel not letters, no year, gold marks in the ring", { colour: "s", marks: "dots", count: 16 }),
     "Bayer Leverkusen": crestRecipe("hex", "halvesL:s", "lion:w:s", "red and black; a lion", "hex not roundel, lion head in profile not full lion, no cross, no text"),
     "Borussia Mönchengladbach": crestRecipe("roundel", "foot:s rule:a", "horse:s:w", "white, black, green; a foal (club nickname)", "roundel not diamond, horse head, no monogram"),
     "Schalke 04": crestRecipe("heater", "cap:s", "picks:s", "royal blue, white; miners' picks", "shield not roundel, no letters or number"),
@@ -437,7 +473,7 @@ const CLUB_CREST_RECIPES = Object.freeze({
     "Inter Milan": crestRecipe("heater", "stripes:s", "snake:a:k", "blue and black stripes, gold; a snake", "shield not roundel, snake not monogram"),
     "Juventus": crestRecipe("point", "field:w stripes:s", "star@top:a", "black and white stripes, gold", "pointed shield not oval, no bull, star above"),
     "Lazio": crestRecipe("roundel", "foot:s", "eagleR:a", "sky blue, white, gold; an eagle", "roundel not shield, eagle inside facing right, no text"),
-    "Milan": crestRecipe("heater", "stripes:s top:a", "cross@peak:p", "red and black stripes; a cross", "shield not roundel, small cross in a top band, no letters"),
+    "Milan": crestRecipe("roundel", "field:w stripesL:s stripesLp:p", "cross@right:p", "red and black stripes beside a red cross on white; ringed roundel", "no letters or year in the ring, gold marks instead", { colour: "k", marks: "stars", count: 12 }),
     "Napoli": crestRecipe("heater", "foot:s", "volcano:a:s", "sky blue, white, navy; a volcano", "shield not roundel, no N"),
     "Palermo": crestRecipe("roundel", "halves:s", "eagleR:a", "pink and black; an eagle", "roundel not shield, eagle faces right, no text"),
     "Pescara": crestRecipe("heater", "wide:s", "dolphin:a", "sky blue and white stripes; a dolphin", "shield not roundel, dolphin leaps left, no text"),
