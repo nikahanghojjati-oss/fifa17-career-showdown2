@@ -26,6 +26,8 @@
       d.root.dataset.failed=String(failed);
       d.choices.forEach(b=>{const on=b.dataset.soundtrackTrack===t.key;b.classList.toggle("selected",on);b.setAttribute("aria-pressed",String(on));});
     });
+    // A longer title or artist widens the dock, so the fit beside the account chips is worked out again (Codex, PR #1010).
+    mdFitTop();
   }
 
   function mdCloseLists(except){
