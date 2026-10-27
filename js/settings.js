@@ -985,6 +985,18 @@ function handleSettingsKeydown(event){
         return;
     }
 
+    // r85: with the music dock or player in the cycle the scopes are not one DOM run (the player sits after Settings in
+    // body), so Tab moves through the list itself, in screen order: dock, player, then Settings (Codex #1018).
+    if(focusable.some(element => !settingsDialog.contains(element))){
+        event.preventDefault();
+        const shown = focusable.filter(element => element.getClientRects().length);
+        const index = shown.indexOf(document.activeElement);
+        const step = event.shiftKey ? -1 : 1;
+        const next = index < 0 ? (event.shiftKey ? shown.length - 1 : 0) : (index + step + shown.length) % shown.length;
+        shown[next]?.focus();
+        return;
+    }
+
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
     if(event.shiftKey && document.activeElement === first){
