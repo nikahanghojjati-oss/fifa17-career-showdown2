@@ -6,11 +6,13 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 27 Oct, 6:41 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 27 Oct, 7:13 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+
+> ⚠ **Not fully current:** The Physio's own report is missing or older than 15 minutes; the check line comes straight from GitHub.
 
 🌐 **Live: 1.9.9-r85** (main `076177e`, Tue 27 Oct 11:34 AM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🩺 **All clear (from GitHub).** · POS20 #304 7/7
 
 ## Jobs
 
@@ -46,11 +48,11 @@ Updated Tue 27 Oct, 6:41 PM Boston time. Bug hunting only, no new features until
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 340 h ago
+⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 341 h ago
 
 **#9 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 297 h ago
+⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 298 h ago
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
@@ -70,7 +72,7 @@ Updated Tue 27 Oct, 6:41 PM Boston time. Bug hunting only, no new features until
 
 **#14 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 267 h ago
+⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 268 h ago
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
@@ -1989,8 +1991,8 @@ Job 1845
 Numbered jobs: 56 done, 218 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
-`█████████░` **85.7143 %**  
-Team V hand-offs: 30 of 35 done
+`████████░░` **83.3333 %**  
+Team V hand-offs: 30 of 36 done
 
 **3. Match current desktop screens to the mockup** `after stage 2`  
 `█░░░░░░░░░` **6.2500 %**  
