@@ -46,3 +46,34 @@ r84 builds on r83. The application version moves to 1.9.8 and the runtime revisi
 
 SSJR-1.1 remains frozen at `0/100`. SSJR-2.1 is at `0/100` until a validated two-device production run is recorded. No
 SSJR credit comes from this source, CI or deployment. No physical acceptance is claimed for r84.
+
+## Correction (2026-10-27, independent audit F05)
+
+The "Firestore Rules" section above says "No Rules change." That is wrong for r84 (PR #1002). The text above is kept as
+originally written; this section is the correction.
+
+What PR #1002 changed in the Rules, exactly:
+
+- `firestore.spark.rules` and `firestore.stage5c.rules` (identical in this PR): reads and the Session offer `get` now use
+  a new `livePairedRivalryMember` check (one rivalry lookup) instead of `activePairedRivalry` plus the two account
+  lookups; `currentlyEntitled` checks `signedIn()` instead of `activeActor()`; `sessionCanRead` uses
+  `livePairedRivalryMember` and `resource == null` instead of a second `exists()`.
+- `firestore.shared-setup-production.fragment.rules`: `ssjrEntitled` uses `livePairedRivalryMember`;
+  `ssjrWriteAuthorityValid` no longer looks up the two account documents or the device document on every write (two
+  lookups per write instead of five); a new `ssjrBothAccountsActive` check runs once when a Shared Setup opens.
+- `scripts/build-production-firestore-rules.mjs` (the build guard): updated to match the new Rules text.
+
+Net effect: fewer Rules lookups, but account and device liveness are now checked at Session start and Shared Setup open
+instead of on every read or write. This is a real change to the deployed Rules.
+
+Rollback: rolling the app back through the service-worker cache (r83 shell is retained) does NOT roll back the Rules.
+Firestore Rules are published separately and stay at whatever was last published. Rolling back only the app leaves r83
+code running against the r84 Rules. The coherent rollback pair is the r84 app together with the r84 generated Rules,
+i.e. the build of `scripts/build-production-firestore-rules.mjs` at r84 main commit
+`cd7df26ed57e4d9dfa40d88042d25a71fcb47a6c`. Rebuilt on 2026-10-27 at that commit, `firestore.spark.generated.rules` is
+126,689 bytes with SHA-256 `36d58d21147004f3c768cdadb219c4617f78d0c312b74207b6606844cc98b131` (the same hash at
+`5b0ab3ee`, the #1002 merge). The independent audit recorded 156,903 bytes and
+`686c87f432be7371a595ec7822ffd7f2bbc12f5ad809296abaed636785ed94b4` for the same commit; that value did not reproduce
+from this repository, so the rebuilt value above is the one to compare against until the two are reconciled. The
+pre-r84 (r83, commit `186af266`, the parent of #1002) generated Rules hash to
+`456f2b159bf3b025b374dc0c24ca7504f42ec7c4aeeff17293cb9a18b4e5d915`.

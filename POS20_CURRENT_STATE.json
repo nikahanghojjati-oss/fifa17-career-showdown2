@@ -1,24 +1,24 @@
 {
   "operatingSystem": "POS20",
-  "objective": "Close the genuine SSJR-1.1 production two-account Shared Setup evidence debt without fabricating production observations.",
+  "objective": "Release 1.9.8-r84 is live. Work on gameplay/r85 toward the real two-phone SSJR physical run and the official launch. SSJR-2.1 is 0/100 and is credited only by a real two-phone run.",
   "continuityState": "READY",
   "liveFactsMustBeResolved": true,
   "observedHeads": {
-    "main": "30251181f457d1df1ed990001de54919885eea73",
-    "candidate": "65d6485062baf8ad8d6782cf414838e14a44095e",
-    "recovery": "65d6485062baf8ad8d6782cf414838e14a44095e"
+    "main": "cd7df26ed57e4d9dfa40d88042d25a71fcb47a6c",
+    "candidate": "57db9f05d749a1bdd6828d72becb4d199fd29ad9",
+    "recovery": "57db9f05d749a1bdd6828d72becb4d199fd29ad9"
   },
-  "candidateBranch": "ops/ssjr-production-evidence-automation",
-  "recoveryBranch": "recovery/ssjr-production-evidence-automation",
-  "cognitiveDecision": "PUBLISH_RECONCILED_ACTOR_ATTRIBUTION_V2",
-  "selectedAction": "Validate the authority-only successor head on one exact head, obtain a fresh after-resolution Codex review, and merge PR224 with expected-head protection only if every required check and review remains clean. Production SSJR evidence capture remains a separate post-publication task.",
+  "candidateBranch": "ops/none-active",
+  "recoveryBranch": "recovery/none-active",
+  "cognitiveDecision": "RE_RESOLVE_LIVE_STATE_THEN_CONTINUE_GAMEPLAY_R85",
+  "selectedAction": "Re-resolve live main and PR state with the GitHub API, then continue gameplay/r85 toward the SSJR physical run. Recorded heads here are observations only.",
   "evidenceDebt": {
     "count": 1,
     "blocking": 1,
     "items": [
-      "production-two-account-shared-setup"
+      "ssjr-2.1-real-two-phone-production-run"
     ]
   },
-  "exactBlocker": "The actor-contract contradiction is reconciled by the versioned v2 path. The remaining SSJR blocker is missing genuine production evidence: both complete manager journeys plus the required actor-attributed direct denial observations and unrelated-account witness proof must still be captured and validated. CI, emulator evidence and PR publication grant zero SSJR credit.",
-  "nextVerification": "Require the complete 62-contract product census, all selected inherited POS20 proof lanes, the POS20 exact-head cognitive seal, synchronized recovery continuity, and one fresh after-resolution Codex review on the final PR224 head before any expected-head-protected merge."
+  "exactBlocker": "SSJR-2.1 is 0/100. Credit needs one validated real two-phone production run; CI, emulator, review, merge and deployment grant zero credit. No POS20 candidate or recovery branch is active; the placeholder names ops/none-active and recovery/none-active exist only to satisfy the state schema, and the observed candidate and recovery heads are the gameplay/r85 head at observation.",
+  "nextVerification": "Resolve live main, open PRs and exact-head checks with the GitHub API before any mutation."
 }

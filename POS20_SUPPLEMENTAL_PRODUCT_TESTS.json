@@ -2208,6 +2208,16 @@
       ]
     },
     {
+      "path": "tests/contracts/r85-ack-second-proving-read-contracts.cjs",
+      "patterns": [
+        "^js/sparkSharedSeasonCommit\\.js$",
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^js/sharedSeasonCommit\\.js$",
+        "^tests/contracts/r85-ack-second-proving-read-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r85-reads-counter-contracts.cjs",
       "patterns": [
         "^js/[A-Za-z0-9]+\\.js$",
