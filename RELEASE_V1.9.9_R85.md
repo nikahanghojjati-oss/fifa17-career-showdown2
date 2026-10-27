@@ -52,3 +52,17 @@ r85 builds on r84. The application version moves to 1.9.9 and the runtime revisi
 
 SSJR-1.1 remains frozen at `0/100`. SSJR-2.1 is at `0/100` until a validated two-device production run is recorded. No
 SSJR credit comes from this source, CI or deployment. No physical acceptance is claimed for r85.
+
+## Correction (2026-10-27, Rules hash)
+
+The "Firestore Rules" section above names `firestore.spark.generated.rules` (SHA-256 `b6a3206e…`). That file is a
+build input, not what is deployed. The Deploy Firebase Firestore Rules workflow composes the deployed artifact, and the
+Showdown Gate L5 check (T9/M12) pins that composed file:
+
+- r85 deployed Rules, composed at main `67479f28`: 153,241 bytes, SHA-256
+  `8ea8d7ba9bf89ad999969da961b5b748e62bdb3348b7fe609cf3da2f67b71f61`.
+- r84 deployed Rules, composed at main `5b0ab3ee` / `cd7df26e`: 156,903 bytes, SHA-256
+  `686c87f432be7371a595ec7822ffd7f2bbc12f5ad809296abaed636785ed94b4`. This is the value the independent R84 audit
+  recorded, so the audit was right; the `36d58d21…` value in the R84 correction is the generated build input.
+
+The coherent rollback pair is the r84 app with the r84 composed Rules above.
