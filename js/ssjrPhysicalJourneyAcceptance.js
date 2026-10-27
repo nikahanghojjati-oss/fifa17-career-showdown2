@@ -25,7 +25,7 @@
   const NETWORKS=Object.freeze([["WI-FI","Wi-Fi"],["MOBILE DATA","Mobile data"]]);
   const params=root.location?new URLSearchParams(root.location.search):new URLSearchParams();
   const enabled=params.get("ssjr")==="1"||(params.get("ssjr-acceptance")==="1"&&params.get("ssjr-physical")==="1");
-  let installed=false,pollTimer=null,queue=Promise.resolve(),conflictProbePromise=null,previewAsked=false,closedCheck=null,rivalryThisStartup=false;
+  let lastHint=null,panelPinned=false,installed=false,pollTimer=null,queue=Promise.resolve(),conflictProbePromise=null,previewAsked=false,closedCheck=null,rivalryThisStartup=false;
 
   function now(){return new Date().toISOString();}
   function revision(){const meta=root.document&&root.document.querySelector('meta[name="app-asset-revision"]');return meta&&meta.content?meta.content.trim():"unknown";}
@@ -61,7 +61,7 @@
   function nestedPhase(value){if(!value||typeof value!=="object")return null;for(const candidate of [value.phase,value.state?.phase,value.projection?.phase,value.setup?.phase])if(typeof candidate==="string"&&candidate)return candidate;return null;}
   function nestedRevision(value){for(const candidate of [value?.revision,value?.state?.revision,value?.projection?.revision,value?.setup?.revision])if(Number.isInteger(candidate))return candidate;return null;}
   function nestedSeason(value){for(const candidate of [value?.seasonNumber,value?.state?.seasonNumber,value?.projection?.acceptedSeasons,value?.throughSeason])if(Number.isInteger(candidate))return candidate;return null;}
-  function milestone(stage,phase=null,extra={}){if(!enabled)return null;const season=SEASON_STAGES.includes(stage)||stage==="showdown-complete"?(Number.isInteger(extra.seasonNumber)?extra.seasonNumber:null):undefined;const exists=safe.milestones.some(item=>item.stage===stage&&(!phase||item.phase===phase)&&(season===undefined||(item.seasonNumber??null)===season));if(exists)return null;const item={sequence:++safe.sequence,at:now(),stage,phase:phase||null,online:root.navigator?root.navigator.onLine!==false:true,...extra};safe.milestones.push(item);if(safe.milestones.length>MAX_MILESTONES)safe.milestones.splice(0,safe.milestones.length-MAX_MILESTONES);persist();return item;}
+  function milestone(stage,phase=null,extra={}){if(!enabled)return null;const season=SEASON_STAGES.includes(stage)||stage==="showdown-complete"?(Number.isInteger(extra.seasonNumber)?extra.seasonNumber:null):undefined;const exists=safe.milestones.some(item=>item.stage===stage&&(!phase||item.phase===phase)&&(season===undefined||(item.seasonNumber??null)===season));if(exists)return null;const item={sequence:++safe.sequence,at:now(),stage,phase:phase||null,online:root.navigator?root.navigator.onLine!==false:true,...extra};safe.milestones.push(item);if(safe.milestones.length>MAX_MILESTONES)safe.milestones.splice(0,safe.milestones.length-MAX_MILESTONES);persist();if(stage!=="reconnect-recovered")noteProgress(item);return item;}
   function hasStage(stage){return safe.milestones.some(item=>item.stage===stage);}
   function setNetwork(label){const value=String(label||"").trim().slice(0,80);if(!value)return false;safe.networkLabel=value;persist();return true;}
   async function bindIdentity(){
@@ -121,17 +121,10 @@
       if(nestedPhase(scoring)==="SCORING_RECONCILED")milestone("scoring-reconciled","SCORING_RECONCILED",{revision:nestedRevision(scoring),seasonNumber:nestedSeason(scoring)});
       if(nestedPhase(history)==="HISTORY_CONVERGED")milestone("history-converged","HISTORY_CONVERGED",{revision:nestedRevision(history),seasonNumber:nestedSeason(history)});
       const plan=multi?.state;if(multi?.phase==="SHOWDOWN_COMPLETE"&&plan?.terminal===true&&Number.isInteger(plan.acceptedSeasons)&&plan.acceptedSeasons===plan.totalSeasons&&safe.milestones.some(item=>item.stage==="history-converged"&&item.seasonNumber===plan.acceptedSeasons))milestone("showdown-complete","SHOWDOWN_COMPLETE",{seasonNumber:plan.acceptedSeasons,totalSeasons:plan.totalSeasons});
-      if(reconnect?.phase==="OFFLINE_HOLD"&&safe.offlineObserved&&!safe.offlineHoldSeen){safe.offlineHoldSeen=true;persist();}
-      // A reconnect counts only after this page was seen offline and the game held its state (OFFLINE_HOLD), then came back.
-      if(reconnect?.phase==="ACTIVE_RECOVERED"||reconnect?.phase==="TERMINAL_RECOVERED"){
-        const browserOnline=!root.navigator||root.navigator.onLine!==false;
-        if(safe.offlineObserved&&safe.offlineHoldSeen&&hasStage("network-online")&&browserOnline&&!safe.onlineRecovered){
-          safe.onlineRecovered=true;
-          const recorded=milestone("reconnect-recovered",reconnect.phase,{seasonNumber:Number.isInteger(reconnect.activeSeason)?reconnect.activeSeason:null,startupCount:safe.startupCount});
-          if(recorded&&safe.reconnectRecoveredStartupCount===null)safe.reconnectRecoveredStartupCount=safe.startupCount;
-          persist();
-        }
-      }
+      // r85: the Reconnect module only builds a state for a session that was already interrupted, so an ordinary active game
+      // never reports OFFLINE_HOLD. Its recovery still counts when it does; otherwise noteProgress() counts the first shared step
+      // the game completes after this page came back online (that step needs both players' data from the server).
+      if(reconnect?.phase==="ACTIVE_RECOVERED"||reconnect?.phase==="TERMINAL_RECOVERED")noteRecovered(reconnect.phase,Number.isInteger(reconnect.activeSeason)?reconnect.activeSeason:null);
       // The reload check: a later startup of this page found the same Showdown again (same sanitized authority) before it closed.
       if(hasStage("reconnect-recovered")&&Number.isInteger(safe.reconnectRecoveredStartupCount)&&safe.startupCount>safe.reconnectRecoveredStartupCount&&rivalryThisStartup&&!safe.reloadResumed){safe.reloadResumed=true;milestone("reload-resumed","SAME_SANITIZED_AUTHORITY",{startupCount:safe.startupCount});persist();}
       if(hasStage("showdown-complete"))askLocalPreview(local);
@@ -170,6 +163,17 @@
   // The offline check counts from the moment the career has started until the Showdown closes (during the game, where a real
   // signal drop matters). The panel asks for it after season 1's history in a longer run.
   function recoveryWindowOpen(){return hasStage("career-start-ready")&&!hasStage("terminal-closed");}
+  // A reconnect counts only after this page was seen offline, then online, and then the game moved on with the browser online.
+  function noteRecovered(phase,seasonNumber){
+    const browserOnline=!root.navigator||root.navigator.onLine!==false;
+    if(!safe.offlineObserved||!hasStage("network-online")||!browserOnline||safe.onlineRecovered||!recoveryWindowOpen())return null;
+    safe.onlineRecovered=true;
+    const recorded=milestone("reconnect-recovered",phase,{seasonNumber,startupCount:safe.startupCount});
+    if(recorded&&safe.reconnectRecoveredStartupCount===null)safe.reconnectRecoveredStartupCount=safe.startupCount;
+    persist();return recorded;
+  }
+  const PROGRESS_STAGES=new Set(["transfer-completed","results-ready","season-acknowledged","scoring-reconciled","history-converged","showdown-complete"]);
+  function noteProgress(item){if(item&&PROGRESS_STAGES.has(item.stage)&&item.online===true)noteRecovered("PROGRESS_AFTER_ONLINE",Number.isInteger(item.seasonNumber)?item.seasonNumber:null);}
   function onOffline(){if(!enabled||!recoveryWindowOpen()||safe.onlineRecovered)return;safe.offlineObserved=true;milestone("network-offline","OFFLINE");persist();void observe();}
   function onOnline(){if(!enabled||!recoveryWindowOpen()||!safe.offlineObserved||safe.onlineRecovered)return;milestone("network-online","ONLINE");persist();void observe();}
   function storageProofComplete(){return Boolean(safe.canonicalStorageBeforeHash&&safe.canonicalStorageAfterHash&&safe.canonicalStorageBeforeHash===safe.canonicalStorageAfterHash&&safe.canonicalStorageViolation!==true);}
@@ -213,7 +217,7 @@
     if(!stages.has("career-start-ready"))return "Play as normal: connect, pick the league and clubs, start the career.";
     if(!stages.has("terminal-closed")&&!recoveryDone()&&(done>=1||total===1)){
       if(!safe.offlineObserved)return "Now: turn the internet off on this device for 15 seconds, then back on.";
-      if(!safe.onlineRecovered)return root.navigator?.onLine===false?"Offline. Turn the internet back on.":"Reconnecting. Wait a few seconds.";
+      if(!safe.onlineRecovered)return root.navigator?.onLine===false?"Offline. Turn the internet back on.":"Back online. Play on: the next saved step finishes this check.";
       return "Now: reload this page once (same tab).";
     }
     if(!stages.has("terminal-closed"))return total?`Play on: season ${Math.min(done+1,total)} of ${total}.`:"Play on.";
@@ -222,29 +226,46 @@
   }
   function ensurePanel(){
     if(!enabled||!root.document)return null;let panel=root.document.getElementById(PANEL_ID);if(panel)return panel;
-    const app=root.document.getElementById("app"),main=app&&app.querySelector(":scope > main");
     panel=create("section","ssjrTestPanel");panel.id=PANEL_ID;panel.setAttribute("aria-label","SSJR test");panel.setAttribute("role","status");
-    // A slim strip in the app's own column, between the header and the scrolling screen: it never covers a button.
-    panel.style.cssText="flex:0 0 auto;margin:6px 10px 0;padding:8px 10px;border:1px solid #c9a24a;border-radius:10px;background:#16120a;color:#f5ecd6;font:600 13px/1.35 system-ui,sans-serif;max-height:40vh;overflow:auto";
-    const head=create("div","ssjrTestHead");head.style.cssText="display:flex;align-items:center;gap:8px;flex-wrap:wrap";
+    // r85: the game screens are full-bleed layers, so a strip in the app column was hidden under them. The panel is a small
+    // fixed pill in the top-left corner above every screen (only on ?ssjr=1 test runs); it opens by itself when the player
+    // has something to do and closes on a tap, so it covers a corner only while it asks for something.
+    const style=create("style");style.textContent=`#${PANEL_ID}{position:fixed;z-index:2147483000;left:8px;top:max(8px,env(safe-area-inset-top));max-width:min(330px,calc(100vw - 16px));box-sizing:border-box;padding:6px 10px;border:1px solid #c9a24a;border-radius:10px;background:#16120a;color:#f5ecd6;font:600 13px/1.35 system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+@media(min-width:901px){#${PANEL_ID}{top:60px}}
+@media(max-width:900px){html[data-v10-screen="mainMenu"] #${PANEL_ID}{top:max(50px,calc(env(safe-area-inset-top) + 42px))}}
+#${PANEL_ID}[data-open="false"] .ssjrTestBody{display:none}
+#${PANEL_ID} .ssjrTestBody{max-height:60vh;overflow:auto}
+#${PANEL_ID} button{min-height:36px}`;
+    panel.append(style);
+    const head=create("button","ssjrTestHead");head.type="button";head.setAttribute("aria-expanded","true");
+    head.style.cssText="display:flex;align-items:center;gap:8px;min-height:30px;padding:0;border:0;background:none;color:inherit;font:inherit;cursor:pointer";
     const title=create("strong","","SSJR TEST");title.style.cssText="color:#e5c46b;letter-spacing:.06em";
-    const count=create("span","ssjrTestCount");const next=create("span","ssjrTestNext");next.style.cssText="flex:1 1 220px";
-    head.append(title,count,next);panel.append(head);
+    const count=create("span","ssjrTestCount");const caret=create("span","ssjrTestCaret","▾");
+    head.append(title,count,caret);head.addEventListener("click",()=>{panel.dataset.open=String(panel.dataset.open==="false");panelPinned=true;render();});
+    panel.append(head);
+    const body=create("div","ssjrTestBody");panel.append(body);
+    const next=create("p","ssjrTestNext");next.style.cssText="margin:4px 0 0";body.append(next);
     const network=create("div","ssjrTestNetwork");network.style.cssText="display:flex;gap:6px;margin-top:6px";
     for(const [text,label] of NETWORKS){const button=create("button","",text);button.type="button";button.style.cssText="padding:7px 12px;font-weight:800;border-radius:8px";button.addEventListener("click",()=>setNetwork(label));network.append(button);}
-    panel.append(network);
-    const details=create("details","ssjrTestDetails"),summary=create("summary","","Checklist");summary.style.cssText="cursor:pointer;margin-top:4px;color:#cbb88a";details.append(summary,create("div","ssjrTestSteps"));panel.append(details);
+    body.append(network);
+    const details=create("details","ssjrTestDetails"),summary=create("summary","","Checklist");summary.style.cssText="cursor:pointer;margin-top:4px;color:#cbb88a";details.append(summary,create("div","ssjrTestSteps"));body.append(details);
     const actions=create("div","ssjrTestActions");actions.style.cssText="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px";
     const save=create("button","ssjrTestSave","SAVE RESULT FILE");save.type="button";save.style.cssText="padding:8px 12px;font-weight:800;border-radius:8px";save.addEventListener("click",()=>void saveEvidence());
     const copy=create("button","ssjrTestCopy","COPY");copy.type="button";copy.style.cssText="padding:8px 12px;font-weight:800;border-radius:8px";copy.addEventListener("click",async()=>{copy.textContent=await copyEvidence()?"COPIED":"COPY UNAVAILABLE";root.setTimeout(()=>copy.textContent="COPY",1200);});
-    actions.append(save,copy);panel.append(actions,create("p","ssjrTestNote"));
-    if(app&&main)app.insertBefore(panel,main);else root.document.body.appendChild(panel);return panel;
+    actions.append(save,copy);body.append(actions,create("p","ssjrTestNote"));
+    panel.dataset.open="true";root.document.body.appendChild(panel);return panel;
   }
   function render(error=""){
     const panel=ensurePanel();if(!panel)return false;
     const list=steps(),passed=list.filter(([,ok])=>ok).length,done=completed();
     panel.querySelector(".ssjrTestCount").textContent=`${passed}/${list.length}`;
-    panel.querySelector(".ssjrTestNext").textContent=nextStep();
+    const hint=nextStep(),action=/^(Tap|Now:|Done|Showdown saved|Offline|This page|The offline)/.test(hint);
+    // Opens by itself when the hint changes to something the player must do; between those it folds to the pill.
+    if(hint!==lastHint){lastHint=hint;panelPinned=false;panel.dataset.open=String(action||!!error);}
+    else if(!panelPinned&&error)panel.dataset.open="true";
+    panel.querySelector(".ssjrTestNext").textContent=hint;
+    panel.querySelector(".ssjrTestCaret").textContent=panel.dataset.open==="false"?"▸":"▾";
+    panel.querySelector(".ssjrTestHead").setAttribute("aria-expanded",panel.dataset.open==="false"?"false":"true");
     panel.querySelector(".ssjrTestNetwork").style.display=safe.networkLabel?"none":"flex";
     panel.querySelector(".ssjrTestActions").style.display=done||safe.authorityViolation||hasStage("terminal-closed")?"flex":"none";
     const box=panel.querySelector(".ssjrTestSteps");box.replaceChildren();for(const [label,ok] of list){const row=create("div","",`${ok?"✓":"○"} ${label}`);row.dataset.passed=String(ok);box.append(row);}

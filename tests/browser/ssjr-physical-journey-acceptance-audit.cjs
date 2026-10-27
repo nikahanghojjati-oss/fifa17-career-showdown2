@@ -53,7 +53,7 @@ function season(n,total=3){
 
     run=await openCase(browser);const p=run.page;
     await p.evaluate(`${API}.install()`);
-    assert.equal(await p.evaluate(()=>{const panel=document.getElementById("ssjrPhysicalJourneyAcceptance");return panel.parentElement.id==="app"&&panel.nextElementSibling===document.querySelector("#app > main");}),true,"the strip sits in the app column above the screen");
+    assert.equal(await p.evaluate(()=>{const panel=document.getElementById("ssjrPhysicalJourneyAcceptance"),b=panel.getBoundingClientRect(),top=document.elementFromPoint(b.left+b.width/2,b.top+8);return getComputedStyle(panel).position==="fixed"&&panel.contains(top);}),true,"r85: the panel floats above every screen (full-bleed game screens hid the old strip)");
     assert.equal(await p.locator("#ssjrPhysicalJourneyAcceptance input").count(),0,"nothing to type");
     assert.match(await next(p),/Tap how this device is online/);
     await p.getByRole("button",{name:"WI-FI"}).click();assert.equal((await state(p)).networkLabel,"Wi-Fi");
