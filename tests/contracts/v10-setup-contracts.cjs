@@ -47,7 +47,7 @@ const TEAM_V_FILES={
   "visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_2X.webp":"d71bf0f4da18fd92b45727e1c1ae955d8bb83fc35c9c16bf9988c938425db003",
   "visual-assets/v10_1/start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp":"f5fdb5eedc90b83acd5225cc6b18078ddfcf9031c9b40128f91db3314c34a3cd",
   "visual-assets/v10_1/start-join/assets/OVL_SJ_NIK_PHONE_V1.webp":"7564a129eccae2bbaf1a6b5280f0073dbba5770190c2547ae245b1bb07dc5b75",
-  "js/visualIdentity.js":"ef390c10b4888e5c68ab22f662a84604c6baa215e15ca85c5c0eece9011d0df3"
+  "js/visualIdentity.js":"0c390d83928d57660fbff07955ec048345953ed389e1bbca6e044c6b8749b3e7"
 };
 
 // ---- a small fake DOM: enough for js/v10Screens.js, Team V's navbar.js and js/v10Setup.js ----

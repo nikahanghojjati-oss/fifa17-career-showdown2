@@ -417,6 +417,7 @@
         "^js/menuExperience\\.js$",
         "^package\\.json$",
         "^PHYSICAL_JOURNEY_ACCEPTANCE\\.md$",
+        "^SSJR2_PHYSICAL_RUN_GUIDE\\.md$",
         "^RELEASE_V1\\.9\\.1_R19\\.md$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
@@ -437,6 +438,7 @@
         "^js/menuExperience\\.js$",
         "^package\\.json$",
         "^PHYSICAL_JOURNEY_ACCEPTANCE\\.md$",
+        "^SSJR2_PHYSICAL_RUN_GUIDE\\.md$",
         "^RELEASE_V1\\.9\\.1_R19\\.md$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
@@ -2204,6 +2206,25 @@
         "^visual-assets/v10_1/legacy/strings\\.json$",
         "^css/rivalryLegacyV10\\.css$",
         "^tests/(contracts/r84\\-golden\\-showdown\\-contracts|support/career\\-fixture\\-helpers)\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r85-ack-second-proving-read-contracts.cjs",
+      "patterns": [
+        "^js/sparkSharedSeasonCommit\\.js$",
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^js/sharedSeasonCommit\\.js$",
+        "^tests/contracts/r85-ack-second-proving-read-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r85-reads-counter-contracts.cjs",
+      "patterns": [
+        "^js/[A-Za-z0-9]+\\.js$",
+        "^tests/contracts/r85\\-reads\\-counter\\-contracts\\.cjs$",
+        "^tests/fixtures/saved-showdowns/r79-1season-win\\.json$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },

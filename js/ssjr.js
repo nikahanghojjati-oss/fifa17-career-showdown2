@@ -10,6 +10,7 @@
   const acceptanceEnabled=params.get("ssjr-acceptance")==="1";
   const witnessEnabled=acceptanceEnabled&&params.get("ssjr-witness")==="1";
   const physicalEnabled=acceptanceEnabled&&!witnessEnabled&&params.get("ssjr-physical")==="1";
+  const ssjrTestEnabled=params.get("ssjr")==="1";
   // JOB-24: Team V's screen loader and navigation bar, once the browser is idle (independent of the chain below).
   const v10=()=>load("v10-screens","js/v10Screens.js",()=>root.CareerModeV10Screens).then(()=>root.CareerModeV10Screens.install()).then(()=>load("v10-home-screens","js/homeScreensV10.js",()=>root.CareerModeHomeScreensV10)).then(()=>root.CareerModeHomeScreensV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Team V screens unavailable.",error));
   const resultsV10=()=>load("v10-season-final","js/seasonFinalV10.js",()=>root.CareerModeSeasonFinalV10).then(()=>root.CareerModeSeasonFinalV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Results visuals unavailable.",error));
@@ -165,6 +166,8 @@
       seasonCommit,canonicalScoring,historyConvergence,multiSeason,journeyReconnect,journeyConflicts,localReconciliation,finalReconciliation,terminalClose,
       (async()=>{await seasonResultsRoute;return install("ssjr-production-transfer-challenge","js/productionSharedTransferChallenge.js","CareerModeProductionSharedTransferChallenge");})()
     ]);
+    // r85: ?ssjr=1 is the simple SSJR test. Only its panel loads: none of the older acceptance tooling or guided aside.
+    if(ssjrTestEnabled&&!acceptanceEnabled)return install("ssjr-physical-journey-acceptance","js/ssjrPhysicalJourneyAcceptance.js","CareerModeSSJRPhysicalJourneyAcceptance");
     if(!acceptanceEnabled)return;
     if(!witnessEnabled)await install("ssjr-acceptance-polished-bridge","js/ssjrAcceptancePolishedBridge.js","CareerModeSSJRAcceptancePolishedBridge");
     await load("ssjr-stage5f-negative-probes","js/stage5fProductionAuthenticatedNegatives.js",()=>root.CareerModeStage5fProductionAuthenticatedNegatives);

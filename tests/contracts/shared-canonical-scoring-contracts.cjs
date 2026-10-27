@@ -55,6 +55,8 @@ function op(prefix){serial+=1;return prefix+serial.toString(16).padStart(32,"0")
   const pointsTieBreak=await scoringProtocol.reconcile({seasonCommit:await buildCommit(pointsA,pointsB)});
   assert.equal(pointsTieBreak.winner,"draw","r83: no tiebreak, league points never decide a season");
   const zeroDraw=await scoringProtocol.reconcile({seasonCommit:await buildCommit(pointsA,{...pointsB,leaguePoints:72})});assert.equal(zeroDraw.winner,"draw");
+  const unequalTwo=await scoringProtocol.reconcile({seasonCommit:await buildCommit({...zeroA,leaguePosition:2,leaguePoints:98},{...zeroB,leaguePosition:20,leaguePoints:20,domesticCup:true})});
+  assert.equal(unequalTwo.scoring.playerOne.total,0);assert.equal(unequalTwo.scoring.playerTwo.total,1);assert.equal(unequalTwo.winner,"playerTwo","unequal totals: higher total wins even with worse league position and points");
 
   const bundesligaScoring=await scoringModule.createProtocol({teamCount:18,cryptoImpl:webcrypto,seasonCommitModule:commitModule});
   assert.throws(()=>bundesligaScoring.scoreAuthoritativeResults({playerOne:{...max,leaguePoints:103},playerTwo:none}),error=>error.code==="CANONICAL_SCORING_RESULTS_INVALID");
@@ -66,8 +68,8 @@ function op(prefix){serial+=1;return prefix+serial.toString(16).padStart(32,"0")
 
   const source=fs.readFileSync("js/sharedCanonicalScoring.js","utf8");
   assert.match(source,/championsLeague:5,leagueTitle:3,domesticCup:1,performanceBonus:1,individualAwardsBonus:1/);
-  assert.match(source,/trustsSubmittedTotals:false/);assert.match(source,/requiresAcknowledgedSeasonCommit:true/);assert.match(source,/leaguePositionThenPointsTiebreak:true/);assert.match(source,/authoritativeScoring:true/);
+  assert.match(source,/trustsSubmittedTotals:false/);assert.match(source,/requiresAcknowledgedSeasonCommit:true/);assert.match(source,/leaguePositionThenPointsTiebreak:false/);assert.doesNotMatch(source,/leaguePositionThenPointsTiebreak:true/);assert.match(source,/drawOnEqualTotals:true/);assert.equal(scoringModule.drawOnEqualTotals,true);assert.equal(scoringModule.leaguePositionThenPointsTiebreak,false);assert.equal(scoringProtocol.drawOnEqualTotals,true);assert.equal(scoringProtocol.leaguePositionThenPointsTiebreak,false);assert.match(source,/authoritativeScoring:true/);
   assert.match(source,/canonicalStorageMutation:false/);assert.match(source,/billingRequired:false/);
   assert.doesNotMatch(source,/saveCurrentShowdown|persistCompletedSeason|localStorage\.setItem/);
-  process.stdout.write("PASS Shared Canonical Scoring deterministic core: r10 ACKNOWLEDGED commit is mandatory, canonical 5/3/1 scoring and both one-point bonus caps are recomputed from supported raw results, submitted totals are not trusted, all tied Showdown scores use league position then league points as tiebreakers, and local Save authority remains untouched.\n");
+  process.stdout.write("PASS Shared Canonical Scoring deterministic core: r10 ACKNOWLEDGED commit is mandatory, canonical 5/3/1 scoring and both one-point bonus caps are recomputed from supported raw results, submitted totals are not trusted, there is no tiebreak so equal Showdown totals (zero or nonzero) are a draw whatever the league position or points, unequal totals pick the higher total, and local Save authority remains untouched.\n");
 })().catch(error=>{console.error(error);process.exitCode=1;});
