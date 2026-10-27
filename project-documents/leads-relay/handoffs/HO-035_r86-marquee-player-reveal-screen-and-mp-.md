@@ -11,10 +11,10 @@
  "worker": "opus",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-27T23:12:32Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-27T23:52:02Z", "by": "V", "status": "RECEIVED", "note": "Team V lead started it in this thread 27 Oct 7:5x p.m. Eastern"}]
+ "log": [{"at": "2026-10-27T23:12:32Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-27T23:52:02Z", "by": "V", "status": "RECEIVED", "note": "Team V lead started it in this thread 27 Oct 7:5x p.m. Eastern"}, {"at": "2026-10-27T23:54:03Z", "by": "V", "status": "WORKING", "note": "Building visual-assets/v10_1/marquee on branch claude/project-thread-3ux89z: club plate scene reused, code-drawn original shirts, gold faceless silhouette for the player step, tier badge, MP chip"}]
 }
 ```
 
