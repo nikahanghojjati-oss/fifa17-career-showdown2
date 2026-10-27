@@ -244,7 +244,7 @@
       return scope.testOnly||scope.hidden.includes(rivalryId);
     }catch(_){return true;}
   }
-  async function rlLoadCareerModel(canPublish=()=>true,rivalry=false){
+  async function rlLoadCareerModel(canPublish=()=>true,rivalry=false,onProgress=null){
     const key=context(),sequence=++careerLoadSequence;
     await modelDependencies();
     const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
@@ -262,7 +262,7 @@
         if(!scope){model=UNAVAILABLE;rivalryModel=UNAVAILABLE;}
         else{
           const hidden=scope.hidden;
-          const result=await root.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc},user,current:active.careerInput,...(scope.testOnly?{testRunsOnly:true}:hidden.length?{hiddenRivalryIds:hidden}:{})},()=>canPublish()&&context()===key);
+          const result=await root.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc},user,current:active.careerInput,...(typeof onProgress==="function"?{onProgress}:{}),...(scope.testOnly?{testRunsOnly:true}:hidden.length?{hiddenRivalryIds:hidden}:{})},()=>canPublish()&&context()===key);
           model=result.model??UNAVAILABLE;
           if(rivalry){
             // Career order is oldest first. Rebuild the latest verified completed entry,
@@ -301,19 +301,26 @@
     if(!event&&sources[screen]===UNAVAILABLE)sources[screen]=LOADING;
     const flight={key,alive:true,promise:null};reload.flight=flight;
     flight.promise=(async()=>{
-      let timeout;
+      let timeout,fail;
+      // r86 (Sol S61-r85-04): an inactivity deadline, not a flat cut. Each Showdown read restarts the 15 s, so a long cold
+      // career keeps loading while records arrive; first-entry History says how far it got (never partial totals).
+      const arm=()=>{root.clearTimeout(timeout);timeout=root.setTimeout(()=>{flight.alive=false;fail(new Error("RIVALRY_LEGACY_LOAD_TIMEOUT"));},LOAD_TIMEOUT);};
+      const progress=({done,total}={})=>{
+        if(!flight.alive||flight.left||context()!==key)return;arm();
+        if(screen==="legacy"&&sources[screen]===LOADING&&Number.isInteger(done)&&Number.isInteger(total)&&total>0)rlShowProgress(screen,done,total);
+      };
       try{
         // Only first entry shows LOADING. Reloads leave the last ready/partial/error frame visible.
         await screens().show(APP[screen]);
-        const deadline=new Promise((_,reject)=>{timeout=root.setTimeout(()=>{flight.alive=false;reject(new Error("RIVALRY_LEGACY_LOAD_TIMEOUT"));},LOAD_TIMEOUT);});
+        const deadline=new Promise((_,reject)=>{fail=reject;arm();});
         const loading=(async()=>{
           if(screen==="rivalryStatistics"){
             await modelDependencies();
             const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
-            if(["none","abandoned","completed"].includes(active.classification)&&(active.rivalry.status!=="ready"||await rlCurrentHidden(active.careerInput?.showdowns?.[0]?.rivalryId)))return rlLoadCareerModel(()=>flight.alive&&!flight.left,true);
+            if(["none","abandoned","completed"].includes(active.classification)&&(active.rivalry.status!=="ready"||await rlCurrentHidden(active.careerInput?.showdowns?.[0]?.rivalryId)))return rlLoadCareerModel(()=>flight.alive&&!flight.left,true,progress);
             return {...active.rivalry,lifecycle:active.classification};
           }
-          return rlLoadCareerModel(()=>flight.alive&&!flight.left);
+          return rlLoadCareerModel(()=>flight.alive&&!flight.left,false,progress);
         })();
         const model=await Promise.race([loading,deadline]);
         if(context()!==key||flight.left)return false;
@@ -327,6 +334,13 @@
       }
     })();
     return flight.promise;
+  }
+  // Writes only the loading banner's text in place (no new frame, no remount, so nothing flashes).
+  function rlShowProgress(screen,done,total){
+    try{
+      const copy=root.document?.getElementById?.(APP[screen])?.querySelector?.("#legacyStateBanner")?.querySelector?.(".legacyStateCopy");
+      if(copy)copy.textContent=`Loading your Showdown history… ${Math.min(done,total)} of ${total}`;
+    }catch(_){}
   }
   function scheduleReload(screen,reload,delay){
     if(reload.timer!==null)return;

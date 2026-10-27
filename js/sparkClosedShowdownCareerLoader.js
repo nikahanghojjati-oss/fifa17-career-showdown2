@@ -91,10 +91,13 @@
       const reads={};
       if(index&&index.status==="ready"&&Array.isArray(index.rivalryIds)){
         const ids=[...new Set(index.rivalryIds.filter(id=>typeof id==="string"))];
-        let next=0;
+        // r86 (Sol S61-r85-04): each finished Showdown reports progress, so a long cold career keeps its screen alive.
+        let next=0,done=0;
+        const progress=()=>{try{if(typeof o.onProgress==="function"&&interested())o.onProgress({done,total:ids.length});}catch(_error){}};
+        progress();
         const worker=async()=>{
           while(next<ids.length&&interested()){
-            const rivalryId=ids[next++];reads[rivalryId]=await cclRead(reader,o,scope,rivalryId,interested);
+            const rivalryId=ids[next++];reads[rivalryId]=await cclRead(reader,o,scope,rivalryId,interested);done++;progress();
           }
         };
         await Promise.all(Array.from({length:Math.min(COLD_READ_LIMIT,ids.length)},worker));
