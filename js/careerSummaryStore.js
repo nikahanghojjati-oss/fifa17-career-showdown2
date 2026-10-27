@@ -107,23 +107,29 @@
     await cssPutLocal(uid,rivalryId,{payload:value.payload,payloadHash:value.payloadHash},phoneStorage);
     return {state,source:"firebase"};
   }
-  // After a full verified read: write the summary once (create-only; a summary the other tab or a retry already wrote is
-  // refused by the Rules and is not an error) and keep the phone copy. Never throws: the career still shows without it.
+  // After a full verified read: keep the phone copy, then start the summary write once (create-only; a summary the other
+  // tab or a retry already wrote is refused by the Rules and is not an error). The write is never awaited: offline, a
+  // Firestore write stays pending until the server answers, and History must not wait for it (Codex P2 on #1026).
+  // Never throws: the career still shows without it. `written` settles to true or false.
+  const cssWrites=new Set();
   async function cssSave({firestore,firebaseSdk,uid,state,cryptoImpl,phoneStorage=root.indexedDB,writeFirebase=true}={}){
     try{
-      if(typeof uid!=="string"||!uid||!CSS_ID.test(String(state?.rivalryId))||!cssSummarisable(state,state.rivalryId))return {ok:false,written:false};
+      if(typeof uid!=="string"||!uid||!CSS_ID.test(String(state?.rivalryId))||!cssSummarisable(state,state.rivalryId))return {ok:false,written:Promise.resolve(false)};
       const payload=JSON.stringify(state);
-      if(payload.length>CSS_MAX_PAYLOAD)return {ok:false,written:false};
-      const payloadHash=await cssDigest(payload,cryptoImpl);if(!payloadHash)return {ok:false,written:false};
-      let written=false;
-      if(writeFirebase&&firestore&&typeof firebaseSdk?.setDoc==="function"&&typeof firebaseSdk?.doc==="function"){
-        try{await firebaseSdk.setDoc(firebaseSdk.doc(firestore,"accounts",uid,"careerSummary",state.rivalryId),cssDocument(state,payload,payloadHash));written=true;}catch(_error){written=false;}
-      }
+      if(payload.length>CSS_MAX_PAYLOAD)return {ok:false,written:Promise.resolve(false)};
+      const payloadHash=await cssDigest(payload,cryptoImpl);if(!payloadHash)return {ok:false,written:Promise.resolve(false)};
       await cssPutLocal(uid,state.rivalryId,{payload,payloadHash},phoneStorage);
+      let written=Promise.resolve(false);
+      if(writeFirebase&&firestore&&typeof firebaseSdk?.setDoc==="function"&&typeof firebaseSdk?.doc==="function"){
+        try{written=Promise.resolve(firebaseSdk.setDoc(firebaseSdk.doc(firestore,"accounts",uid,"careerSummary",state.rivalryId),cssDocument(state,payload,payloadHash))).then(()=>true,()=>false);}catch(_error){written=Promise.resolve(false);}
+        cssWrites.add(written);written.then(()=>cssWrites.delete(written));
+      }
       return {ok:true,written};
-    }catch(_error){return {ok:false,written:false};}
+    }catch(_error){return {ok:false,written:Promise.resolve(false)};}
   }
+  // Tests and the gallery: wait until every started summary write has settled.
+  function cssSettled(){return Promise.all([...cssWrites]).then(()=>undefined);}
   function cssForget(){cssLocal.clear();}
 
-  return Object.freeze({contractVersion:1,feature:"cms-career-summary-store",statuses:CSS_STATUSES,summarisable:cssSummarisable,documentKeys:CSS_KEYS,maxPayload:CSS_MAX_PAYLOAD,loadSummary:cssLoad,saveSummary:cssSave,forgetPhoneCopies:cssForget,documentFor:cssDocument});
+  return Object.freeze({contractVersion:1,feature:"cms-career-summary-store",statuses:CSS_STATUSES,summarisable:cssSummarisable,documentKeys:CSS_KEYS,maxPayload:CSS_MAX_PAYLOAD,loadSummary:cssLoad,saveSummary:cssSave,writesSettled:cssSettled,forgetPhoneCopies:cssForget,documentFor:cssDocument});
 });
