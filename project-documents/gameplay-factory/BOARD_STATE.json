@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-27 7:32 PM Boston time (EDT)",
+ "generated": "2026-10-27 7:36 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 130,
@@ -1735,7 +1735,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-035_r86-marquee-player-reveal-screen-and-mp-.md",
     "worker": "opus",
     "pickup_min": null,
-    "waiting_min": 19
+    "waiting_min": 23
    }
   ],
   "relay_ok": true
