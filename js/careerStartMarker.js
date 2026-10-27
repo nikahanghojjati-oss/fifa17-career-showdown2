@@ -142,7 +142,7 @@
     const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
     const user=services?.auth?.currentUser;
     if(!services?.ok||!user||user.uid!==accountState.accountId)throw csmError("CAREER_START_AUTH_REQUIRED","The signed-in account is unavailable.");
-    const sdk=services.firestoreSdk?.getDoc?services.firestoreSdk:{...services.firestoreSdk,getDoc:(await import(runtime.firebaseFirestoreModule)).getDoc};
+    const sdk=(root.CareerModeFirestoreBudget?.meterSdk||(s=>s))(services.firestoreSdk?.getDoc?services.firestoreSdk:{...services.firestoreSdk,getDoc:(await import(runtime.firebaseFirestoreModule)).getDoc});
     const out={firestore:services.firestore,firebaseSdk:sdk,accountId:user.uid};
     if(write){
       const pairing=root.CareerModeSparkPrivatePairing;
