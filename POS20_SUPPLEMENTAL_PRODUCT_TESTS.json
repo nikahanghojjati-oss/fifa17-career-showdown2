@@ -2206,6 +2206,15 @@
         "^tests/(contracts/r84\\-golden\\-showdown\\-contracts|support/career\\-fixture\\-helpers)\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r85-reads-counter-contracts.cjs",
+      "patterns": [
+        "^js/[A-Za-z0-9]+\\.js$",
+        "^tests/contracts/r85\\-reads\\-counter\\-contracts\\.cjs$",
+        "^tests/fixtures/saved-showdowns/r79-1season-win\\.json$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
