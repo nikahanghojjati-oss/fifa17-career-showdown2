@@ -956,9 +956,11 @@ function getSettingsFocusRestoreSelector(){
 
 function getSettingsFocusableElements(){
     if(!settingsDialog){ return []; }
-    return Array.from(settingsDialog.querySelectorAll(
-        'button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])'
-    )).filter(element => !element.classList.contains("hidden") && element.tabIndex !== -1);
+    const selector='button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])';
+    // r85: the desktop music dock (and its open player) stays usable above Settings, so it joins the dialog's Tab cycle (Codex #1018).
+    const music=["cmsMusicDockTop","cmsMusicSheet"].map(id => document.getElementById(id)).filter(node => node && !node.hidden && node.getClientRects?.().length);
+    return [...music, settingsDialog].flatMap(scope => Array.from(scope.querySelectorAll(selector)))
+        .filter(element => !element.classList.contains("hidden") && element.tabIndex !== -1 && (settingsDialog.contains(element) || element.getClientRects().length));
 }
 
 function handleSettingsKeydown(event){
