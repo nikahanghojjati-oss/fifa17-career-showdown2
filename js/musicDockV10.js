@@ -61,7 +61,14 @@
       sheet.mute.disabled=!s.src;swapIcon(sheet.mute,s.muted?"muted":"sound");
       sheet.mute.setAttribute("aria-label",s.muted?"Unmute":"Mute");sheet.mute.setAttribute("aria-pressed",String(Boolean(s.muted)));
       sheet.root.dataset.playing=String(playing);sheet.root.dataset.failed=String(failed);
-      sheet.songs.forEach(b=>{const on=b.dataset.soundtrackTrack===t.key;b.classList.toggle("selected",on);b.setAttribute("aria-pressed",String(on));});
+      // The current song: aria-current plus a visible "now playing" icon (css), never colour alone. It is also the row
+      // that Tab enters the list on (roving tabindex), unless the listener has already moved within the list.
+      const inList=sheet.list.contains(root.document.activeElement);
+      sheet.songs.forEach(b=>{
+        const on=b.dataset.soundtrackTrack===t.key;b.classList.toggle("selected",on);
+        if(on)b.setAttribute("aria-current","true");else b.removeAttribute("aria-current");
+        if(!inList)b.tabIndex=on?0:-1;
+      });
       mdTime();
     }
     const tab=root.document.getElementById("cmsMusicTab");
@@ -91,24 +98,24 @@
       '<button class="cmsMusicSheetPlay" type="button" aria-label="Play"></button>'+
       `<button class="cmsMusicSheetNext" type="button" aria-label="Next song">${ICON.next}</button>`+
       '<span class="cmsMusicSheetEq" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>'+
-      `<div class="cmsMusicSheetHead"><strong>TRACKLIST</strong><small>${tracks.length} SONGS</small></div>`+
-      '<div class="cmsMusicSheetList" role="group" aria-label="Choose soundtrack"></div>';
+      `<div class="cmsMusicSheetHead" aria-hidden="true"><strong>TRACKLIST</strong><small>${tracks.length} SONGS</small></div>`+
+      `<ul class="cmsMusicSheetList" role="list" aria-label="Tracklist, ${tracks.length} songs. Choose a song to play it"></ul>`;
     const list=el.querySelector(".cmsMusicSheetList");
     tracks.forEach((t,i)=>{
-      const b=doc.createElement("button");
-      b.type="button";b.className="cmsMusicSheetSong";b.dataset.soundtrackTrack=t.key;
-      b.innerHTML='<em></em><span><strong></strong><small></small></span><i class="cmsMusicSheetSongEq" aria-hidden="true"><b></b><b></b><b></b></i>';
+      const li=doc.createElement("li"),b=doc.createElement("button");
+      b.type="button";b.className="cmsMusicSheetSong";b.dataset.soundtrackTrack=t.key;b.tabIndex=-1;
+      b.innerHTML='<em aria-hidden="true"></em><span><strong></strong><small></small></span><i class="cmsMusicSheetSongEq" aria-hidden="true"><b></b><b></b><b></b></i>';
       b.querySelector("em").textContent=String(i+1).padStart(2,"0");
       b.querySelector("strong").textContent=t.title;
       b.querySelector("small").textContent=t.artist;
-      list.appendChild(b);
+      li.appendChild(b);list.appendChild(li);
     });
     // A clear layer that closes the panel on an outside tap. It has no colour: the screen behind is never dimmed.
     const shield=doc.createElement("div");shield.className="cmsMusicSheetShield";shield.hidden=true;shield.setAttribute("aria-hidden","true");
     doc.body.append(shield,el);
     const q=c=>el.querySelector(c);
     sheet={root:el,shield,list,title:q(".cmsMusicSheetText strong"),artist:q(".cmsMusicSheetText small"),play:q(".cmsMusicSheetPlay"),mute:q(".cmsMusicSheetMute"),
-      bar:q(".cmsMusicSheetBar i"),times:el.querySelectorAll(".cmsMusicSheetTime small"),songs:Array.from(list.children),close:q(".cmsMusicSheetClose"),opener:null};
+      bar:q(".cmsMusicSheetBar i"),times:el.querySelectorAll(".cmsMusicSheetTime small"),songs:Array.from(list.querySelectorAll(".cmsMusicSheetSong")),close:q(".cmsMusicSheetClose"),opener:null};
     sheet.play.addEventListener("click",()=>player().toggle());
     sheet.mute.addEventListener("click",()=>player().mute());
     q(".cmsMusicSheetPrev").addEventListener("click",()=>mdStep(-1));
@@ -118,6 +125,21 @@
     list.addEventListener("click",event=>{
       const b=event.target instanceof root.Element?event.target.closest("[data-soundtrack-track]"):null;
       if(b)mdPick(b.dataset.soundtrackTrack);
+    });
+    // Keyboard: Tab enters the list once (on the current song), the arrow keys, Home and End move between songs, and
+    // Enter or Space plays the focused one (it is a real button).
+    list.addEventListener("focusin",event=>{
+      const b=event.target;
+      if(sheet.songs.includes(b))sheet.songs.forEach(x=>{x.tabIndex=x===b?0:-1;});
+    });
+    list.addEventListener("keydown",event=>{
+      const i=sheet.songs.indexOf(event.target);
+      if(i<0||event.altKey||event.ctrlKey||event.metaKey)return;
+      const last=sheet.songs.length-1;
+      const to={ArrowDown:Math.min(last,i+1),ArrowUp:Math.max(0,i-1),Home:0,End:last,PageDown:Math.min(last,i+5),PageUp:Math.max(0,i-5)}[event.key];
+      if(to===undefined)return;
+      event.preventDefault();
+      sheet.songs[to].focus();
     });
     return sheet;
   }
@@ -146,7 +168,8 @@
     mdSheetPlace();
     sheet.shield.hidden=false;sheet.root.hidden=false;
     mdRender();
-    const on=sheet.list.querySelector(".selected");
+    // The current song is scrolled to the middle of the list (instantly, so reduced motion is respected).
+    const on=sheet.list.querySelector('[aria-current="true"]');
     if(on)sheet.list.scrollTop=Math.max(0,on.offsetTop-sheet.list.clientHeight/2+on.offsetHeight/2);
     root.requestAnimationFrame(()=>{if(sheet&&!sheet.root.hidden)sheet.root.dataset.open="true";});
     sheet.close.focus({preventScroll:true});
@@ -190,15 +213,41 @@
     if(c&&c.width)left=Math.min(left,c.left);
     return left;
   }
+  // Settings is a full-screen dialog over the bar; on desktop the dock is lifted above it (css/v10Shell.css). Its title
+  // block, when it starts inside the bar's height (short or narrow windows), is the one thing the dock must not cover.
+  function mdSettingsTitle(){
+    if(root.innerWidth<=PHONE_MAX)return null;
+    const overlay=root.document.getElementById("settingsOverlay");
+    if(!overlay||overlay.classList.contains("hidden"))return null;
+    const title=overlay.querySelector(".settingsTitleBlock"),box=title&&title.getBoundingClientRect();
+    return box&&box.width>2&&box.height>2?box:null;
+  }
+  const mdTouches=(a,b)=>Boolean(b&&a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top);
   // When even the smallest dock would touch a chip (a narrow desktop window with long chips) it steps out of the bar.
+  // Over Settings it keeps its own place in the bar while that is clear of the Settings title, else it takes the bar's
+  // first place (the bar's own badge and tabs are hidden over Settings).
   function mdFitTop(){
     if(!dock)return;
-    for(const mode of ["full","title","icon","none"]){
-      dock.root.dataset.fit=mode;
-      if(mode==="none")return;
-      const box=dock.root.getBoundingClientRect();
-      if(!box.width||box.right+16<=mdChipsLeft(dock.root.parentNode.getBoundingClientRect()))return;
+    const title=mdSettingsTitle();
+    for(const place of title?["","start"]:[""]){
+      if(place)dock.root.dataset.place=place;else delete dock.root.dataset.place;
+      for(const mode of ["full","title","icon"]){
+        dock.root.dataset.fit=mode;
+        const box=dock.root.getBoundingClientRect();
+        if(!box.width)return;
+        if(box.right+16<=mdChipsLeft(dock.root.parentNode.getBoundingClientRect())&&!mdTouches(box,title))return;
+      }
     }
+    delete dock.root.dataset.place;dock.root.dataset.fit="none";
+  }
+  // Settings opens and closes by a class on its overlay: the dock fits itself again each time.
+  let settingsWatched=null;
+  function mdWatchSettings(){
+    const overlay=root.document.getElementById("settingsOverlay");
+    if(!overlay||overlay===settingsWatched||typeof root.MutationObserver!=="function")return;
+    settingsWatched=overlay;
+    // Settings draws its Team V layout a moment after it opens, so the fit is checked again once that has settled.
+    new root.MutationObserver(()=>{root.requestAnimationFrame(mdFitTop);root.setTimeout(mdFitTop,400);root.setTimeout(mdFitTop,1200);}).observe(overlay,{attributes:true,attributeFilter:["class"]});
   }
 
   // ---- phone MUSIC tab: the sixth tab of the tab bar. The bar keeps its height, so nothing on any screen moves. ----
@@ -206,7 +255,7 @@
     const doc=root.document,nav=doc.querySelector(".sd-nav-bottom");
     if(!nav||nav.querySelector(".cmsMusicTab"))return;
     const b=doc.createElement("button");
-    b.type="button";b.id="cmsMusicTab";b.className="sd-nav-tab cmsMusicTab";b.setAttribute("aria-label","Music player");b.setAttribute("aria-controls","cmsMusicSheet");
+    b.type="button";b.id="cmsMusicTab";b.className="sd-nav-tab cmsMusicTab";b.setAttribute("aria-label","Music player");b.setAttribute("aria-controls","cmsMusicSheet");b.setAttribute("aria-expanded","false");
     b.innerHTML=`${ICON.disc}<span>MUSIC</span>`;
     b.addEventListener("click",()=>mdSheetToggle(b));
     nav.appendChild(b);
@@ -230,6 +279,7 @@
     const doc=root.document,top=doc.querySelector(".sd-nav-top");
     if(top&&!doc.getElementById("cmsMusicDockTop")){mdBuildDock(top,top.querySelector(".sd-nav-capsule"));mdRender();}
     mdTabMount();
+    mdWatchSettings();
     return Boolean(top);
   }
 
@@ -246,7 +296,12 @@
       watching.observe(doc.body,{childList:true,subtree:true});
       new root.MutationObserver(()=>{mdSheetClose();root.requestAnimationFrame(mdFitTop);}).observe(doc.documentElement,{attributes:true,attributeFilter:["data-v10-screen","data-nav"]});
     }
-    doc.addEventListener("keydown",event=>{if(event.key==="Escape")mdSheetClose();});
+    // Escape closes the player first (it is the top layer) and hands focus back to the button that opened it; a dialog
+    // underneath (Settings) stays open until a second Escape.
+    doc.addEventListener("keydown",event=>{
+      if(event.key!=="Escape"||!sheet||sheet.root.hidden)return;
+      event.stopPropagation();mdSheetClose();
+    },true);
     doc.addEventListener("timeupdate",event=>{if(isAudio(event))mdTime();},true);
     doc.addEventListener("durationchange",event=>{if(isAudio(event))mdTime();},true);
     let wasPhone=root.innerWidth<=PHONE_MAX;
