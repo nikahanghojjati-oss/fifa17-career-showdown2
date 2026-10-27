@@ -71,7 +71,9 @@ async function inspect(page,screen){
       const page=await context.newPage();
       await page.goto(base,{waitUntil:"domcontentloaded"});
       await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:20000});
-      await page.locator("#mainMenu.v10Home #menuMusicToggle").waitFor();
+      // r85: desktop Home moved its music strip into the top-bar dock (inside .sd-nav, so inspect() still checks it); the
+      // strip stays in the page but hidden there, so only its presence is awaited.
+      await page.locator("#mainMenu.v10Home #menuMusicToggle").waitFor({state:"attached"});
       await page.waitForFunction(()=>window.CareerModeProductionSharedJourneyEntry);
       await page.evaluate(async()=>{
         await CareerModeHomeScreensV10.install();await document.fonts.ready;
@@ -111,6 +113,7 @@ async function inspect(page,screen){
       if(!reached.notice||reached.notice.top<0||reached.notice.bottom>height)home.errors.push("Home notice is not fully reachable");
       home.errors.push(...reached.errors);
       for(const id of ["menuMusicToggle","menuMusicMute"]){
+        if(!await page.locator(`#${id}`).isVisible())continue;
         await page.locator(`#${id}`).scrollIntoViewIfNeeded();
         home.errors.push(...(await inspect(page,"home")).errors);
       }
