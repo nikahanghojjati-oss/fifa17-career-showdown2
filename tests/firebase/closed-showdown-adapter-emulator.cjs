@@ -131,8 +131,9 @@ async function liveCareerInput(env,uid,{history=null,multi=null}={}){
 // Fresh authenticated client per load; every exact get is counted.
 async function load(env,uid,current){
   const db=env.authenticatedContext(uid).firestore(),counter={gets:0};
-  const counted={doc:firestoreSdk.doc,getDoc:async ref=>{counter.gets+=1;return firestoreSdk.getDoc(ref);}};
+  const counted={doc:firestoreSdk.doc,setDoc:firestoreSdk.setDoc,getDoc:async ref=>{counter.gets+=1;return firestoreSdk.getDoc(ref);}};
   const value=await Loader.loadClosedShowdownCareer({firestore:db,firebaseSdk:counted,user:{uid},cryptoImpl:crypto.webcrypto,current});
+  await require("../../js/careerSummaryStore.js").writesSettled();
   return {value,gets:counter.gets};
 }
 const rows=v=>v.model.history.showdowns.map(row=>row.status);
@@ -221,7 +222,9 @@ async function main(env){
     const {value,gets}=await load(env,A,await liveCareerInput(env,A,{history:three.history,multi:three.multi}));
     assert.equal(value.status,"ready");assert.deepEqual(classes(value),["completed","abandoned","active"]);assert.deepEqual(rows(value),["completed","abandoned","in-progress"]);
     assert.deepEqual(value.entries.map(e=>e.source),["reader","reader","current"]);
-    assert.equal(gets,1+(2+4*3)+1+1,"index head + completed (2+4N) + abandoned root + live root");
+    // r86: the career loads above (B cases) already read both closed Showdowns in full once and wrote Daniel's career
+    // summaries, so a fresh client reads one summary each; the live Showdown is read as before and gets no summary check.
+    assert.equal(gets,1+1+1+1,"index head + completed summary + abandoned summary + live root");
     views.daniel=value;
   });
   await ok("C3","Daniel again: completed and abandoned Showdowns come from the memory cache",async()=>{
@@ -230,7 +233,7 @@ async function main(env){
   });
   await ok("C4","Nik: identical career from his own fresh client and index",async()=>{
     const {value,gets}=await load(env,B,await liveCareerInput(env,B,{history:three.history,multi:three.multi}));
-    assert.equal(gets,17,"account change clears the cache");assert.deepEqual(plain(value.model),plain(views.daniel.model));
+    assert.equal(gets,4,"account change clears the cache (r86: Nik's own summaries, written by the B-case loads)");assert.deepEqual(plain(value.model),plain(views.daniel.model));
     views.nik=value;
   });
   await ok("C5","career numbers: totals equal the witness, abandoned counts nothing, live season waits for the finish (r83), no ids",async()=>{

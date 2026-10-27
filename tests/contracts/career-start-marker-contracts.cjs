@@ -119,10 +119,14 @@ await check("L4 the real career index client: hidden roots get no provider read,
   const head={schemaVersion:1,objectType:"careerIndex",objectId:"current",revision:2,lifecycleState:"live",contentHash:"sha256:"+"0".repeat(64),data:{rivalryIds:ALL,sealedPageCount:0}};
   const run=async extra=>{L.clearClosedShowdownCache();const log=[];const sdk={doc:(_db,...parts)=>({path:parts.join("/")}),getDoc:async ref=>{log.push(ref.path);const v=ref.path==="accounts/acct_daniel/careerIndex/current"?head:undefined;return {exists:()=>v!==undefined,data:()=>v};}};
     const v=await L.loadClosedShowdownCareer({firestore:{},firebaseSdk:sdk,user:{uid:"acct_daniel"},cryptoImpl:require("node:crypto").webcrypto,current:noCurrent(),...extra});return {log,v};};
+  // r86: each Showdown read first asks for its career summary (one exact get, absent here); hidden ones get neither.
+  const summaries=log=>log.filter(p=>p.startsWith("accounts/acct_daniel/careerSummary/")),rest=log=>log.filter(p=>!p.startsWith("accounts/acct_daniel/careerSummary/"));
   const today=await run({});
-  same(today.log,["accounts/acct_daniel/careerIndex/current",...ALL.map(x=>"rivalries/"+x)]);
+  same(rest(today.log),["accounts/acct_daniel/careerIndex/current",...ALL.map(x=>"rivalries/"+x)]);
+  same(summaries(today.log).sort(),ALL.map(x=>"accounts/acct_daniel/careerSummary/"+x).sort());
   const hidden=await run({hiddenRivalryIds:[p1.rivalryId,p2.rivalryId]});
-  same(hidden.log,["accounts/acct_daniel/careerIndex/current","rivalries/"+p3.rivalryId]);
+  same(rest(hidden.log),["accounts/acct_daniel/careerIndex/current","rivalries/"+p3.rivalryId]);
+  same(summaries(hidden.log),["accounts/acct_daniel/careerSummary/"+p3.rivalryId]);
   same(hidden.v.model.coverage,{readable:0,indexed:1});
   const all=await run({hiddenRivalryIds:ALL});
   same(all.log,["accounts/acct_daniel/careerIndex/current"]);assert.equal(all.v.status,"empty");
