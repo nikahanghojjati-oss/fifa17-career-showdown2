@@ -2,7 +2,7 @@
 
 **Settings for every run:** model `claude-opus-5-5`; thinking **off** (or the lowest level); max tokens **32000**. Use the laptop. Open a **New** prompt for each run, paste the prompt into the user message, press Run, then copy the whole answer and paste it in the r85 lead thread (or attach it as a .txt file) with the run's code, e.g. "C1".
 
-Order: C1 to C5, then S1 to S4, then H1 to H4. 13 runs in total.
+Order: C1 to C7, then S1 to S4, then H1 to H4. 15 runs in total. For C6, C7 and S1 to S4 set thinking to **low** (real facts); keep it off for the rest.
 
 ## C1: Commentator lines 1: big-win, narrow-win, comfortable-win, draw
 
@@ -17,7 +17,7 @@ TASK: write 300 short commentary lines the game shows after a result, spread eve
 
 PLACEHOLDERS you may use (exactly as written, curly braces included): {winner} {loser} (manager names), {winnerClub} {loserClub}, {winnerPoints} {loserPoints}, {margin} (point gap), {season} (season number), {seasons} (Showdown length), {leader} {trailer} (overall Showdown leader/trailer), {totalLeader} {totalTrailer} (overall points). For draws use {managerA} {managerB} {clubA} {clubB} {points}. Use only placeholders that make sense for the situation. Never hard-code Daniel or Nik.
 
-OUTPUT: only a JSON array, nothing before or after it, no markdown fences. Each item: {"id": "<prefix>-<3-digit number>", "situation": "<one of the situations>", "text": "<the line>"}. Lines are 8 to 28 words, spoken-commentary style, all different from each other (vary openings, rhythm and imagery). Use id prefix "c1".
+OUTPUT: only a JSON array, nothing before or after it, no markdown fences. Each item: {"id": "<prefix>-<3-digit number>", "situation": "<one of the situations>", "text": "<the line>"}. Lines are 8 to 28 words, spoken-commentary style (they are read aloud), all different from each other (vary openings, rhythm and imagery). At least a third must be genuinely funny: playful banter, football clichés turned on their head, cheeky mock-drama. Never mean. Use id prefix "c1".
 ```
 
 ## C2: Commentator lines 2: champions-league, europa-league, league-title, cup-double, no-trophy
@@ -34,7 +34,7 @@ TASK: write 300 short commentary lines the game shows after a result, spread eve
 
 PLACEHOLDERS you may use (exactly as written, curly braces included): {winner} {loser} (manager names), {winnerClub} {loserClub}, {winnerPoints} {loserPoints}, {margin} (point gap), {season} (season number), {seasons} (Showdown length), {leader} {trailer} (overall Showdown leader/trailer), {totalLeader} {totalTrailer} (overall points). For draws use {managerA} {managerB} {clubA} {clubB} {points}. Use only placeholders that make sense for the situation. Never hard-code Daniel or Nik.
 
-OUTPUT: only a JSON array, nothing before or after it, no markdown fences. Each item: {"id": "<prefix>-<3-digit number>", "situation": "<one of the situations>", "text": "<the line>"}. Lines are 8 to 28 words, spoken-commentary style, all different from each other (vary openings, rhythm and imagery). Use id prefix "c2".
+OUTPUT: only a JSON array, nothing before or after it, no markdown fences. Each item: {"id": "<prefix>-<3-digit number>", "situation": "<one of the situations>", "text": "<the line>"}. Lines are 8 to 28 words, spoken-commentary style (they are read aloud), all different from each other (vary openings, rhythm and imagery). At least a third must be genuinely funny: playful banter, football clichés turned on their head, cheeky mock-drama. Never mean. Use id prefix "c2".
 ```
 
 ## C3: Commentator lines 3: comeback, lead-extended, level-overall, winning-streak, streak-broken
@@ -51,7 +51,7 @@ TASK: write 300 short commentary lines the game shows after a result, spread eve
 
 PLACEHOLDERS you may use (exactly as written, curly braces included): {winner} {loser} (manager names), {winnerClub} {loserClub}, {winnerPoints} {loserPoints}, {margin} (point gap), {season} (season number), {seasons} (Showdown length), {leader} {trailer} (overall Showdown leader/trailer), {totalLeader} {totalTrailer} (overall points). For draws use {managerA} {managerB} {clubA} {clubB} {points}. Use only placeholders that make sense for the situation. Never hard-code Daniel or Nik.
 
-OUTPUT: only a JSON array, nothing before or after it, no markdown fences. Each item: {"id": "<prefix>-<3-digit number>", "situation": "<one of the situations>", "text": "<the line>"}. Lines are 8 to 28 words, spoken-commentary style, all different from each other (vary openings, rhythm and imagery). Use id prefix "c3".
+OUTPUT: only a JSON array, nothing before or after it, no markdown fences. Each item: {"id": "<prefix>-<3-digit number>", "situation": "<one of the situations>", "text": "<the line>"}. Lines are 8 to 28 words, spoken-commentary style (they are read aloud), all different from each other (vary openings, rhythm and imagery). At least a third must be genuinely funny: playful banter, football clichés turned on their head, cheeky mock-drama. Never mean. Use id prefix "c3".
 ```
 
 ## C4: Commentator lines 4: opening-season, halfway, final-season-decider, showdown-won, showdown-drawn
@@ -68,7 +68,7 @@ TASK: write 300 short commentary lines the game shows after a result, spread eve
 
 PLACEHOLDERS you may use (exactly as written, curly braces included): {winner} {loser} (manager names), {winnerClub} {loserClub}, {winnerPoints} {loserPoints}, {margin} (point gap), {season} (season number), {seasons} (Showdown length), {leader} {trailer} (overall Showdown leader/trailer), {totalLeader} {totalTrailer} (overall points). For draws use {managerA} {managerB} {clubA} {clubB} {points}. Use only placeholders that make sense for the situation. Never hard-code Daniel or Nik.
 
-OUTPUT: only a JSON array, nothing before or after it, no markdown fences. Each item: {"id": "<prefix>-<3-digit number>", "situation": "<one of the situations>", "text": "<the line>"}. Lines are 8 to 28 words, spoken-commentary style, all different from each other (vary openings, rhythm and imagery). Use id prefix "c4".
+OUTPUT: only a JSON array, nothing before or after it, no markdown fences. Each item: {"id": "<prefix>-<3-digit number>", "situation": "<one of the situations>", "text": "<the line>"}. Lines are 8 to 28 words, spoken-commentary style (they are read aloud), all different from each other (vary openings, rhythm and imagery). At least a third must be genuinely funny: playful banter, football clichés turned on their head, cheeky mock-drama. Never mean. Use id prefix "c4".
 ```
 
 ## C5: Commentator lines 5: golden-showdown, one-season-sprint, dominant-run, rivalry-history, season-preview
@@ -85,7 +85,42 @@ TASK: write 300 short commentary lines the game shows after a result, spread eve
 
 PLACEHOLDERS you may use (exactly as written, curly braces included): {winner} {loser} (manager names), {winnerClub} {loserClub}, {winnerPoints} {loserPoints}, {margin} (point gap), {season} (season number), {seasons} (Showdown length), {leader} {trailer} (overall Showdown leader/trailer), {totalLeader} {totalTrailer} (overall points). For draws use {managerA} {managerB} {clubA} {clubB} {points}. Use only placeholders that make sense for the situation. Never hard-code Daniel or Nik.
 
-OUTPUT: only a JSON array, nothing before or after it, no markdown fences. Each item: {"id": "<prefix>-<3-digit number>", "situation": "<one of the situations>", "text": "<the line>"}. Lines are 8 to 28 words, spoken-commentary style, all different from each other (vary openings, rhythm and imagery). Use id prefix "c5".
+OUTPUT: only a JSON array, nothing before or after it, no markdown fences. Each item: {"id": "<prefix>-<3-digit number>", "situation": "<one of the situations>", "text": "<the line>"}. Lines are 8 to 28 words, spoken-commentary style (they are read aloud), all different from each other (vary openings, rhythm and imagery). At least a third must be genuinely funny: playful banter, football clichés turned on their head, cheeky mock-drama. Never mean. Use id prefix "c5".
+```
+
+## C6: Club history commentator lines, part 1 of 2
+
+```text
+GAME CONTEXT: "Career Mode Showdown" is a private game for two friends, Daniel and Nik, who each play a FIFA 17 career (2016-17 season) and compare results season by season. A Showdown lasts 1, 3, 5 or 10 seasons (10 seasons = a "Golden Showdown"). Each season a manager scores points from league finish and trophies; Champions League adds +5, Europa League +3 (never both). Equal totals are a DRAW: there is NO tiebreak, ever, so never write that anyone "edged it on goal difference" or similar. Tone: premium football broadcast, warm, witty, never insulting, no swearing, nothing about real players' private lives.
+
+TASK: for EACH club below, write 5 commentary lines that the game speaks when a manager of that club wins, draws or lifts a trophy. Each line must bring in something real and well known from the club's history or identity before 2017: famous trophies and eras, legendary managers, iconic nights, nicknames, stadium atmosphere, local rivalries, underdog stories. Make them fun, proud or cheeky, broadcast style, read aloud.
+
+Premier League: Arsenal, Bournemouth, Burnley, Chelsea, Crystal Palace, Everton, Hull City, Leicester City, Liverpool, Manchester City, Manchester United, Middlesbrough, Southampton, Stoke City, Sunderland, Swansea City, Tottenham Hotspur, Watford, West Bromwich Albion, West Ham United
+LaLiga: Alavés, Athletic Club, Atlético Madrid, Barcelona, Celta Vigo, Deportivo La Coruña, Eibar, Espanyol, Granada, Las Palmas, Leganés, Málaga, Osasuna, Real Betis, Real Madrid, Real Sociedad, Sevilla, Sporting Gijón, Valencia, Villarreal
+
+FACTS: only use history you are confident is true and widely known (no exact dates or numbers unless you are certain). Never invent a fact; if a club has little famous history, lean on its nickname, city and identity instead. No living player's private life. Do not mention events after June 2017.
+
+PLACEHOLDERS allowed: {manager} (that club's manager), {rival} (the other manager), {rivalClub}, {season}. Never hard-code Daniel or Nik.
+
+OUTPUT: only a JSON array, nothing before or after it, no markdown fences. Each item: {"club": "<exactly as written above>", "mood": "<win | draw | trophy | any>", "text": "<8 to 28 words>"}. 5 per club, at least one funny.
+```
+
+## C7: Club history commentator lines, part 2 of 2
+
+```text
+GAME CONTEXT: "Career Mode Showdown" is a private game for two friends, Daniel and Nik, who each play a FIFA 17 career (2016-17 season) and compare results season by season. A Showdown lasts 1, 3, 5 or 10 seasons (10 seasons = a "Golden Showdown"). Each season a manager scores points from league finish and trophies; Champions League adds +5, Europa League +3 (never both). Equal totals are a DRAW: there is NO tiebreak, ever, so never write that anyone "edged it on goal difference" or similar. Tone: premium football broadcast, warm, witty, never insulting, no swearing, nothing about real players' private lives.
+
+TASK: for EACH club below, write 5 commentary lines that the game speaks when a manager of that club wins, draws or lifts a trophy. Each line must bring in something real and well known from the club's history or identity before 2017: famous trophies and eras, legendary managers, iconic nights, nicknames, stadium atmosphere, local rivalries, underdog stories. Make them fun, proud or cheeky, broadcast style, read aloud.
+
+Bundesliga: Bayern Munich, Borussia Dortmund, Bayer Leverkusen, Borussia Mönchengladbach, Schalke 04, Mainz 05, Hertha BSC, Wolfsburg, Hoffenheim, Eintracht Frankfurt, Werder Bremen, Hamburg, FC Augsburg, SC Freiburg, RB Leipzig, FC Ingolstadt, Darmstadt 98, 1. FC Köln
+Serie A: Atalanta, Bologna, Cagliari, Chievo, Crotone, Empoli, Fiorentina, Genoa, Inter Milan, Juventus, Lazio, Milan, Napoli, Palermo, Pescara, Roma, Sampdoria, Sassuolo, Torino, Udinese
+Ligue 1: Angers, Bastia, Bordeaux, Caen, Dijon, Guingamp, Lille, Lorient, Lyon, Marseille, Metz, Monaco, Montpellier, Nancy, Nantes, Nice, Paris Saint-Germain, Rennes, Saint-Étienne, Toulouse
+
+FACTS: only use history you are confident is true and widely known (no exact dates or numbers unless you are certain). Never invent a fact; if a club has little famous history, lean on its nickname, city and identity instead. No living player's private life. Do not mention events after June 2017.
+
+PLACEHOLDERS allowed: {manager} (that club's manager), {rival} (the other manager), {rivalClub}, {season}. Never hard-code Daniel or Nik.
+
+OUTPUT: only a JSON array, nothing before or after it, no markdown fences. Each item: {"club": "<exactly as written above>", "mood": "<win | draw | trophy | any>", "text": "<8 to 28 words>"}. 5 per club, at least one funny.
 ```
 
 ## S1-S4: Marquee Player scouting cards (4 runs: ranks 1-50, 51-100, 101-150, 151-200)
