@@ -417,6 +417,7 @@
         "^js/menuExperience\\.js$",
         "^package\\.json$",
         "^PHYSICAL_JOURNEY_ACCEPTANCE\\.md$",
+        "^SSJR2_PHYSICAL_RUN_GUIDE\\.md$",
         "^RELEASE_V1\\.9\\.1_R19\\.md$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
@@ -437,6 +438,7 @@
         "^js/menuExperience\\.js$",
         "^package\\.json$",
         "^PHYSICAL_JOURNEY_ACCEPTANCE\\.md$",
+        "^SSJR2_PHYSICAL_RUN_GUIDE\\.md$",
         "^RELEASE_V1\\.9\\.1_R19\\.md$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
