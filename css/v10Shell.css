@@ -417,8 +417,8 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
   #app #careerStatistics.careerScreenV10 .titleWordmark { width: min(93.6%, 66.2vh); left: calc(50% - min(46.8%, 33.1vh)); }
 }
 
-/* r85 (Nik 2026-10-27): the lean soundtrack player docked in the desktop top bar on every screen but Home (Home keeps its own
-   strip). Desktop: inside the top bar after the tabs; it narrows itself before it reaches the account chips
+/* r85 (Nik 2026-10-27): the lean soundtrack player docked in the desktop top bar on every screen, Home included (Home's own
+   strip is kept for phone, which has no top bar). Desktop: inside the top bar after the tabs; it narrows itself before it reaches the account chips
    (js/musicDockV10.js fitTop). Desktop only: on phone the player stays on Home (Nik 2026-10-27). */
 .cmsMusicDock {
   position: relative; display: flex; align-items: center; gap: 8px; box-sizing: border-box; min-width: 0;
@@ -428,7 +428,7 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
   align-self: center; height: 36px; margin-left: 18px; padding: 0 4px 0 6px; max-width: 560px;
   background: rgba(7,8,10,.82); border: 1px solid rgba(242,196,91,.45); border-radius: 2px;
 }
-html[data-v10-screen="mainMenu"] .cmsMusicDock, html[data-nav="none"] .cmsMusicDock { display: none !important; }
+html[data-nav="none"] .cmsMusicDock { display: none !important; }
 .cmsMusicDockDisc {
   flex: 0 0 auto; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center;
   background: radial-gradient(circle, #f2c45b 0 3px, #0d0f13 3.5px 6px, #2a2418 6.5px 7px, #0d0f13 7.5px 10px, #2a2418 10.5px 11px, #0d0f13 11.5px);
@@ -454,7 +454,9 @@ html[data-v10-screen="mainMenu"] .cmsMusicDock, html[data-nav="none"] .cmsMusicD
 .cmsMusicDockPlay:focus-visible, .cmsMusicDockMute:focus-visible, .cmsMusicDockOpen:focus-visible, .cmsMusicDockChoice:focus-visible { outline: 2px solid #f2c45b; outline-offset: 2px; }
 .cmsMusicDockOpen[aria-expanded="true"] { border-color: #f2c45b; color: #f2c45b; }
 .sd-nav-top .cmsMusicDock[data-fit="title"] .cmsMusicDockText small { display: none; }
-.sd-nav-top .cmsMusicDock[data-fit="icon"] .cmsMusicDockText { display: none; }
+.sd-nav-top .cmsMusicDock[data-fit="icon"] :is(.cmsMusicDockText, .cmsMusicDockDisc) { display: none; }
+.sd-nav-top .cmsMusicDock[data-fit="icon"] { gap: 4px; margin-left: 10px; padding: 0 3px; }
+.sd-nav-top .cmsMusicDock[data-fit="icon"] :is(.cmsMusicDockPlay, .cmsMusicDockMute, .cmsMusicDockOpen) { min-width: 0; padding: 0 7px; font-size: 11px; letter-spacing: .06em; }
 .sd-nav-top .cmsMusicDock .cmsMusicDockText { max-width: 230px; }
 /* The track list: one dark panel, two lines per song, scrolls inside itself. */
 .cmsMusicDockList {

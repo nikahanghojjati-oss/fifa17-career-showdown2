@@ -1,5 +1,5 @@
-// r85 (Nik 2026-10-27): the lean soundtrack player docked in the desktop top bar, after the tabs, on every screen but Home,
-// which keeps its own strip. On phone the player stays on Home only (Nik). It drives Home's one <audio> through
+// r85 (Nik 2026-10-27): the lean soundtrack player docked in the desktop top bar, after the tabs, on every screen (Home too:
+// its own strip is hidden on desktop). On phone the player stays on Home only, in that strip (Nik). It drives Home's one <audio> through
 // window.HomeSoundtrack, so a song keeps playing across screens. Nothing here touches Firestore; Audius is only asked for a song after a Play tap.
 // Looks: css/v10Shell.css (.cmsMusicDock).
 (function(root){
