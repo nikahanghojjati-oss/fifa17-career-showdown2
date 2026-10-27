@@ -198,6 +198,8 @@
         && after.baseRevisions[0] == 0
         && ssjrResultsPrivateLinked(rivalryId, seasonId, after, role);
     }
+    // Audit R84 F01 (r85): the second publish (revision 1 -> 2) now carries the same write authority as the first. Before,
+    // it was bound only to rivalry membership (through the role-private document's ssjrEntitled).
     function ssjrResultsValidUpdate(rivalryId, seasonId) {
       let before = resource.data;
       let after = request.resource.data;
@@ -206,7 +208,8 @@
       return ssjrResultsPublicUpdateShape(after, rivalryId, seasonId)
         && before.revision == 1
         && ssjrResultsPublicPrefixPreserved(before, after)
-        && ssjrResultsPrivateLinked(rivalryId, seasonId, after, role);
+        && ssjrResultsPrivateLinked(rivalryId, seasonId, after, role)
+        && ssjrWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId);
     }
     function ssjrResultsPrivateCreateValid(rivalryId, seasonId, managerRole) {
       let after = request.resource.data;

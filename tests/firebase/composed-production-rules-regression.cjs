@@ -57,7 +57,10 @@ const LABELS=Object.freeze({
   "tests/firebase/career-start-marker-emulator.cjs":"Career start marker matrix",
   "tests/firebase/terminal-close-stale-write-emulator.cjs":"Terminal Close stale-write race",
   "tests/firebase/europa-league-rules-emulator.cjs":"Europa League result key, CL-or-EL rule and EL +3 Terminal Close score (r80)",
-  "tests/firebase/saved-showdowns-still-open-emulator.cjs":"Saved Showdowns still open (JOB-1841)"
+  "tests/firebase/saved-showdowns-still-open-emulator.cjs":"Saved Showdowns still open (JOB-1841)",
+  "tests/firebase/shared-season-commit-concurrent-acknowledge-emulator.cjs":"Season Commit concurrent acknowledge (r52)",
+  "tests/firebase/shared-season-commit-ack-race-emulator.cjs":"Season Commit two-page acknowledgement race (r80)",
+  "tests/firebase/season-commit-raw-authority-denial-emulator.cjs":"Season Commit raw-SDK authority denial matrix (audit R84 F01/F02/F03)"
 });
 // Promise matrix: each promise passes only if every evidence item passed. Evidence: suite file (any run of it)
 // or a T/B/E check id from this runner.
@@ -68,7 +71,7 @@ const PROMISES=Object.freeze([
   ["M4","no list, no delete",["T6",GAP_SUITE,"tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs","tests/firebase/permanent-partner-emulator.cjs","tests/firebase/career-index-emulator.cjs","tests/firebase/completed-showdown-read-emulator.cjs"]],
   ["M5","career index: Phase A shipped, Phase B ready",["T7","tests/firebase/career-index-emulator.cjs","B*"]],
   ["M6","completed-only reads",["T8","tests/firebase/completed-transfer-history-emulator.cjs","tests/firebase/completed-showdown-read-emulator.cjs","tests/firebase/two-manager-journey-emulator.cjs"]],
-  ["M7","abandoned, stranger and forged denials",["tests/firebase/completed-transfer-history-emulator.cjs","tests/firebase/completed-showdown-read-emulator.cjs","tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs","tests/firebase/permanent-partner-emulator.cjs","tests/firebase/ended-early-emulator.cjs","tests/firebase/shared-terminal-close-production-provider-emulator.cjs","tests/firebase/two-manager-journey-emulator.cjs",GAP_SUITE]],
+  ["M7","abandoned, stranger and forged denials",["tests/firebase/completed-transfer-history-emulator.cjs","tests/firebase/completed-showdown-read-emulator.cjs","tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs","tests/firebase/permanent-partner-emulator.cjs","tests/firebase/ended-early-emulator.cjs","tests/firebase/shared-terminal-close-production-provider-emulator.cjs","tests/firebase/two-manager-journey-emulator.cjs",GAP_SUITE,"tests/firebase/season-commit-raw-authority-denial-emulator.cjs"]],
   ["M8","Terminal Close",["tests/firebase/shared-terminal-close-production-provider-emulator.cjs","tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs","tests/firebase/two-manager-journey-emulator.cjs","tests/firebase/europa-league-rules-emulator.cjs"]],
   ["M9","1,000-expression budget (qualified gate)",["E1","tests/firebase/shared-terminal-close-production-provider-emulator.cjs","tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs","tests/firebase/europa-league-rules-emulator.cjs"]],
   ["M10","write abuse limits and idempotency",["tests/firebase/stage4-mutation-rate-limit-emulator.cjs","tests/firebase/shared-showdown-setup-production-provider-emulator.cjs","tests/firebase/shared-transfer-challenge-fresh-session-emulator.cjs"]],

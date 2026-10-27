@@ -184,6 +184,7 @@ function census(){
     'persistentNikDanielPair.js':'Home JOIN note listener via meterSdk; readCareerIndex uses the sdk it is given (metered by callers)',
     'sparkClosedShowdownCareerLoader.js':'uses options.firebaseSdk.getDoc (metered by callers); its cancel wrapper calls the metered function',
     'sparkCompletedShowdownReader.js':'uses options.firebaseSdk.getDoc (metered by callers)',
+    'ssjrPhysicalJourneyAcceptance.js':'SSJR test panel closed-Showdown check (index + one exact read): getDoc via meterSdk',
     'sparkSharedSeasonResults.js':'uses sdk.getDoc only when the given (budget-wrapped, metered) services expose it; else a counted transaction'
   };
   const excluded={
@@ -195,7 +196,7 @@ function census(){
   const pattern=/\b(?:getDocs?|getDocFromServer|getDocsFromServer|onSnapshot)\b/;
   const found=fs.readdirSync(path.join(ROOT,'js')).filter(f=>f.endsWith('.js')&&pattern.test(read('js/'+f).replace(/captureCareerModeRawSaveLibraryMigrationSnapshot|captureLibraryMigrationSnapshot/g,'')));
   assert.deepEqual(found.sort(),Object.keys({...covered,...excluded}).sort(),'a new Firestore read call site must be metered and listed here');
-  for(const file of ['rivalryLegacyV10.js','seasonFinalV10.js','careerStartMarker.js','productionSharedSeasonCommit.js','persistentNikDanielPair.js']){
+  for(const file of ['rivalryLegacyV10.js','seasonFinalV10.js','careerStartMarker.js','productionSharedSeasonCommit.js','persistentNikDanielPair.js','ssjrPhysicalJourneyAcceptance.js']){
     const source=read('js/'+file);
     assert.ok(source.includes('CareerModeFirestoreBudget?.meterSdk')||source.includes('budget?.meterSdk'),`${file} meters the SDK it takes`);
     assert.ok(!/countListenerRead/.test(source),`${file} no longer counts listener deliveries by hand (would count twice)`);

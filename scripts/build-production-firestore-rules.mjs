@@ -156,8 +156,11 @@ for(const required of [
   "root.runtimeRevision == '1.9.1-r10'",
   "public.phase == 'RESULTS_READY'",
   "role == setup.coordinatorRole",
-  "root.results.playerOne == p1.result",
-  "root.results.playerTwo == p2.result",
+  // Audit R84 F02 (r85): these were satisfied only by the never-called ssjrCommitShape, which is removed; they now pin
+  // the live create/acknowledge validators instead.
+  "after.results.playerOne == p1.result",
+  "after.results.playerTwo == p2.result",
+  "(after.revision == 3 && after.phase == 'ACKNOWLEDGED')",
   "root.phase == 'ACKNOWLEDGED'",
   'function ssjrTerminalValidRivalryUpdate(rivalryId)',
   'function ssjrTerminalValidProgressUpdate(rivalryId)',
@@ -192,8 +195,15 @@ for(const required of [
   'allow list, delete: if false',
   "sessionData.state == 'active'",
   'sessionData.expiresAt is timestamp',
-  // r84 trim: this device's document is checked at Session start (validOpenSessionCreate / validSessionJoin), not on every save.
   'ssjrValidDeviceId(deviceId)',
+  // Audit R84 F01/F02 (r85): the r84 trim dropped the acting account and device from every write; both are back in the one
+  // shared write-authority helper (the partner account stays checked at Session start and Shared Setup open only).
+  'let actorAccount = get(/databases/$(database)/documents/accounts/$(actor));',
+  'let device = get(/databases/$(database)/documents/accounts/$(actor)/devices/$(deviceId));',
+  "actorAccount.data.data.status == 'active'",
+  "device.data.data.state == 'active'",
+  'ssjrResultsPrivateLinked(rivalryId, seasonId, after, role)\n        && ssjrWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId);',
+  'return activeActor()\n        && after.keys().hasOnly([\'schemaVersion\',\'objectType\',\'rivalryId\',\'teamCount\',\'createdAt\'])',
   "after.totalSeasons in [1,3,5,10]",
   "setup.phase == 'SHOWDOWN_CONFIRMED'",
   "after.phase == 'CAREER_START_READY'",
@@ -220,6 +230,11 @@ for(const [needle,count,label] of [
 ]){
   if(generated.split(needle).length-1!==count)throw new Error(`Generated production Rules must contain the ${label} exactly ${count} time(s).`);
 }
+// Audit R84 F02 (r85): Season Commit create and acknowledge each carry the shared actor write authority exactly once (no dead
+// helper), and every other shared write reaches the same actor checks through ssjrWriteAuthorityValid.
+if(between(generated,commitFunctionMarker,commitFunctionEnd).split('        && after.updatedAt == request.time\n        && ssjrActorWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId);').length-1!==2)throw new Error('Generated production Rules must bind both Season Commit create and acknowledge to ssjrActorWriteAuthorityValid.');
+if(!generated.includes('      return ssjrActorWriteAuthorityValid(rivalryId, deviceId, sessionId)\n        && rivalry.authorizedAccountIds is list'))throw new Error('ssjrWriteAuthorityValid must include the actor/Session/device/account authority.');
+if(generated.includes('function ssjrCommitShape('))throw new Error('Generated production Rules must not keep the never-called ssjrCommitShape helper.');
 if(generated.includes("'topAssist'])"))throw new Error('Generated production Rules must not keep a 7-key-only result shape next to the Europa League shape.');
 if(!generated.endsWith('\n'))generated+='\n';
 fs.writeFileSync(outputPath,generated,'utf8');

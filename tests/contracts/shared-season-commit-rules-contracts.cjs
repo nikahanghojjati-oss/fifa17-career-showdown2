@@ -23,26 +23,32 @@ for(const required of [
   'allow list, delete: if false',
   'allow create: if ssjrCommitValidCreate(rivalryId, seasonId)',
   'allow update: if ssjrCommitValidUpdate(rivalryId, seasonId)',
-  "root.runtimeRevision == '1.9.1-r10'",
+  // Audit R84 F02 (r85): the root.* pins below used to match only the never-called ssjrCommitShape; they now pin the
+  // live create/acknowledge validators (after.*), and both validators must call the shared actor write authority.
+  "after.runtimeRevision == '1.9.1-r10'",
   "public.runtimeRevision == '1.9.1-r9'",
   "public.phase == 'RESULTS_READY'",
   'public.revision == 2',
   "role == setup.coordinatorRole",
-  "root.results.keys().hasOnly(['playerOne','playerTwo'])",
-  "let teamCount = public.teamCount;",
+  "after.results.keys().hasOnly(['playerOne','playerTwo'])",
+  "public.teamCount in [18,20]",
+  "ssjrCommitResultShape(after.results.playerOne, public.teamCount)",
+  "ssjrCommitResultShape(after.results.playerTwo, public.teamCount)",
   "ssjrCommitResultShape(value, teamCount)",
   "value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague'])",
   "&& (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false));",
   "value.leaguePosition <= teamCount",
   "value.leaguePoints <= (teamCount - 1) * 6",
-  'root.results.playerOne == p1.result',
-  'root.results.playerTwo == p2.result',
-  "root.revision < 3 && root.phase == 'COMMITTED'",
-  "root.revision == 3 && root.phase == 'ACKNOWLEDGED'",
-  'root.acknowledgedRoles.size() == n - 1',
-  'root.acknowledgedRoles.toSet().size() == root.acknowledgedRoles.size()',
-  "root.acknowledgedRoles.toSet().hasOnly(['playerOne','playerTwo'])",
-  'root.actorRoles == [root.actorRoles[0]].concat(root.acknowledgedRoles)',
+  'after.results.playerOne == p1.result',
+  'after.results.playerTwo == p2.result',
+  "after.revision < 3 && after.phase == 'COMMITTED'",
+  "after.revision == 3 && after.phase == 'ACKNOWLEDGED'",
+  'after.acknowledgedRoles.size() == 0',
+  'after.acknowledgedRoles.size() == after.revision - 1',
+  'after.acknowledgedRoles.toSet().size() == after.acknowledgedRoles.size()',
+  "after.acknowledgedRoles.toSet().hasOnly(['playerOne','playerTwo'])",
+  'after.actorRoles[0] == role',
+  'after.actorRoles == before.actorRoles.concat([after.actorRoles[i]])',
   'after.revision == before.revision + 1',
   'ssjrCommitPrefixPreserved(before, after)',
   '!(role in before.acknowledgedRoles)',
@@ -50,9 +56,16 @@ for(const required of [
   'after.baseRevisions[i] == before.revision',
   'after.actorRoles[i] == role',
   'after.acknowledgedRoles[i - 1] == role',
-  'ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId)'
+  'ssjrActorWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)'
 ])assert.ok(fragment.includes(required),`Season Commit Rules missing required boundary: ${required}`);
 
+for(const name of ['ssjrCommitValidCreate','ssjrCommitValidUpdate']){
+  const start=fragment.indexOf(`function ${name}(`);
+  assert.ok(start>=0,`Season Commit fragment must define ${name}`);
+  const body=fragment.slice(start,fragment.indexOf('\n    }\n',start));
+  assert.ok(body.includes('ssjrActorWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)'),`${name} must enforce the shared actor Session/device/account write authority (audit R84 F02).`);
+}
+assert.equal(/function ssjrCommitShape\(/.test(fragment),false,'Season Commit must not keep the never-called ssjrCommitShape helper (audit R84 F02).');
 assert.doesNotMatch(fragment,/acknowledgedRoles\[0:n - 1\]/,'Season Commit first acknowledgement must not rely on a zero-length Firestore list slice.');
 assert.match(fragment,/after\.acknowledgedRoles == before\.acknowledgedRoles\.concat\(\[after\.acknowledgedRoles\[i - 1\]\]\)/,'Season Commit acknowledgements must remain append-only without slicing.');
 assert.doesNotMatch(fragment,/allow\s+list\s*:\s*if\s+true/,'Season Commit must never expose collection listing');
@@ -69,12 +82,13 @@ for(const required of [
   'match /seasonCommits/{seasonId}',
   'allow create: if ssjrCommitValidCreate(rivalryId, seasonId)',
   'allow update: if ssjrCommitValidUpdate(rivalryId, seasonId)',
-  "root.runtimeRevision == '1.9.1-r10'",
+  "after.runtimeRevision == '1.9.1-r10'",
   "public.phase == 'RESULTS_READY'",
   "role == setup.coordinatorRole",
-  'root.results.playerOne == p1.result',
-  'root.results.playerTwo == p2.result',
-  "root.phase == 'ACKNOWLEDGED'"
+  'after.results.playerOne == p1.result',
+  'after.results.playerTwo == p2.result',
+  "after.revision == 3 && after.phase == 'ACKNOWLEDGED'",
+  'ssjrActorWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)'
 ])assert.ok(generated.includes(required),`generated production Rules missing r10 Season Commit boundary: ${required}`);
 
 assert.equal((generated.match(/match \/seasonCommits\/\{seasonId\}/g)||[]).length,1,'generated Rules must contain exactly one Season Commit match');
