@@ -2,6 +2,21 @@
 
 **Settings for every run:** model `claude-opus-5-5`; thinking **off** (or the lowest level); max tokens **32000**. Use the laptop. Open a **New** prompt for each run, paste the prompt into the user message, press Run, then copy the whole answer and paste it in the r85 lead thread (or attach it as a .txt file) with the run's code, e.g. "C1".
 
+## Exact settings per run
+
+Same for every run: model **claude-opus-5-5**; a **New** prompt each time (no earlier messages); System box empty; laptop, tab kept in front. Temperature: leave the default (it cannot be changed while thinking is on).
+
+| Run | What | Attach | Thinking | Max tokens |
+|---|---|---|---|---|
+| C1-C5 | Commentator lines, 300 each | nothing | Off | 32000 |
+| C6, C7 | Club-history lines, 49 clubs each | nothing | Low | 32000 |
+| S1-S4 | Scouting cards, 50 players each | fifa17-top200.txt | Low | 32000 |
+| H1 | 200 season front pages | nothing | Off | 32000 |
+| H2 | 80 Final Winner front pages | nothing | Off | 16000 |
+| H3, H4 | Club cards, 49 clubs each | nothing | Low | 32000 |
+
+If an answer stops mid-list (it ends without `]`), press **Run again** once; if it stops again, tell Claude in the thread and the run gets split.
+
 Order: C1 to C7, then S1 to S4, then H1 to H4. 15 runs in total. For C6, C7 and S1 to S4 set thinking to **low** (real facts); keep it off for the rest.
 
 ## C1: Commentator lines 1: big-win, narrow-win, comfortable-win, draw
