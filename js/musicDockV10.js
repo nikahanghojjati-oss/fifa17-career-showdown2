@@ -61,7 +61,14 @@
       sheet.mute.disabled=!s.src;swapIcon(sheet.mute,s.muted?"muted":"sound");
       sheet.mute.setAttribute("aria-label",s.muted?"Unmute":"Mute");sheet.mute.setAttribute("aria-pressed",String(Boolean(s.muted)));
       sheet.root.dataset.playing=String(playing);sheet.root.dataset.failed=String(failed);
-      sheet.songs.forEach(b=>{const on=b.dataset.soundtrackTrack===t.key;b.classList.toggle("selected",on);b.setAttribute("aria-pressed",String(on));});
+      // The current song: aria-current plus a visible "now playing" icon (css), never colour alone. It is also the row
+      // that Tab enters the list on (roving tabindex), unless the listener has already moved within the list.
+      const inList=sheet.list.contains(root.document.activeElement);
+      sheet.songs.forEach(b=>{
+        const on=b.dataset.soundtrackTrack===t.key;b.classList.toggle("selected",on);
+        if(on)b.setAttribute("aria-current","true");else b.removeAttribute("aria-current");
+        if(!inList)b.tabIndex=on?0:-1;
+      });
       mdTime();
     }
     const tab=root.document.getElementById("cmsMusicTab");
@@ -91,24 +98,24 @@
       '<button class="cmsMusicSheetPlay" type="button" aria-label="Play"></button>'+
       `<button class="cmsMusicSheetNext" type="button" aria-label="Next song">${ICON.next}</button>`+
       '<span class="cmsMusicSheetEq" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>'+
-      `<div class="cmsMusicSheetHead"><strong>TRACKLIST</strong><small>${tracks.length} SONGS</small></div>`+
-      '<div class="cmsMusicSheetList" role="group" aria-label="Choose soundtrack"></div>';
+      `<div class="cmsMusicSheetHead" aria-hidden="true"><strong>TRACKLIST</strong><small>${tracks.length} SONGS</small></div>`+
+      `<ul class="cmsMusicSheetList" role="list" aria-label="Tracklist, ${tracks.length} songs. Choose a song to play it"></ul>`;
     const list=el.querySelector(".cmsMusicSheetList");
     tracks.forEach((t,i)=>{
-      const b=doc.createElement("button");
-      b.type="button";b.className="cmsMusicSheetSong";b.dataset.soundtrackTrack=t.key;
-      b.innerHTML='<em></em><span><strong></strong><small></small></span><i class="cmsMusicSheetSongEq" aria-hidden="true"><b></b><b></b><b></b></i>';
+      const li=doc.createElement("li"),b=doc.createElement("button");
+      b.type="button";b.className="cmsMusicSheetSong";b.dataset.soundtrackTrack=t.key;b.tabIndex=-1;
+      b.innerHTML='<em aria-hidden="true"></em><span><strong></strong><small></small></span><i class="cmsMusicSheetSongEq" aria-hidden="true"><b></b><b></b><b></b></i>';
       b.querySelector("em").textContent=String(i+1).padStart(2,"0");
       b.querySelector("strong").textContent=t.title;
       b.querySelector("small").textContent=t.artist;
-      list.appendChild(b);
+      li.appendChild(b);list.appendChild(li);
     });
     // A clear layer that closes the panel on an outside tap. It has no colour: the screen behind is never dimmed.
     const shield=doc.createElement("div");shield.className="cmsMusicSheetShield";shield.hidden=true;shield.setAttribute("aria-hidden","true");
     doc.body.append(shield,el);
     const q=c=>el.querySelector(c);
     sheet={root:el,shield,list,title:q(".cmsMusicSheetText strong"),artist:q(".cmsMusicSheetText small"),play:q(".cmsMusicSheetPlay"),mute:q(".cmsMusicSheetMute"),
-      bar:q(".cmsMusicSheetBar i"),times:el.querySelectorAll(".cmsMusicSheetTime small"),songs:Array.from(list.children),close:q(".cmsMusicSheetClose"),opener:null};
+      bar:q(".cmsMusicSheetBar i"),times:el.querySelectorAll(".cmsMusicSheetTime small"),songs:Array.from(list.querySelectorAll(".cmsMusicSheetSong")),close:q(".cmsMusicSheetClose"),opener:null};
     sheet.play.addEventListener("click",()=>player().toggle());
     sheet.mute.addEventListener("click",()=>player().mute());
     q(".cmsMusicSheetPrev").addEventListener("click",()=>mdStep(-1));
@@ -118,6 +125,21 @@
     list.addEventListener("click",event=>{
       const b=event.target instanceof root.Element?event.target.closest("[data-soundtrack-track]"):null;
       if(b)mdPick(b.dataset.soundtrackTrack);
+    });
+    // Keyboard: Tab enters the list once (on the current song), the arrow keys, Home and End move between songs, and
+    // Enter or Space plays the focused one (it is a real button).
+    list.addEventListener("focusin",event=>{
+      const b=event.target;
+      if(sheet.songs.includes(b))sheet.songs.forEach(x=>{x.tabIndex=x===b?0:-1;});
+    });
+    list.addEventListener("keydown",event=>{
+      const i=sheet.songs.indexOf(event.target);
+      if(i<0||event.altKey||event.ctrlKey||event.metaKey)return;
+      const last=sheet.songs.length-1;
+      const to={ArrowDown:Math.min(last,i+1),ArrowUp:Math.max(0,i-1),Home:0,End:last,PageDown:Math.min(last,i+5),PageUp:Math.max(0,i-5)}[event.key];
+      if(to===undefined)return;
+      event.preventDefault();
+      sheet.songs[to].focus();
     });
     return sheet;
   }
@@ -146,7 +168,8 @@
     mdSheetPlace();
     sheet.shield.hidden=false;sheet.root.hidden=false;
     mdRender();
-    const on=sheet.list.querySelector(".selected");
+    // The current song is scrolled to the middle of the list (instantly, so reduced motion is respected).
+    const on=sheet.list.querySelector('[aria-current="true"]');
     if(on)sheet.list.scrollTop=Math.max(0,on.offsetTop-sheet.list.clientHeight/2+on.offsetHeight/2);
     root.requestAnimationFrame(()=>{if(sheet&&!sheet.root.hidden)sheet.root.dataset.open="true";});
     sheet.close.focus({preventScroll:true});
@@ -190,15 +213,25 @@
     if(c&&c.width)left=Math.min(left,c.left);
     return left;
   }
-  // When even the smallest dock would touch a chip (a narrow desktop window with long chips) it steps out of the bar.
+  // The dock sits in the middle of the bar: the page's centre when that leaves a clear gap after the tabs, otherwise the
+  // centre of the free space between the tabs and the account chips. When even that is too tight it shrinks (artist
+  // line first, then the title) and, as a last step, steps out of the bar, so it never touches a tab or a chip.
   function mdFitTop(){
     if(!dock)return;
-    for(const mode of ["full","title","icon","none"]){
-      dock.root.dataset.fit=mode;
-      if(mode==="none")return;
-      const box=dock.root.getBoundingClientRect();
-      if(!box.width||box.right+16<=mdChipsLeft(dock.root.parentNode.getBoundingClientRect()))return;
+    const el=dock.root,prev=el.previousElementSibling;
+    for(const mode of ["full","title","icon"]){
+      el.dataset.fit=mode;el.style.marginLeft="";
+      const box=el.getBoundingClientRect();
+      if(!box.width)return;
+      const start=prev?prev.getBoundingClientRect().right:el.parentNode.getBoundingClientRect().left;
+      const end=mdChipsLeft(el.parentNode.getBoundingClientRect());
+      const w=box.width,inFlow=box.left;
+      let left=root.innerWidth/2-w/2;
+      if(left<start+48)left=((start+(Number.isFinite(end)?end:root.innerWidth))/2)-w/2;
+      left=Math.max(left,start+18);
+      if(left+w+16<=end){el.style.marginLeft=`${Math.round(left-inFlow+parseFloat(root.getComputedStyle(el).marginLeft||0))}px`;return;}
     }
+    el.style.marginLeft="";el.dataset.fit="none";
   }
 
   // ---- phone MUSIC tab: the sixth tab of the tab bar. The bar keeps its height, so nothing on any screen moves. ----
@@ -206,7 +239,7 @@
     const doc=root.document,nav=doc.querySelector(".sd-nav-bottom");
     if(!nav||nav.querySelector(".cmsMusicTab"))return;
     const b=doc.createElement("button");
-    b.type="button";b.id="cmsMusicTab";b.className="sd-nav-tab cmsMusicTab";b.setAttribute("aria-label","Music player");b.setAttribute("aria-controls","cmsMusicSheet");
+    b.type="button";b.id="cmsMusicTab";b.className="sd-nav-tab cmsMusicTab";b.setAttribute("aria-label","Music player");b.setAttribute("aria-controls","cmsMusicSheet");b.setAttribute("aria-expanded","false");
     b.innerHTML=`${ICON.disc}<span>MUSIC</span>`;
     b.addEventListener("click",()=>mdSheetToggle(b));
     nav.appendChild(b);
@@ -246,7 +279,12 @@
       watching.observe(doc.body,{childList:true,subtree:true});
       new root.MutationObserver(()=>{mdSheetClose();root.requestAnimationFrame(mdFitTop);}).observe(doc.documentElement,{attributes:true,attributeFilter:["data-v10-screen","data-nav"]});
     }
-    doc.addEventListener("keydown",event=>{if(event.key==="Escape")mdSheetClose();});
+    // Escape closes the player first (it is the top layer) and hands focus back to the button that opened it; a dialog
+    // underneath (Settings) stays open until a second Escape.
+    doc.addEventListener("keydown",event=>{
+      if(event.key!=="Escape"||!sheet||sheet.root.hidden)return;
+      event.stopPropagation();mdSheetClose();
+    },true);
     doc.addEventListener("timeupdate",event=>{if(isAudio(event))mdTime();},true);
     doc.addEventListener("durationchange",event=>{if(isAudio(event))mdTime();},true);
     let wasPhone=root.innerWidth<=PHONE_MAX;
