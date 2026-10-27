@@ -956,11 +956,9 @@ function getSettingsFocusRestoreSelector(){
 
 function getSettingsFocusableElements(){
     if(!settingsDialog){ return []; }
-    const selector='button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])';
-    // r85: the desktop music dock (and its open player) stays usable above Settings, so it joins the dialog's Tab cycle (Codex #1018).
-    const music=["cmsMusicDockTop","cmsMusicSheet"].map(id => document.getElementById(id)).filter(node => node && !node.hidden && node.getClientRects?.().length);
-    return [...music, settingsDialog].flatMap(scope => Array.from(scope.querySelectorAll(selector)))
-        .filter(element => !element.classList.contains("hidden") && element.tabIndex !== -1 && (settingsDialog.contains(element) || element.getClientRects().length));
+    return Array.from(settingsDialog.querySelectorAll(
+        'button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])'
+    )).filter(element => !element.classList.contains("hidden") && element.tabIndex !== -1);
 }
 
 function handleSettingsKeydown(event){
@@ -982,18 +980,6 @@ function handleSettingsKeydown(event){
     if(!focusable.length){
         event.preventDefault();
         settingsDialog.focus();
-        return;
-    }
-
-    // r85: with the music dock or player in the cycle the scopes are not one DOM run (the player sits after Settings in
-    // body), so Tab moves through the list itself, in screen order: dock, player, then Settings (Codex #1018).
-    if(focusable.some(element => !settingsDialog.contains(element))){
-        event.preventDefault();
-        const shown = focusable.filter(element => element.getClientRects().length);
-        const index = shown.indexOf(document.activeElement);
-        const step = event.shiftKey ? -1 : 1;
-        const next = index < 0 ? (event.shiftKey ? shown.length - 1 : 0) : (index + step + shown.length) % shown.length;
-        shown[next]?.focus();
         return;
     }
 
@@ -1058,10 +1044,6 @@ function ensureSettingsDialog(){
         }
     });
     overlay.addEventListener("keydown", handleSettingsKeydown);
-    // The music dock and player sit outside the overlay but inside the Tab cycle, so their keys reach the same handler (Codex #1018).
-    document.addEventListener("keydown", event => {
-        if(event.target?.closest?.("#cmsMusicDockTop, #cmsMusicSheet")){ handleSettingsKeydown(event); }
-    });
 
     settingsOverlay = overlay;
     settingsDialog = dialog;

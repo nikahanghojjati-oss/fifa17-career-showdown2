@@ -213,41 +213,25 @@
     if(c&&c.width)left=Math.min(left,c.left);
     return left;
   }
-  // Settings is a full-screen dialog over the bar; on desktop the dock is lifted above it (css/v10Shell.css). Its title
-  // block, when it starts inside the bar's height (short or narrow windows), is the one thing the dock must not cover.
-  function mdSettingsTitle(){
-    if(root.innerWidth<=PHONE_MAX)return null;
-    const overlay=root.document.getElementById("settingsOverlay");
-    if(!overlay||overlay.classList.contains("hidden"))return null;
-    const title=overlay.querySelector(".settingsTitleBlock"),box=title&&title.getBoundingClientRect();
-    return box&&box.width>2&&box.height>2?box:null;
-  }
-  const mdTouches=(a,b)=>Boolean(b&&a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top);
-  // When even the smallest dock would touch a chip (a narrow desktop window with long chips) it steps out of the bar.
-  // Over Settings it keeps its own place in the bar while that is clear of the Settings title, else it takes the bar's
-  // first place (the bar's own badge and tabs are hidden over Settings).
+  // The dock sits in the middle of the bar: the page's centre when that leaves a clear gap after the tabs, otherwise the
+  // centre of the free space between the tabs and the account chips. When even that is too tight it shrinks (artist
+  // line first, then the title) and, as a last step, steps out of the bar, so it never touches a tab or a chip.
   function mdFitTop(){
     if(!dock)return;
-    const title=mdSettingsTitle();
-    for(const place of title?["","start"]:[""]){
-      if(place)dock.root.dataset.place=place;else delete dock.root.dataset.place;
-      for(const mode of ["full","title","icon"]){
-        dock.root.dataset.fit=mode;
-        const box=dock.root.getBoundingClientRect();
-        if(!box.width)return;
-        if(box.right+16<=mdChipsLeft(dock.root.parentNode.getBoundingClientRect())&&!mdTouches(box,title))return;
-      }
+    const el=dock.root,prev=el.previousElementSibling;
+    for(const mode of ["full","title","icon"]){
+      el.dataset.fit=mode;el.style.marginLeft="";
+      const box=el.getBoundingClientRect();
+      if(!box.width)return;
+      const start=prev?prev.getBoundingClientRect().right:el.parentNode.getBoundingClientRect().left;
+      const end=mdChipsLeft(el.parentNode.getBoundingClientRect());
+      const w=box.width,inFlow=box.left;
+      let left=root.innerWidth/2-w/2;
+      if(left<start+48)left=((start+(Number.isFinite(end)?end:root.innerWidth))/2)-w/2;
+      left=Math.max(left,start+18);
+      if(left+w+16<=end){el.style.marginLeft=`${Math.round(left-inFlow+parseFloat(root.getComputedStyle(el).marginLeft||0))}px`;return;}
     }
-    delete dock.root.dataset.place;dock.root.dataset.fit="none";
-  }
-  // Settings opens and closes by a class on its overlay: the dock fits itself again each time.
-  let settingsWatched=null;
-  function mdWatchSettings(){
-    const overlay=root.document.getElementById("settingsOverlay");
-    if(!overlay||overlay===settingsWatched||typeof root.MutationObserver!=="function")return;
-    settingsWatched=overlay;
-    // Settings draws its Team V layout a moment after it opens, so the fit is checked again once that has settled.
-    new root.MutationObserver(()=>{root.requestAnimationFrame(mdFitTop);root.setTimeout(mdFitTop,400);root.setTimeout(mdFitTop,1200);}).observe(overlay,{attributes:true,attributeFilter:["class"]});
+    el.style.marginLeft="";el.dataset.fit="none";
   }
 
   // ---- phone MUSIC tab: the sixth tab of the tab bar. The bar keeps its height, so nothing on any screen moves. ----
@@ -279,7 +263,6 @@
     const doc=root.document,top=doc.querySelector(".sd-nav-top");
     if(top&&!doc.getElementById("cmsMusicDockTop")){mdBuildDock(top,top.querySelector(".sd-nav-capsule"));mdRender();}
     mdTabMount();
-    mdWatchSettings();
     return Boolean(top);
   }
 
