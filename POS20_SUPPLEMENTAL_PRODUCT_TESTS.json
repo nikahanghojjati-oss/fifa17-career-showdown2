@@ -2206,6 +2206,17 @@
         "^tests/(contracts/r84\\-golden\\-showdown\\-contracts|support/career\\-fixture\\-helpers)\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-write-authority-contracts.cjs",
+      "patterns": [
+        "^firestore\\.(shared-setup|career-start|transfer-challenge|season-results|season-commit)-production\\.fragment\\.rules$",
+        "^tests/firebase/(season-commit-raw-authority-denial|shared-season-commit-concurrent-acknowledge)-emulator\\.cjs$",
+        "^tests/firebase/composed-production-rules-regression\\.cjs$",
+        "^\\.github/workflows/(showdown-gate|validate-gameplay-fast)\\.yml$",
+        "^tests/contracts/shared-write-authority-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

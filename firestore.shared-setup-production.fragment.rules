@@ -40,19 +40,24 @@
       return ssjrRivalryData(rivalryId).managerSlots[0].accountId == request.auth.uid ? 'playerOne' : 'playerTwo';
     }
 
-    // Shared Setup write authority is evaluated once per write. Only the exact
-    // rivalry/session facts required by this namespaced ledger are rechecked so the
-    // production Rules remain under Firestore's expression ceiling.
-    // r84 trim: two lookups per write (rivalry + session). The two account documents and this device's document are no longer
-    // looked up on every save: no client can change an account's status (update denied) and the Spark app ships no account
-    // deletion flow. Both are checked when a Session starts (validOpenSessionCreate / validSessionJoin), which this write
-    // requires to be active, and both accounts again when a Shared Setup opens.
-    function ssjrWriteAuthorityValid(rivalryId, deviceId, sessionId) {
+    // Shared write authority is evaluated once per write. Only the exact
+    // account/device/rivalry/session facts required by these namespaced ledgers are
+    // rechecked so the production Rules remain under Firestore's expression ceiling.
+    // Audit R84 F01/F02 (r85): every shared write looks up four documents: the rivalry, the named Session, the ACTING account
+    // and the acting device. The r84 trim (rivalry + session only) let a deletion-pending account, or a revoked or
+    // unregistered device, keep writing through a direct request. The partner account is not looked up on every write (no
+    // client can change account status and the app ships no deletion flow; both accounts are checked at Session start and
+    // Shared Setup open). Reads stay membership-only (ssjrEntitled), by decision: a lookup on every listener read would cost
+    // hundreds of billed reads a season on the Spark limit.
+    // ssjrActorWriteAuthorityValid holds the actor/Session/device/account facts. Season Commit calls it directly because its
+    // create validator already sits near the 1,000-expression ceiling; every other shared write calls ssjrWriteAuthorityValid,
+    // which adds the manager-pair shape checks on the same rivalry document (no extra lookup).
+    function ssjrActorWriteAuthorityValid(rivalryId, deviceId, sessionId) {
       let actor = request.auth.uid;
       let rivalryRoot = get(/databases/$(database)/documents/rivalries/$(rivalryId));
       let rivalry = rivalryRoot.data.data;
-      let slot0AccountId = rivalry.managerSlots[0].accountId;
-      let slot1AccountId = rivalry.managerSlots[1].accountId;
+      let actorAccount = get(/databases/$(database)/documents/accounts/$(actor));
+      let device = get(/databases/$(database)/documents/accounts/$(actor)/devices/$(deviceId));
       let session = get(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(sessionId));
       let sessionData = session.data.data;
       return signedIn()
@@ -61,6 +66,24 @@
         && validSessionId(sessionId)
         && rivalryRoot.data.lifecycleState == 'live'
         && rivalry.connectionState == 'active'
+        && actor in rivalry.authorizedAccountIds
+        && actorAccount.data.data.status == 'active'
+        && device.data.objectId == deviceId
+        && device.data.data.state == 'active'
+        && session.data.objectId == sessionId
+        && sessionData.rivalryId == rivalryId
+        && sessionData.state == 'active'
+        && sessionData.memberAccountIds is list
+        && sessionData.memberAccountIds.size() == 2
+        && rivalry.authorizedAccountIds[0] in sessionData.memberAccountIds
+        && rivalry.authorizedAccountIds[1] in sessionData.memberAccountIds
+        && sessionData.expiresAt is timestamp;
+    }
+    function ssjrWriteAuthorityValid(rivalryId, deviceId, sessionId) {
+      let rivalry = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data;
+      let slot0AccountId = rivalry.managerSlots[0].accountId;
+      let slot1AccountId = rivalry.managerSlots[1].accountId;
+      return ssjrActorWriteAuthorityValid(rivalryId, deviceId, sessionId)
         && rivalry.authorizedAccountIds is list
         && rivalry.authorizedAccountIds.size() == 2
         && rivalry.authorizedAccountIds[0] != rivalry.authorizedAccountIds[1]
@@ -72,16 +95,7 @@
         && rivalry.managerSlots[0].entitlementState == 'active'
         && rivalry.managerSlots[1].entitlementState == 'active'
         && slot0AccountId in rivalry.authorizedAccountIds
-        && slot1AccountId in rivalry.authorizedAccountIds
-        && actor in rivalry.authorizedAccountIds
-        && session.data.objectId == sessionId
-        && sessionData.rivalryId == rivalryId
-        && sessionData.state == 'active'
-        && sessionData.memberAccountIds is list
-        && sessionData.memberAccountIds.size() == 2
-        && rivalry.authorizedAccountIds[0] in sessionData.memberAccountIds
-        && rivalry.authorizedAccountIds[1] in sessionData.memberAccountIds
-        && sessionData.expiresAt is timestamp;
+        && slot1AccountId in rivalry.authorizedAccountIds;
     }
     // r84 trim: both manager accounts are checked once per Showdown, when the Shared Setup is opened (plus at every Session
     // start), instead of on every save: a deleted or deletion-pending account cannot start a new Showdown.
@@ -147,7 +161,9 @@
       let after = request.resource.data;
       let setup = get(/databases/$(database)/documents/rivalries/$(rivalryId)/sharedSetup/authoritative).data;
       let rivalry = ssjrRivalryData(rivalryId);
-      return signedIn()
+      // Audit R84 F01 (r85): the acting account must be active (one lookup, once per Showdown); the team count itself is
+      // derived by these Rules from the binding, so no device or Session field is carried.
+      return activeActor()
         && after.keys().hasOnly(['schemaVersion','objectType','rivalryId','teamCount','createdAt'])
         && after.schemaVersion == 1
         && after.objectType == 'sharedLeagueProjection'
