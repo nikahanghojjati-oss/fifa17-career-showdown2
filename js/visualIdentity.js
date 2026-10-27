@@ -147,7 +147,10 @@ const CREST_SHAPES = Object.freeze({
     hex: "M60 6L108 27L101 100L60 132L19 100L12 27Z",
     point: "M14 10H106L104 84L60 132L16 84Z",
     tall: "M60 6L104 19V84C104 107 83 124 60 133C37 124 16 107 16 84V19Z",
-    swiss: "M14 10Q60 20 106 10V70C106 104 84 122 60 132C36 122 14 104 14 70Z"
+    swiss: "M14 10Q60 20 106 10V70C106 104 84 122 60 132C36 122 14 104 14 70Z",
+    pot: "M60 134C32 118 18 96 18 66V38C12 34 10 26 12 14C22 20 30 18 36 12C42 20 52 22 60 16C68 22 78 20 84 12C90 18 98 20 108 14C110 26 108 34 102 38V66C102 96 88 118 60 134Z",
+    oval: "M60 8C88 8 106 34 106 70C106 106 88 132 60 132C32 132 14 106 14 70C14 34 32 8 60 8Z",
+    bell: "M18 12H102Q110 40 106 78C104 108 86 126 60 134C34 126 16 108 14 78Q10 40 18 12Z"
 });
 
 const CREST_NAMED_COLOURS = Object.freeze({
@@ -205,6 +208,8 @@ const CREST_PATTERNS = Object.freeze({
     hoops: c => [0, 1, 2, 3].map(i => `<rect x="0" y="${30 + i * 26}" width="120" height="13" fill="${c}"/>`).join(""),
     stripesL: c => [0, 1, 2].map(i => `<rect x="${i * 20}" y="0" width="10" height="144" fill="${c}"/>`).join(""),
     stripesLp: c => [0, 1, 2].map(i => `<rect x="${10 + i * 20}" y="0" width="10" height="144" fill="${c}"/>`).join(""),
+    canton: c => `<rect x="0" y="0" width="70" height="62" fill="${c}"/>`,
+    diamonds: c => Array.from({ length: 11 }, (_, r) => Array.from({ length: 8 }, (_, q) => `<path d="M${q * 16 + (r % 2) * 8} ${12 + r * 12}l8 -6 8 6 -8 6z" fill="${c}"/>`).join("")).join(""),
     halves: c => `<rect x="60" y="0" width="60" height="144" fill="${c}"/>`,
     halvesL: c => `<rect x="0" y="0" width="60" height="144" fill="${c}"/>`,
     sash: c => `<path d="M-10 118L130 34V56L-10 140Z" fill="${c}"/>`,
@@ -316,7 +321,8 @@ const CREST_MOTIF_PLACES = Object.freeze({
     peak: "translate(42 11) scale(.3)",
     tilt: "rotate(-16 60 72)",
     left: "translate(120 0) scale(-1 1)",
-    right: "translate(48 28) scale(.6)"
+    right: "translate(48 28) scale(.6)",
+    corner: "translate(9 6) scale(.5)"
 });
 
 function buildCrestMotifs(tokens){
@@ -398,7 +404,7 @@ function crestRecipe(shape, pattern, motif, keep, change, ring){
 
 const CLUB_CREST_RECIPES = Object.freeze({
     /* Premier League 2016-17 */
-    "Arsenal": crestRecipe("heater", "cap:a", "cannon:g", "red, white, navy; cannon on a red shield", "own cannon drawing, navy cap not a text band, no lettering"),
+    "Arsenal": crestRecipe("heater", "top:a", "cannon:g", "red, white, navy; cannon on a red shield", "own cannon drawing, navy cap not a text band, no lettering"),
     "Bournemouth": crestRecipe("hex", "field:s stripes:p", "cherries:a:w", "red and black stripes; cherries (club nickname)", "hex not badge block, no player-head silhouette, no lettering"),
     "Burnley": crestRecipe("roundel", "foot:s rule:a", "bee:a:k", "claret, sky blue, gold; a bee", "roundel not shield, single bee, no lion, no hand, no motto"),
     "Chelsea": crestRecipe("roundel", "", "lion:a:p", "royal blue, white, gold; a lion in a ringed roundel", "lion head in profile, gold marks in the ring not text, no staff, roses or balls", { colour: "w", marks: "dots", count: 18 }),
@@ -422,8 +428,8 @@ const CLUB_CREST_RECIPES = Object.freeze({
     /* LaLiga 2016-17 */
     "Alavés": crestRecipe("tall", "stripes:s foot:k", "raven:#0e1a2b:g", "blue and white stripes; a raven (Vitoria arms)", "tall shield, one raven in flight, no castle, tower, tree or text"),
     "Athletic Club": crestRecipe("roundel", "stripes:s", "tree:#1f7a3a:k", "red and white stripes; an oak tree", "roundel not shield, single tree, no bridge, cross or church"),
-    "Atlético Madrid": crestRecipe("roundel", "field:w stripes:p foot:a", "bear@hi:#6b4226:k", "red and white stripes, blue; a bear", "roundel not bell shield, bear head only, blue at the foot not the top, no tree, no stars"),
-    "Barcelona": crestRecipe("heater", "stripes5:s catalan:a", "ball:a:p", "blue and garnet stripes, Catalan flag, gold ball", "flag as one full band, no cross, no FCB band, shield not pot shape"),
+    "Atlético Madrid": crestRecipe("bell", "field:w stripes:p canton:a", "bear@corner:#6b4226:k", "red and white stripes, blue corner, a bear; the club's outline", "own bear drawing, no tree, no stars"),
+    "Barcelona": crestRecipe("pot", "stripes5:s catalan:a", "ball:a:p", "blue and garnet stripes, Catalan flag, gold ball; the club's outline", "flag as one full band, no cross, no FCB band"),
     "Celta Vigo": crestRecipe("roundel", "foot:s", "cross:a", "sky blue, white, red; a cross", "roundel not shield, plain cross, no text"),
     "Deportivo La Coruña": crestRecipe("heater", "stripes:s", "crown:a:p", "blue and white stripes, gold; a crown", "shield not roundel, vertical stripes not a sash, crown inside not on top"),
     "Eibar": crestRecipe("roundel", "halves:s", "anvil:g", "blue and garnet halves; an anvil (the Armeros)", "roundel not shield, anvil not rifles, no text"),
@@ -442,7 +448,7 @@ const CLUB_CREST_RECIPES = Object.freeze({
     "Villarreal": crestRecipe("roundel", "foot:s", "submarine:s:w", "yellow and blue; a submarine (club nickname)", "roundel not shield, nickname emblem, no text"),
 
     /* Bundesliga 2016-17 */
-    "Bayern Munich": crestRecipe("heater", "lozenge:s:w", "", "red, blue, white; lozenge field", "shield not roundel, red frame not a text ring, no lettering"),
+    "Bayern Munich": crestRecipe("roundel", "field:w diamonds:s", "", "red ring, blue and white diamonds", "white marks in the ring, no lettering", { colour: "p", marks: "dots", count: 18, markColour: "w" }),
     "Borussia Dortmund": crestRecipe("roundel", "", "cog:s:p", "yellow and black; ringed roundel with a pit wheel", "pit wheel not letters, no year, gold marks in the ring", { colour: "s", marks: "dots", count: 16 }),
     "Bayer Leverkusen": crestRecipe("hex", "halvesL:s", "lion:w:s", "red and black; a lion", "hex not roundel, lion head in profile not full lion, no cross, no text"),
     "Borussia Mönchengladbach": crestRecipe("roundel", "foot:s rule:a", "horse:s:w", "white, black, green; a foal (club nickname)", "roundel not diamond, horse head, no monogram"),
@@ -470,8 +476,8 @@ const CLUB_CREST_RECIPES = Object.freeze({
     "Empoli": crestRecipe("roundel", "foot:s", "flask:s", "blue and white; a glass flask (glass-making)", "roundel not shield, no lettering, no chevron"),
     "Fiorentina": crestRecipe("roundel", "foot:s rule:a", "lily:s", "purple, white, gold; a lily", "roundel not shield, white lily on purple, no text"),
     "Genoa": crestRecipe("roundel", "halvesL:s", "cross:a", "red and blue halves; a cross", "roundel not shield, cross not griffin, no text"),
-    "Inter Milan": crestRecipe("heater", "stripes:s", "snake:a:k", "blue and black stripes, gold; a snake", "shield not roundel, snake not monogram"),
-    "Juventus": crestRecipe("point", "field:w stripes:s", "star@top:a", "black and white stripes, gold", "pointed shield not oval, no bull, star above"),
+    "Inter Milan": crestRecipe("roundel", "stripes:s", "snake:a:k", "blue and black stripes in a ringed roundel, gold; a snake", "snake not monogram, gold marks in the ring", { colour: "k", marks: "stars", count: 10 }),
+    "Juventus": crestRecipe("oval", "field:w stripes:s top:s", "star@top:a", "black and white stripes in an oval, gold", "no bull, no crown, no lettering, star above"),
     "Lazio": crestRecipe("roundel", "foot:s", "eagleR:a", "sky blue, white, gold; an eagle", "roundel not shield, eagle inside facing right, no text"),
     "Milan": crestRecipe("roundel", "field:w stripesL:s stripesLp:p", "cross@right:p", "red and black stripes beside a red cross on white; ringed roundel", "no letters or year in the ring, gold marks instead", { colour: "k", marks: "stars", count: 12 }),
     "Napoli": crestRecipe("heater", "foot:s", "volcano:a:s", "sky blue, white, navy; a volcano", "shield not roundel, no N"),
