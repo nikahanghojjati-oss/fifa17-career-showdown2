@@ -83,6 +83,8 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           track_progress: false
+          # The run log shows the API error when a review fails (the first live run stopped at once with no cost).
+          show_full_output: true
           use_sticky_comment: true
           prompt: |
             REPO: ${{ github.repository }}
