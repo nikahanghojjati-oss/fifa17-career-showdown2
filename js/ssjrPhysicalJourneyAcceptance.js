@@ -149,11 +149,12 @@
       if(!root.CareerModeSparkCompletedShowdownReader)await root.loadRuntimeScript("career-completed-reader","js/sparkCompletedShowdownReader.js",()=>Boolean(root.CareerModeSparkCompletedShowdownReader));
       const services=(root.CareerModeFirestoreBudget?.services||(value=>value))(await runtime.ensureAccountServices()),user=services?.auth?.currentUser;
       if(!services?.ok||!user||!safe.accountFingerprint||await sha256(user.uid)!==safe.accountFingerprint)return false;
-      const index=await root.CareerModePersistentNikDanielPair.readCareerIndex({});if(index?.status!=="ready"||!Array.isArray(index.rivalryIds))return false;
+      // The production SDK object carries no getDoc, so both reads get it explicitly, as the closed-career loader does (Codex #1014).
+      const sdk=services.firestoreSdk?.getDoc?services.firestoreSdk:await import(runtime.firebaseFirestoreModule),firebaseSdk={...services.firestoreSdk,getDoc:sdk.getDoc};
+      const index=await root.CareerModePersistentNikDanielPair.readCareerIndex({firestore:services.firestore,firebaseSdk,accountId:user.uid});if(index?.status!=="ready"||!Array.isArray(index.rivalryIds))return false;
       let rivalryId=null;for(const id of index.rivalryIds)if(typeof id==="string"&&await sha256(id)===safe.rivalryFingerprint){rivalryId=id;break;}
       if(!rivalryId)return false;
-      const sdk=services.firestoreSdk?.getDoc?services.firestoreSdk:await import(runtime.firebaseFirestoreModule);
-      const read=await root.CareerModeSparkCompletedShowdownReader.readCompletedShowdown({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc},user,rivalryId});
+      const read=await root.CareerModeSparkCompletedShowdownReader.readCompletedShowdown({firestore:services.firestore,firebaseSdk,user,rivalryId});
       if(read?.status!=="completed")return false;
       safe.terminalReloadVerified=true;milestone("terminal-reload-verified","CLOSED_AFTER_RELOAD",{startupCount:safe.startupCount});persist();return true;
     })().catch(error=>{root.console?.warn?.("[Career Mode Showdown] SSJR closed-Showdown check unavailable.",error);return false;}).then(result=>{if(!result)root.setTimeout?.(()=>{closedCheck=null;},10000);return result;});

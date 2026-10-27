@@ -89,8 +89,9 @@ function season(n,total=3){
     await load(p);
     await p.evaluate(raw=>{
       window.__reads=[];
-      window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:raw.account}},firestore:{},firestoreSdk:{doc(){},getDoc:async()=>null}})};
-      window.CareerModePersistentNikDanielPair={readCareerIndex:async()=>{window.__reads.push("index");return {status:"ready",rivalryIds:[raw.other,raw.rivalry]};}};
+      // Like production: the services SDK has no getDoc, so the recorder must import it (Codex #1014).
+      window.CareerModeProductionFirebaseRuntime={firebaseFirestoreModule:"data:text/javascript,export const getDoc=async()=>null;",ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:raw.account}},firestore:{},firestoreSdk:{doc(){}}})};
+      window.CareerModePersistentNikDanielPair={readCareerIndex:async options=>{window.__reads.push("index");if(typeof options?.firebaseSdk?.getDoc!=="function"||!options.firestore||!options.accountId)return {status:"unavailable",code:"CAREER_INDEX_UNAVAILABLE"};return {status:"ready",rivalryIds:[raw.other,raw.rivalry]};}};
       window.CareerModeSparkCompletedShowdownReader={readCompletedShowdown:async options=>{window.__reads.push(options.rivalryId);return {status:options.rivalryId===raw.rivalry?"completed":"not-closed"};}};
     },raw);
     await setState(p,{setup:{managerRole:"playerOne",remoteRole:"host",accountId:raw.account,deviceId:raw.device,rivalryId:raw.other,sessionId:null}});
