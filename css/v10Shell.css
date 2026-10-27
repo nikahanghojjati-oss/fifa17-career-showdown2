@@ -471,7 +471,6 @@ html[data-nav="none"] .cmsMusicDock { display: none !important; }
 .sd-nav-top .cmsMusicDock[data-fit="none"] { display: none; }
 /* Settings has no music player: it covers the top bar, and a screen without the top bar never shows the dock. */
 body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsMusicSheetShield) { display: none !important; }
-}
 
 /* The player panel: a sheet above the phone tab bar, or a drop-down under the desktop dock. */
 .cmsMusicSheet[hidden], .cmsMusicSheetShield[hidden] { display: none !important; }
