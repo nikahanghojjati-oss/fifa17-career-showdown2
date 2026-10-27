@@ -132,6 +132,7 @@ function countingSdk(log) {
       Loader.clearClosedShowdownCache(); Store.forgetPhoneCopies();
       const coldLog = [], cold = await Loader.loadClosedShowdownCareer({ firestore: as(id), firebaseSdk: countingSdk(coldLog), user: { uid: id }, cryptoImpl: crypto.webcrypto });
       assert.equal(cold.status, "ready", `${manager}: cold ${cold.status}`);
+      await Store.writesSettled();
       assert.ok(coldLog.includes(`rivalries/${RID}`) && coldLog.length >= 7, `${manager}: the first r86 open reads the game in full (${coldLog.length})`);
       const written = await getDoc(ref(as(id), id));
       assert.ok(written.exists(), `${manager}: the full read wrote the summary`);

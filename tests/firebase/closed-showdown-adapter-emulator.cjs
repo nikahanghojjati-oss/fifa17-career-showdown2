@@ -133,6 +133,7 @@ async function load(env,uid,current){
   const db=env.authenticatedContext(uid).firestore(),counter={gets:0};
   const counted={doc:firestoreSdk.doc,setDoc:firestoreSdk.setDoc,getDoc:async ref=>{counter.gets+=1;return firestoreSdk.getDoc(ref);}};
   const value=await Loader.loadClosedShowdownCareer({firestore:db,firebaseSdk:counted,user:{uid},cryptoImpl:crypto.webcrypto,current});
+  await require("../../js/careerSummaryStore.js").writesSettled();
   return {value,gets:counter.gets};
 }
 const rows=v=>v.model.history.showdowns.map(row=>row.status);

@@ -89,18 +89,18 @@ function fakeIndexedDB(){
 }
 const keyRange={bound:(lower,upper)=>({lower,upper})};
 // One fresh page load: the real modules in one realm; `log` holds every server get, `writes` every summary create.
-function page(docs,phone){
+function page(docs,phone,{hang=false}={}){
   const log=[],writes=[];
   const sdk={doc:(_db,...p)=>p.join('/'),
     getDoc:async ref=>{log.push(ref);await new Promise(resolve=>setImmediate(resolve));const value=docs[ref];return {exists:()=>value!==undefined,data:()=>value};},
-    setDoc:async(ref,value)=>{await new Promise(resolve=>setImmediate(resolve));if(docs[ref]!==undefined)throw Object.assign(new Error('PERMISSION_DENIED'),{code:'permission-denied'});writes.push(ref);docs[ref]=JSON.parse(JSON.stringify(value));}};
+    setDoc:async(ref,value)=>{if(hang)return new Promise(()=>{});await new Promise(resolve=>setImmediate(resolve));if(docs[ref]!==undefined)throw Object.assign(new Error('PERMISSION_DENIED'),{code:'permission-denied'});writes.push(ref);docs[ref]=JSON.parse(JSON.stringify(value));}};
   const c=vm.createContext({console,TextEncoder,crypto:webcrypto,setTimeout,clearTimeout,IDBKeyRange:keyRange});
   vm.runInContext(read('js/persistentNikDanielPair.js'),c);
   for(const [key,file] of Object.entries({CareerModeSparkCompletedShowdownReader:'sparkCompletedShowdownReader',CareerModeSharedClosedShowdownAdapter:'sharedClosedShowdownAdapter',CareerModeSharedCareerAnalytics:'sharedCareerAnalytics'}))c[key]=require(path.join(ROOT,'js',file+'.js'));
   vm.runInContext(read('js/careerSummaryStore.js'),c);
   vm.runInContext(read('js/sparkClosedShowdownCareerLoader.js'),c);
   const db={};
-  return {log,writes,load:uid=>c.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:db,firebaseSdk:sdk,user:{uid},cryptoImpl:webcrypto,phoneStorage:phone})};
+  return {log,writes,settled:()=>c.CareerModeCareerSummaryStore.writesSettled(),load:uid=>c.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:db,firebaseSdk:sdk,user:{uid},cryptoImpl:webcrypto,phoneStorage:phone})};
 }
 const strip=model=>JSON.stringify(model);
 // The production runtime's firestoreSdk carries no setDoc, so the History caller must hand the loader the imported SDK's
@@ -111,9 +111,21 @@ const strip=model=>JSON.stringify(model);
   const call=read('js/rivalryLegacyV10.js').match(/loadClosedShowdownCareer\(\{[^]*?firebaseSdk:\{([^}]*)\}/);
   assert.ok(call&&/setDoc:sdk\.setDoc/.test(call[1]),'History hands the career loader the SDK setDoc for summary writes');
 }
+// A summary write that never answers (offline: Firestore keeps it pending) never holds History up: the career is ready
+// and the phone copy is kept (Codex P2 on #1026).
+async function pendingWrite(){
+  const docs=Object.assign({},game(1,3),game(2,3)),uid=accounts[0],phone=fakeIndexedDB();index(docs,uid,[rid(1),rid(2)]);
+  const hung=page(docs,phone,{hang:true});
+  const result=await Promise.race([hung.load(uid),new Promise(resolve=>setTimeout(()=>resolve('timeout'),5000))]);
+  assert.notEqual(result,'timeout','a pending summary write never blocks the load');complete(result,2,3);
+  assert.equal(hung.writes.length,0);
+  const next=page(docs,phone);complete(await next.load(uid),2,3);
+  assert.deepEqual(next.log,[`accounts/${uid}/careerIndex/current`],'the phone copy was kept although the write never finished');
+}
 const counts=[10,30,100,...(process.env.CMS_SCALE_1000==='1'?[1000]:[])];
 const results=[];
 (async()=>{
+  await pendingWrite();
   const TOTAL=10;
   for(const count of counts){
     const docs=Object.assign({},...Array.from({length:count},(_,i)=>game(i+1,TOTAL)));
@@ -123,7 +135,7 @@ const results=[];
       const indexDocs=pagedIndex(docs,uid,ids);
       const phone=fakeIndexedDB();
       // 1. First r86 open: no summary anywhere yet (the backfill); every game read in full, then summarised once.
-      const first=page(docs,phone),t1=Date.now(),a=await first.load(uid),firstMs=Date.now()-t1;
+      const first=page(docs,phone),t1=Date.now(),a=await first.load(uid),firstMs=Date.now()-t1;await first.settled();
       complete(a,count,TOTAL);
       assert.equal(first.writes.length,count,'one summary write per game');
       assert.equal(first.log.length,indexDocs+count*(1+2+4*TOTAL),'first open: index, then per game one summary check and the full read');
