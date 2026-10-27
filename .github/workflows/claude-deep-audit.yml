@@ -52,7 +52,7 @@ jobs:
           case "$AREA" in
             season-flow) focus="One full season played by two devices, from the shared setup through the transfer challenge, results, the season commit that both players acknowledge, scoring and history, for 1, 3, 5 and 10 season Showdowns. Look for stuck screens, races between the two devices, lost taps, reloads or going offline mid-step, and wrong results.";;
             reads-budget) focus="Firestore reads and writes per season for both devices: every getDoc, getDocs, onSnapshot, transaction and write, how often each runs (timers, listeners, retries, hidden tabs), and the Rules get()/exists() lookups each write costs. Estimate billed reads per season and name every avoidable read. The free Spark limit is 50,000 reads and 20,000 writes a day, and the target is 20 to 30 seasons a day.";;
-            rules-vs-app) focus="Firestore Rules against the app: build the deployed Rules with node scripts/build-production-firestore-rules.mjs if useful, then check that every write the legitimate app makes is allowed in every normal-play state (reload, old tab, expired session, re-join), and that nothing lets one player break the other's game through stale state.";;
+            rules-vs-app) focus="Firestore Rules against the app: build the deployed (composed) Rules exactly as the deploy job does: node scripts/build-production-firestore-rules.mjs, then node scripts/build-production-firestore-rules-with-persistent-pair.mjs, and read the result in firestore.spark.generated.rules (the first stage alone lacks the persistent pair Rules). Then check that every write the legitimate app makes is allowed in every normal-play state (reload, old tab, expired session, re-join), and that nothing lets one player break the other's game through stale state.";;
             career-save) focus="The career save that lives in Firebase since r80, across 10 seasons and many Showdowns: career history, stats, trophies, Legacy, Golden Showdown, the hiding of test and ended-early games, and recovery after an interrupted save. Look for data loss, double counting, wrong totals and anything that breaks after many seasons.";;
             latest-release) focus="The latest release on main: read the newest RELEASE_V*.md, check what it claims against the code, then review the code it changed (git log and the merged PRs it lists).";;
           esac
@@ -93,4 +93,4 @@ jobs:
           claude_args: |
             --model ${{ inputs.model }}
             --max-turns 120
-            --allowedTools "Read,Grep,Glob,Bash(git log:*),Bash(git show:*),Bash(git diff:*),Bash(node scripts/build-production-firestore-rules.mjs:*),Bash(gh issue create:*)"
+            --allowedTools "Read,Grep,Glob,Bash(git log:*),Bash(git show:*),Bash(git diff:*),Bash(node scripts/build-production-firestore-rules.mjs:*),Bash(node scripts/build-production-firestore-rules-with-persistent-pair.mjs:*),Bash(gh issue create:*)"
