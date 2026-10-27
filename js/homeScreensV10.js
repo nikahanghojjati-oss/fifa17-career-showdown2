@@ -19,7 +19,18 @@
     toggle:"PLAY TRACK",pause:"PAUSE TRACK",mute:"MUTE",unmute:"UNMUTE",
     statusTemplate:"{TITLE} · AUDIUS · READY",statusLoading:"CONNECTING TO AUDIUS",statusPlaying:"PLAYING",
     statusPlayingMuted:"PLAYING · MUTED",statusPaused:"PAUSED",statusError:"STREAM UNAVAILABLE · TRY AGAIN OR PICK ANOTHER TRACK",
+    // Owner request 2026-10-27 (FIFA/PES handoff): Song 2 opens the game, Love Me Again second, the other new picks next with
+    // the two Sweet Disposition versions apart, then the earlier ten in their order. Ids resolved on api.audius.co 2026-10-27.
     tracks:Object.freeze([
+      Object.freeze({key:"song2",title:"SONG 2",artist:"Blur",audiusTrackId:"6R99GRQ"}),
+      Object.freeze({key:"loveMeAgain",title:"LOVE ME AGAIN",artist:"John Newman",audiusTrackId:"GNQJ5dl"}),
+      Object.freeze({key:"kids",title:"KIDS (TUNA MELT REMIX)",artist:"MGMT",audiusTrackId:"5xdlPEJ"}),
+      Object.freeze({key:"sweetDispositionTeo",title:"SWEET DISPOSITION",artist:"The Temper Trap",audiusTrackId:"K9J0w8l"}),
+      Object.freeze({key:"alive",title:"ALIVE",artist:"Empire of the Sun",audiusTrackId:"Nvydpr7"}),
+      Object.freeze({key:"theNights",title:"THE NIGHTS (MASHUP)",artist:"Avicii",audiusTrackId:"WGNNo"}),
+      Object.freeze({key:"aiSeEuTePego",title:"AI SE EU TE PEGO",artist:"Michel Teló",audiusTrackId:"PQ28va7"}),
+      Object.freeze({key:"shelter",title:"SHELTER (TRANTIC REMIX)",artist:"Porter Robinson & Madeon",audiusTrackId:"3mjjB"}),
+      Object.freeze({key:"sweetDispositionBlazy",title:"SWEET DISPOSITION (REMIX)",artist:"The Temper Trap",audiusTrackId:"y7Z9P"}),
       Object.freeze({key:"business",title:"BUSINESS",artist:"Behzad Leito ft. Sepehr Khalse, Saman Wilson, Sohrab MJ & Alireza JJ",audiusTrackId:"Ymgov"}),
       Object.freeze({key:"inDaClub",title:"IN DA CLUB (SAN HOLO REMIX)",artist:"50 Cent & San Holo",audiusTrackId:"qZ17b"}),
       Object.freeze({key:"sarnevesht",title:"SARNEVESHT",artist:"Gdaal & Imanemun ft. Erfan & Madgal",audiusTrackId:"gb33l"}),
@@ -31,7 +42,7 @@
       Object.freeze({key:"nasty",title:"NASTY",artist:"grouptherapy.",audiusTrackId:"G5rXAWE"}),
       Object.freeze({key:"cheraBadi",title:"CHERA BADI",artist:"Zedbazi ft. Hichkas",audiusTrackId:"0dGWK"})
     ]),
-    defaultTrack:"business",
+    defaultTrack:"song2",
     audius:Object.freeze({apiBase:"https://api.audius.co/v1",appName:"CareerModeShowdown17"})
   });
   // Continue shows Team V's number-17 player (owner, 2026-10-05); css/homeV10.css hides the old Reus cover on this Home.
@@ -125,6 +136,21 @@
     const syncMusicAlert=()=>{const text=status.textContent||"";card.dataset.failed=String(text===MEDIA.statusError||/OFFLINE/i.test(text));};
     if(typeof root.MutationObserver==="function")new root.MutationObserver(syncMusicAlert).observe(status,{childList:true,characterData:true,subtree:true});
     root.HomeSoundtrack.init(MEDIA);
+    // r85: with 19 songs the open list can be taller than the room above the strip (short laptops, tablets, phones on their
+    // side). After it opens, it is capped to the space left under the top bar (or the screen edge) and scrolls inside itself.
+    const fitSheet=()=>{
+      selector.style.removeProperty("max-height");selector.style.removeProperty("overflow-y");card.style.removeProperty("--track-sheet-h");
+      if(!sheet.checked)return;
+      const box=selector.getBoundingClientRect(),limit=root.innerWidth>900?(parseFloat(root.getComputedStyle(doc.documentElement).getPropertyValue("--sd-nav-top-h"))||52)+8:8;
+      if(box.top>=limit&&box.bottom<=root.innerHeight-4&&selector.scrollHeight<=selector.clientHeight+1)return;
+      const room=Math.max(160,Math.floor(Math.min(box.bottom,root.innerHeight-4)-Math.max(limit,box.top>=limit?box.top:limit)));
+      selector.style.setProperty("max-height",`${room}px`);selector.style.setProperty("overflow-y","auto");
+      if(box.top<limit)card.style.setProperty("--track-sheet-h",`${room}px`);
+    };
+    sheet.addEventListener("change",()=>root.requestAnimationFrame(fitSheet));
+    root.addEventListener("resize",()=>{if(sheet.checked)root.requestAnimationFrame(fitSheet);});
+    // r85: the same player docked in the bars of every other screen (js/musicDockV10.js); loaded after Home is up.
+    if(typeof root.loadRuntimeScript==="function")Promise.resolve(root.loadRuntimeScript("v10-music-dock","js/musicDockV10.js",()=>Boolean(root.CareerModeMusicDockV10))).then(()=>root.CareerModeMusicDockV10?.start()).catch(()=>{});
     if(offlineText){nextToggle.disabled=true;nextToggle.setAttribute("aria-disabled","true");status.textContent=offlineText;}
     syncMusicAlert();
   }

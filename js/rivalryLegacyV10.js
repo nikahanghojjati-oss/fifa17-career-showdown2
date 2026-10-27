@@ -239,7 +239,7 @@
       if(typeof rivalryId!=="string"||!account?.connected||!runtime)return false;
       const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices()),user=services?.auth?.currentUser;
       if(!services?.ok||!user||user.uid!==account.accountId)return false;
-      const sdk=services.firestoreSdk?.getDoc?services.firestoreSdk:await import(runtime.firebaseFirestoreModule);
+      const sdk=(root.CareerModeFirestoreBudget?.meterSdk||(s=>s))(services.firestoreSdk?.getDoc?services.firestoreSdk:await import(runtime.firebaseFirestoreModule));
       const scope=await rlCareerScope(services,sdk.getDoc,user);
       return scope.testOnly||scope.hidden.includes(rivalryId);
     }catch(_){return true;}
@@ -257,7 +257,7 @@
       else{
         // Reuse the configured SDK host and memory-only services. This only adds an exact-get
         // function to the reader argument; it changes no auth scope, provider setting or Rules.
-        const sdk=services.firestoreSdk?.getDoc?services.firestoreSdk:await import(runtime.firebaseFirestoreModule);
+        const sdk=(root.CareerModeFirestoreBudget?.meterSdk||(s=>s))(services.firestoreSdk?.getDoc?services.firestoreSdk:await import(runtime.firebaseFirestoreModule));
         let scope=null;try{scope=await rlCareerScope(services,sdk.getDoc,user);}catch(_){scope=null;}
         if(!scope){model=UNAVAILABLE;rivalryModel=UNAVAILABLE;}
         else{

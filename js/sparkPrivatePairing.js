@@ -643,7 +643,7 @@ async function revokePairing(options={}){
   });
 });
 // Firestore budget layer (r75). Connected modules wrap the services they get from the runtime with
-// CareerModeFirestoreBudget.services(...). Only firestoreSdk.runTransaction changes; every poll keeps its cadence.
+// CareerModeFirestoreBudget.services(...). Only firestoreSdk.runTransaction changes (plus read metering, r85); every poll keeps its cadence.
 // 1. A transaction that only reads ends without a commit RPC, so it no longer sends one "verify" write per document it
 //    read (the 2026-10-12 incident counted ~7K such writes in one hour). A transaction that writes commits exactly as before.
 // 2. A read-only transaction first runs against recent reads. A document read in the last 2 s is reused, so a burst of
@@ -670,7 +670,7 @@ async function revokePairing(options={}){
   // fsbServerNext: documents whose next read must reach the server (no copy, no read already in flight), set by readServerNext.
   const fsbServerNext=new Map();
   const fsbWrapped=new WeakMap(),fsbEntries=new Map(),fsbInflight=new Map(),fsbCadence=new Map(),fsbWaitAsks=new Map(),fsbFreshPaths=new Map();
-  const fsbStats={immutableReuses:0,reusedReads:0,quietReuses:0,freshReruns:0,serverReads:0,serverTransactions:0,readOnlyWithoutCommit:0,quotaTrips:0,pausedRefusals:0,brakeTrips:0,brakeSince:0,listenersAttached:0,listenerDeliveries:0,listenerServed:0,listenerFallbacks:0,peekWrites:0,transactionKept:0,contextServed:0};
+  const fsbStats={immutableReuses:0,reusedReads:0,quietReuses:0,freshReruns:0,serverReads:0,serverTransactions:0,readOnlyWithoutCommit:0,quotaTrips:0,pausedRefusals:0,brakeTrips:0,brakeSince:0,listenersAttached:0,listenerDeliveries:0,listenerServed:0,listenerFallbacks:0,peekWrites:0,transactionKept:0,contextServed:0,directReads:0,directFailures:0};
   let fsbPause=null,fsbResumeTimer=null,fsbAccountId=null,fsbFirestore=null,fsbInputAt=0,fsbFreshAskAt=0,fsbChainAt=0;
   // After the listener sees the partner's move (or the page comes back from hidden) every screen re-checks in a short chain
   // (commit -> scoring -> history -> final result). A document read after that moment already reflects it, so for the next
@@ -682,7 +682,7 @@ async function revokePairing(options={}){
   // reuse every copy for at least 15 s until the next tap: an unknown loop costs at most a few reads a minute instead of the day's allowance.
   // Taps, writes, readServerNext and a healthy listener are untouched, so play stays instant; the brake lets go by itself.
   const FSB_BRAKE_WINDOW_MS=5*60000,FSB_BRAKE_READS=150,FSB_BRAKE_IDLE_MS=60000,FSB_BRAKE_REUSE_MS=15000;
-  const FSB_DAY_KEY="careerModeFirestoreReadsDay",FSB_DAY_SAVE_EVERY=20,FSB_BILLED_PER_READ=2.8,FSB_FREE_READS_PER_DAY=50000,FSB_DAY_SEASONS=20,FSB_DEFAULT_SEASON_READS=450;
+  const FSB_DAY_KEY="careerModeFirestoreReadsDay",FSB_DAY_SAVE_EVERY=20,FSB_BILLED_PER_READ=2.8,FSB_FREE_READS_PER_DAY=50000,FSB_DAY_SEASONS=20,FSB_DEFAULT_SEASON_READS=135;
   const fsbReadTimes=[];let fsbDay=null,fsbDayUnsaved=0,fsbDayStoreBroken=false;
   function fsbPacificDay(at){try{return new Intl.DateTimeFormat("en-CA",{timeZone:"America/Los_Angeles",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date(at));}catch(_error){return new Date(at-8*3600000).toISOString().slice(0,10);}}
   function fsbDayState(at=fsbNow()){
@@ -694,9 +694,11 @@ async function revokePairing(options={}){
   // Saved through storage.js (the only module that touches browser storage); a failed write stops further saves so a
   // private window never repeats the storage notice. The count is a per-device convenience, never game state.
   function fsbSaveDay(){if(!fsbDay||!fsbDayUnsaved||fsbDayStoreBroken||typeof root.writeStorageValue!=="function")return;fsbDayUnsaved=0;try{if(root.writeStorageValue(FSB_DAY_KEY,JSON.stringify(fsbDay))===false)fsbDayStoreBroken=true;}catch(_error){fsbDayStoreBroken=true;}}
-  function fsbCountRead(count=1){
+  // brake=false: the read counts toward today's total only, not the 5-minute brake window (direct career-history gets, r85).
+  function fsbCountRead(count=1,brake=true){
+    if(!(count>0))return;
     const at=fsbNow(),day=fsbDayState(at);
-    for(let index=0;index<count;index+=1)fsbReadTimes.push(at);
+    if(brake)for(let index=0;index<count;index+=1)fsbReadTimes.push(at);
     while(fsbReadTimes.length&&at-fsbReadTimes[0]>FSB_BRAKE_WINDOW_MS)fsbReadTimes.shift();
     if(fsbReadTimes.length>FSB_BRAKE_READS*4)fsbReadTimes.splice(0,fsbReadTimes.length-FSB_BRAKE_READS*4);
     day.reads+=count;fsbDayUnsaved+=count;if(fsbDayUnsaved>=FSB_DAY_SAVE_EVERY)fsbSaveDay();
@@ -715,6 +717,9 @@ async function revokePairing(options={}){
   // r84: seasons left today. Each season this page sees ACKNOWLEDGED records the reads it made since the previous one, so
   // the cost per season follows the pace actually played (a slow season waits longer and costs more). The partner's device
   // is assumed to cost the same. Until a season is finished today, the last day's average (or the r84 measured cost) is used.
+  // r85: that measured cost is the r84 check trim's (gameplay/r84/CHECK_TRIM_PLAN.md: about 720-770 billed reads per season for
+  // both phones, so about 135 reads per device at the 2.8 billed-per-read rate the composed Rules still give). The pre-trim 450
+  // made a fresh device show about a third of the real seasons left.
   // A season that runs past the Google day keeps its reads from before the reset: the new day's mark starts below 0 by them.
   function fsbCarried(day){const reads=Number(day&&day.reads),mark=Number(day&&day.markReads);return Number.isFinite(reads)&&reads>0?Math.max(0,Math.floor(reads-(Number.isFinite(mark)?mark:0))):0;}
   function fsbSeasonCost(day){const costs=day&&Array.isArray(day.costs)?day.costs.filter(cost=>Number.isFinite(cost)&&cost>0).slice(-3):[];return costs.length?Math.round(costs.reduce((sum,cost)=>sum+cost,0)/costs.length):0;}
@@ -733,6 +738,86 @@ async function revokePairing(options={}){
     const day=fsbDayState(),measured=fsbSeasonCost(day),reads=measured||day.lastCost||FSB_DEFAULT_SEASON_READS;
     const perSeason=reads*FSB_BILLED_PER_READ*2,left=Math.max(0,FSB_FREE_READS_PER_DAY-day.reads*FSB_BILLED_PER_READ*2);
     return Object.freeze({seasons:fsbPaused()?0:Math.floor(left/perSeason),basis:measured?"today":day.lastCost?"earlier":"estimate",billedPerSeason:Math.round(perSeason),billedLeft:Math.round(left)});
+  }
+
+  // r85 (audit F04): ONE read meter. Before, only this layer's transactions and listener deliveries were counted, while the
+  // career marker, the career index, the finished-Showdown reader and the Season Final history called getDoc taken straight
+  // from the SDK: a cold career visit of 100 finished Showdowns made 601 gets and left readsToday at 0. Now every route ends
+  // in fsbMeterUnits/fsbMeterFailureUnits -> fsbCountRead:
+  //  - transactions run through this layer: one per document the server returns to the transaction (unchanged);
+  //  - direct getDoc/getDocs/getDocFromServer/getDocsFromServer: services(...) meters them when the runtime hands them out,
+  //    and every module that takes them from the Firestore module itself passes them through meterSdk(...) first;
+  //  - listeners: this layer's own (wait point, context) and the unowned ones (season-commit wait context, Home JOIN note,
+  //    which pass their onSnapshot through meterSdk) count each delivery here.
+  // What is counted is REQUESTED SERVER DOCUMENT READS, the unit of the free daily limit:
+  //  - a document from the server: 1 (a missing document is still one read);
+  //  - a query answer from the server: 1 per returned document, at least 1 (an empty answer is billed one read); a later
+  //    delivery of a query listener: 1 per changed document;
+  //  - a snapshot served from the local cache (metadata.fromCache) or a listener's echo of this page's own pending write: 0;
+  //  - a request the server answered with an error (denied by Rules, invalid, not found...): 1, as Firestore bills it; one that
+  //    never got an answer (offline/unavailable, cancelled, deadline, quota) or failed in the page before the SDK sent it: 0.
+  // Each function is metered once (fsbMetered), so an SDK object handed through several screens never counts a read twice.
+  // Direct gets count toward today's total but not the brake window, so a long cold career visit never slows the live checks.
+  // The count stays a per-device estimate: Rules lookups (the 2.8 factor), the partner's phone and other devices are not seen.
+  const FSB_ANSWERED_ERRORS=new Set(["permission-denied","unauthenticated","invalid-argument","not-found","failed-precondition","out-of-range","already-exists","internal","data-loss","unimplemented"]);
+  const fsbMetered=new WeakSet(),fsbMeteredSdks=new WeakMap();
+  function fsbMeterUnits(snapshot,listener=false,later=false){
+    if(!snapshot||typeof snapshot!=="object")return 0;
+    const meta=snapshot.metadata;
+    if(meta&&meta.fromCache===true)return 0;
+    if(listener&&meta&&meta.hasPendingWrites===true)return 0;
+    if(Array.isArray(snapshot.docs)){
+      if(later&&typeof snapshot.docChanges==="function"){try{return snapshot.docChanges().length;}catch(_error){return 0;}}
+      return Math.max(1,snapshot.docs.length);
+    }
+    return 1;
+  }
+  function fsbMeterFailureUnits(error){
+    if(!error||typeof error!=="object"||error.quotaPaused)return 0;
+    return FSB_ANSWERED_ERRORS.has(String(error.code||"").toLowerCase().replace(/^firestore\//,"").replace(/_/g,"-"))?1:0;
+  }
+  function fsbMeterGet(get){
+    if(typeof get!=="function"||fsbMetered.has(get))return get;
+    const metered=function(...args){
+      let pending;
+      try{pending=get.apply(this,args);}catch(error){fsbStats.directFailures+=1;fsbCountRead(fsbMeterFailureUnits(error),false);throw error;}
+      return Promise.resolve(pending).then(snapshot=>{const units=fsbMeterUnits(snapshot);fsbStats.directReads+=units;fsbCountRead(units,false);return snapshot;},error=>{fsbStats.directFailures+=1;fsbCountRead(fsbMeterFailureUnits(error),false);throw error;});
+    };
+    fsbMetered.add(metered);
+    return metered;
+  }
+  // onSnapshot(ref, [options], observer | onNext, [onError], [onCompletion]): the callbacks are wrapped, the call is unchanged.
+  function fsbMeterListen(listen){
+    if(typeof listen!=="function"||fsbMetered.has(listen))return listen;
+    const metered=function(ref,...rest){
+      let served=false;
+      const next=fn=>function(snapshot){const units=fsbMeterUnits(snapshot,true,served);if(units||snapshot&&snapshot.metadata&&snapshot.metadata.fromCache===false)served=true;fsbCountRead(units);return fn.apply(this,arguments);};
+      const fail=fn=>function(error){fsbCountRead(fsbMeterFailureUnits(error));return fn.apply(this,arguments);};
+      let functions=0;
+      const args=rest.map(arg=>{
+        if(typeof arg==="function"){functions+=1;return functions===1?next(arg):functions===2?fail(arg):arg;}
+        if(functions===0&&arg&&typeof arg==="object"&&(typeof arg.next==="function"||typeof arg.error==="function")){
+          const observer={...arg};if(typeof arg.next==="function")observer.next=next(arg.next.bind(arg));if(typeof arg.error==="function")observer.error=fail(arg.error.bind(arg));if(typeof arg.complete==="function")observer.complete=arg.complete.bind(arg);
+          functions=3;return observer;
+        }
+        return arg;
+      });
+      return listen.call(this,ref,...args);
+    };
+    fsbMetered.add(metered);
+    return metered;
+  }
+  const FSB_METERED_GETS=["getDoc","getDocs","getDocFromServer","getDocsFromServer"];
+  function fsbMeterSdk(sdk){
+    if(!sdk||typeof sdk!=="object"&&typeof sdk!=="function")return sdk;
+    if(fsbMeteredSdks.has(sdk))return fsbMeteredSdks.get(sdk);
+    const names=[...FSB_METERED_GETS,"onSnapshot"].filter(name=>typeof sdk[name]==="function"&&!fsbMetered.has(sdk[name]));
+    if(!names.length)return sdk;
+    const out={...sdk};
+    for(const name of names)out[name]=name==="onSnapshot"?fsbMeterListen(sdk[name]):fsbMeterGet(sdk[name]);
+    const frozen=Object.freeze(out);
+    try{fsbMeteredSdks.set(sdk,frozen);fsbMeteredSdks.set(frozen,frozen);}catch(_error){}
+    return frozen;
   }
 
   function fsbNow(){return Date.now();}
@@ -936,7 +1021,7 @@ async function revokePairing(options={}){
     const serial=fsbSerial(snapshot),known=fsbEntries.get(watch.path);
     const before=watch.serial!==null?watch.serial:(known?fsbSerial(known.snapshot):null);
     watch.snapshot=snapshot;watch.serial=serial;watch.healthy=true;watch.dirty=false;watch.confirmedAt=fsbNow();
-    fsbStats.listenerDeliveries+=1;fsbCountRead();
+    fsbStats.listenerDeliveries+=1;fsbCountRead(fsbMeterUnits(snapshot,true));
     fsbEntries.delete(watch.path);fsbEntries.set(watch.path,{snapshot,at:fsbNow(),dirty:false,immutable:false});
     if(before!==null&&before!==serial){fsbChainAt=fsbNow();const wake=fsbCtxRivalry&&fsbCtxRivalry.wake;if(typeof wake==="function"&&typeof root.setTimeout==="function")root.setTimeout(()=>{try{wake(watch.path);}catch(_error){}},0);}
   }
@@ -951,7 +1036,7 @@ async function revokePairing(options={}){
     const watch={path,snapshot:null,serial:null,healthy:false,dirty:false,confirmedAt:0,unsubscribe:null};
     fsbCtxWatches.set(path,watch);fsbStats.listenersAttached+=1;
     try{
-      watch.unsubscribe=api.onSnapshot(api.doc(fsbFirestore,path),{includeMetadataChanges:true},snapshot=>fsbCtxDelivery(watch,snapshot),error=>{if(fsbCtxWatches.get(path)!==watch)return;fsbCtxDrop(path,true);if(fsbIsQuotaError(error))fsbTrip();});
+      watch.unsubscribe=api.onSnapshot(api.doc(fsbFirestore,path),{includeMetadataChanges:true},snapshot=>fsbCtxDelivery(watch,snapshot),error=>{fsbCountRead(fsbMeterFailureUnits(error));if(fsbCtxWatches.get(path)!==watch)return;fsbCtxDrop(path,true);if(fsbIsQuotaError(error))fsbTrip();});
     }catch(_error){fsbCtxDrop(path,true);}
   }
   function fsbWatchContext(rivalryId,wake){
@@ -1028,7 +1113,7 @@ async function revokePairing(options={}){
     const changed=before!==null&&before!==serial;
     wait.snapshot=snapshot;wait.serial=serial;wait.version=version;wait.healthy=true;wait.dirty=false;wait.confirmedAt=fsbNow();
     if(wait.lagUntil&&(fsbVersionCompare(version,wait.lagVersion)>=0&&version!==null||serial===wait.lagSerial)){wait.lagUntil=0;wait.lagVersion=null;wait.lagSerial=null;}
-    fsbStats.listenerDeliveries+=1;fsbCountRead();
+    fsbStats.listenerDeliveries+=1;fsbCountRead(fsbMeterUnits(snapshot,true));
     // r84 trim: the delivered server copy also becomes this page's copy. Before, a copy marked dirty by this page's own save
     // stayed behind the listener, so the next 30 s server check of the waited document always looked "changed" and re-ran
     // the whole check on fresh reads (about 9 documents) after every lock.
@@ -1050,7 +1135,7 @@ async function revokePairing(options={}){
     const wait={path,owners:new Map([[owner,{wake,seen:at,relaxed}]]),snapshot:null,serial:null,version:null,healthy:false,dirty:false,confirmedAt:0,lagUntil:0,lagVersion:null,lagSerial:null,unsubscribe:null};
     fsbWait=wait;fsbStats.listenersAttached+=1;
     try{
-      wait.unsubscribe=api.onSnapshot(api.doc(fsbFirestore,path),{includeMetadataChanges:true},snapshot=>fsbWaitDelivery(wait,snapshot),error=>{if(fsbWait!==wait)return;fsbWaitFail(path);if(fsbIsQuotaError(error))fsbTrip();fsbAuthorityDenied(error);});
+      wait.unsubscribe=api.onSnapshot(api.doc(fsbFirestore,path),{includeMetadataChanges:true},snapshot=>fsbWaitDelivery(wait,snapshot),error=>{fsbCountRead(fsbMeterFailureUnits(error));if(fsbWait!==wait)return;fsbWaitFail(path);if(fsbIsQuotaError(error))fsbTrip();fsbAuthorityDenied(error);});
     }catch(_error){if(fsbWait===wait)fsbWaitFail(path);}
     return false;
   }
@@ -1201,7 +1286,7 @@ async function revokePairing(options={}){
     // A runtime that already hands out onSnapshot (none does today; the contract test does) is used as is; otherwise the
     // listener API is loaded from the same Firestore module URL the runtime uses, so it shares one SDK instance.
     if(!fsbSnapshotApi&&typeof sdk.onSnapshot==="function"&&typeof sdk.doc==="function")fsbSnapshotApi=Object.freeze({onSnapshot:sdk.onSnapshot,doc:sdk.doc});
-    const wrapped=Object.freeze({...services,firestoreBudget:true,firestoreSdk:Object.freeze({...sdk,runTransaction:(db,updateFunction,...rest)=>fsbRunTransaction(services,db,updateFunction,rest)})});
+    const wrapped=Object.freeze({...services,firestoreBudget:true,firestoreSdk:Object.freeze({...fsbMeterSdk(sdk),runTransaction:(db,updateFunction,...rest)=>fsbRunTransaction(services,db,updateFunction,rest)})});
     fsbWrapped.set(services,wrapped);
     return wrapped;
   }
@@ -1226,6 +1311,13 @@ async function revokePairing(options={}){
     // countListenerRead(): a server delivery of a listener this layer does not own (season-commit wait context, Home JOIN note)
     // still counts toward today's reads and the brake window.
     countListenerRead:()=>fsbCountRead(),
+    // r85 meterSdk(sdk): the same SDK functions, with getDoc/getDocs/getDocFromServer/getDocsFromServer/onSnapshot counted by
+    // the one read meter above (idempotent: an already metered SDK or function is returned as is). meterGet(fn) and
+    // meterListen(fn) do the same for a single function. readUnits(snapshot) is what one snapshot counts (contract tests).
+    meterSdk:fsbMeterSdk,
+    meterGet:fsbMeterGet,
+    meterListen:fsbMeterListen,
+    readUnits:(snapshot,listener)=>fsbMeterUnits(snapshot,listener===true),
     quietReuseMs:FSB_QUIET_MS,
     inputFreshMs:FSB_INPUT_FRESH_MS,
     // wantFresh(): every read of this page is fresh for the next 7 s; wantFresh(path): only that document.

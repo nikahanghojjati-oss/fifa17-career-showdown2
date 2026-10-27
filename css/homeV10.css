@@ -1499,3 +1499,10 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
   #app #mainMenu.v10Home .menuMusicControls .menuMusicControl, #app #mainMenu.v10Home .phoneTrackSheetOpen { min-height: 34px; height: 34px; }
   #app #mainMenu.v10Home .phoneTrackSheetOpen { grid-area: tracks; align-self: center; }
 }
+
+/* r85: the open song list is opaque (the Home wordmark showed through it on phone) and scrolls inside itself; its height
+   is capped to the room on screen by js/homeScreensV10.js (19 songs). */
+#mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector { background-color: #0a0b0e; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+/* r85 (Nik 2026-10-27): on desktop Home's player lives in the top bar (js/musicDockV10.js), so the strip is hidden there. It
+   stays in the page (its buttons and status are still the product's), out of sight, focus and the accessibility tree. */
+@media (min-width: 901px) { #mainMenu.v10Home .menuMusicTile { visibility: hidden !important; } }

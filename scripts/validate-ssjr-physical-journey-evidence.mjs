@@ -2,14 +2,17 @@ import fs from "node:fs";
 import path from "node:path";
 import {fileURLToPath} from "node:url";
 
-export const EVIDENCE_SCHEMA="career-mode-showdown.physical-journey-acceptance.v1";
-export const RESULT_SCHEMA="career-mode-showdown.physical-journey-validation.v1";
+export const EVIDENCE_SCHEMA="career-mode-showdown.physical-journey-acceptance.v2";
+export const RESULT_SCHEMA="career-mode-showdown.physical-journey-validation.v2";
 const FINGERPRINT=/^sha256:[a-f0-9]{64}$/;
 const RAW_PRIVATE=/\b(?:pair|session)_[a-f0-9]{64}\b|\bdevice_[a-f0-9]{32}\b|\b(?:save|profile)_[a-f0-9]{24}\b/i;
 const FORBIDDEN_KEYS=new Set(["accountid","deviceid","rivalryid","sessionid","saveid","profileid","rawcapability","capability"]);
 const ROLES=new Set(["playerOne","playerTwo"]);
 const REMOTE_ROLES=new Set(["host","peer"]);
-const CORE_STAGES=["remote-active","setup-confirmed","career-start-ready","transfer-completed","results-ready","season-acknowledged","scoring-reconciled","history-converged","local-reconciliation-safe","final-season-reconciled","terminal-closed"];
+// r85 (SSJR-2.2, simple SSJR test): the Showdown closes itself after the last season, so the offline and reload checks are
+// made during the game (after the career starts, before the close) and the close is confirmed after one more reload.
+// Local and Final Reconciliation race that automatic close, so each must be proven on at least one device of the pair.
+const CORE_STAGES=["remote-active","setup-confirmed","career-start-ready","transfer-completed","results-ready","season-acknowledged","scoring-reconciled","history-converged","showdown-complete","terminal-closed"];
 // r51: a run may use any supported plan; every season must be proven in order on each device.
 const SEASON_STAGES=["transfer-completed","results-ready","season-acknowledged","scoring-reconciled","history-converged"];
 const PLAN_LENGTHS=[1,3,5,10];
@@ -30,7 +33,7 @@ function validateSingle(evidence,source,{expectedAppVersion,expectedRuntimeRevis
   require(evidence.schema===EVIDENCE_SCHEMA,"SCHEMA_MISMATCH","Unexpected Physical Journey evidence schema.");
   require(evidence.acceptanceMode===true&&evidence.physicalJourneyMode===true,"ACCEPTANCE_MODE_REQUIRED","Both acceptance flags must be true.");
   require(evidence.sanitizedSessionStorageOnly===true,"SANITIZED_STORAGE_REQUIRED","Only sanitized sessionStorage persistence is allowed.");
-  require(evidence.recorderNetworkRequests===false,"RECORDER_NETWORK_WRITE_FORBIDDEN","The recorder must make no network requests.");
+  require(evidence.recorderNetworkWrites===false&&Array.isArray(evidence.recorderReads)&&evidence.recorderReads.length===1&&evidence.recorderReads[0]==="closed-showdown-check","RECORDER_NETWORK_WRITE_FORBIDDEN","The recorder must make no network writes and only its read-only closed-Showdown check.");
   require(evidence.rawAuthorityIncluded===false&&evidence.canonicalRawIncluded===false,"RAW_EXPORT_FORBIDDEN","Raw authority and canonical bytes must not be exported.");
   require(evidence.appVersion===expectedAppVersion,"APP_VERSION_MISMATCH","Evidence app version does not match the accepted production boundary.");
   require(evidence.runtimeRevision===expectedRuntimeRevision,"RUNTIME_REVISION_MISMATCH","Evidence runtime revision does not match the accepted production boundary.");
@@ -43,15 +46,16 @@ function validateSingle(evidence,source,{expectedAppVersion,expectedRuntimeRevis
   require(ROLES.has(evidence.managerRole),"MANAGER_ROLE_INVALID","managerRole must be playerOne or playerTwo.");
   require(REMOTE_ROLES.has(evidence.remoteRole),"REMOTE_ROLE_INVALID","remoteRole must be host or peer.");
   require(evidence.canonicalStorageProofScope===STORAGE_SCOPE,"CANONICAL_STORAGE_PROOF_SCOPE_INVALID","Canonical storage integrity must be scoped to the read-only Local Reconciliation preview.");
-  for(const field of ["accountFingerprint","deviceFingerprint","rivalryFingerprint","canonicalStorageBeforeHash","canonicalStorageAfterHash"])require(FINGERPRINT.test(String(evidence[field]||"")),"FINGERPRINT_INVALID",`${field} must be a SHA-256 fingerprint.`);
+  for(const field of ["accountFingerprint","deviceFingerprint","rivalryFingerprint"])require(FINGERPRINT.test(String(evidence[field]||"")),"FINGERPRINT_INVALID",`${field} must be a SHA-256 fingerprint.`);
+  for(const field of ["canonicalStorageBeforeHash","canonicalStorageAfterHash"])require(evidence[field]===null||FINGERPRINT.test(String(evidence[field]||"")),"FINGERPRINT_INVALID",`${field} must be null or a SHA-256 fingerprint.`);
   const sessionFingerprints=Array.isArray(evidence.sessionFingerprints)?evidence.sessionFingerprints:[];require(sessionFingerprints.length>0&&sessionFingerprints.length<=12&&sessionFingerprints.every(value=>FINGERPRINT.test(value)),"SESSION_FINGERPRINTS_INVALID","Session fingerprints must be a non-empty bounded SHA-256 list.");
   require(evidence.authorityViolation===false,"AUTHORITY_CHANGED","Manager/account/device/rivalry authority changed during Physical Journey acceptance.");
   require(evidence.canonicalStorageViolation===false,"CANONICAL_STORAGE_CHANGED","Canonical local storage changed while the read-only Local Reconciliation preview was being observed.");
-  require(evidence.canonicalStorageBeforeHash===evidence.canonicalStorageAfterHash,"CANONICAL_STORAGE_HASH_MISMATCH","Canonical local storage hashes must match immediately before and after the read-only Local Reconciliation preview.");
+  require(evidence.canonicalStorageBeforeHash===null||evidence.canonicalStorageBeforeHash===evidence.canonicalStorageAfterHash,"CANONICAL_STORAGE_HASH_MISMATCH","Canonical local storage hashes must match immediately before and after the read-only Local Reconciliation preview.");
   require(evidence.candidateCApplied===false,"CANDIDATE_C_APPLY_FORBIDDEN","Standard Physical Journey acceptance must not destructively apply Candidate C.");
   require(evidence.offlineObserved===true&&evidence.onlineRecovered===true,"OFFLINE_RECOVERY_MISSING","A real offline-to-online recovery must be observed.");
-  require(evidence.reloadResumed===true&&Number.isInteger(evidence.startupCount)&&evidence.startupCount>=3,"RELOAD_RECOVERY_MISSING","The journey must include distinct pre-terminal and post-terminal page reload startups.");
-  require(evidence.terminalReloadVerified===true,"TERMINAL_RELOAD_MISSING","Terminal CLOSED must be observed again after a later reload.");
+  require(evidence.reloadResumed===true&&Number.isInteger(evidence.startupCount)&&evidence.startupCount>=3,"RELOAD_RECOVERY_MISSING","The journey must include a reload during the game and another after the Showdown closed.");
+  require(evidence.terminalReloadVerified===true,"TERMINAL_RELOAD_MISSING","The closed Showdown must be confirmed again after a later reload.");
   require(evidence.conflictGuardProven===true,"CONFLICT_GUARD_MISSING","The non-writing production conflict guard probe must pass.");
   require(evidence.completed===true,"RECORDER_NOT_COMPLETE","Recorder did not reach its complete acceptance state.");
   const milestones=Array.isArray(evidence.milestones)?evidence.milestones:[];require(milestones.length>0&&milestones.length<=96,"MILESTONES_INVALID","Milestones must be a non-empty bounded array.");
@@ -74,24 +78,24 @@ function validateSingle(evidence,source,{expectedAppVersion,expectedRuntimeRevis
     require(item.sequence>seasonPrior,"SEASON_ORDER_INVALID",`Season ${season} ${stage} is out of order.`);seasonPrior=item.sequence;if(stage==="history-converged")lastHistory=item;
   }
   require(milestones.every(entry=>!plain(entry)||!SEASON_STAGES.includes(entry.stage)||(Number.isInteger(entry.seasonNumber)&&entry.seasonNumber>=1&&entry.seasonNumber<=(totalSeasons||1))),"SEASON_OUT_OF_PLAN","Every season milestone must name a season inside the confirmed plan.");
-  const finalSeason=byStage.get("final-season-reconciled");require(Boolean(finalSeason&&finalSeason.seasonNumber===totalSeasons&&lastHistory&&finalSeason.sequence>lastHistory.sequence),"FINAL_SEASON_MISMATCH","Final Reconciliation must reconcile the last season of the plan after its Shared History.");
+  const finalSeason=byStage.get("final-season-reconciled");if(finalSeason)require(Boolean(finalSeason.seasonNumber===totalSeasons&&lastHistory&&finalSeason.sequence>lastHistory.sequence),"FINAL_SEASON_MISMATCH","Final Reconciliation must reconcile the last season of the plan after its Shared History.");
   const complete=milestones.find(entry=>plain(entry)&&entry.stage==="showdown-complete"&&entry.seasonNumber===totalSeasons);
-  if(totalSeasons>1)require(Boolean(complete&&complete.totalSeasons===totalSeasons&&lastHistory&&complete.sequence>lastHistory.sequence),"SHOWDOWN_COMPLETE_MISSING","A multi-season run must record the completed season plan after the last Shared History.");
+  require(Boolean(complete&&complete.totalSeasons===totalSeasons&&lastHistory&&complete.sequence>lastHistory.sequence),"SHOWDOWN_COMPLETE_MISSING","The run must record the completed season plan after the last Shared History.");
   const localMilestones=milestones.filter(item=>plain(item)&&item.stage==="local-reconciliation-safe"),localPreview=localMilestones.find(item=>item.phase==="PREVIEW_READY");
-  const history=lastHistory,offline=byStage.get("network-offline"),online=byStage.get("network-online"),recovered=byStage.get("reconnect-recovered"),reload=byStage.get("reload-resumed"),storageBaseline=byStage.get("local-reconciliation-storage-baseline"),storageVerified=byStage.get("local-reconciliation-storage-verified"),finalState=byStage.get("final-season-reconciled"),terminal=byStage.get("terminal-closed"),terminalReload=byStage.get("terminal-reload-verified");
-  require(Boolean(history&&offline&&online&&recovered&&reload&&storageBaseline&&storageVerified&&localPreview&&finalState&&terminal&&terminalReload&&history.sequence<offline.sequence&&offline.sequence<online.sequence&&online.sequence<recovered.sequence&&recovered.sequence<reload.sequence&&reload.sequence<storageBaseline.sequence&&storageBaseline.sequence<localPreview.sequence&&storageBaseline.sequence<storageVerified.sequence&&localPreview.sequence<finalState.sequence&&storageVerified.sequence<finalState.sequence&&finalState.sequence<terminal.sequence&&terminal.sequence<terminalReload.sequence),"RECOVERY_ORDER_INVALID","The last season's History, then offline, online, reconnect and pre-terminal reload must precede the scoped Local Reconciliation baseline; PREVIEW_READY and the unchanged after-hash verification may arrive in either order after that baseline, but both must finish before Final Reconciliation, terminal close and terminal reload.");
-  if(totalSeasons>1)require(Boolean(complete&&offline&&complete.sequence<offline.sequence),"RECOVERY_ORDER_INVALID","For a multi-season run the recovery proof must start after the completed season plan is recorded.");
+  const career=byStage.get("career-start-ready"),offline=byStage.get("network-offline"),online=byStage.get("network-online"),recovered=byStage.get("reconnect-recovered"),reload=byStage.get("reload-resumed"),storageBaseline=byStage.get("local-reconciliation-storage-baseline"),storageVerified=byStage.get("local-reconciliation-storage-verified"),terminal=byStage.get("terminal-closed"),terminalReload=byStage.get("terminal-reload-verified");
+  require(Boolean(career&&offline&&online&&recovered&&reload&&terminal&&terminalReload&&career.sequence<offline.sequence&&offline.sequence<online.sequence&&online.sequence<recovered.sequence&&recovered.sequence<reload.sequence&&reload.sequence<terminal.sequence&&terminal.sequence<terminalReload.sequence),"RECOVERY_ORDER_INVALID","The offline, reconnect and reload checks must happen during the game (after the career starts, before the close), then the close is confirmed after a later reload.");
   require(Boolean(offline&&offline.online===false),"OFFLINE_FLAG_INVALID","The network-offline milestone must record browser online=false.");
   require(Boolean(online&&online.online===true&&recovered&&recovered.online===true),"ONLINE_RECOVERY_FLAG_INVALID","Online and reconnect-recovered milestones must record browser online=true.");
-  require(Boolean(recovered&&reload&&terminal&&terminalReload&&Number.isInteger(recovered.startupCount)&&Number.isInteger(reload.startupCount)&&Number.isInteger(terminal.startupCount)&&Number.isInteger(terminalReload.startupCount)&&recovered.startupCount<reload.startupCount&&reload.startupCount<=terminal.startupCount&&terminal.startupCount<terminalReload.startupCount),"RECOVERY_STARTUP_ORDER_INVALID","Reconnect recovery, pre-terminal reload and post-CLOSED reload must occur on distinct ordered recorder startups.");
-  require(Boolean(storageBaseline&&storageBaseline.phase==="CAPTURED"&&storageBaseline.providerWrite===false&&storageVerified&&storageVerified.phase==="UNCHANGED"&&storageVerified.providerWrite===false),"LOCAL_RECONCILIATION_STORAGE_PROOF_INVALID","The Local Reconciliation preview must carry a bounded before/after canonical storage proof with no provider write attributed to the recorder.");
-  require(Boolean(localPreview&&localPreview.providerWrite===false),"LOCAL_RECONCILIATION_PREVIEW_REQUIRED","Standard Physical Journey must record an actual read-only PREVIEW_READY Local Reconciliation milestone.");
+  require(Boolean(recovered&&reload&&terminal&&terminalReload&&Number.isInteger(recovered.startupCount)&&Number.isInteger(reload.startupCount)&&Number.isInteger(terminal.startupCount)&&Number.isInteger(terminalReload.startupCount)&&recovered.startupCount<reload.startupCount&&reload.startupCount<=terminal.startupCount&&terminal.startupCount<terminalReload.startupCount),"RECOVERY_STARTUP_ORDER_INVALID","Reconnect recovery, the in-game reload, the close and the confirming reload must happen on increasing page startups.");
+  // Local Reconciliation is optional per device (see CORE_STAGES), but a preview this device did record carries its storage proof.
+  const previewProven=Boolean(localPreview&&localPreview.providerWrite===false&&storageBaseline&&storageBaseline.phase==="CAPTURED"&&storageBaseline.providerWrite===false&&storageVerified&&storageVerified.phase==="UNCHANGED"&&storageVerified.providerWrite===false&&storageBaseline.sequence<storageVerified.sequence&&storageBaseline.sequence<localPreview.sequence&&evidence.canonicalStorageBeforeHash&&evidence.canonicalStorageBeforeHash===evidence.canonicalStorageAfterHash);
+  if(localPreview)require(previewProven,"LOCAL_RECONCILIATION_STORAGE_PROOF_INVALID","A recorded Local Reconciliation preview must carry a bounded before/after canonical storage proof with no provider write attributed to the recorder.");
   require(localMilestones.every(item=>item.phase!=="APPLIED"),"LOCAL_RECONCILIATION_UNSAFE","Standard Physical Journey must never record Candidate C Apply.");
-  return {issues,facts:{totalSeasons,managerRole:evidence.managerRole,remoteRole:evidence.remoteRole,accountFingerprint:evidence.accountFingerprint,deviceFingerprint:evidence.deviceFingerprint,rivalryFingerprint:evidence.rivalryFingerprint,sessionFingerprints:new Set(sessionFingerprints),deviceLabel,networkLabel,signature}};
+  return {issues,facts:{previewProven,finalProven:Boolean(finalSeason&&finalSeason.seasonNumber===totalSeasons),totalSeasons,managerRole:evidence.managerRole,remoteRole:evidence.remoteRole,accountFingerprint:evidence.accountFingerprint,deviceFingerprint:evidence.deviceFingerprint,rivalryFingerprint:evidence.rivalryFingerprint,sessionFingerprints:new Set(sessionFingerprints),deviceLabel,networkLabel,signature}};
 }
 
 export function validatePhysicalJourneyPair(first,second,options={}){
-  const expectedAppVersion=String(options.expectedAppVersion||"1.9.8"),expectedRuntimeRevision=String(options.expectedRuntimeRevision||"1.9.8-r84");
+  const expectedAppVersion=String(options.expectedAppVersion||"1.9.9"),expectedRuntimeRevision=String(options.expectedRuntimeRevision||"1.9.9-r85");
   const left=validateSingle(first,"first export",{expectedAppVersion,expectedRuntimeRevision}),right=validateSingle(second,"second export",{expectedAppVersion,expectedRuntimeRevision}),issues=[...left.issues,...right.issues],a=left.facts,b=right.facts;
   const pair=(condition,code,message)=>{if(!condition)issues.push(issue("pair",code,message));};
   pair(a.managerRole&&b.managerRole&&a.managerRole!==b.managerRole&&new Set([a.managerRole,b.managerRole]).size===2,"MANAGER_ROLES_NOT_OPPOSITE","The exports must represent playerOne and playerTwo.");
@@ -103,6 +107,8 @@ export function validatePhysicalJourneyPair(first,second,options={}){
   const sharedSessions=a.sessionFingerprints&&b.sessionFingerprints?[...a.sessionFingerprints].filter(value=>b.sessionFingerprints.has(value)):[];pair(sharedSessions.length>0,"SESSION_CORRELATION_MISSING","The two devices must share at least one sanitized private-session fingerprint.");
   pair(a.signature&&b.signature&&a.signature!==b.signature,"PHYSICAL_DEVICE_FACTS_NOT_DISTINCT","Browser device facts must differ across the physical pair.");
   pair(a.deviceLabel&&b.deviceLabel&&a.deviceLabel.toLowerCase()!==b.deviceLabel.toLowerCase(),"DEVICE_LABELS_NOT_DISTINCT","Device labels must identify two different physical devices.");
+  pair(Boolean(a.previewProven||b.previewProven),"LOCAL_RECONCILIATION_PREVIEW_REQUIRED","At least one device must record the read-only PREVIEW_READY Local Reconciliation with its unchanged storage proof.");
+  pair(Boolean(a.finalProven||b.finalProven),"FINAL_SEASON_MISMATCH","At least one device must record Final Reconciliation of the plan's last season.");
   pair(a.networkLabel&&b.networkLabel&&a.networkLabel.toLowerCase()!==b.networkLabel.toLowerCase(),"NETWORK_LABELS_NOT_DISTINCT","Network labels must identify two independent networks.");
   return Object.freeze({schema:RESULT_SCHEMA,valid:issues.length===0,expectedAppVersion,expectedRuntimeRevision,issues,summary:{totalSeasons:a.totalSeasons&&a.totalSeasons===b.totalSeasons?a.totalSeasons:null,managerRoles:[a.managerRole,b.managerRole],remoteRoles:[a.remoteRole,b.remoteRole],sharedSessionFingerprints:sharedSessions.length,distinctDevices:Boolean(a.deviceFingerprint&&b.deviceFingerprint&&a.deviceFingerprint!==b.deviceFingerprint),sameRivalry:Boolean(a.rivalryFingerprint&&a.rivalryFingerprint===b.rivalryFingerprint)}});
 }

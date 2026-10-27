@@ -8,6 +8,7 @@ const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 export const SCREEN_MAP=Object.freeze({
   home:['mainMenu'],
   homeScreens:['mainMenu'],
+  musicDock:['careerStatistics','transferChallenge'],
   connectPlayers:['connectPlayersScreen'],
   connectPlayersScreen:['connectPlayersScreen'],
   rulesSettings:['ruleBook','settingsOverlay'],
