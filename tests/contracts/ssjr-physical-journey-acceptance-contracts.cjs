@@ -4,7 +4,7 @@ const path=require("node:path");
 
 (async()=>{
   const recorder=require("../../js/ssjrPhysicalJourneyAcceptance.js");
-  assert.equal(recorder.contractVersion,2);
+  assert.equal(recorder.contractVersion,3);
   assert.equal(recorder.feature,"mdp-physical-journey-acceptance-recorder");
   assert.equal(recorder.acceptanceOnly,true);
   assert.equal(recorder.productionObserver,true);
@@ -12,7 +12,8 @@ const path=require("node:path");
   assert.equal(recorder.sanitizedSessionStorageOnly,true);
   assert.equal(recorder.rawAuthorityPersistence,false);
   assert.equal(recorder.providerWriteRequired,false);
-  assert.equal(recorder.recorderNetworkRequests,false);
+  assert.equal(recorder.recorderNetworkWrites,false);
+  assert.deepEqual([...recorder.recorderReads],["closed-showdown-check"]);
   assert.equal(recorder.canonicalStorageMutation,false);
   assert.equal(recorder.canonicalStorageProofScope,"local-reconciliation-preview");
   assert.equal(recorder.candidateCAutomaticApply,false);
@@ -31,11 +32,15 @@ const path=require("node:path");
   assert.match(local,/acceptance\.captureLocalReconciliationBaseline\(\)/,"preview must arm the scoped storage proof");
   assert.match(local,/acceptance\.verifyLocalReconciliationPreview\(\)/,"preview must close the scoped storage proof");
   assert.match(source,/if\(local\.phase==="APPLIED"\)safe\.candidateCApplied=true/,"Candidate C detection must remain sticky");
-  assert.match(source,/item\.stage==="local-reconciliation-safe"&&item\.phase==="PREVIEW_READY"/,"completion must require actual PREVIEW_READY");
-  assert.match(source,/safe\.startupCount>safe\.reconnectRecoveredStartupCount/,"pre-terminal reload must follow reconnect recovery");
-  assert.match(source,/function onOffline\(\)\{if\(!enabled\|\|!lastSeasonHistoryRecorded\(\)\)return;/,"network recovery evidence must be gated until the last season's history convergence (r51)");
-  assert.match(source,/function onOnline\(\)\{if\(!enabled\|\|!lastSeasonHistoryRecorded\(\)\|\|!safe\.offlineObserved\)return;/);
-  assert.doesNotMatch(source,/\bfetch\s*\(/,"recorder must not make its own network requests");
+  assert.match(source,/safe\.startupCount>safe\.reconnectRecoveredStartupCount&&rivalryThisStartup/,"the in-game reload must follow reconnect recovery and find the same Showdown again");
+  assert.match(source,/function recoveryWindowOpen\(\)\{return hasStage\("career-start-ready"\)&&!hasStage\("terminal-closed"\);\}/,"r85: offline and reload checks happen during the game, before the automatic close");
+  assert.match(source,/safe\.offlineObserved&&safe\.offlineHoldSeen&&hasStage\("network-online"\)/,"a reconnect counts only after the game held its state offline");
+  assert.match(source,/params\.get\("ssjr"\)==="1"/,"r85: one link parameter turns the SSJR test on");
+  assert.doesNotMatch(source,/SAVE LABELS|RESET RECORDER|CHECK NOW|<input|createElement\("input"\)/,"r85: nothing to type and no maintenance buttons");
+  assert.match(source,/app\.insertBefore\(panel,main\)/,"r85: the panel sits in the app column above the screen and never covers it");
+  assert.match(source,/readCompletedShowdown\(/,"r85: the close is confirmed after reload by the read-only completed-Showdown reader");
+  assert.doesNotMatch(source,/\b(?:setDoc|updateDoc|addDoc|deleteDoc|writeBatch|runTransaction)\b/,"recorder must never write to Firestore");
+  assert.doesNotMatch(source,/\bfetch\s*\(/,"recorder must not make its own raw network requests");
   assert.doesNotMatch(source,/XMLHttpRequest/);
   assert.doesNotMatch(source,/localStorage\s*\.\s*setItem/);
   assert.doesNotMatch(source,/applyLocalReconciliation/,"recorder must never invoke Candidate C Apply");
@@ -63,11 +68,12 @@ const path=require("node:path");
     ["results-ready","RESULTS_READY",{seasonNumber:1}],
     ["season-acknowledged","ACKNOWLEDGED",{seasonNumber:1}],
     ["scoring-reconciled","SCORING_RECONCILED",{seasonNumber:1}],
-    ["history-converged","HISTORY_CONVERGED",{seasonNumber:1}],
     ["network-offline","OFFLINE",{}],
     ["network-online","ONLINE",{}],
     ["reconnect-recovered","ACTIVE_RECOVERED",{seasonNumber:1,startupCount:1}],
     ["reload-resumed","SAME_SANITIZED_AUTHORITY",{startupCount:2}],
+    ["history-converged","HISTORY_CONVERGED",{seasonNumber:1}],
+    ["showdown-complete","SHOWDOWN_COMPLETE",{seasonNumber:1,totalSeasons:1}],
     ["local-reconciliation-storage-baseline","CAPTURED",{providerWrite:false}],
     ["local-reconciliation-storage-verified","UNCHANGED",{providerWrite:false}],
     ["local-reconciliation-safe","PREVIEW_READY",{providerWrite:false}],
@@ -87,7 +93,7 @@ const path=require("node:path");
     return resequence(e);
   };
   const evidence=({managerRole,remoteRole,account,device,rivalry="c",session="d",deviceLabel,networkLabel,userAgent,platform})=>({
-    schema:validator.EVIDENCE_SCHEMA,generatedAt:"2026-09-13T06:30:00.000Z",appVersion:"1.9.8",runtimeRevision:"1.9.8-r84",acceptanceMode:true,physicalJourneyMode:true,sanitizedSessionStorageOnly:true,recorderNetworkRequests:false,rawAuthorityIncluded:false,canonicalRawIncluded:false,
+    schema:validator.EVIDENCE_SCHEMA,generatedAt:"2026-09-13T06:30:00.000Z",appVersion:"1.9.8",runtimeRevision:"1.9.8-r84",acceptanceMode:true,physicalJourneyMode:true,sanitizedSessionStorageOnly:true,recorderNetworkWrites:false,recorderReads:["closed-showdown-check"],rawAuthorityIncluded:false,canonicalRawIncluded:false,
     device:{userAgent,platform,maxTouchPoints:managerRole==="playerOne"?0:5,screenWidth:managerRole==="playerOne"?1366:430,screenHeight:managerRole==="playerOne"?768:932},deviceLabel,networkLabel,managerRole,remoteRole,accountFingerprint:fp(account),deviceFingerprint:fp(device),rivalryFingerprint:fp(rivalry),sessionFingerprints:[fp(session)],authorityViolation:false,canonicalStorageProofScope:"local-reconciliation-preview",canonicalStorageBeforeHash:fp("e"),canonicalStorageAfterHash:fp("e"),canonicalStorageViolation:false,candidateCApplied:false,offlineObserved:true,onlineRecovered:true,reloadResumed:true,terminalReloadVerified:true,conflictGuardProven:true,startupCount:3,
     milestones:makeMilestones(),completed:true
   });
@@ -118,11 +124,19 @@ const path=require("node:path");
   assert.ok(validator.validatePhysicalJourneyPair(one,authorityDrift).issues.some(item=>item.code==="AUTHORITY_CHANGED"));
   const hiddenApplied=structuredClone(two);const localIndex=hiddenApplied.milestones.findIndex(item=>item.stage==="local-reconciliation-safe");hiddenApplied.milestones.splice(localIndex+1,0,{...hiddenApplied.milestones[localIndex],phase:"APPLIED"});resequence(hiddenApplied);
   assert.ok(validator.validatePhysicalJourneyPair(one,hiddenApplied).issues.some(item=>item.code==="LOCAL_RECONCILIATION_UNSAFE"));
-  const remoteObservedOnly=structuredClone(two);remoteObservedOnly.milestones.find(item=>item.stage==="local-reconciliation-safe").phase="REMOTE_OBSERVED";
-  assert.ok(validator.validatePhysicalJourneyPair(one,remoteObservedOnly).issues.some(item=>item.code==="LOCAL_RECONCILIATION_PREVIEW_REQUIRED"));
+  // r85: the automatic close can beat one device's preview, so the pair needs it on at least one device.
+  const remoteObserved=e=>{const c=structuredClone(e);c.milestones=c.milestones.filter(item=>!item.stage.startsWith("local-reconciliation-storage-"));c.milestones.find(item=>item.stage==="local-reconciliation-safe").phase="REMOTE_OBSERVED";c.canonicalStorageBeforeHash=null;c.canonicalStorageAfterHash=null;return resequence(c);};
+  const onePreview=validator.validatePhysicalJourneyPair(one,remoteObserved(two));
+  assert.equal(onePreview.valid,true,`one device's proven preview is enough for the pair: ${JSON.stringify(onePreview.issues)}`);
+  assert.ok(validator.validatePhysicalJourneyPair(remoteObserved(one),remoteObserved(two)).issues.some(item=>item.code==="LOCAL_RECONCILIATION_PREVIEW_REQUIRED"));
+  const noFinal=e=>{const c=structuredClone(e);c.milestones=c.milestones.filter(item=>item.stage!=="final-season-reconciled");return resequence(c);};
+  assert.equal(validator.validatePhysicalJourneyPair(one,noFinal(two)).valid,true,"one device's Final Reconciliation is enough for the pair");
+  assert.ok(validator.validatePhysicalJourneyPair(noFinal(one),noFinal(two)).issues.some(item=>item.code==="FINAL_SEASON_MISMATCH"));
   // r51: one longer run proves every season of a 3-season plan on both devices.
   const seasonStages=["transfer-completed","results-ready","season-acknowledged","scoring-reconciled","history-converged"];
-  const planEvidence=(base,total)=>{const e=structuredClone(base),list=[];for(const item of e.milestones){if(seasonStages.includes(item.stage))continue;if(item.stage==="setup-confirmed")item.totalSeasons=total;if(item.stage==="final-season-reconciled")item.seasonNumber=total;list.push(item);if(item.stage==="career-start-ready"){for(let season=1;season<=total;season+=1)for(const stage of seasonStages)list.push({stage,phase:base.milestones.find(entry=>entry.stage===stage).phase,online:true,seasonNumber:season});if(total>1)list.push({stage:"showdown-complete",phase:"SHOWDOWN_COMPLETE",online:true,seasonNumber:total,totalSeasons:total});}}e.milestones=list;return resequence(e);};
+  // r85: the offline and reload checks sit in season 2 of a longer run, as the panel asks.
+  const recoveryStages=["network-offline","network-online","reconnect-recovered","reload-resumed"];
+  const planEvidence=(base,total)=>{const e=structuredClone(base),list=[],recovery=e.milestones.filter(item=>recoveryStages.includes(item.stage));for(const item of e.milestones){if(seasonStages.includes(item.stage)||recoveryStages.includes(item.stage)||item.stage==="showdown-complete")continue;if(item.stage==="setup-confirmed")item.totalSeasons=total;if(item.stage==="final-season-reconciled")item.seasonNumber=total;list.push(item);if(item.stage==="career-start-ready"){for(let season=1;season<=total;season+=1){for(const stage of seasonStages)list.push({stage,phase:base.milestones.find(entry=>entry.stage===stage).phase,online:true,seasonNumber:season});if(season===1)list.push(...recovery);}list.push({stage:"showdown-complete",phase:"SHOWDOWN_COMPLETE",online:true,seasonNumber:total,totalSeasons:total});}}e.milestones=list;return resequence(e);};
   const threeOne=planEvidence(one,3),threeTwo=planEvidence(two,3),threeAccepted=validator.validatePhysicalJourneyPair(threeOne,threeTwo);
   assert.equal(threeAccepted.valid,true,`a complete 3-season run must validate: ${JSON.stringify(threeAccepted.issues)}`);assert.equal(threeAccepted.summary.totalSeasons,3);
   assert.equal(accepted.summary.totalSeasons,1,"the one-season run remains valid");
@@ -138,15 +152,15 @@ const path=require("node:path");
   const extraSeason=structuredClone(threeTwo);extraSeason.milestones.push({...extraSeason.milestones.find(item=>item.stage==="results-ready"),seasonNumber:4});resequence(extraSeason);
   assert.ok(codes(threeOne,extraSeason).includes("SEASON_OUT_OF_PLAN"));
   assert.ok(codes(one,threeTwo).includes("SEASON_PLAN_MISMATCH"),"both devices must record the same plan");
-  const midGame=structuredClone(threeTwo),recoveryStages=["network-offline","network-online","reconnect-recovered","reload-resumed"],moved=midGame.milestones.filter(item=>recoveryStages.includes(item.stage));midGame.milestones=midGame.milestones.filter(item=>!recoveryStages.includes(item.stage));midGame.milestones.splice(midGame.milestones.findIndex(item=>item.stage==="history-converged"&&item.seasonNumber===1)+1,0,...moved);resequence(midGame);
-  assert.ok(codes(threeOne,midGame).includes("RECOVERY_ORDER_INVALID"),"recovery proof must follow the last season's History, not season 1's");
-  const lateComplete=structuredClone(threeTwo),completeItem=lateComplete.milestones.find(item=>item.stage==="showdown-complete");lateComplete.milestones=lateComplete.milestones.filter(item=>item!==completeItem);lateComplete.milestones.splice(lateComplete.milestones.findIndex(item=>item.stage==="reconnect-recovered")+1,0,completeItem);resequence(lateComplete);
-  assert.ok(codes(threeOne,lateComplete).includes("RECOVERY_ORDER_INVALID"),"recovery proof must start after the completed plan is recorded");
+  const moveRecovery=(e,anchor,after)=>{const c=structuredClone(e),moved=c.milestones.filter(item=>recoveryStages.includes(item.stage));c.milestones=c.milestones.filter(item=>!recoveryStages.includes(item.stage));const at=c.milestones.findIndex(item=>item.stage===anchor)+(after?1:0);c.milestones.splice(at,0,...moved);return resequence(c);};
+  assert.ok(codes(threeOne,moveRecovery(threeTwo,"career-start-ready",false)).includes("RECOVERY_ORDER_INVALID"),"the offline check before the career starts does not count");
+  assert.ok(codes(threeOne,moveRecovery(threeTwo,"terminal-closed",true)).includes("RECOVERY_ORDER_INVALID"),"the offline and reload checks must come before the automatic close");
+  assert.equal(validator.validatePhysicalJourneyPair(threeOne,moveRecovery(threeTwo,"showdown-complete",false)).valid,true,"the checks may also come in the last season, before the close");
   assert.ok(codes(planEvidence(one,2),planEvidence(two,2)).includes("SEASON_PLAN_INVALID"),"only supported 1/3/5/10 plans are valid");
   const fakeOffline=structuredClone(two);fakeOffline.milestones.find(item=>item.stage==="network-offline").online=true;
   assert.ok(validator.validatePhysicalJourneyPair(one,fakeOffline).issues.some(item=>item.code==="OFFLINE_FLAG_INVALID"));
 
-  console.log("PASS r51 Physical Journey recorder is query-gated, privacy-safe, non-writing, authority-sticky and scopes canonical storage integrity to Local Reconciliation preview");
+  console.log("PASS r85 SSJR test panel (one link, no typing, in-game offline and reload checks, closed Showdown confirmed after reload) is query-gated, privacy-safe, non-writing, authority-sticky and scopes canonical storage integrity to Local Reconciliation preview");
   console.log("PASS current peer entry uses Daniel's one-season host Showdown and Nik's code-based join, which provisions Nik's recovery copy before the separate ACTIVE session");
   console.log("PASS current pair oracle accepts both safe PREVIEW_READY/after-hash callback orders while requiring opposite manager/remote roles, distinct devices/networks, every season of one confirmed plan in order, ordered recovery, scoped unchanged storage proof, no Candidate C Apply and terminal reload");
 })().catch(error=>{console.error("SSJR PHYSICAL JOURNEY ACCEPTANCE CONTRACTS FAILED");console.error(error.stack||error);process.exit(1);});
