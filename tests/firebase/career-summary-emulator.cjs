@@ -82,6 +82,7 @@ function countingSdk(log) {
     const payload = JSON.stringify(read), good = Store.documentFor(read, payload, sha(payload));
     const ref = (db, owner, id = RID) => doc(db, "accounts", owner, "careerSummary", id);
 
+    const statusDoc = (id, status) => { const p = JSON.stringify({ status, rivalryId: id, ended: { endedAt: null, seasonsPlayed: 0 } }); return { schemaVersion: 1, objectType: "careerSummary", rivalryId: id, status, totalSeasons: null, managerTotals: null, winner: null, payload: p, payloadHash: sha(p) }; };
     // ---- R: the Rules ----
     const bad = (patch) => ({ ...good, ...patch });
     await assertFails(setDoc(ref(as(D), D), bad({ managerTotals: { playerOne: good.managerTotals.playerOne + 1, playerTwo: good.managerTotals.playerTwo } })));
@@ -109,7 +110,14 @@ function countingSdk(log) {
     await assertFails(getDoc(ref(as(N), D)));
     await assertFails(getDoc(ref(as(S), D)));
     ok("R5", "only the owner can read a summary");
-    const statusDoc = (id, status) => { const p = JSON.stringify({ status, rivalryId: id, ended: { endedAt: null, seasonsPlayed: 0 } }); return { schemaVersion: 1, objectType: "careerSummary", rivalryId: id, status, totalSeasons: null, managerTotals: null, winner: null, payload: p, payloadHash: sha(p) }; };
+    const accountRef = (c, id) => doc(c.firestore(), "accounts", id);
+    let liveAccount;
+    await env.withSecurityRulesDisabled(async (c) => { liveAccount = (await getDoc(accountRef(c, D))).data(); await setDoc(accountRef(c, D), { ...liveAccount, data: { ...liveAccount.data, status: "disabled" } }); });
+    await assertFails(getDoc(ref(as(D), D)));
+    await assertFails(setDoc(ref(as(D), D, ABANDONED), statusDoc(ABANDONED, "abandoned")));
+    await env.withSecurityRulesDisabled(async (c) => { await setDoc(accountRef(c, D), liveAccount); });
+    await assertSucceeds(getDoc(ref(as(D), D)));
+    ok("R5b", "a disabled account can neither read nor write its summaries; re-enabled, it reads them again");
     await assertFails(setDoc(ref(as(D), D, ABANDONED), { ...good, rivalryId: ABANDONED }));
     await assertFails(setDoc(ref(as(D), D, OPEN), statusDoc(OPEN, "abandoned")));
     await assertFails(setDoc(ref(as(D), D, ABANDONED), { ...statusDoc(ABANDONED, "abandoned"), winner: "playerOne" }));

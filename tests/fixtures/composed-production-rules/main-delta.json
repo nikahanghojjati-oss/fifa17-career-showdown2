@@ -10,9 +10,9 @@
   },
   "candidate": {
     "base": "main 076177e2 (r85 live, runtime 1.9.9-r85) plus r86 career summaries: two R86-SUMMARY hunks (the create check function and the owner-only match). Regenerated with --print-main-delta origin/main",
-    "sha256": "a77efcb3486d3e4b199da0ae8934202cf0c7d6f7a2d908971440c6c142ab4119",
-    "gitBlobSha1": "844e81d526d03340948db2fac100430976b30788",
-    "bytes": 155428
+    "sha256": "d38489a8fabf24de301c838a6669e17af663aaca7e6c286064e769ac3bc0c30e",
+    "gitBlobSha1": "656c63b797a946290a351f2a2a420d25faf14da2",
+    "bytes": 155662
   },
   "allowedOwners": [
     "G-7",
@@ -47,6 +47,7 @@
         "      let root = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data;",
         "      return signedIn()",
         "        && request.auth.uid == accountId",
+        "        && activeAccount(request.auth.uid)",
         "        && rivalryId.matches('^pair_[0-9a-f]{64}$')",
         "        && s.keys().hasOnly(['schemaVersion', 'objectType', 'rivalryId', 'status', 'totalSeasons', 'managerTotals', 'winner', 'payload', 'payloadHash'])",
         "        && s.keys().hasAll(['schemaVersion', 'objectType', 'rivalryId', 'status', 'totalSeasons', 'managerTotals', 'winner', 'payload', 'payloadHash'])",
@@ -79,17 +80,19 @@
     },
     {
       "mainLine": 2905,
-      "candidateLine": 2939,
+      "candidateLine": 2940,
       "removed": [],
       "added": [
         "    }",
         "    match /accounts/{accountId}/careerSummary/{rivalryId} {",
-        "      allow get: if signedIn() && request.auth.uid == accountId;",
+        "      // A disabled or tombstoned account loses its summaries with the rest of the shared history (same boundary as",
+        "      // cmsCompletedShowdownReadable).",
+        "      allow get: if signedIn() && request.auth.uid == accountId && activeAccount(request.auth.uid);",
         "      allow create: if cmsCareerSummaryCreateValid(accountId, rivalryId);",
         "      allow update, list, delete: if false;"
       ],
       "owner": "R86-SUMMARY",
-      "why": "r86 reads at scale: owner-only exact get of accounts/{uid}/careerSummary/{rivalryId}; one create; never updated, listed or deleted."
+      "why": "r86 reads at scale: owner-only exact get of accounts/{uid}/careerSummary/{rivalryId}; one create; never updated, listed or deleted. Both get and create require an active account, like the completed-history grants."
     }
   ]
 }

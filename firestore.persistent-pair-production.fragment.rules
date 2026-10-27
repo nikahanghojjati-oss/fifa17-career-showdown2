@@ -517,6 +517,7 @@
       let root = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data;
       return signedIn()
         && request.auth.uid == accountId
+        && activeAccount(request.auth.uid)
         && rivalryId.matches('^pair_[0-9a-f]{64}$')
         && s.keys().hasOnly(['schemaVersion', 'objectType', 'rivalryId', 'status', 'totalSeasons', 'managerTotals', 'winner', 'payload', 'payloadHash'])
         && s.keys().hasAll(['schemaVersion', 'objectType', 'rivalryId', 'status', 'totalSeasons', 'managerTotals', 'winner', 'payload', 'payloadHash'])
@@ -646,7 +647,9 @@
       allow list, delete: if false;
     }
     match /accounts/{accountId}/careerSummary/{rivalryId} {
-      allow get: if signedIn() && request.auth.uid == accountId;
+      // A disabled or tombstoned account loses its summaries with the rest of the shared history (same boundary as
+      // cmsCompletedShowdownReadable).
+      allow get: if signedIn() && request.auth.uid == accountId && activeAccount(request.auth.uid);
       allow create: if cmsCareerSummaryCreateValid(accountId, rivalryId);
       allow update, list, delete: if false;
     }
