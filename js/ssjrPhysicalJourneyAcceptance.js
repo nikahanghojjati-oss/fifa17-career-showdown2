@@ -240,7 +240,8 @@
 @media(max-width:900px){html[data-v10-screen="mainMenu"] #${PANEL_ID}{top:max(50px,calc(env(safe-area-inset-top) + 42px))}}
 #${PANEL_ID}[data-open="false"] .ssjrTestBody{display:none}
 #${PANEL_ID} .ssjrTestBody{max-height:60vh;overflow:auto}
-#${PANEL_ID} button{min-height:36px}`;
+#${PANEL_ID} button{min-height:36px}
+#${PANEL_ID} :is(.ssjrTestNetwork,.ssjrTestActions) button{color:#16120a;-webkit-text-fill-color:#16120a;background:linear-gradient(180deg,#ffe9a6,#e8b33c);border:1px solid #f5d77a;text-shadow:none;opacity:1}`;
     panel.append(style);
     const head=create("button","ssjrTestHead");head.type="button";head.setAttribute("aria-expanded","true");
     head.style.cssText="display:flex;align-items:center;gap:8px;min-height:30px;padding:0;border:0;background:none;color:inherit;font:inherit;cursor:pointer";
