@@ -2242,7 +2242,7 @@
     {
       "path": "tests/contracts/r86-career-summary-scale-contracts.cjs",
       "patterns": [
-        "^js/(careerSummaryStore|sparkClosedShowdownCareerLoader|sparkCompletedShowdownReader|sharedClosedShowdownAdapter|sharedCareerAnalytics|persistentNikDanielPair)\\.js$",
+        "^js/(careerSummaryStore|sparkClosedShowdownCareerLoader|rivalryLegacyV10|productionFirebaseRuntime|sparkCompletedShowdownReader|sharedClosedShowdownAdapter|sharedCareerAnalytics|persistentNikDanielPair)\\.js$",
         "^tests/contracts/r86-career-summary-scale-contracts\\.cjs$",
         "^tests/fixtures/saved-showdowns/r79-1season-win\\.json$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"

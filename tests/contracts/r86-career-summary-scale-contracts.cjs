@@ -103,6 +103,14 @@ function page(docs,phone){
   return {log,writes,load:uid=>c.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:db,firebaseSdk:sdk,user:{uid},cryptoImpl:webcrypto,phoneStorage:phone})};
 }
 const strip=model=>JSON.stringify(model);
+// The production runtime's firestoreSdk carries no setDoc, so the History caller must hand the loader the imported SDK's
+// setDoc, or every summary write is silently skipped (Codex P1 on #1026).
+{
+  const runtime=read('js/productionFirebaseRuntime.js').match(/firestoreSdk:Object\.freeze\(\{([^}]*)\}\)/);
+  assert.ok(runtime&&!/setDoc/.test(runtime[1]),'production runtime firestoreSdk shape changed: recheck the History caller');
+  const call=read('js/rivalryLegacyV10.js').match(/loadClosedShowdownCareer\(\{[^]*?firebaseSdk:\{([^}]*)\}/);
+  assert.ok(call&&/setDoc:sdk\.setDoc/.test(call[1]),'History hands the career loader the SDK setDoc for summary writes');
+}
 const counts=[10,30,100,...(process.env.CMS_SCALE_1000==='1'?[1000]:[])];
 const results=[];
 (async()=>{
