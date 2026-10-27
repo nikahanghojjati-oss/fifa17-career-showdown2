@@ -41,7 +41,7 @@ assert.match(recorder,/recorderNetworkWrites:false/);
 assert.match(recorder,/1\.9\.1-r20/);
 assert.doesNotMatch(recorder,/\bfetch\s*\(/);
 assert.match(validator,/validatePhysicalJourneyPair/);
-assert.match(validator,/1\.9\.8-r84/);
+assert.match(validator,/1\.9\.9-r85/);
 assert.match(guide,/SSJR test: one 3-season game, Daniel and Nik \(r85, SSJR-2\.2\)/);
 assert.match(guide,/\?ssjr=1`/);
 assert.match(guide,/Nothing to type/);
