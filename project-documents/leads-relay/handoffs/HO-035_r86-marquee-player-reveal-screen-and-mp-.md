@@ -11,10 +11,10 @@
  "worker": "opus",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-27T23:12:32Z", "by": "G", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-10-27T23:12:32Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-27T23:52:02Z", "by": "V", "status": "RECEIVED", "note": "Team V lead started it in this thread 27 Oct 7:5x p.m. Eastern"}]
 }
 ```
 
