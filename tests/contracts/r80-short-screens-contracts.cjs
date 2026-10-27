@@ -95,7 +95,7 @@ const homeCss=read("css/homeV10.css");
 {
   const body=mediaBlock(homeCss,"(min-width: 901px) and (max-width: 1199px) and (min-height: 501px) and (max-height: 775px) and (orientation: landscape), (min-width: 1200px) and (min-height: 600px) and (max-height: 800px) and (min-aspect-ratio: 2101/1000) and (orientation: landscape)");
   assert.match(body,/\.menuMusicArtist \{ white-space: nowrap; overflow: hidden; text-overflow: ellipsis; \}/);
-  assert.doesNotMatch(body,/\.menuMusicStatus/,"the status line keeps BUSINESS · AUDIUS · READY in full");
+  assert.doesNotMatch(body,/\.menuMusicStatus/,"the status line keeps SONG 2 · AUDIUS · READY in full");
   assert.match(body,/top: auto !important; bottom: max\(180px, calc\(46\.7vh - max\(17vh, 116px\)\)\) !important;/,"the card keeps Team V's bottom edge, at least 8px above the tile row");
   assert.match(body,/height: auto !important; min-height: max\(17vh, 116px\);/,"the card grows upward to fit its content");
   const head=mediaBlock(homeCss,"(min-width: 901px) and (max-width: 1199px) and (min-height: 501px) and (max-height: 640px) and (orientation: landscape)");
