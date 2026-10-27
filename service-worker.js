@@ -257,7 +257,8 @@ const SHELL_PATH_SET = new Set(SHELL_PATHS);
 // this one: checked against SHELL_PATHS it would lack this release's new files, fail, and be deleted on activation, leaving
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION (and empties
 // the set when it changes PREVIOUS_RUNTIME_REVISION again). r80 adds no shell path to r79's 221 paths and removes none.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([]);
+// r85: the music player script is new since the previous release, so the rollback list stays exactly the previous one.
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/musicDockV10.js"]);
 const PREVIOUS_SHELL_PATHS = Object.freeze(SHELL_PATHS.filter(path=>!SHELL_PATHS_ADDED_SINCE_PREVIOUS.has(path)));
 function shellPathsForRevision(revision){ return revision&&revision!==RUNTIME_REVISION&&revision===PREVIOUS_RUNTIME_REVISION?PREVIOUS_SHELL_PATHS:SHELL_PATHS; }
 
