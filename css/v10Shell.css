@@ -417,16 +417,15 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
   #app #careerStatistics.careerScreenV10 .titleWordmark { width: min(93.6%, 66.2vh); left: calc(50% - min(46.8%, 33.1vh)); }
 }
 
-/* r85 (Nik 2026-10-27): the lean soundtrack player docked in the app's bars on every screen but Home (Home keeps its own
+/* r85 (Nik 2026-10-27): the lean soundtrack player docked in the desktop top bar on every screen but Home (Home keeps its own
    strip). Desktop: inside the top bar after the tabs; it narrows itself before it reaches the account chips
-   (js/musicDockV10.js fitTop). Phone: a sixth MUSIC tab on the menu screens' tab bar that opens one readable panel above
-   the bar (Play and the songs); the bar keeps its height, so no screen moves. Not on the in-game phone screens (Nik's pick). */
+   (js/musicDockV10.js fitTop). Desktop only: on phone the player stays on Home (Nik 2026-10-27). */
 .cmsMusicDock {
   position: relative; display: flex; align-items: center; gap: 8px; box-sizing: border-box; min-width: 0;
   font-family: var(--sd-font-condensed, "Barlow Condensed", sans-serif); color: #f5f1e8;
 }
 .sd-nav-top .cmsMusicDock {
-  align-self: center; height: 36px; margin-left: 18px; padding: 0 4px 0 6px; max-width: 460px;
+  align-self: center; height: 36px; margin-left: 18px; padding: 0 4px 0 6px; max-width: 560px;
   background: rgba(7,8,10,.82); border: 1px solid rgba(242,196,91,.45); border-radius: 2px;
 }
 html[data-v10-screen="mainMenu"] .cmsMusicDock, html[data-nav="none"] .cmsMusicDock { display: none !important; }
@@ -442,14 +441,17 @@ html[data-v10-screen="mainMenu"] .cmsMusicDock, html[data-nav="none"] .cmsMusicD
 .cmsMusicDockText strong { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 700 13px/1.05 inherit; letter-spacing: .06em; color: #f5f1e8; }
 .cmsMusicDockText small { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 500 11px/1.1 var(--sd-font-body, "Barlow", sans-serif); color: #b8b09c; }
 .cmsMusicDock[data-failed="true"] .cmsMusicDockText small { color: #f2c45b; }
-.cmsMusicDockPlay, .cmsMusicDockOpen {
+.cmsMusicDockPlay, .cmsMusicDockMute, .cmsMusicDockOpen {
   flex: 0 0 auto; min-height: 28px; padding: 0 12px; border-radius: 2px; cursor: pointer;
   font: 700 12px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .1em; text-transform: uppercase;
   -webkit-tap-highlight-color: transparent;
 }
 .cmsMusicDockPlay { min-width: 64px; color: #120e05; background: linear-gradient(180deg, #f7d77a, #e0a82e); border: 1px solid #f2c45b; }
-.cmsMusicDockOpen { color: #ece6d6; background: #0d0f13; border: 1px solid rgba(242,196,91,.45); }
-.cmsMusicDockPlay:focus-visible, .cmsMusicDockOpen:focus-visible, .cmsMusicDockChoice:focus-visible { outline: 2px solid #f2c45b; outline-offset: 2px; }
+.cmsMusicDockOpen, .cmsMusicDockMute { color: #ece6d6; background: #0d0f13; border: 1px solid rgba(242,196,91,.45); }
+.cmsMusicDockMute { min-width: 72px; }
+.cmsMusicDockMute:disabled { opacity: .45; cursor: default; }
+.cmsMusicDockMute[aria-pressed="true"] { color: #f2c45b; border-color: #f2c45b; }
+.cmsMusicDockPlay:focus-visible, .cmsMusicDockMute:focus-visible, .cmsMusicDockOpen:focus-visible, .cmsMusicDockChoice:focus-visible { outline: 2px solid #f2c45b; outline-offset: 2px; }
 .cmsMusicDockOpen[aria-expanded="true"] { border-color: #f2c45b; color: #f2c45b; }
 .sd-nav-top .cmsMusicDock[data-fit="title"] .cmsMusicDockText small { display: none; }
 .sd-nav-top .cmsMusicDock[data-fit="icon"] .cmsMusicDockText { display: none; }
@@ -476,20 +478,3 @@ html[data-v10-screen="mainMenu"] .cmsMusicDock, html[data-nav="none"] .cmsMusicD
 .cmsMusicDockChoice.selected { border-color: rgba(242,196,91,.6); background: rgba(242,196,91,.12); }
 .cmsMusicDockChoice.selected em, .cmsMusicDockChoice.selected strong { color: #f2c45b; }
 .sd-nav-top .cmsMusicDock[data-fit="none"] { display: none; }
-@media (min-width: 901px) { .sd-nav-bottom .cmsMusicDock { display: none; } }
-@media (max-width: 900px) {
-  /* Phone: a sixth MUSIC tab on the menu screens' tab bar. The bar keeps its height, so no screen moves. */
-  html[data-nav="hub"]:not([data-v10-screen="mainMenu"]) .sd-nav-bottom { grid-template-columns: repeat(6, 1fr); }
-  html:not([data-nav="hub"]) .sd-nav-bottom .cmsMusicDock { display: none; }
-  .sd-nav-bottom .cmsMusicDockTab { position: static; display: block; }
-  .sd-nav-bottom .cmsMusicDockOpen.sd-nav-tab { width: 100%; padding: 0; color: var(--sd-text-warm, #ece6d6); background: transparent; border: 0; min-height: 44px; }
-  .sd-nav.sd-nav-bottom[data-locked="true"] .cmsMusicDockOpen.sd-nav-tab { color: var(--sd-text-warm, #ece6d6); opacity: 1; cursor: pointer; }
-  .sd-nav-bottom .cmsMusicDockOpen.sd-nav-tab::before { content: none !important; }
-  .sd-nav-bottom .cmsMusicDockOpen[aria-expanded="true"] { color: #f2c45b; }
-  .sd-nav-bottom .cmsMusicDockOpen .cmsMusicDockDisc { width: 20px; height: 20px; }
-  .sd-nav-bottom .cmsMusicDockList { position: fixed; left: 8px; right: 8px; bottom: calc(var(--sd-nav-bottom-space, 56px) + 8px); max-height: min(62svh, 560px); padding: 0; gap: 0; overflow: hidden; }
-  .sd-nav-bottom .cmsMusicDockList:not([hidden]) { display: flex; }
-  .sd-nav-bottom .cmsMusicDockNow { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; padding: 10px 10px 10px 12px; border-bottom: 1px solid rgba(242,196,91,.3); }
-  .sd-nav-bottom .cmsMusicDockNow .cmsMusicDockPlay { min-height: 36px; min-width: 76px; }
-  .sd-nav-bottom .cmsMusicDockSongs { display: flex; flex-direction: column; gap: 2px; padding: 6px; overflow-y: auto; overscroll-behavior: contain; min-height: 0; }
-}

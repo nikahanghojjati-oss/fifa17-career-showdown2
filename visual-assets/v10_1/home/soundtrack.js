@@ -119,6 +119,7 @@
     init,
     // r85 (app): the docked player on the other screens drives the same <audio> through these.
     toggle: () => { if (M) (wantPlaying ? pause() : play()); },
+    mute: () => { if (audio) { audio.muted = !audio.muted; render(); } },
     choose: (key) => { if (M) choose(key); },
     tracks: () => tracks.slice(),
     current: () => (M ? selected() : null),

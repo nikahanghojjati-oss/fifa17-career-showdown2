@@ -1,8 +1,6 @@
-// r85 (Nik 2026-10-27): the lean soundtrack player docked in the app's bars on every screen but Home, which keeps its own
-// strip. Desktop: inside the top bar after the tabs. Phone: a sixth MUSIC tab in the tab bar of the menu screens (Nik's
-// pick: the in-game phone screens have no bar and keep their layout); it opens one panel above the bar with Play and the
-// songs, so no screen loses any height. Both docks drive Home's one <audio> through window.HomeSoundtrack, so a
-// song keeps playing across screens. Nothing here touches Firestore; Audius is only asked for a song after a Play tap.
+// r85 (Nik 2026-10-27): the lean soundtrack player docked in the desktop top bar, after the tabs, on every screen but Home,
+// which keeps its own strip. On phone the player stays on Home only (Nik). It drives Home's one <audio> through
+// window.HomeSoundtrack, so a song keeps playing across screens. Nothing here touches Firestore; Audius is only asked for a song after a Play tap.
 // Looks: css/v10Shell.css (.cmsMusicDock).
 (function(root){
   "use strict";
@@ -22,6 +20,8 @@
       setText(d.toggle,s.wantPlaying?"PAUSE":"PLAY");
       d.toggle.setAttribute("aria-pressed",String(Boolean(s.wantPlaying)));
       d.toggle.setAttribute("aria-label",(s.wantPlaying?"Pause ":"Play ")+t.title);
+      // Mute waits for the first Play, as on Home (there is no sound to mute before it).
+      d.mute.disabled=!s.src;setText(d.mute,s.muted?"UNMUTE":"MUTE");d.mute.setAttribute("aria-pressed",String(Boolean(s.muted)));
       d.root.dataset.playing=String(Boolean(s.playing&&s.wantPlaying));
       d.root.dataset.failed=String(failed);
       d.choices.forEach(b=>{const on=b.dataset.soundtrackTrack===t.key;b.classList.toggle("selected",on);b.setAttribute("aria-pressed",String(on));});
@@ -35,15 +35,12 @@
     });
   }
 
-  const NOW='<span class="cmsMusicDockDisc" aria-hidden="true"></span><span class="cmsMusicDockText"><strong></strong><small></small></span><button class="cmsMusicDockPlay" type="button">PLAY</button>';
-  function mdBuildDock(id,host,before,tab){
+  const NOW='<span class="cmsMusicDockDisc" aria-hidden="true"></span><span class="cmsMusicDockText"><strong></strong><small></small></span><button class="cmsMusicDockPlay" type="button">PLAY</button><button class="cmsMusicDockMute" type="button" disabled>MUTE</button>';
+  function mdBuildDock(id,host,before){
     const doc=root.document,dock=doc.createElement("div"),api=player();
-    dock.id=id;dock.className=tab?"cmsMusicDock cmsMusicDockTab":"cmsMusicDock";dock.setAttribute("role","group");dock.setAttribute("aria-label","Soundtrack");
-    dock.innerHTML=tab?
-      '<button class="cmsMusicDockOpen sd-nav-tab" type="button" aria-expanded="false"><span class="cmsMusicDockDisc" aria-hidden="true"></span><span>MUSIC</span></button>'+
-        `<div class="cmsMusicDockList" role="group" aria-label="Soundtrack" hidden><div class="cmsMusicDockNow">${NOW}</div><div class="cmsMusicDockSongs"></div></div>`:
-      `${NOW}<button class="cmsMusicDockOpen" type="button" aria-expanded="false">TRACKS</button>`+
-        '<div class="cmsMusicDockList" role="group" aria-label="Choose soundtrack" hidden><div class="cmsMusicDockSongs"></div></div>';
+    dock.id=id;dock.className="cmsMusicDock";dock.setAttribute("role","group");dock.setAttribute("aria-label","Soundtrack");
+    dock.innerHTML=`${NOW}<button class="cmsMusicDockOpen" type="button" aria-expanded="false">TRACKS</button>`+
+      '<div class="cmsMusicDockList" role="group" aria-label="Choose soundtrack" hidden><div class="cmsMusicDockSongs"></div></div>';
     const list=dock.querySelector(".cmsMusicDockList"),open=dock.querySelector(".cmsMusicDockOpen"),songs=dock.querySelector(".cmsMusicDockSongs");
     list.id=`${id}List`;open.setAttribute("aria-controls",list.id);
     api.tracks().forEach((t,i)=>{
@@ -57,8 +54,9 @@
     });
     host.insertBefore(dock,before||null);
     const d={root:dock,list,open,title:dock.querySelector(".cmsMusicDockText strong"),artist:dock.querySelector(".cmsMusicDockText small"),
-      toggle:dock.querySelector(".cmsMusicDockPlay"),choices:Array.from(songs.children)};
+      toggle:dock.querySelector(".cmsMusicDockPlay"),mute:dock.querySelector(".cmsMusicDockMute"),choices:Array.from(songs.children)};
     d.toggle.addEventListener("click",()=>player().toggle());
+    d.mute.addEventListener("click",()=>player().mute());
     open.addEventListener("click",()=>{
       const show=list.hidden;
       mdCloseLists(d);
@@ -68,7 +66,7 @@
     });
     list.addEventListener("click",event=>{
       const b=event.target instanceof root.Element?event.target.closest("[data-soundtrack-track]"):null;
-      if(b){if(!tab)mdCloseLists();player().choose(b.dataset.soundtrackTrack);if(!tab)open.focus();}
+      if(b){mdCloseLists();player().choose(b.dataset.soundtrackTrack);open.focus();}
     });
     docks.push(d);
     return d;
@@ -99,10 +97,9 @@
   }
 
   function mdMountDocks(){
-    const doc=root.document,top=doc.querySelector(".sd-nav-top"),bottom=doc.querySelector(".sd-nav-bottom");
+    const doc=root.document,top=doc.querySelector(".sd-nav-top");
     if(top&&!doc.getElementById("cmsMusicDockTop")){mdBuildDock("cmsMusicDockTop",top,top.querySelector(".sd-nav-capsule"));mdRender();mdFitTop();}
-    if(bottom&&!doc.getElementById("cmsMusicDockBottom")){mdBuildDock("cmsMusicDockBottom",bottom,null,true);mdRender();}
-    return Boolean(top&&bottom);
+    return Boolean(top);
   }
 
   function mdStart(){
