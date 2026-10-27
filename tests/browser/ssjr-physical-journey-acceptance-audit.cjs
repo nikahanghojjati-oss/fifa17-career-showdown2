@@ -119,6 +119,14 @@ function season(n,total=3){
     await setState(r,{...live(),...season(1)});await observe(r);assert.ok((await state(r)).milestones>5);
     await setState(r,{...live({rivalry:raw.other}),transfer:null,results:null,commit:null,scoring:null,history:null,multi:null});await observe(r);
     const fresh=await state(r);assert.equal(fresh.authorityViolation,false);assert.ok(fresh.milestones<=4,`the record restarted (${fresh.milestones} milestones)`);assert.equal(fresh.networkLabel,"Mobile data","the network tap is kept");
+    // Codex #1014: a Showdown that closed before its checks passed does not end the test. Home's post-close screen leaves the
+    // record alone; a new Showdown that really starts (its Shared Setup opens again) restarts it.
+    await setState(r,{...live(),...season(1,1),terminal:{phase:"CLOSED",terminal:true,rivalryRevision:3}});await observe(r);
+    const failed=await state(r);assert.ok(failed.milestones>5,"the closed, unfinished run is recorded");
+    await setState(r,{transfer:null,results:null,commit:null,scoring:null,history:null,multi:null,terminal:null,career:null});await observe(r);
+    assert.equal((await state(r)).milestones,failed.milestones,"Home after the close keeps the record");
+    await setState(r,{setup:{...live().setup,setup:{phase:"SETUP_OPEN",revision:1,totalSeasons:3}}});await observe(r);
+    const again=await state(r);assert.ok(again.milestones<=2,`a new Showdown restarts the record (${again.milestones} milestones)`);assert.equal(again.networkLabel,"Mobile data");
 
     console.log("PASS r85 SSJR test panel: one link, one tap, in-game offline (after the game held its state) and reload checks, the read-only preview asked once at the end, the automatic close confirmed after reload by one index read and one exact read, a new try restarts the record, and its 3-season export satisfies the validator");
   }finally{for(const entry of [retry,mutated,run,normal])if(entry)await entry.context.close().catch(()=>{});await browser.close().catch(()=>{});}

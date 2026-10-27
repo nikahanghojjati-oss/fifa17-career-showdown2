@@ -72,7 +72,10 @@
     const rivalryId=setup?.rivalryId||remote?.rivalryId||connected?.rivalryId||null;
     const sessionId=setup?.sessionId||remote?.sessionId||null;
     // Once the Showdown is closed it is no longer current, and Home is free to show a new one: authority stops binding there.
-    const closed=hasStage("terminal-closed");
+    let closed=hasStage("terminal-closed");
+    // A closed run that did not pass is not the end of the test: when a new Showdown really starts on this page (its Shared
+    // Setup is open again below the confirmed revision, which Home's post-close screen never shows), the record starts again.
+    if(closed&&!completed()&&Number.isInteger(setup?.setup?.revision)&&setup.setup.revision>=1&&setup.setup.revision<6){restartRecord();closed=false;}
     // A different Showdown on this page before the recorded one closed is a new try (an earlier one was left unfinished):
     // the record starts again for it, with no reset button. Any other authority change mid-run is flagged.
     if(rivalryId&&!closed&&safe.rivalryFingerprint&&await sha256(rivalryId)!==safe.rivalryFingerprint)restartRecord();
