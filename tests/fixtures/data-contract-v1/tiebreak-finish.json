@@ -300,7 +300,8 @@
                 "nik": 101
               }
             }
-          ]
+          ],
+          "setupConfirmedAt": null
         }
       ]
     }
@@ -531,7 +532,8 @@
                 "nik": 101
               }
             }
-          ]
+          ],
+          "setupConfirmedAt": null
         }
       ]
     }

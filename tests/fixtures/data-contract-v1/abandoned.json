@@ -204,7 +204,8 @@
           "totalSeasons": null,
           "totals": null,
           "winner": null,
-          "seasons": []
+          "seasons": [],
+          "setupConfirmedAt": null
         }
       ]
     }
@@ -359,7 +360,8 @@
           "totalSeasons": null,
           "totals": null,
           "winner": null,
-          "seasons": []
+          "seasons": [],
+          "setupConfirmedAt": null
         }
       ]
     }

@@ -2247,6 +2247,16 @@
         "^tests/fixtures/saved-showdowns/r79-1season-win\\.json$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r86-marquee-player-contracts.cjs",
+      "patterns": [
+        "^data/marqueePlayers\\.js$",
+        "^js/[A-Za-z0-9]+\\.js$",
+        "^tests/contracts/r86-marquee-player-contracts\\.cjs$",
+        "^tests/fixtures/data-contract-v1/multi-showdown-career\\.json$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
