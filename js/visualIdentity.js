@@ -456,6 +456,7 @@ const CREST_MOTIFS = Object.freeze({
 const CREST_MOTIF_PLACES = Object.freeze({
     top: "translate(30 -12) scale(.5)",
     topStar: "translate(30 -24) scale(.5)",
+    crownTop: "translate(33.6 2) scale(.44)",
     sm: "translate(22.8 26.6) scale(.62)",
     hi: "translate(18 2) scale(.7)",
     lo: "translate(30 50) scale(.5)",
@@ -478,7 +479,7 @@ const CREST_MOTIF_PLACES = Object.freeze({
     right: "translate(48 28) scale(.6)",
     corner: "translate(9 6) scale(.5)",
     canton: "translate(14 12) scale(.45)",
-    above: "translate(30 -14) scale(.5)",
+    above: "translate(30 -1) scale(.5)",
     stars: "translate(30 -9) scale(.5)",
     inset: "translate(15 14) scale(.75)"
 });
@@ -490,7 +491,7 @@ function buildCrestMotifs(tokens){
         const draw = CREST_MOTIFS[token.name];
         if(!draw){ return; }
         const art = draw(token.c1, token.c2);
-        const place = token.place === "top" && token.name === "star" ? "topStar" : token.place;
+        const place = token.place === "top" && token.name === "star" ? "topStar" : token.place === "top" && token.name === "crownRoyal" ? "crownTop" : token.place;
         const wrapped = place && CREST_MOTIF_PLACES[place] ? `<g transform="${CREST_MOTIF_PLACES[place]}">${art}</g>` : art;
         (token.place === "top" || token.place === "above" ? above : inside).push(wrapped);
     });
