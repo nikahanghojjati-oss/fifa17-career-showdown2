@@ -36,7 +36,7 @@ function fakeDom(){
   };
   const body=make("body"),card=make("section"),toggle=make("button",{id:"menuMusicToggle"}),mute=make("button",{id:"menuMusicMute"}),status=make("p",{id:"menuMusicStatus"});
   const selector=make("div"),title=make("strong"),artist=make("p");
-  const choices=["business","inDaClub","sarnevesht","nextToYou","hateItOrLoveIt","banafsh","fresh","yakuza","nasty","cheraBadi"].map(key=>{const b=make("button");b.dataset.soundtrackTrack=key;return b;});
+  const choices=Home.MEDIA.tracks.map(t=>t.key).map(key=>{const b=make("button");b.dataset.soundtrackTrack=key;return b;});
   card.querySelector=sel=>({".menuMusicHeader strong":title,".menuMusicArtist":artist,".menuMediaSelector":selector})[sel]||null;
   card.querySelectorAll=sel=>sel==="[data-soundtrack-track]"?choices:[];
   const ids={menuMusicToggle:toggle,menuMusicMute:mute,menuMusicStatus:status};
@@ -72,12 +72,12 @@ test("Audius makes no request before the Play tap",()=>{
   api.init(Home.MEDIA);
   assert.equal(dom.created.length,0,"no <audio> before Play");
   assert.deepEqual(dom.requests,[]);
-  assert.equal(dom.status.textContent,"BUSINESS · AUDIUS · READY");
+  assert.equal(dom.status.textContent,"SONG 2 · AUDIUS · READY");
   dom.toggle.click();
   assert.equal(dom.created.length,1,"one <audio> on Play");
   const audio=dom.created[0];
   assert.equal(audio.preload,"none");
-  assert.equal(audio.src,"https://api.audius.co/v1/tracks/Ymgov/stream?app_name=CareerModeShowdown17");
+  assert.equal(audio.src,"https://api.audius.co/v1/tracks/6R99GRQ/stream?app_name=CareerModeShowdown17");
   assert.equal(audio.paused,false);assert.deepEqual(dom.requests,[],"no fetch: the <audio> element streams");
   assert.doesNotMatch(soundtrack,/fetch\s*\(|XMLHttpRequest|localStorage/);
 });
@@ -110,7 +110,7 @@ test("the YouTube player is retired only by lazy Home code, and product diagnost
 test("Audius is the only new network host",()=>{
   const hosts=new Set([...(binder+soundtrack).matchAll(/https?:\/\/([a-z0-9.-]+)/gi)].map(m=>m[1].toLowerCase()));
   assert.deepEqual([...hosts],["api.audius.co"]);
-  assert.equal(Home.MEDIA.tracks.length,10);assert.deepEqual(Home.MEDIA.tracks.map(t=>t.audiusTrackId),["Ymgov","qZ17b","gb33l","n1zqQ","ygyOr","3RaaM","AV9dv","ryBXG","G5rXAWE","0dGWK"],"Nik's locked top 10, in his order (JOB-1591)");assert.equal(Home.MEDIA.defaultTrack,"business");
+  assert.equal(Home.MEDIA.tracks.length,19);assert.deepEqual(Home.MEDIA.tracks.map(t=>t.audiusTrackId),["6R99GRQ","GNQJ5dl","5xdlPEJ","K9J0w8l","Nvydpr7","WGNNo","PQ28va7","3mjjB","y7Z9P","Ymgov","qZ17b","gb33l","n1zqQ","ygyOr","3RaaM","AV9dv","ryBXG","G5rXAWE","0dGWK"],"Nik's list (2026-10-27): Song 2 first, Love Me Again second, the new picks, then the earlier top 10 in order");assert.equal(Home.MEDIA.defaultTrack,"song2");
 });
 test("Home registers through job 24's loader with Team V's CSS, the adapter and the soundtrack",()=>{
   assert.match(binder,/V\.register\("mainMenu",\{css:HOME_CSS\.slice\(\),js:\[\["v10-home-soundtrack","home\/soundtrack\.js"/);
@@ -159,7 +159,9 @@ test("the adapter keeps the product's protected Home facts (desktop tile placeme
 test("Team V files are the 5e05a1f copies with only the listed edits (HO-005: phone overlays V2; HO-027 r78: no state dimming)",()=>{
   assert.equal(sha("visual-assets/v10_1/home/home.css"),"ba72603790119c404a32711ddc36cbb6ad4190c108d496a1193eef8bbc3dbc53");
   assert.doesNotMatch(homeCss,/OVL_HOME_(?:DANIEL|NIK)_PHONE_V1/,"HO-005: phone overlays without the ghost coat (V2)");
-  assert.equal(sha("visual-assets/v10_1/home/soundtrack.js"),"8c00f6cf547119848733082af9c6eb0c2baedb24a46b92195b6768a268fa4c72");
+  // r85 (app, Nik 2026-10-27): a small API (toggle, mute, choose, tracks, current, subscribe) for the docked player in js/musicDockV10.js.
+  assert.equal(sha("visual-assets/v10_1/home/soundtrack.js"),"d5ed636e4893b7bed763564c2643f600d85c2db941e78d3b80942f4317b5e986");
+  assert.equal((soundtrack.match(/r85 \(app\)/g)||[]).length,2);
   assert.equal((soundtrack.match(/JOB-25 \(app\)/g)||[]).length,2);
 });
 

@@ -7,6 +7,7 @@
   "use strict";
   let M = null, A = null, tracks = [], selectedKey = null, ui = null;
   let audio = null, wantPlaying = false, failed = false;
+  const listeners = []; // r85 (app): js/musicDockV10.js redraws its docked copy of this player after every render.
   const bound = new WeakSet(); // JOB-25 (app): Home can mount again; each control is bound once.
   const once = (el, fn) => { if (el && !bound.has(el)) { bound.add(el); el.addEventListener("click", fn); } };
 
@@ -39,6 +40,7 @@
       b.classList.toggle("selected", on);
       b.setAttribute("aria-pressed", String(on));
     });
+    listeners.forEach((fn) => { try { fn(); } catch (_) {} });
   }
 
   function ensureAudio() {
@@ -115,6 +117,13 @@
 
   window.HomeSoundtrack = {
     init,
+    // r85 (app): the docked player on the other screens drives the same <audio> through these.
+    toggle: () => { if (M) (wantPlaying ? pause() : play()); },
+    mute: () => { if (audio) { audio.muted = !audio.muted; render(); } },
+    choose: (key) => { if (M) choose(key); },
+    tracks: () => tracks.slice(),
+    current: () => (M ? selected() : null),
+    subscribe: (fn) => { if (typeof fn === "function") listeners.push(fn); },
     state: () => ({ selected: selectedKey, wantPlaying, failed, playing: !!audio && !audio.paused, muted: !!audio && audio.muted, src: audio ? audio.currentSrc || audio.src : null })
   };
 })();
