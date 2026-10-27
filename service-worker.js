@@ -217,6 +217,7 @@ const SHELL_PATHS = Object.freeze([
     "js/homeScreensV10.js",
     "visual-assets/v10_1/home/home.css",
     "visual-assets/v10_1/home/soundtrack.js",
+    "js/musicDockV10.js",
     "css/homeV10.css",
     "js/rulesSettingsV10.js",
     "css/rulesSettingsV10.css",
