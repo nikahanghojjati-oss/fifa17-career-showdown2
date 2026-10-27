@@ -1046,6 +1046,10 @@ function ensureSettingsDialog(){
         }
     });
     overlay.addEventListener("keydown", handleSettingsKeydown);
+    // The music dock and player sit outside the overlay but inside the Tab cycle, so their keys reach the same handler (Codex #1018).
+    document.addEventListener("keydown", event => {
+        if(event.target?.closest?.("#cmsMusicDockTop, #cmsMusicSheet")){ handleSettingsKeydown(event); }
+    });
 
     settingsOverlay = overlay;
     settingsDialog = dialog;
