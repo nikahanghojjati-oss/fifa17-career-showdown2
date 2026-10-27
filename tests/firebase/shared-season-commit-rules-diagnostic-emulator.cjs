@@ -7,7 +7,135 @@ const {Timestamp,doc,setDoc,serverTimestamp}=firestoreSdk;
 const {initializeTestEnvironment}=require("@firebase/rules-unit-testing");
 const Commit=require("../../js/sparkSharedSeasonCommit.js");
 
-const RULES=fs.readFileSync("firestore.spark.generated.rules","utf8");
+// Audit R84 F02 (r85): ssjrCommitShape and its three helpers were never called by production Rules and are removed from the
+// fragment. This diagnostic still measures those sub-expressions, so it injects the exact removed text into its own copy of
+// the Rules only (never into the deployed artifact).
+const DIAGNOSTIC_ONLY_COMMIT_HELPERS=String.raw`    function ssjrCommitResultsReady(rivalryId, seasonId, seasonNumber) {
+      let setup = ssjrCommitSetup(rivalryId);
+      let public = ssjrCommitPublicResults(rivalryId, seasonId);
+      let p1 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerOne');
+      let p2 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerTwo');
+      let teamCount = public.teamCount;
+      return teamCount in [18,20]
+        && setup.schemaVersion == 1
+        && setup.objectType == 'sharedSetupLedger'
+        && setup.rivalryId == rivalryId
+        && setup.revision == 6
+        && setup.phase == 'SHOWDOWN_CONFIRMED'
+        && (setup.coordinatorRole == 'playerOne' || setup.coordinatorRole == 'playerTwo')
+        && setup.totalSeasons in [1,3,5,10]
+        && seasonNumber >= 1
+        && seasonNumber <= setup.totalSeasons
+        && public.schemaVersion == 1
+        && public.objectType == 'sharedSeasonResults'
+        && public.rivalryId == rivalryId
+        && public.seasonNumber == seasonNumber
+        && public.runtimeRevision == '1.9.1-r9'
+        && public.phase == 'RESULTS_READY'
+        && public.revision == 2
+        && public.publishedRoles is list
+        && public.publishedRoles.size() == 2
+        && public.actorRoles is list
+        && public.actorRoles.size() == 2
+        && public.operationIds is list
+        && public.operationIds.size() == 2
+        && public.baseRevisions is list
+        && public.baseRevisions.size() == 2
+        && public.baseRevisions[0] == 0
+        && public.baseRevisions[1] == 1
+        && public.actorRoles[0] == public.publishedRoles[0]
+        && public.actorRoles[1] == public.publishedRoles[1]
+        && public.actorRoles[0] != public.actorRoles[1]
+        && ssjrCommitValidRole(public.actorRoles[0])
+        && ssjrCommitValidRole(public.actorRoles[1])
+        && p1.schemaVersion == 1
+        && p1.objectType == 'sharedSeasonResultRole'
+        && p1.rivalryId == rivalryId
+        && p1.seasonNumber == seasonNumber
+        && p1.managerRole == 'playerOne'
+        && p2.schemaVersion == 1
+        && p2.objectType == 'sharedSeasonResultRole'
+        && p2.rivalryId == rivalryId
+        && p2.seasonNumber == seasonNumber
+        && p2.managerRole == 'playerTwo'
+        && ssjrCommitResultShape(p1.result, teamCount)
+        && ssjrCommitResultShape(p2.result, teamCount)
+        && ((public.actorRoles[0] == 'playerOne'
+              && p1.operationId == public.operationIds[0]
+              && p2.operationId == public.operationIds[1])
+          || (public.actorRoles[0] == 'playerTwo'
+              && p2.operationId == public.operationIds[0]
+              && p1.operationId == public.operationIds[1]));
+    }
+    function ssjrCommitOperationChainValid(root) {
+      let n = root.revision;
+      return root.operationIds is list
+        && root.operationHashes is list
+        && root.baseRevisions is list
+        && root.actorRoles is list
+        && root.operationIds.size() == n
+        && root.operationHashes.size() == n
+        && root.baseRevisions.size() == n
+        && root.actorRoles.size() == n
+        && ssjrCommitValidOperationId(root.operationIds[0])
+        && ssjrCommitValidHash(root.operationHashes[0])
+        && root.baseRevisions[0] == 0
+        && ssjrCommitValidRole(root.actorRoles[0])
+        && (n < 2 || (ssjrCommitValidOperationId(root.operationIds[1])
+          && root.operationIds[1] != root.operationIds[0]
+          && ssjrCommitValidHash(root.operationHashes[1])
+          && root.baseRevisions[1] == 1
+          && ssjrCommitValidRole(root.actorRoles[1])))
+        && (n < 3 || (ssjrCommitValidOperationId(root.operationIds[2])
+          && root.operationIds[2] != root.operationIds[0]
+          && root.operationIds[2] != root.operationIds[1]
+          && ssjrCommitValidHash(root.operationHashes[2])
+          && root.baseRevisions[2] == 2
+          && ssjrCommitValidRole(root.actorRoles[2])));
+    }
+    function ssjrCommitAcknowledgementsValid(root) {
+      let n = root.revision;
+      return root.acknowledgedRoles is list
+        && root.acknowledgedRoles.size() == n - 1
+        && root.acknowledgedRoles.toSet().size() == root.acknowledgedRoles.size()
+        && root.acknowledgedRoles.toSet().hasOnly(['playerOne','playerTwo'])
+        && root.actorRoles == [root.actorRoles[0]].concat(root.acknowledgedRoles);
+    }
+    function ssjrCommitShape(root, rivalryId, seasonId) {
+      let public = ssjrCommitPublicResults(rivalryId, seasonId);
+      let teamCount = public.teamCount;
+      let p1 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerOne');
+      let p2 = ssjrCommitPrivateResult(rivalryId, seasonId, 'playerTwo');
+      return teamCount in [18,20]
+        && ssjrCommitExactKeys(root)
+        && root.schemaVersion == 1
+        && root.objectType == 'sharedSeasonCommit'
+        && root.rivalryId == rivalryId
+        && root.seasonNumber is int
+        && ssjrCommitSeasonMatches(seasonId, root.seasonNumber)
+        && ssjrCommitResultsReady(rivalryId, seasonId, root.seasonNumber)
+        && root.runtimeRevision == '1.9.1-r10'
+        && root.revision is int
+        && root.revision >= 1
+        && root.revision <= 3
+        && root.resultsRevision == 2
+        && root.results is map
+        && root.results.keys().hasOnly(['playerOne','playerTwo'])
+        && ssjrCommitResultShape(root.results.playerOne, teamCount)
+        && ssjrCommitResultShape(root.results.playerTwo, teamCount)
+        && root.results.playerOne == p1.result
+        && root.results.playerTwo == p2.result
+        && ssjrCommitOperationChainValid(root)
+        && ssjrCommitAcknowledgementsValid(root)
+        && ((root.revision < 3 && root.phase == 'COMMITTED') || (root.revision == 3 && root.phase == 'ACKNOWLEDGED'))
+        && root.updatedAt == request.time
+        && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId);
+    }
+`;
+const COMMIT_CREATE_FUNCTION="    function ssjrCommitValidCreate(rivalryId, seasonId) {";
+const GENERATED_RULES=fs.readFileSync("firestore.spark.generated.rules","utf8");
+if(GENERATED_RULES.split(COMMIT_CREATE_FUNCTION).length!==2)throw new Error("Season Commit create function not found exactly once.");
+const RULES=GENERATED_RULES.replace(COMMIT_CREATE_FUNCTION,()=>DIAGNOSTIC_ONLY_COMMIT_HELPERS+COMMIT_CREATE_FUNCTION);
 const TARGET="allow create: if ssjrCommitValidCreate(rivalryId, seasonId);";
 const A="acct_commit_diag_a",B="acct_commit_diag_b";
 const R=`pair_${"0".repeat(64)}`,S=`session_${"f".repeat(64)}`;

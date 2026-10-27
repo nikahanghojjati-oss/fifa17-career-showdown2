@@ -103,8 +103,12 @@
   // authority-checked read proves the stored commit advanced past the revision this attempt read.
   async function scpConcurrentAdvance(error,seenRevision,options){
     if((error?.code!=="permission-denied"&&error?.code!=="firestore/permission-denied"&&error?.code!=="permission_denied")||!Number.isInteger(seenRevision))return false;
-    const fresh=await scpRead(options);
-    return Boolean(fresh&&fresh.ok===true&&Number.isInteger(fresh.revision)&&fresh.revision>seenRevision);
+    const advanced=fresh=>Boolean(fresh&&fresh.ok===true&&Number.isInteger(fresh.revision)&&fresh.revision>seenRevision);
+    if(advanced(await scpRead(options)))return true;
+    // r85: the rival's write can land a moment after this denial (or the check read itself can fail under the same
+    // contention), so look once more after a short pause before calling the denial unproven.
+    await new Promise(resolve=>setTimeout(resolve,400));
+    return advanced(await scpRead(options));
   }
   async function scpRun(type,options){
     let seenRevision=null;
