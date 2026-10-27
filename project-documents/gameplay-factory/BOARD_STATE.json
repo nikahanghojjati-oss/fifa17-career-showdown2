@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-27 9:35 AM Boston time (EDT)",
+ "generated": "2026-10-27 2:54 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1213,41 +1213,22 @@
  },
  "two": {
   "live": {
-   "sha": "67479f2",
+   "sha": "076177e",
    "revision": "1.9.9-r85",
-   "when": "2026-10-27T08:49:17-04:00",
-   "subject": "Release 1.9.9-r85: marble music player, premium crests, safer shared writes (#1021)",
-   "fixes": [
-    {
-     "pr": 1023,
-     "title": "Re-pin the L5 Rules check to r85 on main",
-     "draft": false,
-     "branch": "claude/main-repin-r85",
-     "sha": "71a349763bec2aca8a4a52ae2e27cb71acae8e32",
-     "updated": "2026-10-27T13:05:13Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 1,
-      "cancelled": 0
-     }
-    },
+   "when": "2026-10-27T11:34:52-04:00",
+   "subject": "Claude deep audit button, and full output on Claude reviews (#1022)",
+   "fixes": [],
+   "today": [
     {
      "pr": 1022,
      "title": "Claude deep audit button, and full output on Claude reviews",
-     "draft": false,
-     "branch": "claude/main-deep-audit",
-     "sha": "368a3f684540fcb96e470dc824823aefd743aa72",
-     "updated": "2026-10-27T13:04:51Z",
-     "gates": {
-      "passed": 7,
-      "running": 0,
-      "failed": 2,
-      "cancelled": 0
-     }
-    }
-   ],
-   "today": [
+     "merged": "2026-10-27T15:34:53Z"
+    },
+    {
+     "pr": 1023,
+     "title": "Re-pin the L5 Rules check to r85 on main",
+     "merged": "2026-10-27T15:17:09Z"
+    },
     {
      "pr": 1021,
      "title": "Release 1.9.9-r85: marble music player, premium crests, safer shared writes",
@@ -1258,7 +1239,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear (from GitHub).",
-   "gate": "Gate #1023: L1✓ L2✓ L4✓ L5✓ L6✓ · POS20 #1023 8/9",
+   "gate": "POS20 #304 7/7",
    "source": "github"
   },
   "v_headline": "Queued next",
@@ -1804,7 +1785,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 40,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3020,36 +3001,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 1023,
-    "title": "Re-pin the L5 Rules check to r85 on main",
-    "draft": false,
-    "branch": "claude/main-repin-r85",
-    "sha": "71a349763bec2aca8a4a52ae2e27cb71acae8e32",
-    "updated": "2026-10-27T13:05:13Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 1,
-     "cancelled": 0
-    }
-   },
-   {
-    "pr": 1022,
-    "title": "Claude deep audit button, and full output on Claude reviews",
-    "draft": false,
-    "branch": "claude/main-deep-audit",
-    "sha": "368a3f684540fcb96e470dc824823aefd743aa72",
-    "updated": "2026-10-27T13:04:51Z",
-    "gates": {
-     "passed": 7,
-     "running": 0,
-     "failed": 2,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
