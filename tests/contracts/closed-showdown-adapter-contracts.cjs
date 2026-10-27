@@ -257,6 +257,8 @@ await check("L1 loader surface and source",()=>{
   const L=require(path.join(root,"js/sparkClosedShowdownCareerLoader.js"));
   assert.equal(typeof L.loadClosedShowdownCareer,"function");assert.equal(typeof L.clearClosedShowdownCache,"function");
   for(const k of ["sessionRequired","deviceRequired","providerWriteRequired","listPermissionRequired","canonicalStorageMutation","billingRequired"])assert.equal(L[k],false,k);
+  // r86: the loader itself still writes and stores nothing; js/careerSummaryStore.js owns the one create-only summary
+  // write and the phone copy.
   const src=read("js/sparkClosedShowdownCareerLoader.js");
   for(const banned of [/runTransaction/,/getDocs\(/,/collection\(/,/query\(/,/onSnapshot/,/setDoc|updateDoc|deleteDoc|writeBatch/,/localStorage|sessionStorage|indexedDB/,/"sessions"|'sessions'/,/getState\s*\(/,/Date\.now|setTimeout|setInterval/])assert.doesNotMatch(src,banned,String(banned));
   assert.match(src,/readCareerIndex\(\{firestore:o\.firestore,firebaseSdk:o\.firebaseSdk,accountId:uid\}\)/);assert.match(src,/readCompletedShowdown\(/);
@@ -306,7 +308,10 @@ await check("L5 paging: the real career index client walks sealed pages, then th
   const sdk={doc:(_db,...parts)=>({path:parts.join("/")}),getDoc:async ref=>{log.push(ref.path);const v=docs[ref.path];return {exists:()=>v!==undefined,data:()=>v};}};
   const v=await L.loadClosedShowdownCareer({firestore:{},firebaseSdk:sdk,user:{uid:"acct_daniel"},cryptoImpl:require("node:crypto").webcrypto,current:noCurrent()});
   assert.deepEqual(log.slice(0,2),["accounts/acct_daniel/careerIndex/current","accounts/acct_daniel/careerIndex/page_1"]);
-  assert.deepEqual(log.slice(2),ids.map(x=>"rivalries/"+x),"one exact root get per indexed Showdown, in career order");
+  // r86: each Showdown first asks for its career summary (one exact get, absent here), then reads its root as before.
+  const summary=p=>p.startsWith("accounts/acct_daniel/careerSummary/");
+  assert.deepEqual(log.slice(2).filter(p=>!summary(p)),ids.map(x=>"rivalries/"+x),"one exact root get per indexed Showdown, in career order");
+  assert.deepEqual(log.slice(2).filter(summary).sort(),ids.map(x=>"accounts/acct_daniel/careerSummary/"+x).sort(),"one summary get per indexed Showdown");
   assert.equal(v.status,"partial");assert.deepEqual(v.model.coverage,{readable:0,indexed:501},"missing Showdowns are unavailable, never a shorter career");
   assert.equal(v.entries[0].code,"COMPLETED_RIVALRY_MISSING");
 });
