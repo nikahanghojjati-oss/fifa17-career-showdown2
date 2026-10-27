@@ -1,0 +1,79 @@
+=== INSTRUCTIONS FOR CLAUDE (read first) ===
+You are auditing "Career Mode Showdown", a private two-player FIFA 17 career tracker (Daniel and Nik, one phone or laptop each). It is a static site on GitHub Pages with Firebase Auth and Firestore on the free Spark plan (50,000 reads and 20,000 writes per day, no Cloud Functions). Goal: 10 smooth seasons per Showdown and 20 to 30 seasons a day inside the free limit. House rules any fix must keep: equal scores are a DRAW (no tiebreak anywhere); Showdowns are 1, 3, 5 or 10 seasons; Europa League +3 and Champions League +5, never both; nothing may dim or cover the screen; the loading screen stays until the next screen is ready. Out of scope: attacks that need a modified app or the browser console, style, naming and refactors.
+
+AREA: The r85 release (v1.9.9). The first file is its release note and the second is the full code diff from r84 to r85. Check what the note claims against the diff, and review every changed line for regressions: music player, crests, season acknowledgement race, the SSJR test panel, the reads counter, and the stricter Rules for shared writes.
+
+Answer with at most 12 findings, most severe first. For each: severity P0 to P3, the file and function, what goes wrong for the players, how normal play triggers it, and the smallest fix. Then list what you checked and found sound. Keep the answer under 1,500 words. Only report what the code below actually shows; say "unsure" when a file you would need is not included.
+=== END INSTRUCTIONS ===
+(This packet is split into several attached parts. Read all parts before answering.)
+
+
+=== FILE: RELEASE_V1.9.9_R85.md ===
+# Career Mode Showdown — r85: marble music player, premium club crests, safer shared writes (v1.9.9 runtime r85)
+
+Application version: `v1.9.9`  
+Runtime asset revision: `1.9.9-r85`  
+Previous known-good runtime: `1.9.8-r84`
+
+r85 builds on r84. The application version moves to 1.9.9 and the runtime revision to r85.
+
+## What changed
+
+- Music: nine new songs, with Blur "Song 2" first and John Newman "Love Me Again" second. A marble player sits in the
+  middle of the desktop top bar on every screen that has the top bar; Settings has none. On phones it is the MUSIC tab
+  in the bottom bar plus Home TRACKS. The tracklist is a readable, keyboard-friendly list with the current song marked
+  (#1010, #1018).
+- Premium club crests: 98 drawn crests, with no lettering, on Club, Standings, Rivalry and Legacy (#1012).
+- Settings SEASONS LEFT TODAY starts from the trimmed season cost (#1011).
+- Season acknowledgement race: a second proving read after 400 ms, so a tap made just before the rival's acknowledgement
+  is recorded (#1009).
+- SSJR test panel (`?ssjr=1`) records the real two-phone run itself, restarts after a closed, failed run, and has
+  readable buttons (#1014, #1020).
+- Reads counter: direct gets and listeners are counted (#1016).
+- Docs: the R84 correction note, current entry points, and scoring flags that say draws (#1015).
+
+## Update safety
+
+- The shell and service worker advance to r85 in a fresh `career-mode-showdown-shell-1.9.9-r85` cache, and r84 is retained
+  for rollback. The new cache revision also stops old crests from flashing after the update.
+
+## What did not change
+
+- The scoring formula and the Remote Joining protocol stay as they were. No stored document shape changes. No tiebreak.
+- The no-flash rules, the Reus Gate, preload and decode are unchanged.
+- Firebase remains Spark-only, billing remains OFF and App Check enforcement remains OFF.
+- No saved Showdown is rewritten. Nothing in Firebase is deleted or edited.
+
+## Firestore Rules
+
+- Rules change (audit R84 F01/F02, PR #1017). Every shared write (setup, transfers, results, season commit create and
+  acknowledge) now checks the acting account is active, the acting device is registered and active, and the session
+  belongs to both members (`ssjrActorWriteAuthorityValid`). The unused `ssjrCommitShape` helper is deleted. Reads stay
+  membership-only. Cost: about 28 more billed Rules lookups per season.
+- Generated Rules at the release head: `firestore.spark.generated.rules`, 123,027 bytes, SHA-256
+  `b6a3206e0b1f4296a12450e7670feba20e5902e727aa8e996b7ef9fa6cf20f19`.
+- Rollback pair: rolling back only the app does not roll back the Rules. The r84 rollback pair is the r84 app with the
+  r84 generated Rules (SHA-256 `36d58d21147004f3c768cdadb219c4617f78d0c312b74207b6606844cc98b131`).
+
+## Checks
+
+- Filled in on the release PR from the exact release head.
+
+## SSJR status
+
+SSJR-1.1 remains frozen at `0/100`. SSJR-2.1 is at `0/100` until a validated two-device production run is recorded. No
+SSJR credit comes from this source, CI or deployment. No physical acceptance is claimed for r85.
+
+## Correction (2026-10-27, Rules hash)
+
+The "Firestore Rules" section above names `firestore.spark.generated.rules` (SHA-256 `b6a3206e…`). That file is a
+build input, not what is deployed. The Deploy Firebase Firestore Rules workflow composes the deployed artifact, and the
+Showdown Gate L5 check (T9/M12) pins that composed file:
+
+- r85 deployed Rules, composed at main `67479f28`: 153,241 bytes, SHA-256
+  `8ea8d7ba9bf89ad999969da961b5b748e62bdb3348b7fe609cf3da2f67b71f61`.
+- r84 deployed Rules, composed at main `5b0ab3ee` / `cd7df26e`: 156,903 bytes, SHA-256
+  `686c87f432be7371a595ec7822ffd7f2bbc12f5ad809296abaed636785ed94b4`. This is the value the independent R84 audit
+  recorded, so the audit was right; the `36d58d21…` value in the R84 correction is the generated build input.
+
+The coherent rollback pair is the r84 app with the r84 composed Rules above.
