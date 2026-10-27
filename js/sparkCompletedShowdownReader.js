@@ -46,7 +46,7 @@
   function csrResult(value,teamCount){csrEuropaLeague(value,"COMPLETED_SEASON_INVALID");const maxPoints=(teamCount-1)*2*3;if(!Number.isInteger(value.leaguePosition)||value.leaguePosition<1||value.leaguePosition>teamCount||!Number.isInteger(value.leaguePoints)||value.leaguePoints<0||value.leaguePoints>maxPoints||!Number.isInteger(value.leagueGoals)||value.leagueGoals<0||value.leagueGoals>300)csrFail("COMPLETED_SEASON_INVALID");for(const key of ["domesticCup","championsLeague","topScorer","topAssist"]){if(typeof value[key]!=="boolean")csrFail("COMPLETED_SEASON_INVALID");}return csrOrdered(value);}
 
   function csrState(status,fields={}){
-    return csrFreeze({status,code:fields.code||null,rivalryId:fields.rivalryId||null,managerRole:fields.managerRole||null,terminalWitness:fields.terminalWitness||null,projection:fields.projection||null,final:fields.final||null,ended:fields.ended||null});
+    return csrFreeze({status,code:fields.code||null,rivalryId:fields.rivalryId||null,managerRole:fields.managerRole||null,terminalWitness:fields.terminalWitness||null,projection:fields.projection||null,final:fields.final||null,ended:fields.ended||null,setupConfirmedAt:Number.isFinite(fields.setupConfirmedAt)?fields.setupConfirmedAt:null});
   }
   async function csrGet(sdk,db,parts){
     try{return csrSnapshot(await sdk.getDoc(sdk.doc(db,...parts)));}
@@ -208,7 +208,10 @@
       const a=projection.managerRecords.playerOne.totalPoints,b=projection.managerRecords.playerTwo.totalPoints,winner=a>b?"playerOne":b>a?"playerTwo":"draw";
       // Full coverage and both reconstructed totals must equal the Terminal Close witness; totals-only final winner.
       if(projection.acceptedSeasons!==total||projection.totalSeasons!==total||a!==intent.managerTotals.playerOne||b!==intent.managerTotals.playerTwo||winner!==intent.winner)csrFail("COMPLETED_TOTALS_MISMATCH");
-      return csrState("completed",{rivalryId,managerRole,terminalWitness:csrClone(intent),projection,final:{totals:{playerOne:a,playerTwo:b},winner,margin:Math.abs(a-b),seasonsPlayed:total}});
+      // r86 Marquee Player: the Setup's confirm time (Rules: updatedAt == request.time at SHOWDOWN_CONFIRMED) says whether
+      // this Showdown was set up on r86 or later; it is display metadata only and changes no verdict.
+      const confirmedAt=ledger.updatedAt&&typeof ledger.updatedAt.toMillis==="function"?ledger.updatedAt.toMillis():null;
+      return csrState("completed",{rivalryId,managerRole,terminalWitness:csrClone(intent),projection,final:{totals:{playerOne:a,playerTwo:b},winner,margin:Math.abs(a-b),seasonsPlayed:total},setupConfirmedAt:confirmedAt});
     }catch(error){
       return csrState("unavailable",{rivalryId,managerRole,code:error&&typeof error.code==="string"&&error.code?error.code:"COMPLETED_READ_FAILED"});
     }

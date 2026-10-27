@@ -411,7 +411,8 @@
                 "nik": 86
               }
             }
-          ]
+          ],
+          "setupConfirmedAt": null
         },
         {
           "number": 2,
@@ -423,7 +424,8 @@
           "totalSeasons": null,
           "totals": null,
           "winner": null,
-          "seasons": []
+          "seasons": [],
+          "setupConfirmedAt": null
         },
         {
           "number": 3,
@@ -463,7 +465,8 @@
                 "nik": 104
               }
             }
-          ]
+          ],
+          "setupConfirmedAt": null
         },
         {
           "number": 4,
@@ -524,7 +527,8 @@
                 "nik": 90
               }
             }
-          ]
+          ],
+          "setupConfirmedAt": null
         }
       ]
     }
@@ -734,7 +738,8 @@
                 "nik": 90
               }
             }
-          ]
+          ],
+          "setupConfirmedAt": null
         }
       ]
     }
