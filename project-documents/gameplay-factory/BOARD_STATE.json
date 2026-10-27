@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-26 10:06 PM Boston time (EDT)",
+ "generated": "2026-10-27 3:43 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 129,
@@ -1218,24 +1218,13 @@
    "when": "2026-10-26T22:02:26Z",
    "subject": "Re-pin the L5 Rules check to r84 on main (#1008)",
    "fixes": [],
-   "today": [
-    {
-     "pr": 1008,
-     "title": "Re-pin the L5 Rules check to r84 on main",
-     "merged": "2026-10-26T22:02:27Z"
-    },
-    {
-     "pr": 1002,
-     "title": "Release 1.9.8-r84: plain wording, Golden Showdown, far fewer Firebase reads",
-     "merged": "2026-10-26T20:57:59Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",
-   "line": "All clear: every check has a machine.",
-   "gate": "POS20 #304 6/16",
-   "source": "physio"
+   "line": "All clear (from GitHub).",
+   "gate": "POS20 #304 7/7",
+   "source": "github"
   },
   "v_headline": "Queued next",
   "v_jobs": [
