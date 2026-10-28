@@ -10,7 +10,7 @@
   const POLL_MS=15000;
   // Job 33 (R1): once this manager has acknowledged, read every 3 s for at most 3 minutes while waiting on the rival.
   const FAST_POLL_MS=3000,FAST_POLL_WINDOW_MS=180000;
-  let installed=false,busy=false,pollTimer=null,setupApi=null,provider=null,view=null,lastError="",operationTail=Promise.resolve(),refreshPromise=null,openPromise=null,readyKey="",fastWaitKey="",fastWaitSince=0,autoContinueKey="";
+  let installed=false,busy=false,revealStage=null,pollTimer=null,setupApi=null,provider=null,view=null,lastError="",operationTail=Promise.resolve(),refreshPromise=null,openPromise=null,readyKey="",fastWaitKey="",fastWaitSince=0,autoContinueKey="";
 
   function pcstCreate(tag,className,text){const node=root.document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=String(text);return node;}
   function pcstReport(context,error){if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else root.console?.error?.(context,error);}
@@ -162,9 +162,23 @@
   // r50: opening Career Start loads its protocol, provider and styles on first use. The tapped control
   // shows OPENING… and stays disabled until the panel is up, and overlapping opens share one attempt,
   // so a slow first load never looks like a tap that did nothing.
+  // r86: a Showdown confirmed on r86 or later first shows this manager's Special Player reveal (js/specialPlayerReveal.js),
+  // outside the 25 s Career Start timeout. Its full-screen stage stays until Career Start (or the Transfer Challenge) is up
+  // under it, so nothing in between shows. Any failure means no reveal.
+  async function pcstSpecialPlayerFirst(){
+    try{
+      // The confirmed Setup is already loaded (it is what offers this control), so the reveal waits on no Career Start dependency.
+      const api=setupApi||root.CareerModeProductionSharedShowdownSetup;
+      if(!api||!pcstConfirmed()||pcstReadyHere())return null;
+      let timer;const loaded=await Promise.race([pcstLoadScript("special-player-reveal","js/specialPlayerReveal.js",()=>root.CareerModeSpecialPlayerReveal),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(null),10000);})]).finally(()=>root.clearTimeout(timer));
+      if(!loaded)return null;
+      return await root.CareerModeSpecialPlayerReveal.runBeforeCareerStart(api);
+    }catch(_error){return null;}
+  }
+  function pcstCloseReveal(){const stage=revealStage;revealStage=null;if(stage)try{stage.close();}catch(_error){}return true;}
   function pcstOpenPanel(){
     if(openPromise)return openPromise;
-    const run=pcstWithTimeout(pcstOpenPanelNow);openPromise=run;
+    const run=pcstSpecialPlayerFirst().then(stage=>{revealStage=stage;return pcstWithTimeout(pcstOpenPanelNow);}).finally(pcstCloseReveal);openPromise=run;
     run.finally(()=>{if(openPromise===run)openPromise=null;pcstDecorateControl();}).catch(()=>{});
     try{pcstDecorateControl();}catch(_error){}
     return run;
@@ -176,8 +190,8 @@
   function pcstReadyHere(){return Boolean(pcstReady()&&readyKey&&pcstConfirmed()&&readyKey===pcstSetupKey(pcstSetupState()));}
   async function pcstOpenPanelNow(request){
     pcstDeactivateSetupPresentation();await request.wait(pcstEnsureDependencies());
-    if(!pcstPanelOpen()&&pcstReadyHere()&&await request.wait(pcstOpenTransferChallenge()))return true;
-    const overlay=pcstEnsurePanel();overlay.classList.remove("hidden");pcstRender();await request.wait(pcstRefresh(false,request));return true;
+    if(!pcstPanelOpen()&&pcstReadyHere()&&await request.wait(pcstOpenTransferChallenge()))return pcstCloseReveal();
+    const overlay=pcstEnsurePanel();overlay.classList.remove("hidden");pcstRender();pcstCloseReveal();await request.wait(pcstRefresh(false,request));return true;
   }
   function pcstClosePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay)overlay.classList.add("hidden");return true;}
   function pcstPresentationOwnsControl(){const presentation=root.CareerModeProductionSharedShowdownPresentation;return Boolean(presentation&&typeof presentation.isPresentationActive==="function"&&presentation.isPresentationActive());}

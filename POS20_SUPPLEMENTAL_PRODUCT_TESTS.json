@@ -2259,6 +2259,18 @@
       ]
     },
     {
+      "path": "tests/contracts/r86-special-player-reveal-contracts.cjs",
+      "patterns": [
+        "^js/(specialPlayerReveal|productionSharedCareerStart|productionSharedShowdownSetup|sparkSharedShowdownSetup|marqueePlayer)\\.js$",
+        "^data/marqueePlayers\\.js$",
+        "^visual-assets/v10_1/special-player/index\\.html$",
+        "^service-worker\\.js$",
+        "^tests/browser/support/emulator-runtime-switch\\.js$",
+        "^tests/contracts/r86-special-player-reveal-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r86-content-pack-contracts.cjs",
       "patterns": [
         "^data/(commentaryLines|frontPages|clubCards|scoutingCards|marqueePlayers|clubs)\\.js$",
