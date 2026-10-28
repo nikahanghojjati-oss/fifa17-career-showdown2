@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28 3:59 PM Boston time (EDT)",
+ "generated": "2026-10-28 4:05 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 134,
@@ -1794,7 +1794,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-038_15-r85-style-crests-for-top-300-clubs-ou.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 3
+    "waiting_min": 10
    }
   ],
   "relay_ok": true
