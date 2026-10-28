@@ -6,11 +6,13 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 28 Oct, 1:47 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 28 Oct, 1:51 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+
+> ⚠ **Not fully current:** The Physio's own report is missing or older than 15 minutes; the check line comes straight from GitHub.
 
 🌐 **Live: 1.9.9-r85** (main `076177e`, Tue 27 Oct 11:34 AM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🩺 **All clear (from GitHub).** · POS20 #304 7/7
 
 ## Jobs
 
@@ -1989,8 +1991,8 @@ Job 1845
 Numbered jobs: 56 done, 218 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
-`████████░░` **81.0811 %**  
-Team V hand-offs: 30 of 37 done
+`████████░░` **78.9474 %**  
+Team V hand-offs: 30 of 38 done
 
 **3. Match current desktop screens to the mockup** `after stage 2`  
 `█░░░░░░░░░` **6.2500 %**  
