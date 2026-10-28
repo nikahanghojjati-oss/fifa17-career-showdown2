@@ -1,6 +1,6 @@
 # Ticket 1849 · 1 of 1 · New desktop screen: Marquee Player pack reveal (r86, HO-035)
 
-One picture only. Version 8, Wed 28 Oct 2026, 12:50 a.m. Eastern: adds the giant club coin and the six-stat card face from Nik's next three FIFA 17 screenshots (12:29 a.m.). Version 7 was rebuilt from Nik's five real FIFA 17 screenshots (12:26-12:27 a.m. Eastern) after "get a lot closer to real FIFA 17 animation, improve your quality massively". Replaces every earlier version. Study: `project-documents/factory/r86/MARQUEE_FIFA17_PACK_STUDY.md`.
+One picture only. Version 8.1 (12:55 a.m. Eastern): premium typography (Nik). Version 8, Wed 28 Oct 2026, 12:50 a.m. Eastern: adds the giant club coin and the six-stat card face from Nik's next three FIFA 17 screenshots (12:29 a.m.). Version 7 was rebuilt from Nik's five real FIFA 17 screenshots (12:26-12:27 a.m. Eastern) after "get a lot closer to real FIFA 17 animation, improve your quality massively". Replaces every earlier version. Study: `project-documents/factory/r86/MARQUEE_FIFA17_PACK_STUDY.md`.
 
 What is fixed: no people at all; a FIFA 17-style pack reveal in a sunny stadium; clues land on the card one by one (position, nation flag with giant flags dropping from the roofs, club coin); the card flips; no player walks out. This picture is the LAST moment: the card front settled on the pitch. It becomes the desktop target `mockups/NEXT_MARQUEE.png`.
 
@@ -17,6 +17,7 @@ Steps for Nik:
    - giant Argentina flags hang from both stand roofs; light-blue and white confetti; white sparkler bursts on the roofs
    - NO people anywhere; no EA, FIFA or FUT words or logos; no adverts
    - the bottom strip and the top bar match the sketch word for word
+   - the lettering looks premium and sporty: tall condensed bold numbers on the card like a real game card, nothing like the plain sketch font
    - Save only the picture this chat just made.
 5. If it passes, download it and drop it into the Team V lead thread with `1849 MARQUEE`. If it fails, start again in a new chat (up to 3 tries).
 6. If it is great except for wrong words or tabs, you may reply once in the same chat with the fix message below.
@@ -47,6 +48,13 @@ The card (the hero, standing on the grass in the centre, about two thirds of the
 
 The club coin (left of the card, as in the sketch):
 - A huge, thick 3D coin standing on its edge on the grass, slightly turned, casting a long shadow, like a giant medal that has just rolled in: a thick polished-gold rim with a bevel, and a glossy black face showing bold black and white vertical stripes inside a gold ring. No crest, no letters, no numbers on it.
+
+Typography (the sketch's plain font is only a placeholder; replace it everywhere):
+- Card numbers (86, the six stats, POT 93, #5) and ST: a tall, tight, extra-condensed bold sports typeface, like a real video-game player card or a stadium scoreboard, with crisp engraved edges and a soft gold or ivory metallic finish.
+- DYBALA on the name band and on the shirt: condensed bold capitals with generous letter spacing, like real kit lettering.
+- Small labels (PAC, SHO, PAS, DRI, DEF, PHY, TOP 10, JUVENTUS, DANIEL, NIK, NEXT, the button): a clean condensed sans-serif in small capitals with wide spacing, perfectly sharp.
+- Marquee Player: a premium gold-leaf brush script with real metallic depth and a fine dark outline, like a luxury sports brand logo.
+- Every word stays sharp, evenly spaced and easy to read; no cartoon, comic or default computer fonts.
 
 The interface:
 - At the top centre, over the sky: CAREER MODE SHOWDOWN 17 small, and under it Marquee Player as a gold brush-script title with metallic shine.
