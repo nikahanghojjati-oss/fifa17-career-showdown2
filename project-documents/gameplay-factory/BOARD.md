@@ -6,9 +6,9 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 28 Oct, 6:48 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 28 Oct, 6:52 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
-🌐 **Live: 1.9.9-r85** (main `076177e`, Tue 27 Oct 11:34 AM)
+🌐 **Live: 1.9.9-r85** (main `ac2f021`, Wed 28 Oct 6:51 PM)
 
 🩺 **All clear: every check has a machine.** · Gate #1034: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #1034 0/16
 
@@ -2122,7 +2122,6 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1034](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1034) | Remove the Claude Console review workflows from main | 🟢 8 passed |
 | 🟧 Team G lead | [PR #1033](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1033) | V- Phone Home: remove music bar (upright and sideways), move tiles down, close the gap above the bottom bar | 🟢 8 passed |
 
 **Up next**
@@ -2145,4 +2144,8 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
 | 🟧 Opus | **V-F2** | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | queued · after G-F1 |
+
+## Shipped today
+
+- 6:51 PM · #1034 Remove the Claude Console review workflows from main
 

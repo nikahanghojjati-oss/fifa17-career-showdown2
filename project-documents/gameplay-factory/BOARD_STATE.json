@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28 6:47 PM Boston time (EDT)",
+ "generated": "2026-10-28 6:51 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 146,
@@ -1366,25 +1366,11 @@
  },
  "two": {
   "live": {
-   "sha": "076177e",
+   "sha": "ac2f021",
    "revision": "1.9.9-r85",
-   "when": "2026-10-27T11:34:52-04:00",
-   "subject": "Claude deep audit button, and full output on Claude reviews (#1022)",
+   "when": "2026-10-28T22:51:36Z",
+   "subject": "Remove the Claude Console review workflows from main (#1034)",
    "fixes": [
-    {
-     "pr": 1034,
-     "title": "Remove the Claude Console review workflows from main",
-     "draft": false,
-     "branch": "claude-main/remove-claude-review",
-     "sha": "37890578c355d2587dabbcea39c994d078ed85be",
-     "updated": "2026-10-28T22:28:06Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    },
     {
      "pr": 1033,
      "title": "V- Phone Home: remove music bar (upright and sideways), move tiles down, close the gap above the bottom bar",
@@ -1400,7 +1386,13 @@
      }
     }
    ],
-   "today": []
+   "today": [
+    {
+     "pr": 1034,
+     "title": "Remove the Claude Console review workflows from main",
+     "merged": "2026-10-28T22:51:37Z"
+    }
+   ]
   },
   "physio": {
    "state": "clear",
@@ -1944,7 +1936,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-039_phone-home-no-music-bar-tiles-down-no-ga.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 21
+    "waiting_min": 24
    }
   ],
   "relay_ok": true
@@ -2016,7 +2008,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 44,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3233,20 +3225,6 @@
    }
   },
   "fixes": [
-   {
-    "pr": 1034,
-    "title": "Remove the Claude Console review workflows from main",
-    "draft": false,
-    "branch": "claude-main/remove-claude-review",
-    "sha": "37890578c355d2587dabbcea39c994d078ed85be",
-    "updated": "2026-10-28T22:28:06Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   },
    {
     "pr": 1033,
     "title": "V- Phone Home: remove music bar (upright and sideways), move tiles down, close the gap above the bottom bar",
