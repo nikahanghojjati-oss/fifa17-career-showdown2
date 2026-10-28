@@ -1,0 +1,470 @@
+[
+  {
+    "rank": 1,
+    "name": "Cristiano Ronaldo",
+    "club": "Real Madrid",
+    "position": "LW",
+    "style": "Explosive goalscoring winger",
+    "report": "A powerful wide forward who attacks space at speed and strikes cleanly with either foot. His movement into the box, aerial threat and appetite for shooting make him a constant danger. FIFA 17: 94 overall, 94 potential.",
+    "special": "Combines explosive movement and aerial power with prolific finishing ability."
+  },
+  {
+    "rank": 2,
+    "name": "Neymar",
+    "club": "FC Barcelona",
+    "position": "LW",
+    "style": "Inventive attacking dribbler",
+    "report": "A skilful wide attacker who excels in one on one situations, using close control and changes of direction to beat defenders. He can create chances for teammates or finish moves himself. FIFA 17: 92 overall, 94 potential.",
+    "special": "His improvisation and close control unlock even crowded defensive lines."
+  },
+  {
+    "rank": 3,
+    "name": "P. Pogba",
+    "club": "Manchester United",
+    "position": "CM",
+    "style": "Powerful creative midfielder",
+    "report": "A physically imposing midfielder with the technique to carry the ball through pressure and pick ambitious passes. His long stride and shooting ability give him an influence beyond simple possession. FIFA 17: 88 overall, 94 potential.",
+    "special": "Power, passing range and flair make him a distinctive midfielder."
+  },
+  {
+    "rank": 4,
+    "name": "L. Messi",
+    "club": "FC Barcelona",
+    "position": "RW",
+    "style": "Mercurial attacking playmaker",
+    "report": "A left footed attacker who glides past opponents with close control and sudden acceleration. Equally comfortable creating or finishing, he can dictate attacks from wide areas or central pockets. FIFA 17: 93 overall, 93 potential.",
+    "special": "Rare close control and vision transform tight spaces into opportunities."
+  },
+  {
+    "rank": 5,
+    "name": "P. Dybala",
+    "club": "Juventus",
+    "position": "ST",
+    "style": "Creative left-footed forward",
+    "report": "A nimble forward who drops into pockets to link play and can turn quickly toward goal. His left foot offers both precise passing and a dangerous shot from outside the box. FIFA 17: 86 overall, 93 potential.",
+    "special": "His sharp turns and left foot bring invention near goal."
+  },
+  {
+    "rank": 6,
+    "name": "L. Suárez",
+    "club": "FC Barcelona",
+    "position": "ST",
+    "style": "Relentless penalty-box striker",
+    "report": "An aggressive centre forward with sharp movement, quick reactions and the ability to finish from awkward positions. He presses defenders energetically and combines with teammates around the penalty area. FIFA 17: 92 overall, 92 potential.",
+    "special": "Relentless movement and instinctive finishing keep defenders under constant pressure."
+  },
+  {
+    "rank": 6,
+    "name": "M. Neuer",
+    "club": "FC Bayern München",
+    "position": "GK",
+    "style": "Commanding sweeper keeper",
+    "report": "An assertive goalkeeper who reads through balls early and ventures beyond his area when needed. Strong reflexes and confident distribution allow him to support a high defensive line. FIFA 17: 92 overall, 92 potential.",
+    "special": "His anticipation lets the defence hold an ambitious high line."
+  },
+  {
+    "rank": 8,
+    "name": "De Gea",
+    "club": "Manchester United",
+    "position": "GK",
+    "style": "Acrobatic shot stopper",
+    "report": "A goalkeeper with outstanding reflexes and agility, especially when reacting to close range shots. His athletic saves and quick reactions make him a reassuring presence when opponents break through. FIFA 17: 90 overall, 92 potential.",
+    "special": "Exceptional reactions make difficult close range saves look almost routine."
+  },
+  {
+    "rank": 9,
+    "name": "T. Courtois",
+    "club": "Chelsea",
+    "position": "GK",
+    "style": "Imposing penalty-area keeper",
+    "report": "A tall goalkeeper who uses his reach to cover the goal and command the penalty area. He combines strong shot stopping with the ability to deal with crosses. FIFA 17: 89 overall, 92 potential.",
+    "special": "His reach and presence help him cover the entire goal."
+  },
+  {
+    "rank": 10,
+    "name": "G. Donnarumma",
+    "club": "Milan",
+    "position": "GK",
+    "style": "Young commanding goalkeeper",
+    "report": "An unusually tall young goalkeeper with the reach to cover difficult angles and the reflexes to make sharp saves. His presence gives defenders confidence when crosses enter the box. FIFA 17: 80 overall, 92 potential.",
+    "special": "A striking blend of size and reflexes at a young age."
+  },
+  {
+    "rank": 11,
+    "name": "K. Mbappé",
+    "club": "AS Monaco",
+    "position": "ST",
+    "style": "Rapid direct forward",
+    "report": "A quick young attacker who threatens behind a defence and drives forward with the ball. His acceleration and composure near goal make him dangerous when space opens up. FIFA 17: 79 overall, 92 potential.",
+    "special": "His acceleration turns a small opening into a clear threat."
+  },
+  {
+    "rank": 12,
+    "name": "A. Griezmann",
+    "club": "Atlético Madrid",
+    "position": "ST",
+    "style": "Mobile creative striker",
+    "report": "A clever forward who moves between defenders and midfielders, linking attacks before arriving in scoring positions. His movement and left foot make him effective both creating and finishing. FIFA 17: 88 overall, 91 potential.",
+    "special": "Intelligent movement and a precise left foot complement his versatility."
+  },
+  {
+    "rank": 12,
+    "name": "K. De Bruyne",
+    "club": "Manchester City",
+    "position": "CAM",
+    "style": "Dynamic chance creator",
+    "report": "A creative midfielder with the vision and technique to deliver early passes into dangerous areas. He combines energetic running with powerful shooting and precise crosses from the right channel. FIFA 17: 88 overall, 91 potential.",
+    "special": "His passing range finds runners before defensive lines can reset."
+  },
+  {
+    "rank": 14,
+    "name": "J. Oblak",
+    "club": "Atlético Madrid",
+    "position": "GK",
+    "style": "Composed shot stopper",
+    "report": "A calm goalkeeper who positions himself well and reacts quickly to shots from close range. His assured handling and consistency give the defence a stable foundation under pressure. FIFA 17: 87 overall, 91 potential.",
+    "special": "Composure and sharp positioning make him a reliable last line."
+  },
+  {
+    "rank": 15,
+    "name": "R. Varane",
+    "club": "Real Madrid",
+    "position": "CB",
+    "style": "Quick covering defender",
+    "report": "A fast centre back who can recover ground when opponents break beyond the defensive line. His athleticism and composure help him defend space and move the ball forward. FIFA 17: 84 overall, 91 potential.",
+    "special": "Recovery speed lets him cover dangerous space behind the defence."
+  },
+  {
+    "rank": 16,
+    "name": "L. Sané",
+    "club": "Manchester City",
+    "position": "LM",
+    "style": "Pacy wide attacker",
+    "report": "A left footed winger who accelerates into open space and can carry the ball directly at defenders. His pace and willingness to run behind add width and penetration. FIFA 17: 82 overall, 91 potential.",
+    "special": "Sudden acceleration stretches a defensive line and opens attacking lanes."
+  },
+  {
+    "rank": 17,
+    "name": "O. Dembélé",
+    "club": "Borussia Dortmund",
+    "position": "RM",
+    "style": "Two-footed wide dribbler",
+    "report": "An agile winger who attacks defenders with pace and close control. Comfortable using either foot, he can change direction quickly and deliver passes or shots from wide areas. FIFA 17: 81 overall, 91 potential.",
+    "special": "Comfort on either foot makes his next move difficult to predict."
+  },
+  {
+    "rank": 18,
+    "name": "Gabriel Jesus",
+    "club": "Manchester City",
+    "position": "RM",
+    "style": "Energetic attacking runner",
+    "report": "A mobile attacker who combines sharp movement with a willingness to press from the front. He can attack space behind defenders, link play and finish chances inside the area. FIFA 17: 79 overall, 91 potential.",
+    "special": "His movement and energy give an attack several useful dimensions."
+  },
+  {
+    "rank": 19,
+    "name": "G. Bale",
+    "club": "Real Madrid",
+    "position": "RW",
+    "style": "Powerful attacking winger",
+    "report": "A rapid left footed attacker who drives into space and can strike powerfully from distance. His speed and aerial ability also make him a threat arriving at the far post. FIFA 17: 90 overall, 90 potential.",
+    "special": "Pace, power and a fierce left foot change games quickly."
+  },
+  {
+    "rank": 19,
+    "name": "R. Lewandowski",
+    "club": "FC Bayern München",
+    "position": "ST",
+    "style": "Complete centre forward",
+    "report": "A centre forward who combines intelligent movement, strong hold up play and clinical finishing. He can link with teammates outside the box before turning to attack crosses and through balls. FIFA 17: 90 overall, 90 potential.",
+    "special": "Technical finishing and clever movement make him dangerous in varied situations."
+  },
+  {
+    "rank": 19,
+    "name": "Z. Ibrahimović",
+    "club": "Manchester United",
+    "position": "ST",
+    "style": "Powerful technical striker",
+    "report": "A tall forward who protects the ball, links play and can finish with power or precision. His technique and physical presence give teammates a reliable target in attack. FIFA 17: 90 overall, 90 potential.",
+    "special": "Unusual technical skill complements his size and commanding attacking presence."
+  },
+  {
+    "rank": 22,
+    "name": "E. Hazard",
+    "club": "Chelsea",
+    "position": "LW",
+    "style": "Elusive wide playmaker",
+    "report": "A low centred attacker who carries the ball through pressure with quick feet and balance. He draws defenders toward him before combining with teammates or accelerating into the box. FIFA 17: 89 overall, 90 potential.",
+    "special": "His balance and close control make him hard to dispossess."
+  },
+  {
+    "rank": 23,
+    "name": "J. Rodríguez",
+    "club": "Real Madrid",
+    "position": "CAM",
+    "style": "Creative attacking midfielder",
+    "report": "A left footed creator who looks for incisive passes and can strike cleanly from distance. His delivery and ability to find space between lines add variety to an attack. FIFA 17: 87 overall, 90 potential.",
+    "special": "His left foot provides both inventive passing and dangerous shooting."
+  },
+  {
+    "rank": 24,
+    "name": "C. Eriksen",
+    "club": "Tottenham Hotspur",
+    "position": "CAM",
+    "style": "Intelligent creative midfielder",
+    "report": "A technically assured playmaker who moves into pockets and finds teammates with accurate passes. His vision and ability to strike from distance make him useful against compact defences. FIFA 17: 86 overall, 90 potential.",
+    "special": "Clever positioning and passing bring clarity to crowded attacking situations."
+  },
+  {
+    "rank": 24,
+    "name": "M. Verratti",
+    "club": "Paris Saint-Germain",
+    "position": "CM",
+    "style": "Press-resistant central midfielder",
+    "report": "A compact midfielder who receives the ball under pressure and uses quick turns and short passes to retain possession. His anticipation also helps him contest loose balls in midfield. FIFA 17: 86 overall, 90 potential.",
+    "special": "Close control and awareness allow him to escape tight pressure."
+  },
+  {
+    "rank": 26,
+    "name": "H. Kane",
+    "club": "Tottenham Hotspur",
+    "position": "ST",
+    "style": "Complete penalty-box striker",
+    "report": "A centre forward with intelligent movement, a strong shot and the ability to finish with either foot. He can drop deeper to combine before making runs toward goal. FIFA 17: 85 overall, 90 potential.",
+    "special": "Finishing range and intelligent movement make him a versatile scorer."
+  },
+  {
+    "rank": 26,
+    "name": "R. Lukaku",
+    "club": "Everton",
+    "position": "ST",
+    "style": "Powerful direct striker",
+    "report": "A strong centre forward who can shield the ball and run into space behind defenders. His left foot and physical presence make him a threat when chances arrive. FIFA 17: 85 overall, 90 potential.",
+    "special": "Strength and direct running make him difficult to contain alone."
+  },
+  {
+    "rank": 28,
+    "name": "Bernardo Silva",
+    "club": "AS Monaco",
+    "position": "RM",
+    "style": "Creative close-control winger",
+    "report": "A left footed attacker who uses balance and close control to manoeuvre in tight spaces. He can drift inside from the right, combine with teammates and create passing angles. FIFA 17: 83 overall, 90 potential.",
+    "special": "His close control and vision open space between defensive lines."
+  },
+  {
+    "rank": 28,
+    "name": "E. Bailly",
+    "club": "Manchester United",
+    "position": "CB",
+    "style": "Athletic proactive defender",
+    "report": "An athletic centre back who defends assertively and can cover ground when opponents run in behind. His strength and willingness to challenge make him a robust presence. FIFA 17: 83 overall, 90 potential.",
+    "special": "Athletic recovery and assertive defending help him confront direct attacks."
+  },
+  {
+    "rank": 30,
+    "name": "A. Martial",
+    "club": "Manchester United",
+    "position": "LM",
+    "style": "Direct attacking dribbler",
+    "report": "A forward who can start wide and drive inside with quick feet and acceleration. His ability to carry the ball at defenders creates opportunities to shoot or combine. FIFA 17: 82 overall, 90 potential.",
+    "special": "Quick feet and acceleration give him an incisive attacking threat."
+  },
+  {
+    "rank": 30,
+    "name": "D. Alli",
+    "club": "Tottenham Hotspur",
+    "position": "CAM",
+    "style": "Forward-running attacking midfielder",
+    "report": "An attacking midfielder who times runs beyond the striker and finds space inside the box. His combination play, composure and eye for goal add a threat from deeper positions. FIFA 17: 82 overall, 90 potential.",
+    "special": "Well timed forward runs turn midfield positions into scoring chances."
+  },
+  {
+    "rank": 32,
+    "name": "Y. Tielemans",
+    "club": "RSC Anderlecht",
+    "position": "CM",
+    "style": "Composed passing midfielder",
+    "report": "A young central midfielder with the confidence to receive possession and distribute it over varied distances. He can move play forward with measured passing and contribute from outside the box. FIFA 17: 79 overall, 90 potential.",
+    "special": "His passing range gives a midfield both control and ambition."
+  },
+  {
+    "rank": 33,
+    "name": "G. Higuaín",
+    "club": "Juventus",
+    "position": "ST",
+    "style": "Clinical penalty-box striker",
+    "report": "A centre forward who finds space between defenders and finishes quickly when chances appear. His movement across the line and ability to combine with teammates sustain attacking pressure. FIFA 17: 89 overall, 89 potential.",
+    "special": "Sharp movement and decisive finishing make him a constant scoring threat."
+  },
+  {
+    "rank": 33,
+    "name": "J. Boateng",
+    "club": "FC Bayern München",
+    "position": "CB",
+    "style": "Powerful passing defender",
+    "report": "A strong centre back with the pace to cover space and the passing range to start attacks. His physical presence and anticipation help him deal with opposing forwards. FIFA 17: 89 overall, 89 potential.",
+    "special": "Long passing and defensive strength offer value at both ends."
+  },
+  {
+    "rank": 33,
+    "name": "L. Modrić",
+    "club": "Real Madrid",
+    "position": "CM",
+    "style": "Elegant midfield conductor",
+    "report": "A technically gifted midfielder who turns away from pressure and moves the ball with accuracy. His awareness and varied passing help maintain possession and connect the phases of an attack. FIFA 17: 89 overall, 89 potential.",
+    "special": "His awareness and technique keep possession flowing through congested midfield."
+  },
+  {
+    "rank": 33,
+    "name": "M. Özil",
+    "club": "Arsenal",
+    "position": "CAM",
+    "style": "Inventive attacking playmaker",
+    "report": "A creative midfielder who seeks space between the lines and plays precise passes into runners. His touch and vision help him unlock defences without needing many touches. FIFA 17: 89 overall, 89 potential.",
+    "special": "His vision creates chances from positions others might overlook entirely."
+  },
+  {
+    "rank": 33,
+    "name": "S. Agüero",
+    "club": "Manchester City",
+    "position": "ST",
+    "style": "Explosive finishing striker",
+    "report": "A compact striker who uses quick acceleration and close control to slip past defenders. His sharp movement and finishing make him dangerous when the ball reaches the penalty area. FIFA 17: 89 overall, 89 potential.",
+    "special": "Explosive movement and quick finishing make small gaps count immediately."
+  },
+  {
+    "rank": 33,
+    "name": "Sergio Ramos",
+    "club": "Real Madrid",
+    "position": "CB",
+    "style": "Commanding goal-threat defender",
+    "report": "A physically strong centre back who competes assertively in challenges and offers an aerial threat at set pieces. His leadership and front foot defending give the back line presence. FIFA 17: 89 overall, 89 potential.",
+    "special": "Defensive authority and aerial ability bring impact in both boxes."
+  },
+  {
+    "rank": 33,
+    "name": "Thiago Silva",
+    "club": "Paris Saint-Germain",
+    "position": "CB",
+    "style": "Composed defensive organiser",
+    "report": "A centre back who reads danger well and uses positioning to intercept or challenge. Calm in possession, he can also carry the ball forward or distribute from defence. FIFA 17: 89 overall, 89 potential.",
+    "special": "Anticipation and composure anchor the defence under sustained attacking pressure."
+  },
+  {
+    "rank": 40,
+    "name": "T. Kroos",
+    "club": "Real Madrid",
+    "position": "CM",
+    "style": "Precise midfield distributor",
+    "report": "A central midfielder who controls the tempo with clean technique and a broad passing range. He can switch play, retain possession under pressure and deliver accurately from set pieces. FIFA 17: 88 overall, 89 potential.",
+    "special": "Passing precision allows him to dictate rhythm and change direction."
+  },
+  {
+    "rank": 41,
+    "name": "B. Leno",
+    "club": "Bayer 04 Leverkusen",
+    "position": "GK",
+    "style": "Agile reactive goalkeeper",
+    "report": "A goalkeeper with quick reactions and the agility to get across his goal. He is comfortable participating in build up and can respond sharply when attackers shoot from close range. FIFA 17: 86 overall, 89 potential.",
+    "special": "Agility and fast reactions help him respond to sudden chances."
+  },
+  {
+    "rank": 41,
+    "name": "Coutinho",
+    "club": "Liverpool",
+    "position": "LW",
+    "style": "Inventive shooting playmaker",
+    "report": "A creative attacker who dribbles inside from the left and looks for combinations around the area. His close control and curling right footed shots offer a threat from distance. FIFA 17: 86 overall, 89 potential.",
+    "special": "Close control and curling shots make him dangerous outside the box."
+  },
+  {
+    "rank": 41,
+    "name": "D. Alaba",
+    "club": "FC Bayern München",
+    "position": "LB",
+    "style": "Versatile attacking fullback",
+    "report": "A quick left back who can support attacks with overlapping runs and accurate delivery. His athleticism helps him recover defensively, while his passing contributes to possession from deep. FIFA 17: 86 overall, 89 potential.",
+    "special": "Pace and technique let him influence play across the flank."
+  },
+  {
+    "rank": 44,
+    "name": "Isco",
+    "club": "Real Madrid",
+    "position": "CM",
+    "style": "Close-control attacking midfielder",
+    "report": "A technically gifted midfielder who shields possession, turns in tight spaces and links with forwards. His balance and combination play help sustain attacks against opponents defending in numbers. FIFA 17: 85 overall, 89 potential.",
+    "special": "Close control and balance keep the ball in crowded areas."
+  },
+  {
+    "rank": 45,
+    "name": "M. Icardi",
+    "club": "Inter",
+    "position": "ST",
+    "style": "Instinctive penalty-box finisher",
+    "report": "A centre forward who concentrates on movement inside the area and finishing chances with minimal fuss. He times runs across defenders and offers a strong target for crosses. FIFA 17: 84 overall, 89 potential.",
+    "special": "Sharp penalty-area movement and quick finishing make crosses especially dangerous."
+  },
+  {
+    "rank": 46,
+    "name": "André Gomes",
+    "club": "FC Barcelona",
+    "position": "CM",
+    "style": "Composed central midfielder",
+    "report": "A midfielder who uses his physical frame and close control to retain the ball. He can carry possession forward and exchange passes with teammates as attacks develop. FIFA 17: 83 overall, 89 potential.",
+    "special": "His combination of size and technique supports controlled midfield possession."
+  },
+  {
+    "rank": 46,
+    "name": "G. Rulli",
+    "club": "Real Sociedad",
+    "position": "GK",
+    "style": "Athletic reactive goalkeeper",
+    "report": "A goalkeeper who can react quickly to shots and use his athleticism to cover the goal. He offers a strong last line when opponents find space in the penalty area. FIFA 17: 83 overall, 89 potential.",
+    "special": "Quick reactions and athletic movement help him deal with close shots."
+  },
+  {
+    "rank": 46,
+    "name": "Marquinhos",
+    "club": "Paris Saint-Germain",
+    "position": "CB",
+    "style": "Composed mobile defender",
+    "report": "A centre back who combines mobility with anticipation, allowing him to track runs and step into challenges. Comfortable on the ball, he can help his team build from defence. FIFA 17: 83 overall, 89 potential.",
+    "special": "Mobility and composure allow him to defend space and retain possession."
+  },
+  {
+    "rank": 46,
+    "name": "T. Horn",
+    "club": "1. FC Köln",
+    "position": "GK",
+    "style": "Tall agile goalkeeper",
+    "report": "A tall goalkeeper who combines reach with agility when facing shots. His presence in the area and ability to react at close range help protect the goal. FIFA 17: 83 overall, 89 potential.",
+    "special": "His reach and agility give him a broad saving range."
+  },
+  {
+    "rank": 50,
+    "name": "A. Belotti",
+    "club": "Torino",
+    "position": "ST",
+    "style": "Energetic penalty-box striker",
+    "report": "A hard working centre forward who challenges defenders, makes direct runs and attacks crosses. His strength and determined movement help him create shooting opportunities inside the penalty area. FIFA 17: 82 overall, 89 potential.",
+    "special": "Strength and persistent movement keep centre backs occupied throughout attacks."
+  },
+  {
+    "rank": 50,
+    "name": "J. Butland",
+    "club": "Stoke City",
+    "position": "GK",
+    "style": "Athletic shot-stopping goalkeeper",
+    "report": "A tall goalkeeper with the reach and agility to deal with a range of shots. His athletic reactions and presence in the area provide a solid defensive foundation. FIFA 17: 82 overall, 89 potential.",
+    "special": "Reach and athleticism help him cover difficult angles in goal."
+  },
+  {
+    "rank": 50,
+    "name": "Marco Asensio",
+    "club": "Real Madrid",
+    "position": "CAM",
+    "style": "Versatile left-footed creator",
+    "report": "A technically accomplished attacker who can operate between midfield and the forward line. He carries the ball with purpose, combines in tight spaces and strikes cleanly with his left foot. FIFA 17: 82 overall, 89 potential.",
+    "special": "His left foot and versatility add creativity across attacking positions."
+  }
+]
