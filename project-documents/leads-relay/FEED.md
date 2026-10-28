@@ -138,7 +138,15 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-28 05:09 | Team G | Team V | HO-036 SENT | r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards | yes (receive it) |
 | 2026-10-28 05:22 | Team V | Team G | HO-036 RECEIVED | r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards | no |
 | 2026-10-28 12:39 | Team G | Team V | HO-036 RECEIVED | r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards | no |
+| 2026-10-28 13:02 | Team V | Team G | HO-036 RECEIVED | r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards | no |
+| 2026-10-28 17:49 | Team V | Team G | HO-037 SENT | Rebuild 200 Special Players from FIFA 17 launch data (Nik decision) | yes (receive it) |
 | 2026-10-28 18:49 | Team G | Team V | HO-036 RECEIVED | r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards | no |
+| 2026-10-28 19:53 | Team V | Team G | HO-038 SENT | 15 r85-style crests for top-300 clubs outside the five leagues | yes (receive it) |
 | 2026-10-28 20:04 | Team G | Team V | HO-036 RECEIVED | r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards | no |
 | 2026-10-28 20:05 | Team G | Team V | HO-038 RECEIVED | 15 r85-style crests for top-300 clubs outside the five leagues | no |
+| 2026-10-28 20:35 | Team V | Team G | HO-036 DONE | r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards | no |
+| 2026-10-28 21:34 | Team V | Team G | HO-036 DONE | r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards | no |
+| 2026-10-28 21:57 | Team V | Team G | HO-035 DONE | r86 Marquee Player reveal screen and MP chip | no |
+| 2026-10-28 21:57 | Team V | Team G | HO-036 DONE | r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards | no |
 | 2026-10-28 21:58 | Team G | Team V | HO-038 DONE | 15 r85-style crests for top-300 clubs outside the five leagues | no |
+| 2026-10-28 22:26 | Team V | Team G | HO-039 SENT | Phone Home: no music bar, tiles down, no gap above the bottom bar (PR #1033) | yes (receive it) |
