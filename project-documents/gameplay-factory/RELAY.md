@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-28 5:56 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-28 5:58 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `1d18438` (Wed 28 Oct 5:34 PM Boston time) · 137 messages · 39 hand-offs · 257 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `d6f992d` (Wed 28 Oct 5:57 PM Boston time) · 137 messages · 39 hand-offs · 258 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -138,6 +138,7 @@ The list is now the **top 300**, not 200. Tiers: 1-3 black, 4-10 blue, 11-20 gol
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 12 min after delivery
 
+- Wed 28 Oct 5:57 PM · Team V · Done
 - Wed 28 Oct 5:34 PM · Team V · Done
 - Wed 28 Oct 4:35 PM · Team V · Done
 - Wed 28 Oct 4:13 PM · Team V · In progress
@@ -186,8 +187,9 @@ The plates are on a Team V branch with evidence, the ticket is DONE with that br
 
 ### HO-035 · G → V · r86 Marquee Player reveal screen and MP chip
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 39 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 39 min after delivery
 
+- Wed 28 Oct 5:57 PM · Team V · Done
 - Wed 28 Oct 1:09 AM · Team G · In progress · DATA READY from Team G: nation, nationCode (ISO; GB-ENG/GB-WLS), position, and the six card stats (outfield PAC SHO PAS DRI DEF PHY; GK DIV HAN KIC REF SPD POS) on every row of data/marqueePlayers.js, PR #1028 branch claude-gameplay/r86-mp-numbers @7f35df2f; js/marqueePlayer.js passes them through. Scouting card text (style, report, special) per player: data/scoutingCards.js in PR #1029.
 - Wed 28 Oct 12:32 AM · Team V · In progress · DATA ASK update 2: the card face copies FIFA 17's six face stats. Please add per Marquee player the six FIFA 17 card stats from the dataset: outfield PAC SHO PAS DRI DEF PHY; goalkeepers DIV HAN KIC REF SPD POS. With nation, nationCode, position and number that completes the card.
 - Wed 28 Oct 12:29 AM · Team V · In progress · DATA ASK update: besides nation + nationCode, please add each Marquee player's main POSITION (ST, CAM, CB, GK ...) from the FIFA 17 list. The reveal now copies FIFA 17's pack opening from Nik's screenshots: pack on the pitch, card back, then position, nation flag (flags drop from the roofs), club coin land on the card, card flips (no player). Study: factory project-documents/factory/r86/MARQUEE_FIFA17_PACK_STUDY.md; mockup ticket 1849 v7 (factory e5fa3f57).
