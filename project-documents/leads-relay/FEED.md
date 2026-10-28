@@ -150,3 +150,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-28 21:57 | Team V | Team G | HO-036 DONE | r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards | no |
 | 2026-10-28 21:58 | Team G | Team V | HO-038 DONE | 15 r85-style crests for top-300 clubs outside the five leagues | no |
 | 2026-10-28 22:26 | Team V | Team G | HO-039 SENT | Phone Home: no music bar, tiles down, no gap above the bottom bar (PR #1033) | yes (receive it) |
+| 2026-10-28 22:56 | Team G | Team V | HO-039 DONE | Phone Home: no music bar, tiles down, no gap above the bottom bar (PR #1033) | no |

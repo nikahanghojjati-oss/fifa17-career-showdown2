@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-28T22:26:04Z", "by": "V", "status": "SENT", "note": ""}]
+ "evidence": ["gameplay/r86 @ f33564bb - #1033 merged; main @ ac2f021d - #1034 Claude Review removed"],
+ "log": [{"at": "2026-10-28T22:26:04Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-28T22:56:04Z", "by": "G", "status": "DONE", "note": "Nik chose r86 (22:55 UTC): #1033 retargeted and merged into gameplay/r86; ships with merge r86 after the gallery. Claude Review + Deep Audit disabled in Actions and deleted from main."}]
 }
 ```
 
