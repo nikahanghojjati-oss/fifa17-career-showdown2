@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Content look preview</title>
+<!-- HO-036 preview: the approved NEXT_/PHONE_ mockups with the new content pieces put into reserved
+     slots (the panels below move down, nothing is laid on top). ?frame=CM1&size=d (1440x900) or p (393x660).
+     Lines are read from fixtures/ (copies of Team G's data/*.js on gameplay/r86 b9e4e8f7). -->
+<link rel="stylesheet" href="../shared/showdown-tokens.css">
+<link rel="stylesheet" href="content.css">
+<style>
+  html, body { margin: 0; background: #07080a; }
+  .stage { position: relative; overflow: hidden; background: #07080a; }
+  .stage > * { position: absolute; }
+  .base { left: 0; top: 0; display: block; }
+  .ext { left: 0; transform-origin: 50% 0; }
+  .col { background-repeat: no-repeat; -webkit-mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent); mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent); }
+  .fill { background-repeat: no-repeat; }
+  .cmx-slotpanel {
+    box-sizing: border-box;
+    padding: 16px;
+    background: linear-gradient(180deg, #17181c, #07080a); /* solid: no see-through panels */
+    box-shadow: inset 0 0 0 1px #d4a017, inset 0 0 0 3px #07080a, inset 0 0 0 4px rgba(255, 211, 77, .35), 0 12px 26px rgba(0, 0, 0, .55);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  }
+  .frame-tag { right: 6px; bottom: 4px; color: rgba(255, 243, 176, .55); font: 600 10px/1 "Barlow Condensed", sans-serif; letter-spacing: .14em; z-index: 9; }
+  .paper-fit { position: relative; flex: none; }
+  .paper-fit > .cmx-paper { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+  .cmx-paper--compact .cmx-paper__cols { display: none; }
+  .cmx-paper--compact .cmx-paper__caption { display: none; }
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 220px; width: 100%; }
+  .fw-row { display: flex; align-items: center; justify-content: center; gap: 34px; width: 100%; }
+  .fw-row .cmx-continue { margin: 0; min-width: 220px; }
+  .slot-cap { margin: 0; color: #ffd34d; font: 700 12px/1 "Barlow Condensed", sans-serif; letter-spacing: .28em; text-transform: uppercase; }
+  .mini-row { box-sizing: border-box; display: flex; align-items: center; gap: 10px; padding: 0 6px; background: linear-gradient(180deg, #121317, #0a0b0d); }
+  .mini-row .slot-cap { font-size: 10px; letter-spacing: .18em; line-height: 1.15; width: 46px; }
+  .mini-row .cmx-fp-thumb { width: 66px; }
+  .mini-row .cmx-fp-thumb__clip { width: 66px; height: 40px; }
+  .mini-row .cmx-fp-thumb__clip .cmx-paper { transform: scale(.11); }
+  .mini-row .cmx-fp-thumb__cap, .mini-row .cmx-fp-row__label { display: none; }
+  .mini-row .cmx-fp-row__list, .mini-row .cmx-fp-row { all: unset; display: flex; gap: 8px; }
+</style>
+<script src="../../../js/visualIdentity.js"></script>
+<script src="fixtures/commentaryLines.js"></script>
+<script src="fixtures/frontPages.js"></script>
+<script src="fixtures/clubCards.js"></script>
+<script src="commentary.js"></script>
+<script src="frontpage.js"></script>
+<script src="clubcard.js"></script>
+</head>
+<body>
+<div class="stage" id="stage"></div>
+<script>
+(function () {
+  "use strict";
+  var q = new URLSearchParams(location.search);
+  var FRAME = (q.get("frame") || "CM1").toUpperCase();
+  var P = q.get("size") === "p";
+  var still = q.get("still") !== "0"; // frames are stills by default; ?still=0 plays the motion
+  var W = P ? 393 : 1440, H = P ? 660 : 900;
+  var MOCK = "../../../project-documents/factory/mockups/";
+  var PLATES = "../plates-v2/";
+  var stage = document.getElementById("stage");
+  stage.style.width = W + "px"; stage.style.height = H + "px";
+  var C = window.CareerModeCommentaryLines, F = window.CareerModeFrontPages, K = window.CareerModeClubCards;
+  var SD = window.ShowdownContent;
+  var byId = function (list, id) { for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i]; return null; };
+  var card = function (club) { for (var i = 0; i < K.cards.length; i++) if (K.cards[i].club === club) return K.cards[i]; return null; };
+  var fill = SD.commentary.fill;
+
+  var img, IH;
+  function base(file) {
+    img = new Image(); img.className = "base"; img.src = MOCK + file; img.width = W; stage.appendChild(img);
+    return new Promise(function (res) { img.onload = function () { IH = Math.round(W * img.naturalHeight / img.naturalWidth); img.style.height = IH + "px"; if (IH < H) { bgDiv("ext", 0, IH - 24, W, H - IH + 24, 0, IH - 32, 8).style.zIndex = 0; } /* frames are 900 tall: the floor runs on below the 810px mockup */ res(); }; });
+  }
+  function bgDiv(cls, x, y, w, h, sx, sy, sh) { // copy image rect (sx,sy,w,sh) into (x,y,w,h)
+    var d = document.createElement("div"); d.className = cls;
+    var k = h / sh;
+    d.style.cssText += ";left:" + x + "px;top:" + y + "px;width:" + w + "px;height:" + h + "px;background-image:url('" + img.src + "');background-size:" + W + "px " + (IH * k) + "px;background-position:" + (-sx) + "px " + (-sy * k) + "px";
+    stage.appendChild(d); return d;
+  }
+  function el(cls, x, y, w, h) {
+    var d = document.createElement("div"); if (cls) d.className = cls;
+    d.style.left = x + "px"; d.style.top = y + "px"; if (w) d.style.width = w + "px"; if (h) d.style.height = h + "px";
+    stage.appendChild(d); return d;
+  }
+  // reserved slot: the content goes in at y0 and everything below it in the column x0..x1 moves down
+  function push(x0, x1, y0, build, gapAfter, skip) { // skip: empty gap rows the phone layout tightens away
+    skip = skip || 0;
+    var slot = el("", x0, y0, x1 - x0); slot.style.zIndex = 3;
+    build(slot);
+    var h = Math.ceil(slot.getBoundingClientRect().height) + (gapAfter || 0);
+    bgDiv("fill", x0, y0, x1 - x0, h, x0, y0 - 6, 6).style.zIndex = 1;
+    bgDiv("col", x0 - 24, y0 + h, x1 - x0 + 48, IH - y0 - skip, x0 - 24, y0 + skip, IH - y0 - skip).style.zIndex = 2;
+    return h;
+  }
+  function slotPanel(x, y, w, h) { var d = el("cmx-slotpanel", x, y, w, h); d.style.zIndex = 3; return d; }
+  function fitPaper(p, width, maxH) {
+    var wrap = document.createElement("div"); wrap.className = "paper-fit";
+    var pp = SD.frontPage.paper(p); pp.classList.add("cmx-paper--compact"); pp.style.width = "600px";
+    wrap.appendChild(pp); document.body.appendChild(wrap);
+    var nh = pp.offsetHeight, s = Math.min(width / 600, maxH / nh);
+    pp.style.transform = "scale(" + s + ") rotate(-1.6deg)";
+    wrap.style.width = Math.round(600 * s) + "px"; wrap.style.height = Math.round(nh * s) + "px";
+    if (!still) pp.classList.add("is-dropping");
+    return wrap;
+  }
+  var DAN = { name: "Daniel", club: "Arsenal" }, NIK = { name: "Nik", club: "Chelsea" };
+  var vals = function (o) { return Object.assign({ winner: "Daniel", loser: "Nik", winnerClub: "Arsenal", loserClub: "Chelsea", managerA: "Daniel", managerB: "Nik" }, o); };
+  function page(id, list, o, extra) {
+    var r = byId(list, id), v = vals(o);
+    return Object.assign({ headline: fill(r.headline, v), subhead: fill(r.subhead, v), kicker: r.kicker ? fill(r.kicker, v) : "" }, extra);
+  }
+
+  var FR = {
+    CM1: function () { // Season Results: commentary bar under the score panel
+      return base(P ? "PHONE_SEASON_RESULTS_MARBLE.png" : "NEXT_SEASON_RESULTS.png").then(function () {
+        var line = fill(byId(C.results, "c1-151").text, vals({ margin: 5 }));
+        if (P) push(8, 385, 543, function (s) { SD.commentary.mount(s, line, { typeMs: still ? 0 : 28 }); }, 4, 16);
+        else push(380, 1060, 686, function (s) { SD.commentary.mount(s, line, { typeMs: still ? 0 : 28 }); }, 8);
+      });
+    },
+    CM2: function () { // Final Winner: commentary bar under the score panel
+      return base(P ? "PHONE_FINAL_WINNER_MARBLE.png" : "NEXT_FINAL_WINNER.png").then(function () {
+        var line = fill(byId(C.results, "c4-183").text, vals({}));
+        if (P) push(8, 385, 562, function (s) { SD.commentary.mount(s, line, { typeMs: 0 }); }, 1, 14);
+        else push(290, 1150, 736, function (s) { SD.commentary.mount(s, line, { typeMs: 0 }); }, 6);
+      });
+    },
+    FP1: function () { return fpScreen(page("h1-035", F.season, { margin: 5 }, { season: "Season 1 of 3", dateline: "Season review", left: { name: "Daniel", club: "Arsenal", score: 8 }, right: { name: "Nik", club: "Chelsea", score: 3 }, caption: "Season points under the Showdown scoring: Daniel 8, Nik 3." })); },
+    FP2: function () { return fpScreen(page("h1-019", F.season, { margin: 1 }, { season: "Season 2 of 3", dateline: "Season review", left: { name: "Daniel", club: "Arsenal", score: 5 }, right: { name: "Nik", club: "Chelsea", score: 4 }, caption: "One point in it after a tense second season." })); },
+    FP3: function () { return fpScreen(page("h1-052", F.season, { points: 6 }, { variant: "draw", kicker: "DRAWN", season: "Season 3 of 3", dateline: "Season review", left: { name: "Daniel", club: "Arsenal", score: 6 }, right: { name: "Nik", club: "Chelsea", score: 6 }, caption: "Level on points, honours shared." })); },
+    FW1: function () { return fwScreen(page("h2-013", F.final, {}, { season: "3 seasons", dateline: "Final edition", left: { name: "Daniel", club: "Arsenal", score: 16 }, right: { name: "Nik", club: "Chelsea", score: 8 } })); },
+    FW2: function () { return fwScreen(page("h2-037", F.final, {}, { variant: "gold", season: "10 seasons", dateline: "Golden edition", left: { name: "Daniel", club: "Arsenal", score: 74 }, right: { name: "Nik", club: "Chelsea", score: 61 } })); },
+    LG1: function () { // Legacy: Front pages row in the archive panel
+      return base(P ? "PHONE_LEGACY_MARBLE.png" : "NEXT_LEGACY.png").then(function () {
+        var pages = [
+          page("h2-013", F.final, { winner: "Daniel", loser: "Nik" }, { season: "Showdown #1 · final", left: { name: "Daniel", club: "Barcelona", score: 15 }, right: { name: "Nik", club: "Real Madrid", score: 5 } }),
+          page("h1-035", F.season, { margin: 5, winnerClub: "Barcelona" }, { season: "Showdown #1 · season 3", left: { name: "Daniel", club: "Barcelona", score: 8 }, right: { name: "Nik", club: "Real Madrid", score: 3 } }),
+          page("h1-052", F.season, { points: 6 }, { variant: "draw", kicker: "DRAWN", season: "Showdown #1 · season 2", left: { name: "Daniel", club: "Barcelona", score: 6 }, right: { name: "Nik", club: "Real Madrid", score: 6 } }),
+          page("h1-019", F.season, { margin: 1, winnerClub: "Barcelona" }, { season: "Showdown #1 · season 1", left: { name: "Daniel", club: "Barcelona", score: 5 }, right: { name: "Nik", club: "Real Madrid", score: 4 } })
+        ];
+        if (P) {
+          var r = el("mini-row", 22, 474, 349, 46); r.style.zIndex = 3;
+          r.innerHTML = '<p class="slot-cap">Front pages</p><div class="list"></div>';
+          SD.frontPage.row(r.querySelector(".list"), pages.slice(0, 3));
+        } else {
+          var s = el("", 604, 372, 748); s.style.zIndex = 3;
+          SD.frontPage.row(s, pages);
+        }
+      });
+    },
+    CC1: function () { // Club Assignment: club cards slide up under the crests
+      return base(P ? "PHONE_CLUB_MARBLE.png" : "NEXT_CLUB.png").then(function () {
+        if (P) {
+          var sp = slotPanel(10, 378, 373, 280); sp.style.gap = "10px"; sp.style.padding = "10px";
+          var c = document.createElement("div"); c.style.width = "100%"; sp.appendChild(c);
+          SD.clubCard.mount(c, card("Watford"), { still: still });
+          sp.insertAdjacentHTML("beforeend", '<button type="button" class="cmx cmx-continue" style="margin:0;padding:12px 20px 11px;font-size:15px">Next: Nik’s club</button>');
+        } else {
+          var d = slotPanel(120, 540, 1200, 350); d.style.gap = "14px";
+          d.innerHTML = '<div class="duo"><div></div><div></div></div>';
+          SD.clubCard.mount(d.querySelector(".duo").children[0], card("Eibar"), { still: still });
+          SD.clubCard.mount(d.querySelector(".duo").children[1], card("Villarreal"), { still: still });
+          d.insertAdjacentHTML("beforeend", '<button type="button" class="cmx cmx-continue" style="margin:0">Confirm rivalry &amp; start Showdown</button>');
+          var vs = el("", 640, 592, 160); vs.style.zIndex = 4; vs.style.textAlign = "center";
+          vs.innerHTML = '<p class="slot-cap" style="margin-bottom:8px">Clubs locked</p><p style="margin:0;color:#f6f2e8;font:700 20px/1.1 Barlow Condensed,sans-serif">Daniel <span style="color:#ffd34d">vs</span> Nik</p><p style="margin:6px 0 0;color:#b9b3a4;font:600 13px/1.2 Barlow Condensed,sans-serif;letter-spacing:.1em">LALIGA · 1 SEASON</p>';
+        }
+      });
+    }
+  };
+
+  function fpScreen(p) { // season front page: its own screen on the Season Results plate
+    var plate = new Image(); plate.className = "base";
+    plate.src = PLATES + (P ? "ENV_SEASON_RESULTS_PHONE_V2.webp" : "ENV_SEASON_RESULTS_PLATE_V2_1X.webp");
+    plate.style.cssText = "width:" + W + "px;height:" + H + "px;object-fit:cover;object-position:50% " + (P ? "0" : "50%");
+    stage.appendChild(plate);
+    return new Promise(function (res) { plate.onload = res; }).then(function () {
+      var s = el("", 0, 0, W, H); s.style.zIndex = 3;
+      SD.frontPage.screen(s, p, null, { still: still, title: "Read all about it", eyebrow: p.season });
+      var scr = s.firstChild;
+      scr.style.background = "none"; scr.style.minHeight = H + "px";
+      if (P) { scr.style.paddingTop = "282px"; scr.querySelector(".cmx-fp-screen__eyebrow").remove(); scr.querySelector(".cmx-fp-screen__title").remove(); scr.querySelector(".cmx-paper").classList.add("cmx-paper--compact"); }
+      else { scr.style.paddingTop = "96px"; scr.querySelector(".cmx-paper").style.width = "560px"; scr.querySelector(".cmx-fp-screen__desk").style.width = "560px"; }
+    });
+  }
+  function fwScreen(p) { // Final Winner: the front page takes the panel slot under the trophy, then Continue
+    return base(P ? "PHONE_FINAL_WINNER_MARBLE.png" : "NEXT_FINAL_WINNER.png").then(function () {
+      if (P) {
+        var sp = slotPanel(10, 366, 373, 290); sp.style.gap = "10px"; sp.style.padding = "10px 12px 12px";
+        sp.appendChild(fitPaper(p, 336, 212));
+        sp.insertAdjacentHTML("beforeend", '<button type="button" class="cmx cmx-continue" style="margin:0;padding:12px 20px 11px;font-size:15px">Continue</button>');
+      } else {
+        var d = slotPanel(290, 598, 860, 294);
+        var row = document.createElement("div"); row.className = "fw-row"; d.appendChild(row);
+        row.appendChild(fitPaper(p, 560, 272));
+        row.insertAdjacentHTML("beforeend", '<div style="display:flex;flex-direction:column;gap:12px;align-items:center"><p class="slot-cap">' + (p.variant === "gold" ? "Golden front page" : "Final front page") + '</p><button type="button" class="cmx cmx-continue">Continue</button></div>');
+      }
+    });
+  }
+
+  var go = FR[FRAME] || FR.CM1;
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(go).then(function () {
+    var t = el("frame-tag", 0, 0); t.style.left = "auto"; t.style.top = "auto"; t.textContent = "HO-036 · " + FRAME + " · " + (P ? "393×660" : "1440×900");
+    document.documentElement.setAttribute("data-ready", "1");
+  });
+})();
+</script>
+</body>
+</html>
