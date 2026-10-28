@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28 1:12 AM Boston time (EDT)",
+ "generated": "2026-10-28 1:17 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 131,
@@ -1741,7 +1741,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-036_r86-content-pack-look-commentary-strip-s.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 2
+    "waiting_min": 8
    }
   ],
   "relay_ok": true
