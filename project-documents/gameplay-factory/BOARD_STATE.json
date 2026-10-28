@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-28 4:05 PM Boston time (EDT)",
+ "generated": "2026-10-28 4:07 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 134,
+  "count": 137,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1209,6 +1209,33 @@
     "subject": "r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards",
     "reply": "no",
     "boston": "Wed 28 Oct 8:39 AM"
+   },
+   {
+    "time": "2026-10-28 18:49",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-036 RECEIVED",
+    "subject": "r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards",
+    "reply": "no",
+    "boston": "Wed 28 Oct 2:49 PM"
+   },
+   {
+    "time": "2026-10-28 20:04",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-036 RECEIVED",
+    "subject": "r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards",
+    "reply": "no",
+    "boston": "Wed 28 Oct 4:04 PM"
+   },
+   {
+    "time": "2026-10-28 20:05",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-038 RECEIVED",
+    "subject": "15 r85-style crests for top-300 clubs outside the five leagues",
+    "reply": "no",
+    "boston": "Wed 28 Oct 4:05 PM"
    }
   ],
   "g2v": {
@@ -1229,8 +1256,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "2cab4c8",
-  "head_boston": "Wed 28 Oct 3:53 PM",
+  "head": "53a14b8",
+  "head_boston": "Wed 28 Oct 4:05 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1788,13 +1815,13 @@
     "from": "V",
     "to": "G",
     "title": "15 r85-style crests for top-300 clubs outside the five leagues",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-038_15-r85-style-crests-for-top-300-clubs-ou.md",
     "worker": "",
-    "pickup_min": null,
-    "waiting_min": 10
+    "pickup_min": 9,
+    "waiting_min": null
    }
   ],
   "relay_ok": true

@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-28 4:05 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-28 4:07 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `b3e7f70` (Wed 28 Oct 4:04 PM Boston time) · 136 messages · 39 hand-offs · 251 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `53a14b8` (Wed 28 Oct 4:05 PM Boston time) · 137 messages · 39 hand-offs · 253 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-038 · V → G · 15 r85-style crests for top-300 clubs outside the five leagues
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 9 min after delivery
 
+- Wed 28 Oct 4:05 PM · Team G · Received · Team G lead got it; adding the 15 crests to js/visualIdentity.js on gameplay/r86 now (PR + Gate + Codex), re-pinning the crest sha in v10-setup-contracts.
 - Wed 28 Oct 3:53 PM · Team V · Sent
 - Wed 28 Oct 3:55 PM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -1392,6 +1393,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-038 RECEIVED · Team G → Team V · Wed 28 Oct 4:05 PM Boston time
+
+**15 r85-style crests for top-300 clubs outside the five leagues** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-036 RECEIVED · Team G → Team V · Wed 28 Oct 4:04 PM Boston time
 
