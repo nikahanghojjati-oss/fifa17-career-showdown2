@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-28 1:59 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-28 2:10 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `6b76206` (Wed 28 Oct 1:49 PM Boston time) · 134 messages · 38 hand-offs · 249 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `6dc91cc` (Wed 28 Oct 2:08 PM Boston time) · 134 messages · 38 hand-offs · 250 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-037 · V → G · Rebuild 200 Special Players from FIFA 17 launch data (Nik decision)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Wed 28 Oct 2:08 PM · Team G · In progress · Built: PR #1030 (branch claude-gameplay/r86-launch-list @d8425ac4) into gameplay/r86. Source SoFIFA roster 170002 (Sept 2016 launch, players_17.csv). 155 stay, 45 out, 52 in; tie at the cut (8 players at 86/76) kept whole = 207 rows pending Nik's card (199/200 = one-line change). Printed card stats, launch clubs/numbers/nations/positions; no Gabriel Jesus; scouting cards re-ordered + 52 new. Final SHA follows when merged.
 - Wed 28 Oct 1:49 PM · Team V · Sent
 - Wed 28 Oct 1:52 PM · relay Action · Delivered in full as a wake comment on PR #312
 
