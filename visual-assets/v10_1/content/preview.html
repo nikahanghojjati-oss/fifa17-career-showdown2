@@ -6,6 +6,7 @@
 <title>Content look preview</title>
 <!-- HO-036 preview: the approved NEXT_/PHONE_ mockups with the new content pieces put into reserved
      slots (the panels below move down, nothing is laid on top). ?frame=CM1&size=d (1440x900) or p (393x660).
+     Frames: CM1 CM2 FP1 FP2 FP3 FW1 FW2 CC1 (SC1 lives in the Big Jump). Each frame checks that no content touches a button.
      Lines are read from fixtures/ (copies of Team G's data/*.js on gameplay/r86 b9e4e8f7). -->
 <link rel="stylesheet" href="../shared/showdown-tokens.css">
 <link rel="stylesheet" href="content.css">
@@ -24,22 +25,26 @@
     box-shadow: inset 0 0 0 1px #d4a017, inset 0 0 0 3px #07080a, inset 0 0 0 4px rgba(255, 211, 77, .35), 0 12px 26px rgba(0, 0, 0, .55);
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
   }
+  /* stand-in for Team G's committed (shared) season result panel, only so the commentary is shown in the right moment */
+  .sr-done { box-sizing: border-box; padding: 14px 22px 12px; color: #f6f2e8; font-family: "Barlow Condensed", sans-serif; background: linear-gradient(180deg, #17181c, #07080a);
+    box-shadow: inset 0 0 0 1px #d4a017, inset 0 0 0 3px #07080a, inset 0 0 0 4px rgba(255, 211, 77, .35), 0 12px 26px rgba(0, 0, 0, .55); }
+  .sr-done__cap { margin: 0; text-align: center; color: #ffd34d; font-weight: 700; font-size: 12px; letter-spacing: .26em; text-transform: uppercase; }
+  .sr-done__top { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; margin: 8px 0 8px; }
+  .sr-done__m { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 22px; text-transform: uppercase; letter-spacing: .04em; }
+  .sr-done__m small { display: block; color: #b9b3a4; font-size: 11px; letter-spacing: .14em; }
+  .sr-done__m--r { flex-direction: row-reverse; text-align: right; }
+  .sr-done__m svg { width: 40px; height: 48px; }
+  .sr-done__score { font-weight: 700; font-size: 52px; line-height: 1; background: linear-gradient(180deg, #fff3b0, #ffd34d 40%, #d4a017 75%, #8a6a12); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .sr-done table { width: 100%; border-collapse: collapse; font-weight: 600; font-size: 14px; }
+  .sr-done td { padding: 4px 0; border-top: 1px solid rgba(212, 160, 23, .28); }
+  .sr-done td:first-child, .sr-done td:last-child { width: 44px; text-align: center; color: #ffd34d; font-size: 16px; }
+  .sr-done td:nth-child(2) { text-align: center; color: #e9dfc8; letter-spacing: .08em; text-transform: uppercase; font-size: 12px; }
+  .sr-done__win { margin: 8px 0 0; text-align: center; color: #ffd34d; font-weight: 700; font-size: 15px; letter-spacing: .16em; text-transform: uppercase; }
+  .gold-btn { box-sizing: border-box; display: grid; place-items: center; background: linear-gradient(180deg, #fff3b0, #ffd34d 34%, #d4a017 68%, #b8891a); color: #07080a; font: 700 17px/1 "Barlow Condensed", sans-serif; letter-spacing: .14em; text-transform: uppercase; box-shadow: inset 0 0 0 2px #8a6a12, inset 0 1px 0 rgba(255,255,255,.7), 0 6px 14px rgba(0,0,0,.5); }
   .frame-tag { right: 6px; bottom: 4px; color: rgba(255, 243, 176, .55); font: 600 10px/1 "Barlow Condensed", sans-serif; letter-spacing: .14em; z-index: 9; }
-  .paper-fit { position: relative; flex: none; }
-  .paper-fit > .cmx-paper { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
   .cmx-paper--compact .cmx-paper__cols { display: none; }
-  .cmx-paper--compact .cmx-paper__caption { display: none; }
   .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 220px; width: 100%; }
-  .fw-row { display: flex; align-items: center; justify-content: center; gap: 34px; width: 100%; }
-  .fw-row .cmx-continue { margin: 0; min-width: 220px; }
   .slot-cap { margin: 0; color: #ffd34d; font: 700 12px/1 "Barlow Condensed", sans-serif; letter-spacing: .28em; text-transform: uppercase; }
-  .mini-row { box-sizing: border-box; display: flex; align-items: center; gap: 10px; padding: 0 6px; background: linear-gradient(180deg, #121317, #0a0b0d); }
-  .mini-row .slot-cap { font-size: 10px; letter-spacing: .18em; line-height: 1.15; width: 46px; }
-  .mini-row .cmx-fp-thumb { width: 66px; }
-  .mini-row .cmx-fp-thumb__clip { width: 66px; height: 40px; }
-  .mini-row .cmx-fp-thumb__clip .cmx-paper { transform: scale(.11); }
-  .mini-row .cmx-fp-thumb__cap, .mini-row .cmx-fp-row__label { display: none; }
-  .mini-row .cmx-fp-row__list, .mini-row .cmx-fp-row { all: unset; display: flex; gap: 8px; }
 </style>
 <script src="../../../js/visualIdentity.js"></script>
 <script src="fixtures/commentaryLines.js"></script>
@@ -93,19 +98,39 @@
     var h = Math.ceil(slot.getBoundingClientRect().height) + (gapAfter || 0);
     bgDiv("fill", x0, y0, x1 - x0, h, x0, y0 - 6, 6).style.zIndex = 1;
     bgDiv("col", x0 - 24, y0 + h, x1 - x0 + 48, IH - y0 - skip, x0 - 24, y0 + skip, IH - y0 - skip).style.zIndex = 2;
-    return h;
+    return h - skip; // how far everything below moved
+  }
+  var BTN = []; // mockup buttons (frame px, after any move); the content must never touch them
+  function btn(x, y, w, h) { BTN.push({ l: x, t: y, r: x + w, b: y + h }); }
+  function checkScores() { // 11 per manager per season at most; a Golden Showdown is one manager on 110
+    var bad = [];
+    document.querySelectorAll(".cmx-paper").forEach(function (pp) { var t = pp.querySelector(".cmx-paper__score"), n = (t ? t.textContent : "").match(/\d+/g); if (!n) return;
+      var seasons = /10 seasons/i.test(pp.textContent) ? 10 : /3 seasons/i.test(pp.textContent) ? 3 : 1, gold = pp.classList.contains("cmx-paper--gold");
+      if (Math.max(+n[0], +n[1]) > 11 * seasons || (gold && Math.max(+n[0], +n[1]) !== 110)) bad.push(n.join("-")); });
+    var sr = document.querySelector(".sr-done__score"); if (sr) { var m = sr.textContent.match(/\d+/g); if (Math.max(+m[0], +m[1]) > 11) bad.push(m.join("-")); }
+    return bad.length ? " FAIL scores " + bad.join(" ") : " scores ok";
+  }
+  function checkButtons() {
+    var boxes = Array.prototype.map.call(document.querySelectorAll(".cmx-bar, .cmx-paper, .cmx-club"), function (e) { return e.getBoundingClientRect(); });
+    var all = BTN.concat(Array.prototype.map.call(document.querySelectorAll("button, .gold-btn"), function (e) { var r = e.getBoundingClientRect(); return { l: r.left, t: r.top, r: r.right, b: r.bottom }; }));
+    var hits = [];
+    boxes.forEach(function (a) { all.forEach(function (b) { if (a.left < b.r && a.right > b.l && a.top < b.b && a.bottom > b.t) hits.push(Math.round(b.l) + "," + Math.round(b.t)); }); });
+    var offL = all.filter(function (b) { return b.b > H + 1 || b.t < 0; }), off = offL.length && offL.map(function (b) { return Math.round(b.t) + "-" + Math.round(b.b); }).join(" ");
+    return hits.length || off ? "FAIL overlap:" + hits.join(" ") + " offscreen:" + off : "ok " + all.length + " buttons clear";
+  }
+  function srDone(x, y, w, h) {
+    var c = function (club) { try { return window.getClubCrestSvg(club); } catch (e) { return ""; } };
+    var d = el("sr-done", x, y, w, h); d.style.zIndex = 3;
+    var rows = [["5", "Champions League", "0"], ["3", "League title", "0"], ["0", "Domestic cup", "1"], ["0", "Performance bonus", "1"], ["0", "Awards bonus", "1"]];
+    d.innerHTML = '<p class="sr-done__cap">Season 1 of 3 · shared result</p>' +
+      '<div class="sr-done__top"><div class="sr-done__m">' + c("Arsenal") + '<span>Daniel<small>Arsenal</small></span></div><span class="sr-done__score">8 – 3</span>' +
+      '<div class="sr-done__m sr-done__m--r">' + c("Chelsea") + '<span>Nik<small>Chelsea</small></span></div></div>' +
+      '<table>' + rows.map(function (r) { return "<tr><td>" + r[0] + "</td><td>" + r[1] + "</td><td>" + r[2] + "</td></tr>"; }).join("") + '</table>' +
+      '<p class="sr-done__win">Daniel wins season 1 by 5</p>';
+    if (P) { d.querySelector(".sr-done__score").style.fontSize = "40px"; d.querySelectorAll(".sr-done__m").forEach(function (m) { m.style.fontSize = "17px"; m.style.gap = "6px"; }); d.querySelectorAll(".sr-done__m svg").forEach(function (v) { v.style.width = "30px"; v.style.height = "36px"; }); d.style.padding = "10px 12px"; d.querySelector("table").style.fontSize = "13px"; }
+    return d;
   }
   function slotPanel(x, y, w, h) { var d = el("cmx-slotpanel", x, y, w, h); d.style.zIndex = 3; return d; }
-  function fitPaper(p, width, maxH) {
-    var wrap = document.createElement("div"); wrap.className = "paper-fit";
-    var pp = SD.frontPage.paper(p); pp.classList.add("cmx-paper--compact"); pp.style.width = "600px";
-    wrap.appendChild(pp); document.body.appendChild(wrap);
-    var nh = pp.offsetHeight, s = Math.min(width / 600, maxH / nh);
-    pp.style.transform = "scale(" + s + ") rotate(-1.6deg)";
-    wrap.style.width = Math.round(600 * s) + "px"; wrap.style.height = Math.round(nh * s) + "px";
-    if (!still) pp.classList.add("is-dropping");
-    return wrap;
-  }
   var DAN = { name: "Daniel", club: "Arsenal" }, NIK = { name: "Nik", club: "Chelsea" };
   var vals = function (o) { return Object.assign({ winner: "Daniel", loser: "Nik", winnerClub: "Arsenal", loserClub: "Chelsea", managerA: "Daniel", managerB: "Nik" }, o); };
   function page(id, list, o, extra) {
@@ -114,43 +139,36 @@
   }
 
   var FR = {
-    CM1: function () { // Season Results: commentary bar under the score panel
+    CM1: function () { // Season Results after both managers shared: commentary bar under the shared score panel
       return base(P ? "PHONE_SEASON_RESULTS_MARBLE.png" : "NEXT_SEASON_RESULTS.png").then(function () {
         var line = fill(byId(C.results, "c1-151").text, vals({ margin: 5 }));
-        if (P) push(8, 385, 543, function (s) { SD.commentary.mount(s, line, { typeMs: still ? 0 : 28 }); }, 4, 16);
-        else push(380, 1060, 686, function (s) { SD.commentary.mount(s, line, { typeMs: still ? 0 : 28 }); }, 8);
+        var mount = function (s) { SD.commentary.mount(s, line, { typeMs: still ? 0 : 28 }); }, dy;
+        if (P) {
+          srDone(8, 250, 377, 291);
+          dy = push(8, 385, 543, mount, 4, 16);
+          var g = el("gold-btn", 16, 571 + dy, 178, 44); g.style.zIndex = 4; g.style.fontSize = "14px"; g.textContent = "Continue";
+          btn(200, 571 + dy, 178, 44);
+        } else {
+          srDone(458, 420, 524, 264);
+          dy = push(380, 1060, 686, mount, 8);
+          var g2 = el("gold-btn", 442, 706 + dy, 274, 54); g2.style.zIndex = 4; g2.textContent = "Continue";
+          btn(728, 706 + dy, 272, 54);
+        }
       });
     },
     CM2: function () { // Final Winner: commentary bar under the score panel
       return base(P ? "PHONE_FINAL_WINNER_MARBLE.png" : "NEXT_FINAL_WINNER.png").then(function () {
         var line = fill(byId(C.results, "c4-183").text, vals({}));
-        if (P) push(8, 385, 562, function (s) { SD.commentary.mount(s, line, { typeMs: 0 }); }, 1, 14);
-        else push(290, 1150, 736, function (s) { SD.commentary.mount(s, line, { typeMs: 0 }); }, 6);
+        var dy;
+        if (P) { dy = push(8, 385, 562, function (s) { SD.commentary.mount(s, line, { typeMs: 0 }); }, 1, 14); btn(20, 578 + dy, 175, 39); btn(205, 578 + dy, 175, 39); }
+        else { dy = push(290, 1150, 736, function (s) { SD.commentary.mount(s, line, { typeMs: 0 }); }, 6); btn(510, 742 + dy, 202, 41); btn(724, 742 + dy, 206, 41); }
       });
     },
     FP1: function () { return fpScreen(page("h1-035", F.season, { margin: 5 }, { season: "Season 1 of 3", dateline: "Season review", left: { name: "Daniel", club: "Arsenal", score: 8 }, right: { name: "Nik", club: "Chelsea", score: 3 }, caption: "Season points under the Showdown scoring: Daniel 8, Nik 3." })); },
     FP2: function () { return fpScreen(page("h1-019", F.season, { margin: 1 }, { season: "Season 2 of 3", dateline: "Season review", left: { name: "Daniel", club: "Arsenal", score: 5 }, right: { name: "Nik", club: "Chelsea", score: 4 }, caption: "One point in it after a tense second season." })); },
-    FP3: function () { return fpScreen(page("h1-052", F.season, { points: 6 }, { variant: "draw", kicker: "DRAWN", season: "Season 3 of 3", dateline: "Season review", left: { name: "Daniel", club: "Arsenal", score: 6 }, right: { name: "Nik", club: "Chelsea", score: 6 }, caption: "Level on points, honours shared." })); },
-    FW1: function () { return fwScreen(page("h2-013", F.final, {}, { season: "3 seasons", dateline: "Final edition", left: { name: "Daniel", club: "Arsenal", score: 16 }, right: { name: "Nik", club: "Chelsea", score: 8 } })); },
-    FW2: function () { return fwScreen(page("h2-037", F.final, {}, { variant: "gold", season: "10 seasons", dateline: "Golden edition", left: { name: "Daniel", club: "Arsenal", score: 74 }, right: { name: "Nik", club: "Chelsea", score: 61 } })); },
-    LG1: function () { // Legacy: Front pages row in the archive panel
-      return base(P ? "PHONE_LEGACY_MARBLE.png" : "NEXT_LEGACY.png").then(function () {
-        var pages = [
-          page("h2-013", F.final, { winner: "Daniel", loser: "Nik" }, { season: "Showdown #1 · final", left: { name: "Daniel", club: "Barcelona", score: 15 }, right: { name: "Nik", club: "Real Madrid", score: 5 } }),
-          page("h1-035", F.season, { margin: 5, winnerClub: "Barcelona" }, { season: "Showdown #1 · season 3", left: { name: "Daniel", club: "Barcelona", score: 8 }, right: { name: "Nik", club: "Real Madrid", score: 3 } }),
-          page("h1-052", F.season, { points: 6 }, { variant: "draw", kicker: "DRAWN", season: "Showdown #1 · season 2", left: { name: "Daniel", club: "Barcelona", score: 6 }, right: { name: "Nik", club: "Real Madrid", score: 6 } }),
-          page("h1-019", F.season, { margin: 1, winnerClub: "Barcelona" }, { season: "Showdown #1 · season 1", left: { name: "Daniel", club: "Barcelona", score: 5 }, right: { name: "Nik", club: "Real Madrid", score: 4 } })
-        ];
-        if (P) {
-          var r = el("mini-row", 22, 474, 349, 46); r.style.zIndex = 3;
-          r.innerHTML = '<p class="slot-cap">Front pages</p><div class="list"></div>';
-          SD.frontPage.row(r.querySelector(".list"), pages.slice(0, 3));
-        } else {
-          var s = el("", 604, 372, 748); s.style.zIndex = 3;
-          SD.frontPage.row(s, pages);
-        }
-      });
-    },
+    FP3: function () { return fpScreen(page("h1-052", F.season, { points: 5 }, { variant: "draw", kicker: "DRAWN", season: "Season 3 of 3", dateline: "Season review", left: { name: "Daniel", club: "Arsenal", score: 5 }, right: { name: "Nik", club: "Chelsea", score: 5 }, caption: "Level on points, honours shared." })); },
+    FW1: function () { return fpScreen(page("h2-013", F.final, {}, { season: "3 seasons", dateline: "Final edition", left: { name: "Daniel", club: "Arsenal", score: 16 }, right: { name: "Nik", club: "Chelsea", score: 8 } }), "final"); },
+    FW2: function () { return fpScreen(page("h2-037", F.final, {}, { variant: "gold", season: "10 seasons", dateline: "Golden edition", left: { name: "Daniel", club: "Arsenal", score: 110 }, right: { name: "Nik", club: "Chelsea", score: 79 } }), "final"); },
     CC1: function () { // Club Assignment: club cards slide up under the crests
       return base(P ? "PHONE_CLUB_MARBLE.png" : "NEXT_CLUB.png").then(function () {
         if (P) {
@@ -171,39 +189,28 @@
     }
   };
 
-  function fpScreen(p) { // season front page: its own screen on the Season Results plate
+  function fpScreen(p, kind) { // season front page: its own screen on the Season Results plate
     var plate = new Image(); plate.className = "base";
-    plate.src = PLATES + (P ? "ENV_SEASON_RESULTS_PHONE_V2.webp" : "ENV_SEASON_RESULTS_PLATE_V2_1X.webp");
+    var nm = kind === "final" ? "FINAL_WINNER" : "SEASON_RESULTS";
+    plate.src = PLATES + "ENV_" + nm + (P ? "_PHONE_V2.webp" : "_PLATE_V2_1X.webp");
     plate.style.cssText = "width:" + W + "px;height:" + H + "px;object-fit:cover;object-position:50% " + (P ? "0" : "50%");
     stage.appendChild(plate);
     return new Promise(function (res) { plate.onload = res; }).then(function () {
       var s = el("", 0, 0, W, H); s.style.zIndex = 3;
-      SD.frontPage.screen(s, p, null, { still: still, title: "Read all about it", eyebrow: p.season });
+      SD.frontPage.screen(s, p, null, { still: still, title: "Read all about it", eyebrow: kind === "final" ? (p.variant === "gold" ? "Golden Showdown front page" : "Final front page") : p.season + " · front page" });
       var scr = s.firstChild;
       scr.style.background = "none"; scr.style.minHeight = H + "px";
       if (P) { scr.style.paddingTop = "282px"; scr.querySelector(".cmx-fp-screen__eyebrow").remove(); scr.querySelector(".cmx-fp-screen__title").remove(); scr.querySelector(".cmx-paper").classList.add("cmx-paper--compact"); }
-      else { scr.style.paddingTop = "96px"; scr.querySelector(".cmx-paper").style.width = "560px"; scr.querySelector(".cmx-fp-screen__desk").style.width = "560px"; }
+      else { scr.style.paddingTop = "96px"; scr.querySelector(".cmx-paper").style.width = "470px"; scr.querySelector(".cmx-fp-screen__desk").style.width = "470px"; /* stays between the managers, never over them */ }
     });
   }
-  function fwScreen(p) { // Final Winner: the front page takes the panel slot under the trophy, then Continue
-    return base(P ? "PHONE_FINAL_WINNER_MARBLE.png" : "NEXT_FINAL_WINNER.png").then(function () {
-      if (P) {
-        var sp = slotPanel(10, 366, 373, 290); sp.style.gap = "10px"; sp.style.padding = "10px 12px 12px";
-        sp.appendChild(fitPaper(p, 336, 212));
-        sp.insertAdjacentHTML("beforeend", '<button type="button" class="cmx cmx-continue" style="margin:0;padding:12px 20px 11px;font-size:15px">Continue</button>');
-      } else {
-        var d = slotPanel(290, 598, 860, 294);
-        var row = document.createElement("div"); row.className = "fw-row"; d.appendChild(row);
-        row.appendChild(fitPaper(p, 560, 272));
-        row.insertAdjacentHTML("beforeend", '<div style="display:flex;flex-direction:column;gap:12px;align-items:center"><p class="slot-cap">' + (p.variant === "gold" ? "Golden front page" : "Final front page") + '</p><button type="button" class="cmx cmx-continue">Continue</button></div>');
-      }
-    });
-  }
-
   var go = FR[FRAME] || FR.CM1;
-  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(go).then(function () {
+  var fontsReady = function () { return document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve(); };
+  // fonts first used by the frame load after the first ready, so wait again before measuring
+  var preload = function () { return document.fonts ? Promise.all(['600 16px "Barlow Condensed"', '700 16px "Barlow Condensed"', '400 16px "Barlow"', '600 16px "Barlow"', '400 16px "Kaushan Script"'].map(function (f) { return document.fonts.load(f).catch(function () {}); })) : Promise.resolve(); };
+  preload().then(fontsReady).then(go).then(function () { return new Promise(function (r) { setTimeout(r, 150); }); }).then(fontsReady).then(function () {
     var t = el("frame-tag", 0, 0); t.style.left = "auto"; t.style.top = "auto"; t.textContent = "HO-036 · " + FRAME + " · " + (P ? "393×660" : "1440×900");
-    document.documentElement.setAttribute("data-ready", "1");
+    document.documentElement.setAttribute("data-check", checkButtons() + checkScores()); document.documentElement.setAttribute("data-ready", "1");
   });
 })();
 </script>

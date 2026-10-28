@@ -2,8 +2,8 @@
    ShowdownContent.frontPage.paper(p)  -> newspaper element
      p = {headline, subhead, kicker?, variant: "season"|"gold"|"draw", season, edition, dateline,
           left:{name, club, score}, right:{name, club, score}, caption}
-   ShowdownContent.frontPage.screen(slot, p, onContinue) -> season front page on the marble desk, with Continue
-   ShowdownContent.frontPage.row(slot, pages, onOpen)    -> Legacy "Front pages" row
+   ShowdownContent.frontPage.screen(slot, p, onContinue) -> a front page on its own page (season or final), with Continue
+   The paper only lives on its own page: never on Legacy, never over a panel or a button.
    Crests come from window.getClubCrestSvg (js/visualIdentity.js) when it is loaded. */
 (function (root) {
   "use strict";
@@ -59,20 +59,5 @@
     return slot.firstChild;
   }
 
-  function row(slot, pages, onOpen) {
-    slot.innerHTML = '<section class="cmx cmx-fp-row"><h3 class="cmx-fp-row__label">Front pages</h3><div class="cmx-fp-row__list"></div></section>';
-    var list = slot.querySelector(".cmx-fp-row__list");
-    (pages || []).forEach(function (p, i) {
-      var b = document.createElement("button");
-      b.type = "button";
-      b.className = "cmx-fp-thumb";
-      b.innerHTML = '<span class="cmx-fp-thumb__clip"></span><span class="cmx-fp-thumb__cap">' + esc(p.headline) + '<small>' + esc(p.season || "") + '</small></span>';
-      b.firstChild.appendChild(paper(p));
-      b.addEventListener("click", function () { if (onOpen) onOpen(p, i); });
-      list.appendChild(b);
-    });
-    return slot.firstChild;
-  }
-
-  NS.frontPage = { paper: paper, screen: screen, row: row };
+  NS.frontPage = { paper: paper, screen: screen };
 })(typeof window !== "undefined" ? window : this);

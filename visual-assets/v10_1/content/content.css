@@ -95,7 +95,7 @@
 @keyframes cmx-wipe { from { clip-path: inset(-30px 100% -30px 0); } to { clip-path: inset(-30px 0 -30px 0); } }
 @keyframes cmx-blink { 50% { opacity: 0; } }
 
-/* ---------- 2/3. Front pages (season screen, Final Winner, Legacy) ---------- */
+/* ---------- 2/3. Front pages (own page after a season and after the final) ---------- */
 .cmx-paper {
   --paper: #f2ead8;
   --paper-ink: #1b1712;
@@ -224,17 +224,6 @@
   cursor: pointer;
 }
 .cmx-continue:focus-visible { outline: 2px solid #fff3b0; outline-offset: 3px; }
-
-/* Legacy: Front pages row */
-.cmx-fp-row { padding: 10px 14px 12px; background: var(--cmx-marble); box-shadow: inset 0 0 0 1px rgba(212, 160, 23, .6); }
-.cmx-fp-row__label { margin: 0 0 8px; color: #ffd34d; font: 700 12px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .26em; text-transform: uppercase; }
-.cmx-fp-row__list { display: flex; gap: 12px; overflow-x: auto; padding: 4px 2px 6px; scrollbar-width: thin; }
-.cmx-fp-thumb { flex: none; width: 150px; padding: 0; border: 0; background: none; cursor: pointer; text-align: left; color: #e9dfc8; }
-.cmx-fp-thumb__clip { display: block; width: 150px; height: 112px; overflow: hidden; box-shadow: 0 6px 12px rgba(0, 0, 0, .5); }
-.cmx-fp-thumb__clip .cmx-paper { width: 600px; transform: scale(.25); transform-origin: 0 0; }
-.cmx-fp-thumb__cap { display: block; margin-top: 6px; font: 600 12px/1.2 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .08em; text-transform: uppercase; }
-.cmx-fp-thumb__cap small { display: block; color: #b9b3a4; font-size: 11px; }
-.cmx-fp-thumb:focus-visible { outline: 2px solid #ffd34d; outline-offset: 3px; }
 
 /* ---------- 4. Club card (Club Assignment) ---------- */
 .cmx-club {
