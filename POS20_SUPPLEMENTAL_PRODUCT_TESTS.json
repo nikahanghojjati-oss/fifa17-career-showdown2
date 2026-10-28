@@ -2265,6 +2265,15 @@
         "^tests/contracts/r86-content-pack-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r86-commentary-engine-contracts.cjs",
+      "patterns": [
+        "^js/(commentaryEngine|sharedCanonicalScoring|scoring|marqueePlayer|visualIdentity)\\.js$",
+        "^data/(commentarySituations\\.json|marqueePlayers\\.js|clubs\\.js)$",
+        "^tests/contracts/r86-commentary-engine-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
