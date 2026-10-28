@@ -15,7 +15,7 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
 
 // L1 the list
 assert.equal(List.listVersion,1);
-assert.equal(List.players.length,200);
+assert.equal(List.players.length,305);
 let prev=null;
 List.players.forEach((p,i)=>{
   assert.deepEqual(Object.keys(p),['rank','name','club','overall','potential','number','nation','nationCode','position','stats'],`row ${i} shape`);
@@ -33,11 +33,16 @@ List.players.forEach((p,i)=>{
   }else assert.equal(p.rank,1);
   prev=p;
 });
-assert.deepEqual(List.players.filter(p=>p.club===null).map(p=>p.name),['Oscar']);
-assert.equal(List.players.filter(p=>p.overall===79&&p.potential===86).length,13);
-assert.equal(List.players[0].name,'Cristiano Ronaldo');assert.equal(List.players[0].number,7);assert.equal(List.players[3].number,10);
-assert.deepEqual(List.players[3].stats,{PAC:89,SHO:90,PAS:86,DRI:96,DEF:26,PHY:61});assert.equal(List.players[3].nationCode,'AR');assert.equal(List.players[199].rank,188);
-ok('L1','200 players in potential-then-overall order with competition ranks, each with shirt number, nation, position and six card stats; Oscar alone has no club; all 13 at 79/86');
+assert.deepEqual(List.players.filter(p=>p.club===null).map(p=>p.name),[]);
+// Launch database (HO-037): the tie at the cut is kept whole, and Gabriel Jesus (added after launch) is absent.
+assert.equal(List.players.filter(p=>p.overall===75&&p.potential===85).length,8);
+assert.ok(!List.players.some(p=>/Gabriel Jesus/.test(p.name)));
+assert.equal(List.players.find(p=>p.name==='K. Mbappé').overall,71);assert.equal(List.players.find(p=>p.name==='Deulofeu').club,'Everton');
+const named=name=>List.players.find(p=>p.name===name);
+assert.equal(List.players[0].name,'Neymar');assert.equal(named('Cristiano Ronaldo').number,7);assert.equal(named('L. Messi').number,10);
+assert.deepEqual(named('L. Messi').stats,{PAC:89,SHO:90,PAS:86,DRI:96,DEF:26,PHY:61});assert.equal(named('L. Messi').nationCode,'AR');assert.equal(List.players[304].rank,298);
+assert.deepEqual(named('Cristiano Ronaldo').stats,{PAC:92,SHO:92,PAS:81,DRI:91,DEF:33,PHY:80},'launch card as printed');
+ok('L1','the 305 launch-database players in potential-then-overall order with competition ranks (the 85/75 tie at 300 kept whole), each with launch club, shirt number, nation, position and printed card stats; no Gabriel Jesus');
 
 // L2 ranking badges
 for(const [rank,tier] of [[1,'black-blue-gold'],[3,'black-blue-gold'],[4,'blue-gold'],[10,'blue-gold'],[11,'gold'],[20,'gold'],[21,'silver'],[50,'silver'],[51,'bronze'],[188,'bronze']])assert.equal(MP.tier(rank),tier,`rank ${rank}`);
@@ -45,16 +50,16 @@ assert.equal(MP.tier(0),null);assert.equal(MP.tier(null),null);
 ok('L2','top 3 black-blue-gold, top 10 blue-gold, top 20 gold, top 50 silver, the rest bronze');
 
 // L3 the draw
-const counts=new Array(200).fill(0);
+const N=List.players.length,counts=new Array(N).fill(0);
 for(let i=0;i<20000;i+=1){
-  const id='pair_'+randomBytes(32).toString('hex'),p=MP.picks(id,200);
+  const id='pair_'+randomBytes(32).toString('hex'),p=MP.picks(id,N);
   assert.notEqual(p.playerOne,p.playerTwo);counts[p.playerOne]+=1;counts[p.playerTwo]+=1;
-  assert.deepEqual(MP.picks(id,200),p,'same id, same draw');
+  assert.deepEqual(MP.picks(id,N),p,'same id, same draw');
   // The first hex digit is the season count: changing it never changes the draw.
-  for(const marker of ['1','3','5','a'])assert.deepEqual(MP.picks('pair_'+marker+id.slice(6),200),p);
+  for(const marker of ['1','3','5','a'])assert.deepEqual(MP.picks('pair_'+marker+id.slice(6),N),p);
 }
-assert.ok(Math.min(...counts)>100&&Math.max(...counts)<320,`every player can be drawn, none favoured (${Math.min(...counts)}-${Math.max(...counts)})`);
-assert.equal(MP.picks('pair_short',200),null);assert.equal(MP.picks(null,200),null);
+const mean=40000/N;assert.ok(Math.min(...counts)>mean*0.5&&Math.max(...counts)<mean*1.6,`every player can be drawn, none favoured (${Math.min(...counts)}-${Math.max(...counts)})`);
+assert.equal(MP.picks('pair_short',N),null);assert.equal(MP.picks(null,N),null);
 const source=read('js/marqueePlayer.js');
 for(const word of ['getDoc','setDoc','runTransaction','updateDoc','localStorage','indexedDB','Math.random'])assert.ok(!source.includes(word),`the draw uses no ${word}`);
 ok('L3','both managers always get different players, the draw depends only on the random part of the Showdown id, and it reads, writes and stores nothing');
