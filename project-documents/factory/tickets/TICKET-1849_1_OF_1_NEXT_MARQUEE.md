@@ -1,6 +1,6 @@
 # Ticket 1849 · 1 of 1 · New desktop screen: Marquee Player pack reveal (r86, HO-035)
 
-One picture only. Version 7, Wed 28 Oct 2026, 12:45 a.m. Eastern. Rebuilt from Nik's five real FIFA 17 screenshots (12:26-12:27 a.m. Eastern) after "get a lot closer to real FIFA 17 animation, improve your quality massively". Replaces every earlier version. Study: `project-documents/factory/r86/MARQUEE_FIFA17_PACK_STUDY.md`.
+One picture only. Version 8, Wed 28 Oct 2026, 12:50 a.m. Eastern: adds the giant club coin and the six-stat card face from Nik's next three FIFA 17 screenshots (12:29 a.m.). Version 7 was rebuilt from Nik's five real FIFA 17 screenshots (12:26-12:27 a.m. Eastern) after "get a lot closer to real FIFA 17 animation, improve your quality massively". Replaces every earlier version. Study: `project-documents/factory/r86/MARQUEE_FIFA17_PACK_STUDY.md`.
 
 What is fixed: no people at all; a FIFA 17-style pack reveal in a sunny stadium; clues land on the card one by one (position, nation flag with giant flags dropping from the roofs, club coin); the card flips; no player walks out. This picture is the LAST moment: the card front settled on the pitch. It becomes the desktop target `mockups/NEXT_MARQUEE.png`.
 
@@ -11,7 +11,9 @@ Steps for Nik:
 4. Check the picture against your FIFA 17 screenshots:
    - a real-looking 3D football stadium in sunshine, camera low on the pitch, black-and-gold stands, steel roof, striped grass
    - one big card standing on the grass in the middle, casting a shadow, blue with gold edges, like a video-game player card
-   - on the card: 86, ST, the Argentina flag, a round black-and-white striped club coin, the striped shirt seen from the back with DYBALA and 21, the gold DYBALA bar, POT 93, #5, TOP 10, JUVENTUS
+   - on the card: 86, ST, a round black-and-white striped club coin, the Argentina flag, the striped shirt seen from the back with DYBALA and 21, the gold DYBALA bar, six stats in two columns (84 PAC, 84 SHO, 80 PAS, 89 DRI, 25 DEF, 63 PHY), POT 93, #5, TOP 10, JUVENTUS
+   - a big gold-rimmed club coin (black face, black-and-white stripes, no crest, no letters) stands on its edge on the grass left of the card, casting a shadow
+   - sparkler fountains spraying up at the foot of both stands
    - giant Argentina flags hang from both stand roofs; light-blue and white confetti; white sparkler bursts on the roofs
    - NO people anywhere; no EA, FIFA or FUT words or logos; no adverts
    - the bottom strip and the top bar match the sketch word for word
@@ -26,7 +28,7 @@ Turn this flat layout sketch into a finished, photorealistic desktop game screen
 
 MOST IMPORTANT (never break these):
 - No people at all: no players, no managers, no fans in focus, no faces, no silhouettes. The stands are empty or a soft blur.
-- Use ONLY the words and numbers in the sketch, copied letter for letter: CAREER MODE SHOWDOWN 17, Marquee Player, 86, ST, DYBALA, 21, POT 93, #5, TOP 10, JUVENTUS, 01, DANIEL, P. Dybala, 02, NIK, NEXT, CONTINUE TO CAREER START, and the top bar exactly as drawn (CM17, HOME, CAREER, STANDINGS, STATS, RULES, and the small chips at the right). No other words anywhere: no adverts, no stadium names, no EA, FIFA or FUT words or logos on any board or roof.
+- Use ONLY the words and numbers in the sketch, copied letter for letter: CAREER MODE SHOWDOWN 17, Marquee Player, 86, ST, DYBALA, 21, 84 PAC, 84 SHO, 80 PAS, 89 DRI, 25 DEF, 63 PHY, POT 93, #5, TOP 10, JUVENTUS, 01, DANIEL, P. Dybala, 02, NIK, NEXT, CONTINUE TO CAREER START, and the top bar exactly as drawn (CM17, HOME, CAREER, STANDINGS, STATS, RULES, and the small chips at the right). No other words anywhere: no adverts, no stadium names, no EA, FIFA or FUT words or logos on any board or roof.
 - No real club crests and no real players. The only real symbol is the national flag of Argentina.
 
 The stadium:
@@ -34,14 +36,17 @@ The stadium:
 - Steep two-tier stands on both sides and behind, with black and gold seats, a steel roof truss with yellow-gold beams, glass roof panels, empty seats. Plain gold LED boards around the pitch with no words.
 - Fresh green grass mown in wide light and dark stripes, sharp near the camera.
 - Giant Argentina flags (light blue, white, light blue with the gold sun) hang down from both roofs, three on each side, gently waving.
-- Bursts of white sparkler fireworks fire from the roof edges. Light-blue and white confetti drifts through the air and lies on the grass.
+- Bursts of white sparkler fireworks fire from the roof edges, and tall white-gold sparkler fountains spray up from the ground at the foot of both stands. Light-blue and white confetti drifts through the air and lies on the grass.
 
 The card (the hero, standing on the grass in the centre, about two thirds of the screen height):
 - A thick, glossy 3D player card standing upright on the pitch and casting a soft shadow on the grass, slightly turned towards us. Shield shape with a pointed bottom and a scalloped top edge. Finish: rich royal blue with fine diagonal pinstripes, thick polished-gold edges and a horizontal gold band, with a soft gloss highlight.
-- Top left, stacked: the big number 86, the letters ST under it, then a small Argentina flag, then a small round coin in black and white vertical stripes (no crest, no letters).
+- Top left, stacked: the big number 86, the letters ST under it, then a small round coin in black and white vertical stripes (no crest, no letters), then a small Argentina flag.
 - Right of that, where a player photo would be: a football shirt seen from the BACK in black and white vertical stripes, with DYBALA across the shoulders and the big number 21 in gold below. An original shirt: no badges, sponsors or maker logos. No person.
-- Below: a gold name band with DYBALA in bold, then POT 93, #5 and TOP 10 in a neat row, and JUVENTUS small at the bottom.
+- Below: a gold name band with DYBALA in bold; under it six stats in two neat columns split by a thin gold line: 84 PAC, 84 SHO, 80 PAS on the left and 89 DRI, 25 DEF, 63 PHY on the right; then POT 93, #5 and TOP 10 in a row, and JUVENTUS small at the bottom.
 - Little gold sparkles around the card edges, as if it has just flipped round.
+
+The club coin (left of the card, as in the sketch):
+- A huge, thick 3D coin standing on its edge on the grass, slightly turned, casting a long shadow, like a giant medal that has just rolled in: a thick polished-gold rim with a bevel, and a glossy black face showing bold black and white vertical stripes inside a gold ring. No crest, no letters, no numbers on it.
 
 The interface:
 - At the top centre, over the sky: CAREER MODE SHOWDOWN 17 small, and under it Marquee Player as a gold brush-script title with metallic shine.
