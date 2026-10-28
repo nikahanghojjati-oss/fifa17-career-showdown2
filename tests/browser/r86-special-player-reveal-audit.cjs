@@ -118,6 +118,23 @@ function loadingUp(page){
       console.log(`ok failure: a page that does not load is skipped in ${took} ms, loading screen gone, not marked seen`);
       await context.close();
     }
+    {
+      // Codex P2 on #1035: the page failing AFTER it said ready (the animation, before Continue) removes the stage and hands
+      // back to Career Start instead of leaving the manager on a broken reveal.
+      const context=await browser.newContext({viewport:{width:1366,height:768},serviceWorkers:"block"});
+      await routeOutside(context,base);
+      const page=await context.newPage();await openApp(page,base,{worker:false});
+      await start(page,RIVALRY);await loadingUp(page);
+      await page.waitForFunction(()=>{const s=document.getElementById("specialPlayerStage");return s&&getComputedStyle(s).visibility==="visible";},null,{timeout:20000});
+      const inner=page.frames().find(f=>f.url().includes("/special-player/index.html"));
+      await inner.evaluate(()=>parent.postMessage({type:"cms-sp-error",message:"test"},location.origin));
+      assert.equal(await page.evaluate(()=>Promise.race([window.__spRun,new Promise(resolve=>setTimeout(()=>resolve("stuck"),3000))])),"none","an error after ready ends the reveal");
+      assert.equal(await page.locator("#specialPlayerStage").count(),0,"the broken stage is removed");
+      assert.equal(await page.evaluate(()=>document.getElementById("loadingScreen").hidden),true);
+      assert.equal(await page.evaluate(()=>localStorage.getItem("careerModeShowdown.specialPlayerSeen.v1")),null,"not marked seen");
+      console.log("ok late failure: an error after ready removes the stage at once and hands back, not marked seen");
+      await context.close();
+    }
     console.log("PASS r86 Special Player reveal audit");
   }finally{await browser.close();server.close();}
 })().catch(error=>{console.error(error);process.exit(1);});

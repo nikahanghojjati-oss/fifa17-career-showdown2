@@ -79,8 +79,10 @@
     const handler=event=>{
       if(event.source!==frame.contentWindow||event.origin!==origin||!event.data)return;
       if(event.data.type==="cms-sp-ready")onReady("ready");
-      else if(event.data.type==="cms-sp-error")onReady("error");
-      else if(event.data.type==="cms-sp-continue")onContinue(true);
+      // An error after "ready" (the animation failing before Continue) also ends the Continue wait, so the stage is removed
+      // and Career Start opens instead of the manager being stuck on a broken reveal (Codex P2 on #1035).
+      else if(event.data.type==="cms-sp-error"){onReady("error");onContinue("error");}
+      else if(event.data.type==="cms-sp-continue")onContinue("continue");
     };
     root.addEventListener("message",handler);
     // A page that loads without its 3D library, or not at all, is skipped at once instead of after the full wait.
@@ -105,7 +107,9 @@
     }catch(_error){if(channel)channel.stop();failedHere.add(pick.key);spRemoveStage();loading.hide();return null;}
     loading.hide();
     try{frame.focus();}catch(_error){}
-    await channel.cont;channel.stop();spMarkSeen(pick.key);
+    const end=await channel.cont;channel.stop();
+    if(end==="error"){failedHere.add(pick.key);spRemoveStage();return null;}
+    spMarkSeen(pick.key);
     return Object.freeze({close(){spRemoveStage();return true;}});
   }
   // Never rejects: any failure means no reveal, and Career Start opens as before.
