@@ -14,7 +14,8 @@ start from it and correct it to launch.
 - formation (e.g. "4-3-3")
 - startingXI: 11 entries {pos, name, number, rating}. pos uses the FIFA squad-screen labels
   (GK, RB, RCB, LCB, LB, CDM, RCM, LCM, CAM, RW, LW, ST, RM, LM, CF, LS, RS, LDM, RDM, LAM, RAM, LWB, RWB, CB, CM).
-- subs: the bench exactly as the FIFA 17 squad screen lists it (count as shown), {pos, name, number, rating}.
+- subs: ONLY the first 4 substitutes in the order the FIFA 17 squad screen lists them (Nik's rule: 4 subs, no reserves),
+  {pos, name, number, rating}. Example from Nik's screenshot (gameplay/r87/reference/): Manchester United subs = Mata, Carrick, Fellaini, Young.
 - source: the sofifa URL you used for that club and roster date.
 - note: anything uncertain. Write "unknown" instead of guessing. Never invent a player.
 
@@ -29,5 +30,5 @@ save and push it, then reply "DONE <league> <club count> <unknown count>". Nik t
 
 ## Checks before saving
 - Club names exactly as in the draft file's "club" field.
-- 11 starters per club; one GK in the XI.
+- 11 starters and exactly 4 subs per club; one GK in the XI.
 - Valid JSON array of {club, formation, startingXI, subs, source, note}.
