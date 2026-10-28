@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28 6:15 PM Boston time (EDT)",
+ "generated": "2026-10-28 6:19 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 138,
@@ -1301,14 +1301,14 @@
    "fixes": [
     {
      "pr": 1033,
-     "title": "V- Phone Home: remove music bar, move tiles down, close the gap above the bottom bar",
+     "title": "V- Phone Home: remove music bar (upright and sideways), move tiles down, close the gap above the bottom bar",
      "draft": false,
      "branch": "claude/project-thread-mdbg45",
      "sha": "dd064cdf1f2d821ca129254f0200de386e7c40d4",
-     "updated": "2026-10-28T22:15:13Z",
+     "updated": "2026-10-28T22:15:50Z",
      "gates": {
-      "passed": 0,
-      "running": 7,
+      "passed": 2,
+      "running": 5,
       "failed": 0,
       "cancelled": 0
      }
@@ -3136,14 +3136,14 @@
   "fixes": [
    {
     "pr": 1033,
-    "title": "V- Phone Home: remove music bar, move tiles down, close the gap above the bottom bar",
+    "title": "V- Phone Home: remove music bar (upright and sideways), move tiles down, close the gap above the bottom bar",
     "draft": false,
     "branch": "claude/project-thread-mdbg45",
     "sha": "dd064cdf1f2d821ca129254f0200de386e7c40d4",
-    "updated": "2026-10-28T22:15:13Z",
+    "updated": "2026-10-28T22:15:50Z",
     "gates": {
-     "passed": 0,
-     "running": 7,
+     "passed": 2,
+     "running": 5,
      "failed": 0,
      "cancelled": 0
     }
