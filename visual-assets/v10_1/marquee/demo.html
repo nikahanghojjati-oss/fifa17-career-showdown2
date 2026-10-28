@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Marquee Player demo</title>
+<link rel="stylesheet" href="marquee.css">
+<style>html,body{margin:0;height:100%;background:#050607}#marqueeHost{position:fixed;inset:0}
+.mqCta{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:5;height:52px;min-width:min(420px,calc(100vw - 24px));border:1px solid #fff1b8;border-radius:3px;
+background:linear-gradient(180deg,#fff1b8,#f2c45b 50%,#c99b45);color:#14100a;font:700 18px/1 "MQ Cond","Barlow Condensed",sans-serif;letter-spacing:.08em;text-transform:uppercase;box-shadow:0 0 0 2px #000}
+</style></head>
+<body><div id="marqueeHost"></div><button class="mqCta" type="button">Continue to Career Start</button>
+<script src="marquee.js"></script>
+<script>
+// Demo only (Team G wires the real screen): ?pair=a|b|c &frame=0..6 (static) or &play=1, &layout=desktop|phone|auto
+const PAIRS={
+  a:{daniel:{rank:5,name:"P. Dybala",club:"Juventus",overall:86,potential:93,tier:"blue-gold",number:21},
+     nik:{rank:12,name:"K. De Bruyne",club:"Manchester City",overall:88,potential:91,tier:"gold",number:17}},
+  b:{daniel:{rank:1,name:"Cristiano Ronaldo",club:"Real Madrid",overall:94,potential:94,tier:"black-blue-gold",number:7},
+     nik:{rank:26,name:"H. Kane",club:"Tottenham Hotspur",overall:85,potential:90,tier:"silver",number:10}},
+  c:{daniel:{rank:165,name:"Oscar",club:null,overall:83,potential:86,tier:"bronze",number:8},
+     nik:{rank:188,name:"S. Milinković-Savić",club:"Lazio",overall:79,potential:86,tier:"bronze",number:21}}
+};
+const q=new URLSearchParams(location.search);
+const app=MarqueePlate.app.mount(document.getElementById("marqueeHost"),PAIRS[q.get("pair")||"a"],{layout:q.get("layout")||"auto"});
+if(q.get("play"))app.play();else app.frame(q.has("frame")?+q.get("frame"):6);
+const cta=document.querySelector(".mqCta");
+function placeCta(){
+  if(document.getElementById("marqueeHost").dataset.mqLayout!=="desktop"){cta.removeAttribute("style");return;}
+  // desktop: the free table space between the plaques (plate x 596-940, y 728-786)
+  const W=innerWidth,H=innerHeight,k=Math.max(W/1536,H/864),wx=(W-k*1536)/2,wy=(H-k*864)/2;
+  Object.assign(cta.style,{left:(wx+k*596)+"px",top:(wy+k*728)+"px",bottom:"auto",transform:"none",minWidth:"0",width:(k*344)+"px",height:(k*58)+"px",fontSize:(k*19)+"px"});
+}
+placeCta();addEventListener("resize",placeCta);
+</script></body></html>
