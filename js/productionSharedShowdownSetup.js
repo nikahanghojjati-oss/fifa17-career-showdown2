@@ -146,7 +146,7 @@
   }
   function accept(result,context,message){
     if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_PROVIDER_FAILED");
-    return setState({status:"ready",busy:false,ready:true,revision:result.revision||0,phase:result.state&&result.state.phase||null,rivalryId:context.rivalryId,saveId:context.saveId||null,sessionId:context.sessionId,accountId:context.accountId,deviceId:context.deviceId,managerRole:context.managerRole,remoteRole:context.remoteRole,setup:result.state||null,message});
+    return setState({status:"ready",busy:false,ready:true,revision:result.revision||0,phase:result.state&&result.state.phase||null,rivalryId:context.rivalryId,saveId:context.saveId||null,sessionId:context.sessionId,accountId:context.accountId,deviceId:context.deviceId,managerRole:context.managerRole,remoteRole:context.remoteRole,setup:result.state||null,setupUpdatedAtMs:Number.isFinite(result.updatedAtMs)?result.updatedAtMs:null,message});
   }
   // r49: taps used to be dropped with SHARED_SETUP_BUSY whenever any module's background refresh was
   // in flight (every 2.5-15s), so the wheel/packs/confirm needed a second tap. Refreshes now coalesce,
