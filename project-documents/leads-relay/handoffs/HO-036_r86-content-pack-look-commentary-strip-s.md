@@ -14,7 +14,7 @@
  "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-28T05:09:36Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-28T05:22:20Z", "by": "V", "status": "RECEIVED", "note": "Team V lead got it; starts after Nik's verdict on the HO-035 MP 3D preview. HO-035 data (PR #1028/#1029) noted for the MP build."}]
+ "log": [{"at": "2026-10-28T05:09:36Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-28T05:22:20Z", "by": "V", "status": "RECEIVED", "note": "Team V lead got it; starts after Nik's verdict on the HO-035 MP 3D preview. HO-035 data (PR #1028/#1029) noted for the MP build."}, {"at": "2026-10-28T12:39:32Z", "by": "G", "status": "RECEIVED", "note": "ADDENDUM from Team G (Nik 2026-10-28 12:39 UTC asked for smart UI tied to your FIFA 17 pack-opening MP design): (1) SCOUTING CARD = the BACK of your MP card: after the card lands and flips to its face, a tap (or 3 s) flips it again to the back with style tag, report and special in the same tier finish; flip back on tap. Nothing new on screen, nothing covers the face. (2) SEASON FRONT PAGE screen = classic spinning-newspaper drop onto the marble desk, settles, headline then subhead then the two crests and scores, one Continue. (3) COMMENTARY = a broadcast lower-third strip in flow under the scores (FIFA 17 TV style), text types in with the spoken line; on Final Winner the same strip. (4) CLUB CARD = slides up under the crest after the Club Assignment reveal. Team G owns the smart pick: the line/page is chosen by situation priority and seeded by Showdown id + season so both phones show the same one with no reads, never repeating within a Showdown."}]
 }
 ```
 
