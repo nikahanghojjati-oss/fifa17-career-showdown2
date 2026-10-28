@@ -200,7 +200,7 @@ ${name?`<text class="mqBackName" x="100" y="130" text-anchor="middle" font-size=
       host.innerHTML=`<div class="mqWorld" aria-hidden="true">
   <div class="mqPlate"></div>
   <div class="mqTitle"><small>Career Mode Showdown 17</small><strong>Marquee Player</strong></div>
-  <ol class="mqTrack">${STEPS.map((s,i)=>`<li data-n="${i+1}"><i></i><span>${["Figure","Jersey","Number","Club","Name","Rank"][i]}</span></li>`).join("")}</ol>
+  <ol class="mqTrack">${STEPS.map((s,i)=>`<li data-n="${i+1}"><i></i><span>${["Walkout","Jersey","Number","Club","Name","Rank"][i]}</span></li>`).join("")}</ol>
   ${side("daniel","Daniel",d)}
   ${side("nik","Nik",n)}
 </div>`;
