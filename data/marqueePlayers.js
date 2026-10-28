@@ -161,7 +161,7 @@
     {"rank":139,"name":"A. Christensen","club":"Borussia Mönchengladbach","overall":78,"potential":87,"number":3,"nation":"Denmark","nationCode":"DK","position":"CB","stats":{"PAC":66,"SHO":31,"PAS":60,"DRI":66,"DEF":80,"PHY":69}},
     {"rank":143,"name":"A. Živković","club":"SL Benfica","overall":75,"potential":87,"number":17,"nation":"Serbia","nationCode":"RS","position":"RM","stats":{"PAC":85,"SHO":70,"PAS":70,"DRI":79,"DEF":32,"PHY":49}},
     {"rank":143,"name":"V. Kovalenko","club":"Shakhtar Donetsk","overall":75,"potential":87,"number":74,"nation":"Ukraine","nationCode":"UA","position":"CAM","stats":{"PAC":77,"SHO":72,"PAS":73,"DRI":75,"DEF":60,"PHY":69}},
-    {"rank":145,"name":"K. Mbappe Lottin","club":"AS Monaco","overall":71,"potential":87,"number":29,"nation":"France","nationCode":"FR","position":"LW","stats":{"PAC":81,"SHO":64,"PAS":65,"DRI":74,"DEF":39,"PHY":62}},
+    {"rank":145,"name":"K. Mbappé","club":"AS Monaco","overall":71,"potential":87,"number":29,"nation":"France","nationCode":"FR","position":"LW","stats":{"PAC":81,"SHO":64,"PAS":65,"DRI":74,"DEF":39,"PHY":62}},
     {"rank":145,"name":"T. Fosu-Mensah","club":"Manchester United","overall":71,"potential":87,"number":24,"nation":"Netherlands","nationCode":"NL","position":"CDM","stats":{"PAC":80,"SHO":61,"PAS":63,"DRI":63,"DEF":71,"PHY":78}},
     {"rank":147,"name":"A. Barzagli","club":"Juventus","overall":86,"potential":86,"number":15,"nation":"Italy","nationCode":"IT","position":"CB","stats":{"PAC":75,"SHO":37,"PAS":56,"DRI":63,"DEF":89,"PHY":79}},
     {"rank":147,"name":"V. Kompany","club":"Manchester City","overall":86,"potential":86,"number":4,"nation":"Belgium","nationCode":"BE","position":"CB","stats":{"PAC":69,"SHO":54,"PAS":62,"DRI":65,"DEF":86,"PHY":81}},

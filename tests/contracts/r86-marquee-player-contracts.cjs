@@ -37,7 +37,7 @@ assert.deepEqual(List.players.filter(p=>p.club===null).map(p=>p.name),[]);
 // Launch database (HO-037): the tie at the cut is kept whole, and Gabriel Jesus (added after launch) is absent.
 assert.equal(List.players.filter(p=>p.overall===76&&p.potential===86).length,8);
 assert.ok(!List.players.some(p=>/Gabriel Jesus/.test(p.name)));
-assert.equal(List.players.find(p=>p.name==='K. Mbappe Lottin').overall,71);assert.equal(List.players.find(p=>p.name==='Deulofeu').club,'Everton');
+assert.equal(List.players.find(p=>p.name==='K. Mbappé').overall,71);assert.equal(List.players.find(p=>p.name==='Deulofeu').club,'Everton');
 const named=name=>List.players.find(p=>p.name===name);
 assert.equal(List.players[0].name,'Neymar');assert.equal(named('Cristiano Ronaldo').number,7);assert.equal(named('L. Messi').number,10);
 assert.deepEqual(named('L. Messi').stats,{PAC:89,SHO:90,PAS:86,DRI:96,DEF:26,PHY:61});assert.equal(named('L. Messi').nationCode,'AR');assert.equal(List.players[206].rank,200);
