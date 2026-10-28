@@ -2259,6 +2259,14 @@
       ]
     },
     {
+      "path": "tests/contracts/r86-content-pack-contracts.cjs",
+      "patterns": [
+        "^data/(commentaryLines|frontPages|clubCards|scoutingCards|marqueePlayers|clubs)\\.js$",
+        "^tests/contracts/r86-content-pack-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r84-billed-budget-contracts.cjs",
       "patterns": [
         "^tests/browser/(ce2pg-journey\\.cjs|support/(billed-meter|rules-lookups|firestore-meter)\\.cjs|support/billed-reads-table\\.json)$",
@@ -2268,10 +2276,13 @@
       ]
     },
     {
-      "path": "tests/contracts/r86-content-pack-contracts.cjs",
+      "path": "tests/contracts/r86-billed-counter-contracts.cjs",
       "patterns": [
-        "^data/(commentaryLines|frontPages|clubCards|scoutingCards|marqueePlayers|clubs)\\.js$",
-        "^tests/contracts/r86-content-pack-contracts\\.cjs$",
+        "^js/(sparkPrivatePairing|settings)\\.js$",
+        "^tests/browser/support/(billed-meter|rules-lookups)\\.cjs$",
+        "^tests/browser/support/billed-reads-table\\.json$",
+        "^(firestore\\.[a-z0-9-]+\\.rules|scripts/build-production-firestore-rules(-with-persistent-pair)?\\.mjs)$",
+        "^tests/contracts/r86\\-billed\\-counter\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }

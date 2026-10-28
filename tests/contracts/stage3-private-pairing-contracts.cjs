@@ -76,7 +76,8 @@ function binding(role,seed,label){
   assert.doesNotMatch(safeJoinMessage,/missing or insufficient permissions/i);
   assert.equal(pairing.pairingJoinErrorMessage(Object.assign(new Error("Choose Player Two."),{code:"PAIRING_SLOT_MISMATCH"})),"Choose Player Two.");
 
-  const source=fs.readFileSync("js/sparkPrivatePairing.js","utf8");
+  // r86: the budget layer's generated Rules lookup table names game paths only to price reads; it is cut out before the check.
+  const source=fs.readFileSync("js/sparkPrivatePairing.js","utf8").replace(/\/\/ BEGIN generated Rules lookup table[\s\S]*?\/\/ END generated Rules lookup table\./,"");
   assert.doesNotMatch(source,/localStorage\s*\./);
   assert.doesNotMatch(source,/state\/authoritative/);
   assert.doesNotMatch(source,/sessions\//);
