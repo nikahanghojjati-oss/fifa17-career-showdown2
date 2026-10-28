@@ -1,7 +1,7 @@
 {
   "_comment": "Billed-reads model for tests/browser/support/billed-meter.cjs. The per-path Rules lookup counts are DERIVED at run time from the composed production Rules (firestore.spark.generated.rules) by rules-lookups.cjs: every distinct document a rule reaches with get()/exists()/getAfter()/existsAfter() through any helper chain is one billed read. This file only holds (1) the sha256 of the Rules text the derivation was reviewed against, so changing the Rules fails tests/contracts/r84-billed-budget-contracts.cjs until someone re-reviews the exclusions below and updates the pin, and (2) the lookups a normal ALLOWED request never evaluates (an || alternative that is only reached when the first one fails).",
-  "rulesSha256": "75910f93e69781b82b230f15a6bc4e984873250a5ec60c54f9ec589fff1c900b",
-  "reviewedAt": "2026-10-26",
+  "rulesSha256": "d38489a8fabf24de301c838a6669e17af663aaca7e6c286064e769ac3bc0c30e",
+  "reviewedAt": "2026-10-28",
   "readExclusions": {
     "/rivalries/{rivalryId}": {
       "exclude": [
@@ -10,5 +10,48 @@
       "why": "allow get: currentlyEntitled(rivalryId) || capabilityCanReadPendingRivalry(rivalryId). The invite get() lives in capabilityCanReadPendingRivalry, which is only evaluated when currentlyEntitled fails (a not-yet-paired rivalry). Once paired every read takes the first branch: rivalry + signed-in account."
     }
   },
-  "writeNotes": "Writes are priced at the union of the create and update upper bounds of the path (any branch counted), once per distinct document per commit (a batch or transaction is one request; a single setDoc/updateDoc is its own request). Delete is denied by the Rules everywhere. Lookups of the document being written or read (for example rivalries/{id} while reading rivalries/{id}) are counted, not discounted: that is the conservative choice and billed-meter.cjs reports how many such self lookups there were."
+  "writeNotes": "Writes are priced at the union of the create and update upper bounds of the path (any branch counted), once per distinct document per commit (a batch or transaction is one request; a single setDoc/updateDoc is its own request). Delete is denied by the Rules everywhere. Lookups of the document being written or read (for example rivalries/{id} while reading rivalries/{id}) are counted, not discounted: that is the conservative choice and billed-meter.cjs reports how many such self lookups there were.",
+  "liveReadExclusions": {
+    "_why": "On a LIVE Showdown the first branch (ssjrEntitled / currentlyEntitled / the private-role check) allows the read and only looks up the rivalry; the signed-in account lookup is in the || alternative for finished Showdowns (cmsCompleted*), a tombstone or a pending pair, which a live read never evaluates. Applied only while the Showdown is live: billed-meter.cjs prices reads of a Showdown after its Terminal Close / END at the full upper bound (both branches are evaluated when the first one fails).",
+    "/rivalries/{rivalryId}": {
+      "exclude": [
+        "accounts/{@self}"
+      ]
+    },
+    "/rivalries/{rivalryId}/state/authoritative": {
+      "exclude": [
+        "accounts/{@self}"
+      ]
+    },
+    "/rivalries/{rivalryId}/sharedSetup/authoritative": {
+      "exclude": [
+        "accounts/{@self}"
+      ]
+    },
+    "/rivalries/{rivalryId}/transferChallenges/{transferId}": {
+      "exclude": [
+        "accounts/{@self}"
+      ]
+    },
+    "/rivalries/{rivalryId}/transferChallenges/{transferId}/roles/{managerRole}": {
+      "exclude": [
+        "accounts/{@self}"
+      ]
+    },
+    "/rivalries/{rivalryId}/seasonResults/{seasonId}": {
+      "exclude": [
+        "accounts/{@self}"
+      ]
+    },
+    "/rivalries/{rivalryId}/seasonResults/{seasonId}/roles/{managerRole}": {
+      "exclude": [
+        "accounts/{@self}"
+      ]
+    },
+    "/rivalries/{rivalryId}/seasonCommits/{seasonId}": {
+      "exclude": [
+        "accounts/{@self}"
+      ]
+    }
+  }
 }

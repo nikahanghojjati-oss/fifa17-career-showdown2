@@ -25,16 +25,33 @@ assert.equal(L.hashRules(rulesText),table.rulesSha256,
 // 2. The derivation sees the lookups we know are there, and every exclusion still names a real lookup.
 const analysis=L.analyze(rulesText);
 const model=B.loadModel();
-const read=p=>model.readDocs(model.templateOf(p));
-assert.deepEqual(read("rivalries/pair_x"),["accounts/{@self}","rivalries/{rivalryId}"],"a paired rivalry read: the rivalry itself and the signed-in account (the pending-invite lookup is on the other || branch)");
+const read=(p,live=true)=>model.readDocs(model.templateOf(p),live);
+// r86: since the r84 check trim a live Showdown's shared reads look up the rivalry only; the signed-in account is reached only on
+// the finished-Showdown / tombstone / pending-pair alternative, which is priced once the Showdown has ended (live=false).
+assert.deepEqual(read("rivalries/pair_x"),["rivalries/{rivalryId}"],"a live paired rivalry read: the rivalry itself (the account and invite lookups are on the other || branch)");
+assert.deepEqual(read("rivalries/pair_x",false),["accounts/{@self}","rivalries/{rivalryId}"],"a finished rivalry read also reaches the signed-in account");
 for(const sub of ["state/authoritative","sharedSetup/authoritative","careerStart/authoritative","transferChallenges/season_1","seasonResults/season_1","seasonCommits/season_1","sessionOffers/current"]){
   const docs=read(`rivalries/pair_x/${sub}`);
   assert.ok(docs.includes("rivalries/{rivalryId}"),`${sub} read looks up the rivalry`);
 }
 for(const sub of ["sharedSetup/authoritative","careerStart/authoritative","transferChallenges/season_1","seasonResults/season_1","seasonCommits/season_1"]){
-  const docs=read(`rivalries/pair_x/${sub}`);
-  assert.deepEqual(docs,["accounts/{@pair0}","accounts/{@pair1}","rivalries/{rivalryId}"],`${sub} read: the rivalry plus both paired accounts`);
+  assert.deepEqual(read(`rivalries/pair_x/${sub}`),["rivalries/{rivalryId}"],`${sub} live read: the rivalry only`);
 }
+for(const sub of ["sharedSetup/authoritative","transferChallenges/season_1","seasonResults/season_1","seasonCommits/season_1"]){
+  assert.deepEqual(read(`rivalries/pair_x/${sub}`,false),["accounts/{@self}","rivalries/{rivalryId}"],`${sub} finished read: the rivalry and the signed-in account`);
+}
+assert.deepEqual(read("accounts/u/careerSummary/pair_x"),["accounts/{@self}"],"a career summary read looks up the reader's account only");
+assert.deepEqual(read("accounts/u/careerIndex/current"),[],"the career index read needs no lookup");
+assert.deepEqual(read("rivalries/pair_x/sessions/session_1"),["accounts/{@self}","rivalries/{rivalryId}"],"a session read checks the reader's account and the rivalry");
+for(const [template,entry] of Object.entries(table.liveReadExclusions)){
+  if(template==="_why")continue;
+  const ub=L.upperBound(analysis,template,"get")||[];
+  for(const doc of entry.exclude)assert.ok(ub.includes(doc),`liveReadExclusions ${template} names ${doc}, which the Rules no longer look up on get`);
+}
+assert.ok(table.liveReadExclusions._why.length>80,"liveReadExclusions needs its reason");
+{const m=B.loadModel();m.markFinished("pair_ab",1000);
+  assert.equal(m.liveAt("rivalries/pair_ab/seasonCommits/season_1",999),true);assert.equal(m.liveAt("rivalries/pair_ab/seasonCommits/season_1",1000),false);
+  assert.equal(m.liveAt("rivalries/pair_cd",5000),true,"another Showdown stays live");}
 assert.deepEqual(read("accounts/u/devices/d"),[],"account device reads need no lookups");
 assert.equal(model.writeDocs(model.templateOf("rivalries/pair_x/seasonCommits/season_1")).length>=3,true,"season commit writes look up several documents");
 for(const [template,entry] of Object.entries(table.readExclusions)){
@@ -55,7 +72,7 @@ const sample=B.price(model,[
   ev({k:"write",op:"batch",path:"rivalries/pair_x/seasonResults/season_1/roles/playerOne",req:1})
 ]);
 assert.equal(sample.docReads,3,"1 getDoc + 2 listener deliveries");
-assert.equal(sample.rulesReads,2+2,"getDoc rivalry 2 lookups + listener attach 2 lookups");
+assert.equal(sample.rulesReads,1+1,"getDoc rivalry 1 lookup + listener attach 1 lookup (live)");
 assert.equal(sample.writes,2);
 const union=new Set([...model.writeDocs(model.templateOf("rivalries/pair_x/seasonResults/season_1")),...model.writeDocs(model.templateOf("rivalries/pair_x/seasonResults/season_1/roles/playerOne"))]);
 assert.equal(sample.rulesOnWrites,union.size,"two writes in one commit share their lookups");

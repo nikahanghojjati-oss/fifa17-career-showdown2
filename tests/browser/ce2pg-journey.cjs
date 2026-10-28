@@ -1187,7 +1187,7 @@ async function playShowdown(ctx,spec){
         await checkFinalWinnerScreen(m,plan);
         await check(m,`${spec.name}.noCloseTap`,"the automatic close needs no CLOSE tap",!m.log.taps.some(t=>t.id==="sharedTerminalCloseAction"||t.id==="sharedTerminalCloseRetry"),"a CLOSE tap was needed",{screen:"Showdown Champion"});
       }
-      entry.state="completed";
+      entry.state="completed";billedModel?.markFinished(entry.rivalryId);
       for(const m of [daniel,nik]){
         let landed=false;try{await m.page.locator("#v10ExitSlot [data-smart-back]").first().click({timeout:8000});landed=await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:15000}).then(()=>true).catch(()=>false);}catch(_e){}
         await check(m,`${spec.name}.backHome`,"BACK TO SHOWDOWN HOME on the Showdown Champion screen opens Showdown Home",landed,await describe(m),{screen:"Showdown Champion"});
@@ -1212,7 +1212,7 @@ async function playShowdown(ctx,spec){
       await daniel.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
       try{await nik.page.waitForFunction(id=>window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="DELETED"&&window.CareerModeProductionSharedTerminalClose.getState().rivalryId===id,entry.rivalryId,{timeout:60000});await nik.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});}
       catch(_e){await check(nik,`${spec.name}.end.nikHome`,"Nik's phone goes Home by itself after END SHOWDOWN",false,await describe(nik),{screen:"Showdown Home"});}
-      entry.state="ended";
+      entry.state="ended";billedModel?.markFinished(entry.rivalryId);
       entry.endedDate=await daniel.page.evaluate(()=>new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric"}).format(new Date()));
     });
     const end=mark(`${spec.name}:ended`);

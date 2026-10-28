@@ -28,19 +28,24 @@ const TABLE_FILE=path.join(__dirname,"billed-reads-table.json");
 function loadModel({rulesFile=RULES_FILE,tableFile=TABLE_FILE}={}){
   const rulesText=R.loadRules(rulesFile),table=JSON.parse(fs.readFileSync(tableFile,"utf8"));
   const analysis=R.analyze(rulesText);
-  const readCache=new Map(),writeCache=new Map();
-  function readDocs(template){
-    if(readCache.has(template))return readCache.get(template);
+  const readCache=new Map(),writeCache=new Map(),finishedAt=new Map();
+  // live=true (the default): the Showdown is still being played, so the liveReadExclusions apply too (r86 reads accuracy).
+  function readDocs(template,live=true){
+    const key=`${live?"live":"finished"} ${template}`;
+    if(readCache.has(key))return readCache.get(key);
     const ub=R.upperBound(analysis,template,"get")||[];
-    const ex=new Set(table.readExclusions?.[template]?.exclude||[]);
-    const docs=ub.filter(d=>!ex.has(d));readCache.set(template,docs);return docs;
+    const ex=new Set([...(table.readExclusions?.[template]?.exclude||[]),...(live?table.liveReadExclusions?.[template]?.exclude||[]:[])]);
+    const docs=ub.filter(d=>!ex.has(d));readCache.set(key,docs);return docs;
   }
+  // A Showdown's reads after its Terminal Close / END (the career pages) are priced at the full upper bound.
+  function markFinished(rivalryId,at=Date.now()){if(rivalryId&&!finishedAt.has(rivalryId))finishedAt.set(rivalryId,at);}
+  function liveAt(docPath,t){const m=/rivalries\/(pair_[0-9a-f]+)/.exec(String(docPath||""));if(!m||!finishedAt.has(m[1]))return true;return !(Number.isFinite(t)&&t>=finishedAt.get(m[1]));}
   function writeDocs(template){
     if(writeCache.has(template))return writeCache.get(template);
     const docs=[...new Set([...(R.upperBound(analysis,template,"create")||[]),...(R.upperBound(analysis,template,"update")||[])])].sort();
     writeCache.set(template,docs);return docs;
   }
-  return {analysis,table,rulesSha256:R.hashRules(rulesText),readDocs,writeDocs,templateOf:p=>R.matchTemplate(analysis,p)};
+  return {analysis,table,rulesSha256:R.hashRules(rulesText),readDocs,writeDocs,markFinished,liveAt,templateOf:p=>R.matchTemplate(analysis,p)};
 }
 function moduleOf(st){
   const frames=String(st||"").split(" < ").map(f=>{const m=/^([A-Za-z0-9_]+\.js):(\d+)/.exec(f);return m?`${m[1]}:${m[2]}`:null;}).filter(Boolean);
@@ -65,14 +70,14 @@ function price(model,events){
     if(e.k==="read"){
       const tpl=model.templateOf(e.path);
       if(e.op==="listen"){add(e.n,0,e.path,e.st,false);continue;}
-      const docs=tpl?model.readDocs(tpl):[];if(!tpl&&!/^QUERY:/.test(e.path))T.unmatched+=1;
+      const docs=tpl?model.readDocs(tpl,model.liveAt?model.liveAt(e.path,e.t):true):[];if(!tpl&&!/^QUERY:/.test(e.path))T.unmatched+=1;
       const perRequest=e.op==="getDocs"?1:e.n;
       const rules=docs.length*perRequest;
       if(tpl&&docs.includes(tpl.replace(/^\//,"")))T.selfLookups+=perRequest;
       add(e.n,rules,e.path,e.st,false);
     }else if(e.k==="listener"){
       const tpl=model.templateOf(e.path);
-      const docs=tpl?model.readDocs(tpl):[];
+      const docs=tpl?model.readDocs(tpl,model.liveAt?model.liveAt(e.path,e.t):true):[];
       if(!tpl&&!/^QUERY:/.test(e.path))T.unmatched+=1;
       if(tpl&&docs.includes(tpl.replace(/^\//,"")))T.selfLookups+=1;
       add(0,docs.length,e.path,e.st,false);
