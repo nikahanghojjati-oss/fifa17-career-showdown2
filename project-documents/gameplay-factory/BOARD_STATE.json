@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28 3:50 PM Boston time (EDT)",
+ "generated": "2026-10-28 3:54 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 134,
@@ -1229,8 +1229,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "898eabf",
-  "head_boston": "Wed 28 Oct 2:54 PM",
+  "head": "2cab4c8",
+  "head_boston": "Wed 28 Oct 3:53 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1782,6 +1782,19 @@
     "worker": "",
     "pickup_min": null,
     "waiting_min": null
+   },
+   {
+    "id": "HO-038",
+    "from": "V",
+    "to": "G",
+    "title": "15 r85-style crests for top-300 clubs outside the five leagues",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-038_15-r85-style-crests-for-top-300-clubs-ou.md",
+    "worker": "",
+    "pickup_min": null,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -1853,7 +1866,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 44,
   "next": 42,
   "nik": 2,
   "later": 21,
