@@ -30,20 +30,11 @@ test('POS10 remains the frozen executable safety kernel beneath POS20 successor 
   // of its checks may carry a POS20 name that POS20 recovery would consume. Validate POS20 stays archived
   // behind manual dispatch (asserted in the successor-workflow test below) so rollback is one trigger edit.
   const gatePullRequestWorkflows=['.github/workflows/showdown-gate.yml'];
-  // r85 (Nik 2026-10-27): Claude Review is the one other pull_request workflow. It is not a check set: it only reads the
-  // PR and comments, so its job alone may hold pull-requests/issues write and id-token write, never contents write.
-  const reviewWorkflow='.github/workflows/claude-review.yml';
-  const pullRequestWorkflows=workflowFiles.filter(file=>file!==reviewWorkflow&&/^\s*pull_request\s*:/m.test(read(file)));
+  // Claude Console review and deep audit RETIRED (Nik 2026-10-28, CLAUDE_CONSOLE_REVIEW_RETIRED_2026-10-28.md): every run failed
+  // with "Credit balance is too low" although the Console Playground worked. No workflow may call the Anthropic API again.
+  assert.deepEqual(workflowFiles.filter(file=>/claude|anthropic/i.test(file)||/anthropics\/claude-code-action|ANTHROPIC_API_KEY/.test(read(file))),[],'Claude Console review stays retired');
+  const pullRequestWorkflows=workflowFiles.filter(file=>/^\s*pull_request\s*:/m.test(read(file)));
   assert.deepEqual(pullRequestWorkflows,gatePullRequestWorkflows);
-  {
-    const review=read(reviewWorkflow);
-    assert.doesNotMatch(review,/pull_request_target/,`${reviewWorkflow} must not use pull_request_target`);
-    assert.doesNotMatch(review,/^\s*name:\s*['"]?POS20\b/m,`${reviewWorkflow} must not publish POS20-named checks`);
-    assert.doesNotMatch(review,/(contents|actions):\s*write/,`${reviewWorkflow} never writes code or workflows`);
-    assert.match(review,/\npermissions:\n {2}contents: read\n {2}pull-requests: read\n/,`${reviewWorkflow} workflow-level token stays read-only`);
-    assert.deepEqual((review.match(/^.*:\s*write\b.*$/gm)||[]).map(line=>line.trim()).sort(),['id-token: write','issues: write','pull-requests: write']);
-    assert.match(review,/persist-credentials: false/);
-  }
   for(const file of pullRequestWorkflows){
     const text=read(file);
     assert.doesNotMatch(text,/^\s*name:\s*['"]?POS20\b/m,`${file} must not publish POS20-named checks`);

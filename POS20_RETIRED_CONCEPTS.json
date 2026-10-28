@@ -8,7 +8,8 @@
     "Newest-looking filename as authority",
     "Combining CI evidence across Git heads",
     "Process work earning SSJR or MDP credit",
-    "Repeating a failed hypothesis without new evidence"
+    "Repeating a failed hypothesis without new evidence",
+    "Claude Console (API key) PR review or deep-audit workflows: retired 2026-10-28, see CLAUDE_CONSOLE_REVIEW_RETIRED_2026-10-28.md"
   ],
   "forbiddenStateFields": ["handoffProximity","handoffPercentage","estimatedFocusedSessions"],
   "replacement": "Categorical continuity state plus objective, evidence debt, selected action, exact blocker, verification target and live re-resolution."
