@@ -1,0 +1,1502 @@
+[
+  {
+    "id": "c2-001",
+    "situation": "champions-league",
+    "text": "The Champions League belongs to {winnerClub}, and {winner} banks five points with continental flair."
+  },
+  {
+    "id": "c2-002",
+    "situation": "champions-league",
+    "text": "European glory shines on {winnerClub}; that Champions League crown delivers five precious points to {winner}."
+  },
+  {
+    "id": "c2-003",
+    "situation": "champions-league",
+    "text": "The great European stage has its champion, and {winner} leaves carrying five extra points."
+  },
+  {
+    "id": "c2-004",
+    "situation": "champions-league",
+    "text": "What a continental statement from {winnerClub}; the Champions League trophy arrives with a five-point reward."
+  },
+  {
+    "id": "c2-005",
+    "situation": "champions-league",
+    "text": "Under the brightest European lights, {winnerClub} found the finish line and {winner} found five points."
+  },
+  {
+    "id": "c2-006",
+    "situation": "champions-league",
+    "text": "Five points from the Champions League, one enormous achievement, and plenty for {winner} to celebrate."
+  },
+  {
+    "id": "c2-007",
+    "situation": "champions-league",
+    "text": "That famous European prize is heading to {winnerClub}, with five Showdown points following close behind."
+  },
+  {
+    "id": "c2-008",
+    "situation": "champions-league",
+    "text": "The Champions League campaign ends in silverware for {winnerClub}; {winner} earns the full five-point bonus."
+  },
+  {
+    "id": "c2-009",
+    "situation": "champions-league",
+    "text": "Europe's biggest club trophy goes to {winnerClub}, turning {winner}'s season into a headline act."
+  },
+  {
+    "id": "c2-010",
+    "situation": "champions-league",
+    "text": "From continental ambition to continental champions, {winnerClub} have given {winner} five points to treasure."
+  },
+  {
+    "id": "c2-011",
+    "situation": "champions-league",
+    "text": "Champions League glory has a familiar sound tonight: cheers for {winnerClub} and five points for {winner}."
+  },
+  {
+    "id": "c2-012",
+    "situation": "champions-league",
+    "text": "No ordinary cup run this; {winnerClub} have climbed Europe's summit and {winner} collects five points."
+  },
+  {
+    "id": "c2-013",
+    "situation": "champions-league",
+    "text": "The Champions League trophy has been claimed, and {winner} has five compelling reasons to smile."
+  },
+  {
+    "id": "c2-014",
+    "situation": "champions-league",
+    "text": "For {winnerClub}, Europe's highest honour; for {winner}, a five-point addition to the Showdown account."
+  },
+  {
+    "id": "c2-015",
+    "situation": "champions-league",
+    "text": "Continental pressure makes legends, and {winnerClub} have turned that pressure into Champions League gold."
+  },
+  {
+    "id": "c2-016",
+    "situation": "champions-league",
+    "text": "Five European points arrive with a trophy, and the applause for {winnerClub} is thoroughly deserved."
+  },
+  {
+    "id": "c2-017",
+    "situation": "champions-league",
+    "text": "The road through Europe ends with {winnerClub} on top and {winner} five points richer."
+  },
+  {
+    "id": "c2-018",
+    "situation": "champions-league",
+    "text": "A Champions League coronation for {winnerClub}, written in silverware and rewarded in Showdown points."
+  },
+  {
+    "id": "c2-019",
+    "situation": "champions-league",
+    "text": "They came for European glory, and {winnerClub} depart as Champions League winners with the prize secured."
+  },
+  {
+    "id": "c2-020",
+    "situation": "champions-league",
+    "text": "The stadium roars for {winnerClub}; the Champions League trophy has found a new home."
+  },
+  {
+    "id": "c2-021",
+    "situation": "champions-league",
+    "text": "Five points for {winner}, and somewhere a calculator has just started singing the Champions League anthem."
+  },
+  {
+    "id": "c2-022",
+    "situation": "champions-league",
+    "text": "{winnerClub} have won Europe; the trophy cabinet is delighted and the dusting budget is furious."
+  },
+  {
+    "id": "c2-023",
+    "situation": "champions-league",
+    "text": "A Champions League crown for {winnerClub}; {loser} may wish the television came with a mute button."
+  },
+  {
+    "id": "c2-024",
+    "situation": "champions-league",
+    "text": "Five points land for {winner}, while the opposition's calculator considers a career in gardening."
+  },
+  {
+    "id": "c2-025",
+    "situation": "champions-league",
+    "text": "The Champions League is secured; even the corner flags at {winnerClub} look slightly smug."
+  },
+  {
+    "id": "c2-026",
+    "situation": "champions-league",
+    "text": "{winnerClub} have conquered Europe, and the trophy cabinet is requesting an extension from the landlord."
+  },
+  {
+    "id": "c2-027",
+    "situation": "champions-league",
+    "text": "A Champions League win for {winner}; that five-point bonus deserves its own tiny victory parade."
+  },
+  {
+    "id": "c2-028",
+    "situation": "champions-league",
+    "text": "Those five European points have arrived, and {loser}'s spreadsheet has suddenly developed a headache."
+  },
+  {
+    "id": "c2-029",
+    "situation": "champions-league",
+    "text": "{winnerClub} lift Europe's grand prize; somewhere the fixture list is asking for an autograph."
+  },
+  {
+    "id": "c2-030",
+    "situation": "champions-league",
+    "text": "Champions League glory for {winnerClub}, and the dressing-room mirror may never recover from the posing."
+  },
+  {
+    "id": "c2-031",
+    "situation": "champions-league",
+    "text": "Five points for {winner}; the Champions League has officially become a very expensive bragging right."
+  },
+  {
+    "id": "c2-032",
+    "situation": "champions-league",
+    "text": "The European trophy is aboard, and {winnerClub}'s luggage allowance is under serious pressure."
+  },
+  {
+    "id": "c2-033",
+    "situation": "champions-league",
+    "text": "{winnerClub} are Champions League winners; even the substitute bench is practicing its royal wave."
+  },
+  {
+    "id": "c2-034",
+    "situation": "champions-league",
+    "text": "Five points from Europe, and {winner} is smiling like a manager who found the cheat code."
+  },
+  {
+    "id": "c2-035",
+    "situation": "champions-league",
+    "text": "The Champions League belongs to {winnerClub}; the opposition might prefer a quiet evening of chess."
+  },
+  {
+    "id": "c2-036",
+    "situation": "champions-league",
+    "text": "That trophy looks magnificent beside {winnerClub}; pity the trophy cabinet was measured before the celebrations."
+  },
+  {
+    "id": "c2-037",
+    "situation": "champions-league",
+    "text": "Five European points for {winner}, which is just enough to make every rival calculator nervous."
+  },
+  {
+    "id": "c2-038",
+    "situation": "champions-league",
+    "text": "{winnerClub} have taken the Champions League; the confetti department will be working overtime."
+  },
+  {
+    "id": "c2-039",
+    "situation": "champions-league",
+    "text": "The Champions League trophy arrives at {winnerClub}; please allow extra time for the victory photographs."
+  },
+  {
+    "id": "c2-040",
+    "situation": "champions-league",
+    "text": "Five points and a European crown: {winner} has made a fairly persuasive argument for louder applause."
+  },
+  {
+    "id": "c2-041",
+    "situation": "champions-league",
+    "text": "{winnerClub} have won the Champions League; even the tactical whiteboard looks ready for a holiday."
+  },
+  {
+    "id": "c2-042",
+    "situation": "champions-league",
+    "text": "Europe's finest trophy goes to {winnerClub}, and suddenly everyone is an expert at polishing silver."
+  },
+  {
+    "id": "c2-043",
+    "situation": "champions-league",
+    "text": "Five bonus points for {winner}; somewhere a rival is checking whether those trophies are returnable."
+  },
+  {
+    "id": "c2-044",
+    "situation": "champions-league",
+    "text": "Champions League glory has visited {winnerClub}; the celebrations may require a second trophy bus."
+  },
+  {
+    "id": "c2-045",
+    "situation": "champions-league",
+    "text": "Five points for {winner}, while {loser} looks at Europe's trophy and asks for a receipt."
+  },
+  {
+    "id": "c2-046",
+    "situation": "champions-league",
+    "text": "The Champions League belongs to {winnerClub}; that is one very shiny answer to any criticism."
+  },
+  {
+    "id": "c2-047",
+    "situation": "champions-league",
+    "text": "A European triumph that will echo beyond this season, with {winnerClub} holding the Champions League trophy."
+  },
+  {
+    "id": "c2-048",
+    "situation": "champions-league",
+    "text": "Champions League nights have delivered their ultimate reward, and {winnerClub} emerge with continental honours."
+  },
+  {
+    "id": "c2-049",
+    "situation": "champions-league",
+    "text": "{winner} has turned a European dream into five tangible points, courtesy of {winnerClub}'s triumph."
+  },
+  {
+    "id": "c2-050",
+    "situation": "champions-league",
+    "text": "A season of European challenges ends with Champions League success for {winnerClub}, and a bonus for {winner}."
+  },
+  {
+    "id": "c2-051",
+    "situation": "champions-league",
+    "text": "The Champions League has crowned {winnerClub}; that five-point boost could reshape the Showdown race."
+  },
+  {
+    "id": "c2-052",
+    "situation": "champions-league",
+    "text": "This is more than a result for {winnerClub}; it is a Champions League milestone for {winner}."
+  },
+  {
+    "id": "c2-053",
+    "situation": "champions-league",
+    "text": "{winnerClub} hold the continent's greatest club prize, and {winner}'s Showdown tally moves up by five."
+  },
+  {
+    "id": "c2-054",
+    "situation": "champions-league",
+    "text": "A European final chapter written in triumph: Champions League glory for {winnerClub} and five points banked."
+  },
+  {
+    "id": "c2-055",
+    "situation": "champions-league",
+    "text": "There is no mistaking the significance; {winnerClub} are Champions League champions, with five points attached."
+  },
+  {
+    "id": "c2-056",
+    "situation": "champions-league",
+    "text": "{winnerClub} have finished their European mission in style; now the trophy and five points belong to {winner}."
+  },
+  {
+    "id": "c2-057",
+    "situation": "champions-league",
+    "text": "That Champions League achievement adds lustre to {winnerClub}'s season and five points to {winner}'s campaign."
+  },
+  {
+    "id": "c2-058",
+    "situation": "champions-league",
+    "text": "Continental champions, a glittering trophy, and a five-point reward: a night {winner} will savour."
+  },
+  {
+    "id": "c2-059",
+    "situation": "champions-league",
+    "text": "All those European fixtures have led here, with {winnerClub} crowned and the Showdown tally rewarded."
+  },
+  {
+    "id": "c2-060",
+    "situation": "champions-league",
+    "text": "The Champions League chapter closes on a high, as {winnerClub} lift silverware and {winner} gains five."
+  },
+  {
+    "id": "c2-061",
+    "situation": "europa-league",
+    "text": "Europa League champions {winnerClub} have brought home continental silverware and three valuable points for {winner}."
+  },
+  {
+    "id": "c2-062",
+    "situation": "europa-league",
+    "text": "Three points are heading to {winner}, courtesy of {winnerClub}'s successful Europa League adventure."
+  },
+  {
+    "id": "c2-063",
+    "situation": "europa-league",
+    "text": "The Europa League trophy is secured by {winnerClub}, adding a European flourish to {winner}'s campaign."
+  },
+  {
+    "id": "c2-064",
+    "situation": "europa-league",
+    "text": "Continental commitment pays off as {winnerClub} claim the Europa League and {winner} earns three points."
+  },
+  {
+    "id": "c2-065",
+    "situation": "europa-league",
+    "text": "From European evenings to European honours, {winnerClub} have finished their Europa League journey on top."
+  },
+  {
+    "id": "c2-066",
+    "situation": "europa-league",
+    "text": "The Europa League belongs to {winnerClub}; three extra points now brighten {winner}'s Showdown tally."
+  },
+  {
+    "id": "c2-067",
+    "situation": "europa-league",
+    "text": "A European trophy for {winnerClub}, and a timely three-point injection for manager {winner}."
+  },
+  {
+    "id": "c2-068",
+    "situation": "europa-league",
+    "text": "The Europa League campaign has its champions, and {winnerClub} have earned their place in the spotlight."
+  },
+  {
+    "id": "c2-069",
+    "situation": "europa-league",
+    "text": "Three points from the Europa League could matter enormously, and {winner} has collected every one."
+  },
+  {
+    "id": "c2-070",
+    "situation": "europa-league",
+    "text": "European silverware finds {winnerClub}; the Europa League rewards {winner}'s ambition with three Showdown points."
+  },
+  {
+    "id": "c2-071",
+    "situation": "europa-league",
+    "text": "A deserved continental celebration for {winnerClub}, whose Europa League triumph has delivered a three-point reward."
+  },
+  {
+    "id": "c2-072",
+    "situation": "europa-league",
+    "text": "The Europa League crown sits with {winnerClub}, and the Showdown arithmetic takes notice."
+  },
+  {
+    "id": "c2-073",
+    "situation": "europa-league",
+    "text": "Three European points, one treasured trophy, and a very satisfied {winner} after that Europa League triumph."
+  },
+  {
+    "id": "c2-074",
+    "situation": "europa-league",
+    "text": "{winnerClub} have claimed the Europa League, proof that continental nights can transform a season."
+  },
+  {
+    "id": "c2-075",
+    "situation": "europa-league",
+    "text": "Europa League glory rewards {winnerClub}'s persistence; {winner} has three more points to show for it."
+  },
+  {
+    "id": "c2-076",
+    "situation": "europa-league",
+    "text": "This European journey ends with a trophy for {winnerClub} and a useful bonus for {winner}."
+  },
+  {
+    "id": "c2-077",
+    "situation": "europa-league",
+    "text": "The Europa League is conquered, and those three points may carry real weight in the rivalry."
+  },
+  {
+    "id": "c2-078",
+    "situation": "europa-league",
+    "text": "{winnerClub} own this Europa League moment, with continental honours and a three-point reward to celebrate."
+  },
+  {
+    "id": "c2-079",
+    "situation": "europa-league",
+    "text": "Under European lights, {winnerClub} delivered the Europa League crown that {winner} was chasing."
+  },
+  {
+    "id": "c2-080",
+    "situation": "europa-league",
+    "text": "A proud European accomplishment for {winnerClub}; three Showdown points underline the value of this Europa League win."
+  },
+  {
+    "id": "c2-081",
+    "situation": "europa-league",
+    "text": "{winnerClub} have won the Europa League; the trophy cabinet has started practicing a continental accent."
+  },
+  {
+    "id": "c2-082",
+    "situation": "europa-league",
+    "text": "Three points for {winner}, and the opposition's calculator is quietly applying for sick leave."
+  },
+  {
+    "id": "c2-083",
+    "situation": "europa-league",
+    "text": "Europa League glory for {winnerClub}; even the travel itinerary wants a medal for services rendered."
+  },
+  {
+    "id": "c2-084",
+    "situation": "europa-league",
+    "text": "{winnerClub} bring home European silverware, and the baggage handlers have been warned about excessive celebrations."
+  },
+  {
+    "id": "c2-085",
+    "situation": "europa-league",
+    "text": "Three points from the Europa League; {winner} is treating every single one like a birthday present."
+  },
+  {
+    "id": "c2-086",
+    "situation": "europa-league",
+    "text": "The Europa League is secured; someone at {winnerClub} should order a sturdier trophy shelf."
+  },
+  {
+    "id": "c2-087",
+    "situation": "europa-league",
+    "text": "A European crown for {winnerClub}, and the confetti budget has immediately gone into extra time."
+  },
+  {
+    "id": "c2-088",
+    "situation": "europa-league",
+    "text": "The Europa League trophy joins {winnerClub}; the club photographer has politely cancelled all other appointments."
+  },
+  {
+    "id": "c2-089",
+    "situation": "europa-league",
+    "text": "{winner} bags three points from Europe, while {loser} starts negotiating with the arithmetic department."
+  },
+  {
+    "id": "c2-090",
+    "situation": "europa-league",
+    "text": "Europa League champions {winnerClub} are celebrating; even the training cones seem to be doing a lap."
+  },
+  {
+    "id": "c2-091",
+    "situation": "europa-league",
+    "text": "Three points arrive with a trophy, and {winner} has suddenly developed an interest in interior decorating."
+  },
+  {
+    "id": "c2-092",
+    "situation": "europa-league",
+    "text": "{winnerClub} lift the Europa League; somewhere a trophy cabinet is asking about overtime pay."
+  },
+  {
+    "id": "c2-093",
+    "situation": "europa-league",
+    "text": "That Europa League prize is heading home, and {winnerClub}'s suitcase has requested a bigger seat."
+  },
+  {
+    "id": "c2-094",
+    "situation": "europa-league",
+    "text": "Three European points for {winner}; the rival's notebook is refusing to open on principle."
+  },
+  {
+    "id": "c2-095",
+    "situation": "europa-league",
+    "text": "Europa League success for {winnerClub}, and somebody should remind the medals they are not sunglasses."
+  },
+  {
+    "id": "c2-096",
+    "situation": "europa-league",
+    "text": "{winnerClub} own the Europa League; the victory speeches may now require a halftime interval."
+  },
+  {
+    "id": "c2-097",
+    "situation": "europa-league",
+    "text": "Three points and a European trophy for {winner}; that's a souvenir with excellent resale bragging rights."
+  },
+  {
+    "id": "c2-098",
+    "situation": "europa-league",
+    "text": "The Europa League crown goes to {winnerClub}; the champagne corks have already left the tactical briefing."
+  },
+  {
+    "id": "c2-099",
+    "situation": "europa-league",
+    "text": "{winnerClub} have won in Europe, and the club's laundry staff deserve a trophy-cleaning manual."
+  },
+  {
+    "id": "c2-100",
+    "situation": "europa-league",
+    "text": "Three more points for {winner}; a modest number wearing a very impressive European suit."
+  },
+  {
+    "id": "c2-101",
+    "situation": "europa-league",
+    "text": "Europa League glory for {winnerClub}, and the celebration playlist has declared itself undefeated."
+  },
+  {
+    "id": "c2-102",
+    "situation": "europa-league",
+    "text": "Those three points look tiny on paper, but {winner} has framed them beside the Europa League."
+  },
+  {
+    "id": "c2-103",
+    "situation": "europa-league",
+    "text": "{winnerClub} are Europa League winners; the reception desk may need a special trophy parking space."
+  },
+  {
+    "id": "c2-104",
+    "situation": "europa-league",
+    "text": "Europe has rewarded {winnerClub}, and the medal engraver is not the only one working late."
+  },
+  {
+    "id": "c2-105",
+    "situation": "europa-league",
+    "text": "Three points for {winner}; {loser} may prefer that the Europa League trophy be kept out of sight."
+  },
+  {
+    "id": "c2-106",
+    "situation": "europa-league",
+    "text": "The Europa League is coming home to {winnerClub}; good luck finding room on the mantelpiece."
+  },
+  {
+    "id": "c2-107",
+    "situation": "europa-league",
+    "text": "That Europa League triumph gives {winnerClub} something lasting to celebrate and {winner} three more points."
+  },
+  {
+    "id": "c2-108",
+    "situation": "europa-league",
+    "text": "A European campaign defined by resilience ends with {winnerClub} collecting the Europa League honours."
+  },
+  {
+    "id": "c2-109",
+    "situation": "europa-league",
+    "text": "Three points may sound modest, but Europa League success could prove decisive for {winner}."
+  },
+  {
+    "id": "c2-110",
+    "situation": "europa-league",
+    "text": "The Europa League win gives {winnerClub} a lasting achievement and {winner} a welcome boost."
+  },
+  {
+    "id": "c2-111",
+    "situation": "europa-league",
+    "text": "One continental prize, three Showdown points, and a chapter of European pride for {winnerClub}."
+  },
+  {
+    "id": "c2-112",
+    "situation": "europa-league",
+    "text": "{winnerClub} have earned their moment in Europe, with the Europa League trophy now theirs."
+  },
+  {
+    "id": "c2-113",
+    "situation": "europa-league",
+    "text": "The Europa League reward is clear: silverware for {winnerClub} and three points for {winner}."
+  },
+  {
+    "id": "c2-114",
+    "situation": "europa-league",
+    "text": "{winner} can look back on a Europa League success that made {winnerClub}'s season shine."
+  },
+  {
+    "id": "c2-115",
+    "situation": "europa-league",
+    "text": "On a demanding European road, {winnerClub} found a route to the Europa League title."
+  },
+  {
+    "id": "c2-116",
+    "situation": "europa-league",
+    "text": "This Europa League victory gives {winnerClub} a stage worth celebrating and the rivalry three new points."
+  },
+  {
+    "id": "c2-117",
+    "situation": "europa-league",
+    "text": "The Europa League honours belong to {winnerClub}; their manager {winner} adds another meaningful achievement."
+  },
+  {
+    "id": "c2-118",
+    "situation": "europa-league",
+    "text": "Those three bonus points reflect a continental triumph that {winnerClub} will remember fondly."
+  },
+  {
+    "id": "c2-119",
+    "situation": "europa-league",
+    "text": "Europa League silverware lifts the atmosphere around {winnerClub}, while {winner}'s total rises by three."
+  },
+  {
+    "id": "c2-120",
+    "situation": "europa-league",
+    "text": "A European trophy has been earned, and {winnerClub} can savour every moment of their Europa League victory."
+  },
+  {
+    "id": "c2-121",
+    "situation": "league-title",
+    "text": "A domestic league championship belongs to {winnerClub}, and {winner} has delivered the ultimate long-season reward."
+  },
+  {
+    "id": "c2-122",
+    "situation": "league-title",
+    "text": "Week after week, {winnerClub} held the course; now {winner} can celebrate a league title."
+  },
+  {
+    "id": "c2-123",
+    "situation": "league-title",
+    "text": "That is the league crown secured, with {winnerClub} standing proudly at the top."
+  },
+  {
+    "id": "c2-124",
+    "situation": "league-title",
+    "text": "{winnerClub} are domestic champions, a magnificent return for the patience and persistence of {winner}."
+  },
+  {
+    "id": "c2-125",
+    "situation": "league-title",
+    "text": "The league title is settled, and {winnerClub} have emerged as its worthy champions."
+  },
+  {
+    "id": "c2-126",
+    "situation": "league-title",
+    "text": "For {winnerClub}, the marathon ends with a championship; for {winner}, a season to savour."
+  },
+  {
+    "id": "c2-127",
+    "situation": "league-title",
+    "text": "League champions {winnerClub} have turned months of pressure into one lasting achievement."
+  },
+  {
+    "id": "c2-128",
+    "situation": "league-title",
+    "text": "The domestic crown heads to {winnerClub}, where {winner} can enjoy the view from the summit."
+  },
+  {
+    "id": "c2-129",
+    "situation": "league-title",
+    "text": "A title-winning campaign from {winnerClub} has given {winner} a fine reason to celebrate."
+  },
+  {
+    "id": "c2-130",
+    "situation": "league-title",
+    "text": "The league season has spoken, and {winnerClub} are the champions it has chosen."
+  },
+  {
+    "id": "c2-131",
+    "situation": "league-title",
+    "text": "That domestic title confirms {winnerClub}'s consistency, with {winner} collecting the biggest league prize."
+  },
+  {
+    "id": "c2-132",
+    "situation": "league-title",
+    "text": "What a sustained effort from {winnerClub}; the league championship is now theirs to celebrate."
+  },
+  {
+    "id": "c2-133",
+    "situation": "league-title",
+    "text": "The final standings tell the story: {winnerClub} have claimed the league crown."
+  },
+  {
+    "id": "c2-134",
+    "situation": "league-title",
+    "text": "League glory for {winnerClub}, and {winner}'s name belongs in this season's winning chapter."
+  },
+  {
+    "id": "c2-135",
+    "situation": "league-title",
+    "text": "A domestic championship rewards the resolve shown by {winnerClub} across the entire campaign."
+  },
+  {
+    "id": "c2-136",
+    "situation": "league-title",
+    "text": "{winnerClub} have earned the right to call themselves league champions, and {winner} has earned the applause."
+  },
+  {
+    "id": "c2-137",
+    "situation": "league-title",
+    "text": "The league crown gives {winnerClub} something substantial to celebrate beyond a single matchday."
+  },
+  {
+    "id": "c2-138",
+    "situation": "league-title",
+    "text": "From the opening fixture to the final verdict, {winnerClub} have pursued and secured the title."
+  },
+  {
+    "id": "c2-139",
+    "situation": "league-title",
+    "text": "The league is won, and the achievement of {winnerClub} deserves the grandest applause."
+  },
+  {
+    "id": "c2-140",
+    "situation": "league-title",
+    "text": "For manager {winner}, a domestic championship with {winnerClub} is a milestone worth framing."
+  },
+  {
+    "id": "c2-141",
+    "situation": "league-title",
+    "text": "{winnerClub} have won the league; the trophy cabinet is demanding its own season ticket."
+  },
+  {
+    "id": "c2-142",
+    "situation": "league-title",
+    "text": "The title belongs to {winnerClub}, and the opposition's excuse department is out of stationery."
+  },
+  {
+    "id": "c2-143",
+    "situation": "league-title",
+    "text": "League champions {winnerClub} can finally stop refreshing the table every seventeen seconds."
+  },
+  {
+    "id": "c2-144",
+    "situation": "league-title",
+    "text": "{winner} has secured the title; somewhere a clipboard is insisting it deserves a winners' medal."
+  },
+  {
+    "id": "c2-145",
+    "situation": "league-title",
+    "text": "The league trophy goes to {winnerClub}, where the victory parade committee has already lost its clipboard."
+  },
+  {
+    "id": "c2-146",
+    "situation": "league-title",
+    "text": "{winnerClub} are champions; the points table has politely asked for a day off."
+  },
+  {
+    "id": "c2-147",
+    "situation": "league-title",
+    "text": "A title-winning season for {winnerClub}, and even the substitutes are walking like royalty."
+  },
+  {
+    "id": "c2-148",
+    "situation": "league-title",
+    "text": "{winner} takes the league crown; the manager's lucky jacket may now be declared a national monument."
+  },
+  {
+    "id": "c2-149",
+    "situation": "league-title",
+    "text": "League glory for {winnerClub}; a thousand celebratory scarves are now threatening local visibility."
+  },
+  {
+    "id": "c2-150",
+    "situation": "league-title",
+    "text": "The title is {winnerClub}'s, and the club shop's scarf machine has entered a transfer negotiation."
+  },
+  {
+    "id": "c2-151",
+    "situation": "league-title",
+    "text": "{winnerClub} sit atop the league; every calculator in town is now officially redundant."
+  },
+  {
+    "id": "c2-152",
+    "situation": "league-title",
+    "text": "That championship belongs to {winnerClub}; the victory speech could outlast a preseason friendly."
+  },
+  {
+    "id": "c2-153",
+    "situation": "league-title",
+    "text": "{winner} is a league champion, and the tactics board has requested its own commemorative plaque."
+  },
+  {
+    "id": "c2-154",
+    "situation": "league-title",
+    "text": "A domestic title for {winnerClub}, and suddenly every training cone looks like a tiny trophy."
+  },
+  {
+    "id": "c2-155",
+    "situation": "league-title",
+    "text": "The league crown is secured; {winnerClub}'s trophy shelf has demanded promotion to the first team."
+  },
+  {
+    "id": "c2-156",
+    "situation": "league-title",
+    "text": "{winnerClub} have taken the title, which means the celebration bus now needs an agent."
+  },
+  {
+    "id": "c2-157",
+    "situation": "league-title",
+    "text": "A championship for {winner}; the winning suit is currently refusing to go to the dry cleaner."
+  },
+  {
+    "id": "c2-158",
+    "situation": "league-title",
+    "text": "The league belongs to {winnerClub}; somewhere a rival is trying to unsubscribe from the standings."
+  },
+  {
+    "id": "c2-159",
+    "situation": "league-title",
+    "text": "That title is headed to {winnerClub}, and the confetti supplier has started charging appearance fees."
+  },
+  {
+    "id": "c2-160",
+    "situation": "league-title",
+    "text": "League champions {winnerClub} have made the table official; the rival's calculator has turned itself off."
+  },
+  {
+    "id": "c2-161",
+    "situation": "league-title",
+    "text": "{winner} has won the league, and the victory photograph may need panoramic mode."
+  },
+  {
+    "id": "c2-162",
+    "situation": "league-title",
+    "text": "The domestic crown belongs to {winnerClub}; even the fourth official is applauding with the wrong board."
+  },
+  {
+    "id": "c2-163",
+    "situation": "league-title",
+    "text": "A title at {winnerClub}, and the training ground has reportedly adopted a royal dress code."
+  },
+  {
+    "id": "c2-164",
+    "situation": "league-title",
+    "text": "The league is conquered; somebody tell {winnerClub}'s champagne budget that substitutions are no longer allowed."
+  },
+  {
+    "id": "c2-165",
+    "situation": "league-title",
+    "text": "{winnerClub} are champions, and every replay now seems to come with complimentary confetti."
+  },
+  {
+    "id": "c2-166",
+    "situation": "league-title",
+    "text": "Beyond the celebrations, {winnerClub}'s league title stands as a reward for the complete campaign."
+  },
+  {
+    "id": "c2-167",
+    "situation": "league-title",
+    "text": "Domestic supremacy is confirmed, and {winnerClub} have the championship to prove their quality."
+  },
+  {
+    "id": "c2-168",
+    "situation": "league-title",
+    "text": "The title race ends with {winnerClub} holding the league's highest prize."
+  },
+  {
+    "id": "c2-169",
+    "situation": "league-title",
+    "text": "A league championship brings lasting recognition to {winnerClub} and a proud moment for {winner}."
+  },
+  {
+    "id": "c2-170",
+    "situation": "league-title",
+    "text": "The table is complete, the champions are known, and {winnerClub} stand alone at the summit."
+  },
+  {
+    "id": "c2-171",
+    "situation": "league-title",
+    "text": "The season's domestic ambition has become reality: {winnerClub} are league champions."
+  },
+  {
+    "id": "c2-172",
+    "situation": "league-title",
+    "text": "A league title reflects the collective effort that carried {winnerClub} through the campaign."
+  },
+  {
+    "id": "c2-173",
+    "situation": "league-title",
+    "text": "{winnerClub} have delivered the domestic silverware, rewarding {winner}'s planning across the season."
+  },
+  {
+    "id": "c2-174",
+    "situation": "league-title",
+    "text": "Champion status is no longer a dream for {winnerClub}; it is the season's reality."
+  },
+  {
+    "id": "c2-175",
+    "situation": "league-title",
+    "text": "A magnificent league achievement for {winnerClub}, built through the demands of an entire campaign."
+  },
+  {
+    "id": "c2-176",
+    "situation": "league-title",
+    "text": "There is no greater domestic reward than this crown, now claimed by {winnerClub}."
+  },
+  {
+    "id": "c2-177",
+    "situation": "league-title",
+    "text": "League winners {winnerClub} have turned their ambitions into a trophy and a proud legacy."
+  },
+  {
+    "id": "c2-178",
+    "situation": "league-title",
+    "text": "{winner} has guided {winnerClub} to the championship, and that is a powerful season statement."
+  },
+  {
+    "id": "c2-179",
+    "situation": "league-title",
+    "text": "The domestic campaign concludes with {winnerClub} taking the honours and leaving their mark."
+  },
+  {
+    "id": "c2-180",
+    "situation": "league-title",
+    "text": "A title to cherish for {winnerClub}; league success is the foundation of a memorable campaign."
+  },
+  {
+    "id": "c2-181",
+    "situation": "cup-double",
+    "text": "A league title and a domestic cup: {winnerClub} have completed a remarkable double under {winner}."
+  },
+  {
+    "id": "c2-182",
+    "situation": "cup-double",
+    "text": "Two domestic trophies for {winnerClub}, and {winner} has made a magnificent statement of intent."
+  },
+  {
+    "id": "c2-183",
+    "situation": "cup-double",
+    "text": "{winnerClub} conquer the league and the cup, turning domestic ambition into a glittering double."
+  },
+  {
+    "id": "c2-184",
+    "situation": "cup-double",
+    "text": "That is a league-and-cup double for {winnerClub}; the season belongs in the club's proudest chapters."
+  },
+  {
+    "id": "c2-185",
+    "situation": "cup-double",
+    "text": "A domestic double rewards {winnerClub}'s consistency in the league and composure in the cup."
+  },
+  {
+    "id": "c2-186",
+    "situation": "cup-double",
+    "text": "Two competitions, two trophies, one delighted manager: {winner} has delivered the domestic double."
+  },
+  {
+    "id": "c2-187",
+    "situation": "cup-double",
+    "text": "The league crown and domestic cup both head to {winnerClub}, a season of extraordinary achievement."
+  },
+  {
+    "id": "c2-188",
+    "situation": "cup-double",
+    "text": "{winnerClub} have left their mark on the league table and the cup final alike."
+  },
+  {
+    "id": "c2-189",
+    "situation": "cup-double",
+    "text": "What a domestic campaign for {winnerClub}; the double gives {winner} twice the reason to celebrate."
+  },
+  {
+    "id": "c2-190",
+    "situation": "cup-double",
+    "text": "The league was one conquest, the cup another; {winnerClub} have completed both in style."
+  },
+  {
+    "id": "c2-191",
+    "situation": "cup-double",
+    "text": "A domestic double for {winnerClub} proves their strength across two very different tests."
+  },
+  {
+    "id": "c2-192",
+    "situation": "cup-double",
+    "text": "It takes league endurance and cup nerve to complete this double; {winnerClub} have shown both."
+  },
+  {
+    "id": "c2-193",
+    "situation": "cup-double",
+    "text": "{winner} has steered {winnerClub} to league and cup honours, a splendid domestic return."
+  },
+  {
+    "id": "c2-194",
+    "situation": "cup-double",
+    "text": "A title and a cup make a compelling pairing, and {winnerClub} now own both."
+  },
+  {
+    "id": "c2-195",
+    "situation": "cup-double",
+    "text": "{winnerClub} have matched week-to-week excellence with knockout success, completing the domestic double."
+  },
+  {
+    "id": "c2-196",
+    "situation": "cup-double",
+    "text": "The league crown shines beside the cup, and {winnerClub} can celebrate the complete set."
+  },
+  {
+    "id": "c2-197",
+    "situation": "cup-double",
+    "text": "Two domestic prizes now belong to {winnerClub}, reflecting a season of sustained ambition."
+  },
+  {
+    "id": "c2-198",
+    "situation": "cup-double",
+    "text": "For {winner}, the league-and-cup double gives this season an unmistakable golden edge."
+  },
+  {
+    "id": "c2-199",
+    "situation": "cup-double",
+    "text": "A double-winning campaign carries its own distinction, and {winnerClub} have earned every celebration."
+  },
+  {
+    "id": "c2-200",
+    "situation": "cup-double",
+    "text": "League champions and cup winners: {winnerClub} have answered both domestic challenges emphatically."
+  },
+  {
+    "id": "c2-201",
+    "situation": "cup-double",
+    "text": "{winnerClub} have done the double; the trophy shelf would like to renegotiate its contract."
+  },
+  {
+    "id": "c2-202",
+    "situation": "cup-double",
+    "text": "League trophy, cup trophy, and no free hands: {winner} may need a third arm."
+  },
+  {
+    "id": "c2-203",
+    "situation": "cup-double",
+    "text": "A domestic double for {winnerClub}; even the silver polish is asking for a substitute."
+  },
+  {
+    "id": "c2-204",
+    "situation": "cup-double",
+    "text": "Two trophies for {winnerClub}, and the celebration photographer is requesting a wider lens."
+  },
+  {
+    "id": "c2-205",
+    "situation": "cup-double",
+    "text": "{winner} wins the league and cup; the trophy cabinet has filed a formal space complaint."
+  },
+  {
+    "id": "c2-206",
+    "situation": "cup-double",
+    "text": "The domestic double is complete, and {winnerClub}'s medal collection has developed expensive taste."
+  },
+  {
+    "id": "c2-207",
+    "situation": "cup-double",
+    "text": "Two pieces of silverware for {winnerClub}; perhaps the club mascot should start charging admission."
+  },
+  {
+    "id": "c2-208",
+    "situation": "cup-double",
+    "text": "League and cup glory for {winnerClub}, and the victory bus has asked for a trailer."
+  },
+  {
+    "id": "c2-209",
+    "situation": "cup-double",
+    "text": "{winnerClub} have claimed both domestic prizes; the trophy cabinet may now need a building permit."
+  },
+  {
+    "id": "c2-210",
+    "situation": "cup-double",
+    "text": "The double belongs to {winner}; one celebration apparently was not enough paperwork."
+  },
+  {
+    "id": "c2-211",
+    "situation": "cup-double",
+    "text": "A league-and-cup double for {winnerClub}, and the champagne supplier has declared a personal best."
+  },
+  {
+    "id": "c2-212",
+    "situation": "cup-double",
+    "text": "Two trophies, one season: {winner} has found a highly inefficient way to travel light."
+  },
+  {
+    "id": "c2-213",
+    "situation": "cup-double",
+    "text": "{winnerClub} have swept up league and cup; somebody fetch the trophy room a larger broom."
+  },
+  {
+    "id": "c2-214",
+    "situation": "cup-double",
+    "text": "A domestic double for {winnerClub}; the presentation podium is checking its weight allowance."
+  },
+  {
+    "id": "c2-215",
+    "situation": "cup-double",
+    "text": "{winner} has won both trophies, and the manager's jacket pockets are overflowing with confetti."
+  },
+  {
+    "id": "c2-216",
+    "situation": "cup-double",
+    "text": "The league and cup are both {winnerClub}'s; the opposition may request a quieter trophy cabinet."
+  },
+  {
+    "id": "c2-217",
+    "situation": "cup-double",
+    "text": "Double winners {winnerClub} have produced enough silverware to give the cleaners their own award."
+  },
+  {
+    "id": "c2-218",
+    "situation": "cup-double",
+    "text": "A title and cup for {winner}; the victory speech comes with an intermission."
+  },
+  {
+    "id": "c2-219",
+    "situation": "cup-double",
+    "text": "{winnerClub} have completed the domestic double, and the medals are already arguing over shelf space."
+  },
+  {
+    "id": "c2-220",
+    "situation": "cup-double",
+    "text": "Two domestic trophies arrive at {winnerClub}; the furniture store has received an urgent telephone call."
+  },
+  {
+    "id": "c2-221",
+    "situation": "cup-double",
+    "text": "League and cup champions {winnerClub} have made the trophy cabinet the busiest room in football."
+  },
+  {
+    "id": "c2-222",
+    "situation": "cup-double",
+    "text": "A double for {winner}; the ceremonial ribbon cutter is asking whether this counts as overtime."
+  },
+  {
+    "id": "c2-223",
+    "situation": "cup-double",
+    "text": "{winnerClub} win the league and cup, and the team photo may require satellite coverage."
+  },
+  {
+    "id": "c2-224",
+    "situation": "cup-double",
+    "text": "Two domestic titles of honour for {winnerClub}; the trophy room has never looked so nervous."
+  },
+  {
+    "id": "c2-225",
+    "situation": "cup-double",
+    "text": "The domestic double is won, and {winnerClub}'s celebration committee has forgotten what sleep means."
+  },
+  {
+    "id": "c2-226",
+    "situation": "cup-double",
+    "text": "Few campaigns offer a double like this; {winnerClub} have combined league and cup success."
+  },
+  {
+    "id": "c2-227",
+    "situation": "cup-double",
+    "text": "The league trophy and domestic cup complete a memorable pairing for {winnerClub}."
+  },
+  {
+    "id": "c2-228",
+    "situation": "cup-double",
+    "text": "A double-winning season stands as a testament to the ambition shown by {winnerClub}."
+  },
+  {
+    "id": "c2-229",
+    "situation": "cup-double",
+    "text": "From league pressure to cup jeopardy, {winnerClub} have mastered both paths to silverware."
+  },
+  {
+    "id": "c2-230",
+    "situation": "cup-double",
+    "text": "{winnerClub} have earned a rare domestic distinction with honours in league and cup."
+  },
+  {
+    "id": "c2-231",
+    "situation": "cup-double",
+    "text": "That league-and-cup double gives {winner} a lasting benchmark for future campaigns."
+  },
+  {
+    "id": "c2-232",
+    "situation": "cup-double",
+    "text": "Two domestic competitions have crowned the same club, with {winnerClub} completing the double."
+  },
+  {
+    "id": "c2-233",
+    "situation": "cup-double",
+    "text": "The league rewards stamina, the cup demands nerve, and {winnerClub} have collected both trophies."
+  },
+  {
+    "id": "c2-234",
+    "situation": "cup-double",
+    "text": "This domestic double will be remembered for the breadth of {winnerClub}'s achievement."
+  },
+  {
+    "id": "c2-235",
+    "situation": "cup-double",
+    "text": "A double is never handed out lightly; {winnerClub} have made both trophies theirs."
+  },
+  {
+    "id": "c2-236",
+    "situation": "cup-double",
+    "text": "League champions and domestic cup winners, {winnerClub} have enjoyed a remarkable season of silverware."
+  },
+  {
+    "id": "c2-237",
+    "situation": "cup-double",
+    "text": "For {winnerClub}, this is domestic success in stereo: league honours and a cup triumph."
+  },
+  {
+    "id": "c2-238",
+    "situation": "cup-double",
+    "text": "{winner} has completed the double with {winnerClub}, delivering one of the season's finest accomplishments."
+  },
+  {
+    "id": "c2-239",
+    "situation": "cup-double",
+    "text": "The domestic stage has belonged to {winnerClub}, winners of both league and cup."
+  },
+  {
+    "id": "c2-240",
+    "situation": "cup-double",
+    "text": "Two trophies tell the story of {winnerClub}'s season better than any lengthy speech."
+  },
+  {
+    "id": "c2-241",
+    "situation": "no-trophy",
+    "text": "No silverware for {winner}, yet {winnerClub} have amassed enough points to outscore {loser}."
+  },
+  {
+    "id": "c2-242",
+    "situation": "no-trophy",
+    "text": "A trophyless season can still win the Showdown round, as {winner} has just demonstrated."
+  },
+  {
+    "id": "c2-243",
+    "situation": "no-trophy",
+    "text": "The cups escaped, but {winner} secured the season's points victory over {loser}."
+  },
+  {
+    "id": "c2-244",
+    "situation": "no-trophy",
+    "text": "Nothing for the trophy cabinet, but {winnerClub} have delivered a winning points tally."
+  },
+  {
+    "id": "c2-245",
+    "situation": "no-trophy",
+    "text": "{winner} ends without silverware and still finishes ahead of {loser} in Showdown points."
+  },
+  {
+    "id": "c2-246",
+    "situation": "no-trophy",
+    "text": "A season built on points rather than trophies has brought {winner} a deserved round victory."
+  },
+  {
+    "id": "c2-247",
+    "situation": "no-trophy",
+    "text": "The medal count stays empty, but the scoreboard tells a happier story for {winner}."
+  },
+  {
+    "id": "c2-248",
+    "situation": "no-trophy",
+    "text": "No trophies for {winnerClub}, yet {winner} has won this season's head-to-head points contest."
+  },
+  {
+    "id": "c2-249",
+    "situation": "no-trophy",
+    "text": "Silverware is absent, but consistency has given {winner} the edge in the season standings."
+  },
+  {
+    "id": "c2-250",
+    "situation": "no-trophy",
+    "text": "This season's honours went elsewhere, but the Showdown points reward belongs to {winner}."
+  },
+  {
+    "id": "c2-251",
+    "situation": "no-trophy",
+    "text": "A trophyless year need not be a losing one, and {winner} has proved the difference."
+  },
+  {
+    "id": "c2-252",
+    "situation": "no-trophy",
+    "text": "{winnerClub} may not have lifted silverware, but {winner} has outscored the opposition."
+  },
+  {
+    "id": "c2-253",
+    "situation": "no-trophy",
+    "text": "It is not the glamorous route, but {winner} wins the points battle without a trophy."
+  },
+  {
+    "id": "c2-254",
+    "situation": "no-trophy",
+    "text": "For {winner}, the season ends without cups and with a valuable points victory."
+  },
+  {
+    "id": "c2-255",
+    "situation": "no-trophy",
+    "text": "No championship parade for {winnerClub}, just a solid points triumph for {winner} in the rivalry."
+  },
+  {
+    "id": "c2-256",
+    "situation": "no-trophy",
+    "text": "The cabinet remains unchanged; the Showdown standings improve for {winner} after this season."
+  },
+  {
+    "id": "c2-257",
+    "situation": "no-trophy",
+    "text": "{winner} has made the scoreboard count, even without a trophy to carry home."
+  },
+  {
+    "id": "c2-258",
+    "situation": "no-trophy",
+    "text": "An empty silverware haul cannot erase the points advantage earned by {winner} this season."
+  },
+  {
+    "id": "c2-259",
+    "situation": "no-trophy",
+    "text": "There is no cup to lift, but {winner} still walks away the season's Showdown winner."
+  },
+  {
+    "id": "c2-260",
+    "situation": "no-trophy",
+    "text": "This was a season of arithmetic over accolades, and {winner} made the arithmetic work."
+  },
+  {
+    "id": "c2-261",
+    "situation": "no-trophy",
+    "text": "No trophy for {winner}, but the points table has just sent a congratulatory postcard."
+  },
+  {
+    "id": "c2-262",
+    "situation": "no-trophy",
+    "text": "{winnerClub} won no silverware; apparently the scoreboard forgot to check the trophy cabinet."
+  },
+  {
+    "id": "c2-263",
+    "situation": "no-trophy",
+    "text": "A trophyless victory for {winner}; the shelf is empty but the calculator is dancing."
+  },
+  {
+    "id": "c2-264",
+    "situation": "no-trophy",
+    "text": "No medals, no cups, yet {winner} has somehow made mathematics look fashionable."
+  },
+  {
+    "id": "c2-265",
+    "situation": "no-trophy",
+    "text": "The trophy cabinet is silent at {winnerClub}, but the points board is shouting."
+  },
+  {
+    "id": "c2-266",
+    "situation": "no-trophy",
+    "text": "{winner} takes the season without silverware; the victory bus is just an ordinary bus."
+  },
+  {
+    "id": "c2-267",
+    "situation": "no-trophy",
+    "text": "No trophy parade for {winnerClub}, although the points spreadsheet has requested confetti."
+  },
+  {
+    "id": "c2-268",
+    "situation": "no-trophy",
+    "text": "{winner} outscored {loser} with no trophies; the calculator deserves a very small medal."
+  },
+  {
+    "id": "c2-269",
+    "situation": "no-trophy",
+    "text": "The silverware drawer stays shut, but {winner} still gets to wear the winner's grin."
+  },
+  {
+    "id": "c2-270",
+    "situation": "no-trophy",
+    "text": "No cups for {winnerClub}; somebody tell the scoreboard it was supposed to be disappointed."
+  },
+  {
+    "id": "c2-271",
+    "situation": "no-trophy",
+    "text": "A trophyless success for {winner}, and the cleaning staff are relieved about the polishing."
+  },
+  {
+    "id": "c2-272",
+    "situation": "no-trophy",
+    "text": "The medals stayed elsewhere, but {winner} has convinced the points table to applaud."
+  },
+  {
+    "id": "c2-273",
+    "situation": "no-trophy",
+    "text": "Without a single trophy, {winner} has won the round; silver polish sales are expected to fall."
+  },
+  {
+    "id": "c2-274",
+    "situation": "no-trophy",
+    "text": "{winnerClub} bring home no silverware, only the sweet sound of {winner}'s victorious calculator."
+  },
+  {
+    "id": "c2-275",
+    "situation": "no-trophy",
+    "text": "A season win without trophies; {winner} might frame the league table instead of a medal."
+  },
+  {
+    "id": "c2-276",
+    "situation": "no-trophy",
+    "text": "No cups and still more points; {winner} has turned accountancy into a contact sport."
+  },
+  {
+    "id": "c2-277",
+    "situation": "no-trophy",
+    "text": "{winner} tops the rivalry scoreboard without silverware; the trophy shelf has taken the afternoon off."
+  },
+  {
+    "id": "c2-278",
+    "situation": "no-trophy",
+    "text": "A trophyless points win for {winner}, which should come with complimentary reading glasses."
+  },
+  {
+    "id": "c2-279",
+    "situation": "no-trophy",
+    "text": "{winnerClub}'s trophy cabinet remains untouched, but the Showdown scoreboard is practically doing cartwheels."
+  },
+  {
+    "id": "c2-280",
+    "situation": "no-trophy",
+    "text": "No shiny cup for {winner}; at least the calculator never asks for a victory parade."
+  },
+  {
+    "id": "c2-281",
+    "situation": "no-trophy",
+    "text": "{winner} wins without trophies, and the silverware cabinet is demanding a recount of its own."
+  },
+  {
+    "id": "c2-282",
+    "situation": "no-trophy",
+    "text": "The season belongs to {winner} on points; the trophy room sends its apologies."
+  },
+  {
+    "id": "c2-283",
+    "situation": "no-trophy",
+    "text": "No cups for {winnerClub}, but {winner}'s arithmetic is having a considerably better evening."
+  },
+  {
+    "id": "c2-284",
+    "situation": "no-trophy",
+    "text": "A points victory without silverware; {loser} may be less enthusiastic about the mathematical beauty."
+  },
+  {
+    "id": "c2-285",
+    "situation": "no-trophy",
+    "text": "{winner} has earned the season win without a trophy, and the dusting cloth celebrates."
+  },
+  {
+    "id": "c2-286",
+    "situation": "no-trophy",
+    "text": "There is substance in this trophyless result: {winner} has still finished ahead in points."
+  },
+  {
+    "id": "c2-287",
+    "situation": "no-trophy",
+    "text": "While the silverware remained elusive, {winnerClub} supplied the points {winner} needed to prevail."
+  },
+  {
+    "id": "c2-288",
+    "situation": "no-trophy",
+    "text": "The rivalry rewards points as well as trophies, and this season {winner} has enough."
+  },
+  {
+    "id": "c2-289",
+    "situation": "no-trophy",
+    "text": "A win in the Showdown ledger can come without a cup, as {winner} knows."
+  },
+  {
+    "id": "c2-290",
+    "situation": "no-trophy",
+    "text": "That is a practical success for {winner}, who finishes first in points without silverware."
+  },
+  {
+    "id": "c2-291",
+    "situation": "no-trophy",
+    "text": "There may be no trophy photograph, but {winner} has the season's superior tally."
+  },
+  {
+    "id": "c2-292",
+    "situation": "no-trophy",
+    "text": "A difficult prize hunt did not prevent {winner} from winning the Showdown round."
+  },
+  {
+    "id": "c2-293",
+    "situation": "no-trophy",
+    "text": "The trophy chase ended empty-handed, yet {winner} still secured the points decision."
+  },
+  {
+    "id": "c2-294",
+    "situation": "no-trophy",
+    "text": "For {winnerClub}, no new silverware; for {winner}, a new seasonal points victory."
+  },
+  {
+    "id": "c2-295",
+    "situation": "no-trophy",
+    "text": "{winner} has found a different route to success: more Showdown points, no trophies."
+  },
+  {
+    "id": "c2-296",
+    "situation": "no-trophy",
+    "text": "A season without trophies still brings competitive satisfaction, with {winner} ahead of {loser}."
+  },
+  {
+    "id": "c2-297",
+    "situation": "no-trophy",
+    "text": "This result belongs to {winner} on the scoreboard, even if no medals arrived."
+  },
+  {
+    "id": "c2-298",
+    "situation": "no-trophy",
+    "text": "{winnerClub} finish without a cup, but their manager {winner} has the points advantage."
+  },
+  {
+    "id": "c2-299",
+    "situation": "no-trophy",
+    "text": "Showdown seasons are judged by the total, and {winner} wins this one without silverware."
+  },
+  {
+    "id": "c2-300",
+    "situation": "no-trophy",
+    "text": "No trophy has changed hands for {winnerClub}, yet the round still goes to {winner}."
+  }
+]
