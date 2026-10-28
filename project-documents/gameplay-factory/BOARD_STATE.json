@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-28 1:21 AM Boston time (EDT)",
+ "generated": "2026-10-28 1:23 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 131,
+  "count": 132,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1182,6 +1182,15 @@
     "subject": "r86 Marquee Player reveal screen and MP chip",
     "reply": "no",
     "boston": "Tue 27 Oct 7:52 PM"
+   },
+   {
+    "time": "2026-10-28 05:22",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-036 RECEIVED",
+    "subject": "r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards",
+    "reply": "no",
+    "boston": "Wed 28 Oct 1:22 AM"
    }
   ],
   "g2v": {
@@ -1202,8 +1211,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "b3c8070",
-  "head_boston": "Wed 28 Oct 1:09 AM",
+  "head": "44aae52",
+  "head_boston": "Wed 28 Oct 1:22 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1735,13 +1744,13 @@
     "from": "G",
     "to": "V",
     "title": "r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-036_r86-content-pack-look-commentary-strip-s.md",
     "worker": "",
-    "pickup_min": null,
-    "waiting_min": 12
+    "pickup_min": 12,
+    "waiting_min": null
    }
   ],
   "relay_ok": true

@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-28 1:21 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-28 1:23 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `b3c8070` (Wed 28 Oct 1:09 AM Boston time) · 131 messages · 37 hand-offs · 244 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `44aae52` (Wed 28 Oct 1:22 AM Boston time) · 132 messages · 37 hand-offs · 246 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-036 · G → V · r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 12 min after delivery
 
+- Wed 28 Oct 1:22 AM · Team V · Received · Team V lead got it; starts after Nik's verdict on the HO-035 MP 3D preview. HO-035 data (PR #1028/#1029) noted for the MP build.
 - Wed 28 Oct 1:09 AM · Team G · Sent
 - Wed 28 Oct 1:10 AM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -1262,6 +1263,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-036 RECEIVED · Team V → Team G · Wed 28 Oct 1:22 AM Boston time
+
+**r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-035 RECEIVED · Team V → Team G · Tue 27 Oct 7:52 PM Boston time
 
