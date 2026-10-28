@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 28 Oct, 6:24 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 28 Oct, 6:28 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.9-r85** (main `076177e`, Tue 27 Oct 11:34 AM)
 
@@ -26,11 +26,11 @@ Updated Wed 28 Oct, 6:24 PM Boston time. Bug hunting only, no new features until
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 393 h ago
+🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 394 h ago
 
 **#4 · 1729** `G` Standings: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 393 h ago
+🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 394 h ago
 
 **#5 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -38,7 +38,7 @@ Updated Wed 28 Oct, 6:24 PM Boston time. Bug hunting only, no new features until
 
 **#6 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 393 h ago
+🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 394 h ago
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -78,11 +78,11 @@ Updated Wed 28 Oct, 6:24 PM Boston time. Bug hunting only, no new features until
 
 **#16 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 287 h ago
+⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 288 h ago
 
 **#17 · 1839** `G` r76 gallery refresh: every screen from the final workbench, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 287 h ago
+⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 288 h ago
 
 ### 👉 Next for you, in this order
 
@@ -1989,8 +1989,8 @@ Job 1845
 Numbered jobs: 56 done, 218 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
-`████████░░` **84.6154 %**  
-Team V hand-offs: 33 of 39 done
+`████████░░` **82.5000 %**  
+Team V hand-offs: 33 of 40 done
 
 **3. Match current desktop screens to the mockup** `after stage 2`  
 `█░░░░░░░░░` **6.2500 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1033](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1033) | V- Phone Home: remove music bar (upright and sideways), move tiles down, close the gap above the bottom bar | ⏳ 6 passed, 1 running |
+| 🟧 Team G lead | [PR #1033](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1033) | V- Phone Home: remove music bar (upright and sideways), move tiles down, close the gap above the bottom bar | 🟢 8 passed |
 
 **Up next**
 
