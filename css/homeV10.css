@@ -1506,3 +1506,18 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
 /* r85 (Nik 2026-10-27): on desktop Home's player lives in the top bar (js/musicDockV10.js), so the strip is hidden there. It
    stays in the page (its buttons and status are still the product's), out of sight, focus and the accessibility tree. */
 @media (min-width: 901px) { #mainMenu.v10Home .menuMusicTile { visibility: hidden !important; } }
+/* r86 (Nik 2026-10-28, phone Home): the soundtrack strip leaves phone Home; music is the MUSIC tab in the bottom bar
+   (js/musicDockV10.js). The strip stays in the page, out of sight, focus and the accessibility tree, as on desktop (r85).
+   Continue and the six tiles move down into its room and end 8px above the bar. Home is sized to the dynamic viewport
+   (dvh), the same box the fixed bottom bar sits in: with 100svh, iPhone Safari's floating toolbar left an empty band
+   between the tiles and the bar (svh is shorter than the area the bar is pinned to). */
+@media (max-width: 760px) and (orientation: portrait) {
+  #app:has(#mainMenu.v10Home:not(.hidden)) { height: 100svh; height: 100dvh; }
+  #app #mainMenu.v10Home {
+    --home-vh: max(100svh, 480px); --home-vh: max(100dvh, 480px);
+    --home-music-h: 0px;
+    --phone-control: calc(var(--home-continue-h) + 2 * var(--home-tile-h) + 2 * var(--home-gap) + 16px);
+  }
+  #app #mainMenu.v10Home .fifaMenuGrid { grid-template-rows: var(--home-continue-h) var(--home-tile-h) var(--home-tile-h); }
+  #app #mainMenu.v10Home .menuMusicTile { position: absolute !important; visibility: hidden !important; pointer-events: none; }
+}
