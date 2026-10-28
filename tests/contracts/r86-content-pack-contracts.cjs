@@ -48,7 +48,7 @@ ok('K3','200 season front pages and 80 Final Winner pages, every Final situation
 assert.deepEqual(Clubs.cards.map(c=>c.club).sort(),[...CATALOG].sort());
 for(const c of Clubs.cards){assert.deepEqual(Object.keys(c),['club','league','city','nickname','stadium','story','challenge']);clean(c,c.club);between(c.story,20,35,c.club);between(c.challenge,8,16,c.club);assert.ok(c.city&&c.stadium,c.club);}
 assert.equal(Scouting.cards.length,MP.players.length);
-Scouting.cards.forEach((s,i)=>{const p=MP.players[i];assert.deepEqual(Object.keys(s),['rank','name','club','position','style','report','special']);assert.equal(s.rank,p.rank);assert.equal(s.name,p.name);assert.equal(s.club??null,p.club??null);assert.match(s.position,/^(GK|CB|LB|RB|LWB|RWB|CDM|CM|CAM|LM|RM|LW|RW|CF|ST)$/);clean(s,s.name);between(s.style,2,4,s.name);between(s.report,25,40,s.name);between(s.special,8,14,s.name);});
-ok('K4','a club card for each catalog club and a scouting card for each Marquee Player, in list order');
+Scouting.cards.forEach((s,i)=>{const p=MP.players[i];assert.deepEqual(Object.keys(s),['rank','name','club','position','style','report','special']);assert.equal(s.rank,p.rank);assert.equal(s.name,p.name);assert.equal(s.club??null,p.club??null);assert.match(s.position,/^(GK|CB|LB|RB|LWB|RWB|CDM|CM|CAM|LM|RM|LW|RW|CF|ST)$/);clean(s,s.name);between(s.style,2,4,s.name);between(s.report,25,40,s.name);between(s.special,8,14,s.name);const rated=/FIFA 17: (\d+) overall, (\d+) potential\./.exec(s.report);if(rated){assert.equal(+rated[1],p.overall,`${s.name} report overall`);assert.equal(+rated[2],p.potential,`${s.name} report potential`);}});
+ok('K4','a club card for each catalog club and a scouting card for each Marquee Player, in list order, quoting that player\'s own ratings');
 
 console.log(`PASS r86 content pack contracts: ${checks} numbered checks (results, club history, front pages, cards).`);
