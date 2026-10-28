@@ -2257,6 +2257,14 @@
         "^tests/fixtures/data-contract-v1/multi-showdown-career\\.json$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r86-content-pack-contracts.cjs",
+      "patterns": [
+        "^data/(commentaryLines|frontPages|clubCards|scoutingCards|marqueePlayers|clubs)\\.js$",
+        "^tests/contracts/r86-content-pack-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
