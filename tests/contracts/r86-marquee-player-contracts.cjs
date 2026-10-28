@@ -87,4 +87,16 @@ assert.equal(typeof Adapter.buildClosedCareerInput,'function');assert.equal(type
 for(const file of fs.readdirSync(path.join(ROOT,'js')).filter(f=>/^(spark|production|shared)[A-Za-z]*\.js$/.test(f)))assert.ok(!/marquee/i.test(read('js/'+file).replace(/\/\/[^\n]*/g,'')),`${file} stays Marquee-free`);
 ok('L5','older reads and saves carry a null confirm time (no MP, still ready); no protocol module writes or verifies anything Marquee');
 
-console.log(`PASS r86 Marquee Player contracts: ${checks} numbered checks (list, badges, draw, which Showdowns, old saves).`);
+// L6 every Marquee club has a drawn crest (HO-038): the 15 clubs outside the five leagues have their own recipes, and the
+// launch-dataset names of catalog clubs (FC Barcelona, Inter ...) resolve to the catalog crest, never the generated fallback.
+{
+  const vm=require('node:vm');const sandbox={window:{},document:{createElement:()=>({})},console};sandbox.window=sandbox;
+  vm.runInNewContext(read('js/visualIdentity.js'),sandbox,{filename:'js/visualIdentity.js'});
+  const clubs=[...new Set(List.players.map(p=>p.club).filter(Boolean))];
+  for(const club of clubs){const id=sandbox.getClubIdentity(club);assert.notEqual(id.recipe.notes,'generated fallback crest',`${club} has a drawn crest`);assert.ok(!/generated/.test(JSON.stringify(id.recipe)),`${club} is not a generated crest`);}
+  assert.equal(sandbox.getClubIdentity('FC Barcelona'),sandbox.getClubIdentity('Barcelona'),'dataset names share the catalog identity');
+  assert.equal(sandbox.getClubIdentity('Inter').crest,sandbox.getClubIdentity('Inter Milan').crest);
+}
+ok('L6','all launch-list clubs draw a real crest: 15 new ones (HO-038) plus the dataset names mapped to the catalog clubs');
+
+console.log(`PASS r86 Marquee Player contracts: ${checks} numbered checks (list, badges, draw, which Showdowns, old saves, crests).`);
