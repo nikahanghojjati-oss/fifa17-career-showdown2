@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1850,
+ "next": 1851,
  "claims": [
   {
    "number": 1001,
@@ -5096,6 +5096,12 @@
    "team": "V",
    "title": "V-1 picture: Marquee Player desktop mockup NEXT_MARQUEE (HO-035)",
    "claimed": "2026-10-28T00:15:10Z"
+  },
+  {
+   "number": 1850,
+   "team": "V",
+   "title": "V- Big Jump: 5 GPT picture tickets for the real 3D Special Player pack opening",
+   "claimed": "2026-10-28T11:48:29Z"
   }
  ]
 }
