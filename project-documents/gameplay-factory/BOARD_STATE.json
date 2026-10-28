@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28 1:08 AM Boston time (EDT)",
+ "generated": "2026-10-28 1:10 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 131,
@@ -1202,8 +1202,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "7d56bfb",
-  "head_boston": "Wed 28 Oct 12:32 AM",
+  "head": "b3c8070",
+  "head_boston": "Wed 28 Oct 1:09 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1729,6 +1729,19 @@
     "worker": "opus",
     "pickup_min": 39,
     "waiting_min": null
+   },
+   {
+    "id": "HO-036",
+    "from": "G",
+    "to": "V",
+    "title": "r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-036_r86-content-pack-look-commentary-strip-s.md",
+    "worker": "",
+    "pickup_min": null,
+    "waiting_min": 1
    }
   ],
   "relay_ok": true
@@ -1800,7 +1813,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
