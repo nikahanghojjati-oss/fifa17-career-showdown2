@@ -1,0 +1,362 @@
+[
+  {
+    "club": "Arsenal",
+    "league": "Premier League",
+    "city": "London",
+    "nickname": "The Gunners",
+    "stadium": "Emirates Stadium",
+    "story": "A proud North London club with a history of attractive football and major honours. Management brings ambitious supporters, fierce local rivalries and the expectation of competing near the top.",
+    "challenge": "Challenge for the league title while maintaining a fluent attacking style."
+  },
+  {
+    "club": "Bournemouth",
+    "league": "Premier League",
+    "city": "Bournemouth",
+    "nickname": "The Cherries",
+    "stadium": "Vitality Stadium",
+    "story": "A south-coast club whose rise through the leagues gives its top-flight journey an underdog character. Managing the Cherries means building carefully and competing against clubs with greater resources.",
+    "challenge": "Keep Bournemouth competitive in the Premier League and build for stability."
+  },
+  {
+    "club": "Burnley",
+    "league": "Premier League",
+    "city": "Burnley",
+    "nickname": "The Clarets",
+    "stadium": "Turf Moor",
+    "story": "A Lancashire club with deep roots and a traditional home at Turf Moor. The job calls for organisation, resourcefulness and a team ready to compete against wealthier rivals.",
+    "challenge": "Secure Premier League survival and make Turf Moor a difficult destination."
+  },
+  {
+    "club": "Chelsea",
+    "league": "Premier League",
+    "city": "London",
+    "nickname": "The Blues",
+    "stadium": "Stamford Bridge",
+    "story": "A London heavyweight with a taste for domestic and European silverware. At Stamford Bridge, the manager inherits high expectations and a squad expected to compete for major prizes.",
+    "challenge": "Compete for the league title and pursue trophies on multiple fronts."
+  },
+  {
+    "club": "Crystal Palace",
+    "league": "Premier League",
+    "city": "London",
+    "nickname": "The Eagles",
+    "stadium": "Selhurst Park",
+    "story": "South London pride and the atmosphere at Selhurst Park shape this club's identity. The challenge is to channel that energy into consistent results against demanding Premier League opposition.",
+    "challenge": "Establish a reliable league position and give supporters a cup run."
+  },
+  {
+    "club": "Everton",
+    "league": "Premier League",
+    "city": "Liverpool",
+    "nickname": "The Toffees",
+    "stadium": "Goodison Park",
+    "story": "A historic Liverpool club with a proud league tradition and passionate supporters at Goodison Park. Managers face the challenge of turning that heritage into sustained competition near the top.",
+    "challenge": "Push toward European qualification and make Goodison Park a fortress."
+  },
+  {
+    "club": "Hull City",
+    "league": "Premier League",
+    "city": "Kingston upon Hull",
+    "nickname": "The Tigers",
+    "stadium": "KCOM Stadium",
+    "story": "The Tigers represent Hull with an unmistakable black-and-amber identity. A Premier League campaign demands smart recruitment, collective resilience and points gathered wherever opportunities present themselves.",
+    "challenge": "Keep Hull in the Premier League and strengthen the squad gradually."
+  },
+  {
+    "club": "Leicester City",
+    "league": "Premier League",
+    "city": "Leicester",
+    "nickname": "The Foxes",
+    "stadium": "King Power Stadium",
+    "story": "The Foxes enter the era as reigning Premier League champions after a remarkable underdog triumph. Managing Leicester means embracing that spirit while meeting sharply raised expectations.",
+    "challenge": "Remain competitive near the top and build on a historic title."
+  },
+  {
+    "club": "Liverpool",
+    "league": "Premier League",
+    "city": "Liverpool",
+    "nickname": "The Reds",
+    "stadium": "Anfield",
+    "story": "Anfield and a rich history of domestic and European success make this one of football's great stages. The manager must match passionate expectations with a team capable of challenging.",
+    "challenge": "Challenge for the league title and pursue another memorable European campaign."
+  },
+  {
+    "club": "Manchester City",
+    "league": "Premier League",
+    "city": "Manchester",
+    "nickname": "The Citizens",
+    "stadium": "Etihad Stadium",
+    "story": "A Manchester club with modern title-winning ambition and considerable attacking expectations. The job calls for sustained excellence in the league and a credible pursuit of European honours.",
+    "challenge": "Compete for the Premier League title and make a deep European run."
+  },
+  {
+    "club": "Manchester United",
+    "league": "Premier League",
+    "city": "Manchester",
+    "nickname": "The Red Devils",
+    "stadium": "Old Trafford",
+    "story": "Old Trafford houses a club associated with major trophies, attacking football and enormous expectations. Managing United means restoring a consistent title challenge while embracing its demanding history.",
+    "challenge": "Challenge for major trophies and return United to the league summit."
+  },
+  {
+    "club": "Middlesbrough",
+    "league": "Premier League",
+    "city": "Middlesbrough",
+    "nickname": "The Boro",
+    "stadium": "Riverside Stadium",
+    "story": "A Teesside club with a proud local following and a return to the Premier League. The task is to build a resilient side capable of holding its own.",
+    "challenge": "Establish top-flight safety and build a foundation for future progress."
+  },
+  {
+    "club": "Southampton",
+    "league": "Premier League",
+    "city": "Southampton",
+    "nickname": "The Saints",
+    "stadium": "St Mary's Stadium",
+    "story": "The Saints are known for developing talent and building competitive teams on the south coast. Management means balancing smart recruitment with ambitions to climb the Premier League table.",
+    "challenge": "Develop young talent and pursue a place in the European positions."
+  },
+  {
+    "club": "Stoke City",
+    "league": "Premier League",
+    "city": "Stoke-on-Trent",
+    "nickname": "The Potters",
+    "stadium": "bet365 Stadium",
+    "story": "A club rooted in the Potteries, Stoke brings a strong local identity and an established Premier League presence. The manager's challenge is to blend resilience with attacking progress.",
+    "challenge": "Secure a comfortable league finish and push toward the top half."
+  },
+  {
+    "club": "Sunderland",
+    "league": "Premier League",
+    "city": "Sunderland",
+    "nickname": "The Black Cats",
+    "stadium": "Stadium of Light",
+    "story": "The Black Cats bring a passionate Wearside following and a proud footballing history to the Stadium of Light. The immediate task is to create stability in a demanding league.",
+    "challenge": "Secure Premier League survival and give the squad a steadier foundation."
+  },
+  {
+    "club": "Swansea City",
+    "league": "Premier League",
+    "city": "Swansea",
+    "nickname": "The Swans",
+    "stadium": "Liberty Stadium",
+    "story": "A Welsh club competing in the English league system, Swansea carries a strong local identity. Management means preserving a competitive top-flight side while playing to its footballing strengths.",
+    "challenge": "Stay in the Premier League and build a consistent attacking team."
+  },
+  {
+    "club": "Tottenham Hotspur",
+    "league": "Premier League",
+    "city": "London",
+    "nickname": "Spurs",
+    "stadium": "White Hart Lane",
+    "story": "A North London club with a tradition of ambitious, attacking football and a fiercely followed local rivalry. Managing Spurs means turning an exciting side into a trophy contender.",
+    "challenge": "Challenge for the league title and bring silverware to North London."
+  },
+  {
+    "club": "Watford",
+    "league": "Premier League",
+    "city": "Watford",
+    "nickname": "The Hornets",
+    "stadium": "Vicarage Road",
+    "story": "The Hornets bring a compact home ground and a determined identity to the Premier League. The job is to forge consistency against opponents with a range of resources.",
+    "challenge": "Keep Watford in the top flight and target a comfortable finish."
+  },
+  {
+    "club": "West Bromwich Albion",
+    "league": "Premier League",
+    "city": "West Bromwich",
+    "nickname": "The Baggies",
+    "stadium": "The Hawthorns",
+    "story": "A historic West Midlands club with deep local roots and a long-established home at The Hawthorns. The manager must turn organisation and resolve into a dependable league campaign.",
+    "challenge": "Secure a comfortable Premier League finish and compete strongly in cups."
+  },
+  {
+    "club": "West Ham United",
+    "league": "Premier League",
+    "city": "London",
+    "nickname": "The Hammers",
+    "stadium": "London Stadium",
+    "story": "The Hammers carry a proud East London identity and a reputation for developing talent. A new home brings fresh possibilities alongside supporters' familiar demands for entertaining football.",
+    "challenge": "Build a competitive side in the new stadium and pursue Europe."
+  },
+  {
+    "club": "Alavés",
+    "league": "LaLiga",
+    "city": "Vitoria-Gasteiz",
+    "nickname": "El Glorioso",
+    "stadium": "Mendizorrotza",
+    "story": "A Basque club with a loyal following at Mendizorrotza, Alavés return to the top flight for this campaign. Management calls for discipline and resourceful performances against larger clubs.",
+    "challenge": "Establish LaLiga survival and make Mendizorrotza a challenging away trip."
+  },
+  {
+    "club": "Athletic Club",
+    "league": "LaLiga",
+    "city": "Bilbao",
+    "nickname": "Los Leones",
+    "stadium": "San Mamés",
+    "story": "Athletic's Basque player policy and passionate San Mamés support make this a distinctive managerial assignment. Success depends on developing eligible talent and maintaining the club's competitive traditions.",
+    "challenge": "Develop eligible talent and challenge for European qualification and domestic cups."
+  },
+  {
+    "club": "Atlético Madrid",
+    "league": "LaLiga",
+    "city": "Madrid",
+    "nickname": "Los Colchoneros",
+    "stadium": "Vicente Calderón",
+    "story": "A Madrid club known for fierce commitment, defensive strength and recent title contention. At the Vicente Calderón, expectations include challenging elite rivals at home and in Europe.",
+    "challenge": "Challenge for LaLiga and sustain a strong run in European competition."
+  },
+  {
+    "club": "Barcelona",
+    "league": "LaLiga",
+    "city": "Barcelona",
+    "nickname": "Barça",
+    "stadium": "Camp Nou",
+    "story": "A global club with a deep commitment to possession football, academy development and major trophies. At Camp Nou, a manager must combine an attractive style with relentless results.",
+    "challenge": "Win LaLiga while competing for the biggest domestic and European trophies."
+  },
+  {
+    "club": "Celta Vigo",
+    "league": "LaLiga",
+    "city": "Vigo",
+    "nickname": "Os Celestes",
+    "stadium": "Balaídos",
+    "story": "Galician pride and the atmosphere at Balaídos give Celta a distinctive identity. The manager's task is to build an expressive, competitive side capable of challenging established LaLiga rivals.",
+    "challenge": "Push for European places and give Vigo a strong cup campaign."
+  },
+  {
+    "club": "Deportivo La Coruña",
+    "league": "LaLiga",
+    "city": "A Coruña",
+    "nickname": "Dépor",
+    "stadium": "Riazor",
+    "story": "Dépor bring Galician pride and the memory of a league title to Riazor. Managing the club means honouring that history while building a stable, competitive top-flight team.",
+    "challenge": "Secure a comfortable league finish and rebuild toward the top half."
+  },
+  {
+    "club": "Eibar",
+    "league": "LaLiga",
+    "city": "Eibar",
+    "nickname": "Los Armeros",
+    "stadium": "Ipurua",
+    "story": "A small Basque club competing against far larger LaLiga institutions, Eibar make resourcefulness a defining feature. At Ipurua, every point helps reinforce a remarkable top-flight foothold.",
+    "challenge": "Keep Eibar in LaLiga and compete bravely against bigger clubs."
+  },
+  {
+    "club": "Espanyol",
+    "league": "LaLiga",
+    "city": "Barcelona",
+    "nickname": "Los Pericos",
+    "stadium": "RCDE Stadium",
+    "story": "Barcelona's other major club brings a proud identity and a fierce local rivalry. Managing Espanyol means building a side that can compete consistently and give its supporters something to celebrate.",
+    "challenge": "Aim for the top half and make a meaningful domestic cup run."
+  },
+  {
+    "club": "Granada",
+    "league": "LaLiga",
+    "city": "Granada",
+    "nickname": "Nazaríes",
+    "stadium": "Nuevo Los Cármenes",
+    "story": "Granada represent an Andalusian city with devoted support at Los Cármenes. The challenge is to establish consistency and gather the points needed to compete in the top flight.",
+    "challenge": "Secure LaLiga safety and build a more settled, competitive squad."
+  },
+  {
+    "club": "Las Palmas",
+    "league": "LaLiga",
+    "city": "Las Palmas de Gran Canaria",
+    "nickname": "Los Amarillos",
+    "stadium": "Estadio de Gran Canaria",
+    "story": "The Canary Islands club brings a distinctive island identity and a tradition of technical football. Managing Las Palmas means making home advantage count while navigating a demanding league.",
+    "challenge": "Stay clear of relegation and develop an attractive, competitive side."
+  },
+  {
+    "club": "Leganés",
+    "league": "LaLiga",
+    "city": "Leganés",
+    "nickname": "Los Pepineros",
+    "stadium": "Butarque",
+    "story": "A club from the Madrid region beginning its first top-flight campaign, Leganés embody an underdog spirit. Success starts with organisation, resilience and strong performances at Butarque.",
+    "challenge": "Keep Leganés in LaLiga and establish a platform for future seasons."
+  },
+  {
+    "club": "Málaga",
+    "league": "LaLiga",
+    "city": "Málaga",
+    "nickname": "Los Boquerones",
+    "stadium": "La Rosaleda",
+    "story": "Málaga bring Andalusian character and a loyal following to La Rosaleda. The manager must build a consistent team and give supporters reason to dream beyond survival.",
+    "challenge": "Earn a secure league finish and push toward the top half."
+  },
+  {
+    "club": "Osasuna",
+    "league": "LaLiga",
+    "city": "Pamplona",
+    "nickname": "Los Rojillos",
+    "stadium": "El Sadar",
+    "story": "A Navarre club with a fiercely loyal following at El Sadar, Osasuna return to LaLiga with a clear challenge. Build a resilient side and make home matches count.",
+    "challenge": "Secure top-flight safety and turn El Sadar into a dependable stronghold."
+  },
+  {
+    "club": "Real Betis",
+    "league": "LaLiga",
+    "city": "Seville",
+    "nickname": "Los Verdiblancos",
+    "stadium": "Benito Villamarín",
+    "story": "Betis bring green-and-white colours, passionate Seville support and a fierce city rivalry. Managing the club means matching that energy with consistent performances and ambitions beyond the lower half.",
+    "challenge": "Push into the top half and make a strong cup challenge."
+  },
+  {
+    "club": "Real Madrid",
+    "league": "LaLiga",
+    "city": "Madrid",
+    "nickname": "Los Blancos",
+    "stadium": "Santiago Bernabéu",
+    "story": "At the Santiago Bernabéu, a club steeped in domestic and European success demands major trophies. The manager is expected to combine star quality with consistent winning football.",
+    "challenge": "Compete for LaLiga and the Champions League while meeting immense expectations."
+  },
+  {
+    "club": "Real Sociedad",
+    "league": "LaLiga",
+    "city": "San Sebastián",
+    "nickname": "La Real",
+    "stadium": "Anoeta",
+    "story": "A Basque club with a proud regional identity and a tradition of developing talent. The job is to build an attractive side capable of challenging for European places.",
+    "challenge": "Develop promising players and compete for a European qualification place."
+  },
+  {
+    "club": "Sevilla",
+    "league": "LaLiga",
+    "city": "Seville",
+    "nickname": "Los Nervionenses",
+    "stadium": "Ramón Sánchez-Pizjuán",
+    "story": "Sevilla combine an intense home atmosphere with a distinguished record in European competition. Managing the club means pursuing domestic progress and maintaining its appetite for continental success.",
+    "challenge": "Challenge near the top of LaLiga and compete strongly in Europe."
+  },
+  {
+    "club": "Sporting Gijón",
+    "league": "LaLiga",
+    "city": "Gijón",
+    "nickname": "Los Rojiblancos",
+    "stadium": "El Molinón",
+    "story": "A historic Asturian club with passionate support at El Molinón, Sporting carry a strong local identity. Their manager must build resilience against the pressures of top-flight football.",
+    "challenge": "Keep Sporting in LaLiga and make home support count for points."
+  },
+  {
+    "club": "Valencia",
+    "league": "LaLiga",
+    "city": "Valencia",
+    "nickname": "Los Che",
+    "stadium": "Mestalla",
+    "story": "A club with major domestic and European pedigree, Valencia bring demanding expectations to Mestalla. Management means restoring consistency and giving a passionate fanbase a team to believe in.",
+    "challenge": "Rebuild a consistent side and challenge for European qualification again."
+  },
+  {
+    "club": "Villarreal",
+    "league": "LaLiga",
+    "city": "Villarreal",
+    "nickname": "El Submarino Amarillo",
+    "stadium": "Estadio de la Cerámica",
+    "story": "The Yellow Submarine bring a distinctive identity and European ambition from a small city. Managing Villarreal means combining smart recruitment with a competitive, technically accomplished team.",
+    "challenge": "Sustain a European challenge and remain competitive against larger LaLiga clubs."
+  }
+]
