@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 28 Oct, 6:28 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 28 Oct, 6:32 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.9-r85** (main `076177e`, Tue 27 Oct 11:34 AM)
 
@@ -42,7 +42,7 @@ Updated Wed 28 Oct, 6:28 PM Boston time. Bug hunting only, no new features until
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 393 h ago
+🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 394 h ago
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
@@ -74,7 +74,7 @@ Updated Wed 28 Oct, 6:28 PM Boston time. Bug hunting only, no new features until
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 288 h ago
+⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 289 h ago
 
 **#16 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
@@ -2122,6 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
+| 🟧 Team G lead | [PR #1034](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1034) | Remove the Claude Console review workflows from main | ⏳ 0 passed, 7 running |
 | 🟧 Team G lead | [PR #1033](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1033) | V- Phone Home: remove music bar (upright and sideways), move tiles down, close the gap above the bottom bar | 🟢 8 passed |
 
 **Up next**

@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28 6:28 PM Boston time (EDT)",
+ "generated": "2026-10-28 6:32 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 146,
@@ -1372,6 +1372,20 @@
    "subject": "Claude deep audit button, and full output on Claude reviews (#1022)",
    "fixes": [
     {
+     "pr": 1034,
+     "title": "Remove the Claude Console review workflows from main",
+     "draft": false,
+     "branch": "claude-main/remove-claude-review",
+     "sha": "37890578c355d2587dabbcea39c994d078ed85be",
+     "updated": "2026-10-28T22:28:06Z",
+     "gates": {
+      "passed": 0,
+      "running": 7,
+      "failed": 0,
+      "cancelled": 0
+     }
+    },
+    {
      "pr": 1033,
      "title": "V- Phone Home: remove music bar (upright and sideways), move tiles down, close the gap above the bottom bar",
      "draft": false,
@@ -1930,7 +1944,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-039_phone-home-no-music-bar-tiles-down-no-ga.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 5
    }
   ],
   "relay_ok": true
@@ -2002,7 +2016,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 44,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3219,6 +3233,20 @@
    }
   },
   "fixes": [
+   {
+    "pr": 1034,
+    "title": "Remove the Claude Console review workflows from main",
+    "draft": false,
+    "branch": "claude-main/remove-claude-review",
+    "sha": "37890578c355d2587dabbcea39c994d078ed85be",
+    "updated": "2026-10-28T22:28:06Z",
+    "gates": {
+     "passed": 0,
+     "running": 7,
+     "failed": 0,
+     "cancelled": 0
+    }
+   },
    {
     "pr": 1033,
     "title": "V- Phone Home: remove music bar (upright and sideways), move tiles down, close the gap above the bottom bar",
