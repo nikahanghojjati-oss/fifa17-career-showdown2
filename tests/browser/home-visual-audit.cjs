@@ -128,7 +128,9 @@ async function inspectTiles(page){
             viewport: { width: innerWidth, height: innerHeight },
             tiles,
             strip: rectOf("#mainMenu .menuMusicTile"),
+            stripShown: (() => { const node = document.querySelector("#mainMenu .menuMusicTile"); return Boolean(node && node.getClientRects().length && getComputedStyle(node).visibility !== "hidden" && getComputedStyle(node).display !== "none"); })(),
             lockup: rectOf("#mainMenu .homeLockup"),
+            nav: rectOf(".sd-nav-bottom"),
             scrollWidth: document.documentElement.scrollWidth,
             scrollHeight: document.documentElement.scrollHeight,
             bodyScrollHeight: document.body.scrollHeight
@@ -164,17 +166,24 @@ function assertTiles(result, label, mode){
             assert.ok(!touches(line, tile.art), `${label}: ${tile.id} label text must not touch its icon.`);
         }
     }
+    if(mode === "portrait"){
+        // r86 (Nik 2026-10-28): no soundtrack strip on phone Home, and the last tile row ends just above the bottom bar
+        // (no empty band, no touching).
+        assert.ok(!result.stripShown, `${label}: the soundtrack strip must not show on phone Home (music is the MUSIC tab).`);
+        const lowest = Math.max(...result.tiles.map(tile => tile.tile.bottom));
+        if(result.nav){
+            const room = result.nav.top - lowest;
+            assert.ok(room >= 4 && room <= 16, `${label}: the last tile row must end 4-16px above the bottom bar (${room}px).`);
+        }
+    }
     if(mode === "landscape"){
-        // G-F15: every tile, the soundtrack strip and the logo are on screen together and never overlap one another.
-        assert.ok(result.strip, `${label}: the soundtrack strip must show on a landscape phone.`);
-        assert.ok(inside(result.strip, { left: 0, top: 0, right: viewport.width, bottom: viewport.height }), `${label}: the soundtrack strip must be fully on screen.`);
+        // G-F15: every tile and the logo are on screen together and never overlap one another. r86 (Nik 2026-10-28):
+        // the soundtrack strip is gone from phone Home (music is the MUSIC tab), so it must not show.
+        assert.ok(!result.stripShown, `${label}: the soundtrack strip must not show on phone Home (music is the MUSIC tab).`);
         assert.ok(result.lockup, `${label}: the logo must show on a landscape phone.`);
-        const strip = result.strip;
         for(const tile of result.tiles){
-            assert.ok(!touches(tile.tile, strip), `${label}: ${tile.id} must not overlap the soundtrack strip.`);
             assert.ok(!touches(tile.tile, result.lockup), `${label}: ${tile.id} must not overlap the logo.`);
         }
-        assert.ok(!touches(strip, result.lockup), `${label}: the soundtrack strip must not overlap the logo.`);
         for(let i = 0; i < result.tiles.length; i += 1){
             for(let j = i + 1; j < result.tiles.length; j += 1){
                 assert.ok(!touches(result.tiles[i].tile, result.tiles[j].tile), `${label}: ${result.tiles[i].id} and ${result.tiles[j].id} overlap.`);
