@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-28 8:37 AM Boston time (EDT)",
+ "generated": "2026-10-28 8:40 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 132,
+  "count": 134,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1184,6 +1184,15 @@
     "boston": "Tue 27 Oct 7:52 PM"
    },
    {
+    "time": "2026-10-28 05:09",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-036 SENT",
+    "subject": "r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards",
+    "reply": "yes (receive it)",
+    "boston": "Wed 28 Oct 1:09 AM"
+   },
+   {
     "time": "2026-10-28 05:22",
     "from": "Team V",
     "to": "Team G",
@@ -1191,6 +1200,15 @@
     "subject": "r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards",
     "reply": "no",
     "boston": "Wed 28 Oct 1:22 AM"
+   },
+   {
+    "time": "2026-10-28 12:39",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-036 RECEIVED",
+    "subject": "r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards",
+    "reply": "no",
+    "boston": "Wed 28 Oct 8:39 AM"
    }
   ],
   "g2v": {
@@ -1211,8 +1229,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "dba99bd",
-  "head_boston": "Wed 28 Oct 7:48 AM",
+  "head": "f751897",
+  "head_boston": "Wed 28 Oct 8:39 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
