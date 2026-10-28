@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-27 8:01 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-27 8:06 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `e9cdeb5` (Tue 27 Oct 7:54 PM Boston time) · 131 messages · 36 hand-offs · 243 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `16b7a05` (Tue 27 Oct 8:03 PM Boston time) · 131 messages · 36 hand-offs · 243 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -12,6 +12,7 @@ Relay branch `leads/relay` head `e9cdeb5` (Tue 27 Oct 7:54 PM Boston time) · 13
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 39 min after delivery
 
+- Tue 27 Oct 8:03 PM · Team V · In progress · Kit ready for Nik's look: branch claude/project-thread-3ux89z @ 78bccd28, visual-assets/v10_1/marquee (BUILD_RESULT.md, evidence/). Reveal order per Nik: figure, jersey, number, pause, club, name, rank. DONE after Nik's OK.
 - Tue 27 Oct 7:54 PM · Team V · In progress · Building visual-assets/v10_1/marquee on branch claude/project-thread-3ux89z: club plate scene reused, code-drawn original shirts, gold faceless silhouette for the player step, tier badge, MP chip
 - Tue 27 Oct 7:52 PM · Team V · Received · Team V lead started it in this thread 27 Oct 7:5x p.m. Eastern
 - Tue 27 Oct 7:12 PM · Team G · Sent
