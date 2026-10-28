@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 28 Oct, 6:32 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 28 Oct, 6:36 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.9-r85** (main `076177e`, Tue 27 Oct 11:34 AM)
 
-🩺 **All clear: every check has a machine.** · Gate #1033: L1✓ L2✓ L3A… L3B✓ L4✓ L5✓ L6… · seal pending · POS20 #1033 0/16
+🩺 **All clear: every check has a machine.** · Gate #1034: L1… L2… L3A… L3B✓ L4… L5… L6… · seal pending · POS20 #1034 0/16
 
 ## Jobs
 
@@ -54,7 +54,7 @@ Updated Wed 28 Oct, 6:32 PM Boston time. Bug hunting only, no new features until
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 317 h ago
+⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 318 h ago
 
 **#11 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1034](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1034) | Remove the Claude Console review workflows from main | ⏳ 0 passed, 7 running |
+| 🟧 Team G lead | [PR #1034](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1034) | Remove the Claude Console review workflows from main | ⏳ 4 passed, 3 running |
 | 🟧 Team G lead | [PR #1033](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1033) | V- Phone Home: remove music bar (upright and sideways), move tiles down, close the gap above the bottom bar | 🟢 8 passed |
 
 **Up next**
