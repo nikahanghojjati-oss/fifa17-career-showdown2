@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28 6:43 PM Boston time (EDT)",
+ "generated": "2026-10-28 6:47 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 146,
@@ -1379,8 +1379,8 @@
      "sha": "37890578c355d2587dabbcea39c994d078ed85be",
      "updated": "2026-10-28T22:28:06Z",
      "gates": {
-      "passed": 6,
-      "running": 1,
+      "passed": 8,
+      "running": 0,
       "failed": 0,
       "cancelled": 0
      }
@@ -1405,7 +1405,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #1034: L1… L2… L3A… L3B✓ L4… L5… L6… · seal pending · POS20 #1034 0/16",
+   "gate": "Gate #1034: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #1034 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -1944,7 +1944,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-039_phone-home-no-music-bar-tiles-down-no-ga.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 17
+    "waiting_min": 21
    }
   ],
   "relay_ok": true
@@ -3241,8 +3241,8 @@
     "sha": "37890578c355d2587dabbcea39c994d078ed85be",
     "updated": "2026-10-28T22:28:06Z",
     "gates": {
-     "passed": 6,
-     "running": 1,
+     "passed": 8,
+     "running": 0,
      "failed": 0,
      "cancelled": 0
     }
