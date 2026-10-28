@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28 6:51 PM Boston time (EDT)",
+ "generated": "2026-10-28 6:55 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 146,
@@ -1370,22 +1370,7 @@
    "revision": "1.9.9-r85",
    "when": "2026-10-28T22:51:36Z",
    "subject": "Remove the Claude Console review workflows from main (#1034)",
-   "fixes": [
-    {
-     "pr": 1033,
-     "title": "V- Phone Home: remove music bar (upright and sideways), move tiles down, close the gap above the bottom bar",
-     "draft": false,
-     "branch": "claude/project-thread-mdbg45",
-     "sha": "dd064cdf1f2d821ca129254f0200de386e7c40d4",
-     "updated": "2026-10-28T22:15:50Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    }
-   ],
+   "fixes": [],
    "today": [
     {
      "pr": 1034,
@@ -1936,7 +1921,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-039_phone-home-no-music-bar-tiles-down-no-ga.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 24
+    "waiting_min": 28
    }
   ],
   "relay_ok": true
@@ -2008,7 +1993,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3224,22 +3209,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 1033,
-    "title": "V- Phone Home: remove music bar (upright and sideways), move tiles down, close the gap above the bottom bar",
-    "draft": false,
-    "branch": "claude/project-thread-mdbg45",
-    "sha": "dd064cdf1f2d821ca129254f0200de386e7c40d4",
-    "updated": "2026-10-28T22:15:50Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
