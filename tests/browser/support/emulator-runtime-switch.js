@@ -94,6 +94,9 @@
     if(root.CareerModeProductionFirebaseRuntime)return Object.freeze({active:false,reason:"runtime-already-present"});
     Object.defineProperty(root,"CareerModeProductionFirebaseRuntime",{value:createRuntime(decision,importImpl),writable:false,configurable:false});
     root.__cmsEmulatorSwitch=decision;
+    // r86: the emulator journeys go straight from Club Assignment to Career Start; the Special Player reveal has its own
+    // audit (tests/browser/r86-special-player-reveal-audit.cjs). cmsSpecialPlayer=1 keeps it in a journey.
+    try{if(new URLSearchParams(String(location&&location.search||"")).get("cmsSpecialPlayer")!=="1")root.CMS_SPECIAL_PLAYER_REVEAL="off";}catch(_error){root.CMS_SPECIAL_PLAYER_REVEAL="off";}
     return decision;
   }
 
