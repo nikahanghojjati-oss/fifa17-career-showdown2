@@ -135,3 +135,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-19 05:34 | Team V | Team G | HO-034 DONE | r80 Europa League trophy picture (TRO_EUROPA_V1) | no |
 | 2026-10-27 23:12 | Team G | Team V | HO-035 SENT | r86 Marquee Player reveal screen and MP chip | yes (receive it) |
 | 2026-10-27 23:52 | Team V | Team G | HO-035 RECEIVED | r86 Marquee Player reveal screen and MP chip | no |
+| 2026-10-28 05:22 | Team V | Team G | HO-036 RECEIVED | r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards | no |

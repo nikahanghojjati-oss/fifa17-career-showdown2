@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-28T05:09:36Z", "by": "G", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-10-28T05:09:36Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-28T05:22:20Z", "by": "V", "status": "RECEIVED", "note": "Team V lead got it; starts after Nik's verdict on the HO-035 MP 3D preview. HO-035 data (PR #1028/#1029) noted for the MP build."}]
 }
 ```
 
