@@ -1,0 +1,662 @@
+﻿rank,name,club,field,file_value,real_value,status,source_url
+1,Cristiano Ronaldo,Real Madrid,PAS,82,81,WRONG,https://www.futwiz.com/fifa17/player/cristiano-ronaldo/60
+1,Cristiano Ronaldo,Real Madrid,DEF,32,33,WRONG,https://www.futwiz.com/fifa17/player/cristiano-ronaldo/60
+2,Neymar,FC Barcelona,PAS,79,78,WRONG,https://www.futwiz.com/fifa17/player/neymar/58
+2,Neymar,FC Barcelona,PHY,58,56,WRONG,https://www.futwiz.com/fifa17/player/neymar/58
+3,P. Pogba,Manchester United,PAS,84,83,WRONG,https://www.futwiz.com/fifa17/player/paul-pogba/44
+4,L. Messi,FC Barcelona,ALL,,,OK,https://www.futwiz.com/fifa17/player/lionel-messi/59
+5,P. Dybala,Juventus,PAS,80,76,WRONG,https://www.futwiz.com/fifa17/player/paulo-dybala/29
+5,P. Dybala,Juventus,DEF,24,23,WRONG,https://www.futwiz.com/fifa17/player/paulo-dybala/29
+5,P. Dybala,Juventus,OVERALL,86,85,WRONG,https://www.futwiz.com/fifa17/player/paulo-dybala/29
+6,L. Suárez,FC Barcelona,ALL,,,OK,https://www.futwiz.com/fifa17/player/luis-suarez/57
+6,M. Neuer,FC Bayern München,SPD,60,58,WRONG,https://www.futwiz.com/fifa17/player/manuel-neuer/22
+8,De Gea,Manchester United,POS,86,85,WRONG,https://www.futwiz.com/fifa17/player/de-gea/54
+9,T. Courtois,Chelsea,SPD,49,46,WRONG,https://www.futwiz.com/fifa17/player/thibaut-courtois/49
+10,G. Donnarumma,Milan,DIV,85,78,WRONG,https://www.futwiz.com/fifa17/player/gianluigi-donnarumma/13913
+10,G. Donnarumma,Milan,HAN,73,72,WRONG,https://www.futwiz.com/fifa17/player/gianluigi-donnarumma/13913
+10,G. Donnarumma,Milan,REF,87,84,WRONG,https://www.futwiz.com/fifa17/player/gianluigi-donnarumma/13913
+10,G. Donnarumma,Milan,SPD,48,46,WRONG,https://www.futwiz.com/fifa17/player/gianluigi-donnarumma/13913
+10,G. Donnarumma,Milan,POS,73,70,WRONG,https://www.futwiz.com/fifa17/player/gianluigi-donnarumma/13913
+10,G. Donnarumma,Milan,OVERALL,80,76,WRONG,https://www.futwiz.com/fifa17/player/gianluigi-donnarumma/13913
+11,K. Mbappé,AS Monaco,PAC,88,81,WRONG,https://www.futwiz.com/fifa17/player/kylian-mbappe-lottin/14218
+11,K. Mbappé,AS Monaco,SHO,71,64,WRONG,https://www.futwiz.com/fifa17/player/kylian-mbappe-lottin/14218
+11,K. Mbappé,AS Monaco,PAS,72,65,WRONG,https://www.futwiz.com/fifa17/player/kylian-mbappe-lottin/14218
+11,K. Mbappé,AS Monaco,DRI,81,74,WRONG,https://www.futwiz.com/fifa17/player/kylian-mbappe-lottin/14218
+11,K. Mbappé,AS Monaco,DEF,47,39,WRONG,https://www.futwiz.com/fifa17/player/kylian-mbappe-lottin/14218
+11,K. Mbappé,AS Monaco,PHY,68,62,WRONG,https://www.futwiz.com/fifa17/player/kylian-mbappe-lottin/14218
+11,K. Mbappé,AS Monaco,OVERALL,79,71,WRONG,https://www.futwiz.com/fifa17/player/kylian-mbappe-lottin/14218
+11,K. Mbappé,AS Monaco,POSITION,ST,LW,WRONG,https://www.futwiz.com/fifa17/player/kylian-mbappe-lottin/14218
+12,A. Griezmann,Atlético Madrid,ALL,,,OK,https://www.futwiz.com/fifa17/player/antoine-griezmann/45
+12,K. De Bruyne,Manchester City,SHO,84,83,WRONG,https://www.futwiz.com/fifa17/player/kevin-de-bruyne/41
+12,K. De Bruyne,Manchester City,PAS,87,86,WRONG,https://www.futwiz.com/fifa17/player/kevin-de-bruyne/41
+14,J. Oblak,Atlético Madrid,SPD,52,43,WRONG,https://www.futwiz.com/fifa17/player/jan-oblak/17
+15,R. Varane,Real Madrid,PAC,82,77,WRONG,https://www.futwiz.com/fifa17/player/raphael-varane/4086
+15,R. Varane,Real Madrid,DEF,84,85,WRONG,https://www.futwiz.com/fifa17/player/raphael-varane/4086
+16,L. Sané,Manchester City,PAS,71,70,WRONG,https://www.futwiz.com/fifa17/player/leroy-sane/3970
+16,L. Sané,Manchester City,DRI,85,83,WRONG,https://www.futwiz.com/fifa17/player/leroy-sane/3970
+16,L. Sané,Manchester City,PHY,66,64,WRONG,https://www.futwiz.com/fifa17/player/leroy-sane/3970
+16,L. Sané,Manchester City,OVERALL,82,79,WRONG,https://www.futwiz.com/fifa17/player/leroy-sane/3970
+16,L. Sané,Manchester City,POSITION,LM,RM,WRONG,https://www.futwiz.com/fifa17/player/leroy-sane/3970
+17,O. Dembélé,Borussia Dortmund,PAC,92,84,WRONG,https://www.futwiz.com/fifa17/player/ousmane-dembele/14134
+17,O. Dembélé,Borussia Dortmund,SHO,73,72,WRONG,https://www.futwiz.com/fifa17/player/ousmane-dembele/14134
+17,O. Dembélé,Borussia Dortmund,PAS,73,70,WRONG,https://www.futwiz.com/fifa17/player/ousmane-dembele/14134
+17,O. Dembélé,Borussia Dortmund,DRI,85,82,WRONG,https://www.futwiz.com/fifa17/player/ousmane-dembele/14134
+17,O. Dembélé,Borussia Dortmund,DEF,31,41,WRONG,https://www.futwiz.com/fifa17/player/ousmane-dembele/14134
+17,O. Dembélé,Borussia Dortmund,PHY,56,52,WRONG,https://www.futwiz.com/fifa17/player/ousmane-dembele/14134
+17,O. Dembélé,Borussia Dortmund,OVERALL,81,77,WRONG,https://www.futwiz.com/fifa17/player/ousmane-dembele/14134
+18,Gabriel Jesus,Manchester City,ALL,,NOT FOUND,NOT FOUND,unknown
+19,G. Bale,Real Madrid,PHY,77,76,WRONG,https://www.futwiz.com/fifa17/player/gareth-bale/55
+19,R. Lewandowski,FC Bayern München,ALL,,,OK,https://www.futwiz.com/fifa17/player/robert-lewandowski/52
+19,Z. Ibrahimović,Manchester United,ALL,,,OK,https://www.futwiz.com/fifa17/player/zlatan-ibrahimovic/53
+22,E. Hazard,Chelsea,PAS,83,82,WRONG,https://www.futwiz.com/fifa17/player/eden-hazard/34
+22,E. Hazard,Chelsea,DRI,92,91,WRONG,https://www.futwiz.com/fifa17/player/eden-hazard/34
+22,E. Hazard,Chelsea,PHY,66,64,WRONG,https://www.futwiz.com/fifa17/player/eden-hazard/34
+22,E. Hazard,Chelsea,OVERALL,89,88,WRONG,https://www.futwiz.com/fifa17/player/eden-hazard/34
+22,E. Hazard,Chelsea,POSITION,LW,LM,WRONG,https://www.futwiz.com/fifa17/player/eden-hazard/34
+23,J. Rodríguez,Real Madrid,DRI,84,85,WRONG,https://www.futwiz.com/fifa17/player/james-rodriguez/6
+24,C. Eriksen,Tottenham Hotspur,PAS,86,84,WRONG,https://www.futwiz.com/fifa17/player/christian-eriksen/4618
+24,C. Eriksen,Tottenham Hotspur,DEF,45,44,WRONG,https://www.futwiz.com/fifa17/player/christian-eriksen/4618
+24,C. Eriksen,Tottenham Hotspur,PHY,60,59,WRONG,https://www.futwiz.com/fifa17/player/christian-eriksen/4618
+24,C. Eriksen,Tottenham Hotspur,OVERALL,86,84,WRONG,https://www.futwiz.com/fifa17/player/christian-eriksen/4618
+24,M. Verratti,Paris Saint-Germain,DRI,88,87,WRONG,https://www.futwiz.com/fifa17/player/marco-verratti/3679
+24,M. Verratti,Paris Saint-Germain,DEF,77,78,WRONG,https://www.futwiz.com/fifa17/player/marco-verratti/3679
+24,M. Verratti,Paris Saint-Germain,OVERALL,86,85,WRONG,https://www.futwiz.com/fifa17/player/marco-verratti/3679
+26,H. Kane,Tottenham Hotspur,SHO,85,84,WRONG,https://www.futwiz.com/fifa17/player/harry-kane/23
+26,H. Kane,Tottenham Hotspur,PAS,72,71,WRONG,https://www.futwiz.com/fifa17/player/harry-kane/23
+26,H. Kane,Tottenham Hotspur,OVERALL,85,84,WRONG,https://www.futwiz.com/fifa17/player/harry-kane/23
+26,R. Lukaku,Everton,PAC,85,82,WRONG,https://www.futwiz.com/fifa17/player/romelu-lukaku/5028
+26,R. Lukaku,Everton,SHO,84,82,WRONG,https://www.futwiz.com/fifa17/player/romelu-lukaku/5028
+26,R. Lukaku,Everton,PAS,69,66,WRONG,https://www.futwiz.com/fifa17/player/romelu-lukaku/5028
+26,R. Lukaku,Everton,OVERALL,85,84,WRONG,https://www.futwiz.com/fifa17/player/romelu-lukaku/5028
+28,Bernardo Silva,AS Monaco,SHO,72,69,WRONG,https://www.futwiz.com/fifa17/player/bernardo-silva/10675
+28,Bernardo Silva,AS Monaco,PAS,80,78,WRONG,https://www.futwiz.com/fifa17/player/bernardo-silva/10675
+28,Bernardo Silva,AS Monaco,DRI,86,83,WRONG,https://www.futwiz.com/fifa17/player/bernardo-silva/10675
+28,Bernardo Silva,AS Monaco,PHY,61,60,WRONG,https://www.futwiz.com/fifa17/player/bernardo-silva/10675
+28,Bernardo Silva,AS Monaco,OVERALL,83,81,WRONG,https://www.futwiz.com/fifa17/player/bernardo-silva/10675
+28,E. Bailly,Manchester United,SHO,42,41,WRONG,https://www.futwiz.com/fifa17/player/eric-bailly/4036
+28,E. Bailly,Manchester United,PAS,54,53,WRONG,https://www.futwiz.com/fifa17/player/eric-bailly/4036
+28,E. Bailly,Manchester United,DRI,63,59,WRONG,https://www.futwiz.com/fifa17/player/eric-bailly/4036
+28,E. Bailly,Manchester United,DEF,84,82,WRONG,https://www.futwiz.com/fifa17/player/eric-bailly/4036
+28,E. Bailly,Manchester United,PHY,84,83,WRONG,https://www.futwiz.com/fifa17/player/eric-bailly/4036
+28,E. Bailly,Manchester United,OVERALL,83,82,WRONG,https://www.futwiz.com/fifa17/player/eric-bailly/4036
+30,A. Martial,Manchester United,DRI,86,87,WRONG,https://www.futwiz.com/fifa17/player/anthony-martial/25
+30,A. Martial,Manchester United,DEF,41,42,WRONG,https://www.futwiz.com/fifa17/player/anthony-martial/25
+30,D. Alli,Tottenham Hotspur,PAC,76,75,WRONG,https://www.futwiz.com/fifa17/player/dele-alli/24
+30,D. Alli,Tottenham Hotspur,SHO,76,74,WRONG,https://www.futwiz.com/fifa17/player/dele-alli/24
+30,D. Alli,Tottenham Hotspur,PAS,75,74,WRONG,https://www.futwiz.com/fifa17/player/dele-alli/24
+30,D. Alli,Tottenham Hotspur,DRI,79,78,WRONG,https://www.futwiz.com/fifa17/player/dele-alli/24
+30,D. Alli,Tottenham Hotspur,OVERALL,82,80,WRONG,https://www.futwiz.com/fifa17/player/dele-alli/24
+32,Y. Tielemans,RSC Anderlecht,SHO,76,73,WRONG,https://www.futwiz.com/fifa17/player/youri-tielemans/10445
+32,Y. Tielemans,RSC Anderlecht,DEF,68,67,WRONG,https://www.futwiz.com/fifa17/player/youri-tielemans/10445
+32,Y. Tielemans,RSC Anderlecht,PHY,67,64,WRONG,https://www.futwiz.com/fifa17/player/youri-tielemans/10445
+32,Y. Tielemans,RSC Anderlecht,OVERALL,79,77,WRONG,https://www.futwiz.com/fifa17/player/youri-tielemans/10445
+33,G. Higuaín,Juventus,PAS,69,68,WRONG,https://www.futwiz.com/fifa17/player/gonzalo-higuain/43
+33,G. Higuaín,Juventus,DRI,83,82,WRONG,https://www.futwiz.com/fifa17/player/gonzalo-higuain/43
+33,G. Higuaín,Juventus,PHY,75,74,WRONG,https://www.futwiz.com/fifa17/player/gonzalo-higuain/43
+33,G. Higuaín,Juventus,OVERALL,89,88,WRONG,https://www.futwiz.com/fifa17/player/gonzalo-higuain/43
+33,J. Boateng,FC Bayern München,PAC,78,79,WRONG,https://www.futwiz.com/fifa17/player/jerome-boateng/21
+33,J. Boateng,FC Bayern München,DEF,89,90,WRONG,https://www.futwiz.com/fifa17/player/jerome-boateng/21
+33,J. Boateng,FC Bayern München,PHY,84,85,WRONG,https://www.futwiz.com/fifa17/player/jerome-boateng/21
+33,J. Boateng,FC Bayern München,OVERALL,89,90,WRONG,https://www.futwiz.com/fifa17/player/jerome-boateng/21
+33,L. Modrić,Real Madrid,ALL,,,OK,https://www.futwiz.com/fifa17/player/luka-modric/47
+33,M. Özil,Arsenal,PAS,87,86,WRONG,https://www.futwiz.com/fifa17/player/mesut-ozil/50
+33,M. Özil,Arsenal,PHY,57,58,WRONG,https://www.futwiz.com/fifa17/player/mesut-ozil/50
+33,S. Agüero,Manchester City,ALL,,,OK,https://www.futwiz.com/fifa17/player/sergio-aguero/51
+33,Sergio Ramos,Real Madrid,DEF,88,87,WRONG,https://www.futwiz.com/fifa17/player/sergio-ramos/48
+33,Thiago Silva,Paris Saint-Germain,ALL,,,OK,https://www.futwiz.com/fifa17/player/thiago-silva/46
+40,T. Kroos,Real Madrid,ALL,,,OK,https://www.futwiz.com/fifa17/player/toni-kroos/37
+41,B. Leno,Bayer 04 Leverkusen,KIC,76,80,WRONG,https://www.futwiz.com/fifa17/player/bernd-leno/3683
+41,B. Leno,Bayer 04 Leverkusen,SPD,49,46,WRONG,https://www.futwiz.com/fifa17/player/bernd-leno/3683
+41,B. Leno,Bayer 04 Leverkusen,POS,85,86,WRONG,https://www.futwiz.com/fifa17/player/bernd-leno/3683
+41,Coutinho,Liverpool,SHO,77,74,WRONG,https://www.futwiz.com/fifa17/player/coutinho/3656
+41,Coutinho,Liverpool,DRI,88,87,WRONG,https://www.futwiz.com/fifa17/player/coutinho/3656
+41,Coutinho,Liverpool,DEF,35,33,WRONG,https://www.futwiz.com/fifa17/player/coutinho/3656
+41,Coutinho,Liverpool,PHY,64,56,WRONG,https://www.futwiz.com/fifa17/player/coutinho/3656
+41,Coutinho,Liverpool,OVERALL,86,85,WRONG,https://www.futwiz.com/fifa17/player/coutinho/3656
+41,Coutinho,Liverpool,POSITION,LW,CAM,WRONG,https://www.futwiz.com/fifa17/player/coutinho/3656
+41,D. Alaba,FC Bayern München,DRI,81,83,WRONG,https://www.futwiz.com/fifa17/player/david-alaba/19
+41,D. Alaba,FC Bayern München,DEF,82,83,WRONG,https://www.futwiz.com/fifa17/player/david-alaba/19
+41,D. Alaba,FC Bayern München,PHY,74,73,WRONG,https://www.futwiz.com/fifa17/player/david-alaba/19
+41,D. Alaba,FC Bayern München,OVERALL,86,87,WRONG,https://www.futwiz.com/fifa17/player/david-alaba/19
+44,Isco,Real Madrid,SHO,77,75,WRONG,https://www.futwiz.com/fifa17/player/isco/4087
+44,Isco,Real Madrid,PAS,81,80,WRONG,https://www.futwiz.com/fifa17/player/isco/4087
+44,Isco,Real Madrid,DRI,88,86,WRONG,https://www.futwiz.com/fifa17/player/isco/4087
+44,Isco,Real Madrid,DEF,51,39,WRONG,https://www.futwiz.com/fifa17/player/isco/4087
+44,Isco,Real Madrid,OVERALL,85,84,WRONG,https://www.futwiz.com/fifa17/player/isco/4087
+44,Isco,Real Madrid,POSITION,CM,CAM,WRONG,https://www.futwiz.com/fifa17/player/isco/4087
+45,M. Icardi,Inter,PAC,79,78,WRONG,https://www.futwiz.com/fifa17/player/mauro-icardi/4068
+45,M. Icardi,Inter,SHO,83,81,WRONG,https://www.futwiz.com/fifa17/player/mauro-icardi/4068
+45,M. Icardi,Inter,PAS,61,57,WRONG,https://www.futwiz.com/fifa17/player/mauro-icardi/4068
+45,M. Icardi,Inter,DRI,77,76,WRONG,https://www.futwiz.com/fifa17/player/mauro-icardi/4068
+45,M. Icardi,Inter,PHY,68,66,WRONG,https://www.futwiz.com/fifa17/player/mauro-icardi/4068
+45,M. Icardi,Inter,OVERALL,84,82,WRONG,https://www.futwiz.com/fifa17/player/mauro-icardi/4068
+46,André Gomes,FC Barcelona,PAS,79,80,WRONG,https://www.futwiz.com/fifa17/player/andre-gomes/9030
+46,André Gomes,FC Barcelona,DRI,81,83,WRONG,https://www.futwiz.com/fifa17/player/andre-gomes/9030
+46,André Gomes,FC Barcelona,OVERALL,83,84,WRONG,https://www.futwiz.com/fifa17/player/andre-gomes/9030
+46,G. Rulli,Real Sociedad,KIC,75,70,WRONG,https://www.futwiz.com/fifa17/player/geronimo-rulli/10158
+46,G. Rulli,Real Sociedad,SPD,51,54,WRONG,https://www.futwiz.com/fifa17/player/geronimo-rulli/10158
+46,G. Rulli,Real Sociedad,POS,82,80,WRONG,https://www.futwiz.com/fifa17/player/geronimo-rulli/10158
+46,G. Rulli,Real Sociedad,OVERALL,83,82,WRONG,https://www.futwiz.com/fifa17/player/geronimo-rulli/10158
+46,Marquinhos,Paris Saint-Germain,PAC,74,73,WRONG,https://www.futwiz.com/fifa17/player/marquinhos/4003
+46,Marquinhos,Paris Saint-Germain,DRI,70,69,WRONG,https://www.futwiz.com/fifa17/player/marquinhos/4003
+46,Marquinhos,Paris Saint-Germain,OVERALL,83,82,WRONG,https://www.futwiz.com/fifa17/player/marquinhos/4003
+46,T. Horn,1. FC Köln,HAN,82,80,WRONG,https://www.futwiz.com/fifa17/player/timo-horn/3853
+46,T. Horn,1. FC Köln,REF,84,83,WRONG,https://www.futwiz.com/fifa17/player/timo-horn/3853
+46,T. Horn,1. FC Köln,SPD,48,45,WRONG,https://www.futwiz.com/fifa17/player/timo-horn/3853
+46,T. Horn,1. FC Köln,OVERALL,83,82,WRONG,https://www.futwiz.com/fifa17/player/timo-horn/3853
+50,A. Belotti,Torino,PAC,81,77,WRONG,https://www.futwiz.com/fifa17/player/andrea-belotti/8221
+50,A. Belotti,Torino,SHO,80,76,WRONG,https://www.futwiz.com/fifa17/player/andrea-belotti/8221
+50,A. Belotti,Torino,PAS,57,55,WRONG,https://www.futwiz.com/fifa17/player/andrea-belotti/8221
+50,A. Belotti,Torino,DRI,76,74,WRONG,https://www.futwiz.com/fifa17/player/andrea-belotti/8221
+50,A. Belotti,Torino,DEF,29,26,WRONG,https://www.futwiz.com/fifa17/player/andrea-belotti/8221
+50,A. Belotti,Torino,PHY,83,77,WRONG,https://www.futwiz.com/fifa17/player/andrea-belotti/8221
+50,A. Belotti,Torino,OVERALL,82,77,WRONG,https://www.futwiz.com/fifa17/player/andrea-belotti/8221
+50,J. Butland,Stoke City,SPD,48,51,WRONG,https://www.futwiz.com/fifa17/player/jack-butland/6955
+50,Marco Asensio,Real Madrid,PAC,79,72,WRONG,https://www.futwiz.com/fifa17/player/marco-asensio/4082
+50,Marco Asensio,Real Madrid,SHO,73,70,WRONG,https://www.futwiz.com/fifa17/player/marco-asensio/4082
+50,Marco Asensio,Real Madrid,DEF,41,39,WRONG,https://www.futwiz.com/fifa17/player/marco-asensio/4082
+50,Marco Asensio,Real Madrid,OVERALL,82,81,WRONG,https://www.futwiz.com/fifa17/player/marco-asensio/4082
+53,K. Baldé Diao,Lazio,SHO,72,70,WRONG,https://www.futwiz.com/fifa17/player/keita-balde-diao/10286
+53,K. Baldé Diao,Lazio,PAS,72,70,WRONG,https://www.futwiz.com/fifa17/player/keita-balde-diao/10286
+53,K. Baldé Diao,Lazio,DRI,85,83,WRONG,https://www.futwiz.com/fifa17/player/keita-balde-diao/10286
+53,K. Baldé Diao,Lazio,PHY,72,71,WRONG,https://www.futwiz.com/fifa17/player/keita-balde-diao/10286
+53,K. Baldé Diao,Lazio,OVERALL,81,78,WRONG,https://www.futwiz.com/fifa17/player/keita-balde-diao/10286
+54,M. Rashford,Manchester United,PAC,91,90,WRONG,https://www.futwiz.com/fifa17/player/marcus-rashford/33
+54,M. Rashford,Manchester United,PAS,68,66,WRONG,https://www.futwiz.com/fifa17/player/marcus-rashford/33
+54,M. Rashford,Manchester United,DRI,81,79,WRONG,https://www.futwiz.com/fifa17/player/marcus-rashford/33
+54,M. Rashford,Manchester United,OVERALL,78,76,WRONG,https://www.futwiz.com/fifa17/player/marcus-rashford/33
+55,A. Lafont,Toulouse Football Club,DIV,78,75,WRONG,https://www.futwiz.com/fifa17/player/alban-lafont/14197
+55,A. Lafont,Toulouse Football Club,HAN,77,74,WRONG,https://www.futwiz.com/fifa17/player/alban-lafont/14197
+55,A. Lafont,Toulouse Football Club,KIC,71,69,WRONG,https://www.futwiz.com/fifa17/player/alban-lafont/14197
+55,A. Lafont,Toulouse Football Club,REF,79,76,WRONG,https://www.futwiz.com/fifa17/player/alban-lafont/14197
+55,A. Lafont,Toulouse Football Club,SPD,46,48,WRONG,https://www.futwiz.com/fifa17/player/alban-lafont/14197
+55,A. Lafont,Toulouse Football Club,POS,76,74,WRONG,https://www.futwiz.com/fifa17/player/alban-lafont/14197
+55,A. Lafont,Toulouse Football Club,OVERALL,77,74,WRONG,https://www.futwiz.com/fifa17/player/alban-lafont/14197
+56,C. Pulisic,Borussia Dortmund,PAC,87,82,WRONG,https://www.futwiz.com/fifa17/player/christian-pulisic/13054
+56,C. Pulisic,Borussia Dortmund,SHO,66,58,WRONG,https://www.futwiz.com/fifa17/player/christian-pulisic/13054
+56,C. Pulisic,Borussia Dortmund,PAS,66,60,WRONG,https://www.futwiz.com/fifa17/player/christian-pulisic/13054
+56,C. Pulisic,Borussia Dortmund,DRI,81,76,WRONG,https://www.futwiz.com/fifa17/player/christian-pulisic/13054
+56,C. Pulisic,Borussia Dortmund,DEF,31,28,WRONG,https://www.futwiz.com/fifa17/player/christian-pulisic/13054
+56,C. Pulisic,Borussia Dortmund,PHY,54,44,WRONG,https://www.futwiz.com/fifa17/player/christian-pulisic/13054
+56,C. Pulisic,Borussia Dortmund,OVERALL,76,69,WRONG,https://www.futwiz.com/fifa17/player/christian-pulisic/13054
+56,C. Pulisic,Borussia Dortmund,POSITION,RM,LM,WRONG,https://www.futwiz.com/fifa17/player/christian-pulisic/13054
+57,A. Sánchez,Arsenal,SHO,84,82,WRONG,https://www.futwiz.com/fifa17/player/alexis-sanchez/15
+57,A. Sánchez,Arsenal,DEF,40,39,WRONG,https://www.futwiz.com/fifa17/player/alexis-sanchez/15
+57,A. Sánchez,Arsenal,PHY,78,74,WRONG,https://www.futwiz.com/fifa17/player/alexis-sanchez/15
+57,A. Sánchez,Arsenal,OVERALL,88,87,WRONG,https://www.futwiz.com/fifa17/player/alexis-sanchez/15
+57,A. Sánchez,Arsenal,POSITION,ST,LW,WRONG,https://www.futwiz.com/fifa17/player/alexis-sanchez/15
+57,D. Godín,Atlético Madrid,ALL,,,OK,https://www.futwiz.com/fifa17/player/diego-godin/39
+57,G. Buffon,Juventus,SPD,46,49,WRONG,https://www.futwiz.com/fifa17/player/gianluigi-buffon/16085
+57,G. Chiellini,Juventus,PAS,54,53,WRONG,https://www.futwiz.com/fifa17/player/giorgio-chiellini/35
+57,H. Lloris,Tottenham Hotspur,SPD,64,65,WRONG,https://www.futwiz.com/fifa17/player/hugo-lloris/20
+57,Iniesta,FC Barcelona,ALL,,,OK,https://www.futwiz.com/fifa17/player/iniesta/16068
+57,M. Hummels,FC Bayern München,DEF,89,88,WRONG,https://www.futwiz.com/fifa17/player/mats-hummels/12
+57,M. Hummels,FC Bayern München,PHY,76,77,WRONG,https://www.futwiz.com/fifa17/player/mats-hummels/12
+57,M. Hummels,FC Bayern München,OVERALL,88,87,WRONG,https://www.futwiz.com/fifa17/player/mats-hummels/12
+57,M. Reus,Borussia Dortmund,PHY,65,63,WRONG,https://www.futwiz.com/fifa17/player/marco-reus/32
+57,P. Čech,Arsenal,SPD,46,45,WRONG,https://www.futwiz.com/fifa17/player/petr-cech/36
+57,Pepe,Real Madrid,PAS,57,56,WRONG,https://www.futwiz.com/fifa17/player/pepe/42
+57,Pepe,Real Madrid,DRI,61,59,WRONG,https://www.futwiz.com/fifa17/player/pepe/42
+57,Pepe,Real Madrid,DEF,87,88,WRONG,https://www.futwiz.com/fifa17/player/pepe/42
+67,Thiago,FC Bayern München,PAS,84,82,WRONG,https://www.futwiz.com/fifa17/player/thiago/78
+67,Thiago,FC Bayern München,DRI,90,89,WRONG,https://www.futwiz.com/fifa17/player/thiago/78
+67,Thiago,FC Bayern München,DEF,61,57,WRONG,https://www.futwiz.com/fifa17/player/thiago/78
+67,Thiago,FC Bayern München,PHY,63,62,WRONG,https://www.futwiz.com/fifa17/player/thiago/78
+67,Thiago,FC Bayern München,OVERALL,86,84,WRONG,https://www.futwiz.com/fifa17/player/thiago/78
+68,A. Lacazette,Olympique Lyonnais,SHO,83,82,WRONG,https://www.futwiz.com/fifa17/player/alexandre-lacazette/3682
+68,A. Lacazette,Olympique Lyonnais,DRI,85,84,WRONG,https://www.futwiz.com/fifa17/player/alexandre-lacazette/3682
+68,A. Lacazette,Olympique Lyonnais,DEF,38,34,WRONG,https://www.futwiz.com/fifa17/player/alexandre-lacazette/3682
+68,A. Lacazette,Olympique Lyonnais,PHY,77,76,WRONG,https://www.futwiz.com/fifa17/player/alexandre-lacazette/3682
+69,A. Laporte,Athletic Club de Bilbao,PAC,70,65,WRONG,https://www.futwiz.com/fifa17/player/aymeric-laporte/9195
+69,Casemiro,Real Madrid,PAS,72,71,WRONG,https://www.futwiz.com/fifa17/player/casemiro/4083
+69,Casemiro,Real Madrid,DEF,82,80,WRONG,https://www.futwiz.com/fifa17/player/casemiro/4083
+69,Casemiro,Real Madrid,OVERALL,84,82,WRONG,https://www.futwiz.com/fifa17/player/casemiro/4083
+69,Koke,Atlético Madrid,PAS,86,85,WRONG,https://www.futwiz.com/fifa17/player/koke/5325
+69,Koke,Atlético Madrid,DEF,63,55,WRONG,https://www.futwiz.com/fifa17/player/koke/5325
+69,Koke,Atlético Madrid,PHY,75,74,WRONG,https://www.futwiz.com/fifa17/player/koke/5325
+69,M. ter Stegen,FC Barcelona,SPD,45,38,WRONG,https://www.futwiz.com/fifa17/player/marc-andre-ter-stegen/5013
+69,M. ter Stegen,FC Barcelona,OVERALL,84,83,WRONG,https://www.futwiz.com/fifa17/player/marc-andre-ter-stegen/5013
+69,S. Mustafi,Arsenal,PAS,64,63,WRONG,https://www.futwiz.com/fifa17/player/shkodran-mustafi/4962
+69,S. Mustafi,Arsenal,DRI,62,60,WRONG,https://www.futwiz.com/fifa17/player/shkodran-mustafi/4962
+69,S. Mustafi,Arsenal,OVERALL,84,83,WRONG,https://www.futwiz.com/fifa17/player/shkodran-mustafi/4962
+69,Y. Carrasco,Atlético Madrid,SHO,78,75,WRONG,https://www.futwiz.com/fifa17/player/yannick-carrasco/8165
+69,Y. Carrasco,Atlético Madrid,DRI,87,84,WRONG,https://www.futwiz.com/fifa17/player/yannick-carrasco/8165
+69,Y. Carrasco,Atlético Madrid,DEF,29,28,WRONG,https://www.futwiz.com/fifa17/player/yannick-carrasco/8165
+69,Y. Carrasco,Atlético Madrid,OVERALL,84,82,WRONG,https://www.futwiz.com/fifa17/player/yannick-carrasco/8165
+75,J. Giménez,Atlético Madrid,PAC,70,69,WRONG,https://www.futwiz.com/fifa17/player/jose-maria-gimenez/10466
+75,J. Giménez,Atlético Madrid,DEF,85,84,WRONG,https://www.futwiz.com/fifa17/player/jose-maria-gimenez/10466
+75,J. Giménez,Atlético Madrid,PHY,81,83,WRONG,https://www.futwiz.com/fifa17/player/jose-maria-gimenez/10466
+75,João Mário,Inter,POSITION,CM,RM,WRONG,https://www.futwiz.com/fifa17/player/joao-mario/4070
+75,M. Perin,Genoa,SPD,56,57,WRONG,https://www.futwiz.com/fifa17/player/mattia-perin/5710
+75,R. Sterling,Manchester City,PAS,74,72,WRONG,https://www.futwiz.com/fifa17/player/raheem-sterling/3801
+75,R. Sterling,Manchester City,OVERALL,83,82,WRONG,https://www.futwiz.com/fifa17/player/raheem-sterling/3801
+75,R. Sterling,Manchester City,POSITION,RM,LM,WRONG,https://www.futwiz.com/fifa17/player/raheem-sterling/3801
+75,S. Umtiti,FC Barcelona,OVERALL,83,82,WRONG,https://www.futwiz.com/fifa17/player/samuel-umtiti/7614
+80,J. Tah,Bayer 04 Leverkusen,PAS,58,57,WRONG,https://www.futwiz.com/fifa17/player/jonathan-tah/3860
+80,J. Tah,Bayer 04 Leverkusen,DEF,82,78,WRONG,https://www.futwiz.com/fifa17/player/jonathan-tah/3860
+80,J. Tah,Bayer 04 Leverkusen,OVERALL,82,79,WRONG,https://www.futwiz.com/fifa17/player/jonathan-tah/3860
+80,N. Süle,TSG 1899 Hoffenheim,PAC,60,58,WRONG,https://www.futwiz.com/fifa17/player/niklas-sule/9180
+80,N. Süle,TSG 1899 Hoffenheim,OVERALL,82,81,WRONG,https://www.futwiz.com/fifa17/player/niklas-sule/9180
+80,S. de Vrij,Lazio,PAC,69,67,WRONG,https://www.futwiz.com/fifa17/player/stefan-de-vrij/5759
+80,S. de Vrij,Lazio,PHY,75,71,WRONG,https://www.futwiz.com/fifa17/player/stefan-de-vrij/5759
+83,A. Rabiot,Paris Saint-Germain,PAC,71,63,WRONG,https://www.futwiz.com/fifa17/player/adrien-rabiot/3999
+83,A. Rabiot,Paris Saint-Germain,SHO,71,70,WRONG,https://www.futwiz.com/fifa17/player/adrien-rabiot/3999
+83,A. Rabiot,Paris Saint-Germain,PAS,77,75,WRONG,https://www.futwiz.com/fifa17/player/adrien-rabiot/3999
+83,A. Rabiot,Paris Saint-Germain,DRI,78,75,WRONG,https://www.futwiz.com/fifa17/player/adrien-rabiot/3999
+83,A. Rabiot,Paris Saint-Germain,DEF,73,69,WRONG,https://www.futwiz.com/fifa17/player/adrien-rabiot/3999
+83,A. Rabiot,Paris Saint-Germain,PHY,77,75,WRONG,https://www.futwiz.com/fifa17/player/adrien-rabiot/3999
+83,A. Rabiot,Paris Saint-Germain,OVERALL,81,78,WRONG,https://www.futwiz.com/fifa17/player/adrien-rabiot/3999
+83,C. Tolisso,Olympique Lyonnais,PAC,75,73,WRONG,https://www.futwiz.com/fifa17/player/corentin-tolisso/3930
+83,C. Tolisso,Olympique Lyonnais,SHO,75,74,WRONG,https://www.futwiz.com/fifa17/player/corentin-tolisso/3930
+83,C. Tolisso,Olympique Lyonnais,PAS,77,74,WRONG,https://www.futwiz.com/fifa17/player/corentin-tolisso/3930
+83,C. Tolisso,Olympique Lyonnais,DRI,76,73,WRONG,https://www.futwiz.com/fifa17/player/corentin-tolisso/3930
+83,C. Tolisso,Olympique Lyonnais,DEF,78,76,WRONG,https://www.futwiz.com/fifa17/player/corentin-tolisso/3930
+83,C. Tolisso,Olympique Lyonnais,PHY,82,80,WRONG,https://www.futwiz.com/fifa17/player/corentin-tolisso/3930
+83,C. Tolisso,Olympique Lyonnais,OVERALL,81,78,WRONG,https://www.futwiz.com/fifa17/player/corentin-tolisso/3930
+83,Deulofeu,Milan,ALL,,NOT FOUND,NOT FOUND,unknown
+83,Samu Castillejo,Villarreal CF,SHO,67,64,WRONG,https://www.futwiz.com/fifa17/player/samu-castillejo/8753
+83,Samu Castillejo,Villarreal CF,PAS,79,77,WRONG,https://www.futwiz.com/fifa17/player/samu-castillejo/8753
+83,Samu Castillejo,Villarreal CF,OVERALL,81,80,WRONG,https://www.futwiz.com/fifa17/player/samu-castillejo/8753
+83,Samu Castillejo,Villarreal CF,POSITION,RM,LM,WRONG,https://www.futwiz.com/fifa17/player/samu-castillejo/8753
+87,A. Areola,Paris Saint-Germain,DIV,82,84,WRONG,https://www.futwiz.com/fifa17/player/alphonse-areola/4002
+87,A. Areola,Paris Saint-Germain,HAN,79,80,WRONG,https://www.futwiz.com/fifa17/player/alphonse-areola/4002
+87,A. Areola,Paris Saint-Germain,REF,83,85,WRONG,https://www.futwiz.com/fifa17/player/alphonse-areola/4002
+87,A. Areola,Paris Saint-Germain,SPD,53,54,WRONG,https://www.futwiz.com/fifa17/player/alphonse-areola/4002
+87,A. Areola,Paris Saint-Germain,OVERALL,80,81,WRONG,https://www.futwiz.com/fifa17/player/alphonse-areola/4002
+87,D. Rugani,Juventus,PAC,64,63,WRONG,https://www.futwiz.com/fifa17/player/daniele-rugani/3986
+87,D. Rugani,Juventus,PAS,52,51,WRONG,https://www.futwiz.com/fifa17/player/daniele-rugani/3986
+87,D. Rugani,Juventus,DEF,84,83,WRONG,https://www.futwiz.com/fifa17/player/daniele-rugani/3986
+87,D. Rugani,Juventus,PHY,75,72,WRONG,https://www.futwiz.com/fifa17/player/daniele-rugani/3986
+87,D. Rugani,Juventus,OVERALL,80,79,WRONG,https://www.futwiz.com/fifa17/player/daniele-rugani/3986
+87,Gelson Martins,Sporting CP,PAC,93,92,WRONG,https://www.futwiz.com/fifa17/player/gelson-martins/12924
+87,Gelson Martins,Sporting CP,SHO,70,71,WRONG,https://www.futwiz.com/fifa17/player/gelson-martins/12924
+87,Gelson Martins,Sporting CP,PAS,72,69,WRONG,https://www.futwiz.com/fifa17/player/gelson-martins/12924
+87,Gelson Martins,Sporting CP,DRI,85,84,WRONG,https://www.futwiz.com/fifa17/player/gelson-martins/12924
+87,Gelson Martins,Sporting CP,DEF,38,34,WRONG,https://www.futwiz.com/fifa17/player/gelson-martins/12924
+87,Gelson Martins,Sporting CP,PHY,58,49,WRONG,https://www.futwiz.com/fifa17/player/gelson-martins/12924
+87,Gelson Martins,Sporting CP,OVERALL,80,78,WRONG,https://www.futwiz.com/fifa17/player/gelson-martins/12924
+87,Héctor Bellerín,Arsenal,PHY,69,68,WRONG,https://www.futwiz.com/fifa17/player/hector-bellerin/3810
+87,Héctor Bellerín,Arsenal,OVERALL,80,79,WRONG,https://www.futwiz.com/fifa17/player/hector-bellerin/3810
+87,J. Brandt,Bayer 04 Leverkusen,PAC,82,79,WRONG,https://www.futwiz.com/fifa17/player/julian-brandt/9183
+87,J. Brandt,Bayer 04 Leverkusen,PAS,75,74,WRONG,https://www.futwiz.com/fifa17/player/julian-brandt/9183
+87,J. Brandt,Bayer 04 Leverkusen,DRI,83,82,WRONG,https://www.futwiz.com/fifa17/player/julian-brandt/9183
+87,J. Brandt,Bayer 04 Leverkusen,OVERALL,80,79,WRONG,https://www.futwiz.com/fifa17/player/julian-brandt/9183
+87,K. Zouma,Chelsea,ALL,,,OK,https://www.futwiz.com/fifa17/player/kurt-zouma/3896
+87,Saúl,Atlético Madrid,PAS,77,76,WRONG,https://www.futwiz.com/fifa17/player/saul/8166
+87,T. Lemar,AS Monaco,PAC,83,80,WRONG,https://www.futwiz.com/fifa17/player/thomas-lemar/9576
+87,T. Lemar,AS Monaco,SHO,75,72,WRONG,https://www.futwiz.com/fifa17/player/thomas-lemar/9576
+87,T. Lemar,AS Monaco,PAS,77,76,WRONG,https://www.futwiz.com/fifa17/player/thomas-lemar/9576
+87,T. Lemar,AS Monaco,DRI,82,80,WRONG,https://www.futwiz.com/fifa17/player/thomas-lemar/9576
+87,T. Lemar,AS Monaco,OVERALL,80,78,WRONG,https://www.futwiz.com/fifa17/player/thomas-lemar/9576
+87,T. Lemar,AS Monaco,POSITION,LM,RM,WRONG,https://www.futwiz.com/fifa17/player/thomas-lemar/9576
+95,A. Christensen,Borussia Mönchengladbach,PAS,61,60,WRONG,https://www.futwiz.com/fifa17/player/andreas-christensen/9608
+95,A. Christensen,Borussia Mönchengladbach,DRI,68,66,WRONG,https://www.futwiz.com/fifa17/player/andreas-christensen/9608
+95,A. Christensen,Borussia Mönchengladbach,DEF,81,80,WRONG,https://www.futwiz.com/fifa17/player/andreas-christensen/9608
+95,A. Christensen,Borussia Mönchengladbach,OVERALL,79,78,WRONG,https://www.futwiz.com/fifa17/player/andreas-christensen/9608
+95,A. Correa,Atlético Madrid,ALL,,,OK,https://www.futwiz.com/fifa17/player/angel-correa/10063
+97,A. Sanabria,Real Betis,PAC,82,77,WRONG,https://www.futwiz.com/fifa17/player/antonio-sanabria/10903
+97,A. Sanabria,Real Betis,PAS,68,66,WRONG,https://www.futwiz.com/fifa17/player/antonio-sanabria/10903
+97,A. Sanabria,Real Betis,DRI,82,81,WRONG,https://www.futwiz.com/fifa17/player/antonio-sanabria/10903
+98,A. Halilović,UD Las Palmas,ALL,,NOT FOUND,NOT FOUND,unknown
+98,K. Dolberg,Ajax,PAC,76,68,WRONG,https://www.futwiz.com/fifa17/player/kasper-dolberg/13313
+98,K. Dolberg,Ajax,SHO,77,68,WRONG,https://www.futwiz.com/fifa17/player/kasper-dolberg/13313
+98,K. Dolberg,Ajax,PAS,61,54,WRONG,https://www.futwiz.com/fifa17/player/kasper-dolberg/13313
+98,K. Dolberg,Ajax,DRI,74,65,WRONG,https://www.futwiz.com/fifa17/player/kasper-dolberg/13313
+98,K. Dolberg,Ajax,DEF,26,19,WRONG,https://www.futwiz.com/fifa17/player/kasper-dolberg/13313
+98,K. Dolberg,Ajax,PHY,69,61,WRONG,https://www.futwiz.com/fifa17/player/kasper-dolberg/13313
+98,K. Dolberg,Ajax,OVERALL,77,68,WRONG,https://www.futwiz.com/fifa17/player/kasper-dolberg/13313
+98,Renato Sanches,FC Bayern München,PAC,81,82,WRONG,https://www.futwiz.com/fifa17/player/renato-sanches/3880
+98,Renato Sanches,FC Bayern München,PAS,69,70,WRONG,https://www.futwiz.com/fifa17/player/renato-sanches/3880
+98,Renato Sanches,FC Bayern München,DRI,78,79,WRONG,https://www.futwiz.com/fifa17/player/renato-sanches/3880
+98,Renato Sanches,FC Bayern München,DEF,70,72,WRONG,https://www.futwiz.com/fifa17/player/renato-sanches/3880
+98,Renato Sanches,FC Bayern München,PHY,83,84,WRONG,https://www.futwiz.com/fifa17/player/renato-sanches/3880
+98,Renato Sanches,FC Bayern München,OVERALL,77,78,WRONG,https://www.futwiz.com/fifa17/player/renato-sanches/3880
+101,B. Embolo,FC Schalke 04,PHY,78,79,WRONG,https://www.futwiz.com/fifa17/player/breel-embolo/11505
+102,K. Iheanacho,Manchester City,SHO,75,73,WRONG,https://www.futwiz.com/fifa17/player/kelechi-iheanacho/3965
+102,K. Iheanacho,Manchester City,DRI,75,74,WRONG,https://www.futwiz.com/fifa17/player/kelechi-iheanacho/3965
+102,K. Iheanacho,Manchester City,OVERALL,75,74,WRONG,https://www.futwiz.com/fifa17/player/kelechi-iheanacho/3965
+103,M. Sarr,OGC Nice,ALL,,NOT FOUND,NOT FOUND,unknown
+103,T. Hernández,Deportivo Alavés,PAC,85,67,WRONG,https://www.futwiz.com/fifa17/player/theo-hernandez/14614
+103,T. Hernández,Deportivo Alavés,SHO,32,28,WRONG,https://www.futwiz.com/fifa17/player/theo-hernandez/14614
+103,T. Hernández,Deportivo Alavés,PAS,59,49,WRONG,https://www.futwiz.com/fifa17/player/theo-hernandez/14614
+103,T. Hernández,Deportivo Alavés,DRI,74,60,WRONG,https://www.futwiz.com/fifa17/player/theo-hernandez/14614
+103,T. Hernández,Deportivo Alavés,DEF,71,65,WRONG,https://www.futwiz.com/fifa17/player/theo-hernandez/14614
+103,T. Hernández,Deportivo Alavés,PHY,75,66,WRONG,https://www.futwiz.com/fifa17/player/theo-hernandez/14614
+103,T. Hernández,Deportivo Alavés,OVERALL,74,66,WRONG,https://www.futwiz.com/fifa17/player/theo-hernandez/14614
+105,L. Martínez,Racing Club,ALL,,NOT FOUND,NOT FOUND,unknown
+106,E. Barco,Independiente,ALL,,NOT FOUND,NOT FOUND,unknown
+107,A. Robben,FC Bayern München,ALL,,,OK,https://www.futwiz.com/fifa17/player/arjen-robben/15977
+107,A. Vidal,FC Bayern München,PAC,75,77,WRONG,https://www.futwiz.com/fifa17/player/arturo-vidal/9
+107,A. Vidal,FC Bayern München,PHY,85,84,WRONG,https://www.futwiz.com/fifa17/player/arturo-vidal/9
+107,David Silva,Manchester City,DEF,36,32,WRONG,https://www.futwiz.com/fifa17/player/david-silva/7
+107,I. Rakitić,FC Barcelona,DEF,60,59,WRONG,https://www.futwiz.com/fifa17/player/ivan-rakitic/16
+107,L. Bonucci,Juventus,DRI,70,69,WRONG,https://www.futwiz.com/fifa17/player/leonardo-bonucci/18
+107,P. Aubameyang,Borussia Dortmund,DRI,81,80,WRONG,https://www.futwiz.com/fifa17/player/pierre-emerick-aubameyang/3
+107,P. Aubameyang,Borussia Dortmund,OVERALL,87,86,WRONG,https://www.futwiz.com/fifa17/player/pierre-emerick-aubameyang/3
+107,Piqué,FC Barcelona,PAC,65,61,WRONG,https://www.futwiz.com/fifa17/player/pique/3655
+107,Piqué,FC Barcelona,PAS,69,70,WRONG,https://www.futwiz.com/fifa17/player/pique/3655
+107,Piqué,FC Barcelona,DRI,65,64,WRONG,https://www.futwiz.com/fifa17/player/pique/3655
+107,Piqué,FC Barcelona,PHY,77,76,WRONG,https://www.futwiz.com/fifa17/player/pique/3655
+107,Piqué,FC Barcelona,OVERALL,87,86,WRONG,https://www.futwiz.com/fifa17/player/pique/3655
+107,S. Handanovič,Inter,SPD,56,54,WRONG,https://www.futwiz.com/fifa17/player/samir-handanovic/11
+115,I. Gündoğan,Manchester City,SHO,73,72,WRONG,https://www.futwiz.com/fifa17/player/ilkay-gundogan/15992
+116,Alex Sandro,Juventus,PAC,86,87,WRONG,https://www.futwiz.com/fifa17/player/alex-sandro/3767
+116,Alex Sandro,Juventus,SHO,66,64,WRONG,https://www.futwiz.com/fifa17/player/alex-sandro/3767
+116,Alex Sandro,Juventus,PAS,76,75,WRONG,https://www.futwiz.com/fifa17/player/alex-sandro/3767
+116,Alex Sandro,Juventus,PHY,81,76,WRONG,https://www.futwiz.com/fifa17/player/alex-sandro/3767
+116,Carvajal,Real Madrid,PAS,73,72,WRONG,https://www.futwiz.com/fifa17/player/carvajal/4085
+116,Carvajal,Real Madrid,DEF,82,81,WRONG,https://www.futwiz.com/fifa17/player/carvajal/4085
+116,Carvajal,Real Madrid,OVERALL,84,83,WRONG,https://www.futwiz.com/fifa17/player/carvajal/4085
+118,Roberto Firmino,Liverpool,PAS,79,78,WRONG,https://www.futwiz.com/fifa17/player/roberto-firmino/6643
+118,Roberto Firmino,Liverpool,DRI,85,84,WRONG,https://www.futwiz.com/fifa17/player/roberto-firmino/6643
+118,Roberto Firmino,Liverpool,DEF,47,40,WRONG,https://www.futwiz.com/fifa17/player/roberto-firmino/6643
+118,Roberto Firmino,Liverpool,PHY,76,72,WRONG,https://www.futwiz.com/fifa17/player/roberto-firmino/6643
+118,Roberto Firmino,Liverpool,OVERALL,83,82,WRONG,https://www.futwiz.com/fifa17/player/roberto-firmino/6643
+118,Roberto Firmino,Liverpool,POSITION,ST,CF,WRONG,https://www.futwiz.com/fifa17/player/roberto-firmino/6643
+119,Ederson,SL Benfica,DIV,81,80,WRONG,https://www.futwiz.com/fifa17/player/ederson/8628
+119,Ederson,SL Benfica,HAN,76,72,WRONG,https://www.futwiz.com/fifa17/player/ederson/8628
+119,Ederson,SL Benfica,KIC,82,80,WRONG,https://www.futwiz.com/fifa17/player/ederson/8628
+119,Ederson,SL Benfica,REF,87,82,WRONG,https://www.futwiz.com/fifa17/player/ederson/8628
+119,Ederson,SL Benfica,SPD,63,57,WRONG,https://www.futwiz.com/fifa17/player/ederson/8628
+119,Ederson,SL Benfica,POS,78,75,WRONG,https://www.futwiz.com/fifa17/player/ederson/8628
+119,Ederson,SL Benfica,OVERALL,82,78,WRONG,https://www.futwiz.com/fifa17/player/ederson/8628
+119,L. Karius,Liverpool,HAN,75,76,WRONG,https://www.futwiz.com/fifa17/player/loris-karius/7116
+119,L. Karius,Liverpool,KIC,76,80,WRONG,https://www.futwiz.com/fifa17/player/loris-karius/7116
+119,L. Karius,Liverpool,SPD,50,48,WRONG,https://www.futwiz.com/fifa17/player/loris-karius/7116
+119,L. Karius,Liverpool,POS,79,80,WRONG,https://www.futwiz.com/fifa17/player/loris-karius/7116
+119,S. Aurier,Paris Saint-Germain,OVERALL,82,83,WRONG,https://www.futwiz.com/fifa17/player/serge-aurier/3669
+122,F. Bernardeschi,Fiorentina,SHO,75,70,WRONG,https://www.futwiz.com/fifa17/player/federico-bernardeschi/9247
+122,F. Bernardeschi,Fiorentina,PAS,77,74,WRONG,https://www.futwiz.com/fifa17/player/federico-bernardeschi/9247
+122,F. Bernardeschi,Fiorentina,DRI,85,82,WRONG,https://www.futwiz.com/fifa17/player/federico-bernardeschi/9247
+122,F. Bernardeschi,Fiorentina,PHY,65,64,WRONG,https://www.futwiz.com/fifa17/player/federico-bernardeschi/9247
+122,F. Bernardeschi,Fiorentina,OVERALL,81,78,WRONG,https://www.futwiz.com/fifa17/player/federico-bernardeschi/9247
+122,J. Weigl,Borussia Dortmund,PAC,71,70,WRONG,https://www.futwiz.com/fifa17/player/julian-weigl/11434
+122,J. Weigl,Borussia Dortmund,SHO,51,50,WRONG,https://www.futwiz.com/fifa17/player/julian-weigl/11434
+122,J. Weigl,Borussia Dortmund,PAS,76,74,WRONG,https://www.futwiz.com/fifa17/player/julian-weigl/11434
+122,J. Weigl,Borussia Dortmund,DRI,74,73,WRONG,https://www.futwiz.com/fifa17/player/julian-weigl/11434
+122,J. Weigl,Borussia Dortmund,DEF,76,73,WRONG,https://www.futwiz.com/fifa17/player/julian-weigl/11434
+122,J. Weigl,Borussia Dortmund,PHY,68,66,WRONG,https://www.futwiz.com/fifa17/player/julian-weigl/11434
+122,J. Weigl,Borussia Dortmund,OVERALL,81,79,WRONG,https://www.futwiz.com/fifa17/player/julian-weigl/11434
+122,L. Goretzka,FC Schalke 04,SHO,70,69,WRONG,https://www.futwiz.com/fifa17/player/leon-goretzka/8482
+122,L. Goretzka,FC Schalke 04,PAS,78,77,WRONG,https://www.futwiz.com/fifa17/player/leon-goretzka/8482
+122,L. Goretzka,FC Schalke 04,DRI,79,78,WRONG,https://www.futwiz.com/fifa17/player/leon-goretzka/8482
+122,L. Goretzka,FC Schalke 04,DEF,76,75,WRONG,https://www.futwiz.com/fifa17/player/leon-goretzka/8482
+122,L. Goretzka,FC Schalke 04,PHY,75,74,WRONG,https://www.futwiz.com/fifa17/player/leon-goretzka/8482
+122,L. Goretzka,FC Schalke 04,OVERALL,81,79,WRONG,https://www.futwiz.com/fifa17/player/leon-goretzka/8482
+122,M. Kovačić,Real Madrid,PAC,82,80,WRONG,https://www.futwiz.com/fifa17/player/mateo-kovacic/4078
+122,M. Kovačić,Real Madrid,DEF,59,49,WRONG,https://www.futwiz.com/fifa17/player/mateo-kovacic/4078
+122,M. Kovačić,Real Madrid,PHY,69,64,WRONG,https://www.futwiz.com/fifa17/player/mateo-kovacic/4078
+122,M. Kovačić,Real Madrid,OVERALL,81,79,WRONG,https://www.futwiz.com/fifa17/player/mateo-kovacic/4078
+122,M. Sanson,Olympique de Marseille,ALL,,NOT FOUND,NOT FOUND,unknown
+127,Denis Suárez,FC Barcelona,PAC,81,77,WRONG,https://www.futwiz.com/fifa17/player/denis-suarez/7508
+127,Denis Suárez,FC Barcelona,SHO,74,71,WRONG,https://www.futwiz.com/fifa17/player/denis-suarez/7508
+127,Denis Suárez,FC Barcelona,PAS,81,80,WRONG,https://www.futwiz.com/fifa17/player/denis-suarez/7508
+127,Denis Suárez,FC Barcelona,DRI,84,83,WRONG,https://www.futwiz.com/fifa17/player/denis-suarez/7508
+127,Denis Suárez,FC Barcelona,DEF,51,43,WRONG,https://www.futwiz.com/fifa17/player/denis-suarez/7508
+127,Denis Suárez,FC Barcelona,PHY,58,57,WRONG,https://www.futwiz.com/fifa17/player/denis-suarez/7508
+127,Denis Suárez,FC Barcelona,POSITION,CM,LM,WRONG,https://www.futwiz.com/fifa17/player/denis-suarez/7508
+127,J. Kimmich,FC Bayern München,SHO,67,55,WRONG,https://www.futwiz.com/fifa17/player/joshua-kimmich/4065
+127,J. Kimmich,FC Bayern München,PAS,80,79,WRONG,https://www.futwiz.com/fifa17/player/joshua-kimmich/4065
+127,J. Kimmich,FC Bayern München,DEF,76,75,WRONG,https://www.futwiz.com/fifa17/player/joshua-kimmich/4065
+127,J. Kimmich,FC Bayern München,OVERALL,80,78,WRONG,https://www.futwiz.com/fifa17/player/joshua-kimmich/4065
+127,J. Stones,Manchester City,PAS,67,65,WRONG,https://www.futwiz.com/fifa17/player/john-stones/3966
+127,J. Stones,Manchester City,DRI,72,71,WRONG,https://www.futwiz.com/fifa17/player/john-stones/3966
+127,J. Stones,Manchester City,DEF,80,78,WRONG,https://www.futwiz.com/fifa17/player/john-stones/3966
+127,J. Stones,Manchester City,PHY,77,76,WRONG,https://www.futwiz.com/fifa17/player/john-stones/3966
+127,J. Stones,Manchester City,OVERALL,80,78,WRONG,https://www.futwiz.com/fifa17/player/john-stones/3966
+127,K. Coman,FC Bayern München,SHO,75,76,WRONG,https://www.futwiz.com/fifa17/player/kingsley-coman/3799
+127,K. Coman,FC Bayern München,OVERALL,80,81,WRONG,https://www.futwiz.com/fifa17/player/kingsley-coman/3799
+131,A. Romagnoli,Milan,PAS,51,48,WRONG,https://www.futwiz.com/fifa17/player/alessio-romagnoli/8681
+131,A. Romagnoli,Milan,DEF,81,80,WRONG,https://www.futwiz.com/fifa17/player/alessio-romagnoli/8681
+131,A. Romagnoli,Milan,PHY,78,77,WRONG,https://www.futwiz.com/fifa17/player/alessio-romagnoli/8681
+131,A. Romagnoli,Milan,OVERALL,79,78,WRONG,https://www.futwiz.com/fifa17/player/alessio-romagnoli/8681
+131,M. Dahoud,Borussia Mönchengladbach,SHO,65,64,WRONG,https://www.futwiz.com/fifa17/player/mahmoud-dahoud/10645
+131,M. Dahoud,Borussia Mönchengladbach,DRI,81,82,WRONG,https://www.futwiz.com/fifa17/player/mahmoud-dahoud/10645
+133,Grimaldo,SL Benfica,DRI,80,78,WRONG,https://www.futwiz.com/fifa17/player/grimaldo/8568
+133,Grimaldo,SL Benfica,PHY,69,68,WRONG,https://www.futwiz.com/fifa17/player/grimaldo/8568
+133,Grimaldo,SL Benfica,OVERALL,78,77,WRONG,https://www.futwiz.com/fifa17/player/grimaldo/8568
+134,A. Diawara,Napoli,PAS,72,71,WRONG,https://www.futwiz.com/fifa17/player/amadou-diawara/13911
+134,A. Diawara,Napoli,DRI,77,76,WRONG,https://www.futwiz.com/fifa17/player/amadou-diawara/13911
+134,A. Diawara,Napoli,DEF,68,65,WRONG,https://www.futwiz.com/fifa17/player/amadou-diawara/13911
+134,A. Diawara,Napoli,PHY,77,74,WRONG,https://www.futwiz.com/fifa17/player/amadou-diawara/13911
+134,A. Diawara,Napoli,OVERALL,77,74,WRONG,https://www.futwiz.com/fifa17/player/amadou-diawara/13911
+135,I. Diop,Toulouse Football Club,ALL,,NOT FOUND,NOT FOUND,unknown
+135,J. Jankto,Udinese,SHO,65,50,WRONG,https://www.futwiz.com/fifa17/player/jakub-jankto/12825
+135,J. Jankto,Udinese,PAS,73,65,WRONG,https://www.futwiz.com/fifa17/player/jakub-jankto/12825
+135,J. Jankto,Udinese,DRI,76,67,WRONG,https://www.futwiz.com/fifa17/player/jakub-jankto/12825
+135,J. Jankto,Udinese,DEF,62,49,WRONG,https://www.futwiz.com/fifa17/player/jakub-jankto/12825
+135,J. Jankto,Udinese,PHY,67,57,WRONG,https://www.futwiz.com/fifa17/player/jakub-jankto/12825
+135,J. Jankto,Udinese,OVERALL,76,68,WRONG,https://www.futwiz.com/fifa17/player/jakub-jankto/12825
+135,J. Jankto,Udinese,POSITION,CM,LM,WRONG,https://www.futwiz.com/fifa17/player/jakub-jankto/12825
+135,L. Bailey,Bayer 04 Leverkusen,ALL,,NOT FOUND,NOT FOUND,unknown
+135,L. Hernández,Atlético Madrid,DEF,76,75,WRONG,https://www.futwiz.com/fifa17/player/lucas-hernandez/11103
+135,L. Hernández,Atlético Madrid,PHY,71,70,WRONG,https://www.futwiz.com/fifa17/player/lucas-hernandez/11103
+135,L. Hernández,Atlético Madrid,OVERALL,76,75,WRONG,https://www.futwiz.com/fifa17/player/lucas-hernandez/11103
+139,A. Saint-Maximin,Sporting Club de Bastia,SHO,62,60,WRONG,https://www.futwiz.com/fifa17/player/allan-saint-maximin/10443
+139,A. Saint-Maximin,Sporting Club de Bastia,PAS,64,62,WRONG,https://www.futwiz.com/fifa17/player/allan-saint-maximin/10443
+139,A. Saint-Maximin,Sporting Club de Bastia,DRI,81,77,WRONG,https://www.futwiz.com/fifa17/player/allan-saint-maximin/10443
+139,A. Saint-Maximin,Sporting Club de Bastia,PHY,53,47,WRONG,https://www.futwiz.com/fifa17/player/allan-saint-maximin/10443
+139,A. Saint-Maximin,Sporting Club de Bastia,OVERALL,75,67,WRONG,https://www.futwiz.com/fifa17/player/allan-saint-maximin/10443
+139,A. Saint-Maximin,Sporting Club de Bastia,POSITION,LM,ST,WRONG,https://www.futwiz.com/fifa17/player/allan-saint-maximin/10443
+139,H. Onyekuru,KAS Eupen,PAC,86,80,WRONG,https://www.futwiz.com/fifa17/player/henry-onyekuru/15100
+139,H. Onyekuru,KAS Eupen,SHO,68,56,WRONG,https://www.futwiz.com/fifa17/player/henry-onyekuru/15100
+139,H. Onyekuru,KAS Eupen,PAS,64,54,WRONG,https://www.futwiz.com/fifa17/player/henry-onyekuru/15100
+139,H. Onyekuru,KAS Eupen,DRI,76,70,WRONG,https://www.futwiz.com/fifa17/player/henry-onyekuru/15100
+139,H. Onyekuru,KAS Eupen,DEF,27,26,WRONG,https://www.futwiz.com/fifa17/player/henry-onyekuru/15100
+139,H. Onyekuru,KAS Eupen,PHY,55,54,WRONG,https://www.futwiz.com/fifa17/player/henry-onyekuru/15100
+139,H. Onyekuru,KAS Eupen,OVERALL,75,64,WRONG,https://www.futwiz.com/fifa17/player/henry-onyekuru/15100
+139,V. Kovalenko,Shakhtar Donetsk,PHY,70,69,WRONG,https://www.futwiz.com/fifa17/player/viktor-kovalenko/13318
+142,M. de Ligt,Ajax,PAC,68,58,WRONG,https://www.futwiz.com/fifa17/player/matthijs-de-ligt/15488
+142,M. de Ligt,Ajax,SHO,36,28,WRONG,https://www.futwiz.com/fifa17/player/matthijs-de-ligt/15488
+142,M. de Ligt,Ajax,PAS,56,48,WRONG,https://www.futwiz.com/fifa17/player/matthijs-de-ligt/15488
+142,M. de Ligt,Ajax,DRI,62,40,WRONG,https://www.futwiz.com/fifa17/player/matthijs-de-ligt/15488
+142,M. de Ligt,Ajax,DEF,68,63,WRONG,https://www.futwiz.com/fifa17/player/matthijs-de-ligt/15488
+142,M. de Ligt,Ajax,PHY,72,62,WRONG,https://www.futwiz.com/fifa17/player/matthijs-de-ligt/15488
+142,M. de Ligt,Ajax,OVERALL,72,63,WRONG,https://www.futwiz.com/fifa17/player/matthijs-de-ligt/15488
+143,K. Havertz,Bayer 04 Leverkusen,PAC,72,61,WRONG,https://www.futwiz.com/fifa17/player/kai-havertz/15667
+143,K. Havertz,Bayer 04 Leverkusen,SHO,51,48,WRONG,https://www.futwiz.com/fifa17/player/kai-havertz/15667
+143,K. Havertz,Bayer 04 Leverkusen,PAS,66,55,WRONG,https://www.futwiz.com/fifa17/player/kai-havertz/15667
+143,K. Havertz,Bayer 04 Leverkusen,DRI,71,60,WRONG,https://www.futwiz.com/fifa17/player/kai-havertz/15667
+143,K. Havertz,Bayer 04 Leverkusen,DEF,40,39,WRONG,https://www.futwiz.com/fifa17/player/kai-havertz/15667
+143,K. Havertz,Bayer 04 Leverkusen,PHY,55,53,WRONG,https://www.futwiz.com/fifa17/player/kai-havertz/15667
+143,K. Havertz,Bayer 04 Leverkusen,OVERALL,70,57,WRONG,https://www.futwiz.com/fifa17/player/kai-havertz/15667
+143,K. Havertz,Bayer 04 Leverkusen,POSITION,RM,CAM,WRONG,https://www.futwiz.com/fifa17/player/kai-havertz/15667
+144,A. Barzagli,Juventus,PHY,80,79,WRONG,https://www.futwiz.com/fifa17/player/andrea-barzagli/3773
+144,A. Di María,Paris Saint-Germain,PAC,86,87,WRONG,https://www.futwiz.com/fifa17/player/angel-di-maria/14
+144,A. Di María,Paris Saint-Germain,SHO,78,79,WRONG,https://www.futwiz.com/fifa17/player/angel-di-maria/14
+144,A. Di María,Paris Saint-Germain,OVERALL,86,87,WRONG,https://www.futwiz.com/fifa17/player/angel-di-maria/14
+144,C. Marchisio,Juventus,PAC,79,77,WRONG,https://www.futwiz.com/fifa17/player/claudio-marchisio/3772
+144,C. Marchisio,Juventus,DRI,84,83,WRONG,https://www.futwiz.com/fifa17/player/claudio-marchisio/3772
+144,Cesc Fàbregas,Chelsea,PAS,88,89,WRONG,https://www.futwiz.com/fifa17/player/cesc-fabregas/3661
+144,Cesc Fàbregas,Chelsea,DRI,80,81,WRONG,https://www.futwiz.com/fifa17/player/cesc-fabregas/3661
+144,Cesc Fàbregas,Chelsea,DEF,60,61,WRONG,https://www.futwiz.com/fifa17/player/cesc-fabregas/3661
+144,Diego Costa,Chelsea,PAC,77,75,WRONG,https://www.futwiz.com/fifa17/player/diego-costa/3658
+144,Diego Costa,Chelsea,SHO,84,82,WRONG,https://www.futwiz.com/fifa17/player/diego-costa/3658
+144,Diego Costa,Chelsea,PAS,65,63,WRONG,https://www.futwiz.com/fifa17/player/diego-costa/3658
+144,Diego Costa,Chelsea,PHY,89,88,WRONG,https://www.futwiz.com/fifa17/player/diego-costa/3658
+144,Diego Costa,Chelsea,OVERALL,86,85,WRONG,https://www.futwiz.com/fifa17/player/diego-costa/3658
+144,E. Cavani,Paris Saint-Germain,PAC,78,76,WRONG,https://www.futwiz.com/fifa17/player/edinson-cavani/3681
+144,E. Cavani,Paris Saint-Germain,SHO,84,83,WRONG,https://www.futwiz.com/fifa17/player/edinson-cavani/3681
+144,E. Cavani,Paris Saint-Germain,OVERALL,86,85,WRONG,https://www.futwiz.com/fifa17/player/edinson-cavani/3681
+144,F. Ribéry,FC Bayern München,ALL,,,OK,https://www.futwiz.com/fifa17/player/franck-ribery/75
+144,H. Mkhitaryan,Manchester United,PAC,85,83,WRONG,https://www.futwiz.com/fifa17/player/henrikh-mkhitaryan/4042
+144,H. Mkhitaryan,Manchester United,SHO,79,77,WRONG,https://www.futwiz.com/fifa17/player/henrikh-mkhitaryan/4042
+144,H. Mkhitaryan,Manchester United,OVERALL,86,85,WRONG,https://www.futwiz.com/fifa17/player/henrikh-mkhitaryan/4042
+144,Jordi Alba,FC Barcelona,ALL,,,OK,https://www.futwiz.com/fifa17/player/jordi-alba/4357
+144,K. Benzema,Real Madrid,OVERALL,86,87,WRONG,https://www.futwiz.com/fifa17/player/karim-benzema/8
+144,M. Hamšik,Napoli,SHO,79,78,WRONG,https://www.futwiz.com/fifa17/player/marek-hamsik/3769
+144,M. Hamšik,Napoli,DEF,67,64,WRONG,https://www.futwiz.com/fifa17/player/marek-hamsik/3769
+144,M. Hamšik,Napoli,PHY,70,69,WRONG,https://www.futwiz.com/fifa17/player/marek-hamsik/3769
+144,M. Hamšik,Napoli,OVERALL,86,85,WRONG,https://www.futwiz.com/fifa17/player/marek-hamsik/3769
+144,Marcelo,Real Madrid,ALL,,,OK,https://www.futwiz.com/fifa17/player/marcelo/2
+144,Miranda,Inter,PAC,72,75,WRONG,https://www.futwiz.com/fifa17/player/miranda/3774
+144,R. Nainggolan,Roma,SHO,80,78,WRONG,https://www.futwiz.com/fifa17/player/radja-nainggolan/3690
+144,R. Nainggolan,Roma,DRI,82,81,WRONG,https://www.futwiz.com/fifa17/player/radja-nainggolan/3690
+144,R. Nainggolan,Roma,OVERALL,86,84,WRONG,https://www.futwiz.com/fifa17/player/radja-nainggolan/3690
+144,Sergio Busquets,FC Barcelona,DEF,82,83,WRONG,https://www.futwiz.com/fifa17/player/sergio-busquets/10
+144,Sergio Busquets,FC Barcelona,OVERALL,86,87,WRONG,https://www.futwiz.com/fifa17/player/sergio-busquets/10
+144,T. Müller,FC Bayern München,SHO,82,83,WRONG,https://www.futwiz.com/fifa17/player/thomas-muller/13
+144,T. Müller,FC Bayern München,PHY,71,72,WRONG,https://www.futwiz.com/fifa17/player/thomas-muller/13
+144,T. Müller,FC Bayern München,OVERALL,86,87,WRONG,https://www.futwiz.com/fifa17/player/thomas-muller/13
+144,V. Kompany,Manchester City,DRI,64,65,WRONG,https://www.futwiz.com/fifa17/player/vincent-kompany/3660
+144,V. Kompany,Manchester City,DEF,84,86,WRONG,https://www.futwiz.com/fifa17/player/vincent-kompany/3660
+144,V. Kompany,Manchester City,PHY,80,81,WRONG,https://www.futwiz.com/fifa17/player/vincent-kompany/3660
+161,Javi Martinez,FC Bayern München,PAC,51,52,WRONG,https://www.futwiz.com/fifa17/player/javi-martinez/3666
+161,Javi Martinez,FC Bayern München,DEF,85,84,WRONG,https://www.futwiz.com/fifa17/player/javi-martinez/3666
+161,Javi Martinez,FC Bayern München,PHY,79,78,WRONG,https://www.futwiz.com/fifa17/player/javi-martinez/3666
+161,Javi Martinez,FC Bayern München,OVERALL,85,84,WRONG,https://www.futwiz.com/fifa17/player/javi-martinez/3666
+161,M. Pjanić,Juventus,PAC,75,74,WRONG,https://www.futwiz.com/fifa17/player/miralem-pjanic/3770
+161,M. Pjanić,Juventus,DRI,86,84,WRONG,https://www.futwiz.com/fifa17/player/miralem-pjanic/3770
+161,M. Pjanić,Juventus,DEF,63,64,WRONG,https://www.futwiz.com/fifa17/player/miralem-pjanic/3770
+161,T. Alderweireld,Tottenham Hotspur,PAS,71,70,WRONG,https://www.futwiz.com/fifa17/player/toby-alderweireld/3553
+164,K. Manolas,Roma,PHY,83,82,WRONG,https://www.futwiz.com/fifa17/player/kostas-manolas/3689
+165,A. Lopes,Olympique Lyonnais,KIC,80,76,WRONG,https://www.futwiz.com/fifa17/player/anthony-lopes/3674
+165,A. Lopes,Olympique Lyonnais,SPD,62,60,WRONG,https://www.futwiz.com/fifa17/player/anthony-lopes/3674
+165,Danilo Pereira,FC Porto,SHO,62,59,WRONG,https://www.futwiz.com/fifa17/player/danilo-pereira/6421
+165,Danilo Pereira,FC Porto,PAS,69,66,WRONG,https://www.futwiz.com/fifa17/player/danilo-pereira/6421
+165,Danilo Pereira,FC Porto,DEF,82,83,WRONG,https://www.futwiz.com/fifa17/player/danilo-pereira/6421
+165,Danilo Pereira,FC Porto,PHY,88,87,WRONG,https://www.futwiz.com/fifa17/player/danilo-pereira/6421
+165,Danilo Pereira,FC Porto,OVERALL,83,82,WRONG,https://www.futwiz.com/fifa17/player/danilo-pereira/6421
+165,J. Draxler,Paris Saint-Germain,ALL,,NOT FOUND,NOT FOUND,unknown
+165,K. Koulibaly,Napoli,DEF,84,82,WRONG,https://www.futwiz.com/fifa17/player/kalidou-koulibaly/6453
+165,K. Koulibaly,Napoli,OVERALL,83,82,WRONG,https://www.futwiz.com/fifa17/player/kalidou-koulibaly/6453
+165,M. Musacchio,Villarreal CF,PAC,72,63,WRONG,https://www.futwiz.com/fifa17/player/mateo-musacchio/16103
+165,M. Musacchio,Villarreal CF,PHY,79,76,WRONG,https://www.futwiz.com/fifa17/player/mateo-musacchio/16103
+165,N. Kanté,Chelsea,PAC,82,80,WRONG,https://www.futwiz.com/fifa17/player/ngolo-kante/3888
+165,N. Kanté,Chelsea,PAS,75,74,WRONG,https://www.futwiz.com/fifa17/player/ngolo-kante/3888
+165,N. Kanté,Chelsea,DRI,78,77,WRONG,https://www.futwiz.com/fifa17/player/ngolo-kante/3888
+165,N. Kanté,Chelsea,DEF,81,80,WRONG,https://www.futwiz.com/fifa17/player/ngolo-kante/3888
+165,N. Kanté,Chelsea,OVERALL,83,81,WRONG,https://www.futwiz.com/fifa17/player/ngolo-kante/3888
+165,Oscar,,ALL,,,OK,https://www.futwiz.com/fifa17/player/oscar/15836
+165,V. van Dijk,Southampton,PAC,75,67,WRONG,https://www.futwiz.com/fifa17/player/virgil-van-dijk/7033
+165,V. van Dijk,Southampton,PAS,66,65,WRONG,https://www.futwiz.com/fifa17/player/virgil-van-dijk/7033
+165,V. van Dijk,Southampton,DRI,68,67,WRONG,https://www.futwiz.com/fifa17/player/virgil-van-dijk/7033
+165,V. van Dijk,Southampton,DEF,82,79,WRONG,https://www.futwiz.com/fifa17/player/virgil-van-dijk/7033
+165,V. van Dijk,Southampton,OVERALL,83,79,WRONG,https://www.futwiz.com/fifa17/player/virgil-van-dijk/7033
+165,William Carvalho,Sporting CP,PAC,53,54,WRONG,https://www.futwiz.com/fifa17/player/william-carvalho/7929
+165,William Carvalho,Sporting CP,PAS,75,74,WRONG,https://www.futwiz.com/fifa17/player/william-carvalho/7929
+165,William Carvalho,Sporting CP,DEF,80,82,WRONG,https://www.futwiz.com/fifa17/player/william-carvalho/7929
+165,William Carvalho,Sporting CP,PHY,83,85,WRONG,https://www.futwiz.com/fifa17/player/william-carvalho/7929
+165,William Carvalho,Sporting CP,OVERALL,83,84,WRONG,https://www.futwiz.com/fifa17/player/william-carvalho/7929
+174,G. Xhaka,Arsenal,PHY,78,77,WRONG,https://www.futwiz.com/fifa17/player/granit-xhaka/6071
+174,G. Xhaka,Arsenal,OVERALL,82,84,WRONG,https://www.futwiz.com/fifa17/player/granit-xhaka/6071
+174,G. Xhaka,Arsenal,POSITION,CDM,CM,WRONG,https://www.futwiz.com/fifa17/player/granit-xhaka/6071
+174,M. Götze,Borussia Dortmund,SHO,72,70,WRONG,https://www.futwiz.com/fifa17/player/mario-gotze/3664
+174,M. Götze,Borussia Dortmund,PAS,81,78,WRONG,https://www.futwiz.com/fifa17/player/mario-gotze/3664
+174,M. Götze,Borussia Dortmund,DRI,88,89,WRONG,https://www.futwiz.com/fifa17/player/mario-gotze/3664
+174,M. Götze,Borussia Dortmund,DEF,38,31,WRONG,https://www.futwiz.com/fifa17/player/mario-gotze/3664
+174,M. Götze,Borussia Dortmund,OVERALL,82,84,WRONG,https://www.futwiz.com/fifa17/player/mario-gotze/3664
+174,M. Götze,Borussia Dortmund,POSITION,CM,CAM,WRONG,https://www.futwiz.com/fifa17/player/mario-gotze/3664
+174,Morata,Real Madrid,ALL,,,OK,https://www.futwiz.com/fifa17/player/morata/4084
+174,S. Savić,Atlético Madrid,ALL,,,OK,https://www.futwiz.com/fifa17/player/stefan-savic/7371
+178,Fabinho,AS Monaco,SHO,65,61,WRONG,https://www.futwiz.com/fifa17/player/fabinho/8430
+178,Fabinho,AS Monaco,PAS,73,72,WRONG,https://www.futwiz.com/fifa17/player/fabinho/8430
+178,Fabinho,AS Monaco,DEF,80,79,WRONG,https://www.futwiz.com/fifa17/player/fabinho/8430
+178,Fabinho,AS Monaco,PHY,80,79,WRONG,https://www.futwiz.com/fifa17/player/fabinho/8430
+178,Fabinho,AS Monaco,OVERALL,81,79,WRONG,https://www.futwiz.com/fifa17/player/fabinho/8430
+178,Felipe Anderson,Lazio,SHO,75,74,WRONG,https://www.futwiz.com/fifa17/player/felipe-anderson/6663
+178,Felipe Anderson,Lazio,PAS,77,72,WRONG,https://www.futwiz.com/fifa17/player/felipe-anderson/6663
+178,Felipe Anderson,Lazio,DEF,34,30,WRONG,https://www.futwiz.com/fifa17/player/felipe-anderson/6663
+178,Felipe Anderson,Lazio,PHY,56,55,WRONG,https://www.futwiz.com/fifa17/player/felipe-anderson/6663
+178,Felipe Anderson,Lazio,OVERALL,81,79,WRONG,https://www.futwiz.com/fifa17/player/felipe-anderson/6663
+178,Felipe Anderson,Lazio,POSITION,RW,LW,WRONG,https://www.futwiz.com/fifa17/player/felipe-anderson/6663
+178,R. Barkley,Everton,PAC,80,78,WRONG,https://www.futwiz.com/fifa17/player/ross-barkley/5991
+178,R. Barkley,Everton,PAS,77,76,WRONG,https://www.futwiz.com/fifa17/player/ross-barkley/5991
+178,R. Barkley,Everton,PHY,76,75,WRONG,https://www.futwiz.com/fifa17/player/ross-barkley/5991
+178,Sergio Rico,Sevilla FC,HAN,79,80,WRONG,https://www.futwiz.com/fifa17/player/sergio-rico/7873
+178,Sergio Rico,Sevilla FC,KIC,78,77,WRONG,https://www.futwiz.com/fifa17/player/sergio-rico/7873
+178,Sergio Rico,Sevilla FC,REF,83,82,WRONG,https://www.futwiz.com/fifa17/player/sergio-rico/7873
+178,Sergio Rico,Sevilla FC,SPD,52,50,WRONG,https://www.futwiz.com/fifa17/player/sergio-rico/7873
+178,Sergio Rico,Sevilla FC,POS,81,80,WRONG,https://www.futwiz.com/fifa17/player/sergio-rico/7873
+178,Sergio Rico,Sevilla FC,OVERALL,81,80,WRONG,https://www.futwiz.com/fifa17/player/sergio-rico/7873
+178,Suso,Milan,PAC,81,79,WRONG,https://www.futwiz.com/fifa17/player/suso/6849
+178,Suso,Milan,SHO,73,71,WRONG,https://www.futwiz.com/fifa17/player/suso/6849
+178,Suso,Milan,PAS,80,74,WRONG,https://www.futwiz.com/fifa17/player/suso/6849
+178,Suso,Milan,DRI,86,84,WRONG,https://www.futwiz.com/fifa17/player/suso/6849
+178,Suso,Milan,PHY,52,48,WRONG,https://www.futwiz.com/fifa17/player/suso/6849
+178,Suso,Milan,OVERALL,81,77,WRONG,https://www.futwiz.com/fifa17/player/suso/6849
+178,Suso,Milan,POSITION,RW,RM,WRONG,https://www.futwiz.com/fifa17/player/suso/6849
+183,Bruma,Galatasaray SK,SHO,71,70,WRONG,https://www.futwiz.com/fifa17/player/bruma/3800
+183,Bruma,Galatasaray SK,PAS,71,70,WRONG,https://www.futwiz.com/fifa17/player/bruma/3800
+183,Bruma,Galatasaray SK,DRI,85,83,WRONG,https://www.futwiz.com/fifa17/player/bruma/3800
+183,Bruma,Galatasaray SK,DEF,34,28,WRONG,https://www.futwiz.com/fifa17/player/bruma/3800
+183,Bruma,Galatasaray SK,PHY,64,58,WRONG,https://www.futwiz.com/fifa17/player/bruma/3800
+183,Bruma,Galatasaray SK,OVERALL,80,77,WRONG,https://www.futwiz.com/fifa17/player/bruma/3800
+183,Bruma,Galatasaray SK,POSITION,LM,LW,WRONG,https://www.futwiz.com/fifa17/player/bruma/3800
+183,M. Lanzini,West Ham United,DEF,27,26,WRONG,https://www.futwiz.com/fifa17/player/manuel-lanzini/4265
+183,M. Lanzini,West Ham United,OVERALL,80,79,WRONG,https://www.futwiz.com/fifa17/player/manuel-lanzini/4265
+183,N. Fekir,Olympique Lyonnais,PAC,82,83,WRONG,https://www.futwiz.com/fifa17/player/nabil-fekir/3938
+183,N. Fekir,Olympique Lyonnais,SHO,76,77,WRONG,https://www.futwiz.com/fifa17/player/nabil-fekir/3938
+183,N. Fekir,Olympique Lyonnais,PAS,75,76,WRONG,https://www.futwiz.com/fifa17/player/nabil-fekir/3938
+183,N. Fekir,Olympique Lyonnais,DRI,86,87,WRONG,https://www.futwiz.com/fifa17/player/nabil-fekir/3938
+183,N. Fekir,Olympique Lyonnais,PHY,76,75,WRONG,https://www.futwiz.com/fifa17/player/nabil-fekir/3938
+183,N. Fekir,Olympique Lyonnais,OVERALL,80,81,WRONG,https://www.futwiz.com/fifa17/player/nabil-fekir/3938
+183,N. Fekir,Olympique Lyonnais,POSITION,CAM,RW,WRONG,https://www.futwiz.com/fifa17/player/nabil-fekir/3938
+183,Nélson Semedo,SL Benfica,PAC,91,89,WRONG,https://www.futwiz.com/fifa17/player/nelson-semedo/13104
+183,Nélson Semedo,SL Benfica,SHO,54,53,WRONG,https://www.futwiz.com/fifa17/player/nelson-semedo/13104
+183,Nélson Semedo,SL Benfica,PAS,64,63,WRONG,https://www.futwiz.com/fifa17/player/nelson-semedo/13104
+183,Nélson Semedo,SL Benfica,DRI,78,76,WRONG,https://www.futwiz.com/fifa17/player/nelson-semedo/13104
+183,Nélson Semedo,SL Benfica,DEF,73,69,WRONG,https://www.futwiz.com/fifa17/player/nelson-semedo/13104
+183,Nélson Semedo,SL Benfica,PHY,70,67,WRONG,https://www.futwiz.com/fifa17/player/nelson-semedo/13104
+183,Nélson Semedo,SL Benfica,OVERALL,80,76,WRONG,https://www.futwiz.com/fifa17/player/nelson-semedo/13104
+183,Williams,Athletic Club de Bilbao,PAC,94,92,WRONG,https://www.futwiz.com/fifa17/player/williams/10385
+183,Williams,Athletic Club de Bilbao,PAS,72,73,WRONG,https://www.futwiz.com/fifa17/player/williams/10385
+188,A. Milik,Napoli,DRI,72,71,WRONG,https://www.futwiz.com/fifa17/player/arkadiusz-milik/4108
+188,A. Pléa,OGC Nice,PAC,82,79,WRONG,https://www.futwiz.com/fifa17/player/alassane-plea/7802
+188,A. Pléa,OGC Nice,DEF,41,38,WRONG,https://www.futwiz.com/fifa17/player/alassane-plea/7802
+188,A. Pléa,OGC Nice,PHY,74,67,WRONG,https://www.futwiz.com/fifa17/player/alassane-plea/7802
+188,A. Pléa,OGC Nice,OVERALL,79,77,WRONG,https://www.futwiz.com/fifa17/player/alassane-plea/7802
+188,Arrizabalaga,Athletic Club de Bilbao,DIV,77,74,WRONG,https://www.futwiz.com/fifa17/player/kepa-arrizabalaga/7852
+188,Arrizabalaga,Athletic Club de Bilbao,HAN,81,70,WRONG,https://www.futwiz.com/fifa17/player/kepa-arrizabalaga/7852
+188,Arrizabalaga,Athletic Club de Bilbao,KIC,75,74,WRONG,https://www.futwiz.com/fifa17/player/kepa-arrizabalaga/7852
+188,Arrizabalaga,Athletic Club de Bilbao,REF,80,77,WRONG,https://www.futwiz.com/fifa17/player/kepa-arrizabalaga/7852
+188,Arrizabalaga,Athletic Club de Bilbao,SPD,33,34,WRONG,https://www.futwiz.com/fifa17/player/kepa-arrizabalaga/7852
+188,Arrizabalaga,Athletic Club de Bilbao,POS,76,69,WRONG,https://www.futwiz.com/fifa17/player/kepa-arrizabalaga/7852
+188,Arrizabalaga,Athletic Club de Bilbao,OVERALL,79,73,WRONG,https://www.futwiz.com/fifa17/player/kepa-arrizabalaga/7852
+188,D. Origi,Liverpool,PAC,86,85,WRONG,https://www.futwiz.com/fifa17/player/divock-origi/9459
+188,D. Origi,Liverpool,SHO,76,74,WRONG,https://www.futwiz.com/fifa17/player/divock-origi/9459
+188,D. Origi,Liverpool,PHY,77,73,WRONG,https://www.futwiz.com/fifa17/player/divock-origi/9459
+188,D. Origi,Liverpool,OVERALL,79,78,WRONG,https://www.futwiz.com/fifa17/player/divock-origi/9459
+188,D. Sánchez,Ajax,SHO,47,33,WRONG,https://www.futwiz.com/fifa17/player/davinson-sanchez/11099
+188,D. Sánchez,Ajax,DRI,52,49,WRONG,https://www.futwiz.com/fifa17/player/davinson-sanchez/11099
+188,D. Sánchez,Ajax,DEF,77,69,WRONG,https://www.futwiz.com/fifa17/player/davinson-sanchez/11099
+188,D. Sánchez,Ajax,PHY,79,78,WRONG,https://www.futwiz.com/fifa17/player/davinson-sanchez/11099
+188,D. Sánchez,Ajax,OVERALL,79,71,WRONG,https://www.futwiz.com/fifa17/player/davinson-sanchez/11099
+188,João Cancelo,Valencia CF,PAC,92,89,WRONG,https://www.futwiz.com/fifa17/player/joao-cancelo/8721
+188,João Cancelo,Valencia CF,SHO,65,63,WRONG,https://www.futwiz.com/fifa17/player/joao-cancelo/8721
+188,João Cancelo,Valencia CF,PAS,75,74,WRONG,https://www.futwiz.com/fifa17/player/joao-cancelo/8721
+188,João Cancelo,Valencia CF,PHY,70,68,WRONG,https://www.futwiz.com/fifa17/player/joao-cancelo/8721
+188,L. Vietto,Sevilla FC,ALL,,,OK,https://www.futwiz.com/fifa17/player/luciano-vietto/7889
+188,M. Benassi,Torino,PAS,76,74,WRONG,https://www.futwiz.com/fifa17/player/marco-benassi/8979
+188,M. Benassi,Torino,DRI,77,76,WRONG,https://www.futwiz.com/fifa17/player/marco-benassi/8979
+188,M. Benassi,Torino,DEF,72,71,WRONG,https://www.futwiz.com/fifa17/player/marco-benassi/8979
+188,M. Benassi,Torino,PHY,78,77,WRONG,https://www.futwiz.com/fifa17/player/marco-benassi/8979
+188,M. Benassi,Torino,OVERALL,79,77,WRONG,https://www.futwiz.com/fifa17/player/marco-benassi/8979
+188,M. Keane,Burnley,PAC,69,67,WRONG,https://www.futwiz.com/fifa17/player/michael-keane/7935
+188,M. Keane,Burnley,SHO,43,39,WRONG,https://www.futwiz.com/fifa17/player/michael-keane/7935
+188,M. Keane,Burnley,PAS,60,56,WRONG,https://www.futwiz.com/fifa17/player/michael-keane/7935
+188,M. Keane,Burnley,DEF,80,76,WRONG,https://www.futwiz.com/fifa17/player/michael-keane/7935
+188,M. Keane,Burnley,PHY,79,75,WRONG,https://www.futwiz.com/fifa17/player/michael-keane/7935
+188,M. Keane,Burnley,OVERALL,79,75,WRONG,https://www.futwiz.com/fifa17/player/michael-keane/7935
+188,M. Meyer,FC Schalke 04,PAC,74,75,WRONG,https://www.futwiz.com/fifa17/player/maximilian-meyer/9166
+188,M. Meyer,FC Schalke 04,SHO,63,64,WRONG,https://www.futwiz.com/fifa17/player/maximilian-meyer/9166
+188,M. Meyer,FC Schalke 04,PAS,77,78,WRONG,https://www.futwiz.com/fifa17/player/maximilian-meyer/9166
+188,M. Meyer,FC Schalke 04,PHY,53,54,WRONG,https://www.futwiz.com/fifa17/player/maximilian-meyer/9166
+188,M. Meyer,FC Schalke 04,OVERALL,79,80,WRONG,https://www.futwiz.com/fifa17/player/maximilian-meyer/9166
+188,P. Zieliński,Napoli,PAC,83,77,WRONG,https://www.futwiz.com/fifa17/player/piotr-zielinski/8677
+188,P. Zieliński,Napoli,SHO,69,66,WRONG,https://www.futwiz.com/fifa17/player/piotr-zielinski/8677
+188,P. Zieliński,Napoli,PAS,79,77,WRONG,https://www.futwiz.com/fifa17/player/piotr-zielinski/8677
+188,P. Zieliński,Napoli,DRI,81,79,WRONG,https://www.futwiz.com/fifa17/player/piotr-zielinski/8677
+188,P. Zieliński,Napoli,DEF,62,55,WRONG,https://www.futwiz.com/fifa17/player/piotr-zielinski/8677
+188,P. Zieliński,Napoli,OVERALL,79,76,WRONG,https://www.futwiz.com/fifa17/player/piotr-zielinski/8677
+188,S. Milinković-Savić,Lazio,PAC,72,69,WRONG,https://www.futwiz.com/fifa17/player/sergej-milinkovic-savic/11962
+188,S. Milinković-Savić,Lazio,SHO,70,68,WRONG,https://www.futwiz.com/fifa17/player/sergej-milinkovic-savic/11962
+188,S. Milinković-Savić,Lazio,PAS,72,71,WRONG,https://www.futwiz.com/fifa17/player/sergej-milinkovic-savic/11962
+188,S. Milinković-Savić,Lazio,DRI,79,74,WRONG,https://www.futwiz.com/fifa17/player/sergej-milinkovic-savic/11962
+188,S. Milinković-Savić,Lazio,DEF,73,69,WRONG,https://www.futwiz.com/fifa17/player/sergej-milinkovic-savic/11962
+188,S. Milinković-Savić,Lazio,PHY,81,80,WRONG,https://www.futwiz.com/fifa17/player/sergej-milinkovic-savic/11962
+188,S. Milinković-Savić,Lazio,OVERALL,79,76,WRONG,https://www.futwiz.com/fifa17/player/sergej-milinkovic-savic/11962
+188,V. Nilsson Lindelöf,SL Benfica,PAC,67,65,WRONG,https://www.futwiz.com/fifa17/player/victor-nilsson-lindelof/11342
+188,V. Nilsson Lindelöf,SL Benfica,PAS,57,55,WRONG,https://www.futwiz.com/fifa17/player/victor-nilsson-lindelof/11342
+188,V. Nilsson Lindelöf,SL Benfica,PHY,79,76,WRONG,https://www.futwiz.com/fifa17/player/victor-nilsson-lindelof/11342
+188,V. Nilsson Lindelöf,SL Benfica,OVERALL,79,78,WRONG,https://www.futwiz.com/fifa17/player/victor-nilsson-lindelof/11342
