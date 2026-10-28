@@ -1,0 +1,1502 @@
+[
+  {
+    "id": "c1-001",
+    "situation": "big-win",
+    "text": "{winner} made this season a procession, and even the scoreboard begged for a breather."
+  },
+  {
+    "id": "c1-002",
+    "situation": "big-win",
+    "text": "{winner} made this season a procession, and the cameras ran out of superlatives."
+  },
+  {
+    "id": "c1-003",
+    "situation": "big-win",
+    "text": "{winner} made this season a procession, and the press box nearly surrendered its pens."
+  },
+  {
+    "id": "c1-004",
+    "situation": "big-win",
+    "text": "A {margin}-point margin is a serious statement; {winner} delivered it without hesitation."
+  },
+  {
+    "id": "c1-005",
+    "situation": "big-win",
+    "text": "A {margin}-point margin is a serious statement; {loser} will remember its scale."
+  },
+  {
+    "id": "c1-006",
+    "situation": "big-win",
+    "text": "A {margin}-point margin is a serious statement; {winnerClub} can savour every digit."
+  },
+  {
+    "id": "c1-007",
+    "situation": "big-win",
+    "text": "This was not a close contest; {winner} turned the points table into a billboard."
+  },
+  {
+    "id": "c1-008",
+    "situation": "big-win",
+    "text": "This was not a close contest; the gap needed its own postcode."
+  },
+  {
+    "id": "c1-009",
+    "situation": "big-win",
+    "text": "This was not a close contest; the victory parade could block an airport runway."
+  },
+  {
+    "id": "c1-010",
+    "situation": "big-win",
+    "text": "Across the campaign, {winner} set the pace and never looked back at {loser}."
+  },
+  {
+    "id": "c1-011",
+    "situation": "big-win",
+    "text": "Across the campaign, {winner} set the pace and kept gathering points with authority."
+  },
+  {
+    "id": "c1-012",
+    "situation": "big-win",
+    "text": "Across the campaign, {winner} set the pace and made this result feel inevitable."
+  },
+  {
+    "id": "c1-013",
+    "situation": "big-win",
+    "text": "{loser} brought ambition to the season, but {winner} brought an industrial-strength points machine."
+  },
+  {
+    "id": "c1-014",
+    "situation": "big-win",
+    "text": "{loser} brought ambition to the season, but {winner} apparently brought the whole toolbox."
+  },
+  {
+    "id": "c1-015",
+    "situation": "big-win",
+    "text": "{loser} brought ambition to the season, but {winner} packed a spare gear for every occasion."
+  },
+  {
+    "id": "c1-016",
+    "situation": "big-win",
+    "text": "An emphatic seasonal triumph for {winner}, with the final tally telling the full story."
+  },
+  {
+    "id": "c1-017",
+    "situation": "big-win",
+    "text": "An emphatic seasonal triumph for {winner}, with a points gap nobody can dismiss."
+  },
+  {
+    "id": "c1-018",
+    "situation": "big-win",
+    "text": "An emphatic seasonal triumph for {winner}, with a commanding advantage over {loser}."
+  },
+  {
+    "id": "c1-019",
+    "situation": "big-win",
+    "text": "When the numbers finally settled, {winner} stood a mountain above {loser}."
+  },
+  {
+    "id": "c1-020",
+    "situation": "big-win",
+    "text": "When the numbers finally settled, {winner} had opened a yawning gulf."
+  },
+  {
+    "id": "c1-021",
+    "situation": "big-win",
+    "text": "When the numbers finally settled, {winner} owned the result from every angle."
+  },
+  {
+    "id": "c1-022",
+    "situation": "big-win",
+    "text": "The points board has never looked quite so dramatic; {winner} gave it a proper workout."
+  },
+  {
+    "id": "c1-023",
+    "situation": "big-win",
+    "text": "The points board has never looked quite so dramatic; {margin} points of daylight will do that."
+  },
+  {
+    "id": "c1-024",
+    "situation": "big-win",
+    "text": "The points board has never looked quite so dramatic; {loser} might need binoculars."
+  },
+  {
+    "id": "c1-025",
+    "situation": "big-win",
+    "text": "There are strong campaigns, and then there is {winner}'s towering season of results."
+  },
+  {
+    "id": "c1-026",
+    "situation": "big-win",
+    "text": "There are strong campaigns, and then there is the authority {winner} displayed here."
+  },
+  {
+    "id": "c1-027",
+    "situation": "big-win",
+    "text": "There are strong campaigns, and then there is this exhibition of seasonal control from {winner}."
+  },
+  {
+    "id": "c1-028",
+    "situation": "big-win",
+    "text": "{winner} finished so far ahead that the calculators wanted overtime pay."
+  },
+  {
+    "id": "c1-029",
+    "situation": "big-win",
+    "text": "{winner} finished so far ahead that the finish line asked for directions."
+  },
+  {
+    "id": "c1-030",
+    "situation": "big-win",
+    "text": "{winner} finished so far ahead that the trophy photographer requested a wider lens."
+  },
+  {
+    "id": "c1-031",
+    "situation": "big-win",
+    "text": "A dominant showing across the season; {winner} has thoroughly earned these celebrations."
+  },
+  {
+    "id": "c1-032",
+    "situation": "big-win",
+    "text": "A dominant showing across the season; {loser} faces a serious response next time."
+  },
+  {
+    "id": "c1-033",
+    "situation": "big-win",
+    "text": "A dominant showing across the season; the winning margin speaks with confidence."
+  },
+  {
+    "id": "c1-034",
+    "situation": "big-win",
+    "text": "A gap of {margin} points tells us {winner} had the stronger campaign by miles."
+  },
+  {
+    "id": "c1-035",
+    "situation": "big-win",
+    "text": "A gap of {margin} points tells us this victory needed no added drama."
+  },
+  {
+    "id": "c1-036",
+    "situation": "big-win",
+    "text": "A gap of {margin} points tells us the seasonal verdict could hardly be clearer."
+  },
+  {
+    "id": "c1-037",
+    "situation": "big-win",
+    "text": "{winner} has turned consistency into a commanding result, a remarkable achievement across the campaign."
+  },
+  {
+    "id": "c1-038",
+    "situation": "big-win",
+    "text": "{winner} has turned consistency into a commanding result, a major statement in this rivalry."
+  },
+  {
+    "id": "c1-039",
+    "situation": "big-win",
+    "text": "{winner} has turned consistency into a commanding result, a fine reward for season-long focus."
+  },
+  {
+    "id": "c1-040",
+    "situation": "big-win",
+    "text": "If {loser} wanted a close finish, the scoreboard certainly missed that memo."
+  },
+  {
+    "id": "c1-041",
+    "situation": "big-win",
+    "text": "If {loser} wanted a close finish, the football gods misplaced the invitation."
+  },
+  {
+    "id": "c1-042",
+    "situation": "big-win",
+    "text": "If {loser} wanted a close finish, the numbers responded with a polite refusal."
+  },
+  {
+    "id": "c1-043",
+    "situation": "big-win",
+    "text": "{winnerClub} can celebrate a towering season as {winner} carries the honours home."
+  },
+  {
+    "id": "c1-044",
+    "situation": "big-win",
+    "text": "{winnerClub} can celebrate a towering season as {winner} claims an emphatic points victory."
+  },
+  {
+    "id": "c1-045",
+    "situation": "big-win",
+    "text": "{winnerClub} can celebrate a towering season as {winner} writes a memorable rivalry chapter."
+  },
+  {
+    "id": "c1-046",
+    "situation": "big-win",
+    "text": "That points advantage is wider than the queue for the stadium pies."
+  },
+  {
+    "id": "c1-047",
+    "situation": "big-win",
+    "text": "That points advantage is wider than a manager's collection of tactical diagrams."
+  },
+  {
+    "id": "c1-048",
+    "situation": "big-win",
+    "text": "That points advantage is wider than the distance between the dugouts."
+  },
+  {
+    "id": "c1-049",
+    "situation": "big-win",
+    "text": "{winner} never let the season drift, and the final totals reward that control."
+  },
+  {
+    "id": "c1-050",
+    "situation": "big-win",
+    "text": "{winner} never let the season drift, and the scoreline in points proves it."
+  },
+  {
+    "id": "c1-051",
+    "situation": "big-win",
+    "text": "{winner} never let the season drift, and {loser} knows the cost."
+  },
+  {
+    "id": "c1-052",
+    "situation": "big-win",
+    "text": "What a result from {winner}; that margin could fill a grandstand."
+  },
+  {
+    "id": "c1-053",
+    "situation": "big-win",
+    "text": "What a result from {winner}; even the electronic board looks impressed."
+  },
+  {
+    "id": "c1-054",
+    "situation": "big-win",
+    "text": "What a result from {winner}; the arithmetic has put on a tuxedo."
+  },
+  {
+    "id": "c1-055",
+    "situation": "big-win",
+    "text": "The full season has belonged to {winner}, whose advantage is impossible to ignore."
+  },
+  {
+    "id": "c1-056",
+    "situation": "big-win",
+    "text": "The full season has belonged to {winner}, whose results carry real authority."
+  },
+  {
+    "id": "c1-057",
+    "situation": "big-win",
+    "text": "The full season has belonged to {winner}, whose consistency built a vast lead."
+  },
+  {
+    "id": "c1-058",
+    "situation": "big-win",
+    "text": "{loser} has homework after this campaign, while {winner} gets the summer applause."
+  },
+  {
+    "id": "c1-059",
+    "situation": "big-win",
+    "text": "{loser} has homework after this campaign, and the scoreboard has circled every mistake."
+  },
+  {
+    "id": "c1-060",
+    "situation": "big-win",
+    "text": "{loser} has homework after this campaign, while {winner} enjoys the final verdict."
+  },
+  {
+    "id": "c1-061",
+    "situation": "big-win",
+    "text": "A margin this big should come with its own travel itinerary."
+  },
+  {
+    "id": "c1-062",
+    "situation": "big-win",
+    "text": "A margin this big should come with a separate page in the match programme."
+  },
+  {
+    "id": "c1-063",
+    "situation": "big-win",
+    "text": "A margin this big should come with a warning for anyone afraid of heights."
+  },
+  {
+    "id": "c1-064",
+    "situation": "big-win",
+    "text": "{winner} has delivered the kind of victory that defines an entire season."
+  },
+  {
+    "id": "c1-065",
+    "situation": "big-win",
+    "text": "{winner} has delivered the kind of victory that turns rivals into challengers again."
+  },
+  {
+    "id": "c1-066",
+    "situation": "big-win",
+    "text": "{winner} has delivered the kind of victory that leaves a powerful mark on the record."
+  },
+  {
+    "id": "c1-067",
+    "situation": "big-win",
+    "text": "The gap between {winnerPoints} and {loserPoints} is enormous; {winner} leaves no doubt about the season."
+  },
+  {
+    "id": "c1-068",
+    "situation": "big-win",
+    "text": "The gap between {winnerPoints} and {loserPoints} is enormous; the result is emphatic for {winner}."
+  },
+  {
+    "id": "c1-069",
+    "situation": "big-win",
+    "text": "The gap between {winnerPoints} and {loserPoints} is enormous; {loser} must regroup after this one."
+  },
+  {
+    "id": "c1-070",
+    "situation": "big-win",
+    "text": "Even the stadium echo sounds impressed; {winner} has won the season convincingly."
+  },
+  {
+    "id": "c1-071",
+    "situation": "big-win",
+    "text": "Even the stadium echo sounds impressed; {margin} points is an extraordinary cushion."
+  },
+  {
+    "id": "c1-072",
+    "situation": "big-win",
+    "text": "Even the stadium echo sounds impressed; {loser} has a mountain to climb."
+  },
+  {
+    "id": "c1-073",
+    "situation": "big-win",
+    "text": "No mystery survives in this result, just a commanding win for {winner}."
+  },
+  {
+    "id": "c1-074",
+    "situation": "big-win",
+    "text": "No mystery survives in this result, just an unforgettable margin for {winner}."
+  },
+  {
+    "id": "c1-075",
+    "situation": "big-win",
+    "text": "No mystery survives in this result, just a brilliantly emphatic season for {winner}."
+  },
+  {
+    "id": "c1-076",
+    "situation": "narrow-win",
+    "text": "{winner} takes the season by {margin} points, and the nerves are still ringing in the dugout."
+  },
+  {
+    "id": "c1-077",
+    "situation": "narrow-win",
+    "text": "{winner} takes the season by {margin} points, and the calculators can finally switch off."
+  },
+  {
+    "id": "c1-078",
+    "situation": "narrow-win",
+    "text": "{winner} takes the season by {margin} points, and the commentator may need a chair."
+  },
+  {
+    "id": "c1-079",
+    "situation": "narrow-win",
+    "text": "What a tight contest between these managers; {winner} found just enough at the finish."
+  },
+  {
+    "id": "c1-080",
+    "situation": "narrow-win",
+    "text": "What a tight contest between these managers; {loser} came agonisingly close."
+  },
+  {
+    "id": "c1-081",
+    "situation": "narrow-win",
+    "text": "What a tight contest between these managers; every single point felt precious."
+  },
+  {
+    "id": "c1-082",
+    "situation": "narrow-win",
+    "text": "{loser} applied pressure all season, but {winner} held on by a slender margin."
+  },
+  {
+    "id": "c1-083",
+    "situation": "narrow-win",
+    "text": "{loser} applied pressure all season, but {winner} found the vital extra points."
+  },
+  {
+    "id": "c1-084",
+    "situation": "narrow-win",
+    "text": "{loser} applied pressure all season, but {winner} did enough to survive."
+  },
+  {
+    "id": "c1-085",
+    "situation": "narrow-win",
+    "text": "That winning gap is smaller than the referee's pre-match coffee order."
+  },
+  {
+    "id": "c1-086",
+    "situation": "narrow-win",
+    "text": "That winning gap is smaller than the space left in a packed notebook."
+  },
+  {
+    "id": "c1-087",
+    "situation": "narrow-win",
+    "text": "That winning gap is smaller than a corner flag's afternoon shadow."
+  },
+  {
+    "id": "c1-088",
+    "situation": "narrow-win",
+    "text": "After so many twists, {winner} emerges ahead, a worthy reward for hard work."
+  },
+  {
+    "id": "c1-089",
+    "situation": "narrow-win",
+    "text": "After so many twists, {winner} emerges ahead, the slightest of advantages on points."
+  },
+  {
+    "id": "c1-090",
+    "situation": "narrow-win",
+    "text": "After so many twists, {winner} emerges ahead, with {loser} still right there."
+  },
+  {
+    "id": "c1-091",
+    "situation": "narrow-win",
+    "text": "The final tally favours {winner}, though nobody could call that a comfortable finish."
+  },
+  {
+    "id": "c1-092",
+    "situation": "narrow-win",
+    "text": "The final tally favours {winner}, though {loser} made it wonderfully difficult."
+  },
+  {
+    "id": "c1-093",
+    "situation": "narrow-win",
+    "text": "The final tally favours {winner}, though the rivalry has lost none of its bite."
+  },
+  {
+    "id": "c1-094",
+    "situation": "narrow-win",
+    "text": "A narrow victory for {winner}; the confetti cannon was nearly called off."
+  },
+  {
+    "id": "c1-095",
+    "situation": "narrow-win",
+    "text": "A narrow victory for {winner}; the points board almost demanded a recount."
+  },
+  {
+    "id": "c1-096",
+    "situation": "narrow-win",
+    "text": "A narrow victory for {winner}; the dugout deserves a long holiday."
+  },
+  {
+    "id": "c1-097",
+    "situation": "narrow-win",
+    "text": "{winner} wins this season, and {loser} has every reason to seek revenge."
+  },
+  {
+    "id": "c1-098",
+    "situation": "narrow-win",
+    "text": "{winner} wins this season, and {margin} points made all the difference."
+  },
+  {
+    "id": "c1-099",
+    "situation": "narrow-win",
+    "text": "{winner} wins this season, and the next meeting already looks fascinating."
+  },
+  {
+    "id": "c1-100",
+    "situation": "narrow-win",
+    "text": "There was barely room for daylight, but {winner} squeezed out the result."
+  },
+  {
+    "id": "c1-101",
+    "situation": "narrow-win",
+    "text": "There was barely room for daylight, yet {winner} held the advantage."
+  },
+  {
+    "id": "c1-102",
+    "situation": "narrow-win",
+    "text": "There was barely room for daylight, and {loser} could almost touch victory."
+  },
+  {
+    "id": "c1-103",
+    "situation": "narrow-win",
+    "text": "That was a points battle decided by a margin worth framing."
+  },
+  {
+    "id": "c1-104",
+    "situation": "narrow-win",
+    "text": "That was a points battle decided with barely a breath between them."
+  },
+  {
+    "id": "c1-105",
+    "situation": "narrow-win",
+    "text": "That was a points battle decided on the smallest meaningful difference."
+  },
+  {
+    "id": "c1-106",
+    "situation": "narrow-win",
+    "text": "{winner} can finally exhale after a season that never stopped testing nerves."
+  },
+  {
+    "id": "c1-107",
+    "situation": "narrow-win",
+    "text": "{winner} can finally exhale after a thrillingly close battle with {loser}."
+  },
+  {
+    "id": "c1-108",
+    "situation": "narrow-win",
+    "text": "{winner} can finally exhale after a finish built for dramatic commentary."
+  },
+  {
+    "id": "c1-109",
+    "situation": "narrow-win",
+    "text": "The scoreboard had to lean forward to see {winner}'s slender lead over {loser}."
+  },
+  {
+    "id": "c1-110",
+    "situation": "narrow-win",
+    "text": "The scoreboard had to lean forward to see the tiny difference separating these rivals."
+  },
+  {
+    "id": "c1-111",
+    "situation": "narrow-win",
+    "text": "The scoreboard had to lean forward to see how narrowly {winner} had won."
+  },
+  {
+    "id": "c1-112",
+    "situation": "narrow-win",
+    "text": "Every decision looked enormous this season; {winner} ended with the better tally."
+  },
+  {
+    "id": "c1-113",
+    "situation": "narrow-win",
+    "text": "Every decision looked enormous this season; {loser} nearly matched the winning total."
+  },
+  {
+    "id": "c1-114",
+    "situation": "narrow-win",
+    "text": "Every decision looked enormous this season; the final margin proves why."
+  },
+  {
+    "id": "c1-115",
+    "situation": "narrow-win",
+    "text": "{winner} has earned the celebration, even if the winning gap barely fills a headline."
+  },
+  {
+    "id": "c1-116",
+    "situation": "narrow-win",
+    "text": "{winner} has earned the celebration, though the margin fits in a pocket."
+  },
+  {
+    "id": "c1-117",
+    "situation": "narrow-win",
+    "text": "{winner} has earned the celebration, despite a season-long challenge from {loser}."
+  },
+  {
+    "id": "c1-118",
+    "situation": "narrow-win",
+    "text": "The last points have been counted, and {winner} is narrowly in front."
+  },
+  {
+    "id": "c1-119",
+    "situation": "narrow-win",
+    "text": "The last points have been counted, and {loser} has fallen just short."
+  },
+  {
+    "id": "c1-120",
+    "situation": "narrow-win",
+    "text": "The last points have been counted, and {winner} can savour a hard-fought win."
+  },
+  {
+    "id": "c1-121",
+    "situation": "narrow-win",
+    "text": "An advantage of {margin} points is enough, and {winner} will not ask for more."
+  },
+  {
+    "id": "c1-122",
+    "situation": "narrow-win",
+    "text": "An advantage of {margin} points is enough, but it was hardly a relaxing victory."
+  },
+  {
+    "id": "c1-123",
+    "situation": "narrow-win",
+    "text": "An advantage of {margin} points is enough, though the nerves may disagree."
+  },
+  {
+    "id": "c1-124",
+    "situation": "narrow-win",
+    "text": "{loserClub} pushed hard in this rivalry, yet {winnerClub} and {winner} came out ahead."
+  },
+  {
+    "id": "c1-125",
+    "situation": "narrow-win",
+    "text": "{loserClub} pushed hard in this rivalry, yet {winner} captured the seasonal honours."
+  },
+  {
+    "id": "c1-126",
+    "situation": "narrow-win",
+    "text": "{loserClub} pushed hard in this rivalry, yet {winner} secured the vital extra points."
+  },
+  {
+    "id": "c1-127",
+    "situation": "narrow-win",
+    "text": "Someone send flowers to the calculator; {winner} just survived a season-long thriller."
+  },
+  {
+    "id": "c1-128",
+    "situation": "narrow-win",
+    "text": "Someone send flowers to the calculator; that finish took years off the batteries."
+  },
+  {
+    "id": "c1-129",
+    "situation": "narrow-win",
+    "text": "Someone send flowers to the calculator; {loser} made this a mathematical obstacle course."
+  },
+  {
+    "id": "c1-130",
+    "situation": "narrow-win",
+    "text": "The difference between celebration and disappointment is thin, with {winner} on the happier side."
+  },
+  {
+    "id": "c1-131",
+    "situation": "narrow-win",
+    "text": "The difference between celebration and disappointment is thin, and {loser} painfully close behind."
+  },
+  {
+    "id": "c1-132",
+    "situation": "narrow-win",
+    "text": "The difference between celebration and disappointment is thin, but the outcome favours {winner}."
+  },
+  {
+    "id": "c1-133",
+    "situation": "narrow-win",
+    "text": "{winner} has made a small margin matter, transforming it into a memorable victory."
+  },
+  {
+    "id": "c1-134",
+    "situation": "narrow-win",
+    "text": "{winner} has made a small margin matter, earning the season by sheer persistence."
+  },
+  {
+    "id": "c1-135",
+    "situation": "narrow-win",
+    "text": "{winner} has made a small margin matter, holding off an outstanding challenge from {loser}."
+  },
+  {
+    "id": "c1-136",
+    "situation": "narrow-win",
+    "text": "A finish this close deserves its own suspenseful television series."
+  },
+  {
+    "id": "c1-137",
+    "situation": "narrow-win",
+    "text": "A finish this close deserves a warning for anyone with weak nerves."
+  },
+  {
+    "id": "c1-138",
+    "situation": "narrow-win",
+    "text": "A finish this close deserves a drumroll that lasts until breakfast."
+  },
+  {
+    "id": "c1-139",
+    "situation": "narrow-win",
+    "text": "With {winnerPoints} against {loserPoints}, {winner} earns a narrow seasonal win."
+  },
+  {
+    "id": "c1-140",
+    "situation": "narrow-win",
+    "text": "With {winnerPoints} against {loserPoints}, the rivalry stays fiercely competitive."
+  },
+  {
+    "id": "c1-141",
+    "situation": "narrow-win",
+    "text": "With {winnerPoints} against {loserPoints}, {winner} has just enough to celebrate."
+  },
+  {
+    "id": "c1-142",
+    "situation": "narrow-win",
+    "text": "No runaway performance this season; {winner} won a genuine contest."
+  },
+  {
+    "id": "c1-143",
+    "situation": "narrow-win",
+    "text": "No runaway performance this season; {loser} battled all the way."
+  },
+  {
+    "id": "c1-144",
+    "situation": "narrow-win",
+    "text": "No runaway performance this season; {winner} had to earn every inch."
+  },
+  {
+    "id": "c1-145",
+    "situation": "narrow-win",
+    "text": "{winner}'s advantage looked delicate enough to fold into a paper aeroplane."
+  },
+  {
+    "id": "c1-146",
+    "situation": "narrow-win",
+    "text": "{winner}'s advantage looked delicate enough to vanish behind a goalpost."
+  },
+  {
+    "id": "c1-147",
+    "situation": "narrow-win",
+    "text": "{winner}'s advantage looked delicate enough to fit inside a referee's pocket."
+  },
+  {
+    "id": "c1-148",
+    "situation": "narrow-win",
+    "text": "The season ends with {winner} just ahead, a triumph built on fine margins."
+  },
+  {
+    "id": "c1-149",
+    "situation": "narrow-win",
+    "text": "The season ends with {winner} just ahead, a reminder that every point counts."
+  },
+  {
+    "id": "c1-150",
+    "situation": "narrow-win",
+    "text": "The season ends with {winner} just ahead, a result {loser} will want to reverse."
+  },
+  {
+    "id": "c1-151",
+    "situation": "comfortable-win",
+    "text": "{winner} takes the season by {margin} points, a confident and well-earned advantage."
+  },
+  {
+    "id": "c1-152",
+    "situation": "comfortable-win",
+    "text": "{winner} takes the season by {margin} points, enough to celebrate without panic."
+  },
+  {
+    "id": "c1-153",
+    "situation": "comfortable-win",
+    "text": "{winner} takes the season by {margin} points, a clear reward for consistency."
+  },
+  {
+    "id": "c1-154",
+    "situation": "comfortable-win",
+    "text": "It was not a landslide, but {winner} kept a healthy distance from {loser}."
+  },
+  {
+    "id": "c1-155",
+    "situation": "comfortable-win",
+    "text": "It was not a landslide, but {winner} controlled the wider contest."
+  },
+  {
+    "id": "c1-156",
+    "situation": "comfortable-win",
+    "text": "It was not a landslide, but {loser} could not erase the gap."
+  },
+  {
+    "id": "c1-157",
+    "situation": "comfortable-win",
+    "text": "A composed season for {winner}, with the final margin reflecting quality."
+  },
+  {
+    "id": "c1-158",
+    "situation": "comfortable-win",
+    "text": "A composed season for {winner}, and a reassuring cushion on points."
+  },
+  {
+    "id": "c1-159",
+    "situation": "comfortable-win",
+    "text": "A composed season for {winner}, and plenty of reason to celebrate."
+  },
+  {
+    "id": "c1-160",
+    "situation": "comfortable-win",
+    "text": "That scoreboard has a little breathing room; {winner} kept it that way."
+  },
+  {
+    "id": "c1-161",
+    "situation": "comfortable-win",
+    "text": "That scoreboard has a little breathing room; {loser} could not quite close the distance."
+  },
+  {
+    "id": "c1-162",
+    "situation": "comfortable-win",
+    "text": "That scoreboard has a little breathing room; the points fell comfortably for {winner}."
+  },
+  {
+    "id": "c1-163",
+    "situation": "comfortable-win",
+    "text": "{winner} won with enough daylight to read the entire tactics manual."
+  },
+  {
+    "id": "c1-164",
+    "situation": "comfortable-win",
+    "text": "{winner} won with enough daylight to conduct an orderly victory parade."
+  },
+  {
+    "id": "c1-165",
+    "situation": "comfortable-win",
+    "text": "{winner} won with enough daylight to enjoy a proper post-season coffee."
+  },
+  {
+    "id": "c1-166",
+    "situation": "comfortable-win",
+    "text": "The campaign demanded real work from {winner}, who finished clearly ahead on points."
+  },
+  {
+    "id": "c1-167",
+    "situation": "comfortable-win",
+    "text": "The campaign demanded real work from {winner}, whose efforts created a convincing result."
+  },
+  {
+    "id": "c1-168",
+    "situation": "comfortable-win",
+    "text": "The campaign demanded real work from {winner}, who found a measured winning advantage."
+  },
+  {
+    "id": "c1-169",
+    "situation": "comfortable-win",
+    "text": "For {loser}, a respectable challenge; for {winner}, a comfortable victory."
+  },
+  {
+    "id": "c1-170",
+    "situation": "comfortable-win",
+    "text": "For {loser}, a respectable challenge; for {winner}, the better seasonal tally."
+  },
+  {
+    "id": "c1-171",
+    "situation": "comfortable-win",
+    "text": "For {loser}, a respectable challenge; for {winner}, the honours this time."
+  },
+  {
+    "id": "c1-172",
+    "situation": "comfortable-win",
+    "text": "That is a tidy result for {winner}; even the tactics board looks pleased."
+  },
+  {
+    "id": "c1-173",
+    "situation": "comfortable-win",
+    "text": "That is a tidy result for {winner}; the calculator can enjoy early retirement."
+  },
+  {
+    "id": "c1-174",
+    "situation": "comfortable-win",
+    "text": "That is a tidy result for {winner}; nobody needed an emergency drumroll."
+  },
+  {
+    "id": "c1-175",
+    "situation": "comfortable-win",
+    "text": "{winnerClub} can savour a solid performance, with {winner} leading the way."
+  },
+  {
+    "id": "c1-176",
+    "situation": "comfortable-win",
+    "text": "{winnerClub} can savour a solid performance, as {winner} claims this season."
+  },
+  {
+    "id": "c1-177",
+    "situation": "comfortable-win",
+    "text": "{winnerClub} can savour a solid performance, after {winner}'s assured campaign."
+  },
+  {
+    "id": "c1-178",
+    "situation": "comfortable-win",
+    "text": "{margin} points make the difference, and {winner} has earned that cushion."
+  },
+  {
+    "id": "c1-179",
+    "situation": "comfortable-win",
+    "text": "{margin} points make the difference, and the final verdict is comfortably clear."
+  },
+  {
+    "id": "c1-180",
+    "situation": "comfortable-win",
+    "text": "{margin} points make the difference, and {loser} must answer next season."
+  },
+  {
+    "id": "c1-181",
+    "situation": "comfortable-win",
+    "text": "The better campaign belongs to {winner}, a manager who found the right balance."
+  },
+  {
+    "id": "c1-182",
+    "situation": "comfortable-win",
+    "text": "The better campaign belongs to {winner}, with a margin worth respecting."
+  },
+  {
+    "id": "c1-183",
+    "situation": "comfortable-win",
+    "text": "The better campaign belongs to {winner}, and the scoreboard confirms the achievement."
+  },
+  {
+    "id": "c1-184",
+    "situation": "comfortable-win",
+    "text": "No need for a photo finish here; {winner} established a meaningful advantage."
+  },
+  {
+    "id": "c1-185",
+    "situation": "comfortable-win",
+    "text": "No need for a photo finish here; {winner} completed the stronger season."
+  },
+  {
+    "id": "c1-186",
+    "situation": "comfortable-win",
+    "text": "No need for a photo finish here; the results were comfortably decisive."
+  },
+  {
+    "id": "c1-187",
+    "situation": "comfortable-win",
+    "text": "{loser} stayed in the fight, but {winner} held the more substantial total."
+  },
+  {
+    "id": "c1-188",
+    "situation": "comfortable-win",
+    "text": "{loser} stayed in the fight, but {winner} kept enough distance on points."
+  },
+  {
+    "id": "c1-189",
+    "situation": "comfortable-win",
+    "text": "{loser} stayed in the fight, but {winner} maintained a useful advantage."
+  },
+  {
+    "id": "c1-190",
+    "situation": "comfortable-win",
+    "text": "There is a certain elegance in {winner}'s calm and convincing success."
+  },
+  {
+    "id": "c1-191",
+    "situation": "comfortable-win",
+    "text": "There is a certain elegance in the controlled finish {winner} produced."
+  },
+  {
+    "id": "c1-192",
+    "situation": "comfortable-win",
+    "text": "There is a certain elegance in a healthy points gap for {winner}."
+  },
+  {
+    "id": "c1-193",
+    "situation": "comfortable-win",
+    "text": "The season was competitive rather than chaotic, and {winner} managed it superbly."
+  },
+  {
+    "id": "c1-194",
+    "situation": "comfortable-win",
+    "text": "The season was competitive rather than chaotic, with {winner} finishing clearly ahead."
+  },
+  {
+    "id": "c1-195",
+    "situation": "comfortable-win",
+    "text": "The season was competitive rather than chaotic, and {winner} claiming the deserved result."
+  },
+  {
+    "id": "c1-196",
+    "situation": "comfortable-win",
+    "text": "{winner} has that rare luxury tonight: a victory without a mathematics emergency."
+  },
+  {
+    "id": "c1-197",
+    "situation": "comfortable-win",
+    "text": "{winner} has that rare luxury tonight: a winning cushion with room to stretch."
+  },
+  {
+    "id": "c1-198",
+    "situation": "comfortable-win",
+    "text": "{winner} has that rare luxury tonight: a result requiring no nervous squinting."
+  },
+  {
+    "id": "c1-199",
+    "situation": "comfortable-win",
+    "text": "A strong showing from {winner}, whose results made the difference clear."
+  },
+  {
+    "id": "c1-200",
+    "situation": "comfortable-win",
+    "text": "A strong showing from {winner}, who earned the wider seasonal advantage."
+  },
+  {
+    "id": "c1-201",
+    "situation": "comfortable-win",
+    "text": "A strong showing from {winner}, whose campaign had consistency throughout."
+  },
+  {
+    "id": "c1-202",
+    "situation": "comfortable-win",
+    "text": "{loser} offered resistance, yet {winner} turned quality into a clear lead."
+  },
+  {
+    "id": "c1-203",
+    "situation": "comfortable-win",
+    "text": "{loser} offered resistance, yet {winner} kept the season under control."
+  },
+  {
+    "id": "c1-204",
+    "situation": "comfortable-win",
+    "text": "{loser} offered resistance, yet {winner} finished comfortably on top."
+  },
+  {
+    "id": "c1-205",
+    "situation": "comfortable-win",
+    "text": "The gap is neither tiny nor enormous; {winner} simply delivered the stronger campaign."
+  },
+  {
+    "id": "c1-206",
+    "situation": "comfortable-win",
+    "text": "The gap is neither tiny nor enormous; {winner} found exactly the right separation."
+  },
+  {
+    "id": "c1-207",
+    "situation": "comfortable-win",
+    "text": "The gap is neither tiny nor enormous; {winner} made the result convincing."
+  },
+  {
+    "id": "c1-208",
+    "situation": "comfortable-win",
+    "text": "{winner} finishes in front, with enough points to keep the nerves quiet."
+  },
+  {
+    "id": "c1-209",
+    "situation": "comfortable-win",
+    "text": "{winner} finishes in front, with the scoreboard offering a reassuring cushion."
+  },
+  {
+    "id": "c1-210",
+    "situation": "comfortable-win",
+    "text": "{winner} finishes in front, with {loser} a clear distance behind."
+  },
+  {
+    "id": "c1-211",
+    "situation": "comfortable-win",
+    "text": "Even the confetti can fall at a sensible pace; {winner} has secured this result."
+  },
+  {
+    "id": "c1-212",
+    "situation": "comfortable-win",
+    "text": "Even the confetti can fall at a sensible pace; the margin is comfortably established."
+  },
+  {
+    "id": "c1-213",
+    "situation": "comfortable-win",
+    "text": "Even the confetti can fall at a sensible pace; {winner} can celebrate without anxiety."
+  },
+  {
+    "id": "c1-214",
+    "situation": "comfortable-win",
+    "text": "The final points reflect {winner}'s steady command, a thoroughly satisfying seasonal achievement."
+  },
+  {
+    "id": "c1-215",
+    "situation": "comfortable-win",
+    "text": "The final points reflect {winner}'s steady command, a clear advantage over {loser}."
+  },
+  {
+    "id": "c1-216",
+    "situation": "comfortable-win",
+    "text": "The final points reflect {winner}'s steady command, a result earned over the full campaign."
+  },
+  {
+    "id": "c1-217",
+    "situation": "comfortable-win",
+    "text": "There is room for celebration and respect here; {winner} deserved the win."
+  },
+  {
+    "id": "c1-218",
+    "situation": "comfortable-win",
+    "text": "There is room for celebration and respect here; {loser} made it a contest."
+  },
+  {
+    "id": "c1-219",
+    "situation": "comfortable-win",
+    "text": "There is room for celebration and respect here; {winner} delivered the better season."
+  },
+  {
+    "id": "c1-220",
+    "situation": "comfortable-win",
+    "text": "{winner} showed enough control to make the final result comfortable."
+  },
+  {
+    "id": "c1-221",
+    "situation": "comfortable-win",
+    "text": "{winner} showed enough control to leave the calculators mostly untroubled."
+  },
+  {
+    "id": "c1-222",
+    "situation": "comfortable-win",
+    "text": "{winner} showed enough control to build a meaningful seasonal lead."
+  },
+  {
+    "id": "c1-223",
+    "situation": "comfortable-win",
+    "text": "What a polished campaign by {winner}, finished with an assured points win."
+  },
+  {
+    "id": "c1-224",
+    "situation": "comfortable-win",
+    "text": "What a polished campaign by {winner}, capped by a clear advantage."
+  },
+  {
+    "id": "c1-225",
+    "situation": "comfortable-win",
+    "text": "What a polished campaign by {winner}, rewarded with comfortable bragging rights."
+  },
+  {
+    "id": "c1-226",
+    "situation": "draw",
+    "text": "{managerA} and {managerB} finish level on points, and the season is a draw."
+  },
+  {
+    "id": "c1-227",
+    "situation": "draw",
+    "text": "{managerA} and {managerB} finish level on points, with neither manager declared winner."
+  },
+  {
+    "id": "c1-228",
+    "situation": "draw",
+    "text": "{managerA} and {managerB} finish level on points, sharing the honours this time."
+  },
+  {
+    "id": "c1-229",
+    "situation": "draw",
+    "text": "The final totals are identical; the scoreboard refuses to take sides."
+  },
+  {
+    "id": "c1-230",
+    "situation": "draw",
+    "text": "The final totals are identical; even the calculators call a truce."
+  },
+  {
+    "id": "c1-231",
+    "situation": "draw",
+    "text": "The final totals are identical; neither dugout gets the victory parade."
+  },
+  {
+    "id": "c1-232",
+    "situation": "draw",
+    "text": "A draw after a full season of rivalry, and there is no hidden decider."
+  },
+  {
+    "id": "c1-233",
+    "situation": "draw",
+    "text": "A draw after a full season of rivalry, with nothing to separate these managers."
+  },
+  {
+    "id": "c1-234",
+    "situation": "draw",
+    "text": "A draw after a full season of rivalry, a perfectly fair result on points."
+  },
+  {
+    "id": "c1-235",
+    "situation": "draw",
+    "text": "Both managers earned {points} points, so neither can claim the season."
+  },
+  {
+    "id": "c1-236",
+    "situation": "draw",
+    "text": "Both managers earned {points} points, and the result must stay level."
+  },
+  {
+    "id": "c1-237",
+    "situation": "draw",
+    "text": "Both managers earned {points} points, leaving the honours completely shared."
+  },
+  {
+    "id": "c1-238",
+    "situation": "draw",
+    "text": "{clubA} and {clubB} end on matching totals, with bragging rights divided evenly."
+  },
+  {
+    "id": "c1-239",
+    "situation": "draw",
+    "text": "{clubA} and {clubB} end on matching totals, and no winner on the board."
+  },
+  {
+    "id": "c1-240",
+    "situation": "draw",
+    "text": "{clubA} and {clubB} end on matching totals, a season settled as a draw."
+  },
+  {
+    "id": "c1-241",
+    "situation": "draw",
+    "text": "The season's arithmetic is beautifully stubborn; every road leads back to a draw."
+  },
+  {
+    "id": "c1-242",
+    "situation": "draw",
+    "text": "The season's arithmetic is beautifully stubborn; the totals refuse to budge apart."
+  },
+  {
+    "id": "c1-243",
+    "situation": "draw",
+    "text": "The season's arithmetic is beautifully stubborn; there simply is no points gap."
+  },
+  {
+    "id": "c1-244",
+    "situation": "draw",
+    "text": "After all those decisions, {managerA} and {managerB} are still level."
+  },
+  {
+    "id": "c1-245",
+    "situation": "draw",
+    "text": "After all those decisions, the rivals finish on equal terms."
+  },
+  {
+    "id": "c1-246",
+    "situation": "draw",
+    "text": "After all those decisions, the season has produced no winner."
+  },
+  {
+    "id": "c1-247",
+    "situation": "draw",
+    "text": "Even the victory confetti looks confused, because the result is a draw."
+  },
+  {
+    "id": "c1-248",
+    "situation": "draw",
+    "text": "Even the victory confetti looks confused, with both managers on the same total."
+  },
+  {
+    "id": "c1-249",
+    "situation": "draw",
+    "text": "Even the victory confetti looks confused, as the scoreboard shows perfect symmetry."
+  },
+  {
+    "id": "c1-250",
+    "situation": "draw",
+    "text": "Equal points means equal honours; the rules could hardly be simpler."
+  },
+  {
+    "id": "c1-251",
+    "situation": "draw",
+    "text": "Equal points means equal honours; the season belongs to neither alone."
+  },
+  {
+    "id": "c1-252",
+    "situation": "draw",
+    "text": "Equal points means equal honours; the rivalry can resume another day."
+  },
+  {
+    "id": "c1-253",
+    "situation": "draw",
+    "text": "{managerA} matches {managerB} exactly, creating a compelling drawn finish."
+  },
+  {
+    "id": "c1-254",
+    "situation": "draw",
+    "text": "{managerA} matches {managerB} exactly, leaving nobody ahead this season."
+  },
+  {
+    "id": "c1-255",
+    "situation": "draw",
+    "text": "{managerA} matches {managerB} exactly, and sharing this campaign's verdict."
+  },
+  {
+    "id": "c1-256",
+    "situation": "draw",
+    "text": "The points board might as well be a mirror; the totals reflect one another perfectly."
+  },
+  {
+    "id": "c1-257",
+    "situation": "draw",
+    "text": "The points board might as well be a mirror; both managers see the same number."
+  },
+  {
+    "id": "c1-258",
+    "situation": "draw",
+    "text": "The points board might as well be a mirror; neither side finds an advantage."
+  },
+  {
+    "id": "c1-259",
+    "situation": "draw",
+    "text": "There will be no victory speech tonight, just a proper draw between rivals."
+  },
+  {
+    "id": "c1-260",
+    "situation": "draw",
+    "text": "There will be no victory speech tonight, only matching totals and mutual respect."
+  },
+  {
+    "id": "c1-261",
+    "situation": "draw",
+    "text": "There will be no victory speech tonight, because the numbers chose diplomacy."
+  },
+  {
+    "id": "c1-262",
+    "situation": "draw",
+    "text": "What a twist in this campaign, two managers reaching an identical total."
+  },
+  {
+    "id": "c1-263",
+    "situation": "draw",
+    "text": "What a twist in this campaign, two rivals ending precisely level."
+  },
+  {
+    "id": "c1-264",
+    "situation": "draw",
+    "text": "What a twist in this campaign, and no winner emerging from the points."
+  },
+  {
+    "id": "c1-265",
+    "situation": "draw",
+    "text": "{managerA} and {managerB} can both take pride, but neither can claim a win."
+  },
+  {
+    "id": "c1-266",
+    "situation": "draw",
+    "text": "{managerA} and {managerB} can both take pride, though the outcome remains shared."
+  },
+  {
+    "id": "c1-267",
+    "situation": "draw",
+    "text": "{managerA} and {managerB} can both take pride, while the season ends evenly."
+  },
+  {
+    "id": "c1-268",
+    "situation": "draw",
+    "text": "The stadium announcer wanted a winner; the scoreboard handed back a shrug."
+  },
+  {
+    "id": "c1-269",
+    "situation": "draw",
+    "text": "The stadium announcer wanted a winner; the points supplied a diplomatic silence."
+  },
+  {
+    "id": "c1-270",
+    "situation": "draw",
+    "text": "The stadium announcer wanted a winner; the final tally politely declined."
+  },
+  {
+    "id": "c1-271",
+    "situation": "draw",
+    "text": "Two very different journeys arrive at the same destination on the table."
+  },
+  {
+    "id": "c1-272",
+    "situation": "draw",
+    "text": "Two very different journeys arrive at an identical final points figure."
+  },
+  {
+    "id": "c1-273",
+    "situation": "draw",
+    "text": "Two very different journeys arrive at a shared finish without a winner."
+  },
+  {
+    "id": "c1-274",
+    "situation": "draw",
+    "text": "That is a genuine stalemate, earned across an entire competitive season."
+  },
+  {
+    "id": "c1-275",
+    "situation": "draw",
+    "text": "That is a genuine stalemate, with points refusing to separate the rivals."
+  },
+  {
+    "id": "c1-276",
+    "situation": "draw",
+    "text": "That is a genuine stalemate, and confirmed by the equal tally."
+  },
+  {
+    "id": "c1-277",
+    "situation": "draw",
+    "text": "The result is as level as a freshly marked centre circle."
+  },
+  {
+    "id": "c1-278",
+    "situation": "draw",
+    "text": "The result is as level as a perfectly balanced referee's whistle."
+  },
+  {
+    "id": "c1-279",
+    "situation": "draw",
+    "text": "The result is as level as two seats on the same bench."
+  },
+  {
+    "id": "c1-280",
+    "situation": "draw",
+    "text": "{managerA} cannot claim victory over {managerB}, because their totals match exactly."
+  },
+  {
+    "id": "c1-281",
+    "situation": "draw",
+    "text": "{managerA} cannot claim victory over {managerB}, with the points board showing equality."
+  },
+  {
+    "id": "c1-282",
+    "situation": "draw",
+    "text": "{managerA} cannot claim victory over {managerB}, after a campaign ending in a draw."
+  },
+  {
+    "id": "c1-283",
+    "situation": "draw",
+    "text": "A season-long contest deserves an honest verdict, and tonight that verdict is a draw."
+  },
+  {
+    "id": "c1-284",
+    "situation": "draw",
+    "text": "A season-long contest deserves an honest verdict, which the equal totals provide."
+  },
+  {
+    "id": "c1-285",
+    "situation": "draw",
+    "text": "A season-long contest deserves an honest verdict, with neither manager finishing ahead."
+  },
+  {
+    "id": "c1-286",
+    "situation": "draw",
+    "text": "The two dugouts look across at each other, both facing exactly the same points total."
+  },
+  {
+    "id": "c1-287",
+    "situation": "draw",
+    "text": "The two dugouts look across at each other, neither holding a winning advantage."
+  },
+  {
+    "id": "c1-288",
+    "situation": "draw",
+    "text": "The two dugouts look across at each other, each sharing the seasonal honours."
+  },
+  {
+    "id": "c1-289",
+    "situation": "draw",
+    "text": "Even the calculators have agreed to shake hands; the season ends in a draw."
+  },
+  {
+    "id": "c1-290",
+    "situation": "draw",
+    "text": "Even the calculators have agreed to shake hands; there is no separation to report."
+  },
+  {
+    "id": "c1-291",
+    "situation": "draw",
+    "text": "Even the calculators have agreed to shake hands; the rivals have matching totals."
+  },
+  {
+    "id": "c1-292",
+    "situation": "draw",
+    "text": "No trick ending, no extra criterion, just {managerA} and {managerB} finishing level."
+  },
+  {
+    "id": "c1-293",
+    "situation": "draw",
+    "text": "No trick ending, no extra criterion, only a fair and final draw."
+  },
+  {
+    "id": "c1-294",
+    "situation": "draw",
+    "text": "No trick ending, no extra criterion, simply a shared result on points."
+  },
+  {
+    "id": "c1-295",
+    "situation": "draw",
+    "text": "Both rivals chased the season's honours, and found themselves perfectly level."
+  },
+  {
+    "id": "c1-296",
+    "situation": "draw",
+    "text": "Both rivals chased the season's honours, but the final tally chose neither."
+  },
+  {
+    "id": "c1-297",
+    "situation": "draw",
+    "text": "Both rivals chased the season's honours, ending with equal points instead."
+  },
+  {
+    "id": "c1-298",
+    "situation": "draw",
+    "text": "All the noise, all the drama, and the answer is a stubborn draw."
+  },
+  {
+    "id": "c1-299",
+    "situation": "draw",
+    "text": "All the noise, all the drama, yet nobody finishes above anybody else."
+  },
+  {
+    "id": "c1-300",
+    "situation": "draw",
+    "text": "All the noise, all the drama, with identical points at the finish."
+  }
+]
