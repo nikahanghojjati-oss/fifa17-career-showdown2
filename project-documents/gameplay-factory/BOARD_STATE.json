@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-28 6:55 PM Boston time (EDT)",
+ "generated": "2026-10-28 6:58 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 146,
+  "count": 147,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1317,6 +1317,15 @@
     "subject": "Phone Home: no music bar, tiles down, no gap above the bottom bar (PR #1033)",
     "reply": "yes (receive it)",
     "boston": "Wed 28 Oct 6:26 PM"
+   },
+   {
+    "time": "2026-10-28 22:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-039 DONE",
+    "subject": "Phone Home: no music bar, tiles down, no gap above the bottom bar (PR #1033)",
+    "reply": "no",
+    "boston": "Wed 28 Oct 6:56 PM"
    }
   ],
   "g2v": {
@@ -1337,8 +1346,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "ebca469",
-  "head_boston": "Wed 28 Oct 6:26 PM",
+  "head": "9269b6c",
+  "head_boston": "Wed 28 Oct 6:56 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1382,7 +1391,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #1034: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #1034 0/16",
+   "gate": "POS20 #304 6/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -1915,13 +1924,13 @@
     "from": "V",
     "to": "G",
     "title": "Phone Home: no music bar, tiles down, no gap above the bottom bar (PR #1033)",
-    "stage": "DELIVERED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-039_phone-home-no-music-bar-tiles-down-no-ga.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 28
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -1993,7 +2002,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 41,
   "next": 42,
   "nik": 2,
   "later": 21,

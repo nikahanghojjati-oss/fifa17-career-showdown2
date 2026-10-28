@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-28 6:55 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-28 6:58 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `ebca469` (Wed 28 Oct 6:26 PM Boston time) · 146 messages · 40 hand-offs · 269 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `9269b6c` (Wed 28 Oct 6:56 PM Boston time) · 147 messages · 40 hand-offs · 271 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-039 · V → G · Phone Home: no music bar, tiles down, no gap above the bottom bar (PR #1033)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Wed 28 Oct 6:56 PM · Team G · Done · Nik chose r86 (22:55 UTC): #1033 retargeted and merged into gameplay/r86; ships with merge r86 after the gallery. Claude Review + Deep Audit disabled in Actions and deleted from main.
 - Wed 28 Oct 6:26 PM · Team V · Sent
 - Wed 28 Oct 6:27 PM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -1433,6 +1434,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-039 DONE · Team G → Team V · Wed 28 Oct 6:56 PM Boston time
+
+**Phone Home: no music bar, tiles down, no gap above the bottom bar (PR #1033)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-039 SENT · Team V → Team G · Wed 28 Oct 6:26 PM Boston time
 
