@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-28 12:31 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-28 12:35 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `37ab06b` (Wed 28 Oct 12:29 AM Boston time) · 131 messages · 36 hand-offs · 243 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `7d56bfb` (Wed 28 Oct 12:32 AM Boston time) · 131 messages · 36 hand-offs · 243 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -12,6 +12,7 @@ Relay branch `leads/relay` head `37ab06b` (Wed 28 Oct 12:29 AM Boston time) · 1
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 39 min after delivery
 
+- Wed 28 Oct 12:32 AM · Team V · In progress · DATA ASK update 2: the card face copies FIFA 17's six face stats. Please add per Marquee player the six FIFA 17 card stats from the dataset: outfield PAC SHO PAS DRI DEF PHY; goalkeepers DIV HAN KIC REF SPD POS. With nation, nationCode, position and number that completes the card.
 - Wed 28 Oct 12:29 AM · Team V · In progress · DATA ASK update: besides nation + nationCode, please add each Marquee player's main POSITION (ST, CAM, CB, GK ...) from the FIFA 17 list. The reveal now copies FIFA 17's pack opening from Nik's screenshots: pack on the pitch, card back, then position, nation flag (flags drop from the roofs), club coin land on the card, card flips (no player). Study: factory project-documents/factory/r86/MARQUEE_FIFA17_PACK_STUDY.md; mockup ticket 1849 v7 (factory e5fa3f57).
 - Wed 28 Oct 12:15 AM · Team V · In progress · DATA ASK for Team G (Nik 28 Oct 12:15 a.m. Eastern): add the player's NATION to each Marquee player (e.g. nation:'Argentina' plus ISO code nationCode:'AR') so the walkout can show a nation-flag board, FIFA 17 style. Also from Nik: no people on the screen at all; the club shirt itself walks out of the tunnel. Reveal: tier-colour pyro, nation flag board, shirt walks out, number, pause, club board, name on shirt, tier card. Ticket 1849 (factory) is the desktop mockup.
 - Wed 28 Oct 12:12 AM · Team V · In progress · Nik changed the design (28 Oct 12:11 a.m. Eastern): NO managers on the Marquee screen. It becomes a FIFA 17-style walkout reveal: tunnel + tier-colour pyro, reveal boards (shirt, number, club), silhouette walkout, name, then a tier-finish Marquee card. Reveals run Daniel then Nik. New desktop mockup = picture ticket 1849 (factory b3e0a8cc). The 78bccd28 kit is superseded; data contract unchanged.
