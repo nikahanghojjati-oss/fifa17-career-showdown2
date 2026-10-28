@@ -31,7 +31,7 @@
     return {playerOne:a,playerTwo:b};
   }
   function mpPlayer(row,listVersion){
-    return Object.freeze({listVersion,rank:row.rank,name:row.name,club:row.club??null,overall:row.overall,potential:row.potential,tier:mpTier(row.rank)});
+    return Object.freeze({listVersion,rank:row.rank,name:row.name,club:row.club??null,overall:row.overall,potential:row.potential,number:Number.isInteger(row.number)?row.number:null,tier:mpTier(row.rank)});
   }
   function mpMillis(at){
     if(Number.isFinite(at))return at;

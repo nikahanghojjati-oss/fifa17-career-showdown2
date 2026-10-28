@@ -18,7 +18,8 @@ assert.equal(List.listVersion,1);
 assert.equal(List.players.length,200);
 let prev=null;
 List.players.forEach((p,i)=>{
-  assert.deepEqual(Object.keys(p),['rank','name','club','overall','potential'],`row ${i} shape`);
+  assert.deepEqual(Object.keys(p),['rank','name','club','overall','potential','number'],`row ${i} shape`);
+  assert.ok(Number.isInteger(p.number)&&p.number>=1&&p.number<=99,`row ${i} shirt number`);
   assert.ok(typeof p.name==='string'&&p.name.length>1&&(p.club===null||typeof p.club==='string'));
   if(prev){
     assert.ok(p.potential<prev.potential||p.potential===prev.potential&&p.overall<=prev.overall,`row ${i} order`);
@@ -29,7 +30,7 @@ List.players.forEach((p,i)=>{
 });
 assert.deepEqual(List.players.filter(p=>p.club===null).map(p=>p.name),['Oscar']);
 assert.equal(List.players.filter(p=>p.overall===79&&p.potential===86).length,13);
-assert.equal(List.players[0].name,'Cristiano Ronaldo');assert.equal(List.players[199].rank,188);
+assert.equal(List.players[0].name,'Cristiano Ronaldo');assert.equal(List.players[0].number,7);assert.equal(List.players[3].number,10);assert.equal(List.players[199].rank,188);
 ok('L1','200 players in potential-then-overall order with competition ranks; Oscar alone has no club; all 13 at 79/86');
 
 // L2 ranking badges
@@ -56,7 +57,7 @@ ok('L3','both managers always get different players, the draw depends only on th
 const id='pair_a'+'0123456789abcdef'.repeat(4).slice(1);
 const both=MP.forShowdown(id,MP.fromMs+1);
 assert.ok(both&&both.playerOne.name&&both.playerTwo.name&&both.playerOne.name!==both.playerTwo.name);
-assert.deepEqual(Object.keys(both.playerOne),['listVersion','rank','name','club','overall','potential','tier']);
+assert.deepEqual(Object.keys(both.playerOne),['listVersion','rank','name','club','overall','potential','number','tier']);
 assert.deepEqual(MP.forNewShowdown(id),both,'the reveal and the career screens show the same players');
 assert.deepEqual(MP.forShowdown(id,{toMillis:()=>MP.fromMs+1}),both,'a Firestore Timestamp works too');
 for(const old of [MP.fromMs-1,null,undefined,'2026-10-29',NaN,{}])assert.equal(MP.forShowdown(id,old),null,`no MP for ${String(old)}`);
