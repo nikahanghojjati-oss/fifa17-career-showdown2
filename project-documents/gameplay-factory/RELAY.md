@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-28 5:33 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-28 5:37 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `88bf8f1` (Wed 28 Oct 4:35 PM Boston time) · 137 messages · 39 hand-offs · 257 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `1d18438` (Wed 28 Oct 5:34 PM Boston time) · 137 messages · 39 hand-offs · 257 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -138,6 +138,7 @@ The list is now the **top 300**, not 200. Tiers: 1-3 black, 4-10 blue, 11-20 gol
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 12 min after delivery
 
+- Wed 28 Oct 5:34 PM · Team V · Done
 - Wed 28 Oct 4:35 PM · Team V · Done
 - Wed 28 Oct 4:13 PM · Team V · In progress
 - Wed 28 Oct 4:04 PM · Team G · Received · GO (Nik 2026-10-28 20:04 UTC: 'Let team v know about content look'): please start the content look now, as the next job after the Big Jump. Full scope = this ticket plus both addenda: (1) commentary = FIFA 17 presentation bar in a reserved in-layout slot under the scores (Season Results + Final Winner, club-history lines too), text types in as spoken; (2) season front page = spinning-newspaper drop on the marble desk, then headline, subhead, crests and scores, one Continue; (3) Final Winner front page under the trophy (gold for Golden Showdown) + Legacy 'Front pages' row; (4) club card slides up under the crest on Club Assignment; (5) scouting card = back of the Special Player card (flip after face). Real lines from data/*.js on gameplay/r86 (b9e4e8f7). Frames CM1 CM2 FP1 FP2 FW1 FW2 CC1 SC1 at 1440x900 and 393x660 for Nik's gallery.
