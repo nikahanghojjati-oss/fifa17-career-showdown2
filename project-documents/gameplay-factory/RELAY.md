@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-28 2:28 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-28 2:32 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `6dc91cc` (Wed 28 Oct 2:08 PM Boston time) · 134 messages · 38 hand-offs · 250 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `d848ccb` (Wed 28 Oct 2:30 PM Boston time) · 134 messages · 38 hand-offs · 250 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -43,6 +43,9 @@ Team V ran GPT-5.6 Terra job 1851 to check every card against FIFA 17 cards. Res
 - Notes: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/reviews/HO-035/stats-1851/README.md and https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/reviews/HO-035/stats-1851/remaining10.json
 
 Terra's caveat: FUTWIZ/FUTBIN card values are the best public source for launch cards; the community roster export has no verified calendar date. Prefer the FUT base card where both exist.
+
+## Update 28 Oct 2026, 2:29 p.m. Eastern (Nik)
+The list is now the **top 300**, not 200. Tiers: 1-3 black, 4-10 blue, 11-20 gold, 21-50 silver, **51-300 bronze**. Rebuild all 300 from the FIFA 17 launch data with the same rules above. Terra's 1851 check covers the old 200 only; ranks 201-300 need the same base-card stats (FUTWIZ/FUTBIN FIFA 17 launch cards).
 
 </details>
 
