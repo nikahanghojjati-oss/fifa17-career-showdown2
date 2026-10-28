@@ -43,3 +43,6 @@ Team V ran GPT-5.6 Terra job 1851 to check every card against FIFA 17 cards. Res
 - Notes: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/reviews/HO-035/stats-1851/README.md and https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/reviews/HO-035/stats-1851/remaining10.json
 
 Terra's caveat: FUTWIZ/FUTBIN card values are the best public source for launch cards; the community roster export has no verified calendar date. Prefer the FUT base card where both exist.
+
+## Update 28 Oct 2026, 2:29 p.m. Eastern (Nik)
+The list is now the **top 300**, not 200. Tiers: 1-3 black, 4-10 blue, 11-20 gold, 21-50 silver, **51-300 bronze**. Rebuild all 300 from the FIFA 17 launch data with the same rules above. Terra's 1851 check covers the old 200 only; ranks 201-300 need the same base-card stats (FUTWIZ/FUTBIN FIFA 17 launch cards).
