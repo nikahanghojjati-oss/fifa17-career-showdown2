@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28 4:13 PM Boston time (EDT)",
+ "generated": "2026-10-28 4:17 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 137,
@@ -1256,8 +1256,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "53a14b8",
-  "head_boston": "Wed 28 Oct 4:05 PM",
+  "head": "ba1f02d",
+  "head_boston": "Wed 28 Oct 4:13 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1789,7 +1789,7 @@
     "from": "G",
     "to": "V",
     "title": "r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards",
-    "stage": "RECEIVED",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-036_r86-content-pack-look-commentary-strip-s.md",
