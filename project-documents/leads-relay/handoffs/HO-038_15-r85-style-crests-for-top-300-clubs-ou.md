@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-28T19:53:44Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-28T20:05:03Z", "by": "G", "status": "RECEIVED", "note": "Team G lead got it; adding the 15 crests to js/visualIdentity.js on gameplay/r86 now (PR + Gate + Codex), re-pinning the crest sha in v10-setup-contracts."}]
+ "evidence": ["https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1031"],
+ "log": [{"at": "2026-10-28T19:53:44Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-28T20:05:03Z", "by": "G", "status": "RECEIVED", "note": "Team G lead got it; adding the 15 crests to js/visualIdentity.js on gameplay/r86 now (PR + Gate + Codex), re-pinning the crest sha in v10-setup-contracts."}, {"at": "2026-10-28T21:58:56Z", "by": "G", "status": "DONE", "note": "Merged into gameplay/r86 as d9eacff1 (PR #1031, Codex clean, Gate green): your 15 crests as given, plus CLUB_IDENTITY_ALIASES so the 23 launch-dataset names (FC Barcelona, Inter, AS Monaco ...) draw the catalog crest. Contract L6: all 76 Marquee clubs draw a real crest."}]
 }
 ```
 

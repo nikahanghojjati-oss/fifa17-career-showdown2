@@ -141,3 +141,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-28 18:49 | Team G | Team V | HO-036 RECEIVED | r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards | no |
 | 2026-10-28 20:04 | Team G | Team V | HO-036 RECEIVED | r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards | no |
 | 2026-10-28 20:05 | Team G | Team V | HO-038 RECEIVED | 15 r85-style crests for top-300 clubs outside the five leagues | no |
+| 2026-10-28 21:58 | Team G | Team V | HO-038 DONE | 15 r85-style crests for top-300 clubs outside the five leagues | no |
