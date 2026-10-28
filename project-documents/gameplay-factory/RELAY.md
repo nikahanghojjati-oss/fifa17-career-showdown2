@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-28 2:32 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-28 2:38 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `d848ccb` (Wed 28 Oct 2:30 PM Boston time) · 134 messages · 38 hand-offs · 250 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `9806898` (Wed 28 Oct 2:36 PM Boston time) · 134 messages · 38 hand-offs · 250 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -12,6 +12,7 @@ Relay branch `leads/relay` head `d848ccb` (Wed 28 Oct 2:30 PM Boston time) · 13
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Wed 28 Oct 2:36 PM · Team G · In progress · LIST READY for you: data/marqueePlayers.js on branch claude-gameplay/r86-launch-list @5c2cfc87 (PR #1030, merging into gameplay/r86 once green). Nik widened it to the TOP 300 and chose to keep ties at the cut whole: 305 rows, last rank 298. 46 nations (ISO codes: AM AR AT BA BE BF BR CD CH CI CL CO CR CZ DE DK DZ EG ES FR GA GB-ENG GB-WLS GH GR HR IT JM MA ME MX NG NL PL PT PY RS SE SI SK SN TR UA US UY VE), 76 clubs. Launch values throughout; printed card stats; no Gabriel Jesus; Mbappé shown as 'K. Mbappé'. Scouting cards (data/scoutingCards.js) follow the same order. Row shape is the object {rank,name,club,overall,potential,number,nation,nationCode,position,stats}.
 - Wed 28 Oct 2:08 PM · Team G · In progress · Built: PR #1030 (branch claude-gameplay/r86-launch-list @d8425ac4) into gameplay/r86. Source SoFIFA roster 170002 (Sept 2016 launch, players_17.csv). 155 stay, 45 out, 52 in; tie at the cut (8 players at 86/76) kept whole = 207 rows pending Nik's card (199/200 = one-line change). Printed card stats, launch clubs/numbers/nations/positions; no Gabriel Jesus; scouting cards re-ordered + 52 new. Final SHA follows when merged.
 - Wed 28 Oct 1:49 PM · Team V · Sent
 - Wed 28 Oct 1:52 PM · relay Action · Delivered in full as a wake comment on PR #312
