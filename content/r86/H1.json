@@ -1,0 +1,1202 @@
+[
+  {
+    "id": "h1-001",
+    "situation": "big-win",
+    "headline": "A SCOREBOARD STATEMENT",
+    "subhead": "{winner} guided {winnerClub} to a commanding season victory, finishing {margin} points clear of {loser}."
+  },
+  {
+    "id": "h1-002",
+    "situation": "big-win",
+    "headline": "THE GAP GROWS GRAND",
+    "subhead": "With {winnerPoints} points on the board, {winner} gave {winnerClub} plenty to celebrate this season."
+  },
+  {
+    "id": "h1-003",
+    "situation": "big-win",
+    "headline": "A SEASON IN CAPITALS",
+    "subhead": "{winnerClub} finished well ahead as {winner} claimed the season by a margin of {margin} points."
+  },
+  {
+    "id": "h1-004",
+    "situation": "big-win",
+    "headline": "ONE WAY TRAFFIC",
+    "subhead": "{winner} steered {winnerClub} to a resounding season win, leaving {loserClub} a sizeable distance behind."
+  },
+  {
+    "id": "h1-005",
+    "situation": "big-win",
+    "headline": "A GIANT POINTS HAUL",
+    "subhead": "The season belonged to {winner}, whose {winnerClub} side built a winning margin of {margin} points."
+  },
+  {
+    "id": "h1-006",
+    "situation": "big-win",
+    "headline": "THE BIG FINISH",
+    "subhead": "{winnerClub} put a substantial gap on the scoreboard as {winner} celebrated a convincing season victory."
+  },
+  {
+    "id": "h1-007",
+    "situation": "big-win",
+    "headline": "THAT IS SOME MARGIN",
+    "subhead": "A difference of {margin} points gave {winner} and {winnerClub} the season's biggest possible smile."
+  },
+  {
+    "id": "h1-008",
+    "situation": "big-win",
+    "headline": "ROOM TO CELEBRATE",
+    "subhead": "{winner} finished {margin} points ahead of {loser}, turning the season scoreboard into a comfortable celebration."
+  },
+  {
+    "id": "h1-009",
+    "situation": "big-win",
+    "headline": "THE POINTS PARADE",
+    "subhead": "{winnerClub} marched to a commanding season result, with {winner} finishing {margin} points clear of {loser}."
+  },
+  {
+    "id": "h1-010",
+    "situation": "big-win",
+    "headline": "THE DISTANCE TELLS",
+    "subhead": "{winner} and {winnerClub} opened up a {margin} point advantage over {loserClub} this season."
+  },
+  {
+    "id": "h1-011",
+    "situation": "big-win",
+    "headline": "CLEAR BLUE SCOREBOARD",
+    "subhead": "The numbers make cheerful reading for {winner}, whose side finished {margin} points ahead of {loser}."
+  },
+  {
+    "id": "h1-012",
+    "situation": "big-win",
+    "headline": "A MARGIN WITH MUSCLE",
+    "subhead": "{winnerClub} delivered a powerful season showing, taking {winner} to victory by {margin} points."
+  },
+  {
+    "id": "h1-013",
+    "situation": "big-win",
+    "headline": "THE LEAD IS LARGE",
+    "subhead": "{winner} can savour a decisive season success after building a {margin} point gap over {loser}."
+  },
+  {
+    "id": "h1-014",
+    "situation": "big-win",
+    "headline": "PLENTY OF DAYLIGHT",
+    "subhead": "{winnerClub} finished the season comfortably in front, giving {winner} a {margin} point winning margin."
+  },
+  {
+    "id": "h1-015",
+    "situation": "big-win",
+    "headline": "THE BIG PICTURE",
+    "subhead": "A dominant points return gave {winner} and {winnerClub} a resounding season win over {loser}."
+  },
+  {
+    "id": "h1-016",
+    "situation": "big-win",
+    "headline": "A DASH OF DOMINANCE",
+    "subhead": "{winner} watched {winnerClub} pull clear in the season standings, with {margin} points separating the managers."
+  },
+  {
+    "id": "h1-017",
+    "situation": "big-win",
+    "headline": "POINTS BY THE PLENTY",
+    "subhead": "{winnerClub} enjoyed a commanding campaign as {winner} finished the season well ahead of {loser}."
+  },
+  {
+    "id": "h1-018",
+    "situation": "narrow-win",
+    "headline": "A WHISKER WILL DO",
+    "subhead": "{winner} and {winnerClub} claimed the season by {margin} points after a closely contested campaign."
+  },
+  {
+    "id": "h1-019",
+    "situation": "narrow-win",
+    "headline": "THE NARROWEST OF WINDOWS",
+    "subhead": "There was little between the managers, but {winner} finished {margin} points ahead of {loser}."
+  },
+  {
+    "id": "h1-020",
+    "situation": "narrow-win",
+    "headline": "JUST ENOUGH TO CHEER",
+    "subhead": "{winnerClub} earned a tight season victory, with {winner} finishing {margin} points clear of {loser}."
+  },
+  {
+    "id": "h1-021",
+    "situation": "narrow-win",
+    "headline": "FINE MARGINS FINE FEELING",
+    "subhead": "A close season went to {winner}, whose {winnerClub} side finished {margin} points ahead."
+  },
+  {
+    "id": "h1-022",
+    "situation": "narrow-win",
+    "headline": "A LITTLE GOES LONG",
+    "subhead": "{winner} secured the season result by {margin} points, leaving {loser} just short on the scoreboard."
+  },
+  {
+    "id": "h1-023",
+    "situation": "narrow-win",
+    "headline": "A SLENDER SEASON SUCCESS",
+    "subhead": "{winnerClub} and {loserClub} stayed close, with {winner} ultimately taking the season by {margin} points."
+  },
+  {
+    "id": "h1-024",
+    "situation": "narrow-win",
+    "headline": "THE TINIEST BREATHING SPACE",
+    "subhead": "After a closely matched campaign, {winner} came out ahead of {loser} by {margin} points."
+  },
+  {
+    "id": "h1-025",
+    "situation": "narrow-win",
+    "headline": "CLOSE CALL CLEAR RESULT",
+    "subhead": "{winner} can celebrate a season win, though {loser} stayed within {margin} points of the lead."
+  },
+  {
+    "id": "h1-026",
+    "situation": "narrow-win",
+    "headline": "TWO SIDES ONE SMALL GAP",
+    "subhead": "{winnerClub} finished just in front as {winner} took the season by {margin} points."
+  },
+  {
+    "id": "h1-027",
+    "situation": "narrow-win",
+    "headline": "A FINISH WORTH FRAMING",
+    "subhead": "The scoreboard stayed tight, but {winner} and {winnerClub} finished {margin} points ahead of {loser}."
+  },
+  {
+    "id": "h1-028",
+    "situation": "narrow-win",
+    "headline": "SMALL GAP BIG GRIN",
+    "subhead": "{winner} has the season bragging rights after finishing {margin} points clear of {loser}."
+  },
+  {
+    "id": "h1-029",
+    "situation": "narrow-win",
+    "headline": "THE SLIM ADVANTAGE",
+    "subhead": "{winnerClub} closed the season in front, with only {margin} points separating {winner} and {loser}."
+  },
+  {
+    "id": "h1-030",
+    "situation": "narrow-win",
+    "headline": "A CLOSE SHAVE INDEED",
+    "subhead": "The season went down to a small points gap, with {winner} finishing ahead of {loser}."
+  },
+  {
+    "id": "h1-031",
+    "situation": "narrow-win",
+    "headline": "THAT WILL JUST ABOUT DO",
+    "subhead": "{winner} collected the season win as {winnerClub} ended {margin} points ahead of {loserClub}."
+  },
+  {
+    "id": "h1-032",
+    "situation": "narrow-win",
+    "headline": "LITTLE BETWEEN THESE TWO",
+    "subhead": "{winner} and {loser} produced a close campaign, separated by {margin} points at the finish."
+  },
+  {
+    "id": "h1-033",
+    "situation": "narrow-win",
+    "headline": "A TIGHT SEASON SETTLED",
+    "subhead": "{winnerClub} came through a closely fought season, with {winner} claiming victory by {margin} points."
+  },
+  {
+    "id": "h1-034",
+    "situation": "narrow-win",
+    "headline": "THE NARROW ROAD HOME",
+    "subhead": "{winner} finished just ahead of {loser}, giving {winnerClub} a season win by {margin} points."
+  },
+  {
+    "id": "h1-035",
+    "situation": "comfortable-win",
+    "headline": "A SOLID SEASON'S WORK",
+    "subhead": "{winner} guided {winnerClub} to a comfortable season win, finishing {margin} points ahead of {loser}."
+  },
+  {
+    "id": "h1-036",
+    "situation": "comfortable-win",
+    "headline": "THE CUSHION LOOKS COMFY",
+    "subhead": "A {margin} point advantage gave {winner} breathing room and {winnerClub} a season victory."
+  },
+  {
+    "id": "h1-037",
+    "situation": "comfortable-win",
+    "headline": "A HEALTHY LEAD TAKES IT",
+    "subhead": "{winnerClub} finished the campaign clear of {loserClub}, with {winner} winning by {margin} points."
+  },
+  {
+    "id": "h1-038",
+    "situation": "comfortable-win",
+    "headline": "COMFORT ON THE CARD",
+    "subhead": "{winner} can enjoy a well-earned season success after finishing {margin} points ahead of {loser}."
+  },
+  {
+    "id": "h1-039",
+    "situation": "comfortable-win",
+    "headline": "A VERY HANDY MARGIN",
+    "subhead": "{winnerClub} put together a strong season and gave {winner} a {margin} point advantage."
+  },
+  {
+    "id": "h1-040",
+    "situation": "comfortable-win",
+    "headline": "NO NEED FOR A RULER",
+    "subhead": "The scoreboard shows a comfortable gap as {winner} finishes {margin} points ahead of {loser}."
+  },
+  {
+    "id": "h1-041",
+    "situation": "comfortable-win",
+    "headline": "THE POINTS ADD UP",
+    "subhead": "{winner} and {winnerClub} made their season count, finishing {margin} points ahead of {loserClub}."
+  },
+  {
+    "id": "h1-042",
+    "situation": "comfortable-win",
+    "headline": "A LITTLE ROOM TO ROAR",
+    "subhead": "{winnerClub} earned a solid season win, leaving {winner} a comfortable {margin} points clear."
+  },
+  {
+    "id": "h1-043",
+    "situation": "comfortable-win",
+    "headline": "THE CAMPAIGN PAYS OFF",
+    "subhead": "A consistent showing helped {winner} finish {margin} points in front of {loser} this season."
+  },
+  {
+    "id": "h1-044",
+    "situation": "comfortable-win",
+    "headline": "SPACE ON THE SCOREBOARD",
+    "subhead": "{winner} celebrated as {winnerClub} secured the season with a {margin} point winning margin."
+  },
+  {
+    "id": "h1-045",
+    "situation": "comfortable-win",
+    "headline": "THE COMFORT ZONE",
+    "subhead": "{winnerClub} ended the season ahead of {loserClub}, giving {winner} a useful {margin} point cushion."
+  },
+  {
+    "id": "h1-046",
+    "situation": "comfortable-win",
+    "headline": "POINTS WITH PURPOSE",
+    "subhead": "{winner} put a clear gap between the managers, taking the season by {margin} points."
+  },
+  {
+    "id": "h1-047",
+    "situation": "comfortable-win",
+    "headline": "A REWARDING RETURN",
+    "subhead": "{winnerClub} finished the season strongly on points, with {winner} comfortably ahead of {loser}."
+  },
+  {
+    "id": "h1-048",
+    "situation": "comfortable-win",
+    "headline": "THE GAP HAS A CHAIR",
+    "subhead": "There was room to settle in as {winner} finished {margin} points ahead of {loser}."
+  },
+  {
+    "id": "h1-049",
+    "situation": "comfortable-win",
+    "headline": "A CONVINCING CAMPAIGN",
+    "subhead": "{winner} led {winnerClub} to a clear season win, finishing {margin} points above {loser}."
+  },
+  {
+    "id": "h1-050",
+    "situation": "comfortable-win",
+    "headline": "A GOOD DAY FOR ARITHMETIC",
+    "subhead": "The numbers favour {winner}, whose {winnerClub} side finished {margin} points clear this season."
+  },
+  {
+    "id": "h1-051",
+    "situation": "comfortable-win",
+    "headline": "THE STEADY ROUTE HOME",
+    "subhead": "{winnerClub} closed the season with a comfortable advantage, giving {winner} a {margin} point victory."
+  },
+  {
+    "id": "h1-052",
+    "situation": "draw",
+    "headline": "LEVEL AT THE LINE",
+    "subhead": "{managerA} and {managerB} finished the season with {points} points each, leaving the result drawn."
+  },
+  {
+    "id": "h1-053",
+    "situation": "draw",
+    "headline": "POINTS SHARED HONOURS SHARED",
+    "subhead": "{clubA} and {clubB} ended level as {managerA} and {managerB} each collected {points} points."
+  },
+  {
+    "id": "h1-054",
+    "situation": "draw",
+    "headline": "THE SCOREBOARD SAYS DRAW",
+    "subhead": "Nothing separates {managerA} and {managerB} on season points, with each finishing on {points}."
+  },
+  {
+    "id": "h1-055",
+    "situation": "draw",
+    "headline": "A PERFECT BALANCE",
+    "subhead": "{managerA} and {managerB} matched each other across the season, ending with {points} points apiece."
+  },
+  {
+    "id": "h1-056",
+    "situation": "draw",
+    "headline": "EVEN STEVENS ON POINTS",
+    "subhead": "Both managers finished on {points}, so {clubA} and {clubB} share a drawn season result."
+  },
+  {
+    "id": "h1-057",
+    "situation": "draw",
+    "headline": "THE SHARED SPOILS",
+    "subhead": "{managerA} and {managerB} each posted {points} points, bringing the season to a draw."
+  },
+  {
+    "id": "h1-058",
+    "situation": "draw",
+    "headline": "TWO CAMPAIGNS ONE TOTAL",
+    "subhead": "The scoreboard puts {managerA} and {managerB} on {points} each after an evenly matched season."
+  },
+  {
+    "id": "h1-059",
+    "situation": "draw",
+    "headline": "NO SPACE BETWEEN THEM",
+    "subhead": "{clubA} and {clubB} finished level, with {managerA} and {managerB} both scoring {points} points."
+  },
+  {
+    "id": "h1-060",
+    "situation": "draw",
+    "headline": "A MATCHED SET",
+    "subhead": "The season ends all square as {managerA} and {managerB} collect {points} points each."
+  },
+  {
+    "id": "h1-061",
+    "situation": "draw",
+    "headline": "DEAD LEVEL AND DELIGHTFUL",
+    "subhead": "{managerA} and {managerB} share the season result after both managers reached {points} points."
+  },
+  {
+    "id": "h1-062",
+    "situation": "draw",
+    "headline": "THE SAME NUMBER TWICE",
+    "subhead": "{clubA} and {clubB} cannot be separated on season points, with {points} credited to each manager."
+  },
+  {
+    "id": "h1-063",
+    "situation": "draw",
+    "headline": "THE EQUALLY GOOD NEWS",
+    "subhead": "A drawn season leaves {managerA} and {managerB} with {points} points apiece on the board."
+  },
+  {
+    "id": "h1-064",
+    "situation": "draw",
+    "headline": "ALL SQUARE IN PRINT",
+    "subhead": "{managerA} and {managerB} produced matching season totals, each finishing the campaign with {points} points."
+  },
+  {
+    "id": "h1-065",
+    "situation": "draw",
+    "headline": "THE BALANCE HOLDS",
+    "subhead": "Both sides earned {points} points, leaving {clubA} and {clubB} level at the season's end."
+  },
+  {
+    "id": "h1-066",
+    "situation": "draw",
+    "headline": "A DRAW TO REMEMBER",
+    "subhead": "{managerA} and {managerB} each reached {points}, bringing a closely matched season to a draw."
+  },
+  {
+    "id": "h1-067",
+    "situation": "draw",
+    "headline": "THE NUMBERS AGREE",
+    "subhead": "There is nothing between the managers this season, with {managerA} and {managerB} both on {points}."
+  },
+  {
+    "id": "h1-068",
+    "situation": "draw",
+    "headline": "SHARING THE SPOTLIGHT",
+    "subhead": "{clubA} and {clubB} finish level on {points} each, giving both managers an equal share."
+  },
+  {
+    "id": "h1-069",
+    "situation": "champions-league",
+    "headline": "EUROPE'S BIG NIGHT BELONGS",
+    "subhead": "{winnerClub} lifted the Champions League, adding five points to {winner}'s season tally."
+  },
+  {
+    "id": "h1-070",
+    "situation": "champions-league",
+    "headline": "THE EUROPEAN CROWN ARRIVES",
+    "subhead": "{winner} guided {winnerClub} to Champions League glory and a five-point boost this season."
+  },
+  {
+    "id": "h1-071",
+    "situation": "champions-league",
+    "headline": "A FIVE POINT EUROPEAN TOUR",
+    "subhead": "Champions League success gives {winnerClub} the trophy and adds five points to {winner}'s season."
+  },
+  {
+    "id": "h1-072",
+    "situation": "champions-league",
+    "headline": "THE STARS SHINE BRIGHT",
+    "subhead": "{winnerClub} are Champions League winners, with {winner} collecting five points for the achievement."
+  },
+  {
+    "id": "h1-073",
+    "situation": "champions-league",
+    "headline": "A EUROPEAN NIGHT TO FRAME",
+    "subhead": "The Champions League trophy is heading to {winnerClub}, bringing {winner} five season points."
+  },
+  {
+    "id": "h1-074",
+    "situation": "champions-league",
+    "headline": "THE BIG CUP COMES HOME",
+    "subhead": "{winner} and {winnerClub} celebrated Champions League success, which adds five points to the season score."
+  },
+  {
+    "id": "h1-075",
+    "situation": "champions-league",
+    "headline": "FIVE POINTS OF GLORY",
+    "subhead": "{winnerClub} lifted Europe's biggest club prize and earned {winner} five points in the season standings."
+  },
+  {
+    "id": "h1-076",
+    "situation": "champions-league",
+    "headline": "CHAMPIONS OF THE CONTINENT",
+    "subhead": "{winner} led {winnerClub} to Champions League triumph, adding five points to the season total."
+  },
+  {
+    "id": "h1-077",
+    "situation": "champions-league",
+    "headline": "THE ANTHEM HAS A WINNER",
+    "subhead": "Champions League glory belongs to {winnerClub}, with five season points added for {winner}."
+  },
+  {
+    "id": "h1-078",
+    "situation": "champions-league",
+    "headline": "A TROPHY UNDER THE LIGHTS",
+    "subhead": "{winner} can celebrate a Champions League title as {winnerClub} add five points this season."
+  },
+  {
+    "id": "h1-079",
+    "situation": "champions-league",
+    "headline": "EUROPEAN SILVERWARE SECURED",
+    "subhead": "The Champions League trophy gives {winnerClub} a reason to celebrate and {winner} five points."
+  },
+  {
+    "id": "h1-080",
+    "situation": "champions-league",
+    "headline": "THE CROWN AND THE COUNT",
+    "subhead": "{winnerClub} captured the Champions League, earning {winner} five points toward the season score."
+  },
+  {
+    "id": "h1-081",
+    "situation": "champions-league",
+    "headline": "A NIGHT ABOVE THE REST",
+    "subhead": "Champions League success adds five points for {winner} and another celebration for {winnerClub}."
+  },
+  {
+    "id": "h1-082",
+    "situation": "champions-league",
+    "headline": "FIVE FOR THE BIG ONE",
+    "subhead": "{winner} has a Champions League trophy to admire and five season points to show for it."
+  },
+  {
+    "id": "h1-083",
+    "situation": "champions-league",
+    "headline": "THE EUROPEAN SPOTLIGHT",
+    "subhead": "{winnerClub} took the Champions League title, bringing a five-point reward to {winner}'s campaign."
+  },
+  {
+    "id": "h1-084",
+    "situation": "champions-league",
+    "headline": "SILVERWARE WITH STAR QUALITY",
+    "subhead": "{winner} celebrated as {winnerClub} won the Champions League and earned five season points."
+  },
+  {
+    "id": "h1-085",
+    "situation": "champions-league",
+    "headline": "THE CONTINENTAL CELEBRATION",
+    "subhead": "Champions League winners {winnerClub} give {winner} five points and a trophy worth celebrating."
+  },
+  {
+    "id": "h1-086",
+    "situation": "europa-league",
+    "headline": "EUROPA GLORY ON THE BOARD",
+    "subhead": "{winnerClub} lifted the Europa League, adding three points to {winner}'s season tally."
+  },
+  {
+    "id": "h1-087",
+    "situation": "europa-league",
+    "headline": "THREE POINTS AND A TROPHY",
+    "subhead": "Europa League success gives {winnerClub} silverware and brings {winner} three points this season."
+  },
+  {
+    "id": "h1-088",
+    "situation": "europa-league",
+    "headline": "THE EUROPA CELEBRATION",
+    "subhead": "{winner} guided {winnerClub} to Europa League glory, earning three points for the season."
+  },
+  {
+    "id": "h1-089",
+    "situation": "europa-league",
+    "headline": "A EUROPEAN PRIZE CLAIMED",
+    "subhead": "The Europa League trophy belongs to {winnerClub}, adding three points to {winner}'s campaign."
+  },
+  {
+    "id": "h1-090",
+    "situation": "europa-league",
+    "headline": "THREE CHEERS FOR EUROPA",
+    "subhead": "{winnerClub} won the Europa League, giving {winner} a trophy and three valuable season points."
+  },
+  {
+    "id": "h1-091",
+    "situation": "europa-league",
+    "headline": "THE ROAD ENDS IN GLORY",
+    "subhead": "{winner} and {winnerClub} celebrated Europa League success, which adds three points to the season score."
+  },
+  {
+    "id": "h1-092",
+    "situation": "europa-league",
+    "headline": "A CONTINENTAL CUP RETURNS",
+    "subhead": "Europa League winners {winnerClub} earn {winner} three points and a memorable trophy celebration."
+  },
+  {
+    "id": "h1-093",
+    "situation": "europa-league",
+    "headline": "EUROPA LIGHTS UP THE PAGE",
+    "subhead": "{winnerClub} claimed the Europa League, adding three points to the season total for {winner}."
+  },
+  {
+    "id": "h1-094",
+    "situation": "europa-league",
+    "headline": "A TRIO OF EUROPEAN POINTS",
+    "subhead": "{winner} can celebrate Europa League glory as {winnerClub} earn three points for the triumph."
+  },
+  {
+    "id": "h1-095",
+    "situation": "europa-league",
+    "headline": "THE CUP WITH THREE POINTS",
+    "subhead": "Europa League success gives {winnerClub} a trophy and adds three points to {winner}'s tally."
+  },
+  {
+    "id": "h1-096",
+    "situation": "europa-league",
+    "headline": "A NIGHT IN EUROPA COLOURS",
+    "subhead": "{winnerClub} lifted the Europa League, with {winner} receiving three points for the achievement."
+  },
+  {
+    "id": "h1-097",
+    "situation": "europa-league",
+    "headline": "SILVERWARE AND THREE MORE",
+    "subhead": "{winner} led {winnerClub} to the Europa League title and a three-point season reward."
+  },
+  {
+    "id": "h1-098",
+    "situation": "europa-league",
+    "headline": "EUROPEAN JOY IN THREE",
+    "subhead": "The Europa League trophy brings {winnerClub} celebration and adds three points to {winner}'s score."
+  },
+  {
+    "id": "h1-099",
+    "situation": "europa-league",
+    "headline": "THE EUROPA REWARD",
+    "subhead": "{winnerClub} took the Europa League title, earning {winner} three points toward the season total."
+  },
+  {
+    "id": "h1-100",
+    "situation": "europa-league",
+    "headline": "A CUP FOR THE CABINET",
+    "subhead": "{winner} has Europa League silverware to celebrate and three season points to add."
+  },
+  {
+    "id": "h1-101",
+    "situation": "europa-league",
+    "headline": "THREE POINTS ACROSS EUROPE",
+    "subhead": "{winnerClub} won the Europa League, giving {winner} a three-point boost this season."
+  },
+  {
+    "id": "h1-102",
+    "situation": "europa-league",
+    "headline": "THE EUROPA EDITION",
+    "subhead": "Europa League glory belongs to {winnerClub}, with three points credited to {winner} this season."
+  },
+  {
+    "id": "h1-103",
+    "situation": "league-title",
+    "headline": "TOP OF THE LEAGUE",
+    "subhead": "{winner} guided {winnerClub} to the domestic league title, giving supporters a season to celebrate."
+  },
+  {
+    "id": "h1-104",
+    "situation": "league-title",
+    "headline": "THE CHAMPIONS HAVE ARRIVED",
+    "subhead": "{winnerClub} claimed the league crown under {winner}, adding a domestic title to the season's story."
+  },
+  {
+    "id": "h1-105",
+    "situation": "league-title",
+    "headline": "A CROWN FOR THE CAMPAIGN",
+    "subhead": "The league title belongs to {winnerClub}, with {winner} leading the celebrations after a successful campaign."
+  },
+  {
+    "id": "h1-106",
+    "situation": "league-title",
+    "headline": "LEAGUE GLORY IN PRINT",
+    "subhead": "{winner} and {winnerClub} can celebrate a domestic championship after finishing top of their league."
+  },
+  {
+    "id": "h1-107",
+    "situation": "league-title",
+    "headline": "THE TITLE IS THEIRS",
+    "subhead": "{winnerClub} secured the league crown, giving {winner} a trophy to show for the campaign."
+  },
+  {
+    "id": "h1-108",
+    "situation": "league-title",
+    "headline": "CHAMPIONS ON HOME SOIL",
+    "subhead": "{winner} steered {winnerClub} to domestic league success and a place in the season's headlines."
+  },
+  {
+    "id": "h1-109",
+    "situation": "league-title",
+    "headline": "A TITLE WORTH THE WAIT",
+    "subhead": "{winnerClub} finished as league champions, and {winner} has a domestic crown to celebrate."
+  },
+  {
+    "id": "h1-110",
+    "situation": "league-title",
+    "headline": "THE LEAGUE BELONGS HERE",
+    "subhead": "The domestic title has landed at {winnerClub}, where {winner} can enjoy a championship season."
+  },
+  {
+    "id": "h1-111",
+    "situation": "league-title",
+    "headline": "CROWNED AFTER THE CAMPAIGN",
+    "subhead": "{winner} led {winnerClub} to the league title, placing a domestic trophy in the spotlight."
+  },
+  {
+    "id": "h1-112",
+    "situation": "league-title",
+    "headline": "THE CHAMPION'S EDITION",
+    "subhead": "League champions {winnerClub} gave {winner} a season to remember with a domestic title."
+  },
+  {
+    "id": "h1-113",
+    "situation": "league-title",
+    "headline": "FIRST PLACE FESTIVITIES",
+    "subhead": "{winnerClub} finished top of the league, allowing {winner} to celebrate a championship campaign."
+  },
+  {
+    "id": "h1-114",
+    "situation": "league-title",
+    "headline": "A LEAGUE OF THEIR OWN",
+    "subhead": "{winner} and {winnerClub} claimed the domestic league crown after a campaign worthy of celebration."
+  },
+  {
+    "id": "h1-115",
+    "situation": "league-title",
+    "headline": "THE TITLE COMES TO TOWN",
+    "subhead": "{winnerClub} are league champions, with {winner} enjoying the reward of a successful domestic campaign."
+  },
+  {
+    "id": "h1-116",
+    "situation": "league-title",
+    "headline": "DOMESTIC DELIGHT DELIVERED",
+    "subhead": "{winner} guided {winnerClub} to league glory, and the championship trophy takes centre stage."
+  },
+  {
+    "id": "h1-117",
+    "situation": "league-title",
+    "headline": "THE TOP TABLE CELEBRATES",
+    "subhead": "The league title is heading to {winnerClub}, giving {winner} a championship season to savour."
+  },
+  {
+    "id": "h1-118",
+    "situation": "league-title",
+    "headline": "CHAMPIONS WRITE THE STORY",
+    "subhead": "{winnerClub} secured the domestic league crown, making this a title-winning campaign for {winner}."
+  },
+  {
+    "id": "h1-119",
+    "situation": "league-title",
+    "headline": "THE CROWN FINDS A HOME",
+    "subhead": "{winner} celebrates league success with {winnerClub}, whose domestic campaign ended at the top."
+  },
+  {
+    "id": "h1-120",
+    "situation": "comeback",
+    "headline": "THE CHASE GAINS GROUND",
+    "subhead": "{trailer} won the season and reduced the overall gap to {leader}, keeping the pursuit alive."
+  },
+  {
+    "id": "h1-121",
+    "situation": "comeback",
+    "headline": "A STEP BACK TOWARD THE LEAD",
+    "subhead": "This season went to {trailer}, who has closed the overall distance to {leader}."
+  },
+  {
+    "id": "h1-122",
+    "situation": "comeback",
+    "headline": "THE PURSUIT FINDS ITS FEET",
+    "subhead": "{trailer} claimed the season win, cutting the overall gap to {leader} in the process."
+  },
+  {
+    "id": "h1-123",
+    "situation": "comeback",
+    "headline": "A LITTLE CLOSER NOW",
+    "subhead": "After winning this season, {trailer} has reduced the points advantage held overall by {leader}."
+  },
+  {
+    "id": "h1-124",
+    "situation": "comeback",
+    "headline": "THE GAP GETS A TRIM",
+    "subhead": "{trailer} took the season and narrowed the overall difference, though {leader} remains in front."
+  },
+  {
+    "id": "h1-125",
+    "situation": "comeback",
+    "headline": "THE COMEBACK HAS BEGUN",
+    "subhead": "A season win for {trailer} has brought the overall leader {leader} closer within reach."
+  },
+  {
+    "id": "h1-126",
+    "situation": "comeback",
+    "headline": "A GAIN IN THE CHASE",
+    "subhead": "{trailer} won this season, trimming the overall lead still held by {leader}."
+  },
+  {
+    "id": "h1-127",
+    "situation": "comeback",
+    "headline": "THE ROAD BACK OPENS",
+    "subhead": "{trailer} collected a season victory and made progress toward {leader} in the overall standings."
+  },
+  {
+    "id": "h1-128",
+    "situation": "comeback",
+    "headline": "THE LEADER LOOKS BACK",
+    "subhead": "{trailer} has closed the overall gap to {leader} after claiming the season result."
+  },
+  {
+    "id": "h1-129",
+    "situation": "comeback",
+    "headline": "POINTS TAKEN GROUND GAINED",
+    "subhead": "A season victory for {trailer} means {leader}'s overall advantage is now smaller than before."
+  },
+  {
+    "id": "h1-130",
+    "situation": "comeback",
+    "headline": "THE CHASER STRIKES BACK",
+    "subhead": "{trailer} won the season and cut into the overall points lead held by {leader}."
+  },
+  {
+    "id": "h1-131",
+    "situation": "comeback",
+    "headline": "A TURN IN THE PURSUIT",
+    "subhead": "{leader} remains ahead overall, but {trailer} gained ground by winning this season."
+  },
+  {
+    "id": "h1-132",
+    "situation": "comeback",
+    "headline": "THE MARGIN MEETS ITS MATCH",
+    "subhead": "{trailer} took the season win and reduced the overall margin separating the two managers."
+  },
+  {
+    "id": "h1-133",
+    "situation": "comeback",
+    "headline": "A CHASE WORTH WATCHING",
+    "subhead": "{trailer} has moved closer to {leader} overall thanks to a winning season."
+  },
+  {
+    "id": "h1-134",
+    "situation": "comeback",
+    "headline": "THE GAP IS SHRINKING",
+    "subhead": "Season success for {trailer} has narrowed the overall lead still held by {leader}."
+  },
+  {
+    "id": "h1-135",
+    "situation": "comeback",
+    "headline": "A REPLY ON THE BOARD",
+    "subhead": "{trailer} answered with a season win, closing the overall gap to {leader}."
+  },
+  {
+    "id": "h1-136",
+    "situation": "comeback",
+    "headline": "THE COMEBACK COLUMN",
+    "subhead": "{trailer} won the latest season and trimmed the overall distance to {leader}."
+  },
+  {
+    "id": "h1-137",
+    "situation": "lead-extended",
+    "headline": "THE LEADER PULLS AWAY",
+    "subhead": "{leader} won the season and widened the overall points gap to {trailer}."
+  },
+  {
+    "id": "h1-138",
+    "situation": "lead-extended",
+    "headline": "MORE ROOM AT THE TOP",
+    "subhead": "A season win for {leader} has extended the overall advantage over {trailer}."
+  },
+  {
+    "id": "h1-139",
+    "situation": "lead-extended",
+    "headline": "THE LEAD GETS LONGER",
+    "subhead": "{leader} added to the overall cushion by taking this season ahead of {trailer}."
+  },
+  {
+    "id": "h1-140",
+    "situation": "lead-extended",
+    "headline": "POINTS PILE UP FRONT",
+    "subhead": "{leader} claimed another season win and moved further ahead of {trailer} overall."
+  },
+  {
+    "id": "h1-141",
+    "situation": "lead-extended",
+    "headline": "THE GAP TAKES A STEP",
+    "subhead": "This season went to {leader}, whose overall advantage over {trailer} has grown."
+  },
+  {
+    "id": "h1-142",
+    "situation": "lead-extended",
+    "headline": "FRONT RUNNER FINDS MORE",
+    "subhead": "{leader} won the season, increasing the overall gap between the two managers."
+  },
+  {
+    "id": "h1-143",
+    "situation": "lead-extended",
+    "headline": "THE LEADER ADDS DISTANCE",
+    "subhead": "A winning season has put {leader} further ahead of {trailer} in the overall standings."
+  },
+  {
+    "id": "h1-144",
+    "situation": "lead-extended",
+    "headline": "ANOTHER STEP CLEAR",
+    "subhead": "{leader} extended the overall lead over {trailer} by winning the latest season."
+  },
+  {
+    "id": "h1-145",
+    "situation": "lead-extended",
+    "headline": "THE CUSHION GETS CUSHIONIER",
+    "subhead": "{leader} took the season and gave the overall advantage over {trailer} a little more padding."
+  },
+  {
+    "id": "h1-146",
+    "situation": "lead-extended",
+    "headline": "THE VIEW FROM FIRST",
+    "subhead": "{leader} stays in front overall and has increased the gap by winning this season."
+  },
+  {
+    "id": "h1-147",
+    "situation": "lead-extended",
+    "headline": "MORE POINTS MORE DISTANCE",
+    "subhead": "{leader} collected the season victory, stretching the overall points lead over {trailer}."
+  },
+  {
+    "id": "h1-148",
+    "situation": "lead-extended",
+    "headline": "A LEAD WITH LEGS",
+    "subhead": "The latest season went to {leader}, who now has a larger overall cushion over {trailer}."
+  },
+  {
+    "id": "h1-149",
+    "situation": "lead-extended",
+    "headline": "OUT IN FRONT AGAIN",
+    "subhead": "{leader} won another season and extended the overall advantage in the Showdown standings."
+  },
+  {
+    "id": "h1-150",
+    "situation": "lead-extended",
+    "headline": "THE GAP GROWS AGAIN",
+    "subhead": "{leader} has moved further clear of {trailer} overall after winning this season."
+  },
+  {
+    "id": "h1-151",
+    "situation": "lead-extended",
+    "headline": "FRONT PAGE FOR THE LEADER",
+    "subhead": "A season win allowed {leader} to widen the overall points lead over {trailer}."
+  },
+  {
+    "id": "h1-152",
+    "situation": "lead-extended",
+    "headline": "THE ADVANTAGE BUILDS",
+    "subhead": "{leader} secured the season result, leaving {trailer} further behind in the overall standings."
+  },
+  {
+    "id": "h1-153",
+    "situation": "level-overall",
+    "headline": "THE OVERALL SCORES ALIGN",
+    "subhead": "{managerA} and {managerB} are level overall after this season, leaving the Showdown evenly poised."
+  },
+  {
+    "id": "h1-154",
+    "situation": "level-overall",
+    "headline": "A LEVEL PLAYING LEDGER",
+    "subhead": "The latest season leaves {managerA} and {managerB} with matching overall Showdown totals."
+  },
+  {
+    "id": "h1-155",
+    "situation": "level-overall",
+    "headline": "THE BIG PICTURE IS EVEN",
+    "subhead": "{managerA} and {managerB} finish this season level on overall points in the Showdown."
+  },
+  {
+    "id": "h1-156",
+    "situation": "level-overall",
+    "headline": "NOTHING BETWEEN THEM OVERALL",
+    "subhead": "After this season, {managerA} and {managerB} share the same overall points total."
+  },
+  {
+    "id": "h1-157",
+    "situation": "level-overall",
+    "headline": "THE OVERALL BALANCE RETURNS",
+    "subhead": "The Showdown standings are level after this season, with {managerA} and {managerB} equal on points."
+  },
+  {
+    "id": "h1-158",
+    "situation": "level-overall",
+    "headline": "EVEN IN THE LONG VIEW",
+    "subhead": "{managerA} and {managerB} have matching overall totals as this season comes to a close."
+  },
+  {
+    "id": "h1-159",
+    "situation": "level-overall",
+    "headline": "THE SHOWDOWN STANDS SQUARE",
+    "subhead": "The season's results leave {managerA} and {managerB} level on points across the Showdown."
+  },
+  {
+    "id": "h1-160",
+    "situation": "level-overall",
+    "headline": "OVERALL HONOURS EVEN",
+    "subhead": "{managerA} and {managerB} end this season with the same overall Showdown score."
+  },
+  {
+    "id": "h1-161",
+    "situation": "level-overall",
+    "headline": "TWO TOTALS ONE NUMBER",
+    "subhead": "The overall standings are even after this season, with {managerA} and {managerB} tied on points."
+  },
+  {
+    "id": "h1-162",
+    "situation": "level-overall",
+    "headline": "THE LEDGER LEVELS OUT",
+    "subhead": "This season leaves the Showdown totals equal for {managerA} and {managerB} overall."
+  },
+  {
+    "id": "h1-163",
+    "situation": "level-overall",
+    "headline": "THE BIG SCOREBOARD BALANCES",
+    "subhead": "{managerA} and {managerB} are all square on overall points after the latest season."
+  },
+  {
+    "id": "h1-164",
+    "situation": "level-overall",
+    "headline": "A SHOWDOWN IN EQUILIBRIUM",
+    "subhead": "The overall points now match for {managerA} and {managerB}, following the season's conclusion."
+  },
+  {
+    "id": "h1-165",
+    "situation": "level-overall",
+    "headline": "LEVEL IN THE LONG GAME",
+    "subhead": "{managerA} and {managerB} leave this season with equal overall Showdown points totals."
+  },
+  {
+    "id": "h1-166",
+    "situation": "level-overall",
+    "headline": "THE TOTALS SHAKE HANDS",
+    "subhead": "After this season, the overall standings show {managerA} and {managerB} on equal points."
+  },
+  {
+    "id": "h1-167",
+    "situation": "level-overall",
+    "headline": "THE OVERALL PICTURE MATCHES",
+    "subhead": "{managerA} and {managerB} have drawn level in the overall standings following this season."
+  },
+  {
+    "id": "h1-168",
+    "situation": "level-overall",
+    "headline": "ALL SQUARE ACROSS SEASONS",
+    "subhead": "The Showdown totals are equal after this campaign, leaving {managerA} and {managerB} level overall."
+  },
+  {
+    "id": "h1-169",
+    "situation": "winning-streak",
+    "headline": "THE RUN ROLLS ON",
+    "subhead": "{winner} has won at least three consecutive seasons, adding another chapter to the winning streak."
+  },
+  {
+    "id": "h1-170",
+    "situation": "winning-streak",
+    "headline": "ANOTHER SEASON ANOTHER WIN",
+    "subhead": "{winner} keeps a run of at least three straight season victories going with the latest result."
+  },
+  {
+    "id": "h1-171",
+    "situation": "winning-streak",
+    "headline": "THE STREAK HAS LEGS",
+    "subhead": "A further season win for {winner} extends a streak already spanning at least three victories."
+  },
+  {
+    "id": "h1-172",
+    "situation": "winning-streak",
+    "headline": "THE WINNING WAYS CONTINUE",
+    "subhead": "{winner} has taken another season, keeping a run of at least three straight wins alive."
+  },
+  {
+    "id": "h1-173",
+    "situation": "winning-streak",
+    "headline": "A HABIT WORTH KEEPING",
+    "subhead": "{winner} adds another season success to a winning streak of at least three consecutive campaigns."
+  },
+  {
+    "id": "h1-174",
+    "situation": "winning-streak",
+    "headline": "THE RUN CONTINUES IN STYLE",
+    "subhead": "{winner} has won the season again, extending a streak that now covers at least three seasons."
+  },
+  {
+    "id": "h1-175",
+    "situation": "winning-streak",
+    "headline": "THE STREAK MAKES HEADLINES",
+    "subhead": "Another season belongs to {winner}, whose run of consecutive wins has reached at least three."
+  },
+  {
+    "id": "h1-176",
+    "situation": "winning-streak",
+    "headline": "THE WINNING COLUMN GROWS",
+    "subhead": "{winner} has put together at least three consecutive season wins and added another this time."
+  },
+  {
+    "id": "h1-177",
+    "situation": "winning-streak",
+    "headline": "ANOTHER ENTRY IN THE RUN",
+    "subhead": "The latest season win keeps {winner}'s streak going, with at least three consecutive victories."
+  },
+  {
+    "id": "h1-178",
+    "situation": "winning-streak",
+    "headline": "THE SEASONS KEEP COMING",
+    "subhead": "{winner} wins again, extending a season winning streak that has already reached at least three."
+  },
+  {
+    "id": "h1-179",
+    "situation": "winning-streak",
+    "headline": "THREE OR MORE AND RISING",
+    "subhead": "Another season success keeps {winner} on a run of at least three consecutive victories."
+  },
+  {
+    "id": "h1-180",
+    "situation": "winning-streak",
+    "headline": "THE STREAK STILL SHINES",
+    "subhead": "{winner} has extended a winning run across at least three seasons with another victory."
+  },
+  {
+    "id": "h1-181",
+    "situation": "winning-streak",
+    "headline": "A SEQUENCE TO SAVOUR",
+    "subhead": "{winner} claimed another season, keeping a streak of at least three consecutive wins intact."
+  },
+  {
+    "id": "h1-182",
+    "situation": "winning-streak",
+    "headline": "THE RUN IS STILL RUNNING",
+    "subhead": "{winner} wins the season again, extending a sequence of at least three straight victories."
+  },
+  {
+    "id": "h1-183",
+    "situation": "winning-streak",
+    "headline": "MORE MOMENTUM MORE MEMORIES",
+    "subhead": "The season goes to {winner}, adding to a streak of at least three consecutive wins."
+  },
+  {
+    "id": "h1-184",
+    "situation": "winning-streak",
+    "headline": "THE STREAK FINDS ANOTHER GEAR",
+    "subhead": "{winner} has another season victory and a winning streak stretching across at least three campaigns."
+  },
+  {
+    "id": "h1-185",
+    "situation": "final-season-decider",
+    "headline": "THE FINAL CHAPTER AWAITS",
+    "subhead": "The Showdown remains open as {managerA} and {managerB} prepare for the final season."
+  },
+  {
+    "id": "h1-186",
+    "situation": "final-season-decider",
+    "headline": "ONE SEASON LEFT TO WRITE",
+    "subhead": "{managerA} and {managerB} head into the final season with the overall Showdown still open."
+  },
+  {
+    "id": "h1-187",
+    "situation": "final-season-decider",
+    "headline": "THE LAST ACT BECKONS",
+    "subhead": "With the Showdown still undecided, {managerA} and {managerB} approach the final season."
+  },
+  {
+    "id": "h1-188",
+    "situation": "final-season-decider",
+    "headline": "THE DECIDER DRAWS NEAR",
+    "subhead": "The final season awaits {managerA} and {managerB}, and the Showdown remains open."
+  },
+  {
+    "id": "h1-189",
+    "situation": "final-season-decider",
+    "headline": "ONE MORE CAMPAIGN TO GO",
+    "subhead": "{managerA} and {managerB} face a final season with the overall result still unsettled."
+  },
+  {
+    "id": "h1-190",
+    "situation": "final-season-decider",
+    "headline": "THE FINALE TAKES SHAPE",
+    "subhead": "The Showdown is still open, leaving {managerA} and {managerB} with one season to play."
+  },
+  {
+    "id": "h1-191",
+    "situation": "final-season-decider",
+    "headline": "THE LAST SEASON CALLS",
+    "subhead": "{managerA} and {managerB} enter the final season with the Showdown yet to be settled."
+  },
+  {
+    "id": "h1-192",
+    "situation": "final-season-decider",
+    "headline": "ALL ROADS LEAD TO FINALE",
+    "subhead": "One season remains, and {managerA} and {managerB} still have an open Showdown to contest."
+  },
+  {
+    "id": "h1-193",
+    "situation": "final-season-decider",
+    "headline": "THE FINAL PAGE IS BLANK",
+    "subhead": "The overall outcome remains open as {managerA} and {managerB} look toward the final season."
+  },
+  {
+    "id": "h1-194",
+    "situation": "final-season-decider",
+    "headline": "THE LAST CAMPAIGN LOOMS",
+    "subhead": "{managerA} and {managerB} have one season left in a Showdown that remains undecided."
+  },
+  {
+    "id": "h1-195",
+    "situation": "final-season-decider",
+    "headline": "THE FINALE IS SET",
+    "subhead": "The final season approaches with {managerA} and {managerB} still contesting an open Showdown."
+  },
+  {
+    "id": "h1-196",
+    "situation": "final-season-decider",
+    "headline": "ONE LAST SEASON'S WORK",
+    "subhead": "{managerA} and {managerB} turn toward the final season with the overall outcome still open."
+  },
+  {
+    "id": "h1-197",
+    "situation": "final-season-decider",
+    "headline": "THE SHOWDOWN'S FINAL ACT",
+    "subhead": "A final season remains for {managerA} and {managerB}, with the Showdown still undecided."
+  },
+  {
+    "id": "h1-198",
+    "situation": "final-season-decider",
+    "headline": "THE LAST WORD AWAITS",
+    "subhead": "{managerA} and {managerB} approach their final season with the overall result still open."
+  },
+  {
+    "id": "h1-199",
+    "situation": "final-season-decider",
+    "headline": "THE HOME STRETCH BEGINS",
+    "subhead": "The Showdown remains unsettled as {managerA} and {managerB} prepare for its final season."
+  },
+  {
+    "id": "h1-200",
+    "situation": "final-season-decider",
+    "headline": "ONE SEASON TO SETTLE IT",
+    "subhead": "The final season lies ahead, with {managerA} and {managerB} still contesting the Showdown."
+  }
+]
