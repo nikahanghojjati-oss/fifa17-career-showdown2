@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 27 Oct, 11:58 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 28 Oct, 12:02 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.9-r85** (main `076177e`, Tue 27 Oct 11:34 AM)
 
@@ -2138,10 +2138,4 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
 | 🟧 Opus | **V-F2** | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | queued · after G-F1 |
-
-## Shipped today
-
-- 11:34 AM · #1022 Claude deep audit button, and full output on Claude reviews
-- 11:17 AM · #1023 Re-pin the L5 Rules check to r85 on main
-- 8:49 AM · #1021 Release 1.9.9-r85: marble music player, premium crests, safer shared writes
 
