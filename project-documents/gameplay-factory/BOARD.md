@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 28 Oct, 3:24 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 28 Oct, 3:25 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.9-r85** (main `076177e`, Tue 27 Oct 11:34 AM)
 
@@ -82,7 +82,7 @@ Updated Wed 28 Oct, 3:24 AM Boston time. Bug hunting only, no new features until
 
 **#17 · 1839** `G` r76 gallery refresh: every screen from the final workbench, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 272 h ago
+⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 273 h ago
 
 ### 👉 Next for you, in this order
 
