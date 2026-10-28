@@ -138,3 +138,5 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-28 05:09 | Team G | Team V | HO-036 SENT | r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards | yes (receive it) |
 | 2026-10-28 05:22 | Team V | Team G | HO-036 RECEIVED | r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards | no |
 | 2026-10-28 12:39 | Team G | Team V | HO-036 RECEIVED | r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards | no |
+| 2026-10-28 18:49 | Team G | Team V | HO-036 RECEIVED | r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards | no |
+| 2026-10-28 20:04 | Team G | Team V | HO-036 RECEIVED | r86 content pack look: commentary strip, season front page screen, Final Winner page, club and scouting cards | no |
