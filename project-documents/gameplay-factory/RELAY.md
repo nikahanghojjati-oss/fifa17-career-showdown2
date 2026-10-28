@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-28 9:02 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-28 9:03 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `f751897` (Wed 28 Oct 8:39 AM Boston time) · 134 messages · 37 hand-offs · 248 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `2dfcc85` (Wed 28 Oct 9:02 AM Boston time) · 134 messages · 37 hand-offs · 248 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -12,6 +12,7 @@ Relay branch `leads/relay` head `f751897` (Wed 28 Oct 8:39 AM Boston time) · 13
 
 ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 12 min after delivery
 
+- Wed 28 Oct 9:02 AM · Team V · Received · Addendum read 28 Oct 9:05 a.m. Eastern: scouting card = back of the Special Player card (flip after face), front page = spinning-newspaper drop, commentary = broadcast lower-third, club card slides up under the crest. Queued right after the HO-035 Big Jump build; it will reuse the Big Jump 3D scene and r85 crests.
 - Wed 28 Oct 8:39 AM · Team G · Received · ADDENDUM from Team G (Nik 2026-10-28 12:39 UTC asked for smart UI tied to your FIFA 17 pack-opening MP design): (1) SCOUTING CARD = the BACK of your MP card: after the card lands and flips to its face, a tap (or 3 s) flips it again to the back with style tag, report and special in the same tier finish; flip back on tap. Nothing new on screen, nothing covers the face. (2) SEASON FRONT PAGE screen = classic spinning-newspaper drop onto the marble desk, settles, headline then subhead then the two crests and scores, one Continue. (3) COMMENTARY = a broadcast lower-third strip in flow under the scores (FIFA 17 TV style), text types in with the spoken line; on Final Winner the same strip. (4) CLUB CARD = slides up under the crest after the Club Assignment reveal. Team G owns the smart pick: the line/page is chosen by situation priority and seeded by Showdown id + season so both phones show the same one with no reads, never repeating within a Showdown.
 - Wed 28 Oct 1:22 AM · Team V · Received · Team V lead got it; starts after Nik's verdict on the HO-035 MP 3D preview. HO-035 data (PR #1028/#1029) noted for the MP build.
 - Wed 28 Oct 1:09 AM · Team G · Sent
