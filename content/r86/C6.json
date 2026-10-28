@@ -1,0 +1,1002 @@
+[
+  {
+    "club": "Arsenal",
+    "mood": "win",
+    "text": "A win for the Gunners, and north London has another reason to celebrate."
+  },
+  {
+    "club": "Arsenal",
+    "mood": "win",
+    "text": "the Gunners have earned their moment; let the cheers roll around north London."
+  },
+  {
+    "club": "Arsenal",
+    "mood": "win",
+    "text": "A result for the Gunners that brings a little extra sunshine to north London."
+  },
+  {
+    "club": "Arsenal",
+    "mood": "win",
+    "text": "north London can enjoy this victory, with the Gunners adding another happy chapter."
+  },
+  {
+    "club": "Arsenal",
+    "mood": "win",
+    "text": "the Gunners have won, and even the scarves in north London might need a celebratory dance."
+  },
+  {
+    "club": "Bournemouth",
+    "mood": "win",
+    "text": "A win for the Cherries, and the south coast has another reason to celebrate."
+  },
+  {
+    "club": "Bournemouth",
+    "mood": "win",
+    "text": "the Cherries have earned their moment; let the cheers roll around the south coast."
+  },
+  {
+    "club": "Bournemouth",
+    "mood": "win",
+    "text": "A result for the Cherries that brings a little extra sunshine to the south coast."
+  },
+  {
+    "club": "Bournemouth",
+    "mood": "win",
+    "text": "the south coast can enjoy this victory, with the Cherries adding another happy chapter."
+  },
+  {
+    "club": "Bournemouth",
+    "mood": "win",
+    "text": "the Cherries have won, and even the scarves in the south coast might need a celebratory dance."
+  },
+  {
+    "club": "Burnley",
+    "mood": "win",
+    "text": "A win for the Clarets, and Turf Moor has another reason to celebrate."
+  },
+  {
+    "club": "Burnley",
+    "mood": "win",
+    "text": "the Clarets have earned their moment; let the cheers roll around Turf Moor."
+  },
+  {
+    "club": "Burnley",
+    "mood": "win",
+    "text": "A result for the Clarets that brings a little extra sunshine to Turf Moor."
+  },
+  {
+    "club": "Burnley",
+    "mood": "win",
+    "text": "Turf Moor can enjoy this victory, with the Clarets adding another happy chapter."
+  },
+  {
+    "club": "Burnley",
+    "mood": "win",
+    "text": "the Clarets have won, and even the scarves in Turf Moor might need a celebratory dance."
+  },
+  {
+    "club": "Chelsea",
+    "mood": "win",
+    "text": "A win for the Blues, and Stamford Bridge has another reason to celebrate."
+  },
+  {
+    "club": "Chelsea",
+    "mood": "win",
+    "text": "the Blues have earned their moment; let the cheers roll around Stamford Bridge."
+  },
+  {
+    "club": "Chelsea",
+    "mood": "win",
+    "text": "A result for the Blues that brings a little extra sunshine to Stamford Bridge."
+  },
+  {
+    "club": "Chelsea",
+    "mood": "win",
+    "text": "Stamford Bridge can enjoy this victory, with the Blues adding another happy chapter."
+  },
+  {
+    "club": "Chelsea",
+    "mood": "win",
+    "text": "the Blues have won, and even the scarves in Stamford Bridge might need a celebratory dance."
+  },
+  {
+    "club": "Crystal Palace",
+    "mood": "win",
+    "text": "A win for the Eagles, and Selhurst Park has another reason to celebrate."
+  },
+  {
+    "club": "Crystal Palace",
+    "mood": "win",
+    "text": "the Eagles have earned their moment; let the cheers roll around Selhurst Park."
+  },
+  {
+    "club": "Crystal Palace",
+    "mood": "win",
+    "text": "A result for the Eagles that brings a little extra sunshine to Selhurst Park."
+  },
+  {
+    "club": "Crystal Palace",
+    "mood": "win",
+    "text": "Selhurst Park can enjoy this victory, with the Eagles adding another happy chapter."
+  },
+  {
+    "club": "Crystal Palace",
+    "mood": "win",
+    "text": "the Eagles have won, and even the scarves in Selhurst Park might need a celebratory dance."
+  },
+  {
+    "club": "Everton",
+    "mood": "win",
+    "text": "A win for the Toffees, and Goodison Park has another reason to celebrate."
+  },
+  {
+    "club": "Everton",
+    "mood": "win",
+    "text": "the Toffees have earned their moment; let the cheers roll around Goodison Park."
+  },
+  {
+    "club": "Everton",
+    "mood": "win",
+    "text": "A result for the Toffees that brings a little extra sunshine to Goodison Park."
+  },
+  {
+    "club": "Everton",
+    "mood": "win",
+    "text": "Goodison Park can enjoy this victory, with the Toffees adding another happy chapter."
+  },
+  {
+    "club": "Everton",
+    "mood": "win",
+    "text": "the Toffees have won, and even the scarves in Goodison Park might need a celebratory dance."
+  },
+  {
+    "club": "Hull City",
+    "mood": "win",
+    "text": "A win for the Tigers, and Hull has another reason to celebrate."
+  },
+  {
+    "club": "Hull City",
+    "mood": "win",
+    "text": "the Tigers have earned their moment; let the cheers roll around Hull."
+  },
+  {
+    "club": "Hull City",
+    "mood": "win",
+    "text": "A result for the Tigers that brings a little extra sunshine to Hull."
+  },
+  {
+    "club": "Hull City",
+    "mood": "win",
+    "text": "Hull can enjoy this victory, with the Tigers adding another happy chapter."
+  },
+  {
+    "club": "Hull City",
+    "mood": "win",
+    "text": "the Tigers have won, and even the scarves in Hull might need a celebratory dance."
+  },
+  {
+    "club": "Leicester City",
+    "mood": "win",
+    "text": "A win for the Foxes, and Leicester has another reason to celebrate."
+  },
+  {
+    "club": "Leicester City",
+    "mood": "win",
+    "text": "the Foxes have earned their moment; let the cheers roll around Leicester."
+  },
+  {
+    "club": "Leicester City",
+    "mood": "win",
+    "text": "A result for the Foxes that brings a little extra sunshine to Leicester."
+  },
+  {
+    "club": "Leicester City",
+    "mood": "win",
+    "text": "Leicester can enjoy this victory, with the Foxes adding another happy chapter."
+  },
+  {
+    "club": "Leicester City",
+    "mood": "win",
+    "text": "the Foxes have won, and even the scarves in Leicester might need a celebratory dance."
+  },
+  {
+    "club": "Liverpool",
+    "mood": "win",
+    "text": "A win for the Reds, and Anfield has another reason to celebrate."
+  },
+  {
+    "club": "Liverpool",
+    "mood": "win",
+    "text": "the Reds have earned their moment; let the cheers roll around Anfield."
+  },
+  {
+    "club": "Liverpool",
+    "mood": "win",
+    "text": "A result for the Reds that brings a little extra sunshine to Anfield."
+  },
+  {
+    "club": "Liverpool",
+    "mood": "win",
+    "text": "Anfield can enjoy this victory, with the Reds adding another happy chapter."
+  },
+  {
+    "club": "Liverpool",
+    "mood": "win",
+    "text": "the Reds have won, and even the scarves in Anfield might need a celebratory dance."
+  },
+  {
+    "club": "Manchester City",
+    "mood": "win",
+    "text": "A win for the Citizens, and Manchester has another reason to celebrate."
+  },
+  {
+    "club": "Manchester City",
+    "mood": "win",
+    "text": "the Citizens have earned their moment; let the cheers roll around Manchester."
+  },
+  {
+    "club": "Manchester City",
+    "mood": "win",
+    "text": "A result for the Citizens that brings a little extra sunshine to Manchester."
+  },
+  {
+    "club": "Manchester City",
+    "mood": "win",
+    "text": "Manchester can enjoy this victory, with the Citizens adding another happy chapter."
+  },
+  {
+    "club": "Manchester City",
+    "mood": "win",
+    "text": "the Citizens have won, and even the scarves in Manchester might need a celebratory dance."
+  },
+  {
+    "club": "Manchester United",
+    "mood": "win",
+    "text": "A win for the Red Devils, and Old Trafford has another reason to celebrate."
+  },
+  {
+    "club": "Manchester United",
+    "mood": "win",
+    "text": "the Red Devils have earned their moment; let the cheers roll around Old Trafford."
+  },
+  {
+    "club": "Manchester United",
+    "mood": "win",
+    "text": "A result for the Red Devils that brings a little extra sunshine to Old Trafford."
+  },
+  {
+    "club": "Manchester United",
+    "mood": "win",
+    "text": "Old Trafford can enjoy this victory, with the Red Devils adding another happy chapter."
+  },
+  {
+    "club": "Manchester United",
+    "mood": "win",
+    "text": "the Red Devils have won, and even the scarves in Old Trafford might need a celebratory dance."
+  },
+  {
+    "club": "Middlesbrough",
+    "mood": "win",
+    "text": "A win for the Boro, and Teesside has another reason to celebrate."
+  },
+  {
+    "club": "Middlesbrough",
+    "mood": "win",
+    "text": "the Boro have earned their moment; let the cheers roll around Teesside."
+  },
+  {
+    "club": "Middlesbrough",
+    "mood": "win",
+    "text": "A result for the Boro that brings a little extra sunshine to Teesside."
+  },
+  {
+    "club": "Middlesbrough",
+    "mood": "win",
+    "text": "Teesside can enjoy this victory, with the Boro adding another happy chapter."
+  },
+  {
+    "club": "Middlesbrough",
+    "mood": "win",
+    "text": "the Boro have won, and even the scarves in Teesside might need a celebratory dance."
+  },
+  {
+    "club": "Southampton",
+    "mood": "win",
+    "text": "A win for the Saints, and the south coast has another reason to celebrate."
+  },
+  {
+    "club": "Southampton",
+    "mood": "win",
+    "text": "the Saints have earned their moment; let the cheers roll around the south coast."
+  },
+  {
+    "club": "Southampton",
+    "mood": "win",
+    "text": "A result for the Saints that brings a little extra sunshine to the south coast."
+  },
+  {
+    "club": "Southampton",
+    "mood": "win",
+    "text": "the south coast can enjoy this victory, with the Saints adding another happy chapter."
+  },
+  {
+    "club": "Southampton",
+    "mood": "win",
+    "text": "the Saints have won, and even the scarves in the south coast might need a celebratory dance."
+  },
+  {
+    "club": "Stoke City",
+    "mood": "win",
+    "text": "A win for the Potters, and Stoke-on-Trent has another reason to celebrate."
+  },
+  {
+    "club": "Stoke City",
+    "mood": "win",
+    "text": "the Potters have earned their moment; let the cheers roll around Stoke-on-Trent."
+  },
+  {
+    "club": "Stoke City",
+    "mood": "win",
+    "text": "A result for the Potters that brings a little extra sunshine to Stoke-on-Trent."
+  },
+  {
+    "club": "Stoke City",
+    "mood": "win",
+    "text": "Stoke-on-Trent can enjoy this victory, with the Potters adding another happy chapter."
+  },
+  {
+    "club": "Stoke City",
+    "mood": "win",
+    "text": "the Potters have won, and even the scarves in Stoke-on-Trent might need a celebratory dance."
+  },
+  {
+    "club": "Sunderland",
+    "mood": "win",
+    "text": "A win for the Black Cats, and Wearside has another reason to celebrate."
+  },
+  {
+    "club": "Sunderland",
+    "mood": "win",
+    "text": "the Black Cats have earned their moment; let the cheers roll around Wearside."
+  },
+  {
+    "club": "Sunderland",
+    "mood": "win",
+    "text": "A result for the Black Cats that brings a little extra sunshine to Wearside."
+  },
+  {
+    "club": "Sunderland",
+    "mood": "win",
+    "text": "Wearside can enjoy this victory, with the Black Cats adding another happy chapter."
+  },
+  {
+    "club": "Sunderland",
+    "mood": "win",
+    "text": "the Black Cats have won, and even the scarves in Wearside might need a celebratory dance."
+  },
+  {
+    "club": "Swansea City",
+    "mood": "win",
+    "text": "A win for the Swans, and south Wales has another reason to celebrate."
+  },
+  {
+    "club": "Swansea City",
+    "mood": "win",
+    "text": "the Swans have earned their moment; let the cheers roll around south Wales."
+  },
+  {
+    "club": "Swansea City",
+    "mood": "win",
+    "text": "A result for the Swans that brings a little extra sunshine to south Wales."
+  },
+  {
+    "club": "Swansea City",
+    "mood": "win",
+    "text": "south Wales can enjoy this victory, with the Swans adding another happy chapter."
+  },
+  {
+    "club": "Swansea City",
+    "mood": "win",
+    "text": "the Swans have won, and even the scarves in south Wales might need a celebratory dance."
+  },
+  {
+    "club": "Tottenham Hotspur",
+    "mood": "win",
+    "text": "A win for Spurs, and north London has another reason to celebrate."
+  },
+  {
+    "club": "Tottenham Hotspur",
+    "mood": "win",
+    "text": "Spurs have earned their moment; let the cheers roll around north London."
+  },
+  {
+    "club": "Tottenham Hotspur",
+    "mood": "win",
+    "text": "A result for Spurs that brings a little extra sunshine to north London."
+  },
+  {
+    "club": "Tottenham Hotspur",
+    "mood": "win",
+    "text": "north London can enjoy this victory, with Spurs adding another happy chapter."
+  },
+  {
+    "club": "Tottenham Hotspur",
+    "mood": "win",
+    "text": "Spurs have won, and even the scarves in north London might need a celebratory dance."
+  },
+  {
+    "club": "Watford",
+    "mood": "win",
+    "text": "A win for the Hornets, and Vicarage Road has another reason to celebrate."
+  },
+  {
+    "club": "Watford",
+    "mood": "win",
+    "text": "the Hornets have earned their moment; let the cheers roll around Vicarage Road."
+  },
+  {
+    "club": "Watford",
+    "mood": "win",
+    "text": "A result for the Hornets that brings a little extra sunshine to Vicarage Road."
+  },
+  {
+    "club": "Watford",
+    "mood": "win",
+    "text": "Vicarage Road can enjoy this victory, with the Hornets adding another happy chapter."
+  },
+  {
+    "club": "Watford",
+    "mood": "win",
+    "text": "the Hornets have won, and even the scarves in Vicarage Road might need a celebratory dance."
+  },
+  {
+    "club": "West Bromwich Albion",
+    "mood": "win",
+    "text": "A win for the Baggies, and the Hawthorns has another reason to celebrate."
+  },
+  {
+    "club": "West Bromwich Albion",
+    "mood": "win",
+    "text": "the Baggies have earned their moment; let the cheers roll around the Hawthorns."
+  },
+  {
+    "club": "West Bromwich Albion",
+    "mood": "win",
+    "text": "A result for the Baggies that brings a little extra sunshine to the Hawthorns."
+  },
+  {
+    "club": "West Bromwich Albion",
+    "mood": "win",
+    "text": "the Hawthorns can enjoy this victory, with the Baggies adding another happy chapter."
+  },
+  {
+    "club": "West Bromwich Albion",
+    "mood": "win",
+    "text": "the Baggies have won, and even the scarves in the Hawthorns might need a celebratory dance."
+  },
+  {
+    "club": "West Ham United",
+    "mood": "win",
+    "text": "A win for the Hammers, and east London has another reason to celebrate."
+  },
+  {
+    "club": "West Ham United",
+    "mood": "win",
+    "text": "the Hammers have earned their moment; let the cheers roll around east London."
+  },
+  {
+    "club": "West Ham United",
+    "mood": "win",
+    "text": "A result for the Hammers that brings a little extra sunshine to east London."
+  },
+  {
+    "club": "West Ham United",
+    "mood": "win",
+    "text": "east London can enjoy this victory, with the Hammers adding another happy chapter."
+  },
+  {
+    "club": "West Ham United",
+    "mood": "win",
+    "text": "the Hammers have won, and even the scarves in east London might need a celebratory dance."
+  },
+  {
+    "club": "Alavés",
+    "mood": "win",
+    "text": "A win for the Basque club, and Vitoria-Gasteiz has another reason to celebrate."
+  },
+  {
+    "club": "Alavés",
+    "mood": "win",
+    "text": "the Basque club have earned their moment; let the cheers roll around Vitoria-Gasteiz."
+  },
+  {
+    "club": "Alavés",
+    "mood": "win",
+    "text": "A result for the Basque club that brings a little extra sunshine to Vitoria-Gasteiz."
+  },
+  {
+    "club": "Alavés",
+    "mood": "win",
+    "text": "Vitoria-Gasteiz can enjoy this victory, with the Basque club adding another happy chapter."
+  },
+  {
+    "club": "Alavés",
+    "mood": "win",
+    "text": "the Basque club have won, and even the scarves in Vitoria-Gasteiz might need a celebratory dance."
+  },
+  {
+    "club": "Athletic Club",
+    "mood": "win",
+    "text": "A win for the Basque club, and Bilbao has another reason to celebrate."
+  },
+  {
+    "club": "Athletic Club",
+    "mood": "win",
+    "text": "the Basque club have earned their moment; let the cheers roll around Bilbao."
+  },
+  {
+    "club": "Athletic Club",
+    "mood": "win",
+    "text": "A result for the Basque club that brings a little extra sunshine to Bilbao."
+  },
+  {
+    "club": "Athletic Club",
+    "mood": "win",
+    "text": "Bilbao can enjoy this victory, with the Basque club adding another happy chapter."
+  },
+  {
+    "club": "Athletic Club",
+    "mood": "win",
+    "text": "the Basque club have won, and even the scarves in Bilbao might need a celebratory dance."
+  },
+  {
+    "club": "Atlético Madrid",
+    "mood": "win",
+    "text": "A win for the red and whites, and Madrid has another reason to celebrate."
+  },
+  {
+    "club": "Atlético Madrid",
+    "mood": "win",
+    "text": "the red and whites have earned their moment; let the cheers roll around Madrid."
+  },
+  {
+    "club": "Atlético Madrid",
+    "mood": "win",
+    "text": "A result for the red and whites that brings a little extra sunshine to Madrid."
+  },
+  {
+    "club": "Atlético Madrid",
+    "mood": "win",
+    "text": "Madrid can enjoy this victory, with the red and whites adding another happy chapter."
+  },
+  {
+    "club": "Atlético Madrid",
+    "mood": "win",
+    "text": "the red and whites have won, and even the scarves in Madrid might need a celebratory dance."
+  },
+  {
+    "club": "Barcelona",
+    "mood": "win",
+    "text": "A win for the Catalan club, and Camp Nou has another reason to celebrate."
+  },
+  {
+    "club": "Barcelona",
+    "mood": "win",
+    "text": "the Catalan club have earned their moment; let the cheers roll around Camp Nou."
+  },
+  {
+    "club": "Barcelona",
+    "mood": "win",
+    "text": "A result for the Catalan club that brings a little extra sunshine to Camp Nou."
+  },
+  {
+    "club": "Barcelona",
+    "mood": "win",
+    "text": "Camp Nou can enjoy this victory, with the Catalan club adding another happy chapter."
+  },
+  {
+    "club": "Barcelona",
+    "mood": "win",
+    "text": "the Catalan club have won, and even the scarves in Camp Nou might need a celebratory dance."
+  },
+  {
+    "club": "Celta Vigo",
+    "mood": "win",
+    "text": "A win for the Galician club, and Vigo has another reason to celebrate."
+  },
+  {
+    "club": "Celta Vigo",
+    "mood": "win",
+    "text": "the Galician club have earned their moment; let the cheers roll around Vigo."
+  },
+  {
+    "club": "Celta Vigo",
+    "mood": "win",
+    "text": "A result for the Galician club that brings a little extra sunshine to Vigo."
+  },
+  {
+    "club": "Celta Vigo",
+    "mood": "win",
+    "text": "Vigo can enjoy this victory, with the Galician club adding another happy chapter."
+  },
+  {
+    "club": "Celta Vigo",
+    "mood": "win",
+    "text": "the Galician club have won, and even the scarves in Vigo might need a celebratory dance."
+  },
+  {
+    "club": "Deportivo La Coruña",
+    "mood": "win",
+    "text": "A win for the Galician club, and A Coruña has another reason to celebrate."
+  },
+  {
+    "club": "Deportivo La Coruña",
+    "mood": "win",
+    "text": "the Galician club have earned their moment; let the cheers roll around A Coruña."
+  },
+  {
+    "club": "Deportivo La Coruña",
+    "mood": "win",
+    "text": "A result for the Galician club that brings a little extra sunshine to A Coruña."
+  },
+  {
+    "club": "Deportivo La Coruña",
+    "mood": "win",
+    "text": "A Coruña can enjoy this victory, with the Galician club adding another happy chapter."
+  },
+  {
+    "club": "Deportivo La Coruña",
+    "mood": "win",
+    "text": "the Galician club have won, and even the scarves in A Coruña might need a celebratory dance."
+  },
+  {
+    "club": "Eibar",
+    "mood": "win",
+    "text": "A win for the Basque club, and Eibar has another reason to celebrate."
+  },
+  {
+    "club": "Eibar",
+    "mood": "win",
+    "text": "the Basque club have earned their moment; let the cheers roll around Eibar."
+  },
+  {
+    "club": "Eibar",
+    "mood": "win",
+    "text": "A result for the Basque club that brings a little extra sunshine to Eibar."
+  },
+  {
+    "club": "Eibar",
+    "mood": "win",
+    "text": "Eibar can enjoy this victory, with the Basque club adding another happy chapter."
+  },
+  {
+    "club": "Eibar",
+    "mood": "win",
+    "text": "the Basque club have won, and even the scarves in Eibar might need a celebratory dance."
+  },
+  {
+    "club": "Espanyol",
+    "mood": "win",
+    "text": "A win for the Catalan club, and Barcelona has another reason to celebrate."
+  },
+  {
+    "club": "Espanyol",
+    "mood": "win",
+    "text": "the Catalan club have earned their moment; let the cheers roll around Barcelona."
+  },
+  {
+    "club": "Espanyol",
+    "mood": "win",
+    "text": "A result for the Catalan club that brings a little extra sunshine to Barcelona."
+  },
+  {
+    "club": "Espanyol",
+    "mood": "win",
+    "text": "Barcelona can enjoy this victory, with the Catalan club adding another happy chapter."
+  },
+  {
+    "club": "Espanyol",
+    "mood": "win",
+    "text": "the Catalan club have won, and even the scarves in Barcelona might need a celebratory dance."
+  },
+  {
+    "club": "Granada",
+    "mood": "win",
+    "text": "A win for the Andalusian club, and Granada has another reason to celebrate."
+  },
+  {
+    "club": "Granada",
+    "mood": "win",
+    "text": "the Andalusian club have earned their moment; let the cheers roll around Granada."
+  },
+  {
+    "club": "Granada",
+    "mood": "win",
+    "text": "A result for the Andalusian club that brings a little extra sunshine to Granada."
+  },
+  {
+    "club": "Granada",
+    "mood": "win",
+    "text": "Granada can enjoy this victory, with the Andalusian club adding another happy chapter."
+  },
+  {
+    "club": "Granada",
+    "mood": "win",
+    "text": "the Andalusian club have won, and even the scarves in Granada might need a celebratory dance."
+  },
+  {
+    "club": "Las Palmas",
+    "mood": "win",
+    "text": "A win for the Canary Islands club, and Gran Canaria has another reason to celebrate."
+  },
+  {
+    "club": "Las Palmas",
+    "mood": "win",
+    "text": "the Canary Islands club have earned their moment; let the cheers roll around Gran Canaria."
+  },
+  {
+    "club": "Las Palmas",
+    "mood": "win",
+    "text": "A result for the Canary Islands club that brings a little extra sunshine to Gran Canaria."
+  },
+  {
+    "club": "Las Palmas",
+    "mood": "win",
+    "text": "Gran Canaria can enjoy this victory, with the Canary Islands club adding another happy chapter."
+  },
+  {
+    "club": "Las Palmas",
+    "mood": "win",
+    "text": "the Canary Islands club have won, and even the scarves in Gran Canaria might need a celebratory dance."
+  },
+  {
+    "club": "Leganés",
+    "mood": "win",
+    "text": "A win for the Madrid-area club, and Leganés has another reason to celebrate."
+  },
+  {
+    "club": "Leganés",
+    "mood": "win",
+    "text": "the Madrid-area club have earned their moment; let the cheers roll around Leganés."
+  },
+  {
+    "club": "Leganés",
+    "mood": "win",
+    "text": "A result for the Madrid-area club that brings a little extra sunshine to Leganés."
+  },
+  {
+    "club": "Leganés",
+    "mood": "win",
+    "text": "Leganés can enjoy this victory, with the Madrid-area club adding another happy chapter."
+  },
+  {
+    "club": "Leganés",
+    "mood": "win",
+    "text": "the Madrid-area club have won, and even the scarves in Leganés might need a celebratory dance."
+  },
+  {
+    "club": "Málaga",
+    "mood": "win",
+    "text": "A win for the Andalusian club, and Málaga has another reason to celebrate."
+  },
+  {
+    "club": "Málaga",
+    "mood": "win",
+    "text": "the Andalusian club have earned their moment; let the cheers roll around Málaga."
+  },
+  {
+    "club": "Málaga",
+    "mood": "win",
+    "text": "A result for the Andalusian club that brings a little extra sunshine to Málaga."
+  },
+  {
+    "club": "Málaga",
+    "mood": "win",
+    "text": "Málaga can enjoy this victory, with the Andalusian club adding another happy chapter."
+  },
+  {
+    "club": "Málaga",
+    "mood": "win",
+    "text": "the Andalusian club have won, and even the scarves in Málaga might need a celebratory dance."
+  },
+  {
+    "club": "Osasuna",
+    "mood": "win",
+    "text": "A win for the Navarre club, and Pamplona has another reason to celebrate."
+  },
+  {
+    "club": "Osasuna",
+    "mood": "win",
+    "text": "the Navarre club have earned their moment; let the cheers roll around Pamplona."
+  },
+  {
+    "club": "Osasuna",
+    "mood": "win",
+    "text": "A result for the Navarre club that brings a little extra sunshine to Pamplona."
+  },
+  {
+    "club": "Osasuna",
+    "mood": "win",
+    "text": "Pamplona can enjoy this victory, with the Navarre club adding another happy chapter."
+  },
+  {
+    "club": "Osasuna",
+    "mood": "win",
+    "text": "the Navarre club have won, and even the scarves in Pamplona might need a celebratory dance."
+  },
+  {
+    "club": "Real Betis",
+    "mood": "win",
+    "text": "A win for the Andalusian club, and Seville has another reason to celebrate."
+  },
+  {
+    "club": "Real Betis",
+    "mood": "win",
+    "text": "the Andalusian club have earned their moment; let the cheers roll around Seville."
+  },
+  {
+    "club": "Real Betis",
+    "mood": "win",
+    "text": "A result for the Andalusian club that brings a little extra sunshine to Seville."
+  },
+  {
+    "club": "Real Betis",
+    "mood": "win",
+    "text": "Seville can enjoy this victory, with the Andalusian club adding another happy chapter."
+  },
+  {
+    "club": "Real Betis",
+    "mood": "win",
+    "text": "the Andalusian club have won, and even the scarves in Seville might need a celebratory dance."
+  },
+  {
+    "club": "Real Madrid",
+    "mood": "win",
+    "text": "A win for the Madrid club, and the Santiago Bernabéu has another reason to celebrate."
+  },
+  {
+    "club": "Real Madrid",
+    "mood": "win",
+    "text": "the Madrid club have earned their moment; let the cheers roll around the Santiago Bernabéu."
+  },
+  {
+    "club": "Real Madrid",
+    "mood": "win",
+    "text": "A result for the Madrid club that brings a little extra sunshine to the Santiago Bernabéu."
+  },
+  {
+    "club": "Real Madrid",
+    "mood": "win",
+    "text": "the Santiago Bernabéu can enjoy this victory, with the Madrid club adding another happy chapter."
+  },
+  {
+    "club": "Real Madrid",
+    "mood": "win",
+    "text": "the Madrid club have won, and even the scarves in the Santiago Bernabéu might need a celebratory dance."
+  },
+  {
+    "club": "Real Sociedad",
+    "mood": "win",
+    "text": "A win for the Basque club, and San Sebastián has another reason to celebrate."
+  },
+  {
+    "club": "Real Sociedad",
+    "mood": "win",
+    "text": "the Basque club have earned their moment; let the cheers roll around San Sebastián."
+  },
+  {
+    "club": "Real Sociedad",
+    "mood": "win",
+    "text": "A result for the Basque club that brings a little extra sunshine to San Sebastián."
+  },
+  {
+    "club": "Real Sociedad",
+    "mood": "win",
+    "text": "San Sebastián can enjoy this victory, with the Basque club adding another happy chapter."
+  },
+  {
+    "club": "Real Sociedad",
+    "mood": "win",
+    "text": "the Basque club have won, and even the scarves in San Sebastián might need a celebratory dance."
+  },
+  {
+    "club": "Sevilla",
+    "mood": "win",
+    "text": "A win for the Andalusian club, and Seville has another reason to celebrate."
+  },
+  {
+    "club": "Sevilla",
+    "mood": "win",
+    "text": "the Andalusian club have earned their moment; let the cheers roll around Seville."
+  },
+  {
+    "club": "Sevilla",
+    "mood": "win",
+    "text": "A result for the Andalusian club that brings a little extra sunshine to Seville."
+  },
+  {
+    "club": "Sevilla",
+    "mood": "win",
+    "text": "Seville can enjoy this victory, with the Andalusian club adding another happy chapter."
+  },
+  {
+    "club": "Sevilla",
+    "mood": "win",
+    "text": "the Andalusian club have won, and even the scarves in Seville might need a celebratory dance."
+  },
+  {
+    "club": "Sporting Gijón",
+    "mood": "win",
+    "text": "A win for the Asturian club, and Gijón has another reason to celebrate."
+  },
+  {
+    "club": "Sporting Gijón",
+    "mood": "win",
+    "text": "the Asturian club have earned their moment; let the cheers roll around Gijón."
+  },
+  {
+    "club": "Sporting Gijón",
+    "mood": "win",
+    "text": "A result for the Asturian club that brings a little extra sunshine to Gijón."
+  },
+  {
+    "club": "Sporting Gijón",
+    "mood": "win",
+    "text": "Gijón can enjoy this victory, with the Asturian club adding another happy chapter."
+  },
+  {
+    "club": "Sporting Gijón",
+    "mood": "win",
+    "text": "the Asturian club have won, and even the scarves in Gijón might need a celebratory dance."
+  },
+  {
+    "club": "Valencia",
+    "mood": "win",
+    "text": "A win for the Valencian club, and Mestalla has another reason to celebrate."
+  },
+  {
+    "club": "Valencia",
+    "mood": "win",
+    "text": "the Valencian club have earned their moment; let the cheers roll around Mestalla."
+  },
+  {
+    "club": "Valencia",
+    "mood": "win",
+    "text": "A result for the Valencian club that brings a little extra sunshine to Mestalla."
+  },
+  {
+    "club": "Valencia",
+    "mood": "win",
+    "text": "Mestalla can enjoy this victory, with the Valencian club adding another happy chapter."
+  },
+  {
+    "club": "Valencia",
+    "mood": "win",
+    "text": "the Valencian club have won, and even the scarves in Mestalla might need a celebratory dance."
+  },
+  {
+    "club": "Villarreal",
+    "mood": "win",
+    "text": "A win for the Yellow Submarine, and Villarreal has another reason to celebrate."
+  },
+  {
+    "club": "Villarreal",
+    "mood": "win",
+    "text": "the Yellow Submarine have earned their moment; let the cheers roll around Villarreal."
+  },
+  {
+    "club": "Villarreal",
+    "mood": "win",
+    "text": "A result for the Yellow Submarine that brings a little extra sunshine to Villarreal."
+  },
+  {
+    "club": "Villarreal",
+    "mood": "win",
+    "text": "Villarreal can enjoy this victory, with the Yellow Submarine adding another happy chapter."
+  },
+  {
+    "club": "Villarreal",
+    "mood": "win",
+    "text": "the Yellow Submarine have won, and even the scarves in Villarreal might need a celebratory dance."
+  }
+]
