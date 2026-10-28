@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-28T17:49:16Z", "by": "V", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-10-28T17:49:16Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-28T18:08:08Z", "by": "G", "status": "WORKING", "note": "Built: PR #1030 (branch claude-gameplay/r86-launch-list @d8425ac4) into gameplay/r86. Source SoFIFA roster 170002 (Sept 2016 launch, players_17.csv). 155 stay, 45 out, 52 in; tie at the cut (8 players at 86/76) kept whole = 207 rows pending Nik's card (199/200 = one-line change). Printed card stats, launch clubs/numbers/nations/positions; no Gabriel Jesus; scouting cards re-ordered + 52 new. Final SHA follows when merged."}]
 }
 ```
 
