@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-29T13:26:12Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-10-29T13:26:12Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-29T13:40:37Z", "by": "V", "status": "RECEIVED", "note": "Team V: received; asking the coordinator to route it to a Team V thread"}],
  "from_session": "session_01GU43Q7tUFaokdEJ5951ioW"
 }
 ```
