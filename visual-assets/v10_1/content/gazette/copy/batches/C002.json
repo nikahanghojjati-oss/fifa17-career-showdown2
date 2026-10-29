@@ -1,0 +1,220 @@
+{
+ "batch": 2,
+ "situation": "comfortable-win",
+ "edition": "season",
+ "desk": "The chief football writer",
+ "edited": true,
+ "writer": "claude-sonnet-helper",
+ "stories": [
+  {
+   "id": "sb2-01",
+   "byline": "From our touchline desk",
+   "standfirst": "{winner} took season {seasonNo} of {seasonsTotal} with authority, finishing {margin} ahead and leaving {loser} to ponder what might have been.",
+   "paragraphs": [
+    "Authority is a quiet quality, and {winner} showed plenty of it this season. The {winnerClub} manager closed on {winnerPoints} against {loserPoints}, a lead of {margin} that never felt in serious danger of being closed.",
+    "It was not a rout, and {loser} will take some comfort from that. But a gap of {margin} is a gap all the same, and {winnerClub} now carry the better story into the rivalry's next chapter.",
+    "With seasons still to play, nothing is settled. {loserClub} have the means to answer, and the Gazette expects the reply to be both prompt and proud."
+   ],
+   "pullquote": {
+    "text": "Calm hands win seasons like this one, and those hands wore a {winnerClub} badge.",
+    "who": "A Gazette columnist"
+   }
+  },
+  {
+   "id": "sb2-02",
+   "byline": "By the Gazette football desk",
+   "standfirst": "A lead of {margin} is the kind that lets a manager sleep, and {winner} will rest well after season {seasonNo}.",
+   "paragraphs": [
+    "Few things in this rivalry are as satisfying as a result that arrives without drama. {winner} finished season {seasonNo} on {winnerPoints}, with {loser} on {loserPoints}, and {winnerClub} were worthy owners of the margin of {margin}.",
+    "There is a difference between winning and being comfortable, and this season belonged firmly to the second kind. {loser} pushed where they could, yet {loserClub} were always chasing a pace they could not quite match.",
+    "The lesson for {loserClub} is simple and not unkind: find a few more points early, and the picture changes. The Gazette will be watching with interest."
+   ],
+   "pullquote": {
+    "text": "You could hear the {winnerClub} dugout exhale around the middle of the season.",
+    "who": "The press box"
+   }
+  },
+  {
+   "id": "sb2-03",
+   "byline": "Our rivalry correspondent",
+   "standfirst": "With {margin} between the two sides at the finish, {winnerClub} can claim season {seasonNo} as a performance of real substance.",
+   "paragraphs": [
+    "Substance, rather than spectacle, defined this season. {winner} gathered {winnerPoints} to {loser}'s {loserPoints}, and the resulting margin of {margin} was built patiently, season-long habits turning into a lead that proved sturdy.",
+    "For the wider rivalry, it is a useful marker. {winner} now has evidence that {winnerClub} can win a season on merit, while {loser} must decide how much of this was timing and how much was talent.",
+    "Expect {loserClub} to treat this as unfinished business. Rivalries of this quality rarely allow one season to become the whole story."
+   ],
+   "pullquote": {
+    "text": "Nobody hands out margins like that for nothing. Somebody earned every inch.",
+    "who": "Overheard in the dugout"
+   }
+  },
+  {
+   "id": "sb2-04",
+   "byline": "From the Gazette press gallery",
+   "standfirst": "Sensible, steady and a little ruthless: {winner} separated {winnerClub} from {loserClub} by {margin} and took season {seasonNo} in style.",
+   "paragraphs": [
+    "Ruthlessness need not be loud. {winner} went about season {seasonNo} with the tidy efficiency of a manager who knew the route, finishing on {winnerPoints} while {loser} had to settle for {loserPoints}.",
+    "That gap of {margin} will be talked about in the {winnerClub} camp for some time. At {loserClub}, the conversation will be shorter, firmer and entirely about how to turn the next season around.",
+    "The rivalry has gained a fresh edge, and that is good news for everyone who follows it. The next season arrives with something to prove on both sides."
+   ],
+   "pullquote": {
+    "text": "A margin like that is a polite way of saying, we meant it.",
+    "who": "A Gazette columnist"
+   }
+  },
+  {
+   "id": "sb2-05",
+   "byline": "Gazette football desk",
+   "standfirst": "Season {seasonNo} ends with {winner} holding a handsome advantage, and {loser} left with questions worth asking and time to answer.",
+   "paragraphs": [
+    "Handsome is the word. {winner} finished with {winnerPoints} against {loserPoints}, a lead of {margin} that gives {winnerClub} a comfortable seat and a generous view of the whole road still ahead.",
+    "Yet comfort is relative in a rivalry such as this. {loser} remains well within reach of a swing, and the {loserClub} manager knows better than anyone how quickly a season can turn.",
+    "So the questions pass to {loserClub}, and they are good ones. The answers, as ever, will be written on the scoreboard rather than in the press."
+   ],
+   "pullquote": {
+    "text": "Every handsome lead has a rival studying it carefully from the other side.",
+    "who": "The tea lady at the training ground"
+   }
+  },
+  {
+   "id": "sb2-06",
+   "byline": "By our senior correspondent",
+   "standfirst": "{winnerClub} lead {loserClub} by {margin} after season {seasonNo}, and the {winner} era, if that is what this is, has a promising first draft.",
+   "paragraphs": [
+    "Draft is perhaps the kindest term for a season of this quality. {winner} produced {winnerPoints}, {loser} produced {loserPoints}, and the margin of {margin} reads like the opening argument in a case that will run on.",
+    "The Gazette is wary of grand claims this early, yet the evidence favours {winnerClub}. A manager who wins by {margin} has shown both control and appetite, and those travel well across seasons.",
+    "{loser} will want a rewrite, and the pen is still in {loserClub} hands. The next chapter promises to be sharper for both of them."
+   ],
+   "pullquote": {
+    "text": "First drafts are meant to be improved, and both managers know it.",
+    "who": "A Gazette columnist"
+   }
+  },
+  {
+   "id": "sb2-07",
+   "byline": "From our stand in the gallery",
+   "standfirst": "It was a season that ended with a comfortable margin of {margin}, and {winner} has earned every moment of the applause.",
+   "paragraphs": [
+    "Applause, in this rivalry, is hard won. {winner} collected it by reaching {winnerPoints} in season {seasonNo}, leaving {loser} on {loserPoints} and the {loserClub} dugout in a quiet and thoughtful mood.",
+    "There was nothing accidental about the margin of {margin}. It had the look of a lead built steadily, then protected sensibly, which is exactly how seasons are won when the standard is high.",
+    "{loserClub} will not be shaken, and nor should they be. One season is only a part of the story, and the Gazette suspects this tale is far from finished."
+   ],
+   "pullquote": {
+    "text": "Win comfortably once and the other side starts to plan very carefully.",
+    "who": "Overheard in the dugout"
+   }
+  },
+  {
+   "id": "sb2-08",
+   "byline": "Gazette football desk",
+   "standfirst": "A margin of {margin} is not a landslide, but it is a firm and well-earned verdict in {winner}'s favour for season {seasonNo}.",
+   "paragraphs": [
+    "Landslides get the headlines; margins like this get the respect. {winner} finished on {winnerPoints}, {loser} on {loserPoints}, and the distance of {margin} between them was, by any reading, honestly earned.",
+    "It tells us something about {winnerClub}: that they handle a long season with a cool head. It tells us something about {loserClub} too, that they were close enough to be a threat throughout.",
+    "Rivalries thrive on this kind of balance. The next season will test whether {winner} can repeat it, and whether {loser} can finally break it."
+   ],
+   "pullquote": {
+    "text": "Close enough to keep everyone honest, far enough to settle the argument for now.",
+    "who": "The press box"
+   }
+  },
+  {
+   "id": "sb2-09",
+   "byline": "Our man in the stands",
+   "standfirst": "Order was restored at {winnerClub} this season, as {winner} finished {margin} in front and made the whole business look manageable.",
+   "paragraphs": [
+    "Manageable is the clue. {winner} treated season {seasonNo} as a problem with a solution, and the solution was {winnerPoints} by the finish, comfortably ahead of the {loserPoints} that {loser} managed to collect.",
+    "Not every season goes to plan, and {loserClub} will argue that theirs was closer than the margin of {margin} suggests. They may be right. Rivalries are rarely as tidy as scoreboards.",
+    "What matters now is the response. {loser} has the character to bounce back, and {winnerClub} has just raised the standard they must meet again."
+   ],
+   "pullquote": {
+    "text": "Some managers chase a season. Others simply collect it, politely, on the way past.",
+    "who": "A Gazette columnist"
+   }
+  },
+  {
+   "id": "sb2-10",
+   "byline": "By the Gazette football desk",
+   "standfirst": "{loser} did plenty right in season {seasonNo}, but {winner} did a little more, and the {margin} that separates them shows it.",
+   "paragraphs": [
+    "Fine margins make fine reading, though this one was a touch broader than that. {winner} ended on {winnerPoints}, {loser} on {loserPoints}, and {winnerClub} were ahead by {margin} when the final tally was made.",
+    "It is worth saying that {loserClub} were far from poor. The difference lay in the detail, in a few extra points gathered by {winner} at the right moments across the whole campaign.",
+    "Detail is exactly what a rematch is for. {loser} will study this season closely, and the Gazette would not bet against a sharper reply."
+   ],
+   "pullquote": {
+    "text": "The best seasons are decided by details, and this one was no exception.",
+    "who": "The press box"
+   }
+  },
+  {
+   "id": "sb2-11",
+   "byline": "Gazette rivalry desk",
+   "standfirst": "The scoreboard now reads in {winnerClub}'s favour after season {seasonNo}, and {winner} deserves a quiet moment to enjoy the view.",
+   "paragraphs": [
+    "Scoreboards are honest witnesses. This one shows {winner} on {winnerPoints} and {loser} on {loserPoints}, a gap of {margin} that makes the {winnerClub} season look both purposeful and rather polished indeed.",
+    "Satisfaction is natural, but the Gazette suspects {winner} will not linger long. A lead of {margin} is useful, not decisive, and {loserClub} remain a serious opponent with plenty of time left.",
+    "So it goes on, courteous and competitive, season after season. The next instalment already has the feel of an important one."
+   ],
+   "pullquote": {
+    "text": "Enjoy the view tonight, tomorrow somebody is already sharpening the pencil.",
+    "who": "Overheard in the dugout"
+   }
+  },
+  {
+   "id": "sb2-12",
+   "byline": "From our long-view desk",
+   "standfirst": "Seasons like this are how reputations are made, and {winner} left season {seasonNo} with {winnerClub} standing a good deal taller.",
+   "paragraphs": [
+    "Reputation is built on repeatable work, and {winner} supplied plenty of it. The {winnerClub} manager reached {winnerPoints}, ahead of {loserPoints}, and the margin of {margin} was earned across the whole campaign.",
+    "For {loser}, there is no shame in a season of this standard, only the sting of coming second to a good one. {loserClub} remain a proud and dangerous side in this rivalry.",
+    "The next season will show whether this was a peak or a platform. The Gazette leans towards platform, and {loser} will happily set out to prove otherwise."
+   ],
+   "pullquote": {
+    "text": "A reputation is just a good season that someone remembers for long enough.",
+    "who": "A Gazette columnist"
+   }
+  },
+  {
+   "id": "sb2-13",
+   "byline": "Our correspondent at the rail",
+   "standfirst": "{winner} was never hurried this season, and a final margin of {margin} over {loser} reflects a campaign well managed from start to finish.",
+   "paragraphs": [
+    "Hurry is the enemy of good management, and {winner} was never seen to rush. The {winnerClub} season ended on {winnerPoints}, with {loser} at {loserPoints}, a quiet and convincing margin of {margin}.",
+    "That composure will worry {loserClub}. It is one thing to lose to a hot streak and quite another to be outlasted by a plan, and this season looked more like the latter.",
+    "Still, plans can be countered. The {loserClub} dugout has time, talent and a point to make, and the Gazette expects all three to be put to use."
+   ],
+   "pullquote": {
+    "text": "Fast starts get the glory, but patient finishes tend to get the points.",
+    "who": "The tea lady at the training ground"
+   }
+  },
+  {
+   "id": "sb2-14",
+   "byline": "Gazette football desk",
+   "standfirst": "Credit where it is due: {winnerClub} outscored the opposition on the points that count, and season {seasonNo} is {winner}'s by {margin}.",
+   "paragraphs": [
+    "Credit is the right word for it. {winner} reached {winnerPoints} against {loser}'s {loserPoints}, and the margin of {margin} stands as a fair measure of a season in which {winnerClub} held the upper hand.",
+    "The Gazette has no wish to flatter. {loserClub} will be disappointed, and rightly so, yet a season that ends within sight of the leader is a long way from a lost cause.",
+    "Both managers will be back, and both will be better for it. That, after all, is the purpose of a rivalry worth having."
+   ],
+   "pullquote": {
+    "text": "A rival who beats you well is the best teacher you will ever have.",
+    "who": "Overheard in the dugout"
+   }
+  },
+  {
+   "id": "sb2-15",
+   "byline": "By the Gazette archive desk",
+   "standfirst": "Season {seasonNo} of {seasonsTotal} will be filed under comfortable, and {winner} will be quite happy with that description.",
+   "paragraphs": [
+    "Filing systems matter at a newspaper, and this one is easy. {winner} finished with {winnerPoints}, {loser} with {loserPoints}, and the margin of {margin} puts the season neatly into the folder marked comfortable.",
+    "Comfortable, however, is not the same as closed. {loserClub} still have the chance to reopen the file, and the Gazette would advise {winnerClub} to keep the lid slightly loose.",
+    "The archive is long, and many of its best pages were written after a season just like this. The next one is waiting."
+   ],
+   "pullquote": {
+    "text": "Comfortable is a label that rivals enjoy peeling off more than anyone.",
+    "who": "A Gazette columnist"
+   }
+  }
+ ]
+}
