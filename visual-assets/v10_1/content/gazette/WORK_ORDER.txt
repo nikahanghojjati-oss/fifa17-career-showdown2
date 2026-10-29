@@ -216,6 +216,9 @@ WHAT MAKES A GREAT LINE
 - Numbers are seasoning, not the meal: at most 30 lines may use {margin}, at most 15 may use {winnerPoints} or {points}, and at least 35 lines use no number placeholder at all (just names, clubs and the moment).
 - Exclamation marks: the lead caller may use them in up to 60 lines; every other voice in at most 15. Real commentators also land big moments with a calm, weighty full stop.
 
+- Use the people: at least 60 of the 100 lines name a manager or a club through a placeholder ({winner}, {loser}, {winnerClub}, {loserClub}, {managerA}, {managerB}, {clubA}, {clubB}, {leader}, {trailer}). A line with no names sounds generic.
+- Never talk about the rules. Lines must not mention tiebreaks, arithmetic, calculations, records, "inventing", "the numbers say" or what the commentator is or is not allowed to say. Speak about the moment, the people and the rivalry, like a broadcaster on air.
+
 HARD RULES
 1. Every line is different in idea and shape. No two lines start with the same three words. At most 4 lines start with any one word. Never write a template with swapped endings (the old library did "X made this season a procession, and ..." three times: never do that).
 2. Only the situation's allowed placeholders, copied exactly with curly brackets. Never write the managers' real names. No numbers except through placeholders; you may say "five points" only for the Champions League and "three" only for the league title.

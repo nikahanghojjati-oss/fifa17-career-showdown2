@@ -1,0 +1,2447 @@
+{
+  "mega": "B 4",
+  "parts": [
+    {
+      "batch": 4,
+      "situation": "draw",
+      "voice": "The lead caller",
+      "lines": [
+        {
+          "id": "cb4-001",
+          "text": "Level at the finish! Neither manager can claim this season as their own."
+        },
+        {
+          "id": "cb4-002",
+          "text": "What a finish to the reckoning, and still nothing separates these two rivals."
+        },
+        {
+          "id": "cb4-003",
+          "text": "It's a dead heat! All that work, and the scoreboard refuses to choose."
+        },
+        {
+          "id": "cb4-004",
+          "text": "Hear that verdict: a draw, with neither side taking the honours."
+        },
+        {
+          "id": "cb4-005",
+          "text": "Absolutely inseparable! The rivalry goes on, but this season belongs to neither."
+        },
+        {
+          "id": "cb4-006",
+          "text": "There's your answer! Two clubs, one level finish, and a thousand arguments to follow."
+        },
+        {
+          "id": "cb4-007",
+          "text": "Would you believe it? They have arrived at exactly the same destination."
+        },
+        {
+          "id": "cb4-008",
+          "text": "No daylight between them! The season closes with both managers on equal terms."
+        },
+        {
+          "id": "cb4-009",
+          "text": "Right to the last calculation, this contest has refused to split them."
+        },
+        {
+          "id": "cb4-010",
+          "text": "Extraordinary scenes in the standings! Not a winner between these two."
+        },
+        {
+          "id": "cb4-011",
+          "text": "After everything this season demanded, they finish together on the same mark!"
+        },
+        {
+          "id": "cb4-012",
+          "text": "The final count arrives, and still the rivalry refuses to settle."
+        },
+        {
+          "id": "cb4-013",
+          "text": "So what can you say? Neither manager has managed to pull clear of the other."
+        },
+        {
+          "id": "cb4-014",
+          "text": "This is astonishing! A whole season counted, and neither comes out ahead."
+        },
+        {
+          "id": "cb4-015",
+          "text": "Just when a verdict seems inevitable, the table offers a perfect stalemate."
+        },
+        {
+          "id": "cb4-016",
+          "text": "A draw it is! These two have matched each other all the way to the finish."
+        },
+        {
+          "id": "cb4-017",
+          "text": "That is remarkable! A season of ambition ends with honours firmly even."
+        },
+        {
+          "id": "cb4-018",
+          "text": "Nothing between the rivals, and the final total gives us no one to crown."
+        },
+        {
+          "id": "cb4-019",
+          "text": "They're locked together! There's no winner here, only another chapter waiting."
+        },
+        {
+          "id": "cb4-020",
+          "text": "You can feel the tension in a single result: identical points for both managers."
+        },
+        {
+          "id": "cb4-021",
+          "text": "You couldn't separate them with the entire season to work with!"
+        },
+        {
+          "id": "cb4-022",
+          "text": "Full time on the season, and that great argument remains gloriously unsettled."
+        },
+        {
+          "id": "cb4-023",
+          "text": "For all the chasing and calculating, we've ended up exactly level!"
+        },
+        {
+          "id": "cb4-024",
+          "text": "A season reaches its verdict without victory or defeat for either manager."
+        },
+        {
+          "id": "cb4-025",
+          "text": "Neither takes the advantage! This year's showdown has landed squarely in the middle."
+        },
+        {
+          "id": "cb4-026",
+          "text": "Here comes the final reckoning, and it leaves the two rivals tied."
+        },
+        {
+          "id": "cb4-027",
+          "text": "All square! That is the sound of a rivalry refusing to budge."
+        },
+        {
+          "id": "cb4-028",
+          "text": "One season, two ambitions, and absolutely no separation when the counting ends."
+        },
+        {
+          "id": "cb4-029",
+          "text": "Look at those totals! Equal points, and no manager with the last word."
+        },
+        {
+          "id": "cb4-030",
+          "text": "The board says draw, and neither club has earned an edge in this contest."
+        },
+        {
+          "id": "cb4-031",
+          "text": "All this anticipation, and the season ends without a single winner."
+        },
+        {
+          "id": "cb4-032",
+          "text": "Picture the anticipation, and then this: two rivals perfectly matched at the finish."
+        },
+        {
+          "id": "cb4-033",
+          "text": "Imagine the anticipation, and then this: two rivals perfectly matched at the finish!"
+        },
+        {
+          "id": "cb4-034",
+          "text": "Every point has been counted, and the outcome is still a draw."
+        },
+        {
+          "id": "cb4-035",
+          "text": "They've reached the end together! There is no daylight in those totals."
+        },
+        {
+          "id": "cb4-036",
+          "text": "No winner here, with two managerial campaigns standing shoulder to shoulder."
+        },
+        {
+          "id": "cb4-037",
+          "text": "Surely someone would break clear? Not this time; the final points are level!"
+        },
+        {
+          "id": "cb4-038",
+          "text": "At the final reckoning, an entire campaign has done nothing to split them."
+        },
+        {
+          "id": "cb4-039",
+          "text": "Even that equality has an edge to it! Neither rival got away."
+        },
+        {
+          "id": "cb4-040",
+          "text": "It is a tie, and the tension survives the season for another installment."
+        },
+        {
+          "id": "cb4-041",
+          "text": "Watch the two managers face the same final count, with neither able to celebrate a win."
+        },
+        {
+          "id": "cb4-042",
+          "text": "An ending worth remembering: equal points, with the bragging rights still unclaimed."
+        },
+        {
+          "id": "cb4-043",
+          "text": "That scoreboard has a story to tell: neither side has prevailed!"
+        },
+        {
+          "id": "cb4-044",
+          "text": "A remarkable deadlock has pushed this rivalry to a perfectly even finish."
+        },
+        {
+          "id": "cb4-045",
+          "text": "You wanted a decision? The season has given us a draw instead!"
+        },
+        {
+          "id": "cb4-046",
+          "text": "They're inseparable on the board, and this battle will have to speak again."
+        },
+        {
+          "id": "cb4-047",
+          "text": "At the end of it all, {managerA} and {managerB} remain level!"
+        },
+        {
+          "id": "cb4-048",
+          "text": "Two teams in the reckoning, one identical total, and not a victor."
+        },
+        {
+          "id": "cb4-049",
+          "text": "How close can you get? The closest possible: precisely equal in points!"
+        },
+        {
+          "id": "cb4-050",
+          "text": "This is the finish nobody can claim alone; it belongs to the rivalry."
+        },
+        {
+          "id": "cb4-051",
+          "text": "Now the final count lands, and neither club can say it finished ahead."
+        },
+        {
+          "id": "cb4-052",
+          "text": "Equal! That's the word, and what a word after an entire campaign!"
+        },
+        {
+          "id": "cb4-053",
+          "text": "We've got a draw, with the gap vanishing into a dead-even total."
+        },
+        {
+          "id": "cb4-054",
+          "text": "Across a full season, the two managers have found exactly the same mark!"
+        },
+        {
+          "id": "cb4-055",
+          "text": "Make no mistake: this is not a hidden win; it is a straight draw."
+        },
+        {
+          "id": "cb4-056",
+          "text": "Honours remain unclaimed as the scoreboard keeps both rivals on level ground."
+        },
+        {
+          "id": "cb4-057",
+          "text": "Are you seeing this? Another campaign has ended without a point between them!"
+        },
+        {
+          "id": "cb4-058",
+          "text": "Unbelievable how a finish like this can settle absolutely nothing."
+        },
+        {
+          "id": "cb4-059",
+          "text": "From the first calculation to the last, this result is perfectly balanced!"
+        },
+        {
+          "id": "cb4-060",
+          "text": "A tally has been completed, yet neither manager has found a way past the other."
+        },
+        {
+          "id": "cb4-061",
+          "text": "We've reached the verdict: a level finish, and not one excuse for a winner!"
+        },
+        {
+          "id": "cb4-062",
+          "text": "Nothing separates {clubA} and {clubB} when the season is finally counted."
+        },
+        {
+          "id": "cb4-063",
+          "text": "There's the final total! Same points, same standing in this particular duel."
+        },
+        {
+          "id": "cb4-064",
+          "text": "Those numbers tell a story of their own: they simply will not choose a side."
+        },
+        {
+          "id": "cb4-065",
+          "text": "So it ends level! The next season already has its own question."
+        },
+        {
+          "id": "cb4-066",
+          "text": "This rivalry does not do simple answers, and the points have finished dead even."
+        },
+        {
+          "id": "cb4-067",
+          "text": "And still they stand together! No gap, no advantage, no winner!"
+        },
+        {
+          "id": "cb4-068",
+          "text": "One season of effort ends with the result perfectly balanced between them."
+        },
+        {
+          "id": "cb4-069",
+          "text": "Just look at that! Both clubs land on the same total at the finish."
+        },
+        {
+          "id": "cb4-070",
+          "text": "Even the suspense has an unexpected answer: both managers finish exactly level."
+        },
+        {
+          "id": "cb4-071",
+          "text": "They're together again! Not a fraction of separation in the final tally."
+        },
+        {
+          "id": "cb4-072",
+          "text": "No advantage for either side; this draw is the only honest headline."
+        },
+        {
+          "id": "cb4-073",
+          "text": "Every calculation points to the same conclusion: neither manager has won!"
+        },
+        {
+          "id": "cb4-074",
+          "text": "Hold that thought about a winner, because there is not one in this result."
+        },
+        {
+          "id": "cb4-075",
+          "text": "Level on points, level in this contest, and still full of rivalry!"
+        },
+        {
+          "id": "cb4-076",
+          "text": "Closing numbers have spoken, but neither manager can claim the victory."
+        },
+        {
+          "id": "cb4-077",
+          "text": "Here is a peculiar kind of drama: an entire season ending in balance."
+        },
+        {
+          "id": "cb4-078",
+          "text": "There's no splitting this pair, with the points bringing them together."
+        },
+        {
+          "id": "cb4-079",
+          "text": "It finishes as a draw! The fight for superiority goes unanswered!"
+        },
+        {
+          "id": "cb4-080",
+          "text": "Take one last look at the scoreboard and there is no winner in sight."
+        },
+        {
+          "id": "cb4-081",
+          "text": "They're tied on {points} points! Neither manager can claim the season."
+        },
+        {
+          "id": "cb4-082",
+          "text": "That equal total says more than any grand speech could say about this season."
+        },
+        {
+          "id": "cb4-083",
+          "text": "Now that's a proper dead heat! Competitive pride has met stubborn arithmetic."
+        },
+        {
+          "id": "cb4-084",
+          "text": "Chase the lead all season, and the final record has still given nobody one."
+        },
+        {
+          "id": "cb4-085",
+          "text": "By the season’s final word, the only answer we have is level."
+        },
+        {
+          "id": "cb4-086",
+          "text": "Wait for the verdict... a draw, with both managers landing on identical totals."
+        },
+        {
+          "id": "cb4-087",
+          "text": "Neither manager moves ahead! This rivalry remains a conversation, not a conclusion."
+        },
+        {
+          "id": "cb4-088",
+          "text": "Listen to those numbers: they will not blink, and both have finished together."
+        },
+        {
+          "id": "cb4-089",
+          "text": "At the close, two rivals share equal points and leave the honours unclaimed."
+        },
+        {
+          "id": "cb4-090",
+          "text": "Still locked together, these clubs cannot be separated even by the completed season."
+        },
+        {
+          "id": "cb4-091",
+          "text": "We've counted everything, and the verdict remains beautifully, maddeningly even!"
+        },
+        {
+          "id": "cb4-092",
+          "text": "Oh, this is something: the grand showdown finishes on exactly the same total."
+        },
+        {
+          "id": "cb4-093",
+          "text": "There goes the final calculation! It brings neither celebration nor concession."
+        },
+        {
+          "id": "cb4-094",
+          "text": "So this is the finish, with every bit of the rivalry surviving intact."
+        },
+        {
+          "id": "cb4-095",
+          "text": "Certain as the scoreboard may be, neither manager is likely to love its answer."
+        },
+        {
+          "id": "cb4-096",
+          "text": "Now the argument resumes, with neither manager ahead after {season}."
+        },
+        {
+          "id": "cb4-097",
+          "text": "Not a point of separation! Both campaigns have met at the same finish."
+        },
+        {
+          "id": "cb4-098",
+          "text": "Carry this result forward: a draw that leaves both ambitions alive."
+        },
+        {
+          "id": "cb4-099",
+          "text": "Even as the season shuts its doors, this rivalry does not; they finish level."
+        },
+        {
+          "id": "cb4-100",
+          "text": "And that is that! Honours even, with nothing left to split these two."
+        }
+      ]
+    },
+    {
+      "batch": 28,
+      "situation": "draw",
+      "voice": "The co-commentator",
+      "lines": [
+        {
+          "id": "cb28-001",
+          "text": "Funny thing about a rivalry, sometimes the score refuses to take anyone's side."
+        },
+        {
+          "id": "cb28-002",
+          "text": "I'd call that fair, although I doubt either manager finds it satisfying."
+        },
+        {
+          "id": "cb28-003",
+          "text": "You can't argue with equal points, even when the pride wants another answer."
+        },
+        {
+          "id": "cb28-004",
+          "text": "Well, there's plenty to discuss, but there isn't a winner to discuss."
+        },
+        {
+          "id": "cb28-005",
+          "text": "Both have made their case, and neither case has outweighed the other."
+        },
+        {
+          "id": "cb28-006",
+          "text": "That's the trouble with competing this closely: you run out of daylight."
+        },
+        {
+          "id": "cb28-007",
+          "text": "It'll feel unfinished to both, and that's probably what makes it interesting."
+        },
+        {
+          "id": "cb28-008",
+          "text": "The arithmetic is quite simple; accepting it might take a little longer."
+        },
+        {
+          "id": "cb28-009",
+          "text": "There's a lot of noise around a draw, but the numbers are quiet."
+        },
+        {
+          "id": "cb28-010",
+          "text": "Neither manager gets the last laugh, which may be the fairest joke."
+        },
+        {
+          "id": "cb28-011",
+          "text": "You could tell two very different stories and end up with identical totals."
+        },
+        {
+          "id": "cb28-012",
+          "text": "It doesn't matter who enjoyed the journey more; they finished level."
+        },
+        {
+          "id": "cb28-013",
+          "text": "I suspect both will find reasons to call it a decent season."
+        },
+        {
+          "id": "cb28-014",
+          "text": "What neither can honestly call it is a win over the other."
+        },
+        {
+          "id": "cb28-015",
+          "text": "That's one for the conversation later, because the board isn't taking sides."
+        },
+        {
+          "id": "cb28-016",
+          "text": "They've travelled different roads to the same place, at least on points."
+        },
+        {
+          "id": "cb28-017",
+          "text": "It takes a certain kind of rivalry to make equality feel so uncomfortable."
+        },
+        {
+          "id": "cb28-018",
+          "text": "Somebody will say they deserved more, but the final count won't listen."
+        },
+        {
+          "id": "cb28-019",
+          "text": "The sensible verdict is a draw; the emotional verdict could run for hours."
+        },
+        {
+          "id": "cb28-020",
+          "text": "I'd wager both thought they'd find a little breathing room somewhere."
+        },
+        {
+          "id": "cb28-021",
+          "text": "No one's carrying the bragging rights away from this particular season."
+        },
+        {
+          "id": "cb28-022",
+          "text": "That's not the sort of finish that gives you much peace, is it?"
+        },
+        {
+          "id": "cb28-023",
+          "text": "We have to be careful here; equal points really do mean equal points."
+        },
+        {
+          "id": "cb28-024",
+          "text": "There is no secret victory hiding in the way the numbers look."
+        },
+        {
+          "id": "cb28-025",
+          "text": "It'll sting if you came expecting a clear answer, because there isn't one."
+        },
+        {
+          "id": "cb28-026",
+          "text": "The curious part is how a level finish can feel fiercely contested."
+        },
+        {
+          "id": "cb28-027",
+          "text": "From a manager's chair, you'd probably call this unfinished business."
+        },
+        {
+          "id": "cb28-028",
+          "text": "Neither can point at that tally and say the other fell short."
+        },
+        {
+          "id": "cb28-029",
+          "text": "You spend a season making decisions, then share the very same mark."
+        },
+        {
+          "id": "cb28-030",
+          "text": "I'd say the argument has gained a new chapter rather than a conclusion."
+        },
+        {
+          "id": "cb28-031",
+          "text": "That must be an odd feeling, reaching the finish with nothing between you."
+        },
+        {
+          "id": "cb28-032",
+          "text": "For once, the best comeback is simply to point at the numbers."
+        },
+        {
+          "id": "cb28-033",
+          "text": "They can disagree about everything except where the points have landed."
+        },
+        {
+          "id": "cb28-034",
+          "text": "There's no shame in a draw, although pride rarely appreciates that advice."
+        },
+        {
+          "id": "cb28-035",
+          "text": "You'd love one decisive figure, but the final figures are identical."
+        },
+        {
+          "id": "cb28-036",
+          "text": "I can already hear the debate: better season, same points, who decides?"
+        },
+        {
+          "id": "cb28-037",
+          "text": "The answer is nobody, because this contest has finished level."
+        },
+        {
+          "id": "cb28-038",
+          "text": "It isn't a verdict either can twist into an outright victory."
+        },
+        {
+          "id": "cb28-039",
+          "text": "Both have earned the same total, and that's the end of that argument."
+        },
+        {
+          "id": "cb28-040",
+          "text": "Further debate might last forever, even though the arithmetic will not change."
+        },
+        {
+          "id": "cb28-041",
+          "text": "That little gap they were looking for? It simply isn't there."
+        },
+        {
+          "id": "cb28-042",
+          "text": "You can admire both campaigns without inventing a winner between them."
+        },
+        {
+          "id": "cb28-043",
+          "text": "I rather like a draw that refuses to flatter either side."
+        },
+        {
+          "id": "cb28-044",
+          "text": "They'll have different feelings about it, but the points don't have feelings."
+        },
+        {
+          "id": "cb28-045",
+          "text": "It's difficult to boast when the other manager can show identical numbers."
+        },
+        {
+          "id": "cb28-046",
+          "text": "Curiously, an even result doesn't always give either manager much comfort."
+        },
+        {
+          "id": "cb28-047",
+          "text": "You'd think matching a rival would be satisfying, until you actually do it."
+        },
+        {
+          "id": "cb28-048",
+          "text": "That's a shared finish, not a shared opinion about how it happened."
+        },
+        {
+          "id": "cb28-049",
+          "text": "I wouldn't go handing out crowns when neither side has pulled ahead."
+        },
+        {
+          "id": "cb28-050",
+          "text": "There may be plenty of positives, but superiority isn't one of them."
+        },
+        {
+          "id": "cb28-051",
+          "text": "An equal finish tells us where the campaigns landed, nothing about who felt better."
+        },
+        {
+          "id": "cb28-052",
+          "text": "One manager's relief may be the other's frustration; we can't know that."
+        },
+        {
+          "id": "cb28-053",
+          "text": "Nobody can separate them by preference; the rules are the same for both."
+        },
+        {
+          "id": "cb28-054",
+          "text": "Nobody should be embarrassed by a draw, even if pride says otherwise."
+        },
+        {
+          "id": "cb28-055",
+          "text": "They might wish the season had offered a clearer answer than this."
+        },
+        {
+          "id": "cb28-056",
+          "text": "I'd be wary of declaring anyone ahead after seeing identical points."
+        },
+        {
+          "id": "cb28-057",
+          "text": "There is still a rivalry to win, just not in this completed chapter."
+        },
+        {
+          "id": "cb28-058",
+          "text": "It has the feel of a question left hanging in the air."
+        },
+        {
+          "id": "cb28-059",
+          "text": "Both managers can argue their choices, but neither can claim the outcome."
+        },
+        {
+          "id": "cb28-060",
+          "text": "A tally does not reward the better speech; it records the same total."
+        },
+        {
+          "id": "cb28-061",
+          "text": "It's hard to get under a rival's skin with an equal result."
+        },
+        {
+          "id": "cb28-062",
+          "text": "Worth saying again: a draw can sharpen a rivalry more than people admit."
+        },
+        {
+          "id": "cb28-063",
+          "text": "Nothing about a points draw tells you the journeys were identical."
+        },
+        {
+          "id": "cb28-064",
+          "text": "And that's the beauty of it: different campaigns can finish level."
+        },
+        {
+          "id": "cb28-065",
+          "text": "You'd have to look elsewhere for a winner, because there isn't one here."
+        },
+        {
+          "id": "cb28-066",
+          "text": "Perhaps a draw can be more revealing than a comfortable victory."
+        },
+        {
+          "id": "cb28-067",
+          "text": "Walking away level still leaves a manager with plenty to prove."
+        },
+        {
+          "id": "cb28-068",
+          "text": "That outcome is not necessarily what either wanted, but it is the answer."
+        },
+        {
+          "id": "cb28-069",
+          "text": "We're not splitting hairs here; we're acknowledging there is no gap."
+        },
+        {
+          "id": "cb28-070",
+          "text": "Precisely this kind of result attracts debate without changing the total."
+        },
+        {
+          "id": "cb28-071",
+          "text": "One thing is certain: {managerA} hasn't finished ahead of {managerB}."
+        },
+        {
+          "id": "cb28-072",
+          "text": "Nor has {managerB} moved in front of {managerA} on points."
+        },
+        {
+          "id": "cb28-073",
+          "text": "It's almost fitting that neither gets to close this conversation."
+        },
+        {
+          "id": "cb28-074",
+          "text": "A sensible approach is to respect both totals and leave the crown alone."
+        },
+        {
+          "id": "cb28-075",
+          "text": "Every season needs an ending; not every season needs a winner."
+        },
+        {
+          "id": "cb28-076",
+          "text": "Personally, I don't buy the idea that every rivalry needs a winner."
+        },
+        {
+          "id": "cb28-077",
+          "text": "There's a difference between looking strong and actually finishing ahead."
+        },
+        {
+          "id": "cb28-078",
+          "text": "Preference is one thing, but it can't undo a points draw."
+        },
+        {
+          "id": "cb28-079",
+          "text": "Officially there is no room to claim a numerical advantage."
+        },
+        {
+          "id": "cb28-080",
+          "text": "It's about as balanced a final judgement as you could possibly get."
+        },
+        {
+          "id": "cb28-081",
+          "text": "Here's what interests me: how each manager explains this without using the word if."
+        },
+        {
+          "id": "cb28-082",
+          "text": "No amount of enthusiasm changes what an identical total means."
+        },
+        {
+          "id": "cb28-083",
+          "text": "That is quite a lesson in how a season can resist predictions."
+        },
+        {
+          "id": "cb28-084",
+          "text": "Admire either campaign if you like, but the points remain equal."
+        },
+        {
+          "id": "cb28-085",
+          "text": "It'll keep the rivalry healthy; neither has the luxury of looking down."
+        },
+        {
+          "id": "cb28-086",
+          "text": "Perhaps the next chapter carries a little extra weight now."
+        },
+        {
+          "id": "cb28-087",
+          "text": "They share the result, but I doubt they'll share an interpretation."
+        },
+        {
+          "id": "cb28-088",
+          "text": "There's something wonderfully awkward about finishing as equals against your rival."
+        },
+        {
+          "id": "cb28-089",
+          "text": "Neither will find a technicality that awards victory to somebody."
+        },
+        {
+          "id": "cb28-090",
+          "text": "Forget the trophy talk and concentrate on the shared finish."
+        },
+        {
+          "id": "cb28-091",
+          "text": "For these two clubs, different stories still lead to the same result."
+        },
+        {
+          "id": "cb28-092",
+          "text": "Some will search for a moral victory, but that isn't how this works."
+        },
+        {
+          "id": "cb28-093",
+          "text": "Ultimately it comes down to a shared mark and different questions afterward."
+        },
+        {
+          "id": "cb28-094",
+          "text": "Perhaps that is an honest answer, even if it leaves both managers dissatisfied."
+        },
+        {
+          "id": "cb28-095",
+          "text": "Personally, I wouldn't confuse a stalemate with a lack of ambition."
+        },
+        {
+          "id": "cb28-096",
+          "text": "Both can take credit for their own campaigns without claiming the other's defeat."
+        },
+        {
+          "id": "cb28-097",
+          "text": "Look closely and the equality only becomes harder to dispute."
+        },
+        {
+          "id": "cb28-098",
+          "text": "Turn this result over as often as you like; it remains a draw."
+        },
+        {
+          "id": "cb28-099",
+          "text": "There is something honest about a scoreboard that won't flatter anyone."
+        },
+        {
+          "id": "cb28-100",
+          "text": "My view is that they have earned another chance to settle their argument."
+        }
+      ]
+    },
+    {
+      "batch": 52,
+      "situation": "draw",
+      "voice": "The stats desk",
+      "lines": [
+        {
+          "id": "cb52-001",
+          "text": "The final points total shows complete equality between the two managers."
+        },
+        {
+          "id": "cb52-002",
+          "text": "Look beyond the names and the principal figure is identical on both sides."
+        },
+        {
+          "id": "cb52-003",
+          "text": "By the only measure we're discussing, this campaign has finished level."
+        },
+        {
+          "id": "cb52-004",
+          "text": "For the record, neither manager has a points advantage over the other."
+        },
+        {
+          "id": "cb52-005",
+          "text": "Read those totals carefully: they are the same, so this is a draw."
+        },
+        {
+          "id": "cb52-006",
+          "text": "Neither club has the edge in the final recorded points column."
+        },
+        {
+          "id": "cb52-007",
+          "text": "Equal totals mean equal standing in this particular season comparison."
+        },
+        {
+          "id": "cb52-008",
+          "text": "Across the completed campaign, the recorded points lead is precisely absent."
+        },
+        {
+          "id": "cb52-009",
+          "text": "That gap everyone wants to find simply does not exist in the numbers."
+        },
+        {
+          "id": "cb52-010",
+          "text": "Our headline statistic is identical points for the two managers."
+        },
+        {
+          "id": "cb52-011",
+          "text": "Reported together, two clubs share one total without any winning margin."
+        },
+        {
+          "id": "cb52-012",
+          "text": "When the season closes, the points comparison remains completely balanced."
+        },
+        {
+          "id": "cb52-013",
+          "text": "We can confirm this outcome without relying on any secondary measure."
+        },
+        {
+          "id": "cb52-014",
+          "text": "Just the totals matter here, and they offer no separation whatsoever."
+        },
+        {
+          "id": "cb52-015",
+          "text": "No higher points figure exists to place above the other."
+        },
+        {
+          "id": "cb52-016",
+          "text": "On this evidence, declaring either manager the winner would be inaccurate."
+        },
+        {
+          "id": "cb52-017",
+          "text": "Each side is credited with the same points, according to the result."
+        },
+        {
+          "id": "cb52-018",
+          "text": "A tie in the totals is exactly what the final record shows."
+        },
+        {
+          "id": "cb52-019",
+          "text": "The figures line up, and the rivalry's numerical verdict is a draw."
+        },
+        {
+          "id": "cb52-020",
+          "text": "From a statistical standpoint, the points differential is effectively nonexistent."
+        },
+        {
+          "id": "cb52-021",
+          "text": "Take another look: the distance between these season totals is nil."
+        },
+        {
+          "id": "cb52-022",
+          "text": "Both managers end the comparison on an identical numerical footing."
+        },
+        {
+          "id": "cb52-023",
+          "text": "In the points column, nothing distinguishes the campaigns this time."
+        },
+        {
+          "id": "cb52-024",
+          "text": "This isn't a narrow advantage; it is an absence of advantage."
+        },
+        {
+          "id": "cb52-025",
+          "text": "The result is balanced because both recorded points totals match."
+        },
+        {
+          "id": "cb52-026",
+          "text": "Now the finish shows no leading figure and no trailing figure."
+        },
+        {
+          "id": "cb52-027",
+          "text": "Plainly stated, both managers have arrived at the same number."
+        },
+        {
+          "id": "cb52-028",
+          "text": "Every check of the two totals returns the same outcome: level."
+        },
+        {
+          "id": "cb52-029",
+          "text": "Using points alone, the season has produced no winning side."
+        },
+        {
+          "id": "cb52-030",
+          "text": "No alternative calculation is necessary to understand these equal totals."
+        },
+        {
+          "id": "cb52-031",
+          "text": "What stands out is not a large figure, but the lack of difference."
+        },
+        {
+          "id": "cb52-032",
+          "text": "The comparison ends where it began: two names beside matching totals."
+        },
+        {
+          "id": "cb52-033",
+          "text": "Consider {points} points apiece, and the reason for the draw is clear."
+        },
+        {
+          "id": "cb52-034",
+          "text": "Statistically, the main story is exact parity rather than dominance."
+        },
+        {
+          "id": "cb52-035",
+          "text": "No margin needs explaining when the two final figures coincide."
+        },
+        {
+          "id": "cb52-036",
+          "text": "Their relative positions in this contest are tied on the recorded points."
+        },
+        {
+          "id": "cb52-037",
+          "text": "There is nothing tentative about this: both totals are identical."
+        },
+        {
+          "id": "cb52-038",
+          "text": "According to the season record, neither side can claim a points lead."
+        },
+        {
+          "id": "cb52-039",
+          "text": "Confirmation from the final figures: a draw, with no higher total."
+        },
+        {
+          "id": "cb52-040",
+          "text": "A shared mark is the complete numerical verdict for this campaign."
+        },
+        {
+          "id": "cb52-041",
+          "text": "If you check the arithmetic, it leads straight back to equality."
+        },
+        {
+          "id": "cb52-042",
+          "text": "One figure repeats on both sides, and that settles this comparison."
+        },
+        {
+          "id": "cb52-043",
+          "text": "Comparing the points columns produces no ranking between these rivals."
+        },
+        {
+          "id": "cb52-044",
+          "text": "Recorded over the season, the points answer is remarkably concise: level."
+        },
+        {
+          "id": "cb52-045",
+          "text": "Any claim of a points winner would contradict the published totals."
+        },
+        {
+          "id": "cb52-046",
+          "text": "Measured by their final totals, the managers are indistinguishable here."
+        },
+        {
+          "id": "cb52-047",
+          "text": "We have a straight points draw, with no separate winner indicated."
+        },
+        {
+          "id": "cb52-048",
+          "text": "Both columns contain the same total, making this an even finish."
+        },
+        {
+          "id": "cb52-049",
+          "text": "Today's report is simple: the scoreboard registers no difference in points."
+        },
+        {
+          "id": "cb52-050",
+          "text": "You can examine the final result closely; the points remain level."
+        },
+        {
+          "id": "cb52-051",
+          "text": "For {managerA} and {managerB}, the recorded total is identical."
+        },
+        {
+          "id": "cb52-052",
+          "text": "Not one point separates the final standings in this head-to-head comparison."
+        },
+        {
+          "id": "cb52-053",
+          "text": "There are two entries in the record, but no numerical leader."
+        },
+        {
+          "id": "cb52-054",
+          "text": "What the totals establish is equality, nothing more and nothing less."
+        },
+        {
+          "id": "cb52-055",
+          "text": "For {clubA} and {clubB}, the same figure appears at season’s end."
+        },
+        {
+          "id": "cb52-056",
+          "text": "We should call this precisely what it is: an outright points draw."
+        },
+        {
+          "id": "cb52-057",
+          "text": "Zero separation in points leaves us without a winning manager."
+        },
+        {
+          "id": "cb52-058",
+          "text": "A difference cannot be found because the values are exactly alike."
+        },
+        {
+          "id": "cb52-059",
+          "text": "At {points} points each, neither manager finishes above the other here."
+        },
+        {
+          "id": "cb52-060",
+          "text": "Readout complete: the two campaigns end with matching points totals."
+        },
+        {
+          "id": "cb52-061",
+          "text": "Completed figures offer no hierarchy once the totals are matched."
+        },
+        {
+          "id": "cb52-062",
+          "text": "Among these two entries, there is no points-based distinction to make."
+        },
+        {
+          "id": "cb52-063",
+          "text": "Consider the outcome without embellishment: same season, same points, draw."
+        },
+        {
+          "id": "cb52-064",
+          "text": "Every numerical reading of this result places the rivals level."
+        },
+        {
+          "id": "cb52-065",
+          "text": "That is an exact tie, not an edge too small to notice."
+        },
+        {
+          "id": "cb52-066",
+          "text": "In the final accounting, the gap between the managers is absent."
+        },
+        {
+          "id": "cb52-067",
+          "text": "Both finish on a common total; neither is listed as a winner."
+        },
+        {
+          "id": "cb52-068",
+          "text": "A single repeated number tells the essential story of this result."
+        },
+        {
+          "id": "cb52-069",
+          "text": "Search as you might, no deciding margin appears in these figures."
+        },
+        {
+          "id": "cb52-070",
+          "text": "If the test is points collected, neither has outscored the other."
+        },
+        {
+          "id": "cb52-071",
+          "text": "Our result sheet has both sides even, without an outright leader."
+        },
+        {
+          "id": "cb52-072",
+          "text": "Review the total again and the conclusion does not change: a draw."
+        },
+        {
+          "id": "cb52-073",
+          "text": "Two entries in the results, equal points in each, no winner."
+        },
+        {
+          "id": "cb52-074",
+          "text": "We are looking at parity in the only recorded comparison supplied."
+        },
+        {
+          "id": "cb52-075",
+          "text": "It's an exact match between the managers' overall season tallies."
+        },
+        {
+          "id": "cb52-076",
+          "text": "Point for point, the outcome stands level at the final calculation."
+        },
+        {
+          "id": "cb52-077",
+          "text": "This figure carries the same value for each manager in the showdown."
+        },
+        {
+          "id": "cb52-078",
+          "text": "Arithmetic offers a clear conclusion even without declaring a victor."
+        },
+        {
+          "id": "cb52-079",
+          "text": "As a comparison, these final totals cannot establish superiority for either side."
+        },
+        {
+          "id": "cb52-080",
+          "text": "No gap is hiding in the final record; both values match."
+        },
+        {
+          "id": "cb52-081",
+          "text": "At the season’s close, the points stand equal without any tiebreak."
+        },
+        {
+          "id": "cb52-082",
+          "text": "One cannot rank the managers by points when their points are identical."
+        },
+        {
+          "id": "cb52-083",
+          "text": "Based on the totals provided, both finish in a dead heat."
+        },
+        {
+          "id": "cb52-084",
+          "text": "Final score data indicates a draw with no additional verdict required."
+        },
+        {
+          "id": "cb52-085",
+          "text": "Look solely at the season points: both managers share the figure."
+        },
+        {
+          "id": "cb52-086",
+          "text": "In numerical terms, no advantage was recorded for either campaign."
+        },
+        {
+          "id": "cb52-087",
+          "text": "These two final totals align, and the draw follows directly."
+        },
+        {
+          "id": "cb52-088",
+          "text": "That equality is exact; it does not depend on rounding anything."
+        },
+        {
+          "id": "cb52-089",
+          "text": "Secondary measures are unnecessary; this points draw is already definitive."
+        },
+        {
+          "id": "cb52-090",
+          "text": "For the completed season, neither total exceeds its counterpart."
+        },
+        {
+          "id": "cb52-091",
+          "text": "We're left with matching figures rather than a first and second."
+        },
+        {
+          "id": "cb52-092",
+          "text": "Each total is equal to the other, and the conclusion is settled."
+        },
+        {
+          "id": "cb52-093",
+          "text": "Where a winning margin might appear, the record shows complete balance."
+        },
+        {
+          "id": "cb52-094",
+          "text": "Confirmation is complete: the managers have finished level on points."
+        },
+        {
+          "id": "cb52-095",
+          "text": "On the numbers alone, the closest possible result is what we have."
+        },
+        {
+          "id": "cb52-096",
+          "text": "Two comparable season figures, and neither sits above the other."
+        },
+        {
+          "id": "cb52-097",
+          "text": "Equal points stand as the definitive outcome of this comparison."
+        },
+        {
+          "id": "cb52-098",
+          "text": "Put the totals side by side and the difference disappears entirely."
+        },
+        {
+          "id": "cb52-099",
+          "text": "This report ends with a shared numerical mark, not a winner."
+        },
+        {
+          "id": "cb52-100",
+          "text": "That closes the record: equal totals produce a straightforward draw."
+        }
+      ]
+    },
+    {
+      "batch": 76,
+      "situation": "draw",
+      "voice": "The touchline reporter",
+      "lines": [
+        {
+          "id": "cb76-001",
+          "text": "Down here, the word traveling between everyone is simple: level."
+        },
+        {
+          "id": "cb76-002",
+          "text": "There's no winner to announce, and that changes the mood of this moment."
+        },
+        {
+          "id": "cb76-003",
+          "text": "From where I stand, the interesting question is what both managers do next."
+        },
+        {
+          "id": "cb76-004",
+          "text": "You can imagine the questions waiting after a result this finely balanced."
+        },
+        {
+          "id": "cb76-005",
+          "text": "Neither touchline has the advantage to point at tonight's final total."
+        },
+        {
+          "id": "cb76-006",
+          "text": "Around this contest, the story now becomes how the rivals respond to equality."
+        },
+        {
+          "id": "cb76-007",
+          "text": "A finish like this leaves the next conversation hanging between the rivals."
+        },
+        {
+          "id": "cb76-008",
+          "text": "Right beside the final count, neither manager has moved ahead of the other."
+        },
+        {
+          "id": "cb76-009",
+          "text": "At ground level, a draw doesn't always feel like a quiet result."
+        },
+        {
+          "id": "cb76-010",
+          "text": "Both managers will have to look at the same number beside their names."
+        },
+        {
+          "id": "cb76-011",
+          "text": "The message reaching each side is identical: the season ends even."
+        },
+        {
+          "id": "cb76-012",
+          "text": "If you're waiting for a winning celebration, the scoreboard won't provide one."
+        },
+        {
+          "id": "cb76-013",
+          "text": "Here at the end of the campaign, there is still no separating them."
+        },
+        {
+          "id": "cb76-014",
+          "text": "You'd expect plenty of questions when a rivalry finishes exactly tied."
+        },
+        {
+          "id": "cb76-015",
+          "text": "No one can gesture toward a points lead, because nobody has one."
+        },
+        {
+          "id": "cb76-016",
+          "text": "That final total gives both sides the same answer, however they receive it."
+        },
+        {
+          "id": "cb76-017",
+          "text": "Beside the action, the unresolved rivalry feels bigger than the result itself."
+        },
+        {
+          "id": "cb76-018",
+          "text": "It's not difficult to picture two managers already considering the next challenge."
+        },
+        {
+          "id": "cb76-019",
+          "text": "This particular verdict could stay in a dressing-room conversation for some time."
+        },
+        {
+          "id": "cb76-020",
+          "text": "As the numbers settle, the question shifts from who won to what follows."
+        },
+        {
+          "id": "cb76-021",
+          "text": "They've got the same finish in front of them, not the same explanation."
+        },
+        {
+          "id": "cb76-022",
+          "text": "Right now, all anyone can confirm is equality on the board."
+        },
+        {
+          "id": "cb76-023",
+          "text": "There won't be a winning manager's interview about this particular result."
+        },
+        {
+          "id": "cb76-024",
+          "text": "With the scores level, neither side can close the rivalry's argument."
+        },
+        {
+          "id": "cb76-025",
+          "text": "You feel how awkward a draw can be when these two are involved."
+        },
+        {
+          "id": "cb76-026",
+          "text": "The final message is clear down here: no winner has emerged."
+        },
+        {
+          "id": "cb76-027",
+          "text": "And there is the scene to contemplate, two campaigns judged completely equal."
+        },
+        {
+          "id": "cb76-028",
+          "text": "I'd expect the response to this one to differ sharply between camps."
+        },
+        {
+          "id": "cb76-029",
+          "text": "Whatever gets said afterward, neither club has a numerical edge to defend."
+        },
+        {
+          "id": "cb76-030",
+          "text": "From close range, equality can seem less comfortable than a decisive outcome."
+        },
+        {
+          "id": "cb76-031",
+          "text": "You can call this a pause, but you cannot call it victory."
+        },
+        {
+          "id": "cb76-032",
+          "text": "Nobody has a points advantage to carry away from the season."
+        },
+        {
+          "id": "cb76-033",
+          "text": "For both managers, the next conversation starts with exactly the same figure."
+        },
+        {
+          "id": "cb76-034",
+          "text": "Turning to the touchline question now: how does either improve on a tie?"
+        },
+        {
+          "id": "cb76-035",
+          "text": "The two sides leave this comparison with their points perfectly aligned."
+        },
+        {
+          "id": "cb76-036",
+          "text": "An even result gives neither manager the right to look down on another."
+        },
+        {
+          "id": "cb76-037",
+          "text": "Standing here, I'm struck by how final the numbers are and how unfinished the rivalry feels."
+        },
+        {
+          "id": "cb76-038",
+          "text": "Everyone watching gets a clear result, just not a clear winner."
+        },
+        {
+          "id": "cb76-039",
+          "text": "Behind the scenes, this is precisely the kind of outcome worth dissecting."
+        },
+        {
+          "id": "cb76-040",
+          "text": "You'll find no winning margin on the record for either of these clubs."
+        },
+        {
+          "id": "cb76-041",
+          "text": "Both have plenty to reflect on, even if the official comparison is settled."
+        },
+        {
+          "id": "cb76-042",
+          "text": "The mood might differ, but the points are the same for each manager."
+        },
+        {
+          "id": "cb76-043",
+          "text": "This moment belongs to the draw, not to one side of the rivalry."
+        },
+        {
+          "id": "cb76-044",
+          "text": "I'm looking at the final total, and neither manager has broken clear."
+        },
+        {
+          "id": "cb76-045",
+          "text": "Soon the questions will come, but one answer is already fixed."
+        },
+        {
+          "id": "cb76-046",
+          "text": "You can't dress this result up as a win in either direction."
+        },
+        {
+          "id": "cb76-047",
+          "text": "Down beside the contest, you sense how much pride can rest on a number."
+        },
+        {
+          "id": "cb76-048",
+          "text": "We can report an even finish; beyond that, the arguments are theirs."
+        },
+        {
+          "id": "cb76-049",
+          "text": "No decisive gap has appeared, and the next meeting already feels important."
+        },
+        {
+          "id": "cb76-050",
+          "text": "It's worth remembering that both sides have reached the identical points total."
+        },
+        {
+          "id": "cb76-051",
+          "text": "As far as this result goes, the manager on either side is level."
+        },
+        {
+          "id": "cb76-052",
+          "text": "As this chapter closes, the figures offer an unusual symmetry."
+        },
+        {
+          "id": "cb76-053",
+          "text": "Right alongside the final figures, there's a question neither side can escape."
+        },
+        {
+          "id": "cb76-054",
+          "text": "What does a manager say when a whole campaign leaves the rivalry even?"
+        },
+        {
+          "id": "cb76-055",
+          "text": "For anyone seeking a victor, the final points offer no answer."
+        },
+        {
+          "id": "cb76-056",
+          "text": "You'd be surprised how long an equal result can remain a talking point."
+        },
+        {
+          "id": "cb76-057",
+          "text": "Both sides face the same reality when they turn toward the next season."
+        },
+        {
+          "id": "cb76-058",
+          "text": "There's nowhere for a points lead to hide in a finish like this."
+        },
+        {
+          "id": "cb76-059",
+          "text": "This could be the sort of draw that sets the tone for what follows."
+        },
+        {
+          "id": "cb76-060",
+          "text": "I wouldn't expect the rivalry to quiet down just because the totals match."
+        },
+        {
+          "id": "cb76-061",
+          "text": "With neither club ahead, the focus turns naturally toward the next campaign."
+        },
+        {
+          "id": "cb76-062",
+          "text": "With no club ahead, the focus turns naturally to the next campaign."
+        },
+        {
+          "id": "cb76-063",
+          "text": "One can't overlook the tension in a result without a winner."
+        },
+        {
+          "id": "cb76-064",
+          "text": "Almost audible is the question: how do we get ahead next time?"
+        },
+        {
+          "id": "cb76-065",
+          "text": "Standing so close to the finish, that level total is all that matters."
+        },
+        {
+          "id": "cb76-066",
+          "text": "Neither camp receives the one thing it wanted most from this comparison."
+        },
+        {
+          "id": "cb76-067",
+          "text": "That last count has arrived, and it leaves both teams together."
+        },
+        {
+          "id": "cb76-068",
+          "text": "Nobody needs to ask which manager won; the final tally says neither."
+        },
+        {
+          "id": "cb76-069",
+          "text": "From this vantage point, it's equality that defines the closing moment."
+        },
+        {
+          "id": "cb76-070",
+          "text": "Both managers are left with the same mark to carry into reflection."
+        },
+        {
+          "id": "cb76-071",
+          "text": "This draw may be official, but what it means will be debated."
+        },
+        {
+          "id": "cb76-072",
+          "text": "Nobody's walking away with a points lead to silence the other."
+        },
+        {
+          "id": "cb76-073",
+          "text": "Later on, this result may well come up in the managers’ reflections."
+        },
+        {
+          "id": "cb76-074",
+          "text": "An unusual picture emerges: equal totals and two separate ambitions."
+        },
+        {
+          "id": "cb76-075",
+          "text": "If there were hopes of separation, the final numbers haven't delivered it."
+        },
+        {
+          "id": "cb76-076",
+          "text": "I can tell you what the board says: the managers are level."
+        },
+        {
+          "id": "cb76-077",
+          "text": "Down at the finish, a draw is the story nobody can escape."
+        },
+        {
+          "id": "cb76-078",
+          "text": "That result doesn't ask for a celebration; it asks what comes next."
+        },
+        {
+          "id": "cb76-079",
+          "text": "Look at the final reckoning: both clubs stand on exactly the same line."
+        },
+        {
+          "id": "cb76-080",
+          "text": "Surely neither manager would regard this rivalry as settled by a draw."
+        },
+        {
+          "id": "cb76-081",
+          "text": "Here beside the scoreboard, the same total tells both sides the same thing."
+        },
+        {
+          "id": "cb76-082",
+          "text": "It's a shared numerical destination, whether or not either wanted to share it."
+        },
+        {
+          "id": "cb76-083",
+          "text": "Each side may reflect differently, but they'll be reflecting on the same result."
+        },
+        {
+          "id": "cb76-084",
+          "text": "No sign of separation in the recorded points for this season."
+        },
+        {
+          "id": "cb76-085",
+          "text": "After the last calculation, neither manager has more to show on the board."
+        },
+        {
+          "id": "cb76-086",
+          "text": "That is the scene's defining detail: identical points beside competing names."
+        },
+        {
+          "id": "cb76-087",
+          "text": "I'm not reading between lines here; the result simply says draw."
+        },
+        {
+          "id": "cb76-088",
+          "text": "There will be questions for both managers, not congratulations for one winner."
+        },
+        {
+          "id": "cb76-089",
+          "text": "Now the rivalry moves forward from a finish that did not choose sides."
+        },
+        {
+          "id": "cb76-090",
+          "text": "Think of the discussion this result could spark without producing a winner."
+        },
+        {
+          "id": "cb76-091",
+          "text": "At this distance, what stands out is the absence of a winning total."
+        },
+        {
+          "id": "cb76-092",
+          "text": "A narrow lead might have changed everything; none exists in this result."
+        },
+        {
+          "id": "cb76-093",
+          "text": "To end the campaign, nobody has the higher points figure."
+        },
+        {
+          "id": "cb76-094",
+          "text": "Whatever the immediate reaction, the competition has handed them equality."
+        },
+        {
+          "id": "cb76-095",
+          "text": "For this chapter, the one certainty is that both have finished level."
+        },
+        {
+          "id": "cb76-096",
+          "text": "From the touchline perspective, a tie leaves plenty of unfinished conversation."
+        },
+        {
+          "id": "cb76-097",
+          "text": "Nobody can claim to have settled the rivalry on this season's points."
+        },
+        {
+          "id": "cb76-098",
+          "text": "As we leave this chapter, both managers remain on exactly the same footing."
+        },
+        {
+          "id": "cb76-099",
+          "text": "A strange final message arrives: a draw, and another chapter still to write."
+        },
+        {
+          "id": "cb76-100",
+          "text": "And so the focus shifts forward, because the final scoreline cannot separate them."
+        }
+      ]
+    },
+    {
+      "batch": 100,
+      "situation": "draw",
+      "voice": "The studio panel",
+      "lines": [
+        {
+          "id": "cb100-001",
+          "text": "Let's address the obvious: nobody gets to leave this season calling themselves the winner."
+        },
+        {
+          "id": "cb100-002",
+          "text": "Hold on, there's a difference between competing fiercely and actually finishing ahead."
+        },
+        {
+          "id": "cb100-003",
+          "text": "I think the draw is fascinating because it resists every tidy headline."
+        },
+        {
+          "id": "cb100-004",
+          "text": "Fair enough to praise both, but neither has outpointed the other."
+        },
+        {
+          "id": "cb100-005",
+          "text": "That's our central question tonight: what does equality really tell us?"
+        },
+        {
+          "id": "cb100-006",
+          "text": "Before we crown anybody, perhaps somebody should find a points advantage."
+        },
+        {
+          "id": "cb100-007",
+          "text": "One of the great temptations is to turn a draw into a verdict."
+        },
+        {
+          "id": "cb100-008",
+          "text": "Look, both managers have an argument, but neither has the winning total."
+        },
+        {
+          "id": "cb100-009",
+          "text": "The debate can be loud; the points column doesn't need to raise its voice."
+        },
+        {
+          "id": "cb100-010",
+          "text": "You could spend an hour deciding who looks stronger and still be level."
+        },
+        {
+          "id": "cb100-011",
+          "text": "Here's the distinction: competitive respect is earned, superiority isn't established here."
+        },
+        {
+          "id": "cb100-012",
+          "text": "I'd challenge anyone to explain how equal points amount to victory."
+        },
+        {
+          "id": "cb100-013",
+          "text": "What fascinates me is the gap between the outcome and its emotional weight."
+        },
+        {
+          "id": "cb100-014",
+          "text": "Careful now; a favorite doesn't become a winner just because you prefer them."
+        },
+        {
+          "id": "cb100-015",
+          "text": "This season offers a straightforward answer to a complicated rivalry: draw."
+        },
+        {
+          "id": "cb100-016",
+          "text": "There's no point pretending a manager won when neither has more points."
+        },
+        {
+          "id": "cb100-017",
+          "text": "I'd be interested in what each would change, not who claims a crown."
+        },
+        {
+          "id": "cb100-018",
+          "text": "Both sides deserve analysis, and neither deserves an invented advantage."
+        },
+        {
+          "id": "cb100-019",
+          "text": "That's a result built for discussion, not for handing out medals."
+        },
+        {
+          "id": "cb100-020",
+          "text": "The strongest argument tonight might simply be the one against picking sides."
+        },
+        {
+          "id": "cb100-021",
+          "text": "As a panel, we can disagree on quality, not on the final total."
+        },
+        {
+          "id": "cb100-022",
+          "text": "Someone will search for a moral winner; I'd start with the actual result."
+        },
+        {
+          "id": "cb100-023",
+          "text": "If your case begins with 'technically,' you're already walking past the draw."
+        },
+        {
+          "id": "cb100-024",
+          "text": "No, we cannot call it a win on the basis of style alone."
+        },
+        {
+          "id": "cb100-025",
+          "text": "The rivalry is healthier when we let a draw remain a draw."
+        },
+        {
+          "id": "cb100-026",
+          "text": "Imagine the discussion if one manager claimed to have finished clearly ahead."
+        },
+        {
+          "id": "cb100-027",
+          "text": "I suspect the other would respond by pointing at exactly the same points."
+        },
+        {
+          "id": "cb100-028",
+          "text": "We have an equality of totals, not necessarily identical stories behind them."
+        },
+        {
+          "id": "cb100-029",
+          "text": "That difference matters because results and performances are not the same discussion."
+        },
+        {
+          "id": "cb100-030",
+          "text": "Let's hear the case for either side without pretending there's a verdict."
+        },
+        {
+          "id": "cb100-031",
+          "text": "Here's where I disagree: a draw doesn't tell us nobody achieved anything."
+        },
+        {
+          "id": "cb100-032",
+          "text": "Each manager has a campaign to assess; the comparison itself is simply level."
+        },
+        {
+          "id": "cb100-033",
+          "text": "It's the kind of outcome that separates analysis from cheerleading."
+        },
+        {
+          "id": "cb100-034",
+          "text": "One thing a panel cannot do is invent a tiebreak to force a winner."
+        },
+        {
+          "id": "cb100-035",
+          "text": "Ask whether either finished ahead on points; the answer is no."
+        },
+        {
+          "id": "cb100-036",
+          "text": "That leaves us with an interesting contest and an honest stalemate."
+        },
+        {
+          "id": "cb100-037",
+          "text": "I'd argue the rivalry gains something when nobody can claim the last word."
+        },
+        {
+          "id": "cb100-038",
+          "text": "Maybe the most impressive fact is how completely the totals line up."
+        },
+        {
+          "id": "cb100-039",
+          "text": "We should talk about ambition, but not manufacture a victory from equality."
+        },
+        {
+          "id": "cb100-040",
+          "text": "At least the numbers give us something everyone here can agree on."
+        },
+        {
+          "id": "cb100-041",
+          "text": "The hard part is resisting the urge to assign a crown anyway."
+        },
+        {
+          "id": "cb100-042",
+          "text": "You're entitled to rate a campaign highly; you're not entitled to alter the score."
+        },
+        {
+          "id": "cb100-043",
+          "text": "Debate away: same outcome, different possible interpretations, and no clear winner."
+        },
+        {
+          "id": "cb100-044",
+          "text": "Personally, I do not see this as any failure to produce a worthwhile story."
+        },
+        {
+          "id": "cb100-045",
+          "text": "Quite the opposite, a level finish gives the next chapter its premise."
+        },
+        {
+          "id": "cb100-046",
+          "text": "Problems begin when commentary tries to find a winner the board hasn't."
+        },
+        {
+          "id": "cb100-047",
+          "text": "It's worth asking whether the frustration of a draw adds motivation."
+        },
+        {
+          "id": "cb100-048",
+          "text": "Don't confuse identical totals with identical decisions across the season."
+        },
+        {
+          "id": "cb100-049",
+          "text": "We can discuss the decisions without inventing any of them."
+        },
+        {
+          "id": "cb100-050",
+          "text": "My point is simple: the rivalry remains live because neither has prevailed."
+        },
+        {
+          "id": "cb100-051",
+          "text": "When those totals match, the argument about superiority has to remain open."
+        },
+        {
+          "id": "cb100-052",
+          "text": "Some people dislike draws because they want a clean conclusion."
+        },
+        {
+          "id": "cb100-053",
+          "text": "A clean conclusion is still possible: the season finished level."
+        },
+        {
+          "id": "cb100-054",
+          "text": "I would question any analysis that quietly awards victory to one manager."
+        },
+        {
+          "id": "cb100-055",
+          "text": "From the studio, that feels like the wrong way to read the result."
+        },
+        {
+          "id": "cb100-056",
+          "text": "Yes, you can make a case for both, and that is precisely the point."
+        },
+        {
+          "id": "cb100-057",
+          "text": "Neither manager has the objective advantage needed to end this debate."
+        },
+        {
+          "id": "cb100-058",
+          "text": "Put the final figures together; opinion cannot overrule their equality."
+        },
+        {
+          "id": "cb100-059",
+          "text": "Here's a useful distinction: sharing points doesn't mean sharing satisfaction."
+        },
+        {
+          "id": "cb100-060",
+          "text": "I'd like to know how each manager frames the next challenge."
+        },
+        {
+          "id": "cb100-061",
+          "text": "Our job isn't to invent certainty where the contest has provided none."
+        },
+        {
+          "id": "cb100-062",
+          "text": "Our table has done its part, and it has left us with a draw."
+        },
+        {
+          "id": "cb100-063",
+          "text": "You may see one season more favorably, but that's a separate question."
+        },
+        {
+          "id": "cb100-064",
+          "text": "Declaring this resolved would be an extraordinary stretch, wouldn't it?"
+        },
+        {
+          "id": "cb100-065",
+          "text": "What we're seeing is a result that invites analysis rather than a coronation."
+        },
+        {
+          "id": "cb100-066",
+          "text": "That's an important difference between calling a winner and judging a campaign."
+        },
+        {
+          "id": "cb100-067",
+          "text": "If anything, the shared finish makes the next comparison more compelling."
+        },
+        {
+          "id": "cb100-068",
+          "text": "Remember that neither side has more points, whatever else gets discussed."
+        },
+        {
+          "id": "cb100-069",
+          "text": "There's also the psychological question, which the scoreboard cannot answer for us."
+        },
+        {
+          "id": "cb100-070",
+          "text": "We shouldn't infer anyone's mood from the fact of a tie."
+        },
+        {
+          "id": "cb100-071",
+          "text": "Available evidence is enough to settle the result, nothing beyond it."
+        },
+        {
+          "id": "cb100-072",
+          "text": "For my part, I can respect a preference without calling it the outcome."
+        },
+        {
+          "id": "cb100-073",
+          "text": "Take away the allegiances, and you're left with identical final totals."
+        },
+        {
+          "id": "cb100-074",
+          "text": "That means no winner, regardless of how persuasive the arguments become."
+        },
+        {
+          "id": "cb100-075",
+          "text": "Rarely do the numbers resist our need for a hero quite this neatly."
+        },
+        {
+          "id": "cb100-076",
+          "text": "Even this finish may leave both managers with their ambitions still to meet."
+        },
+        {
+          "id": "cb100-077",
+          "text": "Well argued, but I still can't find a lead in those points."
+        },
+        {
+          "id": "cb100-078",
+          "text": "Let's separate the drama of the rivalry from the arithmetic of the result."
+        },
+        {
+          "id": "cb100-079",
+          "text": "One may have a favorite, but the final table does not."
+        },
+        {
+          "id": "cb100-080",
+          "text": "Once the debate begins, the numerical question is already settled."
+        },
+        {
+          "id": "cb100-081",
+          "text": "I'm all for opinions, just not for rewriting the result to suit them."
+        },
+        {
+          "id": "cb100-082",
+          "text": "In this studio, the honest headline is parity between the managers."
+        },
+        {
+          "id": "cb100-083",
+          "text": "Notice how easy it is to talk about margins that aren't there."
+        },
+        {
+          "id": "cb100-084",
+          "text": "Surely we don't need a hypothetical winner to make this result memorable."
+        },
+        {
+          "id": "cb100-085",
+          "text": "A finished season has given us a shared mark, and that is enough."
+        },
+        {
+          "id": "cb100-086",
+          "text": "Nobody should tell either manager they've settled matters with the other."
+        },
+        {
+          "id": "cb100-087",
+          "text": "Ask me who's ahead here, and I'll point to the equal numbers."
+        },
+        {
+          "id": "cb100-088",
+          "text": "A draw can be definitive as a result and open-ended as a story."
+        },
+        {
+          "id": "cb100-089",
+          "text": "There's value in that distinction, especially with a rivalry this personal."
+        },
+        {
+          "id": "cb100-090",
+          "text": "You could argue over whose campaign was prettier until the next one begins."
+        },
+        {
+          "id": "cb100-091",
+          "text": "For me, the truth is where we start: neither finished above the other."
+        },
+        {
+          "id": "cb100-092",
+          "text": "Feeling unsatisfied with the verdict doesn't make the arithmetic inaccurate."
+        },
+        {
+          "id": "cb100-093",
+          "text": "For our closing thought, the story isn't a winner but a challenge renewed."
+        },
+        {
+          "id": "cb100-094",
+          "text": "We'll hear different takes, no doubt, but they all begin with equality."
+        },
+        {
+          "id": "cb100-095",
+          "text": "This is exactly why a points total should not be mistaken for a full story."
+        },
+        {
+          "id": "cb100-096",
+          "text": "Maybe the best prediction is simply that the argument won't go away."
+        },
+        {
+          "id": "cb100-097",
+          "text": "No panel verdict should outrank the final score recorded by the game."
+        },
+        {
+          "id": "cb100-098",
+          "text": "At least this rivalry has an ending for the season without a final answer."
+        },
+        {
+          "id": "cb100-099",
+          "text": "I'll give both managers their due, while keeping the honours unclaimed."
+        },
+        {
+          "id": "cb100-100",
+          "text": "That, surely, is a draw worth talking about long after the tally closes."
+        }
+      ]
+    },
+    {
+      "batch": 124,
+      "situation": "draw",
+      "voice": "The radio poet",
+      "lines": [
+        {
+          "id": "cb124-001",
+          "text": "Two roads through a season have arrived at the same quiet crossroads."
+        },
+        {
+          "id": "cb124-002",
+          "text": "The numbers fall into place, and neither name rises above the other."
+        },
+        {
+          "id": "cb124-003",
+          "text": "Some rivalries end with a signature; this one ends with a question mark."
+        },
+        {
+          "id": "cb124-004",
+          "text": "Across the long stretch of a campaign, both have reached the same shore."
+        },
+        {
+          "id": "cb124-005",
+          "text": "A season can close its book without closing the argument inside it."
+        },
+        {
+          "id": "cb124-006",
+          "text": "Neither crown nor consolation waits at the end of this even tally."
+        },
+        {
+          "id": "cb124-007",
+          "text": "What a curious echo: one ambition answered by an equal ambition."
+        },
+        {
+          "id": "cb124-008",
+          "text": "The finish line has room for both, but no place for a winner."
+        },
+        {
+          "id": "cb124-009",
+          "text": "Time has counted every point, and still the balance holds."
+        },
+        {
+          "id": "cb124-010",
+          "text": "One number meets its twin, and the rivalry looks toward tomorrow."
+        },
+        {
+          "id": "cb124-011",
+          "text": "Like two hands on opposite sides of a scale, these seasons rest level."
+        },
+        {
+          "id": "cb124-012",
+          "text": "This isn't silence after the verdict; it's another verse of the rivalry."
+        },
+        {
+          "id": "cb124-013",
+          "text": "Both managers have written their chapters, yet the last line reads draw."
+        },
+        {
+          "id": "cb124-014",
+          "text": "There are endings that settle everything, and endings that sharpen the question."
+        },
+        {
+          "id": "cb124-015",
+          "text": "Here the season leaves no conqueror, only two names on equal ground."
+        },
+        {
+          "id": "cb124-016",
+          "text": "The measure of the year lies balanced between competing sets of hopes."
+        },
+        {
+          "id": "cb124-017",
+          "text": "No single voice can claim the final word when the totals agree."
+        },
+        {
+          "id": "cb124-018",
+          "text": "Through every turn of the calendar, the rivalry has kept its balance."
+        },
+        {
+          "id": "cb124-019",
+          "text": "At the reckoning, two distant ambitions meet at precisely the same point."
+        },
+        {
+          "id": "cb124-020",
+          "text": "Nothing has tipped the scale, and the old argument lives on."
+        },
+        {
+          "id": "cb124-021",
+          "text": "A draw is a door left open in the house of rivalry."
+        },
+        {
+          "id": "cb124-022",
+          "text": "Listen closely to the tally: the same note sounds for both managers."
+        },
+        {
+          "id": "cb124-023",
+          "text": "The season has reached its final page, but the pencil remains sharp."
+        },
+        {
+          "id": "cb124-024",
+          "text": "Neither shadow stretches farther when the points are laid side by side."
+        },
+        {
+          "id": "cb124-025",
+          "text": "What looks like an ending may be the hinge of another beginning."
+        },
+        {
+          "id": "cb124-026",
+          "text": "In this final accounting, the balance carries more drama than a lead."
+        },
+        {
+          "id": "cb124-027",
+          "text": "Two names stand on the horizon, neither a step ahead in points."
+        },
+        {
+          "id": "cb124-028",
+          "text": "All the distance traveled has brought both campaigns into one frame."
+        },
+        {
+          "id": "cb124-029",
+          "text": "Once again the story refuses the easy comfort of a single hero."
+        },
+        {
+          "id": "cb124-030",
+          "text": "This time the story refuses the easy comfort of a hero."
+        },
+        {
+          "id": "cb124-031",
+          "text": "One cannot lift a victory from a page that records a draw."
+        },
+        {
+          "id": "cb124-032",
+          "text": "There's a little poetry in numbers that refuse to take a side."
+        },
+        {
+          "id": "cb124-033",
+          "text": "With the last point counted, the scales have found their center."
+        },
+        {
+          "id": "cb124-034",
+          "text": "No flag of triumph rises from this perfectly even season comparison."
+        },
+        {
+          "id": "cb124-035",
+          "text": "Both paths have carried their managers to the same line on the chart."
+        },
+        {
+          "id": "cb124-036",
+          "text": "Sometimes the loudest conclusion is the one that leaves the contest open."
+        },
+        {
+          "id": "cb124-037",
+          "text": "From the ledger comes a modest word with a powerful echo: draw."
+        },
+        {
+          "id": "cb124-038",
+          "text": "It stands balanced, though the whole year has turned around this rivalry."
+        },
+        {
+          "id": "cb124-039",
+          "text": "Both pages close together, neither story permitted to stand above its rival."
+        },
+        {
+          "id": "cb124-040",
+          "text": "What a strange victory for suspense, when neither manager has actually won."
+        },
+        {
+          "id": "cb124-041",
+          "text": "Two campaigns have met like rivers joining at an identical level."
+        },
+        {
+          "id": "cb124-042",
+          "text": "Motionless sits the scale, though the rivalry itself has never felt finished."
+        },
+        {
+          "id": "cb124-043",
+          "text": "Higher and lower have no meaning here, with equality preserved in the record."
+        },
+        {
+          "id": "cb124-044",
+          "text": "At season's end, the arithmetic becomes a mirror held between rivals."
+        },
+        {
+          "id": "cb124-045",
+          "text": "Neither manager owns the sunset of a campaign that finishes level."
+        },
+        {
+          "id": "cb124-046",
+          "text": "Matching figures stand like bookends around one unfinished argument."
+        },
+        {
+          "id": "cb124-047",
+          "text": "A season's ambition can burn brightly without leaving one rival above another."
+        },
+        {
+          "id": "cb124-048",
+          "text": "Nothing in the points pulls one club free of the other."
+        },
+        {
+          "id": "cb124-049",
+          "text": "This draw has no crown, but it has a heartbeat of its own."
+        },
+        {
+          "id": "cb124-050",
+          "text": "Beyond the numbers waits that familiar promise: another chance to be different."
+        },
+        {
+          "id": "cb124-051",
+          "text": "When the counting ends, the contest remains balanced upon a single thought."
+        },
+        {
+          "id": "cb124-052",
+          "text": "No name is written above the other in this season's reckoning."
+        },
+        {
+          "id": "cb124-053",
+          "text": "Two ambitions, two journeys, one final mark carved into the record."
+        },
+        {
+          "id": "cb124-054",
+          "text": "Another calendar turns, but this equality stays behind as unfinished music."
+        },
+        {
+          "id": "cb124-055",
+          "text": "Even the last calculation has declined to choose a favorite."
+        },
+        {
+          "id": "cb124-056",
+          "text": "An edge is what both sought, yet that edge belongs to neither."
+        },
+        {
+          "id": "cb124-057",
+          "text": "In the quiet of the final tally, the rivalry speaks again."
+        },
+        {
+          "id": "cb124-058",
+          "text": "Identical figures hold the final picture, as if drawn upon a straight horizon."
+        },
+        {
+          "id": "cb124-059",
+          "text": "A contest can burn through a year and still end in balance."
+        },
+        {
+          "id": "cb124-060",
+          "text": "Their stories need not match for the points to meet perfectly."
+        },
+        {
+          "id": "cb124-061",
+          "text": "Here is the paradox: the result is final, the argument is not."
+        },
+        {
+          "id": "cb124-062",
+          "text": "One shared total stands between them like a line neither crossed."
+        },
+        {
+          "id": "cb124-063",
+          "text": "At the finish, the same mark belongs to both, and the honours to neither."
+        },
+        {
+          "id": "cb124-064",
+          "text": "No thunderous declaration of victory, just two records reflecting each other."
+        },
+        {
+          "id": "cb124-065",
+          "text": "It all returns to that stubborn little word: level."
+        },
+        {
+          "id": "cb124-066",
+          "text": "Between the managers sits an outcome too even to be claimed."
+        },
+        {
+          "id": "cb124-067",
+          "text": "From ambition to arithmetic, the two seasons have found one resting place."
+        },
+        {
+          "id": "cb124-068",
+          "text": "This draw leaves its own footprint long after the counting is finished."
+        },
+        {
+          "id": "cb124-069",
+          "text": "Both managers reach the closing sentence without gaining a step on the other."
+        },
+        {
+          "id": "cb124-070",
+          "text": "Equal points, and the rivalry has kept its distance even as the figures meet."
+        },
+        {
+          "id": "cb124-071",
+          "text": "An opening question of supremacy ends as a portrait of perfect parity."
+        },
+        {
+          "id": "cb124-072",
+          "text": "Neither name has climbed above the other on the final points board."
+        },
+        {
+          "id": "cb124-073",
+          "text": "These are the moments when a scoreboard becomes an open invitation."
+        },
+        {
+          "id": "cb124-074",
+          "text": "Numbers cannot tell two whole stories, but they can unite their endings."
+        },
+        {
+          "id": "cb124-075",
+          "text": "Somewhere in that equality lies the seed of the next contest."
+        },
+        {
+          "id": "cb124-076",
+          "text": "Here stand two clubs, equal figures, and a horizon still full of possibilities."
+        },
+        {
+          "id": "cb124-077",
+          "text": "Finally the tally lands with the softness of a question unanswered."
+        },
+        {
+          "id": "cb124-078",
+          "text": "There was a finish to the season, just not to the rivalry."
+        },
+        {
+          "id": "cb124-079",
+          "text": "Nothing in these numbers can dress the stalemate as a triumph."
+        },
+        {
+          "id": "cb124-080",
+          "text": "Such a level verdict settles the record and leaves pride to wrestle on."
+        },
+        {
+          "id": "cb124-081",
+          "text": "So the contest places both sides upon the same final line."
+        },
+        {
+          "id": "cb124-082",
+          "text": "When two totals match, the page has no space for a conqueror."
+        },
+        {
+          "id": "cb124-083",
+          "text": "An entire season stretches behind a draw no manager can claim alone."
+        },
+        {
+          "id": "cb124-084",
+          "text": "After all that counting, neither defeat nor victory claims this moment."
+        },
+        {
+          "id": "cb124-085",
+          "text": "Through the shifting chapters, the final arithmetic has kept them together."
+        },
+        {
+          "id": "cb124-086",
+          "text": "Measured to the last point, the season is exact in its equality."
+        },
+        {
+          "id": "cb124-087",
+          "text": "Not a higher summit appears for either manager in this points comparison."
+        },
+        {
+          "id": "cb124-088",
+          "text": "On the page, the numbers rest evenly, like weights placed with care."
+        },
+        {
+          "id": "cb124-089",
+          "text": "Rival ambitions have reached an equal note without singing the same song."
+        },
+        {
+          "id": "cb124-090",
+          "text": "There is beauty in a rivalry strong enough to remain unresolved."
+        },
+        {
+          "id": "cb124-091",
+          "text": "By the final count, nobody stands taller in these recorded points."
+        },
+        {
+          "id": "cb124-092",
+          "text": "One last page turns, and both clubs occupy the same line."
+        },
+        {
+          "id": "cb124-093",
+          "text": "As the season turns, each manager expected a window and found a mirror."
+        },
+        {
+          "id": "cb124-094",
+          "text": "Nothing decides the argument here except the certainty that it remains open."
+        },
+        {
+          "id": "cb124-095",
+          "text": "An equal ending can sometimes speak louder than a solitary triumph."
+        },
+        {
+          "id": "cb124-096",
+          "text": "Each final total has settled, yet the question between them keeps moving."
+        },
+        {
+          "id": "cb124-097",
+          "text": "Once the last figure finds its equal, the rivalry draws another breath."
+        },
+        {
+          "id": "cb124-098",
+          "text": "Nobody walks ahead in the arithmetic of this completed season."
+        },
+        {
+          "id": "cb124-099",
+          "text": "With the final page turned, balance claims the chapter instead of any name."
+        },
+        {
+          "id": "cb124-100",
+          "text": "Together the rivals arrive, and the next horizon is theirs to chase."
+        }
+      ]
+    }
+  ]
+}
