@@ -689,7 +689,8 @@ async function revokePairing(options={}){
   // tests/browser/support/rules-lookups.cjs (the CE2PG billed meter prices with the same derivation, so phone and test agree):
   //   [path pattern, lookups of a read while the Showdown is live, lookups once it is finished, documents a write may look up].
   // A live Showdown's read stops at its first allow branch (the rivalry); a finished one also checks the signed-in account.
-  // A listener's lookups are billed once, when it starts; its later deliveries are document reads only. A write is priced at
+  // A listener's Rules are evaluated when it starts and again each time its results update or it comes back online (Firebase
+  // pricing, "Listeners and rules"), so every server delivery is billed its document plus its lookups. A write is priced at
   // every document its create or update rule can reach, once per request (a transaction is one request): an upper bound.
   // tests/contracts/r86-billed-counter-contracts.cjs fails when the Rules change and this table is not regenerated.
   const FSB_RULES_SHA256="d38489a8fabf24de301c838a6669e17af663aaca7e6c286064e769ac3bc0c30e";
@@ -724,10 +725,10 @@ async function revokePairing(options={}){
   // A query (no single document path) is priced at one lookup per request: the signed-in account.
   const FSB_QUERY_LOOKUPS=1;
   // One season on one phone, game screens only (career pages are counted apart), documents + lookups, waits included: the
-  // CE2PG billed measurement (npm run test:budget, 2026-10-28, mid pace) of a 3-season Showdown was 945 + 591 + 787 billed
-  // for both phones (first season with Start and Setup, a middle one, the last with Final): about 390 per phone per season.
-  // Used until a season has been played on this phone.
-  const FSB_DEFAULT_SEASON_BILLED=390;
+  // CE2PG billed measurement (npm run test:budget, 2026-10-29, mid pace, listener lookups on every update) of a 3-season
+  // Showdown was 991 + 614 + 773 billed for both phones (first season with Start and Setup, a middle one, the last with
+  // Final): about 400 per phone per season. Used until a season has been played on this phone.
+  const FSB_DEFAULT_SEASON_BILLED=400;
   const fsbLookupCache=new Map();
   function fsbLookupRow(path){
     if(typeof path!=="string"||!path)return null;
@@ -880,7 +881,7 @@ async function revokePairing(options={}){
     if(typeof listen!=="function"||fsbMetered.has(listen))return listen;
     const metered=function(ref,...rest){
       let served=false;const path=fsbPathOf(ref);
-      const next=fn=>function(snapshot){const units=fsbMeterUnits(snapshot,true,served),first=!served;if(units||snapshot&&snapshot.metadata&&snapshot.metadata.fromCache===false)served=true;fsbCountRead(units,true,first?fsbReadLookups(path):0);return fn.apply(this,arguments);};
+      const next=fn=>function(snapshot){const units=fsbMeterUnits(snapshot,true,served),first=!served;if(units||snapshot&&snapshot.metadata&&snapshot.metadata.fromCache===false)served=true;fsbCountRead(units,true,first||units?fsbReadLookups(path):0);return fn.apply(this,arguments);};
       const fail=fn=>function(error){fsbCountRead(fsbMeterFailureUnits(error),true,served?0:fsbReadLookups(path));return fn.apply(this,arguments);};
       let functions=0;
       const args=rest.map(arg=>{
@@ -1121,7 +1122,7 @@ async function revokePairing(options={}){
     const serial=fsbSerial(snapshot),known=fsbEntries.get(watch.path);
     const before=watch.serial!==null?watch.serial:(known?fsbSerial(known.snapshot):null);
     watch.snapshot=snapshot;watch.serial=serial;watch.healthy=true;watch.dirty=false;watch.confirmedAt=fsbNow();
-    fsbStats.listenerDeliveries+=1;fsbCountRead(fsbMeterUnits(snapshot,true),true,watch.priced?0:fsbReadLookups(watch.path));watch.priced=true;
+    fsbStats.listenerDeliveries+=1;fsbCountRead(fsbMeterUnits(snapshot,true),true,fsbReadLookups(watch.path));watch.priced=true;
     fsbEntries.delete(watch.path);fsbEntries.set(watch.path,{snapshot,at:fsbNow(),dirty:false,immutable:false});
     if(before!==null&&before!==serial){fsbChainAt=fsbNow();const wake=fsbCtxRivalry&&fsbCtxRivalry.wake;if(typeof wake==="function"&&typeof root.setTimeout==="function")root.setTimeout(()=>{try{wake(watch.path);}catch(_error){}},0);}
   }
@@ -1213,7 +1214,7 @@ async function revokePairing(options={}){
     const changed=before!==null&&before!==serial;
     wait.snapshot=snapshot;wait.serial=serial;wait.version=version;wait.healthy=true;wait.dirty=false;wait.confirmedAt=fsbNow();
     if(wait.lagUntil&&(fsbVersionCompare(version,wait.lagVersion)>=0&&version!==null||serial===wait.lagSerial)){wait.lagUntil=0;wait.lagVersion=null;wait.lagSerial=null;}
-    fsbStats.listenerDeliveries+=1;fsbCountRead(fsbMeterUnits(snapshot,true),true,wait.priced?0:fsbReadLookups(wait.path));wait.priced=true;
+    fsbStats.listenerDeliveries+=1;fsbCountRead(fsbMeterUnits(snapshot,true),true,fsbReadLookups(wait.path));wait.priced=true;
     // r84 trim: the delivered server copy also becomes this page's copy. Before, a copy marked dirty by this page's own save
     // stayed behind the listener, so the next 30 s server check of the waited document always looked "changed" and re-ran
     // the whole check on fresh reads (about 9 documents) after every lock.

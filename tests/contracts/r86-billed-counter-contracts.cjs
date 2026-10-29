@@ -5,7 +5,8 @@
 // composed production Rules, the same derivation the CE2PG billed meter uses (tests/browser/support/billed-meter.cjs).
 // B1 the client table matches the Rules (and the Rules pin) for every path, so a Rules change cannot leave it stale;
 // B2 a career-page get is billed at the finished-Showdown price and counted as a career page;
-// B3 a listener's lookups are billed once, at its first server delivery; later deliveries are document reads only;
+// B3 a listener's lookups are billed at its first server delivery and again on every later update (each results update
+//    re-evaluates the Rules: Firebase pricing, "Listeners and rules"); a cached delivery costs nothing;
 // B4 a transaction that writes is billed its write lookups once per request; a read-only one none;
 // B5 a direct setDoc (the career summary) is billed its write lookups as a career page;
 // B6 seasons left: a season's cost is game reads only, today's use counts career pages too, both devices;
@@ -71,7 +72,7 @@ const RID='pair_'+'a'.repeat(64);
     assert.equal(today.billedEstimate,today.thisPhone*2,'both devices');
   });
 
-  await check('B3 a listener is billed its lookups once, at the first server delivery; later deliveries are documents only',()=>{
+  await check('B3 a listener is billed document + lookups on every server delivery (Rules re-run on each update); cached ones cost nothing',()=>{
     const {budget:b}=page();let next=null;
     const sdk=b.meterSdk({doc:()=>null,onSnapshot:(_ref,_options,onNext)=>{next=onNext;return ()=>{};}});
     sdk.onSnapshot({path:`rivalries/${RID}/sessions/s1`},{includeMetadataChanges:true},()=>{},()=>{});
@@ -81,7 +82,9 @@ const RID='pair_'+'a'.repeat(64);
     const live=model.readDocs('/rivalries/{rivalryId}/sessions/{sessionId}',true).length;
     assert.equal(b.readsToday().game,1+live,'first server delivery: document + lookups');
     next(snap());next(snap());
-    assert.equal(b.readsToday().game,3+live,'later deliveries: one document each');
+    assert.equal(b.readsToday().game,3*(1+live),'later deliveries: document + lookups each');
+    next(snap({metadata:{fromCache:true,hasPendingWrites:false}}));next(snap({metadata:{fromCache:false,hasPendingWrites:true}}));
+    assert.equal(b.readsToday().game,3*(1+live),'cached and own pending-write deliveries are free');
   });
 
   await check('B4 a transaction that writes is billed its write lookups once per request; a read-only one none',async()=>{

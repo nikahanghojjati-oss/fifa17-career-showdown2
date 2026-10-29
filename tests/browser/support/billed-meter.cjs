@@ -7,9 +7,11 @@
 //
 // Pricing rules
 //   getDoc / getDocFromServer / transaction.get   one request each: 1 read + that path's read lookups
-//   listener                                       Rules are evaluated when the listen stream attaches: lookups once per attach;
-//                                                  every delivered change is 1 read (the firestore-meter count). A stream the SDK
-//                                                  silently re-opens (network blip) is not visible here and would re-evaluate Rules.
+//   listener                                       Rules are evaluated when the listen stream attaches and again each time its
+//                                                  results update (Firebase pricing, "Listeners and rules"): lookups at attach and
+//                                                  on every delivered change after the first result; each delivery is 1 read (the
+//                                                  firestore-meter count). A stream the SDK silently re-opens (network blip) is not
+//                                                  visible here and would re-evaluate Rules.
 //   getDocs (a query)                              Rules evaluated once for the query: lookups once, not per returned document
 //                                                  (every `allow list` in the production Rules is false, so none is expected)
 //   writes                                         lookups of the path's create/update upper bound, once per distinct document per
@@ -58,24 +60,30 @@ function emptyTotals(){return {docReads:0,rulesReads:0,billed:0,writes:0,rulesOn
 function bump(map,key,docs,rules){const e=map[key]||(map[key]={docs:0,rules:0});e.docs+=docs;e.rules+=rules;}
 
 // events: firestore-meter events inside the window (any users). Returns totals for reads+listens+writes among them.
-function price(model,events){
+function price(model,events,listenState={initial:new Set()}){
   const T=emptyTotals();
   const writeReq=new Map();// req id -> {docs:Set, mod, count}
   const add=(docs,rules,p,st,isWrite)=>{
     if(isWrite){T.writes+=docs;T.rulesOnWrites+=rules;}else{T.docReads+=docs;T.rulesReads+=rules;}
     bump(T.byPath,`${isWrite?"write":"read"} ${shortPath(p)}`,docs,rules);bump(T.byModule,`${isWrite?"write":"read"} ${moduleOf(st)}`,docs,rules);
   };
-  let single=0;
+  // user|path whose first result is still to come (it is the attach's evaluation, already priced there)
+  let single=0;const initial=listenState.initial;
   for(const e of events){
     if(e.k==="read"){
       const tpl=model.templateOf(e.path);
-      if(e.op==="listen"){add(e.n,0,e.path,e.st,false);continue;}
+      if(e.op==="listen"){
+        const key=`${e.user}|${e.path}`;if(initial.has(key)){initial.delete(key);add(e.n,0,e.path,e.st,false);continue;}
+        const docs=tpl?model.readDocs(tpl,model.liveAt?model.liveAt(e.path,e.t):true):[];
+        add(e.n,docs.length,e.path,e.st,false);continue;
+      }
       const docs=tpl?model.readDocs(tpl,model.liveAt?model.liveAt(e.path,e.t):true):[];if(!tpl&&!/^QUERY:/.test(e.path))T.unmatched+=1;
       const perRequest=e.op==="getDocs"?1:e.n;
       const rules=docs.length*perRequest;
       if(tpl&&docs.includes(tpl.replace(/^\//,"")))T.selfLookups+=perRequest;
       add(e.n,rules,e.path,e.st,false);
     }else if(e.k==="listener"){
+      initial.add(`${e.user}|${e.path}`);
       const tpl=model.templateOf(e.path);
       const docs=tpl?model.readDocs(tpl,model.liveAt?model.liveAt(e.path,e.t):true):[];
       if(!tpl&&!/^QUERY:/.test(e.path))T.unmatched+=1;
@@ -106,12 +114,12 @@ function attribute(model,events,allEvents,keyFn){
   for(const e of allEvents)if(e.k==="listener"&&e.st)attach.set(`${e.user}|${e.path}`,e.st);
   const out=new Map();
   const add=(key,d,r,user,w)=>{const o=out.get(key)||{docs:0,rules:0,writes:0,byUser:{}};o.docs+=d;o.rules+=r;o.writes+=w;const u=o.byUser[user]||(o.byUser[user]={docs:0,rules:0});u.docs+=d;u.rules+=r;out.set(key,o);};
-  const groups=new Map();let single=0;
+  const groups=new Map(),listenState={initial:new Set()};let single=0;
   for(const e of events){
     const st=e.k==="read"&&e.op==="listen"?(attach.get(`${e.user}|${e.path}`)||e.st):e.st;
     const ev={...e,st};
     if(e.k==="write"){const g=`${e.user}#${e.req||`s${++single}`}`;(groups.get(g)||groups.set(g,[]).get(g)).push(ev);continue;}
-    const p=price(model,[ev]);
+    const p=price(model,[ev],listenState);
     add(keyFn(ev),p.docReads,p.rulesReads,e.user,0);
   }
   for(const g of groups.values()){

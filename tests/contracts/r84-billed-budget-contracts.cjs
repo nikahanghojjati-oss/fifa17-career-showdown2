@@ -61,7 +61,8 @@ for(const [template,entry] of Object.entries(table.readExclusions)){
 }
 for(const rule of analysis.rules)if(rule.ops.some(o=>["list"].includes(o))&&rule.docs.length)assert.fail(`list rule ${rule.path} has lookups: query pricing is not modelled`);
 
-// 3. Pricing: a request pays its own lookups; a listener pays them once at attach; a commit pays each looked-up document once.
+// 3. Pricing: a request pays its own lookups; a listener pays them at attach and on every later delivery (each results update
+// re-evaluates Rules); a commit pays each looked-up document once.
 const ev=(o)=>({user:"daniel",st:"x.js:1:1",n:1,...o});
 const sample=B.price(model,[
   ev({k:"read",op:"getDoc",path:"rivalries/pair_x"}),
@@ -72,7 +73,7 @@ const sample=B.price(model,[
   ev({k:"write",op:"batch",path:"rivalries/pair_x/seasonResults/season_1/roles/playerOne",req:1})
 ]);
 assert.equal(sample.docReads,3,"1 getDoc + 2 listener deliveries");
-assert.equal(sample.rulesReads,1+1,"getDoc rivalry 1 lookup + listener attach 1 lookup (live)");
+assert.equal(sample.rulesReads,1+1+1,"getDoc rivalry 1 lookup + listener attach 1 lookup (its first result) + 1 lookup for the later update (live)");
 assert.equal(sample.writes,2);
 const union=new Set([...model.writeDocs(model.templateOf("rivalries/pair_x/seasonResults/season_1")),...model.writeDocs(model.templateOf("rivalries/pair_x/seasonResults/season_1/roles/playerOne"))]);
 assert.equal(sample.rulesOnWrites,union.size,"two writes in one commit share their lookups");
