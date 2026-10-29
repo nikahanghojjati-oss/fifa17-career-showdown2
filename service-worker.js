@@ -78,6 +78,8 @@ const SHELL_PATHS = Object.freeze([
   "visual-assets/v10_1/special-player/index.html",
   "js/marqueePlayer.js",
   "data/marqueePlayers.js",
+  "js/deadlineDay.js",
+  "data/deadlineDayLines.js",
   "js/careerStartMarker.js",
   "css/rivalryLegacyV10.css",
     "js/app.js",
@@ -269,7 +271,8 @@ const SHELL_PATH_SET = new Set(SHELL_PATHS);
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION (and empties
 // the set when it changes PREVIOUS_RUNTIME_REVISION again). r80 adds no shell path to r79's 221 paths and removes none.
 // r85: the music player script is new since the previous release, so the rollback list stays exactly the previous one.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/musicDockV10.js","js/careerSummaryStore.js","js/specialPlayerReveal.js","visual-assets/v10_1/special-player/index.html","js/marqueePlayer.js","data/marqueePlayers.js"]);
+// r87: the Deadline Day strip (js/deadlineDay.js) and its lines (data/deadlineDayLines.js) are new shell paths too.
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/musicDockV10.js","js/careerSummaryStore.js","js/specialPlayerReveal.js","visual-assets/v10_1/special-player/index.html","js/marqueePlayer.js","data/marqueePlayers.js","js/deadlineDay.js","data/deadlineDayLines.js"]);
 const PREVIOUS_SHELL_PATHS = Object.freeze(SHELL_PATHS.filter(path=>!SHELL_PATHS_ADDED_SINCE_PREVIOUS.has(path)));
 function shellPathsForRevision(revision){ return revision&&revision!==RUNTIME_REVISION&&revision===PREVIOUS_RUNTIME_REVISION?PREVIOUS_SHELL_PATHS:SHELL_PATHS; }
 

@@ -200,6 +200,9 @@
   // exactly the final-screen terminal close (it requires the final reconciliation, i.e. history saved first, and one exact ACTIVE
   // private session; same writes, same guards), then opens the seasons screen. Nothing is created unless the close succeeded; a
   // close that cannot happen stops on the existing Connect Players / CHECK STATUS path with the reason.
+  // r87 Rematch (js/onlinePlayerIdentity.js openRematch): followStartDecision(decision,{openSeasons:false}) does everything up to the
+  // seasons screen and answers "seasons" instead of opening it; the caller then runs that screen's own START with the length.
+  let seasonsHandOff=false;
   let closeEndedPromise=null;
   function closeEndedThenNew(){
     if(closeEndedPromise)return closeEndedPromise;
@@ -226,8 +229,8 @@
       // for the seasons screen instead, so it lets the closed Showdown go now; otherwise START there would find it live again and
       // reopen the same screen. No read, no write.
       try{pair?.settleOnHome?.();}catch(_error){}
-      const opened=typeof root.navigateTo==="function"?await root.navigateTo("createShowdown"):root.showScreen?.("createShowdown");
-      return opened!==false;
+      const opened=seasonsHandOff?"seasons":typeof root.navigateTo==="function"?await root.navigateTo("createShowdown"):root.showScreen?.("createShowdown");
+      return opened==="seasons"?opened:opened!==false;
     })().finally(()=>{closeEndedPromise=null;});
     return closeEndedPromise;
   }
@@ -241,10 +244,11 @@
   }
   async function openSeasonsForRealStart(){
     closePanel();
-    const opened=typeof root.navigateTo==="function"?await root.navigateTo("createShowdown"):root.showScreen?.("createShowdown");
-    return opened!==false;
+    const opened=seasonsHandOff?"seasons":typeof root.navigateTo==="function"?await root.navigateTo("createShowdown"):root.showScreen?.("createShowdown");
+    return opened==="seasons"?opened:opened!==false;
   }
-  async function followStartDecision(decision){
+  async function followStartDecision(decision,options){
+    if(options&&options.openSeasons===false){seasonsHandOff=true;try{return await followStartDecision(decision);}finally{seasonsHandOff=false;}}
     if(!decision)return false;
     if(decision.action==="resume-waiting"&&await needsCareerStart(decision))return openSeasonsForRealStart();
     if(decision.action==="close-then-new")return closeEndedThenNew();

@@ -213,6 +213,13 @@
     if(!clock){const doc=tfDoc();clock=doc.createElement("span");clock.className="timer-clock";clock.setAttribute("aria-hidden","true");const hand=doc.createElement("span");hand.className="timer-hand";hand.setAttribute("aria-hidden","true");clock.appendChild(hand);node.appendChild(clock);}
     const match=/^(\d{1,2}):(\d{2})$/.exec(text),hand=clock.firstChild;
     if(hand&&match){const angle=(Number(match[2])%60)*6;hand.style.transform=`translate(-50%, -100%) rotate(${angle}deg)`;}
+    tfDeadline(text);
+  }
+  // r87 Deadline Day (js/deadlineDay.js): the last minute of a live window, from this same clock text. Loaded with the skin.
+  function tfDeadline(text){
+    const deadline=root.CareerModeDeadlineDay;
+    if(!deadline||typeof deadline.sync!=="function"||!stage)return;
+    try{deadline.sync(stage,mountedFrame,text);}catch(error){tfWarn("Deadline Day strip skipped.",error);}
   }
   function tfAdoptAll(frame,section){
     const plan=adoptionPlan(frame);
@@ -327,6 +334,7 @@
     sync();
   }
   function tfTeardown(section){
+    try{root.CareerModeDeadlineDay?.detach?.();}catch(_error){}
     if(desktopLayout){desktopLayout.dispose();desktopLayout=null;}
     tfRestore();
     if(stage&&stage.__tw&&typeof stage.__tw.dispose==="function"){try{stage.__tw.dispose();}catch(_error){}}
@@ -412,6 +420,8 @@
         unmount:host=>tfTeardown(host)
       });
       tfObserve();
+      // r87 Deadline Day: a small static script, fetched with the skin (no Firebase); the clock drives it.
+      Promise.resolve(root.loadRuntimeScript("deadline-day","js/deadlineDay.js",()=>Boolean(root.CareerModeDeadlineDay))).catch(error=>tfWarn("Deadline Day strip unavailable.",error));
       if(typeof root.getActiveScreenName==="function"&&root.getActiveScreenName()===SCREEN)tfSchedule();
       return screens;
     }).catch(error=>{registered=null;installed=false;tfWarn("Transfer War visuals unavailable.",error);return null;});

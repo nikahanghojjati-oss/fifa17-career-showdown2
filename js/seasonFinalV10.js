@@ -38,6 +38,16 @@
     }
     return freeze(frame);
   }
+  // r87 one-tap Rematch (Nik's ask): offered only on a CLOSED Showdown's Final Winner, with the length the closed terminal
+  // witness carries (1, 3, 5 or 10). Daniel (playerOne) starts it; Nik's button takes him Home, where his JOIN tile picks up
+  // Daniel's code. Pure: reads only states this page already holds (no read, no write, no scoring).
+  const REMATCH_LENGTHS=Object.freeze([1,3,5,10]);
+  function rematchFrame(final,terminal,identity){
+    if(final?.state!=="completed"||terminal?.phase!=="CLOSED"||terminal.terminal!==true||terminal.terminalWitness?.rivalryId!==terminal.rivalryId)return null;
+    const seasons=terminal.terminalWitness.totalSeasons,manager=identity?.status==="ready"?identity.managerId:null;
+    if(!REMATCH_LENGTHS.includes(seasons)||!["daniel","nik"].includes(manager))return null;
+    return freeze({seasons,starter:manager==="daniel"});
+  }
   /*SG-START*/
   // JOB-1701: Standings presentation rules (Team V's stage CSS stays frozen). Added once, after Team V's sheet.
   function sfStandingsRule(doc){
@@ -303,7 +313,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   }
   function restoreFinal(host){
     const final=host.querySelector(".v10FinalStage"),review=root.document.getElementById("seasonReviewPanel"),season=host.querySelector(".v10SeasonStage");
-    if(final){for(const id of ["sharedTerminalClosePanel","sharedFinalReconciliationPanel"]){const n=root.document.getElementById(id);if(n&&review)review.appendChild(n);}const actions=root.document.getElementById("completeSeason")?.closest(".seasonEntryActions");if(actions&&season)season.querySelector(".season-layout").appendChild(actions);final.v10StageHandle?.destroy();final.remove();}
+    if(final){root.document.getElementById(REMATCH_ID)?.remove();for(const id of ["sharedTerminalClosePanel","sharedFinalReconciliationPanel"]){const n=root.document.getElementById(id);if(n&&review)review.appendChild(n);}const actions=root.document.getElementById("completeSeason")?.closest(".seasonEntryActions");if(actions&&season)season.querySelector(".season-layout").appendChild(actions);final.v10StageHandle?.destroy();final.remove();}
     if(season)season.hidden=false;
     host.classList.remove("v10FinalMode");
   }
@@ -313,7 +323,38 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
     if(!host?.querySelector(".v10FinalStage"))return false;
     finalSeasonReview=true;restoreFinal(host);return true;
   }
-  function renderFinal(host,frame){
+  // r87 Rematch: one more button in the Final Winner's own exit row (same kit, same row, nothing moves or hides). Daniel's
+  // runs the normal START (js/onlinePlayerIdentity.js openRematch: the same reads and writes as Home START plus the seasons
+  // screen's START), so the next screens (league wheel with WAITING, then clubs) are the usual ones. Nik's goes Home.
+  const REMATCH_ID="finalWinnerRematch";let rematchBusy=false;
+  function sfRematchLabel(button,rematch){
+    const length=`${rematch.seasons} SEASON${rematch.seasons===1?"":"S"}`,sub=rematch.starter?(rematchBusy?"STARTING…":length):"DANIEL STARTS IT";
+    if(button.dataset.rematchLabel!==sub){
+      const doc=root.document,main=doc.createElement("span"),small=doc.createElement("small");
+      main.className="finalWinnerRematchMain";main.textContent="REMATCH";small.className="finalWinnerRematchSub";small.textContent=sub;
+      button.replaceChildren(main,small);button.dataset.rematchLabel=sub;
+    }
+    button.setAttribute("aria-label",rematch.starter?`Rematch: start a new ${rematch.seasons}-season Showdown with Nik`:"Rematch: Daniel starts it. Go to Showdown Home to join his code");
+    button.disabled=rematch.starter&&rematchBusy;if(rematchBusy&&rematch.starter)button.setAttribute("aria-busy","true");else button.removeAttribute("aria-busy");
+  }
+  function sfRematchButton(actions,rematch){
+    root.document.getElementById(REMATCH_ID)?.remove();
+    if(!actions||!rematch)return null;
+    const button=root.document.createElement("button");button.type="button";button.id=REMATCH_ID;button.className="menuButton finalWinnerRematch";
+    button.dataset.rematchSeasons=String(rematch.seasons);button.dataset.rematchStarter=rematch.starter?"true":"false";
+    sfRematchLabel(button,rematch);
+    button.addEventListener("click",event=>{
+      event.preventDefault();
+      if(!rematch.starter){if(typeof root.navigateTo==="function")void Promise.resolve(root.navigateTo("mainMenu")).catch(fail);return;}
+      const identity=root.CareerModeOnlinePlayerIdentity;
+      if(rematchBusy||typeof identity?.openRematch!=="function")return;
+      rematchBusy=true;sfRematchLabel(button,rematch);
+      Promise.resolve().then(()=>identity.openRematch(rematch.seasons)).catch(fail).finally(()=>{rematchBusy=false;if(button.isConnected)sfRematchLabel(button,rematch);});
+    });
+    const back=actions.querySelector(":scope > .backButton");actions.insertBefore(button,back||null);
+    return button;
+  }
+  function renderFinal(host,frame,rematch=null){
     if(!frame.winner){restoreFinal(host);return;}
     let final=host.querySelector(".v10FinalStage");
     // A changed frame rebuilds supplementary art only. Live protocol panels move intact.
@@ -321,6 +362,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
     final=stageElement("final-winner");final.classList.add("v10FinalStage");host.appendChild(final);
     for(const [id,slot] of [["sharedTerminalClosePanel","v10TerminalSlot"],["sharedFinalReconciliationPanel","v10ReconciliationSlot"]]){const live=root.document.getElementById(id);if(live)final.querySelector("#"+slot).appendChild(live);}
     const actions=root.document.getElementById("completeSeason")?.closest(".seasonEntryActions");if(actions)final.querySelector("#v10ExitSlot").appendChild(actions);
+    sfRematchButton(actions,rematch);
     const season=host.querySelector(".v10SeasonStage");if(season)season.hidden=true;host.classList.add("v10FinalMode");
     root.FINAL_WINNER_ROOT=final;root.FINAL_WINNER_FIXTURES={strings:strings["final-winner"],frames:{LIVE:frame}};root.ShowdownFinalWinnerBoot();
   }
@@ -1994,6 +2036,17 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 /* r80 short screens: the final season's result line ("DANIEL TAKES THE SEASON") wraps inside its own cell of the summary
    strip; it was kept on one line and ran into SEASONS PLAYED in the next cell (1024x768). */
 #app #seasonEntry #finalWinnerLastSeason #panelLastSeasonResult { max-width:100%;white-space:normal;overflow-wrap:normal;text-align:center; }
+/* r87 Rematch: a third exit in the same row and kit (black with a gold edge between REVIEW SEASON and the gold BACK TO
+   SHOWDOWN HOME). Two short lines (REMATCH over the length, or DANIEL STARTS IT on Nik's phone) keep it as narrow as the
+   others, so the row keeps its height and place at every size; phones split the row in three equal cells. */
+#app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions:has(> #finalWinnerRematch) { grid-template-columns:repeat(3,minmax(0,1fr)); }
+#app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions > #finalWinnerRematch {
+ display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex:.78 1 0;line-height:1.05;white-space:nowrap;
+}
+#app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions > #finalWinnerRematch .finalWinnerRematchSub {
+ display:block;font-size:max(9px,.74em);letter-spacing:.1em;color:#f2d68c;opacity:.9;
+}
+#app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions > #finalWinnerRematch[aria-busy="true"] { cursor:progress; }
 `;
     parent.appendChild(style);
   }
@@ -2004,7 +2057,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     if(!stage){stage=skinSeason(host,stageElement("season-results"));if(stage){root.ShowdownSeasonResultsBoot(stage);if(typeof root.MutationObserver==="function"){const watch=new root.MutationObserver(()=>{if(stage.dataset.ownerSet)watch.disconnect();else sfOwnerTab(stage);});stage.querySelectorAll("#daniel-entry-panel,#nik-entry-panel").forEach(card=>watch.observe(card,{attributes:true,attributeFilter:["class"]}));}}}
     if(!stage)return;
     sfOwnerTab(stage);
-    renderFinal(host,frame.final);
+    renderFinal(host,frame.final,frame.rematch);
   }
   function renderStandings(frame,host){
     sfStandingsRule(root.document);
@@ -2070,7 +2123,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   function seasonSource(){
     const s=sfSnapshot(),live=sfRetainHistory(s.history),closed=s.terminalClose?.phase==="CLOSED"?s.terminalClose:null;
     const history=closed?.terminal===true?(sfConverged(live,closed)?live:sfConverged(retainedHistory,closed)?retainedHistory:sfClosedHistory(closed.rivalryId)):live;
-    return {final:finalSeasonReview?{status:"unavailable"}:finalFrame(s.finalReconciliation,s.terminalClose,history)};
+    const final=finalSeasonReview?{status:"unavailable"}:finalFrame(s.finalReconciliation,s.terminalClose,history);
+    return {final,rematch:rematchFrame(final,closed,s.identity)};
   }
   // The pair module notifies only its own subscribers (no window event), so Standings follows pairing
   // and closure through it. It may load after this file, so each screen change retries once until bound.
@@ -2107,5 +2161,5 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     followPair();
     wake();return true;
   }
-  return Object.freeze({finalFrame,standingsFrames,skinSeason,reviewFinalSeason,installChampionBack,install:installResults});
+  return Object.freeze({finalFrame,rematchFrame,standingsFrames,skinSeason,reviewFinalSeason,installChampionBack,install:installResults});
 });
