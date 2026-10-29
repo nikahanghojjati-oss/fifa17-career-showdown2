@@ -490,7 +490,7 @@ window.openCareerStatistics();
 }else if(name === "statistics"){
 if(!currentShowdown){
 if(typeof window.showAppNotice === "function"){
-window.showAppNotice("No active showdown is available for Rivalry Statistics.", "error");
+window.showAppNotice("No Showdown in progress. Start or join one from Home.", "error");
 }
 return false;
 }

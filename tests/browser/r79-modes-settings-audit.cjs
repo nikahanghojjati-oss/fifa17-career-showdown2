@@ -141,7 +141,7 @@ async function main(){
     let v;
     for(const m of [daniel,nik]){
       await openSettings(m);v=await settingsView(m);
-      assert.equal(v.rows.mode,"REAL CAREER · every Showdown counts");assert.equal(v.rows.partner,"Not paired");
+      assert.equal(v.rows.mode,"Saved online for both of you");assert.equal(v.rows.partner,"Not paired");
       assert.equal(v.buttons.some(text=>/TEST RUN|FORGET THIS DEVICE/.test(text)),false);
       assert.equal(v.connect,false);
       await both(m,`initial-settings-${m.name}`,SETTINGS_PARTS,"#onlinePlayerIdentitySettingsPanel");
@@ -176,7 +176,7 @@ async function main(){
 
     for(const [m,other] of [[daniel,"Nik"],[nik,"Daniel"]]){
       await openSettings(m);v=await settingsView(m);
-      assert.equal(v.rows.mode,"REAL CAREER · every Showdown counts");assert.equal(v.rows.partner,`Paired with ${other}`);
+      assert.equal(v.rows.mode,"Saved online for both of you");assert.equal(v.rows.partner,`Paired with ${other}`);
       assert.ok(v.buttons.includes("UNPAIR"));assert.equal(v.forget,false,"no FORGET THIS DEVICE on a real account");assert.equal(v.connect,false,"no CONNECT PLAYERS");
       assert.ok(!v.buttons.includes("START TEST RUN")&&!v.buttons.includes("JOIN TEST RUN"),"test mode is off for real accounts");
       await both(m,`real-paired-${m.user}`,SETTINGS_PARTS,"#onlinePlayerIdentitySettingsPanel");

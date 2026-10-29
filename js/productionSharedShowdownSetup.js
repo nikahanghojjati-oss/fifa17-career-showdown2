@@ -178,7 +178,7 @@
       if(generation!==setupGeneration)return currentState();
       if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_READ_FAILED");
       const message=result.status==="empty"
-        ? context.remoteRole==="host"?"Both players are here. Open the setup once for both.":"Both players are here. Waiting for the host to open the setup."
+        ? context.remoteRole==="host"?"Both players are here. Open the setup once for both.":"Both players are here. Waiting for Daniel to open the setup."
         : "Setup restored. Nothing was reset or redrawn.";
       heldReadFailure=false;return accept(result,context,message);
     }catch(error){
@@ -251,7 +251,7 @@
       summary.append(create("strong","remoteJoiningState","EMPTY · REV 0"),create("p","remoteJoiningMeta","Both players are connected. No league or club has been drawn yet."));
       const actions=create("div","remoteJoiningActions");
       if(state.ready&&state.remoteRole==="host")actions.append(action("OPEN SETUP",()=>void mutate("open"),state.busy,true));
-      else if(state.ready)summary.append(create("p","remoteJoiningMeta","Waiting for the host to open the setup."));
+      else if(state.ready)summary.append(create("p","remoteJoiningMeta","Waiting for Daniel to open the setup."));
       actions.append(action("REFRESH",()=>void refresh(),state.busy));summary.append(actions);body.append(summary);return;
     }
     summary.append(create("strong","remoteJoiningState",`${setup.phase} · REV ${setup.revision}`));

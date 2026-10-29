@@ -75,14 +75,14 @@
     let trophies=phcField("sharedHistoryConvergenceTrophies");if(!trophies){trophies=root.document.createElement("p");trophies.id="sharedHistoryConvergenceTrophies";panel.appendChild(trophies);}
     return {panel,heading,summary,records,trophies};
   }
-  function phcRecordLine(role,record){return `${phcManagerName(role)} · ${record.club} · ${record.seasonWins}W ${record.seasonDraws}D ${record.seasonLosses}L · ${record.totalPoints} showdown pts`;}
+  function phcRecordLine(role,record){return `${phcManagerName(role)} (${record.club}): ${record.seasonWins} won, ${record.seasonDraws} drawn, ${record.seasonLosses} lost · ${record.totalPoints} pts`;}
   function phcTrophyLine(role,item){return `${phcManagerName(role)} ${item.totalTrophies} trophies (${item.leagueTitles} league, ${item.domesticCups} cup, ${item.championsLeagues} Champions League${item.europaLeagues>0?`, ${item.europaLeagues} Europa League`:""})`;}
   function phcRender(){
     const ui=phcEnsureUi();if(!ui)return false;const request=phcRequest(),active=Boolean(request&&contextKey===request.key&&view&&view.authoritative===true&&view.phase==="HISTORY_CONVERGED"&&view.projection);
     phcHidden(ui.panel,!active);if(!active)return false;const projection=view.projection;
-    phcText(ui.heading,"HISTORY UP TO DATE");
-    const p1Total=Number(projection.managerRecords?.playerOne?.totalPoints)||0,p2Total=Number(projection.managerRecords?.playerTwo?.totalPoints)||0,n1=phcManagerName("playerOne"),n2=phcManagerName("playerTwo"),lead=p1Total===p2Total?"TIED":p1Total>p2Total?`${n1} +${p1Total-p2Total}`:`${n2} +${p2Total-p1Total}`;
-    phcText(ui.summary,`${projection.acceptedSeasons} of ${projection.totalSeasons} season${projection.totalSeasons===1?"":"s"} accepted · ${String(projection.leagueId||"").replace(/_/g," ").toUpperCase()} · Overall: ${n1} ${p1Total} · ${n2} ${p2Total} · Lead: ${lead}`);
+    phcText(ui.heading,"SHOWDOWN SO FAR");
+    const p1Total=Number(projection.managerRecords?.playerOne?.totalPoints)||0,p2Total=Number(projection.managerRecords?.playerTwo?.totalPoints)||0,n1=phcManagerName("playerOne"),n2=phcManagerName("playerTwo"),lead=p1Total===p2Total?"Level":p1Total>p2Total?`${n1} leads by ${p1Total-p2Total}`:`${n2} leads by ${p2Total-p1Total}`;
+    phcText(ui.summary,`${projection.acceptedSeasons} of ${projection.totalSeasons} season${projection.totalSeasons===1?"":"s"} played · ${String(projection.leagueId||"").replace(/_/g," ").toUpperCase()} · ${n1} ${p1Total} - ${p2Total} ${n2} · ${lead}`);
     phcText(ui.records,`${phcRecordLine("playerOne",projection.managerRecords.playerOne)} · ${phcRecordLine("playerTwo",projection.managerRecords.playerTwo)}`);
     phcText(ui.trophies,`${phcTrophyLine("playerOne",projection.trophyAttribution.playerOne)} · ${phcTrophyLine("playerTwo",projection.trophyAttribution.playerTwo)}`);
     return true;

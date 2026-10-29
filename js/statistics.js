@@ -125,7 +125,7 @@ function createCareerStatisticsScreen(){
     const back = document.createElement("button");
     back.type = "button";
     back.className = "backButton";
-    back.textContent = "BACK TO MAIN MENU";
+    back.textContent = "BACK TO HOME";
 
     actions.append(rivalryButton, trophyButton, back);
     section.append(heading, content, actions);
@@ -573,7 +573,7 @@ function renderRivalryStatistics(request = false){
     if(!currentShowdown){
         const empty = document.createElement("div");
         empty.className = "analyticsEmpty";
-        empty.textContent = "No active showdown is available.";
+        empty.textContent = "No Showdown in progress. Start or join one from Home.";
         content.replaceChildren(empty);
         rivalryStatisticsRenderKey = nextKey;
         return;

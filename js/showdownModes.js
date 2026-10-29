@@ -59,8 +59,9 @@ function smDecorateSettingsPanel(panel){
   const v=smView(),grid=panel.querySelector(".settingsInfoGrid"),actions=panel.querySelector(".settingsConnectedAccountActions");
   panel.querySelectorAll("[data-mode-row]").forEach(n=>n.remove());panel.querySelector(`#${SETTINGS_ID}`)?.remove();
   panel.dataset.showdownMode=v.mode;if(v.mode==="none"||!grid||!actions)return panel;
-  const modeText=v.mode==="real"?"REAL CAREER · every Showdown counts":"Checking your career…";
-  grid.append(smInfoRow("MODE",modeText,"mode"));
+  // Polish pass (r87): test mode is gone (r83), so this row says where the career lives instead of naming a mode.
+  const modeText=v.mode==="real"?"Saved online for both of you":"Checking your career…";
+  grid.append(smInfoRow("CAREER",modeText,"mode"));
   if(v.mode==="real"){
     const partnerText=v.pairing==="paired"?`Paired with ${v.partnerLabel}`:v.pairing==="partner-unpaired"?`${v.partnerLabel} is no longer paired with you`:v.pairing==="unpaired"?"Not paired":"Checking…";
     grid.append(smInfoRow("PARTNER",partnerText,"partner"));
@@ -68,7 +69,7 @@ function smDecorateSettingsPanel(panel){
     else if(v.pairing==="partner-unpaired")actions.append(smButton("PAIR AGAIN",()=>void smPairAgainFromSettings(),"menuButton settingsPairAgainButton"));
     else if(v.pairing==="unpaired")actions.append(smButton(`PAIR WITH ${v.partnerLabel.toUpperCase()}`,()=>void smPairWithFromSettings(),"menuButton settingsPairWithButton"));
   }
-  const note=smEl("p","settingsOfflineNote settingsModeNote",smMessage()||(v.mode==="real"?(v.pairing==="paired"&&smUnpairBlocked()?RULE:"Every Showdown counts in your career."):""));
+  const note=smEl("p","settingsOfflineNote settingsModeNote",smMessage()||(v.mode==="real"?(v.pairing==="paired"&&smUnpairBlocked()?RULE:"Every finished Showdown counts in your career."):""));
   note.id=SETTINGS_ID;note.setAttribute("role","status");note.setAttribute("aria-live","polite");if(settingsTone)note.dataset.tone=settingsTone;
   if(note.textContent)actions.after(note);
   return panel;

@@ -76,7 +76,7 @@ function createRuleBookScreen(){
     back.type = "button";
     back.className = "backButton";
     back.setAttribute("data-smart-back", "");
-    back.textContent = "BACK TO MAIN MENU";
+    back.textContent = "BACK TO HOME";
 
     actions.appendChild(back);
     section.append(heading, intro, grid, actions);

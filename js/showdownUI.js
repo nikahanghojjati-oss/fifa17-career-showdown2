@@ -207,8 +207,9 @@ function getTransferPhaseForDashboard(challenge){
 
 function getCurrentTransferStatusLabel(){
     if(!currentShowdown || currentShowdown.status === "Completed"){ return ""; }
-    const challenge = getTransferChallengeForSeason(currentShowdown.currentRound);
-    if(!challenge || challenge.status === "not_started"){ return "Transfer challenge: not started"; }
+    // Polish pass (r87): the season the dashboard shows (a shared Showdown's local round can lag one season behind).
+    const challenge = getTransferChallengeForSeason(window.getShowdownSeason(currentShowdown));
+    if(!challenge || challenge.status === "not_started"){ return "Transfer challenge: ready"; }
     if(challenge.status === "active"){ return "Transfer challenge: window live"; }
     if(challenge.status === "recording"){
         return getTransferPhaseForDashboard(challenge) === "signing_entry"
@@ -388,19 +389,21 @@ function updateShowdownUI(){
         return;
     }
 
-    const challenge = getTransferChallengeForSeason(currentShowdown.currentRound);
+    // Polish pass (r87): label the season shown above (getShowdownSeason), never a lagging local round ("SEASON 1" in season 3).
+    const season = window.getShowdownSeason(currentShowdown);
+    const challenge = getTransferChallengeForSeason(season);
     let primaryLabel;
 
     if(!challenge || challenge.status === "not_started"){
-        primaryLabel = `START SEASON ${currentShowdown.currentRound} TRANSFER CHALLENGE`;
+        primaryLabel = `START SEASON ${season} TRANSFER CHALLENGE`;
     }else if(challenge.status === "active"){
-        primaryLabel = `RESUME SEASON ${currentShowdown.currentRound} TRANSFER WINDOW`;
+        primaryLabel = `RESUME SEASON ${season} TRANSFER WINDOW`;
     }else if(challenge.status === "recording"){
         primaryLabel = getTransferPhaseForDashboard(challenge) === "signing_entry"
-            ? `ENTER SEASON ${currentShowdown.currentRound} SIGNINGS`
-            : `ENTER SEASON ${currentShowdown.currentRound} GUESSES`;
+            ? `ENTER SEASON ${season} SIGNINGS`
+            : `ENTER SEASON ${season} GUESSES`;
     }else{
-        primaryLabel = `ENTER SEASON ${currentShowdown.currentRound} RESULTS`;
+        primaryLabel = `ENTER SEASON ${season} RESULTS`;
     }
 
     setDashboardTextIfChanged(ui.primaryButton, primaryLabel);
