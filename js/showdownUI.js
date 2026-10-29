@@ -403,6 +403,9 @@ function updateShowdownUI(){
         primaryLabel = `ENTER SEASON ${currentShowdown.currentRound} RESULTS`;
     }
 
+    // r86 (red team #21): once the shared Transfer Challenge owns this button it writes the label from the shared season; the
+    // local round here could flash an older season ("START SEASON 1 …" in season 3) for a frame before it did.
+    if(ui.primaryButton.dataset?.sharedTransferChallenge === "true" && currentShowdown.sharedJourney?.mode === "shared"){ return; }
     setDashboardTextIfChanged(ui.primaryButton, primaryLabel);
 }
 

@@ -203,7 +203,9 @@ const aliasSource=/const CLUB_IDENTITY_ALIASES = Object\.freeze\((\{[\s\S]*?\})\
   x=fin([[0,0],[0,0],[5,0]]);none(x,'final-comeback');none(x,'final-last-season-swing');none(x,'final-wire-to-wire');// level before is neither behind nor a change of hands
   x=fin([[2,0],[0,1],[0,0]]);one(x,'final-wire-to-wire');none(x,'final-comeback');
   x=fin([[2,0],[0,2],[1,0]]);none(x,'final-wire-to-wire');none(x,'final-last-season-swing');// level after season 2
-  x=fin([[3,0],...Array(9).fill([0,0])],10);assert.equal(one(x,'final-golden').seasons,'10');none(x,'final-sprint');
+  x=fin([[3,0],...Array(9).fill([0,0])],10);none(x,'final-golden');none(x,'final-sprint');
+  x=fin(Array(10).fill([11,4]),10);assert.equal(one(x,'final-golden').winnerTotal,'110');none(x,'final-sprint');
+  x=fin([[10,4],...Array(9).fill([11,4])],10);none(x,'final-golden');
   x=fin([[3,0]],1);one(x,'final-sprint');one(x,'final-wire-to-wire');none(x,'final-golden');none(x,'final-last-season-swing');
   x=fin([[3,3]],1);none(x,'final-sprint');one(x,'final-drawn');
   // career, from earlier finished Showdowns plus this one
