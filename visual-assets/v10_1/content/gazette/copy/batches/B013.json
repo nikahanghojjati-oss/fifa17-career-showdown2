@@ -15,7 +15,7 @@
   },
   {
    "id": "cb13-003",
-   "text": "Season after season, the name on top does not change, and the name is {winner}!"
+   "text": "Season after season, the same name tops the table, and the rest of the room is running out of ways to say it!"
   },
   {
    "id": "cb13-004",
@@ -35,7 +35,7 @@
   },
   {
    "id": "cb13-008",
-   "text": "You could set a clock by {winner} now. The season ends, and the winner is the same."
+   "text": "You could set a clock by this run. The season ends, and the winner is the same."
   },
   {
    "id": "cb13-009",
@@ -47,11 +47,11 @@
   },
   {
    "id": "cb13-011",
-   "text": "Call it a streak, a spell, a stranglehold. {winner} just calls it normal."
+   "text": "Call it a streak, a spell, a stranglehold. The ones on top just call it normal."
   },
   {
    "id": "cb13-012",
-   "text": "Win once and it is a story. Keep winning like this, and it is a legacy, {winner}!"
+   "text": "Win once and it is a story. Keep winning like this, and it is a legacy!"
   },
   {
    "id": "cb13-013",
@@ -67,7 +67,7 @@
   },
   {
    "id": "cb13-016",
-   "text": "Remember when this Showdown felt wide open? {winnerClub} have politely closed the door."
+   "text": "Remember when this Showdown felt wide open? Somebody has politely closed the door."
   },
   {
    "id": "cb13-017",
@@ -75,7 +75,7 @@
   },
   {
    "id": "cb13-018",
-   "text": "There goes the snowball, and it is picking up speed! {winner} rolls on downhill."
+   "text": "There goes the snowball, and it is picking up speed! Downhill it rolls, and nobody can catch it."
   },
   {
    "id": "cb13-019",
@@ -91,7 +91,7 @@
   },
   {
    "id": "cb13-022",
-   "text": "Hold the front page. No, keep it exactly as it was, because {winner} has won again!"
+   "text": "Hold the front page. No, keep it exactly as it was, because it is the same winner again!"
   },
   {
    "id": "cb13-023",
@@ -103,7 +103,7 @@
   },
   {
    "id": "cb13-025",
-   "text": "A run like this does not happen by accident. {winnerClub} have earned every step of it."
+   "text": "A run like this does not happen by accident. Every step of it has been earned."
   },
   {
    "id": "cb13-026",
@@ -119,7 +119,7 @@
   },
   {
    "id": "cb13-029",
-   "text": "They say form is temporary. Somebody forgot to tell {winner}!"
+   "text": "They say form is temporary. Somebody forgot to tell this run!"
   },
   {
    "id": "cb13-030",
@@ -135,7 +135,7 @@
   },
   {
    "id": "cb13-033",
-   "text": "Steady, relentless, almost polite. {winnerClub} keep collecting seasons like they are free."
+   "text": "Steady, relentless, almost polite. The seasons are being collected as if they were free."
   },
   {
    "id": "cb13-034",
@@ -147,11 +147,11 @@
   },
   {
    "id": "cb13-036",
-   "text": "It is a long, unbroken line of results, and {winnerClub} are the ones drawing it."
+   "text": "It is a long, unbroken line of results, and the pen has not left the same hand."
   },
   {
    "id": "cb13-037",
-   "text": "When the dust settles, one name remains. It has remained a good while now: {winner}."
+   "text": "When the dust settles, one name remains. It has remained a good while now."
   },
   {
    "id": "cb13-038",
@@ -159,7 +159,7 @@
   },
   {
    "id": "cb13-039",
-   "text": "What more can you say about {winner}? The run just does not stop!"
+   "text": "What more can you say? Here is a run that simply does not stop!"
   },
   {
    "id": "cb13-040",
@@ -171,7 +171,7 @@
   },
   {
    "id": "cb13-042",
-   "text": "Hands up if you saw anyone stopping {winner}. Anyone? The streak goes on."
+   "text": "Hands up if you saw anyone stopping this run. Anyone? The streak goes on."
   },
   {
    "id": "cb13-043",
@@ -187,7 +187,7 @@
   },
   {
    "id": "cb13-046",
-   "text": "Steady as a drumbeat, {winner} wins another, and the rhythm will not break."
+   "text": "Steady as a drumbeat, another win is banked, and the rhythm will not break."
   },
   {
    "id": "cb13-047",
@@ -199,7 +199,7 @@
   },
   {
    "id": "cb13-049",
-   "text": "They keep moving the target, and {winnerClub} keep hitting it."
+   "text": "They keep moving the target, and the target keeps getting hit."
   },
   {
    "id": "cb13-050",
@@ -211,7 +211,7 @@
   },
   {
    "id": "cb13-052",
-   "text": "Seasons come and seasons go, and one thing stays the same: {winnerClub} win."
+   "text": "Seasons come and seasons go, and one thing stays the same at the top."
   },
   {
    "id": "cb13-053",
@@ -219,7 +219,7 @@
   },
   {
    "id": "cb13-054",
-   "text": "{winner} has found a way again, and finding a way is what streaks are made of."
+   "text": "Another way found, and finding a way is what streaks are made of."
   },
   {
    "id": "cb13-055",
@@ -231,7 +231,7 @@
   },
   {
    "id": "cb13-057",
-   "text": "There is no panic at {winnerClub}, only a calm, steady rhythm of winning."
+   "text": "No panic, no wobble, only a calm and steady rhythm of winning."
   },
   {
    "id": "cb13-058",
@@ -239,7 +239,7 @@
   },
   {
    "id": "cb13-059",
-   "text": "Around the table they will talk about this run for years, and {winner} is the reason."
+   "text": "Around the table they will talk about this run for years."
   },
   {
    "id": "cb13-060",
@@ -247,7 +247,7 @@
   },
   {
    "id": "cb13-061",
-   "text": "Some runs fade out. This one is getting louder, and {winner} is conducting it!"
+   "text": "Some runs fade out. This one is getting louder, and it has no plans to stop!"
   },
   {
    "id": "cb13-062",
@@ -259,15 +259,15 @@
   },
   {
    "id": "cb13-064",
-   "text": "Round and round it goes, and every time the music stops, {winner} has the chair!"
+   "text": "Round and round it goes, and every time the music stops, the same chair is taken!"
   },
   {
    "id": "cb13-065",
-   "text": "Another notch on the belt for {winner}, and the belt is getting crowded."
+   "text": "Another notch on the belt, and the belt is getting crowded."
   },
   {
    "id": "cb13-066",
-   "text": "There is a calm confidence about {winnerClub} now. They expect to win, and then they win."
+   "text": "There is a calm confidence about this run now. They expect to win, and then they win."
   },
   {
    "id": "cb13-067",
@@ -279,11 +279,11 @@
   },
   {
    "id": "cb13-069",
-   "text": "Pull up a chair, because this could go on. {winnerClub} are not done."
+   "text": "Pull up a chair, because this could go on. The run is not done."
   },
   {
    "id": "cb13-070",
-   "text": "Well, it happened again. {winner} gets over the line and the run rolls into another season."
+   "text": "Well, it happened again. Over the line they go, and the run rolls into another season."
   },
   {
    "id": "cb13-071",
@@ -311,11 +311,11 @@
   },
   {
    "id": "cb13-077",
-   "text": "And so the streak survives. It has survived a lot, and it has survived {loserClub}."
+   "text": "And so the streak survives. It has survived a lot, and it will survive a little more."
   },
   {
    "id": "cb13-078",
-   "text": "You wait for the slip, you wait for the stumble, and {winner} never gives you one!"
+   "text": "You wait for the slip, you wait for the stumble, and it never comes!"
   },
   {
    "id": "cb13-079",
@@ -327,7 +327,7 @@
   },
   {
    "id": "cb13-081",
-   "text": "It is the kind of run that makes people stop and say it out loud: {winner}, again."
+   "text": "It is the kind of run that makes people stop and say it out loud: again."
   },
   {
    "id": "cb13-082",
@@ -343,7 +343,7 @@
   },
   {
    "id": "cb13-085",
-   "text": "Look who is on top again. Surprise nobody: {winner}."
+   "text": "Look who is on top again. Surprise nobody."
   },
   {
    "id": "cb13-086",
@@ -355,7 +355,7 @@
   },
   {
    "id": "cb13-088",
-   "text": "The streak stays whole, {winner}. The only question left is how far it can stretch."
+   "text": "The streak stays whole. The only question left is how far it can stretch."
   },
   {
    "id": "cb13-089",
@@ -375,7 +375,7 @@
   },
   {
    "id": "cb13-093",
-   "text": "They are queuing up to stop {winnerClub}, and the line just keeps getting longer."
+   "text": "They are queuing up to stop this run, and the line just keeps getting longer."
   },
   {
    "id": "cb13-094",
@@ -387,11 +387,11 @@
   },
   {
    "id": "cb13-096",
-   "text": "Do not call it luck. Luck runs out, and {winner} has not run out of anything."
+   "text": "Do not call it luck. Luck runs out, and this run has not run out of anything."
   },
   {
    "id": "cb13-097",
-   "text": "This run has legs, this run has heart, and this run has {winner} written all over it!"
+   "text": "This run has legs, this run has heart, and this run has no intention of stopping!"
   },
   {
    "id": "cb13-098",

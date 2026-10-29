@@ -49,7 +49,7 @@
     {
       "id": "fb11-06",
       "lead": "{leader} keeps stacking the seasons, and {trailer} is running short of options.",
-      "co": "Stack enough wins and the rest of the field starts to look like spectators.",
+      "co": "Stack enough victories and the rest of the field starts to look like spectators.",
       "score": 9,
       "was": {
         "lead": "{leader} keeps stacking the seasons, and {trailer} is running short of options.",
@@ -72,7 +72,7 @@
     },
     {
       "id": "fb11-09",
-      "lead": "{leader} adds another cup to the cabinet, and {trailer} watches the gap grow.",
+      "lead": "{leader} adds a cup to the cabinet, and {trailer} watches the gap grow.",
       "co": "Cabinets fill slowly, but every trophy is another brick in the wall between the two.",
       "score": 9,
       "was": null
@@ -96,7 +96,7 @@
     },
     {
       "id": "fb11-12",
-      "lead": "{trailer} is stuck in the middle of the table while {leader} runs clear at the top.",
+      "lead": "{trailer} is stuck in the middle of the table while {leader} sits at the top.",
       "co": "Sitting in the middle is cruel: too close to the top to relax, too far off to threaten.",
       "score": 9,
       "was": null
@@ -104,13 +104,13 @@
     {
       "id": "fb11-13",
       "lead": "{leader} is winning the seasons one after another, and {trailer} is running out of room.",
-      "co": "One big season makes the headlines, but steady wins are what wear a rival down.",
+      "co": "One big season makes the headlines, but steady results are what wear a rival down.",
       "score": 9,
       "was": null
     },
     {
       "id": "fb11-14",
-      "lead": "{trailer} has been chasing a shadow since the early seasons, and {leader} is well clear.",
+      "lead": "{trailer} has been chasing a shadow since the early seasons, and {leader} is well ahead.",
       "co": "Chasing a shadow is tiring work, and {leader} has had the easier job all along.",
       "score": 9,
       "was": null
@@ -131,7 +131,7 @@
     },
     {
       "id": "fb11-17",
-      "lead": "{leader} takes another season, and the Showdown has started to look like a procession.",
+      "lead": "{leader} takes this season, and the Showdown has started to look like a procession.",
       "co": "Processions need a pacemaker, and {leader} has been setting the pace since season one.",
       "score": 9,
       "was": {
@@ -173,7 +173,7 @@
     {
       "id": "fb11-22",
       "lead": "{leader} is sprinting clear of {trailer}, and the rest of the field has stopped chasing.",
-      "co": "Once the front runner pulls clear, the others start fighting for second place.",
+      "co": "Once the front runner breaks away, the others start fighting for second place.",
       "score": 9,
       "was": {
         "lead": "{leader} is sprinting clear of {trailer}, and the rest of the field has stopped chasing.",
@@ -232,14 +232,14 @@
     {
       "id": "fb11-30",
       "lead": "{leader} has banked the season and {trailer} has been reduced to watching.",
-      "co": "Watching from the sidelines is painful, and the cure is a long run of wins.",
+      "co": "Watching from the sidelines is painful, and the cure is a long run of victories.",
       "score": 9,
       "was": null
     },
     {
       "id": "fb11-31",
       "lead": "A {margin} lead for {leader}, and {trailer} is staring up at the whole climb.",
-      "co": "The climb is steep, but a steady run of wins is the only ladder on the table.",
+      "co": "The climb is steep, but a steady run of results is the only ladder on the table.",
       "score": 9,
       "was": null
     },
@@ -286,7 +286,7 @@
     },
     {
       "id": "fb11-37",
-      "lead": "{trailer} has just lost another season, and {leader} is already thinking about the next.",
+      "lead": "{trailer} has just lost a season, and {leader} is already thinking about the next.",
       "co": "A season lost is painful, but the next one is where {trailer} can answer back.",
       "score": 9,
       "was": null
@@ -366,7 +366,7 @@
     },
     {
       "id": "fb11-48",
-      "lead": "{leader} stretches to {margin} clear, and {trailer}'s shoulders are visibly lower.",
+      "lead": "{leader} stretches to {margin} ahead, and {trailer}'s shoulders are visibly lower.",
       "co": "Heavy shoulders are the first sign, and {trailer} is showing them already.",
       "score": 9,
       "was": {
@@ -383,7 +383,7 @@
     },
     {
       "id": "fb11-50",
-      "lead": "{leader} wins again and the shelf is getting crowded, while {trailer} waits at the door.",
+      "lead": "The shelf is getting crowded for {leader}, while {trailer} waits at the door.",
       "co": "A crowded shelf is a fine problem for a leader, and {trailer} would love the chance to try.",
       "score": 9,
       "was": null
