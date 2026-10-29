@@ -132,6 +132,11 @@ async function damagedGame(){
   const before=p.log.length;const b=await p.load(uid);
   assert.equal(p.log.length-before,1,'second open on the same page rechecks the index head only');
   assert.equal(strip(b.model),strip(a.model));
+  // Codex P2 on #1047: a Setup document that is missing for a moment is retried on the next open of the same page.
+  const late=game(3,3);index(late,uid,[rid(3)]);
+  const setup=`rivalries/${rid(3)}/sharedSetup/authoritative`,held=late[setup];delete late[setup];
+  const q=page(late,fakeIndexedDB());assert.equal((await q.load(uid)).model.coverage.readable,0);
+  late[setup]=held;assert.equal((await q.load(uid)).model.coverage.readable,1,'the restored Setup is read again');
 }
 const counts=[10,30,100,...(process.env.CMS_SCALE_1000==='1'?[1000]:[])];
 const results=[];
