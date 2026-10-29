@@ -11,10 +11,10 @@
  "worker": "opus",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-29T18:54:42Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-29T19:07:10Z", "by": "G", "status": "RECEIVED", "note": "PR #1058 checked by G lead (contracts green on current r86); Codex asked, merging into r86 when clean."}],
+ "evidence": ["gameplay/r86 @ 236a06a0 - #1058 merged (wheel slice lines)"],
+ "log": [{"at": "2026-10-29T18:54:42Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-29T19:07:10Z", "by": "G", "status": "RECEIVED", "note": "PR #1058 checked by G lead (contracts green on current r86); Codex asked, merging into r86 when clean."}, {"at": "2026-10-29T19:12:36Z", "by": "G", "status": "DONE", "note": "Merged into r86 by G lead; ships with r86."}],
  "from_session": "session_01GU43Q5MJTR9Ab3d6xGo4NE"
 }
 ```
