@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-29T13:26:12Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-29T13:40:37Z", "by": "V", "status": "RECEIVED", "note": "Team V: received; asking the coordinator to route it to a Team V thread"}],
+ "log": [{"at": "2026-10-29T13:26:12Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-29T13:40:37Z", "by": "V", "status": "RECEIVED", "note": "Team V: received; asking the coordinator to route it to a Team V thread"}, {"at": "2026-10-29T13:44:40Z", "by": "V", "status": "WORKING", "note": "Team V (thread Hunt and fix visual bugs): a stretched/outpainted copy of V5 built in code looked wrong (seams, doubled stands), so this goes the HO-032 V5 way: picture ticket 1852 for Nik (ChatGPT paints only a border around the exact V5 picture, scaled 0.879 on a 1179x2620 canvas; Claude pastes the V5 middle back pixel for pixel). Faces land 14.0% in from each side, so cover works down to 340x960 (0.354). Face zones for the tall plate: Daniel [0.1396,0.2807,0.2834,0.3660], Nik [0.7159,0.2792,0.8590,0.3643]. Waiting on Nik to run the ticket. Note: Team V's own Select League title-ring ticket was renumbered HO-045 to leave HO-044 to this one."}],
  "from_session": "session_01GU43Q7tUFaokdEJ5951ioW"
 }
 ```
