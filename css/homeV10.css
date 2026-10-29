@@ -1553,3 +1553,12 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
     top: calc(100% - var(--phone-nav) - var(--phone-control) - var(--home-logo-h));
   }
 }
+/* Nik 2026-10-29: with nothing to continue, the phone's Continue tile looked dead because its status line was hidden.
+   Show it on upright phones, as desktop and tablet already do. */
+@media (max-width: 699px) and (orientation: portrait) {
+  #app #mainMenu.v10Home #continueCareer:disabled .menuTileMeta {
+    position: relative !important; width: auto !important; height: auto !important; margin: 0 !important;
+    overflow: visible !important; clip: auto !important; clip-path: none !important; white-space: normal !important;
+    visibility: visible !important; font-size: 11px; line-height: 1.2;
+  }
+}
