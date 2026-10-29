@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-29 9:42 AM Boston time (EDT)",
+ "generated": "2026-10-29 9:48 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 156,
+  "count": 157,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1407,6 +1407,15 @@
     "subject": "Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons)",
     "reply": "no",
     "boston": "Thu 29 Oct 9:23 AM"
+   },
+   {
+    "time": "2026-10-29 13:40",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-044 RECEIVED",
+    "subject": "League wheel tall phones: taller V5 plate",
+    "reply": "no",
+    "boston": "Thu 29 Oct 9:40 AM"
    }
   ],
   "g2v": {
@@ -1427,8 +1436,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "b3893f9",
-  "head_boston": "Thu 29 Oct 9:40 AM",
+  "head": "634abd1",
+  "head_boston": "Thu 29 Oct 9:44 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2064,7 +2073,7 @@
     "from": "G",
     "to": "V",
     "title": "League wheel tall phones: taller V5 plate",
-    "stage": "RECEIVED",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-044_league-wheel-tall-phones-taller-v5-plate.md",

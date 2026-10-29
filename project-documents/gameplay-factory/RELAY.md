@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-29 9:42 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-29 9:48 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `b3893f9` (Thu 29 Oct 9:40 AM Boston time) · 156 messages · 45 hand-offs · 293 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `634abd1` (Thu 29 Oct 9:44 AM Boston time) · 157 messages · 45 hand-offs · 295 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-044 · G → V · League wheel tall phones: taller V5 plate
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 14 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 14 min after delivery
 
+- Thu 29 Oct 9:44 AM · Team V · In progress · Team V (thread Hunt and fix visual bugs): a stretched/outpainted copy of V5 built in code looked wrong (seams, doubled stands), so this goes the HO-032 V5 way: picture ticket 1852 for Nik (ChatGPT paints only a border around the exact V5 picture, scaled 0.879 on a 1179x2620 canvas; Claude pastes the V5 middle back pixel for pixel). Faces land 14.0% in from each side, so cover works down to 340x960 (0.354). Face zones for the tall plate: Daniel [0.1396,0.2807,0.2834,0.3660], Nik [0.7159,0.2792,0.8590,0.3643]. Waiting on Nik to run the ticket. Note: Team V's own Select League title-ring ticket was renumbered HO-045 to leave HO-044 to this one.
 - Thu 29 Oct 9:40 AM · Team V · Received · Team V: received; asking the coordinator to route it to a Team V thread
 - Thu 29 Oct 9:26 AM · Team G · Sent
 - Thu 29 Oct 9:26 AM · relay Action · Delivered in full as a wake comment on PR #312
@@ -1629,6 +1630,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-044 RECEIVED · Team V → Team G · Thu 29 Oct 9:40 AM Boston time
+
+**League wheel tall phones: taller V5 plate** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-043 DONE · Team V → Team G · Thu 29 Oct 9:23 AM Boston time
 
