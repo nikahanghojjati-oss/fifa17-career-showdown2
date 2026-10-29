@@ -71,6 +71,15 @@ body { margin: 0; background: var(--ink); color: var(--ivory); font-family: var(
 .who { transition: transform .45s cubic-bezier(.2,1.5,.4,1), color .3s; transform-origin: 50% 0; }
 .who.big { transform: scale(var(--pop, 1.8)); color: #fff; }
 @media (prefers-reduced-motion: reduce) { .who { transition: none; } .who.big { transform: none; } }
+/* idea 11: the better pull's name pulses gold; Continue shines once, then pulses gently (faster after a top-3 pull). Glow only. */
+.slot span.best { animation: best 2.4s ease-in-out infinite; }
+@keyframes best { 0%, 100% { color: #fff8e6; text-shadow: none; } 50% { color: var(--gold-hi); text-shadow: 0 0 10px rgba(241,195,90,.95), 0 0 2px #fff6d2; } }
+.cta.shine { position: relative; overflow: hidden; animation: ctaPulse 2.6s ease-in-out 1.2s infinite; }
+.cta.shine.fast { animation-duration: 1.5s; }
+.cta.shine::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.9) 50%, transparent 65%); transform: translateX(-130%); animation: ctaShine 1.1s ease-out .15s 1 forwards; }
+@keyframes ctaShine { to { transform: translateX(130%); } }
+@keyframes ctaPulse { 0%, 100% { filter: drop-shadow(0 0 0 rgba(241,195,90,0)); } 50% { filter: drop-shadow(0 0 12px rgba(241,195,90,.9)); } }
+@media (prefers-reduced-motion: reduce) { .slot span.best { animation: none; color: var(--gold-hi); } .cta.shine { animation: none; } .cta.shine::after { display: none; } }
 .tools { max-width: 1000px; margin: 8px auto 0; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
 .tools button, .tools select { font: 700 13px/1 var(--num); letter-spacing: .16em; text-transform: uppercase; color: var(--ivory); background: rgba(8,7,6,.82); border: 1px solid rgba(241,195,90,.55); border-radius: 999px; padding: 8px 14px; cursor: pointer; }
 body.game .tools { display: none; }
@@ -1798,7 +1807,7 @@ function startPlayer(i,bridge){
   frontMat.map=back.tx; frontMat.needsUpdate=true;
   card.visible=false; coin.visible=false; pack.visible=true; rays.material.opacity=0; l3.classList.remove("on");
   setWho((order[idx]==="daniel"?"Daniel's":"Nik's")+" Special Player");
-  if(i===0){ slotD.textContent="Revealing"; slotD.className="wait"; slotN.textContent="Next"; slotN.className="wait"; cta.disabled=!bothShown||Boolean(cta.dataset.sent); $("again").hidden=true; $("rkD").textContent=""; $("rkN").textContent=""; }
+  if(i===0){ slotD.textContent="Revealing"; slotD.className="wait"; slotN.textContent="Next"; slotN.className="wait"; cta.disabled=!bothShown||Boolean(cta.dataset.sent); $("again").hidden=true; cta.classList.remove("shine","fast"); $("rkD").textContent=""; $("rkN").textContent=""; }
   else { slotN.textContent="Revealing"; slotN.className="wait"; }
   if(REDUCED) settle();
 }
@@ -1823,7 +1832,7 @@ function settle(natural){
   $("l3meta").innerHTML=`<span><i>${p.ovr}</i> ${p.pos}</span><span>${NATION[p.nation]}</span><span>${p.club||"No club"}</span><span><i>#${p.number}</i></span>`;
   l3.classList.add("on");
   live.textContent=`${order[idx]==="daniel"?"Daniel":"Nik"}'s FIFA 17 Showdown Special Player: ${p.name}, ${p.pos}, ${NATION[p.nation]}, ${p.club||"no club"}, number ${p.number}, overall ${p.ovr}, potential ${p.pot}, rank ${p.rank}.`;
-  if(idx===1){ bothShown=true; if(!cta.dataset.sent){ cta.disabled=false; $("again").hidden=false; } }
+  if(idx===1){ bothShown=true; if(!cta.dataset.sent){ cta.disabled=false; $("again").hidden=false; } ending(); }
 }
 const S=(at,dur,tt)=>clamp01((tt-at)/dur);
 
@@ -1860,6 +1869,8 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null, 
       const g=ctx.createGain(); g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.1+lvl*.025,t+dur-.02); g.gain.exponentialRampToValueAtTime(.0001,t+dur+.03); o.connect(f); f.connect(g); out(g,0,true); o.start(t); o.stop(t+dur+.1); noise(t,dur,"bandpass",600,7000,2.5,.08+lvl*.03,dur-.05,0,false); },
     /* idea 8: the rating count's tick, and a brighter one when it lands */
     count:(last)=>{ const t=now(); if(last){ tone(t,"triangle",1760,1760,.3,.09,.002,0,true); return; } tone(t,"square",2300,2100,.025,.022,.001,0,false); },
+    /* idea 11: the closing chord when both cards are out (wider after a top-3 pull) */
+    close:(top)=>{ const t=now(); [261.63,329.63,392,523.25,659.25].concat(top?[783.99,1046.5]:[]).forEach((f,i)=>{ tone(t+i*.05,"triangle",f,f,2.2,.08,.09,(i%3-1)*.3,true); tone(t+i*.05,"sine",f/2,f/2,2.4,.045,.12,0,false); }); },
     step:(i)=>{ const t=now(), f=523.25*Math.pow(2,i*3/12); tone(t,"triangle",f,f*1.01,.22,.15,.003,0,true); tone(t,"sine",f*2,f*2,.14,.05,.003,0,true); noise(t,.06,"highpass",5000,8000,.6,.08,.002,0,false); },
     /* idea 6: a bigger chord for a higher tier (4 notes at rank 51+, 9 with the low octaves and the shimmer for the top 3) */
     chord:(lvl)=>{ const t=now(), N=[[523.25],[659.25],[783.99],[1046.5],[1318.51,2],[261.63,3],[1567.98,3],[2093,4],[130.81,4]].filter(n=>(n[1]||0)<=lvl).map(n=>n[0]), g=.26/Math.sqrt(N.length/3);
@@ -2017,6 +2028,13 @@ function stepSig(now){ if(sigAt<0) return; const s=now-sigAt; if(s>2.6){ endSig(
     b.position.set(x,.05,CARD_POS.z-(i?.9:.6)); b.rotation.set(0,Math.atan2(camera.position.x-x,camera.position.z-b.position.z),0); if(i) b.rotateZ(i===1?.12:-.12); b.scale.set((i?.7:1.7)*(.35+grow*.65),24*grow,1); });
   beamMat.color.copy(sigCol).lerp(WHITE,.2).multiplyScalar(2.6*grow*fade);
   compMat.uniforms.strength.value=.3+(sigLvl>=4?.5*Math.sin(clamp01((s-.2)/1.1)*Math.PI):0); }
+
+/* idea 11: the ending. Once both cards are out, the better pull's name in the bar gets a gold pulse (both on a tie), a closing
+   chord plays, and Continue shines once and then pulses gently (faster after a top-3 pull). */
+function ending(){ const d=pair.daniel, n=pair.nik, top3=d.rank<=3||n.rank<=3;
+  slotD.classList.toggle("best",d.rank<=n.rank); slotN.classList.toggle("best",n.rank<=d.rank);
+  if(!cta.dataset.sent){ cta.classList.remove("shine"); void cta.offsetWidth; cta.classList.add("shine"); cta.classList.toggle("fast",top3); }
+  later(()=>SFX.play("close",top3),600); }
 
 /* idea 3: Daniel to Nik handover. Daniel's card flies off to his side, his flags roll up and his confetti lands instead of
    vanishing, a big "NIK'S SPECIAL PLAYER" pops in the top band, and Nik's pack drops straight away (his run starts at
