@@ -1,0 +1,18 @@
+{
+ "source": "visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.png",
+ "window": [
+  1060,
+  0,
+  1940,
+  1564
+ ],
+ "zones_in_window": [
+  [
+   0,
+   780,
+   165,
+   1564
+  ]
+ ],
+ "made_by": "Claude, 2026-10-02"
+}

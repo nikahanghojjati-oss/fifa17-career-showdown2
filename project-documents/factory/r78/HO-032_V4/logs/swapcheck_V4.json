@@ -1,0 +1,226 @@
+{
+ "LEAGUE": {
+  "393x852": {
+   "ok": false,
+   "circle": {
+    "diameter": 253.9,
+    "centre": [
+     196.5,
+     348.5
+    ],
+    "margins": [
+     19.6,
+     19.6
+    ]
+   },
+   "plateRect": [
+    0,
+    0,
+    393,
+    852
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 0,
+     "max": 2
+    },
+    {
+     "changed": 0,
+     "max": 2
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div.wheelContainer",
+    "div.wheelContainer"
+   ],
+   "hits": [
+    {
+     "face": "Daniel",
+     "pct": 4,
+     "el": "div#leagueWheel.leagueWheel"
+    },
+    {
+     "face": "Nik",
+     "pct": 4,
+     "el": "div#leagueWheel.leagueWheel"
+    },
+    {
+     "face": "Daniel",
+     "pct": 4,
+     "el": "div.wheelTrack"
+    },
+    {
+     "face": "Nik",
+     "pct": 4,
+     "el": "div.wheelTrack"
+    }
+   ],
+   "hiddenOldArt": [
+    "div.",
+    "img.",
+    "img.",
+    "backdrop:div#app.",
+    "backdrop:div.wheelContainer",
+    "backdrop:section#leagueWheelScreen.screen",
+    "backdrop:main."
+   ],
+   "notes": []
+  },
+  "393x660": {
+   "ok": false,
+   "circle": {
+    "diameter": 204,
+    "centre": [
+     196.5,
+     310.9
+    ],
+    "margins": [
+     34.3,
+     34.5
+    ]
+   },
+   "plateRect": [
+    0,
+    0,
+    393,
+    660
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 0,
+     "max": 0
+    },
+    {
+     "changed": 0,
+     "max": 0
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div.wheelContainer",
+    "div.wheelContainer"
+   ],
+   "hits": [
+    {
+     "face": "Daniel",
+     "pct": 1,
+     "el": "div#leagueWheel.leagueWheel"
+    },
+    {
+     "face": "Nik",
+     "pct": 1,
+     "el": "div#leagueWheel.leagueWheel"
+    },
+    {
+     "face": "Daniel",
+     "pct": 1,
+     "el": "div.wheelTrack"
+    },
+    {
+     "face": "Nik",
+     "pct": 1,
+     "el": "div.wheelTrack"
+    }
+   ],
+   "hiddenOldArt": [
+    "div.",
+    "img.",
+    "img.",
+    "backdrop:div#app.",
+    "backdrop:section#leagueWheelScreen.screen",
+    "backdrop:main.",
+    "backdrop:div.wheelContainer"
+   ],
+   "notes": []
+  },
+  "375x667": {
+   "ok": true,
+   "circle": {
+    "diameter": 210,
+    "centre": [
+     187.5,
+     315.4
+    ],
+    "margins": [
+     38.7,
+     39.2
+    ]
+   },
+   "plateRect": [
+    0,
+    0,
+    375,
+    667
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 0,
+     "max": 0
+    },
+    {
+     "changed": 108,
+     "max": 252
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div.wheelContainer",
+    "div.wheelContainer"
+   ],
+   "hits": [],
+   "hiddenOldArt": [
+    "div.",
+    "img.",
+    "img.",
+    "backdrop:div#app.",
+    "backdrop:section#leagueWheelScreen.screen",
+    "backdrop:main.",
+    "backdrop:div.wheelContainer"
+   ],
+   "notes": []
+  },
+  "360x640": {
+   "ok": true,
+   "circle": {
+    "diameter": 187,
+    "centre": [
+     180,
+     297.8
+    ],
+    "margins": [
+     40.8,
+     41.1
+    ]
+   },
+   "plateRect": [
+    0,
+    0,
+    360,
+    640
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 500,
+     "max": 255
+    },
+    {
+     "changed": 714,
+     "max": 255
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div.wheelContainer",
+    "div.wheelContainer"
+   ],
+   "hits": [],
+   "hiddenOldArt": [
+    "div.",
+    "img.",
+    "img.",
+    "backdrop:div#app.",
+    "backdrop:section#leagueWheelScreen.screen",
+    "backdrop:main.",
+    "backdrop:div.wheelContainer"
+   ],
+   "notes": []
+  }
+ }
+}

@@ -1,0 +1,1429 @@
+{
+  "schema": "cms-data-contract-v1-fixture",
+  "contractVersion": "1.0",
+  "scenario": "equal-position-tiebreaks",
+  "summary": "3-season Premier League Showdown with the rare equal league positions the app allows: season 1 won on league points, season 2 a draw, season 3 decides it. The only scenario where both managers share a league position.",
+  "generator": "tests/support/data-contract-v1-fixtures.cjs",
+  "checkSource": [
+    {
+      "ref": "equal-position-tiebreaks",
+      "totalSeasons": 3,
+      "leagueId": "premier_league",
+      "state": "completed",
+      "seasons": [
+        {
+          "daniel": {
+            "leaguePosition": 3,
+            "leaguePoints": 70,
+            "leagueGoals": 64,
+            "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": false
+          },
+          "nik": {
+            "leaguePosition": 3,
+            "leaguePoints": 72,
+            "leagueGoals": 61,
+            "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": false
+          }
+        },
+        {
+          "daniel": {
+            "leaguePosition": 5,
+            "leaguePoints": 60,
+            "leagueGoals": 55,
+            "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": false
+          },
+          "nik": {
+            "leaguePosition": 5,
+            "leaguePoints": 60,
+            "leagueGoals": 55,
+            "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": false
+          }
+        },
+        {
+          "daniel": {
+            "leaguePosition": 1,
+            "leaguePoints": 90,
+            "leagueGoals": 88,
+            "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": false
+          },
+          "nik": {
+            "leaguePosition": 2,
+            "leaguePoints": 86,
+            "leagueGoals": 80,
+            "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": false
+          }
+        }
+      ]
+    }
+  ],
+  "career": {
+    "status": "ready",
+    "interimLabel": null,
+    "coverage": {
+      "readable": 1,
+      "indexed": 1
+    },
+    "managers": {
+      "daniel": {
+        "careerPoints": 3,
+        "seasons": 3,
+        "seasonWins": 1,
+        "seasonDraws": 1,
+        "seasonLosses": 1,
+        "championsLeagues": 0,
+        "leagueTitles": 1,
+        "domesticCups": 0,
+        "totalTrophies": 1,
+        "hundredPointSeasons": 0,
+        "hundredGoalSeasons": 0,
+        "topScorerSeasons": 0,
+        "topAssistSeasons": 0,
+        "perfectSeasons": 0,
+        "performanceBonuses": 0,
+        "awardsBonuses": 0,
+        "bestSeasonScore": 3,
+        "bestLeaguePoints": 90,
+        "bestLeagueGoals": 88,
+        "bestLeaguePosition": 1,
+        "averageSeasonScore": 1,
+        "averageLeaguePoints": 73.33333333333333,
+        "averageLeagueGoals": 69,
+        "showdowns": {
+          "completed": 1,
+          "wins": 1,
+          "draws": 0,
+          "losses": 0
+        }
+      },
+      "nik": {
+        "careerPoints": 0,
+        "seasons": 3,
+        "seasonWins": 1,
+        "seasonDraws": 1,
+        "seasonLosses": 1,
+        "championsLeagues": 0,
+        "leagueTitles": 0,
+        "domesticCups": 0,
+        "totalTrophies": 0,
+        "hundredPointSeasons": 0,
+        "hundredGoalSeasons": 0,
+        "topScorerSeasons": 0,
+        "topAssistSeasons": 0,
+        "perfectSeasons": 0,
+        "performanceBonuses": 0,
+        "awardsBonuses": 0,
+        "bestSeasonScore": 0,
+        "bestLeaguePoints": 86,
+        "bestLeagueGoals": 80,
+        "bestLeaguePosition": 2,
+        "averageSeasonScore": 0,
+        "averageLeaguePoints": 72.66666666666667,
+        "averageLeagueGoals": 65.33333333333333,
+        "showdowns": {
+          "completed": 1,
+          "wins": 0,
+          "draws": 0,
+          "losses": 1
+        }
+      }
+    },
+    "biggestShowdownWin": {
+      "manager": "daniel",
+      "margin": 3,
+      "showdownRef": "pair_7777777777777777777777777777777777777777777777777777777777777777"
+    },
+    "trophyRoom": {
+      "cabinet": {
+        "daniel": {
+          "championsLeagues": 0,
+          "leagueTitles": 1,
+          "domesticCups": 0,
+          "totalTrophies": 1
+        },
+        "nik": {
+          "championsLeagues": 0,
+          "leagueTitles": 0,
+          "domesticCups": 0,
+          "totalTrophies": 0
+        }
+      },
+      "standings": [
+        {
+          "manager": "daniel",
+          "careerPoints": 3,
+          "seasonWins": 1
+        },
+        {
+          "manager": "nik",
+          "careerPoints": 0,
+          "seasonWins": 1
+        }
+      ],
+      "records": [
+        {
+          "label": "Highest season score",
+          "manager": "daniel",
+          "value": 3,
+          "ref": {
+            "rivalryId": "pair_7777777777777777777777777777777777777777777777777777777777777777",
+            "season": 3
+          }
+        },
+        {
+          "label": "Highest league points",
+          "manager": "daniel",
+          "value": 90,
+          "ref": {
+            "rivalryId": "pair_7777777777777777777777777777777777777777777777777777777777777777",
+            "season": 3
+          }
+        },
+        {
+          "label": "Highest league goals",
+          "manager": "daniel",
+          "value": 88,
+          "ref": {
+            "rivalryId": "pair_7777777777777777777777777777777777777777777777777777777777777777",
+            "season": 3
+          }
+        },
+        {
+          "label": "Biggest Showdown win",
+          "manager": "daniel",
+          "value": 3,
+          "ref": {
+            "rivalryId": "pair_7777777777777777777777777777777777777777777777777777777777777777"
+          }
+        },
+        {
+          "label": "Most perfect seasons",
+          "manager": "shared",
+          "value": 0,
+          "ref": null
+        }
+      ]
+    },
+    "history": {
+      "showdowns": [
+        {
+          "number": 1,
+          "rivalryId": "pair_7777777777777777777777777777777777777777777777777777777777777777",
+          "status": "completed",
+          "leagueId": "premier_league",
+          "clubs": {
+            "daniel": "Tottenham Hotspur",
+            "nik": "Leicester City"
+          },
+          "seasonsPlayed": 3,
+          "totalSeasons": 3,
+          "totals": {
+            "daniel": 3,
+            "nik": 0
+          },
+          "winner": "daniel",
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 0,
+                "nik": 0
+              },
+              "winner": "nik",
+              "tiebreak": "league-points",
+              "leaguePosition": {
+                "daniel": 3,
+                "nik": 3
+              },
+              "leaguePoints": {
+                "daniel": 70,
+                "nik": 72
+              },
+              "leagueGoals": {
+                "daniel": 64,
+                "nik": 61
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 0,
+                "nik": 0
+              },
+              "winner": "draw",
+              "tiebreak": "draw",
+              "leaguePosition": {
+                "daniel": 5,
+                "nik": 5
+              },
+              "leaguePoints": {
+                "daniel": 60,
+                "nik": 60
+              },
+              "leagueGoals": {
+                "daniel": 55,
+                "nik": 55
+              }
+            },
+            {
+              "season": 3,
+              "score": {
+                "daniel": 3,
+                "nik": 0
+              },
+              "winner": "daniel",
+              "tiebreak": "none",
+              "leaguePosition": {
+                "daniel": 1,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 90,
+                "nik": 86
+              },
+              "leagueGoals": {
+                "daniel": 88,
+                "nik": 80
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "careerInterim": {
+    "status": "ready",
+    "interimLabel": "Current Showdown only. Career history is not yet available.",
+    "coverage": {
+      "readable": 1,
+      "indexed": 1
+    },
+    "managers": {
+      "daniel": {
+        "careerPoints": 3,
+        "seasons": 3,
+        "seasonWins": 1,
+        "seasonDraws": 1,
+        "seasonLosses": 1,
+        "championsLeagues": 0,
+        "leagueTitles": 1,
+        "domesticCups": 0,
+        "totalTrophies": 1,
+        "hundredPointSeasons": 0,
+        "hundredGoalSeasons": 0,
+        "topScorerSeasons": 0,
+        "topAssistSeasons": 0,
+        "perfectSeasons": 0,
+        "performanceBonuses": 0,
+        "awardsBonuses": 0,
+        "bestSeasonScore": 3,
+        "bestLeaguePoints": 90,
+        "bestLeagueGoals": 88,
+        "bestLeaguePosition": 1,
+        "averageSeasonScore": 1,
+        "averageLeaguePoints": 73.33333333333333,
+        "averageLeagueGoals": 69,
+        "showdowns": {
+          "completed": 1,
+          "wins": 1,
+          "draws": 0,
+          "losses": 0
+        }
+      },
+      "nik": {
+        "careerPoints": 0,
+        "seasons": 3,
+        "seasonWins": 1,
+        "seasonDraws": 1,
+        "seasonLosses": 1,
+        "championsLeagues": 0,
+        "leagueTitles": 0,
+        "domesticCups": 0,
+        "totalTrophies": 0,
+        "hundredPointSeasons": 0,
+        "hundredGoalSeasons": 0,
+        "topScorerSeasons": 0,
+        "topAssistSeasons": 0,
+        "perfectSeasons": 0,
+        "performanceBonuses": 0,
+        "awardsBonuses": 0,
+        "bestSeasonScore": 0,
+        "bestLeaguePoints": 86,
+        "bestLeagueGoals": 80,
+        "bestLeaguePosition": 2,
+        "averageSeasonScore": 0,
+        "averageLeaguePoints": 72.66666666666667,
+        "averageLeagueGoals": 65.33333333333333,
+        "showdowns": {
+          "completed": 1,
+          "wins": 0,
+          "draws": 0,
+          "losses": 1
+        }
+      }
+    },
+    "biggestShowdownWin": {
+      "manager": "daniel",
+      "margin": 3,
+      "showdownRef": "pair_7777777777777777777777777777777777777777777777777777777777777777"
+    },
+    "trophyRoom": {
+      "cabinet": {
+        "daniel": {
+          "championsLeagues": 0,
+          "leagueTitles": 1,
+          "domesticCups": 0,
+          "totalTrophies": 1
+        },
+        "nik": {
+          "championsLeagues": 0,
+          "leagueTitles": 0,
+          "domesticCups": 0,
+          "totalTrophies": 0
+        }
+      },
+      "standings": [
+        {
+          "manager": "daniel",
+          "careerPoints": 3,
+          "seasonWins": 1
+        },
+        {
+          "manager": "nik",
+          "careerPoints": 0,
+          "seasonWins": 1
+        }
+      ],
+      "records": [
+        {
+          "label": "Highest season score",
+          "manager": "daniel",
+          "value": 3,
+          "ref": {
+            "rivalryId": "pair_7777777777777777777777777777777777777777777777777777777777777777",
+            "season": 3
+          }
+        },
+        {
+          "label": "Highest league points",
+          "manager": "daniel",
+          "value": 90,
+          "ref": {
+            "rivalryId": "pair_7777777777777777777777777777777777777777777777777777777777777777",
+            "season": 3
+          }
+        },
+        {
+          "label": "Highest league goals",
+          "manager": "daniel",
+          "value": 88,
+          "ref": {
+            "rivalryId": "pair_7777777777777777777777777777777777777777777777777777777777777777",
+            "season": 3
+          }
+        },
+        {
+          "label": "Biggest Showdown win",
+          "manager": "daniel",
+          "value": 3,
+          "ref": {
+            "rivalryId": "pair_7777777777777777777777777777777777777777777777777777777777777777"
+          }
+        },
+        {
+          "label": "Most perfect seasons",
+          "manager": "shared",
+          "value": 0,
+          "ref": null
+        }
+      ]
+    },
+    "history": {
+      "showdowns": [
+        {
+          "number": 1,
+          "rivalryId": "pair_7777777777777777777777777777777777777777777777777777777777777777",
+          "status": "completed",
+          "leagueId": "premier_league",
+          "clubs": {
+            "daniel": "Tottenham Hotspur",
+            "nik": "Leicester City"
+          },
+          "seasonsPlayed": 3,
+          "totalSeasons": 3,
+          "totals": {
+            "daniel": 3,
+            "nik": 0
+          },
+          "winner": "daniel",
+          "seasons": [
+            {
+              "season": 1,
+              "score": {
+                "daniel": 0,
+                "nik": 0
+              },
+              "winner": "nik",
+              "tiebreak": "league-points",
+              "leaguePosition": {
+                "daniel": 3,
+                "nik": 3
+              },
+              "leaguePoints": {
+                "daniel": 70,
+                "nik": 72
+              },
+              "leagueGoals": {
+                "daniel": 64,
+                "nik": 61
+              }
+            },
+            {
+              "season": 2,
+              "score": {
+                "daniel": 0,
+                "nik": 0
+              },
+              "winner": "draw",
+              "tiebreak": "draw",
+              "leaguePosition": {
+                "daniel": 5,
+                "nik": 5
+              },
+              "leaguePoints": {
+                "daniel": 60,
+                "nik": 60
+              },
+              "leagueGoals": {
+                "daniel": 55,
+                "nik": 55
+              }
+            },
+            {
+              "season": 3,
+              "score": {
+                "daniel": 3,
+                "nik": 0
+              },
+              "winner": "daniel",
+              "tiebreak": "none",
+              "leaguePosition": {
+                "daniel": 1,
+                "nik": 2
+              },
+              "leaguePoints": {
+                "daniel": 90,
+                "nik": 86
+              },
+              "leagueGoals": {
+                "daniel": 88,
+                "nik": 80
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "viewers": {
+    "daniel": {
+      "classification": "completed",
+      "home": {
+        "status": "ready",
+        "viewerRole": "daniel",
+        "continue": {
+          "state": "unpaired",
+          "leagueId": null,
+          "clubs": null,
+          "season": null,
+          "totalSeasons": null,
+          "score": {
+            "daniel": 3,
+            "nik": 0
+          }
+        }
+      },
+      "startJoin": {
+        "status": "ready",
+        "viewerRole": "daniel",
+        "busy": false,
+        "pairing": {
+          "state": "none",
+          "code": null,
+          "actions": {
+            "createCode": {
+              "available": true,
+              "enabled": true,
+              "provider": "pair.startPairing",
+              "args": {
+                "managerRole": "playerOne"
+              },
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "join": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "copyCode": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "newCode": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "checkStatus": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "retry": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            }
+          }
+        },
+        "session": {
+          "state": null,
+          "actions": {
+            "host": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "join": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "refresh": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "revoke": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "close": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "forget": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            }
+          }
+        },
+        "abandonShowdown": {
+          "available": false,
+          "enabled": false,
+          "provider": null,
+          "args": null,
+          "confirm": null,
+          "confirmedByProvider": false
+        },
+        "forgetThisDevice": {
+          "available": true,
+          "enabled": true,
+          "provider": "identity.forgetThisDevice",
+          "args": null,
+          "confirm": "Forget this device? This browser is signed out and must be set up again before it can play. Your Showdowns are not deleted.",
+          "confirmedByProvider": false
+        },
+        "primaryActions": [
+          "pairing.createCode"
+        ],
+        "moreActions": []
+      },
+      "seasonResults": {
+        "status": "loading",
+        "season": null,
+        "phase": null,
+        "viewerRole": "daniel",
+        "inputs": {
+          "daniel": null,
+          "nik": null
+        },
+        "breakdown": null,
+        "winner": null,
+        "tiebreak": null
+      },
+      "seasonResultsBySeason": [
+        {
+          "status": "ready",
+          "season": 1,
+          "phase": "committed",
+          "viewerRole": "daniel",
+          "inputs": {
+            "daniel": {
+              "leaguePosition": 3,
+              "leaguePoints": 70,
+              "leagueGoals": 64,
+              "domesticCup": false,
+              "championsLeague": false,
+              "topScorer": false,
+              "topAssist": false
+            },
+            "nik": {
+              "leaguePosition": 3,
+              "leaguePoints": 72,
+              "leagueGoals": 61,
+              "domesticCup": false,
+              "championsLeague": false,
+              "topScorer": false,
+              "topAssist": false
+            }
+          },
+          "breakdown": {
+            "daniel": {
+              "championsLeague": 0,
+              "leagueTitle": 0,
+              "domesticCup": 0,
+              "performanceBonus": 0,
+              "awardsBonus": 0,
+              "total": 0
+            },
+            "nik": {
+              "championsLeague": 0,
+              "leagueTitle": 0,
+              "domesticCup": 0,
+              "performanceBonus": 0,
+              "awardsBonus": 0,
+              "total": 0
+            }
+          },
+          "winner": "nik",
+          "tiebreak": "league-points"
+        },
+        {
+          "status": "ready",
+          "season": 2,
+          "phase": "committed",
+          "viewerRole": "daniel",
+          "inputs": {
+            "daniel": {
+              "leaguePosition": 5,
+              "leaguePoints": 60,
+              "leagueGoals": 55,
+              "domesticCup": false,
+              "championsLeague": false,
+              "topScorer": false,
+              "topAssist": false
+            },
+            "nik": {
+              "leaguePosition": 5,
+              "leaguePoints": 60,
+              "leagueGoals": 55,
+              "domesticCup": false,
+              "championsLeague": false,
+              "topScorer": false,
+              "topAssist": false
+            }
+          },
+          "breakdown": {
+            "daniel": {
+              "championsLeague": 0,
+              "leagueTitle": 0,
+              "domesticCup": 0,
+              "performanceBonus": 0,
+              "awardsBonus": 0,
+              "total": 0
+            },
+            "nik": {
+              "championsLeague": 0,
+              "leagueTitle": 0,
+              "domesticCup": 0,
+              "performanceBonus": 0,
+              "awardsBonus": 0,
+              "total": 0
+            }
+          },
+          "winner": "draw",
+          "tiebreak": "draw"
+        },
+        {
+          "status": "ready",
+          "season": 3,
+          "phase": "committed",
+          "viewerRole": "daniel",
+          "inputs": {
+            "daniel": {
+              "leaguePosition": 1,
+              "leaguePoints": 90,
+              "leagueGoals": 88,
+              "domesticCup": false,
+              "championsLeague": false,
+              "topScorer": false,
+              "topAssist": false
+            },
+            "nik": {
+              "leaguePosition": 2,
+              "leaguePoints": 86,
+              "leagueGoals": 80,
+              "domesticCup": false,
+              "championsLeague": false,
+              "topScorer": false,
+              "topAssist": false
+            }
+          },
+          "breakdown": {
+            "daniel": {
+              "championsLeague": 0,
+              "leagueTitle": 3,
+              "domesticCup": 0,
+              "performanceBonus": 0,
+              "awardsBonus": 0,
+              "total": 3
+            },
+            "nik": {
+              "championsLeague": 0,
+              "leagueTitle": 0,
+              "domesticCup": 0,
+              "performanceBonus": 0,
+              "awardsBonus": 0,
+              "total": 0
+            }
+          },
+          "winner": "daniel",
+          "tiebreak": "none"
+        }
+      ],
+      "finalWinner": {
+        "status": "ready",
+        "state": "completed",
+        "totals": {
+          "daniel": 3,
+          "nik": 0
+        },
+        "winner": "daniel",
+        "margin": 3,
+        "seasonsPlayed": 3,
+        "trophies": {
+          "daniel": {
+            "championsLeague": 0,
+            "leagueTitles": 1,
+            "domesticCups": 0,
+            "total": 1
+          },
+          "nik": {
+            "championsLeague": 0,
+            "leagueTitles": 0,
+            "domesticCups": 0,
+            "total": 0
+          }
+        }
+      },
+      "rivalry": {
+        "status": "ready",
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "Tottenham Hotspur",
+          "nik": "Leicester City"
+        },
+        "season": 3,
+        "totalSeasons": 3,
+        "score": {
+          "daniel": 3,
+          "nik": 0
+        },
+        "managers": {
+          "daniel": {
+            "seasonWins": 1,
+            "seasonDraws": 1,
+            "seasonLosses": 1,
+            "championsLeagues": 0,
+            "leagueTitles": 1,
+            "domesticCups": 0,
+            "totalTrophies": 1,
+            "hundredPointSeasons": 0,
+            "hundredGoalSeasons": 0,
+            "topScorerSeasons": 0,
+            "topAssistSeasons": 0,
+            "perfectSeasons": 0,
+            "bestSeasonScore": 3
+          },
+          "nik": {
+            "seasonWins": 1,
+            "seasonDraws": 1,
+            "seasonLosses": 1,
+            "championsLeagues": 0,
+            "leagueTitles": 0,
+            "domesticCups": 0,
+            "totalTrophies": 0,
+            "hundredPointSeasons": 0,
+            "hundredGoalSeasons": 0,
+            "topScorerSeasons": 0,
+            "topAssistSeasons": 0,
+            "perfectSeasons": 0,
+            "bestSeasonScore": 0
+          }
+        },
+        "seasons": [
+          {
+            "season": 1,
+            "score": {
+              "daniel": 0,
+              "nik": 0
+            },
+            "winner": "nik",
+            "leaguePosition": {
+              "daniel": 3,
+              "nik": 3
+            },
+            "leaguePoints": {
+              "daniel": 70,
+              "nik": 72
+            },
+            "leagueGoals": {
+              "daniel": 64,
+              "nik": 61
+            }
+          },
+          {
+            "season": 2,
+            "score": {
+              "daniel": 0,
+              "nik": 0
+            },
+            "winner": "draw",
+            "leaguePosition": {
+              "daniel": 5,
+              "nik": 5
+            },
+            "leaguePoints": {
+              "daniel": 60,
+              "nik": 60
+            },
+            "leagueGoals": {
+              "daniel": 55,
+              "nik": 55
+            }
+          },
+          {
+            "season": 3,
+            "score": {
+              "daniel": 3,
+              "nik": 0
+            },
+            "winner": "daniel",
+            "leaguePosition": {
+              "daniel": 1,
+              "nik": 2
+            },
+            "leaguePoints": {
+              "daniel": 90,
+              "nik": 86
+            },
+            "leagueGoals": {
+              "daniel": 88,
+              "nik": 80
+            }
+          }
+        ],
+        "transfers": {
+          "status": "unavailable"
+        }
+      }
+    },
+    "nik": {
+      "classification": "completed",
+      "home": {
+        "status": "ready",
+        "viewerRole": "nik",
+        "continue": {
+          "state": "unpaired",
+          "leagueId": null,
+          "clubs": null,
+          "season": null,
+          "totalSeasons": null,
+          "score": {
+            "daniel": 3,
+            "nik": 0
+          }
+        }
+      },
+      "startJoin": {
+        "status": "ready",
+        "viewerRole": "nik",
+        "busy": false,
+        "pairing": {
+          "state": "none",
+          "code": null,
+          "actions": {
+            "createCode": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "join": {
+              "available": true,
+              "enabled": true,
+              "provider": "pair.joinPairing",
+              "args": {
+                "managerRole": "playerTwo"
+              },
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "copyCode": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "newCode": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "checkStatus": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "retry": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            }
+          }
+        },
+        "session": {
+          "state": null,
+          "actions": {
+            "host": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "join": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "refresh": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "revoke": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "close": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            },
+            "forget": {
+              "available": false,
+              "enabled": false,
+              "provider": null,
+              "args": null,
+              "confirm": null,
+              "confirmedByProvider": false
+            }
+          }
+        },
+        "abandonShowdown": {
+          "available": false,
+          "enabled": false,
+          "provider": null,
+          "args": null,
+          "confirm": null,
+          "confirmedByProvider": false
+        },
+        "forgetThisDevice": {
+          "available": true,
+          "enabled": true,
+          "provider": "identity.forgetThisDevice",
+          "args": null,
+          "confirm": "Forget this device? This browser is signed out and must be set up again before it can play. Your Showdowns are not deleted.",
+          "confirmedByProvider": false
+        },
+        "primaryActions": [
+          "pairing.join"
+        ],
+        "moreActions": []
+      },
+      "seasonResults": {
+        "status": "loading",
+        "season": null,
+        "phase": null,
+        "viewerRole": "nik",
+        "inputs": {
+          "daniel": null,
+          "nik": null
+        },
+        "breakdown": null,
+        "winner": null,
+        "tiebreak": null
+      },
+      "seasonResultsBySeason": [
+        {
+          "status": "ready",
+          "season": 1,
+          "phase": "committed",
+          "viewerRole": "nik",
+          "inputs": {
+            "daniel": {
+              "leaguePosition": 3,
+              "leaguePoints": 70,
+              "leagueGoals": 64,
+              "domesticCup": false,
+              "championsLeague": false,
+              "topScorer": false,
+              "topAssist": false
+            },
+            "nik": {
+              "leaguePosition": 3,
+              "leaguePoints": 72,
+              "leagueGoals": 61,
+              "domesticCup": false,
+              "championsLeague": false,
+              "topScorer": false,
+              "topAssist": false
+            }
+          },
+          "breakdown": {
+            "daniel": {
+              "championsLeague": 0,
+              "leagueTitle": 0,
+              "domesticCup": 0,
+              "performanceBonus": 0,
+              "awardsBonus": 0,
+              "total": 0
+            },
+            "nik": {
+              "championsLeague": 0,
+              "leagueTitle": 0,
+              "domesticCup": 0,
+              "performanceBonus": 0,
+              "awardsBonus": 0,
+              "total": 0
+            }
+          },
+          "winner": "nik",
+          "tiebreak": "league-points"
+        },
+        {
+          "status": "ready",
+          "season": 2,
+          "phase": "committed",
+          "viewerRole": "nik",
+          "inputs": {
+            "daniel": {
+              "leaguePosition": 5,
+              "leaguePoints": 60,
+              "leagueGoals": 55,
+              "domesticCup": false,
+              "championsLeague": false,
+              "topScorer": false,
+              "topAssist": false
+            },
+            "nik": {
+              "leaguePosition": 5,
+              "leaguePoints": 60,
+              "leagueGoals": 55,
+              "domesticCup": false,
+              "championsLeague": false,
+              "topScorer": false,
+              "topAssist": false
+            }
+          },
+          "breakdown": {
+            "daniel": {
+              "championsLeague": 0,
+              "leagueTitle": 0,
+              "domesticCup": 0,
+              "performanceBonus": 0,
+              "awardsBonus": 0,
+              "total": 0
+            },
+            "nik": {
+              "championsLeague": 0,
+              "leagueTitle": 0,
+              "domesticCup": 0,
+              "performanceBonus": 0,
+              "awardsBonus": 0,
+              "total": 0
+            }
+          },
+          "winner": "draw",
+          "tiebreak": "draw"
+        },
+        {
+          "status": "ready",
+          "season": 3,
+          "phase": "committed",
+          "viewerRole": "nik",
+          "inputs": {
+            "daniel": {
+              "leaguePosition": 1,
+              "leaguePoints": 90,
+              "leagueGoals": 88,
+              "domesticCup": false,
+              "championsLeague": false,
+              "topScorer": false,
+              "topAssist": false
+            },
+            "nik": {
+              "leaguePosition": 2,
+              "leaguePoints": 86,
+              "leagueGoals": 80,
+              "domesticCup": false,
+              "championsLeague": false,
+              "topScorer": false,
+              "topAssist": false
+            }
+          },
+          "breakdown": {
+            "daniel": {
+              "championsLeague": 0,
+              "leagueTitle": 3,
+              "domesticCup": 0,
+              "performanceBonus": 0,
+              "awardsBonus": 0,
+              "total": 3
+            },
+            "nik": {
+              "championsLeague": 0,
+              "leagueTitle": 0,
+              "domesticCup": 0,
+              "performanceBonus": 0,
+              "awardsBonus": 0,
+              "total": 0
+            }
+          },
+          "winner": "daniel",
+          "tiebreak": "none"
+        }
+      ],
+      "finalWinner": {
+        "status": "ready",
+        "state": "completed",
+        "totals": {
+          "daniel": 3,
+          "nik": 0
+        },
+        "winner": "daniel",
+        "margin": 3,
+        "seasonsPlayed": 3,
+        "trophies": {
+          "daniel": {
+            "championsLeague": 0,
+            "leagueTitles": 1,
+            "domesticCups": 0,
+            "total": 1
+          },
+          "nik": {
+            "championsLeague": 0,
+            "leagueTitles": 0,
+            "domesticCups": 0,
+            "total": 0
+          }
+        }
+      },
+      "rivalry": {
+        "status": "ready",
+        "leagueId": "premier_league",
+        "clubs": {
+          "daniel": "Tottenham Hotspur",
+          "nik": "Leicester City"
+        },
+        "season": 3,
+        "totalSeasons": 3,
+        "score": {
+          "daniel": 3,
+          "nik": 0
+        },
+        "managers": {
+          "daniel": {
+            "seasonWins": 1,
+            "seasonDraws": 1,
+            "seasonLosses": 1,
+            "championsLeagues": 0,
+            "leagueTitles": 1,
+            "domesticCups": 0,
+            "totalTrophies": 1,
+            "hundredPointSeasons": 0,
+            "hundredGoalSeasons": 0,
+            "topScorerSeasons": 0,
+            "topAssistSeasons": 0,
+            "perfectSeasons": 0,
+            "bestSeasonScore": 3
+          },
+          "nik": {
+            "seasonWins": 1,
+            "seasonDraws": 1,
+            "seasonLosses": 1,
+            "championsLeagues": 0,
+            "leagueTitles": 0,
+            "domesticCups": 0,
+            "totalTrophies": 0,
+            "hundredPointSeasons": 0,
+            "hundredGoalSeasons": 0,
+            "topScorerSeasons": 0,
+            "topAssistSeasons": 0,
+            "perfectSeasons": 0,
+            "bestSeasonScore": 0
+          }
+        },
+        "seasons": [
+          {
+            "season": 1,
+            "score": {
+              "daniel": 0,
+              "nik": 0
+            },
+            "winner": "nik",
+            "leaguePosition": {
+              "daniel": 3,
+              "nik": 3
+            },
+            "leaguePoints": {
+              "daniel": 70,
+              "nik": 72
+            },
+            "leagueGoals": {
+              "daniel": 64,
+              "nik": 61
+            }
+          },
+          {
+            "season": 2,
+            "score": {
+              "daniel": 0,
+              "nik": 0
+            },
+            "winner": "draw",
+            "leaguePosition": {
+              "daniel": 5,
+              "nik": 5
+            },
+            "leaguePoints": {
+              "daniel": 60,
+              "nik": 60
+            },
+            "leagueGoals": {
+              "daniel": 55,
+              "nik": 55
+            }
+          },
+          {
+            "season": 3,
+            "score": {
+              "daniel": 3,
+              "nik": 0
+            },
+            "winner": "daniel",
+            "leaguePosition": {
+              "daniel": 1,
+              "nik": 2
+            },
+            "leaguePoints": {
+              "daniel": 90,
+              "nik": 86
+            },
+            "leagueGoals": {
+              "daniel": 88,
+              "nik": 80
+            }
+          }
+        ],
+        "transfers": {
+          "status": "unavailable"
+        }
+      }
+    }
+  }
+}

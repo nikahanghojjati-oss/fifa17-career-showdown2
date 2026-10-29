@@ -1,0 +1,118 @@
+<title>Transfer War Guess Entry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;600&display=swap">
+<style>
+  :root {
+    color-scheme: dark;
+    --ink: #0B0906; --deck: #16110A; --gold: #F2C45B; --gold-deep: #C99B45;
+    --cream: #F4E7C8; --dim: #A8987A; --hair: rgba(242,196,91,.28);
+  }
+  :root[data-theme="light"] { color-scheme: dark; }
+  html, body { background: var(--ink); color: var(--cream); }
+  body { font: 15px/1.5 "Barlow", system-ui, sans-serif; padding-inline: 16px; padding-block: 20px 32px; }
+  .wrap { max-width: 1366px; margin: 0 auto; display: grid; gap: 14px; }
+  header { display: grid; gap: 10px; }
+  h1 { margin: 0; font: 700 26px/1.1 "Barlow Condensed", sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--gold); text-wrap: balance; }
+  .sub { margin: 2px 0 0; color: var(--dim); font-size: 14px; max-width: 72ch; }
+  .bar { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; }
+  .views { display: flex; flex-wrap: wrap; gap: 6px; }
+  .views button {
+    font: 700 13px/1 "Barlow Condensed", sans-serif; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--cream); background: var(--deck); border: 0; border-radius: 999px; padding: 10px 14px; min-height: 36px;
+    box-shadow: inset 0 0 0 1px var(--hair); cursor: pointer;
+  }
+  .views button[aria-pressed="true"] { color: var(--ink); background: linear-gradient(180deg,#FFE08F,var(--gold) 50%,var(--gold-deep)); box-shadow: none; }
+  .views button:disabled { opacity: .35; cursor: not-allowed; }
+  .views button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .screen { position: relative; width: 100%; aspect-ratio: 1366 / 768; overflow: hidden; border-radius: 6px; background: #000;
+    box-shadow: 0 0 0 1px var(--hair), 0 20px 60px rgba(0,0,0,.6); }
+  .screen.phone { width: min(100%, 390px); aspect-ratio: 390 / 664; justify-self: center; border-radius: 22px; }
+  .host { position: absolute; left: 0; top: 0; width: 1366px; height: 768px; transform-origin: 0 0; }
+  .screen.phone .host { width: 390px; height: 664px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 22px; font: 600 13px/1.3 "Barlow Condensed", sans-serif; letter-spacing: .06em; color: var(--dim); }
+  .meta b { color: var(--cream); font-weight: 700; overflow-wrap: anywhere; }
+  .check { margin: 4px 0 0; padding: 14px 16px; background: var(--deck); border-radius: 6px; box-shadow: inset 0 0 0 1px var(--hair); }
+  .check h2 { margin: 0 0 6px; font: 700 15px/1.2 "Barlow Condensed", sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+  .check ol { margin: 0; padding-left: 20px; display: grid; gap: 3px; max-width: 72ch; }
+/*__PLATE_CSS__*/
+</style>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Transfer War · Window, Guesses, Signings, Verdicts</h1>
+      <p class="sub">Live build on the locked plate. Desktop is shown at the 1366×768 gate size, phone at 390×664, the visible browser area of an iPhone 12–15, where everything must fit without scrolling. The clock runs; END EARLY, the guess fields and the signing rows respond (LOCK MY SIGNINGS checks each row like production). Player names, clubs and verdicts are fixture values.</p>
+    </div>
+    <div class="bar">
+      <div class="views" role="group" aria-label="Device">
+        <button type="button" data-device="desktop" aria-pressed="true">Desktop</button>
+        <button type="button" data-device="phone" aria-pressed="false">Phone</button>
+      </div>
+      <div class="views" role="group" aria-label="Screen">
+        <button type="button" data-frame="F1" aria-pressed="true">Window · Nik</button>
+        <button type="button" data-frame="F1D" aria-pressed="false">Window · Daniel</button>
+        <button type="button" data-frame="G2" aria-pressed="false">Guesses · Nik</button>
+        <button type="button" data-frame="G3" aria-pressed="false">Guesses · Daniel</button>
+        <button type="button" data-frame="F3" aria-pressed="false">Signings · Nik</button>
+        <button type="button" data-frame="F3D" aria-pressed="false">Signings · Daniel</button>
+        <button type="button" data-frame="F3L" aria-pressed="false">Signings locked</button>
+        <button type="button" data-frame="F4" aria-pressed="false">Verdicts · Nik</button>
+        <button type="button" data-frame="F4D" aria-pressed="false">Verdicts · Daniel</button>
+        <button type="button" data-frame="F4E" aria-pressed="false">Verdicts · no signings</button>
+        <button type="button" data-frame="S0" aria-pressed="false">Plate only</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="screen" id="screen">
+    <div id="host" class="host"><div id="stage-root" class="stage" data-manual role="region" aria-label="Transfer Challenge build"></div></div>
+  </div>
+
+  <div class="meta">
+    <span>Branch <b>claude-cloud/transfer-tr2-plate-g</b></span>
+    <span>Build <b>__COMMIT__</b></span>
+    <span>Plate SHA-256 <b>6f7d3d9c…0b</b> (1672) · <b>c49ea5a4…06</b> (3344)</span>
+  </div>
+
+  <section class="check" aria-labelledby="chk">
+    <h2 id="chk">Owner look check</h2>
+    <ol>
+      <li>Window and Guesses are already approved; they should look exactly as before.</li>
+      <li>Signings: are the three rows (player, previous league, nationality) easy to fill in, and is LOCK MY SIGNINGS the obvious next step, with Daniel's side still sealed?</li>
+      <li>Verdicts: can you tell at a glance which signings are KEEP and which are RELEASE, for both of you?</li>
+      <li>Phone: does each screen fit without scrolling, with both of you still whole in the scene?</li>
+      <li>Anything that feels overdone?</li>
+    </ol>
+  </section>
+</div>
+
+<script>
+/*__PLATE_JS__*/
+</script>
+<script>
+  (function () {
+    var screen = document.getElementById("screen"), host = document.getElementById("host"), stage = document.getElementById("stage-root");
+    var state = { device: "desktop", frame: "F1" };
+    var T = window.TWPlate;
+    function fit() {
+      var w = state.device === "phone" ? 390 : 1366;
+      host.style.transform = "scale(" + (screen.clientWidth / w) + ")";
+    }
+    function go() {
+      var phone = state.device === "phone";
+      screen.classList.toggle("phone", phone);
+      document.querySelectorAll("[data-frame]").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.frame === state.frame));
+      });
+      document.querySelectorAll("[data-device]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.device === state.device)); });
+      stage.classList.toggle("pv-mobile", phone);
+      fit();
+      T.render(stage, T.FX, T.MAP, state.frame, { mobile: phone, webpOnly: true });
+      fit();
+    }
+    document.querySelectorAll("[data-frame]").forEach(function (b) { b.addEventListener("click", function () { state.frame = b.dataset.frame; go(); }); });
+    document.querySelectorAll("[data-device]").forEach(function (b) { b.addEventListener("click", function () { state.device = b.dataset.device; go(); }); });
+    addEventListener("resize", fit);
+    if (window.ResizeObserver) new ResizeObserver(fit).observe(screen);
+    go();
+  })();
+</script>

@@ -1,0 +1,3098 @@
+{
+  "base_url": "http://127.0.0.1:8765/visual-assets/v10_1/career-statistics/",
+  "frames": {
+    "CS1": {
+      "1366x768": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1366,
+            "scrollHeight": 768,
+            "clientWidth": 1366,
+            "clientHeight": 768
+          },
+          "body": {
+            "scrollWidth": 1366,
+            "scrollHeight": 768,
+            "clientWidth": 1366,
+            "clientHeight": 768
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 768,
+            "left": 0,
+            "right": 1366,
+            "top": 0,
+            "bottom": 768
+          },
+          "daniel": {
+            "x": 155.171875,
+            "y": 77.640625,
+            "width": 167.46875,
+            "height": 200.1875,
+            "left": 155.171875,
+            "right": 322.640625,
+            "top": 77.640625,
+            "bottom": 277.828125
+          },
+          "nik": {
+            "x": 1013.015625,
+            "y": 77.640625,
+            "width": 183.859375,
+            "height": 212.40625,
+            "left": 1013.015625,
+            "right": 1196.875,
+            "top": 77.640625,
+            "bottom": 290.046875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 212.40625,
+                "y": 634.125,
+                "width": 299.84375,
+                "height": 61.203125,
+                "left": 212.40625,
+                "right": 512.25,
+                "top": 634.125,
+                "bottom": 695.328125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 520.25,
+                "y": 634.125,
+                "width": 323.828125,
+                "height": 61.203125,
+                "left": 520.25,
+                "right": 844.078125,
+                "top": 634.125,
+                "bottom": 695.328125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 852.078125,
+                "y": 634.125,
+                "width": 299.859375,
+                "height": 61.203125,
+                "left": 852.078125,
+                "right": 1151.9375,
+                "top": 634.125,
+                "bottom": 695.328125
+              },
+              "fontSize": 10.6548
+            }
+          ],
+          "text": "CAREER MODE SHOWDOWN 17\n\nCAREER STATISTICS\n\nTWO MANAGERS \u00b7 ONE LEGACY\n\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n4\nTOGETHER\nSEASONS PLAYED\nD\n12\n/\nN\n12\nCAREER POINTS\nD\n38\n/\nN\n34\nTROPHIES WON\nD\n9\n/\nN\n8\nCAREER TABLE\n#\tManager\tShowdowns\tSeason W-D-L\tPoints\tTrophies\n1\t\n\u265b\nDaniel\t4\t7-0-5\t38\t9\n2\tNik\t4\t5-0-7\t34\t8\nMANAGER COMPARISON\n5\nLEAGUE TITLES\n4\n2\nDOMESTIC CUPS\n2\n2\nCHAMPIONS LEAGUE WINS\n2\n7\nSEASON WINS\n5\n91.83\nAVERAGE LEAGUE POINTS\n90.75\n92.50\nAVERAGE LEAGUE GOALS\n94.67\nCAREER LEADERS\nMOST SEASON WINS\nDaniel\n7 wins\nMOST TROPHIES\nDaniel\n9 trophies\nMOST CAREER POINTS\nDaniel\n38 pts\nBEST SEASON SCORE\nDaniel\n11 pts\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      },
+      "1440x900": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1440,
+            "scrollHeight": 900,
+            "clientWidth": 1440,
+            "clientHeight": 900
+          },
+          "body": {
+            "scrollWidth": 1440,
+            "scrollHeight": 900,
+            "clientWidth": 1440,
+            "clientHeight": 900
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 900,
+            "left": 0,
+            "right": 1440,
+            "top": 0,
+            "bottom": 900
+          },
+          "daniel": {
+            "x": 102.09375,
+            "y": 90.890625,
+            "width": 196.046875,
+            "height": 234.359375,
+            "left": 102.09375,
+            "right": 298.140625,
+            "top": 90.890625,
+            "bottom": 325.25
+          },
+          "nik": {
+            "x": 1106.359375,
+            "y": 90.890625,
+            "width": 215.234375,
+            "height": 248.65625,
+            "left": 1106.359375,
+            "right": 1321.59375,
+            "top": 90.890625,
+            "bottom": 339.546875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 223.90625,
+                "y": 743.125,
+                "width": 316.359375,
+                "height": 71.71875,
+                "left": 223.90625,
+                "right": 540.265625,
+                "top": 743.125,
+                "bottom": 814.84375
+              },
+              "fontSize": 11.232
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 548.265625,
+                "y": 743.125,
+                "width": 341.6875,
+                "height": 71.71875,
+                "left": 548.265625,
+                "right": 889.953125,
+                "top": 743.125,
+                "bottom": 814.84375
+              },
+              "fontSize": 11.232
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 897.953125,
+                "y": 743.125,
+                "width": 316.375,
+                "height": 71.71875,
+                "left": 897.953125,
+                "right": 1214.328125,
+                "top": 743.125,
+                "bottom": 814.84375
+              },
+              "fontSize": 11.232
+            }
+          ],
+          "text": "CAREER MODE SHOWDOWN 17\n\nCAREER STATISTICS\n\nTWO MANAGERS \u00b7 ONE LEGACY\n\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n4\nTOGETHER\nSEASONS PLAYED\nD\n12\n/\nN\n12\nCAREER POINTS\nD\n38\n/\nN\n34\nTROPHIES WON\nD\n9\n/\nN\n8\nCAREER TABLE\n#\tManager\tShowdowns\tSeason W-D-L\tPoints\tTrophies\n1\t\n\u265b\nDaniel\t4\t7-0-5\t38\t9\n2\tNik\t4\t5-0-7\t34\t8\nMANAGER COMPARISON\n5\nLEAGUE TITLES\n4\n2\nDOMESTIC CUPS\n2\n2\nCHAMPIONS LEAGUE WINS\n2\n7\nSEASON WINS\n5\n91.83\nAVERAGE LEAGUE POINTS\n90.75\n92.50\nAVERAGE LEAGUE GOALS\n94.67\nCAREER LEADERS\nMOST SEASON WINS\nDaniel\n7 wins\nMOST TROPHIES\nDaniel\n9 trophies\nMOST CAREER POINTS\nDaniel\n38 pts\nBEST SEASON SCORE\nDaniel\n11 pts\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      },
+      "1920x1080": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1920,
+            "scrollHeight": 1080,
+            "clientWidth": 1920,
+            "clientHeight": 1080
+          },
+          "body": {
+            "scrollWidth": 1920,
+            "scrollHeight": 1080,
+            "clientWidth": 1920,
+            "clientHeight": 1080
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "left": 0,
+            "right": 1920,
+            "top": 0,
+            "bottom": 1080
+          },
+          "daniel": {
+            "x": 218.109375,
+            "y": 109.125,
+            "width": 235.390625,
+            "height": 281.375,
+            "left": 218.109375,
+            "right": 453.5,
+            "top": 109.125,
+            "bottom": 390.5
+          },
+          "nik": {
+            "x": 1423.859375,
+            "y": 109.125,
+            "width": 258.421875,
+            "height": 298.546875,
+            "left": 1423.859375,
+            "right": 1682.28125,
+            "top": 109.125,
+            "bottom": 407.671875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 298.546875,
+                "y": 891.75,
+                "width": 423.546875,
+                "height": 86.0625,
+                "left": 298.546875,
+                "right": 722.09375,
+                "top": 891.75,
+                "bottom": 977.8125
+              },
+              "fontSize": 14
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 730.09375,
+                "y": 891.75,
+                "width": 457.453125,
+                "height": 86.0625,
+                "left": 730.09375,
+                "right": 1187.546875,
+                "top": 891.75,
+                "bottom": 977.8125
+              },
+              "fontSize": 14
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 1195.546875,
+                "y": 891.75,
+                "width": 423.5625,
+                "height": 86.0625,
+                "left": 1195.546875,
+                "right": 1619.109375,
+                "top": 891.75,
+                "bottom": 977.8125
+              },
+              "fontSize": 14
+            }
+          ],
+          "text": "CAREER MODE SHOWDOWN 17\n\nCAREER STATISTICS\n\nTWO MANAGERS \u00b7 ONE LEGACY\n\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n4\nTOGETHER\nSEASONS PLAYED\nD\n12\n/\nN\n12\nCAREER POINTS\nD\n38\n/\nN\n34\nTROPHIES WON\nD\n9\n/\nN\n8\nCAREER TABLE\n#\tManager\tShowdowns\tSeason W-D-L\tPoints\tTrophies\n1\t\n\u265b\nDaniel\t4\t7-0-5\t38\t9\n2\tNik\t4\t5-0-7\t34\t8\nMANAGER COMPARISON\n5\nLEAGUE TITLES\n4\n2\nDOMESTIC CUPS\n2\n2\nCHAMPIONS LEAGUE WINS\n2\n7\nSEASON WINS\n5\n91.83\nAVERAGE LEAGUE POINTS\n90.75\n92.50\nAVERAGE LEAGUE GOALS\n94.67\nCAREER LEADERS\nMOST SEASON WINS\nDaniel\n7 wins\nMOST TROPHIES\nDaniel\n9 trophies\nMOST CAREER POINTS\nDaniel\n38 pts\nBEST SEASON SCORE\nDaniel\n11 pts\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      },
+      "1366x640": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1366,
+            "scrollHeight": 640,
+            "clientWidth": 1366,
+            "clientHeight": 640
+          },
+          "body": {
+            "scrollWidth": 1366,
+            "scrollHeight": 640,
+            "clientWidth": 1366,
+            "clientHeight": 640
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 640,
+            "left": 0,
+            "right": 1366,
+            "top": 0,
+            "bottom": 640
+          },
+          "daniel": {
+            "x": 155.171875,
+            "y": 77.640625,
+            "width": 167.46875,
+            "height": 200.1875,
+            "left": 155.171875,
+            "right": 322.640625,
+            "top": 77.640625,
+            "bottom": 277.828125
+          },
+          "nik": {
+            "x": 1013.015625,
+            "y": 77.640625,
+            "width": 183.859375,
+            "height": 212.40625,
+            "left": 1013.015625,
+            "right": 1196.875,
+            "top": 77.640625,
+            "bottom": 290.046875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 212.40625,
+                "y": 574.71875,
+                "width": 299.84375,
+                "height": 56.3125,
+                "left": 212.40625,
+                "right": 512.25,
+                "top": 574.71875,
+                "bottom": 631.03125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 520.25,
+                "y": 574.71875,
+                "width": 323.828125,
+                "height": 56.3125,
+                "left": 520.25,
+                "right": 844.078125,
+                "top": 574.71875,
+                "bottom": 631.03125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 852.078125,
+                "y": 574.71875,
+                "width": 299.859375,
+                "height": 56.3125,
+                "left": 852.078125,
+                "right": 1151.9375,
+                "top": 574.71875,
+                "bottom": 631.03125
+              },
+              "fontSize": 10.6548
+            }
+          ],
+          "text": "CAREER STATISTICS\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n4\nTOGETHER\nSEASONS PLAYED\nD\n12\n/\nN\n12\nCAREER POINTS\nD\n38\n/\nN\n34\nTROPHIES WON\nD\n9\n/\nN\n8\nCAREER TABLE\n#\tManager\tShowdowns\tSeason W-D-L\tPoints\tTrophies\n1\t\n\u265b\nDaniel\t4\t7-0-5\t38\t9\n2\tNik\t4\t5-0-7\t34\t8\nMANAGER COMPARISON\n5\nLEAGUE TITLES\n4\n2\nDOMESTIC CUPS\n2\n2\nCHAMPIONS LEAGUE WINS\n2\n7\nSEASON WINS\n5\n91.83\nAVERAGE LEAGUE POINTS\n90.75\n92.50\nAVERAGE LEAGUE GOALS\n94.67\nCAREER LEADERS\nMOST SEASON WINS\nDaniel\n7 wins\nMOST TROPHIES\nDaniel\n9 trophies\nMOST CAREER POINTS\nDaniel\n38 pts\nBEST SEASON SCORE\nDaniel\n11 pts\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      }
+    },
+    "CS2": {
+      "1366x768": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1366,
+            "scrollHeight": 768,
+            "clientWidth": 1366,
+            "clientHeight": 768
+          },
+          "body": {
+            "scrollWidth": 1366,
+            "scrollHeight": 768,
+            "clientWidth": 1366,
+            "clientHeight": 768
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 768,
+            "left": 0,
+            "right": 1366,
+            "top": 0,
+            "bottom": 768
+          },
+          "daniel": {
+            "x": 155.171875,
+            "y": 77.640625,
+            "width": 167.46875,
+            "height": 200.1875,
+            "left": 155.171875,
+            "right": 322.640625,
+            "top": 77.640625,
+            "bottom": 277.828125
+          },
+          "nik": {
+            "x": 1013.015625,
+            "y": 77.640625,
+            "width": 183.859375,
+            "height": 212.40625,
+            "left": 1013.015625,
+            "right": 1196.875,
+            "top": 77.640625,
+            "bottom": 290.046875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 212.40625,
+                "y": 634.125,
+                "width": 299.84375,
+                "height": 61.203125,
+                "left": 212.40625,
+                "right": 512.25,
+                "top": 634.125,
+                "bottom": 695.328125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 520.25,
+                "y": 634.125,
+                "width": 323.828125,
+                "height": 61.203125,
+                "left": 520.25,
+                "right": 844.078125,
+                "top": 634.125,
+                "bottom": 695.328125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 852.078125,
+                "y": 634.125,
+                "width": 299.859375,
+                "height": 61.203125,
+                "left": 852.078125,
+                "right": 1151.9375,
+                "top": 634.125,
+                "bottom": 695.328125
+              },
+              "fontSize": 10.6548
+            }
+          ],
+          "text": "CAREER MODE SHOWDOWN 17\n\nCAREER STATISTICS\n\nTWO MANAGERS \u00b7 ONE LEGACY\n\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n\u2014\nSEASONS PLAYED\n\u2014\nCAREER POINTS\n\u2014\nTROPHIES WON\n\u2014\n0\nNO COMPLETED RECORD YET\n\nCareer Statistics will build automatically after the first completed showdown. Current-showdown statistics remain available from Showdown Home.\n\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      },
+      "1440x900": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1440,
+            "scrollHeight": 900,
+            "clientWidth": 1440,
+            "clientHeight": 900
+          },
+          "body": {
+            "scrollWidth": 1440,
+            "scrollHeight": 900,
+            "clientWidth": 1440,
+            "clientHeight": 900
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 900,
+            "left": 0,
+            "right": 1440,
+            "top": 0,
+            "bottom": 900
+          },
+          "daniel": {
+            "x": 102.09375,
+            "y": 90.890625,
+            "width": 196.046875,
+            "height": 234.359375,
+            "left": 102.09375,
+            "right": 298.140625,
+            "top": 90.890625,
+            "bottom": 325.25
+          },
+          "nik": {
+            "x": 1106.359375,
+            "y": 90.890625,
+            "width": 215.234375,
+            "height": 248.65625,
+            "left": 1106.359375,
+            "right": 1321.59375,
+            "top": 90.890625,
+            "bottom": 339.546875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 223.90625,
+                "y": 743.125,
+                "width": 316.359375,
+                "height": 71.71875,
+                "left": 223.90625,
+                "right": 540.265625,
+                "top": 743.125,
+                "bottom": 814.84375
+              },
+              "fontSize": 11.232
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 548.265625,
+                "y": 743.125,
+                "width": 341.6875,
+                "height": 71.71875,
+                "left": 548.265625,
+                "right": 889.953125,
+                "top": 743.125,
+                "bottom": 814.84375
+              },
+              "fontSize": 11.232
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 897.953125,
+                "y": 743.125,
+                "width": 316.375,
+                "height": 71.71875,
+                "left": 897.953125,
+                "right": 1214.328125,
+                "top": 743.125,
+                "bottom": 814.84375
+              },
+              "fontSize": 11.232
+            }
+          ],
+          "text": "CAREER MODE SHOWDOWN 17\n\nCAREER STATISTICS\n\nTWO MANAGERS \u00b7 ONE LEGACY\n\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n\u2014\nSEASONS PLAYED\n\u2014\nCAREER POINTS\n\u2014\nTROPHIES WON\n\u2014\n0\nNO COMPLETED RECORD YET\n\nCareer Statistics will build automatically after the first completed showdown. Current-showdown statistics remain available from Showdown Home.\n\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      },
+      "1920x1080": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1920,
+            "scrollHeight": 1080,
+            "clientWidth": 1920,
+            "clientHeight": 1080
+          },
+          "body": {
+            "scrollWidth": 1920,
+            "scrollHeight": 1080,
+            "clientWidth": 1920,
+            "clientHeight": 1080
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "left": 0,
+            "right": 1920,
+            "top": 0,
+            "bottom": 1080
+          },
+          "daniel": {
+            "x": 218.109375,
+            "y": 109.125,
+            "width": 235.390625,
+            "height": 281.375,
+            "left": 218.109375,
+            "right": 453.5,
+            "top": 109.125,
+            "bottom": 390.5
+          },
+          "nik": {
+            "x": 1423.859375,
+            "y": 109.125,
+            "width": 258.421875,
+            "height": 298.546875,
+            "left": 1423.859375,
+            "right": 1682.28125,
+            "top": 109.125,
+            "bottom": 407.671875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 298.546875,
+                "y": 891.75,
+                "width": 423.546875,
+                "height": 86.0625,
+                "left": 298.546875,
+                "right": 722.09375,
+                "top": 891.75,
+                "bottom": 977.8125
+              },
+              "fontSize": 14
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 730.09375,
+                "y": 891.75,
+                "width": 457.453125,
+                "height": 86.0625,
+                "left": 730.09375,
+                "right": 1187.546875,
+                "top": 891.75,
+                "bottom": 977.8125
+              },
+              "fontSize": 14
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 1195.546875,
+                "y": 891.75,
+                "width": 423.5625,
+                "height": 86.0625,
+                "left": 1195.546875,
+                "right": 1619.109375,
+                "top": 891.75,
+                "bottom": 977.8125
+              },
+              "fontSize": 14
+            }
+          ],
+          "text": "CAREER MODE SHOWDOWN 17\n\nCAREER STATISTICS\n\nTWO MANAGERS \u00b7 ONE LEGACY\n\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n\u2014\nSEASONS PLAYED\n\u2014\nCAREER POINTS\n\u2014\nTROPHIES WON\n\u2014\n0\nNO COMPLETED RECORD YET\n\nCareer Statistics will build automatically after the first completed showdown. Current-showdown statistics remain available from Showdown Home.\n\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      },
+      "1366x640": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1366,
+            "scrollHeight": 640,
+            "clientWidth": 1366,
+            "clientHeight": 640
+          },
+          "body": {
+            "scrollWidth": 1366,
+            "scrollHeight": 640,
+            "clientWidth": 1366,
+            "clientHeight": 640
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 640,
+            "left": 0,
+            "right": 1366,
+            "top": 0,
+            "bottom": 640
+          },
+          "daniel": {
+            "x": 155.171875,
+            "y": 77.640625,
+            "width": 167.46875,
+            "height": 200.1875,
+            "left": 155.171875,
+            "right": 322.640625,
+            "top": 77.640625,
+            "bottom": 277.828125
+          },
+          "nik": {
+            "x": 1013.015625,
+            "y": 77.640625,
+            "width": 183.859375,
+            "height": 212.40625,
+            "left": 1013.015625,
+            "right": 1196.875,
+            "top": 77.640625,
+            "bottom": 290.046875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 212.40625,
+                "y": 574.71875,
+                "width": 299.84375,
+                "height": 56.3125,
+                "left": 212.40625,
+                "right": 512.25,
+                "top": 574.71875,
+                "bottom": 631.03125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 520.25,
+                "y": 574.71875,
+                "width": 323.828125,
+                "height": 56.3125,
+                "left": 520.25,
+                "right": 844.078125,
+                "top": 574.71875,
+                "bottom": 631.03125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 852.078125,
+                "y": 574.71875,
+                "width": 299.859375,
+                "height": 56.3125,
+                "left": 852.078125,
+                "right": 1151.9375,
+                "top": 574.71875,
+                "bottom": 631.03125
+              },
+              "fontSize": 10.6548
+            }
+          ],
+          "text": "CAREER STATISTICS\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n\u2014\nSEASONS PLAYED\n\u2014\nCAREER POINTS\n\u2014\nTROPHIES WON\n\u2014\n0\nNO COMPLETED RECORD YET\n\nCareer Statistics will build automatically after the first completed showdown. Current-showdown statistics remain available from Showdown Home.\n\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      }
+    },
+    "CS3": {
+      "1366x768": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1366,
+            "scrollHeight": 768,
+            "clientWidth": 1366,
+            "clientHeight": 768
+          },
+          "body": {
+            "scrollWidth": 1366,
+            "scrollHeight": 768,
+            "clientWidth": 1366,
+            "clientHeight": 768
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 768,
+            "left": 0,
+            "right": 1366,
+            "top": 0,
+            "bottom": 768
+          },
+          "daniel": {
+            "x": 155.171875,
+            "y": 77.640625,
+            "width": 167.46875,
+            "height": 200.1875,
+            "left": 155.171875,
+            "right": 322.640625,
+            "top": 77.640625,
+            "bottom": 277.828125
+          },
+          "nik": {
+            "x": 1013.015625,
+            "y": 77.640625,
+            "width": 183.859375,
+            "height": 212.40625,
+            "left": 1013.015625,
+            "right": 1196.875,
+            "top": 77.640625,
+            "bottom": 290.046875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 212.40625,
+                "y": 634.125,
+                "width": 299.84375,
+                "height": 61.203125,
+                "left": 212.40625,
+                "right": 512.25,
+                "top": 634.125,
+                "bottom": 695.328125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 520.25,
+                "y": 634.125,
+                "width": 323.828125,
+                "height": 61.203125,
+                "left": 520.25,
+                "right": 844.078125,
+                "top": 634.125,
+                "bottom": 695.328125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 852.078125,
+                "y": 634.125,
+                "width": 299.859375,
+                "height": 61.203125,
+                "left": 852.078125,
+                "right": 1151.9375,
+                "top": 634.125,
+                "bottom": 695.328125
+              },
+              "fontSize": 10.6548
+            }
+          ],
+          "text": "CAREER MODE SHOWDOWN 17\n\nCAREER STATISTICS\n\nTWO MANAGERS \u00b7 ONE LEGACY\n\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n3\nTOGETHER\nSEASONS PLAYED\nD\n9\n/\nN\n9\nCAREER POINTS\nD\n35\n/\nN\n31\nTROPHIES WON\nD\n8\n/\nN\n7\nCAREER TABLE\n#\tManager\tShowdowns\tSeason W-D-L\tPoints\tTrophies\n1\t\n\u265b\nDaniel\t3\t5-0-4\t35\t8\n2\tNik\t3\t4-0-5\t31\t7\nMANAGER COMPARISON\n4\nLEAGUE TITLES\n3\n2\nDOMESTIC CUPS\n2\n2\nCHAMPIONS LEAGUE WINS\n2\n5\nSEASON WINS\n4\n95.56\nAVERAGE LEAGUE POINTS\n93.56\n95.89\nAVERAGE LEAGUE GOALS\n98.22\nCAREER LEADERS\nMOST SEASON WINS\nDaniel\n5 wins\nMOST TROPHIES\nDaniel\n8 trophies\nMOST CAREER POINTS\nDaniel\n35 pts\nBEST SEASON SCORE\nDaniel\n11 pts\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nPARTIAL CAREER HISTORY\n3 of 4 Showdowns readable\nSome Showdowns could not be read. Statistics below use readable Showdowns only.\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      },
+      "1440x900": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1440,
+            "scrollHeight": 900,
+            "clientWidth": 1440,
+            "clientHeight": 900
+          },
+          "body": {
+            "scrollWidth": 1440,
+            "scrollHeight": 900,
+            "clientWidth": 1440,
+            "clientHeight": 900
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 900,
+            "left": 0,
+            "right": 1440,
+            "top": 0,
+            "bottom": 900
+          },
+          "daniel": {
+            "x": 102.09375,
+            "y": 90.890625,
+            "width": 196.046875,
+            "height": 234.359375,
+            "left": 102.09375,
+            "right": 298.140625,
+            "top": 90.890625,
+            "bottom": 325.25
+          },
+          "nik": {
+            "x": 1106.359375,
+            "y": 90.890625,
+            "width": 215.234375,
+            "height": 248.65625,
+            "left": 1106.359375,
+            "right": 1321.59375,
+            "top": 90.890625,
+            "bottom": 339.546875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 223.90625,
+                "y": 743.125,
+                "width": 316.359375,
+                "height": 71.71875,
+                "left": 223.90625,
+                "right": 540.265625,
+                "top": 743.125,
+                "bottom": 814.84375
+              },
+              "fontSize": 11.232
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 548.265625,
+                "y": 743.125,
+                "width": 341.6875,
+                "height": 71.71875,
+                "left": 548.265625,
+                "right": 889.953125,
+                "top": 743.125,
+                "bottom": 814.84375
+              },
+              "fontSize": 11.232
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 897.953125,
+                "y": 743.125,
+                "width": 316.375,
+                "height": 71.71875,
+                "left": 897.953125,
+                "right": 1214.328125,
+                "top": 743.125,
+                "bottom": 814.84375
+              },
+              "fontSize": 11.232
+            }
+          ],
+          "text": "CAREER MODE SHOWDOWN 17\n\nCAREER STATISTICS\n\nTWO MANAGERS \u00b7 ONE LEGACY\n\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n3\nTOGETHER\nSEASONS PLAYED\nD\n9\n/\nN\n9\nCAREER POINTS\nD\n35\n/\nN\n31\nTROPHIES WON\nD\n8\n/\nN\n7\nCAREER TABLE\n#\tManager\tShowdowns\tSeason W-D-L\tPoints\tTrophies\n1\t\n\u265b\nDaniel\t3\t5-0-4\t35\t8\n2\tNik\t3\t4-0-5\t31\t7\nMANAGER COMPARISON\n4\nLEAGUE TITLES\n3\n2\nDOMESTIC CUPS\n2\n2\nCHAMPIONS LEAGUE WINS\n2\n5\nSEASON WINS\n4\n95.56\nAVERAGE LEAGUE POINTS\n93.56\n95.89\nAVERAGE LEAGUE GOALS\n98.22\nCAREER LEADERS\nMOST SEASON WINS\nDaniel\n5 wins\nMOST TROPHIES\nDaniel\n8 trophies\nMOST CAREER POINTS\nDaniel\n35 pts\nBEST SEASON SCORE\nDaniel\n11 pts\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nPARTIAL CAREER HISTORY\n3 of 4 Showdowns readable\nSome Showdowns could not be read. Statistics below use readable Showdowns only.\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      },
+      "1920x1080": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1920,
+            "scrollHeight": 1080,
+            "clientWidth": 1920,
+            "clientHeight": 1080
+          },
+          "body": {
+            "scrollWidth": 1920,
+            "scrollHeight": 1080,
+            "clientWidth": 1920,
+            "clientHeight": 1080
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "left": 0,
+            "right": 1920,
+            "top": 0,
+            "bottom": 1080
+          },
+          "daniel": {
+            "x": 218.109375,
+            "y": 109.125,
+            "width": 235.390625,
+            "height": 281.375,
+            "left": 218.109375,
+            "right": 453.5,
+            "top": 109.125,
+            "bottom": 390.5
+          },
+          "nik": {
+            "x": 1423.859375,
+            "y": 109.125,
+            "width": 258.421875,
+            "height": 298.546875,
+            "left": 1423.859375,
+            "right": 1682.28125,
+            "top": 109.125,
+            "bottom": 407.671875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 298.546875,
+                "y": 891.75,
+                "width": 423.546875,
+                "height": 86.0625,
+                "left": 298.546875,
+                "right": 722.09375,
+                "top": 891.75,
+                "bottom": 977.8125
+              },
+              "fontSize": 14
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 730.09375,
+                "y": 891.75,
+                "width": 457.453125,
+                "height": 86.0625,
+                "left": 730.09375,
+                "right": 1187.546875,
+                "top": 891.75,
+                "bottom": 977.8125
+              },
+              "fontSize": 14
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 1195.546875,
+                "y": 891.75,
+                "width": 423.5625,
+                "height": 86.0625,
+                "left": 1195.546875,
+                "right": 1619.109375,
+                "top": 891.75,
+                "bottom": 977.8125
+              },
+              "fontSize": 14
+            }
+          ],
+          "text": "CAREER MODE SHOWDOWN 17\n\nCAREER STATISTICS\n\nTWO MANAGERS \u00b7 ONE LEGACY\n\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n3\nTOGETHER\nSEASONS PLAYED\nD\n9\n/\nN\n9\nCAREER POINTS\nD\n35\n/\nN\n31\nTROPHIES WON\nD\n8\n/\nN\n7\nCAREER TABLE\n#\tManager\tShowdowns\tSeason W-D-L\tPoints\tTrophies\n1\t\n\u265b\nDaniel\t3\t5-0-4\t35\t8\n2\tNik\t3\t4-0-5\t31\t7\nMANAGER COMPARISON\n4\nLEAGUE TITLES\n3\n2\nDOMESTIC CUPS\n2\n2\nCHAMPIONS LEAGUE WINS\n2\n5\nSEASON WINS\n4\n95.56\nAVERAGE LEAGUE POINTS\n93.56\n95.89\nAVERAGE LEAGUE GOALS\n98.22\nCAREER LEADERS\nMOST SEASON WINS\nDaniel\n5 wins\nMOST TROPHIES\nDaniel\n8 trophies\nMOST CAREER POINTS\nDaniel\n35 pts\nBEST SEASON SCORE\nDaniel\n11 pts\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nPARTIAL CAREER HISTORY\n3 of 4 Showdowns readable\nSome Showdowns could not be read. Statistics below use readable Showdowns only.\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      },
+      "1366x640": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1366,
+            "scrollHeight": 640,
+            "clientWidth": 1366,
+            "clientHeight": 640
+          },
+          "body": {
+            "scrollWidth": 1366,
+            "scrollHeight": 640,
+            "clientWidth": 1366,
+            "clientHeight": 640
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 640,
+            "left": 0,
+            "right": 1366,
+            "top": 0,
+            "bottom": 640
+          },
+          "daniel": {
+            "x": 155.171875,
+            "y": 77.640625,
+            "width": 167.46875,
+            "height": 200.1875,
+            "left": 155.171875,
+            "right": 322.640625,
+            "top": 77.640625,
+            "bottom": 277.828125
+          },
+          "nik": {
+            "x": 1013.015625,
+            "y": 77.640625,
+            "width": 183.859375,
+            "height": 212.40625,
+            "left": 1013.015625,
+            "right": 1196.875,
+            "top": 77.640625,
+            "bottom": 290.046875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 212.40625,
+                "y": 574.71875,
+                "width": 299.84375,
+                "height": 56.3125,
+                "left": 212.40625,
+                "right": 512.25,
+                "top": 574.71875,
+                "bottom": 631.03125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 520.25,
+                "y": 574.71875,
+                "width": 323.828125,
+                "height": 56.3125,
+                "left": 520.25,
+                "right": 844.078125,
+                "top": 574.71875,
+                "bottom": 631.03125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 852.078125,
+                "y": 574.71875,
+                "width": 299.859375,
+                "height": 56.3125,
+                "left": 852.078125,
+                "right": 1151.9375,
+                "top": 574.71875,
+                "bottom": 631.03125
+              },
+              "fontSize": 10.6548
+            }
+          ],
+          "text": "CAREER STATISTICS\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n3\nTOGETHER\nSEASONS PLAYED\nD\n9\n/\nN\n9\nCAREER POINTS\nD\n35\n/\nN\n31\nTROPHIES WON\nD\n8\n/\nN\n7\nCAREER TABLE\n#\tManager\tShowdowns\tSeason W-D-L\tPoints\tTrophies\n1\t\n\u265b\nDaniel\t3\t5-0-4\t35\t8\n2\tNik\t3\t4-0-5\t31\t7\nMANAGER COMPARISON\n4\nLEAGUE TITLES\n3\n2\nDOMESTIC CUPS\n2\n2\nCHAMPIONS LEAGUE WINS\n2\n5\nSEASON WINS\n4\n95.56\nAVERAGE LEAGUE POINTS\n93.56\n95.89\nAVERAGE LEAGUE GOALS\n98.22\nCAREER LEADERS\nMOST SEASON WINS\nDaniel\n5 wins\nMOST TROPHIES\nDaniel\n8 trophies\nMOST CAREER POINTS\nDaniel\n35 pts\nBEST SEASON SCORE\nDaniel\n11 pts\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nPARTIAL CAREER HISTORY\n3 of 4 Showdowns readable\nSome Showdowns could not be read. Statistics below use readable Showdowns only.\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      }
+    },
+    "CS4": {
+      "1366x768": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1366,
+            "scrollHeight": 768,
+            "clientWidth": 1366,
+            "clientHeight": 768
+          },
+          "body": {
+            "scrollWidth": 1366,
+            "scrollHeight": 768,
+            "clientWidth": 1366,
+            "clientHeight": 768
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 768,
+            "left": 0,
+            "right": 1366,
+            "top": 0,
+            "bottom": 768
+          },
+          "daniel": {
+            "x": 155.171875,
+            "y": 77.640625,
+            "width": 167.46875,
+            "height": 200.1875,
+            "left": 155.171875,
+            "right": 322.640625,
+            "top": 77.640625,
+            "bottom": 277.828125
+          },
+          "nik": {
+            "x": 1013.015625,
+            "y": 77.640625,
+            "width": 183.859375,
+            "height": 212.40625,
+            "left": 1013.015625,
+            "right": 1196.875,
+            "top": 77.640625,
+            "bottom": 290.046875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 212.40625,
+                "y": 634.125,
+                "width": 299.84375,
+                "height": 61.203125,
+                "left": 212.40625,
+                "right": 512.25,
+                "top": 634.125,
+                "bottom": 695.328125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 520.25,
+                "y": 634.125,
+                "width": 323.828125,
+                "height": 61.203125,
+                "left": 520.25,
+                "right": 844.078125,
+                "top": 634.125,
+                "bottom": 695.328125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 852.078125,
+                "y": 634.125,
+                "width": 299.859375,
+                "height": 61.203125,
+                "left": 852.078125,
+                "right": 1151.9375,
+                "top": 634.125,
+                "bottom": 695.328125
+              },
+              "fontSize": 10.6548
+            }
+          ],
+          "text": "CAREER MODE SHOWDOWN 17\n\nCAREER STATISTICS\n\nTWO MANAGERS \u00b7 ONE LEGACY\n\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n\u2014\nSEASONS PLAYED\n\u2014\nCAREER POINTS\n\u2014\nTROPHIES WON\n\u2014\n!\nCAREER HISTORY UNAVAILABLE\n\nCareer history could not be loaded. No statistics are being shown.\n\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      },
+      "1440x900": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1440,
+            "scrollHeight": 900,
+            "clientWidth": 1440,
+            "clientHeight": 900
+          },
+          "body": {
+            "scrollWidth": 1440,
+            "scrollHeight": 900,
+            "clientWidth": 1440,
+            "clientHeight": 900
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 900,
+            "left": 0,
+            "right": 1440,
+            "top": 0,
+            "bottom": 900
+          },
+          "daniel": {
+            "x": 102.09375,
+            "y": 90.890625,
+            "width": 196.046875,
+            "height": 234.359375,
+            "left": 102.09375,
+            "right": 298.140625,
+            "top": 90.890625,
+            "bottom": 325.25
+          },
+          "nik": {
+            "x": 1106.359375,
+            "y": 90.890625,
+            "width": 215.234375,
+            "height": 248.65625,
+            "left": 1106.359375,
+            "right": 1321.59375,
+            "top": 90.890625,
+            "bottom": 339.546875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 223.90625,
+                "y": 743.125,
+                "width": 316.359375,
+                "height": 71.71875,
+                "left": 223.90625,
+                "right": 540.265625,
+                "top": 743.125,
+                "bottom": 814.84375
+              },
+              "fontSize": 11.232
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 548.265625,
+                "y": 743.125,
+                "width": 341.6875,
+                "height": 71.71875,
+                "left": 548.265625,
+                "right": 889.953125,
+                "top": 743.125,
+                "bottom": 814.84375
+              },
+              "fontSize": 11.232
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 897.953125,
+                "y": 743.125,
+                "width": 316.375,
+                "height": 71.71875,
+                "left": 897.953125,
+                "right": 1214.328125,
+                "top": 743.125,
+                "bottom": 814.84375
+              },
+              "fontSize": 11.232
+            }
+          ],
+          "text": "CAREER MODE SHOWDOWN 17\n\nCAREER STATISTICS\n\nTWO MANAGERS \u00b7 ONE LEGACY\n\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n\u2014\nSEASONS PLAYED\n\u2014\nCAREER POINTS\n\u2014\nTROPHIES WON\n\u2014\n!\nCAREER HISTORY UNAVAILABLE\n\nCareer history could not be loaded. No statistics are being shown.\n\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      },
+      "1920x1080": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1920,
+            "scrollHeight": 1080,
+            "clientWidth": 1920,
+            "clientHeight": 1080
+          },
+          "body": {
+            "scrollWidth": 1920,
+            "scrollHeight": 1080,
+            "clientWidth": 1920,
+            "clientHeight": 1080
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "left": 0,
+            "right": 1920,
+            "top": 0,
+            "bottom": 1080
+          },
+          "daniel": {
+            "x": 218.109375,
+            "y": 109.125,
+            "width": 235.390625,
+            "height": 281.375,
+            "left": 218.109375,
+            "right": 453.5,
+            "top": 109.125,
+            "bottom": 390.5
+          },
+          "nik": {
+            "x": 1423.859375,
+            "y": 109.125,
+            "width": 258.421875,
+            "height": 298.546875,
+            "left": 1423.859375,
+            "right": 1682.28125,
+            "top": 109.125,
+            "bottom": 407.671875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 298.546875,
+                "y": 891.75,
+                "width": 423.546875,
+                "height": 86.0625,
+                "left": 298.546875,
+                "right": 722.09375,
+                "top": 891.75,
+                "bottom": 977.8125
+              },
+              "fontSize": 14
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 730.09375,
+                "y": 891.75,
+                "width": 457.453125,
+                "height": 86.0625,
+                "left": 730.09375,
+                "right": 1187.546875,
+                "top": 891.75,
+                "bottom": 977.8125
+              },
+              "fontSize": 14
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 1195.546875,
+                "y": 891.75,
+                "width": 423.5625,
+                "height": 86.0625,
+                "left": 1195.546875,
+                "right": 1619.109375,
+                "top": 891.75,
+                "bottom": 977.8125
+              },
+              "fontSize": 14
+            }
+          ],
+          "text": "CAREER MODE SHOWDOWN 17\n\nCAREER STATISTICS\n\nTWO MANAGERS \u00b7 ONE LEGACY\n\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n\u2014\nSEASONS PLAYED\n\u2014\nCAREER POINTS\n\u2014\nTROPHIES WON\n\u2014\n!\nCAREER HISTORY UNAVAILABLE\n\nCareer history could not be loaded. No statistics are being shown.\n\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      },
+      "1366x640": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1366,
+            "scrollHeight": 640,
+            "clientWidth": 1366,
+            "clientHeight": 640
+          },
+          "body": {
+            "scrollWidth": 1366,
+            "scrollHeight": 640,
+            "clientWidth": 1366,
+            "clientHeight": 640
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 640,
+            "left": 0,
+            "right": 1366,
+            "top": 0,
+            "bottom": 640
+          },
+          "daniel": {
+            "x": 155.171875,
+            "y": 77.640625,
+            "width": 167.46875,
+            "height": 200.1875,
+            "left": 155.171875,
+            "right": 322.640625,
+            "top": 77.640625,
+            "bottom": 277.828125
+          },
+          "nik": {
+            "x": 1013.015625,
+            "y": 77.640625,
+            "width": 183.859375,
+            "height": 212.40625,
+            "left": 1013.015625,
+            "right": 1196.875,
+            "top": 77.640625,
+            "bottom": 290.046875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 212.40625,
+                "y": 574.71875,
+                "width": 299.84375,
+                "height": 56.3125,
+                "left": 212.40625,
+                "right": 512.25,
+                "top": 574.71875,
+                "bottom": 631.03125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 520.25,
+                "y": 574.71875,
+                "width": 323.828125,
+                "height": 56.3125,
+                "left": 520.25,
+                "right": 844.078125,
+                "top": 574.71875,
+                "bottom": 631.03125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 852.078125,
+                "y": 574.71875,
+                "width": 299.859375,
+                "height": 56.3125,
+                "left": 852.078125,
+                "right": 1151.9375,
+                "top": 574.71875,
+                "bottom": 631.03125
+              },
+              "fontSize": 10.6548
+            }
+          ],
+          "text": "CAREER STATISTICS\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n\u2014\nSEASONS PLAYED\n\u2014\nCAREER POINTS\n\u2014\nTROPHIES WON\n\u2014\n!\nCAREER HISTORY UNAVAILABLE\n\nCareer history could not be loaded. No statistics are being shown.\n\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      }
+    },
+    "CS5": {
+      "1366x768": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1366,
+            "scrollHeight": 768,
+            "clientWidth": 1366,
+            "clientHeight": 768
+          },
+          "body": {
+            "scrollWidth": 1366,
+            "scrollHeight": 768,
+            "clientWidth": 1366,
+            "clientHeight": 768
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 768,
+            "left": 0,
+            "right": 1366,
+            "top": 0,
+            "bottom": 768
+          },
+          "daniel": {
+            "x": 155.171875,
+            "y": 77.640625,
+            "width": 167.46875,
+            "height": 200.1875,
+            "left": 155.171875,
+            "right": 322.640625,
+            "top": 77.640625,
+            "bottom": 277.828125
+          },
+          "nik": {
+            "x": 1013.015625,
+            "y": 77.640625,
+            "width": 183.859375,
+            "height": 212.40625,
+            "left": 1013.015625,
+            "right": 1196.875,
+            "top": 77.640625,
+            "bottom": 290.046875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 212.40625,
+                "y": 634.125,
+                "width": 299.84375,
+                "height": 61.203125,
+                "left": 212.40625,
+                "right": 512.25,
+                "top": 634.125,
+                "bottom": 695.328125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 520.25,
+                "y": 634.125,
+                "width": 323.828125,
+                "height": 61.203125,
+                "left": 520.25,
+                "right": 844.078125,
+                "top": 634.125,
+                "bottom": 695.328125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 852.078125,
+                "y": 634.125,
+                "width": 299.859375,
+                "height": 61.203125,
+                "left": 852.078125,
+                "right": 1151.9375,
+                "top": 634.125,
+                "bottom": 695.328125
+              },
+              "fontSize": 10.6548
+            }
+          ],
+          "text": "CAREER MODE SHOWDOWN 17\n\nCAREER STATISTICS\n\nTWO MANAGERS \u00b7 ONE LEGACY\n\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n\u2014\nSEASONS PLAYED\n\u2014\nCAREER POINTS\n\u2014\nTROPHIES WON\n\u2014\n\u2026\nLOADING CAREER HISTORY\n\nLoading career history\u2026\n\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      },
+      "1440x900": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1440,
+            "scrollHeight": 900,
+            "clientWidth": 1440,
+            "clientHeight": 900
+          },
+          "body": {
+            "scrollWidth": 1440,
+            "scrollHeight": 900,
+            "clientWidth": 1440,
+            "clientHeight": 900
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 900,
+            "left": 0,
+            "right": 1440,
+            "top": 0,
+            "bottom": 900
+          },
+          "daniel": {
+            "x": 102.09375,
+            "y": 90.890625,
+            "width": 196.046875,
+            "height": 234.359375,
+            "left": 102.09375,
+            "right": 298.140625,
+            "top": 90.890625,
+            "bottom": 325.25
+          },
+          "nik": {
+            "x": 1106.359375,
+            "y": 90.890625,
+            "width": 215.234375,
+            "height": 248.65625,
+            "left": 1106.359375,
+            "right": 1321.59375,
+            "top": 90.890625,
+            "bottom": 339.546875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 223.90625,
+                "y": 743.125,
+                "width": 316.359375,
+                "height": 71.71875,
+                "left": 223.90625,
+                "right": 540.265625,
+                "top": 743.125,
+                "bottom": 814.84375
+              },
+              "fontSize": 11.232
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 548.265625,
+                "y": 743.125,
+                "width": 341.6875,
+                "height": 71.71875,
+                "left": 548.265625,
+                "right": 889.953125,
+                "top": 743.125,
+                "bottom": 814.84375
+              },
+              "fontSize": 11.232
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 897.953125,
+                "y": 743.125,
+                "width": 316.375,
+                "height": 71.71875,
+                "left": 897.953125,
+                "right": 1214.328125,
+                "top": 743.125,
+                "bottom": 814.84375
+              },
+              "fontSize": 11.232
+            }
+          ],
+          "text": "CAREER MODE SHOWDOWN 17\n\nCAREER STATISTICS\n\nTWO MANAGERS \u00b7 ONE LEGACY\n\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n\u2014\nSEASONS PLAYED\n\u2014\nCAREER POINTS\n\u2014\nTROPHIES WON\n\u2014\n\u2026\nLOADING CAREER HISTORY\n\nLoading career history\u2026\n\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      },
+      "1920x1080": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1920,
+            "scrollHeight": 1080,
+            "clientWidth": 1920,
+            "clientHeight": 1080
+          },
+          "body": {
+            "scrollWidth": 1920,
+            "scrollHeight": 1080,
+            "clientWidth": 1920,
+            "clientHeight": 1080
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "left": 0,
+            "right": 1920,
+            "top": 0,
+            "bottom": 1080
+          },
+          "daniel": {
+            "x": 218.109375,
+            "y": 109.125,
+            "width": 235.390625,
+            "height": 281.375,
+            "left": 218.109375,
+            "right": 453.5,
+            "top": 109.125,
+            "bottom": 390.5
+          },
+          "nik": {
+            "x": 1423.859375,
+            "y": 109.125,
+            "width": 258.421875,
+            "height": 298.546875,
+            "left": 1423.859375,
+            "right": 1682.28125,
+            "top": 109.125,
+            "bottom": 407.671875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 298.546875,
+                "y": 891.75,
+                "width": 423.546875,
+                "height": 86.0625,
+                "left": 298.546875,
+                "right": 722.09375,
+                "top": 891.75,
+                "bottom": 977.8125
+              },
+              "fontSize": 14
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 730.09375,
+                "y": 891.75,
+                "width": 457.453125,
+                "height": 86.0625,
+                "left": 730.09375,
+                "right": 1187.546875,
+                "top": 891.75,
+                "bottom": 977.8125
+              },
+              "fontSize": 14
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 1195.546875,
+                "y": 891.75,
+                "width": 423.5625,
+                "height": 86.0625,
+                "left": 1195.546875,
+                "right": 1619.109375,
+                "top": 891.75,
+                "bottom": 977.8125
+              },
+              "fontSize": 14
+            }
+          ],
+          "text": "CAREER MODE SHOWDOWN 17\n\nCAREER STATISTICS\n\nTWO MANAGERS \u00b7 ONE LEGACY\n\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n\u2014\nSEASONS PLAYED\n\u2014\nCAREER POINTS\n\u2014\nTROPHIES WON\n\u2014\n\u2026\nLOADING CAREER HISTORY\n\nLoading career history\u2026\n\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      },
+      "1366x640": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1366,
+            "scrollHeight": 640,
+            "clientWidth": 1366,
+            "clientHeight": 640
+          },
+          "body": {
+            "scrollWidth": 1366,
+            "scrollHeight": 640,
+            "clientWidth": 1366,
+            "clientHeight": 640
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 640,
+            "left": 0,
+            "right": 1366,
+            "top": 0,
+            "bottom": 640
+          },
+          "daniel": {
+            "x": 155.171875,
+            "y": 77.640625,
+            "width": 167.46875,
+            "height": 200.1875,
+            "left": 155.171875,
+            "right": 322.640625,
+            "top": 77.640625,
+            "bottom": 277.828125
+          },
+          "nik": {
+            "x": 1013.015625,
+            "y": 77.640625,
+            "width": 183.859375,
+            "height": 212.40625,
+            "left": 1013.015625,
+            "right": 1196.875,
+            "top": 77.640625,
+            "bottom": 290.046875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 212.40625,
+                "y": 574.71875,
+                "width": 299.84375,
+                "height": 56.3125,
+                "left": 212.40625,
+                "right": 512.25,
+                "top": 574.71875,
+                "bottom": 631.03125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 520.25,
+                "y": 574.71875,
+                "width": 323.828125,
+                "height": 56.3125,
+                "left": 520.25,
+                "right": 844.078125,
+                "top": 574.71875,
+                "bottom": 631.03125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 852.078125,
+                "y": 574.71875,
+                "width": 299.859375,
+                "height": 56.3125,
+                "left": 852.078125,
+                "right": 1151.9375,
+                "top": 574.71875,
+                "bottom": 631.03125
+              },
+              "fontSize": 10.6548
+            }
+          ],
+          "text": "CAREER STATISTICS\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n\u2014\nSEASONS PLAYED\n\u2014\nCAREER POINTS\n\u2014\nTROPHIES WON\n\u2014\n\u2026\nLOADING CAREER HISTORY\n\nLoading career history\u2026\n\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      }
+    },
+    "CS6": {
+      "1366x768": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1366,
+            "scrollHeight": 768,
+            "clientWidth": 1366,
+            "clientHeight": 768
+          },
+          "body": {
+            "scrollWidth": 1366,
+            "scrollHeight": 768,
+            "clientWidth": 1366,
+            "clientHeight": 768
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 768,
+            "left": 0,
+            "right": 1366,
+            "top": 0,
+            "bottom": 768
+          },
+          "daniel": {
+            "x": 155.171875,
+            "y": 77.640625,
+            "width": 167.46875,
+            "height": 200.1875,
+            "left": 155.171875,
+            "right": 322.640625,
+            "top": 77.640625,
+            "bottom": 277.828125
+          },
+          "nik": {
+            "x": 1013.015625,
+            "y": 77.640625,
+            "width": 183.859375,
+            "height": 212.40625,
+            "left": 1013.015625,
+            "right": 1196.875,
+            "top": 77.640625,
+            "bottom": 290.046875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 212.40625,
+                "y": 634.125,
+                "width": 299.84375,
+                "height": 61.203125,
+                "left": 212.40625,
+                "right": 512.25,
+                "top": 634.125,
+                "bottom": 695.328125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 520.25,
+                "y": 634.125,
+                "width": 323.828125,
+                "height": 61.203125,
+                "left": 520.25,
+                "right": 844.078125,
+                "top": 634.125,
+                "bottom": 695.328125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 852.078125,
+                "y": 634.125,
+                "width": 299.859375,
+                "height": 61.203125,
+                "left": 852.078125,
+                "right": 1151.9375,
+                "top": 634.125,
+                "bottom": 695.328125
+              },
+              "fontSize": 10.6548
+            }
+          ],
+          "text": "CAREER MODE SHOWDOWN 17\n\nCAREER STATISTICS\n\nTWO MANAGERS \u00b7 ONE LEGACY\n\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n2\nTOGETHER\nSEASONS PLAYED\nD\n6\n/\nN\n6\nCAREER POINTS\nD\n9\n/\nN\n46\nTROPHIES WON\nD\n3\n/\nN\n11\nCAREER TABLE\n#\tManager\tShowdowns\tSeason W-D-L\tPoints\tTrophies\n2\tDaniel\t2\t1-0-5\t9\t3\n1\t\n\u265b\nNik\t2\t5-0-1\t46\t11\nMANAGER COMPARISON\n1\nLEAGUE TITLES\n5\n2\nDOMESTIC CUPS\n2\n0\nCHAMPIONS LEAGUE WINS\n4\n1\nSEASON WINS\n5\n93.67\nAVERAGE LEAGUE POINTS\n100.50\n98.67\nAVERAGE LEAGUE GOALS\n99.17\nCAREER LEADERS\nMOST SEASON WINS\nNik\n5 wins\nMOST TROPHIES\nNik\n11 trophies\nMOST CAREER POINTS\nNik\n46 pts\nBEST SEASON SCORE\nNik\n11 pts\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      },
+      "1440x900": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1440,
+            "scrollHeight": 900,
+            "clientWidth": 1440,
+            "clientHeight": 900
+          },
+          "body": {
+            "scrollWidth": 1440,
+            "scrollHeight": 900,
+            "clientWidth": 1440,
+            "clientHeight": 900
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 900,
+            "left": 0,
+            "right": 1440,
+            "top": 0,
+            "bottom": 900
+          },
+          "daniel": {
+            "x": 102.09375,
+            "y": 90.890625,
+            "width": 196.046875,
+            "height": 234.359375,
+            "left": 102.09375,
+            "right": 298.140625,
+            "top": 90.890625,
+            "bottom": 325.25
+          },
+          "nik": {
+            "x": 1106.359375,
+            "y": 90.890625,
+            "width": 215.234375,
+            "height": 248.65625,
+            "left": 1106.359375,
+            "right": 1321.59375,
+            "top": 90.890625,
+            "bottom": 339.546875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 223.90625,
+                "y": 743.125,
+                "width": 316.359375,
+                "height": 71.71875,
+                "left": 223.90625,
+                "right": 540.265625,
+                "top": 743.125,
+                "bottom": 814.84375
+              },
+              "fontSize": 11.232
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 548.265625,
+                "y": 743.125,
+                "width": 341.6875,
+                "height": 71.71875,
+                "left": 548.265625,
+                "right": 889.953125,
+                "top": 743.125,
+                "bottom": 814.84375
+              },
+              "fontSize": 11.232
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 897.953125,
+                "y": 743.125,
+                "width": 316.375,
+                "height": 71.71875,
+                "left": 897.953125,
+                "right": 1214.328125,
+                "top": 743.125,
+                "bottom": 814.84375
+              },
+              "fontSize": 11.232
+            }
+          ],
+          "text": "CAREER MODE SHOWDOWN 17\n\nCAREER STATISTICS\n\nTWO MANAGERS \u00b7 ONE LEGACY\n\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n2\nTOGETHER\nSEASONS PLAYED\nD\n6\n/\nN\n6\nCAREER POINTS\nD\n9\n/\nN\n46\nTROPHIES WON\nD\n3\n/\nN\n11\nCAREER TABLE\n#\tManager\tShowdowns\tSeason W-D-L\tPoints\tTrophies\n2\tDaniel\t2\t1-0-5\t9\t3\n1\t\n\u265b\nNik\t2\t5-0-1\t46\t11\nMANAGER COMPARISON\n1\nLEAGUE TITLES\n5\n2\nDOMESTIC CUPS\n2\n0\nCHAMPIONS LEAGUE WINS\n4\n1\nSEASON WINS\n5\n93.67\nAVERAGE LEAGUE POINTS\n100.50\n98.67\nAVERAGE LEAGUE GOALS\n99.17\nCAREER LEADERS\nMOST SEASON WINS\nNik\n5 wins\nMOST TROPHIES\nNik\n11 trophies\nMOST CAREER POINTS\nNik\n46 pts\nBEST SEASON SCORE\nNik\n11 pts\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      },
+      "1920x1080": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1920,
+            "scrollHeight": 1080,
+            "clientWidth": 1920,
+            "clientHeight": 1080
+          },
+          "body": {
+            "scrollWidth": 1920,
+            "scrollHeight": 1080,
+            "clientWidth": 1920,
+            "clientHeight": 1080
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "left": 0,
+            "right": 1920,
+            "top": 0,
+            "bottom": 1080
+          },
+          "daniel": {
+            "x": 218.109375,
+            "y": 109.125,
+            "width": 235.390625,
+            "height": 281.375,
+            "left": 218.109375,
+            "right": 453.5,
+            "top": 109.125,
+            "bottom": 390.5
+          },
+          "nik": {
+            "x": 1423.859375,
+            "y": 109.125,
+            "width": 258.421875,
+            "height": 298.546875,
+            "left": 1423.859375,
+            "right": 1682.28125,
+            "top": 109.125,
+            "bottom": 407.671875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 298.546875,
+                "y": 891.75,
+                "width": 423.546875,
+                "height": 86.0625,
+                "left": 298.546875,
+                "right": 722.09375,
+                "top": 891.75,
+                "bottom": 977.8125
+              },
+              "fontSize": 14
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 730.09375,
+                "y": 891.75,
+                "width": 457.453125,
+                "height": 86.0625,
+                "left": 730.09375,
+                "right": 1187.546875,
+                "top": 891.75,
+                "bottom": 977.8125
+              },
+              "fontSize": 14
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 1195.546875,
+                "y": 891.75,
+                "width": 423.5625,
+                "height": 86.0625,
+                "left": 1195.546875,
+                "right": 1619.109375,
+                "top": 891.75,
+                "bottom": 977.8125
+              },
+              "fontSize": 14
+            }
+          ],
+          "text": "CAREER MODE SHOWDOWN 17\n\nCAREER STATISTICS\n\nTWO MANAGERS \u00b7 ONE LEGACY\n\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n2\nTOGETHER\nSEASONS PLAYED\nD\n6\n/\nN\n6\nCAREER POINTS\nD\n9\n/\nN\n46\nTROPHIES WON\nD\n3\n/\nN\n11\nCAREER TABLE\n#\tManager\tShowdowns\tSeason W-D-L\tPoints\tTrophies\n2\tDaniel\t2\t1-0-5\t9\t3\n1\t\n\u265b\nNik\t2\t5-0-1\t46\t11\nMANAGER COMPARISON\n1\nLEAGUE TITLES\n5\n2\nDOMESTIC CUPS\n2\n0\nCHAMPIONS LEAGUE WINS\n4\n1\nSEASON WINS\n5\n93.67\nAVERAGE LEAGUE POINTS\n100.50\n98.67\nAVERAGE LEAGUE GOALS\n99.17\nCAREER LEADERS\nMOST SEASON WINS\nNik\n5 wins\nMOST TROPHIES\nNik\n11 trophies\nMOST CAREER POINTS\nNik\n46 pts\nBEST SEASON SCORE\nNik\n11 pts\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      },
+      "1366x640": {
+        "metrics": {
+          "html": {
+            "scrollWidth": 1366,
+            "scrollHeight": 640,
+            "clientWidth": 1366,
+            "clientHeight": 640
+          },
+          "body": {
+            "scrollWidth": 1366,
+            "scrollHeight": 640,
+            "clientWidth": 1366,
+            "clientHeight": 640
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 640,
+            "left": 0,
+            "right": 1366,
+            "top": 0,
+            "bottom": 640
+          },
+          "daniel": {
+            "x": 155.171875,
+            "y": 77.640625,
+            "width": 167.46875,
+            "height": 200.1875,
+            "left": 155.171875,
+            "right": 322.640625,
+            "top": 77.640625,
+            "bottom": 277.828125
+          },
+          "nik": {
+            "x": 1013.015625,
+            "y": 77.640625,
+            "width": 183.859375,
+            "height": 212.40625,
+            "left": 1013.015625,
+            "right": 1196.875,
+            "top": 77.640625,
+            "bottom": 290.046875
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsRivalryButton",
+              "text": "CURRENT RIVALRY STATISTICS\n\u203a",
+              "rect": {
+                "x": 212.40625,
+                "y": 574.71875,
+                "width": 299.84375,
+                "height": 56.3125,
+                "left": 212.40625,
+                "right": 512.25,
+                "top": 574.71875,
+                "bottom": 631.03125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "careerStatisticsTrophyButton",
+              "text": "OPEN TROPHY ROOM\n\u203a",
+              "rect": {
+                "x": 520.25,
+                "y": 574.71875,
+                "width": 323.828125,
+                "height": 56.3125,
+                "left": 520.25,
+                "right": 844.078125,
+                "top": 574.71875,
+                "bottom": 631.03125
+              },
+              "fontSize": 10.6548
+            },
+            {
+              "tag": "BUTTON",
+              "id": "",
+              "text": "BACK TO MAIN MENU\n\u203a",
+              "rect": {
+                "x": 852.078125,
+                "y": 574.71875,
+                "width": 299.859375,
+                "height": 56.3125,
+                "left": 852.078125,
+                "right": 1151.9375,
+                "top": 574.71875,
+                "bottom": 631.03125
+              },
+              "fontSize": 10.6548
+            }
+          ],
+          "text": "CAREER STATISTICS\nPREVIEW DATA\nCOMPLETED SHOWDOWNS\n2\nTOGETHER\nSEASONS PLAYED\nD\n6\n/\nN\n6\nCAREER POINTS\nD\n9\n/\nN\n46\nTROPHIES WON\nD\n3\n/\nN\n11\nCAREER TABLE\n#\tManager\tShowdowns\tSeason W-D-L\tPoints\tTrophies\n2\tDaniel\t2\t1-0-5\t9\t3\n1\t\n\u265b\nNik\t2\t5-0-1\t46\t11\nMANAGER COMPARISON\n1\nLEAGUE TITLES\n5\n2\nDOMESTIC CUPS\n2\n0\nCHAMPIONS LEAGUE WINS\n4\n1\nSEASON WINS\n5\n93.67\nAVERAGE LEAGUE POINTS\n100.50\n98.67\nAVERAGE LEAGUE GOALS\n99.17\nCAREER LEADERS\nMOST SEASON WINS\nNik\n5 wins\nMOST TROPHIES\nNik\n11 trophies\nMOST CAREER POINTS\nNik\n46 pts\nBEST SEASON SCORE\nNik\n11 pts\nCURRENT RIVALRY STATISTICS\n\u203a\nOPEN TROPHY ROOM\n\u203a\nBACK TO MAIN MENU\n\u203a\nCM 17\nHOME\nCAREER\nSTANDINGS\nSTATS\nRULES\n\u2699"
+        },
+        "focus": [
+          {
+            "id": "careerStatisticsRivalryButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "careerStatisticsTrophyButton",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "outlineWidth": "3px",
+            "outlineStyle": "solid"
+          }
+        ],
+        "console_errors": [],
+        "failed_requests": [],
+        "http_errors": [],
+        "gates": {
+          "H1": true,
+          "H5_desktop_no_scroll": true,
+          "H6": true,
+          "H8": true,
+          "H9": true,
+          "CONTROL_BOUNDS": true
+        }
+      }
+    }
+  },
+  "viewports": [
+    "1366x768",
+    "1440x900",
+    "1920x1080",
+    "1366x640"
+  ],
+  "transport_note": "set_content data-URI harness used because browser navigation is administrator-blocked in this sandbox",
+  "reduced_motion_running_after_300ms": 0,
+  "pass": true
+}

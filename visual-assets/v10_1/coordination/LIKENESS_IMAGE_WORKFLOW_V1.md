@@ -85,3 +85,11 @@ Review each returned image against its golden anchor, side by side, before anyth
 Under "Model and effort routing", after the "Images" row, Nik can add:
 
 > Likeness images (Daniel, Nik) follow `claude/workflows/LIKENESS_IMAGE_WORKFLOW_V1.md`: plain new ChatGPT chat outside any ChatGPT project, one golden anchor attached, edit prompt pasted verbatim, one image per chat.
+
+## Part F · Owner-accepted edits (Sol TWG-S1, 2026-09-28)
+
+An edited image that Nik has accepted for likeness becomes the likeness authority for the locked plate made from it. Pixel restoration against an earlier source is required only when:
+- the edited result has not been owner-accepted, or
+- Nik explicitly asks for the likeness to be restored.
+
+First use: Plate G (`ENV_TR2_PLATE_G_EDIT_V1.png`, sha256 `f2080706…91cc`), accepted by Nik on 2026-09-28. The restore against the 1536×864 original is retired for that plate.

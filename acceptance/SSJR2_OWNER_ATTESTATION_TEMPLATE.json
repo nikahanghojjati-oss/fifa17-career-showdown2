@@ -1,0 +1,20 @@
+{
+  "schema": "career-mode-showdown.ssjr2-owner-attestation.v1",
+  "owner": "Nik",
+  "runDate": "YYYY-MM-DD",
+  "runtimeRevision": "1.9.1-rNN",
+  "managers": {
+    "playerOne": "Daniel",
+    "playerTwo": "Nik"
+  },
+  "deviceLabels": [
+    "<Daniel's device label exactly as typed in the recorder>",
+    "<Nik's device label exactly as typed in the recorder>"
+  ],
+  "exportHashes": [
+    "sha256:<filled in by Claude from Daniel's exact export file>",
+    "sha256:<filled in by Claude from Nik's exact export file>"
+  ],
+  "statement": "I confirm that Daniel and Nik personally played this Shared Showdown on the production game, on their own separate devices and networks, and that the two attached exports came from those devices without editing.",
+  "stableReleaseAccepted": false
+}

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Club Assignment · Club plate</title>
+<link rel="stylesheet" href="../shared/motion.css">
+<link rel="stylesheet" href="club.css">
+</head>
+<body>
+<div id="stage" class="stage">
+<div class="plateClip" aria-hidden="true" data-sd-enter="scene"><div class="world" id="world"></div></div>
+
+<header id="topHeader">
+<div class="cm-badge" aria-hidden="true"><span>CM 17</span></div>
+<div class="brand"><h1>CAREER MODE</h1><p>SHOWDOWN // 17</p></div>
+<nav class="product-nav" aria-label="Primary navigation" style="margin-left:auto;display:flex;align-items:stretch;height:100%;">
+<button type="button" disabled title="Finish this step first" style="min-width:86px;border:0;border-left:1px solid rgba(201,155,69,.24);background:transparent;color:#E9DFC8;font:600 13px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.16em;">HOME</button>
+<button type="button" disabled title="Finish this step first" aria-current="page" style="min-width:86px;border:0;border-left:1px solid rgba(201,155,69,.24);background:rgba(242,196,91,.12);color:#F2C45B;font:700 13px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.16em;">CAREER</button>
+<button type="button" disabled title="Finish this step first" style="min-width:104px;border:0;border-left:1px solid rgba(201,155,69,.24);background:transparent;color:#E9DFC8;font:600 13px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.16em;">STANDINGS</button>
+<button type="button" disabled title="Finish this step first" style="min-width:82px;border:0;border-left:1px solid rgba(201,155,69,.24);background:transparent;color:#E9DFC8;font:600 13px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.16em;">STATS</button>
+<button type="button" disabled title="Finish this step first" style="min-width:82px;border:0;border-left:1px solid rgba(201,155,69,.24);background:transparent;color:#E9DFC8;font:600 13px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.16em;">RULES</button>
+<button type="button" disabled title="Finish this step first" aria-label="Settings" style="width:56px;border:0;border-left:1px solid rgba(201,155,69,.38);background:rgba(10,12,15,.72);color:#F2C45B;font:600 20px/1 system-ui,sans-serif;">⚙</button>
+</nav>
+<button id="onlinePlayerIdentityBadge" type="button" hidden>Sign in</button>
+<div class="seasonIndicator" id="seasonIndicator" hidden>Season 1 / 5</div>
+</header>
+
+<main>
+<section id="clubWheelScreen" class="screen" data-club-reveal-stage="ready">
+<span class="clubKicker" aria-hidden="true">CAREER MODE SHOWDOWN 17</span>
+<div class="phoneHeroStage" aria-hidden="true">
+<picture class="phoneSceneBackground">
+<source srcset="assets/ENV_CLUB_PHONE_V1.webp" type="image/webp">
+<img src="assets/ENV_CLUB_PHONE_V1.webp" alt="" decoding="async">
+</picture>
+<picture class="phoneHero phoneHeroDaniel" data-sd-enter="character-left">
+<source srcset="assets/OVL_CLUB_DANIEL_PHONE_V1.webp" type="image/webp">
+<img src="assets/OVL_CLUB_DANIEL_PHONE_V1.webp" alt="" decoding="async">
+</picture>
+<picture class="phoneHero phoneHeroNik" data-sd-enter="character-right">
+<source srcset="assets/OVL_CLUB_NIK_PHONE_V1.webp" type="image/webp">
+<img src="assets/OVL_CLUB_NIK_PHONE_V1.webp" alt="" decoding="async">
+</picture>
+<div class="phoneHeroScrim"></div>
+</div>
+<div class="phoneControlDeck" aria-hidden="true"></div>
+<!-- TODO-WORDMARK: replace the display-font fallback with ../shared/wordmarks/TITLE_CLUB_V1.webp when job 124 lands. -->
+<h2 data-sd-enter="title"><span class="sd-visually-hidden">CLUB ASSIGNMENT</span><span class="clubTitleFallback" aria-hidden="true">CLUB ASSIGNMENT</span></h2>
+<div class="clubAssignmentShell">
+<div class="clubAssignmentHeader" data-sd-enter="panel" style="--i:0">
+<span class="clubAssignmentEyebrow">LEAGUE CONFIRMED</span>
+<div id="clubAssignmentLeague">League</div>
+<div id="clubPackStatus" aria-live="polite">TWO SEALED CLUB PACKS READY</div>
+</div>
+
+<div class="clubRevealProgress" aria-hidden="true" data-sd-enter="panel" style="--i:1">
+<span data-reveal-step="opening" data-phone-label="DRAW">01 DRAW</span>
+<span data-reveal-step="manager-one" data-phone-label="PACK 1">02 PACK 1</span>
+<span data-reveal-step="manager-two" data-phone-label="PACK 2">03 PACK 2</span>
+<span data-reveal-step="versus" data-phone-label="VS">04 VS</span>
+<span data-reveal-step="confirmation" data-phone-label="LOCK">05 LOCK</span>
+</div>
+
+<div class="clubRevealArena">
+<div class="clubRevealArea">
+<div class="clubRevealCard" id="clubCardOne" data-reveal-code="01" data-sd-enter="panel" style="--i:2">
+<span class="clubRevealIndex">01</span>
+<div class="clubManager" id="clubPlayerOne">Daniel</div>
+<div class="clubPackStage">
+<div class="clubPackDoor" aria-hidden="true">
+<span class="clubPackBrand">CAREER MODE<small>SHOWDOWN CLUB DRAW</small></span>
+<span class="clubPackSeal">17</span>
+<span class="clubPackSerial">PACK 01 · SEALED</span>
+</div>
+<div class="clubCardFace">
+<span class="clubCardEyebrow">CAREER DRAW</span>
+<span class="clubCardLabel">ASSIGNED CLUB</span>
+<strong id="clubNameOne">?</strong>
+<small id="clubCardStateOne" class="clubCardState">SEALED</small>
+</div>
+</div>
+</div>
+<!-- TODO-WORDMARK: replace the display-font VS fallback with the shared brush VS asset when the wordmarks job lands. -->
+<div class="clubVs" data-sd-enter="panel" style="--i:3"><span>RIVALRY</span><strong><span class="sd-visually-hidden">VS</span><span class="clubVsFallback" aria-hidden="true">VS</span></strong></div>
+<div class="clubRevealCard" id="clubCardTwo" data-reveal-code="02" data-sd-enter="panel" style="--i:4">
+<span class="clubRevealIndex">02</span>
+<div class="clubManager" id="clubPlayerTwo">Nik</div>
+<div class="clubPackStage">
+<div class="clubPackDoor" aria-hidden="true">
+<span class="clubPackBrand">CAREER MODE<small>SHOWDOWN CLUB DRAW</small></span>
+<span class="clubPackSeal">17</span>
+<span class="clubPackSerial">PACK 02 · SEALED</span>
+</div>
+<div class="clubCardFace">
+<span class="clubCardEyebrow">CAREER DRAW</span>
+<span class="clubCardLabel">ASSIGNED CLUB</span>
+<strong id="clubNameTwo">?</strong>
+<small id="clubCardStateTwo" class="clubCardState">SEALED</small>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="clubRivalryConfirmation" class="clubRivalryConfirmation hidden" aria-live="polite" data-sd-enter="panel" style="--i:5">
+<div class="clubRivalryHeadline">
+<span>CLUBS LOCKED</span>
+<strong id="clubConfirmationShowdown">SHOWDOWN</strong>
+<small id="clubConfirmationMeta">League · 1 season</small>
+</div>
+<div class="sd-sheet" data-phone-sheet="matchup">
+<div class="clubRivalryMatchup">
+<div class="clubConfirmationSide">
+<span id="clubConfirmationManagerOne">Daniel</span>
+<strong id="clubConfirmationClubOne">Club</strong>
+</div>
+<div class="clubConfirmationVs">VS</div>
+<div class="clubConfirmationSide">
+<span id="clubConfirmationManagerTwo">Nik</span>
+<strong id="clubConfirmationClubTwo">Club</strong>
+</div>
+</div>
+</div>
+<p class="clubRivalryLockNote">These clubs are permanent for the full showdown. Confirmation starts the rivalry and never rerolls either club.</p>
+</div>
+
+<button class="menuButton" id="openClubPack" data-sd-enter="button" data-phone-role="primary" type="button">OPEN SHOWDOWN PACKS</button>
+<button class="menuButton hidden" id="continueClubAssignment" data-sd-enter="button" data-phone-role="primary" type="button" disabled>CONFIRM RIVALRY & START SHOWDOWN</button>
+<button class="backButton" id="clubAssignmentBack" data-sd-enter="panel" style="--i:5" data-phone-role="secondary" data-smart-back type="button" aria-label="Back">BACK</button>
+</div>
+</section>
+</main>
+
+<footer><span class="footText">CM17<br>CAREER MODE SHOWDOWN 17</span><span class="footSlogan" aria-hidden="true"><span>FOOTBALL BRINGS US TOGETHER</span><i class="crown"></i></span></footer>
+</div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<filter id="brushEdge" x="-5%" y="-10%" width="110%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+</svg>
+<script src="../../../js/visualIdentity.js"></script>
+<script src="../shared/motion.js"></script>
+<script src="club.js"></script>
+</body>
+</html>

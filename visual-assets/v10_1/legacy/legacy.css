@@ -1,0 +1,1603 @@
+/* JOB-072 step 4 · stage, title and measured desktop skeleton. */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+  font-family: var(--sd-font-body, "Barlow", system-ui, sans-serif);
+}
+
+button {
+  font-family: inherit;
+}
+
+#stage-root {
+  width: 100vw;
+  height: 100vh;
+}
+
+#legacy {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Plate registration is owned entirely by ShowdownStage: cover + centred focal point. */
+.managerPlateMarker {
+  pointer-events: none;
+}
+
+.legacyTitleBlock {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  text-align: center;
+}
+
+/* Mockup measurement baseline was y≈119/941. Claude fix 3: lift the eyebrow to 9.60% so the full label clears the LEGACY brush art. */
+.legacyEyebrow {
+  position: absolute;
+  left: 50%;
+  top: 9.60%;
+  transform: translateX(-50%);
+  width: 25%;
+  margin: 0;
+  letter-spacing: .28em;
+  white-space: nowrap;
+}
+
+/* Mockup title crop: x 570..1099, y 130..274 => centre x = 49.91%, top = 13.82%, width = 31.64%. */
+.legacyWordmarkWrap {
+  position: absolute;
+  left: 49.91%;
+  top: 13.82%;
+  width: 31.64%;
+  margin: 0;
+  transform: translateX(-50%);
+}
+
+.legacyWordmark {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Mockup measurement: centre x ≈ 836/1672 = 50.00%; tagline top ≈ 278/941 = 29.54%; width ≈ 25.6%. */
+.legacyTagline {
+  position: absolute;
+  left: 50%;
+  top: 29.54%;
+  width: 25.6%;
+  margin: 0;
+  transform: translateX(-50%);
+  text-align: center;
+  letter-spacing: .24em;
+  white-space: nowrap;
+}
+
+.fixtureDebug[hidden] {
+  display: none;
+}
+
+@media (min-width: 901px) {
+  /* Mockup archive outer: x≈57..1590 / 1672 = 3.41%..95.10%; y≈382..755 / 941 = 40.60%..80.23%. */
+  .legacyArchivePanel {
+    position: absolute;
+    left: 3.41%;
+    top: 40.60%;
+    width: 91.69%;
+    height: 39.63%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Mockup side rail: x≈58..327; relative to archive = left 0.07%, width 17.55%; full panel height. */
+  .legacySidePanel {
+    position: absolute;
+    left: .07%;
+    top: .5%;
+    width: 17.55%;
+    height: 99%;
+    margin: 0;
+  }
+
+  /* Mockup card field: x≈335..1559; y≈392..722. Relative to archive: left 18.13%, top 2.68%, right 2.02%, bottom 8.85%. */
+  .legacyCardGrid {
+    position: absolute;
+    left: 18.13%;
+    top: 2.68%;
+    right: 2.02%;
+    bottom: 8.85%;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    /* Claude fix 1: pages normally contain four cards. Let the populated row consume the full card field instead of reserving an empty second row. */
+    grid-auto-rows: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .legacyCardSlot {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  /* Product-truth override: only VIEW SEASON HISTORY remains below the archive.
+     Mockup action row begins near y≈760/941 = 80.77%; centred primary is placed at 82.1%. */
+  .legacyPrimaryAction {
+    position: absolute;
+    left: 50%;
+    top: 82.10%;
+    min-width: 280px;
+    min-height: 52px;
+    transform: translateX(-50%);
+  }
+}
+
+
+/* Step 5: product-truth top navigation, measured against the mockup header. */
+.legacyTopbar {
+  position: absolute;
+  z-index: 8;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 52px;
+  min-height: 52px;
+  display: flex;
+  align-items: stretch;
+  background: linear-gradient(90deg, rgba(5,7,8,.96) 0 58%, rgba(5,7,8,.78) 58% 100%);
+  border-bottom: 1px solid rgba(242,196,91,.58);
+}
+
+.legacyBrand {
+  width: 12.6%;
+  min-width: 168px;
+  display: grid;
+  place-items: center;
+  color: var(--sd-gold, #f2c45b);
+  font-size: clamp(1.05rem, 1.65vw, 1.75rem);
+  font-style: italic;
+  letter-spacing: .05em;
+  border-right: 1px solid rgba(242,196,91,.35);
+}
+
+.legacyTopNav {
+  display: flex;
+  align-items: stretch;
+  font-family: var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif);
+}
+
+.legacyTopNav button {
+  min-width: 110px;
+  min-height: 52px;
+  padding: 0 1.7rem;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: rgba(255,255,255,.88);
+  font: inherit;
+  letter-spacing: .08em;
+  cursor: pointer;
+}
+
+.legacyTopNav button[data-active="true"] {
+  color: var(--sd-gold, #f2c45b);
+  border-bottom-color: var(--sd-gold, #f2c45b);
+}
+
+.legacyTopNav button:focus-visible,
+.legacySettings:focus-visible {
+  outline: 2px solid var(--sd-gold, #f2c45b);
+  outline-offset: -4px;
+}
+
+.legacySettings {
+  margin-left: auto;
+  width: 6.2%;
+  min-width: 64px;
+  border: 0;
+  border-left: 1px solid rgba(255,255,255,.16);
+  background: rgba(0,0,0,.22);
+  color: #fff;
+  font-size: 1.35rem;
+  cursor: pointer;
+}
+
+.legacySlogan {
+  position: absolute;
+  right: 1.6%;
+  top: 112%;
+  color: var(--sd-gold, #f2c45b);
+  font-family: var(--sd-font-title, "Kaushan Script", "Brush Script MT", cursive);
+  font-size: clamp(.9rem, 1.4vw, 1.35rem);
+  transform: rotate(-7deg);
+  text-shadow: 0 2px 10px #000;
+  white-space: nowrap;
+}
+
+
+/* Step 6: archive content. */
+.legacySidePanel {
+  overflow: hidden;
+  font-family: var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif);
+  background: linear-gradient(180deg, rgba(5,7,8,.96), rgba(10,12,13,.9));
+  border-color: rgba(242,196,91,.34);
+}
+
+.legacySidePanel button {
+  width: calc(100% - 22px);
+  min-height: 58px;
+  margin: 12px 11px 0;
+  padding: 0 18px;
+  border: 1px solid rgba(242,196,91,.16);
+  background: rgba(255,255,255,.025);
+  color: rgba(255,255,255,.88);
+  text-align: left;
+  letter-spacing: .06em;
+  cursor: pointer;
+}
+
+.legacySidePanel button[data-active="true"] {
+  background: linear-gradient(100deg, #f2c45b, #ffe36c);
+  color: #111;
+  border-color: #ffe98c;
+  box-shadow: 0 0 22px rgba(242,196,91,.22);
+}
+
+.legacySidePanel button:focus-visible,
+.legacyCard:focus-visible,
+.legacyPager button:focus-visible {
+  outline: 2px solid #ffe36c;
+  outline-offset: 2px;
+}
+
+.legacyCard {
+  position: relative;
+  font-family: var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif);
+  min-width: 0;
+  min-height: 0;
+  /* Claude fix 4: keep the season-count footer visibly inside the card border at 1366×768. */
+  padding: 10px 12px 16px;
+  border: 1px solid rgba(242,196,91,.46);
+  background:
+    linear-gradient(145deg, rgba(242,196,91,.055), transparent 42%),
+    rgba(6,8,9,.88);
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.legacyCard[data-selected="true"] {
+  border-color: #ffe36c;
+  box-shadow: inset 0 0 0 1px rgba(255,227,108,.72), 0 0 18px rgba(242,196,91,.38);
+}
+
+.legacyCardTitle {
+  display: block;
+  margin-bottom: 6px;
+  font-size: clamp(.7rem, .92vw, .95rem);
+  letter-spacing: .035em;
+}
+
+.legacyCardBody {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 8px;
+}
+
+.legacyManager {
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+}
+
+.legacyCrest {
+  width: 44px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  clip-path: polygon(50% 0, 92% 14%, 84% 74%, 50% 100%, 16% 74%, 8% 14%);
+  background: linear-gradient(150deg, #171b20, #353b43);
+  border: 1px solid rgba(242,196,91,.75);
+  color: #f7d875;
+  font: 700 .72rem/1 var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif);
+  letter-spacing: .03em;
+}
+
+.legacyManagerName {
+  font-size: .77rem;
+  letter-spacing: .05em;
+}
+
+.legacyClubName {
+  max-width: 92px;
+  font-family: var(--sd-font-body, "Barlow", system-ui, sans-serif);
+  overflow: hidden;
+  color: rgba(255,255,255,.58);
+  font-size: .58rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.legacyScoreBlock {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+}
+
+.legacyLeagueMark {
+  min-width: 32px;
+  padding: 3px 6px;
+  border: 1px solid rgba(242,196,91,.46);
+  color: #f2c45b;
+  font-size: .58rem;
+  letter-spacing: .08em;
+}
+
+.legacyScore {
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(1.2rem, 1.8vw, 1.9rem);
+  line-height: 1;
+  letter-spacing: .06em;
+}
+
+.legacyWinner {
+  height: 14px;
+  color: #f2c45b;
+  font-size: .9rem;
+  line-height: 1;
+}
+
+.legacyCardFooter {
+  display: block;
+  min-height: 1.35em;
+  margin-top: 7px;
+  color: rgba(255,255,255,.64);
+  font-size: .66rem;
+  line-height: 1.35;
+  letter-spacing: .04em;
+}
+
+.legacyPager {
+  position: absolute;
+  left: 18.13%;
+  right: 2.02%;
+  bottom: 1.2%;
+  height: 6%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+
+.legacyPager button {
+  min-width: 32px;
+  min-height: 32px;
+  border: 0;
+  background: transparent;
+  color: rgba(255,255,255,.7);
+  cursor: pointer;
+}
+
+.legacyPager .legacyPageDot {
+  min-width: 12px;
+  min-height: 12px;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,.28);
+}
+
+.legacyPager .legacyPageDot[data-active="true"] {
+  background: #f2c45b;
+  box-shadow: 0 0 9px rgba(242,196,91,.5);
+}
+
+
+/* Step 7: single retained product action and lazy season-history drawer. */
+.legacyPrimaryAction {
+  min-width: 280px;
+  min-height: 52px;
+}
+
+.legacyPrimaryAction:focus-visible {
+  outline: 3px solid #ffe36c;
+  outline-offset: 3px;
+}
+
+.legacySeasonHistory {
+  position: absolute;
+  z-index: 9;
+  left: 50%;
+  bottom: 3.2%;
+  width: min(72%, 980px);
+  max-height: 31%;
+  overflow: auto;
+  transform: translateX(-50%);
+  padding: 14px 18px;
+  border-color: rgba(242,196,91,.72);
+  background: rgba(4,6,7,.96);
+  box-shadow: 0 18px 54px rgba(0,0,0,.52);
+}
+
+.legacySeasonHistory[hidden] {
+  display: none;
+}
+
+.legacyHistoryHeading {
+  margin: 0 0 10px;
+  color: #f2c45b;
+  letter-spacing: .07em;
+}
+
+.legacyHistoryRows {
+  display: grid;
+  gap: 6px;
+}
+
+.legacyHistoryRow {
+  display: grid;
+  grid-template-columns: 72px 1fr auto 1fr;
+  gap: 12px;
+  align-items: center;
+  min-height: 44px;
+  padding: 6px 10px;
+  border-top: 1px solid rgba(255,255,255,.1);
+  font-variant-numeric: tabular-nums;
+}
+
+.legacyHistoryRow .daniel {
+  text-align: right;
+}
+
+.legacyHistoryRow .nik {
+  text-align: left;
+}
+
+.nav-reserve {
+  display: none;
+}
+
+
+/* Step 8: depth sandwich. Full-canvas cutouts share the stage camera exactly. */
+.legacyDepthCutout,
+.legacyDepthRim {
+  pointer-events: none;
+}
+
+.legacyDepthRim--daniel {
+  --sd-rim-angle: 118deg;
+  --sd-rim-opacity: .28;
+}
+
+.legacyDepthRim--nik {
+  --sd-rim-angle: 66deg;
+  --sd-rim-opacity: .24;
+}
+
+/* Soft archive-edge contact shadows keep the managers behind the desk rather than pasted on it. */
+.legacyArchivePanel::before,
+.legacyArchivePanel::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: -7px;
+  height: 18px;
+  pointer-events: none;
+  border-radius: 50%;
+  background: rgba(0,0,0,.48);
+  filter: blur(9px);
+}
+
+.legacyArchivePanel::before {
+  left: 4.2%;
+  width: 31%;
+  transform: rotate(.4deg);
+}
+
+.legacyArchivePanel::after {
+  right: 3.4%;
+  width: 32%;
+  transform: rotate(-.5deg);
+}
+
+
+/* Step 9: frame states. */
+.legacyPreviewTag {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: -30px;
+  transform: translateX(-50%);
+}
+
+.legacyPreviewTag[hidden],
+.legacyStateBanner[hidden] {
+  display: none;
+}
+
+.legacyStateBanner {
+  position: absolute;
+  z-index: 5;
+  left: 18.13%;
+  right: 2.02%;
+  top: 8%;
+  min-height: 84px;
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: rgba(5,7,8,.94);
+  border-color: rgba(242,196,91,.58);
+}
+
+.legacyStateIcon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(242,196,91,.72);
+  border-radius: 50%;
+  color: #f2c45b;
+  font-size: 1.35rem;
+}
+
+.legacyStateCopy {
+  margin: 0;
+  color: rgba(255,255,255,.88);
+  line-height: 1.45;
+}
+
+#stage-root[data-frame-state="empty"] .legacyCardGrid,
+#stage-root[data-frame-state="loading"] .legacyCardGrid,
+#stage-root[data-frame-state="unavailable"] .legacyCardGrid {
+  display: none;
+}
+
+#stage-root[data-frame-state="empty"] .legacyPager,
+#stage-root[data-frame-state="loading"] .legacyPager,
+#stage-root[data-frame-state="unavailable"] .legacyPager {
+  display: none;
+}
+
+.legacyCard[data-status="abandoned"],
+.legacyCard[data-status="unavailable"] {
+  cursor: default;
+  opacity: .62;
+  filter: saturate(.45);
+}
+
+.legacyCard[data-status="abandoned"] .legacyCardBody,
+.legacyCard[data-status="unavailable"] .legacyCardBody {
+  grid-template-columns: 1fr;
+}
+
+.legacyStatusOnly {
+  display: grid;
+  place-items: center;
+  min-height: 86px;
+  padding: 8px;
+  color: rgba(255,255,255,.72);
+  letter-spacing: .06em;
+  text-align: center;
+}
+
+.legacyCardState {
+  display: block;
+  margin-top: 4px;
+  color: #f2c45b;
+  font-size: .62rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.legacyCard[data-status="in-progress"] {
+  border-style: dashed;
+}
+
+.legacyCard[data-status="completion-pending"] {
+  border-color: rgba(255,227,108,.82);
+}
+
+#stage-root[data-frame-state="partial"] .legacyStateBanner {
+  min-height: 58px;
+  grid-template-columns: 38px 1fr;
+  padding: 9px 14px;
+}
+
+#stage-root[data-frame-state="partial"] .legacyStateIcon {
+  width: 32px;
+  height: 32px;
+  font-size: 1rem;
+}
+
+
+/* Step 10 code-read fix: compact warnings sit above the archive content, not over cards. */
+.legacyStateBanner[data-compact="true"] {
+  top: -46px;
+  min-height: 38px;
+  grid-template-columns: 30px 1fr;
+  padding: 6px 12px;
+}
+
+.legacyStateBanner[data-compact="true"] .legacyStateIcon {
+  width: 26px;
+  height: 26px;
+  font-size: .82rem;
+}
+
+.legacyPreviewTag {
+  top: -78px;
+}
+
+
+/* JOB-073 part 1 · phone composition. */
+.legacyPhonePlate,
+.legacyPhoneGrade,
+.legacyPhoneHero {
+  display: none;
+}
+
+.legacyWordmarkPicture {
+  display: block;
+}
+
+@media (max-width: 900px) {
+  :root {
+    --legacy-nav-reserve: calc(56px + env(safe-area-inset-bottom, 0px));
+  }
+
+  html,
+  body,
+  #stage-root {
+    width: 100%;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  #legacy {
+    height: calc(100dvh - var(--legacy-nav-reserve));
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .sd-stage__layer--plate > .sd-stage__registered,
+  .sd-stage__layer--cutout > .sd-stage__registered,
+  .sd-stage__layer--light > .sd-stage__registered {
+    display: none;
+  }
+
+  .legacyPhonePlate {
+    position: absolute;
+    inset: 0;
+    display: block;
+    overflow: hidden;
+  }
+
+  .legacyPhonePlate img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 36%;
+  }
+
+  .legacyPhoneGrade {
+    position: absolute;
+    inset: 0;
+    display: block;
+    background:
+      linear-gradient(180deg,
+        rgba(3, 5, 6, .04) 0%,
+        rgba(3, 5, 6, .08) 38%,
+        rgba(3, 5, 6, .68) 49%,
+        rgba(3, 5, 6, .97) 55%,
+        #050708 100%);
+  }
+
+  .legacyPhoneHero {
+    position: absolute;
+    display: block;
+    z-index: 3;
+    width: auto;
+    filter:
+      drop-shadow(0 14px 16px rgba(0, 0, 0, .56))
+      drop-shadow(0 0 2px rgba(242, 196, 91, .38));
+    pointer-events: none;
+  }
+
+  .legacyPhoneHero img {
+    display: block;
+    width: auto;
+    height: 100%;
+  }
+
+  .legacyPhoneHero--daniel {
+    left: -6%;
+    top: 4%;
+    height: 49%;
+  }
+
+  .legacyPhoneHero--nik {
+    left: 47%;
+    top: 3%;
+    height: 50%;
+  }
+
+  .legacyTopbar {
+    display: none;
+  }
+
+  .legacyTitleBlock {
+    z-index: 4;
+    height: 55%;
+  }
+
+  .legacyEyebrow {
+    top: 5.5%;
+    width: 78%;
+    font-size: clamp(.52rem, 2.15vw, .66rem);
+    letter-spacing: .2em;
+  }
+
+  .legacyWordmarkWrap {
+    left: 50%;
+    top: 15%;
+    width: min(58%, 228px);
+  }
+
+  .legacyTagline {
+    left: 50%;
+    top: 32%;
+    width: 68%;
+    font-size: clamp(.48rem, 1.9vw, .6rem);
+    letter-spacing: .16em;
+  }
+
+  .legacyArchivePanel {
+    position: absolute;
+    z-index: 5;
+    left: 12px;
+    right: 12px;
+    top: 55%;
+    bottom: 72px;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-rows: 44px minmax(0, 1fr) 24px;
+    gap: 4px;
+    background: linear-gradient(180deg, rgba(6, 8, 9, .9), rgba(4, 6, 7, .97));
+    box-shadow: 0 -10px 24px rgba(0, 0, 0, .4);
+  }
+
+  .legacyArchivePanel::before,
+  .legacyArchivePanel::after {
+    top: -5px;
+    height: 11px;
+    filter: blur(7px);
+    opacity: .8;
+  }
+
+  .legacySidePanel {
+    position: static;
+    width: auto;
+    height: 44px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow: hidden;
+    border: 0;
+    border-bottom: 1px solid rgba(242, 196, 91, .28);
+    background: rgba(5, 7, 8, .76);
+  }
+
+  .legacySidePanel button {
+    width: auto;
+    min-width: 0;
+    min-height: 44px;
+    margin: 0;
+    padding: 0 5px;
+    border: 0;
+    border-right: 1px solid rgba(242, 196, 91, .14);
+    font-size: clamp(.62rem, 2.6vw, .76rem);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .legacyCardGrid {
+    position: static;
+    min-width: 0;
+    min-height: 0;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min(78vw, 290px);
+    grid-template-columns: none;
+    grid-template-rows: minmax(0, 1fr);
+    gap: 8px;
+    padding: 4px 2px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .legacyCardGrid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .legacyCardSlot {
+    min-height: 0;
+    scroll-snap-align: start;
+  }
+
+  .legacyCard {
+    height: 100%;
+    min-height: 0;
+    padding: 6px 8px 8px;
+  }
+
+  .legacyCardTitle {
+    margin-bottom: 3px;
+    font-size: .66rem;
+  }
+
+  .legacyCardBody {
+    gap: 5px;
+  }
+
+  .legacyCrest {
+    width: 30px;
+    height: 34px;
+    font-size: .58rem;
+  }
+
+  .legacyManager {
+    gap: 1px;
+  }
+
+  .legacyManagerName {
+    font-size: .65rem;
+  }
+
+  .legacyClubName {
+    max-width: 72px;
+    font-size: .5rem;
+  }
+
+  .legacyLeagueMark {
+    min-width: 26px;
+    padding: 2px 4px;
+    font-size: .5rem;
+  }
+
+  .legacyScore {
+    font-size: 1.05rem;
+  }
+
+  .legacyWinner {
+    height: 11px;
+    font-size: .72rem;
+  }
+
+  .legacyCardFooter,
+  .legacyCardState {
+    margin-top: 2px;
+    font-size: .52rem;
+    line-height: 1.15;
+  }
+
+  .legacyPager {
+    position: static;
+    height: 24px;
+    min-height: 24px;
+    gap: 7px;
+  }
+
+  .legacyPager button {
+    min-width: 44px;
+    min-height: 44px;
+    transform: scale(.72);
+  }
+
+  .legacyPreviewTag {
+    top: -24px;
+    max-width: 74%;
+    font-size: .6rem;
+  }
+
+  .legacyStateBanner,
+  .legacyStateBanner[data-compact="true"] {
+    left: 6px;
+    right: 6px;
+    top: 50px;
+    bottom: 28px;
+    width: auto;
+    min-height: 0;
+    padding: 10px;
+    grid-template-columns: 38px 1fr;
+  }
+
+  .legacyStateIcon,
+  .legacyStateBanner[data-compact="true"] .legacyStateIcon {
+    width: 34px;
+    height: 34px;
+    font-size: .95rem;
+  }
+
+  .legacyStateCopy {
+    font-size: .76rem;
+    line-height: 1.28;
+  }
+
+  .legacyPrimaryAction {
+    position: absolute;
+    z-index: 7;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    width: auto;
+    min-width: 0;
+    min-height: 48px;
+    height: 48px;
+    transform: none;
+    font-size: .82rem;
+    white-space: nowrap;
+  }
+
+  .legacySeasonHistory {
+    position: fixed;
+    z-index: 40;
+    left: 8px;
+    right: 8px;
+    bottom: var(--legacy-nav-reserve);
+    width: auto;
+    max-height: min(62dvh, 420px);
+    overflow: auto;
+    transform: none;
+    padding: 14px;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 -18px 48px rgba(0, 0, 0, .72);
+  }
+
+  .legacyHistoryRow {
+    grid-template-columns: 54px 1fr auto 1fr;
+    gap: 6px;
+    min-height: 44px;
+    padding: 6px;
+    font-size: .72rem;
+  }
+
+  .nav-reserve {
+    position: fixed;
+    z-index: 20;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    height: var(--legacy-nav-reserve);
+    background: #050708;
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 380px), (max-height: 580px) {
+  .legacyArchivePanel {
+    left: 8px;
+    right: 8px;
+    bottom: 68px;
+  }
+
+  .legacySidePanel,
+  .legacySidePanel button {
+    height: 44px;
+    min-height: 44px;
+  }
+
+  .legacyClubName,
+  .legacyCardFooter {
+    display: none;
+  }
+
+  .legacyPrimaryAction {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    min-height: 48px;
+    height: 48px;
+  }
+}
+
+
+/* JOB-163 part 2 · portrait phone archive composition. */
+.legacyPhoneFaceBand {
+  display: none;
+}
+
+@media (max-width: 760px) and (orientation: portrait) {
+  #legacy {
+    --legacy-phone-panel-bottom: 72px;
+    --legacy-phone-action-bottom: 12px;
+    --legacy-phone-tabs: 44px;
+    --legacy-phone-pager: 24px;
+  }
+
+  .legacyPhoneFaceBand {
+    position: absolute;
+    z-index: 2;
+    inset: 0 0 auto;
+    display: block;
+    height: 55%;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 50% 22%, rgba(242, 196, 91, .11), transparent 38%),
+      linear-gradient(180deg, transparent 0 72%, rgba(3, 5, 6, .26) 88%, rgba(3, 5, 6, .76) 100%);
+    border-bottom: 1px solid rgba(242, 196, 91, .22);
+  }
+
+  .legacyTitleBlock {
+    height: 55%;
+  }
+
+  .legacyEyebrow {
+    top: 5%;
+    width: 82%;
+  }
+
+  .legacyWordmarkWrap {
+    top: 14%;
+    width: min(60%, 232px);
+  }
+
+  .legacyTagline {
+    top: 31.5%;
+    width: 72%;
+  }
+
+  .legacyArchivePanel {
+    left: 12px;
+    right: 12px;
+    top: calc(55% - 22px);
+    bottom: var(--legacy-phone-panel-bottom);
+    display: grid;
+    grid-template-rows:
+      var(--legacy-phone-tabs)
+      minmax(0, 1fr)
+      var(--legacy-phone-pager);
+    gap: 4px;
+    border-color: rgba(242, 196, 91, .5);
+    background:
+      linear-gradient(180deg, rgba(15, 16, 17, .9), rgba(4, 6, 7, .98));
+    box-shadow:
+      0 -10px 24px rgba(0, 0, 0, .44),
+      inset 0 1px rgba(255, 227, 108, .12);
+  }
+
+  .legacySidePanel {
+    height: var(--legacy-phone-tabs);
+    min-height: var(--legacy-phone-tabs);
+    border-bottom-color: rgba(242, 196, 91, .34);
+  }
+
+  .legacySidePanel button {
+    position: relative;
+    min-height: 44px;
+    padding: 0 4px;
+    font-size: 0;
+    letter-spacing: 0;
+  }
+
+  .legacySidePanel button::after {
+    display: block;
+    font-size: clamp(.64rem, 2.7vw, .76rem);
+    line-height: 1;
+    letter-spacing: .08em;
+  }
+
+  .legacySidePanel button:nth-child(1)::after {
+    content: "ARCHIVE";
+  }
+
+  .legacySidePanel button:nth-child(2)::after {
+    content: "TROPHIES";
+  }
+
+  .legacySidePanel button:nth-child(3)::after {
+    content: "RECORDS";
+  }
+
+  .legacyCardGrid {
+    grid-auto-columns: min(292px, calc(100% - 60px));
+    gap: 8px;
+    padding: 2px 0;
+    scroll-padding-inline: 0 60px;
+    touch-action: pan-x;
+  }
+
+  .legacyCardSlot {
+    height: 100%;
+  }
+
+  .legacyCard {
+    box-sizing: border-box;
+    height: 100%;
+    padding: 7px 9px 8px;
+    border-color: rgba(242, 196, 91, .5);
+    background:
+      linear-gradient(145deg, rgba(242, 196, 91, .07), transparent 42%),
+      rgba(6, 8, 9, .93);
+  }
+
+  .legacyCard[data-selected="true"] {
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 227, 108, .68),
+      0 0 16px rgba(242, 196, 91, .3);
+  }
+
+  .legacyCardTitle {
+    margin-bottom: 4px;
+    font-size: .68rem;
+  }
+
+  .legacyCrest {
+    width: 32px;
+    height: 36px;
+  }
+
+  .legacyManagerName {
+    font-size: .67rem;
+  }
+
+  .legacyScore {
+    font-size: 1.12rem;
+  }
+
+  .legacyCardFooter,
+  .legacyCardState {
+    font-size: .54rem;
+  }
+
+  .legacyPager {
+    position: static;
+    height: var(--legacy-phone-pager);
+    min-height: var(--legacy-phone-pager);
+    gap: 0;
+    overflow: visible;
+  }
+
+  .legacyPager button {
+    position: relative;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    transform: none;
+    font-size: .64rem;
+  }
+
+  .legacyPager .legacyPageDot,
+  .legacyPager .legacyPageDot[data-active="true"] {
+    min-width: 44px;
+    min-height: 44px;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .legacyPager .legacyPageDot::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, .3);
+  }
+
+  .legacyPager .legacyPageDot[data-active="true"]::after {
+    background: #f2c45b;
+    box-shadow: 0 0 9px rgba(242, 196, 91, .5);
+  }
+
+  .legacyPreviewTag {
+    top: -26px;
+  }
+
+  .legacyStateBanner,
+  .legacyStateBanner[data-compact="true"] {
+    left: 6px;
+    right: 6px;
+    top: 52px;
+    bottom: 32px;
+    min-height: 0;
+  }
+
+  .legacyPrimaryAction {
+    left: 12px;
+    right: 12px;
+    bottom: var(--legacy-phone-action-bottom);
+    min-height: 48px;
+    height: 48px;
+  }
+
+  .legacySeasonHistory {
+    left: 8px;
+    right: 8px;
+    bottom: var(--legacy-nav-reserve);
+    max-height: min(62dvh, 420px);
+    overscroll-behavior: contain;
+  }
+}
+
+@media (max-width: 760px) and (orientation: portrait) and (max-height: 580px) {
+  #legacy {
+    --legacy-phone-panel-bottom: 68px;
+    --legacy-phone-action-bottom: 8px;
+  }
+
+  .legacyArchivePanel {
+    left: 8px;
+    right: 8px;
+    top: calc(55% - 18px);
+  }
+
+  .legacyCardGrid {
+    grid-auto-columns: min(292px, calc(100% - 52px));
+  }
+
+  .legacyCard {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .legacyClubName,
+  .legacyCardFooter {
+    display: none;
+  }
+
+  .legacyPrimaryAction {
+    left: 8px;
+    right: 8px;
+  }
+}
+
+
+/* JOB-164 part 3 · phone controls and pinned action. */
+@media (max-width: 760px) and (orientation: portrait) {
+  #legacy {
+    --legacy-phone-control-target: 44px;
+    --legacy-phone-primary-height: 48px;
+  }
+
+  .legacySidePanel button,
+  .legacyPager button,
+  .legacySeasonHistory button {
+    min-height: var(--legacy-phone-control-target);
+  }
+
+  .legacySidePanel button,
+  .legacyPager button {
+    min-width: var(--legacy-phone-control-target);
+  }
+
+  .legacySeasonHistory input,
+  .legacySeasonHistory select,
+  .legacySeasonHistory textarea {
+    min-height: var(--legacy-phone-control-target);
+    font-size: 16px;
+  }
+
+  .legacyPrimaryAction {
+    min-height: var(--legacy-phone-primary-height);
+    height: var(--legacy-phone-primary-height);
+    bottom: var(--legacy-phone-action-bottom);
+  }
+
+  .legacySidePanel button:focus-visible,
+  .legacyPager button:focus-visible,
+  .legacyPrimaryAction:focus-visible,
+  .legacySeasonHistory button:focus-visible,
+  .legacySeasonHistory input:focus-visible,
+  .legacySeasonHistory select:focus-visible,
+  .legacySeasonHistory textarea:focus-visible {
+    outline: 2px solid #ffe36c;
+    outline-offset: -2px;
+  }
+}
+
+/* Claude fix 2026-10-04 (JOB-073/163 intake): the shared stage clips the phone art layers to its 46% band and
+   starts the UI layer below it, but this phone layout is placed in % of the whole screen (hero zone 55%).
+   Give the art layers the whole 55% hero zone and start the UI layer at the top. */
+@media (max-width: 900px) {
+  .sd-stage[data-sd-mode="phone"] .sd-stage__layer--plate,
+  .sd-stage[data-sd-mode="phone"] .sd-stage__layer--atmosphere,
+  .sd-stage[data-sd-mode="phone"] .sd-stage__layer--cutout,
+  .sd-stage[data-sd-mode="phone"] .sd-stage__layer--light { height: 55%; }
+  .sd-stage[data-sd-mode="phone"] .sd-stage__layer--ui { top: 0; }
+  /* The managers fill the top of the band, so the title sits below their faces, above the tabs. */
+  .legacyEyebrow { top: 50%; }
+  .legacyWordmarkWrap { top: 57%; }
+  .legacyTagline { top: 83%; }
+  .legacyPhoneHero--daniel { left: 4%; }
+}
+
+
+/* JOB-075 review item 3: allocate controls and status copy inside the archive.
+   Claude's art band and face-clear title registration above are unchanged. */
+@media (max-width: 900px) {
+  #legacy { --legacy-phone-pager: 44px; }
+  .legacyArchivePanel {
+    grid-template-rows: 44px minmax(60px, 1fr) 44px;
+    gap: 2px;
+    overflow: auto;
+  }
+  .legacySidePanel button {
+    font-size: clamp(.64rem, 2.6vw, .78rem);
+    white-space: normal;
+    line-height: 1.05;
+  }
+  .legacySidePanel button:nth-child(n)::after { content: none; } /* Claude 04 Oct: beats the :nth-child(k)::after short labels so tabs show the DOM label once */
+  .legacyPager { height: 44px; min-height: 44px; }
+  .legacyPager button { min-width: 44px; min-height: 44px; transform: none; }
+  .legacyCard { padding: 5px 8px; }
+  .legacyCardTitle, .legacyManagerName { font-size: .75rem; }
+  .legacyCardState, .legacyCardFooter { font-size: .6875rem; }
+  .legacyStatusOnly { min-height: 0; padding: 4px; font-size: .75rem; }
+  .legacyCard[data-status="abandoned"],
+  .legacyCard[data-status="unavailable"] { opacity: 1; filter: none; }
+  .legacyArchivePanel:has(.legacyStateBanner[data-compact="true"]:not([hidden])) {
+    grid-template-rows: 44px 56px minmax(60px, 1fr) 44px;
+  }
+  .legacyStateBanner[data-compact="true"] {
+    position: static;
+    grid-row: 2;
+    padding: 3px 8px;
+    margin: 0;
+    grid-template-columns: 20px 1fr;
+    gap: 6px;
+    min-height: 0;
+  }
+  .legacyStateBanner[data-compact="true"] .legacyStateIcon { width: 18px; height: 18px; font-size: .75rem; }
+  .legacyStateBanner[data-compact="true"] .legacyStateCopy { font-size: .75rem; line-height: 1.15; }
+  .legacySidePanel { grid-row: 1; }
+  .legacyCardGrid { grid-row: 2; }
+  .legacyPager { grid-row: 3; }
+  .legacyArchivePanel:has(.legacyStateBanner[data-compact="true"]:not([hidden])) .legacyCardGrid { grid-row: 3; }
+  .legacyArchivePanel:has(.legacyStateBanner[data-compact="true"]:not([hidden])) .legacyPager { grid-row: 4; }
+  .legacyArchivePanel:has(.legacyStateBanner[data-compact="true"]:not([hidden])) .legacyCrest,
+  .legacyArchivePanel:has(.legacyStateBanner[data-compact="true"]:not([hidden])) .legacyClubName,
+  .legacyArchivePanel:has(.legacyStateBanner[data-compact="true"]:not([hidden])) .legacyLeagueMark,
+  .legacyArchivePanel:has(.legacyStateBanner[data-compact="true"]:not([hidden])) .legacyCardFooter { display: none; }
+  .legacyArchivePanel:has(.legacyStateBanner[data-compact="true"]:not([hidden])) .legacyCardBody { gap: 3px; }
+  .legacyStateBanner:not([data-compact="true"]) { bottom: 46px; }
+  .legacyHistoryRow { align-items: start; }
+}
+@media (max-width: 900px) and (max-height: 580px) {
+  .legacyCrest, .legacyClubName, .legacyLeagueMark, .legacyCardFooter { display: none; }
+}
+
+/* JOB-168 item 5: complete the intermediate desktop width range. */
+@media (min-width: 901px) and (max-width: 1100px) {
+  .legacyBrand { min-width: 110px; }
+  .legacyTopNav { flex: 1; min-width: 0; }
+  .legacyTopNav button { min-width: 0; flex: 1; padding: 0 10px; font-size: .875rem; }
+  .legacySettings { min-width: 48px; }
+  .legacySidePanel button { padding: 0 8px; font-size: .75rem; }
+  .legacyCardGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .legacyCard { padding: 4px 6px; }
+  .legacyCrest { width: 28px; height: 30px; }
+  .legacyClubName { display: none; }
+}
+
+
+
+/* JOB-170: CM17 back turns at the midpoint; live content is never mirrored. */
+@keyframes legacy-card-deal {
+  0% { transform: perspective(900px) rotateY(0deg) translateY(8px); }
+  49% { transform: perspective(900px) rotateY(90deg); }
+  50% { transform: perspective(900px) rotateY(-90deg); }
+  100% { transform: perspective(900px) rotateY(0deg) translateY(0); }
+}
+@keyframes legacy-card-back { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes legacy-card-face { 0%, 49% { opacity: 0; } 50%, 100% { opacity: 1; } }
+.legacyDealing {
+  animation: legacy-card-deal var(--lg-motion-ms) var(--lg-motion-ease) var(--lg-motion-delay) both;
+  will-change: transform;
+}
+.legacyDealing > * {
+  animation: legacy-card-face var(--lg-motion-ms) steps(1, end) var(--lg-motion-delay) both;
+}
+.legacyDealing::after {
+  content: "CM17";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  color: #f2c45b;
+  background: repeating-linear-gradient(135deg, #0b0d10 0 12px, #151716 12px 13px);
+  border: 2px solid #d4a017;
+  font: 700 1.5rem var(--sd-font-condensed, sans-serif);
+  letter-spacing: .16em;
+  animation: legacy-card-back var(--lg-motion-ms) steps(1, end) var(--lg-motion-delay) both;
+}
+.legacyFading { animation: sd-reduced-fade var(--lg-motion-ms, 120ms) linear both; }
+
+/* The crown is decorative; the published winner label stays live DOM text. */
+@keyframes legacy-crown-drop {
+  0% { opacity: 0; transform: translateY(-12px) scale(.8); }
+  72% { opacity: 1; transform: translateY(2px) scale(1.04); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.legacyWinnerCrown { display: inline-block; }
+.legacyCrowning {
+  animation: legacy-crown-drop var(--lg-motion-ms) var(--lg-motion-ease) var(--lg-motion-delay) both;
+  will-change: transform, opacity;
+}
+
+@keyframes legacy-page-slide {
+  from { opacity: .35; transform: translateX(var(--lg-page-x, 18px)); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes legacy-background-parallax {
+  from { transform: translateX(var(--lg-parallax-x, -4px)); }
+  to { transform: translateX(0); }
+}
+.legacyPaging {
+  animation: legacy-page-slide var(--lg-motion-ms) var(--lg-motion-ease) both;
+  will-change: transform, opacity;
+}
+.legacyParallax {
+  animation: legacy-background-parallax var(--lg-motion-ms) var(--lg-motion-ease) both;
+  will-change: transform;
+}
+
+/* JOB-171: immediate feedback; no moving hit targets or layout properties. */
+#stage-root button {
+  transition: opacity 100ms linear;
+}
+#stage-root button:enabled:hover { opacity: .88; }
+#stage-root button:enabled:active { opacity: .7; }
+#stage-root button:focus-visible { outline: 2px solid #ffe36c; outline-offset: -2px; }
+#legacy .legacyCard:not(.legacyDealing)[data-selected="true"] > .legacyCardBody,
+#legacy .legacySeasonHistory:not([hidden]),
+#legacy .legacySidePanel button[data-active="true"] {
+  animation: sd-reduced-fade 120ms linear both;
+}
+/* Shared sdEnter schedules the stagger; do not apply it again in CSS. */
+#stage-root.sd-motion-ready [data-sd-enter="panel"].sd-is-animating {
+  animation-delay: 0ms;
+}
+/* The primary's layout transform belongs to the button; feedback belongs inside. */
+@media (min-width: 901px) {
+  #legacy .legacyPrimaryAction:is(:hover, :active) { transform: translateX(-50%); }
+}
+@media (max-width: 900px) {
+  #legacy .legacyPrimaryAction:is(:hover, :active) { transform: none; }
+}
+
+/* App reduced-motion setting (the shared kit uses data attributes, not a class). */
+:is(html[data-motion-reduced="true"], html[data-reduced-motion="true"], html:has(#stage-root[data-sd-motion-reduced="true"])) #stage-root.sd-motion-ready [data-sd-enter],
+:is(html[data-motion-reduced="true"], html[data-reduced-motion="true"], html:has(#stage-root[data-sd-motion-reduced="true"])) #stage-root :is(.legacyDealing, .legacyCrowning, .legacyPaging, .legacyParallax, .legacyFading),
+:is(html[data-motion-reduced="true"], html[data-reduced-motion="true"], html:has(#stage-root[data-sd-motion-reduced="true"])) #stage-root .legacyActionLabel.sd-is-pulsing {
+  animation: sd-reduced-fade 150ms linear both !important;
+  animation-delay: 0ms !important;
+  animation-play-state: running !important;
+  transform: none !important;
+  will-change: opacity;
+}
+:is(html[data-motion-reduced="true"], html[data-reduced-motion="true"], html:has(#stage-root[data-sd-motion-reduced="true"])) #stage-root .legacyDealing > * {
+  animation: none !important;
+  opacity: 1 !important;
+}
+:is(html[data-motion-reduced="true"], html[data-reduced-motion="true"], html:has(#stage-root[data-sd-motion-reduced="true"])) #stage-root .legacyDealing::after,
+:is(html[data-motion-reduced="true"], html[data-reduced-motion="true"], html:has(#stage-root[data-sd-motion-reduced="true"])) #stage-root [data-sd-enter="title"]::after,
+:is(html[data-motion-reduced="true"], html[data-reduced-motion="true"], html:has(#stage-root[data-sd-motion-reduced="true"])) #stage-root .sd-glint::before {
+  animation: none !important;
+  opacity: 0 !important;
+}
+
+/* System preference remains authoritative even during an in-flight animation. */
+@media (prefers-reduced-motion: reduce) {
+#stage-root.sd-motion-ready [data-sd-enter],
+#stage-root :is(.legacyDealing, .legacyCrowning, .legacyPaging, .legacyParallax, .legacyFading),
+#stage-root .legacyActionLabel.sd-is-pulsing {
+  animation: sd-reduced-fade 150ms linear both !important;
+  animation-delay: 0ms !important;
+  animation-play-state: running !important;
+  transform: none !important;
+  will-change: opacity;
+}
+#stage-root .legacyDealing > * {
+  animation: none !important;
+  opacity: 1 !important;
+}
+#stage-root .legacyDealing::after,
+#stage-root [data-sd-enter="title"]::after,
+#stage-root .sd-glint::before {
+  animation: none !important;
+  opacity: 0 !important;
+}
+}
+
+/* C2W-004 extra 1: one full phone card; every page has a visible gold indicator. */
+#legacy .legacyPageDots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+  max-height: 40px;
+  overflow: auto;
+  padding: 2px;
+}
+#legacy .legacyPager .legacyPageDots .legacyPageDot {
+  display: block;
+  flex: 0 0 8px;
+  width: 8px;
+  height: 8px;
+  min-width: 8px;
+  min-height: 8px;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(242, 196, 91, .35);
+  box-shadow: none;
+}
+#legacy .legacyPager .legacyPageDots .legacyPageDot::after { content: none; }
+#legacy .legacyPager .legacyPageDots .legacyPageDot[data-active="true"] { background: #f2c45b; }
+@media (max-width: 900px) {
+  #legacy .legacyArchivePanel {
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-width: calc(100% - 24px);
+    min-width: 0;
+    box-sizing: border-box;
+    grid-template-columns: minmax(0, 1fr);
+    overflow-x: hidden;
+  }
+  #legacy .legacyCardGrid {
+    position: relative;
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    gap: 0;
+    padding: 2px 0;
+    scroll-padding-inline: 0;
+    scroll-snap-type: x mandatory;
+  }
+  #legacy .legacyCardGrid > .legacyCard {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+  #legacy .legacyPager { min-width: 0; gap: 6px; }
+  #legacy .legacyPager > button { flex: 0 0 44px; min-width: 44px; min-height: 44px; }
+}
+
+/* CC-008 A7 · Nik's review: Daniel stood small and apart while Nik was near the centre.
+   Daniel is a little larger and closer, so the two read as a pair (Daniel left, Nik right). */
+@media (max-width: 900px) {
+  .legacyPhoneHero--daniel { left: 9%; top: 2%; height: 53%; }
+}
+
+/* CC-008 B5: the eyebrow sat on the LEGACY letters (touching at 375x553). Lift it to clear the title by >= 4 px. */
+@media (max-width: 900px) {
+  .legacyEyebrow { top: calc(50% - 11px); }
+}
+@media (max-width: 900px) and (max-height: 600px) {
+  .legacyEyebrow { top: calc(50% - 19px); }
+}

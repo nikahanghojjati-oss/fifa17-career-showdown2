@@ -1,0 +1,671 @@
+{
+ "LEAGUE": {
+  "393x852": {
+   "ok": false,
+   "plateRect": [
+    0,
+    0,
+    393,
+    852
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 146,
+     "max": 74
+    },
+    {
+     "changed": 44,
+     "max": 22
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div.wheelContainer",
+    "div.wheelContainer"
+   ],
+   "hits": [
+    {
+     "face": "Nik",
+     "pct": 20,
+     "el": "div#leagueWheel.leagueWheel"
+    },
+    {
+     "face": "Nik",
+     "pct": 20,
+     "el": "div.wheelTrack"
+    },
+    {
+     "face": "Daniel",
+     "pct": 19,
+     "el": "div#leagueWheel.leagueWheel"
+    },
+    {
+     "face": "Daniel",
+     "pct": 19,
+     "el": "div.wheelTrack"
+    }
+   ],
+   "hiddenOldArt": [
+    "div.",
+    "img.",
+    "img.",
+    "backdrop:div#app.",
+    "backdrop:div.wheelContainer",
+    "backdrop:section#leagueWheelScreen.screen",
+    "backdrop:main."
+   ],
+   "notes": []
+  },
+  "393x660": {
+   "ok": false,
+   "plateRect": [
+    0,
+    0,
+    393,
+    660
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 0,
+     "max": 2
+    },
+    {
+     "changed": 0,
+     "max": 1
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div.wheelContainer",
+    "div.wheelContainer"
+   ],
+   "hits": [
+    {
+     "face": "Nik",
+     "pct": 7,
+     "el": "div#leagueWheel.leagueWheel"
+    },
+    {
+     "face": "Nik",
+     "pct": 7,
+     "el": "div.wheelTrack"
+    },
+    {
+     "face": "Daniel",
+     "pct": 6,
+     "el": "div#leagueWheel.leagueWheel"
+    },
+    {
+     "face": "Daniel",
+     "pct": 6,
+     "el": "div.wheelTrack"
+    }
+   ],
+   "hiddenOldArt": [
+    "div.",
+    "img.",
+    "img.",
+    "backdrop:div#app.",
+    "backdrop:section#leagueWheelScreen.screen",
+    "backdrop:main.",
+    "backdrop:div.wheelContainer"
+   ],
+   "notes": []
+  },
+  "375x667": {
+   "ok": false,
+   "plateRect": [
+    0,
+    0,
+    375,
+    667
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 0,
+     "max": 1
+    },
+    {
+     "changed": 0,
+     "max": 1
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div.wheelContainer",
+    "div.wheelContainer"
+   ],
+   "hits": [
+    {
+     "face": "Daniel",
+     "pct": 4,
+     "el": "div#leagueWheel.leagueWheel"
+    },
+    {
+     "face": "Nik",
+     "pct": 4,
+     "el": "div#leagueWheel.leagueWheel"
+    },
+    {
+     "face": "Daniel",
+     "pct": 4,
+     "el": "div.wheelTrack"
+    },
+    {
+     "face": "Nik",
+     "pct": 4,
+     "el": "div.wheelTrack"
+    }
+   ],
+   "hiddenOldArt": [
+    "div.",
+    "img.",
+    "img.",
+    "backdrop:div#app.",
+    "backdrop:section#leagueWheelScreen.screen",
+    "backdrop:main.",
+    "backdrop:div.wheelContainer"
+   ],
+   "notes": []
+  },
+  "360x640": {
+   "ok": false,
+   "plateRect": [
+    0,
+    0,
+    360,
+    640
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 455,
+     "max": 255
+    },
+    {
+     "changed": 558,
+     "max": 255
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div.wheelContainer",
+    "div.wheelContainer"
+   ],
+   "hits": [
+    {
+     "face": "Daniel",
+     "pct": 1,
+     "el": "div#leagueWheel.leagueWheel"
+    },
+    {
+     "face": "Daniel",
+     "pct": 1,
+     "el": "div.wheelTrack"
+    }
+   ],
+   "hiddenOldArt": [
+    "div.",
+    "img.",
+    "img.",
+    "backdrop:div#app.",
+    "backdrop:section#leagueWheelScreen.screen",
+    "backdrop:main.",
+    "backdrop:div.wheelContainer"
+   ],
+   "notes": []
+  }
+ },
+ "STANDINGS": {
+  "393x852": {
+   "ok": true,
+   "plateRect": [
+    0,
+    0,
+    393,
+    852
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 23464,
+     "max": 51
+    },
+    {
+     "changed": 33474,
+     "max": 61
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div.sd-stage__layer",
+    "div.sd-stage__layer"
+   ],
+   "hits": [],
+   "hiddenOldArt": [
+    "img.",
+    "img.",
+    "img.",
+    "backdrop:div.sd-stage__layer",
+    "backdrop:div#stage-root.sd-stage",
+    "backdrop:section#standings.screen",
+    "backdrop:main.",
+    "backdrop:div#app."
+   ],
+   "notes": []
+  },
+  "393x660": {
+   "ok": true,
+   "plateRect": [
+    0,
+    0,
+    393,
+    660
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 16794,
+     "max": 78
+    },
+    {
+     "changed": 23719,
+     "max": 80
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div.sd-stage__layer",
+    "div.sd-stage__layer"
+   ],
+   "hits": [],
+   "hiddenOldArt": [
+    "img.",
+    "img.",
+    "img.",
+    "backdrop:div.sd-stage__layer",
+    "backdrop:div#stage-root.sd-stage",
+    "backdrop:section#standings.screen",
+    "backdrop:main.",
+    "backdrop:div#app.",
+    "backdrop:section.sdg-board"
+   ],
+   "notes": []
+  },
+  "375x667": {
+   "ok": true,
+   "plateRect": [
+    0,
+    0,
+    375,
+    667
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 15155,
+     "max": 70
+    },
+    {
+     "changed": 21378,
+     "max": 74
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div.sd-stage__layer",
+    "div.sd-stage__layer"
+   ],
+   "hits": [],
+   "hiddenOldArt": [
+    "img.",
+    "img.",
+    "img.",
+    "backdrop:div.sd-stage__layer",
+    "backdrop:div#stage-root.sd-stage",
+    "backdrop:section#standings.screen",
+    "backdrop:main.",
+    "backdrop:div#app.",
+    "backdrop:section.sdg-board"
+   ],
+   "notes": []
+  },
+  "360x640": {
+   "ok": true,
+   "plateRect": [
+    0,
+    0,
+    360,
+    640
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 14217,
+     "max": 76
+    },
+    {
+     "changed": 20200,
+     "max": 81
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div.sd-stage__layer",
+    "div.sd-stage__layer"
+   ],
+   "hits": [],
+   "hiddenOldArt": [
+    "img.",
+    "img.",
+    "img.",
+    "backdrop:div.sd-stage__layer",
+    "backdrop:div#stage-root.sd-stage",
+    "backdrop:section#standings.screen",
+    "backdrop:main.",
+    "backdrop:div#app.",
+    "backdrop:section.sdg-board"
+   ],
+   "notes": []
+  }
+ },
+ "RIVALRY": {
+  "393x852": {
+   "ok": true,
+   "plateRect": [
+    0,
+    0,
+    393,
+    852
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 24413,
+     "max": 42
+    },
+    {
+     "changed": 35488,
+     "max": 65
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div.rv-adoptedPhoneScene",
+    "div.rv-adoptedPhoneScene"
+   ],
+   "hits": [],
+   "hiddenOldArt": [
+    "img.",
+    "img.",
+    "img.",
+    "img.rv-adoptedPhoneStadium",
+    "img.rv-adoptedPhoneManager",
+    "img.rv-adoptedPhoneManager",
+    "backdrop:div#stage-root.rv-stage",
+    "backdrop:section#statistics.screen",
+    "backdrop:main.",
+    "backdrop:div#app.",
+    "backdrop:div#rivalryStatisticsContent.analyticsContent"
+   ],
+   "notes": []
+  },
+  "393x660": {
+   "ok": true,
+   "plateRect": [
+    0,
+    0,
+    393,
+    660
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 13869,
+     "max": 32
+    },
+    {
+     "changed": 21991,
+     "max": 54
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div.rv-adoptedPhoneScene",
+    "div.rv-adoptedPhoneScene"
+   ],
+   "hits": [],
+   "hiddenOldArt": [
+    "img.",
+    "img.",
+    "img.",
+    "img.rv-adoptedPhoneStadium",
+    "img.rv-adoptedPhoneManager",
+    "img.rv-adoptedPhoneManager",
+    "backdrop:div#stage-root.rv-stage",
+    "backdrop:section#statistics.screen",
+    "backdrop:main.",
+    "backdrop:div#app.",
+    "backdrop:div#rivalryStatisticsContent.analyticsContent"
+   ],
+   "notes": []
+  },
+  "375x667": {
+   "ok": true,
+   "plateRect": [
+    0,
+    0,
+    375,
+    667
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 13846,
+     "max": 34
+    },
+    {
+     "changed": 20557,
+     "max": 56
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div.rv-adoptedPhoneScene",
+    "div.rv-adoptedPhoneScene"
+   ],
+   "hits": [],
+   "hiddenOldArt": [
+    "img.",
+    "img.",
+    "img.",
+    "img.rv-adoptedPhoneStadium",
+    "img.rv-adoptedPhoneManager",
+    "img.rv-adoptedPhoneManager",
+    "backdrop:div#stage-root.rv-stage",
+    "backdrop:section#statistics.screen",
+    "backdrop:main.",
+    "backdrop:div#app.",
+    "backdrop:div#rivalryStatisticsContent.analyticsContent"
+   ],
+   "notes": []
+  },
+  "360x640": {
+   "ok": true,
+   "plateRect": [
+    0,
+    0,
+    360,
+    640
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 12732,
+     "max": 34
+    },
+    {
+     "changed": 19153,
+     "max": 56
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div.rv-adoptedPhoneScene",
+    "div.rv-adoptedPhoneScene"
+   ],
+   "hits": [],
+   "hiddenOldArt": [
+    "img.",
+    "img.",
+    "img.",
+    "img.rv-adoptedPhoneStadium",
+    "img.rv-adoptedPhoneManager",
+    "img.rv-adoptedPhoneManager",
+    "backdrop:div#stage-root.rv-stage",
+    "backdrop:section#statistics.screen",
+    "backdrop:main.",
+    "backdrop:div#app.",
+    "backdrop:div#rivalryStatisticsContent.analyticsContent"
+   ],
+   "notes": []
+  }
+ },
+ "TROPHY_ROOM": {
+  "393x852": {
+   "ok": true,
+   "plateRect": [
+    0,
+    0,
+    393,
+    852
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 18705,
+     "max": 189
+    },
+    {
+     "changed": 22702,
+     "max": 167
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div#trophyRoomContent.trophyRoomContent",
+    "div#trophyRoomContent.trophyRoomContent"
+   ],
+   "hits": [],
+   "hiddenOldArt": [
+    "img.",
+    "img.",
+    "img.",
+    "backdrop:div#trophyRoomContent.trophyRoomContent",
+    "backdrop:div.sd-stage__layer",
+    "backdrop:div.sd-stage",
+    "backdrop:section#trophyRoom.screen",
+    "backdrop:main.",
+    "backdrop:div#app.",
+    "backdrop:section.trophyShelf"
+   ],
+   "notes": [
+    "<div class=\"heroSpotlight\"> filter blur(3px)"
+   ]
+  },
+  "393x660": {
+   "ok": true,
+   "plateRect": [
+    0,
+    0,
+    393,
+    660
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 12389,
+     "max": 189
+    },
+    {
+     "changed": 15209,
+     "max": 175
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div#trophyRoomContent.trophyRoomContent",
+    "div#trophyRoomContent.trophyRoomContent"
+   ],
+   "hits": [],
+   "hiddenOldArt": [
+    "img.",
+    "img.",
+    "img.",
+    "backdrop:div#trophyRoomContent.trophyRoomContent",
+    "backdrop:div.sd-stage__layer",
+    "backdrop:div.sd-stage",
+    "backdrop:section#trophyRoom.screen",
+    "backdrop:main.",
+    "backdrop:div#app.",
+    "backdrop:section.trophyShelf"
+   ],
+   "notes": [
+    "<div class=\"heroSpotlight\"> filter blur(3px)"
+   ]
+  },
+  "375x667": {
+   "ok": true,
+   "plateRect": [
+    0,
+    0,
+    375,
+    667
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 10895,
+     "max": 167
+    },
+    {
+     "changed": 13405,
+     "max": 150
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div#trophyRoomContent.trophyRoomContent",
+    "div#trophyRoomContent.trophyRoomContent"
+   ],
+   "hits": [],
+   "hiddenOldArt": [
+    "img.",
+    "img.",
+    "img.",
+    "backdrop:div#trophyRoomContent.trophyRoomContent",
+    "backdrop:div.sd-stage__layer",
+    "backdrop:div.sd-stage",
+    "backdrop:section#trophyRoom.screen",
+    "backdrop:main.",
+    "backdrop:div#app.",
+    "backdrop:section.trophyShelf"
+   ],
+   "notes": [
+    "<div class=\"heroSpotlight\"> filter blur(3px)"
+   ]
+  },
+  "360x640": {
+   "ok": true,
+   "plateRect": [
+    0,
+    0,
+    360,
+    640
+   ],
+   "pixelsOverFace": [
+    {
+     "changed": 10048,
+     "max": 171
+    },
+    {
+     "changed": 12449,
+     "max": 158
+    }
+   ],
+   "hitAtZoneCentre": [
+    "div#trophyRoomContent.trophyRoomContent",
+    "div#trophyRoomContent.trophyRoomContent"
+   ],
+   "hits": [],
+   "hiddenOldArt": [
+    "img.",
+    "img.",
+    "img.",
+    "backdrop:div#trophyRoomContent.trophyRoomContent",
+    "backdrop:div.sd-stage__layer",
+    "backdrop:div.sd-stage",
+    "backdrop:section#trophyRoom.screen",
+    "backdrop:main.",
+    "backdrop:div#app.",
+    "backdrop:section.trophyShelf"
+   ],
+   "notes": [
+    "<div class=\"heroSpotlight\"> filter blur(3px)"
+   ]
+  }
+ }
+}

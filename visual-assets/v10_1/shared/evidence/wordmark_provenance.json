@@ -1,0 +1,50 @@
+[
+  {
+    "file": "visual-assets/v10_1/shared/evidence/trophy_room_wordmark.webp",
+    "source": "project-documents/factory/mockups/MOCKUP_TROPHY_ROOM.png",
+    "source_sha256": "d79de43a49cfbec7ba4f0e2bd3e4ea4b88bdcfe690b0c3ba69288e738ec9bdee",
+    "crop": [
+      580,
+      130,
+      1115,
+      224
+    ],
+    "local_alpha_bbox": [
+      13,
+      6,
+      493,
+      94
+    ],
+    "size": [
+      480,
+      88
+    ],
+    "bytes": 13454,
+    "sha256": "4cb8bb5e80e191340c6f94534c23e4c5ab442009c5bb172c53414a3751f25806",
+    "method": "Deterministic gold-pixel extraction from decorative title crop; dark stadium excluded by chroma and connected components. No generation, live data, logos or trophy art."
+  },
+  {
+    "file": "visual-assets/v10_1/shared/evidence/season_results_wordmark.webp",
+    "source": "project-documents/factory/mockups/MOCKUP_SEASON_RESULTS.jpg",
+    "source_sha256": "63f5af303e8c526bdddea7643c99767a48803d95745d9d9c13cafe2985f1fe47",
+    "crop": [
+      455,
+      140,
+      1080,
+      254
+    ],
+    "local_alpha_bbox": [
+      5,
+      2,
+      603,
+      110
+    ],
+    "size": [
+      598,
+      108
+    ],
+    "bytes": 18134,
+    "sha256": "bb59c320c0c3c78a45b8165cdd34ef3dcf6c9700b0d66ae5f01e07f088a8b2b5",
+    "method": "Deterministic gold-pixel extraction from decorative title crop; dark stadium excluded by chroma and connected components. No generation, live data, logos or trophy art."
+  }
+]

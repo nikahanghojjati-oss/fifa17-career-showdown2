@@ -1,0 +1,110 @@
+{
+ "version": "PLATEMAP_LEAGUE_V1",
+ "units": "1X plate px (= goal px)",
+ "plate_1x_size": [
+  1536,
+  864
+ ],
+ "plate_2x_size": [
+  3072,
+  1728
+ ],
+ "remove_rects": [
+  [
+   0,
+   22,
+   888,
+   78
+  ],
+  [
+   1192,
+   22,
+   1398,
+   78
+  ],
+  [
+   1400,
+   6,
+   1528,
+   78
+  ],
+  [
+   470,
+   88,
+   1062,
+   246
+  ],
+  [
+   36,
+   642,
+   290,
+   774
+  ],
+  [
+   1248,
+   642,
+   1502,
+   774
+  ],
+  [
+   498,
+   740,
+   1014,
+   808
+  ],
+  [
+   0,
+   812,
+   1536,
+   864
+  ]
+ ],
+ "remove_circles_cx_cy_r": [
+  [
+   762,
+   496,
+   250
+  ]
+ ],
+ "keep_rects": [
+  [
+   440,
+   425,
+   560,
+   480
+  ]
+ ],
+ "protected_boxes": {
+  "face_daniel": [
+   205,
+   95,
+   430,
+   340
+  ],
+  "face_nik": [
+   1080,
+   100,
+   1270,
+   360
+  ],
+  "hand_daniel": [
+   330,
+   410,
+   560,
+   500
+  ],
+  "hand_nik": [
+   1175,
+   290,
+   1295,
+   410
+  ]
+ },
+ "sha256": {
+  "ENV_LEAGUE_PLATE_V1_1X.png": "50b33f7fba1f0836edf88d513cd5cc38429c24bfc814ed9dbe42474f77065163",
+  "ENV_LEAGUE_PLATE_V1_1X.webp": "d9fd67a604ed9e2a1e9dd202826c664aed22061fa53b127a6a6b8cd50060fae9",
+  "ENV_LEAGUE_PLATE_V1_2X.png": "25a71a8ad91ba27a3a6127e23f0eda4c628fccf75f7e906817f0f3710e66581f",
+  "ENV_LEAGUE_PLATE_V1_2X.webp": "fcb07fa4c01b07ef86b238d07d7584e476ba3e780bb76ac561cb0167661057b4"
+ },
+ "source_zones": "visual-assets/goals/handoffs/HLC_PLATE_ZONES_V1.json@claude-cloud/hlc-goals"
+}

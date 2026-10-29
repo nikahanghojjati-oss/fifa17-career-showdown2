@@ -1,0 +1,620 @@
+/* =====================================================================================================
+   r78 "look and feel" · HO-029 · ONE black-and-gold marble treatment for errors, notes, dialogs and toasts
+   (Team V kit, Team G wires it and keeps every word and every recovery button)
+
+   Needs: r78-type.css loaded first (tokens --r78-*), visual-assets/v10_1/shared/showdown-tokens.css (--sd-*).
+   Place this file, r78-type.css and r78-marble-tile.webp together in css/ (the tile url below is relative).
+   Load after every existing sheet (app.css, v10Shell.css, v10Setup.css, remoteJoining.css, season.css,
+   saveLibrary.css, restore.css, analytics.css, navbar.css, season-results/app.css).
+
+   Rules Nik set (HO-027): opaque panels only (no see-through, no blur), no dimming, no grey/dark scrim over a
+   screen. A dialog sits over the UNCHANGED screen; only a tight outline/shadow separates it.
+   Static CSS: no animation, no transition is added here.
+
+   "r78 weight prefix" :root:not(#r78):not(#r78) adds two id-levels of specificity, so the override blocks in
+   section 6 beat the old f17 rules and the v10 dark layers without !important (!important is used only where an
+   older rule already uses it).
+   ===================================================================================================== */
+
+
+/* ---------- 1 · The marble panel ------------------------------------------------------------------------------
+   Opaque near-black marble (tile cropped from the approved ENV_RULE_BOOK_PHONE_V2 floor, darkened), 1px gold edge,
+   a thin gold hairline 3px inside, corner radius = --sd-radius (3px). */
+.r78-panel {
+  position: relative;
+  box-sizing: border-box;
+  color: var(--r78-ivory);
+  background: var(--r78-panel) url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  border: 1px solid var(--r78-gold-edge);
+  border-radius: var(--sd-radius, 3px);
+  box-shadow: inset 0 0 0 3px rgba(17, 15, 12, .9), inset 0 0 0 4px rgba(242, 196, 91, .3);
+  font: var(--r78-weight-body) var(--r78-size-body)/var(--r78-line) var(--r78-font-body);
+}
+/* floating panels (modal, toast): a solid black outline + tight drop shadow separate them from a busy plate.
+   It shades only a few px around the panel; the screen behind is never dimmed. */
+.r78-panel--float {
+  box-shadow:
+    inset 0 0 0 3px rgba(17, 15, 12, .9), inset 0 0 0 4px rgba(242, 196, 91, .3),
+    0 0 0 1px #000, 0 10px 24px rgba(0, 0, 0, .55);
+}
+
+
+/* ---------- 2 · Buttons -----------------------------------------------------------------------------------------
+   Primary = polished gold (--sd-gold-metal). Secondary = gold outline. Destructive confirm = gold outline with a
+   red label (never a red flood). 44px tall minimum, 48px on phones. */
+.r78-btn {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 120px;
+  min-height: 44px;
+  margin: 0;
+  padding: 10px 22px;
+  border: 1px solid var(--r78-gold);
+  border-radius: var(--sd-radius, 3px);
+  background: transparent;
+  color: var(--r78-gold-strong);
+  font: 700 var(--r78-size-button)/1.1 var(--r78-font-label);
+  letter-spacing: var(--r78-tracking-label);
+  text-transform: uppercase;
+  text-align: center;
+  cursor: pointer;
+}
+.r78-btn--primary {
+  color: var(--sd-text-on-gold, #07080a);
+  background: var(--sd-gold-metal, linear-gradient(180deg, #fff3b0 0%, #ffd34d 35%, #d4a017 70%, #8a6a12 100%));
+  border-color: #f5d77a;
+  box-shadow: inset 0 1px 0 rgba(255, 248, 214, .8), inset 0 -2px 0 rgba(138, 106, 18, .6);
+  text-shadow: 0 1px 0 rgba(255, 241, 184, .45);
+}
+.r78-btn--secondary {
+  color: var(--r78-gold-strong);
+  background: transparent;
+}
+.r78-btn--danger {
+  color: var(--r78-error);
+  border-color: var(--r78-gold);
+  background: transparent;
+}
+.r78-btn:hover:not(:disabled) { filter: brightness(1.08); }
+.r78-btn--secondary:hover:not(:disabled),
+.r78-btn--danger:hover:not(:disabled) { background: rgba(242, 196, 91, .1); filter: none; }
+.r78-btn:focus-visible { outline: 2px solid #fff3bd; outline-offset: 2px; }
+.r78-btn:disabled { cursor: not-allowed; opacity: .55; }
+@media (max-width: 760px) { .r78-btn { min-height: 48px; } }
+
+/* a 44x44 close "x" button for panels and toasts */
+.r78-close {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--sd-radius, 3px);
+  background: transparent;
+  color: var(--r78-gold);
+  font: 400 26px/1 var(--r78-font-body);
+  cursor: pointer;
+}
+.r78-close:hover { border-color: rgba(242, 196, 91, .45); }
+.r78-close:focus-visible { outline: 2px solid #fff3bd; outline-offset: 0; }
+
+
+/* ---------- 3 · Full-screen error state (.r78-error-screen) ---------------------------------------------------
+   The screen IS the approved marble room (no scrim, plate shown as approved) with one centred marble panel.
+   Markup:
+     <div class="r78-error-screen r78-error-screen--plate" role="dialog" aria-modal="true" aria-labelledby="t">
+       <section class="r78-panel r78-error-screen__panel">
+         <button class="r78-close r78-error-screen__close" aria-label="...">×</button>
+         <span class="r78-glyph" aria-hidden="true"></span>            (optional)
+         <p class="r78-error-screen__eyebrow">CAREER MODE SHOWDOWN</p>
+         <h2 class="r78-error-screen__title" id="t">CONNECTION REQUIRED</h2>
+         <p class="r78-error-screen__body">Connection required. Reconnect to continue.</p>
+         <div class="r78-error-screen__actions"><button class="r78-btn r78-btn--primary">TRY AGAIN</button></div>
+       </section>
+     </div>                                                                                                    */
+.r78-error-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  overflow-y: auto;
+  background: #07080a;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+/* the approved System/Settings marble room as the screen (paths for this file in css/) */
+.r78-error-screen--plate {
+  background: #07080a image-set(url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp") 2x) center / cover no-repeat;
+}
+@media (max-width: 760px) and (orientation: portrait) {
+  /* main ships ENV_SYS_PHONE_V1 today; swap to plates-v2/ENV_SETTINGS_PHONE_V2.webp when the phone V2 plates land */
+  .r78-error-screen--plate { background-image: url("../visual-assets/v10_1/shared/plates/ENV_SYS_PHONE_V1.webp"); }
+}
+.r78-error-screen__panel {
+  width: min(560px, 100%);
+  padding: 36px 32px 30px;
+  text-align: center;
+}
+.r78-error-screen__close { position: absolute; top: 6px; right: 6px; }
+.r78-error-screen__eyebrow {
+  margin: 0 0 8px;
+  color: var(--r78-gold);
+  font: var(--r78-weight-label) var(--r78-size-label)/var(--r78-line-label) var(--r78-font-label);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+/* title keeps the game's brush title face (as the current identity gate does); only size/colour are set */
+.r78-error-screen__title {
+  margin: 0 0 12px;
+  color: var(--sd-gold-300, #ffd34d);
+  font: 400 clamp(30px, 8vw, 40px)/1.1 var(--sd-font-title, "Kaushan Script", cursive);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, .6);
+}
+.r78-error-screen__body {
+  max-width: 46ch;
+  margin: 0 auto 24px;
+  color: var(--r78-ivory);
+  font: var(--r78-weight-body) var(--r78-size-body)/var(--r78-line) var(--r78-font-body);
+}
+.r78-error-screen__body + .r78-error-screen__body { margin-top: calc(-24px + var(--r78-para-gap)); }
+.r78-error-screen__actions {
+  display: grid;
+  gap: 12px;
+  width: min(340px, 100%);
+  margin: 0 auto;
+}
+.r78-error-screen__actions--two { width: 100%; grid-template-columns: 1fr 1fr; }
+@media (max-width: 420px) { .r78-error-screen__actions--two { grid-template-columns: 1fr; } }
+.r78-error-screen__actions .r78-btn { width: 100%; }
+/* small decorative "!" ring above the eyebrow */
+.r78-glyph {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 12px;
+  border: 1px solid var(--r78-gold);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 3px rgba(17, 15, 12, .9), inset 0 0 0 4px rgba(242, 196, 91, .3);
+}
+.r78-glyph::before {
+  content: "!";
+  color: var(--r78-error);
+  font: 700 20px/1 var(--r78-font-label);
+}
+
+
+/* ---------- 4 · Inline note (.r78-note --error / --warn / --info / --success) ---------------------------------
+   Markup: <p class="r78-note r78-note--error" role="alert"><span class="r78-note__label">…</span>
+             <span class="r78-note__text">…</span></p>   (label optional; wording stays Team G's)
+   Tone shows three ways: the left bar, the small diamond, and the label colour. Body text stays ivory. */
+.r78-note {
+  --r78-tone: var(--r78-gold);
+  --r78-tone-edge: var(--r78-gold-edge);
+  position: relative;
+  box-sizing: border-box;
+  display: block;
+  max-width: calc(var(--r78-measure) + 48px);
+  margin: 0;
+  padding: 12px 16px 12px 36px;
+  color: var(--r78-ivory);
+  background: var(--r78-panel) url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  border: 1px solid rgba(212, 160, 23, .55);
+  border-left: 4px solid var(--r78-tone-edge);
+  border-radius: var(--sd-radius, 3px);
+  font: var(--r78-weight-body) var(--r78-size-secondary)/var(--r78-line-secondary) var(--r78-font-body);
+  text-align: left;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.r78-note::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: calc(12px + .75em - 4px);
+  width: 8px;
+  height: 8px;
+  background: var(--r78-tone);
+  transform: rotate(45deg);
+}
+.r78-note__label {
+  display: block;
+  margin: 0 0 2px;
+  color: var(--r78-tone);
+  font: var(--r78-weight-label) var(--r78-size-label)/1.35 var(--r78-font-label);
+  letter-spacing: var(--r78-tracking-label);
+  text-transform: uppercase;
+}
+.r78-note__text { display: block; }
+.r78-note--error   { --r78-tone: var(--r78-error);   --r78-tone-edge: var(--r78-error-edge); }
+.r78-note--warn    { --r78-tone: var(--r78-warn);    --r78-tone-edge: var(--r78-warn-edge); }
+.r78-note--info    { --r78-tone: var(--r78-ivory-2); --r78-tone-edge: var(--r78-gold-edge); }
+.r78-note--success { --r78-tone: var(--r78-success); --r78-tone-edge: var(--r78-success-edge); }
+
+
+/* ---------- 5 · Confirm modal (.r78-modal) — replaces the 13 native confirm() calls ----------------------------
+   Team G writes the async wrapper and the call-site edits; wording (title, body, button labels) stays Team G's.
+   The layer is transparent: it catches clicks so the screen behind cannot be used, but it is NOT a scrim
+   (no colour, no blur). The panel is centred over the unchanged screen.
+   Markup:
+     <div class="r78-modal" role="alertdialog" aria-modal="true" aria-labelledby="m-t" aria-describedby="m-b">
+       <section class="r78-panel r78-panel--float r78-modal__panel">
+         <p class="r78-modal__eyebrow">…</p>                         (optional)
+         <h2 class="r78-modal__title" id="m-t">…</h2>
+         <p class="r78-modal__body" id="m-b">…</p>
+         <div class="r78-modal__actions">
+           <button class="r78-btn r78-btn--secondary" data-r78-cancel>CANCEL</button>        (gets focus first)
+           <button class="r78-btn r78-btn--danger" data-r78-confirm>…</button>              (or --primary)
+         </div>
+       </section>
+     </div>
+   Esc and the cancel button resolve false; only the confirm button resolves true (same rule as the guarded
+   native confirm: no answer is never consent). */
+.r78-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  overflow-y: auto;
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.r78-modal[hidden] { display: none; }
+.r78-modal__panel {
+  width: min(500px, 100%);
+  max-height: calc(100svh - 32px);
+  overflow-y: auto;
+  padding: 28px 28px 24px;
+  text-align: left;
+}
+.r78-modal__eyebrow {
+  margin: 0 0 6px;
+  color: var(--r78-gold);
+  font: var(--r78-weight-label) var(--r78-size-label)/var(--r78-line-label) var(--r78-font-label);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+/* dialog heading: condensed gold (a panel heading, not a screen title) */
+.r78-modal__title {
+  margin: 0 0 12px;
+  padding: 0 0 12px;
+  border-bottom: 1px solid rgba(242, 196, 91, .35);
+  color: var(--r78-gold-strong);
+  font: var(--r78-weight-heading) 22px/1.15 var(--r78-font-label);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.r78-modal__body {
+  max-width: var(--r78-measure);
+  margin: 0 0 var(--r78-para-gap);
+  color: var(--r78-ivory);
+  font: var(--r78-weight-body) var(--r78-size-body)/var(--r78-line) var(--r78-font-body);
+}
+.r78-modal__body:last-of-type { margin-bottom: 24px; }
+.r78-modal__body--secondary { color: var(--r78-ivory-2); font-size: var(--r78-size-secondary); line-height: var(--r78-line-secondary); }
+.r78-modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+}
+@media (max-width: 480px) {
+  .r78-modal__panel { padding: 22px 18px 18px; }
+  .r78-modal__actions { flex-direction: column-reverse; }
+  .r78-modal__actions .r78-btn { width: 100%; }
+}
+
+
+/* ---------- 6 · Toasts ---------------------------------------------------------------------------------------- */
+
+/* 6a · App toast #appRuntimeNotice (js/app.js showAppNotice / reportApplicationError; ~100 call sites).
+   Classes: none = info, .error, .success. Children: span.runtimeNoticeText, button "×" (aria-label Dismiss message).
+   Position from css/app.css stays on desktop; phones lift it above the bottom navbar. Home quota note
+   ([data-home-quota], css/homeV10.css) keeps its own position. */
+:root:not(#r78):not(#r78) #appRuntimeNotice {
+  --r78-tone: var(--r78-gold);
+  align-items: center;
+  gap: 6px;
+  box-sizing: border-box;
+  max-width: min(480px, calc(100vw - 32px));
+  padding: 10px 6px 10px 16px;
+  color: var(--r78-ivory);
+  background: var(--r78-panel) url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  border: 1px solid var(--r78-gold-edge);
+  border-left: 4px solid var(--r78-gold-edge);
+  border-radius: var(--sd-radius, 3px);
+  box-shadow:
+    inset 0 0 0 3px rgba(17, 15, 12, .9), inset 0 0 0 4px rgba(242, 196, 91, .25),
+    0 0 0 1px #000, 0 10px 24px rgba(0, 0, 0, .55);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  font: var(--r78-weight-body) var(--r78-size-secondary)/var(--r78-line-secondary) var(--r78-font-body);
+  letter-spacing: 0;
+}
+:root:not(#r78):not(#r78) #appRuntimeNotice.error   { border-left-color: var(--r78-error-edge); }
+:root:not(#r78):not(#r78) #appRuntimeNotice.success { border-left-color: var(--r78-success-edge); }
+:root:not(#r78):not(#r78) #appRuntimeNotice .runtimeNoticeText {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 56ch;
+  color: var(--r78-ivory);
+}
+/* a small tone diamond in front of the text (decorative; no added words) */
+:root:not(#r78):not(#r78) #appRuntimeNotice::before {
+  content: "";
+  flex: 0 0 auto;
+  align-self: flex-start;
+  width: 8px;
+  height: 8px;
+  margin: calc(.75em - 4px) 6px 0 0;
+  background: var(--r78-gold);
+  transform: rotate(45deg);
+}
+:root:not(#r78):not(#r78) #appRuntimeNotice.error::before   { background: var(--r78-error); }
+:root:not(#r78):not(#r78) #appRuntimeNotice.success::before { background: var(--r78-success); }
+:root:not(#r78):not(#r78) #appRuntimeNotice button {
+  flex: 0 0 auto;
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: -6px 0 -6px auto;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--sd-radius, 3px);
+  background: transparent;
+  color: var(--r78-gold);
+  font: 400 24px/1 var(--r78-font-body);
+}
+:root:not(#r78):not(#r78) #appRuntimeNotice button:hover { border-color: rgba(242, 196, 91, .45); }
+:root:not(#r78):not(#r78) #appRuntimeNotice button:focus-visible { outline: 2px solid #fff3bd; outline-offset: 0; }
+@media (max-width: 900px) {
+  :root:not(#r78):not(#r78) #appRuntimeNotice:not([data-home-quota]) {
+    left: 12px;
+    right: 12px;
+    bottom: calc(var(--sd-nav-bottom-space, 64px) + 12px);
+    max-width: none;
+  }
+}
+
+/* 6b · Navbar lock toast .sd-nav-toast ("Finish this step first"; visual-assets/v10_1/shared/navbar). A short
+   status label: condensed, uppercase, gold, on the same opaque marble. Position/visibility logic unchanged. */
+:root:not(#r78):not(#r78) .sd-nav-toast {
+  padding: 12px 20px;
+  color: var(--sd-gold-200, #fff1b8);
+  background: var(--r78-panel) url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  border: 1px solid var(--r78-gold-edge);
+  border-radius: var(--sd-radius, 3px);
+  box-shadow:
+    inset 0 0 0 3px rgba(17, 15, 12, .9), inset 0 0 0 4px rgba(242, 196, 91, .25),
+    0 0 0 1px #000, 0 10px 24px rgba(0, 0, 0, .55);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  font: 700 14px/1.2 var(--r78-font-label);
+  letter-spacing: var(--r78-tracking-label);
+  text-transform: uppercase;
+}
+
+
+/* =====================================================================================================
+   7 · OLD PALE SURFACES → the new look (audit project-documents/leads-relay/attachments/HO-029/ERROR_POPUP_SURFACES.md)
+   Looks only: no element is added, moved or reworded. Layout (width, margins, grid) stays as each sheet has it.
+   ===================================================================================================== */
+
+/* 7a · Shared marble face for every mapped box (opaque, gold edge, inner hairline). */
+:root:not(#r78):not(#r78) :is(
+  .formError:not(:empty), .seasonReviewError:not(:empty), .seasonReviewWarning, .sharedSeasonCommitStatus,
+  .sharedMultiSeasonProgressionStatus, .seasonEntryHint,
+  .saveLibraryEmptyState, .saveLibraryCompatibilityState, .saveLibraryBlockedState, .saveLibraryIdentityUnavailable,
+  .careerRestorePlan, .careerRestoreConflicts, .careerRestoreRecovery,
+  .remoteJoiningStatus, .analyticsEmpty, .analyticsIdentityNotice,
+  .legacyEmpty, .legacyImportMessages.errors, .legacyImportMessages.warnings) {
+  color: var(--r78-ivory);
+  background: var(--r78-panel) url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  border: 1px solid rgba(212, 160, 23, .55);
+  border-left: 4px solid var(--r78-gold-edge);
+  border-radius: var(--sd-radius, 3px);
+  box-shadow: inset 0 0 0 2px rgba(17, 15, 12, .9), inset 0 0 0 3px rgba(242, 196, 91, .2);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* 7b · Tone per surface: left bar colour (+ text colour where the surface is only a message). */
+/* errors */
+:root:not(#r78):not(#r78) :is(.formError:not(:empty), .seasonReviewError:not(:empty), .saveLibraryBlockedState,
+  .careerRestorePlan.blocked, .careerRestoreRecovery.critical, .legacyImportMessages.errors) {
+  border-left-color: var(--r78-error-edge);
+}
+:root:not(#r78):not(#r78) :is(.formError, .seasonReviewError) { color: var(--r78-error); }
+/* warnings */
+:root:not(#r78):not(#r78) :is(.seasonReviewWarning, .sharedSeasonCommitStatus, .sharedMultiSeasonProgressionStatus,
+  .saveLibraryCompatibilityState, .careerRestoreConflicts, .careerRestoreRecovery:not(.critical), .legacyImportMessages.warnings) {
+  border-left-color: var(--r78-warn-edge);
+}
+/* success */
+:root:not(#r78):not(#r78) .careerRestorePlan.ready { border-left-color: var(--r78-success-edge); }
+/* info keeps the gold bar from 7a: .seasonEntryHint, .saveLibraryEmptyState, .saveLibraryIdentityUnavailable,
+   .careerRestorePlan (no state), .remoteJoiningStatus, .analyticsEmpty, .analyticsIdentityNotice, .legacyEmpty */
+
+/* 7c · Text inside the mapped boxes: ivory body, secondary helper lines, gold condensed headings.
+   (v10Shell.css colours the Legacy tools text with !important, so these do too.) */
+:root:not(#r78):not(#r78) :is(.saveLibraryEmptyState, .saveLibraryCompatibilityState, .saveLibraryBlockedState) > strong,
+:root:not(#r78):not(#r78) :is(.careerRestorePlan strong, .careerRestoreConflicts > strong, .careerRestoreRecovery strong) {
+  color: var(--r78-gold) !important;
+}
+:root:not(#r78):not(#r78) .saveLibraryBlockedState > strong,
+:root:not(#r78):not(#r78) .careerRestorePlan.blocked strong,
+:root:not(#r78):not(#r78) .careerRestoreRecovery.critical strong { color: var(--r78-error) !important; }
+:root:not(#r78):not(#r78) .careerRestorePlan.ready strong { color: var(--r78-success) !important; }
+:root:not(#r78):not(#r78) :is(.saveLibraryEmptyState p, .saveLibraryCompatibilityState p, .saveLibraryBlockedState p,
+  .saveLibraryEmptyCopy, .saveLibraryIdentityUnavailable, .careerRestorePlan span, .careerRestoreRecovery span,
+  .careerRestoreConflict p, .analyticsEmpty, .analyticsIdentityNotice, .seasonEntryHint, .legacyEmpty,
+  .remoteJoiningStatus) {
+  color: var(--r78-ivory) !important;
+}
+:root:not(#r78):not(#r78) :is(.careerRestoreIntro, .careerRestoreStatus, .legacyDataStatus, .legacyImportStatus,
+  .legacyImportFileState) {
+  color: var(--r78-ivory-2) !important;
+}
+/* Season review status lines are short uppercase statuses ("NOT PUBLISHED YET"): condensed label type, ivory. */
+:root:not(#r78):not(#r78) :is(.seasonReviewWarning, .sharedSeasonCommitStatus, .sharedMultiSeasonProgressionStatus) {
+  color: var(--r78-ivory);
+  font: var(--r78-weight-label) 14px/1.35 var(--r78-font-label);
+  letter-spacing: .06em;
+}
+
+/* 7d · Start / Join overlays (.remoteJoiningOverlay > .remoteJoiningShell). Four instances:
+   #sparkRemoteJoiningOverlay, #productionSharedJourneyEntryOverlay (both already gold in v10Setup.css),
+   #productionSharedCareerStartOverlay (Shared Career Start) and #productionSharedSetupOverlay (Shared Showdown Setup),
+   which were still pale. All four: no scrim, no blur; the shell becomes the marble panel. */
+:root:not(#r78):not(#r78) .remoteJoiningOverlay {
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+:root:not(#r78):not(#r78) .remoteJoiningShell {
+  color: var(--r78-ivory);
+  background: var(--r78-panel) url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  border: 1px solid var(--r78-gold-edge);
+  border-top: 1px solid var(--r78-gold-edge);
+  border-radius: var(--sd-radius, 3px);
+  box-shadow:
+    inset 0 0 0 3px rgba(17, 15, 12, .9), inset 0 0 0 4px rgba(242, 196, 91, .3),
+    0 0 0 1px #000, 0 10px 24px rgba(0, 0, 0, .55);
+}
+:root:not(#r78):not(#r78) .remoteJoiningHeader {
+  color: var(--r78-gold);
+  background: transparent;
+  border-bottom: 1px solid rgba(242, 196, 91, .35);
+  font-family: var(--r78-font-label);
+  letter-spacing: .16em;
+}
+:root:not(#r78):not(#r78) .remoteJoiningDismiss {
+  width: 44px;
+  height: 44px;
+  color: var(--r78-gold);
+  background: transparent;
+  border: 1px solid rgba(242, 196, 91, .4);
+  border-radius: var(--sd-radius, 3px);
+}
+:root:not(#r78):not(#r78) .remoteJoiningDismiss:focus-visible { outline: 2px solid #fff3bd; outline-offset: 2px; }
+:root:not(#r78):not(#r78) :is(.remoteJoiningEyebrow, .remoteJoiningStep) { color: var(--r78-gold); }
+/* the overlay h2 keeps its font; only its ink changes from dark slate to gold on the dark panel */
+:root:not(#r78):not(#r78) :is(#productionSharedCareerStartOverlay, #productionSharedSetupOverlay) h2 { color: var(--sd-gold-300, #ffd34d); }
+:root:not(#r78):not(#r78) .remoteJoiningIntro { border-bottom-color: rgba(242, 196, 91, .3); }
+:root:not(#r78):not(#r78) :is(.remoteJoiningIntro p, .remoteJoiningCard p, .remoteJoiningBody > p) { color: var(--r78-ivory); }
+:root:not(#r78):not(#r78) :is(.remoteJoiningMeta, .remoteJoiningEmpty) { color: var(--r78-ivory-2); }
+:root:not(#r78):not(#r78) .remoteJoiningCard {
+  color: var(--r78-ivory);
+  background: rgba(7, 8, 10, .6);
+  border: 1px solid rgba(242, 196, 91, .3);
+  border-top: 2px solid var(--r78-gold-edge);
+  box-shadow: none;
+}
+:root:not(#r78):not(#r78) .remoteJoiningCurrent {
+  color: var(--r78-ivory);
+  background: #07080a;
+  border: 1px solid rgba(242, 196, 91, .3);
+  border-left: 4px solid var(--r78-gold-edge);
+}
+:root:not(#r78):not(#r78) .remoteJoiningState { color: var(--r78-gold-strong); }
+:root:not(#r78):not(#r78) .remoteJoiningCode {
+  color: var(--sd-gold-200, #fff1b8);
+  background: #07080a;
+  border: 1px solid rgba(242, 196, 91, .35);
+  font-size: 14px;
+}
+:root:not(#r78):not(#r78) .remoteJoiningInput {
+  color: var(--r78-ivory);
+  background: #07080a;
+  border: 1px solid var(--r78-gold-edge);
+  font-size: 16px;
+}
+/* buttons in the two formerly pale overlays: gold outline. Team G adds .r78-btn--primary to the one main action. */
+:root:not(#r78):not(#r78) :is(#productionSharedCareerStartOverlay, #productionSharedSetupOverlay) :is(.compactButton, .menuButton):not(.r78-btn--primary) {
+  min-height: 44px;
+  color: var(--r78-gold-strong);
+  background: transparent;
+  border: 1px solid var(--r78-gold);
+  border-radius: var(--sd-radius, 3px);
+  font-family: var(--r78-font-label);
+  letter-spacing: var(--r78-tracking-label);
+}
+
+/* 7e · Online identity gate #onlinePlayerIdentityOverlay (js/onlinePlayerIdentity.js; all looks are inline styles
+   today). Target: full-screen error state = the marble room + one centred marble panel, same as .r78-error-screen.
+   Team G: in ensureOnlineIdentityOverlay() add class "r78-error-screen r78-error-screen--plate" and DELETE the
+   inline background:"rgba(3,8,15,.92)" and backdropFilter:"blur(10px)" (keep position/inset/zIndex/display/
+   placeItems/padding or drop them all: the class sets the same). In renderOnlineIdentityOverlay() add class
+   "r78-panel r78-error-screen__panel" to the <section> and DELETE its inline background:"#111820",
+   border:"1px solid rgba(255,255,255,.18)" and padding:"28px" (keep width/position); give the dismiss button class
+   "r78-close r78-error-screen__close" and DELETE its inline position/top/right/font/fontSize/background/border/color;
+   classes on the copy: eyebrow p -> "r78-error-screen__eyebrow", h2 -> "r78-error-screen__title",
+   copy p -> "r78-error-screen__body"; buttons: add "r78-btn r78-btn--primary" (TRY AGAIN, SIGN IN WITH GOOGLE) or
+   "r78-btn r78-btn--secondary" (DANIEL · PLAYER ONE / NIK · PLAYER TWO); wrap them in a div
+   "r78-error-screen__actions" (two-button row: add "r78-error-screen__actions--two" and delete the inline grid).
+   Also remove the old #onlinePlayerIdentityOverlay block in css/v10Shell.css (lines ~110-135) once this is wired.
+   Until then, these rules already override the inline look without JS changes (inline styles need !important): */
+:root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay {
+  background: #07080a image-set(url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp") 2x) center / cover no-repeat !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+@media (max-width: 760px) and (orientation: portrait) {
+  :root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay { background-image: url("../visual-assets/v10_1/shared/plates/ENV_SYS_PHONE_V1.webp") !important; }
+}
+:root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay > section {
+  box-sizing: border-box;
+  padding: 36px 32px 30px !important;
+  color: var(--r78-ivory);
+  background: var(--r78-panel) url("r78-marble-tile.webp") 0 0 / 256px 256px repeat !important;
+  border: 1px solid var(--r78-gold-edge) !important;
+  border-radius: var(--sd-radius, 3px);
+  box-shadow: inset 0 0 0 3px rgba(17, 15, 12, .9), inset 0 0 0 4px rgba(242, 196, 91, .3);
+  font: var(--r78-weight-body) var(--r78-size-body)/var(--r78-line) var(--r78-font-body);
+  text-align: center;
+}
+:root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay > section > p:first-of-type {
+  margin: 0 0 8px;
+  color: var(--r78-gold);
+  font: var(--r78-weight-label) var(--r78-size-label)/var(--r78-line-label) var(--r78-font-label);
+  letter-spacing: .16em;
+}
+:root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay > section > p:not(:first-of-type) {
+  max-width: 46ch;
+  margin: 0 auto 24px;
+  color: var(--r78-ivory);
+  font: var(--r78-weight-body) var(--r78-size-body)/var(--r78-line) var(--r78-font-body);
+}
+:root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay .menuButton {
+  width: min(340px, 100%);
+  min-height: 48px;
+  margin: 0 auto;
+  color: var(--sd-text-on-gold, #07080a);
+  background: var(--sd-gold-metal);
+  border: 1px solid #f5d77a;
+  border-radius: var(--sd-radius, 3px);
+  clip-path: none;
+  box-shadow: inset 0 1px 0 rgba(255, 248, 214, .8), inset 0 -2px 0 rgba(138, 106, 18, .6);
+  font: 700 var(--r78-size-button)/1.1 var(--r78-font-label);
+  letter-spacing: var(--r78-tracking-label);
+}
+:root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay button[aria-label="Close sign-in"] {
+  width: 44px !important;
+  height: 44px !important;
+  top: 6px !important;
+  right: 6px !important;
+  color: var(--r78-gold) !important;
+}

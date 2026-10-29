@@ -1,0 +1,55 @@
+{
+  "job": 67,
+  "frames": [
+    "RV1",
+    "RV2",
+    "RV3",
+    "RV4",
+    "RV5",
+    "RV6",
+    "RV7"
+  ],
+  "desktopViewports": [
+    "1366x768",
+    "1440x900",
+    "1920x1080",
+    "1366x640"
+  ],
+  "browser": {
+    "combinations": 28,
+    "scrollFailures": 0,
+    "managerOrderFailures": 0,
+    "consoleErrors": 0
+  },
+  "mockup": {
+    "mode": "no-plate connector-local gate",
+    "ssim": 0.635,
+    "dE_mean": 7,
+    "boxes": {
+      "face_daniel": 0.945,
+      "face_nik": 0.953,
+      "hand_daniel": 0.948,
+      "hand_nik": 0.811
+    },
+    "PASS": true
+  },
+  "hardGates": {
+    "H1": "PASS",
+    "H2": "PASS",
+    "H3": "PASS",
+    "H4": "PASS",
+    "H6": "PASS",
+    "H8": "PASS",
+    "H9": "PASS"
+  },
+  "scorecard": {
+    "c1": 4,
+    "c2": 4,
+    "c3": 4,
+    "c4": 4,
+    "c5": 4,
+    "c6": 4,
+    "c7": 5,
+    "c10": 4
+  }
+}

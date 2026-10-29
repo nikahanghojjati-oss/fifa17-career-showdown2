@@ -1,0 +1,210 @@
+{
+  "_note": "All coordinates are plate pixels on ENV_TR2_PLATE_G_LOCKED_V1_1672 (1672x941). The renderer multiplies by k = worldWidth/1672. Measured 2026-09-28 by Claude from grid crops (evidence/E3_plate_measure.png).",
+  "plate": {
+    "w": 1672,
+    "h": 941,
+    "files": {
+      "1672": "assets/ENV_TR2_PLATE_G_LOCKED_V1_1672",
+      "3344": "assets/ENV_TR2_PLATE_G_LOCKED_V1_3344"
+    },
+    "sha256": {
+      "ENV_TR2_PLATE_G_EDIT_V1.png (owner-approved likeness source)": "f2080706c2b9f9769b24c2947675c81961a8eba93303ffbb5f363ae8c0c891cc",
+      "ENV_TR2_PLATE_G_LOCKED_V1_1672.png": "6f7d3d9cefe8c074b954b7fdf0e121cbaf812a90a33698f9d3f6adb4797fa10b",
+      "ENV_TR2_PLATE_G_LOCKED_V1_3344.png": "c49ea5a4177c71baa5dfb278b50648746267b218f693e522a9f4588652f06656"
+    }
+  },
+  "signScreen": {
+    "cx": 866,
+    "cy": 126,
+    "w": 184,
+    "h": 66,
+    "boardAngleDeg": 7.5,
+    "rotateLiveText": true,
+    "_note": "TWG-S7: read-only sign content is rotated to the board (rotation about cx,cy). Form text never rotates."
+  },
+  "panels": {
+    "A": {
+      "owner": "playerTwo",
+      "frame": [
+        842,
+        580,
+        1232,
+        786
+      ],
+      "title": [
+        922,
+        589,
+        1218,
+        617
+      ],
+      "content": [
+        858,
+        626,
+        1220,
+        777
+      ],
+      "angleDeg": 0,
+      "signingContent": [
+        858,
+        619,
+        1220,
+        782
+      ],
+      "verdictContent": [
+        858,
+        622,
+        1220,
+        780
+      ],
+      "_note_f3f4": "F3/F4 (2026-09-30): signingContent / verdictContent use the painted glass between the title strip's bottom line (~618) and the inner frame line (~783) so three 31 px rows + LOCK fit at 1366 (TWG-S6). Measured on evidence/F1_1366x768_grid.jpg."
+    },
+    "B": {
+      "owner": "playerOne",
+      "frame": [
+        296,
+        520,
+        700,
+        772
+      ],
+      "title": [
+        380,
+        537,
+        684,
+        557
+      ],
+      "content": [
+        312,
+        578,
+        686,
+        744
+      ],
+      "angleDeg": 2.1,
+      "verdictContent": [
+        312,
+        572,
+        686,
+        748
+      ]
+    },
+    "C": {
+      "role": "rules card (shared)",
+      "frame": [
+        1296,
+        552,
+        1512,
+        708
+      ],
+      "title": [
+        1368,
+        561,
+        1500,
+        582
+      ],
+      "content": [
+        1310,
+        587,
+        1500,
+        696
+      ],
+      "angleDeg": 0,
+      "_note": "content widened into the painted title-strip gap (587) and the frame's lower band (696) on 2026-09-28 for the F1 rules line + note; still inside the inner frame line."
+    }
+  },
+  "paintedNames": {
+    "playerOne": {
+      "script": [
+        130,
+        280,
+        232,
+        322
+      ],
+      "chipAnchorRight": [
+        124,
+        302
+      ]
+    },
+    "playerTwo": {
+      "script": [
+        1310,
+        145,
+        1380,
+        205
+      ],
+      "chipAnchorLeft": [
+        1390,
+        168
+      ]
+    }
+  },
+  "keepVisible": {
+    "x": [
+      290,
+      1505
+    ],
+    "yTop": 45,
+    "panelBottom": 786,
+    "contentBottom": 777,
+    "titleTop": 22,
+    "_note": "panelBottom = painted frame bottom (A). contentBottom = lowest glass content (A). titleTop = top of the painted TRANSFER brush title (measured on the 1366x768 render)."
+  },
+  "contact": {
+    "nikFingertip": [
+      1062,
+      600
+    ],
+    "fingertipSpanX": [
+      1049,
+      1075
+    ],
+    "note": "Nik's fingertip rests on panel A's top edge; tip ends at y\u2248600"
+  },
+  "overlays": {
+    "nikFingertip": {
+      "rect": [
+        1040,
+        578,
+        1090,
+        608
+      ],
+      "files": {
+        "1672": "assets/OVL_NIK_FINGERTIP_V1_1672.png",
+        "3344": "assets/OVL_NIK_FINGERTIP_V1_3344.png"
+      },
+      "note": "Plate pixels + alpha. Sits above the live text so the finger is in front of the glass."
+    }
+  },
+  "mobile": {
+    "_note": "Phone (owner note 2026-09-28 09:56): keep both managers whole (never narrower than wholeX), never show the painted desktop panels (content fades out above y 528, where the panel tops start at ~520). Spare height becomes a dark cinematic band around the scene, not zoom.",
+    "glass": {
+      "file": "assets/DER_TR2_PLATE_G_GLASS_C_V1.png",
+      "srcRectPlate": [
+        1299,
+        552,
+        1519,
+        714
+      ],
+      "sliceSrcPx": {
+        "top": 68,
+        "right": 40,
+        "bottom": 62,
+        "left": 90
+      },
+      "borderCssPx": {
+        "top": 31,
+        "right": 18,
+        "bottom": 28,
+        "left": 40
+      }
+    },
+    "wholeX": [
+      330,
+      1390
+    ],
+    "maxCropW": 1400,
+    "sceneY": [
+      20,
+      528
+    ],
+    "fadePlate": 60
+  }
+}

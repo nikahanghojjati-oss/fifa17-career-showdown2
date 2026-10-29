@@ -1,0 +1,173 @@
+{
+ "note": "Face-safe zones per phone background, as fractions of the image (x0,y0,x1,y1), left face first (Daniel). LEAGUE refers to ENV_LEAGUE_PHONE_V5 (HO-032 V5: same managers as V4, union of the V4 zone and the YuNet face box on V5 padded 15%); STANDINGS, RIVALRY and TROPHY_ROOM refer to ENV_<KEY>_PHONE_V3 (HO-031); every other key refers to ENV_<KEY>_PHONE_V2. Moved zones: union of the V2 zone moved by the same geometric transform and the YuNet face box on the new plate padded 15% per side. Drawn with background-size:cover, centre top (as the r78 screens draw the plates): no visible game element may overlap a zone at 393x852, 393x660, 375x667 or 360x640 (the League wheel tested as a circle).",
+ "zones": {
+  "HOME": [
+   [
+    0.275,
+    0.0976,
+    0.4613,
+    0.2393
+   ],
+   [
+    0.5749,
+    0.0722,
+    0.7982,
+    0.2363
+   ]
+  ],
+  "CONNECT_PLAYERS": [
+   [
+    0.1326,
+    0.0695,
+    0.3286,
+    0.2134
+   ],
+   [
+    0.686,
+    0.0559,
+    0.9162,
+    0.227
+   ]
+  ],
+  "SEASON_RESULTS": [
+   [
+    0.2041,
+    0.0478,
+    0.3391,
+    0.1502
+   ],
+   [
+    0.6549,
+    0.047,
+    0.8041,
+    0.1621
+   ]
+  ],
+  "TRANSFER": [
+   [
+    0.2325,
+    0.1242,
+    0.379,
+    0.2379
+   ],
+   [
+    0.6636,
+    0.1333,
+    0.8485,
+    0.2694
+   ]
+  ],
+  "LEAGUE": [
+   [
+    0.0903,
+    0.1881,
+    0.2539,
+    0.3095
+   ],
+   [
+    0.7461,
+    0.186,
+    0.9089,
+    0.307
+   ]
+  ],
+  "CLUB": [
+   [
+    0.1956,
+    0.1474,
+    0.3591,
+    0.2571
+   ],
+   [
+    0.6366,
+    0.1266,
+    0.8087,
+    0.2571
+   ]
+  ],
+  "STATISTICS": [
+   [
+    0.1489,
+    0.1326,
+    0.3109,
+    0.2471
+   ],
+   [
+    0.683,
+    0.1185,
+    0.8693,
+    0.2531
+   ]
+  ],
+  "RIVALRY": [
+   [
+    0.2276,
+    0.0816,
+    0.418,
+    0.2253
+   ],
+   [
+    0.6213,
+    0.0656,
+    0.8264,
+    0.2237
+   ]
+  ],
+  "LEGACY": [
+   [
+    0.1946,
+    0.1024,
+    0.3568,
+    0.2232
+   ],
+   [
+    0.6974,
+    0.0863,
+    0.8923,
+    0.2343
+   ]
+  ],
+  "TROPHY_ROOM": [
+   [
+    0.1753,
+    0.1559,
+    0.3147,
+    0.2549
+   ],
+   [
+    0.6929,
+    0.1461,
+    0.8462,
+    0.2599
+   ]
+  ],
+  "FINAL_WINNER": [
+   [
+    0.1291,
+    0.2283,
+    0.2982,
+    0.3433
+   ],
+   [
+    0.7157,
+    0.2187,
+    0.9061,
+    0.3578
+   ]
+  ],
+  "STANDINGS": [
+   [
+    0.2107,
+    0.0839,
+    0.381,
+    0.2086
+   ],
+   [
+    0.612,
+    0.0656,
+    0.8153,
+    0.2158
+   ]
+  ]
+ }
+}

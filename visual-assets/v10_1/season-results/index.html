@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Season Results · Career Mode Showdown</title>
+<link rel="stylesheet" href="../shared/showdown-tokens.css">
+<link rel="stylesheet" href="../shared/showdown-type.css">
+<link rel="stylesheet" href="../shared/showdown-ui.css">
+<link rel="stylesheet" href="../shared/stage.css">
+<link rel="stylesheet" href="../shared/motion.css">
+<link rel="stylesheet" href="season-results.css">
+</head>
+<body>
+<div id="stage-root" class="sd-stage" data-plate-width="1536" data-plate-height="864">
+  <div class="sd-stage__layer sd-stage__layer--plate" data-sd-enter="scene" aria-hidden="true">
+    <picture class="season-phone-bg-picture">
+      <source media="(max-width: 900px)" srcset="assets/ENV_SR_PHONE_V1.webp">
+      <img class="season-phone-bg" alt="" width="393" height="660" decoding="async" fetchpriority="high">
+    </picture>
+    <div class="season-phone-scrim"></div>
+    <div class="sd-stage__registered">
+      <div class="sd-stage__plate"></div>
+      <span class="manager-area manager-area--daniel" data-manager="daniel" data-box="182 88 389 365"></span>
+      <span class="manager-area manager-area--nik" data-manager="nik" data-box="1118 88 1338 355"></span>
+    </div>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div>
+  <div class="sd-stage__layer sd-stage__layer--ui">
+    <nav class="season-topbar" aria-label="Showdown navigation">
+      <span class="season-brand">CM 17</span>
+      <div id="season-nav-tabs" class="season-nav-tabs"></div>
+      <button id="season-settings" class="season-settings" type="button" disabled aria-disabled="true" title="Finish this step first">⚙</button>
+    </nav>
+    <main id="season-results-screen" aria-labelledby="screen-title">
+      <header class="season-title-block">
+        <p class="season-eyebrow sd-label">CAREER MODE SHOWDOWN 17</p>
+        <h1 id="screen-title" class="sd-title sd-title--wordmark" data-sd-enter="title">
+          <span id="season-semantic-title" class="sd-visually-hidden">SEASON RESULTS</span>
+          <img class="season-title-wordmark" src="assets/TITLE_SR_V1.webp" alt="" aria-hidden="true" width="1232" height="182" decoding="async">
+        </h1>
+        <p class="season-tagline sd-tagline">TWO MANAGERS • ONE LEGACY</p>
+      </header>
+
+      <section class="season-layout" aria-label="Season results layout">
+        <input id="season-phone-tab-daniel" class="season-phone-tab-input" type="radio" name="season-phone-manager" aria-label="Show Daniel season result" aria-controls="daniel-entry-panel">
+        <input id="season-phone-tab-nik" class="season-phone-tab-input" type="radio" name="season-phone-manager" aria-label="Show Nik season result" aria-controls="nik-entry-panel">
+        <input id="season-phone-scoring-toggle" class="season-phone-sheet-toggle" type="checkbox" aria-label="Show season scoring rules" aria-controls="scoring-panel">
+        <div class="season-phone-toolbar" aria-label="Season result view">
+          <label class="season-phone-tab season-phone-tab--daniel" for="season-phone-tab-daniel"><span>DANIEL</span></label>
+          <label class="season-phone-tab season-phone-tab--nik" for="season-phone-tab-nik"><span>NIK</span></label>
+          <label class="season-phone-scoring-open" for="season-phone-scoring-toggle">HOW SCORING WORKS</label>
+        </div>
+        <section id="scoring-panel" data-sd-enter="panel" class="scoring-panel sd-panel" aria-labelledby="scoring-heading" aria-describedby="scoring-rules-text">
+          <label class="season-phone-sheet-close" for="season-phone-scoring-toggle" aria-label="Close scoring rules">CLOSE</label>
+          <img class="scoring-trophy" src="../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="" aria-hidden="true" decoding="async" loading="lazy">
+          <div class="scoring-copy">
+            <h2 id="scoring-heading" class="sd-label">SEASON SCORING SYSTEM</h2>
+            <p id="scoring-rules-text" class="sd-visually-hidden"></p>
+            <div class="scoring-grid" aria-hidden="true">
+              <div class="scoring-rule"><span>Champions League Winner</span><strong>+5</strong></div>
+              <div class="scoring-rule"><span>100 League Points and/or 100 League Goals</span><strong>+1</strong></div>
+              <div class="scoring-rule"><span>League Title</span><strong>+3</strong></div>
+              <div class="scoring-rule"><span>Top Scorer and/or Top Assist</span><strong>+1</strong></div>
+              <div class="scoring-rule"><span>Domestic Cup Winner</span><strong>+1</strong></div>
+              <div class="scoring-rule scoring-rule--max"><span>Maximum Season Score</span><strong>11</strong></div>
+            </div>
+          </div>
+        </section>
+        <section id="daniel-entry-panel" data-sd-enter="panel" class="entry-panel entry-panel--daniel sd-panel" data-manager="daniel" aria-label="Daniel season result"></section>
+        <section id="nik-entry-panel" data-sd-enter="panel" class="entry-panel entry-panel--nik sd-panel" data-manager="nik" aria-label="Nik season result"></section>
+        <section id="seasonReviewPanel" data-sd-enter="panel" class="season-review-panel sd-panel" aria-labelledby="seasonReviewHeading" hidden>
+          <div class="seasonReviewStatus"><span id="seasonReviewStatusMeta"></span></div>
+          <h2 id="seasonReviewHeading"></h2>
+          <p id="seasonReviewResult" class="seasonReviewResult" aria-live="polite"></p>
+          <div id="sharedCanonicalScoringPanel" class="sharedCanonicalScoringPanel" aria-live="polite" hidden>
+            <h3 id="sharedCanonicalScoringHeading"></h3>
+            <p id="sharedCanonicalScoringTotals"></p>
+            <p id="sharedCanonicalScoringBreakdown"></p>
+            <p id="sharedCanonicalScoringWinner"></p>
+          </div>
+          <p id="sharedSeasonCommitStatus" class="seasonReviewWarning sharedSeasonCommitStatus" aria-live="polite" hidden></p>
+          <p id="seasonReviewError" class="seasonReviewError" aria-live="assertive"></p>
+        </section>
+        <div class="seasonEntryActions season-action-row" role="group" aria-label="Season actions">
+          <button id="completeSeason" class="sd-btn sd-btn--primary" type="button"></button>
+          <button id="confirmSeasonCompletion" class="sd-btn sd-btn--primary" type="button" hidden></button>
+          <button id="editSeasonResults" class="sd-btn sd-btn--secondary" type="button" hidden></button>
+          <button id="sharedSeasonCommitAction" class="sd-btn sd-btn--primary" type="button" hidden></button>
+          <button class="backButton sd-btn sd-btn--secondary" type="button" data-smart-back></button>
+        </div>
+      </section>
+
+      <div class="fixture-dump" hidden>
+      <p id="frame-id" aria-live="polite"></p>
+      <section aria-labelledby="fixture-strings-heading">
+        <h2 id="fixture-strings-heading">Fixture strings</h2>
+        <div id="fixture-strings"></div>
+      </section>
+      <section aria-labelledby="frame-values-heading">
+        <h2 id="frame-values-heading">Frame values</h2>
+        <div id="frame-values"></div>
+      </section>
+      </div>
+    </main>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true">
+    <picture class="season-phone-hero-picture">
+      <source media="(max-width: 900px)" srcset="assets/OVL_SR_DANIEL_PHONE_V1.webp">
+      <img class="season-phone-hero season-phone-hero--daniel" data-sd-enter="character-left" alt="" decoding="async" fetchpriority="high">
+    </picture>
+    <picture class="season-phone-hero-picture">
+      <source media="(max-width: 900px)" srcset="assets/OVL_SR_NIK_PHONE_V1.webp">
+      <img class="season-phone-hero season-phone-hero--nik" data-sd-enter="character-right" alt="" decoding="async" fetchpriority="high">
+    </picture>
+    <picture class="season-phone-title-picture">
+      <source media="(max-width: 900px)" srcset="assets/TITLE_SR_PHONE_V1.webp">
+      <img class="season-phone-title" data-sd-enter="title" alt="" decoding="async" fetchpriority="high">
+    </picture>
+    <div class="sd-stage__registered">
+      <picture class="season-depth-picture season-depth-picture--daniel" data-sd-enter="character-left">
+        <source media="(min-width: 901px) and (min-resolution: 2dppx)" srcset="assets/OVL_SR_DANIEL_HAND_V1_2X.webp">
+        <source media="(min-width: 901px)" srcset="assets/OVL_SR_DANIEL_HAND_V1_1X.webp">
+        <img class="season-depth-overlay season-depth-overlay--daniel" alt="" width="1536" height="864" decoding="async">
+      </picture>
+      <picture class="season-depth-picture season-depth-picture--nik" data-sd-enter="character-right">
+        <source media="(min-width: 901px) and (min-resolution: 2dppx)" srcset="assets/OVL_SR_NIK_HAND_V1_2X.webp">
+        <source media="(min-width: 901px)" srcset="assets/OVL_SR_NIK_HAND_V1_1X.webp">
+        <img class="season-depth-overlay season-depth-overlay--nik" alt="" width="1536" height="864" decoding="async">
+      </picture>
+    </div>
+  </div>
+</div>
+<script src="../shared/stage.js" defer></script>
+<script src="../shared/motion.js" defer></script>
+<script src="season-results.js" defer></script>
+</body>
+</html>

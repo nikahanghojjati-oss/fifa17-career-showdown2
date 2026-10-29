@@ -1,0 +1,1169 @@
+/* HOME-V1 · Rivalry Headquarters on the Home plate. Motion pass: shared kit + Home signature moments. */
+@font-face { font-family: "Barlow Condensed"; font-weight: 600; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 700; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 400; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 600; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Kaushan Script"; font-weight: 400; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2) format("woff2"); }
+
+:root {
+  --gold: #F2C45B;
+  --gold-deep: #C99B45;
+  --gold-hi: #FFF1B8;
+  --ink: #0B0D10;
+  --cream: #E9DFC8;
+  --meta: #CFC6B4;
+  --foot: #9A8F7A;
+  --glass: rgba(10, 12, 15, .78);
+  --hair: rgba(201, 155, 69, .45);
+  --cond: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --text: "Barlow", system-ui, sans-serif;
+  --script: "Kaushan Script", cursive;
+  --hdr: 52px;
+  --ftr: 28px;
+  --tile-h: clamp(136px, 17.5vh, 158px);
+  --tile-top: 600px;      /* set by home.js */
+  --gutter: 2.4vw;
+  --home-lockup-wipe-duration: 450ms;
+  --home-lockup-wipe-ease: cubic-bezier(.22,1,.36,1);
+  --home-feedback-duration: 110ms;
+  --home-feedback-ease: cubic-bezier(.2,.8,.2,1);
+}
+html, body { margin: 0; height: 100%; background: #060709; color: var(--cream); }
+body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antialiased; }
+.stage { position: fixed; inset: 0; overflow: hidden; background: #060709; }
+.managerPlateMarker { position: absolute; z-index: 0; display: block; pointer-events: none; background: transparent; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 3px; }
+.sr-only { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+
+/* Owner change (Nik, 2026-10-01): the r43 online containment that hid #legacyButton / #careerStatisticsButton is NOT applied here;
+   Home shows the full tile set from Nik's mockup. Production still carries that style in js/onlinePlayerIdentity.js (untouched). */
+
+/* ---------- plate (cover-fit, horizontally centred, top-anchored; offsets written by plateToScreen) ---------- */
+.plateView {
+  position: absolute; inset: 0; overflow: hidden;
+  background-color: #060709; background-repeat: no-repeat;
+  background-image: image-set(url(assets/ENV_HOME_PLATE_V1_1X.webp) 1x, url(assets/ENV_HOME_PLATE_V1_2X.webp) 2x);
+}
+.plateLayer { position: absolute; inset: 0; }
+/* Seam mends: plate-registered strips over the intake zone edges. They only blur the plate under them. */
+.mend {
+  position: absolute; pointer-events: none;
+  -webkit-backdrop-filter: blur(var(--mb, 3px)); backdrop-filter: blur(var(--mb, 3px));
+}
+.mend.h { -webkit-mask-image: linear-gradient(180deg, transparent, #000 15%, #000 85%, transparent); mask-image: linear-gradient(180deg, transparent, #000 15%, #000 85%, transparent); }
+.mend.v { -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent); mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent); }
+.mend.box { -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent); mask-image: radial-gradient(closest-side, #000 72%, transparent); }
+
+/* ---------- desktop scrims (positions/stops written by home.js) ---------- */
+.scrim { position: absolute; pointer-events: none; }
+.scrimLow { -webkit-mask-image: linear-gradient(180deg, transparent, #000 48px); mask-image: linear-gradient(180deg, transparent, #000 48px); }
+.dockBed {
+  position: absolute; left: 0; right: 0; bottom: 0; top: var(--bed-top, calc(var(--tile-top) - 24px)); pointer-events: none;
+  background: linear-gradient(180deg, rgba(6,7,9,.74), rgba(6,7,9,.8) 50%, rgba(6,7,9,.88));
+  -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 10px); mask-image: linear-gradient(180deg, transparent, #000 10px);
+}
+
+/* Area mends: soft blur (+ optional darkening) over a whole intake zone where an edge step survives a thin strip. */
+.areaMend {
+  position: absolute; pointer-events: none;
+  -webkit-backdrop-filter: blur(var(--mb, 5px)) brightness(var(--mbr, 1)); backdrop-filter: blur(var(--mb, 5px)) brightness(var(--mbr, 1));
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 var(--fx, 24px), #000 calc(100% - var(--fx, 24px)), transparent), linear-gradient(180deg, transparent, #000 var(--fy, 24px), #000 calc(100% - var(--fy, 24px)), transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent, #000 var(--fx, 24px), #000 calc(100% - var(--fx, 24px)), transparent), linear-gradient(180deg, transparent, #000 var(--fy, 24px), #000 calc(100% - var(--fy, 24px)), transparent);
+  mask-composite: intersect;
+}
+/* Local scrims behind plate-backed text (G7: fix with a local scrim first). Text always sits inside the opaque part. */
+.homeLockup, .fifaMenuHeading, .scriptLine { isolation: isolate; }
+.homeLockup::before, .homeLockup::after, .fifaMenuHeading::before, .scriptLine::before {
+  content: ""; position: absolute; z-index: -1; pointer-events: none; background: rgba(6,7,9,.74);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent), linear-gradient(180deg, transparent, #000 8px, #000 calc(100% - 8px), transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent), linear-gradient(180deg, transparent, #000 8px, #000 calc(100% - 8px), transparent);
+  mask-composite: intersect;
+}
+/* one scrim per lockup line, on the lockup wrapper (kicker = first line, legacy line = last line) */
+.homeLockup::before { left: -18px; right: -18px; top: -9px; height: 37px; }
+.homeLockup::after { left: -18px; right: -18px; bottom: -9px; height: 37px; }
+.scriptLine::before { inset: -18px -16px -18px -16px; background: rgba(6,7,9,.86); border-radius: 50%;
+  -webkit-mask-image: radial-gradient(closest-side, #000 74%, transparent); mask-image: radial-gradient(closest-side, #000 74%, transparent); -webkit-mask-composite: source-over; mask-composite: add; }
+.scriptLine > span { display: block; padding: 4px 18px; }
+.fifaMenuHeading::before { inset: -14px -10px -12px calc(-1 * var(--gutter)); background: rgba(6,7,9,.72);
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 10px), transparent), linear-gradient(180deg, transparent, #000 14px, #000 calc(100% - 12px), transparent);
+  mask-image: linear-gradient(90deg, #000 calc(100% - 10px), transparent), linear-gradient(180deg, transparent, #000 14px, #000 calc(100% - 12px), transparent); }
+
+/* ---------- shared desktop top bar ---------- */
+.hdrBg {
+  position: absolute;
+  z-index: 4;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: var(--hdr);
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(6,7,9,.97), rgba(6,7,9,.84));
+  border-bottom: 1px solid rgba(201,155,69,.42);
+}
+#topHeader {
+  position: absolute;
+  z-index: 12;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: var(--hdr);
+  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
+  padding: 0 18px 0 24px;
+  background: linear-gradient(180deg, rgba(6,7,9,.96), rgba(6,7,9,.78));
+  border-bottom: 1px solid rgba(201,155,69,.42);
+}
+.topBarNav {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  min-width: 0;
+}
+.topBarTab,
+.topBarSettings {
+  position: relative;
+  min-width: 44px;
+  min-height: 44px;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: var(--cream);
+  cursor: pointer;
+  transition:
+    transform var(--home-feedback-duration) var(--home-feedback-ease),
+    opacity var(--home-feedback-duration) linear,
+    color var(--home-feedback-duration) linear;
+}
+.topBarTab {
+  padding: 0 18px;
+  font: 600 13px/1 var(--cond);
+  letter-spacing: .18em;
+}
+.topBarTab::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 0;
+  height: 2px;
+  background: var(--gold);
+  opacity: 0;
+  transition: opacity var(--home-feedback-duration) linear;
+}
+.topBarTab:hover,
+.topBarTab:focus-visible,
+.topBarTab.isActive { color: var(--gold); }
+.topBarTab.isActive::after { opacity: 1; }
+.topBarSettings {
+  margin-left: auto;
+  width: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.topBarSettings svg {
+  width: 19px;
+  height: 19px;
+  fill: currentColor;
+}
+.topBarSettings:hover,
+.topBarSettings:focus-visible { color: var(--gold); }
+.topBarTab:active,
+.topBarSettings:active { transform: translateY(1px); opacity: .88; }
+.homeRuntimeStatus { display: none !important; }
+.scriptLine {
+  position: absolute; z-index: 6; right: 30px; top: calc(var(--hdr) + 28px); pointer-events: none;
+  font: 400 18px/1.7 var(--script); color: var(--gold); transform: rotate(-8deg); transform-origin: 100% 50%;
+  text-shadow: 0 2px 10px rgba(0,0,0,.85); white-space: nowrap;
+}
+
+/* ---------- left column: lockup + heading ---------- */
+.homeLockup {
+  position: absolute;
+  z-index: 3;
+  left: 4vw;
+  top: 14.8vh;
+  width: 31vw;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.lockupKicker, .lockupLegacy {
+  margin: 0; width: max-content; font: 600 15px/1.25 var(--cond); letter-spacing: .5em; color: #E9DFC8; white-space: nowrap;
+  text-shadow: 0 1px 8px rgba(0,0,0,.9);
+}
+.lockupKicker { padding-left: .2em; }
+.lockupLegacy { align-self: center; letter-spacing: .42em; }
+.lockupWordmarkWrap {
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  filter: drop-shadow(0 6px 18px rgba(0,0,0,.55));
+  --sd-duration-title: var(--home-lockup-wipe-duration);
+  --sd-ease-out: var(--home-lockup-wipe-ease);
+}
+.lockupWordmark { display: block; width: 100%; height: auto; }
+.fifaMenuHeading {
+  position: absolute; z-index: 3; left: var(--gutter); bottom: calc(100% - var(--tile-top) + clamp(12px, 2.4vh, 22px));
+  width: var(--col-w, 34vw); max-width: var(--col-w, 34vw);
+}
+.fifaMenuEyebrow { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+.fifaMenuHeading h2 {
+  display: inline-block; margin: 0 0 8px; padding-bottom: 5px; position: relative;
+  font: 700 18px/1.1 var(--sd-font-condensed, var(--cond)); letter-spacing: .12em; color: var(--sd-gold-300, var(--gold)); text-transform: uppercase;
+}
+.fifaMenuHeading h2::after { content: ""; position: absolute; left: 0; bottom: 0; width: 28px; height: 2px; background: var(--gold); }
+.fifaMenuHeadingMeta { margin: 0; font: 400 16px/1.35 var(--sd-font-body, var(--text)); color: var(--sd-text-primary, var(--cream)); text-shadow: 0 1px 6px rgba(0,0,0,.8); }
+.fifaMenuHeadingMeta .sd-label {
+  display: block; margin-bottom: 4px; font: 700 44px/1.16 var(--sd-font-condensed, var(--cond)); color: var(--sd-text-primary, #FFFFFF); letter-spacing: .01em;
+  text-transform: uppercase; text-shadow: 0 2px 14px rgba(0,0,0,.7);
+}
+
+/* ---------- tile row (H2) ---------- */
+.fifaMenuGrid {
+  position: absolute; z-index: 4; left: var(--gutter); right: var(--gutter); top: var(--tile-top); height: var(--tile-h);
+  display: grid; grid-template-columns: minmax(0, 2fr) repeat(6, minmax(0, 1fr)); gap: 8px;
+}
+.menuTile {
+  position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 3px;
+  min-width: 0; height: 100%; box-sizing: border-box; padding: 9px 98px 9px 16px; margin: 0; text-align: left; cursor: pointer;
+  background: var(--glass); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border: 1px solid var(--sd-edge, rgba(201,155,69,.6)); border-radius: 0; color: #fff; /* shared Showdown cut-corner panel */
+  box-shadow: inset 0 2px 0 var(--gold), 0 10px 28px rgba(0,0,0,.45);
+  transition:
+    transform var(--home-feedback-duration) var(--home-feedback-ease),
+    opacity var(--home-feedback-duration) linear,
+    border-color var(--home-feedback-duration) linear;
+}
+.menuTile[data-sd-enter="panel"] {
+  --sd-duration-panel: var(--home-tile-rise-duration, 440ms);
+  --sd-ease-out: var(--home-tile-rise-ease, cubic-bezier(.22,1,.36,1));
+}
+/* Settings is the sixth secondary tile. motion.js caps panel scheduling after index 5 because
+   the soundtrack is panel 0, so add one final 60 ms visual beat here to keep the Home row strictly left-to-right. */
+.sd-motion-ready #settingsButton[data-sd-enter="panel"].sd-is-animating {
+  animation-delay: var(--home-settings-extra-delay, 60ms);
+}
+.menuTileCode { position: relative; z-index: 2; font: 600 12px/1.15 var(--cond); letter-spacing: .2em; color: var(--gold-deep); text-transform: uppercase; }
+.menuTileLabel { position: relative; z-index: 2; font: 700 20px/1.08 var(--cond); color: #fff; text-transform: uppercase; letter-spacing: .01em; max-width: 100%; text-shadow: 0 2px 10px rgba(0,0,0,.9); }
+#continueCareer .menuTileLabel { font-size: 26px; }
+.menuTileMeta { position: relative; z-index: 2; font: 400 14px/1.25 var(--text); color: var(--meta); max-width: 100%; }
+.tileArt {
+  position: absolute; right: -14px; bottom: -18px; width: 118px; height: 118px;
+  object-fit: contain; object-position: center bottom; pointer-events: none; opacity: .96;
+  filter: drop-shadow(0 10px 12px rgba(0,0,0,.62)) drop-shadow(0 0 10px rgba(242,196,91,.13));
+  transform-origin: 50% 84%;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: transform var(--home-tile-hover-duration, 110ms) var(--home-tile-hover-ease, cubic-bezier(.2,.8,.2,1));
+}
+#continueCareer { padding-right: 96px; }
+#newShowdown { padding-right: 12px; }
+.tileChevron { position: absolute; right: 12px; bottom: 11px; width: 9px; height: 15px; color: var(--gold); pointer-events: none; }
+.menuTile:not(:disabled):hover {
+  border-color: var(--sd-gold-300, var(--gold));
+  transform: translateY(-3px);
+  box-shadow: 0 14px 34px rgba(0,0,0,.58), 0 0 22px rgba(242,196,91,.28), inset 0 2px 0 var(--gold);
+}
+.menuTile:not(:disabled):hover .tileArt {
+  transform: perspective(640px) rotateY(calc(-1 * var(--home-tile-hover-tilt, 3deg))) scale(1.015);
+}
+.menuTile::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  top: -32%;
+  bottom: -32%;
+  left: -36%;
+  width: 24%;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(100deg, transparent 0%, rgba(255,243,176,.9) 48%, transparent 100%);
+  transform: translate3d(-170%,0,0) skewX(-16deg);
+}
+@keyframes home-tile-hover-glint {
+  0% { opacity: 0; transform: translate3d(-170%,0,0) skewX(-16deg); }
+  20% { opacity: .72; }
+  100% { opacity: 0; transform: translate3d(650%,0,0) skewX(-16deg); }
+}
+.menuTile:not(:disabled):hover::after {
+  animation: home-tile-hover-glint var(--home-tile-hover-duration, 110ms) var(--home-tile-hover-ease, cubic-bezier(.2,.8,.2,1)) both;
+  will-change: transform, opacity;
+}
+.menuTile:focus-visible {
+  outline: 2px solid var(--sd-gold-300, var(--gold-hi));
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px var(--sd-black, #060709), 0 0 24px rgba(242,196,91,.34);
+}
+.menuTile:active:not(:disabled) { transform: translateY(-1px); }
+.menuTile:disabled { opacity: .76; cursor: not-allowed; filter: saturate(.72); }
+.menuTile:disabled .tileArt { opacity: .34; filter: grayscale(.35) drop-shadow(0 8px 10px rgba(0,0,0,.55)); }
+.menuTile[data-available="false"] { justify-content: flex-start; }
+.menuTile[data-available="false"] .menuTileMeta {
+  position: relative !important; width: auto; height: auto; overflow: visible; clip: auto; clip-path: none;
+  white-space: normal; margin-top: 5px; color: #F1D58F; font: 600 12px/1.15 var(--cond);
+}
+/* secondary tiles (Legacy, Statistics + Trophy Room, Rule Book, Settings): goal tile language = code + big label + icon;
+   their meta stays in the DOM, visually hidden (owner change: six tiles must fit one row) */
+.menuTileNew, .menuTileLegacy, .menuTileTrophy, .menuTileTrophyRoom, .menuTileRules, .menuTileSettings { justify-content: flex-start; padding: 12px 12px 10px 14px; }
+.menuTileNew .menuTileMeta, .menuTileLegacy .menuTileMeta, .menuTileTrophy .menuTileMeta, .menuTileTrophyRoom .menuTileMeta, .menuTileRules .menuTileMeta, .menuTileSettings .menuTileMeta { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+.menuTileNew .tileArt, .menuTileLegacy .tileArt, .menuTileTrophy .tileArt, .menuTileTrophyRoom .tileArt, .menuTileRules .tileArt, .menuTileSettings .tileArt {
+  right: -17px; bottom: -20px; width: 116px; height: 116px;
+}
+#continueCareer .tileArt { right: -6px; bottom: -30px; width: 190px; height: 190px; opacity: .82; filter: brightness(.28) saturate(.45) drop-shadow(0 10px 12px rgba(0,0,0,.38)); }
+#trophyRoomButton .tileArt { right: -12px; bottom: -24px; width: 108px; height: 128px; }
+#continueCareer { background: var(--sd-gold-500, #F2C45B); border-color: var(--sd-gold-100, #FFF1B8); box-shadow: 0 10px 28px rgba(0,0,0,.45); }
+/* Job 36 · Continue is the final visual beat. The shared runtime adds the pulse class at 760 ms;
+   Home delays the visible pulse by 40 ms and shortens it to 260 ms so it completes before cleanup. */
+#continueCareer[data-sd-enter="button"].sd-is-pulsing {
+  animation: sd-button-pulse var(--home-continue-pulse-duration, 260ms) var(--home-continue-pulse-ease, cubic-bezier(.22,1,.36,1)) both;
+  animation-delay: var(--home-continue-pulse-delay, 40ms);
+}
+#continueCareer:disabled.sd-is-pulsing { animation: none; }
+#continueCareer .menuTileCode { color: #3B2C0C; }
+#continueCareer .menuTileLabel { color: var(--ink); }
+#continueCareer .menuTileMeta { color: #2A2008; }
+/* Claude fix 1: keep desktop Continue copy clear of the 17-shirt silhouette. */
+@media (min-width: 901px) {
+  #continueCareer .menuTileMeta { max-width: 154px; white-space: normal; }
+  #continueCareer .tileArt { right: -52px; }
+}
+#continueCareer .tileChevron { color: var(--ink); }
+#continueCareer:disabled { opacity: .45; cursor: default; }
+#continueCareer:disabled:hover { transform: none; }
+.stage.primary-new #newShowdown { border-color: var(--gold); box-shadow: inset 0 4px 0 var(--gold), 0 10px 28px rgba(0,0,0,.45); }
+
+/* ---------- soundtrack card (H3; box written by home.js) ---------- */
+.menuMusicTile {
+  position: fixed; z-index: 4; box-sizing: border-box; padding: 8px 12px; overflow: hidden;
+  background: var(--glass); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border: 1px solid var(--hair); border-radius: 3px; box-shadow: inset 0 2px 0 var(--gold), 0 12px 30px rgba(0,0,0,.5);
+  display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; column-gap: 12px; row-gap: 5px;
+  grid-template-areas: "player head head" "sel sel sel" "status status ctrl"; --vinyl: 44px;
+  align-items: center;
+}
+.menuMusicHeader { grid-area: head; display: flex; align-items: flex-start; gap: 10px; min-width: 0; }
+.menuMusicHeader > div { min-width: 0; flex: 1; }
+.menuMusicHeader span { display: block; font: 600 12px/1.2 var(--cond); letter-spacing: .2em; color: var(--gold-deep); }
+.menuMusicHeader strong { display: block; font: 700 26px/1.15 var(--cond); color: #fff; letter-spacing: .01em; }
+.menuMusicArtist { margin: 1px 0 0; font: 400 14px/1.25 var(--text); color: var(--meta); }
+.menuMusicSource { font: 600 12px/1.2 var(--cond); letter-spacing: .16em; color: var(--cream); margin-left: auto; }
+.menuMusicPlayer { grid-area: player; align-self: center; }
+.vinylDeck { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.vinyl {
+  position: relative; display: block; width: var(--vinyl, 60px); height: var(--vinyl, 60px); border-radius: 50%;
+  background: radial-gradient(circle, #0B0D10 0 6%, transparent 6.5%), radial-gradient(circle, #E9B84D 0 30%, #9A6E22 31%, transparent 32%),
+    repeating-radial-gradient(circle, #121317 0 2px, #1E2026 2.5px 3.5px);
+  box-shadow: 0 0 0 1px rgba(201,155,69,.5), 0 6px 16px rgba(0,0,0,.6);
+}
+.vinyl i { position: absolute; inset: 14%; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(255,241,184,.08); }
+
+@keyframes home-vinyl-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.menuMusicTile[data-playback="playing"] .vinyl {
+  animation: home-vinyl-spin var(--home-vinyl-rotation, 2400ms) linear infinite;
+  will-change: transform;
+}
+.menuMusicTile:not([data-playback="playing"]) .vinyl {
+  animation: none;
+}
+.eq { display: flex; align-items: flex-end; gap: 3px; height: 12px; }
+.eq i { display: block; width: 4px; background: var(--gold); border-radius: 1px; }
+.eq i:nth-child(1) { height: 5px; } .eq i:nth-child(2) { height: 10px; } .eq i:nth-child(3) { height: 12px; } .eq i:nth-child(4) { height: 7px; } .eq i:nth-child(5) { height: 9px; }
+.menuMediaSelector { grid-area: sel; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.menuMediaChoice {
+  min-height: 40px; min-width: 0; box-sizing: border-box; padding: 4px 8px; margin: 0; text-align: left; cursor: pointer;
+  display: flex; flex-direction: column; justify-content: center; gap: 1px;
+  background: rgba(255,255,255,.04); border: 1px solid rgba(201,155,69,.5); border-radius: 2px; color: var(--cream);
+  transition:
+    transform var(--home-feedback-duration) var(--home-feedback-ease),
+    opacity var(--home-feedback-duration) linear,
+    background-color var(--home-feedback-duration) linear,
+    border-color var(--home-feedback-duration) linear,
+    color var(--home-feedback-duration) linear;
+}
+.menuMediaChoice strong { font: 700 13px/1.1 var(--cond); letter-spacing: .04em; color: #fff; }
+.menuMediaChoice small { font: 600 12px/1.15 var(--cond); letter-spacing: .02em; color: var(--meta); }
+.menuMediaChoice.selected { background: linear-gradient(180deg, #F7D46A, #E0AE3A); border-color: #FFF1B8; }
+.menuMediaChoice.selected strong, .menuMediaChoice.selected small { color: var(--ink); }
+.menuMediaChoice:not(.selected):hover { border-color: var(--gold); }
+.menuMediaChoice:active { transform: translateY(1px); opacity: .88; }
+.menuMediaChoice strong,
+.menuMediaChoice small { transition: color var(--home-feedback-duration) linear, opacity var(--home-feedback-duration) linear; }
+.menuMusicStatus { grid-area: status; margin: 0; font: 600 12px/1.2 var(--cond); letter-spacing: .12em; color: var(--cream); min-width: 0; }
+.menuMusicControls { grid-area: ctrl; display: flex; gap: 8px; }
+.menuMusicControl {
+  height: 40px; box-sizing: border-box; padding: 0 16px; margin: 0; cursor: pointer; white-space: nowrap;
+  font: 700 15px/1 var(--cond); letter-spacing: .06em; border-radius: 2px;
+  transition:
+    transform var(--home-feedback-duration) var(--home-feedback-ease),
+    opacity var(--home-feedback-duration) linear,
+    background-color var(--home-feedback-duration) linear,
+    border-color var(--home-feedback-duration) linear,
+    color var(--home-feedback-duration) linear;
+}
+#menuMusicToggle { color: var(--ink); background: linear-gradient(180deg, #F7D46A, #E0AE3A); border: 1px solid #FFF1B8; }
+#menuMusicMute { color: var(--cream); background: rgba(10,12,15,.6); border: 1px solid rgba(233,223,200,.55); }
+#menuMusicMute:disabled { cursor: default; color: #B8AE98; border-color: rgba(233,223,200,.45); }
+.menuMusicControl:not(:disabled):hover { opacity: .9; }
+.menuMusicControl:not(:disabled):active { transform: translateY(1px); opacity: .82; }
+/* narrow card (beside Nik's hand on short desktops) */
+.menuMusicTile.side { grid-template-columns: 52px minmax(0, 1fr); grid-template-areas: "player head" "sel sel" "ctrl ctrl" "status status"; --vinyl: 48px; }
+.menuMusicTile.side .menuMediaSelector { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.menuMusicTile.side .menuMusicControls > * { flex: 1; }
+
+/* Job 35 fix 4: goal-registered desktop soundtrack card.
+   Track choices remain in the existing selector/sheet DOM and are not allowed to enlarge the main card. */
+@media (min-width: 761px) {
+  .menuMusicTile,
+  .menuMusicTile.side {
+    left: 64.5vw !important;
+    top: 53.3vh !important;
+    width: 33.5vw !important;
+    height: 17vh !important;
+    min-height: 116px;
+    max-height: 184px;
+    overflow: hidden;
+    grid-template-columns: 52px minmax(0, 1fr) auto;
+    grid-template-rows: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "player head head"
+      "status status ctrl";
+    column-gap: 12px;
+    row-gap: 8px;
+    --vinyl: 44px;
+  }
+  .menuMusicTile .menuMediaSelector,
+  .menuMusicTile.side .menuMediaSelector {
+    display: none;
+  }
+  .menuMusicTile .menuMusicControls,
+  .menuMusicTile.side .menuMusicControls {
+    align-self: end;
+  }
+  .menuMusicTile.side .menuMusicControls > * {
+    flex: initial;
+  }
+}
+
+/* ---------- bottom strip + footer ---------- */
+.menuBottomStrip {
+  position: absolute; z-index: 6; left: 50%; bottom: 0; height: var(--ftr); transform: translateX(-50%);
+  display: flex; align-items: center; gap: 22px; white-space: nowrap;
+  font: 600 12px/1 var(--cond); letter-spacing: .14em; color: var(--cream);
+}
+.menuBottomStrip b { color: var(--gold); font-weight: 700; margin-right: 4px; }
+.menuBottomStrip strong { color: var(--ink); background: var(--gold); padding: 3px 7px; letter-spacing: .16em; font-weight: 700; }
+footer {
+  position: absolute; z-index: 5; left: 0; right: 0; bottom: 0; height: var(--ftr); box-sizing: border-box; padding: 0 16px;
+  display: block; padding-top: 1px; font: 400 12px/13px var(--text); color: var(--foot);
+  background: linear-gradient(180deg, rgba(6,7,9,.86), rgba(6,7,9,.96)); border-top: 1px solid rgba(201,155,69,.3);
+}
+.footDeco {
+  position: absolute; z-index: 6; right: 16px; bottom: 0; height: var(--ftr); display: flex; align-items: center; gap: 8px;
+  font: 600 12px/1 var(--cond); letter-spacing: .24em; color: var(--cream); pointer-events: none;
+}
+.footDeco svg { width: 18px; height: 14px; }
+
+/* ---------- &grid=1 ---------- */
+.gridOverlay { position: absolute; inset: 0; z-index: 20; pointer-events: none; display: none; overflow: hidden; }
+.stage.grid .gridOverlay { display: block; }
+.gridOverlay b { position: absolute; box-sizing: border-box; border: 2px solid #FF3B3B; background: rgba(255,59,59,.12); font: 700 11px/1 var(--cond); color: #FF7A7A; padding: 2px; }
+.gridOverlay b.grow { border: 1px dashed #FF7A7A; background: none; }
+.gridOverlay b.zone { border: 1px dashed #36E0FF; background: none; color: #36E0FF; }
+.gridOverlay b.mendBox { border: 1px solid rgba(120,255,120,.8); background: rgba(120,255,120,.10); }
+
+.stage.plate-only > :not(.plateView):not(.gridOverlay) { display: none !important; }
+
+@media (max-width: 1100px) { .menuBottomStrip { left: auto; right: 16px; transform: none; } .footDeco { display: none; } }
+@media (max-width: 900px) { .scriptLine { display: none; } }
+
+/* ================= phone (portrait, up to 760 px wide) · Job 33 ================= */
+.phoneSheetToggle, .phoneTrackSheetOpen, .phoneTrackSheetClose, .phoneTrackSheetBackdrop,
+.phoneHeroBackground, .phoneHeroCutout, .phoneHeroGrade { display: none; }
+
+@media (max-width: 760px) and (orientation: portrait) {
+  :root {
+    --hdr: 48px;
+    --gutter: 12px;
+    --phone-hero: 45dvh;
+    --phone-control: calc(55dvh - var(--phone-nav));
+    --phone-nav: calc(56px + env(safe-area-inset-bottom));
+  }
+
+  /* Fixed three-zone phone composition: cinematic hero, compact hub, shared nav reserve. */
+  .stage {
+    display: grid;
+    grid-template-rows: var(--phone-hero) minmax(0, var(--phone-control)) var(--phone-nav);
+    overflow: hidden;
+    min-height: 100dvh;
+  }
+  .plateView {
+    grid-row: 1;
+    position: relative;
+    z-index: 1;
+    inset: auto;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    background-color: #060709;
+    background-image: none;
+    border-bottom: 1px solid rgba(201,155,69,.55);
+  }
+  .phoneHeroBackground {
+    position: absolute;
+    inset: 0;
+    display: block;
+    overflow: hidden;
+  }
+  .phoneHeroBackground img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+  }
+  .phoneHeroCutout {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: auto;
+    pointer-events: none;
+    filter:
+      drop-shadow(0 10px 16px rgba(0,0,0,.56))
+      drop-shadow(0 0 3px rgba(242,196,91,.46));
+  }
+  .phoneHeroCutout img {
+    display: block;
+    width: auto;
+    height: 100%;
+    max-width: none;
+  }
+  .phoneHeroCutout::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(100deg, transparent 18%, rgba(255,243,176,.78) 48%, transparent 78%);
+    transform: translate3d(-135%,0,0);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center bottom;
+    mask-position: center bottom;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
+  .phoneHeroDaniel::after {
+    -webkit-mask-image: url("assets/OVL_HOME_DANIEL_PHONE_V2.webp");
+    mask-image: url("assets/OVL_HOME_DANIEL_PHONE_V2.webp");
+  }
+  .phoneHeroNik::after {
+    -webkit-mask-image: url("assets/OVL_HOME_NIK_PHONE_V2.webp");
+    mask-image: url("assets/OVL_HOME_NIK_PHONE_V2.webp");
+  }
+  @keyframes home-manager-light-sweep {
+    0% { opacity: 0; transform: translate3d(-135%,0,0); }
+    26% { opacity: .72; }
+    72% { opacity: .46; }
+    100% { opacity: 0; transform: translate3d(145%,0,0); }
+  }
+  .phoneHeroDaniel {
+    left: 31%;
+    top: .5vh;
+    height: 46vh;
+    transform: translateX(-50%);
+  }
+  .phoneHeroNik {
+    left: 68%;
+    top: -.5vh;
+    height: 48vh;
+    transform: translateX(-50%);
+  }
+
+  /* Job 36 · manager signature entrance.
+     Preserve the authored -50% centering while the shared runtime owns the 150 ms start. */
+  .sd-motion-ready .phoneHeroDaniel[data-sd-enter="character-left"]:not(.sd-is-animating):not(.sd-entered) {
+    opacity: 0;
+    transform: translate3d(calc(-50% - 24px), 0, 0);
+  }
+  .sd-motion-ready .phoneHeroNik[data-sd-enter="character-right"]:not(.sd-is-animating):not(.sd-entered) {
+    opacity: 0;
+    transform: translate3d(calc(-50% + 24px), 0, 0);
+  }
+
+  @keyframes home-manager-in-daniel {
+    0% { opacity: 0; transform: translate3d(calc(-50% - 24px), 0, 0); }
+    82% { opacity: 1; transform: translate3d(calc(-50% + var(--home-daniel-settle, 2px)), 0, 0); }
+    100% { opacity: 1; transform: translate3d(-50%, 0, 0); }
+  }
+  @keyframes home-manager-in-nik {
+    from { opacity: 0; transform: translate3d(calc(-50% + 24px), 0, 0); }
+    to { opacity: 1; transform: translate3d(-50%, 0, 0); }
+  }
+
+  .sd-motion-ready .phoneHeroDaniel[data-sd-enter="character-left"].sd-is-animating {
+    animation: home-manager-in-daniel var(--home-manager-duration, 450ms) var(--home-manager-ease, cubic-bezier(.22,1,.36,1)) both;
+  }
+  .sd-motion-ready .phoneHeroNik[data-sd-enter="character-right"].sd-is-animating {
+    animation: home-manager-in-nik var(--home-manager-duration, 450ms) var(--home-manager-ease, cubic-bezier(.22,1,.36,1)) both;
+  }
+  .sd-motion-ready .phoneHeroCutout.sd-is-animating::after {
+    animation: home-manager-light-sweep var(--home-manager-duration, 450ms) var(--home-manager-ease, cubic-bezier(.22,1,.36,1)) both;
+    will-change: transform, opacity;
+  }
+  .phoneHeroGrade {
+    position: absolute;
+    z-index: 3;
+    left: 0;
+    right: 0;
+    top: 31dvh;
+    height: 14dvh;
+    display: block;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(5,6,7,0) 0%, rgba(5,6,7,.92) 100%);
+  }
+  main {
+    grid-row: 2;
+    position: relative;
+    z-index: 4;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(6,7,9,.97), #060709 24%);
+  }
+  .nav-reserve {
+    grid-row: 3;
+    width: 100%;
+    min-height: var(--phone-nav);
+    background: #060709;
+    border-top: 1px solid rgba(201,155,69,.24);
+  }
+
+  /* Desktop repair/chrome does not survive into the authored portrait scene. */
+  .scrim, .scrimLow, .dockBed, .hdrBg, .areaMend, .mend,
+  .scriptLine, .fifaMenuHeading, .menuBottomStrip, footer, .footDeco {
+    display: none !important;
+  }
+
+  /* Phone hubs use the shared 56 px bottom-bar reserve; desktop top navigation stays hidden here. */
+  #topHeader { display: none; }
+
+  /* Brush lockup belongs to the expanded cinematic hero band. */
+  .homeLockup {
+    display: flex !important;
+    position: fixed;
+    z-index: 8;
+    top: calc(var(--phone-hero) - 88px);
+    left: 50%;
+    width: min(44vw, 172px);
+    transform: translateX(-50%);
+    align-items: center;
+    gap: 2px;
+    pointer-events: none;
+  }
+  .homeLockup::before, .homeLockup::after { display: none; }
+  .lockupKicker {
+    align-self: center;
+    max-width: 100%;
+    padding: 0;
+    font-size: 10px;
+    letter-spacing: .27em;
+    text-align: center;
+  }
+  .lockupWordmarkWrap { width: 100%; margin: 0; }
+  .lockupWordmark { filter: drop-shadow(0 3px 8px rgba(0,0,0,.92)); }
+  .lockupLegacy {
+    align-self: center;
+    max-width: 100%;
+    font-size: 9px;
+    letter-spacing: .19em;
+    text-align: center;
+  }
+
+  /* Hub occupies every remaining pixel above the shared bottom bar. */
+  .fifaMenuShell {
+    height: 100%;
+    min-height: 0;
+    box-sizing: border-box;
+    padding: 6px 10px 8px;
+  }
+  .fifaMenuGrid {
+    position: static;
+    display: grid;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: 52px 64px repeat(2, minmax(44px, 1fr));
+    gap: 6px;
+  }
+
+  /* Soundtrack becomes one slim strip; the four-track picker opens as a sheet. */
+  .menuMusicTile {
+    position: relative;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    width: auto !important;
+    height: 52px !important;
+    min-width: 0;
+    padding: 4px 6px 4px 8px;
+    overflow: visible;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-areas: "head ctrl tracks";
+    gap: 6px;
+    align-items: center;
+    background: rgba(10,12,15,.94);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: inset 0 2px 0 var(--gold);
+  }
+  .menuMusicPlayer, .menuMusicSource { display: none; }
+  .menuMusicHeader {
+    grid-area: head;
+    min-width: 0;
+    align-items: center;
+  }
+  .menuMusicHeader > div {
+    display: block;
+    min-width: 0;
+  }
+  .menuMusicHeader span {
+    display: block;
+    overflow: visible;
+    color: var(--gold);
+    font: 700 12px/1 var(--cond);
+    letter-spacing: .08em;
+    white-space: nowrap;
+  }
+  .menuMusicHeader strong,
+  .menuMusicArtist {
+    display: none;
+  }
+  .menuMusicControls {
+    grid-area: ctrl;
+    display: flex;
+    gap: 4px;
+  }
+  .menuMusicControl {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    padding: 0 5px;
+    overflow: hidden;
+    font-size: 11px;
+    line-height: 1;
+    white-space: normal;
+  }
+  #menuMusicToggle { width: 50px; }
+  #menuMusicMute { width: 44px; }
+  .menuMusicStatus {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .phoneSheetToggle {
+    grid-area: tracks;
+    position: relative !important;
+    z-index: 3;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    cursor: pointer;
+    border: 0;
+  }
+  .phoneSheetToggle:focus-visible + .phoneTrackSheetOpen {
+    outline: 2px solid var(--gold-hi);
+    outline-offset: 2px;
+  }
+  .phoneTrackSheetOpen {
+    grid-area: tracks;
+    z-index: 2;
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid rgba(242,196,91,.72);
+    background: rgba(255,255,255,.04);
+    color: var(--cream);
+    font: 700 10px/1 var(--cond);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    pointer-events: none;
+    transition:
+      opacity var(--home-feedback-duration) linear,
+      background-color var(--home-feedback-duration) linear,
+      border-color var(--home-feedback-duration) linear,
+      color var(--home-feedback-duration) linear;
+  }
+  .phoneSheetToggle:checked + .phoneTrackSheetOpen { opacity: .68; }
+  .menuMediaSelector {
+    display: none;
+  }
+  .phoneSheetToggle:checked ~ .menuMediaSelector {
+    position: fixed;
+    z-index: 52;
+    left: 10px;
+    right: 10px;
+    bottom: calc(var(--phone-nav) + 10px);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding: 42px 12px 12px;
+    background: rgba(8,10,13,.98);
+    border: 1px solid var(--gold);
+    box-shadow: 0 -18px 52px rgba(0,0,0,.7), inset 0 2px 0 rgba(255,241,184,.65);
+  }
+  .menuMediaChoice {
+    min-height: 44px;
+    padding: 6px 8px;
+  }
+  .menuMediaChoice strong { font-size: 13px; }
+  .menuMediaChoice small { font-size: 11px; }
+  .phoneTrackSheetBackdrop, .phoneTrackSheetClose { display: none; }
+  .phoneSheetToggle:checked ~ .phoneTrackSheetBackdrop {
+    position: fixed;
+    z-index: 50;
+    inset: 0;
+    display: block;
+    cursor: pointer;
+    background: rgba(0,0,0,.58);
+  }
+  .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
+    position: fixed;
+    z-index: 53;
+    right: 20px;
+    bottom: calc(var(--phone-nav) + 154px);
+    display: inline-flex;
+    min-width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--gold);
+    font: 700 12px/1 var(--cond);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  /* Seven destinations: dominant Continue, then six equal compact tiles. */
+  .menuTile {
+    min-width: 0;
+    min-height: 44px;
+    height: auto;
+    padding: 6px 38px 6px 8px;
+    gap: 1px;
+    justify-content: center;
+    overflow: hidden;
+  }
+  #continueCareer {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    align-self: stretch;
+    width: 100%;
+    min-height: 64px;
+    padding: 7px 76px 7px 14px;
+  }
+  #newShowdown { grid-column: 1; grid-row: 3; }
+  #legacyButton { grid-column: 2; grid-row: 3; }
+  #careerStatisticsButton { grid-column: 3; grid-row: 3; }
+  #trophyRoomButton { grid-column: 1; grid-row: 4; }
+  #ruleBookButton { grid-column: 2; grid-row: 4; }
+  #settingsButton { grid-column: 3; grid-row: 4; }
+  #continueCareer .menuTileLabel {
+    max-width: calc(100% - 44px);
+    padding: 0;
+    font-size: 20px;
+    line-height: 1;
+    white-space: normal;
+  }
+  #continueCareer .menuTileCode { font-size: 10px; }
+  #continueCareer .tileArt {
+    right: 4px;
+    bottom: -11px;
+    width: 66px;
+    height: 66px;
+    opacity: .74;
+  }
+  .menuTileNew, .menuTileLegacy, .menuTileTrophy,
+  .menuTileTrophyRoom, .menuTileRules, .menuTileSettings {
+    padding: 5px 36px 5px 7px;
+    justify-content: center;
+  }
+  .menuTileNew .menuTileCode, .menuTileLegacy .menuTileCode,
+  .menuTileTrophy .menuTileCode, .menuTileTrophyRoom .menuTileCode,
+  .menuTileRules .menuTileCode, .menuTileSettings .menuTileCode {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .menuTileLabel,
+  .menuTileNew .menuTileLabel, .menuTileLegacy .menuTileLabel,
+  .menuTileTrophy .menuTileLabel, .menuTileTrophyRoom .menuTileLabel,
+  .menuTileRules .menuTileLabel, .menuTileSettings .menuTileLabel {
+    max-width: 100%;
+    padding: 0;
+    font-size: 13px;
+    line-height: 1.02;
+    white-space: normal;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+  .menuTile .menuTileMeta {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .menuTile[data-available="false"] { justify-content: flex-start; }
+  .menuTile[data-available="false"] .menuTileMeta {
+    position: relative !important;
+    width: auto;
+    height: auto;
+    margin-top: 2px;
+    overflow: visible;
+    clip: auto;
+    clip-path: none;
+    font-size: 9px;
+    line-height: 1.02;
+    white-space: normal;
+  }
+  .menuTileNew .tileArt, .menuTileLegacy .tileArt, .menuTileTrophy .tileArt,
+  .menuTileTrophyRoom .tileArt, .menuTileRules .tileArt, .menuTileSettings .tileArt {
+    display: block;
+    right: -2px;
+    bottom: -5px;
+    width: 38px;
+    height: 38px;
+    opacity: .78;
+  }
+  #trophyRoomButton .tileArt {
+    right: -1px;
+    bottom: -5px;
+    width: 34px;
+    height: 42px;
+  }
+  .tileChevron { display: none; }
+
+  /* Very short Safari view: keep Continue visible while staying close to the 55/45 split. */
+  @media (max-height: 600px) {
+    :root {
+      --phone-hero: 45dvh;
+      --phone-control: calc(55dvh - var(--phone-nav));
+    }
+    .lockupKicker, .lockupLegacy { display: none; }
+    .homeLockup { top: calc(var(--phone-hero) - 70px); width: min(46vw, 168px); }
+    .fifaMenuShell { padding: 4px 8px; }
+    .fifaMenuGrid { grid-template-rows: 44px 56px repeat(2, minmax(44px, 1fr)); gap: 4px; }
+    .menuMusicTile { height: 44px !important; padding-top: 2px; padding-bottom: 2px; }
+    #menuMusicMute { display: none; }
+  }
+}
+
+/* Job 36 · Home reduced-motion coverage.
+   motion.js exposes the app preference as html[data-motion-reduced="true"] and
+   stage[data-sd-motion-reduced="true"]; support the legacy html[data-reduced-motion] hook too. */
+html[data-motion-reduced="true"] .menuTile,
+html[data-reduced-motion="true"] .menuTile,
+.stage[data-sd-motion-reduced="true"] .menuTile,
+html[data-motion-reduced="true"] .tileArt,
+html[data-reduced-motion="true"] .tileArt,
+.stage[data-sd-motion-reduced="true"] .tileArt,
+html[data-motion-reduced="true"] .topBarTab,
+html[data-reduced-motion="true"] .topBarTab,
+.stage[data-sd-motion-reduced="true"] .topBarTab,
+html[data-motion-reduced="true"] .topBarSettings,
+html[data-reduced-motion="true"] .topBarSettings,
+.stage[data-sd-motion-reduced="true"] .topBarSettings,
+html[data-motion-reduced="true"] .menuMediaChoice,
+html[data-reduced-motion="true"] .menuMediaChoice,
+.stage[data-sd-motion-reduced="true"] .menuMediaChoice,
+html[data-motion-reduced="true"] .menuMusicControl,
+html[data-reduced-motion="true"] .menuMusicControl,
+.stage[data-sd-motion-reduced="true"] .menuMusicControl,
+html[data-motion-reduced="true"] .phoneTrackSheetOpen,
+html[data-reduced-motion="true"] .phoneTrackSheetOpen,
+.stage[data-sd-motion-reduced="true"] .phoneTrackSheetOpen {
+  transition-property: opacity, color, background-color, border-color !important;
+  transition-duration: var(--home-feedback-duration) !important;
+  transition-timing-function: linear !important;
+}
+
+html[data-motion-reduced="true"] .menuTile:not(:disabled):hover,
+html[data-reduced-motion="true"] .menuTile:not(:disabled):hover,
+.stage[data-sd-motion-reduced="true"] .menuTile:not(:disabled):hover,
+html[data-motion-reduced="true"] .menuTile:active:not(:disabled),
+html[data-reduced-motion="true"] .menuTile:active:not(:disabled),
+.stage[data-sd-motion-reduced="true"] .menuTile:active:not(:disabled),
+html[data-motion-reduced="true"] .menuTile:not(:disabled):hover .tileArt,
+html[data-reduced-motion="true"] .menuTile:not(:disabled):hover .tileArt,
+.stage[data-sd-motion-reduced="true"] .menuTile:not(:disabled):hover .tileArt {
+  transform: none !important;
+}
+
+html[data-motion-reduced="true"] .menuTile::after,
+html[data-reduced-motion="true"] .menuTile::after,
+.stage[data-sd-motion-reduced="true"] .menuTile::after,
+html[data-motion-reduced="true"] .menuMusicTile[data-playback="playing"] .vinyl,
+html[data-reduced-motion="true"] .menuMusicTile[data-playback="playing"] .vinyl,
+.stage[data-sd-motion-reduced="true"] .menuMusicTile[data-playback="playing"] .vinyl,
+html[data-motion-reduced="true"] .phoneHeroCutout::after,
+html[data-reduced-motion="true"] .phoneHeroCutout::after,
+.stage[data-sd-motion-reduced="true"] .phoneHeroCutout::after {
+  animation: none !important;
+  opacity: 0 !important;
+  will-change: auto !important;
+}
+
+@media (max-width: 760px) and (orientation: portrait) {
+  html[data-motion-reduced="true"] .phoneHeroDaniel[data-sd-enter="character-left"],
+  html[data-reduced-motion="true"] .phoneHeroDaniel[data-sd-enter="character-left"],
+  .stage[data-sd-motion-reduced="true"] .phoneHeroDaniel[data-sd-enter="character-left"],
+  html[data-motion-reduced="true"] .phoneHeroNik[data-sd-enter="character-right"],
+  html[data-reduced-motion="true"] .phoneHeroNik[data-sd-enter="character-right"],
+  .stage[data-sd-motion-reduced="true"] .phoneHeroNik[data-sd-enter="character-right"] {
+    transform: translateX(-50%) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menuTile,
+  .tileArt,
+  .topBarTab,
+  .topBarSettings,
+  .menuMediaChoice,
+  .menuMusicControl,
+  .phoneTrackSheetOpen {
+    transition-property: opacity, color, background-color, border-color !important;
+    transition-duration: var(--home-feedback-duration) !important;
+    transition-timing-function: linear !important;
+  }
+
+  .menuTile:not(:disabled):hover,
+  .menuTile:active:not(:disabled),
+  .menuTile:not(:disabled):hover .tileArt {
+    transform: none !important;
+  }
+
+  .menuTile::after,
+  .menuMusicTile[data-playback="playing"] .vinyl,
+  .phoneHeroCutout::after {
+    animation: none !important;
+    opacity: 0 !important;
+    will-change: auto !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 760px) and (orientation: portrait) {
+  .phoneHeroDaniel[data-sd-enter="character-left"],
+  .phoneHeroNik[data-sd-enter="character-right"] {
+    transform: translateX(-50%) !important;
+  }
+}
+
+/* Job 32 availability: the reason remains visible; standalone destinations never disappear. */
+.menuTile.menuTileLegacy[data-available="false"] .menuTileMeta,
+.menuTile.menuTileTrophy[data-available="false"] .menuTileMeta,
+.menuTile.menuTileTrophyRoom[data-available="false"] .menuTileMeta {
+  position: relative !important; width: auto !important; height: auto !important; overflow: visible !important;
+  clip: auto !important; clip-path: none !important; white-space: normal !important;
+}
+
+/* ---------- Soundtrack player (04 Oct 2026) ----------
+   The Audius playlist streams through a plain <audio> element after Play (see soundtrack.js).
+   Desktop gets the track list as a popover above the card; phone keeps its sheet. */
+@media (min-width: 761px) {
+  .menuMusicTile,
+  .menuMusicTile.side {
+    grid-template-columns: 52px minmax(0, 1fr) auto auto;
+    grid-template-areas:
+      "player head head tracks"
+      "status status ctrl ctrl";
+  }
+  .menuMusicTile:has(.phoneSheetToggle:checked) { overflow: visible; }
+  .phoneSheetToggle {
+    grid-area: tracks; align-self: start; justify-self: end; position: relative; z-index: 3;
+    display: block; width: 64px; height: 32px; margin: 0; padding: 0; opacity: 0; cursor: pointer; border: 0;
+  }
+  .phoneTrackSheetOpen {
+    grid-area: tracks; align-self: start; justify-self: end; pointer-events: none;
+    display: inline-flex; width: 64px; height: 32px; box-sizing: border-box; align-items: center; justify-content: center;
+    border: 1px solid rgba(242,196,91,.72); background: rgba(255,255,255,.04); color: var(--cream);
+    font: 700 12px/1 var(--cond); letter-spacing: .08em; text-transform: uppercase;
+  }
+  .phoneSheetToggle:hover + .phoneTrackSheetOpen,
+  .phoneSheetToggle:checked + .phoneTrackSheetOpen { border-color: var(--gold); background: rgba(242,196,91,.16); }
+  .phoneSheetToggle:focus-visible + .phoneTrackSheetOpen { outline: 2px solid var(--gold-hi); outline-offset: 2px; }
+  /* Long song titles: keep the title on one line so the card never grows past its frame. */
+  .menuMusicHeader strong { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .menuMusicTile .phoneSheetToggle:checked ~ .menuMediaSelector,
+  .menuMusicTile.side .phoneSheetToggle:checked ~ .menuMediaSelector {
+    display: grid; position: absolute; z-index: 8; left: 0; right: 0; bottom: calc(100% + 8px); grid-area: auto; width: auto; box-sizing: border-box;
+    grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; padding: 10px;
+    background: rgba(8,10,13,.97); border: 1px solid var(--gold);
+    box-shadow: 0 -12px 40px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,241,184,.5);
+  }
+}
+
+@media (max-width: 760px) and (orientation: portrait) {
+  /* The shared .sd-sheet width (100% / 620px) beat left/right, so the sheet ran off screen; let left/right size it. */
+  .phoneSheetToggle:checked ~ .menuMediaSelector { grid-area: auto; width: auto; box-sizing: border-box; padding-top: 50px; }
+  /* CLOSE sat on the sheet's top edge; seat it inside the sheet's top padding. */
+  .phoneSheetToggle:checked ~ .phoneTrackSheetClose { bottom: calc(var(--phone-nav) + 124px); }
+  /* The tap target for TRACKS was display:none from the base rule, so the sheet never opened on phone. */
+  .phoneSheetToggle { display: block; }
+}
+
+/* CC-008 A1 · Nik's review: the hub left a ~70 px empty dark band above the bottom bar.
+   Give the hero more height, let the hub fill main, and seat the Audius strip at the bottom of the hub. */
+@media (max-width: 760px) and (orientation: portrait) {
+  :root {
+    --phone-hero: 49dvh;
+    --phone-control: calc(51dvh - var(--phone-nav));
+  }
+  .phoneHeroGrade { top: 35dvh; }
+  #mainMenu { height: 100%; }
+  .fifaMenuGrid { grid-template-rows: 64px repeat(2, minmax(44px, 1fr)) 52px; }
+  #continueCareer { grid-row: 1; }
+  #newShowdown, #legacyButton, #careerStatisticsButton { grid-row: 2; }
+  #trophyRoomButton, #ruleBookButton, #settingsButton { grid-row: 3; }
+  .menuMusicTile { grid-row: 4; }
+  @media (max-height: 600px) {
+    :root {
+      --phone-hero: 47dvh;
+      --phone-control: calc(53dvh - var(--phone-nav));
+    }
+    .phoneHeroGrade { top: 33dvh; }
+    .fifaMenuGrid { grid-template-rows: 56px repeat(2, minmax(44px, 1fr)) 44px; }
+    #menuMusicMute { display: inline-flex; align-items: center; justify-content: center; }
+  }
+}

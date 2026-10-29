@@ -1,0 +1,30 @@
+{
+  "crown_y": 75,
+  "chin_y": 460,
+  "head_height": 385,
+  "eye_left": [
+    470,
+    320
+  ],
+  "eye_right": [
+    590,
+    310
+  ],
+  "protected_contacts": {
+    "stylus_hand_and_tip": {
+      "x0": 430,
+      "y0": 620,
+      "x1": 720,
+      "y1": 760
+    },
+    "tablet": {
+      "x0": 630,
+      "y0": 700,
+      "x1": 1100,
+      "y1": 1020,
+      "note": "lower half may be covered by own panel in F2"
+    }
+  },
+  "bottom_crop_line_y": 1150,
+  "estimate": true
+}

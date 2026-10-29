@@ -1,0 +1,31 @@
+{
+ "build": {
+  "ssim": 0.505,
+  "ssim_coarse": 0.437,
+  "dE_mean": 12.2,
+  "boxes": {
+   "face_daniel": 0.957,
+   "face_nik": 0.963,
+   "hand_daniel": 0.919,
+   "hand_nik": 0.87
+  }
+ },
+ "plate": {
+  "ssim": 0.505,
+  "ssim_coarse": 0.443,
+  "dE_mean": 12.7,
+  "boxes": {
+   "face_daniel": 0.995,
+   "face_nik": 0.992,
+   "hand_daniel": 0.949,
+   "hand_nik": 0.894
+  }
+ },
+ "gate": {
+  "faces_ge_0.90": true,
+  "other_boxes_ge_0.75": true,
+  "ssim": true,
+  "dE": true,
+  "PASS": true
+ }
+}

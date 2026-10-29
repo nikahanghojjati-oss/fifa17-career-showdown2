@@ -1,0 +1,126 @@
+{
+ "job": 1588,
+ "source": "live main f42dac26 (r67), layout-audit 393x660 @3x",
+ "screens": [
+  {
+   "n": 1,
+   "key": "HOME",
+   "capture": "home-empty",
+   "guide": "GUIDE_PHONE_HOME.png",
+   "pad_x": 70,
+   "screen_w": 1179,
+   "screen_h": 1980,
+   "ticket": "TICKET-1588_1_OF_12_PHONE_HOME.md"
+  },
+  {
+   "n": 2,
+   "key": "CONNECT_PLAYERS",
+   "capture": "connect-players",
+   "guide": "GUIDE_PHONE_CONNECT_PLAYERS.png",
+   "pad_x": 70,
+   "screen_w": 1179,
+   "screen_h": 1980,
+   "ticket": "TICKET-1588_2_OF_12_PHONE_CONNECT_PLAYERS.md"
+  },
+  {
+   "n": 3,
+   "key": "SEASON_RESULTS",
+   "capture": "season-results-entry",
+   "guide": "GUIDE_PHONE_SEASON_RESULTS.png",
+   "pad_x": 70,
+   "screen_w": 1179,
+   "screen_h": 1980,
+   "ticket": "TICKET-1588_3_OF_12_PHONE_SEASON_RESULTS.md"
+  },
+  {
+   "n": 4,
+   "key": "TRANSFER",
+   "capture": "transfer-war-window",
+   "guide": "GUIDE_PHONE_TRANSFER.png",
+   "pad_x": 70,
+   "screen_w": 1179,
+   "screen_h": 1980,
+   "ticket": "TICKET-1588_4_OF_12_PHONE_TRANSFER.md"
+  },
+  {
+   "n": 5,
+   "key": "LEAGUE",
+   "capture": "league-wheel-selected",
+   "guide": "GUIDE_PHONE_LEAGUE.png",
+   "pad_x": 70,
+   "screen_w": 1179,
+   "screen_h": 1980,
+   "ticket": "TICKET-1588_5_OF_12_PHONE_LEAGUE.md"
+  },
+  {
+   "n": 6,
+   "key": "CLUB",
+   "capture": "club-wheel-revealed",
+   "guide": "GUIDE_PHONE_CLUB.png",
+   "pad_x": 70,
+   "screen_w": 1179,
+   "screen_h": 1980,
+   "ticket": "TICKET-1588_6_OF_12_PHONE_CLUB.md"
+  },
+  {
+   "n": 7,
+   "key": "STATISTICS",
+   "capture": "statistics-career",
+   "guide": "GUIDE_PHONE_STATISTICS.png",
+   "pad_x": 70,
+   "screen_w": 1179,
+   "screen_h": 1980,
+   "ticket": "TICKET-1588_7_OF_12_PHONE_STATISTICS.md"
+  },
+  {
+   "n": 8,
+   "key": "RIVALRY",
+   "capture": "statistics-rivalry",
+   "guide": "GUIDE_PHONE_RIVALRY.png",
+   "pad_x": 70,
+   "screen_w": 1179,
+   "screen_h": 1980,
+   "ticket": "TICKET-1588_8_OF_12_PHONE_RIVALRY.md"
+  },
+  {
+   "n": 9,
+   "key": "LEGACY",
+   "capture": "legacy-history",
+   "guide": "GUIDE_PHONE_LEGACY.png",
+   "pad_x": 70,
+   "screen_w": 1179,
+   "screen_h": 1980,
+   "ticket": "TICKET-1588_9_OF_12_PHONE_LEGACY.md"
+  },
+  {
+   "n": 10,
+   "key": "TROPHY_ROOM",
+   "capture": "trophy-room",
+   "guide": "GUIDE_PHONE_TROPHY_ROOM.png",
+   "pad_x": 70,
+   "screen_w": 1179,
+   "screen_h": 1980,
+   "ticket": "TICKET-1588_10_OF_12_PHONE_TROPHY_ROOM.md"
+  },
+  {
+   "n": 11,
+   "key": "FINAL_WINNER",
+   "capture": "final-winner",
+   "guide": "GUIDE_PHONE_FINAL_WINNER.png",
+   "pad_x": 70,
+   "screen_w": 1179,
+   "screen_h": 1980,
+   "ticket": "TICKET-1588_11_OF_12_PHONE_FINAL_WINNER.md"
+  },
+  {
+   "n": 12,
+   "key": "SETTINGS",
+   "capture": "settings",
+   "guide": "GUIDE_PHONE_SETTINGS.png",
+   "pad_x": 70,
+   "screen_w": 1179,
+   "screen_h": 1980,
+   "ticket": "TICKET-1588_12_OF_12_PHONE_SETTINGS.md"
+  }
+ ]
+}
