@@ -208,7 +208,7 @@
       const a=projection.managerRecords.playerOne.totalPoints,b=projection.managerRecords.playerTwo.totalPoints,winner=a>b?"playerOne":b>a?"playerTwo":"draw";
       // Full coverage and both reconstructed totals must equal the Terminal Close witness; totals-only final winner.
       if(projection.acceptedSeasons!==total||projection.totalSeasons!==total||a!==intent.managerTotals.playerOne||b!==intent.managerTotals.playerTwo||winner!==intent.winner)csrFail("COMPLETED_TOTALS_MISMATCH");
-      // r86 Marquee Player: the Setup's confirm time (Rules: updatedAt == request.time at SHOWDOWN_CONFIRMED) says whether
+      // r86 Special Player: the Setup's confirm time (Rules: updatedAt == request.time at SHOWDOWN_CONFIRMED) says whether
       // this Showdown was set up on r86 or later; it is display metadata only and changes no verdict.
       const confirmedAt=ledger.updatedAt&&typeof ledger.updatedAt.toMillis==="function"?ledger.updatedAt.toMillis():null;
       return csrState("completed",{rivalryId,managerRole,terminalWitness:csrClone(intent),projection,final:{totals:{playerOne:a,playerTwo:b},winner,margin:Math.abs(a-b),seasonsPlayed:total},setupConfirmedAt:confirmedAt});
