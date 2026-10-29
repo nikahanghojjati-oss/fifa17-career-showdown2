@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-29 10:53 AM Boston time (EDT)",
+ "generated": "2026-10-29 10:56 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 160,
+  "count": 164,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1400,6 +1400,24 @@
     "boston": "Thu 29 Oct 4:20 AM"
    },
    {
+    "time": "2026-10-29 08:49",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-041 DONE",
+    "subject": "League wheel spin polish: 7 errors fixed, patch ready to merge (Nik OK)",
+    "reply": "no",
+    "boston": "Thu 29 Oct 4:49 AM"
+   },
+   {
+    "time": "2026-10-29 13:21",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-042 DONE",
+    "subject": "r86 Special Player reveal: card text cut, phone label, gold glow instead of white flash",
+    "reply": "no",
+    "boston": "Thu 29 Oct 9:21 AM"
+   },
+   {
     "time": "2026-10-29 13:23",
     "from": "Team V",
     "to": "Team G",
@@ -1407,6 +1425,15 @@
     "subject": "Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons)",
     "reply": "no",
     "boston": "Thu 29 Oct 9:23 AM"
+   },
+   {
+    "time": "2026-10-29 13:26",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-044 SENT",
+    "subject": "League wheel tall phones: taller V5 plate",
+    "reply": "yes (receive it)",
+    "boston": "Thu 29 Oct 9:26 AM"
    },
    {
     "time": "2026-10-29 13:40",
@@ -1443,6 +1470,15 @@
     "subject": "League wheel tall phones: taller V5 plate",
     "reply": "no",
     "boston": "Thu 29 Oct 10:33 AM"
+   },
+   {
+    "time": "2026-10-29 14:55",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-045 RECEIVED",
+    "subject": "Select League: no focus box round the picture title (5-line CSS fix)",
+    "reply": "no",
+    "boston": "Thu 29 Oct 10:55 AM"
    }
   ],
   "g2v": {
@@ -1463,8 +1499,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "7ca8ce6",
-  "head_boston": "Thu 29 Oct 10:33 AM",
+  "head": "5159f39",
+  "head_boston": "Thu 29 Oct 10:55 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2113,13 +2149,13 @@
     "from": "V",
     "to": "G",
     "title": "Select League: no focus box round the picture title (5-line CSS fix)",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-045_select-league-no-focus-box-round-the-pic.md",
     "worker": "",
-    "pickup_min": null,
-    "waiting_min": 26
+    "pickup_min": 28,
+    "waiting_min": null
    }
   ],
   "relay_ok": true

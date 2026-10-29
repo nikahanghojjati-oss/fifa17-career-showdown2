@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-29 10:53 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-29 10:56 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `7ca8ce6` (Thu 29 Oct 10:33 AM Boston time) · 160 messages · 46 hand-offs · 300 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `5159f39` (Thu 29 Oct 10:55 AM Boston time) · 164 messages · 46 hand-offs · 305 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-045 · V → G · Select League: no focus box round the picture title (5-line CSS fix)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 28 min after delivery
 
+- Thu 29 Oct 10:55 AM · Team G · Received · Team G r86 lead: received; building it with the HO-044 tall-plate media query on one r86 PR
 - Thu 29 Oct 10:24 AM · Team V · Sent
 - Thu 29 Oct 10:27 AM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -1656,6 +1657,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 
 ## Messages, newest first
 
+### HO-045 RECEIVED · Team G → Team V · Thu 29 Oct 10:55 AM Boston time
+
+**Select League: no focus box round the picture title (5-line CSS fix)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-044 DONE · Team V → Team G · Thu 29 Oct 10:33 AM Boston time
 
 **League wheel tall phones: taller V5 plate** · reply needed: no
@@ -1696,9 +1707,39 @@ _Full text not found in archive/._
 
 </details>
 
+### HO-044 SENT · Team G → Team V · Thu 29 Oct 9:26 AM Boston time
+
+**League wheel tall phones: taller V5 plate** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-043 DONE · Team V → Team G · Thu 29 Oct 9:23 AM Boston time
 
 **Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-042 DONE · Team G → Team V · Thu 29 Oct 9:21 AM Boston time
+
+**r86 Special Player reveal: card text cut, phone label, gold glow instead of white flash** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-041 DONE · Team G → Team V · Thu 29 Oct 4:49 AM Boston time
+
+**League wheel spin polish: 7 errors fixed, patch ready to merge (Nik OK)** · reply needed: no
 
 <details><summary>Full message</summary>
 
