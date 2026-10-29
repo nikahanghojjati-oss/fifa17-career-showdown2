@@ -1,0 +1,15 @@
+{
+ "canvas": [
+  1179,
+  2620
+ ],
+ "core": [
+  71,
+  389,
+  1107,
+  2231
+ ],
+ "scale": 0.879,
+ "source": "visual-assets/v10_1/plates-v5/ENV_LEAGUE_PHONE_V5.webp",
+ "note": "core = V5 scaled 0.879 (Lanczos); magenta borders 71px sides, 389px top and bottom are the only pixels to take from the GPT result"
+}
