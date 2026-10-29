@@ -167,13 +167,13 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
   const sp=Chip.forShowdown('pair_'+'e'.repeat(64),AT);
   const shown=[Chip.rule.label,Chip.rule.text,Chip.html(sp.daniel),Chip.html(sp.nik),Chip.title(sp.daniel),Chip.clubLine(sp.nik),...[...Chip.css.matchAll(/content:\s*("[^"]*"|'[^']*')/g)].map(m=>m[1])];
   for(const text of shown)assert.doesNotMatch(text,NOT_SHOWN,text);
-  assert.match(Chip.rule.text,/Your Special Player scores no points\. Full rules in card 07\./);
+  assert.match(Chip.rule.text,/Your Special Player scores no points\. Full rules in card 06\./);
   const rb=read('js/ruleBook.js'),pc=read('js/productionSharedCareerStart.js');
   for(const src of [rb,pc,read('js/specialPlayerChip.js'),...['career-statistics','trophy-room','legacy','rivalry-statistics','standings','final-winner'].map(d=>read(`visual-assets/v10_1/${d}/${d}.js`))]){
     for(const [,text] of src.matchAll(/(?:textContent\s*=\s*|pcstRow\(|pcstCreate\("[a-z0-9]+","[^"]*",)\s*"([^"]*)"/g))assert.doesNotMatch(text,NOT_SHOWN,text);
   }
   assert.match(rb,/specialName\.textContent = " SPECIAL PLAYER";/);assert.match(rb,/specialTag\.textContent = "SP";/);
-  assert.match(rb,/Each manager draws one FIFA 17 player at the start of every Showdown\. Your Special Player scores no points\. Full rules in card 07\./);
+  assert.match(rb,/Each manager draws one FIFA 17 player at the start of every Showdown\. Your Special Player scores no points\. Full rules in card 06\./);
   assert.match(rb,/article\.append\(header, scoring, maximum, golden, special, notes\);/,'the rule sits right after GOLDEN SHOWDOWN');
   assert.doesNotMatch(pc.replace(/\/\/[^\n]*/g,''),/marquee/i,'Career Start stays free of the code name');
   ok('S7','every shown string (chip, badge, title, rule line, Career Start labels, CSS content) says Special Player or SP, never the code name');

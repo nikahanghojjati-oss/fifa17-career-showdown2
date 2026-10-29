@@ -267,8 +267,8 @@ function ruleBook(){
   // r86 (Nik 2026-10-29): rules FIFA 17 enforces by itself are no longer printed; the scoring engine still applies them.
   for(const gone of [/same season/,/3rd in its Champions League group/,/by its league position/,/Only winning scores/,/Best possible season/])assert.doesNotMatch(notes,gone);
   assert.ok(items.includes("Skip pre-season in FIFA 17."),"r86 (Nik 2026-10-29): pre-season is skipped in FIFA 17");
-  assert.equal(book.all().filter(n=>/^ruleSection( scoringRuleSection| specialPlayerRuleSection)?$/.test(n.className)).length,7,"seven rule cards (r86 adds Special Player)");
-  ok("E7 Rule Book: EL +3 row, CL or EL never both, the season 1 Champions League setup note, the EL final may be played, best season 11 / EL 9, seven cards");
+  assert.equal(book.all().filter(n=>/^ruleSection( scoringRuleSection| specialPlayerRuleSection)?$/.test(n.className)).length,6,"six rule cards (r86 adds Special Player, drops the draws card)");
+  ok("E7 Rule Book: EL +3 row, CL or EL never both, the season 1 Champions League setup note, the EL final may be played, six cards");
 }
 
 function textLines(){
