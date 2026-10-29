@@ -1925,7 +1925,7 @@ function run(tt){
   else if(tt<3.7){ const k=ease.inOut(S(1.6,2.1,tt)); camPos.lerpVectors(Bp,Cp,k); camLook.copy(lookPack); camLook.y+=S(2.6,1.1,tt)*.2; }
   else { const k=ease.out(S(3.7,1.1,tt)); camPos.lerpVectors(Cp,D,k); camLook.lerpVectors(new T.Vector3(0,1.45,-1.2),lookRest,k); camPos.z-=ease.inOut(S(4.8,6,tt))*(camK>1?.1:.5);
     /* idea 1: a small camera push from the club clue into the turn, back out by the time the card settles */
-    camPos.z-=.24*CRES[lvl]*(ease.inOut(S(8.0,1.6,tt))-ease.inOut(S(9.7,1.1,tt))); }
+    camPos.z-=.12*CRES[lvl]*(ease.inOut(S(8.0,1.6,tt))-ease.inOut(S(9.7,1.1,tt))); }
   { const orb=Math.sin(S(4.6,4.3,tt)*Math.PI)*.2*side; const dx=camPos.x-CARD_POS.x, dz=camPos.z-CARD_POS.z; camPos.x=CARD_POS.x+dx*Math.cos(orb)+dz*Math.sin(orb); camPos.z=CARD_POS.z-dx*Math.sin(orb)+dz*Math.cos(orb); }
   roll=Math.sin(S(8.9,1.2,tt)*Math.PI)*.03*side;
   /* 1  the pack drops from the sky and thumps onto the grass (1.0 - 1.6 s) */
@@ -1988,7 +1988,7 @@ function run(tt){
   /* idea 1: for the top 20 and up the turn starts at 8.45 s and speeds up from its first frame (quad), so it is seen at once;
      the face still swaps in under the white burst. Top 50 and rank 51+ keep the old turn. */
   const cres=CRES[lvl], turnAt=cres?8.45:8.9, fl=S(turnAt,cres?1.65:1.2,tt);
-  if(tt>turnAt){ const k=cres?quadInOut(fl):ease.inOut(fl); if(k>=5/6&&frontMat.map!==front.tx){ frontMat.map=front.tx; frontMat.needsUpdate=true; startCount(p); } card.rotation.set(0,Math.PI+k*Math.PI*3,0); card.position.y=CARD_POS.y+Math.sin(k*Math.PI)*.5; }
+  if(tt>turnAt){ const k=cres?quadInOut(fl):ease.inOut(fl); if(k>=5/6&&frontMat.map!==front.tx){ frontMat.map=front.tx; frontMat.needsUpdate=true; startCount(p); } card.rotation.set(0,Math.PI+k*Math.PI*3,0); card.position.y=CARD_POS.y+Math.sin(k*Math.PI)*.22; }
   at(tt,9.6,"sig",()=>startSig(p));
   at(tt,9.6,"flash",()=>{ shake=.3; glow.position.set(0,1.86,-1.3); flash=1.0*Math.min(1.4,pw); glow.material.color.copy(L(tc)); burst(CARD_POS.clone().add(new T.Vector3(0,0,.3)),[tc,0xffffff,0xfff1c2],Math.round(240*pw),11,1.3,.2);
     confettiRain(nat.concat([0xf1c35a,0xfff3c4]),Math.round(380*pw),-4.6,5); /* z -7.1 to -2.1: behind the card */
@@ -2055,18 +2055,32 @@ function startHandover(){ const d=cur(); phase="handover"; hoAt=clock(); hoDur=.
   later(()=>who.classList.remove("big"),(hoDur+.9)*1000); if(REDUCED) startPlayer(1,true); }
 function stepHandover(now,dt){ const k=clamp01((now-hoAt)/hoDur), e=k*k;
   camPos.copy(camRest); camPos.z-=(camK>1?.1:.5); camLook.copy(lookRest);
-  card.position.set(CARD_POS.x-e*6.5,CARD_POS.y+e*2.4+Math.sin(k*Math.PI)*.25,CARD_POS.z-e*2.2); card.rotation.set(-e*.35,tiltY*(1-k)+e*Math.PI*2,e*.5); card.scale.setScalar(1-e*.45);
+  card.position.set(CARD_POS.x-e*6.5,CARD_POS.y+Math.sin(k*Math.PI)*.15,CARD_POS.z-e*2.2); card.rotation.set(-e*.35,tiltY*(1-k)+e*Math.PI*2,e*.5); card.scale.setScalar(1-e*.45);
   if(!REDUCED&&Math.random()<.8){ hoV.set((Math.random()-.5)*.6,(Math.random()-.5)*.6,0); emit(card.position,hoV,Math.random()<.5?0xffd77a:0xfff1c2,.5,.12,-1,.8,1); }
   if(k>=1){ card.visible=false; startPlayer(1,true); } }
 
 /* ================= frame loop ================= */
 let last=performance.now()/1000, W=1, H=1, manual=null; const clock=()=>manual!==null?manual:performance.now()/1000; const queue=[]; function later(fn,ms){ queue.push({t:clock()+ms/1000,fn}); }
+/* Follow-up (Nik): the card never reaches the title or the "Daniel's/Nik's Special Player" line, at any size. The turn's bob,
+   the camera push, a tilt or the handover flight are clamped so the card's top edge (corners included, so a turning card's near
+   corner counts) stays under the top band; while the handover line pops big, under that line. */
+const CARD_TOP=[[-1.16,1.65],[1.16,1.65],[0,1.56],[-1.16,1.38],[1.16,1.38]], CARD_BOT=[[0,-1.66],[-1.16,-.92],[1.16,-.92]], bandV=new T.Vector3(); let bandTop=1, bandBot=-1, bandDbg=null;
+function cardSpan(){ card.updateMatrixWorld(); let top=-9, bot=9;
+  CARD_TOP.forEach(([x,y])=>{ bandV.set(x,y,0); card.localToWorld(bandV).project(camera); top=Math.max(top,bandV.y); });
+  CARD_BOT.forEach(([x,y])=>{ bandV.set(x,y,0); card.localToWorld(bandV).project(camera); bot=Math.min(bot,bandV.y); }); return [top,bot]; }
+function keepCardInBand(){ camera.updateMatrixWorld(); let [top,bot]=cardSpan(), k=1;
+  let lim=bandTop; if(who.classList.contains("big")) lim=Math.min(lim,1-2*(who.getBoundingClientRect().bottom+6)/H);
+  const room=lim-bandBot, excess=top-lim; /* a turning card's near corners reach further: shrink it a touch rather than let it out */
+  if(top-bot>room&&room>0){ k=room/(top-bot)*.985; card.scale.multiplyScalar(k); [top,bot]=cardSpan(); }
+  const perNdc=camera.position.distanceTo(card.position)*Math.tan(camera.fov*Math.PI/360);
+  if(top>lim) card.position.y-=(top-lim)*perNdc*1.03; else if(bot<bandBot) card.position.y+=Math.min(bandBot-bot,lim-top)*perNdc;
+  [top,bot]=cardSpan(); bandDbg={excess,k,top,lim,bot,limB:bandBot}; }
 function bandNdc(){ const top=$("top").getBoundingClientRect(), bot=$("bottom").getBoundingClientRect(); return [1-2*(top.bottom+6)/H, 1-2*(bot.top-6)/H]; }
 function resize(){
   W=innerWidth; H=innerHeight; renderer.setSize(W,H,false);
   const pw=Math.floor(W*DPR), ph=Math.floor(H*DPR); sceneRT.setSize(pw,ph); for(let i=0;i<LV;i++){ const d=Math.pow(2,i+1); mipA[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); mipB[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); }
   camera.aspect=W/H;
-  const [yt,yb]=bandNdc(); const band=Math.max(.5,yt-yb); const dist=camRest.distanceTo(CARD_POS);
+  const [yt,yb]=bandNdc(); bandTop=yt; bandBot=yb; const band=Math.max(.5,yt-yb); const dist=camRest.distanceTo(CARD_POS);
   const tV=3.5/(dist*band*.96), tH=2.5/(dist*1.7*camera.aspect);
   const fov=Math.max(2*Math.atan(Math.max(tV,tH))*180/Math.PI,38); camera.fov=fov; camera.updateProjectionMatrix();
   const tanH=Math.tan(fov*Math.PI/360); lookRest=CARD_POS.clone().add(new T.Vector3(0,-(yt+yb)/2*tanH*dist+.1,0));
@@ -2088,7 +2102,7 @@ function tick(draw){
   if(phase==="run") run(tt);
   else if(phase==="handover") stepHandover(now,dt);
   else { const k=now-settledAt; camPos.copy(camRest); camPos.z-=(camK>1?.1:.5); camLook.copy(lookRest); tiltX+=(tiltTX-tiltX)*Math.min(1,dt*6); tiltY+=(tiltTY-tiltY)*Math.min(1,dt*6);
-    card.rotation.y=Math.sin(k*.7)*.14+(REDUCED?0:scoutFlip(k))+tiltY; card.rotation.x=tiltX; card.position.y=CARD_POS.y+Math.sin(k*1.5)*.03; rays.rotation.z=now*.06;
+    card.rotation.y=Math.sin(k*.7)*.14+(REDUCED?0:scoutFlip(k))+tiltY; card.rotation.x=tiltX; card.scale.setScalar(1); card.position.y=CARD_POS.y+Math.sin(k*1.5)*.03; rays.rotation.z=now*.06;
     if((k%4)<.9) sheenMat.uniforms.p.value=lerp(-2.6,2.6,(k%4)/.9);
     if(!REDUCED&&Math.random()<dt*1.2){ const v=SHIELD[(Math.random()*SHIELD.length)|0]; emit(card.localToWorld(new T.Vector3(v[0]*1.03,v[1]*1.03,.08)),new T.Vector3(0,0,0),0xfff6d8,.45,.5,0,0,0); }
     
@@ -2106,6 +2120,7 @@ function tick(draw){
   blob.material.opacity=card.visible?clamp01(1-(card.position.y-CARD_POS.y)*1.2):pack.visible?1:0;
   camera.position.copy(camPos).add(new T.Vector3((Math.random()-.5)*shake,(Math.random()-.5)*shake,0));
   camera.lookAt(camLook); panoSphere.position.copy(camera.position); if(phase!=="run") roll*=Math.pow(.05,dt); camera.rotateZ(roll);
+  if(card.visible) keepCardInBand();
   if(draw) render();
 }
 function frame(){ if(manual===null) tick(true); requestAnimationFrame(frame); }
@@ -2162,7 +2177,7 @@ window.__pick=(d,n)=>{ pickD=d; pickN=n; pair={daniel:mpByIdx(d), nik:mpByIdx(n)
 const EMBED=qs.get("embed")==="1"; const toGame=(type)=>{ try{ parent.postMessage({type},location.origin); }catch(e){} };
 cta.addEventListener("click",()=>{ if(EMBED){ if(cta.dataset.sent) return; cta.dataset.sent="1"; cta.disabled=true; cta.textContent="Opening Career Start…"; toGame("cms-sp-continue"); $("again").hidden=true; return; } toast.classList.add("on"); setTimeout(()=>toast.classList.remove("on"),1400); });
 window.__mq={ player(i){ manual=performance.now()/1000; last=manual; queue.length=0; startPlayer(i); }, advance(sec){ const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1); } },
-  get t(){ return vtt; }, get phase(){ return phase; }, get idx(){ return idx; } };
+  get t(){ return vtt; }, get band(){ return bandDbg; }, get phase(){ return phase; }, get idx(){ return idx; } };
 
 const fontsReady=Promise.race([Promise.all(['600 60px "Barlow Condensed"','700 30px "Barlow Condensed"','500 30px "Barlow Condensed"','800 30px "Barlow Condensed"','800 40px "Big Shoulders Display"','900 40px "Big Shoulders Display"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);
 Promise.all([fontsReady,loadPano(),loadGrass(),loadPlate(),loadBoards(),loadSide("assets/stand_left.jpg","plateL","hasL"),loadSide("assets/stand_right.jpg","plateR","hasR"),loadCrests(),loadPackArt(),loadCardArt()]).then(()=>{ drawLed(ledTex.ctx); ledTex.tx.needsUpdate=true; resize(); buildEnv(); startPlayer(0);
