@@ -210,6 +210,8 @@ WHAT MAKES A GREAT LINE
 - Fresh imagery every time. Football texture is welcome: the table, the cabinet, the dugout, the tunnel, the final whistle, the open-top bus, the trophy ribbons, the long season, the console glow.
 - Tone mix for the 100: 40 straight broadcast quality (the line a real commentator would be proud of), 35 warm wit (a smile, a clever turn), 25 big drama (goosebumps, the moment).
 - Kind rivalry: tease, never mock or insult the losing manager.
+- Numbers are seasoning, not the meal: at most 30 lines may use {margin}, at most 15 may use {winnerPoints} or {points}, and at least 35 lines use no number placeholder at all (just names, clubs and the moment).
+- Exclamation marks: the lead caller may use them in up to 60 lines; every other voice in at most 15. Real commentators also land big moments with a calm, weighty full stop.
 
 HARD RULES
 1. Every line is different in idea and shape. No two lines start with the same three words. At most 4 lines start with any one word. Never write a template with swapped endings (the old library did "X made this season a procession, and ..." three times: never do that).
