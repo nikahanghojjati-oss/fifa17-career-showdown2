@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-29 6:53 PM Boston time (EDT)",
+ "generated": "2026-10-29 6:56 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 169,
+  "count": 170,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1524,6 +1524,15 @@
     "subject": "League wheel spin: drawn slice lines, no dashed flicker while it turns (PR #1058 into gameplay/r86)",
     "reply": "no",
     "boston": "Thu 29 Oct 3:12 PM"
+   },
+   {
+    "time": "2026-10-29 22:54",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-047 SENT",
+    "subject": "Sounds for Russian Roster Roulette: eight real cues that drop into platemap.json sfx",
+    "reply": "yes (receive it)",
+    "boston": "Thu 29 Oct 6:54 PM"
    }
   ],
   "g2v": {
@@ -1544,8 +1553,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "fa69139",
-  "head_boston": "Thu 29 Oct 3:12 PM",
+  "head": "320a58a",
+  "head_boston": "Thu 29 Oct 6:54 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2220,6 +2229,19 @@
     "worker": "opus",
     "pickup_min": 12,
     "waiting_min": null
+   },
+   {
+    "id": "HO-047",
+    "from": "V",
+    "to": "G",
+    "title": "Sounds for Russian Roster Roulette: eight real cues that drop into platemap.json sfx",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-047_sounds-for-russian-roster-roulette-eight.md",
+    "worker": "sol-work",
+    "pickup_min": null,
+    "waiting_min": 1
    }
   ],
   "relay_ok": true
@@ -2291,7 +2313,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
