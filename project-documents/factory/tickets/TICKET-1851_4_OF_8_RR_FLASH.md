@@ -14,7 +14,7 @@ Steps for Nik:
    - only a bright orange-white flash with a little grey smoke on pure black
    - no gun, no hand, no person, no blood, no words
    - Save only the picture this chat just made.
-5. If it passes, download it and drop it into the Roster Russian Roulette thread with `1851-4 FLASH`. If it fails, start again in a new chat (up to 3 tries).
+5. If it passes, download it and drop it into the Russian Roster Roulette thread with `1851-4 FLASH`. If it fails, start again in a new chat (up to 3 tries).
 
 Prompt:
 

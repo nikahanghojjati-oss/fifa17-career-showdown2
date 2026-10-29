@@ -1,4 +1,4 @@
-# CC-009 · Roster Russian Roulette: real 3D screen (HO-040, r87)
+# CC-009 · Russian Roster Roulette: real 3D screen (HO-040, r87)
 
 MODEL: Fable 5.1 · EFFORT: High · SURFACE: Claude Code cloud session (claude.ai/code)
 STOP_BUDGET: $35 / 75 min. At 80% ($28) stop adding scope, commit, write BUILD_RESULT.md. At 100% stop.
@@ -44,7 +44,7 @@ Put the muzzle point, hand point and board quads for each layer in `roulette/pla
 Wooden frame with brass corners. Inside: green pitch with white lines and the starting XI placed by position (GK bottom, attackers top), each a shirt in club colours + rating + short name like the FIFA 17 squad screen; under it one row of 4 subs. Draw on a CanvasTexture at 2x (crisp names). Preview: Daniel = Manchester United, Nik = Real Madrid; `?d=<club>&n=<club>` picks any club from the JSON. Expose `window.__rr.setBoards(danielClub, nikClub)` and `window.__rr.play({fire:true|false})` for Team G.
 
 ## HUD (HTML over the canvas, reuse Special Player CSS)
-Desktop: top bar CM17 + HOME, CAREER (active), STANDINGS, STATS, RULES + chips DANIEL, SEASON 1 / 1 + gear; title "CAREER MODE SHOWDOWN 17" small + "Roster Russian Roulette" (gold, engraved Western feel); one result line; gold SPIN THE CYLINDER button; bottom panel 01 DANIEL + state / 02 NIK + state. Phone (<=900 px, upright): chips top-left, gear top-right, title, scene, result line, button, bottom tabs HOME CAREER STANDINGS STATS RULES. Camera/FOV re-framed for portrait so both boards are readable.
+Desktop: top bar CM17 + HOME, CAREER (active), STANDINGS, STATS, RULES + chips DANIEL, SEASON 1 / 1 + gear; title "CAREER MODE SHOWDOWN 17" small + "Russian Roster Roulette" (gold, engraved Western feel); one result line; gold SPIN THE CYLINDER button; bottom panel 01 DANIEL + state / 02 NIK + state. Phone (<=900 px, upright): chips top-left, gear top-right, title, scene, result line, button, bottom tabs HOME CAREER STANDINGS STATS RULES. Camera/FOV re-framed for portrait so both boards are readable.
 
 ## Hard rules
 - Daniel always LEFT, Nik always RIGHT, never mirrored. The dealer may be mirrored.

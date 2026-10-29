@@ -1,4 +1,4 @@
-# CC-010 · Roster Russian Roulette: no people, the revolver spins by itself (HO-040, r87)
+# CC-010 · Russian Roster Roulette: no people, the revolver spins by itself (HO-040, r87)
 
 MODEL: Fable 5.1 · EFFORT: High · SURFACE: Claude Code cloud session (claude.ai/code), Nik's cloud credit
 STOP_BUDGET: $30 / 60 min. At 80% ($24) stop adding scope, commit, write the result. At 100% stop.

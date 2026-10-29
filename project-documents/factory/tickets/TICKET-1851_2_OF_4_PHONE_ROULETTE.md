@@ -1,4 +1,4 @@
-# Ticket 1851 · 2 of 4 · New phone screen: Roster Russian Roulette (r87, HO-040)
+# Ticket 1851 · 2 of 4 · New phone screen: Russian Roster Roulette (r87, HO-040)
 
 One picture only. Thu 29 Oct 2026, Team V. The upright phone version of ticket 1851-1: same cowboy cafe, same three men. Version 2 (Nik's richer room pictures), boards side by side, nothing to scroll (393 × 660 Safari view). This becomes `mockups/PHONE_ROULETTE.png`. Claude keeps both faces exactly afterwards and draws the players onto the boards.
 
@@ -18,7 +18,7 @@ Steps for Nik:
    - BANG! NIK'S BOARD IS HIT. and the gold SPIN THE CYLINDER button above the tabs
    - nobody looks dimmed or greyed
    - Save only the picture this chat just made.
-5. If it passes, download it and drop it into the Roster Russian Roulette thread with `1851-2 PHONE`. If it fails, start again in a new chat (up to 3 tries).
+5. If it passes, download it and drop it into the Russian Roster Roulette thread with `1851-2 PHONE`. If it fails, start again in a new chat (up to 3 tries).
 6. If it is great except for wrong words or tabs, you may reply once in the same chat with the fix message below.
 
 Prompt:
@@ -31,7 +31,7 @@ MOST IMPORTANT (never break these):
 - No new or moved buttons, tabs or icons. Never add SQUAD, TRANSFERS, COMPETITIONS, COMPETE, PROFILE, SHOP, a bell, an avatar or a search icon.
 - Nobody is hurt; the gun aims only at the corner of Nik's board, never at a face or body. No blood.
 - No characters from any real game or film; no real logos.
-- Words allowed, letter for letter: DANIEL, SEASON 1 / 1, CAREER MODE SHOWDOWN 17, Roster Russian Roulette, BANG! NIK'S BOARD IS HIT., SPIN THE CYLINDER, and the bottom tabs HOME, CAREER, STANDINGS, STATS, RULES.
+- Words allowed, letter for letter: DANIEL, SEASON 1 / 1, CAREER MODE SHOWDOWN 17, Russian Roster Roulette, BANG! NIK'S BOARD IS HIT., SPIN THE CYLINDER, and the bottom tabs HOME, CAREER, STANDINGS, STATS, RULES.
 - The bars stay exactly: two chips at the top left (DANIEL, SEASON 1 / 1) and a gold gear at the top right; the bottom tabs HOME (house), CAREER (trophy, highlighted gold), STANDINGS (three lines), STATS (bar chart), RULES (page).
 
 The room (a cowboy cafe or restaurant, NOT a saloon: no bar fight, no dancers, no swinging doors):
@@ -58,7 +58,7 @@ The seven-chamber cylinder (Version 3, 29 Oct 1:55 a.m. UTC: the shot moment):
 - The round grey disc with seven holes in the sketch becomes a polished steel revolver cylinder seen straight on, seven empty chambers in a ring, with a thin gold rim, floating as a game element in the same place and size.
 
 The interface (keep it exactly where the sketch has it):
-- CAREER MODE SHOWDOWN 17 small, and under it Roster Russian Roulette as a premium gold title with an engraved Western look.
+- CAREER MODE SHOWDOWN 17 small, and under it Russian Roster Roulette as a premium gold title with an engraved Western look.
 - Under the boards: a slim black strip with a thin gold edge holding BANG! NIK'S BOARD IS HIT., then the polished gold SPIN THE CYLINDER button, then the black bottom tab bar with a thin gold line on top.
 - Nothing covers anything else. Every word sharp and easy to read.
 

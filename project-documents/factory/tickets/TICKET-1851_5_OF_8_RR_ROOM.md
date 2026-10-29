@@ -11,7 +11,7 @@ Steps for Nik:
 2. Attach nothing.
 3. Paste the prompt below exactly. If ChatGPT offers to change it, reply: `No, use my prompt exactly.`
 4. Check the picture against the list below. Save only the picture this chat just made.
-5. If it passes, download it and drop it into the Roster Russian Roulette thread with `1851-5 ROOM`. If it fails, start again in a new chat (up to 3 tries).
+5. If it passes, download it and drop it into the Russian Roster Roulette thread with `1851-5 ROOM`. If it fails, start again in a new chat (up to 3 tries).
 
 Check list:
 - a rich lamplit 1899 cowboy cafe like your pictures: carved dark wood with thin gold ornaments, rows of glowing glass lamp shades, a balcony with white railings at the back, brass lamps, a dark plank floor, a window to a dusky blue street

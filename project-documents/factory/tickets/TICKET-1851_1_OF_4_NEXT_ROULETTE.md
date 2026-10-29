@@ -1,4 +1,4 @@
-# Ticket 1851 · 1 of 4 · New desktop screen: Roster Russian Roulette (r87, HO-040)
+# Ticket 1851 · 1 of 4 · New desktop screen: Russian Roster Roulette (r87, HO-040)
 
 One picture only. Thu 29 Oct 2026, Team V. New screen in Red Dead Redemption game quality, in a cowboy cafe (not a saloon), using Nik's four room pictures (lamplit carved wood, gold ornaments, rows of glass lamps, balcony, round green-felt table) as the look. Version 2, 00:25 a.m. UTC. Daniel left and Nik right each hold their squad board; the dealer sits between them with the seven-shot revolver. This becomes the desktop target `mockups/NEXT_ROULETTE.png`. After it comes back, Claude keeps both faces exactly (likeness lock) and draws the players onto the boards.
 
@@ -18,7 +18,7 @@ Steps for Nik:
    - the steel seven-chamber cylinder in the middle, the line BANG! NIK'S BOARD IS HIT., the gold SPIN THE CYLINDER button, the bottom panel (01 DANIEL SAFE, 02 NIK HIT) and the top bar match the sketch word for word
    - nobody looks dimmed or greyed
    - Save only the picture this chat just made.
-5. If it passes, download it and drop it into the Roster Russian Roulette thread with `1851-1 DESKTOP`. If it fails, start again in a new chat (up to 3 tries).
+5. If it passes, download it and drop it into the Russian Roster Roulette thread with `1851-1 DESKTOP`. If it fails, start again in a new chat (up to 3 tries).
 6. If it is great except for wrong words or tabs, you may reply once in the same chat with the fix message below.
 
 Prompt:
@@ -31,7 +31,7 @@ MOST IMPORTANT (never break these):
 - No new or moved buttons, tabs or icons. Never add SQUAD, TRANSFERS, COMPETITIONS, COMPETE, PROFILE, SHOP, a bell, an avatar or a search icon.
 - Nobody is hurt; the gun aims only at the corner of Nik's board, never at a face or body. No blood.
 - No characters from any real game or film; no real logos.
-- Words allowed, letter for letter: CAREER MODE SHOWDOWN 17, Roster Russian Roulette, BANG! NIK'S BOARD IS HIT., SPIN THE CYLINDER, 01, DANIEL, SAFE, 02, NIK, HIT, and the top bar exactly as drawn (CM17, HOME, CAREER, STANDINGS, STATS, RULES, and the small chips and gear at the right).
+- Words allowed, letter for letter: CAREER MODE SHOWDOWN 17, Russian Roster Roulette, BANG! NIK'S BOARD IS HIT., SPIN THE CYLINDER, 01, DANIEL, SAFE, 02, NIK, HIT, and the top bar exactly as drawn (CM17, HOME, CAREER, STANDINGS, STATS, RULES, and the small chips and gear at the right).
 
 The room (a cowboy cafe or restaurant, NOT a saloon: no bar fight, no dancers, no swinging doors):
 - An elegant 1899 Western town cafe in the evening, rich and warm like a top-quality 3D Western video game (the Red Dead Redemption 2 look and quality): dark carved wood panelling with thin gold art-nouveau ornaments, a coffered wooden ceiling with rows of glowing glass lamp shades, brass wall sconces, a wooden balcony with white turned railings in the background, a polished counter with lamps far behind, dark plank floor, a tall window showing a dusky blue street.
@@ -58,7 +58,7 @@ The seven-chamber cylinder (Version 3, 29 Oct 1:55 a.m. UTC: the shot moment):
 
 The interface (keep it exactly where the sketch has it):
 - The top bar stays exactly as in the sketch.
-- At the top centre: CAREER MODE SHOWDOWN 17 small, and under it Roster Russian Roulette as a premium gold title with an engraved Western look, like a luxury gold-leaf sign.
+- At the top centre: CAREER MODE SHOWDOWN 17 small, and under it Russian Roster Roulette as a premium gold title with an engraved Western look, like a luxury gold-leaf sign.
 - Under the cylinder: a slim black strip with a thin gold edge holding BANG! NIK'S BOARD IS HIT., then the polished gold SPIN THE CYLINDER button.
 - At the bottom: a slim glossy black panel with a thin gold edge: left 01 DANIEL with SAFE under it, right 02 NIK with HIT under it.
 - Nothing covers anything else. Every word sharp and easy to read.

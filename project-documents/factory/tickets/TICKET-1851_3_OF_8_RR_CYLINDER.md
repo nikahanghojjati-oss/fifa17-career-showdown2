@@ -16,7 +16,7 @@ Steps for Nik:
    - old polished steel, a little worn, Western style; no gun around it, no bullets, no hands
    - no words, numbers or logos
    - Save only the picture this chat just made.
-5. If it passes, download it and drop it into the Roster Russian Roulette thread with `1851-3 CYLINDER`. If it fails, start again in a new chat (up to 3 tries).
+5. If it passes, download it and drop it into the Russian Roster Roulette thread with `1851-3 CYLINDER`. If it fails, start again in a new chat (up to 3 tries).
 6. If it has six or eight holes, reply once in the same chat with the fix message below.
 
 Prompt:

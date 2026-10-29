@@ -1,4 +1,4 @@
-# CC-010 BUILD_RESULT · Roster Russian Roulette: no people, the revolver spins by itself (HO-040, r87)
+# CC-010 BUILD_RESULT · Russian Roster Roulette: no people, the revolver spins by itself (HO-040, r87)
 
 Built 29 Oct 2026 by Fable 5.1 High in the project helper thread (Nik's choice), 03:48-04:20 UTC plus a resume 07:52-08:15 UTC after the usage limit reset. Nik asked for helpers to run in parallel: helper 1 did the premium room pass, helper 2 the revolver close-up (it stopped at the usage limit after its third round; that round is what shipped).
 Branch: `claude/project-thread-6rq94x`. SHA: 04fa2c9f22c6c76e6a2b1bd194355348d28b8432 (code); the result-file commit follows it.
@@ -81,3 +81,7 @@ Evidence regenerated in `evidence/` (desktop 1536x864 and phone 393x660, 7 beats
 - Coffee pot rebuilt: tall belly body, gold seams, domed lid with a finial, gooseneck spout and looped handle (tube geometry).
 - Cups rebuilt: dished saucer with gold rim, thin bone-china cup with gold lip, looped handle, glossy coffee, a gold spoon on the saucer.
 - Follow-up: the muzzle flash now rides on the muzzle every frame (the recoil slide was leaving it behind), petals are opaque white-to-orange so the felt no longer tints them green, sizes cut to revolver scale (12-19 cm star, 5 cm core).
+
+## Name (Nik, 29 Oct 15:19 UTC)
+
+Full name **Russian Roster Roulette** (screen title, docs). Short name **Roster Roulette** for menus, tabs and the rule book. Old spelling "Roster Russian Roulette" is retired.

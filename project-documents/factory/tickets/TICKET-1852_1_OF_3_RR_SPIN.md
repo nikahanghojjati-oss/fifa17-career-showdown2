@@ -11,7 +11,7 @@ Steps for Nik:
 2. Attach this one file only: **your approved 1851-1 desktop picture** (NEXT_ROULETTE).
 3. Paste the prompt below exactly. If ChatGPT offers to change it, reply: `No, use my prompt exactly.`
 4. Check the picture against the list below. Save only the picture this chat just made.
-5. If it passes, download it and drop it into the Roster Russian Roulette thread with `1852-1 SPIN`. If it fails, start again in a new chat (up to 3 tries).
+5. If it passes, download it and drop it into the Russian Roster Roulette thread with `1852-1 SPIN`. If it fails, start again in a new chat (up to 3 tries).
 
 Check list:
 - an extreme close-up of the cowboy's gloved hand and the revolver, cylinder swung OUT to the side

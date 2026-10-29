@@ -1,8 +1,8 @@
 **UPDATE 29 Oct 03:44 UTC (Nik): no people, no faces, nothing held in a hand.** The revolver lies on the felt, spins by itself like a bottle, stops pointing at a board on an easel, and fires. Build brief: `project-documents/factory/handoffs/CC-010_ROULETTE_NO_PEOPLE_FABLE.md`. Live pictures: 1851-5 ROOM, 1853-1 GUN_TOP, 1851-4 FLASH (1851-3 optional). Tickets 1851-1/2/6/7/8 and 1852-1..3 are dropped.
 
-# Roster Russian Roulette · Team V plan (HO-040, r87)
+# Russian Roster Roulette · Team V plan (HO-040, r87)
 
-Thu 29 Oct 2026, Team V thread "Make Roster Russian Roulette screen".
+Thu 29 Oct 2026, Team V thread "Make Russian Roster Roulette screen".
 
 ## Look
 Red Dead Redemption 2 game quality, an elegant 1899 **cowboy cafe, not a saloon**, in the evening: carved dark wood with gold ornaments, rows of glass lamps, a balcony behind, the round green-felt table with a lantern. Nik references: NIK_REF_COWBOY_CAFE_TABLE.jpg, NIK_REF_2_LAMPLIT_HALL.jpg, NIK_REF_3_BALCONY_ROOM.png, NIK_REF_4_RDR2_CAFE_TABLE.jpg (look only; the dealer is an original man, never Arthur Morgan).

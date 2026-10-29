@@ -1,5 +1,5 @@
 {
-  "_about": "HO-040 Roster Russian Roulette (CC-010: no people). World units are metres; the felt is at y 0.75, the revolver lies at the table centre, Daniel's easel is LEFT (x negative), Nik's is RIGHT. Edit these numbers when a picture layer drops into assets/; no code change needed.",
+  "_about": "HO-040 Russian Roster Roulette (CC-010: no people). World units are metres; the felt is at y 0.75, the revolver lies at the table centre, Daniel's easel is LEFT (x negative), Nik's is RIGHT. Edit these numbers when a picture layer drops into assets/; no code change needed.",
   "room":   { "file": "assets/RR_ROOM.jpg", "ticket": "1851-5", "z": -3.9, "height": 4.6, "note": "16:9 empty room plate; replaces the 3D back wall when present" },
   "gunTop": { "file": "assets/RR_GUN_TOP.png", "ticket": "1853-1", "length": 0.3, "offsetZ": 0.05, "rotation": 0,
               "note": "top-down revolver photo with alpha, barrel pointing UP in the picture; laid flat on the felt for the top-down spin shots and cross-faded with the 3D model at the camera cut. length = barrel-to-grip size in metres, offsetZ shifts the picture along the barrel so the muzzle lines up with the model's muzzle (0.19 m ahead of the cylinder axis), rotation in radians if the picture is not straight" },
