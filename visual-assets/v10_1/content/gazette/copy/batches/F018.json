@@ -1,0 +1,259 @@
+{
+ "edited": true,
+ "writer": "claude-haiku-helper",
+ "batch": 18,
+ "situation": "showdown-won",
+ "flavour": "Call and analysis",
+ "duets": [
+  {
+   "id": "fb18-01",
+   "lead": "It is over, and {winner} has taken the whole contest.",
+   "co": "The campaign is finished, and the side that stayed sharpest for {seasons} seasons takes the prize."
+  },
+  {
+   "id": "fb18-02",
+   "lead": "The final whistle has gone, and the team in front has the prize.",
+   "co": "Champions are built over the haul, and this one kept its shape from start to finish."
+  },
+  {
+   "id": "fb18-03",
+   "lead": "{loser} can only tip a cap as {winner} walks away with the lot.",
+   "co": "A tip of the cap is the fitting response; the consistency on display was simply too much."
+  },
+  {
+   "id": "fb18-04",
+   "lead": "The last word is in, and it belongs to {winnerClub}.",
+   "co": "Quite fitting: the form was there from the first campaign to the last, and never once faded."
+  },
+  {
+   "id": "fb18-05",
+   "lead": "This feud is over, and the trophy has a new owner.",
+   "co": "A journey like that is never about a single big moment; it is about turning up strong each time."
+  },
+  {
+   "id": "fb18-06",
+   "lead": "The overall table closes {winnerPoints} to {loserPoints}, and the boss is king of the hill.",
+   "co": "Totals never lie, and a finish like that is the product of a steady road to the top."
+  },
+  {
+   "id": "fb18-07",
+   "lead": "The winner beats {loser} to the crown by {margin} points overall.",
+   "co": "A margin of {margin} might look small, but a deserved win is still a deserved win."
+  },
+  {
+   "id": "fb18-08",
+   "lead": "The Showdown belongs to {winnerClub}, and the gap closed out at {margin}.",
+   "co": "Closing out at {margin} means the lead was never really in doubt once the middle was done."
+  },
+  {
+   "id": "fb18-09",
+   "lead": "It is all settled at the top, and the boss is lifting the silverware.",
+   "co": "Lifting it means keeping cool in the closing moments, and that is exactly what the boss did."
+  },
+  {
+   "id": "fb18-10",
+   "lead": "And that is the battle: {winner} takes it, and {loser} offers a generous nod.",
+   "co": "A nod is the fitting gesture; rivalry is only fun when the loser can still laugh afterwards."
+  },
+  {
+   "id": "fb18-11",
+   "lead": "It is finished, and the one holding the trophy aloft is the victor.",
+   "co": "Holding it aloft is the reward for every sensible decision made across the entire run."
+  },
+  {
+   "id": "fb18-12",
+   "lead": "Lights down on this race, and {winnerClub} is the last club standing.",
+   "co": "Standing at the end is the whole point; the campaign rewards whoever keeps going longest."
+  },
+  {
+   "id": "fb18-13",
+   "lead": "So the contest is wrapped up, and the side did the job.",
+   "co": "Doing the job is the simple part: a clean, sensible campaign from start to finish."
+  },
+  {
+   "id": "fb18-14",
+   "lead": "The verdict is in, and {winner} has taken the title by a fair margin.",
+   "co": "A fair margin is all you need; a fair result always reads better in the end."
+  },
+  {
+   "id": "fb18-15",
+   "lead": "{winner} is the champion after {seasons} seasons of graft.",
+   "co": "Graft is the thing, and graft wins the big prize; nobody does it on talent alone."
+  },
+  {
+   "id": "fb18-16",
+   "lead": "It is done: {winnerClub} have the Showdown, and {loser} has the sympathy.",
+   "co": "Sympathy is a kind thing to give a worthy rival; the contest was close enough to deserve it."
+  },
+  {
+   "id": "fb18-17",
+   "lead": "Everything is settled now, and {winnerClub} are the grand winners of the title race.",
+   "co": "Grand winners are made by staying in front for longer than anyone else managed."
+  },
+  {
+   "id": "fb18-18",
+   "lead": "A long road, a clear finish, and the one at the top is the man in charge.",
+   "co": "Victory on a long road is special, because every rival had a chance to slip and none did."
+  },
+  {
+   "id": "fb18-19",
+   "lead": "{winner} ends the battle on {winnerPoints} overall, and {loser} is on {loserPoints}.",
+   "co": "Those are the overall totals, and they tell a plain story: the winner was steadier throughout."
+  },
+  {
+   "id": "fb18-20",
+   "lead": "The book is closed on this race, and the champion is the name at the top.",
+   "co": "The records do not lie, and the name at the top stayed sharp for the whole journey."
+  },
+  {
+   "id": "fb18-21",
+   "lead": "It is done and dusted: {winner} has taken it with real authority.",
+   "co": "Authority is earned in the big moments, and {winner} was never seriously rattled."
+  },
+  {
+   "id": "fb18-22",
+   "lead": "Champion {winner}, and {loser} is the first to shake a hand.",
+   "co": "A handshake says it all; the friendship survives the defeat, and that is what matters."
+  },
+  {
+   "id": "fb18-23",
+   "lead": "The final act is over, and {winnerClub} are hoisting the silverware.",
+   "co": "Hoisting is easy; the hard part was staying steady through every single season."
+  },
+  {
+   "id": "fb18-24",
+   "lead": "Everything is decided, and the boss can finally put the feet up.",
+   "co": "Feet up is well deserved; {loser} will just have to plan a comeback for the next contest."
+  },
+  {
+   "id": "fb18-25",
+   "lead": "The battle is closed, and the victor takes the crown for the whole campaign.",
+   "co": "A crown earned across the full run is worth more than a single flash of brilliance."
+  },
+  {
+   "id": "fb18-26",
+   "lead": "{winnerClub} have the prize, and {loser} says they pushed hard to the finish.",
+   "co": "Pushing hard is a fine consolation; the rivalry was a joy to watch from start to finish."
+  },
+  {
+   "id": "fb18-27",
+   "lead": "The journey ends with the boss holding the silverware, and it was a proper contest.",
+   "co": "A proper contest needs two proper managers, and both of them gave it everything."
+  },
+  {
+   "id": "fb18-28",
+   "lead": "It is finished: {winner} has the crown and {loser} has a long off-season to plan.",
+   "co": "An off-season is where comebacks are born, so the next battle will be a fight worth watching."
+  },
+  {
+   "id": "fb18-29",
+   "lead": "Full time, and {winnerClub} are the proud owners of the prize.",
+   "co": "Ownership brings responsibility; the champions now have to defend the crown next time."
+  },
+  {
+   "id": "fb18-30",
+   "lead": "The season concludes, and {winner} takes it by {margin} overall.",
+   "co": "By {margin} overall is a neat way of saying the work was done; everything after was theatre."
+  },
+  {
+   "id": "fb18-31",
+   "lead": "Final whistle, and {loser} shakes hands with {winner} at the centre circle.",
+   "co": "A handshake at the centre circle is the fitting way to close; respect matters more than the trophy."
+  },
+  {
+   "id": "fb18-32",
+   "lead": "{winnerClub} have been relentless, and the silverware belongs to them.",
+   "co": "Relentless is the right description: every season was a grind, and every grind was won."
+  },
+  {
+   "id": "fb18-33",
+   "lead": "The fight is decided, and it was the boss who had the best of it all along.",
+   "co": "The best of it all along is a long-term edge, and that is what the game rewards in the end."
+  },
+  {
+   "id": "fb18-34",
+   "lead": "So the wait is over, and the champion is {winner}.",
+   "co": "A patient wait deserves a proper winner, and this one has been ahead of the pack for ages."
+  },
+  {
+   "id": "fb18-35",
+   "lead": "The duel is over, and {loserClub} can take real pride from the chase.",
+   "co": "Pride is the right word for a club that pushed the winner all the way to the final whistle."
+  },
+  {
+   "id": "fb18-36",
+   "lead": "The overall picture is clear now, and it is {winner} at the summit.",
+   "co": "A clear picture after the full race is a rare thing, and {winner} has earned it honestly."
+  },
+  {
+   "id": "fb18-37",
+   "lead": "Everything is settled, and {winnerClub} can stop looking back.",
+   "co": "Glancing back is exhausting; the club can now relax and enjoy the moment."
+  },
+  {
+   "id": "fb18-38",
+   "lead": "{winner} has it in the bag, and {loser} has been a gracious runner-up.",
+   "co": "A gracious runner-up is what this rivalry needed; the friendship will outlast the trophy."
+  },
+  {
+   "id": "fb18-39",
+   "lead": "Time to celebrate, because {winnerClub} have taken it all.",
+   "co": "Celebrations are deserved, and this one has been built across every stage of the run."
+  },
+  {
+   "id": "fb18-40",
+   "lead": "The big one is sealed, and {winner} is etched into the record books.",
+   "co": "Record books are only the paperwork; the real story is the consistency that got there."
+  },
+  {
+   "id": "fb18-41",
+   "lead": "The fight has ended, and {loserClub} can look back with pride.",
+   "co": "Looking back with pride is the instinct to trust; they made {winnerClub} work for every point."
+  },
+  {
+   "id": "fb18-42",
+   "lead": "{winner} wins it after a long, hard stretch of grind and graft.",
+   "co": "Grind and graft is the stuff of champions; nothing about the result was accidental."
+  },
+  {
+   "id": "fb18-43",
+   "lead": "The whistle goes, and {winner} is crowned the finest manager of the lot.",
+   "co": "Finest manager is a tall title, but the record says it fits; the consistency says it deserves to."
+  },
+  {
+   "id": "fb18-44",
+   "lead": "Job done, and {winnerClub} have been the steadier side throughout.",
+   "co": "Steady is the word; the race rewards the side that does not wobble when it counts."
+  },
+  {
+   "id": "fb18-45",
+   "lead": "The result goes in favour of the side, and it is a comfortable win.",
+   "co": "A comfortable win is what happens when the other side spends the middle chasing shadows."
+  },
+  {
+   "id": "fb18-46",
+   "lead": "{loser} can hold their head high, because the rivalry was a proper fight.",
+   "co": "A proper fight is nothing to be ashamed of, and {winner} earned every point."
+  },
+  {
+   "id": "fb18-47",
+   "lead": "The result is final, and the verdict is clear: {winner} is top of the lot.",
+   "co": "Final verdicts are rare in football, so savour it; {winner} has earned the right."
+  },
+  {
+   "id": "fb18-48",
+   "lead": "The trophy goes to {winnerClub}, and the silverware sits in their cabinet.",
+   "co": "A cabinet is where memories go to live; this one will stay there for a long time."
+  },
+  {
+   "id": "fb18-49",
+   "lead": "The last whistle has gone, and {winner} has taken it in style.",
+   "co": "Style is a polite way to put it; the composure in the closing moments was the real class."
+  },
+  {
+   "id": "fb18-50",
+   "lead": "{winner} leaves with the honours, and {loser} leaves with the lesson.",
+   "co": "Lessons come from starting slowly; the crown is decided by the first season as much as the last."
+  }
+ ]
+}
