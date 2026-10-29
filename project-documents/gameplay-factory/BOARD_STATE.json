@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-29 5:01 PM Boston time (EDT)",
+ "generated": "2026-10-29 5:05 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 169,
@@ -1584,10 +1584,10 @@
      "draft": false,
      "branch": "claude-gameplay/home-ios-bottom-bar",
      "sha": "8e38487af3d4bf7f103ef7c26896419114e44864",
-     "updated": "2026-10-29T20:55:15Z",
+     "updated": "2026-10-29T21:05:00Z",
      "gates": {
-      "passed": 5,
-      "running": 2,
+      "passed": 6,
+      "running": 1,
       "failed": 0,
       "cancelled": 0
      }
@@ -1598,7 +1598,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #1062: L1… L2✓ L3A… L3B… L4✓ L5… L6… · seal pending · POS20 #1062 0/16",
+   "gate": "Gate #1062: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✗ · seal FAIL (test) · POS20 #1062 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -3523,10 +3523,10 @@
     "draft": false,
     "branch": "claude-gameplay/home-ios-bottom-bar",
     "sha": "8e38487af3d4bf7f103ef7c26896419114e44864",
-    "updated": "2026-10-29T20:55:15Z",
+    "updated": "2026-10-29T21:05:00Z",
     "gates": {
-     "passed": 5,
-     "running": 2,
+     "passed": 6,
+     "running": 1,
      "failed": 0,
      "cancelled": 0
     }

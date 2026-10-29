@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 29 Oct, 5:01 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 29 Oct, 5:05 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.9-r85** (main `e849e0f`, Wed 28 Oct 11:55 PM)
 
-🩺 **All clear: every check has a machine.** · Gate #1062: L1… L2✓ L3A… L3B… L4✓ L5… L6… · seal pending · POS20 #1062 0/16
+🩺 **All clear: every check has a machine.** · Gate #1062: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✗ · seal FAIL (test) · POS20 #1062 0/16
 
 ## Jobs
 
@@ -70,7 +70,7 @@ Updated Thu 29 Oct, 5:01 PM Boston time. Bug hunting only, no new features until
 
 **#14 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 313 h ago
+⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 314 h ago
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1062](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1062) | Phone Home: keep every tile above the bottom bar on iOS 26 Safari | ⏳ 5 passed, 2 running |
+| 🟧 Team G lead | [PR #1062](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1062) | Phone Home: keep every tile above the bottom bar on iOS 26 Safari | ⏳ 6 passed, 1 running |
 
 **Up next**
 
