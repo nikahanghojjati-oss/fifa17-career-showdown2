@@ -11,6 +11,11 @@ window.ShowdownLegacyBoot = function () {
   const LEGACY_MOTION = Object.freeze({ deal: 400, stagger: 50, crown: 220,
     page: 280, parallax: 320, fade: 150, ease: "cubic-bezier(.22,1,.36,1)" });
   const motionTimers = new WeakMap();
+  // r86 Special Player chip next to the manager's name (only for a Showdown that carries one: js/specialPlayerChip.js).
+  function specialPlayerChip(showdown, manager) {
+    const api = window.CareerModeSpecialPlayerChip, sp = showdown && showdown.specialPlayers && showdown.specialPlayers[manager];
+    return api && sp ? api.element(document, sp) : null;
+  }
   function reducedMotion() {
     let app = false;
     try {
@@ -231,7 +236,14 @@ window.ShowdownLegacyBoot = function () {
     const footer = document.createElement("span");
     footer.className = "legacyCardFooter";
     footer.textContent = copy(strings, "seasons", { played: showdown.seasonsPlayed, total: showdown.totalSeasons });
-    card.append(title, body, footer);
+    // r86: each manager's Special Player, on one line under that manager's side of the card (none before r86).
+    const chips = ["daniel", "nik"].map((manager) => specialPlayerChip(showdown, manager));
+    const special = chips[0] && chips[1] ? document.createElement("span") : null;
+    if (special) {
+      special.className = "legacyCardSpecial";
+      chips.forEach((chip, index) => { chip.dataset.manager = index ? "nik" : "daniel"; special.appendChild(chip); });
+    }
+    card.append(title, body, ...(special ? [special] : []), footer);
     // r84 Golden Showdown: a gold line names each manager who closed this 10-season Showdown on 110 points.
     const golden = Array.isArray(showdown.goldenShowdown) ? showdown.goldenShowdown.filter((manager) => manager === "daniel" || manager === "nik") : [];
     if (golden.length) {
@@ -320,7 +332,14 @@ window.ShowdownLegacyBoot = function () {
       });
       rows.appendChild(row);
     });
-    drawer.append(close, heading, rows);
+    // r86: this Showdown's Special Players, each next to the manager's name (none for a Showdown from before r86).
+    const chips = ["daniel", "nik"].map((manager) => [manager, specialPlayerChip(showdown, manager)]).filter(([, chip]) => chip);
+    const special = chips.length === 2 ? document.createElement("p") : null;
+    if (special) {
+      special.className = "legacyHistorySpecialPlayers spChipPair";
+      chips.forEach(([manager, chip]) => { const who = document.createElement("span"); who.append(document.createTextNode(strings.ui.managers[manager]), chip); special.appendChild(who); });
+    }
+    drawer.append(close, heading, ...(special ? [special] : []), rows);
     drawer.onkeydown = (event) => {
       if (event.key === "Escape") { event.preventDefault(); closeHistory(true); }
     };

@@ -6,6 +6,8 @@
   const scene = document.getElementById("careerScene");
   if (qs.get("grid") === "1") stage.dataset.grid = "1";
   const NAMES = { daniel: "Daniel", nik: "Nik" };
+  // r86 Special Player chip next to the manager's name (only when the frame carries one: js/specialPlayerChip.js).
+  const spChip = (frame, role) => { const api = window.CareerModeSpecialPlayerChip, sp = frame && frame.specialPlayers && frame.specialPlayers[role]; return api && sp ? api.html(sp) : ""; };
 
   const iconSvgs = [
     '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="m32 3 8 18 20 2-15 13 5 20-18-11-18 11 5-20L4 23l20-2z"/></svg>',
@@ -97,7 +99,7 @@
     ["daniel","nik"].forEach(role=>{
       const m=frame.managers[role], s=frame.showdowns[role], rr=ranks.find(x=>x.manager===role); const tr=document.createElement("tr");
       if (rr.rank===1) tr.className="leaderRow";
-      tr.innerHTML=`<td>${rr.rank}</td><td><span class="managerName">${rr.rank===1?'<span class="rankCrown" aria-label="Career leader">♛</span>':''}${NAMES[role]}</span></td><td>${s.completed}</td><td>${m.seasonWins}-${m.seasonDraws}-${m.seasonLosses}</td><td>${m.careerPoints}</td><td>${m.totalTrophies}</td>`;
+      tr.innerHTML=`<td>${rr.rank}</td><td><span class="managerName">${rr.rank===1?'<span class="rankCrown" aria-label="Career leader">♛</span>':''}${NAMES[role]}</span>${spChip(frame, role)}</td><td>${s.completed}</td><td>${m.seasonWins}-${m.seasonDraws}-${m.seasonLosses}</td><td>${m.careerPoints}</td><td>${m.totalTrophies}</td>`;
       body.appendChild(tr);
     }); t.appendChild(body); panel.appendChild(t);
     // r84 Golden Showdown: a gold line names each manager who closed a 10-season Showdown on 110 points.
