@@ -1,0 +1,389 @@
+{
+ "batch": 17,
+ "situation": "final-season-decider",
+ "voice": "The lead caller",
+ "edited": true,
+ "writer": "claude-sonnet-helper",
+ "lines": [
+  {
+   "id": "cb17-001",
+   "text": "The last season is upon us, and the Showdown is still wide open!"
+  },
+  {
+   "id": "cb17-002",
+   "text": "Everything has led to this, {leader} and {trailer}, with one season left to settle it all."
+  },
+  {
+   "id": "cb17-003",
+   "text": "Here comes the final lap, and {leader} leads into it by {margin}!"
+  },
+  {
+   "id": "cb17-004",
+   "text": "The bell is about to ring for the last time, and {trailer} has not given up on a thing."
+  },
+  {
+   "id": "cb17-005",
+   "text": "It all comes down to this, and nobody in the stadium is sitting down!"
+  },
+  {
+   "id": "cb17-006",
+   "text": "The last page of the story is yet to be written, and {leader} holds the pen for now."
+  },
+  {
+   "id": "cb17-007",
+   "text": "{winnerClub} and {loserClub} walk toward the final season, and the tunnel has never felt so long."
+  },
+  {
+   "id": "cb17-008",
+   "text": "A gap of {margin}, a season to play, and everything still to fight for!"
+  },
+  {
+   "id": "cb17-009",
+   "text": "The last chapter begins, and {trailer} has nothing to lose and a Showdown to win."
+  },
+  {
+   "id": "cb17-010",
+   "text": "Through the door and into the finale, and only one of them walks out a champion!"
+  },
+  {
+   "id": "cb17-011",
+   "text": "{leader} stands closest to the prize, but closest is not the same as there."
+  },
+  {
+   "id": "cb17-012",
+   "text": "Hold your breath, because the deciding season is about to begin!"
+  },
+  {
+   "id": "cb17-013",
+   "text": "Nothing is won, nothing is lost, and the last season waits like an open door."
+  },
+  {
+   "id": "cb17-014",
+   "text": "The long road bends toward home, and {trailer} still has a realistic shot at the prize."
+  },
+  {
+   "id": "cb17-015",
+   "text": "Last season, last chance, and a whole Showdown balanced on its edge!"
+  },
+  {
+   "id": "cb17-016",
+   "text": "They have come so far, {leader} and {trailer}, and now the very last stretch decides it."
+  },
+  {
+   "id": "cb17-017",
+   "text": "The lights come up for the final act, and the crowd leans in to hear it!"
+  },
+  {
+   "id": "cb17-018",
+   "text": "There is a lead of {margin} to defend, and a Showdown to win, and a season to get through."
+  },
+  {
+   "id": "cb17-019",
+   "text": "The finish line is in sight, and the chase is not over yet!"
+  },
+  {
+   "id": "cb17-020",
+   "text": "Rivals for all these seasons, and now one more to settle every argument."
+  },
+  {
+   "id": "cb17-021",
+   "text": "This is the moment the Showdown was always heading for, and {trailer} is not looking away."
+  },
+  {
+   "id": "cb17-022",
+   "text": "{leader} has the edge, {trailer} has the nerve, and the last season has the final say!"
+  },
+  {
+   "id": "cb17-023",
+   "text": "The deciding season, ladies and gentlemen, and not a single seat is empty in the imagination!"
+  },
+  {
+   "id": "cb17-024",
+   "text": "A season to go and the whole thing in the balance, and I cannot take my eyes off it!"
+  },
+  {
+   "id": "cb17-025",
+   "text": "All the trophies, all the points, all the wins, and it comes down to this last season."
+  },
+  {
+   "id": "cb17-026",
+   "text": "{trailer} must find something special, {leader} must hold the line, and the season awaits!"
+  },
+  {
+   "id": "cb17-027",
+   "text": "The console glows one more time, and the Showdown hangs on what happens next."
+  },
+  {
+   "id": "cb17-028",
+   "text": "The last season is coming, and neither {winnerClub} nor {loserClub} can afford to blink."
+  },
+  {
+   "id": "cb17-029",
+   "text": "We have seasons {seasons} in all, and this is the one that closes the book!"
+  },
+  {
+   "id": "cb17-030",
+   "text": "Everything the two have built stands on the next season, and the whole room feels it."
+  },
+  {
+   "id": "cb17-031",
+   "text": "What a place to finish, with {leader} in front by {margin} and {trailer} in no mood to wave goodbye!"
+  },
+  {
+   "id": "cb17-032",
+   "text": "It is the last climb of the Showdown, and the summit is still anybody's."
+  },
+  {
+   "id": "cb17-033",
+   "text": "No more time to wait, no more seasons to spare, and {trailer} knows it better than anyone."
+  },
+  {
+   "id": "cb17-034",
+   "text": "The curtain is rising on the last season, and the whole rivalry takes its bow."
+  },
+  {
+   "id": "cb17-035",
+   "text": "The deciding season is here, and {leader} will need every ounce to stay in front!"
+  },
+  {
+   "id": "cb17-036",
+   "text": "Gloves off, {trailer}. This is the season that settles it, and there will be no second chances."
+  },
+  {
+   "id": "cb17-037",
+   "text": "We are at the last bend, and the whole Showdown is leaning into it!"
+  },
+  {
+   "id": "cb17-038",
+   "text": "A last season, a last shot, and the air is thick with it!"
+  },
+  {
+   "id": "cb17-039",
+   "text": "Quiet before the storm, as {winnerClub} and {loserClub} prepare for the deciding season."
+  },
+  {
+   "id": "cb17-040",
+   "text": "{leader} wants to finish the job, {trailer} wants to reopen it, and the stage is perfectly set."
+  },
+  {
+   "id": "cb17-041",
+   "text": "All roads lead here, to the last season of the Showdown, and nobody knows where it ends!"
+  },
+  {
+   "id": "cb17-042",
+   "text": "It is the final act, and {trailer} believes there is still a twist left in the story."
+  },
+  {
+   "id": "cb17-043",
+   "text": "The gap is {margin}, the season is the last, and the cabinets are watching!"
+  },
+  {
+   "id": "cb17-044",
+   "text": "Long seasons, big moments, and now the last one, with everything on the line!"
+  },
+  {
+   "id": "cb17-045",
+   "text": "You could not ask for a better setting: the Showdown open, the last season ahead, and two rivals ready."
+  },
+  {
+   "id": "cb17-046",
+   "text": "{leader} carries the weight of the lead, and {trailer} carries the weight of the chase."
+  },
+  {
+   "id": "cb17-047",
+   "text": "This season decides who gets the open-top bus, and who gets the long walk home!"
+  },
+  {
+   "id": "cb17-048",
+   "text": "The last whistle of the Showdown is coming, and the build-up has never been sweeter!"
+  },
+  {
+   "id": "cb17-049",
+   "text": "Don't blink, don't breathe, because the deciding season is about to kick off!"
+  },
+  {
+   "id": "cb17-050",
+   "text": "Two managers and one last season, and a trophy cabinet that has room for only one story."
+  },
+  {
+   "id": "cb17-051",
+   "text": "The ribbons are in the air, the Showdown is still undecided, and the last season is here."
+  },
+  {
+   "id": "cb17-052",
+   "text": "Everything could change in this season, and {trailer} knows exactly how little it takes."
+  },
+  {
+   "id": "cb17-053",
+   "text": "There is a lead for {leader}, a hunger in {trailer}, and a last season to sort it all out!"
+  },
+  {
+   "id": "cb17-054",
+   "text": "Last orders at the table, and the whole room is silent!"
+  },
+  {
+   "id": "cb17-055",
+   "text": "For {winnerClub} and {loserClub}, the deciding season brings a very particular kind of pressure."
+  },
+  {
+   "id": "cb17-056",
+   "text": "The Showdown reaches its final breath, and it is not a calm one!"
+  },
+  {
+   "id": "cb17-057",
+   "text": "It is not over until the last season says so, and {trailer} has been saying so for a while now."
+  },
+  {
+   "id": "cb17-058",
+   "text": "This is why they play it all, {leader} and {trailer}, for a final season like this one!"
+  },
+  {
+   "id": "cb17-059",
+   "text": "The road runs out after this season, and the winner is still waiting to be named."
+  },
+  {
+   "id": "cb17-060",
+   "text": "Take your seats, the last season of the Showdown is about to begin!"
+  },
+  {
+   "id": "cb17-061",
+   "text": "Whatever happens, this season will be talked about long after the consoles are switched off."
+  },
+  {
+   "id": "cb17-062",
+   "text": "{leader} looks at the finish line, {trailer} looks at {leader}, and the last season waits."
+  },
+  {
+   "id": "cb17-063",
+   "text": "You wanted a decider, and you have got a decider!"
+  },
+  {
+   "id": "cb17-064",
+   "text": "A narrow road, a long drop, and the last season of the Showdown at the very top of it!"
+  },
+  {
+   "id": "cb17-065",
+   "text": "One more season, and the Showdown still has not chosen its champion."
+  },
+  {
+   "id": "cb17-066",
+   "text": "A lead of {margin} means plenty and means nothing, with a season left to play."
+  },
+  {
+   "id": "cb17-067",
+   "text": "The winner takes the Showdown, the other takes the memories, and the season to decide is minutes away."
+  },
+  {
+   "id": "cb17-068",
+   "text": "Hearts are thumping at both clubs, and the last season has not even started!"
+  },
+  {
+   "id": "cb17-069",
+   "text": "The final furlong, and {trailer} has a burst of speed left in the legs!"
+  },
+  {
+   "id": "cb17-070",
+   "text": "They have gone toe to toe for all these seasons, and the last one is the loudest of all."
+  },
+  {
+   "id": "cb17-071",
+   "text": "Tension all around, and {winnerClub} and {loserClub} have never needed a season so badly!"
+  },
+  {
+   "id": "cb17-072",
+   "text": "When the dust settles on this last season, one of these managers will be smiling."
+  },
+  {
+   "id": "cb17-073",
+   "text": "Whatever the table says now, the last season rewrites it, and {leader} knows that well."
+  },
+  {
+   "id": "cb17-074",
+   "text": "The last season: no excuses, no second thoughts, and a Showdown on the line!"
+  },
+  {
+   "id": "cb17-075",
+   "text": "Here it is, the biggest season of the Showdown, with the whole rivalry on its shoulders."
+  },
+  {
+   "id": "cb17-076",
+   "text": "You can almost hear the console fan humming from here, because the deciding season is next!"
+  },
+  {
+   "id": "cb17-077",
+   "text": "{trailer} might be behind, but nobody here is writing the ending yet."
+  },
+  {
+   "id": "cb17-078",
+   "text": "The ending is close enough to touch, and it still has not decided who it belongs to."
+  },
+  {
+   "id": "cb17-079",
+   "text": "It could be a coronation, it could be a comeback, and the last season is where we find out!"
+  },
+  {
+   "id": "cb17-080",
+   "text": "Last season of the Showdown, and {leader} is already thinking about the trophy cabinet. Careful, {leader}."
+  },
+  {
+   "id": "cb17-081",
+   "text": "There is a crack of light under the door, and it is the last season of the Showdown."
+  },
+  {
+   "id": "cb17-082",
+   "text": "The final season dawns on {winnerClub} and {loserClub}, and both look ready."
+  },
+  {
+   "id": "cb17-083",
+   "text": "This is the last roll of the dice, and {trailer} has kept the best one for now!"
+  },
+  {
+   "id": "cb17-084",
+   "text": "One final season to prove who is best, and the rivalry has been waiting for it all along."
+  },
+  {
+   "id": "cb17-085",
+   "text": "Every little thing that happened before has been pointing at this last season."
+  },
+  {
+   "id": "cb17-086",
+   "text": "Sharpen the boots, {leader}, because {trailer} is coming for the lead!"
+  },
+  {
+   "id": "cb17-087",
+   "text": "Home straight, last bend, and the whole Showdown is up for grabs!"
+  },
+  {
+   "id": "cb17-088",
+   "text": "The champion of this Showdown will be named after the next season, and not a second sooner."
+  },
+  {
+   "id": "cb17-089",
+   "text": "Sit tight, because the biggest chapter in the story is about to begin."
+  },
+  {
+   "id": "cb17-090",
+   "text": "It is down to the wire, and the wire is only one season away!"
+  },
+  {
+   "id": "cb17-091",
+   "text": "A season that decides everything, for a rivalry that has given us everything."
+  },
+  {
+   "id": "cb17-092",
+   "text": "{leader} heads for the last season on top, and {trailer} follows with a very quiet smile."
+  },
+  {
+   "id": "cb17-093",
+   "text": "The curtain falls after this one, and the Showdown has saved something special for it!"
+  },
+  {
+   "id": "cb17-094",
+   "text": "What a finale this promises to be, with the Showdown still alive and kicking!"
+  },
+  {
+   "id": "cb17-095",
+   "text": "Here is the last mountain, and both of them are at the foot of it!"
+  }
+ ]
+}

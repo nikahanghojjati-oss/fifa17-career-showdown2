@@ -1,0 +1,401 @@
+{
+ "batch": 14,
+ "situation": "streak-broken",
+ "voice": "The lead caller",
+ "edited": true,
+ "writer": "claude-sonnet-helper",
+ "lines": [
+  {
+   "id": "cb14-001",
+   "text": "It is over! {winner} has ended the run, and {loserClub} must finally look up from the chase!"
+  },
+  {
+   "id": "cb14-002",
+   "text": "The streak is broken! {winner} stops {loser} in full stride, and what a moment that is!"
+  },
+  {
+   "id": "cb14-003",
+   "text": "Somebody had to be the one, and this season it is {winner}! The run ends here!"
+  },
+  {
+   "id": "cb14-004",
+   "text": "The wall has cracked! {winnerClub} bring {loser}'s run to a halt."
+  },
+  {
+   "id": "cb14-005",
+   "text": "Finally, a different name on top. {winner} has done it!"
+  },
+  {
+   "id": "cb14-006",
+   "text": "{winner} stood up to the run, and the run blinked first."
+  },
+  {
+   "id": "cb14-007",
+   "text": "They said it could not be stopped, and {winnerClub} quietly stopped it."
+  },
+  {
+   "id": "cb14-008",
+   "text": "End of the line for the run, and the one holding up the stop sign is {winner}!"
+  },
+  {
+   "id": "cb14-009",
+   "text": "The longest run in the room comes to a stop, and {winner} is the one who stopped it."
+  },
+  {
+   "id": "cb14-010",
+   "text": "Turn the page, because a new chapter starts here: {winnerClub} have ended it."
+  },
+  {
+   "id": "cb14-011",
+   "text": "After all that, a different name is on top. Season {season} belongs to {winner}."
+  },
+  {
+   "id": "cb14-012",
+   "text": "You could hear the whole Showdown take a breath. {winner} has broken the spell!"
+  },
+  {
+   "id": "cb14-013",
+   "text": "The champion has been caught, and {winner} did the catching!"
+  },
+  {
+   "id": "cb14-014",
+   "text": "{loser} had a beautiful run going, but even the finest runs end, and {winner} is that ending."
+  },
+  {
+   "id": "cb14-015",
+   "text": "At last! The streak is history, and {winnerClub} wrote the final line!"
+  },
+  {
+   "id": "cb14-016",
+   "text": "Down it comes, and {winner} is standing right where the run used to be!"
+  },
+  {
+   "id": "cb14-017",
+   "text": "Credit to {loser}, who made it look easy for so long. This season, though, it is {winner}."
+  },
+  {
+   "id": "cb14-018",
+   "text": "That is the sound of a long run being unplugged, and the hand on the switch is {winnerClub}'s!"
+  },
+  {
+   "id": "cb14-019",
+   "text": "Nobody was meant to get through, and {winner} did it by {margin}."
+  },
+  {
+   "id": "cb14-020",
+   "text": "{margin} clear, and the streak is gone. {winner} did exactly what had to be done."
+  },
+  {
+   "id": "cb14-021",
+   "text": "It took a special season, and {winner} delivered one. The run is finished!"
+  },
+  {
+   "id": "cb14-022",
+   "text": "For a good while it looked unstoppable. {winnerClub} had other ideas."
+  },
+  {
+   "id": "cb14-023",
+   "text": "How sweet that must taste, {winner}! You were the one who ended it."
+  },
+  {
+   "id": "cb14-024",
+   "text": "Not this time, {loser}. {winnerClub} take the season, and the long run stops dead."
+  },
+  {
+   "id": "cb14-025",
+   "text": "A new name in the winner's seat, and the old run is over. What a swing!"
+  },
+  {
+   "id": "cb14-026",
+   "text": "Change in the air! {winner} snaps the run, and the whole rivalry feels different."
+  },
+  {
+   "id": "cb14-027",
+   "text": "They kept coming for this run, and finally {winnerClub} cut it down!"
+  },
+  {
+   "id": "cb14-028",
+   "text": "Hats off to {winner}. Others tried, and others fell short. Not this season."
+  },
+  {
+   "id": "cb14-029",
+   "text": "The tide has turned, and it turned for {winnerClub}!"
+  },
+  {
+   "id": "cb14-030",
+   "text": "And just like that, the run is gone. {winner} has taken the season and the story with it."
+  },
+  {
+   "id": "cb14-031",
+   "text": "Nobody saw the end of that run coming. {winner} did, and made it happen."
+  },
+  {
+   "id": "cb14-032",
+   "text": "There it is, the one thing {loserClub} could not have wanted: a season for {winner}."
+  },
+  {
+   "id": "cb14-033",
+   "text": "Hold on tight, because this changes everything. {winner} has stopped the run!"
+  },
+  {
+   "id": "cb14-034",
+   "text": "You do not end a run like that by luck. {winnerClub} earned it, every step."
+  },
+  {
+   "id": "cb14-035",
+   "text": "Quiet confidence, and a loud result. {winner} brings the run to an end."
+  },
+  {
+   "id": "cb14-036",
+   "text": "Imagine the relief at {winnerClub}. The run is over, and the winner is theirs!"
+  },
+  {
+   "id": "cb14-037",
+   "text": "The giant has been felled, and the name of the lumberjack is {winner}!"
+  },
+  {
+   "id": "cb14-038",
+   "text": "{loser} will tip a cap to this one. {winnerClub} did something special to end the run."
+  },
+  {
+   "id": "cb14-039",
+   "text": "Wait, is that real? Yes! {winner} has finally stopped it!"
+  },
+  {
+   "id": "cb14-040",
+   "text": "It was a wonderful run while it lasted, and {winner} has brought it to a close."
+  },
+  {
+   "id": "cb14-041",
+   "text": "Well played, {winner}. You have shown that this run can be stopped."
+  },
+  {
+   "id": "cb14-042",
+   "text": "The seat on top has a new occupant, and {loser} must wait their turn."
+  },
+  {
+   "id": "cb14-043",
+   "text": "For the first time in a long while, the name on the winner's line has changed: {winner}!"
+  },
+  {
+   "id": "cb14-044",
+   "text": "The chase is over, the run is ended, and {winnerClub} stand where they wanted to stand."
+  },
+  {
+   "id": "cb14-045",
+   "text": "This is why they play every season. {winner} breaks the run, and the rivalry breathes again."
+  },
+  {
+   "id": "cb14-046",
+   "text": "Make no mistake, that was a statement. {winnerClub} will not be anyone's passenger."
+  },
+  {
+   "id": "cb14-047",
+   "text": "Take a second to enjoy it, {winner}. You have brought a long run to a full stop."
+  },
+  {
+   "id": "cb14-048",
+   "text": "{winnerPoints} against {loserPoints}, and the run is ended. {winner} deserved every bit of it!"
+  },
+  {
+   "id": "cb14-049",
+   "text": "Run over, spell broken, and {winnerClub} are the ones smiling."
+  },
+  {
+   "id": "cb14-050",
+   "text": "The champion's crown slips, and {winner} catches it before it hits the floor."
+  },
+  {
+   "id": "cb14-051",
+   "text": "Sometimes a run only needs the right season to end it. {winner} found it!"
+  },
+  {
+   "id": "cb14-052",
+   "text": "Look at {loser}, who has not seen this look at the table for a long time. {winner} is on top."
+  },
+  {
+   "id": "cb14-053",
+   "text": "What a response from {winnerClub}! The run stops, and the door swings open again."
+  },
+  {
+   "id": "cb14-054",
+   "text": "Everyone talked about the run, and {winner} got on with ending it. Quietly. Brilliantly."
+  },
+  {
+   "id": "cb14-055",
+   "text": "Forget what you thought you knew. This rivalry has a plot twist, and its name is {winner}."
+  },
+  {
+   "id": "cb14-056",
+   "text": "It has been a long road for {loserClub}, but this season the road ends. {winner} has taken it."
+  },
+  {
+   "id": "cb14-057",
+   "text": "The roll is over. {winner} stood in the doorway and would not let it through."
+  },
+  {
+   "id": "cb14-058",
+   "text": "Breathe out, {winner}. The hard part is done, and it was the run itself you had to beat."
+  },
+  {
+   "id": "cb14-059",
+   "text": "Not every story ends the way it began, and this one has just turned. {winnerClub} on top."
+  },
+  {
+   "id": "cb14-060",
+   "text": "All good things end, they say, and {winner} made sure this one did."
+  },
+  {
+   "id": "cb14-061",
+   "text": "Here is a run to beat, and {winnerClub} have beaten it!"
+  },
+  {
+   "id": "cb14-062",
+   "text": "Well, there is the crack in the armor! {winner} slips through and takes season {season}."
+  },
+  {
+   "id": "cb14-063",
+   "text": "You could build a whole film around that season. {winner} ends the run, and the credits roll."
+  },
+  {
+   "id": "cb14-064",
+   "text": "The grip has loosened, and {winnerClub} pulled the finger free!"
+  },
+  {
+   "id": "cb14-065",
+   "text": "It takes nerve to end a run like that. {winner} had all of it."
+  },
+  {
+   "id": "cb14-066",
+   "text": "Run broken, and the rivalry is open once more. Do not look away now."
+  },
+  {
+   "id": "cb14-067",
+   "text": "{loserClub} will want this one back, no doubt. For now, the season belongs to {winnerClub}."
+  },
+  {
+   "id": "cb14-068",
+   "text": "Say it loudly: the streak is dead! {winner} gets the last word!"
+  },
+  {
+   "id": "cb14-069",
+   "text": "Rivals, take note. {winner} just showed that this run could be stopped."
+  },
+  {
+   "id": "cb14-070",
+   "text": "There will be talk about this one for a long time, {winner}. You ended the run."
+  },
+  {
+   "id": "cb14-071",
+   "text": "The pendulum swings, and {winnerClub} are riding it!"
+  },
+  {
+   "id": "cb14-072",
+   "text": "One season was enough for {winner} to change the shape of this rivalry, and put a full stop on the run."
+  },
+  {
+   "id": "cb14-073",
+   "text": "Sometimes you win the season, and sometimes you win the story. {winner} did both here."
+  },
+  {
+   "id": "cb14-074",
+   "text": "For so long it was one name, and now it is {winner}. The run is a memory."
+  },
+  {
+   "id": "cb14-075",
+   "text": "And the long run comes to rest. {winnerClub} take the season, and the Showdown wakes up!"
+  },
+  {
+   "id": "cb14-076",
+   "text": "What a difference a season makes! {winner} is on top, and {loser} is the one watching."
+  },
+  {
+   "id": "cb14-077",
+   "text": "Clean break, clear head, and a result that will be talked about. {winnerClub} end the run."
+  },
+  {
+   "id": "cb14-078",
+   "text": "The shackles are off! {winner} has freed the Showdown from the long run."
+  },
+  {
+   "id": "cb14-079",
+   "text": "That is what happens when somebody refuses to be next in line. {winner} ends it!"
+  },
+  {
+   "id": "cb14-080",
+   "text": "Shake the table, because the order has changed. {winner} is the new name on top."
+  },
+  {
+   "id": "cb14-081",
+   "text": "It was not going to last forever, and {winner} made sure it did not."
+  },
+  {
+   "id": "cb14-082",
+   "text": "The tide goes out on {loser}'s run, and {winnerClub} walk in with a smile."
+  },
+  {
+   "id": "cb14-083",
+   "text": "A tough watch for {loserClub}, a joyful one for {winnerClub}. The run is over."
+  },
+  {
+   "id": "cb14-084",
+   "text": "Never say never. {winner} proves the run can be beaten, and does it in style!"
+  },
+  {
+   "id": "cb14-085",
+   "text": "You can feel the weight lifting from {winnerClub}. The run has come to an end."
+  },
+  {
+   "id": "cb14-086",
+   "text": "The big run has met its match, and the match is {winner}."
+  },
+  {
+   "id": "cb14-087",
+   "text": "This is where the story pivots. {winnerClub} win the season, and the run stops short."
+  },
+  {
+   "id": "cb14-088",
+   "text": "Too good for too long, perhaps, but not for {winner}! The streak is no more."
+  },
+  {
+   "id": "cb14-089",
+   "text": "Down goes the streak, up goes {winner}, and the whole rivalry catches its breath."
+  },
+  {
+   "id": "cb14-090",
+   "text": "Into the history books it goes: {winner} is the one who ended the run, and nobody can take that away."
+  },
+  {
+   "id": "cb14-091",
+   "text": "A new hand on the wheel, and the old run is out of road. {winnerClub} are driving now!"
+  },
+  {
+   "id": "cb14-092",
+   "text": "It was always going to take one big season to stop it, and {winnerClub} delivered it."
+  },
+  {
+   "id": "cb14-093",
+   "text": "Let the old run rest. {winner} has taken it apart, season {season} and all."
+  },
+  {
+   "id": "cb14-094",
+   "text": "The spell is lifted, and {winnerClub} lift the season with it!"
+  },
+  {
+   "id": "cb14-095",
+   "text": "What a way to break a run: {winner} by {margin}, and not a hint of nerves."
+  },
+  {
+   "id": "cb14-096",
+   "text": "Mark this one down, {loser}. Not a failure, just the end of a long, long chapter."
+  },
+  {
+   "id": "cb14-097",
+   "text": "{winnerClub} did not wait for permission. They took the season, and the run ended with it!"
+  },
+  {
+   "id": "cb14-098",
+   "text": "Quietly, calmly, firmly: that is how {winner} closed the book on the run."
+  }
+ ]
+}

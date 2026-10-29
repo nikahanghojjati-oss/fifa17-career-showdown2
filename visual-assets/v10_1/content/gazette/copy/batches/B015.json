@@ -1,0 +1,409 @@
+{
+ "batch": 15,
+ "situation": "opening-season",
+ "voice": "The lead caller",
+ "edited": true,
+ "writer": "claude-sonnet-helper",
+ "lines": [
+  {
+   "id": "cb15-001",
+   "text": "First blood to {winner}! The opening season is in the books, and the rivalry has its first word!"
+  },
+  {
+   "id": "cb15-002",
+   "text": "The rivalry has its first chapter, and the name on the cover is {winner}."
+  },
+  {
+   "id": "cb15-003",
+   "text": "Out of the blocks quickest is {winnerClub}, and the opening word belongs to them!"
+  },
+  {
+   "id": "cb15-004",
+   "text": "Every great story needs a beginning, and {winner} has just written a fine one."
+  },
+  {
+   "id": "cb15-005",
+   "text": "It starts here! Season one goes to {winnerClub}, and {loserClub} must answer."
+  },
+  {
+   "id": "cb15-006",
+   "text": "The first mark on the board belongs to {winner}, and the board is fresh."
+  },
+  {
+   "id": "cb15-007",
+   "text": "Well, that is how you open a rivalry! {winner} takes the very first season."
+  },
+  {
+   "id": "cb15-008",
+   "text": "{winner} hits the ground running, and {loser} will have plenty to think about."
+  },
+  {
+   "id": "cb15-009",
+   "text": "There is the opening statement: {winnerClub} on top after the first season."
+  },
+  {
+   "id": "cb15-010",
+   "text": "Here we go, then. The first word in this rivalry goes to {winner}."
+  },
+  {
+   "id": "cb15-011",
+   "text": "A rivalry has begun, and it begins with {winnerClub} out in front."
+  },
+  {
+   "id": "cb15-012",
+   "text": "Take note of the name, because it is the first one in the book: {winner}."
+  },
+  {
+   "id": "cb15-013",
+   "text": "The first chapter is written, and {winnerClub} held the pen!"
+  },
+  {
+   "id": "cb15-014",
+   "text": "{loser} will want to answer that, and the chance comes soon enough. For now, {winner} leads the way."
+  },
+  {
+   "id": "cb15-015",
+   "text": "The opening bell has rung, and the first punch landed for {winnerClub}!"
+  },
+  {
+   "id": "cb15-016",
+   "text": "Season one done, and {winner} has set the standard for everyone to chase."
+  },
+  {
+   "id": "cb15-017",
+   "text": "The first day of a long rivalry, and {winnerClub} have won it."
+  },
+  {
+   "id": "cb15-018",
+   "text": "The curtain rises, and {winner} takes the first bow!"
+  },
+  {
+   "id": "cb15-019",
+   "text": "What a start from {winnerClub}! A fast opening, and the first season is theirs."
+  },
+  {
+   "id": "cb15-020",
+   "text": "{winner} by {margin} to open the Showdown, and the rivalry has its first story to tell."
+  },
+  {
+   "id": "cb15-021",
+   "text": "The first result is in, and {winner} is the first name on the winner's board!"
+  },
+  {
+   "id": "cb15-022",
+   "text": "This is the start we were waiting for. {winnerClub} take season one!"
+  },
+  {
+   "id": "cb15-023",
+   "text": "First out of the traps, {winner}. {loserClub} will be along shortly, you suspect."
+  },
+  {
+   "id": "cb15-024",
+   "text": "Remember this one, because every rivalry remembers how it began. {winnerClub} began it well."
+  },
+  {
+   "id": "cb15-025",
+   "text": "It is a start, nothing more, but what a start for {winner}!"
+  },
+  {
+   "id": "cb15-026",
+   "text": "Roll the opening credits, and put {winnerClub} up first."
+  },
+  {
+   "id": "cb15-027",
+   "text": "The scoreboard of this rivalry is no longer empty, and {winner} filled the first line."
+  },
+  {
+   "id": "cb15-028",
+   "text": "{winnerPoints} to {loserPoints} in the first season, and {winner} has made a statement."
+  },
+  {
+   "id": "cb15-029",
+   "text": "They have been waiting to find out who goes first, and the answer is {winnerClub}."
+  },
+  {
+   "id": "cb15-030",
+   "text": "A good beginning is half the work, they say, and {winner} has begun beautifully."
+  },
+  {
+   "id": "cb15-031",
+   "text": "The ink is barely dry on the first page, and {winnerClub} are already in the story."
+  },
+  {
+   "id": "cb15-032",
+   "text": "The first season closes with a smile for {winner} and a long look for {loser}."
+  },
+  {
+   "id": "cb15-033",
+   "text": "Out of the gates in style: {winner} wins the opening season!"
+  },
+  {
+   "id": "cb15-034",
+   "text": "Opening night, if you like, and {winnerClub} bring the house down."
+  },
+  {
+   "id": "cb15-035",
+   "text": "Well begun, {winner}! This rivalry will remember who spoke first."
+  },
+  {
+   "id": "cb15-036",
+   "text": "Hats off to {winnerClub}. In the opening season, they were the ones to land first."
+  },
+  {
+   "id": "cb15-037",
+   "text": "The long road starts with a single step, and {winner} took the best one."
+  },
+  {
+   "id": "cb15-038",
+   "text": "This rivalry has its first leader, and it is {winnerClub}."
+  },
+  {
+   "id": "cb15-039",
+   "text": "The first word goes to {winner}, and {loser} is already writing a reply."
+  },
+  {
+   "id": "cb15-040",
+   "text": "There is always one side that gets away fast, and this time it is {winnerClub}!"
+  },
+  {
+   "id": "cb15-041",
+   "text": "A tidy beginning for {winner}, and a challenge laid down for {loser}."
+  },
+  {
+   "id": "cb15-042",
+   "text": "Start as you mean to go on, {winner}. Season one is yours!"
+  },
+  {
+   "id": "cb15-043",
+   "text": "{winnerClub} take the first season, and the rivalry is officially alive."
+  },
+  {
+   "id": "cb15-044",
+   "text": "Open the book, turn to page one, and read the name: {winner}."
+  },
+  {
+   "id": "cb15-045",
+   "text": "Both sides have shown their hands, and the first season belongs to {winner}."
+  },
+  {
+   "id": "cb15-046",
+   "text": "There is nothing quite like a first win, and {winnerClub} are enjoying every second."
+  },
+  {
+   "id": "cb15-047",
+   "text": "{loserClub} have been given something to chase from the very first season. Thank {winner} for that!"
+  },
+  {
+   "id": "cb15-048",
+   "text": "Here is the first line of the rivalry, then: {winner} wins, {loser} follows."
+  },
+  {
+   "id": "cb15-049",
+   "text": "A fine, bold opening from {winner}, and the rivalry is under way!"
+  },
+  {
+   "id": "cb15-050",
+   "text": "It begins! {winnerClub} take the opening season, and nothing else has been decided yet."
+  },
+  {
+   "id": "cb15-051",
+   "text": "The first thing anyone will say about this rivalry is that {winner} won the opening round."
+  },
+  {
+   "id": "cb15-052",
+   "text": "It is early, of course, but {winnerClub} could hardly have asked for more."
+  },
+  {
+   "id": "cb15-053",
+   "text": "Season one is finished, and the picture is clear: {winner} fired first."
+  },
+  {
+   "id": "cb15-054",
+   "text": "{loser} gave it a go, but {winner} had the answer in the opening season."
+  },
+  {
+   "id": "cb15-055",
+   "text": "Some openings you forget. This one, with {winnerClub} on top, you will not."
+  },
+  {
+   "id": "cb15-056",
+   "text": "First across the line, and what a fine way to start: {winner}!"
+  },
+  {
+   "id": "cb15-057",
+   "text": "Both managers stepped out, and only {winner} stepped out smiling."
+  },
+  {
+   "id": "cb15-058",
+   "text": "One season old, and this rivalry already has a story. {winnerClub} lead it."
+  },
+  {
+   "id": "cb15-059",
+   "text": "Right, we are off! {winner} wins season one, and the Showdown has its first headline."
+  },
+  {
+   "id": "cb15-060",
+   "text": "Where does a rivalry begin? With a winner. In this case, {winnerClub}."
+  },
+  {
+   "id": "cb15-061",
+   "text": "They will tell this tale for seasons to come, and it starts with {winner}."
+  },
+  {
+   "id": "cb15-062",
+   "text": "{winner} will remember this one, and {loser} will remember it too, just for different reasons."
+  },
+  {
+   "id": "cb15-063",
+   "text": "The opener is done, and {winner} is the first to get ahead."
+  },
+  {
+   "id": "cb15-064",
+   "text": "Do not read too much into it, but do not ignore it either. {winnerClub} win season one."
+  },
+  {
+   "id": "cb15-065",
+   "text": "It is the first step in the Showdown, and {winnerClub} have put their best foot forward."
+  },
+  {
+   "id": "cb15-066",
+   "text": "{winner} sets the early pace, and {loser} now has something real to chase."
+  },
+  {
+   "id": "cb15-067",
+   "text": "The dust of the opening season settles, and {winner} is standing tall."
+  },
+  {
+   "id": "cb15-068",
+   "text": "There is a first winner in every rivalry, and in this one it is {winnerClub}!"
+  },
+  {
+   "id": "cb15-069",
+   "text": "Feel that? That is the rivalry waking up, and {winner} was the one who woke it."
+  },
+  {
+   "id": "cb15-070",
+   "text": "The very first page of the Showdown carries the name {winnerClub}."
+  },
+  {
+   "id": "cb15-071",
+   "text": "A great way to begin, and a real challenge for {loserClub} to meet."
+  },
+  {
+   "id": "cb15-072",
+   "text": "Now the rivalry has a heartbeat, and it beats in the colors of {winnerClub}!"
+  },
+  {
+   "id": "cb15-073",
+   "text": "The opening result lands, and {winner} is the manager with the early say."
+  },
+  {
+   "id": "cb15-074",
+   "text": "Banners up, {winnerClub}! The first season of the Showdown is yours."
+  },
+  {
+   "id": "cb15-075",
+   "text": "The first win is in, and {winner} will treasure it. {loser} will treasure the reply."
+  },
+  {
+   "id": "cb15-076",
+   "text": "Let it be said that {winnerClub} began this rivalry the right way."
+  },
+  {
+   "id": "cb15-077",
+   "text": "It is a quiet start on paper, but a loud one in spirit. {winner} takes the opener."
+  },
+  {
+   "id": "cb15-078",
+   "text": "First things first: {winner} has the first win. Everything else follows."
+  },
+  {
+   "id": "cb15-079",
+   "text": "This is what starting fast looks like. {winnerClub} lead the way."
+  },
+  {
+   "id": "cb15-080",
+   "text": "The rivalry takes its first breath, and {winner} breathes out with a smile."
+  },
+  {
+   "id": "cb15-081",
+   "text": "A debut to remember for {winnerClub}, and the opening chapter is theirs."
+  },
+  {
+   "id": "cb15-082",
+   "text": "There is the early lead, and it belongs to {winner}."
+  },
+  {
+   "id": "cb15-083",
+   "text": "{loser} will not enjoy reading the opening chapter, but {winner} certainly will."
+  },
+  {
+   "id": "cb15-084",
+   "text": "Opening season, opening statement: {winnerClub} mean business!"
+  },
+  {
+   "id": "cb15-085",
+   "text": "That is the first one on the board, and what a feeling it must be for {winner}."
+  },
+  {
+   "id": "cb15-086",
+   "text": "If you want to know who started well, look no further than {winnerClub}."
+  },
+  {
+   "id": "cb15-087",
+   "text": "A rivalry like this needs a first move, and {winner} made it with confidence."
+  },
+  {
+   "id": "cb15-088",
+   "text": "Little by little, season by season, a rivalry is built. {winner} has laid the first stone."
+  },
+  {
+   "id": "cb15-089",
+   "text": "{winnerClub} start in front, and the rest of the Showdown has to find a way past."
+  },
+  {
+   "id": "cb15-090",
+   "text": "The Showdown is born, and {winner} is its first winner!"
+  },
+  {
+   "id": "cb15-091",
+   "text": "Think of it as the first frame of a long film. {winnerClub} are in it, front and center."
+  },
+  {
+   "id": "cb15-092",
+   "text": "A first win to savor for {winner}, and a good one to build on."
+  },
+  {
+   "id": "cb15-093",
+   "text": "Not a bad way to start a rivalry, {winner}. Not bad at all!"
+  },
+  {
+   "id": "cb15-094",
+   "text": "And there it is, the very first result. {winner} leads, and {loser} follows."
+  },
+  {
+   "id": "cb15-095",
+   "text": "Somebody had to go first, and {winnerClub} did it with real style!"
+  },
+  {
+   "id": "cb15-096",
+   "text": "Early days, yes, but {winner} has the look of a manager who came to play."
+  },
+  {
+   "id": "cb15-097",
+   "text": "The very first whistle of the rivalry has blown, and {winner} is the happier of the two."
+  },
+  {
+   "id": "cb15-098",
+   "text": "From a blank page to a first result, and {winnerClub} are the name on it."
+  },
+  {
+   "id": "cb15-099",
+   "text": "No history yet between these two, but there is a first line now, and {winner} wrote it."
+  },
+  {
+   "id": "cb15-100",
+   "text": "Fair play to {loser}, who pushed hard. The opening word, though, goes to {winner}."
+  }
+ ]
+}

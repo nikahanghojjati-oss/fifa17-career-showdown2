@@ -1,0 +1,409 @@
+{
+ "batch": 13,
+ "situation": "winning-streak",
+ "voice": "The lead caller",
+ "edited": true,
+ "writer": "claude-sonnet-helper",
+ "lines": [
+  {
+   "id": "cb13-001",
+   "text": "Once more it is {winner}, and by now the rest of the room knows the feeling!"
+  },
+  {
+   "id": "cb13-002",
+   "text": "{winner} just keeps winning, and {loserClub} are running out of ways to ask why!"
+  },
+  {
+   "id": "cb13-003",
+   "text": "Season after season, the name on top does not change, and the name is {winner}!"
+  },
+  {
+   "id": "cb13-004",
+   "text": "This is no hot streak any more, it is a habit, and the habit belongs to {winner}."
+  },
+  {
+   "id": "cb13-005",
+   "text": "Nobody has found an answer to {winnerClub}, and the search has gone on a long, long time."
+  },
+  {
+   "id": "cb13-006",
+   "text": "How long can {loser} keep chasing this shadow? {winner} walks on, and the run goes on!"
+  },
+  {
+   "id": "cb13-007",
+   "text": "Another season, another win, and {winnerClub} make the run look wonderfully easy."
+  },
+  {
+   "id": "cb13-008",
+   "text": "You could set a clock by {winner} now. The season ends, and the winner is the same."
+  },
+  {
+   "id": "cb13-009",
+   "text": "{loserClub} had a plan for this one, and {winnerClub} simply carried on regardless."
+  },
+  {
+   "id": "cb13-010",
+   "text": "The run rolls on! {winner} wins again, and the weight on {loser} just got heavier."
+  },
+  {
+   "id": "cb13-011",
+   "text": "Call it a streak, a spell, a stranglehold. {winner} just calls it normal."
+  },
+  {
+   "id": "cb13-012",
+   "text": "Win once and it is a story. Keep winning like this, and it is a legacy, {winner}!"
+  },
+  {
+   "id": "cb13-013",
+   "text": "Season {season}, and nothing has changed at the top: {winnerClub} in front, everyone else looking up!"
+  },
+  {
+   "id": "cb13-014",
+   "text": "By {margin} this time, and it never felt in doubt. {winner} marches on!"
+  },
+  {
+   "id": "cb13-015",
+   "text": "{winner} by {margin}, and the streak lives to fight another day."
+  },
+  {
+   "id": "cb13-016",
+   "text": "Remember when this Showdown felt wide open? {winnerClub} have politely closed the door."
+  },
+  {
+   "id": "cb13-017",
+   "text": "Same name on the winner's line again, and {loser} can only shake a head and smile."
+  },
+  {
+   "id": "cb13-018",
+   "text": "There goes the snowball, and it is picking up speed! {winner} rolls on downhill."
+  },
+  {
+   "id": "cb13-019",
+   "text": "That is the sound of a streak being kept. {winnerClub} win again, and the run is alive and well."
+  },
+  {
+   "id": "cb13-020",
+   "text": "{winner} has made winning a routine, and routines are hard to break. Just ask {loser}."
+  },
+  {
+   "id": "cb13-021",
+   "text": "What a stretch this is for {winnerClub}! Win upon win, and no end in sight."
+  },
+  {
+   "id": "cb13-022",
+   "text": "Hold the front page. No, keep it exactly as it was, because {winner} has won again!"
+  },
+  {
+   "id": "cb13-023",
+   "text": "The rest can only watch {winnerClub} glide away, season after season."
+  },
+  {
+   "id": "cb13-024",
+   "text": "{loser} did everything right and still the answer came back the same: {winner}."
+  },
+  {
+   "id": "cb13-025",
+   "text": "A run like this does not happen by accident. {winnerClub} have earned every step of it."
+  },
+  {
+   "id": "cb13-026",
+   "text": "The streak is alive! {winner} adds another season to a story that keeps growing!"
+  },
+  {
+   "id": "cb13-027",
+   "text": "It is becoming a tradition, {winner}. The top seat has your name carved into it."
+  },
+  {
+   "id": "cb13-028",
+   "text": "{winnerPoints} to {loserPoints}, and the run goes on. Nobody is catching {winner} right now."
+  },
+  {
+   "id": "cb13-029",
+   "text": "They say form is temporary. Somebody forgot to tell {winner}!"
+  },
+  {
+   "id": "cb13-030",
+   "text": "Whatever the season throws up, {winner} answers it. Another win, another step clear!"
+  },
+  {
+   "id": "cb13-031",
+   "text": "On and on goes {winnerClub}, and {loserClub} are still waiting for the wheel to turn."
+  },
+  {
+   "id": "cb13-032",
+   "text": "How many ways can you say it? {winner} wins, and wins, and keeps on winning!"
+  },
+  {
+   "id": "cb13-033",
+   "text": "Steady, relentless, almost polite. {winnerClub} keep collecting seasons like they are free."
+  },
+  {
+   "id": "cb13-034",
+   "text": "{loser} gets back up, {loser} comes again, and still {winner} is standing at the end."
+  },
+  {
+   "id": "cb13-035",
+   "text": "Now that is a regular! Same seat, same smile, same winner: {winner}."
+  },
+  {
+   "id": "cb13-036",
+   "text": "It is a long, unbroken line of results, and {winnerClub} are the ones drawing it."
+  },
+  {
+   "id": "cb13-037",
+   "text": "When the dust settles, one name remains. It has remained a good while now: {winner}."
+  },
+  {
+   "id": "cb13-038",
+   "text": "{winnerClub} on top again, and the view from up there suits them."
+  },
+  {
+   "id": "cb13-039",
+   "text": "What more can you say about {winner}? The run just does not stop!"
+  },
+  {
+   "id": "cb13-040",
+   "text": "Another one for {winner}, and the questions for {loser} grow louder by the season."
+  },
+  {
+   "id": "cb13-041",
+   "text": "It is not luck anymore, it is a pattern. And the pattern wears the colors of {winnerClub}."
+  },
+  {
+   "id": "cb13-042",
+   "text": "Hands up if you saw anyone stopping {winner}. Anyone? The streak goes on."
+  },
+  {
+   "id": "cb13-043",
+   "text": "Fresh season, same story. {winner} writes the ending, and {loser} must wait for the next page."
+  },
+  {
+   "id": "cb13-044",
+   "text": "{winnerClub} have turned winning into a way of life, and the rest are just visiting."
+  },
+  {
+   "id": "cb13-045",
+   "text": "The big question hangs over {loserClub} once again: who stops this? Not today. {winner} wins on!"
+  },
+  {
+   "id": "cb13-046",
+   "text": "Steady as a drumbeat, {winner} wins another, and the rhythm will not break."
+  },
+  {
+   "id": "cb13-047",
+   "text": "{margin} ahead, and {winner} never even raised a sweat. The run rolls on."
+  },
+  {
+   "id": "cb13-048",
+   "text": "The champion's walk is getting well worn: same tunnel, same smile, {winner}."
+  },
+  {
+   "id": "cb13-049",
+   "text": "They keep moving the target, and {winnerClub} keep hitting it."
+  },
+  {
+   "id": "cb13-050",
+   "text": "Pressure? What pressure? {winner} wins again, and the run stays gloriously alive!"
+  },
+  {
+   "id": "cb13-051",
+   "text": "Nobody gets this far by accident. {winner} has built something special here."
+  },
+  {
+   "id": "cb13-052",
+   "text": "Seasons come and seasons go, and one thing stays the same: {winnerClub} win."
+  },
+  {
+   "id": "cb13-053",
+   "text": "You have to feel for {loser}. So close to turning it round, and so far from it."
+  },
+  {
+   "id": "cb13-054",
+   "text": "{winner} has found a way again, and finding a way is what streaks are made of."
+  },
+  {
+   "id": "cb13-055",
+   "text": "Lock it in: {winnerClub} take another season, and the run reaches yet another chapter."
+  },
+  {
+   "id": "cb13-056",
+   "text": "Is there a crack in {winnerClub}? Not this season. Not a chance. The run stays alive!"
+  },
+  {
+   "id": "cb13-057",
+   "text": "There is no panic at {winnerClub}, only a calm, steady rhythm of winning."
+  },
+  {
+   "id": "cb13-058",
+   "text": "Take a bow, {winner}. Season {season} and you are still the one they all have to catch."
+  },
+  {
+   "id": "cb13-059",
+   "text": "Around the table they will talk about this run for years, and {winner} is the reason."
+  },
+  {
+   "id": "cb13-060",
+   "text": "{loserClub} came with hope. {winnerClub} sent them home with another season to think about."
+  },
+  {
+   "id": "cb13-061",
+   "text": "Some runs fade out. This one is getting louder, and {winner} is conducting it!"
+  },
+  {
+   "id": "cb13-062",
+   "text": "It has become a very long shadow, and it falls across {loserClub} once again."
+  },
+  {
+   "id": "cb13-063",
+   "text": "The question every season is the same, and so is the answer: {winner}!"
+  },
+  {
+   "id": "cb13-064",
+   "text": "Round and round it goes, and every time the music stops, {winner} has the chair!"
+  },
+  {
+   "id": "cb13-065",
+   "text": "Another notch on the belt for {winner}, and the belt is getting crowded."
+  },
+  {
+   "id": "cb13-066",
+   "text": "There is a calm confidence about {winnerClub} now. They expect to win, and then they win."
+  },
+  {
+   "id": "cb13-067",
+   "text": "It is a magnificent run, and {loser} deserves credit for making {winner} work for it."
+  },
+  {
+   "id": "cb13-068",
+   "text": "{winner} wins again and the cabinet door will not close. Not that anyone is complaining!"
+  },
+  {
+   "id": "cb13-069",
+   "text": "Pull up a chair, because this could go on. {winnerClub} are not done."
+  },
+  {
+   "id": "cb13-070",
+   "text": "Well, it happened again. {winner} gets over the line and the run rolls into another season."
+  },
+  {
+   "id": "cb13-071",
+   "text": "Whisper it, if you like: this is one of the great runs of the rivalry. {winnerClub}, again."
+  },
+  {
+   "id": "cb13-072",
+   "text": "They tried to stop {winnerClub}, and they failed. They will try again, and they might fail again."
+  },
+  {
+   "id": "cb13-073",
+   "text": "Nothing about this run looks fragile. {winner} wins again, and by {margin}."
+  },
+  {
+   "id": "cb13-074",
+   "text": "Season {season} belongs to {winnerClub}, and the seasons before it tell the very same story."
+  },
+  {
+   "id": "cb13-075",
+   "text": "Is this a dynasty? Ask {loser}, and then watch the face. {winner} wins again."
+  },
+  {
+   "id": "cb13-076",
+   "text": "Lovely, steady, relentless winning from {winnerClub}. A run to be proud of."
+  },
+  {
+   "id": "cb13-077",
+   "text": "And so the streak survives. It has survived a lot, and it has survived {loserClub}."
+  },
+  {
+   "id": "cb13-078",
+   "text": "You wait for the slip, you wait for the stumble, and {winner} never gives you one!"
+  },
+  {
+   "id": "cb13-079",
+   "text": "Every season a fresh challenge, every season the same result: {winner} on top."
+  },
+  {
+   "id": "cb13-080",
+   "text": "{winner} can feel it now, a whole run of wins behind them, carrying them forward!"
+  },
+  {
+   "id": "cb13-081",
+   "text": "It is the kind of run that makes people stop and say it out loud: {winner}, again."
+  },
+  {
+   "id": "cb13-082",
+   "text": "{winnerPoints} points on the board, and another season banked for {winner}."
+  },
+  {
+   "id": "cb13-083",
+   "text": "Never mind catching up. {loser} first has to slow {winner} down, and nobody has managed that."
+  },
+  {
+   "id": "cb13-084",
+   "text": "The comfort of winning is a powerful thing, and {winnerClub} are swimming in it."
+  },
+  {
+   "id": "cb13-085",
+   "text": "Look who is on top again. Surprise nobody: {winner}."
+  },
+  {
+   "id": "cb13-086",
+   "text": "Is anyone going to stand in the way of {winnerClub}? Not this season, not today!"
+  },
+  {
+   "id": "cb13-087",
+   "text": "That is a masterclass in staying on top, and {winner} is the one giving the lesson."
+  },
+  {
+   "id": "cb13-088",
+   "text": "The streak stays whole, {winner}. The only question left is how far it can stretch."
+  },
+  {
+   "id": "cb13-089",
+   "text": "{loser} gave it everything, and {winner} had just a little more. Again."
+  },
+  {
+   "id": "cb13-090",
+   "text": "Nothing is certain in a long Showdown, except this: {winnerClub} keep finding a way."
+  },
+  {
+   "id": "cb13-091",
+   "text": "Here comes {loserClub}, fresh and hungry, and there goes another season to {winnerClub}!"
+  },
+  {
+   "id": "cb13-092",
+   "text": "It never gets old for {winner}, and it never gets any easier for {loser}."
+  },
+  {
+   "id": "cb13-093",
+   "text": "They are queuing up to stop {winnerClub}, and the line just keeps getting longer."
+  },
+  {
+   "id": "cb13-094",
+   "text": "One more for the pile, and what a pile it is! {winner} extends the run again!"
+  },
+  {
+   "id": "cb13-095",
+   "text": "Quiet, steady, deadly. That is how {winnerClub} keep doing it, season after season."
+  },
+  {
+   "id": "cb13-096",
+   "text": "Do not call it luck. Luck runs out, and {winner} has not run out of anything."
+  },
+  {
+   "id": "cb13-097",
+   "text": "This run has legs, this run has heart, and this run has {winner} written all over it!"
+  },
+  {
+   "id": "cb13-098",
+   "text": "Season {season} done, and the picture on the wall barely needs changing. It is {winner} again."
+  },
+  {
+   "id": "cb13-099",
+   "text": "And the run goes on. {winnerClub} win again, and the chasing pack must start over."
+  },
+  {
+   "id": "cb13-100",
+   "text": "Look at {winner} now, wearing the look of a manager who has done it all before. They have!"
+  }
+ ]
+}

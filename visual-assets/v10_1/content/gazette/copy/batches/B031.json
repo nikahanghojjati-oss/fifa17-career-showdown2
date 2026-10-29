@@ -5,105 +5,405 @@
   "edited": true,
   "writer": "claude-haiku-helper",
   "lines": [
-    {"id": "cb31-001", "text": "{winner} has the league title, and the calm face of a manager who never doubted it."},
-    {"id": "cb31-002", "text": "Consistency is the unglamorous hero of any long campaign, and {winnerClub} leaned on it all the way."},
-    {"id": "cb31-003", "text": "Nobody hands out fireworks for a league title, just a steady run and the nerve to keep going."},
-    {"id": "cb31-004", "text": "Everyone wanted a dramatic finish from {winner}, but the sensible route got there first and stayed put."},
-    {"id": "cb31-005", "text": "Give {winnerClub} their due: they reached the top by doing the dull things properly, week after week."},
-    {"id": "cb31-006", "text": "You can call a league title dull if you like, but it is what happens when nobody blinks."},
-    {"id": "cb31-007", "text": "{winner} never needed a late sprint, only the discipline to protect what was already earned."},
-    {"id": "cb31-008", "text": "Nobody will make a film about a league title, yet {winnerClub} will remember every single step."},
-    {"id": "cb31-009", "text": "The league title is not the flashiest silverware in the room, but {winner} looks thoroughly pleased to hold it."},
-    {"id": "cb31-010", "text": "Quiet, patient, relentless: that is how {winnerClub} built this, and {winner} will not apologize for it."},
-    {"id": "cb31-011", "text": "{loser} can take some comfort from the marathon nature of a league, though not much today."},
-    {"id": "cb31-012", "text": "There was no panic from {winner} all year, and panic is a rare luxury in this rivalry."},
-    {"id": "cb31-013", "text": "A verdict on the whole year has landed, and it has landed firmly in {winnerClub}'s favor."},
-    {"id": "cb31-014", "text": "Delivered without fuss, a league title is the most underrated thing in the whole Showdown."},
-    {"id": "cb31-015", "text": "{winner} did not shout about it, and the table did the shouting on their behalf."},
-    {"id": "cb31-016", "text": "Patience pays in leagues, and {winner} has been patient in the way that tends to hurt rivals."},
-    {"id": "cb31-017", "text": "There is a particular satisfaction in winning the league quietly, and {winner} has found it."},
-    {"id": "cb31-018", "text": "Ask any old pro and they will tell you the league is where reputations get made or polished."},
-    {"id": "cb31-019", "text": "{winner} has put the league title in the cabinet, and the cabinet looks noticeably fuller this evening."},
-    {"id": "cb31-020", "text": "The league is a long road, and {winnerClub} walked every mile of it without a single complaint."},
-    {"id": "cb31-021", "text": "Sensible squad, sensible manager, sensible result: {winner} will be insufferable about this for weeks."},
-    {"id": "cb31-022", "text": "There is a lesson in this for {loser}: the league rewards the manager who shows up every single week."},
-    {"id": "cb31-023", "text": "Nobody was flashier than {winner} this season, and nobody was more reliable either."},
-    {"id": "cb31-024", "text": "Season {season} belongs to {winner}, and the league title sits proudly on top of it."},
-    {"id": "cb31-025", "text": "The paperwork says league champions, and the eye test says {winnerClub} earned every line of it."},
-    {"id": "cb31-026", "text": "Few managers ever get a league title, and {winner} now has one to show for the wait."},
-    {"id": "cb31-027", "text": "Titles are decided over months, not moments, and {winnerClub} got every one of those months right."},
-    {"id": "cb31-028", "text": "I like the understated approach, and {winner} has taken it to a level that is almost rude."},
-    {"id": "cb31-029", "text": "Leagues rarely need a screaming finish, and {winner} did not supply one."},
-    {"id": "cb31-030", "text": "{winnerClub} can keep the trophy on the sideboard for a while, because nobody is going to argue."},
-    {"id": "cb31-031", "text": "Pressure in a league is relentless, and {winner} handled it like someone who has done this before."},
-    {"id": "cb31-032", "text": "Every week a little more of the table swung towards {winnerClub}, and eventually it all added up."},
-    {"id": "cb31-033", "text": "Credit the long haul, the quiet nerve and a squad that stayed on task for {winner}."},
-    {"id": "cb31-034", "text": "When the league is settled, the rest of the season starts to feel like a victory lap."},
-    {"id": "cb31-035", "text": "I would call {winner} the most reliable manager in the league, and I would not expect an argument."},
-    {"id": "cb31-036", "text": "A league title has a strange habit of arriving quietly, then making everybody look at it at once."},
-    {"id": "cb31-037", "text": "Some managers win a league once, but {winnerClub} are making a habit of it."},
-    {"id": "cb31-038", "text": "There was a dull sort of certainty about {winner} this season, and it reads well in hindsight."},
-    {"id": "cb31-039", "text": "Trophies come and go, but a league title sits in the room for years, and {winnerClub} have earned it."},
-    {"id": "cb31-040", "text": "{loser} will have sleepless nights over this one, though they will not admit it on air."},
-    {"id": "cb31-041", "text": "Good league winners never sound surprised, and {winner} sounds like a man who saw this coming."},
-    {"id": "cb31-042", "text": "Hard graft is not glamorous, but it wins leagues, and {winnerClub} worked for every week of it."},
-    {"id": "cb31-043", "text": "It is a tidy way to finish a season: league title in hand and nothing left to argue about."},
-    {"id": "cb31-044", "text": "Work that looks simple is rarely easy, and {winner} has made it look very simple indeed."},
-    {"id": "cb31-045", "text": "Marathon football, and {winner} ran it at a pace nobody could hold for long."},
-    {"id": "cb31-046", "text": "A quiet month here, a sturdy month there, and suddenly {winner} has the league locked away."},
-    {"id": "cb31-047", "text": "You could almost hear {loser} wincing from across the rivalry, and I cannot blame them."},
-    {"id": "cb31-048", "text": "Every sign was there all year, and the league title now confirms {winner} had the rhythm."},
-    {"id": "cb31-049", "text": "No shame in the long game, and {winnerClub} have made it look like the only sensible option."},
-    {"id": "cb31-050", "text": "Loud celebrations are not {winnerClub}'s thing, which is slightly annoying for anyone hoping to tease them."},
-    {"id": "cb31-051", "text": "Drama was never on the menu, and {winnerClub} simply kept doing the sensible thing."},
-    {"id": "cb31-052", "text": "Plenty of managers chase the big night, but {winner} kept showing up for the long days instead."},
-    {"id": "cb31-053", "text": "I have often said the league is the purest test, and {winner} has passed it without any fuss."},
-    {"id": "cb31-054", "text": "Finishing {margin} clear is the sort of cushion nobody mentions but everybody notices, {winner} included."},
-    {"id": "cb31-055", "text": "{margin} clear in a league is no accident, just a statement from {winnerClub} made quietly over many weeks."},
-    {"id": "cb31-056", "text": "Tables have a way of telling the truth in the end, and {winnerClub} got the truth in their favor."},
-    {"id": "cb31-057", "text": "Nothing dramatic happened, and that is the point: {winner} simply stayed in control of the league."},
-    {"id": "cb31-058", "text": "Quiet pride comes with a league title, and {winner} is wearing it nicely."},
-    {"id": "cb31-059", "text": "A league title beats the shouting every time, and {winnerClub} know how to hold on to it."},
-    {"id": "cb31-060", "text": "{loser} has earned some respect for that run, even if the league belongs to {winner} now."},
-    {"id": "cb31-061", "text": "I expect {winner} will grin about this for the rest of the week, quietly, the way they do everything."},
-    {"id": "cb31-062", "text": "A long season rewards the manager who respects the length, and {winner} clearly does."},
-    {"id": "cb31-063", "text": "Nobody in the rivalry is surprised, which is the most exasperating thing a rival can hear."},
-    {"id": "cb31-064", "text": "This is what a steady manager looks like when the job is done, calm and very slightly smug."},
-    {"id": "cb31-065", "text": "{winnerClub} did not need a grand finale, just a sensible grip on the league from start to finish."},
-    {"id": "cb31-066", "text": "Flashy is not a word anyone would use for a league title, though {winner} looks very reassured."},
-    {"id": "cb31-067", "text": "Straightforward is how the league looked under {winner}, and that is an irritating compliment."},
-    {"id": "cb31-068", "text": "Chasing a league through a long season takes patience, and {winner} deserves a proper pat on the back."},
-    {"id": "cb31-069", "text": "Now the league belongs to {winnerClub}, and {loser} will spend the summer working out how."},
-    {"id": "cb31-070", "text": "Steady managers win leagues, and the steadiest man in this rivalry has just been crowned: {winner}."},
-    {"id": "cb31-071", "text": "Keep the glamour, give me the league title every time, and {winner} will agree."},
-    {"id": "cb31-072", "text": "Judging by the face of {winner}, the job is finished and the league title is in the bag."},
-    {"id": "cb31-073", "text": "Closing out a league is a fine art, and {winnerClub} have just put on a masterclass."},
-    {"id": "cb31-074", "text": "Season {season} will be remembered as the one {winner} quietly took the league and walked off smiling."},
-    {"id": "cb31-075", "text": "A league title can feel like a whisper in a loud year, and {winner} is comfortable whispering."},
-    {"id": "cb31-076", "text": "Very few things are as satisfying as a league title earned slowly, and {winnerClub} did exactly that."},
-    {"id": "cb31-077", "text": "Leagues do not hand out anything for free, and {winner} has paid for every bit of it."},
-    {"id": "cb31-078", "text": "{loser} had a go, and fair play to them, but the league stayed where {winner} left it."},
-    {"id": "cb31-079", "text": "I like a league title that arrives on a quiet afternoon, and {winner} looks like they do too."},
-    {"id": "cb31-080", "text": "Sound judgment wins leagues, and {winnerClub} have shown plenty of it on the way."},
-    {"id": "cb31-081", "text": "Every hour of graft from {winnerClub} added up to a season worth {winnerPoints} points and this title."},
-    {"id": "cb31-082", "text": "Some managers want the headlines, but {winner} is happy to let the league do the talking."},
-    {"id": "cb31-083", "text": "A league title means the season was never really in doubt, and {winnerClub} made sure of that."},
-    {"id": "cb31-084", "text": "You cannot fake a league title, and {winnerClub} have not tried, which is probably why they got it."},
-    {"id": "cb31-085", "text": "That league trophy is a quiet kind of loud, and {winner} is its proud new owner."},
-    {"id": "cb31-086", "text": "{loser} will have to live with this one for a while, and the rivalry will keep the memory warm."},
-    {"id": "cb31-087", "text": "I cannot think of a better way to close a season than a league title with a bit of swagger."},
-    {"id": "cb31-088", "text": "Leagues reward the serious managers who show their hands, and {winner} has played a very good hand."},
-    {"id": "cb31-089", "text": "Steady pressure, steady nerves, steady rise: that is the league story, and {winnerClub} are living it."},
-    {"id": "cb31-090", "text": "Smugness is allowed this week, given the league and the calm {winnerClub} have shown all season."},
-    {"id": "cb31-091", "text": "A league title does not wait for drama, it simply arrives, and {winner} arrived with it."},
-    {"id": "cb31-092", "text": "The league title rewards the manager who keeps asking the boring questions, and {winner} keeps asking them."},
-    {"id": "cb31-093", "text": "Honestly, {winnerClub} did the league the decent way, and nobody can say otherwise."},
-    {"id": "cb31-094", "text": "The season will be talked about for a while, mostly because {winner} took the league without showing off."},
-    {"id": "cb31-095", "text": "Good leagues make good managers look even better, and {winner} is looking very good indeed."},
-    {"id": "cb31-096", "text": "A league title on the mantelpiece for {winnerClub}, and a rival who will hear about it all summer."},
-    {"id": "cb31-097", "text": "{winnerClub} will not be rushed into celebrating, but they will enjoy the league all the same."},
-    {"id": "cb31-098", "text": "Long seasons test nerves, and {winner} has come through with the league title in hand."},
-    {"id": "cb31-099", "text": "The league was no cakewalk, and {winner} knows it, which makes the title taste better."},
-    {"id": "cb31-100", "text": "A league title is nothing to apologize for, and {winner} is not sorry in the slightest."}
+    {
+      "id": "cb31-001",
+      "text": "{winner} has the league title, and the calm face of a manager who never doubted it."
+    },
+    {
+      "id": "cb31-002",
+      "text": "Consistency is the unglamorous hero of any long campaign, and this one leaned on it all the way."
+    },
+    {
+      "id": "cb31-003",
+      "text": "Nobody hands out fireworks for a league title, just a steady run and the nerve to keep going."
+    },
+    {
+      "id": "cb31-004",
+      "text": "Everyone wanted a dramatic finish from {winner}, but the sensible route got there first and stayed put."
+    },
+    {
+      "id": "cb31-005",
+      "text": "Give {winnerClub} their due: they reached the top by doing the dull things properly, week after week."
+    },
+    {
+      "id": "cb31-006",
+      "text": "You can call a league title dull if you like, but it is what happens when nobody blinks."
+    },
+    {
+      "id": "cb31-007",
+      "text": "{winner} never needed a late sprint, only the discipline to protect what was already earned."
+    },
+    {
+      "id": "cb31-008",
+      "text": "Nobody will make a film about a league title, yet the memory of every single step lasts for years."
+    },
+    {
+      "id": "cb31-009",
+      "text": "The league title is not the flashiest silverware in the room, but {winner} looks thoroughly pleased to hold it."
+    },
+    {
+      "id": "cb31-010",
+      "text": "Quiet, patient and relentless, the way a league title gets built, and nobody will apologize for it."
+    },
+    {
+      "id": "cb31-011",
+      "text": "{loser} can take some comfort from the marathon nature of a league, though not much today."
+    },
+    {
+      "id": "cb31-012",
+      "text": "There was no panic all year, and panic is a rare luxury in this rivalry."
+    },
+    {
+      "id": "cb31-013",
+      "text": "A verdict on the whole year has landed, and it has landed firmly in {winnerClub}'s favor."
+    },
+    {
+      "id": "cb31-014",
+      "text": "Delivered without fuss, a league title is the most underrated thing in the whole Showdown."
+    },
+    {
+      "id": "cb31-015",
+      "text": "{winner} did not shout about it, and the table did the shouting on their behalf."
+    },
+    {
+      "id": "cb31-016",
+      "text": "Patience pays in leagues, and a patient manager hurts rivals in the quietest way possible."
+    },
+    {
+      "id": "cb31-017",
+      "text": "There is a particular satisfaction in winning the league quietly, and {winner} has found it."
+    },
+    {
+      "id": "cb31-018",
+      "text": "Ask any old pro and they will tell you the league is where reputations get made or polished."
+    },
+    {
+      "id": "cb31-019",
+      "text": "{winner} has put the league title in the cabinet, and the cabinet looks noticeably fuller this evening."
+    },
+    {
+      "id": "cb31-020",
+      "text": "The long road of a league has been walked without a single complaint, every single mile of it."
+    },
+    {
+      "id": "cb31-021",
+      "text": "Sensible squad, sensible manager, sensible result: {winner} will be insufferable about this for weeks."
+    },
+    {
+      "id": "cb31-022",
+      "text": "There is a lesson in this for {loser}: the league rewards the manager who shows up every single week."
+    },
+    {
+      "id": "cb31-023",
+      "text": "Flash was in short supply this season, and reliability was in plenty."
+    },
+    {
+      "id": "cb31-024",
+      "text": "Season {season} belongs to {winner}, and the league title sits proudly on top of it."
+    },
+    {
+      "id": "cb31-025",
+      "text": "Paperwork says league champions, and the eye test agrees that every line was earned."
+    },
+    {
+      "id": "cb31-026",
+      "text": "Few managers ever get a league title, and {winner} now has one to show for the wait."
+    },
+    {
+      "id": "cb31-027",
+      "text": "Titles are decided over months, not moments, and every one of those months went the right way."
+    },
+    {
+      "id": "cb31-028",
+      "text": "I like the understated approach, and {winner} has taken it to a level that is almost rude."
+    },
+    {
+      "id": "cb31-029",
+      "text": "Leagues rarely need a screaming finish, and {winner} did not supply one."
+    },
+    {
+      "id": "cb31-030",
+      "text": "{winnerClub} can keep the trophy on the sideboard for a while, because nobody is going to argue."
+    },
+    {
+      "id": "cb31-031",
+      "text": "Pressure in a league is relentless, and {winner} handled it like someone who has done this before."
+    },
+    {
+      "id": "cb31-032",
+      "text": "Every week a little more of the table swung towards {winnerClub}, and eventually it all added up."
+    },
+    {
+      "id": "cb31-033",
+      "text": "Credit the long haul, the quiet nerve and a squad that stayed on task all season."
+    },
+    {
+      "id": "cb31-034",
+      "text": "When the league is settled, the rest of the season starts to feel like a victory lap."
+    },
+    {
+      "id": "cb31-035",
+      "text": "I would call {winner} the most reliable manager in the league, and I would not expect an argument."
+    },
+    {
+      "id": "cb31-036",
+      "text": "A league title has a strange habit of arriving quietly, then making everybody look at it at once."
+    },
+    {
+      "id": "cb31-037",
+      "text": "Some managers win a league once, but the habit is forming here."
+    },
+    {
+      "id": "cb31-038",
+      "text": "There was a dull sort of certainty about {winner} this season, and it reads well in hindsight."
+    },
+    {
+      "id": "cb31-039",
+      "text": "Trophies come and go, but a league title sits in the room for years, and {winnerClub} have earned it."
+    },
+    {
+      "id": "cb31-040",
+      "text": "{loser} will have sleepless nights over this one, though they will not admit it on air."
+    },
+    {
+      "id": "cb31-041",
+      "text": "Good league winners never sound surprised, and {winner} sounds like a man who saw this coming."
+    },
+    {
+      "id": "cb31-042",
+      "text": "Hard graft is not glamorous, but it wins leagues, and every week of it counted."
+    },
+    {
+      "id": "cb31-043",
+      "text": "It is a tidy way to finish a season: league title in hand and nothing left to argue about."
+    },
+    {
+      "id": "cb31-044",
+      "text": "Work that looks simple is rarely easy, and {winner} has made it look very simple indeed."
+    },
+    {
+      "id": "cb31-045",
+      "text": "Marathon football, and {winner} ran it at a pace nobody could hold for long."
+    },
+    {
+      "id": "cb31-046",
+      "text": "A quiet month here, a sturdy month there, and suddenly {winner} has the league locked away."
+    },
+    {
+      "id": "cb31-047",
+      "text": "You could almost hear {loser} wincing from across the rivalry, and I cannot blame them."
+    },
+    {
+      "id": "cb31-048",
+      "text": "Every sign was there all year, and the league title now confirms {winner} had the rhythm."
+    },
+    {
+      "id": "cb31-049",
+      "text": "No shame in the long game, and it turned out to be the only sensible option."
+    },
+    {
+      "id": "cb31-050",
+      "text": "Loud celebrations are not {winnerClub}'s thing, which is slightly annoying for anyone hoping to tease them."
+    },
+    {
+      "id": "cb31-051",
+      "text": "Drama was never on the menu, and the sensible thing was done every single week."
+    },
+    {
+      "id": "cb31-052",
+      "text": "Plenty of managers chase the big night, but {winner} kept showing up for the long days instead."
+    },
+    {
+      "id": "cb31-053",
+      "text": "I have often said the league is the purest test, and {winner} has passed it without any fuss."
+    },
+    {
+      "id": "cb31-054",
+      "text": "Finishing {margin} clear is the sort of cushion nobody mentions but everybody notices, {winner} included."
+    },
+    {
+      "id": "cb31-055",
+      "text": "{margin} clear in a league is no accident, just a statement from {winnerClub} made quietly over many weeks."
+    },
+    {
+      "id": "cb31-056",
+      "text": "Tables have a way of telling the truth in the end, and this one told it plainly."
+    },
+    {
+      "id": "cb31-057",
+      "text": "Nothing dramatic happened, and that is the point: {winner} simply stayed in control of the league."
+    },
+    {
+      "id": "cb31-058",
+      "text": "Quiet pride comes with a league title, and {winner} is wearing it nicely."
+    },
+    {
+      "id": "cb31-059",
+      "text": "Shouting fades, a league title lasts, and that is worth holding on to tightly."
+    },
+    {
+      "id": "cb31-060",
+      "text": "{loser} has earned some respect for that run, even if the league belongs to {winner} now."
+    },
+    {
+      "id": "cb31-061",
+      "text": "I expect {winner} will grin about this for the rest of the week, quietly, the way they do everything."
+    },
+    {
+      "id": "cb31-062",
+      "text": "A long season rewards the manager who respects the length, and {winner} clearly does."
+    },
+    {
+      "id": "cb31-063",
+      "text": "Nobody in the rivalry is surprised, which is the most exasperating thing a rival can hear."
+    },
+    {
+      "id": "cb31-064",
+      "text": "This is what a steady manager looks like when the job is done, calm and very slightly smug."
+    },
+    {
+      "id": "cb31-065",
+      "text": "{winnerClub} did not need a grand finale, just a sensible grip on the league from start to finish."
+    },
+    {
+      "id": "cb31-066",
+      "text": "Flashy is not a word anyone would use for a league title, though {winner} looks very reassured."
+    },
+    {
+      "id": "cb31-067",
+      "text": "Straightforward is how the league looked under {winner}, and that is an irritating compliment."
+    },
+    {
+      "id": "cb31-068",
+      "text": "Chasing a league through a long season takes patience, and {winner} deserves a proper pat on the back."
+    },
+    {
+      "id": "cb31-069",
+      "text": "Now the league belongs to {winnerClub}, and {loser} will spend the summer working out how."
+    },
+    {
+      "id": "cb31-070",
+      "text": "Steady managers win leagues, and the steadiest man in this rivalry has just been crowned: {winner}."
+    },
+    {
+      "id": "cb31-071",
+      "text": "Keep the glamour, give me the league title every time, and {winner} will agree."
+    },
+    {
+      "id": "cb31-072",
+      "text": "Judging by the face of {winner}, the job is finished and the league title is in the bag."
+    },
+    {
+      "id": "cb31-073",
+      "text": "Closing out a league is a fine art, and {winnerClub} have just put on a masterclass."
+    },
+    {
+      "id": "cb31-074",
+      "text": "Season {season} will be remembered as the one {winner} quietly took the league and walked off smiling."
+    },
+    {
+      "id": "cb31-075",
+      "text": "A league title can feel like a whisper in a loud year, and whispering suits the job."
+    },
+    {
+      "id": "cb31-076",
+      "text": "Very few things are as satisfying as a league title earned slowly, and {winnerClub} did exactly that."
+    },
+    {
+      "id": "cb31-077",
+      "text": "Leagues do not hand out anything for free, and {winner} has paid for every bit of it."
+    },
+    {
+      "id": "cb31-078",
+      "text": "{loser} had a go, and fair play to them, but the league stayed where {winner} left it."
+    },
+    {
+      "id": "cb31-079",
+      "text": "I like a league title that arrives on a quiet afternoon, and {winner} looks like they do too."
+    },
+    {
+      "id": "cb31-080",
+      "text": "Sound judgment wins leagues, and plenty of it was shown on the way."
+    },
+    {
+      "id": "cb31-081",
+      "text": "Every hour of graft from {winnerClub} added up to a season worth {winnerPoints} points and this title."
+    },
+    {
+      "id": "cb31-082",
+      "text": "Some managers want the headlines, but {winner} is happy to let the league do the talking."
+    },
+    {
+      "id": "cb31-083",
+      "text": "Any league title means the season was never really in doubt, and that was made clear."
+    },
+    {
+      "id": "cb31-084",
+      "text": "You cannot fake a league title, and nobody has been tempted to try."
+    },
+    {
+      "id": "cb31-085",
+      "text": "That league trophy is a quiet kind of loud, and {winner} is its proud new owner."
+    },
+    {
+      "id": "cb31-086",
+      "text": "{loser} will have to live with this one for a while, and the rivalry will keep the memory warm."
+    },
+    {
+      "id": "cb31-087",
+      "text": "I cannot think of a better way to close a season than a league title with a bit of swagger."
+    },
+    {
+      "id": "cb31-088",
+      "text": "Leagues reward the serious managers who show their hands, and {winner} has played a very good hand."
+    },
+    {
+      "id": "cb31-089",
+      "text": "Steady pressure, steady nerves, steady rise: that is the league story, and {winnerClub} are living it."
+    },
+    {
+      "id": "cb31-090",
+      "text": "Smugness is allowed this week, given the league and the calm {winnerClub} have shown all season."
+    },
+    {
+      "id": "cb31-091",
+      "text": "Titles do not wait for drama, they simply arrive on time."
+    },
+    {
+      "id": "cb31-092",
+      "text": "The league title rewards the manager who keeps asking the boring questions, and {winner} keeps asking them."
+    },
+    {
+      "id": "cb31-093",
+      "text": "Honestly, the league was done the decent way, and nobody can say otherwise."
+    },
+    {
+      "id": "cb31-094",
+      "text": "The season will be talked about for a while, mostly because {winner} took the league without showing off."
+    },
+    {
+      "id": "cb31-095",
+      "text": "Good leagues make good managers look even better, and {winner} is looking very good indeed."
+    },
+    {
+      "id": "cb31-096",
+      "text": "Mantelpieces were made for league titles, and a rival will hear about it all summer."
+    },
+    {
+      "id": "cb31-097",
+      "text": "{winnerClub} will not be rushed into celebrating, but they will enjoy the league all the same."
+    },
+    {
+      "id": "cb31-098",
+      "text": "Long seasons test nerves, and {winner} has come through with the league title in hand."
+    },
+    {
+      "id": "cb31-099",
+      "text": "The league was no cakewalk, and {winner} knows it, which makes the title taste better."
+    },
+    {
+      "id": "cb31-100",
+      "text": "There is nothing to apologize for in a league title, and no sorry is needed here."
+    }
   ]
 }

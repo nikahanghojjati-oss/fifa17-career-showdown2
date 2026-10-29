@@ -1,0 +1,392 @@
+{
+  "edited": true,
+  "writer": "claude-haiku-helper",
+  "batch": 11,
+  "situation": "lead-extended",
+  "flavour": "Call and analysis",
+  "duets": [
+    {
+      "id": "fb11-01",
+      "lead": "{leader} wins again and pulls clear of {trailer}, and the rear view is emptying.",
+      "co": "An empty rear view is the leader's favourite sight, and {trailer} knows exactly what it means.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-02",
+      "lead": "Another win for {leader}, and {trailer} has to stop and count the cost.",
+      "co": "The cost is the seasons already gone, and no single one can buy them back.",
+      "score": 9,
+      "was": {
+        "lead": "Another win for {leader}, and {trailer} has to stop and count the cost.",
+        "co": "The cost is in the seasons already gone; you cannot claw those back in one go."
+      }
+    },
+    {
+      "id": "fb11-03",
+      "lead": "{leader} takes the season and stretches the overall lead to {margin} clear.",
+      "co": "The bigger the cushion, the more a leader can afford to play it steady from here.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-04",
+      "lead": "{trailer} needed this one badly, and {leader} took it without breaking stride.",
+      "co": "Hunger is a fine thing, but good form on the other side will outrun it.",
+      "score": 9,
+      "was": {
+        "lead": "{trailer} needed this one badly, and {leader} simply took it off the table.",
+        "co": "Needing a season badly is not the same as winning it, and {trailer} has learned that."
+      }
+    },
+    {
+      "id": "fb11-05",
+      "lead": "{leader} has the Showdown looking one-sided, and {trailer} knows it.",
+      "co": "One-sided is fair; {trailer} has spent a long while on the wrong end of it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-06",
+      "lead": "{leader} keeps stacking the seasons, and {trailer} is running short of options.",
+      "co": "Stack enough wins and the rest of the field starts to look like spectators.",
+      "score": 9,
+      "was": {
+        "lead": "{leader} keeps stacking the seasons, and {trailer} is running short of options.",
+        "co": "Stack enough wins and the rest of the field starts to feel like a formality."
+      }
+    },
+    {
+      "id": "fb11-07",
+      "lead": "Bonus points keep landing for {leader}, and {trailer} is still waiting for their turn.",
+      "co": "Little extras build up over a long Showdown, and {leader} has been collecting them all along.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-08",
+      "lead": "{leader} has lifted another Champions League, and the chase has turned into a climb.",
+      "co": "A trophy of that size moves the needle, and distance like that does not close quickly.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-09",
+      "lead": "{leader} adds another cup to the cabinet, and {trailer} watches the gap grow.",
+      "co": "Cabinets fill slowly, but every trophy is another brick in the wall between the two.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-10",
+      "lead": "{trailer} needs help from somewhere, and {leader} is not waiting around for it.",
+      "co": "Hope is no plan, and {trailer} needs wins that {leader} is busy taking.",
+      "score": 9,
+      "was": {
+        "lead": "{trailer} needs help from somewhere, and {leader} is not waiting around for it.",
+        "co": "Hope is no plan in a Showdown; {trailer} needs wins, and {leader} is the one winning."
+      }
+    },
+    {
+      "id": "fb11-11",
+      "lead": "{leader} lifts the Europa League, and the margin edges out again.",
+      "co": "Any trophy counts for more when you are already in front, and {leader} knows it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-12",
+      "lead": "{trailer} is stuck in the middle of the table while {leader} runs clear at the top.",
+      "co": "Sitting in the middle is cruel: too close to the top to relax, too far off to threaten.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-13",
+      "lead": "{leader} is winning the seasons one after another, and {trailer} is running out of room.",
+      "co": "One big season makes the headlines, but steady wins are what wear a rival down.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-14",
+      "lead": "{trailer} has been chasing a shadow since the early seasons, and {leader} is well clear.",
+      "co": "Chasing a shadow is tiring work, and {leader} has had the easier job all along.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-15",
+      "lead": "{leader} is not celebrating yet, which is exactly what makes this so uncomfortable for {trailer}.",
+      "co": "A calm leader is far worse than a loud one, because there is nothing to hold on to.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-16",
+      "lead": "{trailer} is {margin} behind now, and the seasons left are running out fast.",
+      "co": "Seasons left are the only currency that matters now, and {trailer} has fewer each time.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-17",
+      "lead": "{leader} takes another season, and the Showdown has started to look like a procession.",
+      "co": "Processions need a pacemaker, and {leader} has been setting the pace since season one.",
+      "score": 9,
+      "was": {
+        "lead": "{leader} takes another season, and the Showdown has started to look like a procession.",
+        "co": "A procession needs a pace-setter, and {leader} has been setting it since the first season."
+      }
+    },
+    {
+      "id": "fb11-18",
+      "lead": "The rivals have gone quiet, and {leader} is racing on without them.",
+      "co": "Quiet rivals usually mean they know the race is over, and {trailer} is no exception.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-19",
+      "lead": "{leader} pushes on, and {trailer} is left wondering when the turnaround will come.",
+      "co": "Turnarounds need a bad patch to end, and {leader} has not given one an opening.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-20",
+      "lead": "Another win and {leader} is {margin} clear of {trailer} overall.",
+      "co": "Each season {leader} takes is one more that {trailer} has to find somewhere else.",
+      "score": 9,
+      "was": {
+        "lead": "Another win and {leader} is {margin} clear of {trailer} overall.",
+        "co": "Each win is another brick, and {leader} keeps laying them faster than {trailer} can repair."
+      }
+    },
+    {
+      "id": "fb11-21",
+      "lead": "{leader} has taken the season, and {trailer} has been left with a long walk back.",
+      "co": "A long walk is the only route back, and {trailer} has to start on it right now.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-22",
+      "lead": "{leader} is sprinting clear of {trailer}, and the rest of the field has stopped chasing.",
+      "co": "Once the front runner pulls clear, the others start fighting for second place.",
+      "score": 9,
+      "was": {
+        "lead": "{leader} is sprinting clear of {trailer}, and the rest of the field has stopped chasing.",
+        "co": "When the front runner pulls clear, the rest of the field starts looking for second place."
+      }
+    },
+    {
+      "id": "fb11-23",
+      "lead": "{trailer} tried the big moves, and {leader} simply answered each one calmly.",
+      "co": "Big moves are fine until the other side has the nerve to stay still, and {leader} has that.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-24",
+      "lead": "{leader} is in control now, and {trailer} needs something dramatic to change it.",
+      "co": "Control is a leader's quiet luxury, and drama is the only thing {trailer} has left.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-25",
+      "lead": "{leader} has built a {margin} gap and is refusing to let it shrink.",
+      "co": "The trick is to protect what you have built, not to keep building it forever.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-26",
+      "lead": "The seasons are ticking by, and {leader} still has the biggest cushion on the table.",
+      "co": "A cushion is only comfortable if you keep sitting on it, and {leader} is settled in.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-27",
+      "lead": "{trailer} insists the race is still alive, and {leader} is quietly enjoying that.",
+      "co": "Insisting is free; winning seasons is what keeps a race alive, and {trailer} needs them.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-28",
+      "lead": "{leader} wins it quietly, then turns round and shakes hands with {trailer}.",
+      "co": "Good manners are free, and {trailer} will remember the handshake longer than the result.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-29",
+      "lead": "{leader} makes it look easy every season, and {trailer} is noticing.",
+      "co": "Easy is never the word for it; it takes discipline most managers never get round to.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-30",
+      "lead": "{leader} has banked the season and {trailer} has been reduced to watching.",
+      "co": "Watching from the sidelines is painful, and the cure is a long run of wins.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-31",
+      "lead": "A {margin} lead for {leader}, and {trailer} is staring up at the whole climb.",
+      "co": "The climb is steep, but a steady run of wins is the only ladder on the table.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-32",
+      "lead": "Season by season {leader} is building the margin, and it is becoming a serious one.",
+      "co": "Serious margins turn into comfortable ones, and {trailer} has seen the change coming.",
+      "score": 9,
+      "was": {
+        "lead": "Season by season {leader} is building the margin, and it is becoming a serious one.",
+        "co": "Serious margins have a habit of turning into comfortable ones, and {trailer} is aware."
+      }
+    },
+    {
+      "id": "fb11-33",
+      "lead": "{trailer} was in the picture until a few seasons ago, and now {leader} owns the frame.",
+      "co": "Once a leader has the picture, it takes a rival a lot of wins to change the frame.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-34",
+      "lead": "{trailer} keeps asking for a miracle, and {leader} keeps handing out results.",
+      "co": "Miracles are rare in any Showdown; {trailer} needs a steady run, not a fluke.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-35",
+      "lead": "{leader} is {margin} clear, and the Showdown is starting to feel like a formality.",
+      "co": "Formalities only happen when the other side stops fighting, and {trailer} has not stopped yet.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-36",
+      "lead": "{leader} has been winning so long that {trailer} has started to study the leaderboard.",
+      "co": "Studying the board only shows the worry, and {trailer} has plenty of worry to share.",
+      "score": 9,
+      "was": {
+        "lead": "{leader} has been winning so long that {trailer} has started to study the leaderboard.",
+        "co": "Studying the board is a sign of worry, and the worry is showing from {trailer}."
+      }
+    },
+    {
+      "id": "fb11-37",
+      "lead": "{trailer} has just lost another season, and {leader} is already thinking about the next.",
+      "co": "A season lost is painful, but the next one is where {trailer} can answer back.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-38",
+      "lead": "{leader} wins again, and the Showdown's momentum is sitting firmly in one corner.",
+      "co": "Momentum is a sort of weather, and right now it has settled over {leader}'s side.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-39",
+      "lead": "{leader} holds the seasons, the trophies and the cushion, and {trailer} has the view.",
+      "co": "The view is not nothing, but {trailer} would trade it for a trophy in a heartbeat.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-40",
+      "lead": "Each season is a little heavier for {trailer}, and {leader} is loving every minute.",
+      "co": "Heavier seasons test a rival's nerve, and {leader} has enough nerve for two.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-41",
+      "lead": "{leader} collects another win, and {trailer} starts to wonder where the room went.",
+      "co": "Room disappears one season at a time, and {trailer} only notices when it is gone.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-42",
+      "lead": "The Showdown is {margin} apart and {leader} is still wearing a calm face.",
+      "co": "Calm faces are the most unsettling thing a rival can see across a table.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-43",
+      "lead": "{leader} claims the trophy, and {trailer} is left holding the bill.",
+      "co": "Bills always land on the one who lost ground, and {trailer} has been paying all season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-44",
+      "lead": "{trailer} asks for a second chance, and {leader} says the Showdown does not offer them.",
+      "co": "Second chances exist in friendships, not in a points race, and {trailer} knows it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-45",
+      "lead": "{leader} has moved so far ahead that {trailer} is now looking at the scenery.",
+      "co": "Scenery is pleasant, but a rival who spends the season admiring it is losing ground.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-46",
+      "lead": "{leader} is flying, and {trailer} is still searching for the first step.",
+      "co": "Flow comes from confidence, and {leader} has been collecting that since season one.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-47",
+      "lead": "{trailer} needs {leader} to slip, and the slip is not coming.",
+      "co": "Waiting on a slip is a poor plan, and the best leaders never offer one.",
+      "score": 9,
+      "was": {
+        "lead": "{trailer} needs {leader} to slip, and the slip is not coming.",
+        "co": "Waiting for a slip is a poor plan; the best leaders make their own luck."
+      }
+    },
+    {
+      "id": "fb11-48",
+      "lead": "{leader} stretches to {margin} clear, and {trailer}'s shoulders are visibly lower.",
+      "co": "Heavy shoulders are the first sign, and {trailer} is showing them already.",
+      "score": 9,
+      "was": {
+        "lead": "{leader} stretches to {margin} clear, and the trailer's shoulders are visibly lower.",
+        "co": "Shoulders drop before the scoreboard does, and {trailer} has felt that already."
+      }
+    },
+    {
+      "id": "fb11-49",
+      "lead": "{leader} is smiling, {trailer} is frowning, and there is still a season to play.",
+      "co": "A smile is easy when the cushion holds, and a frown is the trailer's natural face.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "fb11-50",
+      "lead": "{leader} wins again and the shelf is getting crowded, while {trailer} waits at the door.",
+      "co": "A crowded shelf is a fine problem for a leader, and {trailer} would love the chance to try.",
+      "score": 9,
+      "was": null
+    }
+  ]
+}

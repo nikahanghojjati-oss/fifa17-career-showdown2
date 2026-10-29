@@ -19,7 +19,7 @@
   },
   {
    "id": "cb10-004",
-   "text": "The comeback is on. Quiet at first, then all at once, and {winnerClub} are right back in it!"
+   "text": "Quiet at first, then all at once, and {winnerClub} are right back in it! The comeback is on!"
   },
   {
    "id": "cb10-005",
@@ -95,7 +95,7 @@
   },
   {
    "id": "cb10-023",
-   "text": "The deficit did not frighten {winner}. It lit a fire instead."
+   "text": "Frightened by the deficit? Not {winner}. It lit a fire instead."
   },
   {
    "id": "cb10-024",
@@ -171,7 +171,7 @@
   },
   {
    "id": "cb10-042",
-   "text": "The scoreboard says {loser} leads. The mood says something different entirely!"
+   "text": "Scoreboard says {loser} leads. The mood says something different entirely!"
   },
   {
    "id": "cb10-043",
@@ -199,7 +199,7 @@
   },
   {
    "id": "cb10-049",
-   "text": "The title of this season could be Second Wind, and the author is {winnerClub}."
+   "text": "Call this season Second Wind, and sign {winnerClub} as the author."
   },
   {
    "id": "cb10-050",
@@ -307,7 +307,7 @@
   },
   {
    "id": "cb10-076",
-   "text": "The race was lopsided, and now the weight is shifting. Feel that?"
+   "text": "Lopsided a while ago, and now the weight is shifting. Feel that?"
   },
   {
    "id": "cb10-077",
@@ -319,7 +319,7 @@
   },
   {
    "id": "cb10-079",
-   "text": "The leader looks fine, sounds fine, and something is about to change that!"
+   "text": "Leader looks fine, sounds fine, and something is about to change that!"
   },
   {
    "id": "cb10-080",
@@ -335,7 +335,7 @@
   },
   {
    "id": "cb10-083",
-   "text": "The mood in this Showdown has just flipped, and nobody is pretending otherwise."
+   "text": "Mood in this Showdown has just flipped, and nobody is pretending otherwise."
   },
   {
    "id": "cb10-084",
@@ -347,7 +347,7 @@
   },
   {
    "id": "cb10-086",
-   "text": "The lead was a nice warm blanket, and somebody has just whisked a corner of it away."
+   "text": "Once a nice warm blanket, that lead, and somebody has just whisked a corner of it away."
   },
   {
    "id": "cb10-087",
@@ -367,7 +367,7 @@
   },
   {
    "id": "cb10-091",
-   "text": "A wonderful reaction to a difficult stretch. Proper champion's stuff."
+   "text": "Wonderful reaction to a difficult stretch. Proper champion's stuff."
   },
   {
    "id": "cb10-092",
@@ -375,11 +375,35 @@
   },
   {
    "id": "cb10-093",
-   "text": "A slow burn, a big finish, and everyone in the room is sitting up straight."
+   "text": "Slow burn, big finish, and everyone in the room is sitting up straight."
   },
   {
    "id": "cb10-094",
    "text": "Not over until the last season is played, and tonight proves it!"
+  },
+  {
+   "id": "cb10-095",
+   "text": "Mark this one down, {winner}. Out of a hole, and into the title conversation."
+  },
+  {
+   "id": "cb10-096",
+   "text": "Surely not! Yes, surely, because {winnerClub} have won the season and the lead is under threat!"
+  },
+  {
+   "id": "cb10-097",
+   "text": "Go on, {loser}, look behind you. Yes, that is {winner}, and the pace is rising!"
+  },
+  {
+   "id": "cb10-098",
+   "text": "Look at the faces in that dugout. One manager is smiling again, and it is {winner}."
+  },
+  {
+   "id": "cb10-099",
+   "text": "Comebacks are made of nights like this, and the console glow tells the whole story!"
+  },
+  {
+   "id": "cb10-100",
+   "text": "Fine margins, long memories, and a late surge nobody ordered. Remarkable stuff."
   }
  ]
 }
