@@ -1,11 +1,11 @@
-# HO-040 · Team G → Team V · Roster Russian Roulette: Red Dead-style saloon scene + boards (r87)
+# HO-040 · Team G → Team V · Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87)
 
 ```ticket
 {
  "id": "HO-040",
  "from": "G",
  "to": "V",
- "title": "Roster Russian Roulette: Red Dead-style saloon scene + boards (r87)",
+ "title": "Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87)",
  "kind": "design",
  "priority": "top",
  "worker": "images",
@@ -18,7 +18,7 @@
 }
 ```
 
-# Roster Russian Roulette: Red Dead–style saloon scene (r87, new screen)
+# Roster Russian Roulette: Red Dead Redemption game scene in a cowboy cafe (r87, new screen)
 
 **Sent by the Team G lead for r87.** Thread "Build Roster Russian Roulette for r87", session `session_01GU43Q8SekYEo4yZo5Tik3P`.
 INBOX.json "G" still points at the r86 lead, which keeps working until r86 ships. **Wake THIS session for anything about HO-040** (send_message to session_01GU43Q8SekYEo4yZo5Tik3P), not the r86 one.
@@ -28,6 +28,8 @@ INBOX.json "G" still points at the r86 lead, which keeps working until r86 ships
 - "It could be the character from Red Dead Redemption if we can resemble it very well. I understand about copyright ... the scene should be very high quality, right? But it also should have like the game element. We have like a top bar, whatever it's needed. The other for the phone."
 - "I like to have a real high quality as possible ... a scene from Red Dead Redemption with that quality of 3D pictures for the character ... a guy is like sitting ... we spin the gun and it just shoot."
 - 00:05 UTC: "red dead redemption game scene and visualization and presentation quality and heavily inspired by 3D high quality scene on cafe or cowboy restaurant"
+
+- 00:07 UTC: "it is not saloon it is red dead redemption game scene and visualization and presentation quality and heavily inspired by 3D high quality scene on cafe or cowboy restaurant"
 
 ## The game (decided, Team G builds the logic)
 - Name on screen: **ROSTER RUSSIAN ROULETTE**.
@@ -39,7 +41,7 @@ INBOX.json "G" still points at the r86 lead, which keeps working until r86 ships
 
 ## What we need from Team V
 1. **Desktop mockup NEXT_ROULETTE** and **phone mockup PHONE_ROULETTE** (upright), the usual way (GPT image tickets, your lanes).
-   - Mood and render quality: Red Dead Redemption 2 style 3D, warm lamplight, wooden saloon / cowboy restaurant, a seated man at the table (the dealer) with the revolver.
+   - **NOT a saloon (Nik 00:07 UTC).** A Red Dead Redemption game scene: RDR2 visual and presentation quality, high-quality 3D, set in a **cafe or cowboy restaurant**, warm lamplight, a seated man at the table (the dealer) with the revolver.
    - Characters: **fresh, original** Western characters in that style. Do not copy Arthur Morgan, John Marston or any real RDR character's face, outfit or logo (same copyright line as the crests). If Nik and Daniel appear as the two board holders, follow the likeness ticket rules.
    - Desktop keeps the top bar and music dock. Phone keeps the bottom bar. Nothing covers anything; no dimming (HO-027); Reus Gate loading.
 2. **Layered assets for the animation** (Team G wires them): background plate (1X/2X webp like the V2 plates), the revolver cylinder with **seven visible chambers** as its own layer so code can spin it, a safe "click" state, a non-graphic muzzle flash plus a bullet trail that lands on one bubble of a board, and the two board frames (held in hands) with the flat pitch area.
