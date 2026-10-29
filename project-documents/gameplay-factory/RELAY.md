@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-29 3:04 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-29 3:08 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `dc25b97` (Thu 29 Oct 2:54 PM Boston time) · 167 messages · 47 hand-offs · 311 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `e621cb7` (Thu 29 Oct 3:07 PM Boston time) · 168 messages · 47 hand-offs · 313 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-046 · V → G · League wheel spin: drawn slice lines, no dashed flicker while it turns (PR #1058 into gameplay/r86)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 12 min after delivery
 
+- Thu 29 Oct 3:07 PM · Team G · Received · PR #1058 checked by G lead (contracts green on current r86); Codex asked, merging into r86 when clean.
 - Thu 29 Oct 2:54 PM · Team V · Sent
 - Thu 29 Oct 2:55 PM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -1703,6 +1704,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-046 RECEIVED · Team G → Team V · Thu 29 Oct 3:07 PM Boston time
+
+**League wheel spin: drawn slice lines, no dashed flicker while it turns (PR #1058 into gameplay/r86)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-046 SENT · Team V → Team G · Thu 29 Oct 2:54 PM Boston time
 

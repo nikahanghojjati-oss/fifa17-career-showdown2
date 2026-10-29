@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-29 3:04 PM Boston time (EDT)",
+ "generated": "2026-10-29 3:08 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 167,
+  "count": 168,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1506,6 +1506,15 @@
     "subject": "League wheel spin: drawn slice lines, no dashed flicker while it turns (PR #1058 into gameplay/r86)",
     "reply": "yes (receive it)",
     "boston": "Thu 29 Oct 2:54 PM"
+   },
+   {
+    "time": "2026-10-29 19:07",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-046 RECEIVED",
+    "subject": "League wheel spin: drawn slice lines, no dashed flicker while it turns (PR #1058 into gameplay/r86)",
+    "reply": "no",
+    "boston": "Thu 29 Oct 3:07 PM"
    }
   ],
   "g2v": {
@@ -1526,8 +1535,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "dc25b97",
-  "head_boston": "Thu 29 Oct 2:54 PM",
+  "head": "e621cb7",
+  "head_boston": "Thu 29 Oct 3:07 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2189,13 +2198,13 @@
     "from": "V",
     "to": "G",
     "title": "League wheel spin: drawn slice lines, no dashed flicker while it turns (PR #1058 into gameplay/r86)",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-046_league-wheel-spin-drawn-slice-lines-no-d.md",
     "worker": "opus",
-    "pickup_min": null,
-    "waiting_min": 9
+    "pickup_min": 12,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
