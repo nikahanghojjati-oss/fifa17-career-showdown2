@@ -44,6 +44,7 @@ function createRuleBookScreen(){
             "Simulate every match.",
             "You may play or simulate a Champions League or Europa League final.",
             "You may play or simulate the main domestic cup final.",
+            "Skip pre-season in FIFA 17.",
             "1- and 3-season Showdowns: only your Special Player can be trained.",
             "5- and 10-season Showdowns: all players can be trained."
         ]),
@@ -155,16 +156,13 @@ function createScoringRuleSection(){
     maximum.className = "ruleScoreMaximum";
     maximum.innerHTML = "<span>MAXIMUM PER MANAGER / SEASON</span><strong>11</strong>";
 
-    // r80 Europa League (owner rules, 2026-10-19).
+    // r80 Europa League (owner rules, 2026-10-19). r86 (Nik 2026-10-29): the lines FIFA 17 already enforces (no CL and EL
+    // in one season, the 3rd-place drop, EL by league position, only winning scores, best season 11/9) stay in the scoring
+    // engine but are no longer printed; only the season 1 setup note is shown.
     const notes = document.createElement("ul");
     notes.className = "ruleScoreNotes";
     [
-        "You can't win the Champions League and the Europa League in the same season. Winning each in different seasons counts both.",
-        "Season 1: both clubs play in the Champions League. Set this up in FIFA by redrawing the Champions League groups twice.",
-        "A club that finishes 3rd in its Champions League group drops into the Europa League and can still win it.",
-        "A club can also qualify for the Europa League by its league position.",
-        "Only winning scores. Qualifying or taking part scores nothing.",
-        "Best possible season: 11, which needs the Champions League. A Europa League season tops out at 9."
+        "Season 1: both clubs play in the Champions League. Set this up in FIFA by redrawing the Champions League groups twice."
     ].forEach(rule => {
         const item = document.createElement("li");
         item.textContent = rule;
