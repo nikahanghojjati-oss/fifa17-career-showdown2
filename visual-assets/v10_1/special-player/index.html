@@ -60,6 +60,13 @@ body { margin: 0; background: var(--ink); color: var(--ivory); font-family: var(
 @media (min-width: 900px) { .slot i.rk { display: none; } } /* desktop shows the rank in the name panel */
 .cta { font: 800 18px/1 var(--disp); letter-spacing: .08em; text-transform: uppercase; color: #140e04; background: linear-gradient(180deg, #fff6d2, var(--gold) 55%, #c4943e); border: 0; padding: 13px 22px 12px; box-shadow: 0 0 0 1px #000, inset 0 -2px 0 rgba(0,0,0,.2); cursor: pointer; white-space: nowrap; transition: filter .3s; }
 .cta[disabled] { filter: grayscale(.85) brightness(.55); cursor: default; }
+/* hype idea 7 (2026-10-29): Replay beside Continue once both cards are out; the hint for a guarded skip shows in the who line */
+.mid { display: flex; gap: 8px; align-items: stretch; justify-content: center; min-width: 0; }
+.again { flex: none; width: 44px; padding: 0; display: grid; place-items: center; color: var(--gold-hi); background: rgba(8,7,6,.82); border: 1px solid rgba(241,195,90,.75); cursor: pointer; }
+.again[hidden] { display: none; }
+.again svg { width: 22px; height: 22px; }
+.again:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 2px; }
+.who.hint { color: #fff; }
 .tools { max-width: 1000px; margin: 8px auto 0; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
 .tools button, .tools select { font: 700 13px/1 var(--num); letter-spacing: .16em; text-transform: uppercase; color: var(--ivory); background: rgba(8,7,6,.82); border: 1px solid rgba(241,195,90,.55); border-radius: 999px; padding: 8px 14px; cursor: pointer; }
 body.game .tools { display: none; }
@@ -82,7 +89,10 @@ body.game #spk { display: grid; }
 @media (max-width: 899px) { .l3 { display: none; } }
 @media (max-width: 640px) {
   .strip { grid-template-columns: 1fr 1fr; gap: 8px 12px; }
-  .cta { grid-column: 1 / 3; grid-row: 2; font-size: 17px; padding: 12px; }
+  .mid { grid-column: 1 / 3; grid-row: 2; }
+  .cta { flex: 1; min-width: 0; font-size: 17px; padding: 12px; }
+  .again:not([hidden]) + .cta { font-size: 15px; letter-spacing: .04em; padding: 12px 6px; overflow: hidden; text-overflow: ellipsis; } /* Replay beside it: the label still fits from 360 px */
+  .again { width: 42px; }
   .slot span { font-size: 18px; }
   .slot b { letter-spacing: .18em; }
   .slot span.wait { font-size: 13px; letter-spacing: .12em; } /* "REVEALING" fits from 360 px */
@@ -108,7 +118,7 @@ body.game #spk { display: grid; }
   <div class="bottom" id="bottom">
     <div class="strip">
       <div class="slot dan"><em>01</em><b>Daniel</b><span id="slotD" class="wait">Revealing</span><i class="rk" id="rkD"></i></div>
-      <button class="cta" id="cta" type="button" disabled>Continue to Career Start</button>
+      <div class="mid"><button type="button" id="again" class="again" hidden aria-label="Replay both reveals" title="Replay both reveals"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1"/><path d="M3 3.5v5h5"/></svg></button><button class="cta" id="cta" type="button" disabled>Continue to Career Start</button></div>
       <div class="slot nik"><em>02</em><b>Nik</b><span id="slotN" class="wait">Next</span><i class="rk" id="rkN"></i></div>
     </div>
     <div class="tools">
@@ -1150,6 +1160,10 @@ const PAIRS = {
        nik:    { name:"Oscar", short:"OSCAR", pos:"CAM", nation:"BR", club:null, number:8, ovr:83, pot:86, rank:165, tier:"bronze", stats:[["PAC",73],["SHO",77],["PAS",83],["DRI",85],["DEF",42],["PHY",62]] } }
 };
 const TIERLABEL = { "black-blue-gold":"TOP 3", "blue-gold":"TOP 10", "gold":"TOP 20", "silver":"TOP 50", "bronze":"TOP 300" };
+/* hype ideas (2026-10-29): one tier scale for every effect, 0 = bronze (rank 51+) up to 4 = black-blue-gold (top 3) */
+const TIER_ORDER=["bronze","silver","gold","blue-gold","black-blue-gold"]; const tierLevel=(tier)=>Math.max(0,TIER_ORDER.indexOf(tier));
+/* idea 4 timing (also read by the skip guard): the pack's colour ladder steps from 2.45 s, one step every .26 s */
+const LADDER_T0=2.45, LADDER_DT=.26;
 /* card finishes: g = background stops, line = inner frame, text/sub = type colours, glow = light colour, power = how big the show is */
 const TIER = {
   "black-blue-gold": { g:["#1d2440","#07080d","#0a0f22","#1a2a66"], facet:"rgba(90,140,255,.10)", line:"#e9b950", text:"#f3cd6b", sub:"#cfdcff", band:["#fff2c0","#e4b24c","#8f6420"], bandText:"#120c02", glow:0x4d86ff, power:1.8 },
@@ -1736,10 +1750,13 @@ const ease={ out:(t)=>1-Math.pow(1-t,3), inOut:(t)=>t<.5?4*t*t*t:1-Math.pow(-2*t
 const clamp01=(x)=>Math.max(0,Math.min(1,x));
 const lerp=(a,b,k)=>a+(b-a)*k;
 const mpByIdx=(i)=>mpCard(MP_LIST[Math.max(0,Math.min(MP_LIST.length-1,i))]); let pickD=4, pickN=12; const qs=new URLSearchParams(location.search); if(qs.get('d')) pickD=+qs.get('d'); if(qs.get('n')) pickN=+qs.get('n');
+let bothShown=false, guardUntil=0, whoText="";
 let roll=0, pair={daniel:mpByIdx(pickD), nik:mpByIdx(pickN)}, order=["daniel","nik"], idx=0, t0=0, phase="run", shake=0, settledAt=0, fired={}, flash=0, pulse=0;
 const $=(id)=>document.getElementById(id);
 const who=$("who"), slotD=$("slotD"), slotN=$("slotN"), cta=$("cta"), live=$("live"), l3=$("l3");
 const cur=()=>pair[order[idx]];
+function setWho(text){ whoText=text; if(!who.classList.contains("hint")) who.textContent=text; }
+function hint(on){ who.classList.toggle("hint",on); who.textContent=on?"Tap again to skip":whoText; }
 const natCols=(code)=>NATION_COLORS[code]||[0xffffff];
 let vtt=0; const slowAt=(t)=>REDUCED?1:1-.68*Math.max(0,Math.min(1,(t-3.6)/.12,(4.15-t)/.2)); let camK=1, camRest=new T.Vector3(0,1.05,6.6), lookRest=new T.Vector3(0,2.15,-1.2), coinStopX=-2.2, coinLift=0;
 const COIN_ON_CARD=new T.Vector3(-1.1+112/CW*2.2, CARD_POS.y+1.6-304/CH*3.2, CARD_POS.z+.07);
@@ -1752,8 +1769,8 @@ function startPlayer(i){
   clearConfetti(); clearSmoke(); clearChunks(); parts.forEach(q=>q.life=0); pillar.visible=false; crack.material.color.setScalar(0); packLight.intensity=0; pack.position.set(0,40,-1.2); pack.scale.setScalar(1);
   frontMat.map=back.tx; frontMat.needsUpdate=true;
   card.visible=false; coin.visible=false; pack.visible=true; rays.material.opacity=0; l3.classList.remove("on");
-  who.textContent=(order[idx]==="daniel"?"Daniel's":"Nik's")+" Special Player";
-  if(i===0){ slotD.textContent="Revealing"; slotD.className="wait"; slotN.textContent="Next"; slotN.className="wait"; cta.disabled=true; $("rkD").textContent=""; $("rkN").textContent=""; }
+  setWho((order[idx]==="daniel"?"Daniel's":"Nik's")+" Special Player");
+  if(i===0){ slotD.textContent="Revealing"; slotD.className="wait"; slotN.textContent="Next"; slotN.className="wait"; cta.disabled=!bothShown||Boolean(cta.dataset.sent); $("again").hidden=true; $("rkD").textContent=""; $("rkN").textContent=""; }
   else { slotN.textContent="Revealing"; slotN.className="wait"; }
   if(REDUCED) settle();
 }
@@ -1766,7 +1783,7 @@ function scoutFlip(k){ const e=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, a=SCOUT_I
   if(k>=a&&!fired.sc1){ fired.sc1=1; SFX.play("flip"); } if(k>=c&&!fired.sc2){ fired.sc2=1; SFX.play("flip"); }
   return k<a?0:k<b?Math.PI*e((k-a)/.7):k<c?Math.PI:k<d?Math.PI+Math.PI*e((k-c)/.7):0; }
 function settle(){
-  const p=cur(); phase="settled"; settledAt=clock(); fired.sc1=fired.sc2=0; SCOUT_IN=scoutInFor(p.tier); SCOUT_END=scoutEndFor(p.tier);
+  const p=cur(); phase="settled"; guardUntil=0; hint(false); settledAt=clock(); fired.sc1=fired.sc2=0; SCOUT_IN=scoutInFor(p.tier); SCOUT_END=scoutEndFor(p.tier);
   drawScoutBack(back.ctx,p); back.tx.needsUpdate=true;
   frontMat.map=front.tx; frontMat.needsUpdate=true;
   pack.visible=false; coin.visible=false; packLight.intensity=0; card.visible=true; card.position.copy(CARD_POS); card.rotation.set(0,0,0); card.scale.setScalar(1);
@@ -1778,7 +1795,7 @@ function settle(){
   $("l3meta").innerHTML=`<span><i>${p.ovr}</i> ${p.pos}</span><span>${NATION[p.nation]}</span><span>${p.club||"No club"}</span><span><i>#${p.number}</i></span>`;
   l3.classList.add("on");
   live.textContent=`${order[idx]==="daniel"?"Daniel":"Nik"}'s FIFA 17 Showdown Special Player: ${p.name}, ${p.pos}, ${NATION[p.nation]}, ${p.club||"no club"}, number ${p.number}, overall ${p.ovr}, potential ${p.pot}, rank ${p.rank}.`;
-  if(idx===1) cta.disabled=false;
+  if(idx===1){ bothShown=true; if(!cta.dataset.sent){ cta.disabled=false; $("again").hidden=false; } }
 }
 const S=(at,dur,tt)=>clamp01((tt-at)/dur);
 
@@ -1950,9 +1967,22 @@ function frame(){ if(manual===null) tick(true); requestAnimationFrame(frame); }
 /* ================= controls ================= */
 const toast=$("toast");
 function skip(){ if(phase==="run") settle(); }
+/* Idea 7: a stray tap must not wipe a big reveal. Top 3, top 10 and top 20 need a second tap within 3 s ("Tap again to skip");
+   top 50 and rank 51+ skip on one tap. Until the pack's ladder has reached gold every reveal asks twice, so the hint never
+   tells a tier the screen has not shown yet. */
+const GUARD_TIERS={"black-blue-gold":1,"blue-gold":1,"gold":1}, GUARD_S=3;
+const guarded=()=>vtt<LADDER_T0+2*LADDER_DT||Boolean(GUARD_TIERS[cur().tier]);
+function guardedSkip(){
+  if(phase!=="run") return;
+  if(!guarded()||clock()<guardUntil){ guardUntil=0; skip(); return; }
+  guardUntil=clock()+GUARD_S; hint(true); later(()=>{ if(guardUntil&&clock()>=guardUntil-.05){ guardUntil=0; hint(false); } },GUARD_S*1000);
+}
 $("skip").addEventListener("click",skip);
-stage.addEventListener("click",()=>{ if(unlockPending){ unlockPending=false; unlockDone=true; return; } skip(); });
-$("replay").addEventListener("click",()=>startPlayer(0));
+stage.addEventListener("click",()=>{ if(unlockPending){ unlockPending=false; unlockDone=true; return; } guardedSkip(); });
+/* Replay plays both reveals again here only: no message to the game (Continue still sends its one message), no network */
+function replay(){ guardUntil=0; hint(false); startPlayer(0); }
+$("replay").addEventListener("click",replay);
+$("again").addEventListener("click",e=>{ e.stopPropagation(); replay(); });
 /* Sound: on unless this phone turned it off (kept per device). A browser lets a frame start sound only after a tap inside it,
    so until then the reveal plays silent, and the first tap on the pitch turns sound on instead of skipping. */
 const SOUND_KEY="cms-sp-sound", SOUND_DEFAULT=true;
@@ -1969,7 +1999,7 @@ $("tierShow").addEventListener("change",()=>{ const v=$("tierShow").value; if(!v
 $("gameview").addEventListener("click",()=>document.body.classList.add("game")); $("tools-back").addEventListener("click",()=>document.body.classList.remove("game")); if(qs.get("tools")!=="1"){ document.body.classList.add("game"); $("tools-back").style.display="none"; } /* game view by default, no preview controls; ?tools=1 shows the preview tools */
 window.__pick=(d,n)=>{ pickD=d; pickN=n; pair={daniel:mpByIdx(d), nik:mpByIdx(n)}; return loadCrests(); };
 const EMBED=qs.get("embed")==="1"; const toGame=(type)=>{ try{ parent.postMessage({type},location.origin); }catch(e){} };
-cta.addEventListener("click",()=>{ if(EMBED){ if(cta.dataset.sent) return; cta.dataset.sent="1"; cta.disabled=true; cta.textContent="Opening Career Start…"; toGame("cms-sp-continue"); return; } toast.classList.add("on"); setTimeout(()=>toast.classList.remove("on"),1400); });
+cta.addEventListener("click",()=>{ if(EMBED){ if(cta.dataset.sent) return; cta.dataset.sent="1"; cta.disabled=true; cta.textContent="Opening Career Start…"; toGame("cms-sp-continue"); $("again").hidden=true; return; } toast.classList.add("on"); setTimeout(()=>toast.classList.remove("on"),1400); });
 window.__mq={ player(i){ manual=performance.now()/1000; last=manual; queue.length=0; startPlayer(i); }, advance(sec){ const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1); } } };
 
 const fontsReady=Promise.race([Promise.all(['600 60px "Barlow Condensed"','700 30px "Barlow Condensed"','500 30px "Barlow Condensed"','800 30px "Barlow Condensed"','800 40px "Big Shoulders Display"','900 40px "Big Shoulders Display"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);
