@@ -10,11 +10,11 @@
  "priority": "normal",
  "worker": "",
  "parent": null,
- "job": null,
- "status": "RECEIVED",
+ "job": "1052",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-29T08:16:10Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-29T08:20:08Z", "by": "V", "status": "RECEIVED", "note": "Team V: received; asking the coordinator for a dedicated Team V thread"}],
+ "evidence": ["claude-visual/r87-polish-ho043 @ 7024fa91 - PR #1052 into gameplay/r87; before/after pairs attachments/HO-043/v-after/"],
+ "log": [{"at": "2026-10-29T08:16:10Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-29T08:20:08Z", "by": "V", "status": "RECEIVED", "note": "Team V: received; asking the coordinator for a dedicated Team V thread"}, {"at": "2026-10-29T13:23:23Z", "by": "V", "status": "DONE", "note": "Team V: PR #1052 into gameplay/r87, CSS only. Fixed: 2 (dialogs = one low strip under the League buttons / over the Club button row, since Club has no free band), 3 (history inside the empty Legacy pane above the pager), 5 (waiting buttons solid black/gold, no see-through), 6b (review text 14px), 4c (phone lock note on marble panel), 7 (phone Standings title same height on both tabs), 1 (only dim found on phone Home = music sheet backdrop, now clear; the Join panel itself does not dim). Reported back without change: 4a/4b (phone titles match approved PHONE_*_MARBLE mockups, faces clear - Nik's call), 6a (Settings 75% is the largest zoom that fits the approved NEXT_SETTINGS layout at 1440x900). Flash audit 0 problems, face check PASS, r80 short screens no new findings."}],
  "from_session": "session_01GU43Q8hTVduogfPa3QEm4Z"
 }
 ```

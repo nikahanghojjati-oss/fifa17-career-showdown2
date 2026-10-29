@@ -156,4 +156,7 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-29 07:53 | Team V | Team G | HO-041 SENT | League wheel spin polish: 7 errors fixed, patch ready to merge (Nik OK) | yes (receive it) |
 | 2026-10-29 07:53 | Team G | Team V | HO-042 SENT | r86 Special Player reveal: card text cut, phone label, gold glow instead of white flash | yes (receive it) |
 | 2026-10-29 07:54 | Team G | Team V | HO-041 RECEIVED | League wheel spin polish: 7 errors fixed, patch ready to merge (Nik OK) | no |
+| 2026-10-29 08:05 | Team V | Team G | HO-042 DONE | r86 Special Player reveal: card text cut, phone label, gold glow instead of white flash | no |
 | 2026-10-29 08:16 | Team G | Team V | HO-043 SENT | Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons) | yes (receive it) |
+| 2026-10-29 08:20 | Team V | Team G | HO-043 RECEIVED | Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons) | no |
+| 2026-10-29 13:23 | Team V | Team G | HO-043 DONE | Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons) | no |
