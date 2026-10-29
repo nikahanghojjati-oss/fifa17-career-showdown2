@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-29 7:02 PM Boston time (EDT)",
+ "generated": "2026-10-29 7:04 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 171,
@@ -1562,8 +1562,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "8550705",
-  "head_boston": "Thu 29 Oct 7:00 PM",
+  "head": "fbf659e",
+  "head_boston": "Thu 29 Oct 7:02 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2244,7 +2244,7 @@
     "from": "V",
     "to": "G",
     "title": "Sounds for Russian Roster Roulette: eight real cues that drop into platemap.json sfx",
-    "stage": "RECEIVED",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-047_sounds-for-russian-roster-roulette-eight.md",
