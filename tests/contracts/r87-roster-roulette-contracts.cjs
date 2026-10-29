@@ -54,46 +54,76 @@ assert.equal(RRR.forSeason(rid,{playerOne:'Liverpool',playerTwo:'Nowhere FC'},1)
 ok('L2','same id + season = same spins on both phones; bad input = no roulette');
 
 // L3 the rules: Daniel first; 7 chambers; fired exactly when the cylinder stops on the bullet; a fired turn always hits a
-// board player; an empty turn hits nobody; a player released earlier is never hit again.
+// board player and every one of the 15 can be hit; an empty turn hits nobody. Season 1 is the launch board; from season 2
+// each manager's own edited board (drafted from last season's minus the player shot) decides the name.
 const view=RRR.forSeason(rid,clubs,1);
 assert.deepEqual(view.order,['playerOne','playerTwo']);assert.deepEqual(view.turns.map(t=>t.role),['playerOne','playerTwo']);
-assert.equal(view.chambers,7);
+assert.equal(view.chambers,7);assert.equal(view.boards.playerOne[0].name,RRR.board('Liverpool')[0].name);
+const fill=(draft,season)=>draft.map(p=>({pos:p.pos,name:p.name||`New Signing ${season}-${p.slot}`}));
 let fired=0,turns=0,hitBench=0;const perSlot=new Array(15).fill(0);
 for(let g=0;g<3000;g+=1){
-  const r=id(),hist=RRR.history(r,clubs,10);
-  const gone={playerOne:new Set(),playerTwo:new Set()};
-  for(const season of hist){
-    for(const t of season.turns){
+  const r=id();let prev={playerOne:null,playerTwo:null};
+  for(let season=1;season<=10;season+=1){
+    let edited=null;
+    if(season>1){
+      edited={};
+      for(const role of ['playerOne','playerTwo']){
+        const draft=RRR.draft(r,clubs,season,role,prev[role]);
+        assert.equal(draft.length,15);
+        const last=RRR.forSeason(r,clubs,season-1,season-1>1?prev:null).turns.find(t=>t.role===role);
+        assert.deepEqual(draft.filter(p=>p.name==='').map(p=>p.slot),last.fired?[last.hitSlot]:[],'only the player shot last season is taken off');
+        edited[role]=fill(draft,season);
+      }
+    }
+    const v=RRR.forSeason(r,clubs,season,edited);
+    for(const t of v.turns){
       turns+=1;
       assert.ok(t.bulletChamber>=0&&t.bulletChamber<7&&t.stopChamber>=0&&t.stopChamber<7);
       assert.equal(t.fired,t.bulletChamber===t.stopChamber);
       if(t.fired){
         fired+=1;assert.ok(t.player&&t.hitSlot===t.player.slot,'a bullet always hits a player');
-        assert.ok(!gone[t.role].has(t.hitSlot),'never the same player twice');
-        gone[t.role].add(t.hitSlot);perSlot[t.hitSlot]+=1;if(t.player.bench)hitBench+=1;
-      }else assert.equal(t.player,null);
+        assert.equal(t.player.name,v.boards[t.role][t.hitSlot].name);
+        perSlot[t.hitSlot]+=1;if(t.player.bench)hitBench+=1;
+      }else{assert.equal(t.player,null);assert.equal(t.hitSlot,null);}
     }
-  }
-  if(g<50){
-    const s10=RRR.forSeason(r,clubs,10);
-    for(const role of ['playerOne','playerTwo']){
-      const earlier=new Set(hist.slice(0,9).map(s=>s.turns.find(t=>t.role===role).hitSlot).filter(x=>x!==null));
-      assert.deepEqual(s10.boards[role].filter(p=>p.releasedEarlier).map(p=>p.slot).sort(),[...earlier].sort());
-    }
+    prev={playerOne:v.boards.playerOne,playerTwo:v.boards.playerTwo};
   }
 }
 const rate=fired/turns;
 assert.ok(Math.abs(rate-1/7)<0.01,`fire rate ${rate.toFixed(4)} is 1 in 7`);
-assert.ok(perSlot.every(n=>n>0.6*fired/15&&n<1.4*fired/15),'every one of the 15 players can be hit, evenly');
+assert.ok(perSlot.every(n=>n>0.85*fired/15&&n<1.15*fired/15),'every one of the 15 players can be hit, evenly');
 assert.ok(hitBench>0,'subs can be hit');
-ok('L3',`Daniel first; fire rate ${(rate*100).toFixed(2)}% over ${turns} spins; hits spread over all 15; no repeats`);
+ok('L3',`Daniel first; fire rate ${(rate*100).toFixed(2)}% over ${turns} spins; hits spread over all 15; edited boards name the hit`);
 
-// L4 seasons are independent per manager and per season, and different Showdowns differ.
-const a=RRR.history(rid,clubs,10),b=RRR.history(id(),clubs,10);
-assert.notDeepEqual(a.map(s=>s.turns.map(t=>[t.bulletChamber,t.stopChamber])),b.map(s=>s.turns.map(t=>[t.bulletChamber,t.stopChamber])));
-// Changing only the clubs never changes whether a turn fires (the chambers come from the id, season and role only).
-const c=RRR.history(rid,{playerOne:'Arsenal',playerTwo:'Juventus'},10);
-assert.deepEqual(a.map(s=>s.turns.map(t=>t.fired)),c.map(s=>s.turns.map(t=>t.fired)));
-ok('L4','independent per Showdown; clubs never change who gets shot');
+// L4 seasons are independent per Showdown; clubs and board edits never change who gets shot or which slot.
+const seq=r=>Array.from({length:10},(_,i)=>RRR.forSeason(r,clubs,i+1).turns.map(t=>[t.bulletChamber,t.stopChamber,t.hitSlot]));
+assert.notDeepEqual(seq(rid),seq(id()));
+const other={playerOne:'Arsenal',playerTwo:'Juventus'};
+for(let s=1;s<=10;s+=1)assert.deepEqual(RRR.forSeason(rid,clubs,s).turns.map(t=>[t.fired,t.hitSlot]),RRR.forSeason(rid,other,s).turns.map(t=>[t.fired,t.hitSlot]));
+// A board not saved yet: the slot is already fixed, only the name waits.
+const s2=RRR.forSeason(rid,clubs,2,{playerOne:fill(RRR.draft(rid,clubs,2,'playerOne'),2)});
+assert.equal(s2.boards.playerTwo,null);assert.equal(s2.turns[1].player,null);
+ok('L4','independent per Showdown; clubs and edits never change who gets shot; unsaved board = name pending');
+
+// L5 an edited board must be a real board: 11 + 4, one GK in the XI, subs marked SUB, names 1-40 chars, no player twice.
+const good=fill(RRR.draft(rid,clubs,2,'playerOne'),2);
+const gk=good.findIndex(p=>p.pos==='GK'),outfield=gk===0?1:0;
+assert.ok(RRR.normalizeBoard(good));
+const bad=[
+  null,good.slice(0,14),[...good,good[0]],
+  good.map((p,i)=>i===gk?{...p,pos:'ST'}:p),                      // no keeper
+  good.map((p,i)=>i===outfield?{...p,pos:'GK'}:p),               // two keepers
+  good.map((p,i)=>i===12?{...p,pos:'ST'}:p),                      // sub not SUB
+  good.map((p,i)=>i===outfield?{...p,pos:'SUB'}:p),              // starter marked SUB
+  good.map((p,i)=>i===3?{...p,pos:'XX'}:p),
+  good.map((p,i)=>i===4?{...p,name:''}:p),
+  good.map((p,i)=>i===4?{...p,name:' Kane'}:p),
+  good.map((p,i)=>i===4?{...p,name:'x'.repeat(41)}:p),
+  good.map((p,i)=>i===11?{...p,name:good[12].name.toUpperCase()}:p), // same player twice
+  good.map((p,i)=>i===5?{...p,name:7}:p),
+];
+for(const b of bad)assert.equal(RRR.normalizeBoard(b),null);
+assert.equal(RRR.draft(rid,clubs,1,'playerOne'),null);assert.equal(RRR.draft(rid,clubs,3,'playerOne',null),null);assert.equal(RRR.draft(rid,clubs,2,'nobody'),null);
+ok('L5','edited boards are checked: 11 + 4, one GK, no duplicates, clean names');
 
 console.log(`r87 roster roulette contracts: ${checks} groups passed`);
