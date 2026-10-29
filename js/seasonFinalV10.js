@@ -324,8 +324,8 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
     finalSeasonReview=true;restoreFinal(host);return true;
   }
   // r87 Rematch: one more button in the Final Winner's own exit row (same kit, same row, nothing moves or hides). Daniel's
-  // runs the normal START (js/onlinePlayerIdentity.js openRematch: the same reads and writes as Home START plus the seasons
-  // screen's START), so the next screens (league wheel with WAITING, then clubs) are the usual ones. Nik's goes Home.
+  // runs the normal START (js/onlinePlayerIdentity.js openRematch: the same reads and writes as Home START) and opens the seasons
+  // screen with the closed length picked; its START leads to the usual league wheel with WAITING, then clubs. Nik's goes Home.
   const REMATCH_ID="finalWinnerRematch";let rematchBusy=false;
   function sfRematchLabel(button,rematch){
     const length=`${rematch.seasons} SEASON${rematch.seasons===1?"":"S"}`,sub=rematch.starter?(rematchBusy?"STARTING…":length):"DANIEL STARTS IT";
@@ -334,7 +334,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
       main.className="finalWinnerRematchMain";main.textContent="REMATCH";small.className="finalWinnerRematchSub";small.textContent=sub;
       button.replaceChildren(main,small);button.dataset.rematchLabel=sub;
     }
-    button.setAttribute("aria-label",rematch.starter?`Rematch: start a new ${rematch.seasons}-season Showdown with Nik`:"Rematch: Daniel starts it. Go to Showdown Home to join his code");
+    button.setAttribute("aria-label",rematch.starter?`Rematch: a new Showdown with Nik, ${rematch.seasons} season${rematch.seasons===1?"":"s"} picked`:"Rematch: Daniel starts it. Go to Showdown Home to join his code");
     button.disabled=rematch.starter&&rematchBusy;if(rematchBusy&&rematch.starter)button.setAttribute("aria-busy","true");else button.removeAttribute("aria-busy");
   }
   function sfRematchButton(actions,rematch){
