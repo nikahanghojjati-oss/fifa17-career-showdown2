@@ -18,7 +18,7 @@
   const STYLE_ID="cmsSpecialPlayerChipStyle";
   const MANAGERS=Object.freeze(["daniel","nik"]);
   const TIERS=Object.freeze({"black-blue-gold":"TOP 3","blue-gold":"TOP 10",gold:"TOP 20",silver:"TOP 50",bronze:"TOP 300"});
-  const RULE=Object.freeze({label:"SPECIAL PLAYER",text:"At the start of every Showdown each manager draws one FIFA 17 player, shown on the reveal screen. Flavour only: it scores no points."});
+  const RULE=Object.freeze({label:"SPECIAL PLAYER",text:"Each manager draws one FIFA 17 player at the start of every Showdown. Your Special Player scores no points. Full rules in card 07."});
 
   function spDraw(){
     if(root.CareerModeMarqueePlayer&&root.CareerModeMarqueePlayers)return root.CareerModeMarqueePlayer;
