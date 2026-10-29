@@ -1506,3 +1506,23 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
 /* r85 (Nik 2026-10-27): on desktop Home's player lives in the top bar (js/musicDockV10.js), so the strip is hidden there. It
    stays in the page (its buttons and status are still the product's), out of sight, focus and the accessibility tree. */
 @media (min-width: 901px) { #mainMenu.v10Home .menuMusicTile { visibility: hidden !important; } }
+
+/* iOS 26 Safari (Nik 2026-10-29): with the floating bottom toolbar, 100svh measures the whole screen while the fixed
+   bottom bar sits above the toolbar, so the second tile row and the soundtrack strip ended up behind the bottom bar.
+   Home now takes its height from the same fixed frame as the bottom bar (inset 0), and the hero takes what is left
+   after the controls, so every tile sits above the bar on any browser. */
+@media (max-width: 760px) and (orientation: portrait),
+       (max-width: 900px) and (max-height: 480px) and (orientation: landscape),
+       (min-width: 761px) and (max-width: 900px) and (min-height: 900px) and (orientation: portrait) {
+  #app:has(#mainMenu.v10Home:not(.hidden)) {
+    position: fixed; inset: 0; height: auto;
+  }
+}
+@media (max-width: 760px) and (orientation: portrait) {
+  #app #mainMenu.v10Home {
+    grid-template-rows: minmax(0, 1fr) var(--phone-control) var(--phone-nav);
+  }
+  #app #mainMenu.v10Home .homeLockup {
+    top: calc(100% - var(--phone-nav) - var(--phone-control) - var(--home-logo-h));
+  }
+}
