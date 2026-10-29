@@ -104,5 +104,17 @@
     ],
     "note": "gloved hand holding the revolver, black background keyed out in code; muzzle = where the flash sits (u from left, v from bottom)"
   },
-  "sfx_note": "Team G sounds (HO-047): add \"sfx\": {\"spinStart\":\"assets/sfx/spin_start.mp3\", ...} with any of: spinStart, felt, click, cock, heart, dry, bang, splinter. A listed file replaces the synthesized cue; missing names keep the synth."
+  "sfx_note": "HO-047 (Team G r87 lead, 29 Oct 2026): made in-house, synthesised by assets/sfx/make_sfx.py (numpy; no samples or third-party recordings). WAV, not MP3, so every cue lands on its frame (MP3 adds ~25 ms of encoder silence). handUp and roomTone are the two extras; roomTone is a seamless 24 s loop at 22.05 kHz. A listed file replaces the synthesized cue of that name; the page loads every entry, so keep only sound names in \"sfx\".",
+  "sfx": {
+    "spinStart": "assets/sfx/spin_start.wav",
+    "felt": "assets/sfx/felt.wav",
+    "click": "assets/sfx/click.wav",
+    "cock": "assets/sfx/cock.wav",
+    "heart": "assets/sfx/heart.wav",
+    "dry": "assets/sfx/dry.wav",
+    "bang": "assets/sfx/bang.wav",
+    "splinter": "assets/sfx/splinter.wav",
+    "handUp": "assets/sfx/hand_up.wav",
+    "roomTone": "assets/sfx/room_tone.wav"
+  }
 }
