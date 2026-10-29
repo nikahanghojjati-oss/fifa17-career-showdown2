@@ -1,48 +1,14 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-29T21:03:43.849Z",
+  "at": "2026-10-29T21:14:33.170Z",
   "state": "ALL_CLEAR",
   "checks": [],
   "helpers_paused": [],
-  "gate": {
-    "pr": 1062,
-    "head_sha": "8e38487af3d4bf7f103ef7c26896419114e44864",
-    "lanes": [
-      {
-        "name": "L1 core",
-        "state": "pass"
-      },
-      {
-        "name": "L2 browser full",
-        "state": "pass"
-      },
-      {
-        "name": "L3A storage gameplay",
-        "state": "pass"
-      },
-      {
-        "name": "L3B visual",
-        "state": "pass"
-      },
-      {
-        "name": "L4 remote",
-        "state": "pass"
-      },
-      {
-        "name": "L5 rules regression",
-        "state": "pass"
-      },
-      {
-        "name": "L6 browser journey",
-        "state": "fail"
-      }
-    ],
-    "seal": "FAIL_TEST"
-  },
+  "gate": null,
   "pos20": {
-    "pr": 1062,
-    "passed": 0,
+    "pr": 304,
+    "passed": 6,
     "total": 16,
-    "state": "running"
+    "state": "pass"
   }
 }
