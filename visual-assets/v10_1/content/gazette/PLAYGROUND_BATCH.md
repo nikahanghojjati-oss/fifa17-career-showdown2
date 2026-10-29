@@ -115,6 +115,7 @@ Think briefly; spend your effort on writing, not planning. Write all 100 in one 
 OUTPUT
 Reply with ONE JSON object and nothing else: no intro, no notes, no markdown fence. Straight double quotes. Ids are b<BATCH>-001 to b<BATCH>-100 (for batch 7: b7-001 ... b7-100).
 {"batch":1,"situation":"big-win","edition":"season","lens":"The trophy cabinet","rows":[{"id":"b1-001","kicker":"...","headline":"...","subhead":"..."}, ...]}
+FILE: Give the JSON as a downloadable .json file named A<BATCH as 3 digits>.json (for batch 7: A007.json). If you cannot make files, reply with the JSON only.
 ```
 
 ---
@@ -220,6 +221,7 @@ Think briefly; spend your effort on writing, not planning. Write all 100 in one 
 OUTPUT
 ONE JSON object and nothing else: no intro, no notes, no markdown fence. Straight double quotes. Ids cb<BATCH>-001 to cb<BATCH>-100.
 {"batch":1,"situation":"big-win","voice":"The lead caller","lines":[{"id":"cb1-001","text":"..."}, ...]}
+FILE: Give the JSON as a downloadable .json file named B<BATCH as 3 digits>.json (for batch 7: B007.json). If you cannot make files, reply with the JSON only.
 ```
 
 ---
@@ -307,6 +309,7 @@ Think briefly; spend your effort on writing. Always finish all 15 and close the 
 OUTPUT
 ONE JSON object and nothing else, no markdown fence. Ids sb<BATCH>-01 to sb<BATCH>-15.
 {"batch":1,"situation":"big-win","edition":"season","desk":"The chief football writer","stories":[{"id":"sb1-01","byline":"...","standfirst":"...","paragraphs":["...","...","..."],"pullquote":{"text":"...","who":"..."}}, ...]}
+FILE: Give the JSON as a downloadable .json file named C<BATCH as 3 digits>.json (for batch 7: C007.json). If you cannot make files, reply with the JSON only.
 ```
 
 ---
@@ -364,4 +367,5 @@ RULES
 OUTPUT
 ONE JSON object and nothing else, no markdown fence. Ids pb<BATCH>-001 to pb<BATCH>-100. Include only the fields the kind needs ("photo" for captions, "who" and "situation" for quotes, "situation" and "head" for briefs, "head" for ears).
 {"batch":1,"kind":"captions","lens":"The trophy cabinet","rows":[{"id":"pb1-001","photo":"lead-season","text":"..."}, ...]}
+FILE: Give the JSON as a downloadable .json file named D<BATCH as 3 digits>.json (for batch 7: D007.json). If you cannot make files, reply with the JSON only.
 ```
