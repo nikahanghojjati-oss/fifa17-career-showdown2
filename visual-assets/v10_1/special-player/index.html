@@ -1391,13 +1391,13 @@ function fitLine(ctx, txt, y, size, weight, col, sp){
   set(); while(ctx.measureText(txt).width>room&&fs>10){ fs-=.5; set(); }
   emboss(ctx,txt,CW/2,y,col); if(ctx.letterSpacing!==undefined) ctx.letterSpacing="0px";
 }
-function drawCardFront(ctx, p){
+function drawCardFront(ctx, p, noOvr){
   const t=TIER[p.tier]; cardBase(ctx,t);
   ctx.save(); shieldPath(ctx,14); ctx.clip();
   const sp=ctx.createRadialGradient(318,210,10,318,210,190); sp.addColorStop(0,"rgba(255,255,255,.28)"); sp.addColorStop(1,"rgba(255,255,255,0)"); ctx.fillStyle=sp; ctx.fillRect(120,40,392,360);
   shirtBack(ctx,p,318,96,1.3);
   ctx.textAlign="center";
-  ctx.font='600 112px "Barlow Condensed"'; emboss(ctx,String(p.ovr),LEFT_X,150,t.text,true);
+  if(!noOvr){ ctx.font='600 112px "Barlow Condensed"'; emboss(ctx,String(p.ovr),LEFT_X,150,t.text,true); } /* idea 8: the count-up draws it until it lands */
   leftStack(ctx,p,t,3);
   const nb=ctx.createLinearGradient(0,408,0,462); nb.addColorStop(0,t.band[0]); nb.addColorStop(.5,t.band[1]); nb.addColorStop(1,t.band[2]); ctx.fillStyle=nb; ctx.fillRect(0,412,CW,52);
   ctx.fillStyle="rgba(255,255,255,.5)"; ctx.fillRect(0,412,CW,1.5); ctx.fillStyle="rgba(0,0,0,.3)"; ctx.fillRect(0,463,CW,2);
@@ -1683,6 +1683,11 @@ const sheenMat=new T.ShaderMaterial({transparent:true, depthWrite:false, blendin
     vec3 holo=.5+.5*cos(6.2831*(vP.x*.35-vP.y*.25+f*1.8+t*.07)+vec3(0.,2.1,4.2)); holo=mix(holo,tint,.55);
     float h=fract(sin(dot(floor(vP*55.),vec2(12.9898,78.233)))*43758.5453); float gl=step(.993,h)*pow(max(0.,sin(t*2.6+h*90.)),14.);
     vec3 c=holo*(.05+f*.55)*.55+vec3(1.)*band*amt*.6+vec3(1.,.95,.8)*gl*1.6; gl_FragColor=vec4(c,1.); }`});
+/* idea 8: the rating counts up from 40 on its own small plane over the face (cheap to redraw), then the face is drawn whole */
+const COUNT_FROM=40, COUNT_S=[.7,.9,1.1,1.4,1.7];
+const ovrTex=canvasTex(280,240,null);
+const ovrMat=new T.MeshStandardMaterial({map:ovrTex.tx, transparent:true, depthWrite:false, metalness:.25, roughness:.38, envMapIntensity:.7});
+const ovrMesh=new T.Mesh(new T.PlaneGeometry(140/CW*2.2,120/CH*3.2),ovrMat); ovrMesh.position.set(LEFT_X/CW*2.2-1.1,1.6-110/CH*3.2,.0595); ovrMesh.visible=false; card.add(ovrMesh);
 const sheenF=new T.Mesh(faceGeo,sheenMat); sheenF.position.z=.061; card.add(sheenF);
 const sheenB=new T.Mesh(faceGeo,sheenMat); sheenB.position.z=-.061; sheenB.rotation.y=Math.PI; card.add(sheenB);
 const CARD_POS=new T.Vector3(0,1.86,-1.2);
@@ -1774,7 +1779,7 @@ const COIN_ON_CARD=new T.Vector3(-1.1+112/CW*2.2, CARD_POS.y+1.6-304/CH*3.2, CAR
 function startPlayer(i){
   idx=i; const p=cur(); fired={}; t0=clock(); vtt=0; phase="run"; flash=0; SFX.bed(.05); freezeS=FREEZE_S[tierLevel(p.tier)]; aura.visible=false; endSig();
   if(packFace.map===packTex.tx){ drawPack(packTex.ctx,512,736); packTex.tx.needsUpdate=true; } sheenMat.uniforms.tint.value.copy(L(TIER[p.tier].glow)); packFace.emissive.setRGB(0,0,0);
-  drawCardBack(back.ctx,p,0); back.tx.needsUpdate=true; drawCardFront(front.ctx,p); front.tx.needsUpdate=true;
+  drawCardBack(back.ctx,p,0); back.tx.needsUpdate=true; drawCardFront(front.ctx,p,true); front.tx.needsUpdate=true; frontFull=false; count=null; ovrMesh.visible=false;
   coinTex.ctx.setTransform(1,0,0,1,0,0); coinTex.ctx.clearRect(0,0,1024,1024); coinFace(coinTex.ctx,p.club,512,512,510); coinTex.tx.needsUpdate=true;
   setFlagNation(p.nation); flags.forEach(f=>{f.target=0; f.drop=0; f.mesh.visible=false; f.mesh.scale.y=.001;});
   clearConfetti(); clearSmoke(); clearChunks(); parts.forEach(q=>q.life=0); pillar.visible=false; crack.material.color.setScalar(0); packLight.intensity=0; pack.position.set(0,40,-1.2); pack.scale.setScalar(1);
@@ -1794,7 +1799,7 @@ function scoutFlip(k){ const e=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, a=SCOUT_I
   if(k>=a&&!fired.sc1){ fired.sc1=1; SFX.play("flip"); } if(k>=c&&!fired.sc2){ fired.sc2=1; SFX.play("flip"); }
   return k<a?0:k<b?Math.PI*e((k-a)/.7):k<c?Math.PI:k<d?Math.PI+Math.PI*e((k-c)/.7):0; }
 function settle(natural){
-  const p=cur(); phase="settled"; if(!natural) endSig(); guardUntil=0; hint(false); SFX.play("sting",tierLevel(p.tier)); SFX.bed(.05+tierLevel(p.tier)*.008); settledAt=clock(); fired.sc1=fired.sc2=0; SCOUT_IN=scoutInFor(p.tier); SCOUT_END=scoutEndFor(p.tier);
+  const p=cur(); phase="settled"; if(!natural) endSig(); if(!natural||!count) finishCount(); guardUntil=0; hint(false); SFX.play("sting",tierLevel(p.tier)); SFX.bed(.05+tierLevel(p.tier)*.008); settledAt=clock(); fired.sc1=fired.sc2=0; SCOUT_IN=scoutInFor(p.tier); SCOUT_END=scoutEndFor(p.tier);
   drawScoutBack(back.ctx,p); back.tx.needsUpdate=true;
   frontMat.map=front.tx; frontMat.needsUpdate=true;
   pack.visible=false; coin.visible=false; packLight.intensity=0; card.visible=true; card.position.copy(CARD_POS); card.rotation.set(0,0,0); card.scale.setScalar(1);
@@ -1841,6 +1846,8 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null, 
     /* idea 1: a riser from the club clue into the burst; it stops just before the burst, so the freeze is a quiet beat */
     riser:(dur,lvl)=>{ const t=now(), o=ctx.createOscillator(); o.type="sawtooth"; o.frequency.setValueAtTime(110,t); o.frequency.exponentialRampToValueAtTime(700+lvl*120,t+dur); const f=ctx.createBiquadFilter(); f.type="lowpass"; f.Q.value=5; f.frequency.setValueAtTime(380,t); f.frequency.exponentialRampToValueAtTime(5200,t+dur);
       const g=ctx.createGain(); g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.1+lvl*.025,t+dur-.02); g.gain.exponentialRampToValueAtTime(.0001,t+dur+.03); o.connect(f); f.connect(g); out(g,0,true); o.start(t); o.stop(t+dur+.1); noise(t,dur,"bandpass",600,7000,2.5,.08+lvl*.03,dur-.05,0,false); },
+    /* idea 8: the rating count's tick, and a brighter one when it lands */
+    count:(last)=>{ const t=now(); if(last){ tone(t,"triangle",1760,1760,.3,.09,.002,0,true); return; } tone(t,"square",2300,2100,.025,.022,.001,0,false); },
     step:(i)=>{ const t=now(), f=523.25*Math.pow(2,i*3/12); tone(t,"triangle",f,f*1.01,.22,.15,.003,0,true); tone(t,"sine",f*2,f*2,.14,.05,.003,0,true); noise(t,.06,"highpass",5000,8000,.6,.08,.002,0,false); },
     /* idea 6: a bigger chord for a higher tier (4 notes at rank 51+, 9 with the low octaves and the shimmer for the top 3) */
     chord:(lvl)=>{ const t=now(), N=[[523.25],[659.25],[783.99],[1046.5],[1318.51,2],[261.63,3],[1567.98,3],[2093,4],[130.81,4]].filter(n=>(n[1]||0)<=lvl).map(n=>n[0]), g=.26/Math.sqrt(N.length/3);
@@ -1951,7 +1958,7 @@ function run(tt){
   /* idea 1: for the top 20 and up the turn starts at 8.45 s and speeds up from its first frame (quad), so it is seen at once;
      the face still swaps in under the white burst. Top 50 and rank 51+ keep the old turn. */
   const cres=CRES[lvl], turnAt=cres?8.45:8.9, fl=S(turnAt,cres?1.65:1.2,tt);
-  if(tt>turnAt){ const k=cres?quadInOut(fl):ease.inOut(fl); if(k>=5/6&&frontMat.map!==front.tx){ frontMat.map=front.tx; frontMat.needsUpdate=true; } card.rotation.set(0,Math.PI+k*Math.PI*3,0); card.position.y=CARD_POS.y+Math.sin(k*Math.PI)*.5; }
+  if(tt>turnAt){ const k=cres?quadInOut(fl):ease.inOut(fl); if(k>=5/6&&frontMat.map!==front.tx){ frontMat.map=front.tx; frontMat.needsUpdate=true; startCount(p); } card.rotation.set(0,Math.PI+k*Math.PI*3,0); card.position.y=CARD_POS.y+Math.sin(k*Math.PI)*.5; }
   at(tt,9.6,"sig",()=>startSig(p));
   at(tt,9.6,"flash",()=>{ shake=.3; glow.position.set(0,1.86,-1.3); flash=1.0*Math.min(1.4,pw); glow.material.color.copy(L(tc)); burst(CARD_POS.clone().add(new T.Vector3(0,0,.3)),[tc,0xffffff,0xfff1c2],Math.round(240*pw),11,1.3,.2);
     confettiRain(nat.concat([0xf1c35a,0xfff3c4]),Math.round(380*pw),-2);
@@ -1964,6 +1971,15 @@ function run(tt){
   if(tt>10.3&&tt<11.2) sheenMat.uniforms.p.value=lerp(-2.6,2.6,(tt-10.3)/.9);
   if(tt>10.8&&phase==="run") settle(true);
 }
+
+/* idea 8: rating count-up from 40, landing on the real number with a tick per step; quicker for a lower tier (.7 s at rank 51+,
+   1.7 s for the top 3). A skip lands it at once. */
+let count=null, frontFull=false;
+function drawOvr(v){ const c=ovrTex.ctx, t=TIER[cur().tier]; c.setTransform(2,0,0,2,0,0); c.clearRect(0,0,140,120); c.textAlign="center"; c.font='600 112px "Barlow Condensed"'; emboss(c,String(v),70,100,t.text,true); ovrTex.tx.needsUpdate=true; }
+function startCount(p){ if(frontFull||REDUCED){ finishCount(); return; } count={t0:clock(),dur:COUNT_S[tierLevel(p.tier)],to:p.ovr,shown:COUNT_FROM,tickAt:-1}; drawOvr(COUNT_FROM); ovrMesh.visible=true; }
+function finishCount(){ count=null; ovrMesh.visible=false; if(!frontFull){ drawCardFront(front.ctx,cur()); front.tx.needsUpdate=true; frontFull=true; } }
+function stepCount(now){ if(!count) return; const k=clamp01((now-count.t0-.15)/count.dur), v=Math.round(COUNT_FROM+(count.to-COUNT_FROM)*(1-Math.pow(1-k,2)));
+  if(v!==count.shown){ count.shown=v; drawOvr(v); if(now-count.tickAt>.045||v===count.to){ count.tickAt=now; SFX.play("count",v===count.to); } } if(k>=1) finishCount(); }
 
 /* idea 5: one signature effect per tier at the flash, on top of the unchanged white burst; each tier keeps the ones below it.
    rank 51+: the floor fountains (all tiers); top 50: + a ring of light; top 20: + an upward beam; top 10: + two side beams;
@@ -2015,7 +2031,7 @@ function tick(draw){
     if(idx===0&&k>(REDUCED?.2:SCOUT_END+.6)) startPlayer(1); }
   flags.forEach((f,i)=>{ if(!f.mesh.visible) return; f.drop+=(f.target-f.drop)*Math.min(1,dt*2.6); f.mesh.scale.y=Math.max(.001,f.drop);
     const a=f.mesh.geometry.attributes.position; for(let j=0;j<a.count;j++){ const x=f.base[j*3], y=f.base[j*3+1], d=-y/f.h; a.array[j*3+2]=(Math.sin(x*.9+now*2.2+i)*.5+Math.sin(y*.6+now*1.6+i*.5)*.35)*d; } a.needsUpdate=true; f.mesh.geometry.computeVertexNormals(); });
-  stepSig(now);
+  stepSig(now); stepCount(now);
   stepParticles(dt*sc); stepChunks(dt*sc); stepConfetti(dt,now); stepSmoke(dt); sheenMat.uniforms.t.value=now%1000;
   ledTex.tx.offset.x=(now*.04)%1; if(boardTex) boardTex.offset.x=(now*.05)%1;
   pulse*=Math.pow(.004,dt); packPulse*=Math.pow(.002,dt); flash*=Math.pow(.02,dt); shake*=Math.pow(.02,dt);
