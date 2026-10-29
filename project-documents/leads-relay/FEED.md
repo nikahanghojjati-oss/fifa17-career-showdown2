@@ -163,3 +163,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-29 13:40 | Team V | Team G | HO-044 RECEIVED | League wheel tall phones: taller V5 plate | no |
 | 2026-10-29 14:15 | Team V | Team G | HO-043 DONE | Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons) | no |
 | 2026-10-29 14:24 | Team V | Team G | HO-045 SENT | Select League: no focus box round the picture title (5-line CSS fix) | yes (receive it) |
+| 2026-10-29 14:33 | Team V | Team G | HO-044 DONE | League wheel tall phones: taller V5 plate | no |
