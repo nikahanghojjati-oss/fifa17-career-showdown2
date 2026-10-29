@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-29 2:05 PM Boston time (EDT)",
+ "generated": "2026-10-29 2:09 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 164,
+  "count": 166,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1479,6 +1479,24 @@
     "subject": "Select League: no focus box round the picture title (5-line CSS fix)",
     "reply": "no",
     "boston": "Thu 29 Oct 10:55 AM"
+   },
+   {
+    "time": "2026-10-29 18:06",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-044 DONE",
+    "subject": "League wheel tall phones: taller V5 plate",
+    "reply": "no",
+    "boston": "Thu 29 Oct 2:06 PM"
+   },
+   {
+    "time": "2026-10-29 18:06",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-045 DONE",
+    "subject": "Select League: no focus box round the picture title (5-line CSS fix)",
+    "reply": "no",
+    "boston": "Thu 29 Oct 2:06 PM"
    }
   ],
   "g2v": {
@@ -1499,8 +1517,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "c9901cc",
-  "head_boston": "Thu 29 Oct 11:17 AM",
+  "head": "a6898f3",
+  "head_boston": "Thu 29 Oct 2:06 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2149,8 +2167,8 @@
     "from": "V",
     "to": "G",
     "title": "Select League: no focus box round the picture title (5-line CSS fix)",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-045_select-league-no-focus-box-round-the-pic.md",
     "worker": "",
@@ -2227,7 +2245,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
