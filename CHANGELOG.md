@@ -1,3 +1,10 @@
+## 2026-10-29: SSJR 100/100, official launch
+
+- Shared Showdown Journey Readiness (SSJR-2.1) went from **0 to 100/100** with one real two-device 3-season game on live r85 (`1.9.9-r85`): Daniel on a Chromebook over Wi-Fi, Nik on an iPhone over mobile data.
+- Both exports validated with zero issues. Nik confirmed the run and accepted the build as stable. The automated suites were verified green on production main `ac2f021d`.
+- The credit recorder now checks the Showdown Gate jobs (seal, L1-L6, deploy, deployed-site-smoke) instead of the dispatch-only POS20 names (#1041).
+- Gameplay is officially launched. The road began with the SSJR-1.1 model on 2026-09-05, 54 days earlier.
+
 ## v1.9.1-r6 — Polished Shared Showdown + Guided SSJR Acceptance — release candidate
 
 Candidate runtime: `1.9.1-r6`
