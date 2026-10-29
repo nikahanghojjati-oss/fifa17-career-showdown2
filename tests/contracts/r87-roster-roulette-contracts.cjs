@@ -5,7 +5,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const vm=require('node:vm');
-const {randomBytes}=require('node:crypto');
+const {randomBytes,createHash}=require('node:crypto');
 const ROOT=path.resolve(__dirname,'../..');
 const Squads=require('../../data/rosterSquads.js');
 const RRR=require('../../js/rosterRoulette.js');
@@ -61,8 +61,10 @@ assert.deepEqual(view.order,['playerOne','playerTwo']);assert.deepEqual(view.tur
 assert.equal(view.chambers,7);assert.equal(view.boards.playerOne[0].name,RRR.board('Liverpool')[0].name);
 const fill=(draft,season)=>draft.map(p=>({pos:p.pos,name:p.name||`New Signing ${season}-${p.slot}`}));
 let fired=0,turns=0,hitBench=0;const perSlot=new Array(15).fill(0);
+// A fixed corpus of ids, so the tight spread check below is reproducible and never fails by chance.
+const fixedId=g=>`pair_${createHash('sha256').update(`rrr-contract-${g}`).digest('hex')}`;
 for(let g=0;g<3000;g+=1){
-  const r=id();let prev={playerOne:null,playerTwo:null};
+  const r=fixedId(g);let prev={playerOne:null,playerTwo:null};
   for(let season=1;season<=10;season+=1){
     let edited=null;
     if(season>1){
