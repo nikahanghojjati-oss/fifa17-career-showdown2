@@ -465,7 +465,15 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
     const nose=new T.Mesh(new T.CylinderGeometry(.0038,.0038,.009,24),GM.lead); nose.rotation.x=Math.PI/2; nose.position.z=.0145; round.add(nose);
     const tip=new T.Mesh(new T.SphereGeometry(.0038,20,14),GM.lead); tip.scale.z=.75; tip.position.z=.019; round.add(tip);
     round.visible=false; cyl.add(round); cyl.userData.round=round;
-    cyl.userData.placeRound=(i)=>{ const a=i/n*Math.PI*2+Math.PI/2; round.position.set(Math.cos(a)*CR,Math.sin(a)*CR,0); round.visible=true; }; }
+    /* LIVE mark: a red glowing ring around the loaded chamber's mouth, turns with the drum so the eye can follow the round through the spin */
+    const liveRing=new T.Mesh(new T.TorusGeometry(HR+.0011,.0007,10,40),new T.MeshBasicMaterial({color:0xff1a10})); liveRing.position.z=.0238; round.add(liveRing);
+    cyl.userData.placeRound=(i)=>{ const a=i/n*Math.PI*2+Math.PI/2; round.position.set(Math.cos(a)*CR,Math.sin(a)*CR,0); round.visible=true; };
+    /* FIRE mark: a gold pointer fixed to the crane (it does not turn with the drum) at the chamber that lines up with the barrel */
+    const ptr=new T.Group(); ptr.position.set(.0165,.016+R+.0062,.0238); crane.add(ptr); cyl.userData.pointer=ptr;
+    const cone=new T.Mesh(new T.ConeGeometry(.0032,.006,20),new T.MeshStandardMaterial({color:0xffc84a, emissive:0xd98a12, emissiveIntensity:.9, roughness:.35, metalness:.6})); cone.rotation.z=Math.PI; cone.position.y=-.0005; ptr.add(cone);
+    const lblTex=(()=>{ const c=document.createElement("canvas"); c.width=256; c.height=96; const x=c.getContext("2d"); x.fillStyle="rgba(0,0,0,0)"; x.fillRect(0,0,256,96); x.font="700 44px Oswald, Arial"; x.textAlign="center"; x.fillStyle="#ffd36b"; x.shadowColor="rgba(0,0,0,.8)"; x.shadowBlur=8; x.fillText("FIRES HERE",128,62); const t=new T.CanvasTexture(c); t.anisotropy=8; return t; })();
+    const lbl=new T.Mesh(new T.PlaneGeometry(.022,.00825),new T.MeshBasicMaterial({map:lblTex, transparent:true, depthWrite:false})); lbl.position.set(0,.0068,0); ptr.add(lbl);
+    ptr.visible=false; ptr.scale.set(.001,.001,.001); }
   /* base pin through the cylinder with its knurled head out the front of the frame */
   { const pin=new T.Mesh(new T.CylinderGeometry(.0028,.0028,.076,14),GM.bright); pin.rotation.x=Math.PI/2; pin.position.set(.0165,.016,.01); crane.add(pin);
     const head=new T.Mesh(new T.LatheGeometry([[0,0],[.0036,0],[.0042,.002],[.0042,.006],[.003,.0075],[0,.0075]].map(p=>new T.Vector2(p[0],p[1])),16),GM.bright); head.rotation.x=Math.PI/2; head.position.set(.0165,.016,.05); head.scale.set(.55,.55,.55); crane.add(head); }
@@ -614,7 +622,9 @@ function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
     else if(tt>=B.spinEnd+.5&&tt<B.fire){ spin.rotation.y=p.yawTarget; }
     /* b. the cylinder turns one chamber by itself, then the hammer cocks by itself */
     /* the crane swings the cylinder out, it spins fast and runs down while the camera looks into the chambers, then swings back */
-    const craneK=tt<B.close?0:tt<B.inside?ease.inOut(S(B.close,.5,tt)):1-ease.inOut(S(B.inside,.45,tt)); crane.rotation.z=craneK*1.62;
+    const craneK=tt<B.close?0:tt<B.inside?ease.inOut(S(B.close,.5,tt)):1-ease.inOut(S(B.inside,.45,tt)); crane.rotation.z=craneK*1.62; { const pk=Math.max(0,(craneK-.35)/.65), ptr=cyl.userData.pointer; ptr.visible=pk>0; const sc=.001+ease.out(pk)*.999; ptr.scale.set(sc,sc,sc); }
+    at(tt,B.close+.4,"mark",()=>{ result.className="result"; result.textContent="Red ring: live round · Gold: fires"; });
+    at(tt,B.turnC+.3,"stopped",()=>{ result.textContent=p.fire?"Stopped on the live round":"The live round passed"; });
     at(tt,B.close,"craneOpen",()=>SFX.play("cock",.6)); at(tt,B.inside,"craneShut",()=>SFX.play("click",1));
     let showExtra=0; if(tt>=B.close&&tt<B.inside){ const k=S(B.close+.25,B.inside-B.close-.45,tt); const e=1-Math.pow(1-k,3); showExtra=(1-e)*Math.PI*2*(REDUCED?0:5); const idx=Math.floor(showExtra/(Math.PI*2/7)); if(idx!==lastClick){ lastClick=idx; SFX.play("click",.25); } }
     at(tt,B.turnC,"turnC",()=>SFX.play("click",1)); const ck=ease.out(S(B.turnC,.22,tt)); cyl.rotation.z=cylTarget()-(Math.PI*2/7)*(1-ck)+showExtra;
@@ -648,7 +658,7 @@ function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new
     /* the close-up stands off the hammer side of the gun, low over the felt, telephoto */
     const yaw=p.yawTarget; const back=new T.Vector3(-Math.sin(yaw),0,-Math.cos(yaw)); const side=new T.Vector3(Math.cos(yaw),0,-Math.sin(yaw));
     const closePos=gw.clone().add(back.clone().multiplyScalar(.5)).add(side.clone().multiplyScalar(PH?-.26:-.3)).add(new T.Vector3(0,.5,0)), closeLook=gw.clone().add(new T.Vector3(0,.02,0)).add(back.clone().multiplyScalar(.03)); const closeFov=PH?22:18;
-    gun.updateWorldMatrix(true,false); const inK=S(B.close+.5,B.inside-B.close-.5,tt); const insidePos=gun.localToWorld(new T.Vector3(-.072,.05,.23).lerp(new T.Vector3(-.058,.036,.19),ease.inOut(inK))), insideLook=gun.localToWorld(new T.Vector3(-.033,.001,.016)); const insideFov=PH?26:20;
+    gun.updateWorldMatrix(true,false); const inK=S(B.close+.5,B.inside-B.close-.5,tt); const insidePos=gun.localToWorld(new T.Vector3(-.072,.05,.23).lerp(new T.Vector3(-.058,.036,.19),ease.inOut(inK))), insideLook=gun.localToWorld(new T.Vector3(-.047,.001,.016)); const insideFov=PH?26:20;
     /* a soft key light rides above the camera for the cylinder and hammer close-ups, so the steel has something to reflect */
     const keyOn=tt>=B.close&&tt<B.fire?1:0; closeKey.intensity=lerp(closeKey.intensity,keyOn*.5,Math.min(1,dt*6)); closeKey.position.copy(camPos).add(new T.Vector3(0,.09,0)); closeFill.intensity=lerp(closeFill.intensity,keyOn*.22,Math.min(1,dt*6)); closeFill.position.copy(camPos).add(new T.Vector3(-.12,-.02,0));
     const tensePos=gw.clone().add(back.clone().multiplyScalar(.26)).add(side.clone().multiplyScalar(PH?-.2:-.24)).add(new T.Vector3(0,.14,0));

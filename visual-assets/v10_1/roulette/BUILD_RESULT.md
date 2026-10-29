@@ -59,3 +59,10 @@ What changed in `index.html`:
 - Frame narrowed from 27 mm to 20 mm so the drum shows beside the top strap, screws and loading gate moved to the new surfaces.
 
 Evidence regenerated in `evidence/` (desktop 1536x864 and phone 393x660, 7 beats each, sheets). Phone: no scroll, button visible.
+
+## CC-012b · live round and fire mark during the spin (29 Oct, Nik's ask)
+
+- A red ring sits on the loaded chamber's mouth and turns with the drum, so the eye follows the live round through the whole showcase spin.
+- A gold pointer with a "FIRES HERE" label is fixed to the crane (it does not turn) at the chamber that lines up with the barrel. Whatever stops under it is the chamber that fires when the drum closes. It grows in as the crane opens and goes away as it closes.
+- The result line reads "Red ring: live round · Gold: fires" while the drum spins, then "Stopped on the live round" or "The live round passed" when it settles.
+- The inside camera looks a little higher so the pointer clears the title on desktop and phone.
