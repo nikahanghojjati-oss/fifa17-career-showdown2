@@ -1,5 +1,7 @@
 # Sol job: FIFA 17 launch squads for Squad Roulette boards (r87)
 
+**RETIRED 2026-10-29 01:00 UTC: not needed.** The launch squads (SoFIFA roster 170002) are built in SQUADS_LAUNCH_170002.json from a public CSV. Do not run this job.
+
 Branch: research/r87-squads (never merge). Add files only under gameplay/r87/squads/. Edit nothing else.
 
 ## Goal
