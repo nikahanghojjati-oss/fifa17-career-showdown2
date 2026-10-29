@@ -10,11 +10,11 @@
  "priority": "top",
  "worker": "",
  "parent": null,
- "job": null,
- "status": "RECEIVED",
+ "job": "1046",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-29T07:53:04Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-29T07:54:50Z", "by": "G", "status": "RECEIVED", "note": ""}],
+ "evidence": ["https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1046"],
+ "log": [{"at": "2026-10-29T07:53:04Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-29T07:54:50Z", "by": "G", "status": "RECEIVED", "note": ""}, {"at": "2026-10-29T08:49:42Z", "by": "G", "status": "DONE", "note": "Merged into gameplay/r86 as b91fdcc4 (Codex clean, 8/8 checks green). Ships with r86."}],
  "from_session": "session_01GU43Q5q4ZFmcoi3CW8YYHg"
 }
 ```
