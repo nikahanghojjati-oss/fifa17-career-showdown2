@@ -11,10 +11,10 @@
  "worker": "",
  "parent": "HO-035",
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-29T07:53:44Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-29T07:59:16Z", "by": "V", "status": "WORKING", "note": "Team V Big Jump owner fixing all three on factory special-player + preview"}],
+ "evidence": ["factory/v1-wtt5ye @ 0ed7a5ee7 - visual-assets/v10_1/special-player/index.html (same data contract, MP_LIST/tiers/order/timing hooks unchanged): 1) POT/#rank/TOP line and club line moved into the straight part of the card and shrink to the shield width at their height; 2) phone bar 'Revealing' fits 360-430 px and each slot shows '#rank TOP n' after its reveal (phone only); 3) no white flash: full-screen flash is always 0, gold halo hugs the card for ~1.6 s, gold sparkles. Proof: project-documents/factory/reviews/HO-042/ (card_desktop_1440x900, card_phone_393x852, phone_bar_393_and_360, glow_1..4 + glow_sequence). Preview Big Jump v20."],
+ "log": [{"at": "2026-10-29T07:53:44Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-29T07:59:16Z", "by": "V", "status": "WORKING", "note": "Team V Big Jump owner fixing all three on factory special-player + preview"}, {"at": "2026-10-29T08:05:21Z", "by": "V", "status": "DONE", "note": ""}],
  "from_session": "session_01GU43Q7tUFaokdEJ5951ioW"
 }
 ```
