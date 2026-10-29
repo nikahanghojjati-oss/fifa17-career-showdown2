@@ -1,0 +1,220 @@
+{
+ "batch": 4,
+ "situation": "draw",
+ "edition": "season",
+ "desk": "The chief football writer",
+ "edited": true,
+ "writer": "claude-sonnet-helper",
+ "stories": [
+  {
+   "id": "sb4-01",
+   "byline": "From our touchline desk",
+   "standfirst": "{managerA} and {managerB} finished season {seasonNo} on {points} points apiece, and the Gazette must report that the record holds no winner.",
+   "paragraphs": [
+    "Nothing separated {clubA} and {clubB} when season {seasonNo} closed. Both managers finished on {points} points, and the space that usually carries a victor's name must this time carry two names in equal type, side by side.",
+    "It is a rare outcome in a rivalry built on comparison. {managerA} cannot claim the better season and {managerB} cannot concede one, so both walk away from the year with honour intact and a grievance neither can quite justify.",
+    "Season {seasonNo} of {seasonsTotal} now goes into the archive as a shared page. The next chapter opens with both managers newly aware of exactly how little it takes to be level."
+   ],
+   "pullquote": {
+    "text": "Two managers, one result, and not a single argument left unfinished.",
+    "who": "A Gazette columnist"
+   }
+  },
+  {
+   "id": "sb4-02",
+   "byline": "By our chief correspondent",
+   "standfirst": "Season {seasonNo} ends with {clubA} and {clubB} locked together on {points} points, a result the record books will list without a victor.",
+   "paragraphs": [
+    "The ledger closed on season {seasonNo} with identical entries. {managerA} of {clubA} and {managerB} of {clubB} each collected {points} points, and for once the Gazette finds no champion to crown and nobody to console.",
+    "Rivalries are usually defined by who blinked first. Here neither blinked, and both managers can fairly say they gave the other everything. Each carries a season to be proud of, and each knows the other carries the same.",
+    "With {seasonsTotal} seasons in the Showdown, a single level year changes little on paper and a great deal in the mind. Both camps will fancy their chances of breaking the deadlock."
+   ],
+   "pullquote": {
+    "text": "Nobody went home empty handed and nobody went home with the whole prize.",
+    "who": "The press box"
+   }
+  },
+  {
+   "id": "sb4-03",
+   "byline": "From the press gallery",
+   "standfirst": "Mirror images in the standings: {managerA} and {managerB} both end season {seasonNo} on {points} points, and neither can look down on the other.",
+   "paragraphs": [
+    "Hold the two seasons up to the light and they match exactly. {clubA} brought {points} points to the finish and so did {clubB}, which leaves {managerA} and {managerB} staring at one another across an even page.",
+    "A result of this kind asks more of the spectator than a decisive one does. There is no hero to cheer and no villain to blame, only two competitors of equal weight and an unresolved argument between friends.",
+    "The argument will resume next season, and it will resume without any advantage claimed from this one. Whatever comes next starts from honest ground."
+   ],
+   "pullquote": {
+    "text": "You could lay a ruler across those two seasons and find no gap.",
+    "who": "Overheard in the dugout"
+   }
+  },
+  {
+   "id": "sb4-04",
+   "byline": "From our honours desk",
+   "standfirst": "No single name goes on top this time, because {managerA} and {managerB} finished season {seasonNo} with the same {points} points each.",
+   "paragraphs": [
+    "The honours board keeps room for one name per season, and this year it has been asked to hold two. {clubA} and {clubB} ended level on {points} points, and the board will simply have to share.",
+    "Neither manager has a story of triumph to tell, but neither has one of disappointment either. {managerA} and {managerB} produced seasons of identical value, which in a rivalry this keen is its own kind of compliment.",
+    "The engraver can put down the chisel and the debate can begin afresh. Season {seasonNo} of {seasonsTotal} is complete, and both managers know the next one starts with everything to play for."
+   ],
+   "pullquote": {
+    "text": "There was room on the board for two names after all.",
+    "who": "The tea lady at the training ground"
+   }
+  },
+  {
+   "id": "sb4-05",
+   "byline": "From our court correspondent",
+   "standfirst": "Patience is the lesson of season {seasonNo}, which ended with {clubA} and {clubB} on {points} points each and the argument adjourned.",
+   "paragraphs": [
+    "Judgement will have to wait. The season that was meant to separate {managerA} and {managerB} has handed each of them {points} points instead, and the case for either club stands exactly where it began.",
+    "Adjourned is the right word. Nobody has been refused anything, because nobody was owed anything. The two managers have simply produced equal evidence, and the court of opinion will need another sitting before it can rule.",
+    "That sitting is already booked in the form of the next season. Until then {clubA} and {clubB} share the same footing, and the same appetite."
+   ],
+   "pullquote": {
+    "text": "Case adjourned. Bring better evidence next time, both of you.",
+    "who": "A retired sub-editor"
+   }
+  },
+  {
+   "id": "sb4-06",
+   "byline": "From the scorers' table",
+   "standfirst": "The scales settled flat in season {seasonNo}, with {managerA} and {managerB} each holding {points} points and neither pan dropping an inch.",
+   "paragraphs": [
+    "A pair of scales has a simple honesty, and this year it reads level. {clubA} placed {points} points on one side, {clubB} placed {points} on the other, and the beam did not tremble for either manager.",
+    "It makes for an unusually fair account of the season. {managerA} can point to a campaign of real worth, and so can {managerB}, and nobody in good faith could call one lighter than the other.",
+    "Scales are patient instruments. They will be loaded again next season, and the Gazette will be watching the beam closely when season {seasonNo} gives way to the one after."
+   ],
+   "pullquote": {
+    "text": "Weigh them as carefully as you like, they come out the same.",
+    "who": "The press box"
+   }
+  },
+  {
+   "id": "sb4-07",
+   "byline": "From our diplomatic desk",
+   "standfirst": "Handshakes all round as season {seasonNo} closes, because {clubA} and {clubB} finished on {points} points apiece and neither manager has anything to explain.",
+   "paragraphs": [
+    "There is a particular courtesy in a draw. {managerA} and {managerB} reached the end of season {seasonNo} on {points} points each, and neither need pretend that the other's season was anything but a match for their own.",
+    "Respect between rivals is easy to say and hard to earn, and this result earns it for both. Each manager has measured the other's work this season and found it precisely as good as their own.",
+    "The courtesy will not last past the opening of the next season, of course. Rivals are rivals, and {clubA} and {clubB} both know it."
+   ],
+   "pullquote": {
+    "text": "Shake hands now, because the friendly feeling has a very short shelf life.",
+    "who": "Overheard in the dugout"
+   }
+  },
+  {
+   "id": "sb4-08",
+   "byline": "By our senior reporter",
+   "standfirst": "Readers hoping for a winner will be disappointed and readers hoping for a contest delighted, as season {seasonNo} ends level on {points} points.",
+   "paragraphs": [
+    "The best contests are sometimes those that refuse to end. Season {seasonNo} gave {clubA} and {clubB} exactly {points} points each, and it gave the Gazette the rare task of reporting a result with two heroes and no hierarchy.",
+    "For {managerA} there is the satisfaction of having held a rival to level terms, and for {managerB} the identical satisfaction. It is a generous symmetry, and it leaves the rivalry sharper than any single victory might have.",
+    "Next season arrives with both managers hungrier than before. A draw feeds the appetite far more than it fills it."
+   ],
+   "pullquote": {
+    "text": "I came for a winner and left with a better story.",
+    "who": "A season ticket holder, anonymously"
+   }
+  },
+  {
+   "id": "sb4-09",
+   "byline": "From the finishing line",
+   "standfirst": "Even the photograph could not split them: {clubA} and {clubB} crossed the line of season {seasonNo} together, each on {points} points.",
+   "paragraphs": [
+    "Had a camera been placed at the finish it would have found nothing to choose between the two. {managerA} and {managerB} arrived at the close of season {seasonNo} with {points} points apiece, like sprinters in a dead heat.",
+    "A dead heat is the purest result in sport, because it leaves no excuse and no complaint. {managerA} cannot call the season unfair, and nor can {managerB}, so the whole matter rests on the next race.",
+    "The next race is already on the calendar, and both runners will be at the start early. The Showdown spans {seasonsTotal} seasons in all, and this dead heat is merely one stride of the journey."
+   ],
+   "pullquote": {
+    "text": "Dead heats are rare, and this one deserves a plaque rather than a ruling.",
+    "who": "A Gazette columnist"
+   }
+  },
+  {
+   "id": "sb4-10",
+   "byline": "From the theatre of dreams desk",
+   "standfirst": "Two curtain calls and no encore: {managerA} and {managerB} take a bow together after season {seasonNo} closes with {points} points on each side.",
+   "paragraphs": [
+    "The closing moments of season {seasonNo} brought no champion to the front of the stage, only two managers sharing the applause. {clubA} and {clubB} each reached {points} points and each earned the same ovation.",
+    "Theatre rarely offers two leads of equal billing, yet that is the production on show. {managerA} and {managerB} played their parts with matching conviction, and the audience could not honestly name a favourite.",
+    "The curtain rises again with the next season, and the casting remains unchanged. Both leads have a performance in them that the other has yet to see."
+   ],
+   "pullquote": {
+    "text": "Equal billing, equal applause, and an interval that will feel far too long.",
+    "who": "The tea lady at the training ground"
+   }
+  },
+  {
+   "id": "sb4-11",
+   "byline": "By our chess correspondent",
+   "standfirst": "Like a game agreed as level, season {seasonNo} leaves {clubA} and {clubB} on {points} points each and both managers with plenty still to say.",
+   "paragraphs": [
+    "Grandmasters call it a stalemate and the Gazette calls it season {seasonNo}: {managerA} and {managerB} each ended on {points} points, every piece still standing and neither king able to claim the board.",
+    "What strikes the observer is the quality of the defence on both sides. Neither {clubA} nor {clubB} left an opening that the other could exploit, and the result is a position that flatters both players and favours neither.",
+    "The pieces are reset for the next season. Both managers will study this position closely, and the Gazette suspects each will find a different lesson in it."
+   ],
+   "pullquote": {
+    "text": "A stalemate is only a conversation that both sides refuse to end.",
+    "who": "The night editor"
+   }
+  },
+  {
+   "id": "sb4-12",
+   "byline": "From the sub-editors' room",
+   "standfirst": "The Gazette counted twice, then a third time, and still found {managerA} and {managerB} level on {points} points at the end of season {seasonNo}.",
+   "paragraphs": [
+    "Our sub-editors insisted on a recount, and the recount delivered the same answer. {clubA} finished season {seasonNo} on {points} points, {clubB} finished on {points}, and the front page carries no victor.",
+    "It is tempting to hunt for a hidden edge, some small advantage that would justify a headline for one side. There is none to find, and {managerA} and {managerB} deserve to have their equality respected rather than explained away.",
+    "Respect it we shall, and then we shall look to the seasons ahead for more decisive evidence. The Showdown runs to {seasonsTotal} seasons in all, so the argument has plenty of room to grow."
+   ],
+   "pullquote": {
+    "text": "We counted twice, and the second count was just as polite as the first.",
+    "who": "The press box"
+   }
+  },
+  {
+   "id": "sb4-13",
+   "byline": "From our friendship desk",
+   "standfirst": "Friendship survives intact after season {seasonNo}, as {managerA} and {managerB} share {points} points and the gentle silence that follows a draw.",
+   "paragraphs": [
+    "Between friends, the draw is the most diplomatic result available. {managerA} and {managerB} have each collected {points} points from season {seasonNo}, leaving {clubA} and {clubB} equally entitled to a mild boast and a polite denial.",
+    "That balance will please the neutral and frustrate the competitor. Each manager can say, with complete honesty, that they did not lose to the other, which is a sentence that sits easily on the tongue and badly on the ambition.",
+    "Ambition will win out soon enough. When the next season begins, the courtesies end, and both clubs go back to the serious business of trying to out-do one another."
+   ],
+   "pullquote": {
+    "text": "Neither of them lost, and neither of them will ever quite forgive that.",
+    "who": "Overheard in the dugout"
+   }
+  },
+  {
+   "id": "sb4-14",
+   "byline": "From the Gazette archive",
+   "standfirst": "Season {seasonNo} enters the archive with an unusual entry: {clubA} and {clubB}, {points} points each, and a line left blank where the winner goes.",
+   "paragraphs": [
+    "The archive holds a column for the champion of each season, and for season {seasonNo} it will stay empty. {managerA} and {managerB} finished on {points} points apiece, and the clerk has been told to leave the space as it is.",
+    "Blank spaces in an archive are not failures. They mark the seasons when two competitors were so well matched that history declined to choose between them, and {clubA} and {clubB} have now written one into the book.",
+    "Future readers will pause over that empty space and wonder. The Gazette hopes they will conclude, rightly, that it was a season of equals."
+   ],
+   "pullquote": {
+    "text": "Leave the space blank. Some seasons are too good to hand to one name.",
+    "who": "A retired archivist"
+   }
+  },
+  {
+   "id": "sb4-15",
+   "byline": "By our political editor",
+   "standfirst": "Everything is still open after season {seasonNo}, where {managerA} and {managerB} stopped on {points} points each and the rivalry awaits the next move.",
+   "paragraphs": [
+    "Sometimes the most dramatic result is the one that changes nothing between the two. {clubA} and {clubB} finished season {seasonNo} on {points} points each, so whatever stood between the managers before the season stands there still.",
+    "That is a quiet sort of tension. Neither {managerA} nor {managerB} gained ground, neither lost any, and the overall picture is precisely as it was, only with another season of effort stacked on both sides.",
+    "The gap, if there is one, now has a full season of equal labour behind it. The next season will show which manager can shift it first."
+   ],
+   "pullquote": {
+    "text": "Nothing moved, which is the loudest thing that could possibly have happened.",
+    "who": "The night editor"
+   }
+  }
+ ]
+}
