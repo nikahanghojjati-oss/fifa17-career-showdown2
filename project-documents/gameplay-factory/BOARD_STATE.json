@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28 11:18 PM Boston time (EDT)",
+ "generated": "2026-10-28 11:20 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 148,
@@ -1388,7 +1388,22 @@
    "revision": "1.9.9-r85",
    "when": "2026-10-29T02:55:07Z",
    "subject": "SSJR 100: fix the credit recorder's main checks and record the 2026-10-29 run (#1041)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 1042,
+     "title": "Record the SSJR 100/100 official launch across the repository",
+     "draft": false,
+     "branch": "claude-gameplay/ssjr100-launch-record",
+     "sha": "1f09ae4c3491a98589e63dd837dc502d77cbe5fd",
+     "updated": "2026-10-29T03:19:51Z",
+     "gates": {
+      "passed": 0,
+      "running": 7,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": [
     {
      "pr": 1041,
@@ -2029,7 +2044,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3245,7 +3260,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 1042,
+    "title": "Record the SSJR 100/100 official launch across the repository",
+    "draft": false,
+    "branch": "claude-gameplay/ssjr100-launch-record",
+    "sha": "1f09ae4c3491a98589e63dd837dc502d77cbe5fd",
+    "updated": "2026-10-29T03:19:51Z",
+    "gates": {
+     "passed": 0,
+     "running": 7,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
