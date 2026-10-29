@@ -1627,11 +1627,12 @@ const conf=[]; const dummy=new T.Object3D();
 for(let i=0;i<CONF;i++){ conf.push({on:false,p:new T.Vector3(),v:new T.Vector3(),r:new T.Euler(),w:new T.Vector3(),ph:Math.random()*6}); dummy.scale.set(0,0,0); dummy.updateMatrix(); confetti.setMatrixAt(i,dummy.matrix); confetti.setColorAt(i,new T.Color(1,1,1)); }
 let confNext=0;
 function confettiRain(cols,n,zc,zs,y0,yr){ for(let k=0;k<n;k++){ const i=confNext; confNext=(confNext+1)%CONF; const c=conf[i]; c.on=true; c.rest=false; c.p.set((Math.random()-.5)*Math.min(14,2.1*halfWAt(zc||-2)),(y0||5)+Math.random()*(yr||9),(zc||-2)+(Math.random()-.5)*(zs||9)); c.v.set((Math.random()-.5)*.5,-(.9+Math.random()*.9),(Math.random()-.5)*.3); c.w.set(2+Math.random()*6,2+Math.random()*6,Math.random()*4); c.g=0; confetti.setColorAt(i,L(cols[i%cols.length]).multiplyScalar(1.15)); } confetti.instanceColor.needsUpdate=true; }
-function confettiCannon(side,cols,n){ for(let k=0;k<n;k++){ const i=confNext; confNext=(confNext+1)%CONF; const c=conf[i]; c.on=true; c.rest=false; c.g=1; c.p.set(side*(4.6+Math.random()*.6),.3+Math.random()*.3,-1.4+(Math.random()-.5)*1.2); c.v.set(-side*(1.6+Math.random()*4.2),6+Math.random()*6,(Math.random()-.3)*2.4); c.w.set(3+Math.random()*8,3+Math.random()*8,Math.random()*5); confetti.setColorAt(i,L(cols[k%cols.length]).multiplyScalar(1.15)); } confetti.instanceColor.needsUpdate=true; }
-/* Hype pass (2026-10-29): once the card has settled, confetti in front of it that would cross its face (and so its text or the
-   scouting report) is taken away; pieces that have landed stop being redrawn, so a still frame costs nothing. */
+function confettiCannon(side,cols,n){ for(let k=0;k<n;k++){ const i=confNext; confNext=(confNext+1)%CONF; const c=conf[i]; c.on=true; c.rest=false; c.g=1; c.p.set(side*(4.6+Math.random()*.6),.3+Math.random()*.3,-2.2+(Math.random()-.5)*.6); c.v.set(-side*(1.6+Math.random()*4.2),6+Math.random()*6,-Math.random()*1.6); /* behind the card plane (Nik: nothing covers anything) */ c.w.set(3+Math.random()*8,3+Math.random()*8,Math.random()*5); confetti.setColorAt(i,L(cols[k%cols.length]).multiplyScalar(1.15)); } confetti.instanceColor.needsUpdate=true; }
+/* Hype pass (2026-10-29, Nik: nothing covers anything): every confetti source starts and flies behind the card plane, and any
+   piece that would still cross the card's screen rect in front of it (a turning card swings its edges ~1.1 forward) is taken
+   away, from the moment the card appears; pieces that have landed stop being redrawn, so a still frame costs nothing. */
 const confV=new T.Vector3();
-function cardShield(){ card.updateMatrixWorld(); let x0=1,x1=-1,y0=1,y1=-1; [[-1.2,1.7],[1.2,1.7],[-1.2,-1.7],[1.2,-1.7]].forEach(([x,y])=>{ confV.set(x,y,0); card.localToWorld(confV).project(camera); x0=Math.min(x0,confV.x); x1=Math.max(x1,confV.x); y0=Math.min(y0,confV.y); y1=Math.max(y1,confV.y); }); return {x0,x1,y0,y1,z:CARD_POS.z-.15}; }
+function cardShield(){ card.updateMatrixWorld(); let x0=1,x1=-1,y0=1,y1=-1; [[-1.2,1.7],[1.2,1.7],[-1.2,-1.7],[1.2,-1.7]].forEach(([x,y])=>{ confV.set(x,y,0); card.localToWorld(confV).project(camera); x0=Math.min(x0,confV.x); x1=Math.max(x1,confV.x); y0=Math.min(y0,confV.y); y1=Math.max(y1,confV.y); }); const pad=.02; return {x0:x0-pad,x1:x1+pad,y0:y0-pad,y1:y1+pad,z:phase==="settled"?CARD_POS.z-.2:CARD_POS.z-1.25}; }
 function stepConfetti(dt,t,shield){ let moved=false; for(let i=0;i<CONF;i++){ const c=conf[i]; if(!c.on) continue;
   if(shield&&c.p.z>shield.z){ confV.copy(c.p).project(camera); if(confV.x>shield.x0&&confV.x<shield.x1&&confV.y>shield.y0&&confV.y<shield.y1){ c.on=false; dummy.scale.set(0,0,0); dummy.updateMatrix(); confetti.setMatrixAt(i,dummy.matrix); moved=true; continue; } }
   if(c.rest) continue; moved=true; if(c.g){ c.v.y=Math.max(c.v.y-9*dt,-1.1); c.v.x*=1-1.4*dt; c.v.z*=1-1.4*dt; } c.p.addScaledVector(c.v,dt); c.p.x+=Math.sin(t*1.9+c.ph)*dt*.6; c.r.x+=c.w.x*dt; c.r.y+=c.w.y*dt; c.r.z+=c.w.z*dt;
@@ -1990,7 +1991,7 @@ function run(tt){
   if(tt>turnAt){ const k=cres?quadInOut(fl):ease.inOut(fl); if(k>=5/6&&frontMat.map!==front.tx){ frontMat.map=front.tx; frontMat.needsUpdate=true; startCount(p); } card.rotation.set(0,Math.PI+k*Math.PI*3,0); card.position.y=CARD_POS.y+Math.sin(k*Math.PI)*.5; }
   at(tt,9.6,"sig",()=>startSig(p));
   at(tt,9.6,"flash",()=>{ shake=.3; glow.position.set(0,1.86,-1.3); flash=1.0*Math.min(1.4,pw); glow.material.color.copy(L(tc)); burst(CARD_POS.clone().add(new T.Vector3(0,0,.3)),[tc,0xffffff,0xfff1c2],Math.round(240*pw),11,1.3,.2);
-    confettiRain(nat.concat([0xf1c35a,0xfff3c4]),Math.round(380*pw),-2);
+    confettiRain(nat.concat([0xf1c35a,0xfff3c4]),Math.round(380*pw),-4.6,5); /* z -7.1 to -2.1: behind the card */
     [-.85,-.55,-.2,.2,.55,.85].forEach((x,i)=>later(()=>starburst(skyPoint(x,.38+Math.random()*.22,-36),[tc,0xffffff,0xfff1c2].concat(nat),Math.round(44*pw),8,1.4),i*120)); });
   if(tt>9.6&&tt<12.2) [[-6.5,-6],[6.5,-6],[-3.2,-7],[3.2,-7]].forEach(([x,z])=>fountain(new T.Vector3(fitX(x,z),.1,z),Math.random()<.5?0xfff1c2:0xffffff,Math.round(3*pw)+1,8.5,.9));
   /* idea 1: the tier glow grows behind the card (depth-hidden by it, so never over its text) into the burst, then hands over */
@@ -2099,7 +2100,7 @@ function tick(draw){
   flags.forEach((f,i)=>{ if(!f.mesh.visible) return; if(f.rolling&&f.drop<.02){ f.rolling=false; f.mesh.visible=false; return; } f.drop+=(f.target-f.drop)*Math.min(1,dt*2.6); f.mesh.scale.y=Math.max(.001,f.drop);
     const a=f.mesh.geometry.attributes.position; for(let j=0;j<a.count;j++){ const x=f.base[j*3], y=f.base[j*3+1], d=-y/f.h; a.array[j*3+2]=(Math.sin(x*.9+now*2.2+i)*.5+Math.sin(y*.6+now*1.6+i*.5)*.35)*d; } a.needsUpdate=true; f.mesh.geometry.computeVertexNormals(); });
   stepSig(now); stepCount(now);
-  stepParticles(dt*sc); stepChunks(dt*sc); stepConfetti(dt,now,phase!=="run"&&card.visible?cardShield():null); stepSmoke(dt); sheenMat.uniforms.t.value=now%1000;
+  stepParticles(dt*sc); stepChunks(dt*sc); stepConfetti(dt,now,card.visible?cardShield():null); stepSmoke(dt); sheenMat.uniforms.t.value=now%1000;
   ledTex.tx.offset.x=(now*.04)%1; if(boardTex) boardTex.offset.x=(now*.05)%1;
   pulse*=Math.pow(.004,dt); packPulse*=Math.pow(.002,dt); flash*=Math.pow(.02,dt); shake*=Math.pow(.02,dt);
   blob.material.opacity=card.visible?clamp01(1-(card.position.y-CARD_POS.y)*1.2):pack.visible?1:0;
