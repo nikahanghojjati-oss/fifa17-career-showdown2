@@ -217,5 +217,10 @@
     }
   }
 
-  return Object.freeze({contractVersion:1,feature:"cms-completed-showdown-reader",statuses:STATUSES,readCompletedShowdown:csrRead,sessionRequired:false,deviceRequired:false,providerWriteRequired:false,listPermissionRequired:false,canonicalStorageMutation:false,billingRequired:false,sourceAuthorityPaths:Object.freeze(["rivalries/{rivalryId}","rivalries/{rivalryId}/sharedSetup/authoritative","rivalries/{rivalryId}/seasonResults/season_{N}","rivalries/{rivalryId}/seasonResults/season_{N}/roles/{playerOne|playerTwo}","rivalries/{rivalryId}/seasonCommits/season_{N}"])});
+  // r86 (red team #7): these failures come from the stored documents themselves (an invalid season, a totals mismatch), so a
+  // re-read on the same page can only fail the same way. A missing document, network, auth and loading failures stay retryable
+  // (a late write can still arrive: r83 cold career reads).
+  const PERMANENT_CODES=Object.freeze(["COMPLETED_BINDING_INVALID","COMPLETED_NOT_A_MANAGER","COMPLETED_RIVALRY_INTEGRITY_FAILED","COMPLETED_RIVALRY_INVALID","COMPLETED_SEASON_INVALID","COMPLETED_SETUP_INVALID","COMPLETED_TERMINAL_WITNESS_INVALID","COMPLETED_TOTALS_MISMATCH"]);
+  const csrPermanentFailure=read=>Boolean(read)&&read.status==="unavailable"&&PERMANENT_CODES.includes(read.code);
+  return Object.freeze({contractVersion:1,feature:"cms-completed-showdown-reader",statuses:STATUSES,readCompletedShowdown:csrRead,permanentFailure:csrPermanentFailure,sessionRequired:false,deviceRequired:false,providerWriteRequired:false,listPermissionRequired:false,canonicalStorageMutation:false,billingRequired:false,sourceAuthorityPaths:Object.freeze(["rivalries/{rivalryId}","rivalries/{rivalryId}/sharedSetup/authoritative","rivalries/{rivalryId}/seasonResults/season_{N}","rivalries/{rivalryId}/seasonResults/season_{N}/roles/{playerOne|playerTwo}","rivalries/{rivalryId}/seasonCommits/season_{N}"])});
 });

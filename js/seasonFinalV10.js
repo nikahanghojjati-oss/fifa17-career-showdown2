@@ -2035,13 +2035,15 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   function sfRetainHistory(history){if(history?.authoritative===true&&history.phase==="HISTORY_CONVERGED"&&history.projection)retainedHistory=history;return history;}
   // JOB-1042: the rival can close before this phone's live history converges. Reuse the session-free,
   // completed-only reader per closed rivalry; the partial Final Winner stays visible during the read.
-  const closedHistoryReads=new Map();
+  const closedHistoryReads=new Map(),CLOSED_HISTORY_MAX_ATTEMPTS=6;
   // JOB-1811: previous-season convergence must not suppress the completed read after the rival closes.
   const sfConverged=(history,closed)=>history?.authoritative===true&&history.phase==="HISTORY_CONVERGED"&&history.rivalryId===closed.rivalryId&&history.projection&&closed.terminalWitness&&closedHistoryBound(history.projection,closed.terminalWitness);
   function sfClosedHistory(rivalryId){
     if(!closedHistoryReads.has(rivalryId))closedHistoryReads.set(rivalryId,{history:null,promise:null,retryAt:0,attempts:0,retryTimer:null});
     const entry=closedHistoryReads.get(rivalryId);
-    if(!entry.history&&!entry.promise&&Date.now()>=entry.retryAt&&(!entry.attempts||sfDetailsVisible())){
+    // r86 (red team #7): a failure stored in the game itself stops the retries, and the rest stop after six attempts (about a
+    // minute of backoff); the partial Final Winner stays on screen either way.
+    if(!entry.history&&!entry.promise&&!entry.stopped&&Date.now()>=entry.retryAt&&(!entry.attempts||sfDetailsVisible())){
       entry.attempts++;
       entry.promise=Promise.resolve().then(async()=>{
         if(!root.CareerModeSparkCompletedShowdownReader)await root.loadRuntimeScript("career-completed-reader","js/sparkCompletedShowdownReader.js",()=>Boolean(root.CareerModeSparkCompletedShowdownReader));
@@ -2052,7 +2054,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
         const sdk=(root.CareerModeFirestoreBudget?.meterSdk||(s=>s))(services.firestoreSdk?.getDoc?services.firestoreSdk:await import(runtime.firebaseFirestoreModule));
         const result=await root.CareerModeSparkCompletedShowdownReader.readCompletedShowdown({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc},user,rivalryId});
         if(result?.status==="completed"&&result.rivalryId===rivalryId&&result.projection)entry.history={authoritative:true,phase:"HISTORY_CONVERGED",rivalryId,projection:result.projection};
-      }).catch(()=>{}).then(()=>{entry.promise=null;entry.retryAt=Date.now()+Math.min(30000,1000*2**Math.min(entry.attempts-1,5));wake();});
+        else if(root.CareerModeSparkCompletedShowdownReader.permanentFailure?.(result)===true)entry.stopped=true;
+      }).catch(()=>{}).then(()=>{entry.promise=null;if(!entry.history&&entry.attempts>=CLOSED_HISTORY_MAX_ATTEMPTS)entry.stopped=true;entry.retryAt=Date.now()+Math.min(30000,1000*2**Math.min(entry.attempts-1,5));wake();});
     }
     return closedHistoryReads.get(rivalryId).history;
   }
@@ -2064,7 +2067,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     const closed=state("CareerModeProductionSharedTerminalClose"),entry=closedHistoryReads.get(closed?.rivalryId);
     if(closed?.phase!=="CLOSED"||!entry)return;
     await entry.promise;
-    if(entry.history||entry.retryTimer!==null||!sfDetailsVisible())return;
+    if(entry.history||entry.stopped||entry.retryTimer!==null||!sfDetailsVisible())return;
     entry.retryTimer=root.setTimeout(()=>{entry.retryTimer=null;if(sfDetailsVisible()&&state("CareerModeProductionSharedTerminalClose")?.rivalryId===closed.rivalryId)wake();},Math.max(0,entry.retryAt-Date.now()));
   }
   function seasonSource(){
