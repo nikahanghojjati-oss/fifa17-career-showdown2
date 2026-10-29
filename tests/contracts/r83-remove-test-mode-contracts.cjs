@@ -10,7 +10,7 @@ for(const managerId of ["daniel","nik"])test(`${managerId}: Settings, seasons an
   for(const marker of [null,{active:true},{active:false}]){
     const p=page({managerId,marker});p.modes.install();await p.modes.resolve();
     const settings=p.settings();
-    assert.equal(settings.rows.mode,"REAL CAREER · every Showdown counts");
+    assert.equal(settings.rows.mode,"Saved online for both of you");
     assert.equal(settings.buttons.some(text=>/TEST|FORGET/.test(text)),false);
     assert.equal(typeof p.modes.startTestRun,"undefined","no client test-start path remains");
     assert.equal(p.dom.doc.body.textContent.includes("TEST RUN"),false);

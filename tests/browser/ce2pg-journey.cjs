@@ -396,7 +396,7 @@ async function backToShowdownHome(m){
   const deadline=Date.now()+20000;
   while(Date.now()<deadline){
     if(await m.page.locator("#mainMenu").isVisible().catch(()=>false))return true;
-    for(const label of [/^\s*(SHOWDOWN HOME|BACK TO MAIN MENU|BACK TO SHOWDOWN HOME)\s*$/i,/^\s*HOME\s*$/i,/^\s*BACK\s*$/i]){
+    for(const label of [/^\s*(SHOWDOWN HOME|BACK TO HOME|BACK TO MAIN MENU|BACK TO SHOWDOWN HOME)\s*$/i,/^\s*HOME\s*$/i,/^\s*BACK\s*$/i]){
       const back=m.page.locator("button:visible").filter({hasText:label}).first();
       if(await back.count()){await back.click({timeout:5000}).catch(()=>{});break;}
     }
@@ -547,8 +547,8 @@ async function playSeasonResults(daniel,nik,k,planSeason){
 }
 async function commitSeason(daniel,nik,k,planSeason,final){
   await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="LOCK & CONFIRM SEASON",null,{timeout:45000});
-  await nik.page.waitForFunction(()=>["WAITING FOR HOST","CONFIRM SEASON"].includes(document.getElementById("sharedSeasonCommitAction")?.textContent),null,{timeout:45000});
-  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()==="WAITING FOR HOST")await check(nik,`${showdownNow}.S${k}.commit.coordinator`,"Nik cannot commit the season",await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),"button enabled",{screen:"Shared Season Commit"});
+  await nik.page.waitForFunction(()=>["WAITING FOR DANIEL","CONFIRM SEASON"].includes(document.getElementById("sharedSeasonCommitAction")?.textContent),null,{timeout:45000});
+  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()==="WAITING FOR DANIEL")await check(nik,`${showdownNow}.S${k}.commit.coordinator`,"Nik cannot commit the season",await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),"button enabled",{screen:"Shared Season Commit"});
   await daniel.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
   await daniel.page.waitForFunction(()=>/^(CONFIRMED ✓ · WAITING FOR RIVAL|SEASON CONFIRMED ✓)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000});
   await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="CONFIRM SEASON",null,{timeout:45000});
@@ -577,10 +577,10 @@ async function checkSharedHistory(m,k,total,seasons){
   await m.page.waitForFunction(n=>new RegExp(`^${n} of `).test((document.getElementById("sharedHistoryConvergenceSummary")?.textContent||"").trim()),k,{timeout:30000}).catch(()=>{});
   const heading=await textOf(m,"#sharedHistoryConvergenceHeading"),summary=await textOf(m,"#sharedHistoryConvergenceSummary"),records=await textOf(m,"#sharedHistoryConvergenceRecords"),trophies=await textOf(m,"#sharedHistoryConvergenceTrophies");
   debug(`${showdownNow} S${k} history ${m.user}`,`${heading} | ${summary} | ${records} | ${trophies}`);
-  const lead=t.daniel.total===t.nik.total?"TIED":t.daniel.total>t.nik.total?`Daniel +${t.daniel.total-t.nik.total}`:`Nik +${t.nik.total-t.daniel.total}`;
-  await eq(m,`${showdownNow}.S${k}.history.heading`,"Shared History heading",heading,"HISTORY UP TO DATE",{screen:"Shared History"});
-  const wantSummary=new RegExp(`^${k} of ${total} seasons? accepted · [A-Z0-9 ]+ · Overall: Daniel ${t.daniel.total} · Nik ${t.nik.total} · Lead: ${lead.replace("+","\\+")}$`);
-  await check(m,`${showdownNow}.S${k}.history.summary`,"Shared History overall totals and lead",wantSummary.test(summary),`expected "${k} of ${total} seasons accepted ... Overall: Daniel ${t.daniel.total} · Nik ${t.nik.total} · Lead: ${lead}" but saw "${summary}"`,{screen:"Shared History"});
+  const lead=t.daniel.total===t.nik.total?"Level":t.daniel.total>t.nik.total?`Daniel leads by ${t.daniel.total-t.nik.total}`:`Nik leads by ${t.nik.total-t.daniel.total}`;
+  await eq(m,`${showdownNow}.S${k}.history.heading`,"Shared History heading",heading,"SHOWDOWN SO FAR",{screen:"Shared History"});
+  const wantSummary=new RegExp(`^${k} of ${total} seasons? played · [A-Z0-9 ]+ · Daniel ${t.daniel.total} - ${t.nik.total} Nik · ${lead}$`);
+  await check(m,`${showdownNow}.S${k}.history.summary`,"Shared History overall totals and lead",wantSummary.test(summary),`expected "${k} of ${total} seasons played ... Daniel ${t.daniel.total} - ${t.nik.total} Nik · ${lead}" but saw "${summary}"`,{screen:"Shared History"});
   const wantRec=u=>new RegExp(`${NAMES[u]} · .+ · ${t[u].W}W ${t[u].D}D ${t[u].L}L · ${t[u].total} showdown pts`);
   await check(m,`${showdownNow}.S${k}.history.records`,"Shared History W/D/L and points per manager",wantRec("daniel").test(records)&&wantRec("nik").test(records),`expected Daniel ${t.daniel.W}W ${t.daniel.D}D ${t.daniel.L}L ${t.daniel.total} pts, Nik ${t.nik.W}W ${t.nik.D}D ${t.nik.L}L ${t.nik.total} pts; saw "${records}"`,{screen:"Shared History"});
   const wantTro=u=>`${NAMES[u]} ${t[u].trophies} trophies (${t[u].league} league, ${t[u].cup} cup, ${t[u].cl} Champions League)`;
@@ -792,7 +792,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
     const got={points:s.points,W:s.W,D:s.D,L:s.L,cl:s.cl,league:s.league,cup:s.cup,trophies:s.trophies};
     const withLive=Boolean(wantWithLive)&&JSON.stringify(got)===JSON.stringify(wantWithLive);
     if(withLive){const note=`${label} ${m.user}: Standings (Career, ${which}) counted the live Showdown's ${liveEntry.seasons.length} played season(s) (shared history in memory)`;report.notes=(report.notes||[]).concat(note);console.log(`NOTE ${note}`);}
-    if(E.completedCount===0){await check(m,id(`${key}.career`),`Standings (Career, ${which}) shows no completed-career figures before the first completed Showdown (or only the live seasons so far)`,withLive||(!s.points||s.points.join()==="0,0")&&/after the first recorded season|0\s*:\s*0/i.test(text),text.slice(0,300),scr("Standings (Career)"));continue;}
+    if(E.completedCount===0){await check(m,id(`${key}.career`),`Standings (Career, ${which}) shows no completed-career figures before the first completed Showdown (or only the live seasons so far)`,withLive||(!s.points||s.points.join()==="0,0")&&/after your first finished Showdown|0\s*:\s*0/i.test(text),text.slice(0,300),scr("Standings (Career)"));continue;}
     await check(m,id(`${key}.career`),`Standings (Career, ${which}): career points, season W/D/L, Champions Leagues, league titles, cups, trophies (D / N)`,withLive||JSON.stringify(got)===JSON.stringify(wantStandings),`expected ${JSON.stringify(wantStandings)}${wantWithLive?` (or with the live seasons ${JSON.stringify(wantWithLive)})`:""} but the screen shows ${JSON.stringify(got)}`,scr("Standings (Career)"));
   }
   // Trophy Room
@@ -830,7 +830,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
       {season:two(live.seasons.length+1,live.totalSeasons),points:two(t.daniel.total,t.nik.total),W:two(t.daniel.W,t.nik.W),D:two(t.daniel.D,t.nik.D),L:two(t.daniel.L,t.nik.L),cl:two(t.daniel.cl,t.nik.cl),league:two(t.daniel.league,t.nik.league),cup:two(t.daniel.cup,t.nik.cup),trophies:two(t.daniel.trophies,t.nik.trophies)},scr("Standings (This Showdown)"));
   }
   // With no live Showdown, THIS SHOWDOWN is empty on every browser (the one that played the last Showdown too).
-  else await check(m,id("standings.thisShowdown"),"Standings (This Showdown) says there is no active Showdown",/No active showdown/i.test(f.thisShowdownText||""),(f.thisShowdownText||"").slice(0,300),scr("Standings (This Showdown)"));
+  else await check(m,id("standings.thisShowdown"),"Standings (This Showdown) says there is no active Showdown",/No active showdown|No Showdown in progress/i.test(f.thisShowdownText||""),(f.thisShowdownText||"").slice(0,300),scr("Standings (This Showdown)"));
   // Rivalry Statistics: the live Showdown while one is played, else the newest completed one (never an ended-early one).
   const rivalrySource=live||[...career].reverse().find(s=>s.state==="completed")||null;
   if(rivalrySource&&rivalrySource.seasons.length){
@@ -842,7 +842,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
   // Settings
   const st=f.settings,ended=st&&st.buttons.includes("END SHOWDOWN");
   await check(m,id("settings.end"),settingsLive?"Settings offers END SHOWDOWN while the Showdown is live":"Settings shows no END SHOWDOWN when no Showdown is live",settingsLive?ended:!ended,JSON.stringify(st),scr("Settings"));
-  await check(m,id("settings.mode"),"Settings: MODE REAL CAREER and PARTNER Paired with the other manager",st&&/^REAL CAREER/.test(st.rows.MODE||"")&&st.rows.PARTNER===`Paired with ${m.account==="daniel"?"Nik":"Daniel"}`&&!st.buttons.includes("START TEST RUN"),JSON.stringify(st),scr("Settings"));
+  await check(m,id("settings.mode"),"Settings: CAREER saved online and PARTNER Paired with the other manager",st&&/^Saved online/.test(st.rows.CAREER||"")&&st.rows.PARTNER===`Paired with ${m.account==="daniel"?"Nik":"Daniel"}`&&!st.buttons.includes("START TEST RUN"),JSON.stringify(st),scr("Settings"));
   await check(m,id("settings.current"),settingsLive?"Settings: CURRENT SHOWDOWN names the live Showdown":"Settings: CURRENT SHOWDOWN is None",st&&(settingsLive?st.rows["CURRENT SHOWDOWN"]&&st.rows["CURRENT SHOWDOWN"]!=="None":st.rows["CURRENT SHOWDOWN"]==="None"),JSON.stringify(st?.rows),scr("Settings"));
   await check(m,id("settings.history"),`Settings: HISTORY counts ${E.completedCount} completed Showdown${E.completedCount===1?"":"s"}`,st&&st.rows.HISTORY===`${E.completedCount} completed showdown${E.completedCount===1?"":"s"}`,JSON.stringify(st?.rows),scr("Settings"));
   return f;

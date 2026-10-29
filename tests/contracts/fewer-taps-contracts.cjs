@@ -354,14 +354,14 @@ async function r1CommitContracts(){
     h.server.failRead=true;
     h.fast().fn();await settle();
     assert.deepEqual(h.calls.reports,[],"a failed fast read is retried by the next poll, not reported");
-    assert.equal(h.action().textContent,"WAITING FOR HOST","and keeps the current waiting view");
+    assert.equal(h.action().textContent,"WAITING FOR DANIEL","and keeps the current waiting view");
     h.intervals.find(item=>item.ms===15000).fn();await settle();
     assert.equal(h.action().textContent,"CHECK AGAIN","a failed normal poll still shows the failure at once");
     assert.equal(h.calls.reports.length,0,"a single failed read is not yet reported");
     h.intervals.find(item=>item.ms===15000).fn();await settle();
     assert.equal(h.calls.reports.length,1,"the same failure on the next poll is reported");
     h.server.failRead=false;h.intervals.find(item=>item.ms===15000).fn();await settle();
-    assert.equal(h.action().textContent,"WAITING FOR HOST","a later successful read recovers the waiting view");
+    assert.equal(h.action().textContent,"WAITING FOR DANIEL","a later successful read recovers the waiting view");
   }
   ok("R1 Season Commit: fast reads only while waiting for the coordinator's COMMIT or the rival's ACKNOWLEDGE; COMMIT and each ACKNOWLEDGE stay manual taps");
 }
@@ -396,7 +396,7 @@ async function r7CommitContracts(){
     assert.equal(nik.calls.acknowledge,0,"Nik is never acknowledged for");
     await nik.tap();assert.equal(nik.calls.acknowledge,1,"Nik's own tap acknowledges");assert.equal(nik.calls.commit,0,"Nik never commits");
     const waiting=commitHarness({role:"playerTwo"});waiting.api.install();await waiting.api.refresh();await settle();
-    assert.equal(waiting.action().textContent,"WAITING FOR HOST");assert.equal(waiting.action().disabled,true,"Nik cannot commit");
+    assert.equal(waiting.action().textContent,"WAITING FOR DANIEL");assert.equal(waiting.action().disabled,true,"Nik cannot commit");
     // Only the coordinator's commit-then-acknowledge failure re-reads at once; Nik's own ACKNOWLEDGE failure keeps its error until
     // the next read, exactly as before (an immediate re-read would wipe "could not be recorded" before Nik sees it).
     assert.match(read("js/productionSharedSeasonCommit.js"),/if\(kind==="commit"&&stage==="acknowledge"\)void psscRefresh\(\)/,"only the R7 second half re-reads after a failure");
@@ -629,7 +629,7 @@ async function r3r4aPresentationContracts(){
     const h=presentationHarness({role:"playerTwo",setup:{phase:"SHARED_SETUP_OPEN",revision:1,coordinatorRole:"playerOne",confirmedRoles:[]}});
     await h.api.activate();await settle();
     assert.equal(visible(h.screens.leagueWheelScreen),true,"Nik waits on the league wheel");
-    assert.match(h.node("spinLeague").textContent,/WAITING FOR HOST/,"Nik still cannot spin");
+    assert.match(h.node("spinLeague").textContent,/WAITING FOR DANIEL/,"Nik still cannot spin");
     await h.push(leagueSetup);
     assert.equal(h.node("selectedLeague").textContent,"Premier League","Nik sees the authoritative league reveal");
     assert.equal(visible(h.screens.leagueWheelScreen),true,"the league stays on screen while the wheel animates");
@@ -638,7 +638,7 @@ async function r3r4aPresentationContracts(){
     assert.equal(visible(h.screens.clubWheelScreen),true,"R3: Nik is on the club packs without a CONTINUE TO CLUB PACKS tap");
     assert.equal(visible(h.screens.leagueWheelScreen),false);
     assert.equal(h.api.getState().leagueWitnessed,"premier_league","both managers still count as having witnessed the league");
-    assert.match(h.node("openClubPack").textContent,/WAITING FOR HOST PACK REVEAL/,"Nik still cannot open the packs");
+    assert.match(h.node("openClubPack").textContent,/WAITING FOR DANIEL TO OPEN THE PACKS/,"Nik still cannot open the packs");
     assert.deepEqual(h.calls.mutations,[],"the auto-forward is presentation only (no write, no reroll)");
   }
   {
@@ -647,7 +647,7 @@ async function r3r4aPresentationContracts(){
     assert.equal(visible(h.screens.clubWheelScreen),true,"the CONTINUE TO CLUB PACKS button still works as a fallback");
     const forward=h.timers.pending().find(t=>t.ms===4200);await h.timers.fire(forward);
     assert.equal(visible(h.screens.clubWheelScreen),true,"a late auto-forward after a manual tap is a no-op");
-    assert.match(h.node("openClubPack").textContent,/OPEN SHOWDOWN PACKS/,"OPEN SHOWDOWN PACKS stays Daniel's own host tap");
+    assert.match(h.node("openClubPack").textContent,/OPEN CLUB PACKS/,"OPEN CLUB PACKS stays Daniel's own host tap");
     assert.deepEqual(h.calls.mutations,[],"no draw was made for the host");
   }
   {
@@ -785,7 +785,7 @@ async function galleryFix2StaleLockContracts(){
   assert.match(h.node("leagueStateNote").textContent,/is locked for both managers/,"fixture: the first rivalry's league is locked on this page");
   const track=h.node("track");assert.equal(track.dataset.sharedLeagueId,"premier_league","fixture: the wheel turned to the first league");
   await h.push(null,{rivalryId:"pair_4"+"8".repeat(63)});
-  assert.match(h.node("spinLeague").textContent,/WAITING FOR HOST/,"the new rivalry waits for Daniel's spin");
+  assert.match(h.node("spinLeague").textContent,/WAITING FOR DANIEL/,"the new rivalry waits for Daniel's spin");
   assert.equal(h.node("leagueStateNote").textContent,"","no league lock is shown for a rivalry with no league yet");
   assert.equal(visible(h.node("leagueStateNote")),false,"the lock note is hidden");
   assert.equal(track.dataset.sharedLeagueId,undefined,"the wheel no longer belongs to the old league");

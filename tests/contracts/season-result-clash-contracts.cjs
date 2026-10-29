@@ -116,7 +116,7 @@ async function renderContracts(){
   h=harness(result({domesticCup:true,championsLeague:true,leaguePosition:1}),result({domesticCup:true,championsLeague:true,leaguePosition:1}),{role:"playerTwo"});h.api.install();await h.api.refresh();await settle();
   assert.equal(h.status(),"BOTH RESULTS ARE IN · WAITING FOR Daniel TO LOCK THE SEASON","the waiting manager sees the unchanged waiting text");
   assert.ok(!/CHECK RESULTS/.test(h.status()),"the waiting manager never sees CHECK RESULTS for both managers winning");
-  assert.equal(h.action().textContent,"WAITING FOR HOST");
+  assert.equal(h.action().textContent,"WAITING FOR DANIEL");
   // B4. Different results: nothing extra, and top scorer on both sides is not a clash.
   h=harness(result({leaguePosition:1,topScorer:true,championsLeague:true}),result({leaguePosition:3,topScorer:true,domesticCup:true}));h.api.install();await h.api.refresh();await settle();
   assert.equal(h.status(),coordinatorStatus,"different results leave the status text unchanged");

@@ -174,7 +174,7 @@ function buildSetupMarkup(doc,main){
     el(doc,card,"span",{id:`clubCardState${n}`,cls:"clubCardState",text:"SEALED"});
   }
   el(doc,shell,"section",{id:"clubRivalryConfirmation",cls:"clubRivalryConfirmation hidden"});
-  el(doc,shell,"button",{id:"openClubPack",cls:"menuButton",text:"OPEN SHOWDOWN PACKS",attrs:{type:"button"}});
+  el(doc,shell,"button",{id:"openClubPack",cls:"menuButton",text:"OPEN CLUB PACKS",attrs:{type:"button"}});
   const cont=el(doc,shell,"button",{id:"continueClubAssignment",cls:"menuButton hidden",text:"CONFIRM & START SHOWDOWN",attrs:{type:"button"}});cont.disabled=true;
   el(doc,shell,"button",{id:"clubAssignmentBack",cls:"backButton",text:"BACK",attrs:{type:"button","data-smart-back":""}});
 

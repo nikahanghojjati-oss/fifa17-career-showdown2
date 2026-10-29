@@ -90,7 +90,7 @@ const unchanged={selectedLeague:null,clubs:{playerOne:null,playerTwo:null},trans
     assert.equal(await host.locator('#seasonReviewOne').isVisible(),true);assert.equal(await host.locator('#seasonReviewTwo').isVisible(),true,'coordinator must experience the complete shared Season Review before commit');
     assert.equal(await peer.locator('#seasonReviewOne').isVisible(),true);assert.equal(await peer.locator('#seasonReviewTwo').isVisible(),true,'peer must experience the same complete shared Season Review before commit');
     assert.equal(await host.locator('#sharedSeasonCommitAction').textContent(),'LOCK & CONFIRM SEASON');assert.equal(await host.locator('#sharedSeasonCommitAction').isEnabled(),true);
-    assert.equal(await peer.locator('#sharedSeasonCommitAction').textContent(),'WAITING FOR HOST');assert.equal(await peer.locator('#sharedSeasonCommitAction').isDisabled(),true,'non-coordinator must not create the commit');
+    assert.equal(await peer.locator('#sharedSeasonCommitAction').textContent(),'WAITING FOR DANIEL');assert.equal(await peer.locator('#sharedSeasonCommitAction').isDisabled(),true,'non-coordinator must not create the commit');
     await peer.evaluate(()=>{window.__forceCommitReadFailure=true;});
     await peer.evaluate(()=>window.__ssjrCommitAudit.refresh().catch(()=>{}));
     await peer.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='CHECK AGAIN');
@@ -98,7 +98,7 @@ const unchanged={selectedLeague:null,clubs:{playerOne:null,playerTwo:null},trans
     assert.equal(server.calls.length,0,'failed polling after an earlier successful read must not mutate Commit');
     await peer.evaluate(()=>{window.__forceCommitReadFailure=false;});
     await peer.locator('#sharedSeasonCommitAction').click();
-    await peer.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR HOST');
+    await peer.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR DANIEL');
     assert.equal(server.calls.length,0,'recovering a later failed read must remain read-only');
     await host.locator('#sharedSeasonCommitAction').click();await host.waitForFunction(()=>/could not be locked/i.test(document.getElementById('seasonReviewError')?.textContent||''),null,{timeout:5000});
     assert.equal(server.revision,0,'rejected commit must not advance provider state');

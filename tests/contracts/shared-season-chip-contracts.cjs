@@ -96,7 +96,7 @@ test('A Showdown the pair holds as closed is not offered as CONTINUE CAREER and 
   ui.context.CareerModePersistentNikDanielPair = { getState: () => pair };
   ui.context.CareerModeSaveLibraryRuntime = { getLibrarySnapshot: () => ({ activeSaveId: closedSave }) };
   ui.context.refreshMainMenuExperience();
-  assert.equal(ui.meta.textContent, 'No Showdown in progress');
+  assert.equal(ui.meta.textContent, 'No Showdown live');
   assert.equal(ui.indicator.textContent, 'No Active Showdown');
   // a live pair (or another save) keeps the career
   pair = { status: 'paired', rivalryId: 'pair_' + 'c'.repeat(64), connectionState: 'active', closedRivalryId: null };

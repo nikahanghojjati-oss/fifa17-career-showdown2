@@ -63,7 +63,7 @@ const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
     assert.equal(await recoveryPanel.getAttribute("data-product-surface"),"internal","Save Library recovery must remain classified as an internal product surface.");
     assert.match(await onlinePanel.innerText(),/ACCOUNT/);
     assert.match(await onlinePanel.innerText(),/DANIEL & NIK|WELCOME (?:DANIEL|NIK)/);
-    assert.match(await onlinePanel.innerText(),/YOUR PLAYER IDENTITY AND THIS BROWSER/i);
+    assert.match(await onlinePanel.innerText(),/WHO YOU ARE ON THIS DEVICE/i);
     assert.equal(await internalPanel.isHidden(),true,"The engineering Connected Account panel must stay out of ordinary Settings.");
     assert.match(await internalPanel.innerText(),/CONNECTED ACCOUNT/,"The late Firebase bridge must still mount its retained backend panel.");
     assert.equal(await internalPanel.locator(".settingsConnectedAccountButton").count(),1);
