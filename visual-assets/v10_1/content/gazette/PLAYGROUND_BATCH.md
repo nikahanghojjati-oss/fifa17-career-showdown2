@@ -406,7 +406,7 @@ FACTS THE GAME KNOWS (never invent anything else)
 
 PLACEHOLDER GRAMMAR: {season} and {seasons} are plain numbers, so write "season {season}" or "{seasons} seasons", never "wins {season}". {margin}, {winnerPoints}, {loserPoints} and {points} are numbers too ("{margin} clear", "{winnerPoints} to {loserPoints}").
 
-STEP 1: READ THE WHOLE FILE. Note which situation, voice, lens or kind it is for (see its top fields).
+STEP 1: READ THE WHOLE FILE. Note which situation, voice, lens or kind it is for (see its top fields). If the file holds "parts" (a mega run), edit every part the same way and keep the parts in order.
 
 STEP 2: SCORE EVERY ITEM from 1 to 10 against this bar:
 - 10: a real top broadcaster or sub-editor would be proud of it; quotable, natural, perfectly fitted to the situation.
@@ -660,4 +660,48 @@ OUTPUT
 ONE JSON object and nothing else. Ids gb<BATCH>-001 to gb<BATCH>-140.
 {"batch":1,"clubs":["Arsenal", "..."],"lines":[{"id":"gb1-001","club":"Arsenal","mood":"win","text":"..."}, ...]}
 FILE: Give the JSON as a downloadable .json file named G<BATCH as 3 digits>.json (for batch 7: G007.json). If you cannot make files, reply with the JSON only.
+```
+
+---
+
+## M. MEGA run add-on (GPT only: many batches in one reply)
+
+How to use: start a new GPT-5.6 Sol chat (thinking on). Paste this block first, set the MEGA RUN line (for example "MEGA RUN: B 3"), then paste the whole prompt for that letter underneath it in the same message. One mega run = a whole situation in every voice, so far fewer runs:
+
+| Mega | Each run gives | Runs |
+|---|---|---|
+| A | 400 headlines (4 lenses) | 38 |
+| B | 600 commentary lines (6 voices) | 24 |
+| C | 60 stories (4 desks) | 19 |
+| D | 800 small-print pieces (8 lenses) | 5 |
+| F | 200 booth duets (4 flavours) | 24 |
+| G | 280 club lines (14 clubs) | 7 |
+
+Then run prompt E on the mega file in a new chat (it edits every part) and send me the _ED file. If GPT says it ran out of room, just send what it made: the file lists the missing batches and you can run those as normal batches.
+
+```
+MEGA RUN: B 1
+
+(Change only the letter and number above. The letter is the prompt you paste below this block. Number ranges: A 1 to 38, B 1 to 24, C 1 to 19, D 1 to 5, F 1 to 24, G 1 to 7.)
+
+This is a MEGA run: you will write several normal batches in one reply. Ignore the "BATCH:" line and STEP 1 of the prompt below. Instead, write these normal batches, as separate parts, in this order:
+- A n: n = 1 to 19 gives situation n with lenses 1, 2, 3, 4. n = 20 to 38 gives situation (n - 19) with lenses 5, 6, 7, 8. Normal batch number = situation + 19 x (lens - 1).
+- B n: situation n with all 6 voices. Normal batch number = n + 24 x (voice - 1).
+- C n: situation n with all 4 desks. Normal batch number = n + 19 x (desk - 1).
+- D n: kind n with all 8 lenses. Normal batch number = n + 5 x (lens - 1).
+- F n: situation n with all 4 flavours. Normal batch number = n + 24 x (flavour - 1).
+- G n: normal batches 2n - 1 and 2n.
+ALREADY DONE (skip these parts): A 1, B 1, B 2.
+
+Each part follows every rule of the prompt below exactly as if it were its own run, with its own ids (from its normal batch number) and its own JSON object.
+
+QUALITY OVER SPEED, ALWAYS
+- Write every line yourself, by hand, with full attention. NEVER generate lines with code, templates, word lists, random combination or find and replace. Use code only to save the finished file. A part that looks machine-made is thrown away.
+- Treat each part as a fresh start: new ideas, new openings, new images. Do not reuse a line, idea or opening from an earlier part in this reply.
+- Before you finish, read each part once more and rewrite anything flat, repeated or clunky.
+
+OUTPUT
+One downloadable .json file named <LETTER>MEGA<NN>.json (for B 3: BMEGA03.json) holding {"mega":"B 3","parts":[ <part 1 JSON>, <part 2 JSON>, ... ]}, where each part is exactly the JSON object the prompt below asks for. If you run out of room, finish the part you are on, close the file properly, and add "missing":[...] with the normal batch numbers you did not reach.
+
+--- PASTE THE PROMPT (A, B, C, D, F or G) BELOW THIS LINE ---
 ```
