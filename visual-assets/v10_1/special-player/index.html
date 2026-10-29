@@ -1612,7 +1612,7 @@ confetti.instanceMatrix.setUsage(T.DynamicDrawUsage); confetti.frustumCulled=fal
 const conf=[]; const dummy=new T.Object3D();
 for(let i=0;i<CONF;i++){ conf.push({on:false,p:new T.Vector3(),v:new T.Vector3(),r:new T.Euler(),w:new T.Vector3(),ph:Math.random()*6}); dummy.scale.set(0,0,0); dummy.updateMatrix(); confetti.setMatrixAt(i,dummy.matrix); confetti.setColorAt(i,new T.Color(1,1,1)); }
 let confNext=0;
-function confettiRain(cols,n,zc){ for(let k=0;k<n;k++){ const i=confNext; confNext=(confNext+1)%CONF; const c=conf[i]; c.on=true; c.p.set((Math.random()-.5)*Math.min(14,2.1*halfWAt(zc||-2)),5+Math.random()*9,(zc||-2)+(Math.random()-.5)*9); c.v.set((Math.random()-.5)*.5,-(.9+Math.random()*.9),(Math.random()-.5)*.3); c.w.set(2+Math.random()*6,2+Math.random()*6,Math.random()*4); c.g=0; confetti.setColorAt(i,L(cols[i%cols.length]).multiplyScalar(1.15)); } confetti.instanceColor.needsUpdate=true; }
+function confettiRain(cols,n,zc,zs,y0,yr){ for(let k=0;k<n;k++){ const i=confNext; confNext=(confNext+1)%CONF; const c=conf[i]; c.on=true; c.p.set((Math.random()-.5)*Math.min(14,2.1*halfWAt(zc||-2)),(y0||5)+Math.random()*(yr||9),(zc||-2)+(Math.random()-.5)*(zs||9)); c.v.set((Math.random()-.5)*.5,-(.9+Math.random()*.9),(Math.random()-.5)*.3); c.w.set(2+Math.random()*6,2+Math.random()*6,Math.random()*4); c.g=0; confetti.setColorAt(i,L(cols[i%cols.length]).multiplyScalar(1.15)); } confetti.instanceColor.needsUpdate=true; }
 function confettiCannon(side,cols,n){ for(let k=0;k<n;k++){ const i=confNext; confNext=(confNext+1)%CONF; const c=conf[i]; c.on=true; c.g=1; c.p.set(side*(4.6+Math.random()*.6),.3+Math.random()*.3,-1.4+(Math.random()-.5)*1.2); c.v.set(-side*(1.6+Math.random()*4.2),6+Math.random()*6,(Math.random()-.3)*2.4); c.w.set(3+Math.random()*8,3+Math.random()*8,Math.random()*5); confetti.setColorAt(i,L(cols[k%cols.length]).multiplyScalar(1.15)); } confetti.instanceColor.needsUpdate=true; }
 function stepConfetti(dt,t){ for(let i=0;i<CONF;i++){ const c=conf[i]; if(!c.on) continue; if(c.g){ c.v.y=Math.max(c.v.y-9*dt,-1.1); c.v.x*=1-1.4*dt; c.v.z*=1-1.4*dt; } c.p.addScaledVector(c.v,dt); c.p.x+=Math.sin(t*1.9+c.ph)*dt*.6; c.r.x+=c.w.x*dt; c.r.y+=c.w.y*dt; c.r.z+=c.w.z*dt;
   if(c.p.y<0.02){ c.p.y=0.02; c.v.set(0,0,0); c.w.set(0,0,0); c.r.x=-Math.PI/2; c.r.y=0; }
@@ -1972,6 +1972,16 @@ function run(tt){
   if(tt>10.8&&phase==="run") settle(true);
 }
 
+/* idea 2: encore volleys during the long face hold: top 3 three, top 10 two, top 20 one, top 50 and rank 51+ none. Fireworks
+   burst far behind the card and the confetti falls behind it, so nothing passes over the card text; the last volley ends
+   ENCORE_TAIL s before the scouting report turns in. */
+const ENCORE={ "black-blue-gold":[2.2,4.0,5.8], "blue-gold":[2.2,4.2], "gold":[2.4] }, ENCORE_TAIL=2.2;
+const encoreFor=(tier)=>(ENCORE[tier]||[]).filter(t=>t+ENCORE_TAIL<scoutInFor(tier));
+function encore(p,i){ const tc=TIER[p.tier].glow, lvl=tierLevel(p.tier), side=i%2?-1:1, cols=[tc,0xffffff,0xfff1c2,0xf1c35a];
+  [[.78,.5],[-.6,.42],[.55,.6],[-.8,.56]].forEach(([x,y],j)=>later(()=>starburst(skyPoint(side*x,y+(Math.random()-.5)*.08,-34),cols.concat(natCols(p.nation)),Math.round(52*PK*(.8+lvl*.1)),7.5,1.3),j*170));
+  confettiRain(natCols(p.nation).concat([0xf1c35a,0xfff3c4]),Math.round(110*PK),-6,6,3,4);
+  SFX.play("crowd",3,.55+lvl*.1); SFX.play("pops",3+lvl); }
+
 /* idea 8: rating count-up from 40, landing on the real number with a tick per step; quicker for a lower tier (.7 s at rank 51+,
    1.7 s for the top 3). A skip lands it at once. */
 let count=null, frontFull=false;
@@ -2028,6 +2038,8 @@ function tick(draw){
     if(!REDUCED&&Math.random()<dt*1.2){ const v=SHIELD[(Math.random()*SHIELD.length)|0]; emit(card.localToWorld(new T.Vector3(v[0]*1.03,v[1]*1.03,.08)),new T.Vector3(0,0,0),0xfff6d8,.45,.5,0,0,0); }
     
     if(!REDUCED&&k<1.6&&Math.random()<.6) [[-6.5,-6],[6.5,-6],[-3.2,-7],[3.2,-7]].forEach(([x,z])=>fountain(new T.Vector3(fitX(x,z),.1,z),0xfff1c2,1,8.5,.9));
+    /* idea 2: encore volleys while the face holds (late ones, after a tap to the report, are dropped) */
+    if(!REDUCED){ const ec=encoreFor(cur().tier); for(let i=0;i<ec.length;i++){ const t=ec[i]; if(k>=t&&!fired["enc"+i]){ fired["enc"+i]=1; if(k-t<.3&&k<SCOUT_IN-ENCORE_TAIL) encore(cur(),i); } } }
     if(idx===0&&k>(REDUCED?.2:SCOUT_END+.6)) startPlayer(1); }
   flags.forEach((f,i)=>{ if(!f.mesh.visible) return; f.drop+=(f.target-f.drop)*Math.min(1,dt*2.6); f.mesh.scale.y=Math.max(.001,f.drop);
     const a=f.mesh.geometry.attributes.position; for(let j=0;j<a.count;j++){ const x=f.base[j*3], y=f.base[j*3+1], d=-y/f.h; a.array[j*3+2]=(Math.sin(x*.9+now*2.2+i)*.5+Math.sin(y*.6+now*1.6+i*.5)*.35)*d; } a.needsUpdate=true; f.mesh.geometry.computeVertexNormals(); });
