@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28 10:55 PM Boston time (EDT)",
+ "generated": "2026-10-28 10:59 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 148,
@@ -1384,27 +1384,17 @@
  },
  "two": {
   "live": {
-   "sha": "ac2f021",
+   "sha": "a72fc64",
    "revision": "1.9.9-r85",
-   "when": "2026-10-28T22:51:36Z",
-   "subject": "Remove the Claude Console review workflows from main (#1034)",
-   "fixes": [
+   "when": "2026-10-29T02:55:07Z",
+   "subject": "SSJR 100: fix the credit recorder's main checks and record the 2026-10-29 run (#1041)",
+   "fixes": [],
+   "today": [
     {
      "pr": 1041,
      "title": "SSJR 100: fix the credit recorder's main checks and record the 2026-10-29 run",
-     "draft": false,
-     "branch": "claude-gameplay/ssjr-credit-gate-checks",
-     "sha": "5c2d6bb9907554ec82009eead5f1ee73f379a99f",
-     "updated": "2026-10-29T02:38:16Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    }
-   ],
-   "today": [
+     "merged": "2026-10-29T02:55:07Z"
+    },
     {
      "pr": 1034,
      "title": "Remove the Claude Console review workflows from main",
@@ -2039,7 +2029,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3255,22 +3245,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 1041,
-    "title": "SSJR 100: fix the credit recorder's main checks and record the 2026-10-29 run",
-    "draft": false,
-    "branch": "claude-gameplay/ssjr-credit-gate-checks",
-    "sha": "5c2d6bb9907554ec82009eead5f1ee73f379a99f",
-    "updated": "2026-10-29T02:38:16Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
