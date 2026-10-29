@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28 10:15 PM Boston time (EDT)",
+ "generated": "2026-10-28 10:19 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 148,
@@ -1388,7 +1388,22 @@
    "revision": "1.9.9-r85",
    "when": "2026-10-28T22:51:36Z",
    "subject": "Remove the Claude Console review workflows from main (#1034)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 1041,
+     "title": "SSJR credit: require today's Showdown Gate checks on main",
+     "draft": false,
+     "branch": "claude-gameplay/ssjr-credit-gate-checks",
+     "sha": "1543ec58772e46335f69978b001ffbafd81506ac",
+     "updated": "2026-10-29T02:18:25Z",
+     "gates": {
+      "passed": 0,
+      "running": 7,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": [
     {
      "pr": 1034,
@@ -2024,7 +2039,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3240,7 +3255,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 1041,
+    "title": "SSJR credit: require today's Showdown Gate checks on main",
+    "draft": false,
+    "branch": "claude-gameplay/ssjr-credit-gate-checks",
+    "sha": "1543ec58772e46335f69978b001ffbafd81506ac",
+    "updated": "2026-10-29T02:18:25Z",
+    "gates": {
+     "passed": 0,
+     "running": 7,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
