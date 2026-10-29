@@ -1,3 +1,5 @@
+**UPDATE 29 Oct 03:44 UTC (Nik): no people, no faces, nothing held in a hand.** The revolver lies on the felt, spins by itself like a bottle, stops pointing at a board on an easel, and fires. Build brief: `project-documents/factory/handoffs/CC-010_ROULETTE_NO_PEOPLE_FABLE.md`. Live pictures: 1851-5 ROOM, 1853-1 GUN_TOP, 1851-4 FLASH (1851-3 optional). Tickets 1851-1/2/6/7/8 and 1852-1..3 are dropped.
+
 # Roster Russian Roulette · Team V plan (HO-040, r87)
 
 Thu 29 Oct 2026, Team V thread "Make Roster Russian Roulette screen".
