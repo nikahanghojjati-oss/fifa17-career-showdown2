@@ -691,7 +691,7 @@ This is a MEGA run: you will write several normal batches in one reply. Ignore t
 - D n: kind n with all 8 lenses. Normal batch number = n + 5 x (lens - 1).
 - F n: situation n with all 4 flavours. Normal batch number = n + 24 x (flavour - 1).
 - G n: normal batches 2n - 1 and 2n.
-ALREADY DONE (skip these parts): A 1, B 1, B 2.
+ALREADY DONE (skip these parts): A 1, B 1, B 2, B 3.
 
 Each part follows every rule of the prompt below exactly as if it were its own run, with its own ids (from its normal batch number) and its own JSON object.
 
