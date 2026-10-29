@@ -11,7 +11,7 @@ Settings for all four: Claude Opus 5.5, effort High, Max tokens 64000. System bo
 | C. Front-page stories | 15 full stories with standfirst and pull quote | 76 | 1,140 | about $0.50 | about $40 |
 | D. Small print | 100 captions, quotes, trophy desk notes, ears or teasers | 40 | 4,000 | about $0.40 | about $16 |
 
-Best first round (about $40): B batches 1 to 24, A batches 1 to 19, C batches 1 to 19. That already gives every situation fresh copy. Run batch 1 of each first and send it, so I can check the quality before you run the rest.
+Best first round (about $40): B batches 1 to 24, A batches 1 to 19, C batches 1 to 19. That already gives every situation fresh copy. Prompt A batch 1 is checked and in (100 headlines, all rules passed). Run batch 1 of B, C and D first and send each, so I can check them before you run the rest.
 
 Why new commentary: the current 1,500 lines (r86) were written to old rules (Europa +3, Golden Showdown = 10 seasons, big win = 10+ points) and many repeat one opening with three endings. Prompt B uses the right rules and the same 24 situations, so it drops straight in.
 
@@ -106,7 +106,8 @@ BAD examples: "{winner} WINS THE SEASON" (flat), "A GREAT SEASON" (vague), "WON 
 
 SUBHEAD AND KICKER
 - "subhead": one sentence, 12 to 24 words, the plain news behind the headline in warm broadsheet English, using only the situation's allowed placeholders. Pay off the headline's idea, do not repeat its words. Numbers only through placeholders. No em dashes.
-- "kicker": 1 to 3 words in capitals for the black label above the headline. Use any one kicker at most 4 times.
+- "kicker": 1 to 3 words in capitals for the black label above the headline. Use any one kicker at most 4 times. A kicker is a newspaper section label (e.g. "SEASON REVIEW", "CABINET WATCH", "LATE EDITION"); never name the writing style ("WORDPLAY", "QUESTION", "PUN", "ALLITERATION" are banned).
+- Subhead variety: vary the sentence shape. At most 10 subheads may use "ahead of", at most 10 "clear of", and at most 25 may mention {seasonNo}. Some subheads lead with the club, some with the rival, some with a short image, then the news.
 
 WORK METHOD
 Think briefly; spend your effort on writing, not planning. Write all 100 in one pass, then check rules 1 to 4 quickly and fix what breaks them. Always finish all 100 rows and close the JSON.
