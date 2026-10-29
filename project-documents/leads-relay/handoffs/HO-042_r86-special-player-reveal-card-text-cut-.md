@@ -11,10 +11,10 @@
  "worker": "",
  "parent": "HO-035",
  "job": null,
- "status": "SENT",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-29T07:53:44Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-10-29T07:53:44Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-29T07:59:16Z", "by": "V", "status": "WORKING", "note": "Team V Big Jump owner fixing all three on factory special-player + preview"}],
  "from_session": "session_01GU43Q7tUFaokdEJ5951ioW"
 }
 ```
