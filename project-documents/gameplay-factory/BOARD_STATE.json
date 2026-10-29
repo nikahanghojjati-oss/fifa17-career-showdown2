@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28 10:33 PM Boston time (EDT)",
+ "generated": "2026-10-28 10:41 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 148,
@@ -1391,15 +1391,15 @@
    "fixes": [
     {
      "pr": 1041,
-     "title": "SSJR credit: require today's Showdown Gate checks on main",
+     "title": "SSJR 100: fix the credit recorder's main checks and record the 2026-10-29 run",
      "draft": false,
      "branch": "claude-gameplay/ssjr-credit-gate-checks",
-     "sha": "1543ec58772e46335f69978b001ffbafd81506ac",
-     "updated": "2026-10-29T02:22:10Z",
+     "sha": "5c2d6bb9907554ec82009eead5f1ee73f379a99f",
+     "updated": "2026-10-29T02:38:16Z",
      "gates": {
-      "passed": 5,
-      "running": 1,
-      "failed": 1,
+      "passed": 1,
+      "running": 6,
+      "failed": 0,
       "cancelled": 0
      }
     }
@@ -1415,7 +1415,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #1041: L1✓ L2… L3A✓ L3B✓ L4✓ L5✓ L6✗ · seal pending · POS20 #1041 0/16",
+   "gate": "Gate #1041: L1… L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #1041 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -3258,15 +3258,15 @@
   "fixes": [
    {
     "pr": 1041,
-    "title": "SSJR credit: require today's Showdown Gate checks on main",
+    "title": "SSJR 100: fix the credit recorder's main checks and record the 2026-10-29 run",
     "draft": false,
     "branch": "claude-gameplay/ssjr-credit-gate-checks",
-    "sha": "1543ec58772e46335f69978b001ffbafd81506ac",
-    "updated": "2026-10-29T02:22:10Z",
+    "sha": "5c2d6bb9907554ec82009eead5f1ee73f379a99f",
+    "updated": "2026-10-29T02:38:16Z",
     "gates": {
-     "passed": 5,
-     "running": 1,
-     "failed": 1,
+     "passed": 1,
+     "running": 6,
+     "failed": 0,
      "cancelled": 0
     }
    }

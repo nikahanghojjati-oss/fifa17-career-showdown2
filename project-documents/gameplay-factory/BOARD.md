@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 28 Oct, 10:33 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 28 Oct, 10:42 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.9-r85** (main `ac2f021`, Wed 28 Oct 6:51 PM)
 
-🩺 **All clear: every check has a machine.** · Gate #1041: L1✓ L2… L3A✓ L3B✓ L4✓ L5✓ L6✗ · seal pending · POS20 #1041 0/16
+🩺 **All clear: every check has a machine.** · Gate #1041: L1… L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #1041 0/16
 
 ## Jobs
 
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1041](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1041) | SSJR credit: require today's Showdown Gate checks on main | 🔴 5 passed, 1 running, 1 failed |
+| 🟧 Team G lead | [PR #1041](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1041) | SSJR 100: fix the credit recorder's main checks and record the 2026-10-29 run | ⏳ 1 passed, 6 running |
 
 **Up next**
 
