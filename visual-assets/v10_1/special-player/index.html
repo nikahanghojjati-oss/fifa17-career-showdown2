@@ -1995,7 +1995,7 @@ function run(tt){
     [-.85,-.55,-.2,.2,.55,.85].forEach((x,i)=>later(()=>starburst(skyPoint(x,.38+Math.random()*.22,-36),[tc,0xffffff,0xfff1c2].concat(nat),Math.round(44*pw),8,1.4),i*120)); });
   if(tt>9.6&&tt<12.2) [[-6.5,-6],[6.5,-6],[-3.2,-7],[3.2,-7]].forEach(([x,z])=>fountain(new T.Vector3(fitX(x,z),.1,z),Math.random()<.5?0xfff1c2:0xffffff,Math.round(3*pw)+1,8.5,.9));
   /* idea 1: the tier glow grows behind the card (depth-hidden by it, so never over its text) into the burst, then hands over */
-  aura.visible=cres>0&&tt>8.0&&tt<10.3; if(aura.visible){ const a=ease.inOut(S(8.0,1.6,tt)); aura.material.color.copy(L(tc)).multiplyScalar(1.5); aura.scale.setScalar((3.4+lvl*1.1)*(.5+cres*.5)*(.3+a*.7)*(1+S(9.6,.7,tt)*.4)); aura.material.opacity=(.4+.5*cres)*a*(1-S(9.6,.7,tt)); }
+  aura.visible=cres>0&&tt>8.0&&tt<10.3; if(aura.visible){ const a=ease.inOut(S(8.0,1.6,tt)); aura.material.color.copy(L(tc)).multiplyScalar(1.5); aura.scale.setScalar((3.4+lvl*1.1)*(.5+cres*.5)*(.3+a*.7)*(1+S(9.6,.7,tt)*.4)); aura.material.opacity=(.4+.5*cres)*a*(1-S(9.6,.7,tt))*(lvl>=3?.67:1); } /* top 3/top 10 blue: a third lighter so the stands stay readable */
   const gs=S(9.6,1.2,tt); if(gs>0&&gs<1){ const s=Math.sin(gs*Math.PI)*8*pw; glow.scale.set(s,s,1); glow.material.opacity=(1-gs)*.6; } else if(gb<=0||gb>=1) glow.scale.set(0,0,1);
   if(tt>9.6){ rays.material.opacity=lerp(.5,.16,S(9.6,2,tt)); rays.material.color.copy(L(tc)).multiplyScalar(.35); rays.rotation.z=tt*.06; }
   if(tt>10.3&&tt<11.2) sheenMat.uniforms.p.value=lerp(-2.6,2.6,(tt-10.3)/.9);
