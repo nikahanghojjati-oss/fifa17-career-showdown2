@@ -1,0 +1,409 @@
+{
+ "batch": 16,
+ "situation": "halfway",
+ "voice": "The lead caller",
+ "edited": true,
+ "writer": "claude-sonnet-helper",
+ "lines": [
+  {
+   "id": "cb16-001",
+   "text": "The turn is here, and {leader} reaches it in front, with {trailer} close enough to hear every footstep."
+  },
+  {
+   "id": "cb16-002",
+   "text": "Halfway through the Showdown, and nothing is settled, nothing at all!"
+  },
+  {
+   "id": "cb16-003",
+   "text": "The halfway flag flashes by, and {leader} carries a lead of {margin} through it!"
+  },
+  {
+   "id": "cb16-004",
+   "text": "We have reached the middle, and {trailer} still has everything to play for."
+  },
+  {
+   "id": "cb16-005",
+   "text": "Season {season} of {seasons} is done, and this rivalry is only now finding its voice!"
+  },
+  {
+   "id": "cb16-006",
+   "text": "{leader} rounds the midpoint in front, but there is a long road yet, and {trailer} knows every bend of it."
+  },
+  {
+   "id": "cb16-007",
+   "text": "Look at what {winnerClub} and {loserClub} have built, and look at how much road is left!"
+  },
+  {
+   "id": "cb16-008",
+   "text": "The first chapter is closed, and the second begins with {trailer} refusing to blink."
+  },
+  {
+   "id": "cb16-009",
+   "text": "Up at the top sits {leader}, and the footsteps behind keep getting louder."
+  },
+  {
+   "id": "cb16-010",
+   "text": "Halfway, and the whole thing is still up for grabs. Settle in, everybody!"
+  },
+  {
+   "id": "cb16-011",
+   "text": "The first climb is over, {leader} stands highest on it, and the mountain goes on."
+  },
+  {
+   "id": "cb16-012",
+   "text": "Middle of the Showdown, and both {winnerClub} and {loserClub} know the second half is the one that gets remembered."
+  },
+  {
+   "id": "cb16-013",
+   "text": "The interval whistle sounds, and {trailer} heads for the tunnel with unfinished business."
+  },
+  {
+   "id": "cb16-014",
+   "text": "{leader} leads by {margin} at the halfway mark, and {trailer} has plenty of road left to close it!"
+  },
+  {
+   "id": "cb16-015",
+   "text": "Two managers, one long road, and the halfway sign has just flashed past!"
+  },
+  {
+   "id": "cb16-016",
+   "text": "Here is the watershed of the Showdown, and everything from here runs downhill toward a champion."
+  },
+  {
+   "id": "cb16-017",
+   "text": "Half the seasons are gone, half remain, and {trailer} has not said the last word."
+  },
+  {
+   "id": "cb16-018",
+   "text": "Same race, same road, and {leader} gets to the midpoint with a spring in the step!"
+  },
+  {
+   "id": "cb16-019",
+   "text": "You can feel the weight of it now, {trailer}. The second half is coming, and it belongs to nobody yet."
+  },
+  {
+   "id": "cb16-020",
+   "text": "The halfway marker, and {leader} is first to touch it by {margin}!"
+  },
+  {
+   "id": "cb16-021",
+   "text": "A hinge in the Showdown, and {winnerClub} and {loserClub} are standing right on it."
+  },
+  {
+   "id": "cb16-022",
+   "text": "If you thought this was a warm-up, think again, because the halfway mark has arrived!"
+  },
+  {
+   "id": "cb16-023",
+   "text": "{trailer} has a whole stretch of seasons to rewrite the story, and {leader} knows it."
+  },
+  {
+   "id": "cb16-024",
+   "text": "Season {season} turns the page, and the story is nowhere near finished!"
+  },
+  {
+   "id": "cb16-025",
+   "text": "That is the halfway bell, and the real contest starts right now!"
+  },
+  {
+   "id": "cb16-026",
+   "text": "Clear skies at the midpoint, {leader} out in front, and a long, open road for the chase."
+  },
+  {
+   "id": "cb16-027",
+   "text": "Both consoles are warm, both managers hungry, and the Showdown has only just reached its heart!"
+  },
+  {
+   "id": "cb16-028",
+   "text": "{leader} by {margin} at the break, and the second half will be played for every inch of it!"
+  },
+  {
+   "id": "cb16-029",
+   "text": "Pause for breath, because the Showdown has reached the halfway point and it has barely started!"
+  },
+  {
+   "id": "cb16-030",
+   "text": "The rivalry stands {margin} apart at the midpoint, with {leader} in front, and the road ahead can change all of it."
+  },
+  {
+   "id": "cb16-031",
+   "text": "The cabinet has room, the road has length, and {winnerClub} and {loserClub} stand in the middle of it all!"
+  },
+  {
+   "id": "cb16-032",
+   "text": "Halfway house for {leader}, and somebody is already knocking at the door."
+  },
+  {
+   "id": "cb16-033",
+   "text": "Not a final, not an ending, only the halfway line, and what a rivalry we have!"
+  },
+  {
+   "id": "cb16-034",
+   "text": "This is where Showdowns are won and lost, in the long middle, and {trailer} is still very much here."
+  },
+  {
+   "id": "cb16-035",
+   "text": "{leader} may be ahead at the midpoint, but {trailer} has a way of turning a quiet season into a loud one."
+  },
+  {
+   "id": "cb16-036",
+   "text": "Right in the center of the road, and nobody is looking for the exits!"
+  },
+  {
+   "id": "cb16-037",
+   "text": "At the halfway point, {winnerClub} and {loserClub} are going nowhere, and neither is the tension!"
+  },
+  {
+   "id": "cb16-038",
+   "text": "Take a good look at where we are, because the run home will not wait for anyone."
+  },
+  {
+   "id": "cb16-039",
+   "text": "The bridge is crossed, season {season} is behind us, and the far bank is a long way off."
+  },
+  {
+   "id": "cb16-040",
+   "text": "Halfway there, and {trailer} has seen enough to believe the second half is theirs."
+  },
+  {
+   "id": "cb16-041",
+   "text": "What a first half it has been between these two, and the second is still a blank page!"
+  },
+  {
+   "id": "cb16-042",
+   "text": "{leader} holds the high ground at the midpoint, and the climb goes on for the chaser."
+  },
+  {
+   "id": "cb16-043",
+   "text": "We are at the heart of the Showdown, where the pressure sits heavy and the smiles get thinner!"
+  },
+  {
+   "id": "cb16-044",
+   "text": "Half the road behind them, half still ahead, and neither manager has taken a step back."
+  },
+  {
+   "id": "cb16-045",
+   "text": "The compass at the midpoint points to {leader}, but compasses have been known to swing."
+  },
+  {
+   "id": "cb16-046",
+   "text": "A lead of {margin} for {leader} is something at the halfway mark, but it is not everything."
+  },
+  {
+   "id": "cb16-047",
+   "text": "Look at {leader}, strolling into the back half like they own the place!"
+  },
+  {
+   "id": "cb16-048",
+   "text": "Under the lights of the middle season, {winnerClub} and {loserClub} wait for what comes next."
+  },
+  {
+   "id": "cb16-049",
+   "text": "There is no hiding place at the halfway mark, and {trailer} would not look for one."
+  },
+  {
+   "id": "cb16-050",
+   "text": "It is a long haul, and here is the milestone: the middle of {seasons} seasons, passed!"
+  },
+  {
+   "id": "cb16-051",
+   "text": "Rest if you like, {leader}, but {trailer} has not stopped moving."
+  },
+  {
+   "id": "cb16-052",
+   "text": "The Showdown has turned its corner, and what a view it offers from here!"
+  },
+  {
+   "id": "cb16-053",
+   "text": "Somewhere in the second half is a champion, and {trailer} fully intends to be one."
+  },
+  {
+   "id": "cb16-054",
+   "text": "Hold on to your seats, because the halfway point is only the start of the hard part!"
+  },
+  {
+   "id": "cb16-055",
+   "text": "The golden hour of the Showdown has arrived, and the second half will be remembered long after the first."
+  },
+  {
+   "id": "cb16-056",
+   "text": "Not a word wasted at the midpoint, just {leader} getting ready for whatever comes next."
+  },
+  {
+   "id": "cb16-057",
+   "text": "The tide has turned at the halfway mark, and nobody on the shore can say which way it runs."
+  },
+  {
+   "id": "cb16-058",
+   "text": "A meeting at the midway point for {winnerClub} and {loserClub}, with the best of the road still ahead!"
+  },
+  {
+   "id": "cb16-059",
+   "text": "Strap in, because the middle of a Showdown is where reputations get made."
+  },
+  {
+   "id": "cb16-060",
+   "text": "{trailer} knows the second half is long, and {leader} knows how quickly long can turn short."
+  },
+  {
+   "id": "cb16-061",
+   "text": "Listen to that quiet in the dugout, {trailer}. It is the sound of a second half being planned."
+  },
+  {
+   "id": "cb16-062",
+   "text": "A lap of the track behind us, another to go, and {leader} has the inside line!"
+  },
+  {
+   "id": "cb16-063",
+   "text": "Something has to give in the second half, and neither {winnerClub} nor {loserClub} plans to flinch first."
+  },
+  {
+   "id": "cb16-064",
+   "text": "The lights are on, the cup is empty, and the middle of the Showdown is where it starts to fill!"
+  },
+  {
+   "id": "cb16-065",
+   "text": "Past the halfway post, and {leader} can hear the footsteps getting louder behind!"
+  },
+  {
+   "id": "cb16-066",
+   "text": "Settle the nerves, {leader}. {trailer} certainly has."
+  },
+  {
+   "id": "cb16-067",
+   "text": "It has been a fine first half, and the second may be finer still!"
+  },
+  {
+   "id": "cb16-068",
+   "text": "They could not have scripted a better midpoint, and nobody knows how it ends!"
+  },
+  {
+   "id": "cb16-069",
+   "text": "The long season keeps rolling on, and at the midpoint {leader} has the better view."
+  },
+  {
+   "id": "cb16-070",
+   "text": "Plenty of road, plenty of time, and {trailer} has a plan up the sleeve."
+  },
+  {
+   "id": "cb16-071",
+   "text": "The ribbons are not tied yet, and the halfway mark says there is a lot of tying left to do!"
+  },
+  {
+   "id": "cb16-072",
+   "text": "Somewhere out there is an open-top bus, and the halfway mark says it is still a long drive away!"
+  },
+  {
+   "id": "cb16-073",
+   "text": "A sharp breath at the halfway point, and then off they go again, with {trailer} setting the pace."
+  },
+  {
+   "id": "cb16-074",
+   "text": "This could still go anywhere, and that is the best thing about the middle!"
+  },
+  {
+   "id": "cb16-075",
+   "text": "{leader} can look back with pride and forward with caution, because {trailer} is right there."
+  },
+  {
+   "id": "cb16-076",
+   "text": "The midpoint brings its own kind of quiet, and then {trailer} comes charging out of it!"
+  },
+  {
+   "id": "cb16-077",
+   "text": "Mark this spot, because the tale of this Showdown will bend around it."
+  },
+  {
+   "id": "cb16-078",
+   "text": "Smart money says it is close, wise money says it is open, and {winnerClub} and {loserClub} say nothing at all!"
+  },
+  {
+   "id": "cb16-079",
+   "text": "A fine first half, a better second half to come, and the whole rivalry is leaning in!"
+  },
+  {
+   "id": "cb16-080",
+   "text": "The leader sets the pace, {trailer} sets the problem, and the next stretch sets the stage!"
+  },
+  {
+   "id": "cb16-081",
+   "text": "There is as much Showdown ahead as behind, and {trailer} likes the sound of that."
+  },
+  {
+   "id": "cb16-082",
+   "text": "Silence in the console room, a long breath, and then the second half begins!"
+  },
+  {
+   "id": "cb16-083",
+   "text": "They have reached the plateau, the midpoint, and every step after it will be watched twice as closely!"
+  },
+  {
+   "id": "cb16-084",
+   "text": "{winnerClub} and {loserClub} have given us a first half for the ages, and we still have the second!"
+  },
+  {
+   "id": "cb16-085",
+   "text": "Rivals at the halfway mark, friends at the final whistle, and plenty of football in the middle!"
+  },
+  {
+   "id": "cb16-086",
+   "text": "Sit back and enjoy it, folks, because {leader} versus {trailer} is nowhere near done."
+  },
+  {
+   "id": "cb16-087",
+   "text": "You do not reach the halfway mark without a few scars, {trailer}, and you do not stop either."
+  },
+  {
+   "id": "cb16-088",
+   "text": "A gap of {margin} at the midpoint, and {trailer} will be eyeing it all through the second half!"
+  },
+  {
+   "id": "cb16-089",
+   "text": "For {leader}, the halfway mark brings a smile. For {trailer}, it brings a plan."
+  },
+  {
+   "id": "cb16-090",
+   "text": "The road bends here, the light changes, and the Showdown steps into its second half!"
+  },
+  {
+   "id": "cb16-091",
+   "text": "What a place to stand, right in the middle of a great rivalry!"
+  },
+  {
+   "id": "cb16-092",
+   "text": "Hearts in mouths, fingers on the buttons, and the halfway mark just behind us!"
+  },
+  {
+   "id": "cb16-093",
+   "text": "{leader} leads, {trailer} lurks, and the second half arrives like a held breath let go!"
+  },
+  {
+   "id": "cb16-094",
+   "text": "The middle of the Showdown is never loud, but it is always loaded."
+  },
+  {
+   "id": "cb16-095",
+   "text": "A gap, two managers, and a second half that could swing any which way!"
+  },
+  {
+   "id": "cb16-096",
+   "text": "It is the halfway mark, and the story so far is a good one, with {trailer} still to write the next page."
+  },
+  {
+   "id": "cb16-097",
+   "text": "The midpoint arrives, and {leader} meets it eye to eye, without a blink!"
+  },
+  {
+   "id": "cb16-098",
+   "text": "Midpoint reached, {margin} on the board, and the second half waiting like a door left ajar!"
+  },
+  {
+   "id": "cb16-099",
+   "text": "Between the first whistle and the last, this is the moment the Showdown takes a deep breath."
+  },
+  {
+   "id": "cb16-100",
+   "text": "Halfway up the staircase, {leader} on the higher step and the chase still climbing behind!"
+  }
+ ]
+}

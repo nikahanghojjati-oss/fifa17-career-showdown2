@@ -1,0 +1,409 @@
+{
+  "batch": 19,
+  "situation": "showdown-drawn",
+  "voice": "The lead caller",
+  "edited": true,
+  "writer": "claude-sonnet-helper",
+  "lines": [
+    {
+      "id": "cb19-001",
+      "text": "Done, and the verdict is a handshake! {managerA} and {managerB} cannot be split!"
+    },
+    {
+      "id": "cb19-002",
+      "text": "Nobody wins it, nobody loses it, and {clubA} and {clubB} walk off together!"
+    },
+    {
+      "id": "cb19-003",
+      "text": "Level at the very end! {managerA} matched the rival stride for stride, right to the line!"
+    },
+    {
+      "id": "cb19-004",
+      "text": "Winner? There isn't one, because this Showdown refuses to pick a side."
+    },
+    {
+      "id": "cb19-005",
+      "text": "What a way to finish: a perfect stalemate between old friends, and nobody can complain!"
+    },
+    {
+      "id": "cb19-006",
+      "text": "On one shoulder {clubA}, on the other {clubB}, and the scales will not tip!"
+    },
+    {
+      "id": "cb19-007",
+      "text": "They came to settle it, and they leave it settled the only fair way: together."
+    },
+    {
+      "id": "cb19-008",
+      "text": "Dead level on the line, {managerA}! {managerB} would not let go for a single season!"
+    },
+    {
+      "id": "cb19-009",
+      "text": "Nothing to separate {clubA} from {clubB} when it matters most, and what a story that is."
+    },
+    {
+      "id": "cb19-010",
+      "text": "Shared sunrise at the end of a long road, and {managerA} wears it as proudly as anyone."
+    },
+    {
+      "id": "cb19-011",
+      "text": "Stand and applaud the pair of them, because neither blinked!"
+    },
+    {
+      "id": "cb19-012",
+      "text": "No winner today, but a rivalry that just got deeper, and that is worth more than silverware."
+    },
+    {
+      "id": "cb19-013",
+      "text": "Level on {points} apiece, and the Showdown closes with a smile."
+    },
+    {
+      "id": "cb19-014",
+      "text": "Pull the ribbons off both ends of the table, because {clubB} and {clubA} finish as equals."
+    },
+    {
+      "id": "cb19-015",
+      "text": "This one goes to nobody, and somehow that feels exactly right."
+    },
+    {
+      "id": "cb19-016",
+      "text": "{managerB} looks across at the rival, the rival looks back, and there is nothing but respect."
+    },
+    {
+      "id": "cb19-017",
+      "text": "History will write one word beside this Showdown: level!"
+    },
+    {
+      "id": "cb19-018",
+      "text": "After all that, after every season, {clubA} and {clubB} are still inseparable."
+    },
+    {
+      "id": "cb19-019",
+      "text": "Both cabinets are full of stories, and neither can claim the last page."
+    },
+    {
+      "id": "cb19-020",
+      "text": "Rarest ending of all, a dead heat, and {managerB} has made it theirs."
+    },
+    {
+      "id": "cb19-021",
+      "text": "Call it what it is: a masterpiece of balance from {managerA} and {managerB}."
+    },
+    {
+      "id": "cb19-022",
+      "text": "Final whistle, and neither {clubA} nor {clubB} has been beaten!"
+    },
+    {
+      "id": "cb19-023",
+      "text": "Hardly a hair between them. This is as close as a Showdown can get."
+    },
+    {
+      "id": "cb19-024",
+      "text": "Put the champagne away, or open it for everyone, because {managerA} shares this one."
+    },
+    {
+      "id": "cb19-025",
+      "text": "Honors even in the end, and {clubB} can hold its head high beside {clubA}."
+    },
+    {
+      "id": "cb19-026",
+      "text": "They traded blows season after season, and the table finally says what the rivalry always knew: equal!"
+    },
+    {
+      "id": "cb19-027",
+      "text": "Level, level, level. {managerA} has run this Showdown to a standstill."
+    },
+    {
+      "id": "cb19-028",
+      "text": "What are the odds? A whole Showdown, and not a point between {clubA} and {clubB}!"
+    },
+    {
+      "id": "cb19-029",
+      "text": "This is the sort of ending you tell your grandchildren about, and nobody even lost."
+    },
+    {
+      "id": "cb19-030",
+      "text": "{managerA}, take a bow. {managerB}, take a bow. This Showdown has no winner and no loser!"
+    },
+    {
+      "id": "cb19-031",
+      "text": "Different clubs, one finish line, and they cross it together."
+    },
+    {
+      "id": "cb19-032",
+      "text": "Rivalry this good deserves an ending this fair, and {clubA} and {clubB} have delivered it!"
+    },
+    {
+      "id": "cb19-033",
+      "text": "Quiet follows, full of respect for {managerB}, and the Showdown stays level."
+    },
+    {
+      "id": "cb19-034",
+      "text": "Absolutely nothing in it at the finish, {points} each."
+    },
+    {
+      "id": "cb19-035",
+      "text": "Old friends wrote this story, and the last line reads: shared!"
+    },
+    {
+      "id": "cb19-036",
+      "text": "Neither crown nor collapse, just {managerA} and {managerB} meeting exactly in the middle!"
+    },
+    {
+      "id": "cb19-037",
+      "text": "Always going to come down to the wire, and the wire says: both!"
+    },
+    {
+      "id": "cb19-038",
+      "text": "From the first season to the last, {clubA} never let {clubB} go, and here is the proof!"
+    },
+    {
+      "id": "cb19-039",
+      "text": "Break out the biggest smile you have. Nothing between {managerA} and {managerB} at the finish."
+    },
+    {
+      "id": "cb19-040",
+      "text": "Finish for the ages, and the age-old question has the same answer: neither!"
+    },
+    {
+      "id": "cb19-041",
+      "text": "No one climbs the podium alone this time, {managerB}."
+    },
+    {
+      "id": "cb19-042",
+      "text": "Books balance at last, and {clubA} and {clubB} sign the page together!"
+    },
+    {
+      "id": "cb19-043",
+      "text": "Quiet falls, then it sinks in: this Showdown is a draw, and {clubA} is fine with that!"
+    },
+    {
+      "id": "cb19-044",
+      "text": "Imagine the effort it takes to finish exactly level. {managerA} just did it."
+    },
+    {
+      "id": "cb19-045",
+      "text": "All that fight and all that glory, and it ends on a hug instead of a hoist."
+    },
+    {
+      "id": "cb19-046",
+      "text": "Neither flag goes up the pole, and honestly, who needs one?"
+    },
+    {
+      "id": "cb19-047",
+      "text": "If you wanted a hero, you will have to share one. {managerA} and {managerB} are the story!"
+    },
+    {
+      "id": "cb19-048",
+      "text": "Final page turns, and {clubB} and {clubA} are still locked together!"
+    },
+    {
+      "id": "cb19-049",
+      "text": "Stalemate, and what a glorious one! Not a point of daylight between them!"
+    },
+    {
+      "id": "cb19-050",
+      "text": "{clubA} can look {clubB} in the eye, and {clubB} can look right back."
+    },
+    {
+      "id": "cb19-051",
+      "text": "Could have broken either way, and it broke neither. A draw, and a deserved one."
+    },
+    {
+      "id": "cb19-052",
+      "text": "{managerA} will say they should have won it, {managerB} will say the same, and both are right!"
+    },
+    {
+      "id": "cb19-053",
+      "text": "When the dust settles, there are no losers standing, only {clubA} and {clubB}, shoulder to shoulder."
+    },
+    {
+      "id": "cb19-054",
+      "text": "Honest to goodness, you could not slide a sheet of paper between them!"
+    },
+    {
+      "id": "cb19-055",
+      "text": "This Showdown ends the way the best friendships do, with nobody ahead."
+    },
+    {
+      "id": "cb19-056",
+      "text": "Sign-off time, and the rivalry stays alive because nobody got the last word!"
+    },
+    {
+      "id": "cb19-057",
+      "text": "Even the trophy cabinet looks confused. {managerA} is dead level with the rival!"
+    },
+    {
+      "id": "cb19-058",
+      "text": "Glory is shared and honor is intact, and {clubA} walks away smiling."
+    },
+    {
+      "id": "cb19-059",
+      "text": "They said somebody would crack. Nobody did. The Showdown ends level."
+    },
+    {
+      "id": "cb19-060",
+      "text": "Photo finish, and the photograph shows {managerA} and {managerB} arm in arm!"
+    },
+    {
+      "id": "cb19-061",
+      "text": "Nobody ordered this ending, but everybody will remember it."
+    },
+    {
+      "id": "cb19-062",
+      "text": "Neither side blinked, neither side broke, and {clubB} stands as an equal of {clubA}."
+    },
+    {
+      "id": "cb19-063",
+      "text": "Everything this Showdown had, and one last gift to finish: a draw!"
+    },
+    {
+      "id": "cb19-064",
+      "text": "Hand on heart, {managerB}, you could not have asked for a closer fight!"
+    },
+    {
+      "id": "cb19-065",
+      "text": "Season after season it ebbed and flowed, and in the end the tide went out exactly level."
+    },
+    {
+      "id": "cb19-066",
+      "text": "Let it ring out across the living room: no winner, no loser, and a rivalry still going strong."
+    },
+    {
+      "id": "cb19-067",
+      "text": "All square! Nothing can separate {clubA} from {clubB}, not even a whole Showdown!"
+    },
+    {
+      "id": "cb19-068",
+      "text": "And that, ladies and gentlemen, is a draw, shared by {managerA} and {managerB}!"
+    },
+    {
+      "id": "cb19-069",
+      "text": "Perfectly balanced, and not by accident. {managerB} earned every bit of this."
+    },
+    {
+      "id": "cb19-070",
+      "text": "{managerA} holds the line, {managerB} holds the line, and the line holds!"
+    },
+    {
+      "id": "cb19-071",
+      "text": "No open-top bus for either side, but {clubA} and {clubB} can share the road home."
+    },
+    {
+      "id": "cb19-072",
+      "text": "Another Showdown, another classic, and this time the finish is shared."
+    },
+    {
+      "id": "cb19-073",
+      "text": "Look at the final tally and look again. It still says level!"
+    },
+    {
+      "id": "cb19-074",
+      "text": "A draw like this is no failure of nerve; it is a monument to {managerA} and {managerB}."
+    },
+    {
+      "id": "cb19-075",
+      "text": "Give them all the applause, because this Showdown has left nothing to choose between {clubA} and {clubB}."
+    },
+    {
+      "id": "cb19-076",
+      "text": "Neither name goes on the roll of honor alone, and that is a rare sight indeed."
+    },
+    {
+      "id": "cb19-077",
+      "text": "Took every season to find out, and the answer is: they are the same!"
+    },
+    {
+      "id": "cb19-078",
+      "text": "Everything {clubA} had and everything {clubB} had came out exactly even."
+    },
+    {
+      "id": "cb19-079",
+      "text": "Settled, finally, and settled in the fairest way possible. Level!"
+    },
+    {
+      "id": "cb19-080",
+      "text": "Some stories end with a roar. This one ends with a long, warm sigh from {managerB}."
+    },
+    {
+      "id": "cb19-081",
+      "text": "The wait is over and the answer is a shrug, a grin, and a raised glass from {managerA}."
+    },
+    {
+      "id": "cb19-082",
+      "text": "If this Showdown were a boxing match, the judges would throw up their hands!"
+    },
+    {
+      "id": "cb19-083",
+      "text": "You could not write it, and nobody would believe it if you did: {clubA} and {clubB}, level to the last!"
+    },
+    {
+      "id": "cb19-084",
+      "text": "No trophy to lift today, but plenty to be proud of, {managerA}."
+    },
+    {
+      "id": "cb19-085",
+      "text": "The headline writes itself, and it says level! {managerB} may want it framed!"
+    },
+    {
+      "id": "cb19-086",
+      "text": "Remember this one, because a Showdown this tight does not come around often."
+    },
+    {
+      "id": "cb19-087",
+      "text": "{managerB} pushed, {managerA} pushed back, and the Showdown stood perfectly still."
+    },
+    {
+      "id": "cb19-088",
+      "text": "It ends the way it began, with rivals and a point to prove, and neither proved it more than the other."
+    },
+    {
+      "id": "cb19-089",
+      "text": "What a standoff! {clubA} against {clubB} until the very last second, and nothing in it!"
+    },
+    {
+      "id": "cb19-090",
+      "text": "The great Showdown finishes in a dead heat, and it is a thing of beauty!"
+    },
+    {
+      "id": "cb19-091",
+      "text": "If there is a sweeter way to end a rivalry than level, nobody has found it!"
+    },
+    {
+      "id": "cb19-092",
+      "text": "They set out to settle it, and the answer comes back the same for both: level."
+    },
+    {
+      "id": "cb19-093",
+      "text": "Deserved to win it, {managerA} did. So did {managerB}. The Showdown agreed with both!"
+    },
+    {
+      "id": "cb19-094",
+      "text": "Close the book gently, because this chapter belongs to {clubA} and {clubB} equally."
+    },
+    {
+      "id": "cb19-095",
+      "text": "And there it is, the draw nobody could call and everybody will remember!"
+    },
+    {
+      "id": "cb19-096",
+      "text": "A mountain climbed together, and the summit has room for {managerA} and {managerB}!"
+    },
+    {
+      "id": "cb19-097",
+      "text": "Over {seasons} seasons they could not be parted, and now they never will be!"
+    },
+    {
+      "id": "cb19-098",
+      "text": "The last word on this Showdown is not a name. It is a draw!"
+    },
+    {
+      "id": "cb19-099",
+      "text": "Shake hands, {managerA}, and let the next Showdown begin whenever you are ready!"
+    },
+    {
+      "id": "cb19-100",
+      "text": "Sit back, breathe out, and savor it, because {clubA} and {clubB} have given us a dead-even classic!"
+    }
+  ]
+}

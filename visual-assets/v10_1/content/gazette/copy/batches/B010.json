@@ -1,0 +1,385 @@
+{
+ "batch": 10,
+ "situation": "comeback",
+ "voice": "The lead caller",
+ "edited": true,
+ "writer": "claude-sonnet-helper",
+ "lines": [
+  {
+   "id": "cb10-001",
+   "text": "Behind for so long, and look at {winner} now! This season has turned the race on its head."
+  },
+  {
+   "id": "cb10-002",
+   "text": "That is how you answer a bad spell. {winnerClub} take the season, and the gap is closing fast!"
+  },
+  {
+   "id": "cb10-003",
+   "text": "{loser} can hear footsteps now. {winner} has won the season, and the lead no longer feels safe."
+  },
+  {
+   "id": "cb10-004",
+   "text": "The comeback is on. Quiet at first, then all at once, and {winnerClub} are right back in it!"
+  },
+  {
+   "id": "cb10-005",
+   "text": "Down but never out, and {winner} proves it with a season nobody else could touch."
+  },
+  {
+   "id": "cb10-006",
+   "text": "There was a stage when this looked finished. {winner} clearly never got the message."
+  },
+  {
+   "id": "cb10-007",
+   "text": "{loser} holds the lead, but {winner} holds the momentum, and that is a dangerous thing to leave lying around."
+  },
+  {
+   "id": "cb10-008",
+   "text": "Hold on, this race is not over! {winner} has dragged it back into the light."
+  },
+  {
+   "id": "cb10-009",
+   "text": "Written off in the early going, and what a response from {winnerClub}!"
+  },
+  {
+   "id": "cb10-010",
+   "text": "Not so long ago, {winner} was looking up at the leader. Today the view is much better."
+  },
+  {
+   "id": "cb10-011",
+   "text": "They said the lead was safe. {winnerClub} have just politely disagreed."
+  },
+  {
+   "id": "cb10-012",
+   "text": "Proper fightback from {winner}, built a season at a time and delivered when it mattered!"
+  },
+  {
+   "id": "cb10-013",
+   "text": "Suddenly the Showdown is interesting again, and {winner} is the reason why!"
+  },
+  {
+   "id": "cb10-014",
+   "text": "{loser} was out in front, but {winnerClub} have won the season and made it a contest!"
+  },
+  {
+   "id": "cb10-015",
+   "text": "Climbing, climbing, and still climbing! {winner} refuses to let this one drift away."
+  },
+  {
+   "id": "cb10-016",
+   "text": "Momentum has swapped sides, and {winnerClub} will take every ounce of it!"
+  },
+  {
+   "id": "cb10-017",
+   "text": "A little patience, a lot of belief, and {winner} has a season win to show for it."
+  },
+  {
+   "id": "cb10-018",
+   "text": "Remember who was ahead? {loser} does, and keeps glancing over a shoulder."
+  },
+  {
+   "id": "cb10-019",
+   "text": "Season {season} belongs to {winner}, and a race that looked settled is suddenly wide open!"
+  },
+  {
+   "id": "cb10-020",
+   "text": "What a way to chip away at a deficit. {winnerClub} take the season and the leader feels the draught."
+  },
+  {
+   "id": "cb10-021",
+   "text": "{winner} goes to bed behind and wakes up a whole lot closer. What a season!"
+  },
+  {
+   "id": "cb10-022",
+   "text": "A season of real character from {winnerClub}, and the leader had better check the mirrors!"
+  },
+  {
+   "id": "cb10-023",
+   "text": "The deficit did not frighten {winner}. It lit a fire instead."
+  },
+  {
+   "id": "cb10-024",
+   "text": "Out of the pack and onto the leader's shoulder comes {winner}!"
+  },
+  {
+   "id": "cb10-025",
+   "text": "The pressure has changed address. {loser} feels it now, and {winner} sent it there!"
+  },
+  {
+   "id": "cb10-026",
+   "text": "Behind on the table, ahead in belief. {winnerClub} are playing this Showdown like a club with something to say."
+  },
+  {
+   "id": "cb10-027",
+   "text": "Gone thin, that cushion, and {winner} is pressing down on it!"
+  },
+  {
+   "id": "cb10-028",
+   "text": "Pick your jaw up off the floor, {loser}. That was a statement from {winnerClub}."
+  },
+  {
+   "id": "cb10-029",
+   "text": "Never mind where {winner} started. Look where {winner} is going!"
+  },
+  {
+   "id": "cb10-030",
+   "text": "It was supposed to be a quiet cruise for {loser}. Nobody told {winnerClub}!"
+  },
+  {
+   "id": "cb10-031",
+   "text": "There is real hunger in that win. {winner} wanted this one, and it shows."
+  },
+  {
+   "id": "cb10-032",
+   "text": "Oh, that stings for {loser}. A lead that felt comfortable now feels borrowed."
+  },
+  {
+   "id": "cb10-033",
+   "text": "Refusing to fade, refusing to fold, {winner} is back in the argument!"
+  },
+  {
+   "id": "cb10-034",
+   "text": "Eyes up, {loser}. Somebody is coming through, and there is no sign of slowing down."
+  },
+  {
+   "id": "cb10-035",
+   "text": "It all turned in season {season}, and {winnerClub} will remember it for a long, long time."
+  },
+  {
+   "id": "cb10-036",
+   "text": "Someone kicked the door open on this Showdown, and in walks {winner}."
+  },
+  {
+   "id": "cb10-037",
+   "text": "From the back of the queue to the front of the conversation, {winner} has done it in one season."
+  },
+  {
+   "id": "cb10-038",
+   "text": "Off the canvas climbs {winner}, and the living room is on its feet!"
+  },
+  {
+   "id": "cb10-039",
+   "text": "Bold, brave and deadly serious, {winnerClub} have made the leader sweat."
+  },
+  {
+   "id": "cb10-040",
+   "text": "No panic from {winner}, no shortcuts, just a season win when it was needed most."
+  },
+  {
+   "id": "cb10-041",
+   "text": "Hats off to {winnerClub}. When the road turned uphill, they simply shifted gear."
+  },
+  {
+   "id": "cb10-042",
+   "text": "The scoreboard says {loser} leads. The mood says something different entirely!"
+  },
+  {
+   "id": "cb10-043",
+   "text": "How good is that for {winner}? Behind, battered, and back with a season win."
+  },
+  {
+   "id": "cb10-044",
+   "text": "Write the leader's name in pencil for now, because {winnerClub} have the eraser out!"
+  },
+  {
+   "id": "cb10-045",
+   "text": "Steady as you like, {winner} has taken a chunk out of the leader's advantage."
+  },
+  {
+   "id": "cb10-046",
+   "text": "Say what you like about {loser}, but this one belongs to the comeback kid in the other dugout."
+  },
+  {
+   "id": "cb10-047",
+   "text": "Gritty and utterly deserved, {winnerClub} have hauled themselves back into view!"
+  },
+  {
+   "id": "cb10-048",
+   "text": "There goes the swagger of the leader, and here comes the swagger of {winner}!"
+  },
+  {
+   "id": "cb10-049",
+   "text": "The title of this season could be Second Wind, and the author is {winnerClub}."
+  },
+  {
+   "id": "cb10-050",
+   "text": "You can almost hear {loser} gulp. {winner} is closing in!"
+  },
+  {
+   "id": "cb10-051",
+   "text": "That one will hurt {loser} for a while, and it will fill {winnerClub} with belief."
+  },
+  {
+   "id": "cb10-052",
+   "text": "So the leader leads, but for how long? {winnerClub} have made that a fair question."
+  },
+  {
+   "id": "cb10-053",
+   "text": "What an answer! Asked for a response, {winner} came back with a season win!"
+  },
+  {
+   "id": "cb10-054",
+   "text": "Rise and shine, {winnerClub}! The comeback has officially begun."
+  },
+  {
+   "id": "cb10-055",
+   "text": "{winner} just reminded everyone that a deficit is only a story, and stories can change!"
+  },
+  {
+   "id": "cb10-056",
+   "text": "Take a bow, {winner}. Out of the shadows and into the fight!"
+  },
+  {
+   "id": "cb10-057",
+   "text": "Strength of character wins seasons, and {winner} has plenty to spare!"
+  },
+  {
+   "id": "cb10-058",
+   "text": "Winners write the next chapter, and {winner} has just torn a page out of the leader's book."
+  },
+  {
+   "id": "cb10-059",
+   "text": "{winnerClub} did not panic, did not blink, and now they are back in contention!"
+  },
+  {
+   "id": "cb10-060",
+   "text": "How about that for a reply? {winner} was behind, and now it is {loser} who has to answer!"
+  },
+  {
+   "id": "cb10-061",
+   "text": "Warm applause for {winner}, who has made this Showdown a proper contest again."
+  },
+  {
+   "id": "cb10-062",
+   "text": "Calm nerves, big result, and {winnerClub} are suddenly the club everyone is watching."
+  },
+  {
+   "id": "cb10-063",
+   "text": "Nobody saw this coming a while back, and now the chase is properly on!"
+  },
+  {
+   "id": "cb10-064",
+   "text": "Listen to that. That is the sound of a lead getting nervous."
+  },
+  {
+   "id": "cb10-065",
+   "text": "A trailing manager, a winning season, and suddenly the whole Showdown has a pulse again!"
+  },
+  {
+   "id": "cb10-066",
+   "text": "This is what resilience looks like in a living room with a console and a grudge."
+  },
+  {
+   "id": "cb10-067",
+   "text": "Do not touch that dial, because this fightback is only getting started!"
+  },
+  {
+   "id": "cb10-068",
+   "text": "You cannot keep a good manager down, and this season is the proof."
+  },
+  {
+   "id": "cb10-069",
+   "text": "Cut it any way you like, that is a manager rediscovering the winning habit!"
+  },
+  {
+   "id": "cb10-070",
+   "text": "Never write off a manager with a controller in hand and something to prove."
+  },
+  {
+   "id": "cb10-071",
+   "text": "Somewhere, a leader is counting backwards. Behind them, somebody is breathing hard."
+  },
+  {
+   "id": "cb10-072",
+   "text": "Plenty of people would have given up. This one gave the leader a headache instead!"
+  },
+  {
+   "id": "cb10-073",
+   "text": "Hear the whispers? A comeback is brewing, and the pot is starting to bubble!"
+  },
+  {
+   "id": "cb10-074",
+   "text": "Blink, and you would have missed a quiet comeback sneaking into this contest."
+  },
+  {
+   "id": "cb10-075",
+   "text": "Two managers, one lead, and suddenly it feels a lot smaller than it did."
+  },
+  {
+   "id": "cb10-076",
+   "text": "The race was lopsided, and now the weight is shifting. Feel that?"
+  },
+  {
+   "id": "cb10-077",
+   "text": "It takes nerve to win when you are chasing, and nerve is exactly what we saw!"
+  },
+  {
+   "id": "cb10-078",
+   "text": "What a turnaround! A manager who looked beaten has just taken the season."
+  },
+  {
+   "id": "cb10-079",
+   "text": "The leader looks fine, sounds fine, and something is about to change that!"
+  },
+  {
+   "id": "cb10-080",
+   "text": "Still behind overall, but the view has changed from the leader's back to the leader's shoulder!"
+  },
+  {
+   "id": "cb10-081",
+   "text": "The tables have tilted, and there is a real race on now!"
+  },
+  {
+   "id": "cb10-082",
+   "text": "What do you do when you are behind? You win the season, and that is exactly what happened."
+  },
+  {
+   "id": "cb10-083",
+   "text": "The mood in this Showdown has just flipped, and nobody is pretending otherwise."
+  },
+  {
+   "id": "cb10-084",
+   "text": "Seasons like this one do not come around often. Bottle it while you can."
+  },
+  {
+   "id": "cb10-085",
+   "text": "Lesser managers would have folded. This one got on with the business of winning."
+  },
+  {
+   "id": "cb10-086",
+   "text": "The lead was a nice warm blanket, and somebody has just whisked a corner of it away."
+  },
+  {
+   "id": "cb10-087",
+   "text": "One win, one season, and a whole Showdown breathes differently."
+  },
+  {
+   "id": "cb10-088",
+   "text": "Everything was heading one way, and then someone grabbed the wheel!"
+  },
+  {
+   "id": "cb10-089",
+   "text": "It is the longest way back, and every single step counted!"
+  },
+  {
+   "id": "cb10-090",
+   "text": "First light after a long night, and what a sunrise it is!"
+  },
+  {
+   "id": "cb10-091",
+   "text": "A wonderful reaction to a difficult stretch. Proper champion's stuff."
+  },
+  {
+   "id": "cb10-092",
+   "text": "Fortune favors the stubborn, and that was a very stubborn season."
+  },
+  {
+   "id": "cb10-093",
+   "text": "A slow burn, a big finish, and everyone in the room is sitting up straight."
+  },
+  {
+   "id": "cb10-094",
+   "text": "Not over until the last season is played, and tonight proves it!"
+  }
+ ]
+}

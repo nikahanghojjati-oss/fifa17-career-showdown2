@@ -1,0 +1,259 @@
+{
+ "edited": true,
+ "writer": "claude-haiku-helper",
+ "batch": 16,
+ "situation": "halfway",
+ "flavour": "Call and analysis",
+ "duets": [
+  {
+   "id": "fb16-01",
+   "lead": "Halfway, and {leader} is the one everybody else is trying to catch.",
+   "co": "Tough job, since every rival now studies the man ahead and hunts for cracks."
+  },
+  {
+   "id": "fb16-02",
+   "lead": "The interval arrives, and {trailer} is breathing down the front man's neck.",
+   "co": "Close enough to pounce if he drops off, and that is the whole plan from here."
+  },
+  {
+   "id": "fb16-03",
+   "lead": "We reach the turn of the campaign, and the summit is up for grabs.",
+   "co": "Nobody has nailed it down, so every patch of good form from now on will decide the owner."
+  },
+  {
+   "id": "fb16-04",
+   "lead": "At the centre of the run the standings look tight, and the neutrals are loving it.",
+   "co": "Tight is the best news for anyone watching, since the big moves are yet to come."
+  },
+  {
+   "id": "fb16-05",
+   "lead": "The finish line is already in sight, and the pacesetter can almost taste it.",
+   "co": "Tasting it is the easy bit; the trick is keeping the legs fresh for the final miles."
+  },
+  {
+   "id": "fb16-06",
+   "lead": "At the midway mark the gap is only {margin} points, and that is nothing at all.",
+   "co": "A gap that small can vanish in a single purple patch, so anyone down the list should not relax."
+  },
+  {
+   "id": "fb16-07",
+   "lead": "Here comes the mark of the campaign, and {trailer} has the look of a hungry hunter.",
+   "co": "Hungry is right: the hunter has studied the favourite and is waiting for the first wobble."
+  },
+  {
+   "id": "fb16-08",
+   "lead": "Half of the Showdown is gone, and it is still anybody's game.",
+   "co": "The heart of the run is where early advantages get eaten away, so no one can switch off."
+  },
+  {
+   "id": "fb16-09",
+   "lead": "The mood has swung all campaign, and everyone is afraid to call it.",
+   "co": "Swings are what a campaign does to people; the table settles only once results stop surprising."
+  },
+  {
+   "id": "fb16-10",
+   "lead": "The midpoint, and {leader} has built a little breathing room at the summit.",
+   "co": "Breathing room is handy now, but a bad spell of form can take it away fast."
+  },
+  {
+   "id": "fb16-11",
+   "lead": "Past the interval, and {trailer} is making all the right noises in the background.",
+   "co": "Noises in the background are what hunters do, and the man ahead would be foolish to ignore them."
+  },
+  {
+   "id": "fb16-12",
+   "lead": "The midway point gives us our sharpest picture yet of who is genuinely serious.",
+   "co": "A picture this sharp is still a snapshot, not a verdict, so do not frame it yet."
+  },
+  {
+   "id": "fb16-13",
+   "lead": "At the mark, the lead stands at {margin}, and the chase is very much alive.",
+   "co": "A lead of {margin} is fragile when the pursuer can claw it back in a hurry."
+  },
+  {
+   "id": "fb16-14",
+   "lead": "We are past the midpoint and {leader} is exactly where they wanted to be.",
+   "co": "Comfortable is a fine place to be, but leaders who get comfortable tend to drop points."
+  },
+  {
+   "id": "fb16-15",
+   "lead": "Here is the thick of it, and {trailer} sits on the shoulder of the summit.",
+   "co": "The shoulder is the most dangerous spot in the campaign, since a single lapse hands it over."
+  },
+  {
+   "id": "fb16-16",
+   "lead": "The centre of the run has arrived, and the chasers already sound like a title side.",
+   "co": "They sound like one because they play like one, and that is what should worry the favourite."
+  },
+  {
+   "id": "fb16-17",
+   "lead": "Halfway through, and the man out front has not put a foot wrong yet.",
+   "co": "Avoiding mistakes for this long is the hardest trick in the game, and it rarely lasts a full haul."
+  },
+  {
+   "id": "fb16-18",
+   "lead": "Midway, and the big favourite on everybody's lips is still {leader}.",
+   "co": "Being the favourite right now is just a headline; the true test is holding the form."
+  },
+  {
+   "id": "fb16-19",
+   "lead": "This is where the early nerves turn into real plans.",
+   "co": "Plans need a bit of luck, but mostly they need patience, and patience gets tested most on a long haul."
+  },
+  {
+   "id": "fb16-20",
+   "lead": "The chase has come round, and it now looks like a proper fight.",
+   "co": "A proper fight is exactly what this Showdown needed; a one-sided affair would have been dull."
+  },
+  {
+   "id": "fb16-21",
+   "lead": "Exactly half, and the gap between the first two is still {margin} points.",
+   "co": "Small gaps at the interval are where careless managers slip, and none is careless yet."
+  },
+  {
+   "id": "fb16-22",
+   "lead": "We are halfway through, and {trailer} has started to sniff {leader}'s heels.",
+   "co": "Sniffing heels is a short-lived job unless the pursuer closes the gap in the games to come."
+  },
+  {
+   "id": "fb16-23",
+   "lead": "Rumblings of a title race are finally audible in this Showdown.",
+   "co": "Noise is fine, but a race only starts when somebody puts their foot down and keeps it there."
+  },
+  {
+   "id": "fb16-24",
+   "lead": "At the turn, the summit has been warm for a long time.",
+   "co": "A warm seat at the top is comfortable, which is exactly why it is dangerous to sit in too long."
+  },
+  {
+   "id": "fb16-25",
+   "lead": "The heart of it is here, and the one out in front has earned every bit of attention.",
+   "co": "Attention is the price of being out in front, and they have paid it without complaint."
+  },
+  {
+   "id": "fb16-26",
+   "lead": "The mid-run whistle is about to go, and the chaser looks ready to strike.",
+   "co": "Ready to strike is one thing; striking needs the man ahead to slip, and that rarely happens."
+  },
+  {
+   "id": "fb16-27",
+   "lead": "This is the chapter where the story finally takes some shape.",
+   "co": "Shape is a generous word, but the outline is clear: a leader, a chaser and a long road ahead."
+  },
+  {
+   "id": "fb16-28",
+   "lead": "We are at the midpoint, and {leader} talks like someone who wants the trophy.",
+   "co": "Talk is cheap at this stage; the trophy goes only to whoever is standing at the end."
+  },
+  {
+   "id": "fb16-29",
+   "lead": "Hands have changed at the peak more often than anyone predicted.",
+   "co": "Changing hands that often is thrilling to watch, but it makes the final miles hard to call."
+  },
+  {
+   "id": "fb16-30",
+   "lead": "The breather has arrived, and {trailer} has quietly crept back into contention.",
+   "co": "Quiet pursuers are dangerous, since no one watches them until the table says otherwise."
+  },
+  {
+   "id": "fb16-31",
+   "lead": "The body language at the summit says they have seen the whole plan already.",
+   "co": "Seeing the plan is one thing; the real test is whether it survives the first bad patch."
+  },
+  {
+   "id": "fb16-32",
+   "lead": "At the midpoint {leader} leads by {margin}, and the chatter is getting louder.",
+   "co": "Chatter is free, but wise managers ignore it in the thick of things."
+  },
+  {
+   "id": "fb16-33",
+   "lead": "The tension is building nicely as the run reaches its peak.",
+   "co": "Nicely is a polite word; for the men at the wheel it is a sleepless way to spend the interval."
+  },
+  {
+   "id": "fb16-34",
+   "lead": "Nothing has really been decided, and the whole thing feels wide open.",
+   "co": "That is exactly the feeling you want at this stage, as it keeps everyone honest and hungry."
+  },
+  {
+   "id": "fb16-35",
+   "lead": "Look at the mark, and the one nobody is talking about is {trailer}.",
+   "co": "Being overlooked this early is useful, because the leaders have not yet noticed the threat."
+  },
+  {
+   "id": "fb16-36",
+   "lead": "Now we see who fears whom.",
+   "co": "Fear is healthy at this point, as it shows both sides know what is on the line."
+  },
+  {
+   "id": "fb16-37",
+   "lead": "Pulling clear is the dream, and {leader} has broken away from the chasing pack.",
+   "co": "A lead this thin can be walked back, however good it feels."
+  },
+  {
+   "id": "fb16-38",
+   "lead": "Nothing is settled, and the picture is blurry after all this.",
+   "co": "A picture in progress is only a sketch, so it would be foolish to frame it yet."
+  },
+  {
+   "id": "fb16-39",
+   "lead": "So far, {trailer} has been the surprise of the whole campaign.",
+   "co": "Surprises are wonderful at this point, but they only count if they keep coming in the final stretch."
+  },
+  {
+   "id": "fb16-40",
+   "lead": "The middle is here, and {leader} has sent a real message.",
+   "co": "A message now is useful, but the chasing side has already read it and replied."
+  },
+  {
+   "id": "fb16-41",
+   "lead": "The form book is being torn up at the break.",
+   "co": "Torn up is strong; the form is shifting, and that is exactly what this stage should do."
+  },
+  {
+   "id": "fb16-42",
+   "lead": "The midpoint has landed, and the pressure is quietly moving to {leader}.",
+   "co": "Pressure moves when the pursuer closes in, and it can swing straight round if the favourite wobbles."
+  },
+  {
+   "id": "fb16-43",
+   "lead": "The table says the same thing to everyone: no one can relax yet.",
+   "co": "A shared warning is useful, since the top spot can change hands in the blink of an eye."
+  },
+  {
+   "id": "fb16-44",
+   "lead": "Even now, the chaser still believes the title is within reach.",
+   "co": "Belief costs nothing, but a chaser who keeps it never runs dry."
+  },
+  {
+   "id": "fb16-45",
+   "lead": "Every point from here carries more weight than the last, and everybody knows it.",
+   "co": "Points count for more as the season goes on, so the last few are the ones that will sting."
+  },
+  {
+   "id": "fb16-46",
+   "lead": "Time is ticking, and the favourite sits top of the form guide.",
+   "co": "Top of the guide is a fine seat, but guides get rewritten in the final stretch."
+  },
+  {
+   "id": "fb16-47",
+   "lead": "Setbacks have come and gone, and {trailer} has learned from each of them.",
+   "co": "Learning from setbacks separates a chaser from a champion, and this one is learning fast."
+  },
+  {
+   "id": "fb16-48",
+   "lead": "We are in the middle, and the lead has changed hands a few times.",
+   "co": "Few changes at the top so far, but it also means nothing is locked in yet."
+  },
+  {
+   "id": "fb16-49",
+   "lead": "Grinning at the break, {leader} looks like someone who knows something.",
+   "co": "Grinning is fine, but the actual knowledge only arrives when the last season is in the books."
+  },
+  {
+   "id": "fb16-50",
+   "lead": "Plenty of road still left, and the last word on this Showdown is far off.",
+   "co": "A long way off, but the road shortens every time someone takes the lead or loses it."
+  }
+ ]
+}
