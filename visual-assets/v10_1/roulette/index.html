@@ -623,7 +623,7 @@ function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new
     const topPos=PH?new T.Vector3(0,2.5,.22):new T.Vector3(0,2.25,.3), topLook=new T.Vector3(0,.75,.0);
     /* the close-up stands off the hammer side of the gun, low over the felt, telephoto */
     const yaw=p.yawTarget; const back=new T.Vector3(-Math.sin(yaw),0,-Math.cos(yaw)); const side=new T.Vector3(Math.cos(yaw),0,-Math.sin(yaw));
-    const closePos=gw.clone().add(back.clone().multiplyScalar(.34)).add(side.clone().multiplyScalar(PH?-.26:-.32)).add(new T.Vector3(0,.19,0)), closeLook=gw.clone().add(new T.Vector3(0,.02,0)).add(back.clone().multiplyScalar(.03)); const closeFov=PH?16:12;
+    const closePos=gw.clone().add(back.clone().multiplyScalar(.6)).add(side.clone().multiplyScalar(PH?-.42:-.5)).add(new T.Vector3(0,.3,0)), closeLook=gw.clone().add(new T.Vector3(0,.02,0)).add(back.clone().multiplyScalar(.03)); const closeFov=PH?22:18;
     const tensePos=gw.clone().add(back.clone().multiplyScalar(.26)).add(side.clone().multiplyScalar(PH?-.2:-.24)).add(new T.Vector3(0,.14,0));
     const hitPos=PH?new T.Vector3(sx*.25,1.5,2.1):new T.Vector3(sx*.6,1.35,1.9), hitLook=bw.clone().lerp(gw,.35);
     if(tt<B.spin+.3){ const k=ease.inOut(S(0,.6,tt)); pos.lerpVectors(pos,topPos,k); look.lerpVectors(look,topLook,k); }
