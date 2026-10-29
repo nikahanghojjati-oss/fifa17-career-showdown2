@@ -942,9 +942,12 @@ async function revokePairing(options={}){
   // A denied read or write means this account or device may have lost its authority (revoked elsewhere): the pairing check
   // re-verifies the device on its next run instead of trusting its 10 minutes. A denied write, or a denied read of this
   // account, this device or the rivalry root, forgets everything this page kept. r86 red team #20: a denied read of any other
-  // document (a Session after its Showdown closed, say) forgets only that document and backs off reading it for 15 s, then
-  // 1 min, then 5 min (a tap reads it again at once); before, one document that stayed refused sent every background check
-  // to the server on every tick.
+  // document (a Session after its Showdown closed, say) still forgets every shared copy and drops the context listeners, so
+  // the next reads come from the server (Terminal Close's race check relies on a fresh rivalry read after a refused Session),
+  // but keeps this account's and the settled copies, and backs off reading that document for 15 s, then 1 min, then 5 min
+  // (a tap reads it again at once). Any shared document seen changed lifts every back-off, so a document the partner's move
+  // makes readable is read at once. Before, one document that stayed refused sent every background check to the server on
+  // every tick.
   const FSB_DENIED_STEPS_MS=[15000,60000,300000],fsbDenied=new Map();
   function fsbAuthorityPath(path){return !path||fsbOwnAccountPath(path)||/^rivalries\/[^/]+$/.test(path);}
   function fsbAuthorityDenied(error,path){
@@ -955,6 +958,8 @@ async function revokePairing(options={}){
       fsbDenied.delete(path);fsbDenied.set(path,{until:at+FSB_DENIED_STEPS_MS[step],step,error});
       if(fsbDenied.size>FSB_MAX_ENTRIES)fsbDenied.delete(fsbDenied.keys().next().value);
       fsbEntries.delete(path);if(fsbCtxWatches.has(path))fsbCtxDrop(path,true);
+      for(const [other,entry] of fsbEntries)if(!fsbOwnAccountPath(other)&&!entry.immutable)entry.forgotten=true;
+      fsbInflight.clear();fsbCtxDetach();
     }
     try{if(typeof root.dispatchEvent==="function"&&typeof root.CustomEvent==="function")root.dispatchEvent(new root.CustomEvent("career-mode-firestore-authority-denied"));}catch(_error){}
   }
@@ -1004,7 +1009,7 @@ async function revokePairing(options={}){
   // r86 red team #18: this account's own documents (account, this device) keep their 5-minute reuse across a return: a revoked
   // device or account is refused by the Rules on the next shared read, which forgets everything (fsbAuthorityDenied).
   // Before, every phone unlock re-read both, once per module that checks them.
-  function fsbForgetAll(){for(const [path,entry] of [...fsbEntries])if(!entry.immutable&&!fsbOwnAccountPath(path))fsbEntries.delete(path);}
+  function fsbForgetAll(){fsbDenied.clear();for(const [path,entry] of [...fsbEntries])if(!entry.immutable&&!fsbOwnAccountPath(path))fsbEntries.delete(path);}
   if(typeof root.addEventListener==="function"){
     try{
       root.addEventListener("online",fsbForgetAll);
@@ -1092,6 +1097,7 @@ async function revokePairing(options={}){
     fsbEntries.delete(path);
     const entry={snapshot,at:fsbNow(),dirty:false,immutable:fsbImmutable(path,snapshot)};
     fsbEntries.set(path,entry);
+    if(before&&!fsbOwnAccountPath(path)&&fsbSerial(before.snapshot)!==fsbSerial(snapshot))fsbDenied.clear();
     if(fsbWait&&path===fsbWait.path)fsbWaitServerRead(snapshot);
     fsbCtxServerRead(path,snapshot);
     // r84: a waited document read fresh (no healthy listener on it) that changed is the partner's move: forget the other
@@ -1149,7 +1155,7 @@ async function revokePairing(options={}){
     fsbStats.listenerDeliveries+=1;fsbCountRead(fsbMeterUnits(snapshot,true),true,fsbReadLookups(watch.path));watch.priced=true;
     fsbEntries.delete(watch.path);fsbEntries.set(watch.path,{snapshot,at:fsbNow(),dirty:false,immutable:false});
     if(watch.returning){watch.returning=false;const listen=fsbListens.get(watch.path);if(listen){fsbListens.delete(watch.path);fsbStats.listenerServed+=1;listen.resolve(snapshot);}}
-    if(before!==null&&before!==serial){fsbChainAt=fsbNow();const wake=fsbCtxRivalry&&fsbCtxRivalry.wake;if(typeof wake==="function"&&typeof root.setTimeout==="function")root.setTimeout(()=>{try{wake(watch.path);}catch(_error){}},0);}
+    if(before!==null&&before!==serial){fsbDenied.clear();fsbChainAt=fsbNow();const wake=fsbCtxRivalry&&fsbCtxRivalry.wake;if(typeof wake==="function"&&typeof root.setTimeout==="function")root.setTimeout(()=>{try{wake(watch.path);}catch(_error){}},0);}
   }
   function fsbCtxAttach(path){
     if(!fsbCtxWanted(path)||fsbCtxWatches.has(path))return;
@@ -1237,7 +1243,7 @@ async function revokePairing(options={}){
   function fsbWaitFail(path){fsbDetachWait();fsbStats.listenerFallbacks+=1;fsbWaitFailed.set(path,fsbNow()+FSB_WAIT_RETRY_MS);}
   // Forgotten copies are never reused, but their content is kept for change detection: a document that is merely forgotten
   // (not changed) must not count as changed, or every later check would re-run on fresh reads and forget again.
-  function fsbForgetContext(){for(const [path,entry] of fsbEntries)if(!fsbOwnAccountPath(path))entry.forgotten=true;}
+  function fsbForgetContext(){fsbDenied.clear();for(const [path,entry] of fsbEntries)if(!fsbOwnAccountPath(path))entry.forgotten=true;}
   function fsbWakeOwners(wait){
     for(const info of wait.owners.values()){
       const wake=info.wake;
@@ -1306,7 +1312,7 @@ async function revokePairing(options={}){
   // Called by Season Commit's authority listeners: their first server delivery of a path (snapshot), or none (no path) when
   // they stop. While they deliver a path, the context listener leaves it to them (fsbExternal).
   function fsbListened(path,snapshot){if(path===undefined){fsbExternal.clear();for(const key of [...fsbListens.keys()])fsbListened(key,null);return;}if(snapshot)fsbExternal.add(path);const listen=fsbListens.get(path);if(!listen)return;fsbListens.delete(path);if(snapshot){fsbStats.listenerServed+=1;fsbRemember(fsbFirestore,{path},snapshot);}listen.resolve(snapshot||null);}
-  function fsbReturnListen(paths){fsbReturnPaths=Array.isArray(paths)?paths.filter(path=>typeof path==="string"):[];for(const path of [...fsbListens.keys()])if(!fsbReturnPaths.includes(path))fsbListened(path,null);}
+  function fsbReturnListen(paths){fsbReturnPaths=Array.isArray(paths)?paths.filter(path=>typeof path==="string"):[];if(!fsbReturnPaths.length)fsbExternal.clear();for(const path of [...fsbListens.keys()])if(!fsbReturnPaths.includes(path))fsbListened(path,null);}
   function fsbTakeServerNext(path){const until=fsbServerNext.get(path)||0;if(until)fsbServerNext.delete(path);return until>fsbNow();}
   function fsbReadOne(sdk,db,ref,serverOnly=false){
     const listen=fsbListens.get(fsbPathOf(ref));if(listen)return listen.promise.then(snapshot=>snapshot||fsbReadOne(sdk,db,ref));

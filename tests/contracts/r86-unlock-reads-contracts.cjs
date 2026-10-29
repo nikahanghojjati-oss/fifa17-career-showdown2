@@ -213,7 +213,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.equal(txReads(fresh,TRANSFER),2,"a transfer still in progress is read again");
   });
 
-  await check("U6","red team #20: a refused Session read backs off 15 s, 1 min, 5 min and forgets only that document; a tap reads it at once",async()=>{
+  await check("U6","red team #20: a refused Session read backs off 15 s, 1 min, 5 min and forgets the shared copies once; a tap reads it at once",async()=>{
     const world=createWorld();seed(world);const get=reader(world);
     await get([RIVALRY,RESULTS]);world.denied.add(SESSION);
     await assert.rejects(get([SESSION]),error=>error.code==="permission-denied");
@@ -221,7 +221,8 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     for(let i=0;i<5;i+=1)await assert.rejects(get([SESSION]),error=>error.code==="permission-denied");
     assert.equal(txReads(world,SESSION),1,"five more checks inside 15 s do not reach the server");
     await get([RIVALRY,RESULTS]);
-    assert.equal(txReads(world,RIVALRY),1,"the rivalry copy is kept");assert.equal(txReads(world,RESULTS),1,"and so is the results copy");
+    assert.equal(txReads(world,RIVALRY),2,"the shared copies are read again once after the refusal (the partner may have moved)");assert.equal(txReads(world,RESULTS),2);
+    await get([RIVALRY,RESULTS]);assert.equal(txReads(world,RIVALRY),2,"the refused checks inside the back-off forget nothing more");
     await world.advance(15000);await assert.rejects(get([SESSION]));assert.equal(txReads(world,SESSION),2,"after 15 s one more server read");
     await world.advance(15000);await assert.rejects(get([SESSION]));assert.equal(txReads(world,SESSION),2,"the next wait is 1 minute");
     await world.advance(46000);await assert.rejects(get([SESSION]));assert.equal(txReads(world,SESSION),3);
@@ -229,6 +230,36 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     world.denied.delete(SESSION);await world.advance(6000);world.input();await get([SESSION]);assert.equal(txReads(world,SESSION),5);
     await world.advance(10000);await get([SESSION]);assert.equal(txReads(world,SESSION),5,"once allowed again it is reused normally");
     assert.ok(world.events.some(e=>e.type==="career-mode-firestore-authority-denied"),"the pairing check is still told");
+  });
+
+  await check("U9","a shared document seen changed lifts the back-off at once (a document the partner's move makes readable)",async()=>{
+    const world=createWorld();seed(world);const get=reader(world);
+    await get([RIVALRY]);world.denied.add(SESSION);
+    await assert.rejects(get([SESSION]));await assert.rejects(get([SESSION]));assert.equal(txReads(world,SESSION),1);
+    world.denied.delete(SESSION);world.serverWrite(RIVALRY,{connectionState:"active",revision:99});
+    await world.advance(6000);world.budget.wantFresh(RIVALRY);await get([RIVALRY]);
+    await get([SESSION]);assert.equal(txReads(world,SESSION),2,"the Session is read again at once after the rivalry changed");
+  });
+
+  await check("U10","when the screen's own authority listeners end, the context listener takes the rivalry back",async()=>{
+    const world=createWorld();seed(world);const get=reader(world);
+    await get([RIVALRY,SESSION]);world.budget.watchContext(ID,()=>{});await world.advance(2000);
+    world.budget.returnListen([RIVALRY,SESSION]);
+    world.setVisible(false);await world.advance(5000);world.setVisible(true);
+    const snap=p=>({exists:()=>true,data:()=>world.server.get(p).data,metadata:{fromCache:false,hasPendingWrites:false},_document:{version:{timestamp:{seconds:9,nanoseconds:0}}}});
+    const reading=get([RIVALRY,SESSION]);world.budget.listened(RIVALRY,snap(RIVALRY));world.budget.listened(SESSION,snap(SESSION));await reading;
+    assert.equal(world.activeListeners().length,0,"while the authority listeners deliver, no context listener");
+    world.budget.returnListen([]);await world.advance(61000);await get([RIVALRY]);await world.advance(1000);
+    assert.ok(world.activeListeners().some(l=>l.path===RIVALRY),"a normal end (returnListen([])) hands the rivalry back to the context listener");
+  });
+
+  await check("U11","after a refused read (the Session after a close, say) the rivalry is read from the server, not the context listener (Terminal Close's race check)",async()=>{
+    const world=createWorld();seed(world);const get=reader(world);
+    await get([RIVALRY,SESSION]);world.budget.watchContext(ID,()=>{});await world.advance(2000);
+    assert.ok(world.activeListeners().some(l=>l.path===RIVALRY),"the context listener watches the rivalry");
+    const before=txReads(world,RIVALRY);await get([RIVALRY]);assert.equal(txReads(world,RIVALRY),before,"served by the listener");
+    world.denied.add(RESULTS);await assert.rejects(get([RESULTS]));
+    await get([RIVALRY]);assert.equal(txReads(world,RIVALRY),before+1,"the next rivalry read goes to the server");
   });
 
   await check("U7","a refused read of the rivalry root (authority) still forgets every copy",async()=>{
