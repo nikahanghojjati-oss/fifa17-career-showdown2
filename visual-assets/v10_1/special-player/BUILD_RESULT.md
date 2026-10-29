@@ -38,3 +38,19 @@ The pack walkout runs in this order:
 - **Continue button:** `#cta` ("Continue to Career Start") is enabled when both reveals are done. Replace the preview toast handler with the real navigation.
 - **Test clock:** `window.__mq.player(i)` / `advance(sec)` is a deterministic clock for tests and captures. Keep it, or strip it in production.
 - **Rules kept:** no dimming layers, nothing covers the bar or buttons, no EA logos, no real crests traced, no real faces.
+
+## HO-042 fixes (29 Oct 2026)
+
+1. **Card text:** the stats moved up a little. The "POT · #rank TOP n" line and the club line now sit in the straight part of the card, and each shrinks to the shield width at its own height, so nothing is cut ("PARIS SAINT-GERMAIN" fits).
+2. **Phone bar:**
+   - "Revealing" fits from 360 px (13 px type, tighter spacing).
+   - Each slot shows "#rank TOP n" under the name once that card is revealed. This shows on phone only; desktop has it in the name panel.
+3. **No white flash (Nik's choice):** the screen never goes white. The walkout shows a gold halo that hugs the card outline for about 1.6 s, and the sparkles are gold.
+   - The scene's full-screen flash is now always 0.
+
+Proof is in `project-documents/factory/reviews/HO-042/`:
+
+- `card_desktop_1440x900.jpg`
+- `card_phone_393x852.jpg`
+- `phone_bar_393_and_360.jpg`
+- `glow_1..4.jpg` and `glow_sequence.jpg` (9.75 s, 10.1 s, 10.6 s, 11.2 s)
