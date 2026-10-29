@@ -157,8 +157,8 @@ function woodTex(w,h,base,dark,planks,rep,opts){ const o=opts||{}; const [c,ctx]
       if(len<w){ ctx.fillStyle=dark; ctx.fillRect(x+len-2,y0,3,ph); ctx.fillStyle="rgba(255,225,180,.1)"; ctx.fillRect(x+len+1,y0,1,ph); } x+=len; }
     ctx.fillStyle=dark; ctx.fillRect(0,y0,w,3); ctx.fillStyle="rgba(255,230,190,.14)"; ctx.fillRect(0,y0+3,w,1); ctx.fillStyle="rgba(0,0,0,.22)"; ctx.fillRect(0,y0+ph-2,w,2); }
   grain(ctx,w,h,o.grain||24); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(rep[0],rep[1]); t.encoding=T.sRGBEncoding; t.anisotropy=8; return t; }
-function feltTex(){ const [c,ctx]=cv(1024,1024); const g=ctx.createRadialGradient(512,512,60,512,512,620); g.addColorStop(0,"#2f7040"); g.addColorStop(.6,"#1f5231"); g.addColorStop(1,"#11311f"); ctx.fillStyle=g; ctx.fillRect(0,0,1024,1024);
-  ctx.globalAlpha=.08; for(let i=0;i<1024;i+=3){ ctx.fillStyle=i%6?"#fff":"#000"; ctx.fillRect(i,0,1,1024); ctx.fillRect(0,i,1024,1); } ctx.globalAlpha=1; grain(ctx,1024,1024,34);
+function feltTex(){ const [c,ctx]=cv(1024,1024); const g=ctx.createRadialGradient(512,512,60,512,512,620); g.addColorStop(0,"#2a6a3c"); g.addColorStop(.55,"#1b4f2d"); g.addColorStop(1,"#0e2c1b"); ctx.fillStyle=g; ctx.fillRect(0,0,1024,1024);
+  ctx.globalAlpha=.06; for(let i=0;i<1024;i+=2){ ctx.fillStyle=i%4?"#fff":"#000"; ctx.fillRect(i,0,1,1024); ctx.fillRect(0,i,1024,1); } ctx.globalAlpha=1; grain(ctx,1024,1024,26);
   const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; t.anisotropy=8; return t; }
 /* dark lacquered mahogany with two tall raised panels, stepped mouldings, a beaded gold frame, carved quatrefoil corners and a medallion */
 function panelTex(){ const w=1024,h=1024,[c,ctx]=cv(w,h); const g=ctx.createLinearGradient(0,0,0,h); g.addColorStop(0,"#26130a"); g.addColorStop(.5,"#30190d"); g.addColorStop(1,"#1f0f07"); ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
@@ -194,7 +194,7 @@ const dustT=softTex([[0,"rgba(255,240,200,1)"],[.5,"rgba(255,240,200,.3)"],[1,"r
 
 /* ================= materials ================= */
 const floorTex=woodTex(2048,2048,"#46250f","#120803",16,[3.5,3.5],{boardLen:900,vary:.22,lines:40,grain:18});
-const tableWoodTex=woodTex(512,512,"#4a2a12","#1c0e05",3,[2,1]);
+const tableWoodTex=woodTex(1024,1024,"#4a2a12","#1c0e05",3,[2,1]);
 const gripTex=woodTex(256,256,"#6b3a1b","#2a1406",2,[1,1]);
 const clothTex=(()=>{ const [c,ctx]=cv(256,256); ctx.fillStyle='#808080'; ctx.fillRect(0,0,256,256); for(let i=0;i<256;i+=3){ ctx.fillStyle=i%6?'rgba(255,255,255,.25)':'rgba(0,0,0,.25)'; ctx.fillRect(i,0,1,256); ctx.fillRect(0,i,256,1); } grain(ctx,256,256,60); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(6,6); return t; })();
 const wallTex=panelTex(); wallTex.repeat.set(7,2); wallTex.offset.y=-.476; /* a panel row seam lands on the dado rail at y=1.1 */
@@ -205,7 +205,7 @@ const M={
   darkWood:new T.MeshPhysicalMaterial({map:tableWoodTex, roughness:.32, metalness:.05, color:0x6e4a32, clearcoat:.7, clearcoatRoughness:.2}),
   lacquer:new T.MeshPhysicalMaterial({map:tableWoodTex, roughness:.26, metalness:.06, color:0x3e2416, clearcoat:.95, clearcoatRoughness:.14}),
   lacquerHi:new T.MeshPhysicalMaterial({map:tableWoodTex, roughness:.3, metalness:.06, color:0x6a3c26, clearcoat:.9, clearcoatRoughness:.18}),
-  felt:new T.MeshStandardMaterial({map:feltTex(), roughness:.98, metalness:0, color:0x9cbc9c}),
+  felt:new T.MeshStandardMaterial({map:feltTex(), roughness:.96, metalness:0, color:0x7c9c7a}),
   brass:new T.MeshStandardMaterial({color:L("#c99c46"), roughness:.26, metalness:1}),
   brassDark:new T.MeshStandardMaterial({color:L("#6f4e1c"), roughness:.4, metalness:1}),
   gold:new T.MeshPhysicalMaterial({color:L("#e6bd5e"), roughness:.2, metalness:1, clearcoat:.5, clearcoatRoughness:.2}),
@@ -323,7 +323,7 @@ const table=new T.Group(); scene.add(table);
   const flame=new T.Sprite(new T.SpriteMaterial({map:glowT, blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xffc070})); flame.scale.set(.16,.28,1); flame.position.set(0,.3,0); lan.add(flame);
   const halo=new T.Sprite(new T.SpriteMaterial({map:glowT, blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xff9a40, opacity:.35})); halo.scale.set(.5,.6,1); halo.position.set(0,.3,0); lan.add(halo);
   mesh(new T.CylinderGeometry(.004,.004,.05,6),M.black,0,.22,0,lan); const core=new T.Sprite(new T.SpriteMaterial({map:glowT, blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xffffff})); core.scale.set(.03,.07,1); core.position.set(0,.27,0); lan.add(core);
-  const lantern=new T.PointLight(L("#ffb15a"),1.6,6,2); lantern.position.set(0,.3,0); lan.add(lantern);
+  const lantern=new T.PointLight(L("#ffb15a"),1.85,6,2); lantern.position.set(0,.3,0); lan.add(lantern);
   table.userData={flame,halo,lantern};
   /* coffee pot, two cups on saucers, a few cards and gold coins */
   const pot=lathe([[0,0],[.06,0],[.07,.02],[.055,.08],[.05,.14],[.058,.17],[.035,.19],[.01,.21],[0,.21]],28); const potM=mesh(pot,M.brass,.46,.75,-.26,table); potM.castShadow=true;
@@ -336,7 +336,7 @@ const table=new T.Group(); scene.add(table);
 
 /* ================= lights (7 in all: key spot with the one shadow map, hemisphere fill, wall glow, window, muzzle flash, lantern, chandelier) ================= */
 renderer.toneMappingExposure=1.22; scene.fog=new T.FogExp2(0x120a05,.05);
-const key=new T.SpotLight(L("#ffd092"),1.7,10,.52,.55,1.3); key.position.set(.6,3.4,1.8); key.target.position.set(0,.8,.1); scene.add(key,key.target); key.castShadow=true; key.shadow.mapSize.set(1024,1024); key.shadow.bias=-.0006; key.shadow.radius=4;
+const key=new T.SpotLight(L("#ffd092"),1.7,10,.52,.55,1.3); key.position.set(.6,3.4,1.8); key.target.position.set(0,.8,.1); scene.add(key,key.target); key.castShadow=true; key.shadow.mapSize.set(2048,2048); key.shadow.bias=-.0004; key.shadow.radius=6;
 const fill=new T.HemisphereLight(L("#3a2a1c"),L("#120a06"),.5); scene.add(fill);
 const wallGlow=new T.PointLight(L("#ffa65a"),.95,9,2); wallGlow.position.set(0,1.8,-3.0); scene.add(wallGlow);
 const winLight=new T.PointLight(L("#ffb070"),.5,8,2); winLight.position.set(-4.2,2.0,-2.4); scene.add(winLight);
@@ -346,7 +346,7 @@ function capsule(r,len){ const g=new T.CylinderGeometry(r,r,len,14,1,true); cons
 /* ================= the revolver: hero product model (1873 single-action style, 7 chambers) ================= */
 /* gun space: +Z = forward along the barrel, +Y = up, +X = the gun's right side. Origin on the cylinder axis. */
 const gun=new T.Group();
-const cyl=new T.Group(); const hammer=new T.Group(); let muzzle=new T.Object3D();
+const cyl=new T.Group(); const crane=new T.Group(); const hammer=new T.Group(); let muzzle=new T.Object3D();
 /* side-silhouette helper: shape in (z forward, y up), extruded along X and centred. Material may be [caps+bevels, side walls]. Optional holes: arrays of (z,y) outlines. */
 function extrude(points,depth,bevel,m,segs,holes){ const s=new T.Shape(); points.forEach((p,i)=>i?s.lineTo(p[0],p[1]):s.moveTo(p[0],p[1])); s.closePath();
   (holes||[]).forEach(h=>{ const p=new T.Path(); h.forEach((q,i)=>i?p.lineTo(q[0],q[1]):p.moveTo(q[0],q[1])); p.closePath(); s.holes.push(p); });
@@ -394,12 +394,14 @@ const GM={
   blued:new T.MeshPhysicalMaterial({color:L("#aab4c6"), map:uvFit(engT,...FRAME_BOX), roughnessMap:uvFit(rghT,...FRAME_BOX), metalness:1, roughness:.34, clearcoat:.7, clearcoatRoughness:.15}),
   bluedBarrel:new T.MeshPhysicalMaterial({color:L("#aab4c6"), map:barT, metalness:1, roughness:.32, clearcoat:.7, clearcoatRoughness:.15}),
   bluedPlain:new T.MeshPhysicalMaterial({color:L("#2a3242"), roughnessMap:rghT, metalness:1, roughness:.3, clearcoat:.6, clearcoatRoughness:.18}),
-  worn:new T.MeshPhysicalMaterial({color:L("#5c6678"), roughnessMap:rghT, metalness:1, roughness:.3, clearcoat:.5, clearcoatRoughness:.2}),
+  worn:new T.MeshPhysicalMaterial({color:L("#6a7384"), roughnessMap:rghT, metalness:.82, roughness:.36, clearcoat:.5, clearcoatRoughness:.2}),
   bright:new T.MeshPhysicalMaterial({color:L("#cfd5de"), metalness:1, roughness:.2, clearcoat:.5}),
   brass:new T.MeshPhysicalMaterial({color:L("#c9a24a"), roughnessMap:rghT, metalness:1, roughness:.24, clearcoat:.6, clearcoatRoughness:.15}),
   gold:new T.MeshPhysicalMaterial({color:L("#e6bf5c"), metalness:1, roughness:.18, clearcoat:.8}),
   walnut:new T.MeshPhysicalMaterial({map:woodTex(256,256,"#5a2e14","#2a1206",1,[2,2]), color:0xb07a50, roughness:.32, clearcoat:.9, clearcoatRoughness:.08}),
-  bore:new T.MeshStandardMaterial({color:0x020202, roughness:.95})
+  bore:new T.MeshStandardMaterial({color:0x020202, roughness:.95}),
+  boreIn:new T.MeshStandardMaterial({color:L("#4a505a"), metalness:.6, roughness:.5, side:T.BackSide}),
+  lead:new T.MeshPhysicalMaterial({color:L("#b4b6ba"), metalness:.7, roughness:.42, clearcoat:.2})
 };
 /* straight prism along +Z from a (x,y) section with flat faces, cylindrical UVs and a cap; every second edge (the chamfers) goes to material 1 */
 function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]; const g=new T.BufferGeometry(); let per=0; const cum=[0]; for(let j=0;j<n;j++){ const a=section[j],b=section[(j+1)%n]; per+=Math.hypot(b[0]-a[0],b[1]-a[1]); cum.push(per); }
@@ -434,23 +436,35 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
     const rod=new T.Mesh(new T.CylinderGeometry(.002,.002,.06,10),GM.bright); rod.rotation.x=Math.PI/2; rod.position.set(.0108,BY-.0112,.165); g.add(rod);
     const head=new T.Mesh(new T.LatheGeometry([[0,0],[.0044,0],[.005,.004],[.0036,.009],[0,.009]].map(p=>new T.Vector2(p[0],p[1])),16),GM.bright); head.rotation.x=Math.PI/2; head.position.set(.0108,BY-.0112,.183); g.add(head); }
   /* CYLINDER: fluted front section cut as a scalloped profile with 7 real chamber holes, plain rear ring with chamfer, ratchet star; rotates on Z */
-  cyl.position.set(0,0,0); g.add(cyl);
+  /* the cylinder sits in a crane hinged below its left side; the crane swings it out (up, as the gun lies on its right side) to show the chambers */
+  crane.position.set(-.0165,-.016,0); g.add(crane); cyl.position.set(.0165,.016,0); crane.add(cyl);
+  { const arm=new T.Mesh(new T.BoxGeometry(.006,.02,.03),GM.bluedPlain); arm.position.set(.002,.009,.006); crane.add(arm); const hinge=new T.Mesh(new T.CylinderGeometry(.0032,.0032,.034,16),GM.bright); hinge.rotation.x=Math.PI/2; hinge.position.z=.004; crane.add(hinge); }
   { const R=.0205, n=7, chambers=[]; const outline=[]; const fl=[]; for(let i=0;i<n;i++){ const fa=i/n*Math.PI*2+Math.PI/2+Math.PI/n; fl.push([Math.cos(fa)*(R+.0048),Math.sin(fa)*(R+.0048)]); }
-    const RS=.0072; for(let k=0;k<168;k++){ const th=k/168*Math.PI*2, u=[Math.cos(th),Math.sin(th)]; let r=R; fl.forEach(c=>{ const uc=u[0]*c[0]+u[1]*c[1], cc=c[0]*c[0]+c[1]*c[1]; const d=uc*uc-cc+RS*RS; if(d>0){ const rr=uc-Math.sqrt(d); if(rr<r) r=rr; } }); outline.push([u[0]*r,u[1]*r]); }
-    const holes=[]; for(let i=0;i<n;i++){ const a=i/n*Math.PI*2+Math.PI/2; holes.push(circlePts(Math.cos(a)*.0138,Math.sin(a)*.0138,.0062,20)); chambers.push({a}); }
+    const RS=.0058; for(let k=0;k<224;k++){ const th=k/224*Math.PI*2, u=[Math.cos(th),Math.sin(th)]; let r=R; fl.forEach(c=>{ const uc=u[0]*c[0]+u[1]*c[1], cc=c[0]*c[0]+c[1]*c[1]; const d=uc*uc-cc+RS*RS; if(d>0){ const rr=uc-Math.sqrt(d); if(rr<r) r=rr; } }); outline.push([u[0]*r,u[1]*r]); }
+    const holes=[]; for(let i=0;i<n;i++){ const a=i/n*Math.PI*2+Math.PI/2; holes.push(circlePts(Math.cos(a)*.0138,Math.sin(a)*.0138,.0062,32)); chambers.push({a}); }
     const s=new T.Shape(); outline.forEach((p,i)=>i?s.lineTo(p[0],p[1]):s.moveTo(p[0],p[1])); s.closePath(); holes.forEach(h=>{ const p=new T.Path(); h.forEach((q,i)=>i?p.lineTo(q[0],q[1]):p.moveTo(q[0],q[1])); p.closePath(); s.holes.push(p); });
-    const fg=new T.ExtrudeGeometry(s,{depth:.033, bevelEnabled:true, bevelThickness:.0014, bevelSize:.0014, bevelSegments:3, curveSegments:8}); fg.translate(0,0,-.0105); const fluted=new T.Mesh(fg,[GM.worn,GM.bluedPlain]); fluted.castShadow=true; fluted.receiveShadow=true; cyl.add(fluted);
-    const ring=new T.Mesh(new T.LatheGeometry([[0,-.0235],[.0199,-.0235],[.0219,-.0215],[.0219,-.0108],[0,-.0108]].map(p=>new T.Vector2(p[0],p[1])),56),GM.bluedPlain); ring.rotation.x=Math.PI/2; ring.castShadow=true; cyl.add(ring);
-    chambers.forEach(({a})=>{ const cap=new T.Mesh(new T.CircleGeometry(.0053,18),GM.bore); cap.position.set(Math.cos(a)*.0138,Math.sin(a)*.0138,-.0106); cyl.add(cap); });
-    /* chamber mouths get a bright chamfer ring so each hole catches the light */
-    chambers.forEach(({a})=>{ const lip=new T.Mesh(new T.TorusGeometry(.0058,.0006,6,20),GM.bright); lip.position.set(Math.cos(a)*.0138,Math.sin(a)*.0138,.0238); cyl.add(lip); });
+    const fg=new T.ExtrudeGeometry(s,{depth:.033, bevelEnabled:true, bevelThickness:.0012, bevelSize:.0012, bevelSegments:4, curveSegments:12}); fg.translate(0,0,-.0105); const fluted=new T.Mesh(fg,[GM.worn,GM.bluedPlain]); fluted.castShadow=true; fluted.receiveShadow=true; cyl.add(fluted);
+    const ring=new T.Mesh(new T.LatheGeometry([[0,-.0235],[.0199,-.0235],[.0219,-.0215],[.0219,-.0108],[0,-.0108]].map(p=>new T.Vector2(p[0],p[1])),72),GM.bluedPlain); ring.rotation.x=Math.PI/2; ring.castShadow=true; cyl.add(ring);
+    /* every chamber is a real bore you can look down: a dark steel tube with a floor at the back and a bright chamfered mouth */
+    chambers.forEach(({a})=>{ const cx=Math.cos(a)*.0138, cy=Math.sin(a)*.0138;
+      const tube=new T.Mesh(new T.CylinderGeometry(.0061,.0061,.034,28,1,true),GM.boreIn); tube.rotation.x=Math.PI/2; tube.position.set(cx,cy,.0065); cyl.add(tube);
+      const floor=new T.Mesh(new T.CircleGeometry(.0061,28),GM.bore); floor.position.set(cx,cy,-.0103); cyl.add(floor);
+      const lip=new T.Mesh(new T.TorusGeometry(.0061,.0007,8,32),GM.bright); lip.position.set(cx,cy,.0236); cyl.add(lip); });
     const ratchet=new T.Mesh(new T.LatheGeometry([[0,-.0265],[.004,-.0265],[.0062,-.0235],[0,-.0235]].map(p=>new T.Vector2(p[0],p[1])),14),GM.bright); ratchet.rotation.x=Math.PI/2; cyl.add(ratchet);
     for(let i=0;i<n;i++){ const a=i/n*Math.PI*2+Math.PI/2; const rat=new T.Mesh(new T.BoxGeometry(.0022,.003,.0024),GM.bright); rat.position.set(Math.cos(a)*.0052,Math.sin(a)*.0052,-.0248); rat.rotation.z=a; cyl.add(rat); }
     cyl.userData.chambers=chambers;
-    const round=new T.Group(); const caseM=new T.Mesh(new T.CylinderGeometry(.0046,.0046,.028,14),GM.brass); caseM.rotation.x=Math.PI/2; round.add(caseM); round.visible=false; cyl.add(round); cyl.userData.round=round; }
+    /* the one cartridge: brass case with a rim and primer at the back, a grey lead nose showing at the chamber mouth */
+    const round=new T.Group();
+    const caseM=new T.Mesh(new T.CylinderGeometry(.0048,.0048,.024,24),GM.brass); caseM.rotation.x=Math.PI/2; caseM.position.z=.0015; round.add(caseM);
+    const rim=new T.Mesh(new T.CylinderGeometry(.0054,.0054,.0012,24),GM.brass); rim.rotation.x=Math.PI/2; rim.position.z=-.0098; round.add(rim);
+    const primer=new T.Mesh(new T.CircleGeometry(.0018,16),GM.bright); primer.position.z=-.0105; primer.rotation.y=Math.PI; round.add(primer);
+    const nose=new T.Mesh(new T.CylinderGeometry(.0046,.0046,.011,24),GM.lead); nose.rotation.x=Math.PI/2; nose.position.z=.0165; round.add(nose);
+    const tip=new T.Mesh(new T.SphereGeometry(.0046,20,14),GM.lead); tip.scale.z=.7; tip.position.z=.022; round.add(tip);
+    round.visible=false; cyl.add(round); cyl.userData.round=round;
+    cyl.userData.placeRound=(i)=>{ const a=i/n*Math.PI*2+Math.PI/2; round.position.set(Math.cos(a)*.0138,Math.sin(a)*.0138,0); round.visible=true; }; }
   /* base pin through the cylinder with its knurled head out the front of the frame */
-  { const pin=new T.Mesh(new T.CylinderGeometry(.0028,.0028,.076,14),GM.bright); pin.rotation.x=Math.PI/2; pin.position.z=.01; g.add(pin);
-    const head=new T.Mesh(new T.LatheGeometry([[0,0],[.0036,0],[.0042,.002],[.0042,.006],[.003,.0075],[0,.0075]].map(p=>new T.Vector2(p[0],p[1])),16),GM.bright); head.rotation.x=Math.PI/2; head.position.set(0,0,.05); g.add(head); }
+  { const pin=new T.Mesh(new T.CylinderGeometry(.0028,.0028,.076,14),GM.bright); pin.rotation.x=Math.PI/2; pin.position.set(.0165,.016,.01); crane.add(pin);
+    const head=new T.Mesh(new T.LatheGeometry([[0,0],[.0036,0],[.0042,.002],[.0042,.006],[.003,.0075],[0,.0075]].map(p=>new T.Vector2(p[0],p[1])),16),GM.bright); head.rotation.x=Math.PI/2; head.position.set(.0165,.016,.05); head.scale.set(.8,.8,.8); crane.add(head); }
   /* HAMMER: bevelled body, spur curling back over the recoil shield, pivots on the hammer screw */
   hammer.position.set(0,.006,-.041); g.add(hammer);
   const ham=extrude(smooth([[-.0045,-.008],[.0055,-.008],[.0065,.01],[.005,.024],[.0005,.034],[-.011,.042],[-.023,.047],[-.0305,.043],[-.031,.036],[-.021,.033],[-.012,.03],[-.008,.018],[-.007,.004]],70),.0085,.0011,GM.bright,3); ham.scale.set(1,.75,.75); hammer.add(ham);
@@ -469,7 +483,8 @@ const gunShadow=new T.Mesh(new T.PlaneGeometry(.33,.14),new T.MeshBasicMaterial(
 /* RR_GUN_TOP.png: top-down photo on the felt for the spin shots, cross-faded with the model (filled in by loadAssets) */
 const gunTop=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({transparent:true, opacity:0, depthWrite:false, toneMapped:false})); gunTop.rotation.x=-Math.PI/2; gunTop.position.y=.002; gunTop.visible=false; spin.add(gunTop);
 
-window.__dbg={gun,cyl,hammer,muzzle,spin,lie,get camera(){return camera;}};
+const closeKey=new T.PointLight(0xfff1e2,0,1.6,2); scene.add(closeKey);
+window.__dbg={gun,cyl,crane,hammer,muzzle,spin,lie,scene,renderer,get camera(){return camera;}};
 /* ================= the boards on brass easels (Daniel LEFT, Nik RIGHT) ================= */
 const boards={ D:null, N:null };
 const BOARD_W=.62, BOARD_H=.62;
@@ -555,7 +570,7 @@ function layout(){ PH=portrait(); const w=innerWidth, h=innerHeight; camera.aspe
   const bx=PH?.5:1.08, by=PH?1.02:1.0, bz=PH?.12:-.05, yaw=PH?.48:.55, sc=PH?.78:1;
   [["D",-1],["N",1]].forEach(([k,s])=>{ const b=boards[k]; b.position.set(bx*s,by,bz); b.rotation.set(-.12,-yaw*s,0); b.scale.setScalar(sc); });
   if(PH){ camRest.set(0,1.8,2.75); lookRest.set(0,.92,-.1); } else { camRest.set(0,1.62,2.5); lookRest.set(0,.86,-.1); }
-  renderer.setPixelRatio(Math.min(devicePixelRatio||1,PH?2:1.75)); renderer.setSize(w,h,false); }
+  renderer.setPixelRatio(Math.min(devicePixelRatio||1,PH?2.5:3)); renderer.setSize(w,h,false); }
 addEventListener("resize",layout);
 
 /* ================= the turn: the gun spins on the felt, cocks itself, fires or clicks ================= */
@@ -566,7 +581,7 @@ let manual=null, last=0, fired={}, camPos=new T.Vector3(), camLook=new T.Vector3
 function slot(el,txt,cls){ el.textContent=txt; el.className=cls||""; }
 function setBusy(b){ cta.classList.toggle("busy",b); cta.textContent=b?"Spinning…":(turn%2===0&&turn>0?"Spin again":"Spin the cylinder"); }
 function startTurn(force){ if(playing) return; const who=ORDER[turn%2];
-  if(!loaded){ bulletAt=Math.floor(rnd()*7); loaded=true; }
+  if(!loaded){ bulletAt=Math.floor(rnd()*7); loaded=true; cyl.userData.placeRound(bulletAt); }
   const fireQ=qs.get("fire"); const want=force!==undefined?force:(fireQ==="1"?true:fireQ==="0"?false:null);
   chamber=want===null?Math.floor(rnd()*7):(want?bulletAt:(bulletAt+1+Math.floor(rnd()*6))%7);
   const b=boards[who].userData; const free=b.bubbles.filter((x,i)=>!b.hit||b.hit.i!==i); const pick=free[Math.floor(rnd()*free.length)];
@@ -576,24 +591,28 @@ function startTurn(force){ if(playing) return; const who=ORDER[turn%2];
   setBusy(true); result.className="result"; result.textContent=""; slot(who==="D"?slotD:slotN,"Spinning…","wait"); $("chipWho").textContent=NAME[who]; $("pchipWho").textContent=NAME[who];
   live.textContent=`${NAME[who]}'s turn. The revolver spins on the table.`; SFX.play("spinStart"); }
 function endTurn(){ const p=playing; if(!p) return; const who=p.who; if(p.fire){ done[who]={lost:p.target.name}; slot(who==="D"?slotD:slotN,"Lost "+p.target.name,"lost"); } else { done[who]={safe:true}; slot(who==="D"?slotD:slotN,"Safe","safe"); }
-  turn++; playing=null; const next=ORDER[turn%2]; setBusy(false); $("chipWho").textContent=NAME[next]; $("pchipWho").textContent=NAME[next]; if(turn%2===1) slot(next==="D"?slotD:slotN,"At the table","wait"); if(p.fire) loaded=false; }
+  turn++; playing=null; const next=ORDER[turn%2]; setBusy(false); $("chipWho").textContent=NAME[next]; $("pchipWho").textContent=NAME[next]; if(turn%2===1) slot(next==="D"?slotD:slotN,"At the table","wait"); if(p.fire){ loaded=false; cyl.userData.round.visible=false; } }
 const now=()=>manual!==null?manual:performance.now()/1000;
 /* beats (seconds from the start of a turn); reduced motion shortens them */
-const B=REDUCED?{spin:.2,spinEnd:1.6,close:1.8,turnC:2.2,cock:2.6,aim:2.7,fire:3.3,end:4.6}:{spin:.35,spinEnd:3.0,close:3.3,turnC:4.2,cock:4.75,aim:4.95,fire:5.8,end:8.3};
+const B=REDUCED?{spin:.2,spinEnd:1.6,close:1.8,inside:1.8,turnC:2.2,cock:2.6,aim:2.7,fire:3.3,end:4.6}:{spin:.35,spinEnd:3.0,close:3.3,inside:4.7,turnC:5.3,cock:5.85,aim:6.05,fire:6.9,end:9.4};
 let hammerK=0, cylExtra=0, recoil=0;
 function cylTarget(){ return -chamber*(Math.PI*2/7); }
 function at(tt,t,k,fn){ if(tt>=t&&!fired[k]){ fired[k]=1; fn(); } }
 let lastClick=0;
 function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
   const muzzleW=new T.Vector3(); muzzle.getWorldPosition(muzzleW);
-  if(!p){ hammerK=lerp(hammerK,0,Math.min(1,dt*6)); cyl.rotation.z=lerp(cyl.rotation.z,cylTarget(),Math.min(1,dt*6)); spin.position.lerp(new T.Vector3(0,.751,.02),Math.min(1,dt*.8)); }
+  if(!p){ crane.rotation.z=lerp(crane.rotation.z,0,Math.min(1,dt*6)); hammerK=lerp(hammerK,0,Math.min(1,dt*6)); cyl.rotation.z=lerp(cyl.rotation.z,cylTarget(),Math.min(1,dt*6)); spin.position.lerp(new T.Vector3(0,.751,.02),Math.min(1,dt*.8)); }
   else {
     const tgt=boardTargetWorld(p.who,p.target);
     /* a. the spin: fast, friction slows it, stops on the target with a small overshoot and settle */
     if(tt>=B.spin&&tt<B.spinEnd+.5){ const k=S(B.spin,B.spinEnd-B.spin,tt); const turns=REDUCED?2:4; let delta=(p.yawTarget-p.yaw0)%(Math.PI*2); if(delta<0) delta+=Math.PI*2; const total=turns*Math.PI*2+delta; const e=1-Math.pow(1-k,2.6); const over=Math.sin(Math.min(1,k)*Math.PI)*0; const settle=tt>B.spinEnd?Math.sin((tt-B.spinEnd)*14)*Math.exp(-(tt-B.spinEnd)*6)*.09:0; const prev=spin.rotation.y; spin.rotation.y=p.yaw0+total*e+(k>.8?Math.sin((k-.8)/.2*Math.PI)*.12:0)+settle; p.spinV=(spin.rotation.y-prev)/Math.max(dt,1e-3); if(Math.floor(spin.rotation.y/.9)!==lastClick){ lastClick=Math.floor(spin.rotation.y/.9); SFX.play("felt",Math.min(1,Math.abs(p.spinV)/14)); } }
     else if(tt>=B.spinEnd+.5&&tt<B.fire){ spin.rotation.y=p.yawTarget; }
     /* b. the cylinder turns one chamber by itself, then the hammer cocks by itself */
-    at(tt,B.turnC,"turnC",()=>SFX.play("click",1)); const ck=ease.out(S(B.turnC,.22,tt)); cyl.rotation.z=cylTarget()-(Math.PI*2/7)*(1-ck);
+    /* the crane swings the cylinder out, it spins fast and runs down while the camera looks into the chambers, then swings back */
+    const craneK=tt<B.close?0:tt<B.inside?ease.inOut(S(B.close,.5,tt)):1-ease.inOut(S(B.inside,.45,tt)); crane.rotation.z=craneK*1.5;
+    at(tt,B.close,"craneOpen",()=>SFX.play("cock",.6)); at(tt,B.inside,"craneShut",()=>SFX.play("click",1));
+    let showExtra=0; if(tt>=B.close&&tt<B.inside){ const k=S(B.close+.25,B.inside-B.close-.45,tt); const e=1-Math.pow(1-k,3); showExtra=(1-e)*Math.PI*2*(REDUCED?0:5); const idx=Math.floor(showExtra/(Math.PI*2/7)); if(idx!==lastClick){ lastClick=idx; SFX.play("click",.25); } }
+    at(tt,B.turnC,"turnC",()=>SFX.play("click",1)); const ck=ease.out(S(B.turnC,.22,tt)); cyl.rotation.z=cylTarget()-(Math.PI*2/7)*(1-ck)+showExtra;
     hammerK=tt<B.cock?0:tt<B.fire?ease.out(S(B.cock,.3,tt)):Math.max(0,1-S(B.fire,.05,tt));
     at(tt,B.cock,"cock",()=>SFX.play("cock")); at(tt,B.aim,"heart",()=>SFX.play("heart"));
     /* c/d. hammer falls */
@@ -623,17 +642,22 @@ function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new
     const topPos=PH?new T.Vector3(0,2.5,.22):new T.Vector3(0,2.25,.3), topLook=new T.Vector3(0,.75,.0);
     /* the close-up stands off the hammer side of the gun, low over the felt, telephoto */
     const yaw=p.yawTarget; const back=new T.Vector3(-Math.sin(yaw),0,-Math.cos(yaw)); const side=new T.Vector3(Math.cos(yaw),0,-Math.sin(yaw));
-    const closePos=gw.clone().add(back.clone().multiplyScalar(.6)).add(side.clone().multiplyScalar(PH?-.42:-.5)).add(new T.Vector3(0,.3,0)), closeLook=gw.clone().add(new T.Vector3(0,.02,0)).add(back.clone().multiplyScalar(.03)); const closeFov=PH?22:18;
+    const closePos=gw.clone().add(back.clone().multiplyScalar(.46)).add(side.clone().multiplyScalar(PH?-.4:-.46)).add(new T.Vector3(0,.4,0)), closeLook=gw.clone().add(new T.Vector3(0,.02,0)).add(back.clone().multiplyScalar(.03)); const closeFov=PH?22:18;
+    gun.updateWorldMatrix(true,false); const inK=S(B.close+.5,B.inside-B.close-.5,tt); const insidePos=gun.localToWorld(new T.Vector3(-.1,.056,.225).lerp(new T.Vector3(-.082,.044,.185),ease.inOut(inK))), insideLook=gun.localToWorld(new T.Vector3(-.033,.001,.016)); const insideFov=PH?26:20;
+    /* a soft key light rides above the camera for the cylinder and hammer close-ups, so the steel has something to reflect */
+    const keyOn=tt>=B.close&&tt<B.fire?1:0; closeKey.intensity=lerp(closeKey.intensity,keyOn*1.1,Math.min(1,dt*6)); closeKey.position.copy(camPos).add(new T.Vector3(0,.09,0));
     const tensePos=gw.clone().add(back.clone().multiplyScalar(.26)).add(side.clone().multiplyScalar(PH?-.2:-.24)).add(new T.Vector3(0,.14,0));
     const hitPos=PH?new T.Vector3(sx*.25,1.5,2.1):new T.Vector3(sx*.6,1.35,1.9), hitLook=bw.clone().lerp(gw,.35);
     if(tt<B.spin+.3){ const k=ease.inOut(S(0,.6,tt)); pos.lerpVectors(pos,topPos,k); look.lerpVectors(look,topLook,k); }
     else if(tt<B.close){ pos.copy(topPos); look.copy(topLook); }
-    else if(tt<B.aim){ const k=ease.inOut(S(B.close,.7,tt)); pos.lerpVectors(topPos,closePos,k); look.lerpVectors(topLook,closeLook,k); fov=lerp(fovRest,closeFov,k); }
+    else if(tt<B.inside){ /* look inside: the camera drops to the front of the cylinder and stares down the seven bores */
+      const k=ease.inOut(S(B.close,.7,tt)); pos.lerpVectors(topPos,insidePos,k); look.lerpVectors(topLook,insideLook,k); fov=lerp(fovRest,insideFov,k); }
+    else if(tt<B.aim){ const k=ease.inOut(S(B.inside,.6,tt)); pos.lerpVectors(insidePos,closePos,k); look.lerpVectors(insideLook,closeLook,k); fov=lerp(insideFov,closeFov,k); }
     else if(tt<B.fire){ const k=ease.in(S(B.aim,B.fire-B.aim,tt)); pos.lerpVectors(closePos,tensePos,k); look.copy(closeLook); fov=closeFov; }
     else { const k1=1, k2=ease.inOut(S(B.fire+1.4,B.end-B.fire-1.4,tt)); const pp=tensePos.clone().lerp(hitPos,k1), ll=closeLook.clone().lerp(p.fire?hitLook:gw.clone().add(new T.Vector3(0,.05,0)),k1); pos.lerpVectors(pp,camRest.clone().add(drift),k2); look.lerpVectors(ll,lookRest,k2); fov=lerp(lerp(closeFov,fovRest,k1),fovRest,k2); }
     /* top-down photo layer (if present) shows in the top shots, the model in the rest */
     const topK=tt<B.close?1:1-ease.inOut(S(B.close,.5,tt)); crossFade(topK); }
-  else crossFade(0);
+  else { crossFade(0); closeKey.intensity=lerp(closeKey.intensity,0,Math.min(1,dt*6)); }
   if(p&&tt>=B.fire&&!fired.cut){ fired.cut=1; camPos.copy(pos); camLook.copy(look); fovNow=fov; }
   fovNow=lerp(fovNow,fov,Math.min(1,dt*(p?9:3))); if(Math.abs(camera.fov-fovNow)>.01){ camera.fov=fovNow; camera.updateProjectionMatrix(); }
   camPos.lerp(pos,Math.min(1,dt*(p?9:2))); camLook.lerp(look,Math.min(1,dt*(p?9:2)));

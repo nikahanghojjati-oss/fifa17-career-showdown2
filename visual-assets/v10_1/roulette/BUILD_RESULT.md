@@ -36,3 +36,13 @@ FPS could not be measured here (software renderer); one shadow map, 7 lights, 54
 Spend: about 55 minutes of Fable thread time plus two helpers (room pass 19 min, revolver 25 min) against the 60-minute cap; no cloud credit used.
 
 CC-010 DONE 04fa2c9f22c6c76e6a2b1bd194355348d28b8432
+
+## CC-011 · revolver round (29 Oct 2026, Team V thread, Fable 5.1)
+Nik: "Build to see inside the cylinder in 4K quality", "cinematic transition ... zoom to it", "work a lot on image quality of the room".
+- Cylinder rebuilt: shallower real flutes, seven true bores (dark steel tubes with a floor and a bright chamfered mouth), the one cartridge is a real object (brass case, rim and primer at the back, grey lead nose at the mouth) placed in the loaded chamber (`cyl.userData.placeRound(i)`), hidden after it fires.
+- Crane: the cylinder sits in a crane hinged below its left side and swings out (up, as the gun lies on its right side) with the base pin and knurled head.
+- New beat `inside` (3.3 s → 4.7 s): camera zooms from the top-down shot into the open cylinder (slow push-in while the cylinder spins five turns and runs down with ratchet clicks), then the crane shuts with a click and the camera moves to the hammer-side view. Beats: spin .35, spinEnd 3.0, close 3.3, inside 4.7, turnC 5.3, cock 5.85, aim 6.05, fire 6.9, end 9.4 (reduced motion skips the inside beat).
+- A cool key light rides above the camera for the close-ups; hammer-side view raised so the whole gun reads.
+- Sharpness: pixel ratio cap 3 on desktop, 2.5 on phone (4K-class on a retina/4K screen). Table wood 1024, shadow map 2048 with a softer radius, felt deeper and finer, lantern stronger.
+- Evidence rebuilt: idle, top, inside, cock, flash, hit, after at 1536x864 and 393x660; no scroll and button inside at both; no page errors.
+- Still open: hammer and trigger are simple forms; RR_ROOM / RR_GUN_TOP / RR_FLASH drop-ins; real-device FPS.
