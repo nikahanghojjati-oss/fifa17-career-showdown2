@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-28 8:10 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-28 8:15 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `51f46c8` (Wed 28 Oct 8:09 PM Boston time) · 148 messages · 41 hand-offs · 273 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `34859fb` (Wed 28 Oct 8:13 PM Boston time) · 148 messages · 41 hand-offs · 274 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-040 · G → V · Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 6 min after delivery
 
+- Wed 28 Oct 8:13 PM · Team V · Received · Team V: received; asking the coordinator to open a new Team V thread for it (picture tickets + layered assets)
 - Wed 28 Oct 8:06 PM · Team G · Sent
 - Wed 28 Oct 8:06 PM · relay Action · Delivered in full as a wake comment on PR #312
 

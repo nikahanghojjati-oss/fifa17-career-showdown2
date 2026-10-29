@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28 8:10 PM Boston time (EDT)",
+ "generated": "2026-10-28 8:15 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 148,
@@ -1355,8 +1355,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "3b1ad6b",
-  "head_boston": "Wed 28 Oct 8:08 PM",
+  "head": "34859fb",
+  "head_boston": "Wed 28 Oct 8:13 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1946,13 +1946,13 @@
     "from": "G",
     "to": "V",
     "title": "Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87)",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-040_roster-russian-roulette-red-dead-style-s.md",
     "worker": "images",
-    "pickup_min": null,
-    "waiting_min": 3
+    "pickup_min": 6,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
