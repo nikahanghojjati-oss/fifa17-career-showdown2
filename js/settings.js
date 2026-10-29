@@ -301,7 +301,8 @@ function createMenuFeedbackControl(){
 }
 
 // r86: today's free Firebase reads as Google bills them (documents plus the security-check lookups, priced per document),
-// for both phones: this phone's count twice, since the other phone plays the same seasons. The count resets at 3 am Boston.
+// for both devices: this device's count twice, since the other one plays the same seasons. Split into game screens and
+// career pages (History, Legacy and the others) in the same row, so Settings keeps its height. Resets at 3 am Boston.
 function getSettingsRoundedReads(value){
     return (Math.round(value / 10) * 10).toLocaleString("en-US");
 }
@@ -309,18 +310,9 @@ function getSettingsReadsTodayText(){
     try{
         const today = window.CareerModeFirestoreBudget?.readsToday?.();
         if(!today || !Number.isFinite(today.billedEstimate)){ return ""; }
-        return `About ${getSettingsRoundedReads(today.billedEstimate)} of ${today.freeReadsPerDay.toLocaleString("en-US")} · both devices`;
-    }catch(_error){
-        return "";
-    }
-}
-
-// r86: this device's own billed reads today, split into game screens and career pages (History, Legacy and the others).
-function getSettingsReadsHereText(){
-    try{
-        const today = window.CareerModeFirestoreBudget?.readsToday?.();
-        if(!today || !Number.isFinite(today.game) || !Number.isFinite(today.career)){ return ""; }
-        return `Games ${getSettingsRoundedReads(today.game)} · career pages ${getSettingsRoundedReads(today.career)}`;
+        const total = `About ${getSettingsRoundedReads(today.billedEstimate)} of ${today.freeReadsPerDay.toLocaleString("en-US")}`;
+        if(!Number.isFinite(today.game) || !Number.isFinite(today.career)){ return `${total} · both devices`; }
+        return `${total} · games ${getSettingsRoundedReads(today.game * 2)} · career pages ${getSettingsRoundedReads(today.career * 2)}`;
     }catch(_error){
         return "";
     }
@@ -354,8 +346,6 @@ function createApplicationPanel(){
     );
     const readsToday = getSettingsReadsTodayText();
     if(readsToday){ info.appendChild(createSettingsInfoRow("FREE ONLINE USE TODAY", readsToday)); }
-    const readsHere = getSettingsReadsHereText();
-    if(readsHere){ info.appendChild(createSettingsInfoRow("COUNTED HERE TODAY", readsHere)); }
     const seasonsLeft = getSettingsSeasonsLeftText();
     if(seasonsLeft){ info.appendChild(createSettingsInfoRow("SEASONS LEFT TODAY", seasonsLeft)); }
     panel.appendChild(info);

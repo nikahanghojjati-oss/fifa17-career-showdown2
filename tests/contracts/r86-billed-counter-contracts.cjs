@@ -9,7 +9,7 @@
 // B4 a transaction that writes is billed its write lookups once per request; a read-only one none;
 // B5 a direct setDoc (the career summary) is billed its write lookups as a career page;
 // B6 seasons left: a season's cost is game reads only, today's use counts career pages too, both devices;
-// B7 Settings shows both devices' total and this device's games / career pages split.
+// B7 Settings shows both devices' total, split into games and career pages, in one row.
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
@@ -126,11 +126,10 @@ const RID='pair_'+'a'.repeat(64);
     assert.equal(left.seasons,Math.floor((50000-left.billedToday)/left.billedPerSeason));
   });
 
-  await check('B7 Settings shows both devices\' total and this device\'s games / career pages split',()=>{
+  await check('B7 Settings shows both devices\' total split into games and career pages in one row (Settings keeps its height)',()=>{
     const settings=read('js/settings.js');
-    assert.match(settings,/· both devices`/);
-    assert.match(settings,/"COUNTED HERE TODAY"/);
-    assert.match(settings,/`Games \$\{getSettingsRoundedReads\(today\.game\)\} · career pages \$\{getSettingsRoundedReads\(today\.career\)\}`/);
+    assert.match(settings,/· games \$\{getSettingsRoundedReads\(today\.game \* 2\)\} · career pages \$\{getSettingsRoundedReads\(today\.career \* 2\)\}`/);
+    assert.doesNotMatch(settings,/COUNTED HERE TODAY|THIS DEVICE TODAY/,'no extra row: the short Settings screen must not scroll');
   });
 
   console.log(`PASS r86 billed counter contracts: ${checks} checks`);
