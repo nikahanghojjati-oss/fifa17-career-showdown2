@@ -1,0 +1,389 @@
+{
+ "batch": 12,
+ "situation": "level-overall",
+ "voice": "The lead caller",
+ "edited": true,
+ "writer": "claude-sonnet-helper",
+ "lines": [
+  {
+   "id": "cb12-001",
+   "text": "Dead level! Nothing, absolutely nothing, separates {managerA} and {managerB} overall!"
+  },
+  {
+   "id": "cb12-002",
+   "text": "Not a hair between them. {clubA} and {clubB} stand exactly level, and the Showdown holds its breath!"
+  },
+  {
+   "id": "cb12-003",
+   "text": "All square, and nobody is blinking!"
+  },
+  {
+   "id": "cb12-004",
+   "text": "Pull the two totals together and there is no gap at all. Level, and loving it!"
+  },
+  {
+   "id": "cb12-005",
+   "text": "{managerA} looks left, {managerB} looks right, and both see the same total staring back!"
+  },
+  {
+   "id": "cb12-006",
+   "text": "After all that effort, the Showdown is perfectly balanced on a knife edge!"
+  },
+  {
+   "id": "cb12-007",
+   "text": "Tug of war, and the rope has not moved an inch! {clubA} and {clubB} are level!"
+  },
+  {
+   "id": "cb12-008",
+   "text": "This is what a rivalry looks like at its sharpest: two managers, one total, and no daylight!"
+  },
+  {
+   "id": "cb12-009",
+   "text": "Level on {points}, and {clubB} cannot believe it. Neither can {clubA}!"
+  },
+  {
+   "id": "cb12-010",
+   "text": "It is a mirror image on the table, and {managerA} is staring at {managerB} in it!"
+  },
+  {
+   "id": "cb12-011",
+   "text": "You could not have scripted it better. Everything shared, everything level!"
+  },
+  {
+   "id": "cb12-012",
+   "text": "The scales are perfectly still. {clubA} on one side, {clubB} on the other, and not a flicker!"
+  },
+  {
+   "id": "cb12-013",
+   "text": "Neck and neck through season {season}, and there is still nothing to choose!"
+  },
+  {
+   "id": "cb12-014",
+   "text": "If you wanted a Showdown with no favorite, here it is. Level overall, and tension everywhere!"
+  },
+  {
+   "id": "cb12-015",
+   "text": "Hold the phone, because the whole thing is tied! {managerA} and {managerB} cannot be separated!"
+  },
+  {
+   "id": "cb12-016",
+   "text": "Two clubs, two managers, one total. That is the picture right now, and it is a beautiful one."
+  },
+  {
+   "id": "cb12-017",
+   "text": "Photo finish, and the photograph shows a dead heat! Level overall at {clubA} and {clubB}!"
+  },
+  {
+   "id": "cb12-018",
+   "text": "Whatever happens next, remember this: for now, {managerB} and {managerA} are exactly equal."
+  },
+  {
+   "id": "cb12-019",
+   "text": "Equal, level, inseparable, and the next season suddenly matters a great deal more!"
+  },
+  {
+   "id": "cb12-020",
+   "text": "The whole story so far fits on one line: level, and nobody ahead!"
+  },
+  {
+   "id": "cb12-021",
+   "text": "{clubA} cannot pull clear. {clubB} cannot pull clear. Level, and what a spectacle!"
+  },
+  {
+   "id": "cb12-022",
+   "text": "Is there a closer Showdown anywhere in the game? {managerA} and {managerB} cannot be split!"
+  },
+  {
+   "id": "cb12-023",
+   "text": "Nothing in it! Nothing at all! The overall total is exactly the same!"
+  },
+  {
+   "id": "cb12-024",
+   "text": "Both on {points}, both unbeaten in spirit, and both desperate to be the one to move!"
+  },
+  {
+   "id": "cb12-025",
+   "text": "It takes a special pair of managers to stay level for this long."
+  },
+  {
+   "id": "cb12-026",
+   "text": "Not a single point of difference, and {managerA} knows it, and so does {managerB}!"
+  },
+  {
+   "id": "cb12-027",
+   "text": "Level at the top of the Showdown, and every season from here is a grenade."
+  },
+  {
+   "id": "cb12-028",
+   "text": "Two doors, one hallway, and {clubA} and {clubB} arrive together!"
+  },
+  {
+   "id": "cb12-029",
+   "text": "Call it fate, call it fairness, call it two friends cancelling each other out. It's level!"
+  },
+  {
+   "id": "cb12-030",
+   "text": "Fair is fair, and the Showdown is fair to the very last number: all square!"
+  },
+  {
+   "id": "cb12-031",
+   "text": "The tension in this room could cut glass, because {managerA} and {managerB} are level!"
+  },
+  {
+   "id": "cb12-032",
+   "text": "What are the odds? Equal! The totals match exactly, and the rivalry gets another twist!"
+  },
+  {
+   "id": "cb12-033",
+   "text": "A perfect knot, and nobody can untie it! {clubA} and {clubB} are exactly level."
+  },
+  {
+   "id": "cb12-034",
+   "text": "Back to the start line, in a manner of speaking, because the totals are the same!"
+  },
+  {
+   "id": "cb12-035",
+   "text": "Two totals, one number, and {points} is it for both {clubA} and {clubB}!"
+  },
+  {
+   "id": "cb12-036",
+   "text": "It is the kind of level you do not forget. Overall, they are inseparable."
+  },
+  {
+   "id": "cb12-037",
+   "text": "Even Steven, as the old saying goes, and the Showdown is richer for it!"
+  },
+  {
+   "id": "cb12-038",
+   "text": "The pendulum has swung back to the middle, and {managerA} and {managerB} are level!"
+  },
+  {
+   "id": "cb12-039",
+   "text": "Right back in the middle of the table sit {clubA} and {clubB}, as close as it gets!"
+  },
+  {
+   "id": "cb12-040",
+   "text": "The most honest result in the game: a total that does not choose a side."
+  },
+  {
+   "id": "cb12-041",
+   "text": "Remember what we said about this being tight? Tighter than ever, and level!"
+  },
+  {
+   "id": "cb12-042",
+   "text": "Somebody will break this deadlock soon, but not today. Level, and gloriously so!"
+  },
+  {
+   "id": "cb12-043",
+   "text": "No leader, no trailer, just two managers and the same total."
+  },
+  {
+   "id": "cb12-044",
+   "text": "With the totals matched, season {season} suddenly feels like a heavyweight bout!"
+  },
+  {
+   "id": "cb12-045",
+   "text": "{managerA} could not shake {managerB}, and {managerB} could not shake {managerA}. Level!"
+  },
+  {
+   "id": "cb12-046",
+   "text": "Lock the doors, because this is as tense as it gets. Level overall!"
+  },
+  {
+   "id": "cb12-047",
+   "text": "The best kind of problem: both managers on the same total, and both wanting more."
+  },
+  {
+   "id": "cb12-048",
+   "text": "Hand on heart, can anyone split {clubA} and {clubB} right now? Not a chance!"
+  },
+  {
+   "id": "cb12-049",
+   "text": "No gap, no edge, no daylight. Just a rivalry glowing at full brightness!"
+  },
+  {
+   "id": "cb12-050",
+   "text": "This is where legends are born, in a place where nobody leads and everybody chases."
+  },
+  {
+   "id": "cb12-051",
+   "text": "We have a dead heat on our hands, and {managerA} is not backing down!"
+  },
+  {
+   "id": "cb12-052",
+   "text": "It could not be tighter. Two managers, two clubs, and one shared total."
+  },
+  {
+   "id": "cb12-053",
+   "text": "The Showdown holds still for a moment, balanced, breathing, and level."
+  },
+  {
+   "id": "cb12-054",
+   "text": "Overall, it is a stalemate worth savoring, with {clubB} and {clubA} locked together!"
+  },
+  {
+   "id": "cb12-055",
+   "text": "Nothing separates them now, and every season ahead carries real weight."
+  },
+  {
+   "id": "cb12-056",
+   "text": "They set out to settle it, and {clubA} and {clubB} have settled nothing yet. Level!"
+  },
+  {
+   "id": "cb12-057",
+   "text": "For the first time in a while, there is no lead to defend and no deficit to chase."
+  },
+  {
+   "id": "cb12-058",
+   "text": "Remarkable, really. {managerB} and {managerA}, shoulder to shoulder, and level on {points}!"
+  },
+  {
+   "id": "cb12-059",
+   "text": "Squared up, squared away, and squared again. The totals match!"
+  },
+  {
+   "id": "cb12-060",
+   "text": "A single moment from now could decide who edges ahead, but for the moment it is level!"
+  },
+  {
+   "id": "cb12-061",
+   "text": "Shake hands if you like, but the rivalry is not done. The totals are the same!"
+  },
+  {
+   "id": "cb12-062",
+   "text": "This is a Showdown at full stretch, and it is level!"
+  },
+  {
+   "id": "cb12-063",
+   "text": "Which way will it fall? Nobody knows. {clubA} and {clubB} are exactly even."
+  },
+  {
+   "id": "cb12-064",
+   "text": "There it is on the table: the same number twice. What a rivalry!"
+  },
+  {
+   "id": "cb12-065",
+   "text": "Level pegging, and {clubB} dare not look away from {clubA}!"
+  },
+  {
+   "id": "cb12-066",
+   "text": "Both dugouts will be thinking the same thing right now: one more season could change everything!"
+  },
+  {
+   "id": "cb12-067",
+   "text": "Side by side across the line of this season, and the totals read the same!"
+  },
+  {
+   "id": "cb12-068",
+   "text": "The kind of balance that makes the neighbors turn up the volume. Level overall!"
+  },
+  {
+   "id": "cb12-069",
+   "text": "Think of two cats on a fence, both watching, neither moving. Welcome to this Showdown!"
+  },
+  {
+   "id": "cb12-070",
+   "text": "Neither manager owns the lead, and both want it badly. This is wonderful!"
+  },
+  {
+   "id": "cb12-071",
+   "text": "Season {season} done, and still nothing to separate {managerA} from {managerB}!"
+  },
+  {
+   "id": "cb12-072",
+   "text": "{managerA} and {managerB} have given us a Showdown for the ages, level and gleaming!"
+  },
+  {
+   "id": "cb12-073",
+   "text": "Level, level, level! Say it as many times as you like, it never gets less exciting!"
+  },
+  {
+   "id": "cb12-074",
+   "text": "Exactly as it should be in a rivalry like this: nothing between them!"
+  },
+  {
+   "id": "cb12-075",
+   "text": "A flat line on the lead graph, and a rising pulse in the room!"
+  },
+  {
+   "id": "cb12-076",
+   "text": "Whoever gets the next season right will take the lead. Until then, it is all level."
+  },
+  {
+   "id": "cb12-077",
+   "text": "Two sets of numbers walk into the room, and they match."
+  },
+  {
+   "id": "cb12-078",
+   "text": "Chase, catch, and tie. {clubA} and {clubB} have run each other to a standstill!"
+  },
+  {
+   "id": "cb12-079",
+   "text": "In the end, {clubB} and {clubA} sit exactly where they started: together!"
+  },
+  {
+   "id": "cb12-080",
+   "text": "It is even, it is exact, it is exquisite. Level overall!"
+  },
+  {
+   "id": "cb12-081",
+   "text": "The old grudge match is back to even, and both managers are loving it."
+  },
+  {
+   "id": "cb12-082",
+   "text": "What a time to be level. What a time to be watching."
+  },
+  {
+   "id": "cb12-083",
+   "text": "Stitched together at {points}, and not a thread loose! {managerA} and {managerB}!"
+  },
+  {
+   "id": "cb12-084",
+   "text": "You could drive a bus between them last season. Now there is no room for a bicycle!"
+  },
+  {
+   "id": "cb12-085",
+   "text": "Dead level, dead serious, and absolutely alive!"
+  },
+  {
+   "id": "cb12-086",
+   "text": "Consider the pressure now on {managerA}. And on {managerB}. And on the console controller!"
+  },
+  {
+   "id": "cb12-087",
+   "text": "A tie in the Showdown, and not a single person in the room willing to leave early!"
+  },
+  {
+   "id": "cb12-088",
+   "text": "From there to here, {clubA} have worked and {clubB} have answered. Level!"
+  },
+  {
+   "id": "cb12-089",
+   "text": "Take a picture, because it will not stay like this for long."
+  },
+  {
+   "id": "cb12-090",
+   "text": "Equal on points, equal on belief, and unequal only in how much each wants to win it!"
+  },
+  {
+   "id": "cb12-091",
+   "text": "Everything is on the line, nothing is decided, and the totals are the same!"
+  },
+  {
+   "id": "cb12-092",
+   "text": "Right down the middle goes the Showdown, split perfectly by season {season}!"
+  },
+  {
+   "id": "cb12-093",
+   "text": "The balance of power? There isn't one, and that is what makes this so good."
+  },
+  {
+   "id": "cb12-094",
+   "text": "Both on {points}, both in the hunt. Welcome to the closest thing in the game!"
+  },
+  {
+   "id": "cb12-095",
+   "text": "Nobody ahead, nobody behind, and the whole house is leaning in."
+  }
+ ]
+}

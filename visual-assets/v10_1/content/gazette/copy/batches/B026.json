@@ -15,7 +15,7 @@
   },
   {
    "id": "cb26-003",
-   "text": "The gap is {margin} and it looks like it was measured with a ruler."
+   "text": "Measured with a ruler, the gap is {margin}, and it looks as neat as a hedge."
   },
   {
    "id": "cb26-004",
@@ -59,7 +59,7 @@
   },
   {
    "id": "cb26-014",
-   "text": "The table reads like a polite, well-mannered letter, and {loser} is the one signing the bottom."
+   "text": "Reading like a polite, well-mannered letter, the table has {loser} signing the bottom."
   },
   {
    "id": "cb26-015",
@@ -79,7 +79,7 @@
   },
   {
    "id": "cb26-019",
-   "text": "The beaten side can take heart that the margin is not a mile, although it is not a short walk either."
+   "text": "Some heart for the beaten side: the margin is not a mile, though not a short walk either."
   },
   {
    "id": "cb26-020",
@@ -131,7 +131,7 @@
   },
   {
    "id": "cb26-032",
-   "text": "The trophies are not lined up yet, but {winner} has already polished the shelf they will sit on."
+   "text": "Trophies are not lined up yet, but {winner} has already polished the shelf they will sit on."
   },
   {
    "id": "cb26-033",
@@ -183,7 +183,7 @@
   },
   {
    "id": "cb26-045",
-   "text": "The beaten side will sulk for a week, buy a new whiteboard and be back at it by Monday."
+   "text": "Expect a week of sulking and a new whiteboard, with {loserClub} back at it by Monday."
   },
   {
    "id": "cb26-046",
@@ -207,7 +207,7 @@
   },
   {
    "id": "cb26-051",
-   "text": "The beaten side had some decent spells, but decent spells are not a season, and this one belonged to {winner}."
+   "text": "Decent spells came for {loser}, but decent spells are not a season, and this one belonged to {winner}."
   },
   {
    "id": "cb26-052",

@@ -1,0 +1,409 @@
+{
+ "batch": 18,
+ "situation": "showdown-won",
+ "voice": "The lead caller",
+ "edited": true,
+ "writer": "claude-sonnet-helper",
+ "lines": [
+  {
+   "id": "cb18-001",
+   "text": "It is over, and {winner} is the Showdown champion!"
+  },
+  {
+   "id": "cb18-002",
+   "text": "{winnerClub} lift the whole thing, and the long rivalry has its answer at last!"
+  },
+  {
+   "id": "cb18-003",
+   "text": "After {seasons} seasons there is a single name on the Showdown, and it is {winner}."
+  },
+  {
+   "id": "cb18-004",
+   "text": "Champion, {winner}, by {margin}, and what a journey it has been!"
+  },
+  {
+   "id": "cb18-005",
+   "text": "It could have gone either way, and in the end it went to {winner}!"
+  },
+  {
+   "id": "cb18-006",
+   "text": "The final whistle has gone, and {winnerClub} are the champions of the Showdown."
+  },
+  {
+   "id": "cb18-007",
+   "text": "{winner} wins it, {loser} gave everything, and the rivalry is richer for it."
+  },
+  {
+   "id": "cb18-008",
+   "text": "Read it out loud, {winner}: Showdown champion. It sounds even better than you imagined."
+  },
+  {
+   "id": "cb18-009",
+   "text": "{winnerPoints} to {loserPoints}, and the Showdown belongs to {winner}!"
+  },
+  {
+   "id": "cb18-010",
+   "text": "{loser} fought to the last, but the Showdown has found its champion in {winner}."
+  },
+  {
+   "id": "cb18-011",
+   "text": "Raise the cup high, {winner}, because you earned every inch of it."
+  },
+  {
+   "id": "cb18-012",
+   "text": "The open-top bus rolls out for {winnerClub}, and {loserClub} stand and applaud."
+  },
+  {
+   "id": "cb18-013",
+   "text": "A Showdown for the ages, and the crown has finally found its head!"
+  },
+  {
+   "id": "cb18-014",
+   "text": "{winner} finishes {margin} clear, and the Showdown has its champion!"
+  },
+  {
+   "id": "cb18-015",
+   "text": "It took {seasons} seasons, a lot of nerve and a console that never got a rest, and {winner} is on top!"
+  },
+  {
+   "id": "cb18-016",
+   "text": "What a Showdown, and what a champion! {winner}, take a bow."
+  },
+  {
+   "id": "cb18-017",
+   "text": "The crown is claimed, and the cabinet will never look the same again."
+  },
+  {
+   "id": "cb18-018",
+   "text": "{loser} will be back, but today the Showdown belongs to {winner}."
+  },
+  {
+   "id": "cb18-019",
+   "text": "There is a hush, then a roar, and {winner} is the Showdown champion!"
+  },
+  {
+   "id": "cb18-020",
+   "text": "Long nights, longer seasons, and at the end of them all, a champion."
+  },
+  {
+   "id": "cb18-021",
+   "text": "Settled at last, the trophy has an owner, and it is not being put down."
+  },
+  {
+   "id": "cb18-022",
+   "text": "Take the final whistle in, {loser}. It was a magnificent fight, and {winner} had the last word."
+  },
+  {
+   "id": "cb18-023",
+   "text": "It is {winnerClub}! The Showdown is theirs, and the celebrations can begin!"
+  },
+  {
+   "id": "cb18-024",
+   "text": "From the very first season to the very last, {winner} kept pushing, and now the Showdown is theirs."
+  },
+  {
+   "id": "cb18-025",
+   "text": "A famous win for {winnerClub} by {margin}, and {loserClub} can hold their heads high."
+  },
+  {
+   "id": "cb18-026",
+   "text": "Champions of the Showdown, and nobody can take that away."
+  },
+  {
+   "id": "cb18-027",
+   "text": "The curtain falls, the lights go up, and a lone figure stands at the top!"
+  },
+  {
+   "id": "cb18-028",
+   "text": "What a way to be remembered, {winner}: the manager who won the Showdown."
+  },
+  {
+   "id": "cb18-029",
+   "text": "Say it again for the neighbors: we have a Showdown champion!"
+  },
+  {
+   "id": "cb18-030",
+   "text": "Finished on {winnerPoints}, and finished first. {winner}, the Showdown is yours."
+  },
+  {
+   "id": "cb18-031",
+   "text": "{loser} pushed all the way to the end, but {winner} had the answer when it mattered."
+  },
+  {
+   "id": "cb18-032",
+   "text": "They will tell this story for years, and the last line is {winner} lifting the Showdown!"
+  },
+  {
+   "id": "cb18-033",
+   "text": "After all this time, all those seasons, the Showdown finally has its champion!"
+  },
+  {
+   "id": "cb18-034",
+   "text": "Bring it home, and what a homecoming it is for the champions!"
+  },
+  {
+   "id": "cb18-035",
+   "text": "It ends here, with {winner} on top by {margin}, and a rivalry that will not soon be forgotten."
+  },
+  {
+   "id": "cb18-036",
+   "text": "Hats off to {loser}, a worthy rival all the way, but the Showdown crown sits on {winner}."
+  },
+  {
+   "id": "cb18-037",
+   "text": "There will be a party at {winnerClub}, and a thoughtful walk home for {loserClub}."
+  },
+  {
+   "id": "cb18-038",
+   "text": "Final whistle, final word, and {winner} has the Showdown!"
+  },
+  {
+   "id": "cb18-039",
+   "text": "The big prize goes to {winner}, the big respect goes to {loser}, and everybody gets a story out of it."
+  },
+  {
+   "id": "cb18-040",
+   "text": "Winner of the Showdown, {winner}, and the cabinet just got heavier!"
+  },
+  {
+   "id": "cb18-041",
+   "text": "A wonderful Showdown ends the only way it could, with a champion in the spotlight!"
+  },
+  {
+   "id": "cb18-042",
+   "text": "{winnerClub} take the Showdown by {margin}, and the whole rivalry stands to applaud."
+  },
+  {
+   "id": "cb18-043",
+   "text": "Champions at last, {winnerClub}, and the road to get here was worth every mile."
+  },
+  {
+   "id": "cb18-044",
+   "text": "Two clubs set out, {seasons} seasons passed, and {winnerClub} are the ones still smiling."
+  },
+  {
+   "id": "cb18-045",
+   "text": "The ribbons are tied, the cup is polished, and {winner} will carry it with pride."
+  },
+  {
+   "id": "cb18-046",
+   "text": "It is all over, {loser}, and what a fight you put up!"
+  },
+  {
+   "id": "cb18-047",
+   "text": "Never in doubt? Hardly. But {winner} got there, and that is all that matters!"
+  },
+  {
+   "id": "cb18-048",
+   "text": "It is done! The Showdown has a champion, and the champion has a grin!"
+  },
+  {
+   "id": "cb18-049",
+   "text": "The whole Showdown comes down to this picture: the cup lifted high, the handshake offered gracefully."
+  },
+  {
+   "id": "cb18-050",
+   "text": "Decided at last, {winnerPoints} against {loserPoints}, and {winnerClub} are on top of the world!"
+  },
+  {
+   "id": "cb18-051",
+   "text": "We will remember the wins, the swings, the nerve, but most of all we will remember {winner} on top."
+  },
+  {
+   "id": "cb18-052",
+   "text": "A champion crowned, a rival respected, and a Showdown that deserves its place in the story."
+  },
+  {
+   "id": "cb18-053",
+   "text": "{winnerClub} have won the Showdown, and {loserClub} have earned a rematch."
+  },
+  {
+   "id": "cb18-054",
+   "text": "Clear air, clear head, and a Showdown won by {margin}!"
+  },
+  {
+   "id": "cb18-055",
+   "text": "Long may it be told: {winner} won the Showdown, and {loser} made them earn every inch."
+  },
+  {
+   "id": "cb18-056",
+   "text": "A last look at the table, {loser}, and a very big smile for {winner}."
+  },
+  {
+   "id": "cb18-057",
+   "text": "The table says it, the cabinet says it, and the story will say it for years."
+  },
+  {
+   "id": "cb18-058",
+   "text": "Who is the best manager of this Showdown? We have an answer, and it is {winner}!"
+  },
+  {
+   "id": "cb18-059",
+   "text": "Somewhere a banner is going up, and the name on it is the champion's."
+  },
+  {
+   "id": "cb18-060",
+   "text": "When the dust settled, {winner} was still standing, and the Showdown was theirs."
+  },
+  {
+   "id": "cb18-061",
+   "text": "Dugouts empty, console off, and {winner} still smiling at a Showdown won by {margin}."
+  },
+  {
+   "id": "cb18-062",
+   "text": "Bravo. A Showdown this long needs a champion this good."
+  },
+  {
+   "id": "cb18-063",
+   "text": "Season after season they went at it, and the cup has finally found a home!"
+  },
+  {
+   "id": "cb18-064",
+   "text": "Nobody is sitting down as the Showdown is settled at last!"
+  },
+  {
+   "id": "cb18-065",
+   "text": "Fine margins, fine football, and finally, a fine champion."
+  },
+  {
+   "id": "cb18-066",
+   "text": "The sun sets on the Showdown, and it sets on {winnerClub} holding the trophy."
+  },
+  {
+   "id": "cb18-067",
+   "text": "{loser}, you gave us a rivalry to remember. {winner}, you gave us a champion."
+  },
+  {
+   "id": "cb18-068",
+   "text": "Look at the cabinet at {winnerClub}. There is a new centerpiece, and it is the Showdown!"
+  },
+  {
+   "id": "cb18-069",
+   "text": "Won by {winnerClub}, and the {winnerPoints} on the board tell the story."
+  },
+  {
+   "id": "cb18-070",
+   "text": "They have played it all out, every season, every swing, and {winner} is the last one smiling!"
+  },
+  {
+   "id": "cb18-071",
+   "text": "A champion for the ages, {winner}, and a rival worthy of the name in {loser}."
+  },
+  {
+   "id": "cb18-072",
+   "text": "It is {winner} by {margin}, and the Showdown can finally rest."
+  },
+  {
+   "id": "cb18-073",
+   "text": "The Showdown trophy has a new home, and its address is {winnerClub}."
+  },
+  {
+   "id": "cb18-074",
+   "text": "You wanted a champion, and here is the Showdown winner, arms raised, standing at the top!"
+  },
+  {
+   "id": "cb18-075",
+   "text": "What a story it has been, and {winner} has written the perfect last line."
+  },
+  {
+   "id": "cb18-076",
+   "text": "The final table is in, and {winnerClub} sit at the top of it!"
+  },
+  {
+   "id": "cb18-077",
+   "text": "There it is, the moment you played every season for, and it is all yours."
+  },
+  {
+   "id": "cb18-078",
+   "text": "{loserClub} came as rivals, they leave as friends, and {winnerClub} leave with the Showdown."
+  },
+  {
+   "id": "cb18-079",
+   "text": "A Showdown won on nerve, on patience, and on {winnerPoints} well-earned points."
+  },
+  {
+   "id": "cb18-080",
+   "text": "Think of the open-top bus, the ribbons, the cabinet, and say hello to {winner}, Showdown champion!"
+  },
+  {
+   "id": "cb18-081",
+   "text": "It is the end of the road, and {winner} has arrived at the top of it."
+  },
+  {
+   "id": "cb18-082",
+   "text": "Champions are made in the long run, and {winner} just proved it over {seasons} seasons!"
+  },
+  {
+   "id": "cb18-083",
+   "text": "It will be a long time before anyone forgets this Showdown."
+  },
+  {
+   "id": "cb18-084",
+   "text": "Handshake, hug, and then the cup for {winner}. That is the way the Showdown should end."
+  },
+  {
+   "id": "cb18-085",
+   "text": "Won, and won well, and {winner} will remember how it felt!"
+  },
+  {
+   "id": "cb18-086",
+   "text": "Next time, {loser}, next time. For now, the Showdown belongs to {winnerClub}."
+  },
+  {
+   "id": "cb18-087",
+   "text": "All that is left is the confetti, and it has been earned in full!"
+  },
+  {
+   "id": "cb18-088",
+   "text": "And there it is, the Showdown, raised high by {winner} for everyone to see!"
+  },
+  {
+   "id": "cb18-089",
+   "text": "After the chase, after the nerves, after the long seasons, the Showdown is {winner}'s."
+  },
+  {
+   "id": "cb18-090",
+   "text": "Two rivals, a long road, and {winnerClub} at the end of it with the crown."
+  },
+  {
+   "id": "cb18-091",
+   "text": "Finishing {margin} ahead is no accident, and {winner} has proved it where it counts."
+  },
+  {
+   "id": "cb18-092",
+   "text": "The managers shake hands, the cup changes hands, and {winnerClub} change history."
+  },
+  {
+   "id": "cb18-093",
+   "text": "A tip of the cap to {loserClub}, but the Showdown is on its way to {winnerClub}!"
+  },
+  {
+   "id": "cb18-094",
+   "text": "Cue the trumpets, because the Showdown has found its champion!"
+  },
+  {
+   "id": "cb18-095",
+   "text": "The final chapter closes with a champion crowned, and what a book it was."
+  },
+  {
+   "id": "cb18-096",
+   "text": "Let the cabinet confirm it: the Showdown has been won."
+  },
+  {
+   "id": "cb18-097",
+   "text": "The last page is turned, the last point is counted, and there is no more waiting."
+  },
+  {
+   "id": "cb18-098",
+   "text": "Tears, laughter, a trophy, and a rivalry that stays friendly through it all!"
+  },
+  {
+   "id": "cb18-099",
+   "text": "That is the sound of a Showdown ending, and it sounds like a victory lap."
+  },
+  {
+   "id": "cb18-100",
+   "text": "From the console glow to the cabinet glow, the story ends beautifully."
+  }
+ ]
+}

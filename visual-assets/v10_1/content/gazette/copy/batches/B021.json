@@ -1,0 +1,409 @@
+{
+  "batch": 21,
+  "situation": "one-season-sprint",
+  "voice": "The lead caller",
+  "edited": true,
+  "writer": "claude-sonnet-helper",
+  "lines": [
+    {
+      "id": "cb21-001",
+      "text": "A single season, a single shot, and {winner} has taken it!"
+    },
+    {
+      "id": "cb21-002",
+      "text": "No second chances in a Showdown this short, and {winnerClub} made the first count!"
+    },
+    {
+      "id": "cb21-003",
+      "text": "Over before the kettle cools, and the name on it is {winner}!"
+    },
+    {
+      "id": "cb21-004",
+      "text": "They had a single season to settle it, and {winner} did exactly that."
+    },
+    {
+      "id": "cb21-005",
+      "text": "Settled in a flash! {winnerClub} comes through ahead of {loserClub}!"
+    },
+    {
+      "id": "cb21-006",
+      "text": "Short, sharp, and then the silence before the verdict: {winner} wins the Showdown!"
+    },
+    {
+      "id": "cb21-007",
+      "text": "Clean run, steady nerve, and {winner} never looked back."
+    },
+    {
+      "id": "cb21-008",
+      "text": "This Showdown never hung about, and neither did {winnerClub}!"
+    },
+    {
+      "id": "cb21-009",
+      "text": "Nowhere to hide in a race this short, and {winner} had nothing to hide."
+    },
+    {
+      "id": "cb21-010",
+      "text": "Quick as a whistle, it is decided, and {winnerClub} holds the prize!"
+    },
+    {
+      "id": "cb21-011",
+      "text": "Winner takes everything, {winner}, and everything is yours!"
+    },
+    {
+      "id": "cb21-012",
+      "text": "Run in a single breath, and {winnerClub} breathed best!"
+    },
+    {
+      "id": "cb21-013",
+      "text": "No slow burn here, just a season of pure nerve, and {winner} has it!"
+    },
+    {
+      "id": "cb21-014",
+      "text": "Blink and you would have missed it, but {winner} has taken the Showdown!"
+    },
+    {
+      "id": "cb21-015",
+      "text": "Everything on the line, nothing held in reserve, and {winnerClub} comes out on top!"
+    },
+    {
+      "id": "cb21-016",
+      "text": "{loser} gave it everything, but this one belongs to {winner}."
+    },
+    {
+      "id": "cb21-017",
+      "text": "Settled at once, just as promised, and the name on the result is {winner}!"
+    },
+    {
+      "id": "cb21-018",
+      "text": "Imagine the nerve it takes to decide it all inside a season. {winner} had it."
+    },
+    {
+      "id": "cb21-019",
+      "text": "Straight to the point, {winner}, and straight to the title!"
+    },
+    {
+      "id": "cb21-020",
+      "text": "One page of the story, and {winnerClub} has written the whole ending!"
+    },
+    {
+      "id": "cb21-021",
+      "text": "When the stakes are this short, every minute counts, and {winner} counted them all."
+    },
+    {
+      "id": "cb21-022",
+      "text": "Over before the second thought, and {winner} has done it!"
+    },
+    {
+      "id": "cb21-023",
+      "text": "{winnerClub} did not need a long haul to prove the point, only a good start and a better finish."
+    },
+    {
+      "id": "cb21-024",
+      "text": "There is no tomorrow in a Showdown like this, and {winner} made the most of it."
+    },
+    {
+      "id": "cb21-025",
+      "text": "Beaten by {margin}, {loser} can hold a head high, but the Showdown is {winner}'s."
+    },
+    {
+      "id": "cb21-026",
+      "text": "A short Showdown deserves a short celebration, and {winner} has earned a loud one!"
+    },
+    {
+      "id": "cb21-027",
+      "text": "It all came down to this, and {winner} came down on the right side."
+    },
+    {
+      "id": "cb21-028",
+      "text": "Clean, crisp, decisive, and the name at the top is {winnerClub}!"
+    },
+    {
+      "id": "cb21-029",
+      "text": "Start fast, finish faster, and you win a race like this. Well done, {winner}."
+    },
+    {
+      "id": "cb21-030",
+      "text": "No time to catch a breath, but {winner} has plenty to celebrate."
+    },
+    {
+      "id": "cb21-031",
+      "text": "Short but never small, this Showdown, and {winnerClub} will remember it."
+    },
+    {
+      "id": "cb21-032",
+      "text": "The laurels go to {winner}, and the rest of the table can only applaud."
+    },
+    {
+      "id": "cb21-033",
+      "text": "{loserClub} threw everything into it, but this one goes to {winnerClub}."
+    },
+    {
+      "id": "cb21-034",
+      "text": "Think of the nerves at the start. Then think of {winner}, who finished first."
+    },
+    {
+      "id": "cb21-035",
+      "text": "All that preparation, all that waiting, and {winner} lands the knockout in a single season!"
+    },
+    {
+      "id": "cb21-036",
+      "text": "Straight off the mark and straight into the cabinet, {winnerClub}!"
+    },
+    {
+      "id": "cb21-037",
+      "text": "Over the line first, and the Showdown has its champion: {winner}!"
+    },
+    {
+      "id": "cb21-038",
+      "text": "The whole thing, settled in a single season, and {winner} is the name on it."
+    },
+    {
+      "id": "cb21-039",
+      "text": "Well, that was brisk! {winnerClub} takes the Showdown with {winnerPoints} on the board!"
+    },
+    {
+      "id": "cb21-040",
+      "text": "In and out, job done, and {winner} walks away with the lot."
+    },
+    {
+      "id": "cb21-041",
+      "text": "Nobody would have bet on a verdict this fast, but {winner} has won it clean."
+    },
+    {
+      "id": "cb21-042",
+      "text": "Fast, fierce and final, and the Showdown goes to {winnerClub}!"
+    },
+    {
+      "id": "cb21-043",
+      "text": "Hats off to {loser}, who pushed hard, but the prize belongs to {winner}."
+    },
+    {
+      "id": "cb21-044",
+      "text": "{winner} did not need a decade, only a great season."
+    },
+    {
+      "id": "cb21-045",
+      "text": "The smallest stage with the biggest prize, and {winnerClub} has claimed it!"
+    },
+    {
+      "id": "cb21-046",
+      "text": "Short story, strong ending, and {winner} is the author."
+    },
+    {
+      "id": "cb21-047",
+      "text": "Both put everything into a single season, and {winnerClub} put in a little more."
+    },
+    {
+      "id": "cb21-048",
+      "text": "Done and dusted! {winner} takes it by {margin} and the title with it!"
+    },
+    {
+      "id": "cb21-049",
+      "text": "Not a Showdown for the faint-hearted, and {winner} has the nerve to prove it."
+    },
+    {
+      "id": "cb21-050",
+      "text": "If you want a Showdown settled in a hurry, {winnerClub} is your club."
+    },
+    {
+      "id": "cb21-051",
+      "text": "Beautifully brisk, this one, and beautifully won by {winner}!"
+    },
+    {
+      "id": "cb21-052",
+      "text": "The ink is barely dry on the season, and {winner} is already crowned."
+    },
+    {
+      "id": "cb21-053",
+      "text": "Hold the front page, because {winner} has won the lot!"
+    },
+    {
+      "id": "cb21-054",
+      "text": "Speed, nerve and a great season: {winner} had all three."
+    },
+    {
+      "id": "cb21-055",
+      "text": "A moment of glory after a season of graft, and {winnerClub} gets to keep it."
+    },
+    {
+      "id": "cb21-056",
+      "text": "{loser} took a fine run at it, but {winner} had the finish."
+    },
+    {
+      "id": "cb21-057",
+      "text": "Sudden, spectacular and entirely settled, thanks to {winnerClub}!"
+    },
+    {
+      "id": "cb21-058",
+      "text": "Every second mattered, and {winner} made them all count!"
+    },
+    {
+      "id": "cb21-059",
+      "text": "That is how you tell a short story: a sharp start, a perfect ending, and {winner} on the last page."
+    },
+    {
+      "id": "cb21-060",
+      "text": "It took a single season, and {winnerClub} has taken the Showdown!"
+    },
+    {
+      "id": "cb21-061",
+      "text": "Well driven, {winner}. The rest were left looking at your tail lights."
+    },
+    {
+      "id": "cb21-062",
+      "text": "The tape is broken, the race is won, and {winner} stands alone at the front."
+    },
+    {
+      "id": "cb21-063",
+      "text": "Settled with a flourish, and {winnerClub} is the name on the prize!"
+    },
+    {
+      "id": "cb21-064",
+      "text": "Lightning does not strike twice, and {winner} only needed it once!"
+    },
+    {
+      "id": "cb21-065",
+      "text": "Decisive season, decisive winner, and the Showdown is {winner}'s!"
+    },
+    {
+      "id": "cb21-066",
+      "text": "Too short to waste a moment, and {winnerClub} did not waste any."
+    },
+    {
+      "id": "cb21-067",
+      "text": "Rapid, ruthless and rather lovely, this win by {winnerClub}."
+    },
+    {
+      "id": "cb21-068",
+      "text": "The shortest road to a Showdown title leads straight to {winner}!"
+    },
+    {
+      "id": "cb21-069",
+      "text": "Whatever it takes to win in a hurry, {winner} had it in abundance."
+    },
+    {
+      "id": "cb21-070",
+      "text": "After a finish like that, the winner needs a sit down, and {winner} has earned it."
+    },
+    {
+      "id": "cb21-071",
+      "text": "{winnerClub} on the top step and {loserClub} close behind, as the curtain comes down."
+    },
+    {
+      "id": "cb21-072",
+      "text": "You blink, you miss it. {winner} did not blink."
+    },
+    {
+      "id": "cb21-073",
+      "text": "Plenty of drama for a single season, and {winner} gets the last laugh!"
+    },
+    {
+      "id": "cb21-074",
+      "text": "Spare a thought for {loser}, who started fast, but {winner} finished it."
+    },
+    {
+      "id": "cb21-075",
+      "text": "What a whirlwind, and the eye of it is {winnerClub}!"
+    },
+    {
+      "id": "cb21-076",
+      "text": "The Showdown is decided in a single season, and the verdict lands squarely with {winner}."
+    },
+    {
+      "id": "cb21-077",
+      "text": "Never mind the long game, because {winner} won the short one!"
+    },
+    {
+      "id": "cb21-078",
+      "text": "With {winnerPoints} on the board, {winnerClub} pulls clear of {loserClub} and into glory!"
+    },
+    {
+      "id": "cb21-079",
+      "text": "Clinical, composed and crowned, that is {winner} right now."
+    },
+    {
+      "id": "cb21-080",
+      "text": "There is joy in a short Showdown, and {winnerClub} has found all of it!"
+    },
+    {
+      "id": "cb21-081",
+      "text": "Everyone wanted a quick answer, and {winner} has given it."
+    },
+    {
+      "id": "cb21-082",
+      "text": "From the opening kickoff of the season to the end, {winnerClub} was simply the better side."
+    },
+    {
+      "id": "cb21-083",
+      "text": "A season is a short time to build a legend, but {winner} has done it."
+    },
+    {
+      "id": "cb21-084",
+      "text": "Gold in a heartbeat for {winner}, and no regrets!"
+    },
+    {
+      "id": "cb21-085",
+      "text": "Good race, {loser}, but {winner} just got there first."
+    },
+    {
+      "id": "cb21-086",
+      "text": "Swift, sure and sensational: this Showdown is {winnerClub}'s!"
+    },
+    {
+      "id": "cb21-087",
+      "text": "Think about it, a whole Showdown, and {winner} has the trophy home already."
+    },
+    {
+      "id": "cb21-088",
+      "text": "The finish is here and the winner is {winner}, as simple as that."
+    },
+    {
+      "id": "cb21-089",
+      "text": "A short fuse, a big bang, and {winnerClub} lights up the Showdown!"
+    },
+    {
+      "id": "cb21-090",
+      "text": "Crisp as a cold morning, this win by {winner}!"
+    },
+    {
+      "id": "cb21-091",
+      "text": "They said nobody could settle it that fast, and {winner} went right ahead and did."
+    },
+    {
+      "id": "cb21-092",
+      "text": "Over in a single stroke, and {winnerClub} holds the pen!"
+    },
+    {
+      "id": "cb21-093",
+      "text": "Told in a single season, every word of this story belongs to {winner}."
+    },
+    {
+      "id": "cb21-094",
+      "text": "Pocket this one, {winner}, because a quick win is still a win!"
+    },
+    {
+      "id": "cb21-095",
+      "text": "Hello and goodbye, and what a brilliant guest {winnerClub} turned out to be!"
+    },
+    {
+      "id": "cb21-096",
+      "text": "Won by {margin}, and nobody can argue, least of all {loser}, who will say so with a smile."
+    },
+    {
+      "id": "cb21-097",
+      "text": "Shortest chapter in the book, and {winner} owns every line of it."
+    },
+    {
+      "id": "cb21-098",
+      "text": "Sprint finish, sprint season, sprint title, and {winnerClub} crosses first!"
+    },
+    {
+      "id": "cb21-099",
+      "text": "Fast finish, fast season, fast title, and {winnerClub} crosses first!"
+    },
+    {
+      "id": "cb21-100",
+      "text": "Cabinet door swinging open already, {winner}, because this Showdown is yours."
+    }
+  ]
+}
