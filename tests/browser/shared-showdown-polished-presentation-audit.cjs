@@ -88,7 +88,7 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
     await host.waitForFunction(()=>document.getElementById("leagueWheelScreen")?.dataset.sharedLeagueWitnessed==="laliga",null,{timeout:5000});
     assert.deepEqual(await host.evaluate(()=>window.__getSharedMutationCounts()),{open:1,"commit-league":1,"commit-clubs":0,"commit-length":0,confirm:0},"Rapid repeat taps must coalesce into one open + one league commit.");
     assert.equal(await host.locator("#leagueWheelScreen").isVisible(),true,"Player 1 must remain on League Wheel to witness the authoritative result.");
-    assert.equal(await host.locator("#selectedLeague").textContent(),"LaLiga");
+    await host.waitForFunction(()=>document.getElementById("selectedLeague")?.textContent==="LaLiga",null,{timeout:6000});
     await host.locator("#spinLeague").click();
     await host.locator("#clubWheelScreen").waitFor({state:"visible",timeout:5000});
     assert.equal(await host.locator("#leagueWheelScreen").isVisible(),false,"One Continue to Club Packs click must complete the route; no second tap is allowed.");
@@ -141,7 +141,7 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
     await prepare(peer,{managerRole:"playerTwo",remoteRole:"peer",initialSetup:peerLateSetup,reducedMotion:true});
     assert.equal(await peer.locator("#leagueWheelScreen").isVisible(),true,"Player 2 must see League Wheel even when provider authority has already advanced to clubs.");
     await peer.waitForFunction(()=>document.getElementById("leagueWheelScreen")?.dataset.sharedLeagueWitnessed==="laliga",null,{timeout:5000});
-    assert.equal(await peer.locator("#selectedLeague").textContent(),"LaLiga");
+    await peer.waitForFunction(()=>document.getElementById("selectedLeague")?.textContent==="LaLiga",null,{timeout:6000});
     assert.equal(await peer.locator("#clubWheelScreen").isVisible(),false,"Player 2 must not skip the League Wheel witness.");
     await peer.locator("#spinLeague").click();
     await peer.locator("#clubWheelScreen").waitFor({state:"visible",timeout:5000});

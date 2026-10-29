@@ -438,6 +438,17 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
 #leagueWheelScreen.v26Skin .v26Flash.is-active { animation: v26-wedge-flash 520ms cubic-bezier(.22, 1, .36, 1) both; }
 #leagueWheelScreen.v26Skin .wheelItem.v26-payoff::before { animation: v26-mark-pop 520ms cubic-bezier(.22, 1, .36, 1) both; }
 #leagueWheelScreen.v26Skin .v26Burst { position: absolute; inset: 0; z-index: 4; width: 100%; height: 100%; pointer-events: none; }
+/* Wheel polish (HO-027): a busy or spinning button keeps the full gold look, never the see-through disabled fade. */
+#leagueWheelScreen.v26Skin #spinLeague:disabled,
+#leagueWheelScreen.v26Skin .wheelContainer > .backButton:disabled { opacity: 1; filter: none; transform: none; }
+#leagueWheelScreen.v26Skin #spinLeague:disabled { color: var(--sd-text-on-gold, #07080a); background: linear-gradient(180deg, #ffd34d, #f5c518 55%, #d4a017); }
+/* While the wheel turns, the league names and marks get a dark edge so they stay readable as they pass the gold top wedge. */
+#leagueWheelScreen.v26Skin.v26-spinning .wheelItem { text-shadow: 0 0 3px rgba(0, 0, 0, .95), 0 1px 2px rgba(0, 0, 0, .9); }
+#leagueWheelScreen.v26Skin.v26-spinning .wheelItem[data-league-mark]::before { filter: grayscale(1) sepia(.32) brightness(1.32) contrast(1.02) drop-shadow(0 0 2px rgba(0, 0, 0, .95)); }
+/* The revealed league's lock note arrives with the result instead of popping in. */
+#leagueWheelScreen.v26Skin .wheelContainer > .stateNote:not(.hidden) { animation: v26-note-in 360ms cubic-bezier(.22, 1, .36, 1) both; }
+@keyframes v26-note-in { from { opacity: 0; transform: translate3d(0, 6px, 0); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { #leagueWheelScreen.v26Skin .wheelContainer > .stateNote:not(.hidden) { animation: none; } }
 @keyframes v26-wedge-flash { 0%, 100% { opacity: 0; transform: scale(.985); } 34% { opacity: .92; transform: scale(1.012); } 64% { opacity: .38; transform: scale(1); } }
 @keyframes v26-mark-pop { 0%, 100% { transform: scale(1); } 46% { transform: scale(1.15); } 72% { transform: scale(1.08); } }
 
