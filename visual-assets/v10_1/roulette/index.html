@@ -143,6 +143,19 @@ renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFSoftShadowMap; ren
 stage.appendChild(renderer.domElement);
 const scene=new T.Scene(); scene.background=new T.Color(0x07050a); scene.fog=new T.FogExp2(0x0a0705,.075);
 const camera=new T.PerspectiveCamera(38,1,.05,60);
+/* THE HAND (ticket 1854): a painted gloved hand holding the revolver, cut out on black, rides on the camera as a layer in the shooter's view. The person sits in the dark: no face, no body. */
+let handHold=false, handK=0, handRecoil=0, handSide=-1, handAspect=16/9, hasHand=false; const HAND_MUZZLE={u:.22,v:.70};
+const hand=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({transparent:true, depthTest:false, depthWrite:false, toneMapped:false, opacity:0})); hand.renderOrder=20; hand.frustumCulled=false; camera.add(hand);
+function keyOutBlack(img){ const c=document.createElement("canvas"); c.width=img.width; c.height=img.height; const x=c.getContext("2d"); x.drawImage(img,0,0); const d=x.getImageData(0,0,c.width,c.height), a=d.data; let hasAlpha=false; for(let i=3;i<a.length;i+=4*97){ if(a[i]<250){ hasAlpha=true; break; } }
+  if(!hasAlpha){ for(let i=0;i<a.length;i+=4){ const m=Math.max(a[i],a[i+1],a[i+2]); a[i+3]=m<7?0:m<22?Math.round((m-7)/15*255):255; } x.putImageData(d,0,0); } return c; }
+function placeHand(){ const fh=2*Math.tan(camera.fov*Math.PI/360), fw=fh*camera.aspect; const ph=fh*(PH?.56:.68), pw=ph*handAspect; hand.scale.set(pw*handSide,ph,1);
+  const lift=(1-handK)*ph*1.1; const rx=handRecoil; hand.position.set(handSide*(fw/2-pw*.40)+rx*handSide*.01, -fh/2+ph*.42-lift+rx*.025, -1); hand.rotation.z=handSide*rx*.16; hand.material.opacity=handK>0?1:0; }
+function handMuzzleWorld(){ const v=new T.Vector3((HAND_MUZZLE.u-.5),(HAND_MUZZLE.v-.5),0); return hand.localToWorld(v); }
+function handPlaceholder(){ const c=document.createElement("canvas"); c.width=1600; c.height=900; const x=c.getContext("2d"); x.clearRect(0,0,1600,900);
+  x.fillStyle="#2a1d14"; x.beginPath(); x.moveTo(1600,900); x.lineTo(1600,420); x.quadraticCurveTo(1180,380,980,470); x.quadraticCurveTo(900,520,960,600); x.lineTo(1100,900); x.closePath(); x.fill();
+  x.fillStyle="#1b1b1f"; x.save(); x.translate(980,470); x.rotate(-.42); x.fillRect(-620,-22,700,44); x.fillRect(40,-70,120,140); x.restore();
+  x.fillStyle="#8a6a2a"; x.save(); x.translate(1040,560); x.rotate(-.42); x.fillRect(-10,0,70,120); x.restore();
+  x.font="700 46px 'Barlow Condensed'"; x.fillStyle="rgba(255,255,255,.85)"; x.textAlign="center"; x.fillText("HAND PICTURE · TICKET 1854",1150,860); return c; }
 const L=(hex)=>new T.Color(hex).convertSRGBToLinear();
 const portrait=()=>innerWidth<=899&&innerHeight>innerWidth;
 
@@ -208,11 +221,21 @@ const floorTex=woodTex(2048,2048,"#46250f","#120803",16,[3.5,3.5],{boardLen:900,
 const tableWoodTex=woodTex(1024,1024,"#4a2a12","#1c0e05",3,[2,1]);
 const gripTex=woodTex(256,256,"#6b3a1b","#2a1406",2,[1,1]);
 const clothTex=(()=>{ const [c,ctx]=cv(256,256); ctx.fillStyle='#808080'; ctx.fillRect(0,0,256,256); for(let i=0;i<256;i+=3){ ctx.fillStyle=i%6?'rgba(255,255,255,.25)':'rgba(0,0,0,.25)'; ctx.fillRect(i,0,1,256); ctx.fillRect(0,i,256,1); } grain(ctx,256,256,60); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(6,6); return t; })();
-const wallTex=panelTex(); wallTex.repeat.set(7,2); wallTex.offset.y=-.476; /* a panel row seam lands on the dado rail at y=1.1 */
+/* black marble wall panels with gold inlay and walnut rails, to match Nik's marble cafe picture (29 Oct) */
+function marblePanelTex(){ const w=1024,h=1024,[c,ctx]=cv(w,h); ctx.fillStyle="#2a1810"; ctx.fillRect(0,0,w,h);
+  const wg=ctx.createLinearGradient(0,0,0,h); wg.addColorStop(0,"#3a2415"); wg.addColorStop(.5,"#2b1a0f"); wg.addColorStop(1,"#20120a"); ctx.fillStyle=wg; ctx.fillRect(0,0,w,h);
+  for(let i=0;i<900;i++){ ctx.fillStyle=`rgba(0,0,0,${Math.random()*.12})`; ctx.fillRect(Math.random()*w,Math.random()*h,1+Math.random()*3,2+Math.random()*60); }
+  const px=70,py=70,pw=w-140,ph=h-140; ctx.fillStyle="#0b0b0e"; ctx.fillRect(px,py,pw,ph);
+  for(let i=0;i<34;i++){ ctx.strokeStyle=`rgba(${150+Math.random()*80},${150+Math.random()*70},${150+Math.random()*60},${.08+Math.random()*.28})`; ctx.lineWidth=.6+Math.random()*2.2; ctx.beginPath(); let x=px+Math.random()*pw, y=py+Math.random()*ph; ctx.moveTo(x,y); for(let k=0;k<7;k++){ x+=(Math.random()-.5)*300; y+=(Math.random()-.5)*300; ctx.lineTo(Math.min(px+pw,Math.max(px,x)),Math.min(py+ph,Math.max(py,y))); } ctx.stroke(); }
+  const sh=ctx.createLinearGradient(px,py,px+pw,py+ph); sh.addColorStop(0,"rgba(255,255,255,.06)"); sh.addColorStop(.5,"rgba(255,255,255,0)"); sh.addColorStop(1,"rgba(255,255,255,.05)"); ctx.fillStyle=sh; ctx.fillRect(px,py,pw,ph);
+  ctx.strokeStyle="#d9b25a"; ctx.lineWidth=5; ctx.strokeRect(px+22,py+22,pw-44,ph-44); ctx.strokeStyle="#8a6a22"; ctx.lineWidth=2; ctx.strokeRect(px+34,py+34,pw-68,ph-68);
+  ctx.strokeStyle="#b48a3a"; ctx.lineWidth=4; ctx.strokeRect(px-6,py-6,pw+12,ph+12);
+  const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.encoding=T.sRGBEncoding; t.anisotropy=8; return t; }
+const wallTex=marblePanelTex(); wallTex.repeat.set(7,2); wallTex.offset.y=-.476; /* a panel row seam lands on the dado rail at y=1.1 */
 const lampTex=lampGlassTex();
 const M={
-  floor:new T.MeshPhysicalMaterial({map:floorTex, roughness:.42, metalness:.04, color:0xa87452, clearcoat:.7, clearcoatRoughness:.26}),
-  wall:new T.MeshStandardMaterial({map:wallTex, roughness:.55, metalness:.08, color:0xf2e6da}),
+  floor:new T.MeshPhysicalMaterial({map:(()=>{ const t=marbleTex(); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(5,5); t.anisotropy=8; return t; })(), roughness:.14, metalness:0, color:0xe9e2d6, clearcoat:1, clearcoatRoughness:.06}),   /* cream marble floor, the website's marble look */
+  wall:new T.MeshPhysicalMaterial({map:wallTex, roughness:.22, metalness:.05, color:0xffffff, clearcoat:.8, clearcoatRoughness:.12}),
   darkWood:new T.MeshPhysicalMaterial({map:tableWoodTex, roughness:.32, metalness:.05, color:0x6e4a32, clearcoat:.7, clearcoatRoughness:.2}),
   lacquer:new T.MeshPhysicalMaterial({map:tableWoodTex, roughness:.26, metalness:.06, color:0x3e2416, clearcoat:.95, clearcoatRoughness:.14}),
   lacquerHi:new T.MeshPhysicalMaterial({map:tableWoodTex, roughness:.3, metalness:.06, color:0x6a3c26, clearcoat:.9, clearcoatRoughness:.18}),
@@ -527,7 +550,7 @@ const gunShadow=new T.Mesh(new T.PlaneGeometry(.33,.14),new T.MeshBasicMaterial(
 /* RR_GUN_TOP.png: top-down photo on the felt for the spin shots, cross-faded with the model (filled in by loadAssets) */
 const gunTop=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({transparent:true, opacity:0, depthWrite:false, toneMapped:false})); gunTop.rotation.x=-Math.PI/2; gunTop.position.y=.002; gunTop.visible=false; spin.add(gunTop);
 
-const closeKey=new T.PointLight(0xe6eeff,0,1.6,2); scene.add(closeKey);   /* cool daylight key for the close-ups so polished steel reads silver, not lantern-beige */
+const closeKey=new T.PointLight(0xe6eeff,0,1.6,2); scene.add(closeKey); scene.add(camera);   /* cool daylight key for the close-ups so polished steel reads silver, not lantern-beige */
 const closeFill=new T.PointLight(0xbfd4ff,0,1.2,2); scene.add(closeFill);
 window.__dbg={gun,cyl,crane,hammer,muzzle,spin,lie,scene,renderer,get camera(){return camera;}};
 /* ================= the boards on brass easels (Daniel LEFT, Nik RIGHT) ================= */
@@ -633,6 +656,7 @@ for(let i=0;i<40;i++){ const sp=new T.Sprite(sparkMat.clone()); sp.visible=false
 function spray(pos,dir,n,speed){ for(let i=0;i<n;i++){ const p=sparks.find(q=>q.life<=0); if(!p) return; p.life=.25+rnd()*.4; p.max=p.life; p.s.visible=true; p.s.position.copy(pos); const sz=.006+rnd()*.012; p.s.scale.set(sz,sz,1); p.v.copy(dir).multiplyScalar(speed*(.4+rnd())).add(new T.Vector3((rnd()-.5)*speed*.6,(rnd()-.3)*speed*.5,(rnd()-.5)*speed*.6)); } }
 const hitFlash=new T.Sprite(new T.SpriteMaterial({map:sparkTex(), blending:T.AdditiveBlending, depthWrite:false, transparent:true, opacity:0, color:0xfff0d0})); scene.add(hitFlash);
 const hitLight=new T.PointLight(L("#ffd0a0"),0,2.5,2); scene.add(hitLight);
+[flashSprite,flashCore,flashSide,...petals].forEach(o=>{ o.renderOrder=30; o.material.depthTest=false; }); sparks.forEach(p=>{ p.s.renderOrder=28; }); smokes.forEach(p=>{ p.s.renderOrder=25; });
 /* dust in the lamp light */
 const dust=(()=>{ const n=260, pos=new Float32Array(n*3), base=[]; for(let i=0;i<n;i++){ const x=(rnd()-.5)*3.2, y=.7+rnd()*2.2, z=-2.2+rnd()*3.2; pos.set([x,y,z],i*3); base.push(x,y,z); } const g=new T.BufferGeometry(); g.setAttribute("position",new T.BufferAttribute(pos,3)); const m=new T.PointsMaterial({map:dustT, size:.016, transparent:true, opacity:.5, depthWrite:false, blending:T.AdditiveBlending, color:0xffd9a0, sizeAttenuation:true}); const p=new T.Points(g,m); scene.add(p); return {p,base,pos}; })();
 /* bullet tracer: a short bright line that lives 0.12 s */
@@ -669,14 +693,14 @@ function endTurn(){ const p=playing; if(!p) return; const who=p.who; if(p.fire){
   turn++; playing=null; const next=ORDER[turn%2]; setBusy(false); $("chipWho").textContent=NAME[next]; $("pchipWho").textContent=NAME[next]; if(turn%2===1) slot(next==="D"?slotD:slotN,"At the table","wait"); if(p.fire){ loaded=false; cyl.userData.round.visible=false; } }
 const now=()=>manual!==null?manual:performance.now()/1000;
 /* beats (seconds from the start of a turn); reduced motion shortens them */
-const B=REDUCED?{spin:.2,spinEnd:1.6,close:1.8,inside:1.8,turnC:2.2,cock:2.6,aim:2.7,fire:3.3,end:4.6}:{spin:.35,spinEnd:3.0,close:3.3,inside:4.7,turnC:5.3,cock:5.85,aim:6.05,fire:6.9,end:9.4};
+const B=REDUCED?{spin:.2,spinEnd:1.6,close:1.8,inside:1.8,turnC:2.2,hand:2.3,cock:2.6,aim:2.7,fire:3.3,end:4.8}:{spin:.35,spinEnd:3.0,close:3.3,inside:11.4,turnC:11.9,hand:12.2,cock:12.9,aim:13.1,fire:14.1,end:16.9};
 let hammerK=0, cylExtra=0, recoil=0;
 function cylTarget(){ return -chamber*(Math.PI*2/7); }
 function at(tt,t,k,fn){ if(tt>=t&&!fired[k]){ fired[k]=1; fn(); } }
 let lastClick=0;
 function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
   const muzzleW=new T.Vector3(); muzzle.getWorldPosition(muzzleW);
-  if(!p){ crane.rotation.z=lerp(crane.rotation.z,0,Math.min(1,dt*6)); hammerK=lerp(hammerK,0,Math.min(1,dt*6)); cyl.rotation.z=lerp(cyl.rotation.z,cylTarget(),Math.min(1,dt*6)); spin.position.lerp(new T.Vector3(0,.751,.02),Math.min(1,dt*.8)); }
+  if(!p){ handHold=false; handK=0; handRecoil=0; crane.rotation.z=lerp(crane.rotation.z,0,Math.min(1,dt*6)); hammerK=lerp(hammerK,0,Math.min(1,dt*6)); cyl.rotation.z=lerp(cyl.rotation.z,cylTarget(),Math.min(1,dt*6)); spin.position.lerp(new T.Vector3(0,.751,.02),Math.min(1,dt*.8)); }
   else {
     const tgt=boardTargetWorld(p.who,p.target);
     /* a. the spin: fast, friction slows it, stops on the target with a small overshoot and settle */
@@ -686,14 +710,20 @@ function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
     /* the crane swings the cylinder out, it spins fast and runs down while the camera looks into the chambers, then swings back */
     const craneK=tt<B.close?0:tt<B.inside?ease.inOut(S(B.close,.5,tt)):1-ease.inOut(S(B.inside,.45,tt)); crane.rotation.z=craneK*1.62; { const pk=Math.max(0,(craneK-.35)/.65), ptr=cyl.userData.pointer; ptr.visible=pk>0; const sc=.001+ease.out(pk)*.999; ptr.scale.set(sc,sc,sc); }
     at(tt,B.close+.4,"mark",()=>{ result.className="result"; result.textContent="Red: live round · Gold: fires"; });
-    at(tt,B.turnC+.3,"stopped",()=>{ result.textContent=p.fire?"Stopped on the live round":"The live round passed"; });
+    at(tt,B.inside-.6,"stopped",()=>{ result.className=p.fire?"result bang":"result safe"; result.textContent=p.fire?"Stopped on the live round":"The live round passed"; });
     at(tt,B.close,"craneOpen",()=>SFX.play("cock",.6)); at(tt,B.inside,"craneShut",()=>SFX.play("click",1));
-    let showExtra=0; if(tt>=B.close&&tt<B.inside){ const k=S(B.close+.25,B.inside-B.close-.45,tt); const e=1-Math.pow(1-k,3); showExtra=(1-e)*Math.PI*2*(REDUCED?0:5); const idx=Math.floor(showExtra/(Math.PI*2/7)); if(idx!==lastClick){ lastClick=idx; SFX.play("click",.25); } }
-    at(tt,B.turnC,"turnC",()=>SFX.play("click",1)); const ck=ease.out(S(B.turnC,.22,tt)); cyl.rotation.z=cylTarget()-(Math.PI*2/7)*(1-ck)+showExtra;
+    /* THE main event: the drum spins free for ~7 s, fast at first, then the clicks spread out, then a slow crawl to the stop with the red ring and the gold mark in view. It stops exactly where it will fire (or not) before the crane closes. */
+    let showExtra=0; if(tt>=B.close&&tt<B.inside){ const k=S(B.close+.45,B.inside-B.close-.85,tt); const e=1-Math.pow(1-k,2.7); showExtra=(1-e)*Math.PI*2*(REDUCED?0:14); const idx=Math.floor(showExtra/(Math.PI*2/7)); if(idx!==lastClick){ lastClick=idx; SFX.play("click",.22+.3*k); } }
+    at(tt,B.inside-3.2,"heart0",()=>SFX.play("heart")); at(tt,B.inside-2.0,"slowing",()=>{ result.textContent="Slowing down…"; });
+    at(tt,B.turnC,"turnC",()=>SFX.play("click",1)); cyl.rotation.z=cylTarget()+showExtra;
     hammerK=tt<B.cock?0:tt<B.fire?ease.out(S(B.cock,.3,tt)):Math.max(0,1-S(B.fire,.05,tt));
+    /* the hand: rises from the dark once the drum is shut, holds and breathes, fires or clicks, then sinks away */
+    handHold=tt>=B.hand&&tt<B.end-.2; handSide=p.who==="D"?1:-1;
+    { const up=ease.out(S(B.hand,.7,tt)); const down=tt<B.fire+(p.fire?.4:.8)?0:ease.inOut(S(B.fire+(p.fire?.4:.8),.35,tt)); const breathe=Math.sin(tt*2.1)*.004+Math.sin(tt*5.3)*.0015; handK=Math.max(0,up-down)+(handHold?breathe:0);
+      if(tt>=B.fire){ const a=tt<B.fire+.05?S(B.fire,.05,tt):1-ease.out(S(B.fire+.05,.42,tt)); handRecoil=(p.fire?1:.12)*Math.max(0,a); } else handRecoil=0; }
     at(tt,B.cock,"cock",()=>SFX.play("cock")); at(tt,B.aim,"heart",()=>SFX.play("heart"));
     /* c/d. hammer falls */
-    if(tt>=B.fire&&!fired.fire){ fired.fire=1; if(p.fire){ fireShot(p,tgt); } else { SFX.play("dry"); const fl=muzzleW.clone(); fl.y=.76; puff(fl,new T.Vector3(0,.4,0),4,.07,.25,.9); result.className="result safe"; result.textContent=`Click. ${NAME[p.who]} is safe.`; live.textContent=result.textContent; } }
+    if(tt>=B.fire&&!fired.fire){ fired.fire=1; if(p.fire){ fireShot(p,tgt); } else { SFX.play("dry"); const fl=muzzleW.clone(); if(!handHold) fl.y=.76; puff(fl,new T.Vector3(0,.4,0),4,.07,.25,.9); result.className="result safe"; result.textContent=`Click. ${NAME[p.who]} is safe.`; live.textContent=result.textContent; } }
     if(p.fire&&tt>=B.fire){ const k=S(B.fire,.12,tt); const impact=tt>=B.fire+.12; if(!impact){ placeTracer(p.mz,tgt,Math.max(0,k-.25),k); } else { tracer.visible=false; if(!p.hitDone){ p.hitDone=true; hitBoard(p,tgt); } } }
     if(tt>=B.fire+(p.fire?1.3:.7)&&!fired.line){ fired.line=1; if(p.fire){ result.className="result bang"; result.textContent=`Bang! ${p.target.name} is released.`; live.textContent=result.textContent; } }
     /* recoil: the gun kicks and slides back across the felt, turning a little */
@@ -705,7 +735,7 @@ function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
 }
 /* the flash layers ride on the muzzle, so the recoil slide does not leave them behind */
 function placeFlash(mz,dir){ flashSprite.position.copy(mz).addScaledVector(dir,.03); flashCore.position.copy(mz).addScaledVector(dir,.015); petals.forEach((sp,i)=>sp.position.copy(mz).addScaledVector(dir,.025+i*.02)); flashSide.position.copy(mz).addScaledVector(dir,.02); }
-function fireShot(p,tgt){ const mz=new T.Vector3(); muzzle.getWorldPosition(mz); p.mz=mz.clone(); const dir=tgt.clone().sub(mz).normalize();
+function fireShot(p,tgt){ const mz=new T.Vector3(); if(handHold){ camera.updateMatrixWorld(); placeHand(); hand.updateMatrixWorld(); mz.copy(handMuzzleWorld()); } else muzzle.getWorldPosition(mz); p.mz=mz.clone(); const dir=tgt.clone().sub(mz).normalize();
   p.dir=dir.clone(); placeFlash(mz,dir); flashSprite.material.opacity=.6; flashSprite.scale.set(.09,.09,1); flashSprite.material.rotation=rnd()*6;
   flashCore.material.opacity=1; flashCore.scale.set(.055,.055,1);
   petals.forEach((sp,i)=>{ sp.material.opacity=1; const z=.12+i*.07; sp.scale.set(z,z,1); sp.material.rotation=rnd()*6; });
@@ -725,26 +755,30 @@ function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new
     /* the close-up stands off the hammer side of the gun, low over the felt, telephoto */
     const yaw=p.yawTarget; const back=new T.Vector3(-Math.sin(yaw),0,-Math.cos(yaw)); const side=new T.Vector3(Math.cos(yaw),0,-Math.sin(yaw));
     const closePos=gw.clone().add(back.clone().multiplyScalar(.5)).add(side.clone().multiplyScalar(PH?-.26:-.3)).add(new T.Vector3(0,.5,0)), closeLook=gw.clone().add(new T.Vector3(0,.02,0)).add(back.clone().multiplyScalar(.03)); const closeFov=PH?22:18;
-    gun.updateWorldMatrix(true,false); const inK=S(B.close+.5,B.inside-B.close-.5,tt); const insidePos=gun.localToWorld(new T.Vector3(-.078,.05,-.25).lerp(new T.Vector3(-.064,.034,-.215),ease.inOut(inK))), insideLook=gun.localToWorld(new T.Vector3(-.036,.0,-.012)); const insideFov=PH?26:20;
+    gun.updateWorldMatrix(true,false); const inK=S(B.close+.5,B.inside-B.close-.5,tt); const insidePos=gun.localToWorld(new T.Vector3(-.078,.05,-.25).lerp(new T.Vector3(-.064,.034,-.215),ease.inOut(inK))), insideLook=gun.localToWorld(new T.Vector3(-.045,.0,-.012)); const insideFov=PH?26:20;
     /* a soft key light rides above the camera for the cylinder and hammer close-ups, so the steel has something to reflect */
     const keyOn=tt>=B.close&&tt<B.fire?1:0; closeKey.intensity=lerp(closeKey.intensity,keyOn*.5,Math.min(1,dt*6)); closeKey.position.copy(camPos).add(new T.Vector3(0,.09,0)); closeFill.intensity=lerp(closeFill.intensity,keyOn*.22,Math.min(1,dt*6)); closeFill.position.copy(camPos).add(new T.Vector3(-.12,-.02,0));
     const tensePos=gw.clone().add(back.clone().multiplyScalar(.26)).add(side.clone().multiplyScalar(PH?-.2:-.24)).add(new T.Vector3(0,.14,0));
     const hitPos=PH?new T.Vector3(sx*.25,1.5,2.1):new T.Vector3(sx*.6,1.35,1.9), hitLook=bw.clone().lerp(gw,.35);
+    /* shooter's view: across the table from the target board, the hand and gun in the lower corner, the board ahead */
+    const away=gw.clone().sub(bw); away.y=0; away.normalize(); const povPos=gw.clone().addScaledVector(away,PH?1.05:.95).add(new T.Vector3(0,.62,0)), povLook=bw.clone().add(new T.Vector3(0,.04,0)); const povFov=PH?44:34;
     if(tt<B.spin+.3){ const k=ease.inOut(S(0,.6,tt)); pos.lerpVectors(pos,topPos,k); look.lerpVectors(look,topLook,k); }
     else if(tt<B.close){ pos.copy(topPos); look.copy(topLook); }
     else if(tt<B.inside){ /* look inside: the camera drops to the front of the cylinder and stares down the seven bores */
       const k=ease.inOut(S(B.close,.7,tt)); pos.lerpVectors(topPos,insidePos,k); look.lerpVectors(topLook,insideLook,k); fov=lerp(fovRest,insideFov,k); }
-    else if(tt<B.aim){ const k=ease.inOut(S(B.inside,.6,tt)); pos.lerpVectors(insidePos,closePos,k); look.lerpVectors(insideLook,closeLook,k); fov=lerp(insideFov,closeFov,k); }
-    else if(tt<B.fire){ const k=ease.in(S(B.aim,B.fire-B.aim,tt)); pos.lerpVectors(closePos,tensePos,k); look.copy(closeLook); fov=closeFov; }
-    else { const k1=1, k2=ease.inOut(S(B.fire+1.4,B.end-B.fire-1.4,tt)); const pp=tensePos.clone().lerp(hitPos,k1), ll=closeLook.clone().lerp(p.fire?hitLook:gw.clone().add(new T.Vector3(0,.05,0)),k1); pos.lerpVectors(pp,camRest.clone().add(drift),k2); look.lerpVectors(ll,lookRest,k2); fov=lerp(lerp(closeFov,fovRest,k1),fovRest,k2); }
+    else if(tt<B.hand){ const k=ease.inOut(S(B.inside,.6,tt)); pos.lerpVectors(insidePos,closePos,k); look.lerpVectors(insideLook,closeLook,k); fov=lerp(insideFov,closeFov,k); }
+    else if(tt<B.fire+(p.fire?.45:1.0)){ /* cut to the shooter's view; a slow creep forward builds the tension until the shot */
+      const k=ease.in(S(B.hand,B.fire-B.hand,tt)); pos.copy(povPos).addScaledVector(away,-k*.12); look.copy(povLook); fov=povFov-k*3; }
+    else { const k2=ease.inOut(S(B.fire+1.6,B.end-B.fire-1.6,tt)); const pp=p.fire?hitPos:povPos, ll=p.fire?hitLook:povLook; pos.lerpVectors(pp,camRest.clone().add(drift),k2); look.lerpVectors(ll,lookRest,k2); fov=lerp(p.fire?fovRest:povFov,fovRest,k2); }
     /* top-down photo layer (if present) shows in the top shots, the model in the rest */
     const topK=tt<B.close?1:1-ease.inOut(S(B.close,.5,tt)); crossFade(topK); }
   else { crossFade(0); closeKey.intensity=lerp(closeKey.intensity,0,Math.min(1,dt*6)); closeFill.intensity=lerp(closeFill.intensity,0,Math.min(1,dt*6)); }
-  if(p&&tt>=B.fire&&!fired.cut){ fired.cut=1; camPos.copy(pos); camLook.copy(look); fovNow=fov; }
+  if(p&&tt>=B.hand&&!fired.cutHand){ fired.cutHand=1; camPos.copy(pos); camLook.copy(look); fovNow=fov; }
+  if(p&&tt>=B.fire+(p.fire?.45:1.0)&&!fired.cut){ fired.cut=1; camPos.copy(pos); camLook.copy(look); fovNow=fov; }
   fovNow=lerp(fovNow,fov,Math.min(1,dt*(p?9:3))); if(Math.abs(camera.fov-fovNow)>.01){ camera.fov=fovNow; camera.updateProjectionMatrix(); }
   camPos.lerp(pos,Math.min(1,dt*(p?9:2))); camLook.lerp(look,Math.min(1,dt*(p?9:2)));
-  camera.position.copy(camPos).add(camTmp.set((rnd()-.5)*shake,(rnd()-.5)*shake,0)); camera.lookAt(camLook); }
-function crossFade(k){ if(!gunTop.visible) return; gunTop.material.opacity=k; gun.visible=k<.98; }
+  camera.position.copy(camPos).add(camTmp.set((rnd()-.5)*shake,(rnd()-.5)*shake,0)); camera.lookAt(camLook); placeHand(); }
+function crossFade(k){ if(gunTop.visible){ gunTop.material.opacity=k; } gun.visible=(!gunTop.visible||k<.98)&&!handHold; }
 
 /* ================= tick ================= */
 let frames=0, fpsT=0, fps=0; const bubbleTmp=new T.Vector3();
@@ -753,7 +787,7 @@ function tick(draw){ const t=now(); let dt=Math.min(.05,t-last||.016); last=t; i
   /* lantern: living flame */
   const fl=.85+Math.sin(t*17)*.08+Math.sin(t*29.3)*.05+Math.sin(t*3.1)*.04; table.userData.lantern.intensity=1.5*fl; table.userData.flame.scale.set(.09*(fl+.05),.19*(fl+.12),1); table.userData.flame.material.rotation=Math.sin(t*9)*.08+Math.sin(t*23)*.04; table.userData.flame.position.x=Math.sin(t*11)*.003; table.userData.halo.material.opacity=.3*fl;
   flashLight.intensity*=Math.pow(.0005,dt); flashSprite.material.opacity*=Math.pow(.0001,dt); flashSprite.scale.multiplyScalar(1+dt*3); flashSide.material.opacity*=Math.pow(.001,dt);
-  if(playing&&playing.dir&&flashCore.material.opacity>.005){ const mzW=new T.Vector3(); muzzle.getWorldPosition(mzW); placeFlash(mzW,playing.dir); }
+  if(playing&&playing.dir&&flashCore.material.opacity>.005){ const mzW=new T.Vector3(); if(handHold){ hand.updateMatrixWorld(); mzW.copy(handMuzzleWorld()); } else muzzle.getWorldPosition(mzW); placeFlash(mzW,playing.dir); }
   flashCore.material.opacity*=Math.pow(.00001,dt); petals.forEach((sp,i)=>{ sp.material.opacity*=Math.pow(i?.0001:.00002,dt); sp.scale.multiplyScalar(1+dt*(3-i)); sp.material.rotation+=dt*(i?-1.5:2); }); hitFlash.material.opacity*=Math.pow(.0002,dt); hitFlash.scale.multiplyScalar(1+dt*5); hitLight.intensity*=Math.pow(.001,dt);
   sparks.forEach(p=>{ if(p.life<=0){ p.s.visible=false; return; } p.life-=dt; p.s.position.addScaledVector(p.v,dt); p.v.y-=dt*4; p.v.multiplyScalar(Math.pow(.2,dt)); const k=p.life/p.max; p.s.material.opacity=Math.min(1,k*2); p.s.material.color.setRGB(1,.55+k*.45,.2+k*.6); });
   shake*=Math.pow(.01,dt);
@@ -790,9 +824,10 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null;
 /* ================= asset contract: each picture drops in without a code change ================= */
 const PLATEMAP={}; let hasRoom=false, hasGunTop=false;
 async function loadAssets(){ const pm=await fetch("platemap.json").then(r=>r.ok?r.json():null).catch(()=>null); Object.assign(PLATEMAP,pm||{});
-  const [room,top,flash,sq]=await Promise.all([loadImg("assets/RR_ROOM.jpg"),loadImg("assets/RR_GUN_TOP.png"),loadImg("assets/RR_FLASH.png"),fetch("assets/squads.json").then(r=>r.json()).catch(()=>null)]);
+  const [room,top,flash,sq,handImg]=await Promise.all([loadImg("assets/RR_ROOM.jpg"),loadImg("assets/RR_GUN_TOP.png"),loadImg("assets/RR_FLASH.png"),fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.png")]);
+  { const hc=handImg?keyOutBlack(handImg):handPlaceholder(); hasHand=!!handImg; handAspect=hc.width/hc.height; const ht=new T.CanvasTexture(hc); ht.encoding=T.sRGBEncoding; ht.anisotropy=8; hand.material.map=ht; const hm=PLATEMAP.hand&&PLATEMAP.hand.muzzle; if(hm){ HAND_MUZZLE.u=hm[0]; HAND_MUZZLE.v=hm[1]; } }
   SQUADS=sq;
-  if(room){ hasRoom=true; const bw=room.width/room.height; const pl=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({map:new T.Texture(room), toneMapped:false})); pl.material.map.encoding=T.sRGBEncoding; pl.material.map.needsUpdate=true; const H=(PLATEMAP.room&&PLATEMAP.room.height)||4.6; pl.scale.set(H*bw,H,1); pl.position.set(0,H/2-.1,(PLATEMAP.room&&PLATEMAP.room.z)||-3.9); scene.add(pl); scene.getObjectByName("backWall").visible=false; scene.fog=null; }
+  if(room){ hasRoom=true; const bw=room.width/room.height; const pl=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({map:new T.Texture(room), toneMapped:false})); pl.material.map.encoding=T.sRGBEncoding; pl.material.map.needsUpdate=true; const H=(PLATEMAP.room&&PLATEMAP.room.height)||4.6; const cut=(PLATEMAP.room&&PLATEMAP.room.floorCut)||0; pl.scale.set(H*bw,H,1); pl.position.set(0,H/2-cut*H,(PLATEMAP.room&&PLATEMAP.room.z)||-3.9); scene.add(pl); scene.getObjectByName("backWall").visible=false; scene.fog=null; }
   if(top){ hasGunTop=true; const g=PLATEMAP.gunTop||{length:.3,offsetZ:.05,rotation:0}; gunTop.material.map=new T.Texture(top); gunTop.material.map.encoding=T.sRGBEncoding; gunTop.material.map.needsUpdate=true; gunTop.scale.set(g.length*top.width/top.height,g.length,1); gunTop.position.z=g.offsetZ; gunTop.rotation.z=g.rotation||0; gunTop.visible=true; }
   if(flash){ flashSprite.material.map=new T.Texture(flash); flashSprite.material.map.encoding=T.sRGBEncoding; flashSprite.material.map.needsUpdate=true; }
   setBoards(LAYOUT.danielClub,LAYOUT.nikClub); }

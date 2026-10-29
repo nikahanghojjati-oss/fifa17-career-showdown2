@@ -89,3 +89,10 @@ Full name **Russian Roster Roulette** (screen title, docs). Short name **Roster 
 ## Full-turn videos (29 Oct, Nik's ask)
 
 `evidence/TURN_DESKTOP_1536x864.mp4` and `evidence/TURN_PHONE_393x660.mp4`: one complete turn with a shot, 30 fps from the test clock (1 s idle, then spin on the felt, camera drop to the drum as it swings out, rear-face close-up with the red live round and the gold FIRES HERE mark, drum closes, hammer cocks, shot, camera to the board, splinters and the burnt RELEASED hole, back to the table). Rendered with `video.cjs` (scratchpad) and ffmpeg.
+
+## CC-014 · the spin is the show, a hand fires the gun, marble room (29 Oct evening, Nik's asks)
+
+- Beats (seconds from the start of a turn): spin on the felt .35-3.0, camera drops to the drum 3.3, drum free-spins 3.75-10.55 (14 turns, fast then the clicks spread out, then a crawl; it stops exactly where it will fire, red ring under the gold mark or not, BEFORE the crane closes), crane shuts 11.4, cut to the shooter's view 12.2, hand rises from the dark, hammer cocks 12.9, slow creep in, shot or click 14.1, cut to the board hit 14.55, back to the table by 16.9.
+- The hand (ticket 1854): a painted gloved hand holding the revolver, keyed out on black, rides on the camera as a layer in the lower corner of the shooter's view (mirrored for Nik's board on the right). It breathes while it aims, kicks up and back on the shot (60 ms up, 420 ms settle), dips on a click, then sinks out of frame. The 3D gun is hidden while the hand holds it. Until the picture arrives a flat placeholder silhouette stands in. `platemap.json` `hand.muzzle` sets where the flash sits on the picture (u,v from the bottom-left).
+- Flash layers, sparks and smoke render over the hand layer (renderOrder 30/28/25, no depth test on the flash).
+- Room: Nik's marble cafe picture (`assets/RR_ROOM.jpg`, 1672x941) replaces the back wall. `floorCut` 0.405 hides the picture's own floor under the 3D floor so the counter base meets the floor line. 3D floor is cream marble; side walls are black marble panels with gold inlay and walnut rails to match.
