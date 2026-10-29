@@ -27,8 +27,8 @@
 <text x="622" y="162" font-size="12" font-weight="800" fill="#f0d900" text-anchor="end">27.8%</text>
 <text x="18" y="186" font-size="12" fill="#fbfcfc">2. Visual fixes</text>
 <rect x="210" y="177" width="368" height="10" rx="5" fill="#12191f" stroke="#43515b" stroke-width=".5"/>
-<rect x="210" y="177" width="306.7" height="10" rx="5" fill="#42b9da"/>
-<text x="622" y="186" font-size="12" font-weight="800" fill="#f0d900" text-anchor="end">83.3%</text>
+<rect x="210" y="177" width="314.3" height="10" rx="5" fill="#42b9da"/>
+<text x="622" y="186" font-size="12" font-weight="800" fill="#f0d900" text-anchor="end">85.4%</text>
 <text x="18" y="210" font-size="12" fill="#fbfcfc">3. Match current desktop screens to the mockup</text>
 <rect x="210" y="201" width="368" height="10" rx="5" fill="#12191f" stroke="#43515b" stroke-width=".5"/>
 <rect x="210" y="201" width="23" height="10" rx="5" fill="#42b9da"/>
@@ -41,8 +41,8 @@
 <text x="622" y="258" font-size="12" font-weight="800" fill="#f0d900" text-anchor="end">0%</text>
 <text x="18" y="280" font-size="11" font-weight="700" fill="#42b9da" letter-spacing="1.5">HAND-OFFS · 47</text>
 <rect x="18" y="292" width="51.4" height="14" fill="#42b9da"/>
-<rect x="69.4" y="292" width="38.6" height="14" fill="#f0d900"/>
-<rect x="108" y="292" width="514" height="14" fill="#43b581"/>
+<rect x="69.4" y="292" width="25.7" height="14" fill="#f0d900"/>
+<rect x="95.1" y="292" width="526.9" height="14" fill="#43b581"/>
 <rect x="18" y="292" width="604" height="14" rx="7" fill="none" stroke="#43515b" stroke-width=".5"/>
 <rect x="18" y="311" width="10" height="10" rx="2" fill="#8ea2ac"/>
 <text x="33" y="320" font-size="11" fill="#fbfcfc">Sent 0</text>
@@ -51,9 +51,9 @@
 <rect x="195" y="311" width="10" height="10" rx="2" fill="#42b9da"/>
 <text x="210" y="320" font-size="11" fill="#fbfcfc">Received 4</text>
 <rect x="294" y="311" width="10" height="10" rx="2" fill="#f0d900"/>
-<text x="309" y="320" font-size="11" fill="#fbfcfc">Working 3</text>
+<text x="309" y="320" font-size="11" fill="#fbfcfc">Working 2</text>
 <rect x="386" y="311" width="10" height="10" rx="2" fill="#43b581"/>
-<text x="401" y="320" font-size="11" fill="#fbfcfc">Done 40</text>
+<text x="401" y="320" font-size="11" fill="#fbfcfc">Done 41</text>
 <text x="18" y="338" font-size="11" font-weight="700" fill="#42b9da" letter-spacing="1.5">TEAM V JOBS MOVING</text>
 <text x="18" y="358" font-size="12" fill="#8ea2ac">Nothing moving for Team V right now.</text>
 </svg>
