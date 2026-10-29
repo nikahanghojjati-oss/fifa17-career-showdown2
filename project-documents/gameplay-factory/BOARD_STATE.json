@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-29 4:16 AM Boston time (EDT)",
+ "generated": "2026-10-29 4:18 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 150,
+  "count": 153,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1353,6 +1353,33 @@
     "subject": "League wheel spin polish: 7 errors fixed, patch ready to merge (Nik OK)",
     "reply": "yes (receive it)",
     "boston": "Thu 29 Oct 3:53 AM"
+   },
+   {
+    "time": "2026-10-29 07:53",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-042 SENT",
+    "subject": "r86 Special Player reveal: card text cut, phone label, gold glow instead of white flash",
+    "reply": "yes (receive it)",
+    "boston": "Thu 29 Oct 3:53 AM"
+   },
+   {
+    "time": "2026-10-29 07:54",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-041 RECEIVED",
+    "subject": "League wheel spin polish: 7 errors fixed, patch ready to merge (Nik OK)",
+    "reply": "no",
+    "boston": "Thu 29 Oct 3:54 AM"
+   },
+   {
+    "time": "2026-10-29 08:16",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-043 SENT",
+    "subject": "Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons)",
+    "reply": "yes (receive it)",
+    "boston": "Thu 29 Oct 4:16 AM"
    }
   ],
   "g2v": {
@@ -1373,8 +1400,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "09d3593",
-  "head_boston": "Thu 29 Oct 4:05 AM",
+  "head": "b4a2ed4",
+  "head_boston": "Thu 29 Oct 4:16 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1997,13 +2024,13 @@
     "from": "G",
     "to": "V",
     "title": "Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons)",
-    "stage": "SENT",
+    "stage": "DELIVERED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-043_polish-pass-7-look-layout-items-from-the.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": null
+    "waiting_min": 2
    }
   ],
   "relay_ok": true
