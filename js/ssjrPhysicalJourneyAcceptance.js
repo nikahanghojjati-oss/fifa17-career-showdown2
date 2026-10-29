@@ -117,6 +117,11 @@
     if(!closedSeen){
       if(remote?.sessionState==="active"&&remote?.pendingAction==null)milestone("remote-active","ACTIVE",{revision:Number.isInteger(remote.revision)?remote.revision:null});
       if(setup?.setup?.phase==="SHOWDOWN_CONFIRMED"&&setup.setup.revision===6)milestone("setup-confirmed","SHOWDOWN_CONFIRMED",{revision:6,totalSeasons:Number(setup.setup.totalSeasons)||null});
+    }
+    // r86 (real run 2026-10-29): after a restart the other modules can still hold the previous Showdown's states for a moment, so
+    // no game stage counts before this Showdown's Shared Setup is confirmed (that is the order every real run follows).
+    if(!hasStage("setup-confirmed")){persist();return;}
+    if(!closedSeen){
       if(nestedPhase(career)==="CAREER_START_READY")milestone("career-start-ready","CAREER_START_READY",{revision:nestedRevision(career)});
       if(nestedPhase(transfer)==="COMPLETED")milestone("transfer-completed","COMPLETED",{revision:nestedRevision(transfer),seasonNumber:nestedSeason(transfer)});
       if(nestedPhase(results)==="RESULTS_READY")milestone("results-ready","RESULTS_READY",{revision:nestedRevision(results),seasonNumber:nestedSeason(results)});
