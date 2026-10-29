@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28 8:05 PM Boston time (EDT)",
+ "generated": "2026-10-28 8:07 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 147,
@@ -1346,8 +1346,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "9269b6c",
-  "head_boston": "Wed 28 Oct 6:56 PM",
+  "head": "4ca3ad8",
+  "head_boston": "Wed 28 Oct 8:06 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1931,6 +1931,19 @@
     "worker": "",
     "pickup_min": null,
     "waiting_min": null
+   },
+   {
+    "id": "HO-040",
+    "from": "G",
+    "to": "V",
+    "title": "Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87)",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-040_roster-russian-roulette-red-dead-style-s.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": 1
    }
   ],
   "relay_ok": true
@@ -2002,7 +2015,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
