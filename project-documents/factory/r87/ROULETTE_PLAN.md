@@ -21,6 +21,9 @@ The guides carry the approved golden anchors (POSE_TRANSFER_DANIEL_FOCUSED_V1 / 
 3. Layers: board frames held in hands (cut from the plate, so code can shake them on a hit), RR_CYLINDER (cut out; empty/loaded/spin-blur), RR_FLASH (screen-blend webp), bullet trail + board hole decal (code-drawn SVG, no gore).
 4. Platemap JSON with the exact pitch and subs rectangles per board, then the pack goes to Team G.
 
+## Live screen: hybrid 3D (Nik, 29 Oct 00:24 UTC)
+three.js scene like the Special Player screen: real 3D table, revolver, seven-chamber cylinder, lantern light, boards that tilt and take the hit, moving camera. The room and the three men are depth layers cut from the approved pictures, so the faces stay exact. The layers below feed that scene.
+
 ## Layout (CSS px; full numbers in ROULETTE_LAYOUT_V1.json)
 Desktop 1536 × 864:
 - Top bar 0-40 (CM17 + five tabs + chips + gear). Title 46-100, centred.
