@@ -1,6 +1,6 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-29T02:26:57.849Z",
+  "at": "2026-10-29T02:34:31.192Z",
   "state": "ALL_CLEAR",
   "checks": [],
   "helpers_paused": [],
@@ -14,7 +14,7 @@
       },
       {
         "name": "L2 browser full",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L3A storage gameplay",
@@ -37,7 +37,7 @@
         "state": "fail"
       }
     ],
-    "seal": "PENDING"
+    "seal": "FAIL_TEST"
   },
   "pos20": {
     "pr": 1041,
