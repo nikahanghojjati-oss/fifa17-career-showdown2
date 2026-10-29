@@ -165,6 +165,9 @@ ok('L5','edited boards are checked: 11 + 4, one GK, no duplicates, clean names')
   const read=await Store.read({...base,season:2,role:'playerOne'});
   assert.deepEqual([read.source,read.rows],['server',rows]);
   const n=log.length;assert.equal((await Store.read({...base,season:2,role:'playerOne'})).source,'phone');assert.equal(log.length,n);
+  assert.ok(Object.isFrozen(read.rows)&&read.rows.every(Object.isFrozen)&&Object.isFrozen(saved.rows)&&saved.rows.every(Object.isFrozen),'a returned board cannot be changed');
+  assert.throws(()=>{'use strict';read.rows[0].name='Edited In Memory';},TypeError);
+  assert.equal((await Store.read({...base,season:2,role:'playerOne'})).rows[0].name,rows[0].name,'the phone copy keeps the locked name');
   for(const [opts,code] of [[{rows:rows.slice(0,14)},'ROSTER_BOARD_INVALID'],[{season:1},'ROSTER_SEASON_INVALID'],[{role:'nobody'},'ROSTER_ROLE_INVALID'],[{sessionId:'x'},'ROSTER_SESSION_INVALID'],[{season:3,firebaseSdk:{doc:fakeSdk.doc}},'ROSTER_PROVIDER_UNAVAILABLE']]){
     const r=await Store.save({...base,season:2,role:'playerOne',rows,...opts});assert.deepEqual([r.ok,r.code],[false,code]);
   }

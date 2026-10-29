@@ -27,8 +27,9 @@
   function rbsBoardId(season,role){return `season_${season}_${role}`;}
   function rbsPath(rivalryId,season,role){return `rivalries/${rivalryId}/rosterBoards/${rbsBoardId(season,role)}`;}
   function rbsSdk(sdk){for(const name of ["doc","runTransaction","serverTimestamp"])if(!sdk||typeof sdk[name]!=="function")rbsFail("ROSTER_PROVIDER_UNAVAILABLE");return sdk;}
-  // A board as the engine and the Rules want it: 15 rows of {pos,name} (XI with one GK, then 4 subs), or null.
-  function rbsRows(rows){const engine=rbsEngine(),board=engine&&engine.normalizeBoard(rows);return board?board.map(p=>({pos:p.pos,name:p.name})):null;}
+  // A board as the engine and the Rules want it: 15 rows of {pos,name} (XI with one GK, then 4 subs), or null. Frozen all the
+  // way down, because the same rows are kept as this phone's copy: a caller can never change a locked board in memory.
+  function rbsRows(rows){const engine=rbsEngine(),board=engine&&engine.normalizeBoard(rows);return board?Object.freeze(board.map(p=>Object.freeze({pos:p.pos,name:p.name}))):null;}
   function rbsFromDocument(value,rivalryId,season,role){
     if(!value||typeof value!=="object"||Object.keys(value).length!==DOC_KEYS.length||DOC_KEYS.some(key=>!Object.hasOwn(value,key)))return null;
     if(value.schemaVersion!==1||value.objectType!=="rosterBoard"||value.rivalryId!==rivalryId||value.seasonNumber!==season||value.managerRole!==role)return null;
