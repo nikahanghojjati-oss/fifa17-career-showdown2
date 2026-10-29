@@ -46,3 +46,16 @@ Nik: "Build to see inside the cylinder in 4K quality", "cinematic transition ...
 - Sharpness: pixel ratio cap 3 on desktop, 2.5 on phone (4K-class on a retina/4K screen). Table wood 1024, shadow map 2048 with a softer radius, felt deeper and finer, lantern stronger.
 - Evidence rebuilt: idle, top, inside, cock, flash, hit, after at 1536x864 and 393x660; no scroll and button inside at both; no page errors.
 - Still open: hammer and trigger are simple forms; RR_ROOM / RR_GUN_TOP / RR_FLASH drop-ins; real-device FPS.
+
+## CC-012 · cylinder rebuilt from Nik's revolver photos (29 Oct)
+
+Nik rated the CC-011 revolver 1/10: holes did not match a cylinder, parts mashed together. Reference photos in `project-documents/factory/r87/revolver-ref/`.
+
+What changed in `index.html`:
+- Cylinder is now a plain polished drum (no scallops, no torus lips): 7 bores of 9.2 mm on a 27 mm circle, ejector star at the rear, centre pin at the front, one brass cartridge with a grey nose.
+- The bore cut had two real bugs. ExtrudeGeometry grows the walls by `bevelSize`, so the holes were drawn 0.6 mm wider and the rim 0.6 mm smaller to land on size. The old holes also overlapped each other, which broke the cap triangulation (one chamber came out capped with a wedge). Drum self-shadowing is off: the table shadow map is far too coarse at this scale.
+- Every bore is a dark steel tube with a floor, so you can look down it.
+- Close-up lighting: cool key (0xe6eeff, 0.5) plus a cool fill so steel reads silver rather than lantern-beige.
+- Frame narrowed from 27 mm to 20 mm so the drum shows beside the top strap, screws and loading gate moved to the new surfaces.
+
+Evidence regenerated in `evidence/` (desktop 1536x864 and phone 393x660, 7 beats each, sheets). Phone: no scroll, button visible.
