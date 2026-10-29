@@ -106,3 +106,15 @@ Full name **Russian Roster Roulette** (screen title, docs). Short name **Roster 
 - Lamp: 24 gold ribs on the oil font, gold rings at the foot and stem. Pot: two engraved gold bands and 18 flutes. Cups: double gold band.
 - Sounds: `platemap.json` `"sfx"` map; any listed file replaces the synthesized cue of that name (spinStart, felt, click, cock, heart, dry, bang, splinter). Ticket HO-047 asks Team G for the recordings.
 - Camera rest pulled back to z 2.7 so both boards fit the desktop frame; phone boards at scale .62.
+
+## CC-016 · one continuous shot, the camera rides the bullet (29 Oct, 7:04 p.m. Eastern asks)
+
+- Golden rule kept: no cut anywhere. The camera is one smooth path from the drum close-up to the end. The two snaps that were in the code (to the shooter's view and to the board hit) are gone.
+- Beats (desktop): drum spin as before, crane shuts 11.4; 11.4-13.6 the camera rises off the drum and swings round behind the shooter in one glide while the hand comes up with the gun (the gun on the felt only disappears once the hand covers that part of the frame); hammer cocks 13.6; heartbeat 13.9 and 14.9; slow creep until the shot at 15.0.
+- Hand placement: the hand sits on the side of the frame away from the target board, so the gun crosses the frame toward the board (Daniel's board left: hand bottom-right; Nik's board right: hand bottom-left).
+- The bullet: a real slug (lead body, copper band, spinning, hot streak behind it, soft halo). It leaves the muzzle at full speed for the first centimetres, then the world drops into slow motion (effects run at 16 % speed) and the camera leaves the shoulder and settles beside and just behind the slug, looking along its path to the board. Flight 15.0-17.4.
+- Impact 17.4: hit flash, sparks, smaller splinters and the burnt RELEASED hole, all in slow motion (22 % speed for 1.2 s), while the camera keeps drifting forward and eases to a stop 42 cm from the hole. From 19.6 it floats back to the table; end 22.0.
+- Click turn: the hand dips, the camera eases from the shoulder back to the table (end 22.0 but the result line shows at 15.7).
+- Bug found on the way: the board hit point applied the board's transform twice, so the shot was aimed at a point in the air above the board. Fixed; the slug now lands on the released player's bubble.
+- Phone: the shooter stands more in front of the board (the squad reads, not the frame edge) and the glide passes higher so it never clips the board.
+- Evidence: `evidence/SHEET_DESKTOP.jpg`, `evidence/SHEET_PHONE.jpg` (8 beats, new `flight` beat at 16.4), `evidence/TURN_DESKTOP_1536x864.mp4`, `evidence/TURN_PHONE_393x660.mp4` (23.4 s).

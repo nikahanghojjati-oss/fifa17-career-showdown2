@@ -149,7 +149,7 @@ const hand=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({transpar
 function keyOutBlack(img){ const c=document.createElement("canvas"); c.width=img.width; c.height=img.height; const x=c.getContext("2d"); x.drawImage(img,0,0); const d=x.getImageData(0,0,c.width,c.height), a=d.data; let hasAlpha=false; for(let i=3;i<a.length;i+=4*97){ if(a[i]<250){ hasAlpha=true; break; } }
   if(!hasAlpha){ for(let i=0;i<a.length;i+=4){ const m=Math.max(a[i],a[i+1],a[i+2]); a[i+3]=m<7?0:m<22?Math.round((m-7)/15*255):255; } x.putImageData(d,0,0); } return c; }
 function placeHand(){ const fh=2*Math.tan(camera.fov*Math.PI/360), fw=fh*camera.aspect; const ph=fh*(PH?.56:.68), pw=ph*handAspect; hand.scale.set(pw*handSide,ph,1);
-  const lift=(1-handK)*ph*1.1; const rx=handRecoil; hand.position.set(handSide*(fw/2-pw*.40)+rx*handSide*.01, -fh/2+ph*.42-lift+rx*.025, -1); hand.rotation.z=handSide*rx*.16; hand.material.opacity=handK>0?1:0; }
+  const lift=(1-handK)*ph*1.1; const rx=handRecoil; hand.position.set(handSide*(fw/2-pw*.40)+rx*handSide*.01, -fh/2+ph*.42-lift+rx*.025, -1); hand.rotation.z=handSide*rx*.16; hand.material.opacity=handK>0?Math.min(1,handK*3):0; }
 function handMuzzleWorld(){ const v=new T.Vector3((HAND_MUZZLE.u-.5),(HAND_MUZZLE.v-.5),0); return hand.localToWorld(v); }
 function handPlaceholder(){ const c=document.createElement("canvas"); c.width=1600; c.height=900; const x=c.getContext("2d"); x.clearRect(0,0,1600,900);
   x.fillStyle="#2a1d14"; x.beginPath(); x.moveTo(1600,900); x.lineTo(1600,420); x.quadraticCurveTo(1180,380,980,470); x.quadraticCurveTo(900,520,960,600); x.lineTo(1100,900); x.closePath(); x.fill();
@@ -575,7 +575,7 @@ const gunTop=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({transp
 
 const closeKey=new T.PointLight(0xe6eeff,0,1.6,2); scene.add(closeKey); scene.add(camera);   /* cool daylight key for the close-ups so polished steel reads silver, not lantern-beige */
 const closeFill=new T.PointLight(0xbfd4ff,0,1.2,2); scene.add(closeFill);
-window.__dbg={gun,cyl,crane,hammer,muzzle,spin,lie,scene,renderer,get camera(){return camera;}};
+window.__dbg={gun,cyl,crane,hammer,muzzle,spin,lie,scene,renderer,get camera(){return camera;}, get playing(){return playing;}, get boards(){return boards;}, get boardTargetWorld(){return boardTargetWorld;}};
 /* ================= the boards on brass easels (Daniel LEFT, Nik RIGHT) ================= */
 const boards={ D:null, N:null };
 const BOARD_W=.84, BOARD_H=.64;
@@ -665,7 +665,7 @@ function drawHit(key,hit){ const b=boards[key].userData, ctx=b.ctx; const {x,y}=
   const r=30; const g=ctx.createRadialGradient(x,y,r*.3,x,y,r*2.4); g.addColorStop(0,"rgba(0,0,0,1)"); g.addColorStop(.35,"rgba(25,10,4,.95)"); g.addColorStop(.6,"rgba(70,35,10,.7)"); g.addColorStop(1,"rgba(60,30,10,0)"); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r*2.4,0,7); ctx.fill();
   ctx.fillStyle="#050302"; ctx.beginPath(); for(let i=0;i<14;i++){ const a=i/14*Math.PI*2, rr=r*(.7+Math.random()*.5); ctx.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr); } ctx.closePath(); ctx.fill();
   ctx.strokeStyle="rgba(255,120,40,.6)"; ctx.lineWidth=2; ctx.stroke(); }
-function boardHitPoint(key,bubble){ const g=boards[key]; const p=new T.Vector3((bubble.u-.5)*BOARD_W,(bubble.v-.5)*BOARD_H,.012); return g.userData.inner.localToWorld(g.localToWorld(p)); }
+function boardHitPoint(key,bubble){ const g=boards[key]; const p=new T.Vector3((bubble.u-.5)*BOARD_W,(bubble.v-.5)*BOARD_H,.012); g.updateMatrixWorld(true); return g.userData.inner.localToWorld(p); }
 function boardTargetWorld(key,bubble){ return boardHitPoint(key,bubble); }
 
 /* squads */
@@ -678,7 +678,7 @@ for(let i=0;i<36;i++){ const s=new T.Sprite(smokeMat.clone()); s.visible=false; 
 function puff(pos,dir,n,size,speed,life){ for(let i=0;i<n;i++){ const p=smokes.find(q=>q.life<=0); if(!p) return; p.life=life*(.7+rnd()*.6); p.max=p.life; p.s.visible=true; p.s.position.copy(pos).add(new T.Vector3((rnd()-.5)*.02,(rnd()-.5)*.02,(rnd()-.5)*.02)); p.v.copy(dir).multiplyScalar(speed*(.5+rnd())).add(new T.Vector3((rnd()-.5)*.3,.12+rnd()*.2,(rnd()-.5)*.3)); p.size=size*(.6+rnd()*.8); p.s.material.rotation=rnd()*6.28; p.rot=(rnd()-.5)*1.5; } }
 const splinters=[]; const splGeo=new T.BoxGeometry(.012,.004,.03); const splMat=new T.MeshStandardMaterial({color:L("#e8d8b0"),roughness:.9});
 for(let i=0;i<40;i++){ const m=new T.Mesh(i%3?splGeo:new T.BoxGeometry(.02,.001,.02),i%3?splMat:M.card); m.visible=false; scene.add(m); splinters.push({m, life:0, v:new T.Vector3(), w:new T.Vector3()}); }
-function burst(pos,normal){ splinters.forEach((p,i)=>{ p.life=.9+rnd()*.8; p.m.visible=true; p.m.position.copy(pos); p.v.copy(normal).multiplyScalar(.8+rnd()*2.2).add(new T.Vector3((rnd()-.5)*2.2,(rnd()-.2)*2.4,(rnd()-.5)*2.2)); p.w.set(rnd()*20,rnd()*20,rnd()*20); p.m.scale.setScalar(.6+rnd()*.9); }); }
+function burst(pos,normal){ splinters.forEach((p,i)=>{ p.life=.9+rnd()*.8; p.m.visible=true; p.m.position.copy(pos); p.v.copy(normal).multiplyScalar(.8+rnd()*2.2).add(new T.Vector3((rnd()-.5)*2.2,(rnd()-.2)*2.4,(rnd()-.5)*2.2)); p.w.set(rnd()*20,rnd()*20,rnd()*20); p.m.scale.setScalar(.25+rnd()*.45); }); }
 const flashSprite=new T.Sprite(new T.SpriteMaterial({map:flashTex(), blending:T.NormalBlending, depthWrite:false, transparent:true, opacity:0})); flashSprite.scale.set(.001,.001,1); scene.add(flashSprite);
 const flashSide=new T.Sprite(new T.SpriteMaterial({map:glowT, blending:T.NormalBlending, depthWrite:false, transparent:true, opacity:0, color:0xffb060})); scene.add(flashSide);
 /* muzzle flash layers: hot white core, two petal stars at different angles, one wide warm glow; sparks fly out in a cone */
@@ -695,6 +695,15 @@ const hitLight=new T.PointLight(L("#ffd0a0"),0,2.5,2); scene.add(hitLight);
 const dust=(()=>{ const n=260, pos=new Float32Array(n*3), base=[]; for(let i=0;i<n;i++){ const x=(rnd()-.5)*3.2, y=.7+rnd()*2.2, z=-2.2+rnd()*3.2; pos.set([x,y,z],i*3); base.push(x,y,z); } const g=new T.BufferGeometry(); g.setAttribute("position",new T.BufferAttribute(pos,3)); const m=new T.PointsMaterial({map:dustT, size:.016, transparent:true, opacity:.5, depthWrite:false, blending:T.AdditiveBlending, color:0xffd9a0, sizeAttenuation:true}); const p=new T.Points(g,m); scene.add(p); return {p,base,pos}; })();
 /* bullet tracer: a short bright line that lives 0.12 s */
 const tracer=new T.Mesh(new T.CylinderGeometry(.002,.002,1,6),new T.MeshBasicMaterial({color:0xffe0a0, transparent:true, opacity:.9, toneMapped:false})); tracer.visible=false; scene.add(tracer);
+/* the bullet the camera rides: lead slug with a copper band, spinning, with a hot streak behind it and a soft shock halo */
+const bullet=new T.Group(); scene.add(bullet); bullet.visible=false;
+{ const lead=new T.MeshPhysicalMaterial({color:L("#9a9ea4"), metalness:.85, roughness:.3, clearcoat:.4}); const copper=new T.MeshPhysicalMaterial({color:L("#b9722f"), metalness:1, roughness:.25, clearcoat:.5});
+  const body=new T.Mesh(new T.CylinderGeometry(.0045,.0045,.012,24),lead); body.rotation.x=Math.PI/2; body.position.z=-.004; bullet.add(body);
+  const band=new T.Mesh(new T.CylinderGeometry(.0046,.0046,.003,24),copper); band.rotation.x=Math.PI/2; band.position.z=-.009; bullet.add(band);
+  const nose=new T.Mesh(new T.SphereGeometry(.0045,24,16),lead); nose.scale.z=1.9; nose.position.z=.003; bullet.add(nose);
+  const streak=new T.Mesh(new T.PlaneGeometry(.09,.012),new T.MeshBasicMaterial({map:softTex([[0,"rgba(255,220,160,.9)"],[.5,"rgba(255,170,80,.35)"],[1,"rgba(255,120,40,0)"]]), transparent:true, depthWrite:false, blending:T.AdditiveBlending, side:T.DoubleSide, toneMapped:false})); streak.rotation.y=Math.PI/2; streak.position.z=-.055; bullet.add(streak); bullet.userData.streak=streak;
+  const halo=new T.Sprite(new T.SpriteMaterial({map:glowT, blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xffd9a0, opacity:.18})); halo.scale.set(.06,.06,1); bullet.add(halo); }
+function slugAt(p,tgt,k){ return p.mz.clone().lerp(tgt,k); }
 function placeTracer(a,b,k0,k1){ const p0=a.clone().lerp(b,k0), p1=a.clone().lerp(b,k1); const len=p0.distanceTo(p1); tracer.visible=len>0.001; tracer.scale.set(1,len,1); tracer.position.copy(p0).add(p1).multiplyScalar(.5); tracer.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),p1.clone().sub(p0).normalize()); }
 
 /* ================= layout: desktop vs portrait phone ================= */
@@ -727,8 +736,8 @@ function endTurn(){ const p=playing; if(!p) return; const who=p.who; if(p.fire){
   turn++; playing=null; const next=ORDER[turn%2]; setBusy(false); $("chipWho").textContent=NAME[next]; $("pchipWho").textContent=NAME[next]; if(turn%2===1) slot(next==="D"?slotD:slotN,"At the table","wait"); if(p.fire){ loaded=false; cyl.userData.round.visible=false; } }
 const now=()=>manual!==null?manual:performance.now()/1000;
 /* beats (seconds from the start of a turn); reduced motion shortens them */
-const B=REDUCED?{spin:.2,spinEnd:1.6,close:1.8,inside:1.8,turnC:2.2,hand:2.3,cock:2.6,aim:2.7,fire:3.3,end:4.8}:{spin:.35,spinEnd:3.0,close:3.3,inside:11.4,turnC:11.9,hand:12.2,cock:12.9,aim:13.1,fire:14.1,end:16.9};
-let hammerK=0, cylExtra=0, recoil=0;
+const B=REDUCED?{spin:.2,spinEnd:1.6,close:1.8,inside:1.8,turnC:2.2,hand:2.3,cock:2.6,aim:2.7,fire:3.3,impact:3.45,end:5.2}:{spin:.35,spinEnd:3.0,close:3.3,inside:11.4,turnC:11.9,hand:12.2,cock:13.6,aim:13.9,fire:15.0,impact:17.4,end:22.0};
+let hammerK=0, cylExtra=0, recoil=0, fxScale=1;
 function cylTarget(){ return -chamber*(Math.PI*2/7); }
 function at(tt,t,k,fn){ if(tt>=t&&!fired[k]){ fired[k]=1; fn(); } }
 let lastClick=0;
@@ -752,14 +761,18 @@ function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
     at(tt,B.turnC,"turnC",()=>SFX.play("click",1)); cyl.rotation.z=cylTarget()+showExtra;
     hammerK=tt<B.cock?0:tt<B.fire?ease.out(S(B.cock,.3,tt)):Math.max(0,1-S(B.fire,.05,tt));
     /* the hand: rises from the dark once the drum is shut, holds and breathes, fires or clicks, then sinks away */
-    handHold=tt>=B.hand&&tt<B.end-.2; handSide=p.who==="D"?1:-1;
-    { const up=ease.out(S(B.hand,.7,tt)); const down=tt<B.fire+(p.fire?.4:.8)?0:ease.inOut(S(B.fire+(p.fire?.4:.8),.35,tt)); const breathe=Math.sin(tt*2.1)*.004+Math.sin(tt*5.3)*.0015; handK=Math.max(0,up-down)+(handHold?breathe:0);
-      if(tt>=B.fire){ const a=tt<B.fire+.05?S(B.fire,.05,tt):1-ease.out(S(B.fire+.05,.42,tt)); handRecoil=(p.fire?1:.12)*Math.max(0,a); } else handRecoil=0; }
-    at(tt,B.cock,"cock",()=>SFX.play("cock")); at(tt,B.aim,"heart",()=>SFX.play("heart"));
+    handHold=tt>=B.hand&&tt<B.end-.2; handSide=p.who==="D"?1:-1;   /* the hand sits on the side away from the board, so the gun crosses the frame toward it */
+    { const up=ease.out(S(B.hand,1.1,tt)); const down=tt<B.fire+(p.fire?.35:1.0)?0:ease.inOut(S(B.fire+(p.fire?.35:1.0),p.fire?.9:.6,tt)); const breathe=Math.sin(tt*2.1)*.004+Math.sin(tt*5.3)*.0015; handK=Math.max(0,up-down)+(handHold?breathe:0);
+      if(tt>=B.fire){ const a=tt<B.fire+.06?S(B.fire,.06,tt):1-ease.out(S(B.fire+.06,.55,tt)); handRecoil=(p.fire?1:.12)*Math.max(0,a); } else handRecoil=0; }
+    at(tt,B.hand,"handUp",()=>SFX.play("handUp")); at(tt,B.cock,"cock",()=>SFX.play("cock")); at(tt,B.aim,"heart",()=>SFX.play("heart")); at(tt,B.aim+1.0,"heart2",()=>SFX.play("heart"));
     /* c/d. hammer falls */
     if(tt>=B.fire&&!fired.fire){ fired.fire=1; if(p.fire){ fireShot(p,tgt); } else { SFX.play("dry"); const fl=muzzleW.clone(); if(!handHold) fl.y=.76; puff(fl,new T.Vector3(0,.4,0),4,.07,.25,.9); result.className="result safe"; result.textContent=`Click. ${NAME[p.who]} is safe.`; live.textContent=result.textContent; } }
-    if(p.fire&&tt>=B.fire){ const k=S(B.fire,.12,tt); const impact=tt>=B.fire+.12; if(!impact){ placeTracer(p.mz,tgt,Math.max(0,k-.25),k); } else { tracer.visible=false; if(!p.hitDone){ p.hitDone=true; hitBoard(p,tgt); } } }
-    if(tt>=B.fire+(p.fire?1.3:.7)&&!fired.line){ fired.line=1; if(p.fire){ result.className="result bang"; result.textContent=`Bang! ${p.target.name} is released.`; live.textContent=result.textContent; } }
+    /* the bullet: leaves at full speed for the first 8 cm, then the world slows and the camera rides beside it to the board */
+    if(p.fire&&tt>=B.fire){ const fl=S(B.fire,B.impact-B.fire,tt); const k=Math.min(1,.04+ease.in(fl)*.96); const impact=tt>=B.impact; const dir=p.dir;
+      if(!impact){ bullet.visible=true; bullet.position.copy(slugAt(p,tgt,k)); bullet.quaternion.setFromUnitVectors(new T.Vector3(0,0,1),dir); bullet.rotateZ(tt*40); p.bulletK=k; const sp=.5+fl*1.2; bullet.userData.streak.scale.set(sp,1,1); fxScale=lerp(fxScale,.16,Math.min(1,dt*6)); }
+      else { bullet.visible=false; if(!p.hitDone){ p.hitDone=true; hitBoard(p,tgt); } fxScale=lerp(fxScale,tt<B.impact+1.2?.22:1,Math.min(1,dt*(tt<B.impact+1.2?8:1.5))); } }
+    else fxScale=lerp(fxScale,1,Math.min(1,dt*4));
+    if(tt>=(p.fire?B.impact+1.6:B.fire+.7)&&!fired.line){ fired.line=1; if(p.fire){ result.className="result bang"; result.textContent=`Bang! ${p.target.name} is released.`; live.textContent=result.textContent; } }
     /* recoil: the gun kicks and slides back across the felt, turning a little */
     if(p.slideV.lengthSq()>1e-6||p.slide.lengthSq()>1e-8){ p.slideV.multiplyScalar(Math.pow(.02,dt)); p.slide.addScaledVector(p.slideV,dt); spin.position.set(p.slide.x,.751,.02+p.slide.z); spin.rotation.y=p.yawTarget+p.slideSpin*(1-Math.exp(-(tt-B.fire)*3))*.001; if(p.spinKick){ spin.rotation.y=p.yawTarget+p.spinKick*(1-Math.pow(.02,tt-B.fire)); } }
     if(tt>=B.end) endTurn();
@@ -784,7 +797,7 @@ function hitBoard(p,tgt){ const b=boards[p.who]; const n=new T.Vector3(0,0,1).ap
 /* ================= camera ================= */
 function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new T.Vector3(Math.sin(t*.23)*.05,Math.sin(t*.31)*.02,Math.cos(t*.19)*.04);
   let pos=camRest.clone().add(drift), look=lookRest.clone(), fov=fovRest;
-  if(p){ const gw=spin.position.clone(); const who=p.who, sx=who==="D"?-1:1; const bw=boards[who].position.clone();
+  if(p){ const gw=spin.position.clone(); const who=p.who, sx=who==="D"?-1:1; const bw=boards[who].position.clone(); const tgt=boardTargetWorld(p.who,p.target);
     const topPos=PH?new T.Vector3(0,2.5,.22):new T.Vector3(0,2.25,.3), topLook=new T.Vector3(0,.75,.0);
     /* the close-up stands off the hammer side of the gun, low over the felt, telephoto */
     const yaw=p.yawTarget; const back=new T.Vector3(-Math.sin(yaw),0,-Math.cos(yaw)); const side=new T.Vector3(Math.cos(yaw),0,-Math.sin(yaw));
@@ -795,24 +808,29 @@ function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new
     const tensePos=gw.clone().add(back.clone().multiplyScalar(.26)).add(side.clone().multiplyScalar(PH?-.2:-.24)).add(new T.Vector3(0,.14,0));
     const hitPos=PH?new T.Vector3(sx*.25,1.5,2.1):new T.Vector3(sx*.6,1.35,1.9), hitLook=bw.clone().lerp(gw,.35);
     /* shooter's view: across the table from the target board, the hand and gun in the lower corner, the board ahead */
-    const away=gw.clone().sub(bw); away.y=0; away.normalize(); const povPos=gw.clone().addScaledVector(away,PH?1.05:.95).add(new T.Vector3(0,.62,0)), povLook=bw.clone().add(new T.Vector3(0,.04,0)); const povFov=PH?44:34;
+    const away=gw.clone().sub(bw); away.y=0; if(PH) away.multiplyScalar(.55).add(new T.Vector3(0,0,1)); away.normalize(); /* on the phone the shooter stands more in front of the board so the squad reads, not the frame edge */ const povPos=gw.clone().addScaledVector(away,PH?1.15:.95).add(new T.Vector3(0,.62,0)), povLook=bw.clone().add(new T.Vector3(0,.04,0)); const povFov=PH?44:34;
     if(tt<B.spin+.3){ const k=ease.inOut(S(0,.6,tt)); pos.lerpVectors(pos,topPos,k); look.lerpVectors(look,topLook,k); }
     else if(tt<B.close){ pos.copy(topPos); look.copy(topLook); }
     else if(tt<B.inside){ /* look inside: the camera drops to the front of the cylinder and stares down the seven bores */
       const k=ease.inOut(S(B.close,.7,tt)); pos.lerpVectors(topPos,insidePos,k); look.lerpVectors(topLook,insideLook,k); fov=lerp(fovRest,insideFov,k); }
-    else if(tt<B.hand){ const k=ease.inOut(S(B.inside,.6,tt)); pos.lerpVectors(insidePos,closePos,k); look.lerpVectors(insideLook,closeLook,k); fov=lerp(insideFov,closeFov,k); }
-    else if(tt<B.fire+(p.fire?.45:1.0)){ /* cut to the shooter's view; a slow creep forward builds the tension until the shot */
-      const k=ease.in(S(B.hand,B.fire-B.hand,tt)); pos.copy(povPos).addScaledVector(away,-k*.12); look.copy(povLook); fov=povFov-k*3; }
-    else { const k2=ease.inOut(S(B.fire+1.6,B.end-B.fire-1.6,tt)); const pp=p.fire?hitPos:povPos, ll=p.fire?hitLook:povLook; pos.lerpVectors(pp,camRest.clone().add(drift),k2); look.lerpVectors(ll,lookRest,k2); fov=lerp(p.fire?fovRest:povFov,fovRest,k2); }
+    else if(tt<B.hand+1.4){ /* one glide, no cut: from the drum close-up the camera rises and swings round behind the shooter while the hand comes up with the gun */
+      const k=ease.inOut(S(B.inside,B.hand+1.4-B.inside,tt)); const mid=insidePos.clone().lerp(povPos,.5).add(new T.Vector3(0,PH?.55:.35,PH?.4:0)); const a=insidePos.clone().lerp(mid,k), b2=mid.clone().lerp(povPos,k); pos.lerpVectors(a,b2,k); look.lerpVectors(insideLook,povLook,ease.inOut(S(B.inside+.3,B.hand+1.0-B.inside,tt))); fov=lerp(insideFov,povFov,k); }
+    else if(tt<B.fire+.25){ /* the shooter's view: a slow creep forward builds the tension until the shot */
+      const k=ease.in(S(B.hand+1.4,B.fire-B.hand-1.4,tt)); pos.copy(povPos).addScaledVector(away,-k*.12); look.copy(povLook); fov=povFov-k*3; }
+    else if(p.fire&&tt<B.impact){ /* ride the bullet: the camera leaves the shoulder and settles beside and behind the slug, looking along its path to the board */
+      const dir=p.dir, sideB=new T.Vector3().crossVectors(dir,new T.Vector3(0,1,0)).normalize(); const bp=slugAt(p,tgt,p.bulletK||0); const chasePos=bp.clone().addScaledVector(dir,-.16).addScaledVector(sideB,sx*-.09).add(new T.Vector3(0,.05,0)); const chaseLook=bp.clone().addScaledVector(dir,.35);
+      const k=ease.inOut(S(B.fire+.25,.9,tt)); const from=povPos.clone().addScaledVector(away,-.12); pos.lerpVectors(from,chasePos,k); look.lerpVectors(povLook,chaseLook,k); fov=lerp(povFov-3,PH?40:30,k); }
+    else if(p.fire){ /* through the impact the camera keeps drifting forward and eases to a stop on the hole, then floats home */
+      const dir=p.dir; const stop=tgt.clone().addScaledVector(dir,-.42).add(new T.Vector3(0,.06,0)); const arrive=tgt.clone().addScaledVector(dir,-.16).add(new T.Vector3(0,.05,0)); const k1=ease.out(S(B.impact,1.6,tt)); const holdPos=arrive.clone().lerp(stop,k1), holdLook=tgt.clone();
+      const k2=ease.inOut(S(B.impact+2.2,B.end-B.impact-2.4,tt)); pos.lerpVectors(holdPos,camRest.clone().add(drift),k2); look.lerpVectors(holdLook,lookRest,k2); fov=lerp(PH?40:30,fovRest,k2); }
+    else { const k2=ease.inOut(S(B.fire+1.2,B.end-B.fire-1.4,tt)); const pp=povPos.clone().addScaledVector(away,-.12); pos.lerpVectors(pp,camRest.clone().add(drift),k2); look.lerpVectors(povLook,lookRest,k2); fov=lerp(povFov-3,fovRest,k2); }
     /* top-down photo layer (if present) shows in the top shots, the model in the rest */
     const topK=tt<B.close?1:1-ease.inOut(S(B.close,.5,tt)); crossFade(topK); }
   else { crossFade(0); closeKey.intensity=lerp(closeKey.intensity,0,Math.min(1,dt*6)); closeFill.intensity=lerp(closeFill.intensity,0,Math.min(1,dt*6)); }
-  if(p&&tt>=B.hand&&!fired.cutHand){ fired.cutHand=1; camPos.copy(pos); camLook.copy(look); fovNow=fov; }
-  if(p&&tt>=B.fire+(p.fire?.45:1.0)&&!fired.cut){ fired.cut=1; camPos.copy(pos); camLook.copy(look); fovNow=fov; }
-  fovNow=lerp(fovNow,fov,Math.min(1,dt*(p?9:3))); if(Math.abs(camera.fov-fovNow)>.01){ camera.fov=fovNow; camera.updateProjectionMatrix(); }
-  camPos.lerp(pos,Math.min(1,dt*(p?9:2))); camLook.lerp(look,Math.min(1,dt*(p?9:2)));
+  fovNow=lerp(fovNow,fov,Math.min(1,dt*(p?12:3))); if(Math.abs(camera.fov-fovNow)>.01){ camera.fov=fovNow; camera.updateProjectionMatrix(); }
+  camPos.lerp(pos,Math.min(1,dt*(p?14:2))); camLook.lerp(look,Math.min(1,dt*(p?14:2)));
   camera.position.copy(camPos).add(camTmp.set((rnd()-.5)*shake,(rnd()-.5)*shake,0)); camera.lookAt(camLook); placeHand(); }
-function crossFade(k){ if(gunTop.visible){ gunTop.material.opacity=k; } gun.visible=(!gunTop.visible||k<.98)&&!handHold; }
+function crossFade(k){ if(gunTop.visible){ gunTop.material.opacity=k; } gun.visible=(!gunTop.visible||k<.98)&&!(handHold&&handK>.55); }
 
 /* ================= tick ================= */
 let frames=0, fpsT=0, fps=0; const bubbleTmp=new T.Vector3();
@@ -820,14 +838,15 @@ function tick(draw){ const t=now(); let dt=Math.min(.05,t-last||.016); last=t; i
   stepTurn(dt); stepCamera(t,dt);
   /* lantern: living flame */
   const fl=.85+Math.sin(t*17)*.08+Math.sin(t*29.3)*.05+Math.sin(t*3.1)*.04; table.userData.lantern.intensity=1.5*fl; table.userData.flame.scale.set(.09*(fl+.05),.19*(fl+.12),1); table.userData.flame.material.rotation=Math.sin(t*9)*.08+Math.sin(t*23)*.04; table.userData.flame.position.x=Math.sin(t*11)*.003; table.userData.halo.material.opacity=.3*fl;
-  flashLight.intensity*=Math.pow(.0005,dt); flashSprite.material.opacity*=Math.pow(.0001,dt); flashSprite.scale.multiplyScalar(1+dt*3); flashSide.material.opacity*=Math.pow(.001,dt);
+  const dtF=dt*fxScale;   /* slow motion for every effect while the camera rides the bullet */
+  flashLight.intensity*=Math.pow(.0005,dtF); flashSprite.material.opacity*=Math.pow(.0001,dtF); flashSprite.scale.multiplyScalar(1+dtF*3); flashSide.material.opacity*=Math.pow(.001,dtF);
   if(playing&&playing.dir&&flashCore.material.opacity>.005){ const mzW=new T.Vector3(); if(handHold){ hand.updateMatrixWorld(); mzW.copy(handMuzzleWorld()); } else muzzle.getWorldPosition(mzW); placeFlash(mzW,playing.dir); }
-  flashCore.material.opacity*=Math.pow(.00001,dt); petals.forEach((sp,i)=>{ sp.material.opacity*=Math.pow(i?.0001:.00002,dt); sp.scale.multiplyScalar(1+dt*(3-i)); sp.material.rotation+=dt*(i?-1.5:2); }); hitFlash.material.opacity*=Math.pow(.0002,dt); hitFlash.scale.multiplyScalar(1+dt*5); hitLight.intensity*=Math.pow(.001,dt);
-  sparks.forEach(p=>{ if(p.life<=0){ p.s.visible=false; return; } p.life-=dt; p.s.position.addScaledVector(p.v,dt); p.v.y-=dt*4; p.v.multiplyScalar(Math.pow(.2,dt)); const k=p.life/p.max; p.s.material.opacity=Math.min(1,k*2); p.s.material.color.setRGB(1,.55+k*.45,.2+k*.6); });
+  flashCore.material.opacity*=Math.pow(.00001,dtF); petals.forEach((sp,i)=>{ sp.material.opacity*=Math.pow(i?.0001:.00002,dtF); sp.scale.multiplyScalar(1+dtF*(3-i)); sp.material.rotation+=dtF*(i?-1.5:2); }); hitFlash.material.opacity*=Math.pow(.0002,dtF); hitFlash.scale.multiplyScalar(1+dtF*5); hitLight.intensity*=Math.pow(.001,dtF);
+  sparks.forEach(p=>{ if(p.life<=0){ p.s.visible=false; return; } p.life-=dtF; p.s.position.addScaledVector(p.v,dtF); p.v.y-=dtF*4; p.v.multiplyScalar(Math.pow(.2,dtF)); const k=p.life/p.max; p.s.material.opacity=Math.min(1,k*2); p.s.material.color.setRGB(1,.55+k*.45,.2+k*.6); });
   shake*=Math.pow(.01,dt);
-  smokes.forEach(p=>{ if(p.life<=0){ p.s.visible=false; return; } p.life-=dt; const k=1-p.life/p.max; p.s.position.addScaledVector(p.v,dt); p.v.multiplyScalar(Math.pow(.25,dt)); p.v.y+=dt*.12; p.s.material.opacity=.42*Math.sin(Math.min(1,k*1.2)*Math.PI)*(1-k*.3); const sz=p.size*(.4+k*1.6); p.s.scale.set(sz,sz,1); p.s.material.rotation+=p.rot*dt; });
-  splinters.forEach(p=>{ if(p.life<=0){ p.m.visible=false; return; } p.life-=dt; p.m.position.addScaledVector(p.v,dt); p.v.y-=dt*5.5; p.v.multiplyScalar(Math.pow(.5,dt)); p.m.rotation.x+=p.w.x*dt; p.m.rotation.y+=p.w.y*dt; if(p.m.position.y<.76&&Math.abs(p.m.position.x)<.75&&Math.abs(p.m.position.z)<.75){ p.m.position.y=.76; p.v.y*=-.25; p.v.x*=.6; p.v.z*=.6; p.w.multiplyScalar(.3); } if(p.m.position.y<0) p.life=0; });
-  ["D","N"].forEach(k=>{ const b=boards[k].userData; b.joltV.addScaledVector(b.jolt,-dt*90); b.joltV.multiplyScalar(Math.pow(.002,dt)); b.jolt.addScaledVector(b.joltV,dt); b.inner.rotation.set(b.jolt.z*.12,b.jolt.x*.18,b.jolt.x*.08); b.inner.position.set(0,0,-Math.abs(b.jolt.z)*.015); });
+  smokes.forEach(p=>{ if(p.life<=0){ p.s.visible=false; return; } p.life-=dtF; const k=1-p.life/p.max; p.s.position.addScaledVector(p.v,dtF); p.v.multiplyScalar(Math.pow(.25,dtF)); p.v.y+=dtF*.12; p.s.material.opacity=.42*Math.sin(Math.min(1,k*1.2)*Math.PI)*(1-k*.3); const sz=p.size*(.4+k*1.6); p.s.scale.set(sz,sz,1); p.s.material.rotation+=p.rot*dt; });
+  splinters.forEach(p=>{ if(p.life<=0){ p.m.visible=false; return; } p.life-=dtF; p.m.position.addScaledVector(p.v,dtF); p.v.y-=dtF*5.5; p.v.multiplyScalar(Math.pow(.5,dtF)); p.m.rotation.x+=p.w.x*dtF; p.m.rotation.y+=p.w.y*dtF; if(p.m.position.y<.76&&Math.abs(p.m.position.x)<.75&&Math.abs(p.m.position.z)<.75){ p.m.position.y=.76; p.v.y*=-.25; p.v.x*=.6; p.v.z*=.6; p.w.multiplyScalar(.3); } if(p.m.position.y<0) p.life=0; });
+  ["D","N"].forEach(k=>{ const b=boards[k].userData; b.joltV.addScaledVector(b.jolt,-dtF*90); b.joltV.multiplyScalar(Math.pow(.002,dtF)); b.jolt.addScaledVector(b.joltV,dtF); b.inner.rotation.set(b.jolt.z*.12,b.jolt.x*.18,b.jolt.x*.08); b.inner.position.set(0,0,-Math.abs(b.jolt.z)*.015); });
   { const a=dust.pos; for(let i=0;i<a.length/3;i++){ a[i*3]=dust.base[i*3]+Math.sin(t*.3+i)*.05; a[i*3+1]=dust.base[i*3+1]+Math.sin(t*.21+i*1.7)*.05; a[i*3+2]=dust.base[i*3+2]+Math.cos(t*.25+i*.6)*.05; } dust.p.geometry.attributes.position.needsUpdate=true; }
   if(draw){ renderer.render(scene,camera); frames++; if(manual===null){ const pt=performance.now(); if(pt-fpsT>1000){ fps=frames*1000/(pt-fpsT); frames=0; fpsT=pt; } } } }
 function frame(){ if(manual===null) tick(true); requestAnimationFrame(frame); }
@@ -855,9 +874,10 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null;
   };
   /* real recordings drop in without a code change: assets/sfx/<name>.mp3 (or .ogg/.wav) listed in platemap.json "sfx" replaces the synthesized cue of that name; the first argument stays a 0-1 volume */
   const loaded={};
-  async function loadFiles(map){ if(!map) return; init(); if(!ctx) return; for(const [name,src] of Object.entries(map)){ try{ const buf=await fetch(src).then(r=>r.ok?r.arrayBuffer():null); if(buf) loaded[name]=await ctx.decodeAudioData(buf); }catch(e){} } }
+  async function loadFiles(map){ if(!map) return; init(); if(!ctx) return; for(const [name,src] of Object.entries(map)){ try{ const buf=await fetch(src).then(r=>r.ok?r.arrayBuffer():null); if(buf) loaded[name]=await ctx.decodeAudioData(buf); }catch(e){} } if(on) roomTone(true); }
   function playFile(name,v){ const b=loaded[name]; if(!b) return false; const s=ctx.createBufferSource(); s.buffer=b; const g=ctx.createGain(); g.gain.value=(typeof v==="number"?v:1); s.connect(g); out(g,name==="bang"||name==="splinter"||name==="cock"); s.start(nowT()); return true; }
-  return { get on(){ return on; }, enable(v){ on=v; if(v){ init(); if(ctx&&ctx.state==="suspended") ctx.resume(); } }, loadFiles, play(name,...a){ if(!on||!ctx) return; try{ if(!playFile(name,a[0])) fx[name](...a); }catch(e){} } }; })();
+  let bed=null; function roomTone(v){ if(!ctx) return; if(v&&!bed&&loaded.roomTone){ bed=ctx.createBufferSource(); bed.buffer=loaded.roomTone; bed.loop=true; const g=ctx.createGain(); g.gain.value=.5; bed.connect(g); out(g,false); bed.start(nowT()); } if(!v&&bed){ try{ bed.stop(); }catch(e){} bed=null; } }
+  return { get on(){ return on; }, enable(v){ on=v; if(v){ init(); if(ctx&&ctx.state==="suspended") ctx.resume(); } roomTone(v); }, loadFiles, play(name,...a){ if(!on||!ctx) return; try{ if(!playFile(name,a[0])) fx[name](...a); }catch(e){} } }; })();
 
 /* ================= asset contract: each picture drops in without a code change ================= */
 const PLATEMAP={}; let hasRoom=false, hasGunTop=false;
