@@ -1,0 +1,609 @@
+{
+ "batch": 5,
+ "situation": "champions-league",
+ "voice": "The lead caller",
+ "edited": true,
+ "lines": [
+  {
+   "id": "cb5b-001",
+   "text": "There it is! {winner} has the Champions League, and a season's ambition has become a magnificent achievement.",
+   "score": 9,
+   "was": "There it is! {winner} have conquered the Champions League, and that trophy is heading home with them."
+  },
+  {
+   "id": "cb5b-002",
+   "text": "There's the view from the top of Europe! {winnerClub} have made the grandest club prize their own.",
+   "score": 9,
+   "was": "From {winnerClub} to the top of Europe! This is the prize that changes a season's meaning."
+  },
+  {
+   "id": "cb5b-003",
+   "text": "Imagine seeing your name beside that trophy. {winner} no longer has to imagine it!",
+   "score": 10,
+   "was": "A European crown for {winner}! You can spend years chasing this moment, and now it belongs to them."
+  },
+  {
+   "id": "cb5b-004",
+   "text": "Look at the size of this achievement! {winnerClub} have beaten every ambition with Europe's grandest club honour.",
+   "score": 9,
+   "was": "Look at that! The Champions League belongs to {winnerClub}, and there is no grander club prize."
+  },
+  {
+   "id": "cb5b-005",
+   "text": "Listen to the title {winner} has earned: manager of Europe's champions. Let those words settle.",
+   "score": 9,
+   "was": "And {winner} are champions of Europe! Not a promise, not a possibility, a magnificent reality."
+  },
+  {
+   "id": "cb5b-006",
+   "text": "That is the summit! {winnerClub} have climbed to the very top of European football.",
+   "score": 9,
+   "was": null
+  },
+  {
+   "id": "cb5b-007",
+   "text": "Season after season, this is the standard everyone dreams of. {winner} has made that dream real!",
+   "score": 9,
+   "was": "The wait has its answer, and {winner} have answered with the Champions League trophy!"
+  },
+  {
+   "id": "cb5b-008",
+   "text": "What a prize for {winnerClub}! They have put their name on Europe's most coveted cup.",
+   "score": 9,
+   "was": null
+  },
+  {
+   "id": "cb5b-009",
+   "text": "Enjoy that pause, {winner}. For a moment, even the rivalry can make room for a Champions League trophy.",
+   "score": 10,
+   "was": "Take a moment to enjoy that, {winner}! The Champions League is coming home with your club."
+  },
+  {
+   "id": "cb5b-010",
+   "text": "It's official. {winnerClub} can put 'champions of Europe' after their name, and nobody can argue.",
+   "score": 9,
+   "was": "It's official! {winnerClub} have taken the European crown, the kind of achievement that stays with you."
+  },
+  {
+   "id": "cb5b-011",
+   "text": "This is the kind of honour that changes the conversation about {winner}. Europe's finest is theirs.",
+   "score": 9,
+   "was": "Now that is a season to remember! {winner} have lifted the biggest trophy in European club football."
+  },
+  {
+   "id": "cb5b-012",
+   "text": "Signed, sealed, and crowned! {winnerClub} have claimed the honour every European club would love to own.",
+   "score": 9,
+   "was": "The great European prize has been claimed, and {winnerClub} are the ones holding it!"
+  },
+  {
+   "id": "cb5b-013",
+   "text": "European champions! Say that slowly, {winner}. It's the title you've just earned.",
+   "score": 9,
+   "was": "European champions! Two words that will sound rather special to {winner} tonight."
+  },
+  {
+   "id": "cb5b-014",
+   "text": "Put {winnerClub} right at the top of the European roll of honour. The Champions League is theirs!",
+   "score": 9,
+   "was": "Put {winnerClub} at the top of the bill! They have won the Champions League!"
+  },
+  {
+   "id": "cb5b-015",
+   "text": "What an extraordinary addition to {winner}'s record. A place among Europe's champions, earned outright.",
+   "score": 10,
+   "was": "There's your defining moment, {winner}! Europe's finest trophy, and your name beside it."
+  },
+  {
+   "id": "cb5b-016",
+   "text": "Now it's official: {winnerClub} sit among Europe's champions. That isn't a compliment, it's a title.",
+   "score": 9,
+   "was": "The continent has its champions, and {winnerClub} have earned that magnificent distinction."
+  },
+  {
+   "id": "cb5b-017",
+   "text": "There's glory, and then there's this. {winner} has won the competition every continental campaign points toward.",
+   "score": 9,
+   "was": "This changes everything for {winner}! A Champions League triumph gives a season its own place in history."
+  },
+  {
+   "id": "cb5b-018",
+   "text": "That badge will be worn with an extra measure of pride. {winnerClub} have conquered Europe!",
+   "score": 9,
+   "was": "Out come the celebrations for {winnerClub}! European glory is no longer something to dream about."
+  },
+  {
+   "id": "cb5b-019",
+   "text": "For {winner}, the finest prize on this side of the club game has finally become something tangible.",
+   "score": 9,
+   "was": "At last, the biggest club honour in Europe is {winner}'s to cherish!"
+  },
+  {
+   "id": "cb5b-020",
+   "text": "Well, there's a lovely sight for {winnerClub}: the Champions League in their hands, not in their dreams.",
+   "score": 10,
+   "was": "Well, would you look at that! {winnerClub} have got their hands on the Champions League."
+  },
+  {
+   "id": "cb5b-021",
+   "text": "No more looking up at the summit! {winner} has planted a flag at the top of Europe.",
+   "score": 10,
+   "was": "Europe's summit has a new visitor, and {winner} won't be leaving without the silverware!"
+  },
+  {
+   "id": "cb5b-022",
+   "text": "Take that season and underline it. {winnerClub} have added the highest European honour to the record.",
+   "score": 9,
+   "was": "This is why you chase these seasons! {winnerClub} have turned ambition into a European title."
+  },
+  {
+   "id": "cb5b-023",
+   "text": "Here comes the line every manager wants to hear: {winner}, winner of the Champions League!",
+   "score": 9,
+   "was": "There can be no mistaking it! {winner} have delivered the Champions League trophy."
+  },
+  {
+   "id": "cb5b-024",
+   "text": "Right at the top, where the European champions belong, stands {winnerClub}!",
+   "score": 9,
+   "was": null
+  },
+  {
+   "id": "cb5b-025",
+   "text": "A place for that in the centre of the cabinet! {winner} has secured the continental crown.",
+   "score": 10,
+   "was": "The trophy has found its home! {winner} have made it to the top of the continent."
+  },
+  {
+   "id": "cb5b-026",
+   "text": "Remember this chapter, {winnerClub}. It's where the story gains its most prestigious European honour.",
+   "score": 9,
+   "was": "Remember this feeling, {winnerClub}! You're looking at a club crowned champions of Europe."
+  },
+  {
+   "id": "cb5b-027",
+   "text": "Every other ambition can take a seat for a moment. {winner} has the European crown!",
+   "score": 9,
+   "was": "That's what all the effort was for! {winner} are Champions League winners, and what a moment."
+  },
+  {
+   "id": "cb5b-028",
+   "text": "Suddenly the name {winnerClub} sits beside the title every side in Europe wants. Extraordinary!",
+   "score": 9,
+   "was": "A European triumph for {winnerClub}, and suddenly the whole campaign has a golden ending!"
+  },
+  {
+   "id": "cb5b-029",
+   "text": "For a measure of European achievement, just look at the trophy {winner} is bringing home.",
+   "score": 9,
+   "was": "You could not ask for a bigger prize! {winner} have the Champions League in their hands."
+  },
+  {
+   "id": "cb5b-030",
+   "text": "Read the season back any way you please; {winnerClub} and Champions League winners will appear together.",
+   "score": 9,
+   "was": "The European honours belong to {winnerClub}, and the story of this season has a glorious headline."
+  },
+  {
+   "id": "cb5b-031",
+   "text": "What a peak to reach! {winner} has scaled the competition that tests the best in Europe.",
+   "score": 9,
+   "was": "Magnificent from {winner}! They have reached the top tier of club football and brought home the crown."
+  },
+  {
+   "id": "cb5b-032",
+   "text": "Make room among the silverware, {winnerClub}. Something altogether more imposing is coming in.",
+   "score": 10,
+   "was": "A trophy worth waiting for, and now {winnerClub} can call themselves European champions!"
+  },
+  {
+   "id": "cb5b-033",
+   "text": "Hear that title again, {winner}: your club is champion of Europe. Beautiful words to be able to say.",
+   "score": 9,
+   "was": "Their name is on the cup! {winner} have come through the biggest competition of them all."
+  },
+  {
+   "id": "cb5b-034",
+   "text": "Scratch the word 'hope' from this European story. {winnerClub} have replaced it with a trophy.",
+   "score": 9,
+   "was": "And just like that, {winnerClub} have written themselves into the Champions League story!"
+  },
+  {
+   "id": "cb5b-035",
+   "text": "A place at European football's highest table is secured, and {winner} has earned every inch of it.",
+   "score": 9,
+   "was": "It's a European coronation for {winner}, and there is nothing modest about that prize."
+  },
+  {
+   "id": "cb5b-036",
+   "text": "Consider the scale of this: {winnerClub} have won the Champions League. Not bad for a season's work!",
+   "score": 9,
+   "was": "Behold the biggest trophy of the season! {winnerClub} have taken it home."
+  },
+  {
+   "id": "cb5b-037",
+   "text": "The journey ends with the very prize {winner} set out to win, and that is a finish to savour.",
+   "score": 10,
+   "was": "For {winner}, the European dream has become the European achievement. That is some transformation!"
+  },
+  {
+   "id": "cb5b-038",
+   "text": "Nothing faint about that achievement. {winnerClub} have secured the Champions League in full view of the rivalry.",
+   "score": 9,
+   "was": "Champions League glory for {winnerClub}! These are the moments a whole campaign is built around."
+  },
+  {
+   "id": "cb5b-039",
+   "text": "Nobody can question the standing of that honour. {winner} has claimed Europe's premier club title.",
+   "score": 9,
+   "was": "So that's the prize settled! {winner} have the European title, and nobody can take it off this season."
+  },
+  {
+   "id": "cb5b-040",
+   "text": "Pull back the curtain and look at that trophy! {winnerClub} have become Europe's champions.",
+   "score": 9,
+   "was": "Raise the curtain on a grand celebration! {winnerClub} are champions of Europe."
+  },
+  {
+   "id": "cb5b-041",
+   "text": "Perhaps {loser} can appreciate this better than most: {winner} has just lifted the highest European honour.",
+   "score": 9,
+   "was": "Forget the small print for a moment! {winner} have just claimed Europe's biggest club trophy."
+  },
+  {
+   "id": "cb5b-042",
+   "text": "Listen carefully: Champions League winners, {winnerClub}. Some announcements need no embellishment.",
+   "score": 9,
+   "was": "That silverware speaks for itself! {winnerClub} have won the Champions League, and what a statement."
+  },
+  {
+   "id": "cb5b-043",
+   "text": "Here's a line to savour for {winner}: manager of Europe's champions. Not much finer recognition than that.",
+   "score": 9,
+   "was": "Here's the moment they worked toward: {winner} with the European crown at last!"
+  },
+  {
+   "id": "cb5b-044",
+   "text": "It's the one they'll put under the brightest light. {winnerClub} have added Europe's crown jewel to the cabinet.",
+   "score": 9,
+   "was": "The big one! {winnerClub} have brought the Champions League into their trophy cabinet."
+  },
+  {
+   "id": "cb5b-045",
+   "text": "Give {winner} the applause this deserves. The Champions League is a crown, not merely another cup.",
+   "score": 9,
+   "was": "Give {winner} their moment! Few achievements carry the weight of this European triumph."
+  },
+  {
+   "id": "cb5b-046",
+   "text": "No hiding this headline now! {winnerClub} are European champions, and the news deserves the front page.",
+   "score": 9,
+   "was": "And the continent's finest honour goes to {winnerClub}! That is a prize with real stature."
+  },
+  {
+   "id": "cb5b-047",
+   "text": "That shelf has just acquired a heavyweight! The Champions League trophy belongs to {winner}.",
+   "score": 9,
+   "was": "Now the cabinet has a centrepiece! {winner} have lifted the European Cup that matters most."
+  },
+  {
+   "id": "cb5b-048",
+   "text": "You can file away the results, but you frame a triumph like this. {winnerClub} are European champions.",
+   "score": 10,
+   "was": "If you're {winnerClub}, you'll want this season framed, not merely filed away. Champions of Europe!"
+  },
+  {
+   "id": "cb5b-049",
+   "text": "Stand tall, {winner}! That is the Champions League trophy, and it cannot be mistaken for anything else.",
+   "score": 9,
+   "was": "Stand tall, {winner}! You've got the Champions League, and that is an extraordinary answer."
+  },
+  {
+   "id": "cb5b-050",
+   "text": "There'll be time for the details. The headline is simpler: {winnerClub} have conquered the Champions League.",
+   "score": 9,
+   "was": "There will be plenty to say later! For now, {winnerClub} are European champions."
+  },
+  {
+   "id": "cb5b-051",
+   "text": "That's the height of club football! {winner} has lifted the trophy whose very name makes rivals look up.",
+   "score": 9,
+   "was": "The biggest prize in club football has been decided, and the Champions League crown goes to {winner}!"
+  },
+  {
+   "id": "cb5b-052",
+   "text": "Ask any manager what belongs at the heart of the dream, and {winner} can now point to it.",
+   "score": 9,
+   "was": "One season can change a manager's standing; this one has given {winner} the European crown!"
+  },
+  {
+   "id": "cb5b-053",
+   "text": "Across the continent, that title carries weight. {winnerClub} have earned the right to wear it.",
+   "score": 9,
+   "was": "From the season summary to the history books, {winnerClub} have carried the biggest European honour."
+  },
+  {
+   "id": "cb5b-054",
+   "text": "Not just another cup to polish! {winner} has landed the greatest prize the European calendar offers.",
+   "score": 9,
+   "was": "Not every trophy has this sort of weight! The Champions League belongs to {winner}."
+  },
+  {
+   "id": "cb5b-055",
+   "text": "Some shelves hold trophies. The Champions League belongs in the story a club tells about itself.",
+   "score": 9,
+   "was": "Some silverware fills a shelf; this one fills a chapter. {winnerClub} have won Europe!"
+  },
+  {
+   "id": "cb5b-056",
+   "text": "Forget the footnotes. {winner} has written the sort of European headline that needs the whole page.",
+   "score": 10,
+   "was": "That is not a footnote, that's a headline! {winner} have the Champions League trophy."
+  },
+  {
+   "id": "cb5b-057",
+   "text": "No elaborate explanation is required. {winnerClub} have reached the pinnacle, and the silver is theirs.",
+   "score": 9,
+   "was": "No need for a long speech here! {winnerClub} are champions of Europe, and that's the story."
+  },
+  {
+   "id": "cb5b-058",
+   "text": "Try saying it without smiling: {winner} has won the Champions League. Impossible, surely!",
+   "score": 10,
+   "was": "Here's a new title for {winner}: Champions League winner! It has quite a ring to it."
+  },
+  {
+   "id": "cb5b-059",
+   "text": "Some campaigns are filed away. This one will need a page marked 'Champions League' all to itself.",
+   "score": 10,
+   "was": "There are good seasons and then there are seasons with Europe's top prize. This is the latter!"
+  },
+  {
+   "id": "cb5b-060",
+   "text": "Call it the perfect finishing touch: the competition's greatest prize now has a new owner.",
+   "score": 9,
+   "was": "You can call that the grandest finishing touch! The European title is secured."
+  },
+  {
+   "id": "cb5b-061",
+   "text": "Think about what {loser} has to measure themselves against: a rival with the European crown.",
+   "score": 9,
+   "was": "Every manager wants this moment, but it is {winner} who gets to savour it now!"
+  },
+  {
+   "id": "cb5b-062",
+   "text": "Straight into the club's finest memories goes this: {winnerClub} holding the most coveted prize in Europe.",
+   "score": 9,
+   "was": "This is going straight to the top shelf! {winnerClub} have lifted the continent's great prize."
+  },
+  {
+   "id": "cb5b-063",
+   "text": "Imagine trying to keep that achievement low-key. A Champions League winner? Not a chance!",
+   "score": 10,
+   "was": "That's a piece of history written in silver! The Champions League title is decided."
+  },
+  {
+   "id": "cb5b-064",
+   "text": "Tell me what tops a European crown in a club season. There isn't much of an answer.",
+   "score": 9,
+   "was": "Talk about a season-defining honour! A European crown changes the way the whole year reads."
+  },
+  {
+   "id": "cb5b-065",
+   "text": "The closing line writes itself today: the honour everyone wanted, claimed at the highest level.",
+   "score": 9,
+   "was": "The final word on this continental campaign is a glorious one: European champions!"
+  },
+  {
+   "id": "cb5b-066",
+   "text": "Ordinary trophies fit on a shelf. This European title is going to take over the conversation.",
+   "score": 10,
+   "was": "That trophy is not leaving the spotlight quickly! The biggest European prize has been won."
+  },
+  {
+   "id": "cb5b-067",
+   "text": "Think of the plans, the choices, the uncertainty. Now look at the reward: Europe's richest honour.",
+   "score": 9,
+   "was": "It's the sort of honour that makes all the late planning feel worthwhile: Champions League glory!"
+  },
+  {
+   "id": "cb5b-068",
+   "text": "Up on the highest step, the great European prize is waiting no longer. It has been won.",
+   "score": 9,
+   "was": "And now there is silver at the end of the journey, the very finest kind in Europe!"
+  },
+  {
+   "id": "cb5b-069",
+   "text": "If silverware could interrupt a discussion, the Champions League trophy would have plenty to say.",
+   "score": 10,
+   "was": "A European trophy of this standing needs no introduction. The winners know exactly what they've achieved!"
+  },
+  {
+   "id": "cb5b-070",
+   "text": "Years from now, this season's entry will still have a remarkable heading: Champions League winners.",
+   "score": 9,
+   "was": "When you look back at this campaign, the headline will be the continental title."
+  },
+  {
+   "id": "cb5b-071",
+   "text": "Set the season's other questions aside. The Champions League has given us a champion to celebrate!",
+   "score": 9,
+   "was": "What a way to leave your mark on a season! The Champions League is yours!"
+  },
+  {
+   "id": "cb5b-072",
+   "text": "Keep the display case ready. European football's most coveted silver is coming through the door.",
+   "score": 9,
+   "was": "The trophy room is about to feel rather different. Europe's grand prize has arrived!"
+  },
+  {
+   "id": "cb5b-073",
+   "text": "There goes a question {winner} never has to dodge again: have you conquered Europe? Yes, indeed!",
+   "score": 10,
+   "was": "That's the kind of moment that makes a manager forget every difficult decision along the way!"
+  },
+  {
+   "id": "cb5b-074",
+   "text": "Nothing needs enlarging here. Winning the biggest European club competition is enormous already.",
+   "score": 9,
+   "was": "Nothing ordinary about this achievement! The crown of European club football has been claimed."
+  },
+  {
+   "id": "cb5b-075",
+   "text": "Absolutely no argument about the honour here: the Champions League has found its champions.",
+   "score": 9,
+   "was": "Europe has delivered its verdict, and the honour belongs in the champions' cabinet!"
+  },
+  {
+   "id": "cb5b-076",
+   "text": "There are many ways to impress a rival. A Champions League triumph is unusually efficient.",
+   "score": 10,
+   "was": "There's a special satisfaction in winning this competition, because its name alone carries enormous weight."
+  },
+  {
+   "id": "cb5b-077",
+   "text": "What started as a chase finishes with the cup itself. That is the joy of continental glory!",
+   "score": 9,
+   "was": "The race for European glory has an answer, and the answer is a trophy of the highest order!"
+  },
+  {
+   "id": "cb5b-078",
+   "text": "Few honours make a season feel this complete. Europe has given its greatest reward.",
+   "score": 9,
+   "was": "It doesn't get much grander than this! The continent's leading club honour has been secured."
+  },
+  {
+   "id": "cb5b-079",
+   "text": "Forget the paperwork, look at that silver! A Champions League title speaks plainly enough.",
+   "score": 10,
+   "was": "No one needs to explain the importance of that cup! Just look at what it represents."
+  },
+  {
+   "id": "cb5b-080",
+   "text": "Put this one on the record in permanent ink. Europe's finest club distinction has been secured.",
+   "score": 9,
+   "was": "A campaign can offer many rewards, but this European prize sits in a category of its own."
+  },
+  {
+   "id": "cb5b-081",
+   "text": "A season can shimmer with promise. This one finishes with silver you can actually hold.",
+   "score": 9,
+   "was": "This is the silverware that gives the whole season a different shine!"
+  },
+  {
+   "id": "cb5b-082",
+   "text": "All across European football, that title commands respect. Now it belongs to the winners here.",
+   "score": 9,
+   "was": "The biggest club stage in Europe has delivered its champions, and that is the lasting memory!"
+  },
+  {
+   "id": "cb5b-083",
+   "text": "You'll want to dust that cabinet. The European crown has a way of drawing every eye.",
+   "score": 10,
+   "was": "Some achievements demand a pause. A Champions League victory is certainly one of them."
+  },
+  {
+   "id": "cb5b-084",
+   "text": "This is how a season gets remembered: by the prize that stands above all the rest.",
+   "score": 9,
+   "was": "That is how you turn a season into a landmark, with the great European trophy in hand!"
+  },
+  {
+   "id": "cb5b-085",
+   "text": "No longer a target, no longer a hope. That continental crown has been won.",
+   "score": 9,
+   "was": "And there's the crowning touch! The continental title is theirs to celebrate."
+  },
+  {
+   "id": "cb5b-086",
+   "text": "Try making 'champions of Europe' sound ordinary. You simply can't, and why would you?",
+   "score": 10,
+   "was": "You don't have to dress this one up! Being champions of Europe says plenty."
+  },
+  {
+   "id": "cb5b-087",
+   "text": "Certain successes are measured in more than points. This one will be remembered in silver.",
+   "score": 9,
+   "was": "A prize for the ages, and the kind of triumph that outlives the season itself!"
+  },
+  {
+   "id": "cb5b-088",
+   "text": "A friendly rival can admire the trophy, and still be thinking hard about how to answer it.",
+   "score": 9,
+   "was": "There are victories you remember and honours you carry. This is emphatically the latter!"
+  },
+  {
+   "id": "cb5b-089",
+   "text": "Even the finest cabinet looks different with European football's top honour inside it.",
+   "score": 9,
+   "was": "The European crown is settled, and the trophy has found a worthy place to rest."
+  },
+  {
+   "id": "cb5b-090",
+   "text": "Follow the route of this campaign and you reach the same destination: the continental summit.",
+   "score": 9,
+   "was": "From the first ambition to the final reward, this campaign has led to the grandest continental honour!"
+  },
+  {
+   "id": "cb5b-091",
+   "text": "Well, that's quite something to carry home! The greatest trophy in European club football.",
+   "score": 9,
+   "was": "Well, that's quite a souvenir from a season! The Champions League trophy itself!"
+  },
+  {
+   "id": "cb5b-092",
+   "text": "Long after the campaign is filed away, that European title will still be part of the story.",
+   "score": 9,
+   "was": "They will keep coming back to this moment, because not every season ends with European glory."
+  },
+  {
+   "id": "cb5b-093",
+   "text": "Another chapter has a title all its own: champions of Europe. What a way to finish!",
+   "score": 9,
+   "was": "A new chapter opens with an old ambition fulfilled: to become Europe's champions!"
+  },
+  {
+   "id": "cb5b-094",
+   "text": "Say those words aloud: Champions League winners. There's the music of a truly special season.",
+   "score": 9,
+   "was": "You can hear the difference in those words: winners of the Champions League!"
+  },
+  {
+   "id": "cb5b-095",
+   "text": "Bigger than a season, brighter than a place in the cabinet. That's a European crown for you!",
+   "score": 9,
+   "was": "The celebration belongs to the new European champions, and rightly so!"
+  },
+  {
+   "id": "cb5b-096",
+   "text": "That is a trophy you can hold in your hands and still struggle to believe is yours.",
+   "score": 9,
+   "was": "A trophy like that makes a manager's season impossible to overlook!"
+  },
+  {
+   "id": "cb5b-097",
+   "text": "At the start it was an ambition; at the finish it's the biggest prize available in Europe.",
+   "score": 9,
+   "was": "It started as a pursuit; it finishes as a European triumph worth remembering!"
+  },
+  {
+   "id": "cb5b-098",
+   "text": "Try keeping a prize like that quiet. A continental title simply refuses to be discreet.",
+   "score": 10,
+   "was": "That's the great European prize secured, a reward no ordinary campaign can match!"
+  },
+  {
+   "id": "cb5b-099",
+   "text": "For the people of this club, European glory has moved from possibility to precious reality.",
+   "score": 9,
+   "was": "For the club that lifted it, this trophy will remain the season's proudest signature."
+  },
+  {
+   "id": "cb5b-100",
+   "text": "Leave the closing words to the winner's honour: champions of Europe. Nothing else needs adding.",
+   "score": 9,
+   "was": "And there it is at last: the Champions League, the summit of the club game!"
+  }
+ ],
+ "_note": "Second run of B5 (new chat after the work order update); ids suffixed b to keep both sets."
+}
