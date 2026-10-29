@@ -15,6 +15,7 @@ const Canonical=require('../../js/sharedCanonicalScoring.js');
 const MP=require('../../js/marqueePlayer.js');
 const List=require('../../data/marqueePlayers.js');
 const SPEC=JSON.parse(read('data/commentarySituations.json'));
+const Lines=require('../../data/commentaryLines.js');
 let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${label}`);};
 
 // Classic browser scripts, loaded the way the page loads them.
@@ -207,7 +208,7 @@ const aliasSource=/const CLUB_IDENTITY_ALIASES = Object\.freeze\((\{[\s\S]*?\})\
   x=fin([[3,3]],1);none(x,'final-sprint');one(x,'final-drawn');
   // career, from earlier finished Showdowns plus this one
   x=fin([[3,0],[0,0],[0,0]]);assert.deepEqual(one(x,'career-first-showdown'),{careerLeader:'Alex',careerLosses:'0',careerTrailer:'Sam',careerWins:'1',draws:'0',loser:'Sam',showdowns:'1',winner:'Alex'});none(x,'career-level');
-  x=fin([[3,3],[0,0],[0,0]]);s=one(x,'career-first-showdown');assert.deepEqual(s,{draws:'1',showdowns:'1'});assert.deepEqual(one(x,'career-level'),{careerWins:'0',draws:'1',managerA:'Alex',managerB:'Sam',showdowns:'1'});
+  x=fin([[3,3],[0,0],[0,0]]);none(x,'career-first-showdown');assert.deepEqual(one(x,'career-level'),{careerWins:'0',draws:'1',managerA:'Alex',managerB:'Sam',showdowns:'1'});
   x=fin([[3,0],[0,0],[0,0]],3,[{winner:'playerOne'},{winner:'draw'}]);assert.deepEqual(one(x,'career-lead-extended'),{careerLeader:'Alex',careerLosses:'0',careerTrailer:'Sam',careerWins:'2',draws:'1',loser:'Sam',showdowns:'3',winner:'Alex'});none(x,'career-new-leader');none(x,'career-first-showdown');none(x,'career-revenge');
   x=fin([[0,3],[0,0],[0,0]],3,[{winner:'playerTwo'},{winner:'playerOne'}]);assert.equal(one(x,'career-new-leader').careerLeader,'Sam');none(x,'career-lead-extended');one(x,'career-revenge');
   x=fin([[3,0],[0,0],[0,0]],3,[{winner:'playerTwo'}]);assert.deepEqual(one(x,'career-level'),{careerWins:'1',draws:'0',managerA:'Alex',managerB:'Sam',showdowns:'2'});s=one(x,'career-revenge');assert.equal(s.winner,'Alex');assert.ok(!('careerLeader' in s));none(x,'career-new-leader');
@@ -235,13 +236,13 @@ const aliasSource=/const CLUB_IDENTITY_ALIASES = Object\.freeze\((\{[\s\S]*?\})\
   for(const [rank,tier] of tiers){x=sp(row(rank),{...row(150),position:'GK',nation:'Spain'});const mine=x.filter(e=>e.slots.manager==='Alex'&&e.situation.startsWith('special-top')||e.slots.manager==='Alex'&&e.situation==='special-rest');assert.deepEqual(mine.map(e=>e.situation),[tier],`rank ${rank}`);assert.equal(MP.tier(rank),tierName[tier],'the badge agrees');}
   const neymar=List.players.find(p=>p.name==='Neymar'),otavio=List.players.find(p=>p.name==='Otávio');
   x=sp(neymar,otavio,{playerOne:{name:'Alex',club:'Barcelona',league:'laliga'},playerTwo:{name:'Sam',club:'Juventus',league:'serie_a'}});
-  assert.deepEqual(one(x,'special-own-club'),{club:'Barcelona',manager:'Alex',mpClub:'FC Barcelona',mpName:'Neymar',mpNation:'Brazil',mpPosition:'LW',mpRank:'1',rival:'Sam'});
-  assert.deepEqual(one(x,'special-rank-gap'),{managerA:'Alex',managerB:'Sam',mpClubA:'FC Barcelona',mpClubB:otavio.club,mpNameA:'Neymar',mpNameB:'Otávio',mpNation:'Brazil',mpPosition:'LW',mpRankA:'1',mpRankB:String(otavio.rank)});
+  assert.deepEqual(one(x,'special-own-club'),{club:'Barcelona',manager:'Alex',mpClub:'FC Barcelona',mpName:'Neymar',mpNation:'Brazil',mpPosition:'left winger',mpRank:'1',rival:'Sam'});
+  assert.deepEqual(one(x,'special-rank-gap'),{managerA:'Alex',managerB:'Sam',mpClubA:'FC Barcelona',mpClubB:otavio.club,mpNameA:'Neymar',mpNameB:'Otávio',mpNation:'Brazil',mpPosition:'left winger',mpRankA:'1',mpRankB:String(otavio.rank)});
   one(x,'special-same-nation');one(x,'special-same-position');none(x,'special-both-elite');assert.equal(x[0].situation,'special-own-club');
   none(sp(neymar,otavio),'special-own-club');
-  x=sp(row(1),{...row(100),nation:'Spain'});none(x,'special-rank-gap');none(x,'special-same-nation');s=one(x,'special-same-position');assert.equal(s.mpPosition,'CM');assert.ok(!('mpNation' in s),'no shared nation, none named');
+  x=sp(row(1),{...row(100),nation:'Spain'});none(x,'special-rank-gap');none(x,'special-same-nation');s=one(x,'special-same-position');assert.equal(s.mpPosition,'central midfielder');assert.ok(!('mpNation' in s),'no shared nation, none named');
   x=sp(row(1),{...row(101),position:'ST'});one(x,'special-rank-gap');s=one(x,'special-same-nation');assert.ok(!('mpPosition' in s));none(x,'special-same-position');
-  x=sp(row(20),row(19));assert.deepEqual(one(x,'special-both-elite'),{managerA:'Alex',managerB:'Sam',mpClubA:'FC Porto',mpClubB:'FC Porto',mpNameA:'Player 20',mpNameB:'Player 19',mpNation:'Portugal',mpPosition:'CM',mpRankA:'20',mpRankB:'19'});
+  x=sp(row(20),row(19));assert.deepEqual(one(x,'special-both-elite'),{managerA:'Alex',managerB:'Sam',mpClubA:'FC Porto',mpClubB:'FC Porto',mpNameA:'Player 20',mpNameB:'Player 19',mpNation:'Portugal',mpPosition:'central midfielder',mpRankA:'20',mpRankB:'19'});
   none(sp(row(20),row(21)),'special-both-elite');
   assert.deepEqual(run('special-player',{managers:MANAGERS,specialPlayers:null}),[],'a Showdown with no Special Player has no Special Player commentary');
   const drawn=MP.forShowdown('pair_a'+'0123456789abcdef'.repeat(4).slice(1),MP.fromMs+1);x=sp(drawn.playerOne,drawn.playerTwo);assert.equal(x.filter(e=>/^special-(top|rest)/.test(e.situation)).length,2,'the real draw gives each manager one tier line');
@@ -267,6 +268,7 @@ const aliasSource=/const CLUB_IDENTITY_ALIASES = Object\.freeze\((\{[\s\S]*?\})\
   let seed=0x9e3779b9;const rnd=n=>{seed=(Math.imul(seed^(seed>>>15),2246822519)+0x6d2b79f5)>>>0;return seed%n;};
   const randomResult=teams=>{const cl=rnd(5)===0,el=!cl&&rnd(4)===0;return {pos:1+rnd(teams),pts:30+rnd(teams===18?73:80),goals:20+rnd(95),cup:rnd(5)===0,cl,el,ts:rnd(6)===0,ta:rnd(6)===0};};
   const lines={};for(const [situation,slots] of Object.entries(E.situations)){lines[situation]=[{id:`${situation}-001`,text:slots.map(k=>`{${k}}`).join(' ')},{id:`${situation}-002`,text:'A plain line with no slots at all here.'},...slots.map((k,i)=>({id:`${situation}-1${String(i).padStart(2,'0')}`,text:`Only {${k}} here.`}))];}
+  const realLines={};for(const line of Lines.results)(realLines[line.situation]||(realLines[line.situation]=[])).push(line);let voicedSweep=0;
   const allIds=new Set(Object.values(lines).flat().map(l=>l.id));
   let sweeps=0,picks=0;
   for(let i=0;i<400;i+=1){
@@ -291,6 +293,7 @@ const aliasSource=/const CLUB_IDENTITY_ALIASES = Object\.freeze\((\{[\s\S]*?\})\
         const spec=E.situations[e.situation];assert.ok(E.order[moment].includes(e.situation),`${e.situation} belongs to ${moment}`);
         for(const [k,v] of Object.entries(e.slots)){assert.ok(spec.includes(k),`${e.situation}: slot ${k} outside its spec`);assert.ok(typeof v==='string'&&v.length>0,`${e.situation}.${k}`);}
         const rank=E.order[moment].indexOf(e.situation);assert.ok(rank>=last,'most specific first');last=rank;
+        assert.ok(E.pick([e],realLines,`sweep|${i}`,[]),`${e.situation} with [${Object.keys(e.slots)}] has a shipped line it can fill`);voicedSweep+=1;
         const cond=E.conditionalSlots[e.situation]||[];for(const k of spec)if(!cond.includes(k))assert.ok(k in e.slots,`${e.situation} always fills ${k}`);
       }
       if(moment==='season-result'){
@@ -317,7 +320,7 @@ const aliasSource=/const CLUB_IDENTITY_ALIASES = Object\.freeze\((\{[\s\S]*?\})\
       if(chosen){assert.ok(!used.has(chosen.id),'never a line already shown');assert.ok(allIds.has(chosen.id));assert.ok(!/[{}]/.test(chosen.text),'every placeholder filled');used.add(chosen.id);picks+=1;}
     }
   }
-  ok('C13',`${sweeps} moments over 400 generated Showdowns (equal totals often): slots only from the spec, always-on slots always filled, most specific first, same facts give the same entries, band/clinch/runaway/bottom-three agree with the totals, equal totals never name a winner; ${picks} picks, none repeated within a Showdown`);
+  ok('C13',`${sweeps} moments over 400 generated Showdowns (equal totals often): slots only from the spec, always-on slots always filled, most specific first, same facts give the same entries, band/clinch/runaway/bottom-three agree with the totals, equal totals never name a winner, each of ${voicedSweep} entries has a shipped line; ${picks} picks, none repeated within a Showdown`);
 
   // C14 pick: deterministic, falls back, skips used and unfillable lines
   const entries=run('season-result',F({seasons:3,seq:[[3,3]]}));
@@ -334,6 +337,39 @@ const aliasSource=/const CLUB_IDENTITY_ALIASES = Object\.freeze\((\{[\s\S]*?\})\
   const spread=new Set(Array.from({length:40},(_,k)=>E.pick(entries,table,E.seedFor(`pair_${k}`,'season-result',1),[]).id));assert.deepEqual([...spread].sort(),['h-1','h-2'],'different Showdowns get different lines');
   assert.equal(E.seedFor('pair_x','final'),'pair_x|final|0');assert.throws(()=>run('kick-off',{}),/MOMENT_INVALID/);
   ok('C14','pick is the same for the same seed, varies across Showdowns, never repeats a used id, falls to the next true situation when one runs out, skips lines with slots its entry cannot fill, and returns null when nothing is left');
+
+  // C15 spoken positions and "a"/"an" before a filled slot
+  assert.deepEqual(E.positionWords,{LW:'left winger',RW:'right winger',LM:'left midfielder',RM:'right midfielder',CM:'central midfielder',CAM:'attacking midfielder',CDM:'defensive midfielder',ST:'striker',CF:'centre-forward',CB:'centre-back',LB:'left-back',RB:'right-back',GK:'goalkeeper'});
+  for(const code of new Set(List.players.map(p=>p.position)))assert.ok(E.positionWords[code],`list position ${code} has spoken words`);
+  for(const p of List.players.slice(0,60)){
+    const e=run('special-player',{managers:MANAGERS,specialPlayers:{playerOne:p,playerTwo:List.players[List.players.length-1]}});
+    for(const item of e)if('mpPosition' in item.slots){assert.ok(Object.values(E.positionWords).includes(item.slots.mpPosition),`${item.situation}: ${item.slots.mpPosition}`);assert.ok(!/^[A-Z]{2,3}$/.test(item.slots.mpPosition));}
+  }
+  assert.ok(!('mpPosition' in one(sp({...row(5),position:'XX'},{...row(150),position:'GK'}),'special-top-10')),'an unknown code is left out, never read aloud');
+  for(const [value,vowel] of [['attacking midfielder',true],['left winger',false],['Arsenal',true],['Uruguay',false],['Ukraine',false],['United States',false],['Egypt',true],['Italy',true],['England',true],['Ivory Coast',true],['FC Porto',true],['PSV',false],['RB Leipzig',true],['SL Benfica',true],['UD Las Palmas',false],['1. FC Köln',false],['Özil',true],['honour',true],['8',true],['8th',true],['11',true],['11th',true],['18th',true],['1st',false],['3',false],['10',false],['110',false],['1100',true],['80',true],['Juventus',false]])assert.equal(E.vowelSound(value),vowel,value);
+  const aEntry=[{situation:'special-top-10',slots:{manager:'Alex',club:'Arsenal',rival:'Sam',mpName:'X',mpClub:'Inter',mpPosition:'attacking midfielder',mpNation:'Italy',mpRank:'8'}}];
+  const say=text=>E.pick(aEntry,{'special-top-10':[{id:'t',text}]},'s',[]).text;
+  assert.equal(say('{manager} lands a {mpPosition} from a {mpNation} side ranked {mpRank}.'),'Alex lands an attacking midfielder from an Italy side ranked 8.');
+  assert.equal(say('A {mpPosition} ranked a {mpRank} for {manager}, a proud day.'),'An attacking midfielder ranked an 8 for Alex, a proud day.');
+  assert.equal(say('{manager} gets a {mpClub} star and a {mpPosition}.'),'Alex gets an Inter star and an attacking midfielder.');
+  assert.equal(say('Sofa {mpPosition} and a big {mpPosition} for {manager}.'),'Sofa attacking midfielder and a big attacking midfielder for Alex.','only the article right before a slot changes');
+  assert.equal(say('{manager} now has an elite talent: a {club} favourite.'),'Alex now has an elite talent: an Arsenal favourite.');
+  aEntry[0].slots.mpPosition='left winger';assert.equal(say('{manager} lands a {mpPosition}.'),'Alex lands a left winger.');
+  ok('C15','{mpPosition} is the spoken position (left winger, attacking midfielder, centre-back...) for every list position, never a code; "a" right before a filled slot becomes "an" for a vowel sound (an Italy side, an 8th, a Uruguay star), and nothing else in the line changes');
+
+  // C16 the shipped lines: every line has a known situation, and no situation is ever silent
+  assert.equal(Lines.results.length,Object.values(SPEC).flatMap(g=>Object.values(g)).reduce((n,row)=>n+row.count,0));
+  for(const line of Lines.results){assert.ok(E.situations[line.situation],`${line.id}: unknown situation ${line.situation}`);for(const key of line.text.match(/\{\w+\}/g)||[])assert.ok(E.situations[line.situation].includes(key.slice(1,-1)),`${line.id}: ${key}`);}
+  const voiced=new Set();let silent=[];
+  for(const {moment,entry} of ALL){
+    const said=E.pick([entry],Lines.results,E.seedFor('pair_lines',moment,1),[]);
+    if(!said){silent.push(`${entry.situation} with [${Object.keys(entry.slots)}]`);continue;}
+    assert.equal(said.situation,entry.situation);assert.ok(!/[{}]/.test(said.text),said.id);assert.ok(!/\b[Aa] [aeiou]/i.test(said.text.replace(/\b[Aa] (one|uni|use|uru|ukr|eu)/gi,'')),`${said.id}: "${said.text}"`);
+    voiced.add(entry.situation);
+  }
+  assert.deepEqual([...new Set(silent)],[],'every fired entry, even without its optional slots, has a line it can fill');
+  assert.deepEqual(Object.keys(E.situations).filter(sit=>!voiced.has(sit)),[],'every situation is voiced');
+  ok('C16',`all ${Lines.results.length.toLocaleString('en-GB')} lines in data/commentaryLines.js resolve to a known situation with its own slots, and every one of the ${voiced.size} situations returns a real line in every fixture where it fires (${ALL.length} entries)`);
 
   console.log(`PASS r86 commentary engine contracts: ${checks} numbered checks (${Object.keys(E.situations).length} situations over ${E.moments.length} moments).`);
 })().catch(error=>{console.error(error);process.exit(1);});

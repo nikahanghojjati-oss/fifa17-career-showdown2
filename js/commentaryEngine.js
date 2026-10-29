@@ -49,14 +49,13 @@
   // same-league situation", "only where the situation says they share it"). An entry leaves such a slot out, and cePick()
   // never chooses a line that uses a slot its entry does not carry.
   const LEADER_SLOTS=Object.freeze(["leader","trailer","leaderTotal","trailerTotal","gap"]);
-  const CAREER_SLOTS=Object.freeze(["winner","loser","careerLeader","careerTrailer","careerWins","careerLosses"]);
   const CONDITIONAL_SLOTS=Object.freeze({
     "preview-first-season":["leader","trailer","gap"],"preview-leader":[],"preview-level":["leader","trailer","gap"],"preview-final-season":["leader","trailer","gap"],"preview-golden":["leader","trailer","gap"],
     "streak-two":LEADER_SLOTS,"streak-long":LEADER_SLOTS,"streak-broken":LEADER_SLOTS,
     "clock-halfway":LEADER_SLOTS,"clock-penultimate":LEADER_SLOTS,"clock-final-open":LEADER_SLOTS,
     "clubs-different-leagues":["league"],
     "special-same-nation":["mpPosition"],"special-same-position":["mpNation"],"special-rank-gap":["mpNation","mpPosition"],"special-both-elite":["mpNation","mpPosition"],
-    "career-first-showdown":CAREER_SLOTS,"career-revenge":["careerLeader","careerTrailer","careerWins","careerLosses"]
+    "career-revenge":["careerLeader","careerTrailer","careerWins","careerLosses"]
   });
   const LEAGUES=Object.freeze({premier_league:["club-premier-league","Premier League"],laliga:["club-laliga","LaLiga"],bundesliga:["club-bundesliga","Bundesliga"],serie_a:["club-serie-a","Serie A"],ligue_1:["club-ligue-1","Ligue 1"]});
   // Special Player list club names (FIFA 17 launch data) for catalog clubs drawn under another name. Same table as
@@ -69,6 +68,10 @@
     "Granada CF":"Granada","AS Saint-Étienne":"Saint-Étienne","Stade Rennais FC":"Rennes"
   });
   const MAX_SEASON_POINTS=11;
+  // {mpPosition} is read aloud, so it is the spoken position, never the list's code (Nik 2026-10-29). A code not listed here
+  // leaves the slot out rather than reading a code.
+  const POSITION_WORDS=Object.freeze({LW:"left winger",RW:"right winger",LM:"left midfielder",RM:"right midfielder",CM:"central midfielder",
+    CAM:"attacking midfielder",CDM:"defensive midfielder",ST:"striker",CF:"centre-forward",CB:"centre-back",LB:"left-back",RB:"right-back",GK:"goalkeeper"});
 
   function ceFail(code){const error=new Error(code);error.code=code;throw error;}
   function ceOther(role){return role==="playerOne"?"playerTwo":"playerOne";}
@@ -175,6 +178,7 @@
     return out;
   }
 
+  function cePositionWords(code){return typeof code==="string"&&Object.hasOwn(POSITION_WORDS,code)?POSITION_WORDS[code]:null;}
   function ceSpecialTier(rank){return rank<=3?"special-top-3":rank<=10?"special-top-10":rank<=20?"special-top-20":rank<=50?"special-top-50":"special-rest";}
   function ceCatalogClub(name){return typeof name==="string"?(CLUB_ALIASES[name]||name):null;}
   function ceSpecialPlayer(facts){
@@ -184,12 +188,12 @@
     for(const role of ROLES){const row=picks[role];if(!Number.isInteger(row.rank)||row.rank<1||typeof row.name!=="string"||!row.name)ceFail("COMMENTARY_SPECIAL_PLAYER_INVALID");mp[role]=row;}
     const out=[];
     for(const role of ROLES){
-      const row=mp[role],values={manager:m[role].name,club:m[role].club,rival:m[ceOther(role)].name,mpName:row.name,mpClub:row.club,mpPosition:row.position,mpNation:row.nation,mpRank:row.rank};
+      const row=mp[role],values={manager:m[role].name,club:m[role].club,rival:m[ceOther(role)].name,mpName:row.name,mpClub:row.club,mpPosition:cePositionWords(row.position),mpNation:row.nation,mpRank:row.rank};
       out.push(ceEntry(ceSpecialTier(row.rank),values));
       if(m[role].club&&ceCatalogClub(row.club)===m[role].club)out.push(ceEntry("special-own-club",values));
     }
     const a=mp.playerOne,b=mp.playerTwo,sameNation=!!a.nation&&a.nation===b.nation,samePosition=!!a.position&&a.position===b.position;
-    const values={managerA:m.playerOne.name,managerB:m.playerTwo.name,mpNameA:a.name,mpNameB:b.name,mpClubA:a.club,mpClubB:b.club,mpRankA:a.rank,mpRankB:b.rank,mpNation:sameNation?a.nation:null,mpPosition:samePosition?a.position:null};
+    const values={managerA:m.playerOne.name,managerB:m.playerTwo.name,mpNameA:a.name,mpNameB:b.name,mpClubA:a.club,mpClubB:b.club,mpRankA:a.rank,mpRankB:b.rank,mpNation:sameNation?a.nation:null,mpPosition:samePosition?cePositionWords(a.position):null};
     if(sameNation)out.push(ceEntry("special-same-nation",values));
     if(samePosition)out.push(ceEntry("special-same-position",values));
     if(Math.abs(a.rank-b.rank)>=100)out.push(ceEntry("special-rank-gap",values));
@@ -315,7 +319,9 @@
     const values={draws:after.draws,showdowns:all.length};
     if(W)Object.assign(values,{winner:m[W].name,loser:m[ceOther(W)].name});
     if(careerLeader)Object.assign(values,{careerLeader:m[careerLeader].name,careerTrailer:m[ceOther(careerLeader)].name,careerWins:after[careerLeader],careerLosses:after[ceOther(careerLeader)]});
-    if(history.length===0)out.push(ceEntry("career-first-showdown",values));
+    // The first Showdown counts only when someone won it: every first-Showdown line names its winner, and a drawn first
+    // Showdown is career-level (0 wins each) and final-drawn instead.
+    if(W&&history.length===0)out.push(ceEntry("career-first-showdown",values));
     if(W&&history.length>0&&leaderBefore===W&&careerLeader===W)out.push(ceEntry("career-lead-extended",values));
     if(W&&history.length>0&&leaderBefore!==W&&careerLeader===W)out.push(ceEntry("career-new-leader",values));
     if(!careerLeader)out.push(ceEntry("career-level",{managerA:m.playerOne.name,managerB:m.playerTwo.name,careerWins:after.playerOne,draws:after.draws,showdowns:all.length}));
@@ -341,6 +347,21 @@
   }
   // One line for the first entry that still has an unused line whose every placeholder the entry fills; null when none.
   // `used` (Set or array of line ids already shown in this Showdown) is read, never changed: add the returned id yourself.
+  // Whether a filled value is spoken with a vowel sound, for "a" -> "an" right before a slot: letters by sound (a Uruguay
+  // international, an hour), acronyms by the letter's name (an FC Porto side, a PSV player), numbers as spoken (an 8th, an 11th, an 18).
+  function ceVowelSound(value){
+    const textValue=String(value).trim(),word=textValue.split(/[\s-]/)[0].replace(/[.,;:!?]+$/,"");
+    if(/^\d/.test(textValue))return /^8/.test(textValue)||/^(11|18)(?!\d)/.test(textValue)||/^(11|18)\d\d(?!\d)/.test(textValue);
+    if(word.length>1&&/^[A-Z]+$/.test(word))return /^[AEFHILMNORSX]/.test(word);
+    if(/^(uni|use|usu|uru|ukr|ure|uti|eu|one|once|ewe)/i.test(word))return false;
+    if(/^(hour|honou?r|honest|heir)/i.test(word))return true;
+    return /^[aeiouàáâäæèéêëìíîïòóôöøùúûü]/i.test(word);
+  }
+  // Fill every placeholder; the article "a" right before a slot becomes "an" when the value starts with a vowel sound.
+  // Only an article written directly before a slot changes: the line's own words are never touched.
+  function ceFill(textValue,slots){
+    return textValue.replace(/(?<![\p{L}\p{N}'’-])([Aa]) (?=\{(\w+)\})/gu,(match,article,key)=>ceVowelSound(slots[key])?`${article}n `:match).replace(/\{(\w+)\}/g,(_,key)=>slots[key]);
+  }
   function cePick(entries,linesBySituation,seed,used){
     const seen=used instanceof Set?used:new Set(Array.isArray(used)?used:[]),lines=ceGrouped(linesBySituation);
     for(let index=0;index<(entries||[]).length;index+=1){
@@ -352,12 +373,12 @@
         if(!line||typeof line.id!=="string"||typeof line.text!=="string"||seen.has(line.id))continue;
         const keys=cePlaceholders(line.text);
         if(!keys.every(key=>allowed.includes(key)&&Object.hasOwn(item.slots,key)))continue;
-        return Object.freeze({id:line.id,situation:item.situation,text:line.text.replace(/\{(\w+)\}/g,(_,key)=>item.slots[key])});
+        return Object.freeze({id:line.id,situation:item.situation,text:ceFill(line.text,item.slots)});
       }
     }
     return null;
   }
 
   return Object.freeze({contractVersion:1,feature:"cms-commentary-engine",roles:ROLES,moments:MOMENTS,order:ORDER,situations:SLOTS,codeOf:CODE_OF,
-    conditionalSlots:CONDITIONAL_SLOTS,leagues:LEAGUES,clubAliases:CLUB_ALIASES,ordinal:ceOrdinal,situationsFor:ceSituationsFor,pick:cePick,seedFor:ceSeedFor,drawOnEqualTotals:true,tiebreak:false});
+    conditionalSlots:CONDITIONAL_SLOTS,leagues:LEAGUES,clubAliases:CLUB_ALIASES,positionWords:POSITION_WORDS,ordinal:ceOrdinal,vowelSound:ceVowelSound,situationsFor:ceSituationsFor,pick:cePick,seedFor:ceSeedFor,drawOnEqualTotals:true,tiebreak:false});
 });
