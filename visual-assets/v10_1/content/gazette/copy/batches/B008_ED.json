@@ -1,0 +1,608 @@
+{
+  "batch": 8,
+  "situation": "cup-double",
+  "voice": "The lead caller",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb8-001",
+      "text": "Listen to that verdict! The league championship and domestic cup both belong to {winner}. A magnificent double.",
+      "score": 9,
+      "was": "There it is! {winner} has the league championship and the domestic cup, a season of extraordinary achievement."
+    },
+    {
+      "id": "cb8-002",
+      "text": "Champions in the league, winners of the cup! {winnerClub} have completed the domestic double!",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb8-003",
+      "text": "A league title demands staying power, a domestic cup its own nerve. {winner} has answered both calls!",
+      "score": 10,
+      "was": "That is a remarkable double for {winner}, the league title secured and the cup alongside it!"
+    },
+    {
+      "id": "cb8-004",
+      "text": "Both home honours, secured in the same campaign! {winnerClub} can call themselves double winners.",
+      "score": 9,
+      "was": "Look at this season now! {winnerClub} have lifted the cup and claimed the league crown."
+    },
+    {
+      "id": "cb8-005",
+      "text": "Not content with a league crown, {winner} has the domestic cup as well. The double is theirs.",
+      "score": 9,
+      "was": "From league champions to cup winners, {winner} has delivered everything the domestic season could ask for!"
+    },
+    {
+      "id": "cb8-006",
+      "text": "You can win a championship and call it a great season. Add the domestic cup, and it becomes something else.",
+      "score": 9,
+      "was": "This belongs in the finest company! A league championship and a domestic cup for {winnerClub}!"
+    },
+    {
+      "id": "cb8-007",
+      "text": "Just listen to those honours: the league title and domestic cup, both in {winner}'s hands!",
+      "score": 10,
+      "was": "The league is theirs, the cup is theirs, and {winner} can take a moment to enjoy it!"
+    },
+    {
+      "id": "cb8-008",
+      "text": "Different challenges, one formidable achievement. {winnerClub} have won the league and the domestic cup!",
+      "score": 9,
+      "was": "What a domestic campaign for {winnerClub}! The championship and the cup are coming home together."
+    },
+    {
+      "id": "cb8-009",
+      "text": "Cup winners in the same breath as league champions. {winner} has made those words belong together.",
+      "score": 9,
+      "was": "Put that into the season review! {winner} has collected the league title and the domestic cup."
+    },
+    {
+      "id": "cb8-010",
+      "text": "League success calls for stamina; cup success makes different demands. {winnerClub} have mastered both!",
+      "score": 10,
+      "was": "Across the domestic game, {winnerClub} have taken the crown and carried away the cup as well!"
+    },
+    {
+      "id": "cb8-011",
+      "text": "Every league title carries weight. Every domestic cup has its own shine. {winner} has both.",
+      "score": 9,
+      "was": "Here comes the season's grand announcement: {winner} is a league champion and a domestic cup winner!"
+    },
+    {
+      "id": "cb8-012",
+      "text": "Think of the contrasting demands: a league campaign, a cup challenge, and a club that conquered both.",
+      "score": 9,
+      "was": "A championship beside a cup, and {winnerClub} have turned a fine year into a domestic double!"
+    },
+    {
+      "id": "cb8-013",
+      "text": "That championship belongs to {winner}, and so does the domestic cup. There is the season's real headline.",
+      "score": 9,
+      "was": "That league title was special enough; {winner} has added the domestic cup to make it unforgettable!"
+    },
+    {
+      "id": "cb8-014",
+      "text": "No choosing between league glory and cup glory here. {winnerClub} have taken both honours!",
+      "score": 9,
+      "was": "And there is the finishing touch! {winnerClub} have the cup to match their league championship."
+    },
+    {
+      "id": "cb8-015",
+      "text": "This is the season {winner} can point to proudly: champions of the league and holders of the cup!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb8-016",
+      "text": "Separate roads, same destination: league champions and domestic cup winners. The double is complete!",
+      "score": 10,
+      "was": "Domestic double secured! {winnerClub} have answered the biggest questions the league and cup can pose."
+    },
+    {
+      "id": "cb8-017",
+      "text": "On the league's top line and the cup's winners list, {winner} has written a magnificent season.",
+      "score": 9,
+      "was": "At the very top of the domestic honours, {winner} has claimed the championship and the cup!"
+    },
+    {
+      "id": "cb8-018",
+      "text": "No separating those achievements now! The league title and domestic cup both belong to {winnerClub}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb8-019",
+      "text": "Different competitions, different pressures, the same winning manager. {winner} has the domestic double!",
+      "score": 9,
+      "was": "There can be no mistaking it: {winner} has guided a league-and-cup double this season!"
+    },
+    {
+      "id": "cb8-020",
+      "text": "Nobody has to pick the headline. The league crown and domestic cup make quite a joint announcement.",
+      "score": 10,
+      "was": "The championship is settled, the cup is won, and {winnerClub} have made an emphatic season statement!"
+    },
+    {
+      "id": "cb8-021",
+      "text": "For {winner}, the league championship is only part of the story. The domestic cup completes it.",
+      "score": 9,
+      "was": "For {winner}, the league title and domestic cup are a remarkable partnership of trophies!"
+    },
+    {
+      "id": "cb8-022",
+      "text": "There are fine domestic seasons, and there are doubles. {winnerClub} have the league and cup honours!",
+      "score": 9,
+      "was": "You are looking at domestic double winners! {winnerClub} have secured league and cup honours in the same season."
+    },
+    {
+      "id": "cb8-023",
+      "text": "League champions. Cup winners. Read it again, because {winner} has made a domestic double real!",
+      "score": 10,
+      "was": "The season closes with both prizes for {winner}, a league championship and a domestic cup!"
+    },
+    {
+      "id": "cb8-024",
+      "text": "It's that rare combination: the league title earned over a campaign and a cup to sit beside it.",
+      "score": 9,
+      "was": "That is the domestic double confirmed! {winnerClub} have managed the league-and-cup combination."
+    },
+    {
+      "id": "cb8-025",
+      "text": "A title in the league, a triumph in the cup! {winner} has brought both together!",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb8-026",
+      "text": "Hear it in full: {winnerClub} are league champions and domestic cup holders. A remarkable double.",
+      "score": 9,
+      "was": "Just hear those honours: league champions and domestic cup winners. {winnerClub} have done it!"
+    },
+    {
+      "id": "cb8-027",
+      "text": "Beside {winner}'s league trophy, the domestic cup has found its place. The double is real.",
+      "score": 9,
+      "was": "Alongside the league trophy stands the cup, and {winner} can savour a stunning domestic double!"
+    },
+    {
+      "id": "cb8-028",
+      "text": "Consider the demands of a league season and a domestic cup run. {winnerClub} have earned both prizes!",
+      "score": 9,
+      "was": "Their league campaign is crowned, their cup campaign rewarded, and {winnerClub} have the complete domestic double!"
+    },
+    {
+      "id": "cb8-029",
+      "text": "An enormous set of honours for {winner}, with the domestic cup now alongside the league championship!",
+      "score": 9,
+      "was": "What an announcement from {winner}: the top league honour and the domestic cup, side by side!"
+    },
+    {
+      "id": "cb8-030",
+      "text": "No empty promises, just the league title and the domestic cup. A domestic double delivered.",
+      "score": 9,
+      "was": "Both domestic prizes are accounted for! {winnerClub} have achieved a championship-and-cup season to remember."
+    },
+    {
+      "id": "cb8-031",
+      "text": "Somebody check the shelving! {winner} has made the league and cup trophies permanent fixtures of this season.",
+      "score": 10,
+      "was": "Well, {winner} might need a larger trophy shelf after claiming the league and the domestic cup!"
+    },
+    {
+      "id": "cb8-032",
+      "text": "Keep that engraver busy; {winnerClub} have brought home the league championship and domestic cup!",
+      "score": 9,
+      "was": "Someone tell the engraver to keep working; {winnerClub} have brought home the league title and the cup!"
+    },
+    {
+      "id": "cb8-033",
+      "text": "Give {winner} a moment to rehearse the speech. League champions and cup winners is quite an introduction!",
+      "score": 9,
+      "was": "There's your neat season summary: {winner} wins the championship, then makes room for the cup!"
+    },
+    {
+      "id": "cb8-034",
+      "text": "Something to carry under each arm! {winnerClub} have bagged the league title and the domestic cup.",
+      "score": 9,
+      "was": "Not a bad return for {winnerClub}, the league prize in one hand and the domestic cup in the other!"
+    },
+    {
+      "id": "cb8-035",
+      "text": "Where does the cup go when the league title already has pride of place? Delightful dilemma.",
+      "score": 10,
+      "was": "You could give the league trophy pride of place, but the cup might have something to say!"
+    },
+    {
+      "id": "cb8-036",
+      "text": "A quiet trophy cabinet? Not in this season's story. The league title and domestic cup have arrived.",
+      "score": 9,
+      "was": "Who needs a lengthy honours list when the league and the cup arrive in the same season?"
+    },
+    {
+      "id": "cb8-037",
+      "text": "Tell {winner} to choose a favourite. Actually, don't. The league and cup can share the praise.",
+      "score": 9,
+      "was": "Ask {winner} to choose a favourite trophy, and the league and cup have made that awkward!"
+    },
+    {
+      "id": "cb8-038",
+      "text": "Better keep that cabinet key handy. The championship and domestic cup have both earned a place.",
+      "score": 9,
+      "was": "That cabinet is going to look considerably busier, with a championship and a domestic cup arriving!"
+    },
+    {
+      "id": "cb8-039",
+      "text": "No shortage of ceremony for a domestic double. The league title and cup can take turns being admired.",
+      "score": 9,
+      "was": "Forget a polite little celebration; the domestic double is a fairly big reason to smile!"
+    },
+    {
+      "id": "cb8-040",
+      "text": "For {winnerClub}, the league crown is not a solo act. The domestic cup has joined the billing!",
+      "score": 10,
+      "was": "There is a crowded mantelpiece in {winnerClub}'s future, with the league title sharing space with the cup!"
+    },
+    {
+      "id": "cb8-041",
+      "text": "If silverware made introductions, the championship would be delighted to meet the domestic cup.",
+      "score": 9,
+      "was": "If silverware could talk, the championship and cup would have plenty to discuss after this season!"
+    },
+    {
+      "id": "cb8-042",
+      "text": "Could {winner} ask for a little more room in the trophy cabinet? The domestic double demands it!",
+      "score": 10,
+      "was": "Try telling {winner} to keep it understated, with both the league trophy and domestic cup waiting!"
+    },
+    {
+      "id": "cb8-043",
+      "text": "It's all very well winning the league; bringing home the cup as well makes tidying difficult.",
+      "score": 9,
+      "was": "The dusting can wait; {winnerClub} have a league championship and a cup to put on display!"
+    },
+    {
+      "id": "cb8-044",
+      "text": "You could make separate announcements, but the league and cup belong together on this season's bill.",
+      "score": 9,
+      "was": "Quite a shopping trip through domestic honours, that! The title and cup are safely in the bag!"
+    },
+    {
+      "id": "cb8-045",
+      "text": "What is the etiquette for a double? Does the league trophy greet the cup, or the other way round?",
+      "score": 10,
+      "was": "Is there a more agreeable problem than finding room for the league trophy and the domestic cup?"
+    },
+    {
+      "id": "cb8-046",
+      "text": "There's no reason for {winner} to choose a favourite. The domestic double is better enjoyed together.",
+      "score": 9,
+      "was": "Nobody is asking {winner} to pick between the championship and cup; both have been won!"
+    },
+    {
+      "id": "cb8-047",
+      "text": "Fancy the league title looking lonely? Not now, with the domestic cup beside it.",
+      "score": 9,
+      "was": "That trophy cabinet has a new neighbour for the league title, and the domestic cup is moving in!"
+    },
+    {
+      "id": "cb8-048",
+      "text": "Imagine explaining the season briefly. League champions and domestic cup winners is quite a mouthful!",
+      "score": 9,
+      "was": "It's not every season the league and cup trophies end up under the same roof!"
+    },
+    {
+      "id": "cb8-049",
+      "text": "Well played, {winnerClub}! The domestic championship was impressive; adding the cup is almost showing off!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb8-050",
+      "text": "Here's a nice problem: where do you put the league trophy when the domestic cup is already there?",
+      "score": 9,
+      "was": "Give the trophy room a second look; {winner} has won the domestic cup and league title!"
+    },
+    {
+      "id": "cb8-051",
+      "text": "Feel the weight of that achievement. A league title, a domestic cup, a season that deserves applause.",
+      "score": 10,
+      "was": "Listen to the weight of it: a league championship and a domestic cup in the very same season!"
+    },
+    {
+      "id": "cb8-052",
+      "text": "It is all there for {winnerClub}: the domestic championship, the cup, and a double nobody can take away.",
+      "score": 9,
+      "was": "This is beyond a solitary honour! The domestic double now belongs to {winnerClub}, and it matters!"
+    },
+    {
+      "id": "cb8-053",
+      "text": "Picture that honours list beside {winner}'s name. League champions. Cup winners. Both earned in this season.",
+      "score": 9,
+      "was": "Imagine the pride for {winner}, with the league title earned and the domestic cup won!"
+    },
+    {
+      "id": "cb8-054",
+      "text": "Through the league's long demands and the cup's very different challenge, the honours have gone together.",
+      "score": 10,
+      "was": "Across the entire domestic campaign, the league and cup have found a common champion!"
+    },
+    {
+      "id": "cb8-055",
+      "text": "Look beyond a single cup or a single crown. {winnerClub} have claimed the domestic double!",
+      "score": 9,
+      "was": "Here is the kind of season that stays vivid: {winnerClub} claim the league and the cup!"
+    },
+    {
+      "id": "cb8-056",
+      "text": "At the end of it all, {winner} can look at the league trophy and cup and say: both ours.",
+      "score": 9,
+      "was": "At last, the full picture! {winner} has made championship glory and domestic cup success part of one season."
+    },
+    {
+      "id": "cb8-057",
+      "text": "Look who's joined the league trophy in the cabinet. It's the domestic cup, and the double is complete!",
+      "score": 9,
+      "was": "The league trophy has company! A domestic cup for {winnerClub}, and the double is complete!"
+    },
+    {
+      "id": "cb8-058",
+      "text": "The measure of a double is in its range. The league title and domestic cup reward different strengths.",
+      "score": 9,
+      "was": "Beyond the roar of any single trophy is this: the league title and cup belong to {winner}!"
+    },
+    {
+      "id": "cb8-059",
+      "text": "Such a difficult combination, and it has happened: championship glory joined by domestic cup success!",
+      "score": 9,
+      "was": "That is a domestic achievement with real depth, a championship season crowned by a cup win!"
+    },
+    {
+      "id": "cb8-060",
+      "text": "Suddenly, the season carries a different weight. {winnerClub} are league champions and domestic cup holders.",
+      "score": 9,
+      "was": "Suddenly, one trophy seems an incomplete description; {winnerClub} are champions and cup holders!"
+    },
+    {
+      "id": "cb8-061",
+      "text": "High on the league table, and on the cup's honours list! {winner} has reached both summits.",
+      "score": 10,
+      "was": "On the league's summit and on the cup's honours list, {winner} has reached both destinations!"
+    },
+    {
+      "id": "cb8-062",
+      "text": "Find a place in the season's history for this: a league championship and a domestic cup, together!",
+      "score": 9,
+      "was": "Here is an extraordinary entry for the season's story: league and cup winners, {winnerClub}!"
+    },
+    {
+      "id": "cb8-063",
+      "text": "Under the domestic spotlight, {winner} has made the title and the cup part of the same triumph.",
+      "score": 9,
+      "was": "Under the brightest domestic spotlight, {winner} has emerged with the title and the cup!"
+    },
+    {
+      "id": "cb8-064",
+      "text": "Different paths to glory, same destination. The league crown and the domestic cup share a winner.",
+      "score": 10,
+      "was": "The league has its champion; the cup has its winner; and they are the same club!"
+    },
+    {
+      "id": "cb8-065",
+      "text": "Remember this name in the season's honours: {winnerClub}, league champions and domestic cup winners!",
+      "score": 9,
+      "was": "Remember this pairing! {winnerClub} have secured a league championship alongside the domestic cup."
+    },
+    {
+      "id": "cb8-066",
+      "text": "Few achievements give a domestic season such stature. {winner} has the league-and-cup double.",
+      "score": 10,
+      "was": "Nothing about that domestic double is ordinary. {winner} has brought the season's biggest home honours together!"
+    },
+    {
+      "id": "cb8-067",
+      "text": "Study that honours board: the league championship, the domestic cup, the same club at the top!",
+      "score": 9,
+      "was": "What a sight in the season ledger: a league title, a domestic cup, all for {winnerClub}!"
+    },
+    {
+      "id": "cb8-068",
+      "text": "With a championship on the ledger and the cup beside it, {winner} has given this season real substance.",
+      "score": 9,
+      "was": "All the way through to the honours list, {winner} has ended up with the championship and cup!"
+    },
+    {
+      "id": "cb8-069",
+      "text": "There is a phrase that changes a season's meaning: domestic double winners. It now describes {winnerClub}.",
+      "score": 9,
+      "was": "There is a special ring to those words: domestic double winners, and {winnerClub} have earned them!"
+    },
+    {
+      "id": "cb8-070",
+      "text": "Cup triumph has its magic, league glory its own weight. Together, they make a season to treasure.",
+      "score": 10,
+      "was": "The cup was a triumph, the league a championship, and together they make something unforgettable!"
+    },
+    {
+      "id": "cb8-071",
+      "text": "Now let the scale of it register: {winner} is champion of the league and winner of the domestic cup!",
+      "score": 9,
+      "was": "Now the domestic double is sealed for {winner}, who has collected both the league and cup trophies!"
+    },
+    {
+      "id": "cb8-072",
+      "text": "Nobody gets the domestic double by collecting a single honour. League and cup both belong to {winnerClub}.",
+      "score": 9,
+      "was": "One season, the league and the cup, and {winnerClub} have put their name against both!"
+    },
+    {
+      "id": "cb8-073",
+      "text": "The home honours tell the story for {winner}: league champions and domestic cup winners, no less!",
+      "score": 9,
+      "was": "The domestic stage belongs to {winner} this season, with the league title and cup confirmed!"
+    },
+    {
+      "id": "cb8-074",
+      "text": "And what an extraordinary companion for that championship: a domestic cup, earned in the same season.",
+      "score": 10,
+      "was": "And how fitting is that? A league crown with a domestic cup gleaming right beside it!"
+    },
+    {
+      "id": "cb8-075",
+      "text": "Call it a domestic masterpiece! {winnerClub} have conquered the league and the cup without choosing between them.",
+      "score": 9,
+      "was": "Call it a double of distinction! {winnerClub} have turned domestic ambition into league and cup honours."
+    },
+    {
+      "id": "cb8-076",
+      "text": "Try fitting a domestic double into a short headline. The league title and cup demand the whole page.",
+      "score": 9,
+      "was": "You cannot write this season's headline without mentioning both the league title and the domestic cup!"
+    },
+    {
+      "id": "cb8-077",
+      "text": "From a championship campaign to a cup-winning one, {winner} has made success stretch across both!",
+      "score": 9,
+      "was": "From the long league campaign to the cup's final prize, {winner} has carried home the honours!"
+    },
+    {
+      "id": "cb8-078",
+      "text": "Which achievement deserves top billing? The league crown or the domestic cup? What a choice to have.",
+      "score": 10,
+      "was": "There is no need to choose the leading story; the championship and domestic cup are both remarkable!"
+    },
+    {
+      "id": "cb8-079",
+      "text": "What {winnerClub} have achieved is bigger than a single trophy: the league title and domestic cup together!",
+      "score": 9,
+      "was": "That is a glittering league-and-cup double for {winnerClub}! The season has delivered something rare."
+    },
+    {
+      "id": "cb8-080",
+      "text": "Watch the meaning of that result settle in. {winner} has both the league championship and the domestic cup.",
+      "score": 9,
+      "was": "Watch the recognition settle in: {winner} has won the league title and the domestic cup together!"
+    },
+    {
+      "id": "cb8-081",
+      "text": "Read that honours board aloud: league champions and domestic cup winners. Yes, the same club!",
+      "score": 10,
+      "was": "The honours board has an elegant symmetry now: league champions, cup winners, {winnerClub}!"
+    },
+    {
+      "id": "cb8-082",
+      "text": "Even the club badge seems to carry extra weight with a league title and domestic cup alongside it.",
+      "score": 9,
+      "was": "Surely the club crest looks brighter with the domestic championship and cup in its season story!"
+    },
+    {
+      "id": "cb8-083",
+      "text": "Take a moment, {winner}. A league championship and domestic cup in the same season deserve one!",
+      "score": 9,
+      "was": "Take a bow, {winner}! A domestic double that says more than any single trophy could!"
+    },
+    {
+      "id": "cb8-084",
+      "text": "Imagine opening the cabinet years later: a league trophy and domestic cup together, defining the season.",
+      "score": 10,
+      "was": "This season has a wonderful closing image: the league trophy standing beside the cup!"
+    },
+    {
+      "id": "cb8-085",
+      "text": "For {winnerClub}, there is no choosing between trophies. The championship and domestic cup are both theirs.",
+      "score": 9,
+      "was": "There is your answer to domestic ambition: {winnerClub} have the championship and the cup!"
+    },
+    {
+      "id": "cb8-086",
+      "text": "The league crown is achievement enough, yet {winner} has given it a domestic cup for company.",
+      "score": 9,
+      "was": "The league title is a landmark; pairing it with the cup gives {winner} a season of real stature!"
+    },
+    {
+      "id": "cb8-087",
+      "text": "Ask what defines this season for {winnerClub}, and there is a lovely answer: league and cup winners.",
+      "score": 10,
+      "was": "What will they remember? The league crown, the cup, and the fact that {winnerClub} held both!"
+    },
+    {
+      "id": "cb8-088",
+      "text": "Perhaps the finest part is the contrast: a league campaign rewarded and a domestic cup claimed!",
+      "score": 9,
+      "was": "A fine season became a remarkable one when championship honours and domestic cup glory came together!"
+    },
+    {
+      "id": "cb8-089",
+      "text": "Say those words slowly: {winner}, league champion and domestic cup winner. That is a double with weight.",
+      "score": 9,
+      "was": "Say it again for {winner}: league champion, domestic cup winner, and a double worth celebrating!"
+    },
+    {
+      "id": "cb8-090",
+      "text": "Some seasons have a trophy to remember. This one has the league title and the domestic cup together.",
+      "score": 10,
+      "was": "No ordinary entry in the club's history, this: a league championship matched by domestic cup success!"
+    },
+    {
+      "id": "cb8-091",
+      "text": "Everything about {winnerClub}'s domestic season leads back to that pairing: the championship and the cup.",
+      "score": 9,
+      "was": "There is a wonderful completeness to {winnerClub}'s season, the league title matched by the domestic cup!"
+    },
+    {
+      "id": "cb8-092",
+      "text": "They have secured the title over the league campaign and the domestic cup as well. What a season for {winner}!",
+      "score": 9,
+      "was": "They have climbed the league and claimed the cup! {winner} brings both prizes into the same story!"
+    },
+    {
+      "id": "cb8-093",
+      "text": "The league trophy has company, and so it should. {winnerClub} have earned the domestic cup alongside it!",
+      "score": 9,
+      "was": "The championship trophy and domestic cup will share this chapter, because {winnerClub} have won them both!"
+    },
+    {
+      "id": "cb8-094",
+      "text": "There is no ordinary way to describe this for {winner}: the league-and-cup double is a tremendous achievement.",
+      "score": 9,
+      "was": "It is an enormous domestic achievement, and {winner} has every reason to savour that league-and-cup double!"
+    },
+    {
+      "id": "cb8-095",
+      "text": "What a stretch of domestic achievement: the league crown in one competition, the cup in the other!",
+      "score": 9,
+      "was": "What a chapter for the club: the league crown and domestic cup have been claimed in tandem!"
+    },
+    {
+      "id": "cb8-096",
+      "text": "It needs no embellishment. {winnerClub} have secured their league championship and the domestic cup.",
+      "score": 9,
+      "was": "Tonight's story is as simple as it is splendid: {winnerClub} have the league title and cup!"
+    },
+    {
+      "id": "cb8-097",
+      "text": "Across the domestic honours, a lovely symmetry: league title and cup won by {winner}.",
+      "score": 9,
+      "was": "The league honours and domestic cup honours converge here, and {winner} takes the applause!"
+    },
+    {
+      "id": "cb8-098",
+      "text": "Let the celebrations take their time. A league championship and domestic cup make a magnificent pairing.",
+      "score": 10,
+      "was": "Let that sink in: champions of the league and winners of the domestic cup, together!"
+    },
+    {
+      "id": "cb8-099",
+      "text": "And into the scrapbook it goes: {winnerClub}, winners of the league and the domestic cup.",
+      "score": 9,
+      "was": "And the season belongs in the scrapbook, with {winnerClub} holding the league championship and the domestic cup!"
+    },
+    {
+      "id": "cb8-100",
+      "text": "Usually a league title makes a season. For {winner}, the domestic cup makes it a double.",
+      "score": 9,
+      "was": "A league title joined by the domestic cup: that is the moment {winner} has delivered!"
+    }
+  ]
+}
