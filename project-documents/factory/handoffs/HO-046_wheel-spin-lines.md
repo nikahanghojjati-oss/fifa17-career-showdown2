@@ -13,7 +13,7 @@ The dividers in `css/v10Setup.css` were a `repeating-conic-gradient` sliver of 0
 - `backface-visibility: hidden` and `will-change: transform` on the track keep one GPU layer for the whole 4 s transition.
 - Nothing else changes: gold wedge, rim, hub, names, 3 turns, HO-041 easing, layout at every breakpoint.
 
-Branch `claude-visual/r86-wheel-spin-lines` @ 5a0a94b2 from gameplay/r86 858c68dd; PR into gameplay/r86 (link on the relay ticket). Patch copy: `attach/HO-046/HO-046_v10Setup.css.patch`.
+Branch `claude-visual/r86-wheel-spin-lines` @ 5a0a94b2 from gameplay/r86 858c68dd; PR #1058 into gameplay/r86 (https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1058). Patch copy: `attach/HO-046/HO-046_v10Setup.css.patch`.
 
 ## Evidence (same build, same frame time)
 - `attach/HO-046/BEFORE_AFTER_DESKTOP_1440_midspin.jpg`
