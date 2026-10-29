@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-29 9:20 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-29 9:24 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `bd97d87` (Thu 29 Oct 4:49 AM Boston time) · 153 messages · 44 hand-offs · 287 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `9459f46` (Thu 29 Oct 9:23 AM Boston time) · 156 messages · 44 hand-offs · 291 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-043 · G → V · Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 3 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 3 min after delivery
 
+- Thu 29 Oct 9:23 AM · Team V · Done · Team V: PR #1052 into gameplay/r87, CSS only. Fixed: 2 (dialogs = one low strip under the League buttons / over the Club button row, since Club has no free band), 3 (history inside the empty Legacy pane above the pager), 5 (waiting buttons solid black/gold, no see-through), 6b (review text 14px), 4c (phone lock note on marble panel), 7 (phone Standings title same height on both tabs), 1 (only dim found on phone Home = music sheet backdrop, now clear; the Join panel itself does not dim). Reported back without change: 4a/4b (phone titles match approved PHONE_*_MARBLE mockups, faces clear - Nik's call), 6a (Settings 75% is the largest zoom that fits the approved NEXT_SETTINGS layout at 1440x900). Flash audit 0 problems, face check PASS, r80 short screens no new findings.
 - Thu 29 Oct 4:20 AM · Team V · Received · Team V: received; asking the coordinator for a dedicated Team V thread
 - Thu 29 Oct 4:16 AM · Team G · Sent
 - Thu 29 Oct 4:16 AM · relay Action · Delivered in full as a wake comment on PR #312
@@ -46,6 +47,7 @@ Each item fixed on its screen, one desktop (1440x900 or 1920x1080) and one phone
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Thu 29 Oct 9:21 AM · Team G · Done · Nik 2026-10-29 12:57 UTC changed item 3: KEEP the white burst. Team G ported items 1-2 by hand into r86 (PR #1051); the gold halo was not taken. Your factory branch predates the game embed (it drops cms-sp-ready/start/continue), so please base future Special Player page work on gameplay/r86.
 - Thu 29 Oct 4:05 AM · Team V · Done
 - Thu 29 Oct 3:59 AM · Team V · In progress · Team V Big Jump owner fixing all three on factory special-player + preview
 - Thu 29 Oct 3:53 AM · Team G · Sent
@@ -1590,9 +1592,39 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 
 ## Messages, newest first
 
+### HO-043 DONE · Team V → Team G · Thu 29 Oct 9:23 AM Boston time
+
+**Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-043 RECEIVED · Team V → Team G · Thu 29 Oct 4:20 AM Boston time
+
+**Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-043 SENT · Team G → Team V · Thu 29 Oct 4:16 AM Boston time
 
 **Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-042 DONE · Team V → Team G · Thu 29 Oct 4:05 AM Boston time
+
+**r86 Special Player reveal: card text cut, phone label, gold glow instead of white flash** · reply needed: no
 
 <details><summary>Full message</summary>
 

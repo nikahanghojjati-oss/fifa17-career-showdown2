@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-29 9:20 AM Boston time (EDT)",
+ "generated": "2026-10-29 9:24 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 153,
+  "count": 156,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1373,6 +1373,15 @@
     "boston": "Thu 29 Oct 3:54 AM"
    },
    {
+    "time": "2026-10-29 08:05",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-042 DONE",
+    "subject": "r86 Special Player reveal: card text cut, phone label, gold glow instead of white flash",
+    "reply": "no",
+    "boston": "Thu 29 Oct 4:05 AM"
+   },
+   {
     "time": "2026-10-29 08:16",
     "from": "Team G",
     "to": "Team V",
@@ -1380,6 +1389,24 @@
     "subject": "Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons)",
     "reply": "yes (receive it)",
     "boston": "Thu 29 Oct 4:16 AM"
+   },
+   {
+    "time": "2026-10-29 08:20",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-043 RECEIVED",
+    "subject": "Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons)",
+    "reply": "no",
+    "boston": "Thu 29 Oct 4:20 AM"
+   },
+   {
+    "time": "2026-10-29 13:23",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-043 DONE",
+    "subject": "Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons)",
+    "reply": "no",
+    "boston": "Thu 29 Oct 9:23 AM"
    }
   ],
   "g2v": {
@@ -1400,8 +1427,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "bd97d87",
-  "head_boston": "Thu 29 Oct 4:49 AM",
+  "head": "9459f46",
+  "head_boston": "Thu 29 Oct 9:23 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2024,8 +2051,8 @@
     "from": "G",
     "to": "V",
     "title": "Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons)",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-043_polish-pass-7-look-layout-items-from-the.md",
     "worker": "",
@@ -2102,7 +2129,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
