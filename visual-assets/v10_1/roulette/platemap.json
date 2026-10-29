@@ -1,0 +1,15 @@
+{
+  "_about": "HO-040 Roster Russian Roulette. World units are metres; the table top is at y 0.75, the dealer sits at z -0.95 facing the camera, Daniel is LEFT (x negative), Nik is RIGHT. Edit these numbers when a picture layer drops into assets/; no code change needed.",
+  "room":   { "file": "assets/RR_ROOM.jpg",   "ticket": "1851-5", "z": -3.9, "height": 4.6, "note": "16:9 empty room plate; replaces the 3D back wall when present" },
+  "dealer": { "file": "assets/RR_DEALER.png", "ticket": "1851-6", "x": 0, "y": 0.95, "z": -0.95, "height": 1.9,
+              "muzzle": { "u": 0.78, "v": 0.47 }, "hand": { "u": 0.66, "v": 0.5 },
+              "note": "alpha cut-out, seated, right arm out, revolver aiming image-right. u/v are picture fractions (0-1 from the top-left) for the muzzle and the grip; the 3D arm and revolver stay for the close-ups" },
+  "daniel": { "file": "assets/RR_DANIEL.png", "ticket": "1851-7", "fallback": "assets/RR_DANIEL_ANCHOR.webp", "x": -1.22, "y": 0.95, "z": -0.2, "height": 1.75,
+              "board": { "x": -1.0, "y": 1.0, "z": 0.28, "yaw": 0.42, "width": 0.62, "height": 0.62 } },
+  "nik":    { "file": "assets/RR_NIK.png", "ticket": "1851-8", "fallback": "assets/RR_NIK_ANCHOR.webp", "x": 1.22, "y": 0.95, "z": -0.2, "height": 1.75,
+              "board": { "x": 1.0, "y": 1.0, "z": 0.28, "yaw": -0.42, "width": 0.62, "height": 0.62 } },
+  "flash":  { "file": "assets/RR_FLASH.png", "ticket": "1851-4", "note": "additive sprite at the muzzle; procedural flash until it exists" },
+  "cylinder": { "file": "assets/RR_CYLINDER.png", "ticket": "1851-3", "note": "not used by the 3D screen (the cylinder is a real 3D model); kept for the HUD dial if Team G wants one" },
+  "phone":  { "people_x": 0.66, "board_x": 0.47, "board_y": 0.9, "board_z": 0.4, "board_scale": 0.8, "fov": 54 },
+  "desktop": { "fov": 38, "camera": [0, 1.28, 2.75], "look": [0, 0.92, -0.3] }
+}
