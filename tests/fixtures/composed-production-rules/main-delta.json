@@ -3,16 +3,16 @@
   "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules on gameplay/recovery-v1 differ from what production main deploys. The main gate must see exactly these changes and nothing else. Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
   "productionMain": {
     "ref": "main",
-    "commit": "076177e2af38d47de6a161042e77de694d82bda5",
+    "commit": "e849e0ffb58bac0643184d38e10a9561fc89c86e",
     "sha256": "8ea8d7ba9bf89ad999969da961b5b748e62bdb3348b7fe609cf3da2f67b71f61",
     "gitBlobSha1": "dfa67c6576e4a75fadb247eea9ef588ac708607c",
     "bytes": 153241
   },
   "candidate": {
-    "base": "main 076177e2 (r85 live, runtime 1.9.9-r85) plus r86 career summaries: two R86-SUMMARY hunks (the create check function and the owner-only match). Regenerated with --print-main-delta origin/main",
-    "sha256": "d38489a8fabf24de301c838a6669e17af663aaca7e6c286064e769ac3bc0c30e",
-    "gitBlobSha1": "656c63b797a946290a351f2a2a420d25faf14da2",
-    "bytes": 155662
+    "base": "main e849e0ff (r85 Rules live, unchanged since 076177e2) plus r86 career summaries (two R86-SUMMARY hunks) and r87 Roster Russian Roulette boards (two R87-RRR hunks: the create check functions and the rivalry rosterBoards match). Regenerated with --print-main-delta origin/main",
+    "sha256": "71c9136ced4413f68dcb5a9ce3efa8f31523a0165780f95dc5e7d1d028f66b5f",
+    "gitBlobSha1": "02ab64d69330ae7317bbd6e72847a43e45358e2a",
+    "bytes": 159256
   },
   "allowedOwners": [
     "G-7",
@@ -31,12 +31,64 @@
     "R80-EL",
     "R84-TRIM",
     "R85-AUTHZ",
-    "R86-SUMMARY"
+    "R86-SUMMARY",
+    "R87-RRR"
   ],
   "hunks": [
     {
+      "mainLine": 2437,
+      "candidateLine": 2437,
+      "removed": [],
+      "added": [
+        "    // r87 Roster Russian Roulette (Nik 2026-10-29: \"Edit board before each spin\"): from season 2 each manager saves the",
+        "    // board he holds for that season's spin: his real current starting XI (positions, one goalkeeper) and 4 subs. One",
+        "    // create-only document per manager per season (season_N_playerOne / season_N_playerTwo), written only by that manager",
+        "    // through the shared write authority once the Showdown is under way; either manager can read both. Never updated (no",
+        "    // re-edit after the spin), listed or deleted. The board is two flat lists (11 positions; 15 names, XI then subs) so a",
+        "    // create stays far below the 1,000-expression ceiling. A name is 1-40 characters with no outer white space (the",
+        "    // signing-name rule); the app also refuses a name twice in any letter case, the Rules refuse an exact repeat.",
+        "    function cmsRosterBoardNameValid(name) {",
+        "      return name.matches('^[^\\\\t-\\\\r \\\\x{00A0}\\\\x{1680}\\\\x{2000}-\\\\x{200A}\\\\x{2028}\\\\x{2029}\\\\x{202F}\\\\x{205F}\\\\x{3000}\\\\x{FEFF}]([\\\\s\\\\S]{0,38}[^\\\\t-\\\\r \\\\x{00A0}\\\\x{1680}\\\\x{2000}-\\\\x{200A}\\\\x{2028}\\\\x{2029}\\\\x{202F}\\\\x{205F}\\\\x{3000}\\\\x{FEFF}])?$');",
+        "    }",
+        "    function cmsRosterBoardValid(positions, names) {",
+        "      return positions is list",
+        "        && positions.size() == 11",
+        "        && positions.toSet().hasOnly(['GK','SW','RWB','RB','RCB','CB','LCB','LB','LWB','RDM','CDM','LDM','RM','RCM','CM','LCM','LM','RAM','CAM','LAM','RF','CF','LF','RW','RS','ST','LS','LW'])",
+        "        && positions.removeAll(['GK']).size() == 10",
+        "        && names is list",
+        "        && names.size() == 15",
+        "        && names.toSet().size() == 15",
+        "        && cmsRosterBoardNameValid(names[0]) && cmsRosterBoardNameValid(names[1]) && cmsRosterBoardNameValid(names[2])",
+        "        && cmsRosterBoardNameValid(names[3]) && cmsRosterBoardNameValid(names[4]) && cmsRosterBoardNameValid(names[5])",
+        "        && cmsRosterBoardNameValid(names[6]) && cmsRosterBoardNameValid(names[7]) && cmsRosterBoardNameValid(names[8])",
+        "        && cmsRosterBoardNameValid(names[9]) && cmsRosterBoardNameValid(names[10]) && cmsRosterBoardNameValid(names[11])",
+        "        && cmsRosterBoardNameValid(names[12]) && cmsRosterBoardNameValid(names[13]) && cmsRosterBoardNameValid(names[14]);",
+        "    }",
+        "    function cmsRosterBoardCreateValid(rivalryId, boardId) {",
+        "      let b = request.resource.data;",
+        "      return b.keys().hasOnly(['schemaVersion', 'objectType', 'rivalryId', 'seasonNumber', 'managerRole', 'positions', 'names', 'createdAt', 'activeSessionId', 'updatedByDeviceId'])",
+        "        && b.keys().hasAll(['schemaVersion', 'objectType', 'rivalryId', 'seasonNumber', 'managerRole', 'positions', 'names', 'createdAt', 'activeSessionId', 'updatedByDeviceId'])",
+        "        && b.schemaVersion == 1",
+        "        && b.objectType == 'rosterBoard'",
+        "        && b.rivalryId == rivalryId",
+        "        && b.seasonNumber is int",
+        "        && b.seasonNumber >= 2",
+        "        && b.seasonNumber <= 10",
+        "        && b.managerRole == ssjrActorRole(rivalryId)",
+        "        && boardId == 'season_' + string(b.seasonNumber) + '_' + b.managerRole",
+        "        && b.createdAt == request.time",
+        "        && cmsRosterBoardValid(b.positions, b.names)",
+        "        && ssjrTransferPrerequisites(rivalryId, b.seasonNumber)",
+        "        && ssjrWriteAuthorityValid(rivalryId, b.updatedByDeviceId, b.activeSessionId);",
+        "    }",
+        ""
+      ],
+      "owner": "R87-RRR",
+      "why": "r87 Roster Russian Roulette (Nik 2026-10-29, \"Edit board before each spin\"): the create check for one board per manager per season from season 2: 11 positions with exactly one goalkeeper, 15 different clean names of at most 40 characters, own role and own id only, season within the Showdown, Showdown under way (Setup confirmed, Career Start acknowledged) and the shared write authority."
+    },
+    {
       "mainLine": 2772,
-      "candidateLine": 2772,
+      "candidateLine": 2814,
       "removed": [],
       "added": [
         "    // r86 reads at scale (Nik 2026-10-27): one create-only career summary per finished Showdown under the reading",
@@ -79,8 +131,23 @@
       "why": "r86 reads at scale: one create-only career summary per finished Showdown, checked against the closed root (completed totals, winner and length equal the Terminal Close witness; abandoned and never-started carry no totals)."
     },
     {
+      "mainLine": 2873,
+      "candidateLine": 2950,
+      "removed": [],
+      "added": [
+        "    // r87 Roster Russian Roulette boards (cmsRosterBoardCreateValid): both managers read; each creates his own once.",
+        "    match /rivalries/{rivalryId}/rosterBoards/{boardId} {",
+        "      allow get: if ssjrEntitled(rivalryId);",
+        "      allow create: if cmsRosterBoardCreateValid(rivalryId, boardId);",
+        "      allow update, list, delete: if false;",
+        "    }"
+      ],
+      "owner": "R87-RRR",
+      "why": "r87 Roster Russian Roulette: both managers get rivalries/{id}/rosterBoards/{boardId} (membership, like every shared read); each creates his own board once; never updated, listed or deleted."
+    },
+    {
       "mainLine": 2905,
-      "candidateLine": 2940,
+      "candidateLine": 2988,
       "removed": [],
       "added": [
         "    }",

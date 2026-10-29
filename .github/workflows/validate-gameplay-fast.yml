@@ -68,7 +68,7 @@ jobs:
       - name: Two-manager journey (3 and 10 seasons, session expires and is re-joined mid-game)
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-journey "CMS_SHOWDOWN_LENGTH=3 node tests/firebase/two-manager-journey-emulator.cjs && CMS_SHOWDOWN_LENGTH=10 node tests/firebase/two-manager-journey-emulator.cjs"
       - name: Career index matrix
-        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-career-index "node tests/firebase/career-index-emulator.cjs && CMS_CAREER_INDEX_ENFORCED=1 node tests/firebase/career-index-emulator.cjs && node tests/firebase/career-start-marker-emulator.cjs && node tests/firebase/saved-showdowns-still-open-emulator.cjs && node tests/firebase/career-summary-emulator.cjs"
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-career-index "node tests/firebase/career-index-emulator.cjs && CMS_CAREER_INDEX_ENFORCED=1 node tests/firebase/career-index-emulator.cjs && node tests/firebase/career-start-marker-emulator.cjs && node tests/firebase/saved-showdowns-still-open-emulator.cjs && node tests/firebase/career-summary-emulator.cjs && node tests/firebase/roster-board-emulator.cjs"
       - name: Completed-only read matrix
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-completed-read "node tests/firebase/completed-showdown-read-emulator.cjs"
       - name: Closed-Showdown adapter journey
