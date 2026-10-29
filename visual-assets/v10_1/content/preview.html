@@ -50,6 +50,7 @@
 <script src="fixtures/commentaryLines.js"></script>
 <script src="fixtures/frontPages.js"></script>
 <script src="fixtures/clubCards.js"></script>
+<script src="fixtures/gazetteSample.js"></script>
 <script src="commentary.js"></script>
 <script src="frontpage.js"></script>
 <script src="clubcard.js"></script>
@@ -189,7 +190,20 @@
     }
   };
 
+  function gz(p) { // HO-041 full edition: sample copy, press photos and trophies (?gz=0 shows the round 2 paper)
+    var g = window.GazetteSample[FRAME];
+    if (!g || q.get("gz") === "0") return p;
+    var A = SD.frontPage.art;
+    return Object.assign(p, {
+      issue: g.issue, ears: g.ears, story: g.story, quote: g.quote, numbersTitle: g.numbersTitle, inside: g.inside, compact: P && (/^FW/.test(FRAME) ? "short" : true),
+      numbers: g.numbers.map(function (r) { return { label: r[0], left: r[1], right: r[2], total: !!r[3] }; }),
+      photo: { src: A(g.photo.src), caption: g.photo.caption },
+      portrait: g.portrait && { src: A(g.portrait.src), caption: g.portrait.caption },
+      briefs: g.briefs.map(function (b) { return { trophy: b.trophy && A(b.trophy), club: b.club, head: b.head, text: b.text }; })
+    });
+  }
   function fpScreen(p, kind) { // season front page: its own screen on the Season Results plate
+    p = gz(p);
     var plate = new Image(); plate.className = "base";
     var nm = kind === "final" ? "FINAL_WINNER" : "SEASON_RESULTS";
     plate.src = PLATES + "ENV_" + nm + (P ? "_PHONE_V2.webp" : "_PLATE_V2_1X.webp");
@@ -200,8 +214,10 @@
       SD.frontPage.screen(s, p, null, { still: still, title: "Read all about it", eyebrow: kind === "final" ? (p.variant === "gold" ? "Golden Showdown front page" : "Final front page") : p.season + " · front page" });
       var scr = s.firstChild;
       scr.style.background = "none"; scr.style.minHeight = H + "px";
-      if (P) { scr.style.paddingTop = "282px"; scr.querySelector(".cmx-fp-screen__eyebrow").remove(); scr.querySelector(".cmx-fp-screen__title").remove(); scr.querySelector(".cmx-paper").classList.add("cmx-paper--compact"); }
-      else { scr.style.paddingTop = "96px"; scr.querySelector(".cmx-paper").style.width = "470px"; scr.querySelector(".cmx-fp-screen__desk").style.width = "470px"; /* stays between the managers, never over them */ }
+      var full = !!p.story, PW = full ? 540 : 470;
+      if (P && full) { scr.style.paddingTop = (+q.get("top") || (kind === "final" ? 258 : 168)) + "px"; /* below the face-safe zones (plates-v2/PHONE_FACE_ZONES.json) */ scr.style.paddingLeft = scr.style.paddingRight = "10px"; scr.querySelector(".cmx-fp-screen__eyebrow").remove(); scr.querySelector(".cmx-fp-screen__title").remove(); scr.querySelector(".cmx-continue").style.marginTop = "12px"; }
+      else if (P) { scr.style.paddingTop = "282px"; scr.querySelector(".cmx-fp-screen__eyebrow").remove(); scr.querySelector(".cmx-fp-screen__title").remove(); scr.querySelector(".cmx-paper").classList.add("cmx-paper--compact"); }
+      else { scr.style.paddingTop = (full ? 30 : 96) + "px"; if (full) { scr.querySelector(".cmx-fp-screen__title").remove(); scr.querySelector(".cmx-fp-screen__eyebrow").style.marginBottom = "14px"; scr.querySelector(".cmx-continue").style.marginTop = "14px"; } scr.querySelector(".cmx-paper").style.width = PW + "px"; scr.querySelector(".cmx-fp-screen__desk").style.width = PW + "px"; /* stays between the managers, never over them */ }
     });
   }
   var go = FR[FRAME] || FR.CM1;

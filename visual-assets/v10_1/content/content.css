@@ -191,6 +191,121 @@
   100% { transform: translateY(0) rotate(-1.6deg) scale(1); }
 }
 
+/* ---------- 2b. Touchline Gazette full edition (HO-041): photos, columns, numbers, trophy desk ----------
+   Fonts load only when a full paper is on screen. All OFL (gazette/fonts/LICENSE-*). */
+@font-face { font-family: "Gazette Mast"; font-weight: 400; font-display: swap; src: url("gazette/fonts/unifrakturmaguntia-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Gazette Head"; font-weight: 700; font-display: swap; src: url("gazette/fonts/playfair-display-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Gazette Head"; font-weight: 900; font-display: swap; src: url("gazette/fonts/playfair-display-latin-900-normal.woff2") format("woff2"); }
+@font-face { font-family: "Gazette Head"; font-style: italic; font-weight: 400; font-display: swap; src: url("gazette/fonts/playfair-display-latin-400-italic.woff2") format("woff2"); }
+@font-face { font-family: "Gazette Body"; font-weight: 400; font-display: swap; src: url("gazette/fonts/old-standard-tt-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Gazette Body"; font-style: italic; font-weight: 400; font-display: swap; src: url("gazette/fonts/old-standard-tt-latin-400-italic.woff2") format("woff2"); }
+@font-face { font-family: "Gazette Body"; font-weight: 700; font-display: swap; src: url("gazette/fonts/old-standard-tt-latin-700-normal.woff2") format("woff2"); }
+
+.cmx-gz {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 18px 14px;
+  font-family: "Gazette Body", Georgia, serif;
+  background:
+    linear-gradient(180deg, transparent 49.6%, rgba(90, 70, 40, .13) 50%, rgba(255, 255, 255, .28) 50.4%, transparent 51.5%), /* the fold */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .28 0 0 0 0 .18 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23p)'/%3E%3C/svg%3E"),
+    radial-gradient(130% 90% at 50% 40%, transparent 60%, rgba(120, 90, 40, .2) 100%),
+    var(--paper);
+}
+.cmx-gz.cmx-paper--gold {
+  background:
+    linear-gradient(180deg, transparent 49.6%, rgba(90, 60, 10, .16) 50%, rgba(255, 255, 255, .3) 50.4%, transparent 51.5%),
+    linear-gradient(115deg, rgba(255, 255, 255, .35), transparent 30%, rgba(255, 255, 255, .18) 52%, transparent 70%),
+    linear-gradient(160deg, #fff1b8 0%, #f0c95a 38%, #d4a017 72%, #b9891c 100%);
+}
+.cmx-gz .cmx-paper__dateline { padding-bottom: 4px; font-size: 10px; letter-spacing: .18em; }
+.cmx-gz__mastrow { display: grid; grid-template-columns: 78px 1fr 78px; align-items: center; gap: 8px; margin: 4px 0 3px; }
+.cmx-gz__ear {
+  margin: 0;
+  padding: 4px 5px;
+  border: 1px solid var(--paper-rule);
+  font: italic 9px/1.2 "Gazette Body", Georgia, serif;
+  text-align: center;
+}
+.cmx-gz .cmx-paper__masthead { margin: 0; font: 400 36px/1.05 "Gazette Mast", "Old English Text MT", Georgia, serif; letter-spacing: 0; white-space: nowrap; }
+.cmx-gz .cmx-paper__rules { margin-bottom: 0; }
+.cmx-gz__edline { margin: 0 0 8px; padding: 3px 0; border-bottom: 1px solid var(--paper-rule); text-align: center; font: 600 10px/1.2 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .26em; text-transform: uppercase; }
+.cmx-gz__top { text-align: center; }
+.cmx-gz .cmx-paper__kicker { margin-bottom: 5px; font-size: 11px; }
+.cmx-gz .cmx-paper__headline { margin: 0 0 4px; font: 900 30px/.98 "Gazette Head", Georgia, serif; letter-spacing: -.01em; text-transform: none; }
+.cmx-gz .cmx-paper__subhead { margin: 0 auto 8px; max-width: 92%; font: italic 400 13.5px/1.3 "Gazette Head", Georgia, serif; }
+.cmx-gz__front { display: grid; grid-template-columns: 1fr 150px; gap: 0 12px; margin-bottom: 7px; }
+.cmx-gz__lead { min-width: 0; margin: 0; }
+.cmx-gz__leadimg { display: block; width: 100%; aspect-ratio: 2.3 / 1; object-fit: cover; object-position: 50% 30%; box-shadow: 0 0 0 1px var(--paper-rule); }
+.cmx-gz .cmx-paper__photo { padding: 7px 12px; }
+.cmx-gz .cmx-paper__crest { width: 34px; height: 41px; }
+.cmx-gz .cmx-paper__score { font-size: 32px; }
+.cmx-gz .cmx-paper__who { font-size: 14px; }
+.cmx-gz__cap { display: flex; justify-content: space-between; gap: 10px; margin-top: 4px; font: italic 10px/1.3 "Gazette Body", Georgia, serif; color: #3d342a; }
+.cmx-gz__cap span { flex: none; font: 600 8.5px/1.3 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .14em; text-transform: uppercase; }
+.cmx-gz__body { display: grid; grid-template-columns: 1fr auto; gap: 0 12px; padding-top: 6px; border-top: 2px solid var(--paper-rule); }
+.cmx-gz__byline { margin: 0 0 4px; font: 700 9.5px/1.2 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .18em; text-transform: uppercase; }
+.cmx-gz__text { column-count: 3; column-gap: 14px; column-rule: 1px solid rgba(27, 23, 18, .35); font-size: 10.5px; line-height: 1.34; text-align: left; hyphens: auto; -webkit-hyphens: auto; }
+.cmx-gz__text p { margin: 0 0 5px; text-indent: 1em; }
+.cmx-gz__text p.cmx-gz__first { text-indent: 0; }
+.cmx-gz__first::first-letter { float: left; margin: 2px 4px 0 0; font: 900 36px/.8 "Gazette Head", Georgia, serif; }
+.cmx-gz__quote { margin: 8px 0 0; padding: 6px 0; border-top: 2px solid var(--paper-rule); border-bottom: 1px solid var(--paper-rule); text-align: center; }
+.cmx-gz__quote p { margin: 0; text-indent: 0; font: italic 400 13px/1.2 "Gazette Head", Georgia, serif; text-align: center; }
+.cmx-gz__quote cite { display: block; margin-top: 3px; font: 700 9px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif); font-style: normal; letter-spacing: .2em; text-transform: uppercase; }
+.cmx-gz__side { padding-left: 11px; border-left: 1px solid rgba(27, 23, 18, .35); }
+.cmx-gz h4 { margin: 0 0 4px; padding: 2px 0 3px; border-bottom: 2px solid var(--paper-rule); font: 700 11px/1.1 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .22em; text-transform: uppercase; }
+.cmx-gz__nums { width: 100%; border-collapse: collapse; font: 600 11px/1.2 var(--sd-font-condensed, "Barlow Condensed", sans-serif); }
+.cmx-gz__nums th { padding: 0 0 3px 6px; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; text-align: right; }
+.cmx-gz__nums td { padding: 2.5px 0; border-top: 1px dotted rgba(27, 23, 18, .45); text-align: right; }
+.cmx-gz__nums td:first-child { text-align: left; letter-spacing: .04em; }
+.cmx-gz__nums tr.is-total td { border-top: 1.5px solid var(--paper-rule); font-weight: 700; font-size: 13px; }
+.cmx-gz__portrait { width: 112px; margin: 0; padding-left: 11px; border-left: 1px solid rgba(27, 23, 18, .35); }
+.cmx-gz__portrait img { display: block; width: 100%; aspect-ratio: 4 / 4.4; object-fit: cover; object-position: 50% 15%; box-shadow: 0 0 0 1px var(--paper-rule); }
+.cmx-gz__portrait figcaption { margin-top: 3px; font: italic 9.5px/1.25 "Gazette Body", Georgia, serif; color: #3d342a; }
+.cmx-gz__desk { margin-top: 7px; padding-top: 5px; border-top: 2px solid var(--paper-rule); }
+.cmx-gz__briefs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cmx-gz__brief { display: grid; grid-template-columns: 42px 1fr; gap: 8px; align-items: start; }
+.cmx-gz__brief + .cmx-gz__brief { padding-left: 12px; border-left: 1px solid rgba(27, 23, 18, .35); }
+.cmx-gz__tro { width: 42px; height: 50px; object-fit: contain; }
+.cmx-gz__brief h5 { margin: 0 0 2px; font: 700 13px/1.1 "Gazette Head", Georgia, serif; }
+.cmx-gz__brief p { margin: 0; font-size: 10.5px; line-height: 1.3; }
+.cmx-gz__inside { display: flex; flex-wrap: wrap; height: 13px; overflow: hidden; /* one line: teasers that do not fit are left out whole */ align-items: baseline; gap: 2px 9px; margin-top: 7px; padding: 4px 9px; background: var(--paper-ink); color: var(--paper); font: 600 10px/1.25 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .03em; }
+.cmx-gz__inside b { color: #ffd34d; letter-spacing: .2em; text-transform: uppercase; }
+.cmx-gz__inside span + span::before { content: "·"; margin-right: 9px; color: #ffd34d; }
+.cmx-paper--gold.cmx-gz .cmx-gz__inside b { color: #ffd34d; }
+
+/* compact: the phone edition keeps the masthead, headline, lead photo with the score, and the opening of the story */
+.cmx-gz.cmx-gz--compact { padding: 9px 11px 10px; transform: rotate(-.6deg); }
+.cmx-gz--compact .cmx-gz__mastrow, .cmx-gz--compact .cmx-gz__front, .cmx-gz--compact .cmx-gz__body { display: block; }
+.cmx-gz--compact .cmx-gz__ear, .cmx-gz--compact .cmx-gz__side, .cmx-gz--compact .cmx-gz__desk, .cmx-gz--compact .cmx-gz__inside, .cmx-gz--compact .cmx-gz__portrait,
+.cmx-gz--compact .cmx-gz__byline, .cmx-gz--compact .cmx-gz__text p + p + p, .cmx-gz--compact .cmx-gz__cap span, .cmx-gz--compact .cmx-paper__subhead { display: none; }
+.cmx-gz--compact .cmx-paper__dateline { font-size: 8.5px; letter-spacing: .12em; }
+.cmx-gz--compact .cmx-paper__masthead { margin: 3px 0 2px; font-size: 27px; }
+.cmx-gz--compact .cmx-gz__edline { margin-bottom: 5px; padding: 2px 0; font-size: 8.5px; letter-spacing: .18em; }
+.cmx-gz--compact .cmx-paper__kicker { margin-bottom: 3px; padding: 2px 8px 1px; font-size: 9.5px; }
+.cmx-gz--compact .cmx-paper__headline { margin-bottom: 5px; font-size: 22px; }
+.cmx-gz--compact .cmx-gz__leadimg { aspect-ratio: 2.9 / 1; }
+.cmx-gz--compact .cmx-paper__photo { padding: 5px 8px; gap: 6px; }
+.cmx-gz--compact .cmx-paper__crest { width: 26px; height: 31px; }
+.cmx-gz--compact .cmx-paper__score { font-size: 24px; }
+.cmx-gz--compact .cmx-paper__who { font-size: 12px; }
+.cmx-gz--compact .cmx-paper__who small { font-size: 9.5px; }
+.cmx-gz--compact .cmx-gz__cap { margin-top: 3px; font-size: 9px; }
+.cmx-gz--compact .cmx-gz__body { padding-top: 5px; }
+.cmx-gz--compact .cmx-gz__text { column-count: 2; column-gap: 11px; font-size: 10px; line-height: 1.32; }
+.cmx-gz--compact .cmx-gz__first::first-letter { font-size: 28px; }
+
+/* short: phone pages whose plate has the faces low. The real managers are right above, so the lead photo gives way to the trophy */
+.cmx-gz--short .cmx-gz__leadimg, .cmx-gz--short .cmx-gz__cap, .cmx-gz--short .cmx-gz__edline { display: none; }
+.cmx-gz--short .cmx-gz__desk { display: block; margin-top: 6px; padding-top: 5px; }
+.cmx-gz--short .cmx-gz__desk h4 { display: none; }
+.cmx-gz--short .cmx-gz__briefs { display: block; }
+.cmx-gz--short .cmx-gz__brief + .cmx-gz__brief { display: none; }
+.cmx-gz--short .cmx-gz__brief { grid-template-columns: 36px 1fr; }
+.cmx-gz--short .cmx-gz__tro { width: 36px; height: 44px; }
+.cmx-gz--short .cmx-gz__brief h5 { font-size: 12px; }
+.cmx-gz--short .cmx-gz__brief p { font-size: 10px; }
+
 /* Season front page screen */
 .cmx-fp-screen {
   position: relative;
@@ -285,4 +400,9 @@
   .cmx-bar.is-in, .cmx-paper.is-dropping, .cmx-club.is-in { animation-duration: .15s; animation-name: cmx-fade; }
   @keyframes cmx-fade { from { opacity: .4; } }
   .cmx-bar__caret { animation: none; }
+}
+
+/* small phones (360x640 and shorter): the phone paper keeps only the opening paragraph so Continue stays on screen */
+@media (max-width: 600px) and (max-height: 650px) {
+  .cmx-gz--compact .cmx-gz__text p + p { display: none; }
 }

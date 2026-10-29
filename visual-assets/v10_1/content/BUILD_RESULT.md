@@ -61,6 +61,44 @@ Desktop newspapers are 470 px wide so they stay between the managers, never over
 ### SC1 Scouting card (back of the Special Player card)
 ![SC1 desktop](frames/SC1_1440x900.jpg) ![SC1 phone](frames/SC1_393x660.jpg)
 
+## Round 3 (HO-041): the Touchline Gazette as a full newspaper (29 Oct)
+
+Nik asked for pictures and more detail so the paper looks like a proper newspaper. Same rules as round 2: the paper only shows on its own pages (after each season and after the final), never on Legacy or Final Winner, and never over a button. Scoring truth is unchanged (11 per manager per season at most, Golden Showdown = one manager on 110). Every frame still runs the button and score checks.
+
+**Review sheet:** ![Gazette review sheet](gazette/GAZETTE_REVIEW_SHEET.jpg)
+
+What a full edition has (all optional fields on `frontPage.paper(p)`; without them the round 2 paper still renders):
+
+- Masthead in a blackletter face with two ear boxes, issue number, edition line and a centre fold.
+- Kicker, a serif headline and subhead.
+- **Lead press photo** of both managers with the score strip and crests under it, plus caption and credit.
+- **Season in numbers** table (Champions League, league, cup, performance, awards, season points) or the Showdown table on final pages, and a pull quote.
+- **Lead story** in three newspaper columns with a byline and drop cap, plus a **winner portrait**.
+- **Trophy desk**: one brief per manager with the trophy art (or the club crest).
+- **Inside today** strip (one line; teasers that don't fit are left out whole).
+- Phone edition (`compact: true`): masthead, headline, lead photo with the score, and the first two paragraphs in two columns. On 360x640 it keeps one paragraph.
+- Final pages on phone (`compact: "short"`): the Final Winner plate has the faces lower, so the paper starts below the face-safe zone (258 px at 393 wide) and swaps the lead photo for the trophy brief. The real managers are right above it.
+
+Pictures (no player photos, no new art): `gazette/GZ_*.webp` are press photos cut straight from the approved V2 plates (no repaint, no filters), 30 to 110 KB each, made by `gazette/crop_photos.py`. Trophies come from `shared/trophies/`. Use `ShowdownContent.frontPage.art("GZ_LEAD_SEASON")` or `art("TRO_CONTINENTAL")` for the url.
+
+| Photo | From plate | Use |
+|---|---|---|
+| GZ_LEAD_SEASON | Standings | season lead |
+| GZ_LEAD_PRESS | Home | season lead (alternate) |
+| GZ_LEAD_DRAW | Rivalry | drawn season |
+| GZ_LEAD_FINAL | Final Winner | final lead |
+| GZ_LEAD_GOLD | Trophy Room | Golden Showdown lead |
+| GZ_WIN_DANIEL / GZ_WIN_NIK | Season Results | winner portrait |
+| GZ_THINK_DANIEL / GZ_THINK_NIK | Statistics | the other manager, planning |
+
+Fonts: `gazette/fonts/` (UnifrakturMaguntia, Playfair Display, Old Standard TT, all OFL, about 165 KB in total). They load only when a full paper is on screen.
+
+Copy: the preview uses `fixtures/gazetteSample.js` (Team V stand-ins). The game copy comes from the three playground jobs in `gazette/PLAYGROUND_JOBS.md` (stories, captions, quotes, trophy desk briefs, ears, teasers), in the same `{placeholder}` style as `data/frontPages.js`.
+
+Desktop paper is 540 px wide on the front-page screens. The faces stay clear, and Continue stays on screen at 1440x900 for all five frames. `?gz=0` in the preview shows the round 2 paper.
+
+Note for Team G: the r86 subhead h1-019 reads "finished 1 points ahead" when the margin is 1. It needs a singular form, or the narrow-win rows should be picked only when the margin is 2.
+
 ## Notes for Team G
 
 - The newspaper name "The Touchline Gazette" is original. There are no real paper names or logos.
