@@ -3,17 +3,17 @@
 // revolver both phones agree on with no IO, a bullet that always hits one board player, and no re-spin on refresh.
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
-const path=require('node:path');
+const path_=require('node:path');
 const vm=require('node:vm');
 const {randomBytes,createHash}=require('node:crypto');
-const ROOT=path.resolve(__dirname,'../..');
+const ROOT=path_.resolve(__dirname,'../..');
 const Squads=require('../../data/rosterSquads.js');
 const RRR=require('../../js/rosterRoulette.js');
 let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${label}`);};
 
 // L1 boards: every catalog club, 11 starters with one goalkeeper, exactly 4 subs, sane shirts and ratings.
 const ctx={};vm.createContext(ctx);
-vm.runInContext(fs.readFileSync(path.join(ROOT,'data/clubs.js'),'utf8')+';this.c=clubsByLeague',ctx);
+vm.runInContext(fs.readFileSync(path_.join(ROOT,'data/clubs.js'),'utf8')+';this.c=clubsByLeague',ctx);
 const catalog=Object.values(ctx.c).flat();
 assert.equal(catalog.length,98);
 assert.deepEqual(Object.keys(Squads.squads).sort(),[...catalog].sort());
@@ -46,7 +46,7 @@ const id=()=>`pair_${randomBytes(32).toString('hex')}`;
 const clubs={playerOne:'Liverpool',playerTwo:'Real Madrid'};
 const rid=id();
 for(let s=1;s<=10;s+=1)assert.deepEqual(JSON.stringify(RRR.forSeason(rid,clubs,s)),JSON.stringify(RRR.forSeason(rid,clubs,s)));
-const src=fs.readFileSync(path.join(ROOT,'js/rosterRoulette.js'),'utf8').replace(/\/\/.*$/gm,'');
+const src=fs.readFileSync(path_.join(ROOT,'js/rosterRoulette.js'),'utf8').replace(/\/\/.*$/gm,'');
 assert.ok(!/fetch\(|firebase|firestore|getDoc|setDoc|Math\.random|Date\.now/i.test(src),'no IO, no clock, no Math.random');
 for(const bad of [null,'','pair_xyz',`pair_${'A'.repeat(64)}`,rid+'0'])assert.equal(RRR.forSeason(bad,clubs,1),null);
 for(const s of [0,11,1.5,'1'])assert.equal(RRR.forSeason(rid,clubs,s),null);
@@ -128,4 +128,56 @@ for(const b of bad)assert.equal(RRR.normalizeBoard(b),null);
 assert.equal(RRR.draft(rid,clubs,1,'playerOne'),null);assert.equal(RRR.draft(rid,clubs,3,'playerOne',null),null);assert.equal(RRR.draft(rid,clubs,2,'nobody'),null);
 ok('L5','edited boards are checked: 11 + 4, one GK, no duplicates, clean names');
 
-console.log(`r87 roster roulette contracts: ${checks} groups passed`);
+// L6 the board store (js/rosterBoardStore.js) on a fake transaction SDK, and the Rules it relies on: 1 write per manager per
+// season, a saved board is never replaced, a phone copy answers later reads, nothing but transaction reads, and the Rules
+// accept exactly the positions and name length the engine accepts.
+(async()=>{
+  const Store=require('../../js/rosterBoardStore.js');
+  const docs=new Map(),log=[];
+  const fakeSdk={
+    doc:(db,...parts)=>({path:parts.join('/')}),
+    serverTimestamp:()=>'SERVER_TIME',
+    runTransaction:async(db,fn)=>fn({
+      get:async ref=>{log.push(['get',ref.path]);const v=docs.get(ref.path);return {exists:()=>v!==undefined,data:()=>v};},
+      set:(ref,value)=>{log.push(['set',ref.path]);docs.set(ref.path,JSON.parse(JSON.stringify(value)));}
+    })
+  };
+  const base={firestore:{},firebaseSdk:fakeSdk,rivalryId:rid,sessionId:`session_${'3'.repeat(64)}`,deviceId:`device_${'a'.repeat(32)}`};
+  const rows=fill(RRR.draft(rid,clubs,2,'playerOne'),2);
+  const path=`rivalries/${rid}/rosterBoards/season_2_playerOne`;
+  const missing=await Store.read({...base,season:2,role:'playerOne'});
+  assert.deepEqual([missing.ok,missing.rows],[true,null]);
+  const saved=await Store.save({...base,season:2,role:'playerOne',rows});
+  assert.deepEqual([saved.ok,saved.created],[true,true]);
+  const stored=docs.get(path);
+  assert.deepEqual(Object.keys(stored).sort(),['activeSessionId','createdAt','managerRole','names','objectType','positions','rivalryId','schemaVersion','seasonNumber','updatedByDeviceId']);
+  assert.equal(stored.positions.length,11);assert.equal(stored.names.length,15);assert.equal(stored.createdAt,'SERVER_TIME');
+  assert.deepEqual(stored.names,rows.map(r=>r.name));assert.deepEqual(stored.positions,rows.slice(0,11).map(r=>r.pos));
+  const changed=rows.map((r,i)=>i===3?{...r,name:'Changed Mind'}:r);
+  const before=log.length;
+  const again=await Store.save({...base,season:2,role:'playerOne',rows:changed});
+  assert.deepEqual([again.created,again.rows[3].name],[false,rows[3].name]);assert.equal(log.length,before,'a second save on this phone costs nothing');
+  Store.forgetPhoneCopies();
+  const fresh=await Store.save({...base,season:2,role:'playerOne',rows:changed});
+  assert.deepEqual([fresh.created,fresh.rows[3].name],[false,rows[3].name],'a fresh page keeps the board locked first');
+  assert.equal(log.filter(([k])=>k==='set').length,1,'exactly one write');
+  Store.forgetPhoneCopies();
+  const read=await Store.read({...base,season:2,role:'playerOne'});
+  assert.deepEqual([read.source,read.rows],['server',rows]);
+  const n=log.length;assert.equal((await Store.read({...base,season:2,role:'playerOne'})).source,'phone');assert.equal(log.length,n);
+  assert.ok(Object.isFrozen(read.rows)&&read.rows.every(Object.isFrozen)&&Object.isFrozen(saved.rows)&&saved.rows.every(Object.isFrozen),'a returned board cannot be changed');
+  assert.throws(()=>{'use strict';read.rows[0].name='Edited In Memory';},TypeError);
+  assert.equal((await Store.read({...base,season:2,role:'playerOne'})).rows[0].name,rows[0].name,'the phone copy keeps the locked name');
+  for(const [opts,code] of [[{rows:rows.slice(0,14)},'ROSTER_BOARD_INVALID'],[{season:1},'ROSTER_SEASON_INVALID'],[{role:'nobody'},'ROSTER_ROLE_INVALID'],[{sessionId:'x'},'ROSTER_SESSION_INVALID'],[{season:3,firebaseSdk:{doc:fakeSdk.doc}},'ROSTER_PROVIDER_UNAVAILABLE']]){
+    const r=await Store.save({...base,season:2,role:'playerOne',rows,...opts});assert.deepEqual([r.ok,r.code],[false,code]);
+  }
+  const src=fs.readFileSync(path_.join(ROOT,'js/rosterBoardStore.js'),'utf8');
+  assert.ok(!/\b(?:getDocs?|getDocFromServer|onSnapshot|setDoc)\b/.test(src)&&/runTransaction/.test(src),'transaction reads and writes only');
+  const rules=fs.readFileSync(path_.join(ROOT,'firestore.persistent-pair-production.fragment.rules'),'utf8');
+  const listed=rules.match(/positions\.toSet\(\)\.hasOnly\(\[([^\]]+)\]\)/)[1].split(',').map(x=>x.trim().replace(/'/g,''));
+  assert.deepEqual(listed,RRR.positions.filter(p=>p!=='SUB'),'the Rules accept exactly the engine positions');
+  assert.ok(rules.includes(`{0,${RRR.nameMax-2}}`),'the Rules name length matches the engine');
+  assert.ok(rules.includes('allow create: if cmsRosterBoardCreateValid(rivalryId, boardId);')&&rules.includes('allow update, list, delete: if false;'));
+  ok('L6','board store: 1 write, locked once saved, phone copy, transaction reads only; Rules match the engine');
+  console.log(`r87 roster roulette contracts: ${checks} groups passed`);
+})().catch(error=>{console.error(error);process.exit(1);});
