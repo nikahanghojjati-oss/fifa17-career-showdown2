@@ -186,6 +186,14 @@ function panelTex(){ const w=1024,h=1024,[c,ctx]=cv(w,h); const g=ctx.createLine
   const sh=ctx.createLinearGradient(0,0,w,h); sh.addColorStop(0,"rgba(255,230,190,.08)"); sh.addColorStop(.5,"rgba(255,230,190,0)"); sh.addColorStop(1,"rgba(255,230,190,.05)"); ctx.fillStyle=sh; ctx.fillRect(0,0,w,h);
   grain(ctx,w,h,14); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.encoding=T.sRGBEncoding; t.anisotropy=8; return t; }
 /* cream marble with grey and warm veins */
+/* floor marble: cream slabs with strong grey veins and a few warm ones, like the cafe picture's floor */
+function floorMarbleTex(){ const w=2048,h=2048,[c,ctx]=cv(w,h); ctx.fillStyle="#e6dfd3"; ctx.fillRect(0,0,w,h);
+  for(let i=0;i<40;i++){ ctx.fillStyle=`rgba(${205+Math.random()*25},${195+Math.random()*25},${180+Math.random()*25},${.25+Math.random()*.3})`; ctx.beginPath(); ctx.ellipse(Math.random()*w,Math.random()*h,150+Math.random()*500,80+Math.random()*300,Math.random()*3,0,7); ctx.fill(); }
+  const vein=(col,n,wid,len)=>{ for(let i=0;i<n;i++){ ctx.strokeStyle=col(); ctx.lineWidth=wid(); let x=Math.random()*w, y=Math.random()*h; ctx.beginPath(); ctx.moveTo(x,y); let a=Math.random()*6.28; for(let k=0;k<len;k++){ a+=(Math.random()-.5)*1.1; x+=Math.cos(a)*(30+Math.random()*60); y+=Math.sin(a)*(30+Math.random()*60); ctx.lineTo(x,y); } ctx.stroke(); } };
+  vein(()=>`rgba(90,88,92,${.18+Math.random()*.3})`,26,()=>1.5+Math.random()*4,18);
+  vein(()=>`rgba(120,118,124,${.1+Math.random()*.2})`,70,()=>.5+Math.random()*1.5,10);
+  vein(()=>`rgba(170,140,90,${.08+Math.random()*.14})`,14,()=>1+Math.random()*2,12);
+  grain(ctx,w,h,6); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.encoding=T.sRGBEncoding; t.anisotropy=16; return t; }
 function marbleTex(){ const w=512,h=512,[c,ctx]=cv(w,h); ctx.fillStyle="#e8e0d2"; ctx.fillRect(0,0,w,h);
   for(let i=0;i<34;i++){ const warm=Math.random()<.35; ctx.strokeStyle=warm?`rgba(190,160,110,${.15+Math.random()*.2})`:`rgba(80,78,84,${.1+Math.random()*.22})`; ctx.lineWidth=.6+Math.random()*2.4; const x=Math.random()*w, y=Math.random()*h; ctx.beginPath(); ctx.moveTo(x,y); ctx.bezierCurveTo(x+Math.random()*300-150,y+Math.random()*300-150,x+Math.random()*300-150,y+Math.random()*300-150,x+Math.random()*400-200,y+Math.random()*400-200); ctx.stroke(); }
   for(let i=0;i<8;i++){ ctx.fillStyle=`rgba(200,190,170,${.1+Math.random()*.15})`; ctx.beginPath(); ctx.ellipse(Math.random()*w,Math.random()*h,40+Math.random()*120,20+Math.random()*60,Math.random()*3,0,7); ctx.fill(); }
@@ -234,7 +242,7 @@ function marblePanelTex(){ const w=1024,h=1024,[c,ctx]=cv(w,h); ctx.fillStyle="#
 const wallTex=marblePanelTex(); wallTex.repeat.set(7,2); wallTex.offset.y=-.476; /* a panel row seam lands on the dado rail at y=1.1 */
 const lampTex=lampGlassTex();
 const M={
-  floor:new T.MeshPhysicalMaterial({map:(()=>{ const t=marbleTex(); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(5,5); t.anisotropy=8; return t; })(), roughness:.14, metalness:0, color:0xe9e2d6, clearcoat:1, clearcoatRoughness:.06}),   /* cream marble floor, the website's marble look */
+  floor:new T.MeshPhysicalMaterial({map:(()=>{ const t=floorMarbleTex(); t.repeat.set(2.5,2.5); return t; })(), roughness:.08, metalness:0, color:0xf2ece2, clearcoat:1, clearcoatRoughness:.03, reflectivity:1}),   /* cream marble floor, the website's marble look */
   wall:new T.MeshPhysicalMaterial({map:wallTex, roughness:.22, metalness:.05, color:0xffffff, clearcoat:.8, clearcoatRoughness:.12}),
   darkWood:new T.MeshPhysicalMaterial({map:tableWoodTex, roughness:.32, metalness:.05, color:0x6e4a32, clearcoat:.7, clearcoatRoughness:.2}),
   lacquer:new T.MeshPhysicalMaterial({map:tableWoodTex, roughness:.26, metalness:.06, color:0x3e2416, clearcoat:.95, clearcoatRoughness:.14}),
@@ -278,6 +286,9 @@ function merged(parts,mat,parent){ const pos=[],nor=[],uv=[]; const m=new T.Matr
   const geo=new T.BufferGeometry(); geo.setAttribute('position',new T.Float32BufferAttribute(pos,3)); geo.setAttribute('normal',new T.Float32BufferAttribute(nor,3)); geo.setAttribute('uv',new T.Float32BufferAttribute(uv,2)); const o=new T.Mesh(geo,mat); (parent||room).add(o); return o; }
 const haloM=new T.SpriteMaterial({map:glowT, blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xffa850, opacity:.5});
 { const floor=mesh(new T.PlaneGeometry(14,14),M.floor,0,0,0); floor.rotation.x=-Math.PI/2; floor.receiveShadow=true;
+  /* inlay border: a black marble band with a thin gold line, framing the table area as in the cafe picture */
+  { const bm=new T.MeshPhysicalMaterial({color:0x0c0c10, roughness:.12, clearcoat:1, clearcoatRoughness:.04}); const gm=new T.MeshPhysicalMaterial({color:L("#d6b25a"), metalness:1, roughness:.25, clearcoat:.6});
+    const W=5.6, D=4.6, bw=.09; [[0,D/2,W,bw],[0,-D/2,W,bw],[W/2,0,bw,D],[-W/2,0,bw,D]].forEach(([x,z,sx,sz])=>{ const b=mesh(new T.PlaneGeometry(sx,sz),bm,x,.002,z); b.rotation.x=-Math.PI/2; const g=mesh(new T.PlaneGeometry(sx>sz?sx:.014,sx>sz?.014:sz),gm,x+(sx>sz?0:(x>0?-.07:.07)),.003,z+(sx>sz?(z>0?-.07:.07):0)); g.rotation.x=-Math.PI/2; }); }
   const back=mesh(new T.PlaneGeometry(14,4.2),M.wall,0,2.1,-4.2); back.name="backWall";
   const sideM=M.wall.clone(); sideM.map=wallTex.clone(); sideM.map.needsUpdate=true; sideM.map.repeat.set(5,2); sideM.map.offset.y=wallTex.offset.y;
   const left=mesh(new T.PlaneGeometry(10,4.2),sideM,-5,2.1,0); left.rotation.y=Math.PI/2;
@@ -345,15 +356,26 @@ const haloM=new T.SpriteMaterial({map:glowT, blending:T.AdditiveBlending, depthW
 }
 /* the dealer's table: round, green felt, lacquered mahogany rim with a gold inlay, turned pedestal */
 const table=new T.Group(); scene.add(table);
-{ const R=.78; const top=mesh(new T.CylinderGeometry(R-.06,R-.06,.03,64),M.felt,0,.735,0,table); top.receiveShadow=true;
-  const mahog=new T.MeshPhysicalMaterial({map:tableWoodTex, color:0x6e3220, roughness:.2, metalness:.05, clearcoat:1, clearcoatRoughness:.07}); const rim=mesh(new T.TorusGeometry(R-.045,.045,16,72),mahog,0,.735,0,table); rim.rotation.x=Math.PI/2; rim.castShadow=true; rim.receiveShadow=true; const inlay=mesh(new T.TorusGeometry(R-.045,.047,8,96,Math.PI*2),M.gold,0,.746,0,table); inlay.rotation.x=Math.PI/2; inlay.scale.set(1,1,.08);
-  const skirt=mesh(new T.CylinderGeometry(R,R,.05,64),mahog,0,.7,0,table); skirt.receiveShadow=true; mesh(new T.TorusGeometry(R,.006,6,96),M.gold,0,.676,0,table).rotation.x=Math.PI/2;
-  mesh(lathe([[.0,0],[.46,0],[.48,.02],[.42,.05],[.2,.07],[.13,.1],[.1,.22],[.12,.3],[.09,.4],[.1,.55],[.14,.62],[.1,.66],[.0,.66]],28),M.lacquer,0,.02,0,table); mesh(new T.TorusGeometry(.11,.012,6,28),M.gold,0,.33,0,table).rotation.x=Math.PI/2; mesh(new T.TorusGeometry(.42,.012,6,48),M.gold,0,.06,0,table).rotation.x=Math.PI/2;
+{ const R=.78; const top=mesh(new T.CylinderGeometry(R-.06,R-.06,.03,96),M.felt,0,.735,0,table); top.receiveShadow=true;
+  const mahog=new T.MeshPhysicalMaterial({map:tableWoodTex, color:0x5e2a1a, roughness:.16, metalness:.05, clearcoat:1, clearcoatRoughness:.05});
+  /* rim: an ogee moulding turned from a profile (r,y), two gold beads and a gold inlay line on the felt side */
+  const rimProf=[[R-.065,.735],[R-.06,.752],[R-.04,.76],[R-.015,.762],[R+.005,.755],[R+.015,.74],[R+.018,.72],[R+.012,.70],[R,.69],[R-.02,.685],[R-.06,.682],[R-.065,.735]];
+  const rim=mesh(new T.LatheGeometry(rimProf.map(q=>new T.Vector2(q[0],q[1])),128),mahog,0,0,0,table); rim.castShadow=true; rim.receiveShadow=true;
+  mesh(new T.TorusGeometry(R-.058,.004,8,128),M.gold,0,.751,0,table).rotation.x=Math.PI/2; mesh(new T.TorusGeometry(R+.006,.005,8,128),M.gold,0,.757,0,table).rotation.x=Math.PI/2; mesh(new T.TorusGeometry(R+.004,.006,8,128),M.gold,0,.693,0,table).rotation.x=Math.PI/2;
+  const apron=mesh(new T.CylinderGeometry(R-.01,R-.03,.07,96),mahog,0,.65,0,table); apron.receiveShadow=true; mesh(new T.TorusGeometry(R-.03,.006,8,128),M.gold,0,.617,0,table).rotation.x=Math.PI/2;
+  /* pedestal: black marble column with brass collars on a stepped black-marble base with gold feet */
+  const bmarble=new T.MeshPhysicalMaterial({color:0x111116, roughness:.12, metalness:0, clearcoat:1, clearcoatRoughness:.04});
+  mesh(lathe([[0,.1],[.12,.1],[.13,.14],[.1,.2],[.09,.38],[.1,.52],[.13,.58],[.15,.615],[0,.615]],48),bmarble,0,0,0,table);
+  [.11,.2,.5].forEach((y,i)=>{ const r=i===1?.098:i?.115:.128; const t=mesh(new T.TorusGeometry(r,.012,10,64),M.brass,0,y,0,table); t.rotation.x=Math.PI/2; });
+  mesh(lathe([[0,0],[.5,0],[.52,.02],[.5,.045],[.34,.06],[.2,.08],[.15,.1],[0,.1]],64),bmarble,0,0,0,table).receiveShadow=true; mesh(new T.TorusGeometry(.5,.012,8,96),M.gold,0,.03,0,table).rotation.x=Math.PI/2;
+  for(let i=0;i<4;i++){ const a=i/4*Math.PI*2+Math.PI/4; const f=mesh(lathe([[0,0],[.06,0],[.07,.02],[.05,.05],[.02,.07],[0,.07]],24),M.gold,Math.cos(a)*.47,0,Math.sin(a)*.47,table); f.castShadow=true; }
   /* lantern: a period brass oil lamp. fluted foot, knopped stem, oil font with a seam, burner with a wick knob, tall glass chimney, living flame */
   const lan=new T.Group(); lan.position.set(-.42,.75,-.22); table.add(lan);
   const foot=lathe([[0,0],[.085,0],[.09,.012],[.082,.02],[.06,.028],[.042,.04],[.03,.06],[.026,.09],[.034,.1],[.024,.108],[.022,.13],[.03,.14],[.028,.15]],48); mesh(foot,M.brass,0,0,0,lan).castShadow=true;
   for(let i=0;i<16;i++){ const a=i/16*Math.PI*2; const fl=mesh(new T.CylinderGeometry(.005,.007,.03,10),M.gold,Math.cos(a)*.07,.012,Math.sin(a)*.07,lan); fl.rotation.y=-a; fl.rotation.z=Math.PI/2-.9; }
   const font=lathe([[.028,.15],[.05,.158],[.07,.18],[.076,.21],[.07,.24],[.052,.262],[.03,.27],[.026,.285],[.03,.295],[.022,.3]],48); mesh(font,M.brass,0,0,0,lan).castShadow=true;
+  for(let i=0;i<24;i++){ const a=i/24*Math.PI*2; const rib=mesh(new T.BoxGeometry(.004,.05,.004),M.gold,Math.cos(a)*.0745,.21,Math.sin(a)*.0745,lan); rib.rotation.y=-a; }   /* fluted font */
+  mesh(new T.TorusGeometry(.03,.0025,8,32),M.gold,0,.152,0,lan).rotation.x=Math.PI/2; mesh(new T.TorusGeometry(.0865,.003,8,48),M.gold,0,.015,0,lan).rotation.x=Math.PI/2;
   mesh(new T.TorusGeometry(.0755,.004,8,48),M.gold,0,.21,0,lan).rotation.x=Math.PI/2;
   const burner=lathe([[.022,.3],[.032,.302],[.036,.315],[.03,.325],[.04,.33],[.045,.342],[.036,.35],[.012,.352],[.012,.36],[0,.36]],32); mesh(burner,M.brassDark||M.brass,0,0,0,lan);
   const knob=mesh(new T.CylinderGeometry(.012,.012,.006,20),M.gold,.05,.322,0,lan); knob.rotation.z=Math.PI/2; mesh(new T.CylinderGeometry(.003,.003,.04,8),M.gold,.03,.322,0,lan).rotation.z=Math.PI/2;
@@ -370,6 +392,7 @@ const table=new T.Group(); scene.add(table);
   { const pg=new T.Group(); pg.position.set(.46,.75,-.26); pg.rotation.y=-.5; table.add(pg);
     const body=lathe([[0,0],[.062,0],[.07,.008],[.072,.03],[.066,.07],[.054,.11],[.046,.15],[.045,.18],[.05,.196],[.058,.204],[.056,.212],[.03,.216],[.03,.222],[.04,.236],[.03,.25],[.012,.258],[0,.26]],56); const bm=mesh(body,M.brass,0,0,0,pg); bm.castShadow=true;
     mesh(new T.TorusGeometry(.057,.003,8,48),M.gold,0,.208,0,pg).rotation.x=Math.PI/2; mesh(new T.TorusGeometry(.069,.004,8,48),M.gold,0,.012,0,pg).rotation.x=Math.PI/2;
+    mesh(new T.TorusGeometry(.0665,.0025,8,64),M.gold,0,.06,0,pg).rotation.x=Math.PI/2; mesh(new T.TorusGeometry(.0555,.0025,8,64),M.gold,0,.105,0,pg).rotation.x=Math.PI/2; for(let i=0;i<18;i++){ const a=i/18*Math.PI*2; const fl=mesh(new T.CylinderGeometry(.0035,.0045,.04,8),M.gold,Math.cos(a)*.0665,.085,Math.sin(a)*.0665,pg); fl.rotation.y=-a; }   /* engraved band + flutes */
     mesh(new T.SphereGeometry(.009,16,12),M.gold,0,.262,0,pg);
     const spout=new T.CatmullRomCurve3([new T.Vector3(.055,.09,0),new T.Vector3(.1,.12,0),new T.Vector3(.125,.19,0),new T.Vector3(.132,.25,0),new T.Vector3(.146,.27,0)]);
     const sp=new T.Mesh(new T.TubeGeometry(spout,24,.011,14,false),M.brass); sp.castShadow=true; pg.add(sp); mesh(new T.CylinderGeometry(.012,.009,.006,14),M.brass,.146,.27,0,pg).rotation.z=-.6;
@@ -381,7 +404,7 @@ const table=new T.Group(); scene.add(table);
     const saucer=lathe([[0,0],[.03,0],[.03,.004],[.045,.006],[.072,.016],[.078,.02],[.077,.023],[.07,.021],[.044,.012],[.03,.01],[0,.01]],48); const sm=mesh(saucer,M.porcelain,0,0,0,g); sm.castShadow=true; sm.receiveShadow=true;
     mesh(new T.TorusGeometry(.0745,.0012,6,48),M.gold,0,.021,0,g).rotation.x=Math.PI/2;
     const body=lathe([[0,.01],[.022,.01],[.026,.012],[.03,.02],[.04,.04],[.044,.058],[.045,.068],[.043,.069],[.041,.066],[.038,.05],[.03,.03],[.022,.02],[0,.02]],48); const cm=mesh(body,M.porcelain,0,.01,0,g); cm.castShadow=true;
-    mesh(new T.TorusGeometry(.0445,.0012,6,48),M.gold,0,.078,0,g).rotation.x=Math.PI/2;
+    mesh(new T.TorusGeometry(.0445,.0012,6,48),M.gold,0,.078,0,g).rotation.x=Math.PI/2; mesh(new T.TorusGeometry(.0432,.0012,6,48),M.gold,0,.064,0,g).rotation.x=Math.PI/2; mesh(new T.TorusGeometry(.0445,.0008,6,48),M.gold,0,.074,0,g).rotation.x=Math.PI/2;   /* double gold band */
     mesh(new T.CircleGeometry(.0395,40),M.coffee,0,.072,0,g).rotation.x=-Math.PI/2;
     const hc=new T.CatmullRomCurve3([new T.Vector3(.041,.066,0),new T.Vector3(.062,.066,0),new T.Vector3(.066,.045,0),new T.Vector3(.05,.03,0),new T.Vector3(.04,.03,0)]);
     const hm=new T.Mesh(new T.TubeGeometry(hc,16,.0045,10,false),M.porcelain); hm.castShadow=true; g.add(hm);
@@ -555,22 +578,32 @@ const closeFill=new T.PointLight(0xbfd4ff,0,1.2,2); scene.add(closeFill);
 window.__dbg={gun,cyl,crane,hammer,muzzle,spin,lie,scene,renderer,get camera(){return camera;}};
 /* ================= the boards on brass easels (Daniel LEFT, Nik RIGHT) ================= */
 const boards={ D:null, N:null };
-const BOARD_W=.62, BOARD_H=.62;
+const BOARD_W=.84, BOARD_H=.64;
 function loadImg(src){ return new Promise(res=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=()=>res(null); im.src=src; }); }
 const lacquer=new T.MeshPhysicalMaterial({map:tableWoodTex, color:0x6a4a34, roughness:.25, metalness:.05, clearcoat:1, clearcoatRoughness:.08});
 function plateTex(text){ const [c,ctx]=cv(512,128); const g=ctx.createLinearGradient(0,0,0,128); g.addColorStop(0,"#f3d98a"); g.addColorStop(.5,"#c9a24a"); g.addColorStop(1,"#f0cf74"); ctx.fillStyle=g; ctx.fillRect(0,0,512,128); ctx.strokeStyle="#6b4a14"; ctx.lineWidth=4; ctx.strokeRect(10,10,492,108); ctx.font="700 64px 'Barlow Condensed'"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillStyle="#5a3c0c"; ctx.fillText(text,256,70); ctx.fillStyle="#fff2c0"; ctx.fillText(text,256,66); ctx.fillStyle="#3b2706"; ctx.fillText(text,256,68); const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; t.anisotropy=8; return t; }
+function ringShape(w,h,r,iw,ih,ir){ const sh=new T.Shape(); sh.moveTo(-w/2+r,-h/2); sh.lineTo(w/2-r,-h/2); sh.quadraticCurveTo(w/2,-h/2,w/2,-h/2+r); sh.lineTo(w/2,h/2-r); sh.quadraticCurveTo(w/2,h/2,w/2-r,h/2); sh.lineTo(-w/2+r,h/2); sh.quadraticCurveTo(-w/2,h/2,-w/2,h/2-r); sh.lineTo(-w/2,-h/2+r); sh.quadraticCurveTo(-w/2,-h/2,-w/2+r,-h/2);
+  const hole=new T.Path(); hole.moveTo(-iw/2,-ih/2); hole.lineTo(-iw/2,ih/2); hole.lineTo(iw/2,ih/2); hole.lineTo(iw/2,-ih/2); hole.lineTo(-iw/2,-ih/2); sh.holes.push(hole); return sh; }
+/* board: a black-lacquer moulded frame with a gold fillet, the squad screen under glass; easel: walnut A-frame with gold ferrules, caps, a ledge rail and a finial */
 function makeBoard(key,label){ const g=new T.Group(); scene.add(g); const inner=new T.Group(); g.add(inner);
-  const frame=new T.Mesh(new T.BoxGeometry(BOARD_W+.07,BOARD_H+.07,.024),lacquer); frame.castShadow=true; frame.receiveShadow=true; inner.add(frame);
-  const lip=new T.Mesh(new T.BoxGeometry(BOARD_W+.05,BOARD_H+.05,.006),GM.gold); lip.position.z=.0125; inner.add(lip);
-  const [c,ctx]=cv(2048,2048); const tex=new T.CanvasTexture(c); tex.encoding=T.sRGBEncoding; tex.anisotropy=16;
-  const face=new T.Mesh(new T.PlaneGeometry(BOARD_W,BOARD_H),new T.MeshPhysicalMaterial({map:tex, roughness:.5, metalness:0, clearcoat:.4, clearcoatRoughness:.3})); face.position.z=.0162; inner.add(face);
-  [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([sx,sy])=>{ [1,-1].forEach(sz=>{ const k=new T.Mesh(new T.BoxGeometry(.07,.07,.006),GM.brass); k.position.set(sx*(BOARD_W/2+.01),sy*(BOARD_H/2+.01),sz*.0135); inner.add(k); }); });
-  /* easel: three brass legs, a ledge, a nameplate */
-  const easel=new T.Group(); g.add(easel); const leg=(x,z,tilt,len)=>{ const m=new T.Mesh(new T.CylinderGeometry(.012,.016,len,12),GM.brass); m.position.set(x,-len/2+.02,z); m.rotation.z=tilt; m.castShadow=true; easel.add(m); return m; };
-  const H=BOARD_H/2+.4; leg(-.3,-.02,.1,H*2); leg(.3,-.02,-.1,H*2); const back=leg(0,-.2,0,H*2); back.rotation.x=-.3; back.position.y=-H+.06;
-  const ledge=new T.Mesh(new T.BoxGeometry(BOARD_W+.14,.025,.07),GM.brass); ledge.position.set(0,-BOARD_H/2-.04,.02); easel.add(ledge);
-  const bar=new T.Mesh(new T.BoxGeometry(.62,.02,.02),GM.brass); bar.position.set(0,BOARD_H/2+.1,-.02); easel.add(bar);
-  const plate=new T.Mesh(new T.PlaneGeometry(.2,.05),new T.MeshStandardMaterial({map:plateTex(label), roughness:.3, metalness:.6})); plate.position.set(0,-BOARD_H/2-.035,.056); easel.add(plate);
+  const FW=.075; const frameG=new T.ExtrudeGeometry(ringShape(BOARD_W+FW*2,BOARD_H+FW*2,.02,BOARD_W+.01,BOARD_H+.01),{depth:.03, bevelEnabled:true, bevelThickness:.012, bevelSize:.012, bevelSegments:5, curveSegments:8}); frameG.translate(0,0,-.03);
+  const frame=new T.Mesh(frameG,lacquer); frame.castShadow=true; frame.receiveShadow=true; inner.add(frame);
+  const filletG=new T.ExtrudeGeometry(ringShape(BOARD_W+.03,BOARD_H+.03,.004,BOARD_W+.004,BOARD_H+.004),{depth:.006, bevelEnabled:true, bevelThickness:.003, bevelSize:.003, bevelSegments:3}); filletG.translate(0,0,-.004); inner.add(new T.Mesh(filletG,GM.gold));
+  const beadG=new T.ExtrudeGeometry(ringShape(BOARD_W+FW*2+.022,BOARD_H+FW*2+.022,.03,BOARD_W+FW*2+.002,BOARD_H+FW*2+.002),{depth:.014, bevelEnabled:true, bevelThickness:.004, bevelSize:.004, bevelSegments:3}); beadG.translate(0,0,-.024); inner.add(new T.Mesh(beadG,GM.gold));
+  const backing=new T.Mesh(new T.BoxGeometry(BOARD_W+FW*2,BOARD_H+FW*2,.02),lacquer); backing.position.z=-.04; inner.add(backing);
+  const [c,ctx]=cv(2048,1560); const tex=new T.CanvasTexture(c); tex.encoding=T.sRGBEncoding; tex.anisotropy=16;
+  const face=new T.Mesh(new T.PlaneGeometry(BOARD_W,BOARD_H),new T.MeshPhysicalMaterial({map:tex, roughness:.32, metalness:0, clearcoat:1, clearcoatRoughness:.08})); face.position.z=-.006; inner.add(face);
+  /* easel */
+  const easel=new T.Group(); g.add(easel); const walnut=lacquer;
+  const leg=(x,z,tiltZ,tiltX,len)=>{ const m=new T.Mesh(new T.CylinderGeometry(.014,.02,len,14),walnut); m.position.set(x,-len/2+BOARD_H/2+.12,z); m.rotation.z=tiltZ; m.rotation.x=tiltX; m.castShadow=true; easel.add(m);
+    const cap=new T.Mesh(new T.CylinderGeometry(.017,.017,.03,14),GM.gold); cap.position.set(0,len/2-.015,0); m.add(cap); const foot=new T.Mesh(new T.CylinderGeometry(.021,.024,.06,14),GM.gold); foot.position.set(0,-len/2+.4,0); m.add(foot); return m; };
+  const L=1.95; leg(-BOARD_W/2-.02,-.03,.085,0,L); leg(BOARD_W/2+.02,-.03,-.085,0,L); const back=leg(0,-.14,0,-.34,L*.98);
+  const crown=new T.Mesh(new T.BoxGeometry(BOARD_W+.2,.03,.03),walnut); crown.position.set(0,BOARD_H/2+.1,-.03); easel.add(crown);
+  const finial=new T.Mesh(new T.LatheGeometry([[0,0],[.02,0],[.026,.012],[.014,.03],[.02,.05],[.008,.075],[0,.085]].map(p=>new T.Vector2(p[0],p[1])),20),GM.gold); finial.position.set(0,BOARD_H/2+.115,-.03); easel.add(finial);
+  const ledge=new T.Mesh(new T.BoxGeometry(BOARD_W+.2,.03,.09),walnut); ledge.position.set(0,-BOARD_H/2-.095,.0); easel.add(ledge); const rail=new T.Mesh(new T.BoxGeometry(BOARD_W+.2,.012,.012),GM.gold); rail.position.set(0,-BOARD_H/2-.074,.045); easel.add(rail);
+  const stretcher=new T.Mesh(new T.CylinderGeometry(.012,.012,BOARD_W+.26,10),walnut); stretcher.rotation.z=Math.PI/2; stretcher.position.set(0,-BOARD_H/2-.55,-.04); easel.add(stretcher);
+  const plate=new T.Mesh(new T.PlaneGeometry(.22,.055),new T.MeshStandardMaterial({map:plateTex(label), roughness:.3, metalness:.6})); plate.position.set(0,-BOARD_H/2-.095,.047); easel.add(plate);
+  easel.traverse(o=>{ if(o.isMesh){ o.castShadow=true; } });
   g.userData={inner, ctx, canvas:c, tex, face, bubbles:[], hit:null, jolt:new T.Vector3(), joltV:new T.Vector3()}; boards[key]=g; return g; }
 makeBoard("D","DANIEL"); makeBoard("N","NIK");
 
@@ -596,34 +629,35 @@ function playerCard(ctx,x,y,s,kit,pos,name,rating,num,tagLeft){
   /* position tag: colour bar + letters, left of the shirt */
   if(tagLeft!==false){ const col=POS_COL(pos); ctx.fillStyle=col; ctx.fillRect(x-s*1.0,y-s*.1,s*.07,s*.3); ctx.textAlign="left"; ctx.font=`700 ${Math.round(s*.22)}px 'Barlow Condensed'`; ctx.lineWidth=3; ctx.strokeStyle="rgba(0,0,0,.6)"; ctx.strokeText(pos,x-s*.9,y+s*.05); ctx.fillStyle="#fff"; ctx.fillText(pos,x-s*.9,y+s*.05); } }
 function lum(hex){ const n=parseInt(String(hex).replace("#",""),16); if(isNaN(n)) return .5; return ((n>>16&255)*.299+(n>>8&255)*.587+(n&255)*.114)/255; }
-function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H=1024; const kit=club.kit; b.bubbles.length=0; b.club=club;
+function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H=780; const kit=club.kit; b.bubbles.length=0; b.club=club;
   ctx.setTransform(2,0,0,2,0,0); ctx.clearRect(0,0,W,H);
-  /* FIFA 17 squad screen: dark grey frame, tab bar with SQUAD lit, club + formation, a lit pitch filling the middle, substitutes band */
+  /* FIFA 17 squad screen, landscape: tab bar, club and formation, the pitch on the left, the bench as a list on the right */
   { const g=ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,"#2a2d33"); g.addColorStop(.12,"#1b1d22"); g.addColorStop(1,"#121317"); ctx.fillStyle=g; ctx.fillRect(0,0,W,H); }
-  ctx.textBaseline="middle"; ctx.textAlign="left"; const tabs=["SQUAD","FORMATIONS","ROLES","INSTRUCTIONS","TACTICS"]; let tx=34; tabs.forEach((t,i)=>{ ctx.font=`${i?600:800} 26px 'Barlow Condensed'`; ctx.fillStyle=i?"#c9ccd3":"#fff"; ctx.fillText(t,tx,36); const w=ctx.measureText(t).width; if(!i){ ctx.fillStyle="#f1c35a"; ctx.fillRect(tx-4,52,w+8,4); } tx+=w+46; });
-  ctx.fillStyle="rgba(255,255,255,.08)"; ctx.fillRect(0,62,W,2);
-  ctx.font="800 44px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText(club.club.toUpperCase(),34,104); ctx.font="600 24px 'Barlow Condensed'"; ctx.fillStyle="#9ea4b0"; ctx.fillText("STARTING XI · "+formationOf(club.xi),36,138);
-  ctx.textAlign="right"; ctx.font="800 40px 'Barlow Condensed'"; ctx.fillStyle="#f1c35a"; ctx.fillText(formationOf(club.xi),W-34,104);
-  ctx.textAlign="left";
-  /* pitch 160-770 with a little perspective (narrower at the top), mown stripes, white lines */
-  const PT=160, PB=772, PL=34, PR=W-34, IN=46; ctx.save(); ctx.beginPath(); ctx.moveTo(PL+IN,PT); ctx.lineTo(PR-IN,PT); ctx.lineTo(PR,PB); ctx.lineTo(PL,PB); ctx.closePath(); ctx.clip();
+  ctx.textBaseline="middle"; ctx.textAlign="left"; const tabs=["SQUAD","FORMATIONS","ROLES","INSTRUCTIONS","TACTICS"]; let tx=30; tabs.forEach((t,i)=>{ ctx.font=`${i?600:800} 24px 'Barlow Condensed'`; ctx.fillStyle=i?"#c9ccd3":"#fff"; ctx.fillText(t,tx,30); const w=ctx.measureText(t).width; if(!i){ ctx.fillStyle="#f1c35a"; ctx.fillRect(tx-4,46,w+8,4); } tx+=w+40; });
+  ctx.fillStyle="rgba(255,255,255,.08)"; ctx.fillRect(0,56,W,2);
+  ctx.font="800 42px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText(club.club.toUpperCase(),30,92); ctx.font="600 22px 'Barlow Condensed'"; ctx.fillStyle="#9ea4b0"; ctx.fillText("STARTING XI · "+formationOf(club.xi),32,122);
+  ctx.textAlign="right"; ctx.font="800 40px 'Barlow Condensed'"; ctx.fillStyle="#f1c35a"; ctx.fillText(formationOf(club.xi),W-30,92); ctx.textAlign="left";
+  const PT=146, PB=H-24, PL=30, PR=560, IN=36; ctx.save(); ctx.beginPath(); ctx.moveTo(PL+IN,PT); ctx.lineTo(PR-IN,PT); ctx.lineTo(PR,PB); ctx.lineTo(PL,PB); ctx.closePath(); ctx.clip();
   { const g=ctx.createLinearGradient(0,PT,0,PB); g.addColorStop(0,"#6fbf53"); g.addColorStop(1,"#3f9a3d"); ctx.fillStyle=g; ctx.fillRect(PL,PT,PR-PL,PB-PT);
     for(let i=0;i<9;i++){ ctx.fillStyle=i%2?"rgba(255,255,255,.07)":"rgba(0,0,0,.05)"; ctx.fillRect(PL,PT+i*(PB-PT)/9,PR-PL,(PB-PT)/9); }
-    const v=ctx.createRadialGradient(W/2,(PT+PB)/2,160,W/2,(PT+PB)/2,640); v.addColorStop(0,"rgba(255,255,255,.06)"); v.addColorStop(1,"rgba(0,0,0,.22)"); ctx.fillStyle=v; ctx.fillRect(PL,PT,PR-PL,PB-PT);
-    const X=(u,y)=>{ const k=(y-PT)/(PB-PT); const l=PL+IN*(1-k), r=PR-IN*(1-k); return l+u*(r-l); };
+    const v=ctx.createRadialGradient((PL+PR)/2,(PT+PB)/2,140,(PL+PR)/2,(PT+PB)/2,560); v.addColorStop(0,"rgba(255,255,255,.06)"); v.addColorStop(1,"rgba(0,0,0,.22)"); ctx.fillStyle=v; ctx.fillRect(PL,PT,PR-PL,PB-PT);
+    const X=(u,y)=>{ const k=(y-PT)/(PB-PT); const l=PL+IN*(1-k), r=PR-IN*(1-k); return l+u*(r-l); }; const cx=(PL+PR)/2;
     ctx.strokeStyle="rgba(255,255,255,.92)"; ctx.lineWidth=3; const line=(u0,y0,u1,y1)=>{ ctx.beginPath(); ctx.moveTo(X(u0,y0),y0); ctx.lineTo(X(u1,y1),y1); ctx.stroke(); };
-    const mid=(PT+PB)/2; line(.02,PT+14,.98,PT+14); line(.02,PB-14,.98,PB-14); line(.02,PT+14,.02,PB-14); line(.98,PT+14,.98,PB-14); line(.02,mid,.98,mid);
-    ctx.beginPath(); ctx.ellipse(W/2,mid,86,70,0,0,7); ctx.stroke();
-    const box=(y0,y1,hw,sign)=>{ line(.5-hw,y0,.5+hw,y0); line(.5-hw,y0,.5-hw,y1); line(.5+hw,y0,.5+hw,y1); };
-    box(PT+14,PT+120,.2); line(.3,PT+120,.7,PT+120); box(PT+14,PT+54,.08); line(.42,PT+54,.58,PT+54);
-    line(.3,PB-120,.7,PB-120); line(.3,PB-120,.3,PB-14); line(.7,PB-120,.7,PB-14); line(.42,PB-54,.58,PB-54); line(.42,PB-54,.42,PB-14); line(.58,PB-54,.58,PB-14); }
+    const mid=(PT+PB)/2; line(.03,PT+12,.97,PT+12); line(.03,PB-12,.97,PB-12); line(.03,PT+12,.03,PB-12); line(.97,PT+12,.97,PB-12); line(.03,mid,.97,mid);
+    ctx.beginPath(); ctx.ellipse(cx,mid,66,56,0,0,7); ctx.stroke();
+    line(.28,PT+12,.28,PT+108); line(.72,PT+12,.72,PT+108); line(.28,PT+108,.72,PT+108); line(.41,PT+12,.41,PT+46); line(.59,PT+12,.59,PT+46); line(.41,PT+46,.59,PT+46);
+    line(.28,PB-108,.28,PB-12); line(.72,PB-108,.72,PB-12); line(.28,PB-108,.72,PB-108); line(.41,PB-46,.41,PB-12); line(.59,PB-46,.59,PB-12); line(.41,PB-46,.59,PB-46); }
   ctx.restore();
-  ctx.textAlign="left"; ctx.font="800 30px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.lineWidth=4; ctx.strokeStyle="rgba(0,0,0,.5)"; ctx.strokeText(formationOf(club.xi),PL+14,PB-32); ctx.fillText(formationOf(club.xi),PL+14,PB-32);
-  const used={}; const spots=club.xi.map(([pos,name,rating],i)=>{ let xy=POS_XY[pos]||[.5,.5]; let k=pos; while(used[k]){ k+="'"; xy=[xy[0]+.1,xy[1]]; } used[k]=1; const x=PL+70+xy[0]*(PR-PL-140), y=PT+66+xy[1]*(PB-PT-150); return {x,y,pos,name,rating,num:i+1}; });
-  spots.sort((a,c)=>a.y-c.y).forEach(sp=>{ b.bubbles.push({x:sp.x,y:sp.y,name:sp.name,pos:sp.pos,rating:sp.rating,u:sp.x/W,v:1-sp.y/H}); playerCard(ctx,sp.x,sp.y-6,82,sp.pos==="GK"?[club.gk||"#2fb0a8","#1c6e69","#ffffff"]:kit,sp.pos,sp.name,sp.rating,sp.num); });
-  /* substitutes band */
-  ctx.fillStyle="#17181c"; ctx.fillRect(0,784,W,H-784); ctx.fillStyle="#2a2d33"; ctx.fillRect(0,784,W,46); ctx.textAlign="left"; ctx.font="700 26px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText("SUBSTITUTES",34,807); ctx.textAlign="center"; ctx.fillStyle="#f1c35a"; ctx.font="800 26px 'Barlow Condensed'"; ctx.fillText("▲",W/2,806);
-  club.subs.slice(0,4).forEach(([pos,name,rating],i)=>{ const cx=PL+(i+.5)*(PR-PL)/4, y=905; b.bubbles.push({x:cx,y,name,pos,rating,u:cx/W,v:1-y/H}); ctx.fillStyle="rgba(255,255,255,.05)"; ctx.fillRect(cx-108,842,216,160); playerCard(ctx,cx,y-20,64,kit,pos,name,rating,12+i); });
+  const used={}; const spots=club.xi.map(([pos,name,rating],i)=>{ let xy=POS_XY[pos]||[.5,.5]; let k=pos; while(used[k]){ k+="'"; xy=[xy[0]+.1,xy[1]]; } used[k]=1; const x=PL+62+xy[0]*(PR-PL-124), y=PT+58+xy[1]*(PB-PT-136); return {x,y,pos,name,rating,num:i+1}; });
+  spots.sort((a,c)=>a.y-c.y).forEach(sp=>{ b.bubbles.push({x:sp.x,y:sp.y,name:sp.name,pos:sp.pos,rating:sp.rating,u:sp.x/W,v:1-sp.y/H}); playerCard(ctx,sp.x,sp.y-6,72,sp.pos==="GK"?[club.gk||"#2fb0a8","#1c6e69","#ffffff"]:kit,sp.pos,sp.name,sp.rating,sp.num); });
+  /* bench list on the right */
+  const BL=590, BR=W-30; ctx.fillStyle="#17181c"; ctx.fillRect(BL,PT,BR-BL,PB-PT); ctx.fillStyle="#2a2d33"; ctx.fillRect(BL,PT,BR-BL,44); ctx.textAlign="left"; ctx.font="700 24px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText("SUBSTITUTES",BL+18,PT+22); ctx.textAlign="right"; ctx.fillStyle="#9ea4b0"; ctx.font="600 20px 'Barlow Condensed'"; ctx.fillText("BENCH · "+club.subs.length,BR-18,PT+22);
+  const subs=club.subs.slice(0,6); const rowH=(PB-PT-44)/Math.max(6,subs.length);
+  subs.forEach(([pos,name,rating],i)=>{ const y=PT+44+rowH*(i+.5), x=BL+70; b.bubbles.push({x,y,name,pos,rating,u:x/W,v:1-y/H}); ctx.fillStyle=i%2?"rgba(255,255,255,.03)":"rgba(255,255,255,0)"; ctx.fillRect(BL,PT+44+rowH*i,BR-BL,rowH);
+    ctx.save(); ctx.shadowColor="rgba(0,0,0,.5)"; ctx.shadowBlur=8; ctx.shadowOffsetY=3; shirt(ctx,x,y,52,pos==="GK"?[club.gk||"#2fb0a8","#1c6e69","#ffffff"]:kit); ctx.restore();
+    ctx.fillStyle=POS_COL(pos); ctx.fillRect(BL+118,y-14,5,28); ctx.textAlign="left"; ctx.font="700 20px 'Barlow Condensed'"; ctx.fillStyle="#c9ccd3"; ctx.fillText(pos,BL+132,y-10); ctx.font="700 26px 'Barlow Condensed'"; ctx.fillStyle="#fff"; const sur=name.includes(". ")?name.slice(name.indexOf(". ")+2):name; ctx.fillText(sur,BL+132,y+14);
+    ctx.textAlign="right"; ctx.font="800 36px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText(String(rating),BR-22,y); });
+  ctx.textAlign="left"; ctx.font="800 28px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.lineWidth=4; ctx.strokeStyle="rgba(0,0,0,.5)"; ctx.strokeText(formationOf(club.xi),PL+12,PB-28); ctx.fillText(formationOf(club.xi),PL+12,PB-28);
   if(b.hit) drawHit(key,b.hit); b.tex.needsUpdate=true; }
 function drawHit(key,hit){ const b=boards[key].userData, ctx=b.ctx; const {x,y}=hit; ctx.setTransform(2,0,0,2,0,0);
   /* red RELEASED stamp on the player, then a burnt hole with a charred rim and torn paper */
@@ -666,9 +700,9 @@ function placeTracer(a,b,k0,k1){ const p0=a.clone().lerp(b,k0), p1=a.clone().ler
 /* ================= layout: desktop vs portrait phone ================= */
 const camRest=new T.Vector3(), lookRest=new T.Vector3(); let PH=false, fovRest=38, fovNow=38;
 function layout(){ PH=portrait(); const w=innerWidth, h=innerHeight; camera.aspect=w/h; fovRest=PH?54:36; camera.fov=fovNow=fovRest; camera.updateProjectionMatrix();
-  const bx=PH?.5:1.08, by=PH?1.02:1.0, bz=PH?.12:-.05, yaw=PH?.48:.55, sc=PH?.78:1;
+  const bx=PH?.5:1.0, by=PH?1.02:1.0, bz=PH?.12:-.08, yaw=PH?.48:.5, sc=PH?.62:.92;
   [["D",-1],["N",1]].forEach(([k,s])=>{ const b=boards[k]; b.position.set(bx*s,by,bz); b.rotation.set(-.12,-yaw*s,0); b.scale.setScalar(sc); });
-  if(PH){ camRest.set(0,1.8,2.75); lookRest.set(0,.92,-.1); } else { camRest.set(0,1.62,2.5); lookRest.set(0,.86,-.1); }
+  if(PH){ camRest.set(0,1.8,2.75); lookRest.set(0,.92,-.1); } else { camRest.set(0,1.62,2.7); lookRest.set(0,.86,-.1); }
   renderer.setPixelRatio(Math.min(devicePixelRatio||1,PH?2.5:3)); renderer.setSize(w,h,false); }
 addEventListener("resize",layout);
 
@@ -819,11 +853,15 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null;
     bang:()=>{ const t=nowT(); tone(t,"sine",120,30,.9,1.0,.002,false); noise(t,.6,"lowpass",6000,120,.5,1.0,.001,true); noise(t,1.8,"highpass",2500,7000,.4,.25,.002,true); noise(t+.03,1.1,"bandpass",500,250,.8,.5,.01,true); },
     splinter:()=>{ const t=nowT(); for(let i=0;i<6;i++) noise(t+i*.02,.09,"highpass",3500,7000,.9,.3-i*.03,.001,true); tone(t,"triangle",900,400,.25,.2,.002,true); }
   };
-  return { get on(){ return on; }, enable(v){ on=v; if(v){ init(); if(ctx&&ctx.state==="suspended") ctx.resume(); } }, play(name,...a){ if(!on||!ctx) return; try{ fx[name](...a); }catch(e){} } }; })();
+  /* real recordings drop in without a code change: assets/sfx/<name>.mp3 (or .ogg/.wav) listed in platemap.json "sfx" replaces the synthesized cue of that name; the first argument stays a 0-1 volume */
+  const loaded={};
+  async function loadFiles(map){ if(!map) return; init(); if(!ctx) return; for(const [name,src] of Object.entries(map)){ try{ const buf=await fetch(src).then(r=>r.ok?r.arrayBuffer():null); if(buf) loaded[name]=await ctx.decodeAudioData(buf); }catch(e){} } }
+  function playFile(name,v){ const b=loaded[name]; if(!b) return false; const s=ctx.createBufferSource(); s.buffer=b; const g=ctx.createGain(); g.gain.value=(typeof v==="number"?v:1); s.connect(g); out(g,name==="bang"||name==="splinter"||name==="cock"); s.start(nowT()); return true; }
+  return { get on(){ return on; }, enable(v){ on=v; if(v){ init(); if(ctx&&ctx.state==="suspended") ctx.resume(); } }, loadFiles, play(name,...a){ if(!on||!ctx) return; try{ if(!playFile(name,a[0])) fx[name](...a); }catch(e){} } }; })();
 
 /* ================= asset contract: each picture drops in without a code change ================= */
 const PLATEMAP={}; let hasRoom=false, hasGunTop=false;
-async function loadAssets(){ const pm=await fetch("platemap.json").then(r=>r.ok?r.json():null).catch(()=>null); Object.assign(PLATEMAP,pm||{});
+async function loadAssets(){ const pm=await fetch("platemap.json").then(r=>r.ok?r.json():null).catch(()=>null); Object.assign(PLATEMAP,pm||{}); if(PLATEMAP.sfx) SFX.loadFiles(PLATEMAP.sfx);
   const [room,top,flash,sq,handImg]=await Promise.all([loadImg("assets/RR_ROOM.jpg"),loadImg("assets/RR_GUN_TOP.png"),loadImg("assets/RR_FLASH.png"),fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.png")]);
   { const hc=handImg?keyOutBlack(handImg):handPlaceholder(); hasHand=!!handImg; handAspect=hc.width/hc.height; const ht=new T.CanvasTexture(hc); ht.encoding=T.sRGBEncoding; ht.anisotropy=8; hand.material.map=ht; const hm=PLATEMAP.hand&&PLATEMAP.hand.muzzle; if(hm){ HAND_MUZZLE.u=hm[0]; HAND_MUZZLE.v=hm[1]; } }
   SQUADS=sq;

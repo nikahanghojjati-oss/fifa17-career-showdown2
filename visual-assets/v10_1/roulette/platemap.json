@@ -103,5 +103,6 @@
       0.92
     ],
     "note": "gloved hand holding the revolver, black background keyed out in code; muzzle = where the flash sits (u from left, v from bottom)"
-  }
+  },
+  "sfx_note": "Team G sounds (HO-047): add \"sfx\": {\"spinStart\":\"assets/sfx/spin_start.mp3\", ...} with any of: spinStart, felt, click, cock, heart, dry, bang, splinter. A listed file replaces the synthesized cue; missing names keep the synth."
 }

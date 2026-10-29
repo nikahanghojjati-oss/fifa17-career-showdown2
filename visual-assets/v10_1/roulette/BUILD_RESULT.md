@@ -96,3 +96,13 @@ Full name **Russian Roster Roulette** (screen title, docs). Short name **Roster 
 - The hand (ticket 1854): a painted gloved hand holding the revolver, keyed out on black, rides on the camera as a layer in the lower corner of the shooter's view (mirrored for Nik's board on the right). It breathes while it aims, kicks up and back on the shot (60 ms up, 420 ms settle), dips on a click, then sinks out of frame. The 3D gun is hidden while the hand holds it. Until the picture arrives a flat placeholder silhouette stands in. `platemap.json` `hand.muzzle` sets where the flash sits on the picture (u,v from the bottom-left).
 - Flash layers, sparks and smoke render over the hand layer (renderOrder 30/28/25, no depth test on the flash).
 - Room: Nik's marble cafe picture (`assets/RR_ROOM.jpg`, 1672x941) replaces the back wall. `floorCut` 0.405 hides the picture's own floor under the 3D floor so the counter base meets the floor line. 3D floor is cream marble; side walls are black marble panels with gold inlay and walnut rails to match.
+
+## CC-015 · marble floor, new boards and easels, premium table and props, sound hook (29 Oct, 6:20 p.m. Eastern asks)
+
+- Floor: 2048 px cream marble with strong grey veins and warm ones, clearcoat with the room reflection, plus a black-marble inlay band with a gold line framing the table area, like the cafe picture's floor.
+- Boards: landscape 84x64 cm FIFA 17 squad screens (tab bar, club + formation, vertical pitch on the left, SUBSTITUTES list on the right with position colour, name and rating), 2048x1560 texture under glass (clearcoat), in a black-lacquer moulded frame (extruded ring with bevel) with a gold fillet inside and a gold bead outside.
+- Easels: walnut A-frames, tapered legs with gold caps and ferrules, crown bar with a gold finial, ledge with a gold rail, stretcher, brass nameplate.
+- Table: ogee mahogany rim turned from a profile, three gold beads, gold inlay line on the felt edge, apron, black-marble pedestal with three brass collars, stepped black-marble base with a gold ring and four gold feet.
+- Lamp: 24 gold ribs on the oil font, gold rings at the foot and stem. Pot: two engraved gold bands and 18 flutes. Cups: double gold band.
+- Sounds: `platemap.json` `"sfx"` map; any listed file replaces the synthesized cue of that name (spinStart, felt, click, cock, heart, dry, bang, splinter). Ticket HO-047 asks Team G for the recordings.
+- Camera rest pulled back to z 2.7 so both boards fit the desktop frame; phone boards at scale .62.
