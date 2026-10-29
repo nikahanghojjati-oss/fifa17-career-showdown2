@@ -200,7 +200,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     await reading;await world.advance(1000);
     assert.equal(world.activeListeners().length,0,"still no context listener after their deliveries");
     assert.equal(txReads(world,RIVALRY)+txReads(world,SESSION),2,"and no server read of either after the unlock");
-    world.budget.listened();await world.advance(61000);await get([RIVALRY]);await world.advance(1000);
+    world.budget.returnListen([]);world.budget.listened();await world.advance(61000);await get([RIVALRY]);await world.advance(1000);
     assert.ok(world.activeListeners().some(l=>l.path===RIVALRY),"once the authority listeners stop, the context listener watches the rivalry again");
   });
 
@@ -260,6 +260,19 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     const before=txReads(world,RIVALRY);await get([RIVALRY]);assert.equal(txReads(world,RIVALRY),before,"served by the listener");
     world.denied.add(RESULTS);await assert.rejects(get([RESULTS]));
     await get([RIVALRY]);assert.equal(txReads(world,RIVALRY),before+1,"the next rivalry read goes to the server");
+  });
+
+  await check("U12","red team #19: on a reload the context listeners never double Season Commit's listeners on the rivalry and Session",async()=>{
+    const world=createWorld();seed(world);const get=reader(world);
+    await get([RIVALRY,SESSION]);world.budget.returnListen([RIVALRY,SESSION]);world.budget.watchContext(ID,()=>{});await world.advance(2000);
+    assert.equal(world.activeListeners().length,0,"Season Commit first: no context listener");
+    const other=createWorld();seed(other);const g=reader(other);
+    await g([RIVALRY,SESSION]);other.budget.watchContext(ID,()=>{});await other.advance(2000);
+    assert.equal(other.activeListeners().length,2,"context first: both attached");
+    other.budget.returnListen([RIVALRY,SESSION]);await other.advance(100);
+    assert.equal(other.activeListeners().length,0,"then Season Commit's listeners take over and the context listeners stop");
+    other.budget.returnListen([]);other.budget.listened();await other.advance(61000);await g([RIVALRY]);await other.advance(1000);
+    assert.ok(other.activeListeners().some(l=>l.path===RIVALRY),"Season Commit's listeners failing (returnListen([]) then listened()) hands the rivalry back");
   });
 
   await check("U7","a refused read of the rivalry root (authority) still forgets every copy",async()=>{

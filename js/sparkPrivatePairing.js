@@ -1158,7 +1158,9 @@ async function revokePairing(options={}){
     if(before!==null&&before!==serial){fsbDenied.clear();fsbChainAt=fsbNow();const wake=fsbCtxRivalry&&fsbCtxRivalry.wake;if(typeof wake==="function"&&typeof root.setTimeout==="function")root.setTimeout(()=>{try{wake(watch.path);}catch(_error){}},0);}
   }
   function fsbCtxAttach(path){
-    if(!fsbCtxWanted(path)||fsbCtxWatches.has(path))return;
+    // r86 red team #19: a document Season Commit's authority listeners watch (fsbReturnPaths) or deliver (fsbExternal) gets
+    // no second listener. Measured on a reload: both listened to the rivalry and the Session, 2 documents + 4 lookups more.
+    if(!fsbCtxWanted(path)||fsbCtxWatches.has(path)||fsbReturnPaths.includes(path)||fsbExternal.has(path))return;
     const at=fsbNow();
     if(fsbPaused()||fsbHidden()||!fsbFirestore||(fsbCtxFailed.get(path)||0)>at)return;
     const api=fsbSnapshotApi;
@@ -1312,7 +1314,7 @@ async function revokePairing(options={}){
   // Called by Season Commit's authority listeners: their first server delivery of a path (snapshot), or none (no path) when
   // they stop. While they deliver a path, the context listener leaves it to them (fsbExternal).
   function fsbListened(path,snapshot){if(path===undefined){fsbExternal.clear();for(const key of [...fsbListens.keys()])fsbListened(key,null);return;}if(snapshot)fsbExternal.add(path);const listen=fsbListens.get(path);if(!listen)return;fsbListens.delete(path);if(snapshot){fsbStats.listenerServed+=1;fsbRemember(fsbFirestore,{path},snapshot);}listen.resolve(snapshot||null);}
-  function fsbReturnListen(paths){fsbReturnPaths=Array.isArray(paths)?paths.filter(path=>typeof path==="string"):[];if(!fsbReturnPaths.length)fsbExternal.clear();for(const path of [...fsbListens.keys()])if(!fsbReturnPaths.includes(path))fsbListened(path,null);}
+  function fsbReturnListen(paths){fsbReturnPaths=Array.isArray(paths)?paths.filter(path=>typeof path==="string"):[];if(!fsbReturnPaths.length)fsbExternal.clear();for(const path of fsbReturnPaths){const watch=fsbCtxWatches.get(path);if(watch){watch.returning=false;fsbCtxDrop(path,false);}}for(const path of [...fsbListens.keys()])if(!fsbReturnPaths.includes(path))fsbListened(path,null);}
   function fsbTakeServerNext(path){const until=fsbServerNext.get(path)||0;if(until)fsbServerNext.delete(path);return until>fsbNow();}
   function fsbReadOne(sdk,db,ref,serverOnly=false){
     const listen=fsbListens.get(fsbPathOf(ref));if(listen)return listen.promise.then(snapshot=>snapshot||fsbReadOne(sdk,db,ref));
