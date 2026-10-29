@@ -1458,6 +1458,14 @@
     background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,url("r78-marble-tile.webp") 0 0/256px 256px repeat;
     box-shadow:inset 0 0 0 1px #000a,0 10px 28px #000b;
   }
+  /* Inside the pane the list is compact so a normal Showdown (3 seasons) fits without an inner scroll: the close button
+     sits in flow (no sticky bar over the frame), one line per season with the details and a Europa League win inline. */
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) > .sd-btn { position:static !important; min-height:32px !important; padding:4px 12px; font-size:12px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryHeading { margin:6px 0 4px; font-size:11px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryRows { gap:2px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryRow { min-height:0; padding:3px 8px; gap:8px; font-size:12px; line-height:16px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryRow :is(.daniel,.nik) > span { display:inline !important; line-height:16px !important; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryRow :is(.daniel,.nik) > span::before { content:" · "; color:#8f8775; }
   /* the pane under the list keeps its edge; the pager dots stay below it */
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(.legacyCardGrid > .legacyCard:only-child) .legacyPager { z-index:1; }
 }
