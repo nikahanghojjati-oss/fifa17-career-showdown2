@@ -1,7 +1,7 @@
 # CC-009 BUILD_RESULT · Roster Russian Roulette, real 3D screen (HO-040, r87)
 
 Built 29 Oct 2026, 02:42-03:50 UTC (10:42-11:50 p.m. Eastern 28 Oct) by Fable 5.1 High in a project thread (Nik asked for the Fable job to run here, not in a cloud session).
-Branch: `claude/project-thread-6rq94x`. SHA: see the commit that adds this file ("CC-009" in the message).
+Branch: `claude/project-thread-6rq94x`. SHA: c4b0c4d293f67118d49524e9b3b1a367979d9dc7 (code), the result-file commit follows it.
 Files: `visual-assets/v10_1/roulette/index.html` (one file, three.js r128 from cdnjs + Google Fonts), `platemap.json`, `assets/` (0.37 MB), `evidence/` (21 captures + 2 sheets).
 
 ## What is real 3D (three.js)
@@ -46,4 +46,4 @@ FPS could not be measured here (the container renders on SwiftShader at ~0.2 fps
 
 Spend: about 70 minutes of the 75-minute cap, well under the $35 cap on Nik's reading of the thread cost.
 
-CC-009 DONE (SHA in the commit that adds this file)
+CC-009 DONE c4b0c4d293f67118d49524e9b3b1a367979d9dc7
