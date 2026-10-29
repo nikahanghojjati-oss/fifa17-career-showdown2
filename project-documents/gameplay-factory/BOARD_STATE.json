@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-29 10:22 AM Boston time (EDT)",
+ "generated": "2026-10-29 10:27 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 158,
+  "count": 159,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1425,6 +1425,15 @@
     "subject": "Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons)",
     "reply": "no",
     "boston": "Thu 29 Oct 10:15 AM"
+   },
+   {
+    "time": "2026-10-29 14:24",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-045 SENT",
+    "subject": "Select League: no focus box round the picture title (5-line CSS fix)",
+    "reply": "yes (receive it)",
+    "boston": "Thu 29 Oct 10:24 AM"
    }
   ],
   "g2v": {
@@ -1445,8 +1454,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "ee89696",
-  "head_boston": "Thu 29 Oct 10:15 AM",
+  "head": "24c77ba",
+  "head_boston": "Thu 29 Oct 10:25 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2089,6 +2098,19 @@
     "worker": "images",
     "pickup_min": 14,
     "waiting_min": null
+   },
+   {
+    "id": "HO-045",
+    "from": "V",
+    "to": "G",
+    "title": "Select League: no focus box round the picture title (5-line CSS fix)",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-045_select-league-no-focus-box-round-the-pic.md",
+    "worker": "",
+    "pickup_min": null,
+    "waiting_min": 1
    }
   ],
   "relay_ok": true
@@ -2160,7 +2182,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 44,
   "next": 42,
   "nik": 2,
   "later": 21,

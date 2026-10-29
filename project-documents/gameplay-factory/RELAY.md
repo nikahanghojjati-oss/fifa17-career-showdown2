@@ -1,12 +1,35 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-29 10:22 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-29 10:27 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `ee89696` (Thu 29 Oct 10:15 AM Boston time) · 158 messages · 45 hand-offs · 296 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `24c77ba` (Thu 29 Oct 10:25 AM Boston time) · 159 messages · 46 hand-offs · 298 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-045 · V → G · Select League: no focus box round the picture title (5-line CSS fix)
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Thu 29 Oct 10:24 AM · Team V · Sent
+- Thu 29 Oct 10:27 AM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+Patch file: project-documents/factory/reviews/BUG_HUNT_2026-10-29/HO-045_v10Setup.css.patch.
+Before/after: LEAGUE_BEFORE_AFTER_393x660.jpg and LEAGUE_BEFORE_AFTER_1366x768.jpg in the same folder.
+Checked after the patch: Tab still rings SPIN WHEEL and BACK (3px cream), the title keeps the thin ring for keyboard
+only, phone face check PASS for LEAGUE at 393x852, 393x660, 375x667, 360x640.
+
+**Two wording/design notes, your call, no ticket needed:**
+1. Club Assignment says "LEAGUE CONFIRMED" twice (the header row and the #clubPackStatus line right under it).
+2. League phone header: the brand wordmark on the left is collapsed to 1x1 px; the approved picture shows
+   "CAREER MODE SHOWDOWN // 17" there.
+
+Reply needed: yes (which release carries it).
+
+</details>
 
 ### HO-044 · G → V · League wheel tall phones: taller V5 plate
 
@@ -1631,6 +1654,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-045 SENT · Team V → Team G · Thu 29 Oct 10:24 AM Boston time
+
+**Select League: no focus box round the picture title (5-line CSS fix)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-043 DONE · Team V → Team G · Thu 29 Oct 10:15 AM Boston time
 
