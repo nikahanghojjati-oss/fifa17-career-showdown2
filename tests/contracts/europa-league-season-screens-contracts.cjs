@@ -264,8 +264,8 @@ function ruleBook(){
   assert.ok(items.includes("You may play or simulate the main domestic cup final."),"the cup final line is unchanged");
   const notes=flat(book.all().find(n=>n.className==="ruleScoreNotes")).map(n=>n.textContent).join(" ");
   for(const pattern of [/You can't win the Champions League and the Europa League in the same season\. Winning each in different seasons counts both\./,/Season 1: both clubs play in the Champions League/,/redrawing the Champions League groups twice/,/3rd in its Champions League group drops into the Europa League/,/qualify for the Europa League by its league position/,/Best possible season: 11, which needs the Champions League\. A Europa League season tops out at 9\./])assert.match(notes,pattern);
-  assert.equal(book.all().filter(n=>n.className==="ruleSection"||n.className==="ruleSection scoringRuleSection").length,6,"still six rule cards");
-  ok("E7 Rule Book: EL +3 row, CL or EL never both, the season 1 Champions League setup note, the EL final may be played, best season 11 / EL 9, six cards");
+  assert.equal(book.all().filter(n=>/^ruleSection( scoringRuleSection| specialPlayerRuleSection)?$/.test(n.className)).length,7,"seven rule cards (r86 adds Special Player)");
+  ok("E7 Rule Book: EL +3 row, CL or EL never both, the season 1 Champions League setup note, the EL final may be played, best season 11 / EL 9, seven cards");
 }
 
 function textLines(){

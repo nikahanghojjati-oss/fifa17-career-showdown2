@@ -611,6 +611,8 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-v3/ENV_STANDINGS_PHONE_V3.webp":"4650eb4249225ca7f0d78e296f785773aebbe44a5ea14f3623f6ec9eac35211c",
     "visual-assets/v10_1/plates-v3/ENV_TROPHY_ROOM_PHONE_V3.webp":"c28f11124a9a4558b40299f86d9f7f34df37bd47c6576dc1addc05ec17a07504",
     "visual-assets/v10_1/plates-v5/ENV_LEAGUE_PHONE_V5.webp":"b29a53eae630ae198866f1ae59ea6b933f88ba94175b904154365b43df983c75",
+    // r86 HO-044: Team V's 9:20 tall phone League plate (PR #1056, byte-identical)
+    "visual-assets/v10_1/plates-v5/ENV_LEAGUE_PHONE_TALL_V5.webp":"ba95dad70a228f546bc8c073f0344cec564ec8be8e232eff90e84346e2de82a6",
     "visual-assets/v10_1/shared/plates/ENV_SYS_PLATE_V1_1X.webp":"0342875dca95999886d5bd0b81daf1aca4a86d0b95bb738e2f6cc4548365a2b8",
     "visual-assets/v10_1/shared/plates/ENV_SYS_PLATE_V1_2X.webp":"005420e4c40d42fbe34d7a66ff7e5428cd3b58b15587ad9ca7ef438b2105b9fd",
     "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V1.webp":"a35299752e9d3cfcc44b21ff882ac7fdd81b727af78002c5ce5d76459b29e322",
