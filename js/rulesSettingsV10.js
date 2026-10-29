@@ -139,6 +139,7 @@
     };
   }
   function mountRuleBook(frame,host){
+    try{root.renderRuleBookSpecialPlayers?.();}catch(_){}
     if(states.has(host))return;
     const original=Array.from(host.children),content=element("div","ruleBookV10Content");
     original.forEach(n=>content.append(n));host.classList.add("v10RuleBook");
@@ -242,7 +243,9 @@
     if(registered||!root.CareerModeV10Screens)return;
     registered=true;
     const loader=root.CareerModeV10Screens.install();
-    loader.register('ruleBook',{css:['rule-book/rule-book.css'],prepare:()=>root.loadRuntimeStyle('rules-settings-v10','css/rulesSettingsV10.css'),frame:()=>true,mount:focusSafe(mountRuleBook),unmount:focusSafe(unmountRuleBook)});
+    // r86: the Special Player draw loads with the Rule Book's files, so its rule line shows this Showdown's chips in the first frame.
+    const chip=()=>Promise.resolve().then(()=>root.loadRuntimeScript('special-player-chip','js/specialPlayerChip.js',()=>Boolean(root.CareerModeSpecialPlayerChip))).then(()=>root.CareerModeSpecialPlayerChip.ensure()).catch(()=>false);
+    loader.register('ruleBook',{css:['rule-book/rule-book.css'],prepare:()=>Promise.all([root.loadRuntimeStyle('rules-settings-v10','css/rulesSettingsV10.css'),chip()]),frame:()=>true,mount:focusSafe(mountRuleBook),unmount:focusSafe(unmountRuleBook)});
     loader.register('settingsOverlay',{css:['settings/settings.css'],prepare:()=>root.loadRuntimeStyle('rules-settings-v10','css/rulesSettingsV10.css'),overlay:true,auto:false,frame:()=>true,mount:focusSafe(mountSettings),unmount:focusSafe(unmountSettings)});
   }
   async function rsInstall(){

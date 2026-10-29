@@ -177,12 +177,51 @@ function createScoringRuleSection(){
     goldenText.textContent = "Score 110 points in a 10-season Showdown (11 in every season) to win the gold trophy.";
     golden.append(goldenLabel, goldenText);
 
-    article.append(header, scoring, maximum, golden, notes);
+    // r86 Special Player (Nik 2026-10-29): the SP chip's own rule line, in the Golden Showdown's style. The live Showdown's
+    // two chips are filled in when the Rule Book opens (renderRuleBookSpecialPlayers); none before r86.
+    const special = document.createElement("p");
+    special.className = "ruleGoldenShowdown ruleSpecialPlayer";
+    const specialLabel = document.createElement("strong");
+    const specialTag = document.createElement("span");
+    specialTag.className = "ruleSpecialPlayerTag";
+    specialTag.textContent = "SP";
+    const specialName = document.createElement("span");
+    specialName.textContent = " SPECIAL PLAYER";
+    specialLabel.append(specialTag, specialName);
+    const specialText = document.createElement("span");
+    specialText.textContent = "At the start of every Showdown each manager draws one FIFA 17 player, shown on the reveal screen. Flavour only: it scores no points.";
+    const specialLive = document.createElement("span");
+    specialLive.className = "ruleSpecialPlayerLive spChipPair";
+    specialLive.hidden = true;
+    special.append(specialLabel, specialText, specialLive);
+
+    article.append(header, scoring, maximum, golden, special, notes);
     return article;
+}
+
+// This Showdown's Special Players next to each manager's name (only for a Showdown confirmed on r86 or later).
+function renderRuleBookSpecialPlayers(){
+    const book = document.getElementById("ruleBook");
+    const slot = book && typeof book.querySelector === "function" ? book.querySelector(".ruleSpecialPlayerLive") : null;
+    if(!slot){ return false; }
+    const api = window.CareerModeSpecialPlayerChip;
+    let sp = null;
+    try{ sp = api && typeof api.live === "function" ? api.live() : null; }catch(_error){ sp = null; }
+    slot.replaceChildren();
+    const chips = sp ? [["Daniel", api.element(document, sp.daniel)], ["Nik", api.element(document, sp.nik)]].filter(([, chip]) => chip) : [];
+    if(chips.length !== 2){ slot.hidden = true; return false; }
+    for(const [name, chip] of chips){
+        const who = document.createElement("span");
+        who.append(document.createTextNode(name), chip);
+        slot.appendChild(who);
+    }
+    slot.hidden = false;
+    return true;
 }
 
 function openRuleBook(){
     createRuleBookScreen();
+    renderRuleBookSpecialPlayers();
     showScreen("ruleBook");
     window.CareerModeV10Screens?.expect?.("ruleBook");
     window.loadRuntimeScript("rules-settings-v10", "js/rulesSettingsV10.js", () => Boolean(window.CareerModeRulesSettingsV10)).then(() => window.CareerModeRulesSettingsV10.install()).catch(() => { window.CareerModeV10Screens?.settle?.("ruleBook"); });
