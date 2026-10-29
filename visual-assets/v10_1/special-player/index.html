@@ -1750,7 +1750,7 @@ const ease={ out:(t)=>1-Math.pow(1-t,3), inOut:(t)=>t<.5?4*t*t*t:1-Math.pow(-2*t
 const clamp01=(x)=>Math.max(0,Math.min(1,x));
 const lerp=(a,b,k)=>a+(b-a)*k;
 const mpByIdx=(i)=>mpCard(MP_LIST[Math.max(0,Math.min(MP_LIST.length-1,i))]); let pickD=4, pickN=12; const qs=new URLSearchParams(location.search); if(qs.get('d')) pickD=+qs.get('d'); if(qs.get('n')) pickN=+qs.get('n');
-let bothShown=false, guardUntil=0, whoText="";
+let bothShown=false, guardUntil=0, whoText="", PK=1, packPulse=0;
 let roll=0, pair={daniel:mpByIdx(pickD), nik:mpByIdx(pickN)}, order=["daniel","nik"], idx=0, t0=0, phase="run", shake=0, settledAt=0, fired={}, flash=0, pulse=0;
 const $=(id)=>document.getElementById(id);
 const who=$("who"), slotD=$("slotD"), slotN=$("slotN"), cta=$("cta"), live=$("live"), l3=$("l3");
@@ -1826,6 +1826,8 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null, 
     pops:(n)=>{ const t=now(); for(let i=0;i<n;i++){ const tt=t+i*.17+Math.random()*.1; noise(tt,.22,"bandpass",1800,500,1,.35,.002,(Math.random()-.5)*1.6,true); noise(tt+.2,.9,"highpass",5000,9000,.5,.05,.05,(Math.random()-.5)*1.6,true); } },
     cannon:()=>{ const t=now(); [-.8,.8].forEach((pan,i)=>{ noise(t+i*.05,.3,"lowpass",1500,200,.8,.7,.002,pan,true); noise(t+.05+i*.05,.9,"highpass",3000,6000,.4,.08,.05,pan,true); }); },
     flip:()=>{ const t=now(); noise(t,.45,"bandpass",600,3200,1.6,.35,.12,0,true); },
+    /* idea 4: a rising tick for each step of the pack's colour ladder */
+    step:(i)=>{ const t=now(), f=523.25*Math.pow(2,i*3/12); tone(t,"triangle",f,f*1.01,.22,.15,.003,0,true); tone(t,"sine",f*2,f*2,.14,.05,.003,0,true); noise(t,.06,"highpass",5000,8000,.6,.08,.002,0,false); },
     /* idea 6: a bigger chord for a higher tier (4 notes at rank 51+, 9 with the low octaves and the shimmer for the top 3) */
     chord:(lvl)=>{ const t=now(), N=[[523.25],[659.25],[783.99],[1046.5],[1318.51,2],[261.63,3],[1567.98,3],[2093,4],[130.81,4]].filter(n=>(n[1]||0)<=lvl).map(n=>n[0]), g=.26/Math.sqrt(N.length/3);
       N.forEach((f,i)=>{ tone(t+i*.012,"triangle",f,f,1.4+lvl*.25,g,.004,(i%3-1)*.35,true); if(f>500&&f<1600) tone(t,"sine",f*2,f*2,1+lvl*.2,g*.3,.004,0,true); });
@@ -1851,6 +1853,13 @@ function at(tt,t,k,fn){ if(tt>=t&&!fired[k]){ fired[k]=1; fn(); } }
 /* sound cues; a cue more than .3 s late (skip, seek) stays silent */
 function sfxAt(tt,t,k,name,...a){ if(tt>=t&&!fired[k]){ fired[k]=1; if(tt-t<.6) SFX.play(name,...a); } }
 const camPos=new T.Vector3(), camLook=new T.Vector3();
+/* idea 4: colour ladder on the pack while it charges: bronze, silver, gold, blue, black-blue-gold. A step every LADDER_DT from
+   LADDER_T0; the last step is the real tier (rank 51+ stops at bronze, the top 3 climbs all five), so it never shows more. */
+const LADDER=[0xe0904e,0xe8eef7,0xffc74f,0x4f8bff,0x3355ff], LADDER_ACC=[0xe0904e,0xe8eef7,0xffc74f,0x9cc4ff,0xffc74f], LADDER_BASE=0xffc457;
+const ladderStep=(p,tt)=>tt<LADDER_T0?-1:Math.min(tierLevel(p.tier),Math.floor((tt-LADDER_T0)/LADDER_DT));
+const ladC=new T.Color(), ladA=new T.Color();
+function ladderMix(out,cols,p,tt){ const st=ladderStep(p,tt); if(st<0) return out.copy(L(LADDER_BASE)); const k=clamp01((tt-LADDER_T0-st*LADDER_DT)/.12); return out.copy(L(st?cols[st-1]:LADDER_BASE)).lerp(L(cols[st]),k); }
+const ladderColor=(p,tt)=>ladderMix(ladC,LADDER,p,tt), ladderAccent=(p,tt)=>ladderMix(ladA,LADDER_ACC,p,tt);
 function comet(tt,t,dur,a,b,c,col){ const k=(tt-t)/dur; if(k<0||k>1) return; const e=ease.inOut(k), u=1-e;
   const h=new T.Vector3(u*u*a.x+2*u*e*b.x+e*e*c.x, u*u*a.y+2*u*e*b.y+e*e*c.y, u*u*a.z+2*u*e*b.z+e*e*c.z);
   for(let i=0;i<14;i++) emit(h.clone().add(new T.Vector3((Math.random()-.5)*.12,(Math.random()-.5)*.12,(Math.random()-.5)*.12)),new T.Vector3((Math.random()-.5)*.5,(Math.random()-.5)*.5,(Math.random()-.5)*.5),i%3?col:0xffffff,.35+Math.random()*.25,.12+Math.random()*.1,0,1.5,1);
@@ -1870,14 +1879,17 @@ function run(tt){
   const fall=S(.9,.75,tt), fk=1-Math.pow(1-fall,3);
   pack.visible=tt>=.9&&tt<3.7;
   if(pack.visible){ pack.position.set(PACK_REST.x,lerp(9,PACK_REST.y,fk)+Math.sin(tt*1.7)*.05*fall,PACK_REST.z);
-    pack.rotation.set(-.12+(1-fk)*.9,.72*side*(1-S(2.2,1.3,tt)*.45)+Math.sin(tt*.6)*.06+(1-fk)*1.6*side,(1-fk)*.5*side); pack.scale.setScalar(1);
-    const charge=S(2.3,1.4,tt); packFace.emissive.copy(L(0xffc457)).multiplyScalar(charge*charge*.25);
+    pack.rotation.set(-.12+(1-fk)*.9,.72*side*(1-S(2.2,1.3,tt)*.45)+Math.sin(tt*.6)*.06+(1-fk)*1.6*side,(1-fk)*.5*side); pack.scale.setScalar(1+packPulse*.06);
+    /* idea 4: the charge climbs the colour ladder up to the real tier, never past it */
+    const lad=ladderColor(p,tt), ladA=ladderAccent(p,tt);
+    for(let i=0;i<=lvl;i++){ const at0=LADDER_T0+i*LADDER_DT; at(tt,at0,"lad"+i,()=>{ if(tt-at0<.3) SFX.play("step",i); packPulse=1; burst(PACK_REST.clone().add(new T.Vector3(0,0,.4)),LADDER[i],Math.round(46*PK),3.6,.55,.13); }); }
+    const charge=S(2.3,1.4,tt); packFace.emissive.copy(lad).multiplyScalar(charge*charge*.25);
     if(charge>.5){ pack.position.x+=(Math.random()-.5)*.05*charge; pack.position.y+=(Math.random()-.5)*.03*charge; }
     /* the crack opens (2.4 s) and a pillar of light shoots up through it */
-    const cr=S(2.4,.25,tt); crack.scale.set(.05+charge*.12,PACK_H*.97*cr,1); crack.material.color.copy(L(0xfff0c0)).multiplyScalar(cr*(4+charge*10));
+    const cr=S(2.4,.25,tt); crack.scale.set(.05+charge*.12,PACK_H*.97*cr,1); crack.material.color.copy(L(0xfff0c0)).lerp(lad,.45).multiplyScalar(cr*(4+charge*10));
     pillar.visible=cr>0; if(cr>0){ const pp=pack.localToWorld(new T.Vector3(-.12,0,PACK_D/2+.1)); pillar.position.set(pp.x,.05,pp.z); pillar.rotation.y=Math.atan2(camera.position.x-pp.x,camera.position.z-pp.z);
-      pillar.scale.set(.25+charge*.7,18*ease.out(S(2.4,.45,tt)),1); pillarMat.color.copy(L(0xfff0c8)).multiplyScalar(1.5+charge*charge*5); }
-    packLight.intensity=charge*charge*9; rays.position.set(0,PACK_REST.y,-.55); rays.material.opacity=charge*charge*.55; rays.material.color.copy(L(0xffd27a)).multiplyScalar(.5); rays.rotation.z=tt*.5; rays.scale.setScalar(6+charge*6);
+      pillar.scale.set(.25+charge*.7,18*ease.out(S(2.4,.45,tt)),1); pillarMat.color.copy(L(0xfff0c8)).lerp(lad,.6).multiplyScalar(1.5+charge*charge*5); }
+    packLight.intensity=charge*charge*9; packLight.color.copy(lad); rays.position.set(0,PACK_REST.y,-.55); rays.material.opacity=charge*charge*.55; rays.material.color.copy(ladA).multiplyScalar(.5); rays.rotation.z=tt*.5; rays.scale.setScalar(6+charge*6);
     /* gold glitter swirling round the pack */
     if(fall>=1) for(let i=0;i<3;i++){ const a=Math.random()*Math.PI*2, r=.8+Math.random()*.8; emit(new T.Vector3(Math.cos(a)*r,.3+Math.random()*1.6,PACK_REST.z+Math.sin(a)*r),new T.Vector3(-Math.sin(a)*1.2,.3+Math.random()*.5,Math.cos(a)*1.2),Math.random()<.6?0xffd77a:0xfff1c2,.9+Math.random()*.6,.05+Math.random()*.04,-.2,.6,1); } }
   else pillar.visible=false;
@@ -1944,7 +1956,7 @@ function resize(){
   const fov=Math.max(2*Math.atan(Math.max(tV,tH))*180/Math.PI,38); camera.fov=fov; camera.updateProjectionMatrix();
   const tanH=Math.tan(fov*Math.PI/360); lookRest=CARD_POS.clone().add(new T.Vector3(0,-(yt+yb)/2*tanH*dist+.1,0));
   viewTanH=tanH; const halfW=(camRest.z+.1)*tanH*camera.aspect; coinStopX=-Math.min(2.6,Math.max(.5,halfW-COIN_R*.9)); coinLift=camera.aspect<1?.75:.35; camK=camera.aspect<1?1.3:1;
-  pMat.uniforms.scale.value=ph/(2*tanH);
+  pMat.uniforms.scale.value=ph/(2*tanH); PK=W<700?.6:1; /* phones: fewer sparks in the new effects */
 }
 addEventListener("resize",resize);
 function render(){
@@ -1969,7 +1981,7 @@ function tick(draw){
     const a=f.mesh.geometry.attributes.position; for(let j=0;j<a.count;j++){ const x=f.base[j*3], y=f.base[j*3+1], d=-y/f.h; a.array[j*3+2]=(Math.sin(x*.9+now*2.2+i)*.5+Math.sin(y*.6+now*1.6+i*.5)*.35)*d; } a.needsUpdate=true; f.mesh.geometry.computeVertexNormals(); });
   stepParticles(dt*sc); stepChunks(dt*sc); stepConfetti(dt,now); stepSmoke(dt); sheenMat.uniforms.t.value=now%1000;
   ledTex.tx.offset.x=(now*.04)%1; if(boardTex) boardTex.offset.x=(now*.05)%1;
-  pulse*=Math.pow(.004,dt); flash*=Math.pow(.02,dt); shake*=Math.pow(.02,dt);
+  pulse*=Math.pow(.004,dt); packPulse*=Math.pow(.002,dt); flash*=Math.pow(.02,dt); shake*=Math.pow(.02,dt);
   blob.material.opacity=card.visible?clamp01(1-(card.position.y-CARD_POS.y)*1.2):pack.visible?1:0;
   camera.position.copy(camPos).add(new T.Vector3((Math.random()-.5)*shake,(Math.random()-.5)*shake,0));
   camera.lookAt(camLook); panoSphere.position.copy(camera.position); if(phase!=="run") roll*=Math.pow(.05,dt); camera.rotateZ(roll);
