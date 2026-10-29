@@ -96,6 +96,12 @@ comments work; the relay threads were simply not subscribed.
    already running, so it costs no extra turn.
 4. Both boards show each ticket's pickup time (Delivered to Received), so a missed wake is visible at once.
 5. A thread that wakes on its own relay echo (for example its own message's comment) ends the turn without work.
+6. (2026-10-29) Hearth lead threads have no `send_message` tool. The wake that works from every thread is
+   claude-code-remote `create_trigger` with `persistent_session_id=<target session>`, `run_once_at` 1-2 minutes ahead,
+   and the wake text as `prompt`; it fires once and disables itself. `handoff.py` now prints this call.
+7. (2026-10-29) Two leads of one team can run at once (r86 finishing while r87 starts). A ticket's sender passes
+   `handoff.py new --session <own session>`, which stores `from_session` in the ticket; every status change by the
+   receiver then wakes that session instead of the INBOX.json entry. `handoff.py wake --session <id>` does the same by hand.
 
 ## 10. Shared job numbers (Nik, 2026-10-05)
 - Team G and Team V share one job counter, starting at 1001. A number is used once, ever, by one team.

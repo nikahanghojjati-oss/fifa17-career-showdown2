@@ -14,7 +14,8 @@
  "status": "SENT",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-29T00:06:08Z", "by": "G", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-10-29T00:06:08Z", "by": "G", "status": "SENT", "note": ""}],
+ "from_session": "session_01GU43Q8SekYEo4yZo5Tik3P"
 }
 ```
 
