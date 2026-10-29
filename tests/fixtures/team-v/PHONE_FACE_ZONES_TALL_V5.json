@@ -1,0 +1,19 @@
+{
+ "note": "Face-safe zones for ENV_LEAGUE_PHONE_TALL_V5 (plates-v5, 1179x2620, HO-044) as fractions of the image (x0,y0,x1,y1), Daniel first. Drawn with background-size:cover, centre top, on phones below 59/128 wide-to-tall (412x915, 384x854, 360x800, 340x960): no visible game element may overlap a zone. Checked with the HO-032 swap tool at those four sizes (project-documents/factory/r78/HO-044_TALL_V5/ on claude/project-thread-t9jat5).",
+ "zones": {
+  "LEAGUE": [
+   [
+    0.1396,
+    0.1509,
+    0.2833,
+    0.2363
+   ],
+   [
+    0.7158,
+    0.1495,
+    0.8589,
+    0.2345
+   ]
+  ]
+ }
+}
