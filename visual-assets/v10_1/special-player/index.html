@@ -19,7 +19,7 @@
 }
 html, body { height: 100%; }
 body { margin: 0; background: var(--ink); color: var(--ivory); font-family: var(--num); overflow: hidden; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
-#stage { position: fixed; inset: 0; }
+#stage { position: fixed; inset: 0; touch-action: none; } /* idea 9: a finger drag tilts the card instead of panning */
 #stage canvas { display: block; width: 100%; height: 100%; }
 .hud { position: fixed; inset: 0; pointer-events: none; }
 .top { position: absolute; left: 0; right: 0; top: 0; padding: calc(env(safe-area-inset-top, 0px) + 12px) 16px 0; text-align: center; }
@@ -1577,7 +1577,8 @@ const pMat=new T.ShaderMaterial({transparent:true, depthWrite:false, blending:T.
 const points=new T.Points(pGeo,pMat); points.frustumCulled=false; points.renderOrder=2; scene.add(points);
 const parts=[]; for(let i=0;i<MAXP;i++) parts.push({life:0,max:1,v:new T.Vector3(),p:new T.Vector3(),c:new T.Color(),s:1,g:0,drag:0,tw:0});
 let pCursor=0;
-function emit(p,v,col,life,size,g,drag,tw){ const q=parts[pCursor]; pCursor=(pCursor+1)%MAXP; q.p.copy(p); q.v.copy(v); q.c.copy(L(col)); q.life=q.max=life; q.s=size; q.g=g||0; q.drag=drag||0; q.tw=tw||0; }
+let pAlive=0, pDirty=false;
+function emit(p,v,col,life,size,g,drag,tw){ pDirty=true; const q=parts[pCursor]; pCursor=(pCursor+1)%MAXP; q.p.copy(p); q.v.copy(v); q.c.copy(L(col)); q.life=q.max=life; q.s=size; q.g=g||0; q.drag=drag||0; q.tw=tw||0; }
 const tmpV=new T.Vector3();
 function burst(at,col,n,speed,life,size){ for(let i=0;i<n;i++){ tmpV.set(Math.random()-.5,Math.random()-.5,Math.random()-.5).normalize().multiplyScalar(speed*(.55+Math.random()*.6)); emit(at,tmpV,Array.isArray(col)?col[i%col.length]:col,life*(.7+Math.random()*.5),size,-2.6,1.2,1); } }
 /* Fireworks and fountains are placed inside what the camera sees (red team / hype study B, 2026-10-29): before, the sky volleys
@@ -1589,9 +1590,9 @@ function skyPoint(nx,ny,z){ camera.updateMatrixWorld(); const o=camera.position,
 const fitX=(x,z)=>x*Math.min(1,halfWAt(z)*.85/6.5);
 function starburst(at,col,n,speed,size){ for(let i=0;i<n;i++){ const a=Math.random()*Math.PI*2, e=(Math.random()-.2)*Math.PI*.9; tmpV.set(Math.cos(a)*Math.cos(e),Math.sin(e),Math.sin(a)*Math.cos(e)).multiplyScalar(speed*(.85+Math.random()*.3)); emit(at,tmpV,Array.isArray(col)?col[i%col.length]:col,1.4+Math.random()*.6,size||.9,-3.5,.9,1); } }
 function fountain(at,col,n,h,spread){ for(let i=0;i<n;i++){ tmpV.set((Math.random()-.5)*(spread||1.2),h*(.8+Math.random()*.4),(Math.random()-.5)*(spread||1.2)); emit(at,tmpV,col,1.1+Math.random()*.5,.2+Math.random()*.1,-9.8,.25,1); } }
-function stepParticles(dt){
+function stepParticles(dt){ if(!pDirty&&!pAlive) return; pDirty=false; pAlive=0; /* nothing alive: no loop, no upload */
   for(let i=0;i<MAXP;i++){ const q=parts[i];
-    if(q.life>0){ q.life-=dt; q.v.y+=q.g*dt; q.v.multiplyScalar(Math.max(0,1-q.drag*dt)); q.p.addScaledVector(q.v,dt);
+    if(q.life>0){ pAlive++; q.life-=dt; q.v.y+=q.g*dt; q.v.multiplyScalar(Math.max(0,1-q.drag*dt)); q.p.addScaledVector(q.v,dt);
       const k=Math.max(0,q.life/q.max); pPos[i*3]=q.p.x; pPos[i*3+1]=q.p.y; pPos[i*3+2]=q.p.z; pCol[i*3]=q.c.r*1.6; pCol[i*3+1]=q.c.g*1.6; pCol[i*3+2]=q.c.b*1.6; pSize[i]=q.s*(.35+.65*k); pAlpha[i]=Math.min(1,k*1.8)*(q.tw?(.55+Math.random()*.45):1);
     } else { pAlpha[i]=0; pSize[i]=0; } }
   pGeo.attributes.position.needsUpdate=pGeo.attributes.color.needsUpdate=pGeo.attributes.size.needsUpdate=pGeo.attributes.alpha.needsUpdate=true;
@@ -1612,12 +1613,18 @@ confetti.instanceMatrix.setUsage(T.DynamicDrawUsage); confetti.frustumCulled=fal
 const conf=[]; const dummy=new T.Object3D();
 for(let i=0;i<CONF;i++){ conf.push({on:false,p:new T.Vector3(),v:new T.Vector3(),r:new T.Euler(),w:new T.Vector3(),ph:Math.random()*6}); dummy.scale.set(0,0,0); dummy.updateMatrix(); confetti.setMatrixAt(i,dummy.matrix); confetti.setColorAt(i,new T.Color(1,1,1)); }
 let confNext=0;
-function confettiRain(cols,n,zc,zs,y0,yr){ for(let k=0;k<n;k++){ const i=confNext; confNext=(confNext+1)%CONF; const c=conf[i]; c.on=true; c.p.set((Math.random()-.5)*Math.min(14,2.1*halfWAt(zc||-2)),(y0||5)+Math.random()*(yr||9),(zc||-2)+(Math.random()-.5)*(zs||9)); c.v.set((Math.random()-.5)*.5,-(.9+Math.random()*.9),(Math.random()-.5)*.3); c.w.set(2+Math.random()*6,2+Math.random()*6,Math.random()*4); c.g=0; confetti.setColorAt(i,L(cols[i%cols.length]).multiplyScalar(1.15)); } confetti.instanceColor.needsUpdate=true; }
-function confettiCannon(side,cols,n){ for(let k=0;k<n;k++){ const i=confNext; confNext=(confNext+1)%CONF; const c=conf[i]; c.on=true; c.g=1; c.p.set(side*(4.6+Math.random()*.6),.3+Math.random()*.3,-1.4+(Math.random()-.5)*1.2); c.v.set(-side*(1.6+Math.random()*4.2),6+Math.random()*6,(Math.random()-.3)*2.4); c.w.set(3+Math.random()*8,3+Math.random()*8,Math.random()*5); confetti.setColorAt(i,L(cols[k%cols.length]).multiplyScalar(1.15)); } confetti.instanceColor.needsUpdate=true; }
-function stepConfetti(dt,t){ for(let i=0;i<CONF;i++){ const c=conf[i]; if(!c.on) continue; if(c.g){ c.v.y=Math.max(c.v.y-9*dt,-1.1); c.v.x*=1-1.4*dt; c.v.z*=1-1.4*dt; } c.p.addScaledVector(c.v,dt); c.p.x+=Math.sin(t*1.9+c.ph)*dt*.6; c.r.x+=c.w.x*dt; c.r.y+=c.w.y*dt; c.r.z+=c.w.z*dt;
-  if(c.p.y<0.02){ c.p.y=0.02; c.v.set(0,0,0); c.w.set(0,0,0); c.r.x=-Math.PI/2; c.r.y=0; }
+function confettiRain(cols,n,zc,zs,y0,yr){ for(let k=0;k<n;k++){ const i=confNext; confNext=(confNext+1)%CONF; const c=conf[i]; c.on=true; c.rest=false; c.p.set((Math.random()-.5)*Math.min(14,2.1*halfWAt(zc||-2)),(y0||5)+Math.random()*(yr||9),(zc||-2)+(Math.random()-.5)*(zs||9)); c.v.set((Math.random()-.5)*.5,-(.9+Math.random()*.9),(Math.random()-.5)*.3); c.w.set(2+Math.random()*6,2+Math.random()*6,Math.random()*4); c.g=0; confetti.setColorAt(i,L(cols[i%cols.length]).multiplyScalar(1.15)); } confetti.instanceColor.needsUpdate=true; }
+function confettiCannon(side,cols,n){ for(let k=0;k<n;k++){ const i=confNext; confNext=(confNext+1)%CONF; const c=conf[i]; c.on=true; c.rest=false; c.g=1; c.p.set(side*(4.6+Math.random()*.6),.3+Math.random()*.3,-1.4+(Math.random()-.5)*1.2); c.v.set(-side*(1.6+Math.random()*4.2),6+Math.random()*6,(Math.random()-.3)*2.4); c.w.set(3+Math.random()*8,3+Math.random()*8,Math.random()*5); confetti.setColorAt(i,L(cols[k%cols.length]).multiplyScalar(1.15)); } confetti.instanceColor.needsUpdate=true; }
+/* Hype pass (2026-10-29): once the card has settled, confetti in front of it that would cross its face (and so its text or the
+   scouting report) is taken away; pieces that have landed stop being redrawn, so a still frame costs nothing. */
+const confV=new T.Vector3();
+function cardShield(){ card.updateMatrixWorld(); let x0=1,x1=-1,y0=1,y1=-1; [[-1.2,1.7],[1.2,1.7],[-1.2,-1.7],[1.2,-1.7]].forEach(([x,y])=>{ confV.set(x,y,0); card.localToWorld(confV).project(camera); x0=Math.min(x0,confV.x); x1=Math.max(x1,confV.x); y0=Math.min(y0,confV.y); y1=Math.max(y1,confV.y); }); return {x0,x1,y0,y1,z:CARD_POS.z-.15}; }
+function stepConfetti(dt,t,shield){ let moved=false; for(let i=0;i<CONF;i++){ const c=conf[i]; if(!c.on) continue;
+  if(shield&&c.p.z>shield.z){ confV.copy(c.p).project(camera); if(confV.x>shield.x0&&confV.x<shield.x1&&confV.y>shield.y0&&confV.y<shield.y1){ c.on=false; dummy.scale.set(0,0,0); dummy.updateMatrix(); confetti.setMatrixAt(i,dummy.matrix); moved=true; continue; } }
+  if(c.rest) continue; moved=true; if(c.g){ c.v.y=Math.max(c.v.y-9*dt,-1.1); c.v.x*=1-1.4*dt; c.v.z*=1-1.4*dt; } c.p.addScaledVector(c.v,dt); c.p.x+=Math.sin(t*1.9+c.ph)*dt*.6; c.r.x+=c.w.x*dt; c.r.y+=c.w.y*dt; c.r.z+=c.w.z*dt;
+  if(c.p.y<0.02){ c.p.y=0.02; c.v.set(0,0,0); c.w.set(0,0,0); c.r.x=-Math.PI/2; c.r.y=0; c.rest=true; }
   dummy.position.copy(c.p); dummy.rotation.copy(c.r); dummy.scale.set(1,1,1); dummy.updateMatrix(); confetti.setMatrixAt(i,dummy.matrix); }
-  confetti.instanceMatrix.needsUpdate=true; }
+  if(moved) confetti.instanceMatrix.needsUpdate=true; }
 function clearConfetti(){ for(let i=0;i<CONF;i++){ conf[i].on=false; dummy.scale.set(0,0,0); dummy.updateMatrix(); confetti.setMatrixAt(i,dummy.matrix);} confetti.instanceMatrix.needsUpdate=true; }
 
 /* ================= pack, card, coin, light rays ================= */
@@ -1777,12 +1784,12 @@ const freezeAt=(t)=>freezeS&&t>=FREEZE_END-freezeS*FREEZE_K&&t<FREEZE_END?FREEZE
 let vtt=0; const slowAt=(t)=>REDUCED?1:Math.min(1-.68*Math.max(0,Math.min(1,(t-3.6)/.12,(4.15-t)/.2)),freezeAt(t)); let camK=1, camRest=new T.Vector3(0,1.05,6.6), lookRest=new T.Vector3(0,2.15,-1.2), coinStopX=-2.2, coinLift=0;
 const COIN_ON_CARD=new T.Vector3(-1.1+112/CW*2.2, CARD_POS.y+1.6-304/CH*3.2, CARD_POS.z+.07);
 function startPlayer(i){
-  idx=i; const p=cur(); fired={}; t0=clock(); vtt=0; phase="run"; flash=0; SFX.bed(.05); freezeS=FREEZE_S[tierLevel(p.tier)]; aura.visible=false; endSig();
+  idx=i; const p=cur(); fired={}; t0=clock(); vtt=0; phase="run"; flash=0; SFX.bed(.05); freezeS=FREEZE_S[tierLevel(p.tier)]; aura.visible=false; endSig(); tiltX=tiltY=tiltTX=tiltTY=0;
   if(packFace.map===packTex.tx){ drawPack(packTex.ctx,512,736); packTex.tx.needsUpdate=true; } sheenMat.uniforms.tint.value.copy(L(TIER[p.tier].glow)); packFace.emissive.setRGB(0,0,0);
   drawCardBack(back.ctx,p,0); back.tx.needsUpdate=true; drawCardFront(front.ctx,p,true); front.tx.needsUpdate=true; frontFull=false; count=null; ovrMesh.visible=false;
   coinTex.ctx.setTransform(1,0,0,1,0,0); coinTex.ctx.clearRect(0,0,1024,1024); coinFace(coinTex.ctx,p.club,512,512,510); coinTex.tx.needsUpdate=true;
   setFlagNation(p.nation); flags.forEach(f=>{f.target=0; f.drop=0; f.mesh.visible=false; f.mesh.scale.y=.001;});
-  clearConfetti(); clearSmoke(); clearChunks(); parts.forEach(q=>q.life=0); pillar.visible=false; crack.material.color.setScalar(0); packLight.intensity=0; pack.position.set(0,40,-1.2); pack.scale.setScalar(1);
+  clearConfetti(); clearSmoke(); clearChunks(); parts.forEach(q=>q.life=0); pDirty=true; pillar.visible=false; crack.material.color.setScalar(0); packLight.intensity=0; pack.position.set(0,40,-1.2); pack.scale.setScalar(1);
   frontMat.map=back.tx; frontMat.needsUpdate=true;
   card.visible=false; coin.visible=false; pack.visible=true; rays.material.opacity=0; l3.classList.remove("on");
   setWho((order[idx]==="daniel"?"Daniel's":"Nik's")+" Special Player");
@@ -2033,7 +2040,8 @@ function tick(draw){
   for(let i=queue.length-1;i>=0;i--) if(queue[i].t<=now){ const q=queue.splice(i,1)[0]; q.fn(); }
   const sc=phase==="run"?slowAt(vtt):1; if(phase==="run") vtt+=dt*sc; const tt=vtt;
   if(phase==="run") run(tt);
-  else { const k=now-settledAt; camPos.copy(camRest); camPos.z-=(camK>1?.1:.5); camLook.copy(lookRest); card.rotation.y=Math.sin(k*.7)*.14+(REDUCED?0:scoutFlip(k)); card.position.y=CARD_POS.y+Math.sin(k*1.5)*.03; rays.rotation.z=now*.06;
+  else { const k=now-settledAt; camPos.copy(camRest); camPos.z-=(camK>1?.1:.5); camLook.copy(lookRest); tiltX+=(tiltTX-tiltX)*Math.min(1,dt*6); tiltY+=(tiltTY-tiltY)*Math.min(1,dt*6);
+    card.rotation.y=Math.sin(k*.7)*.14+(REDUCED?0:scoutFlip(k))+tiltY; card.rotation.x=tiltX; card.position.y=CARD_POS.y+Math.sin(k*1.5)*.03; rays.rotation.z=now*.06;
     if((k%4)<.9) sheenMat.uniforms.p.value=lerp(-2.6,2.6,(k%4)/.9);
     if(!REDUCED&&Math.random()<dt*1.2){ const v=SHIELD[(Math.random()*SHIELD.length)|0]; emit(card.localToWorld(new T.Vector3(v[0]*1.03,v[1]*1.03,.08)),new T.Vector3(0,0,0),0xfff6d8,.45,.5,0,0,0); }
     
@@ -2044,7 +2052,7 @@ function tick(draw){
   flags.forEach((f,i)=>{ if(!f.mesh.visible) return; f.drop+=(f.target-f.drop)*Math.min(1,dt*2.6); f.mesh.scale.y=Math.max(.001,f.drop);
     const a=f.mesh.geometry.attributes.position; for(let j=0;j<a.count;j++){ const x=f.base[j*3], y=f.base[j*3+1], d=-y/f.h; a.array[j*3+2]=(Math.sin(x*.9+now*2.2+i)*.5+Math.sin(y*.6+now*1.6+i*.5)*.35)*d; } a.needsUpdate=true; f.mesh.geometry.computeVertexNormals(); });
   stepSig(now); stepCount(now);
-  stepParticles(dt*sc); stepChunks(dt*sc); stepConfetti(dt,now); stepSmoke(dt); sheenMat.uniforms.t.value=now%1000;
+  stepParticles(dt*sc); stepChunks(dt*sc); stepConfetti(dt,now,phase!=="run"&&card.visible?cardShield():null); stepSmoke(dt); sheenMat.uniforms.t.value=now%1000;
   ledTex.tx.offset.x=(now*.04)%1; if(boardTex) boardTex.offset.x=(now*.05)%1;
   pulse*=Math.pow(.004,dt); packPulse*=Math.pow(.002,dt); flash*=Math.pow(.02,dt); shake*=Math.pow(.02,dt);
   blob.material.opacity=card.visible?clamp01(1-(card.position.y-CARD_POS.y)*1.2):pack.visible?1:0;
@@ -2068,7 +2076,22 @@ function guardedSkip(){
   guardUntil=clock()+GUARD_S; hint(true); later(()=>{ if(guardUntil&&clock()>=guardUntil-.05){ guardUntil=0; hint(false); } },GUARD_S*1000);
 }
 $("skip").addEventListener("click",skip);
-stage.addEventListener("click",()=>{ if(unlockPending){ unlockPending=false; unlockDone=true; return; } guardedSkip(); });
+/* Idea 9: while the card holds, it tilts with the mouse or a finger drag (the foil already shines with the angle), and a tap ON
+   the card turns to the scouting report early (hold times stay the default). A tap elsewhere keeps the skip rules above; a
+   drag is never a tap. Reduced motion: no tilt. */
+let tiltX=0, tiltY=0, tiltTX=0, tiltTY=0, downAt=null, pressed=false;
+const ray=new T.Raycaster(), ndc=new T.Vector2();
+function onCard(x,y){ if(!card.visible) return false; ndc.set(x/W*2-1,1-y/H*2); ray.setFromCamera(ndc,camera); return ray.intersectObjects([cardBody,frontMesh,backMesh],false).length>0; }
+function aimTilt(x,y){ if(REDUCED||phase!=="settled") return; tiltTY=Math.max(-1,Math.min(1,x/W*2-1))*.35; tiltTX=Math.max(-1,Math.min(1,y/H*2-1))*.2; }
+function toScout(){ if(phase!=="settled") return; const k=clock()-settledAt; if(k<SCOUT_IN){ finishCount(); settledAt=clock()-SCOUT_IN; } }
+stage.addEventListener("pointerdown",e=>{ downAt=[e.clientX,e.clientY]; pressed=true; if(e.pointerType!=="mouse") aimTilt(e.clientX,e.clientY); });
+stage.addEventListener("pointermove",e=>{ if(e.pointerType==="mouse"||pressed) aimTilt(e.clientX,e.clientY); if(e.pointerType==="mouse") stage.style.cursor=phase==="settled"&&onCard(e.clientX,e.clientY)?"pointer":""; });
+const tiltHome=e=>{ pressed=false; if(!e||e.pointerType!=="mouse"){ tiltTX=tiltTY=0; } };
+stage.addEventListener("pointerup",tiltHome); stage.addEventListener("pointercancel",tiltHome); stage.addEventListener("pointerleave",()=>{ pressed=false; tiltTX=tiltTY=0; });
+stage.addEventListener("click",e=>{ if(unlockPending){ unlockPending=false; unlockDone=true; return; }
+  if(downAt&&Math.hypot(e.clientX-downAt[0],e.clientY-downAt[1])>12){ downAt=null; return; } downAt=null;
+  if(phase==="settled"){ if(onCard(e.clientX,e.clientY)) toScout(); return; }
+  guardedSkip(); });
 /* Replay plays both reveals again here only: no message to the game (Continue still sends its one message), no network */
 function replay(){ guardUntil=0; hint(false); startPlayer(0); }
 $("replay").addEventListener("click",replay);
