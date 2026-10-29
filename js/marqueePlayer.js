@@ -5,10 +5,10 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  // r86 Marquee Player (Nik 2026-10-27): each manager gets one player from the FIFA 17 top 200, never the same one.
+  // r86 Special Player (Nik 2026-10-27): each manager gets one player from the FIFA 17 top 200, never the same one.
   // The draw is read from the Showdown's own Firebase id (64 random hex digits, the same on both phones), so it costs no
   // read, no write and no Rules change, and nothing is added to any hashed document (Sol round 2 design rule). Only a
-  // Showdown confirmed on r86 or later has a Marquee Player: older Showdowns and saves show none, never an error.
+  // Showdown confirmed on r86 or later has a Special Player: older Showdowns and saves show none, never an error.
   // The confirm time is the shared Setup's last updatedAt (the Rules pin it to request.time at SHOWDOWN_CONFIRMED).
   // MARQUEE_FROM_MS is set to the r86 release time in the release PR.
   const MARQUEE_FROM_MS=Date.parse("2026-10-28T00:00:00Z");

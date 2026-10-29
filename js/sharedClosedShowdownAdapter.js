@@ -50,7 +50,7 @@
     if(projection.managerRecords.playerOne.totalPoints!==totals.playerOne||projection.managerRecords.playerTwo.totalPoints!==totals.playerTwo)throw new Error("CLOSED_TOTALS_MISMATCH");
     if(!cadPlain(final)||!cadPlain(final.totals)||final.totals.playerOne!==totals.playerOne||final.totals.playerTwo!==totals.playerTwo||final.winner!==witness.winner||final.winner!==cadWinner(totals.playerOne,totals.playerTwo)||final.margin!==Math.abs(totals.playerOne-totals.playerTwo)||final.seasonsPlayed!==witness.totalSeasons)throw new Error("CLOSED_FINAL_MISMATCH");
     const entry=cadEntry(rivalryId,"completed",read.projection,{totals:{playerOne:totals.playerOne,playerTwo:totals.playerTwo},winner:witness.winner});
-    // r86 Marquee Player: the Setup's confirm time, display metadata only (missing on older reads: null, never an error).
+    // r86 Special Player: the Setup's confirm time, display metadata only (missing on older reads: null, never an error).
     entry.setupConfirmedAt=Number.isFinite(read.setupConfirmedAt)?read.setupConfirmedAt:null;
     return entry;
   }

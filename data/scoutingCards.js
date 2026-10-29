@@ -5,7 +5,7 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(){
   "use strict";
 
-  // r86 Marquee Player scouting cards, one per row of data/marqueePlayers.js in the same order (133 new cards written for the launch top 300, HO-037). Written once for r86 (Nik 2026-10-27 "All three"), checked by the lead; source content/r86/*.json on branch content/r86-pack.
+  // r86 Special Player scouting cards, one per row of data/marqueePlayers.js in the same order (133 new cards written for the launch top 300, HO-037). Written once for r86 (Nik 2026-10-27 "All three"), checked by the lead; source content/r86/*.json on branch content/r86-pack.
   const freeze=list=>Object.freeze(list.map(row=>Object.freeze(row)));
   const CARDS=freeze([
     {"rank": 1, "name": "Neymar", "club": "FC Barcelona", "position": "LW", "style": "Inventive attacking dribbler", "report": "A skilful wide attacker who excels in one on one situations, using close control and changes of direction to beat defenders. He can create chances for teammates or finish moves himself. FIFA 17: 92 overall, 95 potential.", "special": "His improvisation and close control unlock even crowded defensive lines."},
