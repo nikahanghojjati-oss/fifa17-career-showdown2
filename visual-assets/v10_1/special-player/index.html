@@ -19,7 +19,7 @@
 }
 html, body { height: 100%; }
 body { margin: 0; background: var(--ink); color: var(--ivory); font-family: var(--num); overflow: hidden; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
-#stage { position: fixed; inset: 0; }
+#stage { position: fixed; inset: 0; touch-action: none; } /* idea 9: a finger drag tilts the card instead of panning */
 #stage canvas { display: block; width: 100%; height: 100%; }
 .hud { position: fixed; inset: 0; pointer-events: none; }
 .top { position: absolute; left: 0; right: 0; top: 0; padding: calc(env(safe-area-inset-top, 0px) + 12px) 16px 0; text-align: center; }
@@ -60,6 +60,26 @@ body { margin: 0; background: var(--ink); color: var(--ivory); font-family: var(
 @media (min-width: 900px) { .slot i.rk { display: none; } } /* desktop shows the rank in the name panel */
 .cta { font: 800 18px/1 var(--disp); letter-spacing: .08em; text-transform: uppercase; color: #140e04; background: linear-gradient(180deg, #fff6d2, var(--gold) 55%, #c4943e); border: 0; padding: 13px 22px 12px; box-shadow: 0 0 0 1px #000, inset 0 -2px 0 rgba(0,0,0,.2); cursor: pointer; white-space: nowrap; transition: filter .3s; }
 .cta[disabled] { filter: grayscale(.85) brightness(.55); cursor: default; }
+/* hype idea 7 (2026-10-29): Replay beside Continue once both cards are out; the hint for a guarded skip shows in the who line */
+.mid { display: flex; gap: 8px; align-items: stretch; justify-content: center; min-width: 0; }
+.again { flex: none; width: 44px; padding: 0; display: grid; place-items: center; color: var(--gold-hi); background: rgba(8,7,6,.82); border: 1px solid rgba(241,195,90,.75); cursor: pointer; }
+.again[hidden] { display: none; }
+.again svg { width: 22px; height: 22px; }
+.again:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 2px; }
+.who.hint { color: #fff; }
+/* idea 3: the handover line pops big in the top band (scale only, so nothing moves in the layout) */
+.who { transition: transform .45s cubic-bezier(.2,1.5,.4,1), color .3s; transform-origin: 50% 0; }
+.who.big { transform: scale(var(--pop, 1.8)); color: #fff; }
+@media (prefers-reduced-motion: reduce) { .who { transition: none; } .who.big { transform: none; } }
+/* idea 11: the better pull's name pulses gold; Continue shines once, then pulses gently (faster after a top-3 pull). Glow only. */
+.slot span.best { animation: best 2.4s ease-in-out infinite; }
+@keyframes best { 0%, 100% { color: #fff8e6; text-shadow: none; } 50% { color: var(--gold-hi); text-shadow: 0 0 10px rgba(241,195,90,.95), 0 0 2px #fff6d2; } }
+.cta.shine { position: relative; overflow: hidden; animation: ctaPulse 2.6s ease-in-out 1.2s infinite; }
+.cta.shine.fast { animation-duration: 1.5s; }
+.cta.shine::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.9) 50%, transparent 65%); transform: translateX(-130%); animation: ctaShine 1.1s ease-out .15s 1 forwards; }
+@keyframes ctaShine { to { transform: translateX(130%); } }
+@keyframes ctaPulse { 0%, 100% { filter: drop-shadow(0 0 0 rgba(241,195,90,0)); } 50% { filter: drop-shadow(0 0 12px rgba(241,195,90,.9)); } }
+@media (prefers-reduced-motion: reduce) { .slot span.best { animation: none; color: var(--gold-hi); } .cta.shine { animation: none; } .cta.shine::after { display: none; } }
 .tools { max-width: 1000px; margin: 8px auto 0; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
 .tools button, .tools select { font: 700 13px/1 var(--num); letter-spacing: .16em; text-transform: uppercase; color: var(--ivory); background: rgba(8,7,6,.82); border: 1px solid rgba(241,195,90,.55); border-radius: 999px; padding: 8px 14px; cursor: pointer; }
 body.game .tools { display: none; }
@@ -82,7 +102,10 @@ body.game #spk { display: grid; }
 @media (max-width: 899px) { .l3 { display: none; } }
 @media (max-width: 640px) {
   .strip { grid-template-columns: 1fr 1fr; gap: 8px 12px; }
-  .cta { grid-column: 1 / 3; grid-row: 2; font-size: 17px; padding: 12px; }
+  .mid { grid-column: 1 / 3; grid-row: 2; }
+  .cta { flex: 1; min-width: 0; font-size: 17px; padding: 12px; }
+  .again:not([hidden]) + .cta { font-size: 15px; letter-spacing: .04em; padding: 12px 6px; overflow: hidden; text-overflow: ellipsis; } /* Replay beside it: the label still fits from 360 px */
+  .again { width: 42px; }
   .slot span { font-size: 18px; }
   .slot b { letter-spacing: .18em; }
   .slot span.wait { font-size: 13px; letter-spacing: .12em; } /* "REVEALING" fits from 360 px */
@@ -108,7 +131,7 @@ body.game #spk { display: grid; }
   <div class="bottom" id="bottom">
     <div class="strip">
       <div class="slot dan"><em>01</em><b>Daniel</b><span id="slotD" class="wait">Revealing</span><i class="rk" id="rkD"></i></div>
-      <button class="cta" id="cta" type="button" disabled>Continue to Career Start</button>
+      <div class="mid"><button type="button" id="again" class="again" hidden aria-label="Replay both reveals" title="Replay both reveals"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1"/><path d="M3 3.5v5h5"/></svg></button><button class="cta" id="cta" type="button" disabled>Continue to Career Start</button></div>
       <div class="slot nik"><em>02</em><b>Nik</b><span id="slotN" class="wait">Next</span><i class="rk" id="rkN"></i></div>
     </div>
     <div class="tools">
@@ -1150,6 +1173,10 @@ const PAIRS = {
        nik:    { name:"Oscar", short:"OSCAR", pos:"CAM", nation:"BR", club:null, number:8, ovr:83, pot:86, rank:165, tier:"bronze", stats:[["PAC",73],["SHO",77],["PAS",83],["DRI",85],["DEF",42],["PHY",62]] } }
 };
 const TIERLABEL = { "black-blue-gold":"TOP 3", "blue-gold":"TOP 10", "gold":"TOP 20", "silver":"TOP 50", "bronze":"TOP 300" };
+/* hype ideas (2026-10-29): one tier scale for every effect, 0 = bronze (rank 51+) up to 4 = black-blue-gold (top 3) */
+const TIER_ORDER=["bronze","silver","gold","blue-gold","black-blue-gold"]; const tierLevel=(tier)=>Math.max(0,TIER_ORDER.indexOf(tier));
+/* idea 4 timing (also read by the skip guard): the pack's colour ladder steps from 2.45 s, one step every .26 s */
+const LADDER_T0=2.45, LADDER_DT=.26;
 /* card finishes: g = background stops, line = inner frame, text/sub = type colours, glow = light colour, power = how big the show is */
 const TIER = {
   "black-blue-gold": { g:["#1d2440","#07080d","#0a0f22","#1a2a66"], facet:"rgba(90,140,255,.10)", line:"#e9b950", text:"#f3cd6b", sub:"#cfdcff", band:["#fff2c0","#e4b24c","#8f6420"], bandText:"#120c02", glow:0x4d86ff, power:1.8 },
@@ -1377,13 +1404,13 @@ function fitLine(ctx, txt, y, size, weight, col, sp){
   set(); while(ctx.measureText(txt).width>room&&fs>10){ fs-=.5; set(); }
   emboss(ctx,txt,CW/2,y,col); if(ctx.letterSpacing!==undefined) ctx.letterSpacing="0px";
 }
-function drawCardFront(ctx, p){
+function drawCardFront(ctx, p, noOvr){
   const t=TIER[p.tier]; cardBase(ctx,t);
   ctx.save(); shieldPath(ctx,14); ctx.clip();
   const sp=ctx.createRadialGradient(318,210,10,318,210,190); sp.addColorStop(0,"rgba(255,255,255,.28)"); sp.addColorStop(1,"rgba(255,255,255,0)"); ctx.fillStyle=sp; ctx.fillRect(120,40,392,360);
   shirtBack(ctx,p,318,96,1.3);
   ctx.textAlign="center";
-  ctx.font='600 112px "Barlow Condensed"'; emboss(ctx,String(p.ovr),LEFT_X,150,t.text,true);
+  if(!noOvr){ ctx.font='600 112px "Barlow Condensed"'; emboss(ctx,String(p.ovr),LEFT_X,150,t.text,true); } /* idea 8: the count-up draws it until it lands */
   leftStack(ctx,p,t,3);
   const nb=ctx.createLinearGradient(0,408,0,462); nb.addColorStop(0,t.band[0]); nb.addColorStop(.5,t.band[1]); nb.addColorStop(1,t.band[2]); ctx.fillStyle=nb; ctx.fillRect(0,412,CW,52);
   ctx.fillStyle="rgba(255,255,255,.5)"; ctx.fillRect(0,412,CW,1.5); ctx.fillStyle="rgba(0,0,0,.3)"; ctx.fillRect(0,463,CW,2);
@@ -1563,7 +1590,8 @@ const pMat=new T.ShaderMaterial({transparent:true, depthWrite:false, blending:T.
 const points=new T.Points(pGeo,pMat); points.frustumCulled=false; points.renderOrder=2; scene.add(points);
 const parts=[]; for(let i=0;i<MAXP;i++) parts.push({life:0,max:1,v:new T.Vector3(),p:new T.Vector3(),c:new T.Color(),s:1,g:0,drag:0,tw:0});
 let pCursor=0;
-function emit(p,v,col,life,size,g,drag,tw){ const q=parts[pCursor]; pCursor=(pCursor+1)%MAXP; q.p.copy(p); q.v.copy(v); q.c.copy(L(col)); q.life=q.max=life; q.s=size; q.g=g||0; q.drag=drag||0; q.tw=tw||0; }
+let pAlive=0, pDirty=false;
+function emit(p,v,col,life,size,g,drag,tw){ pDirty=true; const q=parts[pCursor]; pCursor=(pCursor+1)%MAXP; q.p.copy(p); q.v.copy(v); q.c.copy(L(col)); q.life=q.max=life; q.s=size; q.g=g||0; q.drag=drag||0; q.tw=tw||0; }
 const tmpV=new T.Vector3();
 function burst(at,col,n,speed,life,size){ for(let i=0;i<n;i++){ tmpV.set(Math.random()-.5,Math.random()-.5,Math.random()-.5).normalize().multiplyScalar(speed*(.55+Math.random()*.6)); emit(at,tmpV,Array.isArray(col)?col[i%col.length]:col,life*(.7+Math.random()*.5),size,-2.6,1.2,1); } }
 /* Fireworks and fountains are placed inside what the camera sees (red team / hype study B, 2026-10-29): before, the sky volleys
@@ -1575,9 +1603,9 @@ function skyPoint(nx,ny,z){ camera.updateMatrixWorld(); const o=camera.position,
 const fitX=(x,z)=>x*Math.min(1,halfWAt(z)*.85/6.5);
 function starburst(at,col,n,speed,size){ for(let i=0;i<n;i++){ const a=Math.random()*Math.PI*2, e=(Math.random()-.2)*Math.PI*.9; tmpV.set(Math.cos(a)*Math.cos(e),Math.sin(e),Math.sin(a)*Math.cos(e)).multiplyScalar(speed*(.85+Math.random()*.3)); emit(at,tmpV,Array.isArray(col)?col[i%col.length]:col,1.4+Math.random()*.6,size||.9,-3.5,.9,1); } }
 function fountain(at,col,n,h,spread){ for(let i=0;i<n;i++){ tmpV.set((Math.random()-.5)*(spread||1.2),h*(.8+Math.random()*.4),(Math.random()-.5)*(spread||1.2)); emit(at,tmpV,col,1.1+Math.random()*.5,.2+Math.random()*.1,-9.8,.25,1); } }
-function stepParticles(dt){
+function stepParticles(dt){ if(!pDirty&&!pAlive) return; pDirty=false; pAlive=0; /* nothing alive: no loop, no upload */
   for(let i=0;i<MAXP;i++){ const q=parts[i];
-    if(q.life>0){ q.life-=dt; q.v.y+=q.g*dt; q.v.multiplyScalar(Math.max(0,1-q.drag*dt)); q.p.addScaledVector(q.v,dt);
+    if(q.life>0){ pAlive++; q.life-=dt; q.v.y+=q.g*dt; q.v.multiplyScalar(Math.max(0,1-q.drag*dt)); q.p.addScaledVector(q.v,dt);
       const k=Math.max(0,q.life/q.max); pPos[i*3]=q.p.x; pPos[i*3+1]=q.p.y; pPos[i*3+2]=q.p.z; pCol[i*3]=q.c.r*1.6; pCol[i*3+1]=q.c.g*1.6; pCol[i*3+2]=q.c.b*1.6; pSize[i]=q.s*(.35+.65*k); pAlpha[i]=Math.min(1,k*1.8)*(q.tw?(.55+Math.random()*.45):1);
     } else { pAlpha[i]=0; pSize[i]=0; } }
   pGeo.attributes.position.needsUpdate=pGeo.attributes.color.needsUpdate=pGeo.attributes.size.needsUpdate=pGeo.attributes.alpha.needsUpdate=true;
@@ -1598,12 +1626,19 @@ confetti.instanceMatrix.setUsage(T.DynamicDrawUsage); confetti.frustumCulled=fal
 const conf=[]; const dummy=new T.Object3D();
 for(let i=0;i<CONF;i++){ conf.push({on:false,p:new T.Vector3(),v:new T.Vector3(),r:new T.Euler(),w:new T.Vector3(),ph:Math.random()*6}); dummy.scale.set(0,0,0); dummy.updateMatrix(); confetti.setMatrixAt(i,dummy.matrix); confetti.setColorAt(i,new T.Color(1,1,1)); }
 let confNext=0;
-function confettiRain(cols,n,zc){ for(let k=0;k<n;k++){ const i=confNext; confNext=(confNext+1)%CONF; const c=conf[i]; c.on=true; c.p.set((Math.random()-.5)*Math.min(14,2.1*halfWAt(zc||-2)),5+Math.random()*9,(zc||-2)+(Math.random()-.5)*9); c.v.set((Math.random()-.5)*.5,-(.9+Math.random()*.9),(Math.random()-.5)*.3); c.w.set(2+Math.random()*6,2+Math.random()*6,Math.random()*4); c.g=0; confetti.setColorAt(i,L(cols[i%cols.length]).multiplyScalar(1.15)); } confetti.instanceColor.needsUpdate=true; }
-function confettiCannon(side,cols,n){ for(let k=0;k<n;k++){ const i=confNext; confNext=(confNext+1)%CONF; const c=conf[i]; c.on=true; c.g=1; c.p.set(side*(4.6+Math.random()*.6),.3+Math.random()*.3,-1.4+(Math.random()-.5)*1.2); c.v.set(-side*(1.6+Math.random()*4.2),6+Math.random()*6,(Math.random()-.3)*2.4); c.w.set(3+Math.random()*8,3+Math.random()*8,Math.random()*5); confetti.setColorAt(i,L(cols[k%cols.length]).multiplyScalar(1.15)); } confetti.instanceColor.needsUpdate=true; }
-function stepConfetti(dt,t){ for(let i=0;i<CONF;i++){ const c=conf[i]; if(!c.on) continue; if(c.g){ c.v.y=Math.max(c.v.y-9*dt,-1.1); c.v.x*=1-1.4*dt; c.v.z*=1-1.4*dt; } c.p.addScaledVector(c.v,dt); c.p.x+=Math.sin(t*1.9+c.ph)*dt*.6; c.r.x+=c.w.x*dt; c.r.y+=c.w.y*dt; c.r.z+=c.w.z*dt;
-  if(c.p.y<0.02){ c.p.y=0.02; c.v.set(0,0,0); c.w.set(0,0,0); c.r.x=-Math.PI/2; c.r.y=0; }
+function confettiRain(cols,n,zc,zs,y0,yr){ for(let k=0;k<n;k++){ const i=confNext; confNext=(confNext+1)%CONF; const c=conf[i]; c.on=true; c.rest=false; c.p.set((Math.random()-.5)*Math.min(14,2.1*halfWAt(zc||-2)),(y0||5)+Math.random()*(yr||9),(zc||-2)+(Math.random()-.5)*(zs||9)); c.v.set((Math.random()-.5)*.5,-(.9+Math.random()*.9),(Math.random()-.5)*.3); c.w.set(2+Math.random()*6,2+Math.random()*6,Math.random()*4); c.g=0; confetti.setColorAt(i,L(cols[i%cols.length]).multiplyScalar(1.15)); } confetti.instanceColor.needsUpdate=true; }
+function confettiCannon(side,cols,n){ for(let k=0;k<n;k++){ const i=confNext; confNext=(confNext+1)%CONF; const c=conf[i]; c.on=true; c.rest=false; c.g=1; c.p.set(side*(4.6+Math.random()*.6),.3+Math.random()*.3,-2.2+(Math.random()-.5)*.6); c.v.set(-side*(1.6+Math.random()*4.2),6+Math.random()*6,-Math.random()*1.6); /* behind the card plane (Nik: nothing covers anything) */ c.w.set(3+Math.random()*8,3+Math.random()*8,Math.random()*5); confetti.setColorAt(i,L(cols[k%cols.length]).multiplyScalar(1.15)); } confetti.instanceColor.needsUpdate=true; }
+/* Hype pass (2026-10-29, Nik: nothing covers anything): every confetti source starts and flies behind the card plane, and any
+   piece that would still cross the card's screen rect in front of it (a turning card swings its edges ~1.1 forward) is taken
+   away, from the moment the card appears; pieces that have landed stop being redrawn, so a still frame costs nothing. */
+const confV=new T.Vector3();
+function cardShield(){ card.updateMatrixWorld(); let x0=1,x1=-1,y0=1,y1=-1; [[-1.2,1.7],[1.2,1.7],[-1.2,-1.7],[1.2,-1.7]].forEach(([x,y])=>{ confV.set(x,y,0); card.localToWorld(confV).project(camera); x0=Math.min(x0,confV.x); x1=Math.max(x1,confV.x); y0=Math.min(y0,confV.y); y1=Math.max(y1,confV.y); }); const pad=.02; return {x0:x0-pad,x1:x1+pad,y0:y0-pad,y1:y1+pad,z:phase==="settled"?CARD_POS.z-.2:CARD_POS.z-1.25}; }
+function stepConfetti(dt,t,shield){ let moved=false; for(let i=0;i<CONF;i++){ const c=conf[i]; if(!c.on) continue;
+  if(shield&&c.p.z>shield.z){ confV.copy(c.p).project(camera); if(confV.x>shield.x0&&confV.x<shield.x1&&confV.y>shield.y0&&confV.y<shield.y1){ c.on=false; dummy.scale.set(0,0,0); dummy.updateMatrix(); confetti.setMatrixAt(i,dummy.matrix); moved=true; continue; } }
+  if(c.rest) continue; moved=true; if(c.g){ c.v.y=Math.max(c.v.y-9*dt,-1.1); c.v.x*=1-1.4*dt; c.v.z*=1-1.4*dt; } c.p.addScaledVector(c.v,dt); c.p.x+=Math.sin(t*1.9+c.ph)*dt*.6; c.r.x+=c.w.x*dt; c.r.y+=c.w.y*dt; c.r.z+=c.w.z*dt;
+  if(c.p.y<0.02){ c.p.y=0.02; c.v.set(0,0,0); c.w.set(0,0,0); c.r.x=-Math.PI/2; c.r.y=0; c.rest=true; }
   dummy.position.copy(c.p); dummy.rotation.copy(c.r); dummy.scale.set(1,1,1); dummy.updateMatrix(); confetti.setMatrixAt(i,dummy.matrix); }
-  confetti.instanceMatrix.needsUpdate=true; }
+  if(moved) confetti.instanceMatrix.needsUpdate=true; }
 function clearConfetti(){ for(let i=0;i<CONF;i++){ conf[i].on=false; dummy.scale.set(0,0,0); dummy.updateMatrix(); confetti.setMatrixAt(i,dummy.matrix);} confetti.instanceMatrix.needsUpdate=true; }
 
 /* ================= pack, card, coin, light rays ================= */
@@ -1625,6 +1660,9 @@ const crack=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({map:cra
 crack.position.z=(PACK_D+.06)/2+.05; pack.add(crack);
 const pillarMat=new T.MeshBasicMaterial({map:crackTex.tx, transparent:true, depthWrite:false, blending:T.AdditiveBlending, fog:false, color:new T.Color(0,0,0)});
 const pillarGeo=new T.PlaneGeometry(1,1); pillarGeo.translate(0,.5,0); const pillar=new T.Mesh(pillarGeo,pillarMat); pillar.visible=false; scene.add(pillar);
+/* idea 5: light beams behind the card at the flash (centre beam from the top 20, two side beams from the top 10) */
+const beamMat=new T.MeshBasicMaterial({map:crackTex.tx, transparent:true, depthWrite:false, blending:T.AdditiveBlending, fog:false, color:new T.Color(0,0,0)});
+const beams=[0,1,2].map(()=>{ const b=new T.Mesh(pillarGeo,beamMat); b.visible=false; scene.add(b); return b; });
 const packLight=new T.PointLight(L(0xffc457),0,9,2); packLight.position.set(0,1.3,-.4); scene.add(packLight);
 const CHUNKS=[]; {
   const qw=(PACK_W+.12)/2, qh=(PACK_H+.12)/2;
@@ -1666,6 +1704,11 @@ const sheenMat=new T.ShaderMaterial({transparent:true, depthWrite:false, blendin
     vec3 holo=.5+.5*cos(6.2831*(vP.x*.35-vP.y*.25+f*1.8+t*.07)+vec3(0.,2.1,4.2)); holo=mix(holo,tint,.55);
     float h=fract(sin(dot(floor(vP*55.),vec2(12.9898,78.233)))*43758.5453); float gl=step(.993,h)*pow(max(0.,sin(t*2.6+h*90.)),14.);
     vec3 c=holo*(.05+f*.55)*.55+vec3(1.)*band*amt*.6+vec3(1.,.95,.8)*gl*1.6; gl_FragColor=vec4(c,1.); }`});
+/* idea 8: the rating counts up from 40 on its own small plane over the face (cheap to redraw), then the face is drawn whole */
+const COUNT_FROM=40, COUNT_S=[.7,.9,1.1,1.4,1.7];
+const ovrTex=canvasTex(280,240,null);
+const ovrMat=new T.MeshStandardMaterial({map:ovrTex.tx, transparent:true, depthWrite:false, metalness:.25, roughness:.38, envMapIntensity:.7});
+const ovrMesh=new T.Mesh(new T.PlaneGeometry(140/CW*2.2,120/CH*3.2),ovrMat); ovrMesh.position.set(LEFT_X/CW*2.2-1.1,1.6-110/CH*3.2,.0595); ovrMesh.visible=false; card.add(ovrMesh);
 const sheenF=new T.Mesh(faceGeo,sheenMat); sheenF.position.z=.061; card.add(sheenF);
 const sheenB=new T.Mesh(faceGeo,sheenMat); sheenB.position.z=-.061; sheenB.rotation.y=Math.PI; card.add(sheenB);
 const CARD_POS=new T.Vector3(0,1.86,-1.2);
@@ -1684,6 +1727,7 @@ const raysTex=canvasTex(512,512,(c)=>{ c.translate(256,256); const r=seeded(9); 
 const rays=new T.Mesh(new T.PlaneGeometry(1,1), new T.MeshBasicMaterial({map:raysTex.tx, transparent:true, depthWrite:false, blending:T.AdditiveBlending, opacity:0, fog:false, color:new T.Color(.35,.35,.35)}));
 rays.position.set(0,1.9,-1.5); rays.scale.set(14,14,1); scene.add(rays);
 const glowTex=canvasTex(256,256,(c)=>{ const g=c.createRadialGradient(128,128,0,128,128,128); g.addColorStop(0,"rgba(255,255,255,1)"); g.addColorStop(.2,"rgba(255,255,255,.5)"); g.addColorStop(1,"rgba(255,255,255,0)"); c.fillStyle=g; c.fillRect(0,0,256,256); }, true);
+const aura=new T.Sprite(new T.SpriteMaterial({map:glowTex.tx, transparent:true, depthWrite:false, blending:T.AdditiveBlending, fog:false, opacity:0})); aura.position.set(0,1.86,-1.65); aura.visible=false; scene.add(aura);
 const glow=new T.Sprite(new T.SpriteMaterial({map:glowTex.tx, transparent:true, depthWrite:false, blending:T.AdditiveBlending, fog:false})); glow.scale.set(0,0,1); glow.position.set(0,1.86,-1.3); scene.add(glow);
 
 /* reflections for the gold: capture the stadium once */
@@ -1722,7 +1766,7 @@ function loadBoards(){ return new Promise(res=>new T.TextureLoader().load("asset
   res(); },undefined,()=>res())); }
 function loadPlate(){ return new Promise(res=>new T.TextureLoader().load("assets/stand.jpg",t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms.plate.value=t; panoMat.uniforms.hasPlate.value=1; res(); },undefined,()=>res())); }
 function buildEnv(){
-  const keep=new Set([pack,card,coin,points,confetti,rays,glow,blob,sun,sun.target,packLight]); smoke.forEach(q=>keep.add(q.sp)); CHUNKS.forEach(q=>keep.add(q.m)); keep.add(pillar); keep.add(boards); flags.forEach(f=>keep.add(f.mesh));
+  const keep=new Set([pack,card,coin,points,confetti,rays,glow,aura,blob,sun,sun.target,packLight]); smoke.forEach(q=>keep.add(q.sp)); CHUNKS.forEach(q=>keep.add(q.m)); keep.add(pillar); beams.forEach(b=>keep.add(b)); keep.add(boards); flags.forEach(f=>keep.add(f.mesh));
   scene.children.slice().forEach(o=>{ if(!keep.has(o)&&!o.isLight) scene.remove(o); });
   scene.fog=null; scene.add(panoSphere,shadowGround,boards);
   panoMat.uniforms.tex.value=pano;
@@ -1734,26 +1778,37 @@ function loadPano(){ return new Promise((res,rej)=>new T.TextureLoader().load("a
 /* ================= timeline ================= */
 const ease={ out:(t)=>1-Math.pow(1-t,3), inOut:(t)=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2, outQuint:(t)=>1-Math.pow(1-t,5) };
 const clamp01=(x)=>Math.max(0,Math.min(1,x));
+const quadInOut=(t)=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+/* idea 1 by tier: top 3 and top 10 get all of the crescendo, top 20 a lighter one, top 50 and rank 51+ only the riser */
+const CRES=[0,0,.5,1,1];
 const lerp=(a,b,k)=>a+(b-a)*k;
 const mpByIdx=(i)=>mpCard(MP_LIST[Math.max(0,Math.min(MP_LIST.length-1,i))]); let pickD=4, pickN=12; const qs=new URLSearchParams(location.search); if(qs.get('d')) pickD=+qs.get('d'); if(qs.get('n')) pickN=+qs.get('n');
+let bothShown=false, guardUntil=0, whoText="", PK=1, packPulse=0;
 let roll=0, pair={daniel:mpByIdx(pickD), nik:mpByIdx(pickN)}, order=["daniel","nik"], idx=0, t0=0, phase="run", shake=0, settledAt=0, fired={}, flash=0, pulse=0;
 const $=(id)=>document.getElementById(id);
 const who=$("who"), slotD=$("slotD"), slotN=$("slotN"), cta=$("cta"), live=$("live"), l3=$("l3");
 const cur=()=>pair[order[idx]];
+function setWho(text){ whoText=text; if(!who.classList.contains("hint")) who.textContent=text; }
+function hint(on){ who.classList.toggle("hint",on); who.textContent=on?"Tap again to skip":whoText; }
 const natCols=(code)=>NATION_COLORS[code]||[0xffffff];
-let vtt=0; const slowAt=(t)=>REDUCED?1:1-.68*Math.max(0,Math.min(1,(t-3.6)/.12,(4.15-t)/.2)); let camK=1, camRest=new T.Vector3(0,1.05,6.6), lookRest=new T.Vector3(0,2.15,-1.2), coinStopX=-2.2, coinLift=0;
+/* idea 1: a short slow-motion freeze on the face turn, just before the white burst (which itself is unchanged): the clock runs at
+   .2x for FREEZE_S real seconds ending at FREEZE_END. Top 3 .2 s, top 10 .16 s, top 20 .1 s, top 50 and rank 51+ none. */
+const FREEZE_S=[0,0,.1,.16,.2], FREEZE_END=9.58, FREEZE_K=.2; let freezeS=0;
+const freezeAt=(t)=>freezeS&&t>=FREEZE_END-freezeS*FREEZE_K&&t<FREEZE_END?FREEZE_K:1;
+let vtt=0; const slowAt=(t)=>REDUCED?1:Math.min(1-.68*Math.max(0,Math.min(1,(t-3.6)/.12,(4.15-t)/.2)),freezeAt(t)); let camK=1, camRest=new T.Vector3(0,1.05,6.6), lookRest=new T.Vector3(0,2.15,-1.2), coinStopX=-2.2, coinLift=0;
 const COIN_ON_CARD=new T.Vector3(-1.1+112/CW*2.2, CARD_POS.y+1.6-304/CH*3.2, CARD_POS.z+.07);
-function startPlayer(i){
-  idx=i; const p=cur(); fired={}; t0=clock(); vtt=0; phase="run"; flash=0;
+function startPlayer(i,bridge){
+  idx=i; const p=cur(); fired={}; t0=clock(); vtt=bridge?BRIDGE_T0:0; phase="run"; camBlendAt=-1; if(!bridge) who.classList.remove("big");
+  if(bridge){ camBlendAt=clock(); camFrom.copy(camPos); lookFrom.copy(camLook); } flash=0; SFX.bed(.05); freezeS=FREEZE_S[tierLevel(p.tier)]; aura.visible=false; endSig(); tiltX=tiltY=tiltTX=tiltTY=0;
   if(packFace.map===packTex.tx){ drawPack(packTex.ctx,512,736); packTex.tx.needsUpdate=true; } sheenMat.uniforms.tint.value.copy(L(TIER[p.tier].glow)); packFace.emissive.setRGB(0,0,0);
-  drawCardBack(back.ctx,p,0); back.tx.needsUpdate=true; drawCardFront(front.ctx,p); front.tx.needsUpdate=true;
+  drawCardBack(back.ctx,p,0); back.tx.needsUpdate=true; drawCardFront(front.ctx,p,true); front.tx.needsUpdate=true; frontFull=false; count=null; ovrMesh.visible=false;
   coinTex.ctx.setTransform(1,0,0,1,0,0); coinTex.ctx.clearRect(0,0,1024,1024); coinFace(coinTex.ctx,p.club,512,512,510); coinTex.tx.needsUpdate=true;
-  setFlagNation(p.nation); flags.forEach(f=>{f.target=0; f.drop=0; f.mesh.visible=false; f.mesh.scale.y=.001;});
-  clearConfetti(); clearSmoke(); clearChunks(); parts.forEach(q=>q.life=0); pillar.visible=false; crack.material.color.setScalar(0); packLight.intensity=0; pack.position.set(0,40,-1.2); pack.scale.setScalar(1);
+  if(!bridge){ flags.forEach(f=>{f.target=0; f.drop=0; f.rolling=false; f.mesh.visible=false; f.mesh.scale.y=.001;}); clearConfetti(); parts.forEach(q=>q.life=0); pDirty=true; } /* idea 3: Daniel's flags roll up and his confetti lands */
+  clearSmoke(); clearChunks(); pillar.visible=false; crack.material.color.setScalar(0); packLight.intensity=0; pack.position.set(0,40,-1.2); pack.scale.setScalar(1);
   frontMat.map=back.tx; frontMat.needsUpdate=true;
   card.visible=false; coin.visible=false; pack.visible=true; rays.material.opacity=0; l3.classList.remove("on");
-  who.textContent=(order[idx]==="daniel"?"Daniel's":"Nik's")+" Special Player";
-  if(i===0){ slotD.textContent="Revealing"; slotD.className="wait"; slotN.textContent="Next"; slotN.className="wait"; cta.disabled=true; $("rkD").textContent=""; $("rkN").textContent=""; }
+  setWho((order[idx]==="daniel"?"Daniel's":"Nik's")+" Special Player");
+  if(i===0){ slotD.textContent="Revealing"; slotD.className="wait"; slotN.textContent="Next"; slotN.className="wait"; cta.disabled=!bothShown||Boolean(cta.dataset.sent); $("again").hidden=true; cta.classList.remove("shine","fast"); $("rkD").textContent=""; $("rkN").textContent=""; }
   else { slotN.textContent="Revealing"; slotN.className="wait"; }
   if(REDUCED) settle();
 }
@@ -1765,8 +1820,8 @@ let SCOUT_IN=scoutInFor("bronze"), SCOUT_END=scoutEndFor("bronze");
 function scoutFlip(k){ const e=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, a=SCOUT_IN, b=a+.7, c=b+SCOUT_HOLD, d=c+.7;
   if(k>=a&&!fired.sc1){ fired.sc1=1; SFX.play("flip"); } if(k>=c&&!fired.sc2){ fired.sc2=1; SFX.play("flip"); }
   return k<a?0:k<b?Math.PI*e((k-a)/.7):k<c?Math.PI:k<d?Math.PI+Math.PI*e((k-c)/.7):0; }
-function settle(){
-  const p=cur(); phase="settled"; settledAt=clock(); fired.sc1=fired.sc2=0; SCOUT_IN=scoutInFor(p.tier); SCOUT_END=scoutEndFor(p.tier);
+function settle(natural){
+  const p=cur(); phase="settled"; if(!natural) endSig(); if(!natural||!count) finishCount(); guardUntil=0; hint(false); SFX.play("sting",tierLevel(p.tier)); SFX.bed(.05+tierLevel(p.tier)*.008); settledAt=clock(); fired.sc1=fired.sc2=0; SCOUT_IN=scoutInFor(p.tier); SCOUT_END=scoutEndFor(p.tier);
   drawScoutBack(back.ctx,p); back.tx.needsUpdate=true;
   frontMat.map=front.tx; frontMat.needsUpdate=true;
   pack.visible=false; coin.visible=false; packLight.intensity=0; card.visible=true; card.position.copy(CARD_POS); card.rotation.set(0,0,0); card.scale.setScalar(1);
@@ -1778,12 +1833,12 @@ function settle(){
   $("l3meta").innerHTML=`<span><i>${p.ovr}</i> ${p.pos}</span><span>${NATION[p.nation]}</span><span>${p.club||"No club"}</span><span><i>#${p.number}</i></span>`;
   l3.classList.add("on");
   live.textContent=`${order[idx]==="daniel"?"Daniel":"Nik"}'s FIFA 17 Showdown Special Player: ${p.name}, ${p.pos}, ${NATION[p.nation]}, ${p.club||"no club"}, number ${p.number}, overall ${p.ovr}, potential ${p.pot}, rank ${p.rank}.`;
-  if(idx===1) cta.disabled=false;
+  if(idx===1){ bothShown=true; if(!cta.dataset.sent){ cta.disabled=false; $("again").hidden=false; } ending(); }
 }
 const S=(at,dur,tt)=>clamp01((tt-at)/dur);
 
 /* ================= sound (Web Audio, all synthesized, no files) ================= */
-const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null;
+const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null, bedG=null, bedLevel=0, bedNow=-1;
   function init(){ if(ctx) return; const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return; ctx=new AC(); master=ctx.createGain(); master.gain.value=.8;
     const comp=ctx.createDynamicsCompressor(); comp.threshold.value=-14; comp.ratio.value=4; master.connect(comp); comp.connect(ctx.destination);
     noiseBuf=ctx.createBuffer(1,ctx.sampleRate*3,ctx.sampleRate); const d=noiseBuf.getChannelData(0); let b=0; for(let i=0;i<d.length;i++){ const w=Math.random()*2-1; b=.97*b+.03*w; d[i]=w*.6+b*3; }
@@ -1799,7 +1854,8 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null;
     charge:()=>{ const t=now(); const o=ctx.createOscillator(); o.type="sawtooth"; o.frequency.setValueAtTime(70,t); o.frequency.exponentialRampToValueAtTime(330,t+1.45); const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(300,t); f.frequency.exponentialRampToValueAtTime(2600,t+1.45); const g=ctx.createGain(); g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.22,t+1.35); g.gain.exponentialRampToValueAtTime(.0001,t+1.5); o.connect(f); f.connect(g); out(g,0,true); o.start(t); o.stop(t+1.55); noise(t,1.45,"bandpass",500,5000,3,.12,1.3,0,false); },
     crack:()=>{ const t=now(); for(let i=0;i<4;i++) noise(t+i*.035,.08,"highpass",2500,6000,.8,.5-i*.08,.002,0,true); tone(t,"triangle",1800,900,.4,.18,.003,0,true); },
     comet:(side)=>{ const t=now(); const s=ctx.createBufferSource(); s.buffer=noiseBuf; s.loop=true; const f=ctx.createBiquadFilter(); f.type="bandpass"; f.Q.value=2; f.frequency.setValueAtTime(800,t); f.frequency.exponentialRampToValueAtTime(3800,t+.55); f.frequency.exponentialRampToValueAtTime(1200,t+1.1); const g=ctx.createGain(); env(g,t,.4,.45,.8); const p=ctx.createStereoPanner?ctx.createStereoPanner():null; s.connect(f); f.connect(g); if(p){ p.pan.setValueAtTime(-.9*side,t); p.pan.linearRampToValueAtTime(.9*side,t+1.2); g.connect(p); p.connect(master); p.connect(verb); } else { g.connect(master); } s.start(t); s.stop(t+1.3); tone(t+.1,"sine",1400,2600,.9,.05,.3,0,true); },
-    boom:(pw)=>{ const t=now(), k=Math.min(1.3,.75+pw*.3); tone(t,"sine",70,28,1.6,1.0*k,.005); noise(t,1.6,"lowpass",2600,90,.6,.9*k,.004,0,true); noise(t,1.2,"highpass",3000,8000,.4,.18*k,.01,0,true);
+    /* idea 6: the boom gets longer with the tier (1.6 s at rank 51+, 2.8 s for the top 3) */
+    boom:(pw,lvl)=>{ const t=now(), k=Math.min(1.3,.75+pw*.3), L=1.6+(lvl||0)*.3; tone(t,"sine",70,28,L,1.0*k,.005); noise(t,L,"lowpass",2600,90,.6,.9*k,.004,0,true); noise(t,1.2,"highpass",3000,8000,.4,.18*k,.01,0,true);
       [1568,2093,2637,3136,4186].forEach((f,i)=>tone(t+.05+i*.06,"sine",f,f,1.6,.05*k,.004,(i%2?.4:-.4),true)); },
     crowd:(dur,lvl)=>{ const t=now(); [[-.6,500,1400],[.6,700,2200],[0,350,900]].forEach(([pan,f0,f1])=>{ const s=ctx.createBufferSource(); s.buffer=noiseBuf; s.loop=true; const f=ctx.createBiquadFilter(); f.type="bandpass"; f.Q.value=.7; f.frequency.setValueAtTime(f0,t); f.frequency.linearRampToValueAtTime(f1,t+dur*.4); const g=ctx.createGain(); g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.16*lvl,t+dur*.3); g.gain.setValueAtTime(.16*lvl,t+dur*.6); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
       const lfo=ctx.createOscillator(), lg=ctx.createGain(); lfo.frequency.value=2.3+Math.random()*2; lg.gain.value=.04*lvl; lfo.connect(lg); lg.connect(g.gain); s.connect(f); f.connect(g); out(g,pan,true); s.start(t,Math.random()*2); s.stop(t+dur+.1); lfo.start(t); lfo.stop(t+dur+.1); }); },
@@ -1808,46 +1864,86 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null;
     pops:(n)=>{ const t=now(); for(let i=0;i<n;i++){ const tt=t+i*.17+Math.random()*.1; noise(tt,.22,"bandpass",1800,500,1,.35,.002,(Math.random()-.5)*1.6,true); noise(tt+.2,.9,"highpass",5000,9000,.5,.05,.05,(Math.random()-.5)*1.6,true); } },
     cannon:()=>{ const t=now(); [-.8,.8].forEach((pan,i)=>{ noise(t+i*.05,.3,"lowpass",1500,200,.8,.7,.002,pan,true); noise(t+.05+i*.05,.9,"highpass",3000,6000,.4,.08,.05,pan,true); }); },
     flip:()=>{ const t=now(); noise(t,.45,"bandpass",600,3200,1.6,.35,.12,0,true); },
-    flash:(pw)=>{ fx.boom(pw); fx.crowd(6,1.25); fx.pops(6); fx.hit(3); }
+    /* idea 4: a rising tick for each step of the pack's colour ladder */
+    /* idea 1: a riser from the club clue into the burst; it stops just before the burst, so the freeze is a quiet beat */
+    riser:(dur,lvl)=>{ const t=now(), o=ctx.createOscillator(); o.type="sawtooth"; o.frequency.setValueAtTime(110,t); o.frequency.exponentialRampToValueAtTime(700+lvl*120,t+dur); const f=ctx.createBiquadFilter(); f.type="lowpass"; f.Q.value=5; f.frequency.setValueAtTime(380,t); f.frequency.exponentialRampToValueAtTime(5200,t+dur);
+      const g=ctx.createGain(); g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.1+lvl*.025,t+dur-.02); g.gain.exponentialRampToValueAtTime(.0001,t+dur+.03); o.connect(f); f.connect(g); out(g,0,true); o.start(t); o.stop(t+dur+.1); noise(t,dur,"bandpass",600,7000,2.5,.08+lvl*.03,dur-.05,0,false); },
+    /* idea 8: the rating count's tick, and a brighter one when it lands */
+    count:(last)=>{ const t=now(); if(last){ tone(t,"triangle",1760,1760,.3,.09,.002,0,true); return; } tone(t,"square",2300,2100,.025,.022,.001,0,false); },
+    /* idea 11: the closing chord when both cards are out (wider after a top-3 pull) */
+    close:(top)=>{ const t=now(); [261.63,329.63,392,523.25,659.25].concat(top?[783.99,1046.5]:[]).forEach((f,i)=>{ tone(t+i*.05,"triangle",f,f,2.2,.08,.09,(i%3-1)*.3,true); tone(t+i*.05,"sine",f/2,f/2,2.4,.045,.12,0,false); }); },
+    step:(i)=>{ const t=now(), f=523.25*Math.pow(2,i*3/12); tone(t,"triangle",f,f*1.01,.22,.15,.003,0,true); tone(t,"sine",f*2,f*2,.14,.05,.003,0,true); noise(t,.06,"highpass",5000,8000,.6,.08,.002,0,false); },
+    /* idea 6: a bigger chord for a higher tier (4 notes at rank 51+, 9 with the low octaves and the shimmer for the top 3) */
+    chord:(lvl)=>{ const t=now(), N=[[523.25],[659.25],[783.99],[1046.5],[1318.51,2],[261.63,3],[1567.98,3],[2093,4],[130.81,4]].filter(n=>(n[1]||0)<=lvl).map(n=>n[0]), g=.26/Math.sqrt(N.length/3);
+      N.forEach((f,i)=>{ tone(t+i*.012,"triangle",f,f,1.4+lvl*.25,g,.004,(i%3-1)*.35,true); if(f>500&&f<1600) tone(t,"sine",f*2,f*2,1+lvl*.2,g*.3,.004,0,true); });
+      tone(t,"sine",130.81,130.81,.8+lvl*.3,.18,.004,0,false); noise(t,.25,"lowpass",3000,200,.7,.25,.003,0,true); },
+    flash:(pw,lvl)=>{ lvl=lvl||0; fx.boom(pw,lvl); fx.crowd(5+lvl*1.2,1+lvl*.15); fx.pops(4+lvl*2); fx.chord(lvl); },
+    /* idea 6: a short sting when the card settles, brighter and with more notes for a higher tier */
+    sting:(lvl)=>{ const t=now(), b=[392,440,523.25,587.33,659.25][lvl]||392; [1,1.25,1.5,2,2.5].slice(0,2+Math.ceil(lvl*.75)).forEach((m,i)=>tone(t+i*.075,"triangle",b*m,b*m,.45+lvl*.06,.11,.004,(i%2?.3:-.3),true)); }
   };
-  return { get on(){ return on; }, enable(v){ on=v; if(v){ init(); if(ctx&&ctx.state==="suspended") ctx.resume(); } },
+  /* idea 6: a quiet crowd bed under the whole reveal, from the first second; it follows the speaker (off = silent) */
+  function bedStart(){ const s=ctx.createBufferSource(); s.buffer=noiseBuf; s.loop=true; const f=ctx.createBiquadFilter(); f.type="bandpass"; f.Q.value=.6; f.frequency.value=650; const lp=ctx.createBiquadFilter(); lp.type="lowpass"; lp.frequency.value=2200;
+    const wob=ctx.createGain(); wob.gain.value=1; const lfo=ctx.createOscillator(), lg=ctx.createGain(); lfo.frequency.value=.29; lg.gain.value=.25; lfo.connect(lg); lg.connect(wob.gain);
+    bedG=ctx.createGain(); bedG.gain.value=.0001; s.connect(f); f.connect(lp); lp.connect(wob); wob.connect(bedG); out(bedG,0,true); s.start(); lfo.start(); }
+  function bedApply(){ if(!ctx||ctx.state!=="running") return; const want=on?bedLevel:0; if(want===bedNow) return; bedNow=want; if(!bedG){ if(!want) return; bedStart(); } bedG.gain.setTargetAtTime(Math.max(.0001,want),now(),want?.8:.12); }
+  return { get on(){ return on; }, enable(v){ on=v; if(v){ init(); if(ctx&&ctx.state==="suspended") ctx.resume(); } bedApply(); },
+    bed(level){ bedLevel=level; bedApply(); }, tick(){ bedApply(); },
     /* A context the browser has not let start yet (no tap in this frame) would queue every cue and play them all at once on the
        first tap, so cues are only played while it runs. */
     get running(){ return Boolean(ctx&&ctx.state==="running"); },
     play(name,...a){ if(!on||!ctx||ctx.state!=="running") return; try{ fx[name](...a); }catch(e){} } };
 })();
 
+/* idea 10: a short phone buzz at the pack boom, each clue and the face flash, longer for a higher tier. Android only: where the
+   browser has no vibrate (iPhone, most Chromebooks) nothing happens, and nothing buzzes while the speaker is off. Each buzz
+   lands on a beat that is also seen. A beat more than .3 s late (skip, seek) stays still. */
+const CAN_BUZZ=typeof navigator!=="undefined"&&typeof navigator.vibrate==="function";
+function buzz(pattern){ if(!CAN_BUZZ||!SFX.on||REDUCED) return; try{ navigator.vibrate(pattern); }catch(e){} }
+function buzzAt(tt,t,k,pattern){ if(tt>=t&&!fired[k]){ fired[k]=1; if(tt-t<.3) buzz(pattern); } }
 function at(tt,t,k,fn){ if(tt>=t&&!fired[k]){ fired[k]=1; fn(); } }
 /* sound cues; a cue more than .3 s late (skip, seek) stays silent */
 function sfxAt(tt,t,k,name,...a){ if(tt>=t&&!fired[k]){ fired[k]=1; if(tt-t<.6) SFX.play(name,...a); } }
 const camPos=new T.Vector3(), camLook=new T.Vector3();
+/* idea 4: colour ladder on the pack while it charges: bronze, silver, gold, blue, black-blue-gold. A step every LADDER_DT from
+   LADDER_T0; the last step is the real tier (rank 51+ stops at bronze, the top 3 climbs all five), so it never shows more. */
+/* bronze is a muted copper and silver a cool blue-white, so neither reads as the pack's own gold */
+const LADDER=[0xa85a30,0xb9c8e0,0xffc74f,0x4f8bff,0x3355ff], LADDER_ACC=[0x9c5530,0xc4d2ea,0xffc74f,0x9cc4ff,0xffc74f], LADDER_BASE=0xffc457;
+const ladderStep=(p,tt)=>tt<LADDER_T0?-1:Math.min(tierLevel(p.tier),Math.floor((tt-LADDER_T0)/LADDER_DT));
+const ladC=new T.Color(), ladA=new T.Color();
+function ladderMix(out,cols,p,tt){ const st=ladderStep(p,tt); if(st<0) return out.copy(L(LADDER_BASE)); const k=clamp01((tt-LADDER_T0-st*LADDER_DT)/.12); return out.copy(L(st?cols[st-1]:LADDER_BASE)).lerp(L(cols[st]),k); }
+const ladderColor=(p,tt)=>ladderMix(ladC,LADDER,p,tt), ladderAccent=(p,tt)=>ladderMix(ladA,LADDER_ACC,p,tt);
 function comet(tt,t,dur,a,b,c,col){ const k=(tt-t)/dur; if(k<0||k>1) return; const e=ease.inOut(k), u=1-e;
   const h=new T.Vector3(u*u*a.x+2*u*e*b.x+e*e*c.x, u*u*a.y+2*u*e*b.y+e*e*c.y, u*u*a.z+2*u*e*b.z+e*e*c.z);
   for(let i=0;i<14;i++) emit(h.clone().add(new T.Vector3((Math.random()-.5)*.12,(Math.random()-.5)*.12,(Math.random()-.5)*.12)),new T.Vector3((Math.random()-.5)*.5,(Math.random()-.5)*.5,(Math.random()-.5)*.5),i%3?col:0xffffff,.35+Math.random()*.25,.12+Math.random()*.1,0,1.5,1);
   emit(h,new T.Vector3(),0xffffff,.06,.9,0,0,0); }
 function run(tt){
-  const p=cur(), tier=TIER[p.tier], pw=tier.power, tc=tier.glow, nat=natCols(p.nation);
+  const p=cur(), tier=TIER[p.tier], pw=tier.power, tc=tier.glow, nat=natCols(p.nation), lvl=tierLevel(p.tier);
   const side=idx===0?1:-1, BLUE=0x58b8ff;
   /* camera, shot by shot like the reference: low on the grass facing the main stand */
   const zk=(z)=>-1.2+(z+1.2)*camK; const A=new T.Vector3(2.6*side,1.0,zk(7.6)), Bp=new T.Vector3(1.1*side,.95,zk(6.4)), Cp=new T.Vector3(.55*side,1.0,zk(5.1)), D=camRest.clone();
   const lookStand=new T.Vector3(.4*side,3.2,-30), lookPack=new T.Vector3(0,1.6,-1.2);
   if(tt<1.6){ const k=ease.inOut(S(0,1.6,tt)); camPos.lerpVectors(A,Bp,k); camLook.lerpVectors(lookStand,lookPack,ease.inOut(S(.7,.9,tt))); }
   else if(tt<3.7){ const k=ease.inOut(S(1.6,2.1,tt)); camPos.lerpVectors(Bp,Cp,k); camLook.copy(lookPack); camLook.y+=S(2.6,1.1,tt)*.2; }
-  else { const k=ease.out(S(3.7,1.1,tt)); camPos.lerpVectors(Cp,D,k); camLook.lerpVectors(new T.Vector3(0,1.45,-1.2),lookRest,k); camPos.z-=ease.inOut(S(4.8,6,tt))*(camK>1?.1:.5); }
+  else { const k=ease.out(S(3.7,1.1,tt)); camPos.lerpVectors(Cp,D,k); camLook.lerpVectors(new T.Vector3(0,1.45,-1.2),lookRest,k); camPos.z-=ease.inOut(S(4.8,6,tt))*(camK>1?.1:.5);
+    /* idea 1: a small camera push from the club clue into the turn, back out by the time the card settles */
+    camPos.z-=.12*CRES[lvl]*(ease.inOut(S(8.0,1.6,tt))-ease.inOut(S(9.7,1.1,tt))); }
   { const orb=Math.sin(S(4.6,4.3,tt)*Math.PI)*.2*side; const dx=camPos.x-CARD_POS.x, dz=camPos.z-CARD_POS.z; camPos.x=CARD_POS.x+dx*Math.cos(orb)+dz*Math.sin(orb); camPos.z=CARD_POS.z-dx*Math.sin(orb)+dz*Math.cos(orb); }
   roll=Math.sin(S(8.9,1.2,tt)*Math.PI)*.03*side;
   /* 1  the pack drops from the sky and thumps onto the grass (1.0 - 1.6 s) */
   const fall=S(.9,.75,tt), fk=1-Math.pow(1-fall,3);
   pack.visible=tt>=.9&&tt<3.7;
   if(pack.visible){ pack.position.set(PACK_REST.x,lerp(9,PACK_REST.y,fk)+Math.sin(tt*1.7)*.05*fall,PACK_REST.z);
-    pack.rotation.set(-.12+(1-fk)*.9,.72*side*(1-S(2.2,1.3,tt)*.45)+Math.sin(tt*.6)*.06+(1-fk)*1.6*side,(1-fk)*.5*side); pack.scale.setScalar(1);
-    const charge=S(2.3,1.4,tt); packFace.emissive.copy(L(0xffc457)).multiplyScalar(charge*charge*.25);
+    pack.rotation.set(-.12+(1-fk)*.9,.72*side*(1-S(2.2,1.3,tt)*.45)+Math.sin(tt*.6)*.06+(1-fk)*1.6*side,(1-fk)*.5*side); pack.scale.setScalar(1+packPulse*.06);
+    /* idea 4: the charge climbs the colour ladder up to the real tier, never past it */
+    const lad=ladderColor(p,tt), ladA=ladderAccent(p,tt);
+    for(let i=0;i<=lvl;i++){ const at0=LADDER_T0+i*LADDER_DT; at(tt,at0,"lad"+i,()=>{ if(tt-at0<.3) SFX.play("step",i); packPulse=1; burst(PACK_REST.clone().add(new T.Vector3(0,0,.4)),LADDER[i],Math.round(46*PK),3.6,.55,.13); }); }
+    const charge=S(2.3,1.4,tt); packFace.emissive.copy(lad).multiplyScalar(charge*charge*.4);
     if(charge>.5){ pack.position.x+=(Math.random()-.5)*.05*charge; pack.position.y+=(Math.random()-.5)*.03*charge; }
     /* the crack opens (2.4 s) and a pillar of light shoots up through it */
-    const cr=S(2.4,.25,tt); crack.scale.set(.05+charge*.12,PACK_H*.97*cr,1); crack.material.color.copy(L(0xfff0c0)).multiplyScalar(cr*(4+charge*10));
+    const cr=S(2.4,.25,tt); crack.scale.set(.05+charge*.12,PACK_H*.97*cr,1); crack.material.color.copy(L(0xfff0c0)).lerp(lad,.7).multiplyScalar(cr*(4+charge*10));
     pillar.visible=cr>0; if(cr>0){ const pp=pack.localToWorld(new T.Vector3(-.12,0,PACK_D/2+.1)); pillar.position.set(pp.x,.05,pp.z); pillar.rotation.y=Math.atan2(camera.position.x-pp.x,camera.position.z-pp.z);
-      pillar.scale.set(.25+charge*.7,18*ease.out(S(2.4,.45,tt)),1); pillarMat.color.copy(L(0xfff0c8)).multiplyScalar(1.5+charge*charge*5); }
-    packLight.intensity=charge*charge*9; rays.position.set(0,PACK_REST.y,-.55); rays.material.opacity=charge*charge*.55; rays.material.color.copy(L(0xffd27a)).multiplyScalar(.5); rays.rotation.z=tt*.5; rays.scale.setScalar(6+charge*6);
+      pillar.scale.set(.25+charge*.7,18*ease.out(S(2.4,.45,tt)),1); pillarMat.color.copy(L(0xfff0c8)).lerp(lad,.85).multiplyScalar(1.5+charge*charge*4); }
+    packLight.intensity=charge*charge*9; packLight.color.copy(lad); rays.position.set(0,PACK_REST.y,-.55); rays.material.opacity=charge*charge*.55; rays.material.color.copy(ladA).multiplyScalar(.5); rays.rotation.z=tt*.5; rays.scale.setScalar(6+charge*6);
     /* gold glitter swirling round the pack */
     if(fall>=1) for(let i=0;i<3;i++){ const a=Math.random()*Math.PI*2, r=.8+Math.random()*.8; emit(new T.Vector3(Math.cos(a)*r,.3+Math.random()*1.6,PACK_REST.z+Math.sin(a)*r),new T.Vector3(-Math.sin(a)*1.2,.3+Math.random()*.5,Math.cos(a)*1.2),Math.random()<.6?0xffd77a:0xfff1c2,.9+Math.random()*.6,.05+Math.random()*.04,-.2,.6,1); } }
   else pillar.visible=false;
@@ -1856,8 +1952,8 @@ function run(tt){
   /* 2  blue comet swoops in (3.15 s) and the pack explodes into chunks (3.7 s) */
   comet(tt,2.95,.75,new T.Vector3(-7*side,3.4,1.5),new T.Vector3(-2.5*side,2.6,1.2),new T.Vector3(0,1.5,-.9),BLUE);
   sfxAt(tt,.9,"s_fall","whoosh"); sfxAt(tt,1.65,"s_land","land"); sfxAt(tt,2.3,"s_charge","charge"); sfxAt(tt,2.4,"s_crack","crack"); sfxAt(tt,2.95,"s_comet","comet",side);
-  sfxAt(tt,3.7,"s_boom","boom",pw); sfxAt(tt,3.75,"s_crowd1","crowd",4.5,.9); sfxAt(tt,5.0,"s_pos","hit",0); sfxAt(tt,5.8,"s_nat","hit",1); sfxAt(tt,5.85,"s_natpops","pops",4);
-  sfxAt(tt,6.4,"s_coin","coin"); sfxAt(tt,8.0,"s_club","hit",2); sfxAt(tt,8.05,"s_cannon","cannon"); sfxAt(tt,8.9,"s_flip","flip"); sfxAt(tt,9.6,"s_flash","flash",pw);
+  sfxAt(tt,3.7,"s_boom","boom",pw,lvl); buzzAt(tt,3.7,"v_boom",18+lvl*10); buzzAt(tt,5.0,"v_pos",12); buzzAt(tt,5.8,"v_nat",12); buzzAt(tt,8.0,"v_club",14); buzzAt(tt,9.6,"v_flash",[30+lvl*15,40,50+lvl*25]); sfxAt(tt,3.75,"s_crowd1","crowd",4.5+lvl*.6,.8+lvl*.12); sfxAt(tt,5.0,"s_pos","hit",0); sfxAt(tt,5.8,"s_nat","hit",1); sfxAt(tt,5.85,"s_natpops","pops",4);
+  sfxAt(tt,6.4,"s_coin","coin"); sfxAt(tt,8.0,"s_club","hit",2); sfxAt(tt,8.05,"s_cannon","cannon"); sfxAt(tt,CRES[lvl]?8.45:8.9,"s_flip","flip"); sfxAt(tt,8.05,"s_riser","riser",FREEZE_END-freezeS*FREEZE_K-8.05+(freezeS?0:.02),lvl); sfxAt(tt,9.6,"s_flash","flash",pw,lvl);
   at(tt,3.7,"burst",()=>{ shake=.45; flash=.35*Math.min(1.4,pw); explodePack(); pack.visible=false; pillar.visible=false; packLight.intensity=0; card.visible=true;
     burst(new T.Vector3(0,1.4,-1.0),[0xffd77a,0xffffff,0xffc457],Math.round(150*pw),9,1.0,.16); 
     glow.material.color.copy(L(0xffe2a0)); });
@@ -1872,7 +1968,7 @@ function run(tt){
   at(tt,5.0,"pos",()=>{ drawCardBack(back.ctx,p,1); back.tx.needsUpdate=true; pulse=1; burst(new T.Vector3(-.62,2.9,-1.1),[0xffffff,tc],70,3.2,.6,.16); });
   sweep(5.0);
   at(tt,5.8,"nat",()=>{ drawCardBack(back.ctx,p,2); back.tx.needsUpdate=true; pulse=1; shake=.1; burst(new T.Vector3(-.62,2.55,-1.1),nat,90,3.4,.7,.16);
-    flags.forEach((f,i)=>{ f.mesh.visible=true; later(()=>f.target=1,i*110); });
+    setFlagNation(p.nation); flags.forEach((f,i)=>{ f.mesh.visible=true; f.rolling=false; f.drop=Math.min(f.drop,.001); later(()=>f.target=1,i*110); });
     [-.8,-.4,0,.4,.8].forEach((x,i)=>later(()=>starburst(skyPoint(x+(Math.random()-.5)*.1,.42+Math.random()*.18,-34),nat.concat([0xffffff]),Math.round(38*pw),7,1.3),200+i*160)); });
   if(tt>5.8&&tt<7.6) flagMounts.forEach(m=>{ if(Math.random()<.5) emit(new T.Vector3(m.pos.x+(Math.random()-.5)*m.w,m.pos.y+.3,m.pos.z+.5),new T.Vector3((Math.random()-.5)*.6,-1-Math.random()*2,0),Math.random()<.5?0xfff1c2:0xffd77a,1.6,.55,-4,.3,1); });
   sweep(5.8);
@@ -1890,31 +1986,107 @@ function run(tt){
     const cc=[tc,0xf1c35a,0xfff3c4,0x2f7bff]; confettiCannon(1,cc,Math.round(200*pw)); confettiCannon(-1,cc,Math.round(200*pw)); });
   sweep(8.0);
   /* 6  the card turns to show the face, big flash (8.9 - 10.1 s) */
-  const fl=S(8.9,1.2,tt);
-  if(tt>8.9){ const k=ease.inOut(fl); if(k>=5/6&&frontMat.map!==front.tx){ frontMat.map=front.tx; frontMat.needsUpdate=true; } card.rotation.set(0,Math.PI+k*Math.PI*3,0); card.position.y=CARD_POS.y+Math.sin(k*Math.PI)*.5; }
+  /* idea 1: for the top 20 and up the turn starts at 8.45 s and speeds up from its first frame (quad), so it is seen at once;
+     the face still swaps in under the white burst. Top 50 and rank 51+ keep the old turn. */
+  const cres=CRES[lvl], turnAt=cres?8.45:8.9, fl=S(turnAt,cres?1.65:1.2,tt);
+  if(tt>turnAt){ const k=cres?quadInOut(fl):ease.inOut(fl); if(k>=5/6&&frontMat.map!==front.tx){ frontMat.map=front.tx; frontMat.needsUpdate=true; startCount(p); } card.rotation.set(0,Math.PI+k*Math.PI*3,0); card.position.y=CARD_POS.y+Math.sin(k*Math.PI)*.22; }
+  at(tt,9.6,"sig",()=>startSig(p));
   at(tt,9.6,"flash",()=>{ shake=.3; glow.position.set(0,1.86,-1.3); flash=1.0*Math.min(1.4,pw); glow.material.color.copy(L(tc)); burst(CARD_POS.clone().add(new T.Vector3(0,0,.3)),[tc,0xffffff,0xfff1c2],Math.round(240*pw),11,1.3,.2);
-    confettiRain(nat.concat([0xf1c35a,0xfff3c4]),Math.round(380*pw),-2);
+    confettiRain(nat.concat([0xf1c35a,0xfff3c4]),Math.round(380*pw),-4.6,5); /* z -7.1 to -2.1: behind the card */
     [-.85,-.55,-.2,.2,.55,.85].forEach((x,i)=>later(()=>starburst(skyPoint(x,.38+Math.random()*.22,-36),[tc,0xffffff,0xfff1c2].concat(nat),Math.round(44*pw),8,1.4),i*120)); });
   if(tt>9.6&&tt<12.2) [[-6.5,-6],[6.5,-6],[-3.2,-7],[3.2,-7]].forEach(([x,z])=>fountain(new T.Vector3(fitX(x,z),.1,z),Math.random()<.5?0xfff1c2:0xffffff,Math.round(3*pw)+1,8.5,.9));
+  /* idea 1: the tier glow grows behind the card (depth-hidden by it, so never over its text) into the burst, then hands over */
+  aura.visible=cres>0&&tt>8.0&&tt<10.3; if(aura.visible){ const a=ease.inOut(S(8.0,1.6,tt)); aura.material.color.copy(L(tc)).multiplyScalar(1.5); aura.scale.setScalar((3.4+lvl*1.1)*(.5+cres*.5)*(.3+a*.7)*(1+S(9.6,.7,tt)*.4)); aura.material.opacity=(.4+.5*cres)*a*(1-S(9.6,.7,tt))*(lvl>=3?.67:1); } /* top 3/top 10 blue: a third lighter so the stands stay readable */
   const gs=S(9.6,1.2,tt); if(gs>0&&gs<1){ const s=Math.sin(gs*Math.PI)*8*pw; glow.scale.set(s,s,1); glow.material.opacity=(1-gs)*.6; } else if(gb<=0||gb>=1) glow.scale.set(0,0,1);
   if(tt>9.6){ rays.material.opacity=lerp(.5,.16,S(9.6,2,tt)); rays.material.color.copy(L(tc)).multiplyScalar(.35); rays.rotation.z=tt*.06; }
   if(tt>10.3&&tt<11.2) sheenMat.uniforms.p.value=lerp(-2.6,2.6,(tt-10.3)/.9);
-  if(tt>10.8&&phase==="run") settle();
+  if(tt>10.8&&phase==="run") settle(true);
 }
+
+/* idea 2: encore volleys during the long face hold: top 3 three, top 10 two, top 20 one, top 50 and rank 51+ none. Fireworks
+   burst far behind the card and the confetti falls behind it, so nothing passes over the card text; the last volley ends
+   ENCORE_TAIL s before the scouting report turns in. */
+const ENCORE={ "black-blue-gold":[2.2,4.0,5.8], "blue-gold":[2.2,4.2], "gold":[2.4] }, ENCORE_TAIL=2.2;
+const encoreFor=(tier)=>(ENCORE[tier]||[]).filter(t=>t+ENCORE_TAIL<scoutInFor(tier));
+function encore(p,i){ const tc=TIER[p.tier].glow, lvl=tierLevel(p.tier), side=i%2?-1:1, cols=[tc,0xffffff,0xfff1c2,0xf1c35a];
+  [[.78,.5],[-.6,.42],[.55,.6],[-.8,.56]].forEach(([x,y],j)=>later(()=>starburst(skyPoint(side*x,y+(Math.random()-.5)*.08,-34),cols.concat(natCols(p.nation)),Math.round(52*PK*(.8+lvl*.1)),7.5,1.3),j*170));
+  confettiRain(natCols(p.nation).concat([0xf1c35a,0xfff3c4]),Math.round(110*PK),-6,6,3,4);
+  SFX.play("crowd",3,.55+lvl*.1); SFX.play("pops",3+lvl); }
+
+/* idea 8: rating count-up from 40, landing on the real number with a tick per step; quicker for a lower tier (.7 s at rank 51+,
+   1.7 s for the top 3). A skip lands it at once. */
+let count=null, frontFull=false;
+function drawOvr(v){ const c=ovrTex.ctx, t=TIER[cur().tier]; c.setTransform(2,0,0,2,0,0); c.clearRect(0,0,140,120); c.textAlign="center"; c.font='600 112px "Barlow Condensed"'; emboss(c,String(v),70,100,t.text,true); ovrTex.tx.needsUpdate=true; }
+function startCount(p){ if(frontFull||REDUCED){ finishCount(); return; } count={t0:clock(),dur:COUNT_S[tierLevel(p.tier)],to:p.ovr,shown:COUNT_FROM,tickAt:-1}; drawOvr(COUNT_FROM); ovrMesh.visible=true; }
+function finishCount(){ count=null; ovrMesh.visible=false; if(!frontFull){ drawCardFront(front.ctx,cur()); front.tx.needsUpdate=true; frontFull=true; } }
+function stepCount(now){ if(!count) return; const k=clamp01((now-count.t0-.15)/count.dur), v=Math.round(COUNT_FROM+(count.to-COUNT_FROM)*(1-Math.pow(1-k,2)));
+  if(v!==count.shown){ count.shown=v; drawOvr(v); if(now-count.tickAt>.045||v===count.to){ count.tickAt=now; SFX.play("count",v===count.to); } } if(k>=1) finishCount(); }
+
+/* idea 5: one signature effect per tier at the flash, on top of the unchanged white burst; each tier keeps the ones below it.
+   rank 51+: the floor fountains (all tiers); top 50: + a ring of light; top 20: + an upward beam; top 10: + two side beams;
+   top 3: + a bloom spike and a two-colour (blue and gold) firework mix. All of it sits behind the card plane, so the card hides it. */
+let sigAt=-1, sigLvl=0; const sigCol=new T.Color(), WHITE=new T.Color(1,1,1);
+function startSig(p){ const lvl=tierLevel(p.tier), tc=TIER[p.tier].glow; sigAt=clock(); sigLvl=lvl; sigCol.copy(L(tc));
+  if(lvl>=1){ const n=Math.round(150*PK); for(let i=0;i<n;i++){ const a=i/n*Math.PI*2; tmpV.set(Math.cos(a),Math.sin(a),0).multiplyScalar(6.2+Math.random()*.5); emit(new T.Vector3(Math.cos(a)*.5,CARD_POS.y+Math.sin(a)*.5,CARD_POS.z-.55),tmpV,i%2?tc:0xffffff,.95,.24,0,1.9,0); } }
+  if(lvl>=4) [-.72,.72,-.4,.4].forEach((x,i)=>later(()=>starburst(skyPoint(x,.42+(i%2)*.1,-34),[0x3355ff,0xf1c35a,0x6f9bff,0xffe39a],Math.round(70*PK),8,1.4),420+i*190)); }
+function endSig(){ sigAt=-1; beams.forEach(b=>b.visible=false); compMat.uniforms.strength.value=.3; }
+function stepSig(now){ if(sigAt<0) return; const s=now-sigAt; if(s>2.6){ endSig(); return; }
+  const grow=ease.out(clamp01(s/.35)), fade=1-clamp01((s-1.1)/1.2);
+  beams.forEach((b,i)=>{ b.visible=sigLvl>=(i?3:2)&&fade>0; if(!b.visible) return; const x=i?fitX((i===1?-1:1)*2.3,CARD_POS.z-.9):0;
+    b.position.set(x,.05,CARD_POS.z-(i?.9:.6)); b.rotation.set(0,Math.atan2(camera.position.x-x,camera.position.z-b.position.z),0); if(i) b.rotateZ(i===1?.12:-.12); b.scale.set((i?.7:1.7)*(.35+grow*.65),24*grow,1); });
+  beamMat.color.copy(sigCol).lerp(WHITE,.2).multiplyScalar(2.6*grow*fade);
+  compMat.uniforms.strength.value=.3+(sigLvl>=4?.5*Math.sin(clamp01((s-.2)/1.1)*Math.PI):0); }
+
+/* idea 11: the ending. Once both cards are out, the better pull's name in the bar gets a gold pulse (both on a tie), a closing
+   chord plays, and Continue shines once and then pulses gently (faster after a top-3 pull). */
+function ending(){ const d=pair.daniel, n=pair.nik, top3=d.rank<=3||n.rank<=3;
+  slotD.classList.toggle("best",d.rank<=n.rank); slotN.classList.toggle("best",n.rank<=d.rank);
+  if(!cta.dataset.sent){ cta.classList.remove("shine"); void cta.offsetWidth; cta.classList.add("shine"); cta.classList.toggle("fast",top3); }
+  later(()=>SFX.play("close",top3),600); }
+
+/* idea 3: Daniel to Nik handover. Daniel's card flies off to his side, his flags roll up and his confetti lands instead of
+   vanishing, a big "NIK'S SPECIAL PLAYER" pops in the top band, and Nik's pack drops straight away (his run starts at
+   BRIDGE_T0, so no empty pitch). The bridge is a little longer after a bigger Daniel pull (.45 s at rank 51+, .81 s top 3).
+   Nothing about Nik's tier shows before his own reveal. */
+const BRIDGE_T0=.7; let hoAt=0, hoDur=0, camBlendAt=-1; const camFrom=new T.Vector3(), lookFrom=new T.Vector3(), hoV=new T.Vector3();
+function popWho(text){ setWho(text); if(REDUCED) return; const r=document.createRange(); r.selectNodeContents(who); const w=r.getBoundingClientRect().width||1;
+  who.style.setProperty("--pop",Math.max(1,Math.min(2.1,(innerWidth-32)/w)).toFixed(2)); who.classList.add("big"); }
+function startHandover(){ const d=cur(); phase="handover"; hoAt=clock(); hoDur=.45+tierLevel(d.tier)*.09; tiltTX=tiltTY=0; l3.classList.remove("on");
+  flags.forEach(f=>{ if(f.mesh.visible){ f.target=0; f.rolling=true; } }); SFX.play("whoosh"); SFX.play("hit",2); popWho("Nik's Special Player");
+  later(()=>who.classList.remove("big"),(hoDur+.9)*1000); if(REDUCED) startPlayer(1,true); }
+function stepHandover(now,dt){ const k=clamp01((now-hoAt)/hoDur), e=k*k;
+  camPos.copy(camRest); camPos.z-=(camK>1?.1:.5); camLook.copy(lookRest);
+  card.position.set(CARD_POS.x-e*6.5,CARD_POS.y+Math.sin(k*Math.PI)*.15,CARD_POS.z-e*2.2); card.rotation.set(-e*.35,tiltY*(1-k)+e*Math.PI*2,e*.5); card.scale.setScalar(1-e*.45);
+  if(!REDUCED&&Math.random()<.8){ hoV.set((Math.random()-.5)*.6,(Math.random()-.5)*.6,0); emit(card.position,hoV,Math.random()<.5?0xffd77a:0xfff1c2,.5,.12,-1,.8,1); }
+  if(k>=1){ card.visible=false; startPlayer(1,true); } }
 
 /* ================= frame loop ================= */
 let last=performance.now()/1000, W=1, H=1, manual=null; const clock=()=>manual!==null?manual:performance.now()/1000; const queue=[]; function later(fn,ms){ queue.push({t:clock()+ms/1000,fn}); }
+/* Follow-up (Nik): the card never reaches the title or the "Daniel's/Nik's Special Player" line, at any size. The turn's bob,
+   the camera push, a tilt or the handover flight are clamped so the card's top edge (corners included, so a turning card's near
+   corner counts) stays under the top band; while the handover line pops big, under that line. */
+const CARD_TOP=[[-1.16,1.65],[1.16,1.65],[0,1.56],[-1.16,1.38],[1.16,1.38]], CARD_BOT=[[0,-1.66],[-1.16,-.92],[1.16,-.92]], bandV=new T.Vector3(); let bandTop=1, bandBot=-1, bandDbg=null;
+function cardSpan(){ card.updateMatrixWorld(); let top=-9, bot=9;
+  CARD_TOP.forEach(([x,y])=>{ bandV.set(x,y,0); card.localToWorld(bandV).project(camera); top=Math.max(top,bandV.y); });
+  CARD_BOT.forEach(([x,y])=>{ bandV.set(x,y,0); card.localToWorld(bandV).project(camera); bot=Math.min(bot,bandV.y); }); return [top,bot]; }
+function keepCardInBand(){ camera.updateMatrixWorld(); let [top,bot]=cardSpan(), k=1;
+  let lim=bandTop; if(who.classList.contains("big")) lim=Math.min(lim,1-2*(who.getBoundingClientRect().bottom+6)/H);
+  const room=lim-bandBot, excess=top-lim; /* a turning card's near corners reach further: shrink it a touch rather than let it out */
+  if(top-bot>room&&room>0){ k=room/(top-bot)*.985; card.scale.multiplyScalar(k); [top,bot]=cardSpan(); }
+  const perNdc=camera.position.distanceTo(card.position)*Math.tan(camera.fov*Math.PI/360);
+  if(top>lim) card.position.y-=(top-lim)*perNdc*1.03; else if(bot<bandBot) card.position.y+=Math.min(bandBot-bot,lim-top)*perNdc;
+  [top,bot]=cardSpan(); bandDbg={excess,k,top,lim,bot,limB:bandBot}; }
 function bandNdc(){ const top=$("top").getBoundingClientRect(), bot=$("bottom").getBoundingClientRect(); return [1-2*(top.bottom+6)/H, 1-2*(bot.top-6)/H]; }
 function resize(){
   W=innerWidth; H=innerHeight; renderer.setSize(W,H,false);
   const pw=Math.floor(W*DPR), ph=Math.floor(H*DPR); sceneRT.setSize(pw,ph); for(let i=0;i<LV;i++){ const d=Math.pow(2,i+1); mipA[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); mipB[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); }
   camera.aspect=W/H;
-  const [yt,yb]=bandNdc(); const band=Math.max(.5,yt-yb); const dist=camRest.distanceTo(CARD_POS);
+  const [yt,yb]=bandNdc(); bandTop=yt; bandBot=yb; const band=Math.max(.5,yt-yb); const dist=camRest.distanceTo(CARD_POS);
   const tV=3.5/(dist*band*.96), tH=2.5/(dist*1.7*camera.aspect);
   const fov=Math.max(2*Math.atan(Math.max(tV,tH))*180/Math.PI,38); camera.fov=fov; camera.updateProjectionMatrix();
   const tanH=Math.tan(fov*Math.PI/360); lookRest=CARD_POS.clone().add(new T.Vector3(0,-(yt+yb)/2*tanH*dist+.1,0));
   viewTanH=tanH; const halfW=(camRest.z+.1)*tanH*camera.aspect; coinStopX=-Math.min(2.6,Math.max(.5,halfW-COIN_R*.9)); coinLift=camera.aspect<1?.75:.35; camK=camera.aspect<1?1.3:1;
-  pMat.uniforms.scale.value=ph/(2*tanH);
+  pMat.uniforms.scale.value=ph/(2*tanH); PK=W<700?.6:1; /* phones: fewer sparks in the new effects */
 }
 addEventListener("resize",resize);
 function render(){
@@ -1925,24 +2097,31 @@ function render(){
   compMat.uniforms.flash.value=flash*.18; pass(compMat,null);
 }
 function tick(draw){
-  const now=clock(), dt=Math.min(.05,now-last); last=now;
+  const now=clock(), dt=Math.min(.05,now-last); last=now; SFX.tick();
   for(let i=queue.length-1;i>=0;i--) if(queue[i].t<=now){ const q=queue.splice(i,1)[0]; q.fn(); }
   const sc=phase==="run"?slowAt(vtt):1; if(phase==="run") vtt+=dt*sc; const tt=vtt;
   if(phase==="run") run(tt);
-  else { const k=now-settledAt; camPos.copy(camRest); camPos.z-=(camK>1?.1:.5); camLook.copy(lookRest); card.rotation.y=Math.sin(k*.7)*.14+(REDUCED?0:scoutFlip(k)); card.position.y=CARD_POS.y+Math.sin(k*1.5)*.03; rays.rotation.z=now*.06;
+  else if(phase==="handover") stepHandover(now,dt);
+  else { const k=now-settledAt; camPos.copy(camRest); camPos.z-=(camK>1?.1:.5); camLook.copy(lookRest); tiltX+=(tiltTX-tiltX)*Math.min(1,dt*6); tiltY+=(tiltTY-tiltY)*Math.min(1,dt*6);
+    card.rotation.y=Math.sin(k*.7)*.14+(REDUCED?0:scoutFlip(k))+tiltY; card.rotation.x=tiltX; card.scale.setScalar(1); card.position.y=CARD_POS.y+Math.sin(k*1.5)*.03; rays.rotation.z=now*.06;
     if((k%4)<.9) sheenMat.uniforms.p.value=lerp(-2.6,2.6,(k%4)/.9);
     if(!REDUCED&&Math.random()<dt*1.2){ const v=SHIELD[(Math.random()*SHIELD.length)|0]; emit(card.localToWorld(new T.Vector3(v[0]*1.03,v[1]*1.03,.08)),new T.Vector3(0,0,0),0xfff6d8,.45,.5,0,0,0); }
     
     if(!REDUCED&&k<1.6&&Math.random()<.6) [[-6.5,-6],[6.5,-6],[-3.2,-7],[3.2,-7]].forEach(([x,z])=>fountain(new T.Vector3(fitX(x,z),.1,z),0xfff1c2,1,8.5,.9));
-    if(idx===0&&k>(REDUCED?.2:SCOUT_END+.6)) startPlayer(1); }
-  flags.forEach((f,i)=>{ if(!f.mesh.visible) return; f.drop+=(f.target-f.drop)*Math.min(1,dt*2.6); f.mesh.scale.y=Math.max(.001,f.drop);
+    /* idea 2: encore volleys while the face holds (late ones, after a tap to the report, are dropped) */
+    if(!REDUCED){ const ec=encoreFor(cur().tier); for(let i=0;i<ec.length;i++){ const t=ec[i]; if(k>=t&&!fired["enc"+i]){ fired["enc"+i]=1; if(k-t<.3&&k<SCOUT_IN-ENCORE_TAIL) encore(cur(),i); } } }
+    if(idx===0&&k>(REDUCED?.2:SCOUT_END+.15)) startHandover(); }
+  if(camBlendAt>=0){ const b=ease.inOut(clamp01((now-camBlendAt)/.8)); camPos.lerpVectors(camFrom,camPos,b); camLook.lerpVectors(lookFrom,camLook,b); if(b>=1) camBlendAt=-1; }
+  flags.forEach((f,i)=>{ if(!f.mesh.visible) return; if(f.rolling&&f.drop<.02){ f.rolling=false; f.mesh.visible=false; return; } f.drop+=(f.target-f.drop)*Math.min(1,dt*2.6); f.mesh.scale.y=Math.max(.001,f.drop);
     const a=f.mesh.geometry.attributes.position; for(let j=0;j<a.count;j++){ const x=f.base[j*3], y=f.base[j*3+1], d=-y/f.h; a.array[j*3+2]=(Math.sin(x*.9+now*2.2+i)*.5+Math.sin(y*.6+now*1.6+i*.5)*.35)*d; } a.needsUpdate=true; f.mesh.geometry.computeVertexNormals(); });
-  stepParticles(dt*sc); stepChunks(dt*sc); stepConfetti(dt,now); stepSmoke(dt); sheenMat.uniforms.t.value=now%1000;
+  stepSig(now); stepCount(now);
+  stepParticles(dt*sc); stepChunks(dt*sc); stepConfetti(dt,now,card.visible?cardShield():null); stepSmoke(dt); sheenMat.uniforms.t.value=now%1000;
   ledTex.tx.offset.x=(now*.04)%1; if(boardTex) boardTex.offset.x=(now*.05)%1;
-  pulse*=Math.pow(.004,dt); flash*=Math.pow(.02,dt); shake*=Math.pow(.02,dt);
+  pulse*=Math.pow(.004,dt); packPulse*=Math.pow(.002,dt); flash*=Math.pow(.02,dt); shake*=Math.pow(.02,dt);
   blob.material.opacity=card.visible?clamp01(1-(card.position.y-CARD_POS.y)*1.2):pack.visible?1:0;
   camera.position.copy(camPos).add(new T.Vector3((Math.random()-.5)*shake,(Math.random()-.5)*shake,0));
   camera.lookAt(camLook); panoSphere.position.copy(camera.position); if(phase!=="run") roll*=Math.pow(.05,dt); camera.rotateZ(roll);
+  if(card.visible) keepCardInBand();
   if(draw) render();
 }
 function frame(){ if(manual===null) tick(true); requestAnimationFrame(frame); }
@@ -1950,9 +2129,37 @@ function frame(){ if(manual===null) tick(true); requestAnimationFrame(frame); }
 /* ================= controls ================= */
 const toast=$("toast");
 function skip(){ if(phase==="run") settle(); }
+/* Idea 7: a stray tap must not wipe a big reveal. Top 3, top 10 and top 20 need a second tap within 3 s ("Tap again to skip");
+   top 50 and rank 51+ skip on one tap. Until the pack's ladder has reached gold every reveal asks twice, so the hint never
+   tells a tier the screen has not shown yet. */
+const GUARD_TIERS={"black-blue-gold":1,"blue-gold":1,"gold":1}, GUARD_S=3;
+const guarded=()=>vtt<LADDER_T0+2*LADDER_DT||Boolean(GUARD_TIERS[cur().tier]);
+function guardedSkip(){
+  if(phase!=="run") return;
+  if(!guarded()||clock()<guardUntil){ guardUntil=0; skip(); return; }
+  guardUntil=clock()+GUARD_S; hint(true); later(()=>{ if(guardUntil&&clock()>=guardUntil-.05){ guardUntil=0; hint(false); } },GUARD_S*1000);
+}
 $("skip").addEventListener("click",skip);
-stage.addEventListener("click",()=>{ if(unlockPending){ unlockPending=false; unlockDone=true; return; } skip(); });
-$("replay").addEventListener("click",()=>startPlayer(0));
+/* Idea 9: while the card holds, it tilts with the mouse or a finger drag (the foil already shines with the angle), and a tap ON
+   the card turns to the scouting report early (hold times stay the default). A tap elsewhere keeps the skip rules above; a
+   drag is never a tap. Reduced motion: no tilt. */
+let tiltX=0, tiltY=0, tiltTX=0, tiltTY=0, downAt=null, pressed=false;
+const ray=new T.Raycaster(), ndc=new T.Vector2();
+function onCard(x,y){ if(!card.visible) return false; ndc.set(x/W*2-1,1-y/H*2); ray.setFromCamera(ndc,camera); return ray.intersectObjects([cardBody,frontMesh,backMesh],false).length>0; }
+function aimTilt(x,y){ if(REDUCED||phase!=="settled") return; tiltTY=Math.max(-1,Math.min(1,x/W*2-1))*.35; tiltTX=Math.max(-1,Math.min(1,y/H*2-1))*.2; }
+function toScout(){ if(phase!=="settled") return; const k=clock()-settledAt; if(k<SCOUT_IN){ finishCount(); settledAt=clock()-SCOUT_IN; } }
+stage.addEventListener("pointerdown",e=>{ downAt=[e.clientX,e.clientY]; pressed=true; if(e.pointerType!=="mouse") aimTilt(e.clientX,e.clientY); });
+stage.addEventListener("pointermove",e=>{ if(e.pointerType==="mouse"||pressed) aimTilt(e.clientX,e.clientY); if(e.pointerType==="mouse") stage.style.cursor=phase==="settled"&&onCard(e.clientX,e.clientY)?"pointer":""; });
+const tiltHome=e=>{ pressed=false; if(!e||e.pointerType!=="mouse"){ tiltTX=tiltTY=0; } };
+stage.addEventListener("pointerup",tiltHome); stage.addEventListener("pointercancel",tiltHome); stage.addEventListener("pointerleave",()=>{ pressed=false; tiltTX=tiltTY=0; });
+stage.addEventListener("click",e=>{ if(unlockPending){ unlockPending=false; unlockDone=true; return; }
+  if(downAt&&Math.hypot(e.clientX-downAt[0],e.clientY-downAt[1])>12){ downAt=null; return; } downAt=null;
+  if(phase==="settled"){ if(onCard(e.clientX,e.clientY)) toScout(); return; }
+  guardedSkip(); });
+/* Replay plays both reveals again here only: no message to the game (Continue still sends its one message), no network */
+function replay(){ guardUntil=0; hint(false); startPlayer(0); }
+$("replay").addEventListener("click",replay);
+$("again").addEventListener("click",e=>{ e.stopPropagation(); replay(); });
 /* Sound: on unless this phone turned it off (kept per device). A browser lets a frame start sound only after a tap inside it,
    so until then the reveal plays silent, and the first tap on the pitch turns sound on instead of skipping. */
 const SOUND_KEY="cms-sp-sound", SOUND_DEFAULT=true;
@@ -1969,8 +2176,9 @@ $("tierShow").addEventListener("change",()=>{ const v=$("tierShow").value; if(!v
 $("gameview").addEventListener("click",()=>document.body.classList.add("game")); $("tools-back").addEventListener("click",()=>document.body.classList.remove("game")); if(qs.get("tools")!=="1"){ document.body.classList.add("game"); $("tools-back").style.display="none"; } /* game view by default, no preview controls; ?tools=1 shows the preview tools */
 window.__pick=(d,n)=>{ pickD=d; pickN=n; pair={daniel:mpByIdx(d), nik:mpByIdx(n)}; return loadCrests(); };
 const EMBED=qs.get("embed")==="1"; const toGame=(type)=>{ try{ parent.postMessage({type},location.origin); }catch(e){} };
-cta.addEventListener("click",()=>{ if(EMBED){ if(cta.dataset.sent) return; cta.dataset.sent="1"; cta.disabled=true; cta.textContent="Opening Career Start…"; toGame("cms-sp-continue"); return; } toast.classList.add("on"); setTimeout(()=>toast.classList.remove("on"),1400); });
-window.__mq={ player(i){ manual=performance.now()/1000; last=manual; queue.length=0; startPlayer(i); }, advance(sec){ const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1); } } };
+cta.addEventListener("click",()=>{ if(EMBED){ if(cta.dataset.sent) return; cta.dataset.sent="1"; cta.disabled=true; cta.textContent="Opening Career Start…"; toGame("cms-sp-continue"); $("again").hidden=true; return; } toast.classList.add("on"); setTimeout(()=>toast.classList.remove("on"),1400); });
+window.__mq={ player(i){ manual=performance.now()/1000; last=manual; queue.length=0; startPlayer(i); }, advance(sec){ const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1); } },
+  get t(){ return vtt; }, get band(){ return bandDbg; }, get phase(){ return phase; }, get idx(){ return idx; } };
 
 const fontsReady=Promise.race([Promise.all(['600 60px "Barlow Condensed"','700 30px "Barlow Condensed"','500 30px "Barlow Condensed"','800 30px "Barlow Condensed"','800 40px "Big Shoulders Display"','900 40px "Big Shoulders Display"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);
 Promise.all([fontsReady,loadPano(),loadGrass(),loadPlate(),loadBoards(),loadSide("assets/stand_left.jpg","plateL","hasL"),loadSide("assets/stand_right.jpg","plateR","hasR"),loadCrests(),loadPackArt(),loadCardArt()]).then(()=>{ drawLed(ledTex.ctx); ledTex.tx.needsUpdate=true; resize(); buildEnv(); startPlayer(0);
