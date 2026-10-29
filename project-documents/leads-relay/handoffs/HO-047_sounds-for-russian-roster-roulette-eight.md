@@ -11,10 +11,10 @@
  "worker": "sol-work",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-29T22:54:49Z", "by": "V", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-10-29T22:54:49Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-29T23:00:35Z", "by": "G", "status": "RECEIVED", "note": "Received by the r86 lead; the r87 lead (thread 'Team G lead: r87 Squad Roulette') owns Russian Roster Roulette and builds the sounds."}],
  "from_session": "session_01GU43Q5sYPRm7BBmhFhnbcd"
 }
 ```
