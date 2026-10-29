@@ -192,6 +192,7 @@
         ]);
         // Drain the whole batch on failure too, so retries cannot exceed the concurrent-read bound.
         const failed=documents.find(item=>item.status==="rejected");if(failed)throw failed.reason;
+        if(typeof options.onSeasonRead==="function")try{options.onSeasonRead(seasonNumber);}catch(_error){}
         const [publicValue,p1,p2,stored]=documents.map(item=>item.value);
         // A gap is never a shorter history: any missing season makes the whole Showdown unavailable.
         if(!publicValue||!p1||!p2||!stored)csrFail("COMPLETED_SEASON_MISSING");

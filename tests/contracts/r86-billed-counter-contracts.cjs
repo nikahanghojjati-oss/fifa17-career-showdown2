@@ -9,7 +9,7 @@
 //    re-evaluates the Rules: Firebase pricing, "Listeners and rules"); a cached delivery costs nothing;
 // B4 a transaction that writes is billed its write lookups once per request; a read-only one none;
 // B5 a direct setDoc (the career summary) is billed its write lookups as a career page;
-// B6 seasons left: a season's cost is game reads only, today's use counts career pages too, both devices;
+// B6 seasons left: a season's cost is game reads only, today's use counts career pages too (this phone's, once), games for both devices;
 // B7 Settings shows both devices' total, split into games and career pages, in one row.
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
@@ -69,7 +69,7 @@ const RID='pair_'+'a'.repeat(64);
     assert.equal(today.reads,1,'one document read');
     assert.equal(today.career,1+model.readDocs('/rivalries/{rivalryId}/state/authoritative',false).length,'document + finished lookups (rivalry and account)');
     assert.equal(today.game,0,'not a game read');
-    assert.equal(today.billedEstimate,today.thisPhone*2,'both devices');
+    assert.equal(today.billedEstimate,today.career,'career pages are this phone only, never doubled (red team #9)');
   });
 
   await check('B3 a listener is billed document + lookups on every server delivery (Rules re-run on each update); cached ones cost nothing',()=>{
@@ -125,13 +125,13 @@ const RID='pair_'+'a'.repeat(64);
     b.noteSeasonDone(`${RID}|1`,true);
     const left=b.seasonsLeftToday(),today=b.readsToday();
     assert.equal(left.billedPerSeason,300*2,'career pages opened during the season are not part of its cost');
-    assert.equal(left.billedToday,(300+today.career)*2,'but they are part of today\'s use');
+    assert.equal(left.billedToday,300*2+today.career,'but they are part of today\'s use, once: only this phone opened them (red team #9)');
     assert.equal(left.seasons,Math.floor((50000-left.billedToday)/left.billedPerSeason));
   });
 
   await check('B7 Settings shows both devices\' total split into games and career pages in one row (Settings keeps its height)',()=>{
     const settings=read('js/settings.js');
-    assert.match(settings,/· games \$\{getSettingsRoundedReads\(today\.game \* 2\)\} · career pages \$\{getSettingsRoundedReads\(today\.career \* 2\)\}`/);
+    assert.match(settings,/· games \$\{getSettingsRoundedReads\(today\.game \* 2\)\} · career pages \$\{getSettingsRoundedReads\(today\.career\)\}`/);
     assert.doesNotMatch(settings,/COUNTED HERE TODAY|THIS DEVICE TODAY/,'no extra row: the short Settings screen must not scroll');
   });
 

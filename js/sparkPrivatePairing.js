@@ -796,7 +796,9 @@ async function revokePairing(options={}){
   }
   // r86: billedEstimate is both phones (this phone's billed reads twice: the other phone plays the same seasons); thisPhone,
   // game and career are this phone's own billed reads (documents + Rules lookups).
-  function fsbReadsToday(){const day=fsbDayState(),bill=day.bill,here=bill.game+bill.career;return Object.freeze({day:day.day,reads:day.reads,billedEstimate:Math.round(here*2),thisPhone:Math.round(here),game:Math.round(bill.game),career:Math.round(bill.career),freeReadsPerDay:FSB_FREE_READS_PER_DAY});}
+  // Red team #9: game reads are doubled for the partner's phone (it plays the same seasons); career pages are not, since only
+  // the phone that opens History or Legacy pays for them.
+  function fsbReadsToday(){const day=fsbDayState(),bill=day.bill,here=bill.game+bill.career;return Object.freeze({day:day.day,reads:day.reads,billedEstimate:Math.round(bill.game*2+bill.career),thisPhone:Math.round(here),game:Math.round(bill.game),career:Math.round(bill.career),freeReadsPerDay:FSB_FREE_READS_PER_DAY});}
   // r84: seasons left today. Each season this page sees ACKNOWLEDGED records the reads it made since the previous one, so
   // the cost per season follows the pace actually played (a slow season waits longer and costs more). The partner's device
   // is assumed to cost the same. Until a season is finished today, the last day's average (or the r84 measured cost) is used.
@@ -821,11 +823,11 @@ async function revokePairing(options={}){
     return true;
   }
   // r86: a season's cost is this phone's billed GAME reads between two ACKNOWLEDGED seasons (career pages opened meanwhile are
-  // not part of it), doubled for the two phones; what is left is the 50,000 less today's billed reads of both phones,
-  // career pages included.
+  // not part of it), doubled for the two phones; what is left is the 50,000 less today's billed game reads of both phones
+  // and this phone's career pages (red team #9: only the phone that opens them pays).
   function fsbSeasonsLeftToday(){
     const day=fsbDayState(),bill=day.bill,measured=fsbBillCost(bill),perPhone=measured||bill.lastCost||FSB_DEFAULT_SEASON_BILLED;
-    const perSeason=perPhone*2,used=(bill.game+bill.career)*2,left=Math.max(0,FSB_FREE_READS_PER_DAY-used);
+    const perSeason=perPhone*2,used=bill.game*2+bill.career,left=Math.max(0,FSB_FREE_READS_PER_DAY-used);
     return Object.freeze({seasons:fsbPaused()?0:Math.floor(left/perSeason),basis:measured?"today":bill.lastCost?"earlier":"estimate",billedPerSeason:Math.round(perSeason),billedLeft:Math.round(left),billedToday:Math.round(used)});
   }
 

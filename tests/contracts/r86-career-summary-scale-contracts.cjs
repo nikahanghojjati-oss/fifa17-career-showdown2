@@ -5,7 +5,8 @@
 // Showdowns (1,000 with CMS_SCALE_1000=1) and both managers it measures:
 //   first r86 open (no summaries yet: full read + one summary write per game, the one-time backfill),
 //   a known phone on a fresh page (phone copy: the index only),
-//   a new phone or wiped copy (index + one summary per game),
+//   a new phone or wiped copy (index + one summary per game; billed, each summary get also pays the Rules' activeAccount()
+//   lookup, so about index + 2 per game: red team #8; the check stays, it is the deleted-account boundary),
 //   and the time to build the career from the phone copy.
 // Hard ceilings (Gate): known phone <= index docs; new phone <= index docs + N; one write per game per manager, once.
 const assert=require('node:assert/strict');
@@ -100,7 +101,7 @@ function page(docs,phone,{hang=false}={}){
   vm.runInContext(read('js/careerSummaryStore.js'),c);
   vm.runInContext(read('js/sparkClosedShowdownCareerLoader.js'),c);
   const db={};
-  return {log,writes,settled:()=>c.CareerModeCareerSummaryStore.writesSettled(),load:uid=>c.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:db,firebaseSdk:sdk,user:{uid},cryptoImpl:webcrypto,phoneStorage:phone})};
+  return {log,writes,settled:()=>c.CareerModeCareerSummaryStore.writesSettled(),load:(uid,extra={})=>c.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:db,firebaseSdk:sdk,user:{uid},cryptoImpl:webcrypto,phoneStorage:phone,...extra})};
 }
 const strip=model=>JSON.stringify(model);
 // The production runtime's firestoreSdk carries no setDoc, so the History caller must hand the loader the imported SDK's
@@ -152,7 +153,9 @@ const results=[];
       const indexDocs=pagedIndex(docs,uid,ids);
       const phone=fakeIndexedDB();
       // 1. First r86 open: no summary anywhere yet (the backfill); every game read in full, then summarised once.
-      const first=page(docs,phone),t1=Date.now(),a=await first.load(uid),firstMs=Date.now()-t1;await first.settled();
+      let beats=0;const first=page(docs,phone),t1=Date.now(),a=await first.load(uid,{onProgress:()=>{beats++;}}),firstMs=Date.now()-t1;await first.settled();
+      // Red team #10: a full read reports every season, so History's 15 s inactivity limit never cuts one long game.
+      assert.equal(beats,1+count*(TOTAL+1),'progress: start, every season read, every finished game');
       complete(a,count,TOTAL);
       assert.equal(first.writes.length,count,'one summary write per game');
       assert.equal(first.log.length,indexDocs+count*(1+2+4*TOTAL),'first open: index, then per game one summary check and the full read');
@@ -163,7 +166,9 @@ const results=[];
       // 3. A new phone (or a wiped copy): one summary per game, no full read, no write; afterwards it is a known phone.
       const fresh=fakeIndexedDB(),newPhone=page(docs,fresh),t3=Date.now(),c3=await newPhone.load(uid),newMs=Date.now()-t3;
       complete(c3,count,TOTAL);assert.equal(strip(c3.model),strip(a.model),'summary career = full read career');
-      assert.equal(newPhone.log.length,indexDocs+count,'new phone reads the index plus one summary per game');
+      // Red team #13: the Setup confirm time reaches every History row, from a full read and from a summary alike.
+      for(const m of [a,b,c3])assert.ok(m.model.history.showdowns.every(r=>Number.isFinite(r.setupConfirmedAt)),'History rows carry setupConfirmedAt');
+      assert.equal(newPhone.log.length,indexDocs+count,'new phone reads the index plus one summary per game (billed: plus one account lookup each)');
       assert.ok(newPhone.log.every(ref=>ref.startsWith(`accounts/${uid}/`)),'a new phone never touches a game document');
       assert.equal(newPhone.writes.length,0);
       const again=page(docs,fresh);await again.load(uid);assert.equal(again.log.length,indexDocs,'after one open the new phone is a known phone');
