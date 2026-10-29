@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-29 5:09 PM Boston time (EDT)",
+ "generated": "2026-10-29 5:13 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 169,
@@ -1573,27 +1573,18 @@
  },
  "two": {
   "live": {
-   "sha": "e849e0f",
+   "sha": "a8a5b37",
    "revision": "1.9.9-r85",
-   "when": "2026-10-29T03:55:25Z",
-   "subject": "Record the SSJR 100/100 official launch across the repository (#1042)",
-   "fixes": [
+   "when": "2026-10-29T21:12:05Z",
+   "subject": "Phone Home: keep every tile above the bottom bar on iOS 26 Safari (#1062)",
+   "fixes": [],
+   "today": [
     {
      "pr": 1062,
      "title": "Phone Home: keep every tile above the bottom bar on iOS 26 Safari",
-     "draft": false,
-     "branch": "claude-gameplay/home-ios-bottom-bar",
-     "sha": "8e38487af3d4bf7f103ef7c26896419114e44864",
-     "updated": "2026-10-29T21:05:00Z",
-     "gates": {
-      "passed": 6,
-      "running": 0,
-      "failed": 2,
-      "cancelled": 0
-     }
+     "merged": "2026-10-29T21:12:05Z"
     }
-   ],
-   "today": []
+   ]
   },
   "physio": {
    "state": "clear",
@@ -2300,7 +2291,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3516,22 +3507,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 1062,
-    "title": "Phone Home: keep every tile above the bottom bar on iOS 26 Safari",
-    "draft": false,
-    "branch": "claude-gameplay/home-ios-bottom-bar",
-    "sha": "8e38487af3d4bf7f103ef7c26896419114e44864",
-    "updated": "2026-10-29T21:05:00Z",
-    "gates": {
-     "passed": 6,
-     "running": 0,
-     "failed": 2,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
