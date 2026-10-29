@@ -990,6 +990,46 @@ async function budgetWait(point){
   const brake=Object.fromEntries(["daniel","nik"].map(u=>[u,{trips:(after[u]?.trips||0)-(before[u]?.trips||0),onAtEnd:Boolean(after[u]?.since)}]));
   meter.mark(`wait:${point}:${showdownNow}.S${seasonNow}:start@${from}`);meter.mark(`wait:${point}:${showdownNow}.S${seasonNow}:end@${to}`);
   budgetWaits.push({brake,showdown:showdownNow,season:seasonNow,point,cat:def.cat,share:def.share,targetMin:target,sampleMin:(to-from)/60000,from,to});
+  await unlockProbe(point);
+}
+// CE2PG_UNLOCKS=N (budget mode): after a wait point's sample, each phone in turn locks and unlocks N times (the page goes hidden for
+// 15 s, then visible; CE2PG_UNLOCK_EVENT=online also fires the browser's online event, like a wifi/mobile-data switch) and the billed
+// reads of the 45 s after each unlock are priced against an idle 45 s just before, per document. Red team #18 (2026-10-29).
+const UNLOCKS=Number(process.env.CE2PG_UNLOCKS||0),UNLOCK_POINTS=(process.env.CE2PG_UNLOCK_POINTS||"results-published,transfer-window").split(",");
+const unlockRuns=[];
+async function setHidden(m,hidden,extra){
+  await m.page.evaluate(([h,ev])=>{
+    if(!window.__ce2pgVis){window.__ce2pgVis="visible";Object.defineProperty(document,"visibilityState",{configurable:true,get:()=>window.__ce2pgVis});Object.defineProperty(document,"hidden",{configurable:true,get:()=>window.__ce2pgVis==="hidden"});}
+    window.__ce2pgVis=h?"hidden":"visible";document.dispatchEvent(new Event("visibilitychange"));
+    if(!h&&ev==="online")window.dispatchEvent(new Event("online"));
+  },[hidden,extra||""]);
+}
+async function unlockProbe(point){
+  if(!BUDGET_MODE||!UNLOCKS||!UNLOCK_POINTS.includes(point))return;
+  const evName=process.env.CE2PG_UNLOCK_EVENT||"";
+  for(const user of ["daniel","nik"]){
+    const m=ctxRef[user];
+    const winPrice=(a,b)=>{const evs=meter.events.filter(e=>e.t>=a&&e.t<b&&(e.k==="read"||e.k==="write"||e.k==="listener"));const p=billedMeter.price(billedModel,evs);const mine=billedMeter.price(billedModel,sumBy(evs,user));return {billed:p.billed,mine:mine.billed,byPath:billedMeter.top(mine.byPath,12),byModule:billedMeter.top(mine.byModule,12)};};
+    const i0=Date.now();await m.page.waitForTimeout(45000);const idle=winPrice(i0,Date.now());
+    const cycles=[];
+    for(let i=0;i<UNLOCKS;i+=1){
+      await setHidden(m,true);await m.page.waitForTimeout(15000);
+      const at=Date.now();await setHidden(m,false,evName);await m.page.waitForTimeout(45000);
+      cycles.push(winPrice(at,Date.now()));
+    }
+    if(process.env.CE2PG_RELOAD_PROBE==="1"){
+      const at=Date.now();await m.page.reload({waitUntil:"domcontentloaded"});await m.page.waitForTimeout(60000);
+      const r=winPrice(at,Date.now());unlockRuns.push({point,user,season:seasonNow,event:"reload",reload:r});
+      console.log(`RELOAD ${point} ${user}: 60s after reload billed both=${r.billed} mine=${r.mine}`);
+      for(const x of r.byPath)console.log(`   ${x.key}  docs=${x.docs} rules=${x.rules}`);
+      for(const x of r.byModule)console.log(`   MOD ${x.key}  docs=${x.docs} rules=${x.rules}`);
+    }
+    const row={point,user,season:seasonNow,event:evName||"visibility",idle,cycles,extraPerUnlockBoth:Math.round(cycles.reduce((a,c)=>a+c.billed,0)/cycles.length-idle.billed),extraPerUnlockMine:Math.round(cycles.reduce((a,c)=>a+c.mine,0)/cycles.length-idle.mine)};
+    unlockRuns.push(row);report.unlocks=unlockRuns;
+    console.log(`UNLOCK ${point} ${user}: idle45=${idle.billed} (mine ${idle.mine}) unlock45=${cycles.map(c=>`${c.billed}/${c.mine}`).join(",")} extra/unlock both=${row.extraPerUnlockBoth} mine=${row.extraPerUnlockMine}`);
+    for(const r of cycles[0].byPath)console.log(`   ${r.key}  docs=${r.docs} rules=${r.rules}`);
+    for(const r of cycles[0].byModule)console.log(`   MOD ${r.key}  docs=${r.docs} rules=${r.rules}`);
+  }
 }
 let ctxRef=null;const publishedRates=[];const playWindows=[];
 const sumBy=(evs,user)=>evs.filter(e=>!user||e.user===user);
