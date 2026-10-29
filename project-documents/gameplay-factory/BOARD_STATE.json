@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-29 3:52 AM Boston time (EDT)",
+ "generated": "2026-10-29 3:55 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 148,
+  "count": 150,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1335,6 +1335,24 @@
     "subject": "Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87)",
     "reply": "yes (receive it)",
     "boston": "Wed 28 Oct 8:06 PM"
+   },
+   {
+    "time": "2026-10-29 00:13",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-040 RECEIVED",
+    "subject": "Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87)",
+    "reply": "no",
+    "boston": "Wed 28 Oct 8:13 PM"
+   },
+   {
+    "time": "2026-10-29 07:53",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-041 SENT",
+    "subject": "League wheel spin polish: 7 errors fixed, patch ready to merge (Nik OK)",
+    "reply": "yes (receive it)",
+    "boston": "Thu 29 Oct 3:53 AM"
    }
   ],
   "g2v": {
@@ -1355,8 +1373,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "34859fb",
-  "head_boston": "Wed 28 Oct 8:13 PM",
+  "head": "38e9f3d",
+  "head_boston": "Thu 29 Oct 3:54 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1947,6 +1965,32 @@
     "worker": "images",
     "pickup_min": 6,
     "waiting_min": null
+   },
+   {
+    "id": "HO-041",
+    "from": "V",
+    "to": "G",
+    "title": "League wheel spin polish: 7 errors fixed, patch ready to merge (Nik OK)",
+    "stage": "RECEIVED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-041_league-wheel-spin-polish-7-errors-fixed-.md",
+    "worker": "",
+    "pickup_min": 1,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-042",
+    "from": "G",
+    "to": "V",
+    "title": "r86 Special Player reveal: card text cut, phone label, gold glow instead of white flash",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-042_r86-special-player-reveal-card-text-cut-.md",
+    "worker": "",
+    "pickup_min": null,
+    "waiting_min": 1
    }
   ],
   "relay_ok": true
@@ -2018,7 +2062,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 44,
   "next": 42,
   "nik": 2,
   "later": 21,
