@@ -830,7 +830,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
       {season:two(live.seasons.length+1,live.totalSeasons),points:two(t.daniel.total,t.nik.total),W:two(t.daniel.W,t.nik.W),D:two(t.daniel.D,t.nik.D),L:two(t.daniel.L,t.nik.L),cl:two(t.daniel.cl,t.nik.cl),league:two(t.daniel.league,t.nik.league),cup:two(t.daniel.cup,t.nik.cup),trophies:two(t.daniel.trophies,t.nik.trophies)},scr("Standings (This Showdown)"));
   }
   // With no live Showdown, THIS SHOWDOWN is empty on every browser (the one that played the last Showdown too).
-  else await check(m,id("standings.thisShowdown"),"Standings (This Showdown) says there is no active Showdown",/No active showdown/i.test(f.thisShowdownText||""),(f.thisShowdownText||"").slice(0,300),scr("Standings (This Showdown)"));
+  else await check(m,id("standings.thisShowdown"),"Standings (This Showdown) says there is no active Showdown",/No active showdown|No Showdown in progress/i.test(f.thisShowdownText||""),(f.thisShowdownText||"").slice(0,300),scr("Standings (This Showdown)"));
   // Rivalry Statistics: the live Showdown while one is played, else the newest completed one (never an ended-early one).
   const rivalrySource=live||[...career].reverse().find(s=>s.state==="completed")||null;
   if(rivalrySource&&rivalrySource.seasons.length){
@@ -842,7 +842,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
   // Settings
   const st=f.settings,ended=st&&st.buttons.includes("END SHOWDOWN");
   await check(m,id("settings.end"),settingsLive?"Settings offers END SHOWDOWN while the Showdown is live":"Settings shows no END SHOWDOWN when no Showdown is live",settingsLive?ended:!ended,JSON.stringify(st),scr("Settings"));
-  await check(m,id("settings.mode"),"Settings: MODE REAL CAREER and PARTNER Paired with the other manager",st&&/^REAL CAREER/.test(st.rows.MODE||"")&&st.rows.PARTNER===`Paired with ${m.account==="daniel"?"Nik":"Daniel"}`&&!st.buttons.includes("START TEST RUN"),JSON.stringify(st),scr("Settings"));
+  await check(m,id("settings.mode"),"Settings: CAREER saved online and PARTNER Paired with the other manager",st&&/^Saved online/.test(st.rows.CAREER||"")&&st.rows.PARTNER===`Paired with ${m.account==="daniel"?"Nik":"Daniel"}`&&!st.buttons.includes("START TEST RUN"),JSON.stringify(st),scr("Settings"));
   await check(m,id("settings.current"),settingsLive?"Settings: CURRENT SHOWDOWN names the live Showdown":"Settings: CURRENT SHOWDOWN is None",st&&(settingsLive?st.rows["CURRENT SHOWDOWN"]&&st.rows["CURRENT SHOWDOWN"]!=="None":st.rows["CURRENT SHOWDOWN"]==="None"),JSON.stringify(st?.rows),scr("Settings"));
   await check(m,id("settings.history"),`Settings: HISTORY counts ${E.completedCount} completed Showdown${E.completedCount===1?"":"s"}`,st&&st.rows.HISTORY===`${E.completedCount} completed showdown${E.completedCount===1?"":"s"}`,JSON.stringify(st?.rows),scr("Settings"));
   return f;

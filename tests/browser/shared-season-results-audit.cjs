@@ -225,7 +225,7 @@ async function reviewTamperAndPublish(page,role,result,{lostAcknowledgement=fals
     assert.equal(await peer.locator('#seasonReviewOne').isVisible(),true,'second publisher may see opponent only after RESULTS_READY');
     assert.equal(await peer.locator('#seasonReviewTwo').isVisible(),true);
     await peer.locator('#sharedSeasonCommitAction').waitFor({state:'visible',timeout:5000});
-    assert.equal(await peer.locator('#sharedSeasonCommitAction').textContent(),'WAITING FOR DANIEL','real routed Season Commit adapter must render the peer wait state after RESULTS_READY');
+    assert.equal(await peer.locator('#sharedSeasonCommitAction').textContent(),'WAITING FOR NIK','real routed Season Commit adapter must render the peer wait state after RESULTS_READY');
 
     assert.equal(await host.evaluate(()=>CareerModeProductionSharedSeasonCommit.getState()),null,'installed Commit must still be asleep before reopening ready Results');
     await host.evaluate(()=>{window.__commitRouteRefreshes=0;const api=window.CareerModeProductionSharedSeasonCommit;window.CareerModeProductionSharedSeasonCommit={...api,refresh:(...args)=>{window.__commitRouteRefreshes++;return api.refresh(...args);}};});

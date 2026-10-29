@@ -170,7 +170,7 @@ function isPairClosedSave(s){
 function noLiveShowdownMeta(){
     let id = "";
     try{ id = window.CareerModeOnlinePlayerIdentity?.getState?.()?.managerId || ""; }catch(_error){}
-    return "No Showdown live" + (id === "daniel" ? " · tap to start one" : id === "nik" ? " · tap to join Daniel's" : "");
+    return "No Showdown live" + (id === "daniel" ? " · tap to start" : id === "nik" ? " · tap to join Daniel's" : "");
 }
 
 function getSavedShowdownMenuMeta(){
