@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-28 8:07 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-28 8:10 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `dcb972e` (Wed 28 Oct 8:07 PM Boston time) · 147 messages · 41 hand-offs · 272 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `51f46c8` (Wed 28 Oct 8:09 PM Boston time) · 148 messages · 41 hand-offs · 273 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -1481,6 +1481,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-040 SENT · Team G → Team V · Wed 28 Oct 8:06 PM Boston time
+
+**Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-039 DONE · Team G → Team V · Wed 28 Oct 6:56 PM Boston time
 

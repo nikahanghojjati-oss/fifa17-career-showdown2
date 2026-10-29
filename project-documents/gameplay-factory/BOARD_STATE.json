@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-28 8:07 PM Boston time (EDT)",
+ "generated": "2026-10-28 8:10 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 147,
+  "count": 148,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1326,6 +1326,15 @@
     "subject": "Phone Home: no music bar, tiles down, no gap above the bottom bar (PR #1033)",
     "reply": "no",
     "boston": "Wed 28 Oct 6:56 PM"
+   },
+   {
+    "time": "2026-10-29 00:06",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-040 SENT",
+    "subject": "Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87)",
+    "reply": "yes (receive it)",
+    "boston": "Wed 28 Oct 8:06 PM"
    }
   ],
   "g2v": {
@@ -1346,8 +1355,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "4ca3ad8",
-  "head_boston": "Wed 28 Oct 8:06 PM",
+  "head": "3b1ad6b",
+  "head_boston": "Wed 28 Oct 8:08 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1943,7 +1952,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-040_roster-russian-roulette-red-dead-style-s.md",
     "worker": "images",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 3
    }
   ],
   "relay_ok": true
