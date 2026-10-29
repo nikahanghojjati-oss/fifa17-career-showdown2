@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28 11:54 PM Boston time (EDT)",
+ "generated": "2026-10-28 11:58 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 148,
@@ -1384,27 +1384,17 @@
  },
  "two": {
   "live": {
-   "sha": "a72fc64",
+   "sha": "e849e0f",
    "revision": "1.9.9-r85",
-   "when": "2026-10-29T02:55:07Z",
-   "subject": "SSJR 100: fix the credit recorder's main checks and record the 2026-10-29 run (#1041)",
-   "fixes": [
+   "when": "2026-10-29T03:55:25Z",
+   "subject": "Record the SSJR 100/100 official launch across the repository (#1042)",
+   "fixes": [],
+   "today": [
     {
      "pr": 1042,
      "title": "Record the SSJR 100/100 official launch across the repository",
-     "draft": false,
-     "branch": "claude-gameplay/ssjr100-launch-record",
-     "sha": "1f09ae4c3491a98589e63dd837dc502d77cbe5fd",
-     "updated": "2026-10-29T03:20:06Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    }
-   ],
-   "today": [
+     "merged": "2026-10-29T03:55:25Z"
+    },
     {
      "pr": 1041,
      "title": "SSJR 100: fix the credit recorder's main checks and record the 2026-10-29 run",
@@ -1420,7 +1410,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #1042: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #1042 0/16",
+   "gate": "POS20 #304 6/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -2044,7 +2034,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3260,22 +3250,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 1042,
-    "title": "Record the SSJR 100/100 official launch across the repository",
-    "draft": false,
-    "branch": "claude-gameplay/ssjr100-launch-record",
-    "sha": "1f09ae4c3491a98589e63dd837dc502d77cbe5fd",
-    "updated": "2026-10-29T03:20:06Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
