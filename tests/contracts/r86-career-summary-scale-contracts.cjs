@@ -123,10 +123,27 @@ async function pendingWrite(){
   const next=page(docs,phone);complete(await next.load(uid),2,3);
   assert.deepEqual(next.log,[`accounts/${uid}/careerIndex/current`],'the phone copy was kept although the write never finished');
 }
+// Red team #7: a finished game damaged in its own documents (a season missing) fails the same way on every read. It is kept
+// for the page like a finished game, so a second career-screen open re-reads only the index head, not the whole game again.
+async function damagedGame(){
+  const docs=Object.assign({},game(1,3),game(2,3)),uid=accounts[0],phone=fakeIndexedDB();index(docs,uid,[rid(1),rid(2)]);
+  docs[`rivalries/${rid(2)}/seasonCommits/season_2`]={...docs[`rivalries/${rid(2)}/seasonCommits/season_2`],phase:'PENDING'};
+  const p=page(docs,phone),a=await p.load(uid);
+  assert.equal(a.model.coverage.readable,1,'the damaged game is left out, the good one counts');
+  const before=p.log.length;const b=await p.load(uid);
+  assert.equal(p.log.length-before,1,'second open on the same page rechecks the index head only');
+  assert.equal(strip(b.model),strip(a.model));
+  // Codex P2 on #1047: a Setup document that is missing for a moment is retried on the next open of the same page.
+  const late=game(3,3);index(late,uid,[rid(3)]);
+  const setup=`rivalries/${rid(3)}/sharedSetup/authoritative`,held=late[setup];delete late[setup];
+  const q=page(late,fakeIndexedDB());assert.equal((await q.load(uid)).model.coverage.readable,0);
+  late[setup]=held;assert.equal((await q.load(uid)).model.coverage.readable,1,'the restored Setup is read again');
+}
 const counts=[10,30,100,...(process.env.CMS_SCALE_1000==='1'?[1000]:[])];
 const results=[];
 (async()=>{
   await pendingWrite();
+  await damagedGame();
   const TOTAL=10;
   for(const count of counts){
     const docs=Object.assign({},...Array.from({length:count},(_,i)=>game(i+1,TOTAL)));

@@ -22,7 +22,12 @@
   const confirmationClubBaselines=new WeakMap();
   // Job 33: R3 the league reveal moves on to the club packs by itself after the 4.1 s wheel; R4a the first confirmer
   // opens Career Start by itself once the rival confirms. Both are navigation only (no provider write).
-  const LEAGUE_AUTO_FORWARD_MS=4200;
+  // Wheel polish: the league name, lock note and Continue stay back until the wheel has stopped (4.1 s), then the
+  // revealed league holds on screen for 2.6 s before the club packs, so both managers see the winner land.
+  const LEAGUE_SPIN_MS=4100;
+  const LEAGUE_REVEAL_HOLD_MS=2600;
+  const LEAGUE_AUTO_FORWARD_MS=LEAGUE_SPIN_MS+LEAGUE_REVEAL_HOLD_MS;
+  let leagueSpinUntil=0;
   let autoCareerStartKey="";
   let leagueForwardWaiter=null;
 
@@ -52,7 +57,7 @@
   function ssjpLater(fn,ms){const id=root.setTimeout(()=>{timers=timers.filter(item=>item!==id);fn();},ms);timers.push(id);return id;}
   function ssjpContextKey(next=state){const shell=ssjpShell();return `${String(next?.rivalryId||"").trim()}|${String(shell?.id||shell?.saveId||"").trim()}`;}
   function ssjpResetWitnesses(){
-    ssjpClearTimers();ssjpClearLeagueForwardWaiter();witnessedLeagueId=null;witnessedClubDigest=null;revealingClubDigest=null;clubRevealComplete=false;revealedSummaryClubs=0;preparedSeasonCommitPromise=null;autoCareerStartKey="";
+    ssjpClearTimers();ssjpClearLeagueForwardWaiter();witnessedLeagueId=null;leagueSpinUntil=0;witnessedClubDigest=null;revealingClubDigest=null;clubRevealComplete=false;revealedSummaryClubs=0;preparedSeasonCommitPromise=null;autoCareerStartKey="";
     const league=root.document&&root.document.getElementById("leagueWheelScreen"),club=root.document&&root.document.getElementById("clubWheelScreen");
     if(league)delete league.dataset.sharedLeagueWitnessed;
     if(club){delete club.dataset.sharedClubPacksWitnessed;delete club.dataset.sharedPackDigest;}
@@ -108,13 +113,16 @@
     if(!ready){ssjpClearLeagueLock(null,track);ssjpText(result,"Connect both players to spin");ssjpSetControl(button,{label:"CONNECT BOTH PLAYERS FIRST",disabled:true});if(note){ssjpText(note,state&&state.message||"Both players must be connected before the wheel can spin.");note.classList.remove("hidden");}return true;}
     if(!state.setup){ssjpClearLeagueLock(note,track);ssjpText(result,"League wheel ready");ssjpSetControl(button,{label:state.remoteRole==="host"?"SPIN WHEEL":"WAITING FOR HOST",disabled:state.remoteRole!=="host"||ssjpActionBusy()});ssjpSetSharedStatus(state.remoteRole==="host"?"BOTH PLAYERS CONNECTED · Spin the wheel.":"BOTH PLAYERS CONNECTED · Waiting for the host to spin.");return true;}
     if(state.setup.phase==="SHARED_SETUP_OPEN"){ssjpClearLeagueLock(note,track);ssjpText(result,"Spin to reveal the league");ssjpSetControl(button,{label:ssjpCoordinator()?"SPIN WHEEL":"WAITING FOR HOST TO SPIN",disabled:!ssjpCoordinator()||ssjpActionBusy()});ssjpSetSharedStatus(ssjpCoordinator()?"SETUP OPEN · Spin the wheel.":"SETUP OPEN · Waiting for the host to spin.");return true;}
-    const league=ssjpLeagueRecord(state.setup.leagueId);ssjpText(result,league&&league.name||state.setup.leagueId);
+    const league=ssjpLeagueRecord(state.setup.leagueId);
     if(witnessedLeagueId!==state.setup.leagueId){
       witnessedLeagueId=state.setup.leagueId;screen.dataset.sharedLeagueWitnessed=state.setup.leagueId;
-      if(track){const rotation=typeof root.getLeagueRotation==="function"?root.getLeagueRotation(state.setup.leagueId,6):(typeof getLeagueRotation==="function"?getLeagueRotation(state.setup.leagueId,6):0);if(typeof root.setLeagueWheelTransition==="function")root.setLeagueWheelTransition(track,4000);else track.style.transition="transform 4000ms cubic-bezier(.16,.76,.16,1)";track.style.transform=`rotate(${rotation}deg)`;track.dataset.sharedLeagueId=state.setup.leagueId;ssjpLater(()=>{const finalRotation=typeof root.getLeagueRotation==="function"?root.getLeagueRotation(state.setup.leagueId,0):(typeof getLeagueRotation==="function"?getLeagueRotation(state.setup.leagueId,0):rotation);if(typeof root.setLeagueWheelTransition==="function")root.setLeagueWheelTransition(track,0);else track.style.transition="none";track.style.transform=`rotate(${finalRotation}deg)`;},4100);}
+      if(track){leagueSpinUntil=Date.now()+LEAGUE_SPIN_MS;ssjpLater(()=>{leagueSpinUntil=0;void ssjpRenderLeague();},LEAGUE_SPIN_MS+20);}
+      if(track){const rotation=typeof root.getLeagueRotation==="function"?root.getLeagueRotation(state.setup.leagueId,3):(typeof getLeagueRotation==="function"?getLeagueRotation(state.setup.leagueId,3):0);if(typeof root.setLeagueWheelTransition==="function")root.setLeagueWheelTransition(track,4000);else track.style.transition="transform 4000ms cubic-bezier(.2,.62,.18,1)";track.style.transform=`rotate(${rotation}deg)`;track.dataset.sharedLeagueId=state.setup.leagueId;ssjpLater(()=>{const finalRotation=typeof root.getLeagueRotation==="function"?root.getLeagueRotation(state.setup.leagueId,0):(typeof getLeagueRotation==="function"?getLeagueRotation(state.setup.leagueId,0):rotation);if(typeof root.setLeagueWheelTransition==="function")root.setLeagueWheelTransition(track,0);else track.style.transition="none";track.style.transform=`rotate(${finalRotation}deg)`;},4100);}
       ssjpLater(ssjpAutoForwardToClubs,LEAGUE_AUTO_FORWARD_MS);
     }
-    ssjpSetControl(button,{label:"CONTINUE TO CLUB PACKS",disabled:ssjpActionBusy()});if(note){ssjpText(note,`${league&&league.name||state.setup.leagueId} is locked for both managers.`);note.classList.remove("hidden");}ssjpSetSharedStatus("LEAGUE REVEALED · Continue to the club packs. No reroll.");return true;
+    if(leagueSpinUntil&&Date.now()<leagueSpinUntil){ssjpText(result,"SPINNING…");ssjpSetControl(button,{label:"SPINNING…",disabled:true});if(note){ssjpText(note,"");note.classList.add("hidden");}ssjpSetSharedStatus("LEAGUE WHEEL · Spinning for both managers.");return true;}
+    ssjpText(result,league&&league.name||state.setup.leagueId);
+    ssjpSetControl(button,{label:"CONTINUE TO CLUB PACKS",disabled:ssjpActionBusy()});if(note){ssjpText(note,`${league&&league.name||state.setup.leagueId} is locked for both managers.`);note.classList.remove("hidden");}ssjpSetSharedStatus("LEAGUE REVEALED · No reroll.");return true;
   }
 
   function ssjpAutoForwardToClubs(){
@@ -127,7 +135,7 @@
   function ssjpClearLeagueForwardWaiter(){if(leagueForwardWaiter&&root.document?.removeEventListener)root.document.removeEventListener("visibilitychange",leagueForwardWaiter);leagueForwardWaiter=null;}
   function ssjpDeferLeagueForward(leagueId){
     if(leagueForwardWaiter||typeof root.document?.addEventListener!=="function")return false;
-    leagueForwardWaiter=()=>{if(root.document.visibilityState==="hidden")return;ssjpClearLeagueForwardWaiter();if(active&&witnessedLeagueId===leagueId)ssjpLater(ssjpAutoForwardToClubs,LEAGUE_AUTO_FORWARD_MS);};
+    leagueForwardWaiter=()=>{if(root.document.visibilityState==="hidden")return;ssjpClearLeagueForwardWaiter();if(active&&witnessedLeagueId===leagueId)ssjpLater(ssjpAutoForwardToClubs,LEAGUE_REVEAL_HOLD_MS);};
     root.document.addEventListener("visibilitychange",leagueForwardWaiter);return true;
   }
   function ssjpMaybeAutoOpenCareerStart(setup){

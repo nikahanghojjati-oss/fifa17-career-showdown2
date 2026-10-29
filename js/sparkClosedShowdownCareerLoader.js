@@ -75,7 +75,9 @@
               if(store&&options.careerSummaries!==false&&store.summarisable(read,rivalryId))await store.saveSummary({...storeOptions,firebaseSdk:options.firebaseSdk,state:read});
             }
           }
-          if(read&&read.rivalryId===rivalryId&&(TERMINAL.includes(read.status)||read.status==="never-started"&&read.ended!=null)&&cclScope===scope)scope.cache.set(rivalryId,read);
+          // r86 (red team #7): a failure stored in the game's own documents repeats on every read, so it is kept for this page
+          // like a finished game instead of costing a full re-read (~154 billed for 10 seasons) on every career-screen open.
+          if(read&&read.rivalryId===rivalryId&&(TERMINAL.includes(read.status)||read.status==="never-started"&&read.ended!=null||reader.permanentFailure?.(read)===true)&&cclScope===scope)scope.cache.set(rivalryId,read);
         }catch(_error){}finally{scope.pending.delete(rivalryId);resolve(read);}
       }));
       scope.pending.set(rivalryId,flight);
