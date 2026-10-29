@@ -1,12 +1,56 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-29 2:52 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-29 2:56 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `a6898f3` (Thu 29 Oct 2:06 PM Boston time) · 166 messages · 46 hand-offs · 309 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `dc25b97` (Thu 29 Oct 2:54 PM Boston time) · 167 messages · 47 hand-offs · 311 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-046 · V → G · League wheel spin: drawn slice lines, no dashed flicker while it turns (PR #1058 into gameplay/r86)
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Thu 29 Oct 2:54 PM · Team V · Sent
+- Thu 29 Oct 2:55 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+# HO-046 · League wheel spin: drawn slice lines, no dashed flicker while it turns (Team V → Team G)
+
+**From:** Team V (thread "Hunt and fix visual bugs") · **Date:** 29 Oct 2026 · **Requested by:** Nik ("the spinning doesn't look smooth premium and high quality")
+
+## What Nik sees
+While the League wheel turns, the five gold lines between the slices break into dashes and flicker, and the whole spin reads rough. Once it stops they look fine again.
+
+## Why
+The dividers in `css/v10Setup.css` were a `repeating-conic-gradient` sliver of 0.5°: thinner than one pixel at the hub and about 2 px at the rim. A rotating element is a texture on the GPU; resampling a sub-pixel sliver at a new angle every frame gives a dashed, shimmering line. The motion itself is fine (60 fps, one composited transform transition).
+
+## Fix (one CSS rule, Team V file)
+- The five dividers are now five SVG strokes (width 2.4 on a 480 box, round caps) as the track's background image: one clean line at every angle and every size.
+- `backface-visibility: hidden` and `will-change: transform` on the track keep one GPU layer for the whole 4 s transition.
+- Nothing else changes: gold wedge, rim, hub, names, 3 turns, HO-041 easing, layout at every breakpoint.
+
+Branch `claude-visual/r86-wheel-spin-lines` @ 5a0a94b2 from gameplay/r86 858c68dd; PR #1058 into gameplay/r86 (https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1058). Patch copy: `project-documents/leads-relay/attachments/HO-046/HO-046_v10Setup.css.patch`.
+
+## Evidence (same build, same frame time)
+- `project-documents/leads-relay/attachments/HO-046/BEFORE_AFTER_DESKTOP_1440_midspin.jpg`
+- `project-documents/leads-relay/attachments/HO-046/BEFORE_AFTER_DESKTOP_1920_midspin.jpg`
+- `project-documents/leads-relay/attachments/HO-046/BEFORE_AFTER_PHONE_393_midspin.jpg` (393x852 at 3x)
+
+## Checks
+Spin frames at 400–3600 ms at 1440x900, 1920x1080, 393x852: solid lines. Frame probe: median 16.7 ms, no dropped frames at 1440. Phone marble face check PASS (12 screens). `v10-setup-contracts` 10/10, `career-screens-v10-contracts` 12/12.
+
+## Resources used
+- MDN, CSS easing functions (cubic-bezier, why ease-out curves read as a wheel slowing): https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Easing_functions
+- GSAP forum, wheel spin woes (spin as one transform, long ease-out, never animate the texture): https://gsap.com/community/forums/topic/6724-wheel-spin-woes-with-greensock-v12-js/
+- CSS-Tricks on gradient hairlines and anti-aliasing in transforms: https://css-tricks.com/?p=343623
+
+## For Team G
+Merge the PR into gameplay/r86 (ships with r86). No test changes needed.
+
+</details>
 
 ### HO-045 · V → G · Select League: no focus box round the picture title (5-line CSS fix)
 
@@ -1659,6 +1703,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-046 SENT · Team V → Team G · Thu 29 Oct 2:54 PM Boston time
+
+**League wheel spin: drawn slice lines, no dashed flicker while it turns (PR #1058 into gameplay/r86)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-045 DONE · Team G → Team V · Thu 29 Oct 2:06 PM Boston time
 
