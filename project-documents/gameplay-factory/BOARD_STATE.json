@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-29 4:03 AM Boston time (EDT)",
+ "generated": "2026-10-29 4:07 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 150,
@@ -1373,8 +1373,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "49d8152",
-  "head_boston": "Thu 29 Oct 3:59 AM",
+  "head": "09d3593",
+  "head_boston": "Thu 29 Oct 4:05 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1410,8 +1410,8 @@
    "today": []
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: POS20 on #312 has waited 2 min for a machine.",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -1984,8 +1984,8 @@
     "from": "G",
     "to": "V",
     "title": "r86 Special Player reveal: card text cut, phone label, gold glow instead of white flash",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-042_r86-special-player-reveal-card-text-cut-.md",
     "worker": "",
@@ -2062,7 +2062,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 44,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
