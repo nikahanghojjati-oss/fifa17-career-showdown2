@@ -664,3 +664,58 @@
   :root:not(#r78):not(#r78) #productionSharedCareerStartOverlay .remoteJoiningActions { grid-template-columns: minmax(0, 1fr); gap: 10px; margin-top: auto; padding-top: 8px; }
   :root:not(#r78):not(#r78) #productionSharedCareerStartOverlay .remoteJoiningActions .compactButton { min-height: 54px; font-size: 16px; }
 }
+
+/* HO-043 (Team V, 29 Oct 2026) · items 2 and 5.
+   2. On Select League and Club Assignment the shared dialogs (WAITING FOR <rival>, Shared Career Start, shared setup) sat in the
+      middle of a wide window and covered the wheel or the club cards. On wide landscape windows they are now one low strip
+      along the bottom of the window (at most 105px tall, bottom 1.2vh): the header on the left, then the words, the YOU/RIVAL
+      rows and the buttons side by side. On Select League the strip sits under SPIN WHEEL / BACK; on Club Assignment there is no
+      free band (the club cards end 18px above OPEN SHOWDOWN PACKS), so the strip sits over that button row, never over the
+      cards, the faces or the title. Phones, sideways phones and tablets keep the centred card. The overlay stays transparent
+      (7d above), so nothing behind it is dimmed.
+   5. A button that waits for the other manager (WAITING FOR HOST, I STARTED AT <club> while busy, VIEW SEASON HISTORY before
+      data, REFRESH while busy) was greyed and see-through (app.css .48 opacity). Waiting is now a solid look: black lacquer with
+      a gold edge and gold words at full opacity (owner rule HO-027: never dim), the pointer shows "wait". */
+@media (min-width:1200px) and (min-height:600px) and (orientation:landscape) {
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) .remoteJoiningOverlay:is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) {
+    place-items: end center; padding: 0 0 1.2vh;
+  }
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningShell {
+    width: min(1240px, 92vw); max-height: min(105px, 12.5vh); display: grid; grid-template-columns: 150px minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); overflow: hidden;
+  }
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningHeader {
+    display: flex; flex-direction: row; justify-content: space-between; align-items: center; gap: 8px; padding: 6px 10px; min-height: 0;
+    border-bottom: 0; border-right: 1px solid rgba(242, 196, 91, .35); font-size: 10px; line-height: 1.2;
+  }
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningDismiss { width: 32px; height: 32px; flex: 0 0 auto; }
+  /* the body is a three-column grid: the words, then the YOU / RIVAL rows (two by two), then the buttons */
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto auto; grid-auto-rows: min-content; align-content: center; align-items: center;
+    column-gap: 18px; row-gap: 2px; padding: 4px 12px; min-height: 0; max-height: 100%; box-sizing: border-box; overflow: auto; overscroll-behavior: contain;
+  }
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody > :is(.remoteJoiningEyebrow, h2, p, .remoteJoiningIntro, .remoteJoiningStatus) { grid-column: 1; margin: 0; }
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody > .remoteJoiningEyebrow { font-size: 9px; line-height: 1.1; }
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody > h2 { font-size: 16px; line-height: 1.1; }
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody > p { font-size: 11.5px; line-height: 1.2; }
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody > .remoteJoiningStatus { margin: 1px 0 0; padding: 2px 8px; font-size: 10.5px; line-height: 1.2; }
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody > :is(.settingsInfoGrid, .remoteJoiningCard, .remoteJoiningCurrent, .remoteJoiningMeta) { grid-column: 2; grid-row: 1 / span 6; align-self: center; margin: 0; }
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody > .settingsInfoGrid { display: grid; grid-template-columns: repeat(2, max-content); gap: 3px 6px; }
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody .settingsInfoRow { display: flex; flex-direction: row; align-items: baseline; gap: 8px; min-height: 0; min-width: 0; padding: 3px 8px; white-space: nowrap; }
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody .settingsInfoRow > span { display: inline; margin: 0; font-size: 9px; line-height: 1.2; }
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody .settingsInfoRow > strong { display: inline; margin: 0; font-size: 13px; line-height: 1.2; }
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody > .remoteJoiningActions { grid-column: 3; grid-row: 1 / span 6; align-self: center; display: flex; flex-direction: column; align-items: stretch; gap: 4px; margin: 0; min-width: 190px; max-width: 300px; }
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningActions :is(.compactButton, .menuButton) { min-height: 34px; width: auto; margin: 0; padding: 3px 14px; font-size: 12px; }
+  /* a dialog with only words (WAITING FOR NIK) lets them run the whole width */
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody:not(:has(.settingsInfoGrid, .remoteJoiningCard, .remoteJoiningActions)) > :is(p, h2, .remoteJoiningEyebrow, .remoteJoiningStatus) { grid-column: 1 / -1; }
+}
+/* 5. the waiting look (no dimming) */
+:root:not(#r78):not(#r78) :is(#leagueWheelScreen, #clubWheelScreen) :is(.menuButton, .backButton):disabled,
+:root:not(#r78):not(#r78) .remoteJoiningOverlay :is(.compactButton, .menuButton):disabled,
+:root:not(#r78):not(#r78) #legacy .legacyPrimaryAction:disabled,
+:root:not(#r78):not(#r78) .r78-btn:disabled {
+  opacity: 1; filter: none; cursor: wait;
+  color: var(--r78-gold-strong, #f6c75e);
+  background: linear-gradient(180deg, #16140f, #080807) padding-box, linear-gradient(135deg, #f2c45b, #8a6a12 45%, #f2c45b) border-box;
+  border: 2px solid transparent; text-shadow: none;
+  box-shadow: inset 0 0 0 1px #050505, inset 0 1px 0 2px rgba(255, 241, 184, .12), 0 4px 14px rgba(0, 0, 0, .5);
+}

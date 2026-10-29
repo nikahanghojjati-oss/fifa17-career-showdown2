@@ -378,3 +378,16 @@ html #app #topHeader{color:var(--f17-ink);font-family:var(--f17-ui)}
  /* The wider phone layout retains the existing 52px desktop navigation bar. */
  html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10:not(.v10FinalMode)){padding-top:52px}
 }
+
+/* HO-043 (Team V, 29 Oct 2026) · item 6b: on a 1440x900 laptop the review box words were 10-12 px. The vw-based sizes now have
+   higher floors (body 13-14 px, small print 12 px, buttons 14 px); the box keeps its place and scrolls inside when it must. */
+@media(min-width:901px){
+ #app #seasonEntry.seasonScreenV10 .season-review-panel:not(.hidden){overflow-y:auto;overscroll-behavior:contain}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel :is(.seasonReviewIntro,.seasonReviewResult){font-size:clamp(14px,.85vw,16px);line-height:1.3}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .summaryClub{font-size:clamp(14px,.9vw,17px)}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewGrid .summaryLine{font-size:clamp(14px,.85vw,16px);line-height:1.3}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewAchievements span{font-size:clamp(12px,.75vw,14px)}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel :is(.overallScoreBox,.seasonReviewWarning,.seasonReviewError){font-size:clamp(12px,.75vw,14px)}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewStatus{font-size:clamp(12px,.75vw,14px)}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions button{font-size:clamp(14px,.9vw,16px)}
+}
