@@ -29,6 +29,7 @@
     "test:r79-flash-taps": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/r79-waiting-cold-cache-audit.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/r79-reload-hold-audit.cjs",
     "test:r79-journey": "CMS_CHROMIUM_MULTI_CONTEXT=1 npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json --only auth,firestore --project demo-cms-browser-journey \"node tests/browser/r79-two-player-journey-audit.cjs\"",
     "test:ce2pg": "node tests/browser/ce2pg-journey.cjs",
+    "test:budget": "CE2PG_BUDGET=1 CE2PG_BUDGET_SAMPLE_MIN=1 CE2PG_BUDGET_SHORT_SAMPLE_MIN=0.5 CE2PG_PLAN=single CE2PG_SEASONS=3 node tests/browser/ce2pg-journey.cjs",
     "test:settings-layout": "CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/settings-layout-audit.cjs",
     "test:loading-visual": "node tests/browser/loading-visual-audit.cjs",
     "test:football-visual": "node tests/browser/football-visual-audit.cjs",
