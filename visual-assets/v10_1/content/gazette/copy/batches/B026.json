@@ -35,7 +35,7 @@
   },
   {
    "id": "cb26-008",
-   "text": "You could hear the sigh from {loserClub} from the far end of the table."
+   "text": "You could hear the sigh from the far end of the table."
   },
   {
    "id": "cb26-009",
@@ -43,7 +43,7 @@
   },
   {
    "id": "cb26-010",
-   "text": "Steady as you like, {winnerClub} ticked along while the rest of the table drifted off the pace."
+   "text": "Steady as you like, this side ticked along while the rest of the table drifted off the pace."
   },
   {
    "id": "cb26-011",
@@ -71,7 +71,7 @@
   },
   {
    "id": "cb26-017",
-   "text": "Nobody will remember the small moments, but {winner} will remember the big picture, and it is very pleasant."
+   "text": "Nobody will remember the small moments, but the winner will remember the big picture, and it is very pleasant."
   },
   {
    "id": "cb26-018",
@@ -79,11 +79,11 @@
   },
   {
    "id": "cb26-019",
-   "text": "{loserClub} can take heart that the margin is not a mile, although it is not a short walk either."
+   "text": "The beaten side can take heart that the margin is not a mile, although it is not a short walk either."
   },
   {
    "id": "cb26-020",
-   "text": "A {margin} finish, a steady grin, and {winner} strolling towards the cabinet with the calm of someone who planned it."
+   "text": "A {margin} finish, a steady grin, and {winner} strolling to the cabinet with the calm of someone who planned it."
   },
   {
    "id": "cb26-021",
@@ -91,7 +91,7 @@
   },
   {
    "id": "cb26-022",
-   "text": "The rest of the field spent the year chasing, and {winnerClub} spent the year looking unbothered about it."
+   "text": "The rest of the field spent the year chasing, and this side spent the year looking unbothered about it."
   },
   {
    "id": "cb26-023",
@@ -123,7 +123,7 @@
   },
   {
    "id": "cb26-030",
-   "text": "You cannot blame {loser} for trying, but trying alone will not close a {margin} gap."
+   "text": "You cannot blame the beaten side for trying, but trying alone will not close a {margin} gap."
   },
   {
    "id": "cb26-031",
@@ -147,7 +147,7 @@
   },
   {
    "id": "cb26-036",
-   "text": "Some managers want a thriller every season, but {winner} seemed perfectly happy with a nice quiet pass to the finish line."
+   "text": "Some managers want a thriller every season, but the winner seemed happy with a quiet pass to the line."
   },
   {
    "id": "cb26-037",
@@ -159,7 +159,7 @@
   },
   {
    "id": "cb26-039",
-   "text": "Comfortable seasons are not the glamorous ones, but {winnerClub} wears them well, like an old coat with a good cut."
+   "text": "Comfortable seasons are not the glamorous ones, but this side wears them well, like an old coat with a good cut."
   },
   {
    "id": "cb26-040",
@@ -183,7 +183,7 @@
   },
   {
    "id": "cb26-045",
-   "text": "{loserClub} will sulk for a week, buy a new whiteboard and be back at it by Monday."
+   "text": "The beaten side will sulk for a week, buy a new whiteboard and be back at it by Monday."
   },
   {
    "id": "cb26-046",
@@ -207,11 +207,11 @@
   },
   {
    "id": "cb26-051",
-   "text": "{loser} had some decent spells, but decent spells are not a season, and this one belonged to {winner}."
+   "text": "The beaten side had some decent spells, but decent spells are not a season, and this one belonged to {winner}."
   },
   {
    "id": "cb26-052",
-   "text": "Comfortable in every sense, and the bench at {winnerClub} can finally put its feet up."
+   "text": "Comfortable in every sense, and the bench can finally put its feet up."
   },
   {
    "id": "cb26-053",
@@ -227,11 +227,11 @@
   },
   {
    "id": "cb26-056",
-   "text": "Nothing flashy, nothing fancy, just {winner} stacking the points calmly and letting the table do the talking."
+   "text": "Nothing flashy, nothing fancy, just the winner stacking the points calmly and letting the table do the talking."
   },
   {
    "id": "cb26-057",
-   "text": "Efficiency is the word for it, and {loser} would rather be admiring something else entirely."
+   "text": "Efficiency is the word for it, and the beaten side would rather be admiring something else entirely."
   },
   {
    "id": "cb26-058",
@@ -251,11 +251,11 @@
   },
   {
    "id": "cb26-062",
-   "text": "Deep breath, calm nerves, and {winnerClub} can say they did the job without ever raising the temperature."
+   "text": "Deep breath, calm nerves, and this side can say they did the job without ever raising the temperature."
   },
   {
    "id": "cb26-063",
-   "text": "Sensible gap, steady lead, and {loser} got a tidy lesson in how much patience a Showdown needs."
+   "text": "Sensible gap, steady lead, and the beaten side got a tidy lesson in how much patience a Showdown needs."
   },
   {
    "id": "cb26-064",
@@ -287,7 +287,7 @@
   },
   {
    "id": "cb26-071",
-   "text": "Nobody would guess from the calm that {winnerClub} were the ones leading, but they were."
+   "text": "Nobody would guess from the calm that this side were the ones leading, but they were."
   },
   {
    "id": "cb26-072",
@@ -307,7 +307,7 @@
   },
   {
    "id": "cb26-076",
-   "text": "Every bit as comfortable as it looked, and {loserClub} know it from the wrong side of the table."
+   "text": "Every bit as comfortable as it looked, and the losers know it from the wrong side of the table."
   },
   {
    "id": "cb26-077",
@@ -351,7 +351,7 @@
   },
   {
    "id": "cb26-087",
-   "text": "Built on patience and polished with discipline, the season belonged to {winner} while {loser} watched from the touchline."
+   "text": "Built on patience and polished with discipline, the season was {winner}'s, and {loser} watched from the touchline."
   },
   {
    "id": "cb26-088",
@@ -387,7 +387,7 @@
   },
   {
    "id": "cb26-096",
-   "text": "This table keeps its shape, and {loser} can only admire the shape from the outside."
+   "text": "This table keeps its shape, and the beaten side can only admire the shape from the outside."
   },
   {
    "id": "cb26-097",
@@ -399,11 +399,11 @@
   },
   {
    "id": "cb26-099",
-   "text": "There you have it: a calm {margin} gap, a calm manager, and a calm sort of nightmare for {loserClub}."
+   "text": "There you have it: a calm {margin} gap, a calm manager, and a calm sort of nightmare for the other side."
   },
   {
    "id": "cb26-100",
-   "text": "Let the table have its quiet week, because {winner} has earned a comfortable little victory lap, and so has the {winnerClub} bench."
+   "text": "Let the table have its quiet week, because {winner} has earned a comfortable little lap, and so has the bench."
   }
  ]
 }

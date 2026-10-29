@@ -7,383 +7,403 @@
  "lines": [
   {
    "id": "cb11-001",
-   "text": "{leader} wins again, and the gap to {trailer} just got a little wider!"
+   "text": "Healthy before, that lead. Now it is something much more serious!"
   },
   {
    "id": "cb11-002",
-   "text": "Another season, another win for {leader}, and the horizon keeps sliding away from {trailer}."
+   "text": "Gone is the breathing room for the chaser, and the road out front is long and empty!"
   },
   {
    "id": "cb11-003",
-   "text": "Healthy before, that lead. Now it is something much more serious, and {winnerClub} know it!"
+   "text": "Hear that? That is the sound of a gap getting wider."
   },
   {
    "id": "cb11-004",
-   "text": "Pulling clear now, {leader}, and the rear lights are getting smaller for {trailer}!"
+   "text": "Tight at the top a while ago. Rather less tight now!"
   },
   {
    "id": "cb11-005",
-   "text": "You wonder how {trailer} responds to this. {leader} has gone and made a big lead bigger."
+   "text": "This is how leads are built: quietly, calmly, one winning season after another!"
   },
   {
    "id": "cb11-006",
-   "text": "{winnerClub} again, and the lead grows. The chasing pack is a pack of one now."
+   "text": "Bit by bit, season by season, a lead is turning into a lock!"
   },
   {
    "id": "cb11-007",
-   "text": "Gone is the breathing room for {trailer}. In its place, a stretch of road with {leader} far out front!"
+   "text": "The Showdown is leaning hard to one side now, and you can feel it from the cheap seats."
   },
   {
    "id": "cb11-008",
-   "text": "Grip tightening, nerves steady, and {leader} puts another season in the bank."
+   "text": "Cruising altitude for one dugout, turbulence for the other."
   },
   {
    "id": "cb11-009",
-   "text": "This is how leads are built. Quietly, calmly, and one winning season after another!"
+   "text": "Calm, clinical, out of sight. That is how you stretch a lead."
   },
   {
    "id": "cb11-010",
-   "text": "Season {season} goes to {winnerClub}, and the Showdown tilts a little further their way."
+   "text": "Feel that shift? The lead is no longer a lead. It is a problem for the chaser to solve."
   },
   {
    "id": "cb11-011",
-   "text": "{trailer} needed an answer and {leader} supplied another question instead!"
+   "text": "A comfortable lead is no place to rest, and nobody in the front dugout is resting."
   },
   {
    "id": "cb11-012",
-   "text": "There is a lead, and then there is a lead that makes the other dugout go quiet. {leader} has the second kind."
+   "text": "Slowly and surely the drawbridge goes up, and the leader is on the safe side of it!"
   },
   {
    "id": "cb11-013",
-   "text": "Hear that? That is the sound of {loserClub} running out of road!"
+   "text": "You hear it all the time, no lead is safe. This one is working hard to prove it wrong."
   },
   {
    "id": "cb11-014",
-   "text": "Tight at the top a while ago. Rather less tight now, thanks to {leader}!"
+   "text": "Winning breeds winning, and the leader has caught the habit!"
   },
   {
    "id": "cb11-015",
-   "text": "What does {trailer} do now? {leader} has won again, and the lead is stretching out!"
+   "text": "Oh, that is a gap the other dugout will feel tonight."
   },
   {
    "id": "cb11-016",
-   "text": "The gap now stands at {margin}, and {leader} is not looking back!"
+   "text": "Unstoppable? Not quite. But it is making an awfully good impression of it!"
   },
   {
    "id": "cb11-017",
-   "text": "{leader} extends the advantage to {margin}, and that is a lot of daylight!"
+   "text": "What a position to be in. Further clear, and still hungry!"
   },
   {
    "id": "cb11-018",
-   "text": "Daylight, that is what {leader} has found. Daylight and a lead of {margin}!"
+   "text": "The longer this goes, the more it looks like one manager's Showdown."
   },
   {
    "id": "cb11-019",
-   "text": "Take a long look at the gap. It is {margin} now, and it did not shrink on {leader}'s watch!"
+   "text": "They call it a Showdown, but the leader is making it look like a stroll."
   },
   {
    "id": "cb11-020",
-   "text": "{leader} adds another winning season, and the lead to {trailer} reads {margin} now."
+   "text": "Time is running, and every winning season takes a bit more of it from the chaser."
   },
   {
    "id": "cb11-021",
-   "text": "A lead of {margin} for {winnerClub}, and the nearest rival is squinting at the horizon!"
+   "text": "If this were a marathon, the leader would be turning round to wave about now."
   },
   {
    "id": "cb11-022",
-   "text": "It is {margin} between them, and {leader} is still pushing for more!"
+   "text": "Breathe, chaser. It is a long road still, but a serious stretch has opened up!"
   },
   {
    "id": "cb11-023",
-   "text": "Out in front by {margin}, and every season adds another brick to the wall for {leader}."
+   "text": "No fuss, no drama, just a clean win and a lead that keeps growing."
   },
   {
    "id": "cb11-024",
-   "text": "{trailer} cut the deficit once. {leader} has cut that idea off at the knees."
+   "text": "Watch that gap, folks. It does not want to close, and nobody is helping it!"
   },
   {
    "id": "cb11-025",
-   "text": "You cannot win a Showdown in one season, but {leader} is making a fine case for trying!"
+   "text": "A little breathing space is gold in a Showdown, and there is plenty of it now!"
   },
   {
    "id": "cb11-026",
-   "text": "The longer this goes, the more it looks like {leader}'s Showdown. {trailer} has work to do."
+   "text": "That gap did not just grow, it stretched, and somebody is holding the tape!"
   },
   {
    "id": "cb11-027",
-   "text": "Steady hands at the wheel, {leader}, and the road ahead is clear!"
+   "text": "Do not take your eyes off this one. The lead is on a roll, and so is the leader!"
   },
   {
    "id": "cb11-028",
-   "text": "Keep an eye on {winnerClub}, because they are not slowing down and the gap is not closing!"
+   "text": "There is a lead, then a cushion, then whatever this is. A fortress, perhaps."
   },
   {
    "id": "cb11-029",
-   "text": "{trailer} gave chase, but {leader} simply found another gear and pulled away."
+   "text": "Sit back, leader. Well, not too far back. The lead is growing, but the chase is still on."
   },
   {
    "id": "cb11-030",
-   "text": "Winning once is good. Winning again, and stretching the lead, is how legends start talking about you!"
+   "text": "Watching this is like watching a train pick up speed on a long straight!"
   },
   {
    "id": "cb11-031",
-   "text": "Here is the thing about a lead: it takes a long time to build and a short time to lose, and {leader} is building."
-  },
-  {
-   "id": "cb11-032",
-   "text": "Bit by bit, season by season, {winnerClub} are turning a lead into a lock!"
-  },
-  {
-   "id": "cb11-033",
-   "text": "Make no mistake, {trailer}, this is a statement from {leader}."
-  },
-  {
-   "id": "cb11-034",
-   "text": "The scoreboard of the Showdown is leaning hard to one side, and it is {leader}'s side!"
-  },
-  {
-   "id": "cb11-035",
-   "text": "Another season banked, another notch up the ladder, and {leader} is a long way clear of {trailer}!"
-  },
-  {
-   "id": "cb11-036",
-   "text": "Cruising altitude for {leader}. Turbulence, for {trailer}."
-  },
-  {
-   "id": "cb11-037",
-   "text": "{leader} just made the chase a lot harder. Uphill, and into the wind for {trailer}!"
-  },
-  {
-   "id": "cb11-038",
-   "text": "Calm, clinical, and out of sight. That is {winnerClub} this season!"
-  },
-  {
-   "id": "cb11-039",
-   "text": "Feel that shift? The lead is no longer a lead. It is becoming a gap {trailer} must fix."
-  },
-  {
-   "id": "cb11-040",
-   "text": "Season after season, {leader} keeps finding ways to win, and the cushion keeps getting plumper!"
-  },
-  {
-   "id": "cb11-041",
-   "text": "Not a flicker of doubt from {winner}, and not a lot of hope left for {loserClub} to hang on to!"
-  },
-  {
-   "id": "cb11-042",
-   "text": "The work of a manager who will not let the foot off the pedal. {leader} wins, and wins again!"
-  },
-  {
-   "id": "cb11-043",
-   "text": "A comfortable lead is no place to rest, and {leader} is not resting."
-  },
-  {
-   "id": "cb11-044",
-   "text": "Slowly and surely, the drawbridge goes up, and {leader} is on the safe side of it!"
-  },
-  {
-   "id": "cb11-045",
-   "text": "Pressure from behind? Not for {leader}, who has stretched the lead and the smile!"
-  },
-  {
-   "id": "cb11-046",
-   "text": "It is {winnerClub} in front, and in front again, and in front by a mile compared to where it began!"
-  },
-  {
-   "id": "cb11-047",
-   "text": "You hear it all the time, no lead is safe. {leader} is trying hard to prove that wrong."
-  },
-  {
-   "id": "cb11-048",
-   "text": "Winning breeds winning, and {leader} has caught the habit!"
-  },
-  {
-   "id": "cb11-049",
-   "text": "Oh, that is a gap {trailer} will feel in the dugout tonight."
-  },
-  {
-   "id": "cb11-050",
-   "text": "Now {trailer} must find something special, because {leader} has taken another step clear!"
-  },
-  {
-   "id": "cb11-051",
-   "text": "Fortune smiles on the brave, and {leader} has been very brave!"
-  },
-  {
-   "id": "cb11-052",
-   "text": "Everything {trailer} builds, {leader} seems to top. That is the story of this Showdown right now."
-  },
-  {
-   "id": "cb11-053",
-   "text": "Unstoppable? Not quite. But {leader} is making it look an awful lot like it!"
-  },
-  {
-   "id": "cb11-054",
-   "text": "What a position {leader} is in. Further clear, and still hungry!"
-  },
-  {
-   "id": "cb11-055",
-   "text": "Every season {leader} wins, the chasing job for {trailer} gets taller."
-  },
-  {
-   "id": "cb11-056",
-   "text": "That was the sort of season that adds a zero to the confidence. The lead is bigger, and so is {winner}'s grin."
-  },
-  {
-   "id": "cb11-057",
-   "text": "They may call it a Showdown, but {leader} is making it look like a stroll."
-  },
-  {
-   "id": "cb11-058",
-   "text": "A lead is a lovely thing, and {leader} has just made theirs lovelier still!"
-  },
-  {
-   "id": "cb11-059",
-   "text": "Round after round, {winnerClub} keep winning, and the lead grows with the applause!"
-  },
-  {
-   "id": "cb11-060",
-   "text": "Out ahead, further out ahead, and still going. That is {leader} all over!"
-  },
-  {
-   "id": "cb11-061",
-   "text": "Hats off to {leader}, who just moved the goalposts for the chase!"
-  },
-  {
-   "id": "cb11-062",
-   "text": "Time is running, and each winning season for {leader} takes a bit more of it from {trailer}."
-  },
-  {
-   "id": "cb11-063",
-   "text": "Solid, professional, and one step beyond {trailer}. That is the {winnerClub} way."
-  },
-  {
-   "id": "cb11-064",
-   "text": "The race for the lead has become a race to catch up, and {trailer} is the one doing the running!"
-  },
-  {
-   "id": "cb11-065",
-   "text": "Add one more winning season to the pile, and {leader} has something very comfortable to sit on."
-  },
-  {
-   "id": "cb11-066",
-   "text": "If this were a marathon, {leader} would be turning round to wave at {trailer} right about now."
-  },
-  {
-   "id": "cb11-067",
-   "text": "This is a statement season from {leader}, who just widened the gap on the rival!"
-  },
-  {
-   "id": "cb11-068",
-   "text": "Breathe, {trailer}. It is a long road still, but {leader} has opened up a serious stretch!"
-  },
-  {
-   "id": "cb11-069",
-   "text": "Another victory means another chunk of advantage, and {winnerClub} will take every bit!"
-  },
-  {
-   "id": "cb11-070",
-   "text": "No dramatics, no drama, just a clean win and a lead that keeps growing."
-  },
-  {
-   "id": "cb11-071",
-   "text": "Watch that gap, folks. It does not want to close, and {leader} certainly is not helping!"
-  },
-  {
-   "id": "cb11-072",
-   "text": "{leader} makes it look easy, and that is the most worrying thing of all for {trailer}."
-  },
-  {
-   "id": "cb11-073",
-   "text": "Smoothly done by {winnerClub}, and the Showdown is a little more settled than before."
-  },
-  {
-   "id": "cb11-074",
-   "text": "A little breathing space is gold in a Showdown, and {leader} has found plenty!"
-  },
-  {
-   "id": "cb11-075",
-   "text": "Leaders lead, and {leader} has led from the front again, with {trailer} far behind."
-  },
-  {
-   "id": "cb11-076",
-   "text": "That gap did not just grow, it stretched, and {leader} was holding the tape!"
-  },
-  {
-   "id": "cb11-077",
-   "text": "Fresh from a win, {leader} looks every inch the favorite, and {trailer} is the one with questions."
-  },
-  {
-   "id": "cb11-078",
-   "text": "Do not take your eyes off this one. {leader} is on a roll, and the lead is on a roll too!"
-  },
-  {
-   "id": "cb11-079",
-   "text": "There is a lead, and then there is a cushion, and then there is whatever {leader} has built here."
-  },
-  {
-   "id": "cb11-080",
-   "text": "Quiet confidence at {winnerClub}, and quiet worry at {loserClub}. That is how leads feel!"
-  },
-  {
-   "id": "cb11-081",
-   "text": "A season to remember for {winner}, a season to forget for {loser}, and a Showdown that tilts again."
-  },
-  {
-   "id": "cb11-082",
-   "text": "Think of the lead as a wall, and {leader} just added another row of bricks."
-  },
-  {
-   "id": "cb11-083",
-   "text": "Wasn't this supposed to be tight? {leader} has had other ideas, and then some!"
-  },
-  {
-   "id": "cb11-084",
-   "text": "{trailer} will need a big, big season to fix this, because {leader} just got out of reach."
-  },
-  {
-   "id": "cb11-085",
-   "text": "Sit back, {leader}. Well, not too far back. The lead is growing, but the chase is on."
-  },
-  {
-   "id": "cb11-086",
-   "text": "Breaking away from the field, and the field is one manager, and that manager is {trailer}."
-  },
-  {
-   "id": "cb11-087",
-   "text": "Up goes the advantage, up goes the confidence, and up goes the volume in the {winnerClub} dugout!"
-  },
-  {
-   "id": "cb11-088",
-   "text": "A big step closer to something special for {leader}, and a big step further away for {trailer}."
-  },
-  {
-   "id": "cb11-089",
-   "text": "Not one, but two in a row for the lead to be stretched. Impressive from {leader}!"
-  },
-  {
-   "id": "cb11-090",
    "text": "It is a lead you can feel from the other side of the room."
   },
   {
+   "id": "cb11-032",
+   "text": "One more win, and what once looked like a race looks more like a solo run."
+  },
+  {
+   "id": "cb11-033",
+   "text": "Another one banked, another notch up the ladder, and the view from the top is getting lovely!"
+  },
+  {
+   "id": "cb11-034",
+   "text": "Quiet confidence in one dugout, quiet worry in the other. That is how leads feel!"
+  },
+  {
+   "id": "cb11-035",
+   "text": "Making it look easy is the hardest trick in the game, and the leader just pulled it off!"
+  },
+  {
+   "id": "cb11-036",
+   "text": "The gap now stands at {margin}, and nobody out front is looking back!"
+  },
+  {
+   "id": "cb11-037",
+   "text": "Daylight, that is what the lead has found. Daylight, and {margin} of it!"
+  },
+  {
+   "id": "cb11-038",
+   "text": "Take a long look at the gap. It reads {margin} now, and it did not shrink this season!"
+  },
+  {
+   "id": "cb11-039",
+   "text": "Out in front by {margin}, and every season adds another brick to the wall."
+  },
+  {
+   "id": "cb11-040",
+   "text": "{leader} wins again, and the gap to {trailer} just got a little wider!"
+  },
+  {
+   "id": "cb11-041",
+   "text": "Another season, another win for {leader}, and the horizon keeps sliding away from {trailer}."
+  },
+  {
+   "id": "cb11-042",
+   "text": "Pulling clear now, {leader}, and the rear lights are getting smaller for {trailer}!"
+  },
+  {
+   "id": "cb11-043",
+   "text": "You wonder how {trailer} responds to this. {leader} has made a big lead bigger."
+  },
+  {
+   "id": "cb11-044",
+   "text": "{winnerClub} again, and the lead grows. The chasing pack is a pack of one now."
+  },
+  {
+   "id": "cb11-045",
+   "text": "Grip tightening, nerves steady, and {leader} puts another season in the bank."
+  },
+  {
+   "id": "cb11-046",
+   "text": "Season {season} goes to {winnerClub}, and the Showdown tilts a little further their way."
+  },
+  {
+   "id": "cb11-047",
+   "text": "{trailer} needed an answer, and {leader} has supplied another question instead!"
+  },
+  {
+   "id": "cb11-048",
+   "text": "Some leads make the other dugout go quiet, and {leader} has just built one of them."
+  },
+  {
+   "id": "cb11-049",
+   "text": "Running out of road, {loserClub}, and the leader is still accelerating!"
+  },
+  {
+   "id": "cb11-050",
+   "text": "What does {trailer} do now? The lead is stretching out, and {leader} is not finished!"
+  },
+  {
+   "id": "cb11-051",
+   "text": "{leader} adds another winning season, and the lead reads {margin} now."
+  },
+  {
+   "id": "cb11-052",
+   "text": "A lead of {margin} for {winnerClub}, and the nearest rival is squinting into the distance!"
+  },
+  {
+   "id": "cb11-053",
+   "text": "It is {margin} between them, and {leader} is still pushing for more!"
+  },
+  {
+   "id": "cb11-054",
+   "text": "Once, {trailer} cut the deficit. {leader} has slammed that door."
+  },
+  {
+   "id": "cb11-055",
+   "text": "Steady hands at the wheel, {leader}, and the road ahead is clear!"
+  },
+  {
+   "id": "cb11-056",
+   "text": "Keep an eye on {winnerClub}, because they are not slowing down and the gap is not closing!"
+  },
+  {
+   "id": "cb11-057",
+   "text": "{trailer} gave chase, but the lead only grew, and the chaser is breathing hard."
+  },
+  {
+   "id": "cb11-058",
+   "text": "Winning once is good. Winning again and stretching the lead is how {leader} starts to sound like a favorite!"
+  },
+  {
+   "id": "cb11-059",
+   "text": "Make no mistake, that was a statement from {leader}."
+  },
+  {
+   "id": "cb11-060",
+   "text": "Not a flicker of doubt from {winner}, and a long think ahead for {loserClub}!"
+  },
+  {
+   "id": "cb11-061",
+   "text": "Work of a manager who will not lift the foot off the pedal. {leader} wins, and wins again!"
+  },
+  {
+   "id": "cb11-062",
+   "text": "Pressure from behind? Not for {leader}, who has stretched the lead and the smile!"
+  },
+  {
+   "id": "cb11-063",
+   "text": "{winnerClub} in front, and in front again, and further in front than ever!"
+  },
+  {
+   "id": "cb11-064",
+   "text": "Another victory means another chunk of advantage, and {winnerClub} will take every bit!"
+  },
+  {
+   "id": "cb11-065",
+   "text": "{leader} makes it look easy, and that is the most worrying thing of all for the chaser."
+  },
+  {
+   "id": "cb11-066",
+   "text": "Smoothly done by {winnerClub}, and the Showdown feels a little more settled than before."
+  },
+  {
+   "id": "cb11-067",
+   "text": "Fresh from a win, {leader} looks every inch the favorite, and the other dugout has questions."
+  },
+  {
+   "id": "cb11-068",
+   "text": "{trailer} will need a big, big season to fix this, because the lead is moving out of reach."
+  },
+  {
+   "id": "cb11-069",
+   "text": "Up goes the advantage, up goes the confidence, and up goes the volume in the {winnerClub} dugout!"
+  },
+  {
+   "id": "cb11-070",
+   "text": "Every season {leader} wins, the chasing job gets harder."
+  },
+  {
+   "id": "cb11-071",
+   "text": "Look how far {leader} has traveled, and look how far there is still to go for the chase."
+  },
+  {
+   "id": "cb11-072",
+   "text": "Hats off to {winnerClub}, who just moved the finish line a little further from {loserClub}!"
+  },
+  {
+   "id": "cb11-073",
+   "text": "A season to remember for {winner}, a long think for {loser}, and a Showdown that leans again."
+  },
+  {
+   "id": "cb11-074",
+   "text": "Out ahead, further out ahead, and still going. That is {leader} all over!"
+  },
+  {
+   "id": "cb11-075",
+   "text": "Everything {trailer} builds, the leader seems to top. That is the story right now."
+  },
+  {
+   "id": "cb11-076",
+   "text": "Confidence is a lead you carry in your head, and {leader} is carrying plenty!"
+  },
+  {
+   "id": "cb11-077",
+   "text": "{leader} will sleep well tonight, and the chaser will stare at the ceiling."
+  },
+  {
+   "id": "cb11-078",
+   "text": "Ahead before, further ahead now. {leader} keeps adding to the story!"
+  },
+  {
+   "id": "cb11-079",
+   "text": "What a grip {leader} has on this Showdown, and it is tightening!"
+  },
+  {
+   "id": "cb11-080",
+   "text": "Round after round, {winnerClub} keep winning, and the lead grows with the applause!"
+  },
+  {
+   "id": "cb11-081",
+   "text": "Solid, professional, and one more step beyond the chase. That is the {winnerClub} way."
+  },
+  {
+   "id": "cb11-082",
+   "text": "{leader}, you have made this look rather straightforward. {trailer} would disagree."
+  },
+  {
+   "id": "cb11-083",
+   "text": "The race for the lead is now a race to catch up, and {trailer} is the one running!"
+  },
+  {
+   "id": "cb11-084",
+   "text": "Add one more winning season to the pile, and {leader} has something very comfortable to sit on."
+  },
+  {
+   "id": "cb11-085",
+   "text": "Leaders lead, and {leader} has led from the front again!"
+  },
+  {
+   "id": "cb11-086",
+   "text": "Touch of class from {winnerClub}, and a touch of worry for the other dugout."
+  },
+  {
+   "id": "cb11-087",
+   "text": "Some managers coast. {leader} accelerates, and the lead goes with it!"
+  },
+  {
+   "id": "cb11-088",
+   "text": "Watch {leader} now: head down, jaw set, and the lead still getting bigger."
+  },
+  {
+   "id": "cb11-089",
+   "text": "For {trailer}, the climb just got steeper. For {leader}, the view just got better!"
+  },
+  {
+   "id": "cb11-090",
+   "text": "Brace yourself, {loserClub}. The leader is in no mood to share the road!"
+  },
+  {
    "id": "cb11-091",
-   "text": "Cold, clear, and calculated. {leader} extends the lead, and the Showdown leans the same way."
+   "text": "Reliable as ever, {winnerClub} chalk up another win and stretch the gap."
   },
   {
    "id": "cb11-092",
-   "text": "Watching {leader} win this season is like watching a train pick up speed on a long straight!"
+   "text": "Quietly, relentlessly, {leader} keeps turning seasons into advantages!"
   },
   {
    "id": "cb11-093",
-   "text": "One more for {winnerClub}, and what once looked like a race looks more like a procession of one."
+   "text": "It is all going {winnerClub}'s way, and {loserClub} will have to change the script."
   },
   {
    "id": "cb11-094",
-   "text": "Look how far {leader} has traveled, and look how far there is still to go for {trailer}."
+   "text": "{winner} wears this lead like a tailored suit."
   },
   {
    "id": "cb11-095",
-   "text": "Season {season} adds to the legend, and {leader} adds to the gap!"
+   "text": "Ask {trailer} how the lead looks from back there. Long, and getting longer!"
+  },
+  {
+   "id": "cb11-096",
+   "text": "Credit where it is due: {winnerClub} turned a good position into a commanding one!"
+  },
+  {
+   "id": "cb11-097",
+   "text": "Settled is a comforting word in the {winnerClub} camp, and a worrying one for {loserClub}."
+  },
+  {
+   "id": "cb11-098",
+   "text": "Late at night, the console hums, and {leader} has another season to smile about!"
+  },
+  {
+   "id": "cb11-099",
+   "text": "One more for the collection, {winner}, and the lead looks sturdier than ever."
+  },
+  {
+   "id": "cb11-100",
+   "text": "They keep coming for {leader}, and {leader} keeps going further clear!"
   }
  ]
 }

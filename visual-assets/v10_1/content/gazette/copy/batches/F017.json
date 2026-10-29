@@ -1,0 +1,259 @@
+{
+ "edited": true,
+ "writer": "claude-haiku-helper",
+ "batch": 17,
+ "situation": "final-season-decider",
+ "flavour": "Call and analysis",
+ "duets": [
+  {
+   "id": "fb17-01",
+   "lead": "Crunch time, and {leader} still holds the edge at the top.",
+   "co": "Edge is useful, but the run-in is all about who keeps a cool head when the nerves kick in."
+  },
+  {
+   "id": "fb17-02",
+   "lead": "A final lap to run, and {trailer} is close enough to smell the prize.",
+   "co": "Close is never enough on its own; the chaser has to hope the leaders slip at the back."
+  },
+  {
+   "id": "fb17-03",
+   "lead": "The curtain is about to rise on the closing act, and it is still wide open.",
+   "co": "Wide open means a single wrong decision could settle everything, so no one can relax."
+  },
+  {
+   "id": "fb17-04",
+   "lead": "Every manager is staring at the home straight, and no one is looking away.",
+   "co": "That is where big squads show their character and the rest of us find out who they really are."
+  },
+  {
+   "id": "fb17-05",
+   "lead": "Last lap of the Showdown, and {leader} has to hold the line.",
+   "co": "Holding the line sounds simple, but it is the hardest job in football once the pressure lands."
+  },
+  {
+   "id": "fb17-06",
+   "lead": "The decider is here, with {margin} between the pair and everything still to play for.",
+   "co": "A gap of {margin} is nothing when the finale is this close, since a bad spell can flip it."
+  },
+  {
+   "id": "fb17-07",
+   "lead": "This is the endgame, and every corner of the table is still alive.",
+   "co": "Every corner counts now, since the run-in leaves no room for second thoughts."
+  },
+  {
+   "id": "fb17-08",
+   "lead": "The finale of the {seasons} seasons is about to begin, and nothing is settled.",
+   "co": "Nothing settled at this stage is what makes the wait worth it, because every point counts."
+  },
+  {
+   "id": "fb17-09",
+   "lead": "A decider with the table so tight you could slide paper between them.",
+   "co": "Tight tables are a nightmare for the managers and a treat for everyone else."
+  },
+  {
+   "id": "fb17-10",
+   "lead": "Season {season} is the big one, and {trailer} needs a spark to catch up.",
+   "co": "A challenger catches up with a big surge and a steady head, and a spark is only the start."
+  },
+  {
+   "id": "fb17-11",
+   "lead": "The clock is ticking down, and the deciding moment on this Showdown is in sight.",
+   "co": "Countdowns make everyone check their notes and their nerves, and this one is no different."
+  },
+  {
+   "id": "fb17-12",
+   "lead": "We are looking at the last lap, and {leader} has a little cushion.",
+   "co": "A cushion is comforting now, but a ropey spell of form can deflate it in a flash."
+  },
+  {
+   "id": "fb17-13",
+   "lead": "Season {season} sees the chasers with their eyes on the prize.",
+   "co": "Eyes on the prize is great, but the prize only goes to the side that keeps its shape under pressure."
+  },
+  {
+   "id": "fb17-14",
+   "lead": "The finish is here, and every ingredient for a proper finale is on the table.",
+   "co": "Ingredients are one thing; the cooking happens when the heat is on, and that is now."
+  },
+  {
+   "id": "fb17-15",
+   "lead": "No room for slow starters, because early reputations count for nothing at the death.",
+   "co": "Slow starters have had their chances, and the crunch rewards whoever is in form, not whoever was."
+  },
+  {
+   "id": "fb17-16",
+   "lead": "A decider is coming, and {leader} knows it is going to be a long, hard grind.",
+   "co": "Grinds are what finals are made of, and the front runner will need the patience of a saint."
+  },
+  {
+   "id": "fb17-17",
+   "lead": "The closing act has started, and the pressure is quietly moving on to {trailer}.",
+   "co": "Pressure moves quickly at the end; the chaser now has to be the one who takes the risk."
+  },
+  {
+   "id": "fb17-18",
+   "lead": "The run-in will settle it, and nobody in the room is sleeping well.",
+   "co": "Sleep is a luxury at this point; the managers are checking every result and every bit of form."
+  },
+  {
+   "id": "fb17-19",
+   "lead": "The big test arrives, and the ball is in the hands of {leader}.",
+   "co": "Having the ball is one thing; the pressure of keeping it is what sorts the leaders from the rest."
+  },
+  {
+   "id": "fb17-20",
+   "lead": "It all comes down to this final stretch, and both managers know it.",
+   "co": "Both know it, which means both will look for the one move that flips the table."
+  },
+  {
+   "id": "fb17-21",
+   "lead": "Only {margin} points separate them as the endgame approaches.",
+   "co": "A handful of points is one good spell away, and that is what makes it so tense."
+  },
+  {
+   "id": "fb17-22",
+   "lead": "Wide open for the last season, and the favourite is under real pressure.",
+   "co": "Real pressure shows the difference between a team that is good and one that can see it through."
+  },
+  {
+   "id": "fb17-23",
+   "lead": "The home stretch is here, and {trailer} has shown the nerve to keep going.",
+   "co": "Nerve is what wins this, because the chaser has to be braver than the one out front."
+  },
+  {
+   "id": "fb17-24",
+   "lead": "Last chance saloon for the chasers, and {leader} can still close the door.",
+   "co": "Closing the door means sitting deep, staying calm and not gifting the other side a thing."
+  },
+  {
+   "id": "fb17-25",
+   "lead": "The closing lap is about to start, and the table is hiding nothing.",
+   "co": "Nothing hidden now; every result from here shows exactly who is ready to finish."
+  },
+  {
+   "id": "fb17-26",
+   "lead": "We have arrived at the end of the road, and the managers can see the destination.",
+   "co": "Seeing it is the easy part; getting there with the points intact is the real job."
+  },
+  {
+   "id": "fb17-27",
+   "lead": "The final bell is coming, and nobody wants to be the one who blinks first.",
+   "co": "Blinking first is what cost teams the title in the past, and there are no spare chances."
+  },
+  {
+   "id": "fb17-28",
+   "lead": "Everyone has the jitters now, and the panic is starting to show.",
+   "co": "Panic is normal this late; the trick is to keep the decisions clean and the nerves quiet."
+  },
+  {
+   "id": "fb17-29",
+   "lead": "Season {season} arrives, and {leader} can seal the Showdown with a strong finish.",
+   "co": "Sealing it means finishing strong, because the standings reward the side that stays steady to the end."
+  },
+  {
+   "id": "fb17-30",
+   "lead": "The push for the line is on, and the air is thick with expectation.",
+   "co": "Expectation is heavy, and the bosses who handle it best are the ones who walk off with the prize."
+  },
+  {
+   "id": "fb17-31",
+   "lead": "The late push arrives with {margin} to make up, and the chaser is hungry.",
+   "co": "Hunger alone is not enough; the chaser also needs the pacesetter to hand over the advantage."
+  },
+  {
+   "id": "fb17-32",
+   "lead": "A late push for the pursuer, and the leader is holding its breath.",
+   "co": "Holding its breath is the wrong habit; the leader needs to exhale and keep playing its game."
+  },
+  {
+   "id": "fb17-33",
+   "lead": "The stage is set for the closing moments, and nerves are already fraying.",
+   "co": "Moments like these are cruel; the side that keeps its discipline will take the trophy home."
+  },
+  {
+   "id": "fb17-34",
+   "lead": "The pack is all bunched up, and nobody can see the finish line yet.",
+   "co": "Bunched-up packs are dangerous at this stage, because the first team to panic gives the game away."
+  },
+  {
+   "id": "fb17-35",
+   "lead": "Here comes the crunch, and the whole thing hangs in the balance.",
+   "co": "Hanging in the balance is a dull phrase, but the sense is right: everything now depends on the endgame."
+  },
+  {
+   "id": "fb17-36",
+   "lead": "The final lap belongs to the chasers, who must take the risk.",
+   "co": "Risk is a double-edged thing; take too little and the leaders hold on, take too much and they run away."
+  },
+  {
+   "id": "fb17-37",
+   "lead": "It is the endgame and the leader has no room for error.",
+   "co": "Error is a fact of life in football, so the front runner must protect the points already in the bag."
+  },
+  {
+   "id": "fb17-38",
+   "lead": "The closer is here, and the favourite cannot afford a bad day.",
+   "co": "A bad day at this stage costs the pacesetter more than the challenger."
+  },
+  {
+   "id": "fb17-39",
+   "lead": "A tense decider is coming, and {trailer} is pacing the touchline.",
+   "co": "Pacing the touchline is useful, but the pursuer needs the leader to take a wrong step."
+  },
+  {
+   "id": "fb17-40",
+   "lead": "The home straight begins, and both sides are very much in it.",
+   "co": "Being in it means the outcome will not be settled on paper; the football will decide."
+  },
+  {
+   "id": "fb17-41",
+   "lead": "Final call, and {leader} and {trailer} are both standing at the door.",
+   "co": "At the door is a good place for the final act; the question is who walks through first."
+  },
+  {
+   "id": "fb17-42",
+   "lead": "The road home is underway, and {leader} is comfortable enough to take the next step.",
+   "co": "Comfortable is risky at this stage, so the step needs to be careful and calm."
+  },
+  {
+   "id": "fb17-43",
+   "lead": "Every point left to play is priced high in the endgame.",
+   "co": "Points left to play are the currency of the finale, and no one will give them away cheap."
+  },
+  {
+   "id": "fb17-44",
+   "lead": "The finale could go either way, and no one is going to rest easy.",
+   "co": "Resting easy is for a team out of contention; the rest of us are glued to the standings."
+  },
+  {
+   "id": "fb17-45",
+   "lead": "Everything is open, and the pursuer is very much in it.",
+   "co": "In it is not enough on its own; the chaser has to take control when it matters most."
+  },
+  {
+   "id": "fb17-46",
+   "lead": "Both bosses have been dreaming about this moment all along.",
+   "co": "Dreams are free, but the decider is the one place where they turn into results."
+  },
+  {
+   "id": "fb17-47",
+   "lead": "The big moment is set, and {leader} is looking at the title from the top of the hill.",
+   "co": "Hills are steep and the title is heavy; the leader must keep the legs fresh and the head down."
+  },
+  {
+   "id": "fb17-48",
+   "lead": "Here is the last push, and {trailer} has already banked the hard part.",
+   "co": "Banking the hard part is useful, but the big hurdle always asks for one more hard part."
+  },
+  {
+   "id": "fb17-49",
+   "lead": "The title is decided by the people who stay calm, and {leader} is one of them.",
+   "co": "Calm is the most underrated skill in the game; the leader has been calm all campaign."
+  },
+  {
+   "id": "fb17-50",
+   "lead": "The crunch is in the air, and every rival holds its breath.",
+   "co": "Holding breath is no plan; the clubs who keep playing their football will finish strong."
+  }
+ ]
+}
