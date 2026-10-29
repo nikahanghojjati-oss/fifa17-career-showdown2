@@ -705,3 +705,14 @@ One downloadable .json file named <LETTER>MEGA<NN>.json (for B 3: BMEGA03.json) 
 
 --- PASTE THE PROMPT (A, B, C, D, F or G) BELOW THIS LINE ---
 ```
+
+---
+
+## W. WORK ORDER: the easy way (one file, then just type "next")
+
+Mega runs proved too big for one GPT reply. The work order fixes that. You attach ONE file and type "start". The AI then writes one batch, edits it to AAA, checks it with the checker, and saves it. After that you type "next" for the next batch, or "next 3" for three. Every 10 batches it gives you a zip pack. No more pasting prompts.
+
+- **GPT (best):** use GPT-5.6 Sol with thinking on, in a normal new chat. Attach [WORK_ORDER.txt](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-fyjnky/visual-assets/v10_1/content/gazette/WORK_ORDER.txt) and type "start". It can run the checker and make files. Send me each zip. Start a fresh chat after about 30 batches (the chat gets long). In the new chat, attach the work order plus the last PROGRESS.json, then type "start".
+- **Playground:** paste the whole of WORK_ORDER.txt into the User box, then add "start at B27" (or whatever batch is next) at the end. Opus 5.5, effort High, Max tokens 64000. It cannot make files, so it prints the JSON. Use a new prompt every 3 to 5 batches, because the conversation gets expensive as it grows.
+
+The queue order: commentary (B), booth duets (F), club lines (G), headlines (A), stories (C), small print (D).
