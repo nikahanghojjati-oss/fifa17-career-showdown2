@@ -1761,7 +1761,7 @@ const natCols=(code)=>NATION_COLORS[code]||[0xffffff];
 let vtt=0; const slowAt=(t)=>REDUCED?1:1-.68*Math.max(0,Math.min(1,(t-3.6)/.12,(4.15-t)/.2)); let camK=1, camRest=new T.Vector3(0,1.05,6.6), lookRest=new T.Vector3(0,2.15,-1.2), coinStopX=-2.2, coinLift=0;
 const COIN_ON_CARD=new T.Vector3(-1.1+112/CW*2.2, CARD_POS.y+1.6-304/CH*3.2, CARD_POS.z+.07);
 function startPlayer(i){
-  idx=i; const p=cur(); fired={}; t0=clock(); vtt=0; phase="run"; flash=0;
+  idx=i; const p=cur(); fired={}; t0=clock(); vtt=0; phase="run"; flash=0; SFX.bed(.05);
   if(packFace.map===packTex.tx){ drawPack(packTex.ctx,512,736); packTex.tx.needsUpdate=true; } sheenMat.uniforms.tint.value.copy(L(TIER[p.tier].glow)); packFace.emissive.setRGB(0,0,0);
   drawCardBack(back.ctx,p,0); back.tx.needsUpdate=true; drawCardFront(front.ctx,p); front.tx.needsUpdate=true;
   coinTex.ctx.setTransform(1,0,0,1,0,0); coinTex.ctx.clearRect(0,0,1024,1024); coinFace(coinTex.ctx,p.club,512,512,510); coinTex.tx.needsUpdate=true;
@@ -1783,7 +1783,7 @@ function scoutFlip(k){ const e=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, a=SCOUT_I
   if(k>=a&&!fired.sc1){ fired.sc1=1; SFX.play("flip"); } if(k>=c&&!fired.sc2){ fired.sc2=1; SFX.play("flip"); }
   return k<a?0:k<b?Math.PI*e((k-a)/.7):k<c?Math.PI:k<d?Math.PI+Math.PI*e((k-c)/.7):0; }
 function settle(){
-  const p=cur(); phase="settled"; guardUntil=0; hint(false); settledAt=clock(); fired.sc1=fired.sc2=0; SCOUT_IN=scoutInFor(p.tier); SCOUT_END=scoutEndFor(p.tier);
+  const p=cur(); phase="settled"; guardUntil=0; hint(false); SFX.play("sting",tierLevel(p.tier)); SFX.bed(.05+tierLevel(p.tier)*.008); settledAt=clock(); fired.sc1=fired.sc2=0; SCOUT_IN=scoutInFor(p.tier); SCOUT_END=scoutEndFor(p.tier);
   drawScoutBack(back.ctx,p); back.tx.needsUpdate=true;
   frontMat.map=front.tx; frontMat.needsUpdate=true;
   pack.visible=false; coin.visible=false; packLight.intensity=0; card.visible=true; card.position.copy(CARD_POS); card.rotation.set(0,0,0); card.scale.setScalar(1);
@@ -1800,7 +1800,7 @@ function settle(){
 const S=(at,dur,tt)=>clamp01((tt-at)/dur);
 
 /* ================= sound (Web Audio, all synthesized, no files) ================= */
-const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null;
+const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null, bedG=null, bedLevel=0, bedNow=-1;
   function init(){ if(ctx) return; const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return; ctx=new AC(); master=ctx.createGain(); master.gain.value=.8;
     const comp=ctx.createDynamicsCompressor(); comp.threshold.value=-14; comp.ratio.value=4; master.connect(comp); comp.connect(ctx.destination);
     noiseBuf=ctx.createBuffer(1,ctx.sampleRate*3,ctx.sampleRate); const d=noiseBuf.getChannelData(0); let b=0; for(let i=0;i<d.length;i++){ const w=Math.random()*2-1; b=.97*b+.03*w; d[i]=w*.6+b*3; }
@@ -1816,7 +1816,8 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null;
     charge:()=>{ const t=now(); const o=ctx.createOscillator(); o.type="sawtooth"; o.frequency.setValueAtTime(70,t); o.frequency.exponentialRampToValueAtTime(330,t+1.45); const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(300,t); f.frequency.exponentialRampToValueAtTime(2600,t+1.45); const g=ctx.createGain(); g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.22,t+1.35); g.gain.exponentialRampToValueAtTime(.0001,t+1.5); o.connect(f); f.connect(g); out(g,0,true); o.start(t); o.stop(t+1.55); noise(t,1.45,"bandpass",500,5000,3,.12,1.3,0,false); },
     crack:()=>{ const t=now(); for(let i=0;i<4;i++) noise(t+i*.035,.08,"highpass",2500,6000,.8,.5-i*.08,.002,0,true); tone(t,"triangle",1800,900,.4,.18,.003,0,true); },
     comet:(side)=>{ const t=now(); const s=ctx.createBufferSource(); s.buffer=noiseBuf; s.loop=true; const f=ctx.createBiquadFilter(); f.type="bandpass"; f.Q.value=2; f.frequency.setValueAtTime(800,t); f.frequency.exponentialRampToValueAtTime(3800,t+.55); f.frequency.exponentialRampToValueAtTime(1200,t+1.1); const g=ctx.createGain(); env(g,t,.4,.45,.8); const p=ctx.createStereoPanner?ctx.createStereoPanner():null; s.connect(f); f.connect(g); if(p){ p.pan.setValueAtTime(-.9*side,t); p.pan.linearRampToValueAtTime(.9*side,t+1.2); g.connect(p); p.connect(master); p.connect(verb); } else { g.connect(master); } s.start(t); s.stop(t+1.3); tone(t+.1,"sine",1400,2600,.9,.05,.3,0,true); },
-    boom:(pw)=>{ const t=now(), k=Math.min(1.3,.75+pw*.3); tone(t,"sine",70,28,1.6,1.0*k,.005); noise(t,1.6,"lowpass",2600,90,.6,.9*k,.004,0,true); noise(t,1.2,"highpass",3000,8000,.4,.18*k,.01,0,true);
+    /* idea 6: the boom gets longer with the tier (1.6 s at rank 51+, 2.8 s for the top 3) */
+    boom:(pw,lvl)=>{ const t=now(), k=Math.min(1.3,.75+pw*.3), L=1.6+(lvl||0)*.3; tone(t,"sine",70,28,L,1.0*k,.005); noise(t,L,"lowpass",2600,90,.6,.9*k,.004,0,true); noise(t,1.2,"highpass",3000,8000,.4,.18*k,.01,0,true);
       [1568,2093,2637,3136,4186].forEach((f,i)=>tone(t+.05+i*.06,"sine",f,f,1.6,.05*k,.004,(i%2?.4:-.4),true)); },
     crowd:(dur,lvl)=>{ const t=now(); [[-.6,500,1400],[.6,700,2200],[0,350,900]].forEach(([pan,f0,f1])=>{ const s=ctx.createBufferSource(); s.buffer=noiseBuf; s.loop=true; const f=ctx.createBiquadFilter(); f.type="bandpass"; f.Q.value=.7; f.frequency.setValueAtTime(f0,t); f.frequency.linearRampToValueAtTime(f1,t+dur*.4); const g=ctx.createGain(); g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.16*lvl,t+dur*.3); g.gain.setValueAtTime(.16*lvl,t+dur*.6); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
       const lfo=ctx.createOscillator(), lg=ctx.createGain(); lfo.frequency.value=2.3+Math.random()*2; lg.gain.value=.04*lvl; lfo.connect(lg); lg.connect(g.gain); s.connect(f); f.connect(g); out(g,pan,true); s.start(t,Math.random()*2); s.stop(t+dur+.1); lfo.start(t); lfo.stop(t+dur+.1); }); },
@@ -1825,9 +1826,21 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null;
     pops:(n)=>{ const t=now(); for(let i=0;i<n;i++){ const tt=t+i*.17+Math.random()*.1; noise(tt,.22,"bandpass",1800,500,1,.35,.002,(Math.random()-.5)*1.6,true); noise(tt+.2,.9,"highpass",5000,9000,.5,.05,.05,(Math.random()-.5)*1.6,true); } },
     cannon:()=>{ const t=now(); [-.8,.8].forEach((pan,i)=>{ noise(t+i*.05,.3,"lowpass",1500,200,.8,.7,.002,pan,true); noise(t+.05+i*.05,.9,"highpass",3000,6000,.4,.08,.05,pan,true); }); },
     flip:()=>{ const t=now(); noise(t,.45,"bandpass",600,3200,1.6,.35,.12,0,true); },
-    flash:(pw)=>{ fx.boom(pw); fx.crowd(6,1.25); fx.pops(6); fx.hit(3); }
+    /* idea 6: a bigger chord for a higher tier (4 notes at rank 51+, 9 with the low octaves and the shimmer for the top 3) */
+    chord:(lvl)=>{ const t=now(), N=[[523.25],[659.25],[783.99],[1046.5],[1318.51,2],[261.63,3],[1567.98,3],[2093,4],[130.81,4]].filter(n=>(n[1]||0)<=lvl).map(n=>n[0]), g=.26/Math.sqrt(N.length/3);
+      N.forEach((f,i)=>{ tone(t+i*.012,"triangle",f,f,1.4+lvl*.25,g,.004,(i%3-1)*.35,true); if(f>500&&f<1600) tone(t,"sine",f*2,f*2,1+lvl*.2,g*.3,.004,0,true); });
+      tone(t,"sine",130.81,130.81,.8+lvl*.3,.18,.004,0,false); noise(t,.25,"lowpass",3000,200,.7,.25,.003,0,true); },
+    flash:(pw,lvl)=>{ lvl=lvl||0; fx.boom(pw,lvl); fx.crowd(5+lvl*1.2,1+lvl*.15); fx.pops(4+lvl*2); fx.chord(lvl); },
+    /* idea 6: a short sting when the card settles, brighter and with more notes for a higher tier */
+    sting:(lvl)=>{ const t=now(), b=[392,440,523.25,587.33,659.25][lvl]||392; [1,1.25,1.5,2,2.5].slice(0,2+Math.ceil(lvl*.75)).forEach((m,i)=>tone(t+i*.075,"triangle",b*m,b*m,.45+lvl*.06,.11,.004,(i%2?.3:-.3),true)); }
   };
-  return { get on(){ return on; }, enable(v){ on=v; if(v){ init(); if(ctx&&ctx.state==="suspended") ctx.resume(); } },
+  /* idea 6: a quiet crowd bed under the whole reveal, from the first second; it follows the speaker (off = silent) */
+  function bedStart(){ const s=ctx.createBufferSource(); s.buffer=noiseBuf; s.loop=true; const f=ctx.createBiquadFilter(); f.type="bandpass"; f.Q.value=.6; f.frequency.value=650; const lp=ctx.createBiquadFilter(); lp.type="lowpass"; lp.frequency.value=2200;
+    const wob=ctx.createGain(); wob.gain.value=1; const lfo=ctx.createOscillator(), lg=ctx.createGain(); lfo.frequency.value=.29; lg.gain.value=.25; lfo.connect(lg); lg.connect(wob.gain);
+    bedG=ctx.createGain(); bedG.gain.value=.0001; s.connect(f); f.connect(lp); lp.connect(wob); wob.connect(bedG); out(bedG,0,true); s.start(); lfo.start(); }
+  function bedApply(){ if(!ctx||ctx.state!=="running") return; const want=on?bedLevel:0; if(want===bedNow) return; bedNow=want; if(!bedG){ if(!want) return; bedStart(); } bedG.gain.setTargetAtTime(Math.max(.0001,want),now(),want?.8:.12); }
+  return { get on(){ return on; }, enable(v){ on=v; if(v){ init(); if(ctx&&ctx.state==="suspended") ctx.resume(); } bedApply(); },
+    bed(level){ bedLevel=level; bedApply(); }, tick(){ bedApply(); },
     /* A context the browser has not let start yet (no tap in this frame) would queue every cue and play them all at once on the
        first tap, so cues are only played while it runs. */
     get running(){ return Boolean(ctx&&ctx.state==="running"); },
@@ -1843,7 +1856,7 @@ function comet(tt,t,dur,a,b,c,col){ const k=(tt-t)/dur; if(k<0||k>1) return; con
   for(let i=0;i<14;i++) emit(h.clone().add(new T.Vector3((Math.random()-.5)*.12,(Math.random()-.5)*.12,(Math.random()-.5)*.12)),new T.Vector3((Math.random()-.5)*.5,(Math.random()-.5)*.5,(Math.random()-.5)*.5),i%3?col:0xffffff,.35+Math.random()*.25,.12+Math.random()*.1,0,1.5,1);
   emit(h,new T.Vector3(),0xffffff,.06,.9,0,0,0); }
 function run(tt){
-  const p=cur(), tier=TIER[p.tier], pw=tier.power, tc=tier.glow, nat=natCols(p.nation);
+  const p=cur(), tier=TIER[p.tier], pw=tier.power, tc=tier.glow, nat=natCols(p.nation), lvl=tierLevel(p.tier);
   const side=idx===0?1:-1, BLUE=0x58b8ff;
   /* camera, shot by shot like the reference: low on the grass facing the main stand */
   const zk=(z)=>-1.2+(z+1.2)*camK; const A=new T.Vector3(2.6*side,1.0,zk(7.6)), Bp=new T.Vector3(1.1*side,.95,zk(6.4)), Cp=new T.Vector3(.55*side,1.0,zk(5.1)), D=camRest.clone();
@@ -1873,8 +1886,8 @@ function run(tt){
   /* 2  blue comet swoops in (3.15 s) and the pack explodes into chunks (3.7 s) */
   comet(tt,2.95,.75,new T.Vector3(-7*side,3.4,1.5),new T.Vector3(-2.5*side,2.6,1.2),new T.Vector3(0,1.5,-.9),BLUE);
   sfxAt(tt,.9,"s_fall","whoosh"); sfxAt(tt,1.65,"s_land","land"); sfxAt(tt,2.3,"s_charge","charge"); sfxAt(tt,2.4,"s_crack","crack"); sfxAt(tt,2.95,"s_comet","comet",side);
-  sfxAt(tt,3.7,"s_boom","boom",pw); sfxAt(tt,3.75,"s_crowd1","crowd",4.5,.9); sfxAt(tt,5.0,"s_pos","hit",0); sfxAt(tt,5.8,"s_nat","hit",1); sfxAt(tt,5.85,"s_natpops","pops",4);
-  sfxAt(tt,6.4,"s_coin","coin"); sfxAt(tt,8.0,"s_club","hit",2); sfxAt(tt,8.05,"s_cannon","cannon"); sfxAt(tt,8.9,"s_flip","flip"); sfxAt(tt,9.6,"s_flash","flash",pw);
+  sfxAt(tt,3.7,"s_boom","boom",pw,lvl); sfxAt(tt,3.75,"s_crowd1","crowd",4.5+lvl*.6,.8+lvl*.12); sfxAt(tt,5.0,"s_pos","hit",0); sfxAt(tt,5.8,"s_nat","hit",1); sfxAt(tt,5.85,"s_natpops","pops",4);
+  sfxAt(tt,6.4,"s_coin","coin"); sfxAt(tt,8.0,"s_club","hit",2); sfxAt(tt,8.05,"s_cannon","cannon"); sfxAt(tt,8.9,"s_flip","flip"); sfxAt(tt,9.6,"s_flash","flash",pw,lvl);
   at(tt,3.7,"burst",()=>{ shake=.45; flash=.35*Math.min(1.4,pw); explodePack(); pack.visible=false; pillar.visible=false; packLight.intensity=0; card.visible=true;
     burst(new T.Vector3(0,1.4,-1.0),[0xffd77a,0xffffff,0xffc457],Math.round(150*pw),9,1.0,.16); 
     glow.material.color.copy(L(0xffe2a0)); });
@@ -1942,7 +1955,7 @@ function render(){
   compMat.uniforms.flash.value=flash*.18; pass(compMat,null);
 }
 function tick(draw){
-  const now=clock(), dt=Math.min(.05,now-last); last=now;
+  const now=clock(), dt=Math.min(.05,now-last); last=now; SFX.tick();
   for(let i=queue.length-1;i>=0;i--) if(queue[i].t<=now){ const q=queue.splice(i,1)[0]; q.fn(); }
   const sc=phase==="run"?slowAt(vtt):1; if(phase==="run") vtt+=dt*sc; const tt=vtt;
   if(phase==="run") run(tt);
