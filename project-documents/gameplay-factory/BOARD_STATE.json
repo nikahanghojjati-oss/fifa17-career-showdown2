@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-29 5:05 PM Boston time (EDT)",
+ "generated": "2026-10-29 5:09 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 169,
@@ -1587,8 +1587,8 @@
      "updated": "2026-10-29T21:05:00Z",
      "gates": {
       "passed": 6,
-      "running": 1,
-      "failed": 0,
+      "running": 0,
+      "failed": 2,
       "cancelled": 0
      }
     }
@@ -3526,8 +3526,8 @@
     "updated": "2026-10-29T21:05:00Z",
     "gates": {
      "passed": 6,
-     "running": 1,
-     "failed": 0,
+     "running": 0,
+     "failed": 2,
      "cancelled": 0
     }
    }
