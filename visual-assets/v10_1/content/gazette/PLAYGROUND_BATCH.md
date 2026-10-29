@@ -1,5 +1,20 @@
 # Touchline Gazette and TV commentary: the content factory
 
+## START HERE: the work order (one file, then just type "next")
+
+Mega runs proved too big for one GPT reply. The work order fixes that. You attach ONE file and type "start". The AI then writes one batch, edits it to AAA, checks it with the checker, and saves it. After that you type "next" for the next batch, or "next 3" for three. Every 10 batches it gives you a zip pack. No more pasting prompts.
+
+- **GPT (best):** use GPT-5.6 Sol with thinking on, in a normal new chat. Attach [WORK_ORDER.txt](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-fyjnky/visual-assets/v10_1/content/gazette/WORK_ORDER.txt) and type "start". It can run the checker and make files. Send me each zip. Start a fresh chat after about 30 batches (the chat gets long). In the new chat, attach the work order plus the last PROGRESS.json, then type "start".
+- **Playground:** paste the whole of WORK_ORDER.txt into the User box, then add "start at B27" (or whatever batch is next) at the end. Opus 5.5, effort High, Max tokens 64000. It cannot make files, so it prints the JSON. Use a new prompt every 3 to 5 batches, because the conversation gets expensive as it grows.
+
+The queue order: commentary (B), booth duets (F), club lines (G), headlines (A), stories (C), small print (D).
+
+The MEGA run was retired (29 Oct): giant replies made GPT generic. Use the work order.
+
+---
+
+# The individual prompts (reference; the work order already contains all of them)
+
 Four prompts. Each one is run again and again: copy the whole grey block into the User box and change only the first line, BATCH: 1, then 2, 3 and so on. Send me each raw reply. I check every line, remove repeats across batches and add it to the game.
 
 Settings for all four: Claude Opus 5.5, effort High, Max tokens 64000. System box empty.
@@ -664,58 +679,3 @@ ONE JSON object and nothing else. Ids gb<BATCH>-001 to gb<BATCH>-140.
 {"batch":1,"clubs":["Arsenal", "..."],"lines":[{"id":"gb1-001","club":"Arsenal","mood":"win","text":"..."}, ...]}
 FILE: Give the JSON as a downloadable .json file named G<BATCH as 3 digits>.json (for batch 7: G007.json). If you cannot make files, reply with the JSON only.
 ```
-
----
-
-## M. MEGA run add-on (GPT only: many batches in one reply)
-
-How to use: start a new GPT-5.6 Sol chat (thinking on). Paste this block first, set the MEGA RUN line (for example "MEGA RUN: B 3"), then paste the whole prompt for that letter underneath it in the same message. One mega run = a whole situation in every voice, so far fewer runs:
-
-| Mega | Each run gives | Runs |
-|---|---|---|
-| A | 400 headlines (4 lenses) | 38 |
-| B | 600 commentary lines (6 voices) | 24 |
-| C | 60 stories (4 desks) | 19 |
-| D | 800 small-print pieces (8 lenses) | 5 |
-| F | 200 booth duets (4 flavours) | 24 |
-| G | 280 club lines (14 clubs) | 7 |
-
-Then run prompt E on the mega file in a new chat (it edits every part) and send me the _ED file. If GPT says it ran out of room, just send what it made: the file lists the missing batches and you can run those as normal batches.
-
-```
-MEGA RUN: B 1
-
-(Change only the letter and number above. The letter is the prompt you paste below this block. Number ranges: A 1 to 38, B 1 to 24, C 1 to 19, D 1 to 5, F 1 to 24, G 1 to 7.)
-
-This is a MEGA run: you will write several normal batches in one reply. Ignore the "BATCH:" line and STEP 1 of the prompt below. Instead, write these normal batches, as separate parts, in this order:
-- A n: n = 1 to 19 gives situation n with lenses 1, 2, 3, 4. n = 20 to 38 gives situation (n - 19) with lenses 5, 6, 7, 8. Normal batch number = situation + 19 x (lens - 1).
-- B n: situation n with all 6 voices. Normal batch number = n + 24 x (voice - 1).
-- C n: situation n with all 4 desks. Normal batch number = n + 19 x (desk - 1).
-- D n: kind n with all 8 lenses. Normal batch number = n + 5 x (lens - 1).
-- F n: situation n with all 4 flavours. Normal batch number = n + 24 x (flavour - 1).
-- G n: normal batches 2n - 1 and 2n.
-ALREADY DONE (skip these parts): A 1, B 1, B 2, B 3.
-
-Each part follows every rule of the prompt below exactly as if it were its own run, with its own ids (from its normal batch number) and its own JSON object.
-
-QUALITY OVER SPEED, ALWAYS
-- Write every line yourself, by hand, with full attention. NEVER generate lines with code, templates, word lists, random combination or find and replace. Use code only to save the finished file. A part that looks machine-made is thrown away.
-- Treat each part as a fresh start: new ideas, new openings, new images. Do not reuse a line, idea or opening from an earlier part in this reply.
-- Before you finish, read each part once more and rewrite anything flat, repeated or clunky.
-
-OUTPUT
-One downloadable .json file named <LETTER>MEGA<NN>.json (for B 3: BMEGA03.json) holding {"mega":"B 3","parts":[ <part 1 JSON>, <part 2 JSON>, ... ]}, where each part is exactly the JSON object the prompt below asks for. If you run out of room, finish the part you are on, close the file properly, and add "missing":[...] with the normal batch numbers you did not reach.
-
---- PASTE THE PROMPT (A, B, C, D, F or G) BELOW THIS LINE ---
-```
-
----
-
-## W. WORK ORDER: the easy way (one file, then just type "next")
-
-Mega runs proved too big for one GPT reply. The work order fixes that. You attach ONE file and type "start". The AI then writes one batch, edits it to AAA, checks it with the checker, and saves it. After that you type "next" for the next batch, or "next 3" for three. Every 10 batches it gives you a zip pack. No more pasting prompts.
-
-- **GPT (best):** use GPT-5.6 Sol with thinking on, in a normal new chat. Attach [WORK_ORDER.txt](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-fyjnky/visual-assets/v10_1/content/gazette/WORK_ORDER.txt) and type "start". It can run the checker and make files. Send me each zip. Start a fresh chat after about 30 batches (the chat gets long). In the new chat, attach the work order plus the last PROGRESS.json, then type "start".
-- **Playground:** paste the whole of WORK_ORDER.txt into the User box, then add "start at B27" (or whatever batch is next) at the end. Opus 5.5, effort High, Max tokens 64000. It cannot make files, so it prints the JSON. Use a new prompt every 3 to 5 batches, because the conversation gets expensive as it grows.
-
-The queue order: commentary (B), booth duets (F), club lines (G), headlines (A), stories (C), small print (D).
