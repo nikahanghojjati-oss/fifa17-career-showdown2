@@ -85,3 +85,7 @@ Evidence regenerated in `evidence/` (desktop 1536x864 and phone 393x660, 7 beats
 ## Name (Nik, 29 Oct 15:19 UTC)
 
 Full name **Russian Roster Roulette** (screen title, docs). Short name **Roster Roulette** for menus, tabs and the rule book. Old spelling "Roster Russian Roulette" is retired.
+
+## Full-turn videos (29 Oct, Nik's ask)
+
+`evidence/TURN_DESKTOP_1536x864.mp4` and `evidence/TURN_PHONE_393x660.mp4`: one complete turn with a shot, 30 fps from the test clock (1 s idle, then spin on the felt, camera drop to the drum as it swings out, rear-face close-up with the red live round and the gold FIRES HERE mark, drum closes, hammer cocks, shot, camera to the board, splinters and the burnt RELEASED hole, back to the table). Rendered with `video.cjs` (scratchpad) and ffmpeg.
