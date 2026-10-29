@@ -2259,6 +2259,15 @@
       ]
     },
     {
+      "path": "tests/contracts/r87-roster-roulette-contracts.cjs",
+      "patterns": [
+        "^data/(rosterSquads|clubs)\\.js$",
+        "^js/rosterRoulette\\.js$",
+        "^tests/contracts/r87-roster-roulette-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r86-special-player-reveal-contracts.cjs",
       "patterns": [
         "^js/(specialPlayerReveal|productionSharedCareerStart|productionSharedShowdownSetup|sparkSharedShowdownSetup|marqueePlayer)\\.js$",
