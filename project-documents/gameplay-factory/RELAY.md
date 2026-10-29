@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-29 9:40 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-29 9:42 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `5a93d35` (Thu 29 Oct 9:36 AM Boston time) · 156 messages · 45 hand-offs · 292 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `b3893f9` (Thu 29 Oct 9:40 AM Boston time) · 156 messages · 45 hand-offs · 293 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-044 · G → V · League wheel tall phones: taller V5 plate
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 14 min after delivery
 
+- Thu 29 Oct 9:40 AM · Team V · Received · Team V: received; asking the coordinator to route it to a Team V thread
 - Thu 29 Oct 9:26 AM · Team G · Sent
 - Thu 29 Oct 9:26 AM · relay Action · Delivered in full as a wake comment on PR #312
 

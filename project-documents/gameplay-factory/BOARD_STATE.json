@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-29 9:40 AM Boston time (EDT)",
+ "generated": "2026-10-29 9:42 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 156,
@@ -1427,8 +1427,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "5a93d35",
-  "head_boston": "Thu 29 Oct 9:36 AM",
+  "head": "b3893f9",
+  "head_boston": "Thu 29 Oct 9:40 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2064,13 +2064,13 @@
     "from": "G",
     "to": "V",
     "title": "League wheel tall phones: taller V5 plate",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-044_league-wheel-tall-phones-taller-v5-plate.md",
     "worker": "images",
-    "pickup_min": null,
-    "waiting_min": 14
+    "pickup_min": 14,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
