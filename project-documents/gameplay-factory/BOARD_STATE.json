@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28 11:58 PM Boston time (EDT)",
+ "generated": "2026-10-29 12:02 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 148,
@@ -1389,23 +1389,7 @@
    "when": "2026-10-29T03:55:25Z",
    "subject": "Record the SSJR 100/100 official launch across the repository (#1042)",
    "fixes": [],
-   "today": [
-    {
-     "pr": 1042,
-     "title": "Record the SSJR 100/100 official launch across the repository",
-     "merged": "2026-10-29T03:55:25Z"
-    },
-    {
-     "pr": 1041,
-     "title": "SSJR 100: fix the credit recorder's main checks and record the 2026-10-29 run",
-     "merged": "2026-10-29T02:55:07Z"
-    },
-    {
-     "pr": 1034,
-     "title": "Remove the Claude Console review workflows from main",
-     "merged": "2026-10-28T22:51:37Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",
