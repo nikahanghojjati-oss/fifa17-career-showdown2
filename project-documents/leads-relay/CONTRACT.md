@@ -102,6 +102,9 @@ comments work; the relay threads were simply not subscribed.
 7. (2026-10-29) Two leads of one team can run at once (r86 finishing while r87 starts). A ticket's sender passes
    `handoff.py new --session <own session>`, which stores `from_session` in the ticket; every status change by the
    receiver then wakes that session instead of the INBOX.json entry. `handoff.py wake --session <id>` does the same by hand.
+8. (2026-10-29, Nik: "leads always change, try to have habit of reach coordinator all the time") Every wake also goes to
+   the other team's coordinator (INBOX.json `coordinators`), which outlives lead threads and makes sure a live lead
+   picks the ticket up. Each coordinator keeps its own entry current. If the id is missing, ask your own coordinator.
 
 ## 10. Shared job numbers (Nik, 2026-10-05)
 - Team G and Team V share one job counter, starting at 1001. A number is used once, ever, by one team.

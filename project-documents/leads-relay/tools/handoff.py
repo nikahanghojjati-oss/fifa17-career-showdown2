@@ -48,6 +48,19 @@ def inbox():
     return os.path.join(D, "..", "INBOX.json")
 
 
+def coordinator_line(to, text):
+    """Nik 2026-10-29: leads rotate, coordinators stay. Every wake also goes to the other team's coordinator."""
+    try:
+        c = json.load(open(inbox())).get("coordinators", {}).get(to, {})
+    except Exception:
+        c = {}
+    if c.get("session_id"):
+        print(f"ALSO WAKE Team {to}'s coordinator: same create_trigger call with persistent_session_id={c['session_id']} and prompt:")
+        print(f"  For Team {to}'s coordinator: {text} Make sure your current lead picks this up; start a lead thread if none is active.")
+    else:
+        print(f"Team {to}'s coordinator id is missing from INBOX.json 'coordinators'. Ask your own coordinator (message_coordinator) to reach it, and tell Nik in one line.")
+
+
 def wake_line(to, text, session=None):
     """The other team's session is woken directly (seconds, no polling). The GitHub comment stays as the record and backup.
     session: a ticket's own lead session (two leads of one team can run at once, e.g. r86 and r87); it wins over INBOX.json."""
@@ -62,11 +75,13 @@ def wake_line(to, text, session=None):
         # CONTRACT.md §11: a lead between threads never acknowledges work. Nothing will happen until the new lead registers.
         print(f"WAKE BLOCKED: Team {to}'s lead is '{state if sid else 'unregistered'}' in INBOX.json, so nobody will act on this.")
         print(f"  Tell Nik now, in one line, to paste project-documents/leads-relay/NEW_LEAD_START.md's box into the new Team {to} lead thread.")
+        coordinator_line(to, text)
         return
     print(f"WAKE NOW (CONTRACT.md §9): call claude-code-remote create_trigger with persistent_session_id={sid},")
     print(f"  run_once_at = 1-2 minutes from now, initiation human_request, and prompt:")
     print(f"  Relay for Team {to}: {text} Fetch leads/relay (+refs/heads/leads/relay:refs/remotes/origin/leads/relay) and act per CONTRACT.md.")
     print(f"  (create_trigger works from every lead thread; send_message with session_id={sid} also works where that tool exists.)")
+    coordinator_line(to, text)
     print(f"  Then (CONTRACT.md §11) call get_session on {sid}: if it is idle asking for a new lead, or archived, tell Nik the same paste line.")
 
 

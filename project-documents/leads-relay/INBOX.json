@@ -11,5 +11,19 @@
   "thread": "Team V lead: r86 Marquee (HO-035)",
   "updated": "2026-10-27T23:52:02Z",
   "state": "active"
+ },
+ "coordinators": {
+  "_how": "Each project's coordinator (channel session) outlives lead threads. Every wake also goes to the other team's coordinator (Nik 2026-10-29: leads always change, reach the coordinator). Each coordinator keeps its own entry current; any lead that learns a newer id updates it.",
+  "G": {
+   "session_id": "session_01GU43Q7nrAuYiru6MfLUnoU",
+   "project": "G Lead - Claude Career Mode Showdown - Gameplay Engineering",
+   "updated": "2026-10-29T00:10:00Z"
+  },
+  "V": {
+   "session_id": null,
+   "project": "V lead - Claude Career Mode Showdown - Visual lead",
+   "note": "old id session_01GU43Q7ydoc8k1EApN53yr8 is archived; Team V coordinator: put your current id here",
+   "updated": "2026-10-29T00:10:00Z"
+  }
  }
 }
