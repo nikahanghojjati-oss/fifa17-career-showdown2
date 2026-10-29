@@ -228,7 +228,7 @@ WHAT MAKES A GREAT LINE
 - Numbers are seasoning, not the meal: at most 30 lines may use {margin}, at most 15 may use {winnerPoints} or {points}, and at least 35 lines use no number placeholder at all (just names, clubs and the moment).
 - Exclamation marks: the lead caller may use them in up to 60 lines; every other voice in at most 15. Real commentators also land big moments with a calm, weighty full stop.
 
-- Use the people: at least 60 of the 100 lines name a manager or a club through a placeholder ({winner}, {loser}, {winnerClub}, {loserClub}, {managerA}, {managerB}, {clubA}, {clubB}, {leader}, {trailer}). A line with no names sounds generic.
+- Use the people: 50 to 70 of the 100 lines name a manager or a club through a placeholder ({winner}, {loser}, {winnerClub}, {loserClub}, {managerA}, {managerB}, {clubA}, {clubB}, {leader}, {trailer}). Vary it: one name, one club, a name and a rival club. At most 20 lines name both managers together, and never fall into the pattern "Exclamation! {managerA} and {managerB} finish level." Names belong in different places in the line, not always at the end.
 - Never talk about the rules. Lines must not mention tiebreaks, arithmetic, calculations, records, "inventing", "the numbers say" or what the commentator is or is not allowed to say. Speak about the moment, the people and the rivalry, like a broadcaster on air.
 
 HARD RULES
