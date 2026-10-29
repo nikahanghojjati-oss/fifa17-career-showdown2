@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-29 10:32 AM Boston time (EDT)",
+ "generated": "2026-10-29 10:36 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 159,
+  "count": 160,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1434,6 +1434,15 @@
     "subject": "Select League: no focus box round the picture title (5-line CSS fix)",
     "reply": "yes (receive it)",
     "boston": "Thu 29 Oct 10:24 AM"
+   },
+   {
+    "time": "2026-10-29 14:33",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-044 DONE",
+    "subject": "League wheel tall phones: taller V5 plate",
+    "reply": "no",
+    "boston": "Thu 29 Oct 10:33 AM"
    }
   ],
   "g2v": {
@@ -1454,8 +1463,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "24c77ba",
-  "head_boston": "Thu 29 Oct 10:25 AM",
+  "head": "7ca8ce6",
+  "head_boston": "Thu 29 Oct 10:33 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2091,8 +2100,8 @@
     "from": "G",
     "to": "V",
     "title": "League wheel tall phones: taller V5 plate",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-044_league-wheel-tall-phones-taller-v5-plate.md",
     "worker": "images",
@@ -2110,7 +2119,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-045_select-league-no-focus-box-round-the-pic.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 5
+    "waiting_min": 9
    }
   ],
   "relay_ok": true
@@ -2182,7 +2191,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 44,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
