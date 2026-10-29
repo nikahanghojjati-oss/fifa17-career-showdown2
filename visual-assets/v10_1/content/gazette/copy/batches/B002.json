@@ -1,0 +1,407 @@
+{
+  "batch": 2,
+  "situation": "comfortable-win",
+  "voice": "The lead caller",
+  "lines": [
+    {
+      "id": "cb2-001",
+      "text": "It's {winner} who takes the season, and that gap tells its own story. Clear daylight!"
+    },
+    {
+      "id": "cb2-002",
+      "text": "{winner} has the better of {loser}, no photo finish required this time."
+    },
+    {
+      "id": "cb2-003",
+      "text": "Listen to that verdict: {winnerClub} finish comfortably ahead of {loserClub}."
+    },
+    {
+      "id": "cb2-004",
+      "text": "Season {season} belongs to {winner}, with room to spare at the top."
+    },
+    {
+      "id": "cb2-005",
+      "text": "The table is settled, and {winner} stands a clear step ahead of {loser}."
+    },
+    {
+      "id": "cb2-006",
+      "text": "A proper winning margin for {winner}, enough to silence any argument about the result."
+    },
+    {
+      "id": "cb2-007",
+      "text": "There is the separation! {winner} takes the season without needing a last-gasp escape."
+    },
+    {
+      "id": "cb2-008",
+      "text": "Put {winnerClub} at the top of this season's ledger, a convincing result."
+    },
+    {
+      "id": "cb2-009",
+      "text": "Against {loser}, {winner} has made the scoreboard read with real authority."
+    },
+    {
+      "id": "cb2-010",
+      "text": "That is daylight between them, with {winner} standing right in the middle of it."
+    },
+    {
+      "id": "cb2-011",
+      "text": "Look at the spread! {winner} takes it by {margin}, a clean and convincing gap."
+    },
+    {
+      "id": "cb2-012",
+      "text": "Sure enough, the season verdict is clear, and {winner} has earned this advantage."
+    },
+    {
+      "id": "cb2-013",
+      "text": "For {loser}, the chase ends here; {winner} has breathing space to celebrate."
+    },
+    {
+      "id": "cb2-014",
+      "text": "From {winnerClub} to {loserClub}, the gap is plain for everyone to see."
+    },
+    {
+      "id": "cb2-015",
+      "text": "Here is your season winner: {winner}, with a lead that needs no explaining."
+    },
+    {
+      "id": "cb2-016",
+      "text": "What a result for {winner}! Not a runaway, but a very solid win."
+    },
+    {
+      "id": "cb2-017",
+      "text": "When the totals settle, {winner} is comfortably on the right side of them."
+    },
+    {
+      "id": "cb2-018",
+      "text": "This one goes to {winner}, and the margin is more than a mere whisker."
+    },
+    {
+      "id": "cb2-019",
+      "text": "On the season board, {winner} has put useful distance between the rivals."
+    },
+    {
+      "id": "cb2-020",
+      "text": "Set it down in the record: {winner} clears {loser} by {margin}."
+    },
+    {
+      "id": "cb2-021",
+      "text": "Up comes the final tally, and {winnerClub} holds a convincing advantage."
+    },
+    {
+      "id": "cb2-022",
+      "text": "You can see the daylight now, {winner} ahead and no doubt about the outcome."
+    },
+    {
+      "id": "cb2-023",
+      "text": "So the season closes with {winner} out in front, convincingly so."
+    },
+    {
+      "id": "cb2-024",
+      "text": "No need to squint at that table, {winner} has taken the season clearly."
+    },
+    {
+      "id": "cb2-025",
+      "text": "At the end of it all, {winner} has a cushion over {loser}."
+    },
+    {
+      "id": "cb2-026",
+      "text": "By {margin}, {winner} takes the verdict, and that's a healthy bit of separation!"
+    },
+    {
+      "id": "cb2-027",
+      "text": "That settles season {season}! {winner} is ahead by a comfortable distance."
+    },
+    {
+      "id": "cb2-028",
+      "text": "Firm and unmistakable, the edge belongs to {winner}, not a narrow scrape."
+    },
+    {
+      "id": "cb2-029",
+      "text": "Across the season totals, {winnerClub} comes out clearly above {loserClub}."
+    },
+    {
+      "id": "cb2-030",
+      "text": "Nobody needs a magnifying glass here, {winner} has secured a solid win."
+    },
+    {
+      "id": "cb2-031",
+      "text": "Here comes the confirmation: {winner} takes this season by {margin}."
+    },
+    {
+      "id": "cb2-032",
+      "text": "A lead worth celebrating! {winner} has finished clearly ahead of {loser}."
+    },
+    {
+      "id": "cb2-033",
+      "text": "Take a good look at that season table, {winner} is the name on top."
+    },
+    {
+      "id": "cb2-034",
+      "text": "Clear separation as the numbers land, {winner} has beaten {loser} with something spare!"
+    },
+    {
+      "id": "cb2-035",
+      "text": "They've reached the verdict, and {winner} has taken a convincing season victory."
+    },
+    {
+      "id": "cb2-036",
+      "text": "There it is! {winnerClub} sit above {loserClub}, with space between them."
+    },
+    {
+      "id": "cb2-037",
+      "text": "Make that a comfortable season win for {winner}, and a deserved one at that."
+    },
+    {
+      "id": "cb2-038",
+      "text": "The result reads {winnerPoints} to {loserPoints}, and {winner} takes it convincingly."
+    },
+    {
+      "id": "cb2-039",
+      "text": "Ahead by {margin}, {winner} puts a decisive stamp on season {season}."
+    },
+    {
+      "id": "cb2-040",
+      "text": "And that is a win with room to breathe, {winner} takes this season!"
+    },
+    {
+      "id": "cb2-041",
+      "text": "Someone can put the calculators away, {winner} has made the verdict quite clear!"
+    },
+    {
+      "id": "cb2-042",
+      "text": "If {loser} wanted a close finish, {winner} clearly had other plans."
+    },
+    {
+      "id": "cb2-043",
+      "text": "Not exactly a nail-biter, this one! {winner} has put daylight on the board."
+    },
+    {
+      "id": "cb2-044",
+      "text": "The numbers are being polite, but they're saying {winner} won rather comfortably."
+    },
+    {
+      "id": "cb2-045",
+      "text": "Well, {winner} has left {loser} enough space to read the final table."
+    },
+    {
+      "id": "cb2-046",
+      "text": "Call it a comfortable cushion, {winner} has little reason to check the figures again."
+    },
+    {
+      "id": "cb2-047",
+      "text": "Forget the frantic recount, {winner} holds a proper lead over {loser}."
+    },
+    {
+      "id": "cb2-048",
+      "text": "You can retire the suspense for tonight, {winner} has won this season with room to spare."
+    },
+    {
+      "id": "cb2-049",
+      "text": "It wasn't a photo finish, and {winner} will be absolutely fine with that."
+    },
+    {
+      "id": "cb2-050",
+      "text": "Try finding a cliffhanger in those totals, {winner} has rather spoiled the hunt!"
+    },
+    {
+      "id": "cb2-051",
+      "text": "A little breathing room? {winner} has managed rather more than a little!"
+    },
+    {
+      "id": "cb2-052",
+      "text": "Even the scorekeeper can appreciate the clarity, {winner} has taken the season cleanly."
+    },
+    {
+      "id": "cb2-053",
+      "text": "Even the gap has its own seat at the table, and {winner} is sitting pretty!"
+    },
+    {
+      "id": "cb2-054",
+      "text": "Nobody has to lean in for this verdict, {winnerClub} have made it perfectly audible!"
+    },
+    {
+      "id": "cb2-055",
+      "text": "Look, nobody's calling it a landslide, but {winner} won't need a microscope to find the lead."
+    },
+    {
+      "id": "cb2-056",
+      "text": "Easy on the suspense, {winner} has seen to that with a convincing finish."
+    },
+    {
+      "id": "cb2-057",
+      "text": "Has anyone got a tighter contest? Because {winner} has not supplied one!"
+    },
+    {
+      "id": "cb2-058",
+      "text": "That is what you call a bit of elbow room, {winner} takes the season!"
+    },
+    {
+      "id": "cb2-059",
+      "text": "A tidy little gap for {winner}, though {loser} may prefer a different adjective."
+    },
+    {
+      "id": "cb2-060",
+      "text": "The table isn't whispering this time, it's calling {winner} by name!"
+    },
+    {
+      "id": "cb2-061",
+      "text": "No further inspection required, {winner} has this one comfortably covered!"
+    },
+    {
+      "id": "cb2-062",
+      "text": "Put the magnifying glass down, {winner} is ahead by {margin}!"
+    },
+    {
+      "id": "cb2-063",
+      "text": "That's {winner} with a proper gap, not a victory you need to measure twice."
+    },
+    {
+      "id": "cb2-064",
+      "text": "Well now, {winnerClub} have given {loserClub} a little arithmetic to think about!"
+    },
+    {
+      "id": "cb2-065",
+      "text": "You won't need slow motion for this verdict, {winner} is comfortably in front!"
+    },
+    {
+      "id": "cb2-066",
+      "text": "There goes the suspense, and here comes {winner} to claim the season!"
+    },
+    {
+      "id": "cb2-067",
+      "text": "That is a winning cushion, not merely a loose thread, for {winner}."
+    },
+    {
+      "id": "cb2-068",
+      "text": "Looks like {winner} ordered some breathing space with the season victory!"
+    },
+    {
+      "id": "cb2-069",
+      "text": "As verdicts go, {winner} has made this one refreshingly straightforward."
+    },
+    {
+      "id": "cb2-070",
+      "text": "Picture the table, then leave a little space beneath {winner}; that's the gap!"
+    },
+    {
+      "id": "cb2-071",
+      "text": "Not much argument from the numbers, {winner} has given them a clear instruction!"
+    },
+    {
+      "id": "cb2-072",
+      "text": "Check those figures: {winnerPoints} against {loserPoints}, and the pencil can take a break!"
+    },
+    {
+      "id": "cb2-073",
+      "text": "Give {loser} the next chapter, but this page belongs comfortably to {winner}."
+    },
+    {
+      "id": "cb2-074",
+      "text": "That's the sort of lead {winner} can admire without reaching for a ruler!"
+    },
+    {
+      "id": "cb2-075",
+      "text": "If the table could talk, it'd say {winner} with quite a satisfied nod!"
+    },
+    {
+      "id": "cb2-076",
+      "text": "And now the verdict rings out, {winner} owns this season! No lingering question."
+    },
+    {
+      "id": "cb2-077",
+      "text": "From the season's final figures comes a thunderous answer: {winner} stands clear!"
+    },
+    {
+      "id": "cb2-078",
+      "text": "Hear that silence where the suspense used to be? {winner} has settled it!"
+    },
+    {
+      "id": "cb2-079",
+      "text": "There will be no desperate search for daylight, {winner} has already found it!"
+    },
+    {
+      "id": "cb2-080",
+      "text": "Stand by for the final word, {winner} takes the season by {margin}!"
+    },
+    {
+      "id": "cb2-081",
+      "text": "Distance on the board, certainty in the result, {winner} is your season winner!"
+    },
+    {
+      "id": "cb2-082",
+      "text": "Out of this rivalry comes a decisive verdict, {winner} finishes well clear!"
+    },
+    {
+      "id": "cb2-083",
+      "text": "Watch that table lock into place, {winnerClub} have earned the higher ground!"
+    },
+    {
+      "id": "cb2-084",
+      "text": "Only {winner} rises clear above the rest of this contest, and what a season win!"
+    },
+    {
+      "id": "cb2-085",
+      "text": "This is the moment the numbers stop moving, and {winner} stands tall!"
+    },
+    {
+      "id": "cb2-086",
+      "text": "Now the gap opens on the final board, {winner} has a win to savor!"
+    },
+    {
+      "id": "cb2-087",
+      "text": "You wanted a contest, you got a verdict, {winner} by {margin}!"
+    },
+    {
+      "id": "cb2-088",
+      "text": "No scraping through the door this time, {winner} walks into the winner's circle!"
+    },
+    {
+      "id": "cb2-089",
+      "text": "Victory in this season belongs to {winner}, with the gap to show for it!"
+    },
+    {
+      "id": "cb2-090",
+      "text": "At last the totals speak, and they speak with force for {winner}!"
+    },
+    {
+      "id": "cb2-091",
+      "text": "For the record, for the rivalry, for the moment, {winner} has taken it!"
+    },
+    {
+      "id": "cb2-092",
+      "text": "Nothing to dispute on that table, {winner} is comfortably out in front!"
+    },
+    {
+      "id": "cb2-093",
+      "text": "This rivalry has a new chapter, written in bold by {winnerClub}!"
+    },
+    {
+      "id": "cb2-094",
+      "text": "Final numbers, final answer, and {winner} is on top by {margin}!"
+    },
+    {
+      "id": "cb2-095",
+      "text": "As the season closes, {winner} plants a flag at the summit of the table!"
+    },
+    {
+      "id": "cb2-096",
+      "text": "Say it with conviction, {winner} has won this season and won it well!"
+    },
+    {
+      "id": "cb2-097",
+      "text": "There's a flourish in that final tally, {winner} has separated from {loser}!"
+    },
+    {
+      "id": "cb2-098",
+      "text": "Written across the board, a comfortable distance between {winner} and {loser}!"
+    },
+    {
+      "id": "cb2-099",
+      "text": "Into the record it goes, {winner} above {loser}, and by a very healthy margin!"
+    },
+    {
+      "id": "cb2-100",
+      "text": "That's the conclusion, clear as a final whistle: {winner} takes the season!"
+    }
+  ]
+}
