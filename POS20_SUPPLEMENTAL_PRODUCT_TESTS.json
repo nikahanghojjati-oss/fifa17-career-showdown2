@@ -2319,6 +2319,14 @@
         "^tests/contracts/r86-sp-chip-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r86-unlock-reads-contracts.cjs",
+      "patterns": [
+        "^js/(sparkPrivatePairing|productionSharedSeasonCommit)\\.js$",
+        "^tests/contracts/r86\\-unlock\\-reads\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

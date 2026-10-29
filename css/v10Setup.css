@@ -104,7 +104,10 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   width: min(1040px, 94vw);
   margin: 22px auto 0;
 }
-:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin > h2[data-route-focus-target="true"]:focus { outline: 1px solid rgba(242, 196, 91, .5); outline-offset: 4px; }
+/* HO-045: the screen title (focused by the app when a screen opens) shows its thin ring for keyboard focus only, never a
+   box on mouse or touch focus. #app out-ranks the JOB-1132 Select League ring, which stays on SPIN WHEEL and BACK. */
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin > h2[data-route-focus-target="true"]:focus:not(:focus-visible) { outline: none; box-shadow: none; }
+#app :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin > h2[data-route-focus-target="true"]:focus-visible { outline: 1px solid rgba(242, 196, 91, .5); outline-offset: 4px; box-shadow: none; }
 
 /* ---------- shared screen kit ---------- */
 :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin { color: var(--v26-text); }
@@ -1631,13 +1634,35 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
   }
 }
 
+/* r86 HO-044 tall phones: upright phones 340-430px wide, up to 960px tall and below 59/128 wide-to-tall (down to 17/48,
+   340x960) draw Team V's ENV_LEAGUE_PHONE_TALL_V5 (1179x2620, 9:20: the V5 men, plinth and stadium with more sky and
+   floor) the same way as the V5 swap below: cover, pinned to the top, no overlay, no dark grade, no cut-outs, and the
+   HO-032 wheel 15% smaller. Its faces sit 14.0% in from each side, so they stay on screen down to 340x960. This block
+   comes before the V5 one so V5 still wins at exactly 59/128. */
+@media (min-width: 340px) and (max-width: 430px) and (max-height: 960px) and (min-aspect-ratio: 17/48) and (max-aspect-ratio: 59/128) and (orientation: portrait) {
+  html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background {
+    background-image: url("../visual-assets/v10_1/plates-v5/ENV_LEAGUE_PHONE_TALL_V5.webp");
+    background-position: 50% 0;
+    background-size: cover;
+  }
+  html[data-v10-setup="league"] #overlay { background: none; }
+  #leagueWheelScreen.v26Skin .v26Art { display: none; }
+  #app #leagueWheelScreen.v26Skin { --v26-wheel-full: var(--v26-wheel); }
+  #app #leagueWheelScreen.v26Skin :is(.wheelPointer, #leagueWheel) {
+    --v26-wheel: calc(var(--v26-wheel-full) * .85);
+    --v26-wheel-cut: calc(var(--v26-wheel-full) * .15);
+  }
+  #app #leagueWheelScreen.v26Skin .wheelPointer { margin-top: calc(var(--v26-wheel-cut) * .5695); }
+  #app #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: calc(8px + var(--v26-wheel-cut) * .5); }
+}
+
 /* r78 HO-031 / HO-032 phone marble: upright phones 340-430px wide (up to 960px tall, the JOB-1697 phone layout) draw Team
    V's ENV_LEAGUE_PHONE_V5 (both managers painted in, set clear of the smaller wheel below) in place of the old phone stadium and the two cut-outs. The plate is
    cover of the screen, pinned to the top; the title, result line and buttons keep their places. No dark grade over the
    men. Cover crops the plate's sides on tall screens, so the swap stops at 59/128 (width / height, 0.4609): any taller
    and the screen edge would cut into Daniel's or Nik's face zone (9.03% and 9.11% in from the plate's sides), cropping
-   Daniel's ear and cheek first. Taller phones (412x915, 360x800, 430x960, 340x960) and the other phone and tablet sizes
-   keep the old art. */
+   Daniel's ear and cheek first. Taller phones (412x915, 384x854, 360x800, 430x960, 340x960) draw the 9:20 TALL plate
+   (HO-044, the block above); the other phone and tablet sizes keep the old art. */
 @media (min-width: 340px) and (max-width: 430px) and (max-height: 960px) and (min-aspect-ratio: 59/128) and (orientation: portrait) {
   html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background {
     background-image: url("../visual-assets/v10_1/plates-v5/ENV_LEAGUE_PHONE_V5.webp");
