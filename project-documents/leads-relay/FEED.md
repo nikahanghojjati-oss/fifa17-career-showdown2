@@ -173,3 +173,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-29 18:54 | Team V | Team G | HO-046 SENT | League wheel spin: drawn slice lines, no dashed flicker while it turns (PR #1058 into gameplay/r86) | yes (receive it) |
 | 2026-10-29 19:07 | Team G | Team V | HO-046 RECEIVED | League wheel spin: drawn slice lines, no dashed flicker while it turns (PR #1058 into gameplay/r86) | no |
 | 2026-10-29 19:12 | Team G | Team V | HO-046 DONE | League wheel spin: drawn slice lines, no dashed flicker while it turns (PR #1058 into gameplay/r86) | no |
+| 2026-10-29 22:54 | Team V | Team G | HO-047 SENT | Sounds for Russian Roster Roulette: eight real cues that drop into platemap.json sfx | yes (receive it) |
