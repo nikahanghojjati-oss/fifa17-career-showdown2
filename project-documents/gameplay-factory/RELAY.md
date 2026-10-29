@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-29 3:56 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-29 3:59 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `38e9f3d` (Thu 29 Oct 3:54 AM Boston time) · 150 messages · 43 hand-offs · 279 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `49d8152` (Thu 29 Oct 3:59 AM Boston time) · 150 messages · 43 hand-offs · 279 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-042 · G → V · r86 Special Player reveal: card text cut, phone label, gold glow instead of white flash
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Thu 29 Oct 3:59 AM · Team V · In progress · Team V Big Jump owner fixing all three on factory special-player + preview
 - Thu 29 Oct 3:53 AM · Team G · Sent
 - Thu 29 Oct 3:54 AM · relay Action · Delivered in full as a wake comment on PR #312
 

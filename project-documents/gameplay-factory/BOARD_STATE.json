@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-29 3:56 AM Boston time (EDT)",
+ "generated": "2026-10-29 3:59 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 150,
@@ -1373,8 +1373,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "38e9f3d",
-  "head_boston": "Thu 29 Oct 3:54 AM",
+  "head": "49d8152",
+  "head_boston": "Thu 29 Oct 3:59 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1984,13 +1984,13 @@
     "from": "G",
     "to": "V",
     "title": "r86 Special Player reveal: card text cut, phone label, gold glow instead of white flash",
-    "stage": "DELIVERED",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-042_r86-special-player-reveal-card-text-cut-.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 2
+    "waiting_min": null
    }
   ],
   "relay_ok": true
