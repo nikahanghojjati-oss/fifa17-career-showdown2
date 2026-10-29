@@ -65,6 +65,14 @@ body { margin: 0; background: var(--ink); color: var(--ivory); font-family: var(
 body.game .tools { display: none; }
 #tools-back { display: none; position: fixed; top: 10px; right: 10px; z-index: 9; font: 700 11px/1 var(--num); letter-spacing: .14em; text-transform: uppercase; color: var(--ivory); background: rgba(8,7,6,.7); border: 1px solid rgba(241,195,90,.5); border-radius: 999px; padding: 7px 11px; }
 body.game #tools-back { display: block; }
+/* In-game sound switch (2026-10-29): before, the only Sound button sat in the hidden preview tools, so the game reveal was always silent. */
+#spk { display: none; position: fixed; top: calc(10px + env(safe-area-inset-top, 0px)); right: calc(10px + env(safe-area-inset-right, 0px)); z-index: 9; width: 40px; height: 40px; padding: 0; border-radius: 50%; color: var(--gold-hi); background: rgba(8,7,6,.72); border: 1px solid rgba(241,195,90,.6); cursor: pointer; place-items: center; }
+body.game #spk { display: grid; }
+#spk svg { width: 20px; height: 20px; }
+#spk .x { display: none; }
+#spk.off .w { display: none; }
+#spk.off .x { display: inline; }
+#spk:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 2px; }
 .tools select { appearance: none; -webkit-appearance: none; }
 .tools small { width: 100%; text-align: center; font: 500 11px/1.3 var(--num); letter-spacing: .1em; color: rgba(246,238,219,.8); text-shadow: 0 1px 2px #000; }
 .tools button:focus-visible, .tools select:focus-visible, .cta:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 2px; }
@@ -116,6 +124,7 @@ body.game #tools-back { display: block; }
   </div>
 </div>
 <button type="button" id="tools-back">Preview tools</button>
+<button type="button" id="spk" class="off" aria-pressed="false" aria-label="Sound off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path class="w" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/><path class="x" d="M17 9l5 6M22 9l-5 6"/></svg></button>
 <div class="toast" id="toast">Preview only</div>
 <div class="sr" aria-live="polite" id="live"></div>
 
@@ -1557,6 +1566,13 @@ let pCursor=0;
 function emit(p,v,col,life,size,g,drag,tw){ const q=parts[pCursor]; pCursor=(pCursor+1)%MAXP; q.p.copy(p); q.v.copy(v); q.c.copy(L(col)); q.life=q.max=life; q.s=size; q.g=g||0; q.drag=drag||0; q.tw=tw||0; }
 const tmpV=new T.Vector3();
 function burst(at,col,n,speed,life,size){ for(let i=0;i<n;i++){ tmpV.set(Math.random()-.5,Math.random()-.5,Math.random()-.5).normalize().multiplyScalar(speed*(.55+Math.random()*.6)); emit(at,tmpV,Array.isArray(col)?col[i%col.length]:col,life*(.7+Math.random()*.5),size,-2.6,1.2,1); } }
+/* Fireworks and fountains are placed inside what the camera sees (red team / hype study B, 2026-10-29): before, the sky volleys
+   burst at y 36-43 behind the stands, above the top of the frame, and on a phone the pitch fountains and most of the confetti rain
+   fell outside the narrow view. viewTanH is set by resize(). */
+let viewTanH=.4;
+const halfWAt=(z)=>Math.max(.5,(camRest.z-z)*viewTanH*camera.aspect);
+function skyPoint(nx,ny,z){ camera.updateMatrixWorld(); const o=camera.position, q=new T.Vector3(nx,ny,.5).unproject(camera), k=(z-o.z)/((q.z-o.z)||-1e-6); return new T.Vector3(o.x+(q.x-o.x)*k,o.y+(q.y-o.y)*k,z); }
+const fitX=(x,z)=>x*Math.min(1,halfWAt(z)*.85/6.5);
 function starburst(at,col,n,speed,size){ for(let i=0;i<n;i++){ const a=Math.random()*Math.PI*2, e=(Math.random()-.2)*Math.PI*.9; tmpV.set(Math.cos(a)*Math.cos(e),Math.sin(e),Math.sin(a)*Math.cos(e)).multiplyScalar(speed*(.85+Math.random()*.3)); emit(at,tmpV,Array.isArray(col)?col[i%col.length]:col,1.4+Math.random()*.6,size||.9,-3.5,.9,1); } }
 function fountain(at,col,n,h,spread){ for(let i=0;i<n;i++){ tmpV.set((Math.random()-.5)*(spread||1.2),h*(.8+Math.random()*.4),(Math.random()-.5)*(spread||1.2)); emit(at,tmpV,col,1.1+Math.random()*.5,.2+Math.random()*.1,-9.8,.25,1); } }
 function stepParticles(dt){
@@ -1582,7 +1598,7 @@ confetti.instanceMatrix.setUsage(T.DynamicDrawUsage); confetti.frustumCulled=fal
 const conf=[]; const dummy=new T.Object3D();
 for(let i=0;i<CONF;i++){ conf.push({on:false,p:new T.Vector3(),v:new T.Vector3(),r:new T.Euler(),w:new T.Vector3(),ph:Math.random()*6}); dummy.scale.set(0,0,0); dummy.updateMatrix(); confetti.setMatrixAt(i,dummy.matrix); confetti.setColorAt(i,new T.Color(1,1,1)); }
 let confNext=0;
-function confettiRain(cols,n,zc){ for(let k=0;k<n;k++){ const i=confNext; confNext=(confNext+1)%CONF; const c=conf[i]; c.on=true; c.p.set((Math.random()-.5)*14,5+Math.random()*9,(zc||-2)+(Math.random()-.5)*9); c.v.set((Math.random()-.5)*.5,-(.9+Math.random()*.9),(Math.random()-.5)*.3); c.w.set(2+Math.random()*6,2+Math.random()*6,Math.random()*4); c.g=0; confetti.setColorAt(i,L(cols[i%cols.length]).multiplyScalar(1.15)); } confetti.instanceColor.needsUpdate=true; }
+function confettiRain(cols,n,zc){ for(let k=0;k<n;k++){ const i=confNext; confNext=(confNext+1)%CONF; const c=conf[i]; c.on=true; c.p.set((Math.random()-.5)*Math.min(14,2.1*halfWAt(zc||-2)),5+Math.random()*9,(zc||-2)+(Math.random()-.5)*9); c.v.set((Math.random()-.5)*.5,-(.9+Math.random()*.9),(Math.random()-.5)*.3); c.w.set(2+Math.random()*6,2+Math.random()*6,Math.random()*4); c.g=0; confetti.setColorAt(i,L(cols[i%cols.length]).multiplyScalar(1.15)); } confetti.instanceColor.needsUpdate=true; }
 function confettiCannon(side,cols,n){ for(let k=0;k<n;k++){ const i=confNext; confNext=(confNext+1)%CONF; const c=conf[i]; c.on=true; c.g=1; c.p.set(side*(4.6+Math.random()*.6),.3+Math.random()*.3,-1.4+(Math.random()-.5)*1.2); c.v.set(-side*(1.6+Math.random()*4.2),6+Math.random()*6,(Math.random()-.3)*2.4); c.w.set(3+Math.random()*8,3+Math.random()*8,Math.random()*5); confetti.setColorAt(i,L(cols[k%cols.length]).multiplyScalar(1.15)); } confetti.instanceColor.needsUpdate=true; }
 function stepConfetti(dt,t){ for(let i=0;i<CONF;i++){ const c=conf[i]; if(!c.on) continue; if(c.g){ c.v.y=Math.max(c.v.y-9*dt,-1.1); c.v.x*=1-1.4*dt; c.v.z*=1-1.4*dt; } c.p.addScaledVector(c.v,dt); c.p.x+=Math.sin(t*1.9+c.ph)*dt*.6; c.r.x+=c.w.x*dt; c.r.y+=c.w.y*dt; c.r.z+=c.w.z*dt;
   if(c.p.y<0.02){ c.p.y=0.02; c.v.set(0,0,0); c.w.set(0,0,0); c.r.x=-Math.PI/2; c.r.y=0; }
@@ -1795,7 +1811,10 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null;
     flash:(pw)=>{ fx.boom(pw); fx.crowd(6,1.25); fx.pops(6); fx.hit(3); }
   };
   return { get on(){ return on; }, enable(v){ on=v; if(v){ init(); if(ctx&&ctx.state==="suspended") ctx.resume(); } },
-    play(name,...a){ if(!on||!ctx) return; try{ fx[name](...a); }catch(e){} } };
+    /* A context the browser has not let start yet (no tap in this frame) would queue every cue and play them all at once on the
+       first tap, so cues are only played while it runs. */
+    get running(){ return Boolean(ctx&&ctx.state==="running"); },
+    play(name,...a){ if(!on||!ctx||ctx.state!=="running") return; try{ fx[name](...a); }catch(e){} } };
 })();
 
 function at(tt,t,k,fn){ if(tt>=t&&!fired[k]){ fired[k]=1; fn(); } }
@@ -1854,7 +1873,7 @@ function run(tt){
   sweep(5.0);
   at(tt,5.8,"nat",()=>{ drawCardBack(back.ctx,p,2); back.tx.needsUpdate=true; pulse=1; shake=.1; burst(new T.Vector3(-.62,2.55,-1.1),nat,90,3.4,.7,.16);
     flags.forEach((f,i)=>{ f.mesh.visible=true; later(()=>f.target=1,i*110); });
-    [-30,-15,0,15,30].forEach((x,i)=>later(()=>starburst(new T.Vector3(x+(Math.random()-.5)*4,36+Math.random()*4,-44),nat.concat([0xffffff]),Math.round(70*pw),7,2.6),200+i*160)); });
+    [-.8,-.4,0,.4,.8].forEach((x,i)=>later(()=>starburst(skyPoint(x+(Math.random()-.5)*.1,.42+Math.random()*.18,-34),nat.concat([0xffffff]),Math.round(38*pw),7,1.3),200+i*160)); });
   if(tt>5.8&&tt<7.6) flagMounts.forEach(m=>{ if(Math.random()<.5) emit(new T.Vector3(m.pos.x+(Math.random()-.5)*m.w,m.pos.y+.3,m.pos.z+.5),new T.Vector3((Math.random()-.5)*.6,-1-Math.random()*2,0),Math.random()<.5?0xfff1c2:0xffd77a,1.6,.55,-4,.3,1); });
   sweep(5.8);
   /* 5  the club badge coin rolls in, then flies onto the card (6.4 - 8.0 s); confetti cannons fire from both sides */
@@ -1875,8 +1894,8 @@ function run(tt){
   if(tt>8.9){ const k=ease.inOut(fl); if(k>=5/6&&frontMat.map!==front.tx){ frontMat.map=front.tx; frontMat.needsUpdate=true; } card.rotation.set(0,Math.PI+k*Math.PI*3,0); card.position.y=CARD_POS.y+Math.sin(k*Math.PI)*.5; }
   at(tt,9.6,"flash",()=>{ shake=.3; glow.position.set(0,1.86,-1.3); flash=1.0*Math.min(1.4,pw); glow.material.color.copy(L(tc)); burst(CARD_POS.clone().add(new T.Vector3(0,0,.3)),[tc,0xffffff,0xfff1c2],Math.round(240*pw),11,1.3,.2);
     confettiRain(nat.concat([0xf1c35a,0xfff3c4]),Math.round(380*pw),-2);
-    [-34,-20,-7,7,20,34].forEach((x,i)=>later(()=>starburst(new T.Vector3(x,38+Math.random()*5,-46),[tc,0xffffff,0xfff1c2].concat(nat),Math.round(80*pw),8,2.8),i*120)); });
-  if(tt>9.6&&tt<12.2) [[-6.5,-6],[6.5,-6],[-3.2,-7],[3.2,-7]].forEach(([x,z])=>fountain(new T.Vector3(x,.1,z),Math.random()<.5?0xfff1c2:0xffffff,Math.round(3*pw)+1,8.5,.9));
+    [-.85,-.55,-.2,.2,.55,.85].forEach((x,i)=>later(()=>starburst(skyPoint(x,.38+Math.random()*.22,-36),[tc,0xffffff,0xfff1c2].concat(nat),Math.round(44*pw),8,1.4),i*120)); });
+  if(tt>9.6&&tt<12.2) [[-6.5,-6],[6.5,-6],[-3.2,-7],[3.2,-7]].forEach(([x,z])=>fountain(new T.Vector3(fitX(x,z),.1,z),Math.random()<.5?0xfff1c2:0xffffff,Math.round(3*pw)+1,8.5,.9));
   const gs=S(9.6,1.2,tt); if(gs>0&&gs<1){ const s=Math.sin(gs*Math.PI)*8*pw; glow.scale.set(s,s,1); glow.material.opacity=(1-gs)*.6; } else if(gb<=0||gb>=1) glow.scale.set(0,0,1);
   if(tt>9.6){ rays.material.opacity=lerp(.5,.16,S(9.6,2,tt)); rays.material.color.copy(L(tc)).multiplyScalar(.35); rays.rotation.z=tt*.06; }
   if(tt>10.3&&tt<11.2) sheenMat.uniforms.p.value=lerp(-2.6,2.6,(tt-10.3)/.9);
@@ -1894,7 +1913,7 @@ function resize(){
   const tV=3.5/(dist*band*.96), tH=2.5/(dist*1.7*camera.aspect);
   const fov=Math.max(2*Math.atan(Math.max(tV,tH))*180/Math.PI,38); camera.fov=fov; camera.updateProjectionMatrix();
   const tanH=Math.tan(fov*Math.PI/360); lookRest=CARD_POS.clone().add(new T.Vector3(0,-(yt+yb)/2*tanH*dist+.1,0));
-  const halfW=(camRest.z+.1)*tanH*camera.aspect; coinStopX=-Math.min(2.6,Math.max(.5,halfW-COIN_R*.9)); coinLift=camera.aspect<1?.75:.35; camK=camera.aspect<1?1.3:1;
+  viewTanH=tanH; const halfW=(camRest.z+.1)*tanH*camera.aspect; coinStopX=-Math.min(2.6,Math.max(.5,halfW-COIN_R*.9)); coinLift=camera.aspect<1?.75:.35; camK=camera.aspect<1?1.3:1;
   pMat.uniforms.scale.value=ph/(2*tanH);
 }
 addEventListener("resize",resize);
@@ -1914,7 +1933,7 @@ function tick(draw){
     if((k%4)<.9) sheenMat.uniforms.p.value=lerp(-2.6,2.6,(k%4)/.9);
     if(!REDUCED&&Math.random()<dt*1.2){ const v=SHIELD[(Math.random()*SHIELD.length)|0]; emit(card.localToWorld(new T.Vector3(v[0]*1.03,v[1]*1.03,.08)),new T.Vector3(0,0,0),0xfff6d8,.45,.5,0,0,0); }
     
-    if(!REDUCED&&k<1.6&&Math.random()<.6) [[-6.5,-6],[6.5,-6],[-3.2,-7],[3.2,-7]].forEach(([x,z])=>fountain(new T.Vector3(x,.1,z),0xfff1c2,1,8.5,.9));
+    if(!REDUCED&&k<1.6&&Math.random()<.6) [[-6.5,-6],[6.5,-6],[-3.2,-7],[3.2,-7]].forEach(([x,z])=>fountain(new T.Vector3(fitX(x,z),.1,z),0xfff1c2,1,8.5,.9));
     if(idx===0&&k>(REDUCED?.2:SCOUT_END+.6)) startPlayer(1); }
   flags.forEach((f,i)=>{ if(!f.mesh.visible) return; f.drop+=(f.target-f.drop)*Math.min(1,dt*2.6); f.mesh.scale.y=Math.max(.001,f.drop);
     const a=f.mesh.geometry.attributes.position; for(let j=0;j<a.count;j++){ const x=f.base[j*3], y=f.base[j*3+1], d=-y/f.h; a.array[j*3+2]=(Math.sin(x*.9+now*2.2+i)*.5+Math.sin(y*.6+now*1.6+i*.5)*.35)*d; } a.needsUpdate=true; f.mesh.geometry.computeVertexNormals(); });
@@ -1932,9 +1951,17 @@ function frame(){ if(manual===null) tick(true); requestAnimationFrame(frame); }
 const toast=$("toast");
 function skip(){ if(phase==="run") settle(); }
 $("skip").addEventListener("click",skip);
-stage.addEventListener("click",skip);
+stage.addEventListener("click",()=>{ if(unlockPending){ unlockPending=false; unlockDone=true; return; } skip(); });
 $("replay").addEventListener("click",()=>startPlayer(0));
-$("sound").addEventListener("click",()=>{ const v=!SFX.on; SFX.enable(v); $("sound").textContent="Sound: "+(v?"on":"off"); $("sound").setAttribute("aria-pressed",String(v)); if(v) startPlayer(0); });
+/* Sound: on unless this phone turned it off (kept per device). A browser lets a frame start sound only after a tap inside it,
+   so until then the reveal plays silent, and the first tap on the pitch turns sound on instead of skipping. */
+const SOUND_KEY="cms-sp-sound", SOUND_DEFAULT=true;
+const soundPref=()=>{ try{ const v=localStorage.getItem(SOUND_KEY); return v===null?SOUND_DEFAULT:v==="1"; }catch(e){ return SOUND_DEFAULT; } };
+function setSound(v,save){ SFX.enable(v); const k=$("spk"); k.classList.toggle("off",!v); k.setAttribute("aria-pressed",String(v)); k.setAttribute("aria-label",v?"Sound on":"Sound off"); $("sound").textContent="Sound: "+(v?"on":"off"); $("sound").setAttribute("aria-pressed",String(v)); if(save){ try{ localStorage.setItem(SOUND_KEY,v?"1":"0"); }catch(e){} } }
+$("sound").addEventListener("click",()=>{ const v=!SFX.on; setSound(v,true); if(v) startPlayer(0); });
+$("spk").addEventListener("click",e=>{ e.stopPropagation(); unlockPending=false; unlockDone=true; setSound(!SFX.on,true); });
+let unlockPending=false, unlockDone=false;
+addEventListener("pointerdown",()=>{ if(SFX.on&&!SFX.running){ SFX.enable(true); if(!unlockDone) unlockPending=true; } },true);
 { const opts=MP_LIST.map((r,i)=>`<option value="${i}">#${r[0]} ${r[1]} · ${r[3]} · ${({"black-blue-gold":"Black","blue-gold":"Blue","gold":"Gold","silver":"Silver","bronze":"Bronze"})[RANKTIER(r[0])]}</option>`).join("");
   [["pickD","Daniel",()=>pickD,(v)=>pickD=v],["pickN","Nik",()=>pickN,(v)=>pickN=v]].forEach(([id,who,get,set])=>{ const el=$(id); el.innerHTML=opts.replace(/<option value="/g,`<option value="`); el.value=String(get()); el.title=who+"'s player";
     el.addEventListener("change",()=>{ set(+el.value); pair={daniel:mpByIdx(pickD), nik:mpByIdx(pickN)}; loadCrests().then(()=>startPlayer(0)); }); }); }
@@ -1948,7 +1975,7 @@ window.__mq={ player(i){ manual=performance.now()/1000; last=manual; queue.lengt
 const fontsReady=Promise.race([Promise.all(['600 60px "Barlow Condensed"','700 30px "Barlow Condensed"','500 30px "Barlow Condensed"','800 30px "Barlow Condensed"','800 40px "Big Shoulders Display"','900 40px "Big Shoulders Display"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);
 Promise.all([fontsReady,loadPano(),loadGrass(),loadPlate(),loadBoards(),loadSide("assets/stand_left.jpg","plateL","hasL"),loadSide("assets/stand_right.jpg","plateR","hasR"),loadCrests(),loadPackArt(),loadCardArt()]).then(()=>{ drawLed(ledTex.ctx); ledTex.tx.needsUpdate=true; resize(); buildEnv(); startPlayer(0);
   /* in the game: draw the first frame, tell the game it is ready, and start once the game shows this page (its loading screen covers the wait) */
-  if(EMBED){ tick(true); let started=false; addEventListener("message",e=>{ if(started||e.source!==parent||e.origin!==location.origin||!e.data||e.data.type!=="cms-sp-start") return; started=true; requestAnimationFrame(frame); }); toGame("cms-sp-ready"); }
+  if(EMBED){ tick(true); let started=false; addEventListener("message",e=>{ if(started||e.source!==parent||e.origin!==location.origin||!e.data||e.data.type!=="cms-sp-start") return; started=true; if(soundPref()) setSound(true,false); requestAnimationFrame(frame); }); toGame("cms-sp-ready"); }
   else requestAnimationFrame(frame); });
 })();
 </script>
