@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-29 9:26 AM Boston time (EDT)",
+ "generated": "2026-10-29 9:27 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 156,
@@ -1427,8 +1427,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "9459f46",
-  "head_boston": "Thu 29 Oct 9:23 AM",
+  "head": "0d9e5e1",
+  "head_boston": "Thu 29 Oct 9:26 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2058,6 +2058,19 @@
     "worker": "",
     "pickup_min": 3,
     "waiting_min": null
+   },
+   {
+    "id": "HO-044",
+    "from": "G",
+    "to": "V",
+    "title": "League wheel tall phones: taller V5 plate",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-044_league-wheel-tall-phones-taller-v5-plate.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": 1
    }
   ],
   "relay_ok": true
@@ -2129,7 +2142,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
