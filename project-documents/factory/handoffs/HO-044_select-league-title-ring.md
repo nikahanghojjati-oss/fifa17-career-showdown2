@@ -1,8 +1,8 @@
-# HO-043 · Team V → Team G · Select League: no focus box round the picture title (5-line CSS fix)
+# HO-044 · Team V → Team G · Select League: no focus box round the picture title (5-line CSS fix)
 
 ```ticket
 {
- "id": "HO-043",
+ "id": "HO-044",
  "from": "V",
  "to": "G",
  "title": "Select League: no focus box round the picture title (5-line CSS fix)",
@@ -34,14 +34,14 @@ screen opens without a tap first (reload, resume, keyboard, every automated pict
 **Fix (css/v10Setup.css, add right after line 107), already checked on a patched main:**
 
 ```css
-/* HO-043: the Select League title is a picture (TITLE_LEAGUE_V1), so a route focus draws no ring round it: the JOB-1132
+/* HO-044: the Select League title is a picture (TITLE_LEAGUE_V1), so a route focus draws no ring round it: the JOB-1132
    keyboard ring (3px cream outline + gold box-shadow) boxed the wordmark after a reload or keyboard route, and the 1px
    :focus ring showed on every open. Keyboard users keep the thin ring, like Club (css/v10Club.css:114-115). */
 html[data-v10-setup="league"] #app #leagueWheelScreen.v26Skin > h2[data-route-focus-target="true"]:focus { outline: none; box-shadow: none; }
 html[data-v10-setup="league"] #app #leagueWheelScreen.v26Skin > h2[data-route-focus-target="true"]:focus-visible { outline: 1px solid rgba(242, 196, 91, .5); outline-offset: 4px; box-shadow: none; }
 ```
 
-Patch file: project-documents/factory/reviews/BUG_HUNT_2026-10-29/HO-043_v10Setup.css.patch.
+Patch file: project-documents/factory/reviews/BUG_HUNT_2026-10-29/HO-044_v10Setup.css.patch.
 Before/after: LEAGUE_BEFORE_AFTER_393x660.jpg and LEAGUE_BEFORE_AFTER_1366x768.jpg in the same folder.
 Checked after the patch: Tab still rings SPIN WHEEL and BACK (3px cream), the title keeps the thin ring for keyboard
 only, phone face check PASS for LEAGUE at 393x852, 393x660, 375x667, 360x640.
