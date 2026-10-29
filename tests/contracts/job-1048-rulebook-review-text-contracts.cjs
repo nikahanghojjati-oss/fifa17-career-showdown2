@@ -24,7 +24,7 @@ vm.runInContext(read("js/ruleBook.js"), context);
 context.createRuleBookScreen();
 
 const sections = main.findByClass("ruleSection");
-assert.equal(sections.length, 6, "Keep the existing six-section Rule Book");
+assert.equal(sections.length, 7, "Keep the seven-section Rule Book (r86 adds 07 SPECIAL PLAYER)");
 const section = number => {
   const found = sections.find(node => node.children[0]?.children[0]?.textContent === number);
   assert.ok(found, `Rule Book section ${number} exists`);
@@ -48,6 +48,26 @@ assert.match(tiebreak, /same Showdown points.*0-0.*season is a draw/i,
   "r83: equal Showdown points (0-0 included) make the season a draw");
 assert.match(tiebreak, /no tiebreak/i, "r83: the Rule Book says there is no tiebreak");
 assert.doesNotMatch(tiebreak, /better league|more league points wins/i, "r83: no league-position or league-points tiebreak");
+
+assert.match(transfer, /Special Player is a free extra signing: he never counts toward the three, and guesses never release him\./,
+  "r86 (Nik 2026-10-29 15:29 UTC): the Special Player is a free extra signing that guesses never release");
+
+const matchPlay = section("02");
+assert.match(matchPlay, /1- and 3-season Showdowns: only your Special Player can be trained\./,
+  "r86 (Nik 2026-10-29): in 1- and 3-season Showdowns only the Special Player can be trained");
+assert.match(matchPlay, /5- and 10-season Showdowns: all players can be trained\./,
+  "r86 (Nik 2026-10-29): in 5- and 10-season Showdowns all players can be trained");
+assert.doesNotMatch(matchPlay, /allowed only in 5- and 10-season/i, "the old no-training-in-short-Showdowns line is gone");
+
+const special = section("07");
+assert.match(special, /^07SPECIAL PLAYER/, "card 07 is the Special Player card");
+for (const pattern of [/after Club Assignment, each manager draws one Special Player/, /top 300 FIFA 17 players by potential/,
+  /never draw the same player/, /free extra signing\. He doesn't count toward your three signings, and your rival's guesses can never release him\./, /Career Start shows each Special Player's FIFA 17 club/,
+  /1- and 3-season Showdowns: your Special Player is the only player you can train\./,
+  /5- and 10-season Showdowns: all players can be trained\./, /scores no Showdown points/]) {
+  assert.match(special, pattern, `Special Player card: ${pattern}`);
+}
+assert.doesNotMatch(special, /marquee|\bMP\b/i, "Special Player card never uses the old name");
 
 const seasonSource = read("js/seasonEngine.js");
 const initialIntro = seasonSource.match(
