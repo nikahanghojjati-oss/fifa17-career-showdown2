@@ -201,6 +201,8 @@ FACTS THE GAME KNOWS (never invent anything else)
 - A draw is a draw: nobody wins it, nobody loses it.
 - The game does NOT know goals, match scores, scorers, players, transfers, injuries, tactics, crowds, dates or weather. Never state any of these as fact. Metaphors are fine ("A STORM IN THE TABLE"), facts are not ("RAIN STOPS PLAY").
 
+PLACEHOLDER GRAMMAR: {season} and {seasons} are plain numbers, so write "season {season}" or "{seasons} seasons", never "wins {season}". {margin}, {winnerPoints}, {loserPoints} and {points} are numbers too ("{margin} clear", "{winnerPoints} to {loserPoints}").
+
 WHAT MAKES A GREAT LINE
 - It sounds spoken aloud: commas for breath, a build, then a payoff on the last few words. Read it in your head in a broadcaster's voice; if it sounds written, rewrite it.
 - 8 to 24 words, 50 to 120 characters including spaces (count a placeholder as 10). One or two sentences.
