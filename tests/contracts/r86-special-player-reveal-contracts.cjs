@@ -66,9 +66,12 @@ function api_page(){return revealWorld().api.page;}
   assert.match(page,/else requestAnimationFrame\(frame\); \}\);/,'the preview (no embed) still plays at once');
   assert.match(revealSource,/event\.source!==frame\.contentWindow\|\|event\.origin!==origin/,'the game listens only to its own frame');
   assert.match(revealSource,/frame\.contentWindow\.postMessage\(\{type:"cms-sp-start"\},root\.location\.origin\)/);
-  assert.match(revealSource,/if\(outcome!=="ready"\)throw/);assert.match(revealSource,/failedHere\.add\(pick\.key\);spRemoveStage\(\);loading\.hide\(\);return null;/,'a failed page is skipped, not marked seen, and not retried on this page');
+  assert.match(revealSource,/if\(outcome!=="ready"\)throw/);assert.match(revealSource,/catch\(_error\)\{if\(channel\)channel\.stop\(\);spMarkSeen\(pick\.key\);spRemoveStage\(\);loading\.hide\(\);return null;\}/,'a failed page is skipped and kept as seen, so a reload never re-runs it over the live game (red team #1)');
+  assert.match(revealSource,/frame\.contentWindow\.postMessage\(\{type:"cms-sp-start"\},root\.location\.origin\);\s*spMarkSeen\(pick\.key\);/,'seen is kept as soon as the reveal is shown, not at Continue (red team #1)');
+  assert.ok(!/failedHere/.test(revealSource),'no page-only skip list');
+  assert.match(page,/function loadPano\(\)\{ return new Promise\(\(res,rej\)=>[^\n]*,undefined,\(\)=>rej\(/,'a failed stadium image ends the page at once (red team #2)');
   assert.match(revealSource,/event\.data\.type==="cms-sp-error"\)\{onReady\("error"\);onContinue\("error"\);\}/,'an error after ready also ends the Continue wait (Codex P2 on #1035)');
-  assert.match(revealSource,/if\(end==="error"\)\{failedHere\.add\(pick\.key\);spRemoveStage\(\);return null;\}/,'so the broken stage is removed and Career Start opens');
+  assert.match(revealSource,/if\(end==="error"\)\{spRemoveStage\(\);return null;\}/,'so the broken stage is removed and Career Start opens');
   assert.match(revealSource,/stage\.style\.visibility="visible";\s*frame\.contentWindow\.postMessage/,'the stage is shown before the loading screen fades');
   assert.match(revealSource,/z-index:95/,'above Settings (90), under the loading screen (100) and confirm dialogs (120)');
   ok('R3','ready / start / continue / error messages are origin- and frame-checked; failure skips the reveal; the loading screen fades onto a drawn first frame');

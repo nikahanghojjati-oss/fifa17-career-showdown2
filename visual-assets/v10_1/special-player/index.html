@@ -1698,7 +1698,8 @@ function buildEnv(){
   panoMat.uniforms.tex.value=pano;
   const e=pano.clone(); e.needsUpdate=true; e.mapping=T.EquirectangularReflectionMapping; e.encoding=T.sRGBEncoding; scene.environment=pmrem.fromEquirectangular(e).texture;
 }
-function loadPano(){ return new Promise(res=>new T.TextureLoader().load("assets/stadium.jpg",t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; t.magFilter=T.LinearFilter; t.anisotropy=1; pano=t; res(); })); }
+/* r86 (red team #2): the stadium is the one image the scene cannot draw without, so a failed load ends the page at once (the game skips the reveal) instead of waiting out the 15 s limit */
+function loadPano(){ return new Promise((res,rej)=>new T.TextureLoader().load("assets/stadium.jpg",t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; t.magFilter=T.LinearFilter; t.anisotropy=1; pano=t; res(); },undefined,()=>rej(new Error("The stadium image did not load.")))); }
 
 /* ================= timeline ================= */
 const ease={ out:(t)=>1-Math.pow(1-t,3), inOut:(t)=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2, outQuint:(t)=>1-Math.pow(1-t,5) };

@@ -10,12 +10,13 @@
   // js/marqueePlayer.js (no read, no write). The loading screen stays up until the page has drawn its first frame (Reus
   // Gate: at least 1 s, at most 15 s); a page that fails or is too slow is skipped and Career Start opens as before.
   // Shown once per manager per Showdown on this browser; never for a Showdown confirmed before r86.
+  // r86 (red team #1): "seen" is kept as soon as the reveal is shown, and a skipped reveal counts as seen too, both on this
+  // browser's storage. Before, a reload in season 1 (before Continue, or after a skip) ran the reveal again over the live game.
   const PAGE="visual-assets/v10_1/special-player/index.html";
   const STAGE_ID="specialPlayerStage";
   const SEEN_KEY="careerModeShowdown.specialPlayerSeen.v1",SEEN_MAX=40;
   const MIN_LOADING_MS=1000,MAX_LOADING_MS=15000,REFRESH_WAIT_MS=5000;
   const LOADING_TEXT="PREPARING YOUR SPECIAL PLAYERS";
-  const failedHere=new Set();
   let running=null;
 
   function spDoc(){return root.document||null;}
@@ -33,7 +34,7 @@
   function spDecide(state){
     if(root.CMS_SPECIAL_PLAYER_REVEAL==="off")return null;
     if(!state||state.ready!==true||!state.setup||state.setup.phase!=="SHOWDOWN_CONFIRMED"||!state.rivalryId||!state.managerRole)return null;
-    const key=spKey(state);if(failedHere.has(key)||spSeen(key))return null;
+    const key=spKey(state);if(spSeen(key))return null;
     const draw=root.CareerModeMarqueePlayer,list=root.CareerModeMarqueePlayers;
     if(!draw||!list||!Array.isArray(list.players)||!Number.isFinite(state.setupUpdatedAtMs))return null;
     if(!draw.forShowdown(state.rivalryId,state.setupUpdatedAtMs))return null;
@@ -104,12 +105,12 @@
       const left=MIN_LOADING_MS-(Date.now()-shownAt);if(left>0)await spWait(left);
       stage.style.visibility="visible";
       frame.contentWindow.postMessage({type:"cms-sp-start"},root.location.origin);
-    }catch(_error){if(channel)channel.stop();failedHere.add(pick.key);spRemoveStage();loading.hide();return null;}
+      spMarkSeen(pick.key);
+    }catch(_error){if(channel)channel.stop();spMarkSeen(pick.key);spRemoveStage();loading.hide();return null;}
     loading.hide();
     try{frame.focus();}catch(_error){}
     const end=await channel.cont;channel.stop();
-    if(end==="error"){failedHere.add(pick.key);spRemoveStage();return null;}
-    spMarkSeen(pick.key);
+    if(end==="error"){spRemoveStage();return null;}
     return Object.freeze({close(){spRemoveStage();return true;}});
   }
   // Never rejects: any failure means no reveal, and Career Start opens as before.
