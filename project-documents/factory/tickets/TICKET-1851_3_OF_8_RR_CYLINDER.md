@@ -1,4 +1,4 @@
-# Ticket 1851 · 3 of 4 · Animation layer: seven-chamber revolver cylinder (r87, HO-040)
+# Ticket 1851 · 3 of 8 · Animation layer: seven-chamber revolver cylinder (r87, HO-040)
 
 One picture only. Thu 29 Oct 2026, Team V. The game spins this cylinder in code, so it must be seen perfectly straight on, perfectly round, centred. Claude cuts it out and makes the empty, loaded and spinning versions.
 

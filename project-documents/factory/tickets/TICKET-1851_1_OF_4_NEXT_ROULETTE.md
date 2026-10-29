@@ -14,8 +14,8 @@ Steps for Nik:
    - looks like a real Red Dead Redemption 2-quality 3D game scene: a rich lamplit cowboy cafe: carved dark wood with gold ornaments, rows of glowing lamps, a balcony behind, round green-felt table with a lantern (not a saloon)
    - Daniel LEFT and Nik RIGHT look like themselves, in Western clothes, each holding a wooden board with both hands
    - both boards show an EMPTY green pitch and an empty dark strip under it (no players, no writing)
-   - an original older cowboy sits in the middle with the revolver on the table, pointing at the wall, not at anyone
-   - the steel seven-chamber cylinder in the middle, the line CLICK. DANIEL IS SAFE., the gold SPIN THE CYLINDER button, the bottom panel (01 DANIEL SAFE, 02 NIK YOUR TURN) and the top bar match the sketch word for word
+   - the cowboy in the middle fires the revolver from his outstretched hand at the top corner of Nik's board: whole gun clearly in his hand, flash, smoke, bullet streak; never at a face or body
+   - the steel seven-chamber cylinder in the middle, the line BANG! NIK'S BOARD IS HIT., the gold SPIN THE CYLINDER button, the bottom panel (01 DANIEL SAFE, 02 NIK HIT) and the top bar match the sketch word for word
    - nobody looks dimmed or greyed
    - Save only the picture this chat just made.
 5. If it passes, download it and drop it into the Roster Russian Roulette thread with `1851-1 DESKTOP`. If it fails, start again in a new chat (up to 3 tries).
@@ -29,9 +29,9 @@ Turn this flat layout sketch into a finished, photorealistic desktop game screen
 MOST IMPORTANT (never break these):
 - Use ONLY the words in the sketch, copied letter for letter. No other words anywhere: no signs, menus, posters, labels, logos or brand names in the room.
 - No new or moved buttons, tabs or icons. Never add SQUAD, TRANSFERS, COMPETITIONS, COMPETE, PROFILE, SHOP, a bell, an avatar or a search icon.
-- Nobody is hurt and no gun points at a person. No blood.
+- Nobody is hurt; the gun aims only at the corner of Nik's board, never at a face or body. No blood.
 - No characters from any real game or film; no real logos.
-- Words allowed, letter for letter: CAREER MODE SHOWDOWN 17, Roster Russian Roulette, CLICK. DANIEL IS SAFE., SPIN THE CYLINDER, 01, DANIEL, SAFE, 02, NIK, YOUR TURN, and the top bar exactly as drawn (CM17, HOME, CAREER, STANDINGS, STATS, RULES, and the small chips and gear at the right).
+- Words allowed, letter for letter: CAREER MODE SHOWDOWN 17, Roster Russian Roulette, BANG! NIK'S BOARD IS HIT., SPIN THE CYLINDER, 01, DANIEL, SAFE, 02, NIK, HIT, and the top bar exactly as drawn (CM17, HOME, CAREER, STANDINGS, STATS, RULES, and the small chips and gear at the right).
 
 The room (a cowboy cafe or restaurant, NOT a saloon: no bar fight, no dancers, no swinging doors):
 - An elegant 1899 Western town cafe in the evening, rich and warm like a top-quality 3D Western video game (the Red Dead Redemption 2 look and quality): dark carved wood panelling with thin gold art-nouveau ornaments, a coffered wooden ceiling with rows of glowing glass lamp shades, brass wall sconces, a wooden balcony with white turned railings in the background, a polished counter with lamps far behind, dark plank floor, a tall window showing a dusky blue street.
@@ -39,8 +39,9 @@ The room (a cowboy cafe or restaurant, NOT a saloon: no bar fight, no dancers, n
 - Warm amber lamplight, deep but natural shadows, rich wood and brass textures, photoreal, cinematic depth of field. Only the three men in the scene.
 
 The dealer (an ORIGINAL character, not from any game or film):
-- A weathered older Western man sitting at the far side of the table, facing us, in the place of the plain figure in the sketch: grey stubble, a dark felt hat with a flat brim, a waistcoat over a collarless shirt with rolled sleeves, a calm stare.
-- He holds an old seven-shot revolver in one hand resting on the green felt, pointing at the side wall, never at a person.
+- A weathered Western man of about 55 sitting at the far side of the table, facing us, in the place of the plain figure in the sketch: grey stubble, a dark brown felt hat with a flat brim, a long dark grey coat over a brown waistcoat and a collarless off-white shirt, a calm, dangerous stare.
+- THE MOMENT OF THE SHOT, exactly as the sketch shows: his right arm is stretched out towards Nik's board, an old 1873-style revolver held firmly in his right hand (whole gun visible: long barrel, round cylinder, hammer, trigger guard, wooden grip; finger on the trigger, five fingers). The gun fires at the TOP LEFT CORNER of Nik's board only, far from Nik's face and body: a bright orange-white muzzle flash, a puff of grey smoke, a thin glowing bullet streak to the board corner and a few wood splinters there. Not aimed at any person, no blood.
+- He is lit as well as everyone else and is sharp and detailed: a real top-quality 3D game character.
 
 Daniel (left) and Nik (right):
 - Keep both men from the sketch exactly as they are: same faces, same hair, same beards, same skin tones, same build. Daniel always on the LEFT, Nik always on the RIGHT. Never swap or mirror them.
@@ -52,14 +53,14 @@ The two boards (the game draws the players on them later):
 - Each board is a sturdy wooden frame with brass corners, held flat and square to the camera exactly where the sketch shows it.
 - Inside each frame: a flat, evenly lit green football pitch with thin white lines exactly as in the sketch, and below it the plain dark green strip. Keep both COMPLETELY EMPTY: no players, shirts, names, numbers, dots or writing.
 
-The seven-chamber cylinder:
+The seven-chamber cylinder (Version 3, 29 Oct 1:55 a.m. UTC: the shot moment):
 - The round grey disc with seven holes in the sketch becomes a polished steel revolver cylinder seen straight on, seven empty chambers in a ring, with a thin gold rim, floating as a game element in the same place and size.
 
 The interface (keep it exactly where the sketch has it):
 - The top bar stays exactly as in the sketch.
 - At the top centre: CAREER MODE SHOWDOWN 17 small, and under it Roster Russian Roulette as a premium gold title with an engraved Western look, like a luxury gold-leaf sign.
-- Under the cylinder: a slim black strip with a thin gold edge holding CLICK. DANIEL IS SAFE., then the polished gold SPIN THE CYLINDER button.
-- At the bottom: a slim glossy black panel with a thin gold edge: left 01 DANIEL with SAFE under it, right 02 NIK with YOUR TURN under it.
+- Under the cylinder: a slim black strip with a thin gold edge holding BANG! NIK'S BOARD IS HIT., then the polished gold SPIN THE CYLINDER button.
+- At the bottom: a slim glossy black panel with a thin gold edge: left 01 DANIEL with SAFE under it, right 02 NIK with HIT under it.
 - Nothing covers anything else. Every word sharp and easy to read.
 
 Same wide landscape framing as the sketch, 16:9, largest size available.

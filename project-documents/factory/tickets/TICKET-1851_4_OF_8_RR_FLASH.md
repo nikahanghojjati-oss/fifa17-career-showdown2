@@ -1,4 +1,4 @@
-# Ticket 1851 · 4 of 4 · Animation layer: muzzle flash (r87, HO-040)
+# Ticket 1851 · 4 of 8 · Animation layer: muzzle flash (r87, HO-040)
 
 One picture only. Thu 29 Oct 2026, Team V. The flash that shows for a split second when the shot fires. It is shot on black so Claude can turn it into a glowing layer. The bullet trail and the hole in the board are drawn by Claude in code (sharper and exact).
 
