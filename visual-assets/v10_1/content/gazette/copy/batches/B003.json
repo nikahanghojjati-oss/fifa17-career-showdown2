@@ -1,0 +1,408 @@
+{
+ "batch": 3,
+ "situation": "narrow-win",
+ "voice": "The lead caller",
+ "lines": [
+  {
+   "id": "cb3-001",
+   "text": "And there it is! {winner} takes season {season}, with barely daylight between the managers."
+  },
+  {
+   "id": "cb3-002",
+   "text": "What a finish! {winnerClub} edges {loserClub}, and this season belongs to {winner}."
+  },
+  {
+   "id": "cb3-003",
+   "text": "That is tight. {winner} has just held off {loser} by {margin}, right at the finish."
+  },
+  {
+   "id": "cb3-004",
+   "text": "Look at that gap! {winner} is through by {margin}, after a season that refused to separate them."
+  },
+  {
+   "id": "cb3-005",
+   "text": "It's {winner} on top! {loser} pushed all the way, but the final margin is razor thin."
+  },
+  {
+   "id": "cb3-006",
+   "text": "Season {season} goes to {winner}! {loser} was close enough to make every point matter."
+  },
+  {
+   "id": "cb3-007",
+   "text": "There is your verdict. {winnerClub} has the edge, but {loserClub} made it desperately close."
+  },
+  {
+   "id": "cb3-008",
+   "text": "Unbelievably tight at the top, but {winner} gets the nod over {loser}."
+  },
+  {
+   "id": "cb3-009",
+   "text": "Balanced on a knife edge, this season finally tilts toward {winner}!"
+  },
+  {
+   "id": "cb3-010",
+   "text": "Just enough from {winner}, just not quite enough from {loser}. That's the season!"
+  },
+  {
+   "id": "cb3-011",
+   "text": "The table can finally breathe! {winner} finishes narrowly clear of {loser}."
+  },
+  {
+   "id": "cb3-012",
+   "text": "That's the finest of margins. {winnerClub} prevails over {loserClub} at the finish."
+  },
+  {
+   "id": "cb3-013",
+   "text": "Nothing comfortable about that. {winner} has squeezed past {loser} to claim the season."
+  },
+  {
+   "id": "cb3-014",
+   "text": "Here comes the verdict, and it's {winner}! The difference could scarcely be smaller."
+  },
+  {
+   "id": "cb3-015",
+   "text": "You couldn't have asked for much closer. {winner} has scraped home against {loser}."
+  },
+  {
+   "id": "cb3-016",
+   "text": "Every point counted, and {winner} has found just enough to finish ahead of {loser}."
+  },
+  {
+   "id": "cb3-017",
+   "text": "Now the gap is official. {margin} between them, and {winner} takes the season."
+  },
+  {
+   "id": "cb3-018",
+   "text": "Almost a dead heat, but not quite. {winner} has made the difference."
+  },
+  {
+   "id": "cb3-019",
+   "text": "The season hangs on the finest thread, and {winner} comes out in front."
+  },
+  {
+   "id": "cb3-020",
+   "text": "No room to relax for {winner}, but the final table puts them ahead of {loser}."
+  },
+  {
+   "id": "cb3-021",
+   "text": "There were no acres of space here. {winner} edges it, and {loser} was right there."
+  },
+  {
+   "id": "cb3-022",
+   "text": "At the end of season {season}, it's {winner} by the narrowest of margins."
+  },
+  {
+   "id": "cb3-023",
+   "text": "This is seriously close, but not level! {winner} wins the season!"
+  },
+  {
+   "id": "cb3-024",
+   "text": "Barely breathing room, but a full season to celebrate. {winner} takes the honors."
+  },
+  {
+   "id": "cb3-025",
+   "text": "They can finally call it. {winner} has beaten {loser}, and only just."
+  },
+  {
+   "id": "cb3-026",
+   "text": "That final tally says it all, {winnerPoints} to {loserPoints}, and {winner} survives the squeeze."
+  },
+  {
+   "id": "cb3-027",
+   "text": "Tense to the last point! {winner} takes the spoils, {loser} takes the near miss."
+  },
+  {
+   "id": "cb3-028",
+   "text": "Out of all that season's work, {margin} separates them! {winner} holds on."
+  },
+  {
+   "id": "cb3-029",
+   "text": "Right at the line, {winner} nicks it from {loser}! What a season result."
+  },
+  {
+   "id": "cb3-030",
+   "text": "Put {winner} at the top, but keep {loser} close beneath. That was a scrap."
+  },
+  {
+   "id": "cb3-031",
+   "text": "Once the dust settles on season {season}, {winner} is only just ahead."
+  },
+  {
+   "id": "cb3-032",
+   "text": "You can see it in the standings. {winner} finishes ahead of {loser} by {margin}."
+  },
+  {
+   "id": "cb3-033",
+   "text": "Absolutely nothing to spare. {winnerClub} has edged out {loserClub} for the season."
+  },
+  {
+   "id": "cb3-034",
+   "text": "Listen to that verdict. {winner} ahead of {loser}, with hardly a gap to speak of."
+  },
+  {
+   "id": "cb3-035",
+   "text": "Nowhere to hide in those figures. {winnerPoints} against {loserPoints}, and {winner} takes it."
+  },
+  {
+   "id": "cb3-036",
+   "text": "After all that, it's {winner} by {margin}! {loser} made them fight for every inch."
+  },
+  {
+   "id": "cb3-037",
+   "text": "A tight race, a clear result, and {winner} just about crosses ahead of {loser}!"
+  },
+  {
+   "id": "cb3-038",
+   "text": "Such a slender lead. {winner} has done enough, with {loser} snapping at the heels."
+  },
+  {
+   "id": "cb3-039",
+   "text": "Final figures, final verdict. {winner} wins this season by the tiniest gap."
+  },
+  {
+   "id": "cb3-040",
+   "text": "Across the finish line comes {winner}, with {loser} close enough to feel the breeze!"
+  },
+  {
+   "id": "cb3-041",
+   "text": "Someone find a magnifying glass! That's how narrow {winner}'s advantage over {loser} is."
+  },
+  {
+   "id": "cb3-042",
+   "text": "Well, {winner} can smile now. {loser} nearly had that smile for themselves."
+  },
+  {
+   "id": "cb3-043",
+   "text": "Good luck calling that early! {winner} gets there, and {loser} almost steals the headline."
+  },
+  {
+   "id": "cb3-044",
+   "text": "If {winner} wanted an easy finish, {loser} clearly didn't get the message!"
+  },
+  {
+   "id": "cb3-045",
+   "text": "Barely room for a headline between them. {winner} pinches the season from {loser}."
+  },
+  {
+   "id": "cb3-046",
+   "text": "You might need a ruler for that gap! {winner} beats {loser} by {margin}."
+  },
+  {
+   "id": "cb3-047",
+   "text": "That trophy cabinet can wait. For now, {winner} has the season, but only narrowly."
+  },
+  {
+   "id": "cb3-048",
+   "text": "Don't blink at those standings. {winnerClub} has edged {loserClub}, and that's the difference."
+  },
+  {
+   "id": "cb3-049",
+   "text": "Quite a way to earn your bragging rights! {winner} edges {loser} by {margin}."
+  },
+  {
+   "id": "cb3-050",
+   "text": "So close, {loser} could almost reach across the table. Yet {winner} takes it."
+  },
+  {
+   "id": "cb3-051",
+   "text": "Nothing like making it difficult! {winner} wins the season with {loser} breathing down their neck."
+  },
+  {
+   "id": "cb3-052",
+   "text": "Narrow escape, if ever there was one! {winner} just beats {loser}."
+  },
+  {
+   "id": "cb3-053",
+   "text": "Try putting daylight between those totals. {winner} couldn't, but the lead still counts."
+  },
+  {
+   "id": "cb3-054",
+   "text": "Is there a smaller cushion? {winner} won't care, because they've claimed season {season}."
+  },
+  {
+   "id": "cb3-055",
+   "text": "Call it tight, call it tense, call it {winner}'s season! {loser} came so close."
+  },
+  {
+   "id": "cb3-056",
+   "text": "Even the table looks surprised! {winner} edges ahead of {loser} right at the end."
+  },
+  {
+   "id": "cb3-057",
+   "text": "Comfort is for armchairs, not this season. {winner} barely squeezes past {loser}."
+  },
+  {
+   "id": "cb3-058",
+   "text": "Tell {loser} the margin was {margin}, and expect a long look at the standings!"
+  },
+  {
+   "id": "cb3-059",
+   "text": "Very little in it, and a lot to talk about. {winner} has beaten {loser}."
+  },
+  {
+   "id": "cb3-060",
+   "text": "Better keep that victory speech short. {winner} won, but {loser} was right alongside."
+  },
+  {
+   "id": "cb3-061",
+   "text": "Who needs a landslide? {winner} takes the season with the smallest bit of daylight."
+  },
+  {
+   "id": "cb3-062",
+   "text": "Not quite enough for {loser}, and just enough for {winner}. Football can be cruelly precise."
+  },
+  {
+   "id": "cb3-063",
+   "text": "No victory lap here, just a careful step! {winner} noses past {loser}."
+  },
+  {
+   "id": "cb3-064",
+   "text": "Imagine trying to split those totals! {winnerPoints} against {loserPoints}, and {winner} edges it."
+  },
+  {
+   "id": "cb3-065",
+   "text": "Bragging rights belong to {winner}, but {loser} can point to a very small gap."
+  },
+  {
+   "id": "cb3-066",
+   "text": "Now there's a result to argue over! {winner} wins it, {loser} almost says otherwise."
+  },
+  {
+   "id": "cb3-067",
+   "text": "Almost impossible to separate them, and still {winner} finds a way past {loser}!"
+  },
+  {
+   "id": "cb3-068",
+   "text": "Spare a thought for {loser}. They were within touching distance, but {winner} held on."
+  },
+  {
+   "id": "cb3-069",
+   "text": "Small margin, enormous smile! {winner} has just squeaked past {loser} for the season."
+  },
+  {
+   "id": "cb3-070",
+   "text": "There's your close shave! {winnerClub} takes it over {loserClub}, with no room for comfort."
+  },
+  {
+   "id": "cb3-071",
+   "text": "Nobody promised {winner} an easy season. {loser} has made absolutely sure of that."
+  },
+  {
+   "id": "cb3-072",
+   "text": "Just look how little separates them! {winner} by {margin}, and every bit was earned."
+  },
+  {
+   "id": "cb3-073",
+   "text": "Surely {loser} will want another look at that table! {winner} is narrowly ahead."
+  },
+  {
+   "id": "cb3-074",
+   "text": "Fine print decides this season. {winner} gets top billing, while {loser} gets the near miss."
+  },
+  {
+   "id": "cb3-075",
+   "text": "Some wins come with a cushion. {winner}'s comes with {loser} right on the shoulder!"
+  },
+  {
+   "id": "cb3-076",
+   "text": "Hold the final page! {winner} has taken season {season} from {loser} by a whisper!"
+  },
+  {
+   "id": "cb3-077",
+   "text": "On a razor's edge, with everything in the balance, {winner} has emerged ahead!"
+  },
+  {
+   "id": "cb3-078",
+   "text": "And it all comes down to this! {winner} over {loser}, the finest of separations!"
+  },
+  {
+   "id": "cb3-079",
+   "text": "Silence before the verdict, then the roar! {winner} takes a breathtakingly narrow season!"
+  },
+  {
+   "id": "cb3-080",
+   "text": "This season's race could scarcely be tighter! {winner} scrapes past {loser}, and it's theirs!"
+  },
+  {
+   "id": "cb3-081",
+   "text": "Every ounce of a season rests on that sliver! {winner} edges out {loser}."
+  },
+  {
+   "id": "cb3-082",
+   "text": "At the very last reckoning, {winner} stands above {loser}, but only by {margin}!"
+  },
+  {
+   "id": "cb3-083",
+   "text": "What a thread to hang a season on! {winnerClub} narrowly over {loserClub}!"
+  },
+  {
+   "id": "cb3-084",
+   "text": "Feel that tension break! {winner} is ahead, {loser} denied by the narrowest margin."
+  },
+  {
+   "id": "cb3-085",
+   "text": "Through all the twists of the table, {winner} has clung to the smallest lead!"
+  },
+  {
+   "id": "cb3-086",
+   "text": "The final numbers are in! {winnerPoints} to {loserPoints}, and {winner} claims the season!"
+  },
+  {
+   "id": "cb3-087",
+   "text": "Under the weight of a whole season, that slender advantage held! {winner} takes it."
+  },
+  {
+   "id": "cb3-088",
+   "text": "Imagine being this close to a draw! {winner} still finds the edge over {loser}."
+  },
+  {
+   "id": "cb3-089",
+   "text": "There's no wider gap to celebrate, just victory itself! {winner} has beaten {loser}!"
+  },
+  {
+   "id": "cb3-090",
+   "text": "Nerves stretched to breaking point! {winner} takes the season, {loser} inches away."
+  },
+  {
+   "id": "cb3-091",
+   "text": "The line between triumph and frustration is almost invisible! {winner} is on the right side!"
+  },
+  {
+   "id": "cb3-092",
+   "text": "Right down to the final accounting! {winner} edges {loser} by {margin}, and the season is sealed!"
+  },
+  {
+   "id": "cb3-093",
+   "text": "No runaway, no procession, just {winner} holding the advantage over {loser} at the finish!"
+  },
+  {
+   "id": "cb3-094",
+   "text": "What a squeeze at the top this season! {winner} escapes with the win!"
+  },
+  {
+   "id": "cb3-095",
+   "text": "It's almost level, but not quite! {winner} takes a season decided by the finest margin!"
+  },
+  {
+   "id": "cb3-096",
+   "text": "Barely a breath separates their seasons! {winner} emerges ahead, and {loser} must regroup."
+  },
+  {
+   "id": "cb3-097",
+   "text": "To think it came down to {margin}! {winner} ahead of {loser}, and every point mattered!"
+  },
+  {
+   "id": "cb3-098",
+   "text": "Here is a slender triumph with an enormous feeling! {winner} edges it."
+  },
+  {
+   "id": "cb3-099",
+   "text": "This is the kind of finish that stays with you! {winner} just ahead of {loser}!"
+  },
+  {
+   "id": "cb3-100",
+   "text": "And when the dust finally settles, {winner} wins it by a hair! What a finish!"
+  }
+ ],
+ "_note": "cb3-097 \"every fraction\" changed to \"every point\" (points are whole numbers)."
+}
