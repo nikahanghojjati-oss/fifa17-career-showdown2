@@ -977,3 +977,55 @@
   #app #transferChallenge .tw-host .hud-footer .hud-title { color: #ffe08a; }
   #app #transferChallenge .tw-host .hud-footer .num { color: rgba(244, 231, 200, .75); }
 }
+
+/* r87 Deadline Day (js/deadlineDay.js): the last 60 seconds of a live window. A black-marble strip with a gold edge and a
+   polished gold DEADLINE DAY badge; one headline at a time, then one commentator line from 10 seconds left. It always takes
+   its own room in the layout (never a layer over the clock, the cards or the buttons) and never dims anything:
+   .tw-dd-world  a row of the phone/tablet column, right under the status band that carries the clock;
+   .tw-dd-fixed  a band under the top bar, and the fixed desktop stage starts below it (Team V's camera re-fits);
+   .tw-dd-flow   a block right before the scrolling stage. */
+#app #transferChallenge .tw-host { --tw-dd-h: 38px; }
+@media (max-width: 900px) { #app #transferChallenge .tw-host { --tw-dd-h: 46px; } }
+#app #transferChallenge .tw-host .ddStrip {
+  position: relative; box-sizing: border-box; display: flex; align-items: stretch; flex: none; order: 0;
+  width: 100%; height: var(--tw-dd-h); min-height: var(--tw-dd-h); margin: 0; padding: 0; overflow: hidden;
+  color: #f5eacb; background: #0d0b08 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  border: 1px solid #e8c267; border-radius: 3px;
+  box-shadow: inset 0 0 0 2px rgba(13, 11, 8, .92), inset 0 0 0 3px rgba(242, 196, 91, .28);
+  font: 700 15px/1.15 var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: .06em; text-transform: uppercase;
+  pointer-events: none;
+}
+#app #transferChallenge .tw-host .ddStrip[hidden] { display: none !important; }
+#app #transferChallenge .tw-host .ddBadge {
+  flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: .3em; margin: 0; padding: 0 22px 0 14px;
+  background: linear-gradient(#fff0b0, #e4b94b 62%, #a47723); color: #120f08; font-weight: 800; letter-spacing: .14em;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+}
+#app #transferChallenge .tw-host .ddBadge b { font: inherit; }
+#app #transferChallenge .tw-host .ddTrack { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 10px; padding: 0 14px 0 10px; }
+#app #transferChallenge .tw-host .ddLabel { flex: 0 0 auto; color: #e8c267; font-size: .78em; letter-spacing: .16em; }
+#app #transferChallenge .tw-host :is(.ddHeadline, .ddLine) { flex: 1 1 auto; min-width: 0; white-space: normal; overflow-wrap: normal; animation: tw-dd-in .35s ease-out both; }
+#app #transferChallenge .tw-host .ddLine { color: #ffe7a3; font-style: italic; text-transform: none; letter-spacing: .02em; font-size: 1.04em; }
+@keyframes tw-dd-in { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { #app #transferChallenge .tw-host :is(.ddHeadline, .ddLine) { animation: none; } }
+html[data-motion-reduced="true"] #app #transferChallenge .tw-host :is(.ddHeadline, .ddLine),
+html[data-reduced-motion="true"] #app #transferChallenge .tw-host :is(.ddHeadline, .ddLine) { animation: none; }
+/* phones and narrow tablets: the badge stacks DEADLINE over DAY and lines may take two rows inside the fixed height */
+@media (max-width: 900px) {
+  #app #transferChallenge .tw-host .ddStrip { font-size: 12.5px; line-height: 1.12; }
+  #app #transferChallenge .tw-host .ddBadge { flex-direction: column; gap: 0; padding: 0 16px 0 9px; font-size: 11.5px; line-height: 1.05; }
+  #app #transferChallenge .tw-host .ddTrack { gap: 7px; padding: 0 9px 0 6px; }
+  #app #transferChallenge .tw-host .ddLabel { display: none; }
+}
+/* placements */
+#app #transferChallenge .tw-host.tw-dd-world .world > .ddStrip { position: relative; z-index: 3; }
+/* In the column the strip's room comes out of the hero picture: the picture's spacer (with the status band and clock at its
+   foot) rises by the strip's height, so every card and button below stays exactly where it was and nothing scrolls further. */
+#app #transferChallenge .tw-host.tw-dd-world .world > .scene { margin-top: calc(-1 * (var(--tw-dd-h) + var(--tw-dd-gap, 0px))); }
+#app #transferChallenge .tw-host.tw-dd-fixed > .ddStrip { position: fixed; left: 0; right: 0; top: 0; z-index: 9; width: auto; border-radius: 0; border-left: 0; border-right: 0; }
+#app #transferChallenge .tw-host.tw-dd-fixed > .stage { top: var(--tw-dd-h) !important; bottom: 0 !important; height: auto !important; min-height: 0 !important; }
+@media (min-width: 901px) {
+  #app #transferChallenge .tw-host.tw-dd-fixed > .ddStrip { top: var(--sd-nav-top-h, 52px); }
+  #app #transferChallenge .tw-host.tw-dd-fixed > .stage { top: calc(var(--sd-nav-top-h, 52px) + var(--tw-dd-h)) !important; }
+}
+#app #transferChallenge .tw-host.tw-dd-flow > .ddStrip { position: relative; z-index: 3; border-radius: 0; border-left: 0; border-right: 0; }

@@ -2297,6 +2297,27 @@
         "^tests/contracts/r86-commentary-engine-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-rematch-contracts.cjs",
+      "patterns": [
+        "^js/(seasonFinalV10|onlinePlayerIdentity|productionSharedJourneyEntry|sharedHistoryConvergence)\\.js$",
+        "^firestore\\.rules$",
+        "^tests/support/(active-showdown-fixtures|career-fixture-helpers)\\.cjs$",
+        "^tests/contracts/r87-rematch-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-deadline-day-contracts.cjs",
+      "patterns": [
+        "^js/(deadlineDay|transferScreenV10)\\.js$",
+        "^data/deadlineDayLines\\.js$",
+        "^css/v10Transfer\\.css$",
+        "^service-worker\\.js$",
+        "^tests/contracts/r87-deadline-day-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
