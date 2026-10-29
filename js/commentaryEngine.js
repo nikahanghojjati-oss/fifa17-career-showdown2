@@ -208,11 +208,13 @@
     // seasonsLeft counts the season about to start: 1 before the final season.
     const values=cePairSlots(m,{season:s,seasons:sd.length,seasonsLeft:sd.length-s+1});
     if(leader)Object.assign(values,{leader:m[leader].name,trailer:m[ceOther(leader)].name,gap:before[leader]-before[ceOther(leader)]});
-    const out=[];
+    // Final-season and leader previews speak of a race both can still win: none once the trailer can no longer win
+    // (the season result before already said so with clock-clinched / clock-dead-rubber).
+    const open=!leader||values.gap<MAX_SEASON_POINTS*values.seasonsLeft,out=[];
     if(s===1)out.push(ceEntry("preview-first-season",values));
     if(s===1&&sd.length===10)out.push(ceEntry("preview-golden",values));
-    if(s===sd.length)out.push(ceEntry("preview-final-season",values));
-    if(s>1&&leader)out.push(ceEntry("preview-leader",values));
+    if(s===sd.length&&open)out.push(ceEntry("preview-final-season",values));
+    if(s>1&&leader&&open)out.push(ceEntry("preview-leader",values));
     if(s>1&&!leader)out.push(ceEntry("preview-level",values));
     return out;
   }

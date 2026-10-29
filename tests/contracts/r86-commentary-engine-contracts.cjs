@@ -256,7 +256,11 @@ const aliasSource=/const CLUB_IDENTITY_ALIASES = Object\.freeze\((\{[\s\S]*?\})\
   x=pre([[3,3]],3,2);s=one(x,'preview-level');assert.ok(!('leader' in s)&&!('gap' in s));none(x,'preview-leader');
   x=pre([[3,1],[0,4]],3,3);s=one(x,'preview-final-season');assert.equal(s.leader,'Sam');assert.equal(s.seasonsLeft,'1');one(x,'preview-leader');
   x=pre([],1,1);one(x,'preview-final-season');one(x,'preview-first-season');
-  ok('C11','previews: season 1, golden (season 1 of 10), the final season, a leader by the gap after the seasons played, level (never on season 1)');
+  x=pre([[6,0],[6,0]],3,3);assert.deepEqual(x,[],'a 12-point lead before the final season: no preview says the race is open');
+  x=pre([[11,0]],2,2);none(x,'preview-final-season');none(x,'preview-leader');
+  x=pre([[10,0]],2,2);one(x,'preview-final-season');one(x,'preview-leader');
+  x=pre([[11,0],[11,0],[1,0]],5,4);none(x,'preview-leader');x=pre([[11,0],[11,0],[0,1]],5,4);one(x,'preview-leader');
+  ok('C11','previews: season 1, golden (season 1 of 10), the final season, a leader by the gap after the seasons played, level (never on season 1); no final-season or leader preview once the trailer cannot win');
 
   // C12 every situation fires with every slot filled, in at least one fixture above
   const missing=Object.keys(E.situations).filter(sit=>!COMPLETE.has(sit));
