@@ -80,3 +80,4 @@ Evidence regenerated in `evidence/` (desktop 1536x864 and phone 393x660, 7 beats
 - Lamp rebuilt as a period brass oil lamp: fluted foot with 16 gold flutes, knopped stem, oil font with a gold seam, burner with wick knob and chimney prongs, tall clear glass chimney, textured flame (blue root, white body, orange tip) that flickers.
 - Coffee pot rebuilt: tall belly body, gold seams, domed lid with a finial, gooseneck spout and looped handle (tube geometry).
 - Cups rebuilt: dished saucer with gold rim, thin bone-china cup with gold lip, looped handle, glossy coffee, a gold spoon on the saucer.
+- Follow-up: the muzzle flash now rides on the muzzle every frame (the recoil slide was leaving it behind), petals are opaque white-to-orange so the felt no longer tints them green, sizes cut to revolver scale (12-19 cm star, 5 cm core).

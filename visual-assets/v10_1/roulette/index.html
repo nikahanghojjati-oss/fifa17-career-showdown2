@@ -196,7 +196,10 @@ function flameTex(){ const [c,ctx]=cv(128,256); const g=ctx.createRadialGradient
   const b=ctx.createRadialGradient(64,214,2,64,214,26); b.addColorStop(0,"rgba(120,170,255,.8)"); b.addColorStop(1,"rgba(60,90,255,0)"); ctx.fillStyle=b; ctx.fillRect(0,180,128,76);
   const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t; }
 function sparkTex(){ const [c,ctx]=cv(64,64); const g=ctx.createRadialGradient(32,32,0,32,32,32); g.addColorStop(0,"rgba(255,255,255,1)"); g.addColorStop(.3,"rgba(255,220,150,.9)"); g.addColorStop(1,"rgba(255,140,40,0)"); ctx.fillStyle=g; ctx.fillRect(0,0,64,64); const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t; }
-function petalTex(){ const [c,ctx]=cv(256,256); ctx.translate(128,128); ctx.globalCompositeOperation="lighter"; for(let i=0;i<7;i++){ const a=i/7*Math.PI*2+rnd()*.5, l=70+rnd()*58, w=10+rnd()*16; const g=ctx.createLinearGradient(0,0,Math.cos(a)*l,Math.sin(a)*l); g.addColorStop(0,"rgba(255,250,230,1)"); g.addColorStop(.5,"rgba(255,180,70,.8)"); g.addColorStop(1,"rgba(255,90,20,0)"); ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(Math.cos(a+.0)*l,Math.sin(a)*l); ctx.lineTo(Math.cos(a+w/l)*l*.55,Math.sin(a+w/l)*l*.55); ctx.closePath(); ctx.fill(); ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(Math.cos(a)*l,Math.sin(a)*l); ctx.lineTo(Math.cos(a-w/l)*l*.55,Math.sin(a-w/l)*l*.55); ctx.closePath(); ctx.fill(); }
+function petalTex(){ const [c,ctx]=cv(256,256); ctx.translate(128,128);
+  for(let i=0;i<7;i++){ const a=i/7*Math.PI*2+rnd()*.5, l=72+rnd()*54, w=14+rnd()*16; const g=ctx.createLinearGradient(0,0,Math.cos(a)*l,Math.sin(a)*l); g.addColorStop(0,"rgba(255,246,220,1)"); g.addColorStop(.45,"rgba(255,170,60,1)"); g.addColorStop(.8,"rgba(230,80,20,.7)"); g.addColorStop(1,"rgba(200,50,10,0)"); ctx.fillStyle=g;
+    ctx.beginPath(); ctx.moveTo(Math.cos(a+Math.PI/2)*w*.5,Math.sin(a+Math.PI/2)*w*.5); ctx.lineTo(Math.cos(a)*l,Math.sin(a)*l); ctx.lineTo(Math.cos(a-Math.PI/2)*w*.5,Math.sin(a-Math.PI/2)*w*.5); ctx.closePath(); ctx.fill(); }
+  const g=ctx.createRadialGradient(0,0,0,0,0,46); g.addColorStop(0,"rgba(255,255,250,1)"); g.addColorStop(.6,"rgba(255,220,150,1)"); g.addColorStop(1,"rgba(255,150,50,0)"); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,46,0,7); ctx.fill();
   const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t; }
 const dustT=softTex([[0,"rgba(255,240,200,1)"],[.5,"rgba(255,240,200,.3)"],[1,"rgba(255,240,200,0)"]]);
 
@@ -700,12 +703,14 @@ function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
   hammer.rotation.x=-hammerK*.62;
   recoil=Math.max(0,recoil-dt*8); lie.rotation.x=-recoil*.5; lie.position.z=-recoil*.02;
 }
+/* the flash layers ride on the muzzle, so the recoil slide does not leave them behind */
+function placeFlash(mz,dir){ flashSprite.position.copy(mz).addScaledVector(dir,.03); flashCore.position.copy(mz).addScaledVector(dir,.015); petals.forEach((sp,i)=>sp.position.copy(mz).addScaledVector(dir,.025+i*.02)); flashSide.position.copy(mz).addScaledVector(dir,.02); }
 function fireShot(p,tgt){ const mz=new T.Vector3(); muzzle.getWorldPosition(mz); p.mz=mz.clone(); const dir=tgt.clone().sub(mz).normalize();
-  flashSprite.position.copy(mz).add(dir.clone().multiplyScalar(.05)); flashSprite.material.opacity=.9; flashSprite.scale.set(.16,.16,1); flashSprite.material.rotation=rnd()*6;
-  flashCore.position.copy(mz).add(dir.clone().multiplyScalar(.03)); flashCore.material.opacity=1; flashCore.scale.set(.09,.09,1);
-  petals.forEach((sp,i)=>{ sp.position.copy(mz).add(dir.clone().multiplyScalar(.045+i*.03)); sp.material.opacity=1; const z=.22+i*.14; sp.scale.set(z,z,1); sp.material.rotation=rnd()*6; });
-  flashSide.position.copy(mz).add(dir.clone().multiplyScalar(.02)); flashSide.material.opacity=.45; flashSide.scale.set(.4,.4,1);
-  flashLight.position.copy(mz).add(dir.clone().multiplyScalar(.22)).add(new T.Vector3(0,.1,0)); flashLight.intensity=REDUCED?3:9; flashLight.color.set(L("#ffc488"));
+  p.dir=dir.clone(); placeFlash(mz,dir); flashSprite.material.opacity=.6; flashSprite.scale.set(.09,.09,1); flashSprite.material.rotation=rnd()*6;
+  flashCore.material.opacity=1; flashCore.scale.set(.055,.055,1);
+  petals.forEach((sp,i)=>{ sp.material.opacity=1; const z=.12+i*.07; sp.scale.set(z,z,1); sp.material.rotation=rnd()*6; });
+  flashSide.material.opacity=.4; flashSide.scale.set(.25,.25,1);
+  flashLight.position.copy(mz).add(dir.clone().multiplyScalar(.22)).add(new T.Vector3(0,.1,0)); flashLight.intensity=REDUCED?2.5:6; flashLight.color.set(L("#ffd6a8"));
   spray(mz.clone().add(dir.clone().multiplyScalar(.03)),dir,REDUCED?10:34,4.5);
   puff(mz,dir,14,.11,2.0,1.9); puff(mz,new T.Vector3(0,1,0),10,.09,.35,3.0); puff(mz.clone().add(dir.clone().multiplyScalar(.08)),dir,8,.07,2.8,1.2);
   const flat=new T.Vector3(dir.x,0,dir.z).normalize(); p.slideV.copy(flat).multiplyScalar(REDUCED?-.5:-1.3); p.slide.set(0,0,0); p.slideSpin=0; p.spinKick=(rnd()-.5)*.6; recoil=1;
@@ -748,7 +753,8 @@ function tick(draw){ const t=now(); let dt=Math.min(.05,t-last||.016); last=t; i
   /* lantern: living flame */
   const fl=.85+Math.sin(t*17)*.08+Math.sin(t*29.3)*.05+Math.sin(t*3.1)*.04; table.userData.lantern.intensity=1.5*fl; table.userData.flame.scale.set(.09*(fl+.05),.19*(fl+.12),1); table.userData.flame.material.rotation=Math.sin(t*9)*.08+Math.sin(t*23)*.04; table.userData.flame.position.x=Math.sin(t*11)*.003; table.userData.halo.material.opacity=.3*fl;
   flashLight.intensity*=Math.pow(.0005,dt); flashSprite.material.opacity*=Math.pow(.0001,dt); flashSprite.scale.multiplyScalar(1+dt*3); flashSide.material.opacity*=Math.pow(.001,dt);
-  flashCore.material.opacity*=Math.pow(.00001,dt); petals.forEach((sp,i)=>{ sp.material.opacity*=Math.pow(i?.0003:.00005,dt); sp.scale.multiplyScalar(1+dt*(4-i)); sp.material.rotation+=dt*(i?-1.5:2); }); hitFlash.material.opacity*=Math.pow(.0002,dt); hitFlash.scale.multiplyScalar(1+dt*5); hitLight.intensity*=Math.pow(.001,dt);
+  if(playing&&playing.dir&&flashCore.material.opacity>.005){ const mzW=new T.Vector3(); muzzle.getWorldPosition(mzW); placeFlash(mzW,playing.dir); }
+  flashCore.material.opacity*=Math.pow(.00001,dt); petals.forEach((sp,i)=>{ sp.material.opacity*=Math.pow(i?.0001:.00002,dt); sp.scale.multiplyScalar(1+dt*(3-i)); sp.material.rotation+=dt*(i?-1.5:2); }); hitFlash.material.opacity*=Math.pow(.0002,dt); hitFlash.scale.multiplyScalar(1+dt*5); hitLight.intensity*=Math.pow(.001,dt);
   sparks.forEach(p=>{ if(p.life<=0){ p.s.visible=false; return; } p.life-=dt; p.s.position.addScaledVector(p.v,dt); p.v.y-=dt*4; p.v.multiplyScalar(Math.pow(.2,dt)); const k=p.life/p.max; p.s.material.opacity=Math.min(1,k*2); p.s.material.color.setRGB(1,.55+k*.45,.2+k*.6); });
   shake*=Math.pow(.01,dt);
   smokes.forEach(p=>{ if(p.life<=0){ p.s.visible=false; return; } p.life-=dt; const k=1-p.life/p.max; p.s.position.addScaledVector(p.v,dt); p.v.multiplyScalar(Math.pow(.25,dt)); p.v.y+=dt*.12; p.s.material.opacity=.42*Math.sin(Math.min(1,k*1.2)*Math.PI)*(1-k*.3); const sz=p.size*(.4+k*1.6); p.s.scale.set(sz,sz,1); p.s.material.rotation+=p.rot*dt; });
