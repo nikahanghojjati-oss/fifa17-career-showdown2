@@ -1906,7 +1906,8 @@ function sfxAt(tt,t,k,name,...a){ if(tt>=t&&!fired[k]){ fired[k]=1; if(tt-t<.6) 
 const camPos=new T.Vector3(), camLook=new T.Vector3();
 /* idea 4: colour ladder on the pack while it charges: bronze, silver, gold, blue, black-blue-gold. A step every LADDER_DT from
    LADDER_T0; the last step is the real tier (rank 51+ stops at bronze, the top 3 climbs all five), so it never shows more. */
-const LADDER=[0xe0904e,0xe8eef7,0xffc74f,0x4f8bff,0x3355ff], LADDER_ACC=[0xe0904e,0xe8eef7,0xffc74f,0x9cc4ff,0xffc74f], LADDER_BASE=0xffc457;
+/* bronze is a muted copper and silver a cool blue-white, so neither reads as the pack's own gold */
+const LADDER=[0xa85a30,0xb9c8e0,0xffc74f,0x4f8bff,0x3355ff], LADDER_ACC=[0x9c5530,0xc4d2ea,0xffc74f,0x9cc4ff,0xffc74f], LADDER_BASE=0xffc457;
 const ladderStep=(p,tt)=>tt<LADDER_T0?-1:Math.min(tierLevel(p.tier),Math.floor((tt-LADDER_T0)/LADDER_DT));
 const ladC=new T.Color(), ladA=new T.Color();
 function ladderMix(out,cols,p,tt){ const st=ladderStep(p,tt); if(st<0) return out.copy(L(LADDER_BASE)); const k=clamp01((tt-LADDER_T0-st*LADDER_DT)/.12); return out.copy(L(st?cols[st-1]:LADDER_BASE)).lerp(L(cols[st]),k); }
@@ -1936,12 +1937,12 @@ function run(tt){
     /* idea 4: the charge climbs the colour ladder up to the real tier, never past it */
     const lad=ladderColor(p,tt), ladA=ladderAccent(p,tt);
     for(let i=0;i<=lvl;i++){ const at0=LADDER_T0+i*LADDER_DT; at(tt,at0,"lad"+i,()=>{ if(tt-at0<.3) SFX.play("step",i); packPulse=1; burst(PACK_REST.clone().add(new T.Vector3(0,0,.4)),LADDER[i],Math.round(46*PK),3.6,.55,.13); }); }
-    const charge=S(2.3,1.4,tt); packFace.emissive.copy(lad).multiplyScalar(charge*charge*.25);
+    const charge=S(2.3,1.4,tt); packFace.emissive.copy(lad).multiplyScalar(charge*charge*.4);
     if(charge>.5){ pack.position.x+=(Math.random()-.5)*.05*charge; pack.position.y+=(Math.random()-.5)*.03*charge; }
     /* the crack opens (2.4 s) and a pillar of light shoots up through it */
-    const cr=S(2.4,.25,tt); crack.scale.set(.05+charge*.12,PACK_H*.97*cr,1); crack.material.color.copy(L(0xfff0c0)).lerp(lad,.45).multiplyScalar(cr*(4+charge*10));
+    const cr=S(2.4,.25,tt); crack.scale.set(.05+charge*.12,PACK_H*.97*cr,1); crack.material.color.copy(L(0xfff0c0)).lerp(lad,.7).multiplyScalar(cr*(4+charge*10));
     pillar.visible=cr>0; if(cr>0){ const pp=pack.localToWorld(new T.Vector3(-.12,0,PACK_D/2+.1)); pillar.position.set(pp.x,.05,pp.z); pillar.rotation.y=Math.atan2(camera.position.x-pp.x,camera.position.z-pp.z);
-      pillar.scale.set(.25+charge*.7,18*ease.out(S(2.4,.45,tt)),1); pillarMat.color.copy(L(0xfff0c8)).lerp(lad,.6).multiplyScalar(1.5+charge*charge*5); }
+      pillar.scale.set(.25+charge*.7,18*ease.out(S(2.4,.45,tt)),1); pillarMat.color.copy(L(0xfff0c8)).lerp(lad,.85).multiplyScalar(1.5+charge*charge*4); }
     packLight.intensity=charge*charge*9; packLight.color.copy(lad); rays.position.set(0,PACK_REST.y,-.55); rays.material.opacity=charge*charge*.55; rays.material.color.copy(ladA).multiplyScalar(.5); rays.rotation.z=tt*.5; rays.scale.setScalar(6+charge*6);
     /* gold glitter swirling round the pack */
     if(fall>=1) for(let i=0;i<3;i++){ const a=Math.random()*Math.PI*2, r=.8+Math.random()*.8; emit(new T.Vector3(Math.cos(a)*r,.3+Math.random()*1.6,PACK_REST.z+Math.sin(a)*r),new T.Vector3(-Math.sin(a)*1.2,.3+Math.random()*.5,Math.cos(a)*1.2),Math.random()<.6?0xffd77a:0xfff1c2,.9+Math.random()*.6,.05+Math.random()*.04,-.2,.6,1); } }
