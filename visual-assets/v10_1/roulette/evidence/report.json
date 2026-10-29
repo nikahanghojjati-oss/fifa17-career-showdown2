@@ -12,32 +12,30 @@
   ],
   "state": {
    "aimDot": null,
-   "calls": 258,
-   "tris": 30566,
+   "calls": 178,
+   "tris": 62072,
+   "hasGunTop": false,
    "turn": 2,
    "playing": false,
    "fire": null,
    "target": null,
    "done": {
     "D": {
-     "lost": "A. Valencia"
+     "lost": "E. Bailly"
     },
     "N": {
      "safe": true
     }
    },
-   "fps": 0.14717353231195002,
+   "fps": 0.009501675145328124,
    "hasRoom": false,
-   "hasDealer": false,
-   "bulletAt": 6,
-   "chamber": 1
+   "bulletAt": 5,
+   "chamber": 2
   },
   "result": "Click. Nik is safe.",
   "noScroll": true,
   "btnInside": true,
   "errors": [
-   "Failed to load resource: the server responded with a status of 404 (Not Found)",
-   "Failed to load resource: the server responded with a status of 404 (Not Found)",
    "Failed to load resource: the server responded with a status of 404 (Not Found)",
    "Failed to load resource: the server responded with a status of 404 (Not Found)",
    "Failed to load resource: the server responded with a status of 404 (Not Found)"
@@ -57,32 +55,30 @@
   ],
   "state": {
    "aimDot": null,
-   "calls": 204,
-   "tris": 28008,
+   "calls": 180,
+   "tris": 61052,
+   "hasGunTop": false,
    "turn": 2,
    "playing": false,
    "fire": null,
    "target": null,
    "done": {
     "D": {
-     "lost": "De Gea"
+     "lost": "M. Fellaini"
     },
     "N": {
      "safe": true
     }
    },
-   "fps": 0.2320347123929765,
+   "fps": 0.00963734664572151,
    "hasRoom": false,
-   "hasDealer": false,
    "bulletAt": 5,
-   "chamber": 2
+   "chamber": 6
   },
   "result": "Click. Nik is safe.",
   "noScroll": true,
   "btnInside": true,
   "errors": [
-   "Failed to load resource: the server responded with a status of 404 (Not Found)",
-   "Failed to load resource: the server responded with a status of 404 (Not Found)",
    "Failed to load resource: the server responded with a status of 404 (Not Found)",
    "Failed to load resource: the server responded with a status of 404 (Not Found)",
    "Failed to load resource: the server responded with a status of 404 (Not Found)"
@@ -102,8 +98,9 @@
   ],
   "state": {
    "aimDot": null,
-   "calls": 200,
-   "tris": 27438,
+   "calls": 180,
+   "tris": 61052,
+   "hasGunTop": false,
    "turn": 0,
    "playing": false,
    "fire": null,
@@ -112,18 +109,15 @@
     "D": null,
     "N": null
    },
-   "fps": 0.2101855938793873,
+   "fps": 0.009823182711198428,
    "hasRoom": false,
-   "hasDealer": false,
    "bulletAt": 0,
    "chamber": 0
   },
-  "result": "The dealer loads one round.",
+  "result": "One bullet. Seven chambers.",
   "noScroll": true,
   "btnInside": true,
   "errors": [
-   "Failed to load resource: the server responded with a status of 404 (Not Found)",
-   "Failed to load resource: the server responded with a status of 404 (Not Found)",
    "Failed to load resource: the server responded with a status of 404 (Not Found)",
    "Failed to load resource: the server responded with a status of 404 (Not Found)",
    "Failed to load resource: the server responded with a status of 404 (Not Found)"
@@ -143,8 +137,9 @@
   ],
   "state": {
    "aimDot": null,
-   "calls": 205,
-   "tris": 28006,
+   "calls": 180,
+   "tris": 61052,
+   "hasGunTop": false,
    "turn": 0,
    "playing": false,
    "fire": null,
@@ -153,18 +148,15 @@
     "D": null,
     "N": null
    },
-   "fps": 0.22164103018751746,
+   "fps": 0.009350294768042562,
    "hasRoom": false,
-   "hasDealer": false,
    "bulletAt": 0,
    "chamber": 0
   },
-  "result": "The dealer loads one round.",
+  "result": "One bullet. Seven chambers.",
   "noScroll": true,
   "btnInside": true,
   "errors": [
-   "Failed to load resource: the server responded with a status of 404 (Not Found)",
-   "Failed to load resource: the server responded with a status of 404 (Not Found)",
    "Failed to load resource: the server responded with a status of 404 (Not Found)",
    "Failed to load resource: the server responded with a status of 404 (Not Found)",
    "Failed to load resource: the server responded with a status of 404 (Not Found)"

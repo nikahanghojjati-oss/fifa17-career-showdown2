@@ -1,49 +1,38 @@
-# CC-009 BUILD_RESULT · Roster Russian Roulette, real 3D screen (HO-040, r87)
+# CC-010 BUILD_RESULT · Roster Russian Roulette: no people, the revolver spins by itself (HO-040, r87)
 
-Built 29 Oct 2026, 02:42-03:50 UTC (10:42-11:50 p.m. Eastern 28 Oct) by Fable 5.1 High in a project thread (Nik asked for the Fable job to run here, not in a cloud session).
-Branch: `claude/project-thread-6rq94x`. SHA: c4b0c4d293f67118d49524e9b3b1a367979d9dc7 (code), the result-file commit follows it.
-Files: `visual-assets/v10_1/roulette/index.html` (one file, three.js r128 from cdnjs + Google Fonts), `platemap.json`, `assets/` (0.37 MB), `evidence/` (21 captures + 2 sheets).
+Built 29 Oct 2026 by Fable 5.1 High in the project helper thread (Nik's choice), 03:48-04:20 UTC plus a resume 07:52-08:15 UTC after the usage limit reset. Nik asked for helpers to run in parallel: helper 1 did the premium room pass, helper 2 the revolver close-up (it stopped at the usage limit after its third round; that round is what shipped).
+Branch: `claude/project-thread-6rq94x`. SHA: see the commit that adds this file ("CC-010" in the message); the code commit is the one right before it.
+Files: `visual-assets/v10_1/roulette/index.html` (one file, three.js r128 from cdnjs + Google Fonts), `platemap.json`, `assets/squads.json` (0.04 MB, the only asset now), `evidence/` (21 captures + 2 sheets + report.json).
 
-## What is real 3D (three.js)
-- Room shell: plank floor, carved dark-wood panels with gold beads (canvas textures), wainscot, balcony with balusters behind, 11 glass wall lamps with warm halos, a sunset window, two far tables with chairs, a sideboard with a brass urn. Dust in the lamp light. PMREM environment built from the room so the steel reflects the lamps.
-- The round table: green felt, wooden rim, pedestal; brass oil lantern with a glass chimney, a living flame (flicker on the point light + sprite), coffee pot, two cups on saucers, cards, coins. One spotlight with soft shadows.
-- **The revolver** (hero): 1873 single-action style, octagonal barrel with bore and front sight, ejector rod, blued frame with top strap and recoil shield, loading gate, **fluted seven-chamber cylinder on a crane that swings out**, one brass round that slides into its chamber on the first turn, cylinder snaps shut, spins with ratchet clicks and settles, hammer with a long spur that cocks and falls, trigger and guard, wooden grip with steel backstrap and brass butt cap. PBR steel/blued metals with the room env map.
-- The dealer (3D fallback until RR_DEALER.png): seated older cowboy, broad shoulders, cloth-bump coat with lapels, vest with brass buttons, dark neckerchief, grey beard, wide hat tilted so the brim shades the eyes; eyes only glint. Right arm = two-bone IK (shoulder, elbow, gloved hand with curled fingers round the grip). Left hand reaches over and spins the cylinder. The gun rests on the table pointed at the wall between turns.
-- The two boards: wooden frame, brass corners, 2x CanvasTexture of the FIFA 17 squad screen (green pitch, XI placed by position with shirt in club colours + rating plate + surname, SUBSTITUTES row of 4, club name). They jolt in the hands when hit; a burnt hole + red RELEASED stamp stays on the bubble.
-- Shot: muzzle flash sprite (procedural rays) + one-frame point light, recoil of the gun and arm, lingering drifting smoke, 0.12 s bullet tracer to one random bubble of the 15, splinters + paper bits that bounce on the felt, camera shake. Empty: dry click, small dust puff. Nobody is hurt, nothing gory.
-- Camera: idle drift; telephoto close-up (fov 11, from the players' side so the picture layers stay in front) for the load/spin, then aim, tension push-in, hit framing, back to rest. Reduced motion: beats shortened, no shake.
-- People: Daniel LEFT and Nik RIGHT as camera-facing picture planes at real depth (approved POSE_TRANSFER anchors as fallbacks), never mirrored, never 3D.
+## What changed (CC-009 -> CC-010)
+- **Nobody in the room.** Dealer, arms, hands, Daniel/Nik picture planes and the two anchor webp files are gone, with every RR_DEALER / RR_DANIEL / RR_NIK code path.
+- **Boards on easels:** lacquered dark-wood frames with a gold lip and brass corners on brass tripod easels, angled to the centre, Daniel LEFT / Nik RIGHT, engraved brass nameplate DANIEL / NIK on each ledge. Squad drawing, burnt hole and RELEASED stamp kept; on a hit the board rocks on its easel.
+- **The revolver lies on the felt** at the table centre, nothing touches it. Rebuilt as a hero model: frame and grip from smoothed traced side silhouettes (ExtrudeGeometry with bevels, a real cylinder window cut through the frame), octagonal chamfered barrel with crowned muzzle and bore, front sight, ejector housing/rod/head, lathe cylinder with chamfered ends, 7 flutes, 7 chambers with depth and ratchet star, hammer with spur, brass trigger guard and trigger, loading gate, screw heads, walnut grip panels with a gold medallion each; MeshPhysicalMaterial blued steel with clearcoat, gold scroll engraving map and a worn roughness map, brass and gold.
+- **Sequence per turn** (Daniel first, then Nik; 1 bullet in 7; `?fire=1|0` forces): camera rises to a top-down view; the gun spins flat like a bottle (4 turns, friction curve, felt-rub sound), stops with the barrel on the current manager's board with a small overshoot and settle; telephoto close-up over the hammer side; the cylinder turns one chamber by itself (ratchet click), the hammer cocks by itself (heavy click); 0.85 s tension push-in with heartbeat; then either dry CLICK + dust puff ("Click. Daniel is safe.") or the shot: hard camera cut to the gun-and-board view, muzzle flash (sprite + one-frame point light), the gun kicks, slides back across the felt and turns a little, smoke drifts, 0.12 s tracer to one random bubble of the 15, splinters, board rocks, burnt hole + RELEASED ("Bang! <name> is released."). Reduced motion: shorter beats, no shake.
+- **Premium room (helper 1):** lacquered mahogany wainscot with gold bead frames and rosettes, moulded rail with brass lines, coffered pressed-tin ceiling with lacquered beams, rebuilt balcony with turned balusters and brass-capped rail, gold-framed mirror on the back wall (no text), 15 brass wall sconces with tulip glass and halos, 6-arm brass chandelier over the table, marble-top cafe tables on brass pedestals with velvet chairs, carved buffet with marble top and samovar, velvet drapes with a gold pelmet at the window; polished mahogany table rim with a thin gold inlay, gold rims on cups and saucers; warm gold key light, exposure 1.22, no grey overlays.
+- **HUD:** gold-plate badge kicker + foil title with shine, idle line "One bullet. Seven chambers.", button never greyed (gold "Spinning…" while busy, taps ignored), phone bottom tabs with real inline SVG icons (house, trophy active gold, lines, bars, page). No dealer words anywhere.
 
-## Asset contract (drop the file in assets/, no code change)
+## Asset contract (drop the file in assets/, numbers in platemap.json, no code change)
 | file | ticket | now |
 | --- | --- | --- |
-| `RR_ROOM.jpg` 16:9 | 1851-5 | 3D room fallback; when present it replaces the back wall at z -3.9 (platemap `room`) |
-| `RR_DEALER.png` alpha | 1851-6 | 3D dealer fallback; when present the 3D body hides, the 3D arm + revolver stay for close-ups (platemap `dealer`, muzzle/hand u,v) |
-| `RR_DANIEL.png`, `RR_NIK.png` | 1851-7/8 | `RR_DANIEL_ANCHOR.webp` / `RR_NIK_ANCHOR.webp` (approved anchors) behind the 3D boards |
+| `RR_ROOM.jpg` 16:9 | 1851-5 | 3D room; when present it replaces the back wall at z -3.9 |
+| `RR_GUN_TOP.png` alpha, barrel up | 1853-1 | 3D model; when present it lies flat on the felt for the top-down spin shots and cross-fades to the model at the close-up cut (`gunTop` length / offsetZ / rotation) |
 | `RR_FLASH.png` | 1851-4 | procedural flash sprite |
-| `RR_CYLINDER.png` | 1851-3 | not needed (real 3D cylinder) |
-Platemap: `platemap.json` holds every layer's x/y/z/height, the board quads and the muzzle/hand points.
 
-## Team G hooks
-- `window.__rr.setBoards(danielClub, nikClub)` (any of the 98 clubs in `assets/squads.json`, FIFA 17 launch 170002 XI + 4 subs, kit colours = r85 club palettes).
-- `window.__rr.play({fire:true|false})` forces a shot or an empty chamber; `play()` uses the seeded 1-in-7.
-- `window.__rr.state` → turn, playing, fire, target, done {D,N}, bulletAt, chamber, aimDot, draw calls, triangles.
-- URL: `?d=<club>&n=<club>`, `?fire=1|0`, `?seed=N`, `?tools=1` (preview buttons: sound, force shot/click, reset, club pickers).
-- Test clock: `__rr.clock()` then `__rr.advance(sec)` at 30 fps (same idea as the Special Player `__mq`).
-- Turn order: Daniel then Nik; button "Spin the cylinder", then "Spin again". Bottom panel states: At the table / Spinning… / Safe / Lost <name>. Sound is Web Audio, off until turned on.
+## Team G hooks (unchanged names)
+`window.__rr.setBoards(danielClub, nikClub)`, `__rr.play({fire:true|false})`, `__rr.state` (turn, playing, fire, target, done, bulletAt, chamber, aimDot (horizontal), draw calls, triangles, hasRoom, hasGunTop), `__rr.clock()` + `__rr.advance(sec)`; URL `?d=&n=&fire=1|0&seed=N&tools=1`. Sound Web Audio, off until turned on.
 
 ## Evidence (`evidence/`)
-`SHEET_DESKTOP.jpg`, `SHEET_PHONE.jpg` (9 frames each: idle, load, spin, aim, flash, hit, after, safe click, both done), the 18 single frames behind them, `phone360_360x640_1_idle.jpg`, `phone375_375x553_1_idle.jpg`, `report.json`.
-Assertions (Playwright, software GL): no page scroll at 393x660 / 360x640 / 375x553 / 1536x864; button rect inside the viewport at all four (375x553: 20,443-355,483); muzzle aims at the target bubble (aimDot 0.999 desktop, 0.998 phone); no console errors except 404s for the five pictures not made yet; 201 draw calls / 28k triangles desktop.
-FPS could not be measured here (the container renders on SwiftShader at ~0.2 fps); the scene is light (28k triangles, one shadow map, 6 lights) so a desktop GPU should hold 60. Measure on a real machine before relaying.
+`SHEET_DESKTOP.jpg`, `SHEET_PHONE.jpg` (9 frames each: idle, spin top-down, stopped on the board, cylinder/hammer close-up, flash, recoil slide, hit board, safe click, both done), the 18 single frames, `phone360_360x640_1_idle.jpg`, `phone375_375x553_1_idle.jpg`, `report.json`. Old people-era captures deleted.
+Assertions (Playwright, software GL): no page scroll at 1536x864 / 393x660 / 360x640 / 375x553; button rect inside the viewport at all four (375x553: 20,443-355,483); barrel points at the target bubble in the horizontal plane (aimDot 0.99997 desktop, 0.9997 phone; the gun lies flat, so the check is horizontal and the tracer rises to the bubble); no console errors except the three 404s for pictures not made yet; 104 draw calls / 54k triangles.
+FPS could not be measured here (software renderer); one shadow map, 7 lights, 54k triangles: measure on a real device before relaying.
 
 ## Known gaps / next
-1. The 3D dealer is a fallback: a good silhouette and a convincing hand + revolver, but the face is still simple forms. RR_DEALER.png (1851-6) is the planned fix and drops in with no code change.
-2. Hand fingers are smooth rings, not modelled fingers. Fine at the close-up distance; the picture layer will cover the wide shots.
-3. The cylinder swing-out is on the left (crane) like a double-action; a true 1873 loads through the gate. Kept the swing-out because it reads on a phone.
-4. Live site check and real-device FPS still to do (cloud containers cannot reach the live site).
-5. Sound not reviewed by ear here (synthesized, same pattern as Special Player).
+1. Revolver close-up is at about 7/10: the flutes read as rods and the hammer as a flat paddle at the chosen camera angle; the helper stopped at the usage limit after round 3. Next pass: thinner recessed flutes, hammer with a checkered spur, camera a little lower and more side-on so the cylinder window and engraving dominate.
+2. The boards on the phone idle frame are small (readable, but tight); if Nik wants them bigger, lower the phone camera and bring the easels in (platemap `boards.phone`).
+3. Live site check and real-device FPS still to do.
+4. Sound not reviewed by ear here.
 
-Spend: about 70 minutes of the 75-minute cap, well under the $35 cap on Nik's reading of the thread cost.
+Spend: about 55 minutes of Fable thread time plus two helpers (room pass 19 min, revolver 25 min) against the 60-minute cap; no cloud credit used.
 
-CC-009 DONE c4b0c4d293f67118d49524e9b3b1a367979d9dc7
+CC-010 DONE (SHA in the commit that adds this file)
