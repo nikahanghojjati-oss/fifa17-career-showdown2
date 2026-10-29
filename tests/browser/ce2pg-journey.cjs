@@ -1338,7 +1338,7 @@ async function main(){
         report.attribution={rows:att.rows,minutes:att.minutes,seasons:att.seasons};
         console.log(`${text}\n\n${perPace.join("\n")}`);
       }catch(error){console.log(`attribution failed: ${error&&error.stack||error}`);}
-      report.billed={budget:BILLED_BUDGET,profiles:WAIT_PROFILES,realtime:REALTIME_PROFILE,sampleLongMin:SAMPLE_LONG_MIN,sampleShortMin:SAMPLE_SHORT_MIN,rulesSha256:billedModel.rulesSha256,seasons:seasons.map(e=>({label:e.label,measured:e.billed.measured,profiles:e.billed.profiles,waits:e.billed.waits,topModules:e.billed.topModules,topPaths:e.billed.topPaths})),screens};
+      report.billed={budget:BILLED_BUDGET,profiles:WAIT_PROFILES,realtime:REALTIME_PROFILE,sampleLongMin:SAMPLE_LONG_MIN,sampleShortMin:SAMPLE_SHORT_MIN,rulesSha256:billedModel?.rulesSha256||null,seasons:seasons.map(e=>({label:e.label,measured:e.billed.measured,profiles:e.billed.profiles,waits:e.billed.waits,topModules:e.billed.topModules,topPaths:e.billed.topPaths})),screens};
     }
     const failed=report.checks.some(c=>!c.pass)||Boolean(failure);
     report.verdict=failed?"FAIL":"PASS";
