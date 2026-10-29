@@ -1,0 +1,608 @@
+{
+  "batch": 10,
+  "situation": "comeback",
+  "voice": "The lead caller",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb10-001",
+      "text": "Straight back into the contest! A season win has taken a bite out of that earlier advantage.",
+      "score": 10,
+      "was": "The chase is alive! {winner} has taken this season, and that overall advantage suddenly looks far less comfortable."
+    },
+    {
+      "id": "cb10-002",
+      "text": "{winnerClub} have delivered exactly what was needed, a season victory that brings the wider contest closer.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-003",
+      "text": "Blink and you might miss the shift! This season's result has made the bigger race considerably tighter.",
+      "score": 9,
+      "was": "That changes the picture! {winner} was looking up at the standings, and now the view is considerably better."
+    },
+    {
+      "id": "cb10-004",
+      "text": "Against the tide of the standings, the chasing manager has won a season and reduced the deficit.",
+      "score": 9,
+      "was": "A proper response from {winner}, and the distance in this rivalry has just become a good deal shorter."
+    },
+    {
+      "id": "cb10-005",
+      "text": "Look at the ground they've made up! {winnerClub} have won this round and put real pressure back into the contest.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-006",
+      "text": "What a reply from {winner}! The season is theirs, and the overall chase has fresh life.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb10-007",
+      "text": "Here comes the challenge! {winner} has knocked a sizeable piece off the advantage across the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-008",
+      "text": "All of a sudden, that overall lead doesn't look quite so secure. {winner} has made sure of that!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-009",
+      "text": "There was ground to recover, and {winnerClub} have recovered some of it with a superb season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-010",
+      "text": "Hear the difference in that call! The season is won, and the overall contest has drawn closer.",
+      "score": 9,
+      "was": "The contest has tightened! {winner} takes the seasonal honours, and the bigger prize feels closer."
+    },
+    {
+      "id": "cb10-011",
+      "text": "Nothing settled in the long race, but {winner} has delivered the sort of response that changes its mood.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-012",
+      "text": "Season victory secured, and an old deficit loses some of its bite. This rivalry is alive!",
+      "score": 10,
+      "was": "A season won, a deficit reduced! {winnerClub} have given this rivalry a very different complexion."
+    },
+    {
+      "id": "cb10-013",
+      "text": "Well, there is your answer! {winner} has refused to let an earlier deficit define this Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-014",
+      "text": "Now that's how you keep a rivalry alive! {winner} wins the season and cuts the overall gap.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-015",
+      "text": "From a difficult position to renewed belief, {winnerClub} have earned a route back into this contest.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-016",
+      "text": "Listen to the significance of that! {winner} has claimed this season and taken a stride toward the other manager.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-017",
+      "text": "Listen again to that result! The pursuit has fresh power, and the lead has taken a knock.",
+      "score": 10,
+      "was": "The long contest has a new pulse! {winner} has made the leader's advantage smaller."
+    },
+    {
+      "id": "cb10-018",
+      "text": "It needed a response, and {winnerClub} have provided one that changes the complexion of the standings.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-019",
+      "text": "Suddenly we're looking at a much tighter contest, because {winner} has taken the season honours.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-020",
+      "text": "This is what a comeback begins with: a season for {winner}, and less ground left to make up.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-021",
+      "text": "{loser} still has a fight on their hands. {winner} has cut into the lead with this season's victory.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-022",
+      "text": "Keep the leader honest! A winning season has turned the comfortable cushion into something thinner.",
+      "score": 9,
+      "was": "That cushion was useful; it is less useful now. {winnerClub} have made this contest interesting again."
+    },
+    {
+      "id": "cb10-023",
+      "text": "You can protect an advantage only so long when {winner} keeps producing seasons like this one.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-024",
+      "text": "There's a different calculation now, and it starts with {winner} winning a season that mattered enormously.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-025",
+      "text": "Nobody's writing the ending just yet! {winnerClub} have dragged the overall race back toward the balance.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-026",
+      "text": "Watch that distance diminish, bit by bit! The honours have gone to the manager chasing the Showdown.",
+      "score": 9,
+      "was": "The distance between these managers has shrunk, and {winner} is the reason for that shift."
+    },
+    {
+      "id": "cb10-027",
+      "text": "What looked like breathing room has become a reason to glance backward. {winner} is closing in.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-028",
+      "text": "Not every fightback needs fireworks; sometimes a single season victory does the heavy lifting.",
+      "score": 10,
+      "was": "A comeback doesn't require a miracle every time. Sometimes it takes one excellent season from {winner}."
+    },
+    {
+      "id": "cb10-029",
+      "text": "{winnerClub} have changed the outlook with a winning season, not a promise about what might come next.",
+      "score": 9,
+      "was": "{winnerClub} have moved the goalposts in this rivalry, not with goals but with a season victory."
+    },
+    {
+      "id": "cb10-030",
+      "text": "Closing in without claiming the summit, and what an important victory this is for the challenger!",
+      "score": 9,
+      "was": "That gap has taken a hit! {winner} has turned a difficult overall position into something much more promising."
+    },
+    {
+      "id": "cb10-031",
+      "text": "Forget any thought of cruising home! An overall advantage has just suffered a serious cut.",
+      "score": 10,
+      "was": "The leader had room to spare, but {winner} has taken a good part of that comfort away."
+    },
+    {
+      "id": "cb10-032",
+      "text": "A reminder from {winnerClub}: a Showdown can change shape long before the final season arrives.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-033",
+      "text": "{winner} has handed the other manager a fresh problem, and done it with a season that belongs to them.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-034",
+      "text": "Even the bigger contest feels different now. {winnerClub} have made their contribution impossible to ignore.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-035",
+      "text": "Turn up the volume on this rivalry! A season won from behind, with the overall gap reduced.",
+      "score": 9,
+      "was": "The pressure switches direction! {winner} has collected this season and moved closer in the overall reckoning."
+    },
+    {
+      "id": "cb10-036",
+      "text": "One strong season won't tell the whole story, but {winner} has made sure the next chapter matters.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-037",
+      "text": "Earlier seasons gave the rival an edge. This latest result has altered what comes next.",
+      "score": 9,
+      "was": "The earlier advantage is still part of the story, yet {winnerClub} have written the newest passage."
+    },
+    {
+      "id": "cb10-038",
+      "text": "There's life in the pursuit! A season victory has shortened the distance in the Showdown.",
+      "score": 10,
+      "was": "There's life in the pursuit! {winner} has made up ground and left the Showdown beautifully poised."
+    },
+    {
+      "id": "cb10-039",
+      "text": "It's a far smaller mountain now, and {winner} has climbed part of it with this victory.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-040",
+      "text": "Just when the wider contest threatened to stretch away, {winnerClub} have pulled it back into focus.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-041",
+      "text": "Suddenly there's a route back to the prize that looked further away before this season!",
+      "score": 9,
+      "was": "An emphatic reminder that the season is its own opportunity! {winner} has used this one to close ground."
+    },
+    {
+      "id": "cb10-042",
+      "text": "{winner} may have started this round behind overall, but they've finished it with the gap reduced.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-043",
+      "text": "Call that a statement of intent! {winnerClub} have struck back and made the long contest more competitive.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-044",
+      "text": "Hear the answer from the chasing side! A season victory has cut the overall difference.",
+      "score": 9,
+      "was": "The chase was never going to end quietly, and {winner} has just provided the proof."
+    },
+    {
+      "id": "cb10-045",
+      "text": "Here's a season that deserves a second look! {winner} has won it and changed the wider balance.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-046",
+      "text": "Remarkable how quickly the landscape shifts! The distance across the Showdown is smaller now.",
+      "score": 9,
+      "was": "That overall advantage has been trimmed, and you can trace every inch of it to {winnerClub}'s season."
+    },
+    {
+      "id": "cb10-047",
+      "text": "Back in the hunt! A winning season takes a chunk out of what looked a daunting deficit.",
+      "score": 10,
+      "was": "There's no surrender in that response! {winner} has brought the distant target noticeably nearer."
+    },
+    {
+      "id": "cb10-048",
+      "text": "Steady on with those predictions! The comeback has just made the contest harder to call.",
+      "score": 9,
+      "was": "The gap is no longer quite what it was. {winnerClub} have won the right to say that."
+    },
+    {
+      "id": "cb10-049",
+      "text": "Do not turn away from this rivalry now! {winner} has made the pursuit a whole lot livelier.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-050",
+      "text": "From another angle, that result carries greater weight: the overall distance has been reduced.",
+      "score": 9,
+      "was": "A season like this can reset the conversation, and {winner} has certainly given us plenty to discuss."
+    },
+    {
+      "id": "cb10-051",
+      "text": "No need for a dramatic speech here; this result has brought the wider contest closer.",
+      "score": 9,
+      "was": "The scoreboard has changed, but so has the feeling. {winnerClub} have revived the overall challenge."
+    },
+    {
+      "id": "cb10-052",
+      "text": "{loser} has seen the advantage reduced, and {winner} deserves enormous credit for a winning season.",
+      "score": 9,
+      "was": "{loser} knows the advantage has been reduced, because {winner} has delivered a winning season at just the right time."
+    },
+    {
+      "id": "cb10-053",
+      "text": "This rivalry has found another gear! {winner} has brought themselves closer to the overall mark.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-054",
+      "text": "Down the stretch of this campaign, the chasing manager has found a way to make the rivalry closer.",
+      "score": 9,
+      "was": "It was a long way back; it's a little less daunting after what {winnerClub} have done."
+    },
+    {
+      "id": "cb10-055",
+      "text": "Firmly back in pursuit! The season is won, the overall deficit reduced, and the pressure returns.",
+      "score": 10,
+      "was": "An answer was required, and {winner} has provided it in the most convincing way available: winning the season."
+    },
+    {
+      "id": "cb10-056",
+      "text": "Remember how this contest looked before the season? It looks a whole lot more competitive now.",
+      "score": 9,
+      "was": "The question was whether the gap could close. {winnerClub} have answered that question this season."
+    },
+    {
+      "id": "cb10-057",
+      "text": "Nobody is handing out the final prize yet! The chasing manager has earned the right to dream.",
+      "score": 9,
+      "was": "That is how you turn a chase into a genuine contest! {winner} has won a vital round."
+    },
+    {
+      "id": "cb10-058",
+      "text": "Consider the size of this response: a season conquered, with the overall deficit shrinking behind it.",
+      "score": 9,
+      "was": "A stretch of the Showdown has gone by, and {winner} has used this season to regain ground."
+    },
+    {
+      "id": "cb10-059",
+      "text": "Next time the rivals share this stage, the distance between them will be a little shorter.",
+      "score": 9,
+      "was": "The story doesn't end with this victory. For {winnerClub}, it opens an entirely different possibility."
+    },
+    {
+      "id": "cb10-060",
+      "text": "Now the overall picture has to make room for {winner}, whose season has chipped away at the deficit.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-061",
+      "text": "For the manager who was behind, this is exactly the kind of season that brings hope back.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-062",
+      "text": "Rivalry renewed, and how! This winning season has brought the bigger prize appreciably nearer.",
+      "score": 10,
+      "was": "The season belongs to {winner}, and the wider race suddenly has a much more inviting shape."
+    },
+    {
+      "id": "cb10-063",
+      "text": "Call it a fresh invitation to compete: the season belongs to the challenger, with the deficit smaller.",
+      "score": 9,
+      "was": "That was not a closing argument, it was an opening one! {winnerClub} have given the contest another twist."
+    },
+    {
+      "id": "cb10-064",
+      "text": "Some gaps look enormous until somebody starts cutting them down. {winner} has done precisely that.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-065",
+      "text": "Down goes a slice of that advantage! A wonderful response has changed the whole tone of this Showdown.",
+      "score": 10,
+      "was": "A little less distance, a lot more tension! {winner} has made this season count where it matters."
+    },
+    {
+      "id": "cb10-066",
+      "text": "No one can coast on an early advantage now. {winnerClub} have proved the pursuit is very much alive.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-067",
+      "text": "Careful with talk of a complete turnaround. For now, the deficit has been reduced and the battle reignited.",
+      "score": 9,
+      "was": "The previous deficit hasn't vanished by assumption, but {winner} has reduced it with a thoroughly deserved season win."
+    },
+    {
+      "id": "cb10-068",
+      "text": "Here's the beauty of a long contest: {winner} can change the entire mood with one winning season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-069",
+      "text": "You can almost feel the contest tighten! A winning season has forced the overall race closer.",
+      "score": 9,
+      "was": "The rivalry is tightening before our eyes! {winnerClub} have brought themselves back within closer range."
+    },
+    {
+      "id": "cb10-070",
+      "text": "Surely nobody thought the whole Showdown was decided! The gap has just been squeezed.",
+      "score": 9,
+      "was": "That once-comfortable picture has acquired a few complications. {winner} has made them unavoidable."
+    },
+    {
+      "id": "cb10-071",
+      "text": "Every season has its own verdict, and this one brings {winner} nearer to the rival overall.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-072",
+      "text": "Quite a turnaround in momentum! {winner} has secured the round and brought the big contest closer.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-073",
+      "text": "Watch the comeback acquire shape: this season has gone the other way, bringing the managers nearer.",
+      "score": 9,
+      "was": "The comeback has substance now, with {winnerClub} adding a season victory to the pursuit."
+    },
+    {
+      "id": "cb10-074",
+      "text": "It isn't over, it isn't decided, and {winner} has made certain there is plenty more to play for.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-075",
+      "text": "Something's changed in this rivalry! That comfortable distance is no longer quite so comfortable.",
+      "score": 9,
+      "was": "The advantage has lost some of its shine! {winner} takes this season and tightens the contest."
+    },
+    {
+      "id": "cb10-076",
+      "text": "What matters here is not where {winner} began, but how much closer this season has brought them.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb10-077",
+      "text": "A renewed challenge is taking shape, and {winnerClub} have supplied the result to support it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-078",
+      "text": "Hold the final verdict! The season goes to the pursuer, and the overall contest has narrowed.",
+      "score": 9,
+      "was": "The bigger prize remains in play, but {winner} has just forced everyone to look again."
+    },
+    {
+      "id": "cb10-079",
+      "text": "There is a difference between chasing and catching up. {winner} has started doing the latter.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-080",
+      "text": "Make a note of this season! {winner} has taken it, and the overall contest is closer for it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-081",
+      "text": "Don't underestimate this response from {winnerClub}; the manager who was behind has reclaimed some valuable ground.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-082",
+      "text": "Picture the overall standings before this round, then look again. A remarkable shift toward the challenger.",
+      "score": 9,
+      "was": "The margin was always something that could move, and {winner} has sent it in the right direction."
+    },
+    {
+      "id": "cb10-083",
+      "text": "Up against an overall deficit, this season's winner has answered in the most convincing language: results.",
+      "score": 9,
+      "was": "It has been an uphill contest for {winner}, but this season the ascent has become a little easier."
+    },
+    {
+      "id": "cb10-084",
+      "text": "An earlier lead can buy comfort, not certainty. {winnerClub} have demonstrated that with a season victory.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-085",
+      "text": "See how quickly a rivalry can sharpen! {winner} has taken the round and narrowed the overall difference.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-086",
+      "text": "Round by round, a Showdown can swing. This season it has swung toward the one chasing.",
+      "score": 9,
+      "was": "The long game has another contender pressing hard, thanks to {winnerClub}'s winning campaign."
+    },
+    {
+      "id": "cb10-087",
+      "text": "Perfect timing for the manager who needed to close ground, and what a victory to deliver!",
+      "score": 9,
+      "was": "That was the season {winner} needed, and it has breathed fresh energy into the whole Showdown."
+    },
+    {
+      "id": "cb10-088",
+      "text": "Step by step, the gap can close; {winner} has just taken an especially important step.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-089",
+      "text": "Here's the urgency returning to this contest! The pursuer has made a difference that truly matters.",
+      "score": 9,
+      "was": "A new sense of urgency now, because {winnerClub} have clawed back a share of the deficit."
+    },
+    {
+      "id": "cb10-090",
+      "text": "Winning the season was important; bringing the wider contest nearer was the real reward for {winner}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-091",
+      "text": "Now the pursuit has a whole new edge! A season taken, and the overall advantage reduced.",
+      "score": 10,
+      "was": "There is your turning point in the chase! {winner} has taken this season and reduced the gap."
+    },
+    {
+      "id": "cb10-092",
+      "text": "Momentum doesn't award the final prize, but {winnerClub} have earned the right to feel it shifting.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-093",
+      "text": "Look beyond this single victory; there is renewed belief in a contest that had begun to stretch.",
+      "score": 9,
+      "was": "The route back is no longer just a hope. {winner} has put a winning season behind it."
+    },
+    {
+      "id": "cb10-094",
+      "text": "No lead should be taken for granted, especially after a chasing manager delivers a season like this.",
+      "score": 9,
+      "was": "That overall lead has met some resistance, and {winner} has supplied it in emphatic fashion."
+    },
+    {
+      "id": "cb10-095",
+      "text": "Perhaps the most telling feature here is simple: the manager who trailed has made the contest closer.",
+      "score": 9,
+      "was": "The longer this rivalry goes, the more precious a response like this becomes for {winner}."
+    },
+    {
+      "id": "cb10-096",
+      "text": "From the wrong side of the standings, {winnerClub} have produced a season that brings both managers closer.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-097",
+      "text": "This season was never going to settle everything, but {winner} has made the next one harder to predict.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-098",
+      "text": "Listen to that turnaround! A deficit cut down, and suddenly the rivalry has a different heartbeat.",
+      "score": 10,
+      "was": "The gap shrinks, the stakes grow! {winner} has turned the season into a proper comeback story."
+    },
+    {
+      "id": "cb10-099",
+      "text": "A result like that brings the whole contest back to life, with {winnerClub} cutting the overall deficit.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb10-100",
+      "text": "Pressure is a different thing when the gap starts shrinking. This season's winner has applied plenty.",
+      "score": 9,
+      "was": "The pursuit has gained serious traction! {winner} claims the season and draws nearer to the bigger prize."
+    }
+  ]
+}
