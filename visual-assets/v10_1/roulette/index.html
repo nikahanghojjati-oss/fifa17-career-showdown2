@@ -190,6 +190,14 @@ function flashTex(){ const [c,ctx]=cv(256,256); ctx.translate(128,128); const g=
   const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t; }
 const smokeT=softTex([[0,"rgba(255,255,255,.55)"],[.4,"rgba(255,255,255,.25)"],[1,"rgba(255,255,255,0)"]]);
 const glowT=softTex([[0,"rgba(255,235,190,1)"],[.3,"rgba(255,190,90,.6)"],[1,"rgba(255,120,30,0)"]]);
+/* a real lamp flame: blue root, white-yellow body, orange tip, soft edge */
+function flameTex(){ const [c,ctx]=cv(128,256); const g=ctx.createRadialGradient(64,150,4,64,140,90); g.addColorStop(0,"rgba(255,255,245,1)"); g.addColorStop(.25,"rgba(255,236,160,.95)"); g.addColorStop(.55,"rgba(255,160,50,.55)"); g.addColorStop(1,"rgba(255,90,10,0)");
+  ctx.save(); ctx.translate(64,128); ctx.scale(.42,1); ctx.translate(-64,-128); ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(64,10); ctx.bezierCurveTo(120,90,118,190,64,236); ctx.bezierCurveTo(10,190,8,90,64,10); ctx.fill(); ctx.restore();
+  const b=ctx.createRadialGradient(64,214,2,64,214,26); b.addColorStop(0,"rgba(120,170,255,.8)"); b.addColorStop(1,"rgba(60,90,255,0)"); ctx.fillStyle=b; ctx.fillRect(0,180,128,76);
+  const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t; }
+function sparkTex(){ const [c,ctx]=cv(64,64); const g=ctx.createRadialGradient(32,32,0,32,32,32); g.addColorStop(0,"rgba(255,255,255,1)"); g.addColorStop(.3,"rgba(255,220,150,.9)"); g.addColorStop(1,"rgba(255,140,40,0)"); ctx.fillStyle=g; ctx.fillRect(0,0,64,64); const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t; }
+function petalTex(){ const [c,ctx]=cv(256,256); ctx.translate(128,128); ctx.globalCompositeOperation="lighter"; for(let i=0;i<7;i++){ const a=i/7*Math.PI*2+rnd()*.5, l=70+rnd()*58, w=10+rnd()*16; const g=ctx.createLinearGradient(0,0,Math.cos(a)*l,Math.sin(a)*l); g.addColorStop(0,"rgba(255,250,230,1)"); g.addColorStop(.5,"rgba(255,180,70,.8)"); g.addColorStop(1,"rgba(255,90,20,0)"); ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(Math.cos(a+.0)*l,Math.sin(a)*l); ctx.lineTo(Math.cos(a+w/l)*l*.55,Math.sin(a+w/l)*l*.55); ctx.closePath(); ctx.fill(); ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(Math.cos(a)*l,Math.sin(a)*l); ctx.lineTo(Math.cos(a-w/l)*l*.55,Math.sin(a-w/l)*l*.55); ctx.closePath(); ctx.fill(); }
+  const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t; }
 const dustT=softTex([[0,"rgba(255,240,200,1)"],[.5,"rgba(255,240,200,.3)"],[1,"rgba(255,240,200,0)"]]);
 
 /* ================= materials ================= */
@@ -225,10 +233,10 @@ const M={
   marble:new T.MeshPhysicalMaterial({map:marbleTex(), roughness:.16, metalness:0, clearcoat:1, clearcoatRoughness:.05}),
   mirror:new T.MeshPhysicalMaterial({color:L("#e2e8ee"), roughness:.02, metalness:1}),
   ceiling:new T.MeshStandardMaterial({map:ceilingTex(), roughness:.55, metalness:.45}),
-  porcelain:new T.MeshStandardMaterial({color:L("#f1e9dc"), roughness:.35, metalness:0}),
-  coffee:new T.MeshStandardMaterial({color:L("#2b1708"), roughness:.15}),
+  porcelain:new T.MeshPhysicalMaterial({color:L("#f4ede2"), roughness:.22, metalness:0, clearcoat:1, clearcoatRoughness:.08}),
+  coffee:new T.MeshPhysicalMaterial({color:L("#1d0e05"), roughness:.06, metalness:0, clearcoat:1, clearcoatRoughness:.04}),
   amber:new T.MeshPhysicalMaterial({color:L("#b5560f"), roughness:.1, metalness:0, transparent:true, opacity:.85, clearcoat:1}),
-  glass:new T.MeshPhysicalMaterial({color:0x6a4a2a, roughness:.03, metalness:0, transparent:true, opacity:.14, clearcoat:.6, side:T.DoubleSide, depthWrite:false}),
+  glass:new T.MeshPhysicalMaterial({color:0xfff2dc, roughness:.02, metalness:0, transparent:true, opacity:.22, clearcoat:1, clearcoatRoughness:.02, reflectivity:1, side:T.DoubleSide, depthWrite:false}),
   card:new T.MeshStandardMaterial({color:L("#eee4c8"), roughness:.8}),
   black:new T.MeshStandardMaterial({color:0x050505, roughness:1}),
   lampGlass:new T.MeshStandardMaterial({map:lampTex, emissiveMap:lampTex, emissive:0xffffff, emissiveIntensity:1.05, roughness:.35, side:T.DoubleSide})
@@ -315,20 +323,43 @@ const table=new T.Group(); scene.add(table);
   const mahog=new T.MeshPhysicalMaterial({map:tableWoodTex, color:0x6e3220, roughness:.2, metalness:.05, clearcoat:1, clearcoatRoughness:.07}); const rim=mesh(new T.TorusGeometry(R-.045,.045,16,72),mahog,0,.735,0,table); rim.rotation.x=Math.PI/2; rim.castShadow=true; rim.receiveShadow=true; const inlay=mesh(new T.TorusGeometry(R-.045,.047,8,96,Math.PI*2),M.gold,0,.746,0,table); inlay.rotation.x=Math.PI/2; inlay.scale.set(1,1,.08);
   const skirt=mesh(new T.CylinderGeometry(R,R,.05,64),mahog,0,.7,0,table); skirt.receiveShadow=true; mesh(new T.TorusGeometry(R,.006,6,96),M.gold,0,.676,0,table).rotation.x=Math.PI/2;
   mesh(lathe([[.0,0],[.46,0],[.48,.02],[.42,.05],[.2,.07],[.13,.1],[.1,.22],[.12,.3],[.09,.4],[.1,.55],[.14,.62],[.1,.66],[.0,.66]],28),M.lacquer,0,.02,0,table); mesh(new T.TorusGeometry(.11,.012,6,28),M.gold,0,.33,0,table).rotation.x=Math.PI/2; mesh(new T.TorusGeometry(.42,.012,6,48),M.gold,0,.06,0,table).rotation.x=Math.PI/2;
-  /* lantern (brass oil lamp with a fluted foot, a glass chimney and a living flame) at the back-left of the table */
+  /* lantern: a period brass oil lamp. fluted foot, knopped stem, oil font with a seam, burner with a wick knob, tall glass chimney, living flame */
   const lan=new T.Group(); lan.position.set(-.42,.75,-.22); table.add(lan);
-  const base=lathe([[0,0],[.08,0],[.085,.015],[.06,.03],[.04,.05],[.034,.1],[.05,.125],[.072,.135],[.072,.16],[.046,.17],[.04,.2],[.0,.2]],28); mesh(base,M.brass,0,0,0,lan).castShadow=true; mesh(new T.TorusGeometry(.078,.006,6,28),M.gold,0,.012,0,lan).rotation.x=Math.PI/2;
-  const chimney=lathe([[.04,.2],[.052,.26],[.058,.33],[.046,.42],[.03,.47]],28); const ch=mesh(chimney,M.glass,0,0,0,lan);
-  mesh(new T.TorusGeometry(.042,.006,8,24),M.brass,0,.2,0,lan).rotation.x=Math.PI/2; mesh(new T.TorusGeometry(.03,.005,8,24),M.brass,0,.47,0,lan).rotation.x=Math.PI/2;
-  const flame=new T.Sprite(new T.SpriteMaterial({map:glowT, blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xffc070})); flame.scale.set(.16,.28,1); flame.position.set(0,.3,0); lan.add(flame);
-  const halo=new T.Sprite(new T.SpriteMaterial({map:glowT, blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xff9a40, opacity:.35})); halo.scale.set(.5,.6,1); halo.position.set(0,.3,0); lan.add(halo);
-  mesh(new T.CylinderGeometry(.004,.004,.05,6),M.black,0,.22,0,lan); const core=new T.Sprite(new T.SpriteMaterial({map:glowT, blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xffffff})); core.scale.set(.03,.07,1); core.position.set(0,.27,0); lan.add(core);
-  const lantern=new T.PointLight(L("#ffb15a"),1.85,6,2); lantern.position.set(0,.3,0); lan.add(lantern);
+  const foot=lathe([[0,0],[.085,0],[.09,.012],[.082,.02],[.06,.028],[.042,.04],[.03,.06],[.026,.09],[.034,.1],[.024,.108],[.022,.13],[.03,.14],[.028,.15]],48); mesh(foot,M.brass,0,0,0,lan).castShadow=true;
+  for(let i=0;i<16;i++){ const a=i/16*Math.PI*2; const fl=mesh(new T.CylinderGeometry(.005,.007,.03,10),M.gold,Math.cos(a)*.07,.012,Math.sin(a)*.07,lan); fl.rotation.y=-a; fl.rotation.z=Math.PI/2-.9; }
+  const font=lathe([[.028,.15],[.05,.158],[.07,.18],[.076,.21],[.07,.24],[.052,.262],[.03,.27],[.026,.285],[.03,.295],[.022,.3]],48); mesh(font,M.brass,0,0,0,lan).castShadow=true;
+  mesh(new T.TorusGeometry(.0755,.004,8,48),M.gold,0,.21,0,lan).rotation.x=Math.PI/2;
+  const burner=lathe([[.022,.3],[.032,.302],[.036,.315],[.03,.325],[.04,.33],[.045,.342],[.036,.35],[.012,.352],[.012,.36],[0,.36]],32); mesh(burner,M.brassDark||M.brass,0,0,0,lan);
+  const knob=mesh(new T.CylinderGeometry(.012,.012,.006,20),M.gold,.05,.322,0,lan); knob.rotation.z=Math.PI/2; mesh(new T.CylinderGeometry(.003,.003,.04,8),M.gold,.03,.322,0,lan).rotation.z=Math.PI/2;
+  for(let i=0;i<4;i++){ const a=i/4*Math.PI*2; mesh(new T.BoxGeometry(.004,.03,.004),M.brass,Math.cos(a)*.034,.37,Math.sin(a)*.034,lan); }
+  const chimney=lathe([[.034,.35],[.04,.38],[.05,.43],[.054,.49],[.046,.56],[.034,.62],[.03,.66]],48); const ch=mesh(chimney,M.glass,0,0,0,lan); ch.renderOrder=5;
+  mesh(new T.TorusGeometry(.0335,.004,8,32),M.brass,0,.352,0,lan).rotation.x=Math.PI/2; mesh(new T.TorusGeometry(.031,.003,8,32),M.gold,0,.66,0,lan).rotation.x=Math.PI/2;
+  mesh(new T.BoxGeometry(.016,.03,.002),M.black,0,.368,0,lan);
+  const flame=new T.Sprite(new T.SpriteMaterial({map:flameTex(), blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xffffff})); flame.scale.set(.09,.19,1); flame.position.set(0,.445,0); flame.renderOrder=6; lan.add(flame);
+  const halo=new T.Sprite(new T.SpriteMaterial({map:glowT, blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xff9a40, opacity:.3})); halo.scale.set(.42,.5,1); halo.position.set(0,.44,0); halo.renderOrder=6; lan.add(halo);
+  const core=new T.Sprite(new T.SpriteMaterial({map:glowT, blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xffffff})); core.scale.set(.024,.05,1); core.position.set(0,.405,0); core.renderOrder=6; lan.add(core);
+  const lantern=new T.PointLight(L("#ffb15a"),1.85,6,2); lantern.position.set(0,.43,0); lan.add(lantern);
   table.userData={flame,halo,lantern};
-  /* coffee pot, two cups on saucers, a few cards and gold coins */
-  const pot=lathe([[0,0],[.06,0],[.07,.02],[.055,.08],[.05,.14],[.058,.17],[.035,.19],[.01,.21],[0,.21]],28); const potM=mesh(pot,M.brass,.46,.75,-.26,table); potM.castShadow=true;
-  mesh(new T.TorusGeometry(.045,.008,8,20,Math.PI),M.brass,.52,.85,-.26,table).rotation.z=-Math.PI/2; mesh(new T.CylinderGeometry(.008,.012,.12,8),M.brass,.4,.84,-.26,table).rotation.z=.6;
-  function cup(x,z,ry){ const g=new T.Group(); g.position.set(x,.75,z); g.rotation.y=ry; table.add(g); mesh(new T.CylinderGeometry(.075,.075,.006,24),M.porcelain,0,.003,0,g); mesh(new T.TorusGeometry(.068,.002,4,32),M.gold,0,.0065,0,g).rotation.x=Math.PI/2; const c=mesh(lathe([[0,0],[.03,0],[.04,.03],[.042,.06],[.04,.062],[.028,.062],[.028,.01],[0,.01]],20),M.porcelain,0,.006,0,g); c.castShadow=true; mesh(new T.CylinderGeometry(.028,.028,.004,16),M.coffee,0,.052,0,g); mesh(new T.TorusGeometry(.016,.005,6,12,Math.PI),M.porcelain,.045,.04,0,g); mesh(new T.TorusGeometry(.041,.0015,4,24),M.gold,0,.064,0,g).rotation.x=Math.PI/2; }
+  /* coffee pot: tall pewter-brass body with a belly, a domed hinged lid with a finial, a gooseneck spout and a looped handle */
+  { const pg=new T.Group(); pg.position.set(.46,.75,-.26); pg.rotation.y=-.5; table.add(pg);
+    const body=lathe([[0,0],[.062,0],[.07,.008],[.072,.03],[.066,.07],[.054,.11],[.046,.15],[.045,.18],[.05,.196],[.058,.204],[.056,.212],[.03,.216],[.03,.222],[.04,.236],[.03,.25],[.012,.258],[0,.26]],56); const bm=mesh(body,M.brass,0,0,0,pg); bm.castShadow=true;
+    mesh(new T.TorusGeometry(.057,.003,8,48),M.gold,0,.208,0,pg).rotation.x=Math.PI/2; mesh(new T.TorusGeometry(.069,.004,8,48),M.gold,0,.012,0,pg).rotation.x=Math.PI/2;
+    mesh(new T.SphereGeometry(.009,16,12),M.gold,0,.262,0,pg);
+    const spout=new T.CatmullRomCurve3([new T.Vector3(.055,.09,0),new T.Vector3(.1,.12,0),new T.Vector3(.125,.19,0),new T.Vector3(.132,.25,0),new T.Vector3(.146,.27,0)]);
+    const sp=new T.Mesh(new T.TubeGeometry(spout,24,.011,14,false),M.brass); sp.castShadow=true; pg.add(sp); mesh(new T.CylinderGeometry(.012,.009,.006,14),M.brass,.146,.27,0,pg).rotation.z=-.6;
+    const hcurve=new T.CatmullRomCurve3([new T.Vector3(-.05,.19,0),new T.Vector3(-.095,.2,0),new T.Vector3(-.11,.14,0),new T.Vector3(-.09,.07,0),new T.Vector3(-.058,.05,0)]);
+    const hd=new T.Mesh(new T.TubeGeometry(hcurve,20,.008,12,false),M.brassDark||M.brass); hd.castShadow=true; pg.add(hd);
+    mesh(new T.CylinderGeometry(.011,.011,.03,12),M.brass,-.052,.19,0,pg).rotation.z=Math.PI/2; mesh(new T.CylinderGeometry(.011,.011,.03,12),M.brass,-.06,.05,0,pg).rotation.z=Math.PI/2; }
+  /* cups: thin bone-china on a dished saucer, gold rims, a looped handle, dark coffee with a bright meniscus */
+  function cup(x,z,ry){ const g=new T.Group(); g.position.set(x,.75,z); g.rotation.y=ry; table.add(g);
+    const saucer=lathe([[0,0],[.03,0],[.03,.004],[.045,.006],[.072,.016],[.078,.02],[.077,.023],[.07,.021],[.044,.012],[.03,.01],[0,.01]],48); const sm=mesh(saucer,M.porcelain,0,0,0,g); sm.castShadow=true; sm.receiveShadow=true;
+    mesh(new T.TorusGeometry(.0745,.0012,6,48),M.gold,0,.021,0,g).rotation.x=Math.PI/2;
+    const body=lathe([[0,.01],[.022,.01],[.026,.012],[.03,.02],[.04,.04],[.044,.058],[.045,.068],[.043,.069],[.041,.066],[.038,.05],[.03,.03],[.022,.02],[0,.02]],48); const cm=mesh(body,M.porcelain,0,.01,0,g); cm.castShadow=true;
+    mesh(new T.TorusGeometry(.0445,.0012,6,48),M.gold,0,.078,0,g).rotation.x=Math.PI/2;
+    mesh(new T.CircleGeometry(.0395,40),M.coffee,0,.072,0,g).rotation.x=-Math.PI/2;
+    const hc=new T.CatmullRomCurve3([new T.Vector3(.041,.066,0),new T.Vector3(.062,.066,0),new T.Vector3(.066,.045,0),new T.Vector3(.05,.03,0),new T.Vector3(.04,.03,0)]);
+    const hm=new T.Mesh(new T.TubeGeometry(hc,16,.0045,10,false),M.porcelain); hm.castShadow=true; g.add(hm);
+    const spoon=mesh(new T.BoxGeometry(.004,.0015,.07),M.gold,.03,.023,.04,g); spoon.rotation.y=.9; mesh(new T.SphereGeometry(.009,12,8),M.gold,.03-.03*Math.sin(.9)*0+.027,.024,.04+.03*0+.025,g).scale.set(1,.3,1.3); }
   cup(-.1,.38,.3); cup(.44,.22,-.4);
   for(let i=0;i<5;i++){ const c=mesh(new T.BoxGeometry(.064,.002,.09),M.card,-.5+i*.02,.752+i*.002,.34,table); c.rotation.y=.4+i*.12; }
   for(let i=0;i<4;i++) mesh(new T.CylinderGeometry(.013,.013,.003,16),M.gold,.2+i*.03,.753,.45+(i%2)*.025,table);
@@ -505,7 +536,7 @@ function plateTex(text){ const [c,ctx]=cv(512,128); const g=ctx.createLinearGrad
 function makeBoard(key,label){ const g=new T.Group(); scene.add(g); const inner=new T.Group(); g.add(inner);
   const frame=new T.Mesh(new T.BoxGeometry(BOARD_W+.07,BOARD_H+.07,.024),lacquer); frame.castShadow=true; frame.receiveShadow=true; inner.add(frame);
   const lip=new T.Mesh(new T.BoxGeometry(BOARD_W+.05,BOARD_H+.05,.006),GM.gold); lip.position.z=.0125; inner.add(lip);
-  const [c,ctx]=cv(1024,1024); const tex=new T.CanvasTexture(c); tex.encoding=T.sRGBEncoding; tex.anisotropy=8;
+  const [c,ctx]=cv(2048,2048); const tex=new T.CanvasTexture(c); tex.encoding=T.sRGBEncoding; tex.anisotropy=16;
   const face=new T.Mesh(new T.PlaneGeometry(BOARD_W,BOARD_H),new T.MeshPhysicalMaterial({map:tex, roughness:.5, metalness:0, clearcoat:.4, clearcoatRoughness:.3})); face.position.z=.0162; inner.add(face);
   [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([sx,sy])=>{ [1,-1].forEach(sz=>{ const k=new T.Mesh(new T.BoxGeometry(.07,.07,.006),GM.brass); k.position.set(sx*(BOARD_W/2+.01),sy*(BOARD_H/2+.01),sz*.0135); inner.add(k); }); });
   /* easel: three brass legs, a ledge, a nameplate */
@@ -524,31 +555,52 @@ function shirt(ctx,x,y,s,kit){ const [p,sec,acc]=kit; ctx.save(); ctx.translate(
   ctx.fillStyle=p; ctx.fill(); ctx.lineWidth=.05; ctx.strokeStyle="rgba(0,0,0,.55)"; ctx.stroke();
   ctx.save(); ctx.clip(); ctx.fillStyle=sec; ctx.fillRect(-.62,-.5,.14,1); ctx.fillRect(.48,-.5,.14,1); ctx.fillStyle=acc; ctx.fillRect(-.36,.42,.72,.08); ctx.restore();
   ctx.fillStyle=sec; ctx.beginPath(); ctx.moveTo(-.22,-.5); ctx.quadraticCurveTo(0,-.3,.22,-.5); ctx.quadraticCurveTo(0,-.44,-.22,-.5); ctx.fill(); ctx.restore(); }
-function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H=1024; const kit=club.kit; b.bubbles.length=0; b.club=club;
-  ctx.clearRect(0,0,W,H);
-  /* pitch 0-760, subs strip 770-1024 */
-  const PT=18, PB=742, PL=18, PR=1006; const g=ctx.createLinearGradient(0,PT,0,PB); g.addColorStop(0,"#3f9a4a"); g.addColorStop(1,"#2f7f3b"); ctx.fillStyle=g; ctx.fillRect(PL,PT,PR-PL,PB-PT);
-  for(let i=0;i<8;i++){ ctx.fillStyle=i%2?"rgba(255,255,255,.045)":"rgba(0,0,0,.05)"; ctx.fillRect(PL,PT+i*(PB-PT)/8,PR-PL,(PB-PT)/8); }
-  ctx.strokeStyle="rgba(255,255,255,.85)"; ctx.lineWidth=4; ctx.strokeRect(PL+10,PT+10,PR-PL-20,PB-PT-20); ctx.beginPath(); ctx.moveTo(PL+10,(PT+PB)/2); ctx.lineTo(PR-10,(PT+PB)/2); ctx.stroke(); ctx.beginPath(); ctx.arc(W/2,(PT+PB)/2,90,0,7); ctx.stroke();
-  ctx.strokeRect(W/2-200,PT+10,400,120); ctx.strokeRect(W/2-200,PB-130,400,120); ctx.strokeRect(W/2-90,PT+10,180,50); ctx.strokeRect(W/2-90,PB-60,180,50);
+function formationOf(xi){ const D=xi.filter(([p])=>/B$/.test(p)).length, A=xi.filter(([p])=>/^(ST|CF|LS|RS|LF|RF|LW|RW)$/.test(p)).length; const M=xi.length-1-D-A; return `${D}-${M}-${A}`; }
+function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+/* FIFA 17 squad screen look: graphite panel, lit pitch, chemistry links, kit + gold rating plate + name pill per player, subs bench */
+const POS_COL=(pos)=>pos==="GK"?"#f2d23c":/B$/.test(pos)?"#3f86e8":/^(ST|CF|LS|RS|LF|RF|LW|RW)$/.test(pos)?"#e8502f":"#4fc74d";
+/* FIFA 17 squad screen player: kit shirt, white rating at the shirt's top-left, name on a dark band under it, coloured position tag on the left */
+function playerCard(ctx,x,y,s,kit,pos,name,rating,num,tagLeft){
+  ctx.save(); ctx.shadowColor="rgba(0,0,0,.5)"; ctx.shadowBlur=12; ctx.shadowOffsetY=5; shirt(ctx,x,y,s,kit); ctx.restore();
   ctx.textAlign="center"; ctx.textBaseline="middle";
-  const used={}; club.xi.forEach(([pos,name,rating])=>{ let xy=POS_XY[pos]||[.5,.5]; let k=pos; while(used[k]){ k+="'"; xy=[xy[0]+.1,xy[1]]; } used[k]=1;
-    const x=PL+xy[0]*(PR-PL), y=PT+54+xy[1]*(PB-PT-130); b.bubbles.push({x,y,name,pos,rating,u:x/W,v:1-y/H});
-    /* shirt with a rating plate on the left, name under, like the squad screen */
-    ctx.save(); ctx.shadowColor="rgba(0,0,0,.5)"; ctx.shadowBlur=10; ctx.shadowOffsetY=4; shirt(ctx,x,y-4,78,kit); ctx.restore();
-    ctx.fillStyle="rgba(10,10,12,.82)"; ctx.fillRect(x-74,y-30,40,34); ctx.fillStyle="#fff"; ctx.font="800 26px 'Barlow Condensed'"; ctx.fillText(String(rating),x-54,y-12);
-    const sur=name.includes(". ")?name.slice(name.indexOf(". ")+2):name; ctx.font="700 26px 'Barlow Condensed'"; ctx.lineWidth=5; ctx.strokeStyle="rgba(0,0,0,.75)"; ctx.strokeText(sur.toUpperCase(),x,y+52); ctx.fillStyle="#fff"; ctx.fillText(sur.toUpperCase(),x,y+52); });
-  /* substitutes strip */
-  ctx.fillStyle="#17120c"; ctx.fillRect(PL,756,PR-PL,250); ctx.fillStyle="rgba(241,195,90,.9)"; ctx.fillRect(PL,756,PR-PL,4);
-  ctx.textAlign="left"; ctx.font="800 30px 'Barlow Condensed'"; ctx.fillStyle="#f1c35a"; ctx.fillText("SUBSTITUTES",PL+22,790);
-  club.subs.slice(0,4).forEach(([pos,name,rating],i)=>{ const x=PL+70+i*(PR-PL-60)/4, y=900; b.bubbles.push({x,y,name,pos,rating,u:x/W,v:1-y/H});
-    shirt(ctx,x,y-20,62,kit); ctx.textAlign="left"; ctx.fillStyle="#fff"; ctx.font="800 28px 'Barlow Condensed'"; ctx.fillText(String(rating),x+40,y-38); ctx.fillStyle="#c9bc9c"; ctx.font="600 22px 'Barlow Condensed'"; ctx.fillText(pos,x+40,y-10);
-    const sur=name.includes(". ")?name.slice(name.indexOf(". ")+2):name; ctx.textAlign="center"; ctx.fillStyle="#fff"; ctx.font="700 24px 'Barlow Condensed'"; ctx.fillText(sur.toUpperCase().slice(0,14),x+20,y+48); });
-  /* club name plate */
-  ctx.textAlign="right"; ctx.font="700 26px 'Barlow Condensed'"; ctx.fillStyle="#f1c35a"; ctx.fillText(club.club.toUpperCase(),PR-22,790);
+  const sur=(name.includes(". ")?name.slice(name.indexOf(". ")+2):name); ctx.font=`600 ${Math.round(s*.3)}px 'Barlow Condensed'`; const tw=Math.max(s*1.3,ctx.measureText(sur).width+s*.5); const nx=x-tw/2, ny=y+s*.5, nh=s*.36;
+  ctx.fillStyle="rgba(8,10,14,.78)"; ctx.fillRect(nx,ny,tw,nh); ctx.fillStyle="#fff"; ctx.fillText(sur,x,ny+nh/2+1);
+  /* rating: bold white, top-left of the shirt like the reference */
+  ctx.font=`800 ${Math.round(s*.34)}px 'Barlow Condensed'`; ctx.textAlign="right"; ctx.lineWidth=4; ctx.strokeStyle="rgba(0,0,0,.6)"; ctx.strokeText(String(rating),x-s*.5,y-s*.42); ctx.fillStyle="#fff"; ctx.fillText(String(rating),x-s*.5,y-s*.42);
+  /* position tag: colour bar + letters, left of the shirt */
+  if(tagLeft!==false){ const col=POS_COL(pos); ctx.fillStyle=col; ctx.fillRect(x-s*1.0,y-s*.1,s*.07,s*.3); ctx.textAlign="left"; ctx.font=`700 ${Math.round(s*.22)}px 'Barlow Condensed'`; ctx.lineWidth=3; ctx.strokeStyle="rgba(0,0,0,.6)"; ctx.strokeText(pos,x-s*.9,y+s*.05); ctx.fillStyle="#fff"; ctx.fillText(pos,x-s*.9,y+s*.05); } }
+function lum(hex){ const n=parseInt(String(hex).replace("#",""),16); if(isNaN(n)) return .5; return ((n>>16&255)*.299+(n>>8&255)*.587+(n&255)*.114)/255; }
+function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H=1024; const kit=club.kit; b.bubbles.length=0; b.club=club;
+  ctx.setTransform(2,0,0,2,0,0); ctx.clearRect(0,0,W,H);
+  /* FIFA 17 squad screen: dark grey frame, tab bar with SQUAD lit, club + formation, a lit pitch filling the middle, substitutes band */
+  { const g=ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,"#2a2d33"); g.addColorStop(.12,"#1b1d22"); g.addColorStop(1,"#121317"); ctx.fillStyle=g; ctx.fillRect(0,0,W,H); }
+  ctx.textBaseline="middle"; ctx.textAlign="left"; const tabs=["SQUAD","FORMATIONS","ROLES","INSTRUCTIONS","TACTICS"]; let tx=34; tabs.forEach((t,i)=>{ ctx.font=`${i?600:800} 26px 'Barlow Condensed'`; ctx.fillStyle=i?"#c9ccd3":"#fff"; ctx.fillText(t,tx,36); const w=ctx.measureText(t).width; if(!i){ ctx.fillStyle="#f1c35a"; ctx.fillRect(tx-4,52,w+8,4); } tx+=w+46; });
+  ctx.fillStyle="rgba(255,255,255,.08)"; ctx.fillRect(0,62,W,2);
+  ctx.font="800 44px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText(club.club.toUpperCase(),34,104); ctx.font="600 24px 'Barlow Condensed'"; ctx.fillStyle="#9ea4b0"; ctx.fillText("STARTING XI · "+formationOf(club.xi),36,138);
+  ctx.textAlign="right"; ctx.font="800 40px 'Barlow Condensed'"; ctx.fillStyle="#f1c35a"; ctx.fillText(formationOf(club.xi),W-34,104);
+  ctx.textAlign="left";
+  /* pitch 160-770 with a little perspective (narrower at the top), mown stripes, white lines */
+  const PT=160, PB=772, PL=34, PR=W-34, IN=46; ctx.save(); ctx.beginPath(); ctx.moveTo(PL+IN,PT); ctx.lineTo(PR-IN,PT); ctx.lineTo(PR,PB); ctx.lineTo(PL,PB); ctx.closePath(); ctx.clip();
+  { const g=ctx.createLinearGradient(0,PT,0,PB); g.addColorStop(0,"#6fbf53"); g.addColorStop(1,"#3f9a3d"); ctx.fillStyle=g; ctx.fillRect(PL,PT,PR-PL,PB-PT);
+    for(let i=0;i<9;i++){ ctx.fillStyle=i%2?"rgba(255,255,255,.07)":"rgba(0,0,0,.05)"; ctx.fillRect(PL,PT+i*(PB-PT)/9,PR-PL,(PB-PT)/9); }
+    const v=ctx.createRadialGradient(W/2,(PT+PB)/2,160,W/2,(PT+PB)/2,640); v.addColorStop(0,"rgba(255,255,255,.06)"); v.addColorStop(1,"rgba(0,0,0,.22)"); ctx.fillStyle=v; ctx.fillRect(PL,PT,PR-PL,PB-PT);
+    const X=(u,y)=>{ const k=(y-PT)/(PB-PT); const l=PL+IN*(1-k), r=PR-IN*(1-k); return l+u*(r-l); };
+    ctx.strokeStyle="rgba(255,255,255,.92)"; ctx.lineWidth=3; const line=(u0,y0,u1,y1)=>{ ctx.beginPath(); ctx.moveTo(X(u0,y0),y0); ctx.lineTo(X(u1,y1),y1); ctx.stroke(); };
+    const mid=(PT+PB)/2; line(.02,PT+14,.98,PT+14); line(.02,PB-14,.98,PB-14); line(.02,PT+14,.02,PB-14); line(.98,PT+14,.98,PB-14); line(.02,mid,.98,mid);
+    ctx.beginPath(); ctx.ellipse(W/2,mid,86,70,0,0,7); ctx.stroke();
+    const box=(y0,y1,hw,sign)=>{ line(.5-hw,y0,.5+hw,y0); line(.5-hw,y0,.5-hw,y1); line(.5+hw,y0,.5+hw,y1); };
+    box(PT+14,PT+120,.2); line(.3,PT+120,.7,PT+120); box(PT+14,PT+54,.08); line(.42,PT+54,.58,PT+54);
+    line(.3,PB-120,.7,PB-120); line(.3,PB-120,.3,PB-14); line(.7,PB-120,.7,PB-14); line(.42,PB-54,.58,PB-54); line(.42,PB-54,.42,PB-14); line(.58,PB-54,.58,PB-14); }
+  ctx.restore();
+  ctx.textAlign="left"; ctx.font="800 30px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.lineWidth=4; ctx.strokeStyle="rgba(0,0,0,.5)"; ctx.strokeText(formationOf(club.xi),PL+14,PB-32); ctx.fillText(formationOf(club.xi),PL+14,PB-32);
+  const used={}; const spots=club.xi.map(([pos,name,rating],i)=>{ let xy=POS_XY[pos]||[.5,.5]; let k=pos; while(used[k]){ k+="'"; xy=[xy[0]+.1,xy[1]]; } used[k]=1; const x=PL+70+xy[0]*(PR-PL-140), y=PT+66+xy[1]*(PB-PT-150); return {x,y,pos,name,rating,num:i+1}; });
+  spots.sort((a,c)=>a.y-c.y).forEach(sp=>{ b.bubbles.push({x:sp.x,y:sp.y,name:sp.name,pos:sp.pos,rating:sp.rating,u:sp.x/W,v:1-sp.y/H}); playerCard(ctx,sp.x,sp.y-6,82,sp.pos==="GK"?[club.gk||"#2fb0a8","#1c6e69","#ffffff"]:kit,sp.pos,sp.name,sp.rating,sp.num); });
+  /* substitutes band */
+  ctx.fillStyle="#17181c"; ctx.fillRect(0,784,W,H-784); ctx.fillStyle="#2a2d33"; ctx.fillRect(0,784,W,46); ctx.textAlign="left"; ctx.font="700 26px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText("SUBSTITUTES",34,807); ctx.textAlign="center"; ctx.fillStyle="#f1c35a"; ctx.font="800 26px 'Barlow Condensed'"; ctx.fillText("▲",W/2,806);
+  club.subs.slice(0,4).forEach(([pos,name,rating],i)=>{ const cx=PL+(i+.5)*(PR-PL)/4, y=905; b.bubbles.push({x:cx,y,name,pos,rating,u:cx/W,v:1-y/H}); ctx.fillStyle="rgba(255,255,255,.05)"; ctx.fillRect(cx-108,842,216,160); playerCard(ctx,cx,y-20,64,kit,pos,name,rating,12+i); });
   if(b.hit) drawHit(key,b.hit); b.tex.needsUpdate=true; }
-function drawHit(key,hit){ const b=boards[key].userData, ctx=b.ctx; const {x,y}=hit;
-  /* red RELEASED stamp on the bubble, then a burnt hole with a charred rim and torn paper */
+function drawHit(key,hit){ const b=boards[key].userData, ctx=b.ctx; const {x,y}=hit; ctx.setTransform(2,0,0,2,0,0);
+  /* red RELEASED stamp on the player, then a burnt hole with a charred rim and torn paper */
   ctx.save(); ctx.translate(x,y-2); ctx.rotate(-.12); ctx.fillStyle="rgba(190,20,20,.92)"; ctx.fillRect(-92,-20,184,40); ctx.strokeStyle="#ffd0c0"; ctx.lineWidth=3; ctx.strokeRect(-88,-16,176,32); ctx.fillStyle="#fff"; ctx.font="900 28px 'Big Shoulders Display'"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText("RELEASED",0,1); ctx.restore();
   const r=30; const g=ctx.createRadialGradient(x,y,r*.3,x,y,r*2.4); g.addColorStop(0,"rgba(0,0,0,1)"); g.addColorStop(.35,"rgba(25,10,4,.95)"); g.addColorStop(.6,"rgba(70,35,10,.7)"); g.addColorStop(1,"rgba(60,30,10,0)"); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r*2.4,0,7); ctx.fill();
   ctx.fillStyle="#050302"; ctx.beginPath(); for(let i=0;i<14;i++){ const a=i/14*Math.PI*2, rr=r*(.7+Math.random()*.5); ctx.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr); } ctx.closePath(); ctx.fill();
@@ -567,8 +619,17 @@ function puff(pos,dir,n,size,speed,life){ for(let i=0;i<n;i++){ const p=smokes.f
 const splinters=[]; const splGeo=new T.BoxGeometry(.012,.004,.03); const splMat=new T.MeshStandardMaterial({color:L("#e8d8b0"),roughness:.9});
 for(let i=0;i<40;i++){ const m=new T.Mesh(i%3?splGeo:new T.BoxGeometry(.02,.001,.02),i%3?splMat:M.card); m.visible=false; scene.add(m); splinters.push({m, life:0, v:new T.Vector3(), w:new T.Vector3()}); }
 function burst(pos,normal){ splinters.forEach((p,i)=>{ p.life=.9+rnd()*.8; p.m.visible=true; p.m.position.copy(pos); p.v.copy(normal).multiplyScalar(.8+rnd()*2.2).add(new T.Vector3((rnd()-.5)*2.2,(rnd()-.2)*2.4,(rnd()-.5)*2.2)); p.w.set(rnd()*20,rnd()*20,rnd()*20); p.m.scale.setScalar(.6+rnd()*.9); }); }
-const flashSprite=new T.Sprite(new T.SpriteMaterial({map:flashTex(), blending:T.AdditiveBlending, depthWrite:false, transparent:true, opacity:0})); flashSprite.scale.set(.001,.001,1); scene.add(flashSprite);
-const flashSide=new T.Sprite(new T.SpriteMaterial({map:glowT, blending:T.AdditiveBlending, depthWrite:false, transparent:true, opacity:0, color:0xffb060})); scene.add(flashSide);
+const flashSprite=new T.Sprite(new T.SpriteMaterial({map:flashTex(), blending:T.NormalBlending, depthWrite:false, transparent:true, opacity:0})); flashSprite.scale.set(.001,.001,1); scene.add(flashSprite);
+const flashSide=new T.Sprite(new T.SpriteMaterial({map:glowT, blending:T.NormalBlending, depthWrite:false, transparent:true, opacity:0, color:0xffb060})); scene.add(flashSide);
+/* muzzle flash layers: hot white core, two petal stars at different angles, one wide warm glow; sparks fly out in a cone */
+const flashCore=new T.Sprite(new T.SpriteMaterial({map:sparkTex(), blending:T.NormalBlending, depthWrite:false, transparent:true, opacity:0, color:0xffffff})); scene.add(flashCore);
+/* normal blending on the flash layers: additive over green felt turned the fire yellow-green */
+const petals=[0,1].map(()=>{ const sp=new T.Sprite(new T.SpriteMaterial({map:petalTex(), blending:T.NormalBlending, depthWrite:false, transparent:true, opacity:0, color:0xffe6c8})); scene.add(sp); return sp; });
+const sparks=[]; const sparkMat=new T.SpriteMaterial({map:sparkTex(), blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xffd080});
+for(let i=0;i<40;i++){ const sp=new T.Sprite(sparkMat.clone()); sp.visible=false; scene.add(sp); sparks.push({s:sp, life:0, v:new T.Vector3()}); }
+function spray(pos,dir,n,speed){ for(let i=0;i<n;i++){ const p=sparks.find(q=>q.life<=0); if(!p) return; p.life=.25+rnd()*.4; p.max=p.life; p.s.visible=true; p.s.position.copy(pos); const sz=.006+rnd()*.012; p.s.scale.set(sz,sz,1); p.v.copy(dir).multiplyScalar(speed*(.4+rnd())).add(new T.Vector3((rnd()-.5)*speed*.6,(rnd()-.3)*speed*.5,(rnd()-.5)*speed*.6)); } }
+const hitFlash=new T.Sprite(new T.SpriteMaterial({map:sparkTex(), blending:T.AdditiveBlending, depthWrite:false, transparent:true, opacity:0, color:0xfff0d0})); scene.add(hitFlash);
+const hitLight=new T.PointLight(L("#ffd0a0"),0,2.5,2); scene.add(hitLight);
 /* dust in the lamp light */
 const dust=(()=>{ const n=260, pos=new Float32Array(n*3), base=[]; for(let i=0;i<n;i++){ const x=(rnd()-.5)*3.2, y=.7+rnd()*2.2, z=-2.2+rnd()*3.2; pos.set([x,y,z],i*3); base.push(x,y,z); } const g=new T.BufferGeometry(); g.setAttribute("position",new T.BufferAttribute(pos,3)); const m=new T.PointsMaterial({map:dustT, size:.016, transparent:true, opacity:.5, depthWrite:false, blending:T.AdditiveBlending, color:0xffd9a0, sizeAttenuation:true}); const p=new T.Points(g,m); scene.add(p); return {p,base,pos}; })();
 /* bullet tracer: a short bright line that lives 0.12 s */
@@ -640,13 +701,16 @@ function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
   recoil=Math.max(0,recoil-dt*8); lie.rotation.x=-recoil*.5; lie.position.z=-recoil*.02;
 }
 function fireShot(p,tgt){ const mz=new T.Vector3(); muzzle.getWorldPosition(mz); p.mz=mz.clone(); const dir=tgt.clone().sub(mz).normalize();
-  flashSprite.position.copy(mz).add(dir.clone().multiplyScalar(.04)); flashSprite.material.opacity=1; flashSprite.scale.set(.2,.2,1); flashSprite.material.rotation=rnd()*6;
-  flashSide.position.copy(mz).add(dir.clone().multiplyScalar(.015)); flashSide.material.opacity=.7; flashSide.scale.set(.35,.35,1);
-  flashLight.position.copy(mz).add(dir.clone().multiplyScalar(.25)).add(new T.Vector3(0,.12,0)); flashLight.intensity=REDUCED?2:4.5;
-  puff(mz,dir,12,.1,1.8,1.7); puff(mz,new T.Vector3(0,1,0),8,.08,.3,2.6);
+  flashSprite.position.copy(mz).add(dir.clone().multiplyScalar(.05)); flashSprite.material.opacity=.9; flashSprite.scale.set(.16,.16,1); flashSprite.material.rotation=rnd()*6;
+  flashCore.position.copy(mz).add(dir.clone().multiplyScalar(.03)); flashCore.material.opacity=1; flashCore.scale.set(.09,.09,1);
+  petals.forEach((sp,i)=>{ sp.position.copy(mz).add(dir.clone().multiplyScalar(.045+i*.03)); sp.material.opacity=1; const z=.22+i*.14; sp.scale.set(z,z,1); sp.material.rotation=rnd()*6; });
+  flashSide.position.copy(mz).add(dir.clone().multiplyScalar(.02)); flashSide.material.opacity=.45; flashSide.scale.set(.4,.4,1);
+  flashLight.position.copy(mz).add(dir.clone().multiplyScalar(.22)).add(new T.Vector3(0,.1,0)); flashLight.intensity=REDUCED?3:9; flashLight.color.set(L("#ffc488"));
+  spray(mz.clone().add(dir.clone().multiplyScalar(.03)),dir,REDUCED?10:34,4.5);
+  puff(mz,dir,14,.11,2.0,1.9); puff(mz,new T.Vector3(0,1,0),10,.09,.35,3.0); puff(mz.clone().add(dir.clone().multiplyScalar(.08)),dir,8,.07,2.8,1.2);
   const flat=new T.Vector3(dir.x,0,dir.z).normalize(); p.slideV.copy(flat).multiplyScalar(REDUCED?-.5:-1.3); p.slide.set(0,0,0); p.slideSpin=0; p.spinKick=(rnd()-.5)*.6; recoil=1;
   shake=REDUCED?0:.025; SFX.play("bang"); }
-function hitBoard(p,tgt){ const b=boards[p.who]; const n=new T.Vector3(0,0,1).applyQuaternion(b.quaternion); burst(tgt,n); b.userData.joltV.set((rnd()-.5)*.5,-.6,2.2); const bub=p.target; const i=b.userData.bubbles.indexOf(bub); b.userData.hit={x:bub.x,y:bub.y,i}; drawBoard(p.who,b.userData.club); SFX.play("splinter"); puff(tgt,n,5,.08,.5,1.3); }
+function hitBoard(p,tgt){ const b=boards[p.who]; const n=new T.Vector3(0,0,1).applyQuaternion(b.quaternion); burst(tgt,n); hitFlash.position.copy(tgt).addScaledVector(n,.02); hitFlash.material.opacity=1; hitFlash.scale.set(.12,.12,1); hitLight.position.copy(tgt).addScaledVector(n,.12); hitLight.intensity=REDUCED?1.5:4; spray(tgt,n,REDUCED?6:18,2.2); b.userData.joltV.set((rnd()-.5)*.5,-.6,2.2); const bub=p.target; const i=b.userData.bubbles.indexOf(bub); b.userData.hit={x:bub.x,y:bub.y,i}; drawBoard(p.who,b.userData.club); SFX.play("splinter"); puff(tgt,n,5,.08,.5,1.3); }
 
 /* ================= camera ================= */
 function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new T.Vector3(Math.sin(t*.23)*.05,Math.sin(t*.31)*.02,Math.cos(t*.19)*.04);
@@ -682,8 +746,10 @@ let frames=0, fpsT=0, fps=0; const bubbleTmp=new T.Vector3();
 function tick(draw){ const t=now(); let dt=Math.min(.05,t-last||.016); last=t; if(manual!==null) dt=1/30;
   stepTurn(dt); stepCamera(t,dt);
   /* lantern: living flame */
-  const fl=.85+Math.sin(t*17)*.08+Math.sin(t*29.3)*.05+Math.sin(t*3.1)*.04; table.userData.lantern.intensity=1.5*fl; table.userData.flame.scale.set(.15*fl,.28*(fl+.1),1); table.userData.flame.material.rotation=Math.sin(t*9)*.2; table.userData.halo.material.opacity=.3*fl;
+  const fl=.85+Math.sin(t*17)*.08+Math.sin(t*29.3)*.05+Math.sin(t*3.1)*.04; table.userData.lantern.intensity=1.5*fl; table.userData.flame.scale.set(.09*(fl+.05),.19*(fl+.12),1); table.userData.flame.material.rotation=Math.sin(t*9)*.08+Math.sin(t*23)*.04; table.userData.flame.position.x=Math.sin(t*11)*.003; table.userData.halo.material.opacity=.3*fl;
   flashLight.intensity*=Math.pow(.0005,dt); flashSprite.material.opacity*=Math.pow(.0001,dt); flashSprite.scale.multiplyScalar(1+dt*3); flashSide.material.opacity*=Math.pow(.001,dt);
+  flashCore.material.opacity*=Math.pow(.00001,dt); petals.forEach((sp,i)=>{ sp.material.opacity*=Math.pow(i?.0003:.00005,dt); sp.scale.multiplyScalar(1+dt*(4-i)); sp.material.rotation+=dt*(i?-1.5:2); }); hitFlash.material.opacity*=Math.pow(.0002,dt); hitFlash.scale.multiplyScalar(1+dt*5); hitLight.intensity*=Math.pow(.001,dt);
+  sparks.forEach(p=>{ if(p.life<=0){ p.s.visible=false; return; } p.life-=dt; p.s.position.addScaledVector(p.v,dt); p.v.y-=dt*4; p.v.multiplyScalar(Math.pow(.2,dt)); const k=p.life/p.max; p.s.material.opacity=Math.min(1,k*2); p.s.material.color.setRGB(1,.55+k*.45,.2+k*.6); });
   shake*=Math.pow(.01,dt);
   smokes.forEach(p=>{ if(p.life<=0){ p.s.visible=false; return; } p.life-=dt; const k=1-p.life/p.max; p.s.position.addScaledVector(p.v,dt); p.v.multiplyScalar(Math.pow(.25,dt)); p.v.y+=dt*.12; p.s.material.opacity=.42*Math.sin(Math.min(1,k*1.2)*Math.PI)*(1-k*.3); const sz=p.size*(.4+k*1.6); p.s.scale.set(sz,sz,1); p.s.material.rotation+=p.rot*dt; });
   splinters.forEach(p=>{ if(p.life<=0){ p.m.visible=false; return; } p.life-=dt; p.m.position.addScaledVector(p.v,dt); p.v.y-=dt*5.5; p.v.multiplyScalar(Math.pow(.5,dt)); p.m.rotation.x+=p.w.x*dt; p.m.rotation.y+=p.w.y*dt; if(p.m.position.y<.76&&Math.abs(p.m.position.x)<.75&&Math.abs(p.m.position.z)<.75){ p.m.position.y=.76; p.v.y*=-.25; p.v.x*=.6; p.v.z*=.6; p.w.multiplyScalar(.3); } if(p.m.position.y<0) p.life=0; });

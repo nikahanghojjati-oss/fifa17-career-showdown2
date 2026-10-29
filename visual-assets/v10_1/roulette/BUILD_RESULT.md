@@ -72,3 +72,11 @@ Evidence regenerated in `evidence/` (desktop 1536x864 and phone 393x660, 7 beats
 - The inside camera now looks at the REAR of the swung-out drum, like Nik's photos 2 and 4: the brass rim and primer of the live round sit flush in one chamber with the red ring around it, the ejector star in the middle, six empty bores around. The gold "FIRES HERE" pointer sits on the same face.
 - The rear flute fins are gone: plain drum all the way round.
 - The desktop and phone sheets were stale (they still showed the CC-011 drum); `sheets.py` now rebuilds them from the seven beats every time.
+
+## CC-013 · FIFA 17 squad boards, firing effects, lamp / pot / cups (29 Oct, Nik's asks)
+
+- Boards redrawn to Nik's FIFA 17 squad-screen references (`project-documents/factory/r87/squad-ref/`): dark frame with the SQUAD tab lit, club name and formation, a lit pitch with mown stripes and perspective lines filling the middle, players as kit shirts with the white rating at the shirt's top-left, name on a dark band under it, coloured position tag on the left (GK yellow, DEF blue, MID green, ATT red), SUBSTITUTES band with four bench players. Texture 2048 px.
+- Firing: hot white core + two petal stars + warm glow at the muzzle (normal blending so the fire stays orange over the felt), 34 sparks in a cone, bigger three-stage smoke, a 9-intensity warm flash light; at the board a white impact flash, a hit light and 18 sparks on top of the splinters and the burnt RELEASED hole.
+- Lamp rebuilt as a period brass oil lamp: fluted foot with 16 gold flutes, knopped stem, oil font with a gold seam, burner with wick knob and chimney prongs, tall clear glass chimney, textured flame (blue root, white body, orange tip) that flickers.
+- Coffee pot rebuilt: tall belly body, gold seams, domed lid with a finial, gooseneck spout and looped handle (tube geometry).
+- Cups rebuilt: dished saucer with gold rim, thin bone-china cup with gold lip, looped handle, glossy coffee, a gold spoon on the saucer.
