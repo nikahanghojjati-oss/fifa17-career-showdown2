@@ -13,9 +13,10 @@ Steps for Nik:
 4. Check the picture against the list below. Save only the picture this chat just made.
 5. If it passes, download it and drop it into the Russian Roster Roulette thread with `1851-5 ROOM`. If it fails, start again in a new chat (up to 3 tries).
 
-Check list:
-- a rich lamplit 1899 cowboy cafe like your pictures: carved dark wood with thin gold ornaments, rows of glowing glass lamp shades, a balcony with white railings at the back, brass lamps, a dark plank floor, a window to a dusky blue street
-- NOT a saloon: no swinging doors, no dancers, no bottles wall as the main thing
+Check list (Nik, 29 Oct 5:23 p.m. Eastern: premium MARBLE room that matches the website's marble, gold and black look):
+- a grand 1899 cafe with cream-and-grey veined marble floor and marble columns, black marble panels with thin gold inlay, dark wood only as trim, brass and gold everywhere, rows of warm glass lamps
+- the colours of the website: cream marble, black, gold, warm amber light; no bright colours
+- NOT a saloon: no swinging doors, no dancers, no bottle wall
 - NO people at all
 - the middle of the floor in front is EMPTY (the 3D table goes there)
 - no words, signs or logos
@@ -23,14 +24,15 @@ Check list:
 Prompt:
 
 ```
-A wide, photorealistic interior of an elegant 1899 Western town cafe in the evening, like a frame from a top-quality 3D Western video game (the Red Dead Redemption 2 look and quality). Camera at standing eye level in the middle of the room, looking straight at the back wall.
+A wide, photorealistic interior of a grand, very premium 1899 Western town cafe in the evening, like a frame from a top-quality 3D Western video game (the Red Dead Redemption 2 look and quality). Camera at standing eye level in the middle of the room, looking straight at the back wall.
 
 MOST IMPORTANT (never break these):
 - No people at all, no animals.
-- The middle of the floor in the front half of the picture is completely empty: clear dark wooden floorboards, no table, no chairs there.
+- The middle of the floor in the front half of the picture is completely empty: clear polished marble floor, no table, no chairs there.
 - No words, letters, signs, posters or logos anywhere.
+- Colours: cream and soft grey veined marble, black marble, gold and brass, warm amber lamplight. Nothing bright or colourful.
 
-The room: dark carved wood panelling with thin gold art-nouveau ornaments, a coffered wooden ceiling with rows of glowing frosted glass lamp shades, brass wall sconces, a wooden balcony with white turned railings along the back, a polished wooden counter with lamps far at the back, a few small round tables with white tablecloths and wooden chairs along the side walls, a tall window showing a dusky blue street, dark polished plank floor. Warm amber lamplight, deep natural shadows, rich wood and brass, a little haze in the air, cinematic.
+The room: a polished cream-and-grey veined marble floor with a thin black-and-gold border pattern, tall cream marble columns with gold capitals, walls of black marble panels framed by thin gold inlay lines with dark walnut trim, a coffered ceiling with gold mouldings and rows of warm frosted glass lamp shades, brass wall sconces with glowing glass, a long black marble counter with a brass rail far at the back, a mezzanine balcony with gold railings, a few small round marble tables with gilded chairs along the side walls, a tall arched window showing a dusky blue street. Warm amber lamplight, deep natural shadows, soft reflections in the marble, a little haze in the air, cinematic and luxurious.
 
 Wide 16:9, largest size available.
 ```
