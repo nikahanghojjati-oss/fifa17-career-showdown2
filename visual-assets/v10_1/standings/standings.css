@@ -103,3 +103,11 @@ body{font-family:var(--sd-font-body);color:var(--sd-text-primary)}
 /* JOB-1033: wide, shortish desktop windows (1536x730, aspect 2:1 or wider, taller than 700px). The wordmark ran down over the board and
    the toggle over the section heading. Same compact title block as the short-window rule above, scoped to the standings stage. */
 @media(min-width:901px) and (min-height:701px) and (min-aspect-ratio:2/1){.sdg-stage .sdg-header{top:56px}.sdg-stage .sdg-wordmark{width:44%!important;margin:0 auto}.sdg-stage .sdg-header .sd-tagline{display:none}.sdg-stage .sdg-header .sd-eyebrow{margin-bottom:0}.sdg-stage .sdg-board{top:29%;height:66%}.sdg-stage .sdg-crest{width:40px;height:48px}.sdg-stage .sdg-scoreboard{margin-top:6px}.sdg-stage .sdg-toggle button{min-height:32px}}
+
+/* HO-043 (Team V, 29 Oct 2026) · item 7: on upright phones the title block was pushed down by the free space above it
+   (margin-top:auto in the JOB-1701 adapter), so on the CAREER tab, whose card is short, the title and the card sat low in the
+   window and the photo took the top half. The title now starts at the same height on both tabs: right under the hero band
+   that the THIS SHOWDOWN tab (title + full 8-row board + bottom bar) leaves. The THIS SHOWDOWN tab does not move. */
+@media(max-width:900px) and (orientation:portrait){
+  #app #standings.standingsScreenV10 .sdg-stage .sdg-header{margin-top:calc(var(--sg-hero, 48px) + 9px)}
+}

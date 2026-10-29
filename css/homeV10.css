@@ -1092,8 +1092,10 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
     overflow: visible; overscroll-behavior: auto;
   }
   #app #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector .menuMediaChoice { min-height: 44px; }
+  /* HO-043 item 1 / HO-027 (Team V, 29 Oct 2026): the open track sheet darkened the whole Home behind it (58% black). The
+     backdrop stays (a tap on it closes the sheet) but is now clear: nothing on Home is ever dimmed. */
   #app #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetBackdrop {
-    position: fixed; z-index: 50; inset: 0; display: block; background: rgba(0,0,0,.58);
+    position: fixed; z-index: 50; inset: 0; display: block; background: transparent;
   }
   #app #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
     position: fixed; z-index: 53; right: 20px;
