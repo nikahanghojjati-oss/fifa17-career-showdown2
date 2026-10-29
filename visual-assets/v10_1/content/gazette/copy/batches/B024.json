@@ -1,0 +1,409 @@
+{
+  "batch": 24,
+  "situation": "season-preview",
+  "voice": "The lead caller",
+  "edited": true,
+  "writer": "claude-haiku-helper",
+  "lines": [
+    {
+      "id": "cb24-001",
+      "text": "Season {season} is about to begin, and {managerA} and {managerB} are already staring each other down!"
+    },
+    {
+      "id": "cb24-002",
+      "text": "Nobody knows how this one will end, and that is exactly what {managerB} loves about it."
+    },
+    {
+      "id": "cb24-003",
+      "text": "A fresh start, a clean table, and {clubA} are back in the frame with everything still to prove."
+    },
+    {
+      "id": "cb24-004",
+      "text": "The Showdown rolls into season {season} with the whole table still open, like a door left ajar."
+    },
+    {
+      "id": "cb24-005",
+      "text": "{leader} arrives at the start line with the lead, and {trailer} arrives with something to prove."
+    },
+    {
+      "id": "cb24-006",
+      "text": "Everyone is watching {leader} to see whether the advantage survives, and {trailer} is watching everyone else."
+    },
+    {
+      "id": "cb24-007",
+      "text": "Before the whistle has even thought about blowing, {clubA} and {clubB} are already getting nervous."
+    },
+    {
+      "id": "cb24-008",
+      "text": "{managerA} says the table has never looked so open, and {managerB} says that is a dangerous thing to say aloud."
+    },
+    {
+      "id": "cb24-009",
+      "text": "Another chapter is ready to open, and neither manager has finished writing the story yet."
+    },
+    {
+      "id": "cb24-010",
+      "text": "Sit back, because {clubA} and {clubB} are about to take the stage again, and the crowd is already loud."
+    },
+    {
+      "id": "cb24-011",
+      "text": "Squad lists locked, and {managerA} is quietly confident about everything that matters."
+    },
+    {
+      "id": "cb24-012",
+      "text": "Ahead of season {season}, the questions pile up, and {managerB} is smiling at every one of them."
+    },
+    {
+      "id": "cb24-013",
+      "text": "Across {seasons} seasons the Showdown stretches out ahead, and {clubB} have no intention of rushing a step."
+    },
+    {
+      "id": "cb24-014",
+      "text": "Some dread the opening week, but this manager is already rubbing their hands together."
+    },
+    {
+      "id": "cb24-015",
+      "text": "Think of the table as a blank page, and {managerB} has the pen in hand and a grin on the face."
+    },
+    {
+      "id": "cb24-016",
+      "text": "Everything is still to play for, and nobody at the table is pretending otherwise."
+    },
+    {
+      "id": "cb24-017",
+      "text": "Here comes season {season}, and the air around {clubA} and {clubB} is already electric."
+    },
+    {
+      "id": "cb24-018",
+      "text": "The stakes rise with every new season, and {managerA} is ready to chase glory with both hands!"
+    },
+    {
+      "id": "cb24-019",
+      "text": "{trailer} has every reason to believe in a comeback, and the rest of the Showdown is curious to see it."
+    },
+    {
+      "id": "cb24-020",
+      "text": "A quiet pre-season mood hangs over the Showdown, the calm before the storm that everyone can feel."
+    },
+    {
+      "id": "cb24-021",
+      "text": "{managerA} and {managerB} have shaken hands for the cameras, which means the rivalry is about to heat up."
+    },
+    {
+      "id": "cb24-022",
+      "text": "Legends are made or humbled in season {season}, and we are about to find out."
+    },
+    {
+      "id": "cb24-023",
+      "text": "The table is set, the banners are hung, and {clubB} are waiting for a chance to show off."
+    },
+    {
+      "id": "cb24-024",
+      "text": "Trust nothing about season {season} until the results start coming in, because anything can happen."
+    },
+    {
+      "id": "cb24-025",
+      "text": "It is the calm before the storm, the moment when every manager on the list still believes the crown is within reach."
+    },
+    {
+      "id": "cb24-026",
+      "text": "{leader} has the momentum on paper, but paper has never decided a Showdown."
+    },
+    {
+      "id": "cb24-027",
+      "text": "Hold your breath, because {clubA} and {clubB} are walking back into the arena and nobody knows the ending."
+    },
+    {
+      "id": "cb24-028",
+      "text": "Every manager on the list is dreaming big this season, and {managerB} is dreaming the biggest of all."
+    },
+    {
+      "id": "cb24-029",
+      "text": "This season could be the one everybody remembers, and {managerA} knows it."
+    },
+    {
+      "id": "cb24-030",
+      "text": "Nerves are high, expectations are higher, and {clubA} are ready to meet them head on."
+    },
+    {
+      "id": "cb24-031",
+      "text": "The rivalry is refreshed, the fans are restless, and {managerA} and {managerB} are circling each other once again."
+    },
+    {
+      "id": "cb24-032",
+      "text": "Some seasons arrive with a whimper, but season {season} arrives with a roar, and {clubB} are already loud."
+    },
+    {
+      "id": "cb24-033",
+      "text": "Before the opening whistle of the year, the mood is confident, and the table has not yet told its story."
+    },
+    {
+      "id": "cb24-034",
+      "text": "Let us remember the old rivalry, the one that refuses to fade, and get ready for season {season}."
+    },
+    {
+      "id": "cb24-035",
+      "text": "Fresh lists, fresh hopes, and the leader smiling at the thought of defending the advantage."
+    },
+    {
+      "id": "cb24-036",
+      "text": "A new season is a clean slate, and {clubA} are already daydreaming about what they might write on it."
+    },
+    {
+      "id": "cb24-037",
+      "text": "{managerB} arrives with a bold plan, {managerA} arrives with a cheeky grin, and both are ready."
+    },
+    {
+      "id": "cb24-038",
+      "text": "Its next chapter already in progress, the Showdown has {clubB} with the pen poised over a blank page."
+    },
+    {
+      "id": "cb24-039",
+      "text": "Look at the names on the sheet, the clubs in the frame, and wonder which one will rise by the end."
+    },
+    {
+      "id": "cb24-040",
+      "text": "Nobody has a crystal ball for season {season}, though {managerA} would happily sell you one."
+    },
+    {
+      "id": "cb24-041",
+      "text": "A long season always starts quietly, and that quiet is about to be shattered by {clubA} and {clubB}!"
+    },
+    {
+      "id": "cb24-042",
+      "text": "Pressure builds like thunder across the league, and every manager can feel it coming."
+    },
+    {
+      "id": "cb24-043",
+      "text": "Crowds are gathering, the banter is starting, and {managerB} has already begun the trash talk."
+    },
+    {
+      "id": "cb24-044",
+      "text": "Coming up in season {season}, {trailer} is determined to close the gap before the table settles."
+    },
+    {
+      "id": "cb24-045",
+      "text": "With the lead in the balance, {leader} must hold firm and {trailer} must strike hard."
+    },
+    {
+      "id": "cb24-046",
+      "text": "Expectations are high across the whole league, and {clubB} have no interest in keeping them low."
+    },
+    {
+      "id": "cb24-047",
+      "text": "Fixtures are waiting, the pressure is building, and the old thrill is starting to return."
+    },
+    {
+      "id": "cb24-048",
+      "text": "No one wants to be the one to blink, and {managerA} and {managerB} have both promised not to flinch."
+    },
+    {
+      "id": "cb24-049",
+      "text": "Over {seasons} seasons the feud has grown, and season {season} looks set to add yet another chapter."
+    },
+    {
+      "id": "cb24-050",
+      "text": "{clubA} arrive quiet and dangerous, the way a champion arrives when it has something to prove."
+    },
+    {
+      "id": "cb24-051",
+      "text": "It is hard to tell who holds the best hand yet, and that uncertainty is what makes this preview so tasty."
+    },
+    {
+      "id": "cb24-052",
+      "text": "Preview season {season} with a grin, because the tale is still unwritten and {managerB} is determined to write it."
+    },
+    {
+      "id": "cb24-053",
+      "text": "Pulled in opposite directions, {leader} and {trailer} will carve up the table, and somebody is going to pay."
+    },
+    {
+      "id": "cb24-054",
+      "text": "Calm starts often hide loud talk, and {clubB} are gearing up for something big."
+    },
+    {
+      "id": "cb24-055",
+      "text": "Every new season is a promise, and season {season} is promising more than most."
+    },
+    {
+      "id": "cb24-056",
+      "text": "Hear the drums, see the lights, and feel the anticipation rising around {clubA} and {clubB}!"
+    },
+    {
+      "id": "cb24-057",
+      "text": "Blank and waiting, the table is ready to be filled in, and {managerA} is already reaching for the pen."
+    },
+    {
+      "id": "cb24-058",
+      "text": "Clean slate or not, {managerB} has been practicing a neat scribble for season {season}."
+    },
+    {
+      "id": "cb24-059",
+      "text": "{managerA} thinks the opening stretch will be tight, and {managerB} thinks it will not stay that way for long."
+    },
+    {
+      "id": "cb24-060",
+      "text": "Not even started and the talk is already loud, which tells you everything about this rivalry."
+    },
+    {
+      "id": "cb24-061",
+      "text": "With {seasons} seasons ahead of us, nobody is willing to call the end just yet."
+    },
+    {
+      "id": "cb24-062",
+      "text": "Let the speculation run wild, because {clubA} and {clubB} are about to turn it into reality!"
+    },
+    {
+      "id": "cb24-063",
+      "text": "Tension is high, the banter is sharp, and season {season} looks like the battle of the year."
+    },
+    {
+      "id": "cb24-064",
+      "text": "Protecting the lead is hard, and nobody is making it easier for {leader}, least of all {trailer}."
+    },
+    {
+      "id": "cb24-065",
+      "text": "Quiet in the dugouts, loud in the stands, and {managerB} already has a grin ready for season {season}."
+    },
+    {
+      "id": "cb24-066",
+      "text": "Opening act still to come, yet the mood around {clubA} says the story has already begun."
+    },
+    {
+      "id": "cb24-067",
+      "text": "Some managers dream of glory, and this one dreams of glory with a side order of mischief."
+    },
+    {
+      "id": "cb24-068",
+      "text": "Battle lines are being drawn in every imagination, and {clubB} are already picking their colors."
+    },
+    {
+      "id": "cb24-069",
+      "text": "Preparation is the watchword this season, and the whole plan is sketched out already."
+    },
+    {
+      "id": "cb24-070",
+      "text": "Season {season} waits in the wings, and {clubA} are pacing the corridor like a nervous understudy."
+    },
+    {
+      "id": "cb24-071",
+      "text": "{managerB} says the rivalry is at its best when the stakes are high, and the stakes are very high now."
+    },
+    {
+      "id": "cb24-072",
+      "text": "Who will rise, who will fall, and who will spend the summer talking about the chance that got away?"
+    },
+    {
+      "id": "cb24-073",
+      "text": "Grab a seat, because {clubA} and {clubB} are about to remind everyone why this rivalry is the talk of the league!"
+    },
+    {
+      "id": "cb24-074",
+      "text": "Fresh pressure comes with season {season}, and the new faces are already asking for a chance."
+    },
+    {
+      "id": "cb24-075",
+      "text": "Stirring the blood, the new season finds {managerB} already warming up the bantering voice."
+    },
+    {
+      "id": "cb24-076",
+      "text": "{trailer} has a plan to tighten the gap, and {leader} has a plan to keep it wide."
+    },
+    {
+      "id": "cb24-077",
+      "text": "Look who is back, look who is hungry, and look at {clubB} practicing their most confident smile."
+    },
+    {
+      "id": "cb24-078",
+      "text": "Every manager gets the same blank page at the start of a season, and {managerA} is already scribbling notes."
+    },
+    {
+      "id": "cb24-079",
+      "text": "Familiar rivalries pick up where they left off, and {managerA} and {managerB} are already smirking."
+    },
+    {
+      "id": "cb24-080",
+      "text": "Long and unpredictable, the season ahead suits {clubA} down to the ground."
+    },
+    {
+      "id": "cb24-081",
+      "text": "Champions are made in long seasons like this one, but nobody has decided who they will be."
+    },
+    {
+      "id": "cb24-082",
+      "text": "Fans at {clubA} and {clubB} are already choosing their scarves, and the rivalry is heating up."
+    },
+    {
+      "id": "cb24-083",
+      "text": "{managerB} has the calm before the storm written across the face, while {managerA} is bouncing on the spot."
+    },
+    {
+      "id": "cb24-084",
+      "text": "Blank, bright and begging to be filled, the Showdown board waits for season {season}."
+    },
+    {
+      "id": "cb24-085",
+      "text": "It is all still to play for, and the room is buzzing with every possibility a season can hold."
+    },
+    {
+      "id": "cb24-086",
+      "text": "Proud clubs, a shared table, and {seasons} seasons of history waiting to be written."
+    },
+    {
+      "id": "cb24-087",
+      "text": "{clubA} have their supporters on their feet, and {clubB} have theirs ready to answer back."
+    },
+    {
+      "id": "cb24-088",
+      "text": "Every lip asks the same question: can anyone stop {leader} before the season gets underway?"
+    },
+    {
+      "id": "cb24-089",
+      "text": "Fresh battlefield, same stakes, and {managerA} has already picked the high ground."
+    },
+    {
+      "id": "cb24-090",
+      "text": "This preview has the feel of a movie trailer, and the best scenes are still to come for {clubA} and {clubB}."
+    },
+    {
+      "id": "cb24-091",
+      "text": "Shape comes late to most seasons, but season {season} seems eager to find its form early."
+    },
+    {
+      "id": "cb24-092",
+      "text": "Get the notebooks ready, because {managerB} is about to fill a few new pages in the rivalry diary."
+    },
+    {
+      "id": "cb24-093",
+      "text": "Clubs poised, managers poised, and the table set to tell a new story."
+    },
+    {
+      "id": "cb24-094",
+      "text": "{managerA} will tell you the plan is simple, and {managerB} will tell you it is anything but."
+    },
+    {
+      "id": "cb24-095",
+      "text": "As season {season} approaches, {clubB} and {clubA} are keeping their heads down and their eyes on the prize."
+    },
+    {
+      "id": "cb24-096",
+      "text": "Standing at the gate, {leader} has the lead to defend, and {trailer} has the hunger to take it."
+    },
+    {
+      "id": "cb24-097",
+      "text": "Ready to turn over a new leaf, the Showdown has {clubB} ready to read every page."
+    },
+    {
+      "id": "cb24-098",
+      "text": "Whatever the future holds, {managerA} and {managerB} have already promised a memorable season."
+    },
+    {
+      "id": "cb24-099",
+      "text": "Before the curtain lifts on season {season}, the only thing left to say is: let the rivalry begin!"
+    },
+    {
+      "id": "cb24-100",
+      "text": "Let it begin, season {season}, and may the best table tell the tale."
+    }
+  ]
+}

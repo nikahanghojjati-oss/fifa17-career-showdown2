@@ -1,0 +1,409 @@
+{
+ "batch": 27,
+ "situation": "narrow-win",
+ "voice": "The co-commentator",
+ "edited": true,
+ "writer": "claude-haiku-helper",
+ "lines": [
+  {
+   "id": "cb27-001",
+   "text": "Nerves, nerves and then, somehow, the winner got the job done by {margin}."
+  },
+  {
+   "id": "cb27-002",
+   "text": "By the slimmest of margins, this side keep the upper hand, and the table is none the wiser."
+  },
+  {
+   "id": "cb27-003",
+   "text": "A whisker is all it was, and {winner} will take a whisker every single time."
+  },
+  {
+   "id": "cb27-004",
+   "text": "Nobody wants to be on the wrong side of a result this close, and {loser} knows exactly how it feels."
+  },
+  {
+   "id": "cb27-005",
+   "text": "Close enough to make the sofa jump, and this side edged it by {margin}."
+  },
+  {
+   "id": "cb27-006",
+   "text": "The gap was tiny, the tension was not, and {winner} kept their head when the rest lost theirs."
+  },
+  {
+   "id": "cb27-007",
+   "text": "{loserClub} will spend the week rewinding every decision, and the winner will spend it smiling."
+  },
+  {
+   "id": "cb27-008",
+   "text": "You could feel the nerves in the dugout, and it was not even the final day."
+  },
+  {
+   "id": "cb27-009",
+   "text": "Narrow is the only word for it, and {winner} is delighted to be the one standing."
+  },
+  {
+   "id": "cb27-010",
+   "text": "It is a breathless way to finish, the sort of finish that makes a manager check the table twice."
+  },
+  {
+   "id": "cb27-011",
+   "text": "Just by {margin} this time, and the beaten side will be wondering what the difference was."
+  },
+  {
+   "id": "cb27-012",
+   "text": "{winnerClub} will call it a deserved win, and {loserClub} will call it a rotten break."
+  },
+  {
+   "id": "cb27-013",
+   "text": "Hold your breath, because the gap was tiny and the winner kept hold of it."
+  },
+  {
+   "id": "cb27-014",
+   "text": "A tight finish, a tight grip, and the winner did not let go of the table once."
+  },
+  {
+   "id": "cb27-015",
+   "text": "Around the touchline they are still talking about it, and {loserClub} are not in a laughing mood."
+  },
+  {
+   "id": "cb27-016",
+   "text": "On the day it was that close, which is why this side will sleep easily tonight."
+  },
+  {
+   "id": "cb27-017",
+   "text": "The cushion is gone, the nerves are shot, and the winner by {margin} is still standing."
+  },
+  {
+   "id": "cb27-018",
+   "text": "That is what a slim lead looks like on the way to a title, and {winner} has made it look easy."
+  },
+  {
+   "id": "cb27-019",
+   "text": "{loser} tried everything, but everything is not always enough when the margin is this thin."
+  },
+  {
+   "id": "cb27-020",
+   "text": "Only {margin} separates them, and that is a thin line to walk for a whole season."
+  },
+  {
+   "id": "cb27-021",
+   "text": "Sharp as a knife at the end, and {winnerClub} survive by the slimmest of margins."
+  },
+  {
+   "id": "cb27-022",
+   "text": "A margin like this makes everybody in the room a little jumpy, including the tea trolley."
+  },
+  {
+   "id": "cb27-023",
+   "text": "The verdict: {winner} by {margin}, {loser} still in the hunt, and a season to remember."
+  },
+  {
+   "id": "cb27-024",
+   "text": "Two managers, one whisker of daylight, and {winner} is the one stepping into it."
+  },
+  {
+   "id": "cb27-025",
+   "text": "{winnerPoints} to {loserPoints} is how the table reads, and that is as close as it gets."
+  },
+  {
+   "id": "cb27-026",
+   "text": "The margin is so small you could lose it in a sofa cushion, and this side did not mind a bit."
+  },
+  {
+   "id": "cb27-027",
+   "text": "{winner} held on, kept the gap at {margin}, and refused to let the rest squeeze in."
+  },
+  {
+   "id": "cb27-028",
+   "text": "Nervy, tense, and quite delightful for anyone with a taste for close finishes."
+  },
+  {
+   "id": "cb27-029",
+   "text": "{loser} came close enough to hear the mutter, then the table shut the door on them."
+  },
+  {
+   "id": "cb27-030",
+   "text": "Keep the lights on for this side, because they were a whisker from losing the thread."
+  },
+  {
+   "id": "cb27-031",
+   "text": "A gap of {margin} is not much of a lead, but it is enough when you are the one ahead."
+  },
+  {
+   "id": "cb27-032",
+   "text": "Brilliant tension on the table, and {winner} wins it by {margin} with a bit of luck to spare."
+  },
+  {
+   "id": "cb27-033",
+   "text": "Some of the best seasons are settled by a whisker, and this one was a proper example."
+  },
+  {
+   "id": "cb27-034",
+   "text": "{winnerClub} hold on by {margin}, and {loserClub} can only shake their heads and reach for the kettle."
+  },
+  {
+   "id": "cb27-035",
+   "text": "Slight margin, huge drama, and {winner} took the lead with a grin."
+  },
+  {
+   "id": "cb27-036",
+   "text": "Nobody will say the win was pretty, but nobody will argue it was not earned either."
+  },
+  {
+   "id": "cb27-037",
+   "text": "Every point matters in a finish like this, and {winner} knows every single one of them."
+  },
+  {
+   "id": "cb27-038",
+   "text": "Nail-biter? Yes, though the nails are still attached on the {loserClub} side."
+  },
+  {
+   "id": "cb27-039",
+   "text": "{loser} can have the consolation of a near thing, which is a terrible prize at this level."
+  },
+  {
+   "id": "cb27-040",
+   "text": "Close enough for everyone to panic, and this side still walked out the far side in front."
+  },
+  {
+   "id": "cb27-041",
+   "text": "Not one blink from the table, and {winner} did not blink either, which is how you win by {margin}."
+  },
+  {
+   "id": "cb27-042",
+   "text": "Hard lessons for {loserClub}, as the margin kept sliding away from them at the last."
+  },
+  {
+   "id": "cb27-043",
+   "text": "Fine margins decide a lot, and the winner has the knack of finding them when it counts."
+  },
+  {
+   "id": "cb27-044",
+   "text": "Whisker, slide, sprint: that is the story of this season, and {winnerClub} wrote the ending."
+  },
+  {
+   "id": "cb27-045",
+   "text": "Lovely nerves, lovely tension, and a finish that will keep the group chat busy for weeks."
+  },
+  {
+   "id": "cb27-046",
+   "text": "Keep your fingers crossed, because {loser} came very close to a famous turnaround."
+  },
+  {
+   "id": "cb27-047",
+   "text": "With {margin} between them, the wheel turned just enough to favour {winnerClub}."
+  },
+  {
+   "id": "cb27-048",
+   "text": "Blink and you missed it: {winner} grabbed the gap and {loser} ended up looking at the back of it."
+  },
+  {
+   "id": "cb27-049",
+   "text": "Slim advantages still count, and this side took every inch of it."
+  },
+  {
+   "id": "cb27-050",
+   "text": "Short and sweet verdict: {winner} by {margin}, and the rival is nowhere near lying down."
+  },
+  {
+   "id": "cb27-051",
+   "text": "Hearts were in mouths on both sides, and {loserClub} will be sore about it all summer."
+  },
+  {
+   "id": "cb27-052",
+   "text": "You could cut the tension with a butter knife, and {winner} was the one reaching for it."
+  },
+  {
+   "id": "cb27-053",
+   "text": "{winner} gritted it out by {margin}, and the rest of the table can take a deep breath."
+  },
+  {
+   "id": "cb27-054",
+   "text": "Tight, tidy and nervy, the win for {winnerClub} came with the table watching every step."
+  },
+  {
+   "id": "cb27-055",
+   "text": "Hard to call it anything but close, and the beaten side says the rematch is already booked."
+  },
+  {
+   "id": "cb27-056",
+   "text": "Even the cabinet looked nervous, but {winnerClub} carried the trophy-shaped hope home."
+  },
+  {
+   "id": "cb27-057",
+   "text": "Nothing separates them but a whisker, and that whisker belongs to {winner}."
+  },
+  {
+   "id": "cb27-058",
+   "text": "Nail-bitten all the way, the season ended with {winner} safe by {margin}."
+  },
+  {
+   "id": "cb27-059",
+   "text": "{winnerClub} did enough, and {loserClub} did just a little bit too little."
+  },
+  {
+   "id": "cb27-060",
+   "text": "Knife-edge, warm glow, and {winner} is the one doing the glowing."
+  },
+  {
+   "id": "cb27-061",
+   "text": "Hanging by a thread, the margin is slender, and {loser} is dangling from it."
+  },
+  {
+   "id": "cb27-062",
+   "text": "Thin as a whisker and sharp as a new blade, the margin keeps {winner} awake."
+  },
+  {
+   "id": "cb27-063",
+   "text": "Every fan of close finishes will want a replay, and this side will happily oblige."
+  },
+  {
+   "id": "cb27-064",
+   "text": "Only a {margin} gap to protect, and {winner} protected it like a museum piece."
+  },
+  {
+   "id": "cb27-065",
+   "text": "{loser} stays alive by the thinnest of threads, and the mutter in the back room begins."
+  },
+  {
+   "id": "cb27-066",
+   "text": "Close call, not a mess, and a very decent result for {winnerClub}."
+  },
+  {
+   "id": "cb27-067",
+   "text": "Honest, tense and tight: {winner} by {margin}, and not one inch to spare."
+  },
+  {
+   "id": "cb27-068",
+   "text": "By the closest of margins, {winner} is still the one smiling at the table."
+  },
+  {
+   "id": "cb27-069",
+   "text": "When the margin is this thin, the smallest mistake becomes a headline, and nobody wants that."
+  },
+  {
+   "id": "cb27-070",
+   "text": "{winnerClub} slide over the line, {loserClub} stand at the rail, and everybody goes home worn out."
+  },
+  {
+   "id": "cb27-071",
+   "text": "Whispers of a lead are the sweetest kind when a room is this nervous."
+  },
+  {
+   "id": "cb27-072",
+   "text": "Winning this way is never comfortable, and {winner} says that is exactly how they like it."
+  },
+  {
+   "id": "cb27-073",
+   "text": "Win by {margin}, and {loserClub} will be hearing the bells all summer."
+  },
+  {
+   "id": "cb27-074",
+   "text": "Nobody dropped a stitch, and this side kept the lead by the width of a hair."
+  },
+  {
+   "id": "cb27-075",
+   "text": "Paper thin, the cushion is, and {loser} is pressing right up against it."
+  },
+  {
+   "id": "cb27-076",
+   "text": "Call it a win, a grin and a close call, all wrapped in one season."
+  },
+  {
+   "id": "cb27-077",
+   "text": "There is joy in the close ones, and the winner has been reminding everyone of it."
+  },
+  {
+   "id": "cb27-078",
+   "text": "Calm, pushing, nerves: the table had everyone on the edge, and {loserClub} kept pushing."
+  },
+  {
+   "id": "cb27-079",
+   "text": "Pub talk for weeks, a finish like this, and the winner is already the topic."
+  },
+  {
+   "id": "cb27-080",
+   "text": "Sweet nerves, sweet win, and {winnerClub} enjoy it a little more than most."
+  },
+  {
+   "id": "cb27-081",
+   "text": "Only a whisker of confidence separates the two sides, and that is enough to decide the season."
+  },
+  {
+   "id": "cb27-082",
+   "text": "Luck can be blamed for plenty, but it was on the right side of the winner this time."
+  },
+  {
+   "id": "cb27-083",
+   "text": "There are no sure things in a finish like this, only narrow ones and happy winners."
+  },
+  {
+   "id": "cb27-084",
+   "text": "On the right side of a sliver, {winnerClub} sits, and the other side wonders where the sliver went."
+  },
+  {
+   "id": "cb27-085",
+   "text": "Slender margin, roaring finish, and {winner} enjoying every second of the pressure."
+  },
+  {
+   "id": "cb27-086",
+   "text": "Drama in the dugout, grit on the touchline, and {loserClub} gone quiet at the back."
+  },
+  {
+   "id": "cb27-087",
+   "text": "Not quite close enough, and the nearly is what {loser} gets to live with."
+  },
+  {
+   "id": "cb27-088",
+   "text": "Fine finish for the neutrals, a nervous evening for both managers involved."
+  },
+  {
+   "id": "cb27-089",
+   "text": "{winner} by {margin} and the sort of nerves that make a long summer feel very short."
+  },
+  {
+   "id": "cb27-090",
+   "text": "Slimmest of wins, loudest of sighs, and {winnerClub} collecting both."
+  },
+  {
+   "id": "cb27-091",
+   "text": "{loserClub} will want a review of everything, and {winner} will want a long nap."
+  },
+  {
+   "id": "cb27-092",
+   "text": "Narrow wins are the most honest kind, and this side can take that with a grin."
+  },
+  {
+   "id": "cb27-093",
+   "text": "Points matter, and by {margin} they are enough, though not by much, for {winner}."
+  },
+  {
+   "id": "cb27-094",
+   "text": "With {winnerPoints} and {loserPoints} still on the board, nobody is going home happy yet."
+  },
+  {
+   "id": "cb27-095",
+   "text": "Shiver of a gap, jolt of a finish, and {winner} takes it at a canter."
+  },
+  {
+   "id": "cb27-096",
+   "text": "Keep the faith with the table, because {loserClub} will be back for the rematch."
+  },
+  {
+   "id": "cb27-097",
+   "text": "It was close, it was loud in the living room, and {winner} still carried the day by {margin}."
+  },
+  {
+   "id": "cb27-098",
+   "text": "Nobody thought it would be this tight, and this side enjoyed every nervy minute of it."
+  },
+  {
+   "id": "cb27-099",
+   "text": "Final word goes to {winner}, who won by {margin} and did not look back once."
+  },
+  {
+   "id": "cb27-100",
+   "text": "Let it be known it was tight, and {winner} was ready for it."
+  }
+ ]
+}

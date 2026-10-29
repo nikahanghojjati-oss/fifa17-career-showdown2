@@ -5,105 +5,405 @@
   "edited": true,
   "writer": "claude-haiku-helper",
   "lines": [
-    {"id": "cb32-001", "text": "{winner} has the league and the cup in the same season, which is a sentence you rarely get to say."},
-    {"id": "cb32-002", "text": "Doubles are not built by accident, and {winnerClub} built this one with grim, sensible patience."},
-    {"id": "cb32-003", "text": "Winning the league is one job, and winning the cup is another, and doing both is a different sort of stubborn."},
-    {"id": "cb32-004", "text": "Plenty of managers call the double a fantasy, and {winner} has just made it look like admin."},
-    {"id": "cb32-005", "text": "Two trophies in one season make a fine haul, and the cabinet has room for both, just about."},
-    {"id": "cb32-006", "text": "Silverware arrived in the right order, league first and cup second, and nobody at {winnerClub} looked surprised."},
-    {"id": "cb32-007", "text": "I have watched plenty of managers chase the double, and most ran out of road halfway."},
-    {"id": "cb32-008", "text": "Quiet skill is the secret of a double, and {winner} has been quietly skillful all year."},
-    {"id": "cb32-009", "text": "{loser} will be staring at that cabinet and wishing they had planned a little better."},
-    {"id": "cb32-010", "text": "Doubles are rare enough to deserve a proper toast, and {winnerClub} will get theirs."},
-    {"id": "cb32-011", "text": "Never once did the league look lost, and the cup simply made the whole season sweeter."},
-    {"id": "cb32-012", "text": "You will not hear a brag at all, but both trophies share the same shelf now."},
-    {"id": "cb32-013", "text": "Good managers win one thing a year, great managers keep the double in their pocket, and {winner} is the latter."},
-    {"id": "cb32-014", "text": "The cup brings a different kind of pressure, a short fuse, and {winnerClub} did not so much as flinch."},
-    {"id": "cb32-015", "text": "Honestly, a double is rare, and {winner} made it look like the most ordinary thing in the world."},
-    {"id": "cb32-016", "text": "{winnerClub} did the league properly, then went and did the cup properly, which is rather annoying."},
-    {"id": "cb32-017", "text": "A double is not a stroke of luck, it is a long list of small, correct decisions."},
-    {"id": "cb32-018", "text": "Some of the finest managers in this rivalry never managed it, and {winner} did it in one season."},
-    {"id": "cb32-019", "text": "The league is the marathon and the cup is the sprint, and {winner} ran both without tripping."},
-    {"id": "cb32-020", "text": "Nobody expected the double, and somebody had clearly written it on the fridge."},
-    {"id": "cb32-021", "text": "Put the cup beside the league title and you have a double, a word that makes rivals wince."},
-    {"id": "cb32-022", "text": "Two pieces of silverware, one season, and {winner} looks almost bored by the whole business."},
-    {"id": "cb32-023", "text": "The double tests every nerve a manager has, and {winnerClub} passed the test with a shrug."},
-    {"id": "cb32-024", "text": "You can keep the league and the cup apart, but {winner} has the good sense to keep them together."},
-    {"id": "cb32-025", "text": "I would call it a sensible double, but that undersells the sheer nerve on show."},
-    {"id": "cb32-026", "text": "Season {season} will be remembered as the one that did it all: the league, the cup and a grin."},
-    {"id": "cb32-027", "text": "There is a particular glee in a manager who wins the double and then says almost nothing about it."},
-    {"id": "cb32-028", "text": "Cup and league are different animals, and {winnerClub} tamed both of them in one year."},
-    {"id": "cb32-029", "text": "{winner} took the double the way most things get taken, quietly, deliberately, with a sly glance at the rivals."},
-    {"id": "cb32-030", "text": "Do not underestimate the mental side of a double, or the way the pressure eases once the second trophy lands."},
-    {"id": "cb32-031", "text": "A league title is a long conversation and a cup is a single outburst, and {winnerClub} had both."},
-    {"id": "cb32-032", "text": "Doubles are the sort of thing you tell your grandchildren about, and {winner} will not let anyone forget it."},
-    {"id": "cb32-033", "text": "{winnerClub} wear the double like a well-cut coat: it fits, and everybody notices."},
-    {"id": "cb32-034", "text": "A long campaign and a cup run in one year leave little room for doubt, and {winner} left none."},
-    {"id": "cb32-035", "text": "The two trophies make a lovely symmetry, and admiring it from a comfortable chair is the reward."},
-    {"id": "cb32-036", "text": "Very few managers ever get the double, so enjoy it while the cabinet is still open."},
-    {"id": "cb32-037", "text": "Steady in the league, sharp in the cup, and {winner} stayed the same calm person throughout."},
-    {"id": "cb32-038", "text": "You do not need fireworks for a double, but {winner} clearly had a few up the sleeve."},
-    {"id": "cb32-039", "text": "A double is the kind of result that makes rivals sit up, and {loser} is definitely sitting up."},
-    {"id": "cb32-040", "text": "Summer will be spent studying how the double happened, and that is the most annoying lesson of all."},
-    {"id": "cb32-041", "text": "Winning the league and the cup in one season is rare, and rarer still to look this unbothered."},
-    {"id": "cb32-042", "text": "From the outside the cup run looked tense, but {winnerClub} looked calm throughout."},
-    {"id": "cb32-043", "text": "There are no shortcuts to a double, only steady work that nobody sees."},
-    {"id": "cb32-044", "text": "Keep the league, keep the cup, keep the calm, and {winner} seems to have mastered all three."},
-    {"id": "cb32-045", "text": "Doubles begin when a manager stops asking if it is possible and starts assuming it."},
-    {"id": "cb32-046", "text": "{winnerClub} made the double look easy, which is the most irritating compliment a rival can receive."},
-    {"id": "cb32-047", "text": "Everybody spoke of the cup as a long shot, and {winner} just shrugged and collected it."},
-    {"id": "cb32-048", "text": "Honest, unshowy and effective: that is the double, and it suits {winnerClub} perfectly."},
-    {"id": "cb32-049", "text": "Two trophies in the bag and a quiet grin, and that is all anyone needs to know."},
-    {"id": "cb32-050", "text": "Double winners are rare, but double winners who say nothing about it are rarer still."},
-    {"id": "cb32-051", "text": "{winner} has the league, the cup and a rival who will hear about it all summer."},
-    {"id": "cb32-052", "text": "Cup and league both came home, and {winnerClub} finished the season wearing them like a good suit."},
-    {"id": "cb32-053", "text": "I expect the cabinet has been rearranged to make room for the cup, and {loser} will want to know why."},
-    {"id": "cb32-054", "text": "Hard work, the double, and yet the best kind of satisfaction, and {winner} would say the same."},
-    {"id": "cb32-055", "text": "Seasons with both the league and the cup in the bag get remembered for a long time, and {winner} knows it."},
-    {"id": "cb32-056", "text": "Satisfaction is written all over the faces at {winnerClub}, quiet and smug in equal measure."},
-    {"id": "cb32-057", "text": "Just two reliable wins and the confidence to collect them, and {winner} did not need a dramatic run."},
-    {"id": "cb32-058", "text": "Call it a complete season, written out in full by {winnerClub}."},
-    {"id": "cb32-059", "text": "Every trophy has a story, and this double has the calm, clean kind."},
-    {"id": "cb32-060", "text": "Bold is not a word I would use for {winner}, but dependable has rarely looked more comfortable."},
-    {"id": "cb32-061", "text": "Cup and league shared a shelf this season, and they seemed to get along perfectly."},
-    {"id": "cb32-062", "text": "Expect a long spell of insufferable behavior, and expect the rivalry to sulk about it."},
-    {"id": "cb32-063", "text": "Timing is part of a double, and {winnerClub} clearly have a fine sense of it."},
-    {"id": "cb32-064", "text": "Listen to the cabinet creak under two trophies, and {winner} is not complaining."},
-    {"id": "cb32-065", "text": "Nobody expected a double, but nobody in the {winnerClub} office seemed surprised either."},
-    {"id": "cb32-066", "text": "Steady nerve chased down the league title and the cup alike, and {winner} never flinched."},
-    {"id": "cb32-067", "text": "It is the kind of double talked about in pubs, which is just how {winner} would want it."},
-    {"id": "cb32-068", "text": "Some managers chase trophies, others collect them, and {winner} has clearly been collecting for a while."},
-    {"id": "cb32-069", "text": "There is a neatness to a double that appeals to the tidy mind, and {winnerClub} are very tidy."},
-    {"id": "cb32-070", "text": "Quietly brilliant is how I would describe {winner}, and I would not change a word of it."},
-    {"id": "cb32-071", "text": "Some comfort can be found in how hard a cup is to win twice."},
-    {"id": "cb32-072", "text": "Watch {winnerClub} celebrate quietly, and you will see a manager who has done this before."},
-    {"id": "cb32-073", "text": "Few things look as neat as a league and cup together, and {winner} has noticed."},
-    {"id": "cb32-074", "text": "Some of the old pros would call this a double with style, and I would not argue."},
-    {"id": "cb32-075", "text": "Think of the cup as a cherry on the double, and {winner} has been careful not to drop it."},
-    {"id": "cb32-076", "text": "Rare nights like this come round seldom, so {winnerClub} should toast it twice."},
-    {"id": "cb32-077", "text": "Look at the season laid out, the league first, the cup second, and {winner} grinning in the middle."},
-    {"id": "cb32-078", "text": "Nerve, planning and a squad that does not fall apart in the big weeks, and {winnerClub} had all three."},
-    {"id": "cb32-079", "text": "Patience suits the league, impatience suits the cup, and {winner} kept both happy at once."},
-    {"id": "cb32-080", "text": "Winners of the double are usually a little smug, and {winner} is living up to it nicely."},
-    {"id": "cb32-081", "text": "Double, calm and a fuller cabinet: {winner} has the lot, and nobody in the rivalry enjoys hearing it."},
-    {"id": "cb32-082", "text": "Quiet confidence in the league, precise nerve in the cup, and {winnerClub} made it look ordinary."},
-    {"id": "cb32-083", "text": "When the double lands, the rest of the season starts to feel like a victory lap, and that suits {winner}."},
-    {"id": "cb32-084", "text": "Each year the cabinet becomes more of a museum, and {winnerClub} keep adding exhibits."},
-    {"id": "cb32-085", "text": "Two trophies, a grin and a rival wincing, all in one season: that is the double in plain English."},
-    {"id": "cb32-086", "text": "Watching a double unfold is like watching a plan come together, and the plan was never in doubt."},
-    {"id": "cb32-087", "text": "Nobody in this rivalry should feel too bad, because the double is among the hardest things in the game."},
-    {"id": "cb32-088", "text": "Not just a result but a reputation, the double, and {winnerClub} now have one."},
-    {"id": "cb32-089", "text": "Quiet nerve gets the league, steady pressure gets the cup, and both were collected in full."},
-    {"id": "cb32-090", "text": "{winnerClub} handled every week with the same calm, and that is why the double arrived."},
-    {"id": "cb32-091", "text": "Lovely word, the double, and {winner} says it like someone who finally learned to spell it."},
-    {"id": "cb32-092", "text": "Ending a season with two trophies is never bad, and {winnerClub} know it."},
-    {"id": "cb32-093", "text": "Winning a double is not luck, it is the accumulated boredom of doing everything right."},
-    {"id": "cb32-094", "text": "Both trophies have been put away, and the cabinet door shuts on a very satisfied smile."},
-    {"id": "cb32-095", "text": "Both pieces of silverware came under one arm for {winner}, and nobody dared ask how."},
-    {"id": "cb32-096", "text": "Stories like this age beautifully, and they will be told with a glint in the eye."},
-    {"id": "cb32-097", "text": "Swagger is allowed after a double, and {winnerClub} are spending their allowance."},
-    {"id": "cb32-098", "text": "Rare sights in any rivalry, and {winnerClub} made the double look tidy."},
-    {"id": "cb32-099", "text": "League title, cup and one very pleased manager: that is the season in a single sentence."},
-    {"id": "cb32-100", "text": "Congratulations to {winner}, who made the double look like the most natural thing on earth."}
+    {
+      "id": "cb32-001",
+      "text": "{winner} has the league and the cup in the same season, which is a sentence you rarely get to say."
+    },
+    {
+      "id": "cb32-002",
+      "text": "Doubles are not built by accident, and {winnerClub} built this one with grim, sensible patience."
+    },
+    {
+      "id": "cb32-003",
+      "text": "Winning the league is one job, and winning the cup is another, and doing both is a different sort of stubborn."
+    },
+    {
+      "id": "cb32-004",
+      "text": "Plenty of managers call the double a fantasy, and {winner} has just made it look like admin."
+    },
+    {
+      "id": "cb32-005",
+      "text": "Two trophies in one season make a fine haul, and the cabinet has room for both, just about."
+    },
+    {
+      "id": "cb32-006",
+      "text": "Silverware arrived in the right order, league first and cup second, and nobody at {winnerClub} looked surprised."
+    },
+    {
+      "id": "cb32-007",
+      "text": "I have watched plenty of managers chase the double, and most ran out of road halfway."
+    },
+    {
+      "id": "cb32-008",
+      "text": "Quiet skill is the secret of a double, and {winner} has been quietly skillful all year."
+    },
+    {
+      "id": "cb32-009",
+      "text": "{loser} will be staring at that cabinet and wishing they had planned a little better."
+    },
+    {
+      "id": "cb32-010",
+      "text": "Doubles are rare enough to deserve a proper toast, and {winnerClub} will get theirs."
+    },
+    {
+      "id": "cb32-011",
+      "text": "Never once did the league look lost, and the cup simply made the whole season sweeter."
+    },
+    {
+      "id": "cb32-012",
+      "text": "You will not hear a brag at all, but both trophies share the same shelf now."
+    },
+    {
+      "id": "cb32-013",
+      "text": "Good managers win one thing a year, great managers keep the double in their pocket, and {winner} is the latter."
+    },
+    {
+      "id": "cb32-014",
+      "text": "The cup brings a different kind of pressure, a short fuse, and {winnerClub} did not so much as flinch."
+    },
+    {
+      "id": "cb32-015",
+      "text": "Honestly, a double is rare, and {winner} made it look like the most ordinary thing in the world."
+    },
+    {
+      "id": "cb32-016",
+      "text": "Taking the league properly, then the cup properly, is rather annoying from {winnerClub}."
+    },
+    {
+      "id": "cb32-017",
+      "text": "A double is not a stroke of luck, it is a long list of small, correct decisions."
+    },
+    {
+      "id": "cb32-018",
+      "text": "Some of the finest managers in this rivalry never managed it, and {winner} did it in one season."
+    },
+    {
+      "id": "cb32-019",
+      "text": "The league is the marathon and the cup is the sprint, and {winner} ran both without tripping."
+    },
+    {
+      "id": "cb32-020",
+      "text": "Nobody expected the double, and somebody had clearly written it on the fridge."
+    },
+    {
+      "id": "cb32-021",
+      "text": "Put the cup beside the league title and you have a double, a word that makes rivals wince."
+    },
+    {
+      "id": "cb32-022",
+      "text": "Two pieces of silverware, one season, and {winner} looks almost bored by the whole business."
+    },
+    {
+      "id": "cb32-023",
+      "text": "The double tests every nerve a manager has, and {winnerClub} passed the test with a shrug."
+    },
+    {
+      "id": "cb32-024",
+      "text": "You can keep the league and the cup apart, but {winner} has the good sense to keep them together."
+    },
+    {
+      "id": "cb32-025",
+      "text": "I would call it a sensible double, but that undersells the sheer nerve on show."
+    },
+    {
+      "id": "cb32-026",
+      "text": "Season {season} will be remembered as the one that did it all: the league, the cup and a grin."
+    },
+    {
+      "id": "cb32-027",
+      "text": "There is a particular glee in a manager who wins the double and then says almost nothing about it."
+    },
+    {
+      "id": "cb32-028",
+      "text": "Cup and league are different animals, and {winnerClub} tamed both of them in one year."
+    },
+    {
+      "id": "cb32-029",
+      "text": "{winner} took the double the way most things get taken, quietly, deliberately, with a sly glance at the rivals."
+    },
+    {
+      "id": "cb32-030",
+      "text": "Do not underestimate the mental side of a double, or the way the pressure eases once the second trophy lands."
+    },
+    {
+      "id": "cb32-031",
+      "text": "A league title is a long conversation and a cup is a single outburst, and {winnerClub} had both."
+    },
+    {
+      "id": "cb32-032",
+      "text": "Doubles are the sort of thing you tell your grandchildren about, and {winner} will not let anyone forget it."
+    },
+    {
+      "id": "cb32-033",
+      "text": "Like a well-cut coat, the double fits {winnerClub}, and everybody notices."
+    },
+    {
+      "id": "cb32-034",
+      "text": "A long campaign and a cup run in one year leave little room for doubt, and {winner} left none."
+    },
+    {
+      "id": "cb32-035",
+      "text": "The two trophies make a lovely symmetry, and admiring it from a comfortable chair is the reward."
+    },
+    {
+      "id": "cb32-036",
+      "text": "Very few managers ever get the double, so enjoy it while the cabinet is still open."
+    },
+    {
+      "id": "cb32-037",
+      "text": "Steady in the league, sharp in the cup, and {winner} stayed the same calm person throughout."
+    },
+    {
+      "id": "cb32-038",
+      "text": "You do not need fireworks for a double, but {winner} clearly had a few up the sleeve."
+    },
+    {
+      "id": "cb32-039",
+      "text": "Rivals sit up at a double like this, and {loser} is definitely sitting up."
+    },
+    {
+      "id": "cb32-040",
+      "text": "Summer will be spent studying how the double happened, and that is the most annoying lesson of all."
+    },
+    {
+      "id": "cb32-041",
+      "text": "Doing the league and the cup in one season is rare, and rarer still to look this unbothered."
+    },
+    {
+      "id": "cb32-042",
+      "text": "From the outside the cup run looked tense, but {winnerClub} looked calm throughout."
+    },
+    {
+      "id": "cb32-043",
+      "text": "There are no shortcuts to a double, only steady work that nobody sees."
+    },
+    {
+      "id": "cb32-044",
+      "text": "Keep the league, keep the cup, keep the calm, and {winner} seems to have mastered all three."
+    },
+    {
+      "id": "cb32-045",
+      "text": "Doubles begin when a manager stops asking if it is possible and starts assuming it."
+    },
+    {
+      "id": "cb32-046",
+      "text": "Looking easy is the most irritating compliment a rival can receive, and {winnerClub} managed it."
+    },
+    {
+      "id": "cb32-047",
+      "text": "Everybody spoke of the cup as a long shot, and {winner} just shrugged and collected it."
+    },
+    {
+      "id": "cb32-048",
+      "text": "Honest, unshowy and effective: that is the double, and it suits {winnerClub} perfectly."
+    },
+    {
+      "id": "cb32-049",
+      "text": "Quiet grins are the best kind, and two trophies in the bag says the rest."
+    },
+    {
+      "id": "cb32-050",
+      "text": "Double winners are rare, but double winners who say nothing about it are rarer still."
+    },
+    {
+      "id": "cb32-051",
+      "text": "Rivals will hear about it all summer, and {winner} has the league, the cup and bragging rights."
+    },
+    {
+      "id": "cb32-052",
+      "text": "Both trophies came home, and {winnerClub} wore them like a good suit."
+    },
+    {
+      "id": "cb32-053",
+      "text": "I expect the cabinet has been rearranged to make room for the cup, and {loser} will want to know why."
+    },
+    {
+      "id": "cb32-054",
+      "text": "Hard work, the double, and yet the best kind of satisfaction, and {winner} would say the same."
+    },
+    {
+      "id": "cb32-055",
+      "text": "Seasons with both the league and the cup in the bag get remembered for a long time, and {winner} knows it."
+    },
+    {
+      "id": "cb32-056",
+      "text": "Satisfaction is written all over the faces at {winnerClub}, quiet and smug in equal measure."
+    },
+    {
+      "id": "cb32-057",
+      "text": "Just two reliable wins and the confidence to collect them, and {winner} did not need a dramatic run."
+    },
+    {
+      "id": "cb32-058",
+      "text": "Call it a complete season, written out in full by {winnerClub}."
+    },
+    {
+      "id": "cb32-059",
+      "text": "Every trophy has a story, and this double has the calm, clean kind."
+    },
+    {
+      "id": "cb32-060",
+      "text": "Bold is not a word I would use for {winner}, but dependable has rarely looked more comfortable."
+    },
+    {
+      "id": "cb32-061",
+      "text": "Both trophies shared a shelf this season, and they seemed to get along perfectly."
+    },
+    {
+      "id": "cb32-062",
+      "text": "Expect a long spell of insufferable behavior, and expect the rivalry to sulk about it."
+    },
+    {
+      "id": "cb32-063",
+      "text": "Timing is part of a double, and {winnerClub} clearly have a fine sense of it."
+    },
+    {
+      "id": "cb32-064",
+      "text": "Listen to the cabinet creak under two trophies, and {winner} is not complaining."
+    },
+    {
+      "id": "cb32-065",
+      "text": "Nobody expected a double, but nobody in the {winnerClub} office seemed surprised either."
+    },
+    {
+      "id": "cb32-066",
+      "text": "Steady nerve chased down the league title and the cup alike, and {winner} never flinched."
+    },
+    {
+      "id": "cb32-067",
+      "text": "It is the kind of double talked about in pubs, which is just how {winner} would want it."
+    },
+    {
+      "id": "cb32-068",
+      "text": "Some managers chase trophies, others collect them, and {winner} has clearly been collecting for a while."
+    },
+    {
+      "id": "cb32-069",
+      "text": "Tidy minds love a double, and {winnerClub} are very tidy."
+    },
+    {
+      "id": "cb32-070",
+      "text": "Quietly brilliant is how I would describe {winner}, and I would not change a word of it."
+    },
+    {
+      "id": "cb32-071",
+      "text": "Some comfort can be found in how hard a cup is to win twice."
+    },
+    {
+      "id": "cb32-072",
+      "text": "Watch {winnerClub} celebrate quietly, and you will see a manager who has done this before."
+    },
+    {
+      "id": "cb32-073",
+      "text": "Few things look as neat as a league and cup together, and {winner} has noticed."
+    },
+    {
+      "id": "cb32-074",
+      "text": "Old pros would call this a double with style, and I would not argue."
+    },
+    {
+      "id": "cb32-075",
+      "text": "Think of the cup as a cherry on the double, and {winner} has been careful not to drop it."
+    },
+    {
+      "id": "cb32-076",
+      "text": "Rare nights like this come round seldom, so {winnerClub} should toast it twice."
+    },
+    {
+      "id": "cb32-077",
+      "text": "Look at the season laid out, the league first, the cup second, and {winner} grinning in the middle."
+    },
+    {
+      "id": "cb32-078",
+      "text": "Nerve, planning and a squad that does not fall apart in the big weeks, and {winnerClub} had all three."
+    },
+    {
+      "id": "cb32-079",
+      "text": "Patience suits the league, impatience suits the cup, and {winner} kept both happy at once."
+    },
+    {
+      "id": "cb32-080",
+      "text": "Winners of the double are usually a little smug, and {winner} is living up to it nicely."
+    },
+    {
+      "id": "cb32-081",
+      "text": "Double, calm and a fuller cabinet: {winner} has the lot, and nobody in the rivalry enjoys hearing it."
+    },
+    {
+      "id": "cb32-082",
+      "text": "Quiet confidence in the league, precise nerve in the cup, and {winnerClub} made it look ordinary."
+    },
+    {
+      "id": "cb32-083",
+      "text": "When the double lands, the rest of the season starts to feel like a victory lap, and that suits {winner}."
+    },
+    {
+      "id": "cb32-084",
+      "text": "Each year the cabinet becomes more of a museum, and {winnerClub} keep adding exhibits."
+    },
+    {
+      "id": "cb32-085",
+      "text": "Two trophies, a grin and a rival wincing, all in one season: that is the double in plain English."
+    },
+    {
+      "id": "cb32-086",
+      "text": "Watching a double unfold is like watching a plan come together, and the plan was never in doubt."
+    },
+    {
+      "id": "cb32-087",
+      "text": "Nobody in this rivalry should feel too bad, because the double is among the hardest things in the game."
+    },
+    {
+      "id": "cb32-088",
+      "text": "Not just a result but a reputation, the double, and {winnerClub} now have one."
+    },
+    {
+      "id": "cb32-089",
+      "text": "Quiet nerve gets the league, steady pressure gets the cup, and both were collected in full."
+    },
+    {
+      "id": "cb32-090",
+      "text": "Every week was handled with the same calm by {winnerClub}, and that is why the double arrived."
+    },
+    {
+      "id": "cb32-091",
+      "text": "Lovely word, the double, and {winner} says it like someone who finally learned to spell it."
+    },
+    {
+      "id": "cb32-092",
+      "text": "Ending a season with two trophies is never bad, and {winnerClub} know it."
+    },
+    {
+      "id": "cb32-093",
+      "text": "Winning a double is not luck, it is the accumulated boredom of doing everything right."
+    },
+    {
+      "id": "cb32-094",
+      "text": "Both trophies have been put away, and the cabinet door shuts on a very satisfied smile."
+    },
+    {
+      "id": "cb32-095",
+      "text": "Both pieces of silverware came under one arm for {winner}, and nobody dared ask how."
+    },
+    {
+      "id": "cb32-096",
+      "text": "Stories like this age beautifully, and they will be told with a glint in the eye."
+    },
+    {
+      "id": "cb32-097",
+      "text": "Swagger is allowed after a double, and {winnerClub} are spending their allowance."
+    },
+    {
+      "id": "cb32-098",
+      "text": "Rare sights in any rivalry, and {winnerClub} made the double look tidy."
+    },
+    {
+      "id": "cb32-099",
+      "text": "League title, cup and one very pleased manager: that is the season in a single sentence."
+    },
+    {
+      "id": "cb32-100",
+      "text": "Congratulations to {winner}, who made the double look like the most natural thing on earth."
+    }
   ]
 }
