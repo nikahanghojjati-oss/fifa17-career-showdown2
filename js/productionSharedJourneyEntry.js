@@ -201,7 +201,7 @@
   // private session; same writes, same guards), then opens the seasons screen. Nothing is created unless the close succeeded; a
   // close that cannot happen stops on the existing Connect Players / CHECK STATUS path with the reason.
   // r87 Rematch (js/onlinePlayerIdentity.js openRematch): followStartDecision(decision,{openSeasons:false}) does everything up to the
-  // seasons screen and answers "seasons" instead of opening it; the caller then runs that screen's own START with the length.
+  // seasons screen and answers "seasons" instead of opening it; the caller then opens that screen with the length preset.
   let seasonsHandOff=false;
   let closeEndedPromise=null;
   function closeEndedThenNew(){

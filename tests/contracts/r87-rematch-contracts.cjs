@@ -1,7 +1,7 @@
 'use strict';
 // r87 one-tap Rematch (Nik 2026-10-29): a REMATCH button on the Final Winner of a CLOSED Showdown. Daniel's starts a new
-// Showdown with the same length and pairing through the normal START (the seasons screen's own START with the length set, then
-// the usual league wheel with WAITING); Nik's takes him to Showdown Home, where his JOIN tile picks up Daniel's code. No new
+// Showdown with the same length and pairing through the normal START: the seasons screen opens with that length picked (Nik
+// 2026-10-29 "Show it, preset"), and its own START leads to the usual league wheel with WAITING; Nik's takes him to Showdown Home, where his JOIN tile picks up Daniel's code. No new
 // Firestore path, no Rules change, no polling, the same reads as a normal START, and nothing about scoring changes.
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
@@ -57,7 +57,7 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   ok('R2','one REMATCH button in the Final Winner exit row; Daniel -> openRematch, Nik -> Home; removed with the screen; no IO');
 }
 
-// R3 Daniel's rematch is the same START: same reads, the seasons screen's own START with the length, never the seasons screen.
+// R3 Daniel's rematch is the same START: same reads, then the seasons screen with the closed length picked (no auto-start).
 async function identityRun({managerId='daniel',decision,call,seasons=3}){
   const calls={reads:0,which:0,nav:[],prepare:[],follow:[],errors:[]};
   const round={_v:'1',get value(){return this._v;},set value(v){if(['1','3','5','10'].includes(String(v)))this._v=String(v);}};
@@ -86,18 +86,18 @@ async function identityRun({managerId='daniel',decision,call,seasons=3}){
   const fresh={action:'new',rivalryId:null,totalSeasons:null,reason:'new'};
   const normal=await identityRun({decision:fresh,call:'start'}),rematch=await identityRun({decision:fresh,call:'rematch',seasons:5});
   assert.deepEqual(normal.calls.nav,['createShowdown'],'Home START opens the seasons screen');assert.equal(normal.calls.prepare.length,0);
-  assert.deepEqual(rematch.calls.nav,[],'the rematch never shows the seasons screen');
-  assert.deepEqual(rematch.calls.prepare,[{seasons:'5',gate:'function'}],'the seasons screen\'s own START, once, with the closed length and the real-career gate');
+  assert.deepEqual(rematch.calls.nav,['createShowdown'],'the rematch shows the seasons screen');
+  assert.deepEqual(rematch.calls.prepare,[],'nothing starts until Daniel taps the seasons screen\'s START');
   assert.equal(rematch.round,'5');
   assert.ok(normal.calls.reads>0&&normal.calls.which===1,'the harness sees START\'s reads');
   assert.equal(rematch.calls.reads,normal.calls.reads,'same partner reads as a normal START');assert.equal(rematch.calls.which,normal.calls.which,'same START decision read');
   assert.deepEqual(rematch.calls.errors,[]);
-  for(const seasons of [1,3,10]){const r=await identityRun({decision:fresh,call:'rematch',seasons});assert.equal(r.round,String(seasons));assert.equal(r.calls.prepare.length,1);}
-  // the ended Showdown is closed first by the entry (the final-screen terminal close), then the same seasons START
+  for(const seasons of [1,3,10]){const r=await identityRun({decision:fresh,call:'rematch',seasons});assert.equal(r.round,String(seasons));assert.deepEqual(r.calls.nav,['createShowdown']);assert.equal(r.calls.prepare.length,0);}
+  // the ended Showdown is closed first by the entry (the final-screen terminal close), then the seasons screen, preset
   const ended={action:'close-then-new',rivalryId:'pair_'+'a'.repeat(64),totalSeasons:3,reason:'ended-not-closed'};
   const endedNormal=await identityRun({decision:ended,call:'start'}),endedRematch=await identityRun({decision:ended,call:'rematch',seasons:3});
   assert.deepEqual(endedNormal.calls.follow,['none']);assert.equal(endedNormal.calls.prepare.length,0);
-  assert.deepEqual(endedRematch.calls.follow,['{"openSeasons":false}']);assert.deepEqual(endedRematch.calls.prepare,[{seasons:'3',gate:'function'}]);
+  assert.deepEqual(endedRematch.calls.follow,['{"openSeasons":false}']);assert.deepEqual(endedRematch.calls.nav,['createShowdown']);assert.equal(endedRematch.round,'3');assert.equal(endedRematch.calls.prepare.length,0);
   assert.equal(endedRematch.calls.reads,endedNormal.calls.reads);assert.equal(endedRematch.calls.which,endedNormal.calls.which);
   // any other START answer is followed exactly as from Home (no create)
   const live={action:'continue',rivalryId:'pair_'+'b'.repeat(64),totalSeasons:3,reason:'continue'};
@@ -110,7 +110,7 @@ async function identityRun({managerId='daniel',decision,call,seasons=3}){
   const src=read('js/onlinePlayerIdentity.js');
   assert.match(src,/async function openCanonicalStart\(\)\{if\(canonicalStartFlowPromise\)return canonicalStartFlowPromise;const rematch=rematchSeasonsNext;rematchSeasonsNext=null;/);
   assert.match(src,/if\(canonicalStartFlowPromise\)return canonicalStartFlowPromise;rematchSeasonsNext=seasons;return openCanonicalStart\(\);\}/,'a tap during a running START joins it and hands nothing over');
-  ok('R3','Daniel\'s REMATCH = Home START\'s reads + the seasons START with the closed length (new or after the close); never the seasons screen; Nik and bad lengths start nothing');
+  ok('R3','Daniel\'s REMATCH = Home START\'s reads, then the seasons screen with the closed length picked (new or after the close); Nik and bad lengths start nothing');
 }
 
 // R4 the entry hands the seasons step back instead of opening it, only when asked; the close itself is unchanged.
@@ -138,7 +138,7 @@ async function identityRun({managerId='daniel',decision,call,seasons=3}){
   const identityAdded=identity.slice(identity.indexOf('// r87 one-tap Rematch'),identity.indexOf('async function openCanonicalStart(){'));
   const followAt=entry.indexOf('async function followStartDecision(decision,options){');
   const entryAdded=entry.slice(followAt,entry.indexOf('if(!decision)return false;',followAt));
-  assert.match(identityAdded,/function openRematch\(totalSeasons\)/);assert.match(identityAdded,/async function startWithSeasons\(seasons\)/);
+  assert.match(identityAdded,/function openRematch\(totalSeasons\)/);assert.match(identityAdded,/async function showSeasonsPreset\(seasons\)/);
   assert.match(entryAdded,/seasonsHandOff=true;try\{return await followStartDecision\(decision\);\}finally\{seasonsHandOff=false;\}/);
   const added=identityAdded+'\n'+entryAdded;
   assert.doesNotMatch(added,/getDoc|setDoc|updateDoc|onSnapshot|runTransaction|collection\(|doc\(|setInterval/,'the rematch adds no Firestore call or poll');
