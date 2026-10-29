@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-29 11:15 AM Boston time (EDT)",
+ "generated": "2026-10-29 11:19 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 164,
@@ -1499,8 +1499,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "5159f39",
-  "head_boston": "Thu 29 Oct 10:55 AM",
+  "head": "c9901cc",
+  "head_boston": "Thu 29 Oct 11:17 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2149,7 +2149,7 @@
     "from": "V",
     "to": "G",
     "title": "Select League: no focus box round the picture title (5-line CSS fix)",
-    "stage": "RECEIVED",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-045_select-league-no-focus-box-round-the-pic.md",

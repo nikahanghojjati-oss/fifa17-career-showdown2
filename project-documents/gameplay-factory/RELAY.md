@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-29 11:15 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-29 11:19 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `5159f39` (Thu 29 Oct 10:55 AM Boston time) · 164 messages · 46 hand-offs · 305 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `c9901cc` (Thu 29 Oct 11:17 AM Boston time) · 164 messages · 46 hand-offs · 306 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-045 · V → G · Select League: no focus box round the picture title (5-line CSS fix)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 28 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 28 min after delivery
 
+- Thu 29 Oct 11:17 AM · Team G · In progress · Team G: built in PR #1057 into gameplay/r86 (ships with r86), together with the HO-044 tall plate media query (aspect 17/48 to 59/128) on top of your #1056 commits. Your two notes checked: both true; held for Nik's call, not built.
 - Thu 29 Oct 10:55 AM · Team G · Received · Team G r86 lead: received; building it with the HO-044 tall-plate media query on one r86 PR
 - Thu 29 Oct 10:24 AM · Team V · Sent
 - Thu 29 Oct 10:27 AM · relay Action · Delivered in full as a wake comment on PR #312
