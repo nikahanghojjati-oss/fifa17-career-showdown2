@@ -1,7 +1,7 @@
 # CC-010 BUILD_RESULT · Roster Russian Roulette: no people, the revolver spins by itself (HO-040, r87)
 
 Built 29 Oct 2026 by Fable 5.1 High in the project helper thread (Nik's choice), 03:48-04:20 UTC plus a resume 07:52-08:15 UTC after the usage limit reset. Nik asked for helpers to run in parallel: helper 1 did the premium room pass, helper 2 the revolver close-up (it stopped at the usage limit after its third round; that round is what shipped).
-Branch: `claude/project-thread-6rq94x`. SHA: see the commit that adds this file ("CC-010" in the message); the code commit is the one right before it.
+Branch: `claude/project-thread-6rq94x`. SHA: 04fa2c9f22c6c76e6a2b1bd194355348d28b8432 (code); the result-file commit follows it.
 Files: `visual-assets/v10_1/roulette/index.html` (one file, three.js r128 from cdnjs + Google Fonts), `platemap.json`, `assets/squads.json` (0.04 MB, the only asset now), `evidence/` (21 captures + 2 sheets + report.json).
 
 ## What changed (CC-009 -> CC-010)
@@ -35,4 +35,4 @@ FPS could not be measured here (software renderer); one shadow map, 7 lights, 54
 
 Spend: about 55 minutes of Fable thread time plus two helpers (room pass 19 min, revolver 25 min) against the 60-minute cap; no cloud credit used.
 
-CC-010 DONE (SHA in the commit that adds this file)
+CC-010 DONE 04fa2c9f22c6c76e6a2b1bd194355348d28b8432
