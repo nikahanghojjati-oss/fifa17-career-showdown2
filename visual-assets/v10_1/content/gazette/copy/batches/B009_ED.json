@@ -1,0 +1,608 @@
+{
+  "batch": 9,
+  "situation": "no-trophy",
+  "voice": "The lead caller",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb9-001",
+      "text": "{winner} won't be calling the engraver, but the season is theirs. Sometimes the quiet work wins out.",
+      "score": 9,
+      "was": "The trophy shelf stays untouched, but {winner} has taken the season on the strength of the smaller details!"
+    },
+    {
+      "id": "cb9-002",
+      "text": "Look at that! No silverware for {winnerClub}, yet the season belongs to them all the same.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-003",
+      "text": "A trophy wasn't necessary for the winning manager, and that is the surprise at the heart of this result.",
+      "score": 10,
+      "was": "Nobody's lifting a cup, and still we've got a winner. What a curious, hard-earned result!"
+    },
+    {
+      "id": "cb9-004",
+      "text": "Every little advantage mattered, and {winner} has finished in front without a major honour to show for it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-005",
+      "text": "Set aside the main prizes for a moment. {winnerClub} have taken this season through what they did beyond them.",
+      "score": 9,
+      "was": "Forget the presentation ceremony; {winnerClub} have secured this season with the points earned away from the prizes."
+    },
+    {
+      "id": "cb9-006",
+      "text": "Here comes the season verdict: {winner} takes it, with no new cup to place beside the old ones.",
+      "score": 9,
+      "was": "Here comes the verdict! {winner} claims the season, and not a single trophy has been required."
+    },
+    {
+      "id": "cb9-007",
+      "text": "It wasn't a glittering haul, but {winner} made the details count when the season was settled.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-008",
+      "text": "By the finest of differences, {winnerClub} have the season. The reward is real, even without a trophy.",
+      "score": 10,
+      "was": "Small margins, enormous satisfaction! {winnerClub} have won the season with their cabinet exactly as it was."
+    },
+    {
+      "id": "cb9-009",
+      "text": "No prize to hold above their head, yet {winner} has a season victory to savour.",
+      "score": 9,
+      "was": "No grand prize on display, but there's a seasonal victory for {winner}, and that still counts!"
+    },
+    {
+      "id": "cb9-010",
+      "text": "That is a fine piece of management from {winner}: the season secured without a trophy to carry home.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-011",
+      "text": "Who needs a ribbon on the handle? {winnerClub} have won the season without taking a cup.",
+      "score": 9,
+      "was": "Who needs a ribbon on the handle? {winnerClub} have won the season without taking the cup!"
+    },
+    {
+      "id": "cb9-012",
+      "text": "Take another look at that result: {winner} is ahead, even though the silverware stayed out of reach.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb9-013",
+      "text": "There's your unlikely winner: {winner}, with the season secured and nothing new in the trophy room.",
+      "score": 9,
+      "was": "There's a winner without a crown! {winner} has done enough in the quieter parts of this contest."
+    },
+    {
+      "id": "cb9-014",
+      "text": "Nothing changes on the display shelf, but the rivalry takes a turn in favour of {winnerClub}.",
+      "score": 9,
+      "was": "Nothing new for the display case, but {winnerClub} have a season victory to remember!"
+    },
+    {
+      "id": "cb9-015",
+      "text": "Elsewhere the cups may find their homes; here, the season belongs to {winner} on the strength of the extras.",
+      "score": 9,
+      "was": "The prizes went elsewhere, yet the final seasonal verdict falls to {winner}. That's a story in itself!"
+    },
+    {
+      "id": "cb9-016",
+      "text": "Count the little contributions, and there it is: a trophyless success for {winnerClub}!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-017",
+      "text": "It takes an unusual season to win without lifting anything. {winner} has just produced one!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-018",
+      "text": "For {winnerClub}, the most important addition isn't an object. It's a winning season in the rivalry.",
+      "score": 9,
+      "was": "A bare trophy shelf, a full measure of satisfaction. {winnerClub} have taken the seasonal honours!"
+    },
+    {
+      "id": "cb9-019",
+      "text": "Credit where it's due! {winner} found a winning route through a season without a cup to show.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-020",
+      "text": "That's the beauty of this contest: you can miss the big prizes and still finish the season in front.",
+      "score": 10,
+      "was": "That's the beauty of the comparison: a manager can win the season without winning the biggest prizes!"
+    },
+    {
+      "id": "cb9-021",
+      "text": "Watch the supporting points take centre stage. {winner} has turned them into a season victory.",
+      "score": 9,
+      "was": "Spotlight on the fine print! {winner} has turned those extra marks into an outright season win."
+    },
+    {
+      "id": "cb9-022",
+      "text": "Not every victory arrives wrapped in ribbons. {winnerClub} have proved that with this season's outcome!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-023",
+      "text": "Quiet contributions, decisive effect. {winner} has won the season without a trophy to their name.",
+      "score": 9,
+      "was": "The quiet points have spoken, and {winner} has won the season without a trophy to their name!"
+    },
+    {
+      "id": "cb9-024",
+      "text": "Some victories come with a new place in the cabinet. {winnerClub} have one that fits on the season summary.",
+      "score": 10,
+      "was": "Some seasons sparkle in the cabinet; this one shines in the final standing for {winnerClub}!"
+    },
+    {
+      "id": "cb9-025",
+      "text": "It may not come with a medal ceremony, but {winner} is the season's winning manager.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-026",
+      "text": "Listen to that twist: no cup for {winnerClub}, but the seasonal decision has gone their way!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-027",
+      "text": "Leave the shelf exactly as it is. {winner} has made the less glamorous rewards count for something big.",
+      "score": 9,
+      "was": "The shelves can wait! {winner} has claimed a victory made up of careful, smaller gains."
+    },
+    {
+      "id": "cb9-028",
+      "text": "And there's the season settled! {winnerClub} have edged it without reaching for a single major prize.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-029",
+      "text": "What an unusual route to a season victory: {winner} collects the result without collecting the hardware.",
+      "score": 9,
+      "was": "What a remarkable route to the top: {winner} wins the season without needing the usual hardware!"
+    },
+    {
+      "id": "cb9-030",
+      "text": "Missing from the honours list, but not the winner's column. {winner} has made that possible.",
+      "score": 10,
+      "was": "The difference lies beyond the trophies, and {winner} has made those opportunities tell!"
+    },
+    {
+      "id": "cb9-031",
+      "text": "You won't find this victory on the mantelpiece; {winner} has put it where the season's result is recorded.",
+      "score": 10,
+      "was": "There's no parade of cups here, just {winner} and a season won by keeping the extras in play."
+    },
+    {
+      "id": "cb9-032",
+      "text": "Even an untouched cabinet can belong to the winning side. {winnerClub} know that better than anyone now.",
+      "score": 9,
+      "was": "Even an empty cabinet can accompany a winning season. {winnerClub} have just delivered the proof!"
+    },
+    {
+      "id": "cb9-033",
+      "text": "Call it a victory in the margins! {winner} has made every available extra matter.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-034",
+      "text": "That final comparison has a surprise in it: {winner} wins, despite missing out on the big honours!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-035",
+      "text": "A trophyless winner sounds like a contradiction, until you see what {winnerClub} have done with the bonuses.",
+      "score": 10,
+      "was": "A season without a trophy, but not without a winner. {winnerClub} have managed that distinction!"
+    },
+    {
+      "id": "cb9-036",
+      "text": "Don't overlook the small print, because it's just handed {winner} the season!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-037",
+      "text": "Far from the major prizes, {winner} has put together enough to take the season. It all mattered.",
+      "score": 9,
+      "was": "The big prizes aren't coming home, but {winner} can still claim the result that matters in this rivalry."
+    },
+    {
+      "id": "cb9-038",
+      "text": "With no cup to lift, {winnerClub} will have to settle for winning the season. Not a bad consolation!",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb9-039",
+      "text": "No glittering cabinet update today, and still {winner} comes out ahead. That is some twist!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-040",
+      "text": "By the smallest details, not the largest prizes, {winner} has found the winning path this season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-041",
+      "text": "Across the season's quieter categories, {winner} found the reward that made the difference. That's the result.",
+      "score": 9,
+      "was": "The result is in, and there's a new kind of satisfaction for {winner}: victory without a major trophy!"
+    },
+    {
+      "id": "cb9-042",
+      "text": "You can keep the polishing cloth away, but {winnerClub} have every reason to value that season win!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-043",
+      "text": "Without the usual headline prizes, {winner} has managed to come out on top in the season review.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-044",
+      "text": "Only the season summary gets a new entry, and {winner} has every right to treasure it.",
+      "score": 9,
+      "was": "Only the season result gets framed this time, and {winner} has earned that frame!"
+    },
+    {
+      "id": "cb9-045",
+      "text": "Those modest rewards have added up to the result {winnerClub} wanted. A season win, without a cup.",
+      "score": 9,
+      "was": "One modest reward after another, and suddenly {winnerClub} are the winners of the season!"
+    },
+    {
+      "id": "cb9-046",
+      "text": "It isn't the finish {winner} might have pictured, but the season verdict is no less welcome.",
+      "score": 9,
+      "was": "It isn't how most champions picture the ending, but {winner} has won this season all the same!"
+    },
+    {
+      "id": "cb9-047",
+      "text": "Put away the trophy labels. {winnerClub} have earned something that belongs on a different kind of list.",
+      "score": 9,
+      "was": "Put the trophy talk aside! The season belongs to {winnerClub} for reasons found elsewhere."
+    },
+    {
+      "id": "cb9-048",
+      "text": "Season winners without being cup winners? {winner} has made the unlikely distinction work.",
+      "score": 10,
+      "was": "The most unlikely victory of all: {winner} has come first without taking home any cup!"
+    },
+    {
+      "id": "cb9-049",
+      "text": "Remarkable: {winnerClub} have taken the season without adding a single piece of silverware to the collection.",
+      "score": 9,
+      "was": "Remarkable! Not a piece of silver lifted, yet {winnerClub} have the season result in their favour."
+    },
+    {
+      "id": "cb9-050",
+      "text": "On a season of slim pickings, {winner} managed to turn the small rewards into the decisive ones.",
+      "score": 10,
+      "was": "Think of this as success without the souvenirs. {winner} has kept the points that mattered most!"
+    },
+    {
+      "id": "cb9-051",
+      "text": "The trophy room gets no fresh arrival, but the season honours the manager who took care of the extras.",
+      "score": 9,
+      "was": "So the cup cupboard stays closed, but the season's final word belongs to the manager who made the extras count!"
+    },
+    {
+      "id": "cb9-052",
+      "text": "Quite the ending, isn't it? A winning season decided outside the usual trophy celebrations.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-053",
+      "text": "We might have expected a trophy to explain the finish. Instead, the decisive work came elsewhere.",
+      "score": 9,
+      "was": "We expected the prize cabinet to tell the story. Instead, the points have supplied a different ending!"
+    },
+    {
+      "id": "cb9-054",
+      "text": "Try finding the winning season in a photograph of a cup. This result demands a closer look.",
+      "score": 9,
+      "was": "Try explaining this one with a photograph of a trophy. You can't, because nobody needed one!"
+    },
+    {
+      "id": "cb9-055",
+      "text": "Here's the puzzle: how can the season belong to a manager with no trophy to show for it? Like this.",
+      "score": 9,
+      "was": "Here's the surprise in plain sight: the season's winner has nothing new to put on a pedestal."
+    },
+    {
+      "id": "cb9-056",
+      "text": "Grand prizes tend to get all the attention. This time, the supporting rewards have settled the contest.",
+      "score": 9,
+      "was": "All the attention goes to the grand prizes, until the smaller rewards decide who comes out ahead!"
+    },
+    {
+      "id": "cb9-057",
+      "text": "A close finish with no trophy for the winner. There's a season result worth looking at twice.",
+      "score": 10,
+      "was": "A victory by fine margins, and not a trophy in the picture! That is a fascinating result."
+    },
+    {
+      "id": "cb9-058",
+      "text": "Well, that turns the usual script upside down: a season won with the showpiece honours missing.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-059",
+      "text": "Beyond the celebrations and silver, another kind of success has just announced itself.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-060",
+      "text": "Anyone studying only the trophy haul is missing the best part of this story: the season's verdict.",
+      "score": 9,
+      "was": "Anyone checking only the trophy haul would miss the headline: we've got a season winner here!"
+    },
+    {
+      "id": "cb9-061",
+      "text": "Small rewards can make a sizeable difference. {winner} has proved it by finishing above {loser} this season.",
+      "score": 10,
+      "was": "The extra credit has done its work, and {winner} has earned the final nod over {loser}!"
+    },
+    {
+      "id": "cb9-062",
+      "text": "Look past the empty shelf, and you'll find {winnerClub} at the top of this season's comparison!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-063",
+      "text": "Perhaps there's no object to put on the mantelpiece, but {winner} has a season victory that counts.",
+      "score": 9,
+      "was": "Perhaps this belongs in a folder rather than a trophy case, but it's a win for {winner}!"
+    },
+    {
+      "id": "cb9-064",
+      "text": "There's the unexpected advantage! {winnerClub} have made bonus rewards decisive, with no major honour required.",
+      "score": 9,
+      "was": "There's a tale you won't often hear: the bonus rewards have carried {winnerClub} to seasonal victory!"
+    },
+    {
+      "id": "cb9-065",
+      "text": "Odd as it sounds, {winner} has come away without silver and still claimed the season's upper hand.",
+      "score": 9,
+      "was": "Oddly enough, no polished silver is needed for {winner} to get the better of this season's challenge."
+    },
+    {
+      "id": "cb9-066",
+      "text": "From the least glamorous parts of the season comes the biggest news: {winner} has won it.",
+      "score": 9,
+      "was": "From the quietest parts of the season comes the loudest announcement: {winner} takes it!"
+    },
+    {
+      "id": "cb9-067",
+      "text": "An empty space where the trophy might have been, and a winner's place where it matters most.",
+      "score": 9,
+      "was": "The honours cupboard says nothing, while the season's verdict tells everyone who's finished first!"
+    },
+    {
+      "id": "cb9-068",
+      "text": "No new weight on the shelf, but there's real satisfaction in being the winning manager this season.",
+      "score": 9,
+      "was": "That cabinet won't be any heavier tonight, though the season victory is worth its weight in pride!"
+    },
+    {
+      "id": "cb9-069",
+      "text": "Consider the smaller rewards promoted to centre stage. They've just decided the season!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb9-070",
+      "text": "It's a success that needs a little explaining before the celebration, and that makes it memorable.",
+      "score": 9,
+      "was": "It's the sort of triumph you explain before you celebrate, and that makes it rather wonderful!"
+    },
+    {
+      "id": "cb9-071",
+      "text": "Give those overlooked contributions a round of applause. They have delivered a season winner with no trophy attached.",
+      "score": 9,
+      "was": "Give the unsung contributions their moment, because they've made a winner without a single trophy!"
+    },
+    {
+      "id": "cb9-072",
+      "text": "Up goes the result instead of a cup, and {winnerClub} have something to be proud of.",
+      "score": 10,
+      "was": "Up goes the result, not a cup, and {winnerClub} have every right to enjoy the sight!"
+    },
+    {
+      "id": "cb9-073",
+      "text": "A curious finish for {winner}: nothing to set on the mantelpiece, but the season belongs to them.",
+      "score": 10,
+      "was": "A curious kind of finish for {winner}: nothing for the mantelpiece, everything in the season comparison!"
+    },
+    {
+      "id": "cb9-074",
+      "text": "Where the big rewards were missing, the supporting details stepped in and decided the season.",
+      "score": 9,
+      "was": "Where the silver prizes couldn't settle it, the quieter details have given us our winner!"
+    },
+    {
+      "id": "cb9-075",
+      "text": "Across the quieter categories, {winner} has found the difference that settled this trophyless season.",
+      "score": 9,
+      "was": "As the season closes, {winner} has made a compelling case for the value of the little extras!"
+    },
+    {
+      "id": "cb9-076",
+      "text": "That's a victory you needn't engrave on metal. It's already there in the final season comparison.",
+      "score": 9,
+      "was": "That's a victory with no engraving required. The season is settled, and the outcome still matters!"
+    },
+    {
+      "id": "cb9-077",
+      "text": "Nobody needs to order a bigger cabinet, but the season winner will want to keep a copy of this result.",
+      "score": 9,
+      "was": "Nobody will be asking for a larger display case, but the winner may want to save this result!"
+    },
+    {
+      "id": "cb9-078",
+      "text": "Seldom does a season win arrive without a cup to accompany it. That's exactly what we've seen here.",
+      "score": 9,
+      "was": "Seldom does the absence of a cup make a victory so interesting. It has here!"
+    },
+    {
+      "id": "cb9-079",
+      "text": "Now the smaller details get their moment in the spotlight. They've decided a trophyless season victory.",
+      "score": 9,
+      "was": "Now that's what you call making the fine print count: a trophyless season victory!"
+    },
+    {
+      "id": "cb9-080",
+      "text": "Imagine the season champion with nothing new to polish. An odd ending, but a thoroughly deserved result.",
+      "score": 10,
+      "was": "Imagine handing out the season's top billing without a trophy attached. Well, here we are!"
+    },
+    {
+      "id": "cb9-081",
+      "text": "Bonus points rarely get the grand entrance. They've earned it here, with {winner} taking the season.",
+      "score": 9,
+      "was": "The bonus column has its moment of glory, with {winner} taking the season on those extra rewards!"
+    },
+    {
+      "id": "cb9-082",
+      "text": "The main honours haven't come to {winnerClub}, but those modest extras have made this their season.",
+      "score": 9,
+      "was": "Nothing from the main prize table, yet {winnerClub} have found enough in the supporting details!"
+    },
+    {
+      "id": "cb9-083",
+      "text": "For {winner}, the season prize is the verdict itself. The usual silver isn't coming along for the ride.",
+      "score": 9,
+      "was": "What matters now is the outcome, and {winner} has it, even with no silverware to collect!"
+    },
+    {
+      "id": "cb9-084",
+      "text": "Modest rewards, mighty consequence. This season shows how much the unglamorous parts can matter.",
+      "score": 10,
+      "was": "A modest set of rewards can still write a big ending. This season has proved it!"
+    },
+    {
+      "id": "cb9-085",
+      "text": "For once, the prize is simply knowing who finished first, rather than holding anything polished aloft.",
+      "score": 9,
+      "was": "For once, the celebration belongs to the result rather than any polished piece of metal!"
+    },
+    {
+      "id": "cb9-086",
+      "text": "See how the tiniest contributions take on enormous meaning when the season ends without a trophy for its winner.",
+      "score": 9,
+      "was": "See how the smallest contributions can change the whole picture. We've got a winner without a trophy!"
+    },
+    {
+      "id": "cb9-087",
+      "text": "If you were looking only for cups, you'd miss the point of this result. The extras settled it.",
+      "score": 10,
+      "was": "If you were looking for a cup, you've missed the point. The smaller gains decided this!"
+    },
+    {
+      "id": "cb9-088",
+      "text": "Forget the photographs with medals. This particular success is best seen in the season's final standing.",
+      "score": 9,
+      "was": "Forget the photographs with medals; the season's decisive moment is right there in the final comparison!"
+    },
+    {
+      "id": "cb9-089",
+      "text": "There's a neat little paradox for you: a winning season with no trophy to prove it.",
+      "score": 10,
+      "was": "There's something rather satisfying about winning a season nobody can explain with a trophy alone!"
+    },
+    {
+      "id": "cb9-090",
+      "text": "Without a showpiece prize, {winner} has found another way to get the season over the line.",
+      "score": 9,
+      "was": "Without a showpiece prize, {winner} has found a route to seasonal success that few would have predicted!"
+    },
+    {
+      "id": "cb9-091",
+      "text": "Here's a riddle for {loser}: how do you finish behind a rival who hasn't lifted a cup?",
+      "score": 10,
+      "was": "Even {loser} can appreciate the twist: a season decided by the details outside the trophy cabinet!"
+    },
+    {
+      "id": "cb9-092",
+      "text": "What an extraordinary finish for {winnerClub}: no trophy in hand, but the season's honours in their favour.",
+      "score": 9,
+      "was": "What an extraordinary closing note for {winnerClub}: the team takes the season without an honour to display!"
+    },
+    {
+      "id": "cb9-093",
+      "text": "No cup for {winner}, yet there it is, a season win. A victory outside the usual spotlight.",
+      "score": 10,
+      "was": "Not a cup in sight, yet the season goes to {winner}. That really is a fine achievement!"
+    },
+    {
+      "id": "cb9-094",
+      "text": "Those extra credits might look modest, but this season they carry the full weight of the result.",
+      "score": 10,
+      "was": "There's your answer to anyone who overlooks the bonus rewards. They can settle a season!"
+    },
+    {
+      "id": "cb9-095",
+      "text": "We've got a very different sort of winner here, and it's the smaller rewards that explain why.",
+      "score": 9,
+      "was": "We have the verdict, and it's wonderfully unconventional: victory without a single piece of silver!"
+    },
+    {
+      "id": "cb9-096",
+      "text": "Shut the display case for now. This season was won in the categories that rarely get a headline.",
+      "score": 9,
+      "was": "The cabinet door stays shut, but the season still opens up to the manager who earned the extras!"
+    },
+    {
+      "id": "cb9-097",
+      "text": "Hardly the usual closing picture, and all the more striking: {winner} has won the season without a trophy.",
+      "score": 9,
+      "was": "Hardly the usual ending, and all the more memorable: {winner} has taken the season without a trophy!"
+    },
+    {
+      "id": "cb9-098",
+      "text": "Keep the trophy ribbons packed away. The smaller rewards have delivered a proper victory all on their own.",
+      "score": 9,
+      "was": "Keep the trophy ribbons packed away. There's still a proper victory here, earned on the quieter measures!"
+    },
+    {
+      "id": "cb9-099",
+      "text": "At the final reckoning, it was the bonus points, not the cup cabinet, that decided the season.",
+      "score": 9,
+      "was": "At the close of it all, the last word comes from the bonus points rather than a cup!"
+    },
+    {
+      "id": "cb9-100",
+      "text": "This is why the quieter contributions matter. They can settle a season when the trophy room stays unchanged.",
+      "score": 9,
+      "was": "This is why every contribution matters. The season has a winner, and no trophy was needed!"
+    }
+  ]
+}

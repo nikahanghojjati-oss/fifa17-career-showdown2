@@ -1,6 +1,8 @@
 """Checks content-factory batch files (A, B, C, D, F, G and their _ED / MEGA forms).
 
-Usage: python3 check_batch.py FILE [FILE ...]
+Usage: python3 check_batch.py [--strict] FILE [FILE ...]
+--strict adds the editor bar: word repeats (one content word more than 5 times per 50 items, 10 per 100),
+F lead/co word counts, and repeated sentence skeletons. Use it for every _ED file.
 Prints one line per problem and a summary per part. Exit code 1 if any HARD problem.
 Only checks rules; it never writes or changes copy.
 """
@@ -58,6 +60,48 @@ def kind_of(part, name):
     return name[:1].upper()
 
 
+STRICT = False
+STOP = set("""a an the and or but so of to in on at by for with from into onto over under up down out off
+is are was were be been being has have had do does did will would can could should may might must shall
+this that these those it its it's they them their there here then than as if not no nor yet just only
+very more most much many some any all each every both either neither one ones own same such too also
+who whom whose which what when where why how i you we he she his her our your my me us him
+about after again against before below between during through while until because once still even ever
+now back away again isn't doesn't don't can't won't that's there's here's what's who's let's""".split())
+
+
+def strict_checks(kind, sit, items):
+    soft = 0
+    words = collections.Counter()
+    sit_words = set(re.findall(r"[a-z]+", sit.replace("-", " ")))
+    for it in items:
+        for t in texts(kind, it):
+            for w in re.findall(r"[a-z']+", PH.sub(" ", t).lower()):
+                w = w.strip("'")
+                if len(w) > 2 and w not in STOP and w not in sit_words and w not in {"showdown", "season", "seasons", "league", "cup"}:
+                    words[w] += 1
+    limit = max(5, len(items) // 10)
+    for w, c in words.most_common():
+        if c <= limit:
+            break
+        print(f"  SOFT word '{w}' used {c} times (limit {limit})"); soft += 1
+    if kind == "F":
+        for it in items:
+            nl, nc = len(it.get("lead", "").split()), len(it.get("co", "").split())
+            if not 6 <= nl <= 18 or not 6 <= nc <= 20:
+                print(f"  SOFT {it.get('id')}: lead {nl} words, co {nc} words (6-18, 6-20)"); soft += 1
+    skel = collections.Counter()
+    for it in items:
+        m = texts(kind, it)[0]
+        sk = re.sub(r"\{\w+\}", "X", m.lower())
+        sk = " ".join(sk.split()[:2]) + " ... " + " ".join(sk.split()[-2:])
+        skel[sk] += 1
+    for k, c in skel.items():
+        if c > 2:
+            print(f"  SOFT same shape x{c}: '{k}'"); soft += 1
+    return soft
+
+
 def check_part(part, name):
     hard = soft = 0
     kind = kind_of(part, name)
@@ -113,11 +157,16 @@ def check_part(part, name):
         m = sum("{margin}" in it.get("text", "") for it in items)
         if m > 35:
             print(f"  SOFT {{margin}} used in {m} lines (limit 30)"); soft += 1
+    if STRICT:
+        soft += strict_checks(kind, sit, items)
     print(f"{name} part batch={part.get('batch')} kind={kind} situation={sit or '-'} items={len(items)} hard={hard} soft={soft}")
     return hard
 
 
 def main(paths):
+    global STRICT
+    if paths and paths[0] == "--strict":
+        STRICT, paths = True, paths[1:]
     total = 0
     for p in paths:
         d = json.load(open(p, encoding="utf-8"))
