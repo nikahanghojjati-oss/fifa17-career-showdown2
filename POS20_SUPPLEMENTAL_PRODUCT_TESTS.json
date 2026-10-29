@@ -2309,6 +2309,18 @@
       ]
     },
     {
+      "path": "tests/contracts/r86-sp-chip-contracts.cjs",
+      "patterns": [
+        "^js/(specialPlayerChip|marqueePlayer|careerScreensV10|rivalryLegacyV10|seasonFinalV10|ruleBook|rulesSettingsV10|productionSharedCareerStart|sharedCareerAnalytics|visualIdentity)\\.js$",
+        "^data/marqueePlayers\\.js$",
+        "^visual-assets/v10_1/(career-statistics|trophy-room|legacy|rivalry-statistics|standings|final-winner)/[a-z-]+\\.(js|css)$",
+        "^service-worker\\.js$",
+        "^tests/support/career-fixture-helpers\\.cjs$",
+        "^tests/contracts/r86-sp-chip-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r86-unlock-reads-contracts.cjs",
       "patterns": [
         "^js/(sparkPrivatePairing|productionSharedSeasonCommit)\\.js$",

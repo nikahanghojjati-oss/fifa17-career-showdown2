@@ -166,6 +166,19 @@
       glyph.textContent = "";
       glyph.dataset.kind = frame.status || "";
     }
+    // r86 Special Player chip under each manager's name (only when the frame carries one: js/specialPlayerChip.js).
+    [["daniel", "#danielName"], ["nik", "#nikName"]].forEach(([manager, selector]) => {
+      const name = root.querySelector(selector);
+      if (!name) return;
+      name.parentNode.querySelectorAll(".fwSpecialPlayer").forEach((node) => node.remove());
+      const api = window.CareerModeSpecialPlayerChip, sp = frame.specialPlayers && frame.specialPlayers[manager];
+      const chip = api && sp ? api.element(document, sp) : null;
+      if (!chip) return;
+      const slot = document.createElement("span");
+      slot.className = "fwSpecialPlayer";
+      slot.appendChild(chip);
+      name.after(slot);
+    });
     renderResultPanel(frame, fixtures);
     if (!window.FINAL_WINNER_APP) renderActions(frame, fixtures);
     setText("fixtureDump", JSON.stringify(frame, null, 2));

@@ -115,6 +115,19 @@
     text("sdgClubNik", clubs.nik || "");
     $("sdgCrestDaniel").innerHTML = clubs.daniel ? crest(clubs.daniel) : "";
     $("sdgCrestNik").innerHTML = clubs.nik ? crest(clubs.nik) : "";
+    // r86 Special Player chip under each manager's name (only when this view's model carries one: js/specialPlayerChip.js).
+    [["daniel", "sdgNameDaniel"], ["nik", "sdgNameNik"]].forEach(([side, id]) => {
+      const name = $(id), box = name && name.parentNode;
+      if (!box) return;
+      box.querySelectorAll(".sdgSpecialPlayer").forEach((n) => n.remove());
+      const api = window.CareerModeSpecialPlayerChip, sp = m.specialPlayers && m.specialPlayers[side];
+      const chip = api && sp && m.status !== "loading" && m.status !== "unavailable" ? api.element(document, sp) : null;
+      if (!chip) return;
+      const slot = document.createElement("span");
+      slot.className = "sdgSpecialPlayer";
+      slot.appendChild(chip);
+      name.after(slot);
+    });
 
     // Headline numbers.
     const recs = recordsFor(view, m, interim);
