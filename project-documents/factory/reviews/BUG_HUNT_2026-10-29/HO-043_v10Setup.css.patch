@@ -1,0 +1,16 @@
+diff --git a/css/v10Setup.css b/css/v10Setup.css
+index e5cc7390..3d0ae9aa 100644
+--- a/css/v10Setup.css
++++ b/css/v10Setup.css
+@@ -105,6 +105,11 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
+   margin: 22px auto 0;
+ }
+ :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin > h2[data-route-focus-target="true"]:focus { outline: 1px solid rgba(242, 196, 91, .5); outline-offset: 4px; }
++/* HO-043: the Select League title is a picture (TITLE_LEAGUE_V1), so a route focus draws no ring round it: the JOB-1132
++   keyboard ring (3px cream outline + gold box-shadow) boxed the wordmark after a reload or keyboard route, and the 1px
++   :focus ring showed on every open. Keyboard users keep the thin ring, like Club (css/v10Club.css:114-115). */
++html[data-v10-setup="league"] #app #leagueWheelScreen.v26Skin > h2[data-route-focus-target="true"]:focus { outline: none; box-shadow: none; }
++html[data-v10-setup="league"] #app #leagueWheelScreen.v26Skin > h2[data-route-focus-target="true"]:focus-visible { outline: 1px solid rgba(242, 196, 91, .5); outline-offset: 4px; box-shadow: none; }
+ 
+ /* ---------- shared screen kit ---------- */
+ :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin { color: var(--v26-text); }
