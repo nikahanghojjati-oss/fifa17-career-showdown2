@@ -66,3 +66,9 @@ Evidence regenerated in `evidence/` (desktop 1536x864 and phone 393x660, 7 beats
 - A gold pointer with a "FIRES HERE" label is fixed to the crane (it does not turn) at the chamber that lines up with the barrel. Whatever stops under it is the chamber that fires when the drum closes. It grows in as the crane opens and goes away as it closes.
 - The result line reads "Red ring: live round · Gold: fires" while the drum spins, then "Stopped on the live round" or "The live round passed" when it settles.
 - The inside camera looks a little higher so the pointer clears the title on desktop and phone.
+
+## CC-012c · close-up from the rear face, sheets rebuilt (29 Oct)
+
+- The inside camera now looks at the REAR of the swung-out drum, like Nik's photos 2 and 4: the brass rim and primer of the live round sit flush in one chamber with the red ring around it, the ejector star in the middle, six empty bores around. The gold "FIRES HERE" pointer sits on the same face.
+- The rear flute fins are gone: plain drum all the way round.
+- The desktop and phone sheets were stale (they still showed the CC-011 drum); `sheets.py` now rebuilds them from the seven beats every time.
