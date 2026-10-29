@@ -1,0 +1,389 @@
+{
+ "stories": [
+  {
+   "id": "g2-001",
+   "edition": "final",
+   "situation": "showdown-won-1-season",
+   "byline": "From the Gazette Final Whistle Desk",
+   "paragraphs": [
+    "One season, one shot, one champion. {winner} has won the Showdown with {winnerClub}, finishing on {winnerPoints} points to {loserPoints} for {loser} and {loserClub}. The margin was {margin}, and in a single-season sprint, every one of them counted.",
+    "There was no time to settle in and no second chance to put things right. Both managers chased the same prizes: the league title, the domestic cup, the Champions League and the bonus points. When the table was added up, {winner} had more.",
+    "Short formats leave long memories. {winner} gets the bragging rights, {loser} gets a fresh notebook, and both managers know a rematch is only one click away."
+   ]
+  },
+  {
+   "id": "g2-002",
+   "edition": "final",
+   "situation": "showdown-won-1-season",
+   "byline": "Gazette Sprint Correspondent",
+   "paragraphs": [
+    "It was over almost before it began, and {winner} was the one left smiling. {winnerClub} took the one-season Showdown with {winnerPoints} points, while {loser} and {loserClub} finished on {loserPoints}. A gap of {margin} settled the whole affair.",
+    "A single season is a pressure cooker. Every trophy line mattered and every bonus point felt like gold. Late nights at the console turned into early mornings, and when the scores were entered, {winnerClub} had the bigger haul.",
+    "One season is all it takes to write a name into the record books. {loser} will want a longer contest next time, and the Gazette suspects {winner} will happily oblige."
+   ]
+  },
+  {
+   "id": "g2-003",
+   "edition": "final",
+   "situation": "showdown-won-1-season",
+   "byline": "Our Man in the Trophy Room",
+   "paragraphs": [
+    "{winner} has done it in one. The {winnerClub} manager claimed the Showdown on {winnerPoints} points, beating {loser} and {loserClub} on {loserPoints}. One campaign, one verdict, and a winning margin of {margin}.",
+    "With only one season on the calendar, there was nowhere to hide. League title, domestic cup, Champions League, performance bonus, awards bonus: each one was a chance to swing it. {winner} grabbed enough of them to finish in front.",
+    "The trophy is polished, the bragging rights are signed and sealed, and {loser} will surely be muttering about a rematch. In a one-season Showdown, revenge never has to wait long."
+   ]
+  },
+  {
+   "id": "g2-004",
+   "edition": "final",
+   "situation": "showdown-won-1-season",
+   "byline": "Gazette Express Edition Desk",
+   "paragraphs": [
+    "Quick, sharp and settled. {winner} and {winnerClub} are the champions of a one-season Showdown, closing the book on {winnerPoints} points. {loser} and {loserClub} gave chase and finished on {loserPoints}, a gap of {margin} at the final count.",
+    "This was a Showdown with no warm-up act. Both managers knew one season meant one chance, so every trophy and every bonus carried extra weight. The console glowed late, the scores went in, and the scoreboard picked its winner.",
+    "{winner} can frame this front page. {loser} can pin it to the wall as motivation. Either way, the Gazette expects to be printing the rematch before long."
+   ]
+  },
+  {
+   "id": "g2-005",
+   "edition": "final",
+   "situation": "showdown-won-1-season",
+   "byline": "Gazette One-Shot Bureau",
+   "paragraphs": [
+    "{winner} needed just one season to settle this argument. {winnerClub} finished the Showdown on {winnerPoints} points, with {loser} and {loserClub} on {loserPoints}. One campaign, one scoreboard, and one manager walking away with the crown by {margin}.",
+    "Short contests are cruel and thrilling in equal measure. There was no time to build slowly and no future season to rescue a slip. Whatever went into the trophy cabinet this time, {winner} made it count where it mattered.",
+    "A one-season title lasts forever in the archive. {loser} will surely want the controller back in hand soon, and nobody at the Gazette would bet against a swift rematch."
+   ]
+  },
+  {
+   "id": "g2-006",
+   "edition": "final",
+   "situation": "showdown-won-3-seasons",
+   "byline": "Gazette Trilogy Desk",
+   "paragraphs": [
+    "Three seasons, one winner. {winner} has taken the Showdown with {winnerClub}, finishing on {winnerPoints} points overall. {loser} and {loserClub} ended on {loserPoints}, and when the final totals were added up, the gap stood at {margin}.",
+    "A trilogy needs a beginning, a middle and an end, and this one had all three. Season by season the points piled up, the trophy cabinets were counted, and the overall table kept both managers checking the scoreboard nervously.",
+    "{winner} now owns the story of these three seasons. {loser} owns the right to demand a sequel, and the Gazette has a feeling the next instalment is already being planned."
+   ]
+  },
+  {
+   "id": "g2-007",
+   "edition": "final",
+   "situation": "showdown-won-3-seasons",
+   "byline": "Gazette Long Read Desk",
+   "paragraphs": [
+    "{winner} is the champion of a three-season Showdown. Steering {winnerClub} to {winnerPoints} points overall, the winner finished {margin} ahead of {loser}, whose {loserClub} side closed on {loserPoints}. Three campaigns of effort, and one name at the top.",
+    "The middle of a three-season contest is where nerves live. Every league title, domestic cup and bonus point shifted the overall standings, and both managers spent long nights at the console chasing the next season's haul.",
+    "The record books now carry {winner} at the top of this chapter. {loser} will want a rematch, and three more seasons sounds like just the right length for revenge."
+   ]
+  },
+  {
+   "id": "g2-008",
+   "edition": "final",
+   "situation": "showdown-won-3-seasons",
+   "byline": "From the Gazette Season Review Desk",
+   "paragraphs": [
+    "The trophy belongs to {winner}. After three seasons of collecting points, {winnerClub} finished the Showdown on {winnerPoints}, with {loser} and {loserClub} on {loserPoints}. The final margin was {margin}, and the celebrations can officially begin.",
+    "Three seasons is long enough for a rivalry to breathe. Each campaign brought a new chance at the Champions League, the league title and the domestic cup, and each set of results nudged the overall table one way or the other.",
+    "This one goes in the archive with a gold star beside {winner}. {loser} gets the next move, and the Gazette presses are ready for the rematch."
+   ]
+  },
+  {
+   "id": "g2-009",
+   "edition": "final",
+   "situation": "showdown-won-3-seasons",
+   "byline": "Gazette Championship Correspondent",
+   "paragraphs": [
+    "Hats off to {winner}. Over three seasons, the {winnerClub} manager built a total of {winnerPoints} points and finished the Showdown in front. {loser} and {loserClub} ended on {loserPoints}, {margin} behind when the dust finally settled.",
+    "This was a Showdown measured in seasons, not moments. Trophies came and went, bonus points were won and missed, and the overall table told its story one campaign at a time. In the end, {winner} wrote the final line.",
+    "Three seasons of work, one trophy to show for it. {loser} has every right to call for a rematch, and {winner} has every reason to accept."
+   ]
+  },
+  {
+   "id": "g2-010",
+   "edition": "final",
+   "situation": "showdown-won-3-seasons",
+   "byline": "Gazette Three-Act Review",
+   "paragraphs": [
+    "Curtain down on a three-season Showdown, and {winner} takes the final bow. {winnerClub} finished on {winnerPoints} points overall, ahead of {loser} and {loserClub} on {loserPoints}. The winning margin: {margin}. The applause: well earned.",
+    "Act one set the scene, act two raised the stakes, and act three delivered the verdict. Through every season, both managers entered their trophies and bonuses with hope, and the scoreboard quietly kept count of who was gaining ground.",
+    "{winner} earns the standing ovation and a permanent place in the Gazette archive. {loser} earns a rematch, and every good trilogy deserves a sequel."
+   ]
+  },
+  {
+   "id": "g2-011",
+   "edition": "final",
+   "situation": "showdown-won-5-seasons",
+   "byline": "Gazette Marathon Desk",
+   "paragraphs": [
+    "Five seasons, countless late nights, one champion. {winner} has won the Showdown with {winnerClub}, finishing on {winnerPoints} points overall. {loser} and {loserClub} ran the full distance and finished on {loserPoints}, {margin} behind at the line.",
+    "A five-season Showdown is a marathon, not a sprint. The overall table had time to twist and turn as trophies arrived and bonus points were claimed. Through it all, {winner} kept collecting, and the totals did the rest.",
+    "Five seasons of rivalry now sit in the archive under {winner}'s name. {loser} will surely want another five seasons to set the record straight."
+   ]
+  },
+  {
+   "id": "g2-012",
+   "edition": "final",
+   "situation": "showdown-won-5-seasons",
+   "byline": "Gazette Endurance Correspondent",
+   "paragraphs": [
+    "Stamina wins Showdowns, and {winner} had plenty. After five seasons in charge of {winnerClub}, the champion finished on {winnerPoints} points overall. {loser} and {loserClub} closed on {loserPoints}, leaving a final margin of {margin}.",
+    "Five seasons means five chances at the Champions League, five shots at the league title and five runs at the domestic cup. Both managers filled in their trophy lines season after season, and the overall table slowly made up its mind.",
+    "{winner} has the trophy and the bragging rights for the long haul. {loser} has a rematch to plan, and five more seasons is plenty of time for a comeback."
+   ]
+  },
+  {
+   "id": "g2-013",
+   "edition": "final",
+   "situation": "showdown-won-5-seasons",
+   "byline": "Gazette Five-Season Review",
+   "paragraphs": [
+    "The long road is over, and {winner} is standing at the end of it. {winnerClub} won the five-season Showdown with {winnerPoints} points overall, while {loser} and {loserClub} finished on {loserPoints}. The difference was {margin}.",
+    "Over five campaigns, the rivalry had room to grow. Each season brought fresh trophy lines and fresh bonus points to fight over, and the overall table shifted with every entry before finally settling in {winner}'s favour.",
+    "Five seasons of effort earn {winner} a lasting place in the Gazette archive. {loser} earns the first claim on a rematch, and the presses will be waiting."
+   ]
+  },
+  {
+   "id": "g2-014",
+   "edition": "final",
+   "situation": "showdown-won-5-seasons",
+   "byline": "Gazette Long Haul Bureau",
+   "paragraphs": [
+    "{winner} has outlasted, outcollected and outpointed the opposition. Five seasons with {winnerClub} produced {winnerPoints} points overall and the Showdown crown. {loser} and {loserClub} gave it everything and finished on {loserPoints}, {margin} short.",
+    "A five-season contest tests patience as much as skill. Every season at the console brought a new trophy hunt and a new set of bonuses, and every total was added to the pile. {winner}'s pile simply grew taller.",
+    "The champion's name is now printed in bold. {loser} will be back, of course, and the Gazette fully expects the rematch to be just as long and just as fierce."
+   ]
+  },
+  {
+   "id": "g2-015",
+   "edition": "final",
+   "situation": "showdown-won-5-seasons",
+   "byline": "Gazette Final Edition Desk",
+   "paragraphs": [
+    "Five seasons in the making, and the verdict is in: {winner} is the Showdown champion. {winnerClub} closed on {winnerPoints} points overall, {margin} clear of {loser} and {loserClub}, who finished on {loserPoints}. A title earned the long way.",
+    "No five-season Showdown is won in a hurry. Points arrived season by season, from league titles, domestic cups, European trophies and those precious bonus pairs, and the overall table kept score with quiet patience until {winner} stood on top.",
+    "{winner} can enjoy the view from the summit. {loser} can start sketching plans for the rematch, because in this rivalry, no title stays safe for long."
+   ]
+  },
+  {
+   "id": "g2-016",
+   "edition": "final",
+   "situation": "golden-showdown-won",
+   "byline": "Gazette Golden Commemorative Edition",
+   "paragraphs": [
+    "Strike the gold presses. {winner} is the first manager to reach 110 points, and the Golden Showdown belongs to {winnerClub}. {loser} and {loserClub} finished on {loserPoints}, but this page belongs to the champion and the champion alone.",
+    "No season can give more than 11 points, so climbing to 110 demands relentless collecting. League titles, domestic cups, Champions League crowns and bonus points all had to keep flowing, season after season, while {loser} kept the pressure on.",
+    "Frame this edition. A Golden Showdown is the rarest prize in this rivalry, and {winner} owns it. {loser} may want a rematch, but gold like this lasts forever."
+   ]
+  },
+  {
+   "id": "g2-017",
+   "edition": "final",
+   "situation": "golden-showdown-won",
+   "byline": "Special Gold Edition: Gazette Hall of Fame Desk",
+   "paragraphs": [
+    "History has a new name in gold letters. {winner} has become the first manager to reach 110 points, winning the Golden Showdown with {winnerClub}. {loser} and {loserClub} reached {loserPoints}, a total earned in a historic contest.",
+    "This was the long game in its purest form. Season after season, trophies were entered, bonuses were claimed and the scoreboard ticked upward. Both managers chased the gold line, but {winner} crossed it first.",
+    "The Gazette has printed many front pages, but none quite like this one. {winner} is golden forever. {loser} has a new mountain to climb in the rematch."
+   ]
+  },
+  {
+   "id": "g2-018",
+   "edition": "final",
+   "situation": "golden-showdown-won",
+   "byline": "Gazette Gold Souvenir Edition",
+   "paragraphs": [
+    "Gold, glorious gold. {winner} has reached 110 points before anyone else and claimed the Golden Showdown for {winnerClub}. It is the highest honour this rivalry can offer. {loser} and {loserClub} finished on {loserPoints}.",
+    "Reaching 110 is no accident. With a maximum of 11 points in any season, the champion had to keep the trophy cabinet busy season after season. The console hours stacked up, the bonuses kept landing, and the gold line drew closer.",
+    "Commemorative copies are recommended. {winner} has written the greatest chapter in Showdown history, and {loser} now has the ultimate target for any rematch: matching it."
+   ]
+  },
+  {
+   "id": "g2-019",
+   "edition": "final",
+   "situation": "golden-showdown-won",
+   "byline": "Gazette Golden Jubilee Desk",
+   "paragraphs": [
+    "Ring the bells and polish the gold. {winner} is the first manager to hit 110 points, and with it comes the Golden Showdown, the grandest crown in this rivalry. {winnerClub} stands alone at the summit.",
+    "{loser} and {loserClub} stayed in the race, finishing on {loserPoints}. But the Golden Showdown rewards whoever gets there first, and season by season, title by title, bonus by bonus, {winner} kept the climb going.",
+    "There may be other Showdowns, but there is only one first to 110. {winner} owns that forever. {loser} owns the motivation for a golden rematch."
+   ]
+  },
+  {
+   "id": "g2-020",
+   "edition": "final",
+   "situation": "golden-showdown-won",
+   "byline": "Gazette Gold Edition, Printed in Honour of the Champion",
+   "paragraphs": [
+    "This is the front page the Gazette has waited for. {winner} has reached 110 points first and won the Golden Showdown with {winnerClub}. {loser} and {loserClub} finished on {loserPoints}, chasing to the very end.",
+    "Golden Showdowns are not won in a season or two. They are built one campaign at a time, with every league title, cup, European crown and bonus pair pushing the total higher until the magic number finally appeared.",
+    "Gold edition, gold champion, gold memories. {winner} joins the Gazette hall of fame, and {loser} is welcome to try for gold in the rematch."
+   ]
+  },
+  {
+   "id": "g2-021",
+   "edition": "final",
+   "situation": "showdown-drawn",
+   "byline": "Gazette Stalemate Desk",
+   "paragraphs": [
+    "Nobody blinked. When the final scores were counted, {managerA} and {managerB} stood level on {points} points each. {clubA} and {clubB} share the honours, and the Gazette declares the Showdown a draw, with no winner.",
+    "By the end, every point had an answer. Whatever one manager added to the cabinet, the other matched in total, and the overall table simply refused to pick a side. It was rivalry in perfect balance.",
+    "No champion, no runner-up, just two managers who could not be separated. A rematch is not optional now. It is required."
+   ]
+  },
+  {
+   "id": "g2-022",
+   "edition": "final",
+   "situation": "showdown-drawn",
+   "byline": "Gazette Dead Heat Correspondent",
+   "paragraphs": [
+    "Honours even. {managerA} with {clubA} and {managerB} with {clubB} have both finished the Showdown on {points} points, and the scoreboard has nothing more to say. It is a draw, and nobody takes the crown.",
+    "Across the whole Showdown, trophies were chased, bonuses were hunted and the overall table was checked more times than anyone will admit. After all that effort, the two totals landed in exactly the same spot.",
+    "History will record a dead heat. Both managers can claim they were never beaten overall, and both will be desperate to settle it properly in the rematch."
+   ]
+  },
+  {
+   "id": "g2-023",
+   "edition": "final",
+   "situation": "showdown-drawn",
+   "byline": "Gazette All-Square Desk",
+   "paragraphs": [
+    "Split down the middle. The Showdown between {managerA} and {managerB} has ended all square, with {clubA} and {clubB} each finishing on {points} points. There is no winner and no loser, only a perfectly balanced scoreboard.",
+    "The overall table spent the whole Showdown waiting for someone to pull clear, and nobody ever did for good. In the end the trophies and bonuses added up to the same number on both sides, leaving two managers staring at identical totals.",
+    "A draw settles nothing and everything. Both managers keep their pride intact, and the Gazette is already clearing space for the rematch that will finally decide it."
+   ]
+  },
+  {
+   "id": "g2-024",
+   "edition": "final",
+   "situation": "showdown-drawn",
+   "byline": "Gazette Neutral Corner",
+   "paragraphs": [
+    "Two managers, two clubs, one identical total. {managerA} and {clubA} finished level with {managerB} and {clubB}, both on {points} points overall. The Showdown is drawn, the trophy stays on the shelf and nobody gets to gloat.",
+    "It was a contest of answers. Whatever one manager banked across the Showdown, the other had matched by the finish, and the final scoreboard showed the same number twice. Rarely has a rivalry looked so evenly matched.",
+    "Neither {managerA} nor {managerB} can claim the crown, and neither has to give it up. The only fair answer is a rematch."
+   ]
+  },
+  {
+   "id": "g2-025",
+   "edition": "final",
+   "situation": "showdown-drawn",
+   "byline": "Gazette Photo Finish Desk",
+   "paragraphs": [
+    "Not even the scoreboard could split them. {managerA} and {managerB} reach the end of the Showdown locked together on {points} points, with {clubA} and {clubB} sharing the final standings. It is a draw, pure and simple.",
+    "Long nights at the console, careful entries after every season and plenty of nervous glances at the overall table all led to this. Both managers gave the trophy chase everything, and the points finished perfectly balanced.",
+    "A shared result means shared bragging rights, which suits neither of them. The rematch cannot come soon enough for {managerA} or {managerB}."
+   ]
+  },
+  {
+   "id": "g2-026",
+   "edition": "final",
+   "situation": "won-on-the-final-day",
+   "byline": "Gazette Last-Gasp Desk",
+   "paragraphs": [
+    "It went all the way to the final season, and {winner} was still standing when it ended. {winnerClub} won the Showdown on {winnerPoints} points overall, with {loser} and {loserClub} on {loserPoints}. The margin: {margin}.",
+    "Nothing was decided early. Season after season the overall table stayed tight enough to keep both managers guessing, and only when the last trophy lines and bonuses were entered did the scoreboard finally give its answer.",
+    "Finishes like this are why the Gazette exists. {winner} gets the glory, {loser} gets the what-ifs, and both get a rematch worth waiting for."
+   ]
+  },
+  {
+   "id": "g2-027",
+   "edition": "final",
+   "situation": "won-on-the-final-day",
+   "byline": "Gazette Final Season Correspondent",
+   "paragraphs": [
+    "Hold the front page, then print it. {winner} has won the Showdown with {winnerClub} in the very last season, finishing on {winnerPoints} points overall. {loser} and {loserClub} took it to the wire and ended on {loserPoints}.",
+    "Right up to the final season, the outcome was open. The overall table kept both managers within reach, every bonus point felt enormous, and the last batch of trophy lines carried the weight of the whole Showdown.",
+    "{winner} will remember that final season for a long time. So will {loser}, which is exactly why the rematch promises to be just as tense."
+   ]
+  },
+  {
+   "id": "g2-028",
+   "edition": "final",
+   "situation": "won-on-the-final-day",
+   "byline": "Gazette Down to the Wire Desk",
+   "paragraphs": [
+    "Settled at the last. {winner} and {winnerClub} needed the final season to clinch the Showdown, and they got it done, finishing on {winnerPoints} points overall. {loser} and {loserClub} were right there on {loserPoints}.",
+    "This rivalry refused to be wrapped up early. Through every season the race stayed alive, with trophies and bonus points keeping the overall table on a knife edge. Only the final round of entries separated them.",
+    "Last-season wins are the sweetest kind. {winner} has earned the celebration, and {loser} has earned the right to call for a rematch straight away."
+   ]
+  },
+  {
+   "id": "g2-029",
+   "edition": "final",
+   "situation": "won-on-the-final-day",
+   "byline": "Gazette Nerves of Steel Desk",
+   "paragraphs": [
+    "What a finish. With everything resting on the final season, {winner} held firm and took the Showdown for {winnerClub} on {winnerPoints} points overall. {loser} and {loserClub} finished on {loserPoints}, beaten by a margin of {margin}.",
+    "The scoreboard made everyone wait. Each season added another layer of tension, as league titles, cups and bonuses kept the overall race open. When the last season's results went in, the long wait finally ended in {winner}'s favour.",
+    "Nobody can say this title came easily. {winner} earned it at the very end, and {loser} will arrive at the rematch hungrier than ever."
+   ]
+  },
+  {
+   "id": "g2-030",
+   "edition": "final",
+   "situation": "won-on-the-final-day",
+   "byline": "Gazette Late Edition",
+   "paragraphs": [
+    "The presses waited until the very last season, and so did the result. {winner} has won the Showdown with {winnerClub}, closing on {winnerPoints} points overall, while {loser} and {loserClub} ended on {loserPoints}. Drama, delivered.",
+    "For most of the Showdown, either manager could have finished on top. The overall table stayed within reach of both, and every trophy entered felt like it might be the one. In the end, the final season decided everything.",
+    "The rivalry rarely gets closer than this, or more fun to report. {winner} takes the trophy, {loser} takes aim at the rematch, and the Gazette cannot wait."
+   ]
+  },
+  {
+   "id": "g2-031",
+   "edition": "final",
+   "situation": "dominant-win",
+   "byline": "Gazette Runaway Desk",
+   "paragraphs": [
+    "This one was never in doubt at the finish. {winner} has won the Showdown with {winnerClub} on {winnerPoints} points overall, a full {margin} clear of {loser} and {loserClub}, who finished on {loserPoints}. A commanding champion.",
+    "Over the seasons, the gap opened up. {winner} kept the trophy cabinet busy and the bonus points flowing, and the overall table stretched further as the entries piled up. {loser} kept going, but the scoreboard told a one-sided story.",
+    "Dominant champions leave big footprints. {winner} has set the standard, and {loser} now has a clear target to aim at when the rematch begins."
+   ]
+  },
+  {
+   "id": "g2-032",
+   "edition": "final",
+   "situation": "dominant-win",
+   "byline": "Gazette Masterclass Desk",
+   "paragraphs": [
+    "A statement Showdown. {winner} and {winnerClub} finished on {winnerPoints} points overall and left {loser} and {loserClub} trailing on {loserPoints}. The winning margin of {margin} tells the whole story: this was control, plain and simple.",
+    "The points kept coming for {winnerClub}. Titles, cups and bonuses stacked up across the Showdown, and the overall table ended up firmly lopsided. {loser} never stopped chasing, but this time the scoreboard belonged to one manager.",
+    "This is the kind of win that gets talked about for seasons to come. {loser} will want revenge, and the rematch is the place to get it."
+   ]
+  },
+  {
+   "id": "g2-033",
+   "edition": "final",
+   "situation": "dominant-win",
+   "byline": "Gazette Big Margin Bureau",
+   "paragraphs": [
+    "Out of sight at the finish. {winner} has claimed the Showdown with {winnerClub}, finishing on {winnerPoints} points overall, {margin} ahead of {loser} and {loserClub} on {loserPoints}. When the totals were read out, the gap spoke loudest.",
+    "A big margin is built, not found. {winner} turned season after season into points, chasing every trophy line and every bonus pair, while the overall table slowly became a one-horse race. {loser} will be glad to start afresh.",
+    "{winner} sets the bar high. {loser} sets the alarm early for the rematch, determined to make the next front page a very different read."
+   ]
+  },
+  {
+   "id": "g2-034",
+   "edition": "final",
+   "situation": "dominant-win",
+   "byline": "Gazette Cruise Control Desk",
+   "paragraphs": [
+    "Comfortable, commanding and complete. {winner} has won the Showdown in style with {winnerClub}, posting {winnerPoints} points overall. {loser} and {loserClub} finished on {loserPoints}, and a winning margin of {margin} leaves no room for argument.",
+    "The trophy cabinet at {winnerClub} needed extra shelves by the end. Points from titles, cups and bonuses kept landing, and the overall table pulled further apart. {loser} gave chase, but the gap simply would not close.",
+    "A dominant win deserves a dominant headline, and {winner} has one. {loser} has something just as useful: motivation, and a rematch waiting."
+   ]
+  },
+  {
+   "id": "g2-035",
+   "edition": "final",
+   "situation": "dominant-win",
+   "byline": "Gazette Champion's Corner",
+   "paragraphs": [
+    "By the end, there was only one name for this front page. {winner} and {winnerClub} won the Showdown on {winnerPoints} points overall, finishing {margin} clear of {loser} and {loserClub}, who ended on {loserPoints}.",
+    "Some Showdowns swing back and forth. This one had a clear direction. {winner} kept adding to the trophy cabinet, kept banking bonus points and kept pulling the overall table further ahead, leaving {loser} plenty to ponder.",
+    "The champion has raised the bar. {loser} has a rematch to plan and a margin to avenge, and the Gazette suspects the next Showdown will be much closer."
+   ]
+  }
+ ]
+}

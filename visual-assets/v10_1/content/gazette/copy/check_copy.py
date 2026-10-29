@@ -14,7 +14,7 @@ for r in d['stories']:
         for ph in re.findall(r'\{(\w+)\}',p):
             if ph not in ALLOW: probs.append('ph '+ph)
         if r['situation'] in NOWIN and re.search(r'\{(winner|loser|winnerClub|loserClub|margin|winnerPoints|loserPoints)\}',p): probs.append('win-ph in draw')
-        if re.search(r'\d',re.sub(r'\{\w+\}','',p)): probs.append('digit p%d'%i)
+        if re.search(r'\d',re.sub(r'\b(110|11)\b','',re.sub(r'\{\w+\}','',p))): probs.append('digit p%d'%i)  # rule numbers 11 and 110 are allowed
         if '—' in p or '–' in p: probs.append('dash p%d'%i)
         m=re.findall(BAN,p,re.I)
         if m: probs.append('ban p%d %s'%(i,[x[0] if isinstance(x,tuple) else x for x in m]))
