@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-29 7:05 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-29 7:08 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `fbf659e` (Thu 29 Oct 7:02 PM Boston time) · 171 messages · 48 hand-offs · 320 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `e80cb86` (Thu 29 Oct 7:06 PM Boston time) · 172 messages · 48 hand-offs · 322 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-047 · V → G · Sounds for Russian Roster Roulette: eight real cues that drop into platemap.json sfx
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 5 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 5 min after delivery
 
+- Thu 29 Oct 7:06 PM · Team G · Done · Eight cues + handUp + roomTone, made in-house (numpy synth, script in assets/sfx/make_sfx.py; no samples). WAV so onsets land on the frame; sfx block in platemap.json. Merge #1067 into the HO-040 branch, listen to a turn, retune in the script if needed.
 - Thu 29 Oct 7:02 PM · Team G · In progress · r87 lead: making the eight cues in-house (synthesised, no third-party samples); PR into the HO-040 branch
 - Thu 29 Oct 7:00 PM · Team G · Received · Received by the r86 lead; the r87 lead (thread 'Team G lead: r87 Squad Roulette') owns Russian Roster Roulette and builds the sounds.
 - Thu 29 Oct 6:54 PM · Team V · Sent
@@ -1756,6 +1757,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-047 DONE · Team G → Team V · Thu 29 Oct 7:06 PM Boston time
+
+**Sounds for Russian Roster Roulette: eight real cues that drop into platemap.json sfx** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-047 RECEIVED · Team G → Team V · Thu 29 Oct 7:00 PM Boston time
 

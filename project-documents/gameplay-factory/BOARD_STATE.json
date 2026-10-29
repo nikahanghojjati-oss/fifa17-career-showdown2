@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-29 7:05 PM Boston time (EDT)",
+ "generated": "2026-10-29 7:08 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 171,
+  "count": 172,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1542,6 +1542,15 @@
     "subject": "Sounds for Russian Roster Roulette: eight real cues that drop into platemap.json sfx",
     "reply": "no",
     "boston": "Thu 29 Oct 7:00 PM"
+   },
+   {
+    "time": "2026-10-29 23:06",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-047 DONE",
+    "subject": "Sounds for Russian Roster Roulette: eight real cues that drop into platemap.json sfx",
+    "reply": "no",
+    "boston": "Thu 29 Oct 7:06 PM"
    }
   ],
   "g2v": {
@@ -1562,8 +1571,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "fbf659e",
-  "head_boston": "Thu 29 Oct 7:02 PM",
+  "head": "e80cb86",
+  "head_boston": "Thu 29 Oct 7:06 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2244,8 +2253,8 @@
     "from": "V",
     "to": "G",
     "title": "Sounds for Russian Roster Roulette: eight real cues that drop into platemap.json sfx",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-047_sounds-for-russian-roster-roulette-eight.md",
     "worker": "sol-work",
@@ -2322,7 +2331,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
