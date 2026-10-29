@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-29 4:45 AM Boston time (EDT)",
+ "generated": "2026-10-29 4:49 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 153,
@@ -1400,8 +1400,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "47883af",
-  "head_boston": "Thu 29 Oct 4:20 AM",
+  "head": "bd97d87",
+  "head_boston": "Thu 29 Oct 4:49 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1998,8 +1998,8 @@
     "from": "V",
     "to": "G",
     "title": "League wheel spin polish: 7 errors fixed, patch ready to merge (Nik OK)",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-041_league-wheel-spin-polish-7-errors-fixed-.md",
     "worker": "",
@@ -2102,7 +2102,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 44,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,

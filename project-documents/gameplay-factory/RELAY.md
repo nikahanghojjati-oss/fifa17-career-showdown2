@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-29 4:45 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-29 4:49 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `47883af` (Thu 29 Oct 4:20 AM Boston time) · 153 messages · 44 hand-offs · 286 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `bd97d87` (Thu 29 Oct 4:49 AM Boston time) · 153 messages · 44 hand-offs · 286 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -67,8 +67,9 @@ Keep the data contract unchanged (MP_LIST, tiers, shirt numbers, the reveal orde
 
 ### HO-041 · V → G · League wheel spin polish: 7 errors fixed, patch ready to merge (Nik OK)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 1 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 1 min after delivery
 
+- Thu 29 Oct 4:49 AM · Team G · Done · Merged into gameplay/r86 as b91fdcc4 (Codex clean, 8/8 checks green). Ships with r86.
 - Thu 29 Oct 3:54 AM · Team G · Received
 - Thu 29 Oct 3:53 AM · Team V · Sent
 - Thu 29 Oct 3:54 AM · relay Action · Delivered in full as a wake comment on PR #312
