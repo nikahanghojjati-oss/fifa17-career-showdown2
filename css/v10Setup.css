@@ -376,11 +376,20 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
     url("../visual-assets/v10_1/shared/art/wheel/WHEEL_RIM_V1.webp") center / 100% 100% no-repeat;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .72));
 }
+/* Slice dividers: five drawn gold lines of one width (an SVG), not a conic-gradient hairline. A 0.5deg gradient sliver
+   is thinner than a pixel at the hub and fat at the rim, and when the track turns the GPU resamples it into a dashed,
+   flickering line (this is what the eye reads as a rough spin). Real strokes with round caps stay one clean line at
+   every angle; the track also keeps its own layer for the whole transition so nothing is re-rasterised mid-spin. */
 #leagueWheelScreen.v26Skin .wheelTrack {
   z-index: 1;
   display: block;
-  background: repeating-conic-gradient(from -36deg, rgba(242, 196, 91, .95) 0 .5deg, transparent .5deg 71.5deg, rgba(242, 196, 91, .95) 71.5deg 72deg);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 480 480'%3E%3Cg stroke='%23f2c45b' stroke-width='2.4' stroke-linecap='round' stroke-opacity='.95' fill='none'%3E%3Cline x1='240' y1='240' x2='98.9' y2='45.8'/%3E%3Cline x1='240' y1='240' x2='381.1' y2='45.8'/%3E%3Cline x1='240' y1='240' x2='468.3' y2='314.2'/%3E%3Cline x1='240' y1='240' x2='240' y2='480'/%3E%3Cline x1='240' y1='240' x2='11.7' y2='314.2'/%3E%3C/g%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
 }
+/* The names and marks ride on the track's layer. */
+#leagueWheelScreen.v26Skin .wheelItem { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
 #leagueWheelScreen.v26Skin .wheelItem {
   position: absolute;
   left: 50%;
