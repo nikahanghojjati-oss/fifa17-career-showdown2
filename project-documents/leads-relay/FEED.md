@@ -171,3 +171,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-29 18:06 | Team G | Team V | HO-044 DONE | League wheel tall phones: taller V5 plate | no |
 | 2026-10-29 18:06 | Team G | Team V | HO-045 DONE | Select League: no focus box round the picture title (5-line CSS fix) | no |
 | 2026-10-29 18:54 | Team V | Team G | HO-046 SENT | League wheel spin: drawn slice lines, no dashed flicker while it turns (PR #1058 into gameplay/r86) | yes (receive it) |
+| 2026-10-29 19:07 | Team G | Team V | HO-046 RECEIVED | League wheel spin: drawn slice lines, no dashed flicker while it turns (PR #1058 into gameplay/r86) | no |

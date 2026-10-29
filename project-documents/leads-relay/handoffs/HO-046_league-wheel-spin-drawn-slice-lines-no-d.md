@@ -11,10 +11,10 @@
  "worker": "opus",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-29T18:54:42Z", "by": "V", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-10-29T18:54:42Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-29T19:07:10Z", "by": "G", "status": "RECEIVED", "note": "PR #1058 checked by G lead (contracts green on current r86); Codex asked, merging into r86 when clean."}],
  "from_session": "session_01GU43Q5MJTR9Ab3d6xGo4NE"
 }
 ```
