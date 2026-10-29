@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-29 9:27 AM Boston time (EDT)",
+ "generated": "2026-10-29 9:31 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 156,
@@ -2070,7 +2070,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-044_league-wheel-tall-phones-taller-v5-plate.md",
     "worker": "images",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 5
    }
   ],
   "relay_ok": true
