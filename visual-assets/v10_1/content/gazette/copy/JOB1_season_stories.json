@@ -1,0 +1,532 @@
+{
+ "stories": [
+  {
+   "id": "g1-001",
+   "edition": "season",
+   "situation": "big-win",
+   "byline": "By the Gazette Chief Football Writer",
+   "paragraphs": [
+    "{winner} has run riot. The {winnerClub} manager finished season {seasonNo} of {seasonsTotal} on {winnerPoints} to {loserPoints}, a margin of {margin}, and the scoreboard at Career Mode Showdown has rarely looked so lopsided.",
+    "For {loser}, this is a season to file quietly and forget. The wider rivalry is a longer story, but the trophy cabinet at {winnerClub} is now bulging, and the bragging rights belong firmly with one manager tonight.",
+    "Next season {loser} returns to the console with a point to prove. Margins like this one rarely repeat, and the {loserClub} dugout will be plotting a reply long into the night."
+   ]
+  },
+  {
+   "id": "g1-002",
+   "edition": "season",
+   "situation": "big-win",
+   "byline": "From our touchline desk",
+   "paragraphs": [
+    "A rout. {winner} took season {seasonNo} by a margin of {margin}, piling up {winnerPoints} against {loserPoints} for {loser}, and steering {winnerClub} so far clear that the chase never really began.",
+    "Rivalries are built on nights like this, even the painful ones. {loser} will not enjoy reading the points column, but every great comeback story needs a low point first, and this one has been delivered in style.",
+    "The cabinet at {winnerClub} needs a polish and a bigger shelf. Over at {loserClub}, the only order of business is the next season, and a very long look at the scoreboard."
+   ]
+  },
+  {
+   "id": "g1-003",
+   "edition": "season",
+   "situation": "big-win",
+   "byline": "From the Gazette sports desk",
+   "paragraphs": [
+    "Nobody saw it coming, least of all {loser}. {winner} and {winnerClub} swept through season {seasonNo} to finish {margin} clear, with the season tally reading {winnerPoints} to {loserPoints} when the dust finally settled.",
+    "This was a statement, written in silverware. The Showdown has a new tone now, and {loser} knows it. Big margins tend to linger in the memory, and this one will be quoted back at every opportunity.",
+    "Expect {loser} to arrive for the next season sharper, hungrier and in no mood for small talk. {winner} has set the bar high. Now comes the hard part: doing it again."
+   ]
+  },
+  {
+   "id": "g1-004",
+   "edition": "season",
+   "situation": "big-win",
+   "byline": "By our Showdown correspondent",
+   "paragraphs": [
+    "Season {seasonNo} belongs to {winner}, and it is not close. A haul of {winnerPoints} against {loserPoints} left {winnerClub} a margin of {margin} ahead of {loserClub}, the kind of gap that makes the bookkeepers check their sums twice.",
+    "{loser} will take it on the chin, as good rivals do. But the message from {winner} is loud and clear: this Showdown will be fought for every single point, and nobody is easing off the pace.",
+    "The next season starts with one manager smiling and one manager scheming. History says lopsided seasons often spark the fiercest replies, so {winner} would be wise to keep looking over a shoulder."
+   ]
+  },
+  {
+   "id": "g1-005",
+   "edition": "season",
+   "situation": "narrow-win",
+   "byline": "From our touchline desk",
+   "paragraphs": [
+    "By the slimmest of threads, {winner} takes season {seasonNo}. The final count read {winnerPoints} to {loserPoints}, a margin of just {margin}, and {loser} will spend a long time wondering where that last bit of silverware went.",
+    "Seasons like this are why the Showdown exists. Nothing separated these two managers but a whisker, and {loser} has every right to feel the gap is closer than the scoreboard admits. The rivalry is very much alive.",
+    "Next season, one trophy could swing everything. {winner} will want breathing room, {loser} will want revenge, and the trophy cabinet at {winnerClub} has just a little more shine for now."
+   ]
+  },
+  {
+   "id": "g1-006",
+   "edition": "season",
+   "situation": "narrow-win",
+   "byline": "By the Gazette Chief Football Writer",
+   "paragraphs": [
+    "{winner} edges it. After a season of nervous glances at the points column, {winnerClub} finished ahead of {loserClub} by a margin of {margin}, closing season {seasonNo} with the tally at {winnerPoints} to {loserPoints}.",
+    "Close seasons are the cruellest kind for the runner-up. {loser} was right there, within touching distance, and will know it. For {winner}, a narrow win still counts in full, and every point matters in this Showdown.",
+    "The next season will start with nerves jangling on both sides. {loser} needs only a small swing to turn the tables, and {winner} knows exactly how thin this cushion is."
+   ]
+  },
+  {
+   "id": "g1-007",
+   "edition": "season",
+   "situation": "narrow-win",
+   "byline": "From the Gazette sports desk",
+   "paragraphs": [
+    "Photo finish. {winner} pipped {loser} to season {seasonNo} by a margin of {margin}, with {winnerPoints} to {loserPoints} the final reading, and the {winnerClub} faithful can finally exhale after a season of chewed fingernails.",
+    "Neither manager will sleep easily on this one. {loser} came within a whisker, {winner} survived by the narrowest of edges, and the rivalry now feels tighter than ever. Somebody blinked, but only just.",
+    "One extra trophy changes everything next season. The cabinet at {winnerClub} gains a little shine tonight, but at {loserClub} the plans for a reply are already being drawn up."
+   ]
+  },
+  {
+   "id": "g1-008",
+   "edition": "season",
+   "situation": "narrow-win",
+   "byline": "By our Showdown correspondent",
+   "paragraphs": [
+    "It went to the wire and {winner} held on. Season {seasonNo} of {seasonsTotal} ends with {winnerClub} a margin of {margin} ahead, {winnerPoints} to {loserPoints}, and {loser} left counting the tiniest of gaps.",
+    "Margins this thin rarely settle arguments. They start them. {loser} will point to the bonuses, {winner} will point to the scoreboard, and both will be right in their own way. That is the joy of a proper rivalry.",
+    "Roll on the next season. If this one is anything to go by, the gap between {winnerClub} and {loserClub} will be measured in single points again, and every trophy will feel enormous."
+   ]
+  },
+  {
+   "id": "g1-009",
+   "edition": "season",
+   "situation": "comfortable-win",
+   "byline": "By the Gazette Chief Football Writer",
+   "paragraphs": [
+    "{winner} made it look tidy. Season {seasonNo} closed with {winnerClub} a margin of {margin} clear of {loserClub}, the tally reading {winnerPoints} to {loserPoints}, and there was never much doubt where the bragging rights were heading.",
+    "Not a thrashing, not a thriller, but a firm and professional job. {loser} was never out of sight, yet {winner} simply had more silverware to show for the season. Solid seasons like this quietly win Showdowns.",
+    "The next season offers {loser} a fair shot at a reply. A gap like this can be wiped out by one big trophy, so the cabinet at {winnerClub} should not get too comfortable."
+   ]
+  },
+  {
+   "id": "g1-010",
+   "edition": "season",
+   "situation": "comfortable-win",
+   "byline": "From our touchline desk",
+   "paragraphs": [
+    "A clear win, cleanly taken. {winner} finished season {seasonNo} on {winnerPoints} to {loserPoints} for {loser}, and the margin of {margin} tells the story of a manager who simply had the stronger season.",
+    "This is the kind of result that shifts the mood without ending the debate. {loser} is bruised, not broken, and {winner} has earned a pleasant few days of gentle teasing. The rivalry rolls on, with a little extra spice.",
+    "Next season, {loserClub} must find a trophy or two more than this time. {winner} will be happy to keep things exactly as they are, thank you very much."
+   ]
+  },
+  {
+   "id": "g1-011",
+   "edition": "season",
+   "situation": "comfortable-win",
+   "byline": "From the Gazette sports desk",
+   "paragraphs": [
+    "{winner} wins season {seasonNo} with room to spare. The final count of {winnerPoints} to {loserPoints} left {winnerClub} a margin of {margin} ahead of {loserClub}, a gap that leaves little room for argument.",
+    "This one will sting {loser} without hurting too badly. It is a margin that can be recovered, but only with a big season in return. {winner}, meanwhile, has every reason to strut a little.",
+    "The trophy cabinet at {winnerClub} is a little heavier tonight. Next season, the doors at {loserClub} swing open again, and the hunt for silverware starts from scratch."
+   ]
+  },
+  {
+   "id": "g1-012",
+   "edition": "season",
+   "situation": "comfortable-win",
+   "byline": "By our Showdown correspondent",
+   "paragraphs": [
+    "Steady hands win seasons. {winner} proved it in style, guiding {winnerClub} through season {seasonNo} of {seasonsTotal} to a {winnerPoints} to {loserPoints} finish and a margin of {margin} over {loser}.",
+    "There was no panic and no drama, just a season of collecting what mattered. {loser} will look back and see trophies that got away, but nothing that made {winner} truly sweat. A comfortable win, and a quietly ominous one.",
+    "Next season is a clean slate. One big trophy for {loserClub} could flip the script, and {winner} knows a comfortable season can be followed by an awkward one."
+   ]
+  },
+  {
+   "id": "g1-013",
+   "edition": "season",
+   "situation": "draw",
+   "byline": "From our touchline desk",
+   "paragraphs": [
+    "Honours even. {managerA} and {managerB} both finished season {seasonNo} on {points}, and after all the late nights at the console, the Showdown scoreboard refuses to pick a side. Nobody wins this one.",
+    "A draw settles nothing and stirs up everything. {managerA} will claim the moral high ground, {managerB} will claim the same, and the arguments over who really had the better season will run for days.",
+    "Next season, something has to give. The cabinets at {clubA} and {clubB} have room for more, and the first manager to find an extra trophy takes the bragging rights."
+   ]
+  },
+  {
+   "id": "g1-014",
+   "edition": "season",
+   "situation": "draw",
+   "byline": "By the Gazette Chief Football Writer",
+   "paragraphs": [
+    "Stalemate. Season {seasonNo} of {seasonsTotal} ends with {managerA} and {managerB} locked together on {points} apiece, and for once the Gazette cannot crown anybody. A drawn season is a drawn season.",
+    "It is almost poetic. Two managers, two clubs, a whole season of graft at the console, and not a single point between them. {clubA} and {clubB} are joined at the hip, and the rivalry has never felt more even.",
+    "The next season becomes a tiebreaker in all but name. Whoever blinks first loses ground, and both managers know it. Expect nerves, and expect very little mercy."
+   ]
+  },
+  {
+   "id": "g1-015",
+   "edition": "season",
+   "situation": "draw",
+   "byline": "From the Gazette sports desk",
+   "paragraphs": [
+    "Split down the middle. {managerA} at {clubA} and {managerB} at {clubB} both closed season {seasonNo} on {points}, leaving the Showdown judges with nothing to do but shrug and print the word 'draw'.",
+    "Neither manager can gloat, and neither has to apologise. A shared season keeps the rivalry on a knife edge, and it means every trophy in the season ahead will carry extra weight. Tension, it seems, is the only winner.",
+    "Next season, the cabinets at {clubA} and {clubB} both have space waiting. One trophy, one bonus, one good run of form: any of them could tip the next one."
+   ]
+  },
+  {
+   "id": "g1-016",
+   "edition": "season",
+   "situation": "draw",
+   "byline": "By our Showdown correspondent",
+   "paragraphs": [
+    "All square, and nobody quite knows how to feel about it. {managerA} and {managerB} finished season {seasonNo} level on {points}, so this page carries no winner, only two managers staring at the same number.",
+    "Draws are rare enough to feel strange and fair enough to feel right. {clubA} and {clubB} matched each other step for step, and the rivalry gains another chapter where both sides can claim they deserved more.",
+    "The scoreboard stays perfectly balanced for now. The next season will not be so polite, and both managers will be hunting the one extra trophy that ends the standoff."
+   ]
+  },
+  {
+   "id": "g1-017",
+   "edition": "season",
+   "situation": "champions-league",
+   "byline": "By the Gazette Chief Football Writer",
+   "paragraphs": [
+    "The biggest prize of all sits at {winnerClub}. {winner} has lifted the Champions League, and that famous trophy powered a season {seasonNo} haul of {winnerPoints} against {loserPoints} for {loser}.",
+    "There is no bigger prize in this Showdown, and nothing swings the scoreboard quite like it. {loser} will have to tip a cap. A European crown changes how a rivalry feels, and right now it feels like {winner}'s world.",
+    "Make room in the cabinet at {winnerClub}. The trophy needs a spotlight, and {loser} needs a plan, because defending a European crown next season is the only thing {winner} will be thinking about."
+   ]
+  },
+  {
+   "id": "g1-018",
+   "edition": "season",
+   "situation": "champions-league",
+   "byline": "From our touchline desk",
+   "paragraphs": [
+    "Champions of Europe. {winner} and {winnerClub} conquered the Champions League in season {seasonNo}, and the biggest trophy in the game carried them to a season tally of {winnerPoints} to {loserPoints}.",
+    "Some seasons are won by inches. This one was won under the brightest European lights. {loser} gave it a go, but the Champions League is the trophy that tilts this rivalry like no other.",
+    "Next season, everyone wants a piece of the champions. {winner} has the trophy, {loser} has the motive, and both managers know exactly which trophy matters most."
+   ]
+  },
+  {
+   "id": "g1-019",
+   "edition": "season",
+   "situation": "champions-league",
+   "byline": "From the Gazette sports desk",
+   "paragraphs": [
+    "European glory for {winner}. The Champions League sits in the {winnerClub} cabinet after season {seasonNo}, and it did the heavy lifting in a season that finished {winnerPoints} to {loserPoints} over {loser}.",
+    "No trophy is worth more on the Showdown scoreboard, and {winner} knows it. This is the sort of season that gets retold for years. {loser} will need something special to match a European triumph like this.",
+    "The polishing cloths are out at {winnerClub}. Next season the hunt starts again, and {loser} will be eyeing the same trophy with renewed hunger."
+   ]
+  },
+  {
+   "id": "g1-020",
+   "edition": "season",
+   "situation": "champions-league",
+   "byline": "By our Showdown correspondent",
+   "paragraphs": [
+    "{winner} has climbed the summit. The Champions League belongs to {winnerClub}, and the richest prize in the Showdown helped seal season {seasonNo} with a margin of {margin} over {loser} and {loserClub}.",
+    "When the biggest trophy lands, the whole mood of the rivalry shifts. {winner} now carries the swagger of a European champion, and {loser} has the slightly awkward job of offering congratulations through gritted teeth.",
+    "The cabinet at {winnerClub} has its centrepiece. Next season the question is simple: can {winner} do it again, or will {loser} take the biggest prize in the game?"
+   ]
+  },
+  {
+   "id": "g1-021",
+   "edition": "season",
+   "situation": "europa-league",
+   "byline": "From our touchline desk",
+   "paragraphs": [
+    "Europe has a new name on its honours board. {winner} lifted the Europa League with {winnerClub} in season {seasonNo}, and it crowned a season that finished {winnerPoints} to {loserPoints}.",
+    "It may not be the grandest European prize, but silverware is silverware and {loser} knows it. A continental trophy in the cabinet changes the tone of any rivalry, and {winner} will not let anyone forget it.",
+    "Next season, {winner} will want to step up a level in Europe. The cabinet at {winnerClub} has a shiny new resident, and {loser} has fresh motivation."
+   ]
+  },
+  {
+   "id": "g1-022",
+   "edition": "season",
+   "situation": "europa-league",
+   "byline": "By the Gazette Chief Football Writer",
+   "paragraphs": [
+    "{winner} has a European trophy to show off. The Europa League now belongs to {winnerClub}, crowning a season {seasonNo} that ended with {winner} ahead of {loser} by a margin of {margin}.",
+    "Continental nights are what managers dream about, and {winner} got the happy ending. For {loser}, it is a reminder that every trophy adds to the story in this Showdown, and that a rival with a European medal is twice as hard to quieten.",
+    "The trophy cabinet at {winnerClub} gains a European centrepiece. Next season, {loser} will be determined to bring some continental silver home to {loserClub}."
+   ]
+  },
+  {
+   "id": "g1-023",
+   "edition": "season",
+   "situation": "europa-league",
+   "byline": "From the Gazette sports desk",
+   "paragraphs": [
+    "A European adventure with a happy ending. {winner} guided {winnerClub} to the Europa League in season {seasonNo}, and finished the season ahead of {loser}, {winnerPoints} to {loserPoints}, on the Showdown scoreboard.",
+    "European silverware has a way of lifting a manager's chin, and {winner} has earned the right to boast. {loser} will grumble politely, then start plotting a European run of their own.",
+    "The cabinet at {winnerClub} has a new conversation piece. Next season, the challenge is to go one better, and {loser} would love nothing more than to get there first."
+   ]
+  },
+  {
+   "id": "g1-024",
+   "edition": "season",
+   "situation": "europa-league",
+   "byline": "By our Showdown correspondent",
+   "paragraphs": [
+    "Silver from across the continent. {winner} lifted the Europa League in season {seasonNo} of {seasonsTotal}, and {winnerClub} closed the season ahead of {loser} and {loserClub} by a margin of {margin}.",
+    "Every rivalry needs its moments, and a European trophy is about as good as moments get. {winner} has one to frame. {loser} has a new benchmark to chase, and a slightly quieter week ahead.",
+    "Next season the Europa League crown will need defending, unless {winner} has bigger European plans. Either way, the cabinet at {winnerClub} is looking very handsome tonight."
+   ]
+  },
+  {
+   "id": "g1-025",
+   "edition": "season",
+   "situation": "league-title",
+   "byline": "By the Gazette Chief Football Writer",
+   "paragraphs": [
+    "Champions of the league. {winner} has delivered the league title to {winnerClub}, the backbone of a season {seasonNo} that ended {winnerPoints} to {loserPoints} in the Showdown and left {loser} chasing shadows.",
+    "A league title is the honest trophy, earned over a whole season rather than a lucky run. {winner} can rightly claim a season of real consistency, and {loser} must accept that the scoreboard agrees.",
+    "The league trophy takes pride of place in the {winnerClub} cabinet. Next season, defending it will be the first job, and {loser} will be watching closely."
+   ]
+  },
+  {
+   "id": "g1-026",
+   "edition": "season",
+   "situation": "league-title",
+   "byline": "From our touchline desk",
+   "paragraphs": [
+    "The long haul pays off. {winner} has won the league with {winnerClub}, and that title anchored a season {seasonNo} victory over {loser} by a margin of {margin} on the Showdown scoreboard.",
+    "Cups come and go, but a league title says you were the best over the long run. {winner} will wear that like a medal. {loser} knows the league crown is the trophy that keeps a rival honest.",
+    "A fresh league trophy for the {winnerClub} cabinet. Next season brings a new title race, and {loser} will be determined to make the {loserClub} cabinet just as crowded."
+   ]
+  },
+  {
+   "id": "g1-027",
+   "edition": "season",
+   "situation": "league-title",
+   "byline": "From the Gazette sports desk",
+   "paragraphs": [
+    "Top of the pile. {winner} has steered {winnerClub} to the league title in season {seasonNo}, and the crown led the way in a Showdown season that finished {winnerPoints} to {loserPoints}.",
+    "League titles are won in the quiet weeks as much as the big occasions, and {winner} clearly had the stamina. {loser} will have to settle for watching the celebrations this time, as the rivalry tilts towards the champion.",
+    "The {winnerClub} cabinet gains a league trophy and a little swagger. Next season the title race resets, and {loser} is already counting the days."
+   ]
+  },
+  {
+   "id": "g1-028",
+   "edition": "season",
+   "situation": "league-title",
+   "byline": "By our Showdown correspondent",
+   "paragraphs": [
+    "The league is won. {winner} brought the title to {winnerClub} in season {seasonNo} of {seasonsTotal}, and it helped secure a season that left {loser} trailing by a margin of {margin} when the points were counted.",
+    "There is something deeply satisfying about a league title, and {winner} will savour every moment. It is proof of patience and planning. For {loser}, it is a nudge that the next season needs more of both.",
+    "The league trophy now gleams at {winnerClub}. Next season, {winner} goes again as champion, and {loser} has the whole season to plan a proper reply."
+   ]
+  },
+  {
+   "id": "g1-029",
+   "edition": "season",
+   "situation": "comeback",
+   "byline": "By the Gazette Chief Football Writer",
+   "paragraphs": [
+    "{winner} is fighting back. Trailing overall before season {seasonNo}, the {winnerClub} manager won it {winnerPoints} to {loserPoints}, clawing back {margin} on {loser} and turning a lonely chase into a proper contest.",
+    "Momentum is a funny thing. Before this season, {loser} had the upper hand. Now the overall picture has changed, the nerves have switched sides, and {winner} has the look of a manager who believes again.",
+    "Next season could complete the turnaround. The cabinet at {winnerClub} is filling up fast, and {loser} will need a big response to keep the comeback from gathering pace."
+   ]
+  },
+  {
+   "id": "g1-030",
+   "edition": "season",
+   "situation": "comeback",
+   "byline": "From our touchline desk",
+   "paragraphs": [
+    "Written off? Not quite. {winner} started season {seasonNo} behind on the overall scoreboard, then took the season by a margin of {margin} with {winnerClub} to drag {loser} back into a real fight.",
+    "Rivalries love a revival, and this is a good one. {loser} was the one setting the pace, but the swagger has wobbled. {winner} has shown that no lead in this Showdown is ever truly safe.",
+    "Next season the chaser has the wind behind them. {loser} must steady the ship at {loserClub}, while {winner} hunts more silverware to keep the fightback rolling."
+   ]
+  },
+  {
+   "id": "g1-031",
+   "edition": "season",
+   "situation": "comeback",
+   "byline": "From the Gazette sports desk",
+   "paragraphs": [
+    "The chase is back on. {winner} went into season {seasonNo} looking up at {loser}, but a season tally of {winnerPoints} to {loserPoints} has pulled {winnerClub} back into the reckoning.",
+    "This is the season that changes the conversation. {loser} was enjoying the view from in front, and now there is company. {winner} has reminded everyone that the Showdown is a marathon, not a single season.",
+    "The {winnerClub} cabinet looks far healthier than it did a season ago. Next season, one more strong showing could rewrite the whole Showdown story."
+   ]
+  },
+  {
+   "id": "g1-032",
+   "edition": "season",
+   "situation": "comeback",
+   "byline": "By our Showdown correspondent",
+   "paragraphs": [
+    "Down but never out, {winner} has landed a telling blow. Behind overall before season {seasonNo}, the {winnerClub} manager won it by a margin of {margin} and has {loser} glancing nervously over a shoulder.",
+    "Comebacks are the best stories this rivalry can write. {winner} refused to accept the overall picture, went out and did something about it, and the season tally shows it. {loser} now has a real fight.",
+    "Next season the comeback either gathers pace or stalls. {loser} will want to slam the door at {loserClub}, while {winner} will be hunting every trophy going."
+   ]
+  },
+  {
+   "id": "g1-033",
+   "edition": "season",
+   "situation": "lead-extended",
+   "byline": "By the Gazette Chief Football Writer",
+   "paragraphs": [
+    "The rich get richer. {leader} was already ahead overall, and after winning season {seasonNo} the gap over {trailer} has grown wider. The Showdown standings now lean firmly one way.",
+    "Leaders are supposed to wobble under pressure. {leader} has not read that script. Every season won makes the climb steeper for {trailer}, who must now produce something truly special to close the gap.",
+    "Next season, {trailer} has to strike back or watch the lead stretch further still. {leader} has a cabinet worth protecting and no intention of slowing down."
+   ]
+  },
+  {
+   "id": "g1-034",
+   "edition": "season",
+   "situation": "lead-extended",
+   "byline": "From our touchline desk",
+   "paragraphs": [
+    "{leader} keeps pulling away. Season {seasonNo} went the way of the Showdown leader, and every point banked stretched the overall advantage over {trailer} a little further into the distance.",
+    "This is how leads become headaches. {trailer} is still in the race, but the view from behind is getting longer. {leader} looks calm, organised and very much in control of the Showdown narrative right now.",
+    "{leader}'s cabinet keeps filling. Next season, {trailer} needs a big haul simply to slow the march, never mind turn it around."
+   ]
+  },
+  {
+   "id": "g1-035",
+   "edition": "season",
+   "situation": "lead-extended",
+   "byline": "From the Gazette sports desk",
+   "paragraphs": [
+    "One more layer of armour. {leader} won season {seasonNo} and added fresh distance to an overall lead that {trailer} was already straining to close. The top of the Showdown just got a little lonelier.",
+    "Front-runners can be caught, but only if the chaser lands some heavy blows. {trailer} will need silverware, and plenty of it. {leader}, meanwhile, is enjoying the most comfortable seat in the house.",
+    "Next season begins with the gap wider than before. {trailer} needs a season to remember, while {leader} simply needs to keep doing what is clearly working."
+   ]
+  },
+  {
+   "id": "g1-036",
+   "edition": "season",
+   "situation": "lead-extended",
+   "byline": "By our Showdown correspondent",
+   "paragraphs": [
+    "No let-up from the leader. {leader} entered season {seasonNo} in front, won it, and walked away with an even bigger cushion over {trailer}. The overall standings have rarely looked so comfortable from the top.",
+    "Protecting a lead is one thing. Building on it is another. {leader} has done both, and {trailer} is learning that patience alone will not close the gap. Something bold is now required.",
+    "The trophy cabinet tells the tale of a leader in full flow. Next season, {trailer} must answer quickly, or the Showdown could start to feel settled early."
+   ]
+  },
+  {
+   "id": "g1-037",
+   "edition": "season",
+   "situation": "level-overall",
+   "byline": "By the Gazette Chief Football Writer",
+   "paragraphs": [
+    "Back to square one. After season {seasonNo} of {seasonsTotal}, {managerA} and {managerB} are dead level on the overall scoreboard, and every point so far has been matched by the other side.",
+    "Nobody leads and nobody trails. It is the purest state a rivalry can reach. {clubA} and {clubB} have pushed each other to the same spot, and every bit of earlier boasting now counts for nothing.",
+    "Next season is effectively a fresh start. Whoever has the stronger season takes the lead, and both cabinets are waiting for the piece that tips the balance."
+   ]
+  },
+  {
+   "id": "g1-038",
+   "edition": "season",
+   "situation": "level-overall",
+   "byline": "From our touchline desk",
+   "paragraphs": [
+    "All even. When the points were added up after season {seasonNo}, {managerA} and {managerB} could not be separated overall. The Showdown table shows two names side by side and nothing between them.",
+    "For all the late nights and big talk, the rivalry has arrived at a perfect tie. {managerA} cannot gloat, {managerB} cannot gloat, and both managers know the next twist could come from anywhere.",
+    "The cabinets at {clubA} and {clubB} are evenly matched on points, whatever the trophy count says. Next season, the first big trophy will feel enormous."
+   ]
+  },
+  {
+   "id": "g1-039",
+   "edition": "season",
+   "situation": "level-overall",
+   "byline": "From the Gazette sports desk",
+   "paragraphs": [
+    "Neck and neck. The overall standings after season {seasonNo} show {managerA} at {clubA} and {managerB} at {clubB} on exactly the same total. Whatever edge either manager once had has vanished.",
+    "A tie like this would make any rival nervous. Both managers have earned their place, and neither has an excuse to hide behind. The Showdown has been squeezed into a single question: who blinks first?",
+    "Next season starts with the scoreboard wiped clean in all but name. {managerA} and {managerB} will both be chasing the trophy that breaks the tie."
+   ]
+  },
+  {
+   "id": "g1-040",
+   "edition": "season",
+   "situation": "level-overall",
+   "byline": "By our Showdown correspondent",
+   "paragraphs": [
+    "Honours shared, at least for now. Season {seasonNo} has left {managerA} and {managerB} tied on the overall scoreboard, and the Showdown is back to the most nervous position of all: perfectly even.",
+    "Ties breed tension. {managerA} will feel the lead was there for the taking, {managerB} will feel exactly the same, and the friendly arguments will flow. That is what makes this rivalry so much fun to cover.",
+    "Next season, {clubA} and {clubB} start side by side once more, and the first manager to pull clear will feel ten feet tall."
+   ]
+  },
+  {
+   "id": "g1-041",
+   "edition": "season",
+   "situation": "winning-streak",
+   "byline": "By the Gazette Chief Football Writer",
+   "paragraphs": [
+    "Make that another one. {winner} has won season {seasonNo} with {winnerClub}, finishing {winnerPoints} to {loserPoints}, and the streak of season wins rolls on. {loser} is still waiting for the run to end.",
+    "Streaks build their own pressure, and so far {winner} is thriving on it. Every season in a row adds to the legend and to the teasing. {loser} needs just one season to snap the sequence and reset the mood.",
+    "Next season, the streak is on the line again. The {winnerClub} cabinet is overflowing, and {loser} would love nothing more than to bring the run to a halt."
+   ]
+  },
+  {
+   "id": "g1-042",
+   "edition": "season",
+   "situation": "winning-streak",
+   "byline": "From our touchline desk",
+   "paragraphs": [
+    "The habit continues. {winner} has strung together another season win, taking season {seasonNo} by a margin of {margin}, and the name {winnerClub} has become the most familiar on the Gazette front page.",
+    "Winning once is a result. Winning season after season is a pattern, and patterns are hard to break. {loser} has the talent to stop it, but needs a big season to prove the streak is not unbeatable.",
+    "Next season brings the same question: can anyone stop {winner}? {loser} will be determined to answer it, and the cabinet at {loserClub} is ready for a change of fortune."
+   ]
+  },
+  {
+   "id": "g1-043",
+   "edition": "season",
+   "situation": "winning-streak",
+   "byline": "From the Gazette sports desk",
+   "paragraphs": [
+    "On a roll. {winner} won season {seasonNo} and stretched a run of consecutive season wins, with {winnerClub} once again finishing ahead of {loserClub} on the Showdown scoreboard, this time {winnerPoints} to {loserPoints}.",
+    "The rivalry has developed a rhythm, and right now it beats to one drum. {winner} is setting the tempo, and {loser} is searching for the season that breaks the spell. These runs never last forever.",
+    "The cabinet at {winnerClub} keeps getting heavier. Next season, {loser} gets another shot at ending the run, and the pressure to keep it going sits squarely with {winner}."
+   ]
+  },
+  {
+   "id": "g1-044",
+   "edition": "season",
+   "situation": "winning-streak",
+   "byline": "By our Showdown correspondent",
+   "paragraphs": [
+    "Here we go again. {winner} has taken season {seasonNo} for {winnerClub}, beating {loser} by a margin of {margin}, and the run of back-to-back season wins shows no sign of slowing down.",
+    "There is a quiet confidence about a manager on a streak, and {winner} has it in spades. {loser} has heard the teasing more than once now, and the hunger to end this run must be growing by the day.",
+    "Next season, {winner} chases yet another, and {loser} chases the season that changes the story. One of them will be very happy indeed."
+   ]
+  },
+  {
+   "id": "g1-045",
+   "edition": "season",
+   "situation": "final-season-decider",
+   "byline": "By the Gazette Chief Football Writer",
+   "paragraphs": [
+    "One season left, and everything to play for. Season {seasonNo} of {seasonsTotal} is in the books, which means the next campaign for {managerA} and {managerB} will settle the Showdown.",
+    "Every earlier season now feels like a warm-up act. The points already banked matter, but the final chapter is where reputations are made. {clubA} and {clubB} head into the decider knowing there is no next time.",
+    "Season {seasonsTotal} is the last dance. Whatever goes into the cabinet next will be remembered longest, and the final word is up for grabs."
+   ]
+  },
+  {
+   "id": "g1-046",
+   "edition": "season",
+   "situation": "final-season-decider",
+   "byline": "From our touchline desk",
+   "paragraphs": [
+    "The finish line is in sight. With season {seasonNo} done, only one season of the Showdown remains, and {managerA} and {managerB} now face the campaign that decides how this chapter of the rivalry ends.",
+    "Nerves will be jangling on both sides of the scoreboard. Whoever leads wants to hold firm, whoever trails wants one last surge, and nobody can afford a slow start. This is decider territory.",
+    "The final season starts next. The cabinets at {clubA} and {clubB} have one more chance to grow, and the Gazette has a very large headline waiting."
+   ]
+  },
+  {
+   "id": "g1-047",
+   "edition": "season",
+   "situation": "final-season-decider",
+   "byline": "From the Gazette sports desk",
+   "paragraphs": [
+    "Here comes the decider. Season {seasonNo} is over, season {seasonsTotal} is the last, and every trophy {managerA} and {managerB} win from here will count double in the memory, if not on the scoreboard.",
+    "This is the season both managers have been building towards. All the late nights, the bonuses and the bragging come down to one final push. {clubA} and {clubB} will be remembered for how they finish.",
+    "One season remains to fill the cabinet. After that, the Gazette prints its final front page, and the Showdown will have its verdict."
+   ]
+  },
+  {
+   "id": "g1-048",
+   "edition": "season",
+   "situation": "final-season-decider",
+   "byline": "By our Showdown correspondent",
+   "paragraphs": [
+    "It all comes down to this. After season {seasonNo} of {seasonsTotal}, the Showdown between {managerA} at {clubA} and {managerB} at {clubB} heads into its final season, and the decider is next.",
+    "No more second chances, no more next time. The rivalry has given us plenty of drama, but the last season will define it. Whoever holds their nerve best will own the bragging rights for a very long time.",
+    "Season {seasonsTotal} is the final shot at silverware. Every trophy that lands in the cabinet now carries the weight of the whole Showdown."
+   ]
+  }
+ ]
+}
