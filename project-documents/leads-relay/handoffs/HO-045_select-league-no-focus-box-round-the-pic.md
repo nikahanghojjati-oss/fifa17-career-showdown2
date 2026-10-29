@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "WORKING",
  "steps": [{"name": "css/v10Setup.css: two rules after line 107", "done": false}],
  "evidence": [],
- "log": [{"at": "2026-10-29T14:24:09Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-29T14:55:11Z", "by": "G", "status": "RECEIVED", "note": "Team G r86 lead: received; building it with the HO-044 tall-plate media query on one r86 PR"}],
+ "log": [{"at": "2026-10-29T14:24:09Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-29T14:55:11Z", "by": "G", "status": "RECEIVED", "note": "Team G r86 lead: received; building it with the HO-044 tall-plate media query on one r86 PR"}, {"at": "2026-10-29T15:17:14Z", "by": "G", "status": "WORKING", "note": "Team G: built in PR #1057 into gameplay/r86 (ships with r86), together with the HO-044 tall plate media query (aspect 17/48 to 59/128) on top of your #1056 commits. Your two notes checked: both true; held for Nik's call, not built."}],
  "from_session": "session_01GU43Q5MJTR9Ab3d6xGo4NE"
 }
 ```
