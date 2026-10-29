@@ -1,0 +1,608 @@
+{
+  "batch": 7,
+  "situation": "league-title",
+  "voice": "The lead caller",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb7-001",
+      "text": "League champions! {winnerClub} have earned the prize that every domestic rival was chasing this season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb7-002",
+      "text": "And listen to this for a finish: {winner} is the league champion, with the season's biggest domestic prize!",
+      "score": 9,
+      "was": "And there is the crown for {winner}, a league campaign rewarded with the title itself!"
+    },
+    {
+      "id": "cb7-003",
+      "text": "Confirmed at the top! {winnerClub} have completed a league campaign worth remembering for all the right reasons.",
+      "score": 9,
+      "was": "This is official now: {winnerClub} stand at the top of their league, with the title to prove it."
+    },
+    {
+      "id": "cb7-004",
+      "text": "For {winner}, the season has delivered its finest domestic prize. League champions, and deservedly celebrated.",
+      "score": 9,
+      "was": "For {winner}, the season has delivered its finest domestic prize. League champions, and deservedly celebrated!"
+    },
+    {
+      "id": "cb7-005",
+      "text": "That title belongs to {winnerClub}! A season of domestic ambition ends with the ultimate reward.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb7-006",
+      "text": "An empty space in the cabinet has just found its purpose. {winner} has a championship to display.",
+      "score": 10,
+      "was": "Make room in the cabinet, because {winner} has brought home the league championship!"
+    },
+    {
+      "id": "cb7-007",
+      "text": "So it is settled: the league crown goes to {winnerClub}, and this season has its champions.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb7-008",
+      "text": "They wanted the top prize at home, and {winnerClub} have made it theirs.",
+      "score": 9,
+      "was": "They wanted the top prize at home, and {winnerClub} have made it theirs!"
+    },
+    {
+      "id": "cb7-009",
+      "text": "Mark the achievement, not merely the occasion: {winner} has guided a club to the league title.",
+      "score": 9,
+      "was": "No doubts about the honour here: {winner} has won the league, a remarkable line on any career record."
+    },
+    {
+      "id": "cb7-010",
+      "text": "Between wanting a league crown and wearing it lies a season's work. {winnerClub} have made that journey.",
+      "score": 10,
+      "was": "There is a difference between chasing a title and holding it. {winnerClub} have crossed that line!"
+    },
+    {
+      "id": "cb7-011",
+      "text": "Now it's official for {winnerClub}: the domestic prize every challenger wanted is theirs to keep.",
+      "score": 9,
+      "was": "Now the league belongs to {winnerClub}, and that is an achievement with real weight."
+    },
+    {
+      "id": "cb7-012",
+      "text": "It takes a full season to earn that distinction. {winner} can call themselves a league champion.",
+      "score": 9,
+      "was": "It takes a full season to earn that distinction. {winner} can call themselves a league champion!"
+    },
+    {
+      "id": "cb7-013",
+      "text": "What an entry on the honours board for {winnerClub}! The league championship is going beside their name.",
+      "score": 9,
+      "was": "What an addition to the season for {winnerClub}: the biggest domestic title is safely theirs."
+    },
+    {
+      "id": "cb7-014",
+      "text": "Write the headline in permanent ink: {winner} has earned a place among this season's league champions.",
+      "score": 10,
+      "was": "Put the domestic championship beside {winner}'s name. That is the news from this season!"
+    },
+    {
+      "id": "cb7-015",
+      "text": "Title secured, ambition fulfilled, and {winnerClub} can savour the best prize their league offers.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb7-016",
+      "text": "Nobody can take this achievement away from {winner}. The league title is won.",
+      "score": 9,
+      "was": "Nobody can take this achievement away from {winner}. The league title is won!"
+    },
+    {
+      "id": "cb7-017",
+      "text": "Across all those demands of a domestic campaign, {winnerClub} have emerged with its highest honour.",
+      "score": 9,
+      "was": "Across the domestic campaign, the ultimate target was clear. {winnerClub} have reached it!"
+    },
+    {
+      "id": "cb7-018",
+      "text": "There is your champion! {winner} has made a league title part of this Showdown story.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb7-019",
+      "text": "Up goes the league trophy for {winnerClub}, and there is nothing ordinary about that sight!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb7-020",
+      "text": "By any measure, {winner} has added serious weight to this campaign: the league championship is theirs.",
+      "score": 9,
+      "was": "A championship season for {winner}, and the domestic crown is now part of the story."
+    },
+    {
+      "id": "cb7-021",
+      "text": "Read it slowly: {winnerClub} are league champions. The words carry a season's worth of meaning.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb7-022",
+      "text": "Here is something {winner} can carry into every future rivalry discussion: a domestic league title.",
+      "score": 9,
+      "was": "Here is the reward for {winner}: a domestic title, with the whole campaign behind it."
+    },
+    {
+      "id": "cb7-023",
+      "text": "At last, a champion to name! {winnerClub} have given this league season its defining achievement.",
+      "score": 10,
+      "was": "The league has its champion, and {winnerClub} have every reason to treasure this moment."
+    },
+    {
+      "id": "cb7-024",
+      "text": "By the finish, {winner} has delivered what every domestic contender dreams about: the championship.",
+      "score": 9,
+      "was": "By the end of this season, {winner} has something precious to show for it: the league title."
+    },
+    {
+      "id": "cb7-025",
+      "text": "Domestic glory for {winnerClub}! That is the sort of honour every manager sets out to win.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb7-026",
+      "text": "That word on the honours list is worth saying aloud. {winner}, league champion. Sounds good, doesn't it?",
+      "score": 10,
+      "was": "There's no need to check the label twice: {winner} is a league champion, and it fits rather nicely!"
+    },
+    {
+      "id": "cb7-027",
+      "text": "Careful with that cabinet door! {winnerClub} have a league trophy to fit inside it now.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb7-028",
+      "text": "Well, somebody had to take charge of the domestic prize, and {winner} has certainly obliged!",
+      "score": 9,
+      "was": "Well, the league had to belong to somebody. {winner} has made a very persuasive claim!"
+    },
+    {
+      "id": "cb7-029",
+      "text": "Spare a thought for the trophy engraver, because {winnerClub} have given them another job.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb7-030",
+      "text": "Scratch league champion off the dream list. {winner} has turned that particular hope into silverware!",
+      "score": 10,
+      "was": "One less item on {winner}'s wish list, and it happens to be the biggest domestic one!"
+    },
+    {
+      "id": "cb7-031",
+      "text": "Try explaining to {winnerClub} that it's only a trophy. This is the biggest domestic honour available!",
+      "score": 9,
+      "was": "Try keeping a straight face when {winnerClub} are introduced as champions. It's a lovely problem to have!"
+    },
+    {
+      "id": "cb7-032",
+      "text": "You might postpone everything else on the agenda. {winner} has a championship that deserves top billing.",
+      "score": 9,
+      "was": "You can polish the boots later. {winner} has a league title that deserves attention first!"
+    },
+    {
+      "id": "cb7-033",
+      "text": "Consider the season's main domestic question answered. {winnerClub} have claimed the league outright!",
+      "score": 9,
+      "was": "Consider that domestic box well and truly ticked. {winnerClub} have collected the league crown!"
+    },
+    {
+      "id": "cb7-034",
+      "text": "Somebody tell the display cabinet there's a new resident. The league trophy has found its owner!",
+      "score": 10,
+      "was": "Someone find a shelf with a little breathing room; this league title is headed for display."
+    },
+    {
+      "id": "cb7-035",
+      "text": "Listen again to that description of {winner}: league champion. It's the sort of title that sticks.",
+      "score": 9,
+      "was": "The phrase 'league champion' has a good ring to it, particularly if you're {winner}!"
+    },
+    {
+      "id": "cb7-036",
+      "text": "Even the most careful season report can lead with this: {winnerClub} have claimed the domestic championship!",
+      "score": 9,
+      "was": "Even the neatest season summary needs a headline. For {winnerClub}, it's the domestic championship!"
+    },
+    {
+      "id": "cb7-037",
+      "text": "If {winner} was looking for a reason to smile at the standings, that's a substantial one.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb7-038",
+      "text": "Call off the search for a fitting headline. 'League champions' will do very nicely!",
+      "score": 10,
+      "was": "Call the cabinet keeper, because the main domestic trophy has a new address!"
+    },
+    {
+      "id": "cb7-039",
+      "text": "Just listen to the pride in the words: {winnerClub} have brought home the league championship.",
+      "score": 9,
+      "was": "A league title for {winnerClub}, and suddenly the season review is looking rather handsome."
+    },
+    {
+      "id": "cb7-040",
+      "text": "There's a certain satisfaction in saying it plainly. {winner} has won the league!",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb7-041",
+      "text": "Nobody needs to dress this achievement up. The league trophy does a fine job on its own!",
+      "score": 10,
+      "was": "The domestic trophy isn't subtle, and neither is the achievement behind it!"
+    },
+    {
+      "id": "cb7-042",
+      "text": "Good luck whispering an announcement of this size! {winnerClub} have won their domestic league!",
+      "score": 9,
+      "was": "Good luck fitting this accomplishment into a modest sentence. {winnerClub} are champions!"
+    },
+    {
+      "id": "cb7-043",
+      "text": "Not a bad souvenir from a long season for {winner}, that league champion's title.",
+      "score": 9,
+      "was": "Not a bad answer to the question of what {winner} achieved this season: a league title!"
+    },
+    {
+      "id": "cb7-044",
+      "text": "Behind that cabinet glass sits a prize that changes how a season is remembered: the league title.",
+      "score": 10,
+      "was": "The cabinet may be quiet, but a domestic championship makes quite a statement!"
+    },
+    {
+      "id": "cb7-045",
+      "text": "You could fill a page with praise for {winnerClub}. Those words 'league champions' take less room!",
+      "score": 9,
+      "was": "You could write a long speech for {winnerClub}, or just say league champions. That will do!"
+    },
+    {
+      "id": "cb7-046",
+      "text": "Give that title its own line in the scrapbook. {winner} has made the domestic season count.",
+      "score": 10,
+      "was": "Give that title its own line in the scrapbook. {winner} has made the domestic season count!"
+    },
+    {
+      "id": "cb7-047",
+      "text": "It isn't the sort of honour you can tuck into the small print. {winnerClub} have won the league.",
+      "score": 9,
+      "was": "It is rather hard to misplace an honour this big. {winnerClub} have won their league!"
+    },
+    {
+      "id": "cb7-048",
+      "text": "Just as the campaign reaches its conclusion, the prize every league contender wanted has an owner.",
+      "score": 9,
+      "was": "Just when the season needed a defining achievement, along comes the domestic championship!"
+    },
+    {
+      "id": "cb7-049",
+      "text": "Nothing fancy needed from the announcer. {winner} has won the league, and that's plenty!",
+      "score": 10,
+      "was": "A simple announcement, but a mighty fine one: {winner} is the league champion!"
+    },
+    {
+      "id": "cb7-050",
+      "text": "Put that ruler away. The size of a league championship isn't measured in inches!",
+      "score": 10,
+      "was": "Put away the measuring tape; there's no shrinking the importance of a domestic title!"
+    },
+    {
+      "id": "cb7-051",
+      "text": "Only a title this big could make {winnerClub}'s season feel bigger in the space of a sentence!",
+      "score": 9,
+      "was": "The longest word in the celebration might be 'championship', but {winnerClub} have earned every syllable!"
+    },
+    {
+      "id": "cb7-052",
+      "text": "That trophy case has a reason to look proud, and {winner} has supplied it: a league championship.",
+      "score": 10,
+      "was": "That league trophy will look just fine in {winner}'s season highlights, thank you very much!"
+    },
+    {
+      "id": "cb7-053",
+      "text": "And there it stands, the domestic summit! {winnerClub} have conquered the title race!",
+      "score": 9,
+      "was": "And now, the domestic summit! {winnerClub} have arrived at the very top of their league!"
+    },
+    {
+      "id": "cb7-054",
+      "text": "Pause and take this in. {winner} has secured a crown that takes a season to earn.",
+      "score": 9,
+      "was": "This is a moment to hold onto. {winner} has secured a crown that takes a season to earn!"
+    },
+    {
+      "id": "cb7-055",
+      "text": "From the opening ambition to this final honour, {winnerClub} have made the league championship their own.",
+      "score": 9,
+      "was": "From the first page to the last, the league campaign has led {winnerClub} here: champions!"
+    },
+    {
+      "id": "cb7-056",
+      "text": "Listen closely, because these are the words {winner} will remember: you are the league champion!",
+      "score": 10,
+      "was": "Listen to how it sounds: {winner} has claimed the domestic title, and the words ring out!"
+    },
+    {
+      "id": "cb7-057",
+      "text": "There are seasons that fade and seasons with a crown. This one belongs to {winnerClub}!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb7-058",
+      "text": "High stakes across a domestic campaign, and now the ultimate prize has been claimed. Champions!",
+      "score": 9,
+      "was": "High above the ordinary business of a season stands this achievement: the league championship!"
+    },
+    {
+      "id": "cb7-059",
+      "text": "Imagine hearing it announced for the first time. {winner} is the champion of the league!",
+      "score": 10,
+      "was": "Imagine the weight of the final verdict. {winner} has been crowned champion of the league!"
+    },
+    {
+      "id": "cb7-060",
+      "text": "When this campaign finds its place in the archive, {winnerClub}'s domestic title will be right there.",
+      "score": 9,
+      "was": "When the story of this campaign is told, {winnerClub} will carry its most important domestic title!"
+    },
+    {
+      "id": "cb7-061",
+      "text": "Here comes the answer to a season's biggest home question: {winner} has won the league!",
+      "score": 9,
+      "was": "Here comes the moment that changes a season's meaning: a league crown for {winner}!"
+    },
+    {
+      "id": "cb7-062",
+      "text": "All those weeks of anticipation have led to this: {winnerClub} have their domestic title!",
+      "score": 9,
+      "was": "All that ambition, and now something tangible: {winnerClub} have the domestic championship!"
+    },
+    {
+      "id": "cb7-063",
+      "text": "At the heart of this season is an extraordinary fact. {winner} has won the league!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb7-064",
+      "text": "On the grandest domestic stage, {winnerClub} have claimed the honour every rival wanted!",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb7-065",
+      "text": "Few trophies bring an entire league campaign into focus quite like this championship crown!",
+      "score": 9,
+      "was": "That is the reward that gives a whole campaign its shape. The league title is secured!"
+    },
+    {
+      "id": "cb7-066",
+      "text": "You can say it softly or shout it from the rooftops: {winnerClub} are champions of their league!",
+      "score": 10,
+      "was": "You can feel the importance of those words: {winnerClub}, champions of their league!"
+    },
+    {
+      "id": "cb7-067",
+      "text": "This is a title with staying power. {winner} has earned a place on the league honours list.",
+      "score": 9,
+      "was": "This will be the line that lasts for {winner}: the domestic crown, finally secured!"
+    },
+    {
+      "id": "cb7-068",
+      "text": "Picture the season as a book. {winnerClub} have written 'league champions' on the cover.",
+      "score": 10,
+      "was": "The season has found its defining domestic image, a championship trophy belonging to {winnerClub}!"
+    },
+    {
+      "id": "cb7-069",
+      "text": "What a chapter for {winner}! The league title is no longer a target but an achievement!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb7-070",
+      "text": "From contender to champion, {winnerClub} have completed the journey that matters most at home!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb7-071",
+      "text": "Hear the certainty in that announcement: the league crown has been decided, and it belongs to a champion!",
+      "score": 10,
+      "was": "Hear that finality in the announcement: the domestic title has been claimed, and the crown is real!"
+    },
+    {
+      "id": "cb7-072",
+      "text": "Nothing in a league campaign comes with a greater domestic reward. {winner} has taken it!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb7-073",
+      "text": "Suddenly the story of this campaign has a different ending. {winnerClub} have won the league!",
+      "score": 9,
+      "was": "A whole season can turn on an honour like this. {winnerClub} have their league championship!"
+    },
+    {
+      "id": "cb7-074",
+      "text": "And that is how domestic ambition becomes legacy. The league crown now belongs to {winner}!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb7-075",
+      "text": "There is a space in this rivalry for serious domestic honours. {winnerClub} have filled one!",
+      "score": 9,
+      "was": "There is a special place in this rivalry for league champions. {winnerClub} have taken theirs!"
+    },
+    {
+      "id": "cb7-076",
+      "text": "For all the possible endings to a campaign, {winner} has landed the one marked 'champion'.",
+      "score": 9,
+      "was": "For all the possible endings to a campaign, {winner} has landed the one marked 'champion'!"
+    },
+    {
+      "id": "cb7-077",
+      "text": "Stand back a moment, because {winnerClub} have reached a place every league rival set out to occupy!",
+      "score": 9,
+      "was": "Stand back and take in the achievement: {winnerClub} have won their league, and the title is theirs!"
+    },
+    {
+      "id": "cb7-078",
+      "text": "That's a heavy addition to the season's honours, and {winnerClub} have every right to enjoy it.",
+      "score": 9,
+      "was": "That's a domestic title with real substance, and {winnerClub} won't need anyone to explain its value."
+    },
+    {
+      "id": "cb7-079",
+      "text": "If you need an ending to a domestic campaign, a champion's trophy is a rather beautiful one.",
+      "score": 10,
+      "was": "If a season needs a signature, a league crown writes it in bold."
+    },
+    {
+      "id": "cb7-080",
+      "text": "Forget the finer print for a moment. Someone has just claimed the biggest prize in their league!",
+      "score": 9,
+      "was": "The table can be put aside for a moment. This is about the championship trophy!"
+    },
+    {
+      "id": "cb7-081",
+      "text": "Somewhere along a long league road, a contender becomes a champion. That moment is here!",
+      "score": 10,
+      "was": "Somewhere between ambition and accomplishment sits a league title, and it's been claimed!"
+    },
+    {
+      "id": "cb7-082",
+      "text": "As domestic honours go, this is the one that turns a strong campaign into a championship season.",
+      "score": 9,
+      "was": "As domestic honours go, this is the prize that sets the standard for the whole campaign."
+    },
+    {
+      "id": "cb7-083",
+      "text": "So much of football is about the next challenge. A league title lets you cherish this one!",
+      "score": 9,
+      "was": "So much of a season is possibility; becoming a league champion turns possibility into fact."
+    },
+    {
+      "id": "cb7-084",
+      "text": "Beyond this particular rivalry, the domestic league has a champion to salute. That's a substantial achievement.",
+      "score": 9,
+      "was": "Beyond the points and the rivalry, there is a domestic champion to acknowledge tonight."
+    },
+    {
+      "id": "cb7-085",
+      "text": "Few phrases carry so much work in so little space: champion of the league!",
+      "score": 10,
+      "was": "Few words in football sound quite as complete as 'champions of the league'."
+    },
+    {
+      "id": "cb7-086",
+      "text": "After all the ambitions that begin a campaign, there's a beautiful finality to a league title.",
+      "score": 9,
+      "was": "The domestic race has produced its champion, and the achievement deserves a proper pause."
+    },
+    {
+      "id": "cb7-087",
+      "text": "Whatever waits elsewhere in the Showdown, this season has produced a domestic achievement that will last.",
+      "score": 9,
+      "was": "Whatever else this Showdown brings, a league championship has entered the story."
+    },
+    {
+      "id": "cb7-088",
+      "text": "This title needs no promise of what comes next. The league championship has already been secured!",
+      "score": 9,
+      "was": "A title isn't a promise for later. It's the season's great domestic prize, already won."
+    },
+    {
+      "id": "cb7-089",
+      "text": "That championship trophy cannot settle the whole rivalry by itself, but it has made its mark!",
+      "score": 10,
+      "was": "That championship crown won't answer every rivalry question, but it answers a mighty important one."
+    },
+    {
+      "id": "cb7-090",
+      "text": "One trophy can change the punctuation of a season: from a question mark to an exclamation!",
+      "score": 10,
+      "was": "One trophy can make a long campaign feel like a single, unforgettable sentence."
+    },
+    {
+      "id": "cb7-091",
+      "text": "In any collection of seasons, a league championship is the one you can always point to.",
+      "score": 9,
+      "was": "There are many ways to measure a season; a league title needs no footnotes."
+    },
+    {
+      "id": "cb7-092",
+      "text": "Home honours carry their own weight, and this league campaign has produced a worthy champion.",
+      "score": 9,
+      "was": "Home is where the league honours are decided, and the biggest one has found its champion."
+    },
+    {
+      "id": "cb7-093",
+      "text": "Not every great result needs a trumpet fanfare. The words 'league champions' are celebration enough.",
+      "score": 10,
+      "was": "Not every achievement needs fireworks. Some deserve the quiet certainty of 'league champions'."
+    },
+    {
+      "id": "cb7-094",
+      "text": "What a distinction to carry out of the domestic season: the title, earned and secured!",
+      "score": 9,
+      "was": "The domestic season closes around a magnificent distinction: a title to call your own."
+    },
+    {
+      "id": "cb7-095",
+      "text": "For anyone invested in this rivalry, a league crown gives the next conversation a different flavour.",
+      "score": 9,
+      "was": "For the managers in this rivalry, there's no mistaking what a league crown means."
+    },
+    {
+      "id": "cb7-096",
+      "text": "Even with the overall race still open, nobody can erase this domestic title from the season's story.",
+      "score": 9,
+      "was": "Even before the Showdown's final verdict, this championship has earned its own chapter."
+    },
+    {
+      "id": "cb7-097",
+      "text": "Capping this campaign with a league championship is the sort of ending managers remember for years.",
+      "score": 9,
+      "was": "A crown at the end of the campaign, and a reason this season will be remembered."
+    },
+    {
+      "id": "cb7-098",
+      "text": "Praise comes and goes, but the league champion's place in the honours book is there to stay.",
+      "score": 10,
+      "was": "A fine season earns praise; a league-winning one earns a place in the cabinet."
+    },
+    {
+      "id": "cb7-099",
+      "text": "Measure the achievement by the ambition behind it: a whole league season, rewarded with the championship.",
+      "score": 9,
+      "was": "The distance between hope and history has a name here: the domestic championship."
+    },
+    {
+      "id": "cb7-100",
+      "text": "You needn't add a flourish. Being called league champion is a grand enough ending already!",
+      "score": 10,
+      "was": "You don't have to embellish a prize like this. League champions says everything!"
+    }
+  ]
+}
