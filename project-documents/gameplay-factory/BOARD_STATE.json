@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-29 4:15 AM Boston time (EDT)",
+ "generated": "2026-10-29 4:16 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 150,
@@ -1991,6 +1991,19 @@
     "worker": "",
     "pickup_min": null,
     "waiting_min": null
+   },
+   {
+    "id": "HO-043",
+    "from": "G",
+    "to": "V",
+    "title": "Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons)",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-043_polish-pass-7-look-layout-items-from-the.md",
+    "worker": "",
+    "pickup_min": null,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -2062,7 +2075,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 44,
   "next": 42,
   "nik": 2,
   "later": 21,

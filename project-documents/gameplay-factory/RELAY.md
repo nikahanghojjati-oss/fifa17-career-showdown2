@@ -1,12 +1,44 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-29 4:15 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-29 4:16 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `09d3593` (Thu 29 Oct 4:05 AM Boston time) · 150 messages · 43 hand-offs · 281 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `b4a2ed4` (Thu 29 Oct 4:16 AM Boston time) · 153 messages · 44 hand-offs · 281 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-043 · G → V · Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons)
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Thu 29 Oct 4:16 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+# Polish pass: seven look and layout items from a full-game screen audit (Nik: "full polish and huge UI improvement of all game menus, buttons, text")
+
+Nik asked (2026-10-29 04:32 UTC) for a full polish and a big UI improvement across every game menu, button and piece of text. Team G played a full 3-season Showdown as both managers on the r87 build (gameplay/r87 @beb34d1; Daniel 1440x900 laptop, Nik 393x660 phone, emulator) and saved all 246 screens. Team G is fixing the wording, button-state and empty-state items itself (branch claude-gameplay/r87-polish-wording, into gameplay/r87). The look and layout items below are yours.
+
+Findings page with pictures: https://claude.ai/artifact/Mz52LiuD65MYgyuGCezrH2
+Screenshots: project-documents/leads-relay/attachments/HO-043/ on leads/relay.
+
+## The seven items
+1. **Phone Home dims behind the Join/Connect panel** (attachments 1). When Nik opens Join from Home, the Home picture and tiles go dark behind the panel. That breaks HO-027 (no dimming, ever). Show the panel without darkening what is behind it.
+2. **Panels cover the game on the laptop** (2a, 2b). "Waiting for Nik" sits on top of the league wheel; the Career Start panel covers both club cards on Club Assignment. Nik's rule: nothing covers anything at any size. Place them so the wheel and the cards stay visible.
+3. **Laptop Legacy has a big empty frame** (3). The Showdown card fills about a fifth of the Legacy frame; the rest is blank marble. VIEW SEASON HISTORY opens the season list below the screen, out of sight ("CLOSE SEASON HISTORY" sits under the fold).
+4. **Phone titles across the managers' faces** (4a, 4b; also Standings). The big brush titles (SEASON RESULTS, LEGACY, STANDINGS) sit across Daniel and Nik. On phone Club Assignment (4c) the "These clubs stay for the whole Showdown…" text runs over the photo and is hard to read.
+5. **Waiting buttons look faded** (5, 2b). Buttons that wait for the other manager (WAITING FOR HOST/Daniel on the league wheel, I STARTED AT <club> while busy, VIEW SEASON HISTORY before data, SPIN WHEEL for Nik) are greyed and see-through. They need a clear "waiting" look that is not dim (HO-027).
+6. **Laptop Settings and tiny text** (6a, 6b). Settings is a small panel in the lower left of a large empty lounge with DONE far off in the bottom-right corner. The Season Results panel on a 1440 laptop uses very small text (labels around 9-10 px).
+7. **Phone Standings and Career Statistics sit low** (7). The photo takes the top half and the table starts below it, so most numbers need a scroll on a 393x660 phone.
+
+## Keep
+Marble black-and-gold look; one target per screen (desktop NEXT_*, phone PHONE_*); no dimming; no flash (never touch anti-flash rules, preload, decode or startup order); don't move elements to new places Nik did not pick without asking him; Team G owns the gameplay JS and the wording.
+
+## Done when / proof back
+Each item fixed on its screen, one desktop (1440x900 or 1920x1080) and one phone (393x660 or 393x852) shot per changed screen, and a flash check of the changed screens. Reply on this ticket with the PR; Team G merges into gameplay/r87 through the r87 lead and adds the shots to the release gallery.
+
+</details>
 
 ### HO-042 · G → V · r86 Special Player reveal: card text cut, phone label, gold glow instead of white flash
 
@@ -1554,6 +1586,36 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-043 SENT · Team G → Team V · Thu 29 Oct 4:16 AM Boston time
+
+**Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-041 RECEIVED · Team G → Team V · Thu 29 Oct 3:54 AM Boston time
+
+**League wheel spin polish: 7 errors fixed, patch ready to merge (Nik OK)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-042 SENT · Team G → Team V · Thu 29 Oct 3:53 AM Boston time
+
+**r86 Special Player reveal: card text cut, phone label, gold glow instead of white flash** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-041 SENT · Team V → Team G · Thu 29 Oct 3:53 AM Boston time
 
