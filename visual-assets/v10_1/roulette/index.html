@@ -453,7 +453,7 @@ function placeTracer(a,b,k0,k1){ const p0=a.clone().lerp(b,k0), p1=a.clone().ler
 const camRest=new T.Vector3(), lookRest=new T.Vector3(); let PH=false, fovRest=38, fovNow=38;
 function layout(){ PH=portrait(); const w=innerWidth, h=innerHeight; camera.aspect=w/h; fovRest=PH?54:38; camera.fov=fovNow=fovRest; camera.updateProjectionMatrix();
   const px=PH?.66:1.22, pz=PH?-.25:-.2, py=PH?.92:.95; /* people */
-  const bx=PH?.47:1.0, by=PH?.9:1.0, bz=PH?.4:.28;  /* boards, held in front of them */
+  const bx=PH?.42:1.0, by=PH?.9:.76, bz=PH?.66:.34;  /* boards, held in front of them */
   [["D",-1],["N",1]].forEach(([k,s])=>{ const p=people[k]; p.position.set(px*s,0,pz); const b=boards[k]; b.position.set(bx*s,by,bz); b.rotation.set(-.08,-.42*s,0); b.scale.setScalar(PH?.8:1); const pl=p.userData.plane; const H=PH?1.5:1.75; pl.scale.set(H*pl.userData.ar||H,H,1); pl.position.set(0,py+ (PH?.0:.05),0); });
   if(PH){ camRest.set(0,1.32,2.95); lookRest.set(0,.98,-.4); } else { camRest.set(0,1.28,2.75); lookRest.set(0,.92,-.3); }
   renderer.setPixelRatio(Math.min(devicePixelRatio||1,PH?2:1.75)); renderer.setSize(w,h,false); }
