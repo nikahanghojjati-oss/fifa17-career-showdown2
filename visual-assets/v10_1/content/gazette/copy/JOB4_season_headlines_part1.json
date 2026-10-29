@@ -1,0 +1,2336 @@
+{
+ "_note": "Job 4 part 1 from Nik's playground run (cut off at h1-634; rows h1-301..h1-633).",
+ "season": [
+  {
+   "id": "h1-301",
+   "situation": "big-win",
+   "kicker": "LANDSLIDE",
+   "headline": "RUNAWAY SEASON SEALED",
+   "subhead": "{winner} and {winnerClub} finish {margin} points clear of {loser}, a runaway season by any measure."
+  },
+  {
+   "id": "h1-302",
+   "situation": "big-win",
+   "kicker": "SEASON REVIEW",
+   "headline": "ROUT ON THE LEDGER",
+   "subhead": "The final tally reads {winnerPoints} to {loserPoints} as {winner} takes the season by a thumping {margin} points."
+  },
+  {
+   "id": "h1-303",
+   "situation": "big-win",
+   "kicker": "DOMINANT",
+   "headline": "MILES CLEAR AT THE WHISTLE",
+   "subhead": "{winner} ends the campaign {margin} points ahead of {loser}, leaving {loserClub} a long way back on the scoreboard."
+  },
+  {
+   "id": "h1-304",
+   "situation": "big-win",
+   "kicker": "IN COMMAND",
+   "headline": "TOTAL CONTROL",
+   "subhead": "{winner} runs this season from start to finish, closing it out {margin} points clear on {winnerPoints}."
+  },
+  {
+   "id": "h1-305",
+   "situation": "big-win",
+   "kicker": "NO CONTEST",
+   "headline": "NOBODY GETS CLOSE",
+   "subhead": "{loser} and {loserClub} are left chasing shadows as {winner} wins the season by {margin} points."
+  },
+  {
+   "id": "h1-306",
+   "situation": "big-win",
+   "kicker": "LANDSLIDE",
+   "headline": "LAPPED ON THE LEADERBOARD",
+   "subhead": "{winner} laps the field with {winnerPoints} against {loserPoints}, a season margin of {margin} points for {winnerClub}."
+  },
+  {
+   "id": "h1-307",
+   "situation": "big-win",
+   "kicker": "EASY STREET",
+   "headline": "STROLL IN THE PARK",
+   "subhead": "{winnerClub} make the season look simple as {winner} strolls home {margin} points ahead of {loser}."
+  },
+  {
+   "id": "h1-308",
+   "situation": "big-win",
+   "kicker": "FULL SPEED",
+   "headline": "CRUISE CONTROL ENGAGED",
+   "subhead": "{winner} sets the controls and never touches the brakes, finishing {margin} points clear of {loser} this season."
+  },
+  {
+   "id": "h1-309",
+   "situation": "big-win",
+   "kicker": "SEASON REVIEW",
+   "headline": "THUMPING TRIUMPH",
+   "subhead": "A {winnerPoints} to {loserPoints} scoreline hands {winner} the season and a mighty {margin} point margin over {loser}."
+  },
+  {
+   "id": "h1-310",
+   "situation": "big-win",
+   "kicker": "BIG HITTER",
+   "headline": "AN ALMIGHTY WALLOP",
+   "subhead": "{winner} lands the heaviest of blows on the scoreboard, taking the season by {margin} points with {winnerClub}."
+  },
+  {
+   "id": "h1-311",
+   "situation": "big-win",
+   "kicker": "POINTS RUSH",
+   "headline": "NET GAINS GALORE",
+   "subhead": "Points pour into the {winnerClub} account as {winner} finishes {margin} clear of {loser} on {winnerPoints}."
+  },
+  {
+   "id": "h1-312",
+   "situation": "big-win",
+   "kicker": "TROPHY ROOM",
+   "headline": "CABINET CRAMMED FULL",
+   "subhead": "{winner} fills the {winnerClub} cabinet to the brim and wins the season by {margin} points over {loser}."
+  },
+  {
+   "id": "h1-313",
+   "situation": "big-win",
+   "kicker": "LANDSLIDE",
+   "headline": "ROMPING HOME IN STYLE",
+   "subhead": "{winner} romps to the season crown, finishing on {winnerPoints} while {loser} closes on {loserPoints}."
+  },
+  {
+   "id": "h1-314",
+   "situation": "big-win",
+   "kicker": "MIND THE DROP",
+   "headline": "CANYON ON THE TABLE",
+   "subhead": "A canyon of {margin} points now separates {winner} and {loser} on this season's scoreboard."
+  },
+  {
+   "id": "h1-315",
+   "situation": "big-win",
+   "kicker": "BIG QUESTION",
+   "headline": "HOW BIG IS THAT GAP?",
+   "subhead": "Very big indeed: {winner} wins the season by {margin} points, finishing {winnerPoints} to {loserPoints} against {loser}."
+  },
+  {
+   "id": "h1-316",
+   "situation": "big-win",
+   "kicker": "VERDICT",
+   "headline": "ANY ROOM FOR DOUBT?",
+   "subhead": "None at all, as {winner} and {winnerClub} take the season by a commanding {margin} points."
+  },
+  {
+   "id": "h1-317",
+   "situation": "big-win",
+   "kicker": "CONSOLE KING",
+   "headline": "MASTERCLASS AT THE CONSOLE",
+   "subhead": "Long nights at the controls pay off handsomely for {winner}, who wins the season by {margin} points."
+  },
+  {
+   "id": "h1-318",
+   "situation": "big-win",
+   "kicker": "BY THE NUMBERS",
+   "headline": "FIGURES FLY FAR APART",
+   "subhead": "{winner} posts {winnerPoints} and {loser} posts {loserPoints}, a season gap of {margin} points in favour of {winnerClub}."
+  },
+  {
+   "id": "h1-319",
+   "situation": "big-win",
+   "kicker": "WIDE GAP",
+   "headline": "GULF OF A GAP",
+   "subhead": "{margin} points of clear water lie between {winner} and {loser} once this season's sums are done."
+  },
+  {
+   "id": "h1-320",
+   "situation": "big-win",
+   "kicker": "POINTS PEAK",
+   "headline": "MOUNTAIN OF POINTS",
+   "subhead": "{winner} builds a mountain of {winnerPoints} for {winnerClub} and wins the season by {margin} over {loser}."
+  },
+  {
+   "id": "h1-321",
+   "situation": "big-win",
+   "kicker": "FULL THROTTLE",
+   "headline": "POWER, PACE AND POINTS",
+   "subhead": "{winnerClub} power through the campaign as {winner} finishes {margin} points ahead of {loser} and {loserClub}."
+  },
+  {
+   "id": "h1-322",
+   "situation": "big-win",
+   "kicker": "SEASON REVIEW",
+   "headline": "SUPREME SEASON",
+   "subhead": "A supreme campaign from {winner} ends {winnerPoints} to {loserPoints}, a winning margin of {margin} points."
+  },
+  {
+   "id": "h1-323",
+   "situation": "big-win",
+   "kicker": "OPEN GOAL",
+   "headline": "WIDE AS A GOALMOUTH",
+   "subhead": "The gap is as wide as they come, with {winner} taking the season by {margin} points over {loser}."
+  },
+  {
+   "id": "h1-324",
+   "situation": "big-win",
+   "kicker": "CHARGE",
+   "headline": "STAMPEDE TO THE SUMMIT",
+   "subhead": "{winner} charges to the top of the season standings, finishing {margin} points clear with {winnerClub}."
+  },
+  {
+   "id": "h1-325",
+   "situation": "big-win",
+   "kicker": "DECISIVE",
+   "headline": "LEAVING NO DOUBT",
+   "subhead": "{winner} leaves no room for argument, winning the season on {winnerPoints} against {loser} on {loserPoints}."
+  },
+  {
+   "id": "h1-326",
+   "situation": "big-win",
+   "kicker": "TOP CLASS",
+   "headline": "CLASS APART THIS TERM",
+   "subhead": "{winner} and {winnerClub} sit in a class of their own, ending the season {margin} points ahead of {loser}."
+  },
+  {
+   "id": "h1-327",
+   "situation": "big-win",
+   "kicker": "LANDSLIDE",
+   "headline": "EMPHATIC IS THE WORD",
+   "subhead": "There is no other word for it: {winner} takes the season by {margin} points and {loser} must regroup."
+  },
+  {
+   "id": "h1-328",
+   "situation": "big-win",
+   "kicker": "HEAVY BLOW",
+   "headline": "HAMMER BLOW ON THE BOARD",
+   "subhead": "A {margin} point season win for {winner} lands like a hammer blow on the Showdown scoreboard."
+  },
+  {
+   "id": "h1-329",
+   "situation": "big-win",
+   "kicker": "FAR AHEAD",
+   "headline": "SEE YOU AT THE FINISH",
+   "subhead": "{winner} waves goodbye early and crosses the line {margin} points clear of {loser} this season."
+  },
+  {
+   "id": "h1-330",
+   "situation": "big-win",
+   "kicker": "VANISHING ACT",
+   "headline": "OUT OF SIGHT",
+   "subhead": "{winnerClub} disappear over the horizon as {winner} wins the season {winnerPoints} to {loserPoints}."
+  },
+  {
+   "id": "h1-331",
+   "situation": "big-win",
+   "kicker": "STAR TURN",
+   "headline": "{winner} RUNS RIOT",
+   "subhead": "{winner} runs riot across the season and finishes {margin} points clear of {loser} and {loserClub}."
+  },
+  {
+   "id": "h1-332",
+   "situation": "big-win",
+   "kicker": "ROYAL SEASON",
+   "headline": "MAJESTY FOR {winnerClub}",
+   "subhead": "A majestic campaign from {winner} brings {winnerPoints} points and a {margin} point season win for {winnerClub}."
+  },
+  {
+   "id": "h1-333",
+   "situation": "big-win",
+   "kicker": "OUT IN FRONT",
+   "headline": "{winner} MILES AHEAD",
+   "subhead": "{winner} finishes the season miles ahead, with a margin of {margin} points over a stretched {loser}."
+  },
+  {
+   "id": "h1-334",
+   "situation": "big-win",
+   "kicker": "LANDSLIDE",
+   "headline": "ROMP FOR {winnerClub}",
+   "subhead": "{winnerClub} enjoy a season romp as {winner} beats {loser} by {margin} points on the scoreboard."
+  },
+  {
+   "id": "h1-335",
+   "situation": "big-win",
+   "kicker": "SALUTE",
+   "headline": "HATS OFF TO {winner}",
+   "subhead": "Even {loser} will tip a cap to this one, as {winner} wins the season by {margin} points."
+  },
+  {
+   "id": "h1-336",
+   "situation": "big-win",
+   "kicker": "SEASON REVIEW",
+   "headline": "DOMINANCE DELIVERED",
+   "subhead": "{winner} delivers total dominance for {winnerClub}, finishing on {winnerPoints} and {margin} points clear of {loser}."
+  },
+  {
+   "id": "h1-337",
+   "situation": "big-win",
+   "kicker": "UNSTOPPABLE",
+   "headline": "STEAMROLLER SEASON",
+   "subhead": "Nothing slows the {winnerClub} steamroller as {winner} flattens the season standings by {margin} points."
+  },
+  {
+   "id": "h1-338",
+   "situation": "big-win",
+   "kicker": "WHOPPER",
+   "headline": "WHAT A WHOPPER",
+   "subhead": "A whopping season margin of {margin} points goes the way of {winner}, with {loser} left to ponder."
+  },
+  {
+   "id": "h1-339",
+   "situation": "big-win",
+   "kicker": "ON ANOTHER LEVEL",
+   "headline": "UNTOUCHABLE THIS TERM",
+   "subhead": "{winner} proves untouchable all season, ending {winnerPoints} to {loserPoints} against {loser} and {loserClub}."
+  },
+  {
+   "id": "h1-340",
+   "situation": "big-win",
+   "kicker": "TROPHY HAUL",
+   "headline": "SILVER AVALANCHE",
+   "subhead": "An avalanche of silverware carries {winner} to a {margin} point season win over {loser}."
+  },
+  {
+   "id": "h1-341",
+   "situation": "narrow-win",
+   "kicker": "PHOTO FINISH",
+   "headline": "SQUEAKING OVER THE LINE",
+   "subhead": "{winner} squeaks over the line by {margin}, finishing {winnerPoints} to {loserPoints} against {loser}."
+  },
+  {
+   "id": "h1-342",
+   "situation": "narrow-win",
+   "kicker": "CLOSE CALL",
+   "headline": "BY A HAIR'S BREADTH",
+   "subhead": "{winner} and {winnerClub} take the season by the narrowest of margins in a tense finish with {loser}."
+  },
+  {
+   "id": "h1-343",
+   "situation": "narrow-win",
+   "kicker": "DRAMA",
+   "headline": "NAIL-BITER SETTLED",
+   "subhead": "The tightest of seasons goes to {winner}, who edges {loser} by {margin} when the sums are done."
+  },
+  {
+   "id": "h1-344",
+   "situation": "narrow-win",
+   "kicker": "PHOTO FINISH",
+   "headline": "PHOTO FINISH VERDICT",
+   "subhead": "The judges study the picture and hand the season to {winner}, {winnerPoints} to {loserPoints}."
+  },
+  {
+   "id": "h1-345",
+   "situation": "narrow-win",
+   "kicker": "TIGHT ONE",
+   "headline": "INCHES DECIDE IT",
+   "subhead": "Mere inches separate the rivals, but {winner} takes the season ahead of {loser} by {margin}."
+  },
+  {
+   "id": "h1-346",
+   "situation": "narrow-win",
+   "kicker": "CLOSE CALL",
+   "headline": "SKIN OF THE TEETH",
+   "subhead": "{winner} hangs on by the skin of the teeth to win the season by {margin} over {loser}."
+  },
+  {
+   "id": "h1-347",
+   "situation": "narrow-win",
+   "kicker": "DRAMA",
+   "headline": "HEARTS IN MOUTHS",
+   "subhead": "A heart-stopping season ends with {winner} ahead by the narrowest of margins, {winnerPoints} to {loserPoints}."
+  },
+  {
+   "id": "h1-348",
+   "situation": "narrow-win",
+   "kicker": "LATE SHOW",
+   "headline": "EDGED AT THE LAST",
+   "subhead": "{winner} edges the season at the very last, finishing in front of {loser} by {margin}."
+  },
+  {
+   "id": "h1-349",
+   "situation": "narrow-win",
+   "kicker": "FINE MARGINS",
+   "headline": "RAZOR-THIN RESULT",
+   "subhead": "The season margin is razor thin, but {winner} and {winnerClub} come out on top of {loser} by {margin}."
+  },
+  {
+   "id": "h1-350",
+   "situation": "narrow-win",
+   "kicker": "BALANCING ACT",
+   "headline": "TIGHTROPE TRIUMPH",
+   "subhead": "{winner} walks the tightrope all season and steps off ahead of {loser} by the narrowest of margins."
+  },
+  {
+   "id": "h1-351",
+   "situation": "narrow-win",
+   "kicker": "CLOSE CALL",
+   "headline": "OFF THE BAR AND IN",
+   "subhead": "It could have gone either way, but this season drops for {winner}, {winnerPoints} to {loserPoints}."
+  },
+  {
+   "id": "h1-352",
+   "situation": "narrow-win",
+   "kicker": "KNIFE EDGE",
+   "headline": "KNIFE-EDGE CAMPAIGN",
+   "subhead": "A campaign balanced on a knife edge falls to {winner}, who beats {loser} by {margin} this season."
+  },
+  {
+   "id": "h1-353",
+   "situation": "narrow-win",
+   "kicker": "PHOTO FINISH",
+   "headline": "NOSED AHEAD AT THE END",
+   "subhead": "{winner} pokes a nose in front when it matters, taking the season from {loser} by {margin}."
+  },
+  {
+   "id": "h1-354",
+   "situation": "narrow-win",
+   "kicker": "RELIEF",
+   "headline": "BREATHE OUT NOW",
+   "subhead": "{winner} can finally exhale after taking a tense season by the narrowest of margins over {loser}."
+  },
+  {
+   "id": "h1-355",
+   "situation": "narrow-win",
+   "kicker": "DRAMA",
+   "headline": "PHEW! WHAT A FINISH",
+   "subhead": "{winnerClub} survive a nervy run-in as {winner} edges the season {winnerPoints} to {loserPoints}."
+  },
+  {
+   "id": "h1-356",
+   "situation": "narrow-win",
+   "kicker": "FINE MARGINS",
+   "headline": "SLIMMEST OF SUCCESSES",
+   "subhead": "The slimmest of season wins belongs to {winner}, who finishes just in front of {loser} by {margin}."
+  },
+  {
+   "id": "h1-357",
+   "situation": "narrow-win",
+   "kicker": "CLOSE CALL",
+   "headline": "WAFER-THIN WINNER",
+   "subhead": "A wafer-thin gap hands {winner} the season, with {loser} and {loserClub} so close behind."
+  },
+  {
+   "id": "h1-358",
+   "situation": "narrow-win",
+   "kicker": "NERVY",
+   "headline": "TOO CLOSE FOR COMFORT",
+   "subhead": "Nobody relaxed until the end, but {winner} takes the season by {margin} over a stubborn {loser}."
+  },
+  {
+   "id": "h1-359",
+   "situation": "narrow-win",
+   "kicker": "BIG QUESTION",
+   "headline": "COULD IT BE ANY TIGHTER?",
+   "subhead": "Barely, as {winner} wins the season {winnerPoints} to {loserPoints} by the narrowest of margins."
+  },
+  {
+   "id": "h1-360",
+   "situation": "narrow-win",
+   "kicker": "TENSION",
+   "headline": "FINGERNAILS BITTEN",
+   "subhead": "A season of bitten fingernails ends with {winner} ahead of {loser} by {margin} on the scoreboard."
+  },
+  {
+   "id": "h1-361",
+   "situation": "narrow-win",
+   "kicker": "NO TIE",
+   "headline": "DEAD HEAT DODGED",
+   "subhead": "A tie loomed large, but {winner} steps clear of {loser} by {margin} to claim the season."
+  },
+  {
+   "id": "h1-362",
+   "situation": "narrow-win",
+   "kicker": "FINE MARGINS",
+   "headline": "SPLITTING HAIRS",
+   "subhead": "You need a magnifying glass to split them, but {winner} wins the season ahead of {loser} by {margin}."
+  },
+  {
+   "id": "h1-363",
+   "situation": "narrow-win",
+   "kicker": "COOL HEAD",
+   "headline": "NERVES OF STEEL",
+   "subhead": "{winner} keeps steady nerves for {winnerClub} and takes a tight season by the narrowest of margins."
+  },
+  {
+   "id": "h1-364",
+   "situation": "narrow-win",
+   "kicker": "CLOSE CALL",
+   "headline": "JUST ABOUT JUBILANT",
+   "subhead": "The celebrations are earned by the smallest gap, as {winner} beats {loser} {winnerPoints} to {loserPoints}."
+  },
+  {
+   "id": "h1-365",
+   "situation": "narrow-win",
+   "kicker": "HARD WORK",
+   "headline": "EKED OUT ON THE CARD",
+   "subhead": "{winner} squeezes every last point from the season and finishes in front of {loser} by {margin}."
+  },
+  {
+   "id": "h1-366",
+   "situation": "narrow-win",
+   "kicker": "LATE DRAMA",
+   "headline": "SNATCHED IN EXTRA TIME",
+   "subhead": "It went right to the wire, but {winner} snatches the season from {loser} by the narrowest of margins."
+  },
+  {
+   "id": "h1-367",
+   "situation": "narrow-win",
+   "kicker": "TIGHT SQUEEZE",
+   "headline": "SQUEEZE PLAY SUCCEEDS",
+   "subhead": "{winner} squeezes past {loser} by {margin} to take the season honours for {winnerClub}."
+  },
+  {
+   "id": "h1-368",
+   "situation": "narrow-win",
+   "kicker": "FINE MARGINS",
+   "headline": "BOOTLACE VICTORY",
+   "subhead": "The gap is no wider than a bootlace, but the season belongs to {winner}, {winnerPoints} to {loserPoints}."
+  },
+  {
+   "id": "h1-369",
+   "situation": "narrow-win",
+   "kicker": "HOLDING ON",
+   "headline": "HANGING ON FOR GLORY",
+   "subhead": "{winner} hangs on through a nervy finish to take the season from {loser} by {margin}."
+  },
+  {
+   "id": "h1-370",
+   "situation": "narrow-win",
+   "kicker": "NERVY",
+   "headline": "TENSE? JUST A BIT",
+   "subhead": "A season of frayed nerves ends with {winner} edging {loser} by the narrowest of margins."
+  },
+  {
+   "id": "h1-371",
+   "situation": "narrow-win",
+   "kicker": "SEASON REVIEW",
+   "headline": "SCRAPED BUT SAVOURED",
+   "subhead": "It was scraped rather than strolled, but {winner} will savour this season win by {margin} over {loser}."
+  },
+  {
+   "id": "h1-372",
+   "situation": "narrow-win",
+   "kicker": "CLOSE CALL",
+   "headline": "NARROW BUT NOTABLE",
+   "subhead": "A narrow season win still counts in full, and {winner} takes it {winnerPoints} to {loserPoints}."
+  },
+  {
+   "id": "h1-373",
+   "situation": "narrow-win",
+   "kicker": "PHOTO FINISH",
+   "headline": "BY A NOSE, {winner}",
+   "subhead": "{winner} wins the season by a nose, holding off {loser} and {loserClub} by {margin}."
+  },
+  {
+   "id": "h1-374",
+   "situation": "narrow-win",
+   "kicker": "COOL HEAD",
+   "headline": "STEELY {winner} PREVAILS",
+   "subhead": "{winner} stays calm as the pressure builds and edges {loser} by {margin} to win the season."
+  },
+  {
+   "id": "h1-375",
+   "situation": "narrow-win",
+   "kicker": "RELIEF",
+   "headline": "RELIEF FOR {winnerClub}",
+   "subhead": "Sighs of relief all round at {winnerClub} as {winner} takes the season by the narrowest of margins."
+  },
+  {
+   "id": "h1-376",
+   "situation": "narrow-win",
+   "kicker": "FINE MARGINS",
+   "headline": "EDGE TO {winner}",
+   "subhead": "The season edge goes to {winner}, who finishes {winnerPoints} to {loserPoints} ahead of {loser}."
+  },
+  {
+   "id": "h1-377",
+   "situation": "narrow-win",
+   "kicker": "TENSION",
+   "headline": "SWEATING ON THE SUMS",
+   "subhead": "Both managers sweated on the final sums, and {winner} comes out on top of {loser} by {margin}."
+  },
+  {
+   "id": "h1-378",
+   "situation": "narrow-win",
+   "kicker": "RECOUNT",
+   "headline": "CALCULATORS OUT",
+   "subhead": "Check it twice and the answer holds: {winner} wins the season by {margin} over {loser}."
+  },
+  {
+   "id": "h1-379",
+   "situation": "narrow-win",
+   "kicker": "DRAMA",
+   "headline": "TENTERHOOKS TO TRIUMPH",
+   "subhead": "From tenterhooks to triumph, {winner} takes a tight season by the narrowest of margins over {loser}."
+  },
+  {
+   "id": "h1-380",
+   "situation": "narrow-win",
+   "kicker": "LATE DRAMA",
+   "headline": "PULSES RACING TO THE END",
+   "subhead": "Pulses raced all the way, but {winner} and {winnerClub} edge the season {winnerPoints} to {loserPoints}."
+  },
+  {
+   "id": "h1-381",
+   "situation": "comfortable-win",
+   "kicker": "SEASON REVIEW",
+   "headline": "SAFE AND SOUND",
+   "subhead": "{winner} brings the season home safe and sound, finishing {margin} points clear of {loser}."
+  },
+  {
+   "id": "h1-382",
+   "situation": "comfortable-win",
+   "kicker": "RELAXED",
+   "headline": "FEET UP BY THE FINISH",
+   "subhead": "{winner} can put the feet up after a {margin} point season win over {loser} and {loserClub}."
+  },
+  {
+   "id": "h1-383",
+   "situation": "comfortable-win",
+   "kicker": "COMFORTABLE",
+   "headline": "NO SWEAT THIS SEASON",
+   "subhead": "Hardly a bead of sweat in sight as {winner} wins the season {winnerPoints} to {loserPoints}."
+  },
+  {
+   "id": "h1-384",
+   "situation": "comfortable-win",
+   "kicker": "NEAT JOB",
+   "headline": "TIDY WORK ALL ROUND",
+   "subhead": "A tidy campaign from {winner} and {winnerClub} ends with a {margin} point lead over {loser}."
+  },
+  {
+   "id": "h1-385",
+   "situation": "comfortable-win",
+   "kicker": "CALM WATERS",
+   "headline": "SMOOTH SAILING",
+   "subhead": "{winner} sails through the season on calm waters and docks {margin} points ahead of {loser}."
+  },
+  {
+   "id": "h1-386",
+   "situation": "comfortable-win",
+   "kicker": "COMFORTABLE",
+   "headline": "ARMCHAIR RIDE",
+   "subhead": "An armchair ride for {winner}, who takes the season on {winnerPoints} with {loser} on {loserPoints}."
+  },
+  {
+   "id": "h1-387",
+   "situation": "comfortable-win",
+   "kicker": "COMPOSED",
+   "headline": "CALM, COOL, COLLECTED",
+   "subhead": "{winner} keeps a cool head all season and finishes a comfortable {margin} points in front of {loser}."
+  },
+  {
+   "id": "h1-388",
+   "situation": "comfortable-win",
+   "kicker": "SEASON REVIEW",
+   "headline": "ASSURED FROM START TO END",
+   "subhead": "{winnerClub} look assured throughout as {winner} wins the season by {margin} points over {loser}."
+  },
+  {
+   "id": "h1-389",
+   "situation": "comfortable-win",
+   "kicker": "NO FUSS",
+   "headline": "EASY DOES IT",
+   "subhead": "No fuss, no panic: {winner} takes the season {winnerPoints} to {loserPoints} against {loser}."
+  },
+  {
+   "id": "h1-390",
+   "situation": "comfortable-win",
+   "kicker": "CLEAR WIN",
+   "headline": "COMFORTABLY CLEAR",
+   "subhead": "{winner} finishes comfortably clear of {loser}, banking a season margin of {margin} points for {winnerClub}."
+  },
+  {
+   "id": "h1-391",
+   "situation": "comfortable-win",
+   "kicker": "SAFETY FIRST",
+   "headline": "BUFFER ZONE BUILT",
+   "subhead": "A {margin} point buffer gives {winner} a calm end to the season while {loser} looks for answers."
+  },
+  {
+   "id": "h1-392",
+   "situation": "comfortable-win",
+   "kicker": "REWARDS",
+   "headline": "HANDSOME HONOURS",
+   "subhead": "Handsome season honours go to {winner}, who finishes on {winnerPoints} ahead of {loser} on {loserPoints}."
+  },
+  {
+   "id": "h1-393",
+   "situation": "comfortable-win",
+   "kicker": "CONSOLE CALM",
+   "headline": "STEADY HANDS ON THE PAD",
+   "subhead": "Steady hands on the controller carry {winner} to a {margin} point season win over {loser}."
+  },
+  {
+   "id": "h1-394",
+   "situation": "comfortable-win",
+   "kicker": "SEASON REVIEW",
+   "headline": "MEASURED MASTERY",
+   "subhead": "A measured, patient campaign earns {winner} and {winnerClub} the season by {margin} points."
+  },
+  {
+   "id": "h1-395",
+   "situation": "comfortable-win",
+   "kicker": "DESERVED",
+   "headline": "WELL WORTH THE WIN",
+   "subhead": "{winner} fully deserves this season win, finishing {margin} points clear of {loser} and {loserClub}."
+  },
+  {
+   "id": "h1-396",
+   "situation": "comfortable-win",
+   "kicker": "AT EASE",
+   "headline": "RELAXED AT THE WHISTLE",
+   "subhead": "{winner} hears the final whistle on the season with a relaxed {margin} point lead over {loser}."
+  },
+  {
+   "id": "h1-397",
+   "situation": "comfortable-win",
+   "kicker": "SPACE",
+   "headline": "ROOMY AT THE TOP",
+   "subhead": "There is room to stretch out at the top for {winner}, who wins the season {winnerPoints} to {loserPoints}."
+  },
+  {
+   "id": "h1-398",
+   "situation": "comfortable-win",
+   "kicker": "JOB DONE",
+   "headline": "SLIPPERS ON, JOB DONE",
+   "subhead": "{winner} can reach for the slippers after a comfortable {margin} point season win over {loser}."
+  },
+  {
+   "id": "h1-399",
+   "situation": "comfortable-win",
+   "kicker": "COMPOSED",
+   "headline": "UNFLUSTERED FINISH",
+   "subhead": "{winnerClub} never look flustered as {winner} takes the season by {margin} points from {loser}."
+  },
+  {
+   "id": "h1-400",
+   "situation": "comfortable-win",
+   "kicker": "BALANCE",
+   "headline": "POISE PAYS OFF",
+   "subhead": "Poise and patience pay off for {winner}, finishing on {winnerPoints} while {loser} ends on {loserPoints}."
+  },
+  {
+   "id": "h1-401",
+   "situation": "comfortable-win",
+   "kicker": "COOL HEAD",
+   "headline": "COMPOSURE COUNTS",
+   "subhead": "Composure counts for plenty as {winner} wins the season {margin} points ahead of {loser}."
+  },
+  {
+   "id": "h1-402",
+   "situation": "comfortable-win",
+   "kicker": "SEASON REVIEW",
+   "headline": "CLEAR AND COMFORTABLE",
+   "subhead": "{winner} and {winnerClub} finish clear and comfortable, with a {margin} point season margin over {loser}."
+  },
+  {
+   "id": "h1-403",
+   "situation": "comfortable-win",
+   "kicker": "SORTED",
+   "headline": "SORTED, WITH ROOM TO SPARE",
+   "subhead": "{winner} wraps up the season with room to spare, {winnerPoints} to {loserPoints} against {loser}."
+  },
+  {
+   "id": "h1-404",
+   "situation": "comfortable-win",
+   "kicker": "NO DRAMA",
+   "headline": "JOB DONE, NO DRAMA",
+   "subhead": "No late twists this time, just {winner} winning the season by {margin} points over {loser}."
+  },
+  {
+   "id": "h1-405",
+   "situation": "comfortable-win",
+   "kicker": "QUIET LIFE",
+   "headline": "WHO NEEDS A NAIL-BITER?",
+   "subhead": "Not {winner}, who takes the season by a comfortable {margin} points ahead of {loser} and {loserClub}."
+  },
+  {
+   "id": "h1-406",
+   "situation": "comfortable-win",
+   "kicker": "UNRUFFLED",
+   "headline": "UNRUFFLED AND AHEAD",
+   "subhead": "{winner} stays unruffled all season and finishes {margin} points ahead of {loser} on the scoreboard."
+  },
+  {
+   "id": "h1-407",
+   "situation": "comfortable-win",
+   "kicker": "SMOOTH RIDE",
+   "headline": "COASTING TO THE TAPE",
+   "subhead": "{winnerClub} coast to the tape as {winner} wins the season {winnerPoints} to {loserPoints}."
+  },
+  {
+   "id": "h1-408",
+   "situation": "comfortable-win",
+   "kicker": "SPACE",
+   "headline": "BREATHING ROOM EARNED",
+   "subhead": "{winner} earns real breathing room this season, finishing {margin} points clear of {loser}."
+  },
+  {
+   "id": "h1-409",
+   "situation": "comfortable-win",
+   "kicker": "SECURE",
+   "headline": "SECURE ON THE SCORECARD",
+   "subhead": "The scorecard shows {winner} secure and ahead, winning the season by {margin} points over {loser}."
+  },
+  {
+   "id": "h1-410",
+   "situation": "comfortable-win",
+   "kicker": "WRAPPED UP",
+   "headline": "NEATLY PARCELLED UP",
+   "subhead": "{winner} parcels up the season neatly for {winnerClub}, finishing on {winnerPoints} to {loser}'s {loserPoints}."
+  },
+  {
+   "id": "h1-411",
+   "situation": "comfortable-win",
+   "kicker": "STURDY",
+   "headline": "SOLID AS A CROSSBAR",
+   "subhead": "A campaign as solid as a crossbar gives {winner} a {margin} point season win over {loser}."
+  },
+  {
+   "id": "h1-412",
+   "situation": "comfortable-win",
+   "kicker": "RESERVES",
+   "headline": "PLENTY IN THE TANK",
+   "subhead": "{winner} finishes the season with plenty left in the tank and {margin} points to spare over {loser}."
+  },
+  {
+   "id": "h1-413",
+   "situation": "comfortable-win",
+   "kicker": "SEASON REVIEW",
+   "headline": "GREAT, NOT GRUELLING",
+   "subhead": "A great season that never turned gruelling ends with {winner} ahead of {loser} by {margin} points."
+  },
+  {
+   "id": "h1-414",
+   "situation": "comfortable-win",
+   "kicker": "CALM WATERS",
+   "headline": "SERENE SEASON",
+   "subhead": "{winner} glides through a serene season with {winnerClub}, finishing {winnerPoints} to {loserPoints} against {loser}."
+  },
+  {
+   "id": "h1-415",
+   "situation": "comfortable-win",
+   "kicker": "CRUISING",
+   "headline": "{winner} CRUISES IN",
+   "subhead": "{winner} cruises home for {winnerClub}, taking the season by {margin} points over {loser}."
+  },
+  {
+   "id": "h1-416",
+   "situation": "comfortable-win",
+   "kicker": "HAPPY CAMP",
+   "headline": "SMILES FOR {winnerClub}",
+   "subhead": "There are smiles all round at {winnerClub} as {winner} wins the season by {margin} points."
+  },
+  {
+   "id": "h1-417",
+   "situation": "comfortable-win",
+   "kicker": "EASY STREET",
+   "headline": "EASY STREET FOR {winner}",
+   "subhead": "{winner} moves onto easy street this season, ending on {winnerPoints} with {loser} on {loserPoints}."
+  },
+  {
+   "id": "h1-418",
+   "situation": "comfortable-win",
+   "kicker": "NO HURRY",
+   "headline": "UNHURRIED AND UNMATCHED",
+   "subhead": "{winner} never needs to hurry and finishes the season {margin} points clear of {loser} and {loserClub}."
+  },
+  {
+   "id": "h1-419",
+   "situation": "comfortable-win",
+   "kicker": "IN CHARGE",
+   "headline": "BOSSING THE BOARD",
+   "subhead": "{winner} bosses the season scoreboard from early on and wins by {margin} points over {loser}."
+  },
+  {
+   "id": "h1-420",
+   "situation": "comfortable-win",
+   "kicker": "SEASON REVIEW",
+   "headline": "IN CHARGE ALL ALONG",
+   "subhead": "{winner} looks in charge all season long and finishes {winnerPoints} to {loserPoints} ahead of {loser}."
+  },
+  {
+   "id": "h1-421",
+   "situation": "draw",
+   "kicker": "ALL EVEN",
+   "headline": "STALEMATE IN THE STANDINGS",
+   "subhead": "{managerA} and {managerB} both finish the season on {points}, so nobody takes the honours this time."
+  },
+  {
+   "id": "h1-422",
+   "situation": "draw",
+   "kicker": "DEADLOCK",
+   "headline": "DEADLOCKED AT THE DEADLINE",
+   "subhead": "The season ends with {clubA} and {clubB} locked together on {points} each, and no winner declared."
+  },
+  {
+   "id": "h1-423",
+   "situation": "draw",
+   "kicker": "SEASON REVIEW",
+   "headline": "SPLIT DOWN THE MIDDLE",
+   "subhead": "This season splits perfectly down the middle, with {managerA} and {managerB} each finishing on {points}."
+  },
+  {
+   "id": "h1-424",
+   "situation": "draw",
+   "kicker": "REFLECTION",
+   "headline": "MIRROR IMAGE SEASONS",
+   "subhead": "{managerA} and {managerB} produce mirror image campaigns, both ending on {points} to draw the season."
+  },
+  {
+   "id": "h1-425",
+   "situation": "draw",
+   "kicker": "ALL EVEN",
+   "headline": "IDENTICAL TALLIES",
+   "subhead": "Identical season tallies of {points} for {clubA} and {clubB} mean this campaign is a draw."
+  },
+  {
+   "id": "h1-426",
+   "situation": "draw",
+   "kicker": "STANDOFF",
+   "headline": "NEITHER BLINKS",
+   "subhead": "Neither {managerA} nor {managerB} blinks all season, and both finish level on {points}."
+  },
+  {
+   "id": "h1-427",
+   "situation": "draw",
+   "kicker": "BIG QUESTION",
+   "headline": "CAN ANYONE SEPARATE THEM?",
+   "subhead": "Not this season, as {managerA} and {managerB} finish on {points} apiece and share the spoils."
+  },
+  {
+   "id": "h1-428",
+   "situation": "draw",
+   "kicker": "TANGLED UP",
+   "headline": "TIED UP IN KNOTS",
+   "subhead": "The season ties itself in knots and leaves {clubA} and {clubB} level on {points} each."
+  },
+  {
+   "id": "h1-429",
+   "situation": "draw",
+   "kicker": "SHARED",
+   "headline": "HONOURS ON BOTH SIDES",
+   "subhead": "Honours land on both sides this season, with {managerA} and {managerB} finishing level on {points}."
+  },
+  {
+   "id": "h1-430",
+   "situation": "draw",
+   "kicker": "ALL EVEN",
+   "headline": "SAME PAGE, SAME SCORE",
+   "subhead": "{managerA} and {managerB} end the season on the same page and the same score of {points}."
+  },
+  {
+   "id": "h1-431",
+   "situation": "draw",
+   "kicker": "DEADLOCK",
+   "headline": "LOCKED TOGETHER",
+   "subhead": "{clubA} and {clubB} stay locked together all season, finishing on {points} apiece with no winner."
+  },
+  {
+   "id": "h1-432",
+   "situation": "draw",
+   "kicker": "FAIR SHARES",
+   "headline": "EVENLY DIVIDED DIVIDENDS",
+   "subhead": "The season pays out evenly, as {managerA} and {managerB} each bank {points} and the result is a draw."
+  },
+  {
+   "id": "h1-433",
+   "situation": "draw",
+   "kicker": "SEASON REVIEW",
+   "headline": "NO WINNER THIS TIME",
+   "subhead": "For once the scoreboard refuses to pick a side, with {managerA} and {managerB} level on {points}."
+  },
+  {
+   "id": "h1-434",
+   "situation": "draw",
+   "kicker": "ALL EVEN",
+   "headline": "LEVEL PEGGING",
+   "subhead": "{managerA} and {managerB} are level pegging at the end of the season, each finishing on {points}."
+  },
+  {
+   "id": "h1-435",
+   "situation": "draw",
+   "kicker": "MATCHING",
+   "headline": "PEAS IN A POD",
+   "subhead": "Like peas in a pod, {clubA} and {clubB} finish the season on exactly {points} each."
+  },
+  {
+   "id": "h1-436",
+   "situation": "draw",
+   "kicker": "CLOSE RACE",
+   "headline": "NECK AND NECK",
+   "subhead": "Neck and neck from start to finish, {managerA} and {managerB} draw the season on {points} apiece."
+  },
+  {
+   "id": "h1-437",
+   "situation": "draw",
+   "kicker": "BALANCE",
+   "headline": "BALANCED ON A PIN",
+   "subhead": "The season balances on a pin, with {managerA} and {managerB} both landing on {points}."
+  },
+  {
+   "id": "h1-438",
+   "situation": "draw",
+   "kicker": "SPORTING",
+   "headline": "HANDSHAKES ALL ROUND",
+   "subhead": "Handshakes all round as {managerA} and {managerB} finish the season level on {points} each."
+  },
+  {
+   "id": "h1-439",
+   "situation": "draw",
+   "kicker": "ALL EVEN",
+   "headline": "PARITY PREVAILS",
+   "subhead": "Parity rules the season, with {clubA} and {clubB} both finishing on {points} and nobody winning."
+  },
+  {
+   "id": "h1-440",
+   "situation": "draw",
+   "kicker": "SEASON REVIEW",
+   "headline": "TIE GAME, TIDY STORY",
+   "subhead": "It is a tie, and a tidy one, as {managerA} and {managerB} each close the season on {points}."
+  },
+  {
+   "id": "h1-441",
+   "situation": "draw",
+   "kicker": "SHARED",
+   "headline": "SHARE AND SHARE ALIKE",
+   "subhead": "{managerA} and {managerB} share the season equally, finishing on {points} apiece with no winner declared."
+  },
+  {
+   "id": "h1-442",
+   "situation": "draw",
+   "kicker": "MATCHING",
+   "headline": "MATCHING TALLIES",
+   "subhead": "{clubA} and {clubB} post matching tallies of {points}, so this season goes down as a draw."
+  },
+  {
+   "id": "h1-443",
+   "situation": "draw",
+   "kicker": "STANDOFF",
+   "headline": "STANDOFF AT THE SUMMIT",
+   "subhead": "Neither manager gives an inch, and {managerA} and {managerB} end the season level on {points}."
+  },
+  {
+   "id": "h1-444",
+   "situation": "draw",
+   "kicker": "VERDICT",
+   "headline": "CALL IT A TIE",
+   "subhead": "The verdict is simple: {managerA} and {managerB} both finish on {points}, so the season is drawn."
+  },
+  {
+   "id": "h1-445",
+   "situation": "draw",
+   "kicker": "FAIR DEAL",
+   "headline": "SQUARE DEAL ALL ROUND",
+   "subhead": "A square deal for both camps, with {clubA} and {clubB} level on {points} at the end of the season."
+  },
+  {
+   "id": "h1-446",
+   "situation": "draw",
+   "kicker": "ALL EVEN",
+   "headline": "DEAD EVEN AT THE BELL",
+   "subhead": "The bell rings on the season with {managerA} and {managerB} dead even on {points} each."
+  },
+  {
+   "id": "h1-447",
+   "situation": "draw",
+   "kicker": "STANDOFF",
+   "headline": "NOBODY BUDGES",
+   "subhead": "Nobody budges an inch this season, and {managerA} and {managerB} finish level on {points}."
+  },
+  {
+   "id": "h1-448",
+   "situation": "draw",
+   "kicker": "STOP PRESS",
+   "headline": "HOLD THE FRONT PAGE: TIE",
+   "subhead": "The presses stop for a drawn season, with {managerA} and {managerB} both ending on {points}."
+  },
+  {
+   "id": "h1-449",
+   "situation": "draw",
+   "kicker": "BALANCE",
+   "headline": "SCALES STAY STILL",
+   "subhead": "The scales refuse to tip either way as {clubA} and {clubB} finish the season on {points} apiece."
+  },
+  {
+   "id": "h1-450",
+   "situation": "draw",
+   "kicker": "SEASON REVIEW",
+   "headline": "STRIKING A BALANCE",
+   "subhead": "{managerA} and {managerB} strike a perfect balance this season, both finishing level on {points}."
+  },
+  {
+   "id": "h1-451",
+   "situation": "draw",
+   "kicker": "ALL EVEN",
+   "headline": "EQUALS AT THE END",
+   "subhead": "The season ends with {managerA} and {managerB} as equals, each on {points} and neither a winner."
+  },
+  {
+   "id": "h1-452",
+   "situation": "draw",
+   "kicker": "TOGETHER",
+   "headline": "INSEPARABLE THIS TERM",
+   "subhead": "{clubA} and {clubB} prove inseparable this season, both closing out the campaign on {points}."
+  },
+  {
+   "id": "h1-453",
+   "situation": "draw",
+   "kicker": "BIG QUESTION",
+   "headline": "WHO WON? NEITHER",
+   "subhead": "Nobody, as {managerA} and {managerB} finish level on {points} and the season goes down as a draw."
+  },
+  {
+   "id": "h1-454",
+   "situation": "draw",
+   "kicker": "BALANCE",
+   "headline": "PERFECTLY POISED",
+   "subhead": "The season ends perfectly poised, with {managerA} and {managerB} both on {points} and nothing to split them."
+  },
+  {
+   "id": "h1-455",
+   "situation": "draw",
+   "kicker": "ALL EVEN",
+   "headline": "{managerA} AND {managerB} TIE",
+   "subhead": "{managerA} and {managerB} finish the season with {points} each, so this one is a draw."
+  },
+  {
+   "id": "h1-456",
+   "situation": "draw",
+   "kicker": "MATCHED",
+   "headline": "{managerB} MATCHES {managerA}",
+   "subhead": "Point for point, {managerA} and {managerB} end the season level on {points} with {clubA} and {clubB}."
+  },
+  {
+   "id": "h1-457",
+   "situation": "draw",
+   "kicker": "SEASON REVIEW",
+   "headline": "DRAWN OUT, DRAWN LEVEL",
+   "subhead": "A long, absorbing season ends with {managerA} and {managerB} drawn level on {points} apiece."
+  },
+  {
+   "id": "h1-458",
+   "situation": "draw",
+   "kicker": "ALL EVEN",
+   "headline": "LEVEL BEST FROM BOTH",
+   "subhead": "Both managers give their level best, and {clubA} and {clubB} finish the season on {points} each."
+  },
+  {
+   "id": "h1-459",
+   "situation": "draw",
+   "kicker": "STUCK FAST",
+   "headline": "STUCK TOGETHER",
+   "subhead": "{managerA} and {managerB} stay stuck together to the very end, finishing the season on {points} apiece."
+  },
+  {
+   "id": "h1-460",
+   "situation": "draw",
+   "kicker": "SHARED",
+   "headline": "STANDINGS SPLIT EVENLY",
+   "subhead": "The season standings split evenly between {managerA} and {managerB}, who both finish on {points}."
+  },
+  {
+   "id": "h1-461",
+   "situation": "champions-league",
+   "kicker": "EUROPEAN GLORY",
+   "headline": "RULERS OF EUROPE",
+   "subhead": "{winner} guides {winnerClub} to Champions League glory, the richest prize on the Showdown points table."
+  },
+  {
+   "id": "h1-462",
+   "situation": "champions-league",
+   "kicker": "CHAMPIONS LEAGUE",
+   "headline": "EUROPE CONQUERED",
+   "subhead": "{winnerClub} conquer the Champions League and {winner} collects the biggest single haul of points available."
+  },
+  {
+   "id": "h1-463",
+   "situation": "champions-league",
+   "kicker": "GLORY NIGHT",
+   "headline": "STARRY NIGHT, SILVER PRIZE",
+   "subhead": "{winner} lifts the Champions League with {winnerClub} and finishes the season on {winnerPoints}."
+  },
+  {
+   "id": "h1-464",
+   "situation": "champions-league",
+   "kicker": "EUROPEAN GLORY",
+   "headline": "PEAK OF THE CONTINENT",
+   "subhead": "{winnerClub} stand at the peak of the continent after {winner} wins the Champions League this season."
+  },
+  {
+   "id": "h1-465",
+   "situation": "champions-league",
+   "kicker": "ELITE",
+   "headline": "ELITE CROWN CLAIMED",
+   "subhead": "The most elite crown in club football belongs to {winnerClub}, and {winner} banks a hefty points reward."
+  },
+  {
+   "id": "h1-466",
+   "situation": "champions-league",
+   "kicker": "CHAMPIONS LEAGUE",
+   "headline": "CROWNED IN EUROPE",
+   "subhead": "{winner} is crowned in Europe as {winnerClub} win the Champions League and the season ends on {winnerPoints}."
+  },
+  {
+   "id": "h1-467",
+   "situation": "champions-league",
+   "kicker": "TOP OF THE WORLD",
+   "headline": "SUMMIT SCALED",
+   "subhead": "{winner} scales the highest summit of all, steering {winnerClub} to the Champions League trophy."
+  },
+  {
+   "id": "h1-468",
+   "situation": "champions-league",
+   "kicker": "EUROPEAN GLORY",
+   "headline": "CONTINENT AT THEIR FEET",
+   "subhead": "Europe lies at the feet of {winnerClub} after {winner} wins the Champions League this season."
+  },
+  {
+   "id": "h1-469",
+   "situation": "champions-league",
+   "kicker": "THE BIG ONE",
+   "headline": "THE BIGGEST PRIZE OF ALL",
+   "subhead": "{winner} lands the Champions League, the biggest prize in the Showdown, and {loser} can only admire it."
+  },
+  {
+   "id": "h1-470",
+   "situation": "champions-league",
+   "kicker": "GLORY NIGHT",
+   "headline": "GLORY BEYOND MEASURE",
+   "subhead": "Champions League glory for {winnerClub} sends {winner} to {winnerPoints} for the season and a famous night."
+  },
+  {
+   "id": "h1-471",
+   "situation": "champions-league",
+   "kicker": "CHAMPIONS LEAGUE",
+   "headline": "ANTHEM ANSWERED",
+   "subhead": "{winner} answers the call of the anthem and brings the Champions League home to {winnerClub}."
+  },
+  {
+   "id": "h1-472",
+   "situation": "champions-league",
+   "kicker": "WRITTEN IN STARS",
+   "headline": "STARS ALIGNED",
+   "subhead": "The stars align for {winnerClub} as {winner} claims the Champions League and its rich points reward."
+  },
+  {
+   "id": "h1-473",
+   "situation": "champions-league",
+   "kicker": "TROPHY ROOM",
+   "headline": "CABINET'S CROWN JEWEL",
+   "subhead": "The Champions League trophy becomes the crown jewel of the {winnerClub} cabinet thanks to {winner}."
+  },
+  {
+   "id": "h1-474",
+   "situation": "champions-league",
+   "kicker": "BIG PAYOUT",
+   "headline": "JACKPOT IN EUROPE",
+   "subhead": "{winner} hits the jackpot with Champions League success, the top points earner on the Showdown scale."
+  },
+  {
+   "id": "h1-475",
+   "situation": "champions-league",
+   "kicker": "EUROPEAN GLORY",
+   "headline": "CONTINENTAL CONQUEST",
+   "subhead": "{winnerClub} complete a continental conquest as {winner} lifts the Champions League this season."
+  },
+  {
+   "id": "h1-476",
+   "situation": "champions-league",
+   "kicker": "CHAMPIONS LEAGUE",
+   "headline": "PINNACLE PRIZE PROCURED",
+   "subhead": "The pinnacle prize of club football goes to {winnerClub}, and {winner} finishes the season on {winnerPoints}."
+  },
+  {
+   "id": "h1-477",
+   "situation": "champions-league",
+   "kicker": "BEST IN EUROPE",
+   "headline": "EUROPE'S FINEST",
+   "subhead": "{winner} and {winnerClub} are Europe's finest after a Champions League triumph that lights up the scoreboard."
+  },
+  {
+   "id": "h1-478",
+   "situation": "champions-league",
+   "kicker": "HEAVYWEIGHT",
+   "headline": "HEAVYWEIGHT HONOUR",
+   "subhead": "The heaviest honour in the Showdown goes to {winner} as {winnerClub} win the Champions League."
+  },
+  {
+   "id": "h1-479",
+   "situation": "champions-league",
+   "kicker": "DREAM SEASON",
+   "headline": "THE DREAM COMES TRUE",
+   "subhead": "Every manager dreams of it, and {winner} makes it real by lifting the Champions League with {winnerClub}."
+  },
+  {
+   "id": "h1-480",
+   "situation": "champions-league",
+   "kicker": "GLORY NIGHT",
+   "headline": "DREAMS DELIVERED ABROAD",
+   "subhead": "{winnerClub} deliver the dream in Europe as {winner} wins the Champions League and a big points reward."
+  },
+  {
+   "id": "h1-481",
+   "situation": "champions-league",
+   "kicker": "CHAMPIONS LEAGUE",
+   "headline": "BRIGHTEST LIGHTS, BIGGEST CUP",
+   "subhead": "Under the brightest lights, {winner} claims the biggest cup for {winnerClub} and races to {winnerPoints}."
+  },
+  {
+   "id": "h1-482",
+   "situation": "champions-league",
+   "kicker": "TOP OF THE TREE",
+   "headline": "ATOP THE EUROPEAN TREE",
+   "subhead": "{winnerClub} sit atop the European tree after {winner} wins the Champions League this season."
+  },
+  {
+   "id": "h1-483",
+   "situation": "champions-league",
+   "kicker": "MAXIMUM IMPACT",
+   "headline": "MAXIMUM EUROPEAN MAGIC",
+   "subhead": "{winner} conjures Champions League magic for {winnerClub} and collects the richest points prize in the game."
+  },
+  {
+   "id": "h1-484",
+   "situation": "champions-league",
+   "kicker": "GLORY NIGHT",
+   "headline": "NIGHT OF NIGHTS",
+   "subhead": "A night of nights for {winnerClub} ends with {winner} holding the Champions League trophy aloft."
+  },
+  {
+   "id": "h1-485",
+   "situation": "champions-league",
+   "kicker": "TROPHY ROOM",
+   "headline": "SILVERWARE SUPREME",
+   "subhead": "The supreme piece of silverware in club football heads to {winnerClub}, courtesy of {winner}."
+  },
+  {
+   "id": "h1-486",
+   "situation": "champions-league",
+   "kicker": "MISSION DONE",
+   "headline": "QUEST COMPLETE",
+   "subhead": "{winner} completes the quest for European glory as {winnerClub} win the Champions League this season."
+  },
+  {
+   "id": "h1-487",
+   "situation": "champions-league",
+   "kicker": "HISTORY MADE",
+   "headline": "FROM HOME TO HISTORY",
+   "subhead": "{winnerClub} write their name into history as {winner} lifts the Champions League and its points bonanza."
+  },
+  {
+   "id": "h1-488",
+   "situation": "champions-league",
+   "kicker": "EUROPEAN GLORY",
+   "headline": "EUROPEAN ROYALTY",
+   "subhead": "{winner} and {winnerClub} are European royalty after winning the Champions League this season."
+  },
+  {
+   "id": "h1-489",
+   "situation": "champions-league",
+   "kicker": "THE BIG ONE",
+   "headline": "PRIZE OF PRIZES",
+   "subhead": "The prize of prizes, the Champions League, belongs to {winnerClub} and powers {winner} to {winnerPoints}."
+  },
+  {
+   "id": "h1-490",
+   "situation": "champions-league",
+   "kicker": "CHAMPIONS LEAGUE",
+   "headline": "CONTINENTAL CLASS ACT",
+   "subhead": "{winner} produces a continental class act, guiding {winnerClub} to the Champions League crown."
+  },
+  {
+   "id": "h1-491",
+   "situation": "champions-league",
+   "kicker": "BIG STAGE",
+   "headline": "GRANDEST STAGE CONQUERED",
+   "subhead": "{winnerClub} conquer the grandest stage of all and {winner} banks the top points prize of the season."
+  },
+  {
+   "id": "h1-492",
+   "situation": "champions-league",
+   "kicker": "BIG QUESTION",
+   "headline": "IS THIS THE BEST YET?",
+   "subhead": "It might be, as {winner} wins the Champions League with {winnerClub} and finishes the season on {winnerPoints}."
+  },
+  {
+   "id": "h1-493",
+   "situation": "champions-league",
+   "kicker": "BIG QUESTION",
+   "headline": "WHO RULES EUROPE NOW?",
+   "subhead": "{winner} does, after steering {winnerClub} to the Champions League and a rich haul of points."
+  },
+  {
+   "id": "h1-494",
+   "situation": "champions-league",
+   "kicker": "EUROPEAN GLORY",
+   "headline": "EUROPE BOWS TO {winner}",
+   "subhead": "The continent bows to {winner} as {winnerClub} claim the Champions League this season."
+  },
+  {
+   "id": "h1-495",
+   "situation": "champions-league",
+   "kicker": "CHAMPIONS LEAGUE",
+   "headline": "GLORY FOR {winnerClub}",
+   "subhead": "Champions League glory arrives for {winnerClub}, and {winner} collects the biggest points prize going."
+  },
+  {
+   "id": "h1-496",
+   "situation": "champions-league",
+   "kicker": "TOP OF EUROPE",
+   "headline": "{winnerClub} ON TOP OF EUROPE",
+   "subhead": "{winner} takes {winnerClub} to the top of Europe with a Champions League win and {winnerPoints} for the season."
+  },
+  {
+   "id": "h1-497",
+   "situation": "champions-league",
+   "kicker": "CELEBRATION",
+   "headline": "CHAMPAGNE AND SILVER",
+   "subhead": "The champagne flows at {winnerClub} as {winner} lifts the Champions League this season."
+  },
+  {
+   "id": "h1-498",
+   "situation": "champions-league",
+   "kicker": "GLORY NIGHT",
+   "headline": "CROWNING GLORY",
+   "subhead": "The Champions League is the crowning glory of {winner}'s season with {winnerClub}."
+  },
+  {
+   "id": "h1-499",
+   "situation": "champions-league",
+   "kicker": "GLORY NIGHT",
+   "headline": "GOLDEN NIGHT, SILVER CUP",
+   "subhead": "A golden night ends with silver in hand, as {winner} wins the Champions League with {winnerClub}."
+  },
+  {
+   "id": "h1-500",
+   "situation": "champions-league",
+   "kicker": "TROPHY ROOM",
+   "headline": "TROPHY OF TROPHIES",
+   "subhead": "{winner} adds the trophy of trophies, the Champions League, to the {winnerClub} cabinet this season."
+  },
+  {
+   "id": "h1-501",
+   "situation": "europa-league",
+   "kicker": "EUROPA LEAGUE",
+   "headline": "EUROPA DELIVERS",
+   "subhead": "{winner} adds the Europa League to the {winnerClub} cabinet and finishes the season on {winnerPoints}."
+  },
+  {
+   "id": "h1-502",
+   "situation": "europa-league",
+   "kicker": "ON TOUR",
+   "headline": "ROAD TRIP REWARDED",
+   "subhead": "A long European road trip ends in reward as {winner} lifts the Europa League with {winnerClub}."
+  },
+  {
+   "id": "h1-503",
+   "situation": "europa-league",
+   "kicker": "EUROPA LEAGUE",
+   "headline": "PASSPORT STAMPED, CUP LIFTED",
+   "subhead": "{winnerClub} collect the stamps and the silverware as {winner} wins the Europa League this season."
+  },
+  {
+   "id": "h1-504",
+   "situation": "europa-league",
+   "kicker": "EXTRA SHINE",
+   "headline": "EUROPA ADDS LUSTRE",
+   "subhead": "Europa League success adds lustre to the season for {winner} and the {winnerClub} trophy cabinet."
+  },
+  {
+   "id": "h1-505",
+   "situation": "europa-league",
+   "kicker": "ON TOUR",
+   "headline": "TRAVELS END IN TRIUMPH",
+   "subhead": "The European travels end in triumph for {winnerClub} as {winner} brings home the Europa League."
+  },
+  {
+   "id": "h1-506",
+   "situation": "europa-league",
+   "kicker": "KEEPSAKE",
+   "headline": "SOUVENIR FROM ABROAD",
+   "subhead": "{winner} brings back the finest souvenir of all from abroad: the Europa League trophy for {winnerClub}."
+  },
+  {
+   "id": "h1-507",
+   "situation": "europa-league",
+   "kicker": "EUROPA LEAGUE",
+   "headline": "FOREIGN FIELDS CONQUERED",
+   "subhead": "{winnerClub} conquer foreign fields and {winner} lifts the Europa League to brighten the season."
+  },
+  {
+   "id": "h1-508",
+   "situation": "europa-league",
+   "kicker": "TROPHY ROOM",
+   "headline": "SHELF SPACE NEEDED",
+   "subhead": "Clear a shelf at {winnerClub}, because {winner} has added the Europa League to the collection."
+  },
+  {
+   "id": "h1-509",
+   "situation": "europa-league",
+   "kicker": "EUROPEAN NIGHT",
+   "headline": "LIFTED ON THE CONTINENT",
+   "subhead": "{winner} lifts the Europa League for {winnerClub}, a European prize that will look grand in the cabinet."
+  },
+  {
+   "id": "h1-510",
+   "situation": "europa-league",
+   "kicker": "EUROPA LEAGUE",
+   "headline": "YES PLEASE, EUROPA",
+   "subhead": "{winner} says yes please to Europa League silverware and {winnerClub} celebrate a European trophy."
+  },
+  {
+   "id": "h1-511",
+   "situation": "europa-league",
+   "kicker": "MISSION DONE",
+   "headline": "MISSION ABROAD ACCOMPLISHED",
+   "subhead": "The European mission is accomplished as {winner} guides {winnerClub} to the Europa League."
+  },
+  {
+   "id": "h1-512",
+   "situation": "europa-league",
+   "kicker": "HAPPY ENDING",
+   "headline": "JOURNEY'S HAPPY ENDING",
+   "subhead": "The European journey ends happily for {winnerClub}, with {winner} holding the Europa League trophy."
+  },
+  {
+   "id": "h1-513",
+   "situation": "europa-league",
+   "kicker": "ON TOUR",
+   "headline": "TROPHY TOUR COMPLETE",
+   "subhead": "{winner} completes the trophy tour of Europe and brings the Europa League home to {winnerClub}."
+  },
+  {
+   "id": "h1-514",
+   "situation": "europa-league",
+   "kicker": "EUROPA LEAGUE",
+   "headline": "BOOKED, PACKED, LIFTED",
+   "subhead": "Flights booked, bags packed, trophy lifted: {winner} wins the Europa League with {winnerClub}."
+  },
+  {
+   "id": "h1-515",
+   "situation": "europa-league",
+   "kicker": "ADVENTURE",
+   "headline": "WANDERLUST WINS",
+   "subhead": "A taste for travel pays off for {winnerClub} as {winner} claims the Europa League this season."
+  },
+  {
+   "id": "h1-516",
+   "situation": "europa-league",
+   "kicker": "TROPHY ROOM",
+   "headline": "SILVER FROM OVERSEAS",
+   "subhead": "{winner} ships European silver home to {winnerClub} after winning the Europa League this season."
+  },
+  {
+   "id": "h1-517",
+   "situation": "europa-league",
+   "kicker": "ON TOUR",
+   "headline": "GLOBETROTTING GLORY",
+   "subhead": "{winnerClub} trot across the continent and {winner} returns with the Europa League trophy."
+  },
+  {
+   "id": "h1-518",
+   "situation": "europa-league",
+   "kicker": "EUROPA LEAGUE",
+   "headline": "ACROSS BORDERS, INTO CABINET",
+   "subhead": "The Europa League crosses borders and lands in the {winnerClub} cabinet, thanks to {winner}."
+  },
+  {
+   "id": "h1-519",
+   "situation": "europa-league",
+   "kicker": "HONOURS",
+   "headline": "ANOTHER BADGE OF HONOUR",
+   "subhead": "{winner} pins another badge of honour on {winnerClub} by winning the Europa League this season."
+  },
+  {
+   "id": "h1-520",
+   "situation": "europa-league",
+   "kicker": "CUP RUN",
+   "headline": "CUP RUN COMPLETED",
+   "subhead": "The European cup run reaches its happy end as {winner} lifts the Europa League for {winnerClub}."
+  },
+  {
+   "id": "h1-521",
+   "situation": "europa-league",
+   "kicker": "EUROPA LEAGUE",
+   "headline": "EURO TRIP TRIUMPH",
+   "subhead": "{winner} turns a European adventure into a triumph, with {winnerClub} crowned Europa League winners."
+  },
+  {
+   "id": "h1-522",
+   "situation": "europa-league",
+   "kicker": "TROPHY ROOM",
+   "headline": "POLISHED AND PLACED",
+   "subhead": "The Europa League trophy is polished and placed in the {winnerClub} cabinet by a proud {winner}."
+  },
+  {
+   "id": "h1-523",
+   "situation": "europa-league",
+   "kicker": "HOMECOMING",
+   "headline": "UNPACK THE SILVERWARE",
+   "subhead": "{winner} returns from Europe with silverware to unpack after {winnerClub} win the Europa League."
+  },
+  {
+   "id": "h1-524",
+   "situation": "europa-league",
+   "kicker": "ON TOUR",
+   "headline": "AWAY DAYS PAY OFF",
+   "subhead": "All those European trips pay off for {winnerClub} as {winner} wins the Europa League this season."
+  },
+  {
+   "id": "h1-525",
+   "situation": "europa-league",
+   "kicker": "EUROPA LEAGUE",
+   "headline": "SIGHTSEEING AND SILVERWARE",
+   "subhead": "{winner} enjoys the sights of Europe and comes home with the Europa League for {winnerClub}."
+  },
+  {
+   "id": "h1-526",
+   "situation": "europa-league",
+   "kicker": "FAR AND WIDE",
+   "headline": "FAR-FLUNG FORTUNE",
+   "subhead": "Fortune smiles far from home as {winner} leads {winnerClub} to Europa League success."
+  },
+  {
+   "id": "h1-527",
+   "situation": "europa-league",
+   "kicker": "TROPHY ROOM",
+   "headline": "SHINY SOUVENIR",
+   "subhead": "The shiniest souvenir of the season is the Europa League, and it belongs to {winner} and {winnerClub}."
+  },
+  {
+   "id": "h1-528",
+   "situation": "europa-league",
+   "kicker": "EUROPEAN NIGHT",
+   "headline": "HANDLES HELD HIGH",
+   "subhead": "{winner} holds the Europa League trophy high by both handles as {winnerClub} celebrate."
+  },
+  {
+   "id": "h1-529",
+   "situation": "europa-league",
+   "kicker": "HOMECOMING",
+   "headline": "BRINGING IT HOME",
+   "subhead": "{winner} brings the Europa League home to {winnerClub} and finishes the season on {winnerPoints}."
+  },
+  {
+   "id": "h1-530",
+   "situation": "europa-league",
+   "kicker": "EUROPA LEAGUE",
+   "headline": "GRAND TOUR, GRAND PRIZE",
+   "subhead": "A grand tour of Europe ends with a grand prize as {winnerClub} win the Europa League under {winner}."
+  },
+  {
+   "id": "h1-531",
+   "situation": "europa-league",
+   "kicker": "MISSION DONE",
+   "headline": "EXPEDITION SUCCESSFUL",
+   "subhead": "The European expedition is a success, with {winner} planting the {winnerClub} flag on the Europa League."
+  },
+  {
+   "id": "h1-532",
+   "situation": "europa-league",
+   "kicker": "ON TOUR",
+   "headline": "WORTH EVERY MILE",
+   "subhead": "Every mile travelled was worth it for {winnerClub}, as {winner} lifts the Europa League this season."
+  },
+  {
+   "id": "h1-533",
+   "situation": "europa-league",
+   "kicker": "HOMECOMING",
+   "headline": "HOMEWARD BOUND, HEADS HIGH",
+   "subhead": "{winnerClub} head home with heads held high after {winner} wins the Europa League."
+  },
+  {
+   "id": "h1-534",
+   "situation": "europa-league",
+   "kicker": "EUROPA LEAGUE",
+   "headline": "VOYAGE VINDICATED",
+   "subhead": "The European voyage is vindicated as {winner} adds the Europa League to the {winnerClub} honours list."
+  },
+  {
+   "id": "h1-535",
+   "situation": "europa-league",
+   "kicker": "EUROPA LEAGUE",
+   "headline": "EUROPA FOR {winner}",
+   "subhead": "The Europa League belongs to {winner}, who steers {winnerClub} to European silverware this season."
+  },
+  {
+   "id": "h1-536",
+   "situation": "europa-league",
+   "kicker": "TROPHY TRAIL",
+   "headline": "SILVER TRAIL FOR {winnerClub}",
+   "subhead": "{winner} follows the silver trail across Europe and delivers the Europa League to {winnerClub}."
+  },
+  {
+   "id": "h1-537",
+   "situation": "europa-league",
+   "kicker": "EUROPEAN NIGHT",
+   "headline": "EUROPEAN STAMP FOR {winner}",
+   "subhead": "{winner} puts a European stamp on the season by winning the Europa League with {winnerClub}."
+  },
+  {
+   "id": "h1-538",
+   "situation": "europa-league",
+   "kicker": "APPLAUSE",
+   "headline": "OVERSEAS OVATION",
+   "subhead": "An ovation from overseas greets {winnerClub} as {winner} lifts the Europa League trophy."
+  },
+  {
+   "id": "h1-539",
+   "situation": "europa-league",
+   "kicker": "HOMECOMING",
+   "headline": "SUITCASE NEEDS A BIGGER LID",
+   "subhead": "{winner} will need a bigger suitcase to bring the Europa League home to {winnerClub}."
+  },
+  {
+   "id": "h1-540",
+   "situation": "europa-league",
+   "kicker": "ON TOUR",
+   "headline": "ROAMING AND REWARDED",
+   "subhead": "{winnerClub} roam across Europe and come home rewarded, with {winner} holding the Europa League."
+  },
+  {
+   "id": "h1-541",
+   "situation": "league-title",
+   "kicker": "CHAMPIONS",
+   "headline": "TITLE SECURED",
+   "subhead": "{winner} secures the league title for {winnerClub} and finishes the season on {winnerPoints}."
+  },
+  {
+   "id": "h1-542",
+   "situation": "league-title",
+   "kicker": "LEAGUE TITLE",
+   "headline": "TABLE TOPPERS",
+   "subhead": "{winnerClub} finish top of the table as {winner} wins the league title this season."
+  },
+  {
+   "id": "h1-543",
+   "situation": "league-title",
+   "kicker": "CHAMPIONS",
+   "headline": "CROWN FITS PERFECTLY",
+   "subhead": "The league crown fits {winnerClub} perfectly after {winner} steers them to the title."
+  },
+  {
+   "id": "h1-544",
+   "situation": "league-title",
+   "kicker": "LEAGUE TITLE",
+   "headline": "SUMMIT OF THE STANDINGS",
+   "subhead": "{winner} plants {winnerClub} at the summit of the standings and claims the league title."
+  },
+  {
+   "id": "h1-545",
+   "situation": "league-title",
+   "kicker": "FLAG DAY",
+   "headline": "FLAG FLIES HIGH",
+   "subhead": "The champions flag flies high over {winnerClub} after {winner} wins the league title this season."
+  },
+  {
+   "id": "h1-546",
+   "situation": "league-title",
+   "kicker": "HOME GLORY",
+   "headline": "DOMESTIC DOMINION",
+   "subhead": "{winner} rules the domestic scene, delivering the league title to {winnerClub} this season."
+  },
+  {
+   "id": "h1-547",
+   "situation": "league-title",
+   "kicker": "CHAMPIONS",
+   "headline": "LEAGUE WON, LEGEND GROWS",
+   "subhead": "The legend of {winner} grows a little more as {winnerClub} are crowned league champions."
+  },
+  {
+   "id": "h1-548",
+   "situation": "league-title",
+   "kicker": "LEAGUE TITLE",
+   "headline": "PERCHED AT THE PEAK",
+   "subhead": "{winnerClub} finish perched at the peak of the league, with {winner} collecting the title points."
+  },
+  {
+   "id": "h1-549",
+   "situation": "league-title",
+   "kicker": "BEST OF THE BUNCH",
+   "headline": "PICK OF THE PACK",
+   "subhead": "{winnerClub} are the pick of the pack this season as {winner} wins the league title."
+  },
+  {
+   "id": "h1-550",
+   "situation": "league-title",
+   "kicker": "CHAMPIONS",
+   "headline": "TOP-FLIGHT TRIUMPH",
+   "subhead": "{winner} claims top-flight triumph with {winnerClub}, adding the league title to the season haul."
+  },
+  {
+   "id": "h1-551",
+   "situation": "league-title",
+   "kicker": "LEAGUE TITLE",
+   "headline": "CHAMPIONS, PLAIN AND SIMPLE",
+   "subhead": "Plain and simple, {winnerClub} are league champions and {winner} finishes the season on {winnerPoints}."
+  },
+  {
+   "id": "h1-552",
+   "situation": "league-title",
+   "kicker": "CHAMPIONS",
+   "headline": "BEST IN THE LAND",
+   "subhead": "{winnerClub} are the best in the land after {winner} wins the league title this season."
+  },
+  {
+   "id": "h1-553",
+   "situation": "league-title",
+   "kicker": "LONG HAUL",
+   "headline": "LONG HAUL, LEAGUE CROWN",
+   "subhead": "A long league campaign ends with a crown as {winner} takes the title with {winnerClub}."
+  },
+  {
+   "id": "h1-554",
+   "situation": "league-title",
+   "kicker": "ENDURANCE",
+   "headline": "MARATHON MASTERED",
+   "subhead": "{winner} masters the league marathon and brings the title home to {winnerClub} this season."
+  },
+  {
+   "id": "h1-555",
+   "situation": "league-title",
+   "kicker": "LEAGUE TITLE",
+   "headline": "GRIND BECOMES GLORY",
+   "subhead": "The weekly grind turns to glory as {winnerClub} win the league under {winner}."
+  },
+  {
+   "id": "h1-556",
+   "situation": "league-title",
+   "kicker": "CHAMPIONS",
+   "headline": "TITLE TALK OVER",
+   "subhead": "The title talk is over: {winner} and {winnerClub} are league champions this season."
+  },
+  {
+   "id": "h1-557",
+   "situation": "league-title",
+   "kicker": "FINAL TABLE",
+   "headline": "STANDINGS SETTLED",
+   "subhead": "The league standings are settled with {winnerClub} on top, giving {winner} the title this season."
+  },
+  {
+   "id": "h1-558",
+   "situation": "league-title",
+   "kicker": "LEAGUE TITLE",
+   "headline": "PENNANT RAISED",
+   "subhead": "{winner} raises the champions pennant for {winnerClub} after a title-winning league campaign."
+  },
+  {
+   "id": "h1-559",
+   "situation": "league-title",
+   "kicker": "CHAMPIONS",
+   "headline": "KEYS TO THE KINGDOM",
+   "subhead": "{winner} collects the keys to the league kingdom as {winnerClub} lift the title this season."
+  },
+  {
+   "id": "h1-560",
+   "situation": "league-title",
+   "kicker": "TOP SPOT",
+   "headline": "SITTING PRETTY UP TOP",
+   "subhead": "{winnerClub} sit pretty at the top of the league after {winner} wins the title."
+  },
+  {
+   "id": "h1-561",
+   "situation": "league-title",
+   "kicker": "LEAGUE TITLE",
+   "headline": "UNRIVALLED AT HOME",
+   "subhead": "Nobody at home can match {winnerClub}, and {winner} claims the league title to prove it."
+  },
+  {
+   "id": "h1-562",
+   "situation": "league-title",
+   "kicker": "CELEBRATION",
+   "headline": "CHAMPAGNE ON ICE",
+   "subhead": "Put the champagne on ice at {winnerClub}, because {winner} has won the league title."
+  },
+  {
+   "id": "h1-563",
+   "situation": "league-title",
+   "kicker": "CHAMPIONS",
+   "headline": "PARADE ROUTE PLANNED",
+   "subhead": "{winnerClub} start planning the parade route after {winner} wins the league title this season."
+  },
+  {
+   "id": "h1-564",
+   "situation": "league-title",
+   "kicker": "CELEBRATION",
+   "headline": "OPEN-TOP BUS BOOKED",
+   "subhead": "The open-top bus is booked for {winnerClub} as {winner} claims the league title."
+  },
+  {
+   "id": "h1-565",
+   "situation": "league-title",
+   "kicker": "LEAGUE TITLE",
+   "headline": "CLINCHED AND CROWNED",
+   "subhead": "{winner} clinches the league title and {winnerClub} are crowned champions this season."
+  },
+  {
+   "id": "h1-566",
+   "situation": "league-title",
+   "kicker": "TOP SPOT",
+   "headline": "TOP SPOT TAKEN",
+   "subhead": "{winnerClub} take the top spot in the league, and {winner} adds the title to the season tally."
+  },
+  {
+   "id": "h1-567",
+   "situation": "league-title",
+   "kicker": "CHAMPIONS",
+   "headline": "REIGN SUPREME AT HOME",
+   "subhead": "{winnerClub} reign supreme on the domestic stage after {winner} wins the league title."
+  },
+  {
+   "id": "h1-568",
+   "situation": "league-title",
+   "kicker": "LEAGUE TITLE",
+   "headline": "LEADERS TO THE LAST",
+   "subhead": "{winnerClub} lead the way to the very end, and {winner} lifts the league title this season."
+  },
+  {
+   "id": "h1-569",
+   "situation": "league-title",
+   "kicker": "CHAMPIONS",
+   "headline": "BANNER SEASON",
+   "subhead": "A banner season for {winnerClub} brings the league title and {winnerPoints} points for {winner}."
+  },
+  {
+   "id": "h1-570",
+   "situation": "league-title",
+   "kicker": "LEAGUE TITLE",
+   "headline": "ULTIMATE TABLE TRIUMPH",
+   "subhead": "The ultimate prize at home goes to {winnerClub}, with {winner} guiding them to the league title."
+  },
+  {
+   "id": "h1-571",
+   "situation": "league-title",
+   "kicker": "CHAMPIONS",
+   "headline": "HIGHEST RUNG REACHED",
+   "subhead": "{winner} climbs to the highest rung of the league ladder and claims the title for {winnerClub}."
+  },
+  {
+   "id": "h1-572",
+   "situation": "league-title",
+   "kicker": "LEAGUE TITLE",
+   "headline": "PEERLESS IN THE LEAGUE",
+   "subhead": "{winnerClub} prove peerless in the league this season, handing {winner} the title and its points."
+  },
+  {
+   "id": "h1-573",
+   "situation": "league-title",
+   "kicker": "CHAMPIONS",
+   "headline": "NOBODY ABOVE THEM",
+   "subhead": "Nobody finishes above {winnerClub} this season, and {winner} collects the league title."
+  },
+  {
+   "id": "h1-574",
+   "situation": "league-title",
+   "kicker": "LEAGUE TITLE",
+   "headline": "LEAGUE CROWN FOR {winnerClub}",
+   "subhead": "{winner} delivers the league crown to {winnerClub} and ends the season on {winnerPoints}."
+  },
+  {
+   "id": "h1-575",
+   "situation": "league-title",
+   "kicker": "CHAMPIONS",
+   "headline": "TITLE TO {winner}",
+   "subhead": "The league title goes to {winner}, who leads {winnerClub} to the top of the table this season."
+  },
+  {
+   "id": "h1-576",
+   "situation": "league-title",
+   "kicker": "CHAMPIONS",
+   "headline": "CHAMPIONS {winnerClub}",
+   "subhead": "{winnerClub} are league champions, and {winner} can enjoy a title-winning season at the console."
+  },
+  {
+   "id": "h1-577",
+   "situation": "league-title",
+   "kicker": "LEAGUE TITLE",
+   "headline": "SEASON-LONG SUPREMACY",
+   "subhead": "Season-long supremacy at home brings {winner} the league title with {winnerClub}."
+  },
+  {
+   "id": "h1-578",
+   "situation": "league-title",
+   "kicker": "TOP SPOT",
+   "headline": "HEAD OF THE TABLE",
+   "subhead": "{winnerClub} finish at the head of the table, and the league title belongs to {winner}."
+  },
+  {
+   "id": "h1-579",
+   "situation": "league-title",
+   "kicker": "CHAMPIONS",
+   "headline": "WELCOME TO THE TOP",
+   "subhead": "{winner} welcomes {winnerClub} to the top of the league with a title-winning campaign."
+  },
+  {
+   "id": "h1-580",
+   "situation": "league-title",
+   "kicker": "LEAGUE TITLE",
+   "headline": "ROYAL SEAL ON THE SEASON",
+   "subhead": "The league title puts a royal seal on the season for {winner} and {winnerClub}."
+  },
+  {
+   "id": "h1-581",
+   "situation": "comeback",
+   "kicker": "FIGHTBACK",
+   "headline": "FIGHTBACK UNDER WAY",
+   "subhead": "{winner} wins the season by {margin} and starts clawing back ground on {loser} in the overall race."
+  },
+  {
+   "id": "h1-582",
+   "situation": "comeback",
+   "kicker": "CHASE ON",
+   "headline": "CLAWING BACK THE DEFICIT",
+   "subhead": "{winner} claws back the deficit with a season win over {loser}, finishing {winnerPoints} to {loserPoints}."
+  },
+  {
+   "id": "h1-583",
+   "situation": "comeback",
+   "kicker": "REVIVAL",
+   "headline": "REVIVAL ON THE REGISTER",
+   "subhead": "The revival is official as {winner} takes the season and narrows the overall gap to {loser}."
+  },
+  {
+   "id": "h1-584",
+   "situation": "comeback",
+   "kicker": "RESURGENCE",
+   "headline": "RESURGENT AND RESTLESS",
+   "subhead": "A resurgent {winner} wins the season by {margin} and refuses to let {loser} settle at the top."
+  },
+  {
+   "id": "h1-585",
+   "situation": "comeback",
+   "kicker": "FIGHTBACK",
+   "headline": "BOUNCE-BACK SEASON",
+   "subhead": "{winner} bounces back with a season win for {winnerClub}, eating into the overall advantage of {loser}."
+  },
+  {
+   "id": "h1-586",
+   "situation": "comeback",
+   "kicker": "SHOWDOWN ALIVE",
+   "headline": "GAME ON AGAIN",
+   "subhead": "The Showdown is game on again after {winner} beats {loser} by {margin} this season."
+  },
+  {
+   "id": "h1-587",
+   "situation": "comeback",
+   "kicker": "THE CHASE",
+   "headline": "HUNTER CLOSES IN",
+   "subhead": "{winner} closes in on {loser} with a season win that trims the overall gap."
+  },
+  {
+   "id": "h1-588",
+   "situation": "comeback",
+   "kicker": "FIGHTBACK",
+   "headline": "DON'T WRITE THEM OFF",
+   "subhead": "Anyone who wrote off {winner} can think again after a season win by {margin} over {loser}."
+  },
+  {
+   "id": "h1-589",
+   "situation": "comeback",
+   "kicker": "RALLY",
+   "headline": "RALLY CRY ANSWERED",
+   "subhead": "{winnerClub} answer the rally cry as {winner} takes the season and reels {loser} back in."
+  },
+  {
+   "id": "h1-590",
+   "situation": "comeback",
+   "kicker": "MOMENTUM",
+   "headline": "MOMENTUM SWINGS",
+   "subhead": "Momentum swings towards {winner}, who wins the season {winnerPoints} to {loserPoints} and closes the overall gap."
+  },
+  {
+   "id": "h1-591",
+   "situation": "comeback",
+   "kicker": "TURNING POINT",
+   "headline": "TIDE IS TURNING",
+   "subhead": "The tide turns in the overall race as {winner} beats {loser} by {margin} this season."
+  },
+  {
+   "id": "h1-592",
+   "situation": "comeback",
+   "kicker": "REVIVAL",
+   "headline": "PHOENIX RISING",
+   "subhead": "{winner} rises from the ashes with a season win that cuts into the overall lead of {loser}."
+  },
+  {
+   "id": "h1-593",
+   "situation": "comeback",
+   "kicker": "THE CHASE",
+   "headline": "GROUND RECLAIMED",
+   "subhead": "{winner} reclaims precious ground in the Showdown with a season win by {margin} over {loser}."
+  },
+  {
+   "id": "h1-594",
+   "situation": "comeback",
+   "kicker": "CLOSING IN",
+   "headline": "CATCHING UP FAST",
+   "subhead": "{winner} is catching up fast after taking the season {winnerPoints} to {loserPoints} against {loser}."
+  },
+  {
+   "id": "h1-595",
+   "situation": "comeback",
+   "kicker": "THE CHASE",
+   "headline": "HUNT IS ON IN EARNEST",
+   "subhead": "The hunt for the overall lead is on in earnest as {winner} wins the season by {margin}."
+  },
+  {
+   "id": "h1-596",
+   "situation": "comeback",
+   "kicker": "FIGHTBACK",
+   "headline": "BACK FROM THE BRINK",
+   "subhead": "{winner} pulls back from the brink with a season win that tightens the overall race with {loser}."
+  },
+  {
+   "id": "h1-597",
+   "situation": "comeback",
+   "kicker": "REVIVAL",
+   "headline": "RECOVERY ROAD",
+   "subhead": "{winnerClub} set off down recovery road as {winner} beats {loser} by {margin} this season."
+  },
+  {
+   "id": "h1-598",
+   "situation": "comeback",
+   "kicker": "SHOWDOWN ALIVE",
+   "headline": "SHOWDOWN ALIVE AND KICKING",
+   "subhead": "The Showdown is alive and kicking after {winner} takes the season and narrows the gap to {loser}."
+  },
+  {
+   "id": "h1-599",
+   "situation": "comeback",
+   "kicker": "RESURGENCE",
+   "headline": "SPRINGING BACK TO LIFE",
+   "subhead": "{winner} springs back to life with a season win for {winnerClub}, {winnerPoints} to {loserPoints}."
+  },
+  {
+   "id": "h1-600",
+   "situation": "comeback",
+   "kicker": "THE CHASE",
+   "headline": "THE GAP FEELS THE SQUEEZE",
+   "subhead": "The overall gap feels the squeeze as {winner} wins the season by {margin} over {loser}."
+  },
+  {
+   "id": "h1-601",
+   "situation": "comeback",
+   "kicker": "CLOSING IN",
+   "headline": "CLOSING THE DISTANCE",
+   "subhead": "{winner} closes the distance on {loser} with a season win that keeps the Showdown tense."
+  },
+  {
+   "id": "h1-602",
+   "situation": "comeback",
+   "kicker": "THE CHASE",
+   "headline": "NIBBLING AT THE LEAD",
+   "subhead": "{winner} nibbles away at the overall lead of {loser} with a season win by {margin}."
+  },
+  {
+   "id": "h1-603",
+   "situation": "comeback",
+   "kicker": "FIGHTBACK",
+   "headline": "CHARGE FROM BEHIND",
+   "subhead": "{winner} charges from behind and takes the season {winnerPoints} to {loserPoints} against {loser}."
+  },
+  {
+   "id": "h1-604",
+   "situation": "comeback",
+   "kicker": "WARNING",
+   "headline": "LOOK WHO'S COMING",
+   "subhead": "Look who is coming up fast: {winner} wins the season and closes in on {loser} overall."
+  },
+  {
+   "id": "h1-605",
+   "situation": "comeback",
+   "kicker": "TURNING POINT",
+   "headline": "FORTUNES SHIFTING",
+   "subhead": "Fortunes shift in the Showdown as {winner} beats {loser} by {margin} and reduces the overall gap."
+  },
+  {
+   "id": "h1-606",
+   "situation": "comeback",
+   "kicker": "RESURGENCE",
+   "headline": "ROARING BACK",
+   "subhead": "{winner} roars back with {winnerClub}, winning the season and chipping into the overall lead of {loser}."
+  },
+  {
+   "id": "h1-607",
+   "situation": "comeback",
+   "kicker": "WARNING",
+   "headline": "GLANCE OVER YOUR SHOULDER",
+   "subhead": "{loser} may want to glance back, as {winner} wins the season by {margin} and closes in."
+  },
+  {
+   "id": "h1-608",
+   "situation": "comeback",
+   "kicker": "THE CHASE",
+   "headline": "PRESSURE PILES BACK ON",
+   "subhead": "{winner} piles the pressure back on {loser} with a season win, {winnerPoints} to {loserPoints}."
+  },
+  {
+   "id": "h1-609",
+   "situation": "comeback",
+   "kicker": "MOMENTUM",
+   "headline": "UPSWING UNDERWAY",
+   "subhead": "An upswing is underway for {winner} and {winnerClub} after a season win by {margin} over {loser}."
+  },
+  {
+   "id": "h1-610",
+   "situation": "comeback",
+   "kicker": "FIGHTBACK",
+   "headline": "REPLY WITH RELISH",
+   "subhead": "{winner} replies with relish, taking the season and cutting into the overall advantage of {loser}."
+  },
+  {
+   "id": "h1-611",
+   "situation": "comeback",
+   "kicker": "MOMENTUM",
+   "headline": "SWINGING THE PENDULUM",
+   "subhead": "The pendulum swings back towards {winner}, who wins the season by {margin} over {loser}."
+  },
+  {
+   "id": "h1-612",
+   "situation": "comeback",
+   "kicker": "FIGHTBACK",
+   "headline": "RESPONSE DELIVERED",
+   "subhead": "{winner} delivers a firm response with {winnerClub}, winning the season {winnerPoints} to {loserPoints}."
+  },
+  {
+   "id": "h1-613",
+   "situation": "comeback",
+   "kicker": "THE CHASE",
+   "headline": "CHASE HEATS UP",
+   "subhead": "The overall chase heats up as {winner} takes the season by {margin} and trims the gap to {loser}."
+  },
+  {
+   "id": "h1-614",
+   "situation": "comeback",
+   "kicker": "REVIVAL",
+   "headline": "COMEBACK FOR {winner}",
+   "subhead": "{winner} mounts a comeback with a season win over {loser} and closes ground in the overall race."
+  },
+  {
+   "id": "h1-615",
+   "situation": "comeback",
+   "kicker": "FEELING THE HEAT",
+   "headline": "{loser} FEELS THE HEAT",
+   "subhead": "{loser} can feel the heat after {winner} wins the season by {margin} and narrows the overall gap."
+  },
+  {
+   "id": "h1-616",
+   "situation": "comeback",
+   "kicker": "DEFIANT",
+   "headline": "DEFIANCE FROM {winner}",
+   "subhead": "A defiant {winner} takes the season {winnerPoints} to {loserPoints} and keeps the Showdown wide open."
+  },
+  {
+   "id": "h1-617",
+   "situation": "comeback",
+   "kicker": "BOUNCE BACK",
+   "headline": "RESILIENT {winnerClub}",
+   "subhead": "Resilient {winnerClub} bounce back as {winner} wins the season and closes in on {loser}."
+  },
+  {
+   "id": "h1-618",
+   "situation": "comeback",
+   "kicker": "UNDERDOG",
+   "headline": "UNDERDOG BARKS BACK",
+   "subhead": "The underdog barks back, as {winner} beats {loser} by {margin} and shrinks the overall deficit."
+  },
+  {
+   "id": "h1-619",
+   "situation": "comeback",
+   "kicker": "FIGHTBACK",
+   "headline": "NOT DONE YET",
+   "subhead": "{winner} is not done yet, winning the season for {winnerClub} and reeling in {loser} overall."
+  },
+  {
+   "id": "h1-620",
+   "situation": "comeback",
+   "kicker": "RESURGENCE",
+   "headline": "SPARK BECOMES A FIRE",
+   "subhead": "A spark becomes a fire as {winner} takes the season by {margin} and closes the gap on {loser}."
+  },
+  {
+   "id": "h1-621",
+   "situation": "lead-extended",
+   "kicker": "OUT IN FRONT",
+   "headline": "STRETCHING THE LEAD",
+   "subhead": "{leader} outscores {trailer} again this season and stretches the overall lead in the Showdown."
+  },
+  {
+   "id": "h1-622",
+   "situation": "lead-extended",
+   "kicker": "STATE OF PLAY",
+   "headline": "FURTHER OUT FRONT",
+   "subhead": "{leader} moves further out in front after another strong season, leaving {trailer} more ground to make up."
+  },
+  {
+   "id": "h1-623",
+   "situation": "lead-extended",
+   "kicker": "OVER THE HORIZON",
+   "headline": "DISAPPEARING INTO THE DISTANCE",
+   "subhead": "{leader} keeps heading for the horizon, extending the overall lead over {trailer} this season."
+  },
+  {
+   "id": "h1-624",
+   "situation": "lead-extended",
+   "kicker": "FIRM GRIP",
+   "headline": "TIGHTENING THE GRIP",
+   "subhead": "{leader} tightens the grip on the Showdown with a season that pushes {trailer} further back."
+  },
+  {
+   "id": "h1-625",
+   "situation": "lead-extended",
+   "kicker": "STATE OF PLAY",
+   "headline": "PULLING CLEAR",
+   "subhead": "{leader} pulls clear of {trailer} in the overall standings after outscoring the rival again."
+  },
+  {
+   "id": "h1-626",
+   "situation": "lead-extended",
+   "kicker": "CUSHION",
+   "headline": "BIGGER BUFFER BUILT",
+   "subhead": "{leader} builds a bigger buffer at the top, adding more distance between the leader and {trailer}."
+  },
+  {
+   "id": "h1-627",
+   "situation": "lead-extended",
+   "kicker": "EMPIRE BUILDING",
+   "headline": "EXTENDING THE EMPIRE",
+   "subhead": "The {leader} empire grows again, with the overall lead over {trailer} stretched by another season win."
+  },
+  {
+   "id": "h1-628",
+   "situation": "lead-extended",
+   "kicker": "FIRM GRIP",
+   "headline": "GRIP GROWS FIRMER",
+   "subhead": "{leader} holds on to the top spot even more firmly as {trailer} slips further behind overall."
+  },
+  {
+   "id": "h1-629",
+   "situation": "lead-extended",
+   "kicker": "STATE OF PLAY",
+   "headline": "WIDENING THE GULF",
+   "subhead": "The gulf between {leader} and {trailer} widens again after a season that favours the leader."
+  },
+  {
+   "id": "h1-630",
+   "situation": "lead-extended",
+   "kicker": "OUT IN FRONT",
+   "headline": "RUNNING AWAY WITH IT",
+   "subhead": "{leader} appears to be running away with the Showdown, adding to the overall lead over {trailer}."
+  },
+  {
+   "id": "h1-631",
+   "situation": "lead-extended",
+   "kicker": "PACESETTER",
+   "headline": "STILL SETTING THE PACE",
+   "subhead": "{leader} sets the pace once more and {trailer} faces a longer chase in the overall standings."
+  },
+  {
+   "id": "h1-632",
+   "situation": "lead-extended",
+   "kicker": "PACESETTER",
+   "headline": "PACESETTER POWERS ON",
+   "subhead": "{leader} powers on at the front of the Showdown, extending the overall advantage over {trailer}."
+  },
+  {
+   "id": "h1-633",
+   "situation": "lead-extended",
+   "kicker": "OPEN ROAD",
+   "headline": "OPENING UP THE ROAD",
+   "subhead": "{leader} opens up the road ahead with another season that leaves {trailer} further behind overall."
+  }
+ ]
+}
