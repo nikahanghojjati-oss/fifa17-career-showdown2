@@ -11,10 +11,10 @@
  "worker": "sol-work",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-29T22:54:49Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-29T23:00:35Z", "by": "G", "status": "RECEIVED", "note": "Received by the r86 lead; the r87 lead (thread 'Team G lead: r87 Squad Roulette') owns Russian Roster Roulette and builds the sounds."}, {"at": "2026-10-29T23:02:51Z", "by": "G", "status": "WORKING", "note": "r87 lead: making the eight cues in-house (synthesised, no third-party samples); PR into the HO-040 branch"}],
+ "evidence": ["PR #1067 into claude/project-thread-6rq94x"],
+ "log": [{"at": "2026-10-29T22:54:49Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-29T23:00:35Z", "by": "G", "status": "RECEIVED", "note": "Received by the r86 lead; the r87 lead (thread 'Team G lead: r87 Squad Roulette') owns Russian Roster Roulette and builds the sounds."}, {"at": "2026-10-29T23:02:51Z", "by": "G", "status": "WORKING", "note": "r87 lead: making the eight cues in-house (synthesised, no third-party samples); PR into the HO-040 branch"}, {"at": "2026-10-29T23:06:35Z", "by": "G", "status": "DONE", "note": "Eight cues + handUp + roomTone, made in-house (numpy synth, script in assets/sfx/make_sfx.py; no samples). WAV so onsets land on the frame; sfx block in platemap.json. Merge #1067 into the HO-040 branch, listen to a turn, retune in the script if needed."}],
  "from_session": "session_01GU43Q5sYPRm7BBmhFhnbcd"
 }
 ```
