@@ -67,6 +67,10 @@ body { margin: 0; background: var(--ink); color: var(--ivory); font-family: var(
 .again svg { width: 22px; height: 22px; }
 .again:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 2px; }
 .who.hint { color: #fff; }
+/* idea 3: the handover line pops big in the top band (scale only, so nothing moves in the layout) */
+.who { transition: transform .45s cubic-bezier(.2,1.5,.4,1), color .3s; transform-origin: 50% 0; }
+.who.big { transform: scale(var(--pop, 1.8)); color: #fff; }
+@media (prefers-reduced-motion: reduce) { .who { transition: none; } .who.big { transform: none; } }
 .tools { max-width: 1000px; margin: 8px auto 0; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
 .tools button, .tools select { font: 700 13px/1 var(--num); letter-spacing: .16em; text-transform: uppercase; color: var(--ivory); background: rgba(8,7,6,.82); border: 1px solid rgba(241,195,90,.55); border-radius: 999px; padding: 8px 14px; cursor: pointer; }
 body.game .tools { display: none; }
@@ -1783,13 +1787,14 @@ const FREEZE_S=[0,0,.1,.16,.2], FREEZE_END=9.58, FREEZE_K=.2; let freezeS=0;
 const freezeAt=(t)=>freezeS&&t>=FREEZE_END-freezeS*FREEZE_K&&t<FREEZE_END?FREEZE_K:1;
 let vtt=0; const slowAt=(t)=>REDUCED?1:Math.min(1-.68*Math.max(0,Math.min(1,(t-3.6)/.12,(4.15-t)/.2)),freezeAt(t)); let camK=1, camRest=new T.Vector3(0,1.05,6.6), lookRest=new T.Vector3(0,2.15,-1.2), coinStopX=-2.2, coinLift=0;
 const COIN_ON_CARD=new T.Vector3(-1.1+112/CW*2.2, CARD_POS.y+1.6-304/CH*3.2, CARD_POS.z+.07);
-function startPlayer(i){
-  idx=i; const p=cur(); fired={}; t0=clock(); vtt=0; phase="run"; flash=0; SFX.bed(.05); freezeS=FREEZE_S[tierLevel(p.tier)]; aura.visible=false; endSig(); tiltX=tiltY=tiltTX=tiltTY=0;
+function startPlayer(i,bridge){
+  idx=i; const p=cur(); fired={}; t0=clock(); vtt=bridge?BRIDGE_T0:0; phase="run"; camBlendAt=-1; if(!bridge) who.classList.remove("big");
+  if(bridge){ camBlendAt=clock(); camFrom.copy(camPos); lookFrom.copy(camLook); } flash=0; SFX.bed(.05); freezeS=FREEZE_S[tierLevel(p.tier)]; aura.visible=false; endSig(); tiltX=tiltY=tiltTX=tiltTY=0;
   if(packFace.map===packTex.tx){ drawPack(packTex.ctx,512,736); packTex.tx.needsUpdate=true; } sheenMat.uniforms.tint.value.copy(L(TIER[p.tier].glow)); packFace.emissive.setRGB(0,0,0);
   drawCardBack(back.ctx,p,0); back.tx.needsUpdate=true; drawCardFront(front.ctx,p,true); front.tx.needsUpdate=true; frontFull=false; count=null; ovrMesh.visible=false;
   coinTex.ctx.setTransform(1,0,0,1,0,0); coinTex.ctx.clearRect(0,0,1024,1024); coinFace(coinTex.ctx,p.club,512,512,510); coinTex.tx.needsUpdate=true;
-  setFlagNation(p.nation); flags.forEach(f=>{f.target=0; f.drop=0; f.mesh.visible=false; f.mesh.scale.y=.001;});
-  clearConfetti(); clearSmoke(); clearChunks(); parts.forEach(q=>q.life=0); pDirty=true; pillar.visible=false; crack.material.color.setScalar(0); packLight.intensity=0; pack.position.set(0,40,-1.2); pack.scale.setScalar(1);
+  if(!bridge){ flags.forEach(f=>{f.target=0; f.drop=0; f.rolling=false; f.mesh.visible=false; f.mesh.scale.y=.001;}); clearConfetti(); parts.forEach(q=>q.life=0); pDirty=true; } /* idea 3: Daniel's flags roll up and his confetti lands */
+  clearSmoke(); clearChunks(); pillar.visible=false; crack.material.color.setScalar(0); packLight.intensity=0; pack.position.set(0,40,-1.2); pack.scale.setScalar(1);
   frontMat.map=back.tx; frontMat.needsUpdate=true;
   card.visible=false; coin.visible=false; pack.visible=true; rays.material.opacity=0; l3.classList.remove("on");
   setWho((order[idx]==="daniel"?"Daniel's":"Nik's")+" Special Player");
@@ -1944,7 +1949,7 @@ function run(tt){
   at(tt,5.0,"pos",()=>{ drawCardBack(back.ctx,p,1); back.tx.needsUpdate=true; pulse=1; burst(new T.Vector3(-.62,2.9,-1.1),[0xffffff,tc],70,3.2,.6,.16); });
   sweep(5.0);
   at(tt,5.8,"nat",()=>{ drawCardBack(back.ctx,p,2); back.tx.needsUpdate=true; pulse=1; shake=.1; burst(new T.Vector3(-.62,2.55,-1.1),nat,90,3.4,.7,.16);
-    flags.forEach((f,i)=>{ f.mesh.visible=true; later(()=>f.target=1,i*110); });
+    setFlagNation(p.nation); flags.forEach((f,i)=>{ f.mesh.visible=true; f.rolling=false; f.drop=Math.min(f.drop,.001); later(()=>f.target=1,i*110); });
     [-.8,-.4,0,.4,.8].forEach((x,i)=>later(()=>starburst(skyPoint(x+(Math.random()-.5)*.1,.42+Math.random()*.18,-34),nat.concat([0xffffff]),Math.round(38*pw),7,1.3),200+i*160)); });
   if(tt>5.8&&tt<7.6) flagMounts.forEach(m=>{ if(Math.random()<.5) emit(new T.Vector3(m.pos.x+(Math.random()-.5)*m.w,m.pos.y+.3,m.pos.z+.5),new T.Vector3((Math.random()-.5)*.6,-1-Math.random()*2,0),Math.random()<.5?0xfff1c2:0xffd77a,1.6,.55,-4,.3,1); });
   sweep(5.8);
@@ -2013,6 +2018,22 @@ function stepSig(now){ if(sigAt<0) return; const s=now-sigAt; if(s>2.6){ endSig(
   beamMat.color.copy(sigCol).lerp(WHITE,.2).multiplyScalar(2.6*grow*fade);
   compMat.uniforms.strength.value=.3+(sigLvl>=4?.5*Math.sin(clamp01((s-.2)/1.1)*Math.PI):0); }
 
+/* idea 3: Daniel to Nik handover. Daniel's card flies off to his side, his flags roll up and his confetti lands instead of
+   vanishing, a big "NIK'S SPECIAL PLAYER" pops in the top band, and Nik's pack drops straight away (his run starts at
+   BRIDGE_T0, so no empty pitch). The bridge is a little longer after a bigger Daniel pull (.45 s at rank 51+, .81 s top 3).
+   Nothing about Nik's tier shows before his own reveal. */
+const BRIDGE_T0=.7; let hoAt=0, hoDur=0, camBlendAt=-1; const camFrom=new T.Vector3(), lookFrom=new T.Vector3(), hoV=new T.Vector3();
+function popWho(text){ setWho(text); if(REDUCED) return; const r=document.createRange(); r.selectNodeContents(who); const w=r.getBoundingClientRect().width||1;
+  who.style.setProperty("--pop",Math.max(1,Math.min(2.1,(innerWidth-32)/w)).toFixed(2)); who.classList.add("big"); }
+function startHandover(){ const d=cur(); phase="handover"; hoAt=clock(); hoDur=.45+tierLevel(d.tier)*.09; tiltTX=tiltTY=0; l3.classList.remove("on");
+  flags.forEach(f=>{ if(f.mesh.visible){ f.target=0; f.rolling=true; } }); SFX.play("whoosh"); SFX.play("hit",2); popWho("Nik's Special Player");
+  later(()=>who.classList.remove("big"),(hoDur+.9)*1000); if(REDUCED) startPlayer(1,true); }
+function stepHandover(now,dt){ const k=clamp01((now-hoAt)/hoDur), e=k*k;
+  camPos.copy(camRest); camPos.z-=(camK>1?.1:.5); camLook.copy(lookRest);
+  card.position.set(CARD_POS.x-e*6.5,CARD_POS.y+e*2.4+Math.sin(k*Math.PI)*.25,CARD_POS.z-e*2.2); card.rotation.set(-e*.35,tiltY*(1-k)+e*Math.PI*2,e*.5); card.scale.setScalar(1-e*.45);
+  if(!REDUCED&&Math.random()<.8){ hoV.set((Math.random()-.5)*.6,(Math.random()-.5)*.6,0); emit(card.position,hoV,Math.random()<.5?0xffd77a:0xfff1c2,.5,.12,-1,.8,1); }
+  if(k>=1){ card.visible=false; startPlayer(1,true); } }
+
 /* ================= frame loop ================= */
 let last=performance.now()/1000, W=1, H=1, manual=null; const clock=()=>manual!==null?manual:performance.now()/1000; const queue=[]; function later(fn,ms){ queue.push({t:clock()+ms/1000,fn}); }
 function bandNdc(){ const top=$("top").getBoundingClientRect(), bot=$("bottom").getBoundingClientRect(); return [1-2*(top.bottom+6)/H, 1-2*(bot.top-6)/H]; }
@@ -2040,6 +2061,7 @@ function tick(draw){
   for(let i=queue.length-1;i>=0;i--) if(queue[i].t<=now){ const q=queue.splice(i,1)[0]; q.fn(); }
   const sc=phase==="run"?slowAt(vtt):1; if(phase==="run") vtt+=dt*sc; const tt=vtt;
   if(phase==="run") run(tt);
+  else if(phase==="handover") stepHandover(now,dt);
   else { const k=now-settledAt; camPos.copy(camRest); camPos.z-=(camK>1?.1:.5); camLook.copy(lookRest); tiltX+=(tiltTX-tiltX)*Math.min(1,dt*6); tiltY+=(tiltTY-tiltY)*Math.min(1,dt*6);
     card.rotation.y=Math.sin(k*.7)*.14+(REDUCED?0:scoutFlip(k))+tiltY; card.rotation.x=tiltX; card.position.y=CARD_POS.y+Math.sin(k*1.5)*.03; rays.rotation.z=now*.06;
     if((k%4)<.9) sheenMat.uniforms.p.value=lerp(-2.6,2.6,(k%4)/.9);
@@ -2048,8 +2070,9 @@ function tick(draw){
     if(!REDUCED&&k<1.6&&Math.random()<.6) [[-6.5,-6],[6.5,-6],[-3.2,-7],[3.2,-7]].forEach(([x,z])=>fountain(new T.Vector3(fitX(x,z),.1,z),0xfff1c2,1,8.5,.9));
     /* idea 2: encore volleys while the face holds (late ones, after a tap to the report, are dropped) */
     if(!REDUCED){ const ec=encoreFor(cur().tier); for(let i=0;i<ec.length;i++){ const t=ec[i]; if(k>=t&&!fired["enc"+i]){ fired["enc"+i]=1; if(k-t<.3&&k<SCOUT_IN-ENCORE_TAIL) encore(cur(),i); } } }
-    if(idx===0&&k>(REDUCED?.2:SCOUT_END+.6)) startPlayer(1); }
-  flags.forEach((f,i)=>{ if(!f.mesh.visible) return; f.drop+=(f.target-f.drop)*Math.min(1,dt*2.6); f.mesh.scale.y=Math.max(.001,f.drop);
+    if(idx===0&&k>(REDUCED?.2:SCOUT_END+.15)) startHandover(); }
+  if(camBlendAt>=0){ const b=ease.inOut(clamp01((now-camBlendAt)/.8)); camPos.lerpVectors(camFrom,camPos,b); camLook.lerpVectors(lookFrom,camLook,b); if(b>=1) camBlendAt=-1; }
+  flags.forEach((f,i)=>{ if(!f.mesh.visible) return; if(f.rolling&&f.drop<.02){ f.rolling=false; f.mesh.visible=false; return; } f.drop+=(f.target-f.drop)*Math.min(1,dt*2.6); f.mesh.scale.y=Math.max(.001,f.drop);
     const a=f.mesh.geometry.attributes.position; for(let j=0;j<a.count;j++){ const x=f.base[j*3], y=f.base[j*3+1], d=-y/f.h; a.array[j*3+2]=(Math.sin(x*.9+now*2.2+i)*.5+Math.sin(y*.6+now*1.6+i*.5)*.35)*d; } a.needsUpdate=true; f.mesh.geometry.computeVertexNormals(); });
   stepSig(now); stepCount(now);
   stepParticles(dt*sc); stepChunks(dt*sc); stepConfetti(dt,now,phase!=="run"&&card.visible?cardShield():null); stepSmoke(dt); sheenMat.uniforms.t.value=now%1000;
