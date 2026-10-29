@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28 10:20 PM Boston time (EDT)",
+ "generated": "2026-10-28 10:25 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 148,
@@ -1395,11 +1395,11 @@
      "draft": false,
      "branch": "claude-gameplay/ssjr-credit-gate-checks",
      "sha": "1543ec58772e46335f69978b001ffbafd81506ac",
-     "updated": "2026-10-29T02:18:25Z",
+     "updated": "2026-10-29T02:22:10Z",
      "gates": {
-      "passed": 0,
-      "running": 7,
-      "failed": 0,
+      "passed": 4,
+      "running": 2,
+      "failed": 1,
       "cancelled": 0
      }
     }
@@ -3262,11 +3262,11 @@
     "draft": false,
     "branch": "claude-gameplay/ssjr-credit-gate-checks",
     "sha": "1543ec58772e46335f69978b001ffbafd81506ac",
-    "updated": "2026-10-29T02:18:25Z",
+    "updated": "2026-10-29T02:22:10Z",
     "gates": {
-     "passed": 0,
-     "running": 7,
-     "failed": 0,
+     "passed": 4,
+     "running": 2,
+     "failed": 1,
      "cancelled": 0
     }
    }
