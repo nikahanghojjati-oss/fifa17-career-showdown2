@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-29 7:23 PM Boston time (EDT)",
+ "generated": "2026-10-29 7:27 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 172,
+  "count": 173,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1551,6 +1551,15 @@
     "subject": "Sounds for Russian Roster Roulette: eight real cues that drop into platemap.json sfx",
     "reply": "no",
     "boston": "Thu 29 Oct 7:06 PM"
+   },
+   {
+    "time": "2026-10-29 23:25",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-047 DONE",
+    "subject": "Sounds for Russian Roster Roulette: eight real cues that drop into platemap.json sfx",
+    "reply": "no",
+    "boston": "Thu 29 Oct 7:25 PM"
    }
   ],
   "g2v": {
@@ -1571,8 +1580,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "e80cb86",
-  "head_boston": "Thu 29 Oct 7:06 PM",
+  "head": "53d52e4",
+  "head_boston": "Thu 29 Oct 7:25 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
