@@ -1,6 +1,6 @@
 # Ticket 1851 · 1 of 4 · New desktop screen: Roster Russian Roulette (r87, HO-040)
 
-One picture only. Thu 29 Oct 2026, Team V. New screen in Red Dead Redemption game quality, in a cowboy cafe (not a saloon), using Nik's room picture (round green-felt table, lantern, warm sunlight) as the look. Daniel left and Nik right each hold their squad board; the dealer sits between them with the seven-shot revolver. This becomes the desktop target `mockups/NEXT_ROULETTE.png`. After it comes back, Claude keeps both faces exactly (likeness lock) and draws the players onto the boards.
+One picture only. Thu 29 Oct 2026, Team V. New screen in Red Dead Redemption game quality, in a cowboy cafe (not a saloon), using Nik's four room pictures (lamplit carved wood, gold ornaments, rows of glass lamps, balcony, round green-felt table) as the look. Version 2, 00:25 a.m. UTC. Daniel left and Nik right each hold their squad board; the dealer sits between them with the seven-shot revolver. This becomes the desktop target `mockups/NEXT_ROULETTE.png`. After it comes back, Claude keeps both faces exactly (likeness lock) and draws the players onto the boards.
 
 **Read this first:** this ticket is for Nik. Do not upload this file to ChatGPT; paste only the prompt.
 
@@ -11,7 +11,7 @@ Steps for Nik:
 2. Attach this one file only: **GUIDE_1851_1_NEXT_ROULETTE.jpg**. On iPhone open https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-6rq94x/project-documents/factory/tickets/attach/GUIDE_1851_1_NEXT_ROULETTE.jpg in Safari, press and hold the picture, then Save to Photos.
 3. Paste the prompt below exactly. If ChatGPT offers to change it, reply: `No, use my prompt exactly.`
 4. Check the picture:
-   - looks like a real Red Dead Redemption 2-quality 3D game scene: a cosy wooden cowboy cafe, round green-felt table, lantern, warm sunlight through the windows (not a saloon)
+   - looks like a real Red Dead Redemption 2-quality 3D game scene: a rich lamplit cowboy cafe: carved dark wood with gold ornaments, rows of glowing lamps, a balcony behind, round green-felt table with a lantern (not a saloon)
    - Daniel LEFT and Nik RIGHT look like themselves, in Western clothes, each holding a wooden board with both hands
    - both boards show an EMPTY green pitch and an empty dark strip under it (no players, no writing)
    - an original older cowboy sits in the middle with the revolver on the table, pointing at the wall, not at anyone
@@ -33,10 +33,10 @@ MOST IMPORTANT (never break these):
 - No characters from any real game or film; no real logos.
 - Words allowed, letter for letter: CAREER MODE SHOWDOWN 17, Roster Russian Roulette, CLICK. DANIEL IS SAFE., SPIN THE CYLINDER, 01, DANIEL, SAFE, 02, NIK, YOUR TURN, and the top bar exactly as drawn (CM17, HOME, CAREER, STANDINGS, STATS, RULES, and the small chips and gear at the right).
 
-The room (a cowboy cafe, NOT a saloon: no bar counter with bottles, no swinging doors, no dancers):
-- A small frontier cafe from 1899: dark wooden plank floor, wood-panelled walls, a framed oil painting of horse riders on the wall, tall wooden windows with warm low sunlight streaming in and long light beams across the floor, dust in the air. A dusty Western street is soft and blurred outside the windows.
-- A round wooden table with a worn green felt top in the middle, with a brass oil lantern glowing, a few old playing cards, a coffee pot and tin cups on it. Wooden chairs around it.
-- Warm amber lamplight mixed with golden afternoon sun, deep but natural shadows, rich wood textures, like a top-quality 3D Western video game cut scene (the Red Dead Redemption 2 look and quality), photoreal, cinematic depth of field.
+The room (a cowboy cafe or restaurant, NOT a saloon: no bar fight, no dancers, no swinging doors):
+- An elegant 1899 Western town cafe in the evening, rich and warm like a top-quality 3D Western video game (the Red Dead Redemption 2 look and quality): dark carved wood panelling with thin gold art-nouveau ornaments, a coffered wooden ceiling with rows of glowing glass lamp shades, brass wall sconces, a wooden balcony with white turned railings in the background, a polished counter with lamps far behind, dark plank floor, a tall window showing a dusky blue street.
+- In the middle, a round wooden table with a worn green felt top, with a brass oil lantern glowing, a few old playing cards, a coffee pot and china cups on it. Wooden chairs around it. Other tables with white tablecloths soft in the background, empty.
+- Warm amber lamplight, deep but natural shadows, rich wood and brass textures, photoreal, cinematic depth of field. Only the three men in the scene.
 
 The dealer (an ORIGINAL character, not from any game or film):
 - A weathered older Western man sitting at the far side of the table, facing us, in the place of the plain figure in the sketch: grey stubble, a dark felt hat with a flat brim, a waistcoat over a collarless shirt with rolled sleeves, a calm stare.

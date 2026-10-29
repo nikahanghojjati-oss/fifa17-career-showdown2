@@ -1,6 +1,6 @@
 # Ticket 1851 · 2 of 4 · New phone screen: Roster Russian Roulette (r87, HO-040)
 
-One picture only. Thu 29 Oct 2026, Team V. The upright phone version of ticket 1851-1: same cowboy cafe, same three men, boards side by side, nothing to scroll (393 × 660 Safari view). This becomes `mockups/PHONE_ROULETTE.png`. Claude keeps both faces exactly afterwards and draws the players onto the boards.
+One picture only. Thu 29 Oct 2026, Team V. The upright phone version of ticket 1851-1: same cowboy cafe, same three men. Version 2 (Nik's richer room pictures), boards side by side, nothing to scroll (393 × 660 Safari view). This becomes `mockups/PHONE_ROULETTE.png`. Claude keeps both faces exactly afterwards and draws the players onto the boards.
 
 **Read this first:** this ticket is for Nik. Do not upload this file to ChatGPT; paste only the prompt.
 
@@ -34,10 +34,10 @@ MOST IMPORTANT (never break these):
 - Words allowed, letter for letter: DANIEL, SEASON 1 / 1, CAREER MODE SHOWDOWN 17, Roster Russian Roulette, CLICK. DANIEL IS SAFE., SPIN THE CYLINDER, and the bottom tabs HOME, CAREER, STANDINGS, STATS, RULES.
 - The bars stay exactly: two chips at the top left (DANIEL, SEASON 1 / 1) and a gold gear at the top right; the bottom tabs HOME (house), CAREER (trophy, highlighted gold), STANDINGS (three lines), STATS (bar chart), RULES (page).
 
-The room (a cowboy cafe, NOT a saloon: no bar counter with bottles, no swinging doors, no dancers):
-- A small frontier cafe from 1899: dark wooden plank floor, wood-panelled walls, a framed oil painting of horse riders on the wall, tall wooden windows with warm low sunlight streaming in and long light beams across the floor, dust in the air. A dusty Western street is soft and blurred outside the windows.
-- A round wooden table with a worn green felt top in the middle, with a brass oil lantern glowing, a few old playing cards, a coffee pot and tin cups on it. Wooden chairs around it.
-- Warm amber lamplight mixed with golden afternoon sun, deep but natural shadows, rich wood textures, like a top-quality 3D Western video game cut scene (the Red Dead Redemption 2 look and quality), photoreal, cinematic depth of field.
+The room (a cowboy cafe or restaurant, NOT a saloon: no bar fight, no dancers, no swinging doors):
+- An elegant 1899 Western town cafe in the evening, rich and warm like a top-quality 3D Western video game (the Red Dead Redemption 2 look and quality): dark carved wood panelling with thin gold art-nouveau ornaments, a coffered wooden ceiling with rows of glowing glass lamp shades, brass wall sconces, a wooden balcony with white turned railings in the background, a polished counter with lamps far behind, dark plank floor, a tall window showing a dusky blue street.
+- In the middle, a round wooden table with a worn green felt top, with a brass oil lantern glowing, a few old playing cards, a coffee pot and china cups on it. Wooden chairs around it. Other tables with white tablecloths soft in the background, empty.
+- Warm amber lamplight, deep but natural shadows, rich wood and brass textures, photoreal, cinematic depth of field. Only the three men in the scene.
 
 The dealer (an ORIGINAL character, not from any game or film):
 - A weathered older Western man sitting at the far side of the table, facing us, in the place of the plain figure in the sketch: grey stubble, a dark felt hat with a flat brim, a waistcoat over a collarless shirt with rolled sleeves, a calm stare.

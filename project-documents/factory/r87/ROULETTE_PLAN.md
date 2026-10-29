@@ -3,7 +3,7 @@
 Thu 29 Oct 2026, Team V thread "Make Roster Russian Roulette screen".
 
 ## Look
-Red Dead Redemption 2 game quality, a small 1899 **cowboy cafe, not a saloon**. Nik's room reference: `NIK_REF_COWBOY_CAFE_TABLE.jpg` (round green-felt table, lantern, warm sun through wooden windows, painting of riders). An original older cowboy dealer sits at the far side with a seven-shot revolver pointed at the wall. Daniel LEFT, Nik RIGHT, standing, in Western clothes in their usual colours, each holding a wooden board with brass corners. No dimming on anyone (HO-027).
+Red Dead Redemption 2 game quality, an elegant 1899 **cowboy cafe, not a saloon**, in the evening: carved dark wood with gold ornaments, rows of glass lamps, a balcony behind, the round green-felt table with a lantern. Nik references: NIK_REF_COWBOY_CAFE_TABLE.jpg, NIK_REF_2_LAMPLIT_HALL.jpg, NIK_REF_3_BALCONY_ROOM.png, NIK_REF_4_RDR2_CAFE_TABLE.jpg (look only; the dealer is an original man, never Arthur Morgan).
 
 ## Picture tickets (Nik runs each in a normal new ChatGPT chat)
 | Ticket | Result | Attach |
