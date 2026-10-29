@@ -22,14 +22,14 @@ Owner rules, all pass on every screen and size:
 
 ## Bugs found
 
-### 1. Select League: a box drawn round the title (FIX READY, HO-044)
+### 1. Select League: a box drawn round the title (FIX READY, HO-045)
 `#leagueWheelScreenScreenTitle` is the brush wordmark picture (TITLE_LEAGUE_V1). The route gives it keyboard focus, and
 the JOB-1132 keyboard ring (`html[data-v10-setup="league"] #app :is(... [tabindex]):focus-visible`, 3px cream outline +
 gold box-shadow) matches the h2 too, so a black box with a gold edge is drawn round the lettering on desktop and phone
 whenever the screen opens without a tap first (reload, resume, keyboard, every automated picture). After a tap the box
 goes, but a thin 1px ring (`v26Skin > h2:focus`) still shows round the picture on every open.
 Fix (5 lines, css/v10Setup.css, after line 107): no ring on `:focus`, the thin ring only on `:focus-visible`, like Club
-(css/v10Club.css:114-115). Patch: HO-044_v10Setup.css.patch. Before/after: LEAGUE_BEFORE_AFTER_393x660.jpg,
+(css/v10Club.css:114-115). Patch: HO-045_v10Setup.css.patch. Before/after: LEAGUE_BEFORE_AFTER_393x660.jpg,
 LEAGUE_BEFORE_AFTER_1366x768.jpg. Checked: SPIN WHEEL and BACK keep their keyboard rings; face check PASS at 4 sizes.
 
 ### 2. Career Statistics at 375x553: the picked panel is 66px tall (NOTE, no change proposed)
