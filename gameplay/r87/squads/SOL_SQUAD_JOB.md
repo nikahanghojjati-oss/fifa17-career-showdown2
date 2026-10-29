@@ -10,6 +10,19 @@ as it was in the FIFA 17 **launch (release) squads**, the roster FIFA 17 shipped
 The draft file comes from a Kaggle dataset of an early-2017 update, so it is close but not launch:
 start from it and correct it to launch.
 
+## Sources (use the first one that loads; sofifa.com returns 403 to ChatGPT, so skip it)
+1. **FIFAIndex, FIFA 17 launch version**: https://www.fifaindex.com/teams/fifa17_1/ (the `fifa17_1` part = the first FIFA 17 roster).
+   Each club page (e.g. https://www.fifaindex.com/team/11/manchester-united/fifa17_1/) lists the squad; pick the XI and
+   bench as the squad screen shows them.
+2. **Wayback Machine copies of sofifa** from Sep-Oct 2016: https://web.archive.org/web/2016*/sofifa.com/team/*
+3. **FUTHEAD / FUTBIN FIFA 17** club squads for player names, positions and ratings.
+4. If none loads for a club: copy that club from the draft file and set note "draft: early-2017 squad, launch not verified".
+
+Check against Nik's screenshots (gameplay/r87/reference/): launch Manchester United = De Gea; Valencia, Bailly, Blind,
+Darmian; Herrera, Pogba; Mkhitaryan, Rooney, Martial; Rashford. Subs Mata, Carrick, Fellaini, Young.
+Launch Real Madrid XI = Navas; Carvajal, Varane, Ramos, Marcelo; Modrić, Kroos, Rodríguez; Bale, Benzema, Ronaldo.
+Subs Morata, Vázquez, Isco, Casemiro. If your source disagrees with these, it is not the launch roster.
+
 ## Per club, record
 - formation (e.g. "4-3-3")
 - startingXI: 11 entries {pos, name, number, rating}. pos uses the FIFA squad-screen labels
