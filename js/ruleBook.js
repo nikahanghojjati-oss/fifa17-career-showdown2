@@ -44,6 +44,7 @@ function createRuleBookScreen(){
             "Simulate every match.",
             "You may play or simulate a Champions League or Europa League final.",
             "You may play or simulate the main domestic cup final.",
+            "Skip pre-season in FIFA 17.",
             "1- and 3-season Showdowns: only your Special Player can be trained.",
             "5- and 10-season Showdowns: all players can be trained."
         ]),
@@ -57,13 +58,7 @@ function createRuleBookScreen(){
             "Your Special Player is a free extra signing: he never counts toward the three, and guesses never release him."
         ]),
         createScoringRuleSection(),
-        createRuleSection("05", "DRAWS", [
-            "More Showdown points in a season wins that season.",
-            "Same Showdown points in a season, even 0-0, means the season is a draw.",
-            "There is no tiebreak. League position, points and goals never decide a winner.",
-            "Equal Showdown totals mean the Showdown is a draw."
-        ]),
-        createRuleSection("06", "CONNECTION & RECOVERY", [
+        createRuleSection("05", "CONNECTION & RECOVERY", [
             "Connect once before your first Showdown. After that, the same account and browser stay connected.",
             "A new browser may need to connect again.",
             "The browser keeps a backup copy for recovery. You can't play from it.",
@@ -155,16 +150,13 @@ function createScoringRuleSection(){
     maximum.className = "ruleScoreMaximum";
     maximum.innerHTML = "<span>MAXIMUM PER MANAGER / SEASON</span><strong>11</strong>";
 
-    // r80 Europa League (owner rules, 2026-10-19).
+    // r80 Europa League (owner rules, 2026-10-19). r86 (Nik 2026-10-29): the lines FIFA 17 already enforces (no CL and EL
+    // in one season, the 3rd-place drop, EL by league position, only winning scores, best season 11/9) stay in the scoring
+    // engine but are no longer printed; only the season 1 setup note is shown.
     const notes = document.createElement("ul");
     notes.className = "ruleScoreNotes";
     [
-        "You can't win the Champions League and the Europa League in the same season. Winning each in different seasons counts both.",
-        "Season 1: both clubs play in the Champions League. Set this up in FIFA by redrawing the Champions League groups twice.",
-        "A club that finishes 3rd in its Champions League group drops into the Europa League and can still win it.",
-        "A club can also qualify for the Europa League by its league position.",
-        "Only winning scores. Qualifying or taking part scores nothing.",
-        "Best possible season: 11, which needs the Champions League. A Europa League season tops out at 9."
+        "Season 1: both clubs play in the Champions League. Set this up in FIFA by redrawing the Champions League groups twice."
     ].forEach(rule => {
         const item = document.createElement("li");
         item.textContent = rule;
@@ -192,7 +184,7 @@ function createScoringRuleSection(){
     specialName.textContent = " SPECIAL PLAYER";
     specialLabel.append(specialTag, specialName);
     const specialText = document.createElement("span");
-    specialText.textContent = "Each manager draws one FIFA 17 player at the start of every Showdown. Your Special Player scores no points. Full rules in card 07.";
+    specialText.textContent = "Each manager draws one FIFA 17 player at the start of every Showdown. Your Special Player scores no points. Full rules in card 06.";
     const specialLive = document.createElement("span");
     specialLive.className = "ruleSpecialPlayerLive spChipPair";
     specialLive.hidden = true;
@@ -202,9 +194,10 @@ function createScoringRuleSection(){
     return article;
 }
 
-// r86 Special Player rules (Nik 2026-10-29 15:24 UTC): the full card, last and full width, with the training rule by length.
+// r86 Special Player rules (Nik 2026-10-29 15:24 UTC): the full card, last, with the training rule by length.
+// The draws card is gone (Nik 2026-10-29 21:10 UTC): the no-tiebreak rules stay in scoring.js, not on the page.
 function createSpecialPlayerRuleSection(){
-    const article = createRuleSection("07", "SPECIAL PLAYER", [
+    const article = createRuleSection("06", "SPECIAL PLAYER", [
         "At the start of every Showdown, after Club Assignment, each manager draws one Special Player.",
         "The draw picks from the top 300 FIFA 17 players by potential. You and your rival never draw the same player.",
         "Both draws are shown on the reveal screen, and each Special Player stays with his manager for the whole Showdown.",
