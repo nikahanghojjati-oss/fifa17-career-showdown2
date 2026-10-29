@@ -154,3 +154,6 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-29 00:06 | Team G | Team V | HO-040 SENT | Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87) | yes (receive it) |
 | 2026-10-29 00:13 | Team V | Team G | HO-040 RECEIVED | Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87) | no |
 | 2026-10-29 07:53 | Team V | Team G | HO-041 SENT | League wheel spin polish: 7 errors fixed, patch ready to merge (Nik OK) | yes (receive it) |
+| 2026-10-29 07:53 | Team G | Team V | HO-042 SENT | r86 Special Player reveal: card text cut, phone label, gold glow instead of white flash | yes (receive it) |
+| 2026-10-29 07:54 | Team G | Team V | HO-041 RECEIVED | League wheel spin polish: 7 errors fixed, patch ready to merge (Nik OK) | no |
+| 2026-10-29 08:16 | Team G | Team V | HO-043 SENT | Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons) | yes (receive it) |
