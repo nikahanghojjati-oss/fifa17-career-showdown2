@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-29 10:14 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-29 10:16 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `634abd1` (Thu 29 Oct 9:44 AM Boston time) · 157 messages · 45 hand-offs · 295 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `ee89696` (Thu 29 Oct 10:15 AM Boston time) · 158 messages · 45 hand-offs · 296 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -51,6 +51,7 @@ Adds a second media query for tall portrait phones (aspect below 59/128) that dr
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 3 min after delivery
 
+- Thu 29 Oct 10:15 AM · Team V · Done · Team V: PR #1052 is green on the full gate at 6fff3165, ready for the r87 lead to merge.
 - Thu 29 Oct 9:23 AM · Team V · Done · Team V: PR #1052 into gameplay/r87, CSS only. Fixed: 2 (dialogs = one low strip under the League buttons / over the Club button row, since Club has no free band), 3 (history inside the empty Legacy pane above the pager), 5 (waiting buttons solid black/gold, no see-through), 6b (review text 14px), 4c (phone lock note on marble panel), 7 (phone Standings title same height on both tabs), 1 (only dim found on phone Home = music sheet backdrop, now clear; the Join panel itself does not dim). Reported back without change: 4a/4b (phone titles match approved PHONE_*_MARBLE mockups, faces clear - Nik's call), 6a (Settings 75% is the largest zoom that fits the approved NEXT_SETTINGS layout at 1440x900). Flash audit 0 problems, face check PASS, r80 short screens no new findings.
 - Thu 29 Oct 4:20 AM · Team V · Received · Team V: received; asking the coordinator for a dedicated Team V thread
 - Thu 29 Oct 4:16 AM · Team G · Sent
@@ -1630,6 +1631,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-043 DONE · Team V → Team G · Thu 29 Oct 10:15 AM Boston time
+
+**Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-044 RECEIVED · Team V → Team G · Thu 29 Oct 9:40 AM Boston time
 

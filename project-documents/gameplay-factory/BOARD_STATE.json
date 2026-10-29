@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-29 10:14 AM Boston time (EDT)",
+ "generated": "2026-10-29 10:16 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 157,
+  "count": 158,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1416,6 +1416,15 @@
     "subject": "League wheel tall phones: taller V5 plate",
     "reply": "no",
     "boston": "Thu 29 Oct 9:40 AM"
+   },
+   {
+    "time": "2026-10-29 14:15",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-043 DONE",
+    "subject": "Polish pass: 7 look/layout items from the full-game screen audit (dimming, covering panels, Legacy space, phone titles, faded buttons)",
+    "reply": "no",
+    "boston": "Thu 29 Oct 10:15 AM"
    }
   ],
   "g2v": {
@@ -1436,8 +1445,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "634abd1",
-  "head_boston": "Thu 29 Oct 9:44 AM",
+  "head": "ee89696",
+  "head_boston": "Thu 29 Oct 10:15 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
