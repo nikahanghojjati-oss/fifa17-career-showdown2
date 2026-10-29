@@ -1,0 +1,608 @@
+{
+  "batch": 6,
+  "situation": "europa-league",
+  "voice": "The lead caller",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb6-001",
+      "text": "Europa League glory for {winnerClub}, and there's a European journey that ends with something worth holding.",
+      "score": 9,
+      "was": "The Europa League belongs to {winnerClub}! A whole European campaign has led to this glorious prize."
+    },
+    {
+      "id": "cb6-002",
+      "text": "Tuck this moment away, {winner}. Continental titles are the kind of memories that never need polishing.",
+      "score": 10,
+      "was": "There is a particular joy in this one, {winner}. Continental silverware, earned and carried home!"
+    },
+    {
+      "id": "cb6-003",
+      "text": "From a competition full of ambition comes a champion, and {winnerClub} have taken their chance!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-004",
+      "text": "Look what {winner} has brought back from Europe! Not just a memory, but a title.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-005",
+      "text": "Read the name on this honour: {winnerClub}. The Europa League has found its new champion.",
+      "score": 9,
+      "was": "Here is the reward for all that European ambition: {winnerClub} have lifted the Europa League!"
+    },
+    {
+      "id": "cb6-006",
+      "text": "Here's a moment for {winner} to remember. European ambition has become a title, not just a promise.",
+      "score": 9,
+      "was": "A continental title for {winner}, and suddenly this season has a beautiful new centrepiece."
+    },
+    {
+      "id": "cb6-007",
+      "text": "What a distinction for {winnerClub}: winners of the Europa League, and nobody can dispute that.",
+      "score": 10,
+      "was": "Europe has delivered its verdict! {winnerClub} are Europa League winners, and that is a wonderful distinction."
+    },
+    {
+      "id": "cb6-008",
+      "text": "Somewhere in that trophy room, {winner} will be finding a very special place for this one.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-009",
+      "text": "No longer a European ambition for {winnerClub}; the Europa League is theirs, in silver and in history.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-010",
+      "text": "Watch this season take on a different shape. {winner} has written a European victory into it.",
+      "score": 9,
+      "was": "Watch the meaning of this season change! {winner} has just added a European title to the story."
+    },
+    {
+      "id": "cb6-011",
+      "text": "At the end of that continental road, {winnerClub} stand with the prize they went looking for.",
+      "score": 9,
+      "was": "The long road through Europe has ended with {winnerClub} holding the Europa League trophy. Magnificent!"
+    },
+    {
+      "id": "cb6-012",
+      "text": "Steady hands, big ambition: {winner} has turned the Europa League challenge into a magnificent triumph.",
+      "score": 9,
+      "was": "This is a continental triumph with {winner}'s name written all over it. What an achievement!"
+    },
+    {
+      "id": "cb6-013",
+      "text": "Call the roll of European winners and add {winnerClub}. This is their moment in the competition's history.",
+      "score": 9,
+      "was": "Out of the European chase comes a winner, and the name is {winnerClub}!"
+    },
+    {
+      "id": "cb6-014",
+      "text": "A passport full of memories is fine, {winner}, but this is the souvenir that goes into the cabinet.",
+      "score": 9,
+      "was": "For {winner}, the finest kind of souvenir from a European campaign: a trophy that stays forever."
+    },
+    {
+      "id": "cb6-015",
+      "text": "Try saying it without a smile: {winnerClub} have won the Europa League. That has a lovely ring.",
+      "score": 9,
+      "was": "You can hear the pride in those words: {winnerClub}, winners of the Europa League!"
+    },
+    {
+      "id": "cb6-016",
+      "text": "All the ambition in the world means little without the finish. {winner} has provided the finish.",
+      "score": 10,
+      "was": "All that chasing, all that hope, and now {winner} has the European silver to show for it!"
+    },
+    {
+      "id": "cb6-017",
+      "text": "Take it in, {winnerClub}. The Europa League winners' roll has a new name, and it's yours.",
+      "score": 9,
+      "was": "Take a look at this moment for {winnerClub}. The Europa League has found its new champions!"
+    },
+    {
+      "id": "cb6-018",
+      "text": "Now there's a different weight to this season. {winner} has lifted a trophy from Europe's stage.",
+      "score": 9,
+      "was": "Now the cabinet has a European accent! {winner} has secured a prize with real continental weight."
+    },
+    {
+      "id": "cb6-019",
+      "text": "Across Europe this trophy commands respect, and {winnerClub} have earned the right to claim it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-020",
+      "text": "Give {winner} the applause this deserves. A major continental honour is not something to hurry past.",
+      "score": 9,
+      "was": "Give {winner} a moment to savour that! The Europa League is a serious addition to any season."
+    },
+    {
+      "id": "cb6-021",
+      "text": "Put a European trophy beside the badge and suddenly {winnerClub}'s season has a different meaning.",
+      "score": 9,
+      "was": "The promise of European nights has become something solid for {winnerClub}: a continental title."
+    },
+    {
+      "id": "cb6-022",
+      "text": "Make some room, {winner}! That Europa League trophy is not a small parcel to bring home.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-023",
+      "text": "In the proudest part of the honours list, put {winnerClub} down as Europa League winners.",
+      "score": 9,
+      "was": "One more line for the club's proudest pages: {winnerClub} have won a European competition!"
+    },
+    {
+      "id": "cb6-024",
+      "text": "It's a fine thing to dream of silverware abroad; {winner} has gone and brought it back!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-025",
+      "text": "Seal the European chapter in bold. {winnerClub} have done the hard part and won the Europa League.",
+      "score": 10,
+      "was": "What was once the target is now the prize in {winnerClub}'s hands. Europa League champions!"
+    },
+    {
+      "id": "cb6-026",
+      "text": "European success has its own particular sound, and for {winner} tonight, it's the sound of triumph!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-027",
+      "text": "Put that European adventure in the books. {winnerClub} have written the closing line in silver.",
+      "score": 9,
+      "was": "There goes the lid on the European campaign, and {winnerClub} have sealed it with a trophy!"
+    },
+    {
+      "id": "cb6-028",
+      "text": "Borders are part of the adventure, but {winner} has brought the achievement right back home.",
+      "score": 9,
+      "was": "A campaign crossing borders ends with a title for {winner}. There's something grand about that."
+    },
+    {
+      "id": "cb6-029",
+      "text": "Listen to that description of {winnerClub}: Europa League winners. It fits them rather nicely!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-030",
+      "text": "Not every European story gets a silver ending, but {winner} has written precisely that one.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-031",
+      "text": "Raise the curtain on the honours list: {winnerClub} have become Europa League champions.",
+      "score": 9,
+      "was": "Here comes the continental reward! {winnerClub} have taken their place among Europa League champions."
+    },
+    {
+      "id": "cb6-032",
+      "text": "Nobody gets an advance promise of European glory. {winner} has gone and secured it.",
+      "score": 9,
+      "was": "You might have hoped for a memorable European campaign; {winner} has delivered an unforgettable one!"
+    },
+    {
+      "id": "cb6-033",
+      "text": "That name belongs in the European honours list now. {winnerClub} have won their place.",
+      "score": 9,
+      "was": "The Europa League is heading into {winnerClub}'s story, and it won't be a passing mention."
+    },
+    {
+      "id": "cb6-034",
+      "text": "Set aside the ordinary headlines! {winner} has a European trophy to put above the season's noise.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-035",
+      "text": "Follow the European trail all the way to {winnerClub}, and you'll find silver at the end.",
+      "score": 9,
+      "was": "With this cup, {winnerClub} have turned a European adventure into a proper piece of club history!"
+    },
+    {
+      "id": "cb6-036",
+      "text": "Take a second to appreciate that achievement. A European tournament won, a special honour secured.",
+      "score": 9,
+      "was": "That is the sort of European honour a manager can point to long after a season ends."
+    },
+    {
+      "id": "cb6-037",
+      "text": "And what a finish to this European chapter for {winner}: the Europa League trophy itself!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-038",
+      "text": "Nothing cryptic about the headline: {winnerClub} have lifted the Europa League trophy.",
+      "score": 9,
+      "was": "There's no mistaking the prize {winnerClub} have claimed. European competition winners, right there in print."
+    },
+    {
+      "id": "cb6-039",
+      "text": "Let the rivalry take notice! {winner} has brought home continental silverware, and the answer must be worthy.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-040",
+      "text": "Be proud of this one, {winnerClub}. A continental title belongs beside the club's finest achievements.",
+      "score": 9,
+      "was": "A silver reminder of European ambition has arrived, and it belongs to {winnerClub}!"
+    },
+    {
+      "id": "cb6-041",
+      "text": "Just look at {winner} now: from European contender to Europa League winner. That's quite a leap.",
+      "score": 9,
+      "was": "For once, the travel talk can stop. {winner} has reached the destination every Europa League contender wanted!"
+    },
+    {
+      "id": "cb6-042",
+      "text": "On this stage, a European trophy is the ultimate answer. {winnerClub} have given it.",
+      "score": 9,
+      "was": "On the European stage, {winnerClub} have earned something that cannot be talked away: a title."
+    },
+    {
+      "id": "cb6-043",
+      "text": "Say it with feeling, {winner}: Europa League champions! That is a wonderful phrase to own.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-044",
+      "text": "Hold the celebrations for just a moment: {winnerClub} have made this European honour theirs.",
+      "score": 9,
+      "was": "There will be plenty to discuss later; for {winnerClub}, this moment belongs to European glory."
+    },
+    {
+      "id": "cb6-045",
+      "text": "Signing off from Europe with a title, {winner} has found a remarkable way to mark this season.",
+      "score": 9,
+      "was": "The European campaign has its final signature, and {winner} has signed it with silverware!"
+    },
+    {
+      "id": "cb6-046",
+      "text": "If a season needed a defining image, {winnerClub} lifting the Europa League would certainly do it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-047",
+      "text": "Leave the ordinary compliments behind. {winner} has won a European competition. That says more than praise.",
+      "score": 9,
+      "was": "An important entry in the honour roll for {winner}: champions of a major European competition!"
+    },
+    {
+      "id": "cb6-048",
+      "text": "Across the continent, that trophy carries its own respect. {winnerClub} now hold the Europa League.",
+      "score": 9,
+      "was": "What a way to give this season an international flavour! {winnerClub} have claimed the Europa League."
+    },
+    {
+      "id": "cb6-049",
+      "text": "Every mile carries a better memory when it ends with a title. {winner} has earned that one.",
+      "score": 9,
+      "was": "Suddenly every European mile feels worthwhile. {winner} has a title to show for the journey!"
+    },
+    {
+      "id": "cb6-050",
+      "text": "Behold the prize at the end of this continental pursuit: the Europa League, won by {winnerClub}!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-051",
+      "text": "Some triumphs fit into a brief report. This one demands the words Europa League champions in full.",
+      "score": 10,
+      "was": "A European trophy changes the way a campaign is remembered. This one has found its rightful owner!"
+    },
+    {
+      "id": "cb6-052",
+      "text": "For {winner}, this European honour is a lovely new talking point in a rivalry that never runs short of them.",
+      "score": 9,
+      "was": "Behind the familiar rivalry, here is an achievement worth respecting from either side of the divide."
+    },
+    {
+      "id": "cb6-053",
+      "text": "Keep this well above the footnotes. The Europa League is an honour deserving of a headline.",
+      "score": 9,
+      "was": "You don't put an honour like this in the footnotes! The Europa League demands a headline."
+    },
+    {
+      "id": "cb6-054",
+      "text": "Pack away the passport if you like; the continental distinction is staying out on display.",
+      "score": 9,
+      "was": "The passport may go back in the drawer, but this continental distinction is going nowhere."
+    },
+    {
+      "id": "cb6-055",
+      "text": "Starting with a European ambition and ending with a trophy. That's how you finish the story properly.",
+      "score": 9,
+      "was": "What began as a European challenge has finished with the kind of reward you can actually lift!"
+    },
+    {
+      "id": "cb6-056",
+      "text": "Dreams are easy to put on paper. This one made it all the way into a winner's hands.",
+      "score": 9,
+      "was": "Plenty of dreams stay on paper. This one has made it all the way to the trophy stand!"
+    },
+    {
+      "id": "cb6-057",
+      "text": "An entire continental pursuit, and then the simplest sight of all: the competition's trophy, secured.",
+      "score": 9,
+      "was": "There is no better answer to a long continental chase than seeing the silver at the end."
+    },
+    {
+      "id": "cb6-058",
+      "text": "Above the season's usual arguments sits something that requires no debate: Europa League winners.",
+      "score": 9,
+      "was": "And here comes the part that lasts: Europa League winners, an achievement beyond the final season standings!"
+    },
+    {
+      "id": "cb6-059",
+      "text": "Feel the weight of that honour. A continental title carries much more than the silver it's made of.",
+      "score": 9,
+      "was": "What a beautiful weight to bring back from a European campaign. The weight of an earned title!"
+    },
+    {
+      "id": "cb6-060",
+      "text": "At last, we have an answer to the Europa League question. Here is its new champion.",
+      "score": 9,
+      "was": "At last, the continental question has its answer. The Europa League has a new home!"
+    },
+    {
+      "id": "cb6-061",
+      "text": "What a finish to a European journey! The prize is real, and the satisfaction will last.",
+      "score": 9,
+      "was": "The journey was European, the prize is permanent, and the celebration is entirely deserved!"
+    },
+    {
+      "id": "cb6-062",
+      "text": "Even {loser} can appreciate the scale of that achievement. Europe doesn't award this trophy for good intentions.",
+      "score": 9,
+      "was": "Even a friendly rival must tip the hat to that. A continental competition has been won!"
+    },
+    {
+      "id": "cb6-063",
+      "text": "Forget the postcards. The best souvenir from a European campaign is the honour you can put on display.",
+      "score": 10,
+      "was": "Forget the postcards; this is the keepsake every manager wants from a campaign across Europe!"
+    },
+    {
+      "id": "cb6-064",
+      "text": "Between wanting this prize and holding it lies an entire campaign. That distance has been covered.",
+      "score": 9,
+      "was": "The prize has crossed from possibility into possession, and the European chapter closes in triumph!"
+    },
+    {
+      "id": "cb6-065",
+      "text": "It's not a consolation, it's a continental crown in its own right. A remarkable achievement!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-066",
+      "text": "The destination hardly matters when the prize means this much: a European title, won and treasured.",
+      "score": 9,
+      "was": "Different country, different challenge, same wonderful conclusion: a European honour secured!"
+    },
+    {
+      "id": "cb6-067",
+      "text": "Think of this as a season with a different signature. The Europa League trophy has signed it.",
+      "score": 9,
+      "was": "There are trophies that decorate a season and trophies that give it an entirely new identity!"
+    },
+    {
+      "id": "cb6-068",
+      "text": "Keep the cabinet door open! A distinguished piece of European silver is on its way!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-069",
+      "text": "Well, the continental adventure has an ending worthy of its ambition. And it comes in silver.",
+      "score": 10,
+      "was": "Well, the continental adventure has an ending worthy of its ambition. Europa League glory!"
+    },
+    {
+      "id": "cb6-070",
+      "text": "You can be proud of a European campaign without winning it. Winning it, though, is something else.",
+      "score": 9,
+      "was": "Every club wants a place in Europe's conversation. Winning this competition makes a compelling case!"
+    },
+    {
+      "id": "cb6-071",
+      "text": "Not merely a place in the competition's story, but the final word. That's what a title gives you.",
+      "score": 9,
+      "was": "This isn't merely a good European showing; it's the ultimate prize that this competition can offer!"
+    },
+    {
+      "id": "cb6-072",
+      "text": "Wait until that honour goes on the club record. The Europa League, won outright!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-073",
+      "text": "To see the trophy is to know what all the effort was for. A wonderful European success.",
+      "score": 9,
+      "was": "It takes an entire campaign to earn a moment this simple: lift the trophy, cherish the title!"
+    },
+    {
+      "id": "cb6-074",
+      "text": "Nobody has to dress that up. A European competition has been won, and that is substantial!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-075",
+      "text": "Try fitting an entire continental triumph into the margins of a season review. You can't.",
+      "score": 9,
+      "was": "Try fitting this one into an ordinary season summary. Continental glory rarely stays in the margins!"
+    },
+    {
+      "id": "cb6-076",
+      "text": "One pursuit has been settled in the best possible way. The Europa League trophy has an owner.",
+      "score": 9,
+      "was": "One ambition has been settled beyond argument: the Europa League trophy has been claimed!"
+    },
+    {
+      "id": "cb6-077",
+      "text": "Have you ever seen an ambition become so wonderfully simple? A European prize, at last secured.",
+      "score": 9,
+      "was": "How many seasons get to finish a European journey with silverware? This one does!"
+    },
+    {
+      "id": "cb6-078",
+      "text": "Others can chase it next season. This Europa League title already has its owner, and that won't change.",
+      "score": 9,
+      "was": "There will be another campaign, another challenge, but this Europa League title cannot be taken back."
+    },
+    {
+      "id": "cb6-079",
+      "text": "No need for any grand introduction. Just take in the honour of winning the Europa League.",
+      "score": 9,
+      "was": "No special effects needed here. The continental prize itself makes quite enough of a spectacle!"
+    },
+    {
+      "id": "cb6-080",
+      "text": "Tomorrow the friendly argument returns. Today, a European title has earned a moment of respect.",
+      "score": 10,
+      "was": "The rivalry can resume its usual teasing tomorrow. Right now, European success deserves its applause!"
+    },
+    {
+      "id": "cb6-081",
+      "text": "Nobody's going to complain about making room in the cabinet for a trophy won beyond domestic football.",
+      "score": 9,
+      "was": "A trophy earned beyond domestic competition, and a new kind of pride for the cabinet!"
+    },
+    {
+      "id": "cb6-082",
+      "text": "Ask what makes a continental journey worthwhile. Coming back with the competition's highest reward will do.",
+      "score": 9,
+      "was": "The sweetest part of a continental adventure? Coming back with the reason you went in the first place!"
+    },
+    {
+      "id": "cb6-083",
+      "text": "Once the season fades, this European honour will still stand exactly where it was won.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-084",
+      "text": "An excellent place to end the sentence, and the season's European story: with the Europa League.",
+      "score": 9,
+      "was": "You can put a full stop on that campaign. The Europa League trophy is the punctuation!"
+    },
+    {
+      "id": "cb6-085",
+      "text": "Picture that next entry in a manager's career: won in Europe, came home carrying silverware.",
+      "score": 9,
+      "was": "What an extraordinary line in any manager's story: went into Europe and came back a champion!"
+    },
+    {
+      "id": "cb6-086",
+      "text": "Europe set the challenge. The response came with an impressive piece of silver attached.",
+      "score": 9,
+      "was": "The continent offered a challenge; the answer is there in polished silver. A title won!"
+    },
+    {
+      "id": "cb6-087",
+      "text": "You'd struggle to find a better proof of continental achievement than the actual Europa League trophy.",
+      "score": 9,
+      "was": "If you needed evidence of a season well spent, a Europa League trophy is hard to overlook!"
+    },
+    {
+      "id": "cb6-088",
+      "text": "Quietly or loudly, it means the same thing: a Europa League campaign has ended in success.",
+      "score": 9,
+      "was": "All of a sudden, the season has a European headline that needs no further explanation!"
+    },
+    {
+      "id": "cb6-089",
+      "text": "Raise that piece of silver! This was a competition worth winning, and now it has been won!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-090",
+      "text": "Make a little space in the club's own history. The Europa League has arrived.",
+      "score": 9,
+      "was": "The honour has a name, the Europa League, and that name is going straight into the club's history!"
+    },
+    {
+      "id": "cb6-091",
+      "text": "You can chase the feeling of a successful European campaign. Or you can lift the trophy and feel it.",
+      "score": 9,
+      "was": "Something special happens when an international ambition ends with a tangible reward. This is it!"
+    },
+    {
+      "id": "cb6-092",
+      "text": "Let the domestic comparisons wait their turn. There's a European title to appreciate right here.",
+      "score": 9,
+      "was": "Give the domestic debate a rest for a moment. Continental success has earned the entire spotlight!"
+    },
+    {
+      "id": "cb6-093",
+      "text": "Let that title stand without qualification: Europa League winners. An achievement that speaks for itself.",
+      "score": 9,
+      "was": "You'll find no asterisk beside that achievement: Europa League winners, in their own right!"
+    },
+    {
+      "id": "cb6-094",
+      "text": "Flip through the season's memories, and this trophy is the page nobody will want to skip.",
+      "score": 10,
+      "was": "The season's scrapbook has gained a page far too important to tuck away at the back!"
+    },
+    {
+      "id": "cb6-095",
+      "text": "Hold on to this feeling. Winning in Europe is an achievement that doesn't come along casually.",
+      "score": 9,
+      "was": "Don't rush past this. A European title is not the sort of thing you collect every day!"
+    },
+    {
+      "id": "cb6-096",
+      "text": "Boil down the whole adventure and you're left with the finest words: Europa League winners.",
+      "score": 9,
+      "was": "An entire campaign distilled into a few wonderful words: winners of the Europa League!"
+    },
+    {
+      "id": "cb6-097",
+      "text": "Cabinet space is a lovely problem to have when another European title is coming in.",
+      "score": 9,
+      "was": "The kind of trophy that starts arguments about cabinet space and ends them with a smile!"
+    },
+    {
+      "id": "cb6-098",
+      "text": "Take the applause, take the honour, and take home a prize from beyond the home league!",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb6-099",
+      "text": "Trace a line across the map and it leads here: the destination was continental silverware.",
+      "score": 9,
+      "was": "For this club, the map of Europe now has a very special destination: the winners' podium!"
+    },
+    {
+      "id": "cb6-100",
+      "text": "Nothing borrowed about this glory. The Europa League trophy belongs to its winners, proudly and properly.",
+      "score": 9,
+      "was": "Nothing borrowed about this glory. The Europa League title is theirs to keep, proudly and properly!"
+    }
+  ]
+}
