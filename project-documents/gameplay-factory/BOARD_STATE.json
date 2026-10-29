@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-29 10:27 AM Boston time (EDT)",
+ "generated": "2026-10-29 10:32 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 159,
@@ -2110,7 +2110,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-045_select-league-no-focus-box-round-the-pic.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 5
    }
   ],
   "relay_ok": true
