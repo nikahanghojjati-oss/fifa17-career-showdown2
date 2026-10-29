@@ -66,7 +66,7 @@
     const doc=spDoc();spRemoveStage();
     const stage=doc.createElement("div");stage.id=STAGE_ID;stage.setAttribute("role","dialog");stage.setAttribute("aria-modal","true");stage.setAttribute("aria-label","Your Special Players");
     stage.style.cssText="position:fixed;inset:0;z-index:95;background:#050403;visibility:hidden";
-    const frame=doc.createElement("iframe");frame.title="Special Player reveal";
+    const frame=doc.createElement("iframe");frame.title="Special Player reveal";frame.allow="autoplay";
     const base=typeof root.optionalAssetUrl==="function"?root.optionalAssetUrl(PAGE):PAGE;
     frame.src=`${base}${base.includes("?")?"&":"?"}embed=1&d=${pick.d}&n=${pick.n}`;
     frame.style.cssText="display:block;width:100%;height:100%;border:0;background:#050403";
