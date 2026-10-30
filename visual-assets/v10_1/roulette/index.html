@@ -923,7 +923,8 @@ if(EMBED){ document.body.classList.add("embed");
   addEventListener("message",e=>{ if(e.source!==parent||e.origin!==location.origin||!e.data||e.data.type!=="cms-rr-setup"||GAME) return; const g=e.data;
     if(!SQUADS||!g.boards||!Array.isArray(g.boards.D)||!Array.isArray(g.boards.N)||!Array.isArray(g.turns)||g.turns.length!==2) return;
     const merge=(clubName,rows)=>{ const base=clubByName(clubName), launch=[...base.xi,...base.subs]; const known=nm=>launch.find(r=>r[1]===nm);
-      const xi=rows.slice(0,11).map(r=>[r.pos,r.name,known(r.name)?known(r.name)[2]:""]), subs=rows.slice(11,15).map(r=>{ const k=known(r.name); return [k?k[0]:"SUB",r.name,k?k[2]:""]; });
+      const rate=(r,k)=>k?k[2]:(Number.isInteger(r.rating)?r.rating:""); /* a signing or Special Player shows the overall the game sent */
+      const xi=rows.slice(0,11).map(r=>[r.pos,r.name,rate(r,known(r.name))]), subs=rows.slice(11,15).map(r=>{ const k=known(r.name); return [k?k[0]:"SUB",r.name,rate(r,k)]; });
       return Object.assign({},base,{club:clubName,xi,subs}); };
     const dEntry=merge(g.d,g.boards.D), nEntry=merge(g.n,g.boards.N);
     GAME=g; SQUADS={source:SQUADS.source,clubs:[dEntry,nEntry,...SQUADS.clubs.filter(c=>c!==clubByName(g.d)&&c!==clubByName(g.n))]}; LAYOUT.danielClub=g.d; LAYOUT.nikClub=g.n; setBoards(g.d,g.n); result.textContent="One bullet. Seven chambers."; embedLabel(); toGame("cms-rr-armed"); });

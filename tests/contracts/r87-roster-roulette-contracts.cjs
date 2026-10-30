@@ -107,6 +107,9 @@ ok('L3',`Daniel first; fire rate ${(rate*100).toFixed(2)}% over ${turns} spins; 
   const b1=RRR.forSeason(rid,clubs,1,{special:sp}).boards.playerOne;
   assert.equal(b1[lowAt].name,'L. Messi');assert.equal(b1[lowAt].pos,launch[lowAt].pos,'the slot keeps its position');
   assert.equal(RRR.forSeason(rid,clubs,1,{special:null}).boards.playerOne[lowAt].name,launch[lowAt].name,'no Special Player before r86');
+  // A Special Player rated below the whole board still joins (young high-potential players are often in the 60s).
+  const young=RRR.forSeason(rid,clubs,1,{special:{playerOne:{name:'K. Mbappé',overall:low-10},playerTwo:sp.playerTwo}}).boards.playerOne;
+  assert.equal(young[lowAt].name,'K. Mbappé');assert.ok(young[lowAt].special,'a low-rated Special Player is still on the board');
   // Special Player already in the squad: he is marked, nobody leaves.
   const own=RRR.forSeason(rid,clubs,1,{special:{playerOne:{name:launch[0].name,overall:90},playerTwo:sp.playerTwo}}).boards.playerOne;
   assert.deepEqual(own.map(p=>p.name),launch.map(p=>p.name));assert.ok(own[0].special);

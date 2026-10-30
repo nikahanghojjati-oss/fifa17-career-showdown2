@@ -66,6 +66,8 @@
     const shell=rrsEl("div","remoteJoiningShell rrStepShell"),header=rrsEl("div","remoteJoiningHeader");
     header.append(rrsEl("strong","",`SEASON ${ctx.season} · RUSSIAN ROSTER ROULETTE`));
     const body=rrsEl("div","rrStepBody");body.append(rrsEl("h2","rrStepTitle",heading));
+    // No finished scene behind the card (WebGL missing, scene seen before a reload, history retry): stand it in the room, never on the page below.
+    if(!rrsDoc().getElementById(STAGE_ID))overlay.classList.add("rrStepRoom");
     shell.append(header,body);overlay.append(shell);rrsDoc().body.append(overlay);
     return {overlay,body};
   }
@@ -156,7 +158,7 @@
     try{
       ({stage,frame}=rrsCreateStage(ctx));channel=rrsListen(frame);
       if(await channel.ready!=="ready")throw new Error("Roulette page did not start.");
-      const boardOf=role=>plan.boards[role].map(p=>({pos:p.pos,name:p.name||"VACANT",special:p.special===true}));
+      const boardOf=role=>plan.boards[role].map(p=>({pos:p.pos,name:p.name||"VACANT",special:p.special===true,rating:p.name&&p.rating>0?p.rating:null}));
       const turns=plan.turns.map(turn=>({fire:turn.fired,target:turn.player?turn.player.name:null}));
       frame.contentWindow.postMessage({type:"cms-rr-setup",d:ctx.clubs.playerOne,n:ctx.clubs.playerTwo,boards:{D:boardOf("playerOne"),N:boardOf("playerTwo")},turns},root.location.origin);
       const left=MIN_LOADING_MS-(Date.now()-shownAt);if(left>0)await rrsWait(left);
@@ -178,7 +180,7 @@
       ?await rrsAsk(ctx,{heading:`Release ${mine.player.name}`,label:"Release your player",lines,
         note:`Release ${mine.player.name} in your FIFA 17 save now, before the transfer window. The game can't do it for you.`,
         buttons:[{id:"go",label:"I'VE RELEASED HIM",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]})
-      :await rrsAsk(ctx,{heading:"Empty chamber",label:"Your squad is safe",lines,note:"Your squad stays as it is this season.",
+      :await rrsAsk(ctx,{heading:"Your squad is safe",label:"Your squad is safe",lines,note:"Your squad stays as it is this season.",
         buttons:[{id:"go",label:"GO TO THE TRANSFER WINDOW",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
     return choice==="go";
   }
