@@ -97,6 +97,8 @@ body.embed .tools { display: flex; bottom: auto; top: calc(env(safe-area-inset-t
 body.embed .tools > :not(#sound) { display: none; }
 body.embed .top { top: calc(env(safe-area-inset-top, 0px) + 16px); }
 body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
+/* phone portrait: the title starts below the sound switch (it covered the CAREER MODE SHOWDOWN 17 plate at 390px) */
+@media (max-width: 899px) and (orientation: portrait) { body.embed .top { top: calc(env(safe-area-inset-top, 0px) + 54px); } }
 </style>
 </head>
 <body>
