@@ -54,130 +54,106 @@ assert.equal(RRR.forSeason(rid,{playerOne:'Liverpool',playerTwo:'Nowhere FC'},1)
 ok('L2','same id + season = same spins on both phones; bad input = no roulette');
 
 // L3 the rules: Daniel first; 7 chambers; fired exactly when the cylinder stops on the bullet; a fired turn always hits a
-// board player and every one of the 15 can be hit; an empty turn hits nobody. Season 1 is the launch board; from season 2
-// each manager's own edited board (drafted from last season's minus the player shot) decides the name.
-const view=RRR.forSeason(rid,clubs,1);
+// board player; the Special Player is never hit and every other player has the same chance; an empty turn hits nobody.
+const sp={playerOne:{name:'L. Messi',overall:93},playerTwo:{name:'Neymar',overall:92}};
+const view=RRR.forSeason(rid,clubs,1,{special:sp});
 assert.deepEqual(view.order,['playerOne','playerTwo']);assert.deepEqual(view.turns.map(t=>t.role),['playerOne','playerTwo']);
-assert.equal(view.chambers,7);assert.equal(view.boards.playerOne[0].name,RRR.board('Liverpool')[0].name);
-const fill=(draft,season)=>draft.map(p=>({pos:p.pos,name:p.name||`New Signing ${season}-${p.slot}`}));
-let fired=0,turns=0,hitBench=0;const perSlot=new Array(15).fill(0);
+assert.equal(view.chambers,7);
+// Fixed signings per season: one kept (overall rises each season), one released by the rival's guess, one with no overall.
+const sign=(role,k)=>[{slot:1,name:`${role} keep ${k}`,overall:70+k,release:false},{slot:2,name:`${role} gone ${k}`,overall:95,release:true},{slot:3,name:`${role} old ${k}`,overall:null,release:false}];
+const hist=[null];for(let k=1;k<=9;k+=1)hist.push({playerOne:sign('D',k),playerTwo:sign('N',k)});
+let fired=0,turns=0,spHits=0,hitBench=0;const perSlot={playerOne:new Array(15).fill(0),playerTwo:new Array(15).fill(0)};
 // A fixed corpus of ids, so the tight spread check below is reproducible and never fails by chance.
 const fixedId=g=>`pair_${createHash('sha256').update(`rrr-contract-${g}`).digest('hex')}`;
 for(let g=0;g<3000;g+=1){
-  const r=fixedId(g);let prev={playerOne:null,playerTwo:null};
+  const r=fixedId(g);
   for(let season=1;season<=10;season+=1){
-    let edited=null;
-    if(season>1){
-      edited={};
-      for(const role of ['playerOne','playerTwo']){
-        const draft=RRR.draft(r,clubs,season,role,prev[role]);
-        assert.equal(draft.length,15);
-        const last=RRR.forSeason(r,clubs,season-1,season-1>1?prev:null).turns.find(t=>t.role===role);
-        assert.deepEqual(draft.filter(p=>p.name==='').map(p=>p.slot),last.fired?[last.hitSlot]:[],'only the player shot last season is taken off');
-        edited[role]=fill(draft,season);
-      }
-    }
-    const v=RRR.forSeason(r,clubs,season,edited);
+    const v=RRR.forSeason(r,clubs,season,{special:sp,history:hist});
     for(const t of v.turns){
-      turns+=1;
+      turns+=1;const board=v.boards[t.role];
+      assert.equal(board.length,15);assert.equal(board.filter(p=>p.special).length,1,'the Special Player stays on the board');
       assert.ok(t.bulletChamber>=0&&t.bulletChamber<7&&t.stopChamber>=0&&t.stopChamber<7);
       assert.equal(t.fired,t.bulletChamber===t.stopChamber);
       if(t.fired){
-        fired+=1;assert.ok(t.player&&t.hitSlot===t.player.slot,'a bullet always hits a player');
-        assert.equal(t.player.name,v.boards[t.role][t.hitSlot].name);
-        perSlot[t.hitSlot]+=1;if(t.player.bench)hitBench+=1;
+        fired+=1;assert.ok(t.player&&t.hitSlot===t.player.slot&&t.player.name,'a bullet always hits a player');
+        assert.equal(t.player.name,board[t.hitSlot].name);
+        if(t.player.special)spHits+=1;
+        
+        if(t.player.bench)hitBench+=1;
       }else{assert.equal(t.player,null);assert.equal(t.hitSlot,null);}
     }
-    prev={playerOne:v.boards.playerOne,playerTwo:v.boards.playerTwo};
   }
 }
 const rate=fired/turns;
 assert.ok(Math.abs(rate-1/7)<0.01,`fire rate ${rate.toFixed(4)} is 1 in 7`);
-assert.ok(perSlot.every(n=>n>0.85*fired/15&&n<1.15*fired/15),'every one of the 15 players can be hit, evenly');
+assert.equal(spHits,0,'the Special Player is never hit');
+// Season 1 boards are the same in every game, so each manager's 14 targets share his fired turns evenly (a larger fixed corpus).
+for(let g=0;g<60000;g+=1){for(const t of RRR.forSeason(fixedId(g),clubs,1,{special:sp}).turns)if(t.fired)perSlot[t.role][t.hitSlot]+=1;}
+const s1=RRR.forSeason(fixedId(0),clubs,1,{special:sp});
+for(const role of ['playerOne','playerTwo']){
+  const at=s1.boards[role].findIndex(p=>p.special),hits=perSlot[role],total=hits.reduce((a,b)=>a+b,0);
+  assert.equal(hits[at],0);
+  assert.ok(hits.filter((n,i)=>i!==at).every(n=>n>0.85*total/14&&n<1.15*total/14),'every other player has the same chance');
+}
 assert.ok(hitBench>0,'subs can be hit');
-ok('L3',`Daniel first; fire rate ${(rate*100).toFixed(2)}% over ${turns} spins; hits spread over all 15; edited boards name the hit`);
+ok('L3',`Daniel first; fire rate ${(rate*100).toFixed(2)}% over ${turns} spins; Special Player never hit; the other 14 evenly`);
 
-// L4 seasons are independent per Showdown; clubs and board edits never change who gets shot or which slot.
-const seq=r=>Array.from({length:10},(_,i)=>RRR.forSeason(r,clubs,i+1).turns.map(t=>[t.bulletChamber,t.stopChamber,t.hitSlot]));
-assert.notDeepEqual(seq(rid),seq(id()));
-const other={playerOne:'Arsenal',playerTwo:'Juventus'};
-for(let s=1;s<=10;s+=1)assert.deepEqual(RRR.forSeason(rid,clubs,s).turns.map(t=>[t.fired,t.hitSlot]),RRR.forSeason(rid,other,s).turns.map(t=>[t.fired,t.hitSlot]));
-// A board not saved yet: the slot is already fixed, only the name waits.
-const s2=RRR.forSeason(rid,clubs,2,{playerOne:fill(RRR.draft(rid,clubs,2,'playerOne'),2)});
-assert.equal(s2.boards.playerTwo,null);assert.equal(s2.turns[1].player,null);
-ok('L4','independent per Showdown; clubs and edits never change who gets shot; unsaved board = name pending');
-
-// L5 an edited board must be a real board: 11 + 4, one GK in the XI, subs marked SUB, names 1-40 chars, no player twice.
-const good=fill(RRR.draft(rid,clubs,2,'playerOne'),2);
-const gk=good.findIndex(p=>p.pos==='GK'),outfield=gk===0?1:0;
-assert.ok(RRR.normalizeBoard(good));
-const bad=[
-  null,good.slice(0,14),[...good,good[0]],
-  good.map((p,i)=>i===gk?{...p,pos:'ST'}:p),                      // no keeper
-  good.map((p,i)=>i===outfield?{...p,pos:'GK'}:p),               // two keepers
-  good.map((p,i)=>i===12?{...p,pos:'ST'}:p),                      // sub not SUB
-  good.map((p,i)=>i===outfield?{...p,pos:'SUB'}:p),              // starter marked SUB
-  good.map((p,i)=>i===3?{...p,pos:'XX'}:p),
-  good.map((p,i)=>i===4?{...p,name:''}:p),
-  good.map((p,i)=>i===4?{...p,name:' Kane'}:p),
-  good.map((p,i)=>i===4?{...p,name:'x'.repeat(41)}:p),
-  good.map((p,i)=>i===11?{...p,name:good[12].name.toUpperCase()}:p), // same player twice
-  good.map((p,i)=>i===5?{...p,name:7}:p),
-];
-for(const b of bad)assert.equal(RRR.normalizeBoard(b),null);
-assert.equal(RRR.draft(rid,clubs,1,'playerOne'),null);assert.equal(RRR.draft(rid,clubs,3,'playerOne',null),null);assert.equal(RRR.draft(rid,clubs,2,'nobody'),null);
-ok('L5','edited boards are checked: 11 + 4, one GK, no duplicates, clean names');
-
-// L6 the board store (js/rosterBoardStore.js) on a fake transaction SDK, and the Rules it relies on: 1 write per manager per
-// season, a saved board is never replaced, a phone copy answers later reads, nothing but transaction reads, and the Rules
-// accept exactly the positions and name length the engine accepts.
-(async()=>{
-  const Store=require('../../js/rosterBoardStore.js');
-  const docs=new Map(),log=[];
-  const fakeSdk={
-    doc:(db,...parts)=>({path:parts.join('/')}),
-    serverTimestamp:()=>'SERVER_TIME',
-    runTransaction:async(db,fn)=>fn({
-      get:async ref=>{log.push(['get',ref.path]);const v=docs.get(ref.path);return {exists:()=>v!==undefined,data:()=>v};},
-      set:(ref,value)=>{log.push(['set',ref.path]);docs.set(ref.path,JSON.parse(JSON.stringify(value)));}
-    })
-  };
-  const base={firestore:{},firebaseSdk:fakeSdk,rivalryId:rid,sessionId:`session_${'3'.repeat(64)}`,deviceId:`device_${'a'.repeat(32)}`};
-  const rows=fill(RRR.draft(rid,clubs,2,'playerOne'),2);
-  const path=`rivalries/${rid}/rosterBoards/season_2_playerOne`;
-  const missing=await Store.read({...base,season:2,role:'playerOne'});
-  assert.deepEqual([missing.ok,missing.rows],[true,null]);
-  const saved=await Store.save({...base,season:2,role:'playerOne',rows});
-  assert.deepEqual([saved.ok,saved.created],[true,true]);
-  const stored=docs.get(path);
-  assert.deepEqual(Object.keys(stored).sort(),['activeSessionId','createdAt','managerRole','names','objectType','positions','rivalryId','schemaVersion','seasonNumber','updatedByDeviceId']);
-  assert.equal(stored.positions.length,11);assert.equal(stored.names.length,15);assert.equal(stored.createdAt,'SERVER_TIME');
-  assert.deepEqual(stored.names,rows.map(r=>r.name));assert.deepEqual(stored.positions,rows.slice(0,11).map(r=>r.pos));
-  const changed=rows.map((r,i)=>i===3?{...r,name:'Changed Mind'}:r);
-  const before=log.length;
-  const again=await Store.save({...base,season:2,role:'playerOne',rows:changed});
-  assert.deepEqual([again.created,again.rows[3].name],[false,rows[3].name]);assert.equal(log.length,before,'a second save on this phone costs nothing');
-  Store.forgetPhoneCopies();
-  const fresh=await Store.save({...base,season:2,role:'playerOne',rows:changed});
-  assert.deepEqual([fresh.created,fresh.rows[3].name],[false,rows[3].name],'a fresh page keeps the board locked first');
-  assert.equal(log.filter(([k])=>k==='set').length,1,'exactly one write');
-  Store.forgetPhoneCopies();
-  const read=await Store.read({...base,season:2,role:'playerOne'});
-  assert.deepEqual([read.source,read.rows],['server',rows]);
-  const n=log.length;assert.equal((await Store.read({...base,season:2,role:'playerOne'})).source,'phone');assert.equal(log.length,n);
-  assert.ok(Object.isFrozen(read.rows)&&read.rows.every(Object.isFrozen)&&Object.isFrozen(saved.rows)&&saved.rows.every(Object.isFrozen),'a returned board cannot be changed');
-  assert.throws(()=>{'use strict';read.rows[0].name='Edited In Memory';},TypeError);
-  assert.equal((await Store.read({...base,season:2,role:'playerOne'})).rows[0].name,rows[0].name,'the phone copy keeps the locked name');
-  for(const [opts,code] of [[{rows:rows.slice(0,14)},'ROSTER_BOARD_INVALID'],[{season:1},'ROSTER_SEASON_INVALID'],[{role:'nobody'},'ROSTER_ROLE_INVALID'],[{sessionId:'x'},'ROSTER_SESSION_INVALID'],[{season:3,firebaseSdk:{doc:fakeSdk.doc}},'ROSTER_PROVIDER_UNAVAILABLE']]){
-    const r=await Store.save({...base,season:2,role:'playerOne',rows,...opts});assert.deepEqual([r.ok,r.code],[false,code]);
+// L4 the board builds itself: Special Player in for the lowest overall in season 1; from season 2 the player shot last season
+// is out and last season's kept signings come in (empty slot first, then over the lowest overall when strictly better);
+// released signings and signings without an overall never join.
+{
+  const launch=RRR.board('Liverpool');
+  const low=Math.min(...launch.map(p=>p.rating)),lowAt=launch.map(p=>p.rating).lastIndexOf(low);
+  const b1=RRR.forSeason(rid,clubs,1,{special:sp}).boards.playerOne;
+  assert.equal(b1[lowAt].name,'L. Messi');assert.equal(b1[lowAt].pos,launch[lowAt].pos,'the slot keeps its position');
+  assert.equal(RRR.forSeason(rid,clubs,1,{special:null}).boards.playerOne[lowAt].name,launch[lowAt].name,'no Special Player before r86');
+  // Special Player already in the squad: he is marked, nobody leaves.
+  const own=RRR.forSeason(rid,clubs,1,{special:{playerOne:{name:launch[0].name,overall:90},playerTwo:sp.playerTwo}}).boards.playerOne;
+  assert.deepEqual(own.map(p=>p.name),launch.map(p=>p.name));assert.ok(own[0].special);
+  for(let g=0;g<400;g+=1){
+    const r=fixedId(g);
+    for(let season=2;season<=10;season+=1){
+      const before=RRR.forSeason(r,clubs,season-1,{special:sp,history:hist}),after=RRR.forSeason(r,clubs,season,{special:sp,history:hist});
+      for(const role of ['playerOne','playerTwo']){
+        const turn=before.turns.find(t=>t.role===role),prev=before.boards[role],next=after.boards[role],kept=hist[season-1][role][0];
+        const shot=turn.fired?turn.player.name:null;
+        if(shot)assert.ok(!next.some(p=>p.name===shot)||kept.name===shot,'the player shot last season is gone');
+        for(const gone of hist[season-1][role].slice(1))assert.ok(!next.some(p=>p.name===gone.name),'released or no-overall signings never join');
+        const rest=prev.filter(p=>p.name&&p.name!==shot&&!p.special),weakest=Math.min(...rest.map(p=>p.rating));
+        const joins=shot!==null||kept.overall>weakest;
+        assert.equal(next.some(p=>p.name===kept.name),joins,`season ${season}: kept signing joins only into an empty slot or over a weaker player`);
+        assert.ok(next.some(p=>p.special&&p.name===sp[role].name),'the Special Player never leaves');
+        assert.equal(next.filter(p=>!p.name).length,0,'every empty slot is filled when a signing exists');
+      }
+    }
   }
-  const src=fs.readFileSync(path_.join(ROOT,'js/rosterBoardStore.js'),'utf8');
-  assert.ok(!/\b(?:getDocs?|getDocFromServer|onSnapshot|setDoc)\b/.test(src)&&/runTransaction/.test(src),'transaction reads and writes only');
-  const rules=fs.readFileSync(path_.join(ROOT,'firestore.persistent-pair-production.fragment.rules'),'utf8');
-  const listed=rules.match(/positions\.toSet\(\)\.hasOnly\(\[([^\]]+)\]\)/)[1].split(',').map(x=>x.trim().replace(/'/g,''));
-  assert.deepEqual(listed,RRR.positions.filter(p=>p!=='SUB'),'the Rules accept exactly the engine positions');
-  assert.ok(rules.includes(`{0,${RRR.nameMax-2}}`),'the Rules name length matches the engine');
-  assert.ok(rules.includes('allow create: if cmsRosterBoardCreateValid(rivalryId, boardId);')&&rules.includes('allow update, list, delete: if false;'));
-  ok('L6','board store: 1 write, locked once saved, phone copy, transaction reads only; Rules match the engine');
-  console.log(`r87 roster roulette contracts: ${checks} groups passed`);
-})().catch(error=>{console.error(error);process.exit(1);});
+  // A missing season of history = no roulette (the step reads it first).
+  assert.equal(RRR.forSeason(rid,clubs,3,{special:sp,history:[null,hist[1]]}),null);
+  // No kept signing: the shot slot stays empty and is never a target.
+  const empty=[null];for(let k=1;k<=9;k+=1)empty.push({playerOne:[],playerTwo:[]});
+  for(let g=0;g<400;g+=1){const r=fixedId(g);for(let season=2;season<=10;season+=1){const v=RRR.forSeason(r,clubs,season,{special:sp,history:empty});for(const t of v.turns)if(t.fired)assert.ok(t.player.name&&!t.player.special);}}
+  ok('L4','auto board: Special Player in season 1; shot player out, kept signings in by overall; released and no-overall signings never join');
+}
+
+// L5 seasons are independent per Showdown; the same inputs give the same boards and spins on both phones.
+const seq=r=>Array.from({length:10},(_,i)=>RRR.forSeason(r,clubs,i+1,{special:sp,history:hist}).turns.map(t=>[t.bulletChamber,t.stopChamber,t.hitSlot]));
+assert.notDeepEqual(seq(rid),seq(id()));assert.deepEqual(seq(rid),seq(rid));
+ok('L5','independent per Showdown; same inputs, same result');
+
+// L6 the season step: no board editor, no board document, no new Firebase path; the boards come from the Transfer War
+// verdicts (kept on the phone, else one Transfer Challenge read per missing season); the Rule Book says the Special
+// Player is never hit.
+{
+  const step=fs.readFileSync(path_.join(ROOT,'js/rosterRouletteStep.js'),'utf8'),pstc=fs.readFileSync(path_.join(ROOT,'js/productionSharedTransferChallenge.js'),'utf8');
+  assert.ok(!fs.existsSync(path_.join(ROOT,'js/rosterBoardStore.js')));
+  assert.ok(!/rosterBoards|rrsEditor|LOCK MY BOARD/.test(step),'no board editor or board document');
+  assert.ok(!/rosterBoards/.test(fs.readFileSync(path_.join(ROOT,'firestore.persistent-pair-production.fragment.rules'),'utf8')),'no board Rules');
+  assert.match(pstc,/verdicts:season=>pstcRouletteVerdicts\(request,season\)/);
+  assert.match(pstc,/careerModeShowdown\.rouletteVerdicts\.v1/);
+  assert.match(pstc,/provider\.read\(\{\.\.\.provided\.options,seasonNumber:season\}\)/);
+  assert.match(step,/history:ctx\.season>1\?|const history=ctx\.season>1\?await rrsHistory\(ctx\):\[null\]/);
+  const rules=fs.readFileSync(path_.join(ROOT,'js/ruleBook.js'),'utf8');
+  assert.match(rules,/Special Player is never hit/,'Rule Book: the Special Player is never hit');
+  ok('L6','season step: auto boards from Transfer War verdicts, no editor, no new path; Rule Book line');
+}
+console.log(`r87 roster roulette contracts: ${checks} groups passed`);

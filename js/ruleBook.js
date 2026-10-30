@@ -52,7 +52,12 @@ function createRuleBookScreen(){
             "In FIFA 17, you can sign players up to the transfer deadline.",
             "Both managers can agree to end the transfer window early. One manager cannot end it alone.",
             "Your opponent gets three guesses. Each guess is a league or a nationality.",
-            "If a guess matches one of your signings, release that player before the season starts."
+            "If a guess matches one of your signings, release that player before the season starts.",
+            "Type each signing's FIFA 17 overall. Only you see it, and it is never part of a guess.",
+            // r87 Russian Roster Roulette (Nik 2026-10-30: "in rule screen mention special player wont get hit").
+            "Before each transfer window, Daniel and then Nik spin the Roster Roulette. One spin in seven fires and hits one player on your starting XI or 4 best subs: release him in FIFA 17.",
+            "Your Special Player is never hit. Every other player on your board has the same chance.",
+            "Your board builds itself: your FIFA 17 launch squad with your Special Player in for the lowest-rated player. From season 2, the player you lost leaves, and each signing you kept joins if his overall beats the lowest on the board."
         ]),
         createScoringRuleSection(),
         createRuleSection("05", "DRAWS", [

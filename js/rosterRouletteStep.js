@@ -5,11 +5,13 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  // r87 Russian Roster Roulette, the season step (Nik 2026-10-28/29; look = Team V HO-040, approved 29 Oct). Every season,
-  // before this manager's Transfer Challenge opens: from season 2 he locks his board (his real XI + 4 subs, js/rosterBoardStore.js,
-  // 1 write) and waits for the rival's (1 read per check); then both spins play in Team V's page in a full-screen frame, Daniel
-  // first, with the outcome from js/rosterRoulette.js (the Showdown id decides, so both phones agree; HO040-M1); then he confirms
-  // the release in his FIFA 17 save. The app never releases anyone itself. Season 1 uses the FIFA 17 launch boards: no edit.
+  // r87 Russian Roster Roulette, the season step (Nik 2026-10-28/29/30; look = Team V HO-040, approved 29 Oct). Every season,
+  // before this manager's Transfer Challenge opens, both spins play in Team V's page in a full-screen frame, Daniel first, with
+  // the outcome from js/rosterRoulette.js (the Showdown id decides, so both phones agree; HO040-M1); then he confirms the
+  // release in his FIFA 17 save. The app never releases anyone itself. The boards build themselves (Nik 2026-10-30): the
+  // FIFA 17 launch board with the Special Player, then each season's shot player out and kept signings in by overall, from
+  // last seasons' Transfer War verdicts (kept on this phone when they were shown; otherwise one Transfer Challenge read per
+  // missing season). No board is saved anywhere and nobody types one.
   // Shown once per manager per season on this browser (the watched spin is not replayed); never for a Showdown confirmed
   // before r87. A page that fails to load skips only the animation: the result and the release still show.
   const PAGE="visual-assets/v10_1/roulette/index.html";
@@ -19,7 +21,6 @@
   const RRR_FROM_MS=Date.parse("2026-10-30T00:00:00Z");
   const MIN_LOADING_MS=1000,MAX_LOADING_MS=15000,LOAD_WAIT_MS=10000;
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
-  const XI=11,BOARD=15,NAME_MAX=40;
   const failedHere=new Set(),sceneFailedHere=new Set();
   let running=null,leftForHome=false;
 
@@ -36,13 +37,14 @@
     const loads=Promise.all([
       rrsLoad("roster-squads","data/rosterSquads.js",()=>Boolean(root.CareerModeRosterSquads)),
       rrsLoad("roster-roulette","js/rosterRoulette.js",()=>Boolean(root.CareerModeRosterRoulette)),
-      rrsLoad("roster-board-store","js/rosterBoardStore.js",()=>Boolean(root.CareerModeRosterBoardStore)),
+      rrsLoad("marquee-player-list","data/marqueePlayers.js",()=>Boolean(root.CareerModeMarqueePlayers)),
+      rrsLoad("marquee-player","js/marqueePlayer.js",()=>Boolean(root.CareerModeMarqueePlayer)),
       typeof root.loadRuntimeStyle==="function"?Promise.resolve(root.loadRuntimeStyle("roulette-step","css/v10Roulette.css")).then(()=>true,()=>true):true
     ]).then(list=>list.every(Boolean),()=>false);
     return Promise.race([loads,rrsWait(LOAD_WAIT_MS).then(()=>false)]);
   }
 
-  // ctx = {rivalryId, managerRole, season, clubs:{playerOne,playerTwo}, confirmedAtMs, phase, services()} from the Transfer
+  // ctx = {rivalryId, managerRole, season, clubs:{playerOne,playerTwo}, confirmedAtMs, phase, verdicts(k)} from the Transfer
   // Challenge. True when this manager still has this season's roulette to do on this browser.
   function rrsDecide(ctx){
     if(root.CMS_ROSTER_ROULETTE==="off"||!ctx)return false;
@@ -81,95 +83,30 @@
 
   // ---------- season 2+: this manager's board ----------
   // The same rules as the engine and the Rules (js/rosterRoulette.js normalizeBoard), with a reason a person can act on.
-  function rrsBoardProblem(rows,engine){
-    const gk=rows.slice(0,XI).filter(row=>row.pos==="GK").length;
-    for(let i=0;i<BOARD;i+=1){if(!rows[i].name)return `Fill in every player. ${i<XI?`Starting XI row ${i+1}`:`Sub ${i-XI+1}`} is empty.`;}
-    for(const row of rows)if(row.name.length>NAME_MAX)return `"${row.name.slice(0,20)}…" is too long. Names can be ${NAME_MAX} characters at most.`;
-    if(gk!==1)return gk?"Your starting XI has more than one goalkeeper. Keep exactly one GK.":"Your starting XI needs a goalkeeper. Set one position to GK.";
-    const seen=new Map();
-    for(const row of rows){const k=row.name.toLowerCase();if(seen.has(k))return `${row.name} is on your board twice. If two players share a name, add the shirt number, for example "${row.name} 13".`;seen.set(k,true);}
-    return engine.normalizeBoard(rows)?"":"Check the board: every XI player needs a position and every name must be filled in.";
-  }
-  function rrsEditor(ctx,draft,engine){
-    return new Promise(resolve=>{
-      const {body}=rrsPanel(ctx,"Lock your squad board","Your squad board");
-      body.append(rrsEl("p","rrStepLine","Set the board to your real FIFA 17 squad before the spin: your starting XI and your 4 highest-rated subs."));
-      const shot=draft.find(row=>row.shotLastSeason);
-      if(shot)body.append(rrsEl("p","rrStepNote",`${shot.pos!=="SUB"?`The ${shot.pos} slot`:"One sub slot"} is empty: last season's bullet took that player. Put in who plays there now.`));
-      const form=rrsEl("form","rrBoardForm");form.noValidate=true;
-      const xiBox=rrsEl("fieldset","rrBoardGroup"),subBox=rrsEl("fieldset","rrBoardGroup");
-      xiBox.append(rrsEl("legend","","STARTING XI"));subBox.append(rrsEl("legend","","SUBS (4 HIGHEST-RATED)"));
-      const inputs=[];
-      draft.forEach((row,i)=>{
-        const line=rrsEl("div","rrBoardRow"+(row.shotLastSeason?" rrBoardRowShot":""));
-        let posInput=null;
-        if(i<XI){
-          posInput=rrsEl("select","rrBoardPos");posInput.id=`rrPos${i}`;posInput.setAttribute("aria-label",`Starting XI row ${i+1} position`);
-          for(const pos of engine.positions.filter(p=>p!=="SUB")){const opt=rrsEl("option","",pos);opt.value=pos;if(pos===row.pos)opt.selected=true;posInput.append(opt);}
-          line.append(posInput);
-        }else line.append(rrsEl("span","rrBoardPos rrBoardSub","SUB"));
-        const name=rrsEl("input","rrBoardName");name.id=`rrName${i}`;name.type="text";name.maxLength=NAME_MAX;name.autocomplete="off";name.spellcheck=false;name.value=row.name;
-        name.placeholder=row.shotLastSeason?"Who replaced him?":"Player name";name.setAttribute("aria-label",i<XI?`Starting XI row ${i+1} player`:`Sub ${i-XI+1} player`);
-        line.append(name);(i<XI?xiBox:subBox).append(line);inputs.push({pos:posInput,name});
-      });
-      const error=rrsEl("p","rrStepError");error.setAttribute("role","alert");
-      const row=rrsEl("div","rrStepActions"),lock=rrsEl("button","menuButton rrStepPrimary","LOCK MY BOARD");lock.type="submit";
-      row.append(lock,rrsButton("BACK TO SHOWDOWN HOME","backButton",()=>resolve(null)));
-      form.append(xiBox,subBox,rrsEl("p","rrStepNote","A locked board can't be changed this season. The spin only uses your board, never your ratings."),error,row);
-      form.addEventListener("submit",event=>{
-        event.preventDefault();
-        const rows=inputs.map((input,i)=>({pos:i<XI?input.pos.value:"SUB",name:input.name.value.trim().replace(/\s+/g," ")}));
-        const problem=rrsBoardProblem(rows,engine);
-        if(problem){error.textContent=problem;return;}
-        error.textContent="";resolve(rows);
-      });
-      body.append(form);
-      (inputs.find(input=>!input.name.value)||inputs[0]).name.focus();
-    });
-  }
-  function rrsStoreError(result){
+  function rrsReadError(result){
     const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(result);if(quota)return quota;
-    if(result&&/permission/.test(String(result.code)))return "The board could not be saved: the Showdown is not open here. Go back to Showdown Home and open it again.";
-    return "The board could not be reached. Check the connection and try again.";
+    if(result&&/permission/.test(String(result.code)))return "Last season's Transfer War could not be read: the Showdown is not open here. Go back to Showdown Home and open it again.";
+    return "Last season's Transfer War could not be reached. Check the connection and try again.";
   }
-  // Returns {playerOne:rows, playerTwo:rows} once both boards for this season are locked, or null when the manager leaves.
-  async function rrsBoards(ctx,engine,store){
-    const me=ctx.managerRole,rival=rrsOther(me);
-    const services=await ctx.services();
-    const base={firestore:services.firestore,firebaseSdk:services.firebaseSdk,rivalryId:ctx.rivalryId,season:ctx.season};
-    const retry=async(task,heading)=>{
-      for(;;){const result=await task();if(result.ok)return result;
-        const choice=await rrsAsk(ctx,{heading,label:heading,lines:[rrsStoreError(result)],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
-        if(choice==="back")return null;}
-    };
-    let mine=await retry(()=>store.read({...base,role:me}),"Your board");if(!mine)return null;
-    if(!mine.rows){
-      let previous=null;
-      if(ctx.season>2){const last=await retry(()=>store.read({...base,season:ctx.season-1,role:me}),"Last season's board");if(!last)return null;previous=last.rows;}
-      // No board kept from last season (it was never locked): start from the launch board, nothing marked as shot.
-      const draft=engine.draft(ctx.rivalryId,ctx.clubs,ctx.season,me,previous)||engine.board(ctx.clubs[me]).map(p=>({slot:p.slot,pos:p.pos,name:p.name,shotLastSeason:false}));
-      const rows=await rrsEditor(ctx,draft,engine);if(!rows)return null;
-      mine=await retry(()=>store.save({...base,role:me,rows,sessionId:services.sessionId,deviceId:services.deviceId}),"Your board");if(!mine)return null;
-    }
-    let theirs=await retry(()=>store.read({...base,role:rival}),`${NAMES[rival]}'s board`);if(!theirs)return null;
-    while(!theirs.rows){
-      const choice=await rrsWaitForRival(ctx,rival);
-      if(choice==="back")return null;
-      theirs=await retry(()=>store.read({...base,role:rival}),`${NAMES[rival]}'s board`);if(!theirs)return null;
-    }
-    return {[me]:mine.rows,[rival]:theirs.rows};
+  // The Special Players both phones drew for this Showdown (js/marqueePlayer.js): {role:{name, overall}}, or null for a
+  // Showdown confirmed before the Special Player.
+  function rrsSpecial(ctx){
+    const draw=root.CareerModeMarqueePlayer,picks=draw&&draw.forShowdown(ctx.rivalryId,ctx.confirmedAtMs);
+    return picks?Object.fromEntries(ROLES.map(role=>[role,{name:picks[role].name,overall:picks[role].overall}])):null;
   }
-  // Waiting for the rival's board: one read per CHECK AGAIN, and one when this page comes back into view (no timer).
-  function rrsWaitForRival(ctx,rival){
-    return new Promise(resolve=>{
-      const doc=rrsDoc();let done=false;
-      const finish=id=>{if(done)return;done=true;doc.removeEventListener("visibilitychange",onVisible);resolve(id);};
-      const onVisible=()=>{if(doc.visibilityState==="visible")finish("check");};
-      doc.addEventListener("visibilitychange",onVisible);
-      rrsAsk(ctx,{heading:`Waiting for ${NAMES[rival]}'s board`,label:`Waiting for ${NAMES[rival]}`,
-        lines:[`Your board is locked. The spin starts once ${NAMES[rival]} locks his board for season ${ctx.season} too.`],
-        buttons:[{id:"check",label:"CHECK AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]}).then(finish);
-    });
+  // history[k] = both managers' Transfer War verdicts of season k, for every season before this one; null when the
+  // manager leaves.
+  async function rrsHistory(ctx){
+    const history=[null];
+    for(let k=1;k<ctx.season;k+=1){
+      for(;;){
+        const result=await ctx.verdicts(k);
+        if(result&&result.ok){history.push(result.verdicts);break;}
+        const choice=await rrsAsk(ctx,{heading:"Building the boards",label:"Building the boards",lines:[rrsReadError(result)],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
+        if(choice==="back")return null;
+      }
+    }
+    return history;
   }
 
   // ---------- the spins (Team V's page in a frame) ----------
@@ -219,7 +156,7 @@
     try{
       ({stage,frame}=rrsCreateStage(ctx));channel=rrsListen(frame);
       if(await channel.ready!=="ready")throw new Error("Roulette page did not start.");
-      const boardOf=role=>plan.boards[role].map(p=>({pos:p.pos,name:p.name}));
+      const boardOf=role=>plan.boards[role].map(p=>({pos:p.pos,name:p.name||"VACANT",special:p.special===true}));
       const turns=plan.turns.map(turn=>({fire:turn.fired,target:turn.player?turn.player.name:null}));
       frame.contentWindow.postMessage({type:"cms-rr-setup",d:ctx.clubs.playerOne,n:ctx.clubs.playerTwo,boards:{D:boardOf("playerOne"),N:boardOf("playerTwo")},turns},root.location.origin);
       const left=MIN_LOADING_MS-(Date.now()-shownAt);if(left>0)await rrsWait(left);
@@ -249,10 +186,9 @@
   async function rrsRun(ctx){
     if(!rrsDecide(ctx)||!rrsDoc())return true;
     if(!await rrsEnsure())return true;
-    const engine=root.CareerModeRosterRoulette,store=root.CareerModeRosterBoardStore,key=rrsKey(ctx);
-    let edited=null;
-    if(ctx.season>=2){edited=await rrsBoards(ctx,engine,store);if(!edited)return false;}
-    const plan=engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,edited);
+    const engine=root.CareerModeRosterRoulette,key=rrsKey(ctx);
+    const history=ctx.season>1?await rrsHistory(ctx):[null];if(!history)return false;
+    const plan=engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special:rrsSpecial(ctx),history});
     if(!plan||plan.turns.some(turn=>turn.fired&&!turn.player)){rrsMark(DONE_KEY,key);return true;}
     if(!rrsHas(WATCHED_KEY,key)&&!sceneFailedHere.has(key)){
       const scene=await rrsScene(ctx,plan);
@@ -281,5 +217,5 @@
   function rrsActive(){return Boolean(running);}
   function rrsWentHome(){return leftForHome;}
 
-  return Object.freeze({contractVersion:1,feature:"cms-roster-roulette-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,doneKey:DONE_KEY,watchedKey:WATCHED_KEY,fromMs:RRR_FROM_MS,decide:rrsDecide,boardProblem:rrsBoardProblem,runBeforeTransfers:rrsRunBeforeTransfers,close:rrsClose,active:rrsActive,wentHome:rrsWentHome});
+  return Object.freeze({contractVersion:1,feature:"cms-roster-roulette-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,doneKey:DONE_KEY,watchedKey:WATCHED_KEY,fromMs:RRR_FROM_MS,decide:rrsDecide,runBeforeTransfers:rrsRunBeforeTransfers,close:rrsClose,active:rrsActive,wentHome:rrsWentHome});
 });
