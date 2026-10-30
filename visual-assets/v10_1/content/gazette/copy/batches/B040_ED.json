@@ -1,0 +1,608 @@
+{
+  "batch": 40,
+  "situation": "halfway",
+  "voice": "The co-commentator",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb40-001",
+      "text": "At this stage, {leader} has earned the edge, but keeping it through the remaining seasons is the real test.",
+      "score": 9,
+      "was": "At this stage, {leader} has earned the advantage, but keeping it through the remaining seasons is the real test."
+    },
+    {
+      "id": "cb40-002",
+      "text": "There is still room for {trailer} to answer, and that's what makes the middle of a contest fascinating.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-003",
+      "text": "Taking stock is all very well. What matters is whether your habits survive the business end of the Showdown.",
+      "score": 9,
+      "was": "Halfway marks are useful because they separate what you've promised from what you've actually managed to do."
+    },
+    {
+      "id": "cb40-004",
+      "text": "Credit {winnerClub} for coming this far with purpose. Getting home is quite another assignment.",
+      "score": 9,
+      "was": "You have to admire {winnerClub} for making the middle stretch count, although the finish is another matter."
+    },
+    {
+      "id": "cb40-005",
+      "text": "Keeping the advantage will tell us more about {leader} than winning it in the first place ever could.",
+      "score": 9,
+      "was": "The interesting thing for {leader} is that the cushion matters only if the standards hold from here."
+    },
+    {
+      "id": "cb40-006",
+      "text": "Predicting the ending from here would be rather like leaving a match at half time to write the report.",
+      "score": 9,
+      "was": "No point reading the whole story yet. The next chapter is where early confidence gets examined."
+    },
+    {
+      "id": "cb40-007",
+      "text": "With {trailer}, the challenge isn't to rewrite the past. It's to give the closing chapters a new direction.",
+      "score": 9,
+      "was": "With {trailer}, the task isn't to rewrite what happened, it's to make the remaining stretch tell a different story."
+    },
+    {
+      "id": "cb40-008",
+      "text": "By now the strengths are familiar. The real examination is whether they hold when the prize comes into view.",
+      "score": 9,
+      "was": "By the middle, you usually know your strengths. Whether you can live with them under pressure is different."
+    },
+    {
+      "id": "cb40-009",
+      "text": "Wise managers use this pause to find the cracks, not to admire the paintwork.",
+      "score": 9,
+      "was": "A sensible manager treats the halfway picture as information, not as permission to start celebrating."
+    },
+    {
+      "id": "cb40-010",
+      "text": "A result like this gives {winner} momentum, not a holiday from everything still to be done.",
+      "score": 9,
+      "was": "For {winner}, the reward here is momentum, not an exemption from the work still to come."
+    },
+    {
+      "id": "cb40-011",
+      "text": "In these rivalries, the middle is when a promising idea finally has to earn its wages.",
+      "score": 9,
+      "was": "There's an awkward stage in every rivalry when the opening excuses expire and the serious questions begin."
+    },
+    {
+      "id": "cb40-012",
+      "text": "Granted, {leader} would choose this position gladly. That doesn't make the closing duties optional.",
+      "score": 9,
+      "was": "You can see why {leader} will value this position, but the contest still has plenty of room to breathe."
+    },
+    {
+      "id": "cb40-013",
+      "text": "Having a lead at the midpoint is preferable to chasing, provided you remember nobody awards it early.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-014",
+      "text": "Patience matters to {trailer}, because a reckless chase can squander a perfectly genuine chance.",
+      "score": 9,
+      "was": "This is where {trailer} needs patience as much as ambition. The remaining seasons can still change the picture."
+    },
+    {
+      "id": "cb40-015",
+      "text": "Perhaps the nicest thing about this checkpoint is discovering that your rival still has questions for you.",
+      "score": 9,
+      "was": "One thing becomes obvious halfway through: your rival isn't going away simply because you've had a good spell."
+    },
+    {
+      "id": "cb40-016",
+      "text": "On balance, {winnerClub} can take encouragement from this stage, just not a finished verdict.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-017",
+      "text": "Promising form gets you to this point. Repeating it is what makes the closing stretch interesting.",
+      "score": 9,
+      "was": "Past the opening stretch, a good result has to turn into something repeatable. That's the challenge from here."
+    },
+    {
+      "id": "cb40-018",
+      "text": "Don't be fooled by a familiar pecking order. For {leader}, the difficult part may be what follows.",
+      "score": 9,
+      "was": "Don't be fooled by the familiar standings. For {leader}, the difficult part may be what comes next."
+    },
+    {
+      "id": "cb40-019",
+      "text": "Instead of burying the previous results, {trailer} needs to give the chapters ahead a more hopeful tone.",
+      "score": 9,
+      "was": "The midpoint asks {trailer} a useful question: what can change without losing sight of what's already working?"
+    },
+    {
+      "id": "cb40-020",
+      "text": "Experienced managers know the pause can be misleading. It's easier to inspect the standings than improve them.",
+      "score": 9,
+      "was": "Some managers grow impatient with the middle stages. Usually that's when good judgment becomes most valuable."
+    },
+    {
+      "id": "cb40-021",
+      "text": "If you're {leader}, the temptation is to defend the advantage rather than keep earning it. I'd resist that.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-022",
+      "text": "Nothing's decided, but there are fewer chances to make a poor choice look harmless from this point onward.",
+      "score": 9,
+      "was": "Nothing settles at the halfway point, but the choices made after it tend to feel rather more expensive."
+    },
+    {
+      "id": "cb40-023",
+      "text": "I suspect {trailer} would gladly trade a tidy explanation for a better answer in the coming seasons.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-024",
+      "text": "We've reached the turn, and the rivalry has at least told both managers what kind of answer will be required.",
+      "score": 9,
+      "was": "Half a journey completed, and at least now both sides know the standard this rivalry demands."
+    },
+    {
+      "id": "cb40-025",
+      "text": "My advice to {winnerClub} is simple: improve from this position rather than admire the view.",
+      "score": 9,
+      "was": "The job for {winnerClub} is to treat this moment as a platform, not as a place to put their feet up."
+    },
+    {
+      "id": "cb40-026",
+      "text": "It's one thing to make a promising start. By now, the question is whether that promise has any staying power.",
+      "score": 9,
+      "was": "Look at the contest now and you can see the difference between early promise and an established position."
+    },
+    {
+      "id": "cb40-027",
+      "text": "Perhaps {leader} has earned the easier night's sleep, though that's not the same as an easy run home.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-028",
+      "text": "Opportunity is still sitting there for {trailer}. The sensible thing would be to concentrate on taking it.",
+      "score": 9,
+      "was": "What matters to {trailer} is the opportunity still available, not how pleasing the first part looked."
+    },
+    {
+      "id": "cb40-029",
+      "text": "Early impressions have been made. The coming seasons get to decide which ones deserve to survive.",
+      "score": 9,
+      "was": "The early work has left a shape on this rivalry. The rest will decide whether that shape lasts."
+    },
+    {
+      "id": "cb40-030",
+      "text": "Careful with the applause for {winner}. There's plenty left to settle, and praise makes a comfortable chair.",
+      "score": 9,
+      "was": "You wouldn't want {winner} relaxing into the result. The halfway mark is a checkpoint, not a destination."
+    },
+    {
+      "id": "cb40-031",
+      "text": "Each new result carries extra influence, because fewer opportunities remain to absorb the consequences.",
+      "score": 9,
+      "was": "A season can change the conversation, and the middle of the Showdown gives every change added weight."
+    },
+    {
+      "id": "cb40-032",
+      "text": "Another useful lesson for {leader}: holding a place in front requires a different temperament from reaching it.",
+      "score": 9,
+      "was": "There's no need for {leader} to chase applause yet. Consistency from here would be a better advertisement."
+    },
+    {
+      "id": "cb40-033",
+      "text": "Just as importantly, {trailer} doesn't need miracles. A good response begins with careful preparation.",
+      "score": 9,
+      "was": "Just as importantly, {trailer} doesn't need miracles. A good response begins with the next piece of work."
+    },
+    {
+      "id": "cb40-034",
+      "text": "Midway is where you stop asking who made the best introduction and start asking who can finish the conversation.",
+      "score": 9,
+      "was": "Midway through, the better question isn't who looked convincing before, but who can sustain it afterwards."
+    },
+    {
+      "id": "cb40-035",
+      "text": "Nothing {winnerClub} have achieved so far removes the need for another convincing answer later.",
+      "score": 9,
+      "was": "It has been an instructive opening stretch for {winnerClub}. The examination isn't finished, though."
+    },
+    {
+      "id": "cb40-036",
+      "text": "With fewer turns left, the comfortable idea of fixing everything next time becomes a much riskier habit.",
+      "score": 9,
+      "was": "When the remaining road is shorter, the cost of standing still begins to feel a little larger."
+    },
+    {
+      "id": "cb40-037",
+      "text": "Remember, {leader} has earned the favorable position, but the opposing manager still gets to shape the finish.",
+      "score": 9,
+      "was": "You can appreciate {leader}'s position without pretending the other manager has run out of options."
+    },
+    {
+      "id": "cb40-038",
+      "text": "Routine decisions become uncomfortable at this stage, because suddenly you can see the consequences approaching.",
+      "score": 9,
+      "was": "The halfway point tends to make ordinary decisions feel bigger. That's the price of a meaningful rivalry."
+    },
+    {
+      "id": "cb40-039",
+      "text": "Urgency is useful for {trailer}, provided it doesn't get mistaken for a proper plan. Plenty remains possible.",
+      "score": 9,
+      "was": "For {trailer}, the trick is to stay ambitious without mistaking urgency for a plan. Plenty still to play for."
+    },
+    {
+      "id": "cb40-040",
+      "text": "Nobody's hanging a medal around anybody's neck here. Still, you can begin to see what the contest demands.",
+      "score": 9,
+      "was": "Nobody gets a medal for reaching the middle, although it does give a fair indication of the work ahead."
+    },
+    {
+      "id": "cb40-041",
+      "text": "If I were {leader}, I'd keep the champagne well out of reach. There's still rather a lot to do.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-042",
+      "text": "Think of the standings as a shopping list, not a receipt. There are things yet to collect.",
+      "score": 9,
+      "was": "The midway standings are like a restaurant menu. Interesting choices, but nobody has eaten the meal yet."
+    },
+    {
+      "id": "cb40-043",
+      "text": "I'll give {trailer} this much: an urgent task doesn't leave much room for daydreaming.",
+      "score": 9,
+      "was": "There's a reason {trailer} hasn't packed away the notebook. Plenty of pages remain for a better ending."
+    },
+    {
+      "id": "cb40-044",
+      "text": "Anyone enjoying the first spell might remember that the return journey must be paid for separately.",
+      "score": 9,
+      "was": "You may be pleased with the first stretch, but the second doesn't come with complimentary points."
+    },
+    {
+      "id": "cb40-045",
+      "text": "Tell {winnerClub} the job is half done, and I suspect the sensible response would be to ask which half.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-046",
+      "text": "Early advantages are lovely on paper, but the paper won't manage the remaining seasons for you.",
+      "score": 9,
+      "was": "An early lead is a fine umbrella, but it won't protect you from all the questions still coming."
+    },
+    {
+      "id": "cb40-047",
+      "text": "I'd advise {leader} against framing these standings. The ink is still very much wet.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-048",
+      "text": "That word 'potential' loses some of its charm halfway through. Eventually, somebody asks for the finished article.",
+      "score": 9,
+      "was": "You know it's the middle when the word 'potential' starts sounding suspiciously like unpaid rent."
+    },
+    {
+      "id": "cb40-049",
+      "text": "I wouldn't blame {trailer} for keeping a calendar nearby. There are useful opportunities left on it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-050",
+      "text": "That's the trouble with {winnerClub} doing well now. Their own standards have become the tougher opponent.",
+      "score": 9,
+      "was": "That's the trouble with {winnerClub} doing well now. Their own standards have become the next obstacle."
+    },
+    {
+      "id": "cb40-051",
+      "text": "At this distance from the finish, I'd spend less time on congratulatory speeches and more on what comes next.",
+      "score": 9,
+      "was": "At halfway, a confident manager should be thinking less about speeches and more about the next season."
+    },
+    {
+      "id": "cb40-052",
+      "text": "Fair play to {leader}, but you'd struggle to find a trophy engraved with 'looked promising midway through'.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-053",
+      "text": "Leave the headline unfinished for a while. This rivalry still has every right to change its own subject.",
+      "score": 9,
+      "was": "Somebody ought to tell the headline writers to leave space at the bottom. This rivalry isn't finished."
+    },
+    {
+      "id": "cb40-054",
+      "text": "Chasing isn't glamorous for {trailer}, but it does at least tell you where every bit of effort should go.",
+      "score": 9,
+      "was": "For {trailer}, the middle can feel inconvenient. Fortunately, it also comes with time to do something about it."
+    },
+    {
+      "id": "cb40-055",
+      "text": "Even an excellent beginning leaves the other manager with every right to ask difficult questions.",
+      "score": 9,
+      "was": "This is the point where your excellent opening argument still has to survive the questions from the other chair."
+    },
+    {
+      "id": "cb40-056",
+      "text": "Comfortable seats are lovely, unless you're {leader} and the final stages expect you to get up.",
+      "score": 9,
+      "was": "A comfortable seat is lovely, unless you're {leader} and the rest of the contest expects you to get up."
+    },
+    {
+      "id": "cb40-057",
+      "text": "After enjoying the result, {winner} would do well to remember how quickly the conversation can change.",
+      "score": 9,
+      "was": "The sensible move for {winner} is to enjoy the result briefly, then return to being difficult to beat."
+    },
+    {
+      "id": "cb40-058",
+      "text": "I wouldn't put the closing credits up yet. We're barely into the part where the plot earns them.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-059",
+      "text": "There are worse positions than {leader}'s, but I'd be careful about ordering the commemorative plaque.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-060",
+      "text": "Read the sign carefully. Half the journey is behind you, but none of the final prize has been handed over.",
+      "score": 9,
+      "was": "The halfway sign is helpful. It says precisely how far you've come and remarkably little about what you'll win."
+    },
+    {
+      "id": "cb40-061",
+      "text": "Being {trailer} at this stage isn't ideal, but it does simplify the conversation about what needs improving.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-062",
+      "text": "If {winnerClub} have learned anything here, it's that an advantage needs maintenance, not admiration.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-063",
+      "text": "Keep the scrapbook for what has happened. The diary is where the important business belongs.",
+      "score": 9,
+      "was": "The first stretch belongs in the scrapbook. The remaining stretch still belongs in the diary."
+    },
+    {
+      "id": "cb40-064",
+      "text": "Call it progress for {leader}, certainly, but please leave 'inevitable' out of the conversation.",
+      "score": 9,
+      "was": "I'd call it progress for {leader}, and then I'd quietly put the pen down before writing 'inevitable'."
+    },
+    {
+      "id": "cb40-065",
+      "text": "Every coach likes an encouraging interval talk. The return leg is less interested in compliments.",
+      "score": 9,
+      "was": "Every manager likes the sound of 'halfway there'. The second half is often less interested in compliments."
+    },
+    {
+      "id": "cb40-066",
+      "text": "With {trailer} still involved, the contest has an annoying habit of refusing to follow the neatest prediction.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-067",
+      "text": "Imagine explaining to {winner} that the prize for getting this far is more responsibility. Football does that.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-068",
+      "text": "Proper rivalries don't provide a comfortable armchair at the turn, no matter how welcoming the standings appear.",
+      "score": 9,
+      "was": "A proper rivalry won't let you sit comfortably at the midpoint, even when the standings look rather friendly."
+    },
+    {
+      "id": "cb40-069",
+      "text": "What {leader} has is a useful head start on the remaining business, not a signed receipt for the prize.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-070",
+      "text": "A good beginning has upkeep costs. Nobody tells you that when you're enjoying the early praise.",
+      "score": 9,
+      "was": "Halfway is when you discover that a promising beginning has rather expensive upkeep."
+    },
+    {
+      "id": "cb40-071",
+      "text": "I like {trailer}'s predicament in one respect. The route forward is clear enough, even if it's demanding.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-072",
+      "text": "No need to polish the display case yet. There's still a substantial amount of football business unfinished.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-073",
+      "text": "If {winnerClub} want a quiet second stretch, they've chosen a very inconvenient competition for it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-074",
+      "text": "Putting the feet up would be poor timing for {leader}. That's true even by my standards.",
+      "score": 9,
+      "was": "It's not quite time for {leader} to put the feet up. That would be poor timing, even by my standards."
+    },
+    {
+      "id": "cb40-075",
+      "text": "Sooner or later, all that encouraging talk has to meet something stubbornly practical: the remaining results.",
+      "score": 9,
+      "was": "The middle is where good intentions start asking for proof of payment. Not always a pleasant conversation."
+    },
+    {
+      "id": "cb40-076",
+      "text": "A promising position presents {leader} with a rare chance to make this advantage last beyond the checkpoint.",
+      "score": 9,
+      "was": "For {leader}, there's a genuine opportunity to turn a useful position into something that lasts beyond the checkpoint."
+    },
+    {
+      "id": "cb40-077",
+      "text": "You feel the pressure building because an error becomes harder to repair as opportunities disappear.",
+      "score": 9,
+      "was": "You can hear the stakes rising, not because the story is over, but because the space for mistakes is shrinking."
+    },
+    {
+      "id": "cb40-078",
+      "text": "For {trailer}, this is the moment when a response could change far more than the immediate standings.",
+      "score": 9,
+      "was": "The question facing {trailer} is no longer theoretical. A response now would carry real force in this rivalry."
+    },
+    {
+      "id": "cb40-079",
+      "text": "Consider the ledger at the turn. What's already earned has weight, but what's still available has opportunity.",
+      "score": 9,
+      "was": "At the midpoint, every point already earned has meaning, and every point still available has possibility."
+    },
+    {
+      "id": "cb40-080",
+      "text": "Here's {leader}'s difficulty: good progress offers confidence, not protection from the closing stages.",
+      "score": 9,
+      "was": "This is the dangerous moment for {leader}: enough has gone right to inspire confidence, not enough to guarantee anything."
+    },
+    {
+      "id": "cb40-081",
+      "text": "Something has changed for {winnerClub}. The question isn't whether they can begin well, but whether they can sustain it.",
+      "score": 9,
+      "was": "The contest has reached a hinge. What {winnerClub} does next may matter as much as everything before it."
+    },
+    {
+      "id": "cb40-082",
+      "text": "It takes a particular kind of nerve to know the groundwork is done while the decisive part remains unsettled.",
+      "score": 9,
+      "was": "There's a particular pressure in knowing you've done the opening work, but the decisive work is still waiting."
+    },
+    {
+      "id": "cb40-083",
+      "text": "Look at {trailer} now. The road ahead isn't closed, but there is less room to wander from it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-084",
+      "text": "Comfort is hard to find near the business end. The final prize still has to be earned in full.",
+      "score": 9,
+      "was": "Nothing about this middle stage is comfortable for long. The overall prize remains firmly out of reach."
+    },
+    {
+      "id": "cb40-085",
+      "text": "Once {leader} holds an advantage, it becomes a responsibility. That's when the rivalry starts asking harder questions.",
+      "score": 9,
+      "was": "For {leader}, an advantage at this point becomes a responsibility. That's when the contest starts to feel different."
+    },
+    {
+      "id": "cb40-086",
+      "text": "We've moved beyond predictions into decisions. Later results may put the entire introduction in a different light.",
+      "score": 9,
+      "was": "We have crossed from speculation into consequence. Every remaining season can alter the meaning of the first stretch."
+    },
+    {
+      "id": "cb40-087",
+      "text": "There's merit in {winnerClub}'s position, certainly. The difficulty is making it survive every challenge still to come.",
+      "score": 9,
+      "was": "There's something formidable about {winnerClub}'s position, and something equally important about how quickly it could change."
+    },
+    {
+      "id": "cb40-088",
+      "text": "Until now, the beginning was on trial. The remaining chapters will supply the verdict.",
+      "score": 9,
+      "was": "The opening half gave us the argument. The closing stretch will tell us whether it holds up."
+    },
+    {
+      "id": "cb40-089",
+      "text": "As the final chapters draw closer, {trailer} still has a voice in how they will read.",
+      "score": 9,
+      "was": "A manager can feel the finish drawing closer now, and {trailer} still has a voice in what happens there."
+    },
+    {
+      "id": "cb40-090",
+      "text": "Look backward for context, by all means, but looking backward won't get you through the seasons still ahead.",
+      "score": 9,
+      "was": "The more of this rivalry we complete, the less convincing it becomes to rely on what happened earlier."
+    },
+    {
+      "id": "cb40-091",
+      "text": "With {leader} in front, the tension changes. Protecting that lead takes a different sort of courage from gaining it.",
+      "score": 9,
+      "was": "With {leader} in front, the tension changes. Defending a position takes a different sort of courage from finding one."
+    },
+    {
+      "id": "cb40-092",
+      "text": "This is no longer a fresh rivalry with all its opportunities untouched. A great deal now rests on what's left.",
+      "score": 9,
+      "was": "Nobody can mistake this for an opening chapter anymore. The remaining choices will echo much further."
+    },
+    {
+      "id": "cb40-093",
+      "text": "This is a testing moment for {trailer}, certainly, but pressure can sharpen a manager prepared to use it.",
+      "score": 9,
+      "was": "It's a testing moment for {trailer}, certainly, but pressure can sharpen a manager who's prepared to use it."
+    },
+    {
+      "id": "cb40-094",
+      "text": "Increasingly, the conclusion feels real, and {winner} has given the rivalry an important part of its story.",
+      "score": 9,
+      "was": "The finish is beginning to feel real, and {winner} has helped give this middle stage its significance."
+    },
+    {
+      "id": "cb40-095",
+      "text": "A lead can become a burden if you stare at it for too long. {leader} needs to keep moving.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb40-096",
+      "text": "Earlier, you could get away with possibilities. At this point, the conversation becomes less generous.",
+      "score": 9,
+      "was": "We used to talk about possibility. Now the middle of the contest is asking for something more substantial."
+    },
+    {
+      "id": "cb40-097",
+      "text": "Whatever {trailer} plans now will be judged against the considerable weight of the earlier seasons.",
+      "score": 9,
+      "was": "Whatever {trailer} plans next, it will be judged against a rivalry that has already gathered considerable weight."
+    },
+    {
+      "id": "cb40-098",
+      "text": "As the ending approaches, each fresh result acquires the weight of everything that came before it.",
+      "score": 9,
+      "was": "The longer the contest goes, the more every season seems to carry the memory of the others."
+    },
+    {
+      "id": "cb40-099",
+      "text": "Nothing guarantees {winnerClub} an ending they'll enjoy. The opportunity is to make this encouraging spell count.",
+      "score": 9,
+      "was": "For {winnerClub}, this is an invitation to build on the opening stretch, not a promise that the ending is theirs."
+    },
+    {
+      "id": "cb40-100",
+      "text": "We're approaching the decisive chapters. Plenty of reasons to keep watching, and no reason to write the last page.",
+      "score": 9,
+      "was": "Here we are at the turn in the story, and the most important part is still unwritten."
+    }
+  ]
+}
