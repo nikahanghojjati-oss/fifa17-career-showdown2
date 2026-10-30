@@ -722,17 +722,18 @@ let turn=0, loaded=false, chamber=0, bulletAt=0, playing=null, done={D:null,N:nu
 let manual=null, last=0, fired={}, camPos=new T.Vector3(), camLook=new T.Vector3(), shake=0, camTmp=new T.Vector3();
 function slot(el,txt,cls){ el.textContent=txt; el.className=cls||""; }
 function setBusy(b){ cta.classList.toggle("busy",b); cta.textContent=b?"Spinning…":(turn%2===0&&turn>0?"Spin again":"Spin the cylinder"); }
-function startTurn(force){ if(playing) return; const who=ORDER[turn%2];
+function startTurn(force,targetName){ if(playing) return; const who=ORDER[turn%2];
   if(!loaded){ bulletAt=Math.floor(rnd()*7); loaded=true; cyl.userData.placeRound(bulletAt); }
   const fireQ=qs.get("fire"); const want=force!==undefined?force:(fireQ==="1"?true:fireQ==="0"?false:null);
   chamber=want===null?Math.floor(rnd()*7):(want?bulletAt:(bulletAt+1+Math.floor(rnd()*6))%7);
-  const b=boards[who].userData; const free=b.bubbles.filter((x,i)=>!b.hit||b.hit.i!==i); const pick=free[Math.floor(rnd()*free.length)];
+  const b=boards[who].userData; const free=b.bubbles.filter((x,i)=>!b.hit||b.hit.i!==i); const pick=(targetName&&free.find(x=>x.name===targetName))||free[Math.floor(rnd()*free.length)];   /* Team G can name the released player; otherwise the screen picks one */
   playing={ who, t0:now(), fire:chamber===bulletAt, target:pick, hitDone:false, yaw0:spin.rotation.y, slide:new T.Vector3(), slideV:new T.Vector3(), spinV:0 }; fired={};
   /* where the barrel must point when it stops: at the target board, with a natural overshoot */
   const tgt=boardTargetWorld(who,pick); const dir=tgt.clone().sub(spin.position); playing.yawTarget=Math.atan2(dir.x,dir.z);
   setBusy(true); result.className="result"; result.textContent=""; slot(who==="D"?slotD:slotN,"Spinning…","wait"); $("chipWho").textContent=NAME[who]; $("pchipWho").textContent=NAME[who];
   live.textContent=`${NAME[who]}'s turn. The revolver spins on the table.`; SFX.play("spinStart"); }
 function endTurn(){ const p=playing; if(!p) return; const who=p.who; if(p.fire){ done[who]={lost:p.target.name}; slot(who==="D"?slotD:slotN,"Lost "+p.target.name,"lost"); } else { done[who]={safe:true}; slot(who==="D"?slotD:slotN,"Safe","safe"); }
+  try{ window.dispatchEvent(new CustomEvent("rr:end",{detail:{who, name:NAME[who], fire:p.fire, lost:p.fire?p.target.name:null, turn}})); }catch(e){}
   turn++; playing=null; const next=ORDER[turn%2]; setBusy(false); $("chipWho").textContent=NAME[next]; $("pchipWho").textContent=NAME[next]; if(turn%2===1) slot(next==="D"?slotD:slotN,"At the table","wait"); if(p.fire){ loaded=false; cyl.userData.round.visible=false; } }
 const now=()=>manual!==null?manual:performance.now()/1000;
 /* beats (seconds from the start of a turn); reduced motion shortens them */
@@ -902,7 +903,7 @@ $("sound").addEventListener("click",()=>{ const v=!SFX.on; SFX.enable(v); $("sou
 $("forceFire").addEventListener("click",()=>startTurn(true)); $("forceSafe").addEventListener("click",()=>startTurn(false));
 $("reset").addEventListener("click",()=>{ turn=0; loaded=false; playing=null; done={D:null,N:null}; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); slot(slotD,"At the table","wait"); slot(slotN,"Waits","wait"); setBusy(false); result.className="result"; result.textContent="One bullet. Seven chambers."; });
 if(qs.get("tools")!=="1") document.body.classList.add("game");
-window.__rr={ setBoards(d,n){ LAYOUT.danielClub=d; LAYOUT.nikClub=n; setBoards(d,n); }, play(o){ startTurn(o&&typeof o.fire==="boolean"?o.fire:undefined); return playing; },
+window.__rr={ setBoards(d,n){ LAYOUT.danielClub=d; LAYOUT.nikClub=n; setBoards(d,n); }, play(o){ startTurn(o&&typeof o.fire==="boolean"?o.fire:undefined, o&&o.target); return playing; },
   clock(){ manual=performance.now()/1000; last=manual; }, advance(sec){ if(manual===null) this.clock(); const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1); } }, get state(){ let aimDot=null; if(playing){ const mw=new T.Vector3(), md=new T.Vector3(); muzzle.getWorldPosition(mw); gun.getWorldDirection(md); const tg=boardTargetWorld(playing.who,playing.target).sub(mw); tg.y=0; tg.normalize(); md.y=0; md.normalize(); aimDot=md.dot(tg); } const ri=renderer.info; return {aimDot, calls:ri.render.calls, tris:ri.render.triangles, hasGunTop, turn, playing:!!playing, fire:playing?playing.fire:null, target:playing?playing.target.name:null, done, fps, hasRoom, bulletAt, chamber}; } };
 
 const fontsReady=Promise.race([Promise.all(['700 30px "Barlow Condensed"','800 30px "Barlow Condensed"','600 30px "Barlow Condensed"','900 30px "Big Shoulders Display"','400 40px "Rye"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);
