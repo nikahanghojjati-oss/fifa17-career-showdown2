@@ -7,7 +7,7 @@
 //   reads   getDoc / getDocFromServer = 1, getDocs = max(1, docs returned), transaction.get = 1 per attempt (a retried
 //           transaction reads again, as the server bills it)
 //   listen  each listener delivery from the server that carries new data: a document listener counts 1 for its first server
-//           snapshot and 1 for every later snapshot whose data changed; a query listener counts its changed documents
+//           snapshot and 1 for every later snapshot whose data changed, or that re-opens the stream after a from-cache snapshot (a reconnect); a query listener counts its changed documents
 //           (at least 1 for its first server snapshot). Metadata-only and from-cache snapshots count 0. (JOB-1824's wrapper
 //           counted listener attaches only, so this is the stricter number.)
 //   writes  each document a committed setDoc / updateDoc / deleteDoc / addDoc / writeBatch / transaction writes (1 per
@@ -34,13 +34,17 @@ export async function getDocs(q){const st=stk();const snap=await R.getDocs(q);em
 export function onSnapshot(...args){
   const target=pathOf(args[0]);
   emit({k:"listener",op:"onSnapshot",path:target,n:0});
-  let first=true,last;
+  // cached: a fromCache snapshot came after the first server result, so the watch stream dropped. The next server snapshot
+  // is the SDK re-opening it, which Firebase bills as a new query (at least 1 read, plus Rules lookups) even when nothing
+  // changed (Sol r86 #02); it is emitted as a "reconnect" read so billed-meter.cjs prices it like any later delivery.
+  let first=true,last,cached=false;
   const count=snap=>{try{
     if(!snap||!snap.metadata)return;
-    if(snap.metadata.fromCache){emit({k:"listenCache",op:"listen",path:target,n:0});return;}
-    if(typeof snap.docChanges==="function"){const n=snap.docChanges().length;const billed=first?Math.max(1,n):n;first=false;if(billed)emit({k:"read",op:"listen",path:target,n:billed});return;}
+    if(snap.metadata.fromCache){if(!first)cached=true;emit({k:"listenCache",op:"listen",path:target,n:0});return;}
+    const reconnect=cached;cached=false;
+    if(typeof snap.docChanges==="function"){const n=snap.docChanges().length;const billed=first||reconnect?Math.max(1,n):n;first=false;if(billed)emit({k:"read",op:"listen",path:target,n:billed,...(reconnect?{reconnect:true}:{})});return;}
     const sig=typeof snap.exists==="function"&&snap.exists()?JSON.stringify(snap.data()):"null";
-    if(first||sig!==last)emit({k:"read",op:"listen",path:target,n:1});
+    if(first||reconnect||sig!==last)emit({k:"read",op:"listen",path:target,n:1,...(reconnect?{reconnect:true}:{})});
     first=false;last=sig;
   }catch(_){}};
   const out=args.slice();

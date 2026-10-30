@@ -135,5 +135,23 @@ const RID='pair_'+'a'.repeat(64);
     assert.doesNotMatch(settings,/COUNTED HERE TODAY|THIS DEVICE TODAY/,'no extra row: the short Settings screen must not scroll');
   });
 
+  await check('B8 CE2PG meter: a listener the SDK re-opens after a blip (fromCache, then an unchanged server snapshot) is a billed delivery (Sol r86 #02)',async()=>{
+    const {WRAPPER_SOURCE}=require('../browser/support/firestore-meter.cjs');
+    const body=WRAPPER_SOURCE.replace(/^import[^\n]*\n/gm,'').replace(/^export \* [^\n]*\n/gm,'').replace(/export (async )?function/g,'$1function');
+    const events=[];let deliver=null;
+    const R={onSnapshot:(_ref,next)=>{deliver=next;return()=>{};}};
+    const ctx=vm.createContext({R,globalThis:{__cmsMeterEvent:e=>events.push(e)},Error,JSON,Date,Math,String,Proxy});
+    vm.runInContext(body+'\nglobalThis.onSnapshot=onSnapshot;',ctx);
+    const docSnap=(cache,data)=>({metadata:{fromCache:cache},exists:()=>true,data:()=>data});
+    ctx.globalThis.onSnapshot({path:'rivalries/x/state/authoritative'},()=>{});
+    for(const s of [docSnap(false,{a:1}),docSnap(false,{a:1}),docSnap(true,{a:1}),docSnap(false,{a:1}),docSnap(false,{a:1})])deliver(s);
+    const reads=events.filter(e=>e.k==='read');
+    assert.equal(reads.length,2,'first result + the reconnect; unchanged deliveries stay free');
+    assert.equal(reads[1].reconnect,true);
+    const priced=billedMeter.price(model,[{k:'listener',path:'rivalries/x/state/authoritative',user:'u'},...reads.map(e=>({...e,user:'u'}))]);
+    const lookups=model.readDocs(model.templateOf('rivalries/x/state/authoritative'),true).length;
+    assert.equal(priced.docReads,2);assert.equal(priced.rulesReads,2*lookups,'lookups at attach and again at the reconnect');
+  });
+
   console.log(`PASS r86 billed counter contracts: ${checks} checks`);
 })().catch(error=>{console.error(error);process.exit(1);});

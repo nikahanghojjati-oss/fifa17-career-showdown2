@@ -156,12 +156,26 @@ async function readerVersion(){
   assert.ok(other.log.includes(`rivalries/${rid(1)}`),'a summary of another version is not used: the game is read in full');
   assert.equal(strip(b.model),strip(a.model));
 }
+// Sol r86 #01 (r87): the Showdown the app shows as completed (or abandoned) is a finished game. On a device with no phone
+// copy its Firebase summary answers (index head + summary), not a full re-read; a live one still skips the summary check.
+async function currentCompleted(){
+  const docs=game(1,10),uid=accounts[0];index(docs,uid,[rid(1)]);
+  const first=page(docs,fakeIndexedDB());complete(await first.load(uid),1,10);await first.settled();
+  const summary=`accounts/${uid}/careerSummary/${rid(1)}`;assert.ok(docs[summary],'the first read saved the Firebase summary');
+  const fresh=page(docs,fakeIndexedDB());
+  complete(await fresh.load(uid,{current:{indexStatus:'ready',showdowns:[{rivalryId:rid(1),classification:'completed'}]}}),1,10);
+  assert.deepEqual(fresh.log,[`accounts/${uid}/careerIndex/current`,summary],'a completed current Showdown: 2 gets, not the whole game');
+  const live=page(docs,fakeIndexedDB());
+  await live.load(uid,{current:{indexStatus:'ready',showdowns:[{rivalryId:rid(1),classification:'active'}]}});
+  assert.ok(!live.log.includes(summary),'a live current Showdown gets no Firebase summary check');
+}
 const counts=[10,30,100,...(process.env.CMS_SCALE_1000==='1'?[1000]:[])];
 const results=[];
 (async()=>{
   await pendingWrite();
   await damagedGame();
   await readerVersion();
+  await currentCompleted();
   const TOTAL=10;
   for(const count of counts){
     const docs=Object.assign({},...Array.from({length:count},(_,i)=>game(i+1,TOTAL)));

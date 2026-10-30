@@ -28,7 +28,11 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   assert.match(pages,/"\$conclusion" == "success"[^\n]*exit 0/);
   assert.match(pages,/the site is not deployed ahead of its Rules\."\n\s+exit 1/);
   assert.ok(fs.existsSync(path.join(ROOT,'.github/workflows/deploy-firestore-rules-zero-billing.yml')));
-  ok('RR2','the site deploy waits for the same commit\'s Rules deploy');
+  // r87: a push without a Rules change ships the site only after the last Rules deploy on main succeeded.
+  assert.match(pages,/runs\?branch=main&event=push&status=completed&per_page=1/);
+  assert.match(pages,/"\$last" == "success" \|\| "\$last" == "none"[^\n]*exit 0/);
+  assert.match(pages,/Re-run it first; the site is not deployed ahead of its Rules\."\n\s+exit 1/);
+  ok('RR2','the site deploy waits for the same commit\'s Rules deploy, or for the last one on main to have succeeded');
 }
 
 // RR3 (red team #5): PREVIOUS is r85, so the rollback list is r86's shell minus exactly the six files r86 adds.

@@ -64,9 +64,11 @@
             // r86: the phone copy or the Firebase summary first; a Showdown without one is read in full and then summarised.
             // A failed summary get (not a missing one) falls back to the full read too, so the Rules rolling out never hide a game.
             const store=cclModules.summary,storeOptions={firestore:options.firestore,firebaseSdk:sdk,uid:scope.uid,rivalryId,cryptoImpl:options.cryptoImpl,...(options.phoneStorage!==undefined?{phoneStorage:options.phoneStorage}:{})};
-            // The Showdown the app is showing live is still being played (or has only just closed): it gets no Firebase summary
-            // check, so a live game costs no extra read; a phone copy still answers once it has closed.
-            const current=options.current,live=Array.isArray(current?.showdowns)&&current.showdowns.some(item=>item?.rivalryId===rivalryId)||current?.currentRivalryId===rivalryId;
+            // The Showdown the app is showing live is still being played: it gets no Firebase summary check, so a live game costs
+            // no extra read. Once the app sees it completed or abandoned it is a finished game like any other (Sol r86 #01: a
+            // device with no phone copy otherwise read the whole game again instead of its Firebase summary).
+            const current=options.current,entry=Array.isArray(current?.showdowns)?current.showdowns.find(item=>item?.rivalryId===rivalryId):undefined;
+            const live=entry?!["completed","abandoned"].includes(entry.classification):current?.currentRivalryId===rivalryId;
             let kept=null;
             if(store&&options.careerSummaries!==false){try{kept=await store.loadSummary({...storeOptions,firebase:!live});}catch(error){if(error?.code==="CLOSED_LOAD_CANCELLED")throw error;kept=null;}}
             if(kept)read=kept.state;
