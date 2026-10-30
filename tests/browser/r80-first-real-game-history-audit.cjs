@@ -302,6 +302,7 @@ async function moveToFreshBrowser(browser,managers,retired,old,label,viewport,{e
   while(!await m.page.locator(screens).filter({visible:true}).first().isVisible().catch(()=>false)){
     if(Date.now()>deadline)throw new Error(`${m.user}: the fresh browser never opened the live Showdown: ${await describe(m)}`);
     if(await m.page.locator("#mainMenu").isVisible().catch(()=>false)&&await m.page.locator("#newShowdown").isEnabled().catch(()=>false))await m.page.locator("#newShowdown").click({timeout:5000}).catch(()=>{});
+    await rosterRoulette.playRoulette(m.page); // r87: a fresh browser shows this season's roulette once
     await m.page.waitForTimeout(1000);
   }
   await m.page.waitForFunction(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState==="active",null,{timeout:45000});
