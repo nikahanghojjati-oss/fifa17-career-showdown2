@@ -1,0 +1,204 @@
+{
+  "batch": 13,
+  "situation": "showdown-won-1-season",
+  "edition": "final",
+  "desk": "The chief football writer",
+  "edited": true,
+  "stories": [
+    {
+      "id": "sb13-01",
+      "byline": "From the chief football desk",
+      "standfirst": "The entire contest was settled in a single campaign, and {winner} has claimed a title with no return fixture.",
+      "paragraphs": [
+        "There was no long campaign in which to recover, no second chapter in which to revise the standings. {winner} has won the Showdown at its shortest distance, finishing ahead of {loser} and bringing the contest to an immediate conclusion.",
+        "That brevity gives the result a particular authority. Neither manager could rely on another season to change the meaning of this one. {winnerClub} supplied the winning return, while {loserClub} remained a worthy part of a contest decided in full.",
+        "The final account requires no footnotes about what might happen next. The competition has ended, and the name at its summit is {winner}."
+      ],
+      "pullquote": {"text": "A short contest can still leave a long impression.", "who": "A Gazette columnist"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb13-02",
+      "byline": "Reporting from the final edition",
+      "standfirst": "At the end of the briefest format, {winner} has made the only season count for everything.",
+      "paragraphs": [
+        "The competition opened with a simple bargain: all the rewards of a Showdown would be awarded on the strength of a single season. {winner} has fulfilled that bargain, overcoming {loser} and taking possession of the final verdict.",
+        "In a longer contest, an early advantage can become a memory rather than a conclusion. Here it became the conclusion itself. The totals of {winnerClub} and {loserClub} had no future campaign waiting to alter their relative place.",
+        "The calendar offered no extra room, but it offered enough for a champion to emerge. {winner} leaves as the definitive winner of this edition."
+      ],
+      "pullquote": {"text": "The format was brief; the decision is complete.", "who": "The press box"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb13-03",
+      "byline": "The Gazette's season correspondent",
+      "standfirst": "{winnerClub} has delivered the decisive return in a Showdown that offered its managers just one season to separate themselves.",
+      "paragraphs": [
+        "A club can spend a whole campaign assembling its case. For {winnerClub}, that case has become the entire judgment. Under {winner}, the season produced enough points to finish above {loserClub} and secure the Showdown outright.",
+        "The significance is not that the rival's effort vanished. {loser} brought a competing season into the same frame, and that comparison gives the achievement its substance. The winning manager did not need an imagined rematch to make the outcome clear.",
+        "This edition belongs to the club whose return carried the greater weight. Its place in the Gazette's final record is secure."
+      ],
+      "pullquote": {"text": "The club's season was the argument, and the standings delivered the answer.", "who": "A Gazette columnist"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb13-04",
+      "byline": "From our competition desk",
+      "standfirst": "Without the shelter of another attempt, {winner} has taken the Showdown crown from a campaign of immediate consequence.",
+      "paragraphs": [
+        "No postponement of judgment was built into this Showdown. Its entire history would be written by the comparison of the managers' opening seasons. That is now also its closing history, with {winner} defeating {loser} on the final tally.",
+        "The unusual pressure of the format was shared equally. Every reward earned by {winnerClub} mattered because there would be no later campaign to add to it. The same was true for {loserClub}, whose contribution remains part of this ending.",
+        "The result cannot be stored away as a promising beginning. It is the finished competition, and {winner} is the manager who won it."
+      ],
+      "pullquote": {"text": "When the opening chapter is also the conclusion, every line matters.", "who": "The press box"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb13-05",
+      "byline": "Our final standings correspondent",
+      "standfirst": "The concluding ledger shows {winner} above {loser}, with a one-season Showdown resolved by the returns already entered.",
+      "paragraphs": [
+        "On this occasion the table had no need to preserve suspense for a later edition. It could be closed at once. {winner} finished with {winnerPoints} points against {loser}'s {loserPoints}, enough to settle the entire Showdown.",
+        "Those figures represent more than a passing seasonal advantage. They are the full measure of this particular contest, because only one campaign was played. A difference in the totals became a difference between champion and runner-up without any further qualification.",
+        "The ledger is complete, although the friendly argument around it may live considerably longer. {winner} has the result that matters."
+      ],
+      "pullquote": {"text": "There are no provisional standings when the competition itself is finished.", "who": "A Gazette columnist"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb13-06",
+      "byline": "From the Showdown editorial desk",
+      "standfirst": "An entire championship has been compressed into one season, and {winner} has emerged with its unmistakable distinction.",
+      "paragraphs": [
+        "Some titles are built through accumulation, with seasons adding their separate claims to a final outcome. This one asked for something altogether more immediate. {winner} has prevailed over {loser} and completed the Showdown in its sole allotted campaign.",
+        "The absence of a longer journey should not be mistaken for an absence of consequence. {winnerClub} and {loserClub} were judged on the same terms, with the same opportunity to build a points total. One manager produced the stronger final return.",
+        "A brief format can be unforgiving without being unfair. Here it has produced a clear champion, and that distinction now belongs to {winner}."
+      ],
+      "pullquote": {"text": "Duration does not determine the seriousness of a title.", "who": "The press box"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb13-07",
+      "byline": "The Gazette rivalry correspondent",
+      "standfirst": "For {loser}, there is no return season, but the final victory for {winner} still belongs to a shared rivalry.",
+      "paragraphs": [
+        "The record will begin with {winner}, as it must. The manager won the only season in this Showdown and therefore won the whole affair. Yet {loser} remains essential to understanding what the title means: there was an opponent to surpass.",
+        "The one-season arrangement leaves no room to turn defeat into a later recovery within this contest. It does not diminish the competing effort made by {loserClub}. Indeed, the value of {winnerClub}'s achievement comes from being measured against a real rival.",
+        "A final edition can honor the winner without diminishing the other manager. The comparison is over; the friendship behind the rivalry need not be."
+      ],
+      "pullquote": {"text": "Every genuine victory needs a rival worthy of the comparison.", "who": "A Gazette columnist"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb13-08",
+      "byline": "From the Gazette front page",
+      "standfirst": "The first result is the last result, allowing {winner} to carry a completed Showdown straight onto the front page.",
+      "paragraphs": [
+        "Newspapers usually keep space for what comes next. Not in this edition. With the Showdown scheduled for a single season, {winner} has secured the championship over {loser} and given the Gazette a conclusion rather than another installment.",
+        "A future contest may offer its own stories, but none is required to finish this one. The completed season supplies every fact needed for the verdict. {winnerClub} leads the final comparison, while {loserClub}'s season provides its essential counterpoint.",
+        "There is no question mark above the winner's name in this paper. {winner} has earned a headline that is also the ending."
+      ],
+      "pullquote": {"text": "Usually we print a sequel. This time we print the ending.", "who": "The press box"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb13-09",
+      "byline": "Our football analysis desk",
+      "standfirst": "Between preparation and verdict lay only one campaign, and {winner} has made that narrow window decisive.",
+      "paragraphs": [
+        "The difference between a season's result and a Showdown title can ordinarily take years to establish. Here the two were inseparable. By finishing above {loser}, {winner} converted the campaign's points into the competition's final honor.",
+        "There is clarity in that arrangement. No side could trade a modest return for the hope of greater success later in the same contest. {winnerClub} had to make its season sufficient, and {loserClub} worked within precisely the same boundary.",
+        "That shared limit makes the verdict straightforward. The contest began, its comparison was made, and {winner} stands as its champion."
+      ],
+      "pullquote": {"text": "The clock was short, but the competition was whole.", "who": "A Gazette columnist"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb13-10",
+      "byline": "Writing for the title review",
+      "standfirst": "Victory required no sustained reign in this format, only a superior season, and {winner} supplied exactly that.",
+      "paragraphs": [
+        "It is tempting to judge every championship by the length of the route toward it. This Showdown resists that habit. {winner} has completed the task set by a single-season competition, finishing above {loser} when the only standings were finalized.",
+        "The achievement asks to be understood on its own terms. There was no opportunity to grow an advantage through further campaigns, nor any later chance for the rival to reverse it. {winnerClub} established the difference within the agreed distance.",
+        "The resulting title is neither an installment nor an advance payment. It is the full prize, held by {winner} at the end of this edition."
+      ],
+      "pullquote": {"text": "Measure the achievement against the challenge, not the calendar.", "who": "The press box"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb13-11",
+      "byline": "The Gazette's closing correspondent",
+      "standfirst": "A competition built for immediacy has found its champion in {winner}, whose advantage over {loser} closes the matter entirely.",
+      "paragraphs": [
+        "An ending often arrives with memories of several earlier seasons attached. This Showdown has no such extended preface. Its single campaign has yielded a winning manager, and {winner} takes the honor on the strength of that complete result.",
+        "For {loser}, the verdict is final but not a dismissal of the season that was played. The contest needed both managers to give the comparison meaning. What separated them was the return from their respective clubs, not any additional opportunity granted afterward.",
+        "Nothing remains to be settled within these boundaries. The Gazette closes its account with {winner} at the top and a finished rivalry edition beneath it."
+      ],
+      "pullquote": {"text": "The last sentence arrived early, but it arrived fairly.", "who": "A Gazette columnist"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb13-12",
+      "byline": "From our football features desk",
+      "standfirst": "Where longer Showdowns reward the patience of accumulation, this edition has rewarded {winner} for prevailing at the first opportunity.",
+      "paragraphs": [
+        "A single season does not leave much space for ambiguity. The managers made their separate claims through their clubs' returns, and the final standings placed {winner} above {loser}. With that, the entire Showdown was won.",
+        "There is a useful distinction between an abbreviated contest and an unfinished one. This was designed to stop here. {winnerClub}'s success was therefore not merely an opening advantage, and {loserClub} was not promised another campaign in which to contest it.",
+        "The prize was always intended for the manager who prevailed now. {winner} has done so, and the record can be closed without reservation."
+      ],
+      "pullquote": {"text": "Nothing was cut short. The competition reached its intended end.", "who": "The press box"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb13-13",
+      "byline": "The Gazette's verdict writer",
+      "standfirst": "What separates a season winner from a Showdown champion is often time; for {winner}, that distinction has disappeared.",
+      "paragraphs": [
+        "The only season has delivered the only champion. {winner} finished ahead of {loser}, turning the season's winning total into the ultimate result with no further campaign required. In this format, success and finality arrived together.",
+        "That does not make the rival's contribution incidental. {loserClub} provided the measure against which {winnerClub} was judged. Their differing returns defined the result, and each manager knew the same single campaign would supply the finished comparison.",
+        "The distinction between temporary leader and eventual winner never arose. {winner} was judged at the finish, and the finish was already here."
+      ],
+      "pullquote": {"text": "For this champion, the seasonal verdict was the final verdict.", "who": "A Gazette columnist"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb13-14",
+      "byline": "Reporting on the final tally",
+      "standfirst": "By {margin} points, {winner} has won a Showdown decided entirely within the limits of one season.",
+      "paragraphs": [
+        "Margins can suggest vastly different contests, but they share a simple purpose at the conclusion: they separate the managers. {winner} has finished {margin} ahead of {loser}, which is enough to decide this single-season Showdown outright.",
+        "There is no need to project the difference across seasons that were never part of the competition. It belongs wholly to this completed campaign. {winnerClub} made the decisive return, while {loserClub} supplied the competing measure that gives the margin its meaning.",
+        "Whether remembered for the gap or for the immediacy of the result, this edition ends in the same place: a title for {winner}."
+      ],
+      "pullquote": {"text": "The size of the difference belongs to the season; the title belongs to the winner.", "who": "The press box"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb13-15",
+      "byline": "From the Gazette archive desk",
+      "standfirst": "The record of this Showdown will carry just one season and one champion, with {winner} written into its final line.",
+      "paragraphs": [
+        "The archive will not need a sequence of yearly entries to explain this title. The entire contest fits within a single campaign, and its conclusion is unambiguous. {winner} has finished ahead of {loser} to become Showdown champion.",
+        "That compact history should not be confused with an incomplete one. The agreement was to judge the managers after one season, and both {winnerClub} and {loserClub} supplied their returns. The outcome honors the competition precisely as it was played.",
+        "Future editions may fill more pages. This one needs only the space required to record its rightful champion, and that name is {winner}."
+      ],
+      "pullquote": {"text": "An entire championship can fit on a single page of history.", "who": "A Gazette columnist"},
+      "score": 10,
+      "was": null
+    }
+  ]
+}
