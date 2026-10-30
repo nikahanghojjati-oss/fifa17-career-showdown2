@@ -270,7 +270,8 @@
       tfAdopt(node,anchor,"append",id==="startTransferTimer"?ACTION_CLASSES.start:ACTION_CLASSES.continueReplay);
     }
     // Errors always stay on screen (the verdict layout has no error line of its own).
-    const error=tfProduction("transferChallengeError"),rules=stage.querySelector(".rules-inner")||stage;
+    // Signing entry: beside LOCK MY SIGNINGS, since laptops hide the status card then (css/v10Transfer.css, Nik 2026-10-30).
+    const error=tfProduction("transferChallengeError"),rules=(frame.phase==="SIGNING_ENTRY"&&!frame.signingsLocked&&stage.querySelector(".panel.own .action-row"))||stage.querySelector(".rules-inner")||stage;
     if(error&&!tfIsAdopted(error))tfAdopt(error,rules,"append",ACTION_CLASSES.error);
     // Guess entry: production's status has two parts (phase · privacy line) where Team V's guess sign has room for the
     // phase name only, so the sign uses Team V's own signing-phase status board for it (css/v10Transfer.css: band).

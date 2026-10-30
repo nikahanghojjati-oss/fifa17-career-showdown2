@@ -375,7 +375,7 @@ async function playTransferSeason(daniel,nik,tokenD,tokenN){
   await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.signingLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
   await waitTransferState(nik,"signingLockedRoles","playerOne");
-  await nik.page.locator("#p2Signing1Name").fill(tokenN);await nik.page.locator("#p2Signing1Overall").fill("71");await nik.page.locator("#p2Signing1Position").selectOption("ST");await fillTransferCombo(nik,"p2Signing1League","TIM Serie A");await fillTransferCombo(nik,"p2Signing1Nationality","Brazil");
+  await nik.page.locator("#p2Signing1Name").fill(tokenN);await nik.page.locator("#p2Signing1Overall").fill("71");await nik.page.locator("#p2Signing1Position").selectOption("ST");await fillTransferCombo(nik,"p2Signing1League","Serie A TIM");await fillTransferCombo(nik,"p2Signing1Nationality","Brazil");
   await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
   for(const m of [daniel,nik]){

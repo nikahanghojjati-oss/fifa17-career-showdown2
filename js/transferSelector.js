@@ -3,7 +3,8 @@
    Lightweight accessible Transfer Challenge comboboxes
 ===================================================== */
 
-const TRANSFER_SELECTOR_RESULT_LIMIT = 14;
+// Every match is listed (the list scrolls), so an empty box browses the whole FIFA 17 list (Nik 2026-10-30).
+const TRANSFER_SELECTOR_RESULT_LIMIT = 400;
 const transferSelectorStates = new WeakMap();
 let transferSelectorDocumentBound = false;
 
@@ -153,7 +154,8 @@ function renderTransferSelectorList(input){
                 item.appendChild(meta);
             }
 
-            item.addEventListener("pointerdown", event => {
+            // A tap picks (click); a finger that drags scrolls the list without picking (Nik 2026-10-30).
+            item.addEventListener("click", event => {
                 event.preventDefault();
                 chooseTransferSelectorOption(input, option, true);
             });
@@ -165,6 +167,8 @@ function renderTransferSelectorList(input){
     state.list.classList.remove("hidden");
     input.setAttribute("aria-expanded", "true");
     updateTransferSelectorActiveDescendant(input);
+    // The open list is brought fully into view (clear of a phone's bottom buttons: its scroll-margin, css/v10Transfer.css).
+    if(typeof state.list.scrollIntoView === "function"){ state.list.scrollIntoView({ block: "nearest" }); }
 }
 
 function updateTransferSelectorActiveDescendant(input){
@@ -251,6 +255,8 @@ function enhanceTransferSelector(input, kind){
     list.className = "transferComboboxList hidden";
     list.setAttribute("role", "listbox");
     wrapper.appendChild(list);
+    // Pressing or scrolling inside the list keeps focus in the box, so the list stays open until a pick.
+    list.addEventListener("pointerdown", event => event.preventDefault());
 
     input.dataset.transferCombobox = "true";
     input.dataset.selectorContextLabel = input.getAttribute("aria-label") || "";
