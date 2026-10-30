@@ -1,0 +1,809 @@
+{
+  "batch": 79,
+  "situation": "narrow-win",
+  "edition": "season",
+  "lens": "Stage and screen",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b79-001",
+      "kicker": "SEASON REVIEW",
+      "headline": "A VERDICT IN CLOSE UP",
+      "subhead": "With almost nothing between the rivals, {winner} secured the season's verdict and left {loser} with every reason to return.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-002",
+      "kicker": "LATE EDITION",
+      "headline": "AN ENDING WORTH WATCHING",
+      "subhead": "The final figures reward {winner}, though {loser} finished near enough to make the outcome feel wonderfully uncertain.",
+      "score": 10,
+      "was": "subhead: The final figures reward {winner}, though {loser} remained near enough to make the outcome feel wonderfully uncertain."
+    },
+    {
+      "id": "b79-003",
+      "kicker": "RESULTS DESK",
+      "headline": "VICTORY IN THE FINAL FRAME",
+      "subhead": "Only a slender difference separated {winnerClub} from {loserClub} when the season's points were finally set beside each other.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-004",
+      "kicker": "EDITORIAL VIEW",
+      "headline": "THE SUBTLE ART OF WINNING",
+      "subhead": "There was no comfortable cushion for {winner}, merely the narrow advantage that makes a season worth remembering.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-005",
+      "kicker": "THE VERDICT",
+      "headline": "A SEASON OF FINE MARGINS",
+      "subhead": "Even at the finish, {loser} could almost touch the lead, but {winner} had done just enough.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-006",
+      "kicker": "FRONT PAGE",
+      "headline": "SUCCESS TAKES A SMALL BOW",
+      "subhead": "A modest gap deserves a measured celebration, and {winner} has earned it after a closely contested season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-007",
+      "kicker": "FOCUS REPORT",
+      "headline": "CAMERA FINDS {winner}",
+      "subhead": "Every angle of this result leads back to the same conclusion: {winner} finishes narrowly in front of {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-008",
+      "kicker": "RIVALRY WATCH",
+      "headline": "DRAMA WITHOUT A LANDSLIDE",
+      "subhead": "Neither side ran away with the season, yet {winnerClub} emerged with the smallest of winning advantages over {loserClub}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-009",
+      "kicker": "SEASON EXTRA",
+      "headline": "SCRIPT LEAVES LITTLE ROOM",
+      "subhead": "The closing figures leave {winner} on top, with scarcely any breathing space between this season's determined rivals.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-010",
+      "kicker": "AFTER THE SHOW",
+      "headline": "QUIETLY, THE FINALE",
+      "subhead": "A restrained celebration suits {winner}, whose advantage over {loser} was real but never remotely comfortable.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-011",
+      "kicker": "THE MAIN EVENT",
+      "headline": "POISE IN THE LEADING ROLE",
+      "subhead": "When the season demanded a delicate finish, {winner} came away ahead without leaving {loser} far behind.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-012",
+      "kicker": "PRESS EDITION",
+      "headline": "THIN LINE THROUGH THE PLOT",
+      "subhead": "The rivalry offered little separation this time, and {winnerClub} emerged just beyond the reach of {loserClub}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-013",
+      "kicker": "RESULT IN FOCUS",
+      "headline": "DECISIVE IN DETAIL",
+      "subhead": "Look closely at the season's total and the edge belongs to {winner}, with {loser} almost level.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-014",
+      "kicker": "SHOWDOWN REPORT",
+      "headline": "NO EASY PART TO PLAY",
+      "subhead": "Few victories offer less comfort than this, with {winner} narrowly prevailing against a worthy rival in {loser}.",
+      "score": 10,
+      "was": "subhead: Few victories ask for a steadier nerve than this, with {winner} surviving a sustained challenge from {loser}."
+    },
+    {
+      "id": "b79-015",
+      "kicker": "SPORTS CHRONICLE",
+      "headline": "NARROWLY DRAWN ENDING",
+      "subhead": "The season closed with {winner} in front, but the short distance to {loser} is the story's enduring tension.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-016",
+      "kicker": "THE SPORTS DESK",
+      "headline": "SLIM REWARDS FOR BIG WORK",
+      "subhead": "There was precious little in it, yet {winner} collected the result both managers had spent the season pursuing.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-017",
+      "kicker": "SEASON REVIEW",
+      "headline": "MEASURED MOVES WIN OUT",
+      "subhead": "In a contest decided by the finest difference, {winnerClub} finished narrowly above {loserClub} in the seasonal reckoning.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-018",
+      "kicker": "EVENING EDITION",
+      "headline": "WINNING IN SOFT FOCUS",
+      "subhead": "From a distance the rivals seem level, but the closer view confirms a slender season victory for {winner}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-019",
+      "kicker": "THE FINAL WORD",
+      "headline": "CURTAIN FALLS, GAP HOLDS",
+      "subhead": "The last figures favored {winner}, although {loser} came near enough to keep this rivalry sharply alive.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-020",
+      "kicker": "THE BIG PICTURE",
+      "headline": "VICTORY WEARS A WHISPER",
+      "subhead": "This was triumph without a gulf: {winner} led {loser} by the narrowest of margins when it counted.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-021",
+      "kicker": "BACK PAGE",
+      "headline": "STEAL THE SHOW!",
+      "subhead": "A contest that could barely be separated belongs to {winner}, who found just enough to deny {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-022",
+      "kicker": "TOP BILLING",
+      "headline": "GRAB THAT SPOTLIGHT!",
+      "subhead": "The edge is tiny and the prize is unmistakable, with {winnerClub} taking the season ahead of {loserClub}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-023",
+      "kicker": "FINAL TAKE",
+      "headline": "CLINCH IT ON CUE!",
+      "subhead": "There was hardly space for a breath between the managers, but {winner} took the winning place.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-024",
+      "kicker": "DRAMA DESK",
+      "headline": "HOLD THE LAST IMAGE!",
+      "subhead": "At the close of a tightly matched season, {winner} claimed the advantage that mattered, with {loser} almost level.",
+      "score": 9,
+      "was": "subhead: On a season of tight comparisons, {winner} kept the advantage that mattered while {loser} stayed in contention."
+    },
+    {
+      "id": "b79-025",
+      "kicker": "CLOSING SCENE",
+      "headline": "EDGE INTO THE CREDITS!",
+      "subhead": "The gap could hardly be smaller, yet the finishing order gives {winner} a genuine reason to celebrate.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-026",
+      "kicker": "SHOWTIME",
+      "headline": "SNAP UP TOP BILLING!",
+      "subhead": "In a rivalry short on separation, {winnerClub} takes the headline position just beyond {loserClub}'s reach.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-027",
+      "kicker": "THE RECAP",
+      "headline": "SEIZE THE LAST SCENE!",
+      "subhead": "A razor thin lead was enough for {winner}, though {loser} turned this season into a genuine contest.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-028",
+      "kicker": "NEWSFLASH",
+      "headline": "CUT TO THE WINNER!",
+      "subhead": "The answer is {winner}, but the closeness of {loser}'s challenge keeps this from being an easy ending.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-029",
+      "kicker": "FEATURE BILL",
+      "headline": "SNATCH A STARRING ROLE!",
+      "subhead": "When so little separates a season's efforts, {winner} knows how much that slender advantage means.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-030",
+      "kicker": "RIVALRY EXTRA",
+      "headline": "KEEP YOUR SEAT!",
+      "subhead": "The result deserves another look: {winnerClub} finished in front of {loserClub}, but only by a fraction.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-031",
+      "kicker": "BREAKING RESULT",
+      "headline": "CLAIM THE LEAD ROLE!",
+      "subhead": "After a season with barely daylight between them, {winner} gets the spotlight and {loser} gets renewed incentive.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-032",
+      "kicker": "THE LAST ACT",
+      "headline": "SPRING THE PLOT TWIST!",
+      "subhead": "The rivals' final totals invite suspense, but {winner} emerged with the winning result over {loser}.",
+      "score": 10,
+      "was": "subhead: The rivalry stayed tight enough for suspense, but {winner} emerged with the winning total over {loser}."
+    },
+    {
+      "id": "b79-033",
+      "kicker": "FRONT ROW",
+      "headline": "ROLL OUT THE DRAMA!",
+      "subhead": "The narrow margin did nothing to lessen the achievement, as {winnerClub} edged a formidable challenge from {loserClub}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-034",
+      "kicker": "SPORTS UPDATE",
+      "headline": "RATTLE THE FRONT ROW!",
+      "subhead": "This result is worth watching closely, with {winner} victorious and {loser} still very much a rival.",
+      "score": 9,
+      "was": "headline: GRIP THE FRONT ROW!"
+    },
+    {
+      "id": "b79-035",
+      "kicker": "SMALL GAP",
+      "headline": "SQUEEZE INTO THE LIGHT!",
+      "subhead": "There is barely room between the totals, yet {winner} stands ahead at the season's conclusion.",
+      "score": 10,
+      "was": "headline: SQUEEZE INTO THE LEAD!"
+    },
+    {
+      "id": "b79-036",
+      "kicker": "NEXT EDITION",
+      "headline": "SHOUT FOR AN ENCORE!",
+      "subhead": "A season this close invites a rematch, even as {winnerClub} savors finishing narrowly above {loserClub}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-037",
+      "kicker": "THE MARQUEE",
+      "headline": "BRING DOWN THE HOUSE!",
+      "subhead": "The celebration can be loud despite the difference being small, because {winner} really did win this season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-038",
+      "kicker": "CURTAIN REPORT",
+      "headline": "TAKE THE FINAL BOW!",
+      "subhead": "After a duel that refused to spread out, {winner} leaves with the result and {loser} with the challenge.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-039",
+      "kicker": "SEASON SPOTLIGHT",
+      "headline": "TURN UP THE TENSION!",
+      "subhead": "The closer the totals, the larger the drama, and {winner} has come through narrowly over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-040",
+      "kicker": "END CREDITS",
+      "headline": "LAND THE CLOSING LINE!",
+      "subhead": "The finishing order has its author in {winner}, whose slender lead withstood the challenge from {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-041",
+      "kicker": "TOUCHLINE EDITION",
+      "headline": "TOP BILLING BY A TOE",
+      "subhead": "Only the smallest difference put {winner} above {loser}, making a modest margin feel like a starring achievement.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-042",
+      "kicker": "THE PRESS BOX",
+      "headline": "BAR SET BY INCHES",
+      "subhead": "A winning advantage barely separates the clubs, with {winnerClub} narrowly taking the season over {loserClub}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-043",
+      "kicker": "STUDIO REPORT",
+      "headline": "POST PRODUCTION WIN",
+      "subhead": "The season's finished work favors {winner}, although {loser} made the final verdict exceptionally close.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-044",
+      "kicker": "FOOTBALL EDITION",
+      "headline": "FINAL WHISTLE, FINAL CUT",
+      "subhead": "At the end of the season, {winner} had the winning edge and {loser} had pushed almost to level.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-045",
+      "kicker": "IN THE FRAME",
+      "headline": "DUGOUT CLAIMS A CAMEO",
+      "subhead": "The managers gave the rivalry its drama, and {winner} earned top placement by the slenderest difference.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-046",
+      "kicker": "RESULTS ROUNDUP",
+      "headline": "SLIVER ABOVE THE BAR",
+      "subhead": "In the final totals, {winnerClub} sits narrowly higher than {loserClub}, without the luxury of a wide gap.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-047",
+      "kicker": "THE NUMBERS",
+      "headline": "TABLE TAKES A CAMEO",
+      "subhead": "The points settle this contest without much room to spare, placing {winner} just in front of {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-048",
+      "kicker": "SIDELINE REPORT",
+      "headline": "LANDSLIDE RULED OFFSIDE",
+      "subhead": "Nothing about the season suggests a runaway victory, but the narrow edge belongs firmly to {winner}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-049",
+      "kicker": "FOOTBALL FOCUS",
+      "headline": "NET RESULT: SUSPENSE",
+      "subhead": "A near level contest has ended with {winner} in front, and {loser} can take heart from the closeness.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-050",
+      "kicker": "RIVALRY REEL",
+      "headline": "STAGE LEFT FOR THE SIDELINE",
+      "subhead": "Few seasons leave rivals so near each other, yet {winnerClub} takes the result from {loserClub}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-051",
+      "kicker": "ON THE SIDELINE",
+      "headline": "TOUCHLINE TAKES A BOW",
+      "subhead": "The managers were barely separable in this season's contest, but {winner} earned the right to acknowledge victory.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-052",
+      "kicker": "THE EDIT ROOM",
+      "headline": "RUNNING THE TIGHT SCRIPT",
+      "subhead": "The finished story has no room for a comfortable lead, with {winner} just beyond the reach of {loser}.",
+      "score": 10,
+      "was": "subhead: The story never had room for a comfortable lead, and {winner} finished just beyond the reach of {loser}."
+    },
+    {
+      "id": "b79-053",
+      "kicker": "SIDE NOTES",
+      "headline": "BENCHMARK GETS BILLING",
+      "subhead": "The season offered a test of fine differences, with {winnerClub} emerging narrowly in front of {loserClub}.",
+      "score": 9,
+      "was": "kicker: TROPHY DESK"
+    },
+    {
+      "id": "b79-054",
+      "kicker": "OPENING NIGHT",
+      "headline": "WHISTLE STOP PREMIERE",
+      "subhead": "The result arrived with little space between the rivals, and {winner} secured the season's headline role.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-055",
+      "kicker": "AFTER THE CUT",
+      "headline": "LATE EDIT, SMALL EDGE",
+      "subhead": "Even the closest review finds {winner} just above {loser}, with the margin too slim for swagger.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-056",
+      "kicker": "PRESS GALLERY",
+      "headline": "SMALL LEAD, TOP FLIGHT",
+      "subhead": "The finishing figures lift {winnerClub} over {loserClub} by the narrowest of margins, not by comfortable superiority.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-057",
+      "kicker": "FOOTBALL COLUMN",
+      "headline": "PENALTY SPOTLIGHT",
+      "subhead": "There is plenty for the sports desk to discuss when {winner} wins a season this narrowly over {loser}.",
+      "score": 9,
+      "was": "headline: PENALTY AREA PREMIERE"
+    },
+    {
+      "id": "b79-058",
+      "kicker": "SPORTS REEL",
+      "headline": "SIDELINE, SILVER SCREEN",
+      "subhead": "The rivalry's latest chapter deserves a dramatic retelling, though the plain fact is {winner} edged {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-059",
+      "kicker": "FIGURES FILE",
+      "headline": "SCOREBOARD EARNS ITS ROLE",
+      "subhead": "The arithmetic of the season leaves {winner} on top and {loser} almost level, a wonderfully close comparison.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-060",
+      "kicker": "TIGHT FINISH",
+      "headline": "POSTER FOR THE POST",
+      "subhead": "The difference is small enough for every detail to matter, yet {winnerClub} deservedly takes the season over {loserClub}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-061",
+      "kicker": "CURTAIN NOTES",
+      "headline": "CURTAIN CALL, CLOSE CALL",
+      "subhead": "This was a season of suspense rather than separation, with {winner} finishing only narrowly above {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-062",
+      "kicker": "SCREEN REPORT",
+      "headline": "SCREEN LIGHTS, SLIM LEAD",
+      "subhead": "The result looks decisive only until you inspect the gap, where {winner} has the faintest advantage over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-063",
+      "kicker": "REVIEW DESK",
+      "headline": "FRAME BY FRAME FORTUNE",
+      "subhead": "Viewed in full, the contest comes down to the smallest difference between {winnerClub} and {loserClub}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-064",
+      "kicker": "SEASON LEDGER",
+      "headline": "PLOT POINTS PROVE PRECIOUS",
+      "subhead": "Almost every advantage mattered in a closely balanced season, and {winner} finished with just enough over {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-065",
+      "kicker": "MARQUEE NEWS",
+      "headline": "BILLING BELONGS BY A BREATH",
+      "subhead": "The winning manager receives first billing, but {loser} finished near enough to give the ending its tension.",
+      "score": 10,
+      "was": "subhead: The winning manager receives first billing, but {loser} was never far from rewriting this season's outcome."
+    },
+    {
+      "id": "b79-066",
+      "kicker": "POSTSEASON FILE",
+      "headline": "SCENE SET, SEASON SETTLED",
+      "subhead": "The campaign is complete, and {winnerClub} gets the narrow verdict after finishing barely above {loserClub}.",
+      "score": 9,
+      "was": "subhead: The campaign is complete, and {winnerClub} gets the narrow verdict after a sustained contest with {loserClub}."
+    },
+    {
+      "id": "b79-067",
+      "kicker": "CRITICS CORNER",
+      "headline": "CINEMA CROWNS COMPOSURE",
+      "subhead": "A slender difference makes every point matter, and {winner} claims this season's winning total over {loser}.",
+      "score": 10,
+      "was": "subhead: A slender lead made every part of the rivalry matter, and {winner} held the season's winning total."
+    },
+    {
+      "id": "b79-068",
+      "kicker": "CLOSE CONTEST",
+      "headline": "DRAMA DRIVES THE DIVIDE",
+      "subhead": "If this season were a film, its suspense would come from how little separated {winner} and {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-069",
+      "kicker": "CLOSING REPORT",
+      "headline": "CREDITS CARRY THE CROWN",
+      "subhead": "The finishing credits belong to {winner}, though {loser} was close enough to deny any sense of easy victory.",
+      "score": 10,
+      "was": "subhead: The finishing credits belong to {winner}, though {loser} kept the victory from ever becoming straightforward."
+    },
+    {
+      "id": "b79-070",
+      "kicker": "THE REEL",
+      "headline": "REEL RESULT, RAZOR EDGE",
+      "subhead": "A close contest produced a real winner, with {winnerClub} taking the slightest advantage over {loserClub}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-071",
+      "kicker": "PHOTO EDITION",
+      "headline": "SILVER SCREEN, SLIM SPACE",
+      "subhead": "The season's attention falls on {winner}, whose advantage was too narrow to diminish {loser}'s challenge.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-072",
+      "kicker": "THE PREVIEW",
+      "headline": "PREMIERE PRESERVES PRIDE",
+      "subhead": "Even in defeat, {loser} has a season worth respecting, while {winner} claims the closely fought result.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-073",
+      "kicker": "THE STAGE DOOR",
+      "headline": "FOOTLIGHTS FAVOR FINESSE",
+      "subhead": "There was no grand gulf in the points, only {winner}'s carefully earned edge over {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-074",
+      "kicker": "FEATURE REVIEW",
+      "headline": "DIRECTOR'S DECISIVE DETAIL",
+      "subhead": "The decisive feature of this season is its tiny margin, with {winnerClub} just above {loserClub}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-075",
+      "kicker": "END OF ACT",
+      "headline": "CAST CLOSES THE CONTEST",
+      "subhead": "The story ends with {winner} winning narrowly, and with {loser} still close enough to keep the rivalry fierce.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-076",
+      "kicker": "THE QUESTION",
+      "headline": "WHO WROTE THAT ENDING?",
+      "subhead": "The season has found its author in {winner}, but {loser} almost supplied an entirely different conclusion.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-077",
+      "kicker": "THE ANSWER",
+      "headline": "CAN A WHISPER WIN?",
+      "subhead": "It can in this rivalry, where {winner} finishes just above {loser} without anything resembling a commanding margin.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-078",
+      "kicker": "FINAL REVIEW",
+      "headline": "HOW CLOSE WAS THE CUT?",
+      "subhead": "The separation between {winnerClub} and {loserClub} is minimal, and that is precisely why this result matters.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-079",
+      "kicker": "THE AFTERWORD",
+      "headline": "DOES THE PLOT NEED MORE?",
+      "subhead": "The figures have already supplied an ending, with {winner} narrowly winning and {loser} supplying the formidable challenge.",
+      "score": 9,
+      "was": "subhead: The figures have already supplied an ending, with {winner} narrowly winning a season that {loser} kept alive."
+    },
+    {
+      "id": "b79-080",
+      "kicker": "IN FOCUS",
+      "headline": "WHICH FRAME DECIDED IT?",
+      "subhead": "No single moment is required to explain this result, just {winner}'s slender finishing advantage over {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-081",
+      "kicker": "THE MARGIN",
+      "headline": "CAN THE LEAD GET TINIER?",
+      "subhead": "The winning distance is already remarkably small, but it is sufficient to put {winner} above {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-082",
+      "kicker": "CLOSE WATCH",
+      "headline": "WHERE DID THE GAP GO?",
+      "subhead": "There was barely any distance left between the managers, yet {winnerClub} finished narrowly in front of {loserClub}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-083",
+      "kicker": "RIVALRY FILE",
+      "headline": "WAS THAT THE FINAL ACT?",
+      "subhead": "For this season the answer is yes, with {winner} earning the result and {loser} remaining a serious challenger.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-084",
+      "kicker": "SPOTLIGHT DESK",
+      "headline": "WHO GETS THE CLOSE UP?",
+      "subhead": "The camera would find {winner}, although the story also owes its suspense to {loser}'s close pursuit.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-085",
+      "kicker": "APPLAUSE DESK",
+      "headline": "IS THERE ROOM FOR A BOW?",
+      "subhead": "Even a victory this slender deserves recognition, and {winner} has earned that moment over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-086",
+      "kicker": "THE FINAL CUT",
+      "headline": "CUT. JUST ENOUGH.",
+      "subhead": "A fraction of separation was all {winner} needed to finish this season narrowly above {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-087",
+      "kicker": "MAIN BILL",
+      "headline": "SPOTLIGHT, BARELY",
+      "subhead": "A tiny lead gives {winnerClub} the season's headline place, with {loserClub} close enough to share the suspense.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-088",
+      "kicker": "THE AFTERSHOW",
+      "headline": "CLOSE. THEN CLOSER.",
+      "subhead": "The longer the result is examined, the more impressive {winner}'s narrow success against {loser} becomes.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-089",
+      "kicker": "FEATURE DESK",
+      "headline": "STARRING. BY A THREAD.",
+      "subhead": "There is a winner in this season's program, but hardly any distance between {winner} and {loser}.",
+      "score": 10,
+      "was": "headline: BILLED BY A BREATH"
+    },
+    {
+      "id": "b79-090",
+      "kicker": "FINAL NOTES",
+      "headline": "CREDIT THE DETAIL",
+      "subhead": "What separates the managers is small, but it leaves {winner} holding the winning end of the comparison.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-091",
+      "kicker": "THE MAIN BILL",
+      "headline": "PREMIERE, PHOTO FINISH",
+      "subhead": "The season deserved a dramatic release, and its final figures show {winnerClub} narrowly outpacing {loserClub}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-092",
+      "kicker": "AFTER THE FRAME",
+      "headline": "SILENCE. THEN CREDITS.",
+      "subhead": "The difference barely disturbs the balance of this rivalry, yet {winner} has the season's victory.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-093",
+      "kicker": "TOP OF BILL",
+      "headline": "STAR TURN, SLIM EDGE",
+      "subhead": "Not every triumph needs a vast margin, as {winner} has demonstrated in the close contest with {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-094",
+      "kicker": "CRITICAL EYE",
+      "headline": "THRILLER, NOT THRASHING",
+      "subhead": "The season offered the tension of a thriller rather than a runaway, with {winner} just above {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-095",
+      "kicker": "SMALL PRINT",
+      "headline": "TINY SCENE, HUGE PRIZE",
+      "subhead": "A modest advantage looks enormous in the final accounting, because it gives {winnerClub} victory over {loserClub}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-096",
+      "kicker": "AFTER THE SHOW",
+      "headline": "DRAMA BY DEGREES",
+      "subhead": "The season's reward belongs to {winner}, though {loser} was separated by scarcely any margin at all.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-097",
+      "kicker": "RESULTS FILE",
+      "headline": "LEAD ROLE. BARELY.",
+      "subhead": "A single glance at the outcome names {winner}, but another shows how narrowly {loser} missed the top position.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b79-098",
+      "kicker": "THE PICTURE",
+      "headline": "MARGIN IN THE MIRROR",
+      "subhead": "The rivals can see much of their own achievement in each other, though {winner} finishes narrowly ahead.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b79-099",
+      "kicker": "POSTSCRIPT",
+      "headline": "ROLL CREDITS, GENTLY",
+      "subhead": "The ending grants {winner} the win without diminishing {loser}, whose finishing total was almost equal.",
+      "score": 10,
+      "was": "subhead: The ending grants {winner} the win without diminishing {loser}, who stayed close throughout the season's comparison."
+    },
+    {
+      "id": "b79-100",
+      "kicker": "THE LAST PAGE",
+      "headline": "VICTORY, PICTURE PERFECT",
+      "subhead": "The season's closing picture belongs to {winnerClub}, with {loserClub} separated by the smallest of margins.",
+      "score": 10,
+      "was": null
+    }
+  ]
+}

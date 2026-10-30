@@ -1,0 +1,809 @@
+{
+  "batch": 3,
+  "situation": "narrow-win",
+  "edition": "season",
+  "lens": "The trophy cabinet",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b3-001",
+      "kicker": "RESULTS DESK",
+      "headline": "GLASS HOLDS A HAIRLINE",
+      "subhead": "Through the glass of a closely fought season, {winner} emerges just above {loser}, with scarcely any space between them.",
+      "score": 10,
+      "was": "A HAIRLINE IN THE GLASS"
+    },
+    {
+      "id": "b3-002",
+      "kicker": "SEASON EDITION",
+      "headline": "ENGRAVED TO A WHISPER",
+      "subhead": "Only the thinnest stroke separates the season totals, but it is enough to place {winner} above {loser}.",
+      "score": 10,
+      "was": "THE FINEST ENGRAVING"
+    },
+    {
+      "id": "b3-003",
+      "kicker": "HONOURS COLUMN",
+      "headline": "SILVER'S SLENDER EDGE",
+      "subhead": "Nothing about this season came easily, and {winner} takes the verdict over {loser} by the narrowest possible margin.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-004",
+      "kicker": "FRONT PAGE",
+      "headline": "MARGINS UNDER GLASS",
+      "subhead": "A display case could barely contain the difference between {winner} and {loser}, yet the season belongs to the former.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-005",
+      "kicker": "EDITOR'S VIEW",
+      "headline": "PLAQUE IN SMALL PRINT",
+      "subhead": "The names sit close in the season record, with {winner} edging {loser} by a difference worth examining twice.",
+      "score": 9,
+      "was": "A PLAQUE'S SMALL PRINT"
+    },
+    {
+      "id": "b3-006",
+      "kicker": "CABINET REPORT",
+      "headline": "PEDESTAL ON A PINPOINT",
+      "subhead": "Even a modest shift in the final tally would have changed the order, but {winner} finishes narrowly above {loser}.",
+      "score": 9,
+      "was": "THE UNSTEADY PEDESTAL"
+    },
+    {
+      "id": "b3-007",
+      "kicker": "RIVALRY REVIEW",
+      "headline": "DISPLAY IN LOW RELIEF",
+      "subhead": "There is no room for a grand procession when {winner} finishes ahead of {loser} by such a slender margin.",
+      "score": 9,
+      "was": "THE QUIET DISPLAY"
+    },
+    {
+      "id": "b3-008",
+      "kicker": "FINAL ACCOUNT",
+      "headline": "AN EDGE FIT FOR VELVET",
+      "subhead": "The season has a winner in {winner}, although {loser} remained close enough to make the outcome feel precarious.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-009",
+      "kicker": "GALLERY NOTES",
+      "headline": "FRAME WITH FRAIL EDGES",
+      "subhead": "Only a slight separation defines this season, leaving {winner} on top and {loser} with every reason to feel competitive.",
+      "score": 9,
+      "was": "A FRAME'S THIN BORDER"
+    },
+    {
+      "id": "b3-010",
+      "kicker": "ARCHIVE DESK",
+      "headline": "NICHE, BUT ONLY JUST",
+      "subhead": "In a season shaped by fine distinctions, {winner} secures the upper position while {loser} finishes within touching distance.",
+      "score": 9,
+      "was": "THE NARROWEST NICHE"
+    },
+    {
+      "id": "b3-011",
+      "kicker": "SHOWCASE REPORT",
+      "headline": "HONOURS IN THE BALANCE",
+      "subhead": "The difference could fit on a tiny nameplate, but it gives {winner} the season over {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b3-012",
+      "kicker": "SPECIAL EDITION",
+      "headline": "IMPRINT AS LIGHT AS AIR",
+      "subhead": "A season of close accounting leaves {winner} narrowly ahead, with {loser} never more than a whisper away.",
+      "score": 9,
+      "was": "THE SLIGHTEST IMPRINT"
+    },
+    {
+      "id": "b3-013",
+      "kicker": "PRESS GALLERY",
+      "headline": "ROOM FOR A FRACTION",
+      "subhead": "The display may look orderly now, but {winner} only just earned the space above {loser} in the season standings.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-014",
+      "kicker": "RIVALRY FILE",
+      "headline": "GLINT BETWEEN RIVALS",
+      "subhead": "Viewed on paper, the rivalry looks nearly inseparable, yet {winner} has finished the season a shade above {loser}.",
+      "score": 9,
+      "was": "A GLINT OF SEPARATION"
+    },
+    {
+      "id": "b3-015",
+      "kicker": "SEASON NOTES",
+      "headline": "NO ROOM FOR ERROR",
+      "subhead": "On the season ledger, {winner} claims the higher place over {loser} with almost nothing to spare.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-016",
+      "kicker": "CLOSING COLUMN",
+      "headline": "CASE STUDY IN DETAIL",
+      "subhead": "This was a season decided by the smallest distinctions, and {winner} made just enough of them count against {loser}.",
+      "score": 9,
+      "was": "A CASE OF FINE DETAIL"
+    },
+    {
+      "id": "b3-017",
+      "kicker": "HONOURS DESK",
+      "headline": "ETCHED BY A WHISKER",
+      "subhead": "The season's closing inscription would need very fine lettering to show how narrowly {winner} finished above {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-018",
+      "kicker": "AFTER THE WHISTLE",
+      "headline": "MANTEL IN THE MARGINS",
+      "subhead": "There is space for pride on both sides, even though the season's narrow advantage rests with {winner} over {loser}.",
+      "score": 9,
+      "was": "THE MODEST MANTEL"
+    },
+    {
+      "id": "b3-019",
+      "kicker": "THE VERDICT",
+      "headline": "PRIDE IN A TINY SPACE",
+      "subhead": "Without any sweeping difference in the totals, {winner} has nonetheless earned this season's verdict over {loser}.",
+      "score": 9,
+      "was": "A TINY PLACE OF PRIDE"
+    },
+    {
+      "id": "b3-020",
+      "kicker": "BACK PAGE",
+      "headline": "SPOTLIGHT BY A SLIVER",
+      "subhead": "Between {winner} and {loser} lies barely enough distance for a spotlight, but the final season order is unmistakable.",
+      "score": 10,
+      "was": "A SPOTLIGHT'S WIDTH"
+    },
+    {
+      "id": "b3-021",
+      "kicker": "LATE EDITION",
+      "headline": "SCRATCH THE SURFACE!",
+      "subhead": "Look closely at those totals, because {winner} has edged {loser} in a season that refused to open up.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-022",
+      "kicker": "CLOSING REPORT",
+      "headline": "SLAM THE CASE? NOT YET!",
+      "subhead": "The season closes with {winner} narrowly on top, but {loser} has made any talk of dominance impossible.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-023",
+      "kicker": "DISPLAY WATCH",
+      "headline": "GRIP THAT TINY LEAD!",
+      "subhead": "One last look at the standings confirms that {winner} beat {loser}, although the difference is almost invisible.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-024",
+      "kicker": "CABINET WATCH",
+      "headline": "HOLD THE NAMEPLATE!",
+      "subhead": "An exceptionally close final tally gives {winner} the season, while {loser} can point to how little separated them.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b3-025",
+      "kicker": "RIVALRY WATCH",
+      "headline": "DON'T DROP THE KEY!",
+      "subhead": "It is a delicate advantage, not a commanding one, as {winner} takes the season ahead of {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-026",
+      "kicker": "SHOWROOM BULLETIN",
+      "headline": "SHOUT THROUGH THE GLASS!",
+      "subhead": "The verdict deserves announcing, even if {winner} finished only narrowly above {loser} when the season ended.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-027",
+      "kicker": "FINAL WHISTLE",
+      "headline": "PULL BACK THE CURTAIN!",
+      "subhead": "This season's result reveals a narrow win for {winner}, with {loser} close enough to keep the rivalry keen.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-028",
+      "kicker": "EXHIBIT UPDATE",
+      "headline": "LIFT THE VELVET ROPE!",
+      "subhead": "In this imagined gallery, even the sharpest eye would struggle to spot how narrowly {winner} finished above {loser}.",
+      "score": 9,
+      "was": "Visitors to this imagined gallery would need a careful eye to distinguish the winning tally from the other."
+    },
+    {
+      "id": "b3-029",
+      "kicker": "SEASON FLASH",
+      "headline": "RATTLE THE CABINET!",
+      "subhead": "A fierce contest for seasonal honours finishes with {winner} above {loser}, but with precious little room to celebrate comfortably.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-030",
+      "kicker": "BREAKING SPORT",
+      "headline": "SOUND THE BRASS BELL!",
+      "subhead": "A decisive verdict can still be close, and {winner} proves it by squeezing past {loser} this season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-031",
+      "kicker": "HONOURS FLASH",
+      "headline": "GRAB THE LAST INCH!",
+      "subhead": "With the totals almost level, {winner} claims the narrow upper hand while {loser} remains firmly in contention.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-032",
+      "kicker": "THE BACK PAGE",
+      "headline": "KEEP THAT LID LOOSE!",
+      "subhead": "The final figures put {winner} on top, although the slim difference offers no basis for an easy boast.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-033",
+      "kicker": "LATE SPORTS",
+      "headline": "FLASH THE SMALL PRINT!",
+      "subhead": "Read the fine print of the result and you find {winner} taking the season by the slimmest of margins.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b3-034",
+      "kicker": "AT THE FINISH",
+      "headline": "BUFF THAT THIN EDGE!",
+      "subhead": "There is a faint sheen of victory for {winner}, and an equally clear reminder of how close {loser} came.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-035",
+      "kicker": "SPORTS ALERT",
+      "headline": "COUNT EVERY SCRATCH!",
+      "subhead": "It took a tiny separation in the closing totals for {winner} to claim this season over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-036",
+      "kicker": "TROPHY DESK",
+      "headline": "CATCH THE LAST GLIMMER!",
+      "subhead": "No wide gulf appears here, only {winner} securing just enough points to finish above {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-037",
+      "kicker": "RIVALRY UPDATE",
+      "headline": "LOCK NOTHING AWAY!",
+      "subhead": "This close season gives {winner} the advantage, but leaves {loser} with ample cause to challenge again.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-038",
+      "kicker": "SHOWCASE FLASH",
+      "headline": "HEAR THAT LITTLE CLICK!",
+      "subhead": "The cabinet door closes on a narrow season decision, with {winner} only just ahead of {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b3-039",
+      "kicker": "TOUCHLINE FLASH",
+      "headline": "GET THE MAGNIFIER!",
+      "subhead": "The gap is small enough to invite a second look, but {winner} has beaten {loser} this season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-040",
+      "kicker": "STOP PRESS",
+      "headline": "CLASP THE THIN RIBBON!",
+      "subhead": "A slim edge is still an edge, and {winner} holds it over {loser} at the season's end.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-041",
+      "kicker": "FOOTBALL FILE",
+      "headline": "CUPBOARD AT THE POST",
+      "subhead": "In a contest that ran to the finest margins, {winner} pips {loser} to this season's top position.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b3-042",
+      "kicker": "THE FOOTBALL DESK",
+      "headline": "NET GAIN, FINE GRAIN",
+      "subhead": "Nothing separates the rivals by much, yet {winner} has done enough to carry the season over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-043",
+      "kicker": "PITCH AND PAPER",
+      "headline": "OFFSIDE BY A FINGERTIP?",
+      "subhead": "It takes only a glance at the final totals to appreciate how closely {winner} prevailed over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-044",
+      "kicker": "FROM THE BOOTH",
+      "headline": "BAR MOVES A BREATH",
+      "subhead": "The season's advantage amounts to little more than a nudge, but {winner} has edged {loser} all the same.",
+      "score": 9,
+      "was": "THE BAR BARELY MOVED"
+    },
+    {
+      "id": "b3-045",
+      "kicker": "MATCHDAY REVIEW",
+      "headline": "POSTMARKED FOR PRIDE",
+      "subhead": "After a narrow season verdict, {winner} earns the higher place while {loser} is left within easy reach.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-046",
+      "kicker": "FOOTBALL LEDGER",
+      "headline": "DUGOUT IN THE MIRROR",
+      "subhead": "A cabinet could barely display the difference, yet the tally favors {winner} over {loser} this season.",
+      "score": 10,
+      "was": "THE DUGOUT'S GLASS EDGE"
+    },
+    {
+      "id": "b3-047",
+      "kicker": "EXTRA TIME",
+      "headline": "WHISTLE ON A WIRE",
+      "subhead": "The season result has all the tension of a close call, with {winner} only narrowly edging {loser}.",
+      "score": 9,
+      "was": "A WHISTLE'S HAIRLINE"
+    },
+    {
+      "id": "b3-048",
+      "kicker": "CUPBOARD CHRONICLE",
+      "headline": "HOLD THE CUPBOARD LINE",
+      "subhead": "However close the totals were, the final standings place {winner} just above {loser} for the season.",
+      "score": 9,
+      "was": "CLEAN SHEET, THIN SHELF"
+    },
+    {
+      "id": "b3-049",
+      "kicker": "SIDELINE NOTES",
+      "headline": "PENALTY SPOT, POLISHED",
+      "subhead": "Precision matters in such a closely matched rivalry, and {winner} takes the season by the smallest margin.",
+      "score": 9,
+      "was": "A PENALTY OF PRECISION"
+    },
+    {
+      "id": "b3-050",
+      "kicker": "SEASON REVIEW",
+      "headline": "NET VALUE, NARROW GAIN",
+      "subhead": "The numbers leave little to choose between the managers, except the slender season advantage now held by {winner}.",
+      "score": 9,
+      "was": "A NET WORTH DISPLAY"
+    },
+    {
+      "id": "b3-051",
+      "kicker": "ON THE PITCH",
+      "headline": "GOAL LINE IN A FRAME",
+      "subhead": "An extremely close seasonal contest ends with {winner} taking the honors, while {loser} keeps the pressure on.",
+      "score": 9,
+      "was": "THROUGH THE TROPHY NET"
+    },
+    {
+      "id": "b3-052",
+      "kicker": "TOUCHLINE WATCH",
+      "headline": "TOP SHELF, JUST BARELY",
+      "subhead": "No comfortable space separates the managers, but {winner} finds enough room above {loser} in the season standings.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-053",
+      "kicker": "FINAL TALLY",
+      "headline": "CROSSBAR, CLOSE SHAVE",
+      "subhead": "The result looks almost level from a distance, though {winner} has secured the narrowest edge against {loser}.",
+      "score": 10,
+      "was": "THE CROSSBAR'S REFLECTION"
+    },
+    {
+      "id": "b3-054",
+      "kicker": "THE SIDELINES",
+      "headline": "RIBBONS AT FULL TIME",
+      "subhead": "The imaginary ribbons belong to a close verdict, not an easy win, as {winner} edges {loser} this season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-055",
+      "kicker": "FOOTBALL FOCUS",
+      "headline": "VAULTED PAST THE POST",
+      "subhead": "By the slimmest of margins, {winner} claims the season while {loser} comes away with a contest worth remembering.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-056",
+      "kicker": "UNDER REVIEW",
+      "headline": "GOALMOUTH OF GLASS",
+      "subhead": "It would take little to reverse the order, yet {winner} holds the crucial season advantage over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-057",
+      "kicker": "IN THE STANDS",
+      "headline": "SHINING AT THE WHISTLE",
+      "subhead": "A close final accounting rewards {winner}, whose season tally is just enough to outrun that of {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-058",
+      "kicker": "SUNDAY SPORT",
+      "headline": "SHELF ABOVE THE LINE",
+      "subhead": "The contest has its narrow winner in {winner}, but the closeness of {loser} makes the result compelling.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-059",
+      "kicker": "FOOTBALL EXTRA",
+      "headline": "CABINET OF CLOSE CALLS",
+      "subhead": "A tiny gap in the season totals is all that separates {winner} from the challenge posed by {loser}.",
+      "score": 9,
+      "was": "A CABINET OF NEAR MISSES"
+    },
+    {
+      "id": "b3-060",
+      "kicker": "AFTER FULL TIME",
+      "headline": "TROPHY CASE UNDER PRESSURE",
+      "subhead": "Nothing in the closing figures suggests a comfortable win, though {winner} has done enough to edge {loser}.",
+      "score": 9,
+      "was": "THE TROPHY CASE PRESS"
+    },
+    {
+      "id": "b3-061",
+      "kicker": "RIVALRY ROUNDUP",
+      "headline": "SLIVERS SPARK SUSPENSE",
+      "subhead": "Every small distinction seemed to matter as {winner} claimed the season from {loser} by a whisper.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-062",
+      "kicker": "SHOWCASE ROUNDUP",
+      "headline": "CABINET CORNERS COUNT",
+      "subhead": "A close season reaches its conclusion with {winner} narrowly above {loser}, leaving the next comparison wide open.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-063",
+      "kicker": "THE HONOURS ROOM",
+      "headline": "GILT GRANTS A GLIMMER",
+      "subhead": "Even the imagined finish on this verdict has a thin border, with {winner} barely edging {loser}.",
+      "score": 9,
+      "was": "GILT GIVES GROUND"
+    },
+    {
+      "id": "b3-064",
+      "kicker": "MEDAL REPORT",
+      "headline": "POLISH PRESERVES PRIDE",
+      "subhead": "For {winner}, the slimmest seasonal advantage is enough, and for {loser}, the chase remains a genuine contest.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b3-065",
+      "kicker": "PAPER TRAIL",
+      "headline": "BRASS BRUSHES BRINK",
+      "subhead": "This result comes down to small differences rather than sweeping superiority, with {winner} narrowly overcoming {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-066",
+      "kicker": "EDITORIAL DESK",
+      "headline": "LATCHES LOCK LIGHTLY",
+      "subhead": "A slender gap fixes the season order, placing {winner} over {loser} with scarcely room for the lettering.",
+      "score": 9,
+      "was": "LATCHES LEAVE LITTLE"
+    },
+    {
+      "id": "b3-067",
+      "kicker": "PRESS BOX",
+      "headline": "FRAMES FIND FRACTIONS",
+      "subhead": "The season's final order favors {winner}, but {loser} stands so close that the frame seems crowded.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-068",
+      "kicker": "CHRONICLE",
+      "headline": "VELVET VEILS VICTORY",
+      "subhead": "Beneath the velvet of an imagined ceremony sits a remarkably thin points advantage for {winner} over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-069",
+      "kicker": "ARCHIVE WATCH",
+      "headline": "PEDESTALS PREFER PRECISION",
+      "subhead": "In this close rivalry, a small final difference places {winner} ahead of {loser} without diminishing either effort.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-070",
+      "kicker": "CURATOR'S COLUMN",
+      "headline": "ENGRAVERS EARN THEIR KEEP",
+      "subhead": "A fine hand would be needed to record this result, so little separates {winner} from {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b3-071",
+      "kicker": "SEASON SPOTLIGHT",
+      "headline": "DISPLAY DOORS DITHER",
+      "subhead": "The verdict may have seemed finely balanced, but the completed season leaves {winner} just above {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-072",
+      "kicker": "SILVER SERVICE",
+      "headline": "NAMEPLATES NEED NUANCE",
+      "subhead": "On paper this is a win for {winner}, and on closer inspection a thoroughly narrow escape from {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-073",
+      "kicker": "HONOURS WATCH",
+      "headline": "MEDALS MEET MILLIMETERS",
+      "subhead": "The difference between these season totals is tiny, leaving {winner} just ahead of a resilient {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b3-074",
+      "kicker": "SPORTS FEATURE",
+      "headline": "GLASS GUARDS GLORY",
+      "subhead": "The final tally gives {winner} a slender victory, with {loser} close enough to make it feel hard earned.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-075",
+      "kicker": "THE SHOWROOM",
+      "headline": "BRACKETS BRIDLE BOASTS",
+      "subhead": "A narrow season calls for careful perspective, and {winner} deserves credit for edging the challenge from {loser}.",
+      "score": 9,
+      "was": "PLAQUES PRAISE PATIENCE"
+    },
+    {
+      "id": "b3-076",
+      "kicker": "QUICK QUESTION",
+      "headline": "WHO GETS THE TINY FRAME?",
+      "subhead": "A slim separation answers the question, with {winner} finishing narrowly above {loser} in the season standings.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b3-077",
+      "kicker": "THE VERDICT PAGE",
+      "headline": "CAN THE LENS TELL?",
+      "subhead": "You have to look at the figures to spot it, but {winner} finishes a shade above {loser}.",
+      "score": 9,
+      "was": "CAN THE GLASS TELL?"
+    },
+    {
+      "id": "b3-078",
+      "kicker": "RIVALRY QUESTIONS",
+      "headline": "IS THAT ENOUGH ROOM?",
+      "subhead": "Barely, yet the final season totals give {winner} the advantage after a stern contest with {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-079",
+      "kicker": "CABINET QUESTIONS",
+      "headline": "WHO OWNS THE THIN EDGE?",
+      "subhead": "At the end of a close season, {winner} claims the verdict while {loser} remains firmly in the picture.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b3-080",
+      "kicker": "CLOSE CALL",
+      "headline": "DOES THE BRASS SHOW IT?",
+      "subhead": "Only on careful inspection does the small difference emerge, confirming {winner} as the season winner over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-081",
+      "kicker": "BACK PAGE QUESTION",
+      "headline": "CAN YOU SEE THE GAP?",
+      "subhead": "The season totals could almost be mistaken for equal, but {winner} has finished just above {loser}.",
+      "score": 9,
+      "was": "The season totals could almost be mistaken for equal, but {winner} has just outscored {loser}."
+    },
+    {
+      "id": "b3-082",
+      "kicker": "GLASSWORK REPORT",
+      "headline": "IS THE ETCHING LEGIBLE?",
+      "subhead": "A fine line is all the result requires, with {winner} edging {loser} in this season's close finish.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-083",
+      "kicker": "ARCHIVE QUESTION",
+      "headline": "WHICH LABEL SITS HIGHER?",
+      "subhead": "There is almost no space between them, but the season record places {winner} narrowly above {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-084",
+      "kicker": "THE HONOURS QUESTION",
+      "headline": "WILL THE HINGE HOLD?",
+      "subhead": "The metaphor fits a fragile advantage, with {winner} finishing only just clear of {loser} this season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-085",
+      "kicker": "SPORTS QUESTION",
+      "headline": "WHAT FITS ON A PINHEAD?",
+      "subhead": "Perhaps the margin separating these managers, as {winner} claims a narrow season victory against {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b3-086",
+      "kicker": "FINAL INSCRIPTION",
+      "headline": "VICTORY, IN MINIATURE",
+      "subhead": "Season {seasonNo} ends with {winner} ahead of {loser}, although the difference is far too slight for swagger.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b3-087",
+      "kicker": "SPORTS CUTTING",
+      "headline": "HARDLY A HAIR",
+      "subhead": "Only a sliver of daylight separates the season totals, yet that is enough to put {winner} above {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-088",
+      "kicker": "THE FINISH LINE",
+      "headline": "GENTLY DOES IT",
+      "subhead": "There is no room for a triumphant strut when {winner} has only just finished ahead of {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-089",
+      "kicker": "CLOSING EDITION",
+      "headline": "SHINE, NOT SPRAWL",
+      "subhead": "The final tally favors {winner} by a whisker, a result that keeps the rivalry sharper than any polish.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-090",
+      "kicker": "SPECIAL REPORT",
+      "headline": "SOFT CLINK, HARD VERDICT",
+      "subhead": "Nothing about the totals suggests a rout, just {winner} earning a narrow season decision over {loser}.",
+      "score": 10,
+      "was": "A SOFT CLINK"
+    },
+    {
+      "id": "b3-091",
+      "kicker": "RESULTS FEATURE",
+      "headline": "BORDERLINE BRAGGING",
+      "subhead": "From a distance the rival totals look almost identical, but the final distinction gives {winner} the upper hand.",
+      "score": 9,
+      "was": "FINE PRINT PREVAILS"
+    },
+    {
+      "id": "b3-092",
+      "kicker": "GAZETTE EXTRA",
+      "headline": "EDGE UNDER LOCK",
+      "subhead": "A small season advantage is enough for {winner} to take the verdict without putting much distance between the rivals.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-093",
+      "kicker": "THE GALLERY",
+      "headline": "ALMOST A REFLECTION",
+      "subhead": "Place the managers' totals side by side and the resemblance is striking, though {winner} has narrowly bested {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-094",
+      "kicker": "THE LAST WORD",
+      "headline": "CLOSELY HELD",
+      "subhead": "This win belongs to {winner}, but the tiny gap makes {loser} a rival nobody should disregard.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-095",
+      "kicker": "DISPLAY EDITION",
+      "headline": "MODEST GLEAM, REAL WIN",
+      "subhead": "A narrow season verdict is worthy of a quiet celebration from {winner}, while {loser} can look ahead with confidence.",
+      "score": 9,
+      "was": "A MODEST GLEAM"
+    },
+    {
+      "id": "b3-096",
+      "kicker": "LATE SCORE",
+      "headline": "INK, NOT INCHES",
+      "subhead": "A slight difference in the final tally gives {winner} the season, a result demanding precision rather than hyperbole.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b3-097",
+      "kicker": "TOUCHLINE EDITION",
+      "headline": "NICKED THE NICHE",
+      "subhead": "Even the smallest space on the imaginary honors shelf goes to {winner}, with {loser} finishing just beneath.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b3-098",
+      "kicker": "CLOSING NOTES",
+      "headline": "FINE LINE, FULL VERDICT",
+      "subhead": "By the narrowest of margins, {winner} edges {loser} and leaves this season balanced on the thinnest distinction.",
+      "score": 10,
+      "was": "A VERY FINE LINE"
+    },
+    {
+      "id": "b3-099",
+      "kicker": "INSIDE SPORT",
+      "headline": "ROOM TO REPLY",
+      "subhead": "The close outcome gives {winner} the season, but there is little in the figures to separate the managers.",
+      "score": 9,
+      "was": "STILL ROOM TO RIVAL"
+    },
+    {
+      "id": "b3-100",
+      "kicker": "END OF SEASON",
+      "headline": "NOTHING TO SPARE",
+      "subhead": "At the close of this campaign, {winner} finishes just above {loser} in a contest of near equal totals.",
+      "score": 10,
+      "was": null
+    }
+  ]
+}

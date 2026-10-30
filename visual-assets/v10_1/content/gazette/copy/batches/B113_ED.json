@@ -1,0 +1,608 @@
+{
+  "batch": 113,
+  "situation": "final-season-decider",
+  "voice": "The studio panel",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb113-001",
+      "text": "All that separates {leader} from the answer is the season that hasn't happened yet. Lovely pressure, that.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb113-002",
+      "text": "Look at {trailer} now, with a final opportunity to ask a very awkward question of the standings.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-003",
+      "text": "Nobody can borrow certainty from yesterday when the deciding season is still waiting to be played.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-004",
+      "text": "Right then, {leader} has the advantage, but the only result worth framing is still to come.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-005",
+      "text": "Suddenly the arguments sound different. Every prediction must survive the last season before it counts for anything.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-006",
+      "text": "Once the whiteboard is wiped, {trailer} has a last chance to change what goes into permanent ink.",
+      "score": 10,
+      "was": "This is where {trailer} gets a chance to turn a long conversation into a memorable reply."
+    },
+    {
+      "id": "cb113-007",
+      "text": "Forget the comfortable chair, {leader}. The last act of this rivalry comes with no reserved seating.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-008",
+      "text": "I'd rather see the season played than hear another pundit explain how it's bound to finish.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-009",
+      "text": "If you want a rivalry with teeth, this is it. Nobody gets an answer without playing the closer.",
+      "score": 9,
+      "was": "Credit to both managers for taking this all the way to a conclusion nobody can announce early."
+    },
+    {
+      "id": "cb113-010",
+      "text": "Plenty has happened already, but the Showdown has kept its biggest decision for the closing chapter.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-011",
+      "text": "Unfashionable thought, perhaps, but {trailer} could yet make the favourite a footnote rather than the headline.",
+      "score": 10,
+      "was": "Imagine being {trailer}, knowing the door is still open and the next chance is the last."
+    },
+    {
+      "id": "cb113-012",
+      "text": "On the studio chalkboard, {leader} occupies the top line. The bottom line hasn't been written.",
+      "score": 10,
+      "was": "What {leader} has earned is an edge, not permission to skip the decisive part."
+    },
+    {
+      "id": "cb113-013",
+      "text": "We have opinions in this studio, naturally. The trouble is the final season hasn't heard them.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-014",
+      "text": "Our panel has spent ages circling possibilities. Now that circle has the exact size of one season.",
+      "score": 9,
+      "was": "Now the rivalry has somewhere precise to go, and nowhere left to hide after it gets there."
+    },
+    {
+      "id": "cb113-015",
+      "text": "Listen to the question hanging over {leader}: can the advantage survive the only season remaining?",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-016",
+      "text": "Naturally, the schedule saved its most inconvenient appointment for last, the one that decides the lot.",
+      "score": 10,
+      "was": "There's something rather fitting about a competition that refuses to settle itself before the last assignment."
+    },
+    {
+      "id": "cb113-017",
+      "text": "For {trailer}, the road ahead is short enough to concentrate the mind and open enough to matter.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-018",
+      "text": "I wouldn't book the trophy photographer yet. The camera can wait until the final decision has been earned.",
+      "score": 9,
+      "was": "An unfinished contest is a dangerous place to act like you've already written the thank-you speech."
+    },
+    {
+      "id": "cb113-019",
+      "text": "Every previous season has led {leader} to this position. The next will decide what it's worth.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-020",
+      "text": "We've worn grooves in the studio floor arguing. The last campaign will do more than our pacing.",
+      "score": 9,
+      "was": "Let's see who handles the closing stretch, because the studio has exhausted its supply of confident guesses."
+    },
+    {
+      "id": "cb113-021",
+      "text": "The finish is in sight, but neither manager can claim what the last season hasn't awarded.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-022",
+      "text": "Give {trailer} a motivational cliché if you must. I'd rather see a season that makes one unnecessary.",
+      "score": 9,
+      "was": "You could give {trailer} a stirring speech. I'd suggest leaving room for a strong final campaign."
+    },
+    {
+      "id": "cb113-023",
+      "text": "In football terms, {leader} has the better starting position. In rivalry terms, we're still listening.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-024",
+      "text": "One season remains, and suddenly the smallest decisions feel rather larger than our television set.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-025",
+      "text": "I trust {leader} has kept the presentation-case receipt. There remains the small matter of a final campaign.",
+      "score": 10,
+      "was": "Before anyone orders the presentation case, perhaps {leader} should attend to the business still on the calendar."
+    },
+    {
+      "id": "cb113-026",
+      "text": "My favourite thing about {trailer}'s position? The rival can hear the footsteps but can't see the finish.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-027",
+      "text": "Could someone unplug the forecast machine? It's had its fun, and the actual contest still has the microphone.",
+      "score": 9,
+      "was": "Someone pass the studio a fresh prediction. Ours have an irritating habit of meeting actual football."
+    },
+    {
+      "id": "cb113-028",
+      "text": "If {leader} wanted peace and quiet, choosing a last-season showdown was a curious way to find it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-029",
+      "text": "Apparently we've reached the part where the pundits become less useful and the managers become more interesting.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb113-030",
+      "text": "Good news for {trailer}, there's still a say in the ending. Bad news for us, no easy forecast.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-031",
+      "text": "Put the headline in pencil, please. Ink deserves to wait for a decision the contest hasn't made.",
+      "score": 10,
+      "was": "Pencil in a verdict if you like. Keep the eraser handy until that remaining season is finished."
+    },
+    {
+      "id": "cb113-032",
+      "text": "Tell {leader} the best seat in the house doesn't come with a cushion against a final challenge.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-033",
+      "text": "Of course our pundits want closure. They're the only people here paid to sound certain before the evidence arrives.",
+      "score": 10,
+      "was": "It's almost cruel to make our panel wait for the answer. Almost, because the suspense is excellent."
+    },
+    {
+      "id": "cb113-034",
+      "text": "I've heard {trailer} discussed as though the closing credits were already rolling. Someone check the projector.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-035",
+      "text": "Well, {leader} can enjoy the view for now. Just don't mistake the balcony for the trophy room.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb113-036",
+      "text": "Anyone who claims this is settled has apparently found a way to play next season in advance.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-037",
+      "text": "Interesting position for {trailer}, isn't it? The argument can still be won, but the rehearsal is over.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-038",
+      "text": "Picture our panel holding up prediction cards. Not one of them doubles as an entry on the scoreboard.",
+      "score": 9,
+      "was": "Our experts can pick sides all evening. The last season isn't required to agree with a single one."
+    },
+    {
+      "id": "cb113-039",
+      "text": "Fancy being {leader} with an advantage and the knowledge that there's a proper examination to come.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-040",
+      "text": "Maybe {trailer} would prefer another dozen opportunities. There is only the final one, and it counts.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-041",
+      "text": "Don't offer me a prediction wrapped like a present. The ribbon comes off after the deciding campaign.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-042",
+      "text": "Surely {leader} knows the one thing a lead cannot buy, a guarantee about the remaining season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-043",
+      "text": "The wise thing for {trailer} is to see opportunity here, not a deadline dressed as bad news.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-044",
+      "text": "It's a rare pleasure to watch the analysts run out of ways to say 'I think' and mean 'I know'.",
+      "score": 10,
+      "was": "At least we've found the one occasion when the studio's loudest opinion carries absolutely no authority."
+    },
+    {
+      "id": "cb113-045",
+      "text": "Could {leader} carry the advantage home? Certainly. Could this rivalry still turn? That's why we're here.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-046",
+      "text": "Familiar faces, familiar arguments, and a fresh problem: there's no extra chapter after the one ahead.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-047",
+      "text": "I'll say this for {trailer}, the final opportunity arrives with the answer still genuinely in play.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-048",
+      "text": "Let the engraver finish their tea. The name won't be decided by who shouts loudest in here.",
+      "score": 10,
+      "was": "Keep your hands off the commemorative pen. Neither side has signed the ending just yet."
+    },
+    {
+      "id": "cb113-049",
+      "text": "There's a full stop waiting at the end of this rivalry. It would be rude to print it early.",
+      "score": 10,
+      "was": "Most panels would love a neat conclusion. The Showdown insists we watch the remaining football first."
+    },
+    {
+      "id": "cb113-050",
+      "text": "Spare a thought for {leader}, whose reward for doing well is one last season under the microscope.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-051",
+      "text": "From here the campaign narrows to a single passage, and the whole rivalry must travel through it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-052",
+      "text": "Picture {trailer} at the edge of the final chapter, with every earlier disappointment still answerable.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-053",
+      "text": "Here is the peculiar thing about {leader}'s position: so close to the prize, and still far from certainty.",
+      "score": 10,
+      "was": "There it is, the last open door. {leader} stands nearest the prize, but hasn't crossed the threshold."
+    },
+    {
+      "id": "cb113-054",
+      "text": "Everything before this feels like preparation. The unresolved question now has one season in which to speak.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-055",
+      "text": "Whichever way it falls, {trailer} can still make the ending worthy of the rivalry that preceded it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-056",
+      "text": "No more future campaigns to soften the outcome. The next season will give this contest its final shape.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb113-057",
+      "text": "Under that studio light, {leader}'s position looks strong. Under the weight of the finale, it remains tested.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-058",
+      "text": "A long campaign can hide its sharpest turn in the very last bend. We've reached that bend.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb113-059",
+      "text": "As the final whistle for this whole adventure approaches, the identity of the champion remains unconfirmed.",
+      "score": 9,
+      "was": "Somewhere beyond the next season is a verdict nobody in this room can honestly deliver tonight."
+    },
+    {
+      "id": "cb113-060",
+      "text": "Turn the calendar to its last square, and there is still room for an upset.",
+      "score": 9,
+      "was": "The margin of possibility has narrowed to one season, yet the question between these managers remains enormous."
+    },
+    {
+      "id": "cb113-061",
+      "text": "With {trailer} still able to challenge, the coming campaign matters more than any argument we can stage.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-062",
+      "text": "Call it the threshold, not the destination. {leader} still has to see this contest through.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb113-063",
+      "text": "Some campaigns furnish a cabinet. This next one decides which manager gets to close the book.",
+      "score": 10,
+      "was": "There are seasons you remember for trophies, and seasons you remember because everything depended on them."
+    },
+    {
+      "id": "cb113-064",
+      "text": "Just when a rivalry seems to have said enough, it saves the sentence that matters most for last.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-065",
+      "text": "Can {trailer} find the answer? The stage is ready, and the final season still has its say.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-066",
+      "text": "Every forecast now carries a question mark, because one campaign stands between {leader} and the finish.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-067",
+      "text": "Respect the story so far. The closing installment still has power to rearrange the whole shelf.",
+      "score": 10,
+      "was": "Whatever the earlier story, the closing season gives both managers a chance to define how it's remembered."
+    },
+    {
+      "id": "cb113-068",
+      "text": "Being at the front gives {leader} a luxury and a headache: the target is impossible to miss.",
+      "score": 10,
+      "was": "This is the moment when a healthy advantage becomes a responsibility, as {leader} will discover."
+    },
+    {
+      "id": "cb113-069",
+      "text": "Follow the road signs now, and there is no detour left. The final season is the only turn.",
+      "score": 9,
+      "was": "Nothing about the destination is certain. What is certain is that the road ends after the next campaign."
+    },
+    {
+      "id": "cb113-070",
+      "text": "For all the talk surrounding {trailer}, the decisive answer cannot arrive until the season does.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-071",
+      "text": "Beyond the next set of results lies either relief or a remarkable reversal. Neither has happened yet.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-072",
+      "text": "There is no quieter way to say it: {leader} faces the final test of the whole competition.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-073",
+      "text": "If this rivalry were a book, the last page would be the one everybody keeps trying to peek at.",
+      "score": 10,
+      "was": "If this rivalry were a book, someone has been keeping the last page folded over for years."
+    },
+    {
+      "id": "cb113-074",
+      "text": "Standings may favour {leader}, but they cannot describe an ending which hasn't been played.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-075",
+      "text": "We've reached the climax without reaching a conclusion. For once, those aren't quite the same thing.",
+      "score": 10,
+      "was": "How often does a competition reach its conclusion with the outcome still inviting an argument?"
+    },
+    {
+      "id": "cb113-076",
+      "text": "You have to admire {trailer}'s opportunity. It's awkward, demanding, and infinitely better than a closed door.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-077",
+      "text": "Easy for me to say, but {leader} ought to treat this like an assignment, not a victory lap.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-078",
+      "text": "Here's a studio wager I can defend: the final season will make at least one of us look foolish.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-079",
+      "text": "Take the long view of {trailer}, and there's still a perfectly good reason to believe in a late reply.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-080",
+      "text": "Being the favourite is pleasant for {leader}, until you remember that favourites still have to finish.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-081",
+      "text": "Sound engineer, save the triumphant sting. We haven't earned the right to choose whose entrance it accompanies.",
+      "score": 10,
+      "was": "Leave the dramatic music ready, but don't press play until there's a real ending to accompany it."
+    },
+    {
+      "id": "cb113-082",
+      "text": "One final campaign, and {trailer} has the chance to replace the current story with a different conclusion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-083",
+      "text": "I'd caution {leader} against collecting congratulations early. Nobody enjoys returning a prematurely polished speech.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-084",
+      "text": "In this studio, every pundit has a theory. Out there, the remaining season has the deciding vote.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-085",
+      "text": "Consider the difference between a favourite and a champion: a season that still needs playing.",
+      "score": 10,
+      "was": "No sensible person should confuse a strong position with an outcome, especially at this particular moment."
+    },
+    {
+      "id": "cb113-086",
+      "text": "Think of {trailer} as the unanswered question. The season ahead supplies the response, whichever way it goes.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-087",
+      "text": "I enjoy a premature verdict as much as any pundit, but this particular one would age terribly.",
+      "score": 10,
+      "was": "There will be plenty of time for grand judgments once the last installment has actually been completed."
+    },
+    {
+      "id": "cb113-088",
+      "text": "I've checked the agenda, and {leader} still has a rather important appointment with the unfinished business.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-089",
+      "text": "My cue cards say 'certain winner'. The production team wisely left the name blank.",
+      "score": 10,
+      "was": "Our confidence is charming, but the next campaign hasn't signed up to follow the panel's script."
+    },
+    {
+      "id": "cb113-090",
+      "text": "With the finish so near, {trailer} needs a meaningful response, not an encouraging review from us.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-091",
+      "text": "For once the phrase 'all to play for' isn't studio wallpaper. The last season can still alter the verdict.",
+      "score": 10,
+      "was": "That is the beauty of leaving the decision open, the final season has something genuine to settle."
+    },
+    {
+      "id": "cb113-092",
+      "text": "Say what you like about {leader}'s advantage, it cannot be passed directly into the history books.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-093",
+      "text": "A season still to play, a whole rivalry still to settle. Even our panel should respect that.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb113-094",
+      "text": "Worth remembering, {trailer} is not being asked to rewrite the past, only to challenge the ending.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-095",
+      "text": "I'd frame our predictions if there were anything worth hanging yet. This contest keeps moving the picture.",
+      "score": 9,
+      "was": "Please don't make the same mistake as our predictions and forget the contest is still alive."
+    },
+    {
+      "id": "cb113-096",
+      "text": "The last opportunity is rarely comfortable, and that goes for {leader} as much as anyone else.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-097",
+      "text": "As for {trailer}, this is a lovely moment to let ambition do the talking and pundits keep guessing.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb113-098",
+      "text": "On the eve of the ending, the last thing this story needs is a narrator pretending to know it.",
+      "score": 10,
+      "was": "There's an excellent story in the making here, provided we don't spoil it by declaring a conclusion."
+    },
+    {
+      "id": "cb113-099",
+      "text": "Pack the studio notes away. The managers still have a whole season in which to contradict every page.",
+      "score": 9,
+      "was": "Close the studio notebooks for now. The managers have the only chapter left that can settle this."
+    },
+    {
+      "id": "cb113-100",
+      "text": "However loudly we argue, {leader} and {trailer} must let the remaining season supply the answer.",
+      "score": 10,
+      "was": null
+    }
+  ]
+}
