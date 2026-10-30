@@ -132,6 +132,13 @@ const read=file=>fs.readFileSync(path.join(root,file),"utf8");
   const again=credit.evaluateRun({first:daniel,second:nik,firstText:danielText,secondText:nikText,attestation,model:v2,ledger:recorded,runtimeRevision:runtime,repoRoot:root});
   assert.equal(again.newlyCreditable.length,0,"already-credited capabilities are never credited twice");assert.equal(again.scoreAfter,82);
 
+  // Every required main check must be a job that still runs on main pushes (POS20 names went dispatch-only 2026-10-10).
+  const jobNames=new Set(["showdown-gate.yml","deploy-github-pages.yml","validate-stability-lane.yml"].flatMap(file=>{const text=read(`.github/workflows/${file}`);return [...text.matchAll(/^  ([A-Za-z0-9_-]+):\n(?:    name: (.+)\n)?/gm)].map(m=>(m[2]||m[1]).replace(/^['"]|['"]$/g,"").trim());}));
+  for(const name of credit.REQUIRED_MAIN_CHECKS)assert.ok(jobNames.has(name),`required main check ${name} must be a live main job`);
+  // The CLI reads all three files when --main-sha is absent (it used to drop the first one).
+  const {spawnSync}=require("node:child_process"),cli=spawnSync(process.execPath,[path.join(root,"scripts/ssjr2-physical-run-credit.mjs"),"missing-a.json","missing-b.json","missing-c.json"],{encoding:"utf8"});
+  assert.doesNotMatch(cli.stderr,/^Usage:/m,"three files without --main-sha must not print usage");assert.match(cli.stderr,/missing-a\.json/);
+
   console.log(`PASS SSJR-2.1 physical-run credit contracts: SSJR-1.1 and SSJR-2.0 stay frozen, capabilities/weights/dependencies are unchanged, a validated two-device ${runtime} one-season run credits exactly 82/100 with multi-season and its dependents blocked, one validated 3-season run credits 100/100 (98 without Nik's stable-release acceptance), and invalid pairs, edited or replayed attestations, duplicates and unverified production mains credit nothing.`);
 })().catch(error=>{console.error(error);process.exit(1);});
 function plain(value){return !!value&&typeof value==="object"&&!Array.isArray(value);}

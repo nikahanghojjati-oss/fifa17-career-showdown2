@@ -1,0 +1,312 @@
+{
+  "schema": "career-mode-showdown.physical-journey-acceptance.v2",
+  "generatedAt": "2026-10-29T02:34:35.155Z",
+  "appVersion": "1.9.9",
+  "runtimeRevision": "1.9.9-r85",
+  "acceptanceMode": true,
+  "physicalJourneyMode": true,
+  "sanitizedSessionStorageOnly": true,
+  "recorderNetworkWrites": false,
+  "recorderReads": [
+    "closed-showdown-check"
+  ],
+  "rawAuthorityIncluded": false,
+  "canonicalRawIncluded": false,
+  "device": {
+    "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6.1 Mobile/15E148 Safari/604.1",
+    "platform": "iPhone",
+    "maxTouchPoints": 5,
+    "screenWidth": 440,
+    "screenHeight": 956
+  },
+  "deviceLabel": "Nik · iPhone 440x956",
+  "networkLabel": "Mobile data",
+  "managerRole": "playerTwo",
+  "remoteRole": "peer",
+  "accountFingerprint": "sha256:1120c48af63eeb579b4f4b6effb4934ee64528c689723316b7d06daf0f66d04d",
+  "deviceFingerprint": "sha256:556c978348fd14b9b5f1da19527f5b4b277138dc7ff5d1db30f610f1fb50453b",
+  "rivalryFingerprint": "sha256:ea35f96714750a328870234f08f9d1c772e60a590a833fb315f4cc93b2f8206e",
+  "sessionFingerprints": [
+    "sha256:d4d1100b41be6c83c9c31e3d17cdaf40cc47fee12dabb412c8b053c4d3780bae"
+  ],
+  "authorityViolation": false,
+  "canonicalStorageProofScope": "local-reconciliation-preview",
+  "canonicalStorageBeforeHash": "sha256:ef0a1efe9690afea438d51dcad2c1520938481bdecc966fc276c87493b98af82",
+  "canonicalStorageAfterHash": "sha256:ef0a1efe9690afea438d51dcad2c1520938481bdecc966fc276c87493b98af82",
+  "canonicalStorageViolation": false,
+  "candidateCApplied": false,
+  "offlineObserved": true,
+  "onlineRecovered": true,
+  "reloadResumed": true,
+  "terminalReloadVerified": true,
+  "conflictGuardProven": true,
+  "startupCount": 10,
+  "milestones": [
+    {
+      "sequence": 1,
+      "at": "2026-10-29T02:27:12.854Z",
+      "stage": "remote-active",
+      "phase": "ACTIVE",
+      "online": true,
+      "revision": 1
+    },
+    {
+      "sequence": 2,
+      "at": "2026-10-29T02:27:12.862Z",
+      "stage": "conflict-guard-proven",
+      "phase": "STALE_RETRY_AND_REPLAY_DENIAL",
+      "online": true,
+      "providerWrite": false
+    },
+    {
+      "sequence": 3,
+      "at": "2026-10-29T02:27:55.142Z",
+      "stage": "setup-confirmed",
+      "phase": "SHOWDOWN_CONFIRMED",
+      "online": true,
+      "revision": 6,
+      "totalSeasons": 3
+    },
+    {
+      "sequence": 4,
+      "at": "2026-10-29T02:27:58.154Z",
+      "stage": "career-start-ready",
+      "phase": "CAREER_START_READY",
+      "online": true,
+      "revision": 2
+    },
+    {
+      "sequence": 5,
+      "at": "2026-10-29T02:29:02.412Z",
+      "stage": "transfer-completed",
+      "phase": "COMPLETED",
+      "online": true,
+      "revision": 7,
+      "seasonNumber": 1
+    },
+    {
+      "sequence": 6,
+      "at": "2026-10-29T02:29:12.454Z",
+      "stage": "results-ready",
+      "phase": "RESULTS_READY",
+      "online": true,
+      "revision": 2,
+      "seasonNumber": 1
+    },
+    {
+      "sequence": 7,
+      "at": "2026-10-29T02:29:20.555Z",
+      "stage": "season-acknowledged",
+      "phase": "ACKNOWLEDGED",
+      "online": true,
+      "revision": 3,
+      "seasonNumber": 1
+    },
+    {
+      "sequence": 8,
+      "at": "2026-10-29T02:29:20.555Z",
+      "stage": "scoring-reconciled",
+      "phase": "SCORING_RECONCILED",
+      "online": true,
+      "revision": 1,
+      "seasonNumber": 1
+    },
+    {
+      "sequence": 9,
+      "at": "2026-10-29T02:29:20.555Z",
+      "stage": "history-converged",
+      "phase": "HISTORY_CONVERGED",
+      "online": true,
+      "revision": 1,
+      "seasonNumber": 1
+    },
+    {
+      "sequence": 10,
+      "at": "2026-10-29T02:30:13.311Z",
+      "stage": "network-offline",
+      "phase": "OFFLINE",
+      "online": false
+    },
+    {
+      "sequence": 11,
+      "at": "2026-10-29T02:30:31.425Z",
+      "stage": "network-online",
+      "phase": "ONLINE",
+      "online": true
+    },
+    {
+      "sequence": 12,
+      "at": "2026-10-29T02:30:32.811Z",
+      "stage": "transfer-completed",
+      "phase": "COMPLETED",
+      "online": true,
+      "revision": 7,
+      "seasonNumber": 2
+    },
+    {
+      "sequence": 13,
+      "at": "2026-10-29T02:30:32.811Z",
+      "stage": "reconnect-recovered",
+      "phase": "PROGRESS_AFTER_ONLINE",
+      "online": true,
+      "seasonNumber": 2,
+      "startupCount": 5
+    },
+    {
+      "sequence": 14,
+      "at": "2026-10-29T02:30:56.404Z",
+      "stage": "reload-resumed",
+      "phase": "SAME_SANITIZED_AUTHORITY",
+      "online": true,
+      "startupCount": 6
+    },
+    {
+      "sequence": 15,
+      "at": "2026-10-29T02:31:12.774Z",
+      "stage": "results-ready",
+      "phase": "RESULTS_READY",
+      "online": true,
+      "revision": 2,
+      "seasonNumber": 2
+    },
+    {
+      "sequence": 16,
+      "at": "2026-10-29T02:31:37.097Z",
+      "stage": "season-acknowledged",
+      "phase": "ACKNOWLEDGED",
+      "online": true,
+      "revision": 3,
+      "seasonNumber": 2
+    },
+    {
+      "sequence": 17,
+      "at": "2026-10-29T02:31:37.097Z",
+      "stage": "scoring-reconciled",
+      "phase": "SCORING_RECONCILED",
+      "online": true,
+      "revision": 1,
+      "seasonNumber": 2
+    },
+    {
+      "sequence": 18,
+      "at": "2026-10-29T02:31:37.097Z",
+      "stage": "history-converged",
+      "phase": "HISTORY_CONVERGED",
+      "online": true,
+      "revision": 1,
+      "seasonNumber": 2
+    },
+    {
+      "sequence": 19,
+      "at": "2026-10-29T02:32:02.658Z",
+      "stage": "transfer-completed",
+      "phase": "COMPLETED",
+      "online": true,
+      "revision": 7,
+      "seasonNumber": 3
+    },
+    {
+      "sequence": 20,
+      "at": "2026-10-29T02:32:24.383Z",
+      "stage": "results-ready",
+      "phase": "RESULTS_READY",
+      "online": true,
+      "revision": 2,
+      "seasonNumber": 3
+    },
+    {
+      "sequence": 21,
+      "at": "2026-10-29T02:32:29.494Z",
+      "stage": "season-acknowledged",
+      "phase": "ACKNOWLEDGED",
+      "online": true,
+      "revision": 3,
+      "seasonNumber": 3
+    },
+    {
+      "sequence": 22,
+      "at": "2026-10-29T02:32:29.494Z",
+      "stage": "scoring-reconciled",
+      "phase": "SCORING_RECONCILED",
+      "online": true,
+      "revision": 1,
+      "seasonNumber": 3
+    },
+    {
+      "sequence": 23,
+      "at": "2026-10-29T02:32:29.494Z",
+      "stage": "history-converged",
+      "phase": "HISTORY_CONVERGED",
+      "online": true,
+      "revision": 1,
+      "seasonNumber": 3
+    },
+    {
+      "sequence": 24,
+      "at": "2026-10-29T02:32:29.529Z",
+      "stage": "showdown-complete",
+      "phase": "SHOWDOWN_COMPLETE",
+      "online": true,
+      "seasonNumber": 3,
+      "totalSeasons": 3
+    },
+    {
+      "sequence": 25,
+      "at": "2026-10-29T02:32:31.292Z",
+      "stage": "local-reconciliation-storage-baseline",
+      "phase": "CAPTURED",
+      "online": true,
+      "providerWrite": false
+    },
+    {
+      "sequence": 26,
+      "at": "2026-10-29T02:32:31.307Z",
+      "stage": "local-reconciliation-safe",
+      "phase": "REMOTE_OBSERVED",
+      "online": true,
+      "providerWrite": false
+    },
+    {
+      "sequence": 27,
+      "at": "2026-10-29T02:32:31.329Z",
+      "stage": "local-reconciliation-storage-verified",
+      "phase": "UNCHANGED",
+      "online": true,
+      "providerWrite": false
+    },
+    {
+      "sequence": 28,
+      "at": "2026-10-29T02:32:31.339Z",
+      "stage": "local-reconciliation-safe",
+      "phase": "PREVIEW_READY",
+      "online": true,
+      "providerWrite": false
+    },
+    {
+      "sequence": 29,
+      "at": "2026-10-29T02:32:31.438Z",
+      "stage": "final-season-reconciled",
+      "phase": "FINAL_SEASON_RECONCILED",
+      "online": true,
+      "seasonNumber": 3
+    },
+    {
+      "sequence": 30,
+      "at": "2026-10-29T02:32:32.657Z",
+      "stage": "terminal-closed",
+      "phase": "CLOSED",
+      "online": true,
+      "revision": 5,
+      "startupCount": 6
+    },
+    {
+      "sequence": 31,
+      "at": "2026-10-29T02:34:33.996Z",
+      "stage": "terminal-reload-verified",
+      "phase": "CLOSED_AFTER_RELOAD",
+      "online": true,
+      "startupCount": 10
+    }
+  ],
+  "completed": true
+}
