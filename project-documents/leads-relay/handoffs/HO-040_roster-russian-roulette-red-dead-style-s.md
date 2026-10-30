@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-29T00:06:08Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-29T00:13:05Z", "by": "V", "status": "RECEIVED", "note": "Team V: received; asking the coordinator to open a new Team V thread for it (picture tickets + layered assets)"}],
+ "evidence": ["https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-6rq94x/visual-assets/v10_1/roulette/HANDOFF_HO-040_DONE.md"],
+ "log": [{"at": "2026-10-29T00:06:08Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-29T00:13:05Z", "by": "V", "status": "RECEIVED", "note": "Team V: received; asking the coordinator to open a new Team V thread for it (picture tickets + layered assets)"}, {"at": "2026-10-30T00:18:36Z", "by": "V", "status": "DONE", "note": "Nik approved the screen 29 Oct 8:16 p.m. Eastern. Real 3D screen (three.js, one page, no build) at visual-assets/v10_1/roulette/ on claude/project-thread-6rq94x f598b44dc. Package HANDOFF_HO-040_DONE.md has the wiring contract: URL params d/n/seed, window.__rr.play({fire,target}), rr:end event, squads.json shape, 22 s turn, sfx map (HO-047 merged). Team G decides outcomes (HO040-M1), the page's own random is demo only. Evidence sheets + 23 s videos in evidence/."}],
  "from_session": "session_01GU43Q8SekYEo4yZo5Tik3P"
 }
 ```
