@@ -228,7 +228,8 @@
     }
     function ssjrTransferSigningRowValid(value) {
       return value is map
-        && value.keys().hasOnly(['slot','name','leagueId','nationalityId'])
+        && value.keys().hasOnly(['slot','name','leagueId','nationalityId','overall'])
+        && (!('overall' in value) || (value.overall is int && value.overall >= 30 && value.overall <= 99))
         && value.slot is int
         && value.slot >= 1
         && value.slot <= 3

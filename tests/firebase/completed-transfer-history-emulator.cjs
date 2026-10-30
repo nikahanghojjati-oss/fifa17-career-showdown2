@@ -64,7 +64,7 @@ function journeyResult(role,season){if(role==="playerOne")return {leaguePosition
 // Season 1: Nik guesses Daniel's signing nationality (released). Season 2: two Nik signings, one released. Season 3: empty rows.
 const INPUTS=[
   {guesses:{playerOne:[{slot:1,type:"league",valueId:"england-premier-league"}],playerTwo:[{slot:1,type:"league",valueId:"germany-bundesliga"},{slot:2,type:"nationality",valueId:"england"}]},signings:{playerOne:[{slot:1,name:"Daniel S1",leagueId:"spain-primera-division",nationalityId:"england"}],playerTwo:[{slot:1,name:"Nik S1",leagueId:"italy-serie-a",nationalityId:"brazil"}]}},
-  {guesses:{playerOne:[{slot:1,type:"nationality",valueId:"brazil"}],playerTwo:[{slot:1,type:"league",valueId:"france-ligue-1"}]},signings:{playerOne:[{slot:1,name:"Daniel S2",leagueId:"germany-bundesliga",nationalityId:"france"}],playerTwo:[{slot:1,name:"Nik S2",leagueId:"england-premier-league",nationalityId:"brazil"},{slot:2,name:"Nik S2 B",leagueId:"italy-serie-a",nationalityId:"germany"}]}},
+  {guesses:{playerOne:[{slot:1,type:"nationality",valueId:"brazil"}],playerTwo:[{slot:1,type:"league",valueId:"france-ligue-1"}]},signings:{playerOne:[{slot:1,name:"Daniel S2",leagueId:"germany-bundesliga",nationalityId:"france"}],playerTwo:[{slot:1,name:"Nik S2",leagueId:"england-premier-league",nationalityId:"brazil",overall:78},{slot:2,name:"Nik S2 B",leagueId:"italy-serie-a",nationalityId:"germany"}]}},
   {guesses:{playerOne:[],playerTwo:[]},signings:{playerOne:[],playerTwo:[]}}
 ];
 
@@ -191,6 +191,7 @@ async function run(env){
   await check("A4","Nik reads Daniel's X season_1 transfer role",async()=>{await assertSucceeds(getDoc(T(dbB,X,1,"playerOne")));});
   await check("A5","Daniel reads his own X season_2 transfer role",async()=>{await assertSucceeds(getDoc(T(dbA,X,2,"playerOne")));});
   await check("A6","Nik reads Daniel's X season_3 transfer role (empty rows)",async()=>{const snap=await assertSucceeds(getDoc(T(dbB,X,3,"playerOne")));assert.deepEqual(snap.data().signings,[]);});
+  await check("A7","r87: Nik's own signing overall is stored and readable after the challenge",async()=>{const snap=await assertSucceeds(getDoc(T(dbA,X,2,"playerTwo")));assert.equal(snap.data().signings[0].overall,78);assert.equal("overall" in snap.data().signings[1],false);});
 
   // B. Still denied on the completed Showdown.
   await check("B1","stranger cannot read X season_1 challenge",async()=>{await assertFails(getDoc(T(dbC,X,1)));});
@@ -316,4 +317,4 @@ async function run(env){
   });
 }
 
-(async()=>{const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});try{await env.clearFirestore();await run(env);assert.equal(checks,73);process.stdout.write(`PASS completed-only transfer history emulator: ${checks} numbered checks (I0, A completed reads, B denials, C closed writes, D abandoned, E forged witnesses, G forged challenge states, F active regressions, P session-free reader).\n`);}finally{await env.cleanup();}})().catch(error=>{console.error(error.stack||error);process.exit(1);});
+(async()=>{const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});try{await env.clearFirestore();await run(env);assert.equal(checks,74);process.stdout.write(`PASS completed-only transfer history emulator: ${checks} numbered checks (I0, A completed reads, B denials, C closed writes, D abandoned, E forged witnesses, G forged challenge states, F active regressions, P session-free reader).\n`);}finally{await env.cleanup();}})().catch(error=>{console.error(error.stack||error);process.exit(1);});

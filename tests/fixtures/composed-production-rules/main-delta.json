@@ -9,10 +9,10 @@
     "bytes": 153241
   },
   "candidate": {
-    "base": "main e849e0ff (r85 Rules live, unchanged since 076177e2) plus r86 career summaries (two R86-SUMMARY hunks) and r87 Roster Russian Roulette boards (two R87-RRR hunks: the create check functions and the rivalry rosterBoards match). Regenerated with --print-main-delta origin/main",
-    "sha256": "71c9136ced4413f68dcb5a9ce3efa8f31523a0165780f95dc5e7d1d028f66b5f",
-    "gitBlobSha1": "02ab64d69330ae7317bbd6e72847a43e45358e2a",
-    "bytes": 159256
+    "base": "main e849e0ff (r85 Rules live, unchanged since 076177e2) plus r86 career summaries (two R86-SUMMARY hunks) and r87 Roster Russian Roulette (three R87-RRR hunks: the optional signing overall, the board create check functions and the rivalry rosterBoards match). Regenerated with --print-main-delta origin/main",
+    "sha256": "1feed81300ba856004060e7f9039d1f51e7e0b055d3d6b1bfc99c03c5ad72df9",
+    "gitBlobSha1": "8be20e03f8965cb19206f772a5dee88b795d0ff8",
+    "bytes": 159373
   },
   "allowedOwners": [
     "G-7",
@@ -36,8 +36,21 @@
   ],
   "hunks": [
     {
+      "mainLine": 1506,
+      "candidateLine": 1506,
+      "removed": [
+        "        && value.keys().hasOnly(['slot','name','leagueId','nationalityId'])"
+      ],
+      "added": [
+        "        && value.keys().hasOnly(['slot','name','leagueId','nationalityId','overall'])",
+        "        && (!('overall' in value) || (value.overall is int && value.overall >= 30 && value.overall <= 99))"
+      ],
+      "owner": "R87-RRR",
+      "why": "r87 Roster Russian Roulette (Nik 2026-10-30): each own Transfer War signing may carry its FIFA 17 overall (whole number 30-99, optional key so older rows stay valid); it decides the roulette board from season 2. No new path, read or write."
+    },
+    {
       "mainLine": 2437,
-      "candidateLine": 2437,
+      "candidateLine": 2438,
       "removed": [],
       "added": [
         "    // r87 Roster Russian Roulette (Nik 2026-10-29: \"Edit board before each spin\"): from season 2 each manager saves the",
@@ -88,7 +101,7 @@
     },
     {
       "mainLine": 2772,
-      "candidateLine": 2814,
+      "candidateLine": 2815,
       "removed": [],
       "added": [
         "    // r86 reads at scale (Nik 2026-10-27): one create-only career summary per finished Showdown under the reading",
@@ -132,7 +145,7 @@
     },
     {
       "mainLine": 2873,
-      "candidateLine": 2950,
+      "candidateLine": 2951,
       "removed": [],
       "added": [
         "    // r87 Roster Russian Roulette boards (cmsRosterBoardCreateValid): both managers read; each creates his own once.",
@@ -147,7 +160,7 @@
     },
     {
       "mainLine": 2905,
-      "candidateLine": 2988,
+      "candidateLine": 2989,
       "removed": [],
       "added": [
         "    }",

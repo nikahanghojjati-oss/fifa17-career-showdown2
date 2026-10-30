@@ -147,3 +147,8 @@
     #transferChallenge .transferGuessesGrid,
     #transferChallenge .transferChallengeResults{transition:none!important;}
 }
+
+/* r87: the signing overall box (two digits) after the player name. */
+.signingRow:has(> .signingOverall){grid-template-columns:27px 1.2fr 56px 1fr 1fr;}
+.signingRow>.signingOverall{text-align:center;padding:0 4px;}
+@media(max-width:900px){.signingRow:has(> .signingOverall){grid-template-columns:27px 1fr;}}

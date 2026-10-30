@@ -129,7 +129,7 @@
   }
   function rrsStoreError(result){
     const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(result);if(quota)return quota;
-    if(result&&/permission/.test(String(result.code)))return "The board could not be saved: the Showdown is not open for this device. Go back to Showdown Home and open it again.";
+    if(result&&/permission/.test(String(result.code)))return "The board could not be saved: the Showdown is not open here. Go back to Showdown Home and open it again.";
     return "The board could not be reached. Check the connection and try again.";
   }
   // Returns {playerOne:rows, playerTwo:rows} once both boards for this season are locked, or null when the manager leaves.
