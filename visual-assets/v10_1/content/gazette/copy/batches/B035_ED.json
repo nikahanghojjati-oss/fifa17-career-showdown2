@@ -1,0 +1,608 @@
+{
+  "batch": 35,
+  "situation": "lead-extended",
+  "voice": "The co-commentator",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb35-001",
+      "text": "That's the value of {leader} keeping standards up; the chasing job has just become heavier.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb35-002",
+      "text": "For {trailer}, the nuisance isn't this setback alone; it's watching the other side collect another season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb35-003",
+      "text": "Notice how {winnerClub} have handled this; no fuss, just another useful separation in the standings.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb35-004",
+      "text": "Protecting an advantage is one thing; making it inconvenient to pursue is rather better.",
+      "score": 9,
+      "was": "{leader} didn't merely defend the advantage here; this season has made it worth considerably more."
+    },
+    {
+      "id": "cb35-005",
+      "text": "Another season goes to {winner}, and that carries extra weight when the rivalry already favors you.",
+      "score": 9,
+      "was": "Another season goes to {winner}, and that carries extra weight when the contest already favors you."
+    },
+    {
+      "id": "cb35-006",
+      "text": "It's the timing I admire from {leader}; there was room to coast, but not a hint of it here.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb35-007",
+      "text": "{loserClub} can be proud of their effort; this round simply leaves them farther behind.",
+      "score": 9,
+      "was": "{loserClub} still have a contest to fight; they'll just have to start from farther back."
+    },
+    {
+      "id": "cb35-008",
+      "text": "You can explain it quite simply: {winnerClub} took this round and made the pursuit harder.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb35-009",
+      "text": "A good cushion can tempt a manager into caution; {leader} has chosen to add another layer.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb35-010",
+      "text": "That's the practical benefit of winning again; the entire rivalry leans a little farther your way.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb35-011",
+      "text": "The real skill isn't sitting in front; it's persuading the pursuer there's still farther to travel.",
+      "score": 9,
+      "was": "{winner} has turned an existing advantage into a stronger position, which is the sensible thing to do."
+    },
+    {
+      "id": "cb35-012",
+      "text": "There'll be plenty of talk about momentum, but {leader} has something better: another season in the bag.",
+      "score": 10,
+      "was": "There'll be plenty of talk about momentum, but {leader} has something better: another season in hand."
+    },
+    {
+      "id": "cb35-013",
+      "text": "{trailer} cannot undo the earlier rounds now; this one has only increased the work remaining.",
+      "score": 9,
+      "was": "{trailer} cannot undo the earlier rounds tonight; this one has only increased the work remaining."
+    },
+    {
+      "id": "cb35-014",
+      "text": "Remarkably tidy from {winnerClub}; the fresh success reinforces the earlier work.",
+      "score": 9,
+      "was": "It's very tidy from {winnerClub}; success in the current campaign reinforces everything that came before it."
+    },
+    {
+      "id": "cb35-015",
+      "text": "Again is the significant word here; each repeated success changes the burden on the rival.",
+      "score": 10,
+      "was": "The important word is again; {leader} has made an established pattern rather difficult to ignore."
+    },
+    {
+      "id": "cb35-016",
+      "text": "You sense the difference between holding your place and moving the whole Showdown forward.",
+      "score": 9,
+      "was": "You sense the difference between holding your place and moving the whole contest forward."
+    },
+    {
+      "id": "cb35-017",
+      "text": "There's no rescue job in this story, only the disciplined business of adding to a winning position.",
+      "score": 9,
+      "was": "{winner} didn't need a rescue act, and that's precisely why this result matters so much."
+    },
+    {
+      "id": "cb35-018",
+      "text": "Quietly efficient, that; the pace setter has increased the distance without wasting a movement.",
+      "score": 9,
+      "was": "There's an efficiency to {leader} here; take the available season, extend the distance, avoid any needless drama."
+    },
+    {
+      "id": "cb35-019",
+      "text": "I wouldn't write off {trailer}; I'd simply recommend a rather larger notebook for the comeback plan.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb35-020",
+      "text": "{winnerClub} had something to protect, and they've managed to improve it instead.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb35-021",
+      "text": "Some victories change the direction of a rivalry; this one makes its existing direction more pronounced.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb35-022",
+      "text": "Consider the hidden cost of this round: the chasing manager now needs more than yesterday's ambition.",
+      "score": 9,
+      "was": "The quiet detail is {leader} was already in front; now the other manager's task costs more effort."
+    },
+    {
+      "id": "cb35-023",
+      "text": "Beyond the latest win for {winner}, there's the less pleasant business of limiting the rival's options.",
+      "score": 9,
+      "was": "It's not merely a season won by {winner}; it's less freedom for the rival to make mistakes."
+    },
+    {
+      "id": "cb35-024",
+      "text": "{leader} has found the cleverest way to guard a position: keep stretching it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb35-025",
+      "text": "Should another round come, {loserClub} have the chance to answer; it will need to be a substantial one.",
+      "score": 9,
+      "was": "{loserClub} have time to answer if the format allows it, but the answer will need substance."
+    },
+    {
+      "id": "cb35-026",
+      "text": "Someone's made the easy chair more comfortable; unfortunately, it belongs to the manager setting the pace.",
+      "score": 10,
+      "was": "You know what happens to a comfortable chair? {leader} has just added another cushion."
+    },
+    {
+      "id": "cb35-027",
+      "text": "Was that door still open? Certainly. But it's a heavier door to push now.",
+      "score": 10,
+      "was": "The door wasn't closed before; after this round, {trailer} will need a firmer push."
+    },
+    {
+      "id": "cb35-028",
+      "text": "Rather awkward for the pursuit, that; {winnerClub} keep moving the target while everyone else looks for it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb35-029",
+      "text": "From the front, a manager can afford a glance back; this result makes the view rather reassuring.",
+      "score": 9,
+      "was": "If you're {leader}, you don't have to glance backward as often after a season like this."
+    },
+    {
+      "id": "cb35-030",
+      "text": "This isn't a lucky escape; it's a manager making the existing edge harder to touch.",
+      "score": 9,
+      "was": "This isn't a lucky escape; it's a manager making the existing advantage harder to touch."
+    },
+    {
+      "id": "cb35-031",
+      "text": "Even a decent head start is useful only if you remember to keep walking, as {winner} has.",
+      "score": 9,
+      "was": "A decent head start is useful, but {winner} has remembered to keep walking."
+    },
+    {
+      "id": "cb35-032",
+      "text": "Should they get another chance, {trailer} will have to do rather more than improve the mood.",
+      "score": 9,
+      "was": "{trailer} can take encouragement from the seasons ahead, provided there are some; the present is less friendly."
+    },
+    {
+      "id": "cb35-033",
+      "text": "Keeping first place asks for restraint; improving it demands an appetite that clearly hasn't faded.",
+      "score": 10,
+      "was": "It takes restraint to maintain a winning position; it takes ambition to improve one, as {leader} just did."
+    },
+    {
+      "id": "cb35-034",
+      "text": "An extra chapter has been added to the story, and the trailing side doesn't like the ending.",
+      "score": 9,
+      "was": "{winnerClub} have left the pursuers a longer reading list, with the latest chapter all their own."
+    },
+    {
+      "id": "cb35-035",
+      "text": "That's how a narrow doorway becomes a long corridor; the leader has extended the route back.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb35-036",
+      "text": "Call it sensible housekeeping by {leader}; the furniture was in order, and they've made more space.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb35-037",
+      "text": "{loser} will know a reply is possible, but a polite reply won't shift this balance.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb35-038",
+      "text": "{winner} has given the rivalry a new problem: how do you catch someone who keeps advancing?",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb35-039",
+      "text": "Never mind the size of the separation; it's the refusal to rest on it that really matters.",
+      "score": 9,
+      "was": "The distance matters, yes, but so does {leader} refusing to behave like the job is finished."
+    },
+    {
+      "id": "cb35-040",
+      "text": "Rather than preserve the picture, {winnerClub} have pushed its frame farther along the wall.",
+      "score": 9,
+      "was": "{winnerClub} didn't settle for preserving the picture; they've pushed the frame farther along the wall."
+    },
+    {
+      "id": "cb35-041",
+      "text": "Here's the awkward bit for the chaser: a better next season may still leave plenty to do.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb35-042",
+      "text": "{leader} has gone from setting the pace to asking whether anyone can stay close to it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb35-043",
+      "text": "I like the lack of ceremony from {winner}; a valuable result, treated as another job completed.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb35-044",
+      "text": "Football has an old lesson: defend a lead by giving the opponent fresh problems.",
+      "score": 9,
+      "was": "It's a familiar football lesson: defending what you have works better when you also build on it."
+    },
+    {
+      "id": "cb35-045",
+      "text": "If the target keeps climbing the staircase, catching it becomes a job for strong legs.",
+      "score": 9,
+      "was": "{trailer} is facing a moving staircase, and this season has added another step."
+    },
+    {
+      "id": "cb35-046",
+      "text": "That'll make for awkward conversations in the other dugout; the task has become a good deal harder.",
+      "score": 10,
+      "was": "That'll make the rival's arithmetic uncomfortable, even without anyone reaching for a calculator."
+    },
+    {
+      "id": "cb35-047",
+      "text": "{leader} needed no dramatic reversal; a straightforward repeat has done the real damage.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb35-048",
+      "text": "Watch the order of things: {winnerClub} bank the season first, then the wider contest takes shape.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb35-049",
+      "text": "Quite a statement from {leader}, though the beauty of it is how little decoration it needs.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb35-050",
+      "text": "It is the cumulative effect that stings; one more winning campaign and suddenly the horizon shifts.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb35-051",
+      "text": "Almost indecent how relaxed the pace setter can look when the hard work is clearly continuing.",
+      "score": 9,
+      "was": "{winner} has made being chased look almost relaxing, which is harder work than it sounds."
+    },
+    {
+      "id": "cb35-052",
+      "text": "Not much sympathy from the standings; {trailer} now has a longer argument to make.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb35-053",
+      "text": "Like charging rent on a house you already own, this is getting rather profitable.",
+      "score": 9,
+      "was": "{winnerClub} have done the equivalent of charging rent on a place they already occupied."
+    },
+    {
+      "id": "cb35-054",
+      "text": "Pressure has been returned to sender, neatly addressed to the manager doing the chasing.",
+      "score": 10,
+      "was": "The pressure was meant to sit with {leader}; instead they've posted it back to the other dugout."
+    },
+    {
+      "id": "cb35-055",
+      "text": "A season like that turns a useful edge into something with proper weight behind it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb35-056",
+      "text": "Good managers understand this: a leading position is never a reason to think the work is finished.",
+      "score": 9,
+      "was": "{leader} has a good habit: never confuse being ahead with having done enough."
+    },
+    {
+      "id": "cb35-057",
+      "text": "There's still pride in the challenge for {trailer}, though the route has acquired a few extra bends.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb35-058",
+      "text": "From {winner}'s perspective, that's a perfect inconvenience to hand a rival: a longer way back.",
+      "score": 9,
+      "was": "{winner} has widened the window, and the rival can see the task more clearly through it."
+    },
+    {
+      "id": "cb35-059",
+      "text": "No wild celebration needed; {winnerClub} have made a very persuasive case by simply winning again.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb35-060",
+      "text": "A moving target is nuisance enough; watching it pick up speed is no one's idea of relief.",
+      "score": 10,
+      "was": "That's the trouble with chasing {leader}; every fresh gain for them feels like another hill."
+    },
+    {
+      "id": "cb35-061",
+      "text": "Nothing about the advantage is on loan; another winning season has strengthened its foundations.",
+      "score": 9,
+      "was": "The lead wasn't borrowed, and {winner} has just made that unmistakably clear."
+    },
+    {
+      "id": "cb35-062",
+      "text": "Who wouldn't prefer a stationary target? {trailer} has been given rather the opposite.",
+      "score": 10,
+      "was": "{trailer} might prefer a stationary target, but nobody promised a convenient rivalry."
+    },
+    {
+      "id": "cb35-063",
+      "text": "Consider the old-fashioned value of consistency; {winnerClub} have turned it into a bigger buffer.",
+      "score": 9,
+      "was": "Consider the old-fashioned value of consistency; {winnerClub} have turned it into a bigger advantage."
+    },
+    {
+      "id": "cb35-064",
+      "text": "Exactly what the opponent didn't want: the leading manager finding still more daylight.",
+      "score": 9,
+      "was": "The manager in front has done the one thing the opponent least wanted: found more daylight."
+    },
+    {
+      "id": "cb35-065",
+      "text": "Perhaps the argument isn't settled, but the manager in front keeps getting the last word.",
+      "score": 9,
+      "was": "{leader} hasn't won the whole argument here, necessarily, but the opening statement is getting longer."
+    },
+    {
+      "id": "cb35-066",
+      "text": "Picture an already polished display case; {winner} has found a reason to buff the glass again.",
+      "score": 10,
+      "was": "It's rather like polishing a trophy you already own; {winner} has improved the shine without changing the shelf."
+    },
+    {
+      "id": "cb35-067",
+      "text": "Whatever happens next for {loserClub}, this chapter belongs emphatically to the other side.",
+      "score": 9,
+      "was": "{loserClub} still have their own opportunities, yet this chapter belongs emphatically to the other side."
+    },
+    {
+      "id": "cb35-068",
+      "text": "You can hear the imaginary pencil scratching; the chaser's plan has just needed another revision.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb35-069",
+      "text": "An emphatic answer from {leader} to a question nobody had quite managed to ask.",
+      "score": 9,
+      "was": "That was a firm answer from {leader} to a question nobody had quite managed to ask."
+    },
+    {
+      "id": "cb35-070",
+      "text": "What's striking isn't another victory while ahead; it's the refusal to let this contest settle.",
+      "score": 10,
+      "was": "The remarkable part isn't winning from the front; it's doing so without allowing the contest to settle."
+    },
+    {
+      "id": "cb35-071",
+      "text": "Winning again makes patience expensive for the opponent; that's exactly what {winnerClub} have managed.",
+      "score": 9,
+      "was": "{winnerClub} have made patience expensive for the opponent, which is one way to run a rivalry."
+    },
+    {
+      "id": "cb35-072",
+      "text": "Ask the chasing manager what they need now; {leader} has made gradual progress less appealing.",
+      "score": 9,
+      "was": "The chaser will have to be bold, because {leader} has left less room for gradual progress."
+    },
+    {
+      "id": "cb35-073",
+      "text": "As if first place weren't comfortable enough, someone's brought in the good chairs.",
+      "score": 10,
+      "was": "There's a difference between occupying first place and furnishing it; {winner} has brought in the good chairs."
+    },
+    {
+      "id": "cb35-074",
+      "text": "Should another chapter come, {trailer} will want it to be theirs; this edition has a stubborn editor.",
+      "score": 10,
+      "was": "{trailer} will want the next chapter to be theirs; this edition has a rather stubborn editor."
+    },
+    {
+      "id": "cb35-075",
+      "text": "It may look like business as usual, but a repeat success changes what business as usual means.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb35-076",
+      "text": "Dryly impressive from {winner}; winning from the front looks simple, though the rival knows better.",
+      "score": 10,
+      "was": "{winner} has made the sensible look ruthless, and I mean that as a compliment."
+    },
+    {
+      "id": "cb35-077",
+      "text": "Losing a round is one thing; {trailer} won't enjoy how much harder the entire rivalry becomes.",
+      "score": 9,
+      "was": "A rival can accept losing a round; {trailer} won't enjoy how much harder the entire contest becomes."
+    },
+    {
+      "id": "cb35-078",
+      "text": "Imagine the finish line moving away as you run; {leader} has made that the chaser's problem.",
+      "score": 9,
+      "was": "It's like shifting the finish line while holding the map; {leader} has earned that privilege."
+    },
+    {
+      "id": "cb35-079",
+      "text": "Credit {winnerClub} for avoiding the easy mistake of treating an advantage as the whole achievement.",
+      "score": 9,
+      "was": "{winnerClub} deserve credit for refusing the easy mistake of treating an advantage as an achievement in itself."
+    },
+    {
+      "id": "cb35-080",
+      "text": "Oddly, {leader} can apply the most pressure without having to chase anyone.",
+      "score": 9,
+      "was": "The clever thing is that {leader} has applied pressure without needing to chase anyone."
+    },
+    {
+      "id": "cb35-081",
+      "text": "This has the feel of an orderly office, with the rival's paperwork piling up next door.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb35-082",
+      "text": "Having an advantage is useful; {winner} has bought a little more room for error.",
+      "score": 9,
+      "was": "{winner} has bought more room for error while leaving the other manager rather less."
+    },
+    {
+      "id": "cb35-083",
+      "text": "An established edge usually invites caution; instead, this season has been used as an accelerator.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb35-084",
+      "text": "Progress, not promise, is what {trailer} needs; the difference between those words has grown.",
+      "score": 10,
+      "was": "{trailer} needs progress now, not just promise; the difference between those words has grown."
+    },
+    {
+      "id": "cb35-085",
+      "text": "Well earned by {leader}, that extra separation; this rivalry didn't stop when they went ahead.",
+      "score": 9,
+      "was": "That extra separation is {leader}'s reward for remembering the contest didn't stop when they went ahead."
+    },
+    {
+      "id": "cb35-086",
+      "text": "Suddenly the Showdown has a different shape, and {winnerClub} have done the carving.",
+      "score": 9,
+      "was": "The rest of the Showdown has a new shape, and {winnerClub} have done the carving."
+    },
+    {
+      "id": "cb35-087",
+      "text": "There's nothing flamboyant about widening an edge; that's what makes it such effective management.",
+      "score": 9,
+      "was": "There's nothing flamboyant about widening an advantage; that's what makes it such effective management."
+    },
+    {
+      "id": "cb35-088",
+      "text": "Front-door security has tightened; the challenger will need more than a polite knock.",
+      "score": 10,
+      "was": "{winner} has kept the front door open for nobody; the race behind has just lengthened."
+    },
+    {
+      "id": "cb35-089",
+      "text": "One luxury of this result for {leader}: more comfort at the top, without any reason to relax.",
+      "score": 9,
+      "was": "It's a curious luxury for {leader}: they can be satisfied tonight without being satisfied overall."
+    },
+    {
+      "id": "cb35-090",
+      "text": "Still, {trailer} hasn't run out of arguments; the strongest one now needs to be played, not spoken.",
+      "score": 10,
+      "was": "{trailer} hasn't run out of arguments, but the strongest one now needs to be played, not spoken."
+    },
+    {
+      "id": "cb35-091",
+      "text": "From here, a response would need greater weight; the leader's latest season has raised the bar.",
+      "score": 9,
+      "was": "The next season will ask more of the pursuer because this season asked so little of the leader's nerve."
+    },
+    {
+      "id": "cb35-092",
+      "text": "With the scales already tipped, {winnerClub} have added a little more weight to their side.",
+      "score": 9,
+      "was": "{winnerClub} have made the competition tilt another degree, and those degrees add up."
+    },
+    {
+      "id": "cb35-093",
+      "text": "I'd call this sound management from {leader}; defend the position by making it tougher to approach.",
+      "score": 9,
+      "was": "You'd call this sound management from {leader}; protect the position by making it tougher to approach."
+    },
+    {
+      "id": "cb35-094",
+      "text": "Notice the irony: the more comfortable the position, the less comfortable {winner} seems with standing still.",
+      "score": 10,
+      "was": "There's the irony: the more comfortable the position, the less comfortable {winner} seems with standing still."
+    },
+    {
+      "id": "cb35-095",
+      "text": "Even with the distance growing, the rivalry still has a story worth telling.",
+      "score": 9,
+      "was": "A stretched contest can still be a lively one; it simply needs a more determined reply."
+    },
+    {
+      "id": "cb35-096",
+      "text": "{loser} has a good reason to stay interested, but now an even better reason to raise the standard.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb35-097",
+      "text": "For {winner}, the immediate success is satisfying; making the rival's job harder is the lasting prize.",
+      "score": 9,
+      "was": "The season belonged to {winner}, and the broader benefit is the one they'll appreciate later."
+    },
+    {
+      "id": "cb35-098",
+      "text": "Without a speech or a flourish, {leader} has made the most convincing argument available.",
+      "score": 10,
+      "was": "Nobody hands out extra credit for style here; {leader} has chosen the most convincing sort of proof."
+    },
+    {
+      "id": "cb35-099",
+      "text": "My suspicion is {trailer} would prefer a rather quieter rivalry; this round offered no such comfort.",
+      "score": 9,
+      "was": "I suspect {trailer} would happily settle for a quiet round next time; this was anything but helpful."
+    },
+    {
+      "id": "cb35-100",
+      "text": "Previously, the margin was clear enough; this latest result underlines it in rather heavier ink.",
+      "score": 9,
+      "was": "The difference was already visible; {winnerClub} have now given it another underline."
+    }
+  ]
+}
