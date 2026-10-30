@@ -359,6 +359,10 @@ ok('L11','every club: 10 forced firing seasons, no kept signing, full 11 + 4 wit
   const sub=everyBullet(()=>14);
   const after=sub.forSeason(fixedId(89),cs,2,{history:history([])}).boards.playerOne;
   assert.equal(after[14].name,Squads.squads.Arsenal.reserves[0][1],'shot sub gets best reserve');
+  const strengthened=sub.forSeason(fixedId(89),cs,2,{history:history([row('New defender after sub loss',99,'CB')])}).boards.playerOne;
+  assert.equal(strengthened.find(p=>p.name==='New defender after sub loss').pos,'RCB','sub loss preserves R87-2 position-fit XI upgrades');
+  assert.equal(strengthened[14].name,'S. Mustafi','displaced starter fills the lost sub slot');
+  fullBoard(strengthened,'signing after sub loss');
   const released=sub.forSeason(fixedId(89),cs,2,{history:history([{...row('Guessed only',99,'CB'),release:true}])}).boards.playerOne;
   assert.equal(JSON.stringify(released),JSON.stringify(after),'guessed signing never joins');
   const guessedClubPlayer=Squads.squads.Arsenal.reserves[0][1];
@@ -430,6 +434,12 @@ ok('L13','all 98 clubs exclude any launch XI, sub or reserve Special Player and 
     }
     for(let call=0;call<2;call+=1)assert.throws(()=>forced.forSeason(fixedId(92),cs,exhaustedSeason,options),error=>
       error.code==='ROSTER_EXHAUSTED'&&error.club===club&&error.message==='Club roster exhausted: '+club,'explicit deterministic exhaustion; no incomplete board returned');
+    if(club==='Cagliari'){
+      const history=noSignings.slice();history[9]={playerOne:[row('Kept reserve cover',40,null)],playerTwo:[]};
+      const b=forced.forSeason(fixedId(92),cs,10,{...options,history}).boards.playerOne;
+      fullBoard(b,'kept signing prevents club exhaustion');
+      assert.ok(b.some(p=>p.bench&&p.name==='Kept reserve cover'),'kept sub-only signing can cover the promoted bench slot');
+    }
   }
   const r='pair_4f30dc1baf68cf8f3e5cf3d58163ef451816249ea818b46fde9e9539ce3654fa';
   assert.throws(()=>RRR.forSeason(r,{playerOne:'Torino',playerTwo:'Liverpool'},10,{history:noSignings,special:{playerOne:{name:'J. Hart',overall:84}}}),error=>error.code==='ROSTER_EXHAUSTED'&&error.club==='Torino','real-stream goalkeeper exhaustion reported');

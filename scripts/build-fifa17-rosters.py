@@ -2,7 +2,8 @@
 """Rebuild the compact FIFA 17 launch database and boards; Python standard library only.
 Usage: python3 scripts/build-fifa17-rosters.py path/to/players_17.csv
 Source: https://raw.githubusercontent.com/ifrankandrade/data-visualization/main/datasets/players_17.csv
-The source uses SoFIFA roster 170002. Input order breaks equal-rating ties.
+The source uses SoFIFA roster 170002. XI/subs retain source-order rating ties;
+reserve ties use the lower jersey number.
 """
 import collections
 import csv

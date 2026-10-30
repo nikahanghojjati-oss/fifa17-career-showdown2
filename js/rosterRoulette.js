@@ -131,6 +131,10 @@
   // Strict improvements retain incumbents on ties. A displaced player stays in the local squad.
   function rrBench(state,player){
     const board=state.board;
+    if(state.vacant>=XI_SIZE){
+      const at=state.vacant;board[at]=rrPlace(board[at],player);state.vacant=null;
+      return true;
+    }
     let at=XI_SIZE;
     for(let i=XI_SIZE+1;i<BOARD_SIZE;i+=1)if(board[i].rating<board[at].rating)at=i;
     if(!(player.rating>board[at].rating)){rrReserve(state,player);return false;}
@@ -140,15 +144,19 @@
   function rrJoin(state,player){
     if(state.excluded.has(rrKey(player.name))||rrOnBoard(state,player.name))return false;
     state.reserves=state.reserves.filter(p=>rrKey(p.name)!==rrKey(player.name));
-    let at=-1;
-    for(let i=0;i<XI_SIZE;i+=1){
-      const current=state.board[i];
-      if(!rrFit(player,current.pos)||!(player.rating>current.rating))continue;
-      if(at<0||rrFit(player,current.pos)>rrFit(player,state.board[at].pos)||(rrFit(player,current.pos)===rrFit(player,state.board[at].pos)&&current.rating<state.board[at].rating))at=i;
+    let at=state.vacant!==null&&state.vacant<XI_SIZE&&rrFit(player,state.board[state.vacant].pos)>0?state.vacant:-1;
+    if(at<0){
+      for(let i=0;i<XI_SIZE;i+=1){
+        const current=state.board[i];
+        if(i===state.vacant)continue;
+        if(!rrFit(player,current.pos)||!(player.rating>current.rating))continue;
+        if(at<0||rrFit(player,current.pos)>rrFit(player,state.board[at].pos)||(rrFit(player,current.pos)===rrFit(player,state.board[at].pos)&&current.rating<state.board[at].rating))at=i;
+      }
     }
     if(at<0)return rrBench(state,player);
     const replaced=state.board[at];state.board[at]=rrPlace(replaced,player);
-    rrBench(state,replaced);
+    if(at===state.vacant)state.vacant=null;
+    else rrBench(state,replaced);
     return true;
   }
   // Replace directly: no intermediate empty row is ever written to a board. Kept signings get
@@ -212,7 +220,7 @@
     const boards={},turns={};
     const formations=Object.freeze(Object.fromEntries(ROLES.map(role=>[role,rrPlayers().clubs[clubs[role]].formation])));
     for(const role of ROLES){
-      const sp=rrSpecial(special,role),state={club:clubs[role],board:args.launch[role].slice(),reserves:[],excluded:new Set(sp?[rrKey(sp.name)]:[])};
+      const sp=rrSpecial(special,role),state={club:clubs[role],board:args.launch[role].slice(),reserves:[],vacant:null,excluded:new Set(sp?[rrKey(sp.name)]:[])};
       for(const [,name,number,rating] of rrSquads().squads[state.club].reserves)
         rrReserve(state,{name,number,rating,positions:rrPlayerPositions(name,state.club),signedSeason:null});
       if(sp){
@@ -229,9 +237,12 @@
         const turn=rrTurn(args.hex,k,role,state.board);
         if(turn.fired){
           state.excluded.add(rrKey(state.board[turn.hitSlot].name));
-          rrReplace(state,turn.hitSlot,kept);
+          // Keep the old row until it can be overwritten directly. Vacancy metadata lets
+          // R87-2's XI/bench signing placement run first without ever writing a blank row.
+          state.vacant=turn.hitSlot;
         }
         for(const player of kept)rrJoin(state,player);
+        if(state.vacant!==null){rrReplace(state,state.vacant,[]);state.vacant=null;}
       }
       const board=state.board;
       boards[role]=Object.freeze(board);
