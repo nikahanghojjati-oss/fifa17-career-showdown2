@@ -294,7 +294,8 @@
                 "nik": 66
               }
             }
-          ]
+          ],
+          "setupConfirmedAt": null
         }
       ]
     }
@@ -526,7 +527,8 @@
                 "nik": 66
               }
             }
-          ]
+          ],
+          "setupConfirmedAt": null
         }
       ]
     }

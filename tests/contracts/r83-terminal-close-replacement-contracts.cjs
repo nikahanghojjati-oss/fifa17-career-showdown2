@@ -204,3 +204,14 @@ for(const [label,change] of [
   assert.deepEqual(clone(original.api.getState().intent),held);
   assert.equal(original.forgets,0);assert.equal(original.calls.length,1);assert.equal(storeSnapshot(h),before);
 });
+
+// r86 (red team #6): a verified CLOSED Showdown is final. The Champion screen and Showdown Home kept re-reading it every 45 s.
+for(const who of [1,2])test(`${who===1?"Daniel":"Nik"}: a closed Showdown is not read again`,async()=>{
+  const h=await harness(),clock={now:2_000_000},p=page(h,who,clock);await p.automaticSave();
+  assert.equal(p.api.getState().phase,"CLOSED");
+  let reads=0;p.setRead(o=>{reads++;return Provider.read(o);});
+  for(let i=0;i<5;i++){clock.now+=45_000;await p.api.refresh();}
+  assert.equal(reads,0,"no billed rivalry read after a verified close");
+  assert.equal(p.api.getState().phase,"CLOSED");
+  assert.deepEqual(p.errors,[]);
+});

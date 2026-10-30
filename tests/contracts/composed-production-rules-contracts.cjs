@@ -85,7 +85,9 @@ function staticChecks(getCandidate){
           const z4Pointer=hunk.owner==='Z4'&&line.trim()==='allow create, update: if validSessionOfferWrite(rivalryId, offerId);';
           // r79 permanent pairing (Nik chose 2026-10-17 02:22 UTC): exactly the partner record and JOIN note writes.
           const r79Partner=hunk.owner==='R79-PARTNER'&&['allow create: if cmsPartnerCreateValid(accountId, partnerId);','allow update: if cmsPartnerUpdateValid(accountId, partnerId);','allow create, update: if cmsPartnerInboxWriteValid(accountId, noteId);'].includes(line.trim());
-          if(methods.some(x=>['create','update'].includes(x)))assert.ok(hunk.owner.split('+').includes('G-7')||z4Pointer||r79Partner,`only the reviewed G-7 career index block may add write rules: ${line}`);
+          // r86 reads at scale (Nik's standing authorization 2026-10-27 22:06 UTC): exactly the create-only career summary.
+          const r86Summary=hunk.owner==='R86-SUMMARY'&&line.trim()==='allow create: if cmsCareerSummaryCreateValid(accountId, rivalryId);';
+          if(methods.some(x=>['create','update'].includes(x))&&!/:\s*if false;\s*$/.test(line))assert.ok(hunk.owner.split('+').includes('G-7')||z4Pointer||r79Partner||r86Summary,`only the reviewed G-7 career index block may add write rules: ${line}`);
         }
       }
       return `${delta.hunks.length} hunks, -${delta.hunks.reduce((a,x)=>a+x.removed.length,0)} +${delta.hunks.reduce((a,x)=>a+x.added.length,0)} lines vs main ${delta.productionMain.commit.slice(0,7)}`;

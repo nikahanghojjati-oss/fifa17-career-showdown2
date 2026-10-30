@@ -37,6 +37,7 @@ const TEAM_V_FILES={
   "visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp":"fed849bbb2c9f239ae1561f57eb5b145e0e33a518fb7bfd0e424691c00cfd6ca",
   "visual-assets/v10_1/league/assets/ENV_LEAGUE_PHONE_V1.webp":"b0eecfe1a5d4f79e847170a787f5c8805b0630b0508732fd19302fdd66804a0b",
   "visual-assets/v10_1/plates-v5/ENV_LEAGUE_PHONE_V5.webp":"b29a53eae630ae198866f1ae59ea6b933f88ba94175b904154365b43df983c75",
+  "visual-assets/v10_1/plates-v5/ENV_LEAGUE_PHONE_TALL_V5.webp":"ba95dad70a228f546bc8c073f0344cec564ec8be8e232eff90e84346e2de82a6",
   "visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp":"d9fd67a604ed9e2a1e9dd202826c664aed22061fa53b127a6a6b8cd50060fae9",
   "visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp":"fcb07fa4c01b07ef86b238d07d7584e476ba3e780bb76ac561cb0167661057b4",
   "visual-assets/v10_1/league/assets/OVL_LEAGUE_DANIEL_PHONE_V1.webp":"0748bd50eed0b6f9267a2368977f43f4706b0692daf642c2f6dddc51708c734f",
@@ -47,7 +48,7 @@ const TEAM_V_FILES={
   "visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_2X.webp":"d71bf0f4da18fd92b45727e1c1ae955d8bb83fc35c9c16bf9988c938425db003",
   "visual-assets/v10_1/start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp":"f5fdb5eedc90b83acd5225cc6b18078ddfcf9031c9b40128f91db3314c34a3cd",
   "visual-assets/v10_1/start-join/assets/OVL_SJ_NIK_PHONE_V1.webp":"7564a129eccae2bbaf1a6b5280f0073dbba5770190c2547ae245b1bb07dc5b75",
-  "js/visualIdentity.js":"0c390d83928d57660fbff07955ec048345953ed389e1bbca6e044c6b8749b3e7"
+  "js/visualIdentity.js":"f513a9765f671f0a0bacbc3a4379988bf2e8b7847d5209cbbcda0e92921bbe7d"
 };
 
 // ---- a small fake DOM: enough for js/v10Screens.js, Team V's navbar.js and js/v10Setup.js ----

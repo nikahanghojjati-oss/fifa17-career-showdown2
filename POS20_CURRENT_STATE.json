@@ -1,17 +1,17 @@
 {
   "operatingSystem": "POS20",
-  "objective": "Release 1.9.8-r84 is live. Work on gameplay/r85 toward the real two-phone SSJR physical run and the official launch. SSJR-2.1 is 0/100 and is credited only by a real two-phone run.",
+  "objective": "Release 1.9.9-r85 is live. Work on gameplay/r86 while the r85 build goes through the real two-phone SSJR physical run and the official launch. SSJR-2.1 is 0/100 and is credited only by a real two-phone run.",
   "continuityState": "READY",
   "liveFactsMustBeResolved": true,
   "observedHeads": {
-    "main": "cd7df26ed57e4d9dfa40d88042d25a71fcb47a6c",
-    "candidate": "57db9f05d749a1bdd6828d72becb4d199fd29ad9",
-    "recovery": "57db9f05d749a1bdd6828d72becb4d199fd29ad9"
+    "main": "076177e2af38d47de6a161042e77de694d82bda5",
+    "candidate": "076177e2af38d47de6a161042e77de694d82bda5",
+    "recovery": "076177e2af38d47de6a161042e77de694d82bda5"
   },
   "candidateBranch": "ops/none-active",
   "recoveryBranch": "recovery/none-active",
-  "cognitiveDecision": "RE_RESOLVE_LIVE_STATE_THEN_CONTINUE_GAMEPLAY_R85",
-  "selectedAction": "Re-resolve live main and PR state with the GitHub API, then continue gameplay/r85 toward the SSJR physical run. Recorded heads here are observations only.",
+  "cognitiveDecision": "RE_RESOLVE_LIVE_STATE_THEN_CONTINUE_GAMEPLAY_R86",
+  "selectedAction": "Re-resolve live main and PR state with the GitHub API, then continue gameplay/r86; the SSJR physical run uses live r85. Recorded heads here are observations only.",
   "evidenceDebt": {
     "count": 1,
     "blocking": 1,
@@ -19,6 +19,6 @@
       "ssjr-2.1-real-two-phone-production-run"
     ]
   },
-  "exactBlocker": "SSJR-2.1 is 0/100. Credit needs one validated real two-phone production run; CI, emulator, review, merge and deployment grant zero credit. No POS20 candidate or recovery branch is active; the placeholder names ops/none-active and recovery/none-active exist only to satisfy the state schema, and the observed candidate and recovery heads are the gameplay/r85 head at observation.",
+  "exactBlocker": "SSJR-2.1 is 0/100. Credit needs one validated real two-phone production run; CI, emulator, review, merge and deployment grant zero credit. No POS20 candidate or recovery branch is active; the placeholder names ops/none-active and recovery/none-active exist only to satisfy the state schema, and the observed candidate and recovery heads are the gameplay/r86 head at observation.",
   "nextVerification": "Resolve live main, open PRs and exact-head checks with the GitHub API before any mutation."
 }

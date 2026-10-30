@@ -193,7 +193,8 @@
   async function ptcRefreshNow(){
     const request=ptcRequest();if(!request)return ptcClear();
     // r79: a Showdown ended by the other manager (END SHOWDOWN) stays ended (a closed rivalry never reopens): no further read for it.
-    const deleted=ptcCurrentState();if(deleted?.phase==="DELETED")return deleted;
+    // r86 (red team #6): the same holds for a verified CLOSED one. The Champion screen's 45 s timer wake re-read it (~320 billed/hour).
+    const ended=ptcCurrentState();if(ended?.phase==="DELETED"||(ended?.phase==="CLOSED"&&ended.terminal===true&&ended.rivalryId===request.rivalryId))return ended;
     await ptcBootstrap();
     // r79: right after a delete and a new JOIN, the page's rivalry can already be the new Showdown while this Showdown's request
     // (the old one) is still on screen for a moment. That is not a failure to report: this page has moved on, and the next wake

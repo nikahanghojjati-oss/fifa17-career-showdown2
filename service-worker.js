@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "1.9.9-r85";
-const PREVIOUS_RUNTIME_REVISION = "1.9.8-r84";
+const RUNTIME_REVISION = "1.9.10-r86";
+const PREVIOUS_RUNTIME_REVISION = "1.9.9-r85";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -17,6 +17,12 @@ const RUNTIME_CONFIG_PATH = "firebase.runtime-config.json";
 const APP_CHECK_BOOTSTRAP_PATH = "js/productionAppCheckBootstrap.js";
 const NETWORK_ONLY_NAVIGATION_PATHS = new Set([
     "production-authorization-acceptance.html"
+]);
+// r86: the Special Player page is its own document in a frame (js/specialPlayerReveal.js). A frame load is a navigation:
+// it gets that page from the shell the app runs (then the network), never the shell's index.html. Its images follow the
+// Team V cache-first image rule.
+const SHELL_FRAME_NAVIGATION_PATHS = new Set([
+    "visual-assets/v10_1/special-player/index.html"
 ]);
 // Precached shell files that a stylesheet asks for by a relative url(), so the request has no ?v=: css/r78-marble-surfaces.css
 // draws its panels with url("r78-marble-tile.webp"). They come from the shell the page runs (the precached copy), then the network.
@@ -67,6 +73,12 @@ const SHELL_PATHS = Object.freeze([
   "js/sharedClosedShowdownAdapter.js",
   "js/sparkCompletedShowdownReader.js",
   "js/sparkClosedShowdownCareerLoader.js",
+  "js/careerSummaryStore.js",
+  "js/specialPlayerReveal.js",
+  "visual-assets/v10_1/special-player/index.html",
+  "js/marqueePlayer.js",
+  "data/marqueePlayers.js",
+  "js/specialPlayerChip.js",
   "js/careerStartMarker.js",
   "css/rivalryLegacyV10.css",
     "js/app.js",
@@ -257,8 +269,8 @@ const SHELL_PATH_SET = new Set(SHELL_PATHS);
 // this one: checked against SHELL_PATHS it would lack this release's new files, fail, and be deleted on activation, leaving
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION (and empties
 // the set when it changes PREVIOUS_RUNTIME_REVISION again). r80 adds no shell path to r79's 221 paths and removes none.
-// r85: the music player script is new since the previous release, so the rollback list stays exactly the previous one.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/musicDockV10.js"]);
+// r86: PREVIOUS is now r85, whose own list already holds the music player; these are the six files r86 adds to its 222.
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/careerSummaryStore.js","js/specialPlayerReveal.js","visual-assets/v10_1/special-player/index.html","js/marqueePlayer.js","data/marqueePlayers.js","js/specialPlayerChip.js"]);
 const PREVIOUS_SHELL_PATHS = Object.freeze(SHELL_PATHS.filter(path=>!SHELL_PATHS_ADDED_SINCE_PREVIOUS.has(path)));
 function shellPathsForRevision(revision){ return revision&&revision!==RUNTIME_REVISION&&revision===PREVIOUS_RUNTIME_REVISION?PREVIOUS_SHELL_PATHS:SHELL_PATHS; }
 
@@ -369,6 +381,7 @@ self.addEventListener("fetch",event=>{
     if(request.mode==="navigate"){
         const path=relativeScopePath(url);
         if(NETWORK_ONLY_NAVIGATION_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; }
+        if(SHELL_FRAME_NAVIGATION_PATHS.has(path)){ event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); const cached=selected?await cachedShellResponse(path,selected.revision):null; return cached||fetch(request); })()); return; }
         event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); if(selected){const cached=await cachedShellResponse("index.html",selected.revision);if(cached){return cached;}} return fetch(request); })()); return;
     }
     const path=relativeScopePath(url); if(!path){return;} if(isV10ImagePath(path)){ event.respondWith(v10ImageResponse(event,request,path)); return; } if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(path===APP_CHECK_BOOTSTRAP_PATH){return;} if(UNVERSIONED_SHELL_ASSET_PATHS.has(path)&&!url.searchParams.get("v")){ event.respondWith(unversionedShellResponse(request,path)); return; } const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}

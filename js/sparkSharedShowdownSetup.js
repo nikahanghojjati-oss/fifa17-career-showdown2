@@ -259,7 +259,8 @@
         const ctx=await context(options,transaction);
         if(!ctx.ledger)return Object.freeze({ok:true,status:"empty",revision:0,state:null});
         const state=await rebuild(protocol,ctx.ledger,ctx.rivalry,ctx.rivalryId,cryptoImpl);
-        return Object.freeze({ok:true,status:"live",revision:ctx.ledger.revision,state});
+        const updatedAtMs=ssrpTimestampMillis(ctx.ledger.updatedAt);
+        return Object.freeze({ok:true,status:"live",revision:ctx.ledger.revision,state,updatedAtMs:Number.isFinite(updatedAtMs)?updatedAtMs:null});
       });
     }catch(error){return resultError(error);}
   }

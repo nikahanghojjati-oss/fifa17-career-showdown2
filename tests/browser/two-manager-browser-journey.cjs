@@ -842,7 +842,24 @@ async function main(){
     await daniel.page.locator("#sharedTerminalCloseAction").click({timeout:30000});
     }
     for(const m of [daniel,nik]){
-      await m.page.waitForFunction(()=>document.getElementById("sharedTerminalCloseHeading")?.textContent==="SHOWDOWN CLOSED",null,{timeout:60000});
+      try{
+        await m.page.waitForFunction(()=>document.getElementById("sharedTerminalCloseHeading")?.textContent==="SHOWDOWN CLOSED",null,{timeout:60000});
+      }catch(error){
+        // CI-only intermittent stall (2026-10-29): print the close, session and rivalry state so the next failure says where it stopped.
+        const diag=await m.page.evaluate(()=>({
+          terminal:window.CareerModeProductionSharedTerminalClose?.getState?.()||null,
+          busy:window.CareerModeProductionSharedTerminalClose?.isBusy?.()??null,
+          heading:document.getElementById("sharedTerminalCloseHeading")?.textContent||"",
+          status:document.getElementById("sharedTerminalCloseStatus")?.textContent||"",
+          panelHidden:document.getElementById("sharedTerminalClosePanel")?.classList.contains("hidden")??null,
+          remote:(()=>{const s=window.CareerModeSparkRemoteJoining?.getState?.();return s?{sessionState:s.sessionState,status:s.status,pendingAction:s.pendingAction,message:s.message}:null;})(),
+          rivalry:(()=>{const s=window.CareerModeSparkConnectedRivalry?.getState?.();return s?{attached:s.attached,status:s.status,message:s.message}:null;})(),
+          final:window.CareerModeProductionSharedFinalReconciliation?.getState?.()?.phase||null,
+          history:window.CareerModeProductionSharedHistoryConvergence?.getState?.()?.phase||null,
+          visibility:document.visibilityState
+        }));
+        throw new Error(`J10_2_TERMINAL_CLOSE_NOT_SHOWN ${m===daniel?"daniel":"nik"} ${JSON.stringify(diag)}`,{cause:error});
+      }
       assert.match((await m.page.locator("#sharedTerminalCloseStatus").textContent()).trim(),/CLOSED · FINAL RESULTS ARE LOCKED/);
     }
     const closedR1=await admin(`rivalries/${R1}`);

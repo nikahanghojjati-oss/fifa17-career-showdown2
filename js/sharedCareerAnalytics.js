@@ -42,7 +42,8 @@
         if(entry.final?.totals?.playerOne!==a||entry.final?.totals?.playerTwo!==b||entry.final?.winner!==winner)throw new Error("CAREER_FINAL_MISMATCH");
         final={totals:{playerOne:a,playerTwo:b},winner};
       }
-      return {rivalryId:entry.rivalryId,classification,projection:p,final};
+      // r86 (red team #13): the Setup confirm time rides along, so a row can say whether this Showdown has Special Players.
+      return {rivalryId:entry.rivalryId,classification,projection:p,final,setupConfirmedAt:Number.isFinite(entry.setupConfirmedAt)?entry.setupConfirmedAt:null};
     }catch(_error){return {rivalryId:entry.rivalryId,classification:"unavailable",projection:null,final:null};}
   }
   function uniqueEntries(showdowns){
@@ -63,7 +64,7 @@
   // r80 Ended early: an abandoned row read from its closed root also carries its close time and seasons played (null when
   // unknown); it never counts.
   function endedOf(ended){const at=ended?.endedAt,played=ended?.seasonsPlayed;return {endedAt:Number.isFinite(at)&&at>0?at:null,seasonsPlayed:Number.isInteger(played)&&played>=0&&played<=10?played:null};}
-  function statusRow(entry,number){const ended=entry.ended||null;return {number,rivalryId:entry.rivalryId,status:entry.classification,leagueId:null,clubs:null,seasonsPlayed:ended?ended.seasonsPlayed:null,totalSeasons:null,totals:null,winner:null,seasons:[],...(ended?{endedAt:ended.endedAt}:{})};}
+  function statusRow(entry,number){const ended=entry.ended||null;return {number,rivalryId:entry.rivalryId,status:entry.classification,leagueId:null,clubs:null,seasonsPlayed:ended?ended.seasonsPlayed:null,totalSeasons:null,totals:null,winner:null,seasons:[],setupConfirmedAt:null,...(ended?{endedAt:ended.endedAt}:{})};}
   function seasonRow(season){
     const pair=field=>({daniel:season.playerOne[field],nik:season.playerTwo[field]});
     // r80: a season with a Europa League win also names who won it (History shows it); other seasons keep the r79 row shape.
@@ -137,7 +138,7 @@
       }
       const totals={daniel:p.managerRecords.playerOne.totalPoints,nik:p.managerRecords.playerTwo.totalPoints};
       const finalWinner=classification==="active"?null:managerFor(entry.final.winner);
-      rows.push({number:rows.length+1,rivalryId:entry.rivalryId,status:classification==="active"?"in-progress":classification,leagueId:p.leagueId,clubs:{daniel:p.managerRecords.playerOne.club,nik:p.managerRecords.playerTwo.club},seasonsPlayed:p.acceptedSeasons,totalSeasons:p.totalSeasons,totals,winner:finalWinner,seasons:p.seasonHistory.map(seasonRow)});
+      rows.push({number:rows.length+1,rivalryId:entry.rivalryId,status:classification==="active"?"in-progress":classification,leagueId:p.leagueId,clubs:{daniel:p.managerRecords.playerOne.club,nik:p.managerRecords.playerTwo.club},seasonsPlayed:p.acceptedSeasons,totalSeasons:p.totalSeasons,totals,winner:finalWinner,seasons:p.seasonHistory.map(seasonRow),setupConfirmedAt:Number.isFinite(entry.setupConfirmedAt)?entry.setupConfirmedAt:null});
       if(classification==="completed"){
         for(const manager of MANAGERS){
           const outcomes=managers[manager].showdowns;outcomes.completed+=1;

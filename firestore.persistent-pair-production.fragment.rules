@@ -509,6 +509,41 @@
           || request.time > resource.data.createdAt + duration.value(60, 's')
         );
     }
+    // r86 reads at scale (Nik 2026-10-27): one create-only career summary per finished Showdown under the reading
+    // account. Reads are owner-only exact gets (no lookup); the one create checks the closed root and, for a completed
+    // Showdown, that the summary's totals, winner and length equal the Terminal Close witness. Never updated or deleted.
+    function cmsCareerSummaryCreateValid(accountId, rivalryId) {
+      let s = request.resource.data;
+      let root = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data;
+      return signedIn()
+        && request.auth.uid == accountId
+        && activeAccount(request.auth.uid)
+        && rivalryId.matches('^pair_[0-9a-f]{64}$')
+        && s.keys().hasOnly(['schemaVersion', 'objectType', 'rivalryId', 'status', 'totalSeasons', 'managerTotals', 'winner', 'payload', 'payloadHash'])
+        && s.keys().hasAll(['schemaVersion', 'objectType', 'rivalryId', 'status', 'totalSeasons', 'managerTotals', 'winner', 'payload', 'payloadHash'])
+        && s.schemaVersion == 1
+        && s.objectType == 'careerSummary'
+        && s.rivalryId == rivalryId
+        && s.payload is string
+        && s.payload.size() > 0
+        && s.payload.size() <= 262144
+        && s.payloadHash is string
+        && s.payloadHash.matches('^sha256:[0-9a-f]{64}$')
+        && root.connectionState == 'closed'
+        && accountId in root.authorizedAccountIds
+        && ((s.status == 'completed'
+              && 'terminalClose' in root
+              && root.terminalClose.rivalryId == rivalryId
+              && s.totalSeasons == root.terminalClose.totalSeasons
+              && s.managerTotals == root.terminalClose.managerTotals
+              && s.winner == root.terminalClose.winner)
+          || ((s.status == 'abandoned' || s.status == 'never-started')
+              && !('terminalClose' in root)
+              && s.totalSeasons == null
+              && s.managerTotals == null
+              && s.winner == null));
+    }
+
     // CMS_COMPLETED_READ (D2, JOB-08): read-only grant for a Showdown closed by a verified
     // Terminal Close. Get only; no write, list or delete rule refers to these functions.
     function cmsCompletedShowdownReadable(rivalryId) {
@@ -567,6 +602,7 @@
         && 'playerOne' in challenge.signingLockedRoles
         && 'playerTwo' in challenge.signingLockedRoles;
     }
+
 // CMS_PERSISTENT_PAIR_FUNCTIONS_END
 
 // CMS_PERSISTENT_PAIR_MATCH_BEGIN
@@ -609,5 +645,12 @@
       allow get: if signedIn() && request.auth.uid == accountId && noteId == 'current';
       allow create, update: if cmsPartnerInboxWriteValid(accountId, noteId);
       allow list, delete: if false;
+    }
+    match /accounts/{accountId}/careerSummary/{rivalryId} {
+      // A disabled or tombstoned account loses its summaries with the rest of the shared history (same boundary as
+      // cmsCompletedShowdownReadable).
+      allow get: if signedIn() && request.auth.uid == accountId && activeAccount(request.auth.uid);
+      allow create: if cmsCareerSummaryCreateValid(accountId, rivalryId);
+      allow update, list, delete: if false;
     }
 // CMS_PERSISTENT_PAIR_MATCH_END

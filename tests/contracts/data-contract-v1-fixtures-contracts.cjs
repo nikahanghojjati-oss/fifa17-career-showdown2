@@ -90,7 +90,7 @@ const SPEC={
   rivalrySeason:["season","score","winner","leaguePosition","leaguePoints","leagueGoals"],
   career:["status","interimLabel","coverage","managers","biggestShowdownWin","trophyRoom","history"], // V1 §0, §6, §7, §8
   careerManager:["careerPoints","seasons","seasonWins","seasonDraws","seasonLosses","championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies","hundredPointSeasons","hundredGoalSeasons","topScorerSeasons","topAssistSeasons","perfectSeasons","performanceBonuses","awardsBonuses","bestSeasonScore","bestLeaguePoints","bestLeagueGoals","bestLeaguePosition","averageSeasonScore","averageLeaguePoints","averageLeagueGoals","showdowns"],
-  historyRow:["number","rivalryId","status","leagueId","clubs","seasonsPlayed","totalSeasons","totals","winner","seasons"], // V1 §8 + rivalryId (G-3 ref target)
+  historyRow:["number","rivalryId","status","leagueId","clubs","seasonsPlayed","totalSeasons","totals","winner","seasons","setupConfirmedAt"], // V1 §8 + rivalryId (G-3 ref target) + r86 Special Player confirm time (null before r86)
   historySeason:["season","score","winner","tiebreak","leaguePosition","leaguePoints","leagueGoals"],
   record:["label","manager","value","ref"],
   recordLabels:["Highest season score","Highest league points","Highest league goals","Biggest Showdown win","Most perfect seasons"],

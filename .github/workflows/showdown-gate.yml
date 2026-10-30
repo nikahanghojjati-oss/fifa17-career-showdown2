@@ -291,7 +291,7 @@ jobs:
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-journey "CMS_SHOWDOWN_LENGTH=3 node tests/firebase/two-manager-journey-emulator.cjs && CMS_SHOWDOWN_LENGTH=10 node tests/firebase/two-manager-journey-emulator.cjs"
       - name: 'TEST: Career index matrix'
         id: gf_career_index
-        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-career-index "node tests/firebase/career-index-emulator.cjs && CMS_CAREER_INDEX_ENFORCED=1 node tests/firebase/career-index-emulator.cjs && node tests/firebase/career-start-marker-emulator.cjs && node tests/firebase/saved-showdowns-still-open-emulator.cjs"
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-career-index "node tests/firebase/career-index-emulator.cjs && CMS_CAREER_INDEX_ENFORCED=1 node tests/firebase/career-index-emulator.cjs && node tests/firebase/career-start-marker-emulator.cjs && node tests/firebase/saved-showdowns-still-open-emulator.cjs && node tests/firebase/career-summary-emulator.cjs"
       - name: 'TEST: Completed-only read matrix'
         id: gf_completed_read
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-completed-read "node tests/firebase/completed-showdown-read-emulator.cjs"

@@ -514,28 +514,30 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.ok(seenAt!==null&&seenAt-at<=1000,`the listener still delivers the partner's move at once (${seenAt===null?"never":seenAt-at+" ms"})`);
     screen.stop();
   });
-  await check("FB16c","r84 seasons left today: each season seen ACKNOWLEDGED records its reads, the estimate follows that cost for both devices, a reload or an old season never counts twice, and the next day starts from the last day's cost",async()=>{
+  await check("FB16c","r86 seasons left today: each season seen ACKNOWLEDGED records its billed game reads, the estimate follows that cost for both devices, a reload or an old season never counts twice, and the next day starts from the last day's cost",async()=>{
+    const DEFAULT=Number(/FSB_DEFAULT_SEASON_BILLED=(\d+);/.exec(require("fs").readFileSync(require("path").join(__dirname,"..","..","js","sparkPrivatePairing.js"),"utf8"))[1]);
     const storage=new Map();
     const world=createWorld({storage});seed(world);
     const before=world.budget.seasonsLeftToday();
-    assert.equal(before.basis,"estimate","before any season is played the r84 measured cost is used");
-    assert.ok(before.seasons>0);
-    assert.equal(before.billedPerSeason,Math.round(135*2.8*2),"r85: the fallback is the r84 trimmed cost (about 750 billed per season for both phones), not the pre-trim 450 reads");
-    assert.equal(before.seasons,66,"so a fresh day with no season played shows about 66 seasons, not 19");
+    assert.equal(before.basis,"estimate","before any season is played the CE2PG measured cost is used");
+    assert.equal(before.billedPerSeason,DEFAULT*2,"the measured cost of one season on one device, for both devices");
+    assert.equal(before.seasons,Math.floor(50000/(DEFAULT*2)));
+    // countListenerRead(): one outside listener delivery is one document read and no lookups.
     for(let i=0;i<100;i++)world.budget.countListenerRead();
     assert.equal(world.budget.noteSeasonDone("pair_x|1",true),true);
     let left=world.budget.seasonsLeftToday();
     assert.equal(left.basis,"today");
-    assert.equal(left.billedPerSeason,Math.round(100*2.8*2),"one season's reads on this device, billed, for both devices");
-    assert.equal(left.seasons,Math.floor((50000-100*2.8*2)/(100*2.8*2)));
+    assert.equal(left.billedPerSeason,100*2,"one season's billed reads on this device, for both devices");
+    assert.equal(left.seasons,Math.floor((50000-left.billedToday)/(100*2)));
     assert.equal(world.budget.noteSeasonDone("pair_x|1",true),false,"the same season never counts twice");
     for(let i=0;i<300;i++)world.budget.countListenerRead();
     assert.equal(world.budget.noteSeasonDone("pair_x|0",false),true,"a commit first seen already ACKNOWLEDGED only moves the mark");
-    assert.equal(world.budget.seasonsLeftToday().billedPerSeason,Math.round(100*2.8*2),"its unknown cost is not recorded");
+    assert.equal(world.budget.seasonsLeftToday().billedPerSeason,100*2,"its unknown cost is not recorded");
     for(let i=0;i<200;i++)world.budget.countListenerRead();
     world.budget.noteSeasonDone("pair_x|2",true);
     left=world.budget.seasonsLeftToday();
-    assert.equal(left.billedPerSeason,Math.round(150*2.8*2),"the cost is the average of the seasons played (100 and 200 reads)");
+    assert.equal(left.billedPerSeason,150*2,"the cost is the average of the seasons played (100 and 200 billed)");
+    assert.equal(left.billedToday,world.budget.readsToday().billedEstimate,"today's use counts both devices, every read of the day");
     const reloaded=createWorld({storage,now:world.clock.now});
     assert.equal(reloaded.budget.noteSeasonDone("pair_x|2",true),false,"a reload remembers the seasons already counted");
     assert.equal(reloaded.budget.seasonsLeftToday().billedPerSeason,left.billedPerSeason);
@@ -552,7 +554,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     const after=createWorld({storage:split,now:lateDay.clock.now+24*3600000});
     after.budget.countListenerRead();
     after.budget.noteSeasonDone("pair_y|2",true);
-    assert.equal(after.budget.seasonsLeftToday().billedPerSeason,Math.round(700*2.8*2),"the whole season's reads count, before and after the reset");
+    assert.equal(after.budget.seasonsLeftToday().billedPerSeason,700*2,"the whole season's billed reads count, before and after the reset");
   });
 
   await check("FB7","a listener that falls behind the server is dropped within 5 s and the screen reads the server",async()=>{

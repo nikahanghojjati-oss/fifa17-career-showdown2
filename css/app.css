@@ -100,7 +100,7 @@ input::placeholder{color:#8a969e;}select option{color:#111;background:#fff;}
 
 .wheelContainer{width:min(700px,92vw);margin:auto;padding:24px 20px 27px;background:var(--f17-panel);box-shadow:var(--f17-shadow);text-align:center;}
 .leagueWheel{--wheel-label-radius:clamp(105px,30vw,137px);position:relative;width:min(390px,78vw);aspect-ratio:1;margin:0 auto 20px;border:9px solid var(--f17-ink-2);border-radius:50%;overflow:hidden;background:#fff;box-shadow:var(--f17-shadow-soft);}
-.wheelTrack{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:conic-gradient(from -36deg,#efd900 0 72deg,#e7edef 72deg 144deg,#43b8dc 144deg 216deg,#dbe4e8 216deg 288deg,#8fc7dd 288deg 360deg);transition:transform 4s cubic-bezier(.16,.76,.16,1);will-change:transform;}
+.wheelTrack{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:conic-gradient(from -36deg,#efd900 0 72deg,#e7edef 72deg 144deg,#43b8dc 144deg 216deg,#dbe4e8 216deg 288deg,#8fc7dd 288deg 360deg);transition:transform 4s cubic-bezier(.2,.62,.18,1);will-change:transform;}
 .wheelItem{position:absolute;z-index:1;width:clamp(130px,34vw,180px);min-height:38px;display:flex;align-items:center;justify-content:center;padding:4px 8px;color:var(--f17-ink);background:rgba(251,252,252,.88);border:1px solid rgba(36,43,49,.2);font:800 clamp(11px,2.3vw,14px)/1.05 var(--f17-display);letter-spacing:.5px;text-transform:uppercase;text-align:center;}
 .wheelItem:nth-child(1){transform:rotate(0deg) translateY(calc(-1 * var(--wheel-label-radius))) rotate(0deg)}
 .wheelItem:nth-child(2){transform:rotate(72deg) translateY(calc(-1 * var(--wheel-label-radius))) rotate(-72deg)}

@@ -99,7 +99,7 @@ check("7. Abandoned removal",()=>{
   assert.equal(m.managers.nik.bestLeaguePoints,70);
   assert.equal(m.managers.nik.perfectSeasons,0);
   assert.equal(m.managers.nik.averageLeaguePoints,70);
-  assert.deepEqual(m.history.showdowns[1],{number:2,rivalryId:b.rivalryId,status:"abandoned",leagueId:null,clubs:null,seasonsPlayed:null,totalSeasons:null,totals:null,winner:null,seasons:[]});
+  assert.deepEqual(m.history.showdowns[1],{number:2,rivalryId:b.rivalryId,status:"abandoned",leagueId:null,clubs:null,seasonsPlayed:null,totalSeasons:null,totals:null,winner:null,seasons:[],setupConfirmedAt:null});
   assert.deepEqual(m.coverage,{readable:2,indexed:2});
   assert.equal(record(m,"Highest season score").value,1);
 });

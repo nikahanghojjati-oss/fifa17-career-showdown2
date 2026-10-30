@@ -75,14 +75,17 @@ function season(n,total=3){
     await run.context.setOffline(false);await p.waitForTimeout(100);await setState(p,{reconnect:{phase:"ACTIVE_RECOVERED",activeSeason:2}});await observe(p);
     await p.waitForFunction(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getState().onlineRecovered===true,null,{timeout:3000});
     assert.match(await next(p),/reload this page once/);
+    assert.equal(await p.locator("#ssjrPhysicalJourneyAcceptance .ssjrTestReload").isVisible(),true,"r86: a RELOAD NOW button on the reload step");
 
     await load(p);await setState(p,{...live(),...season(1),reconnect:{phase:"ACTIVE_RECOVERED",activeSeason:2}});await p.evaluate(`${API}.install()`);await observe(p);
     await p.waitForFunction(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getState().reloadResumed===true,null,{timeout:3000});
     assert.match(await next(p),/Play on: season 2 of 3/);
+    assert.equal(await p.locator("#ssjrPhysicalJourneyAcceptance .ssjrTestReload").isVisible(),false,"the button goes away once the reload counted");
     await setState(p,season(2));await observe(p);await setState(p,season(3));await setState(p,{local:{phase:"REMOTE_OBSERVED"}});await observe(p);await observe(p);
     await p.waitForFunction(()=>window.__previews===1&&window.CareerModeSSJRPhysicalJourneyAcceptance.getState().canonicalStorageProofReady===true,null,{timeout:3000});
     await setState(p,{final:{phase:"FINAL_SEASON_RECONCILED",finalSeasonReconciled:true,completedSeason:3},terminal:{phase:"CLOSED",terminal:true,rivalryRevision:7}});await observe(p);
     assert.match(await next(p),/Showdown saved\. Reload this page once more/);
+    assert.equal(await p.locator("#ssjrPhysicalJourneyAcceptance .ssjrTestReload").isVisible(),true,"and again for the reload after the close");
     assert.equal(await p.locator(".ssjrTestSave").isVisible(),true,"SAVE RESULT FILE shows once the Showdown is saved");
 
     // After the reload the closed Showdown is not current any more (Home shows a new start); it is confirmed by a read-only check.
@@ -127,6 +130,14 @@ function season(n,total=3){
     assert.equal((await state(r)).milestones,failed.milestones,"Home after the close keeps the record");
     await setState(r,{setup:{...live().setup,setup:{phase:"SETUP_OPEN",revision:1,totalSeasons:3}}});await observe(r);
     const again=await state(r);assert.ok(again.milestones<=2,`a new Showdown restarts the record (${again.milestones} milestones)`);assert.equal(again.networkLabel,"Mobile data");
+    // r86 (Nik's iPhone, 2026-10-29): right after that restart the other modules still showed the old Showdown's season 1 and its
+    // close; none of it counts before the new Showdown's setup is confirmed, so the new record keeps the real order.
+    await setState(r,{...season(1),career:{state:{phase:"CAREER_START_READY",revision:2}},terminal:{phase:"CLOSED",terminal:true,rivalryRevision:3}});await observe(r);
+    const early=await r.evaluate(`${API}.getEvidence()`);
+    assert.deepEqual(early.milestones.map(item=>item.stage).filter(stage=>!["remote-active","conflict-guard-proven"].includes(stage)),[],"stale stages from the old Showdown are not recorded");
+    await setState(r,{...live(),terminal:null,...season(1)});await observe(r);
+    const newOrder=(await r.evaluate(`${API}.getEvidence()`)).milestones.map(item=>item.stage);
+    assert.ok(newOrder.indexOf("setup-confirmed")>=0&&newOrder.indexOf("setup-confirmed")<newOrder.indexOf("career-start-ready")&&newOrder.indexOf("career-start-ready")<newOrder.indexOf("results-ready"),`the new record is in order: ${newOrder.join(",")}`);
 
     console.log("PASS r85 SSJR test panel: one link, one tap, in-game offline (after the game held its state) and reload checks, the read-only preview asked once at the end, the automatic close confirmed after reload by one index read and one exact read, a new try restarts the record, and its 3-season export satisfies the validator");
   }finally{for(const entry of [retry,mutated,run,normal])if(entry)await entry.context.close().catch(()=>{});await browser.close().catch(()=>{});}

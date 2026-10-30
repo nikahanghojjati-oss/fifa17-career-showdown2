@@ -44,7 +44,9 @@ function createRuleBookScreen(){
             "Simulate every match.",
             "You may play or simulate a Champions League or Europa League final.",
             "You may play or simulate the main domestic cup final.",
-            "Player training is allowed only in 5- and 10-season Showdowns."
+            "Skip pre-season in FIFA 17.",
+            "1- and 3-season Showdowns: only your Special Player can be trained.",
+            "5- and 10-season Showdowns: all players can be trained."
         ]),
         createRuleSection("03", "TRANSFER CHALLENGE", [
             "Each of you may sign up to three players a season.",
@@ -52,21 +54,17 @@ function createRuleBookScreen(){
             "In FIFA 17, you can sign players up to the transfer deadline.",
             "Both managers can agree to end the transfer window early. One manager cannot end it alone.",
             "Your opponent gets three guesses. Each guess is a league or a nationality.",
-            "If a guess matches one of your signings, release that player before the season starts."
+            "If a guess matches one of your signings, release that player before the season starts.",
+            "Your Special Player is a free extra signing: he never counts toward the three, and guesses never release him."
         ]),
         createScoringRuleSection(),
-        createRuleSection("05", "DRAWS", [
-            "More Showdown points in a season wins that season.",
-            "Same Showdown points in a season, even 0-0, means the season is a draw.",
-            "There is no tiebreak. League position, points and goals never decide a winner.",
-            "Equal Showdown totals mean the Showdown is a draw."
-        ]),
-        createRuleSection("06", "CONNECTION & RECOVERY", [
+        createRuleSection("05", "CONNECTION & RECOVERY", [
             "Connect once before your first Showdown. After that, the same account and browser stay connected.",
             "A new browser may need to connect again.",
             "The browser keeps a backup copy for recovery. You can't play from it.",
             "Type in results by hand from FIFA 17. No screenshots or notes needed."
-        ])
+        ]),
+        createSpecialPlayerRuleSection()
     );
 
     const actions = document.createElement("div");
@@ -152,16 +150,13 @@ function createScoringRuleSection(){
     maximum.className = "ruleScoreMaximum";
     maximum.innerHTML = "<span>MAXIMUM PER MANAGER / SEASON</span><strong>11</strong>";
 
-    // r80 Europa League (owner rules, 2026-10-19).
+    // r80 Europa League (owner rules, 2026-10-19). r86 (Nik 2026-10-29): the lines FIFA 17 already enforces (no CL and EL
+    // in one season, the 3rd-place drop, EL by league position, only winning scores, best season 11/9) stay in the scoring
+    // engine but are no longer printed; only the season 1 setup note is shown.
     const notes = document.createElement("ul");
     notes.className = "ruleScoreNotes";
     [
-        "You can't win the Champions League and the Europa League in the same season. Winning each in different seasons counts both.",
-        "Season 1: both clubs play in the Champions League. Set this up in FIFA by redrawing the Champions League groups twice.",
-        "A club that finishes 3rd in its Champions League group drops into the Europa League and can still win it.",
-        "A club can also qualify for the Europa League by its league position.",
-        "Only winning scores. Qualifying or taking part scores nothing.",
-        "Best possible season: 11, which needs the Champions League. A Europa League season tops out at 9."
+        "Season 1: both clubs play in the Champions League. Set this up in FIFA by redrawing the Champions League groups twice."
     ].forEach(rule => {
         const item = document.createElement("li");
         item.textContent = rule;
@@ -177,12 +172,68 @@ function createScoringRuleSection(){
     goldenText.textContent = "Score 110 points in a 10-season Showdown (11 in every season) to win the gold trophy.";
     golden.append(goldenLabel, goldenText);
 
-    article.append(header, scoring, maximum, golden, notes);
+    // r86 Special Player (Nik 2026-10-29): the SP chip's own rule line, in the Golden Showdown's style. The live Showdown's
+    // two chips are filled in when the Rule Book opens (renderRuleBookSpecialPlayers); none before r86.
+    const special = document.createElement("p");
+    special.className = "ruleGoldenShowdown ruleSpecialPlayer";
+    const specialLabel = document.createElement("strong");
+    const specialTag = document.createElement("span");
+    specialTag.className = "ruleSpecialPlayerTag";
+    specialTag.textContent = "SP";
+    const specialName = document.createElement("span");
+    specialName.textContent = " SPECIAL PLAYER";
+    specialLabel.append(specialTag, specialName);
+    const specialText = document.createElement("span");
+    specialText.textContent = "Each manager draws one FIFA 17 player at the start of every Showdown. Your Special Player scores no points. Full rules in card 06.";
+    const specialLive = document.createElement("span");
+    specialLive.className = "ruleSpecialPlayerLive spChipPair";
+    specialLive.hidden = true;
+    special.append(specialLabel, specialText, specialLive);
+
+    article.append(header, scoring, maximum, golden, special, notes);
     return article;
+}
+
+// r86 Special Player rules (Nik 2026-10-29 15:24 UTC): the full card, last, with the training rule by length.
+// The draws card is gone (Nik 2026-10-29 21:10 UTC): the no-tiebreak rules stay in scoring.js, not on the page.
+function createSpecialPlayerRuleSection(){
+    const article = createRuleSection("06", "SPECIAL PLAYER", [
+        "At the start of every Showdown, after Club Assignment, each manager draws one Special Player.",
+        "The draw picks from the top 300 FIFA 17 players by potential. You and your rival never draw the same player.",
+        "Both draws are shown on the reveal screen, and each Special Player stays with his manager for the whole Showdown.",
+        "Career Start shows each Special Player's FIFA 17 club, so you can sign yours in-game.",
+        "Your Special Player is a free extra signing. He doesn't count toward your three signings, and your rival's guesses can never release him.",
+        "1- and 3-season Showdowns: your Special Player is the only player you can train.",
+        "5- and 10-season Showdowns: all players can be trained.",
+        "Your Special Player scores no Showdown points. His SP chip sits next to your name on the career screens."
+    ]);
+    article.className = "ruleSection specialPlayerRuleSection";
+    return article;
+}
+
+// This Showdown's Special Players next to each manager's name (only for a Showdown confirmed on r86 or later).
+function renderRuleBookSpecialPlayers(){
+    const book = document.getElementById("ruleBook");
+    const slot = book && typeof book.querySelector === "function" ? book.querySelector(".ruleSpecialPlayerLive") : null;
+    if(!slot){ return false; }
+    const api = window.CareerModeSpecialPlayerChip;
+    let sp = null;
+    try{ sp = api && typeof api.live === "function" ? api.live() : null; }catch(_error){ sp = null; }
+    slot.replaceChildren();
+    const chips = sp ? [["Daniel", api.element(document, sp.daniel)], ["Nik", api.element(document, sp.nik)]].filter(([, chip]) => chip) : [];
+    if(chips.length !== 2){ slot.hidden = true; return false; }
+    for(const [name, chip] of chips){
+        const who = document.createElement("span");
+        who.append(document.createTextNode(name), chip);
+        slot.appendChild(who);
+    }
+    slot.hidden = false;
+    return true;
 }
 
 function openRuleBook(){
     createRuleBookScreen();
+    renderRuleBookSpecialPlayers();
     showScreen("ruleBook");
     window.CareerModeV10Screens?.expect?.("ruleBook");
     window.loadRuntimeScript("rules-settings-v10", "js/rulesSettingsV10.js", () => Boolean(window.CareerModeRulesSettingsV10)).then(() => window.CareerModeRulesSettingsV10.install()).catch(() => { window.CareerModeV10Screens?.settle?.("ruleBook"); });

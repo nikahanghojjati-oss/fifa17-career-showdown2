@@ -184,6 +184,7 @@ function census(){
     'persistentNikDanielPair.js':'Home JOIN note listener via meterSdk; readCareerIndex uses the sdk it is given (metered by callers)',
     'sparkClosedShowdownCareerLoader.js':'uses options.firebaseSdk.getDoc (metered by callers); its cancel wrapper calls the metered function',
     'sparkCompletedShowdownReader.js':'uses options.firebaseSdk.getDoc (metered by callers)',
+    'careerSummaryStore.js':'r86 career summary: uses the firebaseSdk.getDoc the loader gives it (metered by callers)',
     'ssjrPhysicalJourneyAcceptance.js':'SSJR test panel closed-Showdown check (index + one exact read): getDoc via meterSdk',
     'sparkSharedSeasonResults.js':'uses sdk.getDoc only when the given (budget-wrapped, metered) services expose it; else a counted transaction'
   };
@@ -204,8 +205,8 @@ function census(){
   for(const line of read('js/rivalryLegacyV10.js').split('\n').concat(read('js/seasonFinalV10.js').split('\n'),read('js/careerStartMarker.js').split('\n')))
     if(/import\(runtime\.firebaseFirestoreModule\)/.test(line))assert.match(line,/meterSdk/,'every getDoc taken from the Firestore module is metered');
   const settings=read('js/settings.js');
-  assert.match(settings,/`About \$\{rounded/);assert.match(settings,/estimate until a season is played today/);
-  assert.match(budgetSource,/FSB_BILLED_PER_READ=2\.8/,'the 2.8 billed-per-read estimate factor is unchanged');
+  assert.match(settings,/`About \$\{getSettingsRoundedReads\(today\.billedEstimate\)/);assert.match(settings,/estimate until a season is played today/);
+  assert.match(budgetSource,/FSB_BILLED_PER_READ=2\.8/,'r86: the 2.8 factor only prices a day first counted before r86 (document reads only)');
   checks++;
 }
 

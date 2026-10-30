@@ -111,7 +111,9 @@ async function run(){
     assert.equal(diagnostics.connectivity,"offline");
     assert.equal(diagnostics.offlineReady,true);
     assert.equal(await page.locator("#menuMusicToggle").isDisabled(),true);
-    assert.match(await page.locator("#menuMusicStatus").innerText(),/OFFLINE.*YOUTUBE/i);
+    // r85/r86: Home's soundtrack strip stays in the page but out of sight (the top bar or the MUSIC tab plays it), so its
+    // status is read from the text it still carries, not from what is rendered.
+    assert.match(await page.locator("#menuMusicStatus").textContent(),/OFFLINE.*YOUTUBE/i);
     assert.deepEqual(await storage(page),fixture);
     assert.equal(await page.locator("#offlineAppRail,#offlineAppPanel,#offlineInstallAction").count(),0);
 

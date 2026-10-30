@@ -2,8 +2,8 @@
 
 Always re-resolve live main, open PRs and checks with the GitHub API before acting. Nothing below is a substitute for live state.
 
-- Live release: `1.9.8-r84`.
-- Current work branch: `gameplay/r85`. Goal: the SSJR physical run, then the official launch.
+- Live release: `1.9.9-r85`.
+- Current work branch: `gameplay/r86` (Marquee Player, reads at scale, Sol round 2 fixes). The SSJR physical run on r85 is the official launch.
 - SSJR-2.1 ledger: `0/100`. Credit comes only from a real two-phone production run validated by `scripts/ssjr2-physical-run-credit.mjs`, never from CI, emulators, review, merge or deployment, and is never faked.
 
 ## Product rules that matter

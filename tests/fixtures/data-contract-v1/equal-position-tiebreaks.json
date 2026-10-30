@@ -307,7 +307,8 @@
                 "nik": 80
               }
             }
-          ]
+          ],
+          "setupConfirmedAt": null
         }
       ]
     }
@@ -545,7 +546,8 @@
                 "nik": 80
               }
             }
-          ]
+          ],
+          "setupConfirmedAt": null
         }
       ]
     }

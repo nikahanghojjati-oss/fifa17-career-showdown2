@@ -29,7 +29,7 @@ const predict = process.env.CMS_FACECHECK_PREDICT === "1";
 // art outside the range where the plate fits, so only sizes inside that range should pass).
 const SIZES = process.env.CMS_FACECHECK_SIZES ? process.env.CMS_FACECHECK_SIZES.split(",").map(s => s.split("x").map(Number))
     : [[393, 852], [393, 660], [375, 667], [360, 640]];
-const IW = 1179, IH = 2096;
+const IW = 1179, IH_STD = 2096;
 const showdown = fixtures.completedShowdownStorage();
 // A three-season completed career (same shape as phone-trophy-room-data-audit), so the career screens show real data.
 const { projection, result, finalFor } = require("../support/career-fixture-helpers.cjs");
@@ -279,7 +279,12 @@ const V3 = ["STANDINGS", "RIVALRY", "TROPHY_ROOM"];
 const V5 = ["LEAGUE"];
 // Screens whose face zones must lie fully on screen (HO-032: League's plate is used only where they do).
 const ON_SCREEN_GATED = ["LEAGUE"];
-function plateFile(key){ return `ENV_${key}_PHONE_${V5.includes(key) ? "V5" : V3.includes(key) ? "V3" : "V2"}.webp`; }
+// r86 HO-044 (PR #1056): below 59/128 wide-to-tall League draws the 9:20 ENV_LEAGUE_PHONE_TALL_V5 (1179x2620) with its own
+// zones, e.g. CMS_FACECHECK_SIZES="412x915,384x854,360x800,340x960" node tests/browser/phone-marble-facecheck-audit.cjs LEAGUE
+const ZONES_TALL = require("../fixtures/team-v/PHONE_FACE_ZONES_TALL_V5.json").zones;
+const IH_TALL = 2620;
+function tallLeague(key, w, h){ return key === "LEAGUE" && w / h < 59 / 128; }
+function plateFile(key, w, h){ return tallLeague(key, w, h) ? "ENV_LEAGUE_PHONE_TALL_V5.webp" : `ENV_${key}_PHONE_${V5.includes(key) ? "V5" : V3.includes(key) ? "V3" : "V2"}.webp`; }
 const OLD_LOOK = [];   // every manager screen now draws its plate on upright phones
 module.exports = { SCREENS, OLD_LOOK, openScreen };
 if(require.main === module) (async () => {
@@ -298,17 +303,18 @@ if(require.main === module) (async () => {
                 const errors = [];
                 page.on("pageerror", e => errors.push(e.message));
                 await openScreen(page, key);
+                const tall = tallLeague(key, w, h), IH = tall ? IH_TALL : IH_STD, zones = tall ? ZONES_TALL : ZONES;
                 const s = Math.max(w / IW, h / IH), ox = (w - IW * s) / 2;
                 // drawn: the screens draw the plate cover + centre top (Team V's HO-031 instruction). tool: live_facecheck.cjs
                 // places it cover + centred. Both agree whenever the screen is 9:16 or taller (393x852, 375x667, 360x640).
-                const zonesAt = oy => ZONES[key].map(([a, c, d, e]) => [ox + a * IW * s, oy + c * IH * s, ox + d * IW * s, oy + e * IH * s]);
+                const zonesAt = oy => zones[key].map(([a, c, d, e]) => [ox + a * IW * s, oy + c * IH * s, ox + d * IW * s, oy + e * IH * s]);
                 const faces = zonesAt(0), toolFaces = zonesAt((h - IH * s) / 2);
                 if(predict) await page.evaluate(() => { for(const el of document.querySelectorAll("body *")){ const src = (el.tagName === "IMG" ? el.currentSrc || "" : "") + " " + getComputedStyle(el).backgroundImage; if(/OVL_[A-Z_]*PHONE/.test(src)) el.style.setProperty("visibility", "hidden", "important"); } });
                 const hits = await page.evaluate(faceHits, { faces, w, h });
                 const toolHits = await page.evaluate(faceHits, { faces: toolFaces, w, h });
                 const fades = await page.evaluate(fadedManagers);
-                const art = await page.evaluate(paintedArt, plateFile(key));
-                const covered = predict ? [] : await page.evaluate(plateCovered, { faces, plateName: plateFile(key) });
+                const art = await page.evaluate(paintedArt, plateFile(key, w, h));
+                const covered = predict ? [] : await page.evaluate(plateCovered, { faces, plateName: plateFile(key, w, h) });
                 // Cover crops the plate's sides on tall screens: every face zone must lie on screen (0.5px tolerance). This
                 // gates the screens listed in ON_SCREEN_GATED (League's plate range is set by it); on the others it is printed
                 // as a note only (Connect Players' V2 zone runs 3px off the right edge at 393x852, in its padding).
@@ -324,7 +330,7 @@ if(require.main === module) (async () => {
                 let line = `${key} ${w}x${h}: ${bad ? "FAIL" : "OK"}`;
                 line += list.slice(0, 8).map(x => `\n  - ${x.face}'s face ${x.pct}% under <${x.tag}${x.id ? "#" + x.id : ""} class="${x.cls}"> ${x.text ? JSON.stringify(x.text) : ""}`).join("");
                 line += fades.map(f => `\n  - FADED/CUT manager: ${f}`).join("");
-                if(!predict && !art.plate) line += `\n  - ${plateFile(key)} is not painted`;
+                if(!predict && !art.plate) line += `\n  - ${plateFile(key, w, h)} is not painted`;
                 if(!predict && art.cutouts.length) line += `\n  - cut-outs still painted: ${art.cutouts.join(", ")}`;
                 if(!predict && art.phoneV1.length) line += `\n  - old phone plate still painted: ${art.phoneV1.join(", ")}`;
                 line += covered.map(c => `\n  - ${c}`).join("");

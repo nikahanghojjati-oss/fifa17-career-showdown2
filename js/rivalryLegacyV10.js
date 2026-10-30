@@ -21,6 +21,12 @@
   // r84 Golden Showdown: the managers who closed this finished 10-season Showdown on 110 points (the seam owns the rule). Only a
   // Showdown that has one carries the field.
   function golden(row){const managers=seam().goldenShowdownManagers(row);return managers.length?{goldenShowdown:managers}:{};}
+  // r86 Special Player chip (js/specialPlayerChip.js): a Showdown confirmed on r86 or later carries each manager's Special
+  // Player; an older one carries no field (no chip).
+  const chipApi=()=>node?require("./specialPlayerChip.js"):root.CareerModeSpecialPlayerChip;
+  function special(sp){return sp&&sp.daniel&&sp.nik?{specialPlayers:{daniel:sp.daniel,nik:sp.nik}}:{};}
+  function rowSpecial(row){try{return special(chipApi()?.forRow?.(row));}catch(_){return {};}}
+  function liveSpecial(){try{return special(chipApi()?.live?.());}catch(_){return {};}}
   function historyFrame(model){
     const status=seam().careerScreenView("legacy",model).status;
     if(status==="loading"||status==="unavailable")return bare(status);
@@ -30,27 +36,27 @@
     if(!completed.every(validRow))return bare("unavailable");
     // r80: an Ended early Showdown is listed as one status-only row (date, seasons played); it never counts anywhere.
     const listed=rows.filter(r=>r.status==="completed"||(r.status==="abandoned"&&Number.isInteger(r.number)));
-    const frame={...bare(status==="ready"&&!listed.length?"empty":status),showdowns:listed.map(r=>r.status==="abandoned"?{number:r.number,status:"abandoned",endedAt:r.endedAt??null,seasonsPlayed:r.seasonsPlayed??null,endedLabel:seam().endedEarlyText(r)}:{number:r.number,status:"completed",leagueId:r.leagueId,clubs:copy(r.clubs),seasonsPlayed:r.seasonsPlayed,totalSeasons:r.totalSeasons,totals:copy(r.totals),winner:r.winner,seasons:copy(r.seasons),...golden(r)}),ui:{page:1,pageSize:4,selectedShowdown:completed[0]?.number??null}};
+    const frame={...bare(status==="ready"&&!listed.length?"empty":status),showdowns:listed.map(r=>r.status==="abandoned"?{number:r.number,status:"abandoned",endedAt:r.endedAt??null,seasonsPlayed:r.seasonsPlayed??null,endedLabel:seam().endedEarlyText(r)}:{number:r.number,status:"completed",leagueId:r.leagueId,clubs:copy(r.clubs),seasonsPlayed:r.seasonsPlayed,totalSeasons:r.totalSeasons,totals:copy(r.totals),winner:r.winner,seasons:copy(r.seasons),...golden(r),...rowSpecial(r)}),ui:{page:1,pageSize:4,selectedShowdown:completed[0]?.number??null}};
     if(status==="partial")frame.coverage=copy(model.coverage);
     // Current-only projections are never offered as an archive or backfilled.
     if(model.interimLabel){frame.status="unavailable";return bare("unavailable");}
     return frame;
   }
   function rivalryFrame(model){
-    let status,source,lifecycle=null;
+    let status,source,lifecycle=null,sp={};
     if(model?.history){
       status=seam().careerScreenView("rivalryStatistics",model).status;
       if(status==="loading"||status==="unavailable")return bare(status);
       const row=model.history.showdowns[0];
       if(!row||["abandoned","unavailable"].includes(row.status))return bare(status==="empty"?"empty":"unavailable");
-      source={status,leagueId:row.leagueId,clubs:row.clubs,score:row.totals,totalSeasons:row.totalSeasons,seasons:row.seasons,managers:model.managers};lifecycle=row.status;
-    }else{source=model;status=STATES.includes(source?.status)?source.status:"unavailable";lifecycle=source?.lifecycle??null;}
+      source={status,leagueId:row.leagueId,clubs:row.clubs,score:row.totals,totalSeasons:row.totalSeasons,seasons:row.seasons,managers:model.managers};lifecycle=row.status;sp=rowSpecial(row);
+    }else{source=model;status=STATES.includes(source?.status)?source.status:"unavailable";lifecycle=source?.lifecycle??null;sp=liveSpecial();}
     if(status==="loading"||status==="unavailable")return bare(status);
     if(status==="empty"&&!source.managers)return {...bare("empty"),seasons:[],transfers:{status:"unavailable"}};
     if(!source.managers||!ORDER.every(k=>source.managers[k]&&FIELDS.every(f=>finite(source.managers[k][f])||(f==="bestSeasonScore"&&source.managers[k][f]===null))))return bare("unavailable");
     if(!Array.isArray(source.seasons)||!source.seasons.every(validSeason))return bare("unavailable");
     if(status!=="empty"&&(!pair(source.score)||!finite(source.totalSeasons)||!source.clubs||!ORDER.every(k=>typeof source.clubs[k]==="string")))return bare("unavailable");
-    const frame={...bare(status),leagueId:source.leagueId??null,clubs:source.clubs?{daniel:source.clubs.daniel,nik:source.clubs.nik}:null,totalSeasons:source.totalSeasons??null,score:source.score?{daniel:source.score.daniel,nik:source.score.nik}:null,managerRecords:Object.fromEntries(ORDER.map(k=>[k,Object.fromEntries([...FIELDS,...(finite(source.managers[k].europaLeagues)?["europaLeagues"]:[])].map(f=>[f,source.managers[k][f]]))])),seasons:copy(source.seasons),transfers:{status:"unavailable"},ui:{lifecycle},...golden({status:lifecycle,totalSeasons:source.totalSeasons,seasonsPlayed:source.seasons.length,totals:source.score})};
+    const frame={...bare(status),leagueId:source.leagueId??null,clubs:source.clubs?{daniel:source.clubs.daniel,nik:source.clubs.nik}:null,totalSeasons:source.totalSeasons??null,score:source.score?{daniel:source.score.daniel,nik:source.score.nik}:null,managerRecords:Object.fromEntries(ORDER.map(k=>[k,Object.fromEntries([...FIELDS,...(finite(source.managers[k].europaLeagues)?["europaLeagues"]:[])].map(f=>[f,source.managers[k][f]]))])),seasons:copy(source.seasons),transfers:{status:"unavailable"},ui:{lifecycle},...golden({status:lifecycle,totalSeasons:source.totalSeasons,seasonsPlayed:source.seasons.length,totals:source.score}),...sp};
     if(status==="partial"){
       if(!source.coverage||!Number.isInteger(source.coverage.readable)||!Number.isInteger(source.coverage.indexed))return bare("unavailable");
       frame.coverage=copy(source.coverage);
@@ -88,6 +94,7 @@
       ["career-active-adapter","js/sharedActiveShowdownAdapter.js","CareerModeSharedActiveShowdownAdapter"],
       ["career-closed-adapter","js/sharedClosedShowdownAdapter.js","CareerModeSharedClosedShowdownAdapter"],
       ["career-completed-reader","js/sparkCompletedShowdownReader.js","CareerModeSparkCompletedShowdownReader"],
+      ["career-summary-store","js/careerSummaryStore.js","CareerModeCareerSummaryStore"],
       ["career-closed-loader","js/sparkClosedShowdownCareerLoader.js","CareerModeSparkClosedShowdownCareerLoader"]
     ])await load(key,file,global);
   }
@@ -189,7 +196,8 @@
         api.register(APP[screen],{
           css:[base+DIR[screen]+".css","../../css/rivalryLegacyV10.css"],
           js:[["v10-"+DIR[screen],base+DIR[screen]+".js",()=>typeof root[BOOT[screen]]==="function"]],
-          prepare:async()=>{const responses=await Promise.all([root.fetch(assetUrl(BASE+base+"strings.json")),root.fetch(assetUrl(BASE+base+"assets/platemap.json"))]);if(responses.some(r=>!r.ok))throw new Error("RIVALRY_LEGACY_RESOURCES_UNAVAILABLE");const [strings,map]=await Promise.all(responses.map(r=>r.json()));resources[screen]={strings,map};},
+          // The Special Player draw loads with the screen's own files, so its chip is in the first frame (never rejects).
+          prepare:async()=>{const chip=load("special-player-chip","js/specialPlayerChip.js","CareerModeSpecialPlayerChip").then(()=>root.CareerModeSpecialPlayerChip.ensure()).catch(()=>false);const responses=await Promise.all([root.fetch(assetUrl(BASE+base+"strings.json")),root.fetch(assetUrl(BASE+base+"assets/platemap.json"))]);await chip;if(responses.some(r=>!r.ok))throw new Error("RIVALRY_LEGACY_RESOURCES_UNAVAILABLE");const [strings,map]=await Promise.all(responses.map(r=>r.json()));resources[screen]={strings,map};},
           frame:()=>source(screen),mount:(model,host)=>draw(screen,model,host),unmount:host=>undraw(screen,host)
         });
       }
@@ -244,7 +252,7 @@
       return scope.testOnly||scope.hidden.includes(rivalryId);
     }catch(_){return true;}
   }
-  async function rlLoadCareerModel(canPublish=()=>true,rivalry=false){
+  async function rlLoadCareerModel(canPublish=()=>true,rivalry=false,onProgress=null){
     const key=context(),sequence=++careerLoadSequence;
     await modelDependencies();
     const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
@@ -262,7 +270,7 @@
         if(!scope){model=UNAVAILABLE;rivalryModel=UNAVAILABLE;}
         else{
           const hidden=scope.hidden;
-          const result=await root.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc},user,current:active.careerInput,...(scope.testOnly?{testRunsOnly:true}:hidden.length?{hiddenRivalryIds:hidden}:{})},()=>canPublish()&&context()===key);
+          const result=await root.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc,setDoc:sdk.setDoc},user,current:active.careerInput,...(typeof onProgress==="function"?{onProgress}:{}),...(scope.testOnly?{testRunsOnly:true}:hidden.length?{hiddenRivalryIds:hidden}:{})},()=>canPublish()&&context()===key);
           model=result.model??UNAVAILABLE;
           if(rivalry){
             // Career order is oldest first. Rebuild the latest verified completed entry,
@@ -301,19 +309,26 @@
     if(!event&&sources[screen]===UNAVAILABLE)sources[screen]=LOADING;
     const flight={key,alive:true,promise:null};reload.flight=flight;
     flight.promise=(async()=>{
-      let timeout;
+      let timeout,fail;
+      // r86 (Sol S61-r85-04): an inactivity deadline, not a flat cut. Each Showdown read restarts the 15 s, so a long cold
+      // career keeps loading while records arrive; first-entry History says how far it got (never partial totals).
+      const arm=()=>{root.clearTimeout(timeout);timeout=root.setTimeout(()=>{flight.alive=false;fail(new Error("RIVALRY_LEGACY_LOAD_TIMEOUT"));},LOAD_TIMEOUT);};
+      const progress=({done,total}={})=>{
+        if(!flight.alive||flight.left||context()!==key)return;arm();
+        if(screen==="legacy"&&sources[screen]===LOADING&&Number.isInteger(done)&&Number.isInteger(total)&&total>0)rlShowProgress(screen,done,total);
+      };
       try{
         // Only first entry shows LOADING. Reloads leave the last ready/partial/error frame visible.
         await screens().show(APP[screen]);
-        const deadline=new Promise((_,reject)=>{timeout=root.setTimeout(()=>{flight.alive=false;reject(new Error("RIVALRY_LEGACY_LOAD_TIMEOUT"));},LOAD_TIMEOUT);});
+        const deadline=new Promise((_,reject)=>{fail=reject;arm();});
         const loading=(async()=>{
           if(screen==="rivalryStatistics"){
             await modelDependencies();
             const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
-            if(["none","abandoned","completed"].includes(active.classification)&&(active.rivalry.status!=="ready"||await rlCurrentHidden(active.careerInput?.showdowns?.[0]?.rivalryId)))return rlLoadCareerModel(()=>flight.alive&&!flight.left,true);
+            if(["none","abandoned","completed"].includes(active.classification)&&(active.rivalry.status!=="ready"||await rlCurrentHidden(active.careerInput?.showdowns?.[0]?.rivalryId)))return rlLoadCareerModel(()=>flight.alive&&!flight.left,true,progress);
             return {...active.rivalry,lifecycle:active.classification};
           }
-          return rlLoadCareerModel(()=>flight.alive&&!flight.left);
+          return rlLoadCareerModel(()=>flight.alive&&!flight.left,false,progress);
         })();
         const model=await Promise.race([loading,deadline]);
         if(context()!==key||flight.left)return false;
@@ -327,6 +342,13 @@
       }
     })();
     return flight.promise;
+  }
+  // Writes only the loading banner's text in place (no new frame, no remount, so nothing flashes).
+  function rlShowProgress(screen,done,total){
+    try{
+      const copy=root.document?.getElementById?.(APP[screen])?.querySelector?.("#legacyStateBanner")?.querySelector?.(".legacyStateCopy");
+      if(copy)copy.textContent=`Loading your Showdown history… ${Math.min(done,total)} of ${total}`;
+    }catch(_){}
   }
   function scheduleReload(screen,reload,delay){
     if(reload.timer!==null)return;

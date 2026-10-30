@@ -253,7 +253,8 @@
                 "nik": 88
               }
             }
-          ]
+          ],
+          "setupConfirmedAt": null
         }
       ]
     }
@@ -464,7 +465,8 @@
                 "nik": 88
               }
             }
-          ]
+          ],
+          "setupConfirmedAt": null
         }
       ]
     }

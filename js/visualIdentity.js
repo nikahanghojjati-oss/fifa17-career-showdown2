@@ -131,7 +131,23 @@ const CLUB_IDENTITY_PALETTES = Object.freeze({
     "Paris Saint-Germain": ["#1c376f", "#d51f35", "#f4f5f5"],
     "Rennes": ["#d51f32", "#171b1e", "#f5f5f4"],
     "Saint-Étienne": ["#168e50", "#f4f6f5", "#d6b438"],
-    "Toulouse": ["#5d3f91", "#f4f4f6", "#d7b438"]
+    "Toulouse": ["#5d3f91", "#f4f4f6", "#d7b438"],
+    /* Big Jump top 300: clubs outside the five leagues */
+    "Ajax": ["#d2122e", "#f5f5f3", "#e2b84a"],
+    "FC Porto": ["#1c3f94", "#f5f5f3", "#e2b84a"],
+    "SL Benfica": ["#e41b23", "#f5f5f3", "#e2b84a"],
+    "Sporting CP": ["#00805a", "#f5f5f3", "#e2b84a"],
+    "Galatasaray SK": ["#a90432", "#fdb912", "#f5f5f3"],
+    "Beşiktaş JK": ["#141414", "#f5f5f3", "#e30a17"],
+    "PSV": ["#e1001a", "#f5f5f3", "#e2b84a"],
+    "RSC Anderlecht": ["#4f2d7f", "#f5f5f3", "#e2b84a"],
+    "Shakhtar Donetsk": ["#f26522", "#141414", "#f5f5f3"],
+    "Spartak Moscow": ["#c8102e", "#f5f5f3", "#e2b84a"],
+    "KRC Genk": ["#1e4fa0", "#f5f5f3", "#e2b84a"],
+    "Boavista FC": ["#141414", "#f5f5f3", "#e2b84a"],
+    "Moreirense FC": ["#00843d", "#f5f5f3", "#e2b84a"],
+    "Rosario Central": ["#003a8c", "#fdd100", "#f5f5f3"],
+    "Estudiantes de La Plata": ["#d0102b", "#f5f5f3", "#e2b84a"]
 });
 
 /* =====================================================
@@ -214,6 +230,7 @@ const CREST_PATTERNS = Object.freeze({
     stripesL: c => [0, 1, 2].map(i => `<rect x="${i * 20}" y="0" width="10" height="144" fill="${c}"/>`).join(""),
     stripesLp: c => [0, 1, 2].map(i => `<rect x="${10 + i * 20}" y="0" width="10" height="144" fill="${c}"/>`).join(""),
     canton: c => `<rect x="0" y="0" width="70" height="62" fill="${c}"/>`,
+    checker: c => Array.from({ length: 12 }, (_, r) => Array.from({ length: 10 }, (_, q) => (r + q) % 2 ? `<rect x="${q * 12}" y="${r * 12}" width="12" height="12" fill="${c}"/>` : "").join("")).join(""),
     diamonds: c => Array.from({ length: 11 }, (_, r) => Array.from({ length: 8 }, (_, q) => `<path d="M${q * 16 + (r % 2) * 8} ${12 + r * 12}l8 -6 8 6 -8 6z" fill="${c}"/>`).join("")).join(""),
     /* CREST-V3 public heraldry and real layouts (no lettering). */
     barca: (c, c2) => `<rect x="0" y="0" width="60" height="62" fill="#f5f5f3"/><path d="M26 0H34V62H26ZM0 27H60V35H0Z" fill="#d22630"/>`
@@ -289,6 +306,10 @@ const CREST_MOTIFS = Object.freeze({
     },
     star: c => crestStar(60, 70, 20, c),
     stars3: c => crestStar(36, 70, 10, c) + crestStar(60, 64, 13, c) + crestStar(84, 70, 10, c),
+    warriorHead: (c, d) => `<path d="M72 34Q52 30 44 44L40 58L32 66L40 70L38 78Q40 86 50 86L50 98H78Q76 84 82 74Q90 58 84 46Q80 38 72 34Z" fill="${c}"/><path d="M44 44Q50 26 74 28Q92 32 90 52L84 46Q78 36 64 38Q52 40 48 50Z" fill="${c}"/><path d="M58 40Q66 30 78 34M56 48Q66 38 82 44M56 56Q66 48 84 54M60 64Q70 58 84 64M62 72Q70 68 82 74" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/><circle cx="48" cy="60" r="2.2" fill="${d}"/>`,
+    dragon: (c, d) => `<path d="M58 62L66 26L74 42L82 24L88 42L100 30L98 56Q88 50 80 60Q72 52 64 64Z" fill="${c}"/><path d="M30 46L42 40L48 44L56 46Q52 52 52 60Q54 72 64 78Q78 84 88 76Q96 70 92 62L100 58Q106 72 98 84Q86 98 66 94Q46 90 42 72Q40 60 44 54L36 56L38 50Z" fill="${c}"/><path d="M98 84Q106 92 100 102L108 100L104 108Q96 108 94 100Q96 92 92 88Z" fill="${c}"/><path d="M52 84L48 98L54 96L58 88ZM74 92L74 104L80 102L80 92Z" fill="${c}"/><circle cx="44" cy="45" r="1.8" fill="${d}"/><path d="M30 46L24 42L26 48Z" fill="${c}"/>`,
+    crescentStar: c => `<path d="M58 46A24 24 0 1 0 58 94A19 19 0 1 1 58 46Z" fill="${c}"/>${crestStar(72, 70, 9, c)}`,
+    crescentStarChief: (c, d) => `<circle cx="55" cy="22" r="9" fill="${c}"/><circle cx="58" cy="22" r="7.4" fill="${d}"/>${crestStar(64.5, 22, 4.4, c)}`,
     eagle: c => `<path d="M60 44L66 52L104 40L96 54L108 56L92 66L100 72L78 74L70 96L60 104L50 96L42 74L20 72L28 66L12 56L24 54L16 40L54 52Z" fill="${c}"/><circle cx="60" cy="46" r="7" fill="${c}"/><path d="M53 45L44 49L53 50Z" fill="${c}"/>`,
     eagleR: c => `<g transform="translate(120 0) scale(-1 1)"><path d="M60 44L66 52L104 40L96 54L108 56L92 66L100 72L78 74L70 96L60 104L50 96L42 74L20 72L28 66L12 56L24 54L16 40L54 52Z" fill="${c}"/><circle cx="60" cy="46" r="7" fill="${c}"/><path d="M53 45L44 49L53 50Z" fill="${c}"/></g>`,
     tower: (c, d) => `<path d="M46 102V48H42V36H50V42H56V36H64V42H70V36H78V48H74V102Z" fill="${c}"/><path d="M56 102V86Q60 80 64 86V102Z" fill="${d}"/><rect x="57" y="56" width="6" height="12" rx="3" fill="${d}"/>`,
@@ -673,6 +694,22 @@ const CLUB_CREST_RECIPES = Object.freeze({
     "Rennes": crestRecipe("heater", "field:s redTop:p", "ermine@lower:w", "red top, white ermine on black", "no text"),
     "Saint-Étienne": crestRecipe("heater", "sideBand:w", "picks:w", "green shield with a white border, miners picks", "no letters"),
     "Toulouse": crestRecipe("heater", "sideBand:w", "occitan:g", "purple shield with a white border, gold Occitan cross", "no letters"),
+    /* Big Jump top 300: clubs outside the five leagues (own drawings, no letters) */
+    "Ajax": crestRecipe("roundel", "field:w", "warriorHead:p:w", "white disc, red ring, warrior head in profile", "own head drawing in red lines, gold dots in the ring", { colour: "p", marks: "dots", count: 22 }),
+    "FC Porto": crestRecipe("heater", "field:p canton:w", "dragon:a:p", "blue shield with a white quarter, gold winged dragon", "own dragon drawing, no crown, no letters"),
+    "SL Benfica": crestRecipe("heater", "field:p topHalf:w", "wheel:a eagleSpread@upper:a", "red and white shield, wheel, eagle with spread wings", "own eagle drawing, no motto, no letters"),
+    "Sporting CP": crestRecipe("heater", "field:p hoops:w", "lionRampant@sm:a:p", "green and white hoops, standing lion", "own lion drawing, no letters"),
+    "Galatasaray SK": crestRecipe("roundel", "field:s halves:p", "lion@sm:w:k", "yellow and red halves, lion head", "own lion drawing, no letters", { colour: "p", marks: "stars", count: 10 }),
+    "Beşiktaş JK": crestRecipe("heater", "field:k halves:w redChief:a", "crescentStarChief:w:a", "black and white halves, red band with crescent and star", "own crescent drawing, no letters, no year"),
+    "PSV": crestRecipe("heater", "field:w stripes:p", "ball@lower:w:k", "red and white stripes, ball", "own ball drawing, no letters"),
+    "RSC Anderlecht": crestRecipe("oval", "field:p", "laurel:a crown@upper:a:p", "purple oval, laurel, crown", "own crown drawing, no letters"),
+    "Shakhtar Donetsk": crestRecipe("heater", "field:p band:k", "hammerPick:s ball@lower:w:k", "orange and black shield, crossed miner tools, ball", "own tools drawing, no letters"),
+    "Spartak Moscow": crestRecipe("diamond", "field:p sash:w", "", "red rhombus with a white diagonal band", "own band shape, no letter S"),
+    "KRC Genk": crestRecipe("roundel", "field:p", "pitWheel:w", "blue disc with a white mine wheel", "own wheel drawing, white dots in the ring", { colour: "p", marks: "dots", count: 20, markColour: "w" }),
+    "Boavista FC": crestRecipe("heater", "field:w checker:k", "cat@sm:k:w", "black and white checks, panther head", "own panther drawing, no letters"),
+    "Moreirense FC": crestRecipe("heater", "field:p stripes:w", "castle@sm:a:p", "green and white stripes, castle", "own castle drawing, no letters"),
+    "Rosario Central": crestRecipe("heater", "field:p halvesL:s", "stars3@upper:w", "blue and yellow halves, three stars", "own layout, no flag, no letters"),
+    "Estudiantes de La Plata": crestRecipe("heater", "field:w stripes:p", "laurel:a", "red and white stripes, laurel", "own laurel, no letter E")
 });
 
 const LEAGUE_MARK_V2_TONES = Object.freeze({
@@ -802,6 +839,33 @@ function applyLeagueMark(element, leagueId){
     }
 }
 
+/* Marquee Player list (FIFA 17 launch dataset) names for clubs the catalog already draws under its own name. */
+const CLUB_IDENTITY_ALIASES = Object.freeze({
+    "FC Barcelona": "Barcelona",
+    "FC Bayern München": "Bayern Munich",
+    "Bayer 04 Leverkusen": "Bayer Leverkusen",
+    "Olympique Lyonnais": "Lyon",
+    "Hamburger SV": "Hamburg",
+    "Athletic Club de Bilbao": "Athletic Club",
+    "Inter": "Inter Milan",
+    "AS Monaco": "Monaco",
+    "UD Las Palmas": "Las Palmas",
+    "FC Schalke 04": "Schalke 04",
+    "VfL Wolfsburg": "Wolfsburg",
+    "Villarreal CF": "Villarreal",
+    "TSG 1899 Hoffenheim": "Hoffenheim",
+    "Valencia CF": "Valencia",
+    "OGC Nice": "Nice",
+    "Sevilla FC": "Sevilla",
+    "Málaga CF": "Málaga",
+    "SD Eibar": "Eibar",
+    "RC Celta": "Celta Vigo",
+    "Toulouse Football Club": "Toulouse",
+    "Granada CF": "Granada",
+    "AS Saint-Étienne": "Saint-Étienne",
+    "Stade Rennais FC": "Rennes"
+});
+
 const clubIdentityCache = new Map();
 
 function getClubIdentityHash(value){
@@ -855,7 +919,8 @@ function getClubCrestSvg(clubName){
 }
 
 function getClubIdentity(clubName){
-    const name = String(clubName || "").trim();
+    const rawName = String(clubName || "").trim();
+    const name = Object.prototype.hasOwnProperty.call(CLUB_IDENTITY_ALIASES, rawName) ? CLUB_IDENTITY_ALIASES[rawName] : rawName;
     if(clubIdentityCache.has(name)){
         return clubIdentityCache.get(name);
     }

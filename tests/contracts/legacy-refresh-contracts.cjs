@@ -14,7 +14,8 @@ const settle=async()=>{await new Promise(resolve=>setImmediate(resolve));};
 function harness(){
   let now=0,nextTimer=0,mounted=false,accountId='Daniel';
   const timers=new Map(),events=new Map(),definitions=new Map(),loads=[],frames=[],errors=[];
-  const banner={children:[],appendChild(child){this.children.push(child);}};
+  const copy={textContent:'Loading your Showdown history…'};
+  const banner={children:[],appendChild(child){this.children.push(child);},querySelector:selector=>selector==='.legacyStateCopy'?copy:null};
   const host={dataset:{},innerHTML:'original',querySelector:selector=>selector==='#legacyStateBanner'?banner:null,setAttribute(){}};
   const history={phase:'HISTORY_CONVERGED'},terminal={phase:'READY'};
   const c=vm.createContext({console,Date:class extends Date{static now(){return now;}},
@@ -30,7 +31,7 @@ function harness(){
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:accountId}},firestoreSdk:{getDoc(){}}})},
     // r80 real vs test: a real account (its career-start marker, nothing hidden); career pages show nothing while it is unknown.
     CareerModeCareerStartMarker:{readMarker:async()=>({status:'ready',hiddenRivalryIds:[]}),hiddenRivalryIds:m=>m.hiddenRivalryIds.slice(),epoch:()=>0},
-    CareerModeSparkClosedShowdownCareerLoader:{loadClosedShowdownCareer(){return new Promise((resolve,reject)=>loads.push({resolve,reject,at:now}));}},
+    CareerModeSparkClosedShowdownCareerLoader:{loadClosedShowdownCareer(options){return new Promise((resolve,reject)=>loads.push({resolve,reject,at:now,options}));}},
     CareerModeV10Screens:{install(){return this;},register:(id,def)=>definitions.set(id,def),isMounted:id=>id==='legacy'&&mounted,invalidate(){},
       async show(id){if(id!=='legacy'||!mounted)return false;const def=definitions.get(id);await def.prepare();def.mount(def.frame(),host);return true;}},
     ShowdownLegacyBoot(){banner.children=[];frames.push(JSON.parse(JSON.stringify(c.LEGACY_BOOT.fixtures.frames.LIVE)));},
@@ -44,7 +45,7 @@ function harness(){
       now=entry[1].at;timers.delete(entry[0]);entry[1].fn();await settle();}
     now=target;await settle();
   }
-  return {c,loads,frames,errors,banner,advance,
+  return {c,loads,frames,errors,banner,copy,advance,
     mount(){mounted=true;return c.CareerModeRivalryLegacyV10.mount('legacy');},hide(){mounted=false;},
     emit(phase,type='history',extra={}){const name=type==='history'?'career-mode-shared-history-convergence-state-change':'career-mode-shared-terminal-close-state-change';Object.assign(type==='history'?history:terminal,{phase},extra);events.get(name)({detail:{phase,...extra}});},
     changeAccount(id){accountId=id;events.get('career-mode-connected-account-state-change')({detail:{status:'connected'}});},
@@ -95,6 +96,24 @@ test('a hung load shows unavailable at 15 seconds and TRY AGAIN recovers without
   await h.finish(0);assert.equal(h.c.CareerModeRivalryLegacyV10.cachedCareerModel(),null,'timed-out result cannot publish');
   assert.equal(h.frames.at(-1).status,'unavailable');
   retry.click();await settle();assert.equal(h.loads.length,2);
+  await h.finish(1);assert.equal(h.frames.at(-1).status,'ready');
+});
+test('r86 S61-r85-04: Showdowns still arriving keep History loading past 15 s with progress; 15 s of silence still fails',async()=>{
+  const h=harness(),first=h.mount();await settle();assert.equal(typeof h.loads[0].options.onProgress,'function');
+  for(let done=0;done<=6;done++){h.loads[0].options.onProgress({done,total:100});await h.advance(10000);}
+  assert.equal(h.frames.at(-1).status,'loading','70 s of steady progress is not a timeout');
+  assert.equal(h.copy.textContent,'Loading your Showdown history… 6 of 100');assert.equal(h.errors.length,0);
+  await h.advance(4999);assert.equal(h.frames.at(-1).status,'loading');
+  await h.advance(1);assert.equal(await first,false);assert.equal(h.frames.at(-1).status,'unavailable');
+  assert.equal(h.errors.at(-1).message,'RIVALRY_LEGACY_LOAD_TIMEOUT');
+  h.loads[0].options.onProgress({done:7,total:100});await h.finish(0);
+  assert.equal(h.c.CareerModeRivalryLegacyV10.cachedCareerModel(),null,'a late load after the deadline cannot publish');
+  assert.equal(h.copy.textContent,'Loading your Showdown history… 6 of 100','a dead load writes no more progress');
+});
+test('r86: progress during a reload never rewrites the visible ready frame',async()=>{
+  const h=harness(),first=h.mount();await settle();await h.finish(0);await first;
+  h.emit('CLOSED','terminal');await h.advance(2000);assert.equal(h.loads.length,2);
+  h.copy.textContent='kept';h.loads[1].options.onProgress({done:1,total:3});assert.equal(h.copy.textContent,'kept');
   await h.finish(1);assert.equal(h.frames.at(-1).status,'ready');
 });
 test('a rejected loader shows unavailable immediately and allows retry',async()=>{

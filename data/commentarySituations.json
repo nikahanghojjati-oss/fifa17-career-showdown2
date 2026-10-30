@@ -1,0 +1,1270 @@
+{
+ "N1": {
+  "season-win-by-1": {
+   "when": "one manager won the season by exactly 1 Showdown point",
+   "count": 60,
+   "slots": [
+    "loser",
+    "loserClub",
+    "loserPoints",
+    "margin",
+    "season",
+    "seasons",
+    "winner",
+    "winnerClub",
+    "winnerPoints"
+   ]
+  },
+  "season-win-by-2-3": {
+   "when": "won the season by 2 or 3 points",
+   "count": 60,
+   "slots": [
+    "loser",
+    "loserClub",
+    "loserPoints",
+    "margin",
+    "season",
+    "seasons",
+    "winner",
+    "winnerClub",
+    "winnerPoints"
+   ]
+  },
+  "season-win-by-4-6": {
+   "when": "won the season by 4 to 6 points",
+   "count": 60,
+   "slots": [
+    "loser",
+    "loserClub",
+    "loserPoints",
+    "margin",
+    "season",
+    "seasons",
+    "winner",
+    "winnerClub",
+    "winnerPoints"
+   ]
+  },
+  "season-win-by-7-plus": {
+   "when": "won the season by 7 or more points (a rare, huge season gap)",
+   "count": 60,
+   "slots": [
+    "loser",
+    "loserClub",
+    "loserPoints",
+    "margin",
+    "season",
+    "seasons",
+    "winner",
+    "winnerClub",
+    "winnerPoints"
+   ]
+  },
+  "season-shutout": {
+   "when": "won the season while the other manager scored 0 Showdown points that season",
+   "count": 60,
+   "slots": [
+    "loser",
+    "loserClub",
+    "loserPoints",
+    "margin",
+    "season",
+    "seasons",
+    "winner",
+    "winnerClub",
+    "winnerPoints"
+   ]
+  }
+ },
+ "N2": {
+  "season-draw-nil": {
+   "when": "both managers scored 0 Showdown points: a draw on nothing",
+   "count": 60,
+   "slots": [
+    "clubA",
+    "clubB",
+    "managerA",
+    "managerB",
+    "points",
+    "season",
+    "seasons"
+   ]
+  },
+  "season-draw-low": {
+   "when": "equal season totals of 1 to 4 points each: a draw",
+   "count": 60,
+   "slots": [
+    "clubA",
+    "clubB",
+    "managerA",
+    "managerB",
+    "points",
+    "season",
+    "seasons"
+   ]
+  },
+  "season-draw-high": {
+   "when": "equal season totals of 5 or more points each: a draw between two big seasons",
+   "count": 60,
+   "slots": [
+    "clubA",
+    "clubB",
+    "managerA",
+    "managerB",
+    "points",
+    "season",
+    "seasons"
+   ]
+  },
+  "season-both-big": {
+   "when": "both managers scored 8 or more points this season (one may still have won, or it may be a draw: do not say who won)",
+   "count": 60,
+   "slots": [
+    "clubA",
+    "clubB",
+    "managerA",
+    "managerB",
+    "pointsA",
+    "pointsB",
+    "season"
+   ]
+  },
+  "season-perfect": {
+   "when": "a manager scored the maximum 11 points this season (league, Champions League, cup, 100+ points or goals, an award)",
+   "count": 60,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  }
+ },
+ "N3": {
+  "trophy-treble": {
+   "when": "this manager won league, domestic cup and Champions League this season",
+   "count": 50,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  },
+  "trophy-cl-and-league": {
+   "when": "won the Champions League and the league, not the cup",
+   "count": 50,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  },
+  "trophy-cl-only": {
+   "when": "won the Champions League but not the league title",
+   "count": 50,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  },
+  "trophy-el-and-league": {
+   "when": "won the Europa League and the league",
+   "count": 50,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  },
+  "trophy-el-only": {
+   "when": "won the Europa League but not the league title",
+   "count": 50,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  },
+  "trophy-domestic-double": {
+   "when": "won the league and the domestic cup, no European trophy",
+   "count": 50,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  }
+ },
+ "N4": {
+  "trophy-league-only": {
+   "when": "won the league title, no cup, no European trophy",
+   "count": 60,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  },
+  "trophy-cup-only": {
+   "when": "won the domestic cup, not the league, no European trophy",
+   "count": 60,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  },
+  "finish-runner-up": {
+   "when": "finished 2nd in the league and won no trophy",
+   "count": 60,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  },
+  "finish-top-four": {
+   "when": "finished 3rd or 4th and won no trophy",
+   "count": 60,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  },
+  "finish-mid-table": {
+   "when": "finished between 5th and 10th and won no trophy",
+   "count": 60,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  }
+ },
+ "N5": {
+  "finish-lower-half": {
+   "when": "finished 11th or lower, but not in the bottom three, and won no trophy",
+   "count": 60,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  },
+  "finish-bottom-three": {
+   "when": "finished in the bottom three of the league (in the relegation places)",
+   "count": 60,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  },
+  "won-season-no-trophy": {
+   "when": "won the season on Showdown points without winning any trophy (bonuses only)",
+   "count": 60,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  },
+  "trophy-but-lost-season": {
+   "when": "won at least one trophy but still lost the season to the rival",
+   "count": 60,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  },
+  "zero-season": {
+   "when": "scored 0 Showdown points this season",
+   "count": 60,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  }
+ },
+ "N6": {
+  "record-hundred-points": {
+   "when": "reached 100 or more league points",
+   "count": 60,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  },
+  "record-hundred-goals": {
+   "when": "scored 100 or more league goals",
+   "count": 60,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  },
+  "record-centurion-double": {
+   "when": "100+ league points AND 100+ league goals in the same season",
+   "count": 60,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  },
+  "award-top-scorer": {
+   "when": "their club had the league top scorer (award won, not top assist)",
+   "count": 60,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  },
+  "award-top-assist": {
+   "when": "their club had the league top assist maker (not top scorer)",
+   "count": 60,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  }
+ },
+ "N7": {
+  "award-both": {
+   "when": "top scorer AND top assist awards for the same manager this season",
+   "count": 60,
+   "slots": [
+    "club",
+    "leagueGoals",
+    "leaguePoints",
+    "manager",
+    "position",
+    "rival",
+    "rivalClub",
+    "season",
+    "seasonPoints"
+   ]
+  },
+  "both-league-titles": {
+   "when": "both managers won their own league title this season",
+   "count": 60,
+   "slots": [
+    "clubA",
+    "clubB",
+    "managerA",
+    "managerB",
+    "season"
+   ]
+  },
+  "both-european": {
+   "when": "both managers won a European trophy this season (Champions League or Europa League each)",
+   "count": 60,
+   "slots": [
+    "clubA",
+    "clubB",
+    "managerA",
+    "managerB",
+    "season"
+   ]
+  },
+  "both-trophyless": {
+   "when": "neither manager won any trophy this season",
+   "count": 60,
+   "slots": [
+    "clubA",
+    "clubB",
+    "managerA",
+    "managerB",
+    "season"
+   ]
+  },
+  "both-same-haul": {
+   "when": "both managers won exactly the same set of trophies and bonuses (so a draw)",
+   "count": 60,
+   "slots": [
+    "clubA",
+    "clubB",
+    "managerA",
+    "managerB",
+    "points",
+    "season"
+   ]
+  }
+ },
+ "N8": {
+  "overall-lead-taken": {
+   "when": "the overall lead changed hands this season: {leader} is now ahead, {trailer} was ahead before",
+   "count": 60,
+   "slots": [
+    "gap",
+    "leader",
+    "leaderTotal",
+    "season",
+    "seasons",
+    "seasonsLeft",
+    "trailer",
+    "trailerTotal"
+   ]
+  },
+  "overall-lead-extended": {
+   "when": "the overall leader won this season and is further ahead",
+   "count": 60,
+   "slots": [
+    "gap",
+    "leader",
+    "leaderTotal",
+    "season",
+    "seasons",
+    "seasonsLeft",
+    "trailer",
+    "trailerTotal"
+   ]
+  },
+  "overall-gap-closed": {
+   "when": "the overall trailer won this season and closed the gap but is still behind",
+   "count": 60,
+   "slots": [
+    "gap",
+    "leader",
+    "leaderTotal",
+    "season",
+    "seasons",
+    "seasonsLeft",
+    "trailer",
+    "trailerTotal"
+   ]
+  },
+  "overall-level": {
+   "when": "after this season the overall totals are equal (a level Showdown, not decided by anything else)",
+   "count": 60,
+   "slots": [
+    "managerA",
+    "managerB",
+    "season",
+    "seasons",
+    "seasonsLeft",
+    "total"
+   ]
+  },
+  "overall-runaway": {
+   "when": "the overall gap is now 12 points or more and the Showdown is not over",
+   "count": 60,
+   "slots": [
+    "gap",
+    "leader",
+    "leaderTotal",
+    "season",
+    "seasons",
+    "seasonsLeft",
+    "trailer",
+    "trailerTotal"
+   ]
+  }
+ },
+ "N9": {
+  "streak-two": {
+   "when": "the same manager has now won 2 seasons in a row",
+   "count": 60,
+   "slots": [
+    "gap",
+    "leader",
+    "leaderTotal",
+    "season",
+    "seasons",
+    "seasonsLeft",
+    "streak",
+    "trailer",
+    "trailerTotal"
+   ]
+  },
+  "streak-long": {
+   "when": "the same manager has now won {streak} seasons in a row ({streak} is 3 or more)",
+   "count": 60,
+   "slots": [
+    "gap",
+    "leader",
+    "leaderTotal",
+    "season",
+    "seasons",
+    "seasonsLeft",
+    "streak",
+    "trailer",
+    "trailerTotal"
+   ]
+  },
+  "streak-broken": {
+   "when": "a run of 2 or more season wins by the other manager just ended with this season",
+   "count": 60,
+   "slots": [
+    "gap",
+    "leader",
+    "leaderTotal",
+    "season",
+    "seasons",
+    "seasonsLeft",
+    "streak",
+    "trailer",
+    "trailerTotal"
+   ]
+  },
+  "unbeaten-run": {
+   "when": "the leader has not lost a single season of this Showdown, 3 or more seasons played (draws possible)",
+   "count": 60,
+   "slots": [
+    "gap",
+    "leader",
+    "leaderTotal",
+    "season",
+    "seasons",
+    "seasonsLeft",
+    "trailer",
+    "trailerTotal"
+   ]
+  },
+  "first-season-won": {
+   "when": "the first season of the Showdown has just been won",
+   "count": 60,
+   "slots": [
+    "loser",
+    "loserClub",
+    "loserPoints",
+    "margin",
+    "season",
+    "seasons",
+    "winner",
+    "winnerClub",
+    "winnerPoints"
+   ]
+  }
+ },
+ "N10": {
+  "clock-halfway": {
+   "when": "the middle of a 5- or 10-season Showdown has just been reached",
+   "count": 60,
+   "slots": [
+    "gap",
+    "leader",
+    "leaderTotal",
+    "season",
+    "seasons",
+    "seasonsLeft",
+    "trailer",
+    "trailerTotal"
+   ]
+  },
+  "clock-penultimate": {
+   "when": "one season left after this one",
+   "count": 60,
+   "slots": [
+    "gap",
+    "leader",
+    "leaderTotal",
+    "season",
+    "seasons",
+    "seasonsLeft",
+    "trailer",
+    "trailerTotal"
+   ]
+  },
+  "clock-final-open": {
+   "when": "the last season is next and both managers can still win the Showdown",
+   "count": 60,
+   "slots": [
+    "gap",
+    "leader",
+    "leaderTotal",
+    "season",
+    "seasons",
+    "seasonsLeft",
+    "trailer",
+    "trailerTotal"
+   ]
+  },
+  "clock-clinched": {
+   "when": "the leader can no longer be caught (the gap is bigger than 11 points per season left), but seasons remain",
+   "count": 60,
+   "slots": [
+    "gap",
+    "leader",
+    "leaderTotal",
+    "season",
+    "seasons",
+    "seasonsLeft",
+    "trailer",
+    "trailerTotal"
+   ]
+  },
+  "clock-dead-rubber": {
+   "when": "the final season is about to be played and the Showdown is already decided",
+   "count": 60,
+   "slots": [
+    "gap",
+    "leader",
+    "leaderTotal",
+    "season",
+    "seasons",
+    "seasonsLeft",
+    "trailer",
+    "trailerTotal"
+   ]
+  }
+ },
+ "N11": {
+  "final-won-by-1": {
+   "when": "Showdown over: won by exactly 1 point overall",
+   "count": 60,
+   "slots": [
+    "loser",
+    "loserClub",
+    "loserTotal",
+    "margin",
+    "seasons",
+    "winner",
+    "winnerClub",
+    "winnerTotal"
+   ]
+  },
+  "final-won-by-2-5": {
+   "when": "won by 2 to 5 points overall",
+   "count": 60,
+   "slots": [
+    "loser",
+    "loserClub",
+    "loserTotal",
+    "margin",
+    "seasons",
+    "winner",
+    "winnerClub",
+    "winnerTotal"
+   ]
+  },
+  "final-won-by-6-15": {
+   "when": "won by 6 to 15 points overall",
+   "count": 60,
+   "slots": [
+    "loser",
+    "loserClub",
+    "loserTotal",
+    "margin",
+    "seasons",
+    "winner",
+    "winnerClub",
+    "winnerTotal"
+   ]
+  },
+  "final-won-by-16-plus": {
+   "when": "won by 16 or more points overall",
+   "count": 60,
+   "slots": [
+    "loser",
+    "loserClub",
+    "loserTotal",
+    "margin",
+    "seasons",
+    "winner",
+    "winnerClub",
+    "winnerTotal"
+   ]
+  },
+  "final-drawn": {
+   "when": "Showdown over with equal totals: a drawn Showdown, nobody wins, no tiebreak",
+   "count": 60,
+   "slots": [
+    "clubA",
+    "clubB",
+    "managerA",
+    "managerB",
+    "seasons",
+    "total"
+   ]
+  }
+ },
+ "N12": {
+  "final-comeback": {
+   "when": "the winner was behind overall after at least one earlier season and still won",
+   "count": 60,
+   "slots": [
+    "loser",
+    "loserClub",
+    "loserTotal",
+    "margin",
+    "seasons",
+    "winner",
+    "winnerClub",
+    "winnerTotal"
+   ]
+  },
+  "final-wire-to-wire": {
+   "when": "the winner led overall after every single season",
+   "count": 60,
+   "slots": [
+    "loser",
+    "loserClub",
+    "loserTotal",
+    "margin",
+    "seasons",
+    "winner",
+    "winnerClub",
+    "winnerTotal"
+   ]
+  },
+  "final-golden": {
+   "when": "the winner won a 10-season Golden Showdown",
+   "count": 60,
+   "slots": [
+    "loser",
+    "loserClub",
+    "loserTotal",
+    "margin",
+    "seasons",
+    "winner",
+    "winnerClub",
+    "winnerTotal"
+   ]
+  },
+  "final-sprint": {
+   "when": "the winner won a 1-season Showdown",
+   "count": 60,
+   "slots": [
+    "loser",
+    "loserClub",
+    "loserTotal",
+    "margin",
+    "seasons",
+    "winner",
+    "winnerClub",
+    "winnerTotal"
+   ]
+  },
+  "final-last-season-swing": {
+   "when": "the overall lead changed hands in the very last season",
+   "count": 60,
+   "slots": [
+    "loser",
+    "loserClub",
+    "loserTotal",
+    "margin",
+    "seasons",
+    "winner",
+    "winnerClub",
+    "winnerTotal"
+   ]
+  }
+ },
+ "N13": {
+  "special-top-3": {
+   "when": "the player is ranked 1 to 3 in the list (black, blue and gold badge)",
+   "count": 60,
+   "slots": [
+    "club",
+    "manager",
+    "mpClub",
+    "mpName",
+    "mpNation",
+    "mpPosition",
+    "mpRank",
+    "rival"
+   ]
+  },
+  "special-top-10": {
+   "when": "ranked 4 to 10 (blue and gold badge)",
+   "count": 60,
+   "slots": [
+    "club",
+    "manager",
+    "mpClub",
+    "mpName",
+    "mpNation",
+    "mpPosition",
+    "mpRank",
+    "rival"
+   ]
+  },
+  "special-top-20": {
+   "when": "ranked 11 to 20 (gold badge)",
+   "count": 60,
+   "slots": [
+    "club",
+    "manager",
+    "mpClub",
+    "mpName",
+    "mpNation",
+    "mpPosition",
+    "mpRank",
+    "rival"
+   ]
+  },
+  "special-top-50": {
+   "when": "ranked 21 to 50 (silver badge)",
+   "count": 60,
+   "slots": [
+    "club",
+    "manager",
+    "mpClub",
+    "mpName",
+    "mpNation",
+    "mpPosition",
+    "mpRank",
+    "rival"
+   ]
+  },
+  "special-rest": {
+   "when": "ranked 51 or lower (bronze badge): a prospect, still a top-300 talent",
+   "count": 60,
+   "slots": [
+    "club",
+    "manager",
+    "mpClub",
+    "mpName",
+    "mpNation",
+    "mpPosition",
+    "mpRank",
+    "rival"
+   ]
+  }
+ },
+ "N14": {
+  "special-own-club": {
+   "when": "the Special Player's real club is the very club this manager was assigned",
+   "count": 60,
+   "slots": [
+    "club",
+    "manager",
+    "mpClub",
+    "mpName",
+    "mpNation",
+    "mpPosition",
+    "mpRank",
+    "rival"
+   ]
+  },
+  "special-same-nation": {
+   "when": "both Special Players come from the same nation",
+   "count": 60,
+   "slots": [
+    "managerA",
+    "managerB",
+    "mpClubA",
+    "mpClubB",
+    "mpNameA",
+    "mpNameB",
+    "mpNation",
+    "mpPosition",
+    "mpRankA",
+    "mpRankB"
+   ]
+  },
+  "special-same-position": {
+   "when": "both Special Players play the same position",
+   "count": 60,
+   "slots": [
+    "managerA",
+    "managerB",
+    "mpClubA",
+    "mpClubB",
+    "mpNameA",
+    "mpNameB",
+    "mpNation",
+    "mpPosition",
+    "mpRankA",
+    "mpRankB"
+   ]
+  },
+  "special-rank-gap": {
+   "when": "the two players are 100 or more ranks apart",
+   "count": 60,
+   "slots": [
+    "managerA",
+    "managerB",
+    "mpClubA",
+    "mpClubB",
+    "mpNameA",
+    "mpNameB",
+    "mpNation",
+    "mpPosition",
+    "mpRankA",
+    "mpRankB"
+   ]
+  },
+  "special-both-elite": {
+   "when": "both players are in the top 20",
+   "count": 60,
+   "slots": [
+    "managerA",
+    "managerB",
+    "mpClubA",
+    "mpClubB",
+    "mpNameA",
+    "mpNameB",
+    "mpNation",
+    "mpPosition",
+    "mpRankA",
+    "mpRankB"
+   ]
+  }
+ },
+ "N15": {
+  "clubs-same-league": {
+   "when": "both managers were given clubs in the same league ({league}): same table, different careers",
+   "count": 75,
+   "slots": [
+    "clubA",
+    "clubB",
+    "league",
+    "managerA",
+    "managerB"
+   ]
+  },
+  "clubs-different-leagues": {
+   "when": "the two clubs play in different leagues",
+   "count": 75,
+   "slots": [
+    "clubA",
+    "clubB",
+    "league",
+    "managerA",
+    "managerB"
+   ]
+  },
+  "club-premier-league": {
+   "when": "a manager was just given a Premier League club",
+   "count": 30,
+   "slots": [
+    "club",
+    "manager",
+    "rival",
+    "rivalClub"
+   ]
+  },
+  "club-laliga": {
+   "when": "a manager was just given a LaLiga club",
+   "count": 30,
+   "slots": [
+    "club",
+    "manager",
+    "rival",
+    "rivalClub"
+   ]
+  },
+  "club-bundesliga": {
+   "when": "a manager was just given a Bundesliga club",
+   "count": 30,
+   "slots": [
+    "club",
+    "manager",
+    "rival",
+    "rivalClub"
+   ]
+  },
+  "club-serie-a": {
+   "when": "a manager was just given a Serie A club",
+   "count": 30,
+   "slots": [
+    "club",
+    "manager",
+    "rival",
+    "rivalClub"
+   ]
+  },
+  "club-ligue-1": {
+   "when": "a manager was just given a Ligue 1 club",
+   "count": 30,
+   "slots": [
+    "club",
+    "manager",
+    "rival",
+    "rivalClub"
+   ]
+  }
+ },
+ "N16": {
+  "career-first-showdown": {
+   "when": "this was the very first finished Showdown between the two",
+   "count": 60,
+   "slots": [
+    "careerLeader",
+    "careerLosses",
+    "careerTrailer",
+    "careerWins",
+    "draws",
+    "loser",
+    "showdowns",
+    "winner"
+   ]
+  },
+  "career-lead-extended": {
+   "when": "the career leader just won another Showdown",
+   "count": 60,
+   "slots": [
+    "careerLeader",
+    "careerLosses",
+    "careerTrailer",
+    "careerWins",
+    "draws",
+    "loser",
+    "showdowns",
+    "winner"
+   ]
+  },
+  "career-new-leader": {
+   "when": "this result made a new career leader",
+   "count": 60,
+   "slots": [
+    "careerLeader",
+    "careerLosses",
+    "careerTrailer",
+    "careerWins",
+    "draws",
+    "loser",
+    "showdowns",
+    "winner"
+   ]
+  },
+  "career-level": {
+   "when": "career Showdown wins are now equal",
+   "count": 60,
+   "slots": [
+    "careerWins",
+    "draws",
+    "managerA",
+    "managerB",
+    "showdowns"
+   ]
+  },
+  "career-revenge": {
+   "when": "this winner lost the previous Showdown",
+   "count": 60,
+   "slots": [
+    "careerLeader",
+    "careerLosses",
+    "careerTrailer",
+    "careerWins",
+    "draws",
+    "loser",
+    "showdowns",
+    "winner"
+   ]
+  }
+ },
+ "N17": {
+  "preview-first-season": {
+   "when": "season 1 is about to start",
+   "count": 60,
+   "slots": [
+    "clubA",
+    "clubB",
+    "gap",
+    "leader",
+    "managerA",
+    "managerB",
+    "season",
+    "seasons",
+    "seasonsLeft",
+    "trailer"
+   ]
+  },
+  "preview-leader": {
+   "when": "a season is about to start and {leader} leads by {gap}",
+   "count": 60,
+   "slots": [
+    "clubA",
+    "clubB",
+    "gap",
+    "leader",
+    "managerA",
+    "managerB",
+    "season",
+    "seasons",
+    "seasonsLeft",
+    "trailer"
+   ]
+  },
+  "preview-level": {
+   "when": "a season is about to start with the overall totals equal",
+   "count": 60,
+   "slots": [
+    "clubA",
+    "clubB",
+    "gap",
+    "leader",
+    "managerA",
+    "managerB",
+    "season",
+    "seasons",
+    "seasonsLeft",
+    "trailer"
+   ]
+  },
+  "preview-final-season": {
+   "when": "the final season is about to start",
+   "count": 60,
+   "slots": [
+    "clubA",
+    "clubB",
+    "gap",
+    "leader",
+    "managerA",
+    "managerB",
+    "season",
+    "seasons",
+    "seasonsLeft",
+    "trailer"
+   ]
+  },
+  "preview-golden": {
+   "when": "a 10-season Golden Showdown is about to begin",
+   "count": 60,
+   "slots": [
+    "clubA",
+    "clubB",
+    "gap",
+    "leader",
+    "managerA",
+    "managerB",
+    "season",
+    "seasons",
+    "seasonsLeft",
+    "trailer"
+   ]
+  }
+ }
+}
