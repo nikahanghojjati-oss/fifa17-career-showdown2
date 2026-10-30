@@ -84,7 +84,7 @@ FACTS THE GAME KNOWS (never invent anything else)
 PLACEHOLDER GRAMMAR: {season} and {seasons} are plain numbers, so write "season {season}" or "{seasons} seasons", never "wins {season}". {margin}, {winnerPoints}, {loserPoints} and {points} are numbers too ("{margin} clear", "{winnerPoints} to {loserPoints}").
 
 WHAT MAKES A GREAT LINE
-- It sounds spoken aloud: commas for breath, a build, then a payoff on the last few words. Read it in your head in a broadcaster's voice; if it sounds written, rewrite it.
+- It sounds spoken aloud: commas for breath, a build, then a payoff on the last few words. No semicolons (nobody speaks one): use a full stop or a comma instead. Read it in your head in a broadcaster's voice; if it sounds written, rewrite it.
 - 8 to 24 words, 50 to 120 characters including spaces (count a placeholder as 10). One or two sentences.
 - Specific to this situation: a narrow-win line must not work for a big win.
 - Fresh imagery every time. Football texture is welcome: the table, the cabinet, the dugout, the tunnel, the final whistle, the open-top bus, the trophy ribbons, the long season, the console glow.
