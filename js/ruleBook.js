@@ -59,8 +59,8 @@ function createRuleBookScreen(){
             "Your Special Player is a free extra signing: he never counts toward the three, and guesses never release him.",
             // r87 Russian Roster Roulette (Nik 2026-10-30: "in rule screen mention special player wont get hit").
             "Before each transfer window, Daniel and then Nik spin the Roster Roulette. One spin in seven fires and hits one player on your starting XI or 4 best subs: release him in FIFA 17.",
-            "Your Special Player is never hit. Every other player on your board has the same chance.",
-            "Your board builds itself: your FIFA 17 launch squad with your Special Player in for the lowest-rated player. From season 2, the player you lost leaves, and each signing you kept joins if his overall beats the lowest on the board."
+            "Your Special Player is never on your board, so he is never hit. Every player on your board has the same chance.",
+            "Your board builds itself: your FIFA 17 launch squad. From season 2, the player you lost leaves, and each signing you kept joins if his overall beats the lowest on the board."
         ]),
         createScoringRuleSection(),
         createRuleSection("05", "CONNECTION & RECOVERY", [

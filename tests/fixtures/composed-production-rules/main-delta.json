@@ -8,10 +8,10 @@
     "bytes": 155662
   },
   "candidate": {
-    "base": "main 5b4337fd (r86 live, Rules re-pinned #1077) plus r87 Roster Russian Roulette (one R87-RRR hunk: the optional signing overall). Regenerated with --print-main-delta origin/main",
-    "sha256": "e927711e52df10fbcf98f51823cd73286663fef7a49f503dcaff0ae67a97c2c4",
-    "gitBlobSha1": "2a3f3c09f9c589aebe1fbc90e8a4d93c6797e7c6",
-    "bytes": 155779
+    "base": "main 5b4337fd (r86 live, Rules re-pinned #1077) plus r87 Roster Russian Roulette (one R87-RRR hunk: the optional signing overall and position). Regenerated with --print-main-delta origin/main",
+    "sha256": "40eb0caa4a283eae72d91d22c80234c76cf087683ce5a37ddf82e12a1f0db29b",
+    "gitBlobSha1": "ffc301349477e401055d58daafa28dbdc4e6c797",
+    "bytes": 155928
   },
   "allowedOwners": [
     "G-7",
@@ -41,11 +41,12 @@
         "        && value.keys().hasOnly(['slot','name','leagueId','nationalityId'])"
       ],
       "added": [
-        "        && value.keys().hasOnly(['slot','name','leagueId','nationalityId','overall'])",
-        "        && (!('overall' in value) || (value.overall is int && value.overall >= 30 && value.overall <= 99))"
+        "        && value.keys().hasOnly(['slot','name','leagueId','nationalityId','overall','position'])",
+        "        && (!('overall' in value) || (value.overall is int && value.overall >= 30 && value.overall <= 99))",
+        "        && (!('position' in value) || value.position in ['GK','RB','RWB','CB','LB','LWB','CDM','CM','CAM','RM','LM','RW','LW','CF','ST'])"
       ],
       "owner": "R87-RRR",
-      "why": "r87 Roster Russian Roulette (Nik 2026-10-30): each own Transfer War signing may carry its FIFA 17 overall (whole number 30-99, optional key so older rows stay valid); it decides the roulette board from season 2. No new path, read or write."
+      "why": "r87 Roster Russian Roulette (Nik 2026-10-30): each own Transfer War signing may carry its FIFA 17 overall (whole number 30-99, optional key so older rows stay valid); it decides the roulette board from season 2. No new path, read or write. r87 (Nik 2026-10-30 16:53 UTC): it may also carry the signing's FIFA 17 position (one of 15 fixed codes, optional key, own only, never guessed) so the board can place him."
     }
   ]
 }

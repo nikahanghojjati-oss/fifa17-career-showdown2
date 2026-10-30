@@ -152,3 +152,7 @@
 .signingRow:has(> .signingOverall){grid-template-columns:27px 1.2fr 56px 1fr 1fr;}
 .signingRow>.signingOverall{text-align:center;padding:0 4px;}
 @media(max-width:900px){.signingRow:has(> .signingOverall){grid-template-columns:27px 1fr;}}
+/* r87: and the position box (own only, never guessed) between the name and the overall. */
+.signingRow:has(> .signingPosition){grid-template-columns:27px 1.2fr 66px 56px 1fr 1fr;}
+.signingRow>.signingPosition{text-align:center;padding:0 4px;}
+@media(max-width:900px){.signingRow:has(> .signingPosition){grid-template-columns:27px 1fr;}}

@@ -54,7 +54,8 @@ assert.equal(RRR.forSeason(rid,{playerOne:'Liverpool',playerTwo:'Nowhere FC'},1)
 ok('L2','same id + season = same spins on both phones; bad input = no roulette');
 
 // L3 the rules: Daniel first; 7 chambers; fired exactly when the cylinder stops on the bullet; a fired turn always hits a
-// board player; the Special Player is never hit and every other player has the same chance; an empty turn hits nobody.
+// board player; the Special Player is never on the board (so never hit) and every player has the same chance; an empty
+// turn hits nobody.
 const sp={playerOne:{name:'L. Messi',overall:93},playerTwo:{name:'Neymar',overall:92}};
 const view=RRR.forSeason(rid,clubs,1,{special:sp});
 assert.deepEqual(view.order,['playerOne','playerTwo']);assert.deepEqual(view.turns.map(t=>t.role),['playerOne','playerTwo']);
@@ -71,7 +72,7 @@ for(let g=0;g<3000;g+=1){
     const v=RRR.forSeason(r,clubs,season,{special:sp,history:hist});
     for(const t of v.turns){
       turns+=1;const board=v.boards[t.role];
-      assert.equal(board.length,15);assert.equal(board.filter(p=>p.special).length,1,'the Special Player stays on the board');
+      assert.equal(board.length,15);assert.equal(board.filter(p=>p.special||p.name===sp[t.role].name).length,0,'the Special Player is never on the board');
       assert.ok(t.bulletChamber>=0&&t.bulletChamber<7&&t.stopChamber>=0&&t.stopChamber<7);
       assert.equal(t.fired,t.bulletChamber===t.stopChamber);
       if(t.fired){
@@ -87,32 +88,35 @@ for(let g=0;g<3000;g+=1){
 const rate=fired/turns;
 assert.ok(Math.abs(rate-1/7)<0.01,`fire rate ${rate.toFixed(4)} is 1 in 7`);
 assert.equal(spHits,0,'the Special Player is never hit');
-// Season 1 boards are the same in every game, so each manager's 14 targets share his fired turns evenly (a larger fixed corpus).
+// Season 1 boards are the same in every game, so each manager's 15 targets share his fired turns evenly (a larger fixed corpus).
 for(let g=0;g<60000;g+=1){for(const t of RRR.forSeason(fixedId(g),clubs,1,{special:sp}).turns)if(t.fired)perSlot[t.role][t.hitSlot]+=1;}
 const s1=RRR.forSeason(fixedId(0),clubs,1,{special:sp});
 for(const role of ['playerOne','playerTwo']){
-  const at=s1.boards[role].findIndex(p=>p.special),hits=perSlot[role],total=hits.reduce((a,b)=>a+b,0);
-  assert.equal(hits[at],0);
-  assert.ok(hits.filter((n,i)=>i!==at).every(n=>n>0.85*total/14&&n<1.15*total/14),'every other player has the same chance');
+  const hits=perSlot[role],total=hits.reduce((a,b)=>a+b,0);
+  assert.equal(s1.boards[role].length,15);
+  assert.ok(hits.every(n=>n>0.85*total/15&&n<1.15*total/15),'every player has the same chance');
 }
 assert.ok(hitBench>0,'subs can be hit');
-ok('L3',`Daniel first; fire rate ${(rate*100).toFixed(2)}% over ${turns} spins; Special Player never hit; the other 14 evenly`);
+ok('L3',`Daniel first; fire rate ${(rate*100).toFixed(2)}% over ${turns} spins; Special Player never on the board; all 15 evenly`);
 
-// L4 the board builds itself: Special Player in for the lowest overall in season 1; from season 2 the player shot last season
+// L4 the board builds itself: the launch board in season 1 (never the Special Player); from season 2 the player shot last season
 // is out and last season's kept signings come in (empty slot first, then over the lowest overall when strictly better);
 // released signings and signings without an overall never join.
 {
   const launch=RRR.board('Liverpool');
   const low=Math.min(...launch.map(p=>p.rating)),lowAt=launch.map(p=>p.rating).lastIndexOf(low);
   const b1=RRR.forSeason(rid,clubs,1,{special:sp}).boards.playerOne;
-  assert.equal(b1[lowAt].name,'L. Messi');assert.equal(b1[lowAt].pos,launch[lowAt].pos,'the slot keeps its position');
-  assert.equal(RRR.forSeason(rid,clubs,1,{special:null}).boards.playerOne[lowAt].name,launch[lowAt].name,'no Special Player before r86');
-  // A Special Player rated below the whole board still joins (young high-potential players are often in the 60s).
-  const young=RRR.forSeason(rid,clubs,1,{special:{playerOne:{name:'K. Mbappé',overall:low-10},playerTwo:sp.playerTwo}}).boards.playerOne;
-  assert.equal(young[lowAt].name,'K. Mbappé');assert.ok(young[lowAt].special,'a low-rated Special Player is still on the board');
-  // Special Player already in the squad: he is marked, nobody leaves.
-  const own=RRR.forSeason(rid,clubs,1,{special:{playerOne:{name:launch[0].name,overall:90},playerTwo:sp.playerTwo}}).boards.playerOne;
-  assert.deepEqual(own.map(p=>p.name),launch.map(p=>p.name));assert.ok(own[0].special);
+  assert.deepEqual(b1.map(p=>p.name),launch.map(p=>p.name),'season 1 is the launch board; the Special Player never joins');
+  assert.equal(b1[lowAt].pos,launch[lowAt].pos);
+  assert.deepEqual(RRR.forSeason(rid,clubs,1,{special:null}).boards.playerOne.map(p=>p.name),launch.map(p=>p.name),'no Special Player before r86');
+  // Special Player already in the club's squad: he leaves the board, his slot is empty until a kept signing fills it.
+  const spOwn={playerOne:{name:launch[0].name,overall:90},playerTwo:sp.playerTwo};
+  const own=RRR.forSeason(rid,clubs,1,{special:spOwn}).boards.playerOne;
+  assert.equal(own[0].name,'');assert.deepEqual(own.slice(1).map(p=>p.name),launch.slice(1).map(p=>p.name));
+  for(let g=0;g<200;g+=1){const v=RRR.forSeason(fixedId(g),clubs,1,{special:spOwn});for(const t of v.turns)if(t.fired)assert.notEqual(t.hitSlot,t.role==='playerOne'?0:-1,'the empty slot is never a target');}
+  // A kept signing with the Special Player's name never joins.
+  const spHist=[null,{playerOne:[{slot:1,name:sp.playerOne.name,overall:93,release:false}],playerTwo:[]}];
+  assert.ok(!RRR.forSeason(rid,clubs,2,{special:sp,history:spHist}).boards.playerOne.some(p=>p.name===sp.playerOne.name));
   for(let g=0;g<400;g+=1){
     const r=fixedId(g);
     for(let season=2;season<=10;season+=1){
@@ -122,10 +126,10 @@ ok('L3',`Daniel first; fire rate ${(rate*100).toFixed(2)}% over ${turns} spins; 
         const shot=turn.fired?turn.player.name:null;
         if(shot)assert.ok(!next.some(p=>p.name===shot)||kept.name===shot,'the player shot last season is gone');
         for(const gone of hist[season-1][role].slice(1))assert.ok(!next.some(p=>p.name===gone.name),'released or no-overall signings never join');
-        const rest=prev.filter(p=>p.name&&p.name!==shot&&!p.special),weakest=Math.min(...rest.map(p=>p.rating));
+        const rest=prev.filter(p=>p.name&&p.name!==shot),weakest=Math.min(...rest.map(p=>p.rating));
         const joins=shot!==null||kept.overall>weakest;
         assert.equal(next.some(p=>p.name===kept.name),joins,`season ${season}: kept signing joins only into an empty slot or over a weaker player`);
-        assert.ok(next.some(p=>p.special&&p.name===sp[role].name),'the Special Player never leaves');
+        assert.ok(!next.some(p=>p.special||p.name===sp[role].name),'the Special Player is never on the board');
         assert.equal(next.filter(p=>!p.name).length,0,'every empty slot is filled when a signing exists');
       }
     }
@@ -135,7 +139,7 @@ ok('L3',`Daniel first; fire rate ${(rate*100).toFixed(2)}% over ${turns} spins; 
   // No kept signing: the shot slot stays empty and is never a target.
   const empty=[null];for(let k=1;k<=9;k+=1)empty.push({playerOne:[],playerTwo:[]});
   for(let g=0;g<400;g+=1){const r=fixedId(g);for(let season=2;season<=10;season+=1){const v=RRR.forSeason(r,clubs,season,{special:sp,history:empty});for(const t of v.turns)if(t.fired)assert.ok(t.player.name&&!t.player.special);}}
-  ok('L4','auto board: Special Player in season 1; shot player out, kept signings in by overall; released and no-overall signings never join');
+  ok('L4','auto board: launch board in season 1, never the Special Player; shot player out, kept signings in by overall; released and no-overall signings never join');
 }
 
 // L5 seasons are independent per Showdown; the same inputs give the same boards and spins on both phones.
@@ -156,7 +160,7 @@ ok('L5','independent per Showdown; same inputs, same result');
   assert.match(pstc,/provider\.read\(\{\.\.\.provided\.options,seasonNumber:season\}\)/);
   assert.match(step,/history:ctx\.season>1\?|const history=ctx\.season>1\?await rrsHistory\(ctx\):\[null\]/);
   const rules=fs.readFileSync(path_.join(ROOT,'js/ruleBook.js'),'utf8');
-  assert.match(rules,/Special Player is never hit/,'Rule Book: the Special Player is never hit');
+  assert.match(rules,/Special Player is never on your board, so he is never hit/,'Rule Book: the Special Player is never on the board');
   ok('L6','season step: auto boards from Transfer War verdicts, no editor, no new path; Rule Book line');
 }
 console.log(`r87 roster roulette contracts: ${checks} groups passed`);
