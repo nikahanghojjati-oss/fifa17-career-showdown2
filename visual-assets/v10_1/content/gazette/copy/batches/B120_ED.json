@@ -1,0 +1,608 @@
+{
+  "batch": 120,
+  "situation": "season-preview",
+  "voice": "The studio panel",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb120-001",
+      "text": "Before the opening whistle, {managerA} has a blank scorecard and the dangerous privilege of believing anything.",
+      "score": 10,
+      "was": "Before a ball is even kicked, {managerA} has a season of possibilities and a rival ready to argue."
+    },
+    {
+      "id": "cb120-002",
+      "text": "There's the beauty of a fresh campaign, {clubB} can dream as loudly as anybody tonight.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-003",
+      "text": "Put {managerB} in the hypothetical hot seat, ask for a forecast, and listen to this desk disagree with itself.",
+      "score": 9,
+      "was": "Put {managerB} under the studio lights and ask for a prediction, I guarantee an interesting answer."
+    },
+    {
+      "id": "cb120-004",
+      "text": "You can almost hear the debate starting, and {clubA} has yet to make its opening statement.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-005",
+      "text": "Nobody has lifted anything yet, which is exactly why this rivalry feels so deliciously wide open.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-006",
+      "text": "Look at {managerA}, enjoying that rare managerial luxury, a plan nobody has had the chance to test.",
+      "score": 9,
+      "was": "Look at {managerA} before the season begins, all confidence now and plenty of football still ahead."
+    },
+    {
+      "id": "cb120-007",
+      "text": "For {clubB}, the starting line is clean. The competition on the other side certainly won't be.",
+      "score": 10,
+      "was": "For {clubB}, this is where ambition gets a blank page and a very familiar rival."
+    },
+    {
+      "id": "cb120-008",
+      "text": "Here's a question nobody at this desk can answer, whose great plan survives the first serious test?",
+      "score": 9,
+      "was": "Here's a question for the panel, which manager will still be smiling when this campaign closes?"
+    },
+    {
+      "id": "cb120-009",
+      "text": "The empty results page is doing us a favor, it cannot embarrass anyone's grand prediction just yet.",
+      "score": 10,
+      "was": "Fresh expectations, familiar competition, and neither side can borrow a point from tomorrow."
+    },
+    {
+      "id": "cb120-010",
+      "text": "Tonight {managerB} gets the luxury every manager loves, being judged on what might happen.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-011",
+      "text": "Well, {clubA} has its intentions. The trouble is, so does the club across the divide.",
+      "score": 10,
+      "was": "Well, {clubA} has a season to shape, and a rival that will enjoy every awkward moment."
+    },
+    {
+      "id": "cb120-012",
+      "text": "Imagine the argument if both managers could pick their own headline before playing a game.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-013",
+      "text": "Listen, my tip is wonderfully confident for something that hasn't faced a minute of football.",
+      "score": 10,
+      "was": "Listen, a prediction costs nothing, which is fortunate for the pundit about to make one."
+    },
+    {
+      "id": "cb120-014",
+      "text": "Give {managerA} a clean slate and watch how quickly the questions start piling up.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-015",
+      "text": "Still the scorecard sits empty for {clubB}, and the argument around it is already overflowing.",
+      "score": 9,
+      "was": "Still no result, still no verdict, just {clubB} looking at an entire season of opportunity."
+    },
+    {
+      "id": "cb120-016",
+      "text": "Somebody turn down the certainties, the best part of a fresh beginning is not knowing how it ends.",
+      "score": 9,
+      "was": "Somebody will eventually earn the headlines, but first they've got to live through the football."
+    },
+    {
+      "id": "cb120-017",
+      "text": "From this comfortable chair, {managerB} could conquer anything. It's amazing what upholstery does for analysis.",
+      "score": 10,
+      "was": "From the studio chair, {managerB} looks an excellent bet. Fortunately, the chair doesn't award trophies."
+    },
+    {
+      "id": "cb120-018",
+      "text": "That's opening night for you, a wall of theories waiting for the first real piece of evidence.",
+      "score": 10,
+      "was": "That's the charm of opening night, every bold claim has a season to prove itself."
+    },
+    {
+      "id": "cb120-019",
+      "text": "Let {clubA} take its case onto the pitch, the pundits can keep the speeches.",
+      "score": 9,
+      "was": "Let {clubA} make its case on the pitch, the pundits can keep the speeches."
+    },
+    {
+      "id": "cb120-020",
+      "text": "Every new chapter makes optimists of us, and this particular rivalry hardly needs encouragement.",
+      "score": 9,
+      "was": "Every fresh campaign invites a big promise, and this rivalry has never lacked volunteers."
+    },
+    {
+      "id": "cb120-021",
+      "text": "Personally, I'd trust {managerA} with the ambition, but I wouldn't lend anyone my prediction.",
+      "score": 10,
+      "was": "Personally, I love the confidence around {managerA}, especially before there is anything to argue about."
+    },
+    {
+      "id": "cb120-022",
+      "text": "Both managers have plans, neither has evidence yet, and that is perfect television.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-023",
+      "text": "Watch this space, because {clubB} enters the story without knowing how the ending reads.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-024",
+      "text": "Oddly enough, my strongest tip is that the person across this desk will disagree with it.",
+      "score": 10,
+      "was": "Oddly enough, the safest prediction tonight is that neither manager will agree with ours."
+    },
+    {
+      "id": "cb120-025",
+      "text": "Pressure will arrive soon enough. For now, {managerB} can enjoy being a contender in every possible ending.",
+      "score": 10,
+      "was": "Pressure can wait until the results arrive, {managerB} is allowed a little optimism tonight."
+    },
+    {
+      "id": "cb120-026",
+      "text": "An untouched page, countless ways to fill it, and a sofa full of people pretending they know the plot.",
+      "score": 10,
+      "was": "One season begins, and suddenly every possibility sounds plausible from the comfort of this desk."
+    },
+    {
+      "id": "cb120-027",
+      "text": "Take {clubA} out of the hypothetical and into the campaign, then we'll learn something.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-028",
+      "text": "Promise is cheap at this stage, but the rivalry will ask for proper payment later.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb120-029",
+      "text": "What intrigues me about {managerA} is not the confidence now, but what it becomes under pressure.",
+      "score": 9,
+      "was": "What makes {managerA} fascinating is not the prediction, it's the answer still to come."
+    },
+    {
+      "id": "cb120-030",
+      "text": "Any pundit who sounds certain already should probably be handed a controller instead of a microphone.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb120-031",
+      "text": "The opening chapter is unclaimed, and {managerB} is about to learn what the next pages demand.",
+      "score": 9,
+      "was": "The first chapter belongs to nobody yet, and {managerB} would dearly love to claim it."
+    },
+    {
+      "id": "cb120-032",
+      "text": "If {clubB} wants our respect, the best reply is something nobody at this desk can supply.",
+      "score": 9,
+      "was": "If {clubB} wants to silence this panel, there is an entire campaign available."
+    },
+    {
+      "id": "cb120-033",
+      "text": "Cards on the table, I've got a hunch, but I wouldn't stake the studio furniture on it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb120-034",
+      "text": "Early bravado belongs before kickoff. The real contest is still waiting at the gate.",
+      "score": 9,
+      "was": "Early confidence is a wonderful thing, provided somebody remembers the season hasn't begun."
+    },
+    {
+      "id": "cb120-035",
+      "text": "Nobody here can call it, which makes {clubA} a particularly entertaining proposition.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-036",
+      "text": "Mind the distance between talk and trophies, there's enough room in there for quite a surprise.",
+      "score": 10,
+      "was": "Mind the gap between a prediction and a result, it's where this rivalry tends to live."
+    },
+    {
+      "id": "cb120-037",
+      "text": "Over to {managerB}, the dream is appealing and the price of proving it is a whole campaign.",
+      "score": 9,
+      "was": "Over to {managerB}, then, with ambition in the dugout and no final verdict in sight."
+    },
+    {
+      "id": "cb120-038",
+      "text": "Forget our confident guesses, {managerA} has far more important questions to answer when the football begins.",
+      "score": 9,
+      "was": "Forget the bold forecast for a moment, {managerA} still has a campaign to navigate."
+    },
+    {
+      "id": "cb120-039",
+      "text": "Perhaps {clubB} will make us look brilliant, or perhaps our analysis will need discreet recycling.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-040",
+      "text": "Every pundit loves calling a champion early. Funny how the contest insists on being played.",
+      "score": 10,
+      "was": "Every opening brings the same temptation, announce a champion before anyone has earned the title."
+    },
+    {
+      "id": "cb120-041",
+      "text": "Right now, {clubA} owns nothing but an opportunity, which is enough to make this desk nervous.",
+      "score": 9,
+      "was": "Right now, {clubA} and its rival have room for ambition and absolutely no guarantees."
+    },
+    {
+      "id": "cb120-042",
+      "text": "Sure, {managerA} can picture the perfect ending. I'm told the other dugout has the same imagination.",
+      "score": 10,
+      "was": "Sure, {managerA} might fancy the season, but the other dugout is entitled to fancy it too."
+    },
+    {
+      "id": "cb120-043",
+      "text": "At this stage even the cautious pundit can get carried away by the possibilities.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-044",
+      "text": "Would you back {managerB} right now? I might, once I locate the courage to pick a side.",
+      "score": 9,
+      "was": "Would you back {managerB} today? Ask me again when the season has something to say."
+    },
+    {
+      "id": "cb120-045",
+      "text": "Nothing is settled, yet this sofa sounds suspiciously like a jury discussing its verdict.",
+      "score": 10,
+      "was": "Nothing has been decided, yet already the studio is finding new ways to disagree."
+    },
+    {
+      "id": "cb120-046",
+      "text": "Let me guess, {clubB} would prefer we save the predictions for someone else's career.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-047",
+      "text": "A fresh challenge is like an unopened envelope, full of possibilities and not a single reliable answer.",
+      "score": 10,
+      "was": "A new campaign is the moment when confidence meets its most dangerous companion, expectation."
+    },
+    {
+      "id": "cb120-048",
+      "text": "You know what {managerA} has today? The same advantage every competitor shares, a chance to begin again.",
+      "score": 10,
+      "was": "You know what I like about {managerA}? The season still has the chance to surprise them."
+    },
+    {
+      "id": "cb120-049",
+      "text": "Plenty of opinions in here, and {clubA} has the opportunity to make every last forecast obsolete.",
+      "score": 9,
+      "was": "Plenty of opinions in here, and {clubA} has the opportunity to make every single one obsolete."
+    },
+    {
+      "id": "cb120-050",
+      "text": "Here's my advice to the panel, enjoy the uncertainty while it's still free.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-051",
+      "text": "I like {managerB}'s chances of proving us wrong, mainly because we've been wrong in far less interesting circumstances.",
+      "score": 9,
+      "was": "Some seasons announce themselves early, this one has the courtesy to keep {managerB} guessing."
+    },
+    {
+      "id": "cb120-052",
+      "text": "And there sits {clubB}, with the possibility of triumph and the burden of having to earn it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-053",
+      "text": "Picture the cabinet doors closed for now. Nobody knows whose hands will reach for the keys.",
+      "score": 10,
+      "was": "Picture the trophy cabinet before the season, all those hopes waiting for a reason to shine."
+    },
+    {
+      "id": "cb120-054",
+      "text": "No prizes are handed out for bold guesses, otherwise this room would need another trophy shelf.",
+      "score": 10,
+      "was": "No medals for a convincing forecast, which is awkward news for half this studio."
+    },
+    {
+      "id": "cb120-055",
+      "text": "Ask {managerA} for a prediction and I'll bet the response comes with a grin.",
+      "score": 9,
+      "was": "Ask {managerA} for a prediction and I'll bet the answer comes with a grin."
+    },
+    {
+      "id": "cb120-056",
+      "text": "Studio arguments are a warmup act. Sooner or later, the actual contest takes the stage.",
+      "score": 10,
+      "was": "Studio arguments are harmless until the campaign gives somebody a receipt."
+    },
+    {
+      "id": "cb120-057",
+      "text": "By the finish, {clubA} could leave this desk regretting every confident forecast we've just delivered.",
+      "score": 9,
+      "was": "By the time this finishes, {clubA} may have given us a very different conversation."
+    },
+    {
+      "id": "cb120-058",
+      "text": "I suspect {managerB} would happily frame our compliments, then quietly discard the rest of the analysis.",
+      "score": 9,
+      "was": "I suspect {managerB} enjoys this part, when every rival warning is still just talk."
+    },
+    {
+      "id": "cb120-059",
+      "text": "Dare we pick a favourite? I'd sooner ask both managers to share the microphone.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb120-060",
+      "text": "Behind the banter, {clubB} has a genuine test ahead, not something a microphone can shorten.",
+      "score": 9,
+      "was": "Behind the bravado, {clubB} faces the same simple prospect as its rival, a season to be earned."
+    },
+    {
+      "id": "cb120-061",
+      "text": "Notice how nobody argues against their own favourite, as though anticipation came with a blindfold.",
+      "score": 9,
+      "was": "Notice how the laughter fades whenever somebody asks who actually takes the honors."
+    },
+    {
+      "id": "cb120-062",
+      "text": "Listen to {managerA} being discussed like a certainty. That's a brave description of an unopened contest.",
+      "score": 10,
+      "was": "Listen to the confidence surrounding {managerA}, you would think the opening whistle was a coronation."
+    },
+    {
+      "id": "cb120-063",
+      "text": "The funny thing about a fearless forecast is how quickly real football can ask difficult questions.",
+      "score": 10,
+      "was": "The funny thing about forecasts, they never have to survive a difficult fixture."
+    },
+    {
+      "id": "cb120-064",
+      "text": "Tomorrow's headlines are empty, and {clubA} has every reason to want the biggest type.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-065",
+      "text": "We'll argue over the odds, but {managerB} gets the final word only by playing.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-066",
+      "text": "With the first page untouched, even our least imaginative pundit can see countless possible endings.",
+      "score": 9,
+      "was": "With a blank season ahead, the most confident voice in this room might be the least useful."
+    },
+    {
+      "id": "cb120-067",
+      "text": "There is a peculiar electricity before kickoff, when a quiet scoreboard seems to challenge everybody.",
+      "score": 10,
+      "was": "There is a special tension in an untouched table, all the ambition and none of the answers."
+    },
+    {
+      "id": "cb120-068",
+      "text": "Across from {clubB} stands a rival with the same hopes and a completely different plan.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-069",
+      "text": "Expect {managerA} to challenge the predictions, and quite possibly the people making them.",
+      "score": 9,
+      "was": "Expect {managerA} to have a view, and expect the other manager to have an objection."
+    },
+    {
+      "id": "cb120-070",
+      "text": "Nobody collects a medal for a clever argument in here, thank goodness for our trophy budget.",
+      "score": 10,
+      "was": "Nobody wins by winning an argument in this studio, though we do keep trying."
+    },
+    {
+      "id": "cb120-071",
+      "text": "Only the contest can settle the boasting, and {clubA} has every opportunity to write the reply.",
+      "score": 9,
+      "was": "Only the season can settle the boast, and {clubA} has the chance to make its own."
+    },
+    {
+      "id": "cb120-072",
+      "text": "Call me cautious, but the trophy deserves better than being awarded by a vote of this sofa.",
+      "score": 10,
+      "was": "Call me cautious, but I'd like to see some football before engraving the trophy."
+    },
+    {
+      "id": "cb120-073",
+      "text": "After all that confident studio talk, {managerB} still has to create the moment worth remembering.",
+      "score": 9,
+      "was": "We've heard the confidence, now {managerB} has to turn it into something that lasts."
+    },
+    {
+      "id": "cb120-074",
+      "text": "All our clever theories have a slight problem, the other manager gets to take part too.",
+      "score": 9,
+      "was": "All the predictions sound persuasive until you remember the rival gets a campaign as well."
+    },
+    {
+      "id": "cb120-075",
+      "text": "Maybe {clubB} becomes the headline act. Maybe the rival steals the spotlight. That's the attraction.",
+      "score": 10,
+      "was": "Maybe {clubB} writes the glorious ending, maybe the plot belongs elsewhere, that's why we watch."
+    },
+    {
+      "id": "cb120-076",
+      "text": "Here's the danger of an early favourite, the other manager gets to hear the whole argument.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-077",
+      "text": "Just imagine {managerA} watching this panel, wondering which of us will need an apology.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb120-078",
+      "text": "Let the real action begin, we've squeezed every possible opinion out of these chairs.",
+      "score": 9,
+      "was": "Let the campaign begin, the studio has had more than enough time to talk."
+    },
+    {
+      "id": "cb120-079",
+      "text": "Somewhere beyond the opening curtain, {clubA} will find the answer nobody in this room can give.",
+      "score": 9,
+      "was": "Somewhere between ambition and the final totals, {clubA} will discover what this season demands."
+    },
+    {
+      "id": "cb120-080",
+      "text": "We're rich in opinions, poor in evidence, and apparently fully booked for another argument.",
+      "score": 10,
+      "was": "We're not short of bold opinions, just short of the football that makes them matter."
+    },
+    {
+      "id": "cb120-081",
+      "text": "Beyond these bright lights, {managerB} must find answers that none of us can supply.",
+      "score": 9,
+      "was": "Under the bright studio lights, {managerB} has a clean opening and a long road ahead."
+    },
+    {
+      "id": "cb120-082",
+      "text": "Eventually, our wild guesses will be judged against reality, and this sofa may want to hide.",
+      "score": 10,
+      "was": "One day the verdict will sound obvious, but this evening nobody can own it."
+    },
+    {
+      "id": "cb120-083",
+      "text": "Trust {clubB} to dream big, the rival is hardly turning up to admire the scenery.",
+      "score": 9,
+      "was": "Trust {clubB} to bring its own ambitions, regardless of what we've decided in these chairs."
+    },
+    {
+      "id": "cb120-084",
+      "text": "If I were {managerA}, I'd take the compliments and ignore the forecasts.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-085",
+      "text": "Every crown looks wonderful in a preview. The difficult business is earning the right to wear it.",
+      "score": 10,
+      "was": "Every title starts as an ambition, and no one gets to skip the hard part."
+    },
+    {
+      "id": "cb120-086",
+      "text": "Look beyond the banter, {clubA} has a genuine opportunity to define its season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-087",
+      "text": "A prediction is only a starting pistol, and nobody should mistake it for the finish.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb120-088",
+      "text": "We might be wrong about absolutely everything, which is half the charm of this job.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb120-089",
+      "text": "However persuasive our case for {managerB} sounds, I'd still let the football have its say.",
+      "score": 9,
+      "was": "No matter how convincing {managerB} sounds tonight, the campaign has other ideas waiting."
+    },
+    {
+      "id": "cb120-090",
+      "text": "Send the pundits home with the chalkboard, {clubB} has far better ways to draw a picture.",
+      "score": 9,
+      "was": "Send the pundits home with their guesses, {clubB} can settle the debate in its own time."
+    },
+    {
+      "id": "cb120-091",
+      "text": "First comes the promise. Then comes that awkward little detail called having to deliver.",
+      "score": 10,
+      "was": "First comes the expectation, then the long business of making it mean something."
+    },
+    {
+      "id": "cb120-092",
+      "text": "Even {managerA} knows that early confidence doesn't put silverware on a shelf.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb120-093",
+      "text": "This whole rivalry is balanced on an unopened door, and either manager might push it wide.",
+      "score": 10,
+      "was": "This is where the stories are still unwritten, and every manager can picture a better ending."
+    },
+    {
+      "id": "cb120-094",
+      "text": "I'd love a guarantee from {clubA}, but even the best intentions don't come with a warranty.",
+      "score": 10,
+      "was": "I'd love a guarantee from {clubA}, but I suspect the season has declined to sign one."
+    },
+    {
+      "id": "cb120-095",
+      "text": "Whatever this sofa declares tonight, {managerB} still has the right to prove it wrong.",
+      "score": 10,
+      "was": "Whatever the panel predicts, {managerB} begins with possibility rather than proof."
+    },
+    {
+      "id": "cb120-096",
+      "text": "As we turn toward kickoff, the friendly rivalry has an edge again, the kind only uncertainty can provide.",
+      "score": 9,
+      "was": "As the campaign opens, the friendly rivalry finds its old spark without a winner in sight."
+    },
+    {
+      "id": "cb120-097",
+      "text": "Ahead of {clubB} lies a journey nobody has mapped, which is why today's certainty is so risky.",
+      "score": 9,
+      "was": "Until the final verdict, {clubB} has every right to believe the coming season is theirs to shape."
+    },
+    {
+      "id": "cb120-098",
+      "text": "Our confident guesses may age badly. At least we'll have the aftermath to explain ourselves.",
+      "score": 9,
+      "was": "Our predictions may not age gracefully, but the next season promises to keep us honest."
+    },
+    {
+      "id": "cb120-099",
+      "text": "Now comes the delicious uncertainty, whose ambitions will withstand all the twists nobody can predict?",
+      "score": 10,
+      "was": "Now the talk gives way to a real question, whose season will become the one worth remembering?"
+    },
+    {
+      "id": "cb120-100",
+      "text": "Bring on the competition, {managerA} has everything to imagine and absolutely nothing guaranteed.",
+      "score": 9,
+      "was": "Bring on the campaign, {managerA} has a rival to challenge and a story still to write."
+    }
+  ]
+}

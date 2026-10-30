@@ -1,0 +1,608 @@
+{
+  "batch": 45,
+  "situation": "one-season-sprint",
+  "voice": "The co-commentator",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb45-001",
+      "text": "You can spend ages preparing for a rivalry, but {winner} has settled this edition before it could grow old.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-002",
+      "text": "It's a bruising sort of finish for {loser}. Not because it was long, but because it wasn't.",
+      "score": 9,
+      "was": "For {loser}, the frustration is real. There simply isn't another season here to put things right."
+    },
+    {
+      "id": "cb45-003",
+      "text": "No long tour of excuses here. {winnerClub} answered the only question on the card and gets the prize.",
+      "score": 9,
+      "was": "No lengthy campaign to hide in. {winnerClub} made its opportunity count, and the verdict arrived at once."
+    },
+    {
+      "id": "cb45-004",
+      "text": "I quite like the simplicity. {winner} has done enough, and nobody needs to consult a calendar.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-005",
+      "text": "A brief rivalry chapter can leave a surprisingly long argument. {loserClub} may have a few contributions.",
+      "score": 9,
+      "was": "Sometimes the shortest contest leaves the longest conversation. {loserClub} will know all about that."
+    },
+    {
+      "id": "cb45-006",
+      "text": "Look at {winner} now. A whole Showdown decided with barely enough time for the arguments to warm up.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-007",
+      "text": "There was no rehearsal for {loser}. They had to get this right immediately, which is rather unforgiving.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-008",
+      "text": "Winning that season has handed {winnerClub} the whole Showdown. That is efficiency worth admiring.",
+      "score": 9,
+      "was": "One season, and {winnerClub} has the entire prize. That's an efficient bit of business, isn't it?"
+    },
+    {
+      "id": "cb45-009",
+      "text": "Imagine telling {winner} to pace themselves. There was nowhere further to go after this.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-010",
+      "text": "Consider {loserClub}'s predicament. The next campaign might be brilliant, but it cannot alter this edition.",
+      "score": 9,
+      "was": "The peculiar thing for {loserClub} is that the next chapter cannot change this particular ending."
+    },
+    {
+      "id": "cb45-011",
+      "text": "True credit belongs to {winner}. They arrived ready while the format offered no room for adjustments.",
+      "score": 9,
+      "was": "Credit where it's due, {winner} understood the assignment without needing a second attempt."
+    },
+    {
+      "id": "cb45-012",
+      "text": "With {winnerClub}, the headline is settled. The debate about what might have been will take rather longer.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-013",
+      "text": "There are lessons for {loser}, certainly, though none can change the championship that's just ended.",
+      "score": 9,
+      "was": "Well, {loser} can take the lessons away, but there's no remaining fixture in this particular contest."
+    },
+    {
+      "id": "cb45-014",
+      "text": "A sprint isn't necessarily easier. Ask {winner}, who had to make the whole campaign work at once.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-015",
+      "text": "What a peculiar pressure on {loserClub}, knowing there was no later season to balance the books.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-016",
+      "text": "Some managers like the safety of a long project. {winner} has managed rather well without that safety net.",
+      "score": 9,
+      "was": "Plenty of managers prefer time to build. {winner} has demonstrated a taste for immediate returns."
+    },
+    {
+      "id": "cb45-017",
+      "text": "That's why {winnerClub} will be delighted. No later chapter is going to undo this achievement.",
+      "score": 9,
+      "was": "That is the beauty of this format. {winnerClub} has earned a result that needs no sequel."
+    },
+    {
+      "id": "cb45-018",
+      "text": "Notice that {loser} doesn't need to feel diminished. Sometimes the other manager simply makes the opportunity count.",
+      "score": 9,
+      "was": "Notice how {loser} still has plenty to be proud of. The trouble is the contest has already closed."
+    },
+    {
+      "id": "cb45-019",
+      "text": "This was the occasion {winner} had to be ready for. There wasn't a safer moment waiting nearby.",
+      "score": 9,
+      "was": "I'd say {winner} chose the perfect moment to be ready. There wasn't another one available."
+    },
+    {
+      "id": "cb45-020",
+      "text": "Not much room for a hesitant opening, was there? {winnerClub} has the distinction that lasts beyond this season.",
+      "score": 9,
+      "was": "Not much room for a slow start, was there? {winnerClub} has finished with the only advantage that counts."
+    },
+    {
+      "id": "cb45-021",
+      "text": "Everyone talks about momentum. {loser} needed the finishing line to arrive a little later.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-022",
+      "text": "Admiration is due to {winnerClub}. Getting the timing right matters rather more when time is all you've got.",
+      "score": 9,
+      "was": "You have to admire {winnerClub}. There's confidence, and then there's deciding the argument straight away."
+    },
+    {
+      "id": "cb45-023",
+      "text": "Perhaps {winner} fancied a longer rivalry. They've made a persuasive case for keeping matters brief.",
+      "score": 9,
+      "was": "Perhaps {winner} would have enjoyed a longer contest. Hard to complain when you've won the shorter one."
+    },
+    {
+      "id": "cb45-024",
+      "text": "What makes {loserClub}'s situation difficult is that the review comes after the final verdict, not halfway through.",
+      "score": 9,
+      "was": "The difficult part for {loserClub} is not the result itself, it's the absence of another round."
+    },
+    {
+      "id": "cb45-025",
+      "text": "I'd never call it straightforward. {winner} had to get the outcome right without an opportunity to reset.",
+      "score": 9,
+      "was": "I'd never call it straightforward. {winner} had to get the outcome right without a second chapter."
+    },
+    {
+      "id": "cb45-026",
+      "text": "Here, {winnerClub} has shown something useful. You can earn a great deal of respect in limited time.",
+      "score": 9,
+      "was": "On this occasion, {winnerClub} didn't need a collection of seasons to establish superiority."
+    },
+    {
+      "id": "cb45-027",
+      "text": "Preparation is only half the task. {loser} didn't have the luxury of settling in later.",
+      "score": 9,
+      "was": "Nobody gets to ease into this kind of contest. {loser} has learned that in a rather abrupt way."
+    },
+    {
+      "id": "cb45-028",
+      "text": "Picture the notebook of alternatives. {winner} won't have to open it, which is a luxury they've earned.",
+      "score": 9,
+      "was": "You could fill a notebook with the possibilities. {winner} only needed this season's evidence."
+    },
+    {
+      "id": "cb45-029",
+      "text": "Apparently {winnerClub} prefers a meeting with an agenda and an ending. Everything has been settled nicely.",
+      "score": 9,
+      "was": "Apparently {winnerClub} believes in short meetings. The whole business has been concluded rather smartly."
+    },
+    {
+      "id": "cb45-030",
+      "text": "It's important to distinguish the claim. {winner} has won this edition, not every future argument.",
+      "score": 9,
+      "was": "This isn't a verdict on every season imaginable. It's the one season {winner} was asked to win."
+    },
+    {
+      "id": "cb45-031",
+      "text": "Spare a thought for {loser}. There are defeats you can answer next year, but this format won't oblige.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-032",
+      "text": "There's a practical beauty to {winnerClub}'s success. Win the season and the overall title comes with it.",
+      "score": 9,
+      "was": "There's an elegance to {winnerClub}'s position. Finish ahead once, take the overall honor home."
+    },
+    {
+      "id": "cb45-033",
+      "text": "From the opening promise to the closing column, {winner} has kept their side of the bargain.",
+      "score": 9,
+      "was": "From the first entry to the final tally, {winner} has kept the important part very simple."
+    },
+    {
+      "id": "cb45-034",
+      "text": "I'd have liked another look at {loserClub} over a longer distance. That wasn't what this format offered.",
+      "score": 9,
+      "was": "I'd have liked to see what {loserClub} could do over longer distance. This particular race doesn't ask."
+    },
+    {
+      "id": "cb45-035",
+      "text": "Any response from {loser} will belong to another contest. That is what gives this result its bite.",
+      "score": 9,
+      "was": "The only second chance for {loser} would have to come in another Showdown altogether."
+    },
+    {
+      "id": "cb45-036",
+      "text": "Whatever the wider rivalry brings, {winnerClub} owns this particular edition outright. There's no small print.",
+      "score": 9,
+      "was": "Whatever else gets discussed, {winnerClub} has turned a single campaign into an outright title."
+    },
+    {
+      "id": "cb45-037",
+      "text": "Try telling {winner} the story ought to take longer. They've already written the last page.",
+      "score": 9,
+      "was": "You can't accuse {winner} of waiting for the story to develop. They've already supplied the ending."
+    },
+    {
+      "id": "cb45-038",
+      "text": "To be fair to {loserClub}, this result decides the title without settling every argument about football.",
+      "score": 9,
+      "was": "To be fair to {loserClub}, one season tells you who won, not every answer about the rivalry."
+    },
+    {
+      "id": "cb45-039",
+      "text": "Few contests ask quite so much quite so quickly. {winner} met that demand, fair and square.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-040",
+      "text": "If {winnerClub} wanted a lasting bragging right, they've found an unusually compact way to earn it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-041",
+      "text": "An immediate result is still a lasting result. {loser} will know that whenever this edition is mentioned.",
+      "score": 9,
+      "was": "The result might be immediate, but {loser} will have plenty of time to think about it."
+    },
+    {
+      "id": "cb45-042",
+      "text": "Look at it from {loserClub}'s seat. The chance to respond comes only in a future challenge.",
+      "score": 9,
+      "was": "Here is the awkward truth for {loserClub}. There was never going to be time for a recovery season."
+    },
+    {
+      "id": "cb45-043",
+      "text": "Normally we'd ask whether {winner} can repeat the success. This particular title doesn't require a repeat.",
+      "score": 9,
+      "was": "You'd normally ask how {winner} keeps this going. Here, they've already reached the finish."
+    },
+    {
+      "id": "cb45-044",
+      "text": "There's a particular courage in competing without a repair season. {winnerClub} had enough of it.",
+      "score": 9,
+      "was": "It takes a certain nerve to win when there's nowhere to make up for an error. {winnerClub} had it."
+    },
+    {
+      "id": "cb45-045",
+      "text": "There'll be other challenges for {loser}, of course. None of them can reopen the decision.",
+      "score": 9,
+      "was": "There'll be other challenges for {loser}, of course. None of them can reopen this one."
+    },
+    {
+      "id": "cb45-046",
+      "text": "Frankly, {winner} won't be requesting extra seasons. That's the privilege of having the trophy already decided.",
+      "score": 9,
+      "was": "Frankly, {winner} won't mind the brevity. A title looks exactly the same when the contest ends."
+    },
+    {
+      "id": "cb45-047",
+      "text": "What stays with me is {winnerClub} refusing to need more time than the terms allowed.",
+      "score": 9,
+      "was": "The lasting impression is of {winnerClub} taking the chance in front of them, no promises required."
+    },
+    {
+      "id": "cb45-048",
+      "text": "I'd imagine {loserClub} welcomes another challenge. Every good competitor does after such an abrupt ending.",
+      "score": 9,
+      "was": "I'd imagine {loserClub} would welcome another season. So would anyone who fell short in this format."
+    },
+    {
+      "id": "cb45-049",
+      "text": "Before the rivalry could find a rhythm, {winner} had already found a way to finish on top.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-050",
+      "text": "Easy to promise improvement later. {winnerClub} actually produced the result while it could still matter.",
+      "score": 9,
+      "was": "Easy to talk about building for the future. {winnerClub} had to deliver in the present."
+    },
+    {
+      "id": "cb45-051",
+      "text": "Oddly enough, {loser} needn't worry about a long losing sequence here. This decision was swift and complete.",
+      "score": 9,
+      "was": "Oddly enough, {loser} doesn't need a lecture about patience. There was no time for that here."
+    },
+    {
+      "id": "cb45-052",
+      "text": "To {winner}, the final whistle on this edition is the only signal they'll be listening for.",
+      "score": 9,
+      "was": "The thing with {winner} is that the result stands without any need for a follow-up act."
+    },
+    {
+      "id": "cb45-053",
+      "text": "No shame for {loserClub} in losing a close or wide contest. The finality is the same either way.",
+      "score": 9,
+      "was": "No shame for {loserClub} in being beaten. The format simply makes every lost opportunity final."
+    },
+    {
+      "id": "cb45-054",
+      "text": "I've seen longer arguments over a cup of tea. {winner} has settled a whole Showdown more efficiently.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-055",
+      "text": "By the time {loser} starts the postmortem, the championship is already written in permanent ink.",
+      "score": 9,
+      "was": "By the time {loser} could plan a response, the contest had already reached its conclusion."
+    },
+    {
+      "id": "cb45-056",
+      "text": "Short competitions reward clarity. {winnerClub} knew what mattered and has the overall title to show for it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-057",
+      "text": "Respect the achievement of {winner}. A brief contest can still produce a worthy champion.",
+      "score": 9,
+      "was": "A fair contest, a final outcome, and {winner} with the distinction. You can't ask for much cleaner."
+    },
+    {
+      "id": "cb45-058",
+      "text": "The stakes were packed into a short window. {loserClub} has felt their full weight in this Showdown.",
+      "score": 9,
+      "was": "Think of the pressure on {loserClub}. A single season can carry an entire rivalry's verdict."
+    },
+    {
+      "id": "cb45-059",
+      "text": "Interesting how {winnerClub} can earn such a lasting honor without a long list of seasons behind it.",
+      "score": 9,
+      "was": "Perhaps the most telling thing is that {winnerClub} required no extra season to complete the job."
+    },
+    {
+      "id": "cb45-060",
+      "text": "That's the end of the matter for this edition. {winner} earned it, and {loser} can respect that.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-061",
+      "text": "For all the promises about the road ahead, {winner} needed only this stretch to reach the finish.",
+      "score": 9,
+      "was": "For all the talk of journeys, {winner} needed just one stop to arrive at the prize."
+    },
+    {
+      "id": "cb45-062",
+      "text": "Compressed into a season, the whole Showdown belongs to {winnerClub}. The friendly rivalry still carries on.",
+      "score": 9,
+      "was": "It's a complete Showdown in miniature. {winnerClub} has won, and the conversation will go on."
+    },
+    {
+      "id": "cb45-063",
+      "text": "A race with no return journey always puts the finishing touch under a microscope, doesn't it?",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-064",
+      "text": "Length is a poor measure of achievement. Winning when the finish comes at once takes conviction.",
+      "score": 9,
+      "was": "You can call it brief, but nobody should mistake a decisive season for a small achievement."
+    },
+    {
+      "id": "cb45-065",
+      "text": "Personally, I'd say the difficulty is having every ambition pressed into the same small window.",
+      "score": 9,
+      "was": "Honestly, the hardest thing here is having every ambition squeezed into the same campaign."
+    },
+    {
+      "id": "cb45-066",
+      "text": "Watch how quickly the conversation changes from what might happen to what has happened.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-067",
+      "text": "Nobody has a season for finding their feet here. Either the plan works or the edition ends.",
+      "score": 9,
+      "was": "There isn't a settling-in period. You're either ready for the contest or you're talking about the next one."
+    },
+    {
+      "id": "cb45-068",
+      "text": "In a lengthy contest, the story can turn. Here, whatever happened has become the finished story.",
+      "score": 9,
+      "was": "Some contests develop a character over time. This one had to show its character immediately."
+    },
+    {
+      "id": "cb45-069",
+      "text": "It's like ordering the main course and receiving the bill together. All perfectly proper, mind you.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-070",
+      "text": "Normally a manager can file away a disappointing season and start repairing the damage. Not in this edition.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-071",
+      "text": "Most importantly, the season winner takes the overall prize as well. That changes the pressure completely.",
+      "score": 9,
+      "was": "Think about that distinction. Winning a season here means taking the whole Showdown with it."
+    },
+    {
+      "id": "cb45-072",
+      "text": "I'll tell you the important bit. Both sides knew how little room the format left for mistakes.",
+      "score": 9,
+      "was": "I'll tell you what matters. There was a target, there was a contest, and it's been settled."
+    },
+    {
+      "id": "cb45-073",
+      "text": "Read the final tally and you have your answer. The friendly debate, of course, is another matter.",
+      "score": 9,
+      "was": "The final tally is all the explanation required, although I suspect the arguments will still be excellent."
+    },
+    {
+      "id": "cb45-074",
+      "text": "Promises of a stronger return are perfectly fair. They just belong to the next rivalry, not this verdict.",
+      "score": 9,
+      "was": "Anyone can promise they'll be stronger next time. The difficulty is that this edition has no next time."
+    },
+    {
+      "id": "cb45-075",
+      "text": "Remarkable, really, how a schedule this short can leave such a substantial impression.",
+      "score": 9,
+      "was": "Funny how a short competition can ask such a long question about nerve and preparation."
+    },
+    {
+      "id": "cb45-076",
+      "text": "That finish has a particular weight. There are no remaining seasons to soften the conclusion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-077",
+      "text": "Often preparation matters more than patience. That's the type of challenge these managers just faced.",
+      "score": 9,
+      "was": "We talk about building form, but this was a test of what could be delivered immediately."
+    },
+    {
+      "id": "cb45-078",
+      "text": "Consider an interview without a follow-up question. The opening answer has to land.",
+      "score": 9,
+      "was": "It is rather like an interview with no second question. You'd better make the answer count."
+    },
+    {
+      "id": "cb45-079",
+      "text": "An impatient manager would enjoy this setup. There isn't time to save the grand plan for later.",
+      "score": 9,
+      "was": "One opportunity can expose priorities beautifully. There is no room to save the best for later."
+    },
+    {
+      "id": "cb45-080",
+      "text": "Imagine both managers at the start. The prospect was equal, but the final distinction wasn't.",
+      "score": 9,
+      "was": "I suspect both managers would have accepted the terms gladly. Only one gets to enjoy the verdict."
+    },
+    {
+      "id": "cb45-081",
+      "text": "That's almost suspiciously efficient. Finish the campaign, receive the verdict, and move on.",
+      "score": 9,
+      "was": "Quite a tidy arrangement, this. No waiting around for the championship to decide who it belongs to."
+    },
+    {
+      "id": "cb45-082",
+      "text": "Marathons forgive a rough patch. This format was never designed to allow that luxury.",
+      "score": 9,
+      "was": "A marathon forgives a poor stretch. This was never intended to offer that luxury."
+    },
+    {
+      "id": "cb45-083",
+      "text": "That's a particularly solid result. Nothing done in a future campaign will change who took this title.",
+      "score": 9,
+      "was": "There's something refreshing about an outcome which cannot be revised by next season's form."
+    },
+    {
+      "id": "cb45-084",
+      "text": "Even a longer tournament might struggle to produce a more definite answer than this finish.",
+      "score": 9,
+      "was": "The competition hasn't lingered long enough to become complicated, but the achievement is still genuine."
+    },
+    {
+      "id": "cb45-085",
+      "text": "Speed and ease aren't the same thing. The conclusion came quickly, not cheaply.",
+      "score": 9,
+      "was": "Call it a quick decision, not an easy one. Those are very different things in football."
+    },
+    {
+      "id": "cb45-086",
+      "text": "Patience can be a splendid virtue in football, provided the format gives you somewhere to use it.",
+      "score": 9,
+      "was": "Even the most patient manager must know when patience isn't part of the available plan."
+    },
+    {
+      "id": "cb45-087",
+      "text": "Margins tell you how the managers separated. The single-season format tells you why the outcome is final.",
+      "score": 9,
+      "was": "Whatever the margin turns out to be, this one campaign has carried the whole verdict."
+    },
+    {
+      "id": "cb45-088",
+      "text": "Once the campaign was over, no fresh evidence could enter. The closing arguments practically write themselves.",
+      "score": 9,
+      "was": "Once that season was complete, the contest had nowhere else to go. That's a rare kind of finality."
+    },
+    {
+      "id": "cb45-089",
+      "text": "It's a lovely lesson in timing. The opportunity arrived, demanded an answer, and departed.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-090",
+      "text": "Consider every choice carrying the weight of a beginning and an ending at once.",
+      "score": 9,
+      "was": "Just consider the stakes attached to an ordinary season when it is also the entire Showdown."
+    },
+    {
+      "id": "cb45-091",
+      "text": "Forget the slow chase. This contest asked for an answer now, not an improvement plan for later.",
+      "score": 9,
+      "was": "No drawn-out chase, no later correction, and no need to keep the trophy room on standby."
+    },
+    {
+      "id": "cb45-092",
+      "text": "Nobody needs to promise a great comeback. The question is settled, and a new challenge can begin.",
+      "score": 9,
+      "was": "There is no virtue in promising a comeback when the competition has already shut its doors."
+    },
+    {
+      "id": "cb45-093",
+      "text": "With {margin} between them, the managers can disagree about plenty, but not who owns this edition.",
+      "score": 9,
+      "was": "The gap is {margin}, but what matters is that there's no more season left to contest it."
+    },
+    {
+      "id": "cb45-094",
+      "text": "Those totals, {winnerPoints} to {loserPoints}, are the complete story rather than a chapter halfway through.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-095",
+      "text": "Dissect the gap all evening if you like. Nobody is bringing the next season into this verdict.",
+      "score": 9,
+      "was": "You could debate the margin all evening, but the closing of the competition is beyond debate."
+    },
+    {
+      "id": "cb45-096",
+      "text": "Seeing {winnerPoints} beside {loserPoints} makes it official. The overall result has already arrived.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb45-097",
+      "text": "There's a curious satisfaction in seeing a whole championship settled without stretching it across years.",
+      "score": 9,
+      "was": "The championship is decided without the comfort of a long campaign to find another route."
+    },
+    {
+      "id": "cb45-098",
+      "text": "A margin of {margin} gives the scale of victory. The format gives it absolute finality.",
+      "score": 9,
+      "was": "If the margin is {margin}, so be it. Even a slender lead would settle a competition this short."
+    },
+    {
+      "id": "cb45-099",
+      "text": "Nothing is waiting for another season. It might feel abrupt, but that's a complete sporting conclusion.",
+      "score": 9,
+      "was": "At least the result has the virtue of being complete. Nothing has been held over for another season."
+    },
+    {
+      "id": "cb45-100",
+      "text": "Try asking for the following season and you'll be asking for a different Showdown altogether.",
+      "score": 9,
+      "was": "Try stretching the analysis across more seasons and you'd be discussing a competition that never existed."
+    }
+  ]
+}

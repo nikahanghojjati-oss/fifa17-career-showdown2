@@ -1,0 +1,204 @@
+{
+  "batch": 14,
+  "situation": "showdown-won-3-seasons",
+  "edition": "final",
+  "desk": "The chief football writer",
+  "edited": true,
+  "stories": [
+    {
+      "id": "sb14-01",
+      "byline": "From the championship desk",
+      "standfirst": "The closing chapter belongs to {winner}, whose accumulated return has settled a Showdown built to be read as a trilogy.",
+      "paragraphs": [
+        "A trilogy can be remembered for its ending, but it cannot be judged without everything that came before. Across {seasonsTotal} seasons, {winner} has assembled the greater return and defeated {loser} for the Showdown title.",
+        "The result belongs to the whole sequence, not to a favorite chapter chosen afterward. Each campaign contributed to the eventual order, and {winnerClub} emerges above {loserClub} on the only measure this contest was designed to settle.",
+        "There will be other stories for these managers to write. This one has its complete beginning, middle and end, with {winner} holding the final distinction."
+      ],
+      "pullquote": {"text": "The ending carries weight because the whole story led to it.", "who": "A Gazette columnist"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb14-02",
+      "byline": "Our correspondent on the standings",
+      "standfirst": "In a contest that values the cumulative account, {winner} has earned the conclusion that individual seasons alone cannot provide.",
+      "paragraphs": [
+        "There is a difference between having a good season and owning the final argument. {winner} has secured the Showdown after {seasonsTotal} campaigns, with a combined total of {winnerPoints} against {loserPoints} for {loser}.",
+        "Those figures are not an attempt to reduce the rivalry to ink. They preserve the consequence of every campaign, allowing neither a vivid memory nor a disappointing passage to erase what the managers actually earned across the contest.",
+        "The published account now has its last entry. It names {winner} as champion while preserving {loser}'s contribution to a rivalry worth recording in full."
+      ],
+      "pullquote": {"text": "A good season makes news; a completed account settles the title.", "who": "The press box"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb14-03",
+      "byline": "The Gazette's final-edition writer",
+      "standfirst": "The opening promise of a sustained contest has reached its answer, and {winnerClub} stands at the top of the record.",
+      "paragraphs": [
+        "At the outset, neither manager was being asked for a single decisive flourish. This Showdown would reward what survived a run of campaigns. The final count has arrived, with {winnerClub} carrying {winner} to the overall title.",
+        "That distinction matters because the format allowed a broader comparison than a lone result. {loserClub} has its place in the record alongside the champion, and the gap between their returns belongs to the contest as a whole.",
+        "The question that accompanied the opening edition can finally be put away. The answer is {winner}, and the verdict requires no invented detail to give it force."
+      ],
+      "pullquote": {"text": "The promise was a proper contest; the reward is a proper conclusion.", "who": "A Gazette columnist"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb14-04",
+      "byline": "From our rivalry correspondent",
+      "standfirst": "Victory for {winner} gives this edition its champion without diminishing the rival whose efforts helped define the contest.",
+      "paragraphs": [
+        "Finishing behind is not the same as being written out of the story. {loser} has not taken the Showdown title, but the contest with {winner} gave every season its meaning. The winner is now confirmed.",
+        "In a competition played across {seasonsTotal} seasons, an overall result emerges from comparison, not isolation. {winnerClub} finished with the stronger tally; {loserClub} supplied the opposing standard by which that achievement could be properly measured and understood.",
+        "The title belongs entirely to {winner}. The story of how a title comes to matter, however, still has room for a respected opponent and an enduring rivalry."
+      ],
+      "pullquote": {"text": "A champion needs a result, but a rivalry gives that result meaning.", "who": "The press box"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb14-05",
+      "byline": "Reporting from the club desk",
+      "standfirst": "Separate clubs, a shared competition and one overall winner: {winner} has brought a demanding comparison to its natural end.",
+      "paragraphs": [
+        "Each club pursued its own rewards, but this Showdown placed those returns on the same page. When the final comparison was made, {winnerClub} had done enough under {winner} to finish above {loserClub} and claim the championship.",
+        "That is the peculiar pleasure of this rivalry. The managers need not share a league or a trophy cabinet to share a meaningful contest. What joins their campaigns is the common standard applied across {seasonsTotal} seasons.",
+        "The shared page now carries a single champion. Its distinction is not borrowed from either club's history; {winner} earned it within the terms of this Showdown."
+      ],
+      "pullquote": {"text": "Different club stories, measured together, produced one complete Showdown story.", "who": "A Gazette columnist"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb14-06",
+      "byline": "From the Gazette ledger",
+      "standfirst": "A competition decided over a sequence has finally exhausted its possibilities, leaving {winner} alone at the summit of the standings.",
+      "paragraphs": [
+        "The figures have stopped moving. After {seasonsTotal} seasons of accumulation, {winner} holds the greater overall total and the Showdown championship. {loser} finishes behind, with the distance between them recorded as {margin} on the final ledger.",
+        "A tally can look impersonal until the reader remembers what it contains: the separate returns of sustained campaigns. For {winner}, the advantage is not a prediction or an impression. It is the completed record of this particular contest.",
+        "The Gazette can now rule a line beneath the standings. Nothing remains to be carried forward into this edition, except the distinction of its champion."
+      ],
+      "pullquote": {"text": "When the ledger closes, the champion's place stops being provisional.", "who": "The press box"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb14-07",
+      "byline": "Our season-review editor",
+      "standfirst": "Read each campaign in isolation and the story remains unfinished; together they make {winner}'s Showdown triumph unmistakable.",
+      "paragraphs": [
+        "The temptation after any season is to treat its conclusion as the whole tale. This contest was written differently. Only after {seasonsTotal} campaigns could its central question be answered, and the eventual champion is {winner}.",
+        "The result does not ask readers to forget the separate seasons. It asks them to read those seasons together. That broader view puts {winnerClub} above {loserClub}, giving the rivalry a conclusion that no isolated page could supply.",
+        "Now the back issues belong on the same shelf as the final edition. Their accumulated meaning is simple: {winner} has won the Showdown."
+      ],
+      "pullquote": {"text": "No individual edition can tell the whole story of a series.", "who": "A Gazette columnist"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb14-08",
+      "byline": "The chief writer's championship report",
+      "standfirst": "The title rewards a sustained body of work, and {winner} has delivered enough across the full contest to prevail.",
+      "paragraphs": [
+        "A championship spread across seasons asks a manager to return repeatedly to the same demanding question. Can this campaign add something meaningful to the whole? {winner} has answered through the overall return, finishing the Showdown ahead of {loser}.",
+        "The achievement should not be confused with a claim of supremacy in every individual campaign. It is stronger for being more precise: across the agreed span, {winnerClub} gathered the better total, and that is what secured the crown.",
+        "The end leaves a clear reward for sustained work. {winner} possesses the overall title, while the rivalry retains the prospect of another contest beyond this completed one."
+      ],
+      "pullquote": {"text": "The title honors the full body of work, not a selected highlight.", "who": "The press box"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb14-09",
+      "byline": "From our late-edition desk",
+      "standfirst": "The final front page can now print a champion's name without qualification: {winner} has completed the winning account.",
+      "paragraphs": [
+        "A newspaper lives with unfinished stories until the evidence is complete. The Showdown has reached that point. With the agreed seasons concluded, {winner} stands above {loser}, and the championship can finally be reported as settled.",
+        "There is no need to supply imaginary scenes to lend the moment drama. The substance is already there in the competing seasons, the earned points and the fact that only the completed total decides the overall champion.",
+        "What was once an open question is now the front-page answer. The Gazette prints {winner}'s victory, and leaves the next edition to a future rivalry."
+      ],
+      "pullquote": {"text": "The finest headline is the one the finished result can support.", "who": "A Gazette editor"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb14-10",
+      "byline": "The Gazette's competition analyst",
+      "standfirst": "The decisive measure was never the loudest moment but the lasting return, and {winner} has supplied the stronger one.",
+      "paragraphs": [
+        "Some competitions seem to invite judgment from a single unforgettable moment. This Showdown had a different design: the points from {seasonsTotal} seasons would be added before its champion could be named. That champion is {winner}.",
+        "By that measure, {winnerClub} has finished ahead of {loserClub}. The competition does not require a story about unseen performances or imagined turning points. Its meaning rests in the completed comparison, which favors {winner} over {loser}.",
+        "The title is therefore both plain and substantial. Its owner has done enough over the stipulated distance, and there is nothing provisional about the outcome."
+      ],
+      "pullquote": {"text": "Remember the excitement, but award the championship on the completed record.", "who": "The press box"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb14-11",
+      "byline": "Our correspondent on the rivalry",
+      "standfirst": "An extended sporting conversation has produced its final answer, as {winner} takes the title after the full exchange of seasons.",
+      "paragraphs": [
+        "A good rivalry has something of a correspondence about it. Each campaign places another argument on the page, and neither manager can know the final shape until the correspondence ends. Here it ends with {winner} as champion.",
+        "The exchange between {winnerClub} and {loserClub} was judged through their returns across {seasonsTotal} seasons. That shared frame gave {loser} a meaningful place in the contest even as the greater overall total eventually belonged to {winner}.",
+        "The correspondence is closed, but its pages remain worth reading. What they show together is a deserved title, earned within a rivalry neither manager could create alone."
+      ],
+      "pullquote": {"text": "A rivalry becomes a story when both sides have something to answer.", "who": "A Gazette columnist"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb14-12",
+      "byline": "From the Gazette archive room",
+      "standfirst": "The archive gains a completed championship account, with {winner}'s name attached to a victory earned over the full sequence.",
+      "paragraphs": [
+        "An archive is not merely a place to store champions. It preserves the distance traveled before a championship becomes certain. {winner} has reached that destination, taking the Showdown title after {seasonsTotal} seasons against {loser}.",
+        "The earlier campaign records remain important because the final tally cannot be understood without them. They explain why {winnerClub} is listed above {loserClub}, even though no individual season has the authority to describe the entire finished competition.",
+        "The file can now be marked complete. Its enduring entry is a Showdown victory for {winner}, with every campaign retained as part of the explanation."
+      ],
+      "pullquote": {"text": "History keeps the road to a title as carefully as the title itself.", "who": "A Gazette archivist"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb14-13",
+      "byline": "The final-table correspondent",
+      "standfirst": "The season-by-season arguments have given way to the overall verdict, and {winner} is entitled to the championship distinction.",
+      "paragraphs": [
+        "Not every question posed by a long contest can be answered halfway through it. This one could be answered only when the scheduled campaigns were finished. {winner} now owns that answer, having defeated {loser} on aggregate.",
+        "It is a victory of total return, rather than a judgment on which isolated memory deserves the most attention. For {winnerClub}, the full sequence proved sufficient. For {loserClub}, it remains the standard against which another challenge may someday be measured.",
+        "No retrospective flourish can improve the essential news. The contest ran its course, the overall lead became final, and {winner} has earned the right to be called champion."
+      ],
+      "pullquote": {"text": "A finished contest answers the question that its opening could only ask.", "who": "The press box"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb14-14",
+      "byline": "From our season perspective desk",
+      "standfirst": "The passage from opening hope to final certainty has ended with {winner} holding the prize of a completed Showdown.",
+      "paragraphs": [
+        "What feels permanent during a season can look different when another campaign is placed beside it. This Showdown allowed for that change of perspective. Once its full span was complete, {winner} had finished above {loser}.",
+        "The result is not a demand to rewrite how either manager experienced the journey. It simply sets their efforts within a larger frame. Across {seasonsTotal} seasons, {winnerClub} gained the stronger overall return and deserves the title that follows.",
+        "Memory may favor different passages of the contest. The official ending, however, is shared by every telling: {winner} is the champion of this edition."
+      ],
+      "pullquote": {"text": "Memories may choose their favorite chapters; the championship requires the whole book.", "who": "A Gazette columnist"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb14-15",
+      "byline": "The Gazette's closing editorial",
+      "standfirst": "The meaning of this Showdown lies in the distance it allowed for comparison and the certainty of {winner}'s eventual victory.",
+      "paragraphs": [
+        "There was room in this contest for separate beginnings, fresh campaigns and a conclusion that belonged to their combined weight. That is what makes its final announcement satisfying. After {seasonsTotal} seasons, {winner} has won the Showdown.",
+        "The losing manager is not a footnote to this verdict. {loser} supplied the opposition that made the comparison meaningful, and {loserClub} remains inseparable from the account of how {winnerClub} earned the greater final total.",
+        "A newspaper can close its pages without closing a friendship or a rivalry. This championship is complete, its winner is known, and its significance will outlast the edition."
+      ],
+      "pullquote": {"text": "A complete result is a conclusion, not the end of the rivalry.", "who": "The press box"},
+      "score": 10,
+      "was": null
+    }
+  ]
+}

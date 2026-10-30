@@ -1,0 +1,809 @@
+{
+  "batch": 10,
+  "situation": "level-overall",
+  "edition": "season",
+  "lens": "The trophy cabinet",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b10-001",
+      "kicker": "OVERALL RECORD",
+      "headline": "THE ARCHIVE FINDS BALANCE",
+      "subhead": "After the latest season, {managerA} and {managerB} stand level across the Showdown, leaving its larger story open.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b10-002",
+      "kicker": "HONOURS DESK",
+      "headline": "EQUAL CLAIMS TO THE HALL",
+      "subhead": "The overall standings now place {clubA} and {clubB} on identical ground, with neither managerial campaign above the other.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b10-003",
+      "kicker": "GALLERY REPORT",
+      "headline": "A PAIR ABOVE THE PLINTH",
+      "subhead": "Through another season of rivalry, the managers have arrived at precisely the same overall total, without a lasting leader.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b10-004",
+      "kicker": "SEASON ANALYSIS",
+      "headline": "SHOWCASE STANDS EVEN",
+      "subhead": "Set every completed season side by side and the cumulative figures put {managerA} and {managerB} on equal footing.",
+      "score": 10,
+      "was": "Headline: THE SHOWCASE STANDS EVEN | Subhead: Whatever this season offered individually, the accumulated contest now finds {managerA} and {managerB} level in the comparison."
+    },
+    {
+      "id": "b10-005",
+      "kicker": "EDITORIAL VIEW",
+      "headline": "HONOURS HOLD EQUILIBRIUM",
+      "subhead": "Even if the cabinets tell different stories, the overall points of {clubA} and {clubB} match exactly.",
+      "score": 9,
+      "was": "Headline: HONOURS REACH EQUIPOISE | Subhead: Across the full contest to date, {clubA} and {clubB} have reached the same mark after this season."
+    },
+    {
+      "id": "b10-006",
+      "kicker": "DISPLAY NOTES",
+      "headline": "BALANCED UNDER VELVET",
+      "subhead": "Velvet may flatter any exhibit, but the overall contest grants {managerA} and {managerB} equal standing for now.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b10-007",
+      "kicker": "FRONT PAGE",
+      "headline": "CABINET FINDS ITS LINE",
+      "subhead": "Inside this imagined gallery, neither manager's accumulated achievements earn a higher place in the overall Showdown.",
+      "score": 9,
+      "was": "Headline: THE CABINET FINDS ITS LINE | Subhead: The latest campaign has drawn the overall rivalry into alignment, with neither manager occupying first place alone."
+    },
+    {
+      "id": "b10-008",
+      "kicker": "SEASON RECORD",
+      "headline": "NO HIGHER PEDESTAL",
+      "subhead": "After this season, {managerA} has no overall points edge over {managerB}, an exact balance of considerable dramatic weight.",
+      "score": 10,
+      "was": "Subhead: After this season, {managerA} has no overall points edge over {managerB}, and the challenge remains wonderfully unsettled."
+    },
+    {
+      "id": "b10-009",
+      "kicker": "HONOURS REPORT",
+      "headline": "DISTINCTION HELD IN PAUSE",
+      "subhead": "There can be no outright overall leader when {clubA} and {clubB} occupy matching positions after the season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b10-010",
+      "kicker": "THE GAZETTE",
+      "headline": "PARITY AT THE GLASSWORK",
+      "subhead": "The figures behind the imagined display reveal that both managers have the same accumulated total at this stage.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b10-011",
+      "kicker": "RIVALRY FILE",
+      "headline": "LEDGE MEETS ITS MATCH",
+      "subhead": "The overall comparison offers a shared perch to {managerA} and {managerB}, whose cumulative totals now agree.",
+      "score": 9,
+      "was": "Headline: THE LEDGE MEETS ITS MATCH | Subhead: An earlier separation has disappeared from the overall account, placing {managerA} and {managerB} on equal terms."
+    },
+    {
+      "id": "b10-012",
+      "kicker": "CABINET REPORT",
+      "headline": "NEITHER CLAIMS THE CREST",
+      "subhead": "For all their separate achievements, {clubA} and {clubB} now carry matching overall totals into the next chapter.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b10-013",
+      "kicker": "OVERALL REVIEW",
+      "headline": "RIVALRY HELD IN BALANCE",
+      "subhead": "This campaign leaves the wider Showdown evenly balanced, its highest standing shared rather than occupied by one manager.",
+      "score": 9,
+      "was": "Headline: THE RIVALRY RETURNS LEVEL | Subhead: The season's addition has brought the broader Showdown into balance, its leading place shared rather than owned."
+    },
+    {
+      "id": "b10-014",
+      "kicker": "SEASON EDITION",
+      "headline": "DISPLAY WEIGHS THE SAME",
+      "subhead": "Each manager's accumulated work now measures {points}, a result that leaves the wider competition without a sole leader.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b10-015",
+      "kicker": "CHIEF WRITER",
+      "headline": "NO FAVOUR IN THE FRAME",
+      "subhead": "When the newest campaign is set beside those before it, {managerA} and {managerB} emerge precisely level overall.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b10-016",
+      "kicker": "THE LONG VIEW",
+      "headline": "ENGRAVING FINDS A COMMA",
+      "subhead": "If the overall leaders were inscribed today, {clubA} and {clubB} would need equal space on the imagined plate.",
+      "score": 9,
+      "was": "Subhead: The story of the overall lead now pauses between {clubA} and {clubB}, each resting on an equal total."
+    },
+    {
+      "id": "b10-017",
+      "kicker": "RIVALRY WATCH",
+      "headline": "MANTEL'S EVEN MEASURE",
+      "subhead": "No shelf in the Gazette's imaginary display can separate the rivals, whose overall standings are identical after this season.",
+      "score": 9,
+      "was": "Headline: THE MANTEL'S EVEN MEASURE | Subhead: No shelf can separate the rivals in the overall standings after the latest season brought their totals together."
+    },
+    {
+      "id": "b10-018",
+      "kicker": "EDITORIAL DESK",
+      "headline": "GOLD TRIM, COMMON GROUND",
+      "subhead": "Different clubs may pursue different honours, but {managerA} and {managerB} now sit on an identical overall tally.",
+      "score": 10,
+      "was": "Subhead: In the cumulative contest, {managerA} and {managerB} have converged, whatever separate honours their clubs may hold."
+    },
+    {
+      "id": "b10-019",
+      "kicker": "HONOURS COLUMN",
+      "headline": "A SILENT SCALE OF HONOURS",
+      "subhead": "The wider contest stands at exact balance, even though this season's separate achievements need not have been identical.",
+      "score": 9,
+      "was": "Subhead: The wider contest has settled into exact balance, even as the meaning of this season remains distinct for each manager."
+    },
+    {
+      "id": "b10-020",
+      "kicker": "ARCHIVE EDITION",
+      "headline": "HISTORY PAUSES AT PARITY",
+      "subhead": "Whatever came before this campaign, {clubA} and {clubB} now occupy the same position in the overall reckoning.",
+      "score": 10,
+      "was": "Subhead: No lasting advantage survives the latest campaign, with {clubA} and {clubB} drawing level in the overall reckoning."
+    },
+    {
+      "id": "b10-021",
+      "kicker": "BREAKING DESK",
+      "headline": "PAINT THEM LEVEL!",
+      "subhead": "The latest season closes with {managerA} and {managerB} on identical overall points, a magnificent problem for the headline desk.",
+      "score": 9,
+      "was": "Headline: ERASE THAT LEAD! | Subhead: The latest season has wiped away the overall points difference, leaving {managerA} and {managerB} locked together in the standings."
+    },
+    {
+      "id": "b10-022",
+      "kicker": "BACK PAGE",
+      "headline": "TILT THE CASE BACK",
+      "subhead": "There is room for equal billing at the top now, because the two managers share precisely the same overall tally.",
+      "score": 10,
+      "was": "Headline: TILT THE CASE BACK! | Subhead: An apparent order at the top no longer holds, because the overall competition now belongs equally to both managers."
+    },
+    {
+      "id": "b10-023",
+      "kicker": "POINTS WATCH",
+      "headline": "ALIGN THE LEDGE!",
+      "subhead": "The accumulated returns for {clubA} and {clubB} now match, putting the Showdown's next move in fresh doubt.",
+      "score": 10,
+      "was": "Headline: LEVEL THE LEDGE!"
+    },
+    {
+      "id": "b10-024",
+      "kicker": "LATE EDITION",
+      "headline": "CLOSE THE CABINET GAP!",
+      "subhead": "At the close of this campaign, not a point separates {managerA} from {managerB} in the accumulated contest.",
+      "score": 9,
+      "was": "Subhead: No distance remains between {managerA} and {managerB} in the overall contest after the season's figures are added."
+    },
+    {
+      "id": "b10-025",
+      "kicker": "THE VERDICT",
+      "headline": "TURN THE TABLES AGAIN",
+      "subhead": "The long comparison reaches an exact tie after this season, and neither manager claims the overall lead outright.",
+      "score": 9,
+      "was": "Headline: TURN THE TABLES AGAIN! | Subhead: After the latest season, the overall rankings put neither manager above the other, restoring an exquisite uncertainty."
+    },
+    {
+      "id": "b10-026",
+      "kicker": "HONOURS WIRE",
+      "headline": "RIP UP THE RANKING!",
+      "subhead": "Put either manager first and the figures object: {managerA} and {managerB} stand perfectly level overall.",
+      "score": 10,
+      "was": "Subhead: That old pecking order has lost its meaning: {managerA} and {managerB} now occupy exactly equal overall positions."
+    },
+    {
+      "id": "b10-027",
+      "kicker": "EVENING REPORT",
+      "headline": "BRING THE BALANCE BACK",
+      "subhead": "The season's completed figures leave the two managers' respective cumulative totals matching, even if their paths were different.",
+      "score": 9,
+      "was": "Headline: BRING THE BALANCE BACK! | Subhead: The latest campaign has brought the wider contest into parity, with the managers' combined season totals matching individually."
+    },
+    {
+      "id": "b10-028",
+      "kicker": "RECORD ROOM",
+      "headline": "REWRITE THE NAME ORDER",
+      "subhead": "Try placing {clubA} above {clubB}, or reverse them; the overall figures give no basis for either choice.",
+      "score": 10,
+      "was": "Headline: REWRITE THE NAME ORDER! | Subhead: There is no first name to place above the other when {clubA} and {clubB} stand level overall."
+    },
+    {
+      "id": "b10-029",
+      "kicker": "SIDELINE DESK",
+      "headline": "POLISH THE LEVEL MARK!",
+      "subhead": "The season brings a perfectly even cumulative reading, with both rivals entitled to the same standing overall.",
+      "score": 9,
+      "was": "Headline: BRUSH OFF THAT DEFICIT! | Subhead: A previous overall difference is gone, and both managers begin their next comparison from exactly the same accumulated mark."
+    },
+    {
+      "id": "b10-030",
+      "kicker": "TROPHY ROOM",
+      "headline": "DROP THE HIGHER STAND",
+      "subhead": "A raised platform would be misplaced in the Gazette's picture of the overall race, because the totals coincide.",
+      "score": 9,
+      "was": "Headline: DROP THE HIGHER STAND! | Subhead: The overall lead has disappeared after this season, giving neither manager a higher place in the comparison."
+    },
+    {
+      "id": "b10-031",
+      "kicker": "DISPLAY WATCH",
+      "headline": "REFIT THE SHOWCASE",
+      "subhead": "The imagined display needs equal compartments, as this season leaves {managerA} and {managerB} tied overall.",
+      "score": 10,
+      "was": "Headline: REFIT THE SHOWCASE! | Subhead: The balance of the wider contest has changed, and the latest totals leave {managerA} level with {managerB}."
+    },
+    {
+      "id": "b10-032",
+      "kicker": "FLASH EDITION",
+      "headline": "SWING THE GLASS DOORS!",
+      "subhead": "Give {clubA} and {clubB} equal room in the display, because their cumulative totals now match.",
+      "score": 9,
+      "was": "Subhead: Back into equal standing come {clubA} and {clubB}, with their respective overall points now matching perfectly."
+    },
+    {
+      "id": "b10-033",
+      "kicker": "HONOURS ALERT",
+      "headline": "RESET THE HONOURS SCALE",
+      "subhead": "What matters across the full Showdown is the perfect tie, not the separate paths each manager took.",
+      "score": 10,
+      "was": "Headline: RESET THE HONOURS SCALE! | Subhead: This season's contribution has levelled the long contest, denying either rival an outright overall advantage."
+    },
+    {
+      "id": "b10-034",
+      "kicker": "SPORTS EXTRA",
+      "headline": "PUT THE RULER AWAY!",
+      "subhead": "There is no overall distance to measure between the rivals, and the newest season has confirmed their equality.",
+      "score": 9,
+      "was": "Headline: RUB OUT THE DISTANCE! | Subhead: The gap that mattered in the Showdown's larger picture has vanished, with both managers sharing the overall lead."
+    },
+    {
+      "id": "b10-035",
+      "kicker": "SEASON BULLETIN",
+      "headline": "TWIST THE LATCH OPEN",
+      "subhead": "The season's latest account leaves {managerA} and {managerB} level overall, a result made for lively debate.",
+      "score": 9,
+      "was": "Headline: TWIST THE LATCH OPEN! | Subhead: Any earlier claim to the top is now disputed, as {managerA} and {managerB} stand level on accumulated points."
+    },
+    {
+      "id": "b10-036",
+      "kicker": "GALLERY WIRE",
+      "headline": "THROW OUT THE TOP TAG",
+      "subhead": "One overall first-place label cannot tell the story, with both managerial campaigns level after this season.",
+      "score": 9,
+      "was": "Headline: THROW OUT THE TOP TAG! | Subhead: The season leaves the overall contest without a sole frontrunner, despite the clubs' separate routes to this point."
+    },
+    {
+      "id": "b10-037",
+      "kicker": "CABINET ALERT",
+      "headline": "NUDGE THE SHELVES FLAT",
+      "subhead": "After every completed season is considered, {clubA} and {clubB} deserve equal space in the overall picture.",
+      "score": 9,
+      "was": "Headline: NUDGE THE SHELVES FLAT! | Subhead: Set the latest totals alongside the previous ones and neither {clubA} nor {clubB} sits above the other."
+    },
+    {
+      "id": "b10-038",
+      "kicker": "RESULTS FLASH",
+      "headline": "SHOCK THE SILVER ROOM!",
+      "subhead": "An exact overall tie now defines the rivalry, raising the question of who might claim the lead in another chapter.",
+      "score": 10,
+      "was": "Subhead: An exact overall tie now defines the rivalry, reopening the question of who might ultimately finish on top."
+    },
+    {
+      "id": "b10-039",
+      "kicker": "MANTEL REPORT",
+      "headline": "RECLAIM THE MANTEL",
+      "subhead": "After the latest campaign, {managerA} and {managerB} possess equal overall standing, with neither able to claim the commanding view.",
+      "score": 9,
+      "was": "Headline: RECLAIM THE MANTEL! | Subhead: After the season's result, {managerA} and {managerB} possess equal overall standing, and neither can claim the commanding view."
+    },
+    {
+      "id": "b10-040",
+      "kicker": "THE BACK PAGE",
+      "headline": "HANG THE LABELS EVEN!",
+      "subhead": "The imaginary trophy room has no higher place for either rival now, as their overall totals match precisely.",
+      "score": 9,
+      "was": "Headline: BURY THE OLD LEAD! | Subhead: Whatever distance existed before has been erased in the overall totals, leaving the rivals on matching points."
+    },
+    {
+      "id": "b10-041",
+      "kicker": "FOOTBALL DESK",
+      "headline": "OFFSIDE AT THE EXHIBIT",
+      "subhead": "The overall standings are not granting one club a privileged display, with {clubA} and {clubB} finishing this season level.",
+      "score": 10,
+      "was": "Headline: OFFSIDE TO THE OLD LEAD | Subhead: An earlier overall advantage has been ruled out by the latest tally, with {clubA} and {clubB} now level."
+    },
+    {
+      "id": "b10-042",
+      "kicker": "TOP FLIGHT",
+      "headline": "BOTH SIDES AT THE RAIL",
+      "subhead": "In the Gazette's imagined trophy gallery, both managers lean on the same overall total and neither holds the higher place.",
+      "score": 9,
+      "was": "Headline: BOTH SIDES CLEAR THE BAR | Subhead: The overall competition offers no higher position to either manager now, although each season still tells its own story."
+    },
+    {
+      "id": "b10-043",
+      "kicker": "SCOREBOARD",
+      "headline": "NET RESULT: NO LEADER",
+      "subhead": "The accumulated comparison is exact after the latest season, putting {managerA} and {managerB} together at the summit.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b10-044",
+      "kicker": "TOUCHLINE VIEW",
+      "headline": "POST TO PLAQUE PARITY",
+      "subhead": "Like nameplates on the same display rail, the managerial totals now sit level across the full Showdown.",
+      "score": 10,
+      "was": "Headline: POST TO POST PARITY | Subhead: At opposite ends of a friendly rivalry, the managers now hold the same overall total and an open future."
+    },
+    {
+      "id": "b10-045",
+      "kicker": "TABLE TALK",
+      "headline": "TABLE TURNS LEVEL",
+      "subhead": "For every season counted so far, {clubA} and {clubB} are separated by nothing in the overall standings.",
+      "score": 9,
+      "was": "Headline: THE TABLE TURNS LEVEL | Subhead: For all the seasons behind them, {clubA} and {clubB} are separated by nothing in the overall standings."
+    },
+    {
+      "id": "b10-046",
+      "kicker": "CUPBOARD NOTES",
+      "headline": "CUPBOARD HOLDS A DRAW",
+      "subhead": "Not every drawn total means a drawn season, but {managerA} and {managerB} have reached equal overall points.",
+      "score": 10,
+      "was": "Headline: CUPBOARD FINDS ITS FORM | Subhead: Behind the imagined silverware, the real story is an overall tie between {managerA} and {managerB}."
+    },
+    {
+      "id": "b10-047",
+      "kicker": "ADDED TIME",
+      "headline": "EXTRA TIME UNDER VELVET",
+      "subhead": "The imaginary display invites another look, as this season has left the wider contest perfectly balanced.",
+      "score": 9,
+      "was": "Headline: EXTRA TIME FOR EQUALITY | Subhead: The broader contest cannot name a sole leader after this season; its next chapter carries the suspense forward."
+    },
+    {
+      "id": "b10-048",
+      "kicker": "WHISTLE WATCH",
+      "headline": "WHISTLE IN THE GALLERY",
+      "subhead": "The newest chapter ends with no sole overall frontrunner, leaving our imaginary honours hall without a raised nameplate.",
+      "score": 9,
+      "was": "Headline: WHISTLE BLOWS ON THE GAP | Subhead: An overall difference has reached its finish, and the managers must now look ahead from the same mark."
+    },
+    {
+      "id": "b10-049",
+      "kicker": "DUGOUT REPORT",
+      "headline": "DUGOUTS IN THE SHOWCASE",
+      "subhead": "Separate clubs, equal overall totals: {managerA} and {managerB} make an unlikely matched exhibit after the latest campaign.",
+      "score": 10,
+      "was": "Headline: DUGOUTS SHARE THE HEIGHTS | Subhead: From their separate clubs, {managerA} and {managerB} have arrived at identical overall standings after the latest campaign."
+    },
+    {
+      "id": "b10-050",
+      "kicker": "SEASON TACTICS",
+      "headline": "CLEAN SHEET FOR THE CASE",
+      "subhead": "Nothing divides the rivals in the full standings, even though their achievements within each season may differ.",
+      "score": 9,
+      "was": "Headline: CLEAN SHEET FOR THE GAP | Subhead: There is no longer an overall deficit to protect or chase, just two accumulated totals in perfect alignment."
+    },
+    {
+      "id": "b10-051",
+      "kicker": "BACK POST",
+      "headline": "BACK POST, MATCHED BRASS",
+      "subhead": "The Gazette's imagined brass plates have room for {clubA} and {clubB} at exactly the same overall height.",
+      "score": 10,
+      "was": "Headline: BACK POST, BACK TO EVEN | Subhead: The overall race has swung back toward balance, bringing {clubA} and {clubB} together on points."
+    },
+    {
+      "id": "b10-052",
+      "kicker": "MATCHDAY DESK",
+      "headline": "FINAL THIRD IN THE FRAME",
+      "subhead": "Place the latest campaign inside the wider picture and both managerial totals are perfectly aligned at this moment.",
+      "score": 9,
+      "was": "Headline: THE FINAL THIRD IS FLAT | Subhead: Where one manager once held the overall advantage, the long comparison now ends this chapter on equal terms."
+    },
+    {
+      "id": "b10-053",
+      "kicker": "FOOTBALL VIEW",
+      "headline": "ON THE BALL, IN THE HALL",
+      "subhead": "The latest standings place {managerA} and {managerB} together in our imaginary gallery of overall achievement.",
+      "score": 9,
+      "was": "Headline: ON THE BALL, EVEN AGAIN | Subhead: The latest standings give {managerA} and {managerB} the same overall position, leaving the next season full of consequence."
+    },
+    {
+      "id": "b10-054",
+      "kicker": "CROSSBAR WATCH",
+      "headline": "CROSSBAR ABOVE BOTH PLAQUES",
+      "subhead": "Even the football metaphors agree that neither manager has an overall edge, whatever their individual season stories contain.",
+      "score": 10,
+      "was": "Headline: CROSSBAR KNOWS NO KING | Subhead: Neither manager stands above the other in accumulated points, although their individual seasons may have followed different paths."
+    },
+    {
+      "id": "b10-055",
+      "kicker": "TOUCHLINE NOTES",
+      "headline": "PAIRED AT THE FAR POST",
+      "subhead": "From one club to the other, the accumulated figures line up exactly, leaving {clubA} and {clubB} inseparable.",
+      "score": 9,
+      "was": "Headline: LEVEL AT THE FAR POST | Subhead: The wider standings have brought the competitors together, and the space between {clubA} and {clubB} has disappeared."
+    },
+    {
+      "id": "b10-056",
+      "kicker": "THE TOP FLIGHT",
+      "headline": "TOP FLIGHT ON ONE PLINTH",
+      "subhead": "The two managers share a place in the Gazette's imaginary display because their cumulative points match after this season.",
+      "score": 9,
+      "was": "Headline: TOP FLIGHT, TIED HEIGHT | Subhead: After this season, the managerial rivalry is balanced at its highest point, with no outright leader overall."
+    },
+    {
+      "id": "b10-057",
+      "kicker": "FINAL WHISTLE",
+      "headline": "FULL TIME AT THE SHOWCASE",
+      "subhead": "The overall account has reached exact equality after this campaign, although the individual season verdict need not have been tied.",
+      "score": 10,
+      "was": "Headline: FULL TIME FOR THE DEFICIT | Subhead: The previous overall shortfall has ended, while the Showdown itself still has room for another twist."
+    },
+    {
+      "id": "b10-058",
+      "kicker": "FORM GUIDE",
+      "headline": "FORMATION IN THE FRAME",
+      "subhead": "Place the accumulated totals alongside each other, and the two managerial campaigns form a perfectly balanced pair.",
+      "score": 10,
+      "was": "Headline: FORMATION OF EQUALS | Subhead: Line up the accumulated points rather than any individual season and the two managerial campaigns match exactly."
+    },
+    {
+      "id": "b10-059",
+      "kicker": "PENALTY AREA",
+      "headline": "PARITY TAKES NO PENALTY",
+      "subhead": "Both managers can take pride in their campaigns without claiming sole overall leadership, because their totals are equal.",
+      "score": 9,
+      "was": "Headline: NO PENALTY FOR PARITY | Subhead: Neither manager pays a price for reaching the same overall total; the rivalry simply grows more absorbing."
+    },
+    {
+      "id": "b10-060",
+      "kicker": "SCOREBOARD DESK",
+      "headline": "SCOREBOARD SETS THE SHELF",
+      "subhead": "The accumulated figures are identical now, giving {clubA} and {clubB} equal places in the wider display.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b10-061",
+      "kicker": "VELVET WATCH",
+      "headline": "VELVET VERDICT: TIED",
+      "subhead": "A soft border cannot disguise a hard fact: the two managers hold matching overall totals after this season.",
+      "score": 10,
+      "was": "Headline: VELVET VERDICT: LEVEL"
+    },
+    {
+      "id": "b10-062",
+      "kicker": "BRASS REPORT",
+      "headline": "BRASS BALANCES THE BOOKS",
+      "subhead": "Even the imagined brass nameplates would sit at equal height, with {managerA} and {managerB} level overall.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b10-063",
+      "kicker": "PLAQUE DESK",
+      "headline": "PLAQUES PRACTISE BALANCE",
+      "subhead": "Nothing can be placed higher in the wider contest when {clubA} and {clubB} have the same tally.",
+      "score": 9,
+      "was": "Headline: PLAQUES PRACTISE PARITY"
+    },
+    {
+      "id": "b10-064",
+      "kicker": "SHELF REPORT",
+      "headline": "SHELF SHIFTS SIGNAL EVEN",
+      "subhead": "Another season has joined the record, and the overall standings leave the top position shared between the managers.",
+      "score": 10,
+      "was": "Subhead: With another season complete, the overall order has flattened and the leaders' place is now shared."
+    },
+    {
+      "id": "b10-065",
+      "kicker": "SATIN EDITION",
+      "headline": "SATIN SETTLES THE SCALES",
+      "subhead": "The accumulated contest rests in exact equilibrium, leaving neither manager entitled to a higher ribbon in our imagined display.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b10-066",
+      "kicker": "GALLERY DESK",
+      "headline": "GALLERY GIVES GROUND",
+      "subhead": "The standings now make equal room for {managerA} and {managerB}, whose overall totals match after the campaign.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b10-067",
+      "kicker": "CUSHION WATCH",
+      "headline": "CUSHIONS CONFIRM THE TIE",
+      "subhead": "In our imagined cabinet, the display cushions sit at matching heights because neither manager leads the overall standings.",
+      "score": 9,
+      "was": "Headline: CUSHIONS CANCEL THE CLIMB | Subhead: An imagined podium cushion may look imposing, but neither manager stands higher in the Showdown's overall figures."
+    },
+    {
+      "id": "b10-068",
+      "kicker": "RIBBON REPORT",
+      "headline": "RIBBONS REACH A REST",
+      "subhead": "Neither side holds a cumulative advantage now, so the rivalry's ceremonial ribbons remain level in our newspaper picture.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b10-069",
+      "kicker": "LOCKSMITH DESK",
+      "headline": "LOCKS LOSE THEIR LEVERAGE",
+      "subhead": "There is no single keyholder to the overall lead, as the latest standings give the rivals identical totals.",
+      "score": 9,
+      "was": "Subhead: An overall lead once offered a key to the top, but equal totals have changed that reading entirely."
+    },
+    {
+      "id": "b10-070",
+      "kicker": "MEDAL WATCH",
+      "headline": "MEDALS MEET MIDWAY",
+      "subhead": "The display is only metaphorical, yet its message is precise: {managerA} and {managerB} are level overall.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b10-071",
+      "kicker": "POLISH REPORT",
+      "headline": "POLISH PUTS PAIRS FIRST",
+      "subhead": "Set aside the details of individual campaigns and the cumulative contest offers a perfectly balanced managerial pairing.",
+      "score": 9,
+      "was": "Subhead: Whatever distinction this season carried, its effect on the accumulated contest is a perfectly matched managerial pair."
+    },
+    {
+      "id": "b10-072",
+      "kicker": "GLASSWORK",
+      "headline": "GLASS GRANTS EQUAL GROUND",
+      "subhead": "Through the imagined cabinet doors, the wider rankings now place {clubA} and {clubB} shoulder to shoulder.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b10-073",
+      "kicker": "PEDESTAL DESK",
+      "headline": "PEDESTALS PREFER PARITY",
+      "subhead": "The season has left the overall comparison balanced, with neither manager claiming a higher platform just yet.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b10-074",
+      "kicker": "DISPLAY EDITION",
+      "headline": "DISPLAY DECLARES DEADLOCK",
+      "subhead": "Both managers have reached {points} overall, and there is no lone leader to present in the Gazette's window.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b10-075",
+      "kicker": "CABINET FILE",
+      "headline": "CABINET CALLS IT CLOSE",
+      "subhead": "The equality is absolute, not approximate: {managerA} and {managerB} stand on the same overall points total.",
+      "score": 10,
+      "was": "Subhead: There is nothing close about the equality itself: {managerA} and {managerB} share exactly the same cumulative total."
+    },
+    {
+      "id": "b10-076",
+      "kicker": "QUESTION DESK",
+      "headline": "WHICH NAME GOES HIGHER?",
+      "subhead": "None for now: after this season, both managers have matching overall totals and the long contest remains open.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b10-077",
+      "kicker": "HONOURS QUESTION",
+      "headline": "HAS THE GLASS GONE LEVEL?",
+      "subhead": "It has in our imagined gallery, because {clubA} and {clubB} are precisely tied on accumulated points.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b10-078",
+      "kicker": "GALLERY QUESTION",
+      "headline": "DOES THE PLINTH HAVE SIDES?",
+      "subhead": "Not in this wider contest, where the two managers share an identical total after the latest season.",
+      "score": 10,
+      "was": "Subhead: Not in this wider race, where the latest season has brought both managerial totals into exact alignment."
+    },
+    {
+      "id": "b10-079",
+      "kicker": "RIVALRY QUESTION",
+      "headline": "WHO GETS THE UPPER SHELF?",
+      "subhead": "The overall standings give neither rival precedence now, leaving any future claim to the leading place unresolved.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b10-080",
+      "kicker": "SEASON QUESTION",
+      "headline": "CAN THE KEY PICK A LEADER?",
+      "subhead": "With {managerA} and {managerB} matching overall, even the cabinet metaphor cannot produce a sole frontrunner.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b10-081",
+      "kicker": "DISPLAY QUESTION",
+      "headline": "WHERE SHOULD THE RIBBON HANG?",
+      "subhead": "At the same height for both rivals, whose accumulated totals now match after the season's result.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b10-082",
+      "kicker": "RESULTS QUESTION",
+      "headline": "IS THAT PLAQUE STILL LEVEL?",
+      "subhead": "The wider competition says yes to equality now, with both managers on {points} overall after this season.",
+      "score": 9,
+      "was": "Subhead: The wider competition says yes, as both managers sit on {points} overall following the latest campaign."
+    },
+    {
+      "id": "b10-083",
+      "kicker": "CURATOR'S QUERY",
+      "headline": "CAN A FRAME HOLD A TIE?",
+      "subhead": "The gallery has room for equal standing, and the overall contest gives neither {clubA} nor {clubB} priority.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b10-084",
+      "kicker": "LATE QUERY",
+      "headline": "CAN THE CASE NAME A LEADER?",
+      "subhead": "Not from these standings: {managerA} and {managerB} possess matching accumulated points after the latest campaign.",
+      "score": 10,
+      "was": "Headline: DID THE OLD LEAD VANISH? | Subhead: It did: the season has left {managerA} and {managerB} on exactly matching totals across the full rivalry."
+    },
+    {
+      "id": "b10-085",
+      "kicker": "SILVER QUERY",
+      "headline": "WHO POLISHES THE TOP SPOT?",
+      "subhead": "Neither can claim it alone, because the latest overall standings have brought the two campaigns level.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b10-086",
+      "kicker": "HONOURS SNAPSHOT",
+      "headline": "LEAD? SHARED.",
+      "subhead": "Neither manager has the greater overall total after this season, whatever difference may exist between their individual campaigns.",
+      "score": 10,
+      "was": "Headline: LEAD? NOT ANYMORE | Subhead: An earlier separation has given way to equality, and the Showdown's accumulated totals now match for both managers."
+    },
+    {
+      "id": "b10-087",
+      "kicker": "OVERALL SNAPSHOT",
+      "headline": "RIBBONS, PERFECTLY EVEN.",
+      "subhead": "The latest season leaves {managerA} and {managerB} level in the overall standings without declaring either campaign superior.",
+      "score": 10,
+      "was": "Headline: RIVALRY. REBALANCED. | Subhead: The latest season has put {managerA} and {managerB} on an equal overall footing without settling their future contest."
+    },
+    {
+      "id": "b10-088",
+      "kicker": "THE FINAL WORD",
+      "headline": "EQUAL. UNDER GLASS.",
+      "subhead": "After this campaign, the wider standings are completely level, leaving the rivalry's longer story open to interpretation.",
+      "score": 10,
+      "was": "Headline: EQUAL. NOT FINISHED. | Subhead: After this campaign, the wider standings remain completely level, leaving both clubs with everything still to contest."
+    },
+    {
+      "id": "b10-089",
+      "kicker": "CABINET SNAPSHOT",
+      "headline": "NO SOLO PLAQUE",
+      "subhead": "An imagined display cannot award an overall top label to either manager, whose cumulative totals now agree.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b10-090",
+      "kicker": "SEASON SNAPSHOT",
+      "headline": "PLINTHS, PAIRED.",
+      "subhead": "The wider rivalry stands at parity after this season, with the Gazette's imagined display now granting equal stature to both.",
+      "score": 9,
+      "was": "Headline: SAME HEIGHT, NEW CHAPTER | Subhead: The wider rivalry has found parity after this season, but its remaining contests can still change the order."
+    },
+    {
+      "id": "b10-091",
+      "kicker": "GALLERY SNAPSHOT",
+      "headline": "TOP SHELF: SHARED",
+      "subhead": "Both managers occupy the same overall position now, a striking balance for this Gazette edition to capture.",
+      "score": 10,
+      "was": "Headline: THE TOP IS SHARED | Subhead: Both managers occupy the same overall position now, a rare balance that keeps the newspaper's next edition unpredictable."
+    },
+    {
+      "id": "b10-092",
+      "kicker": "THE SMALL PRINT",
+      "headline": "NOTHING TO SEPARATE",
+      "subhead": "The cumulative totals leave {clubA} and {clubB} equal, no matter how different their individual campaigns have been.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b10-093",
+      "kicker": "RIVALRY SNAPSHOT",
+      "headline": "EITHER SIDE? NEITHER.",
+      "subhead": "There is no overall leader to name when the two managerial point totals are exactly the same.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b10-094",
+      "kicker": "HONOURS SNAPSHOT",
+      "headline": "NAMEPLATES. MATCHED.",
+      "subhead": "The standings show exact parity in the Showdown and give each rival equal claim to the highest overall position.",
+      "score": 9,
+      "was": "Headline: PAIR. PERFECTLY LEVEL. | Subhead: The new standings restore exact parity to the Showdown and give each rival equal claim on its next chapter."
+    },
+    {
+      "id": "b10-095",
+      "kicker": "FINAL EDITION",
+      "headline": "JOINT TOP PLINTH",
+      "subhead": "At this moment in the wider competition, {managerA} and {managerB} share the highest overall position.",
+      "score": 10,
+      "was": "Headline: TOP PLACE: OCCUPIED TWICE | Subhead: At this moment in the longer contest, {managerA} and {managerB} share the highest overall position."
+    },
+    {
+      "id": "b10-096",
+      "kicker": "THROUGH THE GLASS",
+      "headline": "STANDARDS, MATCHED",
+      "subhead": "The overall tally now places the rivals at the same height in the Gazette's imagined honours gallery.",
+      "score": 9,
+      "was": "Subhead: The overall tally no longer distinguishes the managers, allowing this season to close without a single cumulative leader."
+    },
+    {
+      "id": "b10-097",
+      "kicker": "THE LAST LINE",
+      "headline": "SUMMIT, SHARED",
+      "subhead": "The broader Showdown reaches a point of perfect balance, with both managers standing on exactly the same cumulative total.",
+      "score": 10,
+      "was": "Headline: A SHARED SUMMIT | Subhead: The broader Showdown arrives at another turning point, with both managers standing on exactly the same accumulated total."
+    },
+    {
+      "id": "b10-098",
+      "kicker": "SHELF SNAPSHOT",
+      "headline": "NOTHING ABOVE EITHER",
+      "subhead": "The overall contest places neither club higher, even though each manager's individual campaign has its own story.",
+      "score": 9,
+      "was": "Subhead: The overall contest puts neither club higher, even though each manager retains a distinct season by season story."
+    },
+    {
+      "id": "b10-099",
+      "kicker": "RECORD SNAPSHOT",
+      "headline": "EQUALITY, ON DISPLAY",
+      "subhead": "A precise overall tie now frames the rivalry, and the Gazette can offer neither manager an exclusive first place.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b10-100",
+      "kicker": "AFTER THE SEASON",
+      "headline": "PENDULUM AT REST",
+      "subhead": "The totals match at the close of this campaign, but no prediction can be made about any future meeting.",
+      "score": 9,
+      "was": "Headline: THE PENDULUM RESTS | Subhead: The totals have come together after this campaign, but no one can say where the next swing will land."
+    }
+  ]
+}

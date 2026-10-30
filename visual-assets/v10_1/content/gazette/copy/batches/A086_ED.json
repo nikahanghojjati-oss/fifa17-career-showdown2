@@ -1,0 +1,809 @@
+{
+  "batch": 86,
+  "situation": "level-overall",
+  "edition": "season",
+  "lens": "Stage and screen",
+  "rows": [
+    {
+      "id": "b86-001",
+      "kicker": "SEASON VERDICT",
+      "headline": "THE ROLES ARE EQUAL",
+      "subhead": "No leading part belongs to either manager after the latest campaign leaves {managerA} and {managerB} tied overall.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-002",
+      "kicker": "SHOWDOWN DESK",
+      "headline": "SHARED TOP BILLING",
+      "subhead": "The running standings give {clubA} and {clubB} equal prominence, though their individual seasons may have told different stories.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-003",
+      "kicker": "RIVALRY REVIEW",
+      "headline": "INTERMISSION, EVEN TOTALS",
+      "subhead": "At this chapter break, the Showdown belongs equally to {managerA} and {managerB}, with neither holding an aggregate lead.",
+      "score": 9,
+      "was": "headline: PARITY AT INTERMISSION"
+    },
+    {
+      "id": "b86-004",
+      "kicker": "THE BIG PICTURE",
+      "headline": "NO SOLE LEADING ACT",
+      "subhead": "The season has ended without a sole leader across the rivalry, leaving both managerial records on precisely equal footing.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-005",
+      "kicker": "FINAL FRAME",
+      "headline": "CREDITS LIST THEM LEVEL",
+      "subhead": "A look beyond this season shows {managerA} and {managerB} occupying the same place in the cumulative standings.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-006",
+      "kicker": "TOUCHLINE GAZETTE",
+      "headline": "BALANCE IN THE PLAYBILL",
+      "subhead": "Different clubs carry the rivalry, but {clubA} and {clubB} now share exactly the same standing in the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-007",
+      "kicker": "SEASON ARCHIVE",
+      "headline": "A TIE IN THE LONG ARC",
+      "subhead": "No matter how the latest chapter unfolded, the complete tally leaves neither manager above the other.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-008",
+      "kicker": "FRONT PAGE",
+      "headline": "DUAL PROTAGONISTS",
+      "subhead": "The long view refuses a favorite, with {managerA} and {managerB} drawing level across the seasons played.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-009",
+      "kicker": "EDITORIAL DESK",
+      "headline": "STORY DENIES A FAVORITE",
+      "subhead": "For all the contrasts between their campaigns, neither manager has established a lead in the overall contest.",
+      "score": 10,
+      "was": "headline: THE STORY HAS NO FAVORITE"
+    },
+    {
+      "id": "b86-010",
+      "kicker": "CLOSING EDITION",
+      "headline": "SHARED CENTER FRAME",
+      "subhead": "The season's closing image is a remarkable symmetry: {clubA} and {clubB} stand equal in the wider rivalry.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-011",
+      "kicker": "RIVALRY FILE",
+      "headline": "SCRIPT HOLDS ITS BREATH",
+      "subhead": "An identical overall tally now links {managerA} and {managerB}, regardless of which club enjoyed this particular season.",
+      "score": 9,
+      "was": "headline: THE SCRIPT HOLDS STEADY"
+    },
+    {
+      "id": "b86-012",
+      "kicker": "SEASON NOTEBOOK",
+      "headline": "DISTINCT PATHS, SAME PLACE",
+      "subhead": "Separate managerial journeys have arrived at an identical total, giving the Showdown a particularly compelling shape.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-013",
+      "kicker": "SHOWDOWN REPORT",
+      "headline": "TIED BEYOND THE FOOTLIGHTS",
+      "subhead": "Set aside the latest season's individual outcome and the broader picture reveals the managers in a dead heat.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-014",
+      "kicker": "THE LONG VIEW",
+      "headline": "DEADLOCK IN WIDE SHOT",
+      "subhead": "From the distance of the entire competition, the standings reveal no separation between {managerA} and {managerB}.",
+      "score": 9,
+      "was": "headline: PARITY IN WIDE SHOT"
+    },
+    {
+      "id": "b86-015",
+      "kicker": "PRESS ROOM",
+      "headline": "EVEN IN THE EDIT",
+      "subhead": "Whatever footage best tells this season's story, the cumulative verdict gives neither club an edge over its rival.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-016",
+      "kicker": "SEASON CHRONICLE",
+      "headline": "ENDING WITHOUT AN OWNER",
+      "subhead": "At the close of this chapter, both managers possess the same overall tally, leaving the rivalry beautifully unresolved.",
+      "score": 10,
+      "was": "headline: THE ENDING HAS NO OWNER"
+    },
+    {
+      "id": "b86-017",
+      "kicker": "GAZETTE SPECIAL",
+      "headline": "EQUAL NAMES IN LIGHTS",
+      "subhead": "The larger contest places {managerA} and {managerB} together at the top of the billing, with no leader to name.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-018",
+      "kicker": "TABLE REVIEW",
+      "headline": "STANDINGS TAKE A BOW",
+      "subhead": "A season can change the direction of the story without producing a leader, and this one leaves the totals identical.",
+      "score": 9,
+      "was": "headline: THE STANDINGS TAKE A BOW"
+    },
+    {
+      "id": "b86-019",
+      "kicker": "RIVALRY EDITION",
+      "headline": "A BALANCED PRODUCTION",
+      "subhead": "Across the campaign so far, neither {clubA} nor {clubB} has gained a lasting numerical edge in the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-020",
+      "kicker": "FINAL EXPOSURE",
+      "headline": "FRAME FINDS THEM EQUAL",
+      "subhead": "The latest season has added its chapter, yet the entire rivalry still places both managers on equal terms.",
+      "score": 10,
+      "was": "headline: THE FRAME HOLDS BOTH"
+    },
+    {
+      "id": "b86-021",
+      "kicker": "BREAKING EVEN",
+      "headline": "SPLIT THE SPOTLIGHT!",
+      "subhead": "Neither manager can claim sole possession of the lead, so the attention belongs to both after this season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-022",
+      "kicker": "LATE BULLETIN",
+      "headline": "CUT TO A STANDOFF!",
+      "subhead": "The wider contest offers a dramatic closeup of equality, with {managerA} and {managerB} on matching totals.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-023",
+      "kicker": "TABLE ALERT",
+      "headline": "ROLL BACK THE RANKINGS!",
+      "subhead": "A ranking that once might have separated these rivals now has no first place to award between them.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-024",
+      "kicker": "PHOTO FINISH",
+      "headline": "SNAPSHOT OF A STANDOFF!",
+      "subhead": "Look at the overall standings now and you will find {clubA} and {clubB} impossible to separate.",
+      "score": 10,
+      "was": "headline: FREEZE THAT FRAME!"
+    },
+    {
+      "id": "b86-025",
+      "kicker": "RIVALRY ALERT",
+      "headline": "HALT THE END CREDITS!",
+      "subhead": "There can be no sole star of the complete Showdown tally while {managerA} and {managerB} remain together.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-026",
+      "kicker": "BOX OFFICE",
+      "headline": "SHARE THAT MARQUEE!",
+      "subhead": "The brightest billing now accommodates both managers, their cumulative totals perfectly aligned after the season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-027",
+      "kicker": "CASTING NOTICE",
+      "headline": "REWRITE THE RUNNING ORDER",
+      "subhead": "The standings offer no clear order between {managerA} and {managerB}, each owning the same overall total.",
+      "score": 9,
+      "was": "headline: REWRITE THE RUNNING ORDER!"
+    },
+    {
+      "id": "b86-028",
+      "kicker": "EDITOR'S CUT",
+      "headline": "HOLD THE FINAL SHOT",
+      "subhead": "One photograph cannot convey the tension as neatly as the overall table, where neither manager leads.",
+      "score": 9,
+      "was": "headline: HOLD THE FINAL SHOT!"
+    },
+    {
+      "id": "b86-029",
+      "kicker": "TOP STORY",
+      "headline": "DROP THE PECKING ORDER",
+      "subhead": "The latest chapter leaves {clubA} and {clubB} without a hierarchy in the Showdown's cumulative reckoning.",
+      "score": 9,
+      "was": "headline: DROP THE PECKING ORDER!"
+    },
+    {
+      "id": "b86-030",
+      "kicker": "HEADLINE DESK",
+      "headline": "RESET THE BILLING",
+      "subhead": "Both managers now command equal attention because their totals match across the entire contest to this point.",
+      "score": 10,
+      "was": "headline: RESET THE BILLING!"
+    },
+    {
+      "id": "b86-031",
+      "kicker": "CONTINUING STORY",
+      "headline": "KEEP THE CAMERAS ROLLING",
+      "subhead": "There is no front runner in the aggregate standings, and the rivalry has lost none of its appeal.",
+      "score": 9,
+      "was": "headline: KEEP THE CAMERAS ROLLING!"
+    },
+    {
+      "id": "b86-032",
+      "kicker": "DUAL FEATURE",
+      "headline": "CANCEL THE SOLO ACT",
+      "subhead": "The season may have had its individual result, but the wider competition now belongs to neither manager alone.",
+      "score": 10,
+      "was": "headline: CANCEL THE SOLO ACT!"
+    },
+    {
+      "id": "b86-033",
+      "kicker": "SPOTLIGHT REPORT",
+      "headline": "CLEAR THE STAGE FOR BOTH",
+      "subhead": "The cumulative standings cannot distinguish {managerA} from {managerB}, leaving both names equally entitled to attention.",
+      "score": 9,
+      "was": "headline: CLEAR THE STAGE FOR BOTH!"
+    },
+    {
+      "id": "b86-034",
+      "kicker": "PLAYBILL UPDATE",
+      "headline": "MAKE ROOM ON THE MARQUEE!",
+      "subhead": "Every sign of an outright leader disappears when the accumulated totals for the rival managers are compared.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-035",
+      "kicker": "NEXT ACT",
+      "headline": "CRANK UP THE CLIFFHANGER!",
+      "subhead": "The scoreboard for the full rivalry sits level, lending even greater importance to whatever follows this chapter.",
+      "score": 10,
+      "was": "headline: TURN UP THE TENSION!"
+    },
+    {
+      "id": "b86-036",
+      "kicker": "PUBLIC RECORD",
+      "headline": "PUT PARITY ON DISPLAY!",
+      "subhead": "The clearest exhibit of this Showdown is the overall table, where both managers share an identical tally.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-037",
+      "kicker": "BREAKING STORY",
+      "headline": "PAUSE THE DRAMA!",
+      "subhead": "This chapter ends with no cumulative advantage for either manager, despite all that their separate seasons involved.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-038",
+      "kicker": "SEASON FLASH",
+      "headline": "STRIKE OUT THE SEPARATION!",
+      "subhead": "There is no gap left in the overall standings, with {clubA} and {clubB} exactly aligned.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-039",
+      "kicker": "MAIN EVENT",
+      "headline": "SCRAP THE STAR SYSTEM!",
+      "subhead": "No single manager can claim top billing for the rivalry while the recorded totals remain equal.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-040",
+      "kicker": "GAZETTE UPDATE",
+      "headline": "PIN THE BILLING TOGETHER!",
+      "subhead": "Each manager has earned a place in this season's larger story, and the overall figures refuse to distinguish them.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-041",
+      "kicker": "TACTICS AND TEXT",
+      "headline": "TABLE READ, EQUAL CAST",
+      "subhead": "A football table meets a theatrical cast list, and both agree that neither manager has a cumulative lead.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-042",
+      "kicker": "RESULTS DESK",
+      "headline": "NET RESULT: ALL SQUARE",
+      "subhead": "Add the completed campaigns together and {managerA} and {managerB} stand level, whatever their latest results individually.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-043",
+      "kicker": "DUGOUT DISPATCH",
+      "headline": "OFFSIDE TO THE HIERARCHY",
+      "subhead": "The idea of a single leader has wandered out of position, leaving both clubs tied across the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-044",
+      "kicker": "SCORES AND STORIES",
+      "headline": "SCORECARD STEPS ON STAGE",
+      "subhead": "No individual season score can alter the central fact that the overall totals currently match exactly.",
+      "score": 9,
+      "was": "headline: SCOREBOARD TAKES A BOW"
+    },
+    {
+      "id": "b86-045",
+      "kicker": "MANAGER WATCH",
+      "headline": "NO SOLO IN THE DUGOUT",
+      "subhead": "The managers have pursued separate clubs, but the longer contest offers neither a higher step than the other.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-046",
+      "kicker": "LEAGUE LENS",
+      "headline": "TOP FLIGHT, SAME HEIGHT",
+      "subhead": "Different league campaigns feed this rivalry, and their Showdown rewards have brought both managers to identical totals.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-047",
+      "kicker": "EXTRA EDITION",
+      "headline": "PENALTY FOR THE PLOT",
+      "subhead": "Any script that insists on a lone front runner is overturned by the even overall standings.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-048",
+      "kicker": "FOOTBALL FOCUS",
+      "headline": "BAR NONE ABOVE THE REST",
+      "subhead": "There is no bar separating the managers in the accumulated figures, only the next chapter of their rivalry.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-049",
+      "kicker": "SCREEN TEST",
+      "headline": "ALL SQUARE ON THE BIG SCREEN",
+      "subhead": "Under the brightest imagined floodlights, the full Showdown table offers a shared position rather than a sole leader.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-050",
+      "kicker": "LEAGUE TABLE",
+      "headline": "THE TABLE'S DOUBLE BILL",
+      "subhead": "The same overall return grants {clubA} and {clubB} equal status on the season's wider stage.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-051",
+      "kicker": "SIDELINE VIEW",
+      "headline": "TOUCHLINE TIE IN",
+      "subhead": "From the dugout to the editorial desk, the news remains the same: neither manager leads the complete contest.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-052",
+      "kicker": "MATCHDAY ANALYSIS",
+      "headline": "MATCHED UNDER THE BAR",
+      "subhead": "The season figures may differ, but the running Showdown standings place both managers at exactly the same height.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-053",
+      "kicker": "AFTER THE WHISTLE",
+      "headline": "SCORELINE WITHOUT A STAR",
+      "subhead": "The contest's accumulated score favors neither side, leaving the spotlight without a singular figure to follow.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-054",
+      "kicker": "FOOTBALL THEATRE",
+      "headline": "LEVEL PLAYING STAGE",
+      "subhead": "It is a rare moment when sporting parity and dramatic balance meet, with {managerA} and {managerB} tied overall.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-055",
+      "kicker": "PAPER TALK",
+      "headline": "FRONT PAGE, EVEN TABLE",
+      "subhead": "The headline might belong to this season, but its lasting significance is a shared place in the overall standings.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-056",
+      "kicker": "REFEREE'S VIEW",
+      "headline": "WHISTLE STOPS THE SOLO",
+      "subhead": "No manager can take the full rivalry's applause alone while the completed seasons add up to equality.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-057",
+      "kicker": "POSTMATCH EDITION",
+      "headline": "POSTSCRIPT: PARITY",
+      "subhead": "Beyond any single campaign's result lies an aggregate deadlock that keeps the managers on precisely equal terms.",
+      "score": 9,
+      "was": "headline: THE POST SCRIPT IS PARITY"
+    },
+    {
+      "id": "b86-058",
+      "kicker": "RIVALRY PREVIEW",
+      "headline": "KICKOFF FOR THE SEQUEL",
+      "subhead": "The next chapter, if there is one, would begin from equal overall totals rather than a commanding lead.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-059",
+      "kicker": "STANDINGS SPECIAL",
+      "headline": "NO WINNER IN THIS TABLE",
+      "subhead": "The overall standings are tied, although that does not mean the latest season itself ended without a winner.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-060",
+      "kicker": "SCOREBOARD WATCH",
+      "headline": "DRAWN TO THE SAME BILLING",
+      "subhead": "The whole contest now reads level for {managerA} and {managerB}, even if their latest campaigns took different paths.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-061",
+      "kicker": "MARQUEE REPORT",
+      "headline": "BOTH BILLED AS LEADS",
+      "subhead": "The name above the title cannot be chosen by cumulative points, because both managers hold the same total.",
+      "score": 10,
+      "was": "headline: BALANCED BILLING"
+    },
+    {
+      "id": "b86-062",
+      "kicker": "SEASON SCRIPT",
+      "headline": "SCRIPTED SYMMETRY",
+      "subhead": "Across the completed chapters, the contest has produced matching figures for {clubA} and {clubB}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-063",
+      "kicker": "THEATRE DESK",
+      "headline": "SPOTLIGHT STALEMATE",
+      "subhead": "The overall contest gives the light to neither manager exclusively, turning a simple ranking into genuine suspense.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-064",
+      "kicker": "DISPLAY WINDOW",
+      "headline": "MARQUEE MIRROR MATCH",
+      "subhead": "Side by side in the wider standings, {managerA} and {managerB} reflect an identical amount of Showdown success.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-065",
+      "kicker": "CASTING DESK",
+      "headline": "CAST IN COEXISTENCE",
+      "subhead": "The rivals retain separate identities and separate clubs, yet their accumulated points have become indistinguishable.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-066",
+      "kicker": "EDITING ROOM",
+      "headline": "FRAME FOR FRAME",
+      "subhead": "Put the seasons together and there is no difference in the managers' Showdown totals to show on screen.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-067",
+      "kicker": "STAGE REPORT",
+      "headline": "FOOTLIGHTS FIND FAIRNESS",
+      "subhead": "Both managers deserve a share of the theatrical light, with neither holding the lead in the accumulated standings.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-068",
+      "kicker": "EVENING EDITION",
+      "headline": "PARITY PLAYS PRIME TIME",
+      "subhead": "The finest drama needs uncertainty, and the current overall tie supplies that without inventing a winner.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-069",
+      "kicker": "STORYBOARD",
+      "headline": "PLOTLINES PAIR PERFECTLY",
+      "subhead": "Although their individual journeys may diverge, {managerA} and {managerB} arrive at equal overall points.",
+      "score": 9,
+      "was": "headline: PLOTLINES PROVE PARITY"
+    },
+    {
+      "id": "b86-070",
+      "kicker": "BILLING BOARD",
+      "headline": "TWIN TITLE TREATMENT",
+      "subhead": "The latest totals place neither manager above the other, making equal prominence the only faithful headline treatment.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-071",
+      "kicker": "RIVALRY SPOTLIGHT",
+      "headline": "SHOWDOWN SHARES THE SCENE",
+      "subhead": "The season's broader consequence is collective prominence, with both managerial records occupying the same overall position.",
+      "score": 9,
+      "was": "headline: SHOWDOWN SHARES THE STAGE"
+    },
+    {
+      "id": "b86-072",
+      "kicker": "PRINTING PRESS",
+      "headline": "PLAYBILL PRINTS A TIE",
+      "subhead": "What belongs in the most prominent type is not a sole leader but an exact tie between the managers.",
+      "score": 9,
+      "was": "headline: PLAYBILL PRINTS PARITY"
+    },
+    {
+      "id": "b86-073",
+      "kicker": "MARQUEE NOTES",
+      "headline": "MATCHED MARQUEE MOMENT",
+      "subhead": "For now the competition has no front runner, and the shared total makes each club equally important.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-074",
+      "kicker": "CAMERA ANGLE",
+      "headline": "CAMERA CAPTURES COEQUALS",
+      "subhead": "A wider lens reveals that the complete Showdown has brought {clubA} and {clubB} to precisely equal points.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-075",
+      "kicker": "DESK VERDICT",
+      "headline": "EDITORS END IN EQUILIBRIUM",
+      "subhead": "No amount of dramatic framing changes the published fact that the overall standings are locked together.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-076",
+      "kicker": "THE BIG QUESTION",
+      "headline": "CAN ANYONE HEADLINE ALONE?",
+      "subhead": "Neither {managerA} nor {managerB} can claim the leading credit, because their Showdown totals are perfectly matched.",
+      "score": 10,
+      "was": "headline: WHO GETS TOP BILLING?"
+    },
+    {
+      "id": "b86-077",
+      "kicker": "CASTING CALL",
+      "headline": "WHOSE NAME LEADS THE CAST?",
+      "subhead": "There is no solitary star in the cumulative standings after the latest season, just evenly matched managerial records.",
+      "score": 9,
+      "was": "headline: WHERE IS THE LEAD ROLE?"
+    },
+    {
+      "id": "b86-078",
+      "kicker": "STORY WATCH",
+      "headline": "CAN THIS PLOT SEPARATE?",
+      "subhead": "For the moment, the answer is no: both clubs occupy an identical place across the entire rivalry.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-079",
+      "kicker": "RANKINGS WATCH",
+      "headline": "IS THERE A FRONT RUNNER?",
+      "subhead": "Not in the overall figures, where {managerA} and {managerB} have finished this chapter with matching totals.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-080",
+      "kicker": "CURTAIN WATCH",
+      "headline": "WHICH ACT STEALS THE SHOW?",
+      "subhead": "The completed campaigns have brought equal reward, so neither manager can claim the greater role overall.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-081",
+      "kicker": "EDITOR'S NOTE",
+      "headline": "WHO OWNS THE FINAL CUT?",
+      "subhead": "As this season closes, the broader contest has no sole leader to place in the closing shot.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-082",
+      "kicker": "LENS CHECK",
+      "headline": "DOES THE CAMERA FAVOR ANYONE?",
+      "subhead": "Not when it pulls back to the full standings, where the rival clubs share exactly the same tally.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-083",
+      "kicker": "PLOT WATCH",
+      "headline": "CAN THE SCRIPT PICK SIDES?",
+      "subhead": "The latest overall total gives the story no favorite, with both managerial records aligned on points.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-084",
+      "kicker": "THEATRE QUESTION",
+      "headline": "WILL THE CAST LIST CHOOSE?",
+      "subhead": "Give both managers equal prominence, because neither has moved beyond the other in the running Showdown.",
+      "score": 9,
+      "was": "headline: HOW DO YOU CAST A TIE?"
+    },
+    {
+      "id": "b86-085",
+      "kicker": "DISPLAY QUESTION",
+      "headline": "IS THE MARQUEE BIG ENOUGH?",
+      "subhead": "There is room for both names at the top, with the season leaving the cumulative competition level.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-086",
+      "kicker": "FINAL BILLING",
+      "headline": "STAR POWER, SHARED",
+      "subhead": "Nobody has to surrender the limelight when {managerA} and {managerB} stand even on accumulated points.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-087",
+      "kicker": "SHOWDOWN EXTRA",
+      "headline": "LEADING PARTNERS",
+      "subhead": "They remain rivals rather than collaborators, but their matching Showdown totals earn them identical billing today.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-088",
+      "kicker": "NEW RELEASE",
+      "headline": "PARITY, PREMIERED",
+      "subhead": "The latest campaign has delivered a compelling overall outcome: the same tally for each manager.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-089",
+      "kicker": "CLUB SPOTLIGHT",
+      "headline": "SAME BILLING, DIFFERENT CLUBS",
+      "subhead": "Each club's season stands on its own, while their managers find themselves level in the larger competition.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-090",
+      "kicker": "PRODUCTION NOTES",
+      "headline": "JOINT PRODUCTION",
+      "subhead": "This is still a contest between rivals, yet the aggregate standings have produced an unmistakably shared position.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-091",
+      "kicker": "LATE EDITION",
+      "headline": "UNDECIDED, UNDIMMED",
+      "subhead": "An unresolved overall ranking has only sharpened the appeal of the rivalry, with neither manager enjoying a lead.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-092",
+      "kicker": "FEATURE DESK",
+      "headline": "EQUALLY FEATURED",
+      "subhead": "The newspaper can give both managers the leading photograph, because their completed Showdown totals are identical.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-093",
+      "kicker": "CONTINUING DRAMA",
+      "headline": "NOBODY EXITS",
+      "subhead": "No manager is left behind in the overall table, although the individual season has already reached its conclusion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-094",
+      "kicker": "DOUBLE EXPOSURE",
+      "headline": "SPLIT SCREEN, SHARED STAGE",
+      "subhead": "Place the rival clubs in separate frames and their managers still arrive at the same accumulated score.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-095",
+      "kicker": "CINEMA COLUMN",
+      "headline": "BIG SCREEN STANDOFF",
+      "subhead": "The wide view of this competition leaves no space between its contenders in the overall standings.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-096",
+      "kicker": "CLOSING CREDITS",
+      "headline": "CREDITS: EQUAL",
+      "subhead": "There is no need to choose whose name appears first when the completed seasons have yielded matching points.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b86-097",
+      "kicker": "FINAL APPLAUSE",
+      "headline": "SOLO BOW WITHHELD",
+      "subhead": "The larger contest offers no exclusive moment of triumph, leaving the spotlight open to each manager equally.",
+      "score": 9,
+      "was": "headline: NO SOLO BOW"
+    },
+    {
+      "id": "b86-098",
+      "kicker": "CAST LIST",
+      "headline": "EVERYBODY'S CO STAR",
+      "subhead": "The full standings recognize neither a star above the other nor a lesser part in this rivalry.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-099",
+      "kicker": "BROADCAST DESK",
+      "headline": "BALANCE, ON AIR",
+      "subhead": "Even the loudest announcer must acknowledge an exact overall tie between {managerA} and {managerB}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b86-100",
+      "kicker": "SHOWDOWN FRONT",
+      "headline": "CENTER STAGE, SHARED",
+      "subhead": "Both clubs have helped shape the season's larger story, and their managers now stand perfectly level in the Showdown.",
+      "score": 10,
+      "was": null
+    }
+  ],
+  "edited": true
+}
