@@ -1,0 +1,608 @@
+{
+  "batch": 115,
+  "situation": "showdown-drawn",
+  "voice": "The studio panel",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb115-001",
+      "text": "Well, {managerA} has an equal claim to the conversation, but not to the crown. Nobody gets that.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-002",
+      "text": "{managerB} finishes exactly level overall, and suddenly the loudest person in our studio has gone quiet.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-003",
+      "text": "At the end of the entire Showdown, the argument survives. The contest itself is officially drawn.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-004",
+      "text": "Funny how {clubA} can finish with precisely the same total and still leave us so much to debate.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-005",
+      "text": "Nobody has lifted the overall title, but both managers have earned a proper seat at this desk.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-006",
+      "text": "As for {clubB}, even the fiercest case for superiority collapses under the finished totals. Nobody's ahead.",
+      "score": 9,
+      "was": "For {clubB}, that's an equal finish across the full contest. Try finding a fairer final verdict."
+    },
+    {
+      "id": "cb115-007",
+      "text": "You can pack away the predictions now. The complete Showdown has ended with no manager ahead.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-008",
+      "text": "Somebody ordered a championship celebration, and the standings sent back a very polite refusal.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-009",
+      "text": "Ask {managerA} for the overall lead, and the standings answer on behalf of the rival. Nobody has it.",
+      "score": 9,
+      "was": "{managerA} can point to the final tally all evening. So can the other manager, of course."
+    },
+    {
+      "id": "cb115-010",
+      "text": "Look at the overall totals. No champion, no runner-up, and absolutely no shortage of opinions.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-011",
+      "text": "Those closing figures have settled the competition without settling a single studio argument.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-012",
+      "text": "{clubA} ends the rivalry's competition on equal terms. That's a formidable conclusion, not a consolation.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-013",
+      "text": "What a gift for the scriptwriters. A grand finale with a cast that refuses to sort itself into first and second.",
+      "score": 9,
+      "was": "This has the feel of a grand finale, except the script refuses to pick a leading role."
+    },
+    {
+      "id": "cb115-014",
+      "text": "If {managerB} expected the last word, there's a catch. It belongs to both sides.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-015",
+      "text": "The final ledger gives neither club the upper hand, and for once the panel can't disagree.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-016",
+      "text": "There's no trophy presentation for an overall champion here. Just a rivalry that refused to bend.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-017",
+      "text": "Put every season together and the managers stay inseparable. That ending has earned its own place in the archive.",
+      "score": 9,
+      "was": "Every season is finished, every total is final, and the managers are still standing level."
+    },
+    {
+      "id": "cb115-018",
+      "text": "Watching {clubB} finish shoulder to shoulder is a reminder that equality can make a cracking ending.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-019",
+      "text": "So the Showdown closes without a champion. It turns out a shared ending can still make headlines.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-020",
+      "text": "Neither the upper hand nor the lower step belongs to {managerA}. The complete Showdown ended square.",
+      "score": 9,
+      "was": "{managerA} hasn't been beaten overall, and hasn't beaten the other manager either. That's the whole story."
+    },
+    {
+      "id": "cb115-021",
+      "text": "Can someone explain how we spent all that time arguing only to finish with a perfectly shared verdict?",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-022",
+      "text": "{clubA} gets the same overall return as its rival. Even our resident contrarian respects that.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-023",
+      "text": "No need to cut this verdict into smaller pieces. The full competition ended completely even.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-024",
+      "text": "You want a decisive finale? Sorry, the managers have delivered something considerably more awkward for pundits.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-025",
+      "text": "Quite a finish for {managerB}, who reaches the final page with nothing between the overall totals.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-026",
+      "text": "Here's the uncomfortable part for our predictions. Both sides were equally right at the end.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-027",
+      "text": "In an ordinary debate, somebody wins. In this Showdown, not even the closing figures choose sides.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-028",
+      "text": "{clubB} has matched the opposition's overall tally. There's a difference between sharing and surrendering.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-029",
+      "text": "Every confident prediction has met a small but important obstacle. The final result is tied.",
+      "score": 9,
+      "was": "Everyone picked a favourite. The final standings appear to have declined every single invitation."
+    },
+    {
+      "id": "cb115-030",
+      "text": "Apparently the grand prize today is permission to argue about this rivalry for as long as you like.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-031",
+      "text": "For {managerA}, the best rebuttal is already printed. Not a point separates the closing totals.",
+      "score": 9,
+      "was": "{managerA} has an impeccable answer to any claim of overall superiority. The totals are identical."
+    },
+    {
+      "id": "cb115-032",
+      "text": "A handshake would suit this finish better than a podium. Neither manager stands above the other.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-033",
+      "text": "Take another look at {clubA}. The overall balance remains exact, even after the last season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-034",
+      "text": "Try separating these managers with a ruler. You'll only end up measuring your own stubbornness.",
+      "score": 9,
+      "was": "We've had the entire Showdown to separate them. The finish has chosen not to cooperate."
+    },
+    {
+      "id": "cb115-035",
+      "text": "Good luck asking {managerB} to concede bragging rights. There's nothing in the totals to concede.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-036",
+      "text": "Our panel was promised a final verdict. What we received was a beautifully stubborn dead heat.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-037",
+      "text": "There's {clubB}, matching its rival at the finish. Even the fiercest critic must call that even.",
+      "score": 9,
+      "was": "{clubB} can take equal pride from this contest, and the rival club can say precisely the same."
+    },
+    {
+      "id": "cb115-038",
+      "text": "Leave the champion's chair empty and fill the studio with theories. What a fitting way for a tie to end.",
+      "score": 10,
+      "was": "There won't be a champion's chair tonight. Perhaps that's why both managers still look so comfortable in the story."
+    },
+    {
+      "id": "cb115-039",
+      "text": "I'm prepared to admit something unusual. The tie is more interesting than half our predictions.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-040",
+      "text": "Our boldest predictions have met their natural predator. {managerA} and the rival finish level.",
+      "score": 9,
+      "was": "{managerA} ends level, and the only thing trailing behind is the credibility of our confident forecasts."
+    },
+    {
+      "id": "cb115-041",
+      "text": "We could flip a coin, but that would be our game, not the Showdown's result.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-042",
+      "text": "{clubA} and {clubB} end on matching overall points. Even the studio's arguments have reached a stalemate.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-043",
+      "text": "Someone call the engraver and tell them to put the pen down. No sole champion emerged.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-044",
+      "text": "You know what suits {managerB}? Finishing without being outdone, and without outdoing the rival either.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-045",
+      "text": "The closing credits have rolled, and neither manager's name gets a bigger font.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-046",
+      "text": "Let's congratulate the rivalry. It has somehow managed to win the argument against all our predictions.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-047",
+      "text": "{clubB} holds its end of the bargain. Across the whole Showdown, there is simply no separation.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-048",
+      "text": "I came armed with a winner's speech. The completed Showdown has politely handed it back.",
+      "score": 9,
+      "was": "Honestly, that's a wonderfully inconvenient result for anyone who came here looking for a loser."
+    },
+    {
+      "id": "cb115-049",
+      "text": "With a straight face, the finished totals deliver their closing joke. Neither side finishes higher.",
+      "score": 10,
+      "was": "One final check of the totals, and the conclusion stays the same. Equal all the way home."
+    },
+    {
+      "id": "cb115-050",
+      "text": "Give {managerA} full credit for an even finish. Then turn around and do likewise for the rival.",
+      "score": 9,
+      "was": "{managerA} can leave this contest with a straight back. So can the manager across the divide."
+    },
+    {
+      "id": "cb115-051",
+      "text": "Give {clubA} the top line and somebody will ask why its rival is missing. Fair point.",
+      "score": 9,
+      "was": "In the end, {clubA} gets no higher billing than its rival. That's accuracy, not stinginess."
+    },
+    {
+      "id": "cb115-052",
+      "text": "Picture the final graphic, {managerB} level with the opposition. The producers couldn't design a neater argument.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-053",
+      "text": "If our studio had a vote, it would still change nothing. {clubB} has ended level with its rival.",
+      "score": 10,
+      "was": "I'd love to announce a champion, but {clubB} and the opposition have made that impossible."
+    },
+    {
+      "id": "cb115-054",
+      "text": "I'd love a solo champion on the studio screen. {managerA} and the opposition have other ideas.",
+      "score": 9,
+      "was": "Spare a thought for our predictions desk. {managerA} has just rendered half its paperwork unnecessary."
+    },
+    {
+      "id": "cb115-055",
+      "text": "Listen, the final whistle is shared, figuratively speaking. Neither side gets the last laugh.",
+      "score": 10,
+      "was": "The Showdown has reached its full stop, while the debate keeps reaching for another sentence."
+    },
+    {
+      "id": "cb115-056",
+      "text": "Draw a line through the closing figures and you'll find {clubA} sitting squarely beside its counterpart.",
+      "score": 9,
+      "was": "There's a place for {clubA} in this story, and it's exactly alongside the other club."
+    },
+    {
+      "id": "cb115-057",
+      "text": "Not many finales leave {managerB} with an equal standing and the commentators still searching for a verdict.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-058",
+      "text": "We've called it from every angle. {clubB} cannot be separated from its rival in the final reckoning.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-059",
+      "text": "A headline writer asked who took the title. {managerA} has brought an inconveniently symmetrical answer.",
+      "score": 9,
+      "was": "Normally the closing montage has a leading character. {managerA} has an equally important counterpart."
+    },
+    {
+      "id": "cb115-060",
+      "text": "In the final edition, {clubA} must share the front page. No editor could choose otherwise.",
+      "score": 9,
+      "was": "The last page is written, and {clubA} shares the headline rather than taking it alone."
+    },
+    {
+      "id": "cb115-061",
+      "text": "Well played to {managerB}, and equally well played to the manager who matched that total.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-062",
+      "text": "{clubB} has reached the same destination by the end. Nobody gets the exclusive map.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-063",
+      "text": "A mischievous little twist for {managerA}. The last comparison is an exact reflection.",
+      "score": 9,
+      "was": "That final graphic is almost mischievous. {managerA} has exactly as much to claim as the rival."
+    },
+    {
+      "id": "cb115-064",
+      "text": "I'd say {clubA} deserved the overall crown, but the opposition can make the very same case.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-065",
+      "text": "If {clubB} had hoped to stand alone, the completed standings have offered a more communal ending.",
+      "score": 9,
+      "was": "Now here's a proper talking point. {managerB} finishes neither above nor below the other manager."
+    },
+    {
+      "id": "cb115-066",
+      "text": "Call it a split decision and you'd be wrong. {clubB} has no greater claim than its rival.",
+      "score": 9,
+      "was": "{clubB} shares the ending, and it's rather a good one for a rivalry built on comparison."
+    },
+    {
+      "id": "cb115-067",
+      "text": "Maybe our studio should declare itself drawn as well. We've certainly argued enough to earn it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-068",
+      "text": "From opening debate to closing graphic, {managerA} ends with exactly as much as the rival.",
+      "score": 9,
+      "was": "{managerA} has matched the rival all the way to the final tally. That's staying power."
+    },
+    {
+      "id": "cb115-069",
+      "text": "Side by side in the final record, {clubA} and its rival become an editor's spacing problem.",
+      "score": 9,
+      "was": "Consider the balance here. {clubA} could not break away, and neither could the other side."
+    },
+    {
+      "id": "cb115-070",
+      "text": "We asked for a winner of the whole thing. {managerB} and the opposition supplied a perfect tie.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-071",
+      "text": "When {clubB} asks for the last word, the rival has an equally good claim. I love this.",
+      "score": 9,
+      "was": "Even the last word is shared. {clubB} gets a mention, and the rival deserves one too."
+    },
+    {
+      "id": "cb115-072",
+      "text": "Ask anyone in this studio to pick a winner. Then ask them to explain the actual ending.",
+      "score": 9,
+      "was": "On the evidence of this finale, {managerA} won't need a speech to defend that standing."
+    },
+    {
+      "id": "cb115-073",
+      "text": "The result offers {clubA} something better than a boast. A claim its rival can match word for word.",
+      "score": 10,
+      "was": "That's a fine overall return for {clubA}. The catch is, the other club finished level."
+    },
+    {
+      "id": "cb115-074",
+      "text": "Neither manager owns the ending, which gives the rivalry an unusually satisfying symmetry.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-075",
+      "text": "The rivalry has delivered a final answer nobody can dispute. Neither manager is ahead.",
+      "score": 9,
+      "was": "Try putting {managerB} on the lower step of a podium. The final result simply won't allow it."
+    },
+    {
+      "id": "cb115-076",
+      "text": "Whichever way you tilt the graphic, {clubB} stays level. Our director may need a new trick.",
+      "score": 9,
+      "was": "{clubB} has no reason to look up at its opponent. The overall standings put them together."
+    },
+    {
+      "id": "cb115-077",
+      "text": "Someone in the studio still wants a winner. {managerA} can direct them straight to the equal totals.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-078",
+      "text": "I wouldn't call this unfinished business. {clubA} has completed the Showdown on identical terms.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-079",
+      "text": "This isn't a dangling plot thread. {clubA} has finished level, and the Showdown is finished too.",
+      "score": 9,
+      "was": "A competition can end without selecting a champion, and {managerB} has helped prove it in style."
+    },
+    {
+      "id": "cb115-080",
+      "text": "Cue the ledger, not the victory speech. {clubB} has the same overall return as its opponent.",
+      "score": 9,
+      "was": "The rivals have closed their accounts. {clubB} finds the same final figure on the other side."
+    },
+    {
+      "id": "cb115-081",
+      "text": "Picture the podium, then erase the higher step. {managerA} and the rival belong on equal footing.",
+      "score": 9,
+      "was": "No dramatic reveal of a champion, just {managerA} and a rival who refused to be separated."
+    },
+    {
+      "id": "cb115-082",
+      "text": "Here's the archive's dilemma. Where do you file {clubA} when the entire Showdown has ended without a sole champion?",
+      "score": 10,
+      "was": "Here's a rarity for the archive. {clubA} has finished a complete Showdown without an overall victor."
+    },
+    {
+      "id": "cb115-083",
+      "text": "An equal ending for {managerB} keeps the argument alive without deciding superiority.",
+      "score": 9,
+      "was": "Everything has been decided except who is better overall. For {managerB}, the answer is neither."
+    },
+    {
+      "id": "cb115-084",
+      "text": "An equal share of the closing spotlight suits {clubB}. There's no reason to dim either side.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-085",
+      "text": "Our panel's farewell gift to {managerA}? An argument that survives the final whistle.",
+      "score": 9,
+      "was": "We're left with an odd luxury. {managerA} can celebrate a fine contest without claiming superiority."
+    },
+    {
+      "id": "cb115-086",
+      "text": "A shared finish for {clubA} sounds modest until you remember the whole rivalry ended that way.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-087",
+      "text": "Someone has mislaid the champion's envelope. Then again, {managerB} and the rival made it unnecessary.",
+      "score": 9,
+      "was": "The champion's announcement has been cancelled by mutual excellence. {managerB} won't be filing a complaint."
+    },
+    {
+      "id": "cb115-088",
+      "text": "An engraver could draw a line between {clubB} and its rival's totals. There wouldn't be a slope.",
+      "score": 9,
+      "was": "Put {clubB} on the same line of the final record as its opponent. That's where it belongs."
+    },
+    {
+      "id": "cb115-089",
+      "text": "I've got a theory about {managerA}, but the equal standings have spoiled the dramatic conclusion.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-090",
+      "text": "Which name goes first in the caption? For {clubA}, that's the only question left to our graphics desk.",
+      "score": 9,
+      "was": "Your final image is {clubA} alongside its rival, with neither name printed above the other."
+    },
+    {
+      "id": "cb115-091",
+      "text": "Well, {managerB} gets a share of the praise, and the opposition gets precisely the same.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-092",
+      "text": "Our graphics team loves a dramatic reveal. {clubB} keeps producing the same total as its rival.",
+      "score": 9,
+      "was": "The overall scoreboard has a sense of humour. It gives {clubB} the same answer as everybody else."
+    },
+    {
+      "id": "cb115-093",
+      "text": "You could argue for {managerA} forever, but the matching totals aren't open to cross-examination.",
+      "score": 9,
+      "was": "You could argue for {managerA} until closing time, and the rival's total would still match."
+    },
+    {
+      "id": "cb115-094",
+      "text": "At the finish, {clubA} and the opposition have written a joint ending neither can improve upon.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb115-095",
+      "text": "Put {clubA} beside its opponent on the closing graphic. Even our loudest pundit can read that.",
+      "score": 9,
+      "was": "I like a conclusion that respects both managers. This one does it without inventing a champion."
+    },
+    {
+      "id": "cb115-096",
+      "text": "{managerB} doesn't leave with the title, but the other manager doesn't have it either.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb115-097",
+      "text": "Every pundit came looking for a gap. {clubB} has left us examining the space where one ought to be.",
+      "score": 9,
+      "was": "Every pundit wanted a defining difference. {clubB} has left us a defining equality instead."
+    },
+    {
+      "id": "cb115-098",
+      "text": "Somebody ask for the simplest headline. {managerA} finishes level, and neither manager can claim the crown.",
+      "score": 10,
+      "was": "Perhaps the fairest headline is the least flashy. {managerA} has ended completely level overall."
+    },
+    {
+      "id": "cb115-099",
+      "text": "Frame those closing totals however you please. No picture gives either manager the crown.",
+      "score": 9,
+      "was": "There's no grand reveal to argue over. {clubA} and its rival have earned equal billing."
+    },
+    {
+      "id": "cb115-100",
+      "text": "Call the final outcome a tie, not a disappointment. This Showdown managed a rare, complete balance.",
+      "score": 9,
+      "was": null
+    }
+  ]
+}
