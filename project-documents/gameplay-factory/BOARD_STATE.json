@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-30 12:00 AM Boston time (EDT)",
+ "generated": "2026-10-30 12:04 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 174,
@@ -1631,20 +1631,14 @@
      "sha": "0f29ab5f84140aef3718b8ec0d629e132ad9b2d5",
      "updated": "2026-10-30T03:56:03Z",
      "gates": {
-      "passed": 0,
-      "running": 7,
+      "passed": 4,
+      "running": 3,
       "failed": 0,
       "cancelled": 0
      }
     }
    ],
-   "today": [
-    {
-     "pr": 1062,
-     "title": "Phone Home: keep every tile above the bottom bar on iOS 26 Safari",
-     "merged": "2026-10-29T21:12:05Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",
@@ -3589,8 +3583,8 @@
     "sha": "0f29ab5f84140aef3718b8ec0d629e132ad9b2d5",
     "updated": "2026-10-30T03:56:03Z",
     "gates": {
-     "passed": 0,
-     "running": 7,
+     "passed": 4,
+     "running": 3,
      "failed": 0,
      "cancelled": 0
     }
