@@ -15,7 +15,44 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # r86 (red team #4): the Rules go live before the site. A push that changes the Rules starts both workflows at once;
+  # the new app would then meet the old Rules for a few minutes (its career summaries denied, each History open a full
+  # read). This job waits for this commit's Rules deploy and stops the site if that deploy fails. A push without a Rules
+  # change starts no Rules run, so after 90 s with none the site goes ahead.
+  rules-first:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      actions: read
+      contents: read
+    steps:
+      - name: Wait for this commit's Rules deploy
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 110); do
+            runs="$(gh api "repos/$REPO/actions/workflows/deploy-firestore-rules-zero-billing.yml/runs?head_sha=$SHA&event=push&per_page=5" --jq '[.workflow_runs[] | {status, conclusion}]')"
+            count="$(jq 'length' <<<"$runs")"
+            if [[ "$count" == "0" ]]; then
+              if (( attempt >= 9 )); then echo "No Rules deploy for this commit; the site goes ahead."; exit 0; fi
+            elif [[ "$(jq -r '.[0].status' <<<"$runs")" == "completed" ]]; then
+              conclusion="$(jq -r '.[0].conclusion' <<<"$runs")"
+              if [[ "$conclusion" == "success" ]]; then echo "Rules deployed; the site goes ahead."; exit 0; fi
+              echo "::error::This commit's Rules deploy ended '$conclusion'; the site is not deployed ahead of its Rules."
+              exit 1
+            fi
+            sleep 10
+          done
+          echo "::error::This commit's Rules deploy did not finish in time; the site is not deployed ahead of its Rules."
+          exit 1
+
   build:
+    needs: rules-first
     runs-on: ubuntu-latest
     timeout-minutes: 8
 

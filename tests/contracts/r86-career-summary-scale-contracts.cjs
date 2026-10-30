@@ -139,11 +139,29 @@ async function damagedGame(){
   const q=page(late,fakeIndexedDB());assert.equal((await q.load(uid)).model.coverage.readable,0);
   late[setup]=held;assert.equal((await q.load(uid)).model.coverage.readable,1,'the restored Setup is read again');
 }
+// Sol r86 #11: every summary carries the reader version it came from (Firebase schemaVersion, phone readerVersion). A copy
+// from another version is never used: an old phone copy falls back to the Firebase summary, and a Firebase summary of
+// another version to the full read.
+async function readerVersion(){
+  const docs=game(1,3),uid=accounts[0],phone=fakeIndexedDB();index(docs,uid,[rid(1)]);
+  const first=page(docs,phone),a=await first.load(uid);await first.settled();complete(a,1,3);
+  const summary=`accounts/${uid}/careerSummary/${rid(1)}`,version=require('../../js/careerSummaryStore.js').readerVersion;
+  assert.equal(version,1);assert.equal(docs[summary].schemaVersion,version,'the Firebase summary carries the reader version');
+  assert.ok([...phone.data.values()].every(v=>v.readerVersion===version),'the phone copy carries the reader version');
+  for(const v of phone.data.values())v.readerVersion=version-1;
+  const oldCopy=page(docs,phone);complete(await oldCopy.load(uid),1,3);
+  assert.deepEqual(oldCopy.log,[`accounts/${uid}/careerIndex/current`,summary],'an old phone copy is not used: the Firebase summary answers');
+  docs[summary]={...docs[summary],schemaVersion:version+1};
+  const other=page(docs,fakeIndexedDB()),b=await other.load(uid);complete(b,1,3);
+  assert.ok(other.log.includes(`rivalries/${rid(1)}`),'a summary of another version is not used: the game is read in full');
+  assert.equal(strip(b.model),strip(a.model));
+}
 const counts=[10,30,100,...(process.env.CMS_SCALE_1000==='1'?[1000]:[])];
 const results=[];
 (async()=>{
   await pendingWrite();
   await damagedGame();
+  await readerVersion();
   const TOTAL=10;
   for(const count of counts){
     const docs=Object.assign({},...Array.from({length:count},(_,i)=>game(i+1,TOTAL)));
