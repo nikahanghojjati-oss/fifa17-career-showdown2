@@ -65,11 +65,12 @@
     return at;
   }
   // A newcomer joins: into the empty slot if there is one, otherwise over the weakest player when strictly better.
-  // The slot keeps its position on the board. A player already on the board never joins twice.
+  // The Special Player always joins (over the weakest, whatever his overall). The slot keeps its position on the board.
+  // A player already on the board never joins twice.
   function rrJoin(board,player){
     if(!player.name||board.some(p=>rrKey(p.name)===rrKey(player.name)))return false;
     let at=board.findIndex(p=>!p.name);
-    if(at<0){at=rrWeakest(board);if(at<0||!(player.rating>board[at].rating))return false;}
+    if(at<0){at=rrWeakest(board);if(at<0||(player.special!==true&&!(player.rating>board[at].rating)))return false;}
     const old=board[at];
     board[at]=rrRow(old.slot,old.pos,player.name,{number:null,rating:player.rating,special:player.special===true,signedSeason:player.signedSeason??null});
     return true;
