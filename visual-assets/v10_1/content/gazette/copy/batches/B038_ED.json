@@ -1,0 +1,608 @@
+{
+  "batch": 38,
+  "situation": "streak-broken",
+  "voice": "The co-commentator",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb38-001",
+      "text": "For {winner}, the joy is not merely a season victory, it's ending the sequence {loser} had kept alive.",
+      "score": 9,
+      "was": "For {winner}, this season changes the conversation, because {loser} finally has to surrender a season victory."
+    },
+    {
+      "id": "cb38-002",
+      "text": "Credit {winnerClub}, they have interrupted a formidable sequence without diminishing what came before it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-003",
+      "text": "That is a proper answer from {winner}, measured against somebody who had made winning seasons a habit.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-004",
+      "text": "After such a long spell on top, {loser} has been beaten this season, and the rivalry feels different.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb38-005",
+      "text": "Notice how {winner} has replaced a predictable season verdict with a very welcome question for the favorite.",
+      "score": 9,
+      "was": "Notice how {winner} has broken the pattern, which is harder than simply enjoying a good season."
+    },
+    {
+      "id": "cb38-006",
+      "text": "A series that once seemed to belong to {loser} has become a contest again, thanks to {winnerClub}.",
+      "score": 9,
+      "was": "Nobody needed to remind {winnerClub} what they were up against, and now the sequence is over."
+    },
+    {
+      "id": "cb38-007",
+      "text": "Beating {loser} after so many successful seasons carries a particular weight, even without extra ceremony.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-008",
+      "text": "Admire the sustained excellence of {loser}, certainly, but the recognition this season belongs to {winner}.",
+      "score": 10,
+      "was": "You can admire the old sequence and still say {winner} fully deserved this interruption."
+    },
+    {
+      "id": "cb38-009",
+      "text": "Eventually a winning spell meets a rival who has learned enough to end it, and here we are.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-010",
+      "text": "This one belongs to {winner}, but the earlier seasons explain why it carries far more weight than usual.",
+      "score": 9,
+      "was": "Today belongs to {winner}, but the previous seasons explain why this result matters so much."
+    },
+    {
+      "id": "cb38-011",
+      "text": "There is no need to diminish {loser}, because that long stretch of success makes this turn impressive.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-012",
+      "text": "What {winnerClub} have done is halt a habit that was beginning to look rather permanent.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb38-013",
+      "text": "Even the most established pecking order can be challenged, and this season somebody has successfully done it.",
+      "score": 9,
+      "was": "A season victory looks different when it ends another manager's unbroken sequence, doesn't it?"
+    },
+    {
+      "id": "cb38-014",
+      "text": "Set {winnerPoints} against {loserPoints}, and the reversal becomes official after so many seasons favoring {loserClub}.",
+      "score": 9,
+      "was": "Across the rivalry, {loserClub} had become accustomed to the favorable verdict, until this season."
+    },
+    {
+      "id": "cb38-015",
+      "text": "Quite a shift for {winner}, no longer waiting for the established winner to relinquish a season.",
+      "score": 9,
+      "was": "Quite a shift in the argument, with {winner} ending the run rather than merely narrowing the conversation."
+    },
+    {
+      "id": "cb38-016",
+      "text": "Keep {loser}'s earlier achievements in view, because they tell you just how much this interruption is worth.",
+      "score": 10,
+      "was": "Worth remembering, {loser} had earned every season in that sequence, and this result cannot erase them."
+    },
+    {
+      "id": "cb38-017",
+      "text": "Consider the pressure on {winner}, knowing a good season alone would not change the story without winning it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-018",
+      "text": "Same contest, new victor, and the established assumption has been relieved of its duties.",
+      "score": 9,
+      "was": "Different season, different winner, and suddenly the familiar outcome is no longer an expectation."
+    },
+    {
+      "id": "cb38-019",
+      "text": "Look at {winnerClub} now, not just victorious but responsible for closing a remarkable chapter of dominance.",
+      "score": 9,
+      "was": "Look at {winnerClub} now, not just victorious but responsible for closing a remarkable chapter in this rivalry."
+    },
+    {
+      "id": "cb38-020",
+      "text": "Perhaps the telling part is that {winner} beat a rival who knew exactly how to keep winning.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb38-021",
+      "text": "Against {loserClub}, even an ordinary season triumph demands extra perspective after that long spell of success.",
+      "score": 9,
+      "was": "Against {loserClub}, the achievement is sharper because the previous winners were never easy to dislodge."
+    },
+    {
+      "id": "cb38-022",
+      "text": "A monopoly on season victories sounds secure only until someone decides to challenge the ownership.",
+      "score": 9,
+      "was": "One uninterrupted sequence has ended, and the manager responsible has every reason to savor that distinction."
+    },
+    {
+      "id": "cb38-023",
+      "text": "It took {winner} to change the headline, after {loser} had occupied it for so long.",
+      "score": 9,
+      "was": "It took {winner} to change the headline, after {loser} had occupied it season after season."
+    },
+    {
+      "id": "cb38-024",
+      "text": "Whatever else you take from it, a margin of {margin} has finally interrupted that extraordinary run of season wins.",
+      "score": 10,
+      "was": "Compare this with the recent pattern, and you see why a straightforward season win feels significant."
+    },
+    {
+      "id": "cb38-025",
+      "text": "From {winnerClub}'s point of view, the greatest reward may be ending that expectation of another rival success.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-026",
+      "text": "Previous seasons gave {loser} a strong claim to consistency, but this season belongs elsewhere.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-027",
+      "text": "Nothing about the old success becomes smaller because {winner} has finally broken through.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-028",
+      "text": "Every completed season offers a chance to contest the pecking order, and this chance has been seized.",
+      "score": 10,
+      "was": "Each new season is another test, and this time the established winner could not keep the sequence going."
+    },
+    {
+      "id": "cb38-029",
+      "text": "Right there is the value of persistence, with {winner} finally cutting through the expectation of defeat.",
+      "score": 9,
+      "was": "Right there is the value of persistence, with {winner} ending a spell that had resisted every challenge."
+    },
+    {
+      "id": "cb38-030",
+      "text": "Even {loser} will know that a streak is only as long as its latest successful season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-031",
+      "text": "Plainly, {winnerClub} have put a firm stop to the established order for this particular season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-032",
+      "text": "Remember the difficulty of repeated success, then remember the achievement of the manager who finally interrupts it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb38-033",
+      "text": "Underneath the celebration, {winner} has delivered something important, proof that the pattern can change.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-034",
+      "text": "Put yourself in {loserClub}'s position, congratulate the rival, then work out how to reclaim that knack for winning.",
+      "score": 9,
+      "was": "In {loserClub}'s place, you acknowledge the result, then look to rebuild another sequence of successful seasons."
+    },
+    {
+      "id": "cb38-035",
+      "text": "Stopping {loser} is the immediate reward, but repeating this standard will be {winner}'s next challenge.",
+      "score": 9,
+      "was": "Stopping {loser} is the immediate story, but keeping this new standard will be {winner}'s next test."
+    },
+    {
+      "id": "cb38-036",
+      "text": "There was an established rhythm to these season results, and this time it has changed completely.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb38-037",
+      "text": "Ask {winnerClub} about the satisfaction of giving this contest an outcome nobody could take for granted.",
+      "score": 9,
+      "was": "Only {winnerClub} could make this particular statement today, because they are the ones who ended that sequence."
+    },
+    {
+      "id": "cb38-038",
+      "text": "Rather than another entry in the same column, we've got a genuine change of ownership for the season.",
+      "score": 9,
+      "was": "Instead of another familiar winner, this season gives us a rival who has interrupted the established order."
+    },
+    {
+      "id": "cb38-039",
+      "text": "Having held the upper hand for so long, {loser} now has a fresh challenge to answer.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-040",
+      "text": "To {winner}, a season triumph matters, but making the serial winner taste defeat is something else.",
+      "score": 10,
+      "was": "To {winner}, a season victory is welcome enough, but ending that particular run gives it an extra edge."
+    },
+    {
+      "id": "cb38-041",
+      "text": "Well, {loser} can finally stop pretending the best chair comes with a permanent nameplate.",
+      "score": 9,
+      "was": "Well, {loser} can finally stop pretending the chair at the top comes with a permanent nameplate."
+    },
+    {
+      "id": "cb38-042",
+      "text": "Funny how {winner} has made such a durable winning habit look like something with an expiry date.",
+      "score": 9,
+      "was": "Funny how {winner} has made a very long winning habit look like something with an expiry date."
+    },
+    {
+      "id": "cb38-043",
+      "text": "Apparently {winnerClub} didn't read the part where the same manager was meant to win every season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-044",
+      "text": "Somebody finally unplugged the repeat button, and that earlier broadcast had been rather popular until now.",
+      "score": 10,
+      "was": "Somebody has finally changed the record, and the old tune was admittedly rather successful."
+    },
+    {
+      "id": "cb38-045",
+      "text": "Honestly, {loserClub} had been getting excellent use out of that winning-season routine until now.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-046",
+      "text": "Imagine explaining to {loser} that the most reliable part of this rivalry has just become unreliable.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-047",
+      "text": "Good luck reaching for the usual explanation, now {winner} has made the familiar routine obsolete.",
+      "score": 9,
+      "was": "Good luck calling it business as usual when {winner} has just ended the familiar sequence."
+    },
+    {
+      "id": "cb38-048",
+      "text": "Suddenly the script needs a fresh page, and {winnerClub} have supplied the unexpected closing scene.",
+      "score": 10,
+      "was": "Suddenly the old script needs a rewrite, and {winnerClub} have supplied the editor with the ending."
+    },
+    {
+      "id": "cb38-049",
+      "text": "Fair play to {loser}, those earlier victories remain impressive, even if this installment belongs elsewhere.",
+      "score": 9,
+      "was": "Fair play to {loser}, the run was impressive, even if the latest episode has a different ending."
+    },
+    {
+      "id": "cb38-050",
+      "text": "There's your reminder that no manager gets to reserve the next season victory in advance.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-051",
+      "text": "Maybe {winner} should keep a copy of this season's standings, to remember the day the tide finally turned.",
+      "score": 9,
+      "was": "Maybe {winner} should frame the result, although {loser} probably has quite enough reminders of the old sequence."
+    },
+    {
+      "id": "cb38-052",
+      "text": "Surely somebody told {winnerClub} the old order was comfortable, and they chose to disturb it anyway.",
+      "score": 10,
+      "was": "Surely somebody told {winnerClub} that the familiar order was comfortable, and they chose to disturb it anyway."
+    },
+    {
+      "id": "cb38-053",
+      "text": "Admittedly, {loser} had made winning seasons seem routine, which is an awfully difficult illusion to maintain.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-054",
+      "text": "Give {winner} credit, the hard part wasn't winning a season, it was breaking this particular hierarchy.",
+      "score": 9,
+      "was": "Give {winner} the credit, because ending somebody else's sequence is an unfashionable way to be very popular."
+    },
+    {
+      "id": "cb38-055",
+      "text": "Mind you, the previously untouchable manager can still win again, just not the season that's ended.",
+      "score": 9,
+      "was": "Mind you, the old champion of season results has not vanished, merely discovered a rival with an answer."
+    },
+    {
+      "id": "cb38-056",
+      "text": "Until now, the commentary was beginning to feel like a rerun, and this reversal demands a fresh microphone.",
+      "score": 10,
+      "was": "Until now, you could almost prepare the same commentary, but that would be a poor choice tonight."
+    },
+    {
+      "id": "cb38-057",
+      "text": "Ordinarily {loserClub} would be celebrating the familiar outcome, but the rival has finally earned the honors.",
+      "score": 9,
+      "was": "Ordinarily {loserClub} would have another successful season to discuss, and that tells you why this is notable."
+    },
+    {
+      "id": "cb38-058",
+      "text": "Some habits are worth defending, unless you're {winner}, who preferred to put an end to this one.",
+      "score": 9,
+      "was": "Some habits are worth keeping, unless you're {winner}, in which case breaking this one was the whole point."
+    },
+    {
+      "id": "cb38-059",
+      "text": "No wonder the competition feels lively again, because the outcome has stopped following the familiar route.",
+      "score": 9,
+      "was": "No wonder the rivalry feels lively again, because the outcome has stopped following the familiar route."
+    },
+    {
+      "id": "cb38-060",
+      "text": "Personally, I'd leave {winnerClub} to enjoy this, they've earned a little quiet after changing the subject.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb38-061",
+      "text": "Strange, isn't it, how a long run of successful seasons can lose its aura so quickly?",
+      "score": 9,
+      "was": "Strange, isn't it, how an unbeaten sequence of season victories can end with such a simple change of winner?"
+    },
+    {
+      "id": "cb38-062",
+      "text": "At least {loser} now has a new question to answer, rather than the familiar one about maintaining the run.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-063",
+      "text": "Speaking of routines, {winner} has just made the old victory speech wonderfully unnecessary for the other dugout.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-064",
+      "text": "As far as {winnerClub} are concerned, the ending had become repetitive, and they've given it new life.",
+      "score": 10,
+      "was": "As far as {winnerClub} are concerned, history was beginning to sound rather repetitive, and they've corrected it."
+    },
+    {
+      "id": "cb38-065",
+      "text": "Frankly, even the most impressive procession has a finish line, and this finish belongs to somebody new.",
+      "score": 9,
+      "was": "Frankly, a sequence that long deserves respect, which makes interrupting it a rather satisfying achievement."
+    },
+    {
+      "id": "cb38-066",
+      "text": "Nobody can accuse {winner} of choosing an easy moment to turn this contest in another direction.",
+      "score": 9,
+      "was": "Nobody can accuse {winner} of choosing an easy moment to turn the rivalry in another direction."
+    },
+    {
+      "id": "cb38-067",
+      "text": "I'd say {loserClub} have had a splendid turn at winning seasons, but the reservation has expired.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-068",
+      "text": "Apparently even a seemingly permanent place at the summit is only rented until the next season ends.",
+      "score": 10,
+      "was": "Apparently even a reliable run of season victories has to survive a fresh challenge every time."
+    },
+    {
+      "id": "cb38-069",
+      "text": "Whether {winner} expected a polite handover or not, the streak has certainly stopped on their watch.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-070",
+      "text": "Try telling {loser} consistency brings permanent immunity, now that consecutive victories have stopped.",
+      "score": 9,
+      "was": "Try telling {loser} that consistency guarantees tomorrow, after seeing the sequence interrupted today."
+    },
+    {
+      "id": "cb38-071",
+      "text": "There's a vacancy in the usual victory speech, and {winnerClub} have arrived with a persuasive application.",
+      "score": 9,
+      "was": "There's a vacancy in the usual ending, and {winnerClub} have arrived with a rather convincing application."
+    },
+    {
+      "id": "cb38-072",
+      "text": "Maybe the best compliment to {winner} is that the previous manager had made this look almost impossible.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb38-073",
+      "text": "The display shows {winnerPoints} to {loserPoints}, and with it a remarkable period of season wins finally stops.",
+      "score": 9,
+      "was": "Unlike a borrowed trophy, this interruption is something nobody can take off the result sheet."
+    },
+    {
+      "id": "cb38-074",
+      "text": "I'd be careful writing off {loser}, whose successful spell is exactly why this result carries such weight.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-075",
+      "text": "So much for the unofficial subscription to season victories, because the renewal was firmly declined.",
+      "score": 9,
+      "was": "So much for the easy assumption that another season would bring another victory for the same manager."
+    },
+    {
+      "id": "cb38-076",
+      "text": "At last, the apparent certainty looks human, and that is quite a contribution to the contest.",
+      "score": 10,
+      "was": "At last, that familiar chain of victories is broken, and there is a new chapter to consider."
+    },
+    {
+      "id": "cb38-077",
+      "text": "Here is the moment {winner} has been waiting to claim, a season victory over the serial winner.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-078",
+      "text": "Finally {loser}'s exceptional spell has met its limit, and a rival has claimed this season for themselves.",
+      "score": 9,
+      "was": "Finally {loser}'s remarkable sequence has met its limit, and the credit belongs to the rival who found it."
+    },
+    {
+      "id": "cb38-079",
+      "text": "All that earlier excellence made the interruption harder to imagine, not a scrap less possible.",
+      "score": 9,
+      "was": "All that previous success made this result harder to imagine, not any less possible."
+    },
+    {
+      "id": "cb38-080",
+      "text": "Listen to how strange it sounds to say the customary winner has lost, that's the measure of this upset.",
+      "score": 10,
+      "was": "Listen to the change in the conversation, because a streak ending makes everybody reconsider what comes next."
+    },
+    {
+      "id": "cb38-081",
+      "text": "Everything about {winnerClub}'s achievement is amplified by the uninterrupted successes that preceded this season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-082",
+      "text": "For once, {loser} must accept the other manager's season victory, and there's dignity in that as well.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-083",
+      "text": "Now the old pecking order has a challenger with evidence, and {winner} deserves the recognition.",
+      "score": 9,
+      "was": "Now the rivalry has a fresh reference point, with {winner} proving the sequence was never beyond challenge."
+    },
+    {
+      "id": "cb38-084",
+      "text": "Beneath this season's verdict, a remarkable stretch of uninterrupted victories has reached its limit.",
+      "score": 10,
+      "was": "Beneath this season's verdict is an important change, the established run of victories has been interrupted."
+    },
+    {
+      "id": "cb38-085",
+      "text": "Gone is the comfort of predicting the same victor, because an unexpected name has restored the suspense.",
+      "score": 9,
+      "was": "Gone is the certainty of another familiar season winner, replaced by a result with genuine consequence."
+    },
+    {
+      "id": "cb38-086",
+      "text": "Make no mistake, {winnerClub} have not erased the earlier successes, they've ended the succession.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-087",
+      "text": "Such an extended run made {loser} difficult to follow, but this result forces a new conversation.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-088",
+      "text": "By {margin} this season, {winner} has closed the door on a very persistent habit.",
+      "score": 10,
+      "was": "Beyond the immediate victory, {winner} has returned an element of uncertainty to the next season."
+    },
+    {
+      "id": "cb38-089",
+      "text": "Don't mistake the end of consecutive victories for the end of a competitive rival.",
+      "score": 9,
+      "was": "It matters because the manager who kept prevailing has finally been beaten in a season, not forgotten."
+    },
+    {
+      "id": "cb38-090",
+      "text": "Think of the expectation around {loserClub}, built through repeated wins, and the determination needed to challenge it.",
+      "score": 9,
+      "was": "Think about {loserClub}'s record of recent season wins, then appreciate the rival who has halted that progression."
+    },
+    {
+      "id": "cb38-091",
+      "text": "There comes a point when repetition feels inevitable, and {winner} has shown the danger in that assumption.",
+      "score": 9,
+      "was": "There comes a point when repetition feels inevitable, and {winner} has shown why that feeling can mislead."
+    },
+    {
+      "id": "cb38-092",
+      "text": "This doesn't settle the whole rivalry, it simply proves that the presumed favorite can be unseated.",
+      "score": 10,
+      "was": "This changes the tone without settling everything, a sequence is over and the rivalry remains alive."
+    },
+    {
+      "id": "cb38-093",
+      "text": "The established standard setter hasn't disappeared, but the measuring stick has acquired a rival.",
+      "score": 9,
+      "was": "Somewhere between respect for what preceded it and excitement for what follows, this result takes its place."
+    },
+    {
+      "id": "cb38-094",
+      "text": "Rarely does an ordinary change of season winner feel this important, but the uninterrupted run explains it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb38-095",
+      "text": "That chain of victories has ended, though {loser} has every reason to believe another might begin.",
+      "score": 9,
+      "was": "An ending for the sequence, certainly, though {loser} still has every reason to believe in another successful season."
+    },
+    {
+      "id": "cb38-096",
+      "text": "What started as an opportunity has become a victory with a longer echo for {winnerClub}.",
+      "score": 10,
+      "was": "What began as a repeated result has now given way to a deserved interruption by {winnerClub}."
+    },
+    {
+      "id": "cb38-097",
+      "text": "Sudden as the shift feels, it took a full season to unsettle the manager who kept prevailing.",
+      "score": 9,
+      "was": "Sudden as the change feels, it took a completed season to finally dislodge the manager who kept winning."
+    },
+    {
+      "id": "cb38-098",
+      "text": "No success buys permanent protection from a fresh season, and {winner} has just supplied the evidence.",
+      "score": 9,
+      "was": "Nothing is guaranteed in the next season, and {winner} has supplied the most persuasive reminder of that."
+    },
+    {
+      "id": "cb38-099",
+      "text": "When a familiar pattern cracks, the rivalry starts offering questions instead of predictable answers.",
+      "score": 9,
+      "was": "When a familiar run ends, it gives the rivalry room for stories nobody could confidently predict."
+    },
+    {
+      "id": "cb38-100",
+      "text": "That's an interruption with real substance, and {loser} will understand its significance better than most.",
+      "score": 10,
+      "was": null
+    }
+  ]
+}

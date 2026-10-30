@@ -1,0 +1,608 @@
+{
+  "batch": 114,
+  "situation": "showdown-won",
+  "voice": "The studio panel",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb114-001",
+      "text": "There it is, {winner} takes the Showdown. Even our panel can agree on something at last.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-002",
+      "text": "After all the debating, {winnerClub} gets the final word. That's rather inconvenient for the rest of us.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-003",
+      "text": "Well, {loser} made this a rivalry worth watching, but the final honours belong to {winner}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb114-004",
+      "text": "You can stop asking who takes it now. {winner} has answered that question rather comprehensively.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-005",
+      "text": "I'd ask for a recount of our forecasts, but the final standings have already made fools of the paperwork.",
+      "score": 9,
+      "was": "The studio has run out of predictions, which is just as well. {winnerClub} has delivered the result."
+    },
+    {
+      "id": "cb114-006",
+      "text": "Give {winner} the title, and give {loser} some credit for making the contest matter.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb114-007",
+      "text": "Funny how all those competing opinions shrink once the champion is no longer a matter of opinion.",
+      "score": 9,
+      "was": "Funny how a long-running argument becomes so simple once somebody actually wins the Showdown."
+    },
+    {
+      "id": "cb114-008",
+      "text": "That debate's officially finished. I shall miss sounding certain while being so regularly unsure.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb114-009",
+      "text": "With {winner} confirmed as champion, I suspect our prediction sheets would benefit from a discreet shredder.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-010",
+      "text": "Credit where it's due, {winnerClub} has seen the whole thing through and come away with the crown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-011",
+      "text": "Goodbye to the ifs, the maybes and the hopeful little asterisks. We've arrived at the answer.",
+      "score": 10,
+      "was": "All the possibilities are gone now, replaced by a lovely straightforward answer: {winner}."
+    },
+    {
+      "id": "cb114-012",
+      "text": "Quite a conclusion for {winner}. Every retelling of this Showdown now has a proper name to begin with.",
+      "score": 9,
+      "was": "Quite a conclusion for {winner}. You build a rivalry over seasons, then sign your name underneath it."
+    },
+    {
+      "id": "cb114-013",
+      "text": "Turns out the most convincing pundit wasn't sitting here at all. It was the finished standings.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb114-014",
+      "text": "Stop me if I'm overthinking this, but the decisive detail appears to be {winner} winning the Showdown.",
+      "score": 9,
+      "was": "Somebody put the debate away. The Showdown belongs to {winner}, and that's a proper conclusion."
+    },
+    {
+      "id": "cb114-015",
+      "text": "Here's the part nobody can argue with. {winner} has won the whole contest, not merely a chapter.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-016",
+      "text": "Put this rivalry in the archive with {winnerClub} on the title page. That's how it reads now.",
+      "score": 9,
+      "was": "Now the season-by-season arguments can become stories, and {winnerClub} gets to write the ending."
+    },
+    {
+      "id": "cb114-017",
+      "text": "For {loserClub}, a worthy rivalry to look back on. For {winnerClub}, a title to treasure.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb114-018",
+      "text": "If {winner} needs an introduction now, just use the word champion. Saves everyone a lot of time.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb114-019",
+      "text": "Remarkable, isn't it? Every hypothetical disappears when the final result arrives, except the ones we'll keep debating.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-020",
+      "text": "Nobody's waiting on a hypothetical anymore. The Showdown has a champion, and there's nothing tentative about that.",
+      "score": 9,
+      "was": "Nothing provisional about this. {winner} has secured the Showdown, and the conversation changes immediately."
+    },
+    {
+      "id": "cb114-021",
+      "text": "Imagine spending all that time preparing a closing argument, only for {winner} to produce the verdict.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-022",
+      "text": "Our congratulations go to {winner}. Our sympathies go to whoever backed the other prediction in this studio.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb114-023",
+      "text": "You can debate the route all evening, but {winnerClub} owns the destination. That's the awkward bit for us.",
+      "score": 10,
+      "was": "An excellent reminder from {winnerClub} that forecasts are entertainment, but finishing top is the business."
+    },
+    {
+      "id": "cb114-024",
+      "text": "At the end, {winner} has what every manager wanted: the right to say the Showdown is theirs.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-025",
+      "text": "Let's have the applause for {winner}, and let's not forget {loser} helped make it worth winning.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb114-026",
+      "text": "I'd happily reopen the discussion, but the prize has already been claimed. A minor obstacle for television.",
+      "score": 10,
+      "was": "I'd like to reopen the discussion, but the champion has rather spoiled that particular programme."
+    },
+    {
+      "id": "cb114-027",
+      "text": "You know what's refreshing? No conditional language left. {winner} has won, full stop.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb114-028",
+      "text": "That final tally speaks plainly, even if this panel has never shown the same talent.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-029",
+      "text": "Anyone still arguing with a completed table can borrow the studio's eraser. I doubt it'll help.",
+      "score": 9,
+      "was": "So much for our finely balanced theories. {winnerClub} has put the conclusion beyond debate."
+    },
+    {
+      "id": "cb114-030",
+      "text": "Call it the end of the argument and the beginning of {winner}'s favourite story.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-031",
+      "text": "There's a difference between enjoying a season and owning the Showdown. We're looking at it now.",
+      "score": 10,
+      "was": "Every little disagreement led here, and {winner} gets to own the answer at the end."
+    },
+    {
+      "id": "cb114-032",
+      "text": "Look at {winner} now, with the contest behind them and the champion's title beside their name.",
+      "score": 9,
+      "was": "There's the finish, and there's {winner} standing above the rest of this particular rivalry."
+    },
+    {
+      "id": "cb114-033",
+      "text": "Before somebody asks for expert analysis, perhaps the experts should examine their own prediction records.",
+      "score": 9,
+      "was": "For once, the panel doesn't need a second opinion. The Showdown champion is {winner}."
+    },
+    {
+      "id": "cb114-034",
+      "text": "I hope {winnerClub} enjoys this. Winning the entire contest deserves more than a polite nod.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-035",
+      "text": "Nobody should confuse losing a Showdown with having nothing to show for a fine rivalry.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb114-036",
+      "text": "We came here to pick a winner. {winner} was good enough to do that job for us.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-037",
+      "text": "My colleague's about to offer nuance. Before that, congratulations to {winner}, who actually won the thing.",
+      "score": 10,
+      "was": "Not sure what my colleague's about to dispute. The competition is over and {winner} has won."
+    },
+    {
+      "id": "cb114-038",
+      "text": "Champions get the headlines, rivals give those headlines meaning. There's room for applause on both sides.",
+      "score": 10,
+      "was": "A fine final answer from {winnerClub}, with enough shared history to make it really mean something."
+    },
+    {
+      "id": "cb114-039",
+      "text": "My advice to {winner}: frame the standings. My advice to us: stop trying to improve on them.",
+      "score": 10,
+      "was": "You could frame the final standings. I'd advise {winner} to check the spelling on the plaque."
+    },
+    {
+      "id": "cb114-040",
+      "text": "That is a proper finish. {winner} can enjoy the victory without a footnote about what comes next.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-041",
+      "text": "What a relief for our long-suffering editor. The headline can simply read: {winner} wins the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-042",
+      "text": "Here's a service announcement: champion is no longer a prediction. It's a title that's been claimed.",
+      "score": 10,
+      "was": "By the time you say champion, everybody knows you're talking about {winner}. That's the difference today."
+    },
+    {
+      "id": "cb114-043",
+      "text": "Try finding a footnote on that final result. It fits perfectly well on the main line.",
+      "score": 9,
+      "was": "The great thing for {winnerClub} is that this victory doesn't need any further qualification."
+    },
+    {
+      "id": "cb114-044",
+      "text": "From now on, {winner} can leave the second-guessing to us and concentrate on enjoying the title.",
+      "score": 9,
+      "was": "I've watched this argument turn corners, but {winner} has finally brought it home."
+    },
+    {
+      "id": "cb114-045",
+      "text": "Spare a thought for {loser}. There is honour in helping make a triumph feel earned.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb114-046",
+      "text": "Grammar lesson from the studio: 'might win' has become 'has won.' Even I can manage that.",
+      "score": 10,
+      "was": "Put the forecast cards aside, because {winner} has replaced possibility with something much better: certainty."
+    },
+    {
+      "id": "cb114-047",
+      "text": "And that, ladies and gentlemen, is what a completed rivalry looks like. A winner, and a story.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-048",
+      "text": "This has all the makings of a classic studio discussion, except the answer isn't up for grabs.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-049",
+      "text": "Perhaps the nicest compliment to {winner} is that the whole rivalry feels worthy of its champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-050",
+      "text": "We're going to need a new question for next time. This Showdown has already answered its own.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-051",
+      "text": "Plenty of room for shared memories, but the top line of the record belongs to the champion.",
+      "score": 10,
+      "was": "The result belongs to {winner}; the memories belong to the rivalry. That's a fair division."
+    },
+    {
+      "id": "cb114-052",
+      "text": "Fine print won't change the headline. This Showdown has a champion, and the ink can finally dry.",
+      "score": 9,
+      "was": "No complicated summary required for {winnerClub}. A Showdown started, and this club finished as champion."
+    },
+    {
+      "id": "cb114-053",
+      "text": "I wouldn't fancy arguing against the final standings, especially not with {winner} at the top.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-054",
+      "text": "Take all those competing theories, fold them neatly, and place them beneath the final standings.",
+      "score": 9,
+      "was": "The final chapter has a name on it, and that name is {winner}. Lovely bit of closure."
+    },
+    {
+      "id": "cb114-055",
+      "text": "Before we crown {winner}, let's acknowledge the competition. Without {loser}, there's no rivalry to celebrate.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb114-056",
+      "text": "A completed Showdown is a funny thing. All that suspense, then a result you can say in a breath.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-057",
+      "text": "On the big question, this panel finally has a unanimous answer. We should probably mark the occasion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-058",
+      "text": "No additional season is hiding in the small print. The champion has already crossed the finish.",
+      "score": 9,
+      "was": "There's no appeal to future seasons. {winner} has taken the whole prize, right here."
+    },
+    {
+      "id": "cb114-059",
+      "text": "For the record, I always respected {winnerClub}. I merely had other opinions several times.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-060",
+      "text": "Whoever kept our prediction board deserves a break. {winner} has settled the debate for good.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb114-061",
+      "text": "One thing is certain, {loserClub} gave this contest its opposition, and {winnerClub} claimed the title.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-062",
+      "text": "Curious thing about endings: the argument has closed, but the bragging rights come with no expiry date.",
+      "score": 10,
+      "was": "The competition can close its doors now, but {winner}'s achievement will be very easy to reopen."
+    },
+    {
+      "id": "cb114-063",
+      "text": "Look, everybody can have a theory. Only {winner} can have this Showdown title.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-064",
+      "text": "And with that, the trophy conversation changes from might to did. That's a lovely little shift.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-065",
+      "text": "I'll be gracious and congratulate {winner}, despite the considerable damage to my earlier predictions.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-066",
+      "text": "Suspense had a fine run. It must now give way to a rather more durable souvenir: victory.",
+      "score": 10,
+      "was": "The suspense has packed its bags. It's leaving {winner} with the honour of champion."
+    },
+    {
+      "id": "cb114-067",
+      "text": "That's the result, then. A proper winner, a proper rivalry, and nobody here short of opinions.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-068",
+      "text": "A studio can speculate forever. Thankfully, the competition eventually insists on a definite answer.",
+      "score": 9,
+      "was": "When it comes to finishing the job, {winnerClub} has left nothing for the studio to settle."
+    },
+    {
+      "id": "cb114-069",
+      "text": "Don't mistake the end of the contest for the end of the conversation. We'll be talking about this.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-070",
+      "text": "At least {winner} won't need the panel to vote on it. The Showdown has been won outright.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-071",
+      "text": "Tell the archive desk to file this under champion. {winner} has earned the heading.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-072",
+      "text": "We're all in agreement about the outcome. Frankly, that may be the night's bigger surprise.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-073",
+      "text": "Yesterday's grand theories are today's packing paper. The actual title won't need much wrapping.",
+      "score": 9,
+      "was": "The question was who could win the Showdown. {winner} has made that a matter of history."
+    },
+    {
+      "id": "cb114-074",
+      "text": "Even those of us reluctant to concede a point can enjoy hearing the words 'Showdown champion' aloud.",
+      "score": 10,
+      "was": "Trust me, {winnerClub} won't mind hearing this repeated. Showdown champions has a pleasing ring."
+    },
+    {
+      "id": "cb114-075",
+      "text": "If you're {loser}, you can take pride in the battle. The finished contest has a worthy champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-076",
+      "text": "What started as a rivalry has ended with {winner} holding the title. There's your full story.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-077",
+      "text": "I had a whole closing speech ready, but {winner} has rather stolen the best line.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-078",
+      "text": "Listen, the standings don't care which pundit sounded persuasive. They recognise {winner} as champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-079",
+      "text": "When the studio lights go out, the result stays. That is the real luxury of winning.",
+      "score": 10,
+      "was": "The Showdown's finished, and that means {winner} has something the rest of us can only analyse."
+    },
+    {
+      "id": "cb114-080",
+      "text": "Against all our speculation, the simplest statement survives. {winner} is the overall winner.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-081",
+      "text": "It's amazing how quickly the room gets quiet when the final verdict doesn't need our help.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-082",
+      "text": "That is the kind of answer {winnerClub} can carry into every friendly argument that follows.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-083",
+      "text": "For anyone joining us late, {winner} has won the Showdown. Yes, the entire thing.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-084",
+      "text": "Maybe my colleague can explain the result differently. They cannot make it belong to anybody else.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-085",
+      "text": "Our closing analysis can wait. {winner} has supplied a much better final line by taking the Showdown.",
+      "score": 9,
+      "was": "The final whistle is metaphorical here, but {winner}'s title is as real as the result."
+    },
+    {
+      "id": "cb114-086",
+      "text": "No need to dress it up, and no reason to play it down. {winner} is the champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-087",
+      "text": "Spare the superlatives for a moment. {winnerClub} has earned the best straightforward noun in the business: champion.",
+      "score": 10,
+      "was": "You have to admire the finish from {winnerClub}. They leave the studio with a completed achievement."
+    },
+    {
+      "id": "cb114-088",
+      "text": "Somewhere in these papers is a prediction I got right. Fortunately, {winner} doesn't need to search.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-089",
+      "text": "Rivalry survives the closing credits, and a win like this gives it the sort of ending people keep quoting.",
+      "score": 9,
+      "was": "The title is settled, the rivalry remains, and I reckon that makes for an excellent ending."
+    },
+    {
+      "id": "cb114-090",
+      "text": "Here comes my least favourite part of this job: admitting the result speaks better than I do.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-091",
+      "text": "Consider the curtain down on this Showdown. {winner} gets the bow, the rivalry gets the applause.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-092",
+      "text": "No other season can change this result now. {winner}'s place at the finish is secure.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-093",
+      "text": "And if {loser} wants a rematch someday, they'll have a champion worth taking on again.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-094",
+      "text": "Today's studio question has become tomorrow's trivia answer. It's {winner}, in case you wondered.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb114-095",
+      "text": "Every good argument deserves a conclusion. This one comes with a champion and a very long afterlife.",
+      "score": 9,
+      "was": "We've spent seasons asking what might happen. {winnerClub} has given us something to remember instead."
+    },
+    {
+      "id": "cb114-096",
+      "text": "There goes the last uncertainty. The Showdown title is {winner}'s to enjoy.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-097",
+      "text": "I won't pretend the outcome was obvious, but I will say {winner} has made it official.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-098",
+      "text": "History won't record our best guesses, thankfully. It'll record {winner} as the Showdown champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb114-099",
+      "text": "There's an empty seat at the pundits' table for somebody who predicted this correctly. Very empty, apparently.",
+      "score": 9,
+      "was": "The chair marked champion has an occupant now, and {winner} has every right to sit down."
+    },
+    {
+      "id": "cb114-100",
+      "text": "And that's the beauty of a rivalry with an ending. The argument stops, the respect doesn't.",
+      "score": 10,
+      "was": null
+    }
+  ]
+}

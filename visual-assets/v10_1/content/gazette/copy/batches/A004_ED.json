@@ -1,0 +1,809 @@
+{
+  "batch": 4,
+  "situation": "draw",
+  "edition": "season",
+  "lens": "The trophy cabinet",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b4-001",
+      "kicker": "SEASON RECORD",
+      "headline": "HONOURS HELD IN TRUST",
+      "subhead": "With {managerA} and {managerB} level on {points}, the season's distinction belongs to neither manager alone.",
+      "score": 9,
+      "was": "THE HONOURS HELD IN TRUST"
+    },
+    {
+      "id": "b4-002",
+      "kicker": "FRONT PAGE",
+      "headline": "GLASS DIVIDES NOTHING",
+      "subhead": "No difference separates {clubA} from {clubB} in the final season tally, leaving the rivalry beautifully unresolved.",
+      "score": 9,
+      "was": "THE GLASS DIVIDES NOTHING"
+    },
+    {
+      "id": "b4-003",
+      "kicker": "EDITORIAL DESK",
+      "headline": "AN EXHIBITION OF EQUALS",
+      "subhead": "Both managers have earned the same {points}, leaving our imaginary gallery with a pleasingly symmetrical arrangement.",
+      "score": 9,
+      "was": "Both managers have earned the same {points}, giving this season's display a pleasingly symmetrical arrangement."
+    },
+    {
+      "id": "b4-004",
+      "kicker": "SEASON LEDGER",
+      "headline": "BALANCE BEHIND THE GLASS",
+      "subhead": "Where the rivalry usually demands a victor, {managerA} and {managerB} now occupy precisely the same ground.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b4-005",
+      "kicker": "HONOURS ROOM",
+      "headline": "PLAQUE STAYS BLANK",
+      "subhead": "An individual name cannot be engraved above the other when both managers have finished on identical points.",
+      "score": 9,
+      "was": "THE PLAQUE STAYS BLANK"
+    },
+    {
+      "id": "b4-006",
+      "kicker": "MAIN EDITION",
+      "headline": "MANTEL KEEPS THE PEACE",
+      "subhead": "The season has settled into a draw, leaving neither {clubA} nor {clubB} entitled to top billing.",
+      "score": 9,
+      "was": "THE MANTEL HOLDS ITS PEACE"
+    },
+    {
+      "id": "b4-007",
+      "kicker": "PRESS GALLERY",
+      "headline": "DUAL PORTRAITS IN SILVER",
+      "subhead": "This edition can offer a portrait of rivalry, but not a portrait of triumph for either manager.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-008",
+      "kicker": "FINAL ACCOUNT",
+      "headline": "SOLE NAME DENIED",
+      "subhead": "The tally reads {points} apiece, a result that denies either side an exclusive claim to the season.",
+      "score": 10,
+      "was": "NO SOLE NAME FOR THE CASE"
+    },
+    {
+      "id": "b4-009",
+      "kicker": "CLUB REPORT",
+      "headline": "CABINET OF SHARED CREDIT",
+      "subhead": "For {managerA} and {managerB}, the satisfaction lies in matching achievements rather than taking anything from the other.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-010",
+      "kicker": "SEASON REVIEW",
+      "headline": "PEDESTAL STAYS NEUTRAL",
+      "subhead": "Neither {clubA} nor {clubB} can claim a higher place in a season concluded on equal points.",
+      "score": 9,
+      "was": "THE PEDESTAL IS NEUTRAL"
+    },
+    {
+      "id": "b4-011",
+      "kicker": "SUNDAY EDITION",
+      "headline": "AN HONOUR WITHOUT AN OWNER",
+      "subhead": "The Gazette records a genuine draw, with the season's recognition shared rather than assigned to a winner.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-012",
+      "kicker": "DISPLAY NOTES",
+      "headline": "GLASS CASE, OPEN QUESTION",
+      "subhead": "{managerA} and {managerB} leave the season level, inviting another chapter rather than providing a final answer.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-013",
+      "kicker": "RESULTS DESK",
+      "headline": "DISPLAY RIGHTS UNDIVIDED",
+      "subhead": "Each manager can point to {points} earned this season, and neither can point to a superior total.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-014",
+      "kicker": "LATE EDITION",
+      "headline": "ENGRAVER AWAITS A NAME",
+      "subhead": "There is no individual to place above another after a season in which the totals are identical.",
+      "score": 9,
+      "was": "THE ENGRAVER WAITS"
+    },
+    {
+      "id": "b4-015",
+      "kicker": "CABINET NOTES",
+      "headline": "MEDALS IN EQUILIBRIUM",
+      "subhead": "As a metaphor for this contest, paired medals fit the occasion better than a solitary prize for victory.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-016",
+      "kicker": "SEASON FILE",
+      "headline": "SHELVES HOLD THEIR BREATH",
+      "subhead": "The result leaves {managerA} and {managerB} standing level, without the separation either hoped to establish.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-017",
+      "kicker": "SILVER DESK",
+      "headline": "SILVER HAS NO FAVOURITE",
+      "subhead": "A draw has given the rivalry an unusual finish: neither manager holds the superior claim this season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b4-018",
+      "kicker": "CLUB CHRONICLE",
+      "headline": "A MATCHED PAIR ON DISPLAY",
+      "subhead": "From {clubA} to {clubB}, the season's official points offer no distinction between these familiar opponents.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-019",
+      "kicker": "ARCHIVE EDITION",
+      "headline": "HONOURS WITHOUT HIERARCHY",
+      "subhead": "The Gazette can celebrate both efforts equally, because neither manager finished above the other in the season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-020",
+      "kicker": "COVER STORY",
+      "headline": "PAIRED NAMES, PLAIN TRUTH",
+      "subhead": "Place their names side by side and the same result appears: {points} for each, with nothing to separate them.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b4-021",
+      "kicker": "BREAKING RESULT",
+      "headline": "LOCK UP THE TROPHY ROOM!",
+      "subhead": "The imagined room for a sole season victor remains closed, as both managers finish with matching totals.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-022",
+      "kicker": "NEWS FLASH",
+      "headline": "STOP THE ENGRAVING!",
+      "subhead": "Any inscription naming a season winner must wait, because {managerA} and {managerB} have drawn level.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-023",
+      "kicker": "RESULT ALERT",
+      "headline": "PUT THAT PLAQUE DOWN",
+      "subhead": "This season has no victorious manager to celebrate above the other, whatever their differing routes through it.",
+      "score": 9,
+      "was": "PUT THAT PLAQUE DOWN!"
+    },
+    {
+      "id": "b4-024",
+      "kicker": "RIVALRY WATCH",
+      "headline": "SHARE THE SPOTLIGHT!",
+      "subhead": "Neither {clubA} nor {clubB} will leave the season's stage in the other's shadow after this result.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-025",
+      "kicker": "THE LAST WORD",
+      "headline": "KEEP BOTH KEYS!",
+      "subhead": "The cabinet cannot be entrusted to a single manager when the final totals refuse to choose between them.",
+      "score": 9,
+      "was": "The case cannot be entrusted to a single manager when the final totals refuse to choose between them."
+    },
+    {
+      "id": "b4-026",
+      "kicker": "PRESS ROOM",
+      "headline": "FLING THE CASE WIDE",
+      "subhead": "With no individual winner, the most fitting season exhibition makes room for both contenders and their equal points.",
+      "score": 9,
+      "was": "FLING THE CASE WIDE!"
+    },
+    {
+      "id": "b4-027",
+      "kicker": "EXTRA EDITION",
+      "headline": "MAKE SPACE FOR BOTH!",
+      "subhead": "There is no need to move {managerA} aside for {managerB}, because each has finished with {points}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-028",
+      "kicker": "RIVALS REPORT",
+      "headline": "DUST OFF THE DRAW!",
+      "subhead": "A result neither can claim outright gives both managers another friendly argument to carry beyond this season.",
+      "score": 10,
+      "was": "A result neither can claim outright gives both managers a reason to return to the argument next season."
+    },
+    {
+      "id": "b4-029",
+      "kicker": "RESULTS BULLETIN",
+      "headline": "STAMP IT EVEN",
+      "subhead": "The final season record places {clubA} and {clubB} together, without a single point between their totals.",
+      "score": 9,
+      "was": "STAMP IT EVEN!"
+    },
+    {
+      "id": "b4-030",
+      "kicker": "GALLERY ALERT",
+      "headline": "HALT THE POLISH!",
+      "subhead": "The imaginary prize for outright superiority is staying on its shelf after the managers finish equal.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-031",
+      "kicker": "SEASON SPOTLIGHT",
+      "headline": "SET THE SILVER STRAIGHT!",
+      "subhead": "No polished trophy metaphor can disguise the central fact: these managers have earned exactly the same season tally.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-032",
+      "kicker": "SPORTS DESK",
+      "headline": "SPLIT THE DISPLAY!",
+      "subhead": "If the season deserves a showcase, its central panel must carry both managers without ranking them.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-033",
+      "kicker": "TABLE WATCH",
+      "headline": "CLOSE THE GAP? GONE!",
+      "subhead": "There is no distance left to measure between {managerA} and {managerB} in this particular season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-034",
+      "kicker": "CUPBOARD WATCH",
+      "headline": "UNROLL BOTH RIBBONS",
+      "subhead": "The season's shared recognition suits a rivalry in which each manager has matched the other's points.",
+      "score": 9,
+      "was": "UNROLL BOTH RIBBONS!"
+    },
+    {
+      "id": "b4-035",
+      "kicker": "NEWSROOM VERDICT",
+      "headline": "HOLD THAT PEDESTAL!",
+      "subhead": "The season has ended before anyone can stand alone above the other, with both totals perfectly aligned.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-036",
+      "kicker": "ENGRAVING DESK",
+      "headline": "CALL OFF THE INSCRIPTION!",
+      "subhead": "The imagined commemorative plate has no outright season champion to commemorate after this fully shared result.",
+      "score": 9,
+      "was": "The imagined commemorative plate has no outright season champion to name after this fully shared result."
+    },
+    {
+      "id": "b4-037",
+      "kicker": "HONOURS BULLETIN",
+      "headline": "RAISE BOTH NAMEPLATES!",
+      "subhead": "Both {managerA} and {managerB} belong on this season's front page, their standings identical when the counting ends.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-038",
+      "kicker": "CLUBS IN FOCUS",
+      "headline": "TURN THE KEY TOGETHER!",
+      "subhead": "The metaphorical door to recognition opens for both managers, because neither can claim the season alone.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-039",
+      "kicker": "SCORECARD",
+      "headline": "PIN UP THE EQUAL SIGN",
+      "subhead": "The figures have reached the simplest possible conclusion, putting {clubA} and {clubB} on exactly equal terms.",
+      "score": 9,
+      "was": "PIN UP THE EQUAL SIGN!"
+    },
+    {
+      "id": "b4-040",
+      "kicker": "PHOTO CAPTION",
+      "headline": "LEAVE THE SLOT EMPTY!",
+      "subhead": "A place reserved for a sole winner makes no sense when this season has produced a draw.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-041",
+      "kicker": "CUP TALK",
+      "headline": "CUP HALF FULL FOR BOTH",
+      "subhead": "The season offers satisfaction without supremacy, as {managerA} and {managerB} collect precisely the same points.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-042",
+      "kicker": "OFFSIDE DESK",
+      "headline": "OFFSIDE? NOT THIS PAIR",
+      "subhead": "Neither manager can be called ahead in the season standings, however fiercely their rivalry continues.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-043",
+      "kicker": "GOAL FRAME",
+      "headline": "BAR NONE ABOVE",
+      "subhead": "The figurative crossbar has settled at equal height for both managers, leaving no outright leader this season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-044",
+      "kicker": "POST MATCH",
+      "headline": "POSTED AS EQUALS",
+      "subhead": "When the season scores are posted, {clubA} and {clubB} occupy matching lines of the record.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-045",
+      "kicker": "EXTRA TIME",
+      "headline": "NO EXTRA TIME FOR EGO",
+      "subhead": "The season has already reached its conclusion, and a draw leaves no excuse to declare a winner.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b4-046",
+      "kicker": "NET REPORT",
+      "headline": "NET ZERO BETWEEN THEM",
+      "subhead": "In the season totals, the distance between the managers is nothing at all, though the friendly rivalry remains alive.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-047",
+      "kicker": "LEAGUE WATCH",
+      "headline": "TABLE WITHOUT A HEAD",
+      "subhead": "Neither manager sits above the other in this season's comparison, despite everything both brought to the contest.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-048",
+      "kicker": "DUGOUT DIARY",
+      "headline": "DUAL CONTROL IN THE DUGOUT",
+      "subhead": "There is no superior season total to settle the debate between {managerA} and {managerB} this time.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-049",
+      "kicker": "WHISTLE WATCH",
+      "headline": "WHISTLE FOR THE EQUALS",
+      "subhead": "The season's metaphorical final whistle finds the managers level, with the contest settled as a draw.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-050",
+      "kicker": "RESULTS REVIEW",
+      "headline": "CREDIT HAS NO CLEAN SHEET",
+      "subhead": "Neither manager gets sole credit for winning this season, because the recorded points are exactly the same.",
+      "score": 9,
+      "was": "NO CLEAN SHEET OF CREDIT"
+    },
+    {
+      "id": "b4-051",
+      "kicker": "SILVERWARE FILE",
+      "headline": "SILVERWARE IN SUSPENSION",
+      "subhead": "The rivalry's honours wall offers no season victor today, although both managers have plenty to appreciate.",
+      "score": 9,
+      "was": "The rivalry's display case offers no season victor today, although both managers have plenty to appreciate."
+    },
+    {
+      "id": "b4-052",
+      "kicker": "TOP FLIGHT",
+      "headline": "LEVEL ON THE TOP FLIGHT",
+      "subhead": "The contest for season honours has ended at the same height for {clubA} and {clubB}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-053",
+      "kicker": "CUPBOARD COLUMN",
+      "headline": "CUP OF COMPROMISE",
+      "subhead": "Equal points produce a shared verdict, a rare occasion when neither manager can claim the upper hand.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-054",
+      "kicker": "POINTS COLUMN",
+      "headline": "SHARED POINT OF VIEW",
+      "subhead": "The season reads differently to each rival, but its outcome gives both precisely the same standing.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-055",
+      "kicker": "FULL TIME",
+      "headline": "A FULL TIME STALEMATE",
+      "subhead": "The results are final and neither manager is the victor, leaving the possibility of a rematch to tempt both.",
+      "score": 9,
+      "was": "The results are final and neither manager is the victor, leaving a fresh season to break the deadlock."
+    },
+    {
+      "id": "b4-056",
+      "kicker": "POSTMARK",
+      "headline": "FINAL POSTMARK: LEVEL",
+      "subhead": "The Gazette's season dispatch carries an unmistakable message: equal points for both managers and no winner.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-057",
+      "kicker": "SCOREBOARD",
+      "headline": "ON THE SAME SCOREBOARD",
+      "subhead": "{managerA} and {managerB} occupy matching positions in this season's final accounting, fittingly close after their efforts.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-058",
+      "kicker": "PENALTY BOX",
+      "headline": "THE BOX HOLDS NO VERDICT",
+      "subhead": "There is no punishment in this result, just the honest frustration and satisfaction of an exact draw.",
+      "score": 9,
+      "was": "PENALTY AREA OF EQUALS"
+    },
+    {
+      "id": "b4-059",
+      "kicker": "THE PITCH",
+      "headline": "PASS THE PEDESTAL",
+      "subhead": "Neither manager has earned the right to keep a symbolic season pedestal solely for themselves.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-060",
+      "kicker": "HALF TIME",
+      "headline": "HALF TIME, FULL RESPECT",
+      "subhead": "The contest is finished for this season, yet the level outcome leaves mutual respect and anticipation intact.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b4-061",
+      "kicker": "SEASON CHRONICLE",
+      "headline": "GLASS GIVES NO GROUND",
+      "subhead": "Within an imaginary gilded frame, each manager has an equal claim to attention, but neither to victory.",
+      "score": 9,
+      "was": "GLASS GUARDS THE GROUND"
+    },
+    {
+      "id": "b4-062",
+      "kicker": "CABINET INSPECTION",
+      "headline": "POLISHED PARITY",
+      "subhead": "A perfectly even season needs no polishing to become a compelling story for this enduring rivalry.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-063",
+      "kicker": "RIBBON ROOM",
+      "headline": "RIBBONS REST IN ROWS",
+      "subhead": "The imagined ceremonial decorations can hang side by side, reflecting a result shared in full by both managers.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-064",
+      "kicker": "MEDAL DESK",
+      "headline": "MEDAL MAKERS MULL",
+      "subhead": "With no season winner to commemorate, the makers of our imaginary medals would have a difficult brief.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-065",
+      "kicker": "THE WORKSHOP",
+      "headline": "PLAQUE PRINTERS PAUSE",
+      "subhead": "A nameplate declaring outright supremacy would contradict a season that finished with both rivals on {points}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-066",
+      "kicker": "SHELF LIFE",
+      "headline": "SHELF SPACE SHARED",
+      "subhead": "The most appropriate home for this outcome is a shared alcove, not a cabinet marked for one manager.",
+      "score": 9,
+      "was": "The most appropriate home for this outcome is a jointly occupied display, not a cabinet marked for one manager."
+    },
+    {
+      "id": "b4-067",
+      "kicker": "GLASS REPORT",
+      "headline": "CASE CLOSED? CANNOT",
+      "subhead": "This season's points are settled, but the broader friendly argument between the managers remains deliciously open.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-068",
+      "kicker": "VELVET ROOM",
+      "headline": "VELVET VOTES FOR BOTH",
+      "subhead": "On an imaginary awards podium lined with velvet, both managers would deserve exactly the same elevation.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-069",
+      "kicker": "BRASS EDITION",
+      "headline": "BRASS BEARS BOTH NAMES",
+      "subhead": "Whatever inscription the season inspires, it must acknowledge {managerA} and {managerB} on equal terms.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-070",
+      "kicker": "DISPLAY WINDOW",
+      "headline": "DISPLAY DOORS DRAW EVEN",
+      "subhead": "The cabinet doors open onto an entirely level scene, as the season refuses to elevate either rival.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-071",
+      "kicker": "ENGRAVER'S NOTE",
+      "headline": "ENGRAVERS ENTER LIMBO",
+      "subhead": "The season figures are confirmed, yet the imagined craftsmen have no sole victor to honour.",
+      "score": 9,
+      "was": "The season figures are confirmed, yet the imagined craftsmen have no single winning name to carve."
+    },
+    {
+      "id": "b4-072",
+      "kicker": "LOCKSMITH",
+      "headline": "LOCKS LACK A MASTER",
+      "subhead": "No rival gets the only key to seasonal bragging rights when the points have ended even.",
+      "score": 9,
+      "was": "LOCKS LOVE LEVEL"
+    },
+    {
+      "id": "b4-073",
+      "kicker": "HONOURS GALLERY",
+      "headline": "HONOURS HANG IN HARMONY",
+      "subhead": "The Gazette hangs the season portrait straight across, giving neither manager more space or height than the other.",
+      "score": 9,
+      "was": "HONOURS HANG HORIZONTAL"
+    },
+    {
+      "id": "b4-074",
+      "kicker": "TROPHY ROOM",
+      "headline": "TWIN TAGS, TIED TOTALS",
+      "subhead": "The imagined labels on the frames cannot separate these rivals, whose season points are equal throughout the final accounting.",
+      "score": 9,
+      "was": "TROPHY TABS TIED"
+    },
+    {
+      "id": "b4-075",
+      "kicker": "KEYS DESK",
+      "headline": "KEYKEEPERS KEEP PEACE",
+      "subhead": "Instead of guarding a winner's exclusive claim, the symbolic keepers protect the equal standing of both managers.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-076",
+      "kicker": "PRESS QUESTIONS",
+      "headline": "WHO OWNS THE GLASS?",
+      "subhead": "Neither manager owns this result outright, and the shared score makes that answer unusually straightforward.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-077",
+      "kicker": "HONOURS INQUIRY",
+      "headline": "WHERE DOES THE NAME GO?",
+      "subhead": "Both {clubA} and {clubB} deserve mention, but neither can be placed above its rival on merit this season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-078",
+      "kicker": "SILVER QUESTIONS",
+      "headline": "CAN SILVER PICK A SIDE?",
+      "subhead": "Not on this evidence: {managerA} and {managerB} have finished equal, leaving no season victor to recognize.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-079",
+      "kicker": "KEYHOLE VIEW",
+      "headline": "WHICH KEY OPENS FIRST?",
+      "subhead": "The season gives neither rival priority, so any imagined turn at the cabinet must be shared.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-080",
+      "kicker": "FRAME INSPECTION",
+      "headline": "DO BOTH FIT THE FRAME?",
+      "subhead": "A draw makes space for both managers in the same picture, each with an identical season total.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-081",
+      "kicker": "SPACE FOR ALL",
+      "headline": "IS THERE ROOM FOR BOTH?",
+      "subhead": "There must be, when neither side has earned more than the other in the season just concluded.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-082",
+      "kicker": "OPEN FILE",
+      "headline": "WHY CLOSE THE CASE?",
+      "subhead": "The points are settled but the contest's larger story still invites debate between {managerA} and {managerB}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-083",
+      "kicker": "PLAQUE QUESTION",
+      "headline": "WILL THE PLAQUE WAIT?",
+      "subhead": "The engraving of a sole season victor must remain imaginary after the two totals finish level.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-084",
+      "kicker": "MASTHEAD DEBATE",
+      "headline": "WHO GETS TOP BILLING?",
+      "subhead": "Neither {clubA} nor {clubB} merits a larger headline when the season has awarded them the same points.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-085",
+      "kicker": "FINAL QUESTION",
+      "headline": "WHEN IS EVEN ENOUGH?",
+      "subhead": "It is enough to settle the season as drawn, but not to silence the appetite for a rematch.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b4-086",
+      "kicker": "SMALL PRINT",
+      "headline": "EQUAL SHARES ONLY",
+      "subhead": "There is no exclusive claim to this season, only matching points and two managers who will both remember it.",
+      "score": 9,
+      "was": "NO SINGLE OWNER"
+    },
+    {
+      "id": "b4-087",
+      "kicker": "PICTURE DESK",
+      "headline": "BOTH IN FRAME",
+      "subhead": "An honest photograph of the outcome would keep the rival managers equally prominent, without staging a victor.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-088",
+      "kicker": "LAST EDITION",
+      "headline": "INSCRIPTION PENDING",
+      "subhead": "Whatever future seasons may bring, this particular result belongs in the record alongside both managers.",
+      "score": 9,
+      "was": "Until a future season produces separation, this result belongs in the record under both managers' names."
+    },
+    {
+      "id": "b4-089",
+      "kicker": "RIVALRY COLUMN",
+      "headline": "PERFECTLY UNSETTLED",
+      "subhead": "This season is decisively a draw, even while the wider question of supremacy remains a matter for another chapter.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b4-090",
+      "kicker": "SILVER COLUMN",
+      "headline": "SHARED CUSTODY",
+      "subhead": "Neither manager can carry away sole possession of the season's bragging rights after such an exact tie.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-091",
+      "kicker": "RESULTS ANALYSIS",
+      "headline": "NEITHER ABOVE",
+      "subhead": "{managerA} cannot claim to outrank {managerB}, and the same truth holds in reverse after this season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-092",
+      "kicker": "RIVALRY NOTES",
+      "headline": "EQUAL FOOTING",
+      "subhead": "The season leaves both rivals on the same step, with plenty of competitive energy available should they meet again.",
+      "score": 9,
+      "was": "The season leaves both rivals on the same step, ensuring their next meeting begins with familiar competitive energy."
+    },
+    {
+      "id": "b4-093",
+      "kicker": "PRESS PROOF",
+      "headline": "PLAINLY PAIRED",
+      "subhead": "The points are indistinguishable, and the Gazette has no reason to distinguish between the managers' season standings.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-094",
+      "kicker": "ARCHIVE NOTES",
+      "headline": "GRANDLY EVEN",
+      "subhead": "Not every important chapter produces a champion; this one earns its significance by refusing to separate the rivals.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b4-095",
+      "kicker": "CUSTODY FILE",
+      "headline": "DEED LEFT UNSIGNED",
+      "subhead": "The season's metaphorical title deeds remain unsigned, because neither manager has achieved a points advantage over the other.",
+      "score": 9,
+      "was": "NO DEED SIGNED"
+    },
+    {
+      "id": "b4-096",
+      "kicker": "DOUBLE FEATURE",
+      "headline": "DOUBLE EXPOSURE",
+      "subhead": "Both managers appear in the Gazette's imagined front-page portrait, equally sharp after a season decided in neither's favour.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-097",
+      "kicker": "FINAL PRINT",
+      "headline": "SIDES UNCHANGED",
+      "subhead": "There is nothing to move between the season standings, as both clubs emerge with the same recorded total.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-098",
+      "kicker": "COVER LINE",
+      "headline": "NOTHING BETWEEN",
+      "subhead": "The tightness of this finish leaves {managerA} and {managerB} inseparable in points, not in their ambitions.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-099",
+      "kicker": "CLUBS CORNER",
+      "headline": "EVERYBODY COUNTS",
+      "subhead": "Both sets of season achievements count equally in the final verdict, with no individual victory for either manager.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b4-100",
+      "kicker": "END OF EDITION",
+      "headline": "BOTH HAVE CLAIMS",
+      "subhead": "Each manager can claim an equal share of the season's recognition, but neither can claim to have won.",
+      "score": 10,
+      "was": null
+    }
+  ]
+}

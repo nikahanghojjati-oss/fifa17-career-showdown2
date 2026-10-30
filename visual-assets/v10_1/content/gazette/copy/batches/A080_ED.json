@@ -1,0 +1,809 @@
+{
+  "batch": 80,
+  "situation": "draw",
+  "edition": "season",
+  "lens": "Stage and screen",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b80-001",
+      "kicker": "SEASON REVIEW",
+      "headline": "A SHARED FINAL ACT",
+      "subhead": "The season closes with {managerA} and {managerB} on identical points, leaving the rivalry without a leading performer.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-002",
+      "kicker": "BOX OFFICE",
+      "headline": "THE BILLING IS EQUAL",
+      "subhead": "For {clubA} and {clubB}, the closing figures offer the same reward, and neither manager takes this season outright.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-003",
+      "kicker": "FRONT PAGE",
+      "headline": "PARITY TAKES THE STAGE",
+      "subhead": "Neither contender can claim the starring role after {managerA} and {managerB} finish on precisely matching season totals.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-004",
+      "kicker": "EDITORIAL DESK",
+      "headline": "EQUAL CLAIMS, EQUAL CREDITS",
+      "subhead": "The result gives each manager equal standing, with {points} points apiece and no winner to announce.",
+      "score": 9,
+      "was": "AN EVENLY CAST ENDING"
+    },
+    {
+      "id": "b80-005",
+      "kicker": "RESULTS EDITION",
+      "headline": "A DRAW IN FULL VIEW",
+      "subhead": "There is no hiding the balance between {clubA} and {clubB}, whose managers end the campaign level on points.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-006",
+      "kicker": "RIVALRY WATCH",
+      "headline": "THE ENDING HOLDS BOTH",
+      "subhead": "After a season of separate campaigns, {managerA} and {managerB} arrive at the same total and share the verdict.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-007",
+      "kicker": "SEASON REVIEW",
+      "headline": "LEADING PART LEFT VACANT",
+      "subhead": "The final accounting offers {clubA} no edge over {clubB}, and the season belongs exclusively to neither side.",
+      "score": 9,
+      "was": "NO LEADING PART THIS TIME"
+    },
+    {
+      "id": "b80-008",
+      "kicker": "SCREENING ROOM",
+      "headline": "THE CAMERA FINDS PARITY",
+      "subhead": "Look closely at the final points and the story remains unchanged, with {managerA} and {managerB} inseparable.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-009",
+      "kicker": "THE LAST WORD",
+      "headline": "AN UNDIVIDED VERDICT",
+      "subhead": "A season that could have tilted either way ends with both managers on {points}, an outcome neither can own alone.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-010",
+      "kicker": "LATE EDITION",
+      "headline": "EQUAL UNDER THE LIGHTS",
+      "subhead": "The imaginary spotlight falls on both contenders as {clubA} and {clubB} finish the season with matching returns.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-011",
+      "kicker": "FINAL ACCOUNT",
+      "headline": "NEITHER WRITES THE END",
+      "subhead": "Each manager has a chapter to claim, but equal season points leave the decisive line unwritten.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-012",
+      "kicker": "PRESS GALLERY",
+      "headline": "BOTH WITHIN THE FRAME",
+      "subhead": "The closing picture has room for {managerA} and {managerB} together because neither has outpointed the other.",
+      "score": 9,
+      "was": "THE FRAME HOLDS BOTH"
+    },
+    {
+      "id": "b80-013",
+      "kicker": "CREDITS PAGE",
+      "headline": "DUAL NAMES IN THE CREDITS",
+      "subhead": "No individual victory appears in the season summary, just equal totals for the managers of {clubA} and {clubB}.",
+      "score": 9,
+      "was": "THE CREDITS NAME BOTH"
+    },
+    {
+      "id": "b80-014",
+      "kicker": "SEASON REVIEW",
+      "headline": "MEASURED TO THE LAST SCENE",
+      "subhead": "The contest reaches its seasonal conclusion with neither side in front, preserving the balance between {managerA} and {managerB}.",
+      "score": 9,
+      "was": "A MEASURED LAST SCENE"
+    },
+    {
+      "id": "b80-015",
+      "kicker": "THE ARTS DESK",
+      "headline": "SEASON SHARED ON STAGE",
+      "subhead": "Both managers receive equal billing in the result after their campaigns produce exactly the same total of points.",
+      "score": 9,
+      "was": "THE SEASON SHARES ITS STAGE"
+    },
+    {
+      "id": "b80-016",
+      "kicker": "FEATURE EDITION",
+      "headline": "AN EVENLY CAST FINALE",
+      "subhead": "Nothing separates {clubA} from {clubB} in this season's comparison, leaving their managers to share the outcome.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-017",
+      "kicker": "SCRIPT NOTES",
+      "headline": "SCRIPT STAYS UNRESOLVED",
+      "subhead": "The latest chapter supplies no outright winner as {managerA} and {managerB} finish level on the season ledger.",
+      "score": 9,
+      "was": "THE SCRIPT LEAVES IT OPEN"
+    },
+    {
+      "id": "b80-018",
+      "kicker": "REVIEW COLUMN",
+      "headline": "BALANCE COMMANDS THE STAGE",
+      "subhead": "Equal points mean equal standing for the managers, even though their separate campaigns remain stories of their own.",
+      "score": 9,
+      "was": "A BALANCED PERFORMANCE"
+    },
+    {
+      "id": "b80-019",
+      "kicker": "CULTURE PAGE",
+      "headline": "SOLOIST LEFT UNCAST",
+      "subhead": "No name stands above the other on this season's bill, with {managerA} and {managerB} locked together.",
+      "score": 10,
+      "was": "THE STORY HAS NO SOLOIST"
+    },
+    {
+      "id": "b80-020",
+      "kicker": "SPECIAL EDITION",
+      "headline": "HONOURS IN THE SAME FRAME",
+      "subhead": "The seasonal verdict finds {clubA} and {clubB} level, allowing neither manager to claim an exclusive victory.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-021",
+      "kicker": "BREAKING RESULT",
+      "headline": "FREEZE THAT FRAME!",
+      "subhead": "Hold the season's closing image because {managerA} and {managerB} stand together on points, with no winner between them.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-022",
+      "kicker": "BACK PAGE",
+      "headline": "SPLIT THE BILLING!",
+      "subhead": "Neither club receives the headline alone as the season ends with {clubA} and {clubB} on equal totals.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-023",
+      "kicker": "AFTER THE CREDITS",
+      "headline": "ROLL THE SAME CREDITS!",
+      "subhead": "The result refuses to single anyone out, leaving both managers credited with {points} points for the season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-024",
+      "kicker": "RESULTS FLASH",
+      "headline": "CANCEL THE SOLO!",
+      "subhead": "Individual glory will have to wait because {managerA} and {managerB} have finished this campaign on exactly equal points.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-025",
+      "kicker": "MARQUEE WATCH",
+      "headline": "SHARE THE TOP LINE!",
+      "subhead": "The season cannot give either manager exclusive prominence when their respective point totals are identical.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-026",
+      "kicker": "CLOSING SHOT",
+      "headline": "CUT TO A DRAW!",
+      "subhead": "The last image of this season belongs to both clubs, with {clubA} and {clubB} level in the comparison.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-027",
+      "kicker": "EDITOR'S CALL",
+      "headline": "STOP THE REWRITE!",
+      "subhead": "No clever edit can change a shared result as {managerA} and {managerB} finish on the same points.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-028",
+      "kicker": "FINAL REEL",
+      "headline": "HOLD THAT ENDING!",
+      "subhead": "A season that might have produced a single victor instead gives {clubA} and {clubB} an equal share.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-029",
+      "kicker": "FRONT ROW",
+      "headline": "KEEP BOTH NAMES!",
+      "subhead": "The result deserves a double headline after the two managers end their seasons level rather than separated.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-030",
+      "kicker": "STUDIO UPDATE",
+      "headline": "SOUND THE DRAW!",
+      "subhead": "There is nothing to separate {managerA} from {managerB} on this season's points, whatever the dramatic music suggests.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-031",
+      "kicker": "PLOT ALERT",
+      "headline": "STRIKE OUT THE LEAD!",
+      "subhead": "The season ends without a leading manager, as the comparison places {clubA} and {clubB} on equal terms.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-032",
+      "kicker": "BOX OFFICE",
+      "headline": "SPLIT THE MARQUEE!",
+      "subhead": "Neither club can occupy the advertisement alone when the season's point totals leave the contest level.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-033",
+      "kicker": "RESULTS EDITION",
+      "headline": "CUE THE EQUAL SIGN!",
+      "subhead": "The simplest symbol tells the whole story, with {managerA} and {managerB} sharing {points} points each.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-034",
+      "kicker": "CURTAIN WATCH",
+      "headline": "BOW BELONGS TO NEITHER!",
+      "subhead": "There is no lone victor at the end of the season, only managers who have earned identical points.",
+      "score": 10,
+      "was": "NO ONE TAKES THE BOW!"
+    },
+    {
+      "id": "b80-035",
+      "kicker": "REPLAY DESK",
+      "headline": "ROLL BACK THE CLAIM!",
+      "subhead": "Any claim of an outright season triumph must yield to the equal totals earned by {clubA} and {clubB}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-036",
+      "kicker": "MAIN FEATURE",
+      "headline": "MAKE ROOM FOR BOTH!",
+      "subhead": "Each manager deserves a place in the season report, although neither has gained more points than the other.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-037",
+      "kicker": "BROADCAST NEWS",
+      "headline": "PUT PARITY ON AIR!",
+      "subhead": "The headline reaches the studio without a winner because {managerA} and {managerB} have completed the campaign level.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-038",
+      "kicker": "BOX SEATS",
+      "headline": "LEAVE THE DOOR OPEN!",
+      "subhead": "A shared season result keeps the argument alive, with neither manager entitled to the top spot alone.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-039",
+      "kicker": "CINEMA DESK",
+      "headline": "REWIND THE REVEAL!",
+      "subhead": "Look again at the totals and they still match, giving {clubA} and {clubB} a draw for the season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-040",
+      "kicker": "THE ENCORE",
+      "headline": "SAVE BOTH SEATS!",
+      "subhead": "There is room for both contenders in the closing photograph because {managerA} and {managerB} end level.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-041",
+      "kicker": "PITCH REPORT",
+      "headline": "WHISTLE CALLS IT EVEN",
+      "subhead": "Think of the season's closing signal as a shared call, with neither manager claiming more points.",
+      "score": 10,
+      "was": "THE WHISTLE CALLS IT EVEN"
+    },
+    {
+      "id": "b80-042",
+      "kicker": "MATCHDAY CULTURE",
+      "headline": "NET RETURNS: EQUAL",
+      "subhead": "For all their separate ambitions, {clubA} and {clubB} produce identical seasonal returns and leave without a victor.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-043",
+      "kicker": "PRESS BOX",
+      "headline": "POST DENIES A LEAD",
+      "subhead": "The metaphorical upright divides nobody here, with {managerA} and {managerB} finishing on the same total.",
+      "score": 9,
+      "was": "NO GAP AT THE POST"
+    },
+    {
+      "id": "b80-044",
+      "kicker": "FOOTBALL FILE",
+      "headline": "POINTS HOLD THE LINE",
+      "subhead": "Neither contender breaks through in the season comparison as equal totals leave the managers side by side.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-045",
+      "kicker": "TOP FLIGHT",
+      "headline": "TOP BILLING, SHARED POINTS",
+      "subhead": "Both clubs deserve space on the season poster after their managers finish level in the Showdown standings.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-046",
+      "kicker": "TUNNEL TALK",
+      "headline": "EXTRA TIME FOR THE PLOT",
+      "subhead": "The season itself is complete, but its shared result gives the wider rivalry plenty left to discuss.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-047",
+      "kicker": "PITCHSIDE ARTS",
+      "headline": "TABLE FOR TWO DIRECTORS",
+      "subhead": "Each manager has guided a separate club, yet the season's final tally leaves their work level.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-048",
+      "kicker": "DUGOUT NOTES",
+      "headline": "DUGOUT DOUBLE BILLING",
+      "subhead": "The managers of {clubA} and {clubB} share this season's feature because neither points total exceeds the other.",
+      "score": 10,
+      "was": "THE DUGOUT DOUBLE BILL"
+    },
+    {
+      "id": "b80-049",
+      "kicker": "FINAL SCORE",
+      "headline": "NETTED IN A TIE",
+      "subhead": "There is no separation in the seasonal points, and the footballing metaphor leaves both managers equally placed.",
+      "score": 9,
+      "was": "A TIE IN THE NETTING"
+    },
+    {
+      "id": "b80-050",
+      "kicker": "GOALPOST GALLERY",
+      "headline": "PARITY AT THE NEAR POST",
+      "subhead": "The imagined camera angle cannot find a difference, since {managerA} and {managerB} end the season tied.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-051",
+      "kicker": "HALF TIME REVIEW",
+      "headline": "STANDOFF AT THE BAR",
+      "subhead": "A football crossbar and a theatre bar tell the same joke, because the season's points remain level.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-052",
+      "kicker": "PITCH AND SCREEN",
+      "headline": "PITCH MEETS THE STAGE",
+      "subhead": "Two clubs, separate campaigns and an identical return bring {clubA} and {clubB} together in the season verdict.",
+      "score": 10,
+      "was": "THE PITCH SHARES THE STAGE"
+    },
+    {
+      "id": "b80-053",
+      "kicker": "SILVER SCREEN",
+      "headline": "SILVER SCREEN SHARES IT",
+      "subhead": "A cinematic finish would demand one hero, but the season gives both managers precisely equal points.",
+      "score": 9,
+      "was": "NO SILVER SCREEN WINNER"
+    },
+    {
+      "id": "b80-054",
+      "kicker": "POINTS DESK",
+      "headline": "POINTS IN THE SAME FRAME",
+      "subhead": "Place the season totals side by side and neither {clubA} nor {clubB} can claim to lead.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-055",
+      "kicker": "SCOREBOARD",
+      "headline": "SCOREBOARD TAKES A BOW",
+      "subhead": "The points display has the final say, announcing equal returns for {managerA} and {managerB} this season.",
+      "score": 10,
+      "was": "THE SCOREBOARD TAKES A BOW"
+    },
+    {
+      "id": "b80-056",
+      "kicker": "FINAL WHISTLE",
+      "headline": "WHISTLE FINDS A DRAW",
+      "subhead": "The figurative season whistle ends a chapter in which both managers finish with the same points.",
+      "score": 10,
+      "was": "THE WHISTLE FINDS A DRAW"
+    },
+    {
+      "id": "b80-057",
+      "kicker": "BOX TO BOX",
+      "headline": "BOX OFFICE GOES LEVEL",
+      "subhead": "The only box that matters is the season summary, and it gives neither manager an advantage.",
+      "score": 9,
+      "was": "NO LEAD IN THE BOX"
+    },
+    {
+      "id": "b80-058",
+      "kicker": "TOUCHLINE REVIEW",
+      "headline": "LEVEL TERMS, TOP BILLING",
+      "subhead": "The managers share the season's main feature because their respective clubs have finished on equal points.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-059",
+      "kicker": "THE FOOTBALL DESK",
+      "headline": "CROSSBAR REMAINS UNMOVED",
+      "subhead": "Neither side has raised its seasonal total beyond the other's, leaving the contest balanced in the closing shot.",
+      "score": 9,
+      "was": "THE BAR REMAINS UNMOVED"
+    },
+    {
+      "id": "b80-060",
+      "kicker": "GOAL LINE",
+      "headline": "POSTCARD FROM PARITY",
+      "subhead": "The season sends the same message to {clubA} and {clubB}, whose managers finish together on points.",
+      "score": 9,
+      "was": "A POSTCARD FROM PARITY"
+    },
+    {
+      "id": "b80-061",
+      "kicker": "CAST LIST",
+      "headline": "PARITY PLAYS THE LEAD",
+      "subhead": "Instead of a single standout, the season delivers an equal tally for {managerA} and {managerB}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-062",
+      "kicker": "CAMERA CREW",
+      "headline": "CAMERAS CATCH A DEADLOCK",
+      "subhead": "Every imagined angle tells the same story, with {clubA} and {clubB} level on their seasonal totals.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-063",
+      "kicker": "DUAL FEATURE",
+      "headline": "DUAL DRAMA DELIVERS",
+      "subhead": "The season's strongest twist is that neither manager emerges on top despite two separate campaigns.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-064",
+      "kicker": "BILLBOARD",
+      "headline": "BILLING BELONGS TO BOTH",
+      "subhead": "The headline cannot favour {managerA} or {managerB} when both have earned {points} points for the season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-065",
+      "kicker": "CRITICS CORNER",
+      "headline": "SCENE STEALERS SHARE",
+      "subhead": "Both managers feature in the closing review because the outcome gives neither an outright season victory.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-066",
+      "kicker": "REEL REPORT",
+      "headline": "REELS REVEAL A DRAW",
+      "subhead": "The credits offer no individual victor, with {clubA} and {clubB} finishing on matching points.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-067",
+      "kicker": "CASTING DESK",
+      "headline": "PERFECTLY PAIRED PARTS",
+      "subhead": "The same seasonal total places {managerA} alongside {managerB}, although each guided a different club.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-068",
+      "kicker": "CURTAIN NOTES",
+      "headline": "CURTAIN CALL COMPANIONS",
+      "subhead": "This seasonal curtain call is shared, because equal points keep the managers shoulder to shoulder.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-069",
+      "kicker": "STAR BILLING",
+      "headline": "FRAME FOR FRAME EQUAL",
+      "subhead": "No change of perspective can put either manager in front after their season totals finish level.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-070",
+      "kicker": "STUDIO REVIEW",
+      "headline": "STAR POWER STAYS SPLIT",
+      "subhead": "The closing season report cannot assign the lead role to {clubA} or {clubB} alone.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-071",
+      "kicker": "THEATRE FILE",
+      "headline": "STANDSTILL STEALS THE SHOW",
+      "subhead": "A dead heat supplies the season's twist, leaving both managers with exactly matching points.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-072",
+      "kicker": "ROLE CALL",
+      "headline": "ACTORS AT AN IMPASSE",
+      "subhead": "The imagined cast may be competitive, but {managerA} and {managerB} share this season's verdict without a winner.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-073",
+      "kicker": "DRAMA DESK",
+      "headline": "TWIN TALES TAKE THE STAGE",
+      "subhead": "Different club campaigns reach the same point total, giving the Gazette a shared result to print.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-074",
+      "kicker": "SEASON BALANCE",
+      "headline": "MATCHING MARKS, NO MASTER",
+      "subhead": "Neither manager rules the seasonal comparison when {clubA} and {clubB} earn exactly equal returns.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-075",
+      "kicker": "CLOSING FEATURE",
+      "headline": "RIVALS TIE AT TOP BILLING",
+      "subhead": "The clubs' individual stories arrive at identical Showdown points, so neither manager takes this season outright.",
+      "score": 9,
+      "was": "TWO TITLES, TIED BILLING"
+    },
+    {
+      "id": "b80-076",
+      "kicker": "BOX OFFICE",
+      "headline": "WHO GETS THE TOP BILLING?",
+      "subhead": "No manager does this time, because {managerA} and {managerB} share the season result on equal points.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-077",
+      "kicker": "SEASON QUESTIONS",
+      "headline": "CAN A DRAW STEAL THE SHOW?",
+      "subhead": "It can supply the most intriguing ending when {clubA} and {clubB} produce matching seasonal totals.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-078",
+      "kicker": "AUDITION ROOM",
+      "headline": "WHERE IS THE LEAD ROLE?",
+      "subhead": "There is none to award as {managerA} and {managerB} finish with identical totals in the season comparison.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-079",
+      "kicker": "DIRECTOR'S DESK",
+      "headline": "IS THIS THE FINAL CUT?",
+      "subhead": "The season is complete, but its level result leaves the wider rivalry without a decisive separation here.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-080",
+      "kicker": "LIGHTING DESK",
+      "headline": "WHO OWNS THE SPOTLIGHT?",
+      "subhead": "Both managers share the attention after {clubA} and {clubB} end the season exactly level.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-081",
+      "kicker": "CREDITS PAGE",
+      "headline": "DO THE CREDITS AGREE?",
+      "subhead": "The closing figures give each manager the same standing, without naming an outright winner this season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-082",
+      "kicker": "CASTING CALL",
+      "headline": "WHAT IF BOTH ARE STARS?",
+      "subhead": "The final tally gives the managers equal billing, so neither can claim a solo season victory.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-083",
+      "kicker": "STORYBOARD",
+      "headline": "CAN PARITY BE THE PLOT?",
+      "subhead": "For {clubA} and {clubB}, equal season points make the absence of a winner the entire story.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-084",
+      "kicker": "STAGE MANAGER",
+      "headline": "HOW DO YOU CAST A TIE?",
+      "subhead": "You give both managers their proper places, as the points show no difference between their seasons.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-085",
+      "kicker": "THE LAST ACT",
+      "headline": "WHICH SIDE TAKES A BOW?",
+      "subhead": "Neither club takes the bow alone, because its manager has earned no more points than the other.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-086",
+      "kicker": "NIGHT EDITION",
+      "headline": "SOLO STAR ABSENT",
+      "subhead": "The season produces no solo leading performer as {managerA} and {managerB} finish level on points.",
+      "score": 10,
+      "was": "NO STAR TURN"
+    },
+    {
+      "id": "b80-087",
+      "kicker": "UNDER THE MARQUEE",
+      "headline": "STANDING EQUALLY",
+      "subhead": "Both managers occupy the same place in the season comparison, leaving the newspaper no victor to crown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-088",
+      "kicker": "PUBLIC REVIEW",
+      "headline": "TIED IN PUBLIC",
+      "subhead": "The shared points total is plain for everyone to read, with {clubA} and {clubB} inseparable.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-089",
+      "kicker": "THE END CARD",
+      "headline": "BOTH GET CREDITS",
+      "subhead": "The season report includes each manager on equal terms after their clubs earn precisely matching Showdown points.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-090",
+      "kicker": "CAMERA NOTES",
+      "headline": "SHARED EXPOSURE",
+      "subhead": "Neither manager receives a more flattering result from the season, as both finish on exactly equal points.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-091",
+      "kicker": "CAST AND CREW",
+      "headline": "LEAD ROLE VACANT",
+      "subhead": "The latest campaign supplies no individual victor, only an equal standing for {managerA} and {managerB}.",
+      "score": 9,
+      "was": "NO LEAD ACTOR"
+    },
+    {
+      "id": "b80-092",
+      "kicker": "SCREEN TIME",
+      "headline": "SAME SCREEN TIME",
+      "subhead": "The season closes without favouring either club, and both managers deserve equal room in the report.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-093",
+      "kicker": "SHOW BUSINESS",
+      "headline": "EVERYBODY'S SCENE",
+      "subhead": "This chapter belongs to neither manager exclusively because {clubA} and {clubB} have finished level.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-094",
+      "kicker": "PRESS REVIEW",
+      "headline": "DOUBLE EXPOSURE",
+      "subhead": "The closing picture displays both contenders together, reflecting the identical point totals they recorded this season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-095",
+      "kicker": "PREMIERE DESK",
+      "headline": "PREMIERE OF PARITY",
+      "subhead": "The season result introduces a shared ending, with {managerA} and {managerB} neither victorious nor defeated.",
+      "score": 10,
+      "was": "PARITY PREMIERE"
+    },
+    {
+      "id": "b80-096",
+      "kicker": "STORY CONTINUES",
+      "headline": "PLOT STILL OPEN",
+      "subhead": "Equal season points refuse to settle the argument between {clubA} and {clubB} in either manager's favour.",
+      "score": 10,
+      "was": "THE PLOT THICKENS"
+    },
+    {
+      "id": "b80-097",
+      "kicker": "CULTURE NOTES",
+      "headline": "BALANCED BILLING",
+      "subhead": "The seasonal poster would need equal space for both managers, since the final totals cannot separate them.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-098",
+      "kicker": "ABOVE THE FOLD",
+      "headline": "BOTH NAMES ABOVE",
+      "subhead": "A split headline tells the truth about {managerA} and {managerB}, who share the season without a winner.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b80-099",
+      "kicker": "END CREDITS",
+      "headline": "END SCENE: EQUAL",
+      "subhead": "The curtain drops on a level season, leaving {clubA} and {clubB} with the same point total.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b80-100",
+      "kicker": "EXTRA EDITION",
+      "headline": "SOLO VERDICT DENIED",
+      "subhead": "An individual verdict would misstate the result, as both managers finish this campaign with identical points.",
+      "score": 9,
+      "was": "NO SOLO VERDICT"
+    }
+  ]
+}

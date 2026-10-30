@@ -1,0 +1,204 @@
+{
+  "batch": 6,
+  "situation": "europa-league",
+  "edition": "season",
+  "desk": "The chief football writer",
+  "edited": true,
+  "stories": [
+    {
+      "id": "sb6-01",
+      "byline": "From the continental desk",
+      "standfirst": "European silverware has found its way to {winnerClub}, giving {winner} a lasting achievement in a season shared with a familiar rival.",
+      "paragraphs": [
+        "The Europa League trophy has a new home in this Showdown. {winner} has claimed it with {winnerClub}, placing a continental honour at the heart of a season that will now carry a European distinction of its own.",
+        "The result gives {loser} something substantial to answer, but it does not make the rival's efforts disposable. This contest is built on separate campaigns judged together, and a European title deserves its own place within that comparison.",
+        "Long after the season's figures have been filed, the achievement will remain straightforward: {winnerClub} finished this European competition as its champion."
+      ],
+      "pullquote": {"text": "A European trophy needs no borrowed grandeur to justify its place.", "who": "A Gazette columnist"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb6-02",
+      "byline": "Reporting from the football desk",
+      "standfirst": "For {winner}, continental success changes the scale of this season's story without diminishing the competition still offered by {loser}.",
+      "paragraphs": [
+        "Beyond the domestic frame of a club's season lies another measure of achievement. {winnerClub} now has the Europa League to show for its European campaign, and {winner} can point to an honour recognised well beyond the Showdown.",
+        "The friendly contest between managers acquires weight from precisely these achievements. {loserClub} remains part of the comparison, not an incidental name beneath a headline, while the European triumph provides a clear and deserved distinction for {winner}.",
+        "The Gazette's record will preserve the season as a contest between friends, with one result carrying the wider reach of a continental championship."
+      ],
+      "pullquote": {"text": "The rivalry is local to them; the honour belongs on a European map.", "who": "The press box"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb6-03",
+      "byline": "Our correspondent on honours",
+      "standfirst": "The Europa League victory gives {winner} something more durable than an impressive entry in the seasonal points record.",
+      "paragraphs": [
+        "An entry in the Showdown ledger can be read in a moment. What stands behind this one is larger: {winner} has guided {winnerClub} to the Europa League title, a concrete honour rather than an interpretation of form.",
+        "For {loser}, the distinction matters because the rivalry measures accomplishments, not simply competing opinions about them. A trophy provides evidence that both managers can recognise, even as they continue to value their own seasons differently.",
+        "In the archive, the figures will sit beside the title. Neither needs exaggerating, and together they explain why this European success merits the front page."
+      ],
+      "pullquote": {"text": "Figures record the contest; the cup tells us what one campaign achieved.", "who": "The Gazette archive editor"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb6-04",
+      "byline": "From our European affairs column",
+      "standfirst": "A continental title lends {winnerClub} a distinctive place in the season's record and gives the rivalry fresh material for debate.",
+      "paragraphs": [
+        "Football measures belonging in more ways than a league position. For {winnerClub}, the Europa League title is proof of success on a European stage, and {winner} has earned the right to make that achievement central to this campaign.",
+        "Within the Showdown, {loser} can acknowledge the scale of the honour without surrendering the wider argument. The format still invites comparison across accomplishments, and this particular one arrives with a name already familiar throughout the game.",
+        "A European title is not a prediction about the next contest. It is a completed achievement, ready to take its permanent place in the story."
+      ],
+      "pullquote": {"text": "Continental standing is earned through a title, not asserted through ambition.", "who": "A Gazette columnist"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb6-05",
+      "byline": "The Gazette rivalry correspondent",
+      "standfirst": "{loser} has a European triumph to measure against, after {winner} turned this season into a title-winning campaign for {winnerClub}.",
+      "paragraphs": [
+        "Respect is easiest to recognise when the achievement belongs to somebody else. {loser} has watched a rival manager claim the Europa League with {winnerClub}, an outcome that commands attention even inside a competition designed for friendly argument.",
+        "That is the particular strength of this Showdown. The managers remain opponents, yet the honours have meaning beyond their contest. {winner} takes the European title, while {loserClub} continues to stand for a separate campaign and its own ambitions.",
+        "No tribute requires a concession about the future. This edition records a deserved title and leaves the next chapter free to belong to either manager."
+      ],
+      "pullquote": {"text": "A proper rivalry can recognise a fine achievement without losing its appetite.", "who": "The press box"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb6-06",
+      "byline": "From the season review desk",
+      "standfirst": "A season can be understood through its defining honours, and {winner}'s Europa League success provides an especially clear reference point.",
+      "paragraphs": [
+        "Among the different measures of a football campaign, a continental trophy has unusual clarity. {winner} can finish this season knowing that {winnerClub} won the Europa League, a statement requiring neither qualification nor decorative language.",
+        "The Showdown may weigh several kinds of success, so this title is not an excuse to erase everything {loser} achieved. It is instead a substantial part of the record, one that deserves accurate emphasis without claiming the entire story.",
+        "The season's page will eventually turn. Its European achievement, however, can be named without reference to whatever happens in the seasons that follow."
+      ],
+      "pullquote": {"text": "The strongest honours survive the end of the argument around them.", "who": "A Gazette columnist"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb6-07",
+      "byline": "Filed by our trophy correspondent",
+      "standfirst": "There is room in the Showdown cabinet for an honour that speaks with its own continental authority.",
+      "paragraphs": [
+        "Silverware has a way of making an abstract season suddenly tangible. The Europa League belongs to {winnerClub}, and {winner} has put an unmistakable European title into a rivalry otherwise expressed through seasons and points.",
+        "For {loser}, that piece of silver is a challenge to match rather than a reason for discouragement. Competitive friendships endure because each achievement raises the standard of discussion, giving both managers a clearer sense of what success can look like.",
+        "The cabinet is not an endpoint for the Showdown. It is where this particular accomplishment waits to be remembered when the conversation moves on."
+      ],
+      "pullquote": {"text": "Every shelf has a story, but this one can carry a continent.", "who": "The Gazette cabinet keeper"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb6-08",
+      "byline": "Our writer on European football",
+      "standfirst": "{winnerClub} has secured the Europa League, an achievement that merits recognition on its own terms rather than by comparison with another trophy.",
+      "paragraphs": [
+        "There is no need to borrow prestige from a different competition. The Europa League offers a European title in its own right, and {winner} has won it with {winnerClub} during a season that now carries that distinction.",
+        "The temptation in a rivalry is to rank every honour before the congratulations are finished. Yet {loser} and {winner} are better served by an honest account: this is a significant continental achievement, whatever else the seasonal comparison contains.",
+        "When the Gazette returns to this campaign, it will not need a grander name for the cup. Winning the Europa League is enough."
+      ],
+      "pullquote": {"text": "Call the competition by its name, then give the champions their due.", "who": "The press box"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb6-09",
+      "byline": "From the managers' review desk",
+      "standfirst": "For a manager competing against a friend, European success offers an answer built from achievement rather than rivalry banter.",
+      "paragraphs": [
+        "Management is judged here by what its clubs accomplish, and {winner} has supplied an especially persuasive example. {winnerClub} are Europa League champions, a title that gives the manager a firm achievement to place against the season's broader record.",
+        "The comparison with {loser} is inevitable, but it need not become personal. Each manager is represented by a club and its honours, not by a verdict on character. European success changes the conversation because the accomplishment is real.",
+        "The distinction will outlast the immediate exchange between friends. When this campaign is discussed again, {winner} will have a title to cite."
+      ],
+      "pullquote": {"text": "A manager's best reply is an honour the record can confirm.", "who": "A Gazette columnist"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb6-10",
+      "byline": "The continental honours correspondent",
+      "standfirst": "The achievement of {winnerClub} adds a European chapter to a competition whose central drama belongs to two managers.",
+      "paragraphs": [
+        "Consider the distance between a private competition and a continental title. Career Mode Showdown belongs to two friends, yet {winner}'s Europa League victory with {winnerClub} draws on a stage far larger than their head-to-head comparison.",
+        "That contrast gives the rivalry much of its charm. {loser} is still the direct competitor, the person against whom a season is assessed, while the European honour carries an independent meaning that does not depend on any teasing afterwards.",
+        "The Gazette can hold both perspectives on the same page: a trophy won in Europe and a friendly challenge made more interesting by it."
+      ],
+      "pullquote": {"text": "Their contest is intimate, but its achievements can have a continental scale.", "who": "The Gazette features editor"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb6-11",
+      "byline": "Our columnist on the season",
+      "standfirst": "{winner}'s Europa League title gives the season a firm centre, while the broader Showdown remains a contest of accumulating achievements.",
+      "paragraphs": [
+        "Titles offer useful certainty in a sport that invites endless interpretation. Whatever opinions surround this campaign, {winner} has the Europa League with {winnerClub}, a European championship that belongs in the first sentence of any fair season review.",
+        "The Showdown's point totals establish their own comparison with {loser}, but the trophy has a different kind of value. It names exactly what was accomplished, allowing the rivalry to remain competitive without reducing every success to an argument over totals.",
+        "The next season, if there is one, will make demands of its own. This honour already stands, complete and beyond revision."
+      ],
+      "pullquote": {"text": "A title settles what was won, even when debate continues elsewhere.", "who": "The press box"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb6-12",
+      "byline": "From the Gazette editorial desk",
+      "standfirst": "A well-earned European honour brings fresh definition to the rivalry and a clear distinction to {winner}'s season.",
+      "paragraphs": [
+        "The proper headline is neither complicated nor small. {winnerClub} have won the Europa League under {winner}, giving this Showdown season an achievement that can be stated plainly and understood without recourse to a points chart.",
+        "If {loser} has reason to want an equally imposing answer, that is the healthy pressure of the format. Each campaign becomes more meaningful when measured beside another, while neither manager's commitment needs belittling for the champion's work to count.",
+        "This is the Gazette's task as much as its pleasure: record the winner accurately, respect the rival, and leave room for tomorrow's debate."
+      ],
+      "pullquote": {"text": "Fair coverage gives the champion credit and the challenger proper respect.", "who": "The Gazette chief subeditor"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb6-13",
+      "byline": "The European record correspondent",
+      "standfirst": "The season's European result will remain legible in the archives long after the surrounding arguments have faded.",
+      "paragraphs": [
+        "Archives favour statements that do not need explaining. This season offers one: {winnerClub} won the Europa League, with {winner} in charge. It is the sort of entry that keeps its meaning when the surrounding context has grown distant.",
+        "The record of {loser}'s campaign belongs alongside it, because the Showdown is a shared undertaking even when its honours are not shared. The trophy introduces an important distinction, not a licence to diminish the other side of the rivalry.",
+        "Future readers will find no invented flourish necessary. A European title, its winning manager and its club are enough to preserve the moment."
+      ],
+      "pullquote": {"text": "Good archives keep the achievement and discard the unnecessary noise.", "who": "The Gazette archivist"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb6-14",
+      "byline": "From the football culture desk",
+      "standfirst": "A European cup gives {winnerClub} more than a line of recognition, providing the kind of honour supporters can carry forward.",
+      "paragraphs": [
+        "Support for a club is often built around the achievements that stay easy to name. {winnerClub} can now be described as Europa League winners, and {winner} is responsible for bringing that distinction into this season's Showdown.",
+        "The opposing campaign of {loserClub} remains part of the frame, deserving its own account rather than treatment as background scenery. But the European title gives {winner} a contribution to club identity that goes beyond the immediate private comparison.",
+        "It is an honour with a public name and a personal meaning. That combination helps explain why a season's result becomes a lasting memory."
+      ],
+      "pullquote": {"text": "Club memories grow around achievements people can still name years later.", "who": "A Gazette columnist"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb6-15",
+      "byline": "Our correspondent on sporting legacy",
+      "standfirst": "Continental silverware closes an important chapter for {winner}, while keeping the next argument between friends very much alive.",
+      "paragraphs": [
+        "Nothing about a European championship requires a final verdict on a friendship's long rivalry. {winner} has won the Europa League with {winnerClub}, and that accomplishment is considerable enough to stand without claims about every season still to come.",
+        "A Showdown gains depth when individual victories are allowed to mean something distinct. {loser} may pursue a different route to recognition, and later honours may alter the overall picture. They cannot undo the European title already secured.",
+        "For this edition, the conclusion is exact and sufficient. {winnerClub} have their continental honour, and the contest has another chapter worth keeping."
+      ],
+      "pullquote": {"text": "A lasting rivalry is made richer, not finished, by meaningful honours.", "who": "The Gazette heritage columnist"},
+      "score": 10,
+      "was": null
+    }
+  ]
+}
