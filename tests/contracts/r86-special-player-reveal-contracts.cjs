@@ -96,7 +96,7 @@ function api_page(){return revealWorld().api.page;}
     assert.ok(new RegExp(`^\\s+"${file.replace(/[.\/]/g,m=>'\\'+m)}",?$`,'m').test(sw),`${file} is shell-cached`);
     assert.ok(/const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set\(\[([^\]]*)\]\);/.exec(sw)[1].includes(`"${file}"`),`${file} is new since the rollback shell`);
   }
-  assert.match(sw,/const SHELL_FRAME_NAVIGATION_PATHS = new Set\(\[\s*"visual-assets\/v10_1\/special-player\/index\.html"\s*\]\);/);
+  assert.match(sw,/const SHELL_FRAME_NAVIGATION_PATHS = new Set\(\[\s*"visual-assets\/v10_1\/special-player\/index\.html",\s*"visual-assets\/v10_1\/roulette\/index\.html"\s*\]\);/,"the Special Player page (and r87's roulette page) are frame navigations");
   assert.match(sw,/if\(SHELL_FRAME_NAVIGATION_PATHS\.has\(path\)\)\{ event\.respondWith\(\(async\(\)=>\{ const selected=await chooseNavigationRuntime\(\); const cached=selected\?await cachedShellResponse\(path,selected\.revision\):null; return cached\|\|fetch\(request\); \}\)\(\)\); return; \}/,'the frame gets its own page, never index.html');
   for(const image of fs.readdirSync(path.join(ROOT,'visual-assets/v10_1/special-player/assets')))assert.match(`visual-assets/v10_1/special-player/assets/${image}`,new RegExp(/const V10_IMAGE_PATH = \/(.+)\/i;/.exec(sw)[1],'i'),`${image} uses the Team V image cache`);
   ok('R5','the reveal scripts and page are shell-cached for the release (and listed as new for rollback); the frame navigation is served its own page; its art uses the Team V image cache');

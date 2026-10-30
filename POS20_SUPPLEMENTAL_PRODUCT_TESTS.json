@@ -2262,8 +2262,7 @@
       "path": "tests/contracts/r87-roster-roulette-contracts.cjs",
       "patterns": [
         "^data/(rosterSquads|clubs)\\.js$",
-        "^js/(rosterRoulette|rosterBoardStore)\\.js$",
-        "^firestore\\.persistent-pair-production\\.fragment\\.rules$",
+        "^js/rosterRoulette\\.js$",
         "^tests/contracts/r87-roster-roulette-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]

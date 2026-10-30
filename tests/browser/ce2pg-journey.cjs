@@ -1,4 +1,5 @@
 "use strict";
+const rosterRoulette=require("./support/roster-roulette.cjs");
 // CE2PG: "Cloud Emulator 2-player Journey" (r80 flow).
 // Daniel and Nik play the real Career Mode Showdown in two Chromium contexts against the Firebase Auth + Firestore emulators
 // with the composed production Rules (the same production adapter path as tests/browser/r79-two-player-journey-audit.cjs).
@@ -473,7 +474,7 @@ async function playSetup(daniel,nik){
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
   for(const m of [daniel,nik]){
-    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:45000});
+    await rosterRoulette.waitForTransfer(m.page,45000);
     await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
   }
   const teamCount=await daniel.page.evaluate(()=>window.CareerModeProductionSharedSeasonResults?.getState?.()?.state?.teamCount??null).catch(()=>null)
@@ -500,12 +501,12 @@ async function playTransfers(daniel,nik,tag){
   await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.guessLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
   await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"signing_entry");await waitTransferPhase(daniel,"signing_entry");
-  await daniel.page.locator("#p1Signing1Name").fill(tokenD);await fillCombo(daniel,"p1Signing1League","Premier League");await fillCombo(daniel,"p1Signing1Nationality","England");
+  await daniel.page.locator("#p1Signing1Name").fill(tokenD);await daniel.page.locator("#p1Signing1Overall").fill("71");await fillCombo(daniel,"p1Signing1League","Premier League");await fillCombo(daniel,"p1Signing1Nationality","England");
   await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.signingLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
   await privateTokenAbsent(nik,tokenD.split(" ")[0],`${showdownNow}.S${seasonNow}.transfer.privacy`,"Daniel's locked signing stays hidden from Nik before completion");
   await waitTransferState(nik,"signingLockedRoles","playerOne");await waitTransferPhase(nik,"signing_entry");
-  await nik.page.locator("#p2Signing1Name").fill(tokenN);await fillCombo(nik,"p2Signing1League","TIM Serie A");await fillCombo(nik,"p2Signing1Nationality","Brazil");
+  await nik.page.locator("#p2Signing1Name").fill(tokenN);await nik.page.locator("#p2Signing1Overall").fill("71");await fillCombo(nik,"p2Signing1League","TIM Serie A");await fillCombo(nik,"p2Signing1Nationality","Brazil");
   await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
 }
@@ -591,7 +592,7 @@ async function continueToSeason(daniel,nik,next,total){
     await m.page.waitForFunction(n=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${n}`,next,{timeout:45000});
     await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
     await m.page.waitForFunction(v=>document.getElementById("seasonIndicator")?.textContent===v,`Season ${next} / ${total}`,{timeout:30000});
-    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
+    await rosterRoulette.waitForTransfer(m.page,30000);
   }
 }
 // Back into the live Showdown from Showdown Home: CONTINUE SHOWDOWN, then (on the season dashboard) its primary action, until the

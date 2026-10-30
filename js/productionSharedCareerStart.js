@@ -36,7 +36,9 @@
   function pcstWithTimeout(task,request){
     if(request)return task(request);
     let timer;const error=Object.assign(new Error("Career Start took too long. Check your connection and tap again."),{code:"CAREER_START_TIMEOUT"});
-    const timeout=new Promise((_,reject)=>{timer=root.setTimeout(()=>reject(error),25000);});
+    // r87: the Russian Roster Roulette between Career Start and the Transfer Challenge runs at the manager's pace, so the 25 s
+    // limit waits while it is on screen (js/rosterRouletteStep.js active()).
+    const timeout=new Promise((_,reject)=>{const fire=()=>{if(root.CareerModeRosterRouletteStep?.active?.()){timer=root.setTimeout(fire,25000);return;}reject(error);};timer=root.setTimeout(fire,25000);});
     let active=true;request={wait:promise=>Promise.race([promise,timeout]).then(value=>{if(!active)throw error;return value;})};
     return Promise.race([Promise.resolve().then(()=>task(request)),timeout]).catch(failure=>{if(failure===error){lastError=error.message;if(task===pcstOpenPanelNow)pcstEnsurePanel();pcstRender();pcstDecorateControl();}throw failure;}).finally(()=>{active=false;root.clearTimeout(timer);});
   }
@@ -124,6 +126,8 @@
       if(!transfer||typeof transfer.install!=="function"||typeof transfer.open!=="function")throw new Error("Shared Transfer Challenge is unavailable.");
       transfer.install();
       const opened=await transfer.open();
+      // r87: the manager left the Russian Roster Roulette for Showdown Home; it opens again from there. Not a failure.
+      if(opened!==true&&root.CareerModeRosterRouletteStep?.wentHome?.()){pcstClosePanel();return false;}
       if(opened!==true)throw new Error("Shared Transfer Challenge could not be opened from this Career Start state.");
       pcstClosePanel();
       return true;

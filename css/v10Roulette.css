@@ -1,0 +1,103 @@
+/* r87 Russian Roster Roulette season step (js/rosterRouletteStep.js): board editor, waiting, release panels.
+   The marble card of the Start / Join overlays (css/r78-marble-surfaces.css 7d), standing on its own here so it never
+   depends on css/remoteJoining.css being loaded. No scrim, no dimming (HO-027): the card is opaque, the page behind stays. */
+#rrStepPanel.rrStepOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 96; /* above the roulette stage (95), so the result can stand on the finished scene */
+  display: grid;
+  place-items: center;
+  padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  overflow: auto;
+}
+#rrStepPanel .rrStepShell {
+  width: min(640px, 100%);
+  max-height: calc(100dvh - 32px);
+  display: flex;
+  flex-direction: column;
+  color: var(--r78-ivory, #f2ebdd);
+  background: #0d0b09 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  border: 1px solid var(--r78-gold-edge, #d4a017);
+  border-radius: var(--sd-radius, 3px);
+  box-shadow: inset 0 0 0 3px rgba(17, 15, 12, .9), inset 0 0 0 4px rgba(242, 196, 91, .3), 0 0 0 1px #000, 0 10px 24px rgba(0, 0, 0, .55);
+}
+#rrStepPanel .remoteJoiningHeader {
+  padding: 14px 18px 12px;
+  color: var(--r78-gold, #f2c45b);
+  border-bottom: 1px solid rgba(242, 196, 91, .35);
+  font: 600 14px/1.2 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif);
+  letter-spacing: .16em;
+}
+#rrStepPanel .rrStepBody {
+  display: grid;
+  gap: 12px;
+  padding: 16px 18px 18px;
+  overflow: auto;
+  min-height: 0;
+}
+#rrStepPanel .rrStepTitle {
+  margin: 0;
+  color: var(--sd-gold-300, #ffd34d);
+  font: 700 clamp(26px, 5vw, 34px)/1.05 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif);
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+#rrStepPanel :is(.rrStepLine, .rrStepNote, .rrStepError) {
+  margin: 0;
+  font: 500 16px/1.4 var(--r78-font-body, "Barlow", system-ui, sans-serif);
+}
+#rrStepPanel .rrStepLine { color: var(--r78-ivory, #f2ebdd); }
+#rrStepPanel .rrStepNote {
+  color: var(--r78-ivory-2, #c9bfa8);
+  padding-left: 12px;
+  border-left: 3px solid var(--r78-gold-edge, #d4a017);
+}
+#rrStepPanel .rrStepError { color: #ff9b85; min-height: 1.4em; }
+#rrStepPanel .rrStepError:empty { min-height: 0; }
+#rrStepPanel .rrStepActions { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 4px; }
+#rrStepPanel .rrStepActions > button { flex: 1 1 220px; min-height: 48px; margin: 0; }
+
+/* board editor: XI then subs, one row per player (position, name); the slot shot last season is marked in gold */
+#rrStepPanel .rrBoardForm { display: grid; gap: 14px; }
+#rrStepPanel .rrBoardGroup {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 10px 12px 12px;
+  border: 1px solid rgba(242, 196, 91, .3);
+  border-top: 2px solid var(--r78-gold-edge, #d4a017);
+  background: rgba(7, 8, 10, .6);
+  min-width: 0;
+}
+#rrStepPanel .rrBoardGroup legend {
+  padding: 0 6px;
+  color: var(--r78-gold, #f2c45b);
+  font: 600 13px/1 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif);
+  letter-spacing: .16em;
+}
+#rrStepPanel .rrBoardRow { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 8px; align-items: center; }
+#rrStepPanel :is(.rrBoardPos, .rrBoardName) {
+  min-height: 40px;
+  box-sizing: border-box;
+  color: var(--r78-ivory, #f2ebdd);
+  background: #07080a;
+  border: 1px solid rgba(242, 196, 91, .35);
+  border-radius: var(--sd-radius, 3px);
+  font: 600 16px/1 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif);
+  letter-spacing: .04em;
+}
+#rrStepPanel .rrBoardPos { padding: 0 6px; }
+#rrStepPanel .rrBoardSub { display: grid; place-items: center; color: var(--r78-ivory-2, #c9bfa8); }
+#rrStepPanel .rrBoardName { width: 100%; padding: 0 10px; font: 500 16px/1 var(--r78-font-body, "Barlow", system-ui, sans-serif); letter-spacing: 0; }
+#rrStepPanel :is(.rrBoardPos, .rrBoardName):focus-visible { outline: 2px solid #fff3bd; outline-offset: 1px; }
+#rrStepPanel .rrBoardRowShot .rrBoardName { border-color: var(--r78-gold, #f2c45b); box-shadow: inset 0 0 0 1px var(--r78-gold, #f2c45b); }
+#rrStepPanel .rrBoardRowShot .rrBoardName::placeholder { color: var(--r78-gold, #f2c45b); }
+
+@media (max-width: 520px) {
+  #rrStepPanel .rrBoardRow { grid-template-columns: 64px minmax(0, 1fr); }
+  #rrStepPanel .rrStepActions > button { flex-basis: 100%; }
+}

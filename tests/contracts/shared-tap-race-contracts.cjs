@@ -147,7 +147,7 @@ async function transferContracts(){
     const guessState=()=>({revision:3,state:{...windowOpen().state,phase:"GUESS_ENTRY",revision:3}});
     const signingState=()=>({revision:3,state:{...windowOpen().state,phase:"SIGNING_ENTRY",revision:3}});
     const fillGuesses=(h,count)=>{for(let i=1;i<=count;i+=1){h.node(`p2Guess${i}Type`).value="league";const v=h.node(`p2Guess${i}Value`);v.value=`League ${i}`;v.dataset.canonicalId=`league_${i}`;}};
-    const fillSignings=(h,count)=>{for(let i=1;i<=count;i+=1){h.node(`p1Signing${i}Name`).value=`Player ${i}`;h.node(`p1Signing${i}League`).value=`League ${i}`;h.node(`p1Signing${i}League`).dataset.canonicalId=`league_${i}`;h.node(`p1Signing${i}Nationality`).value=`Nation ${i}`;h.node(`p1Signing${i}Nationality`).dataset.canonicalId=`nation_${i}`;}};
+    const fillSignings=(h,count)=>{for(let i=1;i<=count;i+=1){h.node(`p1Signing${i}Name`).value=`Player ${i}`;h.node(`p1Signing${i}Overall`).value=`7${i}`;h.node(`p1Signing${i}League`).value=`League ${i}`;h.node(`p1Signing${i}League`).dataset.canonicalId=`league_${i}`;h.node(`p1Signing${i}Nationality`).value=`Nation ${i}`;h.node(`p1Signing${i}Nationality`).dataset.canonicalId=`nation_${i}`;}};
     for(const kind of ["guesses","signings"]){
       const method=kind==="guesses"?"lockGuesses":"lockSignings",initial=kind==="guesses"?guessState:signingState,fill=kind==="guesses"?fillGuesses:fillSignings;
       // E1. Partial lock, confirm returns false: no provider call, no error.

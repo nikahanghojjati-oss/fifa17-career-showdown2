@@ -32,8 +32,8 @@
     guessHeading:"Guess {RIVAL}'s signings",privacyNote:"Hidden from {RIVAL} until you both lock.",
     selectPlaceholder:"Guess type",selectLeague:"League",selectNationality:"Nationality",valuePlaceholder:"Pick a type first",primary:"LOCK GUESSES",
     signWindowClosed:"WINDOW CLOSED",tagYou:"YOU",tagSealed:"SEALED",tagPrivate:"PRIVATE",
-    signingPrimary:"LOCK MY SIGNINGS",signingInvalid:"Complete signing {n} with player name, previous league and nationality.",
-    signingPlaceholderName:"Player name",signingPlaceholderLeague:"Previous league",signingPlaceholderNationality:"Nationality",
+    signingPrimary:"LOCK MY SIGNINGS",signingInvalid:"Complete signing {n} with player name, previous league, nationality and overall (30-99).",
+    signingPlaceholderName:"Player name",signingPlaceholderLeague:"Previous league",signingPlaceholderNationality:"Nationality",signingPlaceholderOverall:"OVR",
     verdictHeading:"{MANAGER} · {CLUB}",verdictEmpty:"No signings were entered.",verdictRelease:"RELEASE · MATCHED BY RIVAL GUESS",verdictKeep:"KEEP · NO RIVAL GUESS MATCH",
     continueLabel:"SEASON RESULTS NEXT",guessRevealHeading:"{GUESSER} guesses {OWNER}'s signings"
   });
@@ -48,7 +48,7 @@
     return value;
   }
   function tfSigningRows(rows,label){
-    return (Array.isArray(rows)?rows:[]).filter(row=>row&&Number.isInteger(row.slot)).map(row=>({slot:row.slot,name:tfText(row.name),league:tfLabel(label,"league",row.leagueId),nationality:tfLabel(label,"nationality",row.nationalityId)})).sort((a,b)=>a.slot-b.slot);
+    return (Array.isArray(rows)?rows:[]).filter(row=>row&&Number.isInteger(row.slot)).map(row=>({slot:row.slot,name:tfText(row.name),league:tfLabel(label,"league",row.leagueId),nationality:tfLabel(label,"nationality",row.nationalityId),overall:Number.isInteger(row.overall)?row.overall:null})).sort((a,b)=>a.slot-b.slot);
   }
   function tfGuessRows(rows,label){
     return (Array.isArray(rows)?rows:[]).filter(row=>row&&(row.type==="league"||row.type==="nationality")).slice().sort((a,b)=>(a.slot||0)-(b.slot||0)).map(row=>({type:row.type,value:tfLabel(label,row.type,row.valueId)}));
@@ -131,7 +131,7 @@
     if(frame.phase==="WINDOW_OPEN"){ids.push("transferTimerDisplay","endTransferTimer");extras.push("startTransferTimer","continueFromTransfers");}
     else if(frame.phase==="GUESS_ENTRY"){for(let i=1;i<=3;i+=1)ids.push(`${guess}Guess${i}Type`,`${guess}Guess${i}Value`);ids.push("completeTransferChallenge");extras.push("continueFromTransfers");}
     else if(frame.phase==="SIGNING_ENTRY"){
-      if(!frame.signingsLocked){for(let i=1;i<=3;i+=1)ids.push(`${own}Signing${i}Name`,`${own}Signing${i}League`,`${own}Signing${i}Nationality`);ids.push("completeTransferChallenge");}
+      if(!frame.signingsLocked){for(let i=1;i<=3;i+=1)ids.push(`${own}Signing${i}Name`,`${own}Signing${i}Overall`,`${own}Signing${i}League`,`${own}Signing${i}Nationality`);ids.push("completeTransferChallenge");}
       ids.push("transferPhaseLockSummary");extras.push("continueFromTransfers");
     }else ids.push("continueFromTransfers");
     return tfFreeze({ids,extras});
@@ -141,7 +141,7 @@
   const BASE="visual-assets/v10_1/";
   const ASSET_BASE=BASE+DIR;
   const ACTION_CLASSES=Object.freeze({start:"btn-end sd-btn sd-btn--secondary",continueReplay:"btn-continue sd-btn sd-btn--secondary",error:"error-line"});
-  let installed=false,registered=null,platemap=null,cached=null,mountedFrame=null,stage=null,adopted=[],cardSwaps=[],pending=false,timerNode=null,statusNode=null,stageSize=null,reframe=null,desktopLayout=null;
+  let nameCells=[],installed=false,registered=null,platemap=null,cached=null,mountedFrame=null,stage=null,adopted=[],cardSwaps=[],pending=false,timerNode=null,statusNode=null,stageSize=null,reframe=null,desktopLayout=null;
   const v10Screens=()=>root.CareerModeV10Screens;
   const tfDoc=()=>root.document||null;
   function tfWarn(context,error){if(root.console&&typeof root.console.warn==="function")root.console.warn(`[Career Mode Showdown] ${context}`,error);}
@@ -181,6 +181,19 @@
     adopted.push(record);
     return true;
   }
+  // r87 (Nik 2026-10-30): the signing's overall has no slot in Team V's plate. It joins the adopted player name in one
+  // name cell, so each breakpoint's four-column row keeps its shape (css/v10Transfer.css). Own signings only.
+  function tfOverallCells(plan){
+    const doc=tfDoc();
+    for(const id of plan.ids){
+      if(!/Signing\dOverall$/.test(id))continue;
+      const node=tfProduction(id),name=stage.querySelector(`[id="${id.replace(/Overall$/,"Name")}"]`);
+      if(!node||!name||!tfIsAdopted(name)||!name.parentNode)continue;
+      const cell=doc.createElement("div");cell.className="signing-name-cell";
+      name.parentNode.insertBefore(cell,name);cell.appendChild(name);nameCells.push(cell);
+      tfAdopt(node,cell,"append");
+    }
+  }
   function tfRestore(){
     for(const {card,name,className} of cardSwaps.splice(0)){
       const now=card.getAttribute("class")||"";
@@ -193,6 +206,7 @@
       if(node.id==="transferTimerDisplay"){const clock=node.querySelector(".timer-clock");if(clock)clock.remove();}
       if(marker.parentNode){marker.parentNode.insertBefore(tfUnit(node),marker);marker.remove();}
     }
+    for(const cell of nameCells.splice(0))cell.remove();
   }
   // A production node, or anything inside one (e.g. the selector's listbox inside its .transferCombobox wrapper).
   const tfIsAdopted=node=>adopted.some(record=>record.node===node||(record.node.contains&&record.node.contains(node)));
@@ -233,6 +247,7 @@
       const node=tfProduction(id),place=tfPlace(id);
       if(node&&place)tfAdopt(node,place,"replace");
     }
+    tfOverallCells(plan);
     // The production card whose fields moved hands its card class to the Team V block while they are there, so one card
     // per manager carries it (production's own/rival lookups and the replay's one-visible-card guard stay exact).
     for(const name of ["transferGuessCard","transferManagerCard"]){

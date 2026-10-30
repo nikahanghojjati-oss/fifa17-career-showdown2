@@ -174,48 +174,6 @@
         && cmsPersistentPairCanReplace(before, after)
         && (!cmsCareerIndexEnforced() || cmsCareerIndexPairLinkCoupled(accountId, after.data.rivalryId));
     }
-    // r87 Roster Russian Roulette (Nik 2026-10-29: "Edit board before each spin"): from season 2 each manager saves the
-    // board he holds for that season's spin: his real current starting XI (positions, one goalkeeper) and 4 subs. One
-    // create-only document per manager per season (season_N_playerOne / season_N_playerTwo), written only by that manager
-    // through the shared write authority once the Showdown is under way; either manager can read both. Never updated (no
-    // re-edit after the spin), listed or deleted. The board is two flat lists (11 positions; 15 names, XI then subs) so a
-    // create stays far below the 1,000-expression ceiling. A name is 1-40 characters with no outer white space (the
-    // signing-name rule); the app also refuses a name twice in any letter case, the Rules refuse an exact repeat.
-    function cmsRosterBoardNameValid(name) {
-      return name.matches('^[^\\t-\\r \\x{00A0}\\x{1680}\\x{2000}-\\x{200A}\\x{2028}\\x{2029}\\x{202F}\\x{205F}\\x{3000}\\x{FEFF}]([\\s\\S]{0,38}[^\\t-\\r \\x{00A0}\\x{1680}\\x{2000}-\\x{200A}\\x{2028}\\x{2029}\\x{202F}\\x{205F}\\x{3000}\\x{FEFF}])?$');
-    }
-    function cmsRosterBoardValid(positions, names) {
-      return positions is list
-        && positions.size() == 11
-        && positions.toSet().hasOnly(['GK','SW','RWB','RB','RCB','CB','LCB','LB','LWB','RDM','CDM','LDM','RM','RCM','CM','LCM','LM','RAM','CAM','LAM','RF','CF','LF','RW','RS','ST','LS','LW'])
-        && positions.removeAll(['GK']).size() == 10
-        && names is list
-        && names.size() == 15
-        && names.toSet().size() == 15
-        && cmsRosterBoardNameValid(names[0]) && cmsRosterBoardNameValid(names[1]) && cmsRosterBoardNameValid(names[2])
-        && cmsRosterBoardNameValid(names[3]) && cmsRosterBoardNameValid(names[4]) && cmsRosterBoardNameValid(names[5])
-        && cmsRosterBoardNameValid(names[6]) && cmsRosterBoardNameValid(names[7]) && cmsRosterBoardNameValid(names[8])
-        && cmsRosterBoardNameValid(names[9]) && cmsRosterBoardNameValid(names[10]) && cmsRosterBoardNameValid(names[11])
-        && cmsRosterBoardNameValid(names[12]) && cmsRosterBoardNameValid(names[13]) && cmsRosterBoardNameValid(names[14]);
-    }
-    function cmsRosterBoardCreateValid(rivalryId, boardId) {
-      let b = request.resource.data;
-      return b.keys().hasOnly(['schemaVersion', 'objectType', 'rivalryId', 'seasonNumber', 'managerRole', 'positions', 'names', 'createdAt', 'activeSessionId', 'updatedByDeviceId'])
-        && b.keys().hasAll(['schemaVersion', 'objectType', 'rivalryId', 'seasonNumber', 'managerRole', 'positions', 'names', 'createdAt', 'activeSessionId', 'updatedByDeviceId'])
-        && b.schemaVersion == 1
-        && b.objectType == 'rosterBoard'
-        && b.rivalryId == rivalryId
-        && b.seasonNumber is int
-        && b.seasonNumber >= 2
-        && b.seasonNumber <= 10
-        && b.managerRole == ssjrActorRole(rivalryId)
-        && boardId == 'season_' + string(b.seasonNumber) + '_' + b.managerRole
-        && b.createdAt == request.time
-        && cmsRosterBoardValid(b.positions, b.names)
-        && ssjrTransferPrerequisites(rivalryId, b.seasonNumber)
-        && ssjrWriteAuthorityValid(rivalryId, b.updatedByDeviceId, b.activeSessionId);
-    }
-
     // CMS_CAREER_INDEX (D1, JOB-07): own-account, append-only, forward-only career index.
     function cmsCareerIndexPageCapacity() {
       return 500;
@@ -655,12 +613,6 @@
       allow list, delete: if false;
     }
 
-    // r87 Roster Russian Roulette boards (cmsRosterBoardCreateValid): both managers read; each creates his own once.
-    match /rivalries/{rivalryId}/rosterBoards/{boardId} {
-      allow get: if ssjrEntitled(rivalryId);
-      allow create: if cmsRosterBoardCreateValid(rivalryId, boardId);
-      allow update, list, delete: if false;
-    }
     match /accounts/{accountId}/careerIndex/{indexId} {
       allow get: if signedIn()
         && request.auth.uid == accountId

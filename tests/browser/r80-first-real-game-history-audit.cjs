@@ -1,4 +1,5 @@
 "use strict";
+const rosterRoulette=require("./support/roster-roulette.cjs");
 // r80: Nik's first real game on r79 never showed in History, Legacy, Career Statistics or the Trophy Room.
 // The sequence, on two accounts whose real career had not started (test mode), as the r79 emulator reproduction found it:
 //   1. an older code of Daniel's (an r78 CREATE CODE FOR NIK, or a shell with seasons chosen and no code yet) is still open;
@@ -301,6 +302,7 @@ async function moveToFreshBrowser(browser,managers,retired,old,label,viewport,{e
   while(!await m.page.locator(screens).filter({visible:true}).first().isVisible().catch(()=>false)){
     if(Date.now()>deadline)throw new Error(`${m.user}: the fresh browser never opened the live Showdown: ${await describe(m)}`);
     if(await m.page.locator("#mainMenu").isVisible().catch(()=>false)&&await m.page.locator("#newShowdown").isEnabled().catch(()=>false))await m.page.locator("#newShowdown").click({timeout:5000}).catch(()=>{});
+    await rosterRoulette.playRoulette(m.page); // r87: a fresh browser shows this season's roulette once
     await m.page.waitForTimeout(1000);
   }
   await m.page.waitForFunction(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState==="active",null,{timeout:45000});
@@ -369,7 +371,7 @@ async function continueToSeason(daniel,nik,season,total){
     await m.page.waitForFunction(next=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${next}`,season,{timeout:45000});
     await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
     await m.page.waitForFunction(value=>document.getElementById("seasonIndicator")?.textContent===value,`Season ${season} / ${total}`,{timeout:30000});
-    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
+    await rosterRoulette.waitForTransfer(m.page,30000);
   }
 }
 // One season's Transfer Challenge through the real UI: window, guesses, signings, then both open Season Results.
@@ -387,11 +389,11 @@ async function playTransferSeason(daniel,nik,tokenD,tokenN){
   await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.guessLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
   await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"signing_entry");await waitTransferPhase(daniel,"signing_entry");
-  await daniel.page.locator("#p1Signing1Name").fill(tokenD);await fillTransferCombo(daniel,"p1Signing1League","Premier League");await fillTransferCombo(daniel,"p1Signing1Nationality","England");
+  await daniel.page.locator("#p1Signing1Name").fill(tokenD);await daniel.page.locator("#p1Signing1Overall").fill("71");await fillTransferCombo(daniel,"p1Signing1League","Premier League");await fillTransferCombo(daniel,"p1Signing1Nationality","England");
   await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.signingLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
   await waitTransferState(nik,"signingLockedRoles","playerOne");
-  await nik.page.locator("#p2Signing1Name").fill(tokenN);await fillTransferCombo(nik,"p2Signing1League","TIM Serie A");await fillTransferCombo(nik,"p2Signing1Nationality","Brazil");
+  await nik.page.locator("#p2Signing1Name").fill(tokenN);await nik.page.locator("#p2Signing1Overall").fill("71");await fillTransferCombo(nik,"p2Signing1League","TIM Serie A");await fillTransferCombo(nik,"p2Signing1Nationality","Brazil");
   await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
   for(const m of [daniel,nik]){
@@ -416,7 +418,7 @@ async function playSetupToTransferChallenge(daniel,nik){
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
   for(const m of [daniel,nik]){
-    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:45000});
+    await rosterRoulette.waitForTransfer(m.page,45000);
     await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
   }
   return clubs;
