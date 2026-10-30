@@ -1,0 +1,608 @@
+{
+  "batch": 36,
+  "situation": "level-overall",
+  "voice": "The co-commentator",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb36-001",
+      "text": "{managerA} can take satisfaction from parity, but {managerB} has exactly the same right to it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-002",
+      "text": "When {clubA} and {clubB} land on identical overall totals, there isn't much room for bragging.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-003",
+      "text": "Here's the interesting part for {managerA}: neither manager has an overall edge to protect.",
+      "score": 9,
+      "was": "The interesting bit for {managerA} is that neither manager has an overall edge to protect."
+    },
+    {
+      "id": "cb36-004",
+      "text": "Fortunate? Hardly. {managerB} has had to earn that share of the overall contest.",
+      "score": 10,
+      "was": "I wouldn't call {managerB} fortunate here; being level across the contest has to be earned."
+    },
+    {
+      "id": "cb36-005",
+      "text": "You can dress up {points} apiece however you like, but there is no separation in the overall standings.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-006",
+      "text": "The standings have played the diplomat this time. Neither manager can honestly argue with the overall position.",
+      "score": 9,
+      "was": "A season can change the picture completely, and this one has left the overall picture balanced."
+    },
+    {
+      "id": "cb36-007",
+      "text": "Imagine asking both dugouts for a leader. The standings wouldn't back either answer.",
+      "score": 10,
+      "was": "There may be plenty of opinions from both camps, but the standings have declined to choose between them."
+    },
+    {
+      "id": "cb36-008",
+      "text": "With {clubA}, the point isn't to borrow anyone's credit. The full account gives each camp its due.",
+      "score": 9,
+      "was": "For {clubA}, the important thing is that no rival can point to a superior overall total."
+    },
+    {
+      "id": "cb36-009",
+      "text": "If {managerB} wanted an argument settled, the overall tally has politely declined the invitation.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb36-010",
+      "text": "That's a proper rivalry, isn't it? Different routes through the seasons, exactly the same place overall.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb36-011",
+      "text": "It says plenty that {managerA} and {managerB} can stand beside the same overall total without anyone stepping down.",
+      "score": 9,
+      "was": "{managerA} has a share of the standing, and no more than {managerB} can claim."
+    },
+    {
+      "id": "cb36-012",
+      "text": "My reading is simple. You can't claim superiority that the full standings won't support.",
+      "score": 10,
+      "was": "I like the honesty of this result; no room to claim superiority that the overall figures won't support."
+    },
+    {
+      "id": "cb36-013",
+      "text": "{clubB} has earned a place at the same height as its rival. That's not second best.",
+      "score": 9,
+      "was": "{clubB} has every reason to feel involved; equality overall is not the same as being second best."
+    },
+    {
+      "id": "cb36-014",
+      "text": "Notice what the table doesn't offer {managerA}: an excuse to look down on the other dugout.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb36-015",
+      "text": "Neither {clubA} nor {clubB} can lean on reputation now. The full standing won't favour either badge.",
+      "score": 9,
+      "was": "This is where {clubA} and {clubB} find out how little a reputation is worth without separation."
+    },
+    {
+      "id": "cb36-016",
+      "text": "You don't collect shared standing by accident. Both managers have put something into the same account.",
+      "score": 9,
+      "was": "Nothing's been handed to anyone; this overall tie belongs equally to both sides of the rivalry."
+    },
+    {
+      "id": "cb36-017",
+      "text": "With {points} each overall, the argument about who leads has a wonderfully short answer: neither.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb36-018",
+      "text": "The trick for {managerB} is accepting a share of the spotlight without pretending the other half is empty.",
+      "score": 10,
+      "was": "I'd tell {managerB} to enjoy the symmetry, because neither manager can improve upon the other's claim."
+    },
+    {
+      "id": "cb36-019",
+      "text": "Shared verdict for {managerA} and {managerB}, and neither gets to leave this with the grander claim.",
+      "score": 9,
+      "was": "There's no hiding place in a tie like this; {managerA} and {managerB} must share the verdict."
+    },
+    {
+      "id": "cb36-020",
+      "text": "An accountant might enjoy this balance. A former player wonders which camp can ever feel entirely satisfied.",
+      "score": 10,
+      "was": "At least the overall ledger is easy to read. The difficult bit is deciding what it means."
+    },
+    {
+      "id": "cb36-021",
+      "text": "Across the full campaign, {clubA} and {clubB} have found the same rung. There isn't a higher one occupied.",
+      "score": 9,
+      "was": "You'll struggle to find a gap between {clubA} and {clubB} in the contest's overall column."
+    },
+    {
+      "id": "cb36-022",
+      "text": "For {managerA}, a balanced total doesn't erase the work. It confirms that the other camp has matched it.",
+      "score": 9,
+      "was": "For {managerA}, it's an even balance, not a blank page; the work on both sides still counts."
+    },
+    {
+      "id": "cb36-023",
+      "text": "It's a wonderfully awkward outcome for {managerB}, all that competitive pride with nowhere to claim overall superiority.",
+      "score": 10,
+      "was": "It's a wonderfully awkward outcome for {managerB}; all the competitive pride, none of the overall bragging rights."
+    },
+    {
+      "id": "cb36-024",
+      "text": "Each manager can explain their own seasons, but neither can claim to have outdone the other overall.",
+      "score": 9,
+      "was": "Both camps have made their case through the seasons, and neither has gained the better of the other."
+    },
+    {
+      "id": "cb36-025",
+      "text": "{clubB} doesn't need a grand speech now. The aggregate standing makes its own understated point.",
+      "score": 9,
+      "was": "{clubB} doesn't need a grand speech now; an equal overall total is explanation enough."
+    },
+    {
+      "id": "cb36-026",
+      "text": "You can almost hear the debate starting, but {managerA} won't find an overall advantage to cite.",
+      "score": 9,
+      "was": "I can hear the debate already, but {managerA} won't find an overall advantage to cite."
+    },
+    {
+      "id": "cb36-027",
+      "text": "From where {managerB} stands, the other dugout contains a rival, not a subordinate.",
+      "score": 10,
+      "was": "The overall scoreline has left {managerB} with a rival, not someone to look down on."
+    },
+    {
+      "id": "cb36-028",
+      "text": "Oddly, the quietest conclusion carries the most weight here. Neither has edged the other across the contest.",
+      "score": 9,
+      "was": "There are times when the fairest reading is the least dramatic: both have exactly the same standing."
+    },
+    {
+      "id": "cb36-029",
+      "text": "{clubA} hasn't established supremacy here, and neither has {clubB}. That tension is rather the point.",
+      "score": 9,
+      "was": "{clubA} hasn't established supremacy here, but neither has {clubB}; that tension is rather the point."
+    },
+    {
+      "id": "cb36-030",
+      "text": "Funny how a season ends and the long argument simply lands back in the middle.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb36-031",
+      "text": "{managerB} can make a case for the effort, just not for a lead over {managerA}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-032",
+      "text": "I'd rather have a rivalry this close than a procession, and the overall figures agree.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-033",
+      "text": "Little things matter, like {clubA} having no daylight over its opponent in the overall count.",
+      "score": 9,
+      "was": "The little detail that matters is {clubA} having no daylight over its opponent in the overall count."
+    },
+    {
+      "id": "cb36-034",
+      "text": "Try claiming top billing with identical totals. {managerA} will know why that argument falls flat.",
+      "score": 10,
+      "was": "{managerA} will know there's no shortcut to claiming top billing when the totals are identical."
+    },
+    {
+      "id": "cb36-035",
+      "text": "Look beyond the individual seasons and there's a delicious problem. Nobody sits above the other overall.",
+      "score": 10,
+      "was": "Equal overall points may not settle the question, but they do make the question worth asking."
+    },
+    {
+      "id": "cb36-036",
+      "text": "Excuses are hard to find when this season leaves the overall totals exactly even.",
+      "score": 9,
+      "was": "There's a pleasing lack of room for excuses when the contest has ended this season exactly even overall."
+    },
+    {
+      "id": "cb36-037",
+      "text": "So {clubB} can keep the confidence, but any talk of owning the rivalry will need evidence.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-038",
+      "text": "{managerB} and {managerA} are sharing the same height on this ladder. Neither gets the upper rung.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-039",
+      "text": "No manager is carrying the overall advantage, and that changes the way every achievement is viewed.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-040",
+      "text": "What {clubA} can't do is point to the total and declare this rivalry settled in its favour.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-041",
+      "text": "For {managerB}, an equal total is a foothold, not a crown. {managerA} can stand there too.",
+      "score": 10,
+      "was": "For {managerB}, an equal total is a foothold, not a crown; {managerA} has that foothold too."
+    },
+    {
+      "id": "cb36-042",
+      "text": "Calling it a moral victory for either camp would cheat the other one of proper credit.",
+      "score": 10,
+      "was": "The only honest reading is a draw on the overall standing. No one gets to rewrite that."
+    },
+    {
+      "id": "cb36-043",
+      "text": "{clubA} and {clubB} have produced a competition too balanced to give either a headline of superiority.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-044",
+      "text": "I've seen arguments dressed as trophies, but {managerA} has the same overall claim as the other camp.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-045",
+      "text": "It's got the symmetry of a well kept pitch, and {managerB} can't find an inch beyond the rival.",
+      "score": 9,
+      "was": "This is an unusually neat outcome, and {managerB} won't be able to find an extra inch in the tally."
+    },
+    {
+      "id": "cb36-046",
+      "text": "Level isn't a dirty word in football, especially when the whole Showdown offers neither manager the upper hand.",
+      "score": 9,
+      "was": "There's still pride in being level, especially when the rival has had just as much to offer."
+    },
+    {
+      "id": "cb36-047",
+      "text": "Perfectly balanced, that pair, and football doesn't owe us an outright favourite.",
+      "score": 10,
+      "was": "The pair have taken the overall contest to equality. Football's not always obliged to pick a favourite."
+    },
+    {
+      "id": "cb36-048",
+      "text": "Looking through individual seasons might comfort {managerA}, but the full picture leaves nobody in front.",
+      "score": 9,
+      "was": "{managerA} can examine the individual seasons all day; the overall position remains unchanged."
+    },
+    {
+      "id": "cb36-049",
+      "text": "An advantage would've allowed {clubB} a little swagger. Instead, the opposition has an equally good argument.",
+      "score": 9,
+      "was": "An advantage would have settled the argument for {clubB}. Instead, there's a very well matched opponent."
+    },
+    {
+      "id": "cb36-050",
+      "text": "As it stands, neither camp can hang a sign saying 'leaders' above the door.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb36-051",
+      "text": "That's the measure of {managerB}'s challenge: {clubA} has matched the overall return, point for point.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-052",
+      "text": "Some contests resolve themselves into a pecking order. This one has refused the invitation, and I'm rather glad.",
+      "score": 10,
+      "was": "Some results create distance. This overall reckoning has done the opposite, and that's excellent for the rivalry."
+    },
+    {
+      "id": "cb36-053",
+      "text": "Equal billing suits {managerA}, although {managerB} belongs on the very same line in the programme.",
+      "score": 9,
+      "was": "{managerA} has earned equal billing, though {managerB} is entitled to the same line in the programme."
+    },
+    {
+      "id": "cb36-054",
+      "text": "For {clubB}, there's no gap to chase and none to hide behind. Makes the rivalry rather personal.",
+      "score": 9,
+      "was": "The sharpest point about {clubB} is simple: there is no overall margin to explain away."
+    },
+    {
+      "id": "cb36-055",
+      "text": "Don't ask me to separate them when the Showdown itself hasn't managed it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb36-056",
+      "text": "The souvenir from this season isn't exclusive possession. Both managers take the same overall standing home.",
+      "score": 9,
+      "was": "One manager may prefer the story of a particular season, but the overall conclusion belongs to both."
+    },
+    {
+      "id": "cb36-057",
+      "text": "Fancy an argument for a winner? {managerA} won't find one in this overall tally.",
+      "score": 10,
+      "was": "{managerA} might be searching for a winning argument; the equal tally isn't going to provide it."
+    },
+    {
+      "id": "cb36-058",
+      "text": "Suppose {clubA} asks for top billing. The overall standings won't be persuaded.",
+      "score": 10,
+      "was": "I suppose {clubA} could demand top billing, but the overall standings wouldn't agree with it."
+    },
+    {
+      "id": "cb36-059",
+      "text": "Rather tidy symmetry for {managerB}, and a reminder that neither camp owns this contest.",
+      "score": 9,
+      "was": "There's a tidy piece of symmetry for {managerB}, and a reminder that neither camp owns this contest."
+    },
+    {
+      "id": "cb36-060",
+      "text": "Handing {clubB} the upper hand would be generous, considering its rival has precisely as many points.",
+      "score": 10,
+      "was": "I wouldn't hand {clubB} the upper hand, because you simply can't with totals like these."
+    },
+    {
+      "id": "cb36-061",
+      "text": "Across the seasons, neither camp has found a way to finish above the other.",
+      "score": 9,
+      "was": "The overall column offers no advantage to either camp; what remains is a rivalry on equal terms."
+    },
+    {
+      "id": "cb36-062",
+      "text": "{managerA} and {managerB} have reached parity, which is sometimes harder to live with than a lead.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb36-063",
+      "text": "Take the tape measure to the full contest and there's simply no distance between the managers.",
+      "score": 10,
+      "was": "There's something fitting about an argument this keen ending in a figure neither can beat."
+    },
+    {
+      "id": "cb36-064",
+      "text": "After this season, {clubA} owns an equal overall claim, and nothing has been borrowed.",
+      "score": 9,
+      "was": "The season has left {clubA} with the same overall claim as its opposite number, nothing borrowed."
+    },
+    {
+      "id": "cb36-065",
+      "text": "At the bottom of all the speculation, the totals are identical, and that deserves a little respect.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-066",
+      "text": "{managerB} deserves pride, not precedence. A former player learns to respect that sort of distinction.",
+      "score": 10,
+      "was": "{managerB} is entitled to pride, but not precedence; that's a distinction worth making tonight."
+    },
+    {
+      "id": "cb36-067",
+      "text": "Now there's a result that keeps everyone honest. Neither side can quote the overall standing selectively.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-068",
+      "text": "An overall tie isn't an absence of achievement. Both sides have made their contributions count.",
+      "score": 9,
+      "was": "An overall tie isn't an absence of achievement; it's evidence that both have made theirs count."
+    },
+    {
+      "id": "cb36-069",
+      "text": "{clubB} will be judged alongside {clubA}, not above or below it, and that's quite the pairing.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-070",
+      "text": "I wouldn't be surprised if this became the season both managers measured everything else against.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-071",
+      "text": "Whatever the cabinets hold individually, {managerA} has exactly the same Showdown standing as the rival.",
+      "score": 9,
+      "was": "A lot can be argued from individual honours, but {managerA} can't escape the joint overall position."
+    },
+    {
+      "id": "cb36-072",
+      "text": "Put a ruler along the overall totals and you'll find them at exactly the same height.",
+      "score": 9,
+      "was": "The Showdown has found a perfectly straight line between these managers, with neither stepping in front."
+    },
+    {
+      "id": "cb36-073",
+      "text": "Opinions won't change the verdict. {managerB} has the same overall standing as the rival.",
+      "score": 9,
+      "was": "There's no championship of opinions here; {managerB} has the same overall standing as the rival."
+    },
+    {
+      "id": "cb36-074",
+      "text": "Sometimes the most demanding rival is the one you can't shake off on the overall list.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-075",
+      "text": "{clubA} won't be leaving this season with an overall advantage, and neither will its counterpart.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-076",
+      "text": "That's the trouble with shared standing: every boast needs a footnote acknowledging the other manager.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb36-077",
+      "text": "We talk about momentum, but it doesn't alter the fact that both totals are exactly level.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-078",
+      "text": "Past seasons offer {managerA} encouragement, not a superior return across the contest.",
+      "score": 9,
+      "was": "{managerA} can look at the past seasons for encouragement, not a superior total."
+    },
+    {
+      "id": "cb36-079",
+      "text": "Rather neatly, {clubB} finds itself sharing the overall honours without having to concede any ground.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-080",
+      "text": "There's a difference between no winner and no story. This contest is providing plenty of story.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb36-081",
+      "text": "If {managerB} wants to measure progress, the rival is standing at precisely the same overall mark.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-082",
+      "text": "Measure a close contest by how far apart they finish. In this case, there's no distance.",
+      "score": 9,
+      "was": "The real test of a close contest is whether either can claim an edge. Here, neither can."
+    },
+    {
+      "id": "cb36-083",
+      "text": "{clubA} might have its favourite chapters, but the book still gives {clubB} equal space.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb36-084",
+      "text": "I reckon {managerA} appreciates a challenge, though I wouldn't pretend the standings offer a cushion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-085",
+      "text": "No need to invent a hierarchy for the studio debate. The wider competition has refused to supply one.",
+      "score": 9,
+      "was": "One glance at the overall positions tells you why this rivalry still commands attention: complete equality."
+    },
+    {
+      "id": "cb36-086",
+      "text": "No one has been outscored overall, and that's a fairer tribute to both than any grand declaration.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-087",
+      "text": "{managerB} hasn't got a deficit to chase, but there isn't an advantage to defend either.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-088",
+      "text": "A share of the overall standing can feel generous, until you notice the other manager has it too.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-089",
+      "text": "It's the sort of shared outcome that makes the next conversation far more interesting than the last.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-090",
+      "text": "{clubB} can file the season away with pride, but the overall honours remain shared.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-091",
+      "text": "Against {managerA}, nobody holds the higher overall ground, and that is a serious measure of the rivalry.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-092",
+      "text": "We've arrived at the only verdict these totals permit: evenly matched, without a rightful leader.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb36-093",
+      "text": "For {managerB}, there isn't lost ground to recover, only ground the rival already shares.",
+      "score": 9,
+      "was": "The challenge for {managerB} is not recovering lost ground; it's finding some ground the rival doesn't share."
+    },
+    {
+      "id": "cb36-094",
+      "text": "It's hard not to admire a rivalry where {clubA} and {clubB} remain impossible to separate.",
+      "score": 9,
+      "was": "There's plenty to admire in a contest where {clubA} and {clubB} cannot be separated overall."
+    },
+    {
+      "id": "cb36-095",
+      "text": "That little space reserved for an overall leader is empty, and neither manager can claim it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-096",
+      "text": "If you find a superior total for {managerA}, do let me know. I've looked and there's nothing there.",
+      "score": 10,
+      "was": "You'd have to be extremely creative to see a superior total for {managerA}; I prefer the straightforward reading."
+    },
+    {
+      "id": "cb36-097",
+      "text": "Whatever either camp expected, the season has brought an unusual certainty: neither holds the upper hand overall.",
+      "score": 9,
+      "was": "For both camps, the season has brought an unusual certainty: neither holds the upper hand overall."
+    },
+    {
+      "id": "cb36-098",
+      "text": "Equal standing leaves {clubB} with plenty to value, and no licence to dismiss the opposition.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-099",
+      "text": "It tells you something about the rivalry when an entire season leaves the overall balance perfectly even.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb36-100",
+      "text": "No need for a dramatic verdict from me. The managers are level, and that speaks loudly enough.",
+      "score": 10,
+      "was": null
+    }
+  ]
+}
