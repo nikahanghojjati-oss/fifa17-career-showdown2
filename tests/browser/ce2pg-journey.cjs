@@ -575,7 +575,7 @@ async function playTransfers(daniel,nik,tag){
   await privateTokenAbsent(nik,tokenD.split(" ")[0],`${showdownNow}.S${seasonNow}.transfer.privacy`,"Daniel's locked signing stays hidden from Nik before completion");
   await waitTransferState(nik,"signingLockedRoles","playerOne");await waitTransferPhase(nik,"signing_entry");
   await budgetWait("transfer-signings");
-  await nik.page.locator("#p2Signing1Name").fill(tokenN);await nik.page.locator("#p2Signing1Overall").fill("71");await nik.page.locator("#p2Signing1Position").selectOption("ST");await fillCombo(nik,"p2Signing1League","TIM Serie A");await fillCombo(nik,"p2Signing1Nationality","Brazil");
+  await nik.page.locator("#p2Signing1Name").fill(tokenN);await nik.page.locator("#p2Signing1Overall").fill("71");await nik.page.locator("#p2Signing1Position").selectOption("ST");await fillCombo(nik,"p2Signing1League","Serie A TIM");await fillCombo(nik,"p2Signing1Nationality","Brazil");
   await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
 }

@@ -284,7 +284,7 @@ async function playTransferSeason(daniel,nik,season,tokenD,tokenN){
   await assertPrivateTokenAbsent(nik,tokenD.split(" ")[0],`season ${season} Daniel signing privacy`);
   await waitTransferState(nik,"signingLockedRoles","playerOne");await waitTransferPhase(nik,"signing_entry");
   await assertPrivateTokenAbsent(nik,tokenD.split(" ")[0],`season ${season} Daniel signing privacy after Nik read the lock`);
-  await nik.page.locator("#p2Signing1Name").fill(tokenN);await nik.page.locator("#p2Signing1Overall").fill("71");await nik.page.locator("#p2Signing1Position").selectOption("ST");await fillTransferCombo(nik,"p2Signing1League","TIM Serie A");await fillTransferCombo(nik,"p2Signing1Nationality","Brazil");
+  await nik.page.locator("#p2Signing1Name").fill(tokenN);await nik.page.locator("#p2Signing1Overall").fill("71");await nik.page.locator("#p2Signing1Position").selectOption("ST");await fillTransferCombo(nik,"p2Signing1League","Serie A TIM");await fillTransferCombo(nik,"p2Signing1Nationality","Brazil");
   await assertPrivateTokenAbsent(daniel,tokenN.split(" ")[0],`season ${season} Nik signing privacy`);
   await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
@@ -587,7 +587,7 @@ async function main(){
     await assertPrivateTokenAbsent(nik,"QWX","after Daniel signing lock but before COMPLETED");
 
     await nik.page.locator("#p2Signing1Name").fill("ZPV Nik Signing");await nik.page.locator("#p2Signing1Overall").fill("71");await nik.page.locator("#p2Signing1Position").selectOption("ST");
-    await fillTransferCombo(nik,"p2Signing1League","TIM Serie A");
+    await fillTransferCombo(nik,"p2Signing1League","Serie A TIM");
     await fillTransferCombo(nik,"p2Signing1Nationality","Brazil");
     await assertPrivateTokenAbsent(daniel,"ZPV","before transfer completion on Daniel");
     ok("J6.4","unfinished rival signings remain absent from rendered text and every input value");

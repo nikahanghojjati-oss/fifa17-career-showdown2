@@ -1061,18 +1061,55 @@ html[data-reduced-motion="true"] #app #transferChallenge .tw-host :is(.ddHeadlin
 #transferChallenge .tw-host .signing-row select.signingPosition:disabled { color: var(--cream); -webkit-text-fill-color: var(--cream); opacity: 1; cursor: default; }
 /* the size blocks above set field padding; the position box keeps room for its arrow at every size */
 #app #transferChallenge .tw-host .signing-name-cell > select.signingPosition.signingPosition { padding: 0 14px 0 4px; }
-/* r87 (Nik 2026-10-30 16:54 UTC: "no overlap, no collision"): with POS and OVR beside it the name needs its own line at every
-   size, so each own signing is two lines everywhere, as phones already were: name, POS, OVR on top, league and nationality
-   below. The name keeps 120px+ and nothing shrinks to a sliver. */
+/* r87 (Nik 2026-10-30 16:54 UTC: "no overlap, no collision"): below the laptop layout each own signing is two lines, as
+   phones already were: name, POS, OVR on top, league and nationality below. The name keeps 120px+. (Laptops keep one line
+   in a wider own panel, below, so the panels stay low and the faces stay visible: Nik 21:29 UTC.) */
+@media (max-width: 1100px) {
 #app #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly):has(> .signing-name-cell):not(#tw-r87) {
   grid-template-columns: max(20px, calc(var(--k, 1) * 16px)) minmax(0, 1fr) minmax(0, 1fr); row-gap: 5px;
 }
 #app #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly):has(> .signing-name-cell):not(#tw-r87) > .guess-num { grid-row: 1 / 3; }
 #app #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly):not(#tw-r87) > .signing-name-cell { grid-column: 2 / 4; grid-template-columns: minmax(120px, 1fr) minmax(62px, 4.4em) minmax(46px, 3.6em); }
-/* With two-line signings the laptop panels rise to the floating YOU chip's spot. In Nik's view that chip (anchored left of
-   the plate's x 124) would sit under Daniel's panel, so on the signing screen Nik's YOU moves into his own panel title,
-   as on phones. Daniel's chip sits left of his own panel and stays. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
-  #app #transferChallenge .tw-host:has(.signing-name-cell) .you-chip.anchor-left { display: none !important; }
-  #app #transferChallenge .tw-host:has(.signing-name-cell):has(.you-chip.anchor-left) .panel.own .panel-title .chip-you.m-only { display: inline-flex !important; }
+}
+/* r87 laptops (Nik 2026-10-30 21:29 UTC: "picture visibility for faces is very important"; 21:30: "the third box seems
+   redundant"): while signings are entered the status card only repeated the panel's own privacy line, so it is hidden
+   (its error line sits beside LOCK MY SIGNINGS instead, js/transferScreenV10.js) and the two panels share its width.
+   Signing rows stay one line, so the panels stay low under the faces. Plate pixels, as the grid above. */
+@media (min-width: 1101px) {
+  #app #transferChallenge .tw-host .tw-desktop-content .rules-card.with-summary { display: none; }
+  #app #transferChallenge .tw-host .tw-desktop-content:has(.rules-card.with-summary) {
+    grid-template-columns: calc(860 * var(--tw-k)) calc(30 * var(--tw-k)) calc(515 * var(--tw-k)) 0 0;
+  }
+  #app #transferChallenge .tw-host .tw-desktop-content:has(.rules-card.with-summary):has(.panel.own[data-panel="A"]) {
+    grid-template-columns: calc(515 * var(--tw-k)) calc(30 * var(--tw-k)) calc(860 * var(--tw-k)) 0 0;
+  }
+  #app #transferChallenge .tw-host .tw-desktop-content .signing-row.signingRow:not(.is-readonly):has(> .signing-name-cell):not(#tw-r87) {
+    grid-template-columns: 16px minmax(0, 2.6fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+  #app #transferChallenge .tw-host .tw-desktop-content .signing-row.signingRow:not(.is-readonly):not(#tw-r87) > .signing-name-cell { grid-template-columns: minmax(96px, 1fr) minmax(62px, 4.4em) minmax(46px, 3.6em); }
+}
+/* r87 search lists (Nik 2026-10-30 21:39 UTC: "searching and scrolling these lists ... good to use, accessible, enough
+   space"): the league and nationality list opens under its box, in the page's flow so it never covers another field, and
+   scrolls on its own: about five rows show, every FIFA 17 option is reachable, and a drag scrolls without picking
+   (js/transferSelector.js). Rows are 44px+ tap targets in the Transfer War black-and-gold. */
+#app #transferChallenge .tw-host .transferCombobox > .transferComboboxList.transferComboboxList {
+  position: static; inset: auto; width: 100%; min-width: 0; margin-top: 4px; box-sizing: border-box;
+  max-height: min(262px, 42svh); overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin; scrollbar-color: rgba(242, 196, 91, .7) transparent;
+  background: #0b0906; border: 1px solid rgba(242, 196, 91, .72); border-top: 3px solid var(--gold, #f2c45b); border-radius: 3px;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, .28), 0 0 0 1px #000;
+}
+#app #transferChallenge .tw-host .transferComboboxList .transferComboboxOption {
+  min-height: 48px; padding: 7px 12px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center;
+  color: #f4ecd8; background: transparent; border-bottom: 1px solid rgba(242, 196, 91, .16); cursor: pointer;
+  white-space: normal; overflow-wrap: break-word; touch-action: pan-y;
+}
+#app #transferChallenge .tw-host .transferComboboxList .transferComboboxOption strong { font-family: var(--cond, inherit); font-weight: 600; font-size: 15px; line-height: 1.2; letter-spacing: .01em; }
+#app #transferChallenge .tw-host .transferComboboxList .transferComboboxOption span { margin-top: 2px; font-size: 12px; line-height: 1.2; color: rgba(214, 196, 150, .82); }
+#app #transferChallenge .tw-host .transferComboboxList .transferComboboxOption:is(.active, :hover) { background: rgba(242, 196, 91, .16); color: #fff6dc; box-shadow: inset 3px 0 0 var(--gold, #f2c45b); }
+#app #transferChallenge .tw-host .transferComboboxList .transferComboboxOption:is(.active, :hover) span { color: #e9d9a8; }
+#app #transferChallenge .tw-host .transferComboboxList .transferComboboxEmpty { padding: 14px 12px; color: #d6c496; font-size: 14px; }
+#app #transferChallenge .tw-host .transferCombobox > .transferComboboxList { scroll-margin: 12px 0 24px; }
+@media (max-width: 760px) and (orientation: portrait) {
+  #app #transferChallenge .tw-host .transferCombobox > .transferComboboxList { scroll-margin: 12px 0 calc(var(--footer-h, 56px) + var(--phone-action-h, 48px) + 28px); }
 }
