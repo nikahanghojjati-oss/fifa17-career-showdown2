@@ -1,0 +1,608 @@
+{
+  "batch": 39,
+  "situation": "opening-season",
+  "voice": "The co-commentator",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb39-001",
+      "text": "Before anybody starts predicting eras, there's a completed result to respect, and {winner} has earned that respect.",
+      "score": 9,
+      "was": "{winner} has set the early standard, and the clever part is making it count before the rivalry finds its rhythm."
+    },
+    {
+      "id": "cb39-002",
+      "text": "That opening verdict belongs to {winner}, though {loser} has plenty of the contest left to answer it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb39-003",
+      "text": "Nobody wins a lasting argument in the opening chapter, but {winner} has certainly chosen the subject.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb39-004",
+      "text": "Quite a way to introduce yourself, {winnerClub}, although introductions don't win the rest of an argument.",
+      "score": 10,
+      "was": "For {winnerClub}, a fine way to begin, and now comes the less glamorous business of doing it again."
+    },
+    {
+      "id": "cb39-005",
+      "text": "Confidence follows a decent beginning, but {winnerClub} won't find a guarantee attached to the result.",
+      "score": 9,
+      "was": "The advantage of striking early is obvious, but keeping {winner} there will be the real examination."
+    },
+    {
+      "id": "cb39-006",
+      "text": "An early setback can be useful to {loser}, if more energy goes into responding than explaining it.",
+      "score": 9,
+      "was": "{loser} will dislike the opening result, naturally, yet there's enough road ahead to make it useful motivation."
+    },
+    {
+      "id": "cb39-007",
+      "text": "You can prepare for a rivalry all you like, but the first completed season gives it proper shape.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb39-008",
+      "text": "There is a difference between setting out your intentions and banking a season victory, as {winner} knows now.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb39-009",
+      "text": "From a standing start, {winnerClub} has found the better footing, and that matters in a long contest.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb39-010",
+      "text": "Bragging rights are lovely, but you'll notice they don't defend themselves when the next comparison arrives.",
+      "score": 9,
+      "was": "The early bragging rights go to {winner}, but the serious work is what happens after the congratulations."
+    },
+    {
+      "id": "cb39-011",
+      "text": "Comfort belongs to {winner} for now. The other manager has a fresh reason to get back to work.",
+      "score": 9,
+      "was": "An opening victory buys {winner} something valuable, the freedom to let the rival do the chasing."
+    },
+    {
+      "id": "cb39-012",
+      "text": "I'd leave {winnerClub}'s cabinet shut for now, because opening honors aren't the same thing as a finished Showdown.",
+      "score": 9,
+      "was": "That is a good first entry for {winnerClub}, even if nobody should start polishing the final trophy yet."
+    },
+    {
+      "id": "cb39-013",
+      "text": "For {loserClub}, the task changes immediately, but the season just finished is not the whole story.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb39-014",
+      "text": "Here's the thing about starting well, you set an expectation that can become as demanding as a deficit.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb39-015",
+      "text": "Early credit is earned, not borrowed. That's the pleasing thing about {winner}'s first result.",
+      "score": 9,
+      "was": "{winner} has made a statement without needing any theatrics, and that often carries further."
+    },
+    {
+      "id": "cb39-016",
+      "text": "Consider that our opening reference point. Future campaigns will have to live with it.",
+      "score": 9,
+      "was": "The ledger has its first leader, but there's no reason yet to mistake a lead for a conclusion."
+    },
+    {
+      "id": "cb39-017",
+      "text": "Good starts are useful, though {winner} will know the next campaign asks the question all over again.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb39-018",
+      "text": "From {loser}'s side, this is a setback rather than a sentence, and the distinction matters.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb39-019",
+      "text": "Banked points won't lose value just because {winnerClub} earned them before the rivalry had much history.",
+      "score": 9,
+      "was": "Early points are no less valuable for arriving early, and {winnerClub} has earned that advantage."
+    },
+    {
+      "id": "cb39-020",
+      "text": "Suddenly the screen has an order, and that order already comes with a story worth telling.",
+      "score": 9,
+      "was": "Nothing's settled overall, but there's already a name attached to the opening chapter, {winner}."
+    },
+    {
+      "id": "cb39-021",
+      "text": "I'd enjoy the applause if I were {winner}, but I'd also ask how repeatable that advantage really is.",
+      "score": 9,
+      "was": "{winner} will enjoy this result, rightly, though the better lesson is how quickly the scoreboard becomes real."
+    },
+    {
+      "id": "cb39-022",
+      "text": "There's a pleasant luxury to starting in front, you don't need permission to enjoy it.",
+      "score": 9,
+      "was": "A head start is still a head start, however politely {loser} might describe the difference."
+    },
+    {
+      "id": "cb39-023",
+      "text": "Odd thing about early rankings, they matter immediately yet remain entirely open to challenge.",
+      "score": 9,
+      "was": "The opening exchange belongs to {winnerClub}, and there's no point pretending the order is unimportant."
+    },
+    {
+      "id": "cb39-024",
+      "text": "What was speculation is a result now, and {winner} can take real satisfaction from that.",
+      "score": 9,
+      "was": "For all the anticipation, the season has ended in a very plain fact, {winner} has come out ahead."
+    },
+    {
+      "id": "cb39-025",
+      "text": "There'll be talk about momentum, but at this stage I'd settle for calling it a useful beginning.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb39-026",
+      "text": "Having {winner} set the initial mark makes this a more interesting challenge for the rival.",
+      "score": 9,
+      "was": "{loserClub} has something to measure itself against now, which is often how a proper rivalry starts."
+    },
+    {
+      "id": "cb39-027",
+      "text": "Forecasts are free. {winner} has won a completed season, which costs rather more than optimism.",
+      "score": 9,
+      "was": "No need for grand predictions, {winner} has won the only campaign we've actually seen completed."
+    },
+    {
+      "id": "cb39-028",
+      "text": "On a blank page, {winnerClub}'s initial entry can look enormous. Its real value will be tested later.",
+      "score": 9,
+      "was": "The first line of this contest is written, and it gives {winner} a welcome position to defend."
+    },
+    {
+      "id": "cb39-029",
+      "text": "Some managers want to settle the debate immediately. Sensible ones just enjoy the early advantage.",
+      "score": 9,
+      "was": "Some advantages grow with time, while others disappear, so {winnerClub} should enjoy this one responsibly."
+    },
+    {
+      "id": "cb39-030",
+      "text": "You'd rather be the manager being pursued, and {winner} has arranged exactly that at the outset.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb39-031",
+      "text": "Not a bad introduction from {winnerClub}, though repeat business is where reputations are made.",
+      "score": 9,
+      "was": "{winner} has taken the initiative, but the season ahead won't be impressed by the one just finished."
+    },
+    {
+      "id": "cb39-032",
+      "text": "It's a curious thing about an early lead, it makes both managers rather more interested in the next result.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb39-033",
+      "text": "{loser} hasn't lost the argument, only the opening exchange, and that is worth remembering.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb39-034",
+      "text": "At the beginning, {winnerClub}'s form is worth discussing because it has actually earned points.",
+      "score": 9,
+      "was": "At this stage, {winnerClub} has evidence of success rather than a promise of it."
+    },
+    {
+      "id": "cb39-035",
+      "text": "Starting out tells {loser} where the contest stands, not where every chapter must end.",
+      "score": 9,
+      "was": "The first season answers who began better, not who will have the final word."
+    },
+    {
+      "id": "cb39-036",
+      "text": "It's nice when {winner} turns an argument about potential into an argument about results. Easier to referee.",
+      "score": 9,
+      "was": "{winner} has converted anticipation into a real advantage, which is rather harder than talking about ambition."
+    },
+    {
+      "id": "cb39-037",
+      "text": "Those standings are no longer theoretical, and {loser} now has a practical question to answer.",
+      "score": 9,
+      "was": "There's no mystery about the opening standings, although there is plenty about where they go next."
+    },
+    {
+      "id": "cb39-038",
+      "text": "An early result can shape the mood for ages, and {loserClub} will want to change that mood.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb39-039",
+      "text": "I suspect {winner} would prefer another season victory to any amount of early applause.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb39-040",
+      "text": "Before we get carried away, {winnerClub}'s victory is the important thing. Explanations can follow.",
+      "score": 9,
+      "was": "This is where rivalry becomes measurable, and {winnerClub} has the opening entry in its favor."
+    },
+    {
+      "id": "cb39-041",
+      "text": "Standing in front this early can be awkward for {winner}. You're the standard everybody starts measuring against.",
+      "score": 9,
+      "was": "{winner}'s reward is the lead, and the inconvenience is that everybody now expects it to be defended."
+    },
+    {
+      "id": "cb39-042",
+      "text": "I like that {winner} has let the points do the talking. They don't tend to get carried away.",
+      "score": 9,
+      "was": "The scoreboard finally has an answer, but it certainly hasn't run out of questions."
+    },
+    {
+      "id": "cb39-043",
+      "text": "{loser} can use that opening gap as a measuring stick, rather than treating it as a personal verdict.",
+      "score": 10,
+      "was": "{loser} can take this as useful information, because knowing the gap is better than imagining it."
+    },
+    {
+      "id": "cb39-044",
+      "text": "No more negotiating about who might start strongly. {winner} has established a proper benchmark.",
+      "score": 9,
+      "was": "At the outset, {winnerClub} has established the reference point, and that's a tidy piece of business."
+    },
+    {
+      "id": "cb39-045",
+      "text": "I'd say the initial verdict is encouraging, and I'd leave the grander verdicts for another time.",
+      "score": 9,
+      "was": "{winner} couldn't have asked for the verdict to start differently, though the next verdict may be tougher."
+    },
+    {
+      "id": "cb39-046",
+      "text": "Think of this initial victory as an achievement, not a family heirloom. It still needs looking after.",
+      "score": 10,
+      "was": "One campaign won't establish a dynasty, but it can establish who gets to smile first."
+    },
+    {
+      "id": "cb39-047",
+      "text": "If {loserClub} responds well, this result may turn out to be the spark rather than the story.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb39-048",
+      "text": "Satisfying for {winner} to have the early edge. Dangerous to treat it like a permanent appointment.",
+      "score": 9,
+      "was": "A better opening season for {winner}, and now the difficult bit is refusing to treat it as sufficient."
+    },
+    {
+      "id": "cb39-049",
+      "text": "That's the first piece of evidence in the case, and {winner} can feel good about presenting it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb39-050",
+      "text": "For once, the arguments about potential can stop. We've got a completed campaign and a winner.",
+      "score": 9,
+      "was": "For once, the hypothetical arguments can stop, the first completed season has a winner."
+    },
+    {
+      "id": "cb39-051",
+      "text": "This makes every future comparison a little sharper. From now on, someone has a lead to protect.",
+      "score": 9,
+      "was": "{winner} has put something tangible into the rivalry, which is more useful than a thousand predictions."
+    },
+    {
+      "id": "cb39-052",
+      "text": "You'll notice how an opening lead changes the language, suddenly {loser} is the one being asked to respond.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb39-053",
+      "text": "Fresh standings have given {loserClub} a proper benchmark, though there's room to answer it.",
+      "score": 9,
+      "was": "The initial standings favor {winnerClub}, but they're a starting point, not a souvenir."
+    },
+    {
+      "id": "cb39-054",
+      "text": "You can't order success in bulk, {winner}, just because the first delivery arrived. That's football.",
+      "score": 10,
+      "was": "There is a temptation to overread an early success, and {winner} would be wise to resist it."
+    },
+    {
+      "id": "cb39-055",
+      "text": "Don't make {loser} carry this setback around forever. There are better uses for a lesson.",
+      "score": 10,
+      "was": "{loser} has had the less pleasant introduction, though there's no shortage of opportunity to improve the next edition."
+    },
+    {
+      "id": "cb39-056",
+      "text": "Without that initial result, rivalry is mainly talk. Now there's something both managers can chew over.",
+      "score": 9,
+      "was": "A new rivalry needs a benchmark, and {winnerClub} has supplied a rather persuasive one."
+    },
+    {
+      "id": "cb39-057",
+      "text": "You've got to respect an opening result, even when you know how little history sits behind it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb39-058",
+      "text": "That initial mark from {winnerClub} looks promising. Maintaining the standard is the real examination.",
+      "score": 9,
+      "was": "{winner} begins with the upper hand, and it takes effort to turn that into a habit."
+    },
+    {
+      "id": "cb39-059",
+      "text": "Those early points will count just the same later. That's the quiet beauty of banking them now.",
+      "score": 9,
+      "was": "Those early points count just the same later, which is why this first success matters."
+    },
+    {
+      "id": "cb39-060",
+      "text": "{loserClub} won't be pleased with the opening entry, but it has a perfectly good reason to come back stronger.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb39-061",
+      "text": "Consider the formal introductions complete, {winner} has put the first competitive mark on the page.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb39-062",
+      "text": "Promise is lovely, but actual points look better in the standings than any amount of hopeful talk.",
+      "score": 9,
+      "was": "A promising start for {winnerClub}, though promises aren't much use unless the next campaign backs them up."
+    },
+    {
+      "id": "cb39-063",
+      "text": "Now there's a leader, which means pressure at the front as well as a challenge for the chaser.",
+      "score": 9,
+      "was": "Now we have a leader, and that puts pressure on the person at the front as well as the one behind."
+    },
+    {
+      "id": "cb39-064",
+      "text": "Taking the opening loss is unpleasant for {loser}. Treating it as the final word would be a bigger mistake.",
+      "score": 10,
+      "was": "{loser} has been given a challenge rather than a verdict on the whole Showdown."
+    },
+    {
+      "id": "cb39-065",
+      "text": "Early success changes the conversation from hoping to proving. That's a nice problem to have.",
+      "score": 9,
+      "was": "The value of an early victory is simple, {winner} has made future success a matter of building, not beginning."
+    },
+    {
+      "id": "cb39-066",
+      "text": "Let's not pretend we can see the ending from here. We can see a very solid beginning.",
+      "score": 9,
+      "was": "You can hear the confidence in that result, at least metaphorically, but I wouldn't call the contest decided."
+    },
+    {
+      "id": "cb39-067",
+      "text": "{winnerClub} has arrived at the rivalry's opening checkpoint with something solid to show for the journey.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb39-068",
+      "text": "There are easier jobs than catching a rival who has already won the first completed season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb39-069",
+      "text": "Breathing room at the start isn't bad, particularly when the other manager has to respond.",
+      "score": 9,
+      "was": "{winner} has earned a little breathing space, although I doubt the next campaign will let it stay comfortable."
+    },
+    {
+      "id": "cb39-070",
+      "text": "From {loserClub}'s perspective, the useful thing is that the target is no longer theoretical.",
+      "score": 9,
+      "was": "For {loserClub}, the useful thing is that the target is no longer theoretical."
+    },
+    {
+      "id": "cb39-071",
+      "text": "My response to {winner} would be simple, enjoy this result, then check the next job on the list.",
+      "score": 9,
+      "was": "{winner} has claimed the opening honors, and if I were the rival I'd keep the reply short and practical."
+    },
+    {
+      "id": "cb39-072",
+      "text": "So the result goes on the board, and straightaway there's a new reason to be interested.",
+      "score": 9,
+      "was": "So the first result goes on the board, and immediately there's something worth playing for next time."
+    },
+    {
+      "id": "cb39-073",
+      "text": "Being ahead so early can look effortless on the screen. It rarely feels effortless to maintain.",
+      "score": 9,
+      "was": "The better start belongs to {winnerClub}, but nobody gets to keep that advantage on reputation alone."
+    },
+    {
+      "id": "cb39-074",
+      "text": "Don't confuse the opening pace with the finishing order, even if {winner} has every right to celebrate it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb39-075",
+      "text": "I'd call this an invitation to respond, rather than a reason for anyone to lose confidence.",
+      "score": 9,
+      "was": "{loser} has discovered how unforgiving an early comparison can feel, but the future remains open."
+    },
+    {
+      "id": "cb39-076",
+      "text": "At last we've got a verdict on an actual season, rather than who fancied their chances beforehand.",
+      "score": 9,
+      "was": "It matters that {winner} has actually won the season, rather than merely looked the stronger candidate."
+    },
+    {
+      "id": "cb39-077",
+      "text": "First impressions can be corrected, though {winnerClub} would quite like this one to become permanent.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb39-078",
+      "text": "It's {loserClub}'s problem to solve, not a reason to rewrite the whole ambition.",
+      "score": 9,
+      "was": "That opening gap is something {loserClub} can work with, not a reason to rewrite the whole ambition."
+    },
+    {
+      "id": "cb39-079",
+      "text": "Holding the front position is lovely, provided you're prepared for somebody wanting it back.",
+      "score": 9,
+      "was": "{winner} has taken the seat at the front, and the rival will be looking to change the arrangement."
+    },
+    {
+      "id": "cb39-080",
+      "text": "There's a difference between starting a rivalry and shaping it. A season victory does the latter.",
+      "score": 9,
+      "was": "A season result gives the rivalry a backbone, with {winner} earning the initial advantage."
+    },
+    {
+      "id": "cb39-081",
+      "text": "Panic would be a terrible opening move. A measured response would suit the chasing side much better.",
+      "score": 9,
+      "was": "The sensible response for {loser} is not panic, it's finding an answer over the next campaign."
+    },
+    {
+      "id": "cb39-082",
+      "text": "Rivalries have more bite when the initial result gives everyone something definite to discuss.",
+      "score": 9,
+      "was": "Every long contest needs an opening result, and this one has favored {winnerClub}."
+    },
+    {
+      "id": "cb39-083",
+      "text": "No sense reading the entire future from this result, but you'd certainly prefer to be {winner}.",
+      "score": 10,
+      "was": "You wouldn't claim the whole prize on this evidence, but you'd certainly prefer to be {winner}."
+    },
+    {
+      "id": "cb39-084",
+      "text": "{loserClub} now knows the standard required, and that can sharpen the next chapter considerably.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb39-085",
+      "text": "What stands out is that {winner} has started by earning points, rather than borrowing confidence from expectation.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb39-086",
+      "text": "That verdict decides the first installment. Anything beyond it still needs earning.",
+      "score": 9,
+      "was": "The first season's verdict is decisive for the season, not for everything still ahead."
+    },
+    {
+      "id": "cb39-087",
+      "text": "Enjoy the early advantage, by all means, but the next challenge won't be won by nostalgia.",
+      "score": 10,
+      "was": "{winnerClub} has handled the opening business, and now the challenge becomes keeping the same appetite."
+    },
+    {
+      "id": "cb39-088",
+      "text": "Fair play to {loser}, there are worse ways to begin a rivalry than with a challenge worth answering.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb39-089",
+      "text": "There's a lot to like about an opening win, not least the awkward questions it hands the other manager.",
+      "score": 9,
+      "was": "{winner} gets the early headlines, but the real pleasure will be seeing whether this result has staying power."
+    },
+    {
+      "id": "cb39-090",
+      "text": "My advice to {winnerClub} would be to frame the opening lead, not get too comfortable admiring it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb39-091",
+      "text": "Nothing is gained by confusing an early disappointment with a lack of opportunity.",
+      "score": 9,
+      "was": "{loser} has a reason to remember this first result, and an equally good reason to move beyond it."
+    },
+    {
+      "id": "cb39-092",
+      "text": "That is how a contest acquires meaning, someone takes charge and someone else finds a reason to respond.",
+      "score": 9,
+      "was": "That is how a contest acquires meaning, someone takes the lead and someone else sets about reclaiming it."
+    },
+    {
+      "id": "cb39-093",
+      "text": "Nobody's entitled to write the ending, even the manager holding the opening advantage.",
+      "score": 9,
+      "was": "{winner} has earned the right to set the tone, if not the right to dictate the ending."
+    },
+    {
+      "id": "cb39-094",
+      "text": "Early success deserves appreciation, but it doesn't need a commemorative plaque just yet.",
+      "score": 10,
+      "was": "An opening success makes the season worth remembering for {winnerClub}, not worth declaring the whole argument over."
+    },
+    {
+      "id": "cb39-095",
+      "text": "We're finally judging what's been achieved, not what anyone hoped would happen. A welcome change.",
+      "score": 10,
+      "was": "The conversation has shifted from what might happen to what {winner} has already achieved."
+    },
+    {
+      "id": "cb39-096",
+      "text": "{loserClub} faces a proper challenge now, and these are the moments that make a rivalry interesting.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb39-097",
+      "text": "I wouldn't commission a statue on this evidence. I'd certainly acknowledge a very capable beginning.",
+      "score": 10,
+      "was": "I wouldn't put a final flourish on an opening chapter, but {winner} has written a convincing first paragraph."
+    },
+    {
+      "id": "cb39-098",
+      "text": "As introductions go, {winnerClub} has been rather more persuasive, and now we're interested in the sequel.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb39-099",
+      "text": "Let the leader enjoy the view, but it would be unwise to turn away from the rival.",
+      "score": 9,
+      "was": "{winner} is out in front at the beginning, but the clever money still keeps an eye on both managers."
+    },
+    {
+      "id": "cb39-100",
+      "text": "Quite a start, but respect earned now doesn't keep the rival quiet forever.",
+      "score": 9,
+      "was": "A first season creates an advantage, not an entitlement, and that's the point {winner} must remember."
+    }
+  ]
+}
