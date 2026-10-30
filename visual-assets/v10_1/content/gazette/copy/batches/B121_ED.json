@@ -1,0 +1,608 @@
+{
+  "batch": 121,
+  "situation": "big-win",
+  "voice": "The radio poet",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb121-001",
+      "text": "Beyond the near horizon, {winner} has carried this season into territory the rival could scarcely glimpse.",
+      "score": 10,
+      "was": "Across the long season, {winner} kept climbing while the distance behind grew into a landscape of its own."
+    },
+    {
+      "id": "cb121-002",
+      "text": "At this season's finish, {winnerClub} stands on a distant peak, well beyond the chasing total.",
+      "score": 9,
+      "was": "At the closing whistle of this campaign, {winnerClub} stands far above the chasing pack in this rivalry."
+    },
+    {
+      "id": "cb121-003",
+      "text": "Ink dries on the closing totals, and {winner} holds a season victory that leaves no question hanging.",
+      "score": 9,
+      "was": "From the first column to the last, this season belongs to {winner}, and the gap speaks plainly."
+    },
+    {
+      "id": "cb121-004",
+      "text": "Turn the season's last page, and you'll find a winning name engraved in letters that refuse to shrink.",
+      "score": 10,
+      "was": "The season's final page has room for debate, but the winning name is written in enormous letters."
+    },
+    {
+      "id": "cb121-005",
+      "text": "Some victories arrive by inches, yet {winner} has left a whole stretch of country between the rivals.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-006",
+      "text": "Under those closing figures, {winnerClub} has turned the season's conclusion into a bold piece of punctuation.",
+      "score": 9,
+      "was": "Under the glow of the final standings, {winnerClub} has given this season a remarkably decisive ending."
+    },
+    {
+      "id": "cb121-007",
+      "text": "Hear the verdict approaching, {winner} has claimed the summit while the chasing path winds far below.",
+      "score": 10,
+      "was": "Here is the shape of a commanding season, {winner} in front and a long road back for the rival."
+    },
+    {
+      "id": "cb121-008",
+      "text": "What a gulf has opened here, and {loser} now has a shining target for the season to come.",
+      "score": 9,
+      "was": "What a gulf has opened here, and {loser} must look toward the next campaign for an answer."
+    },
+    {
+      "id": "cb121-009",
+      "text": "Listen closely, there's an echo in these standings, and {winner} is a long way beyond its source.",
+      "score": 9,
+      "was": "Listen to the distance in that verdict, {winner} has carried this season well beyond a close contest."
+    },
+    {
+      "id": "cb121-010",
+      "text": "For {winnerClub}, the reward is more than a win, it's the rare comfort of room to spare.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-011",
+      "text": "A narrow win might murmur, but this campaign has finished with the full voice of a cathedral bell.",
+      "score": 10,
+      "was": "A season can finish with a whisper, but this one closes on a firm and unmistakable note."
+    },
+    {
+      "id": "cb121-012",
+      "text": "By the time the ink has dried, {winner} has made that gulf impossible to mistake.",
+      "score": 9,
+      "was": "By the last line of the season, {winner} has made the separation impossible to overlook."
+    },
+    {
+      "id": "cb121-013",
+      "text": "On this occasion, the comparison needs no magnifying glass, {winnerClub} has taken the larger share by far.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-014",
+      "text": "No microscope is needed here, a season's work has produced a lead you could see from orbit.",
+      "score": 10,
+      "was": "There is no narrow passage to explain, only a commanding advantage built across a full campaign."
+    },
+    {
+      "id": "cb121-015",
+      "text": "Between {winner} and {loser} lies a margin large enough to set the tone for their next encounter.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-016",
+      "text": "This is a season victory with weight behind it, the kind that stays visible long after the page turns.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-017",
+      "text": "Out in front, {winner} has left the totals scattered like villages along a winding road.",
+      "score": 10,
+      "was": "Out in front, {winner} has made the closing standings look almost like a map of distant places."
+    },
+    {
+      "id": "cb121-018",
+      "text": "Read those totals softly if you wish, {winnerClub}'s towering advantage will still be heard clearly.",
+      "score": 10,
+      "was": "Read the final totals aloud and you can hear it, {winnerClub} has put real distance on the board."
+    },
+    {
+      "id": "cb121-019",
+      "text": "For all the rivalry's old familiarity, this season has arrived wearing the unfamiliar robes of a landslide.",
+      "score": 9,
+      "was": "For all the rivalry's familiar closeness, this particular season has delivered a wonderfully emphatic winner."
+    },
+    {
+      "id": "cb121-020",
+      "text": "Mark down {margin} as the separation, and {winner} can enjoy a campaign with no last-minute doubt.",
+      "score": 9,
+      "was": "The final measure is {margin}, and {winner} can savour a season that never needed a delicate verdict."
+    },
+    {
+      "id": "cb121-021",
+      "text": "With {winnerClub} on top, the view is spacious, decisive and deserving of a long ovation.",
+      "score": 9,
+      "was": "With {winnerClub} on top, the closing picture is spacious, decisive and deserving of the long applause."
+    },
+    {
+      "id": "cb121-022",
+      "text": "Nothing hangs by a thread here, the winning effort rests on foundations laid deep and wide.",
+      "score": 10,
+      "was": "Nothing about this season's result is cramped, the winner has claimed a broad and comfortable stretch of ground."
+    },
+    {
+      "id": "cb121-023",
+      "text": "Consider the finish, {winnerPoints} to {loserPoints}, and the distance has its own unmistakable music.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-024",
+      "text": "To describe this as a close finish would be like calling a cathedral a garden shed, {winner} has soared.",
+      "score": 10,
+      "was": "To call this a close contest would miss the story, {winner} has written a commanding chapter."
+    },
+    {
+      "id": "cb121-025",
+      "text": "Now the season is sealed, {loserClub} has a new standard to pursue and the rivalry has fresh purpose.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-026",
+      "text": "Above the final tally, {winner}'s name shines like a lighthouse, impossible to mistake at any distance.",
+      "score": 10,
+      "was": "Above the last tally, {winner}'s name rests with the easy certainty of a settled season."
+    },
+    {
+      "id": "cb121-027",
+      "text": "You can admire the chase and still acknowledge the view, {winnerClub} has finished a long way ahead.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-028",
+      "text": "Once the dust of the verdict settles, {winner}'s towering lead will still stand above everything else.",
+      "score": 9,
+      "was": "When the final standings settle, the scale of {winner}'s achievement becomes the story itself."
+    },
+    {
+      "id": "cb121-029",
+      "text": "Look across the closing figures, there's an entire valley where a narrow lead might have been.",
+      "score": 9,
+      "was": "Look along the length of that separation, and the season's winner is beyond any reasonable doubt."
+    },
+    {
+      "id": "cb121-030",
+      "text": "In {winner}'s hands, the season has become a great wide canvas rather than a cramped little portrait.",
+      "score": 10,
+      "was": "In the season just completed, {winner} has turned an ordinary comparison into an extraordinary distance."
+    },
+    {
+      "id": "cb121-031",
+      "text": "Through all the season's turns, {winnerClub} has emerged with an advantage too substantial to soften.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-032",
+      "text": "The measure of this win is {margin}, not a slender step but a mighty stride forward.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb121-033",
+      "text": "Beside that winning figure, the other total seems to recede, and the season takes on unexpected scale.",
+      "score": 9,
+      "was": "Beside the winner's total, the other figure tells a story of how far this campaign has tilted."
+    },
+    {
+      "id": "cb121-034",
+      "text": "So ends the campaign, with {winner} claiming the season and giving the next one a formidable benchmark.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-035",
+      "text": "Behind the settled result lies a broad gulf of merit, the kind no footnote can soften.",
+      "score": 9,
+      "was": "Behind the final verdict stands a simple truth, the winning campaign has been far stronger on points."
+    },
+    {
+      "id": "cb121-036",
+      "text": "If you wanted a tense finish, this season has offered something different, a victory of real breadth.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb121-037",
+      "text": "Near the summit of this story, {winnerClub} has planted a flag well beyond the nearest challenger.",
+      "score": 9,
+      "was": "Near the top of the season's story, {winnerClub} has found an ending both emphatic and richly earned."
+    },
+    {
+      "id": "cb121-038",
+      "text": "It is {winner} who takes the honours, with daylight enough to make a whole landscape.",
+      "score": 9,
+      "was": "It is {winner} who takes the honours here, with plenty of space between the two campaigns."
+    },
+    {
+      "id": "cb121-039",
+      "text": "Every rivalry needs its wide victories too, and this one belongs emphatically to {winnerClub}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb121-040",
+      "text": "Last words belong to {winner} this season, but {loser} still owns a voice in the rivalry ahead.",
+      "score": 9,
+      "was": "The last word goes to {winner}, though {loser} will have plenty to say when another season begins."
+    },
+    {
+      "id": "cb121-041",
+      "text": "They may need a longer measuring tape, because the gap {winner} has opened is no small matter.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-042",
+      "text": "Someone fetch a compass, {winnerClub} and the chasing tally have ended up on distant sides of the map.",
+      "score": 10,
+      "was": "Someone fetch the atlas, {winnerClub} and the chasing total seem to occupy different regions tonight."
+    },
+    {
+      "id": "cb121-043",
+      "text": "You could park a commentary desk inside this margin and still leave room for the analysts.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb121-044",
+      "text": "Give {winner} a telescope, the rival's season total is somewhere back along the horizon.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb121-045",
+      "text": "No need for a photo finish here, the photographer could have gone home before the result.",
+      "score": 10,
+      "was": "No need for a photo finish here, the photographer could have gone home before the verdict."
+    },
+    {
+      "id": "cb121-046",
+      "text": "Even the scoreboard seems to stretch its shoulders, such a sweeping advantage takes space to display.",
+      "score": 9,
+      "was": "Even the humble scoreboard looks impressed, {winnerClub} has asked it to display quite a separation."
+    },
+    {
+      "id": "cb121-047",
+      "text": "One manager has packed for a short walk, while {winner} has somehow made the gap a hiking trail.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-048",
+      "text": "That is not a narrow doorway, it's a great open gate with {winnerClub} strolling through.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-049",
+      "text": "Call the cartographer, the land separating these season totals deserves a fresh border.",
+      "score": 10,
+      "was": "Call the mapmaker, the distance between these campaigns deserves its own little coastline."
+    },
+    {
+      "id": "cb121-050",
+      "text": "Apparently {winner} mistook the standings for a staircase and kept climbing long after the landing disappeared.",
+      "score": 9,
+      "was": "Apparently {winner} has mistaken the season standings for a staircase and climbed well beyond the landing."
+    },
+    {
+      "id": "cb121-051",
+      "text": "I suspect {loser} would prefer a rematch to another guided tour of that final comparison.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-052",
+      "text": "Nobody ordered extra space in the table, but {winnerClub} has certainly made use of it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-053",
+      "text": "Imagine laying the advantage across the studio floor, you'd need to move the furniture first.",
+      "score": 10,
+      "was": "Imagine the margin as a sofa, there is room for the whole studio to stretch out."
+    },
+    {
+      "id": "cb121-054",
+      "text": "Perhaps {winner} should return the measuring stick, the distance is already plain to see.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-055",
+      "text": "You might need binoculars to follow this particular chase, and that's a compliment to the winning season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-056",
+      "text": "Strange thing about a big victory, it turns the familiar little gap into a whole boulevard.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb121-057",
+      "text": "That verdict could be whispered into a paper bag and still come out sounding enormous.",
+      "score": 10,
+      "was": "That season's verdict could be printed in small type and still be heard across the studio."
+    },
+    {
+      "id": "cb121-058",
+      "text": "For {loserClub}, the polite response is congratulations, followed promptly by plans for a better season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-059",
+      "text": "Well, {winner} hasn't just taken the high ground, there's a rather generous view from up there.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-060",
+      "text": "A ruler won't do this time, the difference has graduated to something fit for a surveyor.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb121-061",
+      "text": "Ask the editor for more paper, {winnerClub}'s advantage simply will not fit in the margin.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb121-062",
+      "text": "Such a sweeping season almost deserves a dedicated postal route, the lead simply travels that far.",
+      "score": 9,
+      "was": "Such a wide result almost deserves its own postal code, though the points remain entirely real."
+    },
+    {
+      "id": "cb121-063",
+      "text": "There goes the suspense for this season, replaced by a magnificent view of daylight between the rivals.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-064",
+      "text": "Somebody tell the desk to stop whispering, {winner} has made an emphatic season impossible to miss.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-065",
+      "text": "That difference is {margin}, which rather defeats the idea of calling this a tight season.",
+      "score": 9,
+      "was": "The gap is {margin}, and I doubt a little gentle squinting will make it look close."
+    },
+    {
+      "id": "cb121-066",
+      "text": "Even a cautious accountant might smile at this one, the difference is far too large to dispute.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-067",
+      "text": "They'll discuss this result over coffee, {winnerClub} having supplied enough material for several refills.",
+      "score": 10,
+      "was": "They'll discuss this campaign over coffee, {winnerClub} having supplied more than enough material."
+    },
+    {
+      "id": "cb121-068",
+      "text": "Just when you thought the totals might shake hands, one of them moved to another postcode.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb121-069",
+      "text": "Surely {loser} can take comfort in this, there is now a wonderfully clear target for next season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-070",
+      "text": "Apparently the finish line had plenty of elbow room, which {winner} has used with considerable style.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-071",
+      "text": "There's an art to winning comfortably, and this emphatic result belongs in a gallery.",
+      "score": 10,
+      "was": "There's a fine art to winning comfortably, but this season has brought an entire exhibition."
+    },
+    {
+      "id": "cb121-072",
+      "text": "Try putting that advantage in a nutshell, you may need a rather larger shell.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb121-073",
+      "text": "While our studio searches for the right words, {winnerClub} can let the closing figures speak instead.",
+      "score": 9,
+      "was": "While the studio searches for adjectives, {winnerClub} can simply point to the closing standings."
+    },
+    {
+      "id": "cb121-074",
+      "text": "Not every great season finishes with a cliffhanger, sometimes the spectacle is the sheer scale of victory.",
+      "score": 9,
+      "was": "Not every season demands suspense, sometimes the entertainment is in just how emphatic the verdict becomes."
+    },
+    {
+      "id": "cb121-075",
+      "text": "At least {loserClub} knows where the challenge lies, straight across that very substantial stretch of points.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-076",
+      "text": "Hear the rising note, {winner} has brought the season down like a deep bell over the landscape.",
+      "score": 10,
+      "was": "Hear that final note, {winner} has brought the season down like a great bell over the rivalry."
+    },
+    {
+      "id": "cb121-077",
+      "text": "There are wide seas between these totals, and {winnerClub} has reached the farther shore first.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-078",
+      "text": "In the quiet after the verdict, the winning advantage stands like a great arch against the sky.",
+      "score": 10,
+      "was": "In the hush after a decisive verdict, the sheer breadth of this winning season is breathtaking."
+    },
+    {
+      "id": "cb121-079",
+      "text": "Beyond the thin edge of victory, {winner} has carved a sweeping line across the whole season.",
+      "score": 9,
+      "was": "Far beyond the thin edge of victory, {winner} has carved a sweeping line through the campaign."
+    },
+    {
+      "id": "cb121-080",
+      "text": "Down comes the curtain on this season, and the name beneath the spotlight could hardly be clearer.",
+      "score": 10,
+      "was": "The closing page falls with a heavy sound, and the winning name cannot be mistaken."
+    },
+    {
+      "id": "cb121-081",
+      "text": "Behold this season's skyline, {winnerClub} towers over the other total like a city on a hill.",
+      "score": 10,
+      "was": "Behold the season's final skyline, {winnerClub} rises high while the rest of the picture stretches away."
+    },
+    {
+      "id": "cb121-082",
+      "text": "How immense that separation looks, as though the totals have pulled apart the very horizon.",
+      "score": 9,
+      "was": "How immense the space between those figures, a whole season gathered into one resounding difference."
+    },
+    {
+      "id": "cb121-083",
+      "text": "Now the contest wears a striking silhouette, {winner} perched far above the chasing season.",
+      "score": 9,
+      "was": "Tonight the rivalry wears a new silhouette, with {winner} standing tall above an unusually distant second total."
+    },
+    {
+      "id": "cb121-084",
+      "text": "Let the figures come to rest, then hear how deep the hush becomes around this astonishing lead.",
+      "score": 10,
+      "was": "Let the last figures settle, then listen, the silence around this commanding result says enough."
+    },
+    {
+      "id": "cb121-085",
+      "text": "Past the realm of narrow escapes, {winnerClub} has found the open country of unmistakable triumph.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-086",
+      "text": "Here comes the measure, {margin} clear, the winning season ringing across the landscape like a brass bell.",
+      "score": 10,
+      "was": "Here comes the full measure, {margin} between them, and a season that has spoken with a mighty voice."
+    },
+    {
+      "id": "cb121-087",
+      "text": "No soft landing for suspense, this season's outcome arrives with the weight of a falling curtain.",
+      "score": 10,
+      "was": "No soft landing for the suspense, the result arrives with all the force of a closing curtain."
+    },
+    {
+      "id": "cb121-088",
+      "text": "Across that grand expanse of points, {winner} has set a bright marker for every season yet to come.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-089",
+      "text": "Look beneath the winning total, there's space enough for a whole new chapter of this old rivalry.",
+      "score": 9,
+      "was": "Look how the final table opens beneath the winner, an ocean of space where tension once belonged."
+    },
+    {
+      "id": "cb121-090",
+      "text": "The whole affair ends with a full stop fit for a giant, and {winnerClub} has written it.",
+      "score": 9,
+      "was": "The campaign has reached its final sentence, and {winnerClub} has supplied the thunderous full stop."
+    },
+    {
+      "id": "cb121-091",
+      "text": "Time holds its breath as the verdict lands, and this round belongs emphatically to {winner}.",
+      "score": 10,
+      "was": "Time seems to hang for a heartbeat, then the verdict rings out, a commanding season for {winner}."
+    },
+    {
+      "id": "cb121-092",
+      "text": "What once was a close comparison becomes, for this campaign, a sweeping triumph with a horizon of its own.",
+      "score": 9,
+      "was": "What once was rivalry becomes, for this campaign, a sweeping triumph with a horizon of its own."
+    },
+    {
+      "id": "cb121-093",
+      "text": "Beneath the glow of the totals, {loser} sees how high the next mountain has become.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-094",
+      "text": "There it stands, not a narrow crossing but a vast bridge of points spanning the season's finish.",
+      "score": 9,
+      "was": "There it is at last, the season decided not by a breath but by a vast distance."
+    },
+    {
+      "id": "cb121-095",
+      "text": "A wide divide runs through these standings, with {winnerClub} secure on the victorious bank.",
+      "score": 10,
+      "was": "A great divide runs through these standings, with {winnerClub} firmly on the victorious bank."
+    },
+    {
+      "id": "cb121-096",
+      "text": "See the scale of it, a season's endeavour distilled into a lead that fills the whole horizon.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb121-097",
+      "text": "At the season's reading, {winner} has won with such authority that even the echoes sound decisive.",
+      "score": 9,
+      "was": "The moment is here, {winner} has won so handsomely that the final verdict hardly needs announcing."
+    },
+    {
+      "id": "cb121-098",
+      "text": "Never has a slender ribbon seemed less fitting, this season calls for a broad banner of triumph.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb121-099",
+      "text": "Even as the curtain falls, {winnerClub}'s emphatic advantage lingers like the last note of an orchestra.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb121-100",
+      "text": "After the echoes fade, {winner} remains the season's undisputed victor, well beyond the reach of a close call.",
+      "score": 9,
+      "was": "And when the final echoes fade, this will remain, {winner} won the season by a commanding distance."
+    }
+  ]
+}

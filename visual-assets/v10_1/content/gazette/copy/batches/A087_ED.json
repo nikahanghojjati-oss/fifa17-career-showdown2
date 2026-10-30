@@ -1,0 +1,809 @@
+{
+  "batch": 87,
+  "situation": "winning-streak",
+  "edition": "season",
+  "lens": "Stage and screen",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b87-001",
+      "kicker": "SEASON REVIEW",
+      "headline": "THE REPERTORY OF VICTORY",
+      "subhead": "A run of successive season wins has placed {winner} in a starring role that refuses to end.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-002",
+      "kicker": "CULTURE DESK",
+      "headline": "AN EXTENDED THEATRICAL RUN",
+      "subhead": "With another season secured, {winner} has turned a single success into a sustained chapter of this rivalry.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-003",
+      "kicker": "MAIN EDITION",
+      "headline": "THE LEAD ROLE ENDURES",
+      "subhead": "{winnerClub} remains the winning production, while {loser} must wait for an opening in the next installment.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-004",
+      "kicker": "LONG VIEW",
+      "headline": "A STORY BUILT TO LAST",
+      "subhead": "What began as individual season triumphs is now a continuing run, with {winner} still setting the pace.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-005",
+      "kicker": "GRAND STAND",
+      "headline": "APPLAUSE THROUGH THE ACTS",
+      "subhead": "The acclaim belongs to {winner} again, as successive victories give the rivalry its most enduring performance yet.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-006",
+      "kicker": "EVENING PAPER",
+      "headline": "THE PRODUCTION GOES ON",
+      "subhead": "Another season belongs to {winner}, whose winning sequence carries forward without losing its place in the story.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-007",
+      "kicker": "EDITORIAL DESK",
+      "headline": "CREDITS KEEP ONE NAME",
+      "subhead": "The closing credits have brought {winner} another season win, and the sequence continues to gather weight.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-008",
+      "kicker": "SPORTS CHRONICLE",
+      "headline": "ANOTHER FINE PERFORMANCE",
+      "subhead": "{loser} now has a fresh opportunity to break the run, after {winnerClub} claims another season in succession.",
+      "score": 9,
+      "was": "subhead: {winnerClub} adds another victorious season to a run that {loserClub} will be eager to interrupt."
+    },
+    {
+      "id": "b87-009",
+      "kicker": "THE BIG PICTURE",
+      "headline": "FEATURE HOLDS ITS GROUND",
+      "subhead": "There has been no change in the latest season verdict: {winner} extends an impressive streak of victories.",
+      "score": 9,
+      "was": "headline: THE FEATURE STAYS STRONG"
+    },
+    {
+      "id": "b87-010",
+      "kicker": "GAZETTE REVIEW",
+      "headline": "A CONTINUING SUCCESS",
+      "subhead": "The rivalry has room for another turnaround, but for now {winner} keeps winning its successive chapters.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-011",
+      "kicker": "FILM NOTES",
+      "headline": "VICTORY RUNS ON FILM",
+      "subhead": "{winner} has made consecutive season wins the defining sequence, without settling what future seasons might bring.",
+      "score": 10,
+      "was": "headline: THE RUN BEHIND THE REEL"
+    },
+    {
+      "id": "b87-012",
+      "kicker": "PRESS GALLERY",
+      "headline": "CONTINUITY GETS ITS CLOSEUP",
+      "subhead": "By prevailing yet again, {winner} gives this contest a sustained storyline that the opposition will want to break.",
+      "score": 9,
+      "was": "headline: A SEASON IN CONTINUITY"
+    },
+    {
+      "id": "b87-013",
+      "kicker": "PREMIERE DESK",
+      "headline": "SHOWTIME, STILL RUNNING",
+      "subhead": "Another victory goes to {winner}, whose sequence has become the current headline act of the Showdown.",
+      "score": 9,
+      "was": "headline: THE SHOW REMAINS THEIRS"
+    },
+    {
+      "id": "b87-014",
+      "kicker": "SCREEN WATCH",
+      "headline": "STEADY CAMERA, STEADIER FORM",
+      "subhead": "The focus remains on {winner} after another season triumph keeps a remarkable winning sequence intact.",
+      "score": 10,
+      "was": "headline: THE CAMERA HOLDS STEADY"
+    },
+    {
+      "id": "b87-015",
+      "kicker": "FEATURE REPORT",
+      "headline": "OVATION FOR THE LONG RUN",
+      "subhead": "{winnerClub} can celebrate the latest addition to a winning streak, though the broader contest still has its own course.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-016",
+      "kicker": "STORY DESK",
+      "headline": "SCRIPTED SUCCESS SURVIVES",
+      "subhead": "Consecutive season victories give {winner} momentum in a rivalry where the next result is never guaranteed.",
+      "score": 10,
+      "was": "headline: THE SCRIPT FAVORS FORM"
+    },
+    {
+      "id": "b87-017",
+      "kicker": "FRONT PAGE",
+      "headline": "FAMILIAR STAR TAKES THE STAGE",
+      "subhead": "After another season win, {winner} remains a recurring name at the top of this particular story.",
+      "score": 9,
+      "was": "headline: A FAMILIAR STAR RETURNS"
+    },
+    {
+      "id": "b87-018",
+      "kicker": "ARTS AND SPORT",
+      "headline": "MATINEE WITHOUT A FINALE",
+      "subhead": "Success has found a regular booking with {winner}, who extends the run by taking this season as well.",
+      "score": 10,
+      "was": "headline: THE MATINEE NEVER FADES"
+    },
+    {
+      "id": "b87-019",
+      "kicker": "LATE EDITION",
+      "headline": "DURABLE DRAMA AT THE TOP",
+      "subhead": "For {loser}, the challenge sharpens with another season as {winner} continues a sequence of consecutive victories.",
+      "score": 9,
+      "was": "subhead: The latest result makes {winner}'s sequence of season victories longer, yet leaves every future act unwritten."
+    },
+    {
+      "id": "b87-020",
+      "kicker": "EDITOR'S VIEW",
+      "headline": "BILLING THAT WON'T BUDGE",
+      "subhead": "{winner} claims the season again, maintaining a run that now shapes how both managers approach the rivalry.",
+      "score": 10,
+      "was": "headline: THE BILLING HOLDS ITS PLACE"
+    },
+    {
+      "id": "b87-021",
+      "kicker": "BACK PAGE",
+      "headline": "ENCORE! AND ANOTHER WIN",
+      "subhead": "{winner} answers the call with another season victory, keeping the run alive for the next showdown.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-022",
+      "kicker": "FINAL EDITION",
+      "headline": "REEL IT IN, AGAIN!",
+      "subhead": "The latest installment finishes in {winner}'s favor, and this string of season wins shows no break.",
+      "score": 9,
+      "was": "headline: ROLL THE WINNING REEL!"
+    },
+    {
+      "id": "b87-023",
+      "kicker": "TOUCHLINE EXTRA",
+      "headline": "KEEP THAT CURTAIN UP!",
+      "subhead": "{winnerClub} gets the result again, leaving {loserClub} a fresh opportunity to change the next scene.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-024",
+      "kicker": "BOX OFFICE",
+      "headline": "REWRITE THE MARQUEE!",
+      "subhead": "The headline act is familiar because {winner} has added another season win to an ongoing sequence.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-025",
+      "kicker": "FLASH REPORT",
+      "headline": "FLOOD THE FOOTLIGHTS!",
+      "subhead": "Another season belongs to {winner}, whose continuing victories have become difficult to keep out of view.",
+      "score": 10,
+      "was": "headline: TURN UP THE FOOTLIGHTS!"
+    },
+    {
+      "id": "b87-026",
+      "kicker": "NEWS FLASH",
+      "headline": "HOLD THE FINAL FRAME!",
+      "subhead": "{winner} has won again, and the sequence of season results is becoming the central image of the rivalry.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-027",
+      "kicker": "NIGHT EDITION",
+      "headline": "SEND FOR THE PROJECTOR!",
+      "subhead": "Back comes {winner} with another victory, giving the winning sequence fresh life on the Gazette's front page.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-028",
+      "kicker": "PRESS BOX",
+      "headline": "PLAY IT BACK, CHAMP!",
+      "subhead": "Yet another season goes to {winner}, making this winning streak a story worth another viewing.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-029",
+      "kicker": "PRESS ROOM",
+      "headline": "KEEP THE CREDITS COMING!",
+      "subhead": "{winner} stays in the winning column, while {loser} has a new chance to stop the succession next season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-030",
+      "kicker": "THE RIVALRY",
+      "headline": "RAISE THE BACKDROP!",
+      "subhead": "The setting changes with each season, but {winner} has kept the victorious role through successive results.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-031",
+      "kicker": "MATCHDAY EXTRA",
+      "headline": "REWIND? NO NEED!",
+      "subhead": "There is nothing uncertain about this season's outcome: {winner} wins again and prolongs the streak.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-032",
+      "kicker": "EDITION SPECIAL",
+      "headline": "CUE THE NEXT SCENE!",
+      "subhead": "{winner} takes another turn in the spotlight after extending a series of consecutive season victories.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-033",
+      "kicker": "BREAKING EDITION",
+      "headline": "STOP THE PRESSES, AGAIN!",
+      "subhead": "{loser} can still change the next headline, despite {winnerClub} adding a further win to the unbroken sequence.",
+      "score": 10,
+      "was": "subhead: {winnerClub} supplies the latest result in a run that has become regular front-page material."
+    },
+    {
+      "id": "b87-034",
+      "kicker": "TOP STORY",
+      "headline": "BOOK ANOTHER SHOW!",
+      "subhead": "Success has another engagement with {winner}, who continues the sequence rather than handing over the stage.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-035",
+      "kicker": "SPORTS EXTRA",
+      "headline": "BRING BACK THE CAST!",
+      "subhead": "The same winning manager returns in the latest season, leaving {loser} to prepare the sequel.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-036",
+      "kicker": "FEATURE EXTRA",
+      "headline": "ROLL THE CAMERAS, AGAIN!",
+      "subhead": "This season finishes with {winner} victorious, and the winning streak gains another memorable installment.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-037",
+      "kicker": "EVENING EXTRA",
+      "headline": "TURN THE LIGHTS HIGHER!",
+      "subhead": "The latest season belongs to {winner} once more, a bright continuation of an already impressive sequence.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-038",
+      "kicker": "HEADLINE DESK",
+      "headline": "STRIKE UP ANOTHER ACT!",
+      "subhead": "{winner} adds another consecutive season victory, while the friendly rivalry still promises another twist.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-039",
+      "kicker": "LATE BULLETIN",
+      "headline": "KEEP THE SEQUEL COMING!",
+      "subhead": "{loserClub} looks to the next chapter for an answer, after {winner} extends a winning run again.",
+      "score": 9,
+      "was": "subhead: {winnerClub} has delivered again, and {loserClub} will look toward the next season for a different ending."
+    },
+    {
+      "id": "b87-040",
+      "kicker": "SPORTING POST",
+      "headline": "CUE THAT WINNING MUSIC!",
+      "subhead": "Another success keeps {winner} on a run, even if nobody knows what the next season will bring.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-041",
+      "kicker": "TACTICS COLUMN",
+      "headline": "OFFSIDE AT THE MATINEE",
+      "subhead": "{winner} has kept winning successive seasons, leaving {loser} searching for a way to change the narrative.",
+      "score": 10,
+      "was": "headline: OFFSIDE FROM THE SCRIPT"
+    },
+    {
+      "id": "b87-042",
+      "kicker": "PITCH AND PAGE",
+      "headline": "NET RETURNS TO THE STAGE",
+      "subhead": "Yet another season victory finds {winner} at center stage, extending a run with no interruption.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-043",
+      "kicker": "ROUNDUP DESK",
+      "headline": "CUP TALK, STREAK WALK",
+      "subhead": "Whatever the individual honors, the season result is familiar: {winner} extends a run of wins.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-044",
+      "kicker": "FOOTBALL PAGE",
+      "headline": "WHISTLE FOR AN ENCORE",
+      "subhead": "The latest season ends in {winner}'s favor, inviting another chapter in this remarkable succession.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-045",
+      "kicker": "POINTS DESK",
+      "headline": "TABLE TAKES A CURTAIN CALL",
+      "subhead": "Consecutive results keep putting {winner} above {loser} for the season, not necessarily for the entire Showdown.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-046",
+      "kicker": "FOOTBALL EDITION",
+      "headline": "POST ANOTHER PLAYBILL",
+      "subhead": "{loser} can challenge the storyline next time, but {winner} has put another season win on the program.",
+      "score": 9,
+      "was": "subhead: The season win belongs to {winner} again, while the larger contest remains open to fresh chapters."
+    },
+    {
+      "id": "b87-047",
+      "kicker": "STADIUM PAPER",
+      "headline": "EXTRA TIME FOR THE CAST",
+      "subhead": "No further drama is needed to establish this result: {winner} has kept the season streak going.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-048",
+      "kicker": "SCOREBOARD",
+      "headline": "BAR MEETS ITS MASTER",
+      "subhead": "{winner} has repeatedly claimed the season honors, giving {loser} a standard to challenge next time.",
+      "score": 9,
+      "was": "headline: THE BAR KEEPS RISING"
+    },
+    {
+      "id": "b87-049",
+      "kicker": "TOUCHLINE NOTES",
+      "headline": "DUGOUT GETS TOP BILLING",
+      "subhead": "{winnerClub} has earned another season win, adding strength to an unbroken sequence of results.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-050",
+      "kicker": "CINEMA AND SPORT",
+      "headline": "SILVER SCREEN, GOLDEN FORM",
+      "subhead": "The latest season's success extends {winner}'s streak, with the next chapter still a contest between friends.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-051",
+      "kicker": "PRESS REVIEW",
+      "headline": "PENALTY? THE SCRIPT SAYS WIN",
+      "subhead": "This was another victorious season for {winner}, whose run continues without any promise about what follows.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-052",
+      "kicker": "RIVALRY WATCH",
+      "headline": "CLEAN SHEET FOR THE CAST",
+      "subhead": "A fresh season result has {winner} victorious again, even though the next episode could tell a different story.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-053",
+      "kicker": "SPORTING SCENE",
+      "headline": "TOP FLIGHT ON THE BILL",
+      "subhead": "{winner} keeps securing successive season wins, with the latest achievement taking its place on the program.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-054",
+      "kicker": "PRESS GALLERY",
+      "headline": "NET GAINS ANOTHER ACT",
+      "subhead": "The season belongs to {winner} again, extending a sequence that {loser} will be determined to interrupt.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-055",
+      "kicker": "WEEKEND REVIEW",
+      "headline": "FINAL WHISTLE, SAME VERDICT",
+      "subhead": "Results keep favoring {winner} in successive seasons, but the contest still has future chapters to play.",
+      "score": 10,
+      "was": "headline: THE FINAL WHISTLE REPEATS"
+    },
+    {
+      "id": "b87-056",
+      "kicker": "SCREEN NOTES",
+      "headline": "HALFTIME AT THE MOVIES",
+      "subhead": "No interval has interrupted {winner}'s winning run, which stretches through another completed season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-057",
+      "kicker": "RIVALRY ROUNDUP",
+      "headline": "FROM THE POST TO THE POSTER",
+      "subhead": "The image on this season's poster is familiar: {winner} has won another installment of the contest.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-058",
+      "kicker": "POINTS REVIEW",
+      "headline": "NET RESULT KEEPS REPEATING",
+      "subhead": "The latest season result extends {winner}'s sequence of wins, giving {loserClub} a new target next time.",
+      "score": 9,
+      "was": "headline: A NET RESULT ON REPEAT"
+    },
+    {
+      "id": "b87-059",
+      "kicker": "HONORS DESK",
+      "headline": "CABINET CALLS FOR AN ENCORE",
+      "subhead": "Trophy details aside, {winner} has added a fresh season victory to a remarkable unbroken run.",
+      "score": 10,
+      "was": "headline: THE CABINET HAS AN ENCORE"
+    },
+    {
+      "id": "b87-060",
+      "kicker": "PLAYBOOK REVIEW",
+      "headline": "WINNING BY THE BOOKING",
+      "subhead": "{winnerClub} adds another season success, as if the starring engagement had been renewed for another performance.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-061",
+      "kicker": "FRONT ROW",
+      "headline": "SPOTLIGHT SPARKS SUCCESS",
+      "subhead": "Another consecutive season victory belongs to {winner}, whose current run has become the main talking point.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-062",
+      "kicker": "SPOTLIGHT FILE",
+      "headline": "REPEATED ROLES, RISING REPUTE",
+      "subhead": "The starring part remains with {winner} after a further season win gives the streak greater significance.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-063",
+      "kicker": "SEASON ARCHIVE",
+      "headline": "SCENES OF STEADY SUCCESS",
+      "subhead": "{loser} faces an established sequence, not an impossible task, after {winner} claims the latest season.",
+      "score": 10,
+      "was": "subhead: A continuing sequence of victories is now part of {winner}'s story, even while the rivalry remains alive."
+    },
+    {
+      "id": "b87-064",
+      "kicker": "BIG READ",
+      "headline": "MARQUEE MAGIC MULTIPLIES",
+      "subhead": "{winner} returns to the victorious position, stretching the sequence that has made this rivalry so compelling.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-065",
+      "kicker": "PRESS THEATER",
+      "headline": "STARRING STATUS STAYS",
+      "subhead": "The newest season provides another success for {winner}, who retains the headline role in this stretch of results.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-066",
+      "kicker": "IMAGE DESK",
+      "headline": "CAMERA CAPTURES CONTINUITY",
+      "subhead": "Victory follows victory for {winner}, with the latest season keeping an already established sequence intact.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-067",
+      "kicker": "FULL COVERAGE",
+      "headline": "PRODUCTION PROVES PERSISTENT",
+      "subhead": "By taking this season as well, {winner} keeps the run going and gives {loser} a challenge worth answering.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-068",
+      "kicker": "LATE SHOW",
+      "headline": "FOOTLIGHT FORTUNES FLOURISH",
+      "subhead": "Success again meets {winner} on the season page, where a sequence of wins now forms the central story.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-069",
+      "kicker": "EDITOR'S NOTE",
+      "headline": "BACKSTAGE BRAVADO BUILDS",
+      "subhead": "The continued run belongs to {winner}, though the next season remains an opportunity for a fresh ending.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-070",
+      "kicker": "SPECIAL REPORT",
+      "headline": "REEL RIVALRY ROLLS ON",
+      "subhead": "{winner} wins yet another season and carries that sequence forward into the next chapter of the contest.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-071",
+      "kicker": "FEATURE DESK",
+      "headline": "CLOSING CREDITS CONTINUE",
+      "subhead": "The latest finish brings another victory to {winner}, whose run refuses to leave the story just yet.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-072",
+      "kicker": "SEASON BULLETIN",
+      "headline": "STAGE SUCCESS STRETCHES",
+      "subhead": "{loserClub} will have another season to test this winning run, as {winner} registers a further victory.",
+      "score": 9,
+      "was": "subhead: {winnerClub} has given its manager another season win, turning continued achievement into the defining news today."
+    },
+    {
+      "id": "b87-073",
+      "kicker": "GAZETTE SPECIAL",
+      "headline": "PREMIERE POWER PERSISTS",
+      "subhead": "A further victory extends {winner}'s sequence of seasons won, while {loser} still has a part to play.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-074",
+      "kicker": "THE GAZETTE",
+      "headline": "OVATION OUTLASTS OBSTACLES",
+      "subhead": "Another season victory goes to {winner}, and the winning run remains unbroken despite the rivalry's ongoing demands.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-075",
+      "kicker": "SPORTS EDITOR",
+      "headline": "CURTAIN CALLS KEEP COMING",
+      "subhead": "With the new season decided, {winner} continues a string of wins that the next contest could challenge.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-076",
+      "kicker": "THE QUESTION",
+      "headline": "WHO HOLDS THE MARQUEE?",
+      "subhead": "The latest season gives {winner} another victory and leaves the current winning streak firmly in place.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-077",
+      "kicker": "NEXT CHAPTER",
+      "headline": "WHEN DOES THE REEL END?",
+      "subhead": "{winner} wins another season, but the rivalry has not promised that the same ending must follow forever.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-078",
+      "kicker": "RIVALRY DESK",
+      "headline": "CAN ANYONE CHANGE THE ACT?",
+      "subhead": "The winning sequence belongs to {winner} again, and {loser} will have another chance to answer it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-079",
+      "kicker": "LOOKING FORWARD",
+      "headline": "IS THE SEQUEL A CERTAINTY?",
+      "subhead": "This latest win extends {winner}'s run, though nobody can write the verdict of the next season yet.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-080",
+      "kicker": "CAMERA WATCH",
+      "headline": "WHO GETS THE NEXT CLOSEUP?",
+      "subhead": "Once more the spotlight falls on {winner}, whose successive victories give the coming season extra intrigue.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-081",
+      "kicker": "VIEW FROM ABOVE",
+      "headline": "CAN THE CURTAIN TURN?",
+      "subhead": "{loser} has reason to welcome another chapter after {winner} lengthens the run of seasons won.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-082",
+      "kicker": "NEWSROOM TALK",
+      "headline": "IS THE SPOTLIGHT RESERVED?",
+      "subhead": "{loser} retains a fresh chance when the next season starts, after {winner} claims yet another result.",
+      "score": 9,
+      "was": "subhead: {winner} has earned the season win again, but the next opportunity will belong to both managers."
+    },
+    {
+      "id": "b87-083",
+      "kicker": "IN THE STANDS",
+      "headline": "WILL THE AUDIENCE SEE CHANGE?",
+      "subhead": "The established run continues with {winner}, while another season offers the possibility of a different headline.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-084",
+      "kicker": "CONSOLE NOTES",
+      "headline": "WHO CALLS THE NEXT TAKE?",
+      "subhead": "{winner} remains the victorious manager this season, carrying a sequence that the next contest can still disrupt.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-085",
+      "kicker": "THE LONG VIEW",
+      "headline": "WHERE DOES THE PLOT BEND?",
+      "subhead": "Another season win extends {winner}'s run, leaving {loser} room to write a different next installment.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-086",
+      "kicker": "BACK PAGE",
+      "headline": "ENCORE, NOT EXIT",
+      "subhead": "{winner} adds another season victory, ensuring that this winning sequence continues instead of closing its chapter.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-087",
+      "kicker": "FRONT COVER",
+      "headline": "STILL ON THE BILL",
+      "subhead": "There is a familiar name on the season result, with {winner} extending a streak of successes.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-088",
+      "kicker": "LATE NEWS",
+      "headline": "REPEAT PERFORMANCE",
+      "subhead": "The next chapter has produced the same winning manager, as {winner} secures another season in succession.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-089",
+      "kicker": "FEATURE STORY",
+      "headline": "NO FINAL BOW",
+      "subhead": "{winner}'s run carries on with the latest victory, though nothing about the next season has been settled.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-090",
+      "kicker": "GAZETTE TODAY",
+      "headline": "STARRING AGAIN",
+      "subhead": "{winner} takes the season once more, adding a new success to the uninterrupted run.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-091",
+      "kicker": "SEASON NOTES",
+      "headline": "SAME CAST, NEW WIN",
+      "subhead": "The rivalry continues between the managers, but {winner} has been writing the winning endings lately.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-092",
+      "kicker": "CULTURE REVIEW",
+      "headline": "TICKET STILL VALID",
+      "subhead": "The audience for this rivalry has another winning installment from {winner}, with a future reversal still possible.",
+      "score": 9,
+      "was": "headline: ANOTHER SELLout?"
+    },
+    {
+      "id": "b87-093",
+      "kicker": "EDITION WATCH",
+      "headline": "LONG ENGAGEMENT REBOOKED",
+      "subhead": "For {winner}, the victories have become successive appointments, and this season keeps that booking in force.",
+      "score": 9,
+      "was": "headline: THE LONG ENGAGEMENT"
+    },
+    {
+      "id": "b87-094",
+      "kicker": "SCORE DESK",
+      "headline": "ROLLING INTO MORE",
+      "subhead": "{loser} will have another chance to interrupt proceedings, but {winner} is still winning successive seasons.",
+      "score": 10,
+      "was": "subhead: The season outcome adds to {winner}'s uninterrupted run, with {loser} still able to challenge what comes next."
+    },
+    {
+      "id": "b87-095",
+      "kicker": "SPORTS CAMERA",
+      "headline": "STREAK IN FOCUS",
+      "subhead": "Every new result has its own story, and this one extends the series of victories for {winner}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-096",
+      "kicker": "PAGE ONE",
+      "headline": "NOT THE LAST ACT",
+      "subhead": "This season is another success for {winner}, whose sequence persists without settling the next chapter.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-097",
+      "kicker": "THE PLAYBILL",
+      "headline": "RETURN ENGAGEMENT",
+      "subhead": "{winner} is back among the victors after the latest season, maintaining a run that keeps inviting comparisons.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b87-098",
+      "kicker": "MATCH REPORT",
+      "headline": "FAMILIAR ENDING",
+      "subhead": "The season closes with {winner} victorious once more, while the wider rivalry remains a continuing story.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-099",
+      "kicker": "SUNDAY EDITION",
+      "headline": "RENEWED FOR MORE",
+      "subhead": "{winnerClub} has another season victory to celebrate, and its manager's run is still going strong.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b87-100",
+      "kicker": "BOX SEATS",
+      "headline": "LASTING LEAD ROLE",
+      "subhead": "Another successful season places {winner} in the leading part, extending the run without deciding its duration.",
+      "score": 9,
+      "was": "headline: A ROLE THAT LASTS"
+    }
+  ]
+}

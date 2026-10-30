@@ -1,0 +1,608 @@
+{
+  "batch": 46,
+  "situation": "dominant-run",
+  "voice": "The co-commentator",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb46-001",
+      "text": "Making a difficult habit look ordinary, {leader} has taken every new seasonal challenge in stride.",
+      "score": 10,
+      "was": "{leader} keeps winning these seasons, and the real trick is making a difficult habit look completely ordinary."
+    },
+    {
+      "id": "cb46-002",
+      "text": "What separates this from a decent spell is that the opposition has not had a season to claim.",
+      "score": 9,
+      "was": "There's a difference between having a good spell and refusing to let the other manager have one."
+    },
+    {
+      "id": "cb46-003",
+      "text": "You might expect the challenger to catch up eventually. {leader} has made waiting rather uncomfortable.",
+      "score": 10,
+      "was": "You'd think the rest might catch up eventually. {leader} hasn't given them the invitation yet."
+    },
+    {
+      "id": "cb46-004",
+      "text": "Look at the pattern here. Every completed season has ended with the same manager on top.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-005",
+      "text": "{trailer} needs a fresh answer, because the old questions keep producing exactly the same response.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-006",
+      "text": "Winning once earns applause. Doing it every time so far gives your rival a rather awkward homework assignment.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb46-007",
+      "text": "Call it whatever you like, but {leader} has made these repeated wins difficult to explain away.",
+      "score": 9,
+      "was": "I wouldn't call it luck. Not when {leader} has made a habit of finishing each season first."
+    },
+    {
+      "id": "cb46-008",
+      "text": "That run has developed a rhythm, and the worrying part for the opposition is how natural it looks.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-009",
+      "text": "Each time {winnerClub} gets a new season, the outcome finds its way back to familiar hands.",
+      "score": 9,
+      "was": "{winnerClub} has taken every season available so far. That's a standard the rest must actually beat."
+    },
+    {
+      "id": "cb46-010",
+      "text": "Interesting how success changes the job. {leader} isn't chasing form now, they're defending an expectation.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb46-011",
+      "text": "Nothing in this rivalry is settled forever, but the seasons already played have all gone one way.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-012",
+      "text": "{loser} has the right to answer back. {leader} hasn't allowed the reply to become a season win yet.",
+      "score": 10,
+      "was": "{loser} can still change the conversation. The difficulty is that {leader} keeps speaking first."
+    },
+    {
+      "id": "cb46-013",
+      "text": "A winning season is a fine achievement. A collection without a single interruption asks a different question.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-014",
+      "text": "Sharing isn't on the agenda for {leader}. Not the seasonal honours, at any rate.",
+      "score": 10,
+      "was": "{leader} doesn't seem interested in sharing the seasonal honours, which is not especially generous but perfectly legal."
+    },
+    {
+      "id": "cb46-015",
+      "text": "Notice how the expectations have shifted. {winner} now carries the burden of being impossible to ignore.",
+      "score": 10,
+      "was": "Notice the burden shifting. The rival must find a breakthrough, while {winner} just keeps delivering."
+    },
+    {
+      "id": "cb46-016",
+      "text": "Plenty of managers enjoy a strong beginning. Maintaining it through every season is the awkward bit.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-017",
+      "text": "For {trailer}, every fresh campaign comes with the same invitation to spoil the pattern.",
+      "score": 10,
+      "was": "{trailer} has the opportunity to respond, but there's no pretending the existing sequence is even."
+    },
+    {
+      "id": "cb46-018",
+      "text": "Funny, isn't it? Each time we expect a fresh chapter, {leader} supplies the same headline.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-019",
+      "text": "Single victories can flatter a manager. A run of season wins this long is much harder to question.",
+      "score": 10,
+      "was": "This isn't a single spectacular afternoon we're discussing. It's season after season, all with the same result."
+    },
+    {
+      "id": "cb46-020",
+      "text": "Across the seasons played, {winnerClub} has been the constant. It's becoming rather difficult to overlook.",
+      "score": 9,
+      "was": "{winnerClub} has put together a run where the only change is how much harder it becomes to dismiss."
+    },
+    {
+      "id": "cb46-021",
+      "text": "Those victories don't arrive with an obligation to entertain us. {leader} will take them quite happily, thank you.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-022",
+      "text": "Over at {loserClub}, the task isn't to rewrite the past. It's to claim the next season.",
+      "score": 9,
+      "was": "For {loserClub}, the challenge is obvious. Find a season that doesn't end on the wrong side of this rivalry."
+    },
+    {
+      "id": "cb46-023",
+      "text": "Admire the run, certainly, but leave room for a challenge. The outcome of the next season isn't written.",
+      "score": 10,
+      "was": "You can admire the consistency without declaring the contest finished. There's still football to be played."
+    },
+    {
+      "id": "cb46-024",
+      "text": "Each completed campaign has the same conclusion for {leader}. That is a point worth dwelling on.",
+      "score": 9,
+      "was": "Every time the seasonal verdict arrives, {leader} has the better end of it. That takes doing."
+    },
+    {
+      "id": "cb46-025",
+      "text": "What impresses me isn't just the streak. It's the pressure of carrying it into another season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb46-026",
+      "text": "{winner} has made winning the season routine. I suspect the rival would welcome a little variety.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-027",
+      "text": "Patience is required on the other side. {trailer} returns knowing a decent showing alone won't do.",
+      "score": 9,
+      "was": "Consider the patience required on the other side. {trailer} keeps returning to a test that won't get easier."
+    },
+    {
+      "id": "cb46-028",
+      "text": "Nobody hands out a win just for showing up. {leader} has earned every season claimed so far.",
+      "score": 10,
+      "was": "No manager gets handed these seasonal wins at the door. {leader} has earned each one so far."
+    },
+    {
+      "id": "cb46-029",
+      "text": "It's becoming an uncomfortable tradition for the challenger, but traditions exist to be interrupted.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-030",
+      "text": "No missed deliveries from {winnerClub} in this run. The challenger must be wondering when the door opens.",
+      "score": 9,
+      "was": "{winnerClub} keeps collecting the season honours. The opposition hasn't yet found a way to interrupt the delivery."
+    },
+    {
+      "id": "cb46-031",
+      "text": "Perhaps the most telling detail is that even the quieter seasons have ended in the leader's favor.",
+      "score": 9,
+      "was": "Perhaps the most impressive detail is the absence of a bad season in this particular contest."
+    },
+    {
+      "id": "cb46-032",
+      "text": "Taking the honours again, {leader} gives the challenger yet another problem to solve.",
+      "score": 9,
+      "was": "{leader} is enjoying an extended spell at the front, and the rival knows exactly what needs changing."
+    },
+    {
+      "id": "cb46-033",
+      "text": "I rather admire {trailer} for staying in the argument. Nobody said this was meant to be comfortable.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb46-034",
+      "text": "Here's the peculiar thing about a perfect seasonal run. Each success makes the next one feel almost compulsory.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-035",
+      "text": "{winner} has been first every time we've checked in. The other manager won't need reminding.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb46-036",
+      "text": "Remarkable consistency, certainly, but remember that winning the seasons so far doesn't finish the story by itself.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-037",
+      "text": "Oddly enough, the favorite has pressure too. {leader} is expected to win before a new season even begins.",
+      "score": 10,
+      "was": "The pressure usually sits with the pursuer. Right now {leader} has a reputation to protect as well."
+    },
+    {
+      "id": "cb46-038",
+      "text": "{loserClub} hasn't won a season yet. That's a problem to solve, not a verdict on the club.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb46-039",
+      "text": "You can talk about momentum forever. {leader} has done the more convincing thing and held onto the wins.",
+      "score": 9,
+      "was": "They can talk about momentum all they like. {leader} has actually kept possession of the seasonal honours."
+    },
+    {
+      "id": "cb46-040",
+      "text": "Something rather satisfying about {winnerClub}'s discipline. No season has escaped their grasp so far.",
+      "score": 9,
+      "was": "Quite a neat trick from {winnerClub}, taking every opportunity and making the next challenge more interesting."
+    },
+    {
+      "id": "cb46-041",
+      "text": "One victory might be explained away. A whole sequence asks us to give {leader} proper credit.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb46-042",
+      "text": "There's a reason {winner} is so hard to dislodge. Doing the job again is rarely quite this tidy.",
+      "score": 9,
+      "was": "You don't become this consistent by waiting for things to happen. {winner} keeps finding an answer."
+    },
+    {
+      "id": "cb46-043",
+      "text": "There's room for a comeback later. For now, the complete set of seasons belongs to {leader}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-044",
+      "text": "Studying a pattern won't necessarily undo it. The other manager needs a victory, not a clever diagnosis.",
+      "score": 9,
+      "was": "The rival will study the pattern, I imagine. Trouble is, knowing it exists isn't the same as stopping it."
+    },
+    {
+      "id": "cb46-045",
+      "text": "{winnerClub} has set the pace, and the opposing club hasn't worked out how to slow it.",
+      "score": 9,
+      "was": "{winnerClub} has established the pace, and everyone else is still trying to make it uncomfortable."
+    },
+    {
+      "id": "cb46-046",
+      "text": "Never underestimate how difficult repetition is. {leader} has turned a result into a reliable feature.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-047",
+      "text": "It looks effortless from here, doesn't it? I'd wager {winner} knows better than anyone what it takes.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb46-048",
+      "text": "Every season becomes a fresh examination. {leader} has yet to come away with anything but top marks.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-049",
+      "text": "{trailer} can take comfort in one thing. A run can be broken, even one as stubborn as this.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb46-050",
+      "text": "An unbeaten sequence of season verdicts is impressive, especially when the opposition gets another chance to respond.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-051",
+      "text": "{leader} has taken every season to date. That's rather more persuasive than a flash of early promise.",
+      "score": 9,
+      "was": "{leader} has won the lot so far. That's rather more persuasive than an impressive opening weekend."
+    },
+    {
+      "id": "cb46-052",
+      "text": "An impressive bit of discipline from {winnerClub}. Each season has required a fresh effort, and got one.",
+      "score": 9,
+      "was": "There's no shortcut to a run like this. You still have to win the next season on its merits."
+    },
+    {
+      "id": "cb46-053",
+      "text": "Not every form of control is noisy. {winnerClub} has commanded each checkpoint without needing a grand flourish.",
+      "score": 9,
+      "was": "A steady hand is worth quite a bit. {winnerClub} has provided one at every seasonal checkpoint."
+    },
+    {
+      "id": "cb46-054",
+      "text": "I expected an awkward season somewhere along the way. {leader} hasn't provided one yet.",
+      "score": 9,
+      "was": "We keep expecting some friction in the sequence, and {leader} keeps making us wait for it."
+    },
+    {
+      "id": "cb46-055",
+      "text": "It's not glamorous analysis, I know, but the main difference is that one manager keeps doing the job.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-056",
+      "text": "{loser} needs a season to claim. Until that happens, the other side holds every completed chapter.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-057",
+      "text": "Funny thing, success eventually stops surprising people. {leader} has made a win feel almost routine.",
+      "score": 10,
+      "was": "The funny side of dominance is that {leader} has now made a fresh win seem almost unsurprising."
+    },
+    {
+      "id": "cb46-058",
+      "text": "Under all the talk of streaks sits a simple truth. Every finished season has favored the same manager.",
+      "score": 9,
+      "was": "There's a quiet authority to this. Every finished season points back to the same manager."
+    },
+    {
+      "id": "cb46-059",
+      "text": "I can hear the big question already. How much longer before the challenger changes the result?",
+      "score": 9,
+      "was": "I can hear the rival's question already. How many times must we come back before the answer changes?"
+    },
+    {
+      "id": "cb46-060",
+      "text": "{winnerClub} has made the annual discussion remarkably short. The result keeps getting there before the debate.",
+      "score": 9,
+      "was": "{winnerClub} has turned the seasonal standings into a fairly predictable appointment, and that's meant as praise."
+    },
+    {
+      "id": "cb46-061",
+      "text": "The challenger isn't lacking chances. {leader} is simply making each new chance difficult to convert.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-062",
+      "text": "To beat a run, you've got to start somewhere. {trailer} hasn't found that starting place yet.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb46-063",
+      "text": "Success can become a trap if you assume it will continue. {winner} still has to do the work.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-064",
+      "text": "There's something almost stubborn about this campaign. Not a season completed without {leader} taking the honours.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-065",
+      "text": "Possession of all the season wins belongs to {leader}, not the rights to the next one.",
+      "score": 10,
+      "was": "You have to respect the other manager's persistence. Repeated setbacks haven't removed the possibility of a response."
+    },
+    {
+      "id": "cb46-066",
+      "text": "{leader} has a monopoly on season wins so far. Luckily for the rival, the future isn't on the books yet.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-067",
+      "text": "Personally, I'd prefer a little uncertainty. {winnerClub} seems perfectly content with the arrangement.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-068",
+      "text": "Such a commanding run changes the stakes. The challenger's first season win would become a story of its own.",
+      "score": 9,
+      "was": "That is the difference between a good season and a commanding run. {leader} hasn't stopped at the former."
+    },
+    {
+      "id": "cb46-069",
+      "text": "Careful before declaring the future settled. A spotless run is not the same as a promise.",
+      "score": 10,
+      "was": "The longer it continues, the more a single rival win would matter. There's the intrigue for you."
+    },
+    {
+      "id": "cb46-070",
+      "text": "Easy to see the problem for {trailer}. A fine performance means little unless it changes the season winner.",
+      "score": 9,
+      "was": "{winner} has made a compelling argument with results, though the opposing manager still gets a reply."
+    },
+    {
+      "id": "cb46-071",
+      "text": "I'd hardly call this an exchange of honours. One manager has finished first at every opportunity.",
+      "score": 9,
+      "was": "I wouldn't describe this as a close exchange of seasonal honours. One manager has taken every installment."
+    },
+    {
+      "id": "cb46-072",
+      "text": "Sparing {trailer} another lecture would be kind. What matters now is finding a breakthrough.",
+      "score": 9,
+      "was": "{trailer} doesn't need a speech about the challenge. They need the next season to read differently."
+    },
+    {
+      "id": "cb46-073",
+      "text": "Some streaks make you look at the previous result. This one makes you look toward the next test.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-074",
+      "text": "Season after season, {winnerClub} has established the standard. I wonder who will finally raise it.",
+      "score": 9,
+      "was": "{winnerClub} has carried the same advantage through each completed season, and that's difficult to argue against."
+    },
+    {
+      "id": "cb46-075",
+      "text": "Repeated success has an odd effect. People begin searching for the weakness rather than admiring the work.",
+      "score": 9,
+      "was": "It takes a particular sort of nerve to win again when everyone has begun expecting exactly that."
+    },
+    {
+      "id": "cb46-076",
+      "text": "{leader} will know that expectations can be heavy. So far, they've carried them without dropping a season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb46-077",
+      "text": "Advice is easy to offer from this seat. The difficult part is earning a season win against this form.",
+      "score": 9,
+      "was": "The most useful response from the rival won't be an explanation. It'll be a season of their own."
+    },
+    {
+      "id": "cb46-078",
+      "text": "{loserClub} has had to watch this run develop, but nothing says the next page must match the last.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-079",
+      "text": "Hard to find an argument against this form, isn't it? Every available season has ended in victory.",
+      "score": 10,
+      "was": "Hard to find a flaw in the seasonal record, isn't it? Every opportunity has ended in victory."
+    },
+    {
+      "id": "cb46-080",
+      "text": "Season wins are becoming familiar territory for {winner}. The other manager would like a share of that map.",
+      "score": 9,
+      "was": "{winner} keeps taking the first prize in this contest, and the argument about who can stop them continues."
+    },
+    {
+      "id": "cb46-081",
+      "text": "People talk about form coming and going. {leader} hasn't allowed much of the going part.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-082",
+      "text": "Maybe the detail to remember is that these were separate campaigns, not one result stretched across time.",
+      "score": 9,
+      "was": "Perhaps that's why this feels significant. The contest has produced different seasons but the same season winner."
+    },
+    {
+      "id": "cb46-083",
+      "text": "{trailer} must be tired of hearing how steady the leader is. Fair enough, but it's still true.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-084",
+      "text": "Nothing dramatic has to happen for a streak to impress. Sometimes the drama is that nothing changes.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-085",
+      "text": "Look at what {winnerClub} has done so far. The opponent hasn't been offered an easy opening.",
+      "score": 9,
+      "was": "{winnerClub} hasn't left a single season on the table, and the rival will be desperate to alter that."
+    },
+    {
+      "id": "cb46-086",
+      "text": "Would I call {leader} unbeatable? Certainly not. But nobody has managed a season win against them yet.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb46-087",
+      "text": "We use 'dominance' too casually, don't we? Here it describes every completed season, not a lucky moment.",
+      "score": 9,
+      "was": "The word 'dominance' gets thrown around rather freely. Here it's earning its keep one season at a time."
+    },
+    {
+      "id": "cb46-088",
+      "text": "What {loser} needs now isn't another compliment. It's the breakthrough that would finally change this.",
+      "score": 9,
+      "was": "{loser} has to be thinking about the first interruption. Until then, this run keeps its shape."
+    },
+    {
+      "id": "cb46-089",
+      "text": "A winning run asks for more than talent. {winner} is showing the temperament to repeat the work.",
+      "score": 9,
+      "was": "Maintaining standards is harder than setting them. {winner} is supplying a decent demonstration of that."
+    },
+    {
+      "id": "cb46-090",
+      "text": "Even after this much success, the next season remains a proper question. That's the appeal of it.",
+      "score": 10,
+      "was": "It's a curious rivalry when every result has the same owner, yet the next season still matters."
+    },
+    {
+      "id": "cb46-091",
+      "text": "Certain patterns begin to feel permanent. {leader} should know better than to believe that for a second.",
+      "score": 9,
+      "was": "{leader} hasn't stumbled in the seasonal contest. Of course, the opponent is entitled to keep asking questions."
+    },
+    {
+      "id": "cb46-092",
+      "text": "Don't confuse consistency with inevitability. {trailer} still has a chance to make this uncomfortable.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb46-093",
+      "text": "{winnerClub} can enjoy the sequence without pretending the whole Showdown has already been decided.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb46-094",
+      "text": "Suppose {leader} finally meets a tougher season. That won't make the victories already earned worth any less.",
+      "score": 9,
+      "was": "If there is a secret here, it's not much of one. {leader} has simply kept winning the seasons."
+    },
+    {
+      "id": "cb46-095",
+      "text": "High standards are lovely until you're expected to reproduce them. {winner} has accepted the assignment.",
+      "score": 9,
+      "was": "That's the trouble with setting such a high standard. {winner} now has to live up to it again."
+    },
+    {
+      "id": "cb46-096",
+      "text": "Consider {loserClub}'s situation fairly. The streak isn't their entire story, and the chance to end it remains.",
+      "score": 9,
+      "was": "Give {loserClub} some credit for the challenge still to come. A streak only means something if someone contests it."
+    },
+    {
+      "id": "cb46-097",
+      "text": "A spotless set of season victories brings its own pressure. {leader} must now perform as the favorite.",
+      "score": 10,
+      "was": "A spotless record of seasonal victories puts a target on your back. {leader} seems to relish the responsibility."
+    },
+    {
+      "id": "cb46-098",
+      "text": "One different result would change the tone of this rivalry. {trailer} has every reason to pursue it.",
+      "score": 9,
+      "was": "Somebody eventually has to put a different name on the seasonal honours. {trailer} will hope to be that person."
+    },
+    {
+      "id": "cb46-099",
+      "text": "Having won every season so far, {winner} is in the unusual position of trying to preserve perfection.",
+      "score": 9,
+      "was": "{winner} has earned a comfortable familiarity with the season-winning position. The rival wants that seat back."
+    },
+    {
+      "id": "cb46-100",
+      "text": "I wouldn't mistake the string of wins for a completed Showdown. {leader} still has work ahead.",
+      "score": 10,
+      "was": "I like the restraint here. {leader} isn't winning the entire argument with words, only the seasons played."
+    }
+  ]
+}

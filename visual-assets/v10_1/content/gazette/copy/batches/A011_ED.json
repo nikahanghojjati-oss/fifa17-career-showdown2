@@ -1,0 +1,809 @@
+{
+  "batch": 11,
+  "situation": "winning-streak",
+  "edition": "season",
+  "lens": "The trophy cabinet",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b11-001",
+      "kicker": "STREAK WATCH",
+      "headline": "SUCCESS CLAIMS THE HIGH SHELF",
+      "subhead": "The latest chapter has the same leading manager as the recent ones, with {winner} extending an extraordinary sequence of season victories.",
+      "score": 10,
+      "was": "Headline: THE SHELF KEEPS GROWING | Subhead: Another season belongs to {winner}, whose succession of victories is making the Showdown's imaginary honours shelf increasingly difficult to overlook."
+    },
+    {
+      "id": "b11-002",
+      "kicker": "HONOURS DESK",
+      "headline": "SILVER SETS THE PACE",
+      "subhead": "On the honours pages, {winnerClub} now has a familiar distinction: its manager has taken yet another season from the rivalry.",
+      "score": 10,
+      "was": "Headline: A LONGER LINE OF SILVER | Subhead: With {winner} taking the season again, the record of repeated success stretches further while {loser} searches for an interruption."
+    },
+    {
+      "id": "b11-003",
+      "kicker": "SEASON RECORD",
+      "headline": "RUN CLAIMS ITS OWN ROOM",
+      "subhead": "What matters here is not a solitary result, but the way {winner} has kept repeating it across successive campaigns.",
+      "score": 10,
+      "was": "Headline: SUCCESS IN SUCCESSION | Subhead: The latest result puts {winner} first once more, extending a sequence that has become the defining feature of this rivalry."
+    },
+    {
+      "id": "b11-004",
+      "kicker": "CABINET NOTES",
+      "headline": "POLISHED BY REPETITION",
+      "subhead": "Some successes need a little polish to catch the eye; {winner}'s continuing sequence of season wins gleams without assistance.",
+      "score": 10,
+      "was": "Season after season, {winner} keeps emerging on top, giving familiar achievement a fresh finish in the Gazette's display case."
+    },
+    {
+      "id": "b11-005",
+      "kicker": "LEAGUE ROUNDUP",
+      "headline": "DISTINCTION NEVER RESTS",
+      "subhead": "{loser} has faced another successful season from {winner}, making a change to this established pattern a compelling possibility for the rivalry.",
+      "score": 9,
+      "was": "Headline: HONOURS NEVER REST | Subhead: {winner} has another season victory to celebrate, and the growing series now demands attention beyond the latest result."
+    },
+    {
+      "id": "b11-006",
+      "kicker": "TITLE FILE",
+      "headline": "ENGRAVER, BACK ON CALL",
+      "subhead": "The name {winner} returns to the season record, the symbolic lettering growing longer with every uninterrupted victory.",
+      "score": 10,
+      "was": "Headline: THE ENGRAVER RETURNS | Subhead: There is further work for the imagined engraver as {winner} adds a season victory to an already uninterrupted sequence."
+    },
+    {
+      "id": "b11-007",
+      "kicker": "DISPLAY CASE",
+      "headline": "ANOTHER SPACE CLAIMED",
+      "subhead": "Each season is judged separately, yet the same manager keeps emerging victorious, and {winner}'s latest achievement adds to that distinction.",
+      "score": 9,
+      "was": "{winner} occupies the winning position again, leaving the larger collection of recent seasons increasingly associated with the same manager."
+    },
+    {
+      "id": "b11-008",
+      "kicker": "PRESS BOX",
+      "headline": "CABINET STILL ON DUTY",
+      "subhead": "Even without knowing what silverware was collected, this much is certain: {winner} has extended an unbroken stretch of season wins.",
+      "score": 10,
+      "was": "Headline: A CABINET IN MOTION | Subhead: The honours may vary from season to season, but {winner} has kept ownership of the seasonal verdict remarkably consistent."
+    },
+    {
+      "id": "b11-009",
+      "kicker": "RESULTS ROOM",
+      "headline": "STEADY HAND ON THE KEY",
+      "subhead": "The key image is continuity: {winner} finishes at the top of the season comparison once more, keeping the sequence alive.",
+      "score": 9,
+      "was": "It is {winner} who takes the latest season, preserving the winning stretch without any need for extravagant claims."
+    },
+    {
+      "id": "b11-010",
+      "kicker": "WINNER'S COLUMN",
+      "headline": "EXHIBIT AFTER EXHIBIT",
+      "subhead": "Open the Gazette's imagined display and an increasingly familiar pattern appears: another successful season under the management of {winner}.",
+      "score": 10,
+      "was": "A further season goes to {winner}, making the sequence itself an exhibit in this friendly contest's developing story."
+    },
+    {
+      "id": "b11-011",
+      "kicker": "RIVALRY FILE",
+      "headline": "UNBROKEN UNDER GLASS",
+      "subhead": "{winnerClub} supplies the latest victorious campaign, ensuring its manager's recent winning seasons remain connected without a single interruption.",
+      "score": 9,
+      "was": "{winner} has followed previous season victories with another, ensuring that the streak survives a fresh challenge from {loser}."
+    },
+    {
+      "id": "b11-012",
+      "kicker": "REPEAT EDITION",
+      "headline": "FRESH INK ON OLD SILVER",
+      "subhead": "A long history is being written in short, successful chapters as {winner} claims the latest season in the series.",
+      "score": 10,
+      "was": "The familiar name returns to the season honours as {winner} wins again, though the broader Showdown remains its own contest."
+    },
+    {
+      "id": "b11-013",
+      "kicker": "BACK PAGE",
+      "headline": "KEEP THE LABEL READY",
+      "subhead": "The Gazette has changed its edition, not its seasonal winner: {winner} preserves the streak and leaves {loser} an inviting challenge.",
+      "score": 9,
+      "was": "One more season victory for {winner} means the Gazette can retain a familiar caption while finding a fresh reason to print it."
+    },
+    {
+      "id": "b11-014",
+      "kicker": "FINAL PROOF",
+      "headline": "DISPLAY CASE ON REPEAT",
+      "subhead": "The results gallery has a recurring attraction in {winner}, whose newest season victory continues the string of earlier ones.",
+      "score": 10,
+      "was": "{winner} continues the run of seasonal wins, making consistency the principal attraction in this edition's results gallery."
+    },
+    {
+      "id": "b11-015",
+      "kicker": "SHOWDOWN DESK",
+      "headline": "SILVER LEAVES NO GAP",
+      "subhead": "If a succession of wins deserves a display, {winner} has just contributed another chapter to the imaginary collection.",
+      "score": 9,
+      "was": "There has been no break in {winner}'s recent string of successful seasons, even as {loser} remains a worthy opponent."
+    },
+    {
+      "id": "b11-016",
+      "kicker": "HONOURS WATCH",
+      "headline": "POLISHING A PATTERN",
+      "subhead": "There is an art to remaining on top of each seasonal comparison, and {winner} has demonstrated it again.",
+      "score": 10,
+      "was": "With the latest season awarded to {winner}, what began as individual victories now reads like a sustained habit."
+    },
+    {
+      "id": "b11-017",
+      "kicker": "SPORTING RECORD",
+      "headline": "LOCKED INTO THE DISPLAY",
+      "subhead": "The record for this season belongs to {winner}, keeping a run of wins intact while leaving future outcomes unknowable.",
+      "score": 9,
+      "was": "Headline: LOCKED INTO THE HONOURS | Subhead: {winner} appears in the winning column yet again, extending an unbroken stretch without deciding what future seasons may bring."
+    },
+    {
+      "id": "b11-018",
+      "kicker": "EDITOR'S NOTE",
+      "headline": "AN ENGRAVING IN PROGRESS",
+      "subhead": "{winner} has won again, giving the newspaper fresh material for a story whose continuity has become remarkable in itself.",
+      "score": 10,
+      "was": "The imagined inscription keeps lengthening because {winner} has made another successful season follow those already claimed."
+    },
+    {
+      "id": "b11-019",
+      "kicker": "NEW EDITION",
+      "headline": "SHELVES FOR SUCCESSION",
+      "subhead": "For the followers of {winnerClub}, this edition brings a familiar delight: their manager has prevailed in yet another season.",
+      "score": 9,
+      "was": "This season adds to {winner}'s repeated victories, giving the newspaper a continuing story rather than an isolated result."
+    },
+    {
+      "id": "b11-020",
+      "kicker": "CABINET REVIEW",
+      "headline": "GLASS DOORS KEEP SWINGING",
+      "subhead": "The sequence has not ended with this season; {winner} adds a new success, and the rivalry gains another talking point.",
+      "score": 10,
+      "was": "Headline: THE CASE STAYS OPEN | Subhead: A further win for {winner} enlarges the sequence, although the rivalry still has plenty of room for a response."
+    },
+    {
+      "id": "b11-021",
+      "kicker": "TROPHY ROOM",
+      "headline": "BANG GOES THE DUSTCOVER",
+      "subhead": "With {winner} keeping the season victories coming, even an imaginary trophy room needs the doors opened frequently.",
+      "score": 10,
+      "was": "Another season is {winner}'s, and even the metaphorical collection can scarcely gather dust between celebratory editions."
+    },
+    {
+      "id": "b11-022",
+      "kicker": "SCORE DESK",
+      "headline": "STAMP THE NEXT PLAQUE",
+      "subhead": "Back to the engraving desk goes {winner}'s name, this time for yet another season placed in the winning column.",
+      "score": 10,
+      "was": "{winner} claims the season again, sending the result straight into the long list of consecutive successes."
+    },
+    {
+      "id": "b11-023",
+      "kicker": "SEASON LEDGER",
+      "headline": "ROLL OUT THE RED VELVET",
+      "subhead": "A bright ceremonial carpet suits the moment, as {winner} makes an already impressive streak that little bit longer.",
+      "score": 10,
+      "was": "Yet another victory makes {winner} the recurring guest of honour in this friendly rivalry's seasonal review."
+    },
+    {
+      "id": "b11-024",
+      "kicker": "LONG VIEW",
+      "headline": "FILL THAT EMPTY FRAME",
+      "subhead": "{loserClub} remains part of a rivalry worth watching, even as {winner} extends a commanding sequence of seasonal successes.",
+      "score": 9,
+      "was": "{winner} has won once more, giving the Gazette another chapter to hang beside the previous winning editions."
+    },
+    {
+      "id": "b11-025",
+      "kicker": "FORM FILE",
+      "headline": "RAISE THE GLASS LID",
+      "subhead": "The freshest result belongs to {winner}, and the real exhibit is a chain of victories rather than any assumed individual trophy.",
+      "score": 10,
+      "was": "The latest season belongs to {winner}, and the continuing run deserves attention without claiming an additional trophy was lifted."
+    },
+    {
+      "id": "b11-026",
+      "kicker": "SHOWCASE NEWS",
+      "headline": "PUT IT IN THE CASE",
+      "subhead": "Behind that imagined cabinet door is the story of {winner}'s successive wins, newly lengthened by the latest season.",
+      "score": 9,
+      "was": "After another season ends in {winner}'s favour, the record of successive victories gains its newest entry."
+    },
+    {
+      "id": "b11-027",
+      "kicker": "FOOTBALL DESK",
+      "headline": "DUST OFF THE PEDESTAL",
+      "subhead": "If {winner} needed an exhibition of persistence, the continuing line of successful campaigns would be evidence enough.",
+      "score": 10,
+      "was": "{winner} has extended the winning sequence, so the Gazette's imaginary pedestal is getting familiar with its regular visitor."
+    },
+    {
+      "id": "b11-028",
+      "kicker": "FEATURE DESK",
+      "headline": "ETCH THAT NAME AGAIN",
+      "subhead": "There is no doubt about the current season: {winner} has taken it, preserving the chain that began in earlier campaigns.",
+      "score": 10,
+      "was": "The season has gone to {winner} for another successive occasion, preserving an impressive line of results against {loser}."
+    },
+    {
+      "id": "b11-029",
+      "kicker": "ROLL OF HONOUR",
+      "headline": "BRING OUT THE MEDALS",
+      "subhead": "A ceremonial medal would suit this occasion, with {winner} earning yet another seasonal victory in the ongoing contest.",
+      "score": 9,
+      "was": "A fresh seasonal victory for {winner} brings another symbolic medal to a collection defined by repeated success."
+    },
+    {
+      "id": "b11-030",
+      "kicker": "ARCHIVE DESK",
+      "headline": "OPEN THE GALLERY DOORS",
+      "subhead": "The honours-room metaphor keeps working because {winnerClub} has provided the winning manager again, extending a distinguished streak.",
+      "score": 10,
+      "was": "Headline: OPEN UP THE HONOURS ROOM | Subhead: The door swings open for {winner} once more as the sequence of season victories carries on uninterrupted."
+    },
+    {
+      "id": "b11-031",
+      "kicker": "STREAK WATCH",
+      "headline": "STREAK OUTLASTS THE DUST",
+      "subhead": "A line of season wins has endured for {winner}, long enough to give the Gazette's display furniture a story.",
+      "score": 10,
+      "was": "Headline: CUP RUN? THIS ONE LASTS | Subhead: While a cup campaign is not established here, {winner}'s string of season wins has certainly lasted beyond a single edition."
+    },
+    {
+      "id": "b11-032",
+      "kicker": "HONOURS DESK",
+      "headline": "CURATOR ON CALL AGAIN",
+      "subhead": "The honours shelf is not literally measured here, but the continued success of {winner} certainly deserves a prominent place.",
+      "score": 10,
+      "was": "Headline: SILVER LINING UP AGAIN | Subhead: The cabinet metaphor fits {winner}'s continuing success, with another season win keeping the sequence in order."
+    },
+    {
+      "id": "b11-033",
+      "kicker": "SEASON RECORD",
+      "headline": "NO OFFSIDE AT THE CASE",
+      "subhead": "Once again {winner} occupies the season's winning place, with previous victories giving this result extra resonance.",
+      "score": 9,
+      "was": "Headline: NO OFFSIDE ON THE SHELF | Subhead: {winner} stays on the right side of the season verdict again, extending the winning streak across successive campaigns."
+    },
+    {
+      "id": "b11-034",
+      "kicker": "CABINET NOTES",
+      "headline": "NET RESULT: MORE ENTRIES",
+      "subhead": "{winner} takes another season against {loser}, reinforcing a winning habit that has endured across multiple campaigns.",
+      "score": 10,
+      "was": "Headline: NET RESULT: MORE HONOURS | Subhead: Another season goes to {winner}, strengthening a record of consecutive victories rather than relying on any single match."
+    },
+    {
+      "id": "b11-035",
+      "kicker": "LEAGUE ROUNDUP",
+      "headline": "BAR RAISED, RUN UNBROKEN",
+      "subhead": "The season belongs to {winnerClub}'s manager again, keeping the standard high and the recent sequence of wins intact.",
+      "score": 10,
+      "was": "Headline: THE BAR KEEPS RISING | Subhead: The standard of the rivalry feels higher as {winner} takes another season and preserves a remarkable winning sequence."
+    },
+    {
+      "id": "b11-036",
+      "kicker": "TITLE FILE",
+      "headline": "PENALTY FOR THE POLISHER",
+      "subhead": "An imaginary cabinet attendant might complain about the workload, though {winner} has every reason to enjoy the latest result.",
+      "score": 10,
+      "was": "Metaphorical cabinet staff face extra work because {winner} has continued the succession of season victories."
+    },
+    {
+      "id": "b11-037",
+      "kicker": "DISPLAY CASE",
+      "headline": "CALL FOR THE KEEPER",
+      "subhead": "There is a new entry for the honours file as {winner} continues to win successive seasons in this friendly contest.",
+      "score": 10,
+      "was": "Headline: WHISTLE FOR THE CURATOR | Subhead: The latest win gives {winner} another place in the season archive and the curator another reason to pay attention."
+    },
+    {
+      "id": "b11-038",
+      "kicker": "PRESS BOX",
+      "headline": "EXTRA TIME FOR THE CASE",
+      "subhead": "An unbroken succession of seasonal verdicts favours {winner}, leaving the Gazette to find fresh ways of marking familiar success.",
+      "score": 9,
+      "was": "{winner} has won the season again, extending the period in which the same manager has occupied the winning position."
+    },
+    {
+      "id": "b11-039",
+      "kicker": "RESULTS ROOM",
+      "headline": "POSTED TO THE HONOURS WALL",
+      "subhead": "Even the figurative honours wall is becoming well acquainted with {winner}, who has completed another victorious season.",
+      "score": 10,
+      "was": "A further win for {winner} belongs beside earlier victories, though {loser} can still change the story later."
+    },
+    {
+      "id": "b11-040",
+      "kicker": "WINNER'S COLUMN",
+      "headline": "TOP FLIGHT OF THE MANTEL",
+      "subhead": "{winner}'s repeated success has put the season comparison in familiar hands, irrespective of any individual league position.",
+      "score": 9,
+      "was": "Headline: TOP FLIGHT OF THE DISPLAY | Subhead: {winner}'s winning streak has climbed through successive seasons, making repeated achievement the headline rather than an invented league finish."
+    },
+    {
+      "id": "b11-041",
+      "kicker": "RIVALRY FILE",
+      "headline": "CLEAN RUN OF RESULTS",
+      "subhead": "The latest season adds to {winner}'s record of consecutive victories, a run that stands apart from any single match.",
+      "score": 10,
+      "was": "Headline: CLEAN SHEET FOR THE CASE | Subhead: The succession of season wins stays intact for {winner}, with no interruption to the recent pattern."
+    },
+    {
+      "id": "b11-042",
+      "kicker": "REPEAT EDITION",
+      "headline": "DUGOUT CLAIMS DISPLAY RIGHTS",
+      "subhead": "{winnerClub}'s manager has earned another winning-season headline, with the sequence itself meriting the place of honour.",
+      "score": 10,
+      "was": "Headline: DUGOUT TO DISPLAY CASE | Subhead: Another successful season takes {winner} from the managers' rivalry to the Gazette's imagined wall of honours."
+    },
+    {
+      "id": "b11-043",
+      "kicker": "BACK PAGE",
+      "headline": "CUPBOARD LOVE GOES LONG",
+      "subhead": "The affection is for the winning column, not a particular cupboard: {winner} has appeared there season after season.",
+      "score": 9,
+      "was": "It is hard not to admire {winner}'s attachment to the winning column after another successive season victory."
+    },
+    {
+      "id": "b11-044",
+      "kicker": "FINAL PROOF",
+      "headline": "EXHIBIT HAS COMPANY",
+      "subhead": "{winner} takes the season once again, so the Gazette's silverware imagery celebrates sustained success rather than a presumed trophy.",
+      "score": 10,
+      "was": "Headline: SILVERWARE ON SIDE | Subhead: In the Gazette's figurative cabinet, {winner}'s string of wins keeps the right shelf very busy indeed."
+    },
+    {
+      "id": "b11-045",
+      "kicker": "SHOWDOWN DESK",
+      "headline": "TROPHY DESK, OVERTIME",
+      "subhead": "Any actual trophies remain a separate question, but {winner}'s string of season victories gives the honours desk fresh work.",
+      "score": 10,
+      "was": "Headline: THE TROPHY DESK IS BUSY | Subhead: {winner} wins again and extends the sequence, whatever individual honours may or may not have accompanied the season."
+    },
+    {
+      "id": "b11-046",
+      "kicker": "HONOURS WATCH",
+      "headline": "NO HALF TIME FOR GLORY",
+      "subhead": "The latest tally crowns {winner} as season winner again, continuing a streak that now carries a story of its own.",
+      "score": 9,
+      "was": "Headline: NO HALF TIME FOR HONOURS | Subhead: The seasons keep changing, but {winner} keeps collecting the winning verdict and stretching the streak."
+    },
+    {
+      "id": "b11-047",
+      "kicker": "SPORTING RECORD",
+      "headline": "A LONG PASS TO THE CASE",
+      "subhead": "From the season verdict to the pages of the Gazette, {winner}'s repeated achievements keep finding fresh space.",
+      "score": 9,
+      "was": "Each new season offers a fresh challenge, yet {winner} has maintained the same successful outcome over successive campaigns."
+    },
+    {
+      "id": "b11-048",
+      "kicker": "EDITOR'S NOTE",
+      "headline": "NET GAINS BEHIND GLASS",
+      "subhead": "Another campaign has gone {winner}'s way, strengthening a familiar pattern without resolving how the whole Showdown will finish.",
+      "score": 9,
+      "was": "{winner}'s latest victory joins a series of season wins, while {loser} still has the opportunity to respond."
+    },
+    {
+      "id": "b11-049",
+      "kicker": "NEW EDITION",
+      "headline": "DISPLAY KEEPS ITS FORM",
+      "subhead": "Even with the details of individual trophies unknown, {winner}'s consecutive victories make a striking exhibit for the rivalry.",
+      "score": 10,
+      "was": "Headline: CABINET KEEPS ITS FORM | Subhead: The imagined honours display remains in familiar hands as {winner} continues an unbroken series of season victories."
+    },
+    {
+      "id": "b11-050",
+      "kicker": "CABINET REVIEW",
+      "headline": "FULL TIME, SAME EXHIBIT",
+      "subhead": "The record offers a familiar ending to this season as {winner} takes the honours once more, with no promise about what follows.",
+      "score": 9,
+      "was": "Season after season, the latest verdict favours {winner}, although nothing about the streak guarantees the next outcome."
+    },
+    {
+      "id": "b11-051",
+      "kicker": "TROPHY ROOM",
+      "headline": "WHISTLE WHILE IT SHINES",
+      "subhead": "The imagined polishers could scarcely keep pace with {winnerClub}'s successful seasons, their manager having added yet another victory.",
+      "score": 10,
+      "was": "The repeated wins of {winner} have turned each new season verdict into another reason for the honours display to gleam."
+    },
+    {
+      "id": "b11-052",
+      "kicker": "SCORE DESK",
+      "headline": "KEEPERS OF THE COLLECTION",
+      "subhead": "For the latest season, {winner} keeps the key to the winning column, extending a stretch that invites admiration.",
+      "score": 9,
+      "was": "Headline: KEEPERS OF THE CABINET | Subhead: {winner} remains the latest keeper of season honours, having kept the run alive through another completed campaign."
+    },
+    {
+      "id": "b11-053",
+      "kicker": "SEASON LEDGER",
+      "headline": "OFFSIDE? NOT THE STREAK",
+      "subhead": "An offside flag belongs to a match, not this season record: {winner} remains on top for another consecutive campaign.",
+      "score": 9,
+      "was": "However close a challenge may feel, the sequence of season victories belongs to {winner} for yet another edition."
+    },
+    {
+      "id": "b11-054",
+      "kicker": "LONG VIEW",
+      "headline": "CUPBOARD NEVER CLOSES",
+      "subhead": "The Gazette's metaphorical collection is still expanding because the manager of {winnerClub} has won yet another season.",
+      "score": 10,
+      "was": "Headline: A CUPBOARD OF CONTINUITY | Subhead: The image is a cupboard filling with familiar headlines as {winner} adds another season to a continuing chain."
+    },
+    {
+      "id": "b11-055",
+      "kicker": "FORM FILE",
+      "headline": "SHELF LIFE? ENDLESS",
+      "subhead": "The joke is that a display case might need an extension; the fact is another successful season for {winner}.",
+      "score": 9,
+      "was": "Another successful season for {winner} makes the latest chapter look less like a surprise than a sustained achievement."
+    },
+    {
+      "id": "b11-056",
+      "kicker": "SHOWCASE NEWS",
+      "headline": "FRAME OF MIND: WINNING",
+      "subhead": "A familiar winner does not make an ordinary story: {winner} has kept the successful series intact through a fresh season.",
+      "score": 9,
+      "was": "The winning habit remains with {winner}, whose latest season success continues the same familiar sequence."
+    },
+    {
+      "id": "b11-057",
+      "kicker": "FOOTBALL DESK",
+      "headline": "POSTMARKED FOR THE CASE",
+      "subhead": "For the newest victory in this continuing streak, {winner} earns another place in the imaginary correspondence of the honours desk.",
+      "score": 10,
+      "was": "Headline: THE POST IS STILL GOLD | Subhead: {winner} has carried the season again, keeping the imaginary honours gallery focused on the same recurring name."
+    },
+    {
+      "id": "b11-058",
+      "kicker": "FEATURE DESK",
+      "headline": "POLISH IN ADDED TIME",
+      "subhead": "A fresh victorious campaign has put {winner} back in the season headlines, preserving the sequence beyond its earlier editions.",
+      "score": 9,
+      "was": "After another season victory, {winner}'s uninterrupted record has earned a place of its own in the Gazette's gallery."
+    },
+    {
+      "id": "b11-059",
+      "kicker": "ROLL OF HONOUR",
+      "headline": "CHECK THE STREAK, NOT CUP",
+      "subhead": "The score comparison confirms another season won by {winner}; the continued pattern, not any presumed silverware, is the prize here.",
+      "score": 10,
+      "was": "Headline: SILVER? CHECK THE STREAK | Subhead: Whatever trophies accompanied the season, its decisive Showdown distinction is the uninterrupted string of wins by {winner}."
+    },
+    {
+      "id": "b11-060",
+      "kicker": "ARCHIVE DESK",
+      "headline": "ON THE BALL, ON THE WALL",
+      "subhead": "From the football desk to the honours wall, the story is unchanged in outcome: {winner} has won yet again.",
+      "score": 9,
+      "was": "{winner} wins once more and earns another place in the season honours story, with every fresh result adding weight."
+    },
+    {
+      "id": "b11-061",
+      "kicker": "STREAK WATCH",
+      "headline": "MANTEL CARRIES ON",
+      "subhead": "For {loser}, the challenge becomes interrupting a sequence that {winner} has just prolonged with another successful season.",
+      "score": 10,
+      "was": "Headline: CABINET CARRIES ON | Subhead: The imagined glass doors stay busy because {winner} keeps adding victorious seasons to the same unbroken sequence."
+    },
+    {
+      "id": "b11-062",
+      "kicker": "HONOURS DESK",
+      "headline": "PLAQUES PILE UP",
+      "subhead": "The Gazette's figurative plaque collection grows while {winnerClub}'s manager keeps stringing winning seasons together.",
+      "score": 9,
+      "was": "{winner} has made the winning result familiar without making it less significant, extending the run with another season."
+    },
+    {
+      "id": "b11-063",
+      "kicker": "SEASON RECORD",
+      "headline": "BRASS HAS MORE TO SAY",
+      "subhead": "Each season brings a separate decision, yet {winner} keeps taking the favourable verdict in a remarkable succession.",
+      "score": 10,
+      "was": "Headline: BRASS BEARS THE BURDEN | Subhead: Another season victory leaves the Gazette's fictional engraver with work to do and {winner} with momentum to savour."
+    },
+    {
+      "id": "b11-064",
+      "kicker": "CABINET NOTES",
+      "headline": "GALLERY GATHERS GLORY",
+      "subhead": "Across successive campaigns, {winner} has produced the same outcome, lending the latest season a growing sense of significance.",
+      "score": 9,
+      "was": "It is another season to celebrate for {winner}, whose succession of victories gives the gallery a developing narrative."
+    },
+    {
+      "id": "b11-065",
+      "kicker": "LEAGUE ROUNDUP",
+      "headline": "RIBBONS REMAIN READY",
+      "subhead": "The honours ribbon is an image rather than a confirmed award, but {winner}'s uninterrupted sequence of season wins is real.",
+      "score": 10,
+      "was": "Previous winning editions have scarcely faded before {winner} adds another triumph to the streak."
+    },
+    {
+      "id": "b11-066",
+      "kicker": "TITLE FILE",
+      "headline": "VELVET VINDICATES VICTOR",
+      "subhead": "As {winnerClub} supplies another successful manager's season, the same name keeps returning to the Gazette's honours pages.",
+      "score": 9,
+      "was": "For {winner}, the season ends with the same winning verdict as its recent predecessors, a distinction worth displaying."
+    },
+    {
+      "id": "b11-067",
+      "kicker": "DISPLAY CASE",
+      "headline": "SHELF SPACE SHRINKS",
+      "subhead": "The room on the metaphorical shelf feels smaller with each season victory {winner} continues to add.",
+      "score": 9,
+      "was": "A fresh win extends {winner}'s series, filling the imaginary display faster than its owner can change the labels."
+    },
+    {
+      "id": "b11-068",
+      "kicker": "PRESS BOX",
+      "headline": "MEDAL MAKERS MOBILISE",
+      "subhead": "This season makes the sequence longer, with {winner} once again taking the result in a rivalry that remains warmly contested.",
+      "score": 9,
+      "was": "The repeated seasonal success of {winner} gives the Gazette's imaginary medal workshop reason to keep its lights on."
+    },
+    {
+      "id": "b11-069",
+      "kicker": "RESULTS ROOM",
+      "headline": "CURATOR'S CALL CONTINUES",
+      "subhead": "If the Gazette printed medals for season results, {winner} would have a growing collection after the latest success.",
+      "score": 10,
+      "was": "Headline: CABINET CUSTODIAN CONTINUES | Subhead: This season's winning manager is {winner} again, keeping the recent sequence intact and the friendly rivalry lively."
+    },
+    {
+      "id": "b11-070",
+      "kicker": "WINNER'S COLUMN",
+      "headline": "POLISHED PLAQUES PROLIFERATE",
+      "subhead": "The newest campaign carries {winner}'s name into the winning column, where it joins a string of earlier entries.",
+      "score": 9,
+      "was": "{winner} has continued to win successive seasons, making a collection of imaginary commemorative plaques feel entirely appropriate."
+    },
+    {
+      "id": "b11-071",
+      "kicker": "RIVALRY FILE",
+      "headline": "SHOWCASE STAYS SHARP",
+      "subhead": "Behind the glossy display language is a straightforward distinction: {winner} has followed earlier season wins with another.",
+      "score": 10,
+      "was": "The latest victory leaves {winner}'s record of consecutive winning seasons undisturbed, even with future challenges still to come."
+    },
+    {
+      "id": "b11-072",
+      "kicker": "REPEAT EDITION",
+      "headline": "GOLD GATHERS NO DUST",
+      "subhead": "It would take considerable dust to disguise the recent pattern, with {winner} victorious across a continuing succession of seasons.",
+      "score": 10,
+      "was": "Another season falls to {winner}, keeping the Gazette's symbolic honours room active rather than merely nostalgic."
+    },
+    {
+      "id": "b11-073",
+      "kicker": "BACK PAGE",
+      "headline": "CASE CLOSES ON ANOTHER",
+      "subhead": "The friendly challenge is renewed for {loser} as {winner} claims another season and leaves the run unbroken.",
+      "score": 9,
+      "was": "{winner} takes another season and extends the sequence, leaving {loser} with fresh motivation to challenge it."
+    },
+    {
+      "id": "b11-074",
+      "kicker": "FINAL PROOF",
+      "headline": "FRAME FOLLOWS FRAME",
+      "subhead": "In the Gazette's imagined museum, every recent winning-season frame seems to lead toward the newest one for {winner}.",
+      "score": 10,
+      "was": "Behind the metaphorical glass, each victorious season for {winner} seems to find an earlier one beside it."
+    },
+    {
+      "id": "b11-075",
+      "kicker": "SHOWDOWN DESK",
+      "headline": "METAL MAKES A MEMORY",
+      "subhead": "This result goes to {winner}, carrying forward an impressive streak without revealing where the rivalry will ultimately end.",
+      "score": 9,
+      "was": "Headline: SILVER SHINES IN SERIES | Subhead: {winner} has built a succession of season wins that commands attention without predicting how the next chapter ends."
+    },
+    {
+      "id": "b11-076",
+      "kicker": "HONOURS WATCH",
+      "headline": "WHO KEEPS THE KEY?",
+      "subhead": "The answer is {winner}, after a season that extends the manager's consecutive successes rather than interrupting them.",
+      "score": 10,
+      "was": "The same manager has claimed another seasonal victory, and {winner}'s continuing success answers the question for now."
+    },
+    {
+      "id": "b11-077",
+      "kicker": "SPORTING RECORD",
+      "headline": "IS THAT ANOTHER LABEL?",
+      "subhead": "There may be no real label to attach, but the latest campaign has been won by {winner} in familiar fashion.",
+      "score": 9,
+      "was": "Yes, another season belongs to {winner}, extending the sequence of victories already recorded in the Gazette's pages."
+    },
+    {
+      "id": "b11-078",
+      "kicker": "EDITOR'S NOTE",
+      "headline": "HOW FULL IS THAT CASE?",
+      "subhead": "{winnerClub} can claim another victorious manager's season, continuing a story that has moved beyond a solitary result.",
+      "score": 9,
+      "was": "With {winner} winning yet another season, the imagined gallery has room for one more entry in the series."
+    },
+    {
+      "id": "b11-079",
+      "kicker": "NEW EDITION",
+      "headline": "CAN THE SHELF KEEP COUNT?",
+      "subhead": "Whatever lies behind the metaphorical glass, {winner}'s continued run of winning seasons is the exhibit that matters.",
+      "score": 9,
+      "was": "Headline: CAN SILVER KEEP COUNT? | Subhead: Each successive victory has made {winner}'s place in the season records more prominent, and the latest adds to it."
+    },
+    {
+      "id": "b11-080",
+      "kicker": "CABINET REVIEW",
+      "headline": "WHICH NAME GOES NEXT?",
+      "subhead": "The Gazette has its answer: {winner} takes the latest season, keeping a notable series of victories intact.",
+      "score": 10,
+      "was": "Another season offers the same answer: {winner}, extending the run without settling the question of what follows."
+    },
+    {
+      "id": "b11-081",
+      "kicker": "TROPHY ROOM",
+      "headline": "DO THE PLAQUES EVER REST?",
+      "subhead": "With the new season won by {winner}, the honours-room imagery feels busier than ever, even without named trophies.",
+      "score": 9,
+      "was": "The latest result sends {winner} back to the Gazette's figurative engraving desk after another successful season."
+    },
+    {
+      "id": "b11-082",
+      "kicker": "SCORE DESK",
+      "headline": "IS THERE ROOM FOR MORE?",
+      "subhead": "The winning sequence is still expanding for {winner}, whose results have made further display space a running newsroom joke.",
+      "score": 9,
+      "was": "{winner} has extended the succession of winning seasons, creating still more space to fill in the imagined display."
+    },
+    {
+      "id": "b11-083",
+      "kicker": "SEASON LEDGER",
+      "headline": "WHO ORDERED MORE VELVET?",
+      "subhead": "No actual fabric has been ordered, but the Gazette can imagine the presentation as {winner} wins yet another season.",
+      "score": 10,
+      "was": "A further season victory for {winner} keeps the Gazette's invented exhibition staff busy with another ceremonial presentation."
+    },
+    {
+      "id": "b11-084",
+      "kicker": "LONG VIEW",
+      "headline": "CAN THE FRAME HOLD IT?",
+      "subhead": "Another victory enlarges the story of {winner}'s consecutive successes, while its final chapter is still to be written.",
+      "score": 9,
+      "was": "This winning stretch has grown again through {winner}'s latest season, but its eventual length remains unwritten."
+    },
+    {
+      "id": "b11-085",
+      "kicker": "FORM FILE",
+      "headline": "WHAT'S BEHIND THAT GLASS?",
+      "subhead": "Look past the imaginary glass and the news is unmistakable: {winner} has extended a sustained run of season wins.",
+      "score": 9,
+      "was": "It is {winner}'s recurring achievement, with the latest season victory joining an uninterrupted sequence against {loser}."
+    },
+    {
+      "id": "b11-086",
+      "kicker": "SHOWCASE NEWS",
+      "headline": "MORE FOR THE MANTEL",
+      "subhead": "There is more than a single result to mark, as {winner} extends the winning stretch into another completed campaign.",
+      "score": 10,
+      "was": "{winner}'s latest season victory keeps the run going, adding another symbolic prize to an already memorable sequence."
+    },
+    {
+      "id": "b11-087",
+      "kicker": "FOOTBALL DESK",
+      "headline": "SAME NAME, FRESH INK",
+      "subhead": "The printed name may be familiar, but {winner}'s latest season victory is a fresh achievement in its own right.",
+      "score": 10,
+      "was": "The season has delivered another win for {winner}, but the Gazette must still find a new way to describe it."
+    },
+    {
+      "id": "b11-088",
+      "kicker": "FEATURE DESK",
+      "headline": "POLISHED. AGAIN.",
+      "subhead": "On this season's page, {winner} stands first once again, maintaining the succession that now gives the rivalry its rhythm.",
+      "score": 9,
+      "was": "For {winner}, consecutive season victories have become familiar, though the newest still carries its own importance in the rivalry."
+    },
+    {
+      "id": "b11-089",
+      "kicker": "ROLL OF HONOUR",
+      "headline": "NO DUST ALLOWED",
+      "subhead": "The metaphorical display remains lively because {winnerClub} has supplied another winning campaign from its manager.",
+      "score": 9,
+      "was": "Another success for {winner} means the symbolic honours case has had little opportunity to settle into silence."
+    },
+    {
+      "id": "b11-090",
+      "kicker": "ARCHIVE DESK",
+      "headline": "DISPLAY WITHOUT DELAY",
+      "subhead": "The latest season produces an outcome this rivalry knows well: another success for {winner}, and the streak continues.",
+      "score": 10,
+      "was": "{winner} continues a run of season wins, moving from the latest result straight into the rivalry's developing memory."
+    },
+    {
+      "id": "b11-091",
+      "kicker": "STREAK WATCH",
+      "headline": "REPEAT EXHIBIT",
+      "subhead": "There is no need to claim a particular cup: {winner} has earned another season victory, with the series growing.",
+      "score": 10,
+      "was": "Headline: THE REPEAT EXHIBIT | Subhead: It is a new season but an increasingly familiar winner, as {winner} preserves an unbroken sequence of victories."
+    },
+    {
+      "id": "b11-092",
+      "kicker": "HONOURS DESK",
+      "headline": "STILL ON SHOW",
+      "subhead": "The story continues in familiar colours as {winnerClub}'s manager adds another success to an uninterrupted run of seasons.",
+      "score": 9,
+      "was": "Another successful campaign keeps {winner} at the centre of the Gazette's rolling exhibition of season results."
+    },
+    {
+      "id": "b11-093",
+      "kicker": "SEASON RECORD",
+      "headline": "KEYS NOT RETURNED",
+      "subhead": "The key stays with {winner} for this edition, after another season ending in a victory for the same manager.",
+      "score": 10,
+      "was": "{winner} holds the seasonal distinction once more, lengthening a sequence that the rival will surely want to interrupt."
+    },
+    {
+      "id": "b11-094",
+      "kicker": "CABINET NOTES",
+      "headline": "PLAQUES NEVER SLEEP",
+      "subhead": "With an unbroken sequence to celebrate, {winner} has given the Gazette another reason to keep its honours pages open.",
+      "score": 9,
+      "was": "Headline: HONOURS, NO HIBERNATION | Subhead: With {winner} winning another season, there is no pause in the recent succession of victorious results."
+    },
+    {
+      "id": "b11-095",
+      "kicker": "LEAGUE ROUNDUP",
+      "headline": "CASE IN POINT",
+      "subhead": "The practical point behind the pun is simple: {winner} has won another season after an established series of victories.",
+      "score": 9,
+      "was": "The newest evidence of {winner}'s form is another season victory, extending an already established sequence."
+    },
+    {
+      "id": "b11-096",
+      "kicker": "TITLE FILE",
+      "headline": "RIBBON CONTINUITY",
+      "subhead": "The imagery is borrowed from a ribboned cabinet, but the repeated seasonal success of {winner} needs no embellishment.",
+      "score": 9,
+      "was": "{winner} keeps the succession of season wins intact, providing the rivalry with another reason to look toward the next campaign."
+    },
+    {
+      "id": "b11-097",
+      "kicker": "DISPLAY CASE",
+      "headline": "CURTAIN ON THE CASE",
+      "subhead": "It is {winner}'s continued run of victories that earns the latest exhibit, not a claim about any specific trophy.",
+      "score": 10,
+      "was": "Headline: GLASS ACT, REPEATED | Subhead: A sustained sequence of successful seasons continues for {winner}, who has once again finished the latest round on top."
+    },
+    {
+      "id": "b11-098",
+      "kicker": "PRESS BOX",
+      "headline": "MORE ROOM REQUIRED",
+      "subhead": "The same manager has taken the season yet again, giving {winnerClub} another reason to enjoy the rivalry.",
+      "score": 9,
+      "was": "Successive season victories have made {winner} a regular feature of the Gazette's imaginary honours gallery."
+    },
+    {
+      "id": "b11-099",
+      "kicker": "RESULTS ROOM",
+      "headline": "UNINTERRUPTED BUSINESS",
+      "subhead": "{winner} has taken another season, and the uninterrupted succession leaves the Gazette with a story still worth telling.",
+      "score": 9,
+      "was": "The latest season belongs to {winner}, carrying forward the winning streak while leaving the larger contest's future undecided."
+    },
+    {
+      "id": "b11-100",
+      "kicker": "WINNER'S COLUMN",
+      "headline": "NEXT SHELF, PLEASE",
+      "subhead": "A further victory for {winner} completes this edition's winning-streak story, though the next verdict cannot be assumed.",
+      "score": 10,
+      "was": "Yet another successful season for {winner} has turned a series of results into the rivalry's current defining story."
+    }
+  ]
+}
