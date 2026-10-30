@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-29 10:54 PM Boston time (EDT)",
+ "generated": "2026-10-29 10:58 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 174,
@@ -1632,8 +1632,8 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: Showdown Gate on #1069 has waited 11 min for a machine.",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
