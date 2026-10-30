@@ -1,0 +1,608 @@
+{
+  "batch": 112,
+  "situation": "halfway",
+  "voice": "The studio panel",
+  "lines": [
+    {
+      "id": "cb112-001",
+      "text": "Halfway through, and {leader} has the advantage. The rest of this argument is still wonderfully unsettled.",
+      "was": null,
+      "score": 10
+    },
+    {
+      "id": "cb112-002",
+      "text": "Someone tell {trailer} the interval isn't a verdict. There's still an awful lot of football to judge.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-003",
+      "text": "Being in front suits {leader} nicely, especially when the alternative involves explaining why you're chasing.",
+      "was": "I'll give {leader} this, being in front at halfway beats explaining why you're not.",
+      "score": 10
+    },
+    {
+      "id": "cb112-004",
+      "text": "Funny thing about the midpoint, it makes a comfortable chair feel suspiciously like a hot seat.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-005",
+      "text": "For {trailer}, an unpromising opening can yet make a superb ending. That's the charm of a longer contest.",
+      "was": "Look at {trailer}. There's still room to write a much better ending than the opening.",
+      "score": 9
+    },
+    {
+      "id": "cb112-006",
+      "text": "The first part sets the argument. Now comes the part where neither manager gets to hide behind it.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-007",
+      "text": "You can admire {leader}'s work without engraving a trophy just yet. I'd leave the chisel in its box.",
+      "was": null,
+      "score": 10
+    },
+    {
+      "id": "cb112-008",
+      "text": "Midway along the road, and the rearview mirror is useful, but the windshield matters most.",
+      "was": "Midway along the road, and the rearview mirror is useful, but the windshield matters rather more.",
+      "score": 9
+    },
+    {
+      "id": "cb112-009",
+      "text": "Here's {trailer}'s consolation, the story is long enough for a completely different final chapter.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-010",
+      "text": "There's a reason they call this halfway. Nobody hands out the final handshake before the job is done.",
+      "was": "There's a reason they call this halfway. Nobody hands out the final handshake at the interval.",
+      "score": 9
+    },
+    {
+      "id": "cb112-011",
+      "text": "Give {leader} credit for setting the pace. Give the rest of us permission to enjoy the chase.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-012",
+      "text": "A decent opening earns applause, but at the intermission, it doesn't earn the closing credits.",
+      "was": "A decent opening earns applause, but halfway through a Showdown, it doesn't earn the closing credits.",
+      "score": 10
+    },
+    {
+      "id": "cb112-013",
+      "text": "If {trailer} wanted a clean slate, bad luck. If they wanted another chance, excellent news.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-014",
+      "text": "Here's the catch for {leader}, everybody knows which position they'd rather occupy now.",
+      "was": "The interesting bit for {leader} starts now, staying there when everybody knows where to look.",
+      "score": 9
+    },
+    {
+      "id": "cb112-015",
+      "text": "I'd call it a halftime cup of tea, except nobody in this rivalry ever stops talking.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-016",
+      "text": "At this stage, {trailer} needs opportunity, not sympathy. The contest has plenty left to offer.",
+      "was": "At this stage, {trailer} needs opportunity more than sympathy. Fortunately, the schedule still offers both sides plenty.",
+      "score": 9
+    },
+    {
+      "id": "cb112-017",
+      "text": "Don't confuse a lead with a guarantee. {leader} has earned the former, and nobody can sell the latter.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-018",
+      "text": "Even this panel can't agree which way the Showdown swings after the turn. We're hardly helping, are we?",
+      "was": "The Showdown has reached its hinge, and you can almost hear the panel disagreeing about which way it swings.",
+      "score": 10
+    },
+    {
+      "id": "cb112-019",
+      "text": "For {trailer}, the view from behind isn't ideal, but the finish line is nowhere near the studio.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-020",
+      "text": "I like how {leader} has made a case. I like better that the case isn't closed.",
+      "was": "I like how {leader} has made a case. I like even more that the case isn't closed.",
+      "score": 9
+    },
+    {
+      "id": "cb112-021",
+      "text": "We're at the midpoint, not the medal ceremony. Someone ought to remind the imaginary engraver.",
+      "was": null,
+      "score": 10
+    },
+    {
+      "id": "cb112-022",
+      "text": "That advantage belongs to {leader}, but the pressure of protecting it comes free of charge.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-023",
+      "text": "Imagine giving {trailer} the final say already. It would be a dreadful waste of the remaining seasons.",
+      "was": null,
+      "score": 10
+    },
+    {
+      "id": "cb112-024",
+      "text": "Now the rivalry changes shape. The early questions are answered, and the difficult follow-ups begin.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-025",
+      "text": "What would {leader} trade for certainty? Doesn't matter, it's the only thing the standings won't provide.",
+      "was": null,
+      "score": 10
+    },
+    {
+      "id": "cb112-026",
+      "text": "With plenty of journey left, {trailer} has no reason to pack the suitcase just yet.",
+      "was": "Half a journey behind us, and {trailer} still has every reason to keep the suitcase unpacked.",
+      "score": 9
+    },
+    {
+      "id": "cb112-027",
+      "text": "They've reached the turning point. Unfortunately for our pundits, there isn't a shortcut to the ending.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-028",
+      "text": "I'll happily praise {leader} today, provided nobody mistakes that for handing over the title.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-029",
+      "text": "You don't need to sell {trailer} a miracle. A good second half would make this compelling enough.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-030",
+      "text": "There's the beauty of the long format, a manager can lead the conversation without having the last word.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-031",
+      "text": "An advantage looks lovely on paper. Ask {leader} how much comfort paper offers in this contest.",
+      "was": "A halfway lead looks lovely on paper. Ask {leader} how much comfort paper offers in a rivalry.",
+      "score": 9
+    },
+    {
+      "id": "cb112-032",
+      "text": "My advice to {trailer}? Keep the competitive streak sharp and the concession speech buried under the sofa.",
+      "was": "My advice to {trailer} would be simple, keep the calculator handy and the resignation speech in storage.",
+      "score": 10
+    },
+    {
+      "id": "cb112-033",
+      "text": "Nobody has won the argument yet. We've merely reached the point where the interruptions get sharper.",
+      "was": "Nobody has won the argument yet. We've merely reached the point where the interruptions get more interesting.",
+      "score": 9
+    },
+    {
+      "id": "cb112-034",
+      "text": "You know {leader} would prefer the story ended here. That's precisely why the rest matters.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-035",
+      "text": "From here, {trailer} doesn't need a new rivalry. Just a better share of the one already underway.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-036",
+      "text": "The halfway mark is a strange place, too late for introductions and far too early for farewells.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-037",
+      "text": "Let's not mistake {leader}'s position for a permanent address. Even a fine lead has to be defended.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-038",
+      "text": "And {trailer} gets the most valuable commodity at this turn, time to ask a different question.",
+      "was": "And {trailer} gets the most valuable commodity at this interval, time to ask a different question.",
+      "score": 9
+    },
+    {
+      "id": "cb112-039",
+      "text": "Those early chapters have substance. The ending remains out of reach, despite our magnificent confidence.",
+      "was": "The early chapters have substance. The ending, thankfully, remains beyond the reach of even this panel.",
+      "score": 10
+    },
+    {
+      "id": "cb112-040",
+      "text": "At halfway, {leader} holds the better hand, but nobody's allowed to fold the competition.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-041",
+      "text": "Would I rather be {leader}? Absolutely. Would I bet the sofa on it? Absolutely not.",
+      "was": null,
+      "score": 10
+    },
+    {
+      "id": "cb112-042",
+      "text": "For {trailer}, losing ground is not the same as running out of road. There's plenty left.",
+      "was": "For {trailer}, there's a useful distinction between losing ground and running out of road. We're nowhere near the latter.",
+      "score": 9
+    },
+    {
+      "id": "cb112-043",
+      "text": "I can already hear the debates about {leader}. That's the reward for making the second half matter.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-044",
+      "text": "It's a curious interval, the front runner has more to protect and the pursuer every reason to dream.",
+      "was": "It's a curious interval, the front runner has more to protect and the pursuer more to imagine.",
+      "score": 9
+    },
+    {
+      "id": "cb112-045",
+      "text": "Nobody should ask {trailer} for a concession speech when the Showdown has pages left to turn.",
+      "was": "Nobody should ask {trailer} for a concession speech while the Showdown still has pages to turn.",
+      "score": 9
+    },
+    {
+      "id": "cb112-046",
+      "text": "Put the champagne jokes away. This break is for comparing notes, not choosing where the cup sits.",
+      "was": "Put the champagne jokes away. Halfway is for comparing notes, not choosing where the cup sits.",
+      "score": 10
+    },
+    {
+      "id": "cb112-047",
+      "text": "If {leader} keeps this up, we'll applaud. If not, the panel will pretend it saw everything coming.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-048",
+      "text": "I'll say this about {trailer}, a deficit gives you something unmistakable to aim at.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-049",
+      "text": "Archive the opening act if you like. The next part needs someone bold enough to write it.",
+      "was": "The first act belongs in the archive. The second still needs someone brave enough to write it.",
+      "score": 10
+    },
+    {
+      "id": "cb112-050",
+      "text": "Across {seasons} seasons, the middle stretch offers only one safe forecast, more arguments between these managers.",
+      "was": "Halfway through {seasons} seasons, and the only safe forecast is more arguments between these managers.",
+      "score": 9
+    },
+    {
+      "id": "cb112-051",
+      "text": "Quite a place for {leader} to be, admired at the interval and examined under a brighter light afterward.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-052",
+      "text": "This isn't where {trailer} needs a miracle speech. It's where a sustained reply can begin.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-053",
+      "text": "If you expected closure at intermission, I'm afraid this report comes with a very large asterisk.",
+      "was": "If you were expecting closure, I'm afraid the halfway report comes with a very large asterisk.",
+      "score": 9
+    },
+    {
+      "id": "cb112-054",
+      "text": "Credit where it's due, {leader} has the stronger position. There's no invoice for the next challenge, though.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-055",
+      "text": "Give me an unruly finish over a tidy prediction any day. Predictability makes dreadful television.",
+      "was": "I'll take a competitive second half over a tidy prediction. So will anyone who enjoys this Showdown.",
+      "score": 10
+    },
+    {
+      "id": "cb112-056",
+      "text": "There's no shame in {trailer} chasing. The only mistake would be pretending the race had ended.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-057",
+      "text": "What an awkward moment for our experts, the point when certainty sounds clever but patience sounds wiser.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-058",
+      "text": "Quite right to celebrate {leader}'s advantage. Just save a little applause for whoever tests it next.",
+      "was": "The advantage is real for {leader}. So is the invitation for everyone else to test it.",
+      "score": 9
+    },
+    {
+      "id": "cb112-059",
+      "text": "Chasing can sound exhausting, but {trailer} has another chance to make this competitive.",
+      "was": "You might say {trailer} has work to do. I'd say at least there's still work worth doing.",
+      "score": 9
+    },
+    {
+      "id": "cb112-060",
+      "text": "A checkpoint isn't a result to frame. It's where the frame starts looking too small for the story.",
+      "was": "Halfway isn't a result to frame. It's the moment the frame starts looking too small for the story.",
+      "score": 10
+    },
+    {
+      "id": "cb112-061",
+      "text": "Between us, I suspect {leader} would happily skip the suspense. The rest of us would object.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-062",
+      "text": "That gap gives {trailer} a challenge, not a script. There's still room for the unexpected.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-063",
+      "text": "Every good rivalry deserves an interval where both managers can imagine an ending worth their efforts.",
+      "was": "Every good rivalry deserves an interval where both managers can still believe in the ending.",
+      "score": 9
+    },
+    {
+      "id": "cb112-064",
+      "text": "The balance currently favours {leader}. That's a sentence, not the full newspaper edition.",
+      "was": null,
+      "score": 10
+    },
+    {
+      "id": "cb112-065",
+      "text": "Could {trailer} turn this around? That's exactly the question keeping this studio in business.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-066",
+      "text": "Take away the microphones, and the turning point means the same thing. The decisive business lies ahead.",
+      "was": "Take away the microphones, and halfway still means the same thing. The decisive business lies ahead.",
+      "score": 9
+    },
+    {
+      "id": "cb112-067",
+      "text": "Fair play to {leader}, that's a position anyone would fancy, and nobody's entitled to relax.",
+      "was": "You can see why {leader} would fancy the position. You can also see why nobody's relaxed.",
+      "score": 9
+    },
+    {
+      "id": "cb112-068",
+      "text": "Funny how this point in the campaign makes {trailer}'s possibilities look bigger. There's room to respond.",
+      "was": "Funny how the halfway flag makes {trailer}'s possibilities look bigger, not smaller. There's room to respond.",
+      "score": 9
+    },
+    {
+      "id": "cb112-069",
+      "text": "We've watched the opening argument. Now it's time to discover whether the reply is better.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-070",
+      "text": "Here's my studio prediction, {leader} won't be allowed a quiet second half, whatever happens next.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-071",
+      "text": "Somewhere between beginning and finish, the promises lose value and nerve becomes the most convincing answer.",
+      "was": "Somewhere between the beginning and the finish, the Showdown becomes less about promises and more about nerve.",
+      "score": 9
+    },
+    {
+      "id": "cb112-072",
+      "text": "It takes something to reach the middle in front. It takes rather more to stay there, as {leader} knows.",
+      "was": "It takes something to reach halfway in front. It takes rather more to stay there, as {leader} knows.",
+      "score": 9
+    },
+    {
+      "id": "cb112-073",
+      "text": "Offer {trailer} the courtesy of a contest far from settled. Predictions can wait until the closing scene.",
+      "was": "Let's give {trailer} the courtesy of a remaining contest. Nobody needs an early obituary for their hopes.",
+      "score": 10
+    },
+    {
+      "id": "cb112-074",
+      "text": "At this point, the debate moves from what happened to what each manager can yet do.",
+      "was": "At the interval, the debate moves from what happened to what each manager can still do.",
+      "score": 9
+    },
+    {
+      "id": "cb112-075",
+      "text": "I fancy {leader}'s prospects, but I've never met a midpoint capable of signing the final result.",
+      "was": "I fancy {leader}'s position, but I've never met a midpoint capable of signing the final result.",
+      "score": 9
+    },
+    {
+      "id": "cb112-076",
+      "text": "What makes this interesting for {trailer} is that a lead can be measured, while ambition can't.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-077",
+      "text": "Best thing about this review? We can disagree loudly without a single one of us being proved right.",
+      "was": "The best part of this halfway review? We can disagree without anyone being proved right yet.",
+      "score": 10
+    },
+    {
+      "id": "cb112-078",
+      "text": "There's a little extra weight on {leader} now, because an advantage attracts attention as well as praise.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-079",
+      "text": "Leave {trailer} a little space in the conversation. The next chapters may belong to the quieter voice.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-080",
+      "text": "Our panel could argue over this all night. Thankfully, the remaining seasons will do the explaining.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-081",
+      "text": "Not a bad time for {leader} to take stock, though I'd resist putting a bow around the campaign.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-082",
+      "text": "Nothing requires {trailer} to erase the past. Make the future worth more, and the story changes.",
+      "was": "The task for {trailer} isn't to erase the past. It's to make the future count for more.",
+      "score": 9
+    },
+    {
+      "id": "cb112-083",
+      "text": "What we have here is a proper interval, enough evidence for debate and nowhere near enough for certainty.",
+      "was": null,
+      "score": 10
+    },
+    {
+      "id": "cb112-084",
+      "text": "I'll admit {leader} has the nicer view. The trouble with a view is it can change.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-085",
+      "text": "Remember {trailer} when people start polishing their predictions. Half the story remains unwritten.",
+      "was": "Remember {trailer} when people start polishing their predictions. Half the story is still unwritten.",
+      "score": 9
+    },
+    {
+      "id": "cb112-086",
+      "text": "Someone has to be ahead at this stage. Nobody gets to declare the whole argument finished.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-087",
+      "text": "A lead is a lovely thing for {leader}, though the word 'final' is conspicuously absent.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-088",
+      "text": "For those backing {trailer}, the coming seasons are an excellent reason to keep the television on.",
+      "was": "For those backing {trailer}, there is still an excellent reason to keep the television on.",
+      "score": 9
+    },
+    {
+      "id": "cb112-089",
+      "text": "We can settle the intermission debate once it's finished. Until then, all opinions remain pleasantly vulnerable.",
+      "was": "We can settle the halfway debate after the Showdown. Until then, all opinions remain pleasantly vulnerable.",
+      "score": 10
+    },
+    {
+      "id": "cb112-090",
+      "text": "Genuine merit in {leader}'s position, genuine danger in confusing it with a coronation.",
+      "was": "There's genuine merit in {leader}'s position, and genuine danger in mistaking it for a coronation.",
+      "score": 10
+    },
+    {
+      "id": "cb112-091",
+      "text": "No need for {trailer} to tear up the whole plan. There's an answer to be written in what's ahead.",
+      "was": "No need for {trailer} to tear up the whole plan. The contest still offers space for an answer.",
+      "score": 9
+    },
+    {
+      "id": "cb112-092",
+      "text": "They say the middle can drag. Not when the outcome keeps making fools of our predictions.",
+      "was": "They say the middle can drag. Not when the outcome is still doing such a fine job of teasing us.",
+      "score": 9
+    },
+    {
+      "id": "cb112-093",
+      "text": "I wouldn't change places with {leader}, but I wouldn't order the commemorative plaque either.",
+      "was": null,
+      "score": 10
+    },
+    {
+      "id": "cb112-094",
+      "text": "Plenty left for {trailer} to chase, and no pundit can steal away the seasons to come.",
+      "was": "The nice thing for {trailer} is that no pundit can take away the seasons still to come.",
+      "score": 9
+    },
+    {
+      "id": "cb112-095",
+      "text": "We started with an open question. At halfway, the answers have become more interesting, not less.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-096",
+      "text": "That sounds promising for {leader}, until you remember the question is who finishes strongest, not who pauses first.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-097",
+      "text": "Give {trailer} a fair hearing. The evidence isn't complete, and neither is this remarkable little rivalry.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-098",
+      "text": "The studio has its favourites and its doubts. This pause gives both enough oxygen to keep arguing.",
+      "was": "The studio has its favourites and its doubts. Halfway gives both enough oxygen to keep arguing.",
+      "score": 10
+    },
+    {
+      "id": "cb112-099",
+      "text": "One thing {leader} cannot bank is the remaining half. That's why we're still watching.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb112-100",
+      "text": "Mark the midpoint however you like, the best joke is that nobody can tell you the punchline yet.",
+      "was": null,
+      "score": 10
+    }
+  ],
+  "edited": true
+}

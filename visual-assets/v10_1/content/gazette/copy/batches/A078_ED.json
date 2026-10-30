@@ -1,0 +1,809 @@
+{
+  "batch": 78,
+  "situation": "comfortable-win",
+  "edition": "season",
+  "lens": "Stage and screen",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b78-001",
+      "kicker": "SEASON DESK",
+      "headline": "CURTAIN RISES ON COMMAND",
+      "subhead": "A measured advantage gave {winner} the season, leaving {loser} with ground to recover when the rivalry resumes.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-002",
+      "kicker": "FRONT ROW",
+      "headline": "APPLAUSE FOR THE ADVANTAGE",
+      "subhead": "The season belongs to {winner}, whose comfortable margin over {loser} deserved recognition without suggesting the contest lacked resistance.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-003",
+      "kicker": "EDITORIAL BOX",
+      "headline": "LEADING ROLE WELL EARNED",
+      "subhead": "With {winnerClub} on the stronger side of the season's comparison, {loserClub} must now respond to a convincing result.",
+      "score": 9,
+      "was": "headline: A LEADING ROLE WELL EARNED"
+    },
+    {
+      "id": "b78-004",
+      "kicker": "CULTURE PAGE",
+      "headline": "AN UNHURRIED FINALE",
+      "subhead": "There was room to breathe at the finish as {winner} claimed the season with a substantial but measured advantage.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-005",
+      "kicker": "SEASON REVIEW",
+      "headline": "PLOT REVEALS A WINNER",
+      "subhead": "The latest installment ended decisively for {winner}, who put enough distance between the clubs to avoid a nervous verdict.",
+      "score": 10,
+      "was": "headline: THE PLOT HAS A WINNER"
+    },
+    {
+      "id": "b78-006",
+      "kicker": "GAZETTE VIEW",
+      "headline": "SPOTLIGHT ON THE MARGIN",
+      "subhead": "In a season decided by more than a whisker, {winner} established a lead that {loser} could not erase.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-007",
+      "kicker": "MAIN FEATURE",
+      "headline": "COMPOSURE TAKES THE STAGE",
+      "subhead": "Rather than a last moment scramble, {winnerClub} delivered the steadier conclusion and finished comfortably above {loserClub} for the season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-008",
+      "kicker": "REVIEW DESK",
+      "headline": "SEASON WITH AN AUTHOR",
+      "subhead": "The latest chapter gives {winner} the stronger narrative, although {loser} retains every reason to pursue a reply.",
+      "score": 9,
+      "was": "headline: A SEASON WITH AN AUTHOR"
+    },
+    {
+      "id": "b78-009",
+      "kicker": "AFTER THE SHOW",
+      "headline": "THE FINAL SCENE IS SET",
+      "subhead": "As the season closes, {winner} holds a clear victory over {loser}, with the rivalry's next installment still unwritten.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-010",
+      "kicker": "THEATRE NOTES",
+      "headline": "GRACE UNDER THE LIGHTS",
+      "subhead": "The result had little need for theatrics because {winner} had already secured a comfortable winning margin over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-011",
+      "kicker": "FILM REVIEW",
+      "headline": "CREDITS ROLL ON A WIN",
+      "subhead": "When the season's figures were settled, {winnerClub} stood comfortably above {loserClub}, giving this edition its deserved lead story.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-012",
+      "kicker": "SATURDAY EDITION",
+      "headline": "SUPPORTING CAST, REAL RIVAL",
+      "subhead": "Although {loser} finished behind, the real headline is {winner}'s decisive seasonal advantage rather than any failing by the rival.",
+      "score": 10,
+      "was": "headline: A STRONG SUPPORTING CASE"
+    },
+    {
+      "id": "b78-013",
+      "kicker": "SUNDAY REVIEW",
+      "headline": "MATINEE OF AUTHORITY",
+      "subhead": "There was no cliffhanger in this result: {winner} earned a comfortable season victory while {loser} looks toward the next contest.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-014",
+      "kicker": "CRITICS CORNER",
+      "headline": "PREMIERE OF A CLEAR LEAD",
+      "subhead": "This season's opening and closing arguments favor {winner}, who finished with breathing room between the rival totals.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-015",
+      "kicker": "SEASON CHRONICLE",
+      "headline": "THE SEASON FINDS ITS STAR",
+      "subhead": "A convincing margin puts {winner} at the center of the latest edition, but the broader rivalry remains a shared production.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-016",
+      "kicker": "PRESS PREVIEW",
+      "headline": "RESULT FIT FOR BILLING",
+      "subhead": "For once the headline needs no exaggeration, with {winner} winning the season comfortably and {loser} preparing a response.",
+      "score": 9,
+      "was": "headline: A RESULT FIT FOR BILLING"
+    },
+    {
+      "id": "b78-017",
+      "kicker": "FINAL EDITION",
+      "headline": "PRODUCTION OF A VICTORY",
+      "subhead": "The season came together in {winner}'s favor, a clear success that gives {loser} a definite target to chase.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-018",
+      "kicker": "ANALYSIS DESK",
+      "headline": "QUIETLY COMMANDING ACT",
+      "subhead": "While the two clubs had their own seasons to account for, {winnerClub} finished with the stronger points return.",
+      "score": 9,
+      "was": "headline: A QUIETLY COMMANDING ACT"
+    },
+    {
+      "id": "b78-019",
+      "kicker": "AROUND THE STAGE",
+      "headline": "THE STAGE BELONGS TO ONE",
+      "subhead": "For this season alone, {winner} takes top billing after opening a comfortable gap over the other manager.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-020",
+      "kicker": "SEASON SPECIAL",
+      "headline": "ENDING LEAVES NO DOUBT",
+      "subhead": "A settled verdict puts {winner} above {loser} for the season, without deciding what the next installment may bring.",
+      "score": 10,
+      "was": "headline: THE ENDING LEAVES NO DOUBT"
+    },
+    {
+      "id": "b78-021",
+      "kicker": "LATE BULLETIN",
+      "headline": "STEAL THE SPOTLIGHT!",
+      "subhead": "With the seasonal totals complete, {winner} commands the headlines after a victory that never needed a razor thin margin.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-022",
+      "kicker": "BACK PAGE",
+      "headline": "ROLL THOSE CREDITS!",
+      "subhead": "The figures are final and {winner} has earned this season's applause, with {loser} a respectable distance behind.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-023",
+      "kicker": "BREAKING COPY",
+      "headline": "BRING DOWN THE CURTAIN!",
+      "subhead": "An emphatic close gives {winnerClub} the seasonal edge over {loserClub}, firmly enough to settle the latest contest.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-024",
+      "kicker": "EXTRA EDITION",
+      "headline": "GRAB THE LEAD ROLE!",
+      "subhead": "A clear margin separates {winner} from {loser}, giving the winning manager the central part in this season's story.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-025",
+      "kicker": "HEADLINE NEWS",
+      "headline": "LIGHT UP THE BILLBOARD!",
+      "subhead": "This edition advertises a comfortable success for {winner}, whose advantage over {loser} is meaningful without becoming a rout.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-026",
+      "kicker": "PLAYBILL NOTES",
+      "headline": "CLAIM THE CLOSEUP!",
+      "subhead": "Few details needed enlarging here: {winner} took the season by a comfortable margin, while {loser} remains part of the contest.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-027",
+      "kicker": "PRESS GALLERY",
+      "headline": "SEIZE THE SCENE!",
+      "subhead": "An assured seasonal performance gave {winnerClub} the advantage over {loserClub}, and the paper has found its principal subject.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-028",
+      "kicker": "TOP STORY",
+      "headline": "CUT TO THE VICTOR!",
+      "subhead": "The next frame belongs to {winner}, who earned a clear success rather than relying on the narrowest possible difference.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-029",
+      "kicker": "MARQUEE WATCH",
+      "headline": "RAISE THE MARQUEE!",
+      "subhead": "Put {winner}'s name where readers can see it, because this season finished with a convincing advantage over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-030",
+      "kicker": "SEASON SIGNAL",
+      "headline": "SOUND THE FANFARE!",
+      "subhead": "The occasion calls for celebration from {winner}, who gathered a comfortable cushion in the seasonal points comparison.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-031",
+      "kicker": "FIRST NIGHTS",
+      "headline": "OWN THE OPENING NIGHT!",
+      "subhead": "This is {winner}'s edition of the rivalry, with a seasonal margin large enough to lend the verdict certainty.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-032",
+      "kicker": "BILLING DESK",
+      "headline": "OUTSHINE THE BILL!",
+      "subhead": "Without diminishing {loser}'s campaign, {winnerClub} supplied the stronger season and earned a place above its rival.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-033",
+      "kicker": "SCRIPT REPORT",
+      "headline": "WRITE THE BIG FINISH!",
+      "subhead": "The closing figures belong to {winner}, who left a meaningful gap rather than an unresolved question in this chapter.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-034",
+      "kicker": "SCREEN DESK",
+      "headline": "FRAME THE FINAL VERDICT!",
+      "subhead": "Set {winnerClub} in the foreground for this season, after a comfortably superior return compared with {loserClub}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-035",
+      "kicker": "PLAYERS' BOX",
+      "headline": "PLAY IT WITH POISE!",
+      "subhead": "There was nothing frantic about the result, as {winner} finished far enough beyond {loser} to claim a deserved win.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-036",
+      "kicker": "PROGRAMME DESK",
+      "headline": "REWRITE THE PROGRAM!",
+      "subhead": "The order of billing is settled for this installment, and {winner} stands comfortably above {loser} on seasonal points.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-037",
+      "kicker": "LIMELIGHT REPORT",
+      "headline": "SWEEP INTO THE LIMELIGHT!",
+      "subhead": "A clear season victory moves {winner} into focus, while the margin leaves {loser} with something achievable to overturn.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-038",
+      "kicker": "EXIT INTERVIEW",
+      "headline": "EXIT WITH THE HONORS!",
+      "subhead": "At the close of this chapter, {winner} leaves with a convincing season triumph and {loser} with fresh motivation.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-039",
+      "kicker": "POSTER WATCH",
+      "headline": "PIN THE POSTER UP!",
+      "subhead": "A leading place on the season's imaginary poster goes to {winner}, whose advantage was substantial but not overwhelming.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-040",
+      "kicker": "CLOSING NOTICE",
+      "headline": "PUT THE RESULT ON AIR!",
+      "subhead": "There is no need to keep the outcome offscreen, with {winner} finishing comfortably in front of {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-041",
+      "kicker": "SPORTS AND ARTS",
+      "headline": "NET RESULT, STAR QUALITY",
+      "subhead": "The difference between the managers was convincing, and {winner} deserves the leading credit for a well earned season success.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-042",
+      "kicker": "TACTICS COLUMN",
+      "headline": "TABLE READ, CLEAR ENDING",
+      "subhead": "At the season's final reckoning, {winnerClub} had built enough separation from {loserClub} to make the result unmistakable.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-043",
+      "kicker": "TOUCHLINE REVIEW",
+      "headline": "OFFSIDE? NOT ON SCRIPT",
+      "subhead": "The season went {winner}'s way by a solid margin, leaving little room to dispute who takes this edition.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-044",
+      "kicker": "MATCHDAY THEATRE",
+      "headline": "TOP BILLING, TOP FLIGHT",
+      "subhead": "A comfortable seasonal lead gives {winner} the featured place, even as {loser} remains a worthy rival for future installments.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-045",
+      "kicker": "DUGOUT FILE",
+      "headline": "DUGOUT DRAMA GETS CUT",
+      "subhead": "No late twist was needed to determine the stronger season, because {winner} had established a persuasive points advantage.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-046",
+      "kicker": "WHISTLE DESK",
+      "headline": "WHISTLE TAKES ITS BOW",
+      "subhead": "The imagined final signal marks a season claimed by {winner}, whose lead over {loser} was convincing without being enormous.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-047",
+      "kicker": "POSTGAME FILE",
+      "headline": "POSTSCRIPT AT THE POST",
+      "subhead": "After all the season's achievements were weighed, {winnerClub} had comfortably outperformed {loserClub} in the Showdown standings.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-048",
+      "kicker": "HALFTIME FEATURE",
+      "headline": "HALF TIME, FULL FEATURE",
+      "subhead": "The broad view favors {winner}, whose season delivered a comfortable advantage while still leaving plenty to admire in the rivalry.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-049",
+      "kicker": "FINAL CUT",
+      "headline": "SCOREBOARD SCREEN TEST",
+      "subhead": "Viewed on paper or screen, the seasonal figures show {winner} finishing convincingly beyond {loser} in the points comparison.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-050",
+      "kicker": "SPORTS REEL",
+      "headline": "EXTRA TIME IN THE EDIT",
+      "subhead": "The editor can linger on the season, but the decision is already soundly in {winner}'s favor over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-051",
+      "kicker": "BOX OFFICE",
+      "headline": "BOX OFFICE, BOX TO BOX",
+      "subhead": "The comparison has become a comfortable win for {winner}, with the space between the managers plain to see at the finish.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-052",
+      "kicker": "PRESS BOX",
+      "headline": "PENALTY BOX, PRESS BOX",
+      "subhead": "The familiar football language offers plenty of drama, but {winner}'s season triumph came with a reassuring cushion.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-053",
+      "kicker": "FEATURE STRIP",
+      "headline": "SILVER SCREEN, CLEAN SLATE",
+      "subhead": "The next contest begins with a fresh opportunity for {loser}, despite {winner}'s convincing success in this season's edition.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-054",
+      "kicker": "LONG READ",
+      "headline": "CLUB FORM, LONG FORM",
+      "subhead": "Over the course of the season, {winnerClub} did enough to claim a comfortable advantage over {loserClub}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-055",
+      "kicker": "KEEPERS' COLUMN",
+      "headline": "KEEPER OF THE CREDITS",
+      "subhead": "The season's leading billing goes to {winner}, who recorded a stronger return without needing the narrowest of finishes.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-056",
+      "kicker": "PITCHSIDE FILE",
+      "headline": "PITCHSIDE PREMIERE",
+      "subhead": "For {winnerClub}, this edition brings the pleasure of a clear victory in the points contest against {loserClub}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-057",
+      "kicker": "STRIKERS' VIEW",
+      "headline": "STRIKING THE RIGHT POSE",
+      "subhead": "The season result casts {winner} in the best light, with a convincing separation from {loser} at the close.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-058",
+      "kicker": "GOAL LINE",
+      "headline": "GOAL? BIGGER PICTURE",
+      "subhead": "Individual matches are not the story here, as {winner} takes the season through a comfortable advantage in Showdown points.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-059",
+      "kicker": "FRONT BENCH",
+      "headline": "BENCHMARK FOR THE BILL",
+      "subhead": "A distinctly stronger points return gives {winner} the featured role, with {loser} still fully capable of replying later.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-060",
+      "kicker": "SPORTS FEATURE",
+      "headline": "FULL TIME, FEATURE LENGTH",
+      "subhead": "At the end of the season's long accounting, {winner} wins comfortably and {loser} has the next chapter to write.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-061",
+      "kicker": "STAGE REPORT",
+      "headline": "STAGE SET FOR SUCCESS",
+      "subhead": "The seasonal result rewards {winner} with an assured victory, while {loser} has an unmistakable standard to pursue.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-062",
+      "kicker": "PRODUCTION NOTES",
+      "headline": "BILLBOARD BRINGS BRAGGING",
+      "subhead": "There is a friendly claim to the headlines for {winner}, whose season finished comfortably beyond {loser}'s total.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-063",
+      "kicker": "SCREENING ROOM",
+      "headline": "SCREEN SHINES ON SUCCESS",
+      "subhead": "The wider view is flattering to {winnerClub}, which claimed this season by a convincing margin over {loserClub}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-064",
+      "kicker": "CAST LIST",
+      "headline": "CAST CLAIMS COMFORT",
+      "subhead": "For this installment, the main role belongs to {winner}, who did not have to rely on a slender edge.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-065",
+      "kicker": "AFTER CREDITS",
+      "headline": "CREDITS CARRY CONVICTION",
+      "subhead": "The margin tells a straightforward story of seasonal success for {winner}, with due respect to the challenge from {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-066",
+      "kicker": "MARQUEE REPORT",
+      "headline": "MARQUEE MAKES ITS MARK",
+      "subhead": "Even without grand exaggeration, the season deserves a prominent announcement after {winner} prevailed with room to spare.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-067",
+      "kicker": "LIGHTING DESK",
+      "headline": "SPOTLIGHT SETTLES SOFTLY",
+      "subhead": "There was a gentle certainty to the closing figures, with {winner} comfortably defeating {loser} in the season contest.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-068",
+      "kicker": "SCENE SETTER",
+      "headline": "SCENES OF STEADY COMMAND",
+      "subhead": "For {winnerClub}, the season reads as a convincing achievement rather than a dramatic escape from {loserClub}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-069",
+      "kicker": "PREMIERE REVIEW",
+      "headline": "PREMIERE PROVES THE POINT",
+      "subhead": "A firm advantage gives {winner} the season victory and leaves the friendly contest ready for another installment.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-070",
+      "kicker": "REEL NOTES",
+      "headline": "REEL REWARDS RESOLVE",
+      "subhead": "This edition of the Showdown is firmly {winner}'s, although {loser} will find plenty worth pursuing in the next.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-071",
+      "kicker": "PLAYBILL EDITION",
+      "headline": "PLAYBILL PUBLISHES PROOF",
+      "subhead": "Anyone scanning the season's figures will find {winner} comfortably above {loser}, a result worthy of the main announcement.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-072",
+      "kicker": "PROJECTOR ROOM",
+      "headline": "PROJECTOR PICKS ITS STAR",
+      "subhead": "No hidden ending awaits the reader: {winnerClub} finished with a persuasive points advantage over {loserClub} this season.",
+      "score": 9,
+      "was": "subhead: There is no complicated reveal here, only {winnerClub} finishing with a persuasive points advantage over {loserClub}."
+    },
+    {
+      "id": "b78-073",
+      "kicker": "EDITOR'S SCREEN",
+      "headline": "SCREENPLAY SEALS SUCCESS",
+      "subhead": "A comfortable difference puts {winner} beyond the closest kind of contest, giving this season a decisive ending.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-074",
+      "kicker": "SCRIPTS DESK",
+      "headline": "SCRIPT SELLS THE STORY",
+      "subhead": "The season's summary requires no embellishment, because {winner} has finished convincingly in front of {loser} on points.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-075",
+      "kicker": "FEATURE REVIEW",
+      "headline": "FEATURE FINDS ITS FOCUS",
+      "subhead": "Reading the finished seasonal totals reveals {winner} as the deserved lead story, with a comfortable cushion over {loser}.",
+      "score": 9,
+      "was": "subhead: With the seasonal totals settled, {winner} emerges as the convincing choice for the lead story ahead of {loser}."
+    },
+    {
+      "id": "b78-076",
+      "kicker": "TOP BILLING",
+      "headline": "WHO GETS TOP BILLING?",
+      "subhead": "The comparison points to {winner}, whose comfortable margin leaves little uncertainty over the season's stronger manager.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-077",
+      "kicker": "ENDING NOTES",
+      "headline": "IS THE ENDING IN DOUBT?",
+      "subhead": "Not this time, as {winnerClub} claims a solid season victory while {loserClub} prepares for the next opportunity.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-078",
+      "kicker": "ENCORE DESK",
+      "headline": "WHO OWNS THE ENCORE?",
+      "subhead": "After a convincing season success, {winner} has the right to enjoy the applause before the rivalry returns.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-079",
+      "kicker": "LIGHTS COLUMN",
+      "headline": "WHERE DOES THE LIGHT FALL?",
+      "subhead": "It rests on {winnerClub} for this edition, whose points total comfortably exceeds the season return from {loserClub}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-080",
+      "kicker": "RECAST WATCH",
+      "headline": "CAN THE RIVAL RECAST?",
+      "subhead": "Following {winner}'s comfortable victory, {loser} has a clear target and a fresh chance when the Showdown continues.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-081",
+      "kicker": "DRAMA FILE",
+      "headline": "DID THE SCENE NEED DRAMA?",
+      "subhead": "A comfortable gap made the final reckoning straightforward, allowing {winner} to celebrate a fully deserved season triumph.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-082",
+      "kicker": "CLOSEUP DESK",
+      "headline": "CLOSEUP FOR THE WINNER?",
+      "subhead": "The day's feature belongs to {winner}, who won the season by a convincing margin over {loser}.",
+      "score": 9,
+      "was": "headline: WHO GETS THE CLOSEUP?"
+    },
+    {
+      "id": "b78-083",
+      "kicker": "MARQUEE EDITION",
+      "headline": "WHAT'S ON THE MARQUEE?",
+      "subhead": "This season's leading name is {winner}, whose advantage over {loser} is clear without being a runaway.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-084",
+      "kicker": "MARGIN WATCH",
+      "headline": "IS THE MARGIN FIT TO PRINT?",
+      "subhead": "Certainly, for {winner} finished {margin} ahead in the season contest, enough to make the verdict comfortably decisive.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-085",
+      "kicker": "BOWS AND THANKS",
+      "headline": "WHO TAKES THE LAST BOW?",
+      "subhead": "The stage is {winner}'s at the season's close, earned through a firm advantage rather than a photo finish.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-086",
+      "kicker": "FINAL SCENES",
+      "headline": "NO CLIFFHANGER",
+      "subhead": "This season produced an assured victory for {winner}, leaving {loser} with a manageable yet meaningful distance to make up.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-087",
+      "kicker": "BILLING NOTICE",
+      "headline": "BILLING SETTLED",
+      "subhead": "The comfortable difference gives {winnerClub} the featured place in this edition, with {loserClub} taking the supporting credit.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-088",
+      "kicker": "CREDIT ROLL",
+      "headline": "CREDITS APPROVED",
+      "subhead": "The Gazette can confidently place {winner}'s name above the season story after a decisive advantage over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-089",
+      "kicker": "CLOSING ACT",
+      "headline": "CURTAIN, NOT CLOSE",
+      "subhead": "The latest contest ended with enough breathing space for {winner} to celebrate without waiting on the finest of margins.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-090",
+      "kicker": "PLOT REPORT",
+      "headline": "NO PLOT PANIC",
+      "subhead": "A sound margin removes suspense from this season's conclusion, giving {winner} a deserved victory over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-091",
+      "kicker": "SEQUEL FILE",
+      "headline": "SEQUEL OPTIONAL",
+      "subhead": "Whatever future chapters may hold, this season is firmly {winner}'s after a convincing points advantage over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-092",
+      "kicker": "FEATURE SPOT",
+      "headline": "SCENE STEALER",
+      "subhead": "This edition's strongest impression comes from {winner}, whose comfortable lead gave the season an unmistakable central figure.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-093",
+      "kicker": "PROJECTION ROOM",
+      "headline": "PROJECTOR, PLEASE",
+      "subhead": "The finished picture shows {winnerClub} comfortably stronger on Showdown points, although {loserClub} remains an essential part of the story.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-094",
+      "kicker": "REEL SUMMARY",
+      "headline": "ROLLING AUTHORITY",
+      "subhead": "The record of this season puts {winner} in front of {loser} by a margin that leaves little to debate.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-095",
+      "kicker": "DIALOGUE DESK",
+      "headline": "DIALOGUE ENDED",
+      "subhead": "The argument over this particular season is settled, with {winner} winning comfortably while the friendly rivalry endures.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-096",
+      "kicker": "POSTER EDITION",
+      "headline": "POSTER POSITION",
+      "subhead": "The prominent space goes to {winner}, whose clear season victory supplies the most compelling image of this edition.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-097",
+      "kicker": "DRAMA REVIEW",
+      "headline": "DRAMA DECLINED",
+      "subhead": "Manufactured suspense would miss the point: {winner} already held a persuasive seasonal advantage, with {loser} still a worthy competitor.",
+      "score": 10,
+      "was": "subhead: There was no reason to manufacture tension at the finish, because {winner} had secured a persuasive advantage over {loser}."
+    },
+    {
+      "id": "b78-098",
+      "kicker": "THEATRE PAGE",
+      "headline": "THEATER OF CERTAINTY",
+      "subhead": "This was no last second escape, simply a comfortable seasonal success that puts {winnerClub} above {loserClub} in the contest.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b78-099",
+      "kicker": "CUTTING ROOM",
+      "headline": "RETAKE UNNECESSARY",
+      "subhead": "The first reading of the final figures is enough, with {winner} collecting a convincing season victory over {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b78-100",
+      "kicker": "SCREEN FEATURE",
+      "headline": "FEATURE PRESENTATION",
+      "subhead": "On the front page, {winner} earns center placement for a comfortable success that still leaves {loser} with pride intact.",
+      "score": 9,
+      "was": null
+    }
+  ]
+}

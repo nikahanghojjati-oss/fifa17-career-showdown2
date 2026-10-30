@@ -1,0 +1,809 @@
+{
+  "batch": 2,
+  "situation": "comfortable-win",
+  "edition": "season",
+  "lens": "The trophy cabinet",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b2-001",
+      "kicker": "CABINET REPORT",
+      "headline": "SEALED IN PLAIN SIGHT",
+      "subhead": "Framed by a comfortable points margin, {winner}'s season stands distinctly above {loser}'s, a verdict that leaves no serious ambiguity.",
+      "score": 10,
+      "was": "THE GLASS CASE VERDICT"
+    },
+    {
+      "id": "b2-002",
+      "kicker": "SEASON DESK",
+      "headline": "ROOM ON THE TOP SHELF",
+      "subhead": "The latest comparison leaves {winner} comfortably in front, while {loser} retains every reason to keep the rivalry alive.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-003",
+      "kicker": "EDITORIAL VIEW",
+      "headline": "SILVER WEIGHS THE SEASON",
+      "subhead": "No close call was required, as {winner} established a sound points advantage over {loser} and claimed this season outright.",
+      "score": 9,
+      "was": "THE MEASURE OF SILVER"
+    },
+    {
+      "id": "b2-004",
+      "kicker": "TROPHY ROOM",
+      "headline": "A PLACE BEHIND GLASS",
+      "subhead": "The season belongs to {winner}, whose assured points advantage gives {loser} a substantial but manageable target next time.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-005",
+      "kicker": "SPORTS EDITION",
+      "headline": "POLISH BEFORE PLAUDITS",
+      "subhead": "A measured victory for {winner} gives the season a decisive shape without diminishing the challenge offered by {loser}.",
+      "score": 10,
+      "was": "THE QUIET WORK OF POLISH"
+    },
+    {
+      "id": "b2-006",
+      "kicker": "CABINET NOTES",
+      "headline": "HINGE POINT OF THE SEASON",
+      "subhead": "This round swung unmistakably towards {winner}, who finished comfortably beyond {loser} in the season standings.",
+      "score": 9,
+      "was": "THE HINGE OF THE SEASON"
+    },
+    {
+      "id": "b2-007",
+      "kicker": "THE SEASON FILE",
+      "headline": "LABEL MAKES IT PLAIN",
+      "subhead": "When the final points were entered, {winner} had enough separation from {loser} to make the verdict straightforward.",
+      "score": 10,
+      "was": "THE LABEL TELLS THE TALE"
+    },
+    {
+      "id": "b2-008",
+      "kicker": "SUNDAY REVIEW",
+      "headline": "INSIDE THE HONOURS ROOM",
+      "subhead": "Within the completed standings, {winner} has secured the better season by a firm margin over a determined {loser}.",
+      "score": 9,
+      "was": "INSIDE THE DISPLAY CASE"
+    },
+    {
+      "id": "b2-009",
+      "kicker": "RIVALRY WATCH",
+      "headline": "KEEPER OF THE KEY",
+      "subhead": "This time {winner} controls the season's honours, having put meaningful distance between their total and {loser}'s.",
+      "score": 9,
+      "was": "THE KEEPER OF THE KEY"
+    },
+    {
+      "id": "b2-010",
+      "kicker": "FRONT PAGE",
+      "headline": "ENGRAVING THE ADVANTAGE",
+      "subhead": "The season's record leaves little room for dispute as {winner} finishes comfortably above {loser} in the points.",
+      "score": 10,
+      "was": "THE ENGRAVER'S DECISION"
+    },
+    {
+      "id": "b2-011",
+      "kicker": "SHOWDOWN REPORT",
+      "headline": "AN HONOUR WELL EARNED",
+      "subhead": "A convincing but not overwhelming margin makes {winner} the season's deserved winner, with {loser} still a worthy rival.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-012",
+      "kicker": "THE LONG VIEW",
+      "headline": "BEHIND THE CABINET DOOR",
+      "subhead": "For now, the season's proudest position is {winner}'s, secured through a clear advantage over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-013",
+      "kicker": "MATCHLESS EDITION",
+      "headline": "DISPLAY ORDER SETTLED",
+      "subhead": "Read the final figures from top to bottom and {winner} sits comfortably above {loser} in this season's comparison.",
+      "score": 9,
+      "was": "THE ORDER OF DISPLAY"
+    },
+    {
+      "id": "b2-014",
+      "kicker": "COMPETITION FILE",
+      "headline": "RIBBON OF DISTINCTION",
+      "subhead": "Measured in points, the latest victory belongs to {winner}, with {loser} finishing a distinct but not humiliating distance behind.",
+      "score": 10,
+      "was": "THE RIBBON OF DISTINCTION"
+    },
+    {
+      "id": "b2-015",
+      "kicker": "DESK ANALYSIS",
+      "headline": "EVIDENCE OF CONTROL",
+      "subhead": "There is real authority in {winner}'s season total, which leaves {loser} a clear distance behind without ending the argument.",
+      "score": 9,
+      "was": "THE CASE FOR CONTROL"
+    },
+    {
+      "id": "b2-016",
+      "kicker": "FINAL ACCOUNT",
+      "headline": "GALLERY OF MERIT",
+      "subhead": "Once the season's record was settled, {winner} emerged with a sound advantage, leaving {loser} to contemplate the next opportunity.",
+      "score": 9,
+      "was": "THE GALLERY OF MERIT"
+    },
+    {
+      "id": "b2-017",
+      "kicker": "SEASON CHRONICLE",
+      "headline": "MEDAL WITH SOME WEIGHT",
+      "subhead": "Put this round on record as a convincing success for {winner}, whose margin over {loser} commands respect without exaggeration.",
+      "score": 9,
+      "was": "THE WEIGHT OF THE MEDAL"
+    },
+    {
+      "id": "b2-018",
+      "kicker": "SATURDAY EDITION",
+      "headline": "AN EXHIBIT OF COMPOSURE",
+      "subhead": "A strong return from {winnerClub} delivers the season to {winner}, with {loser} unable to narrow the final gap.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b2-019",
+      "kicker": "RESULTS BUREAU",
+      "headline": "A SHINE ABOVE THE REST",
+      "subhead": "Measured against {loser}, the stronger season belongs securely to {winner}, though the friendly competition is far from exhausted.",
+      "score": 10,
+      "was": "The points put {winner} securely ahead this season, though {loser} still has another chapter to write."
+    },
+    {
+      "id": "b2-020",
+      "kicker": "THE VERDICT",
+      "headline": "POLISHED IN PERSPECTIVE",
+      "subhead": "This was a convincing season for {winner}, not a runaway, and the final separation from {loser} tells that story.",
+      "score": 9,
+      "was": "THE CABINET IN PERSPECTIVE"
+    },
+    {
+      "id": "b2-021",
+      "kicker": "LATE EDITION",
+      "headline": "UNLOCK THE HONOURS!",
+      "subhead": "{winner} has made the season's verdict plain, gaining an unmistakable points advantage over an enduring rival in {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b2-022",
+      "kicker": "BREAKING SPORT",
+      "headline": "POLISH THAT PRIDE!",
+      "subhead": "It is {winner}'s turn to enjoy the spotlight after a clear season victory, with {loser} ready for another contest.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-023",
+      "kicker": "RESULT FLASH",
+      "headline": "SNAP THE LATCH SHUT!",
+      "subhead": "Firmly in control of the final comparison, {winner} has earned a season victory that leaves {loser} with a clear target.",
+      "score": 9,
+      "was": "SNAP THE DISPLAY SHUT!"
+    },
+    {
+      "id": "b2-024",
+      "kicker": "RIVALRY BULLETIN",
+      "headline": "PUT THE KEY AWAY!",
+      "subhead": "With {winner} comfortably in front on points, this season's argument is settled and {loser} must look forward.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b2-025",
+      "kicker": "THE BACK PAGE",
+      "headline": "SHINE A LIGHT ON THIS!",
+      "subhead": "The latest season has a clear winner in {winner}, whose advantage over {loser} deserves an emphatic headline.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-026",
+      "kicker": "CABINET ALERT",
+      "headline": "MAKE ROOM FOR MERIT!",
+      "subhead": "{winner} has earned the leading place this season, leaving {loser} with a gap that is definite rather than devastating.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b2-027",
+      "kicker": "TOP STORY",
+      "headline": "FASTEN THE VELVET ROPE!",
+      "subhead": "Against a determined {loser}, {winner} has established enough separation for a convincing season victory and a moment of satisfaction.",
+      "score": 9,
+      "was": "SEAL THE TROPHY CASE!"
+    },
+    {
+      "id": "b2-028",
+      "kicker": "POINTS SPECIAL",
+      "headline": "STAND BACK, SILVERWARE!",
+      "subhead": "The season has tilted solidly towards {winner}, with {loser} unable to match the winning manager's accumulated points.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-029",
+      "kicker": "SPORTS BREAK",
+      "headline": "BOLT THE TROPHY ROOM!",
+      "subhead": "A margin of {margin} gives {winner} a properly convincing season win, while {loser} has more to offer.",
+      "score": 9,
+      "was": "BOLT THE CABINET!"
+    },
+    {
+      "id": "b2-030",
+      "kicker": "CLOSING EDITION",
+      "headline": "BUFF UP THE FRONT PAGE!",
+      "subhead": "From the final points comes a clear judgment, {winner} has won this season without needing a dramatic finish.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-031",
+      "kicker": "PRESS ROOM",
+      "headline": "RAISE THE DISPLAY BAR!",
+      "subhead": "Without the excess of a rout, {winner} still sets an unmistakably stronger standard than {loser} in the completed season.",
+      "score": 10,
+      "was": "{winner} has set the stronger standard this season, and the comfortable separation from {loser} makes that unmistakable."
+    },
+    {
+      "id": "b2-032",
+      "kicker": "LATEST RESULT",
+      "headline": "CLAIM THE PRIME SPOT!",
+      "subhead": "There is a confident new name at the top of this season's comparison, and it belongs to {winner}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b2-033",
+      "kicker": "SPECIAL REPORT",
+      "headline": "LET THE BRASS GLEAM!",
+      "subhead": "No narrow escape was required for {winner}, whose return stands appreciably higher than {loser}'s this season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-034",
+      "kicker": "THE PRESS BOX",
+      "headline": "DUST OFF THE PLAQUE!",
+      "subhead": "The season's leading performance goes to {winner}, with the points placing {loser} well behind but not outclassed.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-035",
+      "kicker": "STOP PRESS",
+      "headline": "THROW OPEN THE SHOWROOM!",
+      "subhead": "{winner} steps into the season's spotlight with a solid victory, leaving {loser} room to respond in future.",
+      "score": 9,
+      "was": "FLING WIDE THE CASE!"
+    },
+    {
+      "id": "b2-036",
+      "kicker": "THE WIRE",
+      "headline": "GRAB THE GOLDEN HANDLE!",
+      "subhead": "A clear advantage is enough for {winner} to carry the season, even if {loser} was far from an afterthought.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b2-037",
+      "kicker": "HOT OFF PRESS",
+      "headline": "PRY OPEN THE EXHIBIT!",
+      "subhead": "The latest decision favours {winner} by a comfortable amount, making this a victory worth displaying proudly.",
+      "score": 9,
+      "was": "PRY OPEN THE CABINET!"
+    },
+    {
+      "id": "b2-038",
+      "kicker": "EXTRA EDITION",
+      "headline": "HOIST THE WINNER'S LABEL!",
+      "subhead": "{winner} moves comfortably past {loser} in the season comparison, a result that needs no last minute rescue.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-039",
+      "kicker": "THE BIG READ",
+      "headline": "ETCH IT IN BRASS!",
+      "subhead": "This is the kind of solid season victory {winner} can cherish while {loser} prepares a thoughtful answer.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b2-040",
+      "kicker": "DESK FLASH",
+      "headline": "CATCH THAT GLINT!",
+      "subhead": "{winnerClub} has supplied the stronger season return, giving {winner} a convincing points cushion over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-041",
+      "kicker": "FOOTBALL FILE",
+      "headline": "POLISHED AT THE POST",
+      "subhead": "The season's final comparison rewards {winner} with a comfortable lead, while {loser} remains keenly involved in the rivalry.",
+      "score": 10,
+      "was": "THE POST HAS BEEN POLISHED"
+    },
+    {
+      "id": "b2-042",
+      "kicker": "GROUND REPORT",
+      "headline": "NETTING THE PRIME SHELF",
+      "subhead": "A tidy advantage puts {winner} in command of the seasonal standings, with {loser} left chasing rather than despairing.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-043",
+      "kicker": "CUPBOARD WATCH",
+      "headline": "CUPBOARD'S FRONT RUNNER",
+      "subhead": "A convincing points margin gives {winner} the distinction this time, even without any claim about particular silverware.",
+      "score": 9,
+      "was": "THE CUPBOARD HAS A LEADER"
+    },
+    {
+      "id": "b2-044",
+      "kicker": "SCORES DESK",
+      "headline": "HONOURS AT THE WHISTLE",
+      "subhead": "The season is finished, and {winner} owns a comfortable advantage over {loser} in the comparison that counts.",
+      "score": 9,
+      "was": "SHELF CONTROL AT HALFTIME"
+    },
+    {
+      "id": "b2-045",
+      "kicker": "TOUCHLINE NOTES",
+      "headline": "DUGOUT GETS A PLAQUE",
+      "subhead": "{winner}'s stronger season finds its proper place in the rivalry, beyond the reach of {loser} this round.",
+      "score": 9,
+      "was": "THE DUGOUT DISPLAY CASE"
+    },
+    {
+      "id": "b2-046",
+      "kicker": "FOOTBALL REVIEW",
+      "headline": "A CLEAN SHEET OF GLASS",
+      "subhead": "Through the finished points comparison, {winner}'s advantage over {loser} is plain to see, reassuringly strong and entirely deserved.",
+      "score": 10,
+      "was": "Nothing obscures the difference between these season totals, with {winner} the clear and comfortable victor over {loser}."
+    },
+    {
+      "id": "b2-047",
+      "kicker": "WHISTLE REPORT",
+      "headline": "WHISTLE OPENS THE VAULT",
+      "subhead": "The closing season verdict hands {winner} a satisfying victory, while {loser} still has a route back into contention.",
+      "score": 9,
+      "was": "THE WHISTLE AND THE KEY"
+    },
+    {
+      "id": "b2-048",
+      "kicker": "THE PENALTY BOX",
+      "headline": "NO PENALTY FOR POLISH",
+      "subhead": "The reward for {winner}'s stronger season is a healthy points lead, not a last chance scramble against {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-049",
+      "kicker": "LEAGUE DESK",
+      "headline": "TOP FLIGHT, TOP SHELF",
+      "subhead": "A well earned advantage for {winner} places {loser} some distance back in the season's final assessment.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b2-050",
+      "kicker": "SIDELINE EDITION",
+      "headline": "BAR SET IN BRASS",
+      "subhead": "{winner} finishes with an assured points margin, setting a challenge for {loser} without making a mockery of it.",
+      "score": 9,
+      "was": "THE BAR IS SET IN BRASS"
+    },
+    {
+      "id": "b2-051",
+      "kicker": "FINAL WHISTLE",
+      "headline": "EXTRA TIME FOR ENGRAVING",
+      "subhead": "There is no extra contest needed here, because {winner} has already earned a comfortable season victory over {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b2-052",
+      "kicker": "SEASON SCORECARD",
+      "headline": "CABINET CLAIMS THE LEAD",
+      "subhead": "By the time the season's points were in, {winner} stood convincingly above {loser} and took this round's honours.",
+      "score": 9,
+      "was": "THE CABINET TAKES THE LEAD"
+    },
+    {
+      "id": "b2-053",
+      "kicker": "THE FOOTBALL DESK",
+      "headline": "SILVERWARE ON THE LINE",
+      "subhead": "The prized outcome is a season win for {winner}, secured with a clear but measured margin over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-054",
+      "kicker": "RESULTS REVIEW",
+      "headline": "CROSSBAR MEETS THE LATCH",
+      "subhead": "Across the seasonal standings, {winner} has achieved enough separation from {loser} for a confident verdict.",
+      "score": 10,
+      "was": "THE CROSSBAR AND THE CASE"
+    },
+    {
+      "id": "b2-055",
+      "kicker": "TROPHY BULLETIN",
+      "headline": "WHISTLE GETS A POLISH",
+      "subhead": "On the final evidence, {winner} deserves this comfortable victory, with {loser} still a meaningful challenger in the wider rivalry.",
+      "score": 10,
+      "was": "THE FINAL WHISTLE SHINES"
+    },
+    {
+      "id": "b2-056",
+      "kicker": "THE NEXT ROUND",
+      "headline": "OFFSIDE FROM THE PODIUM?",
+      "subhead": "{loser} has been left behind in this season's standings, as {winner} finds a welcome stretch of breathing room.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-057",
+      "kicker": "TACTICS OF PRIDE",
+      "headline": "TROPHY ROOM RUNS DEEP",
+      "subhead": "The latest points favour {winner} with an ease that makes the seasonal distinction feel deserved and secure.",
+      "score": 9,
+      "was": "THE TROPHY ROOM RUNS DEEP"
+    },
+    {
+      "id": "b2-058",
+      "kicker": "ON THE RECORD",
+      "headline": "WIN ON DISPLAY",
+      "subhead": "A well judged margin gives {winner} the season's verdict, though {loser} has every chance to answer another time.",
+      "score": 9,
+      "was": "THE WIN GOES ON DISPLAY"
+    },
+    {
+      "id": "b2-059",
+      "kicker": "THE CLUB PAGE",
+      "headline": "NET RETURN, UNDER LOCK",
+      "subhead": "For {winner}, the season ends with a comfortable points advantage over {loser}, a victory worthy of the front page.",
+      "score": 9,
+      "was": "BACK OF THE NET, IN GLASS"
+    },
+    {
+      "id": "b2-060",
+      "kicker": "BENCH NOTES",
+      "headline": "KEY PASS TO THE VAULT",
+      "subhead": "{winner} makes the strongest claim on this season's honours, leaving {loser} several points behind in the final accounting.",
+      "score": 9,
+      "was": "A KEY PASS TO THE CASE"
+    },
+    {
+      "id": "b2-061",
+      "kicker": "SILVER DESK",
+      "headline": "SHARP SHELVES, STEADY HANDS",
+      "subhead": "The stronger seasonal return belongs to {winner}, whose measured advantage gives {loser} a clear benchmark to pursue.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-062",
+      "kicker": "THE MUSEUM FILE",
+      "headline": "GLASS GLEAMS, GAP GROWS",
+      "subhead": "{winner} secures this season's victory by a healthy amount, a result with substance rather than needless spectacle.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b2-063",
+      "kicker": "SPORTS SPOTLIGHT",
+      "headline": "BRASS BRIGHT, VERDICT BOLD",
+      "subhead": "There is no mistaking the outcome for {winner}, who finishes a comfortable distance above {loser} on points.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-064",
+      "kicker": "HONOURS DESK",
+      "headline": "POLISHED PLAQUE, PROUD PLACE",
+      "subhead": "A composed seasonal triumph gives {winner} the upper hand over {loser}, and the result deserves its own space.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-065",
+      "kicker": "THE REVIEW PAGE",
+      "headline": "RIBBONS REST, RIVALS RISE",
+      "subhead": "The season's balance favours {winner} by a sound margin, with {loser} still able to look ahead competitively.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-066",
+      "kicker": "CONTENDERS FILE",
+      "headline": "MEDALS MARK THE MARGIN",
+      "subhead": "The points spread is enough for {winner} to enjoy a convincing season win, although {loser} remains a respected challenger.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-067",
+      "kicker": "INSIDE THE GAME",
+      "headline": "KEYS CLICK, CASES CLOSE",
+      "subhead": "A comfortable finish places {winner} on top this season, and leaves {loser} to plan the next response.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b2-068",
+      "kicker": "THE GAZETTE DESK",
+      "headline": "SHELVES SING OF SUCCESS",
+      "subhead": "The season's distinction belongs to {winner}, whose points advantage makes for an unambiguous result against {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-069",
+      "kicker": "RIVALRY EDITION",
+      "headline": "LOCKS LIFT, LEGENDS WAIT",
+      "subhead": "{winner} has earned an assured victory for this round, while the broader story with {loser} continues to unfold.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-070",
+      "kicker": "RESULTS CHRONICLE",
+      "headline": "TROPHY TRIM, TRUE MARGIN",
+      "subhead": "This season shows {winner} comfortably in front of {loser}, without the gap suggesting an unanswerable difference.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-071",
+      "kicker": "THE HONOUR ROLL",
+      "headline": "SILVER SEALS THE SEASON",
+      "subhead": "A comfortable victory for {winner} gives the latest round a confident finish, while {loser} remains a live rival.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-072",
+      "kicker": "IN THE ARCHIVE",
+      "headline": "DISPLAY DUST SETTLES",
+      "subhead": "Now that the season's points are in, {winner} holds a decisive advantage and {loser} has a clear result to answer.",
+      "score": 9,
+      "was": "The uncertainty has gone from this seasonal comparison, leaving {winner} with a firm advantage over {loser}."
+    },
+    {
+      "id": "b2-073",
+      "kicker": "THE DECISION",
+      "headline": "GILT GLINTS, GLORY GROWS",
+      "subhead": "{winner} has taken the season by an appreciable margin, enough to celebrate without claiming a complete rout.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-074",
+      "kicker": "SEASONAL NOTES",
+      "headline": "CURATOR'S CRAFT COUNTS",
+      "subhead": "Firmness rather than fireworks defines {winner}'s win, a comfortable advantage over {loser} that can stand without further decoration.",
+      "score": 9,
+      "was": "CABINET CRAFT COUNTS"
+    },
+    {
+      "id": "b2-075",
+      "kicker": "RIVALS IN FOCUS",
+      "headline": "SHOWCASE SHUTS ON SUSPENSE",
+      "subhead": "The final comparison falls decisively to {winner}, putting a comfortable gap between the managers for this season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b2-076",
+      "kicker": "THE QUESTION",
+      "headline": "WHO GETS THE FRAME?",
+      "subhead": "The answer this season is {winner}, whose points return provides a clear advantage over the persistent {loser}.",
+      "score": 9,
+      "was": "WHO GETS THE GLASS CASE?"
+    },
+    {
+      "id": "b2-077",
+      "kicker": "FROM THE DESK",
+      "headline": "IS THE PLAQUE READY?",
+      "subhead": "There is a convincing seasonal winner in {winner}, though {loser} keeps the contest worth watching beyond this round.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b2-078",
+      "kicker": "CASE FILE",
+      "headline": "WHICH SHELF IS HIGHER?",
+      "subhead": "Above {loser} in the finished standings sits {winner}, whose comfortable season victory demands acknowledgment rather than disbelief.",
+      "score": 9,
+      "was": "The season's final positions favour {winner} comfortably, leaving {loser} with a genuine but surmountable challenge."
+    },
+    {
+      "id": "b2-079",
+      "kicker": "THE AFTERWORD",
+      "headline": "WHO HOLDS THE CABINET KEY?",
+      "subhead": "{winner} claims the season's leading place after gaining meaningful separation from {loser} in the final tally.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-080",
+      "kicker": "FOOTBALL QUESTIONS",
+      "headline": "CAN THE PLATE SAY MORE?",
+      "subhead": "Across the completed standings, {winner} enjoys a convincing season victory over {loser}, and the final separation speaks for itself.",
+      "score": 10,
+      "was": "CAN THE BRASS SAY MORE?"
+    },
+    {
+      "id": "b2-081",
+      "kicker": "THE SCORE PAGE",
+      "headline": "WHAT DOES THE LEDGER SHOW?",
+      "subhead": "Season {seasonNo} has gone to {winner} by a reassuring margin, with {loser} left a clear distance back.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-082",
+      "kicker": "THE INSIDE STORY",
+      "headline": "HAS THE BALANCE SHIFTED?",
+      "subhead": "This particular season favours {winner} decisively, but the wider rivalry with {loser} remains its own unfinished story.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-083",
+      "kicker": "END OF ROUND",
+      "headline": "WHERE DOES THE INK DRY?",
+      "subhead": "On the line beside {winner}'s name, because this season ends with a comfortable points advantage over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-084",
+      "kicker": "OUR CORRESPONDENT",
+      "headline": "IS THERE ROOM TO ANSWER?",
+      "subhead": "Absolutely, even though {winner} finishes this season well ahead of {loser} and deserves the immediate applause.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-085",
+      "kicker": "POINTS AND PRIDE",
+      "headline": "WHO OWNS THIS CHAPTER?",
+      "subhead": "The latest season belongs to {winner}, whose clear superiority in the standings leaves {loser} looking towards renewal.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-086",
+      "kicker": "THE NOTICEBOARD",
+      "headline": "VELVET, NOT A VICTORY LAP",
+      "subhead": "There is room for satisfaction rather than swagger as {winner} finishes comfortably in front of {loser} this season.",
+      "score": 9,
+      "was": "VELVET, NOT VICTORY LAP"
+    },
+    {
+      "id": "b2-087",
+      "kicker": "THE DISPLAY",
+      "headline": "GLASS HALF FULL",
+      "subhead": "{loser} has a challenge to meet, while {winner} can savour a season settled by a convincing points margin.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-088",
+      "kicker": "THE ENGRAVING",
+      "headline": "ETCHED WITH EASE",
+      "subhead": "The latest outcome gives {winner} a reassuring cushion over {loser}, making for a calm and emphatic decision.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b2-089",
+      "kicker": "CABINET INSPECTION",
+      "headline": "BRASS WITH BACKBONE",
+      "subhead": "A sturdy season return carries {winner} comfortably beyond {loser}, without turning a fine rivalry into a foregone conclusion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-090",
+      "kicker": "THE SILVER COLUMN",
+      "headline": "SHINE, THEN RESET",
+      "subhead": "{winner} earns a thoroughly satisfying seasonal victory, but the next meeting with {loser} begins a fresh argument.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-091",
+      "kicker": "THE GALLERY",
+      "headline": "PODIUM WITHOUT A PARADE",
+      "subhead": "Not a runaway and not a close call, {winner}'s margin over {loser} sits confidently between the extremes.",
+      "score": 9,
+      "was": "ON THE MIDDLE PLINTH"
+    },
+    {
+      "id": "b2-092",
+      "kicker": "THE NEXT EDITION",
+      "headline": "NO DUST REQUIRED",
+      "subhead": "{winner}'s result remains fresh and impressive, with the season settled comfortably in their favour over {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b2-093",
+      "kicker": "THE LABEL",
+      "headline": "WORTH THE FRAME",
+      "subhead": "A well defined points advantage gives {winner} a handsome season victory, with {loser} providing a worthwhile challenge.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-094",
+      "kicker": "THE BACK SHELF",
+      "headline": "LOCKED, NOT LOST",
+      "subhead": "Although {loser} could not match the winner this season, {winner}'s advantage is a chapter rather than the whole story.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-095",
+      "kicker": "THE FEATURE PAGE",
+      "headline": "GOLD WITHOUT GLOATING",
+      "subhead": "A reassuring seasonal advantage puts {winner} on top, with enough respect left in the rivalry for {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b2-096",
+      "kicker": "THE SMALL PRINT",
+      "headline": "MARGIN WITH MANNERS",
+      "subhead": "{winner} enjoys an assured win without making {loser} an afterthought, the mark of a pleasingly competitive showdown.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b2-097",
+      "kicker": "THE ARCHIVIST",
+      "headline": "MERIT FITS THE FRAME",
+      "subhead": "The season's honours sit comfortably with {winner}, whose stronger points return kept {loser} at a meaningful distance.",
+      "score": 9,
+      "was": "A GOOD FIT"
+    },
+    {
+      "id": "b2-098",
+      "kicker": "THE CABINET COLUMN",
+      "headline": "SHELF LIFE EXTENDED",
+      "subhead": "A solid victory gives {winner} another result to remember, though this season alone does not settle future contests.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-099",
+      "kicker": "THE LAST WORD",
+      "headline": "PRIDE, UNDER GLASS",
+      "subhead": "It is a deserved moment for {winner}, who closes the season with a clear and satisfying edge over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b2-100",
+      "kicker": "THE FRONT WINDOW",
+      "headline": "BETTER POLISH WINS",
+      "subhead": "In a season with a definite winner but no rout, {winner} holds a convincing points advantage over {loser}.",
+      "score": 10,
+      "was": "THE BETTER POLISH"
+    }
+  ]
+}
