@@ -1,0 +1,608 @@
+{
+  "batch": 41,
+  "situation": "final-season-decider",
+  "voice": "The co-commentator",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb41-001",
+      "text": "It's a decent view from {leader}'s position, but a view doesn't complete the journey for you.",
+      "score": 9,
+      "was": "{leader} has the advantage, certainly, but there's a world of difference between leading and finishing."
+    },
+    {
+      "id": "cb41-002",
+      "text": "Give {trailer} this much: the chance to answer the overall picture is still alive.",
+      "score": 9,
+      "was": "You can admire {trailer}'s position here, because there's still a way to change the whole story."
+    },
+    {
+      "id": "cb41-003",
+      "text": "For {leader}, the trick is treating the crucial campaign as football, not a ceremony.",
+      "score": 9,
+      "was": "For {leader}, the trick now is treating the deciding season as football, not a ceremony."
+    },
+    {
+      "id": "cb41-004",
+      "text": "{trailer} doesn't need a speech from me, just a response worthy of this opportunity.",
+      "score": 9,
+      "was": "{trailer} doesn't need a speech from me, just a season worthy of the opportunity."
+    },
+    {
+      "id": "cb41-005",
+      "text": "I'd rather be {leader}, of course, although I'd be sleeping with an eye on that tricky hurdle.",
+      "score": 9,
+      "was": "I'd rather be {leader}, of course, although I'd be sleeping with an eye on that final hurdle."
+    },
+    {
+      "id": "cb41-006",
+      "text": "Past results offer {trailer} little comfort, yet the future still offers room to respond.",
+      "score": 9,
+      "was": "There's no comfort for {trailer} in the past, but there's plenty of possibility in what's next."
+    },
+    {
+      "id": "cb41-007",
+      "text": "Nothing has been awarded yet, which is what both managers will have to live with.",
+      "score": 9,
+      "was": "Nothing has been awarded yet, and that's the part both managers will have to live with."
+    },
+    {
+      "id": "cb41-008",
+      "text": "Settling a contest this late sounds straightforward, until you have to live through it.",
+      "score": 9,
+      "was": "Deciding a rivalry this late isn't complicated to explain, but it's difficult to endure."
+    },
+    {
+      "id": "cb41-009",
+      "text": "We know which campaign ends this Showdown, just not which story it'll tell.",
+      "score": 9,
+      "was": "We know the destination now, not the order in which they'll reach it."
+    },
+    {
+      "id": "cb41-010",
+      "text": "Anyone calling this settled has mistaken a useful lead for the finished article.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb41-011",
+      "text": "You'd think {leader} could relax with the prize in sight. I wouldn't count on it.",
+      "score": 9,
+      "was": "{leader} can see the prize, which has a funny way of making it harder to look elsewhere."
+    },
+    {
+      "id": "cb41-012",
+      "text": "Write {trailer} off now? Quite a brave opinion with the deciding contest still to come.",
+      "score": 9,
+      "was": "Don't underestimate {trailer}; an unfinished contest is still a contest worth fighting."
+    },
+    {
+      "id": "cb41-013",
+      "text": "My advice to {leader}? Don't manage the advantage, manage the club.",
+      "score": 9,
+      "was": "I'd tell {leader} to forget the overall picture and find a proper season first."
+    },
+    {
+      "id": "cb41-014",
+      "text": "Behind overall, {trailer} can change the balance, not erase what came before.",
+      "score": 9,
+      "was": "Behind in the standings, {trailer} still gets the same chance to shape the ending."
+    },
+    {
+      "id": "cb41-015",
+      "text": "Look at {leader}'s task: protect what's been built without becoming afraid to build further.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb41-016",
+      "text": "With {trailer}, handling the challenge matters far more than discussing how difficult it looks.",
+      "score": 9,
+      "was": "With {trailer}, the question isn't whether the challenge is serious, but how to answer it."
+    },
+    {
+      "id": "cb41-017",
+      "text": "At this point, the verdict can wait. We've got the awkward business of suspense instead.",
+      "score": 9,
+      "was": "There'll be plenty of verdicts afterward; right now, we've only got the anticipation."
+    },
+    {
+      "id": "cb41-018",
+      "text": "Waiting might be tougher than managing, if you spend it imagining every possible outcome.",
+      "score": 9,
+      "was": "Perhaps the cruelest part of a deciding season is having time to imagine every possible ending."
+    },
+    {
+      "id": "cb41-019",
+      "text": "No trophies are being handed over in advance, however convincing the lead may look.",
+      "score": 9,
+      "was": "No trophies are being handed over in advance, however convincing the standings may look."
+    },
+    {
+      "id": "cb41-020",
+      "text": "Call it unfinished business, because the final chapter still has room to move.",
+      "score": 9,
+      "was": "Call it unfinished business, because that's exactly what the final chapter is offering."
+    },
+    {
+      "id": "cb41-021",
+      "text": "Ask {leader} about comfort and I suspect the answer would be very brief.",
+      "score": 9,
+      "was": "{leader} has earned the better position, but position and possession of the title aren't identical."
+    },
+    {
+      "id": "cb41-022",
+      "text": "Suppose you're {trailer}. You'd want the football to begin before the opinions get louder.",
+      "score": 9,
+      "was": "If you're {trailer}, you don't ask for reassurance; you ask for the season to begin."
+    },
+    {
+      "id": "cb41-023",
+      "text": "That cushion beside {leader}'s name matters, yet it can't do the managing on its own.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb41-024",
+      "text": "Don't dismiss {trailer}, not while the closing stage can still alter the destination.",
+      "score": 9,
+      "was": "Nobody should discount {trailer}, not while the closing stretch can still alter the destination."
+    },
+    {
+      "id": "cb41-025",
+      "text": "Confidence will suit {leader} until it starts asking to do the heavy lifting.",
+      "score": 9,
+      "was": "I'd fancy {leader} to feel confident, though confidence can become an awkward travelling companion."
+    },
+    {
+      "id": "cb41-026",
+      "text": "In {trailer}'s position, everything comes down to making the remaining opportunity count.",
+      "score": 9,
+      "was": "For {trailer}, everything comes down to making the remaining opportunity count in full."
+    },
+    {
+      "id": "cb41-027",
+      "text": "It's an unusual kind of pressure, knowing the next chapter cannot simply be followed by another.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb41-028",
+      "text": "Think of the effort already spent, and then remember the conclusion still has to be earned.",
+      "score": 9,
+      "was": "Think of the work already done, and then remember the conclusion still has to be earned."
+    },
+    {
+      "id": "cb41-029",
+      "text": "In the end, all those previous seasons have brought us to an open door.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb41-030",
+      "text": "Having a final chance sounds generous until you remember nothing comes after it.",
+      "score": 9,
+      "was": "A final chance sounds generous until you remember there won't be another after it."
+    },
+    {
+      "id": "cb41-031",
+      "text": "A quiet conclusion would suit {leader}. I'm afraid {trailer} might have different ideas.",
+      "score": 9,
+      "was": "{leader} might prefer a quiet conclusion; unfortunately, a rival still has plenty to say."
+    },
+    {
+      "id": "cb41-032",
+      "text": "{trailer} gets to challenge the order of things, which makes this anything but a formality.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb41-033",
+      "text": "Mind you, {leader} isn't obliged to give us drama. Staying in front is the job.",
+      "score": 9,
+      "was": "Mind you, {leader} isn't obliged to entertain us; the job is to stay on top."
+    },
+    {
+      "id": "cb41-034",
+      "text": "Whatever {trailer} plans, it has to hold up when the pressure arrives, not just sound good.",
+      "score": 9,
+      "was": "Whatever {trailer} plans, it has to survive an entire season, not just a good intention."
+    },
+    {
+      "id": "cb41-035",
+      "text": "Having a lead gives {leader} something to protect, which also gives them something to lose.",
+      "score": 9,
+      "was": "The benefit for {leader} is having something to defend; the burden is exactly the same."
+    },
+    {
+      "id": "cb41-036",
+      "text": "As for {trailer}, the path is demanding, but at least it hasn't disappeared.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb41-037",
+      "text": "Pressure can tempt a manager to watch the opposite dugout instead of their own decisions.",
+      "score": 9,
+      "was": "A tight finish can tempt a manager to watch the other dugout instead of their own decisions."
+    },
+    {
+      "id": "cb41-038",
+      "text": "Supporters enjoy a cliffhanger. Managers generally prefer a bit of certainty with their football.",
+      "score": 9,
+      "was": "People love the suspense; managers tend to prefer knowing where they stand."
+    },
+    {
+      "id": "cb41-039",
+      "text": "Proper competition means nobody gets to close the book early, which is just as well.",
+      "score": 9,
+      "was": "Maybe that's the beauty of this format: the ending refuses to arrive early."
+    },
+    {
+      "id": "cb41-040",
+      "text": "Forget the dress rehearsal. What's left is the performance, and neither manager knows the script.",
+      "score": 9,
+      "was": "All the rehearsals are over, metaphorically speaking; this next campaign is the performance."
+    },
+    {
+      "id": "cb41-041",
+      "text": "Results already banked put {leader} in front. They don't excuse a poor finish.",
+      "score": 9,
+      "was": "{leader} has the advantage of results already banked, not the luxury of standing still."
+    },
+    {
+      "id": "cb41-042",
+      "text": "Worth watching {trailer}, I'd say. Nothing is settled, and it feels more like an invitation.",
+      "score": 9,
+      "was": "I'd keep an eye on {trailer}, because having nothing settled is an invitation to respond."
+    },
+    {
+      "id": "cb41-043",
+      "text": "It's not as if {leader} owns the verdict yet, just the strongest position to seek it.",
+      "score": 9,
+      "was": "Nobody gave {leader} the final verdict, merely the strongest position from which to seek it."
+    },
+    {
+      "id": "cb41-044",
+      "text": "Every proper contest allows {trailer} an answer, and the chance is still there.",
+      "score": 9,
+      "was": "Every good rivalry leaves room for {trailer} to answer, and this one still does."
+    },
+    {
+      "id": "cb41-045",
+      "text": "Staring at the overall gap is no help to {leader}. The next job needs attention.",
+      "score": 9,
+      "was": "There's little {leader} can gain from staring at the lead instead of the work ahead."
+    },
+    {
+      "id": "cb41-046",
+      "text": "{trailer} won't be rescued by what came before, but isn't condemned by it either.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb41-047",
+      "text": "After so much effort, the hardest part can be accepting another test still awaits.",
+      "score": 9,
+      "was": "You can spend months chasing an advantage and still find the decisive test waiting at the end."
+    },
+    {
+      "id": "cb41-048",
+      "text": "Not every manager enjoys the waiting. I always thought the actual football was the easier bit.",
+      "score": 9,
+      "was": "Some managers enjoy the build-up; the sensible ones save their energy for the actual challenge."
+    },
+    {
+      "id": "cb41-049",
+      "text": "This is where planning stops sounding clever and starts having to produce something tangible.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb41-050",
+      "text": "Quite a pleasant position for the neutral, seeing the possible outcomes remain open.",
+      "score": 9,
+      "was": "That's a lovely position for a spectator, seeing two possible endings and knowing neither yet."
+    },
+    {
+      "id": "cb41-051",
+      "text": "Framing {leader}'s advantage is easy. Keeping it when play resumes is quite another matter.",
+      "score": 9,
+      "was": "What {leader} carries into the finale is a lead, not a guarantee engraved on silverware."
+    },
+    {
+      "id": "cb41-052",
+      "text": "I suspect {trailer} would happily swap everyone's predictions for the right sort of response.",
+      "score": 9,
+      "was": "I suspect {trailer} would happily swap everyone's predictions for the right sort of campaign."
+    },
+    {
+      "id": "cb41-053",
+      "text": "Even {leader} can't control the rival's fate, so concentration has to stay close to home.",
+      "score": 9,
+      "was": "Even {leader} can't control the rival's season, so concentration has to stay close to home."
+    },
+    {
+      "id": "cb41-054",
+      "text": "There's time for {trailer} to make the overall picture uncomfortable for the favourite.",
+      "score": 9,
+      "was": "{trailer} has time left to affect the outcome, and time is the valuable thing here."
+    },
+    {
+      "id": "cb41-055",
+      "text": "The wise thing for {leader} is to treat that head start as fragile.",
+      "score": 9,
+      "was": "You'd back {leader} to know the value of the advantage without leaning on it too heavily."
+    },
+    {
+      "id": "cb41-056",
+      "text": "At least {trailer} knows the assignment. Make the resolution less comfortable than expected.",
+      "score": 9,
+      "was": "I'd say {trailer} has the cleaner brief: make the unfinished part impossible to ignore."
+    },
+    {
+      "id": "cb41-057",
+      "text": "This sort of finale tests judgment more than nerves, although there'll be plenty of both.",
+      "score": 9,
+      "was": "This kind of finish tests judgment more than nerves, although there'll be plenty of both."
+    },
+    {
+      "id": "cb41-058",
+      "text": "At least the stakes are straightforward: neither manager can hide behind promises of next time.",
+      "score": 9,
+      "was": "At least the stakes are straightforward: nobody can hide behind promises of next time."
+    },
+    {
+      "id": "cb41-059",
+      "text": "Suddenly all the earlier arguments become background noise to the deciding phase still ahead.",
+      "score": 9,
+      "was": "Suddenly all the earlier arguments become background noise to the campaign still to come."
+    },
+    {
+      "id": "cb41-060",
+      "text": "For once, the excitement lies entirely in what hasn't happened yet.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb41-061",
+      "text": "Reaching this point in front is credit to {leader}. Finishing there takes another effort.",
+      "score": 9,
+      "was": "{leader} deserves credit for arriving in front, but the assignment remains incomplete."
+    },
+    {
+      "id": "cb41-062",
+      "text": "Pressure might sharpen {trailer}'s focus. Popularity won't be the concern.",
+      "score": 9,
+      "was": "There's a certain freedom for {trailer} in having a clear challenge and somewhere to aim."
+    },
+    {
+      "id": "cb41-063",
+      "text": "Expect {leader} to stay measured. Grand gestures won't help if they interfere with the job.",
+      "score": 9,
+      "was": "Expect {leader} to keep things measured; nobody wants ambition turning into a distraction now."
+    },
+    {
+      "id": "cb41-064",
+      "text": "And {trailer} knows a bold response only matters if it lasts beyond the opening excitement.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb41-065",
+      "text": "Give {leader} credit for being in front. Don't confuse it with the final whistle.",
+      "score": 9,
+      "was": "Credit {leader} with the advantage, but don't confuse that with a settled Showdown."
+    },
+    {
+      "id": "cb41-066",
+      "text": "You feel {trailer} will welcome the chance to put a different outcome on the page.",
+      "score": 9,
+      "was": "You feel {trailer} will welcome the chance to put a different ending on the page."
+    },
+    {
+      "id": "cb41-067",
+      "text": "All the comfortable predictions have expired. The contest still needs its closing act.",
+      "score": 9,
+      "was": "The calendar has run out of room for postponing the big question."
+    },
+    {
+      "id": "cb41-068",
+      "text": "Funny how seasons of effort can come down to what hasn't been done yet.",
+      "score": 9,
+      "was": "Funny how a long competition can suddenly fit inside a single remaining opportunity."
+    },
+    {
+      "id": "cb41-069",
+      "text": "Better keep the final page blank until the campaign gives us something to print.",
+      "score": 9,
+      "was": "Before anyone writes the conclusion, they'd better leave room for the final campaign."
+    },
+    {
+      "id": "cb41-070",
+      "text": "Moments like these give the old competition weight beyond any ordinary season.",
+      "score": 9,
+      "was": "Perhaps this is why they started the rivalry: to discover which manager handles this moment."
+    },
+    {
+      "id": "cb41-071",
+      "text": "With {leader}, the risk is admiring previous success instead of doing the next bit.",
+      "score": 9,
+      "was": "{leader} can't win the remaining season by admiring the ones already completed."
+    },
+    {
+      "id": "cb41-072",
+      "text": "There's no requirement for {trailer} to look comfortable, only to make a proper challenge.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb41-073",
+      "text": "I wonder whether {leader} will be more worried about defending than about competing.",
+      "score": 9,
+      "was": "I wonder whether {leader} will feel that familiar itch to protect rather than pursue."
+    },
+    {
+      "id": "cb41-074",
+      "text": "Give {trailer} credit for still having a route into the conversation that matters most.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb41-075",
+      "text": "Ask {leader} the obvious question: can that lead survive the test that decides it all?",
+      "score": 9,
+      "was": "It's the simplest question left for {leader}: can an advantage survive the deciding campaign?"
+    },
+    {
+      "id": "cb41-076",
+      "text": "If {trailer} turns things around, I suspect a few very confident predictions will vanish.",
+      "score": 9,
+      "was": "If {trailer} turns the picture around, there'll be no shortage of people revising their opinions."
+    },
+    {
+      "id": "cb41-077",
+      "text": "The destination makes no promises, and the managers would do well to remember that.",
+      "score": 9,
+      "was": "The finish line isn't a prediction, and the managers would do well to remember that."
+    },
+    {
+      "id": "cb41-078",
+      "text": "By now, excuses have very little room. Whatever happens next will have to stand on its own.",
+      "score": 9,
+      "was": "By now, excuses have very little space to live; the remaining work is what counts."
+    },
+    {
+      "id": "cb41-079",
+      "text": "Managers get no rehearsal for the only campaign left on the card.",
+      "score": 9,
+      "was": "Nobody gets a rehearsal of the only campaign left on the card."
+    },
+    {
+      "id": "cb41-080",
+      "text": "The finale offers an opportunity, yes, but also a fairly strict deadline.",
+      "score": 9,
+      "was": "One season remains, and for a manager that's both an opportunity and a rather stern deadline."
+    },
+    {
+      "id": "cb41-081",
+      "text": "Wouldn't surprise me if {leader} wanted the build-up finished and the business begun.",
+      "score": 9,
+      "was": "I'd wager {leader} would trade some of the attention for the chance to get started."
+    },
+    {
+      "id": "cb41-082",
+      "text": "Picture {trailer} studying the challenge, not because it's pleasant, but because it's still possible.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb41-083",
+      "text": "Now {leader} has to make experience count without assuming experience settles anything.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb41-084",
+      "text": "Meanwhile, {trailer} has a sharper target to chase, and that can be useful.",
+      "score": 9,
+      "was": "Meanwhile {trailer} has the advantage of knowing exactly what the chase demands emotionally."
+    },
+    {
+      "id": "cb41-085",
+      "text": "When {leader} looks back, this closing phase may matter as much as anything already achieved.",
+      "score": 9,
+      "was": "When {leader} looks back, this stretch may matter as much as anything already achieved."
+    },
+    {
+      "id": "cb41-086",
+      "text": "Could {trailer} rewrite the closing page? The standings say it's worth asking.",
+      "score": 9,
+      "was": "Could {trailer} rewrite the ending? The standings say the question is still worth asking."
+    },
+    {
+      "id": "cb41-087",
+      "text": "Everybody wants a dramatic finish until they're the person responsible for providing it.",
+      "score": 9,
+      "was": "Everybody wants a dramatic finish until they're the one responsible for providing it."
+    },
+    {
+      "id": "cb41-088",
+      "text": "Between the current totals and the verdict sits the inconvenient matter of the deciding assignment.",
+      "score": 9,
+      "was": "Between the lead and the final result lies the rather inconvenient business of another season."
+    },
+    {
+      "id": "cb41-089",
+      "text": "There isn't a safe way to skip the uncertainty, which is why we're still watching.",
+      "score": 9,
+      "was": "There isn't a safe way to skip the uncertainty, and that's why we're still watching."
+    },
+    {
+      "id": "cb41-090",
+      "text": "Rarely does anticipation carry so much weight while the actual football is still ahead.",
+      "score": 9,
+      "was": "Rarely does anticipation do so much work while the actual football is still ahead."
+    },
+    {
+      "id": "cb41-091",
+      "text": "Being nearest the prize won't open the door for {leader}. The hard part remains.",
+      "score": 9,
+      "was": "{leader} has reached the doorstep, but the door doesn't open just because you knock."
+    },
+    {
+      "id": "cb41-092",
+      "text": "For {trailer}, the route isn't easy, I'd grant you that. Easy was never the requirement.",
+      "score": 9,
+      "was": "I'd remind {trailer} that a demanding route isn't the same thing as a closed one."
+    },
+    {
+      "id": "cb41-093",
+      "text": "There are reasons to fancy {leader}, certainly. There are also reasons to keep watching.",
+      "score": 9,
+      "was": "Hold on to {leader}'s advantage if you like; just don't frame the final picture yet."
+    },
+    {
+      "id": "cb41-094",
+      "text": "Neither {trailer} nor the rest of us knows the answer, which is entirely the point.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb41-095",
+      "text": "Playing for a conclusion rather than playing well is the temptation {leader} must resist.",
+      "score": 9,
+      "was": "The real temptation for {leader} will be playing for a conclusion rather than playing well."
+    },
+    {
+      "id": "cb41-096",
+      "text": "Maybe {trailer} makes the conclusion awkward for everybody. I'd call that good competition.",
+      "score": 9,
+      "was": "Maybe {trailer} will make the closing chapter uncomfortable, which is a perfectly respectable ambition."
+    },
+    {
+      "id": "cb41-097",
+      "text": "We're at the stage where every future achievement could alter the shape of the whole contest.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb41-098",
+      "text": "The upcoming campaign could settle everything or leave it level. We can't know yet.",
+      "score": 9,
+      "was": "Something has to give in the final campaign, even if the overall verdict ends level."
+    },
+    {
+      "id": "cb41-099",
+      "text": "Nobody gets to claim the whole Showdown while the remaining opportunity still belongs to both.",
+      "score": 9,
+      "was": "No one gets to claim the whole Showdown while the last opportunity still belongs to both."
+    },
+    {
+      "id": "cb41-100",
+      "text": "After all the opinions, the only sensible advice is to play the deciding season properly.",
+      "score": 9,
+      "was": "And after all that, the most sensible prediction is that the managers must actually play it."
+    }
+  ]
+}

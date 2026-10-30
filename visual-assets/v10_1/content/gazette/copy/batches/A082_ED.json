@@ -1,0 +1,809 @@
+{
+  "batch": 82,
+  "situation": "europa-league",
+  "edition": "season",
+  "lens": "Stage and screen",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b82-001",
+      "kicker": "EUROPEAN DESK",
+      "headline": "EUROPE'S OTHER FINALE",
+      "subhead": "For {winner}, the Europa League title tells a continental story of its own and gives {loser} a new standard to answer.",
+      "score": 10,
+      "was": "headline: A DIFFERENT KIND OF FINALE; subhead: The Europa League belongs to {winner}, giving this season a continental triumph with its own distinct place in the rivalry."
+    },
+    {
+      "id": "b82-002",
+      "kicker": "CONTINENTAL RECORD",
+      "headline": "HONORS BEYOND THE MARQUEE",
+      "subhead": "Not every great European story occupies the largest stage, and {winnerClub} has supplied a title worthy of serious attention.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-003",
+      "kicker": "SEASON REVIEW",
+      "headline": "SPOTLIGHT REACHES THE WINGS",
+      "subhead": "{winner} has lifted the Europa League, proving the continent has more than one competition capable of defining a campaign.",
+      "score": 10,
+      "was": "headline: THE SECOND STAGE SHINES"
+    },
+    {
+      "id": "b82-004",
+      "kicker": "TROPHY REGISTER",
+      "headline": "A CONTINENTAL ENCORE",
+      "subhead": "With the Europa League secured by {winnerClub}, this season acquires an achievement that will still matter when the rivalry resumes.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-005",
+      "kicker": "THEATRE NOTES",
+      "headline": "THE UNDERSTUDY'S MOMENT",
+      "subhead": "On a European stage with its own demanding prize, {winner} takes the honors rather than a supporting place in the story.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b82-006",
+      "kicker": "EUROPE IN FOCUS",
+      "headline": "ANOTHER SPOTLIGHT FOR EUROPE",
+      "subhead": "The Europa League title gives {winnerClub} a worthy continental chapter, distinct from whatever else the season has produced.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-007",
+      "kicker": "FRONT PAGE",
+      "headline": "BEHIND THE SCENES, HONOR",
+      "subhead": "With Europa League silverware secured, {winner} has made the less prominent European stage impossible to overlook this season.",
+      "score": 10,
+      "was": "headline: THE HONOR BEHIND THE SCENES; subhead: In {winner}'s campaign, Europa League silverware deserves its own account instead of appearing as a footnote to other competitions."
+    },
+    {
+      "id": "b82-008",
+      "kicker": "AFTER THE CURTAIN",
+      "headline": "PRESENCE OF A PRIZE",
+      "subhead": "For {winnerClub}, the Europa League trophy needs no oversized production to make a lasting impression on the season's record.",
+      "score": 9,
+      "was": "headline: A PRIZE WITH PRESENCE; subhead: The Europa League has found a champion in {winnerClub}, and the trophy carries genuine weight beyond the theater of celebration."
+    },
+    {
+      "id": "b82-009",
+      "kicker": "THE EUROPE FILE",
+      "headline": "EUROPE'S WIDER CANVAS",
+      "subhead": "While the Showdown measures seasons as a whole, {winner} has added a genuine European achievement through the Europa League.",
+      "score": 10,
+      "was": "headline: A WIDER EUROPEAN CANVAS; subhead: Europe's club game offers several routes to distinction, and {winner} has claimed a major one through Europa League success."
+    },
+    {
+      "id": "b82-010",
+      "kicker": "EDITORIAL VIEW",
+      "headline": "LEADING ROLE ELSEWHERE",
+      "subhead": "{winnerClub} has won the Europa League, and the distinction deserves recognition without being confused with any other European title.",
+      "score": 9,
+      "was": "headline: A LEADING ROLE ELSEWHERE; subhead: The title won by {winnerClub} belongs to the Europa League, an achievement that stands confidently on its own merits."
+    },
+    {
+      "id": "b82-011",
+      "kicker": "HONORS COLUMN",
+      "headline": "QUIETER SCENE, LOUDER NEWS",
+      "subhead": "Continental recognition now accompanies {winner}, whose Europa League victory adds an unexpected focal point to this Showdown season.",
+      "score": 10,
+      "was": "headline: THE QUIETER STAGE SPEAKS; subhead: Continental recognition now accompanies {winner}, whose Europa League victory adds a memorable dimension to this Showdown season."
+    },
+    {
+      "id": "b82-012",
+      "kicker": "SPECIAL EDITION",
+      "headline": "THE OTHER GRAND PRODUCTION",
+      "subhead": "The Europa League supplied its own prize this campaign, and {winnerClub} emerged with the honor that mattered most there.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-013",
+      "kicker": "CULTURE AND SPORT",
+      "headline": "CONTINENT IN A NEW LIGHT",
+      "subhead": "A different continental competition has delivered a celebrated trophy to {winner}, giving the Gazette a fresh kind of European story.",
+      "score": 9,
+      "was": "headline: EUROPE IN A NEW LIGHT"
+    },
+    {
+      "id": "b82-014",
+      "kicker": "TROPHY DESK",
+      "headline": "SILVER TAKES A SOLO BOW",
+      "subhead": "For {winnerClub}, lifting the Europa League means receiving a European title without borrowing prestige from any other result.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-015",
+      "kicker": "THE PRESS BOX",
+      "headline": "SUPPORTING ACT, STARRING PRIZE",
+      "subhead": "The Europa League may share the continent's spotlight, but the trophy belongs outright to {winner} this season.",
+      "score": 10,
+      "was": "headline: THE VALUE OF A SUPPORTING ACT; subhead: What some call the other European stage has given {winner} the main distinction in a successful Europa League campaign."
+    },
+    {
+      "id": "b82-016",
+      "kicker": "CONTINENTAL REVIEW",
+      "headline": "ENCORE WORTH REMEMBERING",
+      "subhead": "The Europa League trophy is {winnerClub}'s reward, and the achievement deserves room in the record of this rivalry.",
+      "score": 9,
+      "was": "headline: AN ACT WORTH REMEMBERING"
+    },
+    {
+      "id": "b82-017",
+      "kicker": "THE PLAYBILL",
+      "headline": "BILLED FOR EUROPE",
+      "subhead": "For {winner}, a Europa League title belongs on the program of lasting honors, not among the footnotes.",
+      "score": 9,
+      "was": "headline: A PLACE ON EUROPE'S BILL; subhead: Now listed among Europe's title winners, {winner} can point to a Europa League triumph when this season is reviewed."
+    },
+    {
+      "id": "b82-018",
+      "kicker": "THE FINAL EDITION",
+      "headline": "EUROPE'S ALTERNATE ENDING",
+      "subhead": "The Europa League season closes with {winnerClub} as champion, adding a separate continental achievement to the Showdown record.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b82-019",
+      "kicker": "HONOR ROLL",
+      "headline": "THE SPOTLIGHT HAS RANGE",
+      "subhead": "There is room for more than one kind of European acclaim, and {winner} has earned this season's Europa League title.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-020",
+      "kicker": "THE WIDE SHOT",
+      "headline": "TROPHY JUST OUT OF FRAME",
+      "subhead": "The European picture grows richer with {winnerClub} holding the Europa League, a prize worth bringing into full view.",
+      "score": 10,
+      "was": "headline: A TROPHY OUTSIDE THE FRAME; subhead: The continental picture grows richer with {winnerClub} holding the Europa League, a prize worthy of its own front page."
+    },
+    {
+      "id": "b82-021",
+      "kicker": "LATE BULLETIN",
+      "headline": "ROLL OUT THE RED CARPET",
+      "subhead": "Europa League silverware gives {winner} a genuine reason to celebrate, and the Gazette has its continental headline.",
+      "score": 9,
+      "was": "headline: ROLL OUT THE RED CARPET!"
+    },
+    {
+      "id": "b82-022",
+      "kicker": "EUROPEAN EXTRA",
+      "headline": "UNLEASH THE FINAL REEL",
+      "subhead": "The Europa League reaches its conclusion with {winnerClub} holding the trophy, not merely appearing in the closing credits.",
+      "score": 10,
+      "was": "headline: UNLEASH THE FINAL REEL!"
+    },
+    {
+      "id": "b82-023",
+      "kicker": "CUP ALERT",
+      "headline": "RAISE THAT STAGE CURTAIN!",
+      "subhead": "For {winner}, the Europa League has ended in triumph, bringing a European title into sharp focus this season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-024",
+      "kicker": "SECOND EDITION",
+      "headline": "PUT THE PRIZE ON SCREEN!",
+      "subhead": "There is no need to stage a dramatic replay: {winnerClub} has secured Europa League honors and added silverware to its season.",
+      "score": 9,
+      "was": "subhead: The moment worth showing is simple: {winnerClub} has won the Europa League and earned continental distinction."
+    },
+    {
+      "id": "b82-025",
+      "kicker": "HONORS BREAKING",
+      "headline": "CLAIM YOUR CLOSEUP",
+      "subhead": "A European trophy now belongs to {winner}, whose Europa League success deserves attention beyond the season's other honors.",
+      "score": 10,
+      "was": "headline: CLAIM YOUR CLOSEUP!"
+    },
+    {
+      "id": "b82-026",
+      "kicker": "NEWSFLASH",
+      "headline": "SWING THE SPOTLIGHT!",
+      "subhead": "The Europa League is {winnerClub}'s achievement, a trophy that shifts the focus of this season's European story.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-027",
+      "kicker": "EUROPEAN FLASH",
+      "headline": "SHAKE THE STAGE AWAKE!",
+      "subhead": "The Europa League has crowned {winner}, and the European chapter of the Showdown now has a fresh talking point.",
+      "score": 10,
+      "was": "headline: BRING DOWN THE HOUSE!; subhead: A significant continental victory belongs to {winner}, who can celebrate winning the Europa League without needing further embellishment."
+    },
+    {
+      "id": "b82-028",
+      "kicker": "CLOSING BULLETIN",
+      "headline": "FIRE UP THE PROJECTOR!",
+      "subhead": "The picture is complete in the Europa League, with {winnerClub} taking its title into the Showdown record.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-029",
+      "kicker": "THE LIVE DESK",
+      "headline": "HANG THE NEW POSTER",
+      "subhead": "Put {winner} at the center of this edition's European coverage after a deservedly prominent Europa League triumph.",
+      "score": 9,
+      "was": "headline: HANG THE NEW POSTER!"
+    },
+    {
+      "id": "b82-030",
+      "kicker": "FLASH EDITION",
+      "headline": "TURN UP THE HOUSE LIGHTS!",
+      "subhead": "{winnerClub} can take a bow for Europa League success, though the wider rivalry still has its own story to tell.",
+      "score": 9,
+      "was": "subhead: The Europa League campaign has concluded in success for {winnerClub}, making its trophy the centerpiece of today's edition."
+    },
+    {
+      "id": "b82-031",
+      "kicker": "BACK PAGE",
+      "headline": "GRAB THE BILLING!",
+      "subhead": "Continental honors go to {winner}, whose Europa League title provides a striking addition to the season's record.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-032",
+      "kicker": "EUROPEAN WIRE",
+      "headline": "STRIKE UP THE OVERTURE",
+      "subhead": "The occasion calls for celebration as {winnerClub} becomes a Europa League champion in this Showdown season.",
+      "score": 9,
+      "was": "headline: STRIKE UP THE OVERTURE!"
+    },
+    {
+      "id": "b82-033",
+      "kicker": "CUP DISPATCH",
+      "headline": "RELEASE THE TITLE CARD!",
+      "subhead": "Across Europe's Europa League stage, {winner} has earned the winning credit and a trophy to remember.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-034",
+      "kicker": "NIGHT EDITION",
+      "headline": "SEND IN THE CELEBRATION!",
+      "subhead": "A Europa League victory gives {winnerClub} something substantial to celebrate, however the wider rivalry eventually unfolds.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b82-035",
+      "kicker": "EUROPEAN UPDATE",
+      "headline": "OPEN THE TROPHY SCENE!",
+      "subhead": "The Europa League's prize goes to {winner}, turning a continental campaign into a lasting honor for the club.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-036",
+      "kicker": "THE BULLETIN",
+      "headline": "LET THE FINAL TAKE ROLL!",
+      "subhead": "There is a European title to announce, with {winnerClub} closing the Europa League campaign as its champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-037",
+      "kicker": "PAPER SPECIAL",
+      "headline": "PASTE UP THAT BILLBOARD!",
+      "subhead": "The Gazette has a headline worth displaying now that {winner} has brought home the Europa League trophy.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-038",
+      "kicker": "TROPHY ALERT",
+      "headline": "PRINT THE VICTORY POSTER",
+      "subhead": "At the close of the Europa League, {winnerClub} claims the prize and its rightful place in the edition.",
+      "score": 9,
+      "was": "headline: PRINT THE VICTORY POSTER!"
+    },
+    {
+      "id": "b82-039",
+      "kicker": "CONTINENTAL FLASH",
+      "headline": "MAKE ROOM ON THE SCREEN!",
+      "subhead": "The European honors column now includes {winner}, whose Europa League triumph gives {loser} another benchmark to pursue.",
+      "score": 10,
+      "was": "subhead: The European honors column now includes {winner}, who has guided a club to Europa League silverware."
+    },
+    {
+      "id": "b82-040",
+      "kicker": "THE BIG READ",
+      "headline": "GIVE THAT TROPHY THE LEAD!",
+      "subhead": "There is no need to make this a lesser story, because {winnerClub} has secured a real European championship.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-041",
+      "kicker": "TOUCHLINE SCREEN",
+      "headline": "CAMERA, MEET THE CUP",
+      "subhead": "Europa League success gives {winner} a football achievement strong enough to carry the entire European newsreel.",
+      "score": 9,
+      "was": "headline: CUP HAS A SCREEN PRESENCE"
+    },
+    {
+      "id": "b82-042",
+      "kicker": "THE FOOTBALL CUT",
+      "headline": "OFFSIDE FROM THE SCRIPT",
+      "subhead": "The Europa League prize belongs to {winnerClub}, and no imagined plot twist is needed to make that interesting.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-043",
+      "kicker": "WHISTLE REVIEW",
+      "headline": "WHISTLE ENTERS THE CREDITS",
+      "subhead": "There is a proper football ending to this continental story, with {winner} holding the Europa League trophy.",
+      "score": 10,
+      "was": "headline: WHISTLE TAKES ITS BOW; subhead: A season's European football ends with {winner} holding the Europa League trophy, deserving a flourish from the Gazette."
+    },
+    {
+      "id": "b82-044",
+      "kicker": "NET AND SCREEN",
+      "headline": "NETTING THE TOP BILLING",
+      "subhead": "The Europa League's starring credit belongs to {winnerClub}, thanks to the club's European title this season.",
+      "score": 9,
+      "was": "headline: THE NET GETS TOP BILLING; subhead: A Europa League title makes {winnerClub} the leading name in this competition, with continental honors in the record."
+    },
+    {
+      "id": "b82-045",
+      "kicker": "CUPBOARD CINEMA",
+      "headline": "A CUP WITH SCREEN APPEAL",
+      "subhead": "For {winner}, the Europa League trophy is more than a prop: it marks a completed continental achievement.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b82-046",
+      "kicker": "DUGOUT REVIEW",
+      "headline": "DUGOUT GETS THE CLOSEUP",
+      "subhead": "The manager behind {winnerClub}'s Europa League title has supplied a football story worthy of the European front page.",
+      "score": 9,
+      "was": "kicker: DUgOUT REVIEW"
+    },
+    {
+      "id": "b82-047",
+      "kicker": "FINAL WHISTLE",
+      "headline": "EXTRA CREDIT IN THE CREDITS",
+      "subhead": "A Europa League victory gives {winner} a genuine distinction within the season, regardless of other trophies at stake.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-048",
+      "kicker": "PITCH REPORT",
+      "headline": "PITCH MAKES THE PLAYBILL",
+      "subhead": "On this European stage, {winnerClub} has taken the Europa League honor and earned a prominent place in the Gazette.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-049",
+      "kicker": "CUP REEL",
+      "headline": "SILVERWARE IN THE SEQUEL",
+      "subhead": "The Europa League joins {winner}'s season honors, with a fresh continental chapter ready for the rivalry's next installment.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-050",
+      "kicker": "THE BENCH",
+      "headline": "FROM TOUCHLINE TO TITLE CARD",
+      "subhead": "The Europa League campaign has delivered a trophy to {winnerClub}, confirming a major European achievement this season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b82-051",
+      "kicker": "HALFTIME FEATURE",
+      "headline": "HALFTIME HAS NO SCRIPT",
+      "subhead": "There is no need to imagine a match narrative: {winner} won the Europa League, and that alone earns the headline.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-052",
+      "kicker": "GOALPOST GALLERY",
+      "headline": "GOALPOST MEETS THE MARQUEE",
+      "subhead": "It is Europa League silverware that brings {winnerClub} into focus, with the real achievement doing more work than the metaphor.",
+      "score": 9,
+      "was": "subhead: It is the Europa League title that brings {winnerClub} to the center of this European season's sporting picture."
+    },
+    {
+      "id": "b82-053",
+      "kicker": "BAR AND BALCONY",
+      "headline": "RAISING THE BAR FOR HONORS",
+      "subhead": "The continental prize now held by {winner} adds stature to a campaign that deserves more than supporting coverage.",
+      "score": 10,
+      "was": "headline: RAISING THE BAR ON STAGE"
+    },
+    {
+      "id": "b82-054",
+      "kicker": "FULL TIME REVIEW",
+      "headline": "FULL TIME, FULL SCREEN",
+      "subhead": "With a Europa League trophy won, {winnerClub} has a European achievement worth watching long after the result is entered.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-055",
+      "kicker": "OFFSIDE THEATRE",
+      "headline": "SIDELINE MEETS THE SPOTLIGHT",
+      "subhead": "The European curtain falls on a Europa League victory for {winner}, giving the club a notable claim to continental honors.",
+      "score": 9,
+      "was": "headline: A WHISTLE IN THE WINGS"
+    },
+    {
+      "id": "b82-056",
+      "kicker": "CUP PROGRAM",
+      "headline": "CUP RIBBONS GET A ROLE",
+      "subhead": "The Europa League trophy marks a European success for {winnerClub}, regardless of where the rivals finish elsewhere this season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-057",
+      "kicker": "TOP FLIGHT REEL",
+      "headline": "TOP FLIGHT, SIDE SHOW",
+      "subhead": "From European competition comes a title for {winner}, whose Europa League win merits a leading role in this edition.",
+      "score": 9,
+      "was": "headline: TOP FLIGHT, SIDE STAGE"
+    },
+    {
+      "id": "b82-058",
+      "kicker": "SCOREBOARD FILM",
+      "headline": "SCOREBOARD STEALS A SCENE",
+      "subhead": "The Showdown may judge the full campaign separately, but {winnerClub}'s Europa League victory is already a European fact.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-059",
+      "kicker": "THE POST",
+      "headline": "POSTSCRIPT IN SILVER",
+      "subhead": "An international title enriches {winner}'s season, with Europa League honors adding substance to the club's story.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b82-060",
+      "kicker": "BENCH SEATS",
+      "headline": "BENCH EARNS ITS BILLING",
+      "subhead": "On the Europa League stage, {winnerClub} has earned a title and a prominent place in the season's football coverage.",
+      "score": 9,
+      "was": "headline: THE BENCH GETS BILLING; subhead: The achievement belongs to {winnerClub}, now a Europa League champion, not to any imagined drama around its matches."
+    },
+    {
+      "id": "b82-061",
+      "kicker": "STAGE REPORT",
+      "headline": "BACKDROP BRINGS BRAGGING",
+      "subhead": "A European title offers {winner} a genuine reason for pride and a lively new talking point in the rivalry.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b82-062",
+      "kicker": "FILM STOCK",
+      "headline": "FILM FRAMES FIND SILVER",
+      "subhead": "There is a trophy to preserve in the season's highlights, with {winnerClub} taking the Europa League honor.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-063",
+      "kicker": "PLAYHOUSE PRESS",
+      "headline": "PLAYHOUSE PRIDE PREVAILS",
+      "subhead": "The Europa League victory gives {winner} a special continental achievement, even as other season comparisons remain separate questions.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-064",
+      "kicker": "REEL WATCH",
+      "headline": "REWIND FOR EUROPEAN GLORY",
+      "subhead": "A fresh continental chapter is ready for the highlights, as {winnerClub} takes possession of the Europa League trophy.",
+      "score": 9,
+      "was": "headline: REEL REWARDS RESOLVE; subhead: Now holding Europa League silverware, {winnerClub} can celebrate an honor that makes this campaign stand out in its own way."
+    },
+    {
+      "id": "b82-065",
+      "kicker": "SCENE REPORT",
+      "headline": "SCENE STEALERS SALUTE",
+      "subhead": "European silverware gives {winner} a triumph fit for the stage, without diminishing the ambitions of the other manager.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-066",
+      "kicker": "CAST SHEET",
+      "headline": "CASTING CALL FOR A CUP",
+      "subhead": "The Europa League has ended with {winnerClub} as champion, supplying a satisfying European chapter to this season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-067",
+      "kicker": "DRAMA EDITION",
+      "headline": "DRAMATIC DRAPES PART",
+      "subhead": "Behind the theatrical language stands a simple sporting fact: {winner} has lifted the Europa League trophy this season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b82-068",
+      "kicker": "FILMHOUSE NOTES",
+      "headline": "FOOTLIGHTS FIND A WINNER",
+      "subhead": "The European spotlight now settles on {winnerClub}, crowned in the Europa League and entitled to the honors that follow.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-069",
+      "kicker": "BACKSTAGE FILE",
+      "headline": "BACKSTAGE BRINGS THE HONOR",
+      "subhead": "A European title is no costume piece for {winnerClub}, whose Europa League trophy carries unmistakable substance.",
+      "score": 10,
+      "was": "headline: BACKSTAGE BRINGS BRILLIANCE; subhead: The Europa League success of {winner} deserves a prominent report, not a passing line beneath another European result."
+    },
+    {
+      "id": "b82-070",
+      "kicker": "THE SCRIPT",
+      "headline": "SCRIPTED SUCCESS SHINES",
+      "subhead": "The campaign needs no fictional twists to impress, since {winnerClub} has secured an important European trophy.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-071",
+      "kicker": "CUTTING ROOM",
+      "headline": "CINEMA CROWNS A CUP",
+      "subhead": "On the screen of the Gazette's imagination, {winner} holds a Europa League prize won in this season's competition.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-072",
+      "kicker": "PROJECTION BOOTH",
+      "headline": "PROJECTOR PICKS ITS CHAMPION",
+      "subhead": "Europe has supplied an enduring title for {winnerClub}, and the Europa League honors give the picture its subject.",
+      "score": 9,
+      "was": "headline: PROJECTOR PICKS ITS PRIZE"
+    },
+    {
+      "id": "b82-073",
+      "kicker": "SILVER MATINEE",
+      "headline": "SILVER SCREEN SALUTES",
+      "subhead": "The Europa League trophy belongs to {winner}, creating a highlight that does not depend on any other competition.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-074",
+      "kicker": "COSTUME DEPARTMENT",
+      "headline": "COSTUMES CANNOT COPY GLORY",
+      "subhead": "No stage wardrobe could imitate what {winnerClub} has earned, a real Europa League championship for the season's record.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b82-075",
+      "kicker": "MARQUEE REPORT",
+      "headline": "MARQUEE MAKES MORE ROOM",
+      "subhead": "There is space among European celebrations for {winner}, whose Europa League success merits pride on its own terms.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-076",
+      "kicker": "STORYBOARD",
+      "headline": "STORYBOARD FINDS ITS END",
+      "subhead": "A continental title gives {winnerClub} a genuine success to feature, while the wider Showdown keeps its separate stakes.",
+      "score": 9,
+      "was": "headline: STORYBOARDS SHOW SILVER"
+    },
+    {
+      "id": "b82-077",
+      "kicker": "QUESTION OF EUROPE",
+      "headline": "WHO GETS THIS EUROPEAN ACT?",
+      "subhead": "The Europa League has its champion in {winner}, adding a continental trophy to the season without settling the entire rivalry.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-078",
+      "kicker": "CUP QUESTION",
+      "headline": "IS THE OTHER SET SO SMALL?",
+      "subhead": "Not when it produces an honor like the Europa League trophy now secured by {winnerClub} for this campaign.",
+      "score": 10,
+      "was": "headline: IS THE SIDE STAGE SO SMALL?"
+    },
+    {
+      "id": "b82-079",
+      "kicker": "AFTER SHOW",
+      "headline": "WHICH REEL HOLDS THE HONOR?",
+      "subhead": "The Europa League ending belongs to {winner}, with a real European title to place among the season's achievements.",
+      "score": 9,
+      "was": "headline: WHICH REEL HOLDS THE PRIZE?"
+    },
+    {
+      "id": "b82-080",
+      "kicker": "THEATRE QUESTION",
+      "headline": "CAN A SUPPORTING ROLE STAR?",
+      "subhead": "It certainly can for {winnerClub}, whose Europa League victory merits more than a passing mention in the Gazette.",
+      "score": 9,
+      "was": "headline: CAN A SUPPORTING STAGE STAR?"
+    },
+    {
+      "id": "b82-081",
+      "kicker": "CONTINENTAL QUERY",
+      "headline": "WHO GETS THE OTHER ACT?",
+      "subhead": "In the Europa League, {winner} earns the title and gives the rivalry another continental achievement to remember.",
+      "score": 10,
+      "was": "headline: WHO OWNS THE SECOND ACT?; subhead: On the Europa League stage, {winner} earns the title and leaves the continental chapter with an unmistakable distinction."
+    },
+    {
+      "id": "b82-082",
+      "kicker": "FRONT ROW",
+      "headline": "IS THAT SILVER IN THE SPOT?",
+      "subhead": "The gleam belongs to the Europa League prize, won this season by {winnerClub} and worthy of recognition.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-083",
+      "kicker": "EDITORS ASK",
+      "headline": "WHAT DESERVES THE CLOSEUP?",
+      "subhead": "For {winner}, the Europa League triumph supplies the European highlight and a significant honor for the club.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-084",
+      "kicker": "THE LAST QUESTION",
+      "headline": "DO THE CREDITS TELL ALL?",
+      "subhead": "They record a Europa League championship for {winnerClub}, while the Showdown's wider comparison remains a different story.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-085",
+      "kicker": "STAGE QUESTIONS",
+      "headline": "WHY LEAVE THIS OFF THE BILL?",
+      "subhead": "A continental trophy is always news, and {winner} has taken the Europa League prize this season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-086",
+      "kicker": "THE REVIEW",
+      "headline": "MINOR BILLING, MAJOR HONOR",
+      "subhead": "It is an authentic European prize, and {winner} can celebrate without asking where it falls on the playbill.",
+      "score": 10,
+      "was": "headline: COULD THIS BE THE FEATURE?; subhead: The Europa League title puts {winnerClub} at the heart of a European success deserving its own coverage."
+    },
+    {
+      "id": "b82-087",
+      "kicker": "CINEMA PAGE",
+      "headline": "SIDE STAGE, BIG PRIZE",
+      "subhead": "The Europa League may have its own billing, but {winner} has earned a major continental distinction there.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-088",
+      "kicker": "THEATRICAL FILE",
+      "headline": "NOT JUST SCENERY",
+      "subhead": "A trophy makes the Europa League campaign concrete for {winnerClub}, whose achievement belongs prominently in the season's record.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-089",
+      "kicker": "AFTER HOURS",
+      "headline": "FINALE WITH FEELING",
+      "subhead": "The Europa League season closes with {winner} as its champion, leaving the club a title worth celebrating.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-090",
+      "kicker": "EUROPEAN FEATURE",
+      "headline": "DIFFERENT LIGHT, SAME HONOR",
+      "subhead": "A Europa League championship deserves its own recognition, and {winnerClub} has supplied a memorable European success.",
+      "score": 9,
+      "was": "headline: A DIFFERENT SPOTLIGHT; subhead: Continental success can carry more than one signature, and {winnerClub} has supplied a memorable Europa League achievement."
+    },
+    {
+      "id": "b82-091",
+      "kicker": "CLOSING FRAME",
+      "headline": "LAST REEL STILL MATTERS",
+      "subhead": "The trophy earned by {winner} is the Europa League, a major honor that deserves its own ending.",
+      "score": 9,
+      "was": "headline: THE LAST REEL COUNTS"
+    },
+    {
+      "id": "b82-092",
+      "kicker": "CRITIC'S DESK",
+      "headline": "REVIEWS WITHOUT RESERVATION",
+      "subhead": "There is no dispute about the European accolade, as {winnerClub} now holds the Europa League title.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-093",
+      "kicker": "ACTING NOTICES",
+      "headline": "NO STAND IN REQUIRED",
+      "subhead": "The genuine Europa League champion is {winner}, whose continental achievement supplies all the drama this headline needs.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b82-094",
+      "kicker": "THE FILM STRIP",
+      "headline": "BIGGER THAN A CAMEO",
+      "subhead": "For {winnerClub}, lifting the Europa League is a substantial addition to the season's honors, not background decoration.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-095",
+      "kicker": "BILLBOARD EDITION",
+      "headline": "FRESH FROM THE WINGS",
+      "subhead": "The European trophy arrives in {winner}'s season through a Europa League victory that gives the Gazette fresh material.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-096",
+      "kicker": "THE LAST TAKE",
+      "headline": "CREDITS WITH SILVERWARE",
+      "subhead": "A continental competition ends in silverware for {winnerClub}, with the Europa League title entered in the record.",
+      "score": 9,
+      "was": "headline: CREDITS WITH A CUP"
+    },
+    {
+      "id": "b82-097",
+      "kicker": "EUROPEAN STILLS",
+      "headline": "STILLS OF A TRIUMPH",
+      "subhead": "The Europa League trophy is the lasting image of {winner}'s European season, a success worth preserving.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b82-098",
+      "kicker": "ON THE BALCONY",
+      "headline": "MORE THAN AN OPENING ACT",
+      "subhead": "The Europa League title offers {winnerClub} a lasting achievement, proving the European story extends beyond its biggest competition.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b82-099",
+      "kicker": "PRESS NIGHT",
+      "headline": "PRODUCTION WITH A PAYOFF",
+      "subhead": "This Europa League campaign closes with {winner} holding a European trophy and a worthy place on the Gazette's front page.",
+      "score": 9,
+      "was": "headline: A PROPER PRODUCTION; subhead: This Europa League campaign finishes with {winner} holding a European trophy and a worthy place on the Gazette's front page."
+    },
+    {
+      "id": "b82-100",
+      "kicker": "EPILOGUE",
+      "headline": "HONOR, NOT MAKE BELIEVE",
+      "subhead": "The stage may be figurative, but the Europa League title is real for {winnerClub} in this season's honors.",
+      "score": 9,
+      "was": "headline: SILVER, NOT MAKE BELIEVE"
+    }
+  ]
+}

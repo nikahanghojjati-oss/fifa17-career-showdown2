@@ -1,0 +1,204 @@
+{
+  "batch": 9,
+  "situation": "lead-extended",
+  "edition": "season",
+  "desk": "The chief football writer",
+  "edited": true,
+  "stories": [
+    {
+      "id": "sb9-01",
+      "byline": "From our chief football desk",
+      "standfirst": "The advantage has acquired another layer after {leader} claimed the season and pushed further beyond {trailer} in the overall contest.",
+      "paragraphs": [
+        "A lead can be preserved without being enlarged. {leader} has chosen the more demanding course, winning this season and adding distance between the managers in the overall standings. The latest result gives an existing advantage greater substance.",
+        "For {trailer}, the immediate disappointment lies beyond this season's verdict. A rival who already occupied the stronger position has improved it, changing the size of the task ahead. Yet the story remains a contest, not a conclusion.",
+        "The Gazette's ledger records an unmistakable shift: the front runner has gained ground. Whether that becomes decisive belongs to the remaining chapters, not this one."
+      ],
+      "pullquote": {"text": "An advantage is worth more when its owner finds a way to enlarge it.", "who": "A Gazette columnist"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb9-02",
+      "byline": "Reporting from the season desk",
+      "standfirst": "Victory for {leader} has not merely protected the commanding position; it has made {trailer}'s route back more demanding.",
+      "paragraphs": [
+        "The pursuit was difficult before the latest season was settled. It is more difficult now. {leader} has taken the seasonal honours and extended the accumulated advantage over {trailer}, turning an established lead into a larger one.",
+        "There is a difference between a rival holding firm and a rival moving away. The former allows a challenger to measure a familiar distance. The latter requires a fresh assessment of what a recovery would demand, without diminishing the achievements already on either side.",
+        "If another meeting in the standings awaits, the ground rules of the rivalry are unchanged. Its balance, however, has been redrawn by this result."
+      ],
+      "pullquote": {"text": "The target has not vanished, but it has moved further away.", "who": "The press box"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb9-03",
+      "byline": "An analysis from the sports editor",
+      "standfirst": "Seasonal success and overall authority have converged for {leader}, whose latest victory broadens the separation from {trailer}.",
+      "paragraphs": [
+        "Some seasons change the name at the top. This one has strengthened the name already there. By overcoming {trailer} in the seasonal comparison, {leader} has translated a fresh success into a greater overall advantage.",
+        "That distinction matters in a competition measured across separate campaigns. Every season offers its own result, but the wider reckoning remembers them together. {trailer} cannot reclaim the lost distance with an argument about reputation; future results must do that work.",
+        "For now, the season belongs to {leader}, and so does a larger share of the overall initiative. The two judgments are closely connected, but not identical."
+      ],
+      "pullquote": {"text": "The season is a chapter; the accumulated lead gives that chapter its weight.", "who": "A Gazette columnist"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb9-04",
+      "byline": "From the rivalry correspondent",
+      "standfirst": "A contest defined by pursuit has tilted further toward {leader}, with {trailer} left to confront a wider overall deficit.",
+      "paragraphs": [
+        "The latest result contains an uncomfortable development for the chasing manager. {leader} has won the season, extending a position of strength that {trailer} had already been trying to overturn. It is the cumulative consequence that gives this victory its force.",
+        "Rivalries of this kind are not decided by the loudest single achievement. They are shaped by what each campaign leaves behind. This season leaves {leader} better placed and asks {trailer} to mount a response to a moving challenge.",
+        "There is no need to declare the contest finished to recognize the significance of the result. The distance is greater, and both managers know what that means."
+      ],
+      "pullquote": {"text": "The chase remains alive, but the road has become longer.", "who": "The Gazette's rivalry desk"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb9-05",
+      "byline": "Our correspondent on the standings",
+      "standfirst": "The seasonal verdict favors {leader}, and the larger standings now offer {trailer} even less room for comfort.",
+      "paragraphs": [
+        "Look first at the season result, where {leader} has prevailed. Look again at the overall standings, where that victory has widened the existing advantage over {trailer}. The same outcome carries a consequence beyond its immediate place in the record.",
+        "The appeal of this format is its refusal to treat separate seasons as isolated stories. Today's success joins yesterday's total. For the chasing manager, an honourable campaign elsewhere in the record does not cancel the distance added here.",
+        "The next assessment will begin from a different position. {leader} has earned the right to look down the standings, while {trailer} retains the opportunity to answer through results."
+      ],
+      "pullquote": {"text": "A season ends on paper; its effect travels through the whole rivalry.", "who": "The press box"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb9-06",
+      "byline": "A report from the football desk",
+      "standfirst": "For {leader}, winning the season has delivered something beyond the result itself: a deeper cushion against {trailer}.",
+      "paragraphs": [
+        "Comfort in an overall lead can be deceptive, because every new season has the power to change it. {leader} has answered that uncertainty with victory, increasing the separation from {trailer} rather than relying on an advantage already earned.",
+        "This is not proof that the next contest will follow the same pattern. It is proof of what has happened to the present one. The chasing manager now confronts a wider gap, while the leader carries a stronger cumulative position.",
+        "The verdict is restrained but significant. No future outcome has been written, yet the record now gives {leader} an improved foundation from which to continue."
+      ],
+      "pullquote": {"text": "Security in this rivalry must be earned again, not simply inherited.", "who": "A Gazette columnist"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb9-07",
+      "byline": "From our competition analyst",
+      "standfirst": "{trailer} has suffered a setback of unusual reach, as {leader}'s seasonal win also stretches the overall advantage.",
+      "paragraphs": [
+        "For the manager in pursuit, a lost season has an obvious cost. Here it carries another. {trailer} has seen {leader} take the seasonal honours and enlarge the accumulated lead, making the competitive position more demanding than before.",
+        "That should not be mistaken for a judgment on the worth of {loserClub}. A season comparison is a verdict on this particular stretch of the Showdown. It tells us who advanced further, not what either club must become.",
+        "A recovery remains a matter of future results, not damaged pride. The latest page, however, belongs firmly to the manager who has added to an existing lead."
+      ],
+      "pullquote": {"text": "Respect the challenger, but do not soften what this result has changed.", "who": "The Gazette's analysis desk"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb9-08",
+      "byline": "The Gazette's seasonal review",
+      "standfirst": "An already favorable balance has shifted again, with {leader} collecting the season and extending the gap over {trailer}.",
+      "paragraphs": [
+        "There was a settled order in the overall standings before this season. The new result has not disturbed that order; it has reinforced it. {leader} has prevailed in the seasonal contest and moved further beyond {trailer} cumulatively.",
+        "Such developments can look less dramatic than a comeback, but they may prove equally important. The leader has denied the pursuer an opportunity to close in and has instead increased the distance that a successful challenge would need to recover.",
+        "This edition records not a reversal, but an extension. Its place in the full history will depend on what the rivalry produces from here."
+      ],
+      "pullquote": {"text": "There is drama in watching an existing advantage become harder to reach.", "who": "The press box"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb9-09",
+      "byline": "From the Gazette's editorial balcony",
+      "standfirst": "The weight of expectation has not hindered {leader}, who strengthened the overall position with a fresh seasonal triumph.",
+      "paragraphs": [
+        "Being ahead presents a question of its own: can the leading manager add to the advantage when another verdict arrives? {leader} has supplied an emphatic answer in the standings, winning the season and expanding the margin over {trailer}.",
+        "The significance is cumulative rather than theatrical. {trailer} still owns every point previously earned, and a season's result does not erase past work. It simply places a larger amount of ground between that work and the overall leader.",
+        "Expectations will adjust accordingly. This result makes {leader}'s position stronger, though no newspaper should confuse greater authority with a guarantee about what follows."
+      ],
+      "pullquote": {"text": "A lead brings expectations; extending it is the most convincing reply.", "who": "A Gazette columnist"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb9-10",
+      "byline": "A dispatch from our results desk",
+      "standfirst": "The points race has taken another turn in the same direction, with {leader} increasing an advantage over {trailer}.",
+      "paragraphs": [
+        "At the conclusion of this season, the essential facts are straightforward. {leader} has won the comparison with {trailer}, and the overall lead has widened as a result. A position that was already favorable now carries greater numerical weight.",
+        "Yet the figures tell only part of why this matters. Every extra measure of separation changes the demands of a response. The chasing manager must address not just the latest season's loss, but the greater distance remaining in the overall contest.",
+        "Neither optimism nor alarm can substitute for the next verdict. Until it arrives, the published standings offer {leader} the clearest possible endorsement of this campaign."
+      ],
+      "pullquote": {"text": "The ledger does not cheer, but its latest entry speaks plainly.", "who": "The Gazette's results editor"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb9-11",
+      "byline": "Our writer on the wider contest",
+      "standfirst": "A season that offered {trailer} a chance to reduce the deficit instead finished with {leader} further in front.",
+      "paragraphs": [
+        "Every new season gives the chasing manager a possible route back into closer contention. That possibility has gone unanswered in this installment. {leader} has secured the seasonal victory and increased the advantage that already separated the two managers.",
+        "For {trailer}, that is a disappointment to acknowledge rather than a reason to discard the contest. The overall standings are a record of accumulated outcomes. They can move in either direction, even if this entry has moved against the pursuit.",
+        "What {leader} has earned is not an exemption from future competition, but a stronger place within it. The distinction is central to this rivalry."
+      ],
+      "pullquote": {"text": "The opportunity existed for the pursuer; the leader took it instead.", "who": "The press box"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb9-12",
+      "byline": "From our long campaign correspondent",
+      "standfirst": "Patience has a measurable reward for {leader}, whose latest seasonal success adds another degree of separation from {trailer}.",
+      "paragraphs": [
+        "A prolonged competition asks managers to think beyond the satisfaction of a single result. This season has answered that demand in {leader}'s favor. The victory enlarges an existing overall lead and leaves {trailer} with more ground to reclaim.",
+        "It would be easy to describe this as momentum, but the standings offer something firmer than a feeling. They show an advantage genuinely extended. The next result remains unknown, and the challenger has not surrendered the right to change the picture.",
+        "For the archive, the value of this success will be apparent without embellishment. The leader began ahead, won the season, and ended further ahead still."
+      ],
+      "pullquote": {"text": "In a long contest, adding to the lead is its own achievement.", "who": "A Gazette columnist"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb9-13",
+      "byline": "An editorial from the touchline",
+      "standfirst": "The balance of a friendly rivalry has shifted further toward {leader}, though {trailer}'s place in the story remains essential.",
+      "paragraphs": [
+        "A convincing rivalry does not require a change of leader every season. Sometimes its defining development is the front runner's refusal to yield ground. {leader} has won this season and emerged with an even larger overall advantage over {trailer}.",
+        "The result belongs to the leader, but the meaning belongs to both managers. Each is measured against the same continuing contest. The increased distance establishes a harder challenge without denying the value of the pursuit itself.",
+        "That is why this edition records a sharper competitive divide without writing an ending. Rivalry survives precisely because another result can tell a different story."
+      ],
+      "pullquote": {"text": "An expanding lead gives the challenger more to answer, not less reason to compete.", "who": "The Gazette's opinion desk"},
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb9-14",
+      "byline": "From the Gazette's front-page desk",
+      "standfirst": "There is no change at the summit, only a greater distance below it, after {leader} won the season.",
+      "paragraphs": [
+        "The temptation after every season is to search for an upheaval. This result offers a different kind of headline. {leader} has remained the overall front runner by winning the season and increasing the gap to {trailer}.",
+        "For the manager behind, the difficulty is not that the competition has changed its rules. The challenge is unchanged, but the distance within it has grown. That is the burden of a new loss when an earlier deficit already exists.",
+        "The story needs no invented spectacle. Its importance is visible in the standings, where the leader's advantage is now larger than before."
+      ],
+      "pullquote": {"text": "Not every major turning point involves a change at the top.", "who": "The press box"},
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb9-15",
+      "byline": "The chief writer's closing assessment",
+      "standfirst": "With another season resolved, {leader} has turned a position of strength into a larger obstacle for {trailer}.",
+      "paragraphs": [
+        "What remains when the seasonal celebrations are set aside is a changed overall equation. {leader} has taken the honours for this campaign, and {trailer} now stands further back in the accumulated contest than at its beginning.",
+        "The achievement is worth examining on its own terms. It is neither a final victory nor merely a continuation of the status quo. The manager ahead has actively improved the position, while the manager behind retains a meaningful challenge to pursue.",
+        "When this season is filed with the others, its defining contribution will be unmistakable. The contest entered with a leader and leaves with a stronger one."
+      ],
+      "pullquote": {"text": "The advantage did not stand still; the season gave it fresh reach.", "who": "A Gazette columnist"},
+      "score": 9,
+      "was": null
+    }
+  ]
+}

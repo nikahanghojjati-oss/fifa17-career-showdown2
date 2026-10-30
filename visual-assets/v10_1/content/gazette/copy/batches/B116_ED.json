@@ -1,0 +1,608 @@
+{
+  "batch": 116,
+  "situation": "golden-showdown",
+  "voice": "The studio panel",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb116-001",
+      "text": "There is a different shine to {leader}'s campaign now, and even this desk can see it.",
+      "score": 9,
+      "was": "There is a different shine to {leader}'s season now, and the studio can see it from here."
+    },
+    {
+      "id": "cb116-002",
+      "text": "I think {trailer} still fancies this, but nobody's pretending the finish line is miles away.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb116-003",
+      "text": "Across this desk, consensus is rare, but everyone knows this is bigger than an ordinary season.",
+      "score": 9,
+      "was": "Listen to the room, that casual chat has turned into serious talk about a very special prize."
+    },
+    {
+      "id": "cb116-004",
+      "text": "You can tell {leader} has reached dangerous territory when even the jokes arrive with a nervous laugh.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb116-005",
+      "text": "I'd sell tickets to the argument over who gets to touch that gleaming plinth first.",
+      "score": 10,
+      "was": "Nobody is counting chickens here, although somebody has definitely ordered a rather expensive nest."
+    },
+    {
+      "id": "cb116-006",
+      "text": "For {leader}, even a familiar club badge is starting to look rather regal.",
+      "score": 9,
+      "was": "Look at {winnerClub}, and tell me this still feels like an ordinary season review."
+    },
+    {
+      "id": "cb116-007",
+      "text": "We've moved from wondering who might shine to wondering who gets their name engraved first.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb116-008",
+      "text": "Golden Showdown talk once belonged at the end of the program, not the top of the broadcast.",
+      "score": 10,
+      "was": "One of us mentioned the Golden Showdown, and suddenly everyone sat up a little straighter."
+    },
+    {
+      "id": "cb116-009",
+      "text": "That phrase 'out of reach' has left our vocabulary, and I rather miss its simplicity.",
+      "score": 9,
+      "was": "The remarkable thing about {leader} is how a distant target can become tonight's entire conversation."
+    },
+    {
+      "id": "cb116-010",
+      "text": "Funny how a bit of gold can make a perfectly friendly rivalry feel wonderfully serious.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb116-011",
+      "text": "If {trailer} wanted evidence of how seriously this is being taken, just listen to the pundits.",
+      "score": 9,
+      "was": "If {trailer} needed a reason to stay sharp, that prize has just supplied a very good one."
+    },
+    {
+      "id": "cb116-012",
+      "text": "Quite a promotion, from ordinary contender to the subject of a commemorative cover story.",
+      "score": 10,
+      "was": "For {leader}, the conversation has changed from ambition to what a finish like this might mean."
+    },
+    {
+      "id": "cb116-013",
+      "text": "I'd love to know who first suggested keeping this casual, because that idea has left the building.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb116-014",
+      "text": "An achievement like this puts even the calmest rival in a rather uncomfortable chair.",
+      "score": 9,
+      "was": "You don't get to this part of a Showdown without making the other chair slightly less comfortable."
+    },
+    {
+      "id": "cb116-015",
+      "text": "Even the panel's resident fence sitter is inching toward a verdict, and I wouldn't trust that verdict.",
+      "score": 9,
+      "was": "Even our quietest pundit has opinions now, and that's when you know the prize is getting close."
+    },
+    {
+      "id": "cb116-016",
+      "text": "Would you trust anyone in this studio to guard a golden trophy with this much at stake?",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb116-017",
+      "text": "The temptation to overlook {trailer} is understandable, but good pundits know better than that.",
+      "score": 9,
+      "was": "Suddenly {trailer} has the look of a manager who knows the story can still turn."
+    },
+    {
+      "id": "cb116-018",
+      "text": "There's a lovely problem for {leader}, the bigger the opportunity, the harder it is to look relaxed.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb116-019",
+      "text": "Somewhere between a dream and a decision, this contest has found a rather expensive edge.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb116-020",
+      "text": "Let me put it politely, the ordinary trophy cabinet is no longer the main attraction.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb116-021",
+      "text": "Even the quietest voice at this desk can hear the scale of {leader}'s intentions.",
+      "score": 9,
+      "was": "The fascinating part is that {leader} can sense the prize without needing to say another word."
+    },
+    {
+      "id": "cb116-022",
+      "text": "Meanwhile {trailer} has helped turn a private challenge into drama everyone wants to discuss.",
+      "score": 9,
+      "was": "Meanwhile {trailer} has the best possible answer available, keep competing and keep the conversation alive."
+    },
+    {
+      "id": "cb116-023",
+      "text": "My tea can wait, the trophy race has developed a far better argument than this sofa could invent.",
+      "score": 10,
+      "was": "Apparently the studio tea has gone cold, which is what happens when the prize gets this close."
+    },
+    {
+      "id": "cb116-024",
+      "text": "My colleague wants a punchline, but {trailer} is offering an argument with genuine weight.",
+      "score": 9,
+      "was": "My colleague's smile has disappeared behind a notebook, and that's the danger of a finish like this."
+    },
+    {
+      "id": "cb116-025",
+      "text": "Credit to {leader}, even our resident cynic has stopped calling this a long shot.",
+      "score": 9,
+      "was": "Credit to {leader}, because this is the kind of territory that turns a season into a landmark."
+    },
+    {
+      "id": "cb116-026",
+      "text": "You'd need a wider graphic to illustrate this long climb, and a braver pundit to call it.",
+      "score": 9,
+      "was": "Imagine explaining to a neutral fan why we're all staring at the standings like a treasure map."
+    },
+    {
+      "id": "cb116-027",
+      "text": "Engraving the plate is the easy part, earning the first name is another matter entirely.",
+      "score": 10,
+      "was": "Gold usually belongs in a cabinet, but tonight it feels as though it's sitting between these managers."
+    },
+    {
+      "id": "cb116-028",
+      "text": "This is when {trailer} gets to decide whether the pressure is a burden or an invitation.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb116-029",
+      "text": "You know what I like about {leader}, a towering objective has made the contest beautifully simple.",
+      "score": 9,
+      "was": "You know what I like about {leader}, the ambition is huge but the contest remains beautifully simple."
+    },
+    {
+      "id": "cb116-030",
+      "text": "Perhaps the smartest person here is the one who refuses to predict which name goes on the plaque.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb116-031",
+      "text": "Between a grand target and an actual triumph lies the kind of uncertainty that fills a television studio.",
+      "score": 9,
+      "was": "That little gap between reaching and missing a great prize can fill an entire television studio."
+    },
+    {
+      "id": "cb116-032",
+      "text": "Ordinary silverware arguments cannot compete with the heights {leader} is putting within reach.",
+      "score": 9,
+      "was": "Nobody's leaving early when the Golden Showdown is hovering this close to a defining moment."
+    },
+    {
+      "id": "cb116-033",
+      "text": "Every rival needs a mountain worth climbing, and {leader} has made the summit feel very real.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb116-034",
+      "text": "I'd call it a glittering opportunity, but that's far too cheerful for the tension at this desk.",
+      "score": 10,
+      "was": "I'd call this a golden opportunity, but the nerves around this desk make that sound far too cheerful."
+    },
+    {
+      "id": "cb116-035",
+      "text": "What matters for {trailer} is that a formidable challenge deserves to be met with equal spirit.",
+      "score": 9,
+      "was": "What matters for {trailer} is that the next chapter still has room for a proper reply."
+    },
+    {
+      "id": "cb116-036",
+      "text": "From {leader}'s side of the argument, this isn't dreaming any longer, it's heavyweight pressure.",
+      "score": 9,
+      "was": "At this level of anticipation, even a calm season summary sounds like a dramatic announcement."
+    },
+    {
+      "id": "cb116-037",
+      "text": "Keep an eye on {leader}, the real story is what this milestone means beyond the sparkle.",
+      "score": 9,
+      "was": "Keep an eye on {leader}, not for a celebration, but for the weight of what this means."
+    },
+    {
+      "id": "cb116-038",
+      "text": "That once-faraway target has become the central graphic of the night, and {trailer} knows why.",
+      "score": 9,
+      "was": "The target used to sound like something from a pub argument, and now nobody is laughing."
+    },
+    {
+      "id": "cb116-039",
+      "text": "Picture the final engraving, then remember there are still competing claims to the pen.",
+      "score": 9,
+      "was": "It's amazing how quickly a friendly wager develops the atmosphere of a national occasion."
+    },
+    {
+      "id": "cb116-040",
+      "text": "Nobody told {leader} this milestone came with a roomful of pundits pretending they saw it coming.",
+      "score": 9,
+      "was": "No one needs to explain the stakes to {winnerClub}, not with a prize like this in view."
+    },
+    {
+      "id": "cb116-041",
+      "text": "Call it the business end, and {trailer} would probably ask for a little more business.",
+      "score": 10,
+      "was": "You might call this the business end, although the business looks suspiciously like a jeweler's window."
+    },
+    {
+      "id": "cb116-042",
+      "text": "Beyond bragging rights, this particular milestone could put every earlier campaign in a new light.",
+      "score": 9,
+      "was": "Behind all the banter, the achievement being chased here would stand apart from an ordinary victory."
+    },
+    {
+      "id": "cb116-043",
+      "text": "Put the kettle back on, {leader} has made this a race worthy of its own television special.",
+      "score": 9,
+      "was": "Put the kettle back on, this race has become too important to discuss in passing."
+    },
+    {
+      "id": "cb116-044",
+      "text": "{leader} won't need our advice, but I suspect the sofa would offer plenty of it anyway.",
+      "score": 9,
+      "was": "{leader} won't need our advice, but I suspect the studio would offer plenty of it anyway."
+    },
+    {
+      "id": "cb116-045",
+      "text": "Here comes the part where friendly competition turns into a test of championship nerve.",
+      "score": 9,
+      "was": "Here comes the part where a good run starts asking a rather large question of the future."
+    },
+    {
+      "id": "cb116-046",
+      "text": "Funny thing, nobody can polish a possibility, but we're all behaving as though we could.",
+      "score": 10,
+      "was": "The funny thing is, nobody can polish a possibility, but we're all behaving as though we could."
+    },
+    {
+      "id": "cb116-047",
+      "text": "Trust {trailer} to understand that a gilded trophy means more when the competition has been genuine.",
+      "score": 9,
+      "was": "Trust {trailer} to know that a glittering prize also leaves plenty of room for a comeback story."
+    },
+    {
+      "id": "cb116-048",
+      "text": "I'm not saying the skeptics have been converted, but their objections are getting noticeably shorter.",
+      "score": 9,
+      "was": "I'm not saying the panel's nervous, but somebody has stopped pretending to check their phone."
+    },
+    {
+      "id": "cb116-049",
+      "text": "Ordinary Showdowns give you a champion, this extraordinary pursuit could give us a piece of folklore.",
+      "score": 9,
+      "was": "A normal season brings headlines, this particular prize threatens to claim the whole front page."
+    },
+    {
+      "id": "cb116-050",
+      "text": "Every glittering headline has a quieter footnote, and {trailer}'s role deserves to be written properly.",
+      "score": 10,
+      "was": "That sound you hear is our prediction department quietly putting its pencils back in the drawer."
+    },
+    {
+      "id": "cb116-051",
+      "text": "{leader} has hauled the biggest challenge in this competition into the brightest part of the spotlight.",
+      "score": 10,
+      "was": "{leader} has turned the most distant ambition in this rivalry into a very immediate subject."
+    },
+    {
+      "id": "cb116-052",
+      "text": "Careful with the expensive adjectives, {leader} has earned our attention without needing our poetry.",
+      "score": 9,
+      "was": "Careful with the grand speeches, there's still a competitive story to tell around that glitter."
+    },
+    {
+      "id": "cb116-053",
+      "text": "The most confident forecast around here has been downgraded to a careful shrug, and rightly so.",
+      "score": 9,
+      "was": "Nothing tests the studio's confidence like a prize that's close enough to make guesses look foolish."
+    },
+    {
+      "id": "cb116-054",
+      "text": "{trailer} deserves some credit here, because keeping the contest honest makes the milestone matter.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb116-055",
+      "text": "You could put velvet ropes around {leader}'s achievement, but the questions would still get through.",
+      "score": 10,
+      "was": "You could put a velvet rope around this moment, and people would understand why it matters."
+    },
+    {
+      "id": "cb116-056",
+      "text": "So here's the question, who can carry the expectation when a special prize comes into focus?",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb116-057",
+      "text": "Watching {leader} on this climb feels like watching a little football show become a state occasion.",
+      "score": 9,
+      "was": "Watching {leader} approach these heights is like watching a quiet conversation become a public event."
+    },
+    {
+      "id": "cb116-058",
+      "text": "Competition has outgrown everyday titles, and {trailer} deserves a place in that larger story.",
+      "score": 9,
+      "was": "We've seen trophies discussed in this studio, but this one seems to change everyone's posture."
+    },
+    {
+      "id": "cb116-059",
+      "text": "Please tell the printer to keep the front page flexible, this deserves better than a premature headline.",
+      "score": 10,
+      "was": "Please tell the graphics desk not to print the souvenir edition before the story is settled."
+    },
+    {
+      "id": "cb116-060",
+      "text": "Something tells me {trailer} would rather be remembered for the contest than for the chatter.",
+      "score": 9,
+      "was": "Something tells me {trailer} would rather answer all this talk with a result than a speech."
+    },
+    {
+      "id": "cb116-061",
+      "text": "In plain football terms, this is the reward for turning a long pursuit into something extraordinary.",
+      "score": 9,
+      "was": "In football terms, this is the sort of pressure that makes a manager's reputation grow."
+    },
+    {
+      "id": "cb116-062",
+      "text": "Maybe {leader} should avoid looking at the display case, because everyone else certainly is.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb116-063",
+      "text": "Before {trailer} becomes a footnote, remember that a fine rivalry needs more than a neat headline.",
+      "score": 10,
+      "was": "Before anyone writes the ending, remember this rivalry has earned its suspense the hard way."
+    },
+    {
+      "id": "cb116-064",
+      "text": "Our producer wants a tidy caption, but this occasion might require a foldout and a footnote.",
+      "score": 9,
+      "was": "Our producer wants a neat conclusion, and the contest has absolutely no intention of helping."
+    },
+    {
+      "id": "cb116-065",
+      "text": "Now {leader} has made the golden target feel less like theory and more like a televised occasion.",
+      "score": 9,
+      "was": "Now the race has entered that strange place where expectation becomes its own opponent."
+    },
+    {
+      "id": "cb116-066",
+      "text": "Even {trailer} can take pride in this, great milestones need an opponent worth respecting.",
+      "score": 9,
+      "was": "{trailer} still gets a say in how this story is remembered, and that's worth holding onto."
+    },
+    {
+      "id": "cb116-067",
+      "text": "Frankly, {trailer} deserves better than a shrug from this panel, even with that glittering target looming.",
+      "score": 9,
+      "was": "Frankly I'd be worried if a prize like this didn't make the studio a little restless."
+    },
+    {
+      "id": "cb116-068",
+      "text": "Some honors decorate a campaign, while this one could define an entire rivalry.",
+      "score": 9,
+      "was": "Some prizes are nice additions, this one threatens to become the whole definition of the contest."
+    },
+    {
+      "id": "cb116-069",
+      "text": "There's plenty to admire in {leader}'s pursuit, and even this sofa knows not to mistake hype for history.",
+      "score": 10,
+      "was": "The closer {leader} comes to this kind of distinction, the less anyone wants to make a prediction."
+    },
+    {
+      "id": "cb116-070",
+      "text": "Restraint would help this desk, although we have never been especially gifted in that department.",
+      "score": 10,
+      "was": "A little restraint would help the panel, but restraint is not exactly our strongest department."
+    },
+    {
+      "id": "cb116-071",
+      "text": "Rather than argue about a single campaign, we may have to judge a whole era.",
+      "score": 9,
+      "was": "Those ordinary season arguments feel small beside the possibility gathering around this finish."
+    },
+    {
+      "id": "cb116-072",
+      "text": "I'd say {leader} has graduated from season reviews to the discussion usually reserved for legends.",
+      "score": 9,
+      "was": "I'd say {winnerClub} has plenty to contemplate, and none of it belongs under everyday business."
+    },
+    {
+      "id": "cb116-073",
+      "text": "For {trailer}, the challenge is huge and the respect is genuine, which is how a rivalry should be.",
+      "score": 9,
+      "was": "There's still a rivalry to respect, even when one extraordinary prize dominates the discussion."
+    },
+    {
+      "id": "cb116-074",
+      "text": "Try keeping a straight face when a once-absurd proposition becomes serious business at the football desk.",
+      "score": 10,
+      "was": "Try finding a casual way to say this matters enormously, because I'm all out of them."
+    },
+    {
+      "id": "cb116-075",
+      "text": "Across the desk, {leader}'s name is now being spoken with a little more ceremony.",
+      "score": 10,
+      "was": "{leader} has created the sort of anticipation that makes a studio debate feel like an occasion."
+    },
+    {
+      "id": "cb116-076",
+      "text": "That trophy could make even our most sensible pundit start talking in museum language.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb116-077",
+      "text": "We can debate a campaign, but {trailer} knows the grand prize asks a much bigger question.",
+      "score": 9,
+      "was": "We can argue over the wording later, but the achievement at stake needs its own chapter."
+    },
+    {
+      "id": "cb116-078",
+      "text": "No, we're not writing any names on imaginary medals, but the pen is certainly trembling.",
+      "score": 9,
+      "was": "No, I won't predict it, and neither should anyone who values being invited back next week."
+    },
+    {
+      "id": "cb116-079",
+      "text": "Amid the speculation, {trailer} deserves recognition as a rival, not merely a name beneath the headline.",
+      "score": 10,
+      "was": "{trailer} may not enjoy all the speculation, but the chance to answer it is rather delicious."
+    },
+    {
+      "id": "cb116-080",
+      "text": "Here's where {leader} discovers that the last stretch can weigh more than the long climb.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb116-081",
+      "text": "I'll admit it, {leader}'s pursuit is turning even our practical panel into incurable romantics.",
+      "score": 9,
+      "was": "I'll admit it, the prospect of that special crown has brought out the romantic in this panel."
+    },
+    {
+      "id": "cb116-082",
+      "text": "Not every Showdown carries stakes this grand, and {trailer} knows why the chase matters.",
+      "score": 9,
+      "was": "Not every competition grows into a question of legacy, but this one is getting there."
+    },
+    {
+      "id": "cb116-083",
+      "text": "Every great contest invites a debate, and we've been handed a magnificent one.",
+      "score": 9,
+      "was": "A proper showdown ought to leave us uncertain, and this chase still has that lovely tension."
+    },
+    {
+      "id": "cb116-084",
+      "text": "If I'm {trailer}, I take the excitement as a challenge, not an obituary for my chances.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb116-085",
+      "text": "An extraordinary mark is within reach of {leader}, and nobody wants to be the pundit who undersells it.",
+      "score": 9,
+      "was": "{leader} has put the extraordinary within conversation range, which is a fine achievement by itself."
+    },
+    {
+      "id": "cb116-086",
+      "text": "From this sofa, {trailer} deserves credit for keeping that grand claim properly tested.",
+      "score": 9,
+      "was": "On the sofa we've stopped discussing small details and started wondering about the big picture."
+    },
+    {
+      "id": "cb116-087",
+      "text": "Forecasting a crown for {leader} is easy, but a fair account also has to respect the rival.",
+      "score": 9,
+      "was": "The danger for anyone forecasting glory is that the other manager can still write a better ending."
+    },
+    {
+      "id": "cb116-088",
+      "text": "Everybody loves a coronation, but {trailer} is entitled to dignity amid the imaginary bunting.",
+      "score": 10,
+      "was": "Everybody loves the idea of a coronation, until they're asked to name the person wearing the crown."
+    },
+    {
+      "id": "cb116-089",
+      "text": "Under those studio lights, {leader}'s pursuit has even the cynics talking about legacy.",
+      "score": 9,
+      "was": "{leader} has brought us to a point where even the studio cynics are getting sentimental."
+    },
+    {
+      "id": "cb116-090",
+      "text": "We should probably stop calling it a dream if it keeps demanding this much serious attention.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb116-091",
+      "text": "Reaching that extraordinary mark first can settle everything, which explains why the sofa has gone quiet.",
+      "score": 10,
+      "was": "One manager's milestone can define this race, and that's precisely why the anticipation feels different."
+    },
+    {
+      "id": "cb116-092",
+      "text": "Do me a favor, when {leader} makes headlines, give the rival some credit for the chase.",
+      "score": 10,
+      "was": "Do me a favor, keep the champagne imaginary until the final verdict is actually in."
+    },
+    {
+      "id": "cb116-093",
+      "text": "For all the sparkle, {trailer} is more than a supporting character in this story.",
+      "score": 9,
+      "was": "A race like this makes {trailer} more than a supporting character, there's still a challenge to answer."
+    },
+    {
+      "id": "cb116-094",
+      "text": "It's rare for {leader} to chase a milestone that feels like the opening chapter of a legend.",
+      "score": 9,
+      "was": "It's rare for a target to feel like both a finish line and the start of a legend."
+    },
+    {
+      "id": "cb116-095",
+      "text": "Even our screen graphics look almost embarrassed beside the scale of what is being chased.",
+      "score": 9,
+      "was": "Even the graphics on our screen seem unusually formal for a contest between friends."
+    },
+    {
+      "id": "cb116-096",
+      "text": "Perhaps the biggest compliment to {leader} is how carefully even the panel chooses its words.",
+      "score": 10,
+      "was": "Perhaps {leader}'s greatest trick is making the whole room lean toward the next season."
+    },
+    {
+      "id": "cb116-097",
+      "text": "Best of all, {trailer} has helped make that glorious pursuit worth following, whatever the outcome.",
+      "score": 9,
+      "was": "The best part is that neither manager needs our permission to make this an extraordinary story."
+    },
+    {
+      "id": "cb116-098",
+      "text": "Hear the change in tone, {leader} has put real substance behind all that golden talk.",
+      "score": 10,
+      "was": "You can hear the difference now, we're talking about a place in Showdown folklore."
+    },
+    {
+      "id": "cb116-099",
+      "text": "However the headline reads, {trailer} is part of why this remarkable pursuit feels so important.",
+      "score": 10,
+      "was": "Last word from this desk, leave space for surprise whenever the grand prize is in sight."
+    },
+    {
+      "id": "cb116-100",
+      "text": "Which pundit can resist talking about it? {leader} has put a golden finish at the heart of the broadcast.",
+      "score": 10,
+      "was": "Which pundit wants to call it now? {leader} has put a golden finish at the heart of our debate."
+    }
+  ]
+}
