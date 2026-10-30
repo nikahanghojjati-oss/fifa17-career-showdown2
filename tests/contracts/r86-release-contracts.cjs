@@ -40,12 +40,14 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   const sw=read('service-worker.js');
   assert.match(sw,/const RUNTIME_REVISION = "1\.9\.10-r86";\nconst PREVIOUS_RUNTIME_REVISION = "1\.9\.9-r85";/);
   const added=JSON.parse('['+/const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set\(\[([^\]]*)\]\);/.exec(sw)[1]+']');
-  // r87 (until 2.0.0 moves PREVIOUS to r86) appends its own eleven shell files after r86's six.
+  // r87 (until 2.0.0 moves PREVIOUS to r86) appends its own twelve shell files after r86's six.
   assert.deepEqual(added.slice(0,6),['js/careerSummaryStore.js','js/specialPlayerReveal.js','visual-assets/v10_1/special-player/index.html','js/marqueePlayer.js','data/marqueePlayers.js','js/specialPlayerChip.js']);
-  assert.deepEqual(added.slice(6),['js/rosterRouletteStep.js','js/rosterRoulette.js','data/rosterSquads.js','css/v10Roulette.css','visual-assets/v10_1/roulette/index.html','visual-assets/v10_1/roulette/platemap.json','visual-assets/v10_1/roulette/vendor/three-r128.min.js','visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt','visual-assets/v10_1/roulette/assets/squads.json','js/deadlineDay.js','data/deadlineDayLines.js']);
+  assert.deepEqual(added.slice(6),['js/rosterRouletteStep.js','js/rosterRoulette.js','data/rosterSquads.js','css/v10Roulette.css','visual-assets/v10_1/roulette/index.html','visual-assets/v10_1/roulette/platemap.json','visual-assets/v10_1/roulette/vendor/three-r128.min.js','visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt','visual-assets/v10_1/roulette/assets/squads.json','js/deadlineDay.js','data/deadlineDayLines.js','data/fifa17Players.js']);
   assert.ok(!added.includes('js/musicDockV10.js'),'the r85 music player is in r85\'s own list');
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
-  assert.equal(shell.length,239);// r86 228 + r87's elevenassert.ok(added.every(p=>shell.includes(p)));
+  assert.equal(shell.length,240); // r86 228 + r87's twelve
+  assert.ok(added.every(p=>shell.includes(p)));
+  assert.equal(shell.filter(p=>!added.includes(p)).length,222,'r85 rollback shell is unchanged');
   ok('RR3','the retained r85 shell is verified against its own 222 paths');
 }
 

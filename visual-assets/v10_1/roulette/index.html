@@ -663,8 +663,8 @@ function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H
   { const g=ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,"#2a2d33"); g.addColorStop(.12,"#1b1d22"); g.addColorStop(1,"#121317"); ctx.fillStyle=g; ctx.fillRect(0,0,W,H); }
   ctx.textBaseline="middle"; ctx.textAlign="left"; const tabs=["SQUAD","FORMATIONS","ROLES","INSTRUCTIONS","TACTICS"]; let tx=30; tabs.forEach((t,i)=>{ ctx.font=`${i?600:800} 24px 'Barlow Condensed'`; ctx.fillStyle=i?"#c9ccd3":"#fff"; ctx.fillText(t,tx,30); const w=ctx.measureText(t).width; if(!i){ ctx.fillStyle="#f1c35a"; ctx.fillRect(tx-4,46,w+8,4); } tx+=w+40; });
   ctx.fillStyle="rgba(255,255,255,.08)"; ctx.fillRect(0,56,W,2);
-  ctx.font="800 42px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText(club.club.toUpperCase(),30,92); ctx.font="600 22px 'Barlow Condensed'"; ctx.fillStyle="#9ea4b0"; ctx.fillText("STARTING XI · "+formationOf(club.xi),32,122);
-  ctx.textAlign="right"; ctx.font="800 40px 'Barlow Condensed'"; ctx.fillStyle="#f1c35a"; ctx.fillText(formationOf(club.xi),W-30,92); ctx.textAlign="left";
+  ctx.font="800 42px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText(club.club.toUpperCase(),30,92); ctx.font="600 22px 'Barlow Condensed'"; ctx.fillStyle="#9ea4b0"; ctx.fillText("STARTING XI · "+(club.formation||formationOf(club.xi)),32,122);
+  ctx.textAlign="right"; ctx.font="800 40px 'Barlow Condensed'"; ctx.fillStyle="#f1c35a"; ctx.fillText((club.formation||formationOf(club.xi)),W-30,92); ctx.textAlign="left";
   const PT=146, PB=H-24, PL=30, PR=560, IN=36; ctx.save(); ctx.beginPath(); ctx.moveTo(PL+IN,PT); ctx.lineTo(PR-IN,PT); ctx.lineTo(PR,PB); ctx.lineTo(PL,PB); ctx.closePath(); ctx.clip();
   { const g=ctx.createLinearGradient(0,PT,0,PB); g.addColorStop(0,"#6fbf53"); g.addColorStop(1,"#3f9a3d"); ctx.fillStyle=g; ctx.fillRect(PL,PT,PR-PL,PB-PT);
     for(let i=0;i<9;i++){ ctx.fillStyle=i%2?"rgba(255,255,255,.07)":"rgba(0,0,0,.05)"; ctx.fillRect(PL,PT+i*(PB-PT)/9,PR-PL,(PB-PT)/9); }
@@ -685,7 +685,7 @@ function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H
     ctx.save(); ctx.shadowColor="rgba(0,0,0,.5)"; ctx.shadowBlur=8; ctx.shadowOffsetY=3; shirt(ctx,x,y,52,pos==="GK"?[club.gk||"#2fb0a8","#1c6e69","#ffffff"]:kit); ctx.restore();
     ctx.fillStyle=POS_COL(pos); ctx.fillRect(BL+118,y-14,5,28); ctx.textAlign="left"; ctx.font="700 20px 'Barlow Condensed'"; ctx.fillStyle="#c9ccd3"; ctx.fillText(pos,BL+132,y-10); ctx.font="700 26px 'Barlow Condensed'"; ctx.fillStyle="#fff"; const sur=name.includes(". ")?name.slice(name.indexOf(". ")+2):name; ctx.fillText(sur,BL+132,y+14);
     ctx.textAlign="right"; ctx.font="800 36px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText(String(rating),BR-22,y); });
-  ctx.textAlign="left"; ctx.font="800 28px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.lineWidth=4; ctx.strokeStyle="rgba(0,0,0,.5)"; ctx.strokeText(formationOf(club.xi),PL+12,PB-28); ctx.fillText(formationOf(club.xi),PL+12,PB-28);
+  ctx.textAlign="left"; ctx.font="800 28px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.lineWidth=4; ctx.strokeStyle="rgba(0,0,0,.5)"; ctx.strokeText((club.formation||formationOf(club.xi)),PL+12,PB-28); ctx.fillText((club.formation||formationOf(club.xi)),PL+12,PB-28);
   if(b.hit) drawHit(key,b.hit); b.tex.needsUpdate=true; }
 function drawHit(key,hit){ const b=boards[key].userData, ctx=b.ctx; const {x,y}=hit; ctx.setTransform(2,0,0,2,0,0);
   /* red RELEASED stamp on the player, then a burnt hole with a charred rim and torn paper */
@@ -943,11 +943,11 @@ function embedLabel(){ if(!GAME||playing) return; cta.disabled=false; cta.classL
 if(EMBED){ document.body.classList.add("embed");
   addEventListener("message",e=>{ if(e.source!==parent||e.origin!==location.origin||!e.data||e.data.type!=="cms-rr-setup"||GAME) return; const g=e.data;
     if(!SQUADS||!g.boards||!Array.isArray(g.boards.D)||!Array.isArray(g.boards.N)||!Array.isArray(g.turns)||g.turns.length!==2) return;
-    const merge=(clubName,rows)=>{ const base=clubByName(clubName), launch=[...base.xi,...base.subs]; const known=nm=>launch.find(r=>r[1]===nm);
-      const rate=(r,k)=>k?k[2]:(Number.isInteger(r.rating)?r.rating:""); /* a signing or Special Player shows the overall the game sent */
-      const xi=rows.slice(0,11).map(r=>[r.pos,r.name,rate(r,known(r.name))]), subs=rows.slice(11,15).map(r=>{ const k=known(r.name); return [k?k[0]:"SUB",r.name,rate(r,k)]; });
-      return Object.assign({},base,{club:clubName,xi,subs}); };
-    const dEntry=merge(g.d,g.boards.D), nEntry=merge(g.n,g.boards.N);
+    const merge=(clubName,rows,formation)=>{ const base=clubByName(clubName), launch=[...base.xi,...base.subs]; const known=nm=>launch.find(r=>r[1]===nm);
+      const rate=(r,k)=>Number.isInteger(r.rating)?r.rating:(k?k[2]:""); /* a signing or Special Player shows the overall the game sent */
+      const xi=rows.slice(0,11).map(r=>[r.pos,r.name,rate(r,known(r.name))]), subs=rows.slice(11,15).map(r=>{ const k=known(r.name); return [r.position||(k?k[0]:"SUB"),r.name,rate(r,k)]; });
+      return Object.assign({},base,{club:clubName,xi,subs,formation:typeof formation==="string"?formation:null}); };
+    const dEntry=merge(g.d,g.boards.D,g.formations&&g.formations.D), nEntry=merge(g.n,g.boards.N,g.formations&&g.formations.N);
     GAME=g; SQUADS={source:SQUADS.source,clubs:[dEntry,nEntry,...SQUADS.clubs.filter(c=>c!==clubByName(g.d)&&c!==clubByName(g.n))]}; LAYOUT.danielClub=g.d; LAYOUT.nikClub=g.n; setBoards(g.d,g.n); result.textContent="One bullet. Seven chambers."; embedLabel(); toGame("cms-rr-armed"); });
   addEventListener("rr:end",e=>{ toGame("cms-rr-end",{detail:e.detail}); setTimeout(embedLabel,0); }); }
 cta.addEventListener("click",()=>{ if(playing) return;

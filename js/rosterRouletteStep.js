@@ -9,7 +9,7 @@
   // before this manager's Transfer Challenge opens, both spins play in Team V's page in a full-screen frame, Daniel first, with
   // the outcome from js/rosterRoulette.js (the Showdown id decides, so both phones agree; HO040-M1); then he confirms the
   // release in his FIFA 17 save. The app never releases anyone itself. The boards build themselves (Nik 2026-10-30): the
-  // FIFA 17 launch board with the Special Player, then each season's shot player out and kept signings in by overall, from
+  // FIFA 17 launch board excluding the Special Player, then each season's shot player out and kept signings in by position and overall, from
   // last seasons' Transfer War verdicts (kept on this phone when they were shown; otherwise one Transfer Challenge read per
   // missing season). No board is saved anywhere and nobody types one.
   // Shown once per manager per season on this browser (the watched spin is not replayed); never for a Showdown confirmed
@@ -35,6 +35,7 @@
   async function rrsLoad(key,path,ready){if(ready())return true;if(typeof root.loadRuntimeScript!=="function")return false;await root.loadRuntimeScript(key,path,ready);return Boolean(ready());}
   async function rrsEnsure(){
     const loads=Promise.all([
+      rrsLoad("fifa17-players","data/fifa17Players.js",()=>Boolean(root.CareerModeFifa17Players)),
       rrsLoad("roster-squads","data/rosterSquads.js",()=>Boolean(root.CareerModeRosterSquads)),
       rrsLoad("roster-roulette","js/rosterRoulette.js",()=>Boolean(root.CareerModeRosterRoulette)),
       rrsLoad("marquee-player-list","data/marqueePlayers.js",()=>Boolean(root.CareerModeMarqueePlayers)),
@@ -158,9 +159,9 @@
     try{
       ({stage,frame}=rrsCreateStage(ctx));channel=rrsListen(frame);
       if(await channel.ready!=="ready")throw new Error("Roulette page did not start.");
-      const boardOf=role=>plan.boards[role].map(p=>({pos:p.pos,name:p.name||"VACANT",special:p.special===true,rating:p.name&&p.rating>0?p.rating:null}));
+      const boardOf=role=>plan.boards[role].map(p=>({pos:p.pos,position:p.positions[0]||null,name:p.name||"VACANT",special:p.special===true,rating:p.name&&p.rating>0?p.rating:null}));
       const turns=plan.turns.map(turn=>({fire:turn.fired,target:turn.player?turn.player.name:null}));
-      frame.contentWindow.postMessage({type:"cms-rr-setup",d:ctx.clubs.playerOne,n:ctx.clubs.playerTwo,boards:{D:boardOf("playerOne"),N:boardOf("playerTwo")},turns},root.location.origin);
+      frame.contentWindow.postMessage({type:"cms-rr-setup",d:ctx.clubs.playerOne,n:ctx.clubs.playerTwo,boards:{D:boardOf("playerOne"),N:boardOf("playerTwo")},formations:{D:plan.formations.playerOne,N:plan.formations.playerTwo},turns},root.location.origin);
       const left=MIN_LOADING_MS-(Date.now()-shownAt);if(left>0)await rrsWait(left);
       stage.style.visibility="visible";
     }catch(_error){if(channel)channel.stop();sceneFailedHere.add(rrsKey(ctx));rrsRemoveStage();loading.hide();return "skipped";}
