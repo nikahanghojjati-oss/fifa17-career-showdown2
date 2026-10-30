@@ -1,0 +1,809 @@
+{
+  "batch": 5,
+  "situation": "champions-league",
+  "edition": "season",
+  "lens": "The trophy cabinet",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b5-001",
+      "kicker": "EUROPE DESK",
+      "headline": "EUROPE ENTERS THE CABINET",
+      "subhead": "Behind the cabinet glass, {winner}'s Champions League triumph takes centre stage, the defining European achievement of this season.",
+      "score": 10,
+      "was": "The Champions League belongs to {winner} this season, a continental achievement that deserves the most prominent place in the collection."
+    },
+    {
+      "id": "b5-002",
+      "kicker": "SEASON RECORD",
+      "headline": "THE PRIZE TAKES ITS PLACE",
+      "subhead": "For {winnerClub}, winning Europe's premier club competition provides the kind of distinction no ordinary season summary can hold.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-003",
+      "kicker": "HONOURS ROOM",
+      "headline": "CENTRE STAGE FOR THE CUP",
+      "subhead": "By lifting the Champions League, {winner} has given this season an unmistakable centrepiece, whatever else the rivalry brings.",
+      "score": 10,
+      "was": "CENTRE STAGE FOR SILVER"
+    },
+    {
+      "id": "b5-004",
+      "kicker": "THE BIG PICTURE",
+      "headline": "HONOURS FINALLY AT HOME",
+      "subhead": "The great European trophy now figures in {winnerClub}'s season honours, a prize of rare weight in this contest.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-005",
+      "kicker": "CLUB CHRONICLE",
+      "headline": "PRIME PLACE FOR THE BIG ONE",
+      "subhead": "Some honours decorate a season, but {winner}'s victory in Europe's premier club competition defines the entire European chapter.",
+      "score": 10,
+      "was": "There are prizes and there is the Champions League, which {winner} has secured for the club this season."
+    },
+    {
+      "id": "b5-006",
+      "kicker": "ARCHIVE EDITION",
+      "headline": "PRESERVED FOR POSTERITY",
+      "subhead": "When this season becomes an old clipping, {winnerClub}'s victory in Europe's elite competition will still be the front-page story.",
+      "score": 9,
+      "was": "Future chapters may alter the rivalry, but {winnerClub}'s Champions League triumph is already worthy of permanent remembrance."
+    },
+    {
+      "id": "b5-007",
+      "kicker": "FRONT PAGE",
+      "headline": "GLASS WELCOMES A GIANT",
+      "subhead": "A Champions League title gives {winner} an extraordinary addition to the season's record and fresh stature in the rivalry.",
+      "score": 9,
+      "was": "THE GLASS HAS A GUEST"
+    },
+    {
+      "id": "b5-008",
+      "kicker": "EUROPEAN HONOURS",
+      "headline": "CONTINENT TAKES ITS PLACE",
+      "subhead": "With the continent's foremost club competition won, {winnerClub} has a lasting emblem of this season's success.",
+      "score": 10,
+      "was": "SILVER FINDS ITS SETTING"
+    },
+    {
+      "id": "b5-009",
+      "kicker": "EDITORIAL VIEW",
+      "headline": "HEAVY METAL, HIGH HONOUR",
+      "subhead": "Even {loser} can recognise the scale of {winner}'s continental prize, a European achievement that needs no exaggeration.",
+      "score": 10,
+      "was": "Among the season's achievements, {winner}'s Champions League victory carries a particular weight that scarcely needs explaining."
+    },
+    {
+      "id": "b5-010",
+      "kicker": "THE HONOURS",
+      "headline": "ENGRAVED IN EUROPE",
+      "subhead": "The winning club's place on Europe's greatest honour roll belongs to {winnerClub}, whose campaign has earned its inscription.",
+      "score": 9,
+      "was": "The Champions League triumph places {winnerClub} in the season's brightest company, with an honour fit for inscription."
+    },
+    {
+      "id": "b5-011",
+      "kicker": "LEGACY WATCH",
+      "headline": "EUROPEAN HEIRLOOM",
+      "subhead": "Other distinctions may come and go, but {winner} carries a continental title into the rivalry's lasting memory.",
+      "score": 9,
+      "was": "This season hands {winner} something lasting: the Champions League, whose significance will outlive any passing points comparison."
+    },
+    {
+      "id": "b5-012",
+      "kicker": "DISPLAY NOTES",
+      "headline": "DISPLAY OF DISTINCTION",
+      "subhead": "A major European prize now belongs in {winnerClub}'s account, giving the season a richly deserved signature moment.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-013",
+      "kicker": "SEASON PORTRAIT",
+      "headline": "STILL LIFE WITH SILVER",
+      "subhead": "Picture the season as a single exhibit, and {winner}'s triumph in Europe's top club competition dominates the frame.",
+      "score": 10,
+      "was": "The portrait of {winner}'s campaign is transformed by a Champions League title, a defining achievement rather than decoration."
+    },
+    {
+      "id": "b5-014",
+      "kicker": "HONOUR ROLL",
+      "headline": "PRIDE UNDER THE LAMPS",
+      "subhead": "{winnerClub} can reflect on a season crowned by continental success, while the friendly rivalry continues beyond the trophy room.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-015",
+      "kicker": "SPECIAL REPORT",
+      "headline": "GALLERY OF GREATNESS",
+      "subhead": "Among the season's many possible distinctions, a Champions League triumph gives {winner} an unmistakable European claim to fame.",
+      "score": 10,
+      "was": "The latest name in this season's European honours is {winner}, whose Champions League success warrants a place of distinction."
+    },
+    {
+      "id": "b5-016",
+      "kicker": "EUROPE REVIEW",
+      "headline": "TROPHY ROOM TRANSFORMED",
+      "subhead": "One European trophy can change a whole season's complexion, and {winnerClub} have claimed exactly that kind of prize.",
+      "score": 10,
+      "was": "Winning the Champions League gives {winnerClub}'s season an unmistakable landmark and the cabinet a particularly treasured addition."
+    },
+    {
+      "id": "b5-017",
+      "kicker": "THE EDITORIAL",
+      "headline": "HONOUR OF THE AGE",
+      "subhead": "{winner} has earned European club football's highest prize, an achievement certain to matter whenever this campaign is recalled.",
+      "score": 9,
+      "was": "For {winner}, the continent's premier club title is the sort of success that speaks across seasons."
+    },
+    {
+      "id": "b5-018",
+      "kicker": "SEASONAL HONOURS",
+      "headline": "RELIC OF A REMARKABLE RUN",
+      "subhead": "Securing Europe's foremost club trophy gives {winnerClub} an emblem of everything this season's continental campaign achieved.",
+      "score": 9,
+      "was": "By emerging as Champions League winner, {winnerClub} leaves this campaign with a tangible symbol of European achievement."
+    },
+    {
+      "id": "b5-019",
+      "kicker": "CONTINENTAL FILE",
+      "headline": "EUROPE'S GREAT EXHIBIT",
+      "subhead": "Nothing about {loser}'s own season need be diminished to appreciate the scale of {winner}'s Champions League title.",
+      "score": 10,
+      "was": "A Champions League triumph stands at the centre of {winner}'s season, commanding attention without diminishing the rival campaign."
+    },
+    {
+      "id": "b5-020",
+      "kicker": "GALLERY REPORT",
+      "headline": "CABINET FIT FOR KINGS",
+      "subhead": "The biggest European club trophy joins {winnerClub}'s achievements, adding ceremonial grandeur to a season already settled.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-021",
+      "kicker": "BREAKING SPORT",
+      "headline": "CLEAR THE GRAND PLINTH!",
+      "subhead": "There is a particular grandeur to {winner}'s Champions League title, and a humble shelf will hardly express it.",
+      "score": 10,
+      "was": "{winner} has captured the Champions League, and that distinguished European prize demands a place of honour in the season's record."
+    },
+    {
+      "id": "b5-022",
+      "kicker": "LATE EXTRA",
+      "headline": "UNWRAP THE GRAND REWARD",
+      "subhead": "Nothing modest will do for {winnerClub}'s Champions League triumph, the defining continental trophy of this campaign.",
+      "score": 9,
+      "was": "UNWRAP THE BIG PRIZE!"
+    },
+    {
+      "id": "b5-023",
+      "kicker": "HONOURS ALERT",
+      "headline": "OPEN THE CHAMPIONS' CASE!",
+      "subhead": "Not merely a fine season but a continental conquest, {winner}'s success belongs beneath the biggest headline available.",
+      "score": 10,
+      "was": "European glory is now {winner}'s to celebrate after the Champions League victory, with a famous prize to display."
+    },
+    {
+      "id": "b5-024",
+      "kicker": "CHAMPIONS SPECIAL",
+      "headline": "HOIST THAT EUROPEAN CUP!",
+      "subhead": "The pride of {winnerClub}'s trophy room is renewed by their victory in the continent's premier club competition.",
+      "score": 10,
+      "was": "{winnerClub} have won the Champions League, an achievement deserving a banner headline and the proudest possible display."
+    },
+    {
+      "id": "b5-025",
+      "kicker": "CABINET WATCH",
+      "headline": "FETCH THE ENGRAVER",
+      "subhead": "{winner} now holds the continental crown, and the occasion calls for an inscription rather than a footnote.",
+      "score": 10,
+      "was": "FETCH THE ENGRAVER!"
+    },
+    {
+      "id": "b5-026",
+      "kicker": "SILVER BULLETIN",
+      "headline": "GIVE THE HONOUR ITS HOME!",
+      "subhead": "At the heart of {winnerClub}'s season sits Europe's highest club honour, awaiting a suitably proud welcome.",
+      "score": 9,
+      "was": "GIVE THE CUP ITS HOME!"
+    },
+    {
+      "id": "b5-027",
+      "kicker": "LATE EDITION",
+      "headline": "SWITCH ON THE SPOTLIGHT",
+      "subhead": "From a season of competing ambitions emerges {winner}, whose Champions League success commands an unusually bright spotlight.",
+      "score": 9,
+      "was": "SWITCH ON THE SPOTLIGHT!"
+    },
+    {
+      "id": "b5-028",
+      "kicker": "DISPLAY DESK",
+      "headline": "SWING WIDE THE GLASS DOORS!",
+      "subhead": "Imagine the display doors opening for {winnerClub}, whose Champions League triumph deserves far more than a discreet unveiling.",
+      "score": 10,
+      "was": "{winnerClub} are Champions League winners this season, and a prize of this stature deserves an entrance."
+    },
+    {
+      "id": "b5-029",
+      "kicker": "TROPHY WIRE",
+      "headline": "MARK THIS METAL!",
+      "subhead": "This is the trophy that matters most in European club football, and {winner} has made it theirs.",
+      "score": 9,
+      "was": "A Champions League trophy is secured by {winner}, placing a permanent European achievement beside the season's other results."
+    },
+    {
+      "id": "b5-030",
+      "kicker": "EUROPE TONIGHT",
+      "headline": "ROLL OUT THE RED VELVET!",
+      "subhead": "The continental title belongs to {winnerClub}, bringing an unmistakable touch of ceremony to the rivalry's latest chapter.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-031",
+      "kicker": "SHOWCASE ALERT",
+      "headline": "BRING ON THE DISPLAY!",
+      "subhead": "Whatever the season ledger contains elsewhere, a Champions League trophy provides {winner} with an exceptional exhibit.",
+      "score": 9,
+      "was": "Champions League success gives {winner} a result with real substance, ready for the finest space in the collection."
+    },
+    {
+      "id": "b5-032",
+      "kicker": "GREAT PRIZE",
+      "headline": "LIFT THE LID ON GLORY!",
+      "subhead": "{winnerClub}'s conquest of Europe's leading club competition deserves to be seen and remembered, not merely noted.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-033",
+      "kicker": "RIBBON WATCH",
+      "headline": "PIN THE RIBBONS HIGH",
+      "subhead": "From the European campaign comes a title for {winner}, and even the ribbons seem worthy of their own headline.",
+      "score": 9,
+      "was": "PIN THE RIBBONS HIGH!"
+    },
+    {
+      "id": "b5-034",
+      "kicker": "VAULT BULLETIN",
+      "headline": "PROTECT THE PRECIOUS!",
+      "subhead": "With European club football's top prize won, {winnerClub} have an achievement that will reward repeated retelling.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-035",
+      "kicker": "CONTINENTAL ALERT",
+      "headline": "RAISE THAT EUROPEAN PRIZE!",
+      "subhead": "A Champions League triumph has come to {winner}, and the significance extends beyond the immediate season's standings.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-036",
+      "kicker": "HONOURS FLASH",
+      "headline": "KEEP THE SILVER SAFE!",
+      "subhead": "Tuck the European trophy into the memory of this campaign, because {winnerClub}'s achievement deserves careful keeping.",
+      "score": 9,
+      "was": "The Champions League is secured for {winnerClub}, making this season a memorable entry in the rivalry's expanding archive."
+    },
+    {
+      "id": "b5-037",
+      "kicker": "SPOTLIGHT DESK",
+      "headline": "SHOW THEM THE SHINE!",
+      "subhead": "{winner} has lifted Europe's greatest club prize, a moment whose meaning hardly requires a points total.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-038",
+      "kicker": "CUP REPORT",
+      "headline": "SEND FOR THE CURATOR!",
+      "subhead": "A modest exhibit will not do for {winnerClub} after their conquest of Europe's premier club competition.",
+      "score": 9,
+      "was": "{winnerClub} have earned a Champions League trophy, and the display case has a landmark addition to accommodate."
+    },
+    {
+      "id": "b5-039",
+      "kicker": "LATEST HONOURS",
+      "headline": "MOUNT THE MASTERPIECE",
+      "subhead": "The finest continental club honour is in {winner}'s hands, deservedly dominating the season's newspaper front page.",
+      "score": 9,
+      "was": "MOUNT THE MASTERPIECE!"
+    },
+    {
+      "id": "b5-040",
+      "kicker": "SEASON EXTRA",
+      "headline": "HAND OVER THE HONOURS!",
+      "subhead": "By winning the Champions League, {winnerClub} have claimed a distinction that even a fierce rival can appreciate.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-041",
+      "kicker": "CUP COLUMN",
+      "headline": "CUP RUN, CASE CLOSED",
+      "subhead": "Europe's leading club trophy is {winner}'s this season, providing a fitting conclusion to the continental contest.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-042",
+      "kicker": "AT THE WHISTLE",
+      "headline": "OFFSIDE? NOT THIS TROPHY",
+      "subhead": "With the Champions League won, {winnerClub}'s success is beyond any football argument and ready for its place of honour.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-043",
+      "kicker": "TOP FLIGHT",
+      "headline": "TOP FLIGHT, TOP DRAWER",
+      "subhead": "The Champions League title elevates {winner}'s season, a major trophy worthy of the upper reaches of any cabinet.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-044",
+      "kicker": "THE FINAL WORD",
+      "headline": "EXTRA TIME ON DISPLAY",
+      "subhead": "This Champions League triumph will stay on view long after {winnerClub}'s season is entered into the Showdown ledger.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-045",
+      "kicker": "FINANCE OF FOOTBALL",
+      "headline": "NET WORTH: EUROPEAN SILVER",
+      "subhead": "{winner} has won a continental title whose value in the rivalry reaches well beyond a glittering display.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-046",
+      "kicker": "PITCH TO PLAQUE",
+      "headline": "METAL MAKES THE CUT",
+      "subhead": "Whatever follows in the rivalry, {winnerClub}'s Champions League success has earned a permanent place in this season's telling.",
+      "score": 9,
+      "was": "SILVER MAKES THE CUT"
+    },
+    {
+      "id": "b5-047",
+      "kicker": "POSTMATCH FILE",
+      "headline": "CHAMPIONS GET THE FRAME",
+      "subhead": "After lifting Europe's most prestigious club trophy, {winner} deserves the spotlight without denying the rival's ambition.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-048",
+      "kicker": "DUGOUT DISPATCH",
+      "headline": "FROM DUGOUT TO DISPLAY",
+      "subhead": "{winnerClub}'s Champions League success converts a season of management into a lasting piece of the club's story.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-049",
+      "kicker": "BIG MATCH PAPER",
+      "headline": "CUPBOARD CLAIMS THE CROWN",
+      "subhead": "A Champions League title gives {winner} a grand European souvenir and a deserved share of this season's headlines.",
+      "score": 9,
+      "was": "CUPBOARD FULL OF EUROPE"
+    },
+    {
+      "id": "b5-050",
+      "kicker": "THE BAR REPORT",
+      "headline": "RAISED BAR, RAISED CUP",
+      "subhead": "By securing the Champions League, {winnerClub} have set a formidable standard for any comparison that might follow.",
+      "score": 10,
+      "was": "Europe's elite club trophy belongs to {winnerClub}, setting a remarkable standard for the seasons still to come."
+    },
+    {
+      "id": "b5-051",
+      "kicker": "GOAL LINE",
+      "headline": "POST TO PEDESTAL",
+      "subhead": "A Champions League victory gives {winner} an honour that passes from the football story into the display case.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-052",
+      "kicker": "FINAL WHISTLE",
+      "headline": "FULL TIME, FINE METAL",
+      "subhead": "With the Champions League secured, {winnerClub} close their European story for this season with an exceptional trophy.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-053",
+      "kicker": "TOUCHLINE NOTES",
+      "headline": "HONOURS OFF THE BENCH",
+      "subhead": "The Champions League triumph is {winner}'s headline achievement, a prize prominent enough to take centre stage.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-054",
+      "kicker": "THE MATCH FILE",
+      "headline": "FRAME AT THE GOAL LINE",
+      "subhead": "The continental title has been claimed by {winnerClub}, giving this season a decisive and enduring European distinction.",
+      "score": 9,
+      "was": "GLASS AT THE GOAL LINE"
+    },
+    {
+      "id": "b5-055",
+      "kicker": "EUROPEAN FOOTBALL",
+      "headline": "SHINE IN THE TOP CORNER",
+      "subhead": "The prize for Europe's top club competition belongs to {winner}, a fitting highlight of the campaign.",
+      "score": 9,
+      "was": "SILVER IN THE TOP CORNER"
+    },
+    {
+      "id": "b5-056",
+      "kicker": "SIX YARD DESK",
+      "headline": "VELVET AT THE SIX YARDS",
+      "subhead": "{winnerClub} have lifted the Champions League, turning football's biggest European occasion into a treasure for their collection.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-057",
+      "kicker": "TROPHY COLUMN",
+      "headline": "FINAL FINDS ITS FRAME",
+      "subhead": "{winner}'s Champions League success now forms a permanent part of the season's portrait, impossible to overlook.",
+      "score": 10,
+      "was": "THE FINAL FINDS A FRAME"
+    },
+    {
+      "id": "b5-058",
+      "kicker": "THE PITCH REPORT",
+      "headline": "CUP TAKES THE FIELD",
+      "subhead": "For {winnerClub}, European glory is no longer a prospect but the defining honour of this completed season.",
+      "score": 9,
+      "was": "THE CUP TAKES THE FIELD"
+    },
+    {
+      "id": "b5-059",
+      "kicker": "EXTRA REPORT",
+      "headline": "NO REPLAY FOR THIS PRIZE",
+      "subhead": "{winner} has secured the Champions League trophy outright, giving the rivalry an achievement that cannot be undone.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-060",
+      "kicker": "STADIUM EDITION",
+      "headline": "STRAIGHT INTO THE CASE",
+      "subhead": "The Champions League title has come to {winnerClub}, and few honours earn a more prominent place in football's memory.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-061",
+      "kicker": "MEDAL ROOM",
+      "headline": "SPOTLIGHT SETS THE STANDARD",
+      "subhead": "This season's Champions League triumph gives {winner} a benchmark achievement, memorable even without the rest of the cabinet.",
+      "score": 10,
+      "was": "SILVER SETS THE STANDARD"
+    },
+    {
+      "id": "b5-062",
+      "kicker": "DISPLAY REVIEW",
+      "headline": "CABINET CALLS FOR CHAMPIONS",
+      "subhead": "With {winnerClub} victorious in Europe's premier club tournament, the honour shelves gain a prize of exceptional standing.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-063",
+      "kicker": "FINISHING TOUCH",
+      "headline": "RIBBONS REACH THE RAFTERS",
+      "subhead": "{winner}'s Champions League victory merits a flourish that matches the scale of the continental achievement.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-064",
+      "kicker": "SEASON SIGNATURE",
+      "headline": "VELVET VINDICATES VICTORY",
+      "subhead": "A European championship now belongs to {winnerClub}, and the imagery of a grand display is thoroughly deserved.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-065",
+      "kicker": "INSCRIPTION DESK",
+      "headline": "ENGRAVING EARNS ITS KEEP",
+      "subhead": "The Champions League goes to {winner}, placing a substantial European success on the official season record.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-066",
+      "kicker": "GALLERY NEWS",
+      "headline": "POLISHED PRIZE, PROUD PLACE",
+      "subhead": "{winnerClub} have added the Champions League title to their season achievements, a distinction that will not fade quickly.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-067",
+      "kicker": "EDITOR'S PICK",
+      "headline": "GALLERY GAINS GREATNESS",
+      "subhead": "A continental triumph gives {winner} the strongest possible reason to reserve a special place in the honours room.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-068",
+      "kicker": "ARCHIVE NOTES",
+      "headline": "BRASS BEARS THE BIG NEWS",
+      "subhead": "The Champions League trophy belongs to {winnerClub}, its significance demanding more than a passing mention in print.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-069",
+      "kicker": "SHOWROOM EDITION",
+      "headline": "SHELVES SALUTE SUCCESS",
+      "subhead": "There is a Champions League title to celebrate for {winner}, ensuring this campaign has an extraordinary European legacy.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-070",
+      "kicker": "CENTRE DISPLAY",
+      "headline": "PEDESTAL PROCLAIMS PRIDE",
+      "subhead": "The continent's great club prize has been secured by {winnerClub}, and it deserves an appropriately elevated setting.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-071",
+      "kicker": "GLASSWORK REPORT",
+      "headline": "GLASS GUARDS THE GRAND PRIZE",
+      "subhead": "{winner} has won Europe's most coveted club title, giving the season an honour that calls for careful keeping.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-072",
+      "kicker": "THE INSCRIPTION",
+      "headline": "PLAQUES PROCLAIM THE PEAK",
+      "subhead": "For {winnerClub}, the Champions League triumph belongs among the clearest expressions of this season's ambition fulfilled.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-073",
+      "kicker": "METALWORK DESK",
+      "headline": "MEDALS MARK A MILESTONE",
+      "subhead": "A victory in the Champions League gives {winner} another compelling chapter in this friendly managerial contest.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-074",
+      "kicker": "KEEPER'S NOTES",
+      "headline": "CURATORS CLAIM A CLASSIC",
+      "subhead": "{winnerClub}'s European crown is exactly the kind of season achievement a football collection was made to honour.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-075",
+      "kicker": "THE SHOWCASE",
+      "headline": "DISPLAY DELIVERS DELIGHT",
+      "subhead": "By securing the Champions League, {winner} ensures this season will be remembered for something genuinely exceptional.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-076",
+      "kicker": "READERS ASK",
+      "headline": "WHO GETS THE GLASS CROWN?",
+      "subhead": "The answer is {winner}, whose Champions League triumph earns the season's grandest European honour without settling future chapters.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-077",
+      "kicker": "EUROPEAN QUESTION",
+      "headline": "CAN SILVER SPEAK LOUDER?",
+      "subhead": "A Champions League title makes a compelling case for {winnerClub}, with the trophy itself the strongest evidence.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-078",
+      "kicker": "HONOURS INQUIRY",
+      "headline": "WHERE WILL EUROPE REST?",
+      "subhead": "The continent's most coveted club prize belongs to {winner}, demanding pride of place in the season's memories.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-079",
+      "kicker": "CABINET QUESTION",
+      "headline": "IS THE PLINTH BIG ENOUGH?",
+      "subhead": "Champions League success is a substantial addition to {winnerClub}'s achievements, worthy of the grandest imaginable presentation.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-080",
+      "kicker": "A CLOSER LOOK",
+      "headline": "HOW BRIGHT IS THAT METAL?",
+      "subhead": "After winning Europe's leading club competition, {winner} has a trophy capable of illuminating the entire campaign.",
+      "score": 9,
+      "was": "HOW BRIGHT IS THIS CUP?"
+    },
+    {
+      "id": "b5-081",
+      "kicker": "THE VAULT FILE",
+      "headline": "DOES THIS NEED A VAULT?",
+      "subhead": "{winnerClub} have captured the Champions League, a distinction whose value cannot be measured by metal alone.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-082",
+      "kicker": "CURATOR'S MAIL",
+      "headline": "WHAT BELONGS IN THE CASE?",
+      "subhead": "This season's answer includes the Champions League, won by {winner} and worthy of a commanding place on display.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-083",
+      "kicker": "NAMEPLATE DESK",
+      "headline": "WHICH NAME GOES IN GOLD?",
+      "subhead": "It is {winnerClub} who take the Champions League honour, ensuring their European triumph receives its due recognition.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-084",
+      "kicker": "RIBBON EDITION",
+      "headline": "READY FOR THE RIBBONS?",
+      "subhead": "{winner} has secured the Champions League trophy this season, a distinction whose scale warrants every ceremonial flourish.",
+      "score": 9,
+      "was": "{winner} have secured the Champions League trophy this season, giving the occasion the grandeur its achievement warrants."
+    },
+    {
+      "id": "b5-085",
+      "kicker": "HONOURS MAILBAG",
+      "headline": "HOW HIGH IS THE HONOUR?",
+      "subhead": "A Champions League title places {winnerClub}'s season among the most memorable of the rivalry's possible chapters.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-086",
+      "kicker": "CABINET MEMO",
+      "headline": "EUROPE, UNDER GLASS",
+      "subhead": "The Champions League has been won by {winner}, a continental distinction worthy of preservation beyond this season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-087",
+      "kicker": "EXHIBIT A",
+      "headline": "CURATOR'S DREAM",
+      "subhead": "A successful Champions League campaign gives {winnerClub} the sort of trophy that makes a display unforgettable.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-088",
+      "kicker": "CONTINENTAL HONOURS",
+      "headline": "TROPHY, DELIVERED",
+      "subhead": "Europe has a new champion in this season's Showdown story, with {winner} holding the Champions League prize.",
+      "score": 9,
+      "was": "SILVER, DELIVERED"
+    },
+    {
+      "id": "b5-089",
+      "kicker": "THE LABEL",
+      "headline": "HANDLE WITH PRIDE",
+      "subhead": "{winnerClub} can treasure a Champions League triumph while respecting a rival whose ambitions remain undiminished.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-090",
+      "kicker": "SHELF REPORT",
+      "headline": "NO EMPTY PEDESTAL",
+      "subhead": "The season's great European honour belongs to {winner}, giving the imagined display a magnificent focal point.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-091",
+      "kicker": "THE POLISH",
+      "headline": "A GRAND REFLECTION",
+      "subhead": "The Champions League win shines through {winnerClub}'s season, an achievement that deserves a long and admiring look.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-092",
+      "kicker": "FRONT OF HOUSE",
+      "headline": "PRIME EXHIBIT",
+      "subhead": "As {loser} considers the rivalry's next opportunity, {winner} can celebrate the continental title already secured.",
+      "score": 9,
+      "was": "No ordinary cabinet entry could capture {winner}'s Champions League achievement, the sort of trophy football remembers."
+    },
+    {
+      "id": "b5-093",
+      "kicker": "SHOWCASE NOTES",
+      "headline": "CHAMPIONS, FRAMED",
+      "subhead": "{winnerClub} have taken Europe's biggest club prize, earning the season a portrait defined by continental achievement.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-094",
+      "kicker": "THE GALLERY",
+      "headline": "PROUDLY MOUNTED",
+      "subhead": "With the Champions League secured, {winner} can point to an exceptional triumph in the ongoing managerial rivalry.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-095",
+      "kicker": "FINAL EDITION",
+      "headline": "THE PERFECT FIT",
+      "subhead": "Europe's premier club prize belongs beside {winnerClub}'s season record, a match between achievement and recognition.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-096",
+      "kicker": "VELVET REPORT",
+      "headline": "VELVET TREATMENT",
+      "subhead": "The Champions League trophy is {winner}'s this season, and its status deserves every ceremonial flourish.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-097",
+      "kicker": "THE INVENTORY",
+      "headline": "GLORY, CATALOGUED",
+      "subhead": "A major European title is now part of {winnerClub}'s season achievements, to be remembered whenever the rivalry resumes.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-098",
+      "kicker": "GRAND PRIZE",
+      "headline": "CERTIFIED HEAVYWEIGHT",
+      "subhead": "{winner} has won the Champions League, and that continental honour carries an authority no embellishment could improve.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b5-099",
+      "kicker": "HONOUR SHELVES",
+      "headline": "HOME FOR HONOURS",
+      "subhead": "The Champions League joins {winnerClub}'s list of achievements, giving the season a particularly distinguished place in memory.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b5-100",
+      "kicker": "ENDURING IMAGE",
+      "headline": "VICTORY, PRESERVED",
+      "subhead": "After this Champions League success, {winner} leaves the season with an honour that belongs in the rivalry's lasting archive.",
+      "score": 10,
+      "was": "EUROPE, PRESERVED"
+    }
+  ]
+}
