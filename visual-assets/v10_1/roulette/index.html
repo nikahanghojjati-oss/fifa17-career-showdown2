@@ -129,10 +129,17 @@ body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
  window.addEventListener('error',function(e){ show('Error: '+(e.message||e.type)+(e.filename?' @'+e.filename.split('/').pop()+':'+e.lineno:'')+(e.target&&e.target.src?' '+e.target.src:'')); },true);
  window.addEventListener('unhandledrejection',function(e){ show('Error: '+(e.reason&&e.reason.message||e.reason)); });
  setTimeout(function(){ if(!window.THREE) show('3D library did not load (three.js). Check the connection and reload.'); },8000); })();</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="vendor/three-r128.min.js"></script><!-- three.js r128 (MIT, vendor/THREE_LICENSE.txt), bundled so the scene works offline and never depends on a CDN -->
 <script>
 (function(){
 "use strict";
+// r87 (Team G): a browser without WebGL (switched off, old GPU, some headless runs) cannot draw the stage. Say so once
+// instead of letting three.js throw: in the game the result and the release still show without the scene.
+if(!(function(){ try{ var c=document.createElement("canvas"); return !!(window.WebGLRenderingContext&&(c.getContext("webgl2")||c.getContext("webgl"))); }catch(e){ return false; } })()){
+  if(/[?&]embed=1(?:&|$)/.test(location.search)){ try{ parent.postMessage({type:"cms-rr-error",message:"WebGL is not available"},location.origin); }catch(e){} }
+  else document.body.insertAdjacentText("beforeend","This browser can't draw the 3D revolver (WebGL is off).");
+  return;
+}
 const T=THREE, $=(id)=>document.getElementById(id), qs=new URLSearchParams(location.search);
 const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const clamp01=(x)=>x<0?0:x>1?1:x, lerp=(a,b,k)=>a+(b-a)*k, S=(at,dur,tt)=>clamp01((tt-at)/dur);

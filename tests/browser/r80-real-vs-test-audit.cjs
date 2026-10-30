@@ -1,4 +1,5 @@
 "use strict";
+const rosterRoulette=require("./support/roster-roulette.cjs");
 // Real-only entry and historical markerless recovery audit. Current gameplay uses Home START / JOIN and writes
 // career markers automatically. Emulator admin restores old markerless metadata and explicit test-mode data only
 // to verify that existing historical games remain hidden and unused old codes cannot reopen through Home.
@@ -351,7 +352,7 @@ async function continueToSeason(daniel,nik,season,total){
     await m.page.waitForFunction(next=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${next}`,season,{timeout:45000});
     await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
     await m.page.waitForFunction(value=>document.getElementById("seasonIndicator")?.textContent===value,`Season ${season} / ${total}`,{timeout:30000});
-    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
+    await rosterRoulette.waitForTransfer(m.page,30000);
   }
 }
 // One season's Transfer Challenge through the real UI: window, guesses, signings, then both open Season Results.
@@ -398,7 +399,7 @@ async function playSetupToTransferChallenge(daniel,nik){
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
   for(const m of [daniel,nik]){
-    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:45000});
+    await rosterRoulette.waitForTransfer(m.page,45000);
     await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
   }
   return clubs;
@@ -681,13 +682,13 @@ async function main(){
     await home(daniel);
     probeLog("A2-home-live-test",await look(daniel));
     await daniel.page.locator("#newShowdown").click({timeout:30000});
-    await daniel.page.locator("#transferChallenge").waitFor({state:"visible",timeout:20000}).catch(()=>{});
+    await rosterRoulette.waitForTransfer(daniel.page,20000).catch(()=>{});
     await daniel.page.waitForTimeout(1500);
     const a2=await look(daniel);probeLog("A2-home-START-on-live-test",a2);
     await home(daniel);
-    if((await look(daniel)).cont?.visible){await daniel.page.locator("#continueCareer").click({timeout:10000});await daniel.page.locator("#transferChallenge").waitFor({state:"visible",timeout:20000}).catch(()=>{});probeLog("A2b-home-CONTINUE-on-live-test",await look(daniel));await home(daniel);}
+    if((await look(daniel)).cont?.visible){await daniel.page.locator("#continueCareer").click({timeout:10000});await rosterRoulette.waitForTransfer(daniel.page,20000).catch(()=>{});probeLog("A2b-home-CONTINUE-on-live-test",await look(daniel));await home(daniel);}
     await home(nik);
-    await nik.page.locator("#newShowdown").click({timeout:30000});await nik.page.locator("#transferChallenge").waitFor({state:"visible",timeout:20000}).catch(()=>{});
+    await nik.page.locator("#newShowdown").click({timeout:30000});await rosterRoulette.waitForTransfer(nik.page,20000).catch(()=>{});
     probeLog("A2c-nik-home-START-on-live-test",await look(nik));await home(nik);
     await reloadHome(daniel);probeLog("A3-daniel-reload-live-test",await look(daniel));
     await home(daniel);

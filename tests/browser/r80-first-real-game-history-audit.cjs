@@ -1,4 +1,5 @@
 "use strict";
+const rosterRoulette=require("./support/roster-roulette.cjs");
 // r80: Nik's first real game on r79 never showed in History, Legacy, Career Statistics or the Trophy Room.
 // The sequence, on two accounts whose real career had not started (test mode), as the r79 emulator reproduction found it:
 //   1. an older code of Daniel's (an r78 CREATE CODE FOR NIK, or a shell with seasons chosen and no code yet) is still open;
@@ -369,7 +370,7 @@ async function continueToSeason(daniel,nik,season,total){
     await m.page.waitForFunction(next=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${next}`,season,{timeout:45000});
     await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
     await m.page.waitForFunction(value=>document.getElementById("seasonIndicator")?.textContent===value,`Season ${season} / ${total}`,{timeout:30000});
-    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
+    await rosterRoulette.waitForTransfer(m.page,30000);
   }
 }
 // One season's Transfer Challenge through the real UI: window, guesses, signings, then both open Season Results.
@@ -416,7 +417,7 @@ async function playSetupToTransferChallenge(daniel,nik){
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
   for(const m of [daniel,nik]){
-    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:45000});
+    await rosterRoulette.waitForTransfer(m.page,45000);
     await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
   }
   return clubs;

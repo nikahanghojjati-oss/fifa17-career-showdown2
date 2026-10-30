@@ -1,4 +1,5 @@
 "use strict";
+const rosterRoulette=require("./support/roster-roulette.cjs");
 // G-2b: Daniel and Nik play through the real app screens in two Chromium contexts against the
 // Auth + Firestore emulators (composed production Rules). Test database only; project demo-cms-browser-journey.
 // Run: npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json \
@@ -257,7 +258,7 @@ async function continueToSeason(daniel,nik,season,total){
     await m.page.waitForFunction(next=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${next}`,season,{timeout:45000});
     await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
     await m.page.waitForFunction(value=>document.getElementById("seasonIndicator")?.textContent===value,`Season ${season} / ${total}`,{timeout:30000});
-    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
+    await rosterRoulette.waitForTransfer(m.page,30000);
     assert.equal(await m.page.locator("#dashboard").isVisible(),false,`${m.user} went straight to the season-${season} Transfer Challenge`);
   }
 }
@@ -532,7 +533,7 @@ async function main(){
     ok("J5.2","both private Career Start acknowledgements converged to ready");
 
     for(const m of [daniel,nik]){
-      await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
+      await rosterRoulette.waitForTransfer(m.page,30000);
       await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
     }
     ok("J5.3","both managers reached the real Shared Transfer Challenge through the UI");

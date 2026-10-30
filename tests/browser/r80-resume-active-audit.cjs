@@ -1,4 +1,5 @@
 "use strict";
+const rosterRoulette=require("./support/roster-roulette.cjs");
 // r80 resume (G7 + Home items 5/6): from Home, an ACTIVE Showdown always resumes to the screen the game is on, the same place a
 // reload takes the player, on Daniel's and Nik's phones, with no frame of GET READY, Career Start or Remote Joining on the way.
 // Before: a page that already held the ACTIVE private session answered Home START / CONTINUE CAREER with GET READY, and its
@@ -203,7 +204,7 @@ async function playSetupToTransferChallenge(daniel,nik){
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
   for(const m of [daniel,nik]){
-    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:45000});
+    await rosterRoulette.waitForTransfer(m.page,45000);
     await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
   }
   return clubs;

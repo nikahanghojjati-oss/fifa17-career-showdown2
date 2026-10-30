@@ -1,4 +1,5 @@
 "use strict";
+const rosterRoulette=require("./support/roster-roulette.cjs");
 // r79 PR5: the whole two-player journey in one run, plus the reads/writes per season meter.
 // Real app, two Chromium contexts (Daniel = playerOne, Nik = playerTwo), Auth + Firestore emulators with the composed
 // production Rules (test project demo-cms-browser-journey only; production Firebase hosts are recorded and fail the run).
@@ -389,7 +390,7 @@ async function continueToSeason(daniel,nik,season,total){
     await m.page.waitForFunction(next=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${next}`,season,{timeout:45000});
     await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
     await m.page.waitForFunction(value=>document.getElementById("seasonIndicator")?.textContent===value,`Season ${season} / ${total}`,{timeout:30000});
-    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
+    await rosterRoulette.waitForTransfer(m.page,30000);
   }
 }
 // One season's Transfer Challenge through the real UI: window, guesses, signings, then both open Season Results.
@@ -436,7 +437,7 @@ async function playSetupToTransferChallenge(daniel,nik){
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
   for(const m of [daniel,nik]){
-    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:45000});
+    await rosterRoulette.waitForTransfer(m.page,45000);
     await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
   }
   return clubs;
@@ -558,7 +559,7 @@ async function main(){
     await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
     await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
     for(const m of [daniel,nik]){
-      await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:45000});
+      await rosterRoulette.waitForTransfer(m.page,45000);
       await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
     }
     meter.mark("season:transfer");
