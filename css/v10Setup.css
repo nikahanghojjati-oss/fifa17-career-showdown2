@@ -104,7 +104,10 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   width: min(1040px, 94vw);
   margin: 22px auto 0;
 }
-:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin > h2[data-route-focus-target="true"]:focus { outline: 1px solid rgba(242, 196, 91, .5); outline-offset: 4px; }
+/* HO-045: the screen title (focused by the app when a screen opens) shows its thin ring for keyboard focus only, never a
+   box on mouse or touch focus. #app out-ranks the JOB-1132 Select League ring, which stays on SPIN WHEEL and BACK. */
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin > h2[data-route-focus-target="true"]:focus:not(:focus-visible) { outline: none; box-shadow: none; }
+#app :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin > h2[data-route-focus-target="true"]:focus-visible { outline: 1px solid rgba(242, 196, 91, .5); outline-offset: 4px; box-shadow: none; }
 
 /* ---------- shared screen kit ---------- */
 :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin { color: var(--v26-text); }
@@ -376,11 +379,20 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
     url("../visual-assets/v10_1/shared/art/wheel/WHEEL_RIM_V1.webp") center / 100% 100% no-repeat;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .72));
 }
+/* Slice dividers: five drawn gold lines of one width (an SVG), not a conic-gradient hairline. A 0.5deg gradient sliver
+   is thinner than a pixel at the hub and fat at the rim, and when the track turns the GPU resamples it into a dashed,
+   flickering line (this is what the eye reads as a rough spin). Real strokes with round caps stay one clean line at
+   every angle; the track also keeps its own layer for the whole transition so nothing is re-rasterised mid-spin. */
 #leagueWheelScreen.v26Skin .wheelTrack {
   z-index: 1;
   display: block;
-  background: repeating-conic-gradient(from -36deg, rgba(242, 196, 91, .95) 0 .5deg, transparent .5deg 71.5deg, rgba(242, 196, 91, .95) 71.5deg 72deg);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 480 480'%3E%3Cg stroke='%23f2c45b' stroke-width='2.4' stroke-linecap='round' stroke-opacity='.95' fill='none'%3E%3Cline x1='240' y1='240' x2='98.9' y2='45.8'/%3E%3Cline x1='240' y1='240' x2='381.1' y2='45.8'/%3E%3Cline x1='240' y1='240' x2='468.3' y2='314.2'/%3E%3Cline x1='240' y1='240' x2='240' y2='480'/%3E%3Cline x1='240' y1='240' x2='11.7' y2='314.2'/%3E%3C/g%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
 }
+/* The names and marks ride on the track's layer. */
+#leagueWheelScreen.v26Skin .wheelItem { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
 #leagueWheelScreen.v26Skin .wheelItem {
   position: absolute;
   left: 50%;
@@ -438,6 +450,17 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
 #leagueWheelScreen.v26Skin .v26Flash.is-active { animation: v26-wedge-flash 520ms cubic-bezier(.22, 1, .36, 1) both; }
 #leagueWheelScreen.v26Skin .wheelItem.v26-payoff::before { animation: v26-mark-pop 520ms cubic-bezier(.22, 1, .36, 1) both; }
 #leagueWheelScreen.v26Skin .v26Burst { position: absolute; inset: 0; z-index: 4; width: 100%; height: 100%; pointer-events: none; }
+/* Wheel polish (HO-027): a busy or spinning button keeps the full gold look, never the see-through disabled fade. */
+#leagueWheelScreen.v26Skin #spinLeague:disabled,
+#leagueWheelScreen.v26Skin .wheelContainer > .backButton:disabled { opacity: 1; filter: none; transform: none; }
+#leagueWheelScreen.v26Skin #spinLeague:disabled { color: var(--sd-text-on-gold, #07080a); background: linear-gradient(180deg, #ffd34d, #f5c518 55%, #d4a017); }
+/* While the wheel turns, the league names and marks get a dark edge so they stay readable as they pass the gold top wedge. */
+#leagueWheelScreen.v26Skin.v26-spinning .wheelItem { text-shadow: 0 0 3px rgba(0, 0, 0, .95), 0 1px 2px rgba(0, 0, 0, .9); }
+#leagueWheelScreen.v26Skin.v26-spinning .wheelItem[data-league-mark]::before { filter: grayscale(1) sepia(.32) brightness(1.32) contrast(1.02) drop-shadow(0 0 2px rgba(0, 0, 0, .95)); }
+/* The revealed league's lock note arrives with the result instead of popping in. */
+#leagueWheelScreen.v26Skin .wheelContainer > .stateNote:not(.hidden) { animation: v26-note-in 360ms cubic-bezier(.22, 1, .36, 1) both; }
+@keyframes v26-note-in { from { opacity: 0; transform: translate3d(0, 6px, 0); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { #leagueWheelScreen.v26Skin .wheelContainer > .stateNote:not(.hidden) { animation: none; } }
 @keyframes v26-wedge-flash { 0%, 100% { opacity: 0; transform: scale(.985); } 34% { opacity: .92; transform: scale(1.012); } 64% { opacity: .38; transform: scale(1); } }
 @keyframes v26-mark-pop { 0%, 100% { transform: scale(1); } 46% { transform: scale(1.15); } 72% { transform: scale(1.08); } }
 
@@ -1620,13 +1643,35 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
   }
 }
 
+/* r86 HO-044 tall phones: upright phones 340-430px wide, up to 960px tall and below 59/128 wide-to-tall (down to 17/48,
+   340x960) draw Team V's ENV_LEAGUE_PHONE_TALL_V5 (1179x2620, 9:20: the V5 men, plinth and stadium with more sky and
+   floor) the same way as the V5 swap below: cover, pinned to the top, no overlay, no dark grade, no cut-outs, and the
+   HO-032 wheel 15% smaller. Its faces sit 14.0% in from each side, so they stay on screen down to 340x960. This block
+   comes before the V5 one so V5 still wins at exactly 59/128. */
+@media (min-width: 340px) and (max-width: 430px) and (max-height: 960px) and (min-aspect-ratio: 17/48) and (max-aspect-ratio: 59/128) and (orientation: portrait) {
+  html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background {
+    background-image: url("../visual-assets/v10_1/plates-v5/ENV_LEAGUE_PHONE_TALL_V5.webp");
+    background-position: 50% 0;
+    background-size: cover;
+  }
+  html[data-v10-setup="league"] #overlay { background: none; }
+  #leagueWheelScreen.v26Skin .v26Art { display: none; }
+  #app #leagueWheelScreen.v26Skin { --v26-wheel-full: var(--v26-wheel); }
+  #app #leagueWheelScreen.v26Skin :is(.wheelPointer, #leagueWheel) {
+    --v26-wheel: calc(var(--v26-wheel-full) * .85);
+    --v26-wheel-cut: calc(var(--v26-wheel-full) * .15);
+  }
+  #app #leagueWheelScreen.v26Skin .wheelPointer { margin-top: calc(var(--v26-wheel-cut) * .5695); }
+  #app #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: calc(8px + var(--v26-wheel-cut) * .5); }
+}
+
 /* r78 HO-031 / HO-032 phone marble: upright phones 340-430px wide (up to 960px tall, the JOB-1697 phone layout) draw Team
    V's ENV_LEAGUE_PHONE_V5 (both managers painted in, set clear of the smaller wheel below) in place of the old phone stadium and the two cut-outs. The plate is
    cover of the screen, pinned to the top; the title, result line and buttons keep their places. No dark grade over the
    men. Cover crops the plate's sides on tall screens, so the swap stops at 59/128 (width / height, 0.4609): any taller
    and the screen edge would cut into Daniel's or Nik's face zone (9.03% and 9.11% in from the plate's sides), cropping
-   Daniel's ear and cheek first. Taller phones (412x915, 360x800, 430x960, 340x960) and the other phone and tablet sizes
-   keep the old art. */
+   Daniel's ear and cheek first. Taller phones (412x915, 384x854, 360x800, 430x960, 340x960) draw the 9:20 TALL plate
+   (HO-044, the block above); the other phone and tablet sizes keep the old art. */
 @media (min-width: 340px) and (max-width: 430px) and (max-height: 960px) and (min-aspect-ratio: 59/128) and (orientation: portrait) {
   html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background {
     background-image: url("../visual-assets/v10_1/plates-v5/ENV_LEAGUE_PHONE_V5.webp");

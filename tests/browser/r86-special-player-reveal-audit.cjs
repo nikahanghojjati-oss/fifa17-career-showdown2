@@ -114,8 +114,9 @@ function loadingUp(page){
       const took=Date.now()-t0;assert.ok(took<5000,`a missing page is skipped in ${took} ms`);
       await page.waitForFunction(()=>document.getElementById("loadingScreen").hidden,null,{timeout:2000});
       assert.equal(await page.locator("#specialPlayerStage").count(),0);
-      assert.equal(await page.evaluate(()=>localStorage.getItem("careerModeShowdown.specialPlayerSeen.v1")),null,"a skipped reveal is not marked seen");
-      console.log(`ok failure: a page that does not load is skipped in ${took} ms, loading screen gone, not marked seen`);
+      // r86 (red team #1): a skipped reveal is kept as seen, so a reload in season 1 never runs it again over the live game.
+      assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem("careerModeShowdown.specialPlayerSeen.v1"))),[`${RIVALRY}|playerOne`],"a skipped reveal is kept as seen");
+      console.log(`ok failure: a page that does not load is skipped in ${took} ms, loading screen gone, kept as seen`);
       await context.close();
     }
     {
@@ -131,8 +132,8 @@ function loadingUp(page){
       assert.equal(await page.evaluate(()=>Promise.race([window.__spRun,new Promise(resolve=>setTimeout(()=>resolve("stuck"),3000))])),"none","an error after ready ends the reveal");
       assert.equal(await page.locator("#specialPlayerStage").count(),0,"the broken stage is removed");
       assert.equal(await page.evaluate(()=>document.getElementById("loadingScreen").hidden),true);
-      assert.equal(await page.evaluate(()=>localStorage.getItem("careerModeShowdown.specialPlayerSeen.v1")),null,"not marked seen");
-      console.log("ok late failure: an error after ready removes the stage at once and hands back, not marked seen");
+      assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem("careerModeShowdown.specialPlayerSeen.v1"))),[`${RIVALRY}|playerOne`],"seen from the moment it was shown");
+      console.log("ok late failure: an error after ready removes the stage at once and hands back, kept as seen");
       await context.close();
     }
     console.log("PASS r86 Special Player reveal audit");

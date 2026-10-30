@@ -5,7 +5,8 @@
 // Showdowns (1,000 with CMS_SCALE_1000=1) and both managers it measures:
 //   first r86 open (no summaries yet: full read + one summary write per game, the one-time backfill),
 //   a known phone on a fresh page (phone copy: the index only),
-//   a new phone or wiped copy (index + one summary per game),
+//   a new phone or wiped copy (index + one summary per game; billed, each summary get also pays the Rules' activeAccount()
+//   lookup, so about index + 2 per game: red team #8; the check stays, it is the deleted-account boundary),
 //   and the time to build the career from the phone copy.
 // Hard ceilings (Gate): known phone <= index docs; new phone <= index docs + N; one write per game per manager, once.
 const assert=require('node:assert/strict');
@@ -100,7 +101,7 @@ function page(docs,phone,{hang=false}={}){
   vm.runInContext(read('js/careerSummaryStore.js'),c);
   vm.runInContext(read('js/sparkClosedShowdownCareerLoader.js'),c);
   const db={};
-  return {log,writes,settled:()=>c.CareerModeCareerSummaryStore.writesSettled(),load:uid=>c.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:db,firebaseSdk:sdk,user:{uid},cryptoImpl:webcrypto,phoneStorage:phone})};
+  return {log,writes,settled:()=>c.CareerModeCareerSummaryStore.writesSettled(),load:(uid,extra={})=>c.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:db,firebaseSdk:sdk,user:{uid},cryptoImpl:webcrypto,phoneStorage:phone,...extra})};
 }
 const strip=model=>JSON.stringify(model);
 // The production runtime's firestoreSdk carries no setDoc, so the History caller must hand the loader the imported SDK's
@@ -122,10 +123,45 @@ async function pendingWrite(){
   const next=page(docs,phone);complete(await next.load(uid),2,3);
   assert.deepEqual(next.log,[`accounts/${uid}/careerIndex/current`],'the phone copy was kept although the write never finished');
 }
+// Red team #7: a finished game damaged in its own documents (a season missing) fails the same way on every read. It is kept
+// for the page like a finished game, so a second career-screen open re-reads only the index head, not the whole game again.
+async function damagedGame(){
+  const docs=Object.assign({},game(1,3),game(2,3)),uid=accounts[0],phone=fakeIndexedDB();index(docs,uid,[rid(1),rid(2)]);
+  docs[`rivalries/${rid(2)}/seasonCommits/season_2`]={...docs[`rivalries/${rid(2)}/seasonCommits/season_2`],phase:'PENDING'};
+  const p=page(docs,phone),a=await p.load(uid);
+  assert.equal(a.model.coverage.readable,1,'the damaged game is left out, the good one counts');
+  const before=p.log.length;const b=await p.load(uid);
+  assert.equal(p.log.length-before,1,'second open on the same page rechecks the index head only');
+  assert.equal(strip(b.model),strip(a.model));
+  // Codex P2 on #1047: a Setup document that is missing for a moment is retried on the next open of the same page.
+  const late=game(3,3);index(late,uid,[rid(3)]);
+  const setup=`rivalries/${rid(3)}/sharedSetup/authoritative`,held=late[setup];delete late[setup];
+  const q=page(late,fakeIndexedDB());assert.equal((await q.load(uid)).model.coverage.readable,0);
+  late[setup]=held;assert.equal((await q.load(uid)).model.coverage.readable,1,'the restored Setup is read again');
+}
+// Sol r86 #11: every summary carries the reader version it came from (Firebase schemaVersion, phone readerVersion). A copy
+// from another version is never used: an old phone copy falls back to the Firebase summary, and a Firebase summary of
+// another version to the full read.
+async function readerVersion(){
+  const docs=game(1,3),uid=accounts[0],phone=fakeIndexedDB();index(docs,uid,[rid(1)]);
+  const first=page(docs,phone),a=await first.load(uid);await first.settled();complete(a,1,3);
+  const summary=`accounts/${uid}/careerSummary/${rid(1)}`,version=require('../../js/careerSummaryStore.js').readerVersion;
+  assert.equal(version,1);assert.equal(docs[summary].schemaVersion,version,'the Firebase summary carries the reader version');
+  assert.ok([...phone.data.values()].every(v=>v.readerVersion===version),'the phone copy carries the reader version');
+  for(const v of phone.data.values())v.readerVersion=version-1;
+  const oldCopy=page(docs,phone);complete(await oldCopy.load(uid),1,3);
+  assert.deepEqual(oldCopy.log,[`accounts/${uid}/careerIndex/current`,summary],'an old phone copy is not used: the Firebase summary answers');
+  docs[summary]={...docs[summary],schemaVersion:version+1};
+  const other=page(docs,fakeIndexedDB()),b=await other.load(uid);complete(b,1,3);
+  assert.ok(other.log.includes(`rivalries/${rid(1)}`),'a summary of another version is not used: the game is read in full');
+  assert.equal(strip(b.model),strip(a.model));
+}
 const counts=[10,30,100,...(process.env.CMS_SCALE_1000==='1'?[1000]:[])];
 const results=[];
 (async()=>{
   await pendingWrite();
+  await damagedGame();
+  await readerVersion();
   const TOTAL=10;
   for(const count of counts){
     const docs=Object.assign({},...Array.from({length:count},(_,i)=>game(i+1,TOTAL)));
@@ -135,7 +171,9 @@ const results=[];
       const indexDocs=pagedIndex(docs,uid,ids);
       const phone=fakeIndexedDB();
       // 1. First r86 open: no summary anywhere yet (the backfill); every game read in full, then summarised once.
-      const first=page(docs,phone),t1=Date.now(),a=await first.load(uid),firstMs=Date.now()-t1;await first.settled();
+      let beats=0;const first=page(docs,phone),t1=Date.now(),a=await first.load(uid,{onProgress:()=>{beats++;}}),firstMs=Date.now()-t1;await first.settled();
+      // Red team #10: a full read reports every season, so History's 15 s inactivity limit never cuts one long game.
+      assert.equal(beats,1+count*(TOTAL+1),'progress: start, every season read, every finished game');
       complete(a,count,TOTAL);
       assert.equal(first.writes.length,count,'one summary write per game');
       assert.equal(first.log.length,indexDocs+count*(1+2+4*TOTAL),'first open: index, then per game one summary check and the full read');
@@ -146,7 +184,9 @@ const results=[];
       // 3. A new phone (or a wiped copy): one summary per game, no full read, no write; afterwards it is a known phone.
       const fresh=fakeIndexedDB(),newPhone=page(docs,fresh),t3=Date.now(),c3=await newPhone.load(uid),newMs=Date.now()-t3;
       complete(c3,count,TOTAL);assert.equal(strip(c3.model),strip(a.model),'summary career = full read career');
-      assert.equal(newPhone.log.length,indexDocs+count,'new phone reads the index plus one summary per game');
+      // Red team #13: the Setup confirm time reaches every History row, from a full read and from a summary alike.
+      for(const m of [a,b,c3])assert.ok(m.model.history.showdowns.every(r=>Number.isFinite(r.setupConfirmedAt)),'History rows carry setupConfirmedAt');
+      assert.equal(newPhone.log.length,indexDocs+count,'new phone reads the index plus one summary per game (billed: plus one account lookup each)');
       assert.ok(newPhone.log.every(ref=>ref.startsWith(`accounts/${uid}/`)),'a new phone never touches a game document');
       assert.equal(newPhone.writes.length,0);
       const again=page(docs,fresh);await again.load(uid);assert.equal(again.log.length,indexDocs,'after one open the new phone is a known phone');

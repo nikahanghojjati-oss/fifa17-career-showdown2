@@ -17,6 +17,10 @@
   const CSS_MAX_PAYLOAD=262144;
   const CSS_DB="cms-career-summaries",CSS_STORE="summaries";
   const CSS_KEYS=Object.freeze(["schemaVersion","objectType","rivalryId","status","totalSeasons","managerTotals","winner","payload","payloadHash"]);
+  // The reader version this payload comes from (Sol r86 #11). The Firebase summary carries it as schemaVersion and the
+  // phone copy as readerVersion; a copy from another version is not used. A future reader change bumps it and, since a
+  // summary is never updated, the Rules then need the new schemaVersion and an update to a higher one.
+  const CSS_READER_VERSION=1;
   const cssLocal=new Map();
 
   function cssFreeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(cssFreeze);Object.freeze(value);}return value;}
@@ -82,11 +86,11 @@
   // ---- Firebase summary ----
   function cssDocument(state,payload,payloadHash){
     const w=state.status==="completed"?state.terminalWitness:null;
-    return {schemaVersion:1,objectType:"careerSummary",rivalryId:state.rivalryId,status:state.status,totalSeasons:w?w.totalSeasons:null,managerTotals:w?{playerOne:w.managerTotals.playerOne,playerTwo:w.managerTotals.playerTwo}:null,winner:w?w.winner:null,payload,payloadHash};
+    return {schemaVersion:CSS_READER_VERSION,objectType:"careerSummary",rivalryId:state.rivalryId,status:state.status,totalSeasons:w?w.totalSeasons:null,managerTotals:w?{playerOne:w.managerTotals.playerOne,playerTwo:w.managerTotals.playerTwo}:null,winner:w?w.winner:null,payload,payloadHash};
   }
   function cssValidDocument(value,rivalryId){
     return Boolean(value)&&typeof value==="object"&&Object.keys(value).length===CSS_KEYS.length&&CSS_KEYS.every(key=>Object.hasOwn(value,key))
-      &&value.schemaVersion===1&&value.objectType==="careerSummary"&&value.rivalryId===rivalryId&&CSS_STATUSES.includes(value.status);
+      &&value.schemaVersion===CSS_READER_VERSION&&value.objectType==="careerSummary"&&value.rivalryId===rivalryId&&CSS_STATUSES.includes(value.status);
   }
 
   // Phone copy first, then the Firebase summary (one exact get). null = read the Showdown in full.
@@ -94,7 +98,7 @@
     if(typeof uid!=="string"||!uid||!CSS_ID.test(String(rivalryId)))return null;
     try{
       const local=await cssLocalFor(uid,phoneStorage),kept=local.map.get(rivalryId);
-      if(kept){const state=await cssParse(kept.payload,kept.payloadHash,rivalryId,cryptoImpl);if(state)return {state,source:"phone"};local.map.delete(rivalryId);}
+      if(kept&&kept.readerVersion===CSS_READER_VERSION){const state=await cssParse(kept.payload,kept.payloadHash,rivalryId,cryptoImpl);if(state)return {state,source:"phone"};local.map.delete(rivalryId);}
     }catch(_error){}
     if(!firebase||!firestore||typeof firebaseSdk?.doc!=="function"||typeof firebaseSdk?.getDoc!=="function")return null;
     let snapshot;
@@ -104,7 +108,7 @@
     if(!cssValidDocument(value,rivalryId))return null;
     const state=await cssParse(value.payload,value.payloadHash,rivalryId,cryptoImpl);
     if(!state||state.status!==value.status)return null;
-    await cssPutLocal(uid,rivalryId,{payload:value.payload,payloadHash:value.payloadHash},phoneStorage);
+    await cssPutLocal(uid,rivalryId,{readerVersion:CSS_READER_VERSION,payload:value.payload,payloadHash:value.payloadHash},phoneStorage);
     return {state,source:"firebase"};
   }
   // After a full verified read: keep the phone copy, then start the summary write once (create-only; a summary the other
@@ -118,7 +122,7 @@
       const payload=JSON.stringify(state);
       if(payload.length>CSS_MAX_PAYLOAD)return {ok:false,written:Promise.resolve(false)};
       const payloadHash=await cssDigest(payload,cryptoImpl);if(!payloadHash)return {ok:false,written:Promise.resolve(false)};
-      await cssPutLocal(uid,state.rivalryId,{payload,payloadHash},phoneStorage);
+      await cssPutLocal(uid,state.rivalryId,{readerVersion:CSS_READER_VERSION,payload,payloadHash},phoneStorage);
       let written=Promise.resolve(false);
       if(writeFirebase&&firestore&&typeof firebaseSdk?.setDoc==="function"&&typeof firebaseSdk?.doc==="function"){
         try{written=Promise.resolve(firebaseSdk.setDoc(firebaseSdk.doc(firestore,"accounts",uid,"careerSummary",state.rivalryId),cssDocument(state,payload,payloadHash))).then(()=>true,()=>false);}catch(_error){written=Promise.resolve(false);}
@@ -131,5 +135,5 @@
   function cssSettled(){return Promise.all([...cssWrites]).then(()=>undefined);}
   function cssForget(){cssLocal.clear();}
 
-  return Object.freeze({contractVersion:1,feature:"cms-career-summary-store",statuses:CSS_STATUSES,summarisable:cssSummarisable,documentKeys:CSS_KEYS,maxPayload:CSS_MAX_PAYLOAD,loadSummary:cssLoad,saveSummary:cssSave,writesSettled:cssSettled,forgetPhoneCopies:cssForget,documentFor:cssDocument});
+  return Object.freeze({contractVersion:1,feature:"cms-career-summary-store",readerVersion:CSS_READER_VERSION,statuses:CSS_STATUSES,summarisable:cssSummarisable,documentKeys:CSS_KEYS,maxPayload:CSS_MAX_PAYLOAD,loadSummary:cssLoad,saveSummary:cssSave,writesSettled:cssSettled,forgetPhoneCopies:cssForget,documentFor:cssDocument});
 });

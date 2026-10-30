@@ -42,7 +42,8 @@
         if(entry.final?.totals?.playerOne!==a||entry.final?.totals?.playerTwo!==b||entry.final?.winner!==winner)throw new Error("CAREER_FINAL_MISMATCH");
         final={totals:{playerOne:a,playerTwo:b},winner};
       }
-      return {rivalryId:entry.rivalryId,classification,projection:p,final};
+      // r86 (red team #13): the Setup confirm time rides along, so a row can say whether this Showdown has Special Players.
+      return {rivalryId:entry.rivalryId,classification,projection:p,final,setupConfirmedAt:Number.isFinite(entry.setupConfirmedAt)?entry.setupConfirmedAt:null};
     }catch(_error){return {rivalryId:entry.rivalryId,classification:"unavailable",projection:null,final:null};}
   }
   function uniqueEntries(showdowns){

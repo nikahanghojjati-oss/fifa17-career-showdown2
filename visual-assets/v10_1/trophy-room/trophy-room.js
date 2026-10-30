@@ -14,6 +14,8 @@
   // r84 Golden Showdown: 110 points in a finished 10-season Showdown. Its gold case joins the ALL shelf only once a manager
   // has earned it (frame.goldenShowdowns is present only then).
   const GOLDEN = { key: "goldenShowdown", category: "ALL", asset: BASE + "../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp", value: f => f.goldenShowdowns };
+  // r86 Special Player chip next to the manager's name (only when the frame carries one: js/specialPlayerChip.js).
+  const spChip = (frame, manager) => { const api = window.CareerModeSpecialPlayerChip, sp = frame && frame.specialPlayers && frame.specialPlayers[manager]; return api && sp ? api.html(sp) : ""; };
 
   const state = { fixtures:null, frame:null, frameKey:"TR1", map:null, activeCategory:"ALL", stage:null, spotlightLit:false, heroSettled:false, heroGlintPlayed:false, shelfRevealed:false, countsRevealed:false, shimmeredTrophies:new Set(), tabTransitioning:false };
   const qs = new URLSearchParams(location.search);
@@ -76,7 +78,7 @@
       const s = frame.standings.find(x => x.manager === manager);
       const m = frame.managers[manager];
       if (!s || !m) return "";
-      return `<div class="careerRank careerRank--${manager}" data-rank-manager="${manager}"><strong>${esc(s.rank)}</strong><span>${esc(m.displayName)}</span><b>${m.careerPoints}</b><small>CAREER POINTS · ${m.seasonWins} SEASON WINS</small></div>`;
+      return `<div class="careerRank careerRank--${manager}" data-rank-manager="${manager}"><strong>${esc(s.rank)}</strong><span>${esc(m.displayName)}${spChip(frame, manager)}</span><b>${m.careerPoints}</b><small>CAREER POINTS · ${m.seasonWins} SEASON WINS</small></div>`;
     }).join("");
     return `<div class="careerRanks" data-sd-enter="panel" aria-label="Career standings">${rows}</div>`;
   }

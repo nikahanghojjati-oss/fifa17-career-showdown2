@@ -82,9 +82,10 @@ async function archives(){
     const docs=Object.assign({},...Array.from({length:count},(_,i)=>game(i+1)));
     index(docs,uid,Array.from({length:count},(_,i)=>rid(i+1)));
     const ticks=[],first=page(docs,uid),result=await first.load({onProgress:tick=>ticks.push(tick)});complete(result,count);
-    // r86 (S61-r85-04): one progress tick at the index, then one per Showdown read, ending at total.
-    assert.equal(ticks.length,count+1);assert.equal(JSON.stringify(ticks[0]),JSON.stringify({done:0,total:count}));assert.equal(JSON.stringify(ticks.at(-1)),JSON.stringify({done:count,total:count}));
-    assert.ok(ticks.every((t,i)=>t.done===i&&t.total===count),'progress counts up by one');
+    // r86 (S61-r85-04): one progress tick at the index, then one per Showdown read, ending at total; red team #10: plus one
+    // per season read inside each full read (same count), so one long Showdown keeps History's inactivity limit alive.
+    assert.equal(ticks.length,1+count*2);assert.equal(JSON.stringify(ticks[0]),JSON.stringify({done:0,total:count}));assert.equal(JSON.stringify(ticks.at(-1)),JSON.stringify({done:count,total:count}));
+    assert.ok(ticks.every((t,i)=>t.total===count&&(i===0||t.done===ticks[i-1].done||t.done===ticks[i-1].done+1)),'progress counts up by one');
     assert.equal(first.log.length,1+6*count,'cold loads verify every required source document');
     assert.ok(first.peak()>1,'a cold career must not fetch every season document serially');
     assert.ok(first.peak()<=12,'bounded cold reads: at most 3 Showdowns x 4 documents');

@@ -631,9 +631,12 @@ async function r3r4aPresentationContracts(){
     assert.equal(visible(h.screens.leagueWheelScreen),true,"Nik waits on the league wheel");
     assert.match(h.node("spinLeague").textContent,/WAITING FOR DANIEL/,"Nik still cannot spin");
     await h.push(leagueSetup);
-    assert.equal(h.node("selectedLeague").textContent,"Premier League","Nik sees the authoritative league reveal");
+    assert.equal(h.node("selectedLeague").textContent,"SPINNING…","wheel polish: the league name stays hidden while the wheel turns");
+    assert.equal(h.node("spinLeague").disabled,true,"wheel polish: Continue is not offered mid-spin");
+    await h.timers.fire(h.timers.pending().find(t=>t.ms===4120));await settle();
+    assert.equal(h.node("selectedLeague").textContent,"Premier League","Nik sees the authoritative league reveal once the wheel stops");
     assert.equal(visible(h.screens.leagueWheelScreen),true,"the league stays on screen while the wheel animates");
-    const forward=h.timers.pending().find(t=>t.ms===4200);assert.ok(forward,"an auto-forward is scheduled after the 4.1 s wheel");
+    const forward=h.timers.pending().find(t=>t.ms===6700);assert.ok(forward,"an auto-forward is scheduled after the 4.1 s wheel and the 2.6 s reveal hold");
     await h.timers.fire(forward);
     assert.equal(visible(h.screens.clubWheelScreen),true,"R3: Nik is on the club packs without a CONTINUE TO CLUB PACKS tap");
     assert.equal(visible(h.screens.leagueWheelScreen),false);
@@ -645,7 +648,7 @@ async function r3r4aPresentationContracts(){
     const h=presentationHarness({role:"playerOne",setup:leagueSetup});await h.api.activate();await settle();
     h.api.handleControlClick("spinLeague");await settle();
     assert.equal(visible(h.screens.clubWheelScreen),true,"the CONTINUE TO CLUB PACKS button still works as a fallback");
-    const forward=h.timers.pending().find(t=>t.ms===4200);await h.timers.fire(forward);
+    const forward=h.timers.pending().find(t=>t.ms===6700);await h.timers.fire(forward);
     assert.equal(visible(h.screens.clubWheelScreen),true,"a late auto-forward after a manual tap is a no-op");
     assert.match(h.node("openClubPack").textContent,/OPEN CLUB PACKS/,"OPEN CLUB PACKS stays Daniel's own host tap");
     assert.deepEqual(h.calls.mutations,[],"no draw was made for the host");
@@ -655,16 +658,16 @@ async function r3r4aPresentationContracts(){
     const h=presentationHarness({role:"playerTwo",setup:{phase:"SHARED_SETUP_OPEN",revision:1,coordinatorRole:"playerOne",confirmedRoles:[]}});
     await h.api.activate();await settle();await h.push(leagueSetup);
     h.dom.document.visibilityState="hidden";
-    await h.timers.fire(h.timers.pending().find(t=>t.ms===4200));
+    await h.timers.fire(h.timers.pending().find(t=>t.ms===6700));
     assert.equal(visible(h.screens.leagueWheelScreen),true,"R3 hidden: the league reveal stays on screen while the tab is hidden");
     assert.equal(visible(h.screens.clubWheelScreen),false,"R3 hidden: the club packs do not open in a hidden tab");
-    assert.equal(h.timers.pending().some(t=>t.ms===4200),false,"no forward is rescheduled while hidden");
+    assert.equal(h.timers.pending().some(t=>t.ms===6700),false,"no forward is rescheduled while hidden");
     const waiters=h.dom.listeners.filter(l=>l.type==="visibilitychange");assert.ok(waiters.length>=1,"the forward waits for visibilitychange");
     for(const l of waiters)l.fn();await settle();
     assert.equal(visible(h.screens.leagueWheelScreen),true,"R3 hidden: still hidden, so nothing moves");
     h.dom.document.visibilityState="visible";for(const l of h.dom.listeners.filter(l=>l.type==="visibilitychange"))l.fn();await settle();
     assert.equal(visible(h.screens.leagueWheelScreen),true,"R3 back: the revealed league is shown again before moving on");
-    const again=h.timers.pending().find(t=>t.ms===4200);assert.ok(again,"R3 back: a full forward delay starts once visible");
+    const again=h.timers.pending().find(t=>t.ms===2600);assert.ok(again,"R3 back: the full 2.6 s reveal hold starts once visible");
     await h.timers.fire(again);
     assert.equal(visible(h.screens.clubWheelScreen),true,"R3 back: then the club packs open");
     assert.deepEqual(h.calls.mutations,[],"still presentation only");
@@ -674,7 +677,7 @@ async function r3r4aPresentationContracts(){
     const h=presentationHarness({role:"playerOne",setup:lengthSetup([])});await h.api.activate();await settle();
     h.dom.document.getElementById("clubWheelScreen");await h.push(lengthSetup([]));
     // Witness the league, then the club screen.
-    const forward=h.timers.pending().find(t=>t.ms===4200);if(forward)await h.timers.fire(forward);
+    const forward=h.timers.pending().find(t=>t.ms===6700);if(forward)await h.timers.fire(forward);
     await h.push(lengthSetup(["playerOne"]));
     assert.equal(h.node("continueClubAssignment").textContent,"CONFIRMED · WAITING FOR RIVAL","Daniel confirmed first and waits");
     assert.equal(h.calls.careerStart,0,"Career Start does not open before the rival confirms");
@@ -686,7 +689,7 @@ async function r3r4aPresentationContracts(){
   }
   {
     const h=presentationHarness({role:"playerTwo",setup:lengthSetup([])});await h.api.activate();await settle();
-    const forward=h.timers.pending().find(t=>t.ms===4200);if(forward)await h.timers.fire(forward);
+    const forward=h.timers.pending().find(t=>t.ms===6700);if(forward)await h.timers.fire(forward);
     await h.push(lengthSetup(["playerOne"]));
     assert.equal(h.node("continueClubAssignment").textContent,"CONFIRM SHOWDOWN","Nik's own CONFIRM SHOWDOWN tap is still required");
     assert.equal(h.calls.careerStart,0,"a manager who has not confirmed is never moved on");
@@ -782,6 +785,7 @@ async function startupHoldContracts(){
 // rivalry; the new rivalry's setup was empty). Before this rivalry's league is drawn the note is hidden and the wheel is at rest.
 async function galleryFix2StaleLockContracts(){
   const h=presentationHarness({role:"playerTwo",setup:leagueSetup});await h.api.activate();await settle();
+  await h.timers.fire(h.timers.pending().find(t=>t.ms===4120));await settle();
   assert.match(h.node("leagueStateNote").textContent,/is locked for both managers/,"fixture: the first rivalry's league is locked on this page");
   const track=h.node("track");assert.equal(track.dataset.sharedLeagueId,"premier_league","fixture: the wheel turned to the first league");
   await h.push(null,{rivalryId:"pair_4"+"8".repeat(63)});

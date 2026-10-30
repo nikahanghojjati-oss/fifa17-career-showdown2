@@ -1,5 +1,5 @@
 'use strict';
-// r86 Marquee Player draw (Nik 2026-10-27): the list from Nik's PDF, the ranking badge colours, a draw both phones agree on
+// r86 Special Player draw (Nik 2026-10-27): the list from Nik's PDF, the ranking badge colours, a draw both phones agree on
 // with no IO, and the old-save boundary (Sol round 2: never in a hashed document; a missing field is "no MP", never an error).
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
@@ -72,7 +72,7 @@ assert.deepEqual(Object.keys(both.playerOne),['listVersion','rank','name','club'
 assert.deepEqual(MP.forNewShowdown(id),both,'the reveal and the career screens show the same players');
 assert.deepEqual(MP.forShowdown(id,{toMillis:()=>MP.fromMs+1}),both,'a Firestore Timestamp works too');
 for(const old of [MP.fromMs-1,null,undefined,'2026-10-29',NaN,{}])assert.equal(MP.forShowdown(id,old),null,`no MP for ${String(old)}`);
-ok('L4','a Showdown confirmed before r86 (or with no confirm time at all) has no Marquee Player; one confirmed after has the same pair the reveal showed');
+ok('L4','a Showdown confirmed before r86 (or with no confirm time at all) has no Special Player; one confirmed after has the same pair the reveal showed');
 
 // L5 old reads and the career model
 const fixture=JSON.parse(read('tests/fixtures/data-contract-v1/multi-showdown-career.json'));
@@ -99,4 +99,4 @@ ok('L5','older reads and saves carry a null confirm time (no MP, still ready); n
 }
 ok('L6','all launch-list clubs draw a real crest: 15 new ones (HO-038) plus the dataset names mapped to the catalog clubs');
 
-console.log(`PASS r86 Marquee Player contracts: ${checks} numbered checks (list, badges, draw, which Showdowns, old saves, crests).`);
+console.log(`PASS r86 Special Player contracts: ${checks} numbered checks (list, badges, draw, which Showdowns, old saves, crests).`);

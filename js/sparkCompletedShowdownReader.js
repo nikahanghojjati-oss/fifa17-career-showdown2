@@ -192,6 +192,7 @@
         ]);
         // Drain the whole batch on failure too, so retries cannot exceed the concurrent-read bound.
         const failed=documents.find(item=>item.status==="rejected");if(failed)throw failed.reason;
+        if(typeof options.onSeasonRead==="function")try{options.onSeasonRead(seasonNumber);}catch(_error){}
         const [publicValue,p1,p2,stored]=documents.map(item=>item.value);
         // A gap is never a shorter history: any missing season makes the whole Showdown unavailable.
         if(!publicValue||!p1||!p2||!stored)csrFail("COMPLETED_SEASON_MISSING");
@@ -208,7 +209,7 @@
       const a=projection.managerRecords.playerOne.totalPoints,b=projection.managerRecords.playerTwo.totalPoints,winner=a>b?"playerOne":b>a?"playerTwo":"draw";
       // Full coverage and both reconstructed totals must equal the Terminal Close witness; totals-only final winner.
       if(projection.acceptedSeasons!==total||projection.totalSeasons!==total||a!==intent.managerTotals.playerOne||b!==intent.managerTotals.playerTwo||winner!==intent.winner)csrFail("COMPLETED_TOTALS_MISMATCH");
-      // r86 Marquee Player: the Setup's confirm time (Rules: updatedAt == request.time at SHOWDOWN_CONFIRMED) says whether
+      // r86 Special Player: the Setup's confirm time (Rules: updatedAt == request.time at SHOWDOWN_CONFIRMED) says whether
       // this Showdown was set up on r86 or later; it is display metadata only and changes no verdict.
       const confirmedAt=ledger.updatedAt&&typeof ledger.updatedAt.toMillis==="function"?ledger.updatedAt.toMillis():null;
       return csrState("completed",{rivalryId,managerRole,terminalWitness:csrClone(intent),projection,final:{totals:{playerOne:a,playerTwo:b},winner,margin:Math.abs(a-b),seasonsPlayed:total},setupConfirmedAt:confirmedAt});
@@ -217,5 +218,11 @@
     }
   }
 
-  return Object.freeze({contractVersion:1,feature:"cms-completed-showdown-reader",statuses:STATUSES,readCompletedShowdown:csrRead,sessionRequired:false,deviceRequired:false,providerWriteRequired:false,listPermissionRequired:false,canonicalStorageMutation:false,billingRequired:false,sourceAuthorityPaths:Object.freeze(["rivalries/{rivalryId}","rivalries/{rivalryId}/sharedSetup/authoritative","rivalries/{rivalryId}/seasonResults/season_{N}","rivalries/{rivalryId}/seasonResults/season_{N}/roles/{playerOne|playerTwo}","rivalries/{rivalryId}/seasonCommits/season_{N}"])});
+  // r86 (red team #7): these failures come from the stored documents themselves (an invalid season, a totals mismatch), so a
+  // re-read on the same page can only fail the same way. A missing document, network, auth and loading failures stay retryable
+  // (a late write can still arrive: r83 cold career reads). COMPLETED_SETUP_INVALID is not listed: a missing Setup document
+  // reports it too (Codex P2 on #1047).
+  const PERMANENT_CODES=Object.freeze(["COMPLETED_BINDING_INVALID","COMPLETED_NOT_A_MANAGER","COMPLETED_RIVALRY_INTEGRITY_FAILED","COMPLETED_RIVALRY_INVALID","COMPLETED_SEASON_INVALID","COMPLETED_TERMINAL_WITNESS_INVALID","COMPLETED_TOTALS_MISMATCH"]);
+  const csrPermanentFailure=read=>Boolean(read)&&read.status==="unavailable"&&PERMANENT_CODES.includes(read.code);
+  return Object.freeze({contractVersion:1,feature:"cms-completed-showdown-reader",statuses:STATUSES,readCompletedShowdown:csrRead,permanentFailure:csrPermanentFailure,sessionRequired:false,deviceRequired:false,providerWriteRequired:false,listPermissionRequired:false,canonicalStorageMutation:false,billingRequired:false,sourceAuthorityPaths:Object.freeze(["rivalries/{rivalryId}","rivalries/{rivalryId}/sharedSetup/authoritative","rivalries/{rivalryId}/seasonResults/season_{N}","rivalries/{rivalryId}/seasonResults/season_{N}/roles/{playerOne|playerTwo}","rivalries/{rivalryId}/seasonCommits/season_{N}"])});
 });

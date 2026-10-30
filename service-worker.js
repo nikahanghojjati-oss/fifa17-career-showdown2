@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "1.9.9-r85";
-const PREVIOUS_RUNTIME_REVISION = "1.9.8-r84";
+const RUNTIME_REVISION = "1.9.10-r86";
+const PREVIOUS_RUNTIME_REVISION = "1.9.9-r85";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -92,6 +92,7 @@ const SHELL_PATHS = Object.freeze([
   "visual-assets/v10_1/roulette/vendor/three-r128.min.js",
   "visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt",
   "visual-assets/v10_1/roulette/assets/squads.json",
+  "js/specialPlayerChip.js",
   "js/careerStartMarker.js",
   "css/rivalryLegacyV10.css",
     "js/app.js",
@@ -282,10 +283,10 @@ const SHELL_PATH_SET = new Set(SHELL_PATHS);
 // this one: checked against SHELL_PATHS it would lack this release's new files, fail, and be deleted on activation, leaving
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION (and empties
 // the set when it changes PREVIOUS_RUNTIME_REVISION again). r80 adds no shell path to r79's 221 paths and removes none.
-// r85: the music player script is new since the previous release, so the rollback list stays exactly the previous one.
-// r87: the Deadline Day strip (js/deadlineDay.js) and its lines (data/deadlineDayLines.js) are new shell paths too, and so
-// are the Russian Roster Roulette step, its engine, squads, board store, styles and Team V's page (its frame navigation).
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/rosterRouletteStep.js","js/rosterRoulette.js","data/rosterSquads.js","css/v10Roulette.css","visual-assets/v10_1/roulette/index.html","visual-assets/v10_1/roulette/platemap.json","visual-assets/v10_1/roulette/vendor/three-r128.min.js","visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt","visual-assets/v10_1/roulette/assets/squads.json","js/musicDockV10.js","js/careerSummaryStore.js","js/specialPlayerReveal.js","visual-assets/v10_1/special-player/index.html","js/marqueePlayer.js","data/marqueePlayers.js","js/deadlineDay.js","data/deadlineDayLines.js"]);
+// r86: PREVIOUS is now r85, whose own list already holds the music player; these are the six files r86 adds to its 222.
+// r87 (until its own release moves PREVIOUS to r86): r86's six, plus the Deadline Day strip and lines and the Russian Roster
+// Roulette step, engine, squads, styles and Team V's page with its vendored three.js.
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/careerSummaryStore.js","js/specialPlayerReveal.js","visual-assets/v10_1/special-player/index.html","js/marqueePlayer.js","data/marqueePlayers.js","js/specialPlayerChip.js","js/rosterRouletteStep.js","js/rosterRoulette.js","data/rosterSquads.js","css/v10Roulette.css","visual-assets/v10_1/roulette/index.html","visual-assets/v10_1/roulette/platemap.json","visual-assets/v10_1/roulette/vendor/three-r128.min.js","visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt","visual-assets/v10_1/roulette/assets/squads.json","js/deadlineDay.js","data/deadlineDayLines.js"]);
 const PREVIOUS_SHELL_PATHS = Object.freeze(SHELL_PATHS.filter(path=>!SHELL_PATHS_ADDED_SINCE_PREVIOUS.has(path)));
 function shellPathsForRevision(revision){ return revision&&revision!==RUNTIME_REVISION&&revision===PREVIOUS_RUNTIME_REVISION?PREVIOUS_SHELL_PATHS:SHELL_PATHS; }
 

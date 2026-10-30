@@ -15,7 +15,8 @@ export const MODEL_FILE="SHARED_SHOWDOWN_JOURNEY_MODEL_SSJR2.json";
 export const LEDGER_FILE="SHARED_SHOWDOWN_JOURNEY_READINESS_SSJR2.json";
 export const ATTESTATION_SCHEMA="career-mode-showdown.ssjr2-owner-attestation.v1";
 export const ATTESTATION_STATEMENT="I confirm that Daniel and Nik personally played this Shared Showdown on the production game, on their own separate devices and networks, and that the two attached exports came from those devices without editing.";
-export const REQUIRED_MAIN_CHECKS=Object.freeze(["POS20 exact-head cognitive seal","POS20 gameplay lifecycle 1/3/5/10","deploy","deployed-site-smoke"]);
+// Showdown Gate names since the 2026-10-10 switch (validate-pos10.yml is dispatch-only): seal needs every lane green, L4 runs lifecycle 1/3/5/10.
+export const REQUIRED_MAIN_CHECKS=Object.freeze(["seal","L1 core","L2 browser full","L3A storage gameplay","L3B visual","L4 remote","L5 rules regression","L6 browser journey","deploy","deployed-site-smoke"]);
 export const RULES_WORKFLOW="deploy-firestore-rules-zero-billing.yml";
 const ATTESTATION_KEYS=["schema","owner","runDate","runtimeRevision","managers","deviceLabels","exportHashes","statement","stableReleaseAccepted"];
 const HASH=/^sha256:[a-f0-9]{64}$/;
@@ -145,7 +146,7 @@ export function recordRun({assessment,attestationText,verification,ledger=loadLe
 const self=fileURLToPath(import.meta.url);
 if(process.argv[1]&&path.resolve(process.argv[1])===self){
   const args=process.argv.slice(2),flags=new Set(args.filter(arg=>arg.startsWith("--")));
-  const shaIndex=args.indexOf("--main-sha"),mainSha=shaIndex>=0?args[shaIndex+1]:null,files=args.filter((arg,index)=>!arg.startsWith("--")&&index!==shaIndex+1);
+  const shaIndex=args.indexOf("--main-sha"),mainSha=shaIndex>=0?args[shaIndex+1]:null,files=args.filter((arg,index)=>!arg.startsWith("--")&&!(shaIndex>=0&&index===shaIndex+1));
   const usage="Usage:\n  node scripts/ssjr2-physical-run-credit.mjs --draft-attestation <daniel.json> <nik.json>\n  node scripts/ssjr2-physical-run-credit.mjs <daniel.json> <nik.json> <attestation.json> [--record --main-sha <production-main-sha>]";
   const texts=files.map(file=>fs.readFileSync(path.resolve(file),"utf8"));
   if(flags.has("--draft-attestation")){if(files.length!==2){console.error(usage);process.exit(2);}console.log(JSON.stringify(draftAttestation({first:JSON.parse(texts[0]),second:JSON.parse(texts[1]),firstText:texts[0],secondText:texts[1]}),null,2));process.exit(0);}

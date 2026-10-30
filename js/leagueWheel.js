@@ -2,7 +2,7 @@
 
 const LEAGUE_WHEEL_SPIN_MS = 4000;
 const LEAGUE_WHEEL_REDUCED_SPIN_MS = 80;
-const LEAGUE_WHEEL_TRANSITION_EASING = "cubic-bezier(.16,.76,.16,1)";
+const LEAGUE_WHEEL_TRANSITION_EASING = "cubic-bezier(.2,.62,.18,1)";
 
 let leagueWheelSpinInProgress = false;
 let leagueWheelOperationId = 0;
@@ -277,7 +277,7 @@ function spinLeagueWheel(){
     setLeagueWheelTransition(track, 0);
     void track.offsetWidth;
     setLeagueWheelTransition(track, timing.spin);
-    track.style.transform = `rotate(${getLeagueRotation(selected.id, 5)}deg)`;
+    track.style.transform = `rotate(${getLeagueRotation(selected.id, 3)}deg)`;
 
     leagueWheelSpinTimer = window.setTimeout(() => {
         leagueWheelSpinTimer = null;
