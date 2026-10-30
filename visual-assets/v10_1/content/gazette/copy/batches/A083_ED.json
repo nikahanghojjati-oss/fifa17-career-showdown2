@@ -1,0 +1,809 @@
+{
+  "batch": 83,
+  "situation": "league-title",
+  "edition": "season",
+  "lens": "Stage and screen",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b83-001",
+      "kicker": "TITLE DESK",
+      "headline": "THE LEAGUE TAKES THE STAGE",
+      "subhead": "The domestic championship belongs to {winnerClub}, giving {winner} a leading achievement in a season still measured against a friend.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-002",
+      "kicker": "SEASON REVIEW",
+      "headline": "A TITLE IN THE LIMELIGHT",
+      "subhead": "With league honors secured, {winner} has made the familiar rivalry feel larger without deciding what comes next.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-003",
+      "kicker": "FOOTBALL EDITION",
+      "headline": "CHAMPIONSHIP IN CLOSEUP",
+      "subhead": "The domestic title places {winner} in sharp focus, an individual managerial achievement grounded in the league's final reckoning.",
+      "score": 10,
+      "was": "headline: THE CHAMPION'S CLOSEUP; subhead: A league title now stands beside {winner}'s name, the kind of distinction that needs no dramatic embellishment."
+    },
+    {
+      "id": "b83-004",
+      "kicker": "HONORS REGISTER",
+      "headline": "CURTAIN RISES ON A CHAMPION",
+      "subhead": "The league championship has gone to {winnerClub}, an accomplishment worth savoring before the Showdown turns another page.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-005",
+      "kicker": "SPORTING RECORD",
+      "headline": "A LEADING ROLE EARNED",
+      "subhead": "For {winner}, domestic supremacy is no supporting detail, even as {loser} pursues an equally meaningful season of their own.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-006",
+      "kicker": "BACK PAGE",
+      "headline": "TOP BILLING FOR A TITLE",
+      "subhead": "The league crown makes {winnerClub} a leading story at home, regardless of what the larger Showdown ledger ultimately reveals.",
+      "score": 10,
+      "was": "headline: THE TITLE GETS TOP BILLING; subhead: Among the honors available this season, {winnerClub} has taken the domestic league prize and its lasting place in the record."
+    },
+    {
+      "id": "b83-007",
+      "kicker": "CHAMPIONS FILE",
+      "headline": "DOMESTIC GLORY PREMIERES",
+      "subhead": "As league champion, {winner} takes a distinction that cannot be shared with the rival on this particular domestic stage.",
+      "score": 9,
+      "was": "headline: THE SEASON'S MAIN FEATURE; subhead: League glory gives {winner} a defining achievement, one the Gazette can report without inventing a single moment on the pitch."
+    },
+    {
+      "id": "b83-008",
+      "kicker": "IN THE SPOTLIGHT",
+      "headline": "CREDITS ROLL FOR A CHAMPION",
+      "subhead": "For {winnerClub}, a league title provides the closing credit every domestic contender hopes to earn at the end of a campaign.",
+      "score": 10,
+      "was": "headline: THE CREDITS NAME A CHAMPION; subhead: Whatever other prizes this season may hold, the league championship is securely attached to {winnerClub} and its manager."
+    },
+    {
+      "id": "b83-009",
+      "kicker": "EDITORIAL VIEW",
+      "headline": "DOMESTIC GLORY ON SCREEN",
+      "subhead": "The league title brings {winner} a clear sporting honor, while the wider rivalry remains a story of competing ambitions.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-010",
+      "kicker": "THE BIG PICTURE",
+      "headline": "CHAMPIONSHIP FILLS THE FRAME",
+      "subhead": "Whatever else this rivalry produces, the domestic league honor is securely in {winnerClub}'s possession this season.",
+      "score": 10,
+      "was": "headline: A CHAMPION FILLS THE FRAME; subhead: There is room for plenty of drama in this contest, but the league championship belongs to {winnerClub} this season."
+    },
+    {
+      "id": "b83-011",
+      "kicker": "LEAGUE DISPATCH",
+      "headline": "FOOTLIGHTS FAVOR THE TITLE",
+      "subhead": "The championship has been secured by {winner}, whose domestic success now demands the attention of every season review.",
+      "score": 10,
+      "was": "headline: THE TITLE UNDER FOOTLIGHTS; subhead: By securing the domestic league crown, {winner} has given the season a landmark that requires no imagined matchday detail."
+    },
+    {
+      "id": "b83-012",
+      "kicker": "GAZETTE SPECIAL",
+      "headline": "CHAMPIONSHIP, CENTER STAGE",
+      "subhead": "League victory brings {winnerClub} the highest domestic league honor, a centerpiece for any account of this campaign.",
+      "score": 9,
+      "was": "headline: AN ACT OF CHAMPIONSHIP; subhead: A league title has become part of {winnerClub}'s season, providing substance behind the grand language of the front page."
+    },
+    {
+      "id": "b83-013",
+      "kicker": "HONORS EDITION",
+      "headline": "PLOT TWIST: LEAGUE GLORY",
+      "subhead": "For {winner}, the domestic championship supplies an excellent turn in the season's story and a proud place in the record.",
+      "score": 10,
+      "was": "headline: THE PLOT FINDS ITS CHAMPION; subhead: The domestic title makes {winner} a champion this campaign, though the friendly comparison still has more than one measure."
+    },
+    {
+      "id": "b83-014",
+      "kicker": "THE SEASON FILE",
+      "headline": "PREMIERE OF THE PRIZE",
+      "subhead": "The league championship now belongs to {winnerClub}, a major domestic distinction that deserves more than a passing mention.",
+      "score": 9,
+      "was": "headline: A PREMIERE FOR THE PRIZE; subhead: The league championship gives {winnerClub} an occasion worthy of the marquee, regardless of the other season honors."
+    },
+    {
+      "id": "b83-015",
+      "kicker": "PRESS BOX",
+      "headline": "FINAL CUT FAVORS GLORY",
+      "subhead": "The domestic league honor is settled in {winner}'s favor, making a championship the enduring image from this campaign.",
+      "score": 10,
+      "was": "headline: THE FINAL CUT FAVORS GLORY; subhead: With the league title won, {winner} can enjoy a finished achievement while {loser} has their own story to write."
+    },
+    {
+      "id": "b83-016",
+      "kicker": "TITLE REPORT",
+      "headline": "CHAMPIONSHIP, FRAME BY FRAME",
+      "subhead": "The league prize goes to {winnerClub}, a reward large enough to outlast the fleeting excitement of any headline.",
+      "score": 9,
+      "was": "headline: A SCENE WORTH PRESERVING; subhead: A domestic championship is an enduring addition to {winnerClub}'s record, however the Showdown totals ultimately shape this rivalry."
+    },
+    {
+      "id": "b83-017",
+      "kicker": "THE HOME EDITION",
+      "headline": "CHAMPION'S STORY UNFOLDS",
+      "subhead": "In the domestic league, {winner} has achieved the highest distinction available and given the rivalry another genuine talking point.",
+      "score": 9,
+      "was": "headline: THE CHAMPION'S STORY UNFOLDS; subhead: For {winner}, the league title is a complete sporting triumph, not merely a scene in a larger competition."
+    },
+    {
+      "id": "b83-018",
+      "kicker": "TROPHY CHRONICLE",
+      "headline": "LEADING ROLE FOR LEAGUE GLORY",
+      "subhead": "The title now belongs to {winnerClub}, a domestic honor that merits attention even within the broader Showdown.",
+      "score": 9,
+      "was": "headline: THE LEAD BELONGS TO GLORY; subhead: The domestic league honor has gone to {winnerClub}, giving the season a headline achievement that stands on its own."
+    },
+    {
+      "id": "b83-019",
+      "kicker": "SEASON CHRONICLE",
+      "headline": "HONORS BEHIND THE CURTAIN",
+      "subhead": "With the league championship in hand, {winner} has earned a place among this season's domestic success stories.",
+      "score": 10,
+      "was": "subhead: Beyond any theatrical flourish, {winner} has earned the league championship and a genuine source of pride in this rivalry."
+    },
+    {
+      "id": "b83-020",
+      "kicker": "THE TITLE PAGE",
+      "headline": "CHAMPION ENTERS THE FRAME",
+      "subhead": "The domestic championship marks a significant success for {winner}, while the friendship behind the rivalry keeps the larger contest alive.",
+      "score": 9,
+      "was": "headline: A CHAMPION IN FOCUS; subhead: League success gives {winnerClub} an unmistakable distinction, with the larger Showdown still inviting comparison between the managers."
+    },
+    {
+      "id": "b83-021",
+      "kicker": "FRONT PAGE ALERT",
+      "headline": "ROLL OUT THE RED CARPET!",
+      "subhead": "The league championship belongs to {winner}, and this is a moment that merits a grand entrance in print.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-022",
+      "kicker": "BREAKING HONORS",
+      "headline": "LIGHT UP THE MARQUEE!",
+      "subhead": "A domestic title is coming home with {winnerClub}, leaving no doubt about who takes this particular honor.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-023",
+      "kicker": "THE BIG REVEAL",
+      "headline": "CUE THE CHAMPION!",
+      "subhead": "The league prize has been claimed by {winner}, adding a powerful new scene to their Showdown campaign.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-024",
+      "kicker": "CHAMPIONS BULLETIN",
+      "headline": "RAISE THAT CURTAIN!",
+      "subhead": "For {winnerClub}, the domestic title is settled and the Gazette has a leading achievement to announce.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-025",
+      "kicker": "LATE EDITION",
+      "headline": "TAKE THE SPOTLIGHT!",
+      "subhead": "The championship has gone to {winner}, making the league race a successful chapter of their season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-026",
+      "kicker": "NEWSFLASH",
+      "headline": "STRIKE THE OPENING CHORD!",
+      "subhead": "The domestic title has gone to {winnerClub}, supplying an occasion that deserves its own magnificent announcement.",
+      "score": 9,
+      "was": "headline: SOUND THE FANFARE!; subhead: With domestic league honors secured, {winnerClub} deserves recognition that can carry well beyond this particular page."
+    },
+    {
+      "id": "b83-027",
+      "kicker": "LEAGUE EXTRA",
+      "headline": "STEAL THE SHOW, CHAMPION!",
+      "subhead": "The domestic title belongs to {winner}, whatever verdict the full season comparison eventually delivers between the managers.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-028",
+      "kicker": "CHAMPIONS ALERT",
+      "headline": "ROLL THE TITLE SEQUENCE!",
+      "subhead": "The opening name is {winnerClub}, whose league championship gives this campaign a genuine reason for celebration.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-029",
+      "kicker": "THE LATEST",
+      "headline": "CUT TO THE CHAMPION!",
+      "subhead": "The league title now belongs to {winner}, an achievement that brings its own satisfying conclusion to the domestic campaign.",
+      "score": 10,
+      "was": "subhead: There is no need to dramatize an unknown match because {winner} has already secured the domestic league title."
+    },
+    {
+      "id": "b83-030",
+      "kicker": "HONORS FLASH",
+      "headline": "SHAKE THE THEATRE!",
+      "subhead": "League success gives {winner} a reason to celebrate, while {loser} remains an essential part of the friendly contest.",
+      "score": 9,
+      "was": "headline: BRING DOWN THE HOUSE!; subhead: A league crown is a major achievement for {winnerClub}, and its place in the Showdown record is assured."
+    },
+    {
+      "id": "b83-031",
+      "kicker": "SPORTS EXTRA",
+      "headline": "PUT GLORY ON THE BILL!",
+      "subhead": "The league title now belongs to {winner}, earning top billing among the season's confirmed domestic accomplishments.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-032",
+      "kicker": "TITLE BULLETIN",
+      "headline": "MAKE WAY FOR THE STAR!",
+      "subhead": "With the league championship in hand, {winnerClub} has supplied the season with an authentic headline act.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-033",
+      "kicker": "THE DAILY DRAMA",
+      "headline": "FILL THE PLAYBILL!",
+      "subhead": "The domestic title gives {winner} the main attraction of this edition, with league success bringing genuine reason to celebrate.",
+      "score": 9,
+      "was": "headline: STRIKE UP THE THEATRE!; subhead: Domestic success gives {winner} an occasion for celebration even while the friendly rivalry offers further prizes to chase."
+    },
+    {
+      "id": "b83-034",
+      "kicker": "CHAMPIONS EDITION",
+      "headline": "CHAMPION, TAKE THE MIC!",
+      "subhead": "Domestic success for {winnerClub} is worthy of the grandest stage, even as other honors have their own stories.",
+      "score": 10,
+      "was": "headline: TURN UP THE HOUSE LIGHTS!; subhead: The league championship is {winnerClub}'s this season, a triumph that stands up without any invented scoreline."
+    },
+    {
+      "id": "b83-035",
+      "kicker": "NEWS DESK",
+      "headline": "ROLL THE WINNING REEL!",
+      "subhead": "A domestic title is the real story for {winner}, with the rest of the campaign still open to comparison.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-036",
+      "kicker": "TROPHY EXTRA",
+      "headline": "PUT THE CHAMPION ON STAGE!",
+      "subhead": "The league trophy now belongs to {winnerClub}, providing the central achievement in this edition's domestic account.",
+      "score": 9,
+      "was": "headline: OPEN THE CHAMPION'S ACT!; subhead: The league trophy belongs to {winnerClub}, furnishing this season with an achievement that deserves its own announcement."
+    },
+    {
+      "id": "b83-037",
+      "kicker": "LEAGUE ALERT",
+      "headline": "LET THE TITLE SHINE!",
+      "subhead": "For {winner}, league honors turn an ordinary season entry into a lasting point of distinction.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-038",
+      "kicker": "RESULTS EXTRA",
+      "headline": "FOCUS ON THE WINNER!",
+      "subhead": "The domestic championship has been secured by {winnerClub}, placing league honors at the center of the season's news.",
+      "score": 9,
+      "was": "subhead: The domestic championship has been secured by {winnerClub}, making league success the central news in this particular dispatch."
+    },
+    {
+      "id": "b83-039",
+      "kicker": "HONORS UPDATE",
+      "headline": "GIVE GLORY ITS ENTRANCE!",
+      "subhead": "A league title brings {winner} a major honor and fresh momentum in the friendly contest beyond domestic football.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-040",
+      "kicker": "SPECIAL REPORT",
+      "headline": "PLAY THE CHAMPION'S REEL!",
+      "subhead": "The league championship goes to {winnerClub}, whose domestic triumph takes pride of place in this season's sporting record.",
+      "score": 9,
+      "was": "subhead: The league championship has gone to {winnerClub}, and this broadcast deserves a triumphant ending without pretending to know the fixtures."
+    },
+    {
+      "id": "b83-041",
+      "kicker": "FOOTBALL FOCUS",
+      "headline": "BOX OFFICE AT THE TOP",
+      "subhead": "A league crown makes {winner} the headline attraction here, though the Showdown judges each manager across more than domestic competition.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-042",
+      "kicker": "TABLE TALK",
+      "headline": "THE TITLE TAKES A BOW",
+      "subhead": "Domestic league honors belong to {winner}, and the championship record will preserve that accomplishment beyond this season's final page.",
+      "score": 10,
+      "was": "subhead: The league championship belongs to {winnerClub}, and that achievement can stand upright without a fabricated final whistle."
+    },
+    {
+      "id": "b83-043",
+      "kicker": "DUGOUT DESK",
+      "headline": "NO OFFSIDE IN THE SCRIPT",
+      "subhead": "The league crown has been secured by {winnerClub}, leaving no dispute over this particular domestic achievement.",
+      "score": 9,
+      "was": "subhead: No rule can put {winner}'s league achievement out of play, even if other season honors remain to be counted."
+    },
+    {
+      "id": "b83-044",
+      "kicker": "CABINET NOTES",
+      "headline": "CUP IN THE LEAD ROLE",
+      "subhead": "A league trophy belongs to {winnerClub}, and the championship makes the club a deserved focus of domestic attention.",
+      "score": 9,
+      "was": "headline: CUP THE APPLAUSE; subhead: The domestic league title belongs to {winnerClub}, adding a worthy trophy to the championship narrative this season."
+    },
+    {
+      "id": "b83-045",
+      "kicker": "PRESS GALLERY",
+      "headline": "NETTING THE LEAD ROLE",
+      "subhead": "For {winner}, the big sporting part is written in the league record, where a championship now appears.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-046",
+      "kicker": "SEASON SPOTLIGHT",
+      "headline": "TOP FLIGHT, TOP BILLING",
+      "subhead": "The league crown gives {winnerClub} a prominent place on the domestic stage, irrespective of the wider Showdown result.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-047",
+      "kicker": "THE GAME SHEET",
+      "headline": "WHISTLE BEFORE CURTAIN",
+      "subhead": "The league season ends with {winner} holding the championship and {loser} still a worthy rival in the Showdown.",
+      "score": 9,
+      "was": "headline: A WHISTLE FOR THE CURTAIN; subhead: When the league campaign ends, {winner} has a championship to show for it and the rival has more to pursue."
+    },
+    {
+      "id": "b83-048",
+      "kicker": "TITLE TICKER",
+      "headline": "CABINET MAKES A CAMEO",
+      "subhead": "The league title adds a valuable piece of domestic silverware to {winnerClub}'s season, strengthening its credentials in this rivalry.",
+      "score": 10,
+      "was": "headline: THE CABINET GETS A CAMEO; subhead: The league title belongs to {winnerClub}, giving the season a trophy moment without requiring any imagined celebration."
+    },
+    {
+      "id": "b83-049",
+      "kicker": "SPORTS COLUMN",
+      "headline": "POSTER CHILD FOR THE TITLE",
+      "subhead": "League championship status puts {winner} on the season's marquee, an achievement that will stand beyond the current campaign.",
+      "score": 10,
+      "was": "subhead: A domestic championship puts {winner} on the season's imagined poster, with the real achievement firmly established."
+    },
+    {
+      "id": "b83-050",
+      "kicker": "THE TOP LINE",
+      "headline": "BAR SET FOR TOP BILLING",
+      "subhead": "Securing the league crown establishes {winner} as champion at home, an honor no future season can take away.",
+      "score": 9,
+      "was": "headline: PITCH PERFECT PREMIERE; subhead: The league title is {winnerClub}'s finest confirmed domestic billing, whatever other honors may accompany this campaign."
+    },
+    {
+      "id": "b83-051",
+      "kicker": "ON THE RECORD",
+      "headline": "EXTRA TIME FOR THE CREDITS",
+      "subhead": "League glory belongs to {winner}, an achievement worth lingering over before the rivalry moves toward another season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-052",
+      "kicker": "GAZETTE DESK",
+      "headline": "TROPHY STEPS INTO THE LIGHT",
+      "subhead": "The domestic championship belongs to {winnerClub}, giving a major piece of league silverware its deserved place in the foreground.",
+      "score": 10,
+      "was": "headline: THE TROPHY HAS A STARRING ROLE; subhead: The domestic championship is secured for {winnerClub}, giving the club a prize that no headline trick needs to inflate."
+    },
+    {
+      "id": "b83-053",
+      "kicker": "LEAGUE REVIEW",
+      "headline": "PENALTY BOX OFFICE",
+      "subhead": "For {winner}, the domestic crown is a substantial achievement, earned across the league campaign and worthy of a leading role.",
+      "score": 9,
+      "was": "headline: A PENALTY FOR BAD ACTING; subhead: There is no need for theatre when {winner} has genuinely taken the league title, the season's substantial domestic honor."
+    },
+    {
+      "id": "b83-054",
+      "kicker": "CHAMPIONS COLUMN",
+      "headline": "OFFSIDE WITH THE CRITICS",
+      "subhead": "The domestic crown belongs to {winnerClub}, an achievement that needs no approval beyond the official league outcome.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-055",
+      "kicker": "THE RIVALRY FILE",
+      "headline": "FULL TIME ON THE SCRIPT",
+      "subhead": "The league campaign has yielded a title for {winner}, while the broader contest still measures competing accomplishments.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-056",
+      "kicker": "SPORTS DESK",
+      "headline": "CLEAN SHEET OF CREDITS",
+      "subhead": "The season's league honors now carry {winnerClub}'s name, a domestic distinction that will remain when this edition is archived.",
+      "score": 9,
+      "was": "headline: A CLEAN SHEET OF CREDITS; subhead: The championship page now names {winnerClub} as league winner, a fact more impressive than any theatrical flourish."
+    },
+    {
+      "id": "b83-057",
+      "kicker": "INSIDE FOOTBALL",
+      "headline": "DUGOUT TAKES THE STAGE",
+      "subhead": "A league title confirms {winner}'s domestic success, giving the managerial side of the rivalry a deserved leading role.",
+      "score": 9,
+      "was": "headline: THE DUGOUT TAKES A BOW; subhead: A domestic league title is the reward for {winner}, turning a season of management into championship recognition."
+    },
+    {
+      "id": "b83-058",
+      "kicker": "THE TITLE DESK",
+      "headline": "SILVERWARE STEALS THE SCENE",
+      "subhead": "League glory gives {winnerClub} a tangible domestic distinction, with a championship trophy to accompany the record.",
+      "score": 10,
+      "was": "subhead: With the league trophy secured, {winnerClub} has achieved a domestic distinction worth more than dramatic lighting."
+    },
+    {
+      "id": "b83-059",
+      "kicker": "PITCH NOTES",
+      "headline": "WHISTLE CLOSES THE SHOW",
+      "subhead": "The league trophy has gone to {winnerClub}, marking the end of a campaign with domestic championship honors.",
+      "score": 9,
+      "was": "headline: WHISTLE WHILE THEY WATCH; subhead: The league championship has gone to {winner}, leaving the Gazette with an achievement that needs no fictional play by play."
+    },
+    {
+      "id": "b83-060",
+      "kicker": "MATCHDAY REVIEW",
+      "headline": "LEAGUE TITLE MAKES THE CUT",
+      "subhead": "For {winner}, a domestic crown is the central distinction of the league campaign, even as other contests offer separate rewards.",
+      "score": 10,
+      "was": "headline: THE LEAGUE MAKES THE CUT; subhead: There is no question about this domestic honor: {winnerClub} takes the championship and the prestige attached to it."
+    },
+    {
+      "id": "b83-061",
+      "kicker": "TITLE WATCH",
+      "headline": "STARRING STATUS SECURED",
+      "subhead": "A league crown gives {winner} a distinguished place in this season's honors, even as the wider rivalry continues.",
+      "score": 10,
+      "was": "headline: STARRING IN THE SPOTLIGHT"
+    },
+    {
+      "id": "b83-062",
+      "kicker": "SEASON REEL",
+      "headline": "SCRIPTED SUCCESS STANDS TALL",
+      "subhead": "League success places {winnerClub} among the champions of this campaign, ensuring the club's achievement outlives the curtain call.",
+      "score": 9,
+      "was": "subhead: League glory is real for {winnerClub}, and its lasting importance survives every attempt at theatrical exaggeration."
+    },
+    {
+      "id": "b83-063",
+      "kicker": "FRONT ROW",
+      "headline": "MARQUEE MAGIC MAKES HISTORY",
+      "subhead": "The domestic championship has been won by {winner}, providing an achievement that future seasons cannot erase.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-064",
+      "kicker": "BACKSTAGE BRIEF",
+      "headline": "CURTAIN CALL CLAIMS CROWN",
+      "subhead": "League success puts {winnerClub} at the center of this season's domestic honors, with plenty still to compare elsewhere.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-065",
+      "kicker": "THEATRE FILE",
+      "headline": "DOMESTIC DRAMA DELIVERS",
+      "subhead": "The league championship goes to {winner}, a major honor that adds significance to this season without determining every other prize.",
+      "score": 9,
+      "was": "headline: DRAMATIC DOMESTIC DEBUT; subhead: The title is secure for {winner}, lending a grand stage image to a thoroughly real league accomplishment."
+    },
+    {
+      "id": "b83-066",
+      "kicker": "CAMERA NOTES",
+      "headline": "PREMIERE PRIZE PROCLAIMED",
+      "subhead": "Domestic championship status belongs to {winnerClub}, whose league achievement makes the strongest image of this edition.",
+      "score": 9,
+      "was": "headline: PROJECTOR PRIDE PREVAILS; subhead: Domestic championship status belongs to {winnerClub}, whose league achievement is the image this edition cannot ignore."
+    },
+    {
+      "id": "b83-067",
+      "kicker": "SPORTING ARTS",
+      "headline": "SCREEN GLORY SPEAKS",
+      "subhead": "For {winner}, the league title gives this season a distinguished chapter without borrowing achievements from other competitions.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-068",
+      "kicker": "DIRECTOR'S BOX",
+      "headline": "STAGECRAFT SEALS THE TITLE",
+      "subhead": "{winnerClub} has won the domestic league championship, an achievement that brings its own lasting distinction in this Showdown.",
+      "score": 10,
+      "was": "subhead: The sporting outcome needs no elaborate direction: {winnerClub} has won the domestic league championship this campaign."
+    },
+    {
+      "id": "b83-069",
+      "kicker": "CHAMPION'S FILE",
+      "headline": "FOOTLIGHTS FIND THEIR STAR",
+      "subhead": "The league title gives {winner} a domestic achievement worthy of a leading place in this season's account.",
+      "score": 9,
+      "was": "headline: FOOTLIGHT FORTUNE FAVORS; subhead: The league title lands with {winner}, creating an unmistakable source of pride in a contest between friends."
+    },
+    {
+      "id": "b83-070",
+      "kicker": "CINEMA DESK",
+      "headline": "CINEMATIC CROWN CONFIRMED",
+      "subhead": "A league championship now belongs to {winnerClub}, turning domestic ambition into a title worthy of the big screen.",
+      "score": 10,
+      "was": "subhead: A domestic league championship is now part of {winnerClub}'s season, with the achievement stronger than the metaphor."
+    },
+    {
+      "id": "b83-071",
+      "kicker": "CASTING NOTES",
+      "headline": "LEADING LIGHT LIFTS LEAGUE",
+      "subhead": "The title goes to {winner}, who has secured the domestic prize that every league campaign offers.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-072",
+      "kicker": "STAGE MANAGER",
+      "headline": "PLAYBILL PRIDE PREVAILS",
+      "subhead": "{winnerClub} has claimed the league championship, earning a leading mention in this edition's account of the season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-073",
+      "kicker": "THE VIEWING ROOM",
+      "headline": "REELS RECORD REIGN",
+      "subhead": "A league championship now belongs to {winnerClub}, granting a strong and lasting sporting meaning to the season's celebrations.",
+      "score": 9,
+      "was": "headline: REEL RECOGNITION REIGNS; subhead: The league title ensures {winner} receives the championship credit deserved for this domestic achievement."
+    },
+    {
+      "id": "b83-074",
+      "kicker": "SHOWTIME REPORT",
+      "headline": "SILVER SCREEN SALUTES SUCCESS",
+      "subhead": "Domestic league honors now belong to {winnerClub}, providing a bright point in the wider Showdown rivalry.",
+      "score": 9,
+      "was": "headline: SPOTLIGHT SUCCESS SHINES; subhead: Domestic honors now belong to {winnerClub}, providing a bright point in the wider Showdown rivalry."
+    },
+    {
+      "id": "b83-075",
+      "kicker": "THE SCRIPT DESK",
+      "headline": "FINAL FRAME FINDS GLORY",
+      "subhead": "With the league title secured, {winner} has an honor that will remain part of the record long after this edition closes.",
+      "score": 10,
+      "was": "subhead: With the league title in hand, {winner} has earned an honor that stands clear of any invented football drama."
+    },
+    {
+      "id": "b83-076",
+      "kicker": "QUESTION DESK",
+      "headline": "WHO OWNS THE OPENING NIGHT?",
+      "subhead": "The answer is {winnerClub}, whose domestic league championship deserves a prominent place on this season's front page.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-077",
+      "kicker": "THE PRESS SEAT",
+      "headline": "CAN A TITLE BE UPSTAGED?",
+      "subhead": "Not easily, when {winner} has earned the league crown and supplied a genuine highlight of this campaign.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-078",
+      "kicker": "RIVALRY QUESTIONS",
+      "headline": "WHERE DOES THE CURTAIN FALL?",
+      "subhead": "For the domestic league campaign, it falls on {winnerClub} as champion while the larger rivalry continues beyond this honor.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-079",
+      "kicker": "THE EDITOR ASKS",
+      "headline": "WHO GETS THE CLOSEUP?",
+      "subhead": "The league title puts {winner} in sharp focus, with a domestic accomplishment worthy of its own celebration.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-080",
+      "kicker": "AT THE MARQUEE",
+      "headline": "IS THE SCRIPT ALREADY GOLD?",
+      "subhead": "League championship status now belongs to {winnerClub}, providing the clearest possible ending to the domestic campaign.",
+      "score": 9,
+      "was": "subhead: League championship status belongs to {winnerClub}, a confirmed achievement rather than the product of any imagined scene."
+    },
+    {
+      "id": "b83-081",
+      "kicker": "IN THE BALCONY",
+      "headline": "ANY ROOM FOR AN ENCORE?",
+      "subhead": "The league crown gives {winner} a triumph to savor while other opportunities remain in the Showdown.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-082",
+      "kicker": "LATE QUESTIONS",
+      "headline": "DOES GLORY NEED A CAMERA?",
+      "subhead": "Not for {winnerClub}, whose domestic title is an achievement substantial enough to speak for itself.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-083",
+      "kicker": "THE LAST ACT",
+      "headline": "WHO TAKES THE FINAL BOW?",
+      "subhead": "{winner} can claim that honor for the league campaign, having secured the domestic championship this season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-084",
+      "kicker": "THE FILM ROOM",
+      "headline": "WHICH NAME FILLS THE SCREEN?",
+      "subhead": "The league crown belongs to {winnerClub}, making the club's name the centerpiece of this season's domestic record.",
+      "score": 10,
+      "was": "subhead: It is {winnerClub}, now confirmed as league champion and worthy of prominent place in the Gazette."
+    },
+    {
+      "id": "b83-085",
+      "kicker": "THE REVIEW PAGE",
+      "headline": "WAS THAT THE BIG REVEAL?",
+      "subhead": "The league title has gone to {winner}, giving the domestic campaign a clear and memorable conclusion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-086",
+      "kicker": "CLOSING EDITION",
+      "headline": "CHAMPION, NO AUDITION",
+      "subhead": "The league crown belongs to {winnerClub}, with no further performance required to establish this domestic achievement.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-087",
+      "kicker": "THE MAIN EVENT",
+      "headline": "GLORY, TAKE YOUR MARK",
+      "subhead": "For {winner}, securing the league title is the kind of success that needs no elaborate introduction.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-088",
+      "kicker": "CURTAIN REPORT",
+      "headline": "APPLAUSE, NOT MAKE BELIEVE",
+      "subhead": "A league crown is a worthy basis for celebration, and {winnerClub} has earned that domestic distinction this season.",
+      "score": 9,
+      "was": "subhead: The domestic championship is real for {winnerClub}, which has earned recognition without invented scenes or scores."
+    },
+    {
+      "id": "b83-089",
+      "kicker": "THE FEATURE PAGE",
+      "headline": "LEAGUE, CAMERA, ACTION",
+      "subhead": "The domestic title belongs to {winner}, offering a confirmed triumph and a bright chapter in the friendly rivalry.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-090",
+      "kicker": "THE FINAL WORD",
+      "headline": "TOP BILLING, EARNED",
+      "subhead": "The league trophy now belongs to {winnerClub}, placing the club firmly in the championship column for this campaign.",
+      "score": 10,
+      "was": "subhead: The league trophy puts {winnerClub} in the championship column, an honor that needs no dramatic invention."
+    },
+    {
+      "id": "b83-091",
+      "kicker": "THE PRINT EDITION",
+      "headline": "CHAMPION IN TECHNICOLOR",
+      "subhead": "A domestic crown has gone to {winner}, turning the league campaign into an achievement worthy of a vivid front page.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b83-092",
+      "kicker": "THE LOBBY",
+      "headline": "SPOTLIGHT, NO STUNT",
+      "subhead": "Domestic league success gives {winnerClub} a lasting source of pride, with the title carrying its own significance in the rivalry.",
+      "score": 9,
+      "was": "subhead: League success gives {winnerClub} an authentic achievement, strong enough without imagined twists or theatrical special effects."
+    },
+    {
+      "id": "b83-093",
+      "kicker": "THE PROGRAM",
+      "headline": "TITLE WITHOUT AN INTERVAL",
+      "subhead": "The league championship belongs to {winner}, an honor now complete even as the broader Showdown remains alive.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-094",
+      "kicker": "THE CAST LIST",
+      "headline": "THE STAR IS THE TROPHY",
+      "subhead": "The domestic league championship takes pride of place for {winner}, providing a concrete achievement amid the ongoing comparison of seasons.",
+      "score": 10,
+      "was": "subhead: Domestic league silverware is {winnerClub}'s to celebrate, regardless of which other honors the season brings."
+    },
+    {
+      "id": "b83-095",
+      "kicker": "THE CRITIC'S SEAT",
+      "headline": "NO REHEARSAL REQUIRED",
+      "subhead": "With the league title secured, {winner} has a fully earned championship to add to the season's record.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-096",
+      "kicker": "THE FINAL PRINT",
+      "headline": "CREDITS WELL DESERVED",
+      "subhead": "A league crown now belongs to {winnerClub}, a lasting piece of domestic success and a deserved cause for pride.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b83-097",
+      "kicker": "THE REHEARSAL ROOM",
+      "headline": "NO SUBSTITUTE FOR GLORY",
+      "subhead": "The league title is now {winnerClub}'s, a lasting domestic accomplishment that deserves recognition in the wider friendly rivalry.",
+      "score": 10,
+      "was": "headline: NO STAND IN FOR SUCCESS; subhead: The domestic league title belongs to {winner}, who needs no substitute for a genuine championship achievement."
+    },
+    {
+      "id": "b83-098",
+      "kicker": "THE EVENING EDITION",
+      "headline": "TITLE CLAIMS ITS MOMENT",
+      "subhead": "The league crown makes {winner} a domestic champion, an achievement worthy of celebration in its own right.",
+      "score": 9,
+      "was": "headline: THE TITLE HAS ITS MOMENT; subhead: A league championship gives {winnerClub} an enduring distinction, not simply a flourish for this season's Gazette cover."
+    },
+    {
+      "id": "b83-099",
+      "kicker": "BEHIND THE LENS",
+      "headline": "PRIZE OUTSHINES THE SET",
+      "subhead": "For {winnerClub}, the domestic league championship matters more than the spectacle surrounding the Gazette's latest front page.",
+      "score": 9,
+      "was": "headline: THE PRIZE OUTSHINES THE SET; subhead: For {winner}, domestic league glory remains the important part, however elaborate the newspaper's theatrical presentation becomes."
+    },
+    {
+      "id": "b83-100",
+      "kicker": "THE BOX OFFICE",
+      "headline": "CHAMPIONSHIP, UNEDITED",
+      "subhead": "The league title is {winnerClub}'s to celebrate, a complete domestic achievement with a lasting place in the record.",
+      "score": 10,
+      "was": "subhead: The league title is {winnerClub}'s without qualification, a complete domestic achievement in an ongoing rivalry."
+    }
+  ]
+}

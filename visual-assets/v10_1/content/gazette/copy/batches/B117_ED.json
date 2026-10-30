@@ -1,0 +1,608 @@
+{
+  "batch": 117,
+  "situation": "one-season-sprint",
+  "voice": "The studio panel",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb117-001",
+      "text": "Well, {winner} has put a lasting signature on a rivalry that barely had time to introduce itself.",
+      "score": 10,
+      "was": "Well, {winner} has managed to turn an entire rivalry into a single, decisive signature."
+    },
+    {
+      "id": "cb117-002",
+      "text": "I wouldn't blame {loser} for wanting a rematch, but this Showdown isn't taking bookings.",
+      "score": 9,
+      "was": "Look at {loser} there, already thinking about a rematch that this format simply doesn't offer."
+    },
+    {
+      "id": "cb117-003",
+      "text": "That's the beauty of a short Showdown, {winner} gets the glory without the long wait.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb117-004",
+      "text": "Oddly enough, a short contest has given us a conclusion with a remarkably long shelf life.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-005",
+      "text": "Quite a finish from {winner}, and the debate has run out of seasons to hide in.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-006",
+      "text": "If you saved your best argument for later, I'm afraid the show's already over.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-007",
+      "text": "For {loserClub}, it's a brief disappointment, not a verdict on everything that club can do.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-008",
+      "text": "Even this panel can agree on the important part, the competition has actually finished.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-009",
+      "text": "There goes the whole competition, wrapped up before anyone could ask for a sequel.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb117-010",
+      "text": "Every pundit loves a long-running debate, and {winner} has rather spoiled that business.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb117-011",
+      "text": "Hard to build a comeback when the challenge ends with the opening campaign.",
+      "score": 9,
+      "was": "Hard to build a comeback when the entire contest ends with the opening campaign."
+    },
+    {
+      "id": "cb117-012",
+      "text": "Championships are rarely so compact, which makes that outcome unusually difficult to dilute.",
+      "score": 9,
+      "was": "Championships are rarely so compact, which makes that result rather difficult to dilute."
+    },
+    {
+      "id": "cb117-013",
+      "text": "A runner-up can be disappointed without being diminished, there's plenty of respect on this desk.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-014",
+      "text": "Imagine writing a season preview and finding it's also the championship's closing chapter.",
+      "score": 10,
+      "was": "Imagine writing a season preview and finding it's also the title race's final chapter."
+    },
+    {
+      "id": "cb117-015",
+      "text": "Something tells me {winner} won't be requesting a longer format any time soon.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-016",
+      "text": "Opening statements rarely become closing arguments, but that's exactly what this format demands.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb117-017",
+      "text": "Here's the trouble with hindsight, it cannot turn a finished Showdown back into an open contest.",
+      "score": 9,
+      "was": "Here's a result that won't improve with a recount of what might have happened later."
+    },
+    {
+      "id": "cb117-018",
+      "text": "I was going to call {winner} efficient, then remembered there's an entire championship at stake.",
+      "score": 9,
+      "was": "I'd call {winner}'s job efficient, but that scarcely captures the size of the reward."
+    },
+    {
+      "id": "cb117-019",
+      "text": "Brief on the calendar, enormous in the memory, this was no minor undertaking.",
+      "score": 10,
+      "was": "Brief on the calendar, enormous in the memory, this was no minor competition."
+    },
+    {
+      "id": "cb117-020",
+      "text": "Anyone promising to grow into this challenge has discovered the schedule was remarkably unforgiving.",
+      "score": 9,
+      "was": "Anyone promising to grow into this Showdown has discovered the schedule was rather unforgiving."
+    },
+    {
+      "id": "cb117-021",
+      "text": "Whatever the pundits predicted, the verdict is considerably more stubborn than our opinions.",
+      "score": 10,
+      "was": "Whatever the pundits predicted, the final result is considerably more stubborn than our opinions."
+    },
+    {
+      "id": "cb117-022",
+      "text": "Long-term plans are rather decorative when the trophy has already found its destination.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-023",
+      "text": "Remember, {winnerClub} won't have to defend this result in a later campaign here.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-024",
+      "text": "From the opening chapter, {winner} had to make the ending count, and look at that payoff.",
+      "score": 9,
+      "was": "From the start, {winner} understood that there wasn't another chapter to rescue a poor ending."
+    },
+    {
+      "id": "cb117-025",
+      "text": "The phrase 'plenty of time' had no place here, and {winner} made sure of it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-026",
+      "text": "Don't confuse brevity with small stakes, {winner} has earned a very substantial prize.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-027",
+      "text": "It's a little embarrassing for the analysts, we've hardly warmed our chairs and there's a champion.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb117-028",
+      "text": "Somewhere in the studio notes is a prediction for next season, completely useless now.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb117-029",
+      "text": "Now {loserClub} has every right to eye another challenge, but this trophy has a settled owner.",
+      "score": 9,
+      "was": "Now {loserClub} can disagree with the result, but the final standings have their answer."
+    },
+    {
+      "id": "cb117-030",
+      "text": "Such a big argument squeezed into a tiny calendar, and somehow the finish still feels complete.",
+      "score": 9,
+      "was": "Quite extraordinary how much a rivalry can ask of a manager in such a little window."
+    },
+    {
+      "id": "cb117-031",
+      "text": "My favourite part is that nobody can hide behind a promise about later improvements.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb117-032",
+      "text": "We talked up this occasion from the outset, and {winnerClub} has justified every minute.",
+      "score": 9,
+      "was": "We waited for the Showdown, and {winnerClub} has made the wait worthwhile."
+    },
+    {
+      "id": "cb117-033",
+      "text": "Careful what you wish for, the short format has given {winner} a lasting headline.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-034",
+      "text": "It's a sprint on the calendar, but for {loser} the outcome may linger a good deal longer.",
+      "score": 9,
+      "was": "It's a sprint on the calendar, but for {loser} the result will linger rather longer."
+    },
+    {
+      "id": "cb117-035",
+      "text": "Personally, I'd like another season, but {winner} has every reason to disagree.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb117-036",
+      "text": "Consider the pressure on {winnerClub}, every decision in this campaign had nowhere to hide.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-037",
+      "text": "Nothing provisional about this verdict, the Showdown belongs to {winner} outright.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb117-038",
+      "text": "A fair contest, a definite finish, and absolutely no chance of borrowing time from tomorrow.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-039",
+      "text": "There is no slow build here, {winnerClub} went straight from contender to champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-040",
+      "text": "Even with {loser} missing the prize, that title feels properly earned, not simply hurried.",
+      "score": 9,
+      "was": "Even {loser} will know a short competition demands respect, and this outcome deserves it."
+    },
+    {
+      "id": "cb117-041",
+      "text": "That's a whole title settled before the pundits have finished arguing about the opening.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb117-042",
+      "text": "I suspect {winner} rather enjoys a format that doesn't allow anyone to catch up later.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-043",
+      "text": "Strange how the shortest format can produce the most definitive conversation in the studio.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb117-044",
+      "text": "All that anticipation, and it ends with {winner} owning the lasting bragging rights.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-045",
+      "text": "We can discuss alternatives all night, but {loserClub} knows this particular duel is finished.",
+      "score": 9,
+      "was": "We can discuss alternatives all night, but {loserClub} knows this particular contest is finished."
+    },
+    {
+      "id": "cb117-046",
+      "text": "Not a rehearsal, not a warm-up, this was the complete title race and {winner} won it.",
+      "score": 9,
+      "was": "Not a rehearsal, not a warm-up, this was the entire competition and {winner} won it."
+    },
+    {
+      "id": "cb117-047",
+      "text": "We might expect an encore, yet {winner} has already taken the curtain call.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb117-048",
+      "text": "It's almost rude how quickly the title argument has been settled in {winner}'s favour.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb117-049",
+      "text": "No manager had the luxury of finding form in a later chapter, and that mattered.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-050",
+      "text": "I'd wager {loser} would welcome another chance, and that makes this ending all the more decisive.",
+      "score": 9,
+      "was": "I'd wager {loser} would welcome another chance, which is precisely what makes this final."
+    },
+    {
+      "id": "cb117-051",
+      "text": "No unfinished business in this edition, {winnerClub} has put its name on the cover.",
+      "score": 9,
+      "was": "The story has its ending, and {winnerClub} gets the line everyone wanted to write."
+    },
+    {
+      "id": "cb117-052",
+      "text": "When everything rides on a single campaign, {winner} has to be more than merely promising.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-053",
+      "text": "You can hear the debate stopping mid-sentence, the answer has done the talking instead.",
+      "score": 10,
+      "was": "You can hear the debate stopping mid-sentence, the result has done the talking instead."
+    },
+    {
+      "id": "cb117-054",
+      "text": "Here's the awkward part for {loser}, there's no subsequent season to change the subject.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-055",
+      "text": "We heard plenty about potential, but {winnerClub} has delivered something rather more concrete.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-056",
+      "text": "Funny, we gave the preview a long discussion and the actual verdict has stolen the whole show.",
+      "score": 10,
+      "was": "Funny how a compact competition can leave such a huge space in the trophy conversation."
+    },
+    {
+      "id": "cb117-057",
+      "text": "That'll do for {winner}, who has won the whole thing without waiting for a series.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-058",
+      "text": "Suggestions for a rematch will be plentiful, but {winner} has already claimed this edition.",
+      "score": 9,
+      "was": "Somebody will suggest extending the rules, but the decision belongs to {winner} as played."
+    },
+    {
+      "id": "cb117-059",
+      "text": "Such a tight schedule left little room for correction, and {winnerClub} made the most of it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-060",
+      "text": "Forget the mileage, {winner} has taken the shortest possible route to the biggest prize.",
+      "score": 10,
+      "was": "It's not the length of the journey, {winner} has proved, it's who finishes with the prize."
+    },
+    {
+      "id": "cb117-061",
+      "text": "Quite an achievement, making a small window feel like the grandest room in the house.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-062",
+      "text": "Do spare a thought for {loser}, a worthy rival in an edition with no return visit.",
+      "score": 9,
+      "was": "Do spare a thought for {loser}, a credible rival in a competition with no return visit."
+    },
+    {
+      "id": "cb117-063",
+      "text": "There are no instalments left to sell, which must upset the studio more than {winner}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb117-064",
+      "text": "Call it instant success if you like, {winnerClub} has earned something that will last.",
+      "score": 9,
+      "was": "Call it immediate gratification if you like, {winnerClub} can simply call it championship success."
+    },
+    {
+      "id": "cb117-065",
+      "text": "Suppose the panel demanded another chance to judge, the closing page would politely disagree.",
+      "score": 10,
+      "was": "Suppose the panel demanded another chance to judge, the final edition would politely disagree."
+    },
+    {
+      "id": "cb117-066",
+      "text": "A campaign may pass quickly, but this championship verdict won't be going anywhere.",
+      "score": 9,
+      "was": "A season may pass quickly, but this Showdown verdict won't be going anywhere."
+    },
+    {
+      "id": "cb117-067",
+      "text": "Quite the advertisement for {winnerClub}, who turned a narrow window into complete success.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-068",
+      "text": "For the neutral, more chapters would be lovely, but {winner} has written the ending.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb117-069",
+      "text": "Ask {loserClub} about a sequel and you'll hear why the original ending matters so much.",
+      "score": 9,
+      "was": "Ask {loserClub} about a sequel and you'll hear why the original result matters so much."
+    },
+    {
+      "id": "cb117-070",
+      "text": "There wasn't time to build a legend gradually, so {winner} chose the direct approach.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb117-071",
+      "text": "What a moment for {winnerClub}, a short race carrying the weight of a full championship.",
+      "score": 9,
+      "was": "What a moment for {winnerClub}, the entire competition compressed into a triumphant conclusion."
+    },
+    {
+      "id": "cb117-072",
+      "text": "This isn't an early lead being mistaken for victory, it's the finish itself.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-073",
+      "text": "Meanwhile, {loser} can take pride in contesting something whose result mattered immediately.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-074",
+      "text": "There's a whistle in the imagination and a full stop on the page, all at once.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb117-075",
+      "text": "You'd normally ask about the next round, but the answer is right there in the trophy.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-076",
+      "text": "In the end, {winnerClub} didn't need a longer argument, just a better answer.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-077",
+      "text": "Pressure does funny things to predictions, but {winner} has made the outcome wonderfully straightforward.",
+      "score": 9,
+      "was": "The stakes felt concentrated because they were, and {winner} handled that wonderfully."
+    },
+    {
+      "id": "cb117-078",
+      "text": "The trophy won't be waiting through future campaigns, {winner} has earned the right to enjoy it now.",
+      "score": 9,
+      "was": "There'll be no late-season revival in this edition, {winner} has already secured the crown."
+    },
+    {
+      "id": "cb117-079",
+      "text": "I'd forgotten how ruthless a short schedule can be until {winnerClub} made it look simple.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-080",
+      "text": "All roads led to this conclusion, even if there was barely any road at all.",
+      "score": 10,
+      "was": "All roads led to this verdict, even if there was barely any road at all."
+    },
+    {
+      "id": "cb117-081",
+      "text": "You'll forgive {winner} for not proposing extra chapters to make the story more dramatic.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-082",
+      "text": "As for {loserClub}, the next rivalry can offer hope, but this trophy has its owner.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-083",
+      "text": "I'll admit it, the panel wanted a saga, but {winner} has handed us a final chapter.",
+      "score": 10,
+      "was": "I'll admit it, we've spent longer debating the format than {winner} needed to win it."
+    },
+    {
+      "id": "cb117-084",
+      "text": "Finishing fast is usually a compliment, but here it comes with the entire championship.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-085",
+      "text": "Enough of the hypothetical comebacks, this edition has reached its last page.",
+      "score": 10,
+      "was": "Enough of the hypothetical comebacks, this edition has reached its final page."
+    },
+    {
+      "id": "cb117-086",
+      "text": "Maybe {loser} wanted a marathon, but the contract was a sprint and the finish is official.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-087",
+      "text": "Under that pressure, {winner} has managed the hardest trick, being ready at once.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-088",
+      "text": "No suspense can be carried into another chapter, the winner has already been decided.",
+      "score": 9,
+      "was": "No suspense can be carried into another campaign, the winner has already been decided."
+    },
+    {
+      "id": "cb117-089",
+      "text": "Surely {winnerClub} will keep this particular setup close to its heart for a while.",
+      "score": 9,
+      "was": "Surely {winnerClub} will keep this particular format close to its heart for a while."
+    },
+    {
+      "id": "cb117-090",
+      "text": "Respect to {loser}, because an outright ending can sting even when the contest was worth playing.",
+      "score": 9,
+      "was": "Well played to {loser}, because losing the title doesn't erase the courage of competing."
+    },
+    {
+      "id": "cb117-091",
+      "text": "The studio could fill an evening with possibilities, but {winner} needs only the decision.",
+      "score": 9,
+      "was": "The studio could fill an evening with possibilities, but {winner} needs only the result."
+    },
+    {
+      "id": "cb117-092",
+      "text": "I'd say {winnerClub} timed it perfectly, except there was only this chance to take.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb117-093",
+      "text": "Not much room for a slow start, yet {winner} has emerged with the ultimate prize.",
+      "score": 9,
+      "was": "Not much room for a slow start, yet {winner} has emerged with the entire prize."
+    },
+    {
+      "id": "cb117-094",
+      "text": "If you're {loser}, the hardest part is knowing the finish has genuinely arrived.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-095",
+      "text": "For those who wanted a drawn-out saga, the closing credits have arrived early.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-096",
+      "text": "Both managers had the same short runway, and {winner} made the champion's landing.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb117-097",
+      "text": "Try telling {winner} that this title needs another chapter, I think you'll get a grin.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb117-098",
+      "text": "Some campaigns open a debate, this result has closed the championship in emphatic fashion.",
+      "score": 9,
+      "was": "Some seasons open a debate, this edition has closed the Showdown in emphatic fashion."
+    },
+    {
+      "id": "cb117-099",
+      "text": "Beneath that brisk conclusion sits a serious achievement, {winner} took the opportunity that couldn't come back.",
+      "score": 9,
+      "was": "Behind that quick conclusion lies a serious achievement, {winner} took the chance that mattered."
+    },
+    {
+      "id": "cb117-100",
+      "text": "It's settled, it's deserved, and {winnerClub} can put the whole season on the mantelpiece.",
+      "score": 9,
+      "was": null
+    }
+  ]
+}

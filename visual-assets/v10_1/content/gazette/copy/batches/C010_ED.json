@@ -1,0 +1,249 @@
+{
+  "batch": 10,
+  "situation": "level-overall",
+  "edition": "season",
+  "desk": "The chief football writer",
+  "edited": true,
+  "stories": [
+    {
+      "id": "sb10-01",
+      "byline": "From our chief football desk",
+      "standfirst": "The latest season has brought {managerA} and {managerB} to precisely the same overall total, leaving the rivalry without a leader.",
+      "paragraphs": [
+        "There is an unusual elegance to the latest standings. After season {seasonNo}, {managerA} and {managerB} occupy matching positions in the only column that settles their running contest: the overall points total. Neither can claim an advantage.",
+        "That symmetry says nothing about whether their individual seasons followed the same course. Each manager has accumulated a separate body of work, and those different journeys now arrive at an identical figure. The rivalry is balanced, not diminished.",
+        "The page will eventually turn, but this entry deserves its own place in the archive. For now, the space between the contenders has disappeared."
+      ],
+      "pullquote": {
+        "text": "Different journeys can meet at a destination neither manager owns alone.",
+        "who": "A Gazette columnist"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb10-02",
+      "byline": "Reporting from the standings desk",
+      "standfirst": "No separation survives in the aggregate standings, where {clubA} and {clubB} now stand on entirely equal terms.",
+      "paragraphs": [
+        "For all the attention paid to each season's result, the larger competition has produced a simpler finding. {clubA} and {clubB} are represented by managers whose overall totals now match exactly. The accumulated contest has no front runner.",
+        "A single campaign can command the headlines, but the Showdown asks for a longer reading of success. Its verdict depends on everything carried forward. That is why this convergence matters more than any isolated flourish or disappointment.",
+        "Neither side has been awarded a victory by the tie. The significance lies in the equality itself, and in the questions it leaves open."
+      ],
+      "pullquote": {
+        "text": "The season offers a chapter; the overall standings tell the argument.",
+        "who": "The Gazette standings editor"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb10-03",
+      "byline": "Analysis from the sporting editor",
+      "standfirst": "An apparent hierarchy has no place in the latest overall picture, with both managers sharing the same score.",
+      "paragraphs": [
+        "Rivalries invite a pecking order, a name to place above another and a familiar argument to settle. The current Showdown resists that temptation. {managerA} and {managerB} have reached exactly {points} points apiece in their overall accounts.",
+        "It is possible to admire the work of both without manufacturing a distinction between them. Their successes and setbacks belong to separate careers, yet the agreed measure of this competition gives them equal standing. That is the complete finding.",
+        "The next verdict, whenever it comes, must be earned rather than presumed. Until then, neither manager occupies the higher ground."
+      ],
+      "pullquote": {
+        "text": "A hierarchy looks convincing only until the evidence refuses to support it.",
+        "who": "The press box"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb10-04",
+      "byline": "Our correspondent on the rivalry",
+      "standfirst": "Separate campaigns have carried the managers to a shared overall position, making this an important moment of convergence.",
+      "paragraphs": [
+        "Imagine the Showdown as a map drawn by competing hands. The routes taken by {managerA} and {managerB} may differ, but the latest coordinates are identical. Following this season, their cumulative points sit together without separation.",
+        "That meeting point makes a richer story than an easy declaration of superiority. Each participant has contributed a distinct record to the competition, and neither record currently commands the other. The result is tension without an established favorite.",
+        "Whatever lies beyond this page, the shared position is worth marking. It shows how far independent journeys can travel before touching the same point."
+      ],
+      "pullquote": {
+        "text": "The routes may be different; the destination belongs to both.",
+        "who": "A Gazette feature editor"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb10-05",
+      "byline": "From the back of the sports section",
+      "standfirst": "What might have been buried in the figures has become the principal story: the overall standings are level.",
+      "paragraphs": [
+        "Sometimes the most consequential detail sits at the bottom of a page. Here it deserves the largest type. The running totals for {managerA} and {managerB} are identical after the latest season, a fact that changes how the rivalry reads.",
+        "There may be more colorful ways to recount an individual campaign, but none can override the combined position. The two managers have arrived at the same measurable reward. That does not erase their differences; it gives those differences equal weight.",
+        "No dramatic embellishment is necessary. The standings have supplied a complete headline, and their restraint makes the contest feel larger rather than smaller."
+      ],
+      "pullquote": {
+        "text": "The smallest line of print can carry the largest consequence.",
+        "who": "The Gazette copy desk"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb10-06",
+      "byline": "From the Gazette archive desk",
+      "standfirst": "The competition's record offers no sole name at the top after the managers reach identical accumulated points.",
+      "paragraphs": [
+        "An archivist seeking to identify the overall leader after this season would have to leave the relevant space unfilled. {managerA} and {managerB} possess matching totals, and the evidence permits no preferred name. The record is unusually uncompromising.",
+        "Archives are often imagined as places for settled judgments, yet the best ones preserve uncertainty with equal care. This entry records a rivalry at equilibrium, with each manager's achievements remaining distinct even while their cumulative rewards agree.",
+        "There is no blank in the history itself. The absence of a single leader is precisely what gives this passage its importance."
+      ],
+      "pullquote": {
+        "text": "History has not misplaced a name; it has room for both.",
+        "who": "A Gazette archivist"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb10-07",
+      "byline": "Dispatch from the season review",
+      "standfirst": "Equality in the overall standings recognizes the contributions of both managers without flattening the seasons that produced them.",
+      "paragraphs": [
+        "Equal totals do not make identical careers. {managerA} has assembled a record through one club, {managerB} through another, and the latest season has brought their accumulated rewards into exact alignment. That is the news, and its distinction matters.",
+        "The Showdown is an exercise in comparison, not an instruction to pretend every achievement looks alike. Each campaign retains its own meaning. What the shared figure establishes is narrower and stronger: neither manager leads the contest overall.",
+        "Both can take pride in what they have built without claiming the higher position. The ledger honors neither more, and neither less."
+      ],
+      "pullquote": {
+        "text": "Equality of reward is not the same as sameness of achievement.",
+        "who": "The Gazette chief subeditor"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb10-08",
+      "byline": "The Gazette's tactical observer",
+      "standfirst": "The latest standings resemble a carefully balanced position, with neither managerial career enjoying an overall advantage.",
+      "paragraphs": [
+        "A contest need not produce a clear superior to become compelling. After this season, {managerA} and {managerB} stand in exact overall balance, their accounts closed at the same figure. It is a position that rewards close attention.",
+        "The temptation is to search for an unofficial deciding factor, some detail outside the agreed measure. That would do injustice to both. The competition has given its answer in full, and that answer is that the managers cannot presently be separated.",
+        "An evenly poised position is not an empty one. It contains the work already done and the possibility that the next chapter may alter everything."
+      ],
+      "pullquote": {
+        "text": "Do not invent an advantage where the competition has granted none.",
+        "who": "A Gazette analyst"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb10-09",
+      "byline": "From our football affairs correspondent",
+      "standfirst": "An identical overall measure now joins {clubA} and {clubB}, giving their friendly rivalry an especially compelling symmetry.",
+      "paragraphs": [
+        "The most persuasive bridges are built from both banks. In this Showdown, the cumulative records associated with {clubA} and {clubB} now meet without a gap. This season has brought their managers to identical overall totals.",
+        "Each side has had its own work to do and its own standard to meet. The shared result is not a compromise arranged between rivals. It is a measure reached separately, and therefore something each can respect.",
+        "For the Gazette, this is a point of connection rather than closure. The two careers now share a landing place, not a single story."
+      ],
+      "pullquote": {
+        "text": "A proper rivalry can build a bridge without surrendering its differences.",
+        "who": "The Gazette football correspondent"
+      },
+      "score": 9,
+      "was": "The divide between {clubA} and {clubB} has vanished in the combined standings, sharpening the importance of their rivalry.\n\nThe most persuasive bridges are built from both banks. In this Showdown, the cumulative records associated with {clubA} and {clubB} now meet without a gap. This season has brought their managers to identical overall totals.\n\nEach side has had its own work to do and its own standard to meet. The shared result is not a compromise arranged between rivals. It is a measure reached separately, and therefore something each can respect.\n\nFor the Gazette, this is a point of connection rather than closure. The two careers now share a landing place, not a single story.\n\nA proper rivalry can build a bridge without surrendering its differences."
+    },
+    {
+      "id": "sb10-10",
+      "byline": "From the editorial column",
+      "standfirst": "A shared total has turned this season's entry into a comma rather than a full stop for the rivalry.",
+      "paragraphs": [
+        "Punctuation can change the meaning of a sentence, and the latest Showdown figures offer a useful example. After season {seasonNo}, neither {managerA} nor {managerB} leads the overall contest. The present account is balanced to the point.",
+        "It would be premature to turn that equality into a verdict about either career's ultimate worth. The managers have reached the same total through separate seasons of work, and their competition deserves the patience that such a moment requires.",
+        "For now, the sentence holds open. Its meaning is not that nothing happened, but that neither rival has written the final word alone."
+      ],
+      "pullquote": {
+        "text": "A shared total is a comma that asks the reader to continue.",
+        "who": "A Gazette editorial writer"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb10-11",
+      "byline": "Our season ledger correspondent",
+      "standfirst": "The cumulative reward for both managers is identical, a reminder that a rivalry is judged across campaigns.",
+      "paragraphs": [
+        "Great rivalries are rarely understood from a solitary entry. The Showdown's latest accounting makes that plain: {managerA} and {managerB} are level on aggregate points after another season has been added to their respective records. Neither occupies first place alone.",
+        "This is the discipline of the longer view. A particular result may deserve celebration or reflection, yet every campaign must sit beside the others. When all those contributions are considered, the current division between the managers disappears entirely.",
+        "The significance is cumulative rather than sudden. Neither participant can claim a superior total, and the contest gains intrigue from that exact restraint."
+      ],
+      "pullquote": {
+        "text": "An isolated chapter cannot overrule the sum of a rivalry.",
+        "who": "The Gazette season editor"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb10-12",
+      "byline": "From the press box review",
+      "standfirst": "No separate verdict can be imposed upon an overall contest that now credits both managers with exactly {points} points.",
+      "paragraphs": [
+        "The desire for a winner is understandable, but it cannot become a substitute for the standings. Following the latest season, {managerA} and {managerB} share the same overall score. The competition recognizes no advantage between them at present.",
+        "That should not be mistaken for indecision. The measure is precise, and its outcome is straightforward. It preserves the merit of both careers without awarding either an honor that the combined evidence has not yet earned.",
+        "There is dignity in reporting the result as it stands. A great contest sometimes draws its force from the refusal to separate its protagonists."
+      ],
+      "pullquote": {
+        "text": "The proper verdict is the one the evidence can actually bear.",
+        "who": "The press box"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb10-13",
+      "byline": "A report for the Gazette record",
+      "standfirst": "An entry worth preserving has emerged from the latest accounting: an unbroken line across the overall standings.",
+      "paragraphs": [
+        "Not every memorable entry in a competition's history requires a decisive margin. This one will be recalled for its absence. The managers of {clubA} and {clubB} have finished the latest accounting with exactly matching accumulated points.",
+        "A history written only around those who lead would miss what makes rivalry meaningful. The strongest opponents can force each other into closer comparison, and this shared standing offers a particularly exact expression of that relationship.",
+        "The archive should preserve this moment without inventing a champion. Its value is the remarkable precision with which the competing records now coincide."
+      ],
+      "pullquote": {
+        "text": "An empty margin can make a very full page of history.",
+        "who": "A Gazette history columnist"
+      },
+      "score": 9,
+      "was": "The latest season has created a moment worthy of preservation: an unbroken line across the overall standings.\n\nNot every memorable entry in a competition's history requires a decisive margin. This one will be recalled for its absence. The managers of {clubA} and {clubB} have finished the latest accounting with exactly matching accumulated points.\n\nA history written only around those who lead would miss what makes rivalry meaningful. The strongest opponents can force each other into closer comparison, and this shared standing offers a particularly exact expression of that relationship.\n\nThe archive should preserve this moment without inventing a champion. Its value is the remarkable precision with which the competing records now coincide.\n\nAn empty margin can make a very full page of history."
+    },
+    {
+      "id": "sb10-14",
+      "byline": "The Gazette silverware correspondent",
+      "standfirst": "Whatever each club has placed in its cabinet, the competition's overall measure currently leaves neither manager in front.",
+      "paragraphs": [
+        "Trophy cabinets tell stories in their own language, but the Showdown compares the rewards attached to entire seasons. That comparison has reached equality. {managerA} and {managerB} now possess the same cumulative points, regardless of how their individual collections look.",
+        "No particular trophy need be invented to understand the significance. Different achievements can contribute to equivalent standings, and the two managers have made their separate contributions count. The shared total belongs fully to each of them.",
+        "Silverware may attract the eye, but this chapter is about proportion. The overall measure has found neither career heavier on the scales."
+      ],
+      "pullquote": {
+        "text": "The cabinets may tell different tales; the balance is exact.",
+        "who": "The Gazette trophy desk"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb10-15",
+      "byline": "From the paper's closing edition",
+      "standfirst": "The season leaves both managerial records equally rewarded overall, an ending to this chapter without an outright leader.",
+      "paragraphs": [
+        "The final line of the current account is neither an exclamation nor a concession. It is equality. Across the full Showdown record so far, {managerA} and {managerB} have gathered identical points, leaving the overall leadership undivided.",
+        "That position asks something valuable of both rivals: respect for a standard they share. Each has brought a separate career to this point, and neither needs the other's achievements diminished to give the present result its weight.",
+        "The Gazette closes this edition with both names in view. A shared standing is not a lesser story; it is the rivalry at its most finely balanced."
+      ],
+      "pullquote": {
+        "text": "Neither name needs to fade for the other to matter.",
+        "who": "The Gazette closing editor"
+      },
+      "score": 10,
+      "was": null
+    }
+  ]
+}

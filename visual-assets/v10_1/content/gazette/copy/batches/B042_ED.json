@@ -1,0 +1,608 @@
+{
+  "batch": 42,
+  "situation": "showdown-won",
+  "voice": "The co-commentator",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb42-001",
+      "text": "{winner} has the overall title, and I'd rather have that than the most convincing argument in the pub.",
+      "score": 9,
+      "was": "{winner} has the Showdown, and there's a difference between having a good season and owning the whole contest."
+    },
+    {
+      "id": "cb42-002",
+      "text": "Go through the details if you like. {winner} will be perfectly happy to start with the ending.",
+      "score": 9,
+      "was": "You can argue about the details, but {winner} has earned the right to stop arguing."
+    },
+    {
+      "id": "cb42-003",
+      "text": "Measured across the whole challenge, {winnerClub} ended {margin} ahead. It's not a snapshot, it's the complete picture.",
+      "score": 10,
+      "was": "Across the full distance, {winnerClub} found enough to finish where every manager wanted to be."
+    },
+    {
+      "id": "cb42-004",
+      "text": "Credit {loser} with a challenge worth overcoming. A title means more when the opposition has earned respect.",
+      "score": 10,
+      "was": "Credit {loser} for making it a contest worth winning. That matters when the final verdict arrives."
+    },
+    {
+      "id": "cb42-005",
+      "text": "Funny thing about a season medal, you can polish it forever. An overall title settles the bigger question.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-006",
+      "text": "Listen, nobody gets this far by accident. {winner} has earned the final word.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-007",
+      "text": "For {loserClub}, it's a disappointing outcome, certainly. It isn't a reason to dismiss their entire campaign.",
+      "score": 9,
+      "was": "For {loserClub}, there will be plenty to take forward, just not the Showdown title this time."
+    },
+    {
+      "id": "cb42-008",
+      "text": "Quite a tidy conclusion, really. All that friendly disagreement has produced a proper sporting answer.",
+      "score": 9,
+      "was": "Quite a tidy conclusion, really. Months of friendly disagreement reduced to a proper sporting answer."
+    },
+    {
+      "id": "cb42-009",
+      "text": "Think beyond the last result. Winning the entire contest is about what survives after every season is counted.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-010",
+      "text": "A little more difficult than a lucky flourish, that. You need enough good work across the distance.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-011",
+      "text": "No speech required from {winner}. The final standings can handle the public relations.",
+      "score": 9,
+      "was": "No need for an elaborate speech. {winner} has the title, and that explains enough."
+    },
+    {
+      "id": "cb42-012",
+      "text": "{loser} might recall different highlights, but {winner} gets the distinction in the finished standings.",
+      "score": 9,
+      "was": "{loser} will have arguments for another day, but this Showdown belongs to {winner}."
+    },
+    {
+      "id": "cb42-013",
+      "text": "Amazing how quickly the banter changes when the overall champion is finally known.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-014",
+      "text": "Both dugouts can respect the effort, even though only one gets the title at the end.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-015",
+      "text": "I'd say {winner} has earned the privilege of being mildly insufferable about this over dinner.",
+      "score": 10,
+      "was": "I'd say {winner} has bought the right to be quietly unbearable over dinner."
+    },
+    {
+      "id": "cb42-016",
+      "text": "Sometimes you need to put the individual souvenirs away before you can appreciate the size of the overall prize.",
+      "score": 9,
+      "was": "Sometimes you need the full campaign to know who has done the better job. Now we know."
+    },
+    {
+      "id": "cb42-017",
+      "text": "That familiar argument over who had the better run has just found a permanent answer.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-018",
+      "text": "Consider the sort of achievement that still sounds impressive after the excitement has died down. This qualifies.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-019",
+      "text": "Every little argument had its charm. Now someone has come away with the one honor that settles them all.",
+      "score": 9,
+      "was": "For all the little arguments along the way, this is the result that stays."
+    },
+    {
+      "id": "cb42-020",
+      "text": "Give the other manager some credit. A victory feels more substantial when the opposition was worth facing.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-021",
+      "text": "Nobody can take the best memories from either dugout. The final difference of {margin} belongs to the champion.",
+      "score": 10,
+      "was": "Nobody's taking away the effort on either side. The overall prize still has a single owner."
+    },
+    {
+      "id": "cb42-022",
+      "text": "That's the thing people overlook, you can own a wonderful chapter without owning the book.",
+      "score": 10,
+      "was": "That's the beauty of a full Showdown, isn't it? The final result outlives the little debates."
+    },
+    {
+      "id": "cb42-023",
+      "text": "Try winning a single season and you get applause. Win the entire thing and you get the bragging rights.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb42-024",
+      "text": "Personally, I'd skip the dramatic speech. A finished Showdown makes a perfectly persuasive closing remark.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-025",
+      "text": "Different seasons asked different things of {winner}. The final answer is about the whole lot.",
+      "score": 9,
+      "was": "Different chapters, same competition, and {winner} has written the ending that counts."
+    },
+    {
+      "id": "cb42-026",
+      "text": "A manager can have fine moments and still fall short. {winner} collected the bigger reward.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-027",
+      "text": "There is something satisfying about closing the cabinet with the overall prize safely inside.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-028",
+      "text": "Careful with any jokes at {loser}'s expense. A worthy opponent makes the achievement matter.",
+      "score": 10,
+      "was": "Careful with the jokes at {loser}'s expense. You needed a worthy rival for this to mean anything."
+    },
+    {
+      "id": "cb42-029",
+      "text": "Instead of arguing over each chapter, you can finally judge the book as a whole.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-030",
+      "text": "We had the separate seasons, the competing claims, all of it. Now there's a champion of the entire affair.",
+      "score": 9,
+      "was": "We have reached the part where the stories stop competing and the finished result takes over."
+    },
+    {
+      "id": "cb42-031",
+      "text": "Good to see {winner} do the unglamorous part as well, staying competitive until there was nothing left to contest.",
+      "score": 9,
+      "was": "Good to see {winner} finish the job. Finishing it is the part people tend to underestimate."
+    },
+    {
+      "id": "cb42-032",
+      "text": "{loser} made the winner work for the recognition, which makes this a proper sporting finish.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb42-033",
+      "text": "Just picture the presentation. No need for a speech longer than the competition itself.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-034",
+      "text": "There's a special sort of satisfaction for {winner} in not having to explain why this title matters.",
+      "score": 9,
+      "was": "There's a satisfaction in watching {winner} take the prize without needing another explanation."
+    },
+    {
+      "id": "cb42-035",
+      "text": "If you're {loserClub}, you'll want another opportunity. That's the attitude that gives a rivalry its future.",
+      "score": 10,
+      "was": "If you're {loserClub}, the disappointment is fair, but so is the pride in having competed."
+    },
+    {
+      "id": "cb42-036",
+      "text": "It's the entire run that earns this honor. You can't just freeze the table at a flattering moment.",
+      "score": 9,
+      "was": "It's the whole campaign that earns this honor, rather than a convenient snapshot taken halfway through."
+    },
+    {
+      "id": "cb42-037",
+      "text": "Nice to see {winner} with {margin} to spare at the finish. That's more satisfying than a promising position.",
+      "score": 10,
+      "was": "Nice thing about this outcome, you can stop asking who's ahead. {winner} has finished ahead."
+    },
+    {
+      "id": "cb42-038",
+      "text": "That is the danger with judging a long competition by a snapshot. The frame misses everything around it.",
+      "score": 9,
+      "was": "That is a useful reminder, a great individual moment and a great overall achievement aren't interchangeable."
+    },
+    {
+      "id": "cb42-039",
+      "text": "Discussions about individual seasons will continue, naturally. The title itself isn't under discussion anymore.",
+      "score": 9,
+      "was": "Plenty of room for friendly debate later. Not much room to dispute the overall winner."
+    },
+    {
+      "id": "cb42-040",
+      "text": "Success at this level asks you to hold your own across the journey, not merely enjoy a good spell.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-041",
+      "text": "If you ask {loser}, they'll likely recall favorite moments. {winner} can settle for the overall honor.",
+      "score": 10,
+      "was": "Well, {loser} can keep the best anecdotes. {winner} gets to keep the title."
+    },
+    {
+      "id": "cb42-042",
+      "text": "There's your ending. No extra chapter needed, because the Showdown belongs to {winner}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-043",
+      "text": "Not much to add once the contest is complete. That's the advantage of a proper conclusion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-044",
+      "text": "Some trophies look grand in a picture. {winner} has claimed something better, an answer to the whole challenge.",
+      "score": 10,
+      "was": "Some victories give you a pleasant memory. This gives {winner} the whole rivalry's bragging rights."
+    },
+    {
+      "id": "cb42-045",
+      "text": "No generous rival can seriously dispute that {winner} has won the entire Showdown.",
+      "score": 9,
+      "was": "Even the most generous rival has to concede that {winner} is the overall champion."
+    },
+    {
+      "id": "cb42-046",
+      "text": "With the entire rivalry settled, nobody has to wonder which achievement outweighs which.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-047",
+      "text": "I'll give {loser} this much, their contribution shouldn't vanish because a rival got the celebration.",
+      "score": 10,
+      "was": "I'll give {loser} this much, the opponent's achievement looks better for having faced them."
+    },
+    {
+      "id": "cb42-048",
+      "text": "You can put each campaign under a microscope, but the ultimate prize demands the widest possible view.",
+      "score": 9,
+      "was": "You can admire each chapter separately, but the closing page is where the whole contest gets judged."
+    },
+    {
+      "id": "cb42-049",
+      "text": "Quite a finish, and not because of any single twist. The whole competition has finally delivered its champion.",
+      "score": 9,
+      "was": "A proper finish, that. The competition has its champion, and the rivalry has another story."
+    },
+    {
+      "id": "cb42-050",
+      "text": "Hardly the time for a long explanation. A title across the entire competition explains itself.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb42-051",
+      "text": "You see why those final standings matter. {winnerPoints} to {loserPoints} is a pretty persuasive closing answer.",
+      "score": 9,
+      "was": "You see why the overall contest matters. It rewards the manager who finishes with the most."
+    },
+    {
+      "id": "cb42-052",
+      "text": "Settling the friendly rivalry gives both managers a fresh subject for endless conversation.",
+      "score": 9,
+      "was": "Funny how the end of the rivalry also gives it fresh material for all the old jokes."
+    },
+    {
+      "id": "cb42-053",
+      "text": "Enough has been decided for {winner} to put the controllers down with an unusually satisfied expression.",
+      "score": 9,
+      "was": "Enough has been decided for {winner} to put the debate away, at least for tonight."
+    },
+    {
+      "id": "cb42-054",
+      "text": "For {loserClub}, pride in taking part can sit comfortably beside the disappointment of finishing second.",
+      "score": 9,
+      "was": "{loserClub} can be proud of its part in this, but the final distinction goes elsewhere."
+    },
+    {
+      "id": "cb42-055",
+      "text": "Remember, the imagined highlight reel doesn't choose the champion. The completed competition does.",
+      "score": 9,
+      "was": "Remember, a result can look impressive in isolation. An overall title has to stand up to the lot."
+    },
+    {
+      "id": "cb42-056",
+      "text": "Hard to add much about {winner}. The difficult bit wasn't the closing scene, it was earning that scene.",
+      "score": 9,
+      "was": "Hard to improve on that from {winner}. You can only win the Showdown that was put before you."
+    },
+    {
+      "id": "cb42-057",
+      "text": "After the closing whistle, there isn't another step on the ladder. You can only look at who finished highest.",
+      "score": 10,
+      "was": "After the closing whistle on the wider contest, you can admire the effort without reopening the decision."
+    },
+    {
+      "id": "cb42-058",
+      "text": "Plenty of smaller triumphs will be remembered, but they're all part of the story of who finished first.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-059",
+      "text": "Try choosing a favorite memory if you like. {winnerPoints} to {loserPoints} is how the campaign is judged.",
+      "score": 10,
+      "was": "Imagine trying to pick the best single memory. Happily, the overall result doesn't ask you to do that."
+    },
+    {
+      "id": "cb42-060",
+      "text": "Whatever {loser} takes from this, a finished series doesn't erase the good moments along the way.",
+      "score": 9,
+      "was": "From {loser}'s side, the next contest may bring a fresh answer. This one's already decided."
+    },
+    {
+      "id": "cb42-061",
+      "text": "A full Showdown asks for more than a flourish, and the winners have supplied an answer.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-062",
+      "text": "A trophy shelf has room for memories, but this is the sort of honor that deserves its own space.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb42-063",
+      "text": "Put it in the cabinet for {winner}. That's the reward for coming out ahead overall.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-064",
+      "text": "Nothing left to negotiate now, unlike those endless arguments about whose favorite season was better.",
+      "score": 9,
+      "was": "Nothing to protest about the final whistle now. The contest has finished with a champion."
+    },
+    {
+      "id": "cb42-065",
+      "text": "Entire campaigns are remembered by their final standing. This one has found its champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-066",
+      "text": "I'll wager {loser} has favorite memories from this, even if the ultimate prize went elsewhere.",
+      "score": 9,
+      "was": "I'll wager {loser} remembers a few brilliant moments. They don't alter who takes this title."
+    },
+    {
+      "id": "cb42-067",
+      "text": "Congratulations to {winner}, of course, but give the entire friendly competition its due as well.",
+      "score": 9,
+      "was": "At this stage, the only sensible thing is to congratulate {winner} and admire the rivalry."
+    },
+    {
+      "id": "cb42-068",
+      "text": "{winnerClub} takes the contest by {margin} overall. Individual seasons had their turns, and now comes the bigger honor.",
+      "score": 10,
+      "was": "{winnerClub} owns the overall result, and that's a much heavier prize than an isolated boast."
+    },
+    {
+      "id": "cb42-069",
+      "text": "The next argument might begin soon, but {winner} has a rather useful answer tucked away.",
+      "score": 9,
+      "was": "The next argument might begin tomorrow, but {winner} has won the one that just ended."
+    },
+    {
+      "id": "cb42-070",
+      "text": "If {winner} smiles for a while, nobody should be surprised. That's a substantial achievement.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb42-071",
+      "text": "Not every stretch has to be pretty. You need enough quality when all the seasons are taken together.",
+      "score": 9,
+      "was": "Not every stretch of this contest needed to be perfect. The finished outcome needed to be better."
+    },
+    {
+      "id": "cb42-072",
+      "text": "{loserClub} hasn't claimed the title, but its place in a serious rivalry is beyond question.",
+      "score": 10,
+      "was": "{loserClub} has lost the overall contest, not its standing as a worthy opponent."
+    },
+    {
+      "id": "cb42-073",
+      "text": "It's the simplest explanation of a complicated rivalry, really. {winner} finished on top.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-074",
+      "text": "Reaching the end is not the same as reaching it on top. That's why this honor matters.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-075",
+      "text": "Behind all the banter was a real test, and {winnerClub} has come out the stronger overall.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-076",
+      "text": "There's no clever alternative reading of the final result. The whole Showdown goes to {winner}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-077",
+      "text": "{loser} can take the final laugh, if they like. {winner} has rather more to smile about.",
+      "score": 10,
+      "was": "{loser} can have the last joke, if they like. {winner} has the last word on the trophy."
+    },
+    {
+      "id": "cb42-078",
+      "text": "What matters is the full body of work, and {winnerClub} has been the best over that distance.",
+      "score": 9,
+      "was": "The contest demanded patience as well as results. {winnerClub} has been rewarded at the end."
+    },
+    {
+      "id": "cb42-079",
+      "text": "What {winner} has won here can't be undone by a clever retelling of earlier seasons.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-080",
+      "text": "I'd leave space on the shelf, because {winner} has earned something worth displaying.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb42-081",
+      "text": "That trophy will look fine in {winnerClub}'s cabinet, even if the bragging starts immediately.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-082",
+      "text": "You don't often get a cleaner end to an argument. {winner} is the overall champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-083",
+      "text": "{loserClub} still has plenty of reasons to compete again. That's how a rivalry keeps its appeal.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb42-084",
+      "text": "Here comes the good part for {winner}, the moment when all the effort has a name.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-085",
+      "text": "It's the kind of achievement that grows when the chatter fades. An overall honor doesn't need an encore.",
+      "score": 9,
+      "was": "It's not always the loudest achievement that carries the furthest. The overall title does."
+    },
+    {
+      "id": "cb42-086",
+      "text": "{winnerClub} has won the Showdown. Everything else now belongs in the stories told afterward.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-087",
+      "text": "I'll say this about {loser}, they helped make that title worth a proper celebration.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-088",
+      "text": "Rather than prepare a speech, {winner} could just frame {winnerPoints} to {loserPoints}. Efficient, really.",
+      "score": 10,
+      "was": "Maybe {winner} should frame the final standings rather than make a speech. Much less trouble."
+    },
+    {
+      "id": "cb42-089",
+      "text": "Those accumulated points have done their job for {winner}. The reward is the overall title.",
+      "score": 9,
+      "was": "Those points over the entire contest have delivered {winner} the prize that matters most."
+    },
+    {
+      "id": "cb42-090",
+      "text": "Right then, the debate can take a holiday. {winnerClub} is the finished Showdown's champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-091",
+      "text": "{winner} now gets to enjoy that rare luxury, a sporting argument with an actual conclusion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-092",
+      "text": "At the closing whistle, it's not the loudest memory that matters. It's the name engraved at the end.",
+      "score": 10,
+      "was": "All the individual seasons have had their say, and the final word belongs to the champion."
+    },
+    {
+      "id": "cb42-093",
+      "text": "{loser} hasn't been written out of the story. Their challenge is part of what made it memorable.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb42-094",
+      "text": "Completing the challenge takes something, and {winner} has ended it with the top prize.",
+      "score": 9,
+      "was": "It takes a complete contest to earn this recognition, and {winner} has seen it through."
+    },
+    {
+      "id": "cb42-095",
+      "text": "There's a neat fairness to it. Everyone had their chance, and {winnerClub} takes the overall prize.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb42-096",
+      "text": "{winner} can be generous in victory. That shouldn't be difficult with the title safely secured.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb42-097",
+      "text": "This final page suits {winnerClub}, although I suspect the next rivalry will be every bit as entertaining.",
+      "score": 9,
+      "was": "The final page looks rather good for {winnerClub}. A proper ending after a proper contest."
+    },
+    {
+      "id": "cb42-098",
+      "text": "Banter will carry on as ever, except {winner} can now point to the finished standings.",
+      "score": 9,
+      "was": "You'd imagine the banter will continue, but {winner} now holds the strongest possible reply."
+    },
+    {
+      "id": "cb42-099",
+      "text": "{loserClub} has reason to come back with ambition. A gracious ending doesn't mean the rivalry is finished.",
+      "score": 10,
+      "was": "{loserClub} knows exactly what will be required next time. For now, congratulate the champions."
+    },
+    {
+      "id": "cb42-100",
+      "text": "And that's it, really. {winnerPoints} to {loserPoints}, and {winner} can take a deserved bow.",
+      "score": 10,
+      "was": "And that's it, really. The Showdown has its winner, and {winner} can take a deserved bow."
+    }
+  ]
+}
