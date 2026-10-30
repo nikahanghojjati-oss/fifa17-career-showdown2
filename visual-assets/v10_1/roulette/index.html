@@ -159,12 +159,24 @@ stage.appendChild(renderer.domElement);
 const scene=new T.Scene(); scene.background=new T.Color(0x07050a); scene.fog=new T.FogExp2(0x0a0705,.075);
 const camera=new T.PerspectiveCamera(38,1,.05,60);
 /* THE HAND (ticket 1854): a painted gloved hand holding the revolver, cut out on black, rides on the camera as a layer in the shooter's view. The person sits in the dark: no face, no body. */
-let handHold=false, handK=0, handRecoil=0, handSide=-1, handAspect=16/9, hasHand=false; const HAND_MUZZLE={u:.22,v:.70};
+let handHold=false, handK=0, handRecoil=0, handSide=-1, handAspect=16/9, hasHand=false, handAimAt=null; const HAND_MUZZLE={u:.22,v:.70}, HAND_REAR={u:.41,v:.79};
 const hand=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({transparent:true, depthTest:false, depthWrite:false, toneMapped:false, opacity:0})); hand.renderOrder=20; hand.frustumCulled=false; camera.add(hand);
 function keyOutBlack(img){ const c=document.createElement("canvas"); c.width=img.width; c.height=img.height; const x=c.getContext("2d"); x.drawImage(img,0,0); const d=x.getImageData(0,0,c.width,c.height), a=d.data; let hasAlpha=false; for(let i=3;i<a.length;i+=4*97){ if(a[i]<250){ hasAlpha=true; break; } }
   if(!hasAlpha){ for(let i=0;i<a.length;i+=4){ const m=Math.max(a[i],a[i+1],a[i+2]); a[i+3]=m<7?0:m<22?Math.round((m-7)/15*255):255; } x.putImageData(d,0,0); } return c; }
-function placeHand(){ const fh=2*Math.tan(camera.fov*Math.PI/360), fw=fh*camera.aspect; const ph=fh*(PH?.56:.68), pw=ph*handAspect; hand.scale.set(pw*handSide,ph,1);
-  const lift=(1-handK)*ph*1.1; const rx=handRecoil; hand.position.set(handSide*(fw/2-pw*.40)+rx*handSide*.01, -fh/2+ph*.42-lift+rx*.025, -1); hand.rotation.z=handSide*rx*.16; hand.material.opacity=handK>0?Math.min(1,handK*3):0; }
+function placeHand(){ const fh=2*Math.tan(camera.fov*Math.PI/360), fw=fh*camera.aspect; const ph=fh*(PH?.56:.68)*(handAimAt?AIM_SCALE():1), pw=ph*handAspect; hand.scale.set(pw*handSide,ph,1);
+  const lift=(1-handK)*ph*1.1; const rx=handRecoil; hand.position.set(handSide*(fw/2-pw*.40)+rx*handSide*.01, -fh/2+ph*.42-lift+rx*.025, -1);
+  hand.rotation.z=handAim(fw,fh,pw,ph)*Math.min(1,handK)+handSide*rx*.16; hand.material.opacity=handK>0?Math.min(1,handK*3):0; }
+/* r87 (Nik 2026-10-30: "gun should face the board it's shooting"): while a turn aims, the hand sits a little smaller in its
+   corner, so the muzzle is below and beside the board instead of in the middle of the frame, and the picture turns about its
+   centre until the line from the cylinder (HAND_REAR) through the muzzle runs through the target (projected onto the hand's
+   plane, z -1). A few passes, because the turn moves the muzzle too; clamped so the wrist stays natural. */
+/* phones: the frame is narrow and the barrel long, so the hand is smaller and may turn further (the barrel rises toward the board) */
+const AIM_SCALE=()=>PH?.72:.8, AIM_MAX=()=>PH?1.0:.38;
+function handAim(fw,fh,pw,ph){ if(!handAimAt) return 0; camera.updateMatrixWorld(); const n=handAimAt.clone().project(camera); if(!(n.z<1)) return 0;
+  const tx=n.x*fw/2, ty=n.y*fh/2, px=hand.position.x, py=hand.position.y, sx=pw*handSide;
+  const mx=(HAND_MUZZLE.u-.5)*sx, my=(HAND_MUZZLE.v-.5)*ph, bx=mx-(HAND_REAR.u-.5)*sx, by=my-(HAND_REAR.v-.5)*ph, base=Math.atan2(by,bx);
+  let th=0; for(let i=0;i<5;i++){ const c=Math.cos(th), s=Math.sin(th); const qx=px+mx*c-my*s, qy=py+mx*s+my*c; th=Math.atan2(ty-qy,tx-qx)-base; th=Math.atan2(Math.sin(th),Math.cos(th)); th=Math.max(-AIM_MAX(),Math.min(AIM_MAX(),th)); }
+  return th; }
 function handMuzzleWorld(){ const v=new T.Vector3((HAND_MUZZLE.u-.5),(HAND_MUZZLE.v-.5),0); return hand.localToWorld(v); }
 function handPlaceholder(){ const c=document.createElement("canvas"); c.width=1600; c.height=900; const x=c.getContext("2d"); x.clearRect(0,0,1600,900);
   x.fillStyle="#2a1d14"; x.beginPath(); x.moveTo(1600,900); x.lineTo(1600,420); x.quadraticCurveTo(1180,380,980,470); x.quadraticCurveTo(900,520,960,600); x.lineTo(1100,900); x.closePath(); x.fill();
@@ -607,7 +619,8 @@ function makeBoard(key,label){ const g=new T.Group(); scene.add(g); const inner=
   const beadG=new T.ExtrudeGeometry(ringShape(BOARD_W+FW*2+.022,BOARD_H+FW*2+.022,.03,BOARD_W+FW*2+.002,BOARD_H+FW*2+.002),{depth:.014, bevelEnabled:true, bevelThickness:.004, bevelSize:.004, bevelSegments:3}); beadG.translate(0,0,-.024); inner.add(new T.Mesh(beadG,GM.gold));
   const backing=new T.Mesh(new T.BoxGeometry(BOARD_W+FW*2,BOARD_H+FW*2,.02),lacquer); backing.position.z=-.04; inner.add(backing);
   const [c,ctx]=cv(2048,1560); const tex=new T.CanvasTexture(c); tex.encoding=T.sRGBEncoding; tex.anisotropy=16;
-  const face=new T.Mesh(new T.PlaneGeometry(BOARD_W,BOARD_H),new T.MeshPhysicalMaterial({map:tex, roughness:.32, metalness:0, clearcoat:1, clearcoatRoughness:.08})); face.position.z=-.006; inner.add(face);
+  /* r87 (Nik 2026-10-30: boards and players clearer): the squad screen glows a little by itself (emissive from its own picture), so it reads in the dim room, and a softer clearcoat keeps the lamp glare off the names */
+  const face=new T.Mesh(new T.PlaneGeometry(BOARD_W,BOARD_H),new T.MeshPhysicalMaterial({map:tex, emissiveMap:tex, emissive:new T.Color(1,1,1), emissiveIntensity:.42, roughness:.45, metalness:0, clearcoat:.45, clearcoatRoughness:.22})); face.position.z=-.006; inner.add(face);
   /* easel */
   const easel=new T.Group(); g.add(easel); const walnut=lacquer;
   const leg=(x,z,tiltZ,tiltX,len)=>{ const m=new T.Mesh(new T.CylinderGeometry(.014,.02,len,14),walnut); m.position.set(x,-len/2+BOARD_H/2+.12,z); m.rotation.z=tiltZ; m.rotation.x=tiltX; m.castShadow=true; easel.add(m);
@@ -761,7 +774,7 @@ function at(tt,t,k,fn){ if(tt>=t&&!fired[k]){ fired[k]=1; fn(); } }
 let lastClick=0;
 function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
   const muzzleW=new T.Vector3(); muzzle.getWorldPosition(muzzleW);
-  if(!p){ handHold=false; handK=0; handRecoil=0; crane.rotation.z=lerp(crane.rotation.z,0,Math.min(1,dt*6)); hammerK=lerp(hammerK,0,Math.min(1,dt*6)); cyl.rotation.z=lerp(cyl.rotation.z,cylTarget(),Math.min(1,dt*6)); spin.position.lerp(new T.Vector3(0,.751,.02),Math.min(1,dt*.8)); }
+  if(!p){ handHold=false; handK=0; handRecoil=0; handAimAt=null; crane.rotation.z=lerp(crane.rotation.z,0,Math.min(1,dt*6)); hammerK=lerp(hammerK,0,Math.min(1,dt*6)); cyl.rotation.z=lerp(cyl.rotation.z,cylTarget(),Math.min(1,dt*6)); spin.position.lerp(new T.Vector3(0,.751,.02),Math.min(1,dt*.8)); }
   else {
     const tgt=boardTargetWorld(p.who,p.target);
     /* a. the spin: fast, friction slows it, stops on the target with a small overshoot and settle */
@@ -779,7 +792,7 @@ function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
     at(tt,B.turnC,"turnC",()=>SFX.play("click",1)); cyl.rotation.z=cylTarget()+showExtra;
     hammerK=tt<B.cock?0:tt<B.fire?ease.out(S(B.cock,.3,tt)):Math.max(0,1-S(B.fire,.05,tt));
     /* the hand: rises from the dark once the drum is shut, holds and breathes, fires or clicks, then sinks away */
-    handHold=tt>=B.hand&&tt<B.end-.2; handSide=p.who==="D"?1:-1;   /* the hand sits on the side away from the board, so the gun crosses the frame toward it */
+    handHold=tt>=B.hand&&tt<B.end-.2; handSide=p.who==="D"?1:-1; handAimAt=tgt;   /* the hand sits on the side away from the board, so the gun crosses the frame toward it */
     { const up=ease.out(S(B.hand,1.1,tt)); const down=tt<B.fire+(p.fire?.35:1.0)?0:ease.inOut(S(B.fire+(p.fire?.35:1.0),p.fire?.9:.6,tt)); const breathe=Math.sin(tt*2.1)*.004+Math.sin(tt*5.3)*.0015; handK=Math.max(0,up-down)+(handHold?breathe:0);
       if(tt>=B.fire){ const a=tt<B.fire+.06?S(B.fire,.06,tt):1-ease.out(S(B.fire+.06,.55,tt)); handRecoil=(p.fire?1:.12)*Math.max(0,a); } else handRecoil=0; }
     at(tt,B.hand,"handUp",()=>SFX.play("handUp")); at(tt,B.cock,"cock",()=>SFX.play("cock")); at(tt,B.aim,"heart",()=>SFX.play("heart")); at(tt,B.aim+1.0,"heart2",()=>SFX.play("heart"));
@@ -805,7 +818,7 @@ function fireShot(p,tgt){ const mz=new T.Vector3(); if(handHold){ camera.updateM
   flashCore.material.opacity=1; flashCore.scale.set(.055,.055,1);
   petals.forEach((sp,i)=>{ sp.material.opacity=1; const z=.12+i*.07; sp.scale.set(z,z,1); sp.material.rotation=rnd()*6; });
   flashSide.material.opacity=.4; flashSide.scale.set(.25,.25,1);
-  flashLight.position.copy(mz).add(dir.clone().multiplyScalar(.22)).add(new T.Vector3(0,.1,0)); flashLight.intensity=REDUCED?2.5:6; flashLight.color.set(L("#ffd6a8"));
+  flashLight.position.copy(mz).add(dir.clone().multiplyScalar(.22)).add(new T.Vector3(0,.1,0)); flashLight.intensity=REDUCED?2.5:PH?3.5:6; flashLight.color.set(L("#ffd6a8"));
   spray(mz.clone().add(dir.clone().multiplyScalar(.03)),dir,REDUCED?10:34,4.5);
   puff(mz,dir,14,.11,2.0,1.9); puff(mz,new T.Vector3(0,1,0),10,.09,.35,3.0); puff(mz.clone().add(dir.clone().multiplyScalar(.08)),dir,8,.07,2.8,1.2);
   const flat=new T.Vector3(dir.x,0,dir.z).normalize(); p.slideV.copy(flat).multiplyScalar(REDUCED?-.5:-1.3); p.slide.set(0,0,0); p.slideSpin=0; p.spinKick=(rnd()-.5)*.6; recoil=1;
@@ -857,9 +870,13 @@ function tick(draw){ const t=now(); let dt=Math.min(.05,t-last||.016); last=t; i
   /* lantern: living flame */
   const fl=.85+Math.sin(t*17)*.08+Math.sin(t*29.3)*.05+Math.sin(t*3.1)*.04; table.userData.lantern.intensity=1.5*fl; table.userData.flame.scale.set(.09*(fl+.05),.19*(fl+.12),1); table.userData.flame.material.rotation=Math.sin(t*9)*.08+Math.sin(t*23)*.04; table.userData.flame.position.x=Math.sin(t*11)*.003; table.userData.halo.material.opacity=.3*fl;
   const dtF=dt*fxScale;   /* slow motion for every effect while the camera rides the bullet */
-  flashLight.intensity*=Math.pow(.0005,dtF); flashSprite.material.opacity*=Math.pow(.0001,dtF); flashSprite.scale.multiplyScalar(1+dtF*3); flashSide.material.opacity*=Math.pow(.001,dtF);
+  /* r87 (Nik 2026-10-30: bullet lighting on phone): in the bullet's slow motion the muzzle light and glow used to linger and
+     keep swelling, a wash of yellow over the board on phones where the camera rides close. The light and the soft glows now
+     fade at least at 60% of real speed and the glow stops growing at a set size; the hard flash core keeps the slow motion. */
+  const dtL=Math.max(dtF,dt*(PH?1:.6));
+  flashLight.intensity*=Math.pow(.0005,dtL); flashSprite.material.opacity*=Math.pow(.0001,dtL); if(flashSprite.scale.x<.22) flashSprite.scale.multiplyScalar(1+dtF*3); flashSide.material.opacity*=Math.pow(.001,dtL);
   if(playing&&playing.dir&&flashCore.material.opacity>.005){ const mzW=new T.Vector3(); if(handHold){ hand.updateMatrixWorld(); mzW.copy(handMuzzleWorld()); } else muzzle.getWorldPosition(mzW); placeFlash(mzW,playing.dir); }
-  flashCore.material.opacity*=Math.pow(.00001,dtF); petals.forEach((sp,i)=>{ sp.material.opacity*=Math.pow(i?.0001:.00002,dtF); sp.scale.multiplyScalar(1+dtF*(3-i)); sp.material.rotation+=dtF*(i?-1.5:2); }); hitFlash.material.opacity*=Math.pow(.0002,dtF); hitFlash.scale.multiplyScalar(1+dtF*5); hitLight.intensity*=Math.pow(.001,dtF);
+  flashCore.material.opacity*=Math.pow(.00001,dtF); petals.forEach((sp,i)=>{ sp.material.opacity*=Math.pow(i?.0001:.00002,dtF); if(sp.scale.x<.55) sp.scale.multiplyScalar(1+dtF*(3-i)); sp.material.rotation+=dtF*(i?-1.5:2); }); hitFlash.material.opacity*=Math.pow(.0002,dtF); hitFlash.scale.multiplyScalar(1+dtF*5); hitLight.intensity*=Math.pow(.001,dtF);
   sparks.forEach(p=>{ if(p.life<=0){ p.s.visible=false; return; } p.life-=dtF; p.s.position.addScaledVector(p.v,dtF); p.v.y-=dtF*4; p.v.multiplyScalar(Math.pow(.2,dtF)); const k=p.life/p.max; p.s.material.opacity=Math.min(1,k*2); p.s.material.color.setRGB(1,.55+k*.45,.2+k*.6); });
   shake*=Math.pow(.01,dt);
   smokes.forEach(p=>{ if(p.life<=0){ p.s.visible=false; return; } p.life-=dtF; const k=1-p.life/p.max; p.s.position.addScaledVector(p.v,dtF); p.v.multiplyScalar(Math.pow(.25,dtF)); p.v.y+=dtF*.12; p.s.material.opacity=.42*Math.sin(Math.min(1,k*1.2)*Math.PI)*(1-k*.3); const sz=p.size*(.4+k*1.6); p.s.scale.set(sz,sz,1); p.s.material.rotation+=p.rot*dt; });

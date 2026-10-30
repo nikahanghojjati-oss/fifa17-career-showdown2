@@ -354,7 +354,7 @@
   #app #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly) { grid-template-columns: 22px minmax(0, .9fr) minmax(0, 1.2fr) minmax(0, 1fr); gap: 6px; }
   #app #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly):has(> .signing-name-cell) { grid-template-columns: 22px minmax(min(132px, 40%), 1.4fr) minmax(0, 1.2fr) minmax(0, 1fr); }
   #app #transferChallenge .tw-host .guess-num { font-size: 13px; }
-  #app #transferChallenge .tw-host :is(.guess-col select, .guess-col input, .signing-row input) {
+  #app #transferChallenge .tw-host :is(.guess-col select, .guess-col input, .signing-row input, .signing-row select.signingPosition) {
     height: 38px; min-height: 38px; font-size: 16px; padding: 0 9px; border-radius: 3px;
   }
   #app #transferChallenge .tw-host .guess-col select { padding-right: 26px; background-position: calc(100% - 15px) 55%, calc(100% - 10px) 55%; background-size: 5px 5px; }
@@ -519,6 +519,7 @@
   #app #transferChallenge .tw-host .guess-col select,
   #app #transferChallenge .tw-host .guess-col input,
   #app #transferChallenge .tw-host .signing-row input { height: clamp(52px, 5.2svh, 64px); min-height: 52px; font-size: 18px; padding: 0 14px; border-radius: 4px; }
+  #app #transferChallenge .tw-host .signing-row select.signingPosition { height: clamp(52px, 5.2svh, 64px); min-height: 52px; font-size: 18px; border-radius: 4px; }
   #app #transferChallenge .tw-host .guess-col select { padding-right: 34px; background-position: calc(100% - 19px) 55%, calc(100% - 13px) 55%; background-size: 6px 6px; }
   #app #transferChallenge .tw-host .signing-row input::placeholder { font-size: 15px; }
   #app #transferChallenge .tw-host .action-row { gap: 12px; }
@@ -717,6 +718,7 @@
   #app #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly) > .guess-num { grid-row: 1 / 3; }
   #app #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly) > :is(.signing-name-cell, input:first-of-type) { grid-column: 2 / 4; }
   #app #transferChallenge .tw-host .signing-row input { height: 44px; font-size: 16px; padding: 0 7px; }
+  #app #transferChallenge .tw-host .signing-row select.signingPosition { height: 44px; font-size: 16px; }
   #app #transferChallenge .tw-host :is(.privacy-note, .lock-summary) { display: block; font-size: 12px; line-height: 1.2; }
   #app #transferChallenge .tw-host .action-row { min-height: 0; flex-wrap: wrap; }
   #app #transferChallenge .tw-host :is(.btn-end, .btn-lock, .btn-continue).menuButton,
@@ -750,7 +752,7 @@
   #app #transferChallenge .tw-host .panel-body { min-height: 0; }
   #app #transferChallenge .tw-host :is(.guess-cols, .signing-rows, .verdict-body) { flex: none; overflow: visible; }
   #app #transferChallenge .tw-host .phase-signing .action-row .privacy-note { display: block; }
-  #app #transferChallenge .tw-host :is(.guess-col select, .guess-col input, .signing-row input) { height: 44px; min-height: 44px; }
+  #app #transferChallenge .tw-host :is(.guess-col select, .guess-col input, .signing-row input, .signing-row select.signingPosition) { height: 44px; min-height: 44px; }
   #app #transferChallenge .tw-host .phone-hero-art { position: fixed; }
   #app #transferChallenge .tw-host .hud-footer { position: fixed; }
   #app #transferChallenge .tw-host .hud-mid { flex-direction: column; gap: 3px; }
@@ -854,7 +856,7 @@
   }
   #app #transferChallenge .tw-host .tw-desktop-content .signing-row.signingRow:not(.is-readonly):has(> .signing-name-cell) { grid-template-columns: 16px minmax(min(132px, 40%), 1.55fr) minmax(0, 1.2fr) minmax(0, 1fr); }
   #app #transferChallenge .tw-host .tw-desktop-content .signing-row.signingRow:not(.is-readonly) > .guess-num { align-self: start; line-height: 44px; }
-  #app #transferChallenge .tw-host .tw-desktop-content :is(.guess-col select, .guess-col input, .signing-row input) {
+  #app #transferChallenge .tw-host .tw-desktop-content :is(.guess-col select, .guess-col input, .signing-row input, .signing-row select.signingPosition) {
     height: 44px; font-size: 16px; padding-inline: 6px;
   }
   #app #transferChallenge .tw-host .tw-desktop-content .action-row { flex-wrap: wrap; gap: 8px; }
@@ -1037,8 +1039,40 @@ html[data-reduced-motion="true"] #app #transferChallenge .tw-host :is(.ddHeadlin
 }
 #app #transferChallenge .tw-host.tw-dd-flow > .ddStrip { position: relative; z-index: 3; border-radius: 0; border-left: 0; border-right: 0; }
 
-/* r87 (Team G): production's overall box sits in Team V's name cell beside the player name at every size; it keeps
-   44px+ so two digits and the OVR placeholder never clip, and the name cell gives way first. */
-#transferChallenge .tw-host .signing-name-cell { display: grid; grid-template-columns: minmax(0, 1fr) minmax(46px, 3.6em); gap: 4px; min-width: 0; align-items: center; }
-#transferChallenge .tw-host .signing-name-cell > input { min-width: 0; width: 100%; grid-column: auto; }
+/* r87 (Team G): production's position and overall boxes sit in Team V's name cell after the player name at every size
+   (name, POS, OVR). POS keeps 62px+ so "CAM" and its arrow never clip, OVR 46px+ for two digits; the name gives way first. */
+#transferChallenge .tw-host .signing-name-cell { display: grid; grid-template-columns: minmax(0, 1fr) minmax(62px, 4.4em) minmax(46px, 3.6em); gap: 4px; min-width: 0; align-items: center; }
+#transferChallenge .tw-host .signing-name-cell > :is(input, select) { min-width: 0; width: 100%; grid-column: auto; }
 #transferChallenge .tw-host .signing-row input.signingOverall { text-align: center; padding-inline: 2px; font-variant-numeric: tabular-nums; }
+/* the position box wears the plate's field look (visual-assets/v10_1/tr2/slice-02-plate/plate.css .signing-row input) with
+   the guess selectors' gold arrow */
+#transferChallenge .tw-host .signing-row select.signingPosition {
+  width: 100%; min-width: 0; height: calc(var(--k) * 38px); margin: 0; appearance: none; -webkit-appearance: none; cursor: pointer;
+  font-family: var(--cond); font-weight: 600; font-size: max(12.5px, calc(var(--k) * 15.5px)); letter-spacing: 0.02em; text-align: center; text-align-last: center;
+  color: var(--cream); background-color: color-mix(in srgb, var(--sd-black) 76%, transparent); border: 0; border-radius: calc(var(--k) * 2px);
+  box-shadow: inset 0 calc(var(--k) * 2px) calc(var(--k) * 4px) rgba(0, 0, 0, 0.55), inset 0 0 0 1px var(--sd-edge), inset 0 calc(var(--k) * -1px) 0 rgba(255, 210, 120, 0.42), 0 0 calc(var(--k) * 6px) rgba(255, 190, 80, 0.10);
+  padding: 0 14px 0 4px;
+  background-image: linear-gradient(45deg, transparent 50%, var(--gold) 50%), linear-gradient(135deg, var(--gold) 50%, transparent 50%);
+  background-position: calc(100% - 10px) 55%, calc(100% - 6px) 55%; background-size: 4px 4px; background-repeat: no-repeat;
+}
+#transferChallenge .tw-host .signing-row select.signingPosition:invalid, #transferChallenge .tw-host .signing-row select.signingPosition:has(option[value=""]:checked) { color: rgba(205, 187, 143, 0.78); }
+#transferChallenge .tw-host .signing-row select.signingPosition option { color: #111; background: #f4efe2; }
+#transferChallenge .tw-host .signing-row select.signingPosition:focus-visible { outline: 2px solid var(--gold-hot); outline-offset: 2px; }
+#transferChallenge .tw-host .signing-row select.signingPosition:disabled { color: var(--cream); -webkit-text-fill-color: var(--cream); opacity: 1; cursor: default; }
+/* the size blocks above set field padding; the position box keeps room for its arrow at every size */
+#app #transferChallenge .tw-host .signing-name-cell > select.signingPosition.signingPosition { padding: 0 14px 0 4px; }
+/* r87 (Nik 2026-10-30 16:54 UTC: "no overlap, no collision"): with POS and OVR beside it the name needs its own line at every
+   size, so each own signing is two lines everywhere, as phones already were: name, POS, OVR on top, league and nationality
+   below. The name keeps 120px+ and nothing shrinks to a sliver. */
+#app #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly):has(> .signing-name-cell):not(#tw-r87) {
+  grid-template-columns: max(20px, calc(var(--k, 1) * 16px)) minmax(0, 1fr) minmax(0, 1fr); row-gap: 5px;
+}
+#app #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly):has(> .signing-name-cell):not(#tw-r87) > .guess-num { grid-row: 1 / 3; }
+#app #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly):not(#tw-r87) > .signing-name-cell { grid-column: 2 / 4; grid-template-columns: minmax(120px, 1fr) minmax(62px, 4.4em) minmax(46px, 3.6em); }
+/* With two-line signings the laptop panels rise to the floating YOU chip's spot. In Nik's view that chip (anchored left of
+   the plate's x 124) would sit under Daniel's panel, so on the signing screen Nik's YOU moves into his own panel title,
+   as on phones. Daniel's chip sits left of his own panel and stays. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  #app #transferChallenge .tw-host:has(.signing-name-cell) .you-chip.anchor-left { display: none !important; }
+  #app #transferChallenge .tw-host:has(.signing-name-cell):has(.you-chip.anchor-left) .panel.own .panel-title .chip-you.m-only { display: inline-flex !important; }
+}

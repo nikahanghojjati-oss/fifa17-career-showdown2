@@ -11,11 +11,11 @@
   // (starting XI + 4 subs); he releases that player in FIFA 17. Like the Special Player draw, every result is read from
   // the Showdown's own Firebase id (64 random hex digits, the same on both phones): no read, no Rules lookup, and a refresh
   // or a second tap can never re-spin.
-  // The board builds itself (Nik 2026-10-30, "Auto: replace the lowest overall"). Season 1: the FIFA 17 launch board,
-  // with the manager's Special Player in place of the lowest-rated player when he is better. From season 2: last
+  // The board builds itself (Nik 2026-10-30, "Auto: replace the lowest overall"). Season 1: the FIFA 17 launch board.
+  // The Special Player is never on the board (Nik 2026-10-30 16:53 UTC), so he can never be hit. From season 2: last
   // season's board minus the player shot last season, then last season's kept Transfer War signings, best overall
   // first: each fills the empty slot if there is one, otherwise replaces the lowest overall on the board when it is
-  // strictly better. The Special Player is never hit; every other player on the board has the same chance.
+  // strictly better. Every player on the board has the same chance.
   const RIVALRY_ID=/^pair_([0-9a-f]{64})$/;
   const ROLES=Object.freeze(["playerOne","playerTwo"]); // turn order: Daniel (Player One) first
   const CHAMBERS=7;
@@ -106,13 +106,15 @@
     const boards={},turns={};
     for(const role of ROLES){
       const board=args.launch[role].slice(),sp=rrSpecial(special,role);
-      if(sp){const same=board.findIndex(p=>rrKey(p.name)===rrKey(sp.name));if(same>=0)board[same]=rrRow(board[same].slot,board[same].pos,board[same].name,{...board[same],special:true});else rrJoin(board,{...sp,special:true});}
+      // r87 (Nik 2026-10-30): the Special Player is never on the board, so he can never be hit. If he is in the club's
+      // launch squad his slot starts empty and the next kept signing fills it.
+      if(sp){const same=board.findIndex(p=>rrKey(p.name)===rrKey(sp.name));if(same>=0)board[same]=rrRow(board[same].slot,board[same].pos,"",{number:null,rating:0,special:false,signedSeason:null});}
       for(let k=1;k<season;k+=1){
         const turn=rrTurn(args.hex,k,role,board);
         if(turn.fired){const old=board[turn.hitSlot];board[turn.hitSlot]=rrRow(old.slot,old.pos,"",{number:null,rating:0,special:false,signedSeason:null});}
         const kept=rrKept(history&&history[k]&&history[k][role],k);
         if(!kept)return null;
-        for(const player of kept)rrJoin(board,player);
+        for(const player of kept)if(!sp||rrKey(player.name)!==rrKey(sp.name))rrJoin(board,player);
       }
       boards[role]=Object.freeze(board);
       turns[role]=rrTurn(args.hex,season,role,board);
