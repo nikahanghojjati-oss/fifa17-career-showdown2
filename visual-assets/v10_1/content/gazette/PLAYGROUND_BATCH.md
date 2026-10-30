@@ -1,6 +1,19 @@
 # Touchline Gazette and TV commentary: the content factory
 
-## START HERE: the work order (one file, then just type "next")
+## START HERE: five work orders, five chats at once (30 Oct)
+
+Each chat gets its own file and its own queue, so they never do the same batch. Use GPT-5.6 Sol with thinking on, in a normal new chat. Attach one file and type "start". Then type "next" each time. Send me each zip (the zips are named with W1 to W5).
+
+1. [WORK_ORDER_1.txt](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-fyjnky/visual-assets/v10_1/content/gazette/WORK_ORDER_1.txt): commentary B35 to B111 (your current chat: attach this file and type "use this file's queue from now on")
+2. [WORK_ORDER_2.txt](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-fyjnky/visual-assets/v10_1/content/gazette/WORK_ORDER_2.txt): commentary B112 to B144, club lines G1 to G14, small print D5 to D40
+3. [WORK_ORDER_3.txt](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-fyjnky/visual-assets/v10_1/content/gazette/WORK_ORDER_3.txt): headlines A2 to A77
+4. [WORK_ORDER_4.txt](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-fyjnky/visual-assets/v10_1/content/gazette/WORK_ORDER_4.txt): headlines A78 to A152
+5. [WORK_ORDER_5.txt](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-fyjnky/visual-assets/v10_1/content/gazette/WORK_ORDER_5.txt): front-page stories C5 to C76
+
+Booth duets F25 to F96 are in the Work mode job (workmode/WORKMODE_JOB.txt). WORK_ORDER.txt is the old single file: do not attach it any more.
+
+## Older notes: the single work order
+
 
 Mega runs proved too big for one GPT reply. The work order fixes that. You attach ONE file and type "start". The AI then writes one batch, edits it to AAA, checks it with the checker, and saves it. After that you type "next" for the next batch, or "next 3" for three. Every 10 batches it gives you a zip pack. No more pasting prompts.
 

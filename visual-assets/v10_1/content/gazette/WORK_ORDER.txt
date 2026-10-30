@@ -1,3 +1,5 @@
+RETIRED 30 Oct: use WORK_ORDER_1.txt to WORK_ORDER_5.txt instead (one per chat). Do not run this file.
+
 CAREER MODE SHOWDOWN CONTENT FACTORY: WORK ORDER
 (This file is the whole job. Read all of it before you start.)
 
