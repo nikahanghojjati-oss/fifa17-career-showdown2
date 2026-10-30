@@ -10,14 +10,14 @@
 //   listener                                       Rules are evaluated when the listen stream attaches and again each time its
 //                                                  results update (Firebase pricing, "Listeners and rules"): lookups at attach and
 //                                                  on every delivered change after the first result; each delivery is 1 read (the
-//                                                  firestore-meter count). A stream the SDK silently re-opens (network blip) is not
-//                                                  visible here and would re-evaluate Rules.
+//                                                  firestore-meter count). A stream the SDK re-opens after a network blip (a
+//                                                  fromCache snapshot, then a server one) is a "reconnect" delivery: 1 read +
+//                                                  lookups even when nothing changed (Sol r86 #02).
 //   getDocs (a query)                              Rules evaluated once for the query: lookups once, not per returned document
 //                                                  (every `allow list` in the production Rules is false, so none is expected)
 //   writes                                         lookups of the path's create/update upper bound, once per distinct document per
 //                                                  commit (batch/transaction = one request, a single setDoc/updateDoc = its own)
-// Not modelled: reads Firebase bills that the SDK makes without the app asking (index/metadata), rules-evaluation retries, and a
-// listener the SDK re-attaches by itself. A lookup of the very document being read or written is counted (conservative);
+// Not modelled: reads Firebase bills that the SDK makes without the app asking (index/metadata), rules-evaluation retries. A lookup of the very document being read or written is counted (conservative);
 // `selfLookups` says how many reads that was.
 const path=require("node:path");
 const fs=require("node:fs");
