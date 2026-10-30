@@ -8,6 +8,7 @@ const vm=require('node:vm');
 const {randomBytes,createHash}=require('node:crypto');
 const ROOT=path_.resolve(__dirname,'../..');
 const Squads=require('../../data/rosterSquads.js');
+const Players=require('../../data/fifa17Players.js');
 const RRR=require('../../js/rosterRoulette.js');
 let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${label}`);};
 
@@ -100,7 +101,7 @@ assert.ok(hitBench>0,'subs can be hit');
 ok('L3',`Daniel first; fire rate ${(rate*100).toFixed(2)}% over ${turns} spins; Special Player never on the board; all 15 evenly`);
 
 // L4 the board builds itself: the launch board in season 1 (never the Special Player); from season 2 the player shot last season
-// is out and last season's kept signings come in (empty slot first, then over the lowest overall when strictly better);
+// is out and last season's kept signings come in by compatible line, then by bench overall;
 // released signings and signings without an overall never join.
 {
   const launch=RRR.board('Liverpool');
@@ -126,17 +127,19 @@ ok('L3',`Daniel first; fire rate ${(rate*100).toFixed(2)}% over ${turns} spins; 
         const shot=turn.fired?turn.player.name:null;
         if(shot)assert.ok(!next.some(p=>p.name===shot)||kept.name===shot,'the player shot last season is gone');
         for(const gone of hist[season-1][role].slice(1))assert.ok(!next.some(p=>p.name===gone.name),'released or no-overall signings never join');
-        const rest=prev.filter(p=>p.name&&p.name!==shot),weakest=Math.min(...rest.map(p=>p.rating));
-        const joins=shot!==null||kept.overall>weakest;
-        assert.equal(next.some(p=>p.name===kept.name),joins,`season ${season}: kept signing joins only into an empty slot or over a weaker player`);
+        const bench=prev.filter(p=>p.bench&&p.name&&p.name!==shot);
+        // These synthetic names have no database position, so they may only join the bench.
+        const joins=bench.length<4||kept.overall>Math.min(...bench.map(p=>p.rating));
+        assert.equal(next.some(p=>p.name===kept.name),joins,`season ${season}: sub-only signing joins only an empty bench slot or over a weaker sub`);
         assert.ok(!next.some(p=>p.special||p.name===sp[role].name),'the Special Player is never on the board');
-        assert.equal(next.filter(p=>!p.name).length,0,'every empty slot is filled when a signing exists');
+        assert.ok(next.filter(p=>p.name).length<=15,'board never overflows');
+        assert.ok(!next.some(p=>!p.bench&&p.name===kept.name),'unknown-position signing stays sub-only');
       }
     }
   }
   // A missing season of history = no roulette (the step reads it first).
   assert.equal(RRR.forSeason(rid,clubs,3,{special:sp,history:[null,hist[1]]}),null);
-  // No kept signing: the shot slot stays empty and is never a target.
+  // No kept signing: vacancies may be filled from the bench; remaining empty slots are never targets.
   const empty=[null];for(let k=1;k<=9;k+=1)empty.push({playerOne:[],playerTwo:[]});
   for(let g=0;g<400;g+=1){const r=fixedId(g);for(let season=2;season<=10;season+=1){const v=RRR.forSeason(r,clubs,season,{special:sp,history:empty});for(const t of v.turns)if(t.fired)assert.ok(t.player.name&&!t.player.special);}}
   ok('L4','auto board: launch board in season 1, never the Special Player; shot player out, kept signings in by overall; released and no-overall signings never join');
@@ -163,4 +166,131 @@ ok('L5','independent per Showdown; same inputs, same result');
   assert.match(rules,/Special Player is never on your board, so he is never hit/,'Rule Book: the Special Player is never on the board');
   ok('L6','season step: auto boards from Transfer War verdicts, no editor, no new path; Rule Book line');
 }
+// L7 full launch database, exact formation sets and boards regenerated from all non-starters, including reserves.
+assert.equal(RRR.contractVersion,4);
+assert.equal(Players.rowCount,2975);
+assert.ok(fs.statSync(path_.join(ROOT,'data/fifa17Players.js')).size<400000);
+assert.deepEqual(Object.keys(Players.clubs),Object.keys(Squads.squads));
+let rowCount=0;
+for(const [club,data] of Object.entries(Players.clubs)){
+  const starters=data.players.filter(p=>!['SUB','RES',''].includes(p[3]));
+  const bench=data.players.filter(p=>['SUB','RES'].includes(p[3])).sort((a,b)=>b[1]-a[1]).slice(0,4);
+  rowCount+=data.players.length;
+  for(const p of data.players){assert.equal(p.length,6);assert.ok(p[2].length>0);assert.ok(p[1]>=40&&p[1]<=99);assert.ok(Number.isInteger(p[4]));assert.ok(p[5]);}
+  assert.deepEqual(data.slots,starters.map(p=>p[3]),club+' source slots');
+  assert.deepEqual([...data.slots].sort(),[...Players.formations[data.formation]].sort(),club+' formation');
+  assert.deepEqual(Squads.squads[club].xi,starters.map(p=>[p[3],p[0],p[4],p[1]]));
+  assert.deepEqual(Squads.squads[club].subs,bench.map(p=>[p[2][0],p[0],p[4],p[1]]));
+  assert.deepEqual(RRR.board(club).slice(0,11).map(p=>p.pos),data.slots);
+  assert.equal(RRR.forSeason(fixedId(0),{playerOne:club,playerTwo:club},1).formations.playerOne,data.formation);
+}
+assert.equal(rowCount,Players.rowCount);
+ok('L7','2,975 source players, 98 formation XIs, highest-rated non-starters, compact database');
+
+const row=(name,overall,position,slot=1)=>({slot,name,overall,position,release:false});
+const second=(r,cs,rows,special=null)=>RRR.forSeason(r,cs,2,{special,history:[null,{playerOne:rows,playerTwo:[]}]});
+// Locate a deterministic spin with a requested outcome, without stubbing or changing the random stream.
+const spinWhere=(cs,predicate)=>{
+  for(let g=0;g<10000;g+=1){const r=fixedId(g);if(predicate(RRR.forSeason(r,cs,1).turns[0]))return r;}
+  assert.fail('no matching deterministic spin');
+};
+{
+  const cs={playerOne:'Liverpool',playerTwo:'Real Madrid'},r=spinWhere(cs,t=>!t.fired),launch=RRR.board(cs.playerOne);
+  const cb=launch.filter(p=>!p.bench&&/CB$/.test(p.pos)).sort((a,b)=>a.rating-b.rating||a.slot-b.slot)[0];
+  const v=second(r,cs,[row('New defender',90,'CB')]);
+  assert.equal(v.boards.playerOne[cb.slot].name,'New defender');
+  assert.ok(v.boards.playerOne.some(p=>p.bench&&p.name===cb.name),'displaced CB beats weakest sub and stays');
+  assert.ok(!v.boards.playerOne.some(p=>p.name==='E. Can'),'weakest sub leaves');
+  const equal=second(r,cs,[row('Equal defender',cb.rating,'CB')]);
+  assert.equal(equal.boards.playerOne[cb.slot].name,cb.name,'equal overall retains starter');
+  const striker=second(r,cs,[row('New striker',99,'ST')]);
+  for(const p of launch.filter(p=>!p.bench&&/CB$/.test(p.pos)))assert.equal(striker.boards.playerOne[p.slot].name,p.name,'ST never displaces CB');
+  const db=second(r,cs,[row('R. Lewandowski',99,null)]).boards.playerOne;
+  assert.equal(db.find(p=>p.name==='R. Lewandowski').pos,'ST','missing position uses database first position');
+  const old=second(r,cs,[row('Unknown old signing',99,null)]).boards.playerOne;
+  assert.ok(old.find(p=>p.name==='Unknown old signing').bench,'unknown name stays sub-only');
+  // Earlier signing slot wins the equal-rating competition even when verdict rows arrive out of order.
+  const tied=second(r,cs,[row('Later striker',99,'ST',8),row('Earlier striker',99,'ST',2)]).boards.playerOne;
+  assert.equal(tied.find(p=>p.pos==='ST').name,'Earlier striker');
+  assert.ok(tied.find(p=>p.name==='Later striker').bench);
+  assert.ok(!second(r,cs,[row('Bad overall',null,'ST'),row('Out of range',100,'ST'),{...row('Released',99,'ST'),release:true}]).boards.playerOne.some(p=>['Bad overall','Out of range','Released'].includes(p.name)));
+}
+ok('L8','CB displaces weakest CB to bench, ST preserves CBs, database fallback, strict ties and validation');
+
+{
+  const cs={playerOne:'Arsenal',playerTwo:'Liverpool'},noShot=spinWhere(cs,t=>!t.fired);
+  const board=second(noShot,cs,[row('Creative signing',99,'CAM')]).boards.playerOne;
+  assert.equal(board.find(p=>p.name==='Creative signing').pos,'CAM','CAM prefers AM over lower-rated CM');
+  for(const [position,slots] of [['RB',['RB','RWB']],['RWB',['RB','RWB']],['LB',['LB','LWB']],['LWB',['LB','LWB']],['RW',['RM','RW']],['RM',['RM','RW']],['LW',['LM','LW']],['LM',['LM','LW']],['CM',['LDM','RDM','CAM']],['CDM',['LDM','RDM','CAM']],['CF',['ST']],['GK',['GK']]]){
+    const b=second(noShot,cs,[row('Line check',99,position)]).boards.playerOne;
+    assert.ok(slots.includes(b.find(p=>p.name==='Line check').pos),position+' compatible side/line');
+  }
+  const cbShot=spinWhere(cs,t=>t.fired&&/CB$/.test(t.player.pos));
+  const shot=RRR.forSeason(cbShot,cs,1).turns[0];
+  const vacant=second(cbShot,cs,[row('Vacancy defender',60,'CB')]).boards.playerOne;
+  assert.equal(vacant[shot.hitSlot].name,'Vacancy defender','compatible empty XI comes before rating comparison');
+  const promoted=second(cbShot,cs,[]).boards.playerOne;
+  assert.equal(promoted[shot.hitSlot].name,'P. Mertesacker','same-line bench player fills empty CB slot');
+  assert.ok(!promoted.some(p=>p.name===shot.player.name),'shot player leaves');
+  assert.equal(promoted.filter(p=>p.name).length,14,'promotion moves player, never duplicates');
+  const rbShot=spinWhere(cs,t=>t.fired&&t.player.pos==='RB');
+  assert.equal(second(rbShot,cs,[]).boards.playerOne.find(p=>p.pos==='RB').name,'P. Mertesacker','without a same-line sub, best outfield overall fills the hole');
+  const gkShot=spinWhere(cs,t=>t.fired&&t.player.pos==='GK');
+  const gkSecond=second(gkShot,cs,[row('Incoming keeper',70,'GK')]).boards.playerOne;
+  assert.equal(gkSecond.find(p=>p.pos==='GK').name,'Incoming keeper');
+  // A GK on the bench promotes to a GK vacancy; no outfield player or sub-only signing occupies GK.
+  const keepers={playerOne:'Liverpool',playerTwo:'Arsenal'},rk=spinWhere(keepers,t=>t.fired&&t.player.pos==='GK');
+  const bk=second(rk,keepers,[]).boards.playerOne;
+  assert.equal(bk.find(p=>p.pos==='GK').name,'L. Karius');
+  const noKeeper=second(gkShot,cs,[row('Unknown keeperless',99,null)]).boards.playerOne;
+  assert.equal(noKeeper.find(p=>p.pos==='GK').name,'');
+  assert.ok(noKeeper.find(p=>p.name==='Unknown keeperless').bench);
+}
+ok('L9','all position lines, CAM preference, compatible vacancies, bench promotion and GK protection');
+
+{
+  const cs={playerOne:'Liverpool',playerTwo:'Arsenal'},r=fixedId(205),history=[null];
+  const ps=['GK','CB','RB','LB','CDM','CAM','RW','LW','ST'];
+  for(let k=1;k<=9;k+=1)history.push(Object.fromEntries(['playerOne','playerTwo'].map(role=>[role,ps.map((p,i)=>row(`${role} ${k} ${p}`,70+(k+i)%30,p,i+1))])));
+  const options={history,special:{playerOne:{name:'R. Lewandowski',overall:99},playerTwo:{name:'M. Özil',overall:89}}};
+  const before=JSON.stringify({history,options,players:Players,squads:Squads});
+  const run=()=>Array.from({length:10},(_,i)=>RRR.forSeason(r,cs,i+1,options));
+  const a=run();assert.deepEqual(a,run(),'10 complete boards and spins identical on two calls');
+  assert.equal(JSON.stringify({history,options,players:Players,squads:Squads}),before,'no input/data mutation');
+  for(const v of a)for(const b of Object.values(v.boards)){
+    assert.equal(b.length,15);assert.equal(b.filter(p=>p.bench).length,4);assert.equal(b.filter(p=>!p.bench).length,11);
+    assert.equal(new Set(b.filter(p=>p.name).map(p=>p.name.toLowerCase())).size,b.filter(p=>p.name).length);
+    assert.ok(b.slice(0,11).filter(p=>p.name&&p.positions[0]==='GK').length<=1);
+    if(b.some(p=>p.name&&p.positions[0]==='GK'))assert.equal(b.slice(0,11).filter(p=>p.name&&p.positions[0]==='GK').length,1);
+    for(const t of v.turns)if(t.fired)assert.ok(v.boards[t.role][t.hitSlot].name);
+  }
+  for(const club of catalog){
+    const v=RRR.forSeason(r,{playerOne:club,playerTwo:club},10,options);
+    for(const b of Object.values(v.boards)){
+      assert.equal(b.length,15,club+' bounded board');
+      assert.equal(b.slice(0,11).filter(p=>p.name&&p.positions[0]==='GK').length,1,club+' one starting GK after ten seasons');
+      assert.equal(new Set(b.filter(p=>p.name).map(p=>p.name)).size,b.filter(p=>p.name).length,club+' no duplicate after ten seasons');
+    }
+  }
+  // Browser dependencies may finish in any order; lazy data indexing must still match CommonJS.
+  const sandbox={};vm.createContext(sandbox);
+  for(const file of ['js/rosterRoulette.js','data/rosterSquads.js','data/fifa17Players.js'])vm.runInContext(fs.readFileSync(path_.join(ROOT,file),'utf8'),sandbox);
+  assert.equal(JSON.stringify(sandbox.CareerModeRosterRoulette.forSeason(r,cs,10,options)),JSON.stringify(a[9]));
+  const step=fs.readFileSync(path_.join(ROOT,'js/rosterRouletteStep.js'),'utf8');
+  assert.match(step,/rrsLoad\("fifa17-players","data\/fifa17Players.js"/);
+  assert.ok(fs.readFileSync(path_.join(ROOT,'service-worker.js'),'utf8').includes('"data/fifa17Players.js"'),'database retained for reload/offline');
+}
+// Exercise the actual scene merge: authoritative formation and rating survive into its club model.
+{
+  const scene=fs.readFileSync(path_.join(ROOT,'visual-assets/v10_1/roulette/index.html'),'utf8');
+  const mergeSource=scene.slice(scene.indexOf('const merge=(clubName,rows,'),scene.indexOf('const dEntry=merge('));
+  const browser={clubByName:()=>({xi:[['ST','Returning player',70]],subs:[]})};vm.createContext(browser);
+  vm.runInContext(mergeSource+"this.result=merge('Arsenal',[{pos:'ST',name:'Returning player',rating:95}], '4-2-3-1 (2)');",browser);
+  assert.equal(browser.result.formation,'4-2-3-1 (2)');assert.equal(browser.result.xi[0][2],95);
+  assert.match(scene,/club\.formation\|\|formationOf\(club\.xi\)/);
+  vm.runInContext("this.benchResult=merge('Arsenal',[...Array.from({length:11},()=>({pos:'CB',name:'Starter',rating:70})),{pos:'SUB',position:'GK',name:'New keeper',rating:81}], '4-2-3-1 (2)');",browser);
+  assert.equal(browser.benchResult.subs[0][0],'GK','new bench players keep their position in the scene');
+}
+ok('L10','bounded boards, one starting GK, pure 10-season replay, browser/CommonJS agreement and data delivery');
+
 console.log(`r87 roster roulette contracts: ${checks} groups passed`);
