@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-29 8:14 PM Boston time (EDT)",
+ "generated": "2026-10-29 8:18 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 173,
+  "count": 174,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1560,6 +1560,15 @@
     "subject": "Sounds for Russian Roster Roulette: eight real cues that drop into platemap.json sfx",
     "reply": "no",
     "boston": "Thu 29 Oct 7:25 PM"
+   },
+   {
+    "time": "2026-10-30 00:18",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-040 DONE",
+    "subject": "Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87)",
+    "reply": "no",
+    "boston": "Thu 29 Oct 8:18 PM"
    }
   ],
   "g2v": {
@@ -1580,8 +1589,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "53d52e4",
-  "head_boston": "Thu 29 Oct 7:25 PM",
+  "head": "776509d",
+  "head_boston": "Thu 29 Oct 8:18 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2171,8 +2180,8 @@
     "from": "G",
     "to": "V",
     "title": "Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87)",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-040_roster-russian-roulette-red-dead-style-s.md",
     "worker": "images",
@@ -2340,7 +2349,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 41,
   "next": 42,
   "nik": 2,
   "later": 21,

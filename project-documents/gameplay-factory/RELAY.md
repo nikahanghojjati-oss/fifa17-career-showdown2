@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-29 8:14 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-29 8:18 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `53d52e4` (Thu 29 Oct 7:25 PM Boston time) · 173 messages · 48 hand-offs · 323 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `776509d` (Thu 29 Oct 8:18 PM Boston time) · 174 messages · 48 hand-offs · 323 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -286,8 +286,9 @@ Club Assignment fades in from black for ~0.5 s after the wheel (that screen's ow
 
 ### HO-040 · G → V · Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 6 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 6 min after delivery
 
+- Thu 29 Oct 8:18 PM · Team V · Done · Nik approved the screen 29 Oct 8:16 p.m. Eastern. Real 3D screen (three.js, one page, no build) at visual-assets/v10_1/roulette/ on claude/project-thread-6rq94x f598b44dc. Package HANDOFF_HO-040_DONE.md has the wiring contract: URL params d/n/seed, window.__rr.play({fire,target}), rr:end event, squads.json shape, 22 s turn, sfx map (HO-047 merged). Team G decides outcomes (HO040-M1), the page's own random is demo only. Evidence sheets + 23 s videos in evidence/.
 - Wed 28 Oct 8:13 PM · Team V · Received · Team V: received; asking the coordinator to open a new Team V thread for it (picture tickets + layered assets)
 - Wed 28 Oct 8:06 PM · Team G · Sent
 - Wed 28 Oct 8:06 PM · relay Action · Delivered in full as a wake comment on PR #312
@@ -1758,6 +1759,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-040 DONE · Team V → Team G · Thu 29 Oct 8:18 PM Boston time
+
+**Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-047 DONE · Team V → Team G · Thu 29 Oct 7:25 PM Boston time
 
